@@ -1,0 +1,18 @@
+<template name="currencydropdown">
+  <!-- <div style="margin: 16px;" class=""> -->
+  {{#if isCurrencyEnable}}
+  <div class="form-group" style="max-width: 210px;"><label>Currency</label>
+    <select class="form-control pointer" id="sltCurrency" name="sltCurrency" >
+      <!-- <option value="{{currency}}" selected>{{currency}}</option> -->
+       {{#each item in currencyData}}
+          {{#if equals item.currencyCode currency }}
+         <option value="{{item.currencyCode}}" selected="" currate="{{item.currencySellRate}}">{{item.currencyCode}}</option>
+         {{else}}
+         <option value="{{item.currencyCode}}" currate="{{item.currencySellRate}}">{{item.currencyCode}}</option>
+         {{/if}}
+      {{/each}}
+    </select>
+  </div>
+  {{/if}}
+  <!-- </div> -->
+</template>

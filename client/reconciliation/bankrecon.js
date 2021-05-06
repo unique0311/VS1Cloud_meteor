@@ -1,0 +1,2521 @@
+import { ReactiveVar } from 'meteor/reactive-var';
+import { CoreService } from '../js/core-service';
+import { ReconService } from "./recon-service";
+import { UtilityService } from "../utility-service";
+import '../lib/global/erp-objects';
+import XLSX from 'xlsx';
+import 'jquery-editable-select';
+
+let utilityService = new UtilityService();
+
+Template.bankrecon.onCreated(function(){
+    const templateObject = Template.instance();
+    // Template object for the Accounts array
+    templateObject.accountnamerecords = new ReactiveVar();
+    // Template objects for Deposit and Withdrawal
+    templateObject.reconVS1dep = new ReactiveVar([]);
+    templateObject.reconVS1with = new ReactiveVar([]);
+    templateObject.selectedTransdep = new ReactiveVar([]);
+    templateObject.selectedTranswith = new ReactiveVar([]);
+});
+
+Template.bankrecon.onRendered(function() {
+    $('.fullScreenSpin').css('display','inline-block');
+
+    let templateObject = Template.instance();
+    let recService = new ReconService();
+    var url = window.location.href;
+    let accountnamerecords = [];
+    templateObject.getAccountNames = function(){
+        recService.getAccountNameVS1().then(function(data){
+            for(let i in data.taccountvs1){
+                let accountnamerecordObj = {
+                    accountid: data.taccountvs1[i].Id || ' ',
+                    accountname: data.taccountvs1[i].AccountName || ' '
+                };
+                if ((data.taccountvs1[i].AccountTypeName == 'BANK') || (data.taccountvs1[i].AccountTypeName == 'CCARD')) {
+                    accountnamerecords.push(accountnamerecordObj);
+                    templateObject.accountnamerecords.set(accountnamerecords);
+                }
+            }
+            // Session - set account dropdown BEGIN
+            setTimeout(function () {
+                let bankaccountid = Session.get('bankaccountid') || '';
+                if(bankaccountid != ''){
+                    $('#bankAccountName').val(bankaccountid);
+                    templateObject.getReconcileDeposit(bankaccountid);
+                    templateObject.getReconcileWithdrawal(bankaccountid);
+                    let bankName = $("#bankAccountName option[value='"+bankaccountid+"']").text();
+                    templateObject.getOpenBalance(bankName);
+                }
+            },10);
+            // Session - set account dropdown END
+            $('.fullScreenSpin').css('display','none');
+        });
+    }
+
+    // API to pull Accounts END
+
+    // BEGIN DATE CODE
+    $(".formClassDate").datepicker({
+        showOn: 'button',
+        buttonText: 'Show Date',
+        buttonImageOnly: true,
+        buttonImage: '/img/imgCal2.png',
+        onstrainInput: false,
+        dateFormat: 'dd/mm/yy',
+        showOtherMonths: true,
+        selectOtherMonths: true,
+        changeMonth: true,
+        changeYear: true,
+        yearRange: "-90:+10",
+    }).on("change", function () {
+        $('.statementDate').val($(this).val());
+    });
+    var currentDate = new Date();
+    var begunDate = moment(currentDate).format("DD/MM/YYYY");
+    $('.formClassDate').val(begunDate);
+    // END DATE CODE
+
+    // API to pull Deposits BEGIN
+    templateObject.getReconcileDeposit = function(accountTypeId){
+        let recondep = [];
+        $('.fullScreenSpin').css('display','inline-block');
+        recService.getToBeReconciledDeposit(accountTypeId).then(function(data){
+            if(data.ttobereconcileddeposit.length > 0){
+                for(let i in data.ttobereconcileddeposit){
+                    let depositamount = utilityService.modifynegativeCurrencyFormat(data.ttobereconcileddeposit[i].Amount)|| 0.00;
+                    let reconciledepositObj = {
+                        recondepdate: data.ttobereconcileddeposit[i].DepositDate !=''? moment(data.ttobereconcileddeposit[i].DepositDate).format("DD/MM/YYYY"): data.ttobereconcileddeposit[i].DepositDate,
+                        recondepname: data.ttobereconcileddeposit[i].CompanyName || ' ',
+                        recondeppaymenttype: data.ttobereconcileddeposit[i].Notes || ' ',
+                        recondepamount: depositamount || 0.00,
+                        recondepid: data.ttobereconcileddeposit[i].DepositID || ' ',
+                        recondepref: data.ttobereconcileddeposit[i].ReferenceNo || ' ',
+                        seqdepnum: data.ttobereconcileddeposit[i].Seqno || 0,
+                        recondeppaymentid: data.ttobereconcileddeposit[i].PaymentID || 0,
+                        depositLineID: data.ttobereconcileddeposit[i].DepositLineID || 0,
+                    };
+                    if(data.ttobereconcileddeposit[i].Seqno != 0){
+                        recondep.push(reconciledepositObj);
+                        templateObject.reconVS1dep.set(recondep);
+                    }
+                }
+                if(templateObject.reconVS1dep.get()){
+                    setTimeout(function () {
+                        $('#tblVS1Dep').DataTable({
+                            "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
+                            buttons: [
+                                {
+                                    extend: 'excelHtml5',
+                                    text: '',
+                                    download: 'open',
+                                    className: "btntabletocsv hiddenColumn",
+                                    filename: "chequelist_"+ moment().format(),
+                                    orientation:'portrait',
+                                    exportOptions: {
+                                        columns: ':visible'
+                                    }
+                                },{
+                                    extend: 'print',
+                                    download: 'open',
+                                    className: "btntabletopdf hiddenColumn",
+                                    text: '',
+                                    title: 'Cheque',
+                                    filename: "chequelist_"+ moment().format(),
+                                    exportOptions: {
+                                        columns: ':visible'
+                                    }
+                                }],
+                            paging: false,
+                            "scrollY": "400px",
+                            "scrollCollapse": true,
+                            "columnDefs": [
+                                { "orderable": false, "targets": 0 }
+                            ],
+                            colReorder: true,
+                            colReorder: {
+                                fixedColumnsLeft: 1
+                            },
+                            select: true,
+                            destroy: true,
+                            colReorder: true,
+                            pageLength: 10,
+                            lengthMenu: [ [10, 25, 50, -1], [10, 25, 50, "All"] ],
+                            info: true,
+                            responsive: true,
+                            "order": [[ 1, "desc" ]],
+                            action: function () {
+                                $('#tblVS1Dep').DataTable().ajax.reload();
+                            },
+                            "aoColumnDefs": [
+                                {   "aTargets": [0,6],
+                                 "mRender": function ( data, type, full ) {
+                                     if (type === 'filter') {
+                                         return data.replace(/(<([^>]+)>)/ig,"");
+                                     }
+                                     return data;
+                                 }
+                                }
+                            ]
+                        });
+                        $('.fullScreenSpin').css('display','none');
+                    }, 0);
+                }
+            }else{
+                setTimeout(function () {
+                    $('#tblVS1Dep').DataTable({
+                        "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
+                        buttons: [
+                            {
+                                extend: 'excelHtml5',
+                                text: '',
+                                download: 'open',
+                                className: "btntabletocsv hiddenColumn",
+                                filename: "chequelist_"+ moment().format(),
+                                orientation:'portrait',
+                                exportOptions: {
+                                    columns: ':visible'
+                                }
+                            },{
+                                extend: 'print',
+                                download: 'open',
+                                className: "btntabletopdf hiddenColumn",
+                                text: '',
+                                title: 'Cheque',
+                                filename: "chequelist_"+ moment().format(),
+                                exportOptions: {
+                                    columns: ':visible'
+                                }
+                            }],
+                        paging: false,
+                        "scrollY": "400px",
+                        "scrollCollapse": true,
+                        "columnDefs": [
+                            { "orderable": false, "targets": 0 }
+                        ],
+                        colReorder: true,
+                        colReorder: {
+                            fixedColumnsLeft: 1
+                        },
+                        select: true,
+                        destroy: true,
+                        colReorder: true,
+                        pageLength: "All",
+                        lengthMenu: [ [10, 25, 50, -1], [10, 25, 50, "All"] ],
+                        info: true,
+                        responsive: true,
+                        "order": [[ 1, "desc" ]],
+                        action: function () {
+                            $('#tblVS1Dep').DataTable().ajax.reload();
+                        },
+                            "aoColumnDefs": [
+                                {   "aTargets": [0,6],
+                                 "mRender": function ( data, type, full ) {
+                                     if (type === 'filter') {
+                                         return data.replace(/(<([^>]+)>)/ig,"");
+                                     }
+                                     return data;
+                                 }
+                                }
+                            ]
+                    });
+                    $('.fullScreenSpin').css('display','none');
+                }, 0);
+            }
+            $('.fullScreenSpin').css('display','none');
+        }).catch(function (err) {
+            $('.fullScreenSpin').css('display','none');
+        });
+    };
+    // API to pull Deposits END
+
+    // API to pull Withdrawals BEGIN
+    templateObject.getReconcileWithdrawal = function(accountTypeId){
+        let reconwith = [];
+        $('.fullScreenSpin').css('display','inline-block');
+        recService.getToBeReconciledWithdrawal(accountTypeId).then(function(data){
+            if(data.ttobereconciledwithdrawal.length > 0){
+                for(let j in data.ttobereconciledwithdrawal){
+                    let withdrawalamount = utilityService.modifynegativeCurrencyFormat(data.ttobereconciledwithdrawal[j].Amount)|| 0.00;
+                    let reconcilewithdrawalObj = {
+                        reconwithdate: data.ttobereconciledwithdrawal[j].DepositDate !=''? moment(data.ttobereconciledwithdrawal[j].DepositDate).format("DD/MM/YYYY"): data.ttobereconciledwithdrawal[j].DepositDate,
+                        reconwithname: data.ttobereconciledwithdrawal[j].CompanyName || ' ',
+                        reconwithpaymenttype: data.ttobereconciledwithdrawal[j].Notes || ' ',
+                        reconwithamount: withdrawalamount || 0.00,
+                        reconwithid: data.ttobereconciledwithdrawal[j].DepositID || ' ',
+                        reconwithref: data.ttobereconciledwithdrawal[j].ReferenceNo || ' ',
+                        seqwithnum: data.ttobereconciledwithdrawal[j].Seqno || 0,
+                        reconwithpaymentid: data.ttobereconciledwithdrawal[j].DepositID || 0,
+                        depositLineID: data.ttobereconciledwithdrawal[j].DepositLineID || 0,
+                    };
+                    if(data.ttobereconciledwithdrawal[j].Seqno != 0){
+                        reconwith.push(reconcilewithdrawalObj);
+                        templateObject.reconVS1with.set(reconwith);
+                    }
+                }
+                if(templateObject.reconVS1with.get()){
+                    setTimeout(function () {
+                        $('#tblVS1With').DataTable({
+                            "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
+                            buttons: [
+                                {
+                                    extend: 'excelHtml5',
+                                    text: '',
+                                    download: 'open',
+                                    className: "btntabletocsv hiddenColumn",
+                                    filename: "chequelist_"+ moment().format(),
+                                    orientation:'portrait',
+                                    exportOptions: {
+                                        columns: ':visible'
+                                    }
+                                },{
+                                    extend: 'print',
+                                    download: 'open',
+                                    className: "btntabletopdf hiddenColumn",
+                                    text: '',
+                                    title: 'Cheque',
+                                    filename: "chequelist_"+ moment().format(),
+                                    exportOptions: {
+                                        columns: ':visible'
+                                    }
+                                }],
+                            paging: false,
+                            "scrollY": "400px",
+                            "scrollCollapse": true,
+                            select: true,
+                            "columnDefs": [
+                                { "orderable": false, "targets": 0 }
+                            ],
+                            colReorder: true,
+                            colReorder: {
+                                fixedColumnsLeft: 1
+                            },
+                            destroy: true,
+                            colReorder: true,
+                            pageLength: 10,
+                            lengthMenu: [ [10, 25, 50, -1], [10, 25, 50, "All"] ],
+                            info: true,
+                            responsive: true,
+                            "order": [[ 1, "desc" ]],
+                            action: function () {
+                                $('#tblVS1With').DataTable().ajax.reload();
+                            }
+                        });
+                        $('.fullScreenSpin').css('display','none');
+                    }, 0);
+                }
+            }else{
+                setTimeout(function () {
+                    $('#tblVS1With').DataTable({
+                        "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
+                        buttons: [
+                            {
+                                extend: 'excelHtml5',
+                                text: '',
+                                download: 'open',
+                                className: "btntabletocsv hiddenColumn",
+                                filename: "chequelist_"+ moment().format(),
+                                orientation:'portrait',
+                                exportOptions: {
+                                    columns: ':visible'
+                                }
+                            },{
+                                extend: 'print',
+                                download: 'open',
+                                className: "btntabletopdf hiddenColumn",
+                                text: '',
+                                title: 'Cheque',
+                                filename: "chequelist_"+ moment().format(),
+                                exportOptions: {
+                                    columns: ':visible'
+                                }
+                            }],
+                        paging: false,
+                        "scrollY": "400px",
+                        "scrollCollapse": true,
+                        select: true,
+                        "columnDefs": [
+                            { "orderable": false, "targets": 0 }
+                        ],
+                        colReorder: true,
+                        colReorder: {
+                            fixedColumnsLeft: 1
+                        },
+                        destroy: true,
+                        colReorder: true,
+                        pageLength: 10,
+                        lengthMenu: [ [10, 25, 50, -1], [10, 25, 50, "All"] ],
+                        info: true,
+                        responsive: true,
+                        "order": [[ 1, "desc" ]],
+                        action: function () {
+                            $('#tblVS1With').DataTable().ajax.reload();
+                        }
+                    });
+                    $('.fullScreenSpin').css('display','none');
+                }, 0);
+            }
+            $('.fullScreenSpin').css('display','none');
+        }).catch(function (err) {
+            $('.fullScreenSpin').css('display','none');
+        });
+    };
+    // API to pull Withdrawals END
+
+    // API to pull Opening Balance BEGIN
+    templateObject.getOpenBalance = function(bankAccount){
+        recService.getReconciliationBalance(bankAccount).then(function (data) {
+            var counter = 0
+            var openBal = 0;
+            let dataArray = [];
+            if(data.treconciliation.length){
+                for(let k in data.treconciliation){
+                    //if(data.treconciliation[k].CloseBalance > 0){
+                    if(data.treconciliation[k].AccountName === bankAccount){
+                        // counter++;
+                        let objData ={
+                            Id:data.treconciliation[k].Id,
+                            AccountName:data.treconciliation[k].AccountName,
+                            CloseBalance:data.treconciliation[k].CloseBalance
+                        }
+                        //console.log(data.treconciliation[k].AccountName);
+                        dataArray.push(objData);
+                        // console.log(counter);
+                        // openBal = data.treconciliation[data.treconciliation.length - 1].CloseBalance;
+
+                    }
+                    //}
+                }
+                if(dataArray.length === 0){
+                    openBal = 0;
+                }else{
+
+                    for(let j in dataArray){
+                        openBal = dataArray[dataArray.length - 1].CloseBalance;
+                    }
+                }
+                $('.openingbalance').val(utilityService.modifynegativeCurrencyFormat(openBal) || 0);
+                $('.vs1cloudBalance').text(utilityService.modifynegativeCurrencyFormat(openBal) || 0);
+            }else{
+                $('.openingbalance').val(Currency+ '0');
+                $('.vs1cloudBalance').text(Currency+ '0');
+
+            }
+            // $('#openingbalance2').val(utilityService.modifynegativeCurrencyFormat(openBal));
+        }).catch(function (err) {
+            $('.openingbalance').val(Currency+ '0');
+            $('.fullScreenSpin').css('display','none');
+        });
+    };
+
+    templateObject.getVS1CloudBalance = function(){
+        recService.getReconciliation().then(function (data) {
+            var vs1openBal = 0;
+            let latestReconId;
+            var getrecon_id = url.split('?id=');
+            var currentRecon = getrecon_id[getrecon_id.length-1];
+            if(data.treconciliation.length){
+                let lastElement = data.treconciliation[data.treconciliation.length - 1];
+                latestReconId = (lastElement.Id);
+                // alert(latestReconId);
+                if(latestReconId === parseInt(currentRecon)){
+                    $('.btnDeleteRecon').prop("disabled", false);
+                }else{
+                    $('.btnDeleteRecon').prop("disabled", true);
+                }
+
+
+                for(let k in data.treconciliation){
+                    if(data.treconciliation[k].CloseBalance > 0){
+                        vs1openBal = data.treconciliation[data.treconciliation.length - 1].CloseBalance;
+                    }
+                }
+                $('.vs1cloudBalance').text(utilityService.modifynegativeCurrencyFormat(vs1openBal) || 0);
+            }else{
+                $('.vs1cloudBalance').text(Currency+ '0');
+            }
+            // $('#openingbalance2').val(utilityService.modifynegativeCurrencyFormat(openBal));
+        });
+    };
+
+
+    // API to pull Opening Balance END
+    if(url.indexOf('?id=') > 0){
+        var getrecon_id = url.split('?id=');
+        var currentRecon = getrecon_id[getrecon_id.length-1];
+        let selectedTransAmountdep = 0;
+        let selectedTransAmountwidth = 0;
+        templateObject.getVS1CloudBalance();
+        if(getrecon_id[1]){
+            currentRecon = parseInt(currentRecon);
+            getVS1Data('TReconciliation').then(function (dataObject) {
+              if(dataObject.length == 0){
+                recService.getOneReconData(currentRecon).then(function (data) {
+                    let recondep = [];
+                    let reconwith = [];
+                    let openingBalance = data.fields.OpenBalance || 0;
+                    let endingBalance = data.fields.CloseBalance || 0;
+                    let statementNo = data.fields.StatementNo || '';
+                    let bankAccount = data.fields.AccountName || '';
+                    let statementDate = data.fields.ReconciliationDate ? moment(data.fields.ReconciliationDate).format('DD/MM/YYYY') : "";
+                    let endingBalanceCalc = data.fields.CloseBalance || 0;
+                    let clearedBalance = data.fields.CloseBalance || 0;
+                    // let depositAmount = data.fields.CloseBalance || 0;
+                    // let withdrawalAmount = data.fields.CloseBalance || 0;
+                    //$('.btnDeleteRecon').css('display','block');
+                    $('.openingbalance').val(utilityService.modifynegativeCurrencyFormat(openingBalance) || 0);
+                    $('.endingbalance').val(utilityService.modifynegativeCurrencyFormat(endingBalance) || 0);
+                    $('.statementno').val(statementNo);
+                    $('.statementDate').val(statementDate);
+                    $('#bankAccountName').append('<option value="'+bankAccount+'" selected="selected">'+bankAccount+'</option>');
+                    $('.endingBalanceCalc').text(utilityService.modifynegativeCurrencyFormat(endingBalanceCalc) || 0);
+                    $('.clearedBalance').text(utilityService.modifynegativeCurrencyFormat(clearedBalance) || 0);
+                    $('.differenceCalc').text(Currency+"0.00" || 0);
+                    // $('.depositAmount').val(utilityService.modifynegativeCurrencyFormat(depositAmount) || 0);
+                    // $('.withdrawalAmount').val(utilityService.modifynegativeCurrencyFormat(withdrawalAmount) || 0);
+
+                    $('#bankAccountName').attr('disabled', 'disabled');
+                    $('#bankAccountName').attr('readonly', true);
+                    $('.openingbalance').attr('readonly', true);
+                    $('.endingbalance').attr('readonly', true);
+                    $('.statementno').attr('readonly', true);
+                    $('.statementDate').attr('disabled', 'disabled');
+                    $('.statementDate').attr('readonly', true);
+                    $('.statementDate').css('pointer-events', 'none');
+                    $('#hideSelectionToggle').attr('disabled', 'disabled');
+                    $('#hideSelectionToggle').attr('readonly', true);
+                    if(data.fields.DepositLines.length > 0){
+                        // alert( data.fields.DepositLines[0].fields.DepositDate);
+                        for(let i in data.fields.DepositLines){
+                            let depositamount = utilityService.modifynegativeCurrencyFormat(data.fields.DepositLines[i].fields.Amount)|| 0.00;
+                            let reconciledepositObj = {
+                                recondepdate: data.fields.DepositLines[i].fields.DepositDate !=''? moment(data.fields.DepositLines[i].fields.DepositDate).format("DD/MM/YYYY"): data.fields.DepositLines[i].fields.DepositDate,
+                                recondepname: data.fields.DepositLines[i].fields.Payee || ' ',
+                                recondeppaymenttype: data.fields.DepositLines[i].fields.Notes || ' ',
+                                recondepamount: depositamount || 0.00,
+                                recondepid: data.fields.DepositLines[i].fields.ID || ' ',
+                                recondepref: data.fields.DepositLines[i].fields.Reference || ' ',
+                                seqdepnum: data.fields.DepositLines[i].fields.Recno || 0,
+                                recondeppaymentid: data.fields.DepositLines[i].fields.PaymentID || 0,
+                                depositLineID: data.fields.DepositLines[i].fields.DepositLineID || 0,
+                            };
+                            selectedTransAmountdep = selectedTransAmountdep+parseFloat(data.fields.DepositLines[i].fields.Amount);
+                            //if(data.ttobereconcileddeposit[i].Seqno != 0){
+                            recondep.push(reconciledepositObj);
+                            templateObject.reconVS1dep.set(recondep);
+                            //}
+                        }
+
+                        $('.depositAmount').text(utilityService.modifynegativeCurrencyFormat(selectedTransAmountdep) || Currency+"0.00");
+                        if(templateObject.reconVS1dep.get()){
+                            setTimeout(function () {
+                                $('#tblVS1Dep').DataTable({
+                                    "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
+                                    buttons: [
+                                        {
+                                            extend: 'excelHtml5',
+                                            text: '',
+                                            download: 'open',
+                                            className: "btntabletocsv hiddenColumn",
+                                            filename: "chequelist_"+ moment().format(),
+                                            orientation:'portrait',
+                                            exportOptions: {
+                                                columns: ':visible'
+                                            }
+                                        },{
+                                            extend: 'print',
+                                            download: 'open',
+                                            className: "btntabletopdf hiddenColumn",
+                                            text: '',
+                                            title: 'Cheque',
+                                            filename: "chequelist_"+ moment().format(),
+                                            exportOptions: {
+                                                columns: ':visible'
+                                            }
+                                        }],
+                                    paging: false,
+                                    "scrollY": "400px",
+                                    "scrollCollapse": true,
+                                    "columnDefs": [
+                                        { "orderable": false, "targets": 0 }
+                                    ],
+                                    colReorder: true,
+                                    colReorder: {
+                                        fixedColumnsLeft: 1
+                                    },
+                                    select: true,
+                                    destroy: true,
+                                    colReorder: true,
+                                    pageLength: 10,
+                                    lengthMenu: [ [10, 25, 50, -1], [10, 25, 50, "All"] ],
+                                    info: true,
+                                    responsive: true,
+                                    "order": [[ 1, "desc" ]],
+                                    action: function () {
+                                        $('#tblVS1Dep').DataTable().ajax.reload();
+                                    }
+                                });
+
+                            }, 0);
+                        }
+
+                        setTimeout(function () {
+                            $('.tblVS1Dep tr').each(function () {
+                                var $tblrow = $(this);
+                                $tblrow.find("th input").attr('readonly', true);
+                                $tblrow.find("th input").attr('disabled', 'disabled');
+                                $tblrow.find("th").css('background-color','#eaecf4');
+
+                                $tblrow.find("td input").attr('readonly', true);
+                                $tblrow.find("td input").attr('disabled', 'disabled');
+                                $tblrow.find("td").css('background-color','#eaecf4');
+                                $tblrow.find("td .table-remove").removeClass("btnRemove");
+                            }, 100);
+                        });
+                    }else{
+                        setTimeout(function () {
+                            $('#tblVS1Dep').DataTable({
+                                "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
+                                buttons: [
+                                    {
+                                        extend: 'excelHtml5',
+                                        text: '',
+                                        download: 'open',
+                                        className: "btntabletocsv hiddenColumn",
+                                        filename: "chequelist_"+ moment().format(),
+                                        orientation:'portrait',
+                                        exportOptions: {
+                                            columns: ':visible'
+                                        }
+                                    },{
+                                        extend: 'print',
+                                        download: 'open',
+                                        className: "btntabletopdf hiddenColumn",
+                                        text: '',
+                                        title: 'Cheque',
+                                        filename: "chequelist_"+ moment().format(),
+                                        exportOptions: {
+                                            columns: ':visible'
+                                        }
+                                    }],
+                                paging: false,
+                                "scrollY": "400px",
+                                "scrollCollapse": true,
+                                "columnDefs": [
+                                    { "orderable": false, "targets": 0 }
+                                ],
+                                colReorder: true,
+                                colReorder: {
+                                    fixedColumnsLeft: 1
+                                },
+                                select: true,
+                                destroy: true,
+                                colReorder: true,
+                                pageLength: "All",
+                                lengthMenu: [ [10, 25, 50, -1], [10, 25, 50, "All"] ],
+                                info: true,
+                                responsive: true,
+                                "order": [[ 1, "desc" ]],
+                                action: function () {
+                                    $('#tblVS1Dep').DataTable().ajax.reload();
+                                }
+                            });
+
+                        }, 0);
+                    }
+
+                    if(data.fields.WithdrawalLines.length > 0){
+                        for(let j in data.fields.WithdrawalLines){
+                            let withdrawalamount = utilityService.modifynegativeCurrencyFormat(data.fields.WithdrawalLines[j].fields.Amount)|| 0.00;
+                            let reconcilewithdrawalObj = {
+                                reconwithdate: data.fields.WithdrawalLines[j].fields.DepositDate !=''? moment(data.fields.WithdrawalLines[j].fields.DepositDate).format("DD/MM/YYYY"): data.fields.WithdrawalLines[j].fields.DepositDate,
+                                reconwithname: data.fields.WithdrawalLines[j].fields.ClientName || ' ',
+                                reconwithpaymenttype: data.fields.WithdrawalLines[j].fields.Notes || ' ',
+                                reconwithamount: withdrawalamount || 0.00,
+                                reconwithid: data.fields.WithdrawalLines[j].fields.ID || ' ',
+                                reconwithref: data.fields.WithdrawalLines[j].fields.Reference || ' ',
+                                seqwithnum: data.fields.WithdrawalLines[j].fields.Recno || 0,
+                                reconwithpaymentid: data.fields.WithdrawalLines[j].fields.PaymentID || 0,
+                                depositLineID: data.fields.WithdrawalLines[j].fields.DepositLineID || 0,
+                            };
+
+                            reconwith.push(reconcilewithdrawalObj);
+                            templateObject.reconVS1with.set(reconwith);
+                            selectedTransAmountwidth = selectedTransAmountwidth+parseFloat(data.fields.WithdrawalLines[j].fields.Amount);
+
+                        }
+
+                        $('.withdrawalAmount').text(utilityService.modifynegativeCurrencyFormat(selectedTransAmountwidth) || Currency+"0.00");
+                        if(templateObject.reconVS1with.get()){
+                            setTimeout(function () {
+                                $('#tblVS1With').DataTable({
+                                    "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
+                                    buttons: [
+                                        {
+                                            extend: 'excelHtml5',
+                                            text: '',
+                                            download: 'open',
+                                            className: "btntabletocsv hiddenColumn",
+                                            filename: "chequelist_"+ moment().format(),
+                                            orientation:'portrait',
+                                            exportOptions: {
+                                                columns: ':visible'
+                                            }
+                                        },{
+                                            extend: 'print',
+                                            download: 'open',
+                                            className: "btntabletopdf hiddenColumn",
+                                            text: '',
+                                            title: 'Cheque',
+                                            filename: "chequelist_"+ moment().format(),
+                                            exportOptions: {
+                                                columns: ':visible'
+                                            }
+                                        }],
+                                    paging: false,
+                                    "scrollY": "400px",
+                                    "scrollCollapse": true,
+                                    select: true,
+                                    "columnDefs": [
+                                        { "orderable": false, "targets": 0 }
+                                    ],
+                                    colReorder: true,
+                                    colReorder: {
+                                        fixedColumnsLeft: 1
+                                    },
+                                    destroy: true,
+                                    colReorder: true,
+                                    pageLength: 10,
+                                    lengthMenu: [ [10, 25, 50, -1], [10, 25, 50, "All"] ],
+                                    info: true,
+                                    responsive: true,
+                                    "order": [[ 1, "desc" ]],
+                                    action: function () {
+                                        $('#tblVS1With').DataTable().ajax.reload();
+                                    }
+                                });
+
+                            }, 0);
+                        }
+
+                        setTimeout(function () {
+                            $('.tblVS1With tr').each(function () {
+                                var $tblrow = $(this);
+                                $tblrow.find("th input").attr('readonly', true);
+                                $tblrow.find("th input").attr('disabled', 'disabled');
+                                $tblrow.find("th").css('background-color','#eaecf4');
+
+                                $tblrow.find("td input").attr('readonly', true);
+                                $tblrow.find("td input").attr('disabled', 'disabled');
+                                $tblrow.find("td").css('background-color','#eaecf4');
+                                $tblrow.find("td .table-remove").removeClass("btnRemove");
+                            }, 100);
+                        });
+                    }else{
+                        setTimeout(function () {
+                            $('#tblVS1With').DataTable({
+                                "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
+                                buttons: [
+                                    {
+                                        extend: 'excelHtml5',
+                                        text: '',
+                                        download: 'open',
+                                        className: "btntabletocsv hiddenColumn",
+                                        filename: "chequelist_"+ moment().format(),
+                                        orientation:'portrait',
+                                        exportOptions: {
+                                            columns: ':visible'
+                                        }
+                                    },{
+                                        extend: 'print',
+                                        download: 'open',
+                                        className: "btntabletopdf hiddenColumn",
+                                        text: '',
+                                        title: 'Cheque',
+                                        filename: "chequelist_"+ moment().format(),
+                                        exportOptions: {
+                                            columns: ':visible'
+                                        }
+                                    }],
+                                paging: false,
+                                "scrollY": "400px",
+                                "scrollCollapse": true,
+                                select: true,
+                                "columnDefs": [
+                                    { "orderable": false, "targets": 0 }
+                                ],
+                                colReorder: true,
+                                colReorder: {
+                                    fixedColumnsLeft: 1
+                                },
+                                destroy: true,
+                                colReorder: true,
+                                pageLength: 10,
+                                lengthMenu: [ [10, 25, 50, -1], [10, 25, 50, "All"] ],
+                                info: true,
+                                responsive: true,
+                                "order": [[ 1, "desc" ]],
+                                action: function () {
+                                    $('#tblVS1With').DataTable().ajax.reload();
+                                }
+                            });
+                            $('.fullScreenSpin').css('display','none');
+                        }, 0);
+                    }
+                    //$('#hideSelectionToggle').css('pointer-events', 'none');
+
+
+
+                    $('.fullScreenSpin').css('display','none');
+                }).catch(function (err) {
+                    $('.fullScreenSpin').css('display','none');
+                });
+              }else{
+                let data = JSON.parse(dataObject[0].data);
+                let useData = data.treconciliation;
+                var added=false;
+                for (let d = 0; d < useData.length; d++) {
+                  if(parseInt(useData[d].fields.ID) === currentRecon){
+                    added = true;
+                    $('.fullScreenSpin').css('display','none');
+                    let recondep = [];
+let reconwith = [];
+let openingBalance = useData[d].fields.OpenBalance || 0;
+let endingBalance = useData[d].fields.CloseBalance || 0;
+let statementNo = useData[d].fields.StatementNo || '';
+let bankAccount = useData[d].fields.AccountName || '';
+let statementDate = useData[d].fields.ReconciliationDate ? moment(useData[d].fields.ReconciliationDate).format('DD/MM/YYYY') : "";
+let endingBalanceCalc = useData[d].fields.CloseBalance || 0;
+let clearedBalance = useData[d].fields.CloseBalance || 0;
+// let depositAmount = useData[d].fields.CloseBalance || 0;
+// let withdrawalAmount = useData[d].fields.CloseBalance || 0;
+//$('.btnDeleteRecon').css('display','block');
+$('.openingbalance').val(utilityService.modifynegativeCurrencyFormat(openingBalance) || 0);
+$('.endingbalance').val(utilityService.modifynegativeCurrencyFormat(endingBalance) || 0);
+$('.statementno').val(statementNo);
+$('.statementDate').val(statementDate);
+$('#bankAccountName').append('<option value="'+bankAccount+'" selected="selected">'+bankAccount+'</option>');
+$('.endingBalanceCalc').text(utilityService.modifynegativeCurrencyFormat(endingBalanceCalc) || 0);
+$('.clearedBalance').text(utilityService.modifynegativeCurrencyFormat(clearedBalance) || 0);
+$('.differenceCalc').text(Currency+"0.00" || 0);
+// $('.depositAmount').val(utilityService.modifynegativeCurrencyFormat(depositAmount) || 0);
+// $('.withdrawalAmount').val(utilityService.modifynegativeCurrencyFormat(withdrawalAmount) || 0);
+
+$('#bankAccountName').attr('disabled', 'disabled');
+$('#bankAccountName').attr('readonly', true);
+$('.openingbalance').attr('readonly', true);
+$('.endingbalance').attr('readonly', true);
+$('.statementno').attr('readonly', true);
+$('.statementDate').attr('disabled', 'disabled');
+$('.statementDate').attr('readonly', true);
+$('.statementDate').css('pointer-events', 'none');
+$('#hideSelectionToggle').attr('disabled', 'disabled');
+$('#hideSelectionToggle').attr('readonly', true);
+if(useData[d].fields.DepositLines.length > 0){
+    // alert( useData[d].fields.DepositLines[0].fields.DepositDate);
+    for(let i in useData[d].fields.DepositLines){
+        let depositamount = utilityService.modifynegativeCurrencyFormat(useData[d].fields.DepositLines[i].fields.Amount)|| 0.00;
+        let reconciledepositObj = {
+            recondepdate: useData[d].fields.DepositLines[i].fields.DepositDate !=''? moment(useData[d].fields.DepositLines[i].fields.DepositDate).format("DD/MM/YYYY"): useData[d].fields.DepositLines[i].fields.DepositDate,
+            recondepname: useData[d].fields.DepositLines[i].fields.Payee || ' ',
+            recondeppaymenttype: useData[d].fields.DepositLines[i].fields.Notes || ' ',
+            recondepamount: depositamount || 0.00,
+            recondepid: useData[d].fields.DepositLines[i].fields.ID || ' ',
+            recondepref: useData[d].fields.DepositLines[i].fields.Reference || ' ',
+            seqdepnum: useData[d].fields.DepositLines[i].fields.Recno || 0,
+            recondeppaymentid: useData[d].fields.DepositLines[i].fields.PaymentID || 0,
+            depositLineID: useData[d].fields.DepositLines[i].fields.DepositLineID || 0,
+        };
+        selectedTransAmountdep = selectedTransAmountdep+parseFloat(useData[d].fields.DepositLines[i].fields.Amount);
+        //if(useData[d].ttobereconcileddeposit[i].Seqno != 0){
+        recondep.push(reconciledepositObj);
+        templateObject.reconVS1dep.set(recondep);
+        //}
+    }
+
+    $('.depositAmount').text(utilityService.modifynegativeCurrencyFormat(selectedTransAmountdep) || Currency+"0.00");
+    if(templateObject.reconVS1dep.get()){
+        setTimeout(function () {
+            $('#tblVS1Dep').DataTable({
+                "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
+                buttons: [
+                    {
+                        extend: 'excelHtml5',
+                        text: '',
+                        download: 'open',
+                        className: "btntabletocsv hiddenColumn",
+                        filename: "chequelist_"+ moment().format(),
+                        orientation:'portrait',
+                        exportOptions: {
+                            columns: ':visible'
+                        }
+                    },{
+                        extend: 'print',
+                        download: 'open',
+                        className: "btntabletopdf hiddenColumn",
+                        text: '',
+                        title: 'Cheque',
+                        filename: "chequelist_"+ moment().format(),
+                        exportOptions: {
+                            columns: ':visible'
+                        }
+                    }],
+                paging: false,
+                "scrollY": "400px",
+                "scrollCollapse": true,
+                "columnDefs": [
+                    { "orderable": false, "targets": 0 }
+                ],
+                colReorder: true,
+                colReorder: {
+                    fixedColumnsLeft: 1
+                },
+                select: true,
+                destroy: true,
+                colReorder: true,
+                pageLength: 10,
+                lengthMenu: [ [10, 25, 50, -1], [10, 25, 50, "All"] ],
+                info: true,
+                responsive: true,
+                "order": [[ 1, "desc" ]],
+                action: function () {
+                    $('#tblVS1Dep').DataTable().ajax.reload();
+                }
+            });
+
+        }, 0);
+    }
+
+    setTimeout(function () {
+        $('.tblVS1Dep tr').each(function () {
+            var $tblrow = $(this);
+            $tblrow.find("th input").attr('readonly', true);
+            $tblrow.find("th input").attr('disabled', 'disabled');
+            $tblrow.find("th").css('background-color','#eaecf4');
+
+            $tblrow.find("td input").attr('readonly', true);
+            $tblrow.find("td input").attr('disabled', 'disabled');
+            $tblrow.find("td").css('background-color','#eaecf4');
+            $tblrow.find("td .table-remove").removeClass("btnRemove");
+        }, 100);
+    });
+}else{
+    setTimeout(function () {
+        $('#tblVS1Dep').DataTable({
+            "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
+            buttons: [
+                {
+                    extend: 'excelHtml5',
+                    text: '',
+                    download: 'open',
+                    className: "btntabletocsv hiddenColumn",
+                    filename: "chequelist_"+ moment().format(),
+                    orientation:'portrait',
+                    exportOptions: {
+                        columns: ':visible'
+                    }
+                },{
+                    extend: 'print',
+                    download: 'open',
+                    className: "btntabletopdf hiddenColumn",
+                    text: '',
+                    title: 'Cheque',
+                    filename: "chequelist_"+ moment().format(),
+                    exportOptions: {
+                        columns: ':visible'
+                    }
+                }],
+            paging: false,
+            "scrollY": "400px",
+            "scrollCollapse": true,
+            "columnDefs": [
+                { "orderable": false, "targets": 0 }
+            ],
+            colReorder: true,
+            colReorder: {
+                fixedColumnsLeft: 1
+            },
+            select: true,
+            destroy: true,
+            colReorder: true,
+            pageLength: "All",
+            lengthMenu: [ [10, 25, 50, -1], [10, 25, 50, "All"] ],
+            info: true,
+            responsive: true,
+            "order": [[ 1, "desc" ]],
+            action: function () {
+                $('#tblVS1Dep').DataTable().ajax.reload();
+            }
+        });
+
+    }, 0);
+}
+
+if(useData[d].fields.WithdrawalLines.length > 0){
+    for(let j in useData[d].fields.WithdrawalLines){
+        let withdrawalamount = utilityService.modifynegativeCurrencyFormat(useData[d].fields.WithdrawalLines[j].fields.Amount)|| 0.00;
+        let reconcilewithdrawalObj = {
+            reconwithdate: useData[d].fields.WithdrawalLines[j].fields.DepositDate !=''? moment(useData[d].fields.WithdrawalLines[j].fields.DepositDate).format("DD/MM/YYYY"): useData[d].fields.WithdrawalLines[j].fields.DepositDate,
+            reconwithname: useData[d].fields.WithdrawalLines[j].fields.ClientName || ' ',
+            reconwithpaymenttype: useData[d].fields.WithdrawalLines[j].fields.Notes || ' ',
+            reconwithamount: withdrawalamount || 0.00,
+            reconwithid: useData[d].fields.WithdrawalLines[j].fields.ID || ' ',
+            reconwithref: useData[d].fields.WithdrawalLines[j].fields.Reference || ' ',
+            seqwithnum: useData[d].fields.WithdrawalLines[j].fields.Recno || 0,
+            reconwithpaymentid: useData[d].fields.WithdrawalLines[j].fields.PaymentID || 0,
+            depositLineID: useData[d].fields.WithdrawalLines[j].fields.DepositLineID || 0,
+        };
+
+        reconwith.push(reconcilewithdrawalObj);
+        templateObject.reconVS1with.set(reconwith);
+        selectedTransAmountwidth = selectedTransAmountwidth+parseFloat(useData[d].fields.WithdrawalLines[j].fields.Amount);
+
+    }
+
+    $('.withdrawalAmount').text(utilityService.modifynegativeCurrencyFormat(selectedTransAmountwidth) || Currency+"0.00");
+    if(templateObject.reconVS1with.get()){
+        setTimeout(function () {
+            $('#tblVS1With').DataTable({
+                "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
+                buttons: [
+                    {
+                        extend: 'excelHtml5',
+                        text: '',
+                        download: 'open',
+                        className: "btntabletocsv hiddenColumn",
+                        filename: "chequelist_"+ moment().format(),
+                        orientation:'portrait',
+                        exportOptions: {
+                            columns: ':visible'
+                        }
+                    },{
+                        extend: 'print',
+                        download: 'open',
+                        className: "btntabletopdf hiddenColumn",
+                        text: '',
+                        title: 'Cheque',
+                        filename: "chequelist_"+ moment().format(),
+                        exportOptions: {
+                            columns: ':visible'
+                        }
+                    }],
+                paging: false,
+                "scrollY": "400px",
+                "scrollCollapse": true,
+                select: true,
+                "columnDefs": [
+                    { "orderable": false, "targets": 0 }
+                ],
+                colReorder: true,
+                colReorder: {
+                    fixedColumnsLeft: 1
+                },
+                destroy: true,
+                colReorder: true,
+                pageLength: 10,
+                lengthMenu: [ [10, 25, 50, -1], [10, 25, 50, "All"] ],
+                info: true,
+                responsive: true,
+                "order": [[ 1, "desc" ]],
+                action: function () {
+                    $('#tblVS1With').DataTable().ajax.reload();
+                }
+            });
+
+        }, 0);
+    }
+
+    setTimeout(function () {
+        $('.tblVS1With tr').each(function () {
+            var $tblrow = $(this);
+            $tblrow.find("th input").attr('readonly', true);
+            $tblrow.find("th input").attr('disabled', 'disabled');
+            $tblrow.find("th").css('background-color','#eaecf4');
+
+            $tblrow.find("td input").attr('readonly', true);
+            $tblrow.find("td input").attr('disabled', 'disabled');
+            $tblrow.find("td").css('background-color','#eaecf4');
+            $tblrow.find("td .table-remove").removeClass("btnRemove");
+        }, 100);
+    });
+}else{
+    setTimeout(function () {
+        $('#tblVS1With').DataTable({
+            "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
+            buttons: [
+                {
+                    extend: 'excelHtml5',
+                    text: '',
+                    download: 'open',
+                    className: "btntabletocsv hiddenColumn",
+                    filename: "chequelist_"+ moment().format(),
+                    orientation:'portrait',
+                    exportOptions: {
+                        columns: ':visible'
+                    }
+                },{
+                    extend: 'print',
+                    download: 'open',
+                    className: "btntabletopdf hiddenColumn",
+                    text: '',
+                    title: 'Cheque',
+                    filename: "chequelist_"+ moment().format(),
+                    exportOptions: {
+                        columns: ':visible'
+                    }
+                }],
+            paging: false,
+            "scrollY": "400px",
+            "scrollCollapse": true,
+            select: true,
+            "columnDefs": [
+                { "orderable": false, "targets": 0 }
+            ],
+            colReorder: true,
+            colReorder: {
+                fixedColumnsLeft: 1
+            },
+            destroy: true,
+            colReorder: true,
+            pageLength: 10,
+            lengthMenu: [ [10, 25, 50, -1], [10, 25, 50, "All"] ],
+            info: true,
+            responsive: true,
+            "order": [[ 1, "desc" ]],
+            action: function () {
+                $('#tblVS1With').DataTable().ajax.reload();
+            }
+        });
+        $('.fullScreenSpin').css('display','none');
+    }, 0);
+}
+                  }
+                }
+
+                if(!added) {
+                  recService.getOneReconData(currentRecon).then(function (data) {
+                      let recondep = [];
+                      let reconwith = [];
+                      let openingBalance = data.fields.OpenBalance || 0;
+                      let endingBalance = data.fields.CloseBalance || 0;
+                      let statementNo = data.fields.StatementNo || '';
+                      let bankAccount = data.fields.AccountName || '';
+                      let statementDate = data.fields.ReconciliationDate ? moment(data.fields.ReconciliationDate).format('DD/MM/YYYY') : "";
+                      let endingBalanceCalc = data.fields.CloseBalance || 0;
+                      let clearedBalance = data.fields.CloseBalance || 0;
+                      // let depositAmount = data.fields.CloseBalance || 0;
+                      // let withdrawalAmount = data.fields.CloseBalance || 0;
+                      //$('.btnDeleteRecon').css('display','block');
+                      $('.openingbalance').val(utilityService.modifynegativeCurrencyFormat(openingBalance) || 0);
+                      $('.endingbalance').val(utilityService.modifynegativeCurrencyFormat(endingBalance) || 0);
+                      $('.statementno').val(statementNo);
+                      $('.statementDate').val(statementDate);
+                      $('#bankAccountName').append('<option value="'+bankAccount+'" selected="selected">'+bankAccount+'</option>');
+                      $('.endingBalanceCalc').text(utilityService.modifynegativeCurrencyFormat(endingBalanceCalc) || 0);
+                      $('.clearedBalance').text(utilityService.modifynegativeCurrencyFormat(clearedBalance) || 0);
+                      $('.differenceCalc').text(Currency+"0.00" || 0);
+                      // $('.depositAmount').val(utilityService.modifynegativeCurrencyFormat(depositAmount) || 0);
+                      // $('.withdrawalAmount').val(utilityService.modifynegativeCurrencyFormat(withdrawalAmount) || 0);
+
+                      $('#bankAccountName').attr('disabled', 'disabled');
+                      $('#bankAccountName').attr('readonly', true);
+                      $('.openingbalance').attr('readonly', true);
+                      $('.endingbalance').attr('readonly', true);
+                      $('.statementno').attr('readonly', true);
+                      $('.statementDate').attr('disabled', 'disabled');
+                      $('.statementDate').attr('readonly', true);
+                      $('.statementDate').css('pointer-events', 'none');
+                      $('#hideSelectionToggle').attr('disabled', 'disabled');
+                      $('#hideSelectionToggle').attr('readonly', true);
+                      if(data.fields.DepositLines.length > 0){
+                          // alert( data.fields.DepositLines[0].fields.DepositDate);
+                          for(let i in data.fields.DepositLines){
+                              let depositamount = utilityService.modifynegativeCurrencyFormat(data.fields.DepositLines[i].fields.Amount)|| 0.00;
+                              let reconciledepositObj = {
+                                  recondepdate: data.fields.DepositLines[i].fields.DepositDate !=''? moment(data.fields.DepositLines[i].fields.DepositDate).format("DD/MM/YYYY"): data.fields.DepositLines[i].fields.DepositDate,
+                                  recondepname: data.fields.DepositLines[i].fields.Payee || ' ',
+                                  recondeppaymenttype: data.fields.DepositLines[i].fields.Notes || ' ',
+                                  recondepamount: depositamount || 0.00,
+                                  recondepid: data.fields.DepositLines[i].fields.ID || ' ',
+                                  recondepref: data.fields.DepositLines[i].fields.Reference || ' ',
+                                  seqdepnum: data.fields.DepositLines[i].fields.Recno || 0,
+                                  recondeppaymentid: data.fields.DepositLines[i].fields.PaymentID || 0,
+                                  depositLineID: data.fields.DepositLines[i].fields.DepositLineID || 0,
+                              };
+                              selectedTransAmountdep = selectedTransAmountdep+parseFloat(data.fields.DepositLines[i].fields.Amount);
+                              //if(data.ttobereconcileddeposit[i].Seqno != 0){
+                              recondep.push(reconciledepositObj);
+                              templateObject.reconVS1dep.set(recondep);
+                              //}
+                          }
+
+                          $('.depositAmount').text(utilityService.modifynegativeCurrencyFormat(selectedTransAmountdep) || Currency+"0.00");
+                          if(templateObject.reconVS1dep.get()){
+                              setTimeout(function () {
+                                  $('#tblVS1Dep').DataTable({
+                                      "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
+                                      buttons: [
+                                          {
+                                              extend: 'excelHtml5',
+                                              text: '',
+                                              download: 'open',
+                                              className: "btntabletocsv hiddenColumn",
+                                              filename: "chequelist_"+ moment().format(),
+                                              orientation:'portrait',
+                                              exportOptions: {
+                                                  columns: ':visible'
+                                              }
+                                          },{
+                                              extend: 'print',
+                                              download: 'open',
+                                              className: "btntabletopdf hiddenColumn",
+                                              text: '',
+                                              title: 'Cheque',
+                                              filename: "chequelist_"+ moment().format(),
+                                              exportOptions: {
+                                                  columns: ':visible'
+                                              }
+                                          }],
+                                      paging: false,
+                                      "scrollY": "400px",
+                                      "scrollCollapse": true,
+                                      "columnDefs": [
+                                          { "orderable": false, "targets": 0 }
+                                      ],
+                                      colReorder: true,
+                                      colReorder: {
+                                          fixedColumnsLeft: 1
+                                      },
+                                      select: true,
+                                      destroy: true,
+                                      colReorder: true,
+                                      pageLength: 10,
+                                      lengthMenu: [ [10, 25, 50, -1], [10, 25, 50, "All"] ],
+                                      info: true,
+                                      responsive: true,
+                                      "order": [[ 1, "desc" ]],
+                                      action: function () {
+                                          $('#tblVS1Dep').DataTable().ajax.reload();
+                                      }
+                                  });
+
+                              }, 0);
+                          }
+
+                          setTimeout(function () {
+                              $('.tblVS1Dep tr').each(function () {
+                                  var $tblrow = $(this);
+                                  $tblrow.find("th input").attr('readonly', true);
+                                  $tblrow.find("th input").attr('disabled', 'disabled');
+                                  $tblrow.find("th").css('background-color','#eaecf4');
+
+                                  $tblrow.find("td input").attr('readonly', true);
+                                  $tblrow.find("td input").attr('disabled', 'disabled');
+                                  $tblrow.find("td").css('background-color','#eaecf4');
+                                  $tblrow.find("td .table-remove").removeClass("btnRemove");
+                              }, 100);
+                          });
+                      }else{
+                          setTimeout(function () {
+                              $('#tblVS1Dep').DataTable({
+                                  "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
+                                  buttons: [
+                                      {
+                                          extend: 'excelHtml5',
+                                          text: '',
+                                          download: 'open',
+                                          className: "btntabletocsv hiddenColumn",
+                                          filename: "chequelist_"+ moment().format(),
+                                          orientation:'portrait',
+                                          exportOptions: {
+                                              columns: ':visible'
+                                          }
+                                      },{
+                                          extend: 'print',
+                                          download: 'open',
+                                          className: "btntabletopdf hiddenColumn",
+                                          text: '',
+                                          title: 'Cheque',
+                                          filename: "chequelist_"+ moment().format(),
+                                          exportOptions: {
+                                              columns: ':visible'
+                                          }
+                                      }],
+                                  paging: false,
+                                  "scrollY": "400px",
+                                  "scrollCollapse": true,
+                                  "columnDefs": [
+                                      { "orderable": false, "targets": 0 }
+                                  ],
+                                  colReorder: true,
+                                  colReorder: {
+                                      fixedColumnsLeft: 1
+                                  },
+                                  select: true,
+                                  destroy: true,
+                                  colReorder: true,
+                                  pageLength: "All",
+                                  lengthMenu: [ [10, 25, 50, -1], [10, 25, 50, "All"] ],
+                                  info: true,
+                                  responsive: true,
+                                  "order": [[ 1, "desc" ]],
+                                  action: function () {
+                                      $('#tblVS1Dep').DataTable().ajax.reload();
+                                  }
+                              });
+
+                          }, 0);
+                      }
+
+                      if(data.fields.WithdrawalLines.length > 0){
+                          for(let j in data.fields.WithdrawalLines){
+                              let withdrawalamount = utilityService.modifynegativeCurrencyFormat(data.fields.WithdrawalLines[j].fields.Amount)|| 0.00;
+                              let reconcilewithdrawalObj = {
+                                  reconwithdate: data.fields.WithdrawalLines[j].fields.DepositDate !=''? moment(data.fields.WithdrawalLines[j].fields.DepositDate).format("DD/MM/YYYY"): data.fields.WithdrawalLines[j].fields.DepositDate,
+                                  reconwithname: data.fields.WithdrawalLines[j].fields.ClientName || ' ',
+                                  reconwithpaymenttype: data.fields.WithdrawalLines[j].fields.Notes || ' ',
+                                  reconwithamount: withdrawalamount || 0.00,
+                                  reconwithid: data.fields.WithdrawalLines[j].fields.ID || ' ',
+                                  reconwithref: data.fields.WithdrawalLines[j].fields.Reference || ' ',
+                                  seqwithnum: data.fields.WithdrawalLines[j].fields.Recno || 0,
+                                  reconwithpaymentid: data.fields.WithdrawalLines[j].fields.PaymentID || 0,
+                                  depositLineID: data.fields.WithdrawalLines[j].fields.DepositLineID || 0,
+                              };
+
+                              reconwith.push(reconcilewithdrawalObj);
+                              templateObject.reconVS1with.set(reconwith);
+                              selectedTransAmountwidth = selectedTransAmountwidth+parseFloat(data.fields.WithdrawalLines[j].fields.Amount);
+
+                          }
+
+                          $('.withdrawalAmount').text(utilityService.modifynegativeCurrencyFormat(selectedTransAmountwidth) || Currency+"0.00");
+                          if(templateObject.reconVS1with.get()){
+                              setTimeout(function () {
+                                  $('#tblVS1With').DataTable({
+                                      "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
+                                      buttons: [
+                                          {
+                                              extend: 'excelHtml5',
+                                              text: '',
+                                              download: 'open',
+                                              className: "btntabletocsv hiddenColumn",
+                                              filename: "chequelist_"+ moment().format(),
+                                              orientation:'portrait',
+                                              exportOptions: {
+                                                  columns: ':visible'
+                                              }
+                                          },{
+                                              extend: 'print',
+                                              download: 'open',
+                                              className: "btntabletopdf hiddenColumn",
+                                              text: '',
+                                              title: 'Cheque',
+                                              filename: "chequelist_"+ moment().format(),
+                                              exportOptions: {
+                                                  columns: ':visible'
+                                              }
+                                          }],
+                                      paging: false,
+                                      "scrollY": "400px",
+                                      "scrollCollapse": true,
+                                      select: true,
+                                      "columnDefs": [
+                                          { "orderable": false, "targets": 0 }
+                                      ],
+                                      colReorder: true,
+                                      colReorder: {
+                                          fixedColumnsLeft: 1
+                                      },
+                                      destroy: true,
+                                      colReorder: true,
+                                      pageLength: 10,
+                                      lengthMenu: [ [10, 25, 50, -1], [10, 25, 50, "All"] ],
+                                      info: true,
+                                      responsive: true,
+                                      "order": [[ 1, "desc" ]],
+                                      action: function () {
+                                          $('#tblVS1With').DataTable().ajax.reload();
+                                      }
+                                  });
+
+                              }, 0);
+                          }
+
+                          setTimeout(function () {
+                              $('.tblVS1With tr').each(function () {
+                                  var $tblrow = $(this);
+                                  $tblrow.find("th input").attr('readonly', true);
+                                  $tblrow.find("th input").attr('disabled', 'disabled');
+                                  $tblrow.find("th").css('background-color','#eaecf4');
+
+                                  $tblrow.find("td input").attr('readonly', true);
+                                  $tblrow.find("td input").attr('disabled', 'disabled');
+                                  $tblrow.find("td").css('background-color','#eaecf4');
+                                  $tblrow.find("td .table-remove").removeClass("btnRemove");
+                              }, 100);
+                          });
+                      }else{
+                          setTimeout(function () {
+                              $('#tblVS1With').DataTable({
+                                  "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
+                                  buttons: [
+                                      {
+                                          extend: 'excelHtml5',
+                                          text: '',
+                                          download: 'open',
+                                          className: "btntabletocsv hiddenColumn",
+                                          filename: "chequelist_"+ moment().format(),
+                                          orientation:'portrait',
+                                          exportOptions: {
+                                              columns: ':visible'
+                                          }
+                                      },{
+                                          extend: 'print',
+                                          download: 'open',
+                                          className: "btntabletopdf hiddenColumn",
+                                          text: '',
+                                          title: 'Cheque',
+                                          filename: "chequelist_"+ moment().format(),
+                                          exportOptions: {
+                                              columns: ':visible'
+                                          }
+                                      }],
+                                  paging: false,
+                                  "scrollY": "400px",
+                                  "scrollCollapse": true,
+                                  select: true,
+                                  "columnDefs": [
+                                      { "orderable": false, "targets": 0 }
+                                  ],
+                                  colReorder: true,
+                                  colReorder: {
+                                      fixedColumnsLeft: 1
+                                  },
+                                  destroy: true,
+                                  colReorder: true,
+                                  pageLength: 10,
+                                  lengthMenu: [ [10, 25, 50, -1], [10, 25, 50, "All"] ],
+                                  info: true,
+                                  responsive: true,
+                                  "order": [[ 1, "desc" ]],
+                                  action: function () {
+                                      $('#tblVS1With').DataTable().ajax.reload();
+                                  }
+                              });
+                              $('.fullScreenSpin').css('display','none');
+                          }, 0);
+                      }
+                      //$('#hideSelectionToggle').css('pointer-events', 'none');
+
+
+
+                      $('.fullScreenSpin').css('display','none');
+                  }).catch(function (err) {
+                      $('.fullScreenSpin').css('display','none');
+                  });
+                }
+              }
+
+            }).catch(function (err) {
+              recService.getOneReconData(currentRecon).then(function (data) {
+                  let recondep = [];
+                  let reconwith = [];
+                  let openingBalance = data.fields.OpenBalance || 0;
+                  let endingBalance = data.fields.CloseBalance || 0;
+                  let statementNo = data.fields.StatementNo || '';
+                  let bankAccount = data.fields.AccountName || '';
+                  let statementDate = data.fields.ReconciliationDate ? moment(data.fields.ReconciliationDate).format('DD/MM/YYYY') : "";
+                  let endingBalanceCalc = data.fields.CloseBalance || 0;
+                  let clearedBalance = data.fields.CloseBalance || 0;
+                  // let depositAmount = data.fields.CloseBalance || 0;
+                  // let withdrawalAmount = data.fields.CloseBalance || 0;
+                  //$('.btnDeleteRecon').css('display','block');
+                  $('.openingbalance').val(utilityService.modifynegativeCurrencyFormat(openingBalance) || 0);
+                  $('.endingbalance').val(utilityService.modifynegativeCurrencyFormat(endingBalance) || 0);
+                  $('.statementno').val(statementNo);
+                  $('.statementDate').val(statementDate);
+                  $('#bankAccountName').append('<option value="'+bankAccount+'" selected="selected">'+bankAccount+'</option>');
+                  $('.endingBalanceCalc').text(utilityService.modifynegativeCurrencyFormat(endingBalanceCalc) || 0);
+                  $('.clearedBalance').text(utilityService.modifynegativeCurrencyFormat(clearedBalance) || 0);
+                  $('.differenceCalc').text(Currency+"0.00" || 0);
+                  // $('.depositAmount').val(utilityService.modifynegativeCurrencyFormat(depositAmount) || 0);
+                  // $('.withdrawalAmount').val(utilityService.modifynegativeCurrencyFormat(withdrawalAmount) || 0);
+
+                  $('#bankAccountName').attr('disabled', 'disabled');
+                  $('#bankAccountName').attr('readonly', true);
+                  $('.openingbalance').attr('readonly', true);
+                  $('.endingbalance').attr('readonly', true);
+                  $('.statementno').attr('readonly', true);
+                  $('.statementDate').attr('disabled', 'disabled');
+                  $('.statementDate').attr('readonly', true);
+                  $('.statementDate').css('pointer-events', 'none');
+                  $('#hideSelectionToggle').attr('disabled', 'disabled');
+                  $('#hideSelectionToggle').attr('readonly', true);
+                  if(data.fields.DepositLines.length > 0){
+                      // alert( data.fields.DepositLines[0].fields.DepositDate);
+                      for(let i in data.fields.DepositLines){
+                          let depositamount = utilityService.modifynegativeCurrencyFormat(data.fields.DepositLines[i].fields.Amount)|| 0.00;
+                          let reconciledepositObj = {
+                              recondepdate: data.fields.DepositLines[i].fields.DepositDate !=''? moment(data.fields.DepositLines[i].fields.DepositDate).format("DD/MM/YYYY"): data.fields.DepositLines[i].fields.DepositDate,
+                              recondepname: data.fields.DepositLines[i].fields.Payee || ' ',
+                              recondeppaymenttype: data.fields.DepositLines[i].fields.Notes || ' ',
+                              recondepamount: depositamount || 0.00,
+                              recondepid: data.fields.DepositLines[i].fields.ID || ' ',
+                              recondepref: data.fields.DepositLines[i].fields.Reference || ' ',
+                              seqdepnum: data.fields.DepositLines[i].fields.Recno || 0,
+                              recondeppaymentid: data.fields.DepositLines[i].fields.PaymentID || 0,
+                              depositLineID: data.fields.DepositLines[i].fields.DepositLineID || 0,
+                          };
+                          selectedTransAmountdep = selectedTransAmountdep+parseFloat(data.fields.DepositLines[i].fields.Amount);
+                          //if(data.ttobereconcileddeposit[i].Seqno != 0){
+                          recondep.push(reconciledepositObj);
+                          templateObject.reconVS1dep.set(recondep);
+                          //}
+                      }
+
+                      $('.depositAmount').text(utilityService.modifynegativeCurrencyFormat(selectedTransAmountdep) || Currency+"0.00");
+                      if(templateObject.reconVS1dep.get()){
+                          setTimeout(function () {
+                              $('#tblVS1Dep').DataTable({
+                                  "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
+                                  buttons: [
+                                      {
+                                          extend: 'excelHtml5',
+                                          text: '',
+                                          download: 'open',
+                                          className: "btntabletocsv hiddenColumn",
+                                          filename: "chequelist_"+ moment().format(),
+                                          orientation:'portrait',
+                                          exportOptions: {
+                                              columns: ':visible'
+                                          }
+                                      },{
+                                          extend: 'print',
+                                          download: 'open',
+                                          className: "btntabletopdf hiddenColumn",
+                                          text: '',
+                                          title: 'Cheque',
+                                          filename: "chequelist_"+ moment().format(),
+                                          exportOptions: {
+                                              columns: ':visible'
+                                          }
+                                      }],
+                                  paging: false,
+                                  "scrollY": "400px",
+                                  "scrollCollapse": true,
+                                  "columnDefs": [
+                                      { "orderable": false, "targets": 0 }
+                                  ],
+                                  colReorder: true,
+                                  colReorder: {
+                                      fixedColumnsLeft: 1
+                                  },
+                                  select: true,
+                                  destroy: true,
+                                  colReorder: true,
+                                  pageLength: 10,
+                                  lengthMenu: [ [10, 25, 50, -1], [10, 25, 50, "All"] ],
+                                  info: true,
+                                  responsive: true,
+                                  "order": [[ 1, "desc" ]],
+                                  action: function () {
+                                      $('#tblVS1Dep').DataTable().ajax.reload();
+                                  }
+                              });
+
+                          }, 0);
+                      }
+
+                      setTimeout(function () {
+                          $('.tblVS1Dep tr').each(function () {
+                              var $tblrow = $(this);
+                              $tblrow.find("th input").attr('readonly', true);
+                              $tblrow.find("th input").attr('disabled', 'disabled');
+                              $tblrow.find("th").css('background-color','#eaecf4');
+
+                              $tblrow.find("td input").attr('readonly', true);
+                              $tblrow.find("td input").attr('disabled', 'disabled');
+                              $tblrow.find("td").css('background-color','#eaecf4');
+                              $tblrow.find("td .table-remove").removeClass("btnRemove");
+                          }, 100);
+                      });
+                  }else{
+                      setTimeout(function () {
+                          $('#tblVS1Dep').DataTable({
+                              "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
+                              buttons: [
+                                  {
+                                      extend: 'excelHtml5',
+                                      text: '',
+                                      download: 'open',
+                                      className: "btntabletocsv hiddenColumn",
+                                      filename: "chequelist_"+ moment().format(),
+                                      orientation:'portrait',
+                                      exportOptions: {
+                                          columns: ':visible'
+                                      }
+                                  },{
+                                      extend: 'print',
+                                      download: 'open',
+                                      className: "btntabletopdf hiddenColumn",
+                                      text: '',
+                                      title: 'Cheque',
+                                      filename: "chequelist_"+ moment().format(),
+                                      exportOptions: {
+                                          columns: ':visible'
+                                      }
+                                  }],
+                              paging: false,
+                              "scrollY": "400px",
+                              "scrollCollapse": true,
+                              "columnDefs": [
+                                  { "orderable": false, "targets": 0 }
+                              ],
+                              colReorder: true,
+                              colReorder: {
+                                  fixedColumnsLeft: 1
+                              },
+                              select: true,
+                              destroy: true,
+                              colReorder: true,
+                              pageLength: "All",
+                              lengthMenu: [ [10, 25, 50, -1], [10, 25, 50, "All"] ],
+                              info: true,
+                              responsive: true,
+                              "order": [[ 1, "desc" ]],
+                              action: function () {
+                                  $('#tblVS1Dep').DataTable().ajax.reload();
+                              }
+                          });
+
+                      }, 0);
+                  }
+
+                  if(data.fields.WithdrawalLines.length > 0){
+                      for(let j in data.fields.WithdrawalLines){
+                          let withdrawalamount = utilityService.modifynegativeCurrencyFormat(data.fields.WithdrawalLines[j].fields.Amount)|| 0.00;
+                          let reconcilewithdrawalObj = {
+                              reconwithdate: data.fields.WithdrawalLines[j].fields.DepositDate !=''? moment(data.fields.WithdrawalLines[j].fields.DepositDate).format("DD/MM/YYYY"): data.fields.WithdrawalLines[j].fields.DepositDate,
+                              reconwithname: data.fields.WithdrawalLines[j].fields.ClientName || ' ',
+                              reconwithpaymenttype: data.fields.WithdrawalLines[j].fields.Notes || ' ',
+                              reconwithamount: withdrawalamount || 0.00,
+                              reconwithid: data.fields.WithdrawalLines[j].fields.ID || ' ',
+                              reconwithref: data.fields.WithdrawalLines[j].fields.Reference || ' ',
+                              seqwithnum: data.fields.WithdrawalLines[j].fields.Recno || 0,
+                              reconwithpaymentid: data.fields.WithdrawalLines[j].fields.PaymentID || 0,
+                              depositLineID: data.fields.WithdrawalLines[j].fields.DepositLineID || 0,
+                          };
+
+                          reconwith.push(reconcilewithdrawalObj);
+                          templateObject.reconVS1with.set(reconwith);
+                          selectedTransAmountwidth = selectedTransAmountwidth+parseFloat(data.fields.WithdrawalLines[j].fields.Amount);
+
+                      }
+
+                      $('.withdrawalAmount').text(utilityService.modifynegativeCurrencyFormat(selectedTransAmountwidth) || Currency+"0.00");
+                      if(templateObject.reconVS1with.get()){
+                          setTimeout(function () {
+                              $('#tblVS1With').DataTable({
+                                  "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
+                                  buttons: [
+                                      {
+                                          extend: 'excelHtml5',
+                                          text: '',
+                                          download: 'open',
+                                          className: "btntabletocsv hiddenColumn",
+                                          filename: "chequelist_"+ moment().format(),
+                                          orientation:'portrait',
+                                          exportOptions: {
+                                              columns: ':visible'
+                                          }
+                                      },{
+                                          extend: 'print',
+                                          download: 'open',
+                                          className: "btntabletopdf hiddenColumn",
+                                          text: '',
+                                          title: 'Cheque',
+                                          filename: "chequelist_"+ moment().format(),
+                                          exportOptions: {
+                                              columns: ':visible'
+                                          }
+                                      }],
+                                  paging: false,
+                                  "scrollY": "400px",
+                                  "scrollCollapse": true,
+                                  select: true,
+                                  "columnDefs": [
+                                      { "orderable": false, "targets": 0 }
+                                  ],
+                                  colReorder: true,
+                                  colReorder: {
+                                      fixedColumnsLeft: 1
+                                  },
+                                  destroy: true,
+                                  colReorder: true,
+                                  pageLength: 10,
+                                  lengthMenu: [ [10, 25, 50, -1], [10, 25, 50, "All"] ],
+                                  info: true,
+                                  responsive: true,
+                                  "order": [[ 1, "desc" ]],
+                                  action: function () {
+                                      $('#tblVS1With').DataTable().ajax.reload();
+                                  }
+                              });
+
+                          }, 0);
+                      }
+
+                      setTimeout(function () {
+                          $('.tblVS1With tr').each(function () {
+                              var $tblrow = $(this);
+                              $tblrow.find("th input").attr('readonly', true);
+                              $tblrow.find("th input").attr('disabled', 'disabled');
+                              $tblrow.find("th").css('background-color','#eaecf4');
+
+                              $tblrow.find("td input").attr('readonly', true);
+                              $tblrow.find("td input").attr('disabled', 'disabled');
+                              $tblrow.find("td").css('background-color','#eaecf4');
+                              $tblrow.find("td .table-remove").removeClass("btnRemove");
+                          }, 100);
+                      });
+                  }else{
+                      setTimeout(function () {
+                          $('#tblVS1With').DataTable({
+                              "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
+                              buttons: [
+                                  {
+                                      extend: 'excelHtml5',
+                                      text: '',
+                                      download: 'open',
+                                      className: "btntabletocsv hiddenColumn",
+                                      filename: "chequelist_"+ moment().format(),
+                                      orientation:'portrait',
+                                      exportOptions: {
+                                          columns: ':visible'
+                                      }
+                                  },{
+                                      extend: 'print',
+                                      download: 'open',
+                                      className: "btntabletopdf hiddenColumn",
+                                      text: '',
+                                      title: 'Cheque',
+                                      filename: "chequelist_"+ moment().format(),
+                                      exportOptions: {
+                                          columns: ':visible'
+                                      }
+                                  }],
+                              paging: false,
+                              "scrollY": "400px",
+                              "scrollCollapse": true,
+                              select: true,
+                              "columnDefs": [
+                                  { "orderable": false, "targets": 0 }
+                              ],
+                              colReorder: true,
+                              colReorder: {
+                                  fixedColumnsLeft: 1
+                              },
+                              destroy: true,
+                              colReorder: true,
+                              pageLength: 10,
+                              lengthMenu: [ [10, 25, 50, -1], [10, 25, 50, "All"] ],
+                              info: true,
+                              responsive: true,
+                              "order": [[ 1, "desc" ]],
+                              action: function () {
+                                  $('#tblVS1With').DataTable().ajax.reload();
+                              }
+                          });
+                          $('.fullScreenSpin').css('display','none');
+                      }, 0);
+                  }
+                  //$('#hideSelectionToggle').css('pointer-events', 'none');
+
+
+
+                  $('.fullScreenSpin').css('display','none');
+              }).catch(function (err) {
+                  $('.fullScreenSpin').css('display','none');
+              });
+            });
+
+        }
+    }else{
+        templateObject.getAccountNames();
+        //templateObject.getOpenBalance();
+    }
+    $("input[data-type='currency']").on({
+        keyup: function() {
+            formatCurrency($(this));
+        },
+        blur: function() {
+            formatCurrency($(this), "blur");
+        },
+        change: function() {
+            formatCurrency($(this));
+        }
+    });
+
+    function formatNumber(n) {
+        // format number 1000000 to 1,234,567
+        return n.replace(/\D/g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+    }
+
+    function formatCurrency(input, blur) {
+        // appends $ to value, validates decimal side
+        // and puts cursor back in right position.
+
+        // get input value
+        var input_val = input.val();
+
+        // don't validate empty input
+        if (input_val === "") { return; }
+
+        // original length
+        var original_len = input_val.length;
+
+        // initial caret position
+        var caret_pos = input.prop("selectionStart");
+
+        // check for decimal
+        if (input_val.indexOf(".") >= 0) {
+
+            // get position of first decimal
+            // this prevents multiple decimals from
+            // being entered
+            var decimal_pos = input_val.indexOf(".");
+
+            // split number by decimal point
+            var left_side = input_val.substring(0, decimal_pos);
+            var right_side = input_val.substring(decimal_pos);
+
+            // add commas to left side of number
+            left_side = formatNumber(left_side);
+
+            // validate right side
+            right_side = formatNumber(right_side);
+
+            // On blur make sure 2 numbers after decimal
+            if (blur === "blur") {
+                right_side += "00";
+            }
+
+            // Limit decimal to only 2 digits
+            right_side = right_side.substring(0, 2);
+
+            // join number by .
+            input_val = Currency + left_side + "." + right_side;
+
+
+        } else {
+            if(input_val.indexOf("-") >= 0){
+
+            }
+            // no decimal entered
+            // add commas to number
+            // remove all non-digits
+            input_val = formatNumber(input_val);
+            input_val = Currency + input_val;
+
+            // final formatting
+            if (blur === "blur") {
+                input_val += ".00";
+            }
+        }
+
+        // send updated string to input
+        input.val(input_val);
+        $('.endingbalance').val(input_val);
+        // put caret back in the right position
+        var updated_len = input_val.length;
+        caret_pos = updated_len - original_len + caret_pos;
+        input[0].setSelectionRange(caret_pos, caret_pos);
+    }
+
+})
+
+Template.bankrecon.events({
+    'change #bankAccountName': function (e) {
+        let templateObject = Template.instance();
+        templateObject.reconVS1dep.set(null);
+        templateObject.reconVS1with.set(null);
+
+        // Sessions - setting the accountTypeID BEGIN
+        var accountTypeId = $('#bankAccountName').val();
+        // Sessions - setting the accountTypeID END
+
+        if(accountTypeId != ""){
+            Session.setPersistent('bankaccountid', accountTypeId);
+            templateObject.getReconcileDeposit(accountTypeId);
+            templateObject.getReconcileWithdrawal(accountTypeId);
+            setTimeout(function () {
+                location.reload();
+            },1000);
+        }else{
+        }
+        e.preventDefault();
+    },
+    'change .reconchkboxdep': function (e) {
+        //        var deptable = $('#tblVS1Dep').DataTable();
+        //        var rows_selected = deptable.column(0).checkboxes.selected();
+        var chkbiddep = event.target.id;
+        var checkboxID = chkbiddep.split("_").pop();
+        var selectedTransAmountdep = 0;
+        const templateObject = Template.instance();
+        const selectedTransdep = [];
+        const selectedtransactionsdep = [];
+
+        $('.reconchkboxdep:checkbox:checked').each(function(){
+            var chkbiddepLine = $(this).attr('id');
+            var checkboxIDdepLine = chkbiddepLine.split("_").pop();
+            var depositLineIDDep = $(this).closest('tr').attr('depositLineID');
+            let transactionObj = {
+                reconid : checkboxIDdepLine,
+                recondate : $('#vs1recondate_'+checkboxIDdepLine).text(),
+                reconname : $('#vs1reconname_'+checkboxIDdepLine).text(),
+                recondesc : $('#vs1recondesc_'+checkboxIDdepLine).text(),
+                reconamount : $('#vs1reconamount_'+checkboxIDdepLine).text(),
+                reconref : $('#vs1reconref_'+checkboxIDdepLine).text(),
+                reconpayid : $('#vs1reconpayid_'+checkboxIDdepLine).text(),
+                depositLineID: depositLineIDDep||0
+            }
+            var reconamounttrimdep = (($('#vs1reconamount_'+checkboxIDdepLine).text()).substring(1)).replace(',','');
+            selectedTransAmountdep = selectedTransAmountdep+parseFloat(reconamounttrimdep);
+            selectedtransactionsdep.push(transactionObj);
+        });
+        templateObject.selectedTransdep.set(selectedtransactionsdep);
+        setTimeout(function () {
+            $("#divtblSelectedDeposits").height(300);
+        },0);
+        $('.depositAmount').text(utilityService.modifynegativeCurrencyFormat(selectedTransAmountdep) || Currency+"0.00");
+
+        // var totaldepamount = (($('.depositAmount').html()).substring(1)).replace(',','');
+        // var totalwithamount = (($('.withdrawalAmount').html()).substring(1)).replace(',','');
+        // var openbalamount = (($('#openingbalance').val()).substring(1)).replace(',','');
+        var totaldepamount = Number($('.depositAmount').html().replace(/[^0-9.-]+/g,""));
+        var totalwithamount = Number($('.withdrawalAmount').html().replace(/[^0-9.-]+/g,""));
+        var openbalamount = Number($('#openingbalance').val().replace(/[^0-9.-]+/g,""));
+        var clearedBal = parseFloat(openbalamount)+parseFloat(totaldepamount)-parseFloat(totalwithamount);
+        $('.clearedBalance').text(utilityService.modifynegativeCurrencyFormat(clearedBal) || Currency+"0.00");
+    },
+    'change .reconchkboxwith': function (e) {
+        var chkbidwith = event.target.id;
+        var checkboxID = chkbidwith.split("_").pop();
+        var selectedTransAmountwith = 0;
+        const templateObject = Template.instance();
+        const selectedTranswith = [];
+        const selectedtransactionswith = [];
+
+        $('.reconchkboxwith:checkbox:checked').each(function(){
+            var chkbidwithLine = $(this).attr('id');
+            var checkboxIDwithLine = chkbidwithLine.split("_").pop();
+            let depositLineIDWith = $(this).closest('tr').attr('depositLineID');
+            let transactionObj = {
+                reconid : checkboxIDwithLine,
+                recondate : $('#vs1recondatewith_'+checkboxIDwithLine).text(),
+                reconname : $('#vs1reconnamewith_'+checkboxIDwithLine).text(),
+                recondesc : $('#vs1recondescwith_'+checkboxIDwithLine).text(),
+                reconamount : $('#vs1reconamountwith_'+checkboxIDwithLine).text(),
+                reconref : $('#vs1reconrefwith_'+checkboxIDwithLine).text(),
+                reconpayid : $('#vs1reconpayidwith_'+checkboxIDwithLine).text(),
+                depositLineID: depositLineIDWith||0
+            }
+            var reconamounttrim = (($('#vs1reconamountwith_'+checkboxIDwithLine).text()).substring(1)).replace(',','');
+            selectedTransAmountwith = selectedTransAmountwith+parseFloat(reconamounttrim);
+            selectedtransactionswith.push(transactionObj);
+        });
+        templateObject.selectedTranswith.set(selectedtransactionswith);
+        setTimeout(function () {
+            $("#divtblSelectedWithdrawals").height(300);
+        },0);
+        $('.withdrawalAmount').text(utilityService.modifynegativeCurrencyFormat(selectedTransAmountwith) || Currency+"0.00");
+        // var totaldepamount = (($('.depositAmount').html()).substring(1)).replace(',','');
+        // var totalwithamount = (($('.withdrawalAmount').html()).substring(1)).replace(',','');
+        // var openbalamount = (($('#openingbalance').val()).substring(1)).replace(',','');
+        var totaldepamount = Number($('.depositAmount').html().replace(/[^0-9.-]+/g,""));
+        var totalwithamount = Number($('.withdrawalAmount').html().replace(/[^0-9.-]+/g,""));
+        var openbalamount = Number($('#openingbalance').val().replace(/[^0-9.-]+/g,""));
+        var clearedBal = parseFloat(openbalamount)+parseFloat(totaldepamount)-parseFloat(totalwithamount);
+        $('.clearedBalance').text(utilityService.modifynegativeCurrencyFormat(clearedBal) || Currency+"0.00");
+    },
+    'change #checkallrecondep': function (e) {
+        if($(event.target).is(':checked')){
+            $(".reconchkboxdep"). prop("checked", true);
+            var selectedTransAmountdep = 0;
+            const templateObject = Template.instance();
+            const selectedTransdep = [];
+            const selectedtransactionsdep = [];
+
+            $('.reconchkboxdep:checkbox:checked').each(function(){
+                var chkbiddepLine = $(this).attr('id');
+                var checkboxIDdepLine = chkbiddepLine.split("_").pop();
+                let depositLineIDDepAll = $(this).closest('tr').attr('depositLineID');
+                let transactionObj = {
+                    reconid : checkboxIDdepLine,
+                    recondate : $('#vs1recondate_'+checkboxIDdepLine).text(),
+                    reconname : $('#vs1reconname_'+checkboxIDdepLine).text(),
+                    recondesc : $('#vs1recondesc_'+checkboxIDdepLine).text(),
+                    reconamount : $('#vs1reconamount_'+checkboxIDdepLine).text(),
+                    reconref : $('#vs1reconref_'+checkboxIDdepLine).text(),
+                    reconpayid : $('#vs1reconpayid_'+checkboxIDdepLine).text(),
+                    depositLineID: depositLineIDDepAll||0
+                }
+                var reconamounttrimdep = (($('#vs1reconamount_'+checkboxIDdepLine).text()).substring(1)).replace(',','');
+                selectedTransAmountdep = selectedTransAmountdep+parseFloat(reconamounttrimdep);
+                selectedtransactionsdep.push(transactionObj);
+            });
+            templateObject.selectedTransdep.set(selectedtransactionsdep);
+
+            setTimeout(function () {
+                $("#divtblSelectedDeposits").height(300);
+            },0);
+
+            $('.depositAmount').text(utilityService.modifynegativeCurrencyFormat(selectedTransAmountdep) || Currency+"0.00");
+            // var totaldepamount = (($('.depositAmount').html()).substring(1)).replace(',','');
+            // var totalwithamount = (($('.withdrawalAmount').html()).substring(1)).replace(',','');
+            // var openbalamount = (($('#openingbalance').val()).substring(1)).replace(',','');
+            var totaldepamount = Number($('.depositAmount').html().replace(/[^0-9.-]+/g,""));
+            var totalwithamount = Number($('.withdrawalAmount').html().replace(/[^0-9.-]+/g,""));
+            var openbalamount = Number($('#openingbalance').val().replace(/[^0-9.-]+/g,""));
+            var clearedBal = parseFloat(openbalamount)+parseFloat(totaldepamount)-parseFloat(totalwithamount);
+            $('.clearedBalance').text(utilityService.modifynegativeCurrencyFormat(clearedBal) || Currency+"0.00");
+        }else{
+            $(".reconchkboxdep"). prop("checked", false);
+            var selectedTransAmountdep = 0;
+            const templateObject = Template.instance();
+            const selectedTransdep = [];
+            const selectedtransactionsdep = [];
+
+            $('.reconchkboxdep:checkbox:checked').each(function(){
+                var chkbiddepLine = $(this).attr('id');
+                var checkboxIDdepLine = chkbiddepLine.split("_").pop();
+                let depositLineIDDepAll = $(this).closest('tr').attr('depositLineID');
+                let transactionObj = {
+                    reconid : checkboxIDdepLine,
+                    recondate : $('#vs1recondate_'+checkboxIDdepLine).text(),
+                    reconname : $('#vs1reconname_'+checkboxIDdepLine).text(),
+                    recondesc : $('#vs1recondesc_'+checkboxIDdepLine).text(),
+                    reconamount : $('#vs1reconamount_'+checkboxIDdepLine).text(),
+                    reconref : $('#vs1reconref_'+checkboxIDdepLine).text(),
+                    reconpayid : $('#vs1reconpayid_'+checkboxIDdepLine).text(),
+                    depositLineID: depositLineIDDepAll||0
+                }
+                var reconamounttrimdep = (($('#vs1reconamount_'+checkboxIDdepLine).text()).substring(1)).replace(',','');
+                selectedTransAmountdep = selectedTransAmountdep+parseFloat(reconamounttrimdep);
+                selectedtransactionsdep.push(transactionObj);
+            });
+            templateObject.selectedTransdep.set(selectedtransactionsdep);
+
+            setTimeout(function () {
+                $("#divtblSelectedDeposits").height(120);
+            },0);
+
+            $('.depositAmount').text(utilityService.modifynegativeCurrencyFormat(selectedTransAmountdep) || Currency+"0.00");
+            // var totaldepamount = (($('.depositAmount').html()).substring(1)).replace(',','');
+            // var totalwithamount = (($('.withdrawalAmount').html()).substring(1)).replace(',','');
+            // var openbalamount = (($('#openingbalance').val()).substring(1)).replace(',','');
+            var totaldepamount = Number($('.depositAmount').html().replace(/[^0-9.-]+/g,""));
+            var totalwithamount = Number($('.withdrawalAmount').html().replace(/[^0-9.-]+/g,""));
+            var openbalamount = Number($('#openingbalance').val().replace(/[^0-9.-]+/g,""));
+            var clearedBal = parseFloat(openbalamount)+parseFloat(totaldepamount)-parseFloat(totalwithamount);
+            $('.clearedBalance').text(utilityService.modifynegativeCurrencyFormat(clearedBal) || Currency+"0.00");
+        }
+    },
+    'change #checkallreconwith': function (e) {
+        if($(event.target).is(':checked')){
+            $(".reconchkboxwith"). prop("checked", true);
+            var selectedTransAmountwith = 0;
+            const templateObject = Template.instance();
+            const selectedTranswith = [];
+            const selectedtransactionswith = [];
+
+            $('.reconchkboxwith:checkbox:checked').each(function(){
+                var chkbidwithLine = $(this).attr('id');
+                var checkboxIDwithLine = chkbidwithLine.split("_").pop();
+                let depositLineIDAll = $(this).closest('tr').attr('depositLineID');
+                let transactionObj = {
+                    reconid : checkboxIDwithLine,
+                    recondate : $('#vs1recondatewith_'+checkboxIDwithLine).text(),
+                    reconname : $('#vs1reconnamewith_'+checkboxIDwithLine).text(),
+                    recondesc : $('#vs1recondescwith_'+checkboxIDwithLine).text(),
+                    reconamount : $('#vs1reconamountwith_'+checkboxIDwithLine).text(),
+                    reconref : $('#vs1reconrefwith_'+checkboxIDwithLine).text(),
+                    reconpayid : $('#vs1reconpayidwith_'+checkboxIDwithLine).text(),
+                    depositLineID: depositLineIDAll||0
+                }
+                var reconamounttrim = (($('#vs1reconamountwith_'+checkboxIDwithLine).text()).substring(1)).replace(',','');
+                selectedTransAmountwith = selectedTransAmountwith+parseFloat(reconamounttrim);
+                selectedtransactionswith.push(transactionObj);
+
+
+            });
+            templateObject.selectedTranswith.set(selectedtransactionswith);
+
+            setTimeout(function () {
+                $("#divtblSelectedWithdrawals").height(300);
+            },0);
+
+            //$("#tblSelectedWithdrawals").height(300);
+
+            $('.withdrawalAmount').text(utilityService.modifynegativeCurrencyFormat(selectedTransAmountwith) || Currency+"0.00");
+            // var totaldepamount = (($('.depositAmount').html()).substring(1)).replace(',','');
+            // var totalwithamount = (($('.withdrawalAmount').html()).substring(1)).replace(',','');
+            // var openbalamount = (($('#openingbalance').val()).substring(1)).replace(',','');
+            var totaldepamount = Number($('.depositAmount').html().replace(/[^0-9.-]+/g,""));
+            var totalwithamount = Number($('.withdrawalAmount').html().replace(/[^0-9.-]+/g,""));
+            var openbalamount = Number($('#openingbalance').val().replace(/[^0-9.-]+/g,""));
+            var clearedBal = parseFloat(openbalamount)+parseFloat(totaldepamount)-parseFloat(totalwithamount);
+            $('.clearedBalance').text(utilityService.modifynegativeCurrencyFormat(clearedBal) || Currency+"0.00");
+        } else {
+            $(".reconchkboxwith"). prop("checked", false);
+            var selectedTransAmountwith = 0;
+            const templateObject = Template.instance();
+            const selectedTranswith = [];
+            const selectedtransactionswith = [];
+
+            $('.reconchkboxwith:checkbox:checked').each(function(){
+                var chkbidwithLine = $(this).attr('id');
+                var checkboxIDwithLine = chkbidwithLine.split("_").pop();
+                let depositLineIDwith= $(this).closest('tr').attr('depositLineID');
+                let transactionObj = {
+                    reconid : checkboxIDwithLine,
+                    recondate : $('#vs1recondatewith_'+checkboxIDwithLine).text(),
+                    reconname : $('#vs1reconnamewith_'+checkboxIDwithLine).text(),
+                    recondesc : $('#vs1recondescwith_'+checkboxIDwithLine).text(),
+                    reconamount : $('#vs1reconamountwith_'+checkboxIDwithLine).text(),
+                    reconref : $('#vs1reconrefwith_'+checkboxIDwithLine).text(),
+                    reconpayid : $('#vs1reconpayidwith_'+checkboxIDwithLine).text(),
+                    depositLineID: depositLineIDwith||0
+                }
+                var reconamounttrim = (($('#vs1reconamountwith_'+checkboxIDwithLine).text()).substring(1)).replace(',','');
+                selectedTransAmountwith = selectedTransAmountwith+parseFloat(reconamounttrim);
+                selectedtransactionswith.push(transactionObj);
+            });
+            templateObject.selectedTranswith.set(selectedtransactionswith);
+
+            setTimeout(function () {
+                $("#divtblSelectedWithdrawals").height(120);
+            },0);
+
+            $('.withdrawalAmount').text(utilityService.modifynegativeCurrencyFormat(selectedTransAmountwith) || Currency+"0.00");
+            // var totaldepamount = (($('.depositAmount').html()).substring(1)).replace(',','');
+            // var totalwithamount = (($('.withdrawalAmount').html()).substring(1)).replace(',','');
+            // var openbalamount = (($('#openingbalance').val()).substring(1)).replace(',','');
+            var totaldepamount = Number($('.depositAmount').html().replace(/[^0-9.-]+/g,""));
+            var totalwithamount = Number($('.withdrawalAmount').html().replace(/[^0-9.-]+/g,""));
+            var openbalamount = Number($('#openingbalance').val().replace(/[^0-9.-]+/g,""));
+            var clearedBal = parseFloat(openbalamount)+parseFloat(totaldepamount)-parseFloat(totalwithamount);
+            $('.clearedBalance').text(utilityService.modifynegativeCurrencyFormat(clearedBal) || Currency+"0.00");
+        }
+    },
+    'blur .endingbalance': function (e) {
+        let dataValue =  Number(event.target.value.replace(/[^0-9.-]+/g,""));
+
+        if (!isNaN(dataValue)){
+            $('.endingbalance').val(utilityService.modifynegativeCurrencyFormat(dataValue));
+        }else{
+            let inputDebitEx = Number(dataValue.replace(/[^0-9.-]+/g,""));
+
+            $('.endingbalance').val(utilityService.modifynegativeCurrencyFormat(inputDebitEx) ||0);
+        }
+    },
+    'keyup .endingbalance, change .endingbalance': function (e) {
+
+        var displayEndBal2 = event.target.value.replace(/[^0-9.-]+/g,"") ||0;
+        $('.endingbalance2').val(event.target.value ||0);
+
+        $('.endingBalanceCalc').text(utilityService.modifynegativeCurrencyFormat(displayEndBal2) || Currency+"0.00");
+
+        // Calc Difference
+        var clearedBalCalc2 = $('.clearedBalance').html().replace(/[^0-9.-]+/g,"") ||0;
+        var differenceAmount = parseFloat(clearedBalCalc2) - parseFloat(displayEndBal2);
+        $('.differenceCalc').text(utilityService.modifynegativeCurrencyFormat(differenceAmount) || Currency+"0.00");
+    },
+    'blur .statementDate, keyup .statementDate, change .statementDate': function (e) {
+        var statementDate = event.target.value.replace(/[^0-9.-]+/g,"") ||0;
+        $('.statementDate').val(event.target.value ||0);
+    },
+    'click .reconbtn': function (e) {
+        $('.fullScreenSpin').css('display','inline-block');
+
+        let recService = new ReconService();
+
+        let lineItemsDep = [];
+        let lineItemsDepObj = {};
+        $('#tblSelectedDeposits > tbody > tr').each(function(){
+            var depID = this.id;
+            if(depID){
+                let depositLineID = $(this).attr('depositLineID') ||0;
+                let depclientname = $("#"+depID+"_name").text()||'';
+                let depdepositdate = $("#"+depID+"_date").text()||'';
+                let depnotes = $("#"+depID+"_desc").text()||'';
+                let depamount = $("#"+depID+"_amount").text()||0;
+                let depref = $("#"+depID+"_ref").text()||'';
+                let deppaymentid = $("#"+depID+"_payid").text()||'';
+                let depaccountname = $('#bankAccountName').find(":selected").text()||'';
+                if($("#"+depID+"_desc").text() == "Customer Payment"){
+                    deppaymentid = depID;
+                }
+                // else if($("#"+depID+"_desc").text() == "Journal Entry"){
+                //   deppaymentid = depID;
+                // }
+                //alert(deppaymentid);
+                let splitDepdepositdate = depdepositdate.split("/");
+                let depositYear = splitDepdepositdate[2];
+                let depositMonth = splitDepdepositdate[1];
+                let depositDay = splitDepdepositdate[0];
+
+                let formateDepDate = depositYear + "-" + depositMonth + "-" + depositDay;
+
+                lineItemsDepObj = {
+                    type:"TReconciliationDepositLines",
+                    fields:
+                    {
+                        AccountName: depaccountname || '',
+                        Amount: Number(depamount.replace(/[^0-9.-]+/g,"")) || 0,
+                        BankStatementLineID: 0, //Hardcoded for now
+                        ClientName: depclientname || '',
+                        DepositDate: formateDepDate+" 00:00:00" || '',
+                        Deposited: true,
+                        DepositLineID: parseInt(depositLineID)||0,
+                        Notes: depnotes || '',
+                        Payee: depclientname || '',
+                        PaymentID: parseInt(deppaymentid)||0,
+                        Reconciled: true,
+                        Reference: depref || ''
+                    }
+                };
+
+                lineItemsDep.push(lineItemsDepObj);
+            }
+        });
+
+        let lineItemsWith = [];
+        let lineItemsWithObj = {};
+        $('#tblSelectedWithdrawals > tbody > tr').each(function(){
+            var withID = this.id;
+            if(withID){
+                let depositLineIDWith = $(this).attr('depositLineID')||0;
+                let withclientname = $("#"+withID+"_name").text()||'';
+                let withdepositdate = $("#"+withID+"_date").text()||'';
+                let withnotes = $("#"+withID+"_desc").text()||'';
+                let withamount = $("#"+withID+"_amount").text()||0;
+                let withref = $("#"+withID+"_ref").text()||'';
+                let withpaymentid = $("#"+withID+"_payid").text()||'';
+                let withaccountname = $('#bankAccountName').find(":selected").text()||'';
+
+                let splitwithdepositdate = withdepositdate.split("/");
+                let withYear = splitwithdepositdate[2];
+                let withMonth = splitwithdepositdate[1];
+                let withDay = splitwithdepositdate[0];
+
+                let formatWithDate = withYear + "-" + withMonth + "-" + withDay;
+
+                lineItemsWithObj = {
+                    type:"TReconciliationWithdrawalLines",
+                    fields:
+                    {
+                        AccountName: withaccountname || '',
+                        Amount: Number(withamount.replace(/[^0-9.-]+/g,"")) || 0,
+                        BankStatementLineID: 0, //Hardcoded for now
+                        ClientName: withclientname || '',
+                        DepositDate: formatWithDate+" 00:00:00" || '',
+                        Deposited: true,
+                        DepositLineID: parseInt(depositLineIDWith)||0,
+                        Notes: withnotes || '',
+                        Payee: withclientname || '',
+                        PaymentID: parseInt(withpaymentid)||0,
+                        Reconciled: true,
+                        Reference: withref || ''
+                    }
+                };
+                lineItemsWith.push(lineItemsWithObj);
+            }
+        });
+
+        // Pulling initial variables BEGIN
+        var accountname = $('#bankAccountName').find(":selected").text();
+        var deptname = "Default"; //Set to Default as it isn't used for recons
+        var employeename = Session.get('mySessionEmployee');
+        var deleted = false;
+        var finished = true;
+        var notes = $('#statementno').val(); //pending addition of notes field
+        var onhold = false;
+        var openbalance = $('.openingbalance').html().replace(/[^0-9.-]+/g,"") ||0;
+        var statementno = $('#statementno').val();
+        var recondateTime = new Date($("#dtSODate2").datepicker("getDate"));
+        let recondate = recondateTime.getFullYear() + "-" + (recondateTime.getMonth()+1) + "-" + recondateTime.getDate();
+        let closebalance = $('.endingBalanceCalc').html().replace(/[^0-9.-]+/g,"") ||0;
+        // Pulling initial variables END
+
+        let objDetails = {
+            type: "TReconciliation",
+            fields: {
+                AccountName: accountname || '',
+                CloseBalance: parseFloat(closebalance) || 0,
+                Deleted: deleted,
+                DepositLines: lineItemsDep || '',
+                DeptName: deptname || '',
+                EmployeeName: employeename || '',
+                Finished: true,
+                Notes: notes || '',
+                OnHold: false,
+                OpenBalance: parseFloat(openbalance) || 0,
+                ReconciliationDate: moment(recondate).format('YYYY-MM-DD'),
+                StatementNo: statementno || '0',
+                WithdrawalLines: lineItemsWith || ''
+
+            }
+        };
+
+
+        recService.saveReconciliation(objDetails).then(function (data) {
+            Router.go('/reconciliationlist?success=true');
+        }).catch(function (err) {
+            swal({
+                title: 'Something went wrong',
+                text: err,
+                type: 'error',
+                showCancelButton: false,
+                confirmButtonText: 'Try Again'
+            }).then((result) => {
+                if (result.value) {
+                } else if (result.dismiss === 'cancel') {
+                }
+            });
+            $('.fullScreenSpin').css('display','none');
+        });
+    },
+    'click .btnDeleteRecon span' : function (e) {
+        if ($(".btnDeleteRecon").is(":disabled")){
+            swal({
+                title: 'Cannot delete this reconciliation. Please delete the most recent reconciliations first.',
+                text: "This will enable the deletion of this Reconciliation",
+                type: 'warning',
+                showCancelButton: false,
+                confirmButtonText: 'OK'
+            }).then((result) => {
+                //if (result.value) {
+                Router.go('/reconciliationlist?success=true');
+                //}
+
+            });
+            // swal('Delete all Reconciliations for this account, dated after this.', 'This will enable the deletion of this Reconciliation', 'warning');
+            // return false;
+        }
+
+    },
+    'click .btnDeleteRecon' : function (e) {
+        let recService = new ReconService();
+        swal({
+            title: 'Delete Bank Reconciliation',
+            text: "Are you sure you want to Delete Bank Reconciliation?",
+            type: 'question',
+            showCancelButton: true,
+            confirmButtonText: 'Yes'
+        }).then((result) => {
+            if (result.value) {
+                $('.fullScreenSpin').css('display','inline-block');
+                var url = window.location.href;
+                var getrecon_id = url.split('?id=');
+                var currentRecon = getrecon_id[getrecon_id.length-1];
+                var objDetails = '';
+                if(getrecon_id[1]){
+                    currentRecon = parseInt(currentRecon);
+                    var objDetails = {
+                        type: "TReconciliation",
+                        fields: {
+                            ID: currentRecon,
+                            Deleted: true
+                        }
+                    };
+
+                    recService.saveReconciliation(objDetails).then(function (objDetails) {
+                        Router.go('/reconciliationlist?success=true');
+                    }).catch(function (err) {
+                        swal({
+                            title: 'Something went wrong',
+                            text: err,
+                            type: 'error',
+                            showCancelButton: false,
+                            confirmButtonText: 'Try Again'
+                        }).then((result) => {
+                            if (result.value) {
+
+                            } else if (result.dismiss === 'cancel') {
+
+                            }
+                        });
+                        $('.fullScreenSpin').css('display','none');
+                    });
+                }else{
+                    Router.go('/reconciliationlist?success=true');
+                }
+            } else {
+
+            }
+        });
+
+    },
+    'change .endingbalance' : function (e) {
+        var difference = $('.differenceCalc').html().replace(/[^0-9.-]+/g,"") ||0;
+        var endingbal = $('.endingBalanceCalc').html().replace(/[^0-9.-]+/g,"") ||0;
+        var clearedbal = $('.clearedBalance').html().replace(/[^0-9.-]+/g,"") ||0;
+        var zero = 0.00;
+
+        var rowCountDep = $('#tblSelectedDeposits tbody tr').length;
+        var rowCountWith = $('#tblSelectedWithdrawals tbody tr').length; // a response of 2 = 1 element in table
+
+        if (difference == zero && endingbal == clearedbal ){
+            if (rowCountDep >= 1 || rowCountWith >= 1) {
+                if ($('#statementno').val().replace(/\s/g, '') != ''){
+                    $('.reconbtn').prop("disabled", false);
+                } else {
+                    $('.reconbtn').prop("disabled", true);
+                    swal('A Statement Number is required in order to reconcile!', '', 'warning');
+                }
+            } else {
+                $('.reconbtn').prop("disabled", true);
+                swal('The Cleared Balance must match the Ending Balance you entered!', '', 'warning');
+            }
+        } else {
+            $('.reconbtn').prop("disabled", true);
+            swal('The Cleared Balance must match the Ending Balance you entered!', '', 'warning');
+        }
+
+    },
+    'change .statementno' : function (e) {
+        var difference = $('.differenceCalc').html().replace(/[^0-9.-]+/g,"") ||0;
+        var endingbal = $('.endingBalanceCalc').html().replace(/[^0-9.-]+/g,"") ||0;
+        var clearedbal = $('.clearedBalance').html().replace(/[^0-9.-]+/g,"") ||0;
+        var zero = 0.00;
+
+        var rowCountDep = $('#tblSelectedDeposits tbody tr').length;
+        var rowCountWith = $('#tblSelectedWithdrawals tbody tr').length; // a response of 2 = 1 element in table
+
+        console.log(rowCountDep);
+        console.log(rowCountWith);
+
+        if (difference == zero && endingbal == clearedbal ){
+            if (rowCountDep >= 1 || rowCountWith >= 1) {
+                if ($('#statementno').val().replace(/\s/g, '') != ''){
+                    $('.reconbtn').prop("disabled", false);//enables button
+                    console.log("statementno");
+                } else {
+                    $('.reconbtn').prop("disabled", true);
+                    swal('A Statement Number is required in order to reconcile!', '', 'warning');
+                }
+            } else {
+                $('.reconbtn').prop("disabled", true);
+                swal('The Cleared Balance must match the Ending Balance you entered!', '', 'warning');
+            }
+        } else {
+            $('.reconbtn').prop("disabled", true);
+            swal('The Cleared Balance must match the Ending Balance you entered!', '', 'warning');
+        }
+
+    },
+    'blur .statementno, keypress .statementno, keyup .statementno': function (event) {
+        $('.statementno').val(event.target.value);
+    },
+    'keydown .endingbalance, keydown .lineUnitPrice, keydown .lineAmount' : function(event){
+        if ($.inArray(event.keyCode, [46, 8, 9, 27, 13, 110]) !== -1 ||
+            // Allow: Ctrl+A, Command+A
+            (event.keyCode === 65 && (event.ctrlKey === true || event.metaKey === true)) ||
+            // Allow: home, end, left, right, down, up
+            (event.keyCode >= 35 && event.keyCode <= 40)) {
+            // let it happen, don't do anything
+            return;
+        }
+
+        if (event.shiftKey == true) {
+            event.preventDefault();
+        }
+
+        if ((event.keyCode >= 48 && event.keyCode <= 57) ||
+            (event.keyCode >= 96 && event.keyCode <= 105) ||
+            event.keyCode == 8 || event.keyCode == 9 ||
+            event.keyCode == 37 || event.keyCode == 39 ||
+            event.keyCode == 46 || event.keyCode == 190 || event.keyCode == 189 || event.keyCode == 109) {
+        } else {
+            event.preventDefault();
+        }
+    },
+    'click .btnBack':function(event){
+        event.preventDefault();
+        history.back(1);
+    },
+    'click .reconbtn span': function(e) {
+        var rowCountDep = $('#tblSelectedDeposits tr').length;
+        var rowCountWith = $('#tblSelectedWithdrawals tr').length; // a response of 2 = 1 element in table
+
+        var endingbal = $('.endingbalance').val();
+
+        if ($("#reconbtn").is(":disabled")){
+            if (rowCountDep <= 1 && rowCountWith <= 1) {
+                swal("No transactions flagged to be reconciled.","","warning");
+            } else {
+                if (endingbal == ''){
+                    swal("No Ending Balance Entered.","","warning");
+                }
+            }
+        } else {
+        }
+    }
+});
+
+Template.bankrecon.helpers({
+    accountnamerecords: () => {
+        return Template.instance().accountnamerecords.get().sort(function(a, b){
+            if (a.accountname == 'NA') {
+                return 1;
+            }
+            else if (b.accountname == 'NA') {
+                return -1;
+            }
+            return (a.accountname.toUpperCase() > b.accountname.toUpperCase()) ? 1 : -1;
+        });
+    },
+    reconVS1dep: () => {
+        return Template.instance().reconVS1dep.get();
+    },
+    reconVS1with: () => {
+        return Template.instance().reconVS1with.get()
+    },
+    selectedTransdep: () => {
+        return Template.instance().selectedTransdep.get()
+    },
+    selectedTranswith: () => {
+        return Template.instance().selectedTranswith.get()
+    }
+});
+
+setTimeout(function(){
+    $(function () {
+        let url = window.location.href;
+        history.pushState(null, document.title, location.href);
+        window.addEventListener('popstate', function (event) {
+            if(url.indexOf('?id') > 1){
+                window.open('/reconciliationlist', "_self");
+            }else{
+                swal({
+                    title: 'Save Or Cancel To Continue',
+                    text: "Do you want to Save or Cancel this transaction?",
+                    type: 'info',
+                    showCancelButton: true,
+                    confirmButtonText: 'Save'
+                }).then((result) => {
+                    if (result.value) {
+                        $(".reconbtn").trigger("click");
+                    } else if (result.dismiss === 'cancel') {
+                        window.open('/reconciliationlist', "_self");
+                    } else {
+    
+                    }
+                });
+            }
+           
+        });
+    })
+},5000)

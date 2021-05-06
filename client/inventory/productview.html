@@ -1,0 +1,444 @@
+<template name="productview">
+    <style>
+        @media only screen and (max-width: 480px) {
+            .form-control {
+                width: 100%!important;
+            }
+            .form-group {
+                width: 100%!important;
+            }
+        }
+
+        .inventorynottracking{
+
+        }
+    </style>
+    <div style="margin-top: -24px;">
+        <div class="fullScreenSpin" style="display:none;">
+            <div class="spinner"></div>
+        </div>
+        <style>
+            th {
+                background-color: #ededed;
+            }
+            .table-striped tbody tr:nth-of-type(odd) {
+                background-color: white !important;
+            }
+
+            .table-striped tbody tr:nth-of-type(even) {
+                background-color: #0000000d !important;
+            }
+            @media only screen and (max-width: 480px) {
+/*
+                .row {
+                    display: block!important;
+                }
+                .col-6 {
+                    flex: 2 0 50%!important;
+                    max-width: 100%!important;
+                }
+*/
+
+            }
+            .groove {
+                border-style: solid;
+                border-width: 1px;
+                width: 200px;
+                padding: 2px;
+                border-radius: .35rem;
+            }
+            .custom-control-label{
+                position: absolute;
+            }
+            .rngRange {
+                position: relative;
+                display: flex;
+                flex-direction: column;
+                width: 100%;
+                pointer-events: auto;
+                background-color: rgb(255, 255, 255);
+                background-clip: padding-box;
+                border: 1px solid rgb(133, 135, 150);
+                border-radius: .3rem;
+                border-style: solid;
+                border-width: 1px;
+                padding: 2px;
+                border-radius: .35rem;
+                color: rgb(128, 128, 128);
+                height:inherit!important;
+            }
+            @media only screen and (max-width: 480px) {
+                .modal.show .modal-dialog{
+                    float: inherit!important;
+                    left: inherit!important;
+                    top: auto!important;
+
+                }
+
+            }
+        </style>
+        {{#if productrecord}}
+        <header style="padding: 16px;padding-bottom: 0px;">
+            <h1 style="margin: 16px;" id="productcardbodyname">{{productrecord.lib}} <a role="button" data-toggle="modal" href="#helpModal" class="helpModal"><label class="lblplay">PLAY</label><i class="far fa-play-circle"  style="font-size: 20px;"></i></a></h1>
+        </header>
+        <div style="padding: 0px 16px;">
+            <div class="row no-gutters d-xl-flex justify-content-center justify-content-xl-center mb-3" style="width: 100%;">
+                <div class="col-6 productCard" id="productCard">
+                    <div class="card shadow mb-4">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <div>
+                                <p class="text-primary m-0 font-weight-bold" id="productcardbodycode">{{productrecord.lib}}</p>
+                            </div>
+                            <div class="float-right"></div><div>
+                            <a class="btn btnOpenSettings" role="button" data-toggle="modal" href="#myModal2"><i class="icon ion-android-more-horizontal"></i></a>
+                            <!-- Start {{> optionCustomFiled}} -->
+                            <div class="modal fade" role="dialog" tabindex="-1" id="myModal2">
+                                <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h4>Field Settings</h4><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div>
+                                                <form class="d-xl-flex align-items-xl-center">
+                                                    <div class="flex-grow-1">
+                                                        <div class="custom-control custom-switch" style="margin: 8px;">
+                                                            <input class="custom-control-input" type="checkbox" id="formCheck-one" value="one">
+                                                            {{#if productsCloudPreferenceRec}}
+                                                            {{#if equals productsCloudPreferenceRec.customFields.[0].hidden false}}
+                                                            <script>
+                                                                $('#formCheck-one').attr("checked","checked");
+                                                            </script>
+                                                            {{else}}
+                                                            <script>
+                                                                $('#formCheck-one').removeAttr("checked");
+                                                            </script>
+                                                            {{/if}}
+                                                            {{/if}}
+                                                            <label class="custom-control-label" style="position: absolute;" for="formCheck-one"></label>
+                                                            <div contenteditable="true" class="groove customField1Text">{{#if productsCloudPreferenceRec}}{{productsCloudPreferenceRec.customFields.[0].label}}{{else}}Custom Field 1{{/if}}</div>
+                                                        </div>
+
+                                                        <div class="custom-control custom-switch" style="margin: 8px;">
+                                                            <input class="custom-control-input" type="checkbox" id="formCheck-two" value="two" >
+                                                            {{#if productsCloudPreferenceRec}}
+                                                            {{#if equals productsCloudPreferenceRec.customFields.[1].hidden false}}
+                                                            <script>
+                                                                $('#formCheck-two').attr("checked","checked");
+                                                            </script>
+                                                            {{else}}
+                                                            <script>
+                                                                $('#formCheck-two').removeAttr("checked");
+                                                            </script>
+                                                            {{/if}}
+                                                            {{/if}}
+                                                            <label class="custom-control-label" style="position: absolute;" for="formCheck-two"></label>
+                                                            <div contenteditable="true" class="groove customField2Text">{{#if productsCloudPreferenceRec}}{{productsCloudPreferenceRec.customFields.[1].label}}{{else}}Custom Field 2{{/if}}</div>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button class="btn btn-success btnSaveSettings" type="button"><i class="fa fa-save" style="margin-right: 5px;"></i>Save</button>
+                                            <button class="btn btn-warning btnResetSettings" data-dismiss="modal" type="reset"><i class="fa fa-repeat" style="margin-right: 5px;"></i>Reset</button>
+                                            <button class="btn btn-secondary" data-dismiss="modal" type="button"><i class="fa fa-remove" style="margin-right: 5px;"></i>Close</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- END  -->
+                            </div>
+                        </div>
+                        <div class="card-body" style="background-color: #ededed; padding: 2em;">
+
+                            <div class="row">
+                                <div class="col-7 colProductName" id="colProductName" style="padding-right: 0px; padding-left: 0px;">
+                                    <div class="form-group" style="margin: 4px;"><label>Product Name</label><input type="text" class="form-control" id="edtproductname" name="edtproductname" value="{{productrecord.productname}}"></div>
+                                </div>
+                                <div class="col-3 colPrice" id="colPrice" style="padding-right: 0px; padding-left: 0px;">
+                                    <div class="form-group" style="margin: 4px;"><label>Price Ex Tax</label><input type="text" class="form-control" id="edtsellqty1price" name="edtsellqty1price" value="{{productrecord.sellqty1price}}"></div>
+                                </div>
+                                <div class="col-2 trackItemvisible colTotalQty" id="colTotalQty" style="padding-right: 0px; padding-left: 0px; padding-left: 0px; {{#if isTrackChecked}}visibility: visible;{{else}}visibility: hidden;{{/if}}">
+                                    <div class="form-group" style="margin: 4px;"><label>Total Quantity</label>
+                                        <input type="text" class="form-control" style="width: 125px;" id="edttotalqtyinstock" name="edttotalqtyinstock" value="{{totaldeptquantity}}">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12" style="padding-right: 0px; padding-left: 0px;">
+                                    <div class="form-group d-xl-flex flex-column justify-content-xl-start" style="margin: 4px;">
+                                        <label>Sales Description</label>
+                                        <textarea class="border rounded" rows="3" id="txasalesdescription" name="txasalesdescription" style="color: #6e707e !important; width:100%;">{{productrecord.salesdescription}}</textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-4 colSalesAccount" id="colSalesAccount" style="padding-right: 0px; padding-left: 0px;">
+                                    <div class="form-group" style="margin: 4px;"><label>Sales Account</label>
+                                        <select class="form-control pointer" id="sltsalesacount" name="sltsalesacount" style="background-color:rgb(255, 255, 255); ">
+                                            <option value="{{productrecord.accountname}}" selected="">{{productrecord.incomeaccount}}</option>
+                                            {{#each item in salesaccountrecords}}
+
+                                            <option value="{{item.accountname}}">{{item.accountname}}</option>
+
+                                            {{/each}}
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-2 colTaxCode" id="colTaxCode" style="padding-right: 0px; padding-left: 0px;">
+                                    <div class="form-group" style="margin: 4px;"><label>Tax Code</label><select class="form-control pointer" id="slttaxcodesales" name="slttaxcodesales">
+                                        {{#each item in taxraterecords}}
+                                        {{#if equals item.codename productrecord.taxcodesales }}
+                                        <option value="{{item.codename}}" selected="">{{item.codename}}</option>
+                                        {{else}}
+                                        <option value="{{item.codename}}">{{item.codename}}</option>
+                                        {{/if}}
+                                        {{/each}}
+
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-4 colBarcode" id="colBarcode" style="padding-right: 0px; padding-left: 0px;">
+                                    <div class="form-group" style="margin: 4px;">
+                                        <label>Barcode</label>
+                                        <input type="text" class="form-control" id="edtbarcode" name="edtbarcode" value="{{productrecord.barcode}}">
+                                    </div>
+                                </div>
+                                <div class="col-3 checkbox1div colCustom1" id="colCustom1" style="padding-right: 0px; padding-left: 0px; padding-left: 0px; {{#if productsCloudPreferenceRec}}{{#if equals productsCloudPreferenceRec.customFields.[0].hidden false}}display:block{{else}}display:none{{/if}}{{else}}display:none{{/if}}">
+                                    <div class="form-group" style="margin: 4px;">
+                                        <label class="lblCustomField1">{{#if productsCloudPreferenceRec}}{{productsCloudPreferenceRec.customFields.[0].label}}{{else}}Custom Field 1{{/if}}</label>
+                                        <input type="text" class="form-control" id="txtCustomField1" name="txtCustomField1" style="" value="{{productrecord.customfield1}}">
+                                    </div>
+                                </div>
+                                <div class="col-3 checkbox2div colCustom2" id="colCustom2" style="padding-right: 0px; padding-left: 0px; {{#if productsCloudPreferenceRec}}{{#if equals productsCloudPreferenceRec.customFields.[1].hidden false}}display:block{{else}}display:none{{/if}}{{else}}display:none{{/if}}">
+                                    <div class="form-group" style="margin: 4px;">
+                                        <label class="lblCustomField2">{{#if productsCloudPreferenceRec}}{{productsCloudPreferenceRec.customFields.[1].label}}{{else}}Custom Field 2{{/if}}</label>
+                                        <input type="text" class="form-control" id="txtCustomField2" name="txtCustomField2" value="{{productrecord.customfield2}}" style="">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12" style="padding-right: 0px; padding-left: 0px;">
+                                    <hr class="reporthr" style="margin: 4px; border-width: 3px;">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12" style="padding-right: 0px; padding-left: 0px;">
+                                    <div class="form-group d-xl-flex flex-column justify-content-xl-start" style="margin: 4px;">
+                                        <label>Purchase Description</label>
+                                        <textarea class="border rounded" rows="3" id="txapurchasedescription" name="txapurchasedescription" style="color: #6e707e !important; width:100%;">{{productrecord.purchasedescription}}</textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-4 colCOGSaccount" id="colCOGSaccount" style="padding-right: 0px; padding-left: 0px;">
+                                    <div class="form-group" style="margin: 4px;"><label>COGS Account</label>
+                                        <select class="form-control pointer" id="sltcogsaccount" name="sltcogsaccount" style="background-color:rgb(255, 255, 255); ">
+                                            <option value="{{productrecord.cogsaccount}}" selected="">{{productrecord.cogsaccount}}</option>
+                                            {{#each item in coggsaccountrecords}}
+                                            <option value="{{item.accountname}}">{{item.accountname}}</option>
+                                            {{/each}}
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-2 colTaxCode2" id="colTaxCode2" style="padding-right: 0px;padding-left: 0px;">
+                                    <div class="form-group" style="margin: 4px;"><label>Tax Code</label>
+                                        <select class="form-control pointer" id="slttaxcodepurchase" name="slttaxcodepurchase">
+                                            {{#each item in taxraterecords}}
+                                            {{#if equals item.codename productrecord.taxcodepurchase }}
+                                            <option value="{{item.codename}}" selected="">{{item.codename}}</option>
+                                            {{else}}
+                                            <option value="{{item.codename}}">{{item.codename}}</option>
+                                            {{/if}}
+                                            {{/each}}
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-2 colCost" id="colCost" style="padding-right: 0px; padding-left: 0px;">
+                                    <div class="form-group" style="margin: 4px;">
+                                        <label>Cost Ex Tax </label>
+                                        <input type="text" class="form-control" id="edtbuyqty1cost" name="edtbuyqty1cost" value="{{productrecord.buyqty1cost}}">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12" style="padding-right: 0px; padding-left: 0px;">
+                                    <hr class="reporthr" style="margin: 4px; border-width: 3px;">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12" style="padding-right: 0px; padding-left: 0px;">
+                                    {{#if equals includeInventory false}}
+                                    <script>
+                                        $('#chkTrack').attr("disabled","disabled");
+                                    </script>
+                                    {{else}}
+                                    <script>
+                                        $('#chkTrack').removeAttr("disabled");
+                                    </script>
+                                    {{/if}}
+                                    <div style="margin: 4px;">
+                                        <div class="custom-control custom-switch">
+                                            <input class="custom-control-input" type="checkbox" id="chkTrack" name="chkTrack" checked="{{#if includeInventory}}{{#if isTrackChecked}}checked{{/if}}{{else}}{{/if}}">
+                                            <label class="custom-control-label {{#if includeInventory}}inventorytracking{{else}}inventorynottracking{{/if}}" for="chkTrack">I Track This Product</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12" style="padding-right: 0px; padding-left: 0px;">
+                                    <div id="trackdiv">
+                                        <div class="trackItem" style="{{#if includeInventory}}{{#if isTrackChecked}}display: block;{{else}}display: none;{{/if}}{{else}}display: none;{{/if}}">
+                                            <div class="form-group" style="margin: 4px;width: 250px;">
+                                                <label>Inventory Account</label>
+                                                <select class="form-control pointer" id="sltinventoryacount" name="sltinventoryacount" style="background-color:rgb(255, 255, 255); ">
+                                                    <option value="{{productrecord.accountname}}" selected="">{{productrecord.assetaccount}}</option>
+                                                    {{#each item in inventoryaccountrecords}}
+
+                                                    <option value="{{item.accountname}}">{{item.accountname}}</option>
+
+                                                    {{/each}}
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12" style="padding-right: 0px; padding-left: 0px;">
+                                    <hr class="reporthr" style="margin: 4px; border-width: 3px;">
+                                </div>
+                            </div>
+                            <div class="row trackItem" style="{{#if includeInventory}}{{#if isTrackChecked}}display: flex;{{else}}display: none;{{/if}}{{else}}display: none;{{/if}}">
+                                <div class="col-4" style="padding-right: 0px; padding-left: 0px;">
+                                    <div class="form-group" style="margin: 4px;"><label>Department</label></div>
+                                </div>
+                                <div class="col-4" style="padding-right: 0px; padding-left: 0px;">
+                                    <div class="form-group" style="margin: 4px;"><label>Quantity</label></div>
+                                </div>
+                                {{#each item in productqtyrecords}}
+                                <div class="col-12" style="padding-right: 0px; padding-left: 0px;">
+                                    <div class="row">
+                                        <div class="col-4">
+                                            <div class="form-group" style="margin: 4px;"><label style="display: none;">Deparment</label><input type="text" class="form-control" style="width: 250px;" value="{{item.department}}"></div>
+                                        </div>
+                                        <div class="col-4">
+                                            <div class="form-group" style="margin: 4px;"><label style="display: none;">Quantity</label><input type="text" class="form-control" style="width: 150px;" value="{{item.quantity}}"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {{/each}}
+                            </div>
+                            <div class="row" style="{{#if includeInventory}}{{#if isTrackChecked}}display: block;{{else}}display: none;{{/if}}{{else}}display: none;{{/if}}">
+                                <div class="col-12" style="padding-right: 0px; padding-left: 0px;">
+                                    <hr class="reporthr" style="margin: 4px; border-width: 3px;">
+                                </div>
+                            </div>
+                            <div class="row recenttrasaction">
+                                <div class="col-12" style="padding-right: 0px; padding-left: 0px;">
+                                    <button class="btn btn-primary loadrecenttransaction" style="margin: 4px;" type="button" id="loadrecenttransaction" name="loadrecenttransaction">Recent Transactions</button>
+                                </div>
+                                <div class="col-12 product_recent_trans" style="display:none; padding-right: 0px; padding-left: 0px;">
+                                    <h3>Recent Transactions</h3>
+                                    <table id="productrecentlist" style="width: 100%" class="dataTable table table-striped table-bordered productrecentlist">
+                                        <thead>
+                                            <tr class="dnd-moved">
+                                                <th style="width:80px;">Date</th>
+                                                <th style="width: 130px;">Type</th>
+                                                <th>Reference</th>
+                                                <th style="width:50px;">Quantity</th>
+                                                <th style="width:80px;">Unit Price</th>
+                                                <th style="width:80px;">Total</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {{#each item in recentTrasactions}}
+                                            <tr id="{{item.transactionno}}">
+                                                <td>{{item.date}}</td>
+                                                <td id="transactiontype" class="transactiontype">{{item.type}}</td>
+                                                <td>{{item.reference}}</td>
+                                                <td style="text-align: right!important;">{{item.quantity}}</td>
+                                                <td style="text-align: right!important;">{{item.unitPrice}}</td>
+                                                <td style="text-align: right!important;">{{item.total}}</td>
+                                            </tr>
+                                            {{/each}}
+                                        </tbody>
+                                    </table>
+
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12 justify-content-xl-end" style="padding-right: 0px; padding-left: 0px;">
+                                    <div class="d-xl-flex justify-content-xl-end">
+                                        <button class="btn btn-success" type="button" style="margin: 8px;" id="btnSave" name="btnSave"><i class="fa fa-save" style="margin-right: 5px;"></i>Save</button>
+                                        <button class="btn btn-danger btnDeleteInv" type="button" style="margin: 8px;"><i class="fa fa-close" style="margin-right: 5px;"></i>Delete</button>
+                                        <button class="btn btn-secondary btnBack" data-dismiss="modal" type="button" style="margin: 8px;"><i class="fa fa-close" style="margin-right: 5px;"></i>Close</button>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {{/if}}
+    </div>
+
+    <!-- Start Help Video Modal -->
+    <div class="modal fade" role="dialog" tabindex="-1" id="helpModal">
+        <div class="modal-dialog" role="document" style="max-width: 670px!important;">
+            <div class="modal-content" >
+                <div class="modal-header" >
+
+                    <h4 class="title-header" >Product</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                </div>
+                <div class="modal-body">
+                    <!-- <iframe width="640" height="360" src="https://player.vimeo.com/video/99892791" frameborder="0" allowfullscreen=""></iframe> -->
+                    <!-- <iframe width="640" height="360" src="https://www.youtube.com/embed/BzxoYOp42fg" frameborder="0" allowfullscreen=""></iframe> -->
+                    <video id="myVideo" width="640" height="360" controls="" name="media" style="border: solid 5px #999999f0; height: auto; outline: none;">
+                        <source src="https://erphelpes.com/vs1videos/newproduct.mp4" type="video/mp4">
+                    </video>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- End Help Video Modal -->
+
+
+    <!-- Upgrade POP ACCESS -->
+    <div class="modal fade" role="dialog" tabindex="-1" id="upgradeModal">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content" style="border: #00a3d3;">
+                <div class="modal-header" style="background-color:#00a3d3;">
+                    <!-- <div class="mr-3"> -->
+                    <!-- <div class="bg-success icon-circle"><i class="fas fa-donate text-white"></i></div> -->
+                    <!-- </div> -->
+                    <h4 class="title-header" style="color:white;">UNLOCK FEATURE</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row no-gutters d-xl-flex flex-row justify-content-xl-start align-items-xl-start">
+                        <p style="font-weight: bold;">Upgrade to the Essentials Pack</p>
+                        <p style="margin-bottom: 15px;margin-top: 4px;">Please upgrade to our Essentials plan to access this feature.</p>
+                        <hr class="reporthr" style="width: 100%; margin: 4px;border-width: 1px;">
+                        <h5 style="font-weight: bold;text-align: center; width:100%; color: rgb(89 89 89);">PLEASE NOTE</h5>
+                        <p style="margin-bottom: 0px;margin-top: 4px;">If Inventory Tracking is turned on it cannot be turned off for this product in the future.</p>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-success btnUpgradeToEssentials" type="button"><i class="fa fa-save" style="margin-right: 5px;" ></i>Upgrade</button>
+                    <button class="btn btn-secondary" data-dismiss="modal" type="button"><i class="fa fa-close" style="margin-right: 5px;"></i>Close</button></div>
+            </div>
+        </div>
+    </div>
+    <!-- End Upgrade POP -->
+    <script>
+        modalDraggable();
+    </script>
+</template>

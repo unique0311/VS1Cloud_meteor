@@ -1,0 +1,18 @@
+<template name="appAlertPage">
+  <div id="apptimer">
+     <div class="apptimer_login">
+       <script>
+       var TimeoutLoggedUser = localStorage.getItem('mySession');
+       document.getElementById("timerlogged_user").innerHTML = TimeoutLoggedUser;
+       </script>
+       <p>Hey <b id="timerlogged_user"></b>,<br>are you still there?</p>
+       <form action="" id="relogin" method="">
+         <input type="" id="re_login" name="re_login" class="apptimer_password" placeholder="Password"><br>
+         <input type="submit" class="login_btn" id="resubmitLogin" value="Log in">
+         <br>
+          <a href="/"  class="btn closelogin_btn" style="font-family: FontAwesome, 'Trebuchet MS'; font-size: 16px;">Close</a>
+       </form><br><br>
+       <a class="switchaccount" onclick="logOutFunc()">Switch accounts</a>
+     </div>
+   </div>
+</template>

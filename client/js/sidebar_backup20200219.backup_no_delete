@@ -1,0 +1,1685 @@
+import {EmployeeProfileService} from './profile-service';
+import {AccessLevelService} from './accesslevel-service';
+import { ReactiveVar } from 'meteor/reactive-var';
+import {ProductService} from "../product/product-service";
+import {UtilityService} from "../utility-service";
+import { CoreService } from '../js/core-service';
+import { SideBarService } from '../js/sidebar-service';
+let utilityService = new UtilityService();
+let productService = new ProductService();
+let sideBarService = new SideBarService();
+
+Template.sidenav.onRendered(function(){
+  let templateObject = Template.instance();
+let sidePanelToggle = Session.get('sidePanelToggle');
+let isGreenTrack = Session.get('isGreenTrack');
+let loggedUserEventFired = Session.get('LoggedUserEventFired');
+
+if(isGreenTrack){
+  $(".navbar").css("background-color", "#00a969");
+  // $(".nav-item div").css("background-color", "#3ddc97");
+
+  $(".collapse").css("background-color", "#3ddc97");
+  $(".show").css("background-color", "#3ddc97");
+  $("#collapse-0").css("background-color", "#3ddc97");
+  $("#collapse-1").css("background-color", "#3ddc97");
+  $("#collapse-2").css("background-color", "#3ddc97");
+  $("#collapse-3").css("background-color", "#3ddc97");
+  $("#collapse-4").css("background-color", "#3ddc97");
+  $("#collapse-5").css("background-color", "#3ddc97");
+  $("#collapse-6").css("background-color", "#3ddc97");
+  $("#collapse-7").css("background-color", "#3ddc97");
+  $("#collapse-8").css("background-color", "#3ddc97");
+  $("#collapse-9").css("background-color", "#3ddc97");
+  $("#collapse-10").css("background-color", "#3ddc97");
+  $("#collapse-11").css("background-color", "#3ddc97");
+  $("#collapse-12").css("background-color", "#3ddc97");
+
+  $('.container-fluid .fa-bars').css("color", "#3ddc97");
+  $('.btn-link').css("color", "#3ddc97");
+  $('.input-group-append .btn-primary').css("background-color", "#3ddc97");
+  $('.input-group-append .btn-primary').css("border-color", "#3ddc97");
+
+  $(document).ready(function() {
+      let checkGreenTrack = Session.get('isGreenTrack') || false;
+    if(checkGreenTrack){
+    document.title = 'GreenTrack';
+    $('head').append('<link rel="icon" type="image/png" sizes="16x16" href="icons/greentrackIcon.png">');
+    }else{
+    document.title = 'VS1 Cloud';
+    $('head').append('<link rel="icon" type="image/png" sizes="16x16" href="icons/favicon-16x16.png">');
+    }
+
+   });
+}
+
+// $('.navbar').css
+// alert(isGreenTrack);
+if(sidePanelToggle){
+  if(sidePanelToggle === "toggled"){
+    $("#sidenavbar").addClass("toggled");
+  }else{
+    $("#sidenavbar").removeClass("toggled");
+  }
+}
+var splashArrayProd = new Array();
+templateObject.getAllProductData = function () {
+  sideBarService.getNewProductListVS1().then(function (data) {
+    localStorage.setItem('VS1ProductList', JSON.stringify(data)||'');
+  }).catch(function (err) {
+
+  });
+}
+
+templateObject.getAllCustomersData = function () {
+  sideBarService.getAllCustomersDataVS1().then(function (data) {
+    localStorage.setItem('VS1CustomerList', JSON.stringify(data)||'');
+  }).catch(function (err) {
+
+  });
+}
+
+
+templateObject.getAllSuppliersData = function () {
+  sideBarService.getAllSuppliersDataVS1().then(function (data) {
+    localStorage.setItem('VS1SupplierList', JSON.stringify(data)||'');
+  }).catch(function (err) {
+
+  });
+}
+
+
+templateObject.getAllAccountsData = function () {
+  sideBarService.getAccountListVS1().then(function (data) {
+    localStorage.setItem('VS1AccountList', JSON.stringify(data)||'');
+  }).catch(function (err) {
+
+  });
+}
+
+templateObject.getAllTaxCodeData = function () {
+  sideBarService.getTaxRateVS1().then(function (data) {
+    localStorage.setItem('VS1TaxCodeList', JSON.stringify(data)||'');
+  }).catch(function (err) {
+
+  });
+}
+
+
+templateObject.getAllTermsData = function () {
+  sideBarService.getTermsVS1().then(function (data) {
+    localStorage.setItem('VS1TermsList', JSON.stringify(data)||'');
+  }).catch(function (err) {
+
+  });
+}
+
+templateObject.getAllDepartmentData = function () {
+  sideBarService.getDepartment().then(function (data) {
+    localStorage.setItem('VS1DepartmentList', JSON.stringify(data)||'');
+  }).catch(function (err) {
+
+  });
+}
+
+templateObject.getAllCurrencyData = function () {
+  sideBarService.getCurrencies().then(function (data) {
+    localStorage.setItem('VS1CurrencyList', JSON.stringify(data)||'');
+  }).catch(function (err) {
+
+  });
+}
+
+templateObject.getAllLeadStatusData = function () {
+  sideBarService.getAllLeadStatus().then(function (data) {
+    localStorage.setItem('VS1LeadStatusList', JSON.stringify(data)||'');
+  }).catch(function (err) {
+
+  });
+}
+
+templateObject.getAllShippingMethodData = function () {
+  sideBarService.getShippingMethodData().then(function (data) {
+    localStorage.setItem('VS1ShippingMethodList', JSON.stringify(data)||'');
+  }).catch(function (err) {
+
+  });
+}
+
+templateObject.getAllAccountTypeData = function () {
+  sideBarService.getAccountTypesToAddNew().then(function (data) {
+    localStorage.setItem('VS1AccountTypeList', JSON.stringify(data)||'');
+  }).catch(function (err) {
+
+  });
+}
+
+templateObject.getAllERPCombinedContactsData = function () {
+  sideBarService.getAllContactCombineVS1().then(function (data) {
+    localStorage.setItem('VS1ERPCombinedContactsList', JSON.stringify(data)||'');
+  }).catch(function (err) {
+
+  });
+}
+
+templateObject.getAllEmployeeData = function () {
+  sideBarService.getAllEmployees().then(function (data) {
+    localStorage.setItem('VS1EmployeeList', JSON.stringify(data)||'');
+  }).catch(function (err) {
+
+  });
+}
+// alert(loggedUserEventFired);
+if(loggedUserEventFired){
+  setTimeout(function () {
+    templateObject.getAllProductData();
+    templateObject.getAllCustomersData();
+    templateObject.getAllSuppliersData();
+    templateObject.getAllAccountsData();
+    templateObject.getAllTaxCodeData();
+    templateObject.getAllTermsData();
+    templateObject.getAllDepartmentData();
+    templateObject.getAllCurrencyData();
+    templateObject.getAllLeadStatusData();
+    templateObject.getAllShippingMethodData();
+    templateObject.getAllAccountTypeData();
+    templateObject.getAllERPCombinedContactsData();
+    templateObject.getAllEmployeeData();
+  },0);
+  Session.setPersistent('LoggedUserEventFired', false);
+}
+
+let isBalanceSheet = Session.get('cloudBalanceSheet');
+let isProfitLoss = Session.get('cloudProfitLoss');
+let isAgedReceivables = Session.get('cloudAgedReceivables');
+let isAgedReceivablesSummary = Session.get('cloudAgedReceivablesSummary');
+let isProductSalesReport = Session.get('cloudProductSalesReport');
+let isSalesReport = Session.get('cloudSalesReport');
+let isSalesSummaryReport = Session.get('cloudSalesSummaryReport');
+let isGeneralLedger = Session.get('cloudGeneralLedger');
+let isTaxSummaryReport = Session.get('cloudTaxSummaryReport');
+let isTrialBalance = Session.get('cloudTrialBalance');
+let is1099Transaction = Session.get('cloud1099Transaction');
+let isAgedPayables = Session.get('cloudAgedPayables');
+let isAgedPayablesSummary = Session.get('cloudAgedPayablesSummary');
+let isPurchaseReport = Session.get('cloudPurchaseReport');
+let isPurchaseSummaryReport = Session.get('cloudPurchaseSummaryReport');
+let isPrintStatement = Session.get('cloudPrintStatement');
+// alert(isBalanceSheet);
+  if(isProfitLoss == true){
+  templateObject.isProfitLoss.set(true);
+  }
+  if(isBalanceSheet == true){
+  templateObject.isBalanceSheet.set(true);
+  }
+  if(isAgedReceivables == true){
+  templateObject.isAgedReceivables.set(true);
+  }
+  if(isAgedReceivablesSummary == true){
+  templateObject.isAgedReceivablesSummary.set(true);
+  }
+  if(isProductSalesReport == true){
+  templateObject.isProductSalesReport.set(true);
+  }
+  if(isSalesReport == true){
+  templateObject.isSalesReport.set(true);
+  }
+  if(isSalesSummaryReport == true){
+  templateObject.isSalesSummaryReport.set(true);
+  }
+  if(isGeneralLedger == true){
+  templateObject.isGeneralLedger.set(true);
+  }
+  if(isTaxSummaryReport == true){
+  templateObject.isTaxSummaryReport.set(true);
+  }
+  if(isTrialBalance == true){
+  templateObject.isTrialBalance.set(true);
+  }
+  if(is1099Transaction == true){
+  templateObject.is1099Transaction.set(true);
+  }
+  if(isAgedPayables == true){
+  templateObject.isAgedPayables.set(true);
+  }
+  if(isAgedPayablesSummary == true){
+  templateObject.isAgedPayablesSummary.set(true);
+  }
+  if(isPurchaseReport == true){
+  templateObject.isPurchaseReport.set(true);
+  }
+  if(isPurchaseSummaryReport == true){
+  templateObject.isPurchaseSummaryReport.set(true);
+  }
+  if(isPrintStatement == true){
+  templateObject.isPrintStatement.set(true);
+  }
+});
+Template.sidenav.events({
+'click #sidenavaccessLevel' : function(event){
+ window.open('#','_self');
+},
+'mouseleave .hoverSidenavinventory': function (event) {
+  //$('.hoverSidenavinventory .collapse').removeClass('show');
+},
+'mouseenter .hoverSidenavinventory .sidenavinventory': function (event) {
+  $('.hoverSideNavAccounts .collapse').removeClass('show');
+  $('.hoverSideNavBanking .collapse').removeClass('show');
+  $('.hoverSideNavContacts .collapse').removeClass('show');
+  $('.hoverSidenavinventory .collapse').addClass('show');
+  $('.hoverSideNavPayments .collapse').removeClass('show');
+  $('.hoverSideNavPurchases .collapse').removeClass('show');
+  $('.hoverSideNavReports .collapse').removeClass('show');
+  $('.hoverSideNavSales .collapse').removeClass('show');
+  $('.hoverSideNavSeedToSale .collapse').removeClass('show');
+  $('.hoverSideNavSettings .collapse').removeClass('show');
+  $('.hoverSideNavPayroll .collapse').removeClass('show');
+  //$('.hoverSidenavinventory .collapse').removeClass('show');
+},
+'mouseleave .hoverSidenavinventory .collapse': function (event) {
+  $('.hoverSideNavAccounts .collapse').removeClass('show');
+  $('.hoverSideNavBanking .collapse').removeClass('show');
+  $('.hoverSideNavContacts .collapse').removeClass('show');
+  $('.hoverSidenavinventory .collapse').removeClass('show');
+  $('.hoverSideNavPayments .collapse').removeClass('show');
+  $('.hoverSideNavPurchases .collapse').removeClass('show');
+  $('.hoverSideNavReports .collapse').removeClass('show');
+  $('.hoverSideNavSales .collapse').removeClass('show');
+  $('.hoverSideNavSeedToSale .collapse').removeClass('show');
+  $('.hoverSideNavSettings .collapse').removeClass('show');
+  $('.hoverSideNavPayroll .collapse').removeClass('show');
+},
+'mouseleave .hoverSideNavAccounts': function (event) {
+  // $('.hoverSideNavAccounts .collapse').removeClass('show');
+},
+'mouseenter .hoverSideNavAccounts .sidenavaccounts': function (event) {
+  $('.hoverSideNavAccounts .collapse').addClass('show');
+  $('.hoverSideNavBanking .collapse').removeClass('show');
+  $('.hoverSideNavContacts .collapse').removeClass('show');
+  $('.hoverSidenavinventory .collapse').removeClass('show');
+  $('.hoverSideNavPayments .collapse').removeClass('show');
+  $('.hoverSideNavPurchases .collapse').removeClass('show');
+  $('.hoverSideNavReports .collapse').removeClass('show');
+  $('.hoverSideNavSales .collapse').removeClass('show');
+  $('.hoverSideNavSeedToSale .collapse').removeClass('show');
+  $('.hoverSideNavSettings .collapse').removeClass('show');
+  $('.hoverSideNavPayroll .collapse').removeClass('show');
+},
+'mouseleave .hoverSideNavAccounts .collapse': function (event) {
+  $('.hoverSideNavAccounts .collapse').removeClass('show');
+  $('.hoverSideNavBanking .collapse').removeClass('show');
+  $('.hoverSideNavContacts .collapse').removeClass('show');
+  $('.hoverSidenavinventory .collapse').removeClass('show');
+  $('.hoverSideNavPayments .collapse').removeClass('show');
+  $('.hoverSideNavPurchases .collapse').removeClass('show');
+  $('.hoverSideNavReports .collapse').removeClass('show');
+  $('.hoverSideNavSales .collapse').removeClass('show');
+  $('.hoverSideNavSeedToSale .collapse').removeClass('show');
+  $('.hoverSideNavSettings .collapse').removeClass('show');
+  $('.hoverSideNavPayroll .collapse').removeClass('show');
+},
+'mouseenter .hoverSideNavBanking .sidenavbanking': function (event) {
+  $('.hoverSideNavAccounts .collapse').removeClass('show');
+  $('.hoverSideNavBanking .collapse').addClass('show');
+  $('.hoverSideNavContacts .collapse').removeClass('show');
+  $('.hoverSidenavinventory .collapse').removeClass('show');
+  $('.hoverSideNavPayments .collapse').removeClass('show');
+  $('.hoverSideNavPurchases .collapse').removeClass('show');
+  $('.hoverSideNavReports .collapse').removeClass('show');
+  $('.hoverSideNavSales .collapse').removeClass('show');
+  $('.hoverSideNavSeedToSale .collapse').removeClass('show');
+  $('.hoverSideNavSettings .collapse').removeClass('show');
+  $('.hoverSideNavPayroll .collapse').removeClass('show');
+},
+'mouseleave .hoverSideNavBanking .collapse': function (event) {
+  $('.hoverSideNavAccounts .collapse').removeClass('show');
+  $('.hoverSideNavBanking .collapse').removeClass('show');
+  $('.hoverSideNavContacts .collapse').removeClass('show');
+  $('.hoverSidenavinventory .collapse').removeClass('show');
+  $('.hoverSideNavPayments .collapse').removeClass('show');
+  $('.hoverSideNavPurchases .collapse').removeClass('show');
+  $('.hoverSideNavReports .collapse').removeClass('show');
+  $('.hoverSideNavSales .collapse').removeClass('show');
+  $('.hoverSideNavSeedToSale .collapse').removeClass('show');
+  $('.hoverSideNavSettings .collapse').removeClass('show');
+  $('.hoverSideNavPayroll .collapse').removeClass('show');
+},
+'mouseleave .hoverSideNavContacts': function (event) {
+  //$('.hoverSideNavContacts .collapse').removeClass('show');
+},
+'mouseenter .hoverSideNavContacts .sidenavcontacts': function (event) {
+  $('.hoverSideNavAccounts .collapse').removeClass('show');
+  $('.hoverSideNavBanking .collapse').removeClass('show');
+  $('.hoverSideNavContacts .collapse').addClass('show');
+  $('.hoverSidenavinventory .collapse').removeClass('show');
+  $('.hoverSideNavPayments .collapse').removeClass('show');
+  $('.hoverSideNavPurchases .collapse').removeClass('show');
+  $('.hoverSideNavReports .collapse').removeClass('show');
+  $('.hoverSideNavSales .collapse').removeClass('show');
+  $('.hoverSideNavSeedToSale .collapse').removeClass('show');
+  $('.hoverSideNavSettings .collapse').removeClass('show');
+  $('.hoverSideNavPayroll .collapse').removeClass('show');
+},
+'mouseleave .hoverSideNavContacts .collapse': function (event) {
+  $('.hoverSideNavAccounts .collapse').removeClass('show');
+  $('.hoverSideNavBanking .collapse').removeClass('show');
+  $('.hoverSideNavContacts .collapse').removeClass('show');
+  $('.hoverSidenavinventory .collapse').removeClass('show');
+  $('.hoverSideNavPayments .collapse').removeClass('show');
+  $('.hoverSideNavPurchases .collapse').removeClass('show');
+  $('.hoverSideNavReports .collapse').removeClass('show');
+  $('.hoverSideNavSales .collapse').removeClass('show');
+  $('.hoverSideNavSeedToSale .collapse').removeClass('show');
+  $('.hoverSideNavSettings .collapse').removeClass('show');
+  $('.hoverSideNavPayroll .collapse').removeClass('show');
+},
+'mouseenter #sidenavdashbaord, mouseenter #sidenavpayments,mouseenter #sidenavpurchases,mouseenter #sidenavreports,mouseenter #sidenavsales,mouseenter #sidenavsettings,mouseenter #sidenavlogout,mouseenter #sidenavemployeesGreenTrack': function (event) {
+  $('.hoverSideNavAccounts .collapse').removeClass('show');
+  $('.hoverSideNavBanking .collapse').removeClass('show');
+  $('.hoverSideNavContacts .collapse').removeClass('show');
+  $('.hoverSidenavinventory .collapse').removeClass('show');
+  $('.hoverSideNavPayments .collapse').removeClass('show');
+  $('.hoverSideNavPurchases .collapse').removeClass('show');
+  $('.hoverSideNavReports .collapse').removeClass('show');
+  $('.hoverSideNavSales .collapse').removeClass('show');
+  $('.hoverSideNavSeedToSale .collapse').removeClass('show');
+  $('.hoverSideNavSettings .collapse').removeClass('show');
+  $('.hoverSideNavPayroll .collapse').removeClass('show');
+},
+'mouseenter #sidenavlogout,mouseenter .logOut': function (event) {
+  $('.collapse').removeClass('show');
+},
+'mouseenter .hoverSideNavPayments .sidenavpayments': function (event) {
+  $('.hoverSideNavAccounts .collapse').removeClass('show');
+  $('.hoverSideNavBanking .collapse').removeClass('show');
+  $('.hoverSideNavContacts .collapse').removeClass('show');
+  $('.hoverSidenavinventory .collapse').removeClass('show');
+  $('.hoverSideNavPayments .collapse').addClass('show');
+  $('.hoverSideNavPurchases .collapse').removeClass('show');
+  $('.hoverSideNavReports .collapse').removeClass('show');
+  $('.hoverSideNavSales .collapse').removeClass('show');
+  $('.hoverSideNavSeedToSale .collapse').removeClass('show');
+  $('.hoverSideNavSettings .collapse').removeClass('show');
+  $('.hoverSideNavPayroll .collapse').removeClass('show');
+},
+'mouseleave .hoverSideNavPayments .collapse': function (event) {
+  $('.hoverSideNavAccounts .collapse').removeClass('show');
+  $('.hoverSideNavBanking .collapse').removeClass('show');
+  $('.hoverSideNavContacts .collapse').removeClass('show');
+  $('.hoverSidenavinventory .collapse').removeClass('show');
+  $('.hoverSideNavPayments .collapse').removeClass('show');
+  $('.hoverSideNavPurchases .collapse').removeClass('show');
+  $('.hoverSideNavReports .collapse').removeClass('show');
+  $('.hoverSideNavSales .collapse').removeClass('show');
+  $('.hoverSideNavSeedToSale .collapse').removeClass('show');
+  $('.hoverSideNavSettings .collapse').removeClass('show');
+  $('.hoverSideNavPayroll .collapse').removeClass('show');
+},
+'mouseenter .hoverSideNavPurchases .sidenavpurchases': function (event) {
+  $('.hoverSideNavAccounts .collapse').removeClass('show');
+  $('.hoverSideNavBanking .collapse').removeClass('show');
+  $('.hoverSideNavContacts .collapse').removeClass('show');
+  $('.hoverSidenavinventory .collapse').removeClass('show');
+  $('.hoverSideNavPayments .collapse').removeClass('show');
+  $('.hoverSideNavPurchases .collapse').addClass('show');
+  $('.hoverSideNavReports .collapse').removeClass('show');
+  $('.hoverSideNavSales .collapse').removeClass('show');
+  $('.hoverSideNavSeedToSale .collapse').removeClass('show');
+  $('.hoverSideNavSettings .collapse').removeClass('show');
+  $('.hoverSideNavPayroll .collapse').removeClass('show');
+},
+'mouseleave .hoverSideNavPurchases .collapse': function (event) {
+  $('.hoverSideNavAccounts .collapse').removeClass('show');
+  $('.hoverSideNavBanking .collapse').removeClass('show');
+  $('.hoverSideNavContacts .collapse').removeClass('show');
+  $('.hoverSidenavinventory .collapse').removeClass('show');
+  $('.hoverSideNavPayments .collapse').removeClass('show');
+  $('.hoverSideNavPurchases .collapse').removeClass('show');
+  $('.hoverSideNavReports .collapse').removeClass('show');
+  $('.hoverSideNavSales .collapse').removeClass('show');
+  $('.hoverSideNavSeedToSale .collapse').removeClass('show');
+  $('.hoverSideNavSettings .collapse').removeClass('show');
+  $('.hoverSideNavPayroll .collapse').removeClass('show');
+},
+'mouseenter .hoverSideNavReports .sidenavreports': function (event) {
+  $('.hoverSideNavAccounts .collapse').removeClass('show');
+  $('.hoverSideNavBanking .collapse').removeClass('show');
+  $('.hoverSideNavContacts .collapse').removeClass('show');
+  $('.hoverSidenavinventory .collapse').removeClass('show');
+  $('.hoverSideNavPayments .collapse').removeClass('show');
+  $('.hoverSideNavPurchases .collapse').removeClass('show');
+  $('.hoverSideNavReports .collapse').addClass('show');
+  $('.hoverSideNavSales .collapse').removeClass('show');
+  $('.hoverSideNavSeedToSale .collapse').removeClass('show');
+  $('.hoverSideNavSettings .collapse').removeClass('show');
+  $('.hoverSideNavPayroll .collapse').removeClass('show');
+},
+'mouseleave .hoverSideNavReports .collapse': function (event) {
+  $('.hoverSideNavAccounts .collapse').removeClass('show');
+  $('.hoverSideNavBanking .collapse').removeClass('show');
+  $('.hoverSideNavContacts .collapse').removeClass('show');
+  $('.hoverSidenavinventory .collapse').removeClass('show');
+  $('.hoverSideNavPayments .collapse').removeClass('show');
+  $('.hoverSideNavPurchases .collapse').removeClass('show');
+  $('.hoverSideNavReports .collapse').removeClass('show');
+  $('.hoverSideNavSales .collapse').removeClass('show');
+  $('.hoverSideNavSeedToSale .collapse').removeClass('show');
+  $('.hoverSideNavSettings .collapse').removeClass('show');
+  $('.hoverSideNavPayroll .collapse').removeClass('show');
+},
+'mouseenter .hoverSideNavSales .sidenavsales': function (event) {
+  $('.hoverSideNavAccounts .collapse').removeClass('show');
+  $('.hoverSideNavBanking .collapse').removeClass('show');
+  $('.hoverSideNavContacts .collapse').removeClass('show');
+  $('.hoverSidenavinventory .collapse').removeClass('show');
+  $('.hoverSideNavPayments .collapse').removeClass('show');
+  $('.hoverSideNavPurchases .collapse').removeClass('show');
+  $('.hoverSideNavReports .collapse').removeClass('show');
+  $('.hoverSideNavSales .collapse').addClass('show');
+  $('.hoverSideNavSeedToSale .collapse').removeClass('show');
+  $('.hoverSideNavSettings .collapse').removeClass('show');
+  $('.hoverSideNavPayroll .collapse').removeClass('show');
+},
+'mouseleave .hoverSideNavSales .collapse': function (event) {
+  $('.hoverSideNavAccounts .collapse').removeClass('show');
+  $('.hoverSideNavBanking .collapse').removeClass('show');
+  $('.hoverSideNavContacts .collapse').removeClass('show');
+  $('.hoverSidenavinventory .collapse').removeClass('show');
+  $('.hoverSideNavPayments .collapse').removeClass('show');
+  $('.hoverSideNavPurchases .collapse').removeClass('show');
+  $('.hoverSideNavReports .collapse').removeClass('show');
+  $('.hoverSideNavSales .collapse').removeClass('show');
+  $('.hoverSideNavSettings .collapse').removeClass('show');
+  $('.hoverSideNavPayroll .collapse').removeClass('show');
+},
+'mouseenter .hoverSideNavSeedToSale .sidenavseedtosale': function (event) {
+  $('.hoverSideNavAccounts .collapse').removeClass('show');
+  $('.hoverSideNavBanking .collapse').removeClass('show');
+  $('.hoverSideNavContacts .collapse').removeClass('show');
+  $('.hoverSidenavinventory .collapse').removeClass('show');
+  $('.hoverSideNavPayments .collapse').removeClass('show');
+  $('.hoverSideNavPurchases .collapse').removeClass('show');
+  $('.hoverSideNavReports .collapse').removeClass('show');
+  $('.hoverSideNavSales .collapse').removeClass('show');
+  $('.hoverSideNavSeedToSale .collapse').addClass('show');
+  $('.hoverSideNavSettings .collapse').removeClass('show');
+  $('.hoverSideNavPayroll .collapse').removeClass('show');
+},
+'mouseleave .hoverSideNavSeedToSale .collapse': function (event) {
+  $('.hoverSideNavAccounts .collapse').removeClass('show');
+  $('.hoverSideNavBanking .collapse').removeClass('show');
+  $('.hoverSideNavContacts .collapse').removeClass('show');
+  $('.hoverSidenavinventory .collapse').removeClass('show');
+  $('.hoverSideNavPayments .collapse').removeClass('show');
+  $('.hoverSideNavPurchases .collapse').removeClass('show');
+  $('.hoverSideNavReports .collapse').removeClass('show');
+  $('.hoverSideNavSales .collapse').removeClass('show');
+  $('.hoverSideNavSeedToSale .collapse').removeClass('show');
+  $('.hoverSideNavSettings .collapse').removeClass('show');
+  $('.hoverSideNavPayroll .collapse').removeClass('show');
+},
+'mouseenter .hoverSideNavSettings .sidenavsettings': function (event) {
+  $('.hoverSideNavAccounts .collapse').removeClass('show');
+  $('.hoverSideNavBanking .collapse').removeClass('show');
+  $('.hoverSideNavContacts .collapse').removeClass('show');
+  $('.hoverSidenavinventory .collapse').removeClass('show');
+  $('.hoverSideNavPayments .collapse').removeClass('show');
+  $('.hoverSideNavPurchases .collapse').removeClass('show');
+  $('.hoverSideNavReports .collapse').removeClass('show');
+  $('.hoverSideNavSales .collapse').removeClass('show');
+  $('.hoverSideNavSeedToSale .collapse').removeClass('show');
+  $('.hoverSideNavSettings .collapse').addClass('show');
+  $('.hoverSideNavPayroll .collapse').removeClass('show');
+},
+'mouseleave .hoverSideNavSettings .collapse': function (event) {
+    $('.hoverSideNavAccounts .collapse').removeClass('show');
+    $('.hoverSideNavBanking .collapse').removeClass('show');
+    $('.hoverSideNavContacts .collapse').removeClass('show');
+    $('.hoverSidenavinventory .collapse').removeClass('show');
+    $('.hoverSideNavPayments .collapse').removeClass('show');
+    $('.hoverSideNavPurchases .collapse').removeClass('show');
+    $('.hoverSideNavReports .collapse').removeClass('show');
+    $('.hoverSideNavSales .collapse').removeClass('show');
+    $('.hoverSideNavSeedToSale .collapse').removeClass('show');
+    $('.hoverSideNavSettings .collapse').removeClass('show');
+    $('.hoverSideNavPayroll .collapse').removeClass('show');
+},
+'mouseenter .hoverSideNavPayroll .sidenavpayroll': function (event) {
+  $('.hoverSideNavAccounts .collapse').removeClass('show');
+  $('.hoverSideNavBanking .collapse').removeClass('show');
+  $('.hoverSideNavContacts .collapse').removeClass('show');
+  $('.hoverSidenavinventory .collapse').removeClass('show');
+  $('.hoverSideNavPayments .collapse').removeClass('show');
+  $('.hoverSideNavPurchases .collapse').removeClass('show');
+  $('.hoverSideNavReports .collapse').removeClass('show');
+  $('.hoverSideNavSales .collapse').removeClass('show');
+  $('.hoverSideNavSeedToSale .collapse').removeClass('show');
+  $('.hoverSideNavSettings .collapse').removeClass('show');
+  $('.hoverSideNavPayroll .collapse').addClass('show');
+},
+'mouseleave .hoverSideNavPayroll .collapse': function (event) {
+  $('.hoverSideNavAccounts .collapse').removeClass('show');
+  $('.hoverSideNavBanking .collapse').removeClass('show');
+  $('.hoverSideNavContacts .collapse').removeClass('show');
+  $('.hoverSidenavinventory .collapse').removeClass('show');
+  $('.hoverSideNavPayments .collapse').removeClass('show');
+  $('.hoverSideNavPurchases .collapse').removeClass('show');
+  $('.hoverSideNavReports .collapse').removeClass('show');
+  $('.hoverSideNavSales .collapse').removeClass('show');
+  $('.hoverSideNavSeedToSale .collapse').removeClass('show');
+  $('.hoverSideNavSettings .collapse').removeClass('show');
+  $('.hoverSideNavPayroll .collapse').removeClass('show');
+},
+'click .sidenavaccounts' : function(event){
+  event.preventDefault();
+  Router.go('/accountsoverview');
+//window.open('/accountsoverview','_self');
+},
+'click #sidenavnewaccounts' : function(event){
+
+if(window.location.pathname == "/accountsoverview"){
+  $('#addNewAccount').modal('show');
+}else{
+  window.open('/accountsoverview#newaccount','_self');
+}
+},
+'click #sidenavjournalentry' : function(event){
+window.open('/journalentrylist','_self');
+},
+'click #sidenavnewjournalentry' : function(event){
+window.open('/journalentrycard','_self');
+},
+'click .sidenavbanking' : function(event){
+window.open('/bankingoverview','_self');
+},
+'click #sidenavcheque' : function(event){
+window.open('/chequelist','_self');
+},
+'click #sidenavreconciliation' : function(event){
+window.open('/reconciliationlist','_self');
+},
+'click #sidenavbankreconciliation' : function(event){
+window.open('/bankrecon','_self');
+},
+'click #sidenavnewreconcile' : function(event){
+window.open('/reconciliation','_self');
+},
+'click #sidenavnewcheque' : function(event){
+window.open('/chequecard','_self');
+},
+'click #sidenavbalancesheet' : function(event){
+window.open('/balancesheetreport','_self');
+},
+'click #sidebarToggle' : function(event){
+var sideBarPanel = $("#sidenavbar").attr("class");
+
+if (sideBarPanel.indexOf("toggled") >= 0){
+  //$("#sidenavbar").removeClass("toggled");
+  Session.setPersistent('sidePanelToggle', "toggled");
+  $("#sidenavbar").addClass("toggled");
+
+}else{
+  //$("#sidenavbar").addClass("toggled");
+  Session.setPersistent('sidePanelToggle', "");
+  ("#sidenavbar").removeClass("toggled");
+
+}
+// $("#sidenavbar").load();
+// alert(sideBarPanel);
+
+},
+
+'click .sidenavcontacts' : function(event){
+ window.open('/contactoverview','_self');
+},
+'click #sidenavdashbaord' : function(event){
+window.open('/dashboard','_self');
+},
+'click #sidenavappointment' : function(event){
+window.open('/appointments','_self');
+},
+'click #sidenavemployeesGreenTrack' : function(event){
+window.open('/employeelist','_self');
+},
+'click #sidenavexpenseclaims' : function(event){
+window.open('/expenseclaims','_self');
+},
+'click #sidenavfixedassets' : function(event){
+window.open('#','_self');
+},
+'click .sidenavinventory' : function(event){
+window.open('/inventorylist','_self');
+},
+'click .sidenavnewinventory' : function(event){
+window.open('/productview','_self');
+},
+'click #sidenavmain' : function(event){
+window.open('#','_self');
+},
+'click #sidenavmanufacturing' : function(event){
+window.open('#','_self');
+},
+'click .sidenavpayments' : function(event){
+window.open('/paymentoverview','_self');
+},
+'click .sidenavpurchases' : function(event){
+window.open('/purchasesoverview','_self');
+},
+'click #sidenavreports' : function(event){
+window.open('/allreports','_self');
+},
+'click #sidenav1099report' : function(event){
+window.open('/1099report','_self');
+},
+'click #sidenavagedpayables' : function(event){
+window.open('/agedpayables','_self');
+},
+'click #sidenavagedpayablessummary' : function(event){
+window.open('/agedpayablessummary','_self');
+},
+'click #sidenavagedreceivables' : function(event){
+window.open('/agedreceivables','_self');
+},
+'click #sidenavagedreceivablessummary' : function(event){
+window.open('/agedreceivablessummary','_self');
+},
+'click #sidenavbalancesheetreport' : function(event){
+window.open('/balancesheetreport','_self');
+},
+'click #sidenavgeneralledger' : function(event){
+window.open('/generalledger','_self');
+},
+'click #sidenavstatementlist' : function(event){
+window.open('/statementlist','_self');
+},
+'click #sidenavprofitlossreport' : function(event){
+window.open('/profitlossreport','_self');
+},
+'click #sidenavpurchasesreport' : function(event){
+window.open('/purchasesreport','_self');
+},
+'click #sidenavpurchasesummaryreport' : function(event){
+window.open('/purchasesummaryreport','_self');
+},
+'click #sidenavproductsalesreport' : function(event){
+window.open('/productsalesreport','_self');
+},
+'click #sidenavsalesreport' : function(event){
+window.open('/salesreport','_self');
+},
+'click #sidenavsalessummaryreport' : function(event){
+window.open('/salessummaryreport','_self');
+},
+'click #sidenavtaxsummaryreport' : function(event){
+window.open('/taxsummaryreport','_self');
+},
+'click #sidenavtrialbalance' : function(event){
+window.open('/trialbalance','_self');
+},
+'click .sidenavreports' : function(event){
+window.open('/allreports','_self');
+},
+'click .sidenavsales' : function(event){
+window.open('/salesoverview','_self');
+},
+'click .sidenavsettings' : function(event){
+window.open('/settings','_self');
+},
+'click #sidenavshipping' : function(event){
+window.open('#','_self');
+},
+'click #sidenavstockadjust' : function(event){
+window.open('/stockadjustmentoverview','_self');
+},
+'click #sidenaveproductlist' : function(event){
+window.open('/productlist','_self');
+},
+'click #sidenavnewstockadjust' : function(event){
+window.open('/stockadjustmentcard','_self');
+},
+'click #sidenavstocktransfer' : function(event){
+window.open('#','_self');
+},
+'click #sidenavcustomers' : function(event){
+window.open('/customerlist','_self');
+},
+'click #sidenavemployees' : function(event){
+window.open('/employeelist','_self');
+},
+'click #sidenavjobs' : function(event){
+window.open('/joblist','_self');
+},
+'click #sidenavsuppliers' : function(event){
+window.open('/supplierlist','_self');
+},
+'click #sidenavnewcustomers' : function(event){
+window.open('/customerscard','_self');
+},
+'click #sidenavnewemployees' : function(event){
+window.open('/employeescard','_self');
+},
+'click #sidenavnewsuppliers' : function(event){
+window.open('/supplierscard','_self');
+},
+'click #sidenavawaitingCP' : function(event){
+window.open('/customerawaitingpayments','_self');
+},
+'click #sidenavawaitingSPPO' : function(event){
+window.open('/supplierawaitingpurchaseorder','_self');
+},
+'click #sidenavawaitingSPBill' : function(event){
+window.open('/supplierawaitingbills','_self');
+},
+'click #sidenavcustomerP' : function(event){
+window.open('/customerpayment','_self');
+},
+'click #sidenavsupplierP' : function(event){
+window.open('/supplierpayment','_self');
+},
+'click #sidenavBill' : function(event){
+window.open('/billlist','_self');
+},
+'click #sidenavCredit' : function(event){
+window.open('/creditlist','_self');
+},
+'click #sidenavPurchaseOrder' : function(event){
+window.open('/purchaseorderlist','_self');
+},
+'click #sidenavPurchaseOrderBO' : function(event){
+window.open('/purchaseorderlistBO','_self');
+},
+'click #sidenavnewBill' : function(event){
+window.open('/billcard','_self');
+},
+'click #sidenavnewCredit' : function(event){
+window.open('/creditcard','_self');
+},
+'click #sidenavnewPO' : function(event){
+window.open('/purchaseordercard','_self');
+},
+'click #sidenavInvoice' : function(event){
+window.open('/invoicelist','_self');
+},
+'click #sidenavInvoiceBO' : function(event){
+window.open('/invoicelistBO','_self');
+},
+'click #sidenavQuote' : function(event){
+window.open('/quoteslist','_self');
+},
+'click #sidenavSalesOrder' : function(event){
+window.open('/salesorderslist','_self');
+},
+'click #sidenavnewInvoice' : function(event){
+window.open('/invoicecard','_self');
+},
+'click #sidenavnewQuote' : function(event){
+window.open('/quotecard','_self');
+},
+'click #sidenavnewRefund' : function(event){
+window.open('/refundcard','_self');
+},
+'click #sidenavnewSO' : function(event){
+window.open('/salesordercard','_self');
+},
+'click #sidenavaccesslevel' : function(event){
+window.open('/accesslevel','_self');
+},
+'click #sidenavcompanyappsettings' : function(event){
+window.open('/companyappsettings','_self');
+},
+'click #sidenavcurrenciesSettings' : function(event){
+window.open('/currenciesSettings','_self');
+},
+'click #sidenavdepartmentSettings' : function(event){
+window.open('/departmentSettings','_self');
+},
+'click #sidenavorganisationsettings' : function(event){
+window.open('/organisationsettings','_self');
+},
+'click #sidenavpaymentmethodSettings' : function(event){
+window.open('/paymentmethodSettings','_self');
+},
+'click #sidenavtaxratesettings' : function(event){
+window.open('/taxratesettings','_self');
+},
+'click #sidenavtermsettings' : function(event){
+window.open('/termsettings','_self');
+},
+'click #sidenavtimesheet' : function(event){
+window.open('/timesheet','_self');
+},
+'click .sidenavseedtosale' : function(event){
+window.open('/stsdashboard','_self');
+},
+'click #sidenavPlants' : function(event){
+window.open('/stsplants','_self');
+},
+'click #sidenavHarvest' : function(event){
+window.open('/stsharvests','_self');
+},
+'click #sidenavPackages' : function(event){
+window.open('/stspackages','_self');
+},
+'click #sidenavTransfers' : function(event){
+window.open('/ststransfers','_self');
+},
+'click #sidenavOverviews' : function(event){
+window.open('/stsoverviews','_self');
+},
+'click #sidenavSettings' : function(event){
+window.open('/stssettings','_self');
+},
+'click #closeCloudSidePanelMenu' : function(event){
+  let templateObject = Template.instance();
+  let empLoggedID = Session.get('mySessionEmployeeLoggedID');
+  let accesslevelService = new AccessLevelService();
+  let isSidePanel = false;
+  let sidePanelID = Session.get('CloudSidePanelMenuID');
+  let sidePanelFormID = Session.get('CloudSidePanelMenuFormID');
+
+  let data = {
+      type: "TEmployeeFormAccess",
+      fields: {
+      ID : sidePanelID,
+      EmployeeId : empLoggedID,
+      AccessLevel : 6,
+      FormId:sidePanelFormID
+     }
+  }
+
+  accesslevelService.saveEmpAccess(data).then(function (data) {
+    Session.setPersistent('CloudSidePanelMenu', isSidePanel);
+    //console.log(JSON.stringify(data));
+    Meteor._reload.reload();
+  }).catch(function (err) {
+    swal({
+    title: 'Something went wrong',
+    text: err,
+    type: 'error',
+    showCancelButton: false,
+    confirmButtonText: 'Try Again'
+    }).then((result) => {
+    if (result.value) {
+     Meteor._reload.reload();
+    } else if (result.dismiss === 'cancel') {
+
+    }
+    });
+      // $('.fullScreenSpin').css('display','none');
+  });
+
+}
+
+});
+
+Template.sidenav.onCreated(function(){
+
+  const templateObject = Template.instance();
+  templateObject.includeDashboard = new ReactiveVar();
+  templateObject.includeDashboard.set(false);
+  templateObject.includeMain = new ReactiveVar();
+  templateObject.includeMain.set(false);
+  templateObject.includeInventory = new ReactiveVar();
+  templateObject.includeInventory.set(false);
+  templateObject.includeManufacturing = new ReactiveVar();
+  templateObject.includeManufacturing.set(false);
+  templateObject.includeAccessLevels = new ReactiveVar();
+  templateObject.includeAccessLevels.set(false);
+  templateObject.includeShipping = new ReactiveVar();
+  templateObject.includeShipping.set(false);
+  templateObject.includeStockTransfer = new ReactiveVar();
+  templateObject.includeStockTransfer.set(false);
+  templateObject.includeStockTake = new ReactiveVar();
+  templateObject.includeStockTake.set(false);
+  templateObject.includeSales = new ReactiveVar();
+  templateObject.includeSales.set(false);
+  templateObject.includeExpenseClaims = new ReactiveVar();
+  templateObject.includeExpenseClaims.set(false);
+  templateObject.includeFixedAssets = new ReactiveVar();
+  templateObject.includeFixedAssets.set(false);
+  templateObject.includePurchases = new ReactiveVar();
+  templateObject.includePurchases.set(false);
+
+  // NEW FROM IAN 22102019
+  templateObject.includePayments = new ReactiveVar();
+  templateObject.includePayments.set(false);
+  templateObject.includeContacts = new ReactiveVar();
+  templateObject.includeContacts.set(false);
+  templateObject.includeAccounts = new ReactiveVar();
+  templateObject.includeAccounts.set(false);
+  templateObject.includeReports = new ReactiveVar();
+  templateObject.includeReports.set(false);
+  templateObject.includeSettings = new ReactiveVar();
+  templateObject.includeSettings.set(false);
+
+  templateObject.includeSeedToSale = new ReactiveVar();
+  templateObject.includeSeedToSale.set(false);
+  templateObject.includeBanking = new ReactiveVar();
+  templateObject.includeBanking.set(false);
+  templateObject.includePayroll = new ReactiveVar();
+  templateObject.includePayroll.set(false);
+
+  templateObject.isCloudSidePanelMenu = new ReactiveVar();
+  templateObject.isCloudSidePanelMenu.set(false);
+  templateObject.isCloudTopPanelMenu = new ReactiveVar();
+  templateObject.isCloudTopPanelMenu.set(false);
+
+
+// Reports
+templateObject.isBalanceSheet = new ReactiveVar();
+templateObject.isBalanceSheet.set(false);
+templateObject.isProfitLoss = new ReactiveVar();
+templateObject.isProfitLoss.set(false);
+templateObject.isAgedReceivables = new ReactiveVar();
+templateObject.isAgedReceivables.set(false);
+templateObject.isAgedReceivablesSummary = new ReactiveVar();
+templateObject.isAgedReceivablesSummary.set(false);
+templateObject.isProductSalesReport = new ReactiveVar();
+templateObject.isProductSalesReport.set(false);
+templateObject.isSalesReport = new ReactiveVar();
+templateObject.isSalesReport.set(false);
+templateObject.isSalesSummaryReport = new ReactiveVar();
+templateObject.isSalesSummaryReport.set(false);
+templateObject.isGeneralLedger = new ReactiveVar();
+templateObject.isGeneralLedger.set(false);
+templateObject.isTaxSummaryReport = new ReactiveVar();
+templateObject.isTaxSummaryReport.set(false);
+templateObject.isTrialBalance = new ReactiveVar();
+templateObject.isTrialBalance.set(false);
+templateObject.is1099Transaction = new ReactiveVar();
+templateObject.is1099Transaction.set(false);
+templateObject.isAgedPayables = new ReactiveVar();
+templateObject.isAgedPayables.set(false);
+templateObject.isAgedPayablesSummary = new ReactiveVar();
+templateObject.isAgedPayablesSummary.set(false);
+templateObject.isPurchaseReport = new ReactiveVar();
+templateObject.isPurchaseReport.set(false);
+templateObject.isPurchaseSummaryReport = new ReactiveVar();
+templateObject.isPurchaseSummaryReport.set(false);
+templateObject.isPrintStatement = new ReactiveVar();
+templateObject.isPrintStatement.set(false);
+
+$(document).ready(function(){
+  var erpGet = erpDb();
+  var LoggedDB = erpGet.ERPDatabase;
+var loc = window.location.pathname;
+
+});
+
+});
+
+Template.sidenav.onRendered(function(){
+const templateObject = Template.instance();
+//let employeeLoggedAccess = templateObject.employeeformaccessrecord.get();
+let employeeLoggedUserAccess = Session.get('ERPSolidCurrentUSerAccess');
+  // let myarrEmpDetail = Session.get('ERPMobileTERPFormToAccess');
+let isDashboard = Session.get('CloudDashboardModule');
+let isMain = Session.get('CloudMainModule');
+let isInventory = Session.get('CloudInventoryModule');
+let isManufacturing = Session.get('CloudManufacturingModule');
+let isAccessLevels = Session.get('CloudAccessLevelsModule');
+let isShipping = Session.get('CloudShippingModule');
+let isStockTransfer = Session.get('CloudStockTransferModule');
+let isStockTake = Session.get('CloudStockTakeModule');
+let isSales = Session.get('CloudSalesModule');
+let isPurchases = Session.get('CloudPurchasesModule');
+let isExpenseClaims = Session.get('CloudExpenseClaimsModule');
+let isFixedAssets = Session.get('CloudFixedAssetsModule');
+
+let isPayments = Session.get('CloudPaymentsModule');
+let isContacts = Session.get('CloudContactsModule');
+let isAccounts = Session.get('CloudAccountsModule');
+let isReports = Session.get('CloudReportsModule');
+let isSettings = Session.get('CloudSettingsModule');
+
+let isSeedToSale = Session.get('CloudSeedToSaleModule');
+let isBanking = Session.get('CloudBankingModule');
+let isPayroll = Session.get('CloudPayrollModule');
+
+let isSidePanel = Session.get('CloudSidePanelMenu');
+let isTopPanel = Session.get('CloudTopPanelMenu');
+
+
+
+  var erpGet = erpDb();
+var LoggedDB = erpGet.ERPDatabase;
+var LoggedUser = localStorage.getItem('mySession');
+var currentLoc = window.location.pathname;
+//console.log(currentLoc);
+
+ setTimeout(function () {
+if(currentLoc == "/dashboard"){
+  $('#sidenavaccounts').removeClass('active');
+  $('#sidenavbanking').removeClass('active');
+  $('#sidenavdashbaord .nav-link').addClass('active');
+  $('#sidenavappointment .nav-link').removeClass('active');
+  $('#sidenavcontacts').removeClass('active');
+  $('#sidenavexpenseclaims .nav-link').removeClass('active');
+  $('#sidenavinventory').removeClass('active');
+  $('#sidenavpayments').removeClass('active');
+  $('#sidenavpurchases').removeClass('active');
+  $('#sidenavreports .nav-link').removeClass('active');
+  $('#sidenavsales').removeClass('active');
+  $('#sidenavsettings').removeClass('active');
+  $('#sidenavstocktake .nav-link').removeClass('active');
+  $('#sidenavpayroll').removeClass('active');
+  $('#sidenavpayroll .nav-link').removeClass('active');
+}else if(currentLoc == "/appointments"){
+  $('#sidenavaccounts').removeClass('active');
+  $('#sidenavbanking').removeClass('active');
+  $('#sidenavappointment .nav-link').addClass('active');
+  $('#sidenavdashbaord .nav-link').removeClass('active');
+  $('#sidenavcontacts').removeClass('active');
+  $('#sidenavexpenseclaims .nav-link').removeClass('active');
+  $('#sidenavinventory').removeClass('active');
+  $('#sidenavpayments').removeClass('active');
+  $('#sidenavpurchases').removeClass('active');
+  $('#sidenavreports .nav-link').removeClass('active');
+  $('#sidenavsales').removeClass('active');
+  $('#sidenavsettings').removeClass('active');
+  $('#sidenavstocktake .nav-link').removeClass('active');
+  $('#sidenavpayroll').removeClass('active');
+  $('#sidenavpayroll .nav-link').removeClass('active');
+}
+else if((currentLoc == "/accountsoverview") ||(currentLoc == "/journalentrylist")
+||(currentLoc == "/journalentrycard")){
+  $('#sidenavaccounts').addClass('active');
+  $('#sidenavbanking').removeClass('active');
+  $('#sidenavdashbaord .nav-link').removeClass('active');
+  $('#sidenavappointment .nav-link').removeClass('active');
+  $('#sidenavcontacts').removeClass('active');
+  $('#sidenavexpenseclaims .nav-link').removeClass('active');
+  $('#sidenavinventory').removeClass('active');
+  $('#sidenavpayments').removeClass('active');
+  $('#sidenavpurchases').removeClass('active');
+  $('#sidenavreports .nav-link').removeClass('active');
+  $('#sidenavreports').removeClass('active');
+  $('#sidenavsales').removeClass('active');
+  $('#sidenavsettings').removeClass('active');
+  $('#sidenavstocktake .nav-link').removeClass('active');
+  $('#sidenavpayroll').removeClass('active');
+  $('#sidenavpayroll .nav-link').removeClass('active');
+}else if((currentLoc == "/bankingoverview") || (currentLoc == "/chequelist")
+|| (currentLoc == "/chequecard") || (currentLoc == "/reconciliation")
+|| (currentLoc == "/reconciliationlist") || (currentLoc == "/bankrecon")){
+  $('#sidenavaccounts').removeClass('active');
+  $('#sidenavbanking').addClass('active');
+  $('#sidenavdashbaord .nav-link').removeClass('active');
+  $('#sidenavappointment .nav-link').removeClass('active');
+  $('#sidenavcontacts').removeClass('active');
+  $('#sidenavexpenseclaims .nav-link').removeClass('active');
+  $('#sidenavinventory').removeClass('active');
+  $('#sidenavpayments').removeClass('active');
+  $('#sidenavpurchases').removeClass('active');
+  $('#sidenavreports .nav-link').removeClass('active');
+  $('#sidenavreports').removeClass('active');
+  $('#sidenavsales').removeClass('active');
+  $('#sidenavsettings').removeClass('active');
+  $('#sidenavstocktake .nav-link').removeClass('active');
+  $('#sidenavpayroll').removeClass('active');
+  $('#sidenavpayroll .nav-link').removeClass('active');
+}else if((currentLoc == "/contactoverview")
+ || (currentLoc == "/employeelist") || (currentLoc == "/employeescard")
+ || (currentLoc == "/customerlist") || (currentLoc == "/customerscard")
+ || (currentLoc == "/supplierlist") || (currentLoc == "/supplierscard")
+|| (currentLoc == "/joblist")){
+  $('#sidenavaccounts').removeClass('active');
+  $('#sidenavbanking').removeClass('active');
+  $('#sidenavdashbaord .nav-link').removeClass('active');
+  $('#sidenavappointment .nav-link').removeClass('active');
+  $('#sidenavcontacts').addClass('active');
+  $('#sidenavexpenseclaims .nav-link').removeClass('active');
+  $('#sidenavinventory').removeClass('active');
+  $('#sidenavpayments').removeClass('active');
+  $('#sidenavpurchases').removeClass('active');
+  $('#sidenavreports .nav-link').removeClass('active');
+  $('#sidenavreports').removeClass('active');
+  $('#sidenavsales').removeClass('active');
+  $('#sidenavsettings').removeClass('active');
+  $('#sidenavstocktake .nav-link').removeClass('active');
+  $('#sidenavpayroll').removeClass('active');
+  $('#sidenavpayroll .nav-link').removeClass('active');
+}else if((currentLoc == "/expenseclaims")){
+  $('#sidenavaccounts').removeClass('active');
+  $('#sidenavbanking').removeClass('active');
+  $('#sidenavdashbaord .nav-link').removeClass('active');
+  $('#sidenavappointment .nav-link').removeClass('active');
+  $('#sidenavcontacts').removeClass('active');
+  $('#sidenavexpenseclaims .nav-link').addClass('active');
+  $('#sidenavinventory').removeClass('active');
+  $('#sidenavpayments').removeClass('active');
+  $('#sidenavpurchases').removeClass('active');
+  $('#sidenavreports .nav-link').removeClass('active');
+  $('#sidenavreports').removeClass('active');
+  $('#sidenavsales').removeClass('active');
+  $('#sidenavsettings').removeClass('active');
+  $('#sidenavstocktake .nav-link').removeClass('active');
+  $('#sidenavpayroll').removeClass('active');
+  $('#sidenavpayroll .nav-link').removeClass('active');
+}else if((currentLoc == "/inventorylist") ||(currentLoc =='/productview')
+|| (currentLoc == "/stockadjustmentcard")
+ || (currentLoc == "/stockadjustmentoverview") || (currentLoc == "/productlist")){
+  $('#sidenavaccounts').removeClass('active');
+  $('#sidenavbanking').removeClass('active');
+  $('#sidenavdashbaord .nav-link').removeClass('active');
+  $('#sidenavappointment .nav-link').removeClass('active');
+  $('#sidenavcontacts').removeClass('active');
+  $('#sidenavexpenseclaims .nav-link').removeClass('active');
+  $('#sidenavinventory').addClass('active');
+  $('#sidenavpayments').removeClass('active');
+  $('#sidenavpurchases').removeClass('active');
+  $('#sidenavreports .nav-link').removeClass('active');
+  $('#sidenavreports').removeClass('active');
+  $('#sidenavsales').removeClass('active');
+  $('#sidenavsettings').removeClass('active');
+  $('#sidenavstocktake .nav-link').removeClass('active');
+  $('#sidenavpayroll').removeClass('active');
+  $('#sidenavpayroll .nav-link').removeClass('active');
+}else if((currentLoc == "/paymentoverview")
+ || (currentLoc == "/customerawaitingpayments") || (currentLoc == "/customerpayment")
+ || (currentLoc == "/supplierawaitingpurchaseorder") || (currentLoc == "/supplierawaitingbills")
+ || (currentLoc == "/supplierpayment") || (currentLoc == "/paymentcard")
+|| (currentLoc == "/supplierpaymentcard")){
+  $('#sidenavaccounts').removeClass('active');
+  $('#sidenavbanking').removeClass('active');
+  $('#sidenavdashbaord .nav-link').removeClass('active');
+  $('#sidenavappointment .nav-link').removeClass('active');
+  $('#sidenavcontacts').removeClass('active');
+  $('#sidenavexpenseclaims .nav-link').removeClass('active');
+  $('#sidenavinventory').removeClass('active');
+  $('#sidenavpayments').addClass('active');
+  $('#sidenavpurchases').removeClass('active');
+  $('#sidenavreports .nav-link').removeClass('active');
+  $('#sidenavreports').removeClass('active');
+  $('#sidenavsales').removeClass('active');
+  $('#sidenavsettings').removeClass('active');
+  $('#sidenavstocktake .nav-link').removeClass('active');
+  $('#sidenavpayroll').removeClass('active');
+  $('#sidenavpayroll .nav-link').removeClass('active');
+
+}else if((currentLoc == "/purchasesoverview")
+||(currentLoc == "/purchaseorderlist") || (currentLoc == "/purchaseordercard")
+|| (currentLoc == "/billlist") || (currentLoc == "/billcard")
+|| (currentLoc == "/creditlist") || (currentLoc == "/creditcard")
+||(currentLoc == "/purchaseorderlistBO")){
+  $('#sidenavaccounts').removeClass('active');
+  $('#sidenavbanking').removeClass('active');
+  $('#sidenavdashbaord .nav-link').removeClass('active');
+  $('#sidenavappointment .nav-link').removeClass('active');
+  $('#sidenavcontacts').removeClass('active');
+  $('#sidenavexpenseclaims .nav-link').removeClass('active');
+  $('#sidenavinventory').removeClass('active');
+  $('#sidenavpayments').removeClass('active');
+  $('#sidenavpurchases').addClass('active');
+  $('#sidenavreports .nav-link').removeClass('active');
+  $('#sidenavreports').removeClass('active');
+  $('#sidenavsales').removeClass('active');
+  $('#sidenavsettings').removeClass('active');
+  $('#sidenavstocktake .nav-link').removeClass('active');
+  $('#sidenavpayroll').removeClass('active');
+  $('#sidenavpayroll .nav-link').removeClass('active');
+}else if((currentLoc == "/allreports")
+||(currentLoc == "/balancesheetreport") || (currentLoc == "/balancetransactionlist")
+|| (currentLoc == "/cashsummaryreport") || (currentLoc == "/profitlossreport")
+|| (currentLoc == "/agedreceivables") || (currentLoc == "/agedpayables")
+|| (currentLoc == "/trialbalancereport") || (currentLoc == "/1099report")
+|| (currentLoc == "/agedreceivablessummary") || (currentLoc == "/salesreport")
+|| (currentLoc == "/generalledger") || (currentLoc == "/trialbalance")
+|| (currentLoc == "/statementlist") || (currentLoc == "/purchasesreport")
+|| (currentLoc == "/productsalesreport")|| (currentLoc == "/salessummaryreport")
+|| (currentLoc == "/taxsummaryreport")|| (currentLoc == "/purchasesummaryreport")
+|| (currentLoc == "/agedpayablessummary")){
+  $('#sidenavaccounts').removeClass('active');
+  $('#sidenavbanking').removeClass('active');
+  $('#sidenavdashbaord .nav-link').removeClass('active');
+  $('#sidenavappointment .nav-link').removeClass('active');
+  $('#sidenavcontacts').removeClass('active');
+  $('#sidenavexpenseclaims .nav-link').removeClass('active');
+  $('#sidenavinventory').removeClass('active');
+  $('#sidenavpayments').removeClass('active');
+  $('#sidenavpurchases').removeClass('active');
+  $('#sidenavreports .nav-link').addClass('active');
+  $('#sidenavreports').addClass('active');
+  $('#sidenavsales').removeClass('active');
+  $('#sidenavsettings').removeClass('active');
+  $('#sidenavstocktake .nav-link').removeClass('active');
+  $('#sidenavpayroll').removeClass('active');
+  $('#sidenavpayroll .nav-link').removeClass('active');
+}
+else if((currentLoc == "/salesoverview")
+ || (currentLoc == "/quotecard") || (currentLoc == "/quoteslist")
+ || (currentLoc == "/salesordercard") || (currentLoc == "/salesorderslist")
+ || (currentLoc == "/invoicecard") || (currentLoc == "/refundcard")
+ || (currentLoc == "/invoicelist") || (currentLoc == "/invoicelistBO")){
+  $('#sidenavaccounts').removeClass('active');
+  $('#sidenavbanking').removeClass('active');
+  $('#sidenavdashbaord .nav-link').removeClass('active');
+  $('#sidenavappointment .nav-link').removeClass('active');
+  $('#sidenavcontacts').removeClass('active');
+  $('#sidenavexpenseclaims .nav-link').removeClass('active');
+  $('#sidenavinventory').removeClass('active');
+  $('#sidenavpayments').removeClass('active');
+  $('#sidenavpurchases').removeClass('active');
+  $('#sidenavreports .nav-link').removeClass('active');
+  $('#sidenavreports').removeClass('active');
+  $('#sidenavsales').addClass('active');
+  $('#sidenavsettings').removeClass('active');
+  $('#sidenavstocktake .nav-link').removeClass('active');
+  $('#sidenavpayroll').removeClass('active');
+  $('#sidenavpayroll .nav-link').removeClass('active');
+}else if((currentLoc == "/settings")
+ || (currentLoc == "/accesslevel") || (currentLoc == "/companyappsettings") || (currentLoc == "/organisationsettings")
+ || (currentLoc == "/taxratesettings") || (currentLoc == "/currenciesSettings")
+|| (currentLoc == "/departmentSettings")|| (currentLoc == "/termsettings")
+|| (currentLoc == "/paymentmethodSettings")){
+  $('#sidenavaccounts').removeClass('active');
+  $('#sidenavbanking').removeClass('active');
+  $('#sidenavdashbaord .nav-link').removeClass('active');
+  $('#sidenavappointment .nav-link').removeClass('active');
+  $('#sidenavcontacts').removeClass('active');
+  $('#sidenavexpenseclaims .nav-link').removeClass('active');
+  $('#sidenavinventory').removeClass('active');
+  $('#sidenavpayments').removeClass('active');
+  $('#sidenavpurchases').removeClass('active');
+  $('#sidenavreports .nav-link').removeClass('active');
+  $('#sidenavreports').removeClass('active');
+  $('#sidenavsales').removeClass('active');
+  $('#sidenavsettings').addClass('active');
+  $('#sidenavstocktake .nav-link').removeClass('active');
+  $('#sidenavpayroll').removeClass('active');
+  $('#sidenavpayroll .nav-link').removeClass('active');
+}else if((currentLoc == "/timesheet")|| (currentLoc == "/adpapi")
+|| (currentLoc == "/squareapi")
+ ){
+  $('#sidenavaccounts').removeClass('active');
+  $('#sidenavbanking').removeClass('active');
+  $('#sidenavdashbaord .nav-link').removeClass('active');
+  $('#sidenavappointment .nav-link').removeClass('active');
+  $('#sidenavcontacts').removeClass('active');
+  $('#sidenavexpenseclaims .nav-link').removeClass('active');
+  $('#sidenavinventory').removeClass('active');
+  $('#sidenavpayments').removeClass('active');
+  $('#sidenavpurchases').removeClass('active');
+  $('#sidenavreports .nav-link').removeClass('active');
+  $('#sidenavreports').removeClass('active');
+  $('#sidenavsales').removeClass('active');
+  $('#sidenavsettings').removeClass('active');
+  $('#sidenavstocktake .nav-link').removeClass('active');
+  $('#sidenavpayroll').addClass('active');
+  $('#sidenavpayroll .nav-link').addClass('active');
+}else if((currentLoc == "/stsdashboard")|| (currentLoc == "/stsplants")
+|| (currentLoc == "/stsharvests")|| (currentLoc == "/stspackages")
+|| (currentLoc == "/ststransfers")|| (currentLoc == "/stsoverviews")
+|| (currentLoc == "/stssettings")
+ ){
+  $('#sidenavaccounts').removeClass('active');
+  $('#sidenavbanking').removeClass('active');
+  $('#sidenavdashbaord .nav-link').removeClass('active');
+  $('#sidenavappointment .nav-link').removeClass('active');
+  $('#sidenavcontacts').removeClass('active');
+  $('#sidenavexpenseclaims .nav-link').removeClass('active');
+  $('#sidenavinventory').removeClass('active');
+  $('#sidenavpayments').removeClass('active');
+  $('#sidenavpurchases').removeClass('active');
+  $('#sidenavreports .nav-link').removeClass('active');
+  $('#sidenavreports').removeClass('active');
+  $('#sidenavsales').removeClass('active');
+  $('#sidenavsettings').removeClass('active');
+  $('#sidenavstocktake .nav-link').removeClass('active');
+  $('#sidenavpayroll').removeClass('active');
+  $('#sidenavpayroll .nav-link').removeClass('active');
+  $('#sidenavseedtosale').addClass('active');
+  $('#sidenavseedtosale .nav-link').addClass('active');
+}
+// else if((currentLoc == "/stockadjustmentcard")
+//  || (currentLoc == "/stockadjustmentoverview")){
+//   $('#sidenavaccounts').removeClass('active');
+//   $('#sidenavbanking').removeClass('active');
+//   $('#sidenavdashbaord .nav-link').removeClass('active');
+//   $('#sidenavcontacts').removeClass('active');
+//   $('#sidenavexpenseclaims .nav-link').removeClass('active');
+//   $('#sidenavinventory').removeClass('active');
+//   $('#sidenavpayments').removeClass('active');
+//   $('#sidenavpurchases').removeClass('active');
+//   $('#sidenavreports .nav-link').removeClass('active');
+//   $('#sidenavsales').removeClass('active');
+//   $('#sidenavsettings').removeClass('active');
+//   $('#sidenavstocktake .nav-link').addClass('active');
+//
+// }
+}, 50);
+
+
+let sidePanelSettings = Session.get('sidePanelSettings');
+if(sidePanelSettings === "openNav"){
+  $(".active_page_content").css("text-align","right");
+}else{
+  $(".active_page_content").css("text-align","inherit");
+}
+
+if(isSidePanel){
+  $("html").addClass("hasSideBar");
+  $("body").addClass("hasSideBar");
+}
+//alert(LoggedDB);
+if(LoggedDB !== null){
+  if(isDashboard){
+    templateObject.includeDashboard.set(true);
+  }
+  if(isMain){
+    templateObject.includeMain.set(true);
+  }
+  if(isInventory){
+    templateObject.includeInventory.set(true);
+  }
+  if(isManufacturing){
+    templateObject.includeManufacturing.set(true);
+  }
+  if(isAccessLevels){
+    templateObject.includeAccessLevels.set(true);
+  }
+  if(isShipping){
+    templateObject.includeShipping.set(true);
+  }
+  if(isStockTransfer){
+    templateObject.includeStockTransfer.set(true);
+  }
+  if(isStockTake){
+    templateObject.includeStockTake.set(true);
+  }
+  if(isSales){
+    templateObject.includeSales.set(true);
+  }
+  if(isPurchases){
+    templateObject.includePurchases.set(true);
+  }
+
+  if(isExpenseClaims){
+    templateObject.includeExpenseClaims.set(true);
+  }
+
+  if(isFixedAssets){
+    templateObject.includeFixedAssets.set(true);
+  }
+
+  if(isPayments){
+    templateObject.includePayments.set(true);
+  }
+
+  if(isContacts){
+    templateObject.includeContacts.set(true);
+  }
+
+  if(isAccounts){
+    templateObject.includeAccounts.set(true);
+  }
+
+  if(isReports){
+    templateObject.includeReports.set(true);
+  }
+
+  if(isSettings){
+    templateObject.includeSettings.set(true);
+  }
+
+  if(isSeedToSale){
+    templateObject.includeSeedToSale.set(true);
+  }
+
+  if(isBanking){
+    templateObject.includeBanking.set(true);
+  }
+
+  if(isPayroll){
+    templateObject.includePayroll.set(true);
+  }
+
+  if(isSidePanel){
+    templateObject.isCloudSidePanelMenu.set(true);
+    $("html").addClass("hasSideBar");
+  }
+  if(isTopPanel){
+    templateObject.isCloudTopPanelMenu.set(true);
+  }
+}
+
+if(LoggedUser){
+  // alert(LoggedUser);
+  // alert(Session.get('mycloudLogonID'));
+}else{
+//window.open('/','_self');
+}
+if((employeeLoggedUserAccess) && (LoggedDB !== null)){
+  /*
+if((LoggedDB === employeeLoggedUserAccess.loggedDatabase)
+  &&(LoggedUser === employeeLoggedUserAccess.loggedUserName)){
+  for(let i=0; i<employeeLoggedUserAccess.loggedAccessData.length; i++){
+       let lineItemObjlevel = employeeLoggedUserAccess.loggedAccessData[i];
+
+        if((lineItemObjlevel.formName === "FnMobShipping") && (lineItemObjlevel.accessLevel == 1)){
+          // alert(lineItemObjlevel.accessLevel);
+            $("#FnMobShipping").css("display","block");
+        }else if((lineItemObjlevel.formName === "FnMobShipping") && (lineItemObjlevel.accessLevel != 1)){
+          $("#FnMobShipping").css("display","none");
+        }
+        if(( lineItemObjlevel.formName === "FnMobInventory") && (lineItemObjlevel.accessLevel == 1)){
+          $("#FnMobInventory").css("display","block");
+        }else if(( lineItemObjlevel.formName === "FnMobInventory") && (lineItemObjlevel.accessLevel != 1)){
+          $("#FnMobInventory").css("display","none");
+        }
+        if(( lineItemObjlevel.formName === "FnCloudManufacturing") && (lineItemObjlevel.accessLevel == 1)){
+          $("#FnCloudManufacturing").css("display","block");
+        }else if(( lineItemObjlevel.formName === "FnCloudManufacturing") && (lineItemObjlevel.accessLevel != 1)){
+          $("#FnCloudManufacturing").css("display","none");
+        }
+        if(( lineItemObjlevel.formName === "FnCloudStockTransfer")&& (lineItemObjlevel.accessLevel == 1)){
+          $("#FnCloudStockTransfer").css("display","block");
+        }else if(( lineItemObjlevel.formName === "FnCloudStockTransfer")&& (lineItemObjlevel.accessLevel != 1)){
+          $("#FnCloudStockTransfer").css("display","none");
+        }
+        if(( lineItemObjlevel.formName === "FnMobPreferences") && (lineItemObjlevel.accessLevel == 1)){
+          $("#FnMobPreferences").css("display","block");
+        }else if(( lineItemObjlevel.formName === "FnMobPreferences") && (lineItemObjlevel.accessLevel != 1)){
+          $("#FnMobPreferences").css("display","none");
+        }
+
+        if(( lineItemObjlevel.formName === "FnCloudDashboard") && (lineItemObjlevel.accessLevel == 1)){
+          $("#FnCloudDashboard").css("display","block");
+        }else if(( lineItemObjlevel.formName === "FnCloudDashboard") && (lineItemObjlevel.accessLevel != 1)){
+          $("#FnCloudDashboard").css("display","none");
+        }
+
+
+  }
+}else{
+  if(currentLoc !== '/'){
+
+  }
+}
+*/
+}else{
+  if(currentLoc !== '/'){
+    //window.open('/','_self');
+    CloudUser.update({_id: Session.get('mycloudLogonID')},{ $set: {userMultiLogon: false}});
+  }
+
+}
+
+});
+
+Template.sidenav.helpers({
+    includeDashboard: () => {
+        return Template.instance().includeDashboard.get();
+    },includeMain: () => {
+        return Template.instance().includeMain.get();
+    },
+    includeInventory: () => {
+        return Template.instance().includeInventory.get();
+    },
+    includeManufacturing: () => {
+        return Template.instance().includeManufacturing.get();
+    },
+    includeAccessLevels: () => {
+        return Template.instance().includeAccessLevels.get();
+    },
+    includeShipping: () => {
+        return Template.instance().includeShipping.get();
+    },
+    includeStockTransfer: () => {
+        return Template.instance().includeStockTransfer.get();
+    },
+    includeStockTake: () => {
+        return Template.instance().includeStockTake.get();
+    },
+    includeSales: () => {
+        return Template.instance().includeSales.get();
+    },
+    isCloudSidePanelMenu: () => {
+        return Template.instance().isCloudSidePanelMenu.get();
+    },
+    isCloudTopPanelMenu: () => {
+        return Template.instance().isCloudTopPanelMenu.get();
+    },
+    includePurchases: () => {
+        return Template.instance().includePurchases.get();
+    },
+    includeExpenseClaims: () => {
+        return Template.instance().includeExpenseClaims.get();
+    },
+    includeFixedAssets: () => {
+        return Template.instance().includeFixedAssets.get();
+    },
+    includePayments: () => {
+        return Template.instance().includePayments.get();
+    },
+    includeContacts: () => {
+        return Template.instance().includeContacts.get();
+    },
+    includeAccounts: () => {
+        return Template.instance().includeAccounts.get();
+    },
+    includeReports: () => {
+        return Template.instance().includeReports.get();
+    },
+    includeSettings: () => {
+        return Template.instance().includeSettings.get();
+    },
+    formname: () => {
+      let chequeSpelling = "";
+      if(Session.get('ERPLoggedCountry') == "Australia"){
+        chequeSpelling = "Cheque";
+      }else if(Session.get('ERPLoggedCountry') == "United States of America"){
+        chequeSpelling = "Check";
+      }else{
+        chequeSpelling = "Cheque";
+      }
+       return chequeSpelling;
+    },
+    isBalanceSheet: function() {
+          return Template.instance().isBalanceSheet.get();
+    },
+    isProfitLoss: function() {
+          return Template.instance().isProfitLoss.get();
+    },
+    isAgedReceivables: function() {
+          return Template.instance().isAgedReceivables.get();
+    },
+    isAgedReceivablesSummary: function() {
+          return Template.instance().isAgedReceivablesSummary.get();
+    },
+    isProductSalesReport: function() {
+          return Template.instance().isProductSalesReport.get();
+    },
+    isSalesReport: function() {
+          return Template.instance().isSalesReport.get();
+    },
+    isSalesSummaryReport: function() {
+          return Template.instance().isSalesSummaryReport.get();
+    },
+    isGeneralLedger: function() {
+          return Template.instance().isGeneralLedger.get();
+    },
+    isTaxSummaryReport: function() {
+          return Template.instance().isTaxSummaryReport.get();
+    },
+    isTrialBalance: function() {
+          return Template.instance().isTrialBalance.get();
+    },
+    is1099Transaction: function() {
+          return Template.instance().is1099Transaction.get();
+    },
+    isAgedPayables: function() {
+          return Template.instance().isAgedPayables.get();
+    },
+    isAgedPayablesSummary: function() {
+          return Template.instance().isAgedPayablesSummary.get();
+    },
+    isPurchaseReport: function() {
+          return Template.instance().isPurchaseReport.get();
+    },
+    isPurchaseSummaryReport: function() {
+          return Template.instance().isPurchaseSummaryReport.get();
+    },
+    isPrintStatement: function() {
+          return Template.instance().isPrintStatement.get();
+    },
+    isFavorite: function() {
+        let isBalanceSheet = Template.instance().isBalanceSheet.get();
+        let isProfitLoss =  Template.instance().isProfitLoss.get();
+        let isAgedReceivables =  Template.instance().isAgedReceivables.get();
+        let isAgedReceivablesSummary =  Template.instance().isAgedReceivablesSummary.get();
+        let isProductSalesReport =  Template.instance().isProductSalesReport.get();
+        let isSalesReport =  Template.instance().isSalesReport.get();
+        let isSalesSummaryReport =  Template.instance().isSalesSummaryReport.get();
+        let isGeneralLedger =  Template.instance().isGeneralLedger.get();
+        let isTaxSummaryReport =  Template.instance().isTaxSummaryReport.get();
+        let isTrialBalance =  Template.instance().isTrialBalance.get();
+        let is1099Transaction =  Template.instance().is1099Transaction.get();
+        let isAgedPayables =  Template.instance().isAgedPayables.get();
+        let isAgedPayablesSummary =  Template.instance().isAgedPayablesSummary.get();
+        let isPurchaseReport =  Template.instance().isPurchaseReport.get();
+        let isPurchaseSummaryReport =  Template.instance().isPurchaseSummaryReport.get();
+        let isPrintStatement =  Template.instance().isPrintStatement.get();
+        let isShowFavorite = false;
+        // alert(isAgedReceivables);
+        if(isBalanceSheet || isProfitLoss || isAgedReceivables || isProductSalesReport || isSalesReport || isSalesSummaryReport
+        || isGeneralLedger || isTaxSummaryReport|| isTrialBalance || is1099Transaction || isAgedPayables
+        || isPurchaseReport || isPurchaseSummaryReport || isPrintStatement ||isAgedReceivablesSummary ||isAgedPayablesSummary){
+          isShowFavorite = true;
+        }
+        return isShowFavorite;
+    },
+    isGreenTrack: function() {
+      let checkGreenTrack = Session.get('isGreenTrack') || false;
+          return checkGreenTrack;
+    },
+    includeSeedToSale: () => {
+        return Template.instance().includeSeedToSale.get();
+    },
+    includeBanking: () => {
+        return Template.instance().includeBanking.get();
+    },
+    includePayroll: () => {
+        return Template.instance().includePayroll.get();
+    },
+    checkFXCurrency : () => {
+       return Session.get('CloudUseForeignLicence');
+    }
+});
+// Template.sidenav.helpers({
+//   loggedUser: () => {
+//       return Template.instance().loggedUser.get();
+//   },
+//   loggedDB: () => {
+//       return Template.instance().loggedDB.get();
+//   },
+//   steelmainDB: () => {
+//       return Template.instance().steelmainDB.get();
+//   },
+//   employeeID: () => {
+//       return Template.instance().employeeID.get();
+//   },
+//   employeeformaccessrecord: () => {
+//       return Template.instance().employeeformaccessrecord.get();
+//   }
+// });

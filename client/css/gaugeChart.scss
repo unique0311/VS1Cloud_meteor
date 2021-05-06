@@ -1,0 +1,45 @@
+*, 
+*::after, 
+*::before {
+		box-sizing: border-box;
+}
+
+:root {
+	--rotation: 0deg;
+}
+
+body {
+  height: 100vh;
+}
+
+.loader {
+	background: transparent;
+	border: 30px solid #D7ECA6;
+	border-radius: 50%;
+	height: 16rem;
+	transition: transform .2s ease;
+	transform: rotate(var(--rotation));
+	position: relative;
+  width: 16rem;
+  &::before {
+    content: '';
+    border: 30px solid #8CC800;
+    border-left-color: transparent;
+    border-radius: 50%;
+    border-top-color: transparent;
+    height: 16rem;
+    left: -30px;
+    top: -30px;
+    transform: rotate(45deg);
+    position: absolute;
+    width: 16rem;
+    z-index: 2;
+  }
+  &__title {
+    color: #8CC800;
+    font-size: 5rem;
+    left: 50%;
+    position: absolute;
+    transform: translateX(-50%);
+  }
+}

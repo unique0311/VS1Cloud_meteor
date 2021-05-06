@@ -1,0 +1,67 @@
+<template name="profitandlosschart">
+    <div class="card shadow mb-4">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <h6 class="text-primary font-weight-bold m-0">Profit and Loss&nbsp;</h6>
+            <div class="dropdown no-arrow"><button class="btn btn-link btn-sm dropdown-toggle" data-toggle="dropdown" aria-expanded="false" type="button"><i class="fas fa-ellipsis-v text-gray-400"></i></button>
+                <div class="dropdown-menu shadow dropdown-menu-right animated--fade-in" role="menu">
+                    <a class="dropdown-item" role="presentation" href="/profitlossreport">&nbsp;More Details</a>
+                </div>
+            </div>
+        </div>
+        <script>
+            setTimeout(function () {
+                var x = window.matchMedia("(max-width: 420px)")
+                function mediaQuery(x) {
+                    if (x.matches) {
+                        $("#colSalesLabel").removeClass("col-4");
+                        $("#colSalesLabel").addClass("col-6");
+                        $("#colSales").removeClass("col-8");
+                        $("#colSales").addClass("col-6");
+                        $("#colExpensesLabel").removeClass("col-4");
+                        $("#colExpensesLabel").addClass("col-6");
+                        $("#colExpenses").removeClass("col-8");
+                        $("#colExpenses").addClass("col-6");
+                        $("#colIncomeLabel").removeClass("col-4");
+                        $("#colIncomeLabel").addClass("col-6");
+                        $("#colIncome").removeClass("col-8");
+                        $("#colIncome").addClass("col-6");
+                    }
+                }
+                mediaQuery(x)
+                x.addListener(mediaQuery)
+            }, 10);
+        </script>
+        <div class="card-body">
+            <div class="row no-gutters align-items-center" style="margin-bottom: 40px;margin-top: 40px;">
+                <div class="col-4 colSalesLabel" id="colSalesLabel">
+                    <div class="text-dark d-xl-flex flex-column justify-content-xl-center font-weight-bold h5 mb-0 mr-3"><span class="spnTotalSales">0.00</span></div><span style="color: rgb(133,135,150);font-weight: 400;font-size: 16px;">Sales</span>
+                </div>
+                <div class="col-8 colSales" id="colSales">
+                    <div class="progress progress-sm" data-toggle="tooltip" data-bs-tooltip="" data-placement="bottom" style="height: 40px;" title="Total Sales">
+                        <div class="progress-bar bg-primary progress-bar-striped progress-bar-animated" aria-valuenow="{{salesperc}}" aria-valuemin="0" aria-valuemax="100" style="width: {{salesperc}}%;"><span class="sr-only">{{salesperc}}%</span></div>
+                    </div>
+                </div>
+            </div>
+            <div class="row no-gutters align-items-center" style="margin-bottom: 40px;">
+                <div class="col-4 colExpensesLabel" id="colExpensesLabel">
+                    <div class="text-dark font-weight-bold h5 mb-0 mr-3"><span class="spnTotalExpense">0.00</span></div><span style="color: rgb(133,135,150);font-weight: 400;font-size: 16px;">Expenses</span>
+                </div>
+                <div class="col-8 colExpenses" id="colExpenses">
+                    <div class="progress progress-sm" data-toggle="tooltip" data-bs-tooltip="" data-placement="bottom" style="height: 40px;" title="Total Expenses">
+                        <div class="cssExpense progress-bar bg-danger progress-bar-striped progress-bar-animated" aria-valuenow="{{expenseperc}}" aria-valuemin="0" aria-valuemax="100" style="width: {{expenseperc}}%;"><span class="sr-only">{{expenseperc}}%</span></div>
+                    </div>
+                </div>
+            </div>
+            <div class="row no-gutters align-items-center" style="margin-bottom: 40px;margin-top: 40px;">
+                <div class="col-4 colIncomeLabel" id="colIncomeLabel">
+                    <div class="text-dark d-xl-flex flex-column justify-content-xl-center font-weight-bold h5 mb-0 mr-3"><span class="spnTotalnetincome">0.00</span></div><span style="color: rgb(133,135,150);font-weight: 400;font-size: 16px;">Net Income</span>
+                </div>
+                <div class="col-8 colIncome" id="colIncome">
+                    <div class="progress progress-sm" data-toggle="tooltip" data-bs-tooltip="" data-placement="bottom" style="height: 40px;" title="Net Income">
+                        <div class="progress-bar bg-success progress-bar-striped progress-bar-animated" aria-valuenow="{{netincomeperc}}" aria-valuemin="0" aria-valuemax="100" style="width: {{netincomeperc}}%;"><span class="sr-only">{{netincomeperc}}%</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>

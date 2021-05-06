@@ -1,0 +1,87 @@
+<template name="vs1login_backup">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+        <title>VS1 Cloud Login</title>
+        <!-- <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+        <link rel="stylesheet" href="assets/css/MadeleinaSans.css">
+        <link rel="stylesheet" href="assets/css/Login-Form-Clean.css">
+        <link rel="stylesheet" href="assets/css/Login-Form-Dark.css">
+        <link rel="stylesheet" href="assets/css/styles.css"> -->
+    </head>
+    <style>
+        .login_form_control_password {
+            font-size: 17px;
+        }
+        .login_btn {
+            font-size: 17px;
+        }
+        .nav{
+          display:none!important;
+        }
+    </style>
+    <div class="login_body">
+      <main role="main">
+    <div class="login-dark" style="background-image: url(&quot;assets/img/pexels-photo-1424337.jpeg&quot;);background-color: #f9fbfb;">
+      <script type="text/javascript">
+        $(function() {
+
+                  if (localStorage.chkbx && localStorage.chkbx != '') {
+                      $('#remember_me').attr('checked', 'checked');
+                      $('#email').val(localStorage.usremail);
+                      $('#erppassword').val(localStorage.usrpassword);
+                  } else {
+                      $('#remember_me').removeAttr('checked');
+                      $('#email').val('');
+                      $('#erppassword').val('');
+                  }
+
+                  $('#remember_me').click(function() {
+
+                      if ($('#remember_me').is(':checked')) {
+                          // save username and password
+                          localStorage.usremail = $('#email').val();
+                          localStorage.usrpassword = $('#erppassword').val();
+                          localStorage.chkbx = $('#remember_me').val();
+                      } else {
+                          localStorage.usremail = '';
+                          localStorage.usrpassword = '';
+                          localStorage.chkbx = '';
+                      }
+                  });
+              });
+      </script>
+        <div class="fullScreenSpin" style="display:none;"><div class="spinner"></div></div>
+        <form data-form-type="request" accept-charset="UTF-8" action="" id="formlogin" method="POST" style="background-color: rgba(255,255,255,0.78);width: 360px;max-width: 360px;filter: saturate(100%);">
+            <h1 class="text-center" style="color: #00a3d3;font-size: 25px;line-height: 30px;">Welcome to VS1 Cloud</h1>
+            <div class="illustration" style="background-image: url('assets/img/Asset%203.png');background-size: cover;background-repeat: no-repeat;background-position: center; width: 100%; height: 0; padding-top: 57%;"></div>
+            <div class="form-group">
+                <input class="form-control" type="email" name="email" id="email" placeholder=" Email">
+            </div>
+            <div style="display:none;">
+                <input type="hidden" id="user_password" class="form-control" readonly>
+            </div>
+            <div class="form-group">
+                <input class="form-control login_form_control_password" type="password" name="password" id="erppassword" placeholder="Password">
+            </div>
+            <div class="form-group">
+                <button id="login-button" name="login-button" class="btn btn-primary btn-block login_btn" type="submit" style="background-color: #00a3d3;">
+                    <i class="fa fa-spinner fa-spin loginSpinner" style="display:none;"></i>Log In
+                </button>
+                <label style="margin-top: 16px; font-size: 17px; color: #87939B; font-weight: inherit;" >
+                    <input type="checkbox" checked="checked" name="remember_me" id="remember_me"> Remember me
+                </label>
+            </div>
+            <a class="forgot" href="/forgotpassword"><br><br>Forgot your email or password?</a>
+            <small style="color: rgb(128,137,154);width: 280px;height: 18px;font-size: 10px;"><br>Version: 2020.01.06 DEV - VS1Cloud</small>
+            <hr style="margin: 40px 0px 10px 0px; border-color: #87939B;">
+            <small style="color: rgb(128,137,154);width: 280px;height: 18px;font-size: 12px;">
+                <br />Don&#39;t have a login? <a href="#"><span style="color: #00a3d3;">Try VS1Cloud today!</span></a>
+            </small>
+        </form>
+    </div>
+  </main>
+  </div>
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+</template>

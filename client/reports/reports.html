@@ -1,0 +1,678 @@
+<template name="allreports">
+<div style="margin-top: -24px;">
+<header style="padding: 16px;">
+<h1 style="margin: 16px;">Reports
+  <!-- <a role="button" data-toggle="modal" href="#helpModal" class="helpModal"><label class="lblplay">PLAY</label><i class="far fa-play-circle"  style="font-size: 20px;"></i></a> -->
+  <a role="button" data-toggle="modal" href="#helpViewModal"  style="font-size: 20px;">Help <i class="fa fa-question-circle-o" style="font-size: 20px;"></i></a>
+
+  <!-- Start Help View Modal -->
+  <div class="modal fade" role="dialog" tabindex="-1" id="helpViewModal">
+      <div class="modal-dialog modal-sm" role="document">
+          <div class="modal-content">
+              <div class="modal-header" style="padding-bottom: 8px;">
+                  <h4>Help</h4><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button></div>
+                  <div class="modal-body">
+                      <p class="text-center text-muted"><a role="button" data-toggle="modal" href="#helpModal" class="btn btn-primary helpModal">View Help Video</a></p>
+                      <p class="text-center text-muted"><a href="https://vs1forum.com/viewforum.php?f=6" target="_blank" class="btn btn-primary">Download Help File</a></p>
+                      <p class="text-center text-muted"><button class="btn btn-primary" type="button">Employ Advisor</button></p>
+                      <p class="text-center text-muted" style="margin: 0px;"><a href="https://vs1forum.com/ucp.php?mode=register&cloudusername={{loggedCompany}}" target="_blank" class="btn btn-primary">Go To Forum</a></p>
+                  </div>
+              <div class="modal-footer" style="padding: 6px;"><button class="btn btn-light" data-dismiss="modal" type="button">Close</button></div>
+          </div>
+      </div>
+  </div>
+  <!-- End Help View Modal -->
+</h1>
+</header>
+<style>
+@media only screen and (min-width: 428px) {
+.rowB {
+display: block;
+}
+}
+@media screen and (min-width: 429px) and (max-width: 2024px) {
+.rowB {
+display: none;
+}
+}
+</style>
+<div class="row d-xl-flex align-items-xl-start mb-3" style="width: 100%;">
+{{#if isFavorite}}
+<div id="favorites" >
+<div class="col-auto">
+<div class="card shadow mb-3" style="margin: 16px;min-width: 374px;">
+<div class="card-header py-3" style="background-color: #00a3d3!important;">
+<p class="text-success m-0 font-weight-bold" style="color: rgb(255, 255, 255)!important;">Favorites</p>
+</div>
+<div class="card-body">
+{{#if is1099Transaction}}
+<div class="favorite one" id="one">
+    <div class="row d-xl-flex flex-nowrap align-items-xl-center">
+        <div class="col flex-grow-1" style="margin-right: 150px;"><a href="/1099report" class="text-nowrap">1099 Contractor Report</a></div>
+        <div class="col d-xl-flex flex-grow-0 justify-content-xl-end">
+            <div class="custom-control custom-checkbox"><input class="custom-control-input chk1099Transaction" type="checkbox" id="formCheck-20" checked><label style="cursor: pointer;" class="custom-control-label" for="formCheck-20"></label></div>
+        </div>
+    </div>
+</div>
+{{/if}}
+{{#if isAgedPayables}}
+<div class="row two" id="twohr" >
+    <hr style="width: 100%;margin: 4px;">
+</div>
+<div class="favorite two" id="two">
+    <div class="row d-xl-flex flex-nowrap align-items-xl-center">
+        <div class="col flex-grow-1" style="margin-right: 150px;"><a href="/agedpayables" class="text-nowrap">Aged Payables</a></div>
+        <div class="col d-xl-flex flex-grow-0 justify-content-xl-end">
+            <div class="custom-control custom-checkbox"><input class="custom-control-input chkAgedPayables" type="checkbox" id="formCheck-21" checked><label style="cursor: pointer;" class="custom-control-label" for="formCheck-21"></label></div>
+        </div>
+    </div>
+</div>
+{{/if}}
+{{#if isAgedPayablesSummary}}
+<div class="row two" id="twohr" >
+    <hr style="width: 100%;margin: 4px;">
+</div>
+<div class="favorite two" id="two">
+    <div class="row d-xl-flex flex-nowrap align-items-xl-center">
+        <div class="col flex-grow-1" style="margin-right: 150px;"><a href="/agedpayablessummary" class="text-nowrap">Aged Payables Summary</a></div>
+        <div class="col d-xl-flex flex-grow-0 justify-content-xl-end">
+            <div class="custom-control custom-checkbox"><input class="custom-control-input chkAgedPayablesSummary" type="checkbox" id="formCheck-Summary" checked><label style="cursor: pointer;" class="custom-control-label" for="formCheck-Summary"></label></div>
+        </div>
+    </div>
+</div>
+{{/if}}
+{{#if isAgedReceivables}}
+    <div class="row three" id="threehr" >
+        <hr style="width: 100%;margin: 4px;">
+    </div>
+<div class="favorite three" id="three" >
+    <div class="row d-xl-flex flex-nowrap align-items-xl-center">
+        <div class="col flex-grow-1" style="margin-right: 150px;"><a href="/agedreceivables" class="text-nowrap">Aged Receivables</a></div>
+        <div class="col d-xl-flex flex-grow-0 justify-content-xl-end">
+            <div class="custom-control custom-checkbox"><input class="custom-control-input chkAgedReceivables" type="checkbox" id="formCheck-21" checked><label style="cursor: pointer;" class="custom-control-label" for="formCheck-21"></label></div>
+        </div>
+    </div>
+</div>
+{{/if}}
+{{#if isAgedReceivablesSummary}}
+    <div class="row three" id="threehr" >
+        <hr style="width: 100%;margin: 4px;">
+    </div>
+<div class="favorite three" id="three" >
+    <div class="row d-xl-flex flex-nowrap align-items-xl-center">
+        <div class="col flex-grow-1" style="margin-right: 150px;"><a href="/agedreceivablessummary" class="text-nowrap">Aged Receivables Summary</a></div>
+        <div class="col d-xl-flex flex-grow-0 justify-content-xl-end">
+            <div class="custom-control custom-checkbox"><input class="custom-control-input chkAgedReceivablesSummary" type="checkbox" id="formCheck-agedreceivablesummary" checked><label style="cursor: pointer;" class="custom-control-label" for="formCheck-agedreceivablesummary"></label></div>
+        </div>
+    </div>
+</div>
+{{/if}}
+{{#if isBalanceSheet}}
+    <div class="row four" id="fourhr" >
+        <hr style="width: 100%;margin: 4px;">
+    </div>
+<div class="favorite four" id="four" >
+    <div class="row d-xl-flex flex-nowrap align-items-xl-center">
+        <div class="col flex-grow-1" style="margin-right: 150px;"><a href="/balancesheetreport" class="text-nowrap">Balance Sheet</a></div>
+        <div class="col d-xl-flex flex-grow-0 justify-content-xl-end">
+            <div class="custom-control custom-checkbox"><input class="custom-control-input chkBalanceSheet" type="checkbox" id="formCheck-21" checked><label style="cursor: pointer;" class="custom-control-label" for="formCheck-21"></label></div>
+        </div>
+    </div>
+</div>
+{{/if}}
+{{#if isGeneralLedger}}
+    <div class="row five" id="fivehr" >
+        <hr style="width: 100%;margin: 4px;">
+    </div>
+<!-- <div class="favorite five" id="five" >
+    <div class="row d-xl-flex flex-nowrap align-items-xl-center">
+        <div class="col flex-grow-1" style="margin-right: 150px;"><a href="/generalledger" class="text-nowrap">General Ledger</a></div>
+        <div class="col d-xl-flex flex-grow-0 justify-content-xl-end">
+            <div class="custom-control custom-checkbox"><input class="custom-control-input chkGeneralLedger" type="checkbox" id="formCheck-22 checked" checked><label style="cursor: pointer;" class="custom-control-label" for="formCheck-22"></label></div>
+        </div>
+    </div>
+</div> -->
+<div class="favorite five" id="five" >
+    <div class="row d-xl-flex flex-nowrap align-items-xl-center">
+        <div class="col flex-grow-1" style="margin-right: 150px;"><a href="/generalledger" class="text-nowrap">General Ledger</a></div>
+        <div class="col d-xl-flex flex-grow-0 justify-content-xl-end">
+            <div class="custom-control custom-checkbox"><input class="custom-control-input chkGeneralLedger" type="checkbox" id="formCheck-23Ledger" checked><label style="cursor: pointer;" class="custom-control-label" for="formCheck-23Ledger"></label></div>
+        </div>
+    </div>
+</div>
+{{/if}}
+{{#if isPrintStatement}}
+    <div class="row six" id="sixhr" >
+        <hr style="width: 100%;margin: 4px;">
+    </div>
+<div class="favorite six" id="six" >
+    <div class="row d-xl-flex flex-nowrap align-items-xl-center">
+        <div class="col flex-grow-1" style="margin-right: 150px;"><a href="/statementlist" class="text-nowrap">Print Statements</a></div>
+        <div class="col d-xl-flex flex-grow-0 justify-content-xl-end">
+            <div class="custom-control custom-checkbox"><input class="custom-control-input chkPrintStatement" type="checkbox" id="formCheck-23" checked><label style="cursor: pointer;" class="custom-control-label" for="formCheck-23"></label></div>
+        </div>
+    </div>
+</div>
+{{/if}}
+{{#if isProfitLoss}}
+    <div class="row seven" id="sevenhr" >
+        <hr style="width: 100%;margin: 4px;">
+    </div>
+<div class="favorite seven" id="seven" >
+    <div class="row d-xl-flex flex-nowrap align-items-xl-center">
+        <div class="col flex-grow-1" style="margin-right: 150px;"><a href="/profitlossreport" class="text-nowrap">Profit and Loss</a></div>
+        <div class="col d-xl-flex flex-grow-0 justify-content-xl-end">
+            <div class="custom-control custom-checkbox"><input class="custom-control-input chkProfitLoss" type="checkbox" id="formCheck-23" checked><label style="cursor: pointer;" class="custom-control-label" for="formCheck-23"></label></div>
+        </div>
+    </div>
+</div>
+{{/if}}
+{{#if isPurchaseReport}}
+    <div class="row eight" id="eighthr" >
+        <hr style="width: 100%;margin: 4px;">
+    </div>
+<div class="favorite eight" id="eight" >
+    <div class="row d-xl-flex flex-nowrap align-items-xl-center">
+        <div class="col flex-grow-1" style="margin-right: 150px;"><a href="/purchasesreport" class="text-nowrap">Purchase Report</a></div>
+        <div class="col d-xl-flex flex-grow-0 justify-content-xl-end">
+            <div class="custom-control custom-checkbox"><input class="custom-control-input chkPurchaseReport" type="checkbox" id="formCheck-24" checked><label style="cursor: pointer;" class="custom-control-label" for="formCheck-24"></label></div>
+        </div>
+    </div>
+</div>
+{{/if}}
+{{#if isPurchaseSummaryReport}}
+    <div class="row eight" id="eighthr" >
+        <hr style="width: 100%;margin: 4px;">
+    </div>
+<div class="favorite eight" id="eight" >
+    <div class="row d-xl-flex flex-nowrap align-items-xl-center">
+        <div class="col flex-grow-1" style="margin-right: 150px;"><a href="/purchasesummaryreport" class="text-nowrap">Purchase Summary Report</a></div>
+        <div class="col d-xl-flex flex-grow-0 justify-content-xl-end">
+            <div class="custom-control custom-checkbox"><input class="custom-control-input chkPurchaseSummaryReport" type="checkbox" id="formCheck-PurchaseSummary" checked><label style="cursor: pointer;" class="custom-control-label" for="formCheck-PurchaseSummary"></label></div>
+        </div>
+    </div>
+</div>
+{{/if}}
+{{#if isProductSalesReport}}
+    <div class="row nine" id="ninehr" >
+        <hr style="width: 100%;margin: 4px;">
+    </div>
+<div class="favorite nine" id="nine" >
+    <div class="row d-xl-flex flex-nowrap align-items-xl-center">
+        <div class="col flex-grow-1" style="margin-right: 150px;"><a href="/productsalesreport" class="text-nowrap">Product Sales Report</a></div>
+        <div class="col d-xl-flex flex-grow-0 justify-content-xl-end">
+            <div class="custom-control custom-checkbox"><input class="custom-control-input chkProductSalesReport" type="checkbox" id="formCheck-25ProductSales" checked><label style="cursor: pointer;" class="custom-control-label" for="formCheck-25ProductSales"></label></div>
+        </div>
+    </div>
+</div>
+{{/if}}
+{{#if isSalesReport}}
+    <div class="row nine" id="ninehr" >
+        <hr style="width: 100%;margin: 4px;">
+    </div>
+<div class="favorite nine" id="nine" >
+    <div class="row d-xl-flex flex-nowrap align-items-xl-center">
+        <div class="col flex-grow-1" style="margin-right: 150px;"><a href="/salesreport" class="text-nowrap">Sales Report</a></div>
+        <div class="col d-xl-flex flex-grow-0 justify-content-xl-end">
+            <div class="custom-control custom-checkbox"><input class="custom-control-input chkSalesReport" type="checkbox" id="formCheck-25" checked><label style="cursor: pointer;" class="custom-control-label" for="formCheck-25"></label></div>
+        </div>
+    </div>
+</div>
+{{/if}}
+{{#if isSalesSummaryReport}}
+    <div class="row nine" id="ninehr" >
+        <hr style="width: 100%;margin: 4px;">
+    </div>
+<div class="favorite nine" id="nine" >
+    <div class="row d-xl-flex flex-nowrap align-items-xl-center">
+        <div class="col flex-grow-1" style="margin-right: 150px;"><a href="/salessummaryreport" class="text-nowrap">Sales Summary Report</a></div>
+        <div class="col d-xl-flex flex-grow-0 justify-content-xl-end">
+            <div class="custom-control custom-checkbox"><input class="custom-control-input chkSalesSummaryReport" type="checkbox" id="formCheck-25Summary" checked><label style="cursor: pointer;" class="custom-control-label" for="formCheck-25Summary"></label></div>
+        </div>
+    </div>
+</div>
+{{/if}}
+{{#if isTaxSummaryReport}}
+    <div class="row ten" id="tenhr" >
+        <hr style="width: 100%;margin: 4px;">
+    </div>
+<div class="favorite ten" id="ten" >
+    <div class="row d-xl-flex flex-nowrap align-items-xl-center">
+        <div class="col flex-grow-1" style="margin-right: 150px;"><a href="/taxsummaryreport" class="text-nowrap">Tax Summary Report</a></div>
+        <div class="col d-xl-flex flex-grow-0 justify-content-xl-end">
+            <div class="custom-control custom-checkbox"><input class="custom-control-input chkTaxSummaryReport" type="checkbox" id="formCheck-TaxSummaryReport2" checked><label style="cursor: pointer;" class="custom-control-label" for="formCheck-TaxSummaryReport2"></label></div>
+        </div>
+    </div>
+</div>
+{{/if}}
+{{#if isTrialBalance}}
+    <div class="row ten" id="tenhr" >
+        <hr style="width: 100%;margin: 4px;">
+    </div>
+<div class="favorite ten" id="ten" >
+    <div class="row d-xl-flex flex-nowrap align-items-xl-center">
+        <div class="col flex-grow-1" style="margin-right: 150px;"><a href="/trialbalance" class="text-nowrap">Trial Balance</a></div>
+        <div class="col d-xl-flex flex-grow-0 justify-content-xl-end">
+            <div class="custom-control custom-checkbox"><input class="custom-control-input chkTrialBalance" type="checkbox" id="formCheck-25" checked><label style="cursor: pointer;" class="custom-control-label" for="formCheck-25"></label></div>
+        </div>
+    </div>
+</div>
+{{/if}}
+</div>
+</div>
+</div>
+</div>
+{{/if}}
+<div class="col d-xl-flex flex-row flex-wrap align-items-xl-center">
+<div class="card shadow mb-3" style="margin: 16px;min-width: 374px;">
+<div class="card-header py-3">
+<p class="text-primary m-0 font-weight-bold" style="float: left;">Accounting</p>
+<p class="text-info m-0 font-weight-bold" style="float: right;">Add to Favorites</p>
+</div>
+<div class="card-body">
+  <div class="row">
+      <div class="col flex-grow-1"><a href="/balancesheetreport">Balance Sheet</a></div>
+      <div class="col float-right d-xl-flex justify-content-xl-end flex-grow-0">
+          <div class="custom-control custom-checkbox"><input class="custom-control-input favCheckBox chkBalanceSheet" type="checkbox" id="formCheck-1" ><label style="cursor: pointer;" class="custom-control-label" for="formCheck-1"></label></div>
+      </div>
+  </div>
+  {{#if isBalanceSheet}}
+  <script>
+    $('.chkBalanceSheet').prop("checked", true);
+  </script>
+  {{else}}
+  <script>
+    $('.chkBalanceSheet').prop("checked", false);
+  </script>
+  {{/if}}
+  <div class="row">
+      <hr style="width: 100%;margin: 4px;">
+  </div>
+<div class="row">
+    <div class="col flex-grow-1"><a href="/generalledger">General Ledger</a></div>
+    <div class="col d-xl-flex justify-content-xl-end flex-grow-0">
+        <div class="custom-control custom-checkbox"><input class="custom-control-input favCheckBox chkGeneralLedger" type="checkbox" id="formCheck-9"><label style="cursor: pointer;" class="custom-control-label" for="formCheck-9"></label></div>
+    </div>
+</div>
+{{#if isGeneralLedger}}
+<script>
+  $('.chkGeneralLedger').prop("checked", true);
+</script>
+{{else}}
+<script>
+  $('.chkGeneralLedger').prop("checked", false);
+</script>
+{{/if}}
+<div class="row">
+    <hr style="width: 100%;margin: 4px;">
+</div>
+<div class="row">
+    <div class="col flex-grow-1"><a href="/profitlossreport">Profit and Loss</a></div>
+    <div class="col d-xl-flex justify-content-xl-end flex-grow-0">
+        <div class="custom-control custom-checkbox"><input class="custom-control-input favCheckBox chkProfitLoss" type="checkbox" id="formCheck-3"><label style="cursor: pointer;" class="custom-control-label" for="formCheck-3"></label></div>
+    </div>
+</div>
+{{#if isProfitLoss}}
+<script>
+  $('.chkProfitLoss').prop("checked", true);
+</script>
+{{else}}
+<script>
+  $('.chkProfitLoss').prop("checked", false);
+</script>
+{{/if}}
+<div class="row">
+    <hr style="width: 100%;margin: 4px;">
+</div>
+<div class="row">
+    <div class="col flex-grow-1"><a href="/taxsummaryreport">Tax Summary Report</a></div>
+    <div class="col d-xl-flex justify-content-xl-end flex-grow-0">
+        <div class="custom-control custom-checkbox"><input class="custom-control-input favCheckBox chkTaxSummaryReport" type="checkbox" id="formCheck-TaxSummaryReport"><label style="cursor: pointer;" class="custom-control-label" for="formCheck-TaxSummaryReport"></label></div>
+    </div>
+</div>
+{{#if isTaxSummaryReport}}
+<script>
+  $('.chkTaxSummaryReport').prop("checked", true);
+</script>
+{{else}}
+<script>
+  $('.chkTaxSummaryReport').prop("checked", false);
+</script>
+{{/if}}
+<div class="row">
+    <hr style="width: 100%;margin: 4px;">
+</div>
+<div class="row">
+    <div class="col flex-grow-1"><a href="/trialbalance">Trial Balance</a></div>
+    <div class="col d-xl-flex justify-content-xl-end flex-grow-0">
+        <div class="custom-control custom-checkbox"><input class="custom-control-input favCheckBox chkTrialBalance" type="checkbox" id="formCheck-5"><label style="cursor: pointer;" class="custom-control-label" for="formCheck-5"></label></div>
+    </div>
+</div>
+{{#if isTrialBalance}}
+<script>
+  $('.chkTrialBalance').prop("checked", true);
+</script>
+{{else}}
+<script>
+  $('.chkTrialBalance').prop("checked", false);
+</script>
+{{/if}}
+</div>
+</div>
+<div class="card shadow mb-3" style="margin: 16px;min-width: 374px;">
+<div class="card-header py-3">
+<p class="text-primary m-0 font-weight-bold" style="float: left;">Payments</p>
+<p class="text-info m-0 font-weight-bold" style="float: right;">Add to Favorites</p>
+</div>
+<div class="card-body">
+  <div class="row">
+      <div class="col flex-grow-1"><a href="/agedpayables">Aged Payables</a></div>
+      <div class="col d-xl-flex justify-content-xl-end flex-grow-0">
+          <div class="custom-control custom-checkbox"><input class="custom-control-input favCheckBox chkAgedPayables" type="checkbox" id="formCheck-6"><label style="cursor: pointer;" class="custom-control-label" for="formCheck-6"></label></div>
+      </div>
+  </div>
+  {{#if isAgedPayables}}
+  <script>
+    $('.chkAgedPayables').prop("checked", true);
+  </script>
+  {{else}}
+  <script>
+    $('.chkAgedPayables').prop("checked", false);
+  </script>
+  {{/if}}
+
+  <div class="row">
+      <hr style="width: 100%;margin: 4px;">
+  </div>
+  <div class="row">
+      <div class="col flex-grow-1"><a href="/agedpayablessummary">Aged Payables Summary</a></div>
+      <div class="col d-xl-flex justify-content-xl-end flex-grow-0">
+          <div class="custom-control custom-checkbox"><input class="custom-control-input favCheckBox chkAgedPayablesSummary" type="checkbox" id="formCheck-Summary"><label style="cursor: pointer;" class="custom-control-label" for="formCheck-Summary"></label></div>
+      </div>
+  </div>
+  {{#if isAgedPayablesSummary}}
+  <script>
+    $('.chkAgedPayablesSummary').prop("checked", true);
+  </script>
+  {{else}}
+  <script>
+    $('.chkAgedPayablesSummary').prop("checked", false);
+  </script>
+  {{/if}}
+  <div class="row">
+      <hr style="width: 100%;margin: 4px;">
+  </div>
+  <div class="row">
+      <div class="col flex-grow-1"><a href="/agedreceivables">Aged Receivables</a></div>
+      <div class="col d-xl-flex justify-content-xl-end flex-grow-0">
+          <div class="custom-control custom-checkbox"><input class="custom-control-input favCheckBox chkAgedReceivables" type="checkbox" id="formCheck-4"><label style="cursor: pointer;" class="custom-control-label" for="formCheck-4"></label></div>
+      </div>
+  </div>
+  {{#if isAgedReceivables}}
+  <script>
+    $('.chkAgedReceivables').prop("checked", true);
+  </script>
+  {{else}}
+  <script>
+    $('.chkAgedReceivables').prop("checked", false);
+  </script>
+  {{/if}}
+  <div class="row">
+      <hr style="width: 100%;margin: 4px;">
+  </div>
+  <div class="row">
+      <div class="col flex-grow-1"><a href="/agedreceivablessummary">Aged Receivables Summary</a></div>
+      <div class="col d-xl-flex justify-content-xl-end flex-grow-0">
+          <div class="custom-control custom-checkbox"><input class="custom-control-input favCheckBox chkAgedReceivablesSummary" type="checkbox" id="formCheck-agedreceivablesummary"><label style="cursor: pointer;" class="custom-control-label" for="formCheck-agedreceivablesummary"></label></div>
+      </div>
+  </div>
+  {{#if isAgedReceivablesSummary}}
+  <script>
+    $('.chkAgedReceivablesSummary').prop("checked", true);
+  </script>
+  {{else}}
+  <script>
+    $('.chkAgedReceivablesSummary').prop("checked", false);
+  </script>
+  {{/if}}
+  <div class="row">
+      <hr style="width: 100%;margin: 4px;">
+  </div>
+<div class="row">
+    <div class="col flex-grow-1"><a href="/statementlist">Print Statements</a></div>
+    <div class="col d-xl-flex justify-content-xl-end flex-grow-0">
+        <div class="custom-control custom-checkbox"><input class="custom-control-input favCheckBox chkPrintStatement" type="checkbox" id="formCheck-7"><label style="cursor: pointer;" class="custom-control-label" for="formCheck-7"></label></div>
+    </div>
+</div>
+{{#if isPrintStatement}}
+<script>
+  $('.chkPrintStatement').prop("checked", true);
+</script>
+{{else}}
+<script>
+  $('.chkPrintStatement').prop("checked", false);
+</script>
+{{/if}}
+</div>
+</div>
+<div class="card shadow mb-3" style="margin: 16px;min-width: 374px;">
+<div class="card-header py-3">
+<p class="text-primary m-0 font-weight-bold" style="float: left;">Purchases</p>
+<p class="text-info m-0 font-weight-bold" style="float: right;">Add to Favorites</p>
+</div>
+<div class="card-body">
+<div class="row d-xl-flex align-items-xl-center">
+    <div class="col flex-grow-1"><a href="/1099report">1099 Contractor Report</a></div>
+    <div class="col d-xl-flex justify-content-xl-end flex-grow-0">
+        <div class="custom-control custom-checkbox"><input class="custom-control-input favCheckBox chk1099Transaction" type="checkbox" id="formCheck-11"><label style="cursor: pointer;" class="custom-control-label" for="formCheck-11"></label></div>
+    </div>
+</div>
+{{#if is1099Transaction}}
+<script>
+  $('.chk1099Transaction').prop("checked", true);
+</script>
+{{else}}
+<script>
+  $('.chk1099Transaction').prop("checked", false);
+</script>
+{{/if}}
+<div class="row">
+    <hr style="width: 100%;margin: 4px;">
+</div>
+<div class="row">
+    <div class="col flex-grow-1"><a href="/agedpayables">Aged Payables</a></div>
+    <div class="col d-xl-flex justify-content-xl-end flex-grow-0">
+        <div class="custom-control custom-checkbox"><input class="custom-control-input favCheckBox chkAgedPayables" type="checkbox" id="formCheck-6"><label style="cursor: pointer;" class="custom-control-label" for="formCheck-6"></label></div>
+    </div>
+</div>
+{{#if isAgedPayables}}
+<script>
+  $('.chkAgedPayables').prop("checked", true);
+</script>
+{{else}}
+<script>
+  $('.chkAgedPayables').prop("checked", false);
+</script>
+{{/if}}
+
+<div class="row">
+    <hr style="width: 100%;margin: 4px;">
+</div>
+<div class="row">
+    <div class="col flex-grow-1"><a href="/agedpayablessummary">Aged Payables Summary</a></div>
+    <div class="col d-xl-flex justify-content-xl-end flex-grow-0">
+        <div class="custom-control custom-checkbox"><input class="custom-control-input favCheckBox chkAgedPayablesSummary" type="checkbox" id="formCheck-Summary"><label style="cursor: pointer;" class="custom-control-label" for="formCheck-Summary"></label></div>
+    </div>
+</div>
+{{#if isAgedPayablesSummary}}
+<script>
+  $('.chkAgedPayablesSummary').prop("checked", true);
+</script>
+{{else}}
+<script>
+  $('.chkAgedPayablesSummary').prop("checked", false);
+</script>
+{{/if}}
+<div class="row">
+    <hr style="width: 100%;margin: 4px;">
+</div>
+<div class="row">
+    <div class="col flex-grow-1"><a href="/purchasesreport">Purchase Report</a></div>
+    <div class="col d-xl-flex justify-content-xl-end flex-grow-0">
+        <div class="custom-control custom-checkbox"><input class="custom-control-input favCheckBox chkPurchaseReport" type="checkbox" id="formCheck-8"><label style="cursor: pointer;" class="custom-control-label" for="formCheck-8"></label></div>
+    </div>
+</div>
+{{#if isPurchaseReport}}
+<script>
+  $('.chkPurchaseReport').prop("checked", true);
+</script>
+{{else}}
+<script>
+  $('.chkPurchaseReport').prop("checked", false);
+</script>
+{{/if}}
+<div class="row">
+    <hr style="width: 100%;margin: 4px;">
+</div>
+<div class="row">
+    <div class="col flex-grow-1"><a href="/purchasesummaryreport">Purchase Summary Report</a></div>
+    <div class="col d-xl-flex justify-content-xl-end flex-grow-0">
+        <div class="custom-control custom-checkbox"><input class="custom-control-input favCheckBox chkPurchaseSummaryReport" type="checkbox" id="formCheck-PurchaseSummary"><label style="cursor: pointer;" class="custom-control-label" for="formCheck-PurchaseSummary"></label></div>
+    </div>
+</div>
+{{#if isPurchaseSummaryReport}}
+<script>
+  $('.chkPurchaseSummaryReport').prop("checked", true);
+</script>
+{{else}}
+<script>
+  $('.chkPurchaseSummaryReport').prop("checked", false);
+</script>
+{{/if}}
+</div>
+</div>
+<div class="card shadow mb-3" style="margin: 16px;min-width: 374px;">
+<div class="card-header py-3">
+<p class="text-primary m-0 font-weight-bold" style="float: left;">Sales</p>
+<p class="text-info m-0 font-weight-bold" style="float: right;">Add to Favorites</p>
+</div>
+<div class="card-body">
+<div class="row">
+    <div class="col flex-grow-1"><a href="/agedreceivables">Aged Receivables</a></div>
+    <div class="col d-xl-flex justify-content-xl-end flex-grow-0">
+        <div class="custom-control custom-checkbox"><input class="custom-control-input favCheckBox chkAgedReceivables" type="checkbox" id="formCheck-4"><label style="cursor: pointer;" class="custom-control-label" for="formCheck-4"></label></div>
+    </div>
+</div>
+{{#if isAgedReceivables}}
+<script>
+  $('.chkAgedReceivables').prop("checked", true);
+</script>
+{{else}}
+<script>
+  $('.chkAgedReceivables').prop("checked", false);
+</script>
+{{/if}}
+<div class="row">
+    <hr style="width: 100%;margin: 4px;">
+</div>
+<div class="row">
+    <div class="col flex-grow-1"><a href="/agedreceivablessummary">Aged Receivables Summary</a></div>
+    <div class="col d-xl-flex justify-content-xl-end flex-grow-0">
+        <div class="custom-control custom-checkbox"><input class="custom-control-input favCheckBox chkAgedReceivablesSummary" type="checkbox" id="formCheck-agedreceivablesummary"><label style="cursor: pointer;" class="custom-control-label" for="formCheck-agedreceivablesummary"></label></div>
+    </div>
+</div>
+{{#if isAgedReceivablesSummary}}
+<script>
+  $('.chkAgedReceivablesSummary').prop("checked", true);
+</script>
+{{else}}
+<script>
+  $('.chkAgedReceivablesSummary').prop("checked", false);
+</script>
+{{/if}}
+<div class="row">
+    <hr style="width: 100%;margin: 4px;">
+</div>
+<div class="row">
+    <div class="col flex-grow-1"><a href="/productsalesreport">Product Sales Report</a></div>
+    <div class="col d-xl-flex justify-content-xl-end flex-grow-0">
+        <div class="custom-control custom-checkbox"><input class="custom-control-input favCheckBox chkProductSalesReport" type="checkbox" id="formCheck-12ProductSales"><label style="cursor: pointer;" class="custom-control-label" for="formCheck-12ProductSales"></label></div>
+    </div>
+</div>
+{{#if isProductSalesReport}}
+<script>
+  $('.chkProductSalesReport').prop("checked", true);
+</script>
+{{else}}
+<script>
+  $('.chkProductSalesReport').prop("checked", false);
+</script>
+{{/if}}
+<div class="row">
+    <hr style="width: 100%;margin: 4px;">
+</div>
+<div class="row">
+    <div class="col flex-grow-1"><a href="/salesreport">Sales Report</a></div>
+    <div class="col d-xl-flex justify-content-xl-end flex-grow-0">
+        <div class="custom-control custom-checkbox"><input class="custom-control-input favCheckBox chkSalesReport" type="checkbox" id="formCheck-12"><label style="cursor: pointer;" class="custom-control-label" for="formCheck-12"></label></div>
+    </div>
+</div>
+{{#if isSalesReport}}
+<script>
+  $('.chkSalesReport').prop("checked", true);
+</script>
+{{else}}
+<script>
+  $('.chkSalesReport').prop("checked", false);
+</script>
+{{/if}}
+<div class="row">
+    <hr style="width: 100%;margin: 4px;">
+</div>
+<div class="row">
+    <div class="col flex-grow-1"><a href="/salessummaryreport">Sales Summary Report</a></div>
+    <div class="col d-xl-flex justify-content-xl-end flex-grow-0">
+        <div class="custom-control custom-checkbox"><input class="custom-control-input favCheckBox chkSalesSummaryReport" type="checkbox" id="formCheck-12Summary"><label style="cursor: pointer;" class="custom-control-label" for="formCheck-12Summary"></label></div>
+    </div>
+</div>
+{{#if isSalesSummaryReport}}
+<script>
+  $('.chkSalesSummaryReport').prop("checked", true);
+</script>
+{{else}}
+<script>
+  $('.chkSalesSummaryReport').prop("checked", false);
+</script>
+{{/if}}
+</div>
+</div>
+</div>
+</div>
+
+</div>
+
+<!-- Start Help Video Modal -->
+<div class="modal fade" role="dialog" tabindex="-1" id="helpModal">
+<div class="modal-dialog" role="document" style="max-width: 670px!important;">
+<div class="modal-content" >
+<div class="modal-header" >
+
+<h4 class="title-header" >Reports</h4>
+<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+</div>
+<div class="modal-body">
+  <!-- <iframe width="640" height="360" src="https://player.vimeo.com/video/99892791" frameborder="0" allowfullscreen=""></iframe> -->
+  <!-- <iframe width="640" height="360" src="https://www.youtube.com/embed/BzxoYOp42fg" frameborder="0" allowfullscreen=""></iframe> -->
+  <video id="myVideo" width="640" height="360" controls="" name="media" style="border: solid 5px #999999f0; height: auto; outline: none;">
+    <source src="https://erphelpes.com/vs1videos/reports.mp4" type="video/mp4">
+  </video>
+</div>
+</div>
+</div>
+</div>
+
+<!-- End Help Video Modal -->
+<script>
+modalDraggable();
+</script>
+</template>
