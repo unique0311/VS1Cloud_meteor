@@ -294,6 +294,8 @@ Template.inventorylist.onRendered(function() {
 
                     MakeNegative();
                   }, 100);
+                }).on('search.dt', function () {
+                  alert('here');
                 });
 
                 $('.fullScreenSpin').css('display','none');
@@ -449,6 +451,28 @@ $('.fullScreenSpin').css('display','none');
 
           MakeNegative();
         }, 100);
+      }).on('search.dt', function () {
+        let draftRecord = templateObject.datatablerecords.get();
+        let newDataArray = [];
+        let searchTerm = $(event.target).val().toLowerCase();
+        //console.log(eventData);
+        $.grep(draftRecord, function(elem) {
+          console.log(elem);
+          //return elem.toLowerCase().indexOf(searchTerm) > -1;
+        });
+      //  console.log(results);
+        // $.each(draftRecord, function(i, v) {
+        // console.log(v);
+        // if (v.index(eventData) !== -1) {
+        //   console.log('my object is in my array');
+        // }
+        //   // useData[i].fields.ID
+        //   //   if (v[i].fields.name.search(new RegExp(/peter/i)) != -1) {
+        //   //       alert(v.age);
+        //   //       return;
+        //   //   }
+        // });
+        templateObject.datatablerecords.set(draftRecord);
       });
 
       $('.fullScreenSpin').css('display','none');

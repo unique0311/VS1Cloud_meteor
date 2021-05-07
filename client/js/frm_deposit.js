@@ -118,29 +118,29 @@ Template.depositcard.onRendered(()=>{
         $('.uploadedImage').attr('src', imageData);
     };
 
-    $(document).ready(function () {
-        history.pushState(null, document.title, location.href);
-        window.addEventListener('popstate', function (event) {
-            swal({
-                title: 'Leave Deposit Page',
-                text: "Do you want to leave this screen?",
-                type: 'question',
-                showCancelButton: true,
-                confirmButtonText: 'Yes'
-            }).then((result) => {
-                if (result.value) {
-                    $(".btnSave").trigger("click");
-                } else if (result.dismiss === 'cancel') {
-                    window.open('/depositlist', "_self");
-                } else {
+    // $(document).ready(function () {
+    //     history.pushState(null, document.title, location.href);
+    //     window.addEventListener('popstate', function (event) {
+    //         swal({
+    //             title: 'Leave Deposit Page',
+    //             text: "Do you want to leave this screen?",
+    //             type: 'question',
+    //             showCancelButton: true,
+    //             confirmButtonText: 'Yes'
+    //         }).then((result) => {
+    //             if (result.value) {
+    //                 $(".btnSave").trigger("click");
+    //             } else if (result.dismiss === 'cancel') {
+    //                 window.open('/depositlist', "_self");
+    //             } else {
 
-                }
-            });
+    //             }
+    //         });
 
-        });
+    //     });
 
 
-    });
+    // });
     const templateObject = Template.instance();
     const records =[];
     let purchaseService = new PurchaseBoardService();
@@ -2274,7 +2274,7 @@ Template.depositcard.events({
                         $('.fullScreenSpin').css('display','none');
                     });
                   } else if (result.dismiss === 'cancel') {
-                    $('.fullScreenSpin').css('display','inline-block');
+                    $('.fullScreenSpin').css('display','none');
                   }
               });
             //e.preventDefault();

@@ -36,28 +36,28 @@ Template.supplierpaymentcard.onCreated(() => {
 });
 
 Template.supplierpaymentcard.onRendered(() => {
-  $(document).ready(function () {
-    var referrer = document.referrer;
-    localStorage.setItem("prevurl", referrer);
-    history.pushState(null, document.title, location.href);
-    window.addEventListener('popstate', function (event) {
-        swal({
-            title: 'Save Or Cancel To Continue',
-            text: "Do you want to Save or Cancel this transaction?",
-            type: 'question',
-            showCancelButton: true,
-            confirmButtonText: 'Save'
-        }).then((result) => {
-            if (result.value) {
-                $(".btnSave").trigger("click");
-            } else if (result.dismiss === 'cancel') {
-                window.open('/supplierawaitingpurchaseorder', "_self");
-            } else {
+//   $(document).ready(function () {
+//     var referrer = document.referrer;
+//     localStorage.setItem("prevurl", referrer);
+//     history.pushState(null, document.title, location.href);
+//     window.addEventListener('popstate', function (event) {
+//         swal({
+//             title: 'Save Or Cancel To Continue',
+//             text: "Do you want to Save or Cancel this transaction?",
+//             type: 'question',
+//             showCancelButton: true,
+//             confirmButtonText: 'Save'
+//         }).then((result) => {
+//             if (result.value) {
+//                 $(".btnSave").trigger("click");
+//             } else if (result.dismiss === 'cancel') {
+//                 window.open('/supplierawaitingpurchaseorder', "_self");
+//             } else {
 
-            }
-        });
-    });
-});
+//             }
+//         });
+//     });
+// });
   $('.fullScreenSpin').css('display', 'inline-block');
   let imageData = (localStorage.getItem("Image"));
   if (imageData) {

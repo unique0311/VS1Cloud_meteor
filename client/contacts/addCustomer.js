@@ -101,30 +101,7 @@ Template.customerscard.onRendered(function () {
             }
         });
     }, 500);
-
-    $(document).ready(function () {
-        history.pushState(null, document.title, location.href);
-        window.addEventListener('popstate', function (event) {
-            swal({
-                title: 'Leave Customer Screen',
-                text: "Do you want to leave this screen?",
-                type: 'info',
-                showCancelButton: true,
-                confirmButtonText: 'Save'
-            }).then((result) => {
-                if (result.value) {
-                    $(".btnSave").trigger("click");
-                } else if (result.dismiss === 'cancel') {
-                    window.open('/customerlist', "_self");
-                } else {
-
-                }
-            });
-
-        });
-
-
-    });
+ 
 
     templateObject.getOverviewARData = function (CustomerName) {
         getVS1Data('TARReport').then(function (dataObject) {

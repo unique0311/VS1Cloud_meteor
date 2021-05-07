@@ -2943,24 +2943,24 @@ Template.new_quote.onRendered(function () {
     // $('#tblInventory').DataTable().column( 0 ).visible( false );
     //$('#tblInventory').DataTable().column( 5 ).visible( false );
 
-    $(document).ready(function () {
-        history.pushState(null, document.title, location.href);
-        window.addEventListener('popstate', function (event) {
-            swal({
-                title: 'Save Or Cancel To Continue',
-                text: "Do you want to Save or Cancel this transaction?",
-                type: 'info',
-                showCancelButton: true,
-                confirmButtonText: 'Save'
-            }).then((result) => {
-                if (result.value) {
-                    $(".btnSave").trigger("click");
-                } else if (result.dismiss === 'cancel') {
-                    window.open('/quoteslist', '_self');
-                } else { }
-            });
-        });
-    });
+    // $(document).ready(function () {
+    //     history.pushState(null, document.title, location.href);
+    //     window.addEventListener('popstate', function (event) {
+    //         swal({
+    //             title: 'Save Or Cancel To Continue',
+    //             text: "Do you want to Save or Cancel this transaction?",
+    //             type: 'info',
+    //             showCancelButton: true,
+    //             confirmButtonText: 'Save'
+    //         }).then((result) => {
+    //             if (result.value) {
+    //                 $(".btnSave").trigger("click");
+    //             } else if (result.dismiss === 'cancel') {
+    //                 window.open('/quoteslist', '_self');
+    //             } else { }
+    //         });
+    //     });
+    // });
 
 
     tempObj.getAllTaxCodes = function () {

@@ -274,6 +274,7 @@ Template.appointmenttimelist.onRendered(function () {
             if (data.tappointment[i].fields.AppointmentsTimeLog != null) {
               let url = new URL(window.location.href);
               let searchID = parseInt(url.searchParams.get("id")) || 0;
+
               // let openBalance = utilityService.modifynegativeCurrencyFormat(data.tappointment[i].fields.OpenBalance)|| 0.00;
               // let closeBalance = utilityService.modifynegativeCurrencyFormat(data.tappointment[i].fields.CloseBalance)|| 0.00;
               if (data.tappointment[i].fields.AppointmentsTimeLog.length) {
@@ -296,7 +297,7 @@ Template.appointmenttimelist.onRendered(function () {
                       timelog: new Array(data.tappointment[i].fields.AppointmentsTimeLog) || '',
                       startTime: data.tappointment[i].fields.StartTime.split(' ')[1] || '',
                       timeStart: moment(data.tappointment[i].fields.AppointmentsTimeLog[a].fields.StartDatetime).format('h:mm a'),
-                      timeEnd: moment(data.tappointment[i].fields.AppointmentsTimeLog[a].fields.EndDateTime).format('h:mm a'),
+                      timeEnd: moment(data.tappointment[i].fields.AppointmentsTimeLog[a].fields.EndDatetime).format('h:mm a'),
                       totalHours: data.tappointment[i].fields.TotalHours || 0,
                       endTime: data.tappointment[i].fields.EndTime.split(' ')[1] || '',
                       startDate: data.tappointment[i].fields.StartTime || '',
@@ -333,7 +334,7 @@ Template.appointmenttimelist.onRendered(function () {
                       timelog: new Array(data.tappointment[i].fields.AppointmentsTimeLog) || '',
                       startTime: data.tappointment[i].fields.StartTime.split(' ')[1] || '',
                       timeStart: moment(data.tappointment[i].fields.AppointmentsTimeLog[a].fields.StartDatetime).format('h:mm a'),
-                      timeEnd: moment(data.tappointment[i].fields.AppointmentsTimeLog[a].fields.EndDateTime).format('h:mm a'),
+                      timeEnd: moment(data.tappointment[i].fields.AppointmentsTimeLog[a].fields.EndDatetime).format('h:mm a'),
                       totalHours: data.tappointment[i].fields.TotalHours || 0,
                       endTime: data.tappointment[i].fields.EndTime.split(' ')[1] || '',
                       startDate: data.tappointment[i].fields.StartTime || '',
@@ -373,7 +374,7 @@ Template.appointmenttimelist.onRendered(function () {
                   timelog: new Array(data.tappointment[i].fields.AppointmentsTimeLog) || '',
                   startTime: data.tappointment[i].fields.StartTime.split(' ')[1] || '',
                   timeStart: moment(data.tappointment[i].fields.AppointmentsTimeLog.fields.StartDatetime).format('h:mm a'),
-                  timeEnd: moment(data.tappointment[i].fields.AppointmentsTimeLog.fields.EndDateTime).format('h:mm a'),
+                  timeEnd: moment(data.tappointment[i].fields.AppointmentsTimeLog.fields.EndDatetime).format('h:mm a'),
                   totalHours: data.tappointment[i].fields.TotalHours || 0,
                   endTime: data.tappointment[i].fields.EndTime.split(' ')[1] || '',
                   startDate: data.tappointment[i].fields.StartTime || '',
@@ -589,11 +590,10 @@ Template.appointmenttimelist.onRendered(function () {
                     if (useData[i].fields.AppointmentsTimeLog[a].fields.StartDatetime != "") {
                       useData[i].fields.AppointmentsTimeLog[a].fields.StartDatetime = moment(useData[i].fields.AppointmentsTimeLog[a].fields.StartDatetime).format('h:mm a')
                     }
-    
-                    if (useData[i].fields.AppointmentsTimeLog[a].fields.EndDateTime != "") {
-                      useData[i].fields.AppointmentsTimeLog[a].fields.EndDateTime = moment(useData[i].fields.AppointmentsTimeLog[a].fields.EndDateTime).format('h:mm a')
+
+                    if (useData[i].fields.AppointmentsTimeLog[a].fields.EndDatetime != "") {
+                      useData[i].fields.AppointmentsTimeLog[a].fields.EndDatetime = moment(useData[i].fields.AppointmentsTimeLog[a].fields.EndDatetime).format('h:mm a')
                     }
-                    
                     dataList = {
                       id: useData[i].fields.AppointmentsTimeLog[a].fields.AppointID || '',
                       appointmentdate: useData[i].fields.MsTimeStamp != '' ? moment(useData[i].fields.MsTimeStamp).format("DD/MM/YYYY") : useData[i].fields.MsTimeStamp,
@@ -611,7 +611,7 @@ Template.appointmenttimelist.onRendered(function () {
                       timelog: new Array(useData[i].fields.AppointmentsTimeLog) || '',
                       startTime: useData[i].fields.StartTime.split(' ')[1] || '',
                       timeStart: useData[i].fields.AppointmentsTimeLog[a].fields.StartDatetime || '',
-                      timeEnd: useData[i].fields.AppointmentsTimeLog[a].fields.EndDateTime || '',
+                      timeEnd: useData[i].fields.AppointmentsTimeLog[a].fields.EndDatetime || '',
                       totalHours: useData[i].fields.TotalHours || 0,
                       endTime: useData[i].fields.EndTime.split(' ')[1] || '',
                       startDate: useData[i].fields.StartTime || '',
@@ -635,9 +635,9 @@ Template.appointmenttimelist.onRendered(function () {
                   if (useData[i].fields.AppointmentsTimeLog[a].fields.StartDatetime != "") {
                     useData[i].fields.AppointmentsTimeLog[a].fields.StartDatetime = moment(useData[i].fields.AppointmentsTimeLog[a].fields.StartDatetime).format('h:mm a')
                   }
-  
-                  if (useData[i].fields.AppointmentsTimeLog[a].fields.EndDateTime != "") {
-                    useData[i].fields.AppointmentsTimeLog[a].fields.EndDateTime = moment(useData[i].fields.AppointmentsTimeLog[a].fields.EndDateTime).format('h:mm a')
+
+                  if (useData[i].fields.AppointmentsTimeLog[a].fields.EndDatetime != "") {
+                    useData[i].fields.AppointmentsTimeLog[a].fields.EndDatetime = moment(useData[i].fields.AppointmentsTimeLog[a].fields.EndDatetime).format('h:mm a')
                   }
                   dataList = {
                     id: useData[i].fields.AppointmentsTimeLog[a].fields.AppointID || '',
@@ -656,7 +656,7 @@ Template.appointmenttimelist.onRendered(function () {
                     timelog: new Array(useData[i].fields.AppointmentsTimeLog) || '',
                     startTime: useData[i].fields.StartTime.split(' ')[1] || '',
                     timeStart: useData[i].fields.AppointmentsTimeLog[a].fields.StartDatetime || '',
-                    timeEnd: useData[i].fields.AppointmentsTimeLog[a].fields.EndDateTime || '',
+                    timeEnd: useData[i].fields.AppointmentsTimeLog[a].fields.EndDatetime || '',
                     totalHours: useData[i].fields.TotalHours || 0,
                     endTime: useData[i].fields.EndTime.split(' ')[1] || '',
                     startDate: useData[i].fields.StartTime || '',
@@ -684,8 +684,8 @@ Template.appointmenttimelist.onRendered(function () {
                   if (useData[i].fields.AppointmentsTimeLog.fields.StartDatetime != "") {
                     useData[i].fields.AppointmentsTimeLog.fields.StartDatetime = moment(useData[i].fields.AppointmentsTimeLog.fields.StartDatetime).format('h:mm a')
                   }
-                  if (useData[i].fields.AppointmentsTimeLog.fields.EndDateTime != "") {
-                    useData[i].fields.AppointmentsTimeLog.fields.EndDateTime = moment(useData[i].fields.AppointmentsTimeLog.fields.EndDateTime).format('h:mm a')
+                  if (useData[i].fields.AppointmentsTimeLog.fields.EndDatetime != "") {
+                    useData[i].fields.AppointmentsTimeLog.fields.EndDatetime = moment(useData[i].fields.AppointmentsTimeLog.fields.EndDatetime).format('h:mm a')
                   }
 
                   dataList = {
@@ -705,7 +705,7 @@ Template.appointmenttimelist.onRendered(function () {
                     timelog: new Array(useData[i].fields.AppointmentsTimeLog) || '',
                     startTime: useData[i].fields.StartTime.split(' ')[1] || '',
                     timeStart: useData[i].fields.AppointmentsTimeLog.fields.StartDatetime || '',
-                    timeEnd: useData[i].fields.AppointmentsTimeLog.fields.EndDateTime || '',
+                    timeEnd: useData[i].fields.AppointmentsTimeLog.fields.EndDatetime || '',
                     totalHours: useData[i].fields.TotalHours || 0,
                     endTime: useData[i].fields.EndTime.split(' ')[1] || '',
                     startDate: useData[i].fields.StartTime || '',
@@ -726,13 +726,13 @@ Template.appointmenttimelist.onRendered(function () {
                   dataTableList.push(dataList);
                 }
               } else {
-                
+
                 if (useData[i].fields.AppointmentsTimeLog.fields.StartDatetime != "") {
                   useData[i].fields.AppointmentsTimeLog.fields.StartDatetime = moment(useData[i].fields.AppointmentsTimeLog.fields.StartDatetime).format('h:mm a');
                 }
 
-                if (useData[i].fields.AppointmentsTimeLog.fields.EndDateTime != "") {
-                  useData[i].fields.AppointmentsTimeLog.fields.EndDateTime = moment(useData[i].fields.AppointmentsTimeLog.fields.EndDateTime).format('h:mm a');
+                if (useData[i].fields.AppointmentsTimeLog.fields.EndDatetime != "") {
+                  useData[i].fields.AppointmentsTimeLog.fields.EndDatetime = moment(useData[i].fields.AppointmentsTimeLog.fields.EndDatetime).format('h:mm a');
                 }
 
                 dataList = {
@@ -752,7 +752,7 @@ Template.appointmenttimelist.onRendered(function () {
                   timelog: new Array(useData[i].fields.AppointmentsTimeLog) || '',
                   startTime: useData[i].fields.StartTime.split(' ')[1] || '',
                   timeStart: useData[i].fields.AppointmentsTimeLog.fields.StartDatetime || '',
-                  timeEnd: useData[i].fields.AppointmentsTimeLog.fields.EndDateTime || '',
+                  timeEnd: useData[i].fields.AppointmentsTimeLog.fields.EndDatetime || '',
                   totalHours: useData[i].fields.TotalHours || 0,
                   endTime: useData[i].fields.EndTime.split(' ')[1] || '',
                   startDate: useData[i].fields.StartTime || '',
@@ -911,7 +911,6 @@ Template.appointmenttimelist.onRendered(function () {
       templateObject.tableheaderrecords.set(tableHeaderList);
       $('div.dataTables_filter input').addClass('form-control form-control-sm');
     }).catch(function (err) {
-      console.log(err);
       sideBarService.getAllAppointmentList().then(function (data) {
         // localStorage.setItem('VS1TReconcilationList', JSON.stringify(data)||'');
         let lineItems = [];
@@ -923,6 +922,7 @@ Template.appointmenttimelist.onRendered(function () {
             // let closeBalance = utilityService.modifynegativeCurrencyFormat(data.tappointment[i].fields.CloseBalance)|| 0.00;
             if (data.tappointment[i].fields.AppointmentsTimeLog.length) {
               for (let a = 0; a < data.tappointment[i].fields.AppointmentsTimeLog.length; a++) {
+                console.log(data.tappointment[i].fields.AppointmentsTimeLog[a].fields.EndDatetime);
                 dataList = {
                   id: data.tappointment[i].fields.AppointmentsTimeLog[a].fields.AppointID || '',
                   appointmentdate: data.tappointment[i].fields.MsTimeStamp != '' ? moment(data.tappointment[i].fields.MsTimeStamp).format("DD/MM/YYYY") : data.tappointment[i].fields.MsTimeStamp,
@@ -940,7 +940,7 @@ Template.appointmenttimelist.onRendered(function () {
                   timelog: new Array(data.tappointment[i].fields.AppointmentsTimeLog) || '',
                   startTime: data.tappointment[i].fields.StartTime.split(' ')[1] || '',
                   timeStart: moment(data.tappointment[i].fields.AppointmentsTimeLog[a].fields.StartDatetime).format('h:mm a'),
-                  timeEnd: moment(data.tappointment[i].fields.AppointmentsTimeLog[a].fields.EndDateTime).format('h:mm a'),
+                  timeEnd: moment(data.tappointment[i].fields.AppointmentsTimeLog[a].fields.EndDatetime).format('h:mm a'),
                   totalHours: data.tappointment[i].fields.TotalHours || 0,
                   endTime: data.tappointment[i].fields.EndTime.split(' ')[1] || '',
                   startDate: data.tappointment[i].fields.StartTime || '',
@@ -979,7 +979,7 @@ Template.appointmenttimelist.onRendered(function () {
                 timelog: new Array(data.tappointment[i].fields.AppointmentsTimeLog) || '',
                 startTime: data.tappointment[i].fields.StartTime.split(' ')[1] || '',
                 timeStart: moment(data.tappointment[i].fields.AppointmentsTimeLog.fields.StartDatetime).format('h:mm a'),
-                timeEnd: moment(data.tappointment[i].fields.AppointmentsTimeLog.fields.EndDateTime).format('h:mm a'),
+                timeEnd: moment(data.tappointment[i].fields.AppointmentsTimeLog.fields.EndDatetime).format('h:mm a'),
                 totalHours: data.tappointment[i].fields.TotalHours || 0,
                 endTime: data.tappointment[i].fields.EndTime.split(' ')[1] || '',
                 startDate: data.tappointment[i].fields.StartTime || '',

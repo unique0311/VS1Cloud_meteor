@@ -97,24 +97,24 @@ Template.billcard.onRendered(() => {
     //console.log(purchaseCloudGridPreferenceRec);
     $(document).ready(function() {
 
-        history.pushState(null, document.title, location.href);
-        window.addEventListener('popstate', function(event) {
-            swal({
-                title: 'Save Or Cancel To Continue',
-                text: "Do you want to Save or Cancel this transaction?",
-                type: 'info',
-                showCancelButton: true,
-                confirmButtonText: 'Save'
-            }).then((result) => {
-                if (result.value) {
-                    $(".btnSave").trigger("click");
-                } else if (result.dismiss === 'cancel') {
-                    window.open('/billlist', '_self');
-                } else {
+        // history.pushState(null, document.title, location.href);
+        // window.addEventListener('popstate', function(event) {
+        //     swal({
+        //         title: 'Save Or Cancel To Continue',
+        //         text: "Do you want to Save or Cancel this transaction?",
+        //         type: 'info',
+        //         showCancelButton: true,
+        //         confirmButtonText: 'Save'
+        //     }).then((result) => {
+        //         if (result.value) {
+        //             $(".btnSave").trigger("click");
+        //         } else if (result.dismiss === 'cancel') {
+        //             window.open('/billlist', '_self');
+        //         } else {
 
-                }
-            });
-        });
+        //         }
+        //     });
+        // });
 
         $('#formCheck-one').click(function() {
             // var inputValue = $(this).attr("value");

@@ -750,31 +750,31 @@ Template.stockadjustmentcard.onRendered(() => {
 
     });
 
-    $(document).ready(function () {
-         var url = window.location.href;
-        var id_available = url.includes("?id=");
-        history.pushState(null, document.title, location.href);
-        window.addEventListener('popstate', function (event) {
-        if(id_available == false){
-            swal({
-                title: 'Save Or Cancel To Continue',
-                text: "Do you want to Save or Cancel this Stock Adjustment?",
-                type: 'question',
-                showCancelButton: true,
-                confirmButtonText: 'Save'
-            }).then((result) => {
-                if (result.value) {
-                    $(".btnSave").trigger("click");
-                } else if (result.dismiss === 'cancel') {
-                    window.open('/stockadjustmentoverview', "_self");
-                } else {
+    // $(document).ready(function () {
+    //      var url = window.location.href;
+    //     var id_available = url.includes("?id=");
+    //     history.pushState(null, document.title, location.href);
+    //     window.addEventListener('popstate', function (event) {
+    //     if(id_available == false){
+    //         swal({
+    //             title: 'Save Or Cancel To Continue',
+    //             text: "Do you want to Save or Cancel this Stock Adjustment?",
+    //             type: 'question',
+    //             showCancelButton: true,
+    //             confirmButtonText: 'Save'
+    //         }).then((result) => {
+    //             if (result.value) {
+    //                 $(".btnSave").trigger("click");
+    //             } else if (result.dismiss === 'cancel') {
+    //                 window.open('/stockadjustmentoverview', "_self");
+    //             } else {
 
-                }
-            });
-        }
+    //             }
+    //         });
+    //     }
            
-        });
-    });
+    //     });
+    // });
 
 });
 Template.stockadjustmentcard.onRendered(function () {

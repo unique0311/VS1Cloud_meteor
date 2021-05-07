@@ -71,29 +71,29 @@ Template.employeescard.onRendered(function () {
     const dataTableList = [];
     const tableHeaderList = [];
 
-    $(document).ready(function () {
-        history.pushState(null, document.title, location.href);
-        window.addEventListener('popstate', function (event) {
-            swal({
-                title: 'Leave Employee Screen',
-                text: "Do you want to leave this screen?",
-                type: 'info',
-                showCancelButton: true,
-                confirmButtonText: 'Save'
-            }).then((result) => {
-                if (result.value) {
-                    $(".btnSave").trigger("click");
-                } else if (result.dismiss === 'cancel') {
-                    window.open('/employeelist', "_self");
-                } else {
+    // $(document).ready(function () {
+    //     history.pushState(null, document.title, location.href);
+    //     window.addEventListener('popstate', function (event) {
+    //         swal({
+    //             title: 'Leave Employee Screen',
+    //             text: "Do you want to leave this screen?",
+    //             type: 'info',
+    //             showCancelButton: true,
+    //             confirmButtonText: 'Save'
+    //         }).then((result) => {
+    //             if (result.value) {
+    //                 $(".btnSave").trigger("click");
+    //             } else if (result.dismiss === 'cancel') {
+    //                 window.open('/employeelist', "_self");
+    //             } else {
 
-                }
-            });
+    //             }
+    //         });
 
-        });
+    //     });
 
 
-    });
+    // });
     let salestaxcode = '';
     let totAmount = 0;
     let totAmountOverDue = 0;

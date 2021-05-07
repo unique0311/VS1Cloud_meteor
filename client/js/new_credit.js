@@ -92,26 +92,26 @@ Template.creditcard.onRendered(() => {
     });
 
 
-    $(document).ready(function() {
-        history.pushState(null, document.title, location.href);
-        window.addEventListener('popstate', function(event) {
-            swal({
-                title: 'Save Or Cancel To Continue',
-                text: "Do you want to Save or Cancel this transaction?",
-                type: 'info',
-                showCancelButton: true,
-                confirmButtonText: 'Save'
-            }).then((result) => {
-                if (result.value) {
-                    $(".btnSave").trigger("click");
-                } else if (result.dismiss === 'cancel') {
-                    window.open('/creditlist', '_self');
-                } else {
+    // $(document).ready(function() {
+    //     history.pushState(null, document.title, location.href);
+    //     window.addEventListener('popstate', function(event) {
+    //         swal({
+    //             title: 'Save Or Cancel To Continue',
+    //             text: "Do you want to Save or Cancel this transaction?",
+    //             type: 'info',
+    //             showCancelButton: true,
+    //             confirmButtonText: 'Save'
+    //         }).then((result) => {
+    //             if (result.value) {
+    //                 $(".btnSave").trigger("click");
+    //             } else if (result.dismiss === 'cancel') {
+    //                 window.open('/creditlist', '_self');
+    //             } else {
 
-                }
-            });
-        });
-    });
+    //             }
+    //         });
+    //     });
+    // });
     //let purchaseCloudGridPreferenceRec = CloudPreference.findOne({userid:Session.get('mycloudLogonID'),PrefName:'tblCreditLine'});
     //alert(purchaseCloudGridPreferenceRec.PrefGroup);
     //console.log(purchaseCloudGridPreferenceRec);

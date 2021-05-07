@@ -101,29 +101,29 @@ Template.productview.onRendered(function() {
     const salesaccountrecords = [];
     const inventoryaccountrecords = [];
 
-    $(document).ready(function () {
-        history.pushState(null, document.title, location.href);
-        window.addEventListener('popstate', function (event) {
-            swal({
-                title: 'Leave Product View Screen',
-                text: "Do you want to leave this screen?",
-                type: 'info',
-                showCancelButton: true,
-                confirmButtonText: 'Save'
-            }).then((result) => {
-                if (result.value) {
-                    $(".btnSave").trigger("click");
-                } else if (result.dismiss === 'cancel') {
-                    window.open('/productlist', "_self");
-                } else {
+    // $(document).ready(function () {
+    //     history.pushState(null, document.title, location.href);
+    //     window.addEventListener('popstate', function (event) {
+    //         swal({
+    //             title: 'Leave Product View Screen',
+    //             text: "Do you want to leave this screen?",
+    //             type: 'info',
+    //             showCancelButton: true,
+    //             confirmButtonText: 'Save'
+    //         }).then((result) => {
+    //             if (result.value) {
+    //                 $(".btnSave").trigger("click");
+    //             } else if (result.dismiss === 'cancel') {
+    //                 window.open('/productlist', "_self");
+    //             } else {
     
-                }
-            });
+    //             }
+    //         });
            
-        });
+    //     });
     
     
-    });
+    // });
     templateObject.getAccountNames = function(){
       getVS1Data('TAccountVS1').then(function (dataObject) {
         if(dataObject.length == 0){

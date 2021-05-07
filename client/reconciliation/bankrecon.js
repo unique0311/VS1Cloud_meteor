@@ -2491,31 +2491,31 @@ Template.bankrecon.helpers({
     }
 });
 
-setTimeout(function(){
-    $(function () {
-        let url = window.location.href;
-        history.pushState(null, document.title, location.href);
-        window.addEventListener('popstate', function (event) {
-            if(url.indexOf('?id') > 1){
-                window.open('/reconciliationlist', "_self");
-            }else{
-                swal({
-                    title: 'Save Or Cancel To Continue',
-                    text: "Do you want to Save or Cancel this transaction?",
-                    type: 'info',
-                    showCancelButton: true,
-                    confirmButtonText: 'Save'
-                }).then((result) => {
-                    if (result.value) {
-                        $(".reconbtn").trigger("click");
-                    } else if (result.dismiss === 'cancel') {
-                        window.open('/reconciliationlist', "_self");
-                    } else {
+// setTimeout(function(){
+//     $(function () {
+//         let url = window.location.href;
+//         history.pushState(null, document.title, location.href);
+//         window.addEventListener('popstate', function (event) {
+//             if(url.indexOf('?id') > 1){
+//                 window.open('/reconciliationlist', "_self");
+//             }else{
+//                 swal({
+//                     title: 'Save Or Cancel To Continue',
+//                     text: "Do you want to Save or Cancel this transaction?",
+//                     type: 'info',
+//                     showCancelButton: true,
+//                     confirmButtonText: 'Save'
+//                 }).then((result) => {
+//                     if (result.value) {
+//                         $(".reconbtn").trigger("click");
+//                     } else if (result.dismiss === 'cancel') {
+//                         window.open('/reconciliationlist', "_self");
+//                     } else {
     
-                    }
-                });
-            }
+//                     }
+//                 });
+//             }
            
-        });
-    })
-},5000)
+//         });
+//     })
+// },5000)

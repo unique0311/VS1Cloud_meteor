@@ -1405,6 +1405,12 @@ var getInputRadio = goToParent.find("input[id = " + getValue + "]");
         </div>
         <div class="col colCalendar" id="colCalendar">
             <style>
+                @media screen and (max-width: 2000px) {
+                    .fc-view-harness.fc-view-harness-active {
+                        height: 70vh !important;
+                    }
+                }
+
                 @media screen and (max-width: 812px) {
                     /*iPhoneX*/
                     /*
@@ -1432,7 +1438,7 @@ var getInputRadio = goToParent.find("input[id = " + getValue + "]");
                 }
 
                 .fc-view-harness.fc-view-harness-active {
-                    height: 100vh !important;
+                    /*                    height: 100vh !important;*/
                     background-color: #ffffff !important;
                     box-shadow: 0 .15rem 1.75rem 0 rgba(58, 59, 69, .15) !important;
                     background-clip: border-box;
