@@ -693,7 +693,7 @@ Template.appointments.onRendered(function () {
                                 $("#btnHold").prop("disabled", false);
                             }
 
-                            if(result[0].aEndTime != "") {
+                            if (result[0].aEndTime != "") {
                                 $("#btnHold").prop("disabled", true);
                                 $("#btnStartActualTime").prop("disabled", true);
                                 $("#btnEndActualTime").prop("disabled", true);
@@ -816,15 +816,15 @@ Template.appointments.onRendered(function () {
                             }
                         },
                         eventClick: function (info) {
-                        $('#frmAppointment')[0].reset();
-                        $("#btnHold").prop("disabled", false);
-                        $("#btnStartActualTime").prop("disabled", false);
-                        $("#btnEndActualTime").prop("disabled", false);
-                        $("#startTime").prop("disabled", false);
-                        $("#endTime").prop("disabled", false);
-                        $("#tActualStartTime").prop("disabled", false);
-                        $("#tActualEndTime").prop("disabled", false);
-                        $("#txtActualHoursSpent").prop("disabled", false);
+                            $('#frmAppointment')[0].reset();
+                            $("#btnHold").prop("disabled", false);
+                            $("#btnStartActualTime").prop("disabled", false);
+                            $("#btnEndActualTime").prop("disabled", false);
+                            $("#startTime").prop("disabled", false);
+                            $("#endTime").prop("disabled", false);
+                            $("#tActualStartTime").prop("disabled", false);
+                            $("#tActualEndTime").prop("disabled", false);
+                            $("#txtActualHoursSpent").prop("disabled", false);
                             let googleLink = "";
                             var hours = '0';
                             var id = info.event.id;
@@ -843,16 +843,16 @@ Template.appointments.onRendered(function () {
                                     $(".paused").hide();
                                     $("#btnHold").prop("disabled", false);
                                 }
-                                if(result[0].aEndTime != "") {
-                                $("#btnHold").prop("disabled", true);
-                                $("#btnStartActualTime").prop("disabled", true);
-                                $("#btnEndActualTime").prop("disabled", true);
-                                $("#startTime").prop("disabled", true);
-                                $("#endTime").prop("disabled", true);
-                                $("#tActualStartTime").prop("disabled", true);
-                                $("#tActualEndTime").prop("disabled", true);
-                                $("#txtActualHoursSpent").prop("disabled", true);
-                            }
+                                if (result[0].aEndTime != "") {
+                                    $("#btnHold").prop("disabled", true);
+                                    $("#btnStartActualTime").prop("disabled", true);
+                                    $("#btnEndActualTime").prop("disabled", true);
+                                    $("#startTime").prop("disabled", true);
+                                    $("#endTime").prop("disabled", true);
+                                    $("#tActualStartTime").prop("disabled", true);
+                                    $("#tActualEndTime").prop("disabled", true);
+                                    $("#txtActualHoursSpent").prop("disabled", true);
+                                }
                                 if (result[0].aStartTime != '' && result[0].aEndTime != '') {
                                     var startTime = moment(result[0].startDate.split(' ')[0] + ' ' + result[0].aStartTime);
                                     var endTime = moment(result[0].endDate.split(' ')[0] + ' ' + result[0].aEndTime);
@@ -977,6 +977,13 @@ Template.appointments.onRendered(function () {
                             document.getElementById("frmAppointment").reset();
                             $(".paused").hide();
                             $("#btnHold").prop("disabled", false);
+                            $("#btnStartActualTime").prop("disabled", false);
+                            $("#btnEndActualTime").prop("disabled", false);
+                            $("#startTime").prop("disabled", false);
+                            $("#endTime").prop("disabled", false);
+                            $("#tActualStartTime").prop("disabled", false);
+                            $("#tActualEndTime").prop("disabled", false);
+                            $("#txtActualHoursSpent").prop("disabled", false);
                             document.getElementById("employee_name").value = event.draggedEl.innerText.replace(/[0-9]/g, '');
                             var start = event.dateStr != '' ? moment(event.dateStr).format("DD/MM/YYYY") : event.dateStr;
                             document.getElementById("dtSODate").value = start;
@@ -1528,8 +1535,15 @@ Template.appointments.onRendered(function () {
                         },
                         //Triggers modal once external object is dropped to calender.
                         drop: function (event) {
-                            $(".paused").hide();
                             $("#btnHold").prop("disabled", false);
+                            $("#btnStartActualTime").prop("disabled", false);
+                            $("#btnEndActualTime").prop("disabled", false);
+                            $("#startTime").prop("disabled", false);
+                            $("#endTime").prop("disabled", false);
+                            $("#tActualStartTime").prop("disabled", false);
+                            $("#tActualEndTime").prop("disabled", false);
+                            $("#txtActualHoursSpent").prop("disabled", false);
+                            $(".paused").hide();
                             var start = event.dateStr != '' ? moment(event.dateStr).format("DD/MM/YYYY") : event.dateStr;
                             document.getElementById("dtSODate").value = start;
                             document.getElementById("dtSODate2").value = start
@@ -1623,6 +1637,7 @@ Template.appointments.onRendered(function () {
                         state: useData[i].fields.State || '',
                         country: useData[i].fields.Country || '',
                         zip: useData[i].fields.Postcode || '',
+                        timelog: useData[i].fields.AppointmentsTimeLog || '',
                         startTime: useData[i].fields.StartTime.split(' ')[1] || '',
                         totalHours: useData[i].fields.TotalHours || 0,
                         endTime: useData[i].fields.EndTime.split(' ')[1] || '',
@@ -1666,13 +1681,13 @@ Template.appointments.onRendered(function () {
                     let appID = url1.searchParams.get("id");
                     $('#frmAppointment')[0].reset();
                     $("#btnHold").prop("disabled", false);
-                        $("#btnStartActualTime").prop("disabled", false);
-                        $("#btnEndActualTime").prop("disabled", false);
-                        $("#startTime").prop("disabled", false);
-                        $("#endTime").prop("disabled", false);
-                        $("#tActualStartTime").prop("disabled", false);
-                        $("#tActualEndTime").prop("disabled", false);
-                        $("#txtActualHoursSpent").prop("disabled", false);
+                    $("#btnStartActualTime").prop("disabled", false);
+                    $("#btnEndActualTime").prop("disabled", false);
+                    $("#startTime").prop("disabled", false);
+                    $("#endTime").prop("disabled", false);
+                    $("#tActualStartTime").prop("disabled", false);
+                    $("#tActualEndTime").prop("disabled", false);
+                    $("#txtActualHoursSpent").prop("disabled", false);
                     let googleLink = "";
                     var hours = '0';
                     var appointmentData = appointmentList;
@@ -1691,16 +1706,16 @@ Template.appointments.onRendered(function () {
                             $("#btnHold").prop("disabled", false);
                         }
 
-                        if(result[0].aEndTime != "") {
-                                $("#btnHold").prop("disabled", true);
-                                $("#btnStartActualTime").prop("disabled", true);
-                                $("#btnEndActualTime").prop("disabled", true);
-                                $("#startTime").prop("disabled", true);
-                                $("#endTime").prop("disabled", true);
-                                $("#tActualStartTime").prop("disabled", true);
-                                $("#tActualEndTime").prop("disabled", true);
-                                $("#txtActualHoursSpent").prop("disabled", true);
-                            }
+                        if (result[0].aEndTime != "") {
+                            $("#btnHold").prop("disabled", true);
+                            $("#btnStartActualTime").prop("disabled", true);
+                            $("#btnEndActualTime").prop("disabled", true);
+                            $("#startTime").prop("disabled", true);
+                            $("#endTime").prop("disabled", true);
+                            $("#tActualStartTime").prop("disabled", true);
+                            $("#tActualEndTime").prop("disabled", true);
+                            $("#txtActualHoursSpent").prop("disabled", true);
+                        }
                         if (result[0].aStartTime != '' && result[0].aEndTime != '') {
                             var startTime = moment(result[0].startDate.split(' ')[0] + ' ' + result[0].aStartTime);
                             var endTime = moment(result[0].endDate.split(' ')[0] + ' ' + result[0].aEndTime);
@@ -1838,7 +1853,7 @@ Template.appointments.onRendered(function () {
                                 $("#btnHold").prop("disabled", false);
                             }
 
-                            if(result[0].aEndTime != "") {
+                            if (result[0].aEndTime != "") {
                                 $("#btnHold").prop("disabled", true);
                                 $("#btnStartActualTime").prop("disabled", true);
                                 $("#btnEndActualTime").prop("disabled", true);
@@ -1848,7 +1863,7 @@ Template.appointments.onRendered(function () {
                                 $("#tActualEndTime").prop("disabled", true);
                                 $("#txtActualHoursSpent").prop("disabled", true);
                             }
-                            if(result[0].aEndTime != "") {
+                            if (result[0].aEndTime != "") {
                                 $("#btnHold").prop("disabled", true);
                                 $("#btnStartActualTime").prop("disabled", true);
                                 $("#btnEndActualTime").prop("disabled", true);
@@ -1983,6 +1998,13 @@ Template.appointments.onRendered(function () {
                         document.getElementById("frmAppointment").reset();
                         $(".paused").hide();
                         $("#btnHold").prop("disabled", false);
+                        $("#btnStartActualTime").prop("disabled", false);
+                        $("#btnEndActualTime").prop("disabled", false);
+                        $("#startTime").prop("disabled", false);
+                        $("#endTime").prop("disabled", false);
+                        $("#tActualStartTime").prop("disabled", false);
+                        $("#tActualEndTime").prop("disabled", false);
+                        $("#txtActualHoursSpent").prop("disabled", false);
                         document.getElementById("employee_name").value = event.draggedEl.innerText.replace(/[0-9]/g, '');
                         var start = event.dateStr != '' ? moment(event.dateStr).format("DD/MM/YYYY") : event.dateStr;
                         document.getElementById("dtSODate").value = start;
@@ -2495,13 +2517,13 @@ Template.appointments.onRendered(function () {
                     let appID = url1.searchParams.get("id");
                     $('#frmAppointment')[0].reset();
                     $("#btnHold").prop("disabled", false);
-                        $("#btnStartActualTime").prop("disabled", false);
-                        $("#btnEndActualTime").prop("disabled", false);
-                        $("#startTime").prop("disabled", false);
-                        $("#endTime").prop("disabled", false);
-                        $("#tActualStartTime").prop("disabled", false);
-                        $("#tActualEndTime").prop("disabled", false);
-                        $("#txtActualHoursSpent").prop("disabled", false);
+                    $("#btnStartActualTime").prop("disabled", false);
+                    $("#btnEndActualTime").prop("disabled", false);
+                    $("#startTime").prop("disabled", false);
+                    $("#endTime").prop("disabled", false);
+                    $("#tActualStartTime").prop("disabled", false);
+                    $("#tActualEndTime").prop("disabled", false);
+                    $("#txtActualHoursSpent").prop("disabled", false);
                     let googleLink = "";
                     var hours = '0';
                     var appointmentData = appointmentList;
@@ -2520,7 +2542,7 @@ Template.appointments.onRendered(function () {
                             $("#btnHold").prop("disabled", false);
                         }
 
-                        if(result[0].aEndTime != "") {
+                        if (result[0].aEndTime != "") {
                             $("#btnHold").prop("disabled", true);
                             $("#btnStartActualTime").prop("disabled", true);
                             $("#btnEndActualTime").prop("disabled", true);
@@ -2651,7 +2673,7 @@ Template.appointments.onRendered(function () {
                                 $("#btnHold").prop("disabled", false);
                             }
 
-                            if(result[0].aEndTime != "") {
+                            if (result[0].aEndTime != "") {
                                 $("#btnHold").prop("disabled", true);
                                 $("#btnStartActualTime").prop("disabled", true);
                                 $("#btnEndActualTime").prop("disabled", true);
@@ -2778,6 +2800,13 @@ Template.appointments.onRendered(function () {
                         document.getElementById("frmAppointment").reset();
                         $(".paused").hide();
                         $("#btnHold").prop("disabled", false);
+                        $("#btnStartActualTime").prop("disabled", false);
+                        $("#btnEndActualTime").prop("disabled", false);
+                        $("#startTime").prop("disabled", false);
+                        $("#endTime").prop("disabled", false);
+                        $("#tActualStartTime").prop("disabled", false);
+                        $("#tActualEndTime").prop("disabled", false);
+                        $("#txtActualHoursSpent").prop("disabled", false);
                         document.getElementById("employee_name").value = event.draggedEl.innerText.replace(/[0-9]/g, '');
                         var start = event.dateStr != '' ? moment(event.dateStr).format("DD/MM/YYYY") : event.dateStr;
                         document.getElementById("dtSODate").value = start;
@@ -3329,6 +3358,13 @@ Template.appointments.onRendered(function () {
                     drop: function (event) {
                         $(".paused").hide();
                         $("#btnHold").prop("disabled", false);
+                        $("#btnStartActualTime").prop("disabled", false);
+                        $("#btnEndActualTime").prop("disabled", false);
+                        $("#startTime").prop("disabled", false);
+                        $("#endTime").prop("disabled", false);
+                        $("#tActualStartTime").prop("disabled", false);
+                        $("#tActualEndTime").prop("disabled", false);
+                        $("#txtActualHoursSpent").prop("disabled", false);
                         var start = event.dateStr != '' ? moment(event.dateStr).format("DD/MM/YYYY") : event.dateStr;
                         document.getElementById("dtSODate").value = start;
                         document.getElementById("dtSODate2").value = start
@@ -3828,7 +3864,7 @@ Template.appointments.onRendered(function () {
                                 $(".paused").hide();
                                 $("#btnHold").prop("disabled", false);
                             }
-                            if(result[0].aEndTime != "") {
+                            if (result[0].aEndTime != "") {
                                 $("#btnHold").prop("disabled", true);
                                 $("#btnStartActualTime").prop("disabled", true);
                                 $("#btnEndActualTime").prop("disabled", true);
@@ -3944,6 +3980,13 @@ Template.appointments.onRendered(function () {
                         document.getElementById("frmAppointment").reset();
                         $(".paused").hide();
                         $("#btnHold").prop("disabled", false);
+                        $("#btnStartActualTime").prop("disabled", false);
+                        $("#btnEndActualTime").prop("disabled", false);
+                        $("#startTime").prop("disabled", false);
+                        $("#endTime").prop("disabled", false);
+                        $("#tActualStartTime").prop("disabled", false);
+                        $("#tActualEndTime").prop("disabled", false);
+                        $("#txtActualHoursSpent").prop("disabled", false);
                         document.getElementById("employee_name").value = event.draggedEl.innerText.replace(/[0-9]/g, '');
                         var start = event.dateStr != '' ? moment(event.dateStr).format("DD/MM/YYYY") : event.dateStr;
                         document.getElementById("dtSODate").value = start;
@@ -4190,6 +4233,13 @@ Template.appointments.onRendered(function () {
                         drop: function (event) {
                             $(".paused").hide();
                             $("#btnHold").prop("disabled", false);
+                            $("#btnStartActualTime").prop("disabled", false);
+                            $("#btnEndActualTime").prop("disabled", false);
+                            $("#startTime").prop("disabled", false);
+                            $("#endTime").prop("disabled", false);
+                            $("#tActualStartTime").prop("disabled", false);
+                            $("#tActualEndTime").prop("disabled", false);
+                            $("#txtActualHoursSpent").prop("disabled", false);
                             employeeName = arg.event._def.title.innerText.replace(/[0-9]/g, '');
                             populateEmployDetails(employeeName);
                             var start = event.dateStr != '' ? moment(event.dateStr).format("YYYY/MM/DD") : event.dateStr;
@@ -4368,6 +4418,13 @@ Template.appointments.onRendered(function () {
                         drop: function (event) {
                             $(".paused").hide();
                             $("#btnHold").prop("disabled", false);
+                            $("#btnStartActualTime").prop("disabled", false);
+                            $("#btnEndActualTime").prop("disabled", false);
+                            $("#startTime").prop("disabled", false);
+                            $("#endTime").prop("disabled", false);
+                            $("#tActualStartTime").prop("disabled", false);
+                            $("#tActualEndTime").prop("disabled", false);
+                            $("#txtActualHoursSpent").prop("disabled", false);
                             var start = event.dateStr != '' ? moment(event.dateStr).format("DD/MM/YYYY") : event.dateStr;
                             document.getElementById("dtSODate").value = start;
                             document.getElementById("dtSODate2").value = start
@@ -4544,6 +4601,13 @@ Template.appointments.onRendered(function () {
                         drop: function (event) {
                             $(".paused").hide();
                             $("#btnHold").prop("disabled", false);
+                            $("#btnStartActualTime").prop("disabled", false);
+                            $("#btnEndActualTime").prop("disabled", false);
+                            $("#startTime").prop("disabled", false);
+                            $("#endTime").prop("disabled", false);
+                            $("#tActualStartTime").prop("disabled", false);
+                            $("#tActualEndTime").prop("disabled", false);
+                            $("#txtActualHoursSpent").prop("disabled", false);
                             var start = event.dateStr != '' ? moment(event.dateStr).format("DD/MM/YYYY") : event.dateStr;
                             document.getElementById("dtSODate").value = start;
                             document.getElementById("dtSODate2").value = start
@@ -4720,6 +4784,13 @@ Template.appointments.onRendered(function () {
                         drop: function (event) {
                             $(".paused").hide();
                             $("#btnHold").prop("disabled", false);
+                            $("#btnStartActualTime").prop("disabled", false);
+                            $("#btnEndActualTime").prop("disabled", false);
+                            $("#startTime").prop("disabled", false);
+                            $("#endTime").prop("disabled", false);
+                            $("#tActualStartTime").prop("disabled", false);
+                            $("#tActualEndTime").prop("disabled", false);
+                            $("#txtActualHoursSpent").prop("disabled", false);
                             var start = event.dateStr != '' ? moment(event.dateStr).format("DD/MM/YYYY") : event.dateStr;
                             document.getElementById("dtSODate").value = start;
                             document.getElementById("dtSODate2").value = start
@@ -4902,6 +4973,13 @@ Template.appointments.onRendered(function () {
                         drop: function (event) {
                             $(".paused").hide();
                             $("#btnHold").prop("disabled", false);
+                            $("#btnStartActualTime").prop("disabled", false);
+                            $("#btnEndActualTime").prop("disabled", false);
+                            $("#startTime").prop("disabled", false);
+                            $("#endTime").prop("disabled", false);
+                            $("#tActualStartTime").prop("disabled", false);
+                            $("#tActualEndTime").prop("disabled", false);
+                            $("#txtActualHoursSpent").prop("disabled", false);
                             var start = event.dateStr != '' ? moment(event.dateStr).format("DD/MM/YYYY") : event.dateStr;
                             document.getElementById("dtSODate").value = start;
                             document.getElementById("dtSODate2").value = start
@@ -5076,6 +5154,13 @@ Template.appointments.onRendered(function () {
                         drop: function (event) {
                             $(".paused").hide();
                             $("#btnHold").prop("disabled", false);
+                            $("#btnStartActualTime").prop("disabled", false);
+                            $("#btnEndActualTime").prop("disabled", false);
+                            $("#startTime").prop("disabled", false);
+                            $("#endTime").prop("disabled", false);
+                            $("#tActualStartTime").prop("disabled", false);
+                            $("#tActualEndTime").prop("disabled", false);
+                            $("#txtActualHoursSpent").prop("disabled", false);
                             var start = event.dateStr != '' ? moment(event.dateStr).format("DD/MM/YYYY") : event.dateStr;
                             document.getElementById("dtSODate").value = start;
                             document.getElementById("dtSODate2").value = start
@@ -5252,6 +5337,13 @@ Template.appointments.onRendered(function () {
                         drop: function (event) {
                             $(".paused").hide();
                             $("#btnHold").prop("disabled", false);
+                            $("#btnStartActualTime").prop("disabled", false);
+                            $("#btnEndActualTime").prop("disabled", false);
+                            $("#startTime").prop("disabled", false);
+                            $("#endTime").prop("disabled", false);
+                            $("#tActualStartTime").prop("disabled", false);
+                            $("#tActualEndTime").prop("disabled", false);
+                            $("#txtActualHoursSpent").prop("disabled", false);
                             var start = event.dateStr != '' ? moment(event.dateStr).format("DD/MM/YYYY") : event.dateStr;
                             document.getElementById("dtSODate").value = start;
                             document.getElementById("dtSODate2").value = start
@@ -5429,6 +5521,13 @@ Template.appointments.onRendered(function () {
                         drop: function (event) {
                             $(".paused").hide();
                             $("#btnHold").prop("disabled", false);
+                            $("#btnStartActualTime").prop("disabled", false);
+                            $("#btnEndActualTime").prop("disabled", false);
+                            $("#startTime").prop("disabled", false);
+                            $("#endTime").prop("disabled", false);
+                            $("#tActualStartTime").prop("disabled", false);
+                            $("#tActualEndTime").prop("disabled", false);
+                            $("#txtActualHoursSpent").prop("disabled", false);
                             var start = event.dateStr != '' ? moment(event.dateStr).format("DD/MM/YYYY") : event.dateStr;
                             document.getElementById("dtSODate").value = start;
                             document.getElementById("dtSODate2").value = start
@@ -6130,7 +6229,7 @@ Template.appointments.events({
 
     },
     'click #btnStartActualTime': function () {
-
+        let toUpdateID = "";
         const templateObject = Template.instance();
         var appointmentData = templateObject.appointmentrecords.get();
         let appointmentService = new AppointmentService();
@@ -6139,7 +6238,15 @@ Template.appointments.events({
             return apmt.id == id
         });
 
+
+        let desc = "Job Continued";
         if (result.length > 0) {
+            if (Array.isArray(result[0].timelog) && result[0].timelog != "") {
+                toUpdateID = result[0].timelog[result[0].timelog.length - 1].fields.ID;
+            } else {
+                toUpdateID = result[0].timelog.fields.ID;
+            }
+
             date = new Date();
             if ($('#tActualStartTime').val() != "" && result[0].isPaused == "Paused") {
                 $('.fullScreenSpin').css('display', 'inline-block');
@@ -6152,7 +6259,7 @@ Template.appointments.events({
                 let obj = {
                     StartDatetime: startTime,
                     EndDatetime: endTime,
-                    Description: 'Job Started'
+                    Description: desc
                 };
                 if (obj.StartDatetime != "" && obj.EndDatetime != "") {
                     timeLog.push(obj)
@@ -6175,6 +6282,7 @@ Template.appointments.events({
 
 
                 appointmentService.saveTimeLog(objectData).then(function (data) {
+                    let endTime1 = date.getFullYear() + "-" + ("0" + (date.getMonth() + 1)).slice(-2) + "-" + ("0" + (date.getDate())).slice(-2) + ' ' + ("0" + date.getHours()).slice(-2) + ":" + ("0" + date.getMinutes()).slice(-2);
                     objectData1 = {
                         type: "TAppointment",
                         fields: {
@@ -6182,25 +6290,66 @@ Template.appointments.events({
                             Othertxt: ""
                         }
                     };
+                    if (toUpdateID != "") {
+                        objectData = {
+                            type: "TAppointmentsTimeLog",
+                            fields: {
+                                ID: toUpdateID,
+                                EndDatetime: endTime1,
+                            }
+                        }
+                        appointmentService.saveTimeLog(objectData).then(function (data) {
+                            appointmentService.saveAppointment(objectData1).then(function (data1) {
+                                sideBarService.getAllAppointmentList().then(function (data) {
+                                    addVS1Data('TAppointment', JSON.stringify(data)).then(function (datareturn) {
+                                        $('.fullScreenSpin').css('display', 'none');
+                                        swal({
+                                            title: 'Job Started',
+                                            text: "Job Has Been Started",
+                                            type: 'success',
+                                            showCancelButton: false,
+                                            confirmButtonText: 'Ok'
+                                        }).then((result) => {
+                                            if (result.value) {
+                                                // window.open('/appointments', '_self');
+                                            } else {
+                                                // window.open('/appointments', '_self');
+                                            }
+                                        });
+                                        templateObject.checkRefresh.set(true);
+                                    }).catch(function (err) {
+                                        swal({
+                                            title: 'Something went wrong',
+                                            text: err,
+                                            type: 'error',
+                                            showCancelButton: false,
+                                            confirmButtonText: 'Try Again'
+                                        }).then((result) => {
+                                            if (result.value) {
 
-                    appointmentService.saveAppointment(objectData1).then(function (data1) {
-                        sideBarService.getAllAppointmentList().then(function (data) {
-                            addVS1Data('TAppointment', JSON.stringify(data)).then(function (datareturn) {
-                                $('.fullScreenSpin').css('display', 'none');
-                                swal({
-                                    title: 'Job Started',
-                                    text: "Job Has Been Started",
-                                    type: 'success',
-                                    showCancelButton: false,
-                                    confirmButtonText: 'Ok'
-                                }).then((result) => {
-                                    if (result.value) {
-                                        // window.open('/appointments', '_self');
-                                    } else {
-                                        // window.open('/appointments', '_self');
-                                    }
+                                            } else if (result.dismiss === 'cancel') {
+
+                                            }
+                                        });
+                                        $('.fullScreenSpin').css('display', 'none');
+                                    });
+                                }).catch(function (err) {
+                                    swal({
+                                        title: 'Something went wrong',
+                                        text: err,
+                                        type: 'error',
+                                        showCancelButton: false,
+                                        confirmButtonText: 'Try Again'
+                                    }).then((result) => {
+                                        if (result.value) {
+
+                                        } else if (result.dismiss === 'cancel') {
+
+                                        }
+                                    });
+                                    $('.fullScreenSpin').css('display', 'none');
+                                    window.open('/appointments', '_self');
                                 });
-                                templateObject.checkRefresh.set(true);
                             }).catch(function (err) {
                                 swal({
                                     title: 'Something went wrong',
@@ -6217,39 +6366,8 @@ Template.appointments.events({
                                 });
                                 $('.fullScreenSpin').css('display', 'none');
                             });
-                        }).catch(function (err) {
-                            swal({
-                                title: 'Something went wrong',
-                                text: err,
-                                type: 'error',
-                                showCancelButton: false,
-                                confirmButtonText: 'Try Again'
-                            }).then((result) => {
-                                if (result.value) {
-
-                                } else if (result.dismiss === 'cancel') {
-
-                                }
-                            });
-                            $('.fullScreenSpin').css('display', 'none');
-                            window.open('/appointments', '_self');
-                        });
-                    }).catch(function (err) {
-                        swal({
-                            title: 'Something went wrong',
-                            text: err,
-                            type: 'error',
-                            showCancelButton: false,
-                            confirmButtonText: 'Try Again'
-                        }).then((result) => {
-                            if (result.value) {
-
-                            } else if (result.dismiss === 'cancel') {
-
-                            }
-                        });
-                        $('.fullScreenSpin').css('display', 'none');
-                    });
+                        })
+                    }
 
 
                 }).catch(function (err) {
@@ -6285,7 +6403,7 @@ Template.appointments.events({
         });
 
         let paused = result[0].isPaused || ''
-        if(paused == "Paused") {
+        if (paused == "Paused") {
             swal({
                 title: 'Cant Stop Job',
                 text: "You cannot Stop a job that is already paused. Please click Start to continue the job before trying to Stop it",
@@ -6293,7 +6411,7 @@ Template.appointments.events({
                 showCancelButton: true,
                 confirmButtonText: 'Ok'
             })
-        } else{
+        } else {
             if (document.getElementById("tActualStartTime").value == "") { } else {
                 document.getElementById("tActualEndTime").value = moment().startOf('hour').format('HH') + ":" + moment().startOf('minute').format('mm');
                 swal({
@@ -6323,19 +6441,19 @@ Template.appointments.events({
                             })
                             document.getElementById('tActualEndTime').value = '';
                             document.getElementById('txtActualHoursSpent').value = '0';
-                            
+
                         }
                         let id = document.getElementById("updateID");
                     } else if (result.dismiss === 'cancel') {
                         document.getElementById('tActualEndTime').value = '';
                         document.getElementById('txtActualHoursSpent').value = '0';
-                    } else{
+                    } else {
                         document.getElementById('tActualEndTime').value = '';
                         document.getElementById('txtActualHoursSpent').value = '0';
                     }
                 });
-    
-    
+
+
             }
         }
     },
@@ -6498,8 +6616,7 @@ Template.appointments.events({
         let defaultProduct = $('#productlist').children("option:selected").text() || '';
         let defaultProductID = $('#productlist').children("option:selected").val() || '';
         let date = new Date('2021-03-25 ' + showTimeTo);
-        showTimeTo = date.getHours() + 1 + ':' + ('0' + date.getMinutes()).slice(-2);
-        console.log(showTimeTo);
+        showTimeTo = date.getHours() + 2 + ':' + ('0' + date.getMinutes()).slice(-2);
         let appointmentService = new AppointmentService();
 
         let objectData = "";
@@ -6545,7 +6662,7 @@ Template.appointments.events({
         var result = appointmentData.filter(apmt => {
             return apmt.id == $('#updateID').val()
         });
-
+        let toUpdateID = '';
         if (result.length > 0) {
             let type = "Break";
             if ($('#break').is(":checked")) {
@@ -6607,33 +6724,68 @@ Template.appointments.events({
 
 
                 appointmentService.saveTimeLog(objectData).then(function (data) {
-
-                    objectData1 = {
-                        type: "TAppointment",
-                        fields: {
-                            Id: parseInt(result[0].id),
-                            Othertxt: "Paused"
+                    if (Array.isArray(result[0].timelog) && result[0].timelog != "") {
+                        toUpdateID = result[0].timelog[result[0].timelog.length - 1].fields.ID;
+                    } else {
+                        toUpdateID = result[0].timelog.fields.ID;
+                    }
+                    let endTime1 = date.getFullYear() + "-" + ("0" + (date.getMonth() + 1)).slice(-2) + "-" + ("0" + (date.getDate())).slice(-2) + ' ' + ("0" + date.getHours()).slice(-2) + ":" + ("0" + date.getMinutes()).slice(-2);
+                    if (toUpdateID != "") {
+                        objectData = {
+                            type: "TAppointmentsTimeLog",
+                            fields: {
+                                ID: toUpdateID,
+                                EndDatetime: endTime1,
+                            }
                         }
-                    };
 
-                    appointmentService.saveAppointment(objectData1).then(function (data1) {
-                        sideBarService.getAllAppointmentList().then(function (data) {
-                            addVS1Data('TAppointment', JSON.stringify(data)).then(function (datareturn) {
-                                $('.fullScreenSpin').css('display', 'none');
-                                window.open('/appointments', '_self');
+                        objectData1 = {
+                            type: "TAppointment",
+                            fields: {
+                                Id: parseInt(result[0].id),
+                                Othertxt: "Paused"
+                            }
+                        };
+
+                        appointmentService.saveTimeLog(objectData).then(function (data) {
+                            appointmentService.saveAppointment(objectData1).then(function (data1) {
+                                sideBarService.getAllAppointmentList().then(function (data) {
+                                    addVS1Data('TAppointment', JSON.stringify(data)).then(function (datareturn) {
+                                        $('.fullScreenSpin').css('display', 'none');
+                                        window.open('/appointments', '_self');
+                                    }).catch(function (err) {
+                                        $('.fullScreenSpin').css('display', 'none');
+                                        window.open('/appointments', '_self');
+                                    });
+                                }).catch(function (err) {
+                                    $('.fullScreenSpin').css('display', 'none');
+                                    window.open('/appointments', '_self');
+                                });
                             }).catch(function (err) {
                                 $('.fullScreenSpin').css('display', 'none');
-                                window.open('/appointments', '_self');
                             });
+
                         }).catch(function (err) {
+                            console.log(err);
+                            swal({
+                                title: 'Something went wrong',
+                                text: err,
+                                type: 'error',
+                                showCancelButton: false,
+                                confirmButtonText: 'Try Again'
+                            }).then((result) => {
+                                if (result.value) {
+
+                                } else if (result.dismiss === 'cancel') {
+
+                                }
+                            });
                             $('.fullScreenSpin').css('display', 'none');
-                            window.open('/appointments', '_self');
                         });
-                    }).catch(function (err) {
-                        $('.fullScreenSpin').css('display', 'none');
-                    });
 
-
+                    } else {
+                        swal("Please note", "You can't pause a job that has been ended, start the Job again to pause it.", 'info');
+                    }
                 }).catch(function (err) {
                     swal({
                         title: 'Something went wrong',
@@ -6650,9 +6802,6 @@ Template.appointments.events({
                     });
                     $('.fullScreenSpin').css('display', 'none');
                 });
-
-            } else {
-                swal("Please note", "You can't pause a job that has been ended, start the Job again to pause it.", 'info');
             }
         }
     },
@@ -6696,8 +6845,8 @@ Template.appointments.events({
         let suburb = formData.get('suburb') || '';
         var startdateGet = new Date($("#dtSODate").datepicker("getDate"));
         var endDateGet = new Date($("#dtSODate2").datepicker("getDate"));
-        let startDate = startdateGet.getFullYear() + "-" + (startdateGet.getMonth() + 1) + "-" + startdateGet.getDate();
-        let endDate = endDateGet.getFullYear() + "-" + (endDateGet.getMonth() + 1) + "-" + endDateGet.getDate();
+        let startDate = startdateGet.getFullYear() + "-" + ("0" + (startdateGet.getMonth() + 1)).slice(-2) + "-" + ("0" + startdateGet.getDate()).slice(-2);
+        let endDate = endDateGet.getFullYear() + "-" + ("0" + (endDateGet.getMonth() + 1)).slice(-2) + "-" + ("0" + endDateGet.getDate()).slice(-2);
         let employeeName = formData.get('employee_name').trim() || '';
         let id = formData.get('updateID') || '0';
         let notes = formData.get('txtNotes') || ' ';
@@ -6717,19 +6866,21 @@ Template.appointments.events({
         // if (aStartTime != "" && aEndDate == "") {
         //     aEndDate = aStartDate;
         // }
-        let obj = '';
-        if(updateID) {
+        let obj = {};
+        let date = new Date();
+        if (updateID) {
             result = appointmentData.filter(apmt => {
                 return apmt.id == $('#updateID').val()
             });
-            
+
             if (result[0].aStartTime == "" && $('#tActualStartTime').val() != "") {
                 obj = {
                     type: "TAppointmentsTimeLog",
                     fields: {
+                        appointID: updateID,
                         StartDatetime: aStartDate,
                         EndDatetime: '',
-                        Description: 'Job Initialized'
+                        Description: 'Job Started'
                     }
                 };
             } else if (result[0].aStartTime != "" && result[0].aEndTime == "" && $('#tActualEndTime').val() != "") {
@@ -6737,12 +6888,13 @@ Template.appointments.events({
                 obj = {
                     type: "TAppointmentsTimeLog",
                     fields: {
-                        StartDatetime: startTime1,
-                        EndDatetime: '',
-                        Description: 'Job Ended'
+                        appointID: updateID,
+                        StartDatetime: aStartDate,
+                        EndDatetime: aEndDate,
+                        Description: 'Job Completed'
                     }
                 };
-            } else if(result[0].aEndTime != ""){
+            } else if (result[0].aEndTime != "") {
                 aEndDate = moment().format("YYYY-MM-DD") + ' ' + aEndTime;
             }
         } else {
@@ -6750,18 +6902,20 @@ Template.appointments.events({
                 obj = {
                     type: "TAppointmentsTimeLog",
                     fields: {
+                        appointID: '',
                         StartDatetime: aStartDate,
                         EndDatetime: '',
-                        Description: 'Job Initialized'
+                        Description: 'Job Started'
                     }
                 };
-            } else if($('#tActualStartTime').val() != "" && $('#tActualEndTime').val() != ""){
+            } else if ($('#tActualStartTime').val() != "" && $('#tActualEndTime').val() != "") {
                 obj = {
                     type: "TAppointmentsTimeLog",
                     fields: {
+                        appointID: '',
                         StartDatetime: aStartDate,
                         EndDatetime: aEndDate,
-                        Description: 'Job Initialized & Ended At Same Time'
+                        Description: 'Job Started & Completed Same Time'
                     }
                 };
             }
@@ -6786,7 +6940,6 @@ Template.appointments.events({
                     Actual_EndTime: aEndDate,
                     TrainerName: employeeName,
                     Notes: notes,
-                    AppointmentsTimeLog: obj,
                     ProductDesc: selectedProduct,
                     Status: status
                 }
@@ -6811,7 +6964,6 @@ Template.appointments.events({
                     Actual_EndTime: aEndDate,
                     TrainerName: employeeName,
                     Notes: notes,
-                    AppointmentsTimeLog: obj,
                     ProductDesc: selectedProduct,
                     Status: status
                 }
@@ -6819,15 +6971,36 @@ Template.appointments.events({
         }
 
         appointmentService.saveAppointment(objectData).then(function (data) {
-            sideBarService.getAllAppointmentList().then(function (data) {
-                addVS1Data('TAppointment', JSON.stringify(data)).then(function (datareturn) {
-                   window.open('/appointments', '_self');
+            console.log(data);
+            console.log(data.fields.ID);
+            let id = data.fields.ID;
+            if (Object.keys(obj).length > 0) {
+                obj.fields.appointID = id;
+                console.log(obj);
+                appointmentService.saveTimeLog(obj).then(function (data1) {
+                    sideBarService.getAllAppointmentList().then(function (data) {
+                        addVS1Data('TAppointment', JSON.stringify(data)).then(function (datareturn) {
+                            window.open('/appointments', '_self');
+                        }).catch(function (err) {
+                            window.open('/appointments', '_self');
+                        });
+                    }).catch(function (err) {
+                        window.open('/appointments', '_self');
+                    });
+                }).catch(function () {
+
+                })
+            } else {
+                sideBarService.getAllAppointmentList().then(function (data) {
+                    addVS1Data('TAppointment', JSON.stringify(data)).then(function (datareturn) {
+                        window.open('/appointments', '_self');
+                    }).catch(function (err) {
+                        window.open('/appointments', '_self');
+                    });
                 }).catch(function (err) {
                     window.open('/appointments', '_self');
                 });
-            }).catch(function (err) {
-                window.open('/appointments', '_self');
-            });
+            }
         }).catch(function (err) {
             swal({
                 title: 'Something went wrong',
