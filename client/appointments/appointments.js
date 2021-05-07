@@ -152,7 +152,6 @@ Template.appointments.onRendered(function () {
     templateObject.dateFormat = function (date) {
         var dateParts = date.split("/");
         var dateObject = dateParts[2] + '/' + ('0' + (dateParts[1] - 1)).toString().slice(-2) + '/' + dateParts[0];
-        console.log(dateObject);
         return dateObject;
     }
 
@@ -304,7 +303,6 @@ Template.appointments.onRendered(function () {
                     }
                     return (a.employeeName.toUpperCase() > b.employeeName.toUpperCase()) ? 1 : -1;
                 });
-                console.log(lineItems);
                 templateObject.employeerecords.set(lineItems);
 
                 if (templateObject.employeerecords.get()) {
@@ -796,14 +794,12 @@ Template.appointments.onRendered(function () {
                             $('#customerListModal').modal();
                             templateObject.getAllProductData();
                             let dateStart = new Date(info.start);
-                            console.log(dateStart.getMonth());
                             let dateEnd = new Date(info.end);
                             let startDate = ("0" + dateStart.getDate()).toString().slice(-2) + "/" + ("0" + (dateStart.getMonth() + 1)).toString().slice(-2) + "/" + dateStart.getFullYear();
                             let endDate = ("0" + dateEnd.getDate()).toString().slice(-2) + "/" + ("0" + (dateEnd.getMonth() + 1)).toString().slice(-2) + "/" + dateEnd.getFullYear();
                             dateEnd.setHours(dateEnd.getHours() + calendarSet.defaultApptDuration || "02:00");
                             let startTime = ("0" + dateStart.getHours()).toString().slice(-2) + ':' + ("0" + dateStart.getMinutes()).toString().slice(-2);
                             let endTime = ("0" + dateEnd.getHours()).toString().slice(-2) + ':' + ("0" + dateStart.getMinutes()).toString().slice(-2);
-                            console.log(dateStart);
                             document.getElementById("dtSODate").value = startDate;
                             document.getElementById("dtSODate2").value = endDate;
                             document.getElementById("startTime").value = startTime;
@@ -5624,7 +5620,6 @@ Template.appointments.events({
 
         //we then get index of the week in resource view so that we can use it to query the previous week
         let index = weeksOfThisMonth.map(function (e) { return e.end; }).indexOf(selectedWeekEnd);
-        console.log("Index is " + index + " weeks of the month length is " + (weeksOfThisMonth.length - 1));
         if (index === 0) {
             $('.btnPrev').attr('disabled', 'disabled');
         } else {
@@ -5916,7 +5911,6 @@ Template.appointments.events({
             return weekend.dates.includes(parseInt(moment(weekDate).format('DD')));
         });
         let index = weeksOfThisMonth.map(function (e) { return e.end; }).indexOf(getSelectedWeek[0].end);
-        console.log("Index is " + index + " weeks of the month length is " + (weeksOfThisMonth.length - 1));
         if (((index) === (weeksOfThisMonth.length - 1))) {
             $('.btnNext').attr('disabled', 'disabled');
 
@@ -6540,7 +6534,6 @@ Template.appointments.events({
         date2 = templateObject.dateFormat(date2);
         var endTime = new Date(date2 + ' ' + document.getElementById("endTime").value + ':00');
         var startTime = new Date(date1 + ' ' + document.getElementById("startTime").value + ':00');
-        console.log(templateObject.diff_hours(endTime, startTime));
         if (date2 != "" && endTime > startTime) {
             document.getElementById('txtBookedHoursSpent').value = parseFloat(templateObject.diff_hours(endTime, startTime)).toFixed(2);
         } else {
@@ -6971,12 +6964,9 @@ Template.appointments.events({
         }
 
         appointmentService.saveAppointment(objectData).then(function (data) {
-            console.log(data);
-            console.log(data.fields.ID);
             let id = data.fields.ID;
             if (Object.keys(obj).length > 0) {
                 obj.fields.appointID = id;
-                console.log(obj);
                 appointmentService.saveTimeLog(obj).then(function (data1) {
                     sideBarService.getAllAppointmentList().then(function (data) {
                         addVS1Data('TAppointment', JSON.stringify(data)).then(function (datareturn) {
