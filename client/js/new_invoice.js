@@ -220,6 +220,8 @@ Template.new_invoice.onRendered(() => {
 
                         let customerrecordObj = {
                             customerid: data.tcustomervs1[i].Id || ' ',
+                            firstname: data.tcustomervs1[i].FirstName,
+                            lastname: data.tcustomervs1[i].LastName,
                             customername: data.tcustomervs1[i].ClientName || ' ',
                             customeremail: data.tcustomervs1[i].Email || ' ',
                             street: data.tcustomervs1[i].Street || ' ',
@@ -261,10 +263,13 @@ Template.new_invoice.onRendered(() => {
             } else {
                 let data = JSON.parse(dataObject[0].data);
                 let useData = data.tcustomervs1;
+                
                 for (let i in useData) {
 
                     let customerrecordObj = {
                         customerid: useData[i].fields.ID || ' ',
+                        firstname:useData[i].fields.FirstName,
+                        lastname:useData[i].fields.LastName,
                         customername: useData[i].fields.ClientName || ' ',
                         customeremail: useData[i].fields.Email || ' ',
                         street: useData[i].fields.Street || ' ',
@@ -290,7 +295,6 @@ Template.new_invoice.onRendered(() => {
                     }
                     return (a.customername.toUpperCase() > b.customername.toUpperCase()) ? 1 : -1;
                 }));
-
                 for (var i = 0; i < clientList.length; i++) {
                     $('#edtCustomerName').editableSelect('add', clientList[i].customername);
                 }
@@ -308,6 +312,8 @@ Template.new_invoice.onRendered(() => {
 
                     let customerrecordObj = {
                         customerid: data.tcustomervs1[i].Id || ' ',
+                        firstname:useData[i].fields.FirstName,
+                        lastname:useData[i].fields.LastName,
                         customername: data.tcustomervs1[i].ClientName || ' ',
                         customeremail: data.tcustomervs1[i].Email || ' ',
                         street: data.tcustomervs1[i].Street || ' ',
@@ -408,8 +414,12 @@ Template.new_invoice.onRendered(() => {
             currentInvoice = parseInt(currentInvoice);
             templateObject.getInvoiceData = function () {
                 //getOneInvoicedata
+                let customerData = templateObject.clientrecords.get();
                 accountService.getOneQuotedataEx(currentInvoice).then(function (data) {
                     templateObject.singleInvoiceData.set(data);
+                    let cust_result = customerData.filter(cust_data => {
+                        return cust_data.customername == data.fields.CustomerName
+                    });
                     $('.fullScreenSpin').css('display', 'none');
                     let lineItems = [];
                     let lineItemObj = {};
@@ -485,6 +495,8 @@ Template.new_invoice.onRendered(() => {
                     let invoicerecord = {
                         id: data.fields.ID,
                         lid: 'New Invoice',
+                        firstname: cust_result[0].firstname,
+                        lastname: cust_result[0].lastname,
                         socustomer: data.fields.CustomerName,
                         salesOrderto: data.fields.InvoiceToDesc,
                         shipto: data.fields.ShipToDesc,
@@ -620,10 +632,12 @@ Template.new_invoice.onRendered(() => {
                 getVS1Data('TInvoiceEx').then(function (dataObject) {
 
                     if (dataObject.length == 0) {
+                        let customerData = templateObject.clientrecords.get();
                         accountService.getOneInvoicedataEx(currentInvoice).then(function (data) {
                             templateObject.singleInvoiceData.set(data);
-
-
+                            let cust_result = customerData.filter(cust_data => {
+                                return cust_data.customername == useData[d].fields.ClientName
+                            });
                             let lineItems = [];
                             let lineItemObj = {};
                             let lineItemsTable = [];
@@ -699,6 +713,8 @@ Template.new_invoice.onRendered(() => {
                             let invoicerecord = {
                                 id: data.fields.ID,
                                 lid: 'Edit Invoice' + ' ' + data.fields.ID,
+                                firstname: cust_result[0].firstname,
+                                lastname: cust_result[0].lastname,
                                 socustomer: data.fields.CustomerName,
                                 salesOrderto: data.fields.InvoiceToDesc,
                                 shipto: data.fields.ShipToDesc,
@@ -889,10 +905,14 @@ Template.new_invoice.onRendered(() => {
                         let data = JSON.parse(dataObject[0].data);
 
                         let useData = data.tinvoiceex;
+                        let customerData = templateObject.clientrecords.get();
                         var added = false;
                         for (let d = 0; d < useData.length; d++) {
                             if (parseInt(useData[d].fields.ID) === currentInvoice) {
                                 added = true;
+                                let cust_result = customerData.filter(cust_data => {
+                                    return cust_data.customername == useData[d].fields.ClientName
+                                });
                                 $('.fullScreenSpin').css('display', 'none');
                                 templateObject.singleInvoiceData.set(useData[d]);
                                 let lineItems = [];
@@ -970,6 +990,8 @@ Template.new_invoice.onRendered(() => {
                                 let invoicerecord = {
                                     id: useData[d].fields.ID,
                                     lid: 'Edit Invoice' + ' ' + useData[d].fields.ID,
+                                    firstname: cust_result[0].firstname,
+                                    lastname: cust_result[0].lastname,
                                     socustomer: useData[d].fields.CustomerName,
                                     salesOrderto: useData[d].fields.InvoiceToDesc,
                                     shipto: useData[d].fields.ShipToDesc,
@@ -1810,9 +1832,12 @@ Template.new_invoice.onRendered(() => {
                 //getOneInvoicedata
                 getVS1Data('TInvoiceEx').then(function (dataObject) {
                     if (dataObject.length == 0) {
+                        let customerData = templateObject.clientrecords.get();
                         accountService.getOneInvoicedataEx(currentInvoice).then(function (data) {
                             templateObject.singleInvoiceData.set(data);
-
+                            let cust_result = customerData.filter(cust_data => {
+                                return cust_data.customername == data.fields.CustomerName
+                            });
                             $('.fullScreenSpin').css('display', 'none');
                             let lineItems = [];
                             let lineItemObj = {};
@@ -1889,6 +1914,8 @@ Template.new_invoice.onRendered(() => {
                             let invoicerecord = {
                                 id: data.fields.ID,
                                 lid: 'Edit Invoice' + ' ' + data.fields.ID,
+                                firstname: cust_result[0].firstname,
+                                lastname: cust_result[0].lastname,
                                 socustomer: data.fields.CustomerName,
                                 salesOrderto: data.fields.InvoiceToDesc,
                                 shipto: data.fields.ShipToDesc,
@@ -2078,11 +2105,15 @@ Template.new_invoice.onRendered(() => {
                     } else {
                         let data = JSON.parse(dataObject[0].data);
                         let useData = data.tinvoiceex;
+                        let customerData = templateObject.clientrecords.get();
                         var added = false;
                         for (let d = 0; d < useData.length; d++) {
                             if (parseInt(useData[d].fields.ID) === currentInvoice) {
                                 added = true;
                                 $('.fullScreenSpin').css('display', 'none');
+                                let cust_result = customerData.filter(cust_data => {
+                                    return cust_data.customername == useData[d].fields.ClientName
+                                });
                                 templateObject.singleInvoiceData.set(useData[d]);
                                 let lineItems = [];
                                 let lineItemObj = {};
@@ -2159,6 +2190,8 @@ Template.new_invoice.onRendered(() => {
                                 let invoicerecord = {
                                     id: useData[d].fields.ID,
                                     lid: 'Edit Invoice' + ' ' + useData[d].fields.ID,
+                                    firstname: cust_result[0].firstname,
+                                    lastname: cust_result[0].lastname,
                                     socustomer: useData[d].fields.CustomerName,
                                     salesOrderto: useData[d].fields.InvoiceToDesc,
                                     shipto: useData[d].fields.ShipToDesc,
@@ -2560,8 +2593,12 @@ Template.new_invoice.onRendered(() => {
 
                     }
                 }).catch(function (err) {
+                    let customerData = templateObject.clientrecords.get();
                     accountService.getOneInvoicedataEx(currentInvoice).then(function (data) {
                         templateObject.singleInvoiceData.set(data);
+                        let cust_result = customerData.filter(cust_data => {
+                            return cust_data.customername == data.fields.CustomerName
+                        });
                         $('.fullScreenSpin').css('display', 'none');
                         let lineItems = [];
                         let lineItemObj = {};
@@ -2638,6 +2675,8 @@ Template.new_invoice.onRendered(() => {
                         let invoicerecord = {
                             id: data.fields.ID,
                             lid: 'Edit Invoice' + ' ' + data.fields.ID,
+                            firstname: cust_result[0].firstname,
+                            lastname: cust_result[0].lastname,
                             socustomer: data.fields.CustomerName,
                             salesOrderto: data.fields.InvoiceToDesc,
                             shipto: data.fields.ShipToDesc,
@@ -2838,8 +2877,12 @@ Template.new_invoice.onRendered(() => {
             $('.printID').attr("id",currentInvoice);
             templateObject.getInvoiceData = function () {
                 //getOneInvoicedata
+                let customerData = templateObject.clientrecords.get();
                 accountService.getOneInvoicedataEx(currentInvoice).then(function (data) {
                     templateObject.singleInvoiceData.set(data);
+                    let cust_result = customerData.filter(cust_data => {
+                        return cust_data.customername == useData[d].fields.ClientName
+                    });
                     $('.fullScreenSpin').css('display', 'none');
                     let lineItems = [];
                     let lineItemObj = {};
@@ -2915,6 +2958,8 @@ Template.new_invoice.onRendered(() => {
                     let invoicerecord = {
                         id: data.fields.ID,
                         lid: 'New Invoice',
+                        firstname: cust_result[0].firstname,
+                        lastname: cust_result[0].lastname,
                         socustomer: data.fields.CustomerName,
                         salesOrderto: data.fields.InvoiceToDesc,
                         shipto: data.fields.ShipToDesc,
@@ -3804,6 +3849,8 @@ Template.new_invoice.onRendered(() => {
         let total = $('#grandTotal').html() || 0;
         let tax = $('#subtotal_tax').html() || 0;
         let customer = $('#edtCustomerName').val();
+        let name = $('#firstname').val();
+        let surname = $('#lastname').val();
         $('#tblInvoiceLine > tbody > tr').each(function () {
             var lineID = this.id;
             let tdproduct = $('#' + lineID + " .lineProductName").text();
@@ -3831,7 +3878,7 @@ Template.new_invoice.onRendered(() => {
         for (let l = 0; l < lineItems.length; l++) {
             stringQuery = stringQuery + "product" + l + "=" + lineItems[l].description + "&price" + l + "=" + lineItems[l].unitPrice + "&qty" + l + "=" + lineItems[l].quantity + "&";
         }
-        stringQuery = stringQuery + "tax=" + tax + "&total=" + total + "&customer=" + customer + "&quoteid=" + invoiceData.id + "&company="+company+"&vs1email="+vs1User+"&customeremail="+customerEmail+"&type=Invoice";
+        stringQuery = stringQuery + "tax=" + tax + "&total=" + total + "&customer=" + customer + "&name="+name+"&surname="+surname+"&quoteid=" + invoiceData.id + "&company="+company+"&vs1email="+vs1User+"&customeremail="+customerEmail+"&type=Invoice";
         var pdf = new jsPDF('p', 'pt', 'a4');
         //new jsPDF('p', 'pt', 'letter');
         // new jsPDF('p', 'mm', 'a4');
@@ -4426,6 +4473,8 @@ Template.new_invoice.events({
                 let tax = $('#subtotal_tax').html() || 0;
                 let customer = $('#edtCustomerName').val();
                 let company = Session.get('vs1companyName');
+                let name = $('#firstname').val();
+                let surname = $('#lastname').val();
                 $('#tblInvoiceLine > tbody > tr').each(function () {
                     var lineID = this.id;
 
@@ -4454,7 +4503,7 @@ Template.new_invoice.events({
                 for (let l = 0; l < lineItems.length; l++) {
                     stringQuery = stringQuery + "product" + l + "=" + lineItems[l].description + "&price" + l + "=" + lineItems[l].unitPrice + "&qty" + l + "=" + lineItems[l].quantity + "&";
                 }
-                stringQuery = stringQuery + "tax=" + tax + "&total=" + total + "&customer=" + customer + "&quoteid=" + quoteData.id + "&company="+company+"&vs1email="+vs1User+"&customeremail="+customerEmail+"&type=Invoice";
+                stringQuery = stringQuery + "tax=" + tax + "&total=" + total + "&customer=" + customer + "&name="+name+"&surname="+surname+"&quoteid=" + quoteData.id + "&company="+company+"&vs1email="+vs1User+"&customeremail="+customerEmail+"&type=Invoice";
                 window.open("https://depot.vs1cloud.com/stripe/" + stringQuery,'_self');
             } else {
                 swal({
