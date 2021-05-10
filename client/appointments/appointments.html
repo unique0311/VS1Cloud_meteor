@@ -228,7 +228,7 @@
             <div class="modal-content">
                 <form id="appointmentOptions" name="appointmentOptions">
                     <div class="modal-header">
-                        <h4>Appointment Options</h4><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                        <h4>Appointment Settings</h4><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
                     </div>
                     <div class="modal-body" style="padding: 24px;">
                         <div class="row">
@@ -510,34 +510,37 @@
                     <div class="modal-footer">
                         <button class="btn btn-success btnSaveAppointment" type="submit" style="margin: 8px;" id="btnSaveAppointment" name="btnSaveAppointment"><i class="fa fa-save" style="margin-right: 5px;"></i>Save</button>
                         <button class="btn btn-danger btnDelete" type="button" style="margin: 8px;" id="btnDelete" name="btnDelete"><i class="fas fa-trash-alt" style="margin-right: 5px;"></i>Delete</button>
+                        <button class="btn btn-warning btnOptions" type="button" style="margin: 8px;" id="btnOptions" name="btnOptions"><i class="fas fa-cogs" style="margin-right: 5px;"></i>Options</button>
 
-                        <div class="btn-group" style="margin: 8px;">
-                            <button class="btn btn-warning dropdown-toggle dropdown-toggle-split btnOptions" type="button"  id="btnOptions" name="btnOptions" data-toggle="dropdown" aria-expanded="false"><i class="fas fa-cogs" style="margin-right: 5px;"></i>Options</button>
-                            <style>
-                                .btn-group .dropdown-toggle-split:focus {
-                                    color: #ffffff !important;
-                                    background-color: #f4b619 !important;
-                                    border-color: #f4b30d !important;
-                                }
-                                .delete-dropdown {
-                                    transform: translate3d(-170px, -110px, 0px) !important;
-                                } 
-                                .dropdown-toggle:after {
-                                    display: inline-block !important;
-                                    vertical-align: 0em !important;
-                                    content: "" !important;
-                                    border-bottom: 0em solid !important;
-                                    border-right: 0em solid transparent !important;
-                                    border-top: 0 !important;
-                                    border-left: 0em solid transparent !important;
-                                }
-                            </style>
-                            <div role="menu" class="dropdown-menu dropdown-menu-right delete-dropdown">
-                                <a role="presentation" class="dropdown-item" href="#">Delete this Appointment and following Appointments</a>
-                                <a role="presentation" class="dropdown-item" href="#">Copy this Appointment to Another Day</a>
-                                <a role="presentation" class="dropdown-item" href="#myModal2" data-toggle="modal">Repeat This Appointment</a>
-                            </div>
-                        </div>
+                        <!--
+<div class="btn-group" style="margin: 8px;">
+<button class="btn btn-warning dropdown-toggle dropdown-toggle-split btnOptions" type="button"  id="btnOptions" name="btnOptions" data-toggle="dropdown" aria-expanded="false"><i class="fas fa-cogs" style="margin-right: 5px;"></i>Options</button>
+<style>
+.btn-group .dropdown-toggle-split:focus {
+color: #ffffff !important;
+background-color: #f4b619 !important;
+border-color: #f4b30d !important;
+}
+.delete-dropdown {
+transform: translate3d(-170px, -110px, 0px) !important;
+} 
+.dropdown-toggle:after {
+display: inline-block !important;
+vertical-align: 0em !important;
+content: "" !important;
+border-bottom: 0em solid !important;
+border-right: 0em solid transparent !important;
+border-top: 0 !important;
+border-left: 0em solid transparent !important;
+}
+</style>
+<div role="menu" class="dropdown-menu dropdown-menu-right delete-dropdown">
+<a role="presentation" class="dropdown-item" href="#">Delete this Appointment and following Appointments</a>
+<a role="presentation" class="dropdown-item" href="#">Copy this Appointment to Another Day</a>
+<a role="presentation" class="dropdown-item" href="#myModal2" data-toggle="modal">Repeat This Appointment</a>
+</div>
+</div>
+-->
 
                         <button class="btn btn-secondary" id="btnDeleteAppointment" name="btnDeleteAppointment" data-dismiss="modal" type="button" style="margin: 8px;"><i class="fa fa-close" style="margin-right: 5px;"></i>Close</button>
                     </div>
@@ -675,6 +678,34 @@ var getInputRadio = goToParent.find("input[id = " + getValue + "]");
                     </div>
                 </div>
                 <div class="modal-footer"><button class="btn btn-success" type="button"><i class="fa fa-save" style="margin-right: 5px;"></i>Save</button><button class="btn btn-secondary" data-dismiss="modal" type="button"><i class="fa fa-close" style="margin-right: 5px;"></i>Close</button></div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" role="dialog" id="frmOptions">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4>Appointment Options</h4><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                </div>
+                <div class="modal-body" style="padding: 0px;">
+                    <div class="row">
+                        <div class="col-12">
+                            <a role="presentation" class="dropdown-item" href="#">Delete this Appointment and following Appointments</a>
+                        </div>
+                        <div class="col-12">
+                            <a role="presentation" class="dropdown-item" href="#">Copy this Appointment to Another Day</a>
+                        </div>
+                        <div class="col-12">
+                            <a role="presentation" class="dropdown-item btnRepeatApp" id="btnRepeatApp" href="#myModal2" data-toggle="modal">Repeat This Appointment</a>
+                        </div>
+                        <div class="col-12">
+                            <a role="presentation" class="dropdown-item" href="#">Create Invoice</a>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" data-dismiss="modal" type="button"><i class="fa fa-remove" style="margin-right: 5px;"></i>Close</button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
