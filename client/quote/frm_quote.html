@@ -215,7 +215,10 @@
                 <div class="col-auto colInvnoReference" id="colInvnoReference">
                     <div style="margin: 16px 0px; max-width: 150px;" class='setMaxWith'>
                         <div class="form-group"><label>P.O. Number</label>
-                            <input class="form-control form-control" type="text"  id="ponumber" name="ponumber" value="{{quoterecord.custPONumber}}"></div>
+                            <input class="form-control form-control" type="text"  id="ponumber" name="ponumber" value="{{quoterecord.custPONumber}}">
+                            <input class="form-control form-control" type="hidden"  id="firstname" value="{{quoterecord.firstname}}">
+                            <input class="form-control form-control" type="hidden"  id="lastname" value="{{quoterecord.lastname}}">
+                        </div>
                         {{> currencydropdown}}
                     </div>
 

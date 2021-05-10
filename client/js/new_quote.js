@@ -137,6 +137,8 @@ Template.new_quote.onRendered(() => {
 
                         let customerrecordObj = {
                             customerid: data.tcustomervs1[i].Id || ' ',
+                            firstname: data.tcustomervs1[i].FirstName,
+                            lastname: data.tcustomervs1[i].LastName,
                             customername: data.tcustomervs1[i].ClientName || ' ',
                             customeremail: data.tcustomervs1[i].Email || ' ',
                             street: data.tcustomervs1[i].Street || ' ',
@@ -183,6 +185,8 @@ Template.new_quote.onRendered(() => {
 
                     let customerrecordObj = {
                         customerid: useData[i].fields.ID || ' ',
+                        firstname:useData[i].fields.FirstName,
+                        lastname:useData[i].fields.LastName,
                         customername: useData[i].fields.ClientName || ' ',
                         customeremail: useData[i].fields.Email || ' ',
                         street: useData[i].fields.Street || ' ',
@@ -226,6 +230,8 @@ Template.new_quote.onRendered(() => {
 
                     let customerrecordObj = {
                         customerid: data.tcustomervs1[i].Id || ' ',
+                        firstname: data.tcustomervs1[i].FirstName,
+                        lastname: data.tcustomervs1[i].LastName,
                         customername: data.tcustomervs1[i].ClientName || ' ',
                         customeremail: data.tcustomervs1[i].Email || ' ',
                         street: data.tcustomervs1[i].Street || ' ',
@@ -328,8 +334,12 @@ Template.new_quote.onRendered(() => {
             templateObject.getQuoteData = function () {
                 //getOneQuotedata
                 getVS1Data('TQuote').then(function (dataObject) {
+                    let customerData = templateObject.clientrecords.get();
                     if (dataObject.length == 0) {
                         accountService.getOneQuotedataEx(currentQuote).then(function (data) {
+                            let cust_result = customerData.filter(cust_data => {
+                                return cust_data.customername == data.fields.CustomerName
+                            });
                             $('.fullScreenSpin').css('display', 'none');
                             let lineItems = [];
                             let lineItemObj = {};
@@ -402,6 +412,8 @@ Template.new_quote.onRendered(() => {
                             let quoterecord = {
                                 id: data.fields.ID,
                                 lid: 'Edit Quote' + ' ' + data.fields.ID,
+                                firstname: cust_result[0].firstname,
+                                lastname: cust_result[0].lastname,
                                 socustomer: data.fields.CustomerName,
                                 salesOrderto: data.fields.InvoiceToDesc,
                                 shipto: data.fields.ShipToDesc,
@@ -532,6 +544,9 @@ Template.new_quote.onRendered(() => {
                         var added = false;
                         for (let d = 0; d < useData.length; d++) {
                             if (parseInt(useData[d].fields.ID) === currentQuote) {
+                                let cust_result = customerData.filter(cust_data => {
+                                    return cust_data.customername == useData[d].fields.ClientName
+                                });
                                 added = true;
                                 $('.fullScreenSpin').css('display', 'none');
                                 let lineItems = [];
@@ -607,6 +622,8 @@ Template.new_quote.onRendered(() => {
                                 let quoterecord = {
                                     id: useData[d].fields.ID,
                                     lid: 'Edit Quote' + ' ' + useData[d].fields.ID,
+                                    firstname: cust_result[0].firstname,
+                                    lastname: cust_result[0].lastname,
                                     socustomer: useData[d].fields.CustomerName,
                                     salesOrderto: useData[d].fields.InvoiceToDesc,
                                     shipto: useData[d].fields.ShipToDesc,
@@ -1275,8 +1292,12 @@ Template.new_quote.onRendered(() => {
         templateObject.getQuoteData = function () {
             //getOneQuotedata
             getVS1Data('TQuote').then(function (dataObject) {
+                let customerData = templateObject.clientrecords.get();
                 if (dataObject.length == 0) {
                     accountService.getOneQuotedataEx(currentQuote).then(function (data) {
+                        let cust_result = customerData.filter(cust_data => {
+                            return cust_data.customername == data.fields.CustomerName
+                        });
                         $('.fullScreenSpin').css('display', 'none');
                         let lineItems = [];
                         let lineItemObj = {};
@@ -1349,6 +1370,8 @@ Template.new_quote.onRendered(() => {
                         let quoterecord = {
                             id: data.fields.ID,
                             lid: 'Edit Quote' + ' ' + data.fields.ID,
+                            firstname: cust_result[0].firstname,
+                            lastname: cust_result[0].lastname,
                             socustomer: data.fields.CustomerName,
                             salesOrderto: data.fields.InvoiceToDesc,
                             shipto: data.fields.ShipToDesc,
@@ -1479,6 +1502,9 @@ Template.new_quote.onRendered(() => {
                     var added = false;
                     for (let d = 0; d < useData.length; d++) {
                         if (parseInt(useData[d].fields.ID) === currentQuote) {
+                            let cust_result = customerData.filter(cust_data => {
+                                return cust_data.customername == useData[d].fields.ClientName
+                            });
                             added = true;
                             $('.fullScreenSpin').css('display', 'none');
                             let lineItems = [];
@@ -1554,6 +1580,8 @@ Template.new_quote.onRendered(() => {
                             let quoterecord = {
                                 id: useData[d].fields.ID,
                                 lid: 'Edit Quote' + ' ' + useData[d].fields.ID,
+                                firstname: cust_result[0].firstname,
+                                lastname: cust_result[0].lastname,
                                 socustomer: useData[d].fields.CustomerName,
                                 salesOrderto: useData[d].fields.InvoiceToDesc,
                                 shipto: useData[d].fields.ShipToDesc,
@@ -1861,7 +1889,11 @@ Template.new_quote.onRendered(() => {
 
             }).catch(function (err) {
                 console.log(err);
+                let customerData = templateObject.clientrecords.get();
                 accountService.getOneQuotedataEx(currentQuote).then(function (data) {
+                    let cust_result = customerData.filter(cust_data => {
+                        return cust_data.customername == data.fields.CustomerName
+                    });
                     $('.fullScreenSpin').css('display', 'none');
                     let lineItems = [];
                     let lineItemObj = {};
@@ -1934,6 +1966,8 @@ Template.new_quote.onRendered(() => {
                     let quoterecord = {
                         id: data.fields.ID,
                         lid: 'Edit Quote' + ' ' + data.fields.ID,
+                        firstname: cust_result[0].firstname,
+                        lastname: cust_result[0].lastname,
                         socustomer: data.fields.CustomerName,
                         salesOrderto: data.fields.InvoiceToDesc,
                         shipto: data.fields.ShipToDesc,
@@ -2571,6 +2605,8 @@ Template.new_quote.onRendered(() => {
         let total = $('#grandTotal').html() || 0;
         let tax = $('#subtotal_tax').html() || 0;
         let customer = $('#edtCustomerName').val();
+        let name = $('#firstname').val();
+        let surname = $('#lastname').val();
         $('#tblQuoteLine > tbody > tr').each(function () {
             var lineID = this.id;
 
@@ -2601,7 +2637,7 @@ Template.new_quote.onRendered(() => {
         for (let l = 0; l < lineItems.length; l++) {
             stringQuery = stringQuery + "product" + l + "=" + lineItems[l].description + "&price" + l + "=" + lineItems[l].unitPrice + "&qty" + l + "=" + lineItems[l].quantity + "&";
         }
-        stringQuery = stringQuery + "tax=" + tax + "&total=" + total + "&customer=" + customer + "&quoteid=" + quoteData.id + "&company="+company+"&vs1email="+vs1User+"&customeremail="+customerEmail+"&type=Invoice";
+        stringQuery = stringQuery + "tax=" + tax + "&total=" + total + "&customer=" + customer + "&name="+name+"&surname="+surname+"&quoteid=" + quoteData.id + "&company="+company+"&vs1email="+vs1User+"&customeremail="+customerEmail+"&type=Invoice";
         var pdf = new jsPDF('p', 'pt', 'a4');
         //let qouteId =  $('h1').text().replace( /^\D+/g, '');
         //console.log(qouteId);
@@ -3778,7 +3814,7 @@ Template.new_quote.events({
                     stringQuery = stringQuery + "product" + l + "=" + lineItems[l].description + "&price" + l + "=" + lineItems[l].unitPrice + "&qty" + l + "=" + lineItems[l].quantity + "&";
                 }
                 
-                stringQuery = stringQuery + "tax=" + tax + "&total=" + total + "&customer=" + customer + "&quoteid=" + objDetails.fields.ID + "&company="+company+"&vs1email="+vs1User+"&customeremail="+customerEmail+"&type=Invoice";
+                stringQuery = stringQuery + "tax=" + tax + "&total=" + total + "&customer=" + customer + "&name="+name+"&surname="+surname+"&quoteid=" + quoteData.id + "&company="+company+"&vs1email="+vs1User+"&customeremail="+customerEmail+"&type=Invoice";
                 // Send Email
 
                 $('#html-2-pdfwrapper').css('display', 'block');
@@ -4505,6 +4541,8 @@ Template.new_quote.events({
             let total = $('#grandTotal').html() || 0;
             let tax = $('#subtotal_tax').html() || 0;
             let customer = $('#edtCustomerName').val();
+            let name = $('#firstname').val();
+            let surname = $('#lastname').val();
             $('#tblQuoteLine > tbody > tr').each(function () {
                 var lineID = this.id;
 
@@ -4534,7 +4572,7 @@ Template.new_quote.events({
             for (let l = 0; l < lineItems.length; l++) {
                 stringQuery = stringQuery + "product" + l + "=" + lineItems[l].description + "&price" + l + "=" + lineItems[l].unitPrice + "&qty" + l + "=" + lineItems[l].quantity + "&";
             }
-            stringQuery = stringQuery + "tax=" + tax + "&total=" + total + "&customer=" + customer + "&quoteid=" + quoteData.id + "&company="+company+"&vs1email="+vs1User+"&customeremail="+customerEmail+"&type=Invoice";
+            stringQuery = stringQuery + "tax=" + tax + "&total=" + total + "&customer=" + customer + "&name="+name+"&surname="+surname+"&quoteid=" + quoteData.id + "&company="+company+"&vs1email="+vs1User+"&customeremail="+customerEmail+"&type=Invoice";
             window.open("https://depot.vs1cloud.com/stripe/" + stringQuery,'_self');
         }
     },
