@@ -157,7 +157,9 @@
                   <th class="th colStatementNo" style="width:150px;">Rep</th>
                   <th class="th colOpenBalance" style="width:84px;">From Time</th>
                   <th class="th colEmployee" style="width:84px;">To Time</th>
+                  <th class="th colHours" style="width:84px;">Hours</th>
                   <th class="th colNotes">Break</th>
+                  <th class="th colTimeLog hiddenColumn" style="width:60px;">TimeLog ID</th>
                 </tr>
               </thead>
               <tbody>
@@ -171,7 +173,9 @@
                    <td contenteditable="false" class="colStatementNo">{{item.statementno}}</td>
                    <td contenteditable="false" class="colOpenBalance" >{{item.timeStart}}</td>
                    <td contenteditable="false" class="colEmployee">{{item.timeEnd}}</td>
+                   <td contenteditable="false" class="colHours">{{item.hours}}</td>
                    <td contenteditable="false" class="colNotes" >{{item.notes}}</td>
+                   <td contenteditable="false" class="colTimeLog hiddenColumn" >{{item.logid}}</td>
                   </tr>
                   {{/each}}
                   {{/if}}
