@@ -1312,12 +1312,12 @@ Template.appointmentlist.events({
       }).catch(function (err) {
         sideBarService.getAllAppointmentList().then(function(data) {
           addVS1Data('TAppointment',JSON.stringify(data)).then(function (datareturn) {
-            //window.open('/appointmentlist','_self');
+            window.open('/appointmentlist','_self');
           }).catch(function (err) {
-          //window.open('/appointmentlist','_self');
+          window.open('/appointmentlist','_self');
           });
         }).catch(function(err) {
-         // window.open('/appointmentlist','_self');
+         window.open('/appointmentlist','_self');
         });
       });
 
