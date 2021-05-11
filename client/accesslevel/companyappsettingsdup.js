@@ -563,7 +563,9 @@ Template.companyappsettingsdup.events({
                     RenewDiscountedPrice:parseFloat(paymentAmount),
                     RenewDiscountDesc:"",
                     // LicenseLevel:parseInt(accessLevel) ||0,
-                    ExtraModules:lineItemsForm
+                    ExtraModules:lineItemsForm,
+                    ERPUserName: "VS1_Cloud_Admin",
+                    ERPPassword: "DptfGw83mFl1j&9"
                 }
             };
         }else{
@@ -581,7 +583,9 @@ Template.companyappsettingsdup.events({
                     RenewPrice:parseFloat(paymentAmount),
                     RenewDiscountedPrice:parseFloat(paymentAmount),
                     RenewDiscountDesc:"",
-                    ExtraModules:lineItemsForm
+                    ExtraModules:lineItemsForm,
+                    ERPUserName: "VS1_Cloud_Admin",
+                    ERPPassword: "DptfGw83mFl1j&9"
                 }
             };
         }

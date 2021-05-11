@@ -74,21 +74,22 @@ Template.linktrueerp.events({
         DatabasenameToChange: erpGet.ERPDatabase,
         VS1UserName: erpGet.ERPUsername,
         VS1Password: erpGet.ERPPassword,
-        APIPort:portNo,
+        APIPort:parseFloat(portNo)||0,
         IsHttps:false,
         EmployeeDetails:{
          FirstName:firstName,
          LastName:lastName,
+         Phone:phoneNumber,
          DateStarted:begunDate|| '',
          DOB:begunDate|| '',
-         Sex:"M",
-         Email:erpGet.ERPUsername,
-         EmailsFromEmployeeAddress:true,
-         Phone:phoneNumber
+         Sex:"M"
+         // Email:erpGet.ERPUsername,
+         // EmailsFromEmployeeAddress:true,
+
        },
-       EmployeeDetails:{
+       ERPLoginDetails:{
          ERPUserName : erpUsername,
-         ERPPassword : erpPassword
+         NewPassword : erpPassword
        }
     }
   };

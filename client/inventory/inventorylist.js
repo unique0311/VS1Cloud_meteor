@@ -44,6 +44,7 @@ Template.inventorylist.onRendered(function() {
   const coggsaccountrecords = [];
   const salesaccountrecords = [];
   let deptprodlineItems = [];
+  var tableInventory = "";
 //   $(document).ready(function() {
 //   $('#edtassetaccount').editableSelect();
 //   $('#sltcogsaccount').editableSelect();
@@ -236,7 +237,7 @@ Template.inventorylist.onRendered(function() {
 
           $('.fullScreenSpin').css('display','none');
           setTimeout(function () {
-              $('#tblInventory').DataTable({
+              tableInventory = $('#tblInventory').DataTable({
                     select: true,
                     destroy: true,
                     colReorder: true,
@@ -294,8 +295,6 @@ Template.inventorylist.onRendered(function() {
 
                     MakeNegative();
                   }, 100);
-                }).on('search.dt', function () {
-                  alert('here');
                 });
 
                 $('.fullScreenSpin').css('display','none');
@@ -393,7 +392,7 @@ if(templateObject.datatablerecords.get()){
 
 $('.fullScreenSpin').css('display','none');
 //setTimeout(function () {
-    $('#tblInventory').DataTable({
+     $('#tblInventory').DataTable({
           select: true,
           destroy: true,
           colReorder: true,
@@ -446,20 +445,34 @@ $('.fullScreenSpin').css('display','none');
 
       }).on('column-reorder', function () {
 
-      }).on( 'length.dt', function ( e, settings, len ) {
+      }).on('length.dt', function ( e, settings, len ) {
         setTimeout(function () {
 
           MakeNegative();
         }, 100);
       }).on('search.dt', function () {
         let draftRecord = templateObject.datatablerecords.get();
+
         let newDataArray = [];
-        let searchTerm = $(event.target).val().toLowerCase();
-        //console.log(eventData);
-        $.grep(draftRecord, function(elem) {
-          console.log(elem);
-          //return elem.toLowerCase().indexOf(searchTerm) > -1;
-        });
+        let searchTerm = $(event.target).val();
+        if(searchTerm != ''){
+
+        }else{
+          templateObject.datatablerecords.set(draftRecord);
+          //$('.tblInventory tbody tr').show();
+        }
+
+        // if(searchTerm == ""){
+        //   console.log(draftRecord);
+        //   templateObject.datatablerecords.set(draftRecord);
+        //   tableInventory.search(searchTerm).draw();
+        // }else{
+        //   $.grep(draftRecord, function(elem) {
+        //     //console.log(elem);
+        //     //return elem.toLowerCase().indexOf(searchTerm) > -1;
+        //   });
+        // }
+
       //  console.log(results);
         // $.each(draftRecord, function(i, v) {
         // console.log(v);
@@ -472,7 +485,7 @@ $('.fullScreenSpin').css('display','none');
         //   //       return;
         //   //   }
         // });
-        templateObject.datatablerecords.set(draftRecord);
+
       });
 
       $('.fullScreenSpin').css('display','none');
@@ -565,7 +578,7 @@ $('.fullScreenSpin').css('display','none');
 
         $('.fullScreenSpin').css('display','none');
         setTimeout(function () {
-            $('#tblInventory').DataTable({
+          tableInventory = $('#tblInventory').DataTable({
                   select: true,
                   destroy: true,
                   colReorder: true,
@@ -1669,6 +1682,39 @@ swal('Invalid Data Mapping fields ', 'Please check that you are importing the co
 
 }
 });
+},
+'keyup #myInputSearch':function(event){
+  $('.tblInventory tbody tr').show();
+  let searchItem = $(event.target).val();
+  if(searchItem != ''){
+    var value = searchItem.toLowerCase();
+    $('.tblInventory tbody tr').each(function(){
+     var found = 'false';
+     $(this).each(function(){
+          if($(this).text().toLowerCase().indexOf(value.toLowerCase()) >= 0)
+          {
+               found = 'true';
+          }
+
+          if($(this).text().replace(/[^0-9.-]+/g, "").indexOf(value.toLowerCase()) >= 0)
+          {
+               found = 'true';
+          }
+
+
+     });
+     if(found == 'true')
+     {
+          $(this).show();
+     }
+     else
+     {
+          $(this).hide();
+     }
+});
+  }else{
+    $('.tblInventory tbody tr').show();
+  }
 }
 
 });

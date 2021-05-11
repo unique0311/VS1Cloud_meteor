@@ -21,7 +21,7 @@ var erpConnection = {
     ERPPassword: Password,
     ERPDatabase: Database,
     ERPPort: Port,
-    ERPUseSSL: false,
+    ERPUseSSL: true,
     ERPApi: "erpapi",
     ERPSystemObject: "TERPSysInfo",
     //ERPLoginObject: "TUser?PropertyList==ID,LogonName,EmployeeName,PasswordHash",
