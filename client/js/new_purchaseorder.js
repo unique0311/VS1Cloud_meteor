@@ -1,3 +1,4 @@
+import { SalesBoardService } from './sales-service';
 import { PurchaseBoardService } from './purchase-service';
 import { ReactiveVar } from 'meteor/reactive-var';
 import { CoreService } from '../js/core-service';
@@ -12,10 +13,11 @@ import { Random } from 'meteor/random';
 import { jsPDF } from 'jspdf';
 import 'jQuery.print/jQuery.print.js';
 import { autoTable } from 'jspdf-autotable';
-
+import { SideBarService } from '../js/sidebar-service';
 
 import 'jquery-editable-select';
 let utilityService = new UtilityService();
+let sideBarService = new SideBarService();
 var times = 0;
 Template.purchaseordercard.onCreated(() => {
     // Session.set('validateInvoiceNo',false);
@@ -321,6 +323,9 @@ Template.purchaseordercard.onRendered(() => {
                 templateObject.statusrecords.set(statusList);
 
             }
+            setTimeout(function () {
+                $('#sltStatus').append('<option value="newstatus">New Lead Status</option>');
+            }, 1500)
         }).catch(function(err) {
             clientsService.getAllLeadStatus().then(function(data) {
                 for (let i in data.tleadstatustype) {
@@ -348,6 +353,7 @@ Template.purchaseordercard.onRendered(() => {
         var currentPurchaseOrder = getso_id[getso_id.length - 1];
         if (getso_id[1]) {
             currentPurchaseOrder = parseInt(currentPurchaseOrder);
+            $('.printID').attr("id", currentPurchaseOrder);
             templateObject.getPurchaseOrderData = function() {
                 //getOnePurchaseOrderdata
                 getVS1Data('TPurchaseOrderEx').then(function(dataObject) {
@@ -1132,6 +1138,7 @@ Template.purchaseordercard.onRendered(() => {
       var currentPurchaseOrder = getso_id[getso_id.length - 1];
       if (getso_id[1]) {
           currentPurchaseOrder = parseInt(currentPurchaseOrder);
+          $('.printID').attr("id", currentPurchaseOrder);
           purchaseService.getOnePurchaseOrderdataEx(currentPurchaseOrder).then(function(data) {
               $('.fullScreenSpin').css('display', 'none');
               let lineItems = [];
@@ -2438,6 +2445,77 @@ Template.purchaseordercard.events({
     'click #edtSupplierName': function(event) {
         $('#edtSupplierName').select();
         $('#edtSupplierName').editableSelect();
+    },
+    'change #sltStatus': function () {
+        let status = $('#sltStatus').find(":selected").val();
+        if (status == "newstatus") {
+            $('#statusModal').modal();
+        }
+    },
+    'click .btnSaveStatus': function () {
+        $('.fullScreenSpin').css('display', 'inline-block');
+        let clientService = new SalesBoardService()
+        let status = $('#status').val();
+        let leadData = {
+            type: 'TLeadStatusType',
+            fields: {
+                TypeName: status,
+                KeyValue: status
+            }
+        }
+
+        if (status != "") {
+            clientService.saveLeadStatus(leadData).then(function (objDetails) {
+                sideBarService.getAllLeadStatus().then(function (dataUpdate) {
+                    addVS1Data('TLeadStatusType', JSON.stringify(dataUpdate)).then(function (datareturn) {
+                        $('.fullScreenSpin').css('display', 'none');
+                        let id = $('.printID').attr("id");
+                        if (id != "") {
+                            window.open("/purchaseordercard?id=" + id);
+                        } else {
+                           window.open("/purchaseordercard");
+                        }
+                     }).catch(function (err) {
+                       
+                    });
+                }).catch(function (err) {
+                    console.log(err);
+                   window.open('/purchaseordercard', '_self');
+                });
+            }).catch(function (err) {
+                $('.fullScreenSpin').css('display', 'none');
+                console.log(err);
+                swal({
+                    title: 'Something went wrong',
+                    text: err,
+                    type: 'error',
+                    showCancelButton: false,
+                    confirmButtonText: 'Try Again'
+                }).then((result) => {
+                    if (result.value) {
+                        //Meteor._reload.reload();
+                    } else if (result.dismiss === 'cancel') {
+
+                    }
+                });
+                //$('.loginSpinner').css('display','none');
+                $('.fullScreenSpin').css('display', 'none');
+            });
+        } else {
+            $('.fullScreenSpin').css('display', 'none');
+            swal({
+                title: 'Please Enter Status',
+                text: "Status field cannot be empty",
+                type: 'warning',
+                showCancelButton: false,
+                confirmButtonText: 'Try Again'
+            }).then((result) => {
+                if (result.value) {
+                } else if (result.dismiss === 'cancel') {
+
+                }
+            });
+        }
     },
     'blur .lineQty': function(event) {
         let templateObject = Template.instance();

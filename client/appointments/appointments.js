@@ -6998,6 +6998,7 @@ Template.appointments.events({
                 });
             }
         }).catch(function (err) {
+            $('.fullScreenSpin').css('display', 'none');
             swal({
                 title: 'Something went wrong',
                 text: err,

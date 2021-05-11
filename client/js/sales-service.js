@@ -495,6 +495,10 @@ export class SalesBoardService extends BaseService {
       return this.getList(this.ERPObjects.TInvoice, options);
   }
 
+  saveLeadStatus(data){
+    return this.POST(this.ERPObjects.TLeadStatusType,data);
+  }
+  
   getAllLeadStatus() {
     let options = {
       PropertyList: "ID,TypeName",

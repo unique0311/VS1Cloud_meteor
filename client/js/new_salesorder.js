@@ -299,6 +299,9 @@ Template.new_salesorder.onRendered(() => {
                 templateObject.statusrecords.set(statusList);
 
             }
+            setTimeout(function(){
+                $('#sltStatus').append('<option value="newstatus">New Lead Status</option>');
+            },1500)
         }).catch(function(err) {
             clientsService.getAllLeadStatus().then(function(data) {
                 for (let i in data.tleadstatustype) {
@@ -324,6 +327,7 @@ Template.new_salesorder.onRendered(() => {
         var getso_id = url.split('?copyquid=');
         var currentSalesOrder = getso_id[getso_id.length - 1];
         if (getso_id[1]) {
+            $('.printID').attr("id", currentSalesOrder);
             currentSalesOrder = parseInt(currentSalesOrder);
             templateObject.getSalesOrderData = function() {
                 accountService.getOneQuotedataEx(currentSalesOrder).then(function(data) {
@@ -522,6 +526,7 @@ Template.new_salesorder.onRendered(() => {
         var currentSalesOrder = getso_id[getso_id.length - 1];
         if (getso_id[1]) {
             currentSalesOrder = parseInt(currentSalesOrder);
+            $('.printID').attr("id", currentSalesOrder);
             templateObject.getSalesOrderData = function() {
                 //getOneSalesOrderdata
                 getVS1Data('TSalesOrderEx').then(function(dataObject) {
@@ -2274,6 +2279,77 @@ Template.new_salesorder.events({
     'click #edtCustomerName': function(event) {
         $('#edtCustomerName').select();
         $('#edtCustomerName').editableSelect();
+    },
+    'change #sltStatus': function () {
+        let status = $('#sltStatus').find(":selected").val();
+        if(status == "newstatus") {
+            $('#statusModal').modal();
+        }
+    },
+    'click .btnSaveStatus': function () {
+        $('.fullScreenSpin').css('display', 'inline-block');
+        let clientService = new SalesBoardService()
+        let status = $('#status').val();
+        let leadData = {
+            type:'TLeadStatusType',
+            fields:{
+            TypeName:status,
+            KeyValue:status
+            }
+        }
+
+        if (status != "") {
+            clientService.saveLeadStatus(leadData).then(function (objDetails) {
+                sideBarService.getAllLeadStatus().then(function (dataUpdate) {
+                    addVS1Data('TLeadStatusType', JSON.stringify(dataUpdate)).then(function (datareturn) {
+                        $('.fullScreenSpin').css('display', 'none');
+                        let id = $('.printID').attr("id");
+                        if (id != "") {
+                            window.open("/salesordercard?id=" + id);
+                        } else {
+                           window.open("/salesordercard");
+                        }
+                     }).catch(function (err) {
+                       
+                    });
+                }).catch(function (err) {
+                    console.log(err);
+                   window.open('/salesordercard', '_self');
+                });
+            }).catch(function (err) {
+                $('.fullScreenSpin').css('display', 'none');
+                console.log(err);
+                swal({
+                    title: 'Something went wrong',
+                    text: err,
+                    type: 'error',
+                    showCancelButton: false,
+                    confirmButtonText: 'Try Again'
+                }).then((result) => {
+                    if (result.value) {
+                        //Meteor._reload.reload();
+                    } else if (result.dismiss === 'cancel') {
+
+                    }
+                });
+                //$('.loginSpinner').css('display','none');
+                $('.fullScreenSpin').css('display', 'none');
+            });
+        } else {
+            $('.fullScreenSpin').css('display', 'none');
+            swal({
+                title: 'Please Enter Status',
+                text: "Status field cannot be empty",
+                type: 'warning',
+                showCancelButton: false,
+                confirmButtonText: 'Try Again'
+            }).then((result) => {
+                if (result.value) {
+                } else if (result.dismiss === 'cancel') {
+
+                }
+            });
+        }
     },
     'blur .lineQty': function(event) {
         let templateObject = Template.instance();

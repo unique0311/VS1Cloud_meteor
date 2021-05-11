@@ -248,6 +248,7 @@ Template.appointmentlist.onRendered(function () {
     }
     }
   }).catch(function (err) {
+    console.log(err)
     sideBarService.getAllAppointmentList().then(function(data) {
       addVS1Data('TAppointment',JSON.stringify(data)).then(function (datareturn) {
 
@@ -1198,7 +1199,132 @@ Template.appointmentlist.events({
         if(dataObject.length == 0){
           sideBarService.getAllAppointmentList().then(function(data) {
             addVS1Data('TAppointment',JSON.stringify(data)).then(function (datareturn) {
-            window.open('/appointmentlist','_self');
+              getVS1Data('TInvoiceEx').then(function (dataObject) {
+                if(dataObject.length == 0){
+                  sideBarService.getAllInvoiceList().then(function(data) {
+                    addVS1Data('TInvoiceEx',JSON.stringify(data)).then(function (datareturn) {
+                    //window.open('/invoicelist','_self');
+                    }).catch(function (err) {
+                    //window.open('/invoicelist','_self');
+                    });
+                  }).catch(function(err) {
+                    //window.open('/invoicelist','_self');
+                  });
+                }else{
+                  let data = JSON.parse(dataObject[0].data);
+                  let useData = data.tinvoiceex;
+                  if(useData[0].Id){
+                    sideBarService.getAllInvoiceList().then(function(data) {
+                      addVS1Data('TInvoiceEx',JSON.stringify(data)).then(function (datareturn) {
+                       // window.open('/invoicelist','_self');
+                      }).catch(function (err) {
+                      //window.open('/invoicelist','_self');
+                      });
+                    }).catch(function(err) {
+                      //window.open('/invoicelist','_self');
+                    });
+                  }else{
+                  let getTimeStamp = dataObject[0].timestamp;
+                  if(getTimeStamp){
+                      if(getTimeStamp[0] != currenctTodayDate){
+                        sideBarService.getAllInvoiceListUpdate(getTimeStamp).then(function(dataUpdate) {
+                          let newDataObject = [];
+                          if(dataUpdate.tinvoiceex.length === 0){
+                            sideBarService.getAllInvoiceList().then(function(data) {
+                              addVS1Data('TInvoiceEx',JSON.stringify(data)).then(function (datareturn) {
+                                //window.open('/invoicelist','_self');
+                              }).catch(function (err) {
+                             // window.open('/invoicelist','_self');
+                              });
+                            }).catch(function(err) {
+                            //window.open('/invoicelist','_self');
+                            });
+                          }else{
+                            let dataOld = JSON.parse(dataObject[0].data);
+                            let oldObjectData = dataOld.tinvoiceex;
+          
+                            let dataNew = dataUpdate;
+                            let newObjectData = dataNew.tinvoiceex;
+                            let index = '';
+                            let index2 = '';
+          
+                            var resultArray = []
+          
+                            oldObjectData.forEach(function(destObj) {
+                                var addedcheck=false;
+                                newObjectData.some(function(origObj) {
+                                  if(origObj.fields.ID == destObj.fields.ID) {
+                                    addedcheck = true;
+                                    index = oldObjectData.map(function (e) { return e.fields.ID; }).indexOf(parseInt(origObj.fields.ID));
+                                    destObj = origObj;
+                                    resultArray.push(destObj);
+          
+                                  }
+                                });
+                                if(!addedcheck) {
+                                      resultArray.push(destObj)
+                                }
+          
+                              });
+                              newObjectData.forEach(function(origObj) {
+                                var addedcheck=false;
+                                oldObjectData.some(function(destObj) {
+                                  if(origObj.fields.ID == destObj.fields.ID) {
+                                    addedcheck = true;
+                                    index = oldObjectData.map(function (e) { return e.fields.ID; }).indexOf(parseInt(origObj.fields.ID));
+                                    destObj = origObj;
+                                    resultArray.push(destObj);
+          
+                                  }
+                                });
+                                if(!addedcheck) {
+                                      resultArray.push(origObj)
+                                }
+          
+                              });
+                          var resultGetData = [];
+                          $.each(resultArray, function (i, e) {
+                            var matchingItems = $.grep(resultGetData, function (item) {
+                               return item.fields.ID === e.fields.ID;
+                            });
+                            if (matchingItems.length === 0){
+                                resultGetData.push(e);
+                            }
+                        });
+          
+                        let dataToAdd = {
+                            tinvoiceex: resultGetData
+                        };
+                          addVS1Data('TInvoiceEx',JSON.stringify(dataToAdd)).then(function (datareturn) {
+                            //window.open('/invoicelist','_self');
+                          }).catch(function (err) {
+                           // window.open('/invoicelist','_self');
+                          });
+                          }
+          
+                        }).catch(function(err) {
+                          addVS1Data('TInvoiceEx',dataObject[0].data).then(function (datareturn) {
+                           // window.open('/invoicelist','_self');
+                          }).catch(function (err) {
+                           // window.open('/invoicelist','_self');
+                          });
+                        });
+                      }
+          
+                  }
+                }
+                }
+              }).catch(function (err) {
+                sideBarService.getAllInvoiceList().then(function(data) {
+                  addVS1Data('TInvoiceEx',JSON.stringify(data)).then(function (datareturn) {
+                    //window.open('/invoicelist','_self');
+                  }).catch(function (err) {
+                  //window.open('/invoicelist','_self');
+                  });
+                }).catch(function(err) {
+                  //window.open('/invoicelist','_self');
+                });
+              });
             }).catch(function (err) {
            window.open('/appointmentlist','_self');
             });
@@ -1211,12 +1337,137 @@ Template.appointmentlist.events({
           if(useData[0].Id){
             sideBarService.getAllAppointmentList().then(function(data) {
               addVS1Data('TAppointment',JSON.stringify(data)).then(function (datareturn) {
-                window.open('/appointmentlist','_self');
+                getVS1Data('TInvoiceEx').then(function (dataObject) {
+                  if(dataObject.length == 0){
+                    sideBarService.getAllInvoiceList().then(function(data) {
+                      addVS1Data('TInvoiceEx',JSON.stringify(data)).then(function (datareturn) {
+                     // window.open('/invoicelist','_self');
+                      }).catch(function (err) {
+                     // window.open('/invoicelist','_self');
+                      });
+                    }).catch(function(err) {
+                     // window.open('/invoicelist','_self');
+                    });
+                  }else{
+                    let data = JSON.parse(dataObject[0].data);
+                    let useData = data.tinvoiceex;
+                    if(useData[0].Id){
+                      sideBarService.getAllInvoiceList().then(function(data) {
+                        addVS1Data('TInvoiceEx',JSON.stringify(data)).then(function (datareturn) {
+                          //window.open('/invoicelist','_self');
+                        }).catch(function (err) {
+                        //window.open('/invoicelist','_self');
+                        });
+                      }).catch(function(err) {
+                        //window.open('/invoicelist','_self');
+                      });
+                    }else{
+                    let getTimeStamp = dataObject[0].timestamp;
+                    if(getTimeStamp){
+                        if(getTimeStamp[0] != currenctTodayDate){
+                          sideBarService.getAllInvoiceListUpdate(getTimeStamp).then(function(dataUpdate) {
+                            let newDataObject = [];
+                            if(dataUpdate.tinvoiceex.length === 0){
+                              sideBarService.getAllInvoiceList().then(function(data) {
+                                addVS1Data('TInvoiceEx',JSON.stringify(data)).then(function (datareturn) {
+                                  //window.open('/invoicelist','_self');
+                                }).catch(function (err) {
+                                //window.open('/invoicelist','_self');
+                                });
+                              }).catch(function(err) {
+                              //window.open('/invoicelist','_self');
+                              });
+                            }else{
+                              let dataOld = JSON.parse(dataObject[0].data);
+                              let oldObjectData = dataOld.tinvoiceex;
+            
+                              let dataNew = dataUpdate;
+                              let newObjectData = dataNew.tinvoiceex;
+                              let index = '';
+                              let index2 = '';
+            
+                              var resultArray = []
+            
+                              oldObjectData.forEach(function(destObj) {
+                                  var addedcheck=false;
+                                  newObjectData.some(function(origObj) {
+                                    if(origObj.fields.ID == destObj.fields.ID) {
+                                      addedcheck = true;
+                                      index = oldObjectData.map(function (e) { return e.fields.ID; }).indexOf(parseInt(origObj.fields.ID));
+                                      destObj = origObj;
+                                      resultArray.push(destObj);
+            
+                                    }
+                                  });
+                                  if(!addedcheck) {
+                                        resultArray.push(destObj)
+                                  }
+            
+                                });
+                                newObjectData.forEach(function(origObj) {
+                                  var addedcheck=false;
+                                  oldObjectData.some(function(destObj) {
+                                    if(origObj.fields.ID == destObj.fields.ID) {
+                                      addedcheck = true;
+                                      index = oldObjectData.map(function (e) { return e.fields.ID; }).indexOf(parseInt(origObj.fields.ID));
+                                      destObj = origObj;
+                                      resultArray.push(destObj);
+            
+                                    }
+                                  });
+                                  if(!addedcheck) {
+                                        resultArray.push(origObj)
+                                  }
+            
+                                });
+                            var resultGetData = [];
+                            $.each(resultArray, function (i, e) {
+                              var matchingItems = $.grep(resultGetData, function (item) {
+                                 return item.fields.ID === e.fields.ID;
+                              });
+                              if (matchingItems.length === 0){
+                                  resultGetData.push(e);
+                              }
+                          });
+            
+                          let dataToAdd = {
+                              tinvoiceex: resultGetData
+                          };
+                            addVS1Data('TInvoiceEx',JSON.stringify(dataToAdd)).then(function (datareturn) {
+                             // window.open('/invoicelist','_self');
+                            }).catch(function (err) {
+                             // window.open('/invoicelist','_self');
+                            });
+                            }
+            
+                          }).catch(function(err) {
+                            addVS1Data('TInvoiceEx',dataObject[0].data).then(function (datareturn) {
+                              //window.open('/invoicelist','_self');
+                            }).catch(function (err) {
+                              //window.open('/invoicelist','_self');
+                            });
+                          });
+                        }
+            
+                    }
+                  }
+                  }
+                }).catch(function (err) {
+                  sideBarService.getAllInvoiceList().then(function(data) {
+                    addVS1Data('TInvoiceEx',JSON.stringify(data)).then(function (datareturn) {
+                     // window.open('/invoicelist','_self');
+                    }).catch(function (err) {
+                    //window.open('/invoicelist','_self');
+                    });
+                  }).catch(function(err) {
+                    //window.open('/invoicelist','_self');
+                  });
+                });
               }).catch(function (err) {
-              window.open('/appointmentlist','_self');
+             // window.open('/appointmentlist','_self');
               });
             }).catch(function(err) {
-              window.open('/appointmentlist','_self');
+              //window.open('/appointmentlist','_self');
             });
           }else{
           let getTimeStamp = dataObject[0].timestamp;
@@ -1227,12 +1478,137 @@ Template.appointmentlist.events({
                   if(dataUpdate.tappointment.length === 0){
                     sideBarService.getAllAppointmentList().then(function(data) {
                       addVS1Data('TAppointment',JSON.stringify(data)).then(function (datareturn) {
-                        window.open('/appointmentlist','_self');
+                        getVS1Data('TInvoiceEx').then(function (dataObject) {
+                          if(dataObject.length == 0){
+                            sideBarService.getAllInvoiceList().then(function(data) {
+                              addVS1Data('TInvoiceEx',JSON.stringify(data)).then(function (datareturn) {
+                             // window.open('/invoicelist','_self');
+                              }).catch(function (err) {
+                             // window.open('/invoicelist','_self');
+                              });
+                            }).catch(function(err) {
+                             // window.open('/invoicelist','_self');
+                            });
+                          }else{
+                            let data = JSON.parse(dataObject[0].data);
+                            let useData = data.tinvoiceex;
+                            if(useData[0].Id){
+                              sideBarService.getAllInvoiceList().then(function(data) {
+                                addVS1Data('TInvoiceEx',JSON.stringify(data)).then(function (datareturn) {
+                                  //window.open('/invoicelist','_self');
+                                }).catch(function (err) {
+                                //window.open('/invoicelist','_self');
+                                });
+                              }).catch(function(err) {
+                                //window.open('/invoicelist','_self');
+                              });
+                            }else{
+                            let getTimeStamp = dataObject[0].timestamp;
+                            if(getTimeStamp){
+                                if(getTimeStamp[0] != currenctTodayDate){
+                                  sideBarService.getAllInvoiceListUpdate(getTimeStamp).then(function(dataUpdate) {
+                                    let newDataObject = [];
+                                    if(dataUpdate.tinvoiceex.length === 0){
+                                      sideBarService.getAllInvoiceList().then(function(data) {
+                                        addVS1Data('TInvoiceEx',JSON.stringify(data)).then(function (datareturn) {
+                                          //window.open('/invoicelist','_self');
+                                        }).catch(function (err) {
+                                        //window.open('/invoicelist','_self');
+                                        });
+                                      }).catch(function(err) {
+                                      //window.open('/invoicelist','_self');
+                                      });
+                                    }else{
+                                      let dataOld = JSON.parse(dataObject[0].data);
+                                      let oldObjectData = dataOld.tinvoiceex;
+                    
+                                      let dataNew = dataUpdate;
+                                      let newObjectData = dataNew.tinvoiceex;
+                                      let index = '';
+                                      let index2 = '';
+                    
+                                      var resultArray = []
+                    
+                                      oldObjectData.forEach(function(destObj) {
+                                          var addedcheck=false;
+                                          newObjectData.some(function(origObj) {
+                                            if(origObj.fields.ID == destObj.fields.ID) {
+                                              addedcheck = true;
+                                              index = oldObjectData.map(function (e) { return e.fields.ID; }).indexOf(parseInt(origObj.fields.ID));
+                                              destObj = origObj;
+                                              resultArray.push(destObj);
+                    
+                                            }
+                                          });
+                                          if(!addedcheck) {
+                                                resultArray.push(destObj)
+                                          }
+                    
+                                        });
+                                        newObjectData.forEach(function(origObj) {
+                                          var addedcheck=false;
+                                          oldObjectData.some(function(destObj) {
+                                            if(origObj.fields.ID == destObj.fields.ID) {
+                                              addedcheck = true;
+                                              index = oldObjectData.map(function (e) { return e.fields.ID; }).indexOf(parseInt(origObj.fields.ID));
+                                              destObj = origObj;
+                                              resultArray.push(destObj);
+                    
+                                            }
+                                          });
+                                          if(!addedcheck) {
+                                                resultArray.push(origObj)
+                                          }
+                    
+                                        });
+                                    var resultGetData = [];
+                                    $.each(resultArray, function (i, e) {
+                                      var matchingItems = $.grep(resultGetData, function (item) {
+                                         return item.fields.ID === e.fields.ID;
+                                      });
+                                      if (matchingItems.length === 0){
+                                          resultGetData.push(e);
+                                      }
+                                  });
+                    
+                                  let dataToAdd = {
+                                      tinvoiceex: resultGetData
+                                  };
+                                    addVS1Data('TInvoiceEx',JSON.stringify(dataToAdd)).then(function (datareturn) {
+                                     // window.open('/invoicelist','_self');
+                                    }).catch(function (err) {
+                                     // window.open('/invoicelist','_self');
+                                    });
+                                    }
+                    
+                                  }).catch(function(err) {
+                                    addVS1Data('TInvoiceEx',dataObject[0].data).then(function (datareturn) {
+                                      //window.open('/invoicelist','_self');
+                                    }).catch(function (err) {
+                                      //window.open('/invoicelist','_self');
+                                    });
+                                  });
+                                }
+                    
+                            }
+                          }
+                          }
+                        }).catch(function (err) {
+                          sideBarService.getAllInvoiceList().then(function(data) {
+                            addVS1Data('TInvoiceEx',JSON.stringify(data)).then(function (datareturn) {
+                             // window.open('/invoicelist','_self');
+                            }).catch(function (err) {
+                            //window.open('/invoicelist','_self');
+                            });
+                          }).catch(function(err) {
+                            //window.open('/invoicelist','_self');
+                          });
+                        });
                       }).catch(function (err) {
-                     window.open('/appointmentlist','_self');
+                     //window.open('/appointmentlist','_self');
                       });
                     }).catch(function(err) {
-                    window.open('/appointmentlist','_self');
+                    //window.open('/appointmentlist','_self');
                     });
                   }else{
                     let dataOld = JSON.parse(dataObject[0].data);
@@ -1291,9 +1667,134 @@ Template.appointmentlist.events({
                     tappointment: resultGetData
                 };
                   addVS1Data('TAppointment',JSON.stringify(dataToAdd)).then(function (datareturn) {
-                   window.open('/appointmentlist','_self');
+                    getVS1Data('TInvoiceEx').then(function (dataObject) {
+                      if(dataObject.length == 0){
+                        sideBarService.getAllInvoiceList().then(function(data) {
+                          addVS1Data('TInvoiceEx',JSON.stringify(data)).then(function (datareturn) {
+                            window.open('/appointmentlist','_self');
+                          }).catch(function (err) {
+                            window.open('/appointmentlist','_self');
+                          });
+                        }).catch(function(err) {
+                          window.open('/appointmentlist','_self');
+                        });
+                      }else{
+                        let data = JSON.parse(dataObject[0].data);
+                        let useData = data.tinvoiceex;
+                        if(useData[0].Id){
+                          sideBarService.getAllInvoiceList().then(function(data) {
+                            addVS1Data('TInvoiceEx',JSON.stringify(data)).then(function (datareturn) {
+                              window.open('/appointmentlist','_self');
+                            }).catch(function (err) {
+                              window.open('/appointmentlist','_self');
+                            });
+                          }).catch(function(err) {
+                            window.open('/appointmentlist','_self');
+                          });
+                        }else{
+                        let getTimeStamp = dataObject[0].timestamp;
+                        if(getTimeStamp){
+                            if(getTimeStamp[0] != currenctTodayDate){
+                              sideBarService.getAllInvoiceListUpdate(getTimeStamp).then(function(dataUpdate) {
+                                let newDataObject = [];
+                                if(dataUpdate.tinvoiceex.length === 0){
+                                  sideBarService.getAllInvoiceList().then(function(data) {
+                                    addVS1Data('TInvoiceEx',JSON.stringify(data)).then(function (datareturn) {
+                                      //window.open('/invoicelist','_self');
+                                    }).catch(function (err) {
+                                    //window.open('/invoicelist','_self');
+                                    });
+                                  }).catch(function(err) {
+                                  //window.open('/invoicelist','_self');
+                                  });
+                                }else{
+                                  let dataOld = JSON.parse(dataObject[0].data);
+                                  let oldObjectData = dataOld.tinvoiceex;
+                
+                                  let dataNew = dataUpdate;
+                                  let newObjectData = dataNew.tinvoiceex;
+                                  let index = '';
+                                  let index2 = '';
+                
+                                  var resultArray = []
+                
+                                  oldObjectData.forEach(function(destObj) {
+                                      var addedcheck=false;
+                                      newObjectData.some(function(origObj) {
+                                        if(origObj.fields.ID == destObj.fields.ID) {
+                                          addedcheck = true;
+                                          index = oldObjectData.map(function (e) { return e.fields.ID; }).indexOf(parseInt(origObj.fields.ID));
+                                          destObj = origObj;
+                                          resultArray.push(destObj);
+                
+                                        }
+                                      });
+                                      if(!addedcheck) {
+                                            resultArray.push(destObj)
+                                      }
+                
+                                    });
+                                    newObjectData.forEach(function(origObj) {
+                                      var addedcheck=false;
+                                      oldObjectData.some(function(destObj) {
+                                        if(origObj.fields.ID == destObj.fields.ID) {
+                                          addedcheck = true;
+                                          index = oldObjectData.map(function (e) { return e.fields.ID; }).indexOf(parseInt(origObj.fields.ID));
+                                          destObj = origObj;
+                                          resultArray.push(destObj);
+                
+                                        }
+                                      });
+                                      if(!addedcheck) {
+                                            resultArray.push(origObj)
+                                      }
+                
+                                    });
+                                var resultGetData = [];
+                                $.each(resultArray, function (i, e) {
+                                  var matchingItems = $.grep(resultGetData, function (item) {
+                                     return item.fields.ID === e.fields.ID;
+                                  });
+                                  if (matchingItems.length === 0){
+                                      resultGetData.push(e);
+                                  }
+                              });
+                
+                              let dataToAdd = {
+                                  tinvoiceex: resultGetData
+                              };
+                                addVS1Data('TInvoiceEx',JSON.stringify(dataToAdd)).then(function (datareturn) {
+                                  window.open('/appointmentlist','_self');
+                                }).catch(function (err) {
+                                  window.open('/appointmentlist','_self');
+                                });
+                                }
+                
+                              }).catch(function(err) {
+                                addVS1Data('TInvoiceEx',dataObject[0].data).then(function (datareturn) {
+                                  window.open('/appointmentlist','_self');
+                                }).catch(function (err) {
+                                  window.open('/appointmentlist','_self');
+                                });
+                              });
+                            }
+                
+                        }
+                      }
+                      }
+                    }).catch(function (err) {
+                      sideBarService.getAllInvoiceList().then(function(data) {
+                        addVS1Data('TInvoiceEx',JSON.stringify(data)).then(function (datareturn) {
+                         // window.open('/invoicelist','_self');
+                        }).catch(function (err) {
+                        //window.open('/invoicelist','_self');
+                        });
+                      }).catch(function(err) {
+                        //window.open('/invoicelist','_self');
+                      });
+                    });
                   }).catch(function (err) {
-                   window.open('/appointmentlist','_self');
+                  window.open('/appointmentlist','_self');
                   });
                   }
 
@@ -1308,16 +1809,17 @@ Template.appointmentlist.events({
 
           }
         }
+        
         }
       }).catch(function (err) {
         sideBarService.getAllAppointmentList().then(function(data) {
           addVS1Data('TAppointment',JSON.stringify(data)).then(function (datareturn) {
-            window.open('/appointmentlist','_self');
+            //window.open('/appointmentlist','_self');
           }).catch(function (err) {
-          window.open('/appointmentlist','_self');
+          //window.open('/appointmentlist','_self');
           });
         }).catch(function(err) {
-         window.open('/appointmentlist','_self');
+         //window.open('/appointmentlist','_self');
         });
       });
 
@@ -1765,14 +2267,13 @@ Template.appointmentlist.events({
               }
             };
             appointmentService.saveAppointment(objectDataConverted).then(function (data) {
-
+              Router.go('/invoicelist?success=true');
             }).catch(function (err) {
               $('.fullScreenSpin').css('display', 'none');
             });
 
             templateObject.getAllAppointmentDataOnConvert();
 
-            Router.go('/invoicelist?success=true');
 
 
           } else {
