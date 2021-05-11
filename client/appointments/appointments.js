@@ -438,7 +438,6 @@ Template.appointments.onRendered(function () {
         } else {
             let data = JSON.parse(dataObject[0].data);
             let useData = data.tappointmentpreferences;
-
             for (let i = 0; i < useData.length; i++) {
                 if (useData[i].EmployeeID == Session.get('mySessionEmployeeLoggedID')) {
                     // let date = new Date('2021-03-25 ' + useData[i].ApptEndtime || '17:00');
@@ -5582,6 +5581,143 @@ Template.appointments.onRendered(function () {
 Template.appointments.events({
     'click .calendar .days li': function (event) {
         Router.go('/newappointments');
+    },
+    'click #createInvoice': function () {
+        $('.fullScreenSpin').css('display', 'inline-block');
+        const templateObject = Template.instance();
+        let id = $('#updateID').val();
+        if (id == "") {
+            swal('Please Save Appointment Before Creating an Invoice For it', '', 'warning');
+            $('.fullScreenSpin').css('display', 'none');
+        } else {
+            let obj = {
+                AppointID: parseInt(id)
+              }
+            JsonIn = {
+                Params: {
+                    AppointIDs: [obj]
+                }
+            };
+            let appointmentService = new AppointmentService();
+            var erpGet = erpDb();
+            var oPost = new XMLHttpRequest();
+            oPost.open("POST", URLRequest + erpGet.ERPIPAddress + ':' + erpGet.ERPPort + '/' + 'erpapi/VS1_Cloud_Task/Method?Name="VS1_InvoiceAppt"', true);
+            oPost.setRequestHeader("database", erpGet.ERPDatabase);
+            oPost.setRequestHeader("username", erpGet.ERPUsername);
+            oPost.setRequestHeader("password", erpGet.ERPPassword);
+            oPost.setRequestHeader("Accept", "application/json");
+            oPost.setRequestHeader("Accept", "application/html");
+            oPost.setRequestHeader("Content-type", "application/json");
+            // let objDataSave = '"JsonIn"' + ':' + JSON.stringify(selectClient);
+            oPost.send(JSON.stringify(JsonIn));
+
+            oPost.onreadystatechange = function () {
+                if (oPost.readyState == 4 && oPost.status == 200) {
+                    $('.fullScreenSpin').css('display', 'none');
+                    var myArrResponse = JSON.parse(oPost.responseText);
+                    if (myArrResponse.ProcessLog.ResponseStatus.includes("OK")) {
+                        let objectDataConverted = {
+                            type: "TAppointment",
+                            fields: {
+                                Id: parseInt(id),
+                                Status: "Converted"
+                            }
+                        };
+                        appointmentService.saveAppointment(objectDataConverted).then(function (data) {
+                            Router.go('/invoicelist?success=true');
+                        }).catch(function (err) {
+                            $('.fullScreenSpin').css('display', 'none');
+                        });
+
+                        templateObject.getAllAppointmentDataOnConvert();
+
+
+
+                    } else {
+                        $('.fullScreenSpin').css('display', 'none');
+                        swal({
+                            title: 'Oooops...',
+                            text: myArrResponse.ProcessLog.ResponseStatus,
+                            type: 'warning',
+                            showCancelButton: false,
+                            confirmButtonText: 'Try Again'
+                        }).then((result) => {
+                            if (result.value) {
+
+                            } else if (result.dismiss === 'cancel') {
+
+                            }
+                        });
+                    }
+
+                } else if (oPost.readyState == 4 && oPost.status == 403) {
+                    $('.fullScreenSpin').css('display', 'none');
+                    swal({
+                        title: 'Something went wrong',
+                        text: oPost.getResponseHeader('errormessage'),
+                        type: 'error',
+                        showCancelButton: false,
+                        confirmButtonText: 'Try Again'
+                    }).then((result) => {
+                        if (result.value) {
+                        } else if (result.dismiss === 'cancel') {
+
+                        }
+                    });
+                } else if (oPost.readyState == 4 && oPost.status == 406) {
+                    $('.fullScreenSpin').css('display', 'none');
+                    var ErrorResponse = oPost.getResponseHeader('errormessage');
+                    var segError = ErrorResponse.split(':');
+
+                    if ((segError[1]) == ' "Unable to lock object') {
+
+                        swal({
+                            title: 'Something went wrong',
+                            text: oPost.getResponseHeader('errormessage'),
+                            type: 'error',
+                            showCancelButton: false,
+                            confirmButtonText: 'Try Again'
+                        }).then((result) => {
+                            if (result.value) {
+                            } else if (result.dismiss === 'cancel') {
+
+                            }
+                        });
+                    } else {
+                        $('.fullScreenSpin').css('display', 'none');
+                        swal({
+                            title: 'Something went wrong',
+                            text: oPost.getResponseHeader('errormessage'),
+                            type: 'error',
+                            showCancelButton: false,
+                            confirmButtonText: 'Try Again'
+                        }).then((result) => {
+                            if (result.value) {
+                            } else if (result.dismiss === 'cancel') {
+
+                            }
+                        });
+                    }
+
+                } else if (oPost.readyState == '') {
+                    $('.fullScreenSpin').css('display', 'none');
+                    swal({
+                        title: 'Something went wrong',
+                        text: oPost.getResponseHeader('errormessage'),
+                        type: 'error',
+                        showCancelButton: false,
+                        confirmButtonText: 'Try Again'
+                    }).then((result) => {
+                        if (result.value) {
+                        } else if (result.dismiss === 'cancel') {
+
+                        }
+                    });
+                }
+
+            }
+        }
+
     },
     'click .btnAppointmentList': function (event) {
         $('.modal-backdrop').css('display', 'none');
