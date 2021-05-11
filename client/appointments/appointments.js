@@ -6454,6 +6454,12 @@ Template.appointments.events({
     'click #btnHold': function (event) {
         $('#frmOnHoldModal').modal();
     },
+    'click #btnOptions': function (event) {
+        $('#frmOptions').modal();
+    },
+    'click #btnRepeatApp': function (event) {
+        $('#frmOptions').modal('hide');
+    },
     'change #showSaturday1': function () {
         var checkbox = document.querySelector("#showSaturday");
         if (checkbox.checked) {
