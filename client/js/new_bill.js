@@ -1,3 +1,4 @@
+import { SalesBoardService } from './sales-service';
 import { PurchaseBoardService } from './purchase-service';
 import { ReactiveVar } from 'meteor/reactive-var';
 import { CoreService } from '../js/core-service';
@@ -312,6 +313,9 @@ Template.billcard.onRendered(() => {
                 templateObject.statusrecords.set(statusList);
 
             }
+            setTimeout(function () {
+                $('#sltStatus').append('<option value="newstatus">New Lead Status</option>');
+            }, 1500)
         }).catch(function(err) {
             clientsService.getAllLeadStatus().then(function(data) {
                 for (let i in data.tleadstatustype) {
@@ -338,6 +342,7 @@ Template.billcard.onRendered(() => {
         var currentBill = getso_id[getso_id.length - 1];
         if (getso_id[1]) {
             currentBill = parseInt(currentBill);
+            $('.printID').attr("id", currentBill);
             templateObject.getBillData = function() {
                 //getOneBilldata
                 getVS1Data('TBillEx').then(function(dataObject) {
@@ -2233,6 +2238,77 @@ Template.billcard.events({
     'click #edtSupplierName': function(event) {
         $('#edtSupplierName').select();
         $('#edtSupplierName').editableSelect();
+    },
+    'change #sltStatus': function () {
+        let status = $('#sltStatus').find(":selected").val();
+        if (status == "newstatus") {
+            $('#statusModal').modal();
+        }
+    },
+    'click .btnSaveStatus': function () {
+        $('.fullScreenSpin').css('display', 'inline-block');
+        let clientService = new SalesBoardService()
+        let status = $('#status').val();
+        let leadData = {
+            type: 'TLeadStatusType',
+            fields: {
+                TypeName: status,
+                KeyValue: status
+            }
+        }
+
+        if (status != "") {
+            clientService.saveLeadStatus(leadData).then(function (objDetails) {
+                sideBarService.getAllLeadStatus().then(function (dataUpdate) {
+                    addVS1Data('TLeadStatusType', JSON.stringify(dataUpdate)).then(function (datareturn) {
+                        $('.fullScreenSpin').css('display', 'none');
+                        let id = $('.printID').attr("id");
+                        if (id != "") {
+                            window.open("/billcard?id=" + id);
+                        } else {
+                           window.open("/billcard");
+                        }
+                     }).catch(function (err) {
+                       
+                    });
+                }).catch(function (err) {
+                    console.log(err);
+                   window.open('/billcard', '_self');
+                });
+            }).catch(function (err) {
+                $('.fullScreenSpin').css('display', 'none');
+                console.log(err);
+                swal({
+                    title: 'Something went wrong',
+                    text: err,
+                    type: 'error',
+                    showCancelButton: false,
+                    confirmButtonText: 'Try Again'
+                }).then((result) => {
+                    if (result.value) {
+                        //Meteor._reload.reload();
+                    } else if (result.dismiss === 'cancel') {
+
+                    }
+                });
+                //$('.loginSpinner').css('display','none');
+                $('.fullScreenSpin').css('display', 'none');
+            });
+        } else {
+            $('.fullScreenSpin').css('display', 'none');
+            swal({
+                title: 'Please Enter Status',
+                text: "Status field cannot be empty",
+                type: 'warning',
+                showCancelButton: false,
+                confirmButtonText: 'Try Again'
+            }).then((result) => {
+                if (result.value) {
+                } else if (result.dismiss === 'cancel') {
+
+                }
+            });
+        }
     },
     'blur .colAmount': function(event) {
 

@@ -185,8 +185,8 @@ Template.new_quote.onRendered(() => {
 
                     let customerrecordObj = {
                         customerid: useData[i].fields.ID || ' ',
-                        firstname:useData[i].fields.FirstName,
-                        lastname:useData[i].fields.LastName,
+                        firstname: useData[i].fields.FirstName,
+                        lastname: useData[i].fields.LastName,
                         customername: useData[i].fields.ClientName || ' ',
                         customeremail: useData[i].fields.Email || ' ',
                         street: useData[i].fields.Street || ' ',
@@ -303,6 +303,9 @@ Template.new_quote.onRendered(() => {
                 templateObject.statusrecords.set(statusList);
 
             }
+            setTimeout(function () {
+                $('#sltStatus').append('<option value="newstatus">New Lead Status</option>');
+            }, 1500)
         }).catch(function (err) {
             clientsService.getAllLeadStatus().then(function (data) {
                 for (let i in data.tleadstatustype) {
@@ -325,12 +328,12 @@ Template.new_quote.onRendered(() => {
     var url = window.location.href;
     var getso_id = url.split('?id=');
     var currentQuote = getso_id[getso_id.length - 1];
-    if(url.includes("id") && url.includes("total")){
+    if (url.includes("id") && url.includes("total")) {
         url = new URL(url);
         var getso_id = url.searchParams.get("id");
         if (getso_id) {
             currentQuote = parseInt(getso_id);
-            $('.printID').attr("id",currentQuote);
+            $('.printID').attr("id", currentQuote);
             templateObject.getQuoteData = function () {
                 //getOneQuotedata
                 getVS1Data('TQuote').then(function (dataObject) {
@@ -373,7 +376,7 @@ Template.new_quote.onRendered(() => {
                                         curTotalAmt: currencyAmountGbp || currencySymbol + '0',
                                         TaxTotal: TaxTotalGbp || 0,
                                         TaxRate: TaxRateGbp || 0,
-    
+
                                     };
                                     var dataListTable = [
                                         data.fields.Lines[i].fields.ProductName || '',
@@ -408,7 +411,7 @@ Template.new_quote.onRendered(() => {
                                 };
                                 lineItems.push(lineItemObj);
                             }
-    
+
                             let quoterecord = {
                                 id: data.fields.ID,
                                 lid: 'Edit Quote' + ' ' + data.fields.ID,
@@ -445,7 +448,7 @@ Template.new_quote.onRendered(() => {
                                 saleCustField2: data.fields.SaleCustField2,
                                 totalPaid: totalPaidAmount
                             };
-    
+
                             $('#edtCustomerName').val(data.fields.CustomerName);
                             templateObject.CleintName.set(data.fields.CustomerName);
                             $('#sltCurrency').val(data.fields.ForeignExchangeCode);
@@ -468,20 +471,20 @@ Template.new_quote.onRendered(() => {
                                     }
                                 }
                             }, 100);
-    
+
                             templateObject.quoterecord.set(quoterecord);
-    
-    
+
+
                             templateObject.lineitems.set(lineItems);
                             // alert(JSON.stringify(templateObject.quoterecord.get()));
                             templateObject.selectedCurrency.set(quoterecord.currency);
                             templateObject.inputSelectedCurrency.set(quoterecord.currency);
                             if (templateObject.quoterecord.get()) {
-    
+
                                 // $('#tblQuoteLine').colResizable({
                                 //   liveDrag:true});
                                 //$('#tblQuoteLine').removeClass('JColResizer');
-    
+
                                 Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblQuoteLine', function (error, result) {
                                     if (error) {
                                         // console.log(error);
@@ -495,13 +498,13 @@ Template.new_quote.onRendered(() => {
                                                 let hiddenColumn = customcolumn[i].hidden;
                                                 let columnClass = columHeaderUpdate.substring(columHeaderUpdate.indexOf(".") + 1);
                                                 let columnWidth = customcolumn[i].width;
-    
+
                                                 //alert(columnClass);
                                                 $("" + columHeaderUpdate + "").html(columData);
                                                 if (columnWidth != 0) {
                                                     $("" + columHeaderUpdate + "").css('width', columnWidth);
                                                 }
-    
+
                                                 if (hiddenColumn == true) {
                                                     //alert(columnClass);
                                                     //$("."+columnClass+"").css('display','none');
@@ -514,10 +517,10 @@ Template.new_quote.onRendered(() => {
                                                     //$("."+columnClass+"").css('padding','.75rem');
                                                     //$("."+columnClass+"").css('vertical-align','top');
                                                 }
-    
+
                                             }
                                         }
-    
+
                                     }
                                 });
                             }
@@ -532,7 +535,7 @@ Template.new_quote.onRendered(() => {
                                 if (result.value) {
                                     Meteor._reload.reload();
                                 } else if (result.dismiss === 'cancel') {
-    
+
                                 }
                             });
                             $('.fullScreenSpin').css('display', 'none');
@@ -581,9 +584,9 @@ Template.new_quote.onRendered(() => {
                                             curTotalAmt: currencyAmountGbp || currencySymbol + '0',
                                             TaxTotal: TaxTotalGbp || 0,
                                             TaxRate: TaxRateGbp || 0,
-    
+
                                         };
-    
+
                                         var dataListTable = [
                                             useData[d].fields.Lines[i].fields.ProductName || '',
                                             useData[d].fields.Lines[i].fields.ProductDescription || '',
@@ -596,7 +599,7 @@ Template.new_quote.onRendered(() => {
                                         lineItemsTable.push(dataListTable);
                                         lineItems.push(lineItemObj);
                                     }
-    
+
                                 } else {
                                     let AmountGbp = useData[d].fields.Lines.fields.TotalLineAmountInc.toLocaleString(undefined, { minimumFractionDigits: 2 });
                                     let currencyAmountGbp = currencySymbol + '' + useData[d].fields.Lines.fields.TotalLineAmount.toFixed(2);
@@ -618,7 +621,7 @@ Template.new_quote.onRendered(() => {
                                     };
                                     lineItems.push(lineItemObj);
                                 }
-    
+
                                 let quoterecord = {
                                     id: useData[d].fields.ID,
                                     lid: 'Edit Quote' + ' ' + useData[d].fields.ID,
@@ -655,7 +658,7 @@ Template.new_quote.onRendered(() => {
                                     saleCustField2: useData[d].fields.SaleCustField2,
                                     totalPaid: totalPaidAmount
                                 };
-    
+
                                 $('#edtCustomerName').val(useData[d].fields.CustomerName);
                                 templateObject.CleintName.set(useData[d].fields.CustomerName);
                                 $('#sltCurrency').val(useData[d].fields.ForeignExchangeCode);
@@ -678,17 +681,17 @@ Template.new_quote.onRendered(() => {
                                         }
                                     }
                                 }, 100);
-    
+
                                 templateObject.quoterecord.set(quoterecord);
                                 // alert(JSON.stringify(templateObject.quoterecord.get()));
                                 templateObject.selectedCurrency.set(quoterecord.currency);
                                 templateObject.inputSelectedCurrency.set(quoterecord.currency);
                                 if (templateObject.quoterecord.get()) {
-    
+
                                     // $('#tblQuoteLine').colResizable({
                                     //   liveDrag:true});
                                     //$('#tblQuoteLine').removeClass('JColResizer');
-    
+
                                     Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblQuoteLine', function (error, result) {
                                         if (error) {
                                             // console.log(error);
@@ -702,13 +705,13 @@ Template.new_quote.onRendered(() => {
                                                     let hiddenColumn = customcolumn[i].hidden;
                                                     let columnClass = columHeaderUpdate.substring(columHeaderUpdate.indexOf(".") + 1);
                                                     let columnWidth = customcolumn[i].width;
-    
+
                                                     //alert(columnClass);
                                                     $("" + columHeaderUpdate + "").html(columData);
                                                     if (columnWidth != 0) {
                                                         $("" + columHeaderUpdate + "").css('width', columnWidth);
                                                     }
-    
+
                                                     if (hiddenColumn == true) {
                                                         //alert(columnClass);
                                                         //$("."+columnClass+"").css('display','none');
@@ -721,16 +724,16 @@ Template.new_quote.onRendered(() => {
                                                         //$("."+columnClass+"").css('padding','.75rem');
                                                         //$("."+columnClass+"").css('vertical-align','top');
                                                     }
-    
+
                                                 }
                                             }
-    
+
                                         }
                                     });
                                 }
                             }
                         }
-    
+
                         if (!added) {
                             accountService.getOneQuotedataEx(currentQuote).then(function (data) {
                                 $('.fullScreenSpin').css('display', 'none');
@@ -766,7 +769,7 @@ Template.new_quote.onRendered(() => {
                                             curTotalAmt: currencyAmountGbp || currencySymbol + '0',
                                             TaxTotal: TaxTotalGbp || 0,
                                             TaxRate: TaxRateGbp || 0,
-    
+
                                         };
                                         var dataListTable = [
                                             data.fields.Lines[i].fields.ProductName || '',
@@ -801,7 +804,7 @@ Template.new_quote.onRendered(() => {
                                     };
                                     lineItems.push(lineItemObj);
                                 }
-    
+
                                 let quoterecord = {
                                     id: data.fields.ID,
                                     lid: 'Edit Quote' + ' ' + data.fields.ID,
@@ -836,7 +839,7 @@ Template.new_quote.onRendered(() => {
                                     saleCustField2: data.fields.SaleCustField2,
                                     totalPaid: totalPaidAmount
                                 };
-    
+
                                 $('#edtCustomerName').val(data.fields.CustomerName);
                                 templateObject.CleintName.set(data.fields.CustomerName);
                                 $('#sltCurrency').val(data.fields.ForeignExchangeCode);
@@ -859,17 +862,17 @@ Template.new_quote.onRendered(() => {
                                         }
                                     }
                                 }, 100);
-    
+
                                 templateObject.quoterecord.set(quoterecord);
                                 // alert(JSON.stringify(templateObject.quoterecord.get()));
                                 templateObject.selectedCurrency.set(quoterecord.currency);
                                 templateObject.inputSelectedCurrency.set(quoterecord.currency);
                                 if (templateObject.quoterecord.get()) {
-    
+
                                     // $('#tblQuoteLine').colResizable({
                                     //   liveDrag:true});
                                     //$('#tblQuoteLine').removeClass('JColResizer');
-    
+
                                     Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblQuoteLine', function (error, result) {
                                         if (error) {
                                             // console.log(error);
@@ -883,13 +886,13 @@ Template.new_quote.onRendered(() => {
                                                     let hiddenColumn = customcolumn[i].hidden;
                                                     let columnClass = columHeaderUpdate.substring(columHeaderUpdate.indexOf(".") + 1);
                                                     let columnWidth = customcolumn[i].width;
-    
+
                                                     //alert(columnClass);
                                                     $("" + columHeaderUpdate + "").html(columData);
                                                     if (columnWidth != 0) {
                                                         $("" + columHeaderUpdate + "").css('width', columnWidth);
                                                     }
-    
+
                                                     if (hiddenColumn == true) {
                                                         //alert(columnClass);
                                                         //$("."+columnClass+"").css('display','none');
@@ -902,10 +905,10 @@ Template.new_quote.onRendered(() => {
                                                         //$("."+columnClass+"").css('padding','.75rem');
                                                         //$("."+columnClass+"").css('vertical-align','top');
                                                     }
-    
+
                                                 }
                                             }
-    
+
                                         }
                                     });
                                 }
@@ -920,168 +923,168 @@ Template.new_quote.onRendered(() => {
                                     if (result.value) {
                                         Meteor._reload.reload();
                                     } else if (result.dismiss === 'cancel') {
-    
+
                                     }
                                 });
                                 $('.fullScreenSpin').css('display', 'none');
                                 // Meteor._reload.reload();
                             });
                         }
-                        $('#html-2-pdfwrapper').css('display','block');
-                          $('.pdfCustomerName').html($('#edtCustomerName').val());
-                          $('.pdfCustomerAddress').html($('#txabillingAddress').val());
-                          async function addAttachment() {
-                          let attachment = [];
-                          let templateObject = Template.instance();
-                
-                              let invoiceId = getso_id;
-                              let encodedPdf = await generatePdfForMail(invoiceId);
-                              let pdfObject = "";
-                              var reader = new FileReader();
-                               reader.readAsDataURL(encodedPdf);
-                               reader.onloadend = function() {
-                                   var base64data = reader.result;
-                                   base64data = base64data.split(',')[1];
-                                   // console.log(base64data);
-                                   pdfObject = {
-                                      filename: 'customerpayment-' + invoiceId + '.pdf',
-                                      content: base64data,
-                                      encoding: 'base64'
-                                  };
-                                  attachment.push(pdfObject);
-                          // let mailBody = "VS1 Cloud Test";
-                          let erpInvoiceId = getso_id;
-                
-                
-                          let mailFromName = Session.get('vs1companyName');
-                          let mailFrom = localStorage.getItem('mySession');
-                          let customerEmailName = $('#edtCustomerName').val();
-                          let checkEmailData = $('#edtCustomerEmail').val();
-                          // let mailCC = templateObject.mailCopyToUsr.get();
-                          let grandtotal = $('#grandTotal').html();
-                          let amountDueEmail = $('#totalBalanceDue').html();
-                          let emailDueDate = $("#dtDueDate").val();
-                          let mailSubject = 'Payment '+erpInvoiceId+' from ' + mailFromName + ' for '+customerEmailName;
-                          let mailBody = "Hi "+customerEmailName+",\n\n Here's payment "+erpInvoiceId+" for  "+grandtotal+"." +
-                              // "\n\nThe amount outstanding of "+amountDueEmail+" is due on "+emailDueDate+"." +
-                              "\n\nIf you have any questions, please let us know : "+mailFrom+".\n\nThanks,\n" + mailFromName;
-                
-                    var htmlmailBody = '<table align="center" border="0" cellpadding="0" cellspacing="0" width="600">'+
-                    '    <tr>'+
-                    '        <td align="center" bgcolor="#54c7e2" style="padding: 40px 0 30px 0;">'+
-                    '            <img src="http://login.vs1cloud.com:3000/assets/VS1logo.png" class="uploadedImage" alt="VS1 Cloud" width="250px" style="display: block;" />'+
-                    '        </td>'+
-                    '    </tr>'+
-                    '    <tr>'+
-                    '        <td style="padding: 40px 30px 40px 30px;">'+
-                    '            <table border="0" cellpadding="0" cellspacing="0" width="100%">'+
-                    '                <tr>'+
-                    '                    <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0 20px 0;">'+
-                    '                        Hello there <span>'+customerEmailName+'</span>,'+
-                    '                    </td>'+
-                    '                </tr>'+
-                    '                <tr>'+
-                    '                    <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0 10px 0;">'+
-                    '                        Please find payment <span>'+erpInvoiceId+'</span> attached below.'+
-                    '                    </td>'+
-                    '                </tr>'+
-                    '                <tr>'+
-                    '                    <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0 30px 0;">'+
-                    '                        Kind regards,'+
-                    '                        <br>'+
-                    '                        '+mailFromName+''+
-                    '                    </td>'+
-                    '                </tr>'+
-                    '            </table>'+
-                    '        </td>'+
-                    '    </tr>'+
-                    '    <tr>'+
-                    '        <td bgcolor="#00a3d3" style="padding: 30px 30px 30px 30px;">'+
-                    '            <table border="0" cellpadding="0" cellspacing="0" width="100%">'+
-                    '                <tr>'+
-                    '                    <td width="50%" style="color: #ffffff; font-family: Arial, sans-serif; font-size: 14px;">'+
-                    '                        If you have any question, please do not hesitate to contact us.'+
-                    '                    </td>'+
-                    '                    <td align="right">'+
-                    '                        <a style="border: none; color: white; padding: 15px 32px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin: 4px 2px; cursor: pointer; background-color: #4CAF50;" href="mailto:'+mailFrom+'">Contact Us</a>'+
-                    '                    </td>'+
-                    '                </tr>'+
-                    '            </table>'+
-                    '        </td>'+
-                    '    </tr>'+
-                    '</table>';
-                
-                          Meteor.call('sendEmail', {
-                              from: ""+mailFromName+" <"+mailFrom+">",
-                              to: checkEmailData,
-                              subject: mailSubject,
-                              text: '',
-                              html:htmlmailBody,
-                              attachments : attachment
-                          }, function (error, result) {
-                              if (error && error.error === "error") {
-                               // Router.go('/paymentoverview?success=true');
-                
-                              } else {
-                
-                              }
-                          });
-                
-                          Meteor.call('sendEmail', {
-                              from: ""+mailFromName+" <"+mailFrom+">",
-                              to: mailFrom,
-                              subject: mailSubject,
-                              text: '',
-                              html:htmlmailBody,
-                              attachments : attachment
-                          }, function (error, result) {
-                              if (error && error.error === "error") {
-                                //Router.go('/paymentoverview?success=true');
-                              } else {
-                                $('#html-2-pdfwrapper').css('display','none');
-                                swal({
-                                title: 'SUCCESS',
-                                text: "Email Sent To Customer: "+checkEmailData+" and User: "+mailFrom+"",
-                                type: 'success',
-                                showCancelButton: false,
-                                confirmButtonText: 'OK'
-                                }).then((result) => {
-                                if (result.value) {
-                                 //Router.go('/paymentoverview?success=true');
-                                } else if (result.dismiss === 'cancel') {
-                
-                                }
-                                });
-                
-                                  $('.fullScreenSpin').css('display','none');
-                              }
-                          });
-                
-                        
-                                 
-                
-                
-                      }
-                      function generatePdfForMail(invoiceId) {
-                          return new Promise((resolve, reject) => {
-                              let templateObject = Template.instance();
-                              // let data = templateObject.singleInvoiceData.get();
-                              let completeTabRecord;
-                              let doc = new jsPDF('p', 'pt', 'a4');
-                               doc.setFontSize(18);
-                              var source = document.getElementById('html-2-pdfwrapper');
-                               doc.addHTML(source, function () {
-                                  //pdf.save('Invoice.pdf');
-                                  resolve(doc.output('blob'));
-                                  // $('#html-2-pdfwrapper').css('display','none');
-                              });
-                          });
-                      }
+                        $('#html-2-pdfwrapper').css('display', 'block');
+                        $('.pdfCustomerName').html($('#edtCustomerName').val());
+                        $('.pdfCustomerAddress').html($('#txabillingAddress').val());
+                        async function addAttachment() {
+                            let attachment = [];
+                            let templateObject = Template.instance();
 
+                            let invoiceId = getso_id;
+                            let encodedPdf = await generatePdfForMail(invoiceId);
+                            let pdfObject = "";
+                            var reader = new FileReader();
+                            reader.readAsDataURL(encodedPdf);
+                            reader.onloadend = function () {
+                                var base64data = reader.result;
+                                base64data = base64data.split(',')[1];
+                                // console.log(base64data);
+                                pdfObject = {
+                                    filename: 'customerpayment-' + invoiceId + '.pdf',
+                                    content: base64data,
+                                    encoding: 'base64'
+                                };
+                                attachment.push(pdfObject);
+                                // let mailBody = "VS1 Cloud Test";
+                                let erpInvoiceId = getso_id;
+
+
+                                let mailFromName = Session.get('vs1companyName');
+                                let mailFrom = localStorage.getItem('mySession');
+                                let customerEmailName = $('#edtCustomerName').val();
+                                let checkEmailData = $('#edtCustomerEmail').val();
+                                // let mailCC = templateObject.mailCopyToUsr.get();
+                                let grandtotal = $('#grandTotal').html();
+                                let amountDueEmail = $('#totalBalanceDue').html();
+                                let emailDueDate = $("#dtDueDate").val();
+                                let mailSubject = 'Payment ' + erpInvoiceId + ' from ' + mailFromName + ' for ' + customerEmailName;
+                                let mailBody = "Hi " + customerEmailName + ",\n\n Here's payment " + erpInvoiceId + " for  " + grandtotal + "." +
+                                    // "\n\nThe amount outstanding of "+amountDueEmail+" is due on "+emailDueDate+"." +
+                                    "\n\nIf you have any questions, please let us know : " + mailFrom + ".\n\nThanks,\n" + mailFromName;
+
+                                var htmlmailBody = '<table align="center" border="0" cellpadding="0" cellspacing="0" width="600">' +
+                                    '    <tr>' +
+                                    '        <td align="center" bgcolor="#54c7e2" style="padding: 40px 0 30px 0;">' +
+                                    '            <img src="http://login.vs1cloud.com:3000/assets/VS1logo.png" class="uploadedImage" alt="VS1 Cloud" width="250px" style="display: block;" />' +
+                                    '        </td>' +
+                                    '    </tr>' +
+                                    '    <tr>' +
+                                    '        <td style="padding: 40px 30px 40px 30px;">' +
+                                    '            <table border="0" cellpadding="0" cellspacing="0" width="100%">' +
+                                    '                <tr>' +
+                                    '                    <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0 20px 0;">' +
+                                    '                        Hello there <span>' + customerEmailName + '</span>,' +
+                                    '                    </td>' +
+                                    '                </tr>' +
+                                    '                <tr>' +
+                                    '                    <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0 10px 0;">' +
+                                    '                        Please find payment <span>' + erpInvoiceId + '</span> attached below.' +
+                                    '                    </td>' +
+                                    '                </tr>' +
+                                    '                <tr>' +
+                                    '                    <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0 30px 0;">' +
+                                    '                        Kind regards,' +
+                                    '                        <br>' +
+                                    '                        ' + mailFromName + '' +
+                                    '                    </td>' +
+                                    '                </tr>' +
+                                    '            </table>' +
+                                    '        </td>' +
+                                    '    </tr>' +
+                                    '    <tr>' +
+                                    '        <td bgcolor="#00a3d3" style="padding: 30px 30px 30px 30px;">' +
+                                    '            <table border="0" cellpadding="0" cellspacing="0" width="100%">' +
+                                    '                <tr>' +
+                                    '                    <td width="50%" style="color: #ffffff; font-family: Arial, sans-serif; font-size: 14px;">' +
+                                    '                        If you have any question, please do not hesitate to contact us.' +
+                                    '                    </td>' +
+                                    '                    <td align="right">' +
+                                    '                        <a style="border: none; color: white; padding: 15px 32px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin: 4px 2px; cursor: pointer; background-color: #4CAF50;" href="mailto:' + mailFrom + '">Contact Us</a>' +
+                                    '                    </td>' +
+                                    '                </tr>' +
+                                    '            </table>' +
+                                    '        </td>' +
+                                    '    </tr>' +
+                                    '</table>';
+
+                                Meteor.call('sendEmail', {
+                                    from: "" + mailFromName + " <" + mailFrom + ">",
+                                    to: checkEmailData,
+                                    subject: mailSubject,
+                                    text: '',
+                                    html: htmlmailBody,
+                                    attachments: attachment
+                                }, function (error, result) {
+                                    if (error && error.error === "error") {
+                                        // Router.go('/paymentoverview?success=true');
+
+                                    } else {
+
+                                    }
+                                });
+
+                                Meteor.call('sendEmail', {
+                                    from: "" + mailFromName + " <" + mailFrom + ">",
+                                    to: mailFrom,
+                                    subject: mailSubject,
+                                    text: '',
+                                    html: htmlmailBody,
+                                    attachments: attachment
+                                }, function (error, result) {
+                                    if (error && error.error === "error") {
+                                        //Router.go('/paymentoverview?success=true');
+                                    } else {
+                                        $('#html-2-pdfwrapper').css('display', 'none');
+                                        swal({
+                                            title: 'SUCCESS',
+                                            text: "Email Sent To Customer: " + checkEmailData + " and User: " + mailFrom + "",
+                                            type: 'success',
+                                            showCancelButton: false,
+                                            confirmButtonText: 'OK'
+                                        }).then((result) => {
+                                            if (result.value) {
+                                                //Router.go('/paymentoverview?success=true');
+                                            } else if (result.dismiss === 'cancel') {
+
+                                            }
+                                        });
+
+                                        $('.fullScreenSpin').css('display', 'none');
+                                    }
+                                });
+
+
+
+
+
+                            }
+                            function generatePdfForMail(invoiceId) {
+                                return new Promise((resolve, reject) => {
+                                    let templateObject = Template.instance();
+                                    // let data = templateObject.singleInvoiceData.get();
+                                    let completeTabRecord;
+                                    let doc = new jsPDF('p', 'pt', 'a4');
+                                    doc.setFontSize(18);
+                                    var source = document.getElementById('html-2-pdfwrapper');
+                                    doc.addHTML(source, function () {
+                                        //pdf.save('Invoice.pdf');
+                                        resolve(doc.output('blob'));
+                                        // $('#html-2-pdfwrapper').css('display','none');
+                                    });
+                                });
+                            }
+
+                        }
+                        addAttachment();
                     }
-                    addAttachment();
-                    }
-    
+
                 }).catch(function (err) {
                     console.log(err);
                     accountService.getOneQuotedataEx(currentQuote).then(function (data) {
@@ -1118,7 +1121,7 @@ Template.new_quote.onRendered(() => {
                                     curTotalAmt: currencyAmountGbp || currencySymbol + '0',
                                     TaxTotal: TaxTotalGbp || 0,
                                     TaxRate: TaxRateGbp || 0,
-    
+
                                 };
                                 var dataListTable = [
                                     data.fields.Lines[i].fields.ProductName || '',
@@ -1153,7 +1156,7 @@ Template.new_quote.onRendered(() => {
                             };
                             lineItems.push(lineItemObj);
                         }
-    
+
                         let quoterecord = {
                             id: data.fields.ID,
                             lid: 'Edit Quote' + ' ' + data.fields.ID,
@@ -1188,7 +1191,7 @@ Template.new_quote.onRendered(() => {
                             saleCustField2: data.fields.SaleCustField2,
                             totalPaid: totalPaidAmount
                         };
-    
+
                         templateObject.querystring.set(stringQuery);
                         $('#edtCustomerName').val(data.fields.CustomerName);
                         templateObject.CleintName.set(data.fields.CustomerName);
@@ -1212,17 +1215,17 @@ Template.new_quote.onRendered(() => {
                                 }
                             }
                         }, 100);
-    
+
                         templateObject.quoterecord.set(quoterecord);
                         // alert(JSON.stringify(templateObject.quoterecord.get()));
                         templateObject.selectedCurrency.set(quoterecord.currency);
                         templateObject.inputSelectedCurrency.set(quoterecord.currency);
                         if (templateObject.quoterecord.get()) {
-    
+
                             // $('#tblQuoteLine').colResizable({
                             //   liveDrag:true});
                             //$('#tblQuoteLine').removeClass('JColResizer');
-    
+
                             Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblQuoteLine', function (error, result) {
                                 if (error) {
                                     // console.log(error);
@@ -1236,13 +1239,13 @@ Template.new_quote.onRendered(() => {
                                             let hiddenColumn = customcolumn[i].hidden;
                                             let columnClass = columHeaderUpdate.substring(columHeaderUpdate.indexOf(".") + 1);
                                             let columnWidth = customcolumn[i].width;
-    
+
                                             //alert(columnClass);
                                             $("" + columHeaderUpdate + "").html(columData);
                                             if (columnWidth != 0) {
                                                 $("" + columHeaderUpdate + "").css('width', columnWidth);
                                             }
-    
+
                                             if (hiddenColumn == true) {
                                                 //alert(columnClass);
                                                 //$("."+columnClass+"").css('display','none');
@@ -1255,10 +1258,10 @@ Template.new_quote.onRendered(() => {
                                                 //$("."+columnClass+"").css('padding','.75rem');
                                                 //$("."+columnClass+"").css('vertical-align','top');
                                             }
-    
+
                                         }
                                     }
-    
+
                                 }
                             });
                         }
@@ -1273,22 +1276,22 @@ Template.new_quote.onRendered(() => {
                             if (result.value) {
                                 Meteor._reload.reload();
                             } else if (result.dismiss === 'cancel') {
-    
+
                             }
                         });
                         $('.fullScreenSpin').css('display', 'none');
                         // Meteor._reload.reload();
                     });
                 });
-    
+
             };
-    
+
             templateObject.getQuoteData();
         }
- 
-    }else if (getso_id[1]) {
+
+    } else if (getso_id[1]) {
         currentQuote = parseInt(currentQuote);
-        $('.printID').attr("id",currentQuote);
+        $('.printID').attr("id", currentQuote);
         templateObject.getQuoteData = function () {
             //getOneQuotedata
             getVS1Data('TQuote').then(function (dataObject) {
@@ -2383,7 +2386,7 @@ Template.new_quote.onRendered(() => {
             $('#' + selectLineID + " .lineOrdered").val(1);
             $('#' + selectLineID + " .lineQty").val(1);
             $('#' + selectLineID + " .lineUnitPrice").val(lineUnitPrice);
-             if(lineTaxRate == "NT"){
+            if (lineTaxRate == "NT") {
                 lineTaxRate = "E";
                 $('#' + selectLineID + " .lineTaxCode").text(lineTaxRate);
             } else {
@@ -2533,7 +2536,7 @@ Template.new_quote.onRendered(() => {
                     if (taxRate[0].codename != "") {
                         let rate = taxRate[0].coderate;
                         let code = getCustDetails[0].taxCode;
-                        if(code == "NT") {
+                        if (code == "NT") {
                             code = "E";
                         }
                         let taxcodeList = templateObject.taxraterecords.get();
@@ -2637,7 +2640,7 @@ Template.new_quote.onRendered(() => {
         for (let l = 0; l < lineItems.length; l++) {
             stringQuery = stringQuery + "product" + l + "=" + lineItems[l].description + "&price" + l + "=" + lineItems[l].unitPrice + "&qty" + l + "=" + lineItems[l].quantity + "&";
         }
-        stringQuery = stringQuery + "tax=" + tax + "&total=" + total + "&customer=" + customer + "&name="+name+"&surname="+surname+"&quoteid=" + quoteData.id + "&company="+company+"&vs1email="+vs1User+"&customeremail="+customerEmail+"&type=Invoice";
+        stringQuery = stringQuery + "tax=" + tax + "&total=" + total + "&customer=" + customer + "&name=" + name + "&surname=" + surname + "&quoteid=" + quoteData.id + "&company=" + company + "&vs1email=" + vs1User + "&customeremail=" + customerEmail + "&type=Invoice";
         var pdf = new jsPDF('p', 'pt', 'a4');
         //let qouteId =  $('h1').text().replace( /^\D+/g, '');
         //console.log(qouteId);
@@ -2649,7 +2652,7 @@ Template.new_quote.onRendered(() => {
             pdf.setFontSize(10);
             pdf.setTextColor(255, 255, 255);
             pdf.textWithLink('Pay Now', 480, 104, { url: 'https://depot.vs1cloud.com/stripe/' + stringQuery });
-            pdf.save('Quote-'+id+'.pdf');
+            pdf.save('Quote-' + id + '.pdf');
             $('#html-2-pdfwrapper').css('display', 'none');
         });
 
@@ -3288,6 +3291,77 @@ Template.new_quote.events({
         $('#edtCustomerName').select();
         $('#edtCustomerName').editableSelect();
     },
+    'change #sltStatus': function () {
+        let status = $('#sltStatus').find(":selected").val();
+        if (status == "newstatus") {
+            $('#statusModal').modal();
+        }
+    },
+    'click .btnSaveStatus': function () {
+        $('.fullScreenSpin').css('display', 'inline-block');
+        let clientService = new SalesBoardService()
+        let status = $('#status').val();
+        let leadData = {
+            type: 'TLeadStatusType',
+            fields: {
+                TypeName: status,
+                KeyValue: status
+            }
+        }
+
+        if (status != "") {
+            clientService.saveLeadStatus(leadData).then(function (objDetails) {
+                sideBarService.getAllLeadStatus().then(function (dataUpdate) {
+                    addVS1Data('TLeadStatusType', JSON.stringify(dataUpdate)).then(function (datareturn) {
+                        $('.fullScreenSpin').css('display', 'none');
+                        let id = $('.printID').attr("id");
+                        if (id != "") {
+                            window.open("/quotecard?id=" + id);
+                        } else {
+                           window.open("/quotecard");
+                        }
+                     }).catch(function (err) {
+                       
+                    });
+                }).catch(function (err) {
+                    console.log(err);
+                   window.open('/quotecard', '_self');
+                });
+            }).catch(function (err) {
+                $('.fullScreenSpin').css('display', 'none');
+                console.log(err);
+                swal({
+                    title: 'Something went wrong',
+                    text: err,
+                    type: 'error',
+                    showCancelButton: false,
+                    confirmButtonText: 'Try Again'
+                }).then((result) => {
+                    if (result.value) {
+                        //Meteor._reload.reload();
+                    } else if (result.dismiss === 'cancel') {
+
+                    }
+                });
+                //$('.loginSpinner').css('display','none');
+                $('.fullScreenSpin').css('display', 'none');
+            });
+        } else {
+            $('.fullScreenSpin').css('display', 'none');
+            swal({
+                title: 'Please Enter Status',
+                text: "Status field cannot be empty",
+                type: 'warning',
+                showCancelButton: false,
+                confirmButtonText: 'Try Again'
+            }).then((result) => {
+                if (result.value) {
+                } else if (result.dismiss === 'cancel') {
+
+                }
+            });
+        }
+    },
     'blur .lineQty': function (event) {
         let templateObject = Template.instance();
         let taxcodeList = templateObject.taxraterecords.get();
@@ -3813,8 +3887,8 @@ Template.new_quote.events({
                 for (let l = 0; l < lineItems.length; l++) {
                     stringQuery = stringQuery + "product" + l + "=" + lineItems[l].description + "&price" + l + "=" + lineItems[l].unitPrice + "&qty" + l + "=" + lineItems[l].quantity + "&";
                 }
-                
-                stringQuery = stringQuery + "tax=" + tax + "&total=" + total + "&customer=" + customer + "&name="+name+"&surname="+surname+"&quoteid=" + quoteData.id + "&company="+company+"&vs1email="+vs1User+"&customeremail="+customerEmail+"&type=Invoice";
+
+                stringQuery = stringQuery + "tax=" + tax + "&total=" + total + "&customer=" + customer + "&name=" + name + "&surname=" + surname + "&quoteid=" + quoteData.id + "&company=" + company + "&vs1email=" + vs1User + "&customeremail=" + customerEmail + "&type=Invoice";
                 // Send Email
 
                 $('#html-2-pdfwrapper').css('display', 'block');
@@ -4572,8 +4646,8 @@ Template.new_quote.events({
             for (let l = 0; l < lineItems.length; l++) {
                 stringQuery = stringQuery + "product" + l + "=" + lineItems[l].description + "&price" + l + "=" + lineItems[l].unitPrice + "&qty" + l + "=" + lineItems[l].quantity + "&";
             }
-            stringQuery = stringQuery + "tax=" + tax + "&total=" + total + "&customer=" + customer + "&name="+name+"&surname="+surname+"&quoteid=" + quoteData.id + "&company="+company+"&vs1email="+vs1User+"&customeremail="+customerEmail+"&type=Invoice";
-            window.open("https://depot.vs1cloud.com/stripe/" + stringQuery,'_self');
+            stringQuery = stringQuery + "tax=" + tax + "&total=" + total + "&customer=" + customer + "&name=" + name + "&surname=" + surname + "&quoteid=" + quoteData.id + "&company=" + company + "&vs1email=" + vs1User + "&customeremail=" + customerEmail + "&type=Invoice";
+            window.open("https://depot.vs1cloud.com/stripe/" + stringQuery, '_self');
         }
     },
     'click #btnPayment': function () {
