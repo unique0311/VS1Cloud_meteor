@@ -200,7 +200,6 @@ Template.new_quote.onRendered(() => {
                     };
                     //clientList.push(data.tcustomer[i].ClientName,customeremail: data.tcustomer[i].Email);
                     clientList.push(customerrecordObj);
-
                     //$('#edtCustomerName').editableSelect('add',data.tcustomer[i].ClientName);
                 }
                 //templateObject.clientrecords.set(clientList);
@@ -545,6 +544,7 @@ Template.new_quote.onRendered(() => {
                         let data = JSON.parse(dataObject[0].data);
                         let useData = data.tquoteex;
                         var added = false;
+                        console.log(customerData);
                         for (let d = 0; d < useData.length; d++) {
                             if (parseInt(useData[d].fields.ID) === currentQuote) {
                                 let cust_result = customerData.filter(cust_data => {
@@ -1460,6 +1460,7 @@ Template.new_quote.onRendered(() => {
             //getOneQuotedata
             getVS1Data('TQuote').then(function (dataObject) {
                 let customerData = templateObject.clientrecords.get();
+
                 if (dataObject.length == 0) {
                     accountService.getOneQuotedataEx(currentQuote).then(function (data) {
                         let cust_result = customerData.filter(cust_data => {
@@ -1668,10 +1669,11 @@ Template.new_quote.onRendered(() => {
                     let useData = data.tquoteex;
                     var added = false;
                     for (let d = 0; d < useData.length; d++) {
-                        if (parseInt(useData[d].fields.ID) === currentQuote) {
+                        if (parseInt(useData[d].fields.ID) === parseInt(currentQuote)) {
                             let cust_result = customerData.filter(cust_data => {
                                 return cust_data.customername == useData[d].fields.ClientName
                             });
+                            console.log(cust_result);
                             added = true;
                             $('.fullScreenSpin').css('display', 'none');
                             let lineItems = [];
