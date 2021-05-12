@@ -141,6 +141,7 @@ Template.new_invoice.onRendered(() => {
     if (imageData) {
         $('.uploadedImage').attr('src', imageData);
     };
+    
     const templateObject = Template.instance();
     const records = [];
     let salesService = new SalesBoardService();
@@ -406,6 +407,7 @@ Template.new_invoice.onRendered(() => {
         });
 
     };
+    let url2 = window.location.href;
 
     templateObject.getAllClients();
     templateObject.getAllLeadStatuss();
@@ -1394,161 +1396,6 @@ Template.new_invoice.onRendered(() => {
                                 // Meteor._reload.reload();
                             });
                         }
-                        $('#html-2-pdfwrapper').css('display', 'block');
-                        $('.pdfCustomerName').html($('#edtCustomerName').val());
-                        $('.pdfCustomerAddress').html($('#txabillingAddress').val());
-                        async function addAttachment() {
-                            let attachment = [];
-                            let templateObject = Template.instance();
-
-                            let invoiceId = getso_id;
-                            let encodedPdf = await generatePdfForMail(invoiceId);
-                            let pdfObject = "";
-                            var reader = new FileReader();
-                            reader.readAsDataURL(encodedPdf);
-                            reader.onloadend = function () {
-                                var base64data = reader.result;
-                                base64data = base64data.split(',')[1];
-                                // console.log(base64data);
-                                pdfObject = {
-                                    filename: 'customerpayment-' + invoiceId + '.pdf',
-                                    content: base64data,
-                                    encoding: 'base64'
-                                };
-                                attachment.push(pdfObject);
-                                // let mailBody = "VS1 Cloud Test";
-                                let erpInvoiceId = getso_id;
-
-
-                                let mailFromName = Session.get('vs1companyName');
-                                let mailFrom = localStorage.getItem('mySession');
-                                let customerEmailName = $('#edtCustomerName').val();
-                                let checkEmailData = $('#edtCustomerEmail').val();
-                                // let mailCC = templateObject.mailCopyToUsr.get();
-                                let grandtotal = $('#grandTotal').html();
-                                let amountDueEmail = $('#totalBalanceDue').html();
-                                let emailDueDate = $("#dtDueDate").val();
-                                let mailSubject = 'Payment ' + erpInvoiceId + ' from ' + mailFromName + ' for ' + customerEmailName;
-                                let mailBody = "Hi " + customerEmailName + ",\n\n Here's payment " + erpInvoiceId + " for  " + grandtotal + "." +
-                                    // "\n\nThe amount outstanding of "+amountDueEmail+" is due on "+emailDueDate+"." +
-                                    "\n\nIf you have any questions, please let us know : " + mailFrom + ".\n\nThanks,\n" + mailFromName;
-
-                                var htmlmailBody = '<table align="center" border="0" cellpadding="0" cellspacing="0" width="600">' +
-                                    '    <tr>' +
-                                    '        <td align="center" bgcolor="#54c7e2" style="padding: 40px 0 30px 0;">' +
-                                    '            <img src="http://login.vs1cloud.com:3000/assets/VS1logo.png" class="uploadedImage" alt="VS1 Cloud" width="250px" style="display: block;" />' +
-                                    '        </td>' +
-                                    '    </tr>' +
-                                    '    <tr>' +
-                                    '        <td style="padding: 40px 30px 40px 30px;">' +
-                                    '            <table border="0" cellpadding="0" cellspacing="0" width="100%">' +
-                                    '                <tr>' +
-                                    '                    <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0 20px 0;">' +
-                                    '                        Hello there <span>' + customerEmailName + '</span>,' +
-                                    '                    </td>' +
-                                    '                </tr>' +
-                                    '                <tr>' +
-                                    '                    <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0 10px 0;">' +
-                                    '                        Please find payment <span>' + erpInvoiceId + '</span> attached below.' +
-                                    '                    </td>' +
-                                    '                </tr>' +
-                                    '                <tr>' +
-                                    '                    <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0 30px 0;">' +
-                                    '                        Kind regards,' +
-                                    '                        <br>' +
-                                    '                        ' + mailFromName + '' +
-                                    '                    </td>' +
-                                    '                </tr>' +
-                                    '            </table>' +
-                                    '        </td>' +
-                                    '    </tr>' +
-                                    '    <tr>' +
-                                    '        <td bgcolor="#00a3d3" style="padding: 30px 30px 30px 30px;">' +
-                                    '            <table border="0" cellpadding="0" cellspacing="0" width="100%">' +
-                                    '                <tr>' +
-                                    '                    <td width="50%" style="color: #ffffff; font-family: Arial, sans-serif; font-size: 14px;">' +
-                                    '                        If you have any question, please do not hesitate to contact us.' +
-                                    '                    </td>' +
-                                    '                    <td align="right">' +
-                                    '                        <a style="border: none; color: white; padding: 15px 32px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin: 4px 2px; cursor: pointer; background-color: #4CAF50;" href="mailto:' + mailFrom + '">Contact Us</a>' +
-                                    '                    </td>' +
-                                    '                </tr>' +
-                                    '            </table>' +
-                                    '        </td>' +
-                                    '    </tr>' +
-                                    '</table>';
-                                //checkEmailData mailFrom
-                                Meteor.call('sendEmail', {
-                                    from: "" + mailFromName + " <" + mailFrom + ">",
-                                    to: checkEmailData,
-                                    subject: mailSubject,
-                                    text: '',
-                                    html: htmlmailBody,
-                                    attachments: attachment
-                                }, function (error, result) {
-                                    if (error && error.error === "error") {
-                                        // Router.go('/paymentoverview?success=true');
-
-                                    } else {
-
-                                    }
-                                });
-
-                                Meteor.call('sendEmail', {
-                                    from: "" + mailFromName + " <" + mailFrom + ">",
-                                    to: mailFrom,
-                                    subject: mailSubject,
-                                    text: '',
-                                    html: htmlmailBody,
-                                    attachments: attachment
-                                }, function (error, result) {
-                                    if (error && error.error === "error") {
-                                        //Router.go('/paymentoverview?success=true');
-                                    } else {
-                                        $('#html-2-pdfwrapper').css('display', 'none');
-                                        swal({
-                                            title: 'SUCCESS',
-                                            text: "Email Sent To Customer: " + checkEmailData + " and User: " + mailFrom + "",
-                                            type: 'success',
-                                            showCancelButton: false,
-                                            confirmButtonText: 'OK'
-                                        }).then((result) => {
-                                            if (result.value) {
-                                                //Router.go('/paymentoverview?success=true');
-                                            } else if (result.dismiss === 'cancel') {
-
-                                            }
-                                        });
-
-                                        $('.fullScreenSpin').css('display', 'none');
-                                    }
-                                });
-
-
-
-
-
-                            }
-                            function generatePdfForMail(invoiceId) {
-                                return new Promise((resolve, reject) => {
-                                    let templateObject = Template.instance();
-                                    // let data = templateObject.singleInvoiceData.get();
-                                    let completeTabRecord;
-                                    let doc = new jsPDF('p', 'pt', 'a4');
-                                    doc.setFontSize(18);
-                                    var source = document.getElementById('html-2-pdfwrapper');
-                                    doc.addHTML(source, function () {
-                                        //pdf.save('Invoice.pdf');
-                                        resolve(doc.output('blob'));
-                                        // $('#html-2-pdfwrapper').css('display','none');
-                                    });
-                                });
-                            }
-
-                        }
-                        setTimeout(function () {
-                            addAttachment();
-                        }, 1500);
                     }
                 }).catch(function (err) {
                     accountService.getOneInvoicedataEx(currentInvoice).then(function (data) {
@@ -1820,10 +1667,13 @@ Template.new_invoice.onRendered(() => {
             };
             templateObject.getInvoiceData();
             // Send Email
-            $('#html-2-pdfwrapper').css('display', 'block');
+           
             $('.pdfCustomerName').html($('#edtCustomerName').val());
             $('.pdfCustomerAddress').html($('#txabillingAddress').val());
-                async function addAttachment() {
+            $('.link').hide();
+            $('#html-2-pdfwrapper').css('display', 'block');
+            $('.print-header').html("Payment&nbsp;&nbsp;&nbsp;" + currentInvoice);
+            async function addAttachment() {
                 let attachment = [];
                 let templateObject = Template.instance();
 
@@ -1837,7 +1687,7 @@ Template.new_invoice.onRendered(() => {
                     base64data = base64data.split(',')[1];
                     // console.log(base64data);
                     pdfObject = {
-                        filename: 'Customer Payment ' + invoiceId + '.pdf',
+                        filename: 'Customer Payment-' + invoiceId + '.pdf',
                         content: base64data,
                         encoding: 'base64'
                     };
@@ -1845,17 +1695,17 @@ Template.new_invoice.onRendered(() => {
                     // let mailBody = "VS1 Cloud Test";
                     let erpInvoiceId = getso_id;
 
-                    
+
                     let mailFromName = Session.get('vs1companyName');
                     let mailFrom = localStorage.getItem('mySession');
                     let customerEmailName = $('#edtCustomerName').val();
-                    let checkEmailData =  url.searchParams.get("email");
+                    let checkEmailData = url.searchParams.get("email");
                     // let mailCC = templateObject.mailCopyToUsr.get();
                     let grandtotal = $('#grandTotal').html();
                     let amountDueEmail = $('#totalBalanceDue').html();
                     let emailDueDate = $("#dtDueDate").val();
                     let mailSubject = 'Payment ' + erpInvoiceId + ' from ' + mailFromName + ' for ' + customerEmailName;
-                    let mailBody = "Hi " + customerEmailName + ",\n\n Here's Payment " + erpInvoiceId + " for  " + grandtotal + "." +
+                    let mailBody = "Hi " + customerEmailName + ",\n\n Here's payment " + erpInvoiceId + " for  " + grandtotal + "." +
                         // "\n\nThe amount outstanding of "+amountDueEmail+" is due on "+emailDueDate+"." +
                         "\n\nIf you have any questions, please let us know : " + mailFrom + ".\n\nThanks,\n" + mailFromName;
 
@@ -1903,59 +1753,67 @@ Template.new_invoice.onRendered(() => {
                         '        </td>' +
                         '    </tr>' +
                         '</table>';
+                    //checkEmailData mailFrom
+                    Meteor.call('sendEmail', {
+                        from: "" + mailFromName + " <" + mailFrom + ">",
+                        to: checkEmailData,
+                        subject: mailSubject,
+                        text: '',
+                        html: htmlmailBody,
+                        attachments: attachment
+                    }, function (error, result) {
+                        if (error && error.error === "error") {
+                            // Router.go('/paymentoverview?success=true');
 
-                        Meteor.call('sendEmail', {
-                            from: "" + mailFromName + " <" + mailFrom + ">",
-                            to: checkEmailData,
-                            subject: mailSubject,
-                            text: '',
-                            html: htmlmailBody,
-                            attachments: attachment
-                        }, function (error, result) {
-                            if (error && error.error === "error") {
-                                //window.open('/salesorderslist','_self');
+                        } else {
 
-                            } else {
+                        }
+                    });
 
-                            }
-                        });
+                    Meteor.call('sendEmail', {
+                        from: "" + mailFromName + " <" + mailFrom + ">",
+                        to: mailFrom,
+                        subject: mailSubject,
+                        text: '',
+                        html: htmlmailBody,
+                        attachments: attachment
+                    }, function (error, result) {
+                        if (error && error.error === "error") {
+                            //Router.go('/paymentoverview?success=true');
+                        } else {
+                           $('#html-2-pdfwrapper').css('display', 'none');
+                            swal({
+                                title: 'SUCCESS',
+                                text: "Email Sent To Customer: " + checkEmailData + " and User: " + mailFrom + "",
+                                type: 'success',
+                                showCancelButton: false,
+                                confirmButtonText: 'OK'
+                            }).then((result) => {
+                                if (result.value) {
+                                    
+                                Router.go('invoicelist');
+                                } else if (result.dismiss === 'cancel') {
+                                    Router.go('invoicelist');
+                                }else{
+                                    Router.go('invoicelist');
+                                }
+                            });
 
-                        Meteor.call('sendEmail', {
-                            from: "" + mailFromName + " <" + mailFrom + ">",
-                            to: mailFrom,
-                            subject: mailSubject,
-                            text: '',
-                            html: htmlmailBody,
-                            attachments: attachment
-                        }, function (error, result) {
-                            if (error && error.error === "error") {
-                                window.open('/salesorderslist', '_self');
-                            } else {
-                                $('#html-2-pdfwrapper').css('display', 'none');
-                                swal({
-                                    title: 'SUCCESS',
-                                    text: "Email Sent To Customer: " + checkEmailData + " and User: " + mailFrom + "",
-                                    type: 'success',
-                                    showCancelButton: false,
-                                    confirmButtonText: 'OK'
-                                }).then((result) => {
-                                    if (result.value) {
-                                        // window.open('/salesorderslist','_self');
-                                    } else if (result.dismiss === 'cancel') {
+                            $('.fullScreenSpin').css('display', 'none');
+                        }
+                    });
 
-                                    }
-                                });
 
-                                $('.fullScreenSpin').css('display', 'none');
-                            }
-                        });
 
-                     
-                };
 
+
+                }
+                
 
             }
-            addAttachment();
+            setTimeout(function () {
+                addAttachment();
+            }, 1500);
             function generatePdfForMail(invoiceId) {
                 return new Promise((resolve, reject) => {
                     let templateObject = Template.instance();
@@ -1971,13 +1829,12 @@ Template.new_invoice.onRendered(() => {
                     });
                 });
             }
-       
-        }
         //    if(document.referrer) {
 
         //    } else {
         //        Router.go('/invoicelist')
         //    }
+        }
     } else if (url.indexOf('?id=') > 0) {
         var getso_id = url.split('?id=');
         var currentInvoice = getso_id[getso_id.length - 1];
