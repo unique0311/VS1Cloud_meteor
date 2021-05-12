@@ -244,20 +244,19 @@ templateObject.getCustomers = function () {
       var url = window.location.href;
       if(listData){
         if(url.indexOf('?type') > 0) {
-        alert('here');
-          if(transactiontype == "true"){
+          if(transactiontype != ""){
             Router.go('/customerscard?jobid=' + listData+"&transTab=job");
         }else{
           Router.go('/customerscard?id=' + listData+"&transTab=job");
         }
         } else {
-          if(transactiontype == "true"){
+          if(transactiontype != ""){
             Router.go('/customerscard?jobid=' + listData);
         }else{
           Router.go('/customerscard?id=' + listData);
         }
         }
-        
+
 
       }
       });
@@ -462,19 +461,19 @@ var transactiontype = $(this).closest('tr').attr('isjob');
 if(listData){
   var url = window.location.href;
   if(url.indexOf('?type') > 0) {
-    if(transactiontype == "true"){
+    if(transactiontype != ""){
       Router.go('/customerscard?jobid=' + listData+"&transTab=job");
   }else{
     Router.go('/customerscard?id=' + listData+"&transTab=job");
   }
   } else {
-    if(transactiontype == "true"){
+    if(transactiontype != ""){
       Router.go('/customerscard?jobid=' + listData);
   }else{
     Router.go('/customerscard?id=' + listData);
   }
   }
-  
+
 
 }
 });
@@ -671,7 +670,7 @@ if(listData){
       var listData = $(this).closest('tr').attr('id');
       var transactiontype = $(this).closest('tr').attr('isjob');
       if(listData){
-        if(transactiontype == "true"){
+        if(transactiontype != ""){
             Router.go('/customerscard?jobid=' + listData);
         }else{
           Router.go('/customerscard?id=' + listData);
@@ -694,7 +693,7 @@ $('#tblCustomerlist tbody').on( 'click', 'tr', function () {
 var listData = $(this).closest('tr').attr('id');
 var transactiontype = $(this).closest('tr').attr('isjob');
 if(listData){
-  if(transactiontype == "true"){
+  if(transactiontype != ""){
       Router.go('/customerscard?jobid=' + listData);
   }else{
     Router.go('/customerscard?id=' + listData);

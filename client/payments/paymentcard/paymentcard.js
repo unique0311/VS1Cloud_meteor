@@ -2190,7 +2190,7 @@ Template.paymentcard.events({
     var htmlmailBody = '<table align="center" border="0" cellpadding="0" cellspacing="0" width="600">'+
     '    <tr>'+
     '        <td align="center" bgcolor="#54c7e2" style="padding: 40px 0 30px 0;">'+
-    '            <img src="http://login.vs1cloud.com:3000/assets/VS1logo.png" class="uploadedImage" alt="VS1 Cloud" width="250px" style="display: block;" />'+
+    '            <img src="https://sandbox.vs1cloud.com/assets/VS1logo.png" class="uploadedImage" alt="VS1 Cloud" width="250px" style="display: block;" />'+
     '        </td>'+
     '    </tr>'+
     '    <tr>'+
@@ -2491,7 +2491,7 @@ if(paymentAmt.replace(/[^0-9.-]+/g,"") < 0){
 var htmlmailBody = '<table align="center" border="0" cellpadding="0" cellspacing="0" width="600">'+
 '    <tr>'+
 '        <td align="center" bgcolor="#54c7e2" style="padding: 40px 0 30px 0;">'+
-'            <img src="http://login.vs1cloud.com:3000/assets/VS1logo.png" class="uploadedImage" alt="VS1 Cloud" width="250px" style="display: block;" />'+
+'            <img src="https://sandbox.vs1cloud.com/assets/VS1logo.png" class="uploadedImage" alt="VS1 Cloud" width="250px" style="display: block;" />'+
 '        </td>'+
 '    </tr>'+
 '    <tr>'+
@@ -2768,7 +2768,7 @@ var htmlmailBody = '<table align="center" border="0" cellpadding="0" cellspacing
 var htmlmailBody = '<table align="center" border="0" cellpadding="0" cellspacing="0" width="600">'+
 '    <tr>'+
 '        <td align="center" bgcolor="#54c7e2" style="padding: 40px 0 30px 0;">'+
-'            <img src="http://login.vs1cloud.com:3000/assets/VS1logo.png" class="uploadedImage" alt="VS1 Cloud" width="250px" style="display: block;" />'+
+'            <img src="https://sandbox.vs1cloud.com/assets/VS1logo.png" class="uploadedImage" alt="VS1 Cloud" width="250px" style="display: block;" />'+
 '        </td>'+
 '    </tr>'+
 '    <tr>'+
@@ -3069,7 +3069,7 @@ var htmlmailBody = '<table align="center" border="0" cellpadding="0" cellspacing
             var htmlmailBody = '<table align="center" border="0" cellpadding="0" cellspacing="0" width="600">'+
             '    <tr>'+
             '        <td align="center" bgcolor="#54c7e2" style="padding: 40px 0 30px 0;">'+
-            '            <img src="http://login.vs1cloud.com:3000/assets/VS1logo.png" class="uploadedImage" alt="VS1 Cloud" width="250px" style="display: block;" />'+
+            '            <img src="https://sandbox.vs1cloud.com/assets/VS1logo.png" class="uploadedImage" alt="VS1 Cloud" width="250px" style="display: block;" />'+
             '        </td>'+
             '    </tr>'+
             '    <tr>'+
@@ -3366,7 +3366,7 @@ var htmlmailBody = '<table align="center" border="0" cellpadding="0" cellspacing
     var htmlmailBody = '<table align="center" border="0" cellpadding="0" cellspacing="0" width="600">'+
     '    <tr>'+
     '        <td align="center" bgcolor="#54c7e2" style="padding: 40px 0 30px 0;">'+
-    '            <img src="http://login.vs1cloud.com:3000/assets/VS1logo.png" class="uploadedImage" alt="VS1 Cloud" width="250px" style="display: block;" />'+
+    '            <img src="https://sandbox.vs1cloud.com/assets/VS1logo.png" class="uploadedImage" alt="VS1 Cloud" width="250px" style="display: block;" />'+
     '        </td>'+
     '    </tr>'+
     '    <tr>'+
@@ -3622,7 +3622,7 @@ var htmlmailBody = '<table align="center" border="0" cellpadding="0" cellspacing
   var htmlmailBody = '<table align="center" border="0" cellpadding="0" cellspacing="0" width="600">'+
   '    <tr>'+
   '        <td align="center" bgcolor="#54c7e2" style="padding: 40px 0 30px 0;">'+
-  '            <img src="http://login.vs1cloud.com:3000/assets/VS1logo.png" class="uploadedImage" alt="VS1 Cloud" width="250px" style="display: block;" />'+
+  '            <img src="https://sandbox.vs1cloud.com/assets/VS1logo.png" class="uploadedImage" alt="VS1 Cloud" width="250px" style="display: block;" />'+
   '        </td>'+
   '    </tr>'+
   '    <tr>'+
@@ -3962,7 +3962,7 @@ if(paymentAmt.replace(/[^0-9.-]+/g,"") < 0){
 var htmlmailBody = '<table align="center" border="0" cellpadding="0" cellspacing="0" width="600">'+
 '    <tr>'+
 '        <td align="center" bgcolor="#54c7e2" style="padding: 40px 0 30px 0;">'+
-'            <img src="http://login.vs1cloud.com:3000/assets/VS1logo.png" class="uploadedImage" alt="VS1 Cloud" width="250px" style="display: block;" />'+
+'            <img src="https://sandbox.vs1cloud.com/assets/VS1logo.png" class="uploadedImage" alt="VS1 Cloud" width="250px" style="display: block;" />'+
 '        </td>'+
 '    </tr>'+
 '    <tr>'+
@@ -4236,7 +4236,7 @@ var htmlmailBody = '<table align="center" border="0" cellpadding="0" cellspacing
 var htmlmailBody = '<table align="center" border="0" cellpadding="0" cellspacing="0" width="600">'+
 '    <tr>'+
 '        <td align="center" bgcolor="#54c7e2" style="padding: 40px 0 30px 0;">'+
-'            <img src="http://login.vs1cloud.com:3000/assets/VS1logo.png" class="uploadedImage" alt="VS1 Cloud" width="250px" style="display: block;" />'+
+'            <img src="https://sandbox.vs1cloud.com/assets/VS1logo.png" class="uploadedImage" alt="VS1 Cloud" width="250px" style="display: block;" />'+
 '        </td>'+
 '    </tr>'+
 '    <tr>'+

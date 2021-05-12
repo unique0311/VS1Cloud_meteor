@@ -7,7 +7,7 @@ Template.vs1check.onCreated(()=>{
   }else{
 
     // window.location = 'https://vs1cloud.com/VS1cloudSetUp.exe';
-    setTimeout(function () { window.open('http://login.vs1cloud.com:3000','_self'); }, 1000);
+    setTimeout(function () { window.open('https://sandbox.vs1cloud.com','_self'); }, 1000);
   }
 
   $('.fullScreenSpin').css('display','none');

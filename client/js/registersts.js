@@ -694,7 +694,7 @@ Template.registersts.events({
     $('.fullScreenSpin').css('display','none');
   }else{
     var databaseName = myArrResponse.ProcessLog.Databasename;
-    $(".addloginkey").attr("href", 'http://login.vs1cloud.com:3000/vs1greentracklogin?emailakey='+userEmail+'&passkey='+cloudpassword+'&secret='+currentURLQuoteID+'');
+    $(".addloginkey").attr("href", 'https://sandbox.vs1cloud.com/vs1greentracklogin?emailakey='+userEmail+'&passkey='+cloudpassword+'&secret='+currentURLQuoteID+'');
     localStorage.usremail = userEmail;
     localStorage.usrpassword = cloudpassword;
     // var emailAlreadyExist  = CloudUser.find({cloudEmail: userEmail}).fetch();

@@ -2462,6 +2462,100 @@ Template.bankrecon.events({
             }
         } else {
         }
+    },
+    'keyup #myInputSearchDep, change #myInputSearchDep, search #myInputSearchDep':function(event){
+      $('.tblVS1Dep tbody tr').show();
+      let searchItem = $(event.target).val();
+      if(searchItem != ''){
+        var value = searchItem.toLowerCase();
+        $('.tblVS1Dep tbody tr').each(function(){
+         var found = 'false';
+         $(this).each(function(){
+              if($(this).text().toLowerCase().indexOf(value.toLowerCase()) >= 0)
+              {
+                   found = 'true';
+              }
+
+              if($(this).text().replace(/[^0-9.-]+/g, "").indexOf(value.toLowerCase()) >= 0)
+              {
+                   found = 'true';
+              }
+
+
+         });
+         if(found == 'true')
+         {
+              $(this).show();
+         }
+         else
+         {
+              $(this).hide();
+         }
+       });
+      }else{
+        $('.tblVS1Dep tbody tr').show();
+        $('.tblVS1Dep tbody tr').each(function(){
+         var found = 'false';
+         $(this).each(function(){
+              found = 'true';
+         });
+         if(found == 'true')
+         {
+              $(this).show();
+         }
+         else
+         {
+              $(this).hide();
+         }
+       });
+      }
+    },
+    'keyup #myInputSearchWith, change #myInputSearchWith, search #myInputSearchWith':function(event){
+      $('.tblVS1With tbody tr').show();
+      let searchItem = $(event.target).val();
+      if(searchItem != ''){
+        var value = searchItem.toLowerCase();
+        $('.tblVS1With tbody tr').each(function(){
+         var found = 'false';
+         $(this).each(function(){
+              if($(this).text().toLowerCase().indexOf(value.toLowerCase()) >= 0)
+              {
+                   found = 'true';
+              }
+
+              if($(this).text().replace(/[^0-9.-]+/g, "").indexOf(value.toLowerCase()) >= 0)
+              {
+                   found = 'true';
+              }
+
+
+         });
+         if(found == 'true')
+         {
+              $(this).show();
+         }
+         else
+         {
+              $(this).hide();
+         }
+       });
+      }else{
+        $('.tblVS1With tbody tr').show();
+        $('.tblVS1With tbody tr').each(function(){
+         var found = 'false';
+         $(this).each(function(){
+              found = 'true';
+         });
+         if(found == 'true')
+         {
+              $(this).show();
+         }
+         else
+         {
+              $(this).hide();
+         }
+       });
+      }
     }
 });
 
@@ -2511,11 +2605,11 @@ Template.bankrecon.helpers({
 //                     } else if (result.dismiss === 'cancel') {
 //                         window.open('/reconciliationlist', "_self");
 //                     } else {
-    
+
 //                     }
 //                 });
 //             }
-           
+
 //         });
 //     })
 // },5000)

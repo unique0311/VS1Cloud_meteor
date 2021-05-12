@@ -758,12 +758,12 @@ Template.employeelist.events({
     let templateObject = Template.instance();
     sideBarService.getAllEmployees().then(function(data) {
       addVS1Data('TEmployee',JSON.stringify(data)).then(function (datareturn) {
-        //location.reload(true);
+        window.open('/employeelist','_self');
       }).catch(function (err) {
-        //location.reload(true);
+        window.open('/employeelist','_self');
       });
     }).catch(function(err) {
-      //location.reload(true);
+      window.open('/employeelist','_self');
     });
   },
   'click .printConfirm' : function(event){

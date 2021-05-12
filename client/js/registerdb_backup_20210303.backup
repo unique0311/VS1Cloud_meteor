@@ -696,7 +696,7 @@ Template.registerdb.events({
     $('.fullScreenSpin').css('display','none');
   }else{
     var databaseName = myArrResponse.ProcessLog.Databasename;
-    //$(".addloginkey").attr("href", 'http://login.vs1cloud.com:3000?emailakey='+userEmail+'&passkey='+cloudpassword+'&secret='+currentURLQuoteID+'');
+    //$(".addloginkey").attr("href", 'https://sandbox.vs1cloud.com?emailakey='+userEmail+'&passkey='+cloudpassword+'&secret='+currentURLQuoteID+'');
       $(".addloginkey").attr("href", 'https://www.vs1cloud.com/vs1check.php');
     localStorage.usremail = userEmail;
     localStorage.usrpassword = cloudpassword;

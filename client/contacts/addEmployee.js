@@ -2527,9 +2527,11 @@ Template.employeescard.events({
                 DatabaseName: erpGet.ERPDatabase,
                 ServerName: erpGet.ERPIPAddress,
                 ERPLoginDetails: {
-                    ERPUserName: localStorage.getItem('mySession'),
-                    ERPPassword: localStorage.getItem('EPassword')
-                }
+                    ERPUserName: "VS1_Cloud_Admin",
+                    ERPPassword: "DptfGw83mFl1j&9"
+                },
+                ERPUserName: "VS1_Cloud_Admin",
+                ERPPassword: "DptfGw83mFl1j&9"
             }
             //}
         };
@@ -2555,12 +2557,12 @@ Template.employeescard.events({
                 $('.fullScreenSpin').css('display', 'none');
                 var myArrResponse = JSON.parse(oPost.responseText);
                 // console.log(myArrResponse);
-                if (myArrResponse.ProcessLog.Error) {
+                if (myArrResponse.ProcessLog.ResponseStatus != "OK") {
                     // Bert.alert('Database Error<strong> :'+ myArrResponse.ProcessLog.Error+'</strong>', 'now-error');
                     // swal('Ooops...', myArrResponse.ProcessLog.Error, 'error');
                     swal({
                         title: 'Ooops...',
-                        text: myArrResponse.ProcessLog.Error,
+                        text: myArrResponse.ProcessLog.ResponseStatus,
                         type: 'error',
                         showCancelButton: false,
                         confirmButtonText: 'OK'
@@ -2594,8 +2596,16 @@ Template.employeescard.events({
                             let employeeName = $('#edtCustomerCompany').val() || '';
                             window.open('/accesslevel?empuser=' + employeeName, '_self');
 
-                        } else if (result.dismiss === 'cancel') {
-
+                        } else {
+                          sideBarService.getAllEmployees().then(function(dataReload) {
+                            addVS1Data('TEmployee',JSON.stringify(dataReload)).then(function (datareturn) {
+                             Router.go('/employeelist?success');
+                            }).catch(function (err) {
+                              Router.go('/employeelist?success');
+                            });
+                          }).catch(function(err) {
+                            Router.go('/employeelist?success');
+                          });
                         }
                     });
 
@@ -2741,7 +2751,9 @@ Template.employeescard.events({
                 ERPLoginDetails: {
                     ERPUserName: localStorage.getItem('mySession'),
                     ERPPassword: localStorage.getItem('EPassword')
-                }
+                },
+                ERPUserName: "VS1_Cloud_Admin",
+                ERPPassword: "DptfGw83mFl1j&9"
             }
             //}
         };
@@ -2762,11 +2774,11 @@ Template.employeescard.events({
 
                 $('.fullScreenSpin').css('display', 'none');
                 var myArrResponse = JSON.parse(oPost.responseText);
-                if (myArrResponse.ProcessLog.Error) {
+                if (myArrResponse.ProcessLog.ResponseStatus != "OK") {
                     // swal('Ooops...', myArrResponse.ProcessLog.Error, 'error');
                     swal({
                         title: 'Ooops...',
-                        text: myArrResponse.ProcessLog.Error,
+                        text: myArrResponse.ProcessLog.ResponseStatus,
                         type: 'error',
                         showCancelButton: false,
                         confirmButtonText: 'OK'
@@ -2797,8 +2809,16 @@ Template.employeescard.events({
                             let employeeName = $('#edtCustomerCompany').val() || '';
                             window.open('/accesslevel?empuser=' + employeeName, '_self');
 
-                        } else if (result.dismiss === 'cancel') {
-
+                        } else {
+                          sideBarService.getAllEmployees().then(function(dataReload) {
+                            addVS1Data('TEmployee',JSON.stringify(dataReload)).then(function (datareturn) {
+                             Router.go('/employeelist?success');
+                            }).catch(function (err) {
+                              Router.go('/employeelist?success');
+                            });
+                          }).catch(function(err) {
+                            Router.go('/employeelist?success');
+                          });
                         }
                     });
                 }

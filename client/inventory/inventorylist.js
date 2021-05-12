@@ -1683,7 +1683,7 @@ swal('Invalid Data Mapping fields ', 'Please check that you are importing the co
 }
 });
 },
-'keyup #myInputSearch':function(event){
+'keyup #myInputSearch, change #myInputSearch, search #myInputSearch':function(event){
   $('.tblInventory tbody tr').show();
   let searchItem = $(event.target).val();
   if(searchItem != ''){
