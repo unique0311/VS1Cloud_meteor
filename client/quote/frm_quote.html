@@ -876,19 +876,19 @@ style="margin: 16px;margin-top: 0px;width: 95px;"><i class="fa fa-remove" style=
                     </div>
                 </div>
                 <div style="margin: 0px; padding: 16px; border: none !important; width: 60mm; max-width: 60mm;">
-                    <h4 style="font-weight: bold; font-size: 26.667px; color: rgb(0 0 0);">Quote&nbsp;&nbsp;&nbsp; {{quoterecord.id}}</h4>
+                    <h4 class="print-header" style="font-weight: bold; font-size: 26.667px; color: rgb(0 0 0);">Quote&nbsp;&nbsp;&nbsp; {{quoterecord.id}}</h4>
                     <div style="display: flex; width: 100%;">
                         <div style="width: 50%; padding-right: 16px;font-weight: bold;">
                             <label style="margin-bottom: 0px; color: rgb(0 0 0);">Date:</label>
                             <label class="pdfPONumber" style="margin-bottom: 0px; color: rgb(0 0 0);">P.O Number:</label>
                             <label class="pdfTerms" style="margin-bottom: 0px; color: rgb(0 0 0);">Due Date:</label>
-                            <label style="color: rgb(0 0 0);" >Pay Link:</label>
+                            <label class="link" style="color: rgb(0 0 0);" >Pay Link:</label>
                         </div>
                         <div style="width: 50%; padding-left: 16px;">
                             <p style="margin-bottom: 0px; color: rgb(0 0 0);">{{quoterecord.saledate}}</p>
                             <p style="margin-bottom: 0px; color: rgb(0 0 0); white-space: nowrap;">{{quoterecord.custPONumber}}.</p>
                             <p style="margin-bottom: 0px; color: rgb(0 0 0); white-space: nowrap;">{{quoterecord.termsName}}.</p>
-                            <p style="margin-bottom: 8px; color: rgb(0 0 0);color: #fff !important; background-color: #17a673; border-color: #169b6b; border-radius: 10px;     padding: 4px 8px;"><a href="" style="color: #fff !important; padding: 0px; margin-right: 8px;"></a></p>
+                            <p class="link" style="margin-bottom: 8px; color: rgb(0 0 0);color: #fff !important; background-color: #17a673; border-color: #169b6b; border-radius: 10px;     padding: 4px 8px;"><a href="" style="color: #fff !important; padding: 0px; margin-right: 8px;"></a></p>
                         </div>
                     </div>
                 </div>
@@ -994,21 +994,21 @@ style="margin: 16px;margin-top: 0px;width: 95px;"><i class="fa fa-remove" style=
                         </div>
                         <div class="card flex-grow-1 specialcard" style="margin: 0px; border: none !important; width: 65mm; max-width: 65mm; background-color: rgba(0,0,0,0);">
                             <div class="card-body">
-                                <h4 class="card-title" style="font-weight: bold; ">Quote&nbsp;&nbsp; {{quoterecord.id}}</h4>
+                                <h4 class="card-title print-header" style="font-weight: bold; ">Quote&nbsp;&nbsp; {{quoterecord.id}}</h4>
                                 <div class="d-lg-flex d-xl-flex align-items-xl-start card-text">
                                     <div class="d-lg-flex d-xl-flex flex-column align-items-lg-start align-items-xl-start" style="padding-right: 16px;font-weight: bold;">
                                         <label class="text-nowrap" style="color: rgb(0 0 0);" >No:</label>
                                         <label class="text-nowrap" style="color: rgb(0 0 0);" >Date:</label>
                                         <label class="text-nowrap" style="color: rgb(0 0 0);" >P.O Number:</label>
                                         <label class="text-nowrap" style="color: rgb(0 0 0);" >Terms:</label>
-                                        <label class="text-nowrap" style="color: rgb(0 0 0);" >Pay Link:</label>
+                                        <label class="text-nowrap link" style="color: rgb(0 0 0);" >Pay Link:</label>
                                     </div>
                                     <div style="padding-left: 16px; color: rgb(0 0 0);">
                                         <p style="margin-bottom: 8px; color: rgb(0 0 0);">{{quoterecord.id}}</p>
                                         <p style="margin-bottom: 8px; color: rgb(0 0 0);">{{quoterecord.saledate}}.</p>
                                         <p style="margin-bottom: 8px; color: rgb(0 0 0);">{{quoterecord.custPONumber}}.</p>
                                         <p style="margin-bottom: 8px; color: rgb(0 0 0);">{{quoterecord.termsName}}</p>
-                                        <p style="margin-bottom: 8px; color: rgb(0 0 0);color: #fff !important; background-color: #17a673; border-color: #169b6b; border-radius: 10px;     padding: 4px 8px;"><a href="" style="color: #fff !important; padding: 0px; margin-right: 8px;"></a></p>
+                                        <p class="link" style="margin-bottom: 8px; color: rgb(0 0 0);color: #fff !important; background-color: #17a673; border-color: #169b6b; border-radius: 10px;     padding: 4px 8px;"><a href="" style="color: #fff !important; padding: 0px; margin-right: 8px;"></a></p>
                                     </div>
                                 </div>
                             </div>

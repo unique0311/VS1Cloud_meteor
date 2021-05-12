@@ -544,9 +544,8 @@ Template.new_quote.onRendered(() => {
                         let data = JSON.parse(dataObject[0].data);
                         let useData = data.tquoteex;
                         var added = false;
-                        console.log(customerData);
                         for (let d = 0; d < useData.length; d++) {
-                            if (parseInt(useData[d].fields.ID) === currentQuote) {
+                            if (parseInt(useData[d].fields.ID) === invoiceId) {
                                 let cust_result = customerData.filter(cust_data => {
                                     return cust_data.customername == useData[d].fields.ClientName
                                 });
@@ -1139,7 +1138,7 @@ Template.new_quote.onRendered(() => {
             $('.pdfCustomerAddress').html($('#txabillingAddress').val());
             $('.link').hide();
             $('#html-2-pdfwrapper').css('display', 'block');
-            $('.print-header').html("Payment&nbsp;&nbsp;&nbsp;" + currentInvoice);
+            $('.print-header').html("Payment&nbsp;&nbsp;&nbsp;" + invoiceId);
             async function addAttachment() {
                 let attachment = [];
                 let templateObject = Template.instance();
