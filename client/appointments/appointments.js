@@ -5624,6 +5624,7 @@ Template.appointments.events({
                             }
                         };
                         appointmentService.saveAppointment(objectDataConverted).then(function (data) {
+                            $('.modal-backdrop').css('display', 'none');
                             Router.go('/invoicelist?success=true');
                         }).catch(function (err) {
                             $('.fullScreenSpin').css('display', 'none');
@@ -5634,6 +5635,7 @@ Template.appointments.events({
 
 
                     } else {
+                        $('.modal-backdrop').css('display', 'none');
                         $('.fullScreenSpin').css('display', 'none');
                         swal({
                             title: 'Oooops...',

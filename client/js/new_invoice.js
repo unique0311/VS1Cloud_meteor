@@ -3742,7 +3742,16 @@ Template.new_invoice.onRendered(() => {
             taxRate = taxcodeList.filter(taxrate => {
                 return taxrate.codename == getCustDetails[0].taxCode || '';
             });
-            lineTaxRate = taxRate[0].codename || table.find(".taxrate").text();
+            if (taxRate.length > 1) {
+                if (taxRate.codename != "") {
+                    lineTaxRate = taxRate[0].codename
+                } else {
+                    lineTaxRate = table.find(".taxrate").text();
+                }
+            } else {
+                lineTaxRate = table.find(".taxrate").text();
+            }
+
             taxcode1 = getCustDetails[0].taxCode || '';
         } else {
             lineTaxRate = table.find(".taxrate").text()
@@ -4729,7 +4738,7 @@ Template.new_invoice.events({
                 for (let l = 0; l < lineItems.length; l++) {
                     stringQuery = stringQuery + "product" + l + "=" + lineItems[l].description + "&price" + l + "=" + lineItems[l].unitPrice + "&qty" + l + "=" + lineItems[l].quantity + "&";
                 }
-                stringQuery = stringQuery + "tax=" + tax + "&total=" + total + "&customer=" + customer + "&name=" + name + "&surname=" + surname + "&quoteid=" + quoteData.id + "&company=" + company + "&vs1email=" + vs1User + "&customeremail=" + customerEmail + "&type=Invoice";
+                stringQuery = stringQuery + "tax=" + tax + "&total=" + total + "&customer=" + customer + "&name=" + name + "&surname=" + surname + "&quoteid=" + quoteData.id + "&company=" + company + "&vs1email=" + vs1User + "&customeremail=" + customerEmail + "&type=Invoice&url="+window.location.href;
                 window.open("https://depot.vs1cloud.com/stripe/" + stringQuery, '_self');
             } else {
                 swal({
@@ -5249,6 +5258,8 @@ Template.new_invoice.events({
         let lineItems = [];
         let imageData = (localStorage.getItem("Image"));
         let customername = $('#edtCustomerName');
+        let name = $('#firstname').val();
+        let surname = $('#lastname').val();
         let salesService = new SalesBoardService();
         if (customername.val() === '') {
             swal('Customer has not been selected!', '', 'warning');
@@ -5412,7 +5423,7 @@ Template.new_invoice.events({
                 for (let l = 0; l < lineItems.length; l++) {
                     stringQuery = stringQuery + "product" + l + "=" + lineItems[l].description + "&price" + l + "=" + lineItems[l].unitPrice + "&qty" + l + "=" + lineItems[l].quantity + "&";
                 }
-                stringQuery = stringQuery + "tax=" + tax + "&total=" + total + "&customer=" + customer + "&quoteid=" + objDetails.fields.ID + "&company=" + company + "&vs1email=" + vs1User + "&customeremail=" + customerEmail + "&type=Invoice";
+                stringQuery = stringQuery + "tax=" + tax + "&total=" + total + "&customer=" + customer + "&name=" + name + "&surname=" + surname +  "&quoteid=" + objDetails.fields.ID + "&company=" + company + "&vs1email=" + vs1User + "&customeremail=" + customerEmail + "&type=Invoice&url="+window.location.href;
                 // let checkifSendCopy = $('.chkEmailCopy');
 
                 // Send Email

@@ -1461,7 +1461,7 @@ Template.new_quote.onRendered(() => {
         }
 
     } else if (getso_id[1]) {
-        currentQuote = parseInt(currentQuote);
+        currentQuote = getso_id[1];
         $('.printID').attr("id", currentQuote);
         templateObject.getQuoteData = function () {
             //getOneQuotedata
@@ -2526,8 +2526,15 @@ Template.new_quote.onRendered(() => {
             taxRate = taxcodeList.filter(taxrate => {
                 return taxrate.codename == getCustDetails[0].taxCode
             });
-            lineTaxRate = taxRate[0].codename
-            taxcode1 = getCustDetails[0].taxCode
+            if (taxRate.length > 1) {
+                if (taxRate.codename != "") {
+                    lineTaxRate = taxRate[0].codename
+                } else {
+                    lineTaxRate = table.find(".taxrate").text();
+                }
+            } else {
+                lineTaxRate = table.find(".taxrate").text();
+            }
         } else {
             lineTaxRate = table.find(".taxrate").text();
         }
@@ -3912,8 +3919,11 @@ Template.new_quote.events({
     'click .btnSave': function (event) {
         //let testDate = $("#dtSODate").datepicker({dateFormat: 'dd-mm-yy' });
         let templateObject = Template.instance();
+        let quoteData = templateObject.quoterecord.get();
         let lineItems = [];
         let customername = $('#edtCustomerName');
+        let name = $('#firstname').val();
+        let surname = $('#lastname').val();
         let salesService = new SalesBoardService();
         if (customername.val() === '') {
             swal('Customer has not been selected!', '', 'warning');
@@ -4059,7 +4069,7 @@ Template.new_quote.events({
                     stringQuery = stringQuery + "product" + l + "=" + lineItems[l].description + "&price" + l + "=" + lineItems[l].unitPrice + "&qty" + l + "=" + lineItems[l].quantity + "&";
                 }
 
-                stringQuery = stringQuery + "tax=" + tax + "&total=" + total + "&customer=" + customer + "&name=" + name + "&surname=" + surname + "&quoteid=" + quoteData.id + "&company=" + company + "&vs1email=" + vs1User + "&customeremail=" + customerEmail + "&type=Invoice";
+                stringQuery = stringQuery + "tax=" + tax + "&total=" + total + "&customer=" + customer + "&name=" + name + "&surname=" + surname + "&quoteid=" + quoteData.id + "&company=" + company + "&vs1email=" + vs1User + "&customeremail=" + customerEmail + "&type=Quote&url="+window.location.href;
                 // Send Email
 
                 $('#html-2-pdfwrapper').css('display', 'block');
@@ -4817,7 +4827,7 @@ Template.new_quote.events({
             for (let l = 0; l < lineItems.length; l++) {
                 stringQuery = stringQuery + "product" + l + "=" + lineItems[l].description + "&price" + l + "=" + lineItems[l].unitPrice + "&qty" + l + "=" + lineItems[l].quantity + "&";
             }
-            stringQuery = stringQuery + "tax=" + tax + "&total=" + total + "&customer=" + customer + "&name=" + name + "&surname=" + surname + "&quoteid=" + quoteData.id + "&company=" + company + "&vs1email=" + vs1User + "&customeremail=" + customerEmail + "&type=Invoice";
+            stringQuery = stringQuery + "tax=" + tax + "&total=" + total + "&customer=" + customer + "&name=" + name + "&surname=" + surname + "&quoteid=" + quoteData.id + "&company=" + company + "&vs1email=" + vs1User + "&customeremail=" + customerEmail + "&type=Quote&url="+window.location.href;
             window.open("https://depot.vs1cloud.com/stripe/" + stringQuery, '_self');
         }
     },
