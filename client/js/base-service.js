@@ -25,10 +25,10 @@ export class BaseService{
         var postHeaders = {
             "database" : this.erpGet.ERPDatabase,
             "username" : this.erpGet.ERPUsername,
-            "password" :  this.erpGet.ERPPassword,
-            "Accept" : "application/json",
-            "Content-type" :  "application/json"
+            "password" :  this.erpGet.ERPPassword
         };
+
+
         return postHeaders;
     }
 

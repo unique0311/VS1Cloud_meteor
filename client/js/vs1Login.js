@@ -45,6 +45,7 @@ Template.vs1login.onCreated(function(){
 
 Template.vs1login.onRendered(function(){
   //callIndexDB();
+
   // Reports
    localStorage.removeItem('VS1ProductList');
    localStorage.removeItem('VS1CustomerList');
@@ -1084,7 +1085,7 @@ $("#login-button").click(function(e){
         localStorage.setItem('EPort', ERPport);
         loggedUserEventFired = true;
 
-        localStorage.setItem('mainEIPAddress', '165.228.147.127');
+        localStorage.setItem('mainEIPAddress', licenceIPAddress);
         localStorage.setItem('mainEPort', checkSSLPorts);
 
         var ERPCheackUserObject = "TUser?PropertyList==ID,EmployeeId,LogonName,EmployeeName,PasswordHash,Active&Select=[LogonName]='"+ERPLoggeduserName+"'";
@@ -1332,7 +1333,7 @@ $("#erplogin-button").click(async function(e){
           var dataRes = getLoginData(userLoginEmail).then(function (dataObject) {
             // console.log(dataObject);
             if(dataObject.length == 0){
-              var serverTest = URLRequest + "165.228.147.127" + ':' + checkSSLPorts + '/erpapi/Vs1_Logon?Vs1UserName="'+userLoginEmail+'"&vs1Password="'+userLoginPassword+'"';
+              var serverTest = URLRequest + licenceIPAddress + ':' + checkSSLPorts + '/erpapi/Vs1_Logon?Vs1UserName="'+userLoginEmail+'"&vs1Password="'+userLoginPassword+'"';
               //alert(serverTest);
               var oReq = new XMLHttpRequest();
               oReq.open("GET",serverTest, true);
@@ -1345,7 +1346,7 @@ $("#erplogin-button").click(async function(e){
               oReq.onreadystatechange = function() {
               //alert(oReq.responseText);
                 if (oReq.readyState == 4 && oReq.status == 200) {
-                  Session.setPersistent('mainEIPAddress', '165.228.147.127');
+                  Session.setPersistent('mainEIPAddress', licenceIPAddress);
                   Session.setPersistent('mainEPort', checkSSLPorts);
                  // alert(oReq.responseText);
                   //document.getElementById("result").innerHTML = oReq.responseText;
@@ -1535,11 +1536,15 @@ $("#erplogin-button").click(async function(e){
                     Session.setPersistent('ERPDefaultUOM', '');
                     Session.setPersistent('VS1AdminUserName', dataReturnRes.ProcessLog.VS1AdminUserName);
                     dataReturnRes.ProcessLog.VS1AdminPassword = userLoginPassword;
-               var ERPIPAdderess= dataReturnRes.ProcessLog.ServerName;
+                    var ERPIPAdderess= "";
+                    if(dataReturnRes.ProcessLog.ServerName == "110.142.175.245"){
+                      ERPIPAdderess= "www.login.vs1cloud.com";
+                    }else{
+                      ERPIPAdderess= dataReturnRes.ProcessLog.ServerName;
+                    }
                var ERPdbName = dataReturnRes.ProcessLog.Databasename;
 
                var ERPport = dataReturnRes.ProcessLog.APIPort;
-               // alert(ERPdbName);
 
                  Session.setPersistent('mycloudLogonUserEmail', userLoginEmail);
                //alert(ERPdbName);
@@ -1604,7 +1609,11 @@ $("#erplogin-button").click(async function(e){
                         }else if((option.ModuleName == 'Use Foreign Currency')){
                           isFxCurrencyLicence = true;
                         }else if((option.ModuleName == 'Link To TrueERP') || (option.ModuleName == 'Connect to Live ERP DB')){
-                          isTrueERPConnection = true;
+                          if(option.ModuleActive){
+                            isTrueERPConnection = option.ModuleActive || true;
+                          }else{
+                            isTrueERPConnection = true;
+                          }
                         }
 
               });
@@ -1669,7 +1678,7 @@ $("#erplogin-button").click(async function(e){
           localStorage.setItem('EPort', ERPport);
           loggedUserEventFired = true;
 
-          localStorage.setItem('mainEIPAddress', '165.228.147.127');
+          localStorage.setItem('mainEIPAddress', licenceIPAddress);
           localStorage.setItem('mainEPort', checkSSLPorts);
 
           //Dashboard API:
@@ -2040,7 +2049,12 @@ $("#erplogin-button").click(async function(e){
          Session.setPersistent('ERPDefaultUOM', '');
          Session.setPersistent('VS1AdminUserName', dataReturnRes.ProcessLog.VS1AdminUserName);
 
-    var ERPIPAdderess= dataReturnRes.ProcessLog.ServerName;
+         var ERPIPAdderess= "";
+         if(dataReturnRes.ProcessLog.ServerName == "110.142.175.245"){
+           ERPIPAdderess= "www.login.vs1cloud.com";
+         }else{
+           ERPIPAdderess= dataReturnRes.ProcessLog.ServerName;
+         }
     var ERPdbName = dataReturnRes.ProcessLog.Databasename;
 
     var ERPport = dataReturnRes.ProcessLog.APIPort;
@@ -2109,7 +2123,11 @@ $("#erplogin-button").click(async function(e){
              }else if((option.ModuleName == 'Use Foreign Currency')){
                isFxCurrencyLicence = true;
              }else if((option.ModuleName == 'Link To TrueERP') || (option.ModuleName == 'Connect to Live ERP DB')){
-               isTrueERPConnection = true;
+               if(option.ModuleActive){
+                 isTrueERPConnection = option.ModuleActive || true;
+               }else{
+                 isTrueERPConnection = true;
+               }
              }
 
     });
@@ -2171,7 +2189,7 @@ $("#erplogin-button").click(async function(e){
     localStorage.setItem('EPort', ERPport);
     loggedUserEventFired = true;
 
-    localStorage.setItem('mainEIPAddress', '165.228.147.127');
+    localStorage.setItem('mainEIPAddress', licenceIPAddress);
     localStorage.setItem('mainEPort', checkSSLPorts);
     //Dashboard API:
     if(dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields){
@@ -2269,7 +2287,7 @@ $("#erplogin-button").click(async function(e){
     }
             }
           }).catch(function (err) {
-            var serverTest = URLRequest + "165.228.147.127" + ':' + checkSSLPorts + '/erpapi/Vs1_Logon?Vs1UserName="'+userLoginEmail+'"&vs1Password="'+userLoginPassword+'"';
+            var serverTest = URLRequest + licenceIPAddress + ':' + checkSSLPorts + '/erpapi/Vs1_Logon?Vs1UserName="'+userLoginEmail+'"&vs1Password="'+userLoginPassword+'"';
             //alert(serverTest);
             var oReq = new XMLHttpRequest();
             oReq.open("GET",serverTest, true);
@@ -2282,7 +2300,7 @@ $("#erplogin-button").click(async function(e){
             oReq.onreadystatechange = function() {
             //alert(oReq.responseText);
               if (oReq.readyState == 4 && oReq.status == 200) {
-                Session.setPersistent('mainEIPAddress', '165.228.147.127');
+                Session.setPersistent('mainEIPAddress', licenceIPAddress);
                 Session.setPersistent('mainEPort', checkSSLPorts);
                // alert(oReq.responseText);
                 //document.getElementById("result").innerHTML = oReq.responseText;
@@ -2471,8 +2489,14 @@ $("#erplogin-button").click(async function(e){
                   Session.setPersistent('ERPDefaultDepartment', 'Default');
                   Session.setPersistent('ERPDefaultUOM', '');
                   Session.setPersistent('VS1AdminUserName', dataReturnRes.ProcessLog.VS1AdminUserName);
+                  var ERPIPAdderess= "";
+                  if(dataReturnRes.ProcessLog.ServerName == "110.142.175.245"){
+                    ERPIPAdderess= "www.login.vs1cloud.com";
+                  }else{
+                    ERPIPAdderess= dataReturnRes.ProcessLog.ServerName;
+                  }
 
-             var ERPIPAdderess= dataReturnRes.ProcessLog.ServerName;
+
              var ERPdbName = dataReturnRes.ProcessLog.Databasename;
 
              var ERPport = dataReturnRes.ProcessLog.APIPort;
@@ -2541,7 +2565,11 @@ $("#erplogin-button").click(async function(e){
                       }else if((option.ModuleName == 'Use Foreign Currency')){
                         isFxCurrencyLicence = true;
                       }else if((option.ModuleName == 'Link To TrueERP') || (option.ModuleName == 'Connect to Live ERP DB')){
-                        isTrueERPConnection = true;
+                        if(option.ModuleActive){
+                          isTrueERPConnection = option.ModuleActive || true;
+                        }else{
+                          isTrueERPConnection = true;
+                        }
                       }
 
             });
@@ -2603,7 +2631,7 @@ $("#erplogin-button").click(async function(e){
         localStorage.setItem('EPort', ERPport);
         loggedUserEventFired = true;
 
-        localStorage.setItem('mainEIPAddress', '165.228.147.127');
+        localStorage.setItem('mainEIPAddress', licenceIPAddress);
         localStorage.setItem('mainEPort', checkSSLPorts);
         //Dashboard API:
         if(dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields){
@@ -2825,20 +2853,29 @@ $("#erplogin-button").click(async function(e){
 
         }
         else{
-        var serverTest = URLRequest + "165.228.147.127" + ':' + checkSSLPorts + '/erpapi/Vs1_Logon?Vs1UserName="'+userLoginEmail+'"&vs1Password="'+userLoginPassword+'"';
+          // process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = 0;
+        var serverTest = URLRequest + licenceIPAddress + ':' + checkSSLPorts + '/erpapi/Vs1_Logon?Vs1UserName="'+userLoginEmail+'"&vs1Password="'+userLoginPassword+'"';
         //alert(serverTest);
+        let passwordS = "VS1_Cloud_Admin" + ':' + "DptfGw83mFl1j&9";
+        var cr = window.btoa(passwordS);
+        //var XMLHttpRequest = require("xmlhttprequest-ssl").XMLHttpRequest;
         var oReq = new XMLHttpRequest();
         oReq.open("GET",serverTest, true);
+        // oReq.setRequestHeader("Authorization","Basic " + cr);
+        // oReq.setRequestHeader("Content-Type","application/json");
+        // oReq.setRequestHeader("Access-Control-Allow-Origin","*");
+        // oReq.setRequestHeader("Access-Control-Allow-Headers","Origin, X-Requested-With, Content-Type, Accept");
         oReq.setRequestHeader("database",vs1loggedDatatbase);
-        oReq.setRequestHeader("username","VS1_Cloud_Admin");
-        oReq.setRequestHeader("password","DptfGw83mFl1j&9");
+        // oReq.setRequestHeader("username","VS1_Cloud_Admin");
+        // oReq.setRequestHeader("password","DptfGw83mFl1j&9");
+        // oReq.timeout = RequestTimeoutMilliseconds;
         oReq.send();
 
         // oReq.timeout = 30000;
         oReq.onreadystatechange = function() {
         //alert(oReq.responseText);
           if (oReq.readyState == 4 && oReq.status == 200) {
-            Session.setPersistent('mainEIPAddress', '165.228.147.127');
+            Session.setPersistent('mainEIPAddress', licenceIPAddress);
             Session.setPersistent('mainEPort', checkSSLPorts);
            // alert(oReq.responseText);
             //document.getElementById("result").innerHTML = oReq.responseText;
@@ -3027,7 +3064,12 @@ $("#erplogin-button").click(async function(e){
               Session.setPersistent('ERPDefaultUOM', '');
               Session.setPersistent('VS1AdminUserName', dataReturnRes.ProcessLog.VS1AdminUserName);
               dataReturnRes.ProcessLog.VS1AdminPassword = userLoginPassword;
-         var ERPIPAdderess= dataReturnRes.ProcessLog.ServerName;
+              var ERPIPAdderess= "";
+              if(dataReturnRes.ProcessLog.ServerName == "110.142.175.245"){
+                ERPIPAdderess= "www.login.vs1cloud.com";
+              }else{
+                ERPIPAdderess= dataReturnRes.ProcessLog.ServerName;
+              }
          var ERPdbName = dataReturnRes.ProcessLog.Databasename;
 
          var ERPport = dataReturnRes.ProcessLog.APIPort;
@@ -3096,7 +3138,11 @@ $("#erplogin-button").click(async function(e){
                   }else if((option.ModuleName == 'Use Foreign Currency')){
                     isFxCurrencyLicence = true;
                   }else if((option.ModuleName == 'Link To TrueERP') || (option.ModuleName == 'Connect to Live ERP DB')){
-                    isTrueERPConnection = true;
+                    if(option.ModuleActive){
+                      isTrueERPConnection = option.ModuleActive || true;
+                    }else{
+                      isTrueERPConnection = true;
+                    }
                   }
 
         });
@@ -3158,7 +3204,7 @@ $("#erplogin-button").click(async function(e){
     localStorage.setItem('EPort', ERPport);
     loggedUserEventFired = true;
 
-    localStorage.setItem('mainEIPAddress', '165.228.147.127');
+    localStorage.setItem('mainEIPAddress', licenceIPAddress);
     localStorage.setItem('mainEPort', checkSSLPorts);
     //Dashboard API:
     if(dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields){
@@ -3395,7 +3441,7 @@ $("#erplogin-button").click(async function(e){
       }
 
           }).catch(function (err) {
-            var serverTest = URLRequest + "165.228.147.127" + ':' + checkSSLPorts + '/erpapi/Vs1_Logon?Vs1UserName="'+userLoginEmail+'"&vs1Password="'+userLoginPassword+'"';
+            var serverTest = URLRequest + licenceIPAddress + ':' + checkSSLPorts + '/erpapi/Vs1_Logon?Vs1UserName="'+userLoginEmail+'"&vs1Password="'+userLoginPassword+'"';
             //alert(serverTest);
             var oReq = new XMLHttpRequest();
             oReq.open("GET",serverTest, true);
@@ -3408,7 +3454,7 @@ $("#erplogin-button").click(async function(e){
             oReq.onreadystatechange = function() {
             //alert(oReq.responseText);
               if (oReq.readyState == 4 && oReq.status == 200) {
-                Session.setPersistent('mainEIPAddress', '165.228.147.127');
+                Session.setPersistent('mainEIPAddress', licenceIPAddress);
                 Session.setPersistent('mainEPort', checkSSLPorts);
                // alert(oReq.responseText);
                 //document.getElementById("result").innerHTML = oReq.responseText;
@@ -3597,7 +3643,12 @@ $("#erplogin-button").click(async function(e){
                   Session.setPersistent('ERPDefaultUOM', '');
                   Session.setPersistent('VS1AdminUserName', dataReturnRes.ProcessLog.VS1AdminUserName);
                   dataReturnRes.ProcessLog.VS1AdminPassword = userLoginPassword;
-             var ERPIPAdderess= dataReturnRes.ProcessLog.ServerName;
+                  var ERPIPAdderess= "";
+                  if(dataReturnRes.ProcessLog.ServerName == "110.142.175.245"){
+                    ERPIPAdderess= "www.login.vs1cloud.com";
+                  }else{
+                    ERPIPAdderess= dataReturnRes.ProcessLog.ServerName;
+                  }
              var ERPdbName = dataReturnRes.ProcessLog.Databasename;
 
              var ERPport = dataReturnRes.ProcessLog.APIPort;
@@ -3666,7 +3717,12 @@ $("#erplogin-button").click(async function(e){
                       }else if((option.ModuleName == 'Use Foreign Currency')){
                         isFxCurrencyLicence = true;
                       }else if((option.ModuleName == 'Link To TrueERP') || (option.ModuleName == 'Connect to Live ERP DB')){
-                        isTrueERPConnection = true;
+                        if(option.ModuleActive){
+                          isTrueERPConnection = option.ModuleActive || true;
+                        }else{
+                          isTrueERPConnection = true;
+                        }
+
                       }
 
             });
@@ -3728,7 +3784,7 @@ $("#erplogin-button").click(async function(e){
         localStorage.setItem('EPort', ERPport);
         loggedUserEventFired = true;
 
-        localStorage.setItem('mainEIPAddress', '165.228.147.127');
+        localStorage.setItem('mainEIPAddress', licenceIPAddress);
         localStorage.setItem('mainEPort', checkSSLPorts);
         //Dashboard API:
         if(dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields){

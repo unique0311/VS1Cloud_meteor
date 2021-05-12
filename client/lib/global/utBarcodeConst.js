@@ -13,16 +13,17 @@
   Barcode_Prefix_SLBatch      = 'SLB';
   Barcode_Prefix_Customer     = 'C';
 
+ licenceIPAddress = "login.vs1cloud.com"; //165.228.147.127
   //Global Declaration
   /* VS1 SandBox Details */
-  URLRequest = 'http://'; //non ssl server
-  checkSSLPorts = '3420'; //Non SSL Port
+  URLRequest = 'https://'; //non ssl server
+  checkSSLPorts = '4433'; //Non SSL Port
   vs1loggedDatatbase = 'vs1_sandbox_license'; //SandBox databaseName
   //vs1loggedDatatbase = 'Vs1_license'; //Normal databaseName
 
   /* VS1 Production Details */
   //vs1loggedDatatbase = 'vs1_production_license'; //Production databaseName
-  //checkSSLPorts = '443'; //Use SSL Port
+  //checkSSLPorts = '4433'; //Use SSL Port
   //URLRequest = 'https://'; //ssl server
 
 loggedserverIP = localStorage.getItem('mainEIPAddress');

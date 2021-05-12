@@ -44,6 +44,8 @@ ejson@1.1.0
 email@1.2.3
 erasaur:meteor-lodash@3.10.1_1
 es5-shim@4.6.15
+force-ssl@1.1.0
+force-ssl-common@1.1.0
 fortawesome:fontawesome@4.4.0_1
 fourseven:scss@4.5.4
 francocatena:status@1.5.3

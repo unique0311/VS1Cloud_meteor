@@ -326,7 +326,7 @@ if (result.value) {
   var erpGet = erpDb();
 var oPost = new XMLHttpRequest();
 
-oPost.open("POST",URLRequest + '165.228.147.127' + ':' + checkSSLPorts + '/' + 'erpapi' + '/' + 'VS1_Cloud_Task/Method?Name="VS1_NewRego"', true);
+oPost.open("POST",URLRequest + licenceIPAddress + ':' + checkSSLPorts + '/' + 'erpapi' + '/' + 'VS1_Cloud_Task/Method?Name="VS1_NewRego"', true);
 oPost.setRequestHeader("database",vs1loggedDatatbase);
 oPost.setRequestHeader("username","VS1_Cloud_Admin");
 oPost.setRequestHeader("password","DptfGw83mFl1j&9");
