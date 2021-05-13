@@ -84,8 +84,25 @@
             </style>
 
             <div class="d-sm-flex justify-content-between align-items-center mb-4" style="margin-left: 8px;">
-                <h3 class="text-dark mb-0">Employee Overview Dashboard <a role="button" data-toggle="modal" href="#helpModal" class="helpModal"><label class="lblplay">PLAY</label><i class="far fa-play-circle"  style="font-size: 20px;"></i></a></h3>
+                <h3 class="text-dark mb-0">Employee Overview Dashboard <a role="button" data-toggle="modal" href="#helpViewModal" class=""><label class="lblplay">PLAY</label><i class="far fa-play-circle"  style="font-size: 20px;"></i></a></h3>
             </div>
+
+            <div class="modal fade" role="dialog" tabindex="-1" id="helpViewModal">
+                <div class="modal-dialog modal-sm" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header" style="padding-bottom: 8px;">
+                            <h4>Help</h4><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button></div>
+                        <div class="modal-body">
+                            <p class="text-center text-muted"><a role="button" data-toggle="modal" href="#helpModal" class="btn btn-primary helpModal">View Help Video</a></p>
+                            <p class="text-center text-muted"><a href="https://vs1forum.com/viewtopic.php?f=6&t=38" target="_blank" class="btn btn-primary">Download Help File</a></p>
+                            <p class="text-center text-muted"><button class="btn btn-primary" type="button">Employ Advisor</button></p>
+                            <p class="text-center text-muted" style="margin: 0px;"><a href="https://vs1forum.com/ucp.php?mode=register&cloudusername={{loggedCompany}}" target="_blank" class="btn btn-primary">Go To Forum</a></p>
+                        </div>
+                        <div class="modal-footer" style="padding: 6px;"><button class="btn btn-light" data-dismiss="modal" type="button">Close</button></div>
+                    </div>
+                </div>
+            </div>
+
             <div class="row">
                 <div class="col-2 displayList" id="displayList">
                     <div class="card shadow mb-4 employeeCardParent" style="margin: 8px;">
@@ -863,16 +880,16 @@ document.getElementById("dash_bsa_statement").innerHTML = DashBSAStatementBalanc
                                                                         <input type="text" class="form-control" name="cloudCheckEmpEmailAddress" id="cloudCheckEmpEmailAddress" value="{{itemrecord.LogonName}}" style="display:none!important;">
                                                                         <input type="email" class="form-control" name="cloudEmpEmailAddress" id="cloudEmpEmailAddress" value="{{itemrecord.LogonName}}">
                                                                     </div>
-<!--
-                                                                    <div class="form-group flex-grow-1" style="margin: 4px;"><label>Password</label>
-                                                                        <input type="text" class="form-control" id="cloudEmpUserPassword" name="cloudEmpUserPassword" value="" placeholder="{{itemrecord.PasswordHash}}">
-                                                                    </div>
+                                                                    <!--
+<div class="form-group flex-grow-1" style="margin: 4px;"><label>Password</label>
+<input type="text" class="form-control" id="cloudEmpUserPassword" name="cloudEmpUserPassword" value="" placeholder="{{itemrecord.PasswordHash}}">
+</div>
 -->
                                                                     <div class="form-group flex-grow-1" style="margin: 4px;">
                                                                         <label>Password</label>
                                                                         <div style="width: 100%">
                                                                             <div style="width: 85%; float: left;">
-                                                                              <input type="text" class="form-control" name="cloudCheckEmpUserPassword" id="cloudCheckEmpUserPassword" value="{{itemrecord.PasswordHash}}" style="display:none!important;">
+                                                                                <input type="text" class="form-control" name="cloudCheckEmpUserPassword" id="cloudCheckEmpUserPassword" value="{{itemrecord.PasswordHash}}" style="display:none!important;">
                                                                                 <input type="password" class="form-control" id="cloudEmpUserPassword" name="cloudEmpUserPassword" value="{{itemrecord.PasswordHash}}">
                                                                             </div>
                                                                             <div style="width: 15%; float: left;">

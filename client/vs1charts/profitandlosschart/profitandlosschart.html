@@ -30,6 +30,27 @@
                 mediaQuery(x)
                 x.addListener(mediaQuery)
             }, 10);
+            setTimeout(function () {
+                var x = window.matchMedia("(max-width: 1550px)")
+                function mediaQuery(x) {
+                    if (x.matches) {
+                        $("#colSalesLabel").removeClass("col-4");
+                        $("#colSalesLabel").addClass("col-5");
+                        $("#colSales").removeClass("col-8");
+                        $("#colSales").addClass("col-7");
+                        $("#colExpensesLabel").removeClass("col-4");
+                        $("#colExpensesLabel").addClass("col-5");
+                        $("#colExpenses").removeClass("col-8");
+                        $("#colExpenses").addClass("col-7");
+                        $("#colIncomeLabel").removeClass("col-4");
+                        $("#colIncomeLabel").addClass("col-5");
+                        $("#colIncome").removeClass("col-8");
+                        $("#colIncome").addClass("col-7");
+                    }
+                }
+                mediaQuery(x)
+                x.addListener(mediaQuery)
+            }, 10);
         </script>
         <div class="card-body">
             <div class="row no-gutters align-items-center" style="margin-bottom: 40px;margin-top: 40px;">
