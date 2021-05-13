@@ -116,149 +116,149 @@ Template.appointmentlist.onRendered(function () {
   }
   //Function to reload and update Indexdb after convert
   templateObject.getAllAppointmentDataOnConvert = function () {
-  let currentDate = new Date();
-  let hours = currentDate.getHours(); //returns 0-23
-  let minutes = currentDate.getMinutes(); //returns 0-59
-  let seconds = currentDate.getSeconds(); //returns 0-59
-  let month = (currentDate.getMonth()+1);
-  let days = currentDate.getDate();
+    let currentDate = new Date();
+    let hours = currentDate.getHours(); //returns 0-23
+    let minutes = currentDate.getMinutes(); //returns 0-59
+    let seconds = currentDate.getSeconds(); //returns 0-59
+    let month = (currentDate.getMonth() + 1);
+    let days = currentDate.getDate();
 
-  if(currentDate.getMonth() < 10){
-    month = "0" + (currentDate.getMonth()+1);
-  }
+    if (currentDate.getMonth() < 10) {
+      month = "0" + (currentDate.getMonth() + 1);
+    }
 
-  if(currentDate.getDate() < 10){
-    days = "0" + currentDate.getDate();
-  }
-  let currenctTodayDate = currentDate.getFullYear() + "-" + month + "-" + days + " "+ hours+ ":"+ minutes+ ":"+ seconds;
-  let templateObject = Template.instance();
-  getVS1Data('TAppointment').then(function (dataObject) {
-    if(dataObject.length == 0){
-      sideBarService.getAllAppointmentList().then(function(data) {
-        addVS1Data('TAppointment',JSON.stringify(data)).then(function (datareturn) {
-
-        }).catch(function (err) {
-
-        });
-      }).catch(function(err) {
-
-      });
-    }else{
-      let data = JSON.parse(dataObject[0].data);
-      let useData = data.tappointment;
-      if(useData[0].Id){
-        sideBarService.getAllAppointmentList().then(function(data) {
-          addVS1Data('TAppointment',JSON.stringify(data)).then(function (datareturn) {
+    if (currentDate.getDate() < 10) {
+      days = "0" + currentDate.getDate();
+    }
+    let currenctTodayDate = currentDate.getFullYear() + "-" + month + "-" + days + " " + hours + ":" + minutes + ":" + seconds;
+    let templateObject = Template.instance();
+    getVS1Data('TAppointment').then(function (dataObject) {
+      if (dataObject.length == 0) {
+        sideBarService.getAllAppointmentList().then(function (data) {
+          addVS1Data('TAppointment', JSON.stringify(data)).then(function (datareturn) {
 
           }).catch(function (err) {
 
           });
-        }).catch(function(err) {
+        }).catch(function (err) {
 
         });
-      }else{
-      let getTimeStamp = dataObject[0].timestamp;
-      if(getTimeStamp){
-          if(getTimeStamp[0] != currenctTodayDate){
-            sideBarService.getAllAppointmentList(getTimeStamp).then(function(dataUpdate) {
-              let newDataObject = [];
-              if(dataUpdate.tappointment.length === 0){
-                sideBarService.getAllAppointmentList().then(function(data) {
-                  addVS1Data('TAppointment',JSON.stringify(data)).then(function (datareturn) {
+      } else {
+        let data = JSON.parse(dataObject[0].data);
+        let useData = data.tappointment;
+        if (useData[0].Id) {
+          sideBarService.getAllAppointmentList().then(function (data) {
+            addVS1Data('TAppointment', JSON.stringify(data)).then(function (datareturn) {
+
+            }).catch(function (err) {
+
+            });
+          }).catch(function (err) {
+
+          });
+        } else {
+          let getTimeStamp = dataObject[0].timestamp;
+          if (getTimeStamp) {
+            if (getTimeStamp[0] != currenctTodayDate) {
+              sideBarService.getAllAppointmentList(getTimeStamp).then(function (dataUpdate) {
+                let newDataObject = [];
+                if (dataUpdate.tappointment.length === 0) {
+                  sideBarService.getAllAppointmentList().then(function (data) {
+                    addVS1Data('TAppointment', JSON.stringify(data)).then(function (datareturn) {
+
+                    }).catch(function (err) {
+
+                    });
+                  }).catch(function (err) {
+
+                  });
+                } else {
+                  let dataOld = JSON.parse(dataObject[0].data);
+                  let oldObjectData = dataOld.tappointment;
+
+                  let dataNew = dataUpdate;
+                  let newObjectData = dataNew.tappointment;
+                  let index = '';
+                  let index2 = '';
+
+                  var resultArray = []
+
+                  oldObjectData.forEach(function (destObj) {
+                    var addedcheck = false;
+                    newObjectData.some(function (origObj) {
+                      if (origObj.fields.ID == destObj.fields.ID) {
+                        addedcheck = true;
+                        index = oldObjectData.map(function (e) { return e.fields.ID; }).indexOf(parseInt(origObj.fields.ID));
+                        destObj = origObj;
+                        resultArray.push(destObj);
+
+                      }
+                    });
+                    if (!addedcheck) {
+                      resultArray.push(destObj)
+                    }
+
+                  });
+                  newObjectData.forEach(function (origObj) {
+                    var addedcheck = false;
+                    oldObjectData.some(function (destObj) {
+                      if (origObj.fields.ID == destObj.fields.ID) {
+                        addedcheck = true;
+                        index = oldObjectData.map(function (e) { return e.fields.ID; }).indexOf(parseInt(origObj.fields.ID));
+                        destObj = origObj;
+                        resultArray.push(destObj);
+
+                      }
+                    });
+                    if (!addedcheck) {
+                      resultArray.push(origObj)
+                    }
+
+                  });
+                  var resultGetData = [];
+                  $.each(resultArray, function (i, e) {
+                    var matchingItems = $.grep(resultGetData, function (item) {
+                      return item.fields.ID === e.fields.ID;
+                    });
+                    if (matchingItems.length === 0) {
+                      resultGetData.push(e);
+                    }
+                  });
+
+                  let dataToAdd = {
+                    tappointment: resultGetData
+                  };
+                  addVS1Data('TAppointment', JSON.stringify(dataToAdd)).then(function (datareturn) {
 
                   }).catch(function (err) {
 
                   });
-                }).catch(function(err) {
-
-                });
-              }else{
-                let dataOld = JSON.parse(dataObject[0].data);
-                let oldObjectData = dataOld.tappointment;
-
-                let dataNew = dataUpdate;
-                let newObjectData = dataNew.tappointment;
-                let index = '';
-                let index2 = '';
-
-                var resultArray = []
-
-                oldObjectData.forEach(function(destObj) {
-                    var addedcheck=false;
-                    newObjectData.some(function(origObj) {
-                      if(origObj.fields.ID == destObj.fields.ID) {
-                        addedcheck = true;
-                        index = oldObjectData.map(function (e) { return e.fields.ID; }).indexOf(parseInt(origObj.fields.ID));
-                        destObj = origObj;
-                        resultArray.push(destObj);
-
-                      }
-                    });
-                    if(!addedcheck) {
-                          resultArray.push(destObj)
-                    }
-
-                  });
-                  newObjectData.forEach(function(origObj) {
-                    var addedcheck=false;
-                    oldObjectData.some(function(destObj) {
-                      if(origObj.fields.ID == destObj.fields.ID) {
-                        addedcheck = true;
-                        index = oldObjectData.map(function (e) { return e.fields.ID; }).indexOf(parseInt(origObj.fields.ID));
-                        destObj = origObj;
-                        resultArray.push(destObj);
-
-                      }
-                    });
-                    if(!addedcheck) {
-                          resultArray.push(origObj)
-                    }
-
-                  });
-              var resultGetData = [];
-              $.each(resultArray, function (i, e) {
-                var matchingItems = $.grep(resultGetData, function (item) {
-                   return item.fields.ID === e.fields.ID;
-                });
-                if (matchingItems.length === 0){
-                    resultGetData.push(e);
                 }
-            });
-
-            let dataToAdd = {
-                tappointment: resultGetData
-            };
-              addVS1Data('TAppointment',JSON.stringify(dataToAdd)).then(function (datareturn) {
 
               }).catch(function (err) {
+                addVS1Data('TAppointment', dataObject[0].data).then(function (datareturn) {
 
+                }).catch(function (err) {
+
+                });
               });
-              }
+            }
 
-            }).catch(function(err) {
-              addVS1Data('TAppointment',dataObject[0].data).then(function (datareturn) {
-
-              }).catch(function (err) {
-
-              });
-            });
           }
-
+        }
       }
-    }
-    }
-  }).catch(function (err) {
-    console.log(err)
-    sideBarService.getAllAppointmentList().then(function(data) {
-      addVS1Data('TAppointment',JSON.stringify(data)).then(function (datareturn) {
+    }).catch(function (err) {
+      console.log(err)
+      sideBarService.getAllAppointmentList().then(function (data) {
+        addVS1Data('TAppointment', JSON.stringify(data)).then(function (datareturn) {
 
+        }).catch(function (err) {
+
+        });
       }).catch(function (err) {
 
       });
-    }).catch(function(err) {
-
     });
-  });
   }
   $(".formClassDate").datepicker({
     showOn: 'button',
@@ -1009,45 +1009,8 @@ Template.appointmentlist.onRendered(function () {
   //    }
   // }
   $('#tblappointmentlist tbody').on('click', 'tr td:not(:first-child)', function () {
-    document.getElementById("frmAppointment").reset();
-    var hours = '0';
     var id = $(this).closest('tr').attr('id');
-    var appointmentData = templateObject.datatablerecords.get();
-    var result = appointmentData.filter(apmt => {
-      return apmt.id == id
-    });
-    if (result[0].aStartTime != '' && result[0].aEndTime != '') {
-      var startTime = moment(result[0].startDate.split(' ')[0] + ' ' + result[0].aStartTime);
-      var endTime = moment(result[0].endDate.split(' ')[0] + ' ' + result[0].aEndTime);
-      var duration = moment.duration(moment(endTime).diff(moment(startTime)));
-      hours = duration.asHours();
-    }
-    templateObject.getAllProductData();
-
-
-    document.getElementById("updateID").value = result[0].id || 0;
-    document.getElementById("appID").value = result[0].id || 0;
-    document.getElementById("customer").value = result[0].accountname || '';
-    document.getElementById("phone").value = result[0].phone || '';
-    document.getElementById("mobile").value = result[0].mobile || result[0].phone || '';
-    document.getElementById("state").value = result[0].country || '';
-    document.getElementById("address").value = result[0].street || '';
-    document.getElementById("txtNotes").value = result[0].notes || '';
-    document.getElementById("suburb").value = result[0].suburb || '';
-    document.getElementById("zip").value = result[0].zip || '';
-    document.getElementById("country").value = result[0].country || '';
-    $('#product-list').prepend('<option value="' + result[0].product + '">' + result[0].product + '</option>');
-    document.getElementById("employee_name").value = result[0].employeename || '';
-    document.getElementById("dtSODate").value = moment(result[0].startDate.split(' ')[0]).format('DD/MM/YYY') || '';
-    document.getElementById("dtSODate2").value = moment(result[0].endDate.split(' ')[0]).format('DD/MM/YYY') || '';
-    document.getElementById("startTime").value = result[0].startTime || '';
-    document.getElementById("endTime").value = result[0].endTime || '';
-    document.getElementById("txtBookedHoursSpent").value = result[0].totalHours || '';
-    document.getElementById("tActualStartTime").value = result[0].aStartTime;
-    document.getElementById("tActualEndTime").value = result[0].aEndTime;
-    document.getElementById("txtActualHoursSpent").value = parseFloat(hours).toFixed(2) || '';
-
-    $('#event-modal').modal();
+    window.open('appointments?id=' + id, '_self');
   });
 
 
@@ -1178,650 +1141,650 @@ Template.appointmentlist.events({
     }
   },
   'click .btnRefresh': function () {
-    $('.fullScreenSpin').css('display','inline-block');
-      let currentDate = new Date();
-      let hours = currentDate.getHours(); //returns 0-23
-      let minutes = currentDate.getMinutes(); //returns 0-59
-      let seconds = currentDate.getSeconds(); //returns 0-59
-      let month = (currentDate.getMonth()+1);
-      let days = currentDate.getDate();
+    $('.fullScreenSpin').css('display', 'inline-block');
+    let currentDate = new Date();
+    let hours = currentDate.getHours(); //returns 0-23
+    let minutes = currentDate.getMinutes(); //returns 0-59
+    let seconds = currentDate.getSeconds(); //returns 0-59
+    let month = (currentDate.getMonth() + 1);
+    let days = currentDate.getDate();
 
-      if(currentDate.getMonth() < 10){
-        month = "0" + (currentDate.getMonth()+1);
-      }
+    if (currentDate.getMonth() < 10) {
+      month = "0" + (currentDate.getMonth() + 1);
+    }
 
-      if(currentDate.getDate() < 10){
-        days = "0" + currentDate.getDate();
-      }
-      let currenctTodayDate = currentDate.getFullYear() + "-" + month + "-" + days + " "+ hours+ ":"+ minutes+ ":"+ seconds;
-      let templateObject = Template.instance();
-      getVS1Data('TAppointment').then(function (dataObject) {
-        if(dataObject.length == 0){
-          sideBarService.getAllAppointmentList().then(function(data) {
-            addVS1Data('TAppointment',JSON.stringify(data)).then(function (datareturn) {
-              getVS1Data('TInvoiceEx').then(function (dataObject) {
-                if(dataObject.length == 0){
-                  sideBarService.getAllInvoiceList().then(function(data) {
-                    addVS1Data('TInvoiceEx',JSON.stringify(data)).then(function (datareturn) {
+    if (currentDate.getDate() < 10) {
+      days = "0" + currentDate.getDate();
+    }
+    let currenctTodayDate = currentDate.getFullYear() + "-" + month + "-" + days + " " + hours + ":" + minutes + ":" + seconds;
+    let templateObject = Template.instance();
+    getVS1Data('TAppointment').then(function (dataObject) {
+      if (dataObject.length == 0) {
+        sideBarService.getAllAppointmentList().then(function (data) {
+          addVS1Data('TAppointment', JSON.stringify(data)).then(function (datareturn) {
+            getVS1Data('TInvoiceEx').then(function (dataObject) {
+              if (dataObject.length == 0) {
+                sideBarService.getAllInvoiceList().then(function (data) {
+                  addVS1Data('TInvoiceEx', JSON.stringify(data)).then(function (datareturn) {
                     //window.open('/invoicelist','_self');
-                    }).catch(function (err) {
-                    //window.open('/invoicelist','_self');
-                    });
-                  }).catch(function(err) {
+                  }).catch(function (err) {
                     //window.open('/invoicelist','_self');
                   });
-                }else{
-                  let data = JSON.parse(dataObject[0].data);
-                  let useData = data.tinvoiceex;
-                  if(useData[0].Id){
-                    sideBarService.getAllInvoiceList().then(function(data) {
-                      addVS1Data('TInvoiceEx',JSON.stringify(data)).then(function (datareturn) {
-                       // window.open('/invoicelist','_self');
-                      }).catch(function (err) {
-                      //window.open('/invoicelist','_self');
-                      });
-                    }).catch(function(err) {
+                }).catch(function (err) {
+                  //window.open('/invoicelist','_self');
+                });
+              } else {
+                let data = JSON.parse(dataObject[0].data);
+                let useData = data.tinvoiceex;
+                if (useData[0].Id) {
+                  sideBarService.getAllInvoiceList().then(function (data) {
+                    addVS1Data('TInvoiceEx', JSON.stringify(data)).then(function (datareturn) {
+                      // window.open('/invoicelist','_self');
+                    }).catch(function (err) {
                       //window.open('/invoicelist','_self');
                     });
-                  }else{
+                  }).catch(function (err) {
+                    //window.open('/invoicelist','_self');
+                  });
+                } else {
                   let getTimeStamp = dataObject[0].timestamp;
-                  if(getTimeStamp){
-                      if(getTimeStamp[0] != currenctTodayDate){
-                        sideBarService.getAllInvoiceListUpdate(getTimeStamp).then(function(dataUpdate) {
+                  if (getTimeStamp) {
+                    if (getTimeStamp[0] != currenctTodayDate) {
+                      sideBarService.getAllInvoiceListUpdate(getTimeStamp).then(function (dataUpdate) {
+                        let newDataObject = [];
+                        if (dataUpdate.tinvoiceex.length === 0) {
+                          sideBarService.getAllInvoiceList().then(function (data) {
+                            addVS1Data('TInvoiceEx', JSON.stringify(data)).then(function (datareturn) {
+                              //window.open('/invoicelist','_self');
+                            }).catch(function (err) {
+                              // window.open('/invoicelist','_self');
+                            });
+                          }).catch(function (err) {
+                            //window.open('/invoicelist','_self');
+                          });
+                        } else {
+                          let dataOld = JSON.parse(dataObject[0].data);
+                          let oldObjectData = dataOld.tinvoiceex;
+
+                          let dataNew = dataUpdate;
+                          let newObjectData = dataNew.tinvoiceex;
+                          let index = '';
+                          let index2 = '';
+
+                          var resultArray = []
+
+                          oldObjectData.forEach(function (destObj) {
+                            var addedcheck = false;
+                            newObjectData.some(function (origObj) {
+                              if (origObj.fields.ID == destObj.fields.ID) {
+                                addedcheck = true;
+                                index = oldObjectData.map(function (e) { return e.fields.ID; }).indexOf(parseInt(origObj.fields.ID));
+                                destObj = origObj;
+                                resultArray.push(destObj);
+
+                              }
+                            });
+                            if (!addedcheck) {
+                              resultArray.push(destObj)
+                            }
+
+                          });
+                          newObjectData.forEach(function (origObj) {
+                            var addedcheck = false;
+                            oldObjectData.some(function (destObj) {
+                              if (origObj.fields.ID == destObj.fields.ID) {
+                                addedcheck = true;
+                                index = oldObjectData.map(function (e) { return e.fields.ID; }).indexOf(parseInt(origObj.fields.ID));
+                                destObj = origObj;
+                                resultArray.push(destObj);
+
+                              }
+                            });
+                            if (!addedcheck) {
+                              resultArray.push(origObj)
+                            }
+
+                          });
+                          var resultGetData = [];
+                          $.each(resultArray, function (i, e) {
+                            var matchingItems = $.grep(resultGetData, function (item) {
+                              return item.fields.ID === e.fields.ID;
+                            });
+                            if (matchingItems.length === 0) {
+                              resultGetData.push(e);
+                            }
+                          });
+
+                          let dataToAdd = {
+                            tinvoiceex: resultGetData
+                          };
+                          addVS1Data('TInvoiceEx', JSON.stringify(dataToAdd)).then(function (datareturn) {
+                            //window.open('/invoicelist','_self');
+                          }).catch(function (err) {
+                            // window.open('/invoicelist','_self');
+                          });
+                        }
+
+                      }).catch(function (err) {
+                        addVS1Data('TInvoiceEx', dataObject[0].data).then(function (datareturn) {
+                          // window.open('/invoicelist','_self');
+                        }).catch(function (err) {
+                          // window.open('/invoicelist','_self');
+                        });
+                      });
+                    }
+
+                  }
+                }
+              }
+            }).catch(function (err) {
+              sideBarService.getAllInvoiceList().then(function (data) {
+                addVS1Data('TInvoiceEx', JSON.stringify(data)).then(function (datareturn) {
+                  //window.open('/invoicelist','_self');
+                }).catch(function (err) {
+                  //window.open('/invoicelist','_self');
+                });
+              }).catch(function (err) {
+                //window.open('/invoicelist','_self');
+              });
+            });
+          }).catch(function (err) {
+            window.open('/appointmentlist', '_self');
+          });
+        }).catch(function (err) {
+          window.open('/appointmentlist', '_self');
+        });
+      } else {
+        let data = JSON.parse(dataObject[0].data);
+        let useData = data.tappointment;
+        if (useData[0].Id) {
+          sideBarService.getAllAppointmentList().then(function (data) {
+            addVS1Data('TAppointment', JSON.stringify(data)).then(function (datareturn) {
+              getVS1Data('TInvoiceEx').then(function (dataObject) {
+                if (dataObject.length == 0) {
+                  sideBarService.getAllInvoiceList().then(function (data) {
+                    addVS1Data('TInvoiceEx', JSON.stringify(data)).then(function (datareturn) {
+                      // window.open('/invoicelist','_self');
+                    }).catch(function (err) {
+                      // window.open('/invoicelist','_self');
+                    });
+                  }).catch(function (err) {
+                    // window.open('/invoicelist','_self');
+                  });
+                } else {
+                  let data = JSON.parse(dataObject[0].data);
+                  let useData = data.tinvoiceex;
+                  if (useData[0].Id) {
+                    sideBarService.getAllInvoiceList().then(function (data) {
+                      addVS1Data('TInvoiceEx', JSON.stringify(data)).then(function (datareturn) {
+                        //window.open('/invoicelist','_self');
+                      }).catch(function (err) {
+                        //window.open('/invoicelist','_self');
+                      });
+                    }).catch(function (err) {
+                      //window.open('/invoicelist','_self');
+                    });
+                  } else {
+                    let getTimeStamp = dataObject[0].timestamp;
+                    if (getTimeStamp) {
+                      if (getTimeStamp[0] != currenctTodayDate) {
+                        sideBarService.getAllInvoiceListUpdate(getTimeStamp).then(function (dataUpdate) {
                           let newDataObject = [];
-                          if(dataUpdate.tinvoiceex.length === 0){
-                            sideBarService.getAllInvoiceList().then(function(data) {
-                              addVS1Data('TInvoiceEx',JSON.stringify(data)).then(function (datareturn) {
+                          if (dataUpdate.tinvoiceex.length === 0) {
+                            sideBarService.getAllInvoiceList().then(function (data) {
+                              addVS1Data('TInvoiceEx', JSON.stringify(data)).then(function (datareturn) {
                                 //window.open('/invoicelist','_self');
                               }).catch(function (err) {
-                             // window.open('/invoicelist','_self');
+                                //window.open('/invoicelist','_self');
                               });
-                            }).catch(function(err) {
-                            //window.open('/invoicelist','_self');
+                            }).catch(function (err) {
+                              //window.open('/invoicelist','_self');
                             });
-                          }else{
+                          } else {
                             let dataOld = JSON.parse(dataObject[0].data);
                             let oldObjectData = dataOld.tinvoiceex;
-          
+
                             let dataNew = dataUpdate;
                             let newObjectData = dataNew.tinvoiceex;
                             let index = '';
                             let index2 = '';
-          
+
                             var resultArray = []
-          
-                            oldObjectData.forEach(function(destObj) {
-                                var addedcheck=false;
-                                newObjectData.some(function(origObj) {
-                                  if(origObj.fields.ID == destObj.fields.ID) {
-                                    addedcheck = true;
-                                    index = oldObjectData.map(function (e) { return e.fields.ID; }).indexOf(parseInt(origObj.fields.ID));
-                                    destObj = origObj;
-                                    resultArray.push(destObj);
-          
-                                  }
-                                });
-                                if(!addedcheck) {
-                                      resultArray.push(destObj)
+
+                            oldObjectData.forEach(function (destObj) {
+                              var addedcheck = false;
+                              newObjectData.some(function (origObj) {
+                                if (origObj.fields.ID == destObj.fields.ID) {
+                                  addedcheck = true;
+                                  index = oldObjectData.map(function (e) { return e.fields.ID; }).indexOf(parseInt(origObj.fields.ID));
+                                  destObj = origObj;
+                                  resultArray.push(destObj);
+
                                 }
-          
                               });
-                              newObjectData.forEach(function(origObj) {
-                                var addedcheck=false;
-                                oldObjectData.some(function(destObj) {
-                                  if(origObj.fields.ID == destObj.fields.ID) {
-                                    addedcheck = true;
-                                    index = oldObjectData.map(function (e) { return e.fields.ID; }).indexOf(parseInt(origObj.fields.ID));
-                                    destObj = origObj;
-                                    resultArray.push(destObj);
-          
-                                  }
-                                });
-                                if(!addedcheck) {
-                                      resultArray.push(origObj)
-                                }
-          
-                              });
-                          var resultGetData = [];
-                          $.each(resultArray, function (i, e) {
-                            var matchingItems = $.grep(resultGetData, function (item) {
-                               return item.fields.ID === e.fields.ID;
+                              if (!addedcheck) {
+                                resultArray.push(destObj)
+                              }
+
                             });
-                            if (matchingItems.length === 0){
+                            newObjectData.forEach(function (origObj) {
+                              var addedcheck = false;
+                              oldObjectData.some(function (destObj) {
+                                if (origObj.fields.ID == destObj.fields.ID) {
+                                  addedcheck = true;
+                                  index = oldObjectData.map(function (e) { return e.fields.ID; }).indexOf(parseInt(origObj.fields.ID));
+                                  destObj = origObj;
+                                  resultArray.push(destObj);
+
+                                }
+                              });
+                              if (!addedcheck) {
+                                resultArray.push(origObj)
+                              }
+
+                            });
+                            var resultGetData = [];
+                            $.each(resultArray, function (i, e) {
+                              var matchingItems = $.grep(resultGetData, function (item) {
+                                return item.fields.ID === e.fields.ID;
+                              });
+                              if (matchingItems.length === 0) {
                                 resultGetData.push(e);
-                            }
-                        });
-          
-                        let dataToAdd = {
-                            tinvoiceex: resultGetData
-                        };
-                          addVS1Data('TInvoiceEx',JSON.stringify(dataToAdd)).then(function (datareturn) {
+                              }
+                            });
+
+                            let dataToAdd = {
+                              tinvoiceex: resultGetData
+                            };
+                            addVS1Data('TInvoiceEx', JSON.stringify(dataToAdd)).then(function (datareturn) {
+                              // window.open('/invoicelist','_self');
+                            }).catch(function (err) {
+                              // window.open('/invoicelist','_self');
+                            });
+                          }
+
+                        }).catch(function (err) {
+                          addVS1Data('TInvoiceEx', dataObject[0].data).then(function (datareturn) {
                             //window.open('/invoicelist','_self');
                           }).catch(function (err) {
-                           // window.open('/invoicelist','_self');
-                          });
-                          }
-          
-                        }).catch(function(err) {
-                          addVS1Data('TInvoiceEx',dataObject[0].data).then(function (datareturn) {
-                           // window.open('/invoicelist','_self');
-                          }).catch(function (err) {
-                           // window.open('/invoicelist','_self');
+                            //window.open('/invoicelist','_self');
                           });
                         });
                       }
-          
+
+                    }
                   }
                 }
-                }
               }).catch(function (err) {
-                sideBarService.getAllInvoiceList().then(function(data) {
-                  addVS1Data('TInvoiceEx',JSON.stringify(data)).then(function (datareturn) {
-                    //window.open('/invoicelist','_self');
+                sideBarService.getAllInvoiceList().then(function (data) {
+                  addVS1Data('TInvoiceEx', JSON.stringify(data)).then(function (datareturn) {
+                    // window.open('/invoicelist','_self');
                   }).catch(function (err) {
-                  //window.open('/invoicelist','_self');
+                    //window.open('/invoicelist','_self');
                   });
-                }).catch(function(err) {
+                }).catch(function (err) {
                   //window.open('/invoicelist','_self');
                 });
               });
             }).catch(function (err) {
-           window.open('/appointmentlist','_self');
+              // window.open('/appointmentlist','_self');
             });
-          }).catch(function(err) {
-            window.open('/appointmentlist','_self');
+          }).catch(function (err) {
+            //window.open('/appointmentlist','_self');
           });
-        }else{
-          let data = JSON.parse(dataObject[0].data);
-          let useData = data.tappointment;
-          if(useData[0].Id){
-            sideBarService.getAllAppointmentList().then(function(data) {
-              addVS1Data('TAppointment',JSON.stringify(data)).then(function (datareturn) {
-                getVS1Data('TInvoiceEx').then(function (dataObject) {
-                  if(dataObject.length == 0){
-                    sideBarService.getAllInvoiceList().then(function(data) {
-                      addVS1Data('TInvoiceEx',JSON.stringify(data)).then(function (datareturn) {
-                     // window.open('/invoicelist','_self');
-                      }).catch(function (err) {
-                     // window.open('/invoicelist','_self');
-                      });
-                    }).catch(function(err) {
-                     // window.open('/invoicelist','_self');
-                    });
-                  }else{
-                    let data = JSON.parse(dataObject[0].data);
-                    let useData = data.tinvoiceex;
-                    if(useData[0].Id){
-                      sideBarService.getAllInvoiceList().then(function(data) {
-                        addVS1Data('TInvoiceEx',JSON.stringify(data)).then(function (datareturn) {
-                          //window.open('/invoicelist','_self');
-                        }).catch(function (err) {
-                        //window.open('/invoicelist','_self');
-                        });
-                      }).catch(function(err) {
-                        //window.open('/invoicelist','_self');
-                      });
-                    }else{
-                    let getTimeStamp = dataObject[0].timestamp;
-                    if(getTimeStamp){
-                        if(getTimeStamp[0] != currenctTodayDate){
-                          sideBarService.getAllInvoiceListUpdate(getTimeStamp).then(function(dataUpdate) {
-                            let newDataObject = [];
-                            if(dataUpdate.tinvoiceex.length === 0){
-                              sideBarService.getAllInvoiceList().then(function(data) {
-                                addVS1Data('TInvoiceEx',JSON.stringify(data)).then(function (datareturn) {
-                                  //window.open('/invoicelist','_self');
-                                }).catch(function (err) {
-                                //window.open('/invoicelist','_self');
-                                });
-                              }).catch(function(err) {
-                              //window.open('/invoicelist','_self');
-                              });
-                            }else{
-                              let dataOld = JSON.parse(dataObject[0].data);
-                              let oldObjectData = dataOld.tinvoiceex;
-            
-                              let dataNew = dataUpdate;
-                              let newObjectData = dataNew.tinvoiceex;
-                              let index = '';
-                              let index2 = '';
-            
-                              var resultArray = []
-            
-                              oldObjectData.forEach(function(destObj) {
-                                  var addedcheck=false;
-                                  newObjectData.some(function(origObj) {
-                                    if(origObj.fields.ID == destObj.fields.ID) {
-                                      addedcheck = true;
-                                      index = oldObjectData.map(function (e) { return e.fields.ID; }).indexOf(parseInt(origObj.fields.ID));
-                                      destObj = origObj;
-                                      resultArray.push(destObj);
-            
-                                    }
-                                  });
-                                  if(!addedcheck) {
-                                        resultArray.push(destObj)
-                                  }
-            
-                                });
-                                newObjectData.forEach(function(origObj) {
-                                  var addedcheck=false;
-                                  oldObjectData.some(function(destObj) {
-                                    if(origObj.fields.ID == destObj.fields.ID) {
-                                      addedcheck = true;
-                                      index = oldObjectData.map(function (e) { return e.fields.ID; }).indexOf(parseInt(origObj.fields.ID));
-                                      destObj = origObj;
-                                      resultArray.push(destObj);
-            
-                                    }
-                                  });
-                                  if(!addedcheck) {
-                                        resultArray.push(origObj)
-                                  }
-            
-                                });
-                            var resultGetData = [];
-                            $.each(resultArray, function (i, e) {
-                              var matchingItems = $.grep(resultGetData, function (item) {
-                                 return item.fields.ID === e.fields.ID;
-                              });
-                              if (matchingItems.length === 0){
-                                  resultGetData.push(e);
-                              }
-                          });
-            
-                          let dataToAdd = {
-                              tinvoiceex: resultGetData
-                          };
-                            addVS1Data('TInvoiceEx',JSON.stringify(dataToAdd)).then(function (datareturn) {
-                             // window.open('/invoicelist','_self');
-                            }).catch(function (err) {
-                             // window.open('/invoicelist','_self');
-                            });
-                            }
-            
-                          }).catch(function(err) {
-                            addVS1Data('TInvoiceEx',dataObject[0].data).then(function (datareturn) {
-                              //window.open('/invoicelist','_self');
-                            }).catch(function (err) {
-                              //window.open('/invoicelist','_self');
-                            });
-                          });
-                        }
-            
-                    }
-                  }
-                  }
-                }).catch(function (err) {
-                  sideBarService.getAllInvoiceList().then(function(data) {
-                    addVS1Data('TInvoiceEx',JSON.stringify(data)).then(function (datareturn) {
-                     // window.open('/invoicelist','_self');
-                    }).catch(function (err) {
-                    //window.open('/invoicelist','_self');
-                    });
-                  }).catch(function(err) {
-                    //window.open('/invoicelist','_self');
-                  });
-                });
-              }).catch(function (err) {
-             // window.open('/appointmentlist','_self');
-              });
-            }).catch(function(err) {
-              //window.open('/appointmentlist','_self');
-            });
-          }else{
+        } else {
           let getTimeStamp = dataObject[0].timestamp;
-          if(getTimeStamp){
-              if(getTimeStamp[0] != currenctTodayDate){
-                sideBarService.getAllAppointmentList(getTimeStamp).then(function(dataUpdate) {
-                  let newDataObject = [];
-                  if(dataUpdate.tappointment.length === 0){
-                    sideBarService.getAllAppointmentList().then(function(data) {
-                      addVS1Data('TAppointment',JSON.stringify(data)).then(function (datareturn) {
-                        getVS1Data('TInvoiceEx').then(function (dataObject) {
-                          if(dataObject.length == 0){
-                            sideBarService.getAllInvoiceList().then(function(data) {
-                              addVS1Data('TInvoiceEx',JSON.stringify(data)).then(function (datareturn) {
-                             // window.open('/invoicelist','_self');
-                              }).catch(function (err) {
-                             // window.open('/invoicelist','_self');
-                              });
-                            }).catch(function(err) {
-                             // window.open('/invoicelist','_self');
+          if (getTimeStamp) {
+            if (getTimeStamp[0] != currenctTodayDate) {
+              sideBarService.getAllAppointmentList(getTimeStamp).then(function (dataUpdate) {
+                let newDataObject = [];
+                if (dataUpdate.tappointment.length === 0) {
+                  sideBarService.getAllAppointmentList().then(function (data) {
+                    addVS1Data('TAppointment', JSON.stringify(data)).then(function (datareturn) {
+                      getVS1Data('TInvoiceEx').then(function (dataObject) {
+                        if (dataObject.length == 0) {
+                          sideBarService.getAllInvoiceList().then(function (data) {
+                            addVS1Data('TInvoiceEx', JSON.stringify(data)).then(function (datareturn) {
+                              // window.open('/invoicelist','_self');
+                            }).catch(function (err) {
+                              // window.open('/invoicelist','_self');
                             });
-                          }else{
-                            let data = JSON.parse(dataObject[0].data);
-                            let useData = data.tinvoiceex;
-                            if(useData[0].Id){
-                              sideBarService.getAllInvoiceList().then(function(data) {
-                                addVS1Data('TInvoiceEx',JSON.stringify(data)).then(function (datareturn) {
-                                  //window.open('/invoicelist','_self');
-                                }).catch(function (err) {
+                          }).catch(function (err) {
+                            // window.open('/invoicelist','_self');
+                          });
+                        } else {
+                          let data = JSON.parse(dataObject[0].data);
+                          let useData = data.tinvoiceex;
+                          if (useData[0].Id) {
+                            sideBarService.getAllInvoiceList().then(function (data) {
+                              addVS1Data('TInvoiceEx', JSON.stringify(data)).then(function (datareturn) {
                                 //window.open('/invoicelist','_self');
-                                });
-                              }).catch(function(err) {
+                              }).catch(function (err) {
                                 //window.open('/invoicelist','_self');
                               });
-                            }else{
+                            }).catch(function (err) {
+                              //window.open('/invoicelist','_self');
+                            });
+                          } else {
                             let getTimeStamp = dataObject[0].timestamp;
-                            if(getTimeStamp){
-                                if(getTimeStamp[0] != currenctTodayDate){
-                                  sideBarService.getAllInvoiceListUpdate(getTimeStamp).then(function(dataUpdate) {
-                                    let newDataObject = [];
-                                    if(dataUpdate.tinvoiceex.length === 0){
-                                      sideBarService.getAllInvoiceList().then(function(data) {
-                                        addVS1Data('TInvoiceEx',JSON.stringify(data)).then(function (datareturn) {
-                                          //window.open('/invoicelist','_self');
-                                        }).catch(function (err) {
+                            if (getTimeStamp) {
+                              if (getTimeStamp[0] != currenctTodayDate) {
+                                sideBarService.getAllInvoiceListUpdate(getTimeStamp).then(function (dataUpdate) {
+                                  let newDataObject = [];
+                                  if (dataUpdate.tinvoiceex.length === 0) {
+                                    sideBarService.getAllInvoiceList().then(function (data) {
+                                      addVS1Data('TInvoiceEx', JSON.stringify(data)).then(function (datareturn) {
                                         //window.open('/invoicelist','_self');
-                                        });
-                                      }).catch(function(err) {
-                                      //window.open('/invoicelist','_self');
+                                      }).catch(function (err) {
+                                        //window.open('/invoicelist','_self');
                                       });
-                                    }else{
-                                      let dataOld = JSON.parse(dataObject[0].data);
-                                      let oldObjectData = dataOld.tinvoiceex;
-                    
-                                      let dataNew = dataUpdate;
-                                      let newObjectData = dataNew.tinvoiceex;
-                                      let index = '';
-                                      let index2 = '';
-                    
-                                      var resultArray = []
-                    
-                                      oldObjectData.forEach(function(destObj) {
-                                          var addedcheck=false;
-                                          newObjectData.some(function(origObj) {
-                                            if(origObj.fields.ID == destObj.fields.ID) {
-                                              addedcheck = true;
-                                              index = oldObjectData.map(function (e) { return e.fields.ID; }).indexOf(parseInt(origObj.fields.ID));
-                                              destObj = origObj;
-                                              resultArray.push(destObj);
-                    
-                                            }
-                                          });
-                                          if(!addedcheck) {
-                                                resultArray.push(destObj)
-                                          }
-                    
-                                        });
-                                        newObjectData.forEach(function(origObj) {
-                                          var addedcheck=false;
-                                          oldObjectData.some(function(destObj) {
-                                            if(origObj.fields.ID == destObj.fields.ID) {
-                                              addedcheck = true;
-                                              index = oldObjectData.map(function (e) { return e.fields.ID; }).indexOf(parseInt(origObj.fields.ID));
-                                              destObj = origObj;
-                                              resultArray.push(destObj);
-                    
-                                            }
-                                          });
-                                          if(!addedcheck) {
-                                                resultArray.push(origObj)
-                                          }
-                    
-                                        });
+                                    }).catch(function (err) {
+                                      //window.open('/invoicelist','_self');
+                                    });
+                                  } else {
+                                    let dataOld = JSON.parse(dataObject[0].data);
+                                    let oldObjectData = dataOld.tinvoiceex;
+
+                                    let dataNew = dataUpdate;
+                                    let newObjectData = dataNew.tinvoiceex;
+                                    let index = '';
+                                    let index2 = '';
+
+                                    var resultArray = []
+
+                                    oldObjectData.forEach(function (destObj) {
+                                      var addedcheck = false;
+                                      newObjectData.some(function (origObj) {
+                                        if (origObj.fields.ID == destObj.fields.ID) {
+                                          addedcheck = true;
+                                          index = oldObjectData.map(function (e) { return e.fields.ID; }).indexOf(parseInt(origObj.fields.ID));
+                                          destObj = origObj;
+                                          resultArray.push(destObj);
+
+                                        }
+                                      });
+                                      if (!addedcheck) {
+                                        resultArray.push(destObj)
+                                      }
+
+                                    });
+                                    newObjectData.forEach(function (origObj) {
+                                      var addedcheck = false;
+                                      oldObjectData.some(function (destObj) {
+                                        if (origObj.fields.ID == destObj.fields.ID) {
+                                          addedcheck = true;
+                                          index = oldObjectData.map(function (e) { return e.fields.ID; }).indexOf(parseInt(origObj.fields.ID));
+                                          destObj = origObj;
+                                          resultArray.push(destObj);
+
+                                        }
+                                      });
+                                      if (!addedcheck) {
+                                        resultArray.push(origObj)
+                                      }
+
+                                    });
                                     var resultGetData = [];
                                     $.each(resultArray, function (i, e) {
                                       var matchingItems = $.grep(resultGetData, function (item) {
-                                         return item.fields.ID === e.fields.ID;
+                                        return item.fields.ID === e.fields.ID;
                                       });
-                                      if (matchingItems.length === 0){
-                                          resultGetData.push(e);
+                                      if (matchingItems.length === 0) {
+                                        resultGetData.push(e);
                                       }
-                                  });
-                    
-                                  let dataToAdd = {
+                                    });
+
+                                    let dataToAdd = {
                                       tinvoiceex: resultGetData
-                                  };
-                                    addVS1Data('TInvoiceEx',JSON.stringify(dataToAdd)).then(function (datareturn) {
-                                     // window.open('/invoicelist','_self');
+                                    };
+                                    addVS1Data('TInvoiceEx', JSON.stringify(dataToAdd)).then(function (datareturn) {
+                                      // window.open('/invoicelist','_self');
                                     }).catch(function (err) {
-                                     // window.open('/invoicelist','_self');
+                                      // window.open('/invoicelist','_self');
                                     });
-                                    }
-                    
-                                  }).catch(function(err) {
-                                    addVS1Data('TInvoiceEx',dataObject[0].data).then(function (datareturn) {
-                                      //window.open('/invoicelist','_self');
-                                    }).catch(function (err) {
-                                      //window.open('/invoicelist','_self');
-                                    });
+                                  }
+
+                                }).catch(function (err) {
+                                  addVS1Data('TInvoiceEx', dataObject[0].data).then(function (datareturn) {
+                                    //window.open('/invoicelist','_self');
+                                  }).catch(function (err) {
+                                    //window.open('/invoicelist','_self');
                                   });
-                                }
-                    
+                                });
+                              }
+
                             }
                           }
-                          }
-                        }).catch(function (err) {
-                          sideBarService.getAllInvoiceList().then(function(data) {
-                            addVS1Data('TInvoiceEx',JSON.stringify(data)).then(function (datareturn) {
-                             // window.open('/invoicelist','_self');
-                            }).catch(function (err) {
-                            //window.open('/invoicelist','_self');
-                            });
-                          }).catch(function(err) {
+                        }
+                      }).catch(function (err) {
+                        sideBarService.getAllInvoiceList().then(function (data) {
+                          addVS1Data('TInvoiceEx', JSON.stringify(data)).then(function (datareturn) {
+                            // window.open('/invoicelist','_self');
+                          }).catch(function (err) {
                             //window.open('/invoicelist','_self');
                           });
+                        }).catch(function (err) {
+                          //window.open('/invoicelist','_self');
                         });
-                      }).catch(function (err) {
-                     //window.open('/appointmentlist','_self');
                       });
-                    }).catch(function(err) {
-                    //window.open('/appointmentlist','_self');
+                    }).catch(function (err) {
+                      //window.open('/appointmentlist','_self');
                     });
-                  }else{
-                    let dataOld = JSON.parse(dataObject[0].data);
-                    let oldObjectData = dataOld.tappointment;
+                  }).catch(function (err) {
+                    //window.open('/appointmentlist','_self');
+                  });
+                } else {
+                  let dataOld = JSON.parse(dataObject[0].data);
+                  let oldObjectData = dataOld.tappointment;
 
-                    let dataNew = dataUpdate;
-                    let newObjectData = dataNew.tappointment;
-                    let index = '';
-                    let index2 = '';
+                  let dataNew = dataUpdate;
+                  let newObjectData = dataNew.tappointment;
+                  let index = '';
+                  let index2 = '';
 
-                    var resultArray = []
+                  var resultArray = []
 
-                    oldObjectData.forEach(function(destObj) {
-                        var addedcheck=false;
-                        newObjectData.some(function(origObj) {
-                          if(origObj.fields.ID == destObj.fields.ID) {
-                            addedcheck = true;
-                            index = oldObjectData.map(function (e) { return e.fields.ID; }).indexOf(parseInt(origObj.fields.ID));
-                            destObj = origObj;
-                            resultArray.push(destObj);
+                  oldObjectData.forEach(function (destObj) {
+                    var addedcheck = false;
+                    newObjectData.some(function (origObj) {
+                      if (origObj.fields.ID == destObj.fields.ID) {
+                        addedcheck = true;
+                        index = oldObjectData.map(function (e) { return e.fields.ID; }).indexOf(parseInt(origObj.fields.ID));
+                        destObj = origObj;
+                        resultArray.push(destObj);
 
-                          }
-                        });
-                        if(!addedcheck) {
-                              resultArray.push(destObj)
-                        }
+                      }
+                    });
+                    if (!addedcheck) {
+                      resultArray.push(destObj)
+                    }
 
-                      });
-                      newObjectData.forEach(function(origObj) {
-                        var addedcheck=false;
-                        oldObjectData.some(function(destObj) {
-                          if(origObj.fields.ID == destObj.fields.ID) {
-                            addedcheck = true;
-                            index = oldObjectData.map(function (e) { return e.fields.ID; }).indexOf(parseInt(origObj.fields.ID));
-                            destObj = origObj;
-                            resultArray.push(destObj);
+                  });
+                  newObjectData.forEach(function (origObj) {
+                    var addedcheck = false;
+                    oldObjectData.some(function (destObj) {
+                      if (origObj.fields.ID == destObj.fields.ID) {
+                        addedcheck = true;
+                        index = oldObjectData.map(function (e) { return e.fields.ID; }).indexOf(parseInt(origObj.fields.ID));
+                        destObj = origObj;
+                        resultArray.push(destObj);
 
-                          }
-                        });
-                        if(!addedcheck) {
-                              resultArray.push(origObj)
-                        }
+                      }
+                    });
+                    if (!addedcheck) {
+                      resultArray.push(origObj)
+                    }
 
-                      });
+                  });
                   var resultGetData = [];
                   $.each(resultArray, function (i, e) {
                     var matchingItems = $.grep(resultGetData, function (item) {
-                       return item.fields.ID === e.fields.ID;
+                      return item.fields.ID === e.fields.ID;
                     });
-                    if (matchingItems.length === 0){
-                        resultGetData.push(e);
+                    if (matchingItems.length === 0) {
+                      resultGetData.push(e);
                     }
-                });
+                  });
 
-                let dataToAdd = {
+                  let dataToAdd = {
                     tappointment: resultGetData
-                };
-                  addVS1Data('TAppointment',JSON.stringify(dataToAdd)).then(function (datareturn) {
+                  };
+                  addVS1Data('TAppointment', JSON.stringify(dataToAdd)).then(function (datareturn) {
                     getVS1Data('TInvoiceEx').then(function (dataObject) {
-                      if(dataObject.length == 0){
-                        sideBarService.getAllInvoiceList().then(function(data) {
-                          addVS1Data('TInvoiceEx',JSON.stringify(data)).then(function (datareturn) {
-                            window.open('/appointmentlist','_self');
+                      if (dataObject.length == 0) {
+                        sideBarService.getAllInvoiceList().then(function (data) {
+                          addVS1Data('TInvoiceEx', JSON.stringify(data)).then(function (datareturn) {
+                            window.open('/appointmentlist', '_self');
                           }).catch(function (err) {
-                            window.open('/appointmentlist','_self');
+                            window.open('/appointmentlist', '_self');
                           });
-                        }).catch(function(err) {
-                          window.open('/appointmentlist','_self');
+                        }).catch(function (err) {
+                          window.open('/appointmentlist', '_self');
                         });
-                      }else{
+                      } else {
                         let data = JSON.parse(dataObject[0].data);
                         let useData = data.tinvoiceex;
-                        if(useData[0].Id){
-                          sideBarService.getAllInvoiceList().then(function(data) {
-                            addVS1Data('TInvoiceEx',JSON.stringify(data)).then(function (datareturn) {
-                              window.open('/appointmentlist','_self');
+                        if (useData[0].Id) {
+                          sideBarService.getAllInvoiceList().then(function (data) {
+                            addVS1Data('TInvoiceEx', JSON.stringify(data)).then(function (datareturn) {
+                              window.open('/appointmentlist', '_self');
                             }).catch(function (err) {
-                              window.open('/appointmentlist','_self');
+                              window.open('/appointmentlist', '_self');
                             });
-                          }).catch(function(err) {
-                            window.open('/appointmentlist','_self');
+                          }).catch(function (err) {
+                            window.open('/appointmentlist', '_self');
                           });
-                        }else{
-                        let getTimeStamp = dataObject[0].timestamp;
-                        if(getTimeStamp){
-                            if(getTimeStamp[0] != currenctTodayDate){
-                              sideBarService.getAllInvoiceListUpdate(getTimeStamp).then(function(dataUpdate) {
+                        } else {
+                          let getTimeStamp = dataObject[0].timestamp;
+                          if (getTimeStamp) {
+                            if (getTimeStamp[0] != currenctTodayDate) {
+                              sideBarService.getAllInvoiceListUpdate(getTimeStamp).then(function (dataUpdate) {
                                 let newDataObject = [];
-                                if(dataUpdate.tinvoiceex.length === 0){
-                                  sideBarService.getAllInvoiceList().then(function(data) {
-                                    addVS1Data('TInvoiceEx',JSON.stringify(data)).then(function (datareturn) {
+                                if (dataUpdate.tinvoiceex.length === 0) {
+                                  sideBarService.getAllInvoiceList().then(function (data) {
+                                    addVS1Data('TInvoiceEx', JSON.stringify(data)).then(function (datareturn) {
                                       //window.open('/invoicelist','_self');
                                     }).catch(function (err) {
-                                    //window.open('/invoicelist','_self');
+                                      //window.open('/invoicelist','_self');
                                     });
-                                  }).catch(function(err) {
-                                  //window.open('/invoicelist','_self');
+                                  }).catch(function (err) {
+                                    //window.open('/invoicelist','_self');
                                   });
-                                }else{
+                                } else {
                                   let dataOld = JSON.parse(dataObject[0].data);
                                   let oldObjectData = dataOld.tinvoiceex;
-                
+
                                   let dataNew = dataUpdate;
                                   let newObjectData = dataNew.tinvoiceex;
                                   let index = '';
                                   let index2 = '';
-                
+
                                   var resultArray = []
-                
-                                  oldObjectData.forEach(function(destObj) {
-                                      var addedcheck=false;
-                                      newObjectData.some(function(origObj) {
-                                        if(origObj.fields.ID == destObj.fields.ID) {
-                                          addedcheck = true;
-                                          index = oldObjectData.map(function (e) { return e.fields.ID; }).indexOf(parseInt(origObj.fields.ID));
-                                          destObj = origObj;
-                                          resultArray.push(destObj);
-                
-                                        }
-                                      });
-                                      if(!addedcheck) {
-                                            resultArray.push(destObj)
+
+                                  oldObjectData.forEach(function (destObj) {
+                                    var addedcheck = false;
+                                    newObjectData.some(function (origObj) {
+                                      if (origObj.fields.ID == destObj.fields.ID) {
+                                        addedcheck = true;
+                                        index = oldObjectData.map(function (e) { return e.fields.ID; }).indexOf(parseInt(origObj.fields.ID));
+                                        destObj = origObj;
+                                        resultArray.push(destObj);
+
                                       }
-                
                                     });
-                                    newObjectData.forEach(function(origObj) {
-                                      var addedcheck=false;
-                                      oldObjectData.some(function(destObj) {
-                                        if(origObj.fields.ID == destObj.fields.ID) {
-                                          addedcheck = true;
-                                          index = oldObjectData.map(function (e) { return e.fields.ID; }).indexOf(parseInt(origObj.fields.ID));
-                                          destObj = origObj;
-                                          resultArray.push(destObj);
-                
-                                        }
-                                      });
-                                      if(!addedcheck) {
-                                            resultArray.push(origObj)
-                                      }
-                
-                                    });
-                                var resultGetData = [];
-                                $.each(resultArray, function (i, e) {
-                                  var matchingItems = $.grep(resultGetData, function (item) {
-                                     return item.fields.ID === e.fields.ID;
+                                    if (!addedcheck) {
+                                      resultArray.push(destObj)
+                                    }
+
                                   });
-                                  if (matchingItems.length === 0){
+                                  newObjectData.forEach(function (origObj) {
+                                    var addedcheck = false;
+                                    oldObjectData.some(function (destObj) {
+                                      if (origObj.fields.ID == destObj.fields.ID) {
+                                        addedcheck = true;
+                                        index = oldObjectData.map(function (e) { return e.fields.ID; }).indexOf(parseInt(origObj.fields.ID));
+                                        destObj = origObj;
+                                        resultArray.push(destObj);
+
+                                      }
+                                    });
+                                    if (!addedcheck) {
+                                      resultArray.push(origObj)
+                                    }
+
+                                  });
+                                  var resultGetData = [];
+                                  $.each(resultArray, function (i, e) {
+                                    var matchingItems = $.grep(resultGetData, function (item) {
+                                      return item.fields.ID === e.fields.ID;
+                                    });
+                                    if (matchingItems.length === 0) {
                                       resultGetData.push(e);
-                                  }
-                              });
-                
-                              let dataToAdd = {
-                                  tinvoiceex: resultGetData
-                              };
-                                addVS1Data('TInvoiceEx',JSON.stringify(dataToAdd)).then(function (datareturn) {
-                                  window.open('/appointmentlist','_self');
-                                }).catch(function (err) {
-                                  window.open('/appointmentlist','_self');
-                                });
+                                    }
+                                  });
+
+                                  let dataToAdd = {
+                                    tinvoiceex: resultGetData
+                                  };
+                                  addVS1Data('TInvoiceEx', JSON.stringify(dataToAdd)).then(function (datareturn) {
+                                    window.open('/appointmentlist', '_self');
+                                  }).catch(function (err) {
+                                    window.open('/appointmentlist', '_self');
+                                  });
                                 }
-                
-                              }).catch(function(err) {
-                                addVS1Data('TInvoiceEx',dataObject[0].data).then(function (datareturn) {
-                                  window.open('/appointmentlist','_self');
+
+                              }).catch(function (err) {
+                                addVS1Data('TInvoiceEx', dataObject[0].data).then(function (datareturn) {
+                                  window.open('/appointmentlist', '_self');
                                 }).catch(function (err) {
-                                  window.open('/appointmentlist','_self');
+                                  window.open('/appointmentlist', '_self');
                                 });
                               });
                             }
-                
+
+                          }
                         }
                       }
-                      }
                     }).catch(function (err) {
-                      sideBarService.getAllInvoiceList().then(function(data) {
-                        addVS1Data('TInvoiceEx',JSON.stringify(data)).then(function (datareturn) {
-                         // window.open('/invoicelist','_self');
+                      sideBarService.getAllInvoiceList().then(function (data) {
+                        addVS1Data('TInvoiceEx', JSON.stringify(data)).then(function (datareturn) {
+                          // window.open('/invoicelist','_self');
                         }).catch(function (err) {
-                        //window.open('/invoicelist','_self');
+                          //window.open('/invoicelist','_self');
                         });
-                      }).catch(function(err) {
+                      }).catch(function (err) {
                         //window.open('/invoicelist','_self');
                       });
                     });
                   }).catch(function (err) {
-                  window.open('/appointmentlist','_self');
+                    window.open('/appointmentlist', '_self');
                   });
-                  }
+                }
 
-                }).catch(function(err) {
-                  addVS1Data('TAppointment',dataObject[0].data).then(function (datareturn) {
-                   window.open('/appointmentlist','_self');
-                  }).catch(function (err) {
-                   window.open('/appointmentlist','_self');
-                  });
+              }).catch(function (err) {
+                addVS1Data('TAppointment', dataObject[0].data).then(function (datareturn) {
+                  window.open('/appointmentlist', '_self');
+                }).catch(function (err) {
+                  window.open('/appointmentlist', '_self');
                 });
-              }
+              });
+            }
 
           }
         }
-        
-        }
-      }).catch(function (err) {
-        sideBarService.getAllAppointmentList().then(function(data) {
-          addVS1Data('TAppointment',JSON.stringify(data)).then(function (datareturn) {
-            //window.open('/appointmentlist','_self');
-          }).catch(function (err) {
+
+      }
+    }).catch(function (err) {
+      sideBarService.getAllAppointmentList().then(function (data) {
+        addVS1Data('TAppointment', JSON.stringify(data)).then(function (datareturn) {
           //window.open('/appointmentlist','_self');
-          });
-        }).catch(function(err) {
-         //window.open('/appointmentlist','_self');
+        }).catch(function (err) {
+          //window.open('/appointmentlist','_self');
         });
+      }).catch(function (err) {
+        //window.open('/appointmentlist','_self');
       });
+    });
 
   },
   'click .chkDatatable': function (event) {
@@ -1865,7 +1828,7 @@ Template.appointmentlist.events({
     }
   },
   'submit #frmAppointment': function (event) {
-    
+
     $('.fullScreenSpin').css('display', 'inline-block');
     let appointmentService = new AppointmentService();
     var frmAppointment = $('#frmAppointment')[0];

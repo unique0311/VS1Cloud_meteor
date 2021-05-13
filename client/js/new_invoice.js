@@ -1667,7 +1667,7 @@ Template.new_invoice.onRendered(() => {
             };
             templateObject.getInvoiceData();
             // Send Email
-           
+            try {
             $('.pdfCustomerName').html($('#edtCustomerName').val());
             $('.pdfCustomerAddress').html($('#txabillingAddress').val());
             $('.link').hide();
@@ -1828,6 +1828,10 @@ Template.new_invoice.onRendered(() => {
                         // $('#html-2-pdfwrapper').css('display','none');
                     });
                 });
+            }
+        }
+            catch(err){
+                console.log(err)
             }
         //    if(document.referrer) {
 
