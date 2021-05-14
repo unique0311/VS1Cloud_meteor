@@ -68,6 +68,18 @@ Template.appointmenttimelist.onRendered(function () {
     return Math.abs(diff);
   }
 
+  templateObject.diff_hours1 = function (dt2, dt1) {
+    var diff = (dt2.getTime() - dt1.getTime()) / 1000;
+    let hours = Math.floor(diff /3600 ) % 24;
+    let min =  Math.floor(diff / 60) % 60;
+    let time = hours+"h:"+("0"+min).slice(-2)+"m"
+
+    if(hours < 1 && min < 1){
+      time = 0;
+    }
+    return time;
+  }
+
   templateObject.dateFormat = function (date) {
     var dateParts = date.split("/");
     var dateObject = dateParts[2] + '/' + ('0' + (dateParts[1] - 1)).toString().slice(-2) + '/' + dateParts[0];
@@ -600,7 +612,8 @@ Template.appointmenttimelist.onRendered(function () {
                     let dt1 = new Date(time.getFullYear() +'-'+("0"+(time.getMonth()+1)).slice(-2)+'-'+("0"+(time.getDate()+1)).slice(-1) + ' '+ useData[i].fields.AppointmentsTimeLog[a].fields.StartDatetime.split(' ')[0]);
                     let dt2 = new Date(time.getFullYear() +'-'+("0"+(time.getMonth()+1)).slice(-2)+'-'+("0"+(time.getDate()+1)).slice(-1) + ' '+  useData[i].fields.AppointmentsTimeLog[a].fields.EndDatetime.split(' ')[0]);
                     if(useData[i].fields.AppointmentsTimeLog[a].fields.StartDatetime != "" && useData[i].fields.AppointmentsTimeLog[a].fields.EndDatetime != "") {
-                        Hours = templateObject.diff_hours(dt2, dt1).toFixed(2);
+                        Hours = templateObject.diff_hours1(dt2, dt1);
+                        console.log(Hours);
                     } else {
                         Hours = 0;
                     }
@@ -658,7 +671,7 @@ Template.appointmenttimelist.onRendered(function () {
                   let dt1 = new Date(time.getFullYear() +'-'+("0"+(time.getMonth()+1)).slice(-2)+'-'+("0"+(time.getDate()+1)).slice(-1) + ' '+ useData[i].fields.AppointmentsTimeLog[a].fields.StartDatetime.split(' ')[0]);
                   let dt2 = new Date(time.getFullYear() +'-'+("0"+(time.getMonth()+1)).slice(-2)+'-'+("0"+(time.getDate()+1)).slice(-1) + ' '+  useData[i].fields.AppointmentsTimeLog[a].fields.EndDatetime.split(' ')[0]);
                   if(useData[i].fields.AppointmentsTimeLog[a].fields.StartDatetime != "" && useData[i].fields.AppointmentsTimeLog[a].fields.EndDatetime != "") {
-                      Hours = templateObject.diff_hours(dt2, dt1).toFixed(2);
+                      Hours = templateObject.diff_hours1(dt2, dt1);
                   } else {
                       Hours = 0;
                   }
@@ -717,7 +730,7 @@ Template.appointmenttimelist.onRendered(function () {
                   let dt1 = new Date(time.getFullYear() +'-'+("0"+(time.getMonth()+1)).slice(-2)+'-'+("0"+(time.getDate()+1)).slice(-1) + ' '+ useData[i].fields.AppointmentsTimeLog.fields.StartDatetime.split(' ')[0]);
                   let dt2 = new Date(time.getFullYear() +'-'+("0"+(time.getMonth()+1)).slice(-2)+'-'+("0"+(time.getDate()+1)).slice(-1) + ' '+  useData[i].fields.AppointmentsTimeLog.fields.EndDatetime.split(' ')[0]);
                   if(useData[i].fields.AppointmentsTimeLog.fields.StartDatetime != "" && useData[i].fields.AppointmentsTimeLog.fields.EndDatetime != "") {
-                      Hours = templateObject.diff_hours(dt2, dt1).toFixed(2);
+                      Hours = templateObject.diff_hours1(dt2, dt1);
                   } else {
                       Hours = 0;
                   }
@@ -771,10 +784,11 @@ Template.appointmenttimelist.onRendered(function () {
                 }
                 
                 let time = new Date();
-                let dt1 = new Date(time.getFullYear() +'-'+("0"+(time.getMonth()+1)).slice(-2)+'-'+("0"+(time.getDate()+1)).slice(-1) + ' '+ useData[i].fields.AppointmentsTimeLog[a].fields.StartDatetime.split(' ')[0]);
-                let dt2 = new Date(time.getFullYear() +'-'+("0"+(time.getMonth()+1)).slice(-2)+'-'+("0"+(time.getDate()+1)).slice(-1) + ' '+  useData[i].fields.AppointmentsTimeLog[a].fields.EndDatetime.split(' ')[0]);
+                let dt1 = new Date(time.getFullYear() +'-'+("0"+(time.getMonth()+1)).slice(-2)+'-'+("0"+(time.getDate()+1)).slice(-1) + ' '+ useData[i].fields.AppointmentsTimeLog.fields.StartDatetime.split(' ')[0]);
+                let dt2 = new Date(time.getFullYear() +'-'+("0"+(time.getMonth()+1)).slice(-2)+'-'+("0"+(time.getDate()+1)).slice(-1) + ' '+  useData[i].fields.AppointmentsTimeLog.fields.EndDatetime.split(' ')[0]);
                 if(useData[i].fields.AppointmentsTimeLog.fields.StartDatetime != "" && useData[i].fields.AppointmentsTimeLog.fields.EndDatetime != "") {
-                    Hours = templateObject.diff_hours(dt2, dt1).toFixed(2);
+                    Hours = templateObject.diff_hours1(dt2, dt1);
+                    console.log(Hours);
                 } else {
                     Hours = 0;
                 }
@@ -955,6 +969,7 @@ Template.appointmenttimelist.onRendered(function () {
       templateObject.tableheaderrecords.set(tableHeaderList);
       $('div.dataTables_filter input').addClass('form-control form-control-sm');
     }).catch(function (err) {
+      console.log(err);
       sideBarService.getAllAppointmentList().then(function (data) {
         // localStorage.setItem('VS1TReconcilationList', JSON.stringify(data)||'');
         let lineItems = [];

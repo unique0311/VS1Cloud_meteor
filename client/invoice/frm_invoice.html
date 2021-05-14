@@ -956,7 +956,7 @@ style="margin: 16px;margin-top: 0px;width: 95px;"><i class="fa fa-remove" style=
             <hr>
             <div style="height: 160mm;">
                 <div style="margin: 8px; border: none !important; background-color: rgba(0,0,0,0);">
-                    <table style="width: 200mm; max-width: 200mm; margin: auto;">
+                    <table class="invoice_print" style="width: 200mm; max-width: 200mm; margin: auto;">
                         <thead style="color: rgb(251,251,251);">
                             <tr style="border-bottom: 1px solid rgba(0, 0, 0, 1);">
                                 <th style="width: 200px; background-color: white; color: rgb(0 0 0);">Product Name</th>
@@ -969,13 +969,13 @@ style="margin: 16px;margin-top: 0px;width: 95px;"><i class="fa fa-remove" style=
                         </thead>
                         <tbody style="color: rgb(0 0 0);">
                             {{#each item in invoicerecord.LineItems}}
-                            <tr style="border-bottom: 1px solid rgba(0, 0, 0, .1);">
-                                <td>{{item.item}}</td>
-                                <td>{{item.description}}</td>
-                                <td style="text-align: right;">{{item.quantity}}</td>
-                                <td style="text-align: right;">{{item.unitPrice}}</td>
-                                <td style="text-align: right;">{{item.TaxTotal}}</td>
-                                <td style="text-align: right;">{{item.TotalAmt}}</td>
+                            <tr id={{item.lineID}} style="border-bottom: 1px solid rgba(0, 0, 0, .1);">
+                                <td id="lineProductName">{{item.item}}</td>
+                                <td id="lineProductDesc">{{item.description}}</td>
+                                <td id="lineQty" style="text-align: right;">{{item.quantity}}</td>
+                                <td id="lineUnitPrice" style="text-align: right;">{{item.unitPrice}}</td>
+                                <td id="lineTaxAmount" style="text-align: right;">{{item.TaxTotal}}</td>
+                                <td id="lineAmt" style="text-align: right;">{{item.TotalAmt}}</td>
                             </tr>
                             {{/each}}
                         </tbody>
@@ -991,8 +991,8 @@ style="margin: 16px;margin-top: 0px;width: 95px;"><i class="fa fa-remove" style=
                 <div style="margin: 8px; border: none !important; min-width: 90mm;max-width: 90mm;width: 90mm;">
                     <div style="width: 100%; display: flex;">
                         <div style="padding-right: 16px; width: 50%;">
-                            <p style="font-weight: 600; margin-bottom: 8px; color: rgb(0 0 0);">Sub Total</p>
-                            <p style="font-weight: 600; margin-bottom: 8px; color: rgb(0 0 0);">Total GST</p>
+                            <p id="subtotal_total" style="font-weight: 600; margin-bottom: 8px; color: rgb(0 0 0);">Sub Total</p>
+                            <p id="grandTotal" style="font-weight: 600; margin-bottom: 8px; color: rgb(0 0 0);">Total GST</p>
                         </div>
                         <div style="padding-left: 16px; width: 50%;">
                             <p style="text-align: right; margin-bottom: 8px; font-weight: 600; color: rgb(0 0 0);">{{invoicerecord.SubTotal}}</p>
@@ -1012,7 +1012,7 @@ style="margin: 16px;margin-top: 0px;width: 95px;"><i class="fa fa-remove" style=
                     <div style="width: 100%; display: flex;">
                         <div style="padding-right: 16px; width: 50%;">
                             <p style="font-weight: 600; margin-bottom: 8px; color: rgb(0 0 0);">Paid Amount</p>
-                            <p style="font-weight: 600; margin-bottom: 8px; color: rgb(0 0 0);">Balance Due</p>
+                            <p id="totalBalanceDue" style="font-weight: 600; margin-bottom: 8px; color: rgb(0 0 0);">Balance Due</p>
                         </div>
                         <div style="padding-left: 16px; width: 50%;">
                             <p style="text-align: right; margin-bottom: 8px; font-weight: 600; color: rgb(0 0 0);">{{invoicerecord.totalPaid}}</p>
