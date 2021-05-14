@@ -6876,6 +6876,9 @@ Template.appointments.events({
     'click #btnRepeatApp': function (event) {
         $('#frmOptions').modal('hide');
     },
+    'click #btnAppOptionsModal': function (event) {
+        $('#frmOptions').modal('hide');
+    },
     'change #showSaturday1': function () {
         var checkbox = document.querySelector("#showSaturday");
         if (checkbox.checked) {
