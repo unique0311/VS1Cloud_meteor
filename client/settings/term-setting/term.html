@@ -65,7 +65,9 @@
                                                                         </div>
                                                                     </div>
                                                                     <!-- End Help View Modal -->
-                                                                </h4><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button></div>
+                                                                </h4>
+                                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                                                            </div>
                                                             <div class="modal-body" style="background-color: #ededed;">
                                                                 <input type="hidden" class="form-control" id="edtTermsID" name="edtTermsID" style="display:none;">
                                                                 <div class="row no-gutters">
@@ -89,6 +91,24 @@
                                                                             {{else}}
                                                                             <div class="custom-control custom-checkbox chkBox" style="height: 38px; text-align: center; padding-top: 7px;"><input class="custom-control-input chkBox chkTerms" type="checkbox" id="isEOMPlus" name="group1[]"><label class="custom-control-label chkBox" for="isEOMPlus"></label></div>
                                                                             {{/if}}
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row no-gutters">
+                                                                    <div class="col-12">
+                                                                        <div class="form-group" style="margin: 4px 8px;">
+                                                                            <div class="custom-control custom-checkbox chkBox" style="height: 38px; padding-top: 7px;">
+                                                                                <input class="custom-control-input chkBox chkCustomerDef" type="checkbox" id="chkCustomerDef" name="group1[]">
+                                                                                <label class="custom-control-label chkBox" for="chkCustomerDef">Customer Default</label>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-12">
+                                                                        <div class="form-group" style="margin: 4px 8px;">
+                                                                            <div class="custom-control custom-checkbox chkBox" style="height: 38px; padding-top: 7px;">
+                                                                                <input class="custom-control-input chkBox chkClientDef" type="checkbox" id="chkClientDef" name="group1[]">
+                                                                                <label class="custom-control-label chkBox" for="chkClientDef">Client Default</label>
+                                                                            </div>
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -305,6 +325,8 @@
                                                     <th class="th colIsEOM" style="width:100px">EOM</th>
                                                     <th class="th colIsEOMPlus" style="width:100px">EOM Plus</th>
                                                     <th class="th colDescription">Description</th>
+                                                    <th class="th colCustomerDef" style="width: 150px;">Customer Default</th>
+                                                    <th class="th colClientDef" style="width: 150px;">Client Default</th>
                                                     <th class="th colDelete" style="width:20px;"></th>
                                                 </tr>
                                             </thead>
@@ -336,6 +358,12 @@
                                                         {{/if}}
                                                     </td>
                                                     <td contenteditable="false" class="colDescription">{{item.description}}</td>
+                                                    <td contenteditable="false" class="colCustomerDef text-center" >
+                                                        <div class="custom-control custom-checkbox chkBox"><input class="custom-control-input chkBox" type="checkbox" id="colCustomerDef-{{item.id}}"><label class="custom-control-label chkBox" for="colCustomerDef-{{item.id}}"></label></div>
+                                                    </td>
+                                                    <td contenteditable="false" class="colClientDef text-center" >
+                                                        <div class="custom-control custom-checkbox chkBox"><input class="custom-control-input chkBox" type="checkbox" id="colClientDef-{{item.id}}"><label class="custom-control-label chkBox" for="colClientDef-{{item.id}}"></label></div>
+                                                    </td>
                                                     <td contenteditable="false" class="colDelete"><span class="table-remove"><button type="button" class="btn btn-danger btn-rounded btn-sm my-0"><i class="fa fa-remove"></i></button></span></td>
                                                 </tr>
                                                 {{/each}}
