@@ -2,7 +2,7 @@
   "short_name": "VS1Cloud",
   "name": "VS1Cloud",
   "start_url": "/",
-  "display": "standalone",
+  "display": "browser",
   "icons": [
     {
       "src": "/images/icons-192.png",
