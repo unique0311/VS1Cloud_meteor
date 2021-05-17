@@ -1264,7 +1264,7 @@ $("#erplogin-button").click(function(e){
 
     $('.loginSpinner').css('display','inline-block');
     $('.fullScreenSpin').css('display','inline-block');
-    var serverTest = URLRequest + "165.228.147.127" + ':' + checkSSLPorts + '/erpapi/Vs1_Logon?Vs1UserName="'+userLoginEmail+'"&vs1Password="'+userLoginPassword+'"';
+    var serverTest = URLRequest + licenceIPAddress + ':' + checkSSLPorts + '/erpapi/Vs1_Logon?Vs1UserName="'+userLoginEmail+'"&vs1Password="'+userLoginPassword+'"';
     //alert(serverTest);
     var oReq = new XMLHttpRequest();
     oReq.open("GET",serverTest, true);
@@ -1279,7 +1279,7 @@ $("#erplogin-button").click(function(e){
       if (oReq.readyState == 4 && oReq.status == 200) {
         $('.loginSpinner').css('display','inline-block');
         $('.fullScreenSpin').css('display','inline-block');
-        Session.setPersistent('mainEIPAddress', '165.228.147.127');
+        Session.setPersistent('mainEIPAddress', licenceIPAddress);
         Session.setPersistent('mainEPort', checkSSLPorts);
        // alert(oReq.responseText);
         //document.getElementById("result").innerHTML = oReq.responseText;

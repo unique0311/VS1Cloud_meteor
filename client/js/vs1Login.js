@@ -1841,19 +1841,36 @@ $("#erplogin-button").click(async function(e){
                   $('.loginSpinner').css('display','none');
                   $('.fullScreenSpin').css('display','none');
                 }else if(oReq.readyState == 4 && oReq.status == 500){
-                  swal({
-                    title: 'Something went wrong',
-                    text: oReq.getResponseHeader('errormessage'),
-                    type: 'error',
-                    showCancelButton: false,
-                    confirmButtonText: 'Try Again'
-                    }).then((result) => {
-                    if (result.value) {
-                      Meteor._reload.reload();
-                    } else if (result.dismiss === 'cancel') {
+                  var ErrorResponse = oReq.getResponseHeader('errormessage');
+                  if (ErrorResponse.indexOf("Access violation") >= 0){
+                    swal({
+                      title: 'Something went wrong',
+                      text: "Your database is being created. Please try again in 10 minutes",
+                      type: 'error',
+                      showCancelButton: false,
+                      confirmButtonText: 'Try Again'
+                      }).then((result) => {
+                      if (result.value) {
+                        Meteor._reload.reload();
+                      } else if (result.dismiss === 'cancel') {
 
-                    }
-                  });
+                      }
+                    });
+                  }else{
+                    swal({
+                      title: 'Something went wrong',
+                      text: oReq.getResponseHeader('errormessage'),
+                      type: 'error',
+                      showCancelButton: false,
+                      confirmButtonText: 'Try Again'
+                      }).then((result) => {
+                      if (result.value) {
+                        Meteor._reload.reload();
+                      } else if (result.dismiss === 'cancel') {
+
+                      }
+                    });
+                  }
                   $('.loginSpinner').css('display','none');
                   $('.fullScreenSpin').css('display','none');
                 }else{
@@ -2829,19 +2846,36 @@ $("#erplogin-button").click(async function(e){
                 $('.loginSpinner').css('display','none');
                 $('.fullScreenSpin').css('display','none');
               }else if(oReq.readyState == 4 && oReq.status == 500){
-                swal({
-                  title: 'Something went wrong',
-                  text: oReq.getResponseHeader('errormessage'),
-                  type: 'error',
-                  showCancelButton: false,
-                  confirmButtonText: 'Try Again'
-                  }).then((result) => {
-                  if (result.value) {
-                    Meteor._reload.reload();
-                  } else if (result.dismiss === 'cancel') {
+                var ErrorResponse = oReq.getResponseHeader('errormessage');
+                if (ErrorResponse.indexOf("Access violation") >= 0){
+                  swal({
+                    title: 'Something went wrong',
+                    text: "Your database is being created. Please try again in 10 minutes",
+                    type: 'error',
+                    showCancelButton: false,
+                    confirmButtonText: 'Try Again'
+                    }).then((result) => {
+                    if (result.value) {
+                      Meteor._reload.reload();
+                    } else if (result.dismiss === 'cancel') {
 
-                  }
-                });
+                    }
+                  });
+                }else{
+                  swal({
+                    title: 'Something went wrong',
+                    text: oReq.getResponseHeader('errormessage'),
+                    type: 'error',
+                    showCancelButton: false,
+                    confirmButtonText: 'Try Again'
+                    }).then((result) => {
+                    if (result.value) {
+                      Meteor._reload.reload();
+                    } else if (result.dismiss === 'cancel') {
+
+                    }
+                  });
+                }
                 $('.loginSpinner').css('display','none');
                 $('.fullScreenSpin').css('display','none');
               }else{
@@ -2856,19 +2890,14 @@ $("#erplogin-button").click(async function(e){
           // process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = 0;
         var serverTest = URLRequest + licenceIPAddress + ':' + checkSSLPorts + '/erpapi/Vs1_Logon?Vs1UserName="'+userLoginEmail+'"&vs1Password="'+userLoginPassword+'"';
         //alert(serverTest);
-        let passwordS = "VS1_Cloud_Admin" + ':' + "DptfGw83mFl1j&9";
-        var cr = window.btoa(passwordS);
+        // let passwordS = "VS1_Cloud_Admin" + ':' + "DptfGw83mFl1j&9";
+        // var cr = window.btoa(passwordS);
         //var XMLHttpRequest = require("xmlhttprequest-ssl").XMLHttpRequest;
         var oReq = new XMLHttpRequest();
         oReq.open("GET",serverTest, true);
-        // oReq.setRequestHeader("Authorization","Basic " + cr);
-        // oReq.setRequestHeader("Content-Type","application/json");
-        // oReq.setRequestHeader("Access-Control-Allow-Origin","*");
-        // oReq.setRequestHeader("Access-Control-Allow-Headers","Origin, X-Requested-With, Content-Type, Accept");
         oReq.setRequestHeader("database",vs1loggedDatatbase);
-        // oReq.setRequestHeader("username","VS1_Cloud_Admin");
-        // oReq.setRequestHeader("password","DptfGw83mFl1j&9");
-        // oReq.timeout = RequestTimeoutMilliseconds;
+        oReq.setRequestHeader("username","VS1_Cloud_Admin");
+        oReq.setRequestHeader("password","DptfGw83mFl1j&9");
         oReq.send();
 
         // oReq.timeout = 30000;
@@ -3405,19 +3434,36 @@ $("#erplogin-button").click(async function(e){
             $('.loginSpinner').css('display','none');
             $('.fullScreenSpin').css('display','none');
           }else if(oReq.readyState == 4 && oReq.status == 500){
-            swal({
-              title: 'Something went wrong',
-              text: oReq.getResponseHeader('errormessage'),
-              type: 'error',
-              showCancelButton: false,
-              confirmButtonText: 'Try Again'
-              }).then((result) => {
-              if (result.value) {
-                Meteor._reload.reload();
-              } else if (result.dismiss === 'cancel') {
+            var ErrorResponse = oReq.getResponseHeader('errormessage');
+            if (ErrorResponse.indexOf("Access violation") >= 0){
+              swal({
+                title: 'Something went wrong',
+                text: "Your database is being created. Please try again in 10 minutes",
+                type: 'error',
+                showCancelButton: false,
+                confirmButtonText: 'Try Again'
+                }).then((result) => {
+                if (result.value) {
+                  Meteor._reload.reload();
+                } else if (result.dismiss === 'cancel') {
 
-              }
-            });
+                }
+              });
+            }else{
+              swal({
+                title: 'Something went wrong',
+                text: oReq.getResponseHeader('errormessage'),
+                type: 'error',
+                showCancelButton: false,
+                confirmButtonText: 'Try Again'
+                }).then((result) => {
+                if (result.value) {
+                  Meteor._reload.reload();
+                } else if (result.dismiss === 'cancel') {
+
+                }
+              });
+            }
             $('.loginSpinner').css('display','none');
             $('.fullScreenSpin').css('display','none');
           }else{
@@ -3931,19 +3977,37 @@ $("#erplogin-button").click(async function(e){
                 $('.loginSpinner').css('display','none');
                 $('.fullScreenSpin').css('display','none');
               }else if(oReq.readyState == 4 && oReq.status == 500){
-                swal({
-                  title: 'Something went wrong',
-                  text: oReq.getResponseHeader('errormessage'),
-                  type: 'error',
-                  showCancelButton: false,
-                  confirmButtonText: 'Try Again'
-                  }).then((result) => {
-                  if (result.value) {
-                    Meteor._reload.reload();
-                  } else if (result.dismiss === 'cancel') {
+                var ErrorResponse = oReq.getResponseHeader('errormessage');
+                if (ErrorResponse.indexOf("Access violation") >= 0){
+                  swal({
+                    title: 'Something went wrong',
+                    text: "Your database is being created. Please try again in 10 minutes",
+                    type: 'error',
+                    showCancelButton: false,
+                    confirmButtonText: 'Try Again'
+                    }).then((result) => {
+                    if (result.value) {
+                      Meteor._reload.reload();
+                    } else if (result.dismiss === 'cancel') {
 
-                  }
-                });
+                    }
+                  });
+                }else{
+                  swal({
+                    title: 'Something went wrong',
+                    text: oReq.getResponseHeader('errormessage'),
+                    type: 'error',
+                    showCancelButton: false,
+                    confirmButtonText: 'Try Again'
+                    }).then((result) => {
+                    if (result.value) {
+                      Meteor._reload.reload();
+                    } else if (result.dismiss === 'cancel') {
+
+                    }
+                  });
+                }
+
                 $('.loginSpinner').css('display','none');
                 $('.fullScreenSpin').css('display','none');
               }else{

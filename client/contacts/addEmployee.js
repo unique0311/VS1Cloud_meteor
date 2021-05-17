@@ -2248,9 +2248,9 @@ Template.employeescard.events({
                           Params: {
                               FirstName: firstname,
                               LastName: lastname,
-                              // EmployeeName: employeename,
-                              VS1UserName: erpGet.ERPUsername,
-                              VS1Password: erpGet.ERPPassword,
+                              EmployeeName: $('#edtCustomerCompany').val(),
+                              VS1UserName: $('#cloudCheckEmpEmailAddress').val(),
+                              VS1Password: $('#cloudCheckEmpUserPassword').val(),
                               NewPassword: cloudpassword
                           }
                           //}
@@ -2265,12 +2265,12 @@ Template.employeescard.events({
                       oPost.setRequestHeader("Accept", "application/json");
                       oPost.setRequestHeader("Accept", "application/html");
                       oPost.setRequestHeader("Content-type", "application/json");
-                      // console.log(objDetails);
+                      //console.log(objDetailsUserPassword);
                       //var myString = '"JsonIn"' + ':' + JSON.stringify(objDetailsUser);
                       var myStringUserPassword = JSON.stringify(objDetailsUserPassword);
                       //
                       oPost.send(myStringUserPassword);
-                      // console.log(oPost.status);
+                      //console.log(myStringUserPassword);
                       oPost.onreadystatechange = function () {
                           if (oPost.readyState == 4 && oPost.status == 200) {
                             if (employeeSaveID) {
