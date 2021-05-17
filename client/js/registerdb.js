@@ -467,7 +467,7 @@ let userpassword = $('#confirmpassword').val();
 
 // window.open("http://domain.com/document.pdf",'_blank');
 // window.location = 'https://vs1cloud.com/VS1cloudSetUp.exe';
-setTimeout(function () { window.open('http://depot.vs1cloud.com/vs1subscription/purchaseaddcustomer.php?firstname='+first_name+'&lastname='+last_name+'&email='+useremail+'&password='+userpassword+'','_self'); }, 1000);
+setTimeout(function () { window.open('https://www.depot.vs1cloud.com/vs1subscription/purchaseaddcustomer.php?firstname='+first_name+'&lastname='+last_name+'&email='+useremail+'&password='+userpassword+'','_self'); }, 1000);
 
 },
 

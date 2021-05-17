@@ -930,9 +930,9 @@ Template.new_quote.onRendered(() => {
                                 // Meteor._reload.reload();
                             });
                         }
-                   
+
                     }
-                    
+
 
                 }).catch(function (err) {
                     console.log(err);
@@ -1257,7 +1257,7 @@ Template.new_quote.onRendered(() => {
                                 confirmButtonText: 'OK'
                             }).then((result) => {
                                 if (result.value) {
-                                    
+
                                 Router.go('invoicelist');
                                 } else if (result.dismiss === 'cancel') {
                                     Router.go('quoteslist');
@@ -1275,7 +1275,7 @@ Template.new_quote.onRendered(() => {
 
 
                 }
-                
+
             }
             setTimeout(function () {
                 addAttachment();
@@ -2667,7 +2667,7 @@ Template.new_quote.onRendered(() => {
         pdf.addHTML(source, function () {
             pdf.setFontSize(10);
             pdf.setTextColor(255, 255, 255);
-            pdf.textWithLink('Pay Now', 480, 104, { url: 'https://depot.vs1cloud.com/stripe/' + stringQuery });
+            pdf.textWithLink('Pay Now', 480, 104, { url: 'https://www.depot.vs1cloud.com/stripe/' + stringQuery });
             pdf.save('Quote-' + id + '.pdf');
             $('#html-2-pdfwrapper').css('display', 'none');
         });
@@ -3337,7 +3337,7 @@ Template.new_quote.events({
                            window.open("/quotecard");
                         }
                      }).catch(function (err) {
-                       
+
                     });
                 }).catch(function (err) {
                     console.log(err);
@@ -3927,7 +3927,7 @@ Template.new_quote.events({
                         doc.addHTML(source, function () {
                             doc.setFontSize(10);
                             doc.setTextColor(89, 177, 253);
-                            doc.textWithLink('Pay Now', 480, 104, { url: 'https://depot.vs1cloud.com/stripe/' + stringQuery });
+                            doc.textWithLink('Pay Now', 480, 104, { url: 'https://www.depot.vs1cloud.com/stripe/' + stringQuery });
                             resolve(doc.output('blob'));
                             $('#html-2-pdfwrapper').css('display', 'none');
                         });
@@ -3990,7 +3990,7 @@ Template.new_quote.events({
                             '                </tr>' +
                             '                <tr>' +
                             '                    <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0 10px 0;">' +
-                            '                        Simply click on <a style="border: none; color: white; padding: 6px 12px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin: 4px 2px; cursor: pointer; background-color: #5cb85c; border-color: #4cae4c; border-radius: 10px;" href="https://depot.vs1cloud.com/stripe/' + stringQuery + '">Make Payment</a> to pay now.' +
+                            '                        Simply click on <a style="border: none; color: white; padding: 6px 12px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin: 4px 2px; cursor: pointer; background-color: #5cb85c; border-color: #4cae4c; border-radius: 10px;" href="https://www.depot.vs1cloud.com/stripe/' + stringQuery + '">Make Payment</a> to pay now.' +
                             '                    </td>' +
                             '                </tr>' +
                             '                 <tr>' +
@@ -4666,7 +4666,7 @@ Template.new_quote.events({
                 stringQuery = stringQuery + "product" + l + "=" + lineItems[l].description + "&price" + l + "=" + lineItems[l].unitPrice + "&qty" + l + "=" + lineItems[l].quantity + "&";
             }
             stringQuery = stringQuery + "tax=" + tax + "&total=" + total + "&customer=" + customer + "&name=" + name + "&surname=" + surname + "&quoteid=" + quoteData.id + "&company=" + company + "&vs1email=" + vs1User + "&customeremail=" + customerEmail + "&type=Quote&url="+window.location.href;
-            window.open("https://depot.vs1cloud.com/stripe/" + stringQuery, '_self');
+            window.open("https://www.depot.vs1cloud.com/stripe/" + stringQuery, '_self');
         }
     },
     'click #btnPayment': function () {

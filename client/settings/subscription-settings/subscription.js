@@ -75,7 +75,7 @@ Template.subscriptionSettings.events({
             confirmButtonText: 'OK'
             }).then((result) => {
             if (result.value) {
-             window.open('http://depot.vs1cloud.com/vs1subscription/cancelsubscription.php?email='+loggeduserEmail+'','_self');
+             window.open('https://phpstack-473757-1915640.cloudwaysapps.com/vs1subscription/cancelsubscription.php?email='+loggeduserEmail+'','_self');
             } else if (result.dismiss === 'cancel') {
 
             }
@@ -99,7 +99,7 @@ Template.subscriptionSettings.events({
             confirmButtonText: 'OK'
             }).then((result) => {
             if (result.value) {
-             window.open('http://depot.vs1cloud.com/vs1subscription/cancelsubscription.php?email='+loggeduserEmail+'','_self');
+             window.open('https://www.depot.vs1cloud.com/vs1subscription/cancelsubscription.php?email='+loggeduserEmail+'','_self');
             } else if (result.dismiss === 'cancel') {
 
             }
