@@ -3655,7 +3655,7 @@ Template.new_invoice.onRendered(() => {
                     }
                 }
             }
-            console.log("Insert on this ID"+selectLineID);
+
             $('#' + selectLineID + " .lineProductName").text(lineProductName);
             $('#' + selectLineID + " .lineProductDesc").text(lineProductDesc);
             $('#' + selectLineID + " .lineOrdered").val(1);
@@ -3663,7 +3663,6 @@ Template.new_invoice.onRendered(() => {
             $('#' + selectLineID + " .lineUnitPrice").val(lineUnitPrice);
 
             if($('.printID').val() == "") {
-            console.log("Insert on this ID 2"+selectLineID);
                 $('#' + selectLineID + " #lineProductName").text(lineProductName);
                 $('#' + selectLineID + " #lineProductDesc").text(lineProductDesc);
                 $('#' + selectLineID + " #lineOrdered").text(1);
@@ -3728,7 +3727,6 @@ Template.new_invoice.onRendered(() => {
             });
 
             if($(".printID").val() == ""){
-                alert("I get here")
                 $printrows.each(function (index) {
                     var $printrows = $(this);
                     var qty = $printrows.find("#lineQty").val() || 0;
