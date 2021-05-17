@@ -315,7 +315,7 @@ Template.registerdb.events({
 
       var erpGet = erpDb();
   var oPost = new XMLHttpRequest();
-  var serverIP = '165.228.147.127';
+  var serverIP = licenceIPAddress;
   var port = checkSSLPorts;
   oPost.open("POST",URLRequest + serverIP + ':' + port + '/' + 'erpapi' + '/' + 'VS1_Cloud_Task/Method?Name="VS1_NewRego"', true);
   oPost.setRequestHeader("database",vs1loggedDatatbase);
