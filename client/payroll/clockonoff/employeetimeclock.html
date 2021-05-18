@@ -54,8 +54,11 @@
                         <div class="row d-xl-flex flex-column justify-content-xl-center" style="margin: 12px;">
                             <div class="col" style="padding: 0px;">
                                 <div class="row" style="padding: 0px 8px;">
-                                    <div class="col-9 colEmpName" id="colEmpName">
-                                        <div class="form-group flex-grow-1" style="margin: 8px 0px;"><label>Employee Name</label><input id="employee_name" name="employee_name" type="text" class="form-control employee_name" readonly></div>
+                                    <div class="col-6 colEmpName" id="colEmpName">
+                                        <div class="form-group flex-grow-1" style="margin: 8px 0px;"><label>Employee Name</label><input id="employee_name" name="employee_name" type="text" required class="form-control employee_name" readonly></div>
+                                    </div>
+                                    <div class="col-3 colRate" id="colRate">
+                                        <div class="form-group flex-grow-1" style="margin: 8px 0px;"><label>Rate</label><input id="hourly_rate" name="hourly_rate" type="text" class="form-control hourly_rate" required ></div>
                                     </div>
                                     <div class="col-3 colStartDate" id="colStartDate">
                                         <div class="form-group" style="margin: 8px 0px;">
@@ -70,6 +73,18 @@
                                     </div>
                                 </div>
                                 <div class="row" style="padding: 0px 8px;">
+                                    <div class="col-6 colEmpName" id="colEmpName">
+                                        <select class="form-control sltJob" id="sltJob" name="sltJob">
+                                            {{#if jobsrecords}}
+                                            <option value=""></option>
+                                            {{#each itemjob in jobsrecords}}
+                                            <option value="{{itemjob.jobname}}">{{itemjob.jobname}}</option>
+                                            {{/each}}
+                                            {{/if}}
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row" style="padding: 0px 8px;">
                                     <div class="col-12" id="colBookedTimeParent">
                                         <div class="row" style="padding: 0px 8px;">
                                             <div class="col-3 colBookedTime" id="colBookedTime">
@@ -78,17 +93,17 @@
                                             </div>
                                             <div class="col-3 colBookedStartTime" id="colBookedStartTime" style="padding-left: .5rem;">
                                                 <div class="form-group flex-grow-1" style="margin: 8px 0px;">
-                                                    <label>Start Time</label><input class="form-control" id="startTime" name="startTime" type="time">
+                                                    <label>Start Time</label><input class="form-control" id="startTime" required  name="startTime" type="time">
                                                 </div>
                                                 <button class="btn btn-success btnClockOn" type="submit" style="width: 100%;" id="btnClockOn" name="btnClockOn"><i class="far fa-clock" style="margin-right: 5px;"></i>Clock On</button>
                                             </div>
                                             <div class="col-3 colBookedEndTime" id="colBookedEndTime">
-                                                <div class="form-group flex-grow-1" style="margin: 8px 0px;"><label>End Time</label><input class="form-control" id="endTime" name="endTime" type="time"></div>
+                                                <div class="form-group flex-grow-1" style="margin: 8px 0px;"><label>End Time</label><input required  class="form-control" id="endTime" name="endTime" type="time"></div>
                                                 <button class="btn btn-danger btnClockOff" type="submit" style="width: 100%;" id="btnClockOff" name="btnClockOff"><i class="fas fa-clock" style="margin-right: 5px;"></i>Clock Off</button>
                                             </div>
                                             <div class="col-3 colBookedHours" id="colBookedHours" style="padding-right: .3rem;">
                                                 <div class="form-group flex-grow-1" style="margin: 8px 0px;">
-                                                    <label>Hours</label><input type="text" id="txtBookedHoursSpent" name="txtBookedHoursSpent" class="form-control" readonly>
+                                                    <label>Hours</label><input type="text" id="txtBookedHoursSpent" name="txtBookedHoursSpent" required class="form-control" readonly>
                                                 </div>
                                             </div>
                                         </div>
@@ -106,7 +121,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button class="btn btn-success btnSaveAppointment" type="submit" style="margin: 8px;" id="btnSaveAppointment" name="btnSaveAppointment"><i class="fa fa-save" style="margin-right: 5px;"></i>Save</button>
+                        <button class="btn btn-success btnSaveTimeSheet" type="submit" style="margin: 8px;" id="btnSaveTimeSheet" name="btnSaveTimeSheet"><i class="fa fa-save" style="margin-right: 5px;"></i>Save</button>
                         <button class="btn btn-secondary" id="btnDeleteAppointment" name="btnDeleteAppointment" data-dismiss="modal" type="button" style="margin: 8px;"><i class="fa fa-close" style="margin-right: 5px;"></i>Close</button>
                     </div>
                 </div>

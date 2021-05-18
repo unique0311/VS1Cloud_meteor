@@ -2364,7 +2364,7 @@ Template.new_quote.onRendered(() => {
             taxRate = taxcodeList.filter(taxrate => {
                 return taxrate.codename == getCustDetails[0].taxCode
             });
-            if (taxRate.length > 1) {
+            if (taxRate.length > 0) {
                 if (taxRate.codename != "") {
                     lineTaxRate = taxRate[0].codename
                 } else {
@@ -2418,11 +2418,11 @@ Template.new_quote.onRendered(() => {
                 var $tblrow = $(this);
                 var qty = $tblrow.find(".lineQty").val() || 0;
                 var price = $tblrow.find(".lineUnitPrice").val() || 0;
-
+                var taxRate = $tblrow.find(".lineTaxCode").text();
                 var taxrateamount = 0;
                 if (taxcodeList) {
                     for (var i = 0; i < taxcodeList.length; i++) {
-                        if (taxcodeList[i].codename == lineTaxRate) {
+                        if (taxcodeList[i].codename == taxRate) {
                             taxrateamount = taxcodeList[i].coderate.replace('%', "") / 100;
                         }
                     }
