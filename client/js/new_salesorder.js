@@ -1428,10 +1428,11 @@ Template.new_salesorder.onRendered(() => {
                 var qty = $tblrow.find(".lineQty").val() || 0;
                 var price = $tblrow.find(".lineUnitPrice").val() || 0;
 
+                var taxRate = $tblrow.find(".lineTaxCode").text();
                 var taxrateamount = 0;
                 if (taxcodeList) {
                     for (var i = 0; i < taxcodeList.length; i++) {
-                        if (taxcodeList[i].codename == lineTaxRate) {
+                        if (taxcodeList[i].codename == taxRate) {
                             taxrateamount = taxcodeList[i].coderate.replace('%', "") / 100;
                         }
                     }
