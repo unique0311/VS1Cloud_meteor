@@ -21,6 +21,11 @@ Template.termsettings.onCreated(function(){
   templateObject.includeEOMPlus = new ReactiveVar();
   templateObject.includeEOMPlus.set(false);
 
+  templateObject.includeSalesDefault = new ReactiveVar();
+  templateObject.includeSalesDefault.set(false);
+  templateObject.includePurchaseDefault = new ReactiveVar();
+  templateObject.includePurchaseDefault.set(false);
+
 });
 
 Template.termsettings.onRendered(function() {
@@ -82,6 +87,8 @@ Template.termsettings.onRendered(function() {
                    description: data.ttermsvs1[i].Description || '',
                    iseom: data.ttermsvs1[i].IsEOM || 'false',
                    iseomplus: data.ttermsvs1[i].IsEOMPlus || 'false',
+                   isPurchasedefault: data.ttermsvs1[i].isPurchasedefault || 'false',
+                   isSalesdefault: data.ttermsvs1[i].isSalesdefault || 'false'
                };
 
                 dataTableList.push(dataList);
@@ -266,6 +273,8 @@ for(let i=0; i<useData.length; i++){
        description: useData[i].Description || '',
        iseom: useData[i].IsEOM || 'false',
        iseomplus: useData[i].IsEOMPlus || 'false',
+       isPurchasedefault: useData[i].isPurchasedefault || 'false',
+       isSalesdefault: useData[i].isSalesdefault || 'false'
    };
 
     dataTableList.push(dataList);
@@ -445,6 +454,8 @@ templateObject.tableheaderrecords.set(tableHeaderList);
                  description: data.ttermsvs1[i].Description || '',
                  iseom: data.ttermsvs1[i].IsEOM || 'false',
                  iseomplus: data.ttermsvs1[i].IsEOMPlus || 'false',
+                 isPurchasedefault: data.ttermsvs1[i].isPurchasedefault || 'false',
+                 isSalesdefault: data.ttermsvs1[i].isSalesdefault || 'false'
              };
 
               dataTableList.push(dataList);
@@ -629,12 +640,14 @@ templateObject.tableheaderrecords.set(tableHeaderList);
     // }
 });
 
-$('#termsList tbody').on( 'click', 'tr .colName, tr .colIsDays, tr .colIsEOM, tr .colDescription, tr .colIsCOD, tr .colIsEOMPlus', function () {
+$('#termsList tbody').on( 'click', 'tr .colName, tr .colIsDays, tr .colIsEOM, tr .colDescription, tr .colIsCOD, tr .colIsEOMPlus, tr .colCustomerDef, tr .colSupplierDef', function () {
 var listData = $(this).closest('tr').attr('id');
 var is7days = false;
 var is30days = false;
 var isEOM = false;
 var isEOMPlus = false;
+var isSalesDefault = false;
+var isPurchaseDefault = false;
 if(listData){
   $('#add-terms-title').text('Edit Term ');
   //$('#isformcreditcard').removeAttr('checked');
@@ -653,6 +666,14 @@ if(listData){
 
    if($(event.target).closest("tr").find(".colIsEOMPlus .chkBox").is(':checked')){
      isEOMPlus = true;
+   }
+
+   if($(event.target).closest("tr").find(".colCustomerDef .chkBox").is(':checked')){
+     isSalesDefault = true;
+   }
+
+   if($(event.target).closest("tr").find(".colSupplierDef .chkBox").is(':checked')){
+     isPurchaseDefault = true;
    }
 
    if(isEOM == true || isEOMPlus ==  true){
@@ -696,6 +717,19 @@ if(listData){
      templateObject.includeEOMPlus.set(true);
    }else{
      templateObject.includeEOMPlus.set(false);
+   }
+
+
+   if(isSalesDefault == true){
+     templateObject.includeSalesDefault.set(true);
+   }else{
+     templateObject.includeSalesDefault.set(false);
+   }
+
+   if(isPurchaseDefault == true){
+     templateObject.includePurchaseDefault.set(true);
+   }else{
+     templateObject.includePurchaseDefault.set(false);
    }
 
   //});
@@ -889,7 +923,7 @@ Template.termsettings.events({
               location.reload(true);
             });
           }).catch(function(err) {
-            location.reload(true);
+          location.reload(true);
           });
   },
   'click .btnDeleteTerms': function () {
@@ -947,6 +981,8 @@ Template.termsettings.events({
     let isEOMPlus = false;
     let days = 0;
 
+    let isSalesdefault = false;
+    let isPurchasedefault = false;
     if(termdays.replace(/\s/g, '') != ""){
       isDays = true;
     }else{
@@ -964,6 +1000,19 @@ Template.termsettings.events({
     }else{
       isEOMPlus = false;
     }
+
+    if($('#chkCustomerDef').is(':checked')){
+      isSalesdefault = true;
+    }else{
+      isSalesdefault = false;
+    }
+
+    if($('#chkSupplierDef').is(':checked')){
+      isPurchasedefault = true;
+    }else{
+      isPurchasedefault = false;
+    }
+
     let objDetails = '';
     if (termsName === ''){
     $('.fullScreenSpin').css('display','none');
@@ -984,6 +1033,8 @@ Template.termsettings.events({
                IsDays: isDays,
                IsEOM: isEOM,
                IsEOMPlus: isEOMPlus,
+               isPurchasedefault: isPurchasedefault,
+               isSalesdefault: isSalesdefault,
                Days: termdays||0,
                PublishOnVS1:true
            }
@@ -1067,6 +1118,8 @@ Template.termsettings.events({
             Description: description,
             IsDays: isDays,
             IsEOM: isEOM,
+            isPurchasedefault: isPurchasedefault,
+            isSalesdefault: isSalesdefault,
             IsEOMPlus: isEOMPlus,
             Days: termdays||0,
             PublishOnVS1:true
@@ -1205,6 +1258,12 @@ includeEOM: () => {
 },
 includeEOMPlus: () => {
     return Template.instance().includeEOMPlus.get();
+},
+includeSalesDefault: () => {
+    return Template.instance().includeSalesDefault.get();
+},
+includePurchaseDefault: () => {
+    return Template.instance().includePurchaseDefault.get();
 },
 loggedCompany: () => {
   return localStorage.getItem('mySession') || '';

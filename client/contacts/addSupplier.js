@@ -24,6 +24,8 @@ Template.supplierscard.onCreated(function(){
     templateObject.taxCodeList = new ReactiveVar();
     templateObject.defaultpurchasetaxcode = new ReactiveVar();
 
+    templateObject.defaultpurchaseterm = new ReactiveVar();
+
     templateObject.isSameAddress = new ReactiveVar();
     templateObject.isSameAddress.set(false);
 
@@ -856,7 +858,10 @@ yearRange: "-90:+10",
         if(dataObject.length == 0){
           contactService.getTermDataVS1().then((data) => {
               for (let i = 0; i < data.ttermsvs1.length; i++) {
-                  terms.push(data.ttermsvs1[i].TermsName)
+                  terms.push(data.ttermsvs1[i].TermsName);
+                  if(data.ttermsvs1[i].isPurchasedefault == true){
+                    templateObject.defaultpurchaseterm.set(data.ttermsvs1[i].TermsName);
+                  }
               }
               terms = _.sortBy(terms);
               templateObject.termsList.set(terms);
@@ -865,7 +870,10 @@ yearRange: "-90:+10",
         let data = JSON.parse(dataObject[0].data);
         let useData = data.ttermsvs1;
         for (let i = 0; i < useData.length; i++) {
-            terms.push(useData[i].TermsName)
+            terms.push(useData[i].TermsName);
+            if(useData[i].isPurchasedefault == true){
+              templateObject.defaultpurchaseterm.set(useData[i].TermsName);
+            }
         }
         terms = _.sortBy(terms);
         templateObject.termsList.set(terms);
@@ -874,7 +882,10 @@ yearRange: "-90:+10",
       }).catch(function (err) {
         contactService.getTermDataVS1().then((data) => {
             for (let i = 0; i < data.ttermsvs1.length; i++) {
-                terms.push(data.ttermsvs1[i].TermsName)
+                terms.push(data.ttermsvs1[i].TermsName);
+                if(data.ttermsvs1[i].isPurchasedefault == true){
+                  templateObject.defaultpurchaseterm.set(data.ttermsvs1[i].TermsName);
+                }
             }
             terms = _.sortBy(terms);
             templateObject.termsList.set(terms);
@@ -987,6 +998,9 @@ yearRange: "-90:+10",
             $('.fullScreenSpin').css('display','none');
             $('.supplierTab').trigger('click');
         }, 100);
+        setTimeout(function () {
+          $('.sltTerms').val(templateObject.defaultpurchaseterm.get()||'');
+        }, 2000);
         $('.fullScreenSpin').css('display','none');
     }else{
         if(!isNaN(currentId.id)){
@@ -1337,6 +1351,11 @@ yearRange: "-90:+10",
                 $('.supplierTab').trigger('click');
                 $('.fullScreenSpin').css('display','none');
             }, 100);
+
+            setTimeout(function () {
+              $('#sltTerms').val(templateObject.defaultpurchaseterm.get()||'');
+              
+            }, 2000);
             $('.fullScreenSpin').css('display','none');
         }
     }

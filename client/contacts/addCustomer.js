@@ -1721,6 +1721,7 @@ Template.customerscard.onRendered(function () {
     templateObject.getTaxCodesList();
     templateObject.getClientTypeData();
 
+
     //$('#sltCustomerType').append('<option value="' + lineItemObj.custometype + '">' + lineItemObj.custometype + '</option>');
     if (currentId.id == "undefined") {
         let lineItemObj = {
@@ -2637,6 +2638,7 @@ Template.customerscard.onRendered(function () {
 
             templateObject.getEmployeeData();
         } else {
+
             let lineItemObj = {
                 id: '',
                 lid: 'Add Customer',
@@ -2678,7 +2680,12 @@ Template.customerscard.onRendered(function () {
                  $('.customerTab').addClass('active');
                  $('.customerTab').trigger('click');
                 }
+
             }, 500);
+
+            setTimeout(function () {
+              $('.termsSelect').val(templateObject.defaultsaleterm.get()||'');
+            }, 2000);
             $('.fullScreenSpin').css('display', 'none');
             // setTimeout(function () {
             //   var rowCount = $('.results tbody tr').length;

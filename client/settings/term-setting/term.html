@@ -98,7 +98,11 @@
                                                                     <div class="col-12">
                                                                         <div class="form-group" style="margin: 4px 8px;">
                                                                             <div class="custom-control custom-checkbox chkBox" style="height: 38px; padding-top: 7px;">
-                                                                                <input class="custom-control-input chkBox chkCustomerDef" type="checkbox" id="chkCustomerDef" name="group1[]">
+                                                                              {{#if equals includeSalesDefault true}}
+                                                                              <input class="custom-control-input chkBox chkCustomerDef" type="checkbox" id="chkCustomerDef" name="group1[]" checked>
+                                                                              {{else}}
+                                                                              <input class="custom-control-input chkBox chkCustomerDef" type="checkbox" id="chkCustomerDef" name="group1[]">
+                                                                              {{/if}}
                                                                                 <label class="custom-control-label chkBox" for="chkCustomerDef">Customer Default</label>
                                                                             </div>
                                                                         </div>
@@ -106,8 +110,12 @@
                                                                     <div class="col-12">
                                                                         <div class="form-group" style="margin: 4px 8px;">
                                                                             <div class="custom-control custom-checkbox chkBox" style="height: 38px; padding-top: 7px;">
-                                                                                <input class="custom-control-input chkBox chkClientDef" type="checkbox" id="chkClientDef" name="group1[]">
-                                                                                <label class="custom-control-label chkBox" for="chkClientDef">Supplier Default</label>
+                                                                              {{#if equals includePurchaseDefault true}}
+                                                                              <input class="custom-control-input chkBox chkSupplierDef" type="checkbox" id="chkSupplierDef" name="group1[]" checked>
+                                                                              {{else}}
+                                                                              <input class="custom-control-input chkBox chkSupplierDef" type="checkbox" id="chkSupplierDef" name="group1[]">
+                                                                              {{/if}}
+                                                                                <label class="custom-control-label chkBox" for="chkSupplierDef">Supplier Default</label>
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -326,7 +334,7 @@
                                                     <th class="th colIsEOMPlus" style="width:100px">EOM Plus</th>
                                                     <th class="th colDescription">Description</th>
                                                     <th class="th colCustomerDef" style="width: 150px;">Customer Default</th>
-                                                    <th class="th colClientDef" style="width: 150px;">Supplier Default</th>
+                                                    <th class="th colSupplierDef" style="width: 150px;">Supplier Default</th>
                                                     <th class="th colDelete" style="width:20px;"></th>
                                                 </tr>
                                             </thead>
@@ -336,13 +344,6 @@
                                                 <tr class="dnd-moved" id="{{item.id}}"  style="cursor: default;">
                                                     <td contenteditable="false" class="colName">{{item.termname}}</td>
                                                     <td contenteditable="false" class="colIsDays">{{item.termdays}}</td>
-                                                    <!-- <td contenteditable="false" class="colIsCOD text-center" >
-{{#if equals item.iscod true}}
-<div class="custom-control custom-checkbox chkBox"><input class="custom-control-input chkBox" type="checkbox" id="iscod-{{item.id}}" checked><label class="custom-control-label chkBox" for="iscod-{{item.id}}"></label></div>
-{{else}}
-<div class="custom-control custom-checkbox chkBox"><input class="custom-control-input chkBox" type="checkbox" id="iscod-{{item.id}}"><label class="custom-control-label chkBox" for="iscod-{{item.id}}"></label></div>
-{{/if}}
-</td> -->
                                                     <td contenteditable="false" class="colIsEOM text-center" >
                                                         {{#if equals item.iseom true}}
                                                         <div class="custom-control custom-checkbox chkBox"><input class="custom-control-input chkBox" type="checkbox" id="iseom-{{item.id}}" checked><label class="custom-control-label chkBox" for="iseom-{{item.id}}"></label></div>
@@ -359,10 +360,20 @@
                                                     </td>
                                                     <td contenteditable="false" class="colDescription">{{item.description}}</td>
                                                     <td contenteditable="false" class="colCustomerDef text-center" >
-                                                        <div class="custom-control custom-checkbox chkBox"><input class="custom-control-input chkBox" type="checkbox" id="colCustomerDef-{{item.id}}"><label class="custom-control-label chkBox" for="colCustomerDef-{{item.id}}"></label></div>
+                                                      {{#if equals item.isSalesdefault true}}
+                                                      <div class="custom-control custom-checkbox chkBox"><input class="custom-control-input chkBox" type="checkbox" id="isSalesdefault-{{item.id}}" checked><label class="custom-control-label chkBox" for="isSalesdefault-{{item.id}}"></label></div>
+                                                      {{else}}
+                                                      <div class="custom-control custom-checkbox chkBox"><input class="custom-control-input chkBox" type="checkbox" id="isSalesdefault-{{item.id}}"><label class="custom-control-label chkBox" for="isSalesdefault-{{item.id}}"></label></div>
+                                                      {{/if}}
+                                                        <!-- <div class="custom-control custom-checkbox chkBox"><input class="custom-control-input chkBox" type="checkbox" id="colCustomerDef-{{item.id}}"><label class="custom-control-label chkBox" for="colCustomerDef-{{item.id}}"></label></div> -->
                                                     </td>
-                                                    <td contenteditable="false" class="colClientDef text-center" >
-                                                        <div class="custom-control custom-checkbox chkBox"><input class="custom-control-input chkBox" type="checkbox" id="colClientDef-{{item.id}}"><label class="custom-control-label chkBox" for="colClientDef-{{item.id}}"></label></div>
+                                                    <td contenteditable="false" class="colSupplierDef text-center" >
+                                                      {{#if equals item.isPurchasedefault true}}
+                                                      <div class="custom-control custom-checkbox chkBox"><input class="custom-control-input chkBox" type="checkbox" id="isPurchasedefault-{{item.id}}" checked><label class="custom-control-label chkBox" for="isPurchasedefault-{{item.id}}"></label></div>
+                                                      {{else}}
+                                                      <div class="custom-control custom-checkbox chkBox"><input class="custom-control-input chkBox" type="checkbox" id="isPurchasedefault-{{item.id}}"><label class="custom-control-label chkBox" for="isPurchasedefault-{{item.id}}"></label></div>
+                                                      {{/if}}
+                                                        <!-- <div class="custom-control custom-checkbox chkBox"><input class="custom-control-input chkBox" type="checkbox" id="colSupplierDef-{{item.id}}"><label class="custom-control-label chkBox" for="colSupplierDef-{{item.id}}"></label></div> -->
                                                     </td>
                                                     <td contenteditable="false" class="colDelete"><span class="table-remove"><button type="button" class="btn btn-danger btn-rounded btn-sm my-0"><i class="fa fa-remove"></i></button></span></td>
                                                 </tr>
