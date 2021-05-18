@@ -3520,12 +3520,67 @@ Template.new_invoice.onRendered(() => {
 
 
     }
+
+
+    // templateObject.printPDFData = function () {
+    //     let taxcodeList = templateObject.taxraterecords.get();
+    //     let customers = templateObject.clientrecords.get();
+    //      let lineTaxCode = 0;
+    //         let lineAmount = 0;
+    //         let lineTaxAmount = 0;
+    //         let subGrandTotal = 0;
+    //         let taxGrandTotal = 0;
+    //         let taxGrandTotalPrint = 0;
+    //     var $printrows = $(".invoice_print tbody tr")
+    //     $printrows.each(function (index) {
+    //         var $printrows = $(this);
+    //         var qty = $printrows.find("#lineQty").text() || 0;
+    //         var price = $printrows.find("#lineUnitPrice").text() || 0;
+    //         var taxrateamount = 0;
+    //         var taxRate = $printrows.find("#lineTaxCode").text();
+    //         if (taxcodeList) {
+    //             for (var i = 0; i < taxcodeList.length; i++) {
+    //                 if (taxcodeList[i].codename == taxRate) {
+    //                     taxrateamount = taxcodeList[i].coderate.replace('%', "") / 100;
+    //                 }
+    //             }
+    //         }
+
+    //         var subTotal = parseInt(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) || 0;
+    //         var taxTotal = parseInt(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) * parseFloat(taxrateamount);
+    //         $printrows.find('#lineTaxAmount').text(utilityService.modifynegativeCurrencyFormat(taxTotal))
+    //         if (!isNaN(subTotal)) {
+    //             $printrows.find('#lineAmt').text(utilityService.modifynegativeCurrencyFormat(subTotal));
+    //             subGrandTotal += isNaN(subTotal) ? 0 : subTotal;
+    //             document.getElementById("subtotal_totalPrint").innerHTML = $('#subtotal_total').text();
+    //         }
+
+    //         if (!isNaN(taxTotal)) {
+    //             taxGrandTotalPrint += isNaN(taxTotal) ? 0 : taxTotal;
+    //         }
+    //         if (!isNaN(subGrandTotal) && (!isNaN(taxGrandTotal))) {
+    //             let GrandTotal = (parseFloat(subGrandTotal)) + (parseFloat(taxGrandTotal));
+    //             document.getElementById("grandTotalPrint").innerHTML = $('#grandTotal').text();
+    //             document.getElementById("balanceDue").innerHTML = utilityService.modifynegativeCurrencyFormat(GrandTotal);
+    //             document.getElementById("totalBalanceDuePrint").innerHTML = $('#totalBalanceDue').text();
+
+    //         }
+    //     });
+    // }
     templateObject.getDepartments();
     templateObject.getTerms();
     // console.log(templateObject.invoicerecord.get());
     //alert(JSON.stringify(templateObject.invoicerecord.get()));
 
     let table;
+    if ($('.printID').val() == "") {
+        var duedate = new Date();
+        var ponumber = $('#ponumber').text() || '.';
+        let dueDate = ("0" + duedate.getDate()).slice(-2) + "/" + ("0" + (duedate.getMonth() + 1)).slice(-2) + "/" + duedate.getFullYear();
+        $('.due').text(dueDate);
+        $('.po').text(ponumber);
+    }
+
     $(document).ready(function () {
         $('#edtCustomerName').editableSelect();
         $('#addRow').on('click', function () {
@@ -3556,7 +3611,6 @@ Template.new_invoice.onRendered(() => {
                 rowData1.attr('id', tokenid);
                 $(".invoice_print tbody").append(rowData1);
             }
-            console.log("Add row ID" + tokenid);
             /*
     var dataListTable = $('#tblInvoiceLine').DataTable();
     let tokenid = Random.id();
@@ -3597,10 +3651,6 @@ Template.new_invoice.onRendered(() => {
         let selectLineID = $('#selectLineID').val();
         let taxcodeList = templateObject.taxraterecords.get();
         let customers = templateObject.clientrecords.get();
-
-
-
-
         var table = $(this);
         var $printrows = $(".invoice_print tbody tr")
         let utilityService = new UtilityService();
@@ -3619,7 +3669,7 @@ Template.new_invoice.onRendered(() => {
             taxRate = taxcodeList.filter(taxrate => {
                 return taxrate.codename == getCustDetails[0].taxCode || '';
             });
-            if (taxRate.length > 1) {
+            if (taxRate.length > 0) {
                 if (taxRate.codename != "") {
                     lineTaxRate = taxRate[0].codename
                 } else {
@@ -3647,6 +3697,7 @@ Template.new_invoice.onRendered(() => {
             let lineTaxAmount = 0;
             let subGrandTotal = 0;
             let taxGrandTotal = 0;
+            let taxGrandTotalPrint = 0;
             if (taxcodeList) {
                 for (var i = 0; i < taxcodeList.length; i++) {
                     if (taxcodeList[i].codename == lineTaxRate) {
@@ -3662,7 +3713,7 @@ Template.new_invoice.onRendered(() => {
             $('#' + selectLineID + " .lineQty").val(1);
             $('#' + selectLineID + " .lineUnitPrice").val(lineUnitPrice);
 
-            if($('.printID').val() == "") {
+            if ($('.printID').val() == "") {
                 $('#' + selectLineID + " #lineProductName").text(lineProductName);
                 $('#' + selectLineID + " #lineProductDesc").text(lineProductDesc);
                 $('#' + selectLineID + " #lineOrdered").text(1);
@@ -3670,33 +3721,38 @@ Template.new_invoice.onRendered(() => {
                 $('#' + selectLineID + " #lineUnitPrice").text(lineUnitPrice);
             }
 
-            
+
 
 
             if (lineTaxRate == "NT") {
                 lineTaxRate = "E";
                 $('#' + selectLineID + " .lineTaxCode").text(lineTaxRate);
+                if ($('.printID').val() == "") {
+                    $('#' + selectLineID + " #lineTaxCode").text(lineTaxRate);
+                }
+
             } else {
                 $('#' + selectLineID + " .lineTaxCode").text(lineTaxRate);
-
+                if ($('.printID').val() == "") {
+                    $('#' + selectLineID + " #lineTaxCode").text(lineTaxRate);
+                }
             }
-
 
             lineAmount = 1 * Number(lineUnitPrice.replace(/[^0-9.-]+/g, "")) || 0;
             $('#' + selectLineID + " .lineAmt").text(utilityService.modifynegativeCurrencyFormat(lineAmount));
-            if($('.printID').val() == "") {
-            $('#' + selectLineID + " #lineAmt").text(utilityService.modifynegativeCurrencyFormat(lineAmount));
+            if ($('.printID').val() == "") {
+                $('#' + selectLineID + " #lineAmt").text(utilityService.modifynegativeCurrencyFormat(lineAmount));
             }
             $('#productListModal').modal('toggle');
             $tblrows.each(function (index) {
                 var $tblrow = $(this);
                 var qty = $tblrow.find(".lineQty").val() || 0;
                 var price = $tblrow.find(".lineUnitPrice").val() || 0;
-
+                var taxRate = $tblrow.find(".lineTaxCode").text();
                 var taxrateamount = 0;
                 if (taxcodeList) {
                     for (var i = 0; i < taxcodeList.length; i++) {
-                        if (taxcodeList[i].codename == lineTaxRate) {
+                        if (taxcodeList[i].codename == taxRate) {
                             taxrateamount = taxcodeList[i].coderate.replace('%', "") / 100;
                         }
                     }
@@ -3706,6 +3762,7 @@ Template.new_invoice.onRendered(() => {
                 var subTotal = parseInt(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) || 0;
                 var taxTotal = parseInt(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) * parseFloat(taxrateamount);
                 $tblrow.find('.lineTaxAmount').text(utilityService.modifynegativeCurrencyFormat(taxTotal));
+
                 if (!isNaN(subTotal)) {
                     $tblrow.find('.lineAmt').text(utilityService.modifynegativeCurrencyFormat(subTotal));
                     subGrandTotal += isNaN(subTotal) ? 0 : subTotal;
@@ -3726,47 +3783,43 @@ Template.new_invoice.onRendered(() => {
                 }
             });
 
-            if($(".printID").val() == ""){
+            if ($(".printID").val() == "") {
                 $printrows.each(function (index) {
                     var $printrows = $(this);
-                    var qty = $printrows.find("#lineQty").val() || 0;
-                    var price = $printrows.find("#lineUnitPrice").val() || 0;
-                    console.log(qty);
-                    console.log(price);
+                    var qty = $printrows.find("#lineQty").text() || 0;
+                    var price = $printrows.find("#lineUnitPrice").text() || 0;
                     var taxrateamount = 0;
+                    var taxRate = $printrows.find("#lineTaxCode").text();
                     if (taxcodeList) {
                         for (var i = 0; i < taxcodeList.length; i++) {
-                            if (taxcodeList[i].codename == lineTaxRate) {
+                            if (taxcodeList[i].codename == taxRate) {
                                 taxrateamount = taxcodeList[i].coderate.replace('%', "") / 100;
                             }
                         }
                     }
-    
-    
+
                     var subTotal = parseInt(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) || 0;
                     var taxTotal = parseInt(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) * parseFloat(taxrateamount);
                     $printrows.find('#lineTaxAmount').text(utilityService.modifynegativeCurrencyFormat(taxTotal))
                     if (!isNaN(subTotal)) {
                         $printrows.find('#lineAmt').text(utilityService.modifynegativeCurrencyFormat(subTotal));
                         subGrandTotal += isNaN(subTotal) ? 0 : subTotal;
-                        document.getElementById("subtotal_total").innerHTML = utilityService.modifynegativeCurrencyFormat(subGrandTotal);
+                        document.getElementById("subtotal_totalPrint").innerHTML = $('#subtotal_total').text();
                     }
-    
+
                     if (!isNaN(taxTotal)) {
-                        taxGrandTotal += isNaN(taxTotal) ? 0 : taxTotal;
-                        document.getElementById("subtotal_tax").innerHTML = utilityService.modifynegativeCurrencyFormat(taxGrandTotal);
+                        taxGrandTotalPrint += isNaN(taxTotal) ? 0 : taxTotal;
                     }
-    
                     if (!isNaN(subGrandTotal) && (!isNaN(taxGrandTotal))) {
                         let GrandTotal = (parseFloat(subGrandTotal)) + (parseFloat(taxGrandTotal));
-                        document.getElementById("grandTotal").innerHTML = utilityService.modifynegativeCurrencyFormat(GrandTotal);
+                        document.getElementById("grandTotalPrint").innerHTML = $('#grandTotal').text();
                         document.getElementById("balanceDue").innerHTML = utilityService.modifynegativeCurrencyFormat(GrandTotal);
-                        document.getElementById("totalBalanceDue").innerHTML = utilityService.modifynegativeCurrencyFormat(GrandTotal);
-    
+                        document.getElementById("totalBalanceDuePrint").innerHTML = $('#totalBalanceDue').text();
+
                     }
                 });
             }
-           
+
         }
     });
 
@@ -3986,9 +4039,13 @@ Template.new_invoice.onRendered(() => {
             //pdf.save('Invoice.pdf');
             pdf.setFontSize(10);
             pdf.setTextColor(255, 255, 255);
-            pdf.textWithLink('Pay Now', 480, 104, { url: 'https://depot.vs1cloud.com/stripe/' + stringQuery });
+            pdf.textWithLink('Pay Now', 480, 104, { url: 'https://www.depot.vs1cloud.com/stripe/' + stringQuery });
             //pdf.autoPrint();
-            pdf.save('Invoice-' + id + '.pdf');
+            if ($(".printID").val() == "") {
+                pdf.save('Invoice-' + id + '.pdf');
+            } else {
+                pdf.save('Invoice.pdf');
+            }
             $('#html-2-pdfwrapper').css('display', 'none');
         });
 
@@ -4664,6 +4721,7 @@ Template.new_invoice.events({
 
                     lineItems.push(lineItemObj);
                 });
+                var erpGet = erpDb();
                 let vs1User = localStorage.getItem('mySession');
                 let customerEmail = $('#edtCustomerEmail').val();
                 let stringQuery = "?";
@@ -4671,8 +4729,8 @@ Template.new_invoice.events({
                 for (let l = 0; l < lineItems.length; l++) {
                     stringQuery = stringQuery + "product" + l + "=" + lineItems[l].description + "&price" + l + "=" + lineItems[l].unitPrice + "&qty" + l + "=" + lineItems[l].quantity + "&";
                 }
-                stringQuery = stringQuery + "tax=" + tax + "&total=" + total + "&customer=" + customer + "&name=" + name + "&surname=" + surname + "&quoteid=" + quoteData.id + "&company=" + company + "&vs1email=" + vs1User + "&customeremail=" + customerEmail + "&type=Invoice&url=" + window.location.href;
-                window.open("https://depot.vs1cloud.com/stripe/" + stringQuery, '_self');
+                stringQuery = stringQuery + "tax=" + tax + "&total=" + total + "&customer=" + customer + "&name=" + name + "&surname=" + surname + "&quoteid=" + quoteData.id + "&company=" + company + "&vs1email=" + vs1User + "&customeremail=" + customerEmail + "&type=Invoice&url=" + window.location.href + "&server=" + erpGet.ERPIPAddress + "&username=" + erpGet.ERPUsername + "&token=" + erpGet.ERPPassword + "&session=" + erpGet.ERPDatabase + "&port=" + erpGet.ERPPort;
+                window.open("https://www.depot.vs1cloud.com/stripe/" + stringQuery, '_self');
             } else {
                 swal({
                     title: 'Customer Email Required',
@@ -4696,6 +4754,7 @@ Template.new_invoice.events({
         let taxcodeList = templateObject.taxraterecords.get();
         let utilityService = new UtilityService();
         let $tblrows = $("#tblInvoiceLine tbody tr");
+        let $printrows = $(".invoice_print tbody tr");
         let isBOnShippedQty = templateObject.includeBOnShippedQty.get();
         var targetID = $(event.target).closest('tr').attr('id');
         if (isBOnShippedQty == true) {
@@ -4715,10 +4774,15 @@ Template.new_invoice.events({
                 $('#' + targetID + " .lineBo").val(boValue);
             }
         }
+        if ($('.printID').val() == "") {
+            $('#' + targetID + " #lineQty").text($('#' + targetID + " .lineQty").val());
+            console.log($('#' + targetID + " .lineQty").val());
+        }
         //if(selectLineID){
         let lineAmount = 0;
         let subGrandTotal = 0;
         let taxGrandTotal = 0;
+        let taxGrandTotalPrint = 0;
 
         $tblrows.each(function (index) {
             var $tblrow = $(this);
@@ -4758,6 +4822,83 @@ Template.new_invoice.events({
 
             }
         });
+
+        if ($(".printID").val() == "") {
+            $printrows.each(function (index) {
+                var $printrows = $(this);
+                var qty = $printrows.find("#lineQty").text() || 0;
+                var price = $printrows.find("#lineUnitPrice").text() || 0;
+                var taxrateamount = 0;
+                var taxRate = $printrows.find("#lineTaxCode").text();
+                if (taxcodeList) {
+                    for (var i = 0; i < taxcodeList.length; i++) {
+                        if (taxcodeList[i].codename == taxRate) {
+                            taxrateamount = taxcodeList[i].coderate.replace('%', "") / 100;
+                        }
+                    }
+                }
+
+                var subTotal = parseInt(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) || 0;
+                var taxTotal = parseInt(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) * parseFloat(taxrateamount);
+                $printrows.find('#lineTaxAmount').text(utilityService.modifynegativeCurrencyFormat(taxTotal))
+                if (!isNaN(subTotal)) {
+                    $printrows.find('#lineAmt').text(utilityService.modifynegativeCurrencyFormat(subTotal));
+                    subGrandTotal += isNaN(subTotal) ? 0 : subTotal;
+                    document.getElementById("subtotal_totalPrint").innerHTML = $('#subtotal_total').text();
+                }
+
+                if (!isNaN(taxTotal)) {
+                    taxGrandTotalPrint += isNaN(taxTotal) ? 0 : taxTotal;
+                }
+                if (!isNaN(subGrandTotal) && (!isNaN(taxGrandTotal))) {
+                    let GrandTotal = (parseFloat(subGrandTotal)) + (parseFloat(taxGrandTotal));
+                    document.getElementById("grandTotalPrint").innerHTML = $('#grandTotal').text();
+                    document.getElementById("balanceDue").innerHTML = utilityService.modifynegativeCurrencyFormat(GrandTotal);
+                    document.getElementById("totalBalanceDuePrint").innerHTML = $('#totalBalanceDue').text();
+
+                }
+            });
+        }
+
+
+        // if($(".printID").val() == ""){
+        //         $printrows.each(function (index) {
+        //             var $printrows = $(this);
+        //             var qty = $printrows.find("#lineQty").text() || 0;
+        //             var price = $printrows.find("#lineUnitPrice").text() || 0;
+        //             var taxrateamount = 0;
+        //             var taxRate = $printrows.find("#lineTaxCode").text();
+        //             if (taxcodeList) {
+        //                 for (var i = 0; i < taxcodeList.length; i++) {
+        //                     if (taxcodeList[i].codename == taxRate) {
+        //                         taxrateamount = taxcodeList[i].coderate.replace('%', "") / 100;
+        //                     }
+        //                 }
+        //             }
+
+        //             var subTotal = parseInt(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) || 0;
+        //             var taxTotal = parseInt(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) * parseFloat(taxrateamount);
+        //             $printrows.find('#lineTaxAmount').text(utilityService.modifynegativeCurrencyFormat(taxTotal))
+        //             if (!isNaN(subTotal)) {
+        //                 $printrows.find('#lineAmt').text(utilityService.modifynegativeCurrencyFormat(subTotal));
+        //                 subGrandTotal += isNaN(subTotal) ? 0 : subTotal;
+        //                 document.getElementById("subtotal_totalPrint").innerHTML = $('#subtotal_total').text();
+        //             }
+        //             console.log("Line tax is "+ taxTotal)
+
+        //             if (!isNaN(taxTotal)) {
+        //                 taxGrandTotalPrint += isNaN(taxTotal) ? 0 : taxTotal;
+        //                 document.getElementById("subtotal_tax").innerHTML = utilityService.modifynegativeCurrencyFormat(taxGrandTotalPrint);
+        //             }
+        //             if (!isNaN(subGrandTotal) && (!isNaN(taxGrandTotal))) {
+        //                 let GrandTotal = (parseFloat(subGrandTotal)) + (parseFloat(taxGrandTotal));
+        //                 document.getElementById("grandTotalPrint").innerHTML = $('#grandTotal').text();
+        //                 document.getElementById("balanceDue").innerHTML = utilityService.modifynegativeCurrencyFormat(GrandTotal);
+        //                 document.getElementById("totalBalanceDuePrint").innerHTML = $('#totalBalanceDue').text();
+
+        //             }
+        //         });
+        // }
         //}
     },
     'blur .lineOrdered': function (event) {
@@ -5374,7 +5515,7 @@ Template.new_invoice.events({
                         doc.addHTML(source, function () {
                             doc.setFontSize(10);
                             doc.setTextColor(255, 255, 255);
-                            doc.textWithLink('Pay Now', 480, 104, { url: 'https://depot.vs1cloud.com/stripe/' + stringQuery });
+                            doc.textWithLink('Pay Now', 480, 104, { url: 'https://www.depot.vs1cloud.com/stripe/' + stringQuery });
                             //pdf.save('Invoice.pdf');
                             resolve(doc.output('blob'));
                             $('#html-2-pdfwrapper').css('display', 'none');
@@ -5438,7 +5579,7 @@ Template.new_invoice.events({
                             '                </tr>' +
                             '                <tr>' +
                             '                    <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0 10px 0;">' +
-                            '                        Simply click on <a style="border: none; color: white; padding: 6px 12px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin: 4px 2px; cursor: pointer; background-color: #5cb85c; border-color: #4cae4c; border-radius: 10px;" href="https://depot.vs1cloud.com/stripe/' + stringQuery + '">Make Payment</a> to pay now.' +
+                            '                        Simply click on <a style="border: none; color: white; padding: 6px 12px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin: 4px 2px; cursor: pointer; background-color: #5cb85c; border-color: #4cae4c; border-radius: 10px;" href="https://www.depot.vs1cloud.com/stripe/' + stringQuery + '">Make Payment</a> to pay now.' +
                             '                    </td>' +
                             '                </tr>' +
                             '                <tr>' +

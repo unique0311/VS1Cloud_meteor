@@ -1372,7 +1372,7 @@ Template.new_salesorder.onRendered(() => {
             taxRate = taxcodeList.filter(taxrate => {
                 return taxrate.codename == getCustDetails[0].taxCode
             });
-            if (taxRate.length > 1) {
+            if (taxRate.length > 0) {
                 if (taxRate.codename != "") {
                     lineTaxRate = taxRate[0].codename
                 } else {
