@@ -206,7 +206,7 @@ export class SideBarService extends BaseService {
 
   getTermsVS1() {
     let options = {
-      PropertyList: "ID,Days,IsEOM,IsEOMPlus,TermsName,Description,IsDays,Active",
+      PropertyList: "ID,Days,IsEOM,IsEOMPlus,TermsName,Description,IsDays,Active,isPurchasedefault,isSalesdefault",
       select: "[Active]=true",
     };
     return this.getList(this.ERPObjects.TTermsVS1, options);

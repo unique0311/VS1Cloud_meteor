@@ -161,7 +161,7 @@ Template.packagerenewal.onRendered(function() {
     oPost.setRequestHeader("Content-type", "application/json");
      console.log(JSON.stringify(objDetails));
     var myString = JSON.stringify(objDetails);
-    //oPost.send(myString);
+    oPost.send(myString);
     oPost.onreadystatechange = function() {
 
       if (oPost.readyState == 4 && oPost.status == 200) {

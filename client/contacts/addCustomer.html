@@ -81,7 +81,7 @@
             <div class="d-sm-flex justify-content-between align-items-center mb-4" style="margin-left: 8px;">
                 <h3 class="text-dark mb-0">Customer Overview Dashboard <a role="button" data-toggle="modal" href="#helpViewModal" class=""><label class="lblplay">PLAY</label><i class="far fa-play-circle"  style="font-size: 20px;"></i></a></h3>
             </div>
-            
+
             <div class="modal fade" role="dialog" tabindex="-1" id="helpViewModal">
                 <div class="modal-dialog modal-sm" role="document">
                     <div class="modal-content">
@@ -97,7 +97,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <div class="row">
                 <div class="col-2 displayList" id="displayList">
                     <div class="card shadow mb-4 customerCardParent" style="margin: 8px;">
@@ -1089,6 +1089,7 @@ value="{{record.tfn}}"></div> -->
                                                                     </div>
                                                                     <div class="form-group d-xl-flex flex-column justify-content-xl-start" style="margin: 4px;"><label class="text-nowrap">Terms</label>
                                                                         <select class="form-control termsSelect" style="width: 260px; cursor: pointer;" id="sltTerms" name="sltTerms">
+                                                                          {{record.terms}}
                                                                             {{#each item in termsList}}
                                                                             {{#if equals item record.terms }}
                                                                             <option value="{{record.terms}}" selected="">{{record.terms}}</option>

@@ -1900,6 +1900,7 @@ Template.employeescard.onRendered(function () {
 
     }
     templateObject.getEmployeesList();
+    var prefObject = "";
     setTimeout(function () {
     appointmentService.getCalendarsettings(Session.get('mySessionEmployeeLoggedID')).then(function (data) {
         if (data.tappointmentpreferences.length > 0) {
@@ -2209,7 +2210,7 @@ Template.employeescard.events({
             type: "TAppointmentPreferences",
             fields: {
                 ID: settingID,
-                EmployeeID: Session.get('mySessionEmployeeLoggedID'),
+                EmployeeID: parseInt(employeeSaveID),
                 DefaultApptDuration: defaultTime,
                 DefaultServiceProductID: defaultProductID,
                 DefaultServiceProduct: defaultProduct,
@@ -2229,7 +2230,7 @@ Template.employeescard.events({
 
                 var cloudHashPassword = CryptoJS.MD5(enteredPassword).toString().toUpperCase();
                 if ($.trim(checkifupdate).length != 0) {
-                    let cloudpassword = $("#cloudEmpUserPassword").val();
+                    let cloudpassword = $("#cloudEmpUserPassword").val().replace(/;/g, ",");
                     let cloudcheckpassword = $("#cloudCheckEmpUserPassword").val();
                     if (cloudpassword.length < 8) {
                         if (cloudpassword.match(/^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{7,15}$/)) {
@@ -2239,6 +2240,8 @@ Template.employeescard.events({
                             $('#cloudEmpUserPassword').css('border-color', 'red');
                             $('#cloudEmpUserPassword').focus();
                         }
+                        $('.fullScreenSpin').css('display', 'none');
+                        return false;
                     } else {
                       var erpGet = erpDb();
 
@@ -2273,15 +2276,30 @@ Template.employeescard.events({
                       //console.log(myStringUserPassword);
                       oPost.onreadystatechange = function () {
                           if (oPost.readyState == 4 && oPost.status == 200) {
+
                             if (employeeSaveID) {
                                sideBarService.getAllEmployees().then(function(dataReload) {
                                  addVS1Data('TEmployee',JSON.stringify(dataReload)).then(function (datareturn) {
-                                  Router.go('/employeelist?success');
+
                                  }).catch(function (err) {
-                                   Router.go('/employeelist?success');
+
                                  });
                                }).catch(function(err) {
-                                 Router.go('/employeelist?success');
+
+                               });
+
+                               swal({
+                                   title: 'Password successfully changed',
+                                   text: '',
+                                   type: 'success',
+                                   showCancelButton: false,
+                                   confirmButtonText: 'OK'
+                               }).then((result) => {
+                                   if (result.value) {
+                                       Router.go('/employeelist?success');
+                                   } else {
+                                     Router.go('/employeelist?success');
+                                   }
                                });
                             }
                             /*
@@ -2527,11 +2545,9 @@ Template.employeescard.events({
                 DatabaseName: erpGet.ERPDatabase,
                 ServerName: erpGet.ERPIPAddress,
                 ERPLoginDetails: {
-                    ERPUserName: "VS1_Cloud_Admin",
-                    ERPPassword: "DptfGw83mFl1j&9"
-                },
-                ERPUserName: "VS1_Cloud_Admin",
-                ERPPassword: "DptfGw83mFl1j&9"
+                    ERPUserName: localStorage.getItem('mySession'),
+                    ERPPassword: localStorage.getItem('EPassword')
+                }
             }
             //}
         };
@@ -2585,6 +2601,16 @@ Template.employeescard.events({
                     Meteor.call('braintreeChargeCard', Session.get('VS1AdminUserName'), 35);
                     Meteor.call('StripeChargeCard', Session.get('VS1AdminUserName'), 3500);
                     // swal('User details successfully added', '', 'success');
+                    sideBarService.getAllEmployees().then(function(dataReload) {
+                      addVS1Data('TEmployee',JSON.stringify(dataReload)).then(function (datareturn) {
+
+                      }).catch(function (err) {
+
+                      });
+                    }).catch(function(err) {
+
+                    });
+
                     swal({
                         title: 'User details successfully added',
                         text: '',
@@ -2597,15 +2623,7 @@ Template.employeescard.events({
                             window.open('/accesslevel?empuser=' + employeeName, '_self');
 
                         } else {
-                          sideBarService.getAllEmployees().then(function(dataReload) {
-                            addVS1Data('TEmployee',JSON.stringify(dataReload)).then(function (datareturn) {
-                             Router.go('/employeelist?success');
-                            }).catch(function (err) {
-                              Router.go('/employeelist?success');
-                            });
-                          }).catch(function(err) {
-                            Router.go('/employeelist?success');
-                          });
+                          Router.go('/employeelist?success');
                         }
                     });
 
@@ -2751,9 +2769,7 @@ Template.employeescard.events({
                 ERPLoginDetails: {
                     ERPUserName: localStorage.getItem('mySession'),
                     ERPPassword: localStorage.getItem('EPassword')
-                },
-                ERPUserName: "VS1_Cloud_Admin",
-                ERPPassword: "DptfGw83mFl1j&9"
+                }
             }
             //}
         };
@@ -3128,7 +3144,7 @@ Template.employeescard.events({
             if (cloudpassword.length < 8) {
                 swal('Invalid VS1 Password', 'Password must be at least eight characters including one capital letter, one number and one special characters [! @ # $ % ^ & *] !', 'error');
                 // $('#cloudEmpUserPassword').focus();
-                e.preventDefault();
+                event.preventDefault();
                 return false;
             }
         }

@@ -607,7 +607,7 @@ Template.appointmenttimelist.onRendered(function () {
                     if (useData[i].fields.AppointmentsTimeLog[a].fields.EndDatetime != "") {
                       useData[i].fields.AppointmentsTimeLog[a].fields.EndDatetime = moment(useData[i].fields.AppointmentsTimeLog[a].fields.EndDatetime).format('h:mm a')
                     }
-                    
+
                     let time = new Date();
                     let dt1 = new Date(time.getFullYear() +'-'+("0"+(time.getMonth()+1)).slice(-2)+'-'+("0"+(time.getDate()+1)).slice(-1) + ' '+ useData[i].fields.AppointmentsTimeLog[a].fields.StartDatetime.split(' ')[0]);
                     let dt2 = new Date(time.getFullYear() +'-'+("0"+(time.getMonth()+1)).slice(-2)+'-'+("0"+(time.getDate()+1)).slice(-1) + ' '+  useData[i].fields.AppointmentsTimeLog[a].fields.EndDatetime.split(' ')[0]);
@@ -637,7 +637,7 @@ Template.appointmenttimelist.onRendered(function () {
                       timeStart: useData[i].fields.AppointmentsTimeLog[a].fields.StartDatetime || '',
                       timeEnd: useData[i].fields.AppointmentsTimeLog[a].fields.EndDatetime || '',
                       totalHours: useData[i].fields.TotalHours || 0,
-                      hours:Hours, 
+                      hours:Hours,
                       endTime: useData[i].fields.EndTime.split(' ')[1] || '',
                       startDate: useData[i].fields.StartTime || '',
                       endDate: useData[i].fields.EndTime || '',
@@ -666,7 +666,7 @@ Template.appointmenttimelist.onRendered(function () {
                     useData[i].fields.AppointmentsTimeLog[a].fields.EndDatetime = moment(useData[i].fields.AppointmentsTimeLog[a].fields.EndDatetime).format('h:mm a')
                   }
 
-                  
+
                   let time = new Date();
                   let dt1 = new Date(time.getFullYear() +'-'+("0"+(time.getMonth()+1)).slice(-2)+'-'+("0"+(time.getDate()+1)).slice(-1) + ' '+ useData[i].fields.AppointmentsTimeLog[a].fields.StartDatetime.split(' ')[0]);
                   let dt2 = new Date(time.getFullYear() +'-'+("0"+(time.getMonth()+1)).slice(-2)+'-'+("0"+(time.getDate()+1)).slice(-1) + ' '+  useData[i].fields.AppointmentsTimeLog[a].fields.EndDatetime.split(' ')[0]);
@@ -725,7 +725,7 @@ Template.appointmenttimelist.onRendered(function () {
                   if (useData[i].fields.AppointmentsTimeLog.fields.EndDatetime != "") {
                     useData[i].fields.AppointmentsTimeLog.fields.EndDatetime = moment(useData[i].fields.AppointmentsTimeLog.fields.EndDatetime).format('h:mm a')
                   }
-                  
+
                   let time = new Date();
                   let dt1 = new Date(time.getFullYear() +'-'+("0"+(time.getMonth()+1)).slice(-2)+'-'+("0"+(time.getDate()+1)).slice(-1) + ' '+ useData[i].fields.AppointmentsTimeLog.fields.StartDatetime.split(' ')[0]);
                   let dt2 = new Date(time.getFullYear() +'-'+("0"+(time.getMonth()+1)).slice(-2)+'-'+("0"+(time.getDate()+1)).slice(-1) + ' '+  useData[i].fields.AppointmentsTimeLog.fields.EndDatetime.split(' ')[0]);
@@ -753,7 +753,7 @@ Template.appointmenttimelist.onRendered(function () {
                     timeStart: useData[i].fields.AppointmentsTimeLog.fields.StartDatetime || '',
                     timeEnd: useData[i].fields.AppointmentsTimeLog.fields.EndDatetime || '',
                     totalHours: useData[i].fields.TotalHours || 0,
-                    hours:Hours, 
+                    hours:Hours,
                     endTime: useData[i].fields.EndTime.split(' ')[1] || '',
                     startDate: useData[i].fields.StartTime || '',
                     endDate: useData[i].fields.EndTime || '',
@@ -763,7 +763,7 @@ Template.appointmenttimelist.onRendered(function () {
                     openbalance: useData[i].fields.Actual_EndTime || '',
                     aStartTime: useData[i].fields.Actual_StartTime.split(' ')[1] || '',
                     aEndTime: useData[i].fields.Actual_EndTime.split(' ')[1] || '',
-                    hours:Hours, 
+                    hours:Hours,
                     actualHours: '',
                     closebalance: '',
                     product: useData[i].fields.ProductDesc || '',
@@ -782,7 +782,7 @@ Template.appointmenttimelist.onRendered(function () {
                 if (useData[i].fields.AppointmentsTimeLog.fields.EndDatetime != "") {
                   useData[i].fields.AppointmentsTimeLog.fields.EndDatetime = moment(useData[i].fields.AppointmentsTimeLog.fields.EndDatetime).format('h:mm a');
                 }
-                
+
                 let time = new Date();
                 let dt1 = new Date(time.getFullYear() +'-'+("0"+(time.getMonth()+1)).slice(-2)+'-'+("0"+(time.getDate()+1)).slice(-1) + ' '+ useData[i].fields.AppointmentsTimeLog.fields.StartDatetime.split(' ')[0]);
                 let dt2 = new Date(time.getFullYear() +'-'+("0"+(time.getMonth()+1)).slice(-2)+'-'+("0"+(time.getDate()+1)).slice(-1) + ' '+  useData[i].fields.AppointmentsTimeLog.fields.EndDatetime.split(' ')[0]);
@@ -811,7 +811,7 @@ Template.appointmenttimelist.onRendered(function () {
                   timeStart: useData[i].fields.AppointmentsTimeLog.fields.StartDatetime || '',
                   timeEnd: useData[i].fields.AppointmentsTimeLog.fields.EndDatetime || '',
                   totalHours: useData[i].fields.TotalHours || 0,
-                  hours:Hours, 
+                  hours:Hours,
                   endTime: useData[i].fields.EndTime.split(' ')[1] || '',
                   startDate: useData[i].fields.StartTime || '',
                   endDate: useData[i].fields.EndTime || '',
@@ -1222,147 +1222,14 @@ Template.appointmenttimelist.events({
   },
   'click .btnRefresh': function () {
     $('.fullScreenSpin').css('display', 'inline-block');
-    let currentDate = new Date();
-    let hours = currentDate.getHours(); //returns 0-23
-    let minutes = currentDate.getMinutes(); //returns 0-59
-    let seconds = currentDate.getSeconds(); //returns 0-59
-    let month = (currentDate.getMonth() + 1);
-    let days = currentDate.getDate();
-
-    if (currentDate.getMonth() < 10) {
-      month = "0" + (currentDate.getMonth() + 1);
-    }
-
-    if (currentDate.getDate() < 10) {
-      days = "0" + currentDate.getDate();
-    }
-    let currenctTodayDate = currentDate.getFullYear() + "-" + month + "-" + days + " " + hours + ":" + minutes + ":" + seconds;
-    let templateObject = Template.instance();
-    getVS1Data('TAppointment').then(function (dataObject) {
-      if (dataObject.length == 0) {
-        sideBarService.getAllAppointmentList().then(function (data) {
-          addVS1Data('TAppointment', JSON.stringify(data)).then(function (datareturn) {
-            window.open('/appointmenttimelist', '_self');
-          }).catch(function (err) {
-            window.open('/appointmenttimelist', '_self');
-          });
-        }).catch(function (err) {
-          window.open('/appointmenttimelist', '_self');
-        });
-      } else {
-        let data = JSON.parse(dataObject[0].data);
-        let useData = data.tappointment;
-        if (useData[0].Id) {
-          sideBarService.getAllAppointmentList().then(function (data) {
-            addVS1Data('TAppointment', JSON.stringify(data)).then(function (datareturn) {
-              window.open('/appointmenttimelist', '_self');
-            }).catch(function (err) {
-              window.open('/appointmenttimelist', '_self');
-            });
-          }).catch(function (err) {
-            window.open('/appointmenttimelist', '_self');
-          });
-        } else {
-          let getTimeStamp = dataObject[0].timestamp;
-          if (getTimeStamp) {
-            if (getTimeStamp[0] != currenctTodayDate) {
-              sideBarService.getAllAppointmentList(getTimeStamp).then(function (dataUpdate) {
-                let newDataObject = [];
-                if (dataUpdate.tappointment.length === 0) {
-                  sideBarService.getAllAppointmentList().then(function (data) {
-                    addVS1Data('TAppointment', JSON.stringify(data)).then(function (datareturn) {
-                      window.open('/appointmenttimelist', '_self');
-                    }).catch(function (err) {
-                      window.open('/appointmenttimelist', '_self');
-                    });
-                  }).catch(function (err) {
-                    window.open('/appointmenttimelist', '_self');
-                  });
-                } else {
-                  let dataOld = JSON.parse(dataObject[0].data);
-                  let oldObjectData = dataOld.tappointment;
-
-                  let dataNew = dataUpdate;
-                  let newObjectData = dataNew.tappointment;
-                  let index = '';
-                  let index2 = '';
-
-                  var resultArray = []
-
-                  oldObjectData.forEach(function (destObj) {
-                    var addedcheck = false;
-                    newObjectData.some(function (origObj) {
-                      if (origObj.fields.ID == destObj.fields.ID) {
-                        addedcheck = true;
-                        index = oldObjectData.map(function (e) { return e.fields.ID; }).indexOf(parseInt(origObj.fields.ID));
-                        destObj = origObj;
-                        resultArray.push(destObj);
-
-                      }
-                    });
-                    if (!addedcheck) {
-                      resultArray.push(destObj)
-                    }
-
-                  });
-                  newObjectData.forEach(function (origObj) {
-                    var addedcheck = false;
-                    oldObjectData.some(function (destObj) {
-                      if (origObj.fields.ID == destObj.fields.ID) {
-                        addedcheck = true;
-                        index = oldObjectData.map(function (e) { return e.fields.ID; }).indexOf(parseInt(origObj.fields.ID));
-                        destObj = origObj;
-                        resultArray.push(destObj);
-
-                      }
-                    });
-                    if (!addedcheck) {
-                      resultArray.push(origObj)
-                    }
-
-                  });
-                  var resultGetData = [];
-                  $.each(resultArray, function (i, e) {
-                    var matchingItems = $.grep(resultGetData, function (item) {
-                      return item.fields.ID === e.fields.ID;
-                    });
-                    if (matchingItems.length === 0) {
-                      resultGetData.push(e);
-                    }
-                  });
-
-                  let dataToAdd = {
-                    tappointment: resultGetData
-                  };
-                  addVS1Data('TAppointment', JSON.stringify(dataToAdd)).then(function (datareturn) {
-                    window.open('/appointmenttimelist', '_self');
-                  }).catch(function (err) {
-                    window.open('/appointmenttimelist', '_self');
-                  });
-                }
-
-              }).catch(function (err) {
-                addVS1Data('TAppointment', dataObject[0].data).then(function (datareturn) {
-                  window.open('/appointmenttimelist', '_self');
-                }).catch(function (err) {
-                  window.open('/appointmenttimelist', '_self');
-                });
-              });
-            }
-
-          }
-        }
-      }
-    }).catch(function (err) {
-      sideBarService.getAllAppointmentList().then(function (data) {
-        addVS1Data('TAppointment', JSON.stringify(data)).then(function (datareturn) {
-          window.open('/appointmenttimelist', '_self');
-        }).catch(function (err) {
-          window.open('/appointmenttimelist', '_self');
-        });
+    sideBarService.getAllAppointmentList().then(function (data) {
+      addVS1Data('TAppointment', JSON.stringify(data)).then(function (datareturn) {
+        location.reload(true);
       }).catch(function (err) {
-        window.open('/appointmenttimelist', '_self');
+        location.reload(true);
       });
+    }).catch(function (err) {
+      location.reload(true);
     });
 
   },

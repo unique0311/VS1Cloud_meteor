@@ -1659,6 +1659,13 @@ $("#erplogin-button").click(async function(e){
                       return false;
                       // let userAccessOptions = dataReturnRes.ProcessLog.AccessLevels.AccessLevels;
                     };
+                    if(dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.AccessLevels.ResponseNo == 401){
+                      swal('Sorry, You do not have access to any VS1 Modules!', '', 'error');
+                      $('.fullScreenSpin').css('display','none');
+                      $('.loginSpinner').css('display','none');
+                      return false;
+                      // let userAccessOptions = dataReturnRes.ProcessLog.AccessLevels.AccessLevels;
+                    };
 
                     // let userAccessOptions = dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.AccessLevels || '';
                     // if(userAccessOptions != ""){
@@ -1844,9 +1851,9 @@ $("#erplogin-button").click(async function(e){
                   var ErrorResponse = oReq.getResponseHeader('errormessage');
                   if (ErrorResponse.indexOf("Access violation") >= 0){
                     swal({
-                      title: 'Something went wrong',
-                      text: "Your database is being created. Please try again in 10 minutes",
-                      type: 'error',
+                      title: 'Your database is being created. ',
+                      text: "Please try again in 10 minutes",
+                      type: 'info',
                       showCancelButton: false,
                       confirmButtonText: 'Try Again'
                       }).then((result) => {
@@ -2184,6 +2191,14 @@ $("#erplogin-button").click(async function(e){
          /* End Remove licence */
          // alert(dataReturnRes.ProcessLog.AccessLevels);
          if(dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.AccessLevels == undefined){
+           swal('Sorry, You do not have access to any VS1 Modules!', '', 'error');
+           $('.fullScreenSpin').css('display','none');
+           $('.loginSpinner').css('display','none');
+           return false;
+           // let userAccessOptions = dataReturnRes.ProcessLog.AccessLevels.AccessLevels;
+         };
+
+         if(dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.AccessLevels.ResponseNo == 401){
            swal('Sorry, You do not have access to any VS1 Modules!', '', 'error');
            $('.fullScreenSpin').css('display','none');
            $('.loginSpinner').css('display','none');
@@ -2633,6 +2648,13 @@ $("#erplogin-button").click(async function(e){
                     // let userAccessOptions = dataReturnRes.ProcessLog.AccessLevels.AccessLevels;
                   };
 
+                  if(dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.AccessLevels.ResponseNo == 401){
+                    swal('Sorry, You do not have access to any VS1 Modules!', '', 'error');
+                    $('.fullScreenSpin').css('display','none');
+                    $('.loginSpinner').css('display','none');
+                    return false;
+                    // let userAccessOptions = dataReturnRes.ProcessLog.AccessLevels.AccessLevels;
+                  };
 
 
           Session.setPersistent('mycloudLogonUsername', ERPuserName);
@@ -2849,9 +2871,9 @@ $("#erplogin-button").click(async function(e){
                 var ErrorResponse = oReq.getResponseHeader('errormessage');
                 if (ErrorResponse.indexOf("Access violation") >= 0){
                   swal({
-                    title: 'Something went wrong',
-                    text: "Your database is being created. Please try again in 10 minutes",
-                    type: 'error',
+                    title: 'Your database is being created. ',
+                    text: "Please try again in 10 minutes",
+                    type: 'info',
                     showCancelButton: false,
                     confirmButtonText: 'Try Again'
                     }).then((result) => {
@@ -3218,6 +3240,14 @@ $("#erplogin-button").click(async function(e){
                 // let userAccessOptions = dataReturnRes.ProcessLog.AccessLevels.AccessLevels;
               };
 
+              if(dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.AccessLevels.ResponseNo == 401){
+                swal('Sorry, You do not have access to any VS1 Modules!', '', 'error');
+                $('.fullScreenSpin').css('display','none');
+                $('.loginSpinner').css('display','none');
+                return false;
+                // let userAccessOptions = dataReturnRes.ProcessLog.AccessLevels.AccessLevels;
+              };
+
 
 
       Session.setPersistent('mycloudLogonUsername', ERPuserName);
@@ -3437,9 +3467,9 @@ $("#erplogin-button").click(async function(e){
             var ErrorResponse = oReq.getResponseHeader('errormessage');
             if (ErrorResponse.indexOf("Access violation") >= 0){
               swal({
-                title: 'Something went wrong',
-                text: "Your database is being created. Please try again in 10 minutes",
-                type: 'error',
+                title: 'Your database is being created. ',
+                text: "Please try again in 10 minutes",
+                type: 'info',
                 showCancelButton: false,
                 confirmButtonText: 'Try Again'
                 }).then((result) => {
@@ -3815,6 +3845,14 @@ $("#erplogin-button").click(async function(e){
                     // let userAccessOptions = dataReturnRes.ProcessLog.AccessLevels.AccessLevels;
                   };
 
+                  if(dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.AccessLevels.ResponseNo == 401){
+                    swal('Sorry, You do not have access to any VS1 Modules!', '', 'error');
+                    $('.fullScreenSpin').css('display','none');
+                    $('.loginSpinner').css('display','none');
+                    return false;
+                    // let userAccessOptions = dataReturnRes.ProcessLog.AccessLevels.AccessLevels;
+                  };
+
 
 
           Session.setPersistent('mycloudLogonUsername', ERPuserName);
@@ -3980,9 +4018,9 @@ $("#erplogin-button").click(async function(e){
                 var ErrorResponse = oReq.getResponseHeader('errormessage');
                 if (ErrorResponse.indexOf("Access violation") >= 0){
                   swal({
-                    title: 'Something went wrong',
-                    text: "Your database is being created. Please try again in 10 minutes",
-                    type: 'error',
+                    title: 'Your database is being created. ',
+                    text: "Please try again in 10 minutes",
+                    type: 'info',
                     showCancelButton: false,
                     confirmButtonText: 'Try Again'
                     }).then((result) => {

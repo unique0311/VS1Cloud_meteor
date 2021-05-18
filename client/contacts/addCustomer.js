@@ -28,7 +28,7 @@ Template.customerscard.onCreated(function () {
     templateObject.taxCodeList = new ReactiveVar();
     templateObject.defaultsaletaxcode = new ReactiveVar();
 
-
+    templateObject.defaultsaleterm = new ReactiveVar();
 
     templateObject.isJob = new ReactiveVar();
     templateObject.isJob.set(false);
@@ -101,7 +101,7 @@ Template.customerscard.onRendered(function () {
             }
         });
     }, 500);
- 
+
 
     templateObject.getOverviewARData = function (CustomerName) {
         getVS1Data('TARReport').then(function (dataObject) {
@@ -1582,7 +1582,11 @@ Template.customerscard.onRendered(function () {
             if (dataObject.length == 0) {
                 contactService.getTermDataVS1().then((data) => {
                     for (let i = 0; i < data.ttermsvs1.length; i++) {
-                        terms.push(data.ttermsvs1[i].TermsName)
+                        terms.push(data.ttermsvs1[i].TermsName);
+                        if(data.ttermsvs1[i].isSalesdefault == true){
+                          templateObject.defaultsaleterm.set(data.ttermsvs1[i].TermsName);
+                          // $('.termsSelect').val(data.ttermsvs1[i].TermsName);
+                        }
                     }
                     terms = _.sortBy(terms);
                     templateObject.termsList.set(terms);
@@ -1591,7 +1595,11 @@ Template.customerscard.onRendered(function () {
                 let data = JSON.parse(dataObject[0].data);
                 let useData = data.ttermsvs1;
                 for (let i = 0; i < useData.length; i++) {
-                    terms.push(useData[i].TermsName)
+                    terms.push(useData[i].TermsName);
+                    if(useData[i].isSalesdefault == true){
+                      templateObject.defaultsaleterm.set(useData[i].TermsName);
+                      //$('.termsSelect').val(useData[i].TermsName);
+                    }
                 }
                 terms = _.sortBy(terms);
                 templateObject.termsList.set(terms);
@@ -1600,7 +1608,10 @@ Template.customerscard.onRendered(function () {
         }).catch(function (err) {
             contactService.getTermDataVS1().then((data) => {
                 for (let i = 0; i < data.ttermsvs1.length; i++) {
-                    terms.push(data.ttermsvs1[i].TermsName)
+                    terms.push(data.ttermsvs1[i].TermsName);
+                    if(data.ttermsvs1[i].isSalesdefault == true){
+                      templateObject.defaultsaleterm.set(data.ttermsvs1[i].TermsName);
+                    }
                 }
                 terms = _.sortBy(terms);
                 templateObject.termsList.set(terms);
@@ -1728,6 +1739,7 @@ Template.customerscard.onRendered(function () {
             shippingaddress: '',
             scity: '',
             sstate: '',
+            terms: templateObject.defaultsaleterm.get() || '',
             spostalcode: '',
             scountry: LoggedCountry || '',
             billingaddress: '',
@@ -1798,7 +1810,7 @@ Template.customerscard.onRendered(function () {
                                 bcountry: data.fields.Billcountry || '',
                                 notes: data.fields.Notes || '',
                                 preferedpayment: data.fields.PaymentMethodName || '',
-                                terms: data.fields.TermsName || '',
+                                terms: data.fields.TermsName || templateObject.defaultsaleterm.get(),
                                 deliverymethod: data.fields.ShippingMethodName || '',
                                 clienttype: data.fields.ClientTypeName || '',
                                 openingbalance: data.fields.RewardPointsOpeningBalance || 0.00,
@@ -2311,7 +2323,7 @@ Template.customerscard.onRendered(function () {
                                 jobbcountry: data.fields.Billcountry || '',
                                 jobnotes: data.fields.Notes || '',
                                 jobpreferedpayment: data.fields.PaymentMethodName || '',
-                                jobterms: data.fields.TermsName || '',
+                                jobterms: data.fields.TermsName || templateObject.defaultsaleterm.get(),
                                 jobdeliverymethod: data.fields.ShippingMethodName || '',
                                 jobopeningbalance: data.fields.RewardPointsOpeningBalance || 0.00,
                                 jobopeningbalancedate: data.fields.RewardPointsOpeningDate ? moment(data.fields.RewardPointsOpeningDate).format('DD/MM/YYYY') : "",
@@ -2398,7 +2410,7 @@ Template.customerscard.onRendered(function () {
                                     jobbcountry: useData[i].fields.Billcountry || '',
                                     jobnotes: useData[i].fields.Notes || '',
                                     jobpreferedpayment: useData[i].fields.PaymentMethodName || '',
-                                    jobterms: useData[i].fields.TermsName || '',
+                                    jobterms: useData[i].fields.TermsName || templateObject.defaultsaleterm.get(),
                                     jobdeliverymethod: useData[i].fields.ShippingMethodName || '',
                                     jobopeningbalance: useData[i].fields.RewardPointsOpeningBalance || 0.00,
                                     jobopeningbalancedate: useData[i].fields.RewardPointsOpeningDate ? moment(useData[i].fields.RewardPointsOpeningDate).format('DD/MM/YYYY') : "",
@@ -2639,6 +2651,7 @@ Template.customerscard.onRendered(function () {
                 mobile: '',
                 fax: '',
                 shippingaddress: '',
+                terms:templateObject.defaultsaleterm.get()||'',
                 scity: '',
                 sstate: '',
                 spostalcode: '',
