@@ -478,10 +478,10 @@ let isSettingsLicence = Session.get('CloudSettingsLicence');
                     Session.setPersistent('CloudManufacturingModule', isManufacturing);
                   }
 
-                  if((radioValue == 1) && (accessDesc == "Access Levels")){
+                  if((radioValue == 1) && (accessDesc == "Settings")){
                     isAccessLevels = true;
                     Session.setPersistent('CloudAccessLevelsModule', isAccessLevels);
-                  }else if((radioValue != 1) && (accessDesc == "Access Levels")){
+                  }else if((radioValue != 1) && (accessDesc == "Settings")){
                     isAccessLevels = false;
                     Session.setPersistent('CloudAccessLevelsModule', isAccessLevels);
                   }
@@ -703,10 +703,10 @@ let isSettingsLicence = Session.get('CloudSettingsLicence');
                       Session.setPersistent('CloudManufacturingModule', isManufacturing);
                     }
 
-                    if((radioValue == 1) && (accessDesc == "Access Levels")){
+                    if((radioValue == 1) && (accessDesc == "Settings")){
                       isAccessLevels = true;
                       Session.setPersistent('CloudAccessLevelsModule', isAccessLevels);
-                    }else if((radioValue != 1) && (accessDesc == "Access Levels")){
+                    }else if((radioValue != 1) && (accessDesc == "Settings")){
                       isAccessLevels = false;
                       Session.setPersistent('CloudAccessLevelsModule', isAccessLevels);
                     }
@@ -1006,10 +1006,10 @@ let isSettingsLicence = Session.get('CloudSettingsLicence');
                     Session.setPersistent('CloudManufacturingModule', isManufacturing);
                   }
 
-                  if((radioValue == 1) && (accessDesc == "Access Levels")){
+                  if((radioValue == 1) && (accessDesc == "Settings")){
                     isAccessLevels = true;
                     Session.setPersistent('CloudAccessLevelsModule', isAccessLevels);
-                  }else if((radioValue != 1) && (accessDesc == "Access Levels")){
+                  }else if((radioValue != 1) && (accessDesc == "Settings")){
                     isAccessLevels = false;
                     Session.setPersistent('CloudAccessLevelsModule', isAccessLevels);
                   }
@@ -1231,10 +1231,10 @@ let isSettingsLicence = Session.get('CloudSettingsLicence');
                       Session.setPersistent('CloudManufacturingModule', isManufacturing);
                     }
 
-                    if((radioValue == 1) && (accessDesc == "Access Levels")){
+                    if((radioValue == 1) && (accessDesc == "Settings")){
                       isAccessLevels = true;
                       Session.setPersistent('CloudAccessLevelsModule', isAccessLevels);
-                    }else if((radioValue != 1) && (accessDesc == "Access Levels")){
+                    }else if((radioValue != 1) && (accessDesc == "Settings")){
                       isAccessLevels = false;
                       Session.setPersistent('CloudAccessLevelsModule', isAccessLevels);
                     }

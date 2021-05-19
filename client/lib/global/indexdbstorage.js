@@ -222,14 +222,14 @@ addLoginData = async function (loginData) {
   transaction1.oncomplete = function (event) {
     //console.log("Transaction completed");
   };
-  localStorage.setItem("vs1EmployeeName",loginData.ProcessLog.VS1AdminUserName);
+  localStorage.setItem("vs1EmployeeName",loginData.ProcessLog.VS1UserName||loginData.ProcessLog.VS1AdminUserName);
   let loginInfo = {
-    EmployeeEmail: loginData.ProcessLog.VS1AdminUserName,
+    EmployeeEmail: loginData.ProcessLog.VS1UserName||loginData.ProcessLog.VS1AdminUserName,
     data: loginData
   }
 
   let dbInfo = {
-    EmployeeEmail: loginData.ProcessLog.VS1AdminUserName,
+    EmployeeEmail: loginData.ProcessLog.VS1UserName||loginData.ProcessLog.VS1AdminUserName,
     data: loginData.ProcessLog.Databasename
   }
 
@@ -244,13 +244,14 @@ addLoginData = async function (loginData) {
 
 addVS1Data = async function (objectName, vs1Data) {
   const db = await openDb(localStorage.getItem("vs1Db"));
-  // console.log(localStorage.getItem("vs1Db"));
+  console.log(localStorage.getItem("vs1Db"));
+    console.log(localStorage.getItem("vs1EmployeeName"));
   //const db1 = await openDb2();
   //let transaction1 = await db1.transaction(["TDatabases"], "readwrite")
   let transaction = await db.transaction([objectName], "readwrite");
 
   transaction.oncomplete = function (event) {
-    //console.log("Transaction completed");
+    console.log("Transaction completed");
   };
   let currentDate = new Date();
   let hours = currentDate.getHours(); //returns 0-23
@@ -292,7 +293,6 @@ queryLoginDataObject = function (objectStore, VS1AdminUserName) {
   var promise =  new Promise((resolve, reject) => {
     let results = objectStore.openCursor();
     let data = [];
-
     results.onerror = () => reject(Console.log('Encountered error querying object store.'));
     results.onsuccess = (event) => {
       let cursor = event.target.result;
@@ -304,8 +304,9 @@ queryLoginDataObject = function (objectStore, VS1AdminUserName) {
           //     reject('');
           // }
 
-          cursor.continue();
+
         }
+        cursor.continue();
       }
       else{
         if(data){
@@ -320,6 +321,7 @@ queryLoginDataObject = function (objectStore, VS1AdminUserName) {
 
 
 getLoginData = async function (email) {
+
   const db = await openDb(localStorage.getItem("vs1Db"));
   const transaction = await db.transaction(["vscloudlogininfo"]);
   const objectStore = await transaction.objectStore('vscloudlogininfo');
@@ -338,8 +340,9 @@ queryVS1DataObject = function (objectStore, VS1AdminUserName) {
         if (VS1AdminUserName == cursor.key) {
           data.push(cursor.value);
 
-          cursor.continue();
+
         }
+        cursor.continue();
       }
       else{
         if(data){

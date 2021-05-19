@@ -221,7 +221,7 @@ Template.testlogin.onRendered(function(){
               isManufacturing = true;
             }
 
-            if(data.temployeeformaccessdetail[i].fields.Description === "Access Levels"){
+            if(data.temployeeformaccessdetail[i].fields.Description === "Settings"){
               isAccessLevels = true;
             }
             if(data.temployeeformaccessdetail[i].fields.Description === "Shipping"){
@@ -673,7 +673,7 @@ window.open('/dashboard','_self');
           isManufacturing = true;
         }
 
-        if(optionaccess.fields.Description === "Access Levels"){
+        if(optionaccess.fields.Description === "Settings"){
           isAccessLevels = true;
         }
         if(optionaccess.fields.Description === "Shipping"){

@@ -1456,10 +1456,10 @@ Template.accessleveldup.events({
                                     Session.setPersistent('CloudManufacturingModule', isManufacturing);
                                 }
 
-                                if((radioValue == 1) && (accessDesc == "Access Levels")){
+                                if((radioValue == 1) && (accessDesc == "Settings")){
                                     isAccessLevels = true;
                                     Session.setPersistent('CloudAccessLevelsModule', isAccessLevels);
-                                }else if((radioValue != 1) && (accessDesc == "Access Levels")){
+                                }else if((radioValue != 1) && (accessDesc == "Settings")){
                                     isAccessLevels = false;
                                     Session.setPersistent('CloudAccessLevelsModule', isAccessLevels);
                                 }
@@ -1681,10 +1681,10 @@ Template.accessleveldup.events({
                                     Session.setPersistent('CloudManufacturingModule', isManufacturing);
                                 }
 
-                                if((radioValue == 1) && (accessDesc == "Access Levels")){
+                                if((radioValue == 1) && (accessDesc == "Settings")){
                                     isAccessLevels = true;
                                     Session.setPersistent('CloudAccessLevelsModule', isAccessLevels);
-                                }else if((radioValue != 1) && (accessDesc == "Access Levels")){
+                                }else if((radioValue != 1) && (accessDesc == "Settings")){
                                     isAccessLevels = false;
                                     Session.setPersistent('CloudAccessLevelsModule', isAccessLevels);
                                 }

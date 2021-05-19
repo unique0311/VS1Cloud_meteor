@@ -223,7 +223,7 @@ Template.vs1greentracklogin.onRendered(function(){
               isManufacturing = true;
             }
 
-            if(data.temployeeformaccessdetail[i].fields.Description === "Access Levels"){
+            if(data.temployeeformaccessdetail[i].fields.Description === "Settings"){
               isAccessLevels = true;
             }
             if(data.temployeeformaccessdetail[i].fields.Description === "Shipping"){
@@ -644,122 +644,7 @@ window.open('/dashboard','_self');
 
     /* End Licence Check for menu option */
     if(userAccessOptions.items){
-      /*
-    $.each(userAccessOptions.items, function (itemaccess, optionaccess) {
 
-          lineItemObjlevel = {
-          formID: optionaccess.fields.FormId || '',
-          accessLevel: optionaccess.fields.AccessLevel || '',
-          accessLevelname: optionaccess.fields.AccessLevelName || '',
-          description: optionaccess.fields.Description || '',
-          formName: optionaccess.fields.FormName || '',
-          accessID: optionaccess.fields.Id || '',
-      };
-
-      if(optionaccess.fields.AccessLevelName === "Full Access"){
-        if(optionaccess.fields.Description === "Print Delivery Docket"){
-          isDocket = true;
-        }
-        if(optionaccess.fields.Description === "Print Invoice"){
-          isInvoice = true;
-        }
-
-        if(optionaccess.fields.Description === "User Password Details"){
-          isUserPassDetail = true;
-        }
-
-        if(optionaccess.fields.Description === "Dashboard"){
-          isDashboard = true;
-        }
-        if(optionaccess.fields.Description === "Main"){
-          isMain = true;
-        }
-        if(optionaccess.fields.Description === "Inventory" || optionaccess.Description === "Inventory Tracking"){
-          isInventory = true;
-        }
-        if(optionaccess.fields.Description === "Manufacturing"){
-          isManufacturing = true;
-        }
-
-        if(optionaccess.fields.Description === "Access Levels"){
-          isAccessLevels = true;
-        }
-        if(optionaccess.fields.Description === "Shipping"){
-          isShipping = true;
-        }
-        if(optionaccess.fields.Description === "Stock Transfer"){
-          isStockTransfer = true;
-        }
-        if(optionaccess.fields.Description === "Side Panel Menu"){
-          isSidePanel = true;
-          isSidePanelID = optionaccess.fields.ID;
-          isSidePanelFormID = optionaccess.fields.FormId;
-        }
-        if(optionaccess.fields.Description === "Top Panel Menu"){
-          isTopPanel = true;
-          isTopPanelID = optionaccess.fields.ID;
-          isTopPanelFormID = optionaccess.fields.FormId;
-        }
-        if(optionaccess.fields.Description === "Stock Take"){
-          isStockTake = true;
-        }
-        if(optionaccess.fields.Description === "Sales"){
-          isSales = true;
-        }
-        if(optionaccess.fields.Description === "Purchases"){
-          isPurchases = true;
-        }
-        if(optionaccess.fields.Description === "Expense Claims"){
-          isExpenseClaims = true;
-        }
-        if(optionaccess.fields.Description === "Fixed Assets"){
-          isFixedAssets = true;
-        }
-        if(optionaccess.fields.Description === "Payments"){
-          isPayments = true;
-        }
-        if(optionaccess.fields.Description === "Contacts"){
-          isContacts = true;
-        }
-        if(optionaccess.fields.Description === "Accounts"){
-
-          isAccounts = true;
-        }
-        if(optionaccess.fields.Description === "Reports"){
-          isReports = true;
-        }
-        if(optionaccess.fields.Description === "Settings"){
-          isSettings = true;
-        }
-        if(optionaccess.fields.Description === "View Dockets"){
-          isViewDockets = true;
-        }
-
-        if(optionaccess.fields.Description === "Qty Only on Purchase Order"){
-          isPurchaseQtyOnly = true;
-        }
-
-        if(optionaccess.fields.Description === "Qty Only on Sales"){
-          isSalesQtyOnly = true;
-        }
-
-
-
-        lineItemAccessObjlevel = {
-           formID: optionaccess.fields.FormId || '',
-           accessLevel: optionaccess.fields.AccessLevel || '',
-           accessLevelname: optionaccess.fields.AccessLevelName || '',
-           description: optionaccess.fields.Description || '',
-           formName: optionaccess.fields.FormName || '',
-           accessID: optionaccess.fields.ID || '',
-       };
-       lineItemsAccesslevel.push(lineItemAccessObjlevel);
-      }
-
-      lineItemslevel.push(lineItemObjlevel);
-
-    });
-*/
     if(!isDashboardLicence){
       isDashboard = false;
     }
@@ -1167,30 +1052,42 @@ $("#erplogin-button").click(function(e){
    let licenceitemsoption = [];
     let licenceitemsObj = {};
 
+    let isSameUserLogin = false;
     /* licence Option To Add */
     let isAccountsLicence = false;
     let isContactsLicence = false;
-    let isExpenseClaimsLicence = false;
     let isPaymentsLicence = false;
     let isReportsLicence = false;
     let isSettingsLicence = true;
-
-
     let isFixedAssetsLicence = false;
     let isInventoryLicence = false;
-    let isManufacturingLicence = false;
     let isPurchasesLicence = false;
     let isSalesLicence = false;
-    let isShippingLicence = false;
+
     let isStockTakeLicence = false;
     let isStockTransferLicence = false;
 
     let isMainLicence = true;
     let isDashboardLicence = false;
-    let isSeedToSaleLicence = true;
     let isBankingLicence = false;
+
+    let isBinTrackingLicence = false;
+    let isBatchSerialNoLicence = false;
+    let isJobsConstructionLicence = false;
+
+    let isFxCurrencyLicence = false;
+    let isSeedToSaleLicence = true;
+    let isManufacturingLicence = false;
+    let isWMSLicence = false;
+    let isAddExtraUserLicence = false;
+    let isMatrixLicence = false;
+    let isShippingLicence = false;
     let isPayrollLicence = false;
+    let isExpenseClaimsLicence = false;
+    let isPOSLicence = false;
+
     /*End Option to Add */
+    let isTrueERPConnection = false;
 
   let userLoginEmail = $("#email").val();
   let userLoginPassword = $("#erppassword").val();
@@ -1226,434 +1123,2739 @@ $("#erplogin-button").click(function(e){
       e.preventDefault();
   }else{
 
-    Meteor.call('readMethod',userLoginEmail, function(error, result){
-    if(error){
+    storeExists1(userLoginEmail).then(function(data) {
+        if(data == true) {
+          var dataRes = getLoginData(userLoginEmail).then(function (dataObject) {
+            if(dataObject.length == 0){
+              var serverTest = URLRequest + licenceIPAddress + ':' + checkSSLPorts + '/erpapi/Vs1_Logon?Vs1UserName="'+userLoginEmail+'"&vs1Password="'+userLoginPassword+'"';
+              //alert(serverTest);
+              var oReq = new XMLHttpRequest();
+              oReq.open("GET",serverTest, true);
+              oReq.setRequestHeader("database",vs1loggedDatatbase);
+              oReq.setRequestHeader("username","VS1_Cloud_Admin");
+              oReq.setRequestHeader("password","DptfGw83mFl1j&9");
+              oReq.send();
 
-    }else{
-    let regUserDetails = result;
-    if(regUserDetails){
-      if(regUserDetails.length === 0){
+              // oReq.timeout = 30000;
+              oReq.onreadystatechange = function() {
+              //alert(oReq.responseText);
+                if (oReq.readyState == 4 && oReq.status == 200) {
+                  Session.setPersistent('mainEIPAddress', licenceIPAddress);
+                  Session.setPersistent('mainEPort', checkSSLPorts);
+                 // alert(oReq.responseText);
+                  //document.getElementById("result").innerHTML = oReq.responseText;
+                  var dataReturnRes = JSON.parse(oReq.responseText);
 
-      }
-      // console.log(regUserDetails.length);
-    //for (let i = 0; i < regUserDetails.length; i++) {
-      //if(regUserDetails.length == 1){
+                  //console.log(myArrResponse);
+                  if(dataReturnRes.ProcessLog){
+                  if(dataReturnRes.ProcessLog.ResponseStatus != "OK"){
+                    if(dataReturnRes.ProcessLog.ResponseStatus == "Payment is Due"){
+                      $('.loginSpinner').css('display','none');
+                      $('.fullScreenSpin').css('display','none');
+                      // swal("Your payment has been declined please update your payment subscription information!", '', 'error');
+                      swal({
+                        title: 'Your payment has been declined please update your payment subscription information!',
+                        text: '',
+                        type: 'error',
+                        showCancelButton: true,
+                        confirmButtonText: 'Update Payment',
+                        cancelButtonText: 'Cancel'
+                      }).then((result) => {
+                        if (result.value) {
+                          window.open('https://magento-473757-1929062.cloudwaysapps.com/customer/account/login/referer/aHR0cHM6Ly93d3cucGF5bWVudHMudnMxY2xvdWQuY29tLw%2C%2C?urppassname='+dataReturnRes.ProcessLog.VS1AdminUserName+'&urlpasstoken='+userLoginPassword+'', '_blank');
+                        } else if (result.dismiss === 'cancel') {
+
+                        }
+                      });
+
+                    }else{
+                      swal(dataReturnRes.ProcessLog.ResponseStatus, dataReturnRes.ProcessLog.ResponseStatus, 'error');
+
+                      $('.loginSpinner').css('display','none');
+                      $('.fullScreenSpin').css('display','none');
+                    }
+                    // Bert.alert('Database Error<strong> :'+ myArrResponse.ProcessLog.Error+'</strong>', 'now-error');
 
 
-          let cloudLoggedID = regUserDetails._id;
-          let cloudLoggedDBID = regUserDetails.clouddatabaseID;
-          let cloudLoggedUsername = regUserDetails.cloudUsername;
+                  }else{
+
+                    //addLoginData(dataReturnRes);
+                    Meteor.call('readMethod',dataReturnRes.ProcessLog.VS1AdminUserName, function(error, result){
+                    if(error){
+
+                    }else{
+                    let regUserDetails = result;
+                    if(regUserDetails){
+                      if(regUserDetails.length === 0){
+
+                      }
+                          // let cloudLoggedID = regUserDetails._id;
+                          // let cloudLoggedDBID = regUserDetails.clouddatabaseID;
+                          // let cloudLoggedUsername = regUserDetails.cloudUsername;
+                          //
+                          //
+                          Session.setPersistent('mycloudLogonDBID', regUserDetails.clouddatabaseID);
+                          Session.setPersistent('mycloudLogonID', regUserDetails._id);
+
+                    }
+                    }
+
+                    });
+                    //addLoginData(dataReturnRes);
+                    localStorage.setItem('vs1cloudLoginInfo', dataReturnRes);
+                    localStorage.setItem('vs1cloudlicenselevel', dataReturnRes.ProcessLog.LicenseLevel);
+                    Session.setPersistent('isGreenTrack', true);
+                    if(!localStorage.getItem('VS1loggedDatabase')){
+                      localStorage.setItem('VS1loggedDatabase', dataReturnRes.ProcessLog.Databasename);
+                      localStorage.setItem('VS11099Contractor_Report', '');
+                      localStorage.setItem('VS1AgedPayables_Report', '');
+                      localStorage.setItem('VS1AgedPayablesSummary_Report', '');
+                      localStorage.setItem('VS1AgedReceivables_Report', '');
+                      localStorage.setItem('VS1AgedReceivableSummary_Report', '');
+                      localStorage.setItem('VS1BalanceSheet_Report', '');
+                      localStorage.setItem('VS1BalanceTrans_Report', '');
+                      localStorage.setItem('VS1GeneralLedger_Report', '');
+                      localStorage.setItem('VS1ProfitandLoss_Report', '');
+                      localStorage.setItem('VS1Purchase_List', '');
+                      localStorage.setItem('VS1Purchase_Report', '');
+                      localStorage.setItem('VS1PurchaseSummary_Report', '');
+                      localStorage.setItem('VS1ProductSales_List', '');
+                      localStorage.setItem('VS1ProductSales_Report', '');
+                      localStorage.setItem('VS1Sales_List', '');
+                      localStorage.setItem('VS1Sales_Report', '');
+                      localStorage.setItem('VS1SalesSummary_Report', '');
+                      localStorage.setItem('VS1TaxSummary_Report', '');
+                      localStorage.setItem('VS1TrialBalance_Report', '');
+                      localStorage.setItem('VS1PrintStatements_Report', '');
+                      Session.setPersistent('bankaccountid', '');
+
+                      localStorage.setItem('VS1ProductList', '');
+                      localStorage.setItem('VS1CustomerList', '');
+                      localStorage.setItem('VS1SupplierList', '');
+                      localStorage.setItem('VS1AccountList', '');
+                      localStorage.setItem('VS1TaxCodeList', '');
+                      localStorage.setItem('VS1TermsList', '');
+                      localStorage.setItem('VS1DepartmentList', '');
+                      localStorage.setItem('VS1CurrencyList', '');
+                      localStorage.setItem('VS1LeadStatusList', '');
+                      localStorage.setItem('VS1ShippingMethodList', '');
+                      localStorage.setItem('VS1AccountTypeList', '');
+                      localStorage.setItem('VS1ERPCombinedContactsList', '');
+                      localStorage.setItem('VS1EmployeeList', '');
+                      localStorage.setItem('VS1JournalEntryLineList', '');
+                      localStorage.setItem('VS1BankAccountReportList', '');
+                      localStorage.setItem('VS1TInvoiceList', '');
+                      localStorage.setItem('VS1TInvoiceNonBackOrderList', '');
+                      localStorage.setItem('VS1BackOrderSalesListList', '');
+                      localStorage.setItem('VS1TPurchaseOrderList', '');
+                      localStorage.setItem('VS1TReconcilationList', '');
+                      localStorage.setItem('VS1TChequeList', '');
+                      localStorage.setItem('VS1TProductStocknSalePeriodReport', '');
+                      localStorage.setItem('VS1TAppUserList', '');
+                      localStorage.setItem('VS1TJobVS1List', '');
+                      localStorage.setItem('VS1TStockAdjustEntryList', '');
+                      localStorage.setItem('VS1TsalesOrderNonBackOrderList', '');
+                      localStorage.setItem('VS1TbillReport', '');
+                      localStorage.setItem('VS1TbillReport', '');
+                      localStorage.setItem('VS1TCreditList', '');
+                      localStorage.setItem('VS1TpurchaseOrderNonBackOrderList', '');
+                      localStorage.setItem('VS1TpurchaseOrderBackOrderList', '');
+                      localStorage.setItem('VS1TSalesList', '');
+                    }else{
+                      if((localStorage.getItem('VS1loggedDatabase')) == (dataReturnRes.ProcessLog.Databasename)) {
+                        isSameUserLogin = true;
+                      }else{
+                        localStorage.setItem('VS1loggedDatabase', dataReturnRes.ProcessLog.Databasename);
+                        localStorage.setItem('VS11099Contractor_Report', '');
+                        localStorage.setItem('VS1AgedPayables_Report', '');
+                        localStorage.setItem('VS1AgedPayablesSummary_Report', '');
+                        localStorage.setItem('VS1AgedReceivables_Report', '');
+                        localStorage.setItem('VS1AgedReceivableSummary_Report', '');
+                        localStorage.setItem('VS1BalanceSheet_Report', '');
+                        localStorage.setItem('VS1BalanceTrans_Report', '');
+                        localStorage.setItem('VS1GeneralLedger_Report', '');
+                        localStorage.setItem('VS1ProfitandLoss_Report', '');
+                        localStorage.setItem('VS1Purchase_List', '');
+                        localStorage.setItem('VS1Purchase_Report', '');
+                        localStorage.setItem('VS1PurchaseSummary_Report', '');
+                        localStorage.setItem('VS1ProductSales_List', '');
+                        localStorage.setItem('VS1ProductSales_Report', '');
+                        localStorage.setItem('VS1Sales_List', '');
+                        localStorage.setItem('VS1Sales_Report', '');
+                        localStorage.setItem('VS1SalesSummary_Report', '');
+                        localStorage.setItem('VS1TaxSummary_Report', '');
+                        localStorage.setItem('VS1TrialBalance_Report', '');
+                        localStorage.setItem('VS1PrintStatements_Report', '');
+
+                        //Lists
+                        localStorage.setItem('VS1AccoountList','');
+                        Session.setPersistent('bankaccountid', '');
+                      }
+                    }
 
 
-          Session.setPersistent('mycloudLogonDBID', cloudLoggedDBID);
-          Session.setPersistent('mycloudLogonID', cloudLoggedID);
+                    // console.log(dataReturnRes.ProcessLog.TRegionalOptions.CurrencySymbol);
+                    Session.setPersistent('ERPCurrency', dataReturnRes.ProcessLog.TRegionalOptions.CurrencySymbol);
 
-    }
-    }
+                    var region = dataReturnRes.ProcessLog.RegionName;
+                    Session.setPersistent('ERPLoggedCountry', region);
 
-    });
+                    if(dataReturnRes.ProcessLog.RegionName === "Australia"){
+                      Session.setPersistent('ERPCountryAbbr', 'AUD');
+                    }else if(dataReturnRes.ProcessLog.RegionName === "Canada"){
+                      Session.setPersistent('ERPCountryAbbr', 'CAD');
+                    }else if(dataReturnRes.ProcessLog.RegionName === "Colombia"){
+                      Session.setPersistent('ERPCountryAbbr', 'COP');
+                    }else if(dataReturnRes.ProcessLog.RegionName === "Kuwait"){
+                      Session.setPersistent('ERPCountryAbbr', 'KYD');
+                    }else if(dataReturnRes.ProcessLog.RegionName === "Mexico"){
+                      Session.setPersistent('ERPCountryAbbr', 'MXN');
+                    }else if(dataReturnRes.ProcessLog.RegionName === "New Zealand"){
+                      Session.setPersistent('ERPCountryAbbr', 'NZD');
+                    }else if(dataReturnRes.ProcessLog.RegionName === "Qatar"){
+                      Session.setPersistent('ERPCountryAbbr', 'QAR');
+                    }else if(dataReturnRes.ProcessLog.RegionName === "Kingdom of Saudi Arabia"){
+                      Session.setPersistent('ERPCountryAbbr', 'SAR');
+                    }else if(dataReturnRes.ProcessLog.RegionName === "Singapore"){
+                      Session.setPersistent('ERPCountryAbbr', 'SGD');
+                    }else if(dataReturnRes.ProcessLog.RegionName === "South Africa"){
+                      Session.setPersistent('ERPCountryAbbr', 'ZAR');
+                    }else if(dataReturnRes.ProcessLog.RegionName === "United Arab Emirates"){
+                      Session.setPersistent('ERPCountryAbbr', 'AED');
+                    }else if(dataReturnRes.ProcessLog.RegionName === "United Kingdom"){
+                      Session.setPersistent('ERPCountryAbbr', 'GBP');
+                    }else if(dataReturnRes.ProcessLog.RegionName === "United States of America"){
+                      Session.setPersistent('ERPCountryAbbr', 'USD');
+                    }
+                    Session.setPersistent('ERPDefaultDepartment', 'Default');
+                    Session.setPersistent('ERPDefaultUOM', '');
+                    Session.setPersistent('VS1AdminUserName', dataReturnRes.ProcessLog.VS1AdminUserName);
+                    dataReturnRes.ProcessLog.VS1AdminPassword = userLoginPassword;
+                    dataReturnRes.ProcessLog.VS1UserName = userLoginEmail;
+                    var ERPIPAdderess= "";
+                    if(dataReturnRes.ProcessLog.ServerName == "110.142.175.245"){
+                      ERPIPAdderess= "www.login.vs1cloud.com";
+                    }else{
+                      ERPIPAdderess= dataReturnRes.ProcessLog.ServerName;
+                    }
+               var ERPdbName = dataReturnRes.ProcessLog.Databasename;
 
-    $('.loginSpinner').css('display','inline-block');
-    $('.fullScreenSpin').css('display','inline-block');
-    var serverTest = URLRequest + licenceIPAddress + ':' + checkSSLPorts + '/erpapi/Vs1_Logon?Vs1UserName="'+userLoginEmail+'"&vs1Password="'+userLoginPassword+'"';
-    //alert(serverTest);
-    var oReq = new XMLHttpRequest();
-    oReq.open("GET",serverTest, true);
-    oReq.setRequestHeader("database",vs1loggedDatatbase);
-    oReq.setRequestHeader("username","VS1_Cloud_Admin");
-    oReq.setRequestHeader("password","DptfGw83mFl1j&9");
+               var ERPport = dataReturnRes.ProcessLog.APIPort;
 
-    oReq.send();
+                 Session.setPersistent('mycloudLogonUserEmail', userLoginEmail);
+               //alert(ERPdbName);
+               var ERPuserName = userLoginEmail;
+                var ERPLoggeduserName = userLoginEmail;
+               var ERPpassword = userLoginPassword;
+
+               let erpdbname = ERPIPAdderess+','+ERPdbName+','+ERPuserName+','+ERPpassword+','+ERPport;
+              let licenceOptions = dataReturnRes.ProcessLog.Modules.Modules;
+              $.each(licenceOptions, function (item, option) {
+
+                        if(option.ModuleName == 'Accounts Payable Reports'){
+                          isAccountsLicence = false;
+                        }else if(option.ModuleName == 'Statements'){
+                          isContactsLicence = false;
+                        }else if((option.ModuleName == 'Expense Claims / Receipt Claiming')){
+                          isExpenseClaimsLicence = false;
+                        }else if(option.ModuleName == 'CloudDashboard'){
+                          isDashboardLicence = false;
+                        }else if(option.ModuleName == 'CloudFixedAssets'){
+                          isFixedAssetsLicence = false;
+                        }else if(option.ModuleName == 'Inventory Tracking'){
+                          isInventoryLicence = false;
+                        }else if(option.ModuleName == 'CloudMain'){
+                          isMainLicence = false;
+                        }else if(option.ModuleName == 'Manufacturing'){
+                          isManufacturingLicence = false;
+                        }else if(option.ModuleName == 'Payemnts'){
+                          isPaymentsLicence = false;
+                        }else if(option.ModuleName == 'Bills'){
+                          isPurchasesLicence = false;
+                        }else if(option.ModuleName == 'Reports Dashboard'){
+                           isReportsLicence = false;
+                        }else if((option.ModuleName == 'Quotes') || (option.ModuleName == 'Invoices')){
+                          isSalesLicence = false;
+                        }else if(option.ModuleName == 'CloudSettings'){
+                          isSettingsLicence = true;
+                        }else if((option.ModuleName == 'Shipping')){
+                          isShippingLicence = false;
+                        }else if(option.ModuleName == 'Stock Adjustments'){
+                          isStockTakeLicence = false;
+                        }else if(option.ModuleName == 'Stock Adjustments'){
+                          isStockTransferLicence = false;
+                        }else if((option.ModuleName == 'Seed To Sale')){
+                          isSeedToSaleLicence = true;
+                        }else if(option.ModuleName == 'CloudBanking'){
+                          isBankingLicence = true;
+                        }else if((option.ModuleName == 'Payroll Integration') ){
+                          isPayrollLicence = false;
+                        }else if((option.ModuleName == 'Manufacturing')){
+                          isManufacturingLicence = false;
+                        }else if((option.ModuleName == 'POS')){
+                          isPOSLicence = false;
+                        }else if((option.ModuleName == 'WMS')){
+                          isWMSLicence = false;
+                        }else if((option.ModuleName == 'Matrix')){
+                          isMatrixLicence = false;
+                        }else if((option.ModuleName == 'Add Extra User')){
+                          isAddExtraUserLicence = true;
+                        }else if((option.ModuleName == 'FX Currency')){
+                          isFxCurrencyLicence = false;
+                        }else if((option.ModuleName == 'Use Foreign Currency')){
+                          isFxCurrencyLicence = true;
+                        }else if((option.ModuleName == 'Link To TrueERP') || (option.ModuleName == 'Connect to Live ERP DB')){
+                          if(option.ModuleActive){
+                            isTrueERPConnection = false;
+                          }else{
+                            isTrueERPConnection = false;
+                          }
+                        }
+
+              });
+              // Session.setPersistent('LoggedUserEventFired', true);
+              /* Remove licence */
+                  //licence Option To Add Session
+                  Session.setPersistent('CloudTrueERPModule', isTrueERPConnection);
+                  Session.setPersistent('CloudAccountsLicence', isAccountsLicence);
+                  Session.setPersistent('CloudContactsLicence', isContactsLicence);
+                  Session.setPersistent('CloudExpenseClaimsLicence', isExpenseClaimsLicence);
+                  Session.setPersistent('CloudPaymentsLicence', isPaymentsLicence);
+                  Session.setPersistent('CloudReportsLicence', isReportsLicence);
+                  Session.setPersistent('CloudSettingsLicence', isSettingsLicence);
+
+                  Session.setPersistent('CloudMainLicence', isMainLicence);
+                  Session.setPersistent('CloudDashboardLicence', isDashboardLicence);
 
 
-    // oReq.timeout = 30000;
-    oReq.onreadystatechange = function() {
-    //alert(oReq.responseText);
-      if (oReq.readyState == 4 && oReq.status == 200) {
-        $('.loginSpinner').css('display','inline-block');
-        $('.fullScreenSpin').css('display','inline-block');
-        Session.setPersistent('mainEIPAddress', licenceIPAddress);
-        Session.setPersistent('mainEPort', checkSSLPorts);
-       // alert(oReq.responseText);
-        //document.getElementById("result").innerHTML = oReq.responseText;
-        var dataReturnRes = JSON.parse(oReq.responseText);
+                  Session.setPersistent('CloudSeedToSaleLicence', isSeedToSaleLicence);
+                  Session.setPersistent('CloudBankingLicence', isBankingLicence);
+                  Session.setPersistent('CloudPayrollLicence', isPayrollLicence);
+                 //End licence to Add Session
+                  Session.setPersistent('CloudFixedAssetsLicence', isFixedAssetsLicence);
+                  Session.setPersistent('CloudInventoryLicence', isInventoryLicence);
+                  Session.setPersistent('CloudManufacturingLicence', isManufacturingLicence);
+                  Session.setPersistent('CloudPurchasesLicence', isPurchasesLicence);
+                  Session.setPersistent('CloudSalesLicence', isSalesLicence);
+                  Session.setPersistent('CloudShippingLicence', isShippingLicence);
+                  Session.setPersistent('CloudStockTakeLicence', isStockTakeLicence);
+                  Session.setPersistent('CloudStockTransferLicence', isStockTransferLicence);
 
-        //console.log(myArrResponse);
-        if(dataReturnRes.ProcessLog.Error){
-          if(dataReturnRes.ProcessLog.Error == "Payment is Due"){
-            swal({
-              title: 'Your payment has been declined please update your payment subscription information!',
-              text: '',
-              type: 'error',
-              showCancelButton: true,
-              confirmButtonText: 'Update Payment',
-              cancelButtonText: 'Cancel'
-            }).then((result) => {
-              if (result.value) {
-                window.open('https://www.payments.vs1cloud.com/customer/account/login/referer/aHR0cHM6Ly93d3cucGF5bWVudHMudnMxY2xvdWQuY29tLw%2C%2C/', '_blank');
-              } else if (result.dismiss === 'cancel') {
+                  Session.setPersistent('CloudAddExtraLicence', isAddExtraUserLicence);
+                  Session.setPersistent('CloudMatrixLicence', isMatrixLicence);
+                  Session.setPersistent('CloudPOSLicence', isPOSLicence);
+                  Session.setPersistent('CloudUseForeignLicence', isFxCurrencyLicence);
+                  Session.setPersistent('CloudWMSLicence', isWMSLicence);
+                    /* End Remove licence */
+                    // alert(dataReturnRes.ProcessLog.AccessLevels);
+                    if(dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.AccessLevels == undefined){
+                      swal('Sorry, You do not have access to any Greentrack Modules!', '', 'error');
+                      $('.fullScreenSpin').css('display','none');
+                      $('.loginSpinner').css('display','none');
+                      return false;
+                      // let userAccessOptions = dataReturnRes.ProcessLog.AccessLevels.AccessLevels;
+                    };
+                    if(dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.AccessLevels.ResponseNo == 401){
+                      swal('Sorry, You do not have access to any Greentrack Modules!', '', 'error');
+                      $('.fullScreenSpin').css('display','none');
+                      $('.loginSpinner').css('display','none');
+                      return false;
+                      // let userAccessOptions = dataReturnRes.ProcessLog.AccessLevels.AccessLevels;
+                    };
 
-              }
-            });
+                    // let userAccessOptions = dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.AccessLevels || '';
+                    // if(userAccessOptions != ""){
+                    //   getAccessLevelData(userAccessOptions);
+                    // }
+
+            Session.setPersistent('mycloudLogonUsername', ERPuserName);
+            Session.setPersistent('mycloudLogonUserEmail', ERPuserName);
+
+          Session.setPersistent('myerpPassword', userLoginPassword);
+          Session.setPersistent('mySessionEmployee', ERPuserName);
+          //localStorage.setItem('mySession', ERPuserName);
+          localStorage.setItem('EIPAddress', ERPIPAdderess);
+          localStorage.setItem('EUserName', ERPuserName);
+          localStorage.setItem('EPassword', ERPpassword);
+          localStorage.setItem('EDatabase', ERPdbName);
+          localStorage.setItem('EPort', ERPport);
+          loggedUserEventFired = true;
+
+          localStorage.setItem('mainEIPAddress', licenceIPAddress);
+          localStorage.setItem('mainEPort', checkSSLPorts);
+
+          //Dashboard API:
+          if(dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields){
+          Session.setPersistent('vs1companyName', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.Companyinfo_CompanyName||'');
+          Session.setPersistent('vs1companyaddress1', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.Companyinfo_Address||'');
+          Session.setPersistent('vs1companyaddress2', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.Companyinfo_Address2||'');
+          Session.setPersistent('vs1companyABN', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.Companyinfo_ABN||'');
+          Session.setPersistent('vs1companyPhone', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.Companyinfo_PhoneNumber||'');
+          Session.setPersistent('vs1companyURL', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.Companyinfo_URL||'');
+
+          Session.setPersistent('ERPDefaultDepartment', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.ColumnHeadings_DefaultClass||'');
+          Session.setPersistent('ERPDefaultUOM', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.ColumnHeadings_DefaultUOM||'');
+
+
+          // Session.setPersistent('ERPCurrency', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.RegionalOptions_CurrencySymbol||'');
+          Session.setPersistent('ERPCountryAbbr', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.RegionalOptions_ForeignExDefault||'');
+          Session.setPersistent('ERPTaxCodePurchaseInc', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.RegionalOptions_TaxCodePurchaseInc||'');
+          Session.setPersistent('ERPTaxCodeSalesInc', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.RegionalOptions_TaxCodeSalesInc||'');
+
+
+          localStorage.setItem('VS1OverDueInvoiceAmt_dash', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.OVERDUE_INVOICES_AMOUNT||Currency+'0');
+          localStorage.setItem('VS1OverDueInvoiceQty_dash', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.OVERDUE_INVOICES_QUANTITY||0);
+          localStorage.setItem('VS1OutstandingPayablesAmt_dash', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.OUTSTANDING_PAYABLES_AMOUNT||Currency+'0');
+          localStorage.setItem('VS1OutstandingPayablesQty_dash', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.OUTSTANDING_PAYABLES_QUANTITY||0);
+
+          localStorage.setItem('VS1MonthlyProfitandLoss_dash', '');
+
+            //Profit & Loss
+          localStorage.setItem('VS1ProfitandLoss_netIncomeEx_dash', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.PnL_NetIncomeEx||0);
+          localStorage.setItem('VS1ProfitandLoss_IncomeEx_dash', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.PnL_TotalIncomeEx||0);
+          localStorage.setItem('VS1ProfitandLoss_ExpEx_dash', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.PnL_TotalExpenseEx||0);
+          localStorage.setItem('VS1ProfitandLoss_COGSEx_dash', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.PnL_TotalCOGSEx||0);
+
+          if(dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TEmployeePicture.fields){
+          localStorage.setItem('vs1LoggedEmployeeImages_dash', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TEmployeePicture.fields.EncodedPic|| '');
           }else{
-            swal(dataReturnRes.ProcessLog.Error, '', 'error');
+            localStorage.setItem('vs1LoggedEmployeeImages_dash','');
           }
-          // Bert.alert('Database Error<strong> :'+ myArrResponse.ProcessLog.Error+'</strong>', 'now-error');
-
-          $('.loginSpinner').css('display','none');
-          $('.fullScreenSpin').css('display','none');
-        }else{
-
-          localStorage.setItem('vs1cloudlicenselevel', dataReturnRes.ProcessLog.LicenseLevel);
-          Session.setPersistent('isGreenTrack', true);
-          if(!localStorage.getItem('VS1loggedDatabase')){
-            localStorage.setItem('VS1loggedDatabase', dataReturnRes.ProcessLog.Databasename);
-            localStorage.setItem('VS11099Contractor_Report', '');
-            localStorage.setItem('VS1AgedPayables_Report', '');
-            localStorage.setItem('VS1AgedPayablesSummary_Report', '');
-            localStorage.setItem('VS1AgedReceivables_Report', '');
-            localStorage.setItem('VS1AgedReceivableSummary_Report', '');
-            localStorage.setItem('VS1BalanceSheet_Report', '');
-            localStorage.setItem('VS1BalanceTrans_Report', '');
-            localStorage.setItem('VS1GeneralLedger_Report', '');
-            localStorage.setItem('VS1ProfitandLoss_Report', '');
-            localStorage.setItem('VS1Purchase_List', '');
-            localStorage.setItem('VS1Purchase_Report', '');
-            localStorage.setItem('VS1PurchaseSummary_Report', '');
-            localStorage.setItem('VS1ProductSales_List', '');
-            localStorage.setItem('VS1ProductSales_Report', '');
-            localStorage.setItem('VS1Sales_List', '');
-            localStorage.setItem('VS1Sales_Report', '');
-            localStorage.setItem('VS1SalesSummary_Report', '');
-            localStorage.setItem('VS1TaxSummary_Report', '');
-            localStorage.setItem('VS1TrialBalance_Report', '');
-            localStorage.setItem('VS1PrintStatements_Report', '');
           }else{
-            if((localStorage.getItem('VS1loggedDatabase')) == (dataReturnRes.ProcessLog.Databasename)) {
+            Session.setPersistent('vs1companyName', '');
+            Session.setPersistent('vs1companyaddress1', '');
+            Session.setPersistent('vs1companyaddress2', '');
+            Session.setPersistent('vs1companyABN', '');
+            Session.setPersistent('vs1companyPhone', '');
+            Session.setPersistent('vs1companyURL', '');
 
-            }else{
-              localStorage.setItem('VS1loggedDatabase', dataReturnRes.ProcessLog.Databasename);
-              localStorage.setItem('VS11099Contractor_Report', '');
-              localStorage.setItem('VS1AgedPayables_Report', '');
-              localStorage.setItem('VS1AgedPayablesSummary_Report', '');
-              localStorage.setItem('VS1AgedReceivables_Report', '');
-              localStorage.setItem('VS1AgedReceivableSummary_Report', '');
-              localStorage.setItem('VS1BalanceSheet_Report', '');
-              localStorage.setItem('VS1BalanceTrans_Report', '');
-              localStorage.setItem('VS1GeneralLedger_Report', '');
-              localStorage.setItem('VS1ProfitandLoss_Report', '');
-              localStorage.setItem('VS1Purchase_List', '');
-              localStorage.setItem('VS1Purchase_Report', '');
-              localStorage.setItem('VS1PurchaseSummary_Report', '');
-              localStorage.setItem('VS1ProductSales_List', '');
-              localStorage.setItem('VS1ProductSales_Report', '');
-              localStorage.setItem('VS1Sales_List', '');
-              localStorage.setItem('VS1Sales_Report', '');
-              localStorage.setItem('VS1SalesSummary_Report', '');
-              localStorage.setItem('VS1TaxSummary_Report', '');
-              localStorage.setItem('VS1TrialBalance_Report', '');
-              localStorage.setItem('VS1PrintStatements_Report', '');
+            Session.setPersistent('ERPDefaultDepartment', '');
+            Session.setPersistent('ERPDefaultUOM', '');
 
-              //Lists
-              localStorage.setItem('VS1AccoountList','');
+
+            //Session.setPersistent('ERPCountryAbbr', '');
+            Session.setPersistent('ERPTaxCodePurchaseInc', '');
+            Session.setPersistent('ERPTaxCodeSalesInc', '');
+
+
+            localStorage.setItem('VS1OverDueInvoiceAmt_dash', '');
+            localStorage.setItem('VS1OverDueInvoiceQty_dash', '');
+            localStorage.setItem('VS1OutstandingPayablesAmt_dash', '');
+            localStorage.setItem('VS1OutstandingPayablesQty_dash', '');
+
+            localStorage.setItem('VS1MonthlyProfitandLoss_dash', '');
+
+              //Profit & Loss
+            localStorage.setItem('VS1ProfitandLoss_netIncomeEx_dash', '');
+            localStorage.setItem('VS1ProfitandLoss_IncomeEx_dash', '');
+            localStorage.setItem('VS1ProfitandLoss_ExpEx_dash', '');
+            localStorage.setItem('VS1ProfitandLoss_COGSEx_dash', '');
+          }
+            // console.log(dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_pnl_period.items);
+          localStorage.setItem('VS1APReport_dash', JSON.stringify(dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_ap_report.items)||'');
+          localStorage.setItem('VS1PNLPeriodReport_dash', JSON.stringify(dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_pnl_period.items)||'');
+          localStorage.setItem('VS1SalesListReport_dash', JSON.stringify(dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_saleslist.items)||'');
+          localStorage.setItem('VS1SalesEmpReport_dash', JSON.stringify(dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_salesperemployee.items)||'');
+
+            Session.setPersistent('LoggedUserEventFired', true);
+            Session.setPersistent('userlogged_status', 'active');
+
+                var empusername = dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.EmployeeName;
+                var employeeUserLogon = ERPLoggeduserName;
+                var employeeUserID = dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.EmployeeId;
+                var employeename =dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.EmployeeName;
+                Session.setPersistent('mySessionEmployeeLoggedID', employeeUserID);
+                localStorage.setItem('mySession', employeeUserLogon);
+                var sessionDataToLog = localStorage.getItem('mySession');
+                Session.setPersistent('mySessionEmployee', employeename);
+                let userAccessOptions = dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.AccessLevels || '';
+                if(userAccessOptions != ""){
+                  addLoginData(dataReturnRes).then(function (datareturn) {
+                    getAccessLevelData(userAccessOptions,isSameUserLogin);
+                  }).catch(function (err) {
+                    getAccessLevelData(userAccessOptions,isSameUserLogin);
+                  });
+                }
+             }
+                   }else{
+                     swal({
+                       title: 'Ooops...',
+                       text: 'It seems we are unable to connect you to GreenTrack at the moment. Please try again in a few minutes.',
+                       type: 'error',
+                       showCancelButton: false,
+                       confirmButtonText: 'Try Again'
+                       }).then((result) => {
+                       if (result.value) {
+                         Meteor._reload.reload();
+                       } else if (result.dismiss === 'cancel') {
+
+                       }
+                     });
+
+                     $('.loginSpinner').css('display','none');
+                     $('.fullScreenSpin').css('display','none');
+                   }
+                } else if(oReq.statusText == '') {
+                  swal({
+                    title: 'Ooops...',
+                    text: 'It seems we are unable to connect you to GreenTrack at the moment. Please try again in a few minutes.',
+                    type: 'error',
+                    showCancelButton: false,
+                    confirmButtonText: 'Try Again'
+                    }).then((result) => {
+                    if (result.value) {
+                      Meteor._reload.reload();
+                    } else if (result.dismiss === 'cancel') {
+
+                    }
+                  });
+                  $('.loginSpinner').css('display','none');
+                  $('.fullScreenSpin').css('display','none');
+                }else if(oReq.readyState == 4 && oReq.status == 403){
+                  swal({
+                    title: 'Ooops...',
+                    text: 'It seems we are unable to connect you to GreenTrack at the moment. Please try again in a few minutes.',
+                    type: 'error',
+                    showCancelButton: false,
+                    confirmButtonText: 'Try Again'
+                    }).then((result) => {
+                    if (result.value) {
+                      Meteor._reload.reload();
+                    } else if (result.dismiss === 'cancel') {
+
+                    }
+                  });
+                  $('.loginSpinner').css('display','none');
+                  $('.fullScreenSpin').css('display','none');
+                }else if(oReq.readyState == 4 && oReq.status == 406){
+                  swal({
+                    title: 'Something went wrong',
+                    text: oReq.getResponseHeader('errormessage'),
+                    type: 'error',
+                    showCancelButton: false,
+                    confirmButtonText: 'Try Again'
+                    }).then((result) => {
+                    if (result.value) {
+                      Meteor._reload.reload();
+                    } else if (result.dismiss === 'cancel') {
+
+                    }
+                  });
+                  $('.loginSpinner').css('display','none');
+                  $('.fullScreenSpin').css('display','none');
+                }else if(oReq.readyState == 4 && oReq.status == 500){
+                  var ErrorResponse = oReq.getResponseHeader('errormessage');
+                  if (ErrorResponse.indexOf("Access violation") >= 0){
+                    swal({
+                      title: 'Your database is being created. ',
+                      text: "Please try again in 10 minutes",
+                      type: 'info',
+                      showCancelButton: false,
+                      confirmButtonText: 'Try Again'
+                      }).then((result) => {
+                      if (result.value) {
+                        Meteor._reload.reload();
+                      } else if (result.dismiss === 'cancel') {
+
+                      }
+                    });
+                  }else{
+                    swal({
+                      title: 'Something went wrong',
+                      text: oReq.getResponseHeader('errormessage'),
+                      type: 'error',
+                      showCancelButton: false,
+                      confirmButtonText: 'Try Again'
+                      }).then((result) => {
+                      if (result.value) {
+                        Meteor._reload.reload();
+                      } else if (result.dismiss === 'cancel') {
+
+                      }
+                    });
+                  }
+                  $('.loginSpinner').css('display','none');
+                  $('.fullScreenSpin').css('display','none');
+                }else{
+
+                }
             }
-          }
-          // console.log(dataReturnRes.ProcessLog.TRegionalOptions.CurrencySymbol);
-          Session.setPersistent('ERPCurrency', dataReturnRes.ProcessLog.TRegionalOptions.CurrencySymbol);
+            }else{
+              let dataReturnRes = dataObject[0].data;
+              if(dataReturnRes.ProcessLog.VS1AdminPassword){
+              if ($("#erppassword").val() != dataReturnRes.ProcessLog.VS1AdminPassword) {
+                $('.loginSpinner').css('display','none');
+                $('.fullScreenSpin').css('display','none');
+                swal('Invalid VS1 Password', 'The entered user password is not correct, please re-enter your password and try again!', 'error');
+                $("#erppassword").focus();
+                e.preventDefault();
+                return false;
+              }
+            }
 
-          var region = dataReturnRes.ProcessLog.RegionName;
-          Session.setPersistent('ERPLoggedCountry', region);
+              if(dataReturnRes.ProcessLog.ResponseStatus != "OK"){
+         if(dataReturnRes.ProcessLog.ResponseStatus == "Payment is Due"){
+           $('.loginSpinner').css('display','none');
+           $('.fullScreenSpin').css('display','none');
+           // swal("Your payment has been declined please update your payment subscription information!", '', 'error');
+           swal({
+             title: 'Your payment has been declined please update your payment subscription information!',
+             text: '',
+             type: 'error',
+             showCancelButton: true,
+             confirmButtonText: 'Update Payment',
+             cancelButtonText: 'Cancel'
+           }).then((result) => {
+             if (result.value) {
+               window.open('https://magento-473757-1929062.cloudwaysapps.com/customer/account/login/referer/aHR0cHM6Ly93d3cucGF5bWVudHMudnMxY2xvdWQuY29tLw%2C%2C?urppassname='+dataReturnRes.ProcessLog.VS1AdminUserName+'&urlpasstoken='+userLoginPassword+'', '_blank');
+             } else if (result.dismiss === 'cancel') {
 
-          Session.setPersistent('ERPCountryAbbr', 'AUD');
-          Session.setPersistent('ERPDefaultDepartment', 'Default');
-          Session.setPersistent('ERPDefaultUOM', '');
+             }
+           });
 
-          Session.setPersistent('VS1AdminUserName', dataReturnRes.ProcessLog.VS1AdminUserName);
+         }else{
+           swal(dataReturnRes.ProcessLog.ResponseStatus, dataReturnRes.ProcessLog.ResponseStatus, 'error');
 
-     var ERPIPAdderess= dataReturnRes.ProcessLog.ServerName;
-     var ERPdbName = dataReturnRes.ProcessLog.Databasename;
+           $('.loginSpinner').css('display','none');
+           $('.fullScreenSpin').css('display','none');
+         }
+         // Bert.alert('Database Error<strong> :'+ myArrResponse.ProcessLog.Error+'</strong>', 'now-error');
 
-     var ERPport = dataReturnRes.ProcessLog.APIPort;
-     // alert(ERPdbName);
 
-       Session.setPersistent('mycloudLogonUserEmail', userLoginEmail);
-     //alert(ERPdbName);
-     var ERPuserName = userLoginEmail;
-      var ERPLoggeduserName = userLoginEmail;
-     var ERPpassword = userLoginPassword;
+       }else{
+         Meteor.call('readMethod',dataReturnRes.ProcessLog.VS1AdminUserName, function(error, result){
+         if(error){
 
-     let erpdbname = ERPIPAdderess+','+ERPdbName+','+ERPuserName+','+ERPpassword+','+ERPport;
+         }else{
+         let regUserDetails = result;
+         if(regUserDetails){
+           if(regUserDetails.length === 0){
+
+           }
+               Session.setPersistent('mycloudLogonDBID', regUserDetails.clouddatabaseID);
+               Session.setPersistent('mycloudLogonID', regUserDetails._id);
+
+         }
+         }
+
+         });
+         //addLoginData(dataReturnRes);
+         localStorage.setItem('vs1cloudLoginInfo', dataReturnRes);
+         localStorage.setItem('vs1cloudlicenselevel', dataReturnRes.ProcessLog.LicenseLevel);
+         Session.setPersistent('isGreenTrack', true);
+         if(!localStorage.getItem('VS1loggedDatabase')){
+           localStorage.setItem('VS1loggedDatabase', dataReturnRes.ProcessLog.Databasename);
+           localStorage.setItem('VS11099Contractor_Report', '');
+           localStorage.setItem('VS1AgedPayables_Report', '');
+           localStorage.setItem('VS1AgedPayablesSummary_Report', '');
+           localStorage.setItem('VS1AgedReceivables_Report', '');
+           localStorage.setItem('VS1AgedReceivableSummary_Report', '');
+           localStorage.setItem('VS1BalanceSheet_Report', '');
+           localStorage.setItem('VS1BalanceTrans_Report', '');
+           localStorage.setItem('VS1GeneralLedger_Report', '');
+           localStorage.setItem('VS1ProfitandLoss_Report', '');
+           localStorage.setItem('VS1Purchase_List', '');
+           localStorage.setItem('VS1Purchase_Report', '');
+           localStorage.setItem('VS1PurchaseSummary_Report', '');
+           localStorage.setItem('VS1ProductSales_List', '');
+           localStorage.setItem('VS1ProductSales_Report', '');
+           localStorage.setItem('VS1Sales_List', '');
+           localStorage.setItem('VS1Sales_Report', '');
+           localStorage.setItem('VS1SalesSummary_Report', '');
+           localStorage.setItem('VS1TaxSummary_Report', '');
+           localStorage.setItem('VS1TrialBalance_Report', '');
+           localStorage.setItem('VS1PrintStatements_Report', '');
+           Session.setPersistent('bankaccountid', '');
+
+           localStorage.setItem('VS1ProductList', '');
+           localStorage.setItem('VS1CustomerList', '');
+           localStorage.setItem('VS1SupplierList', '');
+           localStorage.setItem('VS1AccountList', '');
+           localStorage.setItem('VS1TaxCodeList', '');
+           localStorage.setItem('VS1TermsList', '');
+           localStorage.setItem('VS1DepartmentList', '');
+           localStorage.setItem('VS1CurrencyList', '');
+           localStorage.setItem('VS1LeadStatusList', '');
+           localStorage.setItem('VS1ShippingMethodList', '');
+           localStorage.setItem('VS1AccountTypeList', '');
+           localStorage.setItem('VS1ERPCombinedContactsList', '');
+           localStorage.setItem('VS1EmployeeList', '');
+           localStorage.setItem('VS1JournalEntryLineList', '');
+           localStorage.setItem('VS1BankAccountReportList', '');
+           localStorage.setItem('VS1TInvoiceList', '');
+           localStorage.setItem('VS1TInvoiceNonBackOrderList', '');
+           localStorage.setItem('VS1BackOrderSalesListList', '');
+           localStorage.setItem('VS1TPurchaseOrderList', '');
+           localStorage.setItem('VS1TReconcilationList', '');
+           localStorage.setItem('VS1TChequeList', '');
+           localStorage.setItem('VS1TProductStocknSalePeriodReport', '');
+           localStorage.setItem('VS1TAppUserList', '');
+           localStorage.setItem('VS1TJobVS1List', '');
+           localStorage.setItem('VS1TStockAdjustEntryList', '');
+           localStorage.setItem('VS1TsalesOrderNonBackOrderList', '');
+           localStorage.setItem('VS1TbillReport', '');
+           localStorage.setItem('VS1TbillReport', '');
+           localStorage.setItem('VS1TCreditList', '');
+           localStorage.setItem('VS1TpurchaseOrderNonBackOrderList', '');
+           localStorage.setItem('VS1TpurchaseOrderBackOrderList', '');
+           localStorage.setItem('VS1TSalesList', '');
+         }else{
+           if((localStorage.getItem('VS1loggedDatabase')) == (dataReturnRes.ProcessLog.Databasename)) {
+             isSameUserLogin = true;
+           }else{
+             localStorage.setItem('VS1loggedDatabase', dataReturnRes.ProcessLog.Databasename);
+             localStorage.setItem('VS11099Contractor_Report', '');
+             localStorage.setItem('VS1AgedPayables_Report', '');
+             localStorage.setItem('VS1AgedPayablesSummary_Report', '');
+             localStorage.setItem('VS1AgedReceivables_Report', '');
+             localStorage.setItem('VS1AgedReceivableSummary_Report', '');
+             localStorage.setItem('VS1BalanceSheet_Report', '');
+             localStorage.setItem('VS1BalanceTrans_Report', '');
+             localStorage.setItem('VS1GeneralLedger_Report', '');
+             localStorage.setItem('VS1ProfitandLoss_Report', '');
+             localStorage.setItem('VS1Purchase_List', '');
+             localStorage.setItem('VS1Purchase_Report', '');
+             localStorage.setItem('VS1PurchaseSummary_Report', '');
+             localStorage.setItem('VS1ProductSales_List', '');
+             localStorage.setItem('VS1ProductSales_Report', '');
+             localStorage.setItem('VS1Sales_List', '');
+             localStorage.setItem('VS1Sales_Report', '');
+             localStorage.setItem('VS1SalesSummary_Report', '');
+             localStorage.setItem('VS1TaxSummary_Report', '');
+             localStorage.setItem('VS1TrialBalance_Report', '');
+             localStorage.setItem('VS1PrintStatements_Report', '');
+
+             //Lists
+             localStorage.setItem('VS1AccoountList','');
+             Session.setPersistent('bankaccountid', '');
+           }
+         }
+
+
+         // console.log(dataReturnRes.ProcessLog.TRegionalOptions.CurrencySymbol);
+         Session.setPersistent('ERPCurrency', dataReturnRes.ProcessLog.TRegionalOptions.CurrencySymbol);
+
+         var region = dataReturnRes.ProcessLog.RegionName;
+         Session.setPersistent('ERPLoggedCountry', region);
+
+         if(dataReturnRes.ProcessLog.RegionName === "Australia"){
+           Session.setPersistent('ERPCountryAbbr', 'AUD');
+         }else if(dataReturnRes.ProcessLog.RegionName === "Canada"){
+           Session.setPersistent('ERPCountryAbbr', 'CAD');
+         }else if(dataReturnRes.ProcessLog.RegionName === "Colombia"){
+           Session.setPersistent('ERPCountryAbbr', 'COP');
+         }else if(dataReturnRes.ProcessLog.RegionName === "Kuwait"){
+           Session.setPersistent('ERPCountryAbbr', 'KYD');
+         }else if(dataReturnRes.ProcessLog.RegionName === "Mexico"){
+           Session.setPersistent('ERPCountryAbbr', 'MXN');
+         }else if(dataReturnRes.ProcessLog.RegionName === "New Zealand"){
+           Session.setPersistent('ERPCountryAbbr', 'NZD');
+         }else if(dataReturnRes.ProcessLog.RegionName === "Qatar"){
+           Session.setPersistent('ERPCountryAbbr', 'QAR');
+         }else if(dataReturnRes.ProcessLog.RegionName === "Kingdom of Saudi Arabia"){
+           Session.setPersistent('ERPCountryAbbr', 'SAR');
+         }else if(dataReturnRes.ProcessLog.RegionName === "Singapore"){
+           Session.setPersistent('ERPCountryAbbr', 'SGD');
+         }else if(dataReturnRes.ProcessLog.RegionName === "South Africa"){
+           Session.setPersistent('ERPCountryAbbr', 'ZAR');
+         }else if(dataReturnRes.ProcessLog.RegionName === "United Arab Emirates"){
+           Session.setPersistent('ERPCountryAbbr', 'AED');
+         }else if(dataReturnRes.ProcessLog.RegionName === "United Kingdom"){
+           Session.setPersistent('ERPCountryAbbr', 'GBP');
+         }else if(dataReturnRes.ProcessLog.RegionName === "United States of America"){
+           Session.setPersistent('ERPCountryAbbr', 'USD');
+         }
+
+         Session.setPersistent('ERPDefaultDepartment', 'Default');
+         Session.setPersistent('ERPDefaultUOM', '');
+         Session.setPersistent('VS1AdminUserName', dataReturnRes.ProcessLog.VS1AdminUserName);
+
+         var ERPIPAdderess= "";
+         if(dataReturnRes.ProcessLog.ServerName == "110.142.175.245"){
+           ERPIPAdderess= "www.login.vs1cloud.com";
+         }else{
+           ERPIPAdderess= dataReturnRes.ProcessLog.ServerName;
+         }
+    var ERPdbName = dataReturnRes.ProcessLog.Databasename;
+
+    var ERPport = dataReturnRes.ProcessLog.APIPort;
+    // alert(ERPdbName);
+
+      Session.setPersistent('mycloudLogonUserEmail', userLoginEmail);
+    //alert(ERPdbName);
+    var ERPuserName = userLoginEmail;
+     var ERPLoggeduserName = userLoginEmail;
+    var ERPpassword = userLoginPassword;
+
+    let erpdbname = ERPIPAdderess+','+ERPdbName+','+ERPuserName+','+ERPpassword+','+ERPport;
     let licenceOptions = dataReturnRes.ProcessLog.Modules.Modules;
-   $.each(licenceOptions, function (item, option) {
+    $.each(licenceOptions, function (item, option) {
 
-              if(option.ModuleName == 'CloudAccounts'){
+              if(option.ModuleName == 'Accounts Payable Reports'){
                 isAccountsLicence = false;
-              }else if(option.ModuleName == 'CloudContacts'){
+              }else if(option.ModuleName == 'Statements'){
                 isContactsLicence = false;
-              }else if(option.ModuleName == 'CloudExpenseClaims'){
+              }else if((option.ModuleName == 'Expense Claims / Receipt Claiming')){
                 isExpenseClaimsLicence = false;
               }else if(option.ModuleName == 'CloudDashboard'){
                 isDashboardLicence = false;
               }else if(option.ModuleName == 'CloudFixedAssets'){
                 isFixedAssetsLicence = false;
-              }else if(option.ModuleName == 'CloudInventory'){
+              }else if(option.ModuleName == 'Inventory Tracking'){
                 isInventoryLicence = false;
               }else if(option.ModuleName == 'CloudMain'){
                 isMainLicence = false;
-              }else if(option.ModuleName == 'CloudManufacturing'){
+              }else if(option.ModuleName == 'Manufacturing'){
                 isManufacturingLicence = false;
-              }else if(option.ModuleName == 'CloudPayments'){
+              }else if(option.ModuleName == 'Payemnts'){
                 isPaymentsLicence = false;
-              }else if(option.ModuleName == 'CloudPurchases'){
+              }else if(option.ModuleName == 'Bills'){
                 isPurchasesLicence = false;
-              }else if(option.ModuleName == 'CloudReports'){
+              }else if(option.ModuleName == 'Reports Dashboard'){
                  isReportsLicence = false;
-              }else if(option.ModuleName == 'CloudSales'){
+              }else if((option.ModuleName == 'Quotes') || (option.ModuleName == 'Invoices')){
                 isSalesLicence = false;
               }else if(option.ModuleName == 'CloudSettings'){
                 isSettingsLicence = true;
-              }else if(option.ModuleName == 'CloudShipping'){
-                isShippingLicence = true;
-              }else if(option.ModuleName == 'CloudStockTake'){
+              }else if((option.ModuleName == 'Shipping')){
+                isShippingLicence = false;
+              }else if(option.ModuleName == 'Stock Adjustments'){
                 isStockTakeLicence = false;
-              }else if(option.ModuleName == 'CloudStockTransfer'){
+              }else if(option.ModuleName == 'Stock Adjustments'){
                 isStockTransferLicence = false;
-              }else if(option.ModuleName == 'CloudSeedToSale'){
+              }else if((option.ModuleName == 'Seed To Sale')){
                 isSeedToSaleLicence = true;
               }else if(option.ModuleName == 'CloudBanking'){
-                isBankingLicence = false;
-              }else if(option.ModuleName == 'CloudPayroll'){
+                isBankingLicence = true;
+              }else if((option.ModuleName == 'Payroll Integration') ){
                 isPayrollLicence = false;
+              }else if((option.ModuleName == 'Manufacturing')){
+                isManufacturingLicence = false;
+              }else if((option.ModuleName == 'POS')){
+                isPOSLicence = false;
+              }else if((option.ModuleName == 'WMS')){
+                isWMSLicence = false;
+              }else if((option.ModuleName == 'Matrix')){
+                isMatrixLicence = false;
+              }else if((option.ModuleName == 'Add Extra User')){
+                isAddExtraUserLicence = true;
+              }else if((option.ModuleName == 'FX Currency')){
+                isFxCurrencyLicence = false;
+              }else if((option.ModuleName == 'Use Foreign Currency')){
+                isFxCurrencyLicence = true;
+              }else if((option.ModuleName == 'Link To TrueERP') || (option.ModuleName == 'Connect to Live ERP DB')){
+                if(option.ModuleActive){
+                  isTrueERPConnection = false;
+                }else{
+                  isTrueERPConnection = false;
+                }
               }
 
     });
-
+    // Session.setPersistent('LoggedUserEventFired', true);
     /* Remove licence */
-        //licence Option To Add Session
-        Session.setPersistent('CloudAccountsLicence', isAccountsLicence);
-        Session.setPersistent('CloudContactsLicence', isContactsLicence);
-        Session.setPersistent('CloudExpenseClaimsLicence', isExpenseClaimsLicence);
-        Session.setPersistent('CloudPaymentsLicence', isPaymentsLicence);
-        Session.setPersistent('CloudReportsLicence', isReportsLicence);
-        Session.setPersistent('CloudSettingsLicence', isSettingsLicence);
+       //licence Option To Add Session
+       Session.setPersistent('CloudTrueERPModule', isTrueERPConnection);
+       Session.setPersistent('CloudAccountsLicence', isAccountsLicence);
+       Session.setPersistent('CloudContactsLicence', isContactsLicence);
+       Session.setPersistent('CloudExpenseClaimsLicence', isExpenseClaimsLicence);
+       Session.setPersistent('CloudPaymentsLicence', isPaymentsLicence);
+       Session.setPersistent('CloudReportsLicence', isReportsLicence);
+       Session.setPersistent('CloudSettingsLicence', isSettingsLicence);
 
-        Session.setPersistent('CloudMainLicence', isMainLicence);
-        Session.setPersistent('CloudDashboardLicence', isDashboardLicence);
-
-        Session.setPersistent('CloudSeedToSaleLicence', isSeedToSaleLicence);
-        Session.setPersistent('CloudBankingLicence', isBankingLicence);
-        Session.setPersistent('CloudPayrollLicence', isPayrollLicence);
-
-       //End licence to Add Session
-
-          Session.setPersistent('CloudFixedAssetsLicence', isFixedAssetsLicence);
-          Session.setPersistent('CloudInventoryLicence', isInventoryLicence);
-          Session.setPersistent('CloudManufacturingLicence', isManufacturingLicence);
-          Session.setPersistent('CloudPurchasesLicence', isPurchasesLicence);
-          Session.setPersistent('CloudSalesLicence', isSalesLicence);
-          Session.setPersistent('CloudShippingLicence', isShippingLicence);
-          Session.setPersistent('CloudStockTakeLicence', isStockTakeLicence);
-          Session.setPersistent('CloudStockTransferLicence', isStockTransferLicence);
-          /* End Remove licence */
-          // alert(dataReturnRes.ProcessLog.AccessLevels);
-          if(dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.AccessLevels == undefined){
-            swal('Sorry, You do not have access to any Greentrack Modules!', '', 'error');
-            $('.fullScreenSpin').css('display','none');
-            $('.loginSpinner').css('display','none');
-            return false;
-            // let userAccessOptions = dataReturnRes.ProcessLog.AccessLevels.AccessLevels;
-          };
-          let userAccessOptions = dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.AccessLevels || '';
-          if(userAccessOptions != ""){
-            getAccessLevelData(userAccessOptions);
-          }
-
-  // Session.setPersistent('mycloudLogonDBID', 'db'+ERPdbName);
-  // Session.setPersistent('mycloudLogonID', ERPdbName);
-  Session.setPersistent('mycloudLogonUsername', ERPuserName);
-  Session.setPersistent('mycloudLogonUserEmail', ERPuserName);
-
-Session.setPersistent('myerpPassword', userLoginPassword);
-Session.setPersistent('mySessionEmployee', ERPuserName);
-//localStorage.setItem('mySession', ERPuserName);
-localStorage.setItem('EIPAddress', ERPIPAdderess);
-localStorage.setItem('EUserName', ERPuserName);
-localStorage.setItem('EPassword', ERPpassword);
-localStorage.setItem('EDatabase', ERPdbName);
-localStorage.setItem('EPort', ERPport);
-loggedUserEventFired = true;
-
-localStorage.setItem('mainEIPAddress', licenceIPAddress);
-localStorage.setItem('mainEPort', checkSSLPorts);
-
-//Dashboard API:
-if(dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields){
-Session.setPersistent('vs1companyName', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.Companyinfo_CompanyName||'');
-Session.setPersistent('vs1companyaddress1', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.Companyinfo_Address||'');
-Session.setPersistent('vs1companyaddress2', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.Companyinfo_Address2||'');
-Session.setPersistent('vs1companyABN', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.Companyinfo_ABN||'');
-Session.setPersistent('vs1companyPhone', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.Companyinfo_PhoneNumber||'');
-Session.setPersistent('vs1companyURL', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.Companyinfo_URL||'');
-
-Session.setPersistent('ERPDefaultDepartment', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.ColumnHeadings_DefaultClass||'');
-Session.setPersistent('ERPDefaultUOM', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.ColumnHeadings_DefaultUOM||'');
+       Session.setPersistent('CloudMainLicence', isMainLicence);
+       Session.setPersistent('CloudDashboardLicence', isDashboardLicence);
 
 
-// Session.setPersistent('ERPCurrency', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.RegionalOptions_CurrencySymbol||'');
-Session.setPersistent('ERPCountryAbbr', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.RegionalOptions_ForeignExDefault||'');
-Session.setPersistent('ERPTaxCodePurchaseInc', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.RegionalOptions_TaxCodePurchaseInc||'');
-Session.setPersistent('ERPTaxCodeSalesInc', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.RegionalOptions_TaxCodeSalesInc||'');
+       Session.setPersistent('CloudSeedToSaleLicence', isSeedToSaleLicence);
+       Session.setPersistent('CloudBankingLicence', isBankingLicence);
+       Session.setPersistent('CloudPayrollLicence', isPayrollLicence);
+      //End licence to Add Session
+       Session.setPersistent('CloudFixedAssetsLicence', isFixedAssetsLicence);
+       Session.setPersistent('CloudInventoryLicence', isInventoryLicence);
+       Session.setPersistent('CloudManufacturingLicence', isManufacturingLicence);
+       Session.setPersistent('CloudPurchasesLicence', isPurchasesLicence);
+       Session.setPersistent('CloudSalesLicence', isSalesLicence);
+       Session.setPersistent('CloudShippingLicence', isShippingLicence);
+       Session.setPersistent('CloudStockTakeLicence', isStockTakeLicence);
+       Session.setPersistent('CloudStockTransferLicence', isStockTransferLicence);
+
+       Session.setPersistent('CloudAddExtraLicence', isAddExtraUserLicence);
+       Session.setPersistent('CloudMatrixLicence', isMatrixLicence);
+       Session.setPersistent('CloudPOSLicence', isPOSLicence);
+       Session.setPersistent('CloudUseForeignLicence', isFxCurrencyLicence);
+       Session.setPersistent('CloudWMSLicence', isWMSLicence);
+         /* End Remove licence */
+         // alert(dataReturnRes.ProcessLog.AccessLevels);
+         if(dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.AccessLevels == undefined){
+           swal('Sorry, You do not have access to any Greentrack Modules!', '', 'error');
+           $('.fullScreenSpin').css('display','none');
+           $('.loginSpinner').css('display','none');
+           return false;
+           // let userAccessOptions = dataReturnRes.ProcessLog.AccessLevels.AccessLevels;
+         };
+
+         if(dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.AccessLevels.ResponseNo == 401){
+           swal('Sorry, You do not have access to any Greentrack Modules!', '', 'error');
+           $('.fullScreenSpin').css('display','none');
+           $('.loginSpinner').css('display','none');
+           return false;
+           // let userAccessOptions = dataReturnRes.ProcessLog.AccessLevels.AccessLevels;
+         };
 
 
-localStorage.setItem('VS1OverDueInvoiceAmt_dash', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.OVERDUE_INVOICES_AMOUNT||Currency+'0');
-localStorage.setItem('VS1OverDueInvoiceQty_dash', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.OVERDUE_INVOICES_QUANTITY||0);
-localStorage.setItem('VS1OutstandingPayablesAmt_dash', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.OUTSTANDING_PAYABLES_AMOUNT||Currency+'0');
-localStorage.setItem('VS1OutstandingPayablesQty_dash', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.OUTSTANDING_PAYABLES_QUANTITY||0);
 
-localStorage.setItem('VS1MonthlyProfitandLoss_dash', '');
+    Session.setPersistent('mycloudLogonUsername', ERPuserName);
+    Session.setPersistent('mycloudLogonUserEmail', ERPuserName);
 
-  //Profit & Loss
-localStorage.setItem('VS1ProfitandLoss_netIncomeEx_dash', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.PnL_NetIncomeEx||0);
-localStorage.setItem('VS1ProfitandLoss_IncomeEx_dash', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.PnL_TotalIncomeEx||0);
-localStorage.setItem('VS1ProfitandLoss_ExpEx_dash', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.PnL_TotalExpenseEx||0);
-localStorage.setItem('VS1ProfitandLoss_COGSEx_dash', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.PnL_TotalCOGSEx||0);
-if(dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TEmployeePicture.fields){
-localStorage.setItem('vs1LoggedEmployeeImages_dash', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TEmployeePicture.fields.EncodedPic|| '');
-}else{
-  localStorage.setItem('vs1LoggedEmployeeImages_dash','');
-}
-}else{
-  Session.setPersistent('vs1companyName', '');
-  Session.setPersistent('vs1companyaddress1', '');
-  Session.setPersistent('vs1companyaddress2', '');
-  Session.setPersistent('vs1companyABN', '');
-  Session.setPersistent('vs1companyPhone', '');
-  Session.setPersistent('vs1companyURL', '');
+    Session.setPersistent('myerpPassword', userLoginPassword);
+    Session.setPersistent('mySessionEmployee', ERPuserName);
+    //localStorage.setItem('mySession', ERPuserName);
+    localStorage.setItem('EIPAddress', ERPIPAdderess);
+    localStorage.setItem('EUserName', ERPuserName);
+    localStorage.setItem('EPassword', ERPpassword);
+    localStorage.setItem('EDatabase', ERPdbName);
+    localStorage.setItem('EPort', ERPport);
+    loggedUserEventFired = true;
 
-  Session.setPersistent('ERPDefaultDepartment', '');
-  Session.setPersistent('ERPDefaultUOM', '');
+    localStorage.setItem('mainEIPAddress', licenceIPAddress);
+    localStorage.setItem('mainEPort', checkSSLPorts);
+    //Dashboard API:
+    if(dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields){
+    Session.setPersistent('vs1companyName', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.Companyinfo_CompanyName||'');
+    Session.setPersistent('vs1companyaddress1', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.Companyinfo_Address||'');
+    Session.setPersistent('vs1companyaddress2', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.Companyinfo_Address2||'');
+    Session.setPersistent('vs1companyABN', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.Companyinfo_ABN||'');
+    Session.setPersistent('vs1companyPhone', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.Companyinfo_PhoneNumber||'');
+    Session.setPersistent('vs1companyURL', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.Companyinfo_URL||'');
 
-
-  Session.setPersistent('ERPCountryAbbr', '');
-  Session.setPersistent('ERPTaxCodePurchaseInc', '');
-  Session.setPersistent('ERPTaxCodeSalesInc', '');
+    Session.setPersistent('ERPDefaultDepartment', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.ColumnHeadings_DefaultClass||'');
+    Session.setPersistent('ERPDefaultUOM', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.ColumnHeadings_DefaultUOM||'');
 
 
-  localStorage.setItem('VS1OverDueInvoiceAmt_dash', '');
-  localStorage.setItem('VS1OverDueInvoiceQty_dash', '');
-  localStorage.setItem('VS1OutstandingPayablesAmt_dash', '');
-  localStorage.setItem('VS1OutstandingPayablesQty_dash', '');
+    // Session.setPersistent('ERPCurrency', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.RegionalOptions_CurrencySymbol||'');
+    Session.setPersistent('ERPCountryAbbr', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.RegionalOptions_ForeignExDefault||'');
+    Session.setPersistent('ERPTaxCodePurchaseInc', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.RegionalOptions_TaxCodePurchaseInc||'');
+    Session.setPersistent('ERPTaxCodeSalesInc', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.RegionalOptions_TaxCodeSalesInc||'');
 
-  localStorage.setItem('VS1MonthlyProfitandLoss_dash', '');
+
+    localStorage.setItem('VS1OverDueInvoiceAmt_dash', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.OVERDUE_INVOICES_AMOUNT||Currency+'0');
+    localStorage.setItem('VS1OverDueInvoiceQty_dash', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.OVERDUE_INVOICES_QUANTITY||0);
+    localStorage.setItem('VS1OutstandingPayablesAmt_dash', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.OUTSTANDING_PAYABLES_AMOUNT||Currency+'0');
+    localStorage.setItem('VS1OutstandingPayablesQty_dash', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.OUTSTANDING_PAYABLES_QUANTITY||0);
+
+    localStorage.setItem('VS1MonthlyProfitandLoss_dash', '');
 
     //Profit & Loss
-  localStorage.setItem('VS1ProfitandLoss_netIncomeEx_dash', '');
-  localStorage.setItem('VS1ProfitandLoss_IncomeEx_dash', '');
-  localStorage.setItem('VS1ProfitandLoss_ExpEx_dash', '');
-  localStorage.setItem('VS1ProfitandLoss_COGSEx_dash', '');
-}
-localStorage.setItem('VS1APReport_dash', JSON.stringify(dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_ap_report.items)||'');
-localStorage.setItem('VS1PNLPeriodReport_dash', JSON.stringify(dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_pnl_period.items)||'');
-localStorage.setItem('VS1SalesListReport_dash', JSON.stringify(dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_saleslist.items)||'');
-localStorage.setItem('VS1SalesEmpReport_dash', JSON.stringify(dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_salesperemployee.items)||'');
-Session.setPersistent('LoggedUserEventFired', loggedUserEventFired);
-Session.setPersistent('userlogged_status', 'active');
+    localStorage.setItem('VS1ProfitandLoss_netIncomeEx_dash', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.PnL_NetIncomeEx||0);
+    localStorage.setItem('VS1ProfitandLoss_IncomeEx_dash', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.PnL_TotalIncomeEx||0);
+    localStorage.setItem('VS1ProfitandLoss_ExpEx_dash', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.PnL_TotalExpenseEx||0);
+    localStorage.setItem('VS1ProfitandLoss_COGSEx_dash', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.PnL_TotalCOGSEx||0);
 
-var empusername = dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.EmployeeName;
-var employeeUserLogon = ERPLoggeduserName;
-var employeeUserID = dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.EmployeeId;
-var employeename =dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.EmployeeName;
-Session.setPersistent('mySessionEmployeeLoggedID', employeeUserID);
-localStorage.setItem('mySession', employeeUserLogon);
-var sessionDataToLog = localStorage.getItem('mySession');
-Session.setPersistent('mySessionEmployee', employeename);
+    if(dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TEmployeePicture.fields){
+    localStorage.setItem('vs1LoggedEmployeeImages_dash', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TEmployeePicture.fields.EncodedPic|| '');
+    }else{
+    localStorage.setItem('vs1LoggedEmployeeImages_dash','');
+    }
+    }else{
+    Session.setPersistent('vs1companyName', '');
+    Session.setPersistent('vs1companyaddress1', '');
+    Session.setPersistent('vs1companyaddress2', '');
+    Session.setPersistent('vs1companyABN', '');
+    Session.setPersistent('vs1companyPhone', '');
+    Session.setPersistent('vs1companyURL', '');
+
+    Session.setPersistent('ERPDefaultDepartment', '');
+    Session.setPersistent('ERPDefaultUOM', '');
+
+
+    //Session.setPersistent('ERPCountryAbbr', '');
+    Session.setPersistent('ERPTaxCodePurchaseInc', '');
+    Session.setPersistent('ERPTaxCodeSalesInc', '');
+
+
+    localStorage.setItem('VS1OverDueInvoiceAmt_dash', '');
+    localStorage.setItem('VS1OverDueInvoiceQty_dash', '');
+    localStorage.setItem('VS1OutstandingPayablesAmt_dash', '');
+    localStorage.setItem('VS1OutstandingPayablesQty_dash', '');
+
+    localStorage.setItem('VS1MonthlyProfitandLoss_dash', '');
+
+    //Profit & Loss
+    localStorage.setItem('VS1ProfitandLoss_netIncomeEx_dash', '');
+    localStorage.setItem('VS1ProfitandLoss_IncomeEx_dash', '');
+    localStorage.setItem('VS1ProfitandLoss_ExpEx_dash', '');
+    localStorage.setItem('VS1ProfitandLoss_COGSEx_dash', '');
+    }
+    // console.log(dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_pnl_period.items);
+    localStorage.setItem('VS1APReport_dash', JSON.stringify(dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_ap_report.items)||'');
+    localStorage.setItem('VS1PNLPeriodReport_dash', JSON.stringify(dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_pnl_period.items)||'');
+    localStorage.setItem('VS1SalesListReport_dash', JSON.stringify(dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_saleslist.items)||'');
+    localStorage.setItem('VS1SalesEmpReport_dash', JSON.stringify(dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_salesperemployee.items)||'');
+
+    Session.setPersistent('LoggedUserEventFired', true);
+    Session.setPersistent('userlogged_status', 'active');
+
+     var empusername = dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.EmployeeName;
+     var employeeUserLogon = ERPLoggeduserName;
+     var employeeUserID = dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.EmployeeId;
+     var employeename =dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.EmployeeName;
+     Session.setPersistent('mySessionEmployeeLoggedID', employeeUserID);
+     localStorage.setItem('mySession', employeeUserLogon);
+     var sessionDataToLog = localStorage.getItem('mySession');
+     Session.setPersistent('mySessionEmployee', employeename);
+     let userAccessOptions = dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.AccessLevels || '';
+     if(userAccessOptions != ""){
+       addLoginData(dataReturnRes).then(function (datareturn) {
+         getAccessLevelData(userAccessOptions,isSameUserLogin);
+       }).catch(function (err) {
+         getAccessLevelData(userAccessOptions,isSameUserLogin);
+       });
+     }
+
+    }
+            }
+          }).catch(function (err) {
+            var serverTest = URLRequest + licenceIPAddress + ':' + checkSSLPorts + '/erpapi/Vs1_Logon?Vs1UserName="'+userLoginEmail+'"&vs1Password="'+userLoginPassword+'"';
+            //alert(serverTest);
+            var oReq = new XMLHttpRequest();
+            oReq.open("GET",serverTest, true);
+            oReq.setRequestHeader("database",vs1loggedDatatbase);
+            oReq.setRequestHeader("username","VS1_Cloud_Admin");
+            oReq.setRequestHeader("password","DptfGw83mFl1j&9");
+            oReq.send();
+
+            // oReq.timeout = 30000;
+            oReq.onreadystatechange = function() {
+            //alert(oReq.responseText);
+              if (oReq.readyState == 4 && oReq.status == 200) {
+                Session.setPersistent('mainEIPAddress', licenceIPAddress);
+                Session.setPersistent('mainEPort', checkSSLPorts);
+               // alert(oReq.responseText);
+                //document.getElementById("result").innerHTML = oReq.responseText;
+                var dataReturnRes = JSON.parse(oReq.responseText);
+
+                //console.log(myArrResponse);
+                if(dataReturnRes.ProcessLog.ResponseStatus != "OK"){
+                  if(dataReturnRes.ProcessLog.ResponseStatus == "Payment is Due"){
+                    $('.loginSpinner').css('display','none');
+                    $('.fullScreenSpin').css('display','none');
+                    // swal("Your payment has been declined please update your payment subscription information!", '', 'error');
+                    swal({
+                      title: 'Your payment has been declined please update your payment subscription information!',
+                      text: '',
+                      type: 'error',
+                      showCancelButton: true,
+                      confirmButtonText: 'Update Payment',
+                      cancelButtonText: 'Cancel'
+                    }).then((result) => {
+                      if (result.value) {
+                        window.open('https://magento-473757-1929062.cloudwaysapps.com/customer/account/login/referer/aHR0cHM6Ly93d3cucGF5bWVudHMudnMxY2xvdWQuY29tLw%2C%2C?urppassname='+dataReturnRes.ProcessLog.VS1AdminUserName+'&urlpasstoken='+userLoginPassword+'', '_blank');
+                      } else if (result.dismiss === 'cancel') {
+
+                      }
+                    });
+
+                  }else{
+                    swal(dataReturnRes.ProcessLog.ResponseStatus, dataReturnRes.ProcessLog.ResponseStatus, 'error');
+
+                    $('.loginSpinner').css('display','none');
+                    $('.fullScreenSpin').css('display','none');
+                  }
+                  // Bert.alert('Database Error<strong> :'+ myArrResponse.ProcessLog.Error+'</strong>', 'now-error');
+
+
+                }else{
+
+                  // addLoginData(dataReturnRes);
+
+                  Meteor.call('readMethod',dataReturnRes.ProcessLog.VS1AdminUserName, function(error, result){
+                  if(error){
+
+                  }else{
+                  let regUserDetails = result;
+                  if(regUserDetails){
+                    if(regUserDetails.length === 0){
+
+                    }
+                        // let cloudLoggedID = regUserDetails._id;
+                        // let cloudLoggedDBID = regUserDetails.clouddatabaseID;
+                        // let cloudLoggedUsername = regUserDetails.cloudUsername;
+                        //
+                        //
+                        Session.setPersistent('mycloudLogonDBID', regUserDetails.clouddatabaseID);
+                        Session.setPersistent('mycloudLogonID', regUserDetails._id);
+
+                  }
+                  }
+
+                  });
+                  //addLoginData(dataReturnRes);
+                  localStorage.setItem('vs1cloudLoginInfo', dataReturnRes);
+                  localStorage.setItem('vs1cloudlicenselevel', dataReturnRes.ProcessLog.LicenseLevel);
+                  Session.setPersistent('isGreenTrack', true);
+                  if(!localStorage.getItem('VS1loggedDatabase')){
+                    localStorage.setItem('VS1loggedDatabase', dataReturnRes.ProcessLog.Databasename);
+                    localStorage.setItem('VS11099Contractor_Report', '');
+                    localStorage.setItem('VS1AgedPayables_Report', '');
+                    localStorage.setItem('VS1AgedPayablesSummary_Report', '');
+                    localStorage.setItem('VS1AgedReceivables_Report', '');
+                    localStorage.setItem('VS1AgedReceivableSummary_Report', '');
+                    localStorage.setItem('VS1BalanceSheet_Report', '');
+                    localStorage.setItem('VS1BalanceTrans_Report', '');
+                    localStorage.setItem('VS1GeneralLedger_Report', '');
+                    localStorage.setItem('VS1ProfitandLoss_Report', '');
+                    localStorage.setItem('VS1Purchase_List', '');
+                    localStorage.setItem('VS1Purchase_Report', '');
+                    localStorage.setItem('VS1PurchaseSummary_Report', '');
+                    localStorage.setItem('VS1ProductSales_List', '');
+                    localStorage.setItem('VS1ProductSales_Report', '');
+                    localStorage.setItem('VS1Sales_List', '');
+                    localStorage.setItem('VS1Sales_Report', '');
+                    localStorage.setItem('VS1SalesSummary_Report', '');
+                    localStorage.setItem('VS1TaxSummary_Report', '');
+                    localStorage.setItem('VS1TrialBalance_Report', '');
+                    localStorage.setItem('VS1PrintStatements_Report', '');
+                    Session.setPersistent('bankaccountid', '');
+
+                    localStorage.setItem('VS1ProductList', '');
+                    localStorage.setItem('VS1CustomerList', '');
+                    localStorage.setItem('VS1SupplierList', '');
+                    localStorage.setItem('VS1AccountList', '');
+                    localStorage.setItem('VS1TaxCodeList', '');
+                    localStorage.setItem('VS1TermsList', '');
+                    localStorage.setItem('VS1DepartmentList', '');
+                    localStorage.setItem('VS1CurrencyList', '');
+                    localStorage.setItem('VS1LeadStatusList', '');
+                    localStorage.setItem('VS1ShippingMethodList', '');
+                    localStorage.setItem('VS1AccountTypeList', '');
+                    localStorage.setItem('VS1ERPCombinedContactsList', '');
+                    localStorage.setItem('VS1EmployeeList', '');
+                    localStorage.setItem('VS1JournalEntryLineList', '');
+                    localStorage.setItem('VS1BankAccountReportList', '');
+                    localStorage.setItem('VS1TInvoiceList', '');
+                    localStorage.setItem('VS1TInvoiceNonBackOrderList', '');
+                    localStorage.setItem('VS1BackOrderSalesListList', '');
+                    localStorage.setItem('VS1TPurchaseOrderList', '');
+                    localStorage.setItem('VS1TReconcilationList', '');
+                    localStorage.setItem('VS1TChequeList', '');
+                    localStorage.setItem('VS1TProductStocknSalePeriodReport', '');
+                    localStorage.setItem('VS1TAppUserList', '');
+                    localStorage.setItem('VS1TJobVS1List', '');
+                    localStorage.setItem('VS1TStockAdjustEntryList', '');
+                    localStorage.setItem('VS1TsalesOrderNonBackOrderList', '');
+                    localStorage.setItem('VS1TbillReport', '');
+                    localStorage.setItem('VS1TbillReport', '');
+                    localStorage.setItem('VS1TCreditList', '');
+                    localStorage.setItem('VS1TpurchaseOrderNonBackOrderList', '');
+                    localStorage.setItem('VS1TpurchaseOrderBackOrderList', '');
+                    localStorage.setItem('VS1TSalesList', '');
+                  }else{
+                    if((localStorage.getItem('VS1loggedDatabase')) == (dataReturnRes.ProcessLog.Databasename)) {
+                      isSameUserLogin = true;
+                    }else{
+                      localStorage.setItem('VS1loggedDatabase', dataReturnRes.ProcessLog.Databasename);
+                      localStorage.setItem('VS11099Contractor_Report', '');
+                      localStorage.setItem('VS1AgedPayables_Report', '');
+                      localStorage.setItem('VS1AgedPayablesSummary_Report', '');
+                      localStorage.setItem('VS1AgedReceivables_Report', '');
+                      localStorage.setItem('VS1AgedReceivableSummary_Report', '');
+                      localStorage.setItem('VS1BalanceSheet_Report', '');
+                      localStorage.setItem('VS1BalanceTrans_Report', '');
+                      localStorage.setItem('VS1GeneralLedger_Report', '');
+                      localStorage.setItem('VS1ProfitandLoss_Report', '');
+                      localStorage.setItem('VS1Purchase_List', '');
+                      localStorage.setItem('VS1Purchase_Report', '');
+                      localStorage.setItem('VS1PurchaseSummary_Report', '');
+                      localStorage.setItem('VS1ProductSales_List', '');
+                      localStorage.setItem('VS1ProductSales_Report', '');
+                      localStorage.setItem('VS1Sales_List', '');
+                      localStorage.setItem('VS1Sales_Report', '');
+                      localStorage.setItem('VS1SalesSummary_Report', '');
+                      localStorage.setItem('VS1TaxSummary_Report', '');
+                      localStorage.setItem('VS1TrialBalance_Report', '');
+                      localStorage.setItem('VS1PrintStatements_Report', '');
+
+                      //Lists
+                      localStorage.setItem('VS1AccoountList','');
+                      Session.setPersistent('bankaccountid', '');
+                    }
+                  }
+
+
+                  // console.log(dataReturnRes.ProcessLog.TRegionalOptions.CurrencySymbol);
+                  Session.setPersistent('ERPCurrency', dataReturnRes.ProcessLog.TRegionalOptions.CurrencySymbol);
+
+                  var region = dataReturnRes.ProcessLog.RegionName;
+                  Session.setPersistent('ERPLoggedCountry', region);
+
+                  if(dataReturnRes.ProcessLog.RegionName === "Australia"){
+                    Session.setPersistent('ERPCountryAbbr', 'AUD');
+                  }else if(dataReturnRes.ProcessLog.RegionName === "Canada"){
+                    Session.setPersistent('ERPCountryAbbr', 'CAD');
+                  }else if(dataReturnRes.ProcessLog.RegionName === "Colombia"){
+                    Session.setPersistent('ERPCountryAbbr', 'COP');
+                  }else if(dataReturnRes.ProcessLog.RegionName === "Kuwait"){
+                    Session.setPersistent('ERPCountryAbbr', 'KYD');
+                  }else if(dataReturnRes.ProcessLog.RegionName === "Mexico"){
+                    Session.setPersistent('ERPCountryAbbr', 'MXN');
+                  }else if(dataReturnRes.ProcessLog.RegionName === "New Zealand"){
+                    Session.setPersistent('ERPCountryAbbr', 'NZD');
+                  }else if(dataReturnRes.ProcessLog.RegionName === "Qatar"){
+                    Session.setPersistent('ERPCountryAbbr', 'QAR');
+                  }else if(dataReturnRes.ProcessLog.RegionName === "Kingdom of Saudi Arabia"){
+                    Session.setPersistent('ERPCountryAbbr', 'SAR');
+                  }else if(dataReturnRes.ProcessLog.RegionName === "Singapore"){
+                    Session.setPersistent('ERPCountryAbbr', 'SGD');
+                  }else if(dataReturnRes.ProcessLog.RegionName === "South Africa"){
+                    Session.setPersistent('ERPCountryAbbr', 'ZAR');
+                  }else if(dataReturnRes.ProcessLog.RegionName === "United Arab Emirates"){
+                    Session.setPersistent('ERPCountryAbbr', 'AED');
+                  }else if(dataReturnRes.ProcessLog.RegionName === "United Kingdom"){
+                    Session.setPersistent('ERPCountryAbbr', 'GBP');
+                  }else if(dataReturnRes.ProcessLog.RegionName === "United States of America"){
+                    Session.setPersistent('ERPCountryAbbr', 'USD');
+                  }
+                  Session.setPersistent('ERPDefaultDepartment', 'Default');
+                  Session.setPersistent('ERPDefaultUOM', '');
+                  Session.setPersistent('VS1AdminUserName', dataReturnRes.ProcessLog.VS1AdminUserName);
+                  var ERPIPAdderess= "";
+                  if(dataReturnRes.ProcessLog.ServerName == "110.142.175.245"){
+                    ERPIPAdderess= "www.login.vs1cloud.com";
+                  }else{
+                    ERPIPAdderess= dataReturnRes.ProcessLog.ServerName;
+                  }
+
+
+             var ERPdbName = dataReturnRes.ProcessLog.Databasename;
+
+             var ERPport = dataReturnRes.ProcessLog.APIPort;
+             // alert(ERPdbName);
+
+               Session.setPersistent('mycloudLogonUserEmail', userLoginEmail);
+             //alert(ERPdbName);
+             var ERPuserName = userLoginEmail;
+              var ERPLoggeduserName = userLoginEmail;
+             var ERPpassword = userLoginPassword;
+
+             let erpdbname = ERPIPAdderess+','+ERPdbName+','+ERPuserName+','+ERPpassword+','+ERPport;
+            let licenceOptions = dataReturnRes.ProcessLog.Modules.Modules;
+            $.each(licenceOptions, function (item, option) {
+
+                      if(option.ModuleName == 'Accounts Payable Reports'){
+                        isAccountsLicence = false;
+                      }else if(option.ModuleName == 'Statements'){
+                        isContactsLicence = false;
+                      }else if((option.ModuleName == 'Expense Claims / Receipt Claiming')){
+                        isExpenseClaimsLicence = false;
+                      }else if(option.ModuleName == 'CloudDashboard'){
+                        isDashboardLicence = false;
+                      }else if(option.ModuleName == 'CloudFixedAssets'){
+                        isFixedAssetsLicence = false;
+                      }else if(option.ModuleName == 'Inventory Tracking'){
+                        isInventoryLicence = false;
+                      }else if(option.ModuleName == 'CloudMain'){
+                        isMainLicence = false;
+                      }else if(option.ModuleName == 'Manufacturing'){
+                        isManufacturingLicence = false;
+                      }else if(option.ModuleName == 'Payemnts'){
+                        isPaymentsLicence = false;
+                      }else if(option.ModuleName == 'Bills'){
+                        isPurchasesLicence = false;
+                      }else if(option.ModuleName == 'Reports Dashboard'){
+                         isReportsLicence = false;
+                      }else if((option.ModuleName == 'Quotes') || (option.ModuleName == 'Invoices')){
+                        isSalesLicence = false;
+                      }else if(option.ModuleName == 'CloudSettings'){
+                        isSettingsLicence = true;
+                      }else if((option.ModuleName == 'Shipping')){
+                        isShippingLicence = false;
+                      }else if(option.ModuleName == 'Stock Adjustments'){
+                        isStockTakeLicence = false;
+                      }else if(option.ModuleName == 'Stock Adjustments'){
+                        isStockTransferLicence = false;
+                      }else if((option.ModuleName == 'Seed To Sale')){
+                        isSeedToSaleLicence = true;
+                      }else if(option.ModuleName == 'CloudBanking'){
+                        isBankingLicence = true;
+                      }else if((option.ModuleName == 'Payroll Integration') ){
+                        isPayrollLicence = false;
+                      }else if((option.ModuleName == 'Manufacturing')){
+                        isManufacturingLicence = false;
+                      }else if((option.ModuleName == 'POS')){
+                        isPOSLicence = false;
+                      }else if((option.ModuleName == 'WMS')){
+                        isWMSLicence = false;
+                      }else if((option.ModuleName == 'Matrix')){
+                        isMatrixLicence = false;
+                      }else if((option.ModuleName == 'Add Extra User')){
+                        isAddExtraUserLicence = true;
+                      }else if((option.ModuleName == 'FX Currency')){
+                        isFxCurrencyLicence = false;
+                      }else if((option.ModuleName == 'Use Foreign Currency')){
+                        isFxCurrencyLicence = true;
+                      }else if((option.ModuleName == 'Link To TrueERP') || (option.ModuleName == 'Connect to Live ERP DB')){
+                        if(option.ModuleActive){
+                          isTrueERPConnection = false;
+                        }else{
+                          isTrueERPConnection = false;
+                        }
+                      }
+
+            });
+            // Session.setPersistent('LoggedUserEventFired', true);
+            /* Remove licence */
+                //licence Option To Add Session
+                Session.setPersistent('CloudTrueERPModule', isTrueERPConnection);
+                Session.setPersistent('CloudAccountsLicence', isAccountsLicence);
+                Session.setPersistent('CloudContactsLicence', isContactsLicence);
+                Session.setPersistent('CloudExpenseClaimsLicence', isExpenseClaimsLicence);
+                Session.setPersistent('CloudPaymentsLicence', isPaymentsLicence);
+                Session.setPersistent('CloudReportsLicence', isReportsLicence);
+                Session.setPersistent('CloudSettingsLicence', isSettingsLicence);
+
+                Session.setPersistent('CloudMainLicence', isMainLicence);
+                Session.setPersistent('CloudDashboardLicence', isDashboardLicence);
+
+
+                Session.setPersistent('CloudSeedToSaleLicence', isSeedToSaleLicence);
+                Session.setPersistent('CloudBankingLicence', isBankingLicence);
+                Session.setPersistent('CloudPayrollLicence', isPayrollLicence);
+               //End licence to Add Session
+                Session.setPersistent('CloudFixedAssetsLicence', isFixedAssetsLicence);
+                Session.setPersistent('CloudInventoryLicence', isInventoryLicence);
+                Session.setPersistent('CloudManufacturingLicence', isManufacturingLicence);
+                Session.setPersistent('CloudPurchasesLicence', isPurchasesLicence);
+                Session.setPersistent('CloudSalesLicence', isSalesLicence);
+                Session.setPersistent('CloudShippingLicence', isShippingLicence);
+                Session.setPersistent('CloudStockTakeLicence', isStockTakeLicence);
+                Session.setPersistent('CloudStockTransferLicence', isStockTransferLicence);
+
+                Session.setPersistent('CloudAddExtraLicence', isAddExtraUserLicence);
+                Session.setPersistent('CloudMatrixLicence', isMatrixLicence);
+                Session.setPersistent('CloudPOSLicence', isPOSLicence);
+                Session.setPersistent('CloudUseForeignLicence', isFxCurrencyLicence);
+                Session.setPersistent('CloudWMSLicence', isWMSLicence);
+                  /* End Remove licence */
+                  // alert(dataReturnRes.ProcessLog.AccessLevels);
+                  if(dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.AccessLevels == undefined){
+                    swal('Sorry, You do not have access to any Greentrack Modules!', '', 'error');
+                    $('.fullScreenSpin').css('display','none');
+                    $('.loginSpinner').css('display','none');
+                    return false;
+                    // let userAccessOptions = dataReturnRes.ProcessLog.AccessLevels.AccessLevels;
+                  };
+
+                  if(dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.AccessLevels.ResponseNo == 401){
+                    swal('Sorry, You do not have access to any Greentrack Modules!', '', 'error');
+                    $('.fullScreenSpin').css('display','none');
+                    $('.loginSpinner').css('display','none');
+                    return false;
+                    // let userAccessOptions = dataReturnRes.ProcessLog.AccessLevels.AccessLevels;
+                  };
+
+
+          Session.setPersistent('mycloudLogonUsername', ERPuserName);
+          Session.setPersistent('mycloudLogonUserEmail', ERPuserName);
+
+        Session.setPersistent('myerpPassword', userLoginPassword);
+        Session.setPersistent('mySessionEmployee', ERPuserName);
+        //localStorage.setItem('mySession', ERPuserName);
+        localStorage.setItem('EIPAddress', ERPIPAdderess);
+        localStorage.setItem('EUserName', ERPuserName);
+        localStorage.setItem('EPassword', ERPpassword);
+        localStorage.setItem('EDatabase', ERPdbName);
+        localStorage.setItem('EPort', ERPport);
+        loggedUserEventFired = true;
+
+        localStorage.setItem('mainEIPAddress', licenceIPAddress);
+        localStorage.setItem('mainEPort', checkSSLPorts);
+        //Dashboard API:
+        if(dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields){
+        Session.setPersistent('vs1companyName', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.Companyinfo_CompanyName||'');
+        Session.setPersistent('vs1companyaddress1', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.Companyinfo_Address||'');
+        Session.setPersistent('vs1companyaddress2', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.Companyinfo_Address2||'');
+        Session.setPersistent('vs1companyABN', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.Companyinfo_ABN||'');
+        Session.setPersistent('vs1companyPhone', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.Companyinfo_PhoneNumber||'');
+        Session.setPersistent('vs1companyURL', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.Companyinfo_URL||'');
+
+        Session.setPersistent('ERPDefaultDepartment', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.ColumnHeadings_DefaultClass||'');
+        Session.setPersistent('ERPDefaultUOM', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.ColumnHeadings_DefaultUOM||'');
+
+
+        // Session.setPersistent('ERPCurrency', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.RegionalOptions_CurrencySymbol||'');
+        Session.setPersistent('ERPCountryAbbr', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.RegionalOptions_ForeignExDefault||'');
+        Session.setPersistent('ERPTaxCodePurchaseInc', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.RegionalOptions_TaxCodePurchaseInc||'');
+        Session.setPersistent('ERPTaxCodeSalesInc', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.RegionalOptions_TaxCodeSalesInc||'');
+
+
+        localStorage.setItem('VS1OverDueInvoiceAmt_dash', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.OVERDUE_INVOICES_AMOUNT||Currency+'0');
+        localStorage.setItem('VS1OverDueInvoiceQty_dash', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.OVERDUE_INVOICES_QUANTITY||0);
+        localStorage.setItem('VS1OutstandingPayablesAmt_dash', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.OUTSTANDING_PAYABLES_AMOUNT||Currency+'0');
+        localStorage.setItem('VS1OutstandingPayablesQty_dash', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.OUTSTANDING_PAYABLES_QUANTITY||0);
+
+        localStorage.setItem('VS1MonthlyProfitandLoss_dash', '');
+
+          //Profit & Loss
+        localStorage.setItem('VS1ProfitandLoss_netIncomeEx_dash', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.PnL_NetIncomeEx||0);
+        localStorage.setItem('VS1ProfitandLoss_IncomeEx_dash', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.PnL_TotalIncomeEx||0);
+        localStorage.setItem('VS1ProfitandLoss_ExpEx_dash', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.PnL_TotalExpenseEx||0);
+        localStorage.setItem('VS1ProfitandLoss_COGSEx_dash', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.PnL_TotalCOGSEx||0);
+
+        if(dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TEmployeePicture.fields){
+        localStorage.setItem('vs1LoggedEmployeeImages_dash', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TEmployeePicture.fields.EncodedPic|| '');
+        }else{
+          localStorage.setItem('vs1LoggedEmployeeImages_dash','');
+        }
+        }else{
+          Session.setPersistent('vs1companyName', '');
+          Session.setPersistent('vs1companyaddress1', '');
+          Session.setPersistent('vs1companyaddress2', '');
+          Session.setPersistent('vs1companyABN', '');
+          Session.setPersistent('vs1companyPhone', '');
+          Session.setPersistent('vs1companyURL', '');
+
+          Session.setPersistent('ERPDefaultDepartment', '');
+          Session.setPersistent('ERPDefaultUOM', '');
+
+
+          //Session.setPersistent('ERPCountryAbbr', '');
+          Session.setPersistent('ERPTaxCodePurchaseInc', '');
+          Session.setPersistent('ERPTaxCodeSalesInc', '');
+
+
+          localStorage.setItem('VS1OverDueInvoiceAmt_dash', '');
+          localStorage.setItem('VS1OverDueInvoiceQty_dash', '');
+          localStorage.setItem('VS1OutstandingPayablesAmt_dash', '');
+          localStorage.setItem('VS1OutstandingPayablesQty_dash', '');
+
+          localStorage.setItem('VS1MonthlyProfitandLoss_dash', '');
+
+            //Profit & Loss
+          localStorage.setItem('VS1ProfitandLoss_netIncomeEx_dash', '');
+          localStorage.setItem('VS1ProfitandLoss_IncomeEx_dash', '');
+          localStorage.setItem('VS1ProfitandLoss_ExpEx_dash', '');
+          localStorage.setItem('VS1ProfitandLoss_COGSEx_dash', '');
+        }
+          // console.log(dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_pnl_period.items);
+        localStorage.setItem('VS1APReport_dash', JSON.stringify(dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_ap_report.items)||'');
+        localStorage.setItem('VS1PNLPeriodReport_dash', JSON.stringify(dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_pnl_period.items)||'');
+        localStorage.setItem('VS1SalesListReport_dash', JSON.stringify(dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_saleslist.items)||'');
+        localStorage.setItem('VS1SalesEmpReport_dash', JSON.stringify(dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_salesperemployee.items)||'');
+
+          Session.setPersistent('LoggedUserEventFired', true);
+          Session.setPersistent('userlogged_status', 'active');
+
+              var empusername = dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.EmployeeName;
+              var employeeUserLogon = ERPLoggeduserName;
+              var employeeUserID = dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.EmployeeId;
+              var employeename =dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.EmployeeName;
+              Session.setPersistent('mySessionEmployeeLoggedID', employeeUserID);
+              localStorage.setItem('mySession', employeeUserLogon);
+              var sessionDataToLog = localStorage.getItem('mySession');
+              Session.setPersistent('mySessionEmployee', employeename);
+              let userAccessOptions = dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.AccessLevels || '';
+              if(userAccessOptions != ""){
+                addLoginData(dataReturnRes).then(function (datareturn) {
+                  getAccessLevelData(userAccessOptions,isSameUserLogin);
+                }).catch(function (err) {
+                  getAccessLevelData(userAccessOptions,isSameUserLogin);
+                });
+              }
+
+        /*
+              var ERPCheackAppUserObject = "TAppUser?PropertyList==ID,DatabaseName,UserName,MultiLogon&Select=[DatabaseName]='"+ERPdbName+"' and [UserName]='"+ERPLoggeduserName+"'";
+              var oReqCheackAppUserObject = new XMLHttpRequest();
+              oReqCheackAppUserObject.open("GET",URLRequest + ERPIPAdderess + ':' + ERPport + '/' + "erpapi" + '/' + ERPCheackAppUserObject, true);
+              oReqCheackAppUserObject.setRequestHeader("database",ERPdbName);
+              oReqCheackAppUserObject.setRequestHeader("username",ERPuserName);
+              oReqCheackAppUserObject.setRequestHeader("password",ERPpassword);
+              oReqCheackAppUserObject.send();
+
+              // oReqCheackAppUserObject.timeout = 30000;
+              oReqCheackAppUserObject.onreadystatechange = function() {
+              if (oReqCheackAppUserObject.readyState == 4 && oReqCheackAppUserObject.status == 200) {
+                var dataListCheackAppUser = JSON.parse(oReqCheackAppUserObject.responseText)
+                for (var eventCheackAppUser in dataListCheackAppUser) {
+                  var dataCheackAppUserCopy = dataListCheackAppUser[eventCheackAppUser];
+                  if(dataCheackAppUserCopy.length === 0){
+                    counterUserRec = true;
+                  }else if(dataCheackAppUserCopy.length === 1){
+                    if(ERPuserName.toString().toUpperCase() == ERPLoggeduserName.toString().toUpperCase()){
+                      counterUserRec = true;
+                    }else{
+                      counterUserRec = false;
+                    }
+
+                  }else{
+                    counterUserRec = false;
+                  };
+
+                  for (var dataCheackAppUser in dataCheackAppUserCopy) {
+                    var mainCheackAppUserData = dataCheackAppUserCopy[dataCheackAppUser];
+                    var erpUsername = mainCheackAppUserData.UserName;
+
+                  }
+              if(counterUserRec === true){
 
 
 
-   }
 
-      } else if(oReq.statusText == '') {
-        swal({
-          title: 'Something went wrong',
-          text: "Connection Failed, Please try again",
-          type: 'error',
-          showCancelButton: false,
-          confirmButtonText: 'Try Again'
-          }).then((result) => {
-          if (result.value) {
-            Meteor._reload.reload();
-          } else if (result.dismiss === 'cancel') {
+              }else{
+                // Bert.alert('<strong>Info:</strong>User is already logged in!', 'now-error');
+                  swal('Oops...', 'VS1 User Name is already logged in. Select "Sign me out of all devices" to login', 'info');
+                $('.loginSpinner').css('display','none');
+                $('.fullScreenSpin').css('display','none');
+                // Bert.alert('<strong>Error:</strong> User currently logged in ERP, please log out ERP and try again!', 'danger');
+              }
+              }
+              }
+
+              }
+        */
+              /*END APPUSER*/
+
+           }
+
+              } else if(oReq.statusText == '') {
+                swal({
+                  title: 'Something went wrong',
+                  text: "Connection Failed, Please try again",
+                  type: 'error',
+                  showCancelButton: false,
+                  confirmButtonText: 'Try Again'
+                  }).then((result) => {
+                  if (result.value) {
+                    Meteor._reload.reload();
+                  } else if (result.dismiss === 'cancel') {
+
+                  }
+                });
+                $('.loginSpinner').css('display','none');
+                $('.fullScreenSpin').css('display','none');
+              }else if(oReq.readyState == 4 && oReq.status == 403){
+                swal({
+                  title: 'Ooops...',
+                  text: 'It seems we are unable to connect you to GreenTrack at the moment. Please try again in a few minutes.',
+                  type: 'error',
+                  showCancelButton: false,
+                  confirmButtonText: 'Try Again'
+                  }).then((result) => {
+                  if (result.value) {
+                    Meteor._reload.reload();
+                  } else if (result.dismiss === 'cancel') {
+
+                  }
+                });
+                $('.loginSpinner').css('display','none');
+                $('.fullScreenSpin').css('display','none');
+              }else if(oReq.readyState == 4 && oReq.status == 406){
+                swal({
+                  title: 'Something went wrong',
+                  text: oReq.getResponseHeader('errormessage'),
+                  type: 'error',
+                  showCancelButton: false,
+                  confirmButtonText: 'Try Again'
+                  }).then((result) => {
+                  if (result.value) {
+                    Meteor._reload.reload();
+                  } else if (result.dismiss === 'cancel') {
+
+                  }
+                });
+                $('.loginSpinner').css('display','none');
+                $('.fullScreenSpin').css('display','none');
+              }else if(oReq.readyState == 4 && oReq.status == 500){
+                var ErrorResponse = oReq.getResponseHeader('errormessage');
+                if (ErrorResponse.indexOf("Access violation") >= 0){
+                  swal({
+                    title: 'Your database is being created. ',
+                    text: "Please try again in 10 minutes",
+                    type: 'info',
+                    showCancelButton: false,
+                    confirmButtonText: 'Try Again'
+                    }).then((result) => {
+                    if (result.value) {
+                      Meteor._reload.reload();
+                    } else if (result.dismiss === 'cancel') {
+
+                    }
+                  });
+                }else{
+                  swal({
+                    title: 'Something went wrong',
+                    text: oReq.getResponseHeader('errormessage'),
+                    type: 'error',
+                    showCancelButton: false,
+                    confirmButtonText: 'Try Again'
+                    }).then((result) => {
+                    if (result.value) {
+                      Meteor._reload.reload();
+                    } else if (result.dismiss === 'cancel') {
+
+                    }
+                  });
+                }
+                $('.loginSpinner').css('display','none');
+                $('.fullScreenSpin').css('display','none');
+              }else{
+
+              }
+          }
+          });
+
+
+        }
+        else{
+          // process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = 0;
+        var serverTest = URLRequest + licenceIPAddress + ':' + checkSSLPorts + '/erpapi/Vs1_Logon?Vs1UserName="'+userLoginEmail+'"&vs1Password="'+userLoginPassword+'"';
+        //alert(serverTest);
+        // let passwordS = "VS1_Cloud_Admin" + ':' + "DptfGw83mFl1j&9";
+        // var cr = window.btoa(passwordS);
+        //var XMLHttpRequest = require("xmlhttprequest-ssl").XMLHttpRequest;
+        var oReq = new XMLHttpRequest();
+        oReq.open("GET",serverTest, true);
+        oReq.setRequestHeader("database",vs1loggedDatatbase);
+        oReq.setRequestHeader("username","VS1_Cloud_Admin");
+        oReq.setRequestHeader("password","DptfGw83mFl1j&9");
+        oReq.send();
+
+        // oReq.timeout = 30000;
+        oReq.onreadystatechange = function() {
+        //alert(oReq.responseText);
+          if (oReq.readyState == 4 && oReq.status == 200) {
+            Session.setPersistent('mainEIPAddress', licenceIPAddress);
+            Session.setPersistent('mainEPort', checkSSLPorts);
+           // alert(oReq.responseText);
+            //document.getElementById("result").innerHTML = oReq.responseText;
+            var dataReturnRes = JSON.parse(oReq.responseText);
+
+            //console.log(myArrResponse);
+            if(dataReturnRes.ProcessLog.ResponseStatus != "OK"){
+              if(dataReturnRes.ProcessLog.ResponseStatus == "Payment is Due"){
+                $('.loginSpinner').css('display','none');
+                $('.fullScreenSpin').css('display','none');
+                // swal("Your payment has been declined please update your payment subscription information!", '', 'error');
+                swal({
+                  title: 'Your payment has been declined please update your payment subscription information!',
+                  text: '',
+                  type: 'error',
+                  showCancelButton: true,
+                  confirmButtonText: 'Update Payment',
+                  cancelButtonText: 'Cancel'
+                }).then((result) => {
+                  if (result.value) {
+                    window.open('https://magento-473757-1929062.cloudwaysapps.com/customer/account/login/referer/aHR0cHM6Ly93d3cucGF5bWVudHMudnMxY2xvdWQuY29tLw%2C%2C?urppassname='+dataReturnRes.ProcessLog.VS1AdminUserName+'&urlpasstoken='+userLoginPassword+'', '_blank');
+                  } else if (result.dismiss === 'cancel') {
+
+                  }
+                });
+
+              }else{
+                swal(dataReturnRes.ProcessLog.ResponseStatus, dataReturnRes.ProcessLog.ResponseStatus, 'error');
+
+                $('.loginSpinner').css('display','none');
+                $('.fullScreenSpin').css('display','none');
+              }
+              // Bert.alert('Database Error<strong> :'+ myArrResponse.ProcessLog.Error+'</strong>', 'now-error');
+
+
+            }else{
+
+              //addLoginData(dataReturnRes);
+              Meteor.call('readMethod',dataReturnRes.ProcessLog.VS1AdminUserName, function(error, result){
+              if(error){
+
+              }else{
+              let regUserDetails = result;
+              if(regUserDetails){
+                if(regUserDetails.length === 0){
+
+                }
+                    // let cloudLoggedID = regUserDetails._id;
+                    // let cloudLoggedDBID = regUserDetails.clouddatabaseID;
+                    // let cloudLoggedUsername = regUserDetails.cloudUsername;
+                    //
+                    //
+                    Session.setPersistent('mycloudLogonDBID', regUserDetails.clouddatabaseID);
+                    Session.setPersistent('mycloudLogonID', regUserDetails._id);
+
+              }
+              }
+
+              });
+              //addLoginData(dataReturnRes);
+              localStorage.setItem('vs1cloudLoginInfo', dataReturnRes);
+              localStorage.setItem('vs1cloudlicenselevel', dataReturnRes.ProcessLog.LicenseLevel);
+              Session.setPersistent('isGreenTrack', true);
+              if(!localStorage.getItem('VS1loggedDatabase')){
+                localStorage.setItem('VS1loggedDatabase', dataReturnRes.ProcessLog.Databasename);
+                localStorage.setItem('VS11099Contractor_Report', '');
+                localStorage.setItem('VS1AgedPayables_Report', '');
+                localStorage.setItem('VS1AgedPayablesSummary_Report', '');
+                localStorage.setItem('VS1AgedReceivables_Report', '');
+                localStorage.setItem('VS1AgedReceivableSummary_Report', '');
+                localStorage.setItem('VS1BalanceSheet_Report', '');
+                localStorage.setItem('VS1BalanceTrans_Report', '');
+                localStorage.setItem('VS1GeneralLedger_Report', '');
+                localStorage.setItem('VS1ProfitandLoss_Report', '');
+                localStorage.setItem('VS1Purchase_List', '');
+                localStorage.setItem('VS1Purchase_Report', '');
+                localStorage.setItem('VS1PurchaseSummary_Report', '');
+                localStorage.setItem('VS1ProductSales_List', '');
+                localStorage.setItem('VS1ProductSales_Report', '');
+                localStorage.setItem('VS1Sales_List', '');
+                localStorage.setItem('VS1Sales_Report', '');
+                localStorage.setItem('VS1SalesSummary_Report', '');
+                localStorage.setItem('VS1TaxSummary_Report', '');
+                localStorage.setItem('VS1TrialBalance_Report', '');
+                localStorage.setItem('VS1PrintStatements_Report', '');
+                Session.setPersistent('bankaccountid', '');
+
+                localStorage.setItem('VS1ProductList', '');
+                localStorage.setItem('VS1CustomerList', '');
+                localStorage.setItem('VS1SupplierList', '');
+                localStorage.setItem('VS1AccountList', '');
+                localStorage.setItem('VS1TaxCodeList', '');
+                localStorage.setItem('VS1TermsList', '');
+                localStorage.setItem('VS1DepartmentList', '');
+                localStorage.setItem('VS1CurrencyList', '');
+                localStorage.setItem('VS1LeadStatusList', '');
+                localStorage.setItem('VS1ShippingMethodList', '');
+                localStorage.setItem('VS1AccountTypeList', '');
+                localStorage.setItem('VS1ERPCombinedContactsList', '');
+                localStorage.setItem('VS1EmployeeList', '');
+                localStorage.setItem('VS1JournalEntryLineList', '');
+                localStorage.setItem('VS1BankAccountReportList', '');
+                localStorage.setItem('VS1TInvoiceList', '');
+                localStorage.setItem('VS1TInvoiceNonBackOrderList', '');
+                localStorage.setItem('VS1BackOrderSalesListList', '');
+                localStorage.setItem('VS1TPurchaseOrderList', '');
+                localStorage.setItem('VS1TReconcilationList', '');
+                localStorage.setItem('VS1TChequeList', '');
+                localStorage.setItem('VS1TProductStocknSalePeriodReport', '');
+                localStorage.setItem('VS1TAppUserList', '');
+                localStorage.setItem('VS1TJobVS1List', '');
+                localStorage.setItem('VS1TStockAdjustEntryList', '');
+                localStorage.setItem('VS1TsalesOrderNonBackOrderList', '');
+                localStorage.setItem('VS1TbillReport', '');
+                localStorage.setItem('VS1TbillReport', '');
+                localStorage.setItem('VS1TCreditList', '');
+                localStorage.setItem('VS1TpurchaseOrderNonBackOrderList', '');
+                localStorage.setItem('VS1TpurchaseOrderBackOrderList', '');
+                localStorage.setItem('VS1TSalesList', '');
+              }else{
+                if((localStorage.getItem('VS1loggedDatabase')) == (dataReturnRes.ProcessLog.Databasename)) {
+                  isSameUserLogin = true;
+                }else{
+                  localStorage.setItem('VS1loggedDatabase', dataReturnRes.ProcessLog.Databasename);
+                  localStorage.setItem('VS11099Contractor_Report', '');
+                  localStorage.setItem('VS1AgedPayables_Report', '');
+                  localStorage.setItem('VS1AgedPayablesSummary_Report', '');
+                  localStorage.setItem('VS1AgedReceivables_Report', '');
+                  localStorage.setItem('VS1AgedReceivableSummary_Report', '');
+                  localStorage.setItem('VS1BalanceSheet_Report', '');
+                  localStorage.setItem('VS1BalanceTrans_Report', '');
+                  localStorage.setItem('VS1GeneralLedger_Report', '');
+                  localStorage.setItem('VS1ProfitandLoss_Report', '');
+                  localStorage.setItem('VS1Purchase_List', '');
+                  localStorage.setItem('VS1Purchase_Report', '');
+                  localStorage.setItem('VS1PurchaseSummary_Report', '');
+                  localStorage.setItem('VS1ProductSales_List', '');
+                  localStorage.setItem('VS1ProductSales_Report', '');
+                  localStorage.setItem('VS1Sales_List', '');
+                  localStorage.setItem('VS1Sales_Report', '');
+                  localStorage.setItem('VS1SalesSummary_Report', '');
+                  localStorage.setItem('VS1TaxSummary_Report', '');
+                  localStorage.setItem('VS1TrialBalance_Report', '');
+                  localStorage.setItem('VS1PrintStatements_Report', '');
+
+                  //Lists
+                  localStorage.setItem('VS1AccoountList','');
+                  Session.setPersistent('bankaccountid', '');
+                }
+              }
+
+
+              // console.log(dataReturnRes.ProcessLog.TRegionalOptions.CurrencySymbol);
+              Session.setPersistent('ERPCurrency', dataReturnRes.ProcessLog.TRegionalOptions.CurrencySymbol);
+
+              var region = dataReturnRes.ProcessLog.RegionName;
+              Session.setPersistent('ERPLoggedCountry', region);
+
+              if(dataReturnRes.ProcessLog.RegionName === "Australia"){
+                Session.setPersistent('ERPCountryAbbr', 'AUD');
+              }else if(dataReturnRes.ProcessLog.RegionName === "Canada"){
+                Session.setPersistent('ERPCountryAbbr', 'CAD');
+              }else if(dataReturnRes.ProcessLog.RegionName === "Colombia"){
+                Session.setPersistent('ERPCountryAbbr', 'COP');
+              }else if(dataReturnRes.ProcessLog.RegionName === "Kuwait"){
+                Session.setPersistent('ERPCountryAbbr', 'KYD');
+              }else if(dataReturnRes.ProcessLog.RegionName === "Mexico"){
+                Session.setPersistent('ERPCountryAbbr', 'MXN');
+              }else if(dataReturnRes.ProcessLog.RegionName === "New Zealand"){
+                Session.setPersistent('ERPCountryAbbr', 'NZD');
+              }else if(dataReturnRes.ProcessLog.RegionName === "Qatar"){
+                Session.setPersistent('ERPCountryAbbr', 'QAR');
+              }else if(dataReturnRes.ProcessLog.RegionName === "Kingdom of Saudi Arabia"){
+                Session.setPersistent('ERPCountryAbbr', 'SAR');
+              }else if(dataReturnRes.ProcessLog.RegionName === "Singapore"){
+                Session.setPersistent('ERPCountryAbbr', 'SGD');
+              }else if(dataReturnRes.ProcessLog.RegionName === "South Africa"){
+                Session.setPersistent('ERPCountryAbbr', 'ZAR');
+              }else if(dataReturnRes.ProcessLog.RegionName === "United Arab Emirates"){
+                Session.setPersistent('ERPCountryAbbr', 'AED');
+              }else if(dataReturnRes.ProcessLog.RegionName === "United Kingdom"){
+                Session.setPersistent('ERPCountryAbbr', 'GBP');
+              }else if(dataReturnRes.ProcessLog.RegionName === "United States of America"){
+                Session.setPersistent('ERPCountryAbbr', 'USD');
+              }
+              Session.setPersistent('ERPDefaultDepartment', 'Default');
+              Session.setPersistent('ERPDefaultUOM', '');
+              Session.setPersistent('VS1AdminUserName', dataReturnRes.ProcessLog.VS1AdminUserName);
+              dataReturnRes.ProcessLog.VS1AdminPassword = userLoginPassword;
+              dataReturnRes.ProcessLog.VS1UserName = userLoginEmail;
+              var ERPIPAdderess= "";
+              if(dataReturnRes.ProcessLog.ServerName == "110.142.175.245"){
+                ERPIPAdderess= "www.login.vs1cloud.com";
+              }else{
+                ERPIPAdderess= dataReturnRes.ProcessLog.ServerName;
+              }
+         var ERPdbName = dataReturnRes.ProcessLog.Databasename;
+
+         var ERPport = dataReturnRes.ProcessLog.APIPort;
+         // alert(ERPdbName);
+
+           Session.setPersistent('mycloudLogonUserEmail', userLoginEmail);
+         //alert(ERPdbName);
+         var ERPuserName = userLoginEmail;
+          var ERPLoggeduserName = userLoginEmail;
+         var ERPpassword = userLoginPassword;
+
+         let erpdbname = ERPIPAdderess+','+ERPdbName+','+ERPuserName+','+ERPpassword+','+ERPport;
+        let licenceOptions = dataReturnRes.ProcessLog.Modules.Modules;
+        $.each(licenceOptions, function (item, option) {
+
+                  if(option.ModuleName == 'Accounts Payable Reports'){
+                    isAccountsLicence = false;
+                  }else if(option.ModuleName == 'Statements'){
+                    isContactsLicence = false;
+                  }else if((option.ModuleName == 'Expense Claims / Receipt Claiming')){
+                    isExpenseClaimsLicence = false;
+                  }else if(option.ModuleName == 'CloudDashboard'){
+                    isDashboardLicence = false;
+                  }else if(option.ModuleName == 'CloudFixedAssets'){
+                    isFixedAssetsLicence = false;
+                  }else if(option.ModuleName == 'Inventory Tracking'){
+                    isInventoryLicence = false;
+                  }else if(option.ModuleName == 'CloudMain'){
+                    isMainLicence = false;
+                  }else if(option.ModuleName == 'Manufacturing'){
+                    isManufacturingLicence = false;
+                  }else if(option.ModuleName == 'Payemnts'){
+                    isPaymentsLicence = false;
+                  }else if(option.ModuleName == 'Bills'){
+                    isPurchasesLicence = false;
+                  }else if(option.ModuleName == 'Reports Dashboard'){
+                     isReportsLicence = false;
+                  }else if((option.ModuleName == 'Quotes') || (option.ModuleName == 'Invoices')){
+                    isSalesLicence = false;
+                  }else if(option.ModuleName == 'CloudSettings'){
+                    isSettingsLicence = true;
+                  }else if((option.ModuleName == 'Shipping')){
+                    isShippingLicence = false;
+                  }else if(option.ModuleName == 'Stock Adjustments'){
+                    isStockTakeLicence = false;
+                  }else if(option.ModuleName == 'Stock Adjustments'){
+                    isStockTransferLicence = false;
+                  }else if((option.ModuleName == 'Seed To Sale')){
+                    isSeedToSaleLicence = true;
+                  }else if(option.ModuleName == 'CloudBanking'){
+                    isBankingLicence = true;
+                  }else if((option.ModuleName == 'Payroll Integration') ){
+                    isPayrollLicence = false;
+                  }else if((option.ModuleName == 'Manufacturing')){
+                    isManufacturingLicence = false;
+                  }else if((option.ModuleName == 'POS')){
+                    isPOSLicence = false;
+                  }else if((option.ModuleName == 'WMS')){
+                    isWMSLicence = false;
+                  }else if((option.ModuleName == 'Matrix')){
+                    isMatrixLicence = false;
+                  }else if((option.ModuleName == 'Add Extra User')){
+                    isAddExtraUserLicence = true;
+                  }else if((option.ModuleName == 'FX Currency')){
+                    isFxCurrencyLicence = false;
+                  }else if((option.ModuleName == 'Use Foreign Currency')){
+                    isFxCurrencyLicence = true;
+                  }else if((option.ModuleName == 'Link To TrueERP') || (option.ModuleName == 'Connect to Live ERP DB')){
+                    if(option.ModuleActive){
+                      isTrueERPConnection = false;
+                    }else{
+                      isTrueERPConnection = false;
+                    }
+                  }
+
+        });
+        // Session.setPersistent('LoggedUserEventFired', true);
+        /* Remove licence */
+            //licence Option To Add Session
+            Session.setPersistent('CloudTrueERPModule', isTrueERPConnection);
+            Session.setPersistent('CloudAccountsLicence', isAccountsLicence);
+            Session.setPersistent('CloudContactsLicence', isContactsLicence);
+            Session.setPersistent('CloudExpenseClaimsLicence', isExpenseClaimsLicence);
+            Session.setPersistent('CloudPaymentsLicence', isPaymentsLicence);
+            Session.setPersistent('CloudReportsLicence', isReportsLicence);
+            Session.setPersistent('CloudSettingsLicence', isSettingsLicence);
+
+            Session.setPersistent('CloudMainLicence', isMainLicence);
+            Session.setPersistent('CloudDashboardLicence', isDashboardLicence);
+
+
+            Session.setPersistent('CloudSeedToSaleLicence', isSeedToSaleLicence);
+            Session.setPersistent('CloudBankingLicence', isBankingLicence);
+            Session.setPersistent('CloudPayrollLicence', isPayrollLicence);
+           //End licence to Add Session
+            Session.setPersistent('CloudFixedAssetsLicence', isFixedAssetsLicence);
+            Session.setPersistent('CloudInventoryLicence', isInventoryLicence);
+            Session.setPersistent('CloudManufacturingLicence', isManufacturingLicence);
+            Session.setPersistent('CloudPurchasesLicence', isPurchasesLicence);
+            Session.setPersistent('CloudSalesLicence', isSalesLicence);
+            Session.setPersistent('CloudShippingLicence', isShippingLicence);
+            Session.setPersistent('CloudStockTakeLicence', isStockTakeLicence);
+            Session.setPersistent('CloudStockTransferLicence', isStockTransferLicence);
+
+            Session.setPersistent('CloudAddExtraLicence', isAddExtraUserLicence);
+            Session.setPersistent('CloudMatrixLicence', isMatrixLicence);
+            Session.setPersistent('CloudPOSLicence', isPOSLicence);
+            Session.setPersistent('CloudUseForeignLicence', isFxCurrencyLicence);
+            Session.setPersistent('CloudWMSLicence', isWMSLicence);
+              /* End Remove licence */
+              // alert(dataReturnRes.ProcessLog.AccessLevels);
+              if(dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.AccessLevels == undefined){
+                swal('Sorry, You do not have access to any Greentrack Modules!', '', 'error');
+                $('.fullScreenSpin').css('display','none');
+                $('.loginSpinner').css('display','none');
+                return false;
+                // let userAccessOptions = dataReturnRes.ProcessLog.AccessLevels.AccessLevels;
+              };
+
+              if(dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.AccessLevels.ResponseNo == 401){
+                swal('Sorry, You do not have access to any Greentrack Modules!', '', 'error');
+                $('.fullScreenSpin').css('display','none');
+                $('.loginSpinner').css('display','none');
+                return false;
+                // let userAccessOptions = dataReturnRes.ProcessLog.AccessLevels.AccessLevels;
+              };
+
+
+              dataReturnRes.ProcessLog.VS1AdminPassword = userLoginPassword;
+              dataReturnRes.ProcessLog.VS1UserName = userLoginEmail;
+      Session.setPersistent('mycloudLogonUsername', ERPuserName);
+      Session.setPersistent('mycloudLogonUserEmail', ERPuserName);
+
+    Session.setPersistent('myerpPassword', userLoginPassword);
+    Session.setPersistent('mySessionEmployee', ERPuserName);
+    //localStorage.setItem('mySession', ERPuserName);
+    localStorage.setItem('EIPAddress', ERPIPAdderess);
+    localStorage.setItem('EUserName', ERPuserName);
+    localStorage.setItem('EPassword', ERPpassword);
+    localStorage.setItem('EDatabase', ERPdbName);
+    localStorage.setItem('EPort', ERPport);
+    loggedUserEventFired = true;
+
+    localStorage.setItem('mainEIPAddress', licenceIPAddress);
+    localStorage.setItem('mainEPort', checkSSLPorts);
+    //Dashboard API:
+    if(dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields){
+    Session.setPersistent('vs1companyName', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.Companyinfo_CompanyName||'');
+    Session.setPersistent('vs1companyaddress1', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.Companyinfo_Address||'');
+    Session.setPersistent('vs1companyaddress2', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.Companyinfo_Address2||'');
+    Session.setPersistent('vs1companyABN', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.Companyinfo_ABN||'');
+    Session.setPersistent('vs1companyPhone', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.Companyinfo_PhoneNumber||'');
+    Session.setPersistent('vs1companyURL', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.Companyinfo_URL||'');
+
+    Session.setPersistent('ERPDefaultDepartment', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.ColumnHeadings_DefaultClass||'');
+    Session.setPersistent('ERPDefaultUOM', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.ColumnHeadings_DefaultUOM||'');
+
+
+    // Session.setPersistent('ERPCurrency', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.RegionalOptions_CurrencySymbol||'');
+    Session.setPersistent('ERPCountryAbbr', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.RegionalOptions_ForeignExDefault||'');
+    Session.setPersistent('ERPTaxCodePurchaseInc', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.RegionalOptions_TaxCodePurchaseInc||'');
+    Session.setPersistent('ERPTaxCodeSalesInc', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.RegionalOptions_TaxCodeSalesInc||'');
+
+
+    localStorage.setItem('VS1OverDueInvoiceAmt_dash', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.OVERDUE_INVOICES_AMOUNT||Currency+'0');
+    localStorage.setItem('VS1OverDueInvoiceQty_dash', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.OVERDUE_INVOICES_QUANTITY||0);
+    localStorage.setItem('VS1OutstandingPayablesAmt_dash', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.OUTSTANDING_PAYABLES_AMOUNT||Currency+'0');
+    localStorage.setItem('VS1OutstandingPayablesQty_dash', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.OUTSTANDING_PAYABLES_QUANTITY||0);
+
+    localStorage.setItem('VS1MonthlyProfitandLoss_dash', '');
+
+      //Profit & Loss
+    localStorage.setItem('VS1ProfitandLoss_netIncomeEx_dash', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.PnL_NetIncomeEx||0);
+    localStorage.setItem('VS1ProfitandLoss_IncomeEx_dash', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.PnL_TotalIncomeEx||0);
+    localStorage.setItem('VS1ProfitandLoss_ExpEx_dash', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.PnL_TotalExpenseEx||0);
+    localStorage.setItem('VS1ProfitandLoss_COGSEx_dash', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.PnL_TotalCOGSEx||0);
+
+    if(dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TEmployeePicture.fields){
+    localStorage.setItem('vs1LoggedEmployeeImages_dash', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TEmployeePicture.fields.EncodedPic|| '');
+    }else{
+      localStorage.setItem('vs1LoggedEmployeeImages_dash','');
+    }
+    }else{
+      Session.setPersistent('vs1companyName', '');
+      Session.setPersistent('vs1companyaddress1', '');
+      Session.setPersistent('vs1companyaddress2', '');
+      Session.setPersistent('vs1companyABN', '');
+      Session.setPersistent('vs1companyPhone', '');
+      Session.setPersistent('vs1companyURL', '');
+
+      Session.setPersistent('ERPDefaultDepartment', '');
+      Session.setPersistent('ERPDefaultUOM', '');
+
+
+      //Session.setPersistent('ERPCountryAbbr', '');
+      Session.setPersistent('ERPTaxCodePurchaseInc', '');
+      Session.setPersistent('ERPTaxCodeSalesInc', '');
+
+
+      localStorage.setItem('VS1OverDueInvoiceAmt_dash', '');
+      localStorage.setItem('VS1OverDueInvoiceQty_dash', '');
+      localStorage.setItem('VS1OutstandingPayablesAmt_dash', '');
+      localStorage.setItem('VS1OutstandingPayablesQty_dash', '');
+
+      localStorage.setItem('VS1MonthlyProfitandLoss_dash', '');
+
+        //Profit & Loss
+      localStorage.setItem('VS1ProfitandLoss_netIncomeEx_dash', '');
+      localStorage.setItem('VS1ProfitandLoss_IncomeEx_dash', '');
+      localStorage.setItem('VS1ProfitandLoss_ExpEx_dash', '');
+      localStorage.setItem('VS1ProfitandLoss_COGSEx_dash', '');
+    }
+      // console.log(dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_pnl_period.items);
+    localStorage.setItem('VS1APReport_dash', JSON.stringify(dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_ap_report.items)||'');
+    localStorage.setItem('VS1PNLPeriodReport_dash', JSON.stringify(dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_pnl_period.items)||'');
+    localStorage.setItem('VS1SalesListReport_dash', JSON.stringify(dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_saleslist.items)||'');
+    localStorage.setItem('VS1SalesEmpReport_dash', JSON.stringify(dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_salesperemployee.items)||'');
+
+      Session.setPersistent('LoggedUserEventFired', true);
+      Session.setPersistent('userlogged_status', 'active');
+
+          var empusername = dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.EmployeeName;
+          var employeeUserLogon = ERPLoggeduserName;
+          var employeeUserID = dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.EmployeeId;
+          var employeename =dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.EmployeeName;
+          Session.setPersistent('mySessionEmployeeLoggedID', employeeUserID);
+          localStorage.setItem('mySession', employeeUserLogon);
+          var sessionDataToLog = localStorage.getItem('mySession');
+          Session.setPersistent('mySessionEmployee', employeename);
+          let userAccessOptions = dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.AccessLevels || '';
+          if(userAccessOptions != ""){
+            addLoginData(dataReturnRes).then(function (datareturn) {
+              getAccessLevelData(userAccessOptions,isSameUserLogin);
+            }).catch(function (err) {
+              getAccessLevelData(userAccessOptions,isSameUserLogin);
+            });
+            //var addLoginDataOutput = addLoginData(dataReturnRes);
+            //console.log(addLoginDataOutput);
 
           }
-        });
-        $('.loginSpinner').css('display','none');
-        $('.fullScreenSpin').css('display','none');
-      }else if(oReq.readyState == 4 && oReq.status == 403){
-        swal({
-          title: 'Ooops...',
-          text: 'It seems we are unable to connect you to GreenTrack at the moment. Please try again in a few minutes.',
-          type: 'error',
-          showCancelButton: false,
-          confirmButtonText: 'Try Again'
-          }).then((result) => {
-          if (result.value) {
-            Meteor._reload.reload();
-          } else if (result.dismiss === 'cancel') {
+
+    /*
+          var ERPCheackAppUserObject = "TAppUser?PropertyList==ID,DatabaseName,UserName,MultiLogon&Select=[DatabaseName]='"+ERPdbName+"' and [UserName]='"+ERPLoggeduserName+"'";
+          var oReqCheackAppUserObject = new XMLHttpRequest();
+          oReqCheackAppUserObject.open("GET",URLRequest + ERPIPAdderess + ':' + ERPport + '/' + "erpapi" + '/' + ERPCheackAppUserObject, true);
+          oReqCheackAppUserObject.setRequestHeader("database",ERPdbName);
+          oReqCheackAppUserObject.setRequestHeader("username",ERPuserName);
+          oReqCheackAppUserObject.setRequestHeader("password",ERPpassword);
+          oReqCheackAppUserObject.send();
+
+          // oReqCheackAppUserObject.timeout = 30000;
+          oReqCheackAppUserObject.onreadystatechange = function() {
+          if (oReqCheackAppUserObject.readyState == 4 && oReqCheackAppUserObject.status == 200) {
+            var dataListCheackAppUser = JSON.parse(oReqCheackAppUserObject.responseText)
+            for (var eventCheackAppUser in dataListCheackAppUser) {
+              var dataCheackAppUserCopy = dataListCheackAppUser[eventCheackAppUser];
+              if(dataCheackAppUserCopy.length === 0){
+                counterUserRec = true;
+              }else if(dataCheackAppUserCopy.length === 1){
+                if(ERPuserName.toString().toUpperCase() == ERPLoggeduserName.toString().toUpperCase()){
+                  counterUserRec = true;
+                }else{
+                  counterUserRec = false;
+                }
+
+              }else{
+                counterUserRec = false;
+              };
+
+              for (var dataCheackAppUser in dataCheackAppUserCopy) {
+                var mainCheackAppUserData = dataCheackAppUserCopy[dataCheackAppUser];
+                var erpUsername = mainCheackAppUserData.UserName;
+
+              }
+          if(counterUserRec === true){
+
+
+
+
+          }else{
+            // Bert.alert('<strong>Info:</strong>User is already logged in!', 'now-error');
+              swal('Oops...', 'VS1 User Name is already logged in. Select "Sign me out of all devices" to login', 'info');
+            $('.loginSpinner').css('display','none');
+            $('.fullScreenSpin').css('display','none');
+            // Bert.alert('<strong>Error:</strong> User currently logged in ERP, please log out ERP and try again!', 'danger');
+          }
+          }
+          }
 
           }
-        });
-        $('.loginSpinner').css('display','none');
-        $('.fullScreenSpin').css('display','none');
-      }else if(oReq.readyState == 4 && oReq.status == 406){
-        swal({
-          title: 'Something went wrong',
-          text: oReq.getResponseHeader('errormessage'),
-          type: 'error',
-          showCancelButton: false,
-          confirmButtonText: 'Try Again'
-          }).then((result) => {
-          if (result.value) {
-            Meteor._reload.reload();
-          } else if (result.dismiss === 'cancel') {
+    */
+          /*END APPUSER*/
 
-          }
-        });
-        $('.loginSpinner').css('display','none');
-        $('.fullScreenSpin').css('display','none');
-      }else if(oReq.readyState == 4 && oReq.status == 500){
-        swal({
-          title: 'Something went wrong',
-          text: oReq.getResponseHeader('errormessage'),
-          type: 'error',
-          showCancelButton: false,
-          confirmButtonText: 'Try Again'
-          }).then((result) => {
-          if (result.value) {
-            Meteor._reload.reload();
-          } else if (result.dismiss === 'cancel') {
+       }
 
+          } else if(oReq.statusText == '') {
+            swal({
+              title: 'Something went wrong',
+              text: "Connection Failed, Please try again",
+              type: 'error',
+              showCancelButton: false,
+              confirmButtonText: 'Try Again'
+              }).then((result) => {
+              if (result.value) {
+                Meteor._reload.reload();
+              } else if (result.dismiss === 'cancel') {
+
+              }
+            });
+            $('.loginSpinner').css('display','none');
+            $('.fullScreenSpin').css('display','none');
+          }else if(oReq.readyState == 4 && oReq.status == 403){
+            swal({
+              title: 'Ooops...',
+              text: 'It seems we are unable to connect you to GreenTrack at the moment. Please try again in a few minutes.',
+              type: 'error',
+              showCancelButton: false,
+              confirmButtonText: 'Try Again'
+              }).then((result) => {
+              if (result.value) {
+                Meteor._reload.reload();
+              } else if (result.dismiss === 'cancel') {
+
+              }
+            });
+            $('.loginSpinner').css('display','none');
+            $('.fullScreenSpin').css('display','none');
+          }else if(oReq.readyState == 4 && oReq.status == 406){
+            swal({
+              title: 'Something went wrong',
+              text: oReq.getResponseHeader('errormessage'),
+              type: 'error',
+              showCancelButton: false,
+              confirmButtonText: 'Try Again'
+              }).then((result) => {
+              if (result.value) {
+                Meteor._reload.reload();
+              } else if (result.dismiss === 'cancel') {
+
+              }
+            });
+            $('.loginSpinner').css('display','none');
+            $('.fullScreenSpin').css('display','none');
+          }else if(oReq.readyState == 4 && oReq.status == 500){
+            var ErrorResponse = oReq.getResponseHeader('errormessage');
+            if (ErrorResponse.indexOf("Access violation") >= 0){
+              swal({
+                title: 'Your database is being created. ',
+                text: "Please try again in 10 minutes",
+                type: 'info',
+                showCancelButton: false,
+                confirmButtonText: 'Try Again'
+                }).then((result) => {
+                if (result.value) {
+                  Meteor._reload.reload();
+                } else if (result.dismiss === 'cancel') {
+
+                }
+              });
+            }else{
+              swal({
+                title: 'Something went wrong',
+                text: oReq.getResponseHeader('errormessage'),
+                type: 'error',
+                showCancelButton: false,
+                confirmButtonText: 'Try Again'
+                }).then((result) => {
+                if (result.value) {
+                  Meteor._reload.reload();
+                } else if (result.dismiss === 'cancel') {
+
+                }
+              });
+            }
+            $('.loginSpinner').css('display','none');
+            $('.fullScreenSpin').css('display','none');
+          }else{
+            // swal({
+            //   title: 'Something went wrong',
+            //   text: "Connection Failed, Please try again",
+            //   type: 'error',
+            //   showCancelButton: false,
+            //   confirmButtonText: 'Try Again'
+            //   }).then((result) => {
+            //   if (result.value) {
+            //     Meteor._reload.reload();
+            //   } else if (result.dismiss === 'cancel') {
+            //
+            //   }
+            // });
+            // $('.loginSpinner').css('display','none');
+            // $('.fullScreenSpin').css('display','none');
           }
-        });
-        $('.loginSpinner').css('display','none');
-        $('.fullScreenSpin').css('display','none');
-      }else{
-        // swal({
-        //   title: 'Something went wrong',
-        //   text: "Connection Failed, Please try again",
-        //   type: 'error',
-        //   showCancelButton: false,
-        //   confirmButtonText: 'Try Again'
-        //   }).then((result) => {
-        //   if (result.value) {
-        //     Meteor._reload.reload();
-        //   } else if (result.dismiss === 'cancel') {
-        //
-        //   }
-        // });
-        $('.loginSpinner').css('display','none');
-        $('.fullScreenSpin').css('display','none');
       }
-  }
+      }
+
+          }).catch(function (err) {
+            var serverTest = URLRequest + licenceIPAddress + ':' + checkSSLPorts + '/erpapi/Vs1_Logon?Vs1UserName="'+userLoginEmail+'"&vs1Password="'+userLoginPassword+'"';
+            //alert(serverTest);
+            var oReq = new XMLHttpRequest();
+            oReq.open("GET",serverTest, true);
+            oReq.setRequestHeader("database",vs1loggedDatatbase);
+            oReq.setRequestHeader("username","VS1_Cloud_Admin");
+            oReq.setRequestHeader("password","DptfGw83mFl1j&9");
+            oReq.send();
+
+            // oReq.timeout = 30000;
+            oReq.onreadystatechange = function() {
+            //alert(oReq.responseText);
+              if (oReq.readyState == 4 && oReq.status == 200) {
+                Session.setPersistent('mainEIPAddress', licenceIPAddress);
+                Session.setPersistent('mainEPort', checkSSLPorts);
+               // alert(oReq.responseText);
+                //document.getElementById("result").innerHTML = oReq.responseText;
+                var dataReturnRes = JSON.parse(oReq.responseText);
+
+                //console.log(myArrResponse);
+                if(dataReturnRes.ProcessLog.ResponseStatus != "OK"){
+                  if(dataReturnRes.ProcessLog.ResponseStatus == "Payment is Due"){
+                    $('.loginSpinner').css('display','none');
+                    $('.fullScreenSpin').css('display','none');
+                    // swal("Your payment has been declined please update your payment subscription information!", '', 'error');
+                    swal({
+                      title: 'Your payment has been declined please update your payment subscription information!',
+                      text: '',
+                      type: 'error',
+                      showCancelButton: true,
+                      confirmButtonText: 'Update Payment',
+                      cancelButtonText: 'Cancel'
+                    }).then((result) => {
+                      if (result.value) {
+                        window.open('https://magento-473757-1929062.cloudwaysapps.com/customer/account/login/referer/aHR0cHM6Ly93d3cucGF5bWVudHMudnMxY2xvdWQuY29tLw%2C%2C?urppassname='+dataReturnRes.ProcessLog.VS1AdminUserName+'&urlpasstoken='+userLoginPassword+'', '_blank');
+                      } else if (result.dismiss === 'cancel') {
+
+                      }
+                    });
+
+                  }else{
+                    swal(dataReturnRes.ProcessLog.ResponseStatus, dataReturnRes.ProcessLog.ResponseStatus, 'error');
+
+                    $('.loginSpinner').css('display','none');
+                    $('.fullScreenSpin').css('display','none');
+                  }
+                  // Bert.alert('Database Error<strong> :'+ myArrResponse.ProcessLog.Error+'</strong>', 'now-error');
+
+
+                }else{
+
+                  //addLoginData(dataReturnRes);
+                  Meteor.call('readMethod',dataReturnRes.ProcessLog.VS1AdminUserName, function(error, result){
+                  if(error){
+
+                  }else{
+                  let regUserDetails = result;
+                  if(regUserDetails){
+                    if(regUserDetails.length === 0){
+
+                    }
+                        // let cloudLoggedID = regUserDetails._id;
+                        // let cloudLoggedDBID = regUserDetails.clouddatabaseID;
+                        // let cloudLoggedUsername = regUserDetails.cloudUsername;
+                        //
+                        //
+                        Session.setPersistent('mycloudLogonDBID', regUserDetails.clouddatabaseID);
+                        Session.setPersistent('mycloudLogonID', regUserDetails._id);
+
+                  }
+                  }
+
+                  });
+                  //addLoginData(dataReturnRes);
+                  localStorage.setItem('vs1cloudLoginInfo', dataReturnRes);
+                  localStorage.setItem('vs1cloudlicenselevel', dataReturnRes.ProcessLog.LicenseLevel);
+                  Session.setPersistent('isGreenTrack', true);
+                  if(!localStorage.getItem('VS1loggedDatabase')){
+                    localStorage.setItem('VS1loggedDatabase', dataReturnRes.ProcessLog.Databasename);
+                    localStorage.setItem('VS11099Contractor_Report', '');
+                    localStorage.setItem('VS1AgedPayables_Report', '');
+                    localStorage.setItem('VS1AgedPayablesSummary_Report', '');
+                    localStorage.setItem('VS1AgedReceivables_Report', '');
+                    localStorage.setItem('VS1AgedReceivableSummary_Report', '');
+                    localStorage.setItem('VS1BalanceSheet_Report', '');
+                    localStorage.setItem('VS1BalanceTrans_Report', '');
+                    localStorage.setItem('VS1GeneralLedger_Report', '');
+                    localStorage.setItem('VS1ProfitandLoss_Report', '');
+                    localStorage.setItem('VS1Purchase_List', '');
+                    localStorage.setItem('VS1Purchase_Report', '');
+                    localStorage.setItem('VS1PurchaseSummary_Report', '');
+                    localStorage.setItem('VS1ProductSales_List', '');
+                    localStorage.setItem('VS1ProductSales_Report', '');
+                    localStorage.setItem('VS1Sales_List', '');
+                    localStorage.setItem('VS1Sales_Report', '');
+                    localStorage.setItem('VS1SalesSummary_Report', '');
+                    localStorage.setItem('VS1TaxSummary_Report', '');
+                    localStorage.setItem('VS1TrialBalance_Report', '');
+                    localStorage.setItem('VS1PrintStatements_Report', '');
+                    Session.setPersistent('bankaccountid', '');
+
+                    localStorage.setItem('VS1ProductList', '');
+                    localStorage.setItem('VS1CustomerList', '');
+                    localStorage.setItem('VS1SupplierList', '');
+                    localStorage.setItem('VS1AccountList', '');
+                    localStorage.setItem('VS1TaxCodeList', '');
+                    localStorage.setItem('VS1TermsList', '');
+                    localStorage.setItem('VS1DepartmentList', '');
+                    localStorage.setItem('VS1CurrencyList', '');
+                    localStorage.setItem('VS1LeadStatusList', '');
+                    localStorage.setItem('VS1ShippingMethodList', '');
+                    localStorage.setItem('VS1AccountTypeList', '');
+                    localStorage.setItem('VS1ERPCombinedContactsList', '');
+                    localStorage.setItem('VS1EmployeeList', '');
+                    localStorage.setItem('VS1JournalEntryLineList', '');
+                    localStorage.setItem('VS1BankAccountReportList', '');
+                    localStorage.setItem('VS1TInvoiceList', '');
+                    localStorage.setItem('VS1TInvoiceNonBackOrderList', '');
+                    localStorage.setItem('VS1BackOrderSalesListList', '');
+                    localStorage.setItem('VS1TPurchaseOrderList', '');
+                    localStorage.setItem('VS1TReconcilationList', '');
+                    localStorage.setItem('VS1TChequeList', '');
+                    localStorage.setItem('VS1TProductStocknSalePeriodReport', '');
+                    localStorage.setItem('VS1TAppUserList', '');
+                    localStorage.setItem('VS1TJobVS1List', '');
+                    localStorage.setItem('VS1TStockAdjustEntryList', '');
+                    localStorage.setItem('VS1TsalesOrderNonBackOrderList', '');
+                    localStorage.setItem('VS1TbillReport', '');
+                    localStorage.setItem('VS1TbillReport', '');
+                    localStorage.setItem('VS1TCreditList', '');
+                    localStorage.setItem('VS1TpurchaseOrderNonBackOrderList', '');
+                    localStorage.setItem('VS1TpurchaseOrderBackOrderList', '');
+                    localStorage.setItem('VS1TSalesList', '');
+                  }else{
+                    if((localStorage.getItem('VS1loggedDatabase')) == (dataReturnRes.ProcessLog.Databasename)) {
+                      isSameUserLogin = true;
+                    }else{
+                      localStorage.setItem('VS1loggedDatabase', dataReturnRes.ProcessLog.Databasename);
+                      localStorage.setItem('VS11099Contractor_Report', '');
+                      localStorage.setItem('VS1AgedPayables_Report', '');
+                      localStorage.setItem('VS1AgedPayablesSummary_Report', '');
+                      localStorage.setItem('VS1AgedReceivables_Report', '');
+                      localStorage.setItem('VS1AgedReceivableSummary_Report', '');
+                      localStorage.setItem('VS1BalanceSheet_Report', '');
+                      localStorage.setItem('VS1BalanceTrans_Report', '');
+                      localStorage.setItem('VS1GeneralLedger_Report', '');
+                      localStorage.setItem('VS1ProfitandLoss_Report', '');
+                      localStorage.setItem('VS1Purchase_List', '');
+                      localStorage.setItem('VS1Purchase_Report', '');
+                      localStorage.setItem('VS1PurchaseSummary_Report', '');
+                      localStorage.setItem('VS1ProductSales_List', '');
+                      localStorage.setItem('VS1ProductSales_Report', '');
+                      localStorage.setItem('VS1Sales_List', '');
+                      localStorage.setItem('VS1Sales_Report', '');
+                      localStorage.setItem('VS1SalesSummary_Report', '');
+                      localStorage.setItem('VS1TaxSummary_Report', '');
+                      localStorage.setItem('VS1TrialBalance_Report', '');
+                      localStorage.setItem('VS1PrintStatements_Report', '');
+
+                      //Lists
+                      localStorage.setItem('VS1AccoountList','');
+                      Session.setPersistent('bankaccountid', '');
+                    }
+                  }
+
+
+                  // console.log(dataReturnRes.ProcessLog.TRegionalOptions.CurrencySymbol);
+                  Session.setPersistent('ERPCurrency', dataReturnRes.ProcessLog.TRegionalOptions.CurrencySymbol);
+
+                  var region = dataReturnRes.ProcessLog.RegionName;
+                  Session.setPersistent('ERPLoggedCountry', region);
+
+                  if(dataReturnRes.ProcessLog.RegionName === "Australia"){
+                    Session.setPersistent('ERPCountryAbbr', 'AUD');
+                  }else if(dataReturnRes.ProcessLog.RegionName === "Canada"){
+                    Session.setPersistent('ERPCountryAbbr', 'CAD');
+                  }else if(dataReturnRes.ProcessLog.RegionName === "Colombia"){
+                    Session.setPersistent('ERPCountryAbbr', 'COP');
+                  }else if(dataReturnRes.ProcessLog.RegionName === "Kuwait"){
+                    Session.setPersistent('ERPCountryAbbr', 'KYD');
+                  }else if(dataReturnRes.ProcessLog.RegionName === "Mexico"){
+                    Session.setPersistent('ERPCountryAbbr', 'MXN');
+                  }else if(dataReturnRes.ProcessLog.RegionName === "New Zealand"){
+                    Session.setPersistent('ERPCountryAbbr', 'NZD');
+                  }else if(dataReturnRes.ProcessLog.RegionName === "Qatar"){
+                    Session.setPersistent('ERPCountryAbbr', 'QAR');
+                  }else if(dataReturnRes.ProcessLog.RegionName === "Kingdom of Saudi Arabia"){
+                    Session.setPersistent('ERPCountryAbbr', 'SAR');
+                  }else if(dataReturnRes.ProcessLog.RegionName === "Singapore"){
+                    Session.setPersistent('ERPCountryAbbr', 'SGD');
+                  }else if(dataReturnRes.ProcessLog.RegionName === "South Africa"){
+                    Session.setPersistent('ERPCountryAbbr', 'ZAR');
+                  }else if(dataReturnRes.ProcessLog.RegionName === "United Arab Emirates"){
+                    Session.setPersistent('ERPCountryAbbr', 'AED');
+                  }else if(dataReturnRes.ProcessLog.RegionName === "United Kingdom"){
+                    Session.setPersistent('ERPCountryAbbr', 'GBP');
+                  }else if(dataReturnRes.ProcessLog.RegionName === "United States of America"){
+                    Session.setPersistent('ERPCountryAbbr', 'USD');
+                  }
+                  Session.setPersistent('ERPDefaultDepartment', 'Default');
+                  Session.setPersistent('ERPDefaultUOM', '');
+                  Session.setPersistent('VS1AdminUserName', dataReturnRes.ProcessLog.VS1AdminUserName);
+                  dataReturnRes.ProcessLog.VS1AdminPassword = userLoginPassword;
+                  dataReturnRes.ProcessLog.VS1UserName = userLoginEmail;
+                  var ERPIPAdderess= "";
+                  if(dataReturnRes.ProcessLog.ServerName == "110.142.175.245"){
+                    ERPIPAdderess= "www.login.vs1cloud.com";
+                  }else{
+                    ERPIPAdderess= dataReturnRes.ProcessLog.ServerName;
+                  }
+             var ERPdbName = dataReturnRes.ProcessLog.Databasename;
+
+             var ERPport = dataReturnRes.ProcessLog.APIPort;
+             // alert(ERPdbName);
+
+               Session.setPersistent('mycloudLogonUserEmail', userLoginEmail);
+             //alert(ERPdbName);
+             var ERPuserName = userLoginEmail;
+              var ERPLoggeduserName = userLoginEmail;
+             var ERPpassword = userLoginPassword;
+
+             let erpdbname = ERPIPAdderess+','+ERPdbName+','+ERPuserName+','+ERPpassword+','+ERPport;
+            let licenceOptions = dataReturnRes.ProcessLog.Modules.Modules;
+            $.each(licenceOptions, function (item, option) {
+
+                      if(option.ModuleName == 'Accounts Payable Reports'){
+                        isAccountsLicence = false;
+                      }else if(option.ModuleName == 'Statements'){
+                        isContactsLicence = false;
+                      }else if((option.ModuleName == 'Expense Claims / Receipt Claiming')){
+                        isExpenseClaimsLicence = false;
+                      }else if(option.ModuleName == 'CloudDashboard'){
+                        isDashboardLicence = false;
+                      }else if(option.ModuleName == 'CloudFixedAssets'){
+                        isFixedAssetsLicence = false;
+                      }else if(option.ModuleName == 'Inventory Tracking'){
+                        isInventoryLicence = false;
+                      }else if(option.ModuleName == 'CloudMain'){
+                        isMainLicence = false;
+                      }else if(option.ModuleName == 'Manufacturing'){
+                        isManufacturingLicence = false;
+                      }else if(option.ModuleName == 'Payemnts'){
+                        isPaymentsLicence = false;
+                      }else if(option.ModuleName == 'Bills'){
+                        isPurchasesLicence = false;
+                      }else if(option.ModuleName == 'Reports Dashboard'){
+                         isReportsLicence = false;
+                      }else if((option.ModuleName == 'Quotes') || (option.ModuleName == 'Invoices')){
+                        isSalesLicence = false;
+                      }else if(option.ModuleName == 'CloudSettings'){
+                        isSettingsLicence = true;
+                      }else if((option.ModuleName == 'Shipping')){
+                        isShippingLicence = false;
+                      }else if(option.ModuleName == 'Stock Adjustments'){
+                        isStockTakeLicence = false;
+                      }else if(option.ModuleName == 'Stock Adjustments'){
+                        isStockTransferLicence = false;
+                      }else if((option.ModuleName == 'Seed To Sale')){
+                        isSeedToSaleLicence = true;
+                      }else if(option.ModuleName == 'CloudBanking'){
+                        isBankingLicence = true;
+                      }else if((option.ModuleName == 'Payroll Integration') ){
+                        isPayrollLicence = false;
+                      }else if((option.ModuleName == 'Manufacturing')){
+                        isManufacturingLicence = false;
+                      }else if((option.ModuleName == 'POS')){
+                        isPOSLicence = false;
+                      }else if((option.ModuleName == 'WMS')){
+                        isWMSLicence = false;
+                      }else if((option.ModuleName == 'Matrix')){
+                        isMatrixLicence = false;
+                      }else if((option.ModuleName == 'Add Extra User')){
+                        isAddExtraUserLicence = true;
+                      }else if((option.ModuleName == 'FX Currency')){
+                        isFxCurrencyLicence = false;
+                      }else if((option.ModuleName == 'Use Foreign Currency')){
+                        isFxCurrencyLicence = true;
+                      }else if((option.ModuleName == 'Link To TrueERP') || (option.ModuleName == 'Connect to Live ERP DB')){
+                        if(option.ModuleActive){
+                          isTrueERPConnection = false;
+                        }else{
+                          isTrueERPConnection = false;
+                        }
+                      }
+
+            });
+            // Session.setPersistent('LoggedUserEventFired', true);
+            /* Remove licence */
+                //licence Option To Add Session
+                Session.setPersistent('CloudTrueERPModule', isTrueERPConnection);
+                Session.setPersistent('CloudAccountsLicence', isAccountsLicence);
+                Session.setPersistent('CloudContactsLicence', isContactsLicence);
+                Session.setPersistent('CloudExpenseClaimsLicence', isExpenseClaimsLicence);
+                Session.setPersistent('CloudPaymentsLicence', isPaymentsLicence);
+                Session.setPersistent('CloudReportsLicence', isReportsLicence);
+                Session.setPersistent('CloudSettingsLicence', isSettingsLicence);
+
+                Session.setPersistent('CloudMainLicence', isMainLicence);
+                Session.setPersistent('CloudDashboardLicence', isDashboardLicence);
+
+
+                Session.setPersistent('CloudSeedToSaleLicence', isSeedToSaleLicence);
+                Session.setPersistent('CloudBankingLicence', isBankingLicence);
+                Session.setPersistent('CloudPayrollLicence', isPayrollLicence);
+               //End licence to Add Session
+                Session.setPersistent('CloudFixedAssetsLicence', isFixedAssetsLicence);
+                Session.setPersistent('CloudInventoryLicence', isInventoryLicence);
+                Session.setPersistent('CloudManufacturingLicence', isManufacturingLicence);
+                Session.setPersistent('CloudPurchasesLicence', isPurchasesLicence);
+                Session.setPersistent('CloudSalesLicence', isSalesLicence);
+                Session.setPersistent('CloudShippingLicence', isShippingLicence);
+                Session.setPersistent('CloudStockTakeLicence', isStockTakeLicence);
+                Session.setPersistent('CloudStockTransferLicence', isStockTransferLicence);
+
+                Session.setPersistent('CloudAddExtraLicence', isAddExtraUserLicence);
+                Session.setPersistent('CloudMatrixLicence', isMatrixLicence);
+                Session.setPersistent('CloudPOSLicence', isPOSLicence);
+                Session.setPersistent('CloudUseForeignLicence', isFxCurrencyLicence);
+                Session.setPersistent('CloudWMSLicence', isWMSLicence);
+                  /* End Remove licence */
+                  // alert(dataReturnRes.ProcessLog.AccessLevels);
+                  if(dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.AccessLevels == undefined){
+                    swal('Sorry, You do not have access to any Greentrack Modules!', '', 'error');
+                    $('.fullScreenSpin').css('display','none');
+                    $('.loginSpinner').css('display','none');
+                    return false;
+                    // let userAccessOptions = dataReturnRes.ProcessLog.AccessLevels.AccessLevels;
+                  };
+
+                  if(dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.AccessLevels.ResponseNo == 401){
+                    swal('Sorry, You do not have access to any Greentrack Modules!', '', 'error');
+                    $('.fullScreenSpin').css('display','none');
+                    $('.loginSpinner').css('display','none');
+                    return false;
+                    // let userAccessOptions = dataReturnRes.ProcessLog.AccessLevels.AccessLevels;
+                  };
+
+
+
+          Session.setPersistent('mycloudLogonUsername', ERPuserName);
+          Session.setPersistent('mycloudLogonUserEmail', ERPuserName);
+
+        Session.setPersistent('myerpPassword', userLoginPassword);
+        Session.setPersistent('mySessionEmployee', ERPuserName);
+        //localStorage.setItem('mySession', ERPuserName);
+        localStorage.setItem('EIPAddress', ERPIPAdderess);
+        localStorage.setItem('EUserName', ERPuserName);
+        localStorage.setItem('EPassword', ERPpassword);
+        localStorage.setItem('EDatabase', ERPdbName);
+        localStorage.setItem('EPort', ERPport);
+        loggedUserEventFired = true;
+
+        localStorage.setItem('mainEIPAddress', licenceIPAddress);
+        localStorage.setItem('mainEPort', checkSSLPorts);
+        //Dashboard API:
+        if(dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields){
+        Session.setPersistent('vs1companyName', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.Companyinfo_CompanyName||'');
+        Session.setPersistent('vs1companyaddress1', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.Companyinfo_Address||'');
+        Session.setPersistent('vs1companyaddress2', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.Companyinfo_Address2||'');
+        Session.setPersistent('vs1companyABN', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.Companyinfo_ABN||'');
+        Session.setPersistent('vs1companyPhone', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.Companyinfo_PhoneNumber||'');
+        Session.setPersistent('vs1companyURL', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.Companyinfo_URL||'');
+
+        Session.setPersistent('ERPDefaultDepartment', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.ColumnHeadings_DefaultClass||'');
+        Session.setPersistent('ERPDefaultUOM', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.ColumnHeadings_DefaultUOM||'');
+
+
+        // Session.setPersistent('ERPCurrency', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.RegionalOptions_CurrencySymbol||'');
+        Session.setPersistent('ERPCountryAbbr', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.RegionalOptions_ForeignExDefault||'');
+        Session.setPersistent('ERPTaxCodePurchaseInc', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.RegionalOptions_TaxCodePurchaseInc||'');
+        Session.setPersistent('ERPTaxCodeSalesInc', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.RegionalOptions_TaxCodeSalesInc||'');
+
+
+        localStorage.setItem('VS1OverDueInvoiceAmt_dash', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.OVERDUE_INVOICES_AMOUNT||Currency+'0');
+        localStorage.setItem('VS1OverDueInvoiceQty_dash', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.OVERDUE_INVOICES_QUANTITY||0);
+        localStorage.setItem('VS1OutstandingPayablesAmt_dash', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.OUTSTANDING_PAYABLES_AMOUNT||Currency+'0');
+        localStorage.setItem('VS1OutstandingPayablesQty_dash', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.OUTSTANDING_PAYABLES_QUANTITY||0);
+
+        localStorage.setItem('VS1MonthlyProfitandLoss_dash', '');
+
+          //Profit & Loss
+        localStorage.setItem('VS1ProfitandLoss_netIncomeEx_dash', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.PnL_NetIncomeEx||0);
+        localStorage.setItem('VS1ProfitandLoss_IncomeEx_dash', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.PnL_TotalIncomeEx||0);
+        localStorage.setItem('VS1ProfitandLoss_ExpEx_dash', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.PnL_TotalExpenseEx||0);
+        localStorage.setItem('VS1ProfitandLoss_COGSEx_dash', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.PnL_TotalCOGSEx||0);
+
+        if(dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TEmployeePicture.fields){
+        localStorage.setItem('vs1LoggedEmployeeImages_dash', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TEmployeePicture.fields.EncodedPic|| '');
+        }else{
+          localStorage.setItem('vs1LoggedEmployeeImages_dash','');
+        }
+        }else{
+          Session.setPersistent('vs1companyName', '');
+          Session.setPersistent('vs1companyaddress1', '');
+          Session.setPersistent('vs1companyaddress2', '');
+          Session.setPersistent('vs1companyABN', '');
+          Session.setPersistent('vs1companyPhone', '');
+          Session.setPersistent('vs1companyURL', '');
+
+          Session.setPersistent('ERPDefaultDepartment', '');
+          Session.setPersistent('ERPDefaultUOM', '');
+
+
+          //Session.setPersistent('ERPCountryAbbr', '');
+          Session.setPersistent('ERPTaxCodePurchaseInc', '');
+          Session.setPersistent('ERPTaxCodeSalesInc', '');
+
+
+          localStorage.setItem('VS1OverDueInvoiceAmt_dash', '');
+          localStorage.setItem('VS1OverDueInvoiceQty_dash', '');
+          localStorage.setItem('VS1OutstandingPayablesAmt_dash', '');
+          localStorage.setItem('VS1OutstandingPayablesQty_dash', '');
+
+          localStorage.setItem('VS1MonthlyProfitandLoss_dash', '');
+
+            //Profit & Loss
+          localStorage.setItem('VS1ProfitandLoss_netIncomeEx_dash', '');
+          localStorage.setItem('VS1ProfitandLoss_IncomeEx_dash', '');
+          localStorage.setItem('VS1ProfitandLoss_ExpEx_dash', '');
+          localStorage.setItem('VS1ProfitandLoss_COGSEx_dash', '');
+        }
+          // console.log(dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_pnl_period.items);
+        localStorage.setItem('VS1APReport_dash', JSON.stringify(dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_ap_report.items)||'');
+        localStorage.setItem('VS1PNLPeriodReport_dash', JSON.stringify(dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_pnl_period.items)||'');
+        localStorage.setItem('VS1SalesListReport_dash', JSON.stringify(dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_saleslist.items)||'');
+        localStorage.setItem('VS1SalesEmpReport_dash', JSON.stringify(dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_salesperemployee.items)||'');
+
+          Session.setPersistent('LoggedUserEventFired', true);
+          Session.setPersistent('userlogged_status', 'active');
+
+              var empusername = dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.EmployeeName;
+              var employeeUserLogon = ERPLoggeduserName;
+              var employeeUserID = dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.EmployeeId;
+              var employeename =dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.EmployeeName;
+              Session.setPersistent('mySessionEmployeeLoggedID', employeeUserID);
+              localStorage.setItem('mySession', employeeUserLogon);
+              var sessionDataToLog = localStorage.getItem('mySession');
+              Session.setPersistent('mySessionEmployee', employeename);
+
+              let userAccessOptions = dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.AccessLevels || '';
+              if(userAccessOptions != ""){
+                addLoginData(dataReturnRes).then(function (datareturn) {
+                  getAccessLevelData(userAccessOptions,isSameUserLogin);
+                }).catch(function (err) {
+                  getAccessLevelData(userAccessOptions,isSameUserLogin);
+                });
+              }
+
+           }
+
+              } else if(oReq.statusText == '') {
+                swal({
+                  title: 'Something went wrong',
+                  text: "Connection Failed, Please try again",
+                  type: 'error',
+                  showCancelButton: false,
+                  confirmButtonText: 'Try Again'
+                  }).then((result) => {
+                  if (result.value) {
+                    Meteor._reload.reload();
+                  } else if (result.dismiss === 'cancel') {
+
+                  }
+                });
+                $('.loginSpinner').css('display','none');
+                $('.fullScreenSpin').css('display','none');
+              }else if(oReq.readyState == 4 && oReq.status == 403){
+                swal({
+                  title: 'Ooops...',
+                  text: 'It seems we are unable to connect you to GreenTrack at the moment. Please try again in a few minutes.',
+                  type: 'error',
+                  showCancelButton: false,
+                  confirmButtonText: 'Try Again'
+                  }).then((result) => {
+                  if (result.value) {
+                    Meteor._reload.reload();
+                  } else if (result.dismiss === 'cancel') {
+
+                  }
+                });
+                $('.loginSpinner').css('display','none');
+                $('.fullScreenSpin').css('display','none');
+              }else if(oReq.readyState == 4 && oReq.status == 406){
+                swal({
+                  title: 'Something went wrong',
+                  text: oReq.getResponseHeader('errormessage'),
+                  type: 'error',
+                  showCancelButton: false,
+                  confirmButtonText: 'Try Again'
+                  }).then((result) => {
+                  if (result.value) {
+                    Meteor._reload.reload();
+                  } else if (result.dismiss === 'cancel') {
+
+                  }
+                });
+                $('.loginSpinner').css('display','none');
+                $('.fullScreenSpin').css('display','none');
+              }else if(oReq.readyState == 4 && oReq.status == 500){
+                var ErrorResponse = oReq.getResponseHeader('errormessage');
+                if (ErrorResponse.indexOf("Access violation") >= 0){
+                  swal({
+                    title: 'Your database is being created. ',
+                    text: "Please try again in 10 minutes",
+                    type: 'info',
+                    showCancelButton: false,
+                    confirmButtonText: 'Try Again'
+                    }).then((result) => {
+                    if (result.value) {
+                      Meteor._reload.reload();
+                    } else if (result.dismiss === 'cancel') {
+
+                    }
+                  });
+                }else{
+                  swal({
+                    title: 'Something went wrong',
+                    text: oReq.getResponseHeader('errormessage'),
+                    type: 'error',
+                    showCancelButton: false,
+                    confirmButtonText: 'Try Again'
+                    }).then((result) => {
+                    if (result.value) {
+                      Meteor._reload.reload();
+                    } else if (result.dismiss === 'cancel') {
+
+                    }
+                  });
+                }
+
+                $('.loginSpinner').css('display','none');
+                $('.fullScreenSpin').css('display','none');
+              }else{
+
+              }
+          }
+            //$('.fullScreenSpin').css('display','none');
+        });
 
 }
 
@@ -1666,55 +3868,82 @@ $("#erppassword").keyup(function (e) {
 });
 
 $("#signmeout").click(function(e){
-   e.preventDefault();
-   $('.fullScreenSpin').css('display','inline-block');
-   let userLoginEmail = $("#email").val();
-   let userLoginPassword = $("#erppassword").val();
-   let hashUserLoginPassword = CryptoJS.MD5(userLoginPassword).toString().toUpperCase();
-   if ($("#erppassword").val() == '') {
-   // Bert.alert('<strong>Error:</strong> Please enter your user password!', 'warning');
-   swal('Please enter your user password!', '', 'warning');
-   $('.fullScreenSpin').css('display','none');
-   $("#erppassword").focus();
-   e.preventDefault();
-   }else if(userLoginEmail === '') {
-       // Bert.alert('<strong>Error:</strong> Please enter email address!', 'warning');
-       swal('Please enter email address!', '', 'warning');
-       $('.fullScreenSpin').css('display','none');
-       $("#email").focus();
-       e.preventDefault();
-   }else{
-     $('.fullScreenSpin').css('display','none');
-     /*
-     Meteor.call('readMethod',userLoginEmail,hashUserLoginPassword, function(error, result){
-     if(error){
-
-       swal('user-not-found', 'no user found please try again!', 'warning');
-       $('.fullScreenSpin').css('display','none');
-     }else{
-       let regUserDetails = result;
-      if(regUserDetails){
-        if(regUserDetails.length > 0){
-          for (let i = 0; i < regUserDetails.length; i++) {
-           var logonID = regUserDetails[i]._id;
-           CloudUser.update({_id: logonID},{ $set: {userMultiLogon: false}});
-         }
-
-         $('.fullScreenSpin').css('display','none');
-       }
-
-      }else{
-        swal('Oops...', 'Your email or password is incorrect, please try again!', 'error');
-
+  e.preventDefault();
+  $('.fullScreenSpin').css('display','inline-block');
+  let userLoginEmail = $("#email").val();
+  if(userLoginEmail === '') {
+    let getLasTDatabase = localStorage.getItem('vs1Db');
+    if(getLasTDatabase){
+      deleteStoreDatabase(getLasTDatabase).then(function(data) {
+        swal({
+        title: 'You are now Signed Out of all devices',
+        text: "",
+        type: 'success',
+        showCancelButton: false,
+        confirmButtonText: 'OK'
+        }).then((result) => {
+        if (result.value) {
+          location.reload(true);
+        }
+        });
         $('.fullScreenSpin').css('display','none');
-        e.preventDefault();
-      }
-
-     }
-
+     }).catch(function (err) {
+       swal({
+       title: 'You are now Signed Out of all devices',
+       text: "",
+       type: 'success',
+       showCancelButton: false,
+       confirmButtonText: 'OK'
+       }).then((result) => {
+       if (result.value) {
+         location.reload(true);
+       }
+       });
+       $('.fullScreenSpin').css('display','none');
      });
-     */
-   }
+    }else{
+    swal({
+    title: 'You are now Signed Out of all devices',
+    text: "",
+    type: 'success',
+    showCancelButton: false,
+    confirmButtonText: 'OK'
+    }).then((result) => {
+    if (result.value) {
+      location.reload(true);
+    }
+    });
+    $('.fullScreenSpin').css('display','none');
+  }
+  }else{
+    getStoreToDelete(userLoginEmail).then(function(data) {
+      swal({
+      title: 'You are now Signed Out of all devices',
+      text: "",
+      type: 'success',
+      showCancelButton: false,
+      confirmButtonText: 'OK'
+      }).then((result) => {
+      if (result.value) {
+        location.reload(true);
+      }
+      });
+      $('.fullScreenSpin').css('display','none');
+   }).catch(function (err) {
+     swal({
+     title: 'You are now Signed Out of all devices',
+     text: "",
+     type: 'success',
+     showCancelButton: false,
+     confirmButtonText: 'OK'
+     }).then((result) => {
+     if (result.value) {
+       location.reload(true);
+     }
+     });
+     $('.fullScreenSpin').css('display','none');
+   });
+  }
 });
 
 $(".toggle-password").click(function() {
