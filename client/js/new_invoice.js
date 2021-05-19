@@ -1437,6 +1437,8 @@ Template.new_invoice.onRendered(() => {
                         setTimeout(function(){
                         try {
                            let getTotal = $('#grandTotal').text();
+                           $('.pdfCustomerAddress').html($('#txabillingAddress').val());
+                           $('.pdfCustomerName').html($('#edtCustomerName').val());
                            let invoice_total = getTotal.replace('$','');
                            let paymentItems = [];
                            let paymentLineItems = {};
