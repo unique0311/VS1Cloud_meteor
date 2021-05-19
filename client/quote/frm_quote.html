@@ -848,10 +848,107 @@ style="margin: 16px;margin-top: 0px;width: 95px;"><i class="fa fa-remove" style=
                         style="margin: 16px;margin-top: 0px;width: 100px;"><i class="fa fa-remove" style="padding-right: 8px;"></i>Cancel</button>
             </div>
         </form>
-
+        <div style="width: 210mm;background-color: #ffffff;padding: 8px;height: 297mm; font-size: 13.33px;display:none; color: #000000;" id="html-2-pdfwrapper1" name="html-2-pdfwrapper1" >
+            <div class="d-xl-flex align-items-xl-start" style="height: 100%;">
+                <div class="d-xl-flex align-items-xl-start" style="height: 100%;">
+                    <div class="d-flex d-xl-flex flex-column flex-nowrap align-items-xl-center" style="min-height: 100%;height: 100%;max-height: 100%;">
+                        <div class="d-lg-flex d-xl-flex flex-row align-items-lg-start align-items-xl-start">
+                            <div class="card d-xl-flex flex-grow-1 specialcard" style="margin: 0px;margin-right: 50px;  border: none !important; width: 100mm; max-width: 100; background-color: rgba(0,0,0,0);">
+                                <div class="card-body">
+                                    <div class="d-lg-flex justify-content-lg-start" style="margin-bottom: 16px;">
+                                        <div class="d-lg-flex flex-column justify-content-lg-start"><img src="assets/img/VS1.png" class="uploadedImage" style="max-width: 200px;margin-bottom: 8px; color: rgb(0 0 0);max-height: 30mm;"><a href="{{organizationurl}}">{{organizationurl}}</a></div>
+                                        <div class="d-lg-flex d-xl-flex justify-content-lg-center align-items-xl-start card-text">
+                                            <div style="padding-left: 16px;font-weight: bold;">
+                                                <p style="margin-bottom: 0px; color: rgb(0 0 0);">{{organizationname}}</p>
+                                                <p style="margin-bottom: 0px; color: rgb(0 0 0);">{{companyaddress1}}</p>
+                                                <p style="margin-bottom: 8px; color: rgb(0 0 0);">{{companyaddress2}}</p>
+                                                <p style="margin-bottom: 0px; color: rgb(0 0 0);">ABN: {{companyabn}}</p>
+                                                <p style="margin-bottom: 0px; color: rgb(0 0 0);">Phone: {{companyphone}}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div style="font-size: 14px;">
+                                        <h5 style="margin-bottom: 0px;font-weight: bold;">Customer</h5>
+                                        <p style="margin-bottom: 0px; display:none;" class="pdfCustomerName"></p>
+                                        <div style="min-height:50px; width:30%; margin-bottom: 0px; color: rgb(0 0 0);" class="pdfCustomerAddress"></div>
+                                        <!-- <p style="margin-bottom: 0px;">Caulifield South Vic 9820</p>
+<p style="margin-bottom: 0px;">Australia</p> -->
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card flex-grow-1 specialcard" style="margin: 0px;margin-left: 50px;  border: none !important; width: 90mm; max-width: 90mm; background-color: rgba(0,0,0,0);">
+                                <div class="card-body">
+                                    <h4 class="card-title" style="font-weight: bold; color: rgb(0 0 0);">Customer Payment</h4>
+                                    <div class="d-lg-flex d-xl-flex align-items-xl-start card-text">
+                                        <div class="d-lg-flex d-xl-flex flex-column align-items-lg-start align-items-xl-start" style="padding-right: 16px;font-weight: bold;"><label class="text-nowrap" style="color: rgb(0 0 0);" >Date:</label><label class="text-nowrap" style="color: rgb(0 0 0);" >Ref No:</label></div>
+                                        <div style="padding-left: 16px;">
+                                            <p style="margin-bottom: 8px; color: rgb(0 0 0);">{{currentDate}}</p>
+                                            <p style="margin-bottom: 8px; color: rgb(0 0 0);">{{record.reference}}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex-grow-1" style="width: 100%;">
+                            <div class="card flex-grow-1 specialcard" style="margin: 8px;  border: none !important; background-color: rgba(0,0,0,0);">
+                                <div class="card-body" style="padding: 4px;">
+                                    <div class="table-responsive">
+                                        <table class="table table-sm" style="width: 190mm; max-width: 190mm;">
+                                            <thead class="text-secondary" style="color: rgb(251,251,251);">
+                                                <tr>
+                                                    <th class="text-nowrap" style="background-color: white; color: rgb(0 0 0);">Trans Date</th>
+                                                    <th class="text-nowrap" style="background-color: white; color: rgb(0 0 0);">Type</th>
+                                                    <th class="text-nowrap" style="background-color: white; color: rgb(0 0 0);">Trans No.</th>
+                                                    <th class="text-nowrap" style="background-color: white; color: rgb(0 0 0);">Original Amount</th>
+                                                    <th class="text-nowrap" style="background-color: white; color: rgb(0 0 0);">Amount Due</th>
+                                                    <th class="text-nowrap" style="background-color: white; color: rgb(0 0 0);">Payment Amount</th>
+                                                    <th class="text-nowrap" style="background-color: white; color: rgb(0 0 0);">Outstanding Amount</th>
+                                                    <th class="text-nowrap" style="background-color: white; color: rgb(0 0 0);">Comments</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody style="color: rgb(0 0 0);">
+                                                {{#each item in record.LineItems}}
+                                                <tr>
+                                                    <td class="text-nowrap">{{item.invoicedate}}</td>
+                                                    <td class="text-nowrap" style="color:#00a3d3">{{item.transtype}}</td>
+                                                    <td class="text-nowrap">{{item.transid}}</td>
+                                                    <td class="text-nowrap">{{item.orginalamount}}</td>
+                                                    <td class="text-nowrap" >{{item.amountdue}}</td>
+                                                    <td class="text-nowrap">{{item.paymentamount}}</td>
+                                                    <td class="text-nowrap" >{{item.ouststandingamount}}</td>
+                                                    <td class="text-nowrap">{{item.comments}}</td>
+                                                </tr>
+                                                {{/each}}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex-grow-0" style="width: 100%;">
+                            <hr style="margin-top: 0px;margin-right: 8px;margin-left: 8px;margin-bottom: 0px;">
+                            <div class="d-lg-flex d-xl-flex flex-grow-1 align-items-lg-start align-items-xl-start" style="width: 100%;">
+                                <div class="card flex-grow-1 specialcard" style="margin: 8px; border: none !important;min-width: 100mm;max-width: 100mm;width: 100mm; background-color: rgba(0,0,0,0);">
+                                    <div class="card-body" style=""></div>
+                                </div>
+                                <div class="card flex-grow-1 specialcard" style="margin: 8px; border: none !important;min-width: 90mm;max-width: 90mm;width: 90mm; background-color: rgba(0,0,0,0);">
+                                    <div class="card-body float-right">
+                                        <div class="d-lg-flex d-xl-flex align-items-lg-start align-items-xl-start card-text">
+                                            <div class="d-xl-flex flex-column flex-grow-1 align-items-xl-start" style="padding-right: 16px;"><label class="text-nowrap" style="font-weight: 800; color: rgb(0 0 0);">Applied:</label></div>
+                                            <div class="flex-grow-1" style="padding-left: 16px;">
+                                                <p class="text-right flex-grow-1" style="margin-bottom: 8px;font-weight: 800; color: rgb(0 0 0);">{{record.applied}}<br></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div><span class="d-lg-flex d-xl-flex justify-content-lg-end justify-content-xl-end" style="font-size: 10px;margin-right: 8px;">Page 1 of 1</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
         <!-- Start PDF -->
         <!-- New A4 -->
-        <div style="width: 210mm; background-color: #ffffff; padding: 8px; height: 297mm; font-size: 13.33px; display: none; color: #000000; overflow-x: visible;" id="html-2-pdfwrapper" name="html-2-pdfwrapper">
+        <div style="width: 210mm; background-color: #ffffff; padding: 8px; height: 297mm; font-size: 13.33px; color: #000000; display:none; overflow-x: visible;" id="html-2-pdfwrapper" name="html-2-pdfwrapper">
             <div style="display: flex; height: 70mm;">
                 <div style="margin: 0px; padding: 16px; width: 130mm; max-width: 130mm;">
                     <div style="display: flex;">
@@ -886,8 +983,8 @@ style="margin: 16px;margin-top: 0px;width: 95px;"><i class="fa fa-remove" style=
                         </div>
                         <div style="width: 50%; padding-left: 16px;">
                             <p style="margin-bottom: 0px; color: rgb(0 0 0);">{{quoterecord.saledate}}</p>
-                            <p style="margin-bottom: 0px; color: rgb(0 0 0); white-space: nowrap;">{{quoterecord.custPONumber}}.</p>
-                            <p style="margin-bottom: 0px; color: rgb(0 0 0); white-space: nowrap;">{{quoterecord.termsName}}.</p>
+                            <p class="po" style="margin-bottom: 0px; color: rgb(0 0 0); white-space: nowrap;">{{quoterecord.custPONumber}}.</p>
+                            <p class="due" style="margin-bottom: 0px; color: rgb(0 0 0); white-space: nowrap;">{{quoterecord.termsName}}.</p>
                             <p class="link" style="margin-bottom: 8px; color: rgb(0 0 0);color: #fff !important; background-color: #17a673; border-color: #169b6b; border-radius: 10px;     padding: 4px 8px;"><a href="" style="color: #fff !important; padding: 0px; margin-right: 8px;"></a></p>
                         </div>
                     </div>
@@ -896,7 +993,7 @@ style="margin: 16px;margin-top: 0px;width: 95px;"><i class="fa fa-remove" style=
             <hr>
             <div style="height: 160mm;">
                 <div style="margin: 8px; border: none !important; background-color: rgba(0,0,0,0);">
-                    <table style="width: 200mm; max-width: 200mm; margin: auto;">
+                    <table class="quote_print" style="width: 200mm; max-width: 200mm; margin: auto;">
                         <thead style="color: rgb(251,251,251);">
                             <tr style="border-bottom: 1px solid rgba(0, 0, 0, 1);">
                                 <th style="width: 200px; background-color: white; color: rgb(0 0 0);">Product Name</th>
@@ -904,18 +1001,20 @@ style="margin: 16px;margin-top: 0px;width: 95px;"><i class="fa fa-remove" style=
                                 <th style="text-align: left; width: 50px; background-color: white; color: rgb(0 0 0);">Qty</th>
                                 <th style="text-align: left; width: 90px; background-color: white; color: rgb(0 0 0);">Unit Price</th>
                                 <th style="text-align: left; width: 77px; background-color: white; color: rgb(0 0 0);">Tax</th>
+                                <th style="text-align: left; width: 77px; background-color: white; color: rgb(0 0 0);" class="hiddenColumn">Tax</th>
                                 <th style="text-align: left; width: 100px; background-color: white; color: rgb(0 0 0);">Amount</th>
                             </tr>
                         </thead>
                         <tbody style="color: rgb(0 0 0);">
                             {{#each item in quoterecord.LineItems}}
-                            <tr style="border-bottom: 1px solid rgba(0, 0, 0, .1);">
-                                <td>{{item.item}}</td>
-                                <td>{{item.description}}</td>
-                                <td style="text-align: left;">{{item.quantity}}</td>
-                                <td style="text-align: left;">{{item.unitPrice}}</td>
-                                <td style="text-align: left;">{{item.TaxTotal}}</td>
-                                <td style="text-align: left;">{{item.TotalAmt}}</td>
+                            <tr id={{item.lineID}} style="border-bottom: 1px solid rgba(0, 0, 0, .1);">
+                                <td id="lineProductName">{{item.item}}</td>
+                                <td id="lineProductDesc">{{item.description}}</td>
+                                <td id="lineQty" style="text-align: left;">{{item.quantity}}</td>
+                                <td id="lineUnitPrice" style="text-align: left;">{{item.unitPrice}}</td>
+                                <td id="lineTaxAmount" style="text-align: left;">{{item.TaxTotal}}</td>
+                                <td id="lineTaxCode" class="hiddenColumn" style="text-align: right;">{{item.taxCode}}</td>
+                                <td id="lineAmt" style="text-align: left;">{{item.TotalAmt}}</td>
                             </tr>
                             {{/each}}
                         </tbody>
@@ -926,26 +1025,26 @@ style="margin: 16px;margin-top: 0px;width: 95px;"><i class="fa fa-remove" style=
             <div style="display: flex;">
                 <div style="margin: 8px;min-width: 100mm;max-width: 100mm;width: 100mm;">
                     <h4 style="font-size: 20px;font-weight: bold; color: rgb(0 0 0);">Comments</h4>
-                    <p style="color: rgb(0 0 0);">{{quoterecord.comments}}</p>
+                    <p style="color: rgb(0 0 0);">{{invoicerecord.comments}}</p>
                 </div>
                 <div style="margin: 8px; border: none !important; min-width: 90mm;max-width: 90mm;width: 90mm;">
                     <div style="width: 100%; display: flex;">
                         <div style="padding-right: 16px; width: 50%;">
-                            <p style="font-weight: 600; margin-bottom: 8px; color: rgb(0 0 0);">Sub Total</p>
-                            <p style="font-weight: 600; margin-bottom: 8px; color: rgb(0 0 0);">Total GST</p>
+                            <p id="subtotal_total" style="font-weight: 600; margin-bottom: 8px; color: rgb(0 0 0);">Sub Total</p>
+                            <p id="grandTotal" style="font-weight: 600; margin-bottom: 8px; color: rgb(0 0 0);">Total GST</p>
                         </div>
                         <div style="padding-left: 16px; width: 50%;">
-                            <p style="text-align: right; margin-bottom: 8px; font-weight: 600; color: rgb(0 0 0);">{{quoterecord.SubTotal}}</p>
-                            <p style="text-align: right; margin-bottom: 8px; font-weight: 600; color: rgb(0 0 0);">{{quoterecord.TotalTax}}</p>
+                            <p id="subtotal_totalPrint" style="text-align: right; margin-bottom: 8px; font-weight: 600; color: rgb(0 0 0);">{{invoicerecord.SubTotal}}</p>
+                            <p style="text-align: right; margin-bottom: 8px; font-weight: 600; color: rgb(0 0 0);">{{invoicerecord.TotalTax}}</p>
                         </div>
                     </div>
                     <hr>
                     <div style="width: 100%; display: flex;">
                         <div style="padding-right: 16px; width: 50%;">
-                            <p style="font-weight: 800; margin-bottom: 8px; color: rgb(0 0 0);">TOTAL</p>
+                            <p  style="font-weight: 800; margin-bottom: 8px; color: rgb(0 0 0);">TOTAL</p>
                         </div>
                         <div style="padding-left: 16px; width: 50%;">
-                            <p style="text-align: right; margin-bottom: 8px; font-weight: 800;">{{quoterecord.Total}}<br></p>
+                            <p id="grandTotalPrint" style="text-align: right; margin-bottom: 8px; font-weight: 800;">{{invoicerecord.Total}}<br></p>
                         </div>
                     </div>
                     <hr>
@@ -955,140 +1054,13 @@ style="margin: 16px;margin-top: 0px;width: 95px;"><i class="fa fa-remove" style=
                             <p style="font-weight: 600; margin-bottom: 8px; color: rgb(0 0 0);">Balance Due</p>
                         </div>
                         <div style="padding-left: 16px; width: 50%;">
-                            <p style="text-align: right; margin-bottom: 8px; font-weight: 600; color: rgb(0 0 0);">{{quoterecord.totalPaid}}</p>
-                            <p style="text-align: right; margin-bottom: 8px; font-weight: 600; color: rgb(0 0 0);">{{quoterecord.balanceDue}}</p>
+                            <p style="text-align: right; margin-bottom: 8px; font-weight: 600; color: rgb(0 0 0);">{{invoicerecord.totalPaid}}</p>
+                            <p id="totalBalanceDuePrint" style="text-align: right; margin-bottom: 8px; font-weight: 600; color: rgb(0 0 0);">{{invoicerecord.balanceDue}}</p>
                         </div>
                     </div>
                 </div>
             </div>
             <span style="font-size: 10px;margin-right: 8px; float: right;">Page 1 of 1</span>
-        </div>
-
-        <!-- Letter -->
-        <div style="width: 216mm;background-color: #ffffff;padding: 8px;height: 279mm; font-size: 13.33px; display:none; color: #000000;" id="html-2-pdfwrapperLetter" name="html-2-pdfwrapperLetter" >
-            <div class="d-xl-flex align-items-xl-start" style="height: 100%;">
-                <div class="d-flex d-xl-flex flex-column flex-nowrap align-items-xl-center" style="min-height: 100%;height: 100%;max-height: 100%;">
-                    <div class="d-lg-flex d-xl-flex flex-row align-items-lg-start align-items-xl-start">
-                        <div class="card flex-grow-1 specialcard" style="margin: 0px; border: none !important;  width: 140mm; max-width: 140mm; background-color: rgba(0,0,0,0);">
-                            <div class="card-body">
-                                <div class="d-lg-flex justify-content-lg-start" style="margin-bottom: 16px;">
-                                    <div class="d-lg-flex flex-column justify-content-lg-start"><img src="assets/img/VS1.png" class="uploadedImage" style="width: 200px;margin-bottom: 8px;"><a href="#">www.vs1cloud.com</a></div>
-                                    <div class="d-lg-flex d-xl-flex justify-content-lg-center align-items-xl-start card-text">
-                                        <div style="padding-left: 16px;font-weight: bold;">
-                                            <p style="margin-bottom: 0px; color: rgb(0 0 0);">{{organizationname}}</p>
-                                            <p style="margin-bottom: 0px; color: rgb(0 0 0);">{{companyaddress1}}</p>
-                                            <p style="margin-bottom: 8px; color: rgb(0 0 0);">{{companyaddress2}}</p>
-                                            <p style="margin-bottom: 0px; color: rgb(0 0 0);">ABN: {{companyabn}}</p>
-                                            <p style="margin-bottom: 0px; color: rgb(0 0 0);">Phone: {{companyphone}}</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div style="font-size: 14px;">
-                                    <h5 style="margin-bottom: 0px;font-weight: bold;">Customer</h5>
-                                    <p style="margin-bottom: 0px; display:none;" class="pdfCustomerName">Big Burtha</p>
-                                    <div style="min-height:50px; width:30%; margin-bottom: 0px; color: rgb(0 0 0);" class="pdfCustomerAddress">12 Golf Drive</div>
-                                    <!-- <p style="margin-bottom: 0px;">Caulifield South Vic 9820</p>
-<p style="margin-bottom: 0px;">Australia</p> -->
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card flex-grow-1 specialcard" style="margin: 0px; border: none !important; width: 65mm; max-width: 65mm; background-color: rgba(0,0,0,0);">
-                            <div class="card-body">
-                                <h4 class="card-title print-header" style="font-weight: bold; ">Quote&nbsp;&nbsp; {{quoterecord.id}}</h4>
-                                <div class="d-lg-flex d-xl-flex align-items-xl-start card-text">
-                                    <div class="d-lg-flex d-xl-flex flex-column align-items-lg-start align-items-xl-start" style="padding-right: 16px;font-weight: bold;">
-                                        <label class="text-nowrap" style="color: rgb(0 0 0);" >No:</label>
-                                        <label class="text-nowrap" style="color: rgb(0 0 0);" >Date:</label>
-                                        <label class="text-nowrap" style="color: rgb(0 0 0);" >P.O Number:</label>
-                                        <label class="text-nowrap" style="color: rgb(0 0 0);" >Terms:</label>
-                                        <label class="text-nowrap link" style="color: rgb(0 0 0);" >Pay Link:</label>
-                                    </div>
-                                    <div style="padding-left: 16px; color: rgb(0 0 0);">
-                                        <p style="margin-bottom: 8px; color: rgb(0 0 0);">{{quoterecord.id}}</p>
-                                        <p style="margin-bottom: 8px; color: rgb(0 0 0);">{{quoterecord.saledate}}.</p>
-                                        <p style="margin-bottom: 8px; color: rgb(0 0 0);">{{quoterecord.custPONumber}}.</p>
-                                        <p style="margin-bottom: 8px; color: rgb(0 0 0);">{{quoterecord.termsName}}</p>
-                                        <p class="link" style="margin-bottom: 8px; color: rgb(0 0 0);color: #fff !important; background-color: #17a673; border-color: #169b6b; border-radius: 10px;     padding: 4px 8px;"><a href="" style="color: #fff !important; padding: 0px; margin-right: 8px;"></a></p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="flex-grow-1">
-                        <div class="card flex-grow-1 specialcard" style="margin: 8px; border: none !important; background-color: rgba(0,0,0,0);">
-                            <div class="card-body">
-                                <div class="table-responsive">
-                                    <table class="table" style="width: 200mm; max-width: 200mm;">
-                                        <thead class="text-secondary" style="color: rgb(251,251,251);">
-                                            <tr>
-                                                <th class="text-nowrap" style="width: 200px; background-color: white; color: rgb(0 0 0);">Product Name</th>
-                                                <th class="text-nowrap" style="width: 250px; background-color: white; color: rgb(0 0 0);">Description</th>
-                                                <th class="text-nowrap text-left" style="width: 50px;background-color: white; color: rgb(0 0 0);">Qty</th>
-                                                <th class="text-nowrap text-left" style="width: 90px;background-color: white; color: rgb(0 0 0);">Unit Price</th>
-                                                <th class="text-nowrap text-left" style="width: 77px;background-color: white; color: rgb(0 0 0);">Tax</th>
-                                                <th class="text-nowrap text-left" style="width: 100px;background-color: white; color: rgb(0 0 0);">Amount</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody style="color: rgb(0 0 0);" >
-                                            {{#each item in quoterecord.LineItems}}
-                                            <tr>
-                                                <td class="text-left">{{item.item}}</td>
-                                                <td class="text-left">{{item.description}}</td>
-                                                <td class="text-left">{{item.quantity}}</td>
-                                                <td class="text-nowrap text-left">{{item.unitPrice}}</td>
-                                                <td class="text-nowrap text-left">{{item.TaxTotal}}</td>
-                                                <td class="text-nowrap text-left">{{item.TotalAmt}}</td>
-                                            </tr>
-
-                                            {{/each}}
-
-
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="flex-grow-0" style="width: 100%;">
-                        <hr style="margin: 0px;">
-                        <div class="d-lg-flex d-xl-flex flex-grow-1 align-items-lg-start align-items-xl-start" style="width: 100%;">
-                            <div class="card flex-grow-1 specialcard" style="margin: 8px; min-width: 90mm;max-width: 90mm;width: 90mm; background-color: rgba(0,0,0,0);">
-                                <div class="card-body" style="min-width: 350.344px;max-width: 350.344px;width: 350.344px;">
-                                    <h4 class="card-title" style="font-size: 20px;font-weight: bold; color: rgb(0 0 0);">Comments</h4>
-                                    <p style="color: rgb(0 0 0);" >{{quoterecord.comments}}</p>
-                                </div>
-                            </div>
-                            <div class="card flex-grow-1 specialcard" style="margin: 8px; border: none !important;min-width: 110mm;max-width: 110mm;width: 110mm; background-color: rgba(0,0,0,0);">
-                                <div class="card-body float-right">
-                                    <div class="d-lg-flex d-xl-flex flex-row justify-content-lg-center align-items-xl-start card-text">
-                                        <div class="d-lg-flex d-xl-flex flex-column align-items-lg-start align-items-xl-start" style="padding-right: 16px;"><label class="text-nowrap" style="font-weight: 600; color: rgb(0 0 0);">Sub Total</label><label class="text-nowrap" style="font-weight: 600; color: rgb(0 0 0);">Total GST</label></div>
-                                        <div class="d-lg-flex flex-column flex-grow-1 justify-content-lg-end"
-                                             style="padding-left: 16px;">
-                                            <p class="text-right" style="margin-bottom: 8px;font-weight: 600; color: rgb(0 0 0);">{{quoterecord.SubTotal}}</p>
-                                            <p class="text-right" style="margin-bottom: 8px;font-weight: 600; color: rgb(0 0 0);">{{quoterecord.TotalTax}}</p>
-                                        </div>
-                                    </div>
-                                    <hr>
-                                    <div class="d-lg-flex d-xl-flex align-items-lg-start align-items-xl-start card-text">
-                                        <div class="d-xl-flex flex-column flex-grow-1 align-items-xl-start" style="padding-right: 16px;"><label class="text-nowrap" style="font-weight: 800; color: rgb(0 0 0);">TOTAL&nbsp;</label></div>
-                                        <div class="flex-grow-1" style="padding-left: 16px;">
-                                            <p class="text-right flex-grow-1" style="margin-bottom: 8px;font-weight: 800; color: rgb(0 0 0);">{{quoterecord.Total}}<br></p>
-                                        </div>
-                                    </div>
-                                    <hr>
-                                    <div class="d-lg-flex d-xl-flex flex-row justify-content-lg-center align-items-xl-start card-text">
-                                        <div class="d-lg-flex d-xl-flex flex-column align-items-lg-start align-items-xl-start" style="padding-right: 16px;"><label class="text-nowrap" style="font-weight: 600; color: rgb(0 0 0);">Paid Amount</label><label class="text-nowrap" style="font-weight: 600; color: rgb(0 0 0);">Balance Due</label></div>
-                                        <div class="d-lg-flex flex-column flex-grow-1 justify-content-lg-end"
-                                             style="padding-left: 16px;">
-                                            <p class="text-right" style="margin-bottom: 8px;font-weight: 600; color: rgb(0 0 0);">{{quoterecord.totalPaid}}</p>
-                                            <p class="text-right" style="margin-bottom: 8px;font-weight: 600; color: rgb(0 0 0);">{{quoterecord.balanceDue}}</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div><span class="d-lg-flex d-xl-flex justify-content-lg-end justify-content-xl-end" style="font-size: 10px;margin-right: 8px;">Page 1 of 1</span></div>
-                </div>
-            </div>
         </div>
         <!-- END PDF -->
         {{/if}}

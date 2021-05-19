@@ -910,7 +910,105 @@ style="margin: 16px;margin-top: 0px;width: 95px;"><i class="fa fa-remove" style=
 
         </style>
         <!--A4-->
-        <div style="width: 210mm; background-color: #ffffff; padding: 8px; height: 297mm; font-size: 13.33px; color: #000000; overflow-x: visible;display: none; -webkit-font-smoothing: subpixel-antialiased;" id="html-2-pdfwrapper" name="html-2-pdfwrapper">
+        <div style="width: 210mm;background-color: #ffffff;padding: 8px;height: 297mm; font-size: 13.33px;display:none; color: #000000;" id="html-2-pdfwrapper1" name="html-2-pdfwrapper1" >
+            <div class="d-xl-flex align-items-xl-start" style="height: 100%;">
+                <div class="d-xl-flex align-items-xl-start" style="height: 100%;">
+                    <div class="d-flex d-xl-flex flex-column flex-nowrap align-items-xl-center" style="min-height: 100%;height: 100%;max-height: 100%;">
+                        <div class="d-lg-flex d-xl-flex flex-row align-items-lg-start align-items-xl-start">
+                            <div class="card d-xl-flex flex-grow-1 specialcard" style="margin: 0px;margin-right: 50px;  border: none !important; width: 100mm; max-width: 100; background-color: rgba(0,0,0,0);">
+                                <div class="card-body">
+                                    <div class="d-lg-flex justify-content-lg-start" style="margin-bottom: 16px;">
+                                        <div class="d-lg-flex flex-column justify-content-lg-start"><img src="assets/img/VS1.png" class="uploadedImage" style="max-width: 200px;margin-bottom: 8px; color: rgb(0 0 0);max-height: 30mm;"><a href="{{organizationurl}}">{{organizationurl}}</a></div>
+                                        <div class="d-lg-flex d-xl-flex justify-content-lg-center align-items-xl-start card-text">
+                                            <div style="padding-left: 16px;font-weight: bold;">
+                                                <p style="margin-bottom: 0px; color: rgb(0 0 0);">{{organizationname}}</p>
+                                                <p style="margin-bottom: 0px; color: rgb(0 0 0);">{{companyaddress1}}</p>
+                                                <p style="margin-bottom: 8px; color: rgb(0 0 0);">{{companyaddress2}}</p>
+                                                <p style="margin-bottom: 0px; color: rgb(0 0 0);">ABN: {{companyabn}}</p>
+                                                <p style="margin-bottom: 0px; color: rgb(0 0 0);">Phone: {{companyphone}}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div style="font-size: 14px;">
+                                        <h5 style="margin-bottom: 0px;font-weight: bold;">Customer</h5>
+                                        <p style="margin-bottom: 0px; display:none;" class="pdfCustomerName"></p>
+                                        <div style="min-height:50px; width:30%; margin-bottom: 0px; color: rgb(0 0 0);" class="pdfCustomerAddress"></div>
+                                        <!-- <p style="margin-bottom: 0px;">Caulifield South Vic 9820</p>
+<p style="margin-bottom: 0px;">Australia</p> -->
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card flex-grow-1 specialcard" style="margin: 0px;margin-left: 50px;  border: none !important; width: 90mm; max-width: 90mm; background-color: rgba(0,0,0,0);">
+                                <div class="card-body">
+                                    <h4 class="card-title" style="font-weight: bold; color: rgb(0 0 0);">Customer Payment</h4>
+                                    <div class="d-lg-flex d-xl-flex align-items-xl-start card-text">
+                                        <div class="d-lg-flex d-xl-flex flex-column align-items-lg-start align-items-xl-start" style="padding-right: 16px;font-weight: bold;"><label class="text-nowrap" style="color: rgb(0 0 0);" >Date:</label><label class="text-nowrap" style="color: rgb(0 0 0);" >Ref No:</label></div>
+                                        <div style="padding-left: 16px;">
+                                            <p style="margin-bottom: 8px; color: rgb(0 0 0);">{{currentDate}}</p>
+                                            <p style="margin-bottom: 8px; color: rgb(0 0 0);">{{record.reference}}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex-grow-1" style="width: 100%;">
+                            <div class="card flex-grow-1 specialcard" style="margin: 8px;  border: none !important; background-color: rgba(0,0,0,0);">
+                                <div class="card-body" style="padding: 4px;">
+                                    <div class="table-responsive">
+                                        <table class="table table-sm" style="width: 190mm; max-width: 190mm;">
+                                            <thead class="text-secondary" style="color: rgb(251,251,251);">
+                                                <tr>
+                                                    <th class="text-nowrap" style="background-color: white; color: rgb(0 0 0);">Trans Date</th>
+                                                    <th class="text-nowrap" style="background-color: white; color: rgb(0 0 0);">Type</th>
+                                                    <th class="text-nowrap" style="background-color: white; color: rgb(0 0 0);">Trans No.</th>
+                                                    <th class="text-nowrap" style="background-color: white; color: rgb(0 0 0);">Original Amount</th>
+                                                    <th class="text-nowrap" style="background-color: white; color: rgb(0 0 0);">Amount Due</th>
+                                                    <th class="text-nowrap" style="background-color: white; color: rgb(0 0 0);">Payment Amount</th>
+                                                    <th class="text-nowrap" style="background-color: white; color: rgb(0 0 0);">Outstanding Amount</th>
+                                                    <th class="text-nowrap" style="background-color: white; color: rgb(0 0 0);">Comments</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody style="color: rgb(0 0 0);">
+                                                {{#each item in record.LineItems}}
+                                                <tr>
+                                                    <td class="text-nowrap">{{item.invoicedate}}</td>
+                                                    <td class="text-nowrap" style="color:#00a3d3">{{item.transtype}}</td>
+                                                    <td class="text-nowrap">{{item.transid}}</td>
+                                                    <td class="text-nowrap">{{item.orginalamount}}</td>
+                                                    <td class="text-nowrap" >{{item.amountdue}}</td>
+                                                    <td class="text-nowrap">{{item.paymentamount}}</td>
+                                                    <td class="text-nowrap" >{{item.ouststandingamount}}</td>
+                                                    <td class="text-nowrap">{{item.comments}}</td>
+                                                </tr>
+                                                {{/each}}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex-grow-0" style="width: 100%;">
+                            <hr style="margin-top: 0px;margin-right: 8px;margin-left: 8px;margin-bottom: 0px;">
+                            <div class="d-lg-flex d-xl-flex flex-grow-1 align-items-lg-start align-items-xl-start" style="width: 100%;">
+                                <div class="card flex-grow-1 specialcard" style="margin: 8px; border: none !important;min-width: 100mm;max-width: 100mm;width: 100mm; background-color: rgba(0,0,0,0);">
+                                    <div class="card-body" style=""></div>
+                                </div>
+                                <div class="card flex-grow-1 specialcard" style="margin: 8px; border: none !important;min-width: 90mm;max-width: 90mm;width: 90mm; background-color: rgba(0,0,0,0);">
+                                    <div class="card-body float-right">
+                                        <div class="d-lg-flex d-xl-flex align-items-lg-start align-items-xl-start card-text">
+                                            <div class="d-xl-flex flex-column flex-grow-1 align-items-xl-start" style="padding-right: 16px;"><label class="text-nowrap" style="font-weight: 800; color: rgb(0 0 0);">Applied:</label></div>
+                                            <div class="flex-grow-1" style="padding-left: 16px;">
+                                                <p class="text-right flex-grow-1" style="margin-bottom: 8px;font-weight: 800; color: rgb(0 0 0);">{{record.applied}}<br></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div><span class="d-lg-flex d-xl-flex justify-content-lg-end justify-content-xl-end" style="font-size: 10px;margin-right: 8px;">Page 1 of 1</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div style="width: 210mm; background-color: #ffffff; padding: 8px; height: 297mm; font-size: 13.33px; color: #000000; overflow-x: visible; display: none; -webkit-font-smoothing: subpixel-antialiased;" id="html-2-pdfwrapper" name="html-2-pdfwrapper">
             <div style="display: flex; height: 70mm;">
                 <div style="margin: 0px; padding: 16px; width: 130mm; max-width: 130mm;">
                     <div style="display: flex;">

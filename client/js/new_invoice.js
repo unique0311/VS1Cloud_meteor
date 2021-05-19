@@ -16,6 +16,7 @@ import { autoTable } from 'jspdf-autotable';
 import 'jquery-editable-select';
 import { SideBarService } from '../js/sidebar-service';
 import '../lib/global/indexdbstorage.js';
+import { get } from 'jquery';
 let sideBarService = new SideBarService();
 // import html2canvas from 'html2canvas';
 let utilityService = new UtilityService();
@@ -48,6 +49,7 @@ Template.new_invoice.onCreated(() => {
     templateObject.termrecords = new ReactiveVar();
     templateObject.clientrecords = new ReactiveVar([]);
     templateObject.taxraterecords = new ReactiveVar([]);
+    templateObject.record = new ReactiveVar({});
 
     /* Attachments */
     templateObject.uploadedFile = new ReactiveVar();
@@ -630,7 +632,11 @@ Template.new_invoice.onRendered(() => {
     else if (url.includes("id") && url.includes("total")) {
         $('.fullScreenSpin').css('display', 'inline-block');
         url = new URL(url);
+        let dateStart = new Date();
+        let transDate = ("0" + dateStart.getDate()).toString().slice(-2) + "/" + ("0" + (dateStart.getMonth() + 1)).toString().slice(-2) + "/" + dateStart.getFullYear();
         var getso_id = url.searchParams.get("id");
+        var paymentID = url.searchParams.get("paymentID");
+        var paidAmount = url.searchParams.get("total");
         if (getso_id) {
             currentInvoice = parseInt(getso_id);
             $('.printID').attr("id", currentInvoice);
@@ -751,7 +757,7 @@ Template.new_invoice.onRendered(() => {
                                 saleCustField1: data.fields.SaleCustField1,
                                 saleCustField2: data.fields.SaleCustField2,
                                 totalPaid: totalPaidAmount,
-                                ispaid: data.fields.IsPaid
+                                ispaid: true
                             };
 
                             $('#edtCustomerName').val(data.fields.CustomerName);
@@ -841,8 +847,38 @@ Template.new_invoice.onRendered(() => {
                             // $('div.dataTables_filter input').addClass('form-control form-control-sm');
                             // $('#tblInvoiceLine tbody tr .lineProductName').attr("data-toggle","modal");
                             // $('#tblInvoiceLine tbody tr .lineProductName').attr("data-target","#productListModal");
-                            templateObject.invoicerecord.set(invoicerecord);
-                            // alert(JSON.stringify(templateObject.invoicerecord.get()));
+                           templateObject.invoicerecord.set(invoicerecord);
+                           let getTotal = $('#grandTotal').text();
+                           let invoice_total = getTotal.replace('$','');
+                           let paymentItems = [];
+                           let paymentLineItems = {};
+                           let dueAmount = utilityService.modifynegativeCurrencyFormat(parseFloat(paidAmount) - parseFloat(invoice_total)).toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0;
+                           dueAmount 
+                           paymentLineItems = {
+                                id: '',
+                                invoiceid: getso_id || '',
+                                transid: getso_id || '',
+                                invoicedate: transDate,
+                                transtype: "Invoice",
+                                amountdue: amountDue || 0,
+                                paymentamount: paidAmount || 0,
+                                ouststandingamount:dueAmount,
+                                orginalamount:getTotal
+                            };
+                            paymentItems.push(paymentLineItems);
+                            
+                            let record = {
+                                customerName: data.fields.CompanyName || '',
+                                paymentDate: transDate,
+                                reference: '',
+                                paymentAmount: paidAmount || 0,
+                                notes: data.fields.Notes,
+                                LineItems:paymentItems,
+                                department: "Default",
+                                applied:paidAmount.toLocaleString(undefined, {minimumFractionDigits: 2})
+                
+                            };
+                            templateObject.record.set(record);
                             templateObject.selectedCurrency.set(invoicerecord.currency);
                             templateObject.inputSelectedCurrency.set(invoicerecord.currency);
                             if (templateObject.invoicerecord.get()) {
@@ -913,6 +949,7 @@ Template.new_invoice.onRendered(() => {
                         let useData = data.tinvoiceex;
                         let customerData = templateObject.clientrecords.get();
                         var added = false;
+                        let company_name = "";
                         for (let d = 0; d < useData.length; d++) {
                             if (parseInt(useData[d].fields.ID) === currentInvoice) {
                                 added = true;
@@ -992,7 +1029,7 @@ Template.new_invoice.onRendered(() => {
                                     };
                                     lineItems.push(lineItemObj);
                                 }
-
+                                company_name = useData[d].fields.CustomerName;
                                 let invoicerecord = {
                                     id: useData[d].fields.ID,
                                     lid: 'Edit Invoice' + ' ' + useData[d].fields.ID,
@@ -1330,6 +1367,7 @@ Template.new_invoice.onRendered(() => {
                                 // $('#tblInvoiceLine tbody tr .lineProductName').attr("data-toggle","modal");
                                 // $('#tblInvoiceLine tbody tr .lineProductName').attr("data-target","#productListModal");
                                 templateObject.invoicerecord.set(invoicerecord);
+
                                 // alert(JSON.stringify(templateObject.invoicerecord.get()));
                                 templateObject.selectedCurrency.set(invoicerecord.currency);
                                 templateObject.inputSelectedCurrency.set(invoicerecord.currency);
@@ -1396,6 +1434,43 @@ Template.new_invoice.onRendered(() => {
                                 // Meteor._reload.reload();
                             });
                         }
+                        setTimeout(function(){
+                        try {
+                           let getTotal = $('#grandTotal').text();
+                           let invoice_total = getTotal.replace('$','');
+                           let paymentItems = [];
+                           let paymentLineItems = {};
+                           let dueAmount = utilityService.modifynegativeCurrencyFormat(parseFloat(invoice_total) - parseFloat(paidAmount)).toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0;
+                           let amountPaid = Currency + '' + paidAmount.toLocaleString(undefined, { minimumFractionDigits: 2 });
+                           paymentLineItems = {
+                                id: '',
+                                invoiceid: getso_id || '',
+                                transid: getso_id || '',
+                                invoicedate: transDate,
+                                transtype: "Invoice",
+                                amountdue: dueAmount || 0,
+                                paymentamount: amountPaid || 0,
+                                ouststandingamount:dueAmount,
+                                orginalamount:getTotal
+                            };
+                            paymentItems.push(paymentLineItems);
+                            
+                            let record = {
+                                customerName: company_name || '',
+                                paymentDate: transDate,
+                                reference: '',
+                                paymentAmount: paidAmount || 0,
+                                notes: $("txaComment").val() || '',
+                                LineItems:paymentItems,
+                                department: "Default",
+                                applied:paidAmount.toLocaleString(undefined, {minimumFractionDigits: 2})
+                
+                            };
+                            templateObject.record.set(record);
+                        } catch (err){
+                            console.log(err);
+                        }
+                    },500);
                     }
                 }).catch(function (err) {
                     accountService.getOneInvoicedataEx(currentInvoice).then(function (data) {
@@ -1668,11 +1743,7 @@ Template.new_invoice.onRendered(() => {
             templateObject.getInvoiceData();
             // Send Email
             try {
-                $('.pdfCustomerName').html($('#edtCustomerName').val());
-                $('.pdfCustomerAddress').html($('#txabillingAddress').val());
-                $('.link').hide();
-                $('#html-2-pdfwrapper').css('display', 'block');
-                $('.print-header').html("Payment&nbsp;&nbsp;&nbsp;" + currentInvoice);
+                $('#html-2-pdfwrapper1').css('display', 'block');
                 async function addAttachment() {
                     let attachment = [];
                     let templateObject = Template.instance();
@@ -1687,7 +1758,7 @@ Template.new_invoice.onRendered(() => {
                         base64data = base64data.split(',')[1];
                         // console.log(base64data);
                         pdfObject = {
-                            filename: 'Customer Payment-' + invoiceId + '.pdf',
+                            filename: 'Customer Payment-' + paymentID + '.pdf',
                             content: base64data,
                             encoding: 'base64'
                         };
@@ -1704,7 +1775,7 @@ Template.new_invoice.onRendered(() => {
                         let grandtotal = $('#grandTotal').html();
                         let amountDueEmail = $('#totalBalanceDue').html();
                         let emailDueDate = $("#dtDueDate").val();
-                        let mailSubject = 'Payment ' + erpInvoiceId + ' from ' + mailFromName + ' for ' + customerEmailName;
+                        let mailSubject = 'Payment ' + paymentID + ' from ' + mailFromName + ' for ' + customerEmailName;
                         let mailBody = "Hi " + customerEmailName + ",\n\n Here's payment " + erpInvoiceId + " for  " + grandtotal + "." +
                             // "\n\nThe amount outstanding of "+amountDueEmail+" is due on "+emailDueDate+"." +
                             "\n\nIf you have any questions, please let us know : " + mailFrom + ".\n\nThanks,\n" + mailFromName;
@@ -1725,7 +1796,7 @@ Template.new_invoice.onRendered(() => {
                             '                </tr>' +
                             '                <tr>' +
                             '                    <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0 10px 0;">' +
-                            '                        Please find payment <span>' + erpInvoiceId + '</span> attached below.' +
+                            '                        Please find payment <span>' + paymentID + '</span> attached below.' +
                             '                    </td>' +
                             '                </tr>' +
                             '                <tr>' +
@@ -1781,7 +1852,7 @@ Template.new_invoice.onRendered(() => {
                             if (error && error.error === "error") {
                                 //Router.go('/paymentoverview?success=true');
                             } else {
-                                $('#html-2-pdfwrapper').css('display', 'none');
+                                $('#html-2-pdfwrapper1').css('display', 'none');
                                 swal({
                                     title: 'SUCCESS',
                                     text: "Email Sent To Customer: " + checkEmailData + " and User: " + mailFrom + "",
@@ -1791,11 +1862,11 @@ Template.new_invoice.onRendered(() => {
                                 }).then((result) => {
                                     if (result.value) {
 
-                                        Router.go('invoicelist');
+                                        Router.go('/invoicelist?success=true');
                                     } else if (result.dismiss === 'cancel') {
-                                        Router.go('invoicelist');
+                                        Router.go('/invoicelist?success=true');
                                     } else {
-                                        Router.go('invoicelist');
+                                        Router.go('/invoicelist?success=true');
                                     }
                                 });
 
@@ -1821,7 +1892,7 @@ Template.new_invoice.onRendered(() => {
                         let completeTabRecord;
                         let doc = new jsPDF('p', 'pt', 'a4');
                         doc.setFontSize(18);
-                        var source = document.getElementById('html-2-pdfwrapper');
+                        var source = document.getElementById('html-2-pdfwrapper1');
                         doc.addHTML(source, function () {
                             //pdf.save('Invoice.pdf');
                             resolve(doc.output('blob'));
@@ -4530,6 +4601,11 @@ Template.new_invoice.helpers({
     invoicerecord: () => {
         return Template.instance().invoicerecord.get();
     },
+    currentDate: () => {
+        var currentDate = new Date();
+        var begunDate = moment(currentDate).format("DD/MM/YYYY");
+          return begunDate;
+      },
     deptrecords: () => {
         return Template.instance().deptrecords.get().sort(function (a, b) {
             if (a.department == 'NA') {
@@ -4608,7 +4684,10 @@ Template.new_invoice.helpers({
         }
 
         return isMobile;
-    }
+    },
+    record: () => {
+        return Template.instance().record.get();
+    },
 });
 
 Template.new_invoice.events({
@@ -4776,7 +4855,6 @@ Template.new_invoice.events({
         }
         if ($('.printID').val() == "") {
             $('#' + targetID + " #lineQty").text($('#' + targetID + " .lineQty").val());
-            console.log($('#' + targetID + " .lineQty").val());
         }
         //if(selectLineID){
         let lineAmount = 0;

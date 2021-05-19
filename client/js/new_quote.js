@@ -49,6 +49,7 @@ Template.new_quote.onCreated(() => {
     templateObject.termrecords = new ReactiveVar();
     templateObject.clientrecords = new ReactiveVar([]);
     templateObject.taxraterecords = new ReactiveVar([]);
+    templateObject.record = new ReactiveVar({});
 
     /* Attachments */
     templateObject.uploadedFile = new ReactiveVar();
@@ -329,8 +330,11 @@ Template.new_quote.onRendered(() => {
     var invoiceId = getso_id[getso_id.length - 1];
     if (url.includes("id") && url.includes("total")) {
         url = new URL(url);
+        let dateStart = new Date();
+        let transDate = ("0" + dateStart.getDate()).toString().slice(-2) + "/" + ("0" + (dateStart.getMonth() + 1)).toString().slice(-2) + "/" + dateStart.getFullYear();
         var getso_id = url.searchParams.get("id");
-        var url_email = url.searchParams.get("email");
+        var paymentID = url.searchParams.get("paymentID");
+        var paidAmount = url.searchParams.get("total");
         if (getso_id != "") {
             invoiceId = parseInt(getso_id);
             $('.printID').attr("id", invoiceId);
@@ -545,11 +549,13 @@ Template.new_quote.onRendered(() => {
                         let data = JSON.parse(dataObject[0].data);
                         let useData = data.tquoteex;
                         var added = false;
+                        let company_name = "";
                         for (let d = 0; d < useData.length; d++) {
                             if (parseInt(useData[d].fields.ID) === invoiceId) {
                                 let cust_result = customerData.filter(cust_data => {
                                     return cust_data.customername == useData[d].fields.ClientName
                                 });
+                                company_name = useData[d].fields.CustomerName;
                                 added = true;
                                 $('.fullScreenSpin').css('display', 'none');
                                 let lineItems = [];
@@ -930,6 +936,43 @@ Template.new_quote.onRendered(() => {
                                 // Meteor._reload.reload();
                             });
                         }
+                        setTimeout(function(){
+                            try {
+                               let getTotal = $('#grandTotal').text();
+                               let invoice_total = getTotal.replace('$','');
+                               let paymentItems = [];
+                               let paymentLineItems = {};
+                               let dueAmount = utilityService.modifynegativeCurrencyFormat(parseFloat(invoice_total) - parseFloat(paidAmount)).toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0;
+                               let amountPaid = Currency + '' + paidAmount.toLocaleString(undefined, { minimumFractionDigits: 2 });
+                               paymentLineItems = {
+                                    id: '',
+                                    invoiceid: getso_id || '',
+                                    transid: getso_id || '',
+                                    invoicedate: transDate,
+                                    transtype: "Quote",
+                                    amountdue: dueAmount || 0,
+                                    paymentamount: amountPaid || 0,
+                                    ouststandingamount:dueAmount,
+                                    orginalamount:getTotal
+                                };
+                                paymentItems.push(paymentLineItems);
+                                
+                                let record = {
+                                    customerName: company_name || '',
+                                    paymentDate: transDate,
+                                    reference: '',
+                                    paymentAmount: paidAmount || 0,
+                                    notes: $("txaComment").val() || '',
+                                    LineItems:paymentItems,
+                                    department: "Default",
+                                    applied:paidAmount.toLocaleString(undefined, {minimumFractionDigits: 2})
+                    
+                                };
+                                templateObject.record.set(record);
+                            } catch (err){
+                                console.log(err);
+                            }
+                        },500);
 
                     }
 
@@ -1135,11 +1178,7 @@ Template.new_quote.onRendered(() => {
 
             };
             templateObject.getQuoteData();
-            $('.pdfCustomerName').html($('#edtCustomerName').val());
-            $('.pdfCustomerAddress').html($('#txabillingAddress').val());
-            $('.link').hide();
-            $('#html-2-pdfwrapper').css('display', 'block');
-            $('.print-header').html("Payment&nbsp;&nbsp;&nbsp;" + invoiceId);
+            $('#html-2-pdfwrapper1').css('display', 'block');
             async function addAttachment() {
                 let attachment = [];
                 let templateObject = Template.instance();
@@ -1166,12 +1205,12 @@ Template.new_quote.onRendered(() => {
                     let mailFromName = Session.get('vs1companyName');
                     let mailFrom = localStorage.getItem('mySession');
                     let customerEmailName = $('#edtCustomerName').val();
-                    let checkEmailData = url_email;
+                    let checkEmailData = url.searchParams.get("email");
                     // let mailCC = templateObject.mailCopyToUsr.get();
                     let grandtotal = $('#grandTotal').html();
                     let amountDueEmail = $('#totalBalanceDue').html();
                     let emailDueDate = $("#dtDueDate").val();
-                    let mailSubject = 'Payment ' + erpInvoiceId + ' from ' + mailFromName + ' for ' + customerEmailName;
+                    let mailSubject = 'Payment for Quote' + erpInvoiceId + ' from ' + mailFromName + ' for ' + customerEmailName;
                     let mailBody = "Hi " + customerEmailName + ",\n\n Here's payment " + erpInvoiceId + " for  " + grandtotal + "." +
                         // "\n\nThe amount outstanding of "+amountDueEmail+" is due on "+emailDueDate+"." +
                         "\n\nIf you have any questions, please let us know : " + mailFrom + ".\n\nThanks,\n" + mailFromName;
@@ -1192,7 +1231,7 @@ Template.new_quote.onRendered(() => {
                         '                </tr>' +
                         '                <tr>' +
                         '                    <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0 10px 0;">' +
-                        '                        Please find payment <span>' + erpInvoiceId + '</span> attached below.' +
+                        '                        Please find payment for Quote <span>' + erpInvoiceId + '</span> attached below.' +
                         '                    </td>' +
                         '                </tr>' +
                         '                <tr>' +
@@ -1257,12 +1296,11 @@ Template.new_quote.onRendered(() => {
                                 confirmButtonText: 'OK'
                             }).then((result) => {
                                 if (result.value) {
-
-                                Router.go('invoicelist');
+                                    Router.go('/quoteslist?success=true');
                                 } else if (result.dismiss === 'cancel') {
-                                    Router.go('quoteslist');
+                                    Router.go('/quoteslist?success=true');
                                 }else{
-                                    Router.go('quoteslist');
+                                    Router.go('/quoteslist?success=true');
                                 }
                             });
 
@@ -1287,11 +1325,11 @@ Template.new_quote.onRendered(() => {
                     let completeTabRecord;
                     let doc = new jsPDF('p', 'pt', 'a4');
                     doc.setFontSize(18);
-                    var source = document.getElementById('html-2-pdfwrapper');
+                    var source = document.getElementById('html-2-pdfwrapper1');
                     doc.addHTML(source, function () {
                         //pdf.save('Invoice.pdf');
                         resolve(doc.output('blob'));
-                        $('#html-2-pdfwrapper').css('display','none');
+                        $('#html-2-pdfwrapper1').css('display','none');
                     });
                 });
             }
@@ -3223,6 +3261,14 @@ Template.new_quote.onRendered(function () {
 Template.new_quote.helpers({
     quoterecord: () => {
         return Template.instance().quoterecord.get();
+    },
+    currentDate: () => {
+        var currentDate = new Date();
+        var begunDate = moment(currentDate).format("DD/MM/YYYY");
+          return begunDate;
+      },
+      record: () => {
+        return Template.instance().record.get();
     },
     querystring: () => {
         return Template.instance().querystring.get();
