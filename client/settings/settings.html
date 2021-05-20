@@ -37,6 +37,11 @@
                                 $("#colTerms").addClass("col-12");
                                 $("#colSubscription").removeClass("col-6");
                                 $("#colSubscription").addClass("col-12");
+                                
+                                $("#colGreenTrackModules").removeClass("col-6");
+                                $("#colGreenTrackModules").addClass("col-12");
+                                $("#colGreenTrackDetails").removeClass("col-6");
+                                $("#colGreenTrackDetails").addClass("col-12");
                             }
                         }
                         mediaQuery(x)
@@ -60,13 +65,11 @@
                         <div class="card-body">
                             {{#if isGreenTrack}}
                             <div class="row">
-                                <div class="col-6">
-                                    <div class="col-6 colVs1Modules" id="colVs1Modules">
-                                        <button title="VS1 modules includes all module options" class="btn btn-primary d-xl-flex flex-row justify-content-xl-center align-items-xl-center btnCompanyAppSettings" type="button" style="height: 60px;width: 100%;margin: 16px 0px;"><i class="fa fa-cog" style="margin-right: 8px;"></i>VS1 Modules</button>
-                                    </div>
-                                    <div class="col-6">
-                                        <button title="Organization details includes organization profile. E.g. Company Name" class="btn btn-primary d-xl-flex flex-row justify-content-xl-center align-items-xl-center btnOrganisationSettings" type="button" style="height: 60px;width: 50%;margin: 16px 0px;"><i class="fa fa-cog" style="margin-right: 8px;"></i>Organization Details</button>
-                                    </div>
+                                <div class="col-6 colGreenTrackModules" id="colGreenTrackModules">
+                                    <button title="VS1 modules includes all module options" class="btn btn-primary d-xl-flex flex-row justify-content-xl-center align-items-xl-center btnCompanyAppSettings" type="button" style="height: 60px;width: 100%;margin: 16px 0px;"><i class="fa fa-cog" style="margin-right: 8px;"></i>VS1 Modules</button>
+                                </div>
+                                <div class="col-6 colGreenTrackDetails" id="colGreenTrackDetails">
+                                    <button title="Organization details includes organization profile. E.g. Company Name" class="btn btn-primary d-xl-flex flex-row justify-content-xl-center align-items-xl-center btnOrganisationSettings" type="button" style="height: 60px;width: 100%;margin: 16px 0px;"><i class="fa fa-cog" style="margin-right: 8px;"></i>Organization Details</button>
                                 </div>
                             </div>
                             {{else}}
