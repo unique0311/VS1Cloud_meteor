@@ -7,7 +7,6 @@ import { ProductService } from "../product/product-service";
 import '../lib/global/erp-objects';
 import 'jquery-ui-dist/external/jquery/jquery';
 import 'jquery-ui-dist/jquery-ui';
-// import 'jquery-ui-dist/jquery-ui.css';
 import { Random } from 'meteor/random';
 import { jsPDF } from 'jspdf';
 import 'jQuery.print/jQuery.print.js';
@@ -18,13 +17,9 @@ import { SideBarService } from '../js/sidebar-service';
 import '../lib/global/indexdbstorage.js';
 import { get } from 'jquery';
 let sideBarService = new SideBarService();
-// import html2canvas from 'html2canvas';
 let utilityService = new UtilityService();
 var times = 0;
 Template.new_invoice.onCreated(() => {
-    // Session.set('validateInvoiceNo',false);
-    // $("#dtDueDate").val(moment().format('DD/MM/YYYY'));
-
     const templateObject = Template.instance();
     templateObject.records = new ReactiveVar();
     templateObject.CleintName = new ReactiveVar();
@@ -66,13 +61,12 @@ Template.new_invoice.onCreated(() => {
 
     templateObject.singleInvoiceData = new ReactiveVar([]);
     $(window).on('resize', function () {
-        // JQuery & CSS by Bruno BEGIN
         setTimeout(function () {
 
             var x = window.matchMedia("(max-width: 1024px)")
 
             function mediaQuery(x) {
-                if (x.matches) { // If media query matches
+                if (x.matches) { 
 
                     $("#colInvnoReference").removeClass("col-auto");
                     $("#colInvnoReference").addClass("col-6");
@@ -94,8 +88,8 @@ Template.new_invoice.onCreated(() => {
 
                 }
             }
-            mediaQuery(x) // Call listener function at run time
-            x.addListener(mediaQuery) // Attach listener function on state changes
+            mediaQuery(x) 
+            x.addListener(mediaQuery) 
         }, 10);
 
         setTimeout(function () {
@@ -103,7 +97,7 @@ Template.new_invoice.onCreated(() => {
             var x = window.matchMedia("(max-width: 420px)")
 
             function mediaQuery(x) {
-                if (x.matches) { // If media query matches
+                if (x.matches) { 
 
                     $("#colInvnoReference").removeClass("col-auto");
                     $("#colInvnoReference").addClass("col-12");
@@ -131,10 +125,10 @@ Template.new_invoice.onCreated(() => {
 
                 }
             }
-            mediaQuery(x) // Call listener function at run time
-            x.addListener(mediaQuery) // Attach listener function on state changes
+            mediaQuery(x) 
+            x.addListener(mediaQuery) 
         }, 10);
-        // JQuery & CSS by Bruno END
+
 
     });
 });
@@ -162,7 +156,6 @@ Template.new_invoice.onRendered(() => {
         templateObject.includeBOnShippedQty.set(false);
     }
 
-    //dd M yy
     $("#date-input,#dtSODate,#dtDueDate").datepicker({
         showOn: 'button',
         buttonText: 'Show Date',
@@ -174,16 +167,11 @@ Template.new_invoice.onRendered(() => {
         selectOtherMonths: true,
         changeMonth: true,
         changeYear: true,
-        yearRange: "-90:+10", // last hundred years
+        yearRange: "-90:+10",
     });
 
-    //let salesCloudGridPreferenceRec = CloudPreference.findOne({userid:Session.get('mycloudLogonID'),PrefName:'tblInvoiceLine'});
-    //alert(salesCloudGridPreferenceRec.PrefGroup);
-    //console.log(salesCloudGridPreferenceRec);
     $(document).ready(function () {
         $('#formCheck-one').click(function () {
-            // var inputValue = $(this).attr("value");
-            // $("." + inputValue).toggle();
             if ($(event.target).is(':checked')) {
                 $('.checkbox1div').css('display', 'block');
             } else {
@@ -193,8 +181,6 @@ Template.new_invoice.onRendered(() => {
 
 
         $('#formCheck-two').click(function () {
-            // var inputValue = $(this).attr("value");
-            // $("." + inputValue).toggle();
             if ($(event.target).is(':checked')) {
                 $('.checkbox2div').css('display', 'block');
             } else {
@@ -236,12 +222,9 @@ Template.new_invoice.onRendered(() => {
                             termsName: data.tcustomervs1[i].TermsName || '',
                             taxCode: data.tcustomervs1[i].TaxCodeName || ''
                         };
-                        //clientList.push(data.tcustomer[i].ClientName,customeremail: data.tcustomer[i].Email);
                         clientList.push(customerrecordObj);
 
-                        //$('#edtCustomerName').editableSelect('add',data.tcustomer[i].ClientName);
                     }
-                    //templateObject.clientrecords.set(clientList);
                     templateObject.clientrecords.set(clientList.sort(function (a, b) {
                         if (a.customername == 'NA') {
                             return 1;
@@ -284,12 +267,9 @@ Template.new_invoice.onRendered(() => {
                         termsName: useData[i].fields.TermsName || '',
                         taxCode: useData[i].fields.TaxCodeName || ''
                     };
-                    //clientList.push(data.tcustomer[i].ClientName,customeremail: data.tcustomer[i].Email);
                     clientList.push(customerrecordObj);
 
-                    //$('#edtCustomerName').editableSelect('add',data.tcustomer[i].ClientName);
                 }
-                //templateObject.clientrecords.set(clientList);
                 templateObject.clientrecords.set(clientList.sort(function (a, b) {
                     if (a.customername == 'NA') {
                         return 1;
@@ -328,12 +308,9 @@ Template.new_invoice.onRendered(() => {
                         termsName: data.tcustomervs1[i].TermsName || '',
                         taxCode: datatcustomervs1[i].TaxCodeName || ''
                     };
-                    //clientList.push(data.tcustomer[i].ClientName,customeremail: data.tcustomer[i].Email);
                     clientList.push(customerrecordObj);
 
-                    //$('#edtCustomerName').editableSelect('add',data.tcustomer[i].ClientName);
                 }
-                //templateObject.clientrecords.set(clientList);
                 templateObject.clientrecords.set(clientList.sort(function (a, b) {
                     if (a.customername == 'NA') {
                         return 1;
@@ -421,7 +398,6 @@ Template.new_invoice.onRendered(() => {
         if (getso_id[1]) {
             currentInvoice = parseInt(currentInvoice);
             templateObject.getInvoiceData = function () {
-                //getOneInvoicedata
                 let customerData = templateObject.clientrecords.get();
                 accountService.getOneQuotedataEx(currentInvoice).then(function (data) {
                     templateObject.singleInvoiceData.set(data);
@@ -564,19 +540,13 @@ Template.new_invoice.onRendered(() => {
                     }, 100);
 
                     templateObject.invoicerecord.set(invoicerecord);
-                    // alert(JSON.stringify(templateObject.invoicerecord.get()));
                     templateObject.selectedCurrency.set(invoicerecord.currency);
                     templateObject.inputSelectedCurrency.set(invoicerecord.currency);
                     if (templateObject.invoicerecord.get()) {
 
-                        // $('#tblInvoiceLine').colResizable({
-                        //   liveDrag:true});
-                        //$('#tblInvoiceLine').removeClass('JColResizer');
-
                         Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblInvoiceLine', function (error, result) {
                             if (error) {
-                                // console.log(error);
-                                //Bert.alert('<strong>Error:</strong> user-not-found, no user found please try again!', 'danger');
+                                
                             } else {
                                 if (result) {
                                     for (let i = 0; i < result.customFields.length; i++) {
@@ -587,7 +557,6 @@ Template.new_invoice.onRendered(() => {
                                         let columnClass = columHeaderUpdate.substring(columHeaderUpdate.indexOf(".") + 1);
                                         let columnWidth = customcolumn[i].width;
 
-                                        //alert(columnClass);
                                         $("" + columHeaderUpdate + "").html(columData);
                                         if (columnWidth != 0) {
                                             $("" + columHeaderUpdate + "").css('width', columnWidth + '%');
@@ -642,7 +611,6 @@ Template.new_invoice.onRendered(() => {
             $('.printID').attr("id", currentInvoice);
             templateObject.getInvoiceData = function () {
                 getVS1Data('TInvoiceEx').then(function (dataObject) {
-
                     if (dataObject.length == 0) {
                         let customerData = templateObject.clientrecords.get();
                         accountService.getOneInvoicedataEx(currentInvoice).then(function (data) {
@@ -661,7 +629,6 @@ Template.new_invoice.onRendered(() => {
                             let subTotal = currencySymbol + '' + data.fields.TotalAmount.toLocaleString(undefined, { minimumFractionDigits: 2 });
                             let totalTax = currencySymbol + '' + data.fields.TotalTax.toLocaleString(undefined, { minimumFractionDigits: 2 });
                             let totalBalance = utilityService.modifynegativeCurrencyFormat(data.fields.TotalBalance).toLocaleString(undefined, { minimumFractionDigits: 2 });
-                            // currencySymbol +''+data.fields.TotalBalance.toLocaleString(undefined, {minimumFractionDigits: 2});
                             let totalPaidAmount = currencySymbol + '' + data.fields.TotalPaid.toLocaleString(undefined, { minimumFractionDigits: 2 });
                             if (data.fields.Lines.length) {
                                 for (let i = 0; i < data.fields.Lines.length; i++) {
@@ -765,7 +732,6 @@ Template.new_invoice.onRendered(() => {
                             $('#sltCurrency').val(data.fields.ForeignExchangeCode);
 
 
-                            /* START attachment */
                             templateObject.attachmentCount.set(0);
                             if (data.fields.Attachments) {
                                 if (data.fields.Attachments.length) {
@@ -773,7 +739,6 @@ Template.new_invoice.onRendered(() => {
                                     templateObject.uploadedFiles.set(data.fields.Attachments);
                                 }
                             }
-                            /* END  attachment */
                             setTimeout(function () {
                                 if (clientList) {
                                     for (var i = 0; i < clientList.length; i++) {
@@ -789,7 +754,6 @@ Template.new_invoice.onRendered(() => {
                                     $('#edtCustomerName').attr('disabled', 'disabled');
                                     $('.btn-primary').attr('disabled', 'disabled');
                                     $('#edtCustomerName').css('background-color', '#eaecf4');
-                                    //$('#sltAccountType').removeAttr('readonly', true);
                                     $('#btnViewPayment').removeAttr('disabled', 'disabled');
                                     $('#btnCopyInvoice').removeAttr('disabled', 'disabled');
                                     $('#btnBack').removeAttr('disabled', 'disabled');
@@ -809,44 +773,6 @@ Template.new_invoice.onRendered(() => {
                                 }
                             }, 100);
 
-
-                            //   $('.tblInvoiceLine').dataTable({
-                            //       data:lineItemsTable,
-                            //       "paging": false,
-                            //       "ordering": true,
-                            //       "info": false,
-                            //       "aaSorting": [],
-                            //       "orderMulti": true,
-                            //       "jQueryUI": true,
-                            //       "bJQueryUI": true,
-                            //       // rowId: true,
-                            //       columnDefs: [
-                            //         { orderable: false,"width":"25px", targets: 6 },
-                            //         { className: "lineProductName","width":"300px", "targets": [ 0 ] },
-                            //         { className: "lineProductDesc", "targets": [ 1 ] },
-                            //         { className: "lineQty","width":"40px", "targets": [ 2 ] },
-                            //         { className: "lineUnitPrice text-right","width":"110px", "targets": [ 3 ] },
-                            //         { className: "lineTaxRate text-right","width":"66px", "targets": [ 4 ] },
-                            //         { className: "lineAmt text-right", "width":"25px","targets": [ 5 ] }
-                            //         // { className: "lineTaxPrice", orderable: false, targets: 6 }
-                            //       ],
-                            //       colReorder: true,
-                            //       colReorder: {
-                            //         fixedColumnsRight: 1
-                            //       },
-                            //       bStateSave: true,
-                            //       "fnCreatedRow": function( nRow, aData, iDataIndex ) {
-                            //         console.log(nRow);
-                            //         $(nRow).attr('id', Random.id());
-                            //     }
-                            //   });
-                            //
-                            // $('.tblInvoiceLine').DataTable().column( 6 ).visible( true );
-                            // var oTable = $('#tblInvoiceLine tbody tr');
-                            // oTable.prop('contenteditable', true);
-                            // $('div.dataTables_filter input').addClass('form-control form-control-sm');
-                            // $('#tblInvoiceLine tbody tr .lineProductName').attr("data-toggle","modal");
-                            // $('#tblInvoiceLine tbody tr .lineProductName').attr("data-target","#productListModal");
                            templateObject.invoicerecord.set(invoicerecord);
                            let getTotal = $('#grandTotal').text();
                            let invoice_total = getTotal.replace('$','');
@@ -882,16 +808,8 @@ Template.new_invoice.onRendered(() => {
                             templateObject.selectedCurrency.set(invoicerecord.currency);
                             templateObject.inputSelectedCurrency.set(invoicerecord.currency);
                             if (templateObject.invoicerecord.get()) {
-
-                                // $('#tblInvoiceLine').colResizable({
-                                //   liveDrag:true});
-                                //$('#tblInvoiceLine').removeClass('JColResizer');
-
                                 Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblInvoiceLine', function (error, result) {
                                     if (error) {
-                                        console.log(error);
-                                        //Bert.alert('<strong>Error:</strong> user-not-found, no user found please try again!', 'danger');
-                                    } else {
                                         if (result) {
                                             for (let i = 0; i < result.customFields.length; i++) {
                                                 let customcolumn = result.customFields;
@@ -901,23 +819,20 @@ Template.new_invoice.onRendered(() => {
                                                 let columnClass = columHeaderUpdate.substring(columHeaderUpdate.indexOf(".") + 1);
                                                 let columnWidth = customcolumn[i].width;
 
-                                                //alert(columnClass);
+
                                                 $("" + columHeaderUpdate + "").html(columData);
                                                 if (columnWidth != 0) {
                                                     $("" + columHeaderUpdate + "").css('width', columnWidth + '%');
                                                 }
 
                                                 if (hiddenColumn == true) {
-                                                    //alert(columnClass);
-                                                    //$("."+columnClass+"").css('display','none');
+                                                 
                                                     $("." + columnClass + "").addClass('hiddenColumn');
                                                     $("." + columnClass + "").removeClass('showColumn');
                                                 } else if (hiddenColumn == false) {
                                                     $("." + columnClass + "").removeClass('hiddenColumn');
                                                     $("." + columnClass + "").addClass('showColumn');
-                                                    //$("."+columnClass+"").css('display','table-cell');
-                                                    //$("."+columnClass+"").css('padding','.75rem');
-                                                    //$("."+columnClass+"").css('vertical-align','top');
+
                                                 }
 
                                             }
@@ -941,7 +856,6 @@ Template.new_invoice.onRendered(() => {
                                 }
                             });
                             $('.fullScreenSpin').css('display', 'none');
-                            // Meteor._reload.reload();
                         });
                     } else {
                         let data = JSON.parse(dataObject[0].data);
@@ -956,7 +870,6 @@ Template.new_invoice.onRendered(() => {
                                 let cust_result = customerData.filter(cust_data => {
                                     return cust_data.customername == useData[d].fields.ClientName
                                 });
-                                $('.fullScreenSpin').css('display', 'none');
                                 templateObject.singleInvoiceData.set(useData[d]);
                                 let lineItems = [];
                                 let lineItemObj = {};
@@ -969,7 +882,6 @@ Template.new_invoice.onRendered(() => {
                                 let subTotal = currencySymbol + '' + useData[d].fields.TotalAmount.toLocaleString(undefined, { minimumFractionDigits: 2 });
                                 let totalTax = currencySymbol + '' + useData[d].fields.TotalTax.toLocaleString(undefined, { minimumFractionDigits: 2 });
                                 let totalBalance = utilityService.modifynegativeCurrencyFormat(useData[d].fields.TotalBalance).toLocaleString(undefined, { minimumFractionDigits: 2 });
-                                // currencySymbol +''+useData[d].fields.TotalBalance.toLocaleString(undefined, {minimumFractionDigits: 2});
                                 let totalPaidAmount = currencySymbol + '' + useData[d].fields.TotalPaid.toLocaleString(undefined, { minimumFractionDigits: 2 });
                                 if (useData[d].fields.Lines.length) {
                                     for (let i = 0; i < useData[d].fields.Lines.length; i++) {
@@ -1097,7 +1009,6 @@ Template.new_invoice.onRendered(() => {
                                         $('#edtCustomerName').attr('disabled', 'disabled');
                                         $('.btn-primary').attr('disabled', 'disabled');
                                         $('#edtCustomerName').css('background-color', '#eaecf4');
-                                        //$('#sltAccountType').removeAttr('readonly', true);
                                         $('#btnViewPayment').removeAttr('disabled', 'disabled');
                                         $('#btnCopyInvoice').removeAttr('disabled', 'disabled');
                                         $('#btnBack').removeAttr('disabled', 'disabled');
@@ -1118,18 +1029,14 @@ Template.new_invoice.onRendered(() => {
                                 }, 100);
 
                                 templateObject.invoicerecord.set(invoicerecord);
-                                // alert(JSON.stringify(templateObject.invoicerecord.get()));
                                 templateObject.selectedCurrency.set(invoicerecord.currency);
                                 templateObject.inputSelectedCurrency.set(invoicerecord.currency);
                                 if (templateObject.invoicerecord.get()) {
 
-                                    // $('#tblInvoiceLine').colResizable({
-                                    //   liveDrag:true});
-                                    //$('#tblInvoiceLine').removeClass('JColResizer');
+
 
                                     Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblInvoiceLine', function (error, result) {
                                         if (error) {
-                                            //Bert.alert('<strong>Error:</strong> user-not-found, no user found please try again!', 'danger');
                                         } else {
                                             if (result) {
                                                 for (let i = 0; i < result.customFields.length; i++) {
@@ -1140,23 +1047,18 @@ Template.new_invoice.onRendered(() => {
                                                     let columnClass = columHeaderUpdate.substring(columHeaderUpdate.indexOf(".") + 1);
                                                     let columnWidth = customcolumn[i].width;
 
-                                                    //alert(columnClass);
                                                     $("" + columHeaderUpdate + "").html(columData);
                                                     if (columnWidth != 0) {
                                                         $("" + columHeaderUpdate + "").css('width', columnWidth + '%');
                                                     }
 
                                                     if (hiddenColumn == true) {
-                                                        //alert(columnClass);
-                                                        //$("."+columnClass+"").css('display','none');
+
                                                         $("." + columnClass + "").addClass('hiddenColumn');
                                                         $("." + columnClass + "").removeClass('showColumn');
                                                     } else if (hiddenColumn == false) {
                                                         $("." + columnClass + "").removeClass('hiddenColumn');
                                                         $("." + columnClass + "").addClass('showColumn');
-                                                        //$("."+columnClass+"").css('display','table-cell');
-                                                        //$("."+columnClass+"").css('padding','.75rem');
-                                                        //$("."+columnClass+"").css('vertical-align','top');
                                                     }
 
                                                 }
@@ -1182,7 +1084,6 @@ Template.new_invoice.onRendered(() => {
                                 let subTotal = currencySymbol + '' + data.fields.TotalAmount.toLocaleString(undefined, { minimumFractionDigits: 2 });
                                 let totalTax = currencySymbol + '' + data.fields.TotalTax.toLocaleString(undefined, { minimumFractionDigits: 2 });
                                 let totalBalance = utilityService.modifynegativeCurrencyFormat(data.fields.TotalBalance).toLocaleString(undefined, { minimumFractionDigits: 2 });
-                                // currencySymbol +''+data.fields.TotalBalance.toLocaleString(undefined, {minimumFractionDigits: 2});
                                 let totalPaidAmount = currencySymbol + '' + data.fields.TotalPaid.toLocaleString(undefined, { minimumFractionDigits: 2 });
                                 if (data.fields.Lines.length) {
                                     for (let i = 0; i < data.fields.Lines.length; i++) {
@@ -1308,7 +1209,6 @@ Template.new_invoice.onRendered(() => {
                                         $('#edtCustomerName').attr('disabled', 'disabled');
                                         $('.btn-primary').attr('disabled', 'disabled');
                                         $('#edtCustomerName').css('background-color', '#eaecf4');
-                                        //$('#sltAccountType').removeAttr('readonly', true);
                                         $('#btnViewPayment').removeAttr('disabled', 'disabled');
                                         $('#btnCopyInvoice').removeAttr('disabled', 'disabled');
                                         $('#btnBack').removeAttr('disabled', 'disabled');
@@ -1329,58 +1229,14 @@ Template.new_invoice.onRendered(() => {
                                 }, 100);
 
 
-                                //   $('.tblInvoiceLine').dataTable({
-                                //       data:lineItemsTable,
-                                //       "paging": false,
-                                //       "ordering": true,
-                                //       "info": false,
-                                //       "aaSorting": [],
-                                //       "orderMulti": true,
-                                //       "jQueryUI": true,
-                                //       "bJQueryUI": true,
-                                //       // rowId: true,
-                                //       columnDefs: [
-                                //         { orderable: false,"width":"25px", targets: 6 },
-                                //         { className: "lineProductName","width":"300px", "targets": [ 0 ] },
-                                //         { className: "lineProductDesc", "targets": [ 1 ] },
-                                //         { className: "lineQty","width":"40px", "targets": [ 2 ] },
-                                //         { className: "lineUnitPrice text-right","width":"110px", "targets": [ 3 ] },
-                                //         { className: "lineTaxRate text-right","width":"66px", "targets": [ 4 ] },
-                                //         { className: "lineAmt text-right", "width":"25px","targets": [ 5 ] }
-                                //         // { className: "lineTaxPrice", orderable: false, targets: 6 }
-                                //       ],
-                                //       colReorder: true,
-                                //       colReorder: {
-                                //         fixedColumnsRight: 1
-                                //       },
-                                //       bStateSave: true,
-                                //       "fnCreatedRow": function( nRow, aData, iDataIndex ) {
-                                //         console.log(nRow);
-                                //         $(nRow).attr('id', Random.id());
-                                //     }
-                                //   });
-                                //
-                                // $('.tblInvoiceLine').DataTable().column( 6 ).visible( true );
-                                // var oTable = $('#tblInvoiceLine tbody tr');
-                                // oTable.prop('contenteditable', true);
-                                // $('div.dataTables_filter input').addClass('form-control form-control-sm');
-                                // $('#tblInvoiceLine tbody tr .lineProductName').attr("data-toggle","modal");
-                                // $('#tblInvoiceLine tbody tr .lineProductName').attr("data-target","#productListModal");
                                 templateObject.invoicerecord.set(invoicerecord);
 
-                                // alert(JSON.stringify(templateObject.invoicerecord.get()));
                                 templateObject.selectedCurrency.set(invoicerecord.currency);
                                 templateObject.inputSelectedCurrency.set(invoicerecord.currency);
                                 if (templateObject.invoicerecord.get()) {
 
-                                    // $('#tblInvoiceLine').colResizable({
-                                    //   liveDrag:true});
-                                    //$('#tblInvoiceLine').removeClass('JColResizer');
-
                                     Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblInvoiceLine', function (error, result) {
                                         if (error) {
-                                            console.log(error);
-                                            //Bert.alert('<strong>Error:</strong> user-not-found, no user found please try again!', 'danger');
                                         } else {
                                             if (result) {
                                                 for (let i = 0; i < result.customFields.length; i++) {
@@ -1391,23 +1247,18 @@ Template.new_invoice.onRendered(() => {
                                                     let columnClass = columHeaderUpdate.substring(columHeaderUpdate.indexOf(".") + 1);
                                                     let columnWidth = customcolumn[i].width;
 
-                                                    //alert(columnClass);
                                                     $("" + columHeaderUpdate + "").html(columData);
                                                     if (columnWidth != 0) {
                                                         $("" + columHeaderUpdate + "").css('width', columnWidth + '%');
                                                     }
 
                                                     if (hiddenColumn == true) {
-                                                        //alert(columnClass);
-                                                        //$("."+columnClass+"").css('display','none');
+
                                                         $("." + columnClass + "").addClass('hiddenColumn');
                                                         $("." + columnClass + "").removeClass('showColumn');
                                                     } else if (hiddenColumn == false) {
                                                         $("." + columnClass + "").removeClass('hiddenColumn');
                                                         $("." + columnClass + "").addClass('showColumn');
-                                                        //$("."+columnClass+"").css('display','table-cell');
-                                                        //$("."+columnClass+"").css('padding','.75rem');
-                                                        //$("."+columnClass+"").css('vertical-align','top');
                                                     }
 
                                                 }
@@ -1431,7 +1282,6 @@ Template.new_invoice.onRendered(() => {
                                     }
                                 });
                                 $('.fullScreenSpin').css('display', 'none');
-                                // Meteor._reload.reload();
                             });
                         }
                         setTimeout(function(){
@@ -1470,7 +1320,6 @@ Template.new_invoice.onRendered(() => {
                             };
                             templateObject.record.set(record);
                         } catch (err){
-                            console.log(err);
                         }
                     },500);
                     }
@@ -1489,7 +1338,6 @@ Template.new_invoice.onRendered(() => {
                         let subTotal = currencySymbol + '' + data.fields.TotalAmount.toLocaleString(undefined, { minimumFractionDigits: 2 });
                         let totalTax = currencySymbol + '' + data.fields.TotalTax.toLocaleString(undefined, { minimumFractionDigits: 2 });
                         let totalBalance = utilityService.modifynegativeCurrencyFormat(data.fields.TotalBalance).toLocaleString(undefined, { minimumFractionDigits: 2 });
-                        // currencySymbol +''+data.fields.TotalBalance.toLocaleString(undefined, {minimumFractionDigits: 2});
                         let totalPaidAmount = currencySymbol + '' + data.fields.TotalPaid.toLocaleString(undefined, { minimumFractionDigits: 2 });
                         if (data.fields.Lines.length) {
                             for (let i = 0; i < data.fields.Lines.length; i++) {
@@ -1615,7 +1463,6 @@ Template.new_invoice.onRendered(() => {
                                 $('#edtCustomerName').attr('disabled', 'disabled');
                                 $('.btn-primary').attr('disabled', 'disabled');
                                 $('#edtCustomerName').css('background-color', '#eaecf4');
-                                //$('#sltAccountType').removeAttr('readonly', true);
                                 $('#btnViewPayment').removeAttr('disabled', 'disabled');
                                 $('#btnCopyInvoice').removeAttr('disabled', 'disabled');
                                 $('#btnBack').removeAttr('disabled', 'disabled');
@@ -1636,57 +1483,15 @@ Template.new_invoice.onRendered(() => {
                         }, 100);
 
 
-                        //   $('.tblInvoiceLine').dataTable({
-                        //       data:lineItemsTable,
-                        //       "paging": false,
-                        //       "ordering": true,
-                        //       "info": false,
-                        //       "aaSorting": [],
-                        //       "orderMulti": true,
-                        //       "jQueryUI": true,
-                        //       "bJQueryUI": true,
-                        //       // rowId: true,
-                        //       columnDefs: [
-                        //         { orderable: false,"width":"25px", targets: 6 },
-                        //         { className: "lineProductName","width":"300px", "targets": [ 0 ] },
-                        //         { className: "lineProductDesc", "targets": [ 1 ] },
-                        //         { className: "lineQty","width":"40px", "targets": [ 2 ] },
-                        //         { className: "lineUnitPrice text-right","width":"110px", "targets": [ 3 ] },
-                        //         { className: "lineTaxRate text-right","width":"66px", "targets": [ 4 ] },
-                        //         { className: "lineAmt text-right", "width":"25px","targets": [ 5 ] }
-                        //         // { className: "lineTaxPrice", orderable: false, targets: 6 }
-                        //       ],
-                        //       colReorder: true,
-                        //       colReorder: {
-                        //         fixedColumnsRight: 1
-                        //       },
-                        //       bStateSave: true,
-                        //       "fnCreatedRow": function( nRow, aData, iDataIndex ) {
-                        //         console.log(nRow);
-                        //         $(nRow).attr('id', Random.id());
-                        //     }
-                        //   });
-                        //
-                        // $('.tblInvoiceLine').DataTable().column( 6 ).visible( true );
-                        // var oTable = $('#tblInvoiceLine tbody tr');
-                        // oTable.prop('contenteditable', true);
-                        // $('div.dataTables_filter input').addClass('form-control form-control-sm');
-                        // $('#tblInvoiceLine tbody tr .lineProductName').attr("data-toggle","modal");
-                        // $('#tblInvoiceLine tbody tr .lineProductName').attr("data-target","#productListModal");
+                      
                         templateObject.invoicerecord.set(invoicerecord);
-                        // alert(JSON.stringify(templateObject.invoicerecord.get()));
                         templateObject.selectedCurrency.set(invoicerecord.currency);
                         templateObject.inputSelectedCurrency.set(invoicerecord.currency);
                         if (templateObject.invoicerecord.get()) {
 
-                            // $('#tblInvoiceLine').colResizable({
-                            //   liveDrag:true});
-                            //$('#tblInvoiceLine').removeClass('JColResizer');
-
+                          
                             Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblInvoiceLine', function (error, result) {
                                 if (error) {
-                                    console.log(error);
-                                    //Bert.alert('<strong>Error:</strong> user-not-found, no user found please try again!', 'danger');
                                 } else {
                                     if (result) {
                                         for (let i = 0; i < result.customFields.length; i++) {
@@ -1697,23 +1502,17 @@ Template.new_invoice.onRendered(() => {
                                             let columnClass = columHeaderUpdate.substring(columHeaderUpdate.indexOf(".") + 1);
                                             let columnWidth = customcolumn[i].width;
 
-                                            //alert(columnClass);
                                             $("" + columHeaderUpdate + "").html(columData);
                                             if (columnWidth != 0) {
                                                 $("" + columHeaderUpdate + "").css('width', columnWidth + '%');
                                             }
 
                                             if (hiddenColumn == true) {
-                                                //alert(columnClass);
-                                                //$("."+columnClass+"").css('display','none');
                                                 $("." + columnClass + "").addClass('hiddenColumn');
                                                 $("." + columnClass + "").removeClass('showColumn');
                                             } else if (hiddenColumn == false) {
                                                 $("." + columnClass + "").removeClass('hiddenColumn');
-                                                $("." + columnClass + "").addClass('showColumn');
-                                                //$("."+columnClass+"").css('display','table-cell');
-                                                //$("."+columnClass+"").css('padding','.75rem');
-                                                //$("."+columnClass+"").css('vertical-align','top');
+                                                $("." + columnClass + "").addClass('showColumn');                                            
                                             }
 
                                         }
@@ -1743,7 +1542,6 @@ Template.new_invoice.onRendered(() => {
 
             };
             templateObject.getInvoiceData();
-            // Send Email
             try {
                 $('#html-2-pdfwrapper1').css('display', 'block');
                 async function addAttachment() {
@@ -1758,14 +1556,12 @@ Template.new_invoice.onRendered(() => {
                     reader.onloadend = function () {
                         var base64data = reader.result;
                         base64data = base64data.split(',')[1];
-                        // console.log(base64data);
                         pdfObject = {
                             filename: 'Customer Payment-' + paymentID + '.pdf',
                             content: base64data,
                             encoding: 'base64'
                         };
                         attachment.push(pdfObject);
-                        // let mailBody = "VS1 Cloud Test";
                         let erpInvoiceId = getso_id;
 
 
@@ -1773,13 +1569,11 @@ Template.new_invoice.onRendered(() => {
                         let mailFrom = localStorage.getItem('mySession');
                         let customerEmailName = $('#edtCustomerName').val();
                         let checkEmailData = url.searchParams.get("email");
-                        // let mailCC = templateObject.mailCopyToUsr.get();
                         let grandtotal = $('#grandTotal').html();
                         let amountDueEmail = $('#totalBalanceDue').html();
                         let emailDueDate = $("#dtDueDate").val();
                         let mailSubject = 'Payment ' + paymentID + ' from ' + mailFromName + ' for ' + customerEmailName;
                         let mailBody = "Hi " + customerEmailName + ",\n\n Here's payment " + erpInvoiceId + " for  " + grandtotal + "." +
-                            // "\n\nThe amount outstanding of "+amountDueEmail+" is due on "+emailDueDate+"." +
                             "\n\nIf you have any questions, please let us know : " + mailFrom + ".\n\nThanks,\n" + mailFromName;
 
                         var htmlmailBody = '<table align="center" border="0" cellpadding="0" cellspacing="0" width="600">' +
@@ -1826,7 +1620,6 @@ Template.new_invoice.onRendered(() => {
                             '        </td>' +
                             '    </tr>' +
                             '</table>';
-                        //checkEmailData mailFrom
                         Meteor.call('sendEmail', {
                             from: "" + mailFromName + " <" + mailFrom + ">",
                             to: checkEmailData,
@@ -1836,7 +1629,6 @@ Template.new_invoice.onRendered(() => {
                             attachments: attachment
                         }, function (error, result) {
                             if (error && error.error === "error") {
-                                // Router.go('/paymentoverview?success=true');
 
                             } else {
 
@@ -1852,8 +1644,8 @@ Template.new_invoice.onRendered(() => {
                             attachments: attachment
                         }, function (error, result) {
                             if (error && error.error === "error") {
-                                //Router.go('/paymentoverview?success=true');
                             } else {
+                                $('.fullScreenSpin').css('display', 'none');
                                 $('#html-2-pdfwrapper1').css('display', 'none');
                                 swal({
                                     title: 'SUCCESS',
@@ -1890,27 +1682,19 @@ Template.new_invoice.onRendered(() => {
                 function generatePdfForMail(invoiceId) {
                     return new Promise((resolve, reject) => {
                         let templateObject = Template.instance();
-                        // let data = templateObject.singleInvoiceData.get();
                         let completeTabRecord;
                         let doc = new jsPDF('p', 'pt', 'a4');
                         doc.setFontSize(18);
                         var source = document.getElementById('html-2-pdfwrapper1');
                         doc.addHTML(source, function () {
-                            //pdf.save('Invoice.pdf');
                             resolve(doc.output('blob'));
-                            // $('#html-2-pdfwrapper').css('display','none');
                         });
                     });
                 }
             }
             catch (err) {
-                console.log(err)
             }
-            //    if(document.referrer) {
-
-            //    } else {
-            //        Router.go('/invoicelist')
-            //    }
+            
         }
     } else if (url.indexOf('?id=') > 0) {
         var getso_id = url.split('?id=');
@@ -2089,56 +1873,14 @@ Template.new_invoice.onRendered(() => {
                             }, 100);
 
 
-                            //   $('.tblInvoiceLine').dataTable({
-                            //       data:lineItemsTable,
-                            //       "paging": false,
-                            //       "ordering": true,
-                            //       "info": false,
-                            //       "aaSorting": [],
-                            //       "orderMulti": true,
-                            //       "jQueryUI": true,
-                            //       "bJQueryUI": true,
-                            //       // rowId: true,
-                            //       columnDefs: [
-                            //         { orderable: false,"width":"25px", targets: 6 },
-                            //         { className: "lineProductName","width":"300px", "targets": [ 0 ] },
-                            //         { className: "lineProductDesc", "targets": [ 1 ] },
-                            //         { className: "lineQty","width":"40px", "targets": [ 2 ] },
-                            //         { className: "lineUnitPrice text-right","width":"110px", "targets": [ 3 ] },
-                            //         { className: "lineTaxRate text-right","width":"66px", "targets": [ 4 ] },
-                            //         { className: "lineAmt text-right", "width":"25px","targets": [ 5 ] }
-                            //         // { className: "lineTaxPrice", orderable: false, targets: 6 }
-                            //       ],
-                            //       colReorder: true,
-                            //       colReorder: {
-                            //         fixedColumnsRight: 1
-                            //       },
-                            //       bStateSave: true,
-                            //       "fnCreatedRow": function( nRow, aData, iDataIndex ) {
-                            //         console.log(nRow);
-                            //         $(nRow).attr('id', Random.id());
-                            //     }
-                            //   });
-                            //
-                            // $('.tblInvoiceLine').DataTable().column( 6 ).visible( true );
-                            // var oTable = $('#tblInvoiceLine tbody tr');
-                            // oTable.prop('contenteditable', true);
-                            // $('div.dataTables_filter input').addClass('form-control form-control-sm');
-                            // $('#tblInvoiceLine tbody tr .lineProductName').attr("data-toggle","modal");
-                            // $('#tblInvoiceLine tbody tr .lineProductName').attr("data-target","#productListModal");
                             templateObject.invoicerecord.set(invoicerecord);
-                            // alert(JSON.stringify(templateObject.invoicerecord.get()));
+
                             templateObject.selectedCurrency.set(invoicerecord.currency);
                             templateObject.inputSelectedCurrency.set(invoicerecord.currency);
                             if (templateObject.invoicerecord.get()) {
 
-                                // $('#tblInvoiceLine').colResizable({
-                                //   liveDrag:true});
-                                //$('#tblInvoiceLine').removeClass('JColResizer');
-
                                 Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblInvoiceLine', function (error, result) {
                                     if (error) {
-                                        console.log(error);
                                         //Bert.alert('<strong>Error:</strong> user-not-found, no user found please try again!', 'danger');
                                     } else {
                                         if (result) {
@@ -2575,44 +2317,6 @@ Template.new_invoice.onRendered(() => {
                                     }
                                 }, 100);
 
-
-                                //   $('.tblInvoiceLine').dataTable({
-                                //       data:lineItemsTable,
-                                //       "paging": false,
-                                //       "ordering": true,
-                                //       "info": false,
-                                //       "aaSorting": [],
-                                //       "orderMulti": true,
-                                //       "jQueryUI": true,
-                                //       "bJQueryUI": true,
-                                //       // rowId: true,
-                                //       columnDefs: [
-                                //         { orderable: false,"width":"25px", targets: 6 },
-                                //         { className: "lineProductName","width":"300px", "targets": [ 0 ] },
-                                //         { className: "lineProductDesc", "targets": [ 1 ] },
-                                //         { className: "lineQty","width":"40px", "targets": [ 2 ] },
-                                //         { className: "lineUnitPrice text-right","width":"110px", "targets": [ 3 ] },
-                                //         { className: "lineTaxRate text-right","width":"66px", "targets": [ 4 ] },
-                                //         { className: "lineAmt text-right", "width":"25px","targets": [ 5 ] }
-                                //         // { className: "lineTaxPrice", orderable: false, targets: 6 }
-                                //       ],
-                                //       colReorder: true,
-                                //       colReorder: {
-                                //         fixedColumnsRight: 1
-                                //       },
-                                //       bStateSave: true,
-                                //       "fnCreatedRow": function( nRow, aData, iDataIndex ) {
-                                //         console.log(nRow);
-                                //         $(nRow).attr('id', Random.id());
-                                //     }
-                                //   });
-                                //
-                                // $('.tblInvoiceLine').DataTable().column( 6 ).visible( true );
-                                // var oTable = $('#tblInvoiceLine tbody tr');
-                                // oTable.prop('contenteditable', true);
-                                // $('div.dataTables_filter input').addClass('form-control form-control-sm');
-                                // $('#tblInvoiceLine tbody tr .lineProductName').attr("data-toggle","modal");
-                                // $('#tblInvoiceLine tbody tr .lineProductName').attr("data-target","#productListModal");
                                 templateObject.invoicerecord.set(invoicerecord);
                                 // alert(JSON.stringify(templateObject.invoicerecord.get()));
                                 templateObject.selectedCurrency.set(invoicerecord.currency);
@@ -2625,7 +2329,7 @@ Template.new_invoice.onRendered(() => {
 
                                     Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblInvoiceLine', function (error, result) {
                                         if (error) {
-                                            console.log(error);
+                                            
                                             //Bert.alert('<strong>Error:</strong> user-not-found, no user found please try again!', 'danger');
                                         } else {
                                             if (result) {
@@ -2850,43 +2554,7 @@ Template.new_invoice.onRendered(() => {
                         }, 100);
 
 
-                        //   $('.tblInvoiceLine').dataTable({
-                        //       data:lineItemsTable,
-                        //       "paging": false,
-                        //       "ordering": true,
-                        //       "info": false,
-                        //       "aaSorting": [],
-                        //       "orderMulti": true,
-                        //       "jQueryUI": true,
-                        //       "bJQueryUI": true,
-                        //       // rowId: true,
-                        //       columnDefs: [
-                        //         { orderable: false,"width":"25px", targets: 6 },
-                        //         { className: "lineProductName","width":"300px", "targets": [ 0 ] },
-                        //         { className: "lineProductDesc", "targets": [ 1 ] },
-                        //         { className: "lineQty","width":"40px", "targets": [ 2 ] },
-                        //         { className: "lineUnitPrice text-right","width":"110px", "targets": [ 3 ] },
-                        //         { className: "lineTaxRate text-right","width":"66px", "targets": [ 4 ] },
-                        //         { className: "lineAmt text-right", "width":"25px","targets": [ 5 ] }
-                        //         // { className: "lineTaxPrice", orderable: false, targets: 6 }
-                        //       ],
-                        //       colReorder: true,
-                        //       colReorder: {
-                        //         fixedColumnsRight: 1
-                        //       },
-                        //       bStateSave: true,
-                        //       "fnCreatedRow": function( nRow, aData, iDataIndex ) {
-                        //         console.log(nRow);
-                        //         $(nRow).attr('id', Random.id());
-                        //     }
-                        //   });
-                        //
-                        // $('.tblInvoiceLine').DataTable().column( 6 ).visible( true );
-                        // var oTable = $('#tblInvoiceLine tbody tr');
-                        // oTable.prop('contenteditable', true);
-                        // $('div.dataTables_filter input').addClass('form-control form-control-sm');
-                        // $('#tblInvoiceLine tbody tr .lineProductName').attr("data-toggle","modal");
-                        // $('#tblInvoiceLine tbody tr .lineProductName').attr("data-target","#productListModal");
+                    
                         templateObject.invoicerecord.set(invoicerecord);
                         // alert(JSON.stringify(templateObject.invoicerecord.get()));
                         templateObject.selectedCurrency.set(invoicerecord.currency);
@@ -2899,7 +2567,7 @@ Template.new_invoice.onRendered(() => {
 
                             Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblInvoiceLine', function (error, result) {
                                 if (error) {
-                                    console.log(error);
+                                   
                                     //Bert.alert('<strong>Error:</strong> user-not-found, no user found please try again!', 'danger');
                                 } else {
                                     if (result) {
@@ -2966,7 +2634,6 @@ Template.new_invoice.onRendered(() => {
             currentInvoice = parseInt(currentInvoice);
             $('.printID').attr("id", currentInvoice);
             templateObject.getInvoiceData = function () {
-                //getOneInvoicedata
                 let customerData = templateObject.clientrecords.get();
                 accountService.getOneInvoicedataEx(currentInvoice).then(function (data) {
                     templateObject.singleInvoiceData.set(data);
@@ -3086,7 +2753,6 @@ Template.new_invoice.onRendered(() => {
                     $('#edtCustomerName').val(data.fields.CustomerName);
                     templateObject.CleintName.set(data.fields.CustomerName);
                     $('#sltCurrency').val(data.fields.ForeignExchangeCode);
-                    /* START attachment */
                     templateObject.attachmentCount.set(0);
                     if (data.fields.Attachments) {
                         if (data.fields.Attachments.length) {
@@ -3094,7 +2760,6 @@ Template.new_invoice.onRendered(() => {
                             templateObject.uploadedFiles.set(data.fields.Attachments);
                         }
                     }
-                    /* END  attachment */
                     setTimeout(function () {
                         if (clientList) {
                             for (var i = 0; i < clientList.length; i++) {
@@ -3107,7 +2772,6 @@ Template.new_invoice.onRendered(() => {
                     }, 100);
 
                     templateObject.invoicerecord.set(invoicerecord);
-                    // alert(JSON.stringify(templateObject.invoicerecord.get()));
                     templateObject.selectedCurrency.set(invoicerecord.currency);
                     templateObject.inputSelectedCurrency.set(invoicerecord.currency);
                     if (templateObject.invoicerecord.get()) {
@@ -3115,8 +2779,6 @@ Template.new_invoice.onRendered(() => {
 
                         Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblInvoiceLine', function (error, result) {
                             if (error) {
-                                console.log(error);
-                                //Bert.alert('<strong>Error:</strong> user-not-found, no user found please try again!', 'danger');
                             } else {
                                 if (result) {
                                     for (let i = 0; i < result.customFields.length; i++) {
@@ -3127,23 +2789,17 @@ Template.new_invoice.onRendered(() => {
                                         let columnClass = columHeaderUpdate.substring(columHeaderUpdate.indexOf(".") + 1);
                                         let columnWidth = customcolumn[i].width;
 
-                                        //alert(columnClass);
                                         $("" + columHeaderUpdate + "").html(columData);
                                         if (columnWidth != 0) {
                                             $("" + columHeaderUpdate + "").css('width', columnWidth + '%');
                                         }
 
                                         if (hiddenColumn == true) {
-                                            //alert(columnClass);
-                                            //$("."+columnClass+"").css('display','none');
                                             $("." + columnClass + "").addClass('hiddenColumn');
                                             $("." + columnClass + "").removeClass('showColumn');
                                         } else if (hiddenColumn == false) {
                                             $("." + columnClass + "").removeClass('hiddenColumn');
                                             $("." + columnClass + "").addClass('showColumn');
-                                            //$("."+columnClass+"").css('display','table-cell');
-                                            //$("."+columnClass+"").css('padding','.75rem');
-                                            //$("."+columnClass+"").css('vertical-align','top');
                                         }
 
                                     }
@@ -3167,7 +2823,6 @@ Template.new_invoice.onRendered(() => {
                         }
                     });
                     $('.fullScreenSpin').css('display', 'none');
-                    // Meteor._reload.reload();
                 });
             };
 
@@ -3180,7 +2835,6 @@ Template.new_invoice.onRendered(() => {
             currentInvoice = parseInt(currentInvoice);
             $('.printID').attr("id", currentInvoice);
             templateObject.getInvoiceData = function () {
-                //getOneInvoicedata
                 accountService.getOneSalesOrderdataEx(currentInvoice).then(function (data) {
                     templateObject.singleInvoiceData.set(data);
                     $('.fullScreenSpin').css('display', 'none');
@@ -3315,7 +2969,6 @@ Template.new_invoice.onRendered(() => {
                     }, 100);
 
                     templateObject.invoicerecord.set(invoicerecord);
-                    // alert(JSON.stringify(templateObject.invoicerecord.get()));
                     templateObject.selectedCurrency.set(invoicerecord.currency);
                     templateObject.inputSelectedCurrency.set(invoicerecord.currency);
                     if (templateObject.invoicerecord.get()) {
@@ -3323,8 +2976,6 @@ Template.new_invoice.onRendered(() => {
 
                         Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblInvoiceLine', function (error, result) {
                             if (error) {
-                                console.log(error);
-                                //Bert.alert('<strong>Error:</strong> user-not-found, no user found please try again!', 'danger');
                             } else {
                                 if (result) {
                                     for (let i = 0; i < result.customFields.length; i++) {
@@ -3335,23 +2986,17 @@ Template.new_invoice.onRendered(() => {
                                         let columnClass = columHeaderUpdate.substring(columHeaderUpdate.indexOf(".") + 1);
                                         let columnWidth = customcolumn[i].width;
 
-                                        //alert(columnClass);
                                         $("" + columHeaderUpdate + "").html(columData);
                                         if (columnWidth != 0) {
                                             $("" + columHeaderUpdate + "").css('width', columnWidth + '%');
                                         }
 
                                         if (hiddenColumn == true) {
-                                            //alert(columnClass);
-                                            //$("."+columnClass+"").css('display','none');
                                             $("." + columnClass + "").addClass('hiddenColumn');
                                             $("." + columnClass + "").removeClass('showColumn');
                                         } else if (hiddenColumn == false) {
                                             $("." + columnClass + "").removeClass('hiddenColumn');
                                             $("." + columnClass + "").addClass('showColumn');
-                                            //$("."+columnClass+"").css('display','table-cell');
-                                            //$("."+columnClass+"").css('padding','.75rem');
-                                            //$("."+columnClass+"").css('vertical-align','top');
                                         }
 
                                     }
@@ -3375,7 +3020,6 @@ Template.new_invoice.onRendered(() => {
                         }
                     });
                     $('.fullScreenSpin').css('display', 'none');
-                    // Meteor._reload.reload();
                 });
             };
 
@@ -3462,7 +3106,6 @@ Template.new_invoice.onRendered(() => {
             // $('#tblInvoiceLine').colResizable({liveDrag:true});
             Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblInvoiceLine', function (error, result) {
                 if (error) {
-                    console.log(error);
                     //Bert.alert('<strong>Error:</strong> user-not-found, no user found please try again!', 'danger');
                 } else {
                     if (result) {
@@ -3492,11 +3135,10 @@ Template.new_invoice.onRendered(() => {
                 }
             });
         }
-        //console.log(templateObject.invoicerecord.get());
-        // alert('No ID');
+        
     }
 
-    // $('.tblInvoiceLine').dragableColumns();
+
 
     templateObject.getDepartments = function () {
         getVS1Data('TDeptClass').then(function (dataObject) {
@@ -3595,55 +3237,8 @@ Template.new_invoice.onRendered(() => {
     }
 
 
-    // templateObject.printPDFData = function () {
-    //     let taxcodeList = templateObject.taxraterecords.get();
-    //     let customers = templateObject.clientrecords.get();
-    //      let lineTaxCode = 0;
-    //         let lineAmount = 0;
-    //         let lineTaxAmount = 0;
-    //         let subGrandTotal = 0;
-    //         let taxGrandTotal = 0;
-    //         let taxGrandTotalPrint = 0;
-    //     var $printrows = $(".invoice_print tbody tr")
-    //     $printrows.each(function (index) {
-    //         var $printrows = $(this);
-    //         var qty = $printrows.find("#lineQty").text() || 0;
-    //         var price = $printrows.find("#lineUnitPrice").text() || 0;
-    //         var taxrateamount = 0;
-    //         var taxRate = $printrows.find("#lineTaxCode").text();
-    //         if (taxcodeList) {
-    //             for (var i = 0; i < taxcodeList.length; i++) {
-    //                 if (taxcodeList[i].codename == taxRate) {
-    //                     taxrateamount = taxcodeList[i].coderate.replace('%', "") / 100;
-    //                 }
-    //             }
-    //         }
-
-    //         var subTotal = parseInt(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) || 0;
-    //         var taxTotal = parseInt(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) * parseFloat(taxrateamount);
-    //         $printrows.find('#lineTaxAmount').text(utilityService.modifynegativeCurrencyFormat(taxTotal))
-    //         if (!isNaN(subTotal)) {
-    //             $printrows.find('#lineAmt').text(utilityService.modifynegativeCurrencyFormat(subTotal));
-    //             subGrandTotal += isNaN(subTotal) ? 0 : subTotal;
-    //             document.getElementById("subtotal_totalPrint").innerHTML = $('#subtotal_total').text();
-    //         }
-
-    //         if (!isNaN(taxTotal)) {
-    //             taxGrandTotalPrint += isNaN(taxTotal) ? 0 : taxTotal;
-    //         }
-    //         if (!isNaN(subGrandTotal) && (!isNaN(taxGrandTotal))) {
-    //             let GrandTotal = (parseFloat(subGrandTotal)) + (parseFloat(taxGrandTotal));
-    //             document.getElementById("grandTotalPrint").innerHTML = $('#grandTotal').text();
-    //             document.getElementById("balanceDue").innerHTML = utilityService.modifynegativeCurrencyFormat(GrandTotal);
-    //             document.getElementById("totalBalanceDuePrint").innerHTML = $('#totalBalanceDue').text();
-
-    //         }
-    //     });
-    // }
     templateObject.getDepartments();
     templateObject.getTerms();
-    // console.log(templateObject.invoicerecord.get());
-    //alert(JSON.stringify(templateObject.invoicerecord.get()));
 
     let table;
     if ($('.printID').val() == "") {
@@ -3665,8 +3260,6 @@ Template.new_invoice.onRendered(() => {
             $(".lineOrdered", rowData).val("");
             $(".lineBo", rowData).val("");
             $(".lineUnitPrice", rowData).val("");
-            // $(".lineTaxRate", rowData).text("");
-            // $(".lineTaxCode", rowData).text("");
             $(".lineAmt", rowData).text("");
             rowData.attr('id', tokenid);
             $("#tblInvoiceLine tbody").append(rowData);
@@ -3725,7 +3318,7 @@ Template.new_invoice.onRendered(() => {
         let taxcodeList = templateObject.taxraterecords.get();
         let customers = templateObject.clientrecords.get();
         var table = $(this);
-        var $printrows = $(".invoice_print tbody tr")
+        var $printrows = $(".invoice_print tbody tr");
         let utilityService = new UtilityService();
         let $tblrows = $("#tblInvoiceLine tbody tr");
         let taxcode1 = "";
@@ -3968,6 +3561,8 @@ Template.new_invoice.onRendered(() => {
         .on('select.editable-select', function (e, li) {
             let taxcodeList = templateObject.taxraterecords.get();
             let customers = templateObject.clientrecords.get();
+            let $tblrows = $("#tblInvoiceLine tbody tr");
+            let $printrows = $(".invoice_print tbody tr");
             if (li.text() != undefined) {
                 let selectedCustomer = li.text();
                 if (clientList) {
@@ -3995,7 +3590,7 @@ Template.new_invoice.onRendered(() => {
                         return taxrate.codename == getCustDetails[0].taxCode
                     });
 
-                    let $tblrows = $("#tblInvoiceLine tbody tr");
+                    
                     if (taxRate.length > 0) {
                         let rate = taxRate[0].coderate;
                         let code = getCustDetails[0].taxCode;
@@ -4004,12 +3599,11 @@ Template.new_invoice.onRendered(() => {
                         }
                         let taxcodeList = templateObject.taxraterecords.get();
                         // let utilityService = new UtilityService();
-                        let $tblrows = $("#tblInvoiceLine tbody tr");
                         //if(selectLineID){
                         let lineAmount = 0;
                         let subGrandTotal = 0;
                         let taxGrandTotal = 0;
-
+                        let taxGrandTotalPrint = 0;
                         $tblrows.each(function (index) {
                             var $tblrow = $(this);
                             var qty = $tblrow.find(".lineQty").val() || 0;
@@ -4050,6 +3644,47 @@ Template.new_invoice.onRendered(() => {
 
                             }
                         });
+
+                        if ($(".printID").val() == "") {
+                            $printrows.each(function (index) {
+                                var $printrows = $(this);
+                                var qty = $printrows.find("#lineQty").text() || 0;
+                                var price = $printrows.find("#lineUnitPrice").text() || 0;
+                                var taxcode = code;
+                                $printrows.find("#lineTaxCode").text(code);
+                                $printrows.find("#lineTaxRate").text(rate);
+                                var taxrateamount = 0;
+                               // var taxRate = $printrows.find("#lineTaxCode").text();
+                                if (taxcodeList) {
+                                    for (var i = 0; i < taxcodeList.length; i++) {
+                                        if (taxcodeList[i].codename == taxcode) {
+                                            taxrateamount = taxcodeList[i].coderate.replace('%', "") / 100;
+                                        }
+                                    }
+                                }
+
+
+                                var subTotal = parseInt(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) || 0;
+                                var taxTotal = parseInt(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) * parseFloat(taxrateamount);
+                                $printrows.find('#lineTaxAmount').text(utilityService.modifynegativeCurrencyFormat(taxTotal))
+                                if (!isNaN(subTotal)) {
+                                    $printrows.find('#lineAmt').text(utilityService.modifynegativeCurrencyFormat(subTotal));
+                                    subGrandTotal += isNaN(subTotal) ? 0 : subTotal;
+                                    document.getElementById("subtotal_totalPrint").innerHTML = $('#subtotal_total').text();
+                                }
+
+                                if (!isNaN(taxTotal)) {
+                                    taxGrandTotalPrint += isNaN(taxTotal) ? 0 : taxTotal;
+                                }
+                                if (!isNaN(subGrandTotal) && (!isNaN(taxGrandTotal))) {
+                                    let GrandTotal = (parseFloat(subGrandTotal)) + (parseFloat(taxGrandTotal));
+                                    document.getElementById("grandTotalPrint").innerHTML = $('#grandTotal').text();
+                                    document.getElementById("balanceDue").innerHTML = utilityService.modifynegativeCurrencyFormat(GrandTotal);
+                                    document.getElementById("totalBalanceDuePrint").innerHTML = $('#totalBalanceDue').text();
+
+                                }
+                            });
+                        }
 
                     }
                 }
@@ -4134,27 +3769,6 @@ Template.new_invoice.onRendered(function () {
     var splashArrayTaxRateList = new Array();
     const taxCodesList = [];
 
-    // $(function () {
-    //     history.pushState(null, document.title, location.href);
-    //     window.addEventListener('popstate', function (event) {
-    //         swal({
-    //             title: 'Save Or Cancel To Continue',
-    //             text: "Do you want to Save or Cancel this transaction?",
-    //             type: 'question',
-    //             showCancelButton: true,
-    //             confirmButtonText: 'Save'
-    //         }).then((result) => {
-    //             if (result.value) {
-    //                 $(".btnSave").trigger("click");
-    //             } else if (result.dismiss === 'cancel') {
-    //                 window.open('/invoicelist', "_self");
-    //             } else {
-
-    //             }
-    //         });
-    //     });
-    // });
-
     tempObj.getAllProducts = function () {
         getVS1Data('TProductVS1').then(function (dataObject) {
             if (dataObject.length == 0) {
@@ -4164,8 +3778,6 @@ Template.new_invoice.onRendered(function () {
                     let inventoryData = [];
                     for (let i = 0; i < data.tproductvs1.length; i++) {
                         var dataList = [
-                            // data.tproductvs1[i].Id || '',
-                            // data.tproductvs1[i].Id || '',
                             data.tproductvs1[i].ProductName || '-',
                             data.tproductvs1[i].SalesDescription || '',
                             utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductvs1[i].BuyQty1Cost * 100) / 100),
@@ -4182,13 +3794,12 @@ Template.new_invoice.onRendered(function () {
 
                         $('#tblInventory').dataTable({
                             data: splashArrayProductList,
-                            // processing: true,
                             "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
                             paging: true,
                             "aaSorting": [],
                             "orderMulti": true,
                             columnDefs: [
-                                // { orderable: false, targets: 0 },
+
                                 { className: "productName", "targets": [0] },
                                 { className: "productDesc", "targets": [1] },
                                 { className: "costPrice text-right", "targets": [2] },
@@ -4197,12 +3808,7 @@ Template.new_invoice.onRendered(function () {
                                 { className: "taxrate", "targets": [5] }
                             ],
                             colReorder: true,
-                            // colReorder: {
-                            //   fixedColumnsLeft: 1
-                            // },
                             bStateSave: true,
-                            //scrollX: 1000,
-                            //rowId: 0,
                             pageLength: 25,
                             lengthMenu: [
                                 [10, 25, 50, -1],
@@ -4214,12 +3820,7 @@ Template.new_invoice.onRendered(function () {
                         });
 
                         $('div.dataTables_filter input').addClass('form-control form-control-sm');
-                        // tableProductList
-                        //     .order( [ 1, 'desc' ] )
-                        //     .draw();
-                        //$('#tblInventory').DataTable().column( 0 ).visible( false );
-                        //$('#tblInventory').DataTable().column( 5 ).visible( false );
-                        //$('#tblInventory').DataTable().column( 6 ).visible( false );
+                       
                     }
                 })
             } else {
@@ -4280,12 +3881,6 @@ Template.new_invoice.onRendered(function () {
                     });
 
                     $('div.dataTables_filter input').addClass('form-control form-control-sm');
-                    // tableProductList
-                    //     .order( [ 1, 'desc' ] )
-                    //     .draw();
-                    //$('#tblInventory').DataTable().column( 0 ).visible( false );
-                    //$('#tblInventory').DataTable().column( 5 ).visible( false );
-                    //$('#tblInventory').DataTable().column( 6 ).visible( false );
                 }
             }
         }).catch(function (err) {
@@ -4358,47 +3953,8 @@ Template.new_invoice.onRendered(function () {
         });
 
     };
-    // if (!localStorage.getItem('VS1SalesProductList')) {
-    tempObj.getAllProducts();
-    // }else{
-    //  $('#tblInventory').dataTable({
-    //     data :  JSON.parse(localStorage.getItem('VS1SalesProductList')),
-    //     // processing: true,
-    //     paging: true,
-    //     "aaSorting": [],
-    //     "orderMulti": true,
-    //     columnDefs: [
-    //       // { orderable: false, targets: 0},
-    //       { className: "productName", "targets": [ 0 ] },
-    //       { className: "productDesc", "targets": [ 1 ] },
-    //       { className: "costPrice text-right", "targets": [ 2 ] },
-    //       { className: "salePrice text-right", "targets": [ 3 ] },
-    //       { className: "prdqty", "targets": [ 4 ] },
-    //       { className: "taxrate", "targets": [ 5 ] }
-    //
-    //     ],
-    //     colReorder: true,
-    //     // colReorder: {
-    //     //   fixedColumnsLeft: 1
-    //     // },
-    //     bStateSave: true,
-    //     //scrollX: 1000,
-    //     //rowId: 0,
-    //     pageLength: 25,
-    //     lengthMenu: [ [10, 25, 50, -1], [10, 25, 50, "All"] ],
-    //     info: true,
-    //     responsive: true
-    //
-    //   });
-    //
-    //   $('div.dataTables_filter input').addClass('form-control form-control-sm');
-    //   // tableProductList
-    //   //     .order( [ 1, 'desc' ] )
-    //   //     .draw();
-    // }
-    // $('#tblInventory').DataTable().column( 0 ).visible( false );
-    //$('#tblInventory').DataTable().column( 5 ).visible( false );
 
+    tempObj.getAllProducts();
     tempObj.getAllTaxCodes = function () {
         getVS1Data('TTaxcodeVS1').then(function (dataObject) {
             if (dataObject.length == 0) {
@@ -4425,7 +3981,6 @@ Template.new_invoice.onRendered(function () {
                         splashArrayTaxRateList.push(dataList);
                     }
                     tempObj.taxraterecords.set(taxCodesList);
-                    //localStorage.setItem('VS1ProductList', JSON.stringify(splashArrayProductList));
 
                     if (splashArrayTaxRateList) {
 
@@ -4442,12 +3997,7 @@ Template.new_invoice.onRendered(function () {
                                 { className: "taxRate text-right", "targets": [3] }
                             ],
                             colReorder: true,
-                            // colReorder: {
-                            //   fixedColumnsLeft: 1
-                            // },
                             bStateSave: true,
-                            //scrollX: 1000,
-                            //rowId: 0,
                             pageLength: 25,
                             lengthMenu: [
                                 [10, 25, 50, -1],
@@ -4457,12 +4007,6 @@ Template.new_invoice.onRendered(function () {
                             responsive: true
 
                         });
-                        // tableProductList
-                        //     .order( [ 1, 'desc' ] )
-                        //     .draw();
-                        // $('#tblTaxRate').DataTable().column( 0 ).visible( false );
-                        //$('#tblInventory').DataTable().column( 5 ).visible( false );
-                        //$('#tblInventory').DataTable().column( 6 ).visible( false );
                     }
                 })
             } else {
@@ -4489,8 +4033,6 @@ Template.new_invoice.onRendered(function () {
                     splashArrayTaxRateList.push(dataList);
                 }
                 tempObj.taxraterecords.set(taxCodesList);
-                //localStorage.setItem('VS1ProductList', JSON.stringify(splashArrayProductList));
-
                 if (splashArrayTaxRateList) {
 
                     $('#tblTaxRate').DataTable({
@@ -4506,12 +4048,7 @@ Template.new_invoice.onRendered(function () {
                             { className: "taxRate text-right", "targets": [3] }
                         ],
                         colReorder: true,
-                        // colReorder: {
-                        //   fixedColumnsLeft: 1
-                        // },
                         bStateSave: true,
-                        //scrollX: 1000,
-                        //rowId: 0,
                         pageLength: 25,
                         lengthMenu: [
                             [10, 25, 50, -1],
@@ -4521,12 +4058,6 @@ Template.new_invoice.onRendered(function () {
                         responsive: true
 
                     });
-                    // tableProductList
-                    //     .order( [ 1, 'desc' ] )
-                    //     .draw();
-                    // $('#tblTaxRate').DataTable().column( 0 ).visible( false );
-                    //$('#tblInventory').DataTable().column( 5 ).visible( false );
-                    //$('#tblInventory').DataTable().column( 6 ).visible( false );
                 }
             }
         }).catch(function (err) {
@@ -4553,7 +4084,6 @@ Template.new_invoice.onRendered(function () {
                     splashArrayTaxRateList.push(dataList);
                 }
                 tempObj.taxraterecords.set(taxCodesList);
-                //localStorage.setItem('VS1ProductList', JSON.stringify(splashArrayProductList));
 
                 if (splashArrayTaxRateList) {
 
@@ -4570,12 +4100,7 @@ Template.new_invoice.onRendered(function () {
                             { className: "taxRate text-right", "targets": [3] }
                         ],
                         colReorder: true,
-                        // colReorder: {
-                        //   fixedColumnsLeft: 1
-                        // },
                         bStateSave: true,
-                        //scrollX: 1000,
-                        //rowId: 0,
                         pageLength: 25,
                         lengthMenu: [
                             [10, 25, 50, -1],
@@ -4583,21 +4108,14 @@ Template.new_invoice.onRendered(function () {
                         ],
                         info: true,
                         responsive: true
-
                     });
-                    // tableProductList
-                    //     .order( [ 1, 'desc' ] )
-                    //     .draw();
-                    // $('#tblTaxRate').DataTable().column( 0 ).visible( false );
-                    //$('#tblInventory').DataTable().column( 5 ).visible( false );
-                    //$('#tblInventory').DataTable().column( 6 ).visible( false );
+                   
                 }
             })
         });
 
     };
     tempObj.getAllTaxCodes();
-    //$('#tblInventory').DataTable().column( 6 ).visible( false );
 });
 Template.new_invoice.helpers({
     invoicerecord: () => {
@@ -4678,8 +4196,7 @@ Template.new_invoice.helpers({
         return Session.get('vs1companyURL');
     },
     isMobileDevices: () => {
-        var isMobile = false; //initiate as false
-        // device detection
+        var isMobile = false;
         if (/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|ipad|iris|kindle|Android|Silk|lge |maemo|midp|mmp|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows (ce|phone)|xda|xiino/i.test(navigator.userAgent) ||
             /1207|6310|6590|3gso|4thp|50[1-6]i|770s|802s|a wa|abac|ac(er|oo|s\-)|ai(ko|rn)|al(av|ca|co)|amoi|an(ex|ny|yw)|aptu|ar(ch|go)|as(te|us)|attw|au(di|\-m|r |s )|avan|be(ck|ll|nq)|bi(lb|rd)|bl(ac|az)|br(e|v)w|bumb|bw\-(n|u)|c55\/|capi|ccwa|cdm\-|cell|chtm|cldc|cmd\-|co(mp|nd)|craw|da(it|ll|ng)|dbte|dc\-s|devi|dica|dmob|do(c|p)o|ds(12|\-d)|el(49|ai)|em(l2|ul)|er(ic|k0)|esl8|ez([4-7]0|os|wa|ze)|fetc|fly(\-|_)|g1 u|g560|gene|gf\-5|g\-mo|go(\.w|od)|gr(ad|un)|haie|hcit|hd\-(m|p|t)|hei\-|hi(pt|ta)|hp( i|ip)|hs\-c|ht(c(\-| |_|a|g|p|s|t)|tp)|hu(aw|tc)|i\-(20|go|ma)|i230|iac( |\-|\/)|ibro|idea|ig01|ikom|im1k|inno|ipaq|iris|ja(t|v)a|jbro|jemu|jigs|kddi|keji|kgt( |\/)|klon|kpt |kwc\-|kyo(c|k)|le(no|xi)|lg( g|\/(k|l|u)|50|54|\-[a-w])|libw|lynx|m1\-w|m3ga|m50\/|ma(te|ui|xo)|mc(01|21|ca)|m\-cr|me(rc|ri)|mi(o8|oa|ts)|mmef|mo(01|02|bi|de|do|t(\-| |o|v)|zz)|mt(50|p1|v )|mwbp|mywa|n10[0-2]|n20[2-3]|n30(0|2)|n50(0|2|5)|n7(0(0|1)|10)|ne((c|m)\-|on|tf|wf|wg|wt)|nok(6|i)|nzph|o2im|op(ti|wv)|oran|owg1|p800|pan(a|d|t)|pdxg|pg(13|\-([1-8]|c))|phil|pire|pl(ay|uc)|pn\-2|po(ck|rt|se)|prox|psio|pt\-g|qa\-a|qc(07|12|21|32|60|\-[2-7]|i\-)|qtek|r380|r600|raks|rim9|ro(ve|zo)|s55\/|sa(ge|ma|mm|ms|ny|va)|sc(01|h\-|oo|p\-)|sdk\/|se(c(\-|0|1)|47|mc|nd|ri)|sgh\-|shar|sie(\-|m)|sk\-0|sl(45|id)|sm(al|ar|b3|it|t5)|so(ft|ny)|sp(01|h\-|v\-|v )|sy(01|mb)|t2(18|50)|t6(00|10|18)|ta(gt|lk)|tcl\-|tdg\-|tel(i|m)|tim\-|t\-mo|to(pl|sh)|ts(70|m\-|m3|m5)|tx\-9|up(\.b|g1|si)|utst|v400|v750|veri|vi(rg|te)|vk(40|5[0-3]|\-v)|vm40|voda|vulc|vx(52|53|60|61|70|80|81|83|85|98)|w3c(\-| )|webc|whit|wi(g |nc|nw)|wmlb|wonu|x700|yas\-|your|zeto|zte\-/i.test(navigator.userAgent.substr(0, 4))) {
             isMobile = true;
@@ -4729,12 +4246,10 @@ Template.new_invoice.events({
 
                     });
                 }).catch(function (err) {
-                    console.log(err);
                     window.open('/invoicecard', '_self');
                 });
             }).catch(function (err) {
                 $('.fullScreenSpin').css('display', 'none');
-                console.log(err);
                 swal({
                     title: 'Something went wrong',
                     text: err,
@@ -4743,12 +4258,10 @@ Template.new_invoice.events({
                     confirmButtonText: 'Try Again'
                 }).then((result) => {
                     if (result.value) {
-                        //Meteor._reload.reload();
                     } else if (result.dismiss === 'cancel') {
 
                     }
                 });
-                //$('.loginSpinner').css('display','none');
                 $('.fullScreenSpin').css('display', 'none');
             });
         } else {
@@ -4821,7 +4334,6 @@ Template.new_invoice.events({
                     confirmButtonText: 'OK'
                 }).then((result) => {
                     if (result.value) {
-                        //Meteor._reload.reload();
                     } else if (result.dismiss === 'cancel') {
 
                     }
@@ -4858,7 +4370,7 @@ Template.new_invoice.events({
         if ($('.printID').val() == "") {
             $('#' + targetID + " #lineQty").text($('#' + targetID + " .lineQty").val());
         }
-        //if(selectLineID){
+
         let lineAmount = 0;
         let subGrandTotal = 0;
         let taxGrandTotal = 0;
@@ -4940,46 +4452,6 @@ Template.new_invoice.events({
             });
         }
 
-
-        // if($(".printID").val() == ""){
-        //         $printrows.each(function (index) {
-        //             var $printrows = $(this);
-        //             var qty = $printrows.find("#lineQty").text() || 0;
-        //             var price = $printrows.find("#lineUnitPrice").text() || 0;
-        //             var taxrateamount = 0;
-        //             var taxRate = $printrows.find("#lineTaxCode").text();
-        //             if (taxcodeList) {
-        //                 for (var i = 0; i < taxcodeList.length; i++) {
-        //                     if (taxcodeList[i].codename == taxRate) {
-        //                         taxrateamount = taxcodeList[i].coderate.replace('%', "") / 100;
-        //                     }
-        //                 }
-        //             }
-
-        //             var subTotal = parseInt(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) || 0;
-        //             var taxTotal = parseInt(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) * parseFloat(taxrateamount);
-        //             $printrows.find('#lineTaxAmount').text(utilityService.modifynegativeCurrencyFormat(taxTotal))
-        //             if (!isNaN(subTotal)) {
-        //                 $printrows.find('#lineAmt').text(utilityService.modifynegativeCurrencyFormat(subTotal));
-        //                 subGrandTotal += isNaN(subTotal) ? 0 : subTotal;
-        //                 document.getElementById("subtotal_totalPrint").innerHTML = $('#subtotal_total').text();
-        //             }
-        //             console.log("Line tax is "+ taxTotal)
-
-        //             if (!isNaN(taxTotal)) {
-        //                 taxGrandTotalPrint += isNaN(taxTotal) ? 0 : taxTotal;
-        //                 document.getElementById("subtotal_tax").innerHTML = utilityService.modifynegativeCurrencyFormat(taxGrandTotalPrint);
-        //             }
-        //             if (!isNaN(subGrandTotal) && (!isNaN(taxGrandTotal))) {
-        //                 let GrandTotal = (parseFloat(subGrandTotal)) + (parseFloat(taxGrandTotal));
-        //                 document.getElementById("grandTotalPrint").innerHTML = $('#grandTotal').text();
-        //                 document.getElementById("balanceDue").innerHTML = utilityService.modifynegativeCurrencyFormat(GrandTotal);
-        //                 document.getElementById("totalBalanceDuePrint").innerHTML = $('#totalBalanceDue').text();
-
-        //             }
-        //         });
-        // }
-        //}
     },
     'blur .lineOrdered': function (event) {
         let templateObject = Template.instance();
@@ -5005,7 +4477,7 @@ Template.new_invoice.events({
                 $('#' + targetID + " .lineBo").val(boValue);
             }
         }
-        //if(selectLineID){
+
         let lineAmount = 0;
         let subGrandTotal = 0;
         let taxGrandTotal = 0;
@@ -5048,7 +4520,7 @@ Template.new_invoice.events({
 
             }
         });
-        //}
+
     },
     'change .lineUnitPrice': function (event) {
 
@@ -5060,16 +4532,12 @@ Template.new_invoice.events({
         } else {
             inputUnitPrice = Number($(event.target).val().replace(/[^0-9.-]+/g, "")) || 0;
 
-            //parseFloat(parseFloat($.trim($(event.target).text().substring(Currency.length).replace(",", ""))) || 0);
             $(event.target).val(utilityService.modifynegativeCurrencyFormat(inputUnitPrice));
-            //$('.lineUnitPrice').text();
 
         }
         let templateObject = Template.instance();
         let taxcodeList = templateObject.taxraterecords.get();
-        // let utilityService = new UtilityService();
         let $tblrows = $("#tblInvoiceLine tbody tr");
-        //if(selectLineID){
         let lineAmount = 0;
         let subGrandTotal = 0;
         let taxGrandTotal = 0;
@@ -5124,7 +4592,7 @@ Template.new_invoice.events({
     'click .lineProductName': function (event) {
         $('#tblInvoiceLine tbody tr .lineProductName').attr("data-toggle", "modal");
         $('#tblInvoiceLine tbody tr .lineProductName').attr("data-target", "#productListModal");
-        var targetID = $(event.target).closest('tr').attr('id'); // table row ID
+        var targetID = $(event.target).closest('tr').attr('id'); 
         $('#selectLineID').val(targetID);
         setTimeout(function () {
             $('#tblInventory_filter .form-control-sm').focus();
@@ -5141,13 +4609,13 @@ Template.new_invoice.events({
     'click .lineTaxRate': function (event) {
         $('#tblInvoiceLine tbody tr .lineTaxRate').attr("data-toggle", "modal");
         $('#tblInvoiceLine tbody tr .lineTaxRate').attr("data-target", "#taxRateListModal");
-        var targetID = $(event.target).closest('tr').attr('id'); // table row ID
+        var targetID = $(event.target).closest('tr').attr('id'); 
         $('#selectLineID').val(targetID);
     },
     'click .lineTaxCode': function (event) {
         $('#tblInvoiceLine tbody tr .lineTaxCode').attr("data-toggle", "modal");
         $('#tblInvoiceLine tbody tr .lineTaxCode').attr("data-target", "#taxRateListModal");
-        var targetID = $(event.target).closest('tr').attr('id'); // table row ID
+        var targetID = $(event.target).closest('tr').attr('id'); 
         $('#selectLineID').val(targetID);
     },
     'click .printConfirm': function (event) {
@@ -5155,12 +4623,7 @@ Template.new_invoice.events({
         if ($('.edtCustomerEmail').val() != "") {
             $('.pdfCustomerName').html($('#edtCustomerName').val());
             $('.pdfCustomerAddress').html($('#txabillingAddress').val());
-            // $('.print-header').text($('.print-header').text().replace("Invoice","Payment"));
-            // $('.link').hide();
-            // var rowCount = document.getElementById('.invoice-table tbody').rows.length;
             var rowCount = $('.tblInvoiceLine tbody tr').length;
-            // $('.pdfPONumber').html("P.O Number:"+' '+$('#ponumber').val());
-            // $('.pdfTerms').html("Due Date:"+' '+$('#sltTerms').val());
             exportSalesToPdf();
         } else {
             swal({
@@ -5171,7 +4634,6 @@ Template.new_invoice.events({
                 confirmButtonText: 'OK'
             }).then((result) => {
                 if (result.value) {
-                    //Meteor._reload.reload();
                 } else if (result.dismiss === 'cancel') {
 
                 }
@@ -5180,11 +4642,8 @@ Template.new_invoice.events({
     },
     'keydown .lineQty, keydown .lineUnitPrice, keydown .lineOrdered': function (event) {
         if ($.inArray(event.keyCode, [46, 8, 9, 27, 13, 110]) !== -1 ||
-            // Allow: Ctrl+A, Command+A
             (event.keyCode === 65 && (event.ctrlKey === true || event.metaKey === true)) ||
-            // Allow: home, end, left, right, down, up
             (event.keyCode >= 35 && event.keyCode <= 40)) {
-            // let it happen, don't do anything
             return;
         }
 
@@ -5205,7 +4664,7 @@ Template.new_invoice.events({
         let taxcodeList = templateObject.taxraterecords.get();
         let utilityService = new UtilityService();
         var clicktimes = 0;
-        var targetID = $(event.target).closest('tr').attr('id'); // table row ID
+        var targetID = $(event.target).closest('tr').attr('id'); 
         $('#selectDeleteLineID').val(targetID);
 
         times++;
@@ -5217,7 +4676,6 @@ Template.new_invoice.events({
                 $(event.target).closest('tr').remove();
                 event.preventDefault();
                 let $tblrows = $("#tblInvoiceLine tbody tr");
-                //if(selectLineID){
                 let lineAmount = 0;
                 let subGrandTotal = 0;
                 let taxGrandTotal = 0;
@@ -5289,16 +4747,6 @@ Template.new_invoice.events({
 
             salesService.saveInvoiceEx(objDetails).then(function (objDetails) {
                 Router.go('/invoicelist?success=true');
-                // sideBarService.getAllInvoiceList().then(function(data) {
-                //   addVS1Data('TInvoiceEx',JSON.stringify(data)).then(function (datareturn) {
-                //     Router.go('/invoicelist?success=true');
-                //   }).catch(function (err) {
-                //     Router.go('/invoicelist?success=true');
-                //   });
-                // }).catch(function(err) {
-                //   Router.go('/invoicelist?success=true');
-                // });
-
             }).catch(function (err) {
                 swal({
                     title: 'Something went wrong',
@@ -5308,7 +4756,6 @@ Template.new_invoice.events({
                     confirmButtonText: 'Try Again'
                 }).then((result) => {
                     if (result.value) {
-                        //Meteor._reload.reload();
                     } else if (result.dismiss === 'cancel') {
 
                     }
@@ -5329,9 +4776,7 @@ Template.new_invoice.events({
             this.click;
 
             $('#' + selectLineID).closest('tr').remove();
-            //event.preventDefault();
             let $tblrows = $("#tblInvoiceLine tbody tr");
-            //if(selectLineID){
             let lineAmount = 0;
             let subGrandTotal = 0;
             let taxGrandTotal = 0;
@@ -5374,11 +4819,8 @@ Template.new_invoice.events({
 
                 }
             });
-            //return false;
-
         } else {
             this.click;
-            // $(event.target).closest('tr').remove();
             $('#' + selectLineID + " .lineProductName").text('');
             $('#' + selectLineID + " .lineProductDesc").text('');
             $('#' + selectLineID + " .lineOrdered").val('');
@@ -5396,9 +4838,6 @@ Template.new_invoice.events({
             document.getElementById("grandTotal").innerHTML = Currency + '0.00';
             document.getElementById("balanceDue").innerHTML = Currency + '0.00';
             document.getElementById("totalBalanceDue").innerHTML = Currency + '0.00';
-
-            //event.preventDefault();
-
         }
 
         $('#deleteLineModal').modal('toggle');
@@ -5419,7 +4858,6 @@ Template.new_invoice.events({
             swal('Customer has not been selected!', '', 'warning');
             e.preventDefault();
         } else {
-            //$('.loginSpinner').css('display','inline-block');
             $('.fullScreenSpin').css('display', 'inline-block');
             var splashLineArray = new Array();
             let lineItemsForm = [];
@@ -5432,7 +4870,6 @@ Template.new_invoice.events({
                 let tdQty = $('#' + lineID + " .lineQty").val();
 
                 let tdOrderd = $('#' + lineID + " .lineOrdered").val();
-                // let tdShipped = $('#'+lineID+" .lineShipped").text();
 
                 let tdunitprice = $('#' + lineID + " .lineUnitPrice").val();
                 let tdtaxrate = $('#' + lineID + " .lineTaxRate").text();
@@ -5529,7 +4966,6 @@ Template.new_invoice.events({
                         Lines: splashLineArray,
                         InvoiceToDesc: billingAddress,
                         SaleDate: saleDate,
-                        //DueDate: dueDate,
                         CustPONumber: poNumber,
                         ReferenceNo: reference,
                         TermsName: termname,
@@ -5552,7 +4988,6 @@ Template.new_invoice.events({
                         Lines: splashLineArray,
                         InvoiceToDesc: billingAddress,
                         SaleDate: saleDate,
-                        //DueDate: dueDate,
                         CustPONumber: poNumber,
                         ReferenceNo: reference,
                         TermsName: termname,
@@ -5567,7 +5002,6 @@ Template.new_invoice.events({
                     }
                 };
             }
-            //alert(JSON.stringify(objDetails));
             salesService.saveInvoiceEx(objDetails).then(function (objDetails) {
                 let company = Session.get('vs1companyName');
                 let vs1User = localStorage.getItem('mySession');
@@ -5578,9 +5012,7 @@ Template.new_invoice.events({
                     stringQuery = stringQuery + "product" + l + "=" + lineItems[l].description + "&price" + l + "=" + lineItems[l].unitPrice + "&qty" + l + "=" + lineItems[l].quantity + "&";
                 }
                 stringQuery = stringQuery + "tax=" + tax + "&total=" + total + "&customer=" + customer + "&name=" + name + "&surname=" + surname + "&quoteid=" + objDetails.fields.ID + "&company=" + company + "&vs1email=" + vs1User + "&customeremail=" + customerEmail + "&type=Invoice&url=" + window.location.href;
-                // let checkifSendCopy = $('.chkEmailCopy');
 
-                // Send Email
                 $('#html-2-pdfwrapper').css('display', 'block');
                 $('.pdfCustomerName').html($('#edtCustomerName').val());
                 $('.pdfCustomerAddress').html($('#txabillingAddress').val());
@@ -5588,7 +5020,6 @@ Template.new_invoice.events({
                 function generatePdfForMail(invoiceId) {
                     return new Promise((resolve, reject) => {
                         let templateObject = Template.instance();
-                        // let data = templateObject.singleInvoiceData.get();
                         let completeTabRecord;
                         let doc = new jsPDF('p', 'pt', 'a4');
                         var source = document.getElementById('html-2-pdfwrapper');
@@ -5596,7 +5027,6 @@ Template.new_invoice.events({
                             doc.setFontSize(10);
                             doc.setTextColor(255, 255, 255);
                             doc.textWithLink('Pay Now', 480, 104, { url: 'https://www.depot.vs1cloud.com/stripe/' + stringQuery });
-                            //pdf.save('Invoice.pdf');
                             resolve(doc.output('blob'));
                             $('#html-2-pdfwrapper').css('display', 'none');
                         });
@@ -5614,14 +5044,12 @@ Template.new_invoice.events({
                     reader.onloadend = function () {
                         var base64data = reader.result;
                         base64data = base64data.split(',')[1];
-                        // console.log(base64data);
                         pdfObject = {
                             filename: 'invoice-' + invoiceId + '.pdf',
                             content: base64data,
                             encoding: 'base64'
                         };
                         attachment.push(pdfObject);
-                        // let mailBody = "VS1 Cloud Test";
                         let erpInvoiceId = objDetails.fields.ID;
 
 
@@ -5629,7 +5057,6 @@ Template.new_invoice.events({
                         let mailFrom = localStorage.getItem('mySession');
                         let customerEmailName = $('#edtCustomerName').val();
                         let checkEmailData = $('#edtCustomerEmail').val();
-                        // let mailCC = templateObject.mailCopyToUsr.get();
                         let grandtotal = $('#grandTotal').html();
                         let amountDueEmail = $('#totalBalanceDue').html();
                         let emailDueDate = $("#dtDueDate").val();
@@ -5725,7 +5152,6 @@ Template.new_invoice.events({
                                         confirmButtonText: 'OK'
                                     }).then((result) => {
                                         if (result.value) {
-                                            //Router.go('/invoicelist?success=true');
                                         } else if (result.dismiss === 'cancel') {
 
                                         }
@@ -5807,10 +5233,6 @@ Template.new_invoice.events({
 
                 }
                 addAttachment();
-
-
-                // End Send Email
-
                 if (customerID !== " ") {
                     let customerEmailData = {
                         type: "TCustomer",
@@ -5819,9 +5241,7 @@ Template.new_invoice.events({
                             Email: customerEmail
                         }
                     }
-                    // salesService.saveCustomerEmail(customerEmailData).then(function (customerEmailData) {
-                    //
-                    // });
+                   
                 };
                 var getcurrentCloudDetails = CloudUser.findOne({ _id: Session.get('mycloudLogonID'), clouddatabaseID: Session.get('mycloudLogonDBID') });
                 if (getcurrentCloudDetails) {
@@ -5830,7 +5250,6 @@ Template.new_invoice.events({
                         var clientUsername = getcurrentCloudDetails.cloudUsername;
                         var clientEmail = getcurrentCloudDetails.cloudEmail;
                         var checkPrefDetails = CloudPreference.findOne({ userid: clientID, PrefName: 'new_invoice' });
-                        // console.log(checkPrefDetails);
                         if (checkPrefDetails) {
                             CloudPreference.update({ _id: checkPrefDetails._id }, {
                                 $set: {
@@ -5852,9 +5271,7 @@ Template.new_invoice.events({
                                 }
                             }, function (err, idTag) {
                                 if (err) {
-                                    // Router.go('/invoicelist?success=true');
                                 } else {
-                                    // Router.go('/invoicelist?success=true');
 
                                 }
                             });
@@ -5878,28 +5295,17 @@ Template.new_invoice.events({
                                 createdAt: new Date()
                             }, function (err, idTag) {
                                 if (err) {
-                                    //Router.go('/invoicelist?success=true');
                                 } else {
-                                    // Router.go('/invoicelist?success=true');
+
 
                                 }
                             });
                         }
                     }
                 } else {
-                    //Router.go('/invoicelist?success=true');
-                };
-                //console.log(getcurrentCloudDetails);
-                // sideBarService.getAllInvoiceList().then(function(data) {
-                //   addVS1Data('TInvoiceEx',JSON.stringify(data)).then(function (datareturn) {
-                //     Router.go('/invoicelist?success=true');
-                //   }).catch(function (err) {
-                //   Router.go('/invoicelist?success=true');
-                //   });
-                // }).catch(function(err) {
-                //   Router.go('/invoicelist?success=true');
-                // });
 
+                };
+               
             }).catch(function (err) {
                 $('#html-2-pdfwrapper').css('display', 'none');
                 swal({
@@ -5910,12 +5316,10 @@ Template.new_invoice.events({
                     confirmButtonText: 'Try Again'
                 }).then((result) => {
                     if (result.value) {
-                        //Meteor._reload.reload();
                     } else if (result.dismiss === 'cancel') {
 
                     }
                 });
-                //$('.loginSpinner').css('display','none');
                 $('.fullScreenSpin').css('display', 'none');
             });
         }
@@ -6057,7 +5461,6 @@ Template.new_invoice.events({
     },
     'click .btnSaveGridSettings': function (event) {
         let lineItems = [];
-        //let lineItemObj = {};
         $('.columnSettings').each(function (index) {
             var $tblrow = $(this);
             var colTitle = $tblrow.find(".divcolumn").text() || '';
@@ -6078,9 +5481,6 @@ Template.new_invoice.events({
             }
 
             lineItems.push(lineItemObj);
-            // var price = $tblrow.find(".lineUnitPrice").text()||0;
-            // var taxcode = $tblrow.find(".lineTaxRate").text()||0;
-
         });
 
 
@@ -6106,10 +5506,8 @@ Template.new_invoice.events({
                     }, function (err, idTag) {
                         if (err) {
                             $('#myModal2').modal('toggle');
-                            //window.open('/invoiceslist','_self');
                         } else {
                             $('#myModal2').modal('toggle');
-                            //window.open('/invoiceslist','_self');
 
                         }
                     });
@@ -6127,14 +5525,12 @@ Template.new_invoice.events({
                     }, function (err, idTag) {
                         if (err) {
                             $('#myModal2').modal('toggle');
-                            //window.open('/invoiceslist','_self');
                         } else {
                             $('#myModal2').modal('toggle');
-                            //window.open('/invoiceslist','_self');
 
                         }
                     });
-                    // console.log(checkPrefDetails);
+                   
                 }
             }
         }
@@ -6229,7 +5625,6 @@ Template.new_invoice.events({
         let attachmentID = parseInt(event.currentTarget.parentNode.id.split('attachment-name-')[1]);
         let templateObj = Template.instance();
         let uploadedFiles = templateObj.uploadedFiles.get();
-        // console.log(uploadedFiles);
         $('#myModalAttachment').modal('hide');
         let previewFile = {};
         let input = uploadedFiles[attachmentID].fields.Description;
@@ -6300,10 +5695,6 @@ Template.new_invoice.events({
         var currenturl = window.location.href;
         var getcurrent_id = currenturl.split('?id=');
         var currentId = getcurrent_id[getcurrent_id.length - 1];
-
-        // if(getcurrent_id[1]){
-        //   window.open('/paymentcard?invid='+ currentId,'_self');
-        // }else{
         let templateObject = Template.instance();
         let customername = $('#edtCustomerName');
         let salesService = new SalesBoardService();
@@ -6311,7 +5702,6 @@ Template.new_invoice.events({
             swal('Customer has not been selected!', '', 'warning');
             e.preventDefault();
         } else {
-            //$('.loginSpinner').css('display','inline-block');
             $('.fullScreenSpin').css('display', 'inline-block');
             var splashLineArray = new Array();
             let lineItemsForm = [];
@@ -6324,7 +5714,6 @@ Template.new_invoice.events({
                 let tdQty = $('#' + lineID + " .lineQty").val();
 
                 let tdOrderd = $('#' + lineID + " .lineOrdered").val();
-                // let tdShipped = $('#'+lineID+" .lineShipped").text();
 
                 let tdunitprice = $('#' + lineID + " .lineUnitPrice").val();
                 let tdtaxrate = $('#' + lineID + " .lineTaxRate").text();
@@ -6413,7 +5802,6 @@ Template.new_invoice.events({
                         Lines: splashLineArray,
                         InvoiceToDesc: billingAddress,
                         SaleDate: saleDate,
-                        //DueDate: dueDate,
                         CustPONumber: poNumber,
                         ReferenceNo: reference,
                         TermsName: termname,
@@ -6436,7 +5824,6 @@ Template.new_invoice.events({
                         Lines: splashLineArray,
                         InvoiceToDesc: billingAddress,
                         SaleDate: saleDate,
-                        //DueDate: dueDate,
                         CustPONumber: poNumber,
                         ReferenceNo: reference,
                         TermsName: termname,
@@ -6451,10 +5838,8 @@ Template.new_invoice.events({
                     }
                 };
             }
-            //alert(JSON.stringify(objDetails));
             salesService.saveInvoiceEx(objDetails).then(function (objDetails) {
                 var customerID = $('#edtCustomerEmail').attr('customerid');
-                // Send Email
                 $('#html-2-pdfwrapper').css('display', 'block');
                 $('.pdfCustomerName').html($('#edtCustomerName').val());
                 $('.pdfCustomerAddress').html($('#txabillingAddress').val());
@@ -6470,14 +5855,12 @@ Template.new_invoice.events({
                     reader.onloadend = function () {
                         var base64data = reader.result;
                         base64data = base64data.split(',')[1];
-                        // console.log(base64data);
                         pdfObject = {
                             filename: 'invoice-' + invoiceId + '.pdf',
                             content: base64data,
                             encoding: 'base64'
                         };
                         attachment.push(pdfObject);
-                        // let mailBody = "VS1 Cloud Test";
                         let erpInvoiceId = objDetails.fields.ID;
 
 
@@ -6485,7 +5868,6 @@ Template.new_invoice.events({
                         let mailFrom = localStorage.getItem('mySession');
                         let customerEmailName = $('#edtCustomerName').val();
                         let checkEmailData = $('#edtCustomerEmail').val();
-                        // let mailCC = templateObject.mailCopyToUsr.get();
                         let grandtotal = $('#grandTotal').html();
                         let amountDueEmail = $('#totalBalanceDue').html();
                         let emailDueDate = $("#dtDueDate").val();
@@ -6666,30 +6048,18 @@ Template.new_invoice.events({
                 function generatePdfForMail(invoiceId) {
                     return new Promise((resolve, reject) => {
                         let templateObject = Template.instance();
-                        // let data = templateObject.singleInvoiceData.get();
                         let completeTabRecord;
                         let doc = new jsPDF('p', 'pt', 'a4');
                         doc.setFontSize(18);
                         var source = document.getElementById('html-2-pdfwrapper');
                         doc.addHTML(source, function () {
-                            //pdf.save('Invoice.pdf');
                             resolve(doc.output('blob'));
                             $('#html-2-pdfwrapper').css('display', 'none');
                         });
                     });
                 }
-                // End Send Email
                 if (customerID !== " ") {
-                    //   let customerEmailData = {
-                    //     type: "TCustomer",
-                    //     fields: {
-                    //     ID : customerID,
-                    //     Email : customerEmail
-                    //    }
-                    // }
-                    // salesService.saveCustomerEmail(customerEmailData).then(function (customerEmailData) {
-                    //
-                    // });
+                   
                 };
                 let linesave = objDetails.fields.ID;
                 var getcurrentCloudDetails = CloudUser.findOne({ _id: Session.get('mycloudLogonID'), clouddatabaseID: Session.get('mycloudLogonDBID') });
@@ -6699,7 +6069,6 @@ Template.new_invoice.events({
                         var clientUsername = getcurrentCloudDetails.cloudUsername;
                         var clientEmail = getcurrentCloudDetails.cloudEmail;
                         var checkPrefDetails = CloudPreference.findOne({ userid: clientID, PrefName: 'new_invoice' });
-                        // console.log(checkPrefDetails);
                         if (checkPrefDetails) {
                             CloudPreference.update({ _id: checkPrefDetails._id }, {
                                 $set: {
@@ -6721,9 +6090,7 @@ Template.new_invoice.events({
                                 }
                             }, function (err, idTag) {
                                 if (err) {
-                                    //window.open('/paymentcard?invid='+ linesave,'_self');
                                 } else {
-                                    //window.open('/paymentcard?invid='+ linesave,'_self');
 
                                 }
                             });
@@ -6747,18 +6114,14 @@ Template.new_invoice.events({
                                 createdAt: new Date()
                             }, function (err, idTag) {
                                 if (err) {
-                                    //window.open('/paymentcard?invid='+ linesave,'_self');
                                 } else {
-                                    //window.open('/paymentcard?invid='+ linesave,'_self');
 
                                 }
                             });
                         }
                     }
                 } else {
-                    //  window.open('/paymentcard?invid='+ linesave,'_self');
                 }
-                //console.log(getcurrentCloudDetails);
 
                 sideBarService.getAllInvoiceList().then(function (data) {
                     addVS1Data('TInvoiceEx', JSON.stringify(data)).then(function (datareturn) {
@@ -6779,12 +6142,10 @@ Template.new_invoice.events({
                     confirmButtonText: 'Try Again'
                 }).then((result) => {
                     if (result.value) {
-                        //Meteor._reload.reload();
                     } else if (result.dismiss === 'cancel') {
 
                     }
                 });
-                //$('.loginSpinner').css('display','none');
                 $('.fullScreenSpin').css('display', 'none');
             });
         }
@@ -6802,8 +6163,6 @@ Template.new_invoice.events({
         window.open('/paymentcard?custname=' + customer + '&from=' + currentInvoice, '_self');
     },
     'click .btnBack': function (event) {
-        //Router.go('/invoicelist?success=true');
-        //Router.go('/invoicelist');
 
         event.preventDefault();
         history.back(1);
@@ -6819,7 +6178,6 @@ Template.new_invoice.events({
                 swal('Customer has not been selected!', '', 'warning');
                 e.preventDefault();
             } else {
-                //$('.loginSpinner').css('display','inline-block');
                 $('.fullScreenSpin').css('display', 'inline-block');
                 var splashLineArray = new Array();
                 let lineItemsForm = [];
@@ -6832,7 +6190,6 @@ Template.new_invoice.events({
                     let tdQty = $('#' + lineID + " .lineQty").val();
 
                     let tdOrderd = $('#' + lineID + " .lineOrdered").val();
-                    // let tdShipped = $('#'+lineID+" .lineShipped").text();
 
                     let tdunitprice = $('#' + lineID + " .lineUnitPrice").val();
                     let tdtaxrate = $('#' + lineID + " .lineTaxRate").text();
@@ -6860,7 +6217,6 @@ Template.new_invoice.events({
                                     ProductName: tdproduct || '',
                                     ProductDescription: tddescription || '',
                                     UOMQtySold: parseFloat(tdQty) || 0,
-                                    // UOMQtyShipped:parseFloat(tdQty) || 0,
                                     LinePrice: Number(tdunitprice.replace(/[^0-9.-]+/g, "")) || 0,
                                     LineTaxCode: tdtaxCode || '',
                                 }
@@ -6909,7 +6265,6 @@ Template.new_invoice.events({
                 let uploadedItems = templateObject.uploadedFiles.get();
                 var currencyCode = $("#sltCurrency").val() || CountryAbbr;
                 var objDetails = '';
-                //console.log(splashLineArray);
                 if (getso_id[1]) {
                     currentInvoice = parseInt(currentInvoice);
                     objDetails = {
@@ -6921,7 +6276,6 @@ Template.new_invoice.events({
                             Lines: splashLineArray,
                             InvoiceToDesc: billingAddress,
                             SaleDate: saleDate,
-                            //DueDate: dueDate,
                             CustPONumber: poNumber,
                             ReferenceNo: reference,
                             TermsName: termname,
@@ -6944,7 +6298,6 @@ Template.new_invoice.events({
                             Lines: splashLineArray,
                             InvoiceToDesc: billingAddress,
                             SaleDate: saleDate,
-                            //DueDate: dueDate,
                             CustPONumber: poNumber,
                             ReferenceNo: reference,
                             TermsName: termname,
@@ -6958,7 +6311,6 @@ Template.new_invoice.events({
                         }
                     };
                 }
-                //alert(JSON.stringify(objDetails));
                 salesService.saveInvoiceEx(objDetails).then(function (objDetails) {
                     var customerID = $('#edtCustomerEmail').attr('customerid');
                     if (customerID !== " ") {
@@ -6981,7 +6333,6 @@ Template.new_invoice.events({
                             var clientUsername = getcurrentCloudDetails.cloudUsername;
                             var clientEmail = getcurrentCloudDetails.cloudEmail;
                             var checkPrefDetails = CloudPreference.findOne({ userid: clientID, PrefName: 'new_invoice' });
-                            // console.log(checkPrefDetails);
                             if (checkPrefDetails) {
                                 CloudPreference.update({ _id: checkPrefDetails._id }, {
                                     $set: {
@@ -7040,19 +6391,7 @@ Template.new_invoice.events({
                     } else {
                         window.open('/invoicecard?copyinvid=' + linesave, '_self');
                     }
-                    //console.log(getcurrentCloudDetails);
-
-                    // sideBarService.getAllInvoiceList().then(function (data) {
-                    //     addVS1Data('TInvoiceEx', JSON.stringify(data)).then(function (datareturn) {
-                    //         window.open('/invoicecard?copyinvid=' + linesave, '_self');
-                    //     }).catch(function (err) {
-                    //        window.open('/invoicecard?copyinvid=' + linesave, '_self');
-                    //     });
-                    // }).catch(function (err) {
-                    //    window.open('/invoicecard?copyinvid=' + linesave, '_self');
-                    // });
-
-
+                   
                 }).catch(function (err) {
                     swal({
                         title: 'Something went wrong',
@@ -7062,17 +6401,16 @@ Template.new_invoice.events({
                         confirmButtonText: 'Try Again'
                     }).then((result) => {
                         if (result.value) {
-                            //Meteor._reload.reload();
                         } else if (result.dismiss === 'cancel') {
 
                         }
                     });
-                    //$('.loginSpinner').css('display','none');
+
                     $('.fullScreenSpin').css('display', 'none');
                 });
             }
         } else {
-            //Router.go('/invoicecard');
+
             window.open('/invoicecard', '_self');
         }
     },
@@ -7085,7 +6423,7 @@ Template.new_invoice.events({
                 swal('Customer Email cannot be blank!', '', 'warning');
                 event.preventDefault();
             } else {
-                // alert('here 1');
+
                 function isEmailValid(mailTo) {
                     return /^[A-Z0-9'.1234z_%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(mailTo);
                 };
