@@ -21,7 +21,7 @@ Template.forgotpassword.events({
     var token = Random.secret();
     var when = new Date();
     let mailTo = $('#email').val().replace(/;/g, ",");
-    let mailFrom = 'noreply@vs1.com';
+    let mailFrom = 'noreply@vs1cloud.com';
     let urlWithoutHash = originURL+'/resetpassword?token='+token;
     function isEmailValid(mailTo) {
         return /^[A-Z0-9'.1234z_%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(mailTo);

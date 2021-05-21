@@ -18,8 +18,6 @@ openDb1 = function (dbName) {
 openDb2 = function () {
   return new Promise((resolve, reject) => {
     let dbReq = indexedDB.open('TDatabase', 1);
-    // console.log(dbName);
-
     dbReq.onsuccess = () => resolve(dbReq.result);
 
     dbReq.onupgradeneeded = function (event) {
@@ -32,7 +30,6 @@ openDb2 = function () {
 openDb = function (dbName) {
   return new Promise((resolve, reject) => {
     let dbReq = indexedDB.open(dbName, 1);
-    // console.log(dbName);
 
     dbReq.onsuccess = () => resolve(dbReq.result);
 
@@ -190,7 +187,6 @@ storeExists = function (objectStore,Email) {
   var exists = false;
     var objectStoreRequest = objectStore.get(Email);
     objectStoreRequest.onsuccess = function () {
-      // console.log(objectStoreRequest);
       if(objectStoreRequest.result){
       if (Email == objectStoreRequest.result.EmployeeEmail) {
         localStorage.setItem("vs1Db",objectStoreRequest.result.data);
@@ -216,11 +212,11 @@ addLoginData = async function (loginData) {
   localStorage.setItem("vs1Db", loginData.ProcessLog.Databasename);
 
   transaction.oncomplete = function (event) {
-    //console.log("Transaction completed");
+
   };
 
   transaction1.oncomplete = function (event) {
-    //console.log("Transaction completed");
+
   };
   localStorage.setItem("vs1EmployeeName",loginData.ProcessLog.VS1UserName||loginData.ProcessLog.VS1AdminUserName);
   let loginInfo = {
@@ -244,14 +240,11 @@ addLoginData = async function (loginData) {
 
 addVS1Data = async function (objectName, vs1Data) {
   const db = await openDb(localStorage.getItem("vs1Db"));
-  console.log(localStorage.getItem("vs1Db"));
-    console.log(localStorage.getItem("vs1EmployeeName"));
   //const db1 = await openDb2();
   //let transaction1 = await db1.transaction(["TDatabases"], "readwrite")
   let transaction = await db.transaction([objectName], "readwrite");
 
   transaction.oncomplete = function (event) {
-    console.log("Transaction completed");
   };
   let currentDate = new Date();
   let hours = currentDate.getHours(); //returns 0-23
@@ -299,7 +292,6 @@ queryLoginDataObject = function (objectStore, VS1AdminUserName) {
       if (cursor) {
         if (VS1AdminUserName == cursor.key) {
           data.push(cursor.value);
-          //console.log(data);
           // if(!data){
           //     reject('');
           // }
@@ -315,7 +307,6 @@ queryLoginDataObject = function (objectStore, VS1AdminUserName) {
       }
     };
   });
-  //console.log(promise);
   return promise;
 }
 
@@ -351,7 +342,6 @@ queryVS1DataObject = function (objectStore, VS1AdminUserName) {
       }
     };
   });
-  //console.log(promise);
   return promise;
 }
 
@@ -381,17 +371,14 @@ deleteStoreExists = function (objectStore,Email) {
         let databaseName = objectStoreRequest.result.data;
         var req = indexedDB.deleteDatabase(databaseName);
         req.onsuccess = function () {
-          console.log("Deleted database successfully");
           exists = true;
           resolve(exists);
         };
         req.onerror = function () {
-            console.log("Couldn't delete database");
             exists = false;
             resolve(exists);
         };
         req.onblocked = function () {
-            console.log("Couldn't delete database due to the operation being blocked");
             exists = false;
             resolve(exists);
         };
@@ -409,13 +396,13 @@ deleteStoreDatabase = async function (databaseName) {
     //var promise =  new Promise((resolve, reject) => {
       var req = indexedDB.deleteDatabase(databaseName);
       req.onsuccess = function () {
-          console.log("Deleted database successfully");
+
       };
       req.onerror = function () {
-          console.log("Couldn't delete database");
+
       };
       req.onblocked = function () {
-          console.log("Couldn't delete database due to the operation being blocked");
+
       };
     //})
     return await req;
