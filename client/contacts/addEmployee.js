@@ -2206,18 +2206,33 @@ Template.employeescard.events({
 
 
         let objectData = "";
-        objectData = {
-            type: "TAppointmentPreferences",
-            fields: {
-                ID: settingID,
-                EmployeeID: parseInt(employeeSaveID),
-                DefaultApptDuration: defaultTime,
-                DefaultServiceProductID: defaultProductID,
-                DefaultServiceProduct: defaultProduct,
-                ShowSaturdayinApptCalendar: showSat,
-                ShowSundayinApptCalendar: showSun
-            }
-        };
+        if(settingID == ""){
+          objectData = {
+              type: "TAppointmentPreferences",
+              fields: {
+                  EmployeeID: parseInt(Session.get('mySessionEmployeeLoggedID')),
+                  DefaultApptDuration: defaultTime,
+                  DefaultServiceProductID: defaultProductID,
+                  DefaultServiceProduct: defaultProduct,
+                  ShowSaturdayinApptCalendar: showSat,
+                  ShowSundayinApptCalendar: showSun
+              }
+          };
+        }else{
+          objectData = {
+              type: "TAppointmentPreferences",
+              fields: {
+                  ID: settingID,
+                  EmployeeID: parseInt(Session.get('mySessionEmployeeLoggedID')),
+                  DefaultApptDuration: defaultTime,
+                  DefaultServiceProductID: defaultProductID,
+                  DefaultServiceProduct: defaultProduct,
+                  ShowSaturdayinApptCalendar: showSat,
+                  ShowSundayinApptCalendar: showSun
+              }
+          };
+        }
+
 
         appointmentService.saveAppointmentPreferences(objectData).then(function (data) {
             var cloudDBID = Session.get('mycloudLogonDBID');
@@ -2296,9 +2311,9 @@ Template.employeescard.events({
                                    confirmButtonText: 'OK'
                                }).then((result) => {
                                    if (result.value) {
-                                       Router.go('/employeelist?success');
+                                       Router.go('/employeelist?success=true');
                                    } else {
-                                     Router.go('/employeelist?success');
+                                     Router.go('/employeelist?success=true');
                                    }
                                });
                             }
@@ -2317,12 +2332,12 @@ Template.employeescard.events({
                                         //window.open('/employeescard?id=' + employeeSaveID,'_self');
                                        sideBarService.getAllEmployees().then(function(dataReload) {
                                          addVS1Data('TEmployee',JSON.stringify(dataReload)).then(function (datareturn) {
-                                          Router.go('/employeelist?success');
+                                          Router.go('/employeelist?success=true');
                                          }).catch(function (err) {
-                                           Router.go('/employeelist?success');
+                                           Router.go('/employeelist?success=true');
                                          });
                                        }).catch(function(err) {
-                                         Router.go('/employeelist?success');
+                                         Router.go('/employeelist?success=true');
                                        });
                                     }
                                   });
@@ -2331,12 +2346,12 @@ Template.employeescard.events({
                                     //window.open('/employeescard?id=' + employeeSaveID,'_self');
                                    sideBarService.getAllEmployees().then(function(dataReload) {
                                      addVS1Data('TEmployee',JSON.stringify(dataReload)).then(function (datareturn) {
-                                      Router.go('/employeelist?success');
+                                      Router.go('/employeelist?success=true');
                                      }).catch(function (err) {
-                                       Router.go('/employeelist?success');
+                                       Router.go('/employeelist?success=true');
                                      });
                                    }).catch(function(err) {
-                                     Router.go('/employeelist?success');
+                                     Router.go('/employeelist?success=true');
                                    });
                                 }
 
@@ -2421,12 +2436,12 @@ Template.employeescard.events({
                           //window.open('/employeescard?id=' + employeeSaveID,'_self');
                          sideBarService.getAllEmployees().then(function(dataReload) {
                            addVS1Data('TEmployee',JSON.stringify(dataReload)).then(function (datareturn) {
-                            Router.go('/employeelist?success');
+                            Router.go('/employeelist?success=true');
                            }).catch(function (err) {
-                             Router.go('/employeelist?success');
+                             Router.go('/employeelist?success=true');
                            });
                          }).catch(function(err) {
-                           Router.go('/employeelist?success');
+                           Router.go('/employeelist?success=true');
                          });
                       }
                     }
@@ -2443,12 +2458,12 @@ Template.employeescard.events({
                     //window.open('/employeescard?id=' + employeeSaveID,'_self');
                     sideBarService.getAllEmployees().then(function(dataReload) {
                       addVS1Data('TEmployee',JSON.stringify(dataReload)).then(function (datareturn) {
-                       Router.go('/employeelist?success');
+                       Router.go('/employeelist?success=true');
                       }).catch(function (err) {
-                        Router.go('/employeelist?success');
+                        Router.go('/employeelist?success=true');
                       });
                     }).catch(function(err) {
-                      Router.go('/employeelist?success');
+                      Router.go('/employeelist?success=true');
                     });
                 }
             }
@@ -2623,7 +2638,7 @@ Template.employeescard.events({
                             window.open('/accesslevel?empuser=' + employeeName, '_self');
 
                         } else {
-                          Router.go('/employeelist?success');
+                          Router.go('/employeelist?success=true');
                         }
                     });
 
@@ -2828,12 +2843,12 @@ Template.employeescard.events({
                         } else {
                           sideBarService.getAllEmployees().then(function(dataReload) {
                             addVS1Data('TEmployee',JSON.stringify(dataReload)).then(function (datareturn) {
-                             Router.go('/employeelist?success');
+                             Router.go('/employeelist?success=true');
                             }).catch(function (err) {
-                              Router.go('/employeelist?success');
+                              Router.go('/employeelist?success=true');
                             });
                           }).catch(function(err) {
-                            Router.go('/employeelist?success');
+                            Router.go('/employeelist?success=true');
                           });
                         }
                     });

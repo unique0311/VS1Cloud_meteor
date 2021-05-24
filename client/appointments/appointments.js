@@ -385,6 +385,10 @@ Template.appointments.onRendered(function () {
                 // let date = new Date('2021-03-25 ' + data.tappointmentpreferences[data.tappointmentpreferences.length - 1].ApptEndtime || '17:00');
                 // data.tappointmentpreferences[data.tappointmentpreferences.length - 1].ApptEndtime =  (('0'+ (date.getHours() - 1)).slice(-2) +':'+('0'+ date.getMinutes()).slice(-2));
                 if (data.tappointmentpreferences.length > 0) {
+                  let appEndTimeData = data.tappointmentpreferences[data.tappointmentpreferences.length - 1].ApptEndtime.split(' ')[0];
+                  let timeSplit = appEndTimeData.split(':');
+                  let appEndTimeDataHours = parseInt(timeSplit[0]) + 2;
+                  let appEndTimeDataToLoad = appEndTimeDataHours +':' +timeSplit[1];
                     prefObject = {
                         id: data.tappointmentpreferences[data.tappointmentpreferences.length - 1].Id || '',
                         defaultProduct: data.tappointmentpreferences[data.tappointmentpreferences.length - 1].DefaultServiceProduct || '',
@@ -393,8 +397,9 @@ Template.appointments.onRendered(function () {
                         showSun: data.tappointmentpreferences[data.tappointmentpreferences.length - 1].ShowSundayinApptCalendar || false,
                         showApptDurationin: data.tappointmentpreferences[data.tappointmentpreferences.length - 1].ShowApptDurationin || '1',
                         defaultApptDuration: data.tappointmentpreferences[data.tappointmentpreferences.length - 1].DefaultApptDuration || '2',
-                        apptStartTime: data.tappointmentpreferences[data.tappointmentpreferences.length - 1].ApptStartTime || '08:00',
-                        apptEndTime: data.tappointmentpreferences[data.tappointmentpreferences.length - 1].ApptEndtime || '17:00'
+                        apptStartTime: data.tappointmentpreferences[data.tappointmentpreferences.length - 1].ApptStartTime.split(' ')[0] || '08:00',
+                        apptEndTime: data.tappointmentpreferences[data.tappointmentpreferences.length - 1].ApptEndtime.split(' ')[0] || '17:00',
+                        apptEndTimeCal: appEndTimeDataToLoad || '17:00'
 
                     }
                     $("#showSaturday").prop('checked', prefObject.showSat);
@@ -440,6 +445,11 @@ Template.appointments.onRendered(function () {
             let useData = data.tappointmentpreferences;
             for (let i = 0; i < useData.length; i++) {
                 if (useData[i].EmployeeID == Session.get('mySessionEmployeeLoggedID')) {
+                  // console.log(useData[i]);
+                  let appEndTimeData = useData[i].ApptEndtime.split(' ')[0];
+                  let timeSplit = appEndTimeData.split(':');
+                  let appEndTimeDataHours = parseInt(timeSplit[0]) + 2;
+                  let appEndTimeDataToLoad = appEndTimeDataHours +':' +timeSplit[1];
                     // let date = new Date('2021-03-25 ' + useData[i].ApptEndtime || '17:00');
                     // useData[i].ApptEndtime = (('0'+ (date.getHours() - 1)).slice(-2) +':'+('0'+ date.getMinutes()).slice(-2));
                     prefObject = {
@@ -450,10 +460,12 @@ Template.appointments.onRendered(function () {
                         showSun: useData[i].ShowSundayinApptCalendar || false,
                         showApptDurationin: useData[i].ShowApptDurationin || '1',
                         defaultApptDuration: useData[i].DefaultApptDuration || '2',
-                        apptStartTime: useData[i].ApptStartTime || '08:00',
-                        apptEndTime: useData[i].ApptEndtime || '17:00'
+                        apptStartTime: useData[i].ApptStartTime.split(' ')[0] || '08:00',
+                        apptEndTime: useData[i].ApptEndtime.split(' ')[0] || '17:00',
+                        apptEndTimeCal: appEndTimeDataToLoad || '17:00'
 
                     }
+
                     $("#showSaturday").prop('checked', prefObject.showSat);
                     $("#showSunday").prop('checked', prefObject.showSun);
                     if (prefObject.showSat === false) {
@@ -494,12 +506,15 @@ Template.appointments.onRendered(function () {
 
         }
     }).catch(function (err) {
-        console.log(err);
         appointmentService.getCalendarsettings(Session.get('mySessionEmployeeLoggedID')).then(function (data) {
             templateObject.getAllAppointmentListData();
             // let date = new Date('2021-03-25 ' + data.tappointmentpreferences[data.tappointmentpreferences.length - 1].ApptEndtime || '17:00');
             // data.tappointmentpreferences[data.tappointmentpreferences.length - 1].ApptEndtime =  (('0'+ (date.getHours() - 1)).slice(-2) +':'+('0'+ date.getMinutes()).slice(-2));
             if (data.tappointmentpreferences.length > 0) {
+              let appEndTimeData = data.tappointmentpreferences[data.tappointmentpreferences.length - 1].ApptEndtime.split(' ')[0];
+              let timeSplit = appEndTimeData.split(':');
+              let appEndTimeDataHours = parseInt(timeSplit[0]) + 2;
+              let appEndTimeDataToLoad = appEndTimeDataHours +':' +timeSplit[1];
                 prefObject = {
                     id: data.tappointmentpreferences[data.tappointmentpreferences.length - 1].Id || '',
                     defaultProduct: data.tappointmentpreferences[data.tappointmentpreferences.length - 1].DefaultServiceProduct || '',
@@ -508,8 +523,9 @@ Template.appointments.onRendered(function () {
                     showSun: data.tappointmentpreferences[data.tappointmentpreferences.length - 1].ShowSundayinApptCalendar || false,
                     showApptDurationin: data.tappointmentpreferences[data.tappointmentpreferences.length - 1].ShowApptDurationin || '',
                     defaultApptDuration: data.tappointmentpreferences[data.tappointmentpreferences.length - 1].DefaultApptDuration || '',
-                    apptStartTime: data.tappointmentpreferences[data.tappointmentpreferences.length - 1].ApptStartTime || '',
-                    apptEndTime: data.tappointmentpreferences[data.tappointmentpreferences.length - 1].ApptEndtime || ''
+                    apptStartTime: data.tappointmentpreferences[data.tappointmentpreferences.length - 1].ApptStartTime.split(' ')[0] || '',
+                    apptEndTime: data.tappointmentpreferences[data.tappointmentpreferences.length - 1].ApptEndtime.split(' ')[0] || '',
+                    apptEndTimeCal: appEndTimeDataToLoad || '17:00'
 
                 }
                 $("#showSaturday").prop('checked', prefObject.showSat);
@@ -572,7 +588,7 @@ Template.appointments.onRendered(function () {
                     }
 
                     if (calendarSet.apptEndTime) {
-                        slotMax = calendarSet.apptEndTime;
+                        slotMax = calendarSet.apptEndTimeCal;
                     }
 
                     if (calendarSet.showSun == false) {
@@ -1594,7 +1610,7 @@ Template.appointments.onRendered(function () {
                 }
 
                 if (calendarSet.apptEndTime) {
-                    slotMax = calendarSet.apptEndTime;
+                    slotMax = calendarSet.apptEndTimeCal;
                 }
 
                 if (calendarSet.showSun == false) {
@@ -2420,7 +2436,7 @@ Template.appointments.onRendered(function () {
                 }
 
                 if (calendarSet.apptEndTime) {
-                    slotMax = calendarSet.apptEndTime;
+                    slotMax = calendarSet.apptEndTimeCal;
                 }
 
                 if (calendarSet.showSun == false) {
@@ -3762,7 +3778,7 @@ Template.appointments.onRendered(function () {
         }
 
         if (calendarSet.apptEndTime) {
-            slotMax = calendarSet.apptEndTime;
+            slotMax = calendarSet.apptEndTimeCal;
         }
 
         if (calendarSet.showSun == false) {
@@ -6381,7 +6397,7 @@ Template.appointments.events({
                 } else{
                     desc = "Job Start";
                 }
-                
+
             }
 
             date = new Date();
@@ -6464,9 +6480,9 @@ Template.appointments.events({
                                                 confirmButtonText: 'Try Again'
                                             }).then((result) => {
                                                 if (result.value) {
-    
+
                                                 } else if (result.dismiss === 'cancel') {
-    
+
                                                 }
                                             });
                                             $('.fullScreenSpin').css('display', 'none');
@@ -6480,9 +6496,9 @@ Template.appointments.events({
                                             confirmButtonText: 'Try Again'
                                         }).then((result) => {
                                             if (result.value) {
-    
+
                                             } else if (result.dismiss === 'cancel') {
-    
+
                                             }
                                         });
                                         $('.fullScreenSpin').css('display', 'none');
@@ -6497,9 +6513,9 @@ Template.appointments.events({
                                         confirmButtonText: 'Try Again'
                                     }).then((result) => {
                                         if (result.value) {
-    
+
                                         } else if (result.dismiss === 'cancel') {
-    
+
                                         }
                                     });
                                     $('.fullScreenSpin').css('display', 'none');
@@ -6574,7 +6590,7 @@ Template.appointments.events({
                                 $('.fullScreenSpin').css('display', 'none');
                             });
                         }
-                        
+
                     }
 
 
@@ -6636,7 +6652,7 @@ Template.appointments.events({
                             Othertxt: ""
                         }
                     };
-                       
+
                         if(result[0].timelog !=""){
                                 appointmentService.saveAppointment(objectData1).then(function (data1) {
                                     sideBarService.getAllAppointmentList().then(function (data) {
@@ -6665,9 +6681,9 @@ Template.appointments.events({
                                                 confirmButtonText: 'Try Again'
                                             }).then((result) => {
                                                 if (result.value) {
-    
+
                                                 } else if (result.dismiss === 'cancel') {
-    
+
                                                 }
                                             });
                                             $('.fullScreenSpin').css('display', 'none');
@@ -6681,9 +6697,9 @@ Template.appointments.events({
                                             confirmButtonText: 'Try Again'
                                         }).then((result) => {
                                             if (result.value) {
-    
+
                                             } else if (result.dismiss === 'cancel') {
-    
+
                                             }
                                         });
                                         $('.fullScreenSpin').css('display', 'none');
@@ -6698,14 +6714,14 @@ Template.appointments.events({
                                         confirmButtonText: 'Try Again'
                                     }).then((result) => {
                                         if (result.value) {
-    
+
                                         } else if (result.dismiss === 'cancel') {
-    
+
                                         }
                                     });
                                     $('.fullScreenSpin').css('display', 'none');
                                 });
-                        
+
                         } else {
                             appointmentService.saveAppointment(objectData1).then(function (data1) {
                                 sideBarService.getAllAppointmentList().then(function (data) {
@@ -6775,8 +6791,8 @@ Template.appointments.events({
                                 $('.fullScreenSpin').css('display', 'none');
                             });
                         }
-                        
-                    
+
+
 
 
                 }).catch(function (err) {

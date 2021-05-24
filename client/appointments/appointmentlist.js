@@ -1183,6 +1183,16 @@ Template.appointmentlist.events({
       }
     });
 
+    sideBarService.getAllAppointmentPredList().then(function (data) {
+        addVS1Data('TAppointmentPreferences', JSON.stringify(data)).then(function (datareturn) {
+
+        }).catch(function (err) {
+            
+        });
+    }).catch(function (err) {
+
+    });
+
 
   },
   'click .chkDatatable': function (event) {

@@ -757,6 +757,15 @@ Template.employeelist.events({
 
     $('.fullScreenSpin').css('display','inline-block');
     let templateObject = Template.instance();
+    sideBarService.getAllAppointmentPredList().then(function (data) {
+        addVS1Data('TAppointmentPreferences', JSON.stringify(data)).then(function (datareturn) {
+
+        }).catch(function (err) {
+
+        });
+    }).catch(function (err) {
+
+    });
     sideBarService.getAllEmployees().then(function(data) {
       addVS1Data('TEmployee',JSON.stringify(data)).then(function (datareturn) {
         window.open('/employeelist','_self');

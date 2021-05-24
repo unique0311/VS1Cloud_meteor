@@ -1550,6 +1550,7 @@ Template.new_invoice.onRendered(() => {
 
             };
             templateObject.getInvoiceData();
+            setTimeout(function () {
             try {
                 $('#html-2-pdfwrapper1').css('display', 'block');
                 async function addAttachment() {
@@ -1702,7 +1703,7 @@ Template.new_invoice.onRendered(() => {
             }
             catch (err) {
             }
-
+            }, 1500);
         }
     } else if (url.indexOf('?id=') > 0) {
         var getso_id = url.split('?id=');

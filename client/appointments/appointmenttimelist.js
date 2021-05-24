@@ -1232,6 +1232,16 @@ Template.appointmenttimelist.events({
       location.reload(true);
     });
 
+    sideBarService.getAllAppointmentPredList().then(function (data) {
+        addVS1Data('TAppointmentPreferences', JSON.stringify(data)).then(function (datareturn) {
+
+        }).catch(function (err) {
+
+        });
+    }).catch(function (err) {
+
+    });
+
   },
   'click .chkDatatable': function (event) {
     var columns = $('#tblappointmenttimelist th');
