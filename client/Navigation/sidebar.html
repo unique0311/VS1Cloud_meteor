@@ -551,10 +551,12 @@ overflow-y: scroll !important;
                         <i class="fa fa-dollar"></i><span>Payroll</span>
                     </a>
                     <div class="collapse" id="collapse-10" style="{{#if isGreenTrack}}background-color: #00A969;{{else}}background-color: #00a3d3;{{/if}} width: max-content; padding: 5px; border-radius: 5px;">
+                        {{#if includeTimesheetEntry}}
                         <div style="margin: 10px 20px;"><a class="text-white"  id="sidenavtimesheet" name="sidenavtimesheet" style="font-size: 16px;"><i class="fa fa-dollar"></i><span> Timesheet</span></a></div>
+                        {{/if}}
+                        {{#if includeClockOnOff}}
                        <div style="margin: 10px 20px;"><a class="text-white"  id="sidenavtimeclock" name="sidenavtimeclock" style="font-size: 16px;"><i class="fas fa-clock"></i><span> Time Clock</span></a></div>
-                        <!-- <div style="margin: 10px 20px;"><a class="text-white " href="/adpapi" id="sidenavadp" name="sidenavadp" style="font-size: 16px;"><i class="fa fa-dollar"></i><span> ADP</span></a></div>
-<div style="margin: 10px 20px;"><a class="text-white " href="/paychexapi" id="sidenavpaychex" name="sidenavpaychex" style="font-size: 16px;"><i class="fa fa-dollar"></i><span> Paychex</span></a></div> -->
+                       {{/if}}
                     </div>
                 </li>
                 {{/if}}

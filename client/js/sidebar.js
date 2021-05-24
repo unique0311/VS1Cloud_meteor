@@ -3887,6 +3887,11 @@ Template.sidenav.onCreated(function() {
     templateObject.includePayroll = new ReactiveVar();
     templateObject.includePayroll.set(false);
 
+    templateObject.includeTimesheetEntry = new ReactiveVar();
+    templateObject.includeTimesheetEntry.set(false);
+    templateObject.includeClockOnOff = new ReactiveVar();
+    templateObject.includeClockOnOff.set(false);
+
     templateObject.isCloudSidePanelMenu = new ReactiveVar();
     templateObject.isCloudSidePanelMenu.set(false);
     templateObject.isCloudTopPanelMenu = new ReactiveVar();
@@ -3963,6 +3968,9 @@ Template.sidenav.onRendered(function() {
     let isSeedToSale = Session.get('CloudSeedToSaleModule');
     let isBanking = Session.get('CloudBankingModule');
     let isPayroll = Session.get('CloudPayrollModule');
+
+    let isTimesheetEntry = Session.get('CloudTimesheetEntry');
+    let isClockOnOff = Session.get('CloudClockOnOff');
 
     let isSidePanel = Session.get('CloudSidePanelMenu');
     let isTopPanel = Session.get('CloudTopPanelMenu');
@@ -4366,6 +4374,14 @@ Template.sidenav.onRendered(function() {
             templateObject.includePayroll.set(true);
         }
 
+        if (isTimesheetEntry) {
+            templateObject.includeTimesheetEntry.set(true);
+        }
+
+        if (isClockOnOff) {
+            templateObject.includeClockOnOff.set(true);
+        }
+
         if (isSidePanel) {
             templateObject.isCloudSidePanelMenu.set(true);
             $("html").addClass("hasSideBar");
@@ -4600,6 +4616,12 @@ Template.sidenav.helpers({
     },
     includePayroll: () => {
         return Template.instance().includePayroll.get();
+    },
+    includeTimesheetEntry: () => {
+        return Template.instance().includeTimesheetEntry.get();
+    },
+    includeClockOnOff: () => {
+        return Template.instance().includeClockOnOff.get();
     },
     checkFXCurrency: () => {
         return Session.get('CloudUseForeignLicence');
