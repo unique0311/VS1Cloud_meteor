@@ -1298,8 +1298,6 @@ Template.new_invoice.onRendered(() => {
                                 let invoice_total = getTotal.replace(currency_symbol, '').replace(',','');
                                 let paymentItems = [];
                                 let paymentLineItems = {};
-                                console.log(invoice_total);
-                                console.log(paidAmount);
                                 let dueAmount = utilityService.modifynegativeCurrencyFormat(parseFloat(invoice_total) - parseFloat(paidAmount)).toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0;
                                 let amountPaid = Currency + '' + paidAmount.toLocaleString(undefined, { minimumFractionDigits: 2 });
                                 paymentLineItems = {
