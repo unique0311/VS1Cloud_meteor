@@ -249,7 +249,6 @@ Template.new_invoice.onRendered(() => {
             } else {
                 let data = JSON.parse(dataObject[0].data);
                 let useData = data.tcustomervs1;
-                console.log(useData);
                 for (let i in useData) {
 
                     let customerrecordObj = {
@@ -608,6 +607,7 @@ Template.new_invoice.onRendered(() => {
         var getso_id = url.searchParams.get("id");
         var paymentID = url.searchParams.get("paymentID");
         var paidAmount = url.searchParams.get("total");
+        var currency_symbol = url.searchParams.get("currency");
         if (getso_id) {
             currentInvoice = parseInt(getso_id);
             $('.printID').attr("id", currentInvoice);
@@ -949,8 +949,6 @@ Template.new_invoice.onRendered(() => {
                                 let invoicerecord = {
                                     id: useData[d].fields.ID,
                                     lid: 'Edit Invoice' + ' ' + useData[d].fields.ID,
-                                    firstname: cust_result[0].firstname,
-                                    lastname: cust_result[0].lastname,
                                     socustomer: useData[d].fields.CustomerName,
                                     salesOrderto: useData[d].fields.InvoiceToDesc,
                                     shipto: useData[d].fields.ShipToDesc,
@@ -1292,14 +1290,16 @@ Template.new_invoice.onRendered(() => {
                                 $('.fullScreenSpin').css('display', 'none');
                             });
                         }
-                        setTimeout(function () {
-                            try {
-                                let getTotal = $('#grandTotal').text();
+    
+                               setTimeout(function(){
+                                let getTotal = $('#totalBalanceDue').text();
                                 $('.pdfCustomerAddress').html($('#txabillingAddress').val());
                                 $('.pdfCustomerName').html($('#edtCustomerName').val());
-                                let invoice_total = getTotal.replace('$', '');
+                                let invoice_total = getTotal.replace(currency_symbol, '').replace(',','');
                                 let paymentItems = [];
                                 let paymentLineItems = {};
+                                console.log(invoice_total);
+                                console.log(paidAmount);
                                 let dueAmount = utilityService.modifynegativeCurrencyFormat(parseFloat(invoice_total) - parseFloat(paidAmount)).toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0;
                                 let amountPaid = Currency + '' + paidAmount.toLocaleString(undefined, { minimumFractionDigits: 2 });
                                 paymentLineItems = {
@@ -1327,9 +1327,9 @@ Template.new_invoice.onRendered(() => {
 
                                 };
                                 templateObject.record.set(record);
-                            } catch (err) {
-                            }
-                        }, 500);
+                            },1500)
+                                
+                           
                     }
                 }).catch(function (err) {
                     accountService.getOneInvoicedataEx(currentInvoice).then(function (data) {
@@ -1460,6 +1460,8 @@ Template.new_invoice.onRendered(() => {
                             if (clientList) {
                                 for (var i = 0; i < clientList.length; i++) {
                                     if (clientList[i].customername == data.fields.CustomerName) {
+                                        invoicerecord.firstname = clientList[i].firstname;
+                                        invoicerecord.surname = clientList[i].lastname;
                                         $('#edtCustomerEmail').val(clientList[i].customeremail);
                                         $('#edtCustomerEmail').attr('customerid', clientList[i].customerid);
                                     }
@@ -1550,7 +1552,6 @@ Template.new_invoice.onRendered(() => {
 
             };
             templateObject.getInvoiceData();
-            setTimeout(function () {
             try {
                 $('#html-2-pdfwrapper1').css('display', 'block');
                 async function addAttachment() {
@@ -1640,46 +1641,25 @@ Template.new_invoice.onRendered(() => {
                             if (error && error.error === "error") {
 
                             } else {
-
-                            }
-                        });
-
-                        Meteor.call('sendEmail', {
-                            from: "" + mailFromName + " <" + mailFrom + ">",
-                            to: mailFrom,
-                            subject: mailSubject,
-                            text: '',
-                            html: htmlmailBody,
-                            attachments: attachment
-                        }, function (error, result) {
-                            if (error && error.error === "error") {
-                            } else {
                                 $('.fullScreenSpin').css('display', 'none');
-                                $('#html-2-pdfwrapper1').css('display', 'none');
                                 swal({
                                     title: 'SUCCESS',
-                                    text: "Email Sent To Customer: " + checkEmailData + " and User: " + mailFrom + "",
+                                    text: "Email Sent To Customer: " + checkEmailData,
                                     type: 'success',
                                     showCancelButton: false,
                                     confirmButtonText: 'OK'
                                 }).then((result) => {
                                     if (result.value) {
 
-                                        Router.go('/invoicelist?success=true');
+                                        //Router.go('/invoicelist?success=true');
                                     } else if (result.dismiss === 'cancel') {
-                                        Router.go('/invoicelist?success=true');
+                                        //Router.go('/invoicelist?success=true');
                                     } else {
-                                        Router.go('/invoicelist?success=true');
+                                       // Router.go('/invoicelist?success=true');
                                     }
                                 });
-
-                                $('.fullScreenSpin').css('display', 'none');
                             }
                         });
-
-
-
-
 
                     }
 
@@ -1687,7 +1667,8 @@ Template.new_invoice.onRendered(() => {
                 }
                 setTimeout(function () {
                     addAttachment();
-                }, 1500);
+                }, 2500);
+
                 function generatePdfForMail(invoiceId) {
                     return new Promise((resolve, reject) => {
                         let templateObject = Template.instance();
@@ -1702,8 +1683,9 @@ Template.new_invoice.onRendered(() => {
                 }
             }
             catch (err) {
+                console.log(err);
             }
-            }, 1500);
+
         }
     } else if (url.indexOf('?id=') > 0) {
         var getso_id = url.split('?id=');
