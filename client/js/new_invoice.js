@@ -1649,11 +1649,11 @@ Template.new_invoice.onRendered(() => {
                                 }).then((result) => {
                                     if (result.value) {
 
-                                        //Router.go('/invoicelist?success=true');
+                                        Router.go('/invoicelist?success=true');
                                     } else if (result.dismiss === 'cancel') {
-                                        //Router.go('/invoicelist?success=true');
+                                        Router.go('/invoicelist?success=true');
                                     } else {
-                                       // Router.go('/invoicelist?success=true');
+                                       Router.go('/invoicelist?success=true');
                                     }
                                 });
                             }
