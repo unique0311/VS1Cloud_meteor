@@ -694,8 +694,6 @@ Template.new_invoice.onRendered(() => {
                             let invoicerecord = {
                                 id: data.fields.ID,
                                 lid: 'Edit Invoice' + ' ' + data.fields.ID,
-                                firstname: cust_result[0].firstname,
-                                lastname: cust_result[0].lastname,
                                 socustomer: data.fields.CustomerName,
                                 salesOrderto: data.fields.InvoiceToDesc,
                                 shipto: data.fields.ShipToDesc,
@@ -1777,8 +1775,6 @@ Template.new_invoice.onRendered(() => {
                             let invoicerecord = {
                                 id: data.fields.ID,
                                 lid: 'Edit Invoice' + ' ' + data.fields.ID,
-                                firstname: cust_result[0].firstname,
-                                lastname: cust_result[0].lastname,
                                 socustomer: data.fields.CustomerName,
                                 salesOrderto: data.fields.InvoiceToDesc,
                                 shipto: data.fields.ShipToDesc,
@@ -2017,8 +2013,6 @@ Template.new_invoice.onRendered(() => {
                                 let invoicerecord = {
                                     id: useData[d].fields.ID,
                                     lid: 'Edit Invoice' + ' ' + useData[d].fields.ID,
-                                    // firstname: cust_result[0].firstname,
-                                    // lastname: cust_result[0].lastname,
                                     socustomer: useData[d].fields.CustomerName,
                                     salesOrderto: useData[d].fields.InvoiceToDesc,
                                     shipto: useData[d].fields.ShipToDesc,
@@ -2469,7 +2463,6 @@ Template.new_invoice.onRendered(() => {
                         let invoicerecord = {
                             id: data.fields.ID,
                             lid: 'Edit Invoice' + ' ' + data.fields.ID,
-                            firstname: cust_result[0].firstname || '',
                             salesOrderto: data.fields.InvoiceToDesc,
                             shipto: data.fields.ShipToDesc,
                             department: data.fields.SaleClassName,
