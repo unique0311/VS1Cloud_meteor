@@ -649,7 +649,6 @@ Template.vs1login.onRendered(function(){
   function getAccessLevelData(userAccessOptions, isSameUserLogin){
     let lineItemslevel = [];
     let lineItemObjlevel = {};
-
     let lineItemsAccesslevel = [];
     let lineItemAccessObjlevel = {};
 
@@ -691,6 +690,10 @@ Template.vs1login.onRendered(function(){
     let isSeedToSale = true;
     let isBanking = true;
     let isPayroll = true;
+    let isTimesheetEntry = false;
+    let isClockOnOff = false;
+
+
 
     /* Lincence Check for Menu Options */
     let isFixedAssetsLicence = Session.get('CloudFixedAssetsLicence');
@@ -817,6 +820,14 @@ Template.vs1login.onRendered(function(){
           isSalesQtyOnly = true;
         }
 
+        if(optionaccess.fields.Description === "Timesheet Entry"){
+          isTimesheetEntry = true;
+        }
+
+        if(optionaccess.fields.Description === "Clock On/Off"){
+          isClockOnOff = true;
+        }
+
 
 
         lineItemAccessObjlevel = {
@@ -907,6 +918,8 @@ Template.vs1login.onRendered(function(){
    Session.setPersistent('CloudSalesQtyOnly', isSalesQtyOnly);
    Session.setPersistent('CloudPurchaseQtyOnly', isPurchaseQtyOnly);
 
+   Session.setPersistent('CloudTimesheetEntry', isTimesheetEntry);
+   Session.setPersistent('CloudClockOnOff', isClockOnOff);
 
    Session.setPersistent('CloudDashboardModule', isDashboard);
    Session.setPersistent('CloudMainModule', isMain);
@@ -1367,7 +1380,7 @@ $("#erplogin-button").click(async function(e){
                         cancelButtonText: 'Cancel'
                       }).then((result) => {
                         if (result.value) {
-                          window.open('https://magento-473757-1929062.cloudwaysapps.com/customer/account/login/referer/aHR0cHM6Ly93d3cucGF5bWVudHMudnMxY2xvdWQuY29tLw%2C%2C?urppassname='+dataReturnRes.ProcessLog.VS1AdminUserName+'&urlpasstoken='+userLoginPassword+'', '_blank');
+                          window.open('https://www.payments.vs1cloud.com/customer/account/login/referer/aHR0cHM6Ly93d3cucGF5bWVudHMudnMxY2xvdWQuY29tLw%2C%2C?urppassname='+dataReturnRes.ProcessLog.VS1AdminUserName+'&urlpasstoken='+userLoginPassword+'', '_blank');
                         } else if (result.dismiss === 'cancel') {
 
                         }
@@ -1911,7 +1924,7 @@ $("#erplogin-button").click(async function(e){
              cancelButtonText: 'Cancel'
            }).then((result) => {
              if (result.value) {
-               window.open('https://magento-473757-1929062.cloudwaysapps.com/customer/account/login/referer/aHR0cHM6Ly93d3cucGF5bWVudHMudnMxY2xvdWQuY29tLw%2C%2C?urppassname='+dataReturnRes.ProcessLog.VS1AdminUserName+'&urlpasstoken='+userLoginPassword+'', '_blank');
+               window.open('https://www.payments.vs1cloud.com/customer/account/login/referer/aHR0cHM6Ly93d3cucGF5bWVudHMudnMxY2xvdWQuY29tLw%2C%2C?urppassname='+dataReturnRes.ProcessLog.VS1AdminUserName+'&urlpasstoken='+userLoginPassword+'', '_blank');
              } else if (result.dismiss === 'cancel') {
 
              }
@@ -2353,7 +2366,7 @@ $("#erplogin-button").click(async function(e){
                       cancelButtonText: 'Cancel'
                     }).then((result) => {
                       if (result.value) {
-                        window.open('https://magento-473757-1929062.cloudwaysapps.com/customer/account/login/referer/aHR0cHM6Ly93d3cucGF5bWVudHMudnMxY2xvdWQuY29tLw%2C%2C?urppassname='+dataReturnRes.ProcessLog.VS1AdminUserName+'&urlpasstoken='+userLoginPassword+'', '_blank');
+                        window.open('https://www.payments.vs1cloud.com/customer/account/login/referer/aHR0cHM6Ly93d3cucGF5bWVudHMudnMxY2xvdWQuY29tLw%2C%2C?urppassname='+dataReturnRes.ProcessLog.VS1AdminUserName+'&urlpasstoken='+userLoginPassword+'', '_blank');
                       } else if (result.dismiss === 'cancel') {
 
                       }
@@ -2947,7 +2960,7 @@ $("#erplogin-button").click(async function(e){
                   cancelButtonText: 'Cancel'
                 }).then((result) => {
                   if (result.value) {
-                    window.open('https://magento-473757-1929062.cloudwaysapps.com/customer/account/login/referer/aHR0cHM6Ly93d3cucGF5bWVudHMudnMxY2xvdWQuY29tLw%2C%2C?urppassname='+dataReturnRes.ProcessLog.VS1AdminUserName+'&urlpasstoken='+userLoginPassword+'', '_blank');
+                    window.open('https://www.payments.vs1cloud.com/customer/account/login/referer/aHR0cHM6Ly93d3cucGF5bWVudHMudnMxY2xvdWQuY29tLw%2C%2C?urppassname='+dataReturnRes.ProcessLog.VS1AdminUserName+'&urlpasstoken='+userLoginPassword+'', '_blank');
                   } else if (result.dismiss === 'cancel') {
 
                   }
@@ -3553,7 +3566,7 @@ $("#erplogin-button").click(async function(e){
                       cancelButtonText: 'Cancel'
                     }).then((result) => {
                       if (result.value) {
-                        window.open('https://magento-473757-1929062.cloudwaysapps.com/customer/account/login/referer/aHR0cHM6Ly93d3cucGF5bWVudHMudnMxY2xvdWQuY29tLw%2C%2C?urppassname='+dataReturnRes.ProcessLog.VS1AdminUserName+'&urlpasstoken='+userLoginPassword+'', '_blank');
+                        window.open('https://www.payments.vs1cloud.com/customer/account/login/referer/aHR0cHM6Ly93d3cucGF5bWVudHMudnMxY2xvdWQuY29tLw%2C%2C?urppassname='+dataReturnRes.ProcessLog.VS1AdminUserName+'&urlpasstoken='+userLoginPassword+'', '_blank');
                       } else if (result.dismiss === 'cancel') {
 
                       }

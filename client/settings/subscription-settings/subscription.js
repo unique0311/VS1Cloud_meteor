@@ -12,7 +12,22 @@ Template.subscriptionSettings.onCreated(() => {
 });
 
 Template.subscriptionSettings.onRendered(function () {
-
+  var erpGet = erpDb();
+  var oReq = new XMLHttpRequest();
+  oReq.open("GET",URLRequest + loggedserverIP + ':' + loggedserverPort + '/' + 'erpapi/TVS1_Clients_Simple?ListType="Detail"&select=[Databasename]="'+erpGet.ERPDatabase+'"', true);
+  oReq.setRequestHeader("database",vs1loggedDatatbase);
+  oReq.setRequestHeader("username",'VS1_Cloud_Admin');
+  oReq.setRequestHeader("password",'DptfGw83mFl1j&9');
+  oReq.send();
+   oReq.onreadystatechange = function() {
+   if(oReq.readyState == 4 && oReq.status == 200) {
+     var data = JSON.parse(oReq.responseText);
+     $('#txtCardID').val(data.tvs1_clients_simple[0].fields.ID||'');
+     $('#txtCardNo').val(data.tvs1_clients_simple[0].fields.CreditCardNumber||'');
+     $('#txtExpireDate').val(data.tvs1_clients_simple[0].fields.CreditCardExpiryMonth+'/'+data.tvs1_clients_simple[0].fields.CreditCardExpiryYear);
+     $('#txtCVC').val(data.tvs1_clients_simple[0].fields.CreditCardCVC||'');
+   }
+ }
 });
 
 Template.subscriptionSettings.events({
@@ -75,7 +90,7 @@ Template.subscriptionSettings.events({
             confirmButtonText: 'OK'
             }).then((result) => {
             if (result.value) {
-             window.open('https://phpstack-473757-1915640.cloudwaysapps.com/vs1subscription/cancelsubscription.php?email='+loggeduserEmail+'','_self');
+             window.open('https://www.depot.vs1cloud.com/vs1subscription/cancelsubscription.php?email='+loggeduserEmail+'','_self');
             } else if (result.dismiss === 'cancel') {
 
             }
@@ -118,5 +133,76 @@ Template.subscriptionSettings.events({
 
        }
     });
+  },
+  'click .btnSaveCreditCard': function (event) {
+    let lineID = $('#txtCardID').val();
+    $('.fullScreenSpin').css('display', 'inline-block');
+    let objDetails = {
+        type: "TVS1_Clients_Simple",
+        fields: {
+          ID: parseInt(lineID)||0,
+          CreditCardCVC:$('#txtCVC').val(),
+          CreditCardNumber: $('#txtCardNo').val()
+          // VS1UserName: erpGet.ERPUsername,
+          // VS1Password: erpGet.ERPPassword,
+          // APIPort:parseFloat(portNo)||0
+      }
+    };
+      var oPost = new XMLHttpRequest();
+      oPost.open("POST",URLRequest + loggedserverIP + ':' + loggedserverPort + '/' + 'erpapi/TVS1_Clients_Simple', true);
+      oPost.setRequestHeader("database",vs1loggedDatatbase);
+      oPost.setRequestHeader("username",'VS1_Cloud_Admin');
+      oPost.setRequestHeader("password",'DptfGw83mFl1j&9');
+      oPost.setRequestHeader("Accept", "application/json");
+      oPost.setRequestHeader("Accept", "application/html");
+      oPost.setRequestHeader("Content-type", "application/json");
+      //var myString = '"JsonIn"'+':'+JSON.stringify(objDetailsUser);
+      var myString = JSON.stringify(objDetails);
+      if(lineID != ''){
+       oPost.send(myString);
+
+       oPost.onreadystatechange = function() {
+    if(oPost.readyState == 4 && oPost.status == 200) {
+
+        $('.fullScreenSpin').css('display','none');
+      window.open('/subscriptionSettings','_self');
+
+    }else if(oPost.readyState == 4 && oPost.status == 403){
+    $('.fullScreenSpin').css('display','none');
+    swal({
+    title: 'Something went wrong',
+    text: oPost.getResponseHeader('errormessage'),
+    type: 'error',
+    showCancelButton: false,
+    confirmButtonText: 'Try Again'
+    }).then((result) => {
+    if (result.value) {
+    // Meteor._reload.reload();
+    } else if (result.dismiss === 'cancel') {
+
+    }
+    });
+    }else if(oPost.readyState == 4 && oPost.status == 406){
+      $('.fullScreenSpin').css('display','none');
+      var ErrorResponse = oPost.getResponseHeader('errormessage');
+      var segError = ErrorResponse.split(':');
+
+    if((segError[1]) == ' "Unable to lock object'){
+
+      swal('WARNING', oPost.getResponseHeader('errormessage')+'Please try again!', 'error');
+    }else{
+
+      swal('WARNING', oPost.getResponseHeader('errormessage')+'Please try again!', 'error');
+    }
+
+    }else if(oPost.readyState == '') {
+    $('.fullScreenSpin').css('display','none');
+
+    swal('Connection Failed', oPost.getResponseHeader('errormessage') +' Please try again!', 'error');
+    }
+    }
+      }else{
+        window.open('/subscriptionSettings','_self');
+      }
   }
 });

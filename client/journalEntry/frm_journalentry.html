@@ -10,6 +10,11 @@
                     <h1 style="margin: 32px;margin-bottom: 0px;">{{record.lid}} <a role="button" data-toggle="modal" href="#helpModal" class="helpModal"><label class="lblplay">PLAY</label><i class="far fa-play-circle"  style="font-size: 20px;"></i></a></h1>
                 </header>
             </div>
+            {{#if equals record.isReconciled true}}
+            <div class="col-2 colProcessed" id="colProcessed" >
+                <h3 style="margin-left: -24px; margin-top: 36px; color: #e02d1b; font-weight: 600;">Reconciled</h3>
+            </div>
+            {{/if}}
         </div>
 
         <div class="row" style="padding: 32px; padding-bottom: 0px; background-color: #ededed;">
@@ -44,6 +49,7 @@
                     <input type="text" class="form-control" id="edtEnrtyNo" name="edtEnrtyNo" value="{{record.entryno}}">
                 </div>
             </div>
+
         </div>
         <div class="row" style="padding: 32px; padding-top: 0px; background-color: #ededed;">
             <div class="col-5 colMemo" id="colMemo">
@@ -499,7 +505,7 @@
                     <div style="display: flex;">
                         <div style="max-width: 60mm; max-height: 30mm;">
                             <img src="assets/img/VS1.png" class="uploadedImage" style="max-height: 30mm; max-width: 200px;margin-bottom: 8px;">
-                            
+
                         </div>
                         <div style="width: 70mm;">
                             <div style="padding-left: 16px;font-weight: bold;">

@@ -137,7 +137,6 @@ Template.journalentrycard.onRendered(() => {
             } else {
                 latestPOId = 0;
             }
-            // console.log(latestPOId);
             newJournalId = (latestPOId + 1);
             $('#edtEnrtyNo').val(newJournalId);
 
@@ -305,10 +304,16 @@ Template.journalentrycard.onRendered(() => {
                                 department: department,
                                 entryno: data.fields.TransactionNo,
                                 transdate: data.fields.TransactionDate ? moment(data.fields.TransactionDate).format('DD/MM/YYYY') : "",
-                                LineItems: lineItems
+                                LineItems: lineItems,
+                                isReconciled:data.fields.IsReconciled
                             };
 
                             // $("#form :input").prop("disabled", true);
+                            if(data.fields.IsReconciled){
+                              $(".btnDeleteJournal").prop("disabled", true);
+                              $(".btnDelete").prop("disabled", true);
+                              $("#form :input").prop("disabled", true);
+                            }
                             $(".btnDeleteJournal").prop("disabled", false);
                             $(".btnDelete").prop("disabled", false);
                             $(".printConfirm").prop("disabled", false);
@@ -321,7 +326,6 @@ Template.journalentrycard.onRendered(() => {
                             if (templateObject.record.get()) {
                                 Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblJournalEntryLine', function (error, result) {
                                     if (error) {
-                                        // console.log(error);
                                         //Bert.alert('<strong>Error:</strong> user-not-found, no user found please try again!', 'danger');
                                     } else {
                                         if (result) {
@@ -440,10 +444,16 @@ Template.journalentrycard.onRendered(() => {
                                     department: department,
                                     entryno: useData[d].fields.TransactionNo,
                                     transdate: useData[d].fields.TransactionDate ? moment(useData[d].fields.TransactionDate).format('DD/MM/YYYY') : "",
-                                    LineItems: lineItems
+                                    LineItems: lineItems,
+                                    isReconciled:useData[d].fields.IsReconciled||false
                                 };
                                 // $("dtTransDate").prop("disabled", true);
                                 // $("#form :input").prop("disabled", true);
+                                if(useData[d].fields.IsReconciled){
+                                  $(".btnDeleteJournal").prop("disabled", true);
+                                  $(".btnDelete").prop("disabled", true);
+                                  $("#form :input").prop("disabled", true);
+                                }
                                 $(".btnDeleteJournal").prop("disabled", false);
                                 $(".btnDelete").prop("disabled", false);
                                 $(".printConfirm").prop("disabled", false);
@@ -455,7 +465,6 @@ Template.journalentrycard.onRendered(() => {
                                 if (templateObject.record.get()) {
                                     Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblJournalEntryLine', function (error, result) {
                                         if (error) {
-                                            // console.log(error);
                                             //Bert.alert('<strong>Error:</strong> user-not-found, no user found please try again!', 'danger');
                                         } else {
                                             if (result) {
@@ -554,10 +563,15 @@ Template.journalentrycard.onRendered(() => {
                                     department: department,
                                     entryno: data.fields.TransactionNo,
                                     transdate: data.fields.TransactionDate ? moment(data.fields.TransactionDate).format('DD/MM/YYYY') : "",
-                                    LineItems: lineItems
+                                    LineItems: lineItems,
+                                    isReconciled:data.fields.IsReconciled
                                 };
 
-
+                                if(data.fields.IsReconciled){
+                                  $(".btnDeleteJournal").prop("disabled", true);
+                                  $(".btnDelete").prop("disabled", true);
+                                  $("#form :input").prop("disabled", true);
+                                }
                                 templateObject.record.set(record);
                                 templateObject.totalCredit.set(utilityService.modifynegativeCurrencyFormat(totalCredit));
                                 templateObject.totalDebit.set(utilityService.modifynegativeCurrencyFormat(totalDebit));
@@ -565,7 +579,6 @@ Template.journalentrycard.onRendered(() => {
                                 if (templateObject.record.get()) {
                                     Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblJournalEntryLine', function (error, result) {
                                         if (error) {
-                                            // console.log(error);
                                             //Bert.alert('<strong>Error:</strong> user-not-found, no user found please try again!', 'danger');
                                         } else {
                                             if (result) {
@@ -677,9 +690,15 @@ Template.journalentrycard.onRendered(() => {
                             department: department,
                             entryno: data.fields.TransactionNo,
                             transdate: data.fields.TransactionDate ? moment(data.fields.TransactionDate).format('DD/MM/YYYY') : "",
-                            LineItems: lineItems
+                            LineItems: lineItems,
+                            isReconciled:data.fields.IsReconciled
                         };
                         // $("#form :input").prop("disabled", true);
+                        if(data.fields.IsReconciled){
+                          $(".btnDeleteJournal").prop("disabled", true);
+                          $(".btnDelete").prop("disabled", true);
+                          $("#form :input").prop("disabled", true);
+                        }
                         $(".btnDeleteJournal").prop("disabled", false);
                         $(".btnDelete").prop("disabled", false);
                         $(".printConfirm").prop("disabled", false);
@@ -692,7 +711,6 @@ Template.journalentrycard.onRendered(() => {
                         if (templateObject.record.get()) {
                             Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblJournalEntryLine', function (error, result) {
                                 if (error) {
-                                    // console.log(error);
                                     //Bert.alert('<strong>Error:</strong> user-not-found, no user found please try again!', 'danger');
                                 } else {
                                     if (result) {
@@ -788,7 +806,8 @@ Template.journalentrycard.onRendered(() => {
             department: defaultDept,
             entryno: '',
             transdate: begunDate,
-            LineItems: lineItems
+            LineItems: lineItems,
+            isReconciled:false
 
         };
 
@@ -796,7 +815,6 @@ Template.journalentrycard.onRendered(() => {
         if (templateObject.record.get()) {
             Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblJournalEntryLine', function (error, result) {
                 if (error) {
-                    // console.log(error);
                     //Bert.alert('<strong>Error:</strong> user-not-found, no user found please try again!', 'danger');
                 } else {
                     if (result) {
@@ -1883,7 +1901,7 @@ Template.journalentrycard.events({
             purchaseService.saveJournalEnrtry(objDetails).then(function (objDetails) {
                 Router.go('/journalentrylist?success=true');
                 $('.modal-backdrop').css('display', 'none');
-                //console.log(getcurrentCloudDetails);
+
 
             }).catch(function (err) {
               if(err === 'Error: "Unable to lock object: "'){
@@ -2079,7 +2097,7 @@ Template.journalentrycard.events({
 
                         }
                     });
-                    // console.log(checkPrefDetails);
+
                 }
             }
         }
@@ -2174,7 +2192,6 @@ Template.journalentrycard.events({
         let attachmentID = parseInt(event.currentTarget.parentNode.id.split('attachment-name-')[1]);
         let templateObj = Template.instance();
         let uploadedFiles = templateObj.uploadedFiles.get();
-        // console.log(uploadedFiles);
         $('#myModalAttachment').modal('hide');
         let previewFile = {};
         let input = uploadedFiles[attachmentID].fields.Description;
