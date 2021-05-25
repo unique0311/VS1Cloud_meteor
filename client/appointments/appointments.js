@@ -1398,13 +1398,13 @@ Template.appointments.onRendered(function () {
 
                             tableRow = '<tr id="' + resourceChat[r].employeeName + '">' + '' +
                                 '<td class="tdEmployeeName" style="overflow: hidden; white-space: nowrap; height: 110px; max-height: 110px; font-weight: 700;padding: 6px;">' + resourceChat[r].employeeName + '</td>' + '' +
-                                '<td class="fullWeek sunday hidesunday" style="padding: 0px;"><div class="droppable" style="height: 110px; overflow: hidden; margin: 6px;">' + sundayRowData.join('') + '</div></td>' + '' +
-                                '<td class="fullWeek monday" style="padding: 0px;"><div class="droppable" style="height: 110px; overflow: hidden; margin: 6px;">' + mondayRowData.join('') + '</div></td>' + '' +
-                                '<td td class="fullWeek tuesday" style="padding: 0px;"><div class="droppable" style="height: 110px; overflow: hidden; margin: 6px;">' + tuesdayRowData.join('') + '</div></td>' + '' +
-                                '<td class="fullWeek wednesday" style="padding: 0px;"><div class="droppable" style="height: 110px; overflow: hidden; margin: 6px;">' + wednesdayRowData.join('') + '</div></td>' + '' +
-                                '<td class="fullWeek thursday" style="padding: 0px;"><div class="droppable" style="height: 110px; overflow: hidden; margin: 6px;">' + thursdayRowData.join('') + '</div></td>' + '' +
-                                '<td td class="fullWeek friday" style="padding: 0px;"><div class="droppable" style="height: 110px; overflow: hidden; margin: 6px;">' + fridayRowData.join('') + '</div></td>' + '' +
-                                'td class="fullWeek saturday hidesaturday" style="padding: 0px;><div class="droppable" style="height: 110px; overflow: hidden; margin: 6px;">' + saturdayRowData.join('') + '</div></td>' + '' +
+                                '<td class="fullWeek sunday hidesunday" style="padding: 0px;"><div class="droppable" style="min-height: 110px; overflow: hidden; margin: 6px;">' + sundayRowData.join('') + '</div></td>' + '' +
+                                '<td class="fullWeek monday" style="padding: 0px;"><div class="droppable" style="min-height: 110px; overflow: hidden; margin: 6px;">' + mondayRowData.join('') + '</div></td>' + '' +
+                                '<td td class="fullWeek tuesday" style="padding: 0px;"><div class="droppable" style="min-height: 110px; overflow: hidden; margin: 6px;">' + tuesdayRowData.join('') + '</div></td>' + '' +
+                                '<td class="fullWeek wednesday" style="padding: 0px;"><div class="droppable" style="min-height: 110px; overflow: hidden; margin: 6px;">' + wednesdayRowData.join('') + '</div></td>' + '' +
+                                '<td class="fullWeek thursday" style="padding: 0px;"><div class="droppable" style="min-height: 110px; overflow: hidden; margin: 6px;">' + thursdayRowData.join('') + '</div></td>' + '' +
+                                '<td td class="fullWeek friday" style="padding: 0px;"><div class="droppable" style="min-height: 110px; overflow: hidden; margin: 6px;">' + fridayRowData.join('') + '</div></td>' + '' +
+                                'td class="fullWeek saturday hidesaturday" style="padding: 0px;><div class="droppable" style="min-height: 110px; overflow: hidden; margin: 6px;">' + saturdayRowData.join('') + '</div></td>' + '' +
                                 '</tr>';
                             tableRowData.push(tableRow);
 
@@ -2399,13 +2399,13 @@ Template.appointments.onRendered(function () {
 
                         tableRow = '<tr id="' + resourceChat[r].employeeName + '">' + '' +
                             '<td class="tdEmployeeName" style="overflow: hidden; white-space: nowrap; height: 110px; max-height: 110px; font-weight: 700;padding: 6px;">' + resourceChat[r].employeeName + '</td>' + '' +
-                            '<td class="fullWeek sunday hidesunday" style="padding: 0px;"><div class="droppable" style="height: 110px; overflow: hidden; margin: 6px;">' + sundayRowData.join('') + '</div></td>' + '' +
-                            '<td class="fullWeek monday" style="padding: 0px;"><div class="droppable" style="height: 110px; overflow: hidden; margin: 6px;">' + mondayRowData.join('') + '</div></td>' + '' +
-                            '<td td class="fullWeek tuesday" style="padding: 0px;"><div class="droppable" style="height: 110px; overflow: hidden; margin: 6px;">' + tuesdayRowData.join('') + '</div></td>' + '' +
-                            '<td class="fullWeek wednesday" style="padding: 0px;"><div class="droppable" style="height: 110px; overflow: hidden; margin: 6px;">' + wednesdayRowData.join('') + '</div></td>' + '' +
-                            '<td class="fullWeek thursday" style="padding: 0px;"><div class="droppable" style="height: 110px; overflow: hidden; margin: 6px;">' + thursdayRowData.join('') + '</div></td>' + '' +
-                            '<td td class="fullWeek friday" style="padding: 0px;"><div class="droppable" style="height: 110px; overflow: hidden; margin: 6px;">' + fridayRowData.join('') + '</div></td>' + '' +
-                            'td class="fullWeek saturday hidesaturday" style="padding: 0px;><div class="droppable" style="height: 110px; overflow: hidden; margin: 6px;">' + saturdayRowData.join('') + '</div></td>' + '' +
+                            '<td class="fullWeek sunday hidesunday" style="padding: 0px;"><div class="droppable" style="min-height: 110px; overflow: hidden; margin: 6px;">' + sundayRowData.join('') + '</div></td>' + '' +
+                            '<td class="fullWeek monday" style="padding: 0px;"><div class="droppable" style="min-height: 110px; overflow: hidden; margin: 6px;">' + mondayRowData.join('') + '</div></td>' + '' +
+                            '<td td class="fullWeek tuesday" style="padding: 0px;"><div class="droppable" style="min-height: 110px; overflow: hidden; margin: 6px;">' + tuesdayRowData.join('') + '</div></td>' + '' +
+                            '<td class="fullWeek wednesday" style="padding: 0px;"><div class="droppable" style="min-height: 110px; overflow: hidden; margin: 6px;">' + wednesdayRowData.join('') + '</div></td>' + '' +
+                            '<td class="fullWeek thursday" style="padding: 0px;"><div class="droppable" style="min-height: 110px; overflow: hidden; margin: 6px;">' + thursdayRowData.join('') + '</div></td>' + '' +
+                            '<td td class="fullWeek friday" style="padding: 0px;"><div class="droppable" style="min-height: 110px; overflow: hidden; margin: 6px;">' + fridayRowData.join('') + '</div></td>' + '' +
+                            'td class="fullWeek saturday hidesaturday" style="padding: 0px;><div class="droppable" style="min-height: 110px; overflow: hidden; margin: 6px;">' + saturdayRowData.join('') + '</div></td>' + '' +
                             '</tr>';
                         tableRowData.push(tableRow);
 
@@ -3222,13 +3222,13 @@ Template.appointments.onRendered(function () {
 
                         tableRow = '<tr id="' + resourceChat[r].employeeName + '">' + '' +
                             '<td class="tdEmployeeName" style="overflow: hidden; white-space: nowrap; height: 110px; max-height: 110px; font-weight: 700;padding: 6px;">' + resourceChat[r].employeeName + '</td>' + '' +
-                            '<td class="fullWeek sunday hidesunday" style="padding: 0px;"><div class="droppable" style="height: 110px; overflow: hidden; margin: 6px;">' + sundayRowData.join('') + '</div></td>' + '' +
-                            '<td class="fullWeek monday" style="padding: 0px;"><div class="droppable" style="height: 110px; overflow: hidden; margin: 6px;">' + mondayRowData.join('') + '</div></td>' + '' +
-                            '<td td class="fullWeek tuesday" style="padding: 0px;"><div class="droppable" style="height: 110px; overflow: hidden; margin: 6px;">' + tuesdayRowData.join('') + '</div></td>' + '' +
-                            '<td class="fullWeek wednesday" style="padding: 0px;"><div class="droppable" style="height: 110px; overflow: hidden; margin: 6px;">' + wednesdayRowData.join('') + '</div></td>' + '' +
-                            '<td class="fullWeek thursday" style="padding: 0px;"><div class="droppable" style="height: 110px; overflow: hidden; margin: 6px;">' + thursdayRowData.join('') + '</div></td>' + '' +
-                            '<td td class="fullWeek friday" style="padding: 0px;"><div class="droppable" style="height: 110px; overflow: hidden; margin: 6px;">' + fridayRowData.join('') + '</div></td>' + '' +
-                            'td class="fullWeek saturday hidesaturday" style="padding: 0px;><div class="droppable" style="height: 110px; overflow: hidden; margin: 6px;">' + saturdayRowData.join('') + '</div></td>' + '' +
+                            '<td class="fullWeek sunday hidesunday" style="padding: 0px;"><div class="droppable" style="min-height: 110px; overflow: hidden; margin: 6px;">' + sundayRowData.join('') + '</div></td>' + '' +
+                            '<td class="fullWeek monday" style="padding: 0px;"><div class="droppable" style="min-height: 110px; overflow: hidden; margin: 6px;">' + mondayRowData.join('') + '</div></td>' + '' +
+                            '<td td class="fullWeek tuesday" style="padding: 0px;"><div class="droppable" style="min-height: 110px; overflow: hidden; margin: 6px;">' + tuesdayRowData.join('') + '</div></td>' + '' +
+                            '<td class="fullWeek wednesday" style="padding: 0px;"><div class="droppable" style="min-height: 110px; overflow: hidden; margin: 6px;">' + wednesdayRowData.join('') + '</div></td>' + '' +
+                            '<td class="fullWeek thursday" style="padding: 0px;"><div class="droppable" style="min-height: 110px; overflow: hidden; margin: 6px;">' + thursdayRowData.join('') + '</div></td>' + '' +
+                            '<td td class="fullWeek friday" style="padding: 0px;"><div class="droppable" style="min-height: 110px; overflow: hidden; margin: 6px;">' + fridayRowData.join('') + '</div></td>' + '' +
+                            'td class="fullWeek saturday hidesaturday" style="padding: 0px;><div class="droppable" style="min-height: 110px; overflow: hidden; margin: 6px;">' + saturdayRowData.join('') + '</div></td>' + '' +
                             '</tr>';
                         tableRowData.push(tableRow);
 
@@ -6019,13 +6019,13 @@ Template.appointments.events({
 
                 tableRow = '<tr id="' + resourceChat[r].employeeName + '">' + '' +
                     '<td class="tdEmployeeName" style="overflow: hidden; white-space: nowrap; height: 110px; max-height: 110px; font-weight: 700;padding: 6px;">' + resourceChat[r].employeeName + '</td>' + '' +
-                    '<td class="fullWeek sunday hidesunday" style="padding: 0px;"><div class="droppable" style="height: 110px; overflow: hidden; margin: 6px;">' + sundayRowData.join('') + '</div></td>' + '' +
-                    '<td class="fullWeek monday" style="padding: 0px;"><div class="droppable" style="height: 110px; overflow: hidden; margin: 6px;">' + mondayRowData.join('') + '</div></td>' + '' +
-                    '<td td class="fullWeek tuesday" style="padding: 0px;"><div class="droppable" style="height: 110px; overflow: hidden; margin: 6px;">' + tuesdayRowData.join('') + '</div></td>' + '' +
-                    '<td class="fullWeek wednesday" style="padding: 0px;"><div class="droppable" style="height: 110px; overflow: hidden; margin: 6px;">' + wednesdayRowData.join('') + '</div></td>' + '' +
-                    '<td class="fullWeek thursday" style="padding: 0px;"><div class="droppable" style="height: 110px; overflow: hidden; margin: 6px;">' + thursdayRowData.join('') + '</div></td>' + '' +
-                    '<td td class="fullWeek friday" style="padding: 0px;"><div class="droppable" style="height: 110px; overflow: hidden; margin: 6px;">' + fridayRowData.join('') + '</div></td>' + '' +
-                    'td class="fullWeek saturday hidesaturday" style="padding: 0px;><div class="droppable" style="height: 110px; overflow: hidden; margin: 6px;">' + saturdayRowData.join('') + '</div></td>' + '' +
+                    '<td class="fullWeek sunday hidesunday" style="padding: 0px;"><div class="droppable" style="min-height: 110px; overflow: hidden; margin: 6px;">' + sundayRowData.join('') + '</div></td>' + '' +
+                    '<td class="fullWeek monday" style="padding: 0px;"><div class="droppable" style="min-height: 110px; overflow: hidden; margin: 6px;">' + mondayRowData.join('') + '</div></td>' + '' +
+                    '<td td class="fullWeek tuesday" style="padding: 0px;"><div class="droppable" style="min-height: 110px; overflow: hidden; margin: 6px;">' + tuesdayRowData.join('') + '</div></td>' + '' +
+                    '<td class="fullWeek wednesday" style="padding: 0px;"><div class="droppable" style="min-height: 110px; overflow: hidden; margin: 6px;">' + wednesdayRowData.join('') + '</div></td>' + '' +
+                    '<td class="fullWeek thursday" style="padding: 0px;"><div class="droppable" style="min-height: 110px; overflow: hidden; margin: 6px;">' + thursdayRowData.join('') + '</div></td>' + '' +
+                    '<td td class="fullWeek friday" style="padding: 0px;"><div class="droppable" style="min-height: 110px; overflow: hidden; margin: 6px;">' + fridayRowData.join('') + '</div></td>' + '' +
+                    'td class="fullWeek saturday hidesaturday" style="padding: 0px;><div class="droppable" style="min-height: 110px; overflow: hidden; margin: 6px;">' + saturdayRowData.join('') + '</div></td>' + '' +
                     '</tr>';
                 tableRowData.push(tableRow);
 
@@ -6316,13 +6316,13 @@ Template.appointments.events({
 
                 tableRow = '<tr id="' + resourceChat[r].employeeName + '">' + '' +
                     '<td class="tdEmployeeName" style="overflow: hidden; white-space: nowrap; height: 110px; max-height: 110px; font-weight: 700;padding: 6px;">' + resourceChat[r].employeeName + '</td>' + '' +
-                    '<td class="fullWeek sunday hidesunday" style="padding: 0px;"><div class="droppable" style="height: 110px; overflow: hidden; margin: 6px;">' + sundayRowData.join('') + '</div></td>' + '' +
-                    '<td class="fullWeek monday" style="padding: 0px;"><div class="droppable" style="height: 110px; overflow: hidden; margin: 6px;">' + mondayRowData.join('') + '</div></td>' + '' +
-                    '<td td class="fullWeek tuesday" style="padding: 0px;"><div class="droppable" style="height: 110px; overflow: hidden; margin: 6px;">' + tuesdayRowData.join('') + '</div></td>' + '' +
-                    '<td class="fullWeek wednesday" style="padding: 0px;"><div class="droppable" style="height: 110px; overflow: hidden; margin: 6px;">' + wednesdayRowData.join('') + '</div></td>' + '' +
-                    '<td class="fullWeek thursday" style="padding: 0px;"><div class="droppable" style="height: 110px; overflow: hidden; margin: 6px;">' + thursdayRowData.join('') + '</div></td>' + '' +
-                    '<td td class="fullWeek friday" style="padding: 0px;"><div class="droppable" style="height: 110px; overflow: hidden; margin: 6px;">' + fridayRowData.join('') + '</div></td>' + '' +
-                    'td class="fullWeek saturday hidesaturday" style="padding: 0px;><div class="droppable" style="height: 110px; overflow: hidden; margin: 6px;">' + saturdayRowData.join('') + '</div></td>' + '' +
+                    '<td class="fullWeek sunday hidesunday" style="padding: 0px;"><div class="droppable" style="min-height: 110px; overflow: hidden; margin: 6px;">' + sundayRowData.join('') + '</div></td>' + '' +
+                    '<td class="fullWeek monday" style="padding: 0px;"><div class="droppable" style="min-height: 110px; overflow: hidden; margin: 6px;">' + mondayRowData.join('') + '</div></td>' + '' +
+                    '<td td class="fullWeek tuesday" style="padding: 0px;"><div class="droppable" style="min-height: 110px; overflow: hidden; margin: 6px;">' + tuesdayRowData.join('') + '</div></td>' + '' +
+                    '<td class="fullWeek wednesday" style="padding: 0px;"><div class="droppable" style="min-height: 110px; overflow: hidden; margin: 6px;">' + wednesdayRowData.join('') + '</div></td>' + '' +
+                    '<td class="fullWeek thursday" style="padding: 0px;"><div class="droppable" style="min-height: 110px; overflow: hidden; margin: 6px;">' + thursdayRowData.join('') + '</div></td>' + '' +
+                    '<td td class="fullWeek friday" style="padding: 0px;"><div class="droppable" style="min-height: 110px; overflow: hidden; margin: 6px;">' + fridayRowData.join('') + '</div></td>' + '' +
+                    'td class="fullWeek saturday hidesaturday" style="padding: 0px;><div class="droppable" style="min-height: 110px; overflow: hidden; margin: 6px;">' + saturdayRowData.join('') + '</div></td>' + '' +
                     '</tr>';
                 tableRowData.push(tableRow);
 
