@@ -48,7 +48,6 @@ Template.employeescard.onCreated(function () {
 
 Template.employeescard.onRendered(function () {
     var erpGet = erpDb();
-
     // console.log(erpGet);
     $('.fullScreenSpin').css('display', 'inline-block');
     Session.setPersistent('cloudCurrentLogonName', '');
@@ -2303,19 +2302,90 @@ Template.employeescard.events({
 
                                });
 
-                               swal({
-                                   title: 'Password successfully changed',
-                                   text: '',
-                                   type: 'success',
-                                   showCancelButton: false,
-                                   confirmButtonText: 'OK'
-                               }).then((result) => {
-                                   if (result.value) {
-                                       Router.go('/employeelist?success=true');
-                                   } else {
-                                     Router.go('/employeelist?success=true');
+                               getVS1Data('vscloudlogininfo').then(function (dataObject) {
+                                 if(dataObject.length == 0){
+                                   swal({
+                                       title: 'Password successfully changed',
+                                       text: '',
+                                       type: 'success',
+                                       showCancelButton: false,
+                                       confirmButtonText: 'OK'
+                                   }).then((result) => {
+                                       if (result.value) {
+                                           Router.go('/employeelist?success=true');
+                                       } else {
+                                         Router.go('/employeelist?success=true');
+                                       }
+                                   });
+                                 }else{
+                                   let loginDataArray = [];
+                                   if(dataObject[0].EmployeeEmail === $('#cloudCheckEmpEmailAddress').val()){
+                                     loginDataArray = dataObject[0].data;
+                                     loginDataArray.ProcessLog.VS1AdminPassword = cloudpassword;
+                                     addLoginData(loginDataArray).then(function (datareturnCheck) {
+                                       swal({
+                                           title: 'Password successfully changed',
+                                           text: '',
+                                           type: 'success',
+                                           showCancelButton: false,
+                                           confirmButtonText: 'OK'
+                                       }).then((result) => {
+                                           if (result.value) {
+                                               window.open('/','_self');
+                                           } else {
+                                             window.open('/','_self');
+                                           }
+                                       });
+
+                                     }).catch(function (err) {
+                                       swal({
+                                           title: 'Password successfully changed',
+                                           text: '',
+                                           type: 'success',
+                                           showCancelButton: false,
+                                           confirmButtonText: 'OK'
+                                       }).then((result) => {
+                                           if (result.value) {
+                                               window.open('/','_self');
+                                           } else {
+                                             window.open('/','_self');
+                                           }
+                                       });
+                                     });
+
+                                   }else{
+                                     swal({
+                                         title: 'Password successfully changed',
+                                         text: '',
+                                         type: 'success',
+                                         showCancelButton: false,
+                                         confirmButtonText: 'OK'
+                                     }).then((result) => {
+                                         if (result.value) {
+                                             Router.go('/employeelist?success=true');
+                                         } else {
+                                           Router.go('/employeelist?success=true');
+                                         }
+                                     });
                                    }
+                                 }
+                               }).catch(function (err) {
+                                 swal({
+                                     title: 'Password successfully changed',
+                                     text: '',
+                                     type: 'success',
+                                     showCancelButton: false,
+                                     confirmButtonText: 'OK'
+                                 }).then((result) => {
+                                     if (result.value) {
+                                         Router.go('/employeelist?success=true');
+                                     } else {
+                                       Router.go('/employeelist?success=true');
+                                     }
+                                 });
                                });
+
+
                             }
                             /*
                               $('.fullScreenSpin').css('display', 'none');

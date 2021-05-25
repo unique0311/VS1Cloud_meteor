@@ -370,9 +370,13 @@ deleteStoreExists = function (objectStore,Email) {
       if (Email == objectStoreRequest.result.EmployeeEmail) {
         let databaseName = objectStoreRequest.result.data;
         var req = indexedDB.deleteDatabase(databaseName);
+        // var req2Deltransaction = objectStore.transaction(["TDatabases"], "readwrite");
+        var req2Del = objectStore.delete(Email);
         req.onsuccess = function () {
-          exists = true;
-          resolve(exists);
+          req2Del.onsuccess = function () {
+            exists = true;
+            resolve(exists);
+          };
         };
         req.onerror = function () {
             exists = false;
@@ -410,7 +414,7 @@ deleteStoreDatabase = async function (databaseName) {
 
 getStoreToDelete = async function (email) {
   const db = await openDb2('TDatabase');
-  const transaction = await db.transaction(["TDatabases"]);
+  const transaction = await db.transaction(["TDatabases"], "readwrite");
   const objectStore = await transaction.objectStore('TDatabases');
   return await deleteStoreExists(objectStore,email);
 }

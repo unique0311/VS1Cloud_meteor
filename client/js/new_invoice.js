@@ -626,18 +626,18 @@ Template.new_invoice.onRendered(() => {
                             let lineItemTableObj = {};
                             let exchangeCode = data.fields.ForeignExchangeCode;
                             let currencySymbol = Currency;
-                            let total = currencySymbol + '' + data.fields.TotalAmount.toLocaleString(undefined, { minimumFractionDigits: 2 });
-                            let totalInc = currencySymbol + '' + data.fields.TotalAmountInc.toLocaleString(undefined, { minimumFractionDigits: 2 });
-                            let subTotal = currencySymbol + '' + data.fields.TotalAmount.toLocaleString(undefined, { minimumFractionDigits: 2 });
-                            let totalTax = currencySymbol + '' + data.fields.TotalTax.toLocaleString(undefined, { minimumFractionDigits: 2 });
-                            let totalBalance = utilityService.modifynegativeCurrencyFormat(data.fields.TotalBalance).toLocaleString(undefined, { minimumFractionDigits: 2 });
-                            let totalPaidAmount = currencySymbol + '' + data.fields.TotalPaid.toLocaleString(undefined, { minimumFractionDigits: 2 });
+                            let total = currencySymbol + '' + data.fields.TotalAmount.toLocaleString(undefined, { minimumFractionDigits: 2 })||0;
+                            let totalInc = currencySymbol + '' + data.fields.TotalAmountInc.toLocaleString(undefined, { minimumFractionDigits: 2 })||0;
+                            let subTotal = currencySymbol + '' + data.fields.TotalAmount.toLocaleString(undefined, { minimumFractionDigits: 2 })||0;
+                            let totalTax = currencySymbol + '' + data.fields.TotalTax.toLocaleString(undefined, { minimumFractionDigits: 2 })||0;
+                            let totalBalance = utilityService.modifynegativeCurrencyFormat(data.fields.TotalBalance).toLocaleString(undefined, { minimumFractionDigits: 2 })||0;
+                            let totalPaidAmount = currencySymbol + '' + data.fields.TotalPaid.toLocaleString(undefined, { minimumFractionDigits: 2 })||0;
                             if (data.fields.Lines.length) {
                                 for (let i = 0; i < data.fields.Lines.length; i++) {
-                                    let AmountGbp = currencySymbol + '' + data.fields.Lines[i].fields.TotalLineAmount.toLocaleString(undefined, { minimumFractionDigits: 2 });
-                                    let currencyAmountGbp = currencySymbol + '' + data.fields.Lines[i].fields.TotalLineAmount.toFixed(2);
-                                    let TaxTotalGbp = utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.LineTaxTotal);
-                                    let TaxRateGbp = (data.fields.Lines[i].fields.LineTaxRate * 100).toFixed(2);
+                                    let AmountGbp = currencySymbol + '' + data.fields.Lines[i].fields.TotalLineAmount.toLocaleString(undefined, { minimumFractionDigits: 2 })||0;
+                                    let currencyAmountGbp = currencySymbol + '' + data.fields.Lines[i].fields.TotalLineAmount.toFixed(2)||0;
+                                    let TaxTotalGbp = utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.LineTaxTotal)||0;
+                                    let TaxRateGbp = (data.fields.Lines[i].fields.LineTaxRate * 100).toFixed(2)||0;
                                     lineItemObj = {
                                         lineID: Random.id(),
                                         id: data.fields.Lines[i].fields.ID || '',
@@ -670,7 +670,7 @@ Template.new_invoice.onRendered(() => {
                                     lineItems.push(lineItemObj);
                                 }
                             } else {
-                                let AmountGbp = data.fields.Lines.fields.TotalLineAmountInc.toLocaleString(undefined, { minimumFractionDigits: 2 });
+                                let AmountGbp = data.fields.Lines.fields.TotalLineAmountInc.toLocaleString(undefined, { minimumFractionDigits: 2 })||0;
                                 let currencyAmountGbp = currencySymbol + '' + data.fields.Lines.fields.TotalLineAmount.toFixed(2);
                                 let TaxTotalGbp = utilityService.modifynegativeCurrencyFormat(data.fields.Lines.fields.LineTaxTotal);
                                 let TaxRateGbp = (data.fields.Lines.fields.LineTaxRate * 100).toFixed(2);
@@ -716,14 +716,14 @@ Template.new_invoice.onRendered(() => {
                                 invoiceToDesc: data.fields.InvoiceToDesc,
                                 shipToDesc: data.fields.ShipToDesc,
                                 termsName: data.fields.DueDate ? moment(data.fields.DueDate).format('DD/MM/YYYY') : "",
-                                Total: totalInc,
+                                Total: totalInc||0,
                                 LineItems: lineItems,
-                                TotalTax: totalTax,
-                                SubTotal: subTotal,
-                                balanceDue: totalBalance,
-                                saleCustField1: data.fields.SaleCustField1,
-                                saleCustField2: data.fields.SaleCustField2,
-                                totalPaid: totalPaidAmount,
+                                TotalTax: totalTax||0,
+                                SubTotal: subTotal||0,
+                                balanceDue: totalBalance||0,
+                                saleCustField1: data.fields.SaleCustField1||'',
+                                saleCustField2: data.fields.SaleCustField2||'',
+                                totalPaid: totalPaidAmount||0,
                                 ispaid: true
                             };
 
@@ -781,14 +781,14 @@ Template.new_invoice.onRendered(() => {
                             let paymentItems = [];
                             let paymentLineItems = {};
                             let dueAmount = utilityService.modifynegativeCurrencyFormat(parseFloat(paidAmount) - parseFloat(invoice_total)).toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0;
-                            dueAmount
+
                             paymentLineItems = {
                                 id: '',
                                 invoiceid: getso_id || '',
                                 transid: getso_id || '',
                                 invoicedate: transDate,
                                 transtype: "Invoice",
-                                amountdue: amountDue || 0,
+                                amountdue: 0,
                                 paymentamount: paidAmount || 0,
                                 ouststandingamount: dueAmount,
                                 orginalamount: getTotal
@@ -1288,7 +1288,7 @@ Template.new_invoice.onRendered(() => {
                                 $('.fullScreenSpin').css('display', 'none');
                             });
                         }
-    
+
                                setTimeout(function(){
                                 let getTotal = $('#totalBalanceDue').text();
                                 $('.pdfCustomerAddress').html($('#txabillingAddress').val());
@@ -1324,8 +1324,8 @@ Template.new_invoice.onRendered(() => {
                                 };
                                 templateObject.record.set(record);
                             },1500)
-                                
-                           
+
+
                     }
                 }).catch(function (err) {
                     accountService.getOneInvoicedataEx(currentInvoice).then(function (data) {
@@ -1551,6 +1551,7 @@ Template.new_invoice.onRendered(() => {
             try {
                 $('#html-2-pdfwrapper1').css('display', 'block');
                 async function addAttachment() {
+
                     let attachment = [];
                     let templateObject = Template.instance();
 
@@ -1626,6 +1627,8 @@ Template.new_invoice.onRendered(() => {
                             '        </td>' +
                             '    </tr>' +
                             '</table>';
+
+                            //$('.fullScreenSpin').css('display', 'none');
                         Meteor.call('sendEmail', {
                             from: "" + mailFromName + " <" + mailFrom + ">",
                             to: checkEmailData,
@@ -1635,7 +1638,9 @@ Template.new_invoice.onRendered(() => {
                             attachments: attachment
                         }, function (error, result) {
                             if (error && error.error === "error") {
-
+                              console.log(error);
+                              Router.go('/invoicelist?success=true');
+                              $('.fullScreenSpin').css('display', 'none');
                             } else {
                                 $('.fullScreenSpin').css('display', 'none');
                                 swal({
