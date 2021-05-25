@@ -952,26 +952,28 @@
             <hr>
             <div style="height: 160mm;">
                 <div style="margin: 8px; border: none !important; background-color: rgba(0,0,0,0);">
-                    <table style="width: 200mm; max-width: 200mm; margin: auto;">
+                    <table class="purchase_print" style="width: 200mm; max-width: 200mm; margin: auto;">
                         <thead style="color: rgb(251,251,251);">
                             <tr style="border-bottom: 1px solid rgba(0, 0, 0, 1);">
                                 <th style="width: 200px; background-color: white; color: rgb(0 0 0);">Product Name</th>
                                 <th style="width: 250px; background-color: white; color: rgb(0 0 0);">Description</th>
-                                <th style="text-align: left; width: 50px; background-color: white; color: rgb(0 0 0);">Qty</th>
-                                <th style="text-align: left; width: 90px; background-color: white; color: rgb(0 0 0);">Unit Price</th>
-                                <th style="text-align: left; width: 77px; background-color: white; color: rgb(0 0 0);">Tax</th>
-                                <th style="text-align: left; width: 100px; background-color: white; color: rgb(0 0 0);">Amount</th>
+                                <th style="text-align: right; width: 50px; background-color: white; color: rgb(0 0 0);">Qty</th>
+                                <th style="text-align: right; width: 90px; background-color: white; color: rgb(0 0 0);">Unit Price</th>
+                                <th style="text-align: right; width: 77px; background-color: white; color: rgb(0 0 0);">Tax</th>
+                                <th style="text-align: right; width: 77px; background-color: white; color: rgb(0 0 0);" class="hiddenColumn">Tax</th>
+                                <th style="text-align: right; width: 100px; background-color: white; color: rgb(0 0 0);">Amount</th>
                             </tr>
                         </thead>
                         <tbody style="color: rgb(0 0 0);">
                             {{#each item in purchaseorderrecord.LineItems}}
-                            <tr style="border-bottom: 1px solid rgba(0, 0, 0, .1);">
-                                <td>{{item.item}}</td>
-                                <td>{{item.description}}</td>
-                                <td style="text-align: left;">{{item.quantity}}</td>
-                                <td style="text-align: left;">{{item.unitPrice}}</td>
-                                <td style="text-align: left;">{{item.TaxTotal}}</td>
-                                <td style="text-align: left;">{{item.TotalAmt}}</td>
+                            <tr id={{item.lineID}} style="border-bottom: 1px solid rgba(0, 0, 0, .1);">
+                                <td id="lineProductName">{{item.item}}</td>
+                                <td id="lineProductDesc">{{item.description}}</td>
+                                <td id="lineQty" style="text-align: right;">{{item.quantity}}</td>
+                                <td id="lineUnitPrice" style="text-align: right;">{{item.unitPrice}}</td>
+                                <td id="lineTaxAmount" style="text-align: right;">{{item.TaxTotal}}</td>
+                                <td id="lineTaxCode" class="hiddenColumn" style="text-align: right;">{{item.taxCode}}</td>
+                                <td id="lineAmt" style="text-align: right;">{{item.TotalAmt}}</td>
                             </tr>
                             {{/each}}
                         </tbody>
@@ -991,17 +993,17 @@
                             <p style="font-weight: 600; margin-bottom: 8px; color: rgb(0 0 0);">Total GST</p>
                         </div>
                         <div style="padding-left: 16px; width: 50%;">
-                            <p style="text-align: right; margin-bottom: 8px; font-weight: 600; color: rgb(0 0 0);">{{purchaseorderrecord.SubTotal}}</p>
-                            <p style="text-align: right; margin-bottom: 8px; font-weight: 600; color: rgb(0 0 0);">{{purchaseorderrecord.TotalTax}}</p>
+                            <p id="subtotal_totalPrint" style="text-align: right; margin-bottom: 8px; font-weight: 600; color: rgb(0 0 0);">{{purchaseorderrecord.SubTotal}}</p>
+                            <p id="print_subtotal_tax" style="text-align: right; margin-bottom: 8px; font-weight: 600; color: rgb(0 0 0);">{{purchaseorderrecord.TotalTax}}</p>
                         </div>
                     </div>
                     <hr>
                     <div style="width: 100%; display: flex;">
                         <div style="padding-right: 16px; width: 50%;">
-                            <p style="font-weight: 800; margin-bottom: 8px; color: rgb(0 0 0);">TOTAL&nbsp; (inc GST)</p>
+                            <p  style="font-weight: 800; margin-bottom: 8px; color: rgb(0 0 0);">TOTAL&nbsp; (inc GST)</p>
                         </div>
                         <div style="padding-left: 16px; width: 50%;">
-                            <p style="text-align: right; margin-bottom: 8px; font-weight: 800;">{{purchaseorderrecord.Total}}<br></p>
+                            <p id="grandTotalPrint" style="text-align: right; margin-bottom: 8px; font-weight: 800;">{{purchaseorderrecord.Total}}<br></p>
                         </div>
                     </div>
                 </div>
@@ -1102,21 +1104,21 @@
                                         <div class="d-lg-flex d-xl-flex flex-column align-items-lg-start align-items-xl-start" style="padding-right: 16px;"><label class="text-nowrap" style="font-weight: 600; color: rgb(0 0 0);">Sub Total</label><label class="text-nowrap" style="font-weight: 600; color: rgb(0 0 0);">Total GST</label></div>
                                         <div class="d-lg-flex flex-column flex-grow-1 justify-content-lg-end"
                                              style="padding-left: 16px;">
-                                            <p class="text-right" style="margin-bottom: 8px;font-weight: 600; color: rgb(0 0 0);">{{purchaseorderrecord.SubTotal}}</p>
-                                            <p class="text-right" style="margin-bottom: 8px;font-weight: 600; color: rgb(0 0 0);">{{purchaseorderrecord.TotalTax}}</p>
+                                             <p id="subtotal_totalPrint" style="text-align: right; margin-bottom: 8px; font-weight: 600; color: rgb(0 0 0);">{{purchaseorderrecord.SubTotal}}</p>
+                                             <p style="text-align: right; margin-bottom: 8px; font-weight: 600; color: rgb(0 0 0);">{{purchaseorderrecord.TotalTax}}</p>
                                         </div>
                                     </div>
                                     <hr>
                                     <div class="d-lg-flex d-xl-flex align-items-lg-start align-items-xl-start card-text">
                                         <div class="d-xl-flex flex-column flex-grow-1 align-items-xl-start" style="padding-right: 16px;"><label class="text-nowrap" style="font-weight: 800; color: rgb(0 0 0);">TOTAL&nbsp; (inc GST)</label></div>
                                         <div class="flex-grow-1" style="padding-left: 16px;">
-                                            <p class="text-right flex-grow-1" style="margin-bottom: 8px;font-weight: 800; color: rgb(0 0 0);">{{purchaseorderrecord.Total}}<br></p>
+                                            <p id="grandTotalPrint" class="text-right flex-grow-1" style="margin-bottom: 8px;font-weight: 800; color: rgb(0 0 0);">{{purchaseorderrecord.Total}}<br></p>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <span class="d-lg-flex d-xl-flex justify-content-lg-end justify-content-xl-end" style="font-size: 10px;margin-right: 8px;">Page 1 of 1</span></div>
+                        <span class="d-lg-flex d-xl-flex justify-content-lg-end justify-content-xl-end" style="font-size: 10px;margin-right: 50px;">Page 1 of 1</span></div>
                 </div>
             </div>
         </div>

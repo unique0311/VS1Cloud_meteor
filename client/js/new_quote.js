@@ -7,7 +7,7 @@ import { ProductService } from "../product/product-service";
 import '../lib/global/erp-objects';
 import 'jquery-ui-dist/external/jquery/jquery';
 import 'jquery-ui-dist/jquery-ui';
-// import 'jquery-ui-dist/jquery-ui.css';
+
 import { Random } from 'meteor/random';
 import { jsPDF } from 'jspdf';
 import 'jQuery.print/jQuery.print.js';
@@ -20,8 +20,6 @@ let sideBarService = new SideBarService();
 let utilityService = new UtilityService();
 var times = 0;
 Template.new_quote.onCreated(() => {
-    // Session.set('validateInvoiceNo',false);
-    // $("#dtDueDate").val(moment().format('DD/MM/YYYY'));
 
     const templateObject = Template.instance();
     templateObject.records = new ReactiveVar();
@@ -51,7 +49,7 @@ Template.new_quote.onCreated(() => {
     templateObject.taxraterecords = new ReactiveVar([]);
     templateObject.record = new ReactiveVar({});
 
-    /* Attachments */
+
     templateObject.uploadedFile = new ReactiveVar();
     templateObject.uploadedFiles = new ReactiveVar([]);
     templateObject.attachmentCount = new ReactiveVar();
@@ -79,7 +77,7 @@ Template.new_quote.onRendered(() => {
     const deptrecords = [];
     const termrecords = [];
     const statusList = [];
-    //dd M yy
+
     $("#date-input,#dtSODate,#dtDueDate").datepicker({
         showOn: 'button',
         buttonText: 'Show Date',
@@ -94,13 +92,13 @@ Template.new_quote.onRendered(() => {
         yearRange: "-90:+10",
     });
 
-    //let salesCloudGridPreferenceRec = CloudPreference.findOne({userid:Session.get('mycloudLogonID'),PrefName:'tblQuoteLine'});
-    //alert(salesCloudGridPreferenceRec.PrefGroup);
-    //console.log(salesCloudGridPreferenceRec);
+
+
+
     $(document).ready(function () {
         $('#formCheck-one').click(function () {
-            // var inputValue = $(this).attr("value");
-            // $("." + inputValue).toggle();
+
+
             if ($(event.target).is(':checked')) {
                 $('.checkbox1div').css('display', 'block');
             } else {
@@ -108,8 +106,8 @@ Template.new_quote.onRendered(() => {
             }
         });
         $('#formCheck-two').click(function () {
-            // var inputValue = $(this).attr("value");
-            // $("." + inputValue).toggle();
+
+
             if ($(event.target).is(':checked')) {
                 $('.checkbox2div').css('display', 'block');
             } else {
@@ -151,12 +149,12 @@ Template.new_quote.onRendered(() => {
                             termsName: data.tcustomervs1[i].TermsName || '',
                             taxCode: data.tcustomervs1[i].TaxCodeName || ''
                         };
-                        //clientList.push(data.tcustomer[i].ClientName,customeremail: data.tcustomer[i].Email);
+
                         clientList.push(customerrecordObj);
 
-                        //$('#edtCustomerName').editableSelect('add',data.tcustomer[i].ClientName);
+
                     }
-                    //templateObject.clientrecords.set(clientList);
+
                     templateObject.clientrecords.set(clientList.sort(function (a, b) {
                         if (a.customername == 'NA') {
                             return 1;
@@ -199,11 +197,11 @@ Template.new_quote.onRendered(() => {
                         termsName: useData[i].fields.TermsName || '',
                         taxCode: useData[i].fields.TaxCodeName || ''
                     };
-                    //clientList.push(data.tcustomer[i].ClientName,customeremail: data.tcustomer[i].Email);
+
                     clientList.push(customerrecordObj);
-                    //$('#edtCustomerName').editableSelect('add',data.tcustomer[i].ClientName);
+
                 }
-                //templateObject.clientrecords.set(clientList);
+
                 templateObject.clientrecords.set(clientList.sort(function (a, b) {
                     if (a.customername == 'NA') {
                         return 1;
@@ -243,12 +241,12 @@ Template.new_quote.onRendered(() => {
                         termsName: data.tcustomervs1[i].TermsName || '',
                         taxCode: data.tcustomervs1[i].TaxCodeName || ''
                     };
-                    //clientList.push(data.tcustomer[i].ClientName,customeremail: data.tcustomer[i].Email);
+
                     clientList.push(customerrecordObj);
 
-                    //$('#edtCustomerName').editableSelect('add',data.tcustomer[i].ClientName);
+
                 }
-                //templateObject.clientrecords.set(clientList);
+
                 templateObject.clientrecords.set(clientList.sort(function (a, b) {
                     if (a.customername == 'NA') {
                         return 1;
@@ -335,11 +333,12 @@ Template.new_quote.onRendered(() => {
         var getso_id = url.searchParams.get("id");
         var paymentID = url.searchParams.get("paymentID");
         var paidAmount = url.searchParams.get("total");
+        var currency_symbol = url.searchParams.get("currency");
         if (getso_id != "") {
             invoiceId = parseInt(getso_id);
             $('.printID').attr("id", invoiceId);
             templateObject.getQuoteData = function () {
-                //getOneQuotedata
+
                 getVS1Data('TQuote').then(function (dataObject) {
                     let customerData = templateObject.clientrecords.get();
                     if (dataObject.length == 0) {
@@ -419,8 +418,6 @@ Template.new_quote.onRendered(() => {
                             let quoterecord = {
                                 id: data.fields.ID,
                                 lid: 'Edit Quote' + ' ' + data.fields.ID,
-                                firstname: cust_result[0].firstname,
-                                lastname: cust_result[0].lastname,
                                 socustomer: data.fields.CustomerName,
                                 salesOrderto: data.fields.InvoiceToDesc,
                                 shipto: data.fields.ShipToDesc,
@@ -456,7 +453,7 @@ Template.new_quote.onRendered(() => {
                             $('#edtCustomerName').val(data.fields.CustomerName);
                             templateObject.CleintName.set(data.fields.CustomerName);
                             $('#sltCurrency').val(data.fields.ForeignExchangeCode);
-                            /* START attachment */
+
                             templateObject.attachmentCount.set(0);
                             if (data.fields.Attachments) {
                                 if (data.fields.Attachments.length) {
@@ -464,35 +461,38 @@ Template.new_quote.onRendered(() => {
                                     templateObject.uploadedFiles.set(data.fields.Attachments);
                                 }
                             }
-                            /* END  attachment */
+
                             setTimeout(function () {
                                 if (clientList) {
                                     for (var i = 0; i < clientList.length; i++) {
                                         if (clientList[i].customername == data.fields.CustomerName) {
+                                            quoterecord.firstname = clientList[i].firstname || '';
+                                            quoterecord.lastname = clientList[i].lastname || '';
+                                            templateObject.invoicerecord.set(invoicerecord);
                                             $('#edtCustomerEmail').val(clientList[i].customeremail);
                                             $('#edtCustomerEmail').attr('customerid', clientList[i].customerid);
                                         }
                                     }
-                                }
+                                };
                             }, 100);
 
                             templateObject.quoterecord.set(quoterecord);
 
 
                             templateObject.lineitems.set(lineItems);
-                            // alert(JSON.stringify(templateObject.quoterecord.get()));
+
                             templateObject.selectedCurrency.set(quoterecord.currency);
                             templateObject.inputSelectedCurrency.set(quoterecord.currency);
                             if (templateObject.quoterecord.get()) {
 
-                                // $('#tblQuoteLine').colResizable({
-                                //   liveDrag:true});
-                                //$('#tblQuoteLine').removeClass('JColResizer');
+
+
+
 
                                 Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblQuoteLine', function (error, result) {
                                     if (error) {
-                                        // console.log(error);
-                                        //Bert.alert('<strong>Error:</strong> user-not-found, no user found please try again!', 'danger');
+
+
                                     } else {
                                         if (result) {
                                             for (let i = 0; i < result.customFields.length; i++) {
@@ -503,23 +503,23 @@ Template.new_quote.onRendered(() => {
                                                 let columnClass = columHeaderUpdate.substring(columHeaderUpdate.indexOf(".") + 1);
                                                 let columnWidth = customcolumn[i].width;
 
-                                                //alert(columnClass);
+
                                                 $("" + columHeaderUpdate + "").html(columData);
                                                 if (columnWidth != 0) {
                                                     $("" + columHeaderUpdate + "").css('width', columnWidth);
                                                 }
 
                                                 if (hiddenColumn == true) {
-                                                    //alert(columnClass);
-                                                    //$("."+columnClass+"").css('display','none');
+
+
                                                     $("." + columnClass + "").addClass('hiddenColumn');
                                                     $("." + columnClass + "").removeClass('showColumn');
                                                 } else if (hiddenColumn == false) {
                                                     $("." + columnClass + "").removeClass('hiddenColumn');
                                                     $("." + columnClass + "").addClass('showColumn');
-                                                    //$("."+columnClass+"").css('display','table-cell');
-                                                    //$("."+columnClass+"").css('padding','.75rem');
-                                                    //$("."+columnClass+"").css('vertical-align','top');
+
+
+
                                                 }
 
                                             }
@@ -528,6 +528,42 @@ Template.new_quote.onRendered(() => {
                                     }
                                 });
                             }
+                            setTimeout(function(){
+                                let getTotal = $('#totalBalanceDue').text();
+                                $('.pdfCustomerAddress').html($('#txabillingAddress').val());
+                                $('.pdfCustomerName').html($('#edtCustomerName').val());
+                                let invoice_total = getTotal.replace(currency_symbol, '').replace(',', '');
+                                let paymentItems = [];
+                                let paymentLineItems = {};
+                                let dueAmount = utilityService.modifynegativeCurrencyFormat(parseFloat(invoice_total) - parseFloat(paidAmount)).toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0;
+                                let amountPaid = Currency + '' + paidAmount.toLocaleString(undefined, { minimumFractionDigits: 2 });
+                                paymentLineItems = {
+                                    id: '',
+                                    invoiceid: getso_id || '',
+                                    transid: getso_id || '',
+                                    invoicedate: transDate,
+                                    transtype: "Invoice",
+                                    amountdue: dueAmount || 0,
+                                    paymentamount: amountPaid || 0,
+                                    ouststandingamount: dueAmount,
+                                    orginalamount: getTotal
+                                };
+                                paymentItems.push(paymentLineItems);
+
+                                let record = {
+                                    customerName: company_name || '',
+                                    paymentDate: transDate,
+                                    reference: '',
+                                    paymentAmount: paidAmount || 0,
+                                    notes: $("txaComment").val() || '',
+                                    LineItems: paymentItems,
+                                    department: "Default",
+                                    applied: paidAmount.toLocaleString(undefined, { minimumFractionDigits: 2 })
+    
+                                };
+                                templateObject.record.set(record);
+                            
+                            },1500)
                         }).catch(function (err) {
                             swal({
                                 title: 'Something went wrong',
@@ -543,7 +579,7 @@ Template.new_quote.onRendered(() => {
                                 }
                             });
                             $('.fullScreenSpin').css('display', 'none');
-                            // Meteor._reload.reload();
+
                         });
                     } else {
                         let data = JSON.parse(dataObject[0].data);
@@ -631,8 +667,6 @@ Template.new_quote.onRendered(() => {
                                 let quoterecord = {
                                     id: useData[d].fields.ID,
                                     lid: 'Edit Quote' + ' ' + useData[d].fields.ID,
-                                    firstname: cust_result[0].firstname,
-                                    lastname: cust_result[0].lastname,
                                     socustomer: useData[d].fields.CustomerName,
                                     salesOrderto: useData[d].fields.InvoiceToDesc,
                                     shipto: useData[d].fields.ShipToDesc,
@@ -668,7 +702,7 @@ Template.new_quote.onRendered(() => {
                                 $('#edtCustomerName').val(useData[d].fields.CustomerName);
                                 templateObject.CleintName.set(useData[d].fields.CustomerName);
                                 $('#sltCurrency').val(useData[d].fields.ForeignExchangeCode);
-                                /* START attachment */
+
                                 templateObject.attachmentCount.set(0);
                                 if (useData[d].fields.Attachments) {
                                     if (useData[d].fields.Attachments.length) {
@@ -676,32 +710,35 @@ Template.new_quote.onRendered(() => {
                                         templateObject.uploadedFiles.set(useData[d].fields.Attachments);
                                     }
                                 }
-                                /* END  attachment */
+
                                 setTimeout(function () {
                                     if (clientList) {
                                         for (var i = 0; i < clientList.length; i++) {
                                             if (clientList[i].customername == useData[d].fields.CustomerName) {
+                                                invoicerecord.firstname = clientList[i].firstname || '';
+                                                invoicerecord.lastname = clientList[i].lastname || '';
+                                                templateObject.invoicerecord.set(invoicerecord);
                                                 $('#edtCustomerEmail').val(clientList[i].customeremail);
                                                 $('#edtCustomerEmail').attr('customerid', clientList[i].customerid);
                                             }
                                         }
-                                    }
+                                    };
                                 }, 100);
 
                                 templateObject.quoterecord.set(quoterecord);
-                                // alert(JSON.stringify(templateObject.quoterecord.get()));
+
                                 templateObject.selectedCurrency.set(quoterecord.currency);
                                 templateObject.inputSelectedCurrency.set(quoterecord.currency);
                                 if (templateObject.quoterecord.get()) {
 
-                                    // $('#tblQuoteLine').colResizable({
-                                    //   liveDrag:true});
-                                    //$('#tblQuoteLine').removeClass('JColResizer');
+
+
+
 
                                     Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblQuoteLine', function (error, result) {
                                         if (error) {
-                                            // console.log(error);
-                                            //Bert.alert('<strong>Error:</strong> user-not-found, no user found please try again!', 'danger');
+
+
                                         } else {
                                             if (result) {
                                                 for (let i = 0; i < result.customFields.length; i++) {
@@ -712,23 +749,23 @@ Template.new_quote.onRendered(() => {
                                                     let columnClass = columHeaderUpdate.substring(columHeaderUpdate.indexOf(".") + 1);
                                                     let columnWidth = customcolumn[i].width;
 
-                                                    //alert(columnClass);
+
                                                     $("" + columHeaderUpdate + "").html(columData);
                                                     if (columnWidth != 0) {
                                                         $("" + columHeaderUpdate + "").css('width', columnWidth);
                                                     }
 
                                                     if (hiddenColumn == true) {
-                                                        //alert(columnClass);
-                                                        //$("."+columnClass+"").css('display','none');
+
+
                                                         $("." + columnClass + "").addClass('hiddenColumn');
                                                         $("." + columnClass + "").removeClass('showColumn');
                                                     } else if (hiddenColumn == false) {
                                                         $("." + columnClass + "").removeClass('hiddenColumn');
                                                         $("." + columnClass + "").addClass('showColumn');
-                                                        //$("."+columnClass+"").css('display','table-cell');
-                                                        //$("."+columnClass+"").css('padding','.75rem');
-                                                        //$("."+columnClass+"").css('vertical-align','top');
+
+
+
                                                     }
 
                                                 }
@@ -739,7 +776,7 @@ Template.new_quote.onRendered(() => {
                                 }
                             }
                         }
-
+                        
                         if (!added) {
                             accountService.getOneQuotedataEx(currentQuote).then(function (data) {
                                 $('.fullScreenSpin').css('display', 'none');
@@ -849,7 +886,7 @@ Template.new_quote.onRendered(() => {
                                 $('#edtCustomerName').val(data.fields.CustomerName);
                                 templateObject.CleintName.set(data.fields.CustomerName);
                                 $('#sltCurrency').val(data.fields.ForeignExchangeCode);
-                                /* START attachment */
+
                                 templateObject.attachmentCount.set(0);
                                 if (data.fields.Attachments) {
                                     if (data.fields.Attachments.length) {
@@ -857,7 +894,7 @@ Template.new_quote.onRendered(() => {
                                         templateObject.uploadedFiles.set(data.fields.Attachments);
                                     }
                                 }
-                                /* END  attachment */
+
                                 setTimeout(function () {
                                     if (clientList) {
                                         for (var i = 0; i < clientList.length; i++) {
@@ -870,19 +907,19 @@ Template.new_quote.onRendered(() => {
                                 }, 100);
 
                                 templateObject.quoterecord.set(quoterecord);
-                                // alert(JSON.stringify(templateObject.quoterecord.get()));
+
                                 templateObject.selectedCurrency.set(quoterecord.currency);
                                 templateObject.inputSelectedCurrency.set(quoterecord.currency);
                                 if (templateObject.quoterecord.get()) {
 
-                                    // $('#tblQuoteLine').colResizable({
-                                    //   liveDrag:true});
-                                    //$('#tblQuoteLine').removeClass('JColResizer');
+
+
+
 
                                     Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblQuoteLine', function (error, result) {
                                         if (error) {
-                                            // console.log(error);
-                                            //Bert.alert('<strong>Error:</strong> user-not-found, no user found please try again!', 'danger');
+
+
                                         } else {
                                             if (result) {
                                                 for (let i = 0; i < result.customFields.length; i++) {
@@ -893,23 +930,23 @@ Template.new_quote.onRendered(() => {
                                                     let columnClass = columHeaderUpdate.substring(columHeaderUpdate.indexOf(".") + 1);
                                                     let columnWidth = customcolumn[i].width;
 
-                                                    //alert(columnClass);
+
                                                     $("" + columHeaderUpdate + "").html(columData);
                                                     if (columnWidth != 0) {
                                                         $("" + columHeaderUpdate + "").css('width', columnWidth);
                                                     }
 
                                                     if (hiddenColumn == true) {
-                                                        //alert(columnClass);
-                                                        //$("."+columnClass+"").css('display','none');
+
+
                                                         $("." + columnClass + "").addClass('hiddenColumn');
                                                         $("." + columnClass + "").removeClass('showColumn');
                                                     } else if (hiddenColumn == false) {
                                                         $("." + columnClass + "").removeClass('hiddenColumn');
                                                         $("." + columnClass + "").addClass('showColumn');
-                                                        //$("."+columnClass+"").css('display','table-cell');
-                                                        //$("."+columnClass+"").css('padding','.75rem');
-                                                        //$("."+columnClass+"").css('vertical-align','top');
+
+
+
                                                     }
 
                                                 }
@@ -933,48 +970,44 @@ Template.new_quote.onRendered(() => {
                                     }
                                 });
                                 $('.fullScreenSpin').css('display', 'none');
-                                // Meteor._reload.reload();
+
                             });
                         }
                         setTimeout(function(){
-                            try {
-                               $('.pdfCustomerAddress').html($('#txabillingAddress').val());
-                               $('.pdfCustomerName').html($('#edtCustomerName').val());
-                               let getTotal = $('#grandTotal').text();
-                               let invoice_total = getTotal.replace('$','');
-                               let paymentItems = [];
-                               let paymentLineItems = {};
-                               let dueAmount = utilityService.modifynegativeCurrencyFormat(parseFloat(invoice_total) - parseFloat(paidAmount)).toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0;
-                               let amountPaid = Currency + '' + paidAmount.toLocaleString(undefined, { minimumFractionDigits: 2 });
-                               paymentLineItems = {
-                                    id: '',
-                                    invoiceid: getso_id || '',
-                                    transid: getso_id || '',
-                                    invoicedate: transDate,
-                                    transtype: "Quote",
-                                    amountdue: dueAmount || 0,
-                                    paymentamount: amountPaid || 0,
-                                    ouststandingamount:dueAmount,
-                                    orginalamount:getTotal
-                                };
-                                paymentItems.push(paymentLineItems);
-                                
-                                let record = {
-                                    customerName: company_name || '',
-                                    paymentDate: transDate,
-                                    reference: '',
-                                    paymentAmount: paidAmount || 0,
-                                    notes: $("txaComment").val() || '',
-                                    LineItems:paymentItems,
-                                    department: "Default",
-                                    applied:paidAmount.toLocaleString(undefined, {minimumFractionDigits: 2})
-                    
-                                };
-                                templateObject.record.set(record);
-                            } catch (err){
-                                console.log(err);
-                            }
-                        },500);
+                            let getTotal = $('#totalBalanceDue').text();
+                            $('.pdfCustomerAddress').html($('#txabillingAddress').val());
+                            $('.pdfCustomerName').html($('#edtCustomerName').val());
+                            let invoice_total = getTotal.replace(currency_symbol, '').replace(',','');
+                            let paymentItems = [];
+                            let paymentLineItems = {};
+                            let dueAmount = utilityService.modifynegativeCurrencyFormat(parseFloat(invoice_total) - parseFloat(paidAmount)).toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0;
+                            let amountPaid = Currency + '' + paidAmount.toLocaleString(undefined, { minimumFractionDigits: 2 });
+                            paymentLineItems = {
+                                id: '',
+                                invoiceid: getso_id || '',
+                                transid: getso_id || '',
+                                invoicedate: transDate,
+                                transtype: "Invoice",
+                                amountdue: dueAmount || 0,
+                                paymentamount: amountPaid || 0,
+                                ouststandingamount: dueAmount,
+                                orginalamount: getTotal
+                            };
+                            paymentItems.push(paymentLineItems);
+
+                            let record = {
+                                customerName: company_name || '',
+                                paymentDate: transDate,
+                                reference: '',
+                                paymentAmount: paidAmount || 0,
+                                notes: $("txaComment").val() || '',
+                                LineItems: paymentItems,
+                                department: "Default",
+                                applied: paidAmount.toLocaleString(undefined, { minimumFractionDigits: 2 })
+
+                            };
+                            templateObject.record.set(record);
+                        },1500)
 
                     }
 
@@ -1090,7 +1123,7 @@ Template.new_quote.onRendered(() => {
                         $('#edtCustomerName').val(data.fields.CustomerName);
                         templateObject.CleintName.set(data.fields.CustomerName);
                         $('#sltCurrency').val(data.fields.ForeignExchangeCode);
-                        /* START attachment */
+
                         templateObject.attachmentCount.set(0);
                         if (data.fields.Attachments) {
                             if (data.fields.Attachments.length) {
@@ -1098,11 +1131,13 @@ Template.new_quote.onRendered(() => {
                                 templateObject.uploadedFiles.set(data.fields.Attachments);
                             }
                         }
-                        /* END  attachment */
+
                         setTimeout(function () {
                             if (clientList) {
                                 for (var i = 0; i < clientList.length; i++) {
                                     if (clientList[i].customername == data.fields.CustomerName) {
+                                        quoterecord.firstname = clientList[i].firstname || '';
+                                        quoterecord.lastname = clientList[i].lastname || '';
                                         $('#edtCustomerEmail').val(clientList[i].customeremail);
                                         $('#edtCustomerEmail').attr('customerid', clientList[i].customerid);
                                     }
@@ -1111,19 +1146,19 @@ Template.new_quote.onRendered(() => {
                         }, 100);
 
                         templateObject.quoterecord.set(quoterecord);
-                        // alert(JSON.stringify(templateObject.quoterecord.get()));
+
                         templateObject.selectedCurrency.set(quoterecord.currency);
                         templateObject.inputSelectedCurrency.set(quoterecord.currency);
                         if (templateObject.quoterecord.get()) {
 
-                            // $('#tblQuoteLine').colResizable({
-                            //   liveDrag:true});
-                            //$('#tblQuoteLine').removeClass('JColResizer');
+
+
+
 
                             Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblQuoteLine', function (error, result) {
                                 if (error) {
-                                    // console.log(error);
-                                    //Bert.alert('<strong>Error:</strong> user-not-found, no user found please try again!', 'danger');
+
+
                                 } else {
                                     if (result) {
                                         for (let i = 0; i < result.customFields.length; i++) {
@@ -1134,23 +1169,23 @@ Template.new_quote.onRendered(() => {
                                             let columnClass = columHeaderUpdate.substring(columHeaderUpdate.indexOf(".") + 1);
                                             let columnWidth = customcolumn[i].width;
 
-                                            //alert(columnClass);
+
                                             $("" + columHeaderUpdate + "").html(columData);
                                             if (columnWidth != 0) {
                                                 $("" + columHeaderUpdate + "").css('width', columnWidth);
                                             }
 
                                             if (hiddenColumn == true) {
-                                                //alert(columnClass);
-                                                //$("."+columnClass+"").css('display','none');
+
+
                                                 $("." + columnClass + "").addClass('hiddenColumn');
                                                 $("." + columnClass + "").removeClass('showColumn');
                                             } else if (hiddenColumn == false) {
                                                 $("." + columnClass + "").removeClass('hiddenColumn');
                                                 $("." + columnClass + "").addClass('showColumn');
-                                                //$("."+columnClass+"").css('display','table-cell');
-                                                //$("."+columnClass+"").css('padding','.75rem');
-                                                //$("."+columnClass+"").css('vertical-align','top');
+
+
+
                                             }
 
                                         }
@@ -1174,164 +1209,171 @@ Template.new_quote.onRendered(() => {
                             }
                         });
                         $('.fullScreenSpin').css('display', 'none');
-                        // Meteor._reload.reload();
+
                     });
                 });
 
             };
             templateObject.getQuoteData();
-            $('#html-2-pdfwrapper1').css('display', 'block');
-            async function addAttachment() {
-                let attachment = [];
-                let templateObject = Template.instance();
+                $('#html-2-pdfwrapper1').css('display', 'block');
+                async function addAttachment() {
+                    let attachment = [];
+                    let templateObject = Template.instance();
 
-                let invoiceId = getso_id;
-                let encodedPdf = await generatePdfForMail(invoiceId);
-                let pdfObject = "";
-                var reader = new FileReader();
-                reader.readAsDataURL(encodedPdf);
-                reader.onloadend = function () {
-                    var base64data = reader.result;
-                    base64data = base64data.split(',')[1];
-                    // console.log(base64data);
-                    pdfObject = {
-                        filename: 'Customer Payment-' + invoiceId + '.pdf',
-                        content: base64data,
-                        encoding: 'base64'
-                    };
-                    attachment.push(pdfObject);
-                    // let mailBody = "VS1 Cloud Test";
-                    let erpInvoiceId = getso_id;
+                    let invoiceId = getso_id;
+                    let encodedPdf = await generatePdfForMail(invoiceId);
+                    let pdfObject = "";
+                    var reader = new FileReader();
+                    reader.readAsDataURL(encodedPdf);
+                    reader.onloadend = function () {
+                        var base64data = reader.result;
+                        base64data = base64data.split(',')[1];
 
+                        pdfObject = {
+                            filename: 'Customer Payment-' + invoiceId + '.pdf',
+                            content: base64data,
+                            encoding: 'base64'
+                        };
+                        attachment.push(pdfObject);
 
-                    let mailFromName = Session.get('vs1companyName');
-                    let mailFrom = localStorage.getItem('mySession');
-                    let customerEmailName = $('#edtCustomerName').val();
-                    let checkEmailData = url.searchParams.get("email");
-                    // let mailCC = templateObject.mailCopyToUsr.get();
-                    let grandtotal = $('#grandTotal').html();
-                    let amountDueEmail = $('#totalBalanceDue').html();
-                    let emailDueDate = $("#dtDueDate").val();
-                    let mailSubject = 'Payment for Quote' + erpInvoiceId + ' from ' + mailFromName + ' for ' + customerEmailName;
-                    let mailBody = "Hi " + customerEmailName + ",\n\n Here's payment " + erpInvoiceId + " for  " + grandtotal + "." +
-                        // "\n\nThe amount outstanding of "+amountDueEmail+" is due on "+emailDueDate+"." +
-                        "\n\nIf you have any questions, please let us know : " + mailFrom + ".\n\nThanks,\n" + mailFromName;
-
-                    var htmlmailBody = '<table align="center" border="0" cellpadding="0" cellspacing="0" width="600">' +
-                        '    <tr>' +
-                        '        <td align="center" bgcolor="#54c7e2" style="padding: 40px 0 30px 0;">' +
-                        '            <img src="https://sandbox.vs1cloud.com/assets/VS1logo.png" class="uploadedImage" alt="VS1 Cloud" width="250px" style="display: block;" />' +
-                        '        </td>' +
-                        '    </tr>' +
-                        '    <tr>' +
-                        '        <td style="padding: 40px 30px 40px 30px;">' +
-                        '            <table border="0" cellpadding="0" cellspacing="0" width="100%">' +
-                        '                <tr>' +
-                        '                    <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0 20px 0;">' +
-                        '                        Hello there <span>' + customerEmailName + '</span>,' +
-                        '                    </td>' +
-                        '                </tr>' +
-                        '                <tr>' +
-                        '                    <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0 10px 0;">' +
-                        '                        Please find payment for Quote <span>' + erpInvoiceId + '</span> attached below.' +
-                        '                    </td>' +
-                        '                </tr>' +
-                        '                <tr>' +
-                        '                    <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0 30px 0;">' +
-                        '                        Kind regards,' +
-                        '                        <br>' +
-                        '                        ' + mailFromName + '' +
-                        '                    </td>' +
-                        '                </tr>' +
-                        '            </table>' +
-                        '        </td>' +
-                        '    </tr>' +
-                        '    <tr>' +
-                        '        <td bgcolor="#00a3d3" style="padding: 30px 30px 30px 30px;">' +
-                        '            <table border="0" cellpadding="0" cellspacing="0" width="100%">' +
-                        '                <tr>' +
-                        '                    <td width="50%" style="color: #ffffff; font-family: Arial, sans-serif; font-size: 14px;">' +
-                        '                        If you have any question, please do not hesitate to contact us.' +
-                        '                    </td>' +
-                        '                    <td align="right">' +
-                        '                        <a style="border: none; color: white; padding: 15px 32px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin: 4px 2px; cursor: pointer; background-color: #4CAF50;" href="mailto:' + mailFrom + '">Contact Us</a>' +
-                        '                    </td>' +
-                        '                </tr>' +
-                        '            </table>' +
-                        '        </td>' +
-                        '    </tr>' +
-                        '</table>';
-                    //checkEmailData mailFrom
-                    Meteor.call('sendEmail', {
-                        from: "" + mailFromName + " <" + mailFrom + ">",
-                        to: checkEmailData,
-                        subject: mailSubject,
-                        text: '',
-                        html: htmlmailBody,
-                        attachments: attachment
-                    }, function (error, result) {
-                        if (error && error.error === "error") {
-                            // Router.go('/paymentoverview?success=true');
-
-                        } else {
-
-                        }
-                    });
-
-                    Meteor.call('sendEmail', {
-                        from: "" + mailFromName + " <" + mailFrom + ">",
-                        to: mailFrom,
-                        subject: mailSubject,
-                        text: '',
-                        html: htmlmailBody,
-                        attachments: attachment
-                    }, function (error, result) {
-                        if (error && error.error === "error") {
-                            //Router.go('/paymentoverview?success=true');
-                        } else {
-                           $('#html-2-pdfwrapper').css('display', 'none');
-                            swal({
-                                title: 'SUCCESS',
-                                text: "Email Sent To Customer: " + checkEmailData + " and User: " + mailFrom + "",
-                                type: 'success',
-                                showCancelButton: false,
-                                confirmButtonText: 'OK'
-                            }).then((result) => {
-                                if (result.value) {
-                                    Router.go('/quoteslist?success=true');
-                                } else if (result.dismiss === 'cancel') {
-                                    Router.go('/quoteslist?success=true');
-                                }else{
-                                    Router.go('/quoteslist?success=true');
-                                }
-                            });
-
-                            $('.fullScreenSpin').css('display', 'none');
-                        }
-                    });
+                        let erpInvoiceId = getso_id;
 
 
+                        let mailFromName = Session.get('vs1companyName');
+                        let mailFrom = localStorage.getItem('mySession');
+                        let customerEmailName = $('#edtCustomerName').val();
+                        let checkEmailData = url.searchParams.get("email");
+
+                        let grandtotal = $('#grandTotal').html();
+                        let amountDueEmail = $('#totalBalanceDue').html();
+                        let emailDueDate = $("#dtDueDate").val();
+                        let mailSubject = 'Payment for Quote' + erpInvoiceId + ' from ' + mailFromName + ' for ' + customerEmailName;
+                        let mailBody = "Hi " + customerEmailName + ",\n\n Here's payment " + erpInvoiceId + " for  " + grandtotal + "." +
+
+                            "\n\nIf you have any questions, please let us know : " + mailFrom + ".\n\nThanks,\n" + mailFromName;
+
+                        var htmlmailBody = '<table align="center" border="0" cellpadding="0" cellspacing="0" width="600">' +
+                            '    <tr>' +
+                            '        <td align="center" bgcolor="#54c7e2" style="padding: 40px 0 30px 0;">' +
+                            '            <img src="https://sandbox.vs1cloud.com/assets/VS1logo.png" class="uploadedImage" alt="VS1 Cloud" width="250px" style="display: block;" />' +
+                            '        </td>' +
+                            '    </tr>' +
+                            '    <tr>' +
+                            '        <td style="padding: 40px 30px 40px 30px;">' +
+                            '            <table border="0" cellpadding="0" cellspacing="0" width="100%">' +
+                            '                <tr>' +
+                            '                    <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0 20px 0;">' +
+                            '                        Hello there <span>' + customerEmailName + '</span>,' +
+                            '                    </td>' +
+                            '                </tr>' +
+                            '                <tr>' +
+                            '                    <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0 10px 0;">' +
+                            '                        Please find payment for Quote <span>' + erpInvoiceId + '</span> attached below.' +
+                            '                    </td>' +
+                            '                </tr>' +
+                            '                <tr>' +
+                            '                    <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0 30px 0;">' +
+                            '                        Kind regards,' +
+                            '                        <br>' +
+                            '                        ' + mailFromName + '' +
+                            '                    </td>' +
+                            '                </tr>' +
+                            '            </table>' +
+                            '        </td>' +
+                            '    </tr>' +
+                            '    <tr>' +
+                            '        <td bgcolor="#00a3d3" style="padding: 30px 30px 30px 30px;">' +
+                            '            <table border="0" cellpadding="0" cellspacing="0" width="100%">' +
+                            '                <tr>' +
+                            '                    <td width="50%" style="color: #ffffff; font-family: Arial, sans-serif; font-size: 14px;">' +
+                            '                        If you have any question, please do not hesitate to contact us.' +
+                            '                    </td>' +
+                            '                    <td align="right">' +
+                            '                        <a style="border: none; color: white; padding: 15px 32px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin: 4px 2px; cursor: pointer; background-color: #4CAF50;" href="mailto:' + mailFrom + '">Contact Us</a>' +
+                            '                    </td>' +
+                            '                </tr>' +
+                            '            </table>' +
+                            '        </td>' +
+                            '    </tr>' +
+                            '</table>';
+
+                        Meteor.call('sendEmail', {
+                            from: "" + mailFromName + " <" + mailFrom + ">",
+                            to: checkEmailData,
+                            subject: mailSubject,
+                            text: '',
+                            html: htmlmailBody,
+                            attachments: attachment
+                        }, function (error, result) {
+                            if (error && error.error === "error") {
 
 
+                            } else {
+
+                            }
+                        });
+
+                        Meteor.call('sendEmail', {
+                            from: "" + mailFromName + " <" + mailFrom + ">",
+                            to: mailFrom,
+                            subject: mailSubject,
+                            text: '',
+                            html: htmlmailBody,
+                            attachments: attachment
+                        }, function (error, result) {
+                            if (error && error.error === "error") {
+                                swal({
+                                    title: 'Something went wrong',
+                                    text: err,
+                                    type: 'error',
+                                    showCancelButton: false,
+                                    confirmButtonText: 'OK'
+                                });
+                            } else {
+                                $('#html-2-pdfwrapper').css('display', 'none');
+                                swal({
+                                    title: 'SUCCESS',
+                                    text: "Email Sent To Customer: " + checkEmailData,
+                                    type: 'success',
+                                    showCancelButton: false,
+                                    confirmButtonText: 'OK'
+                                }).then((result) => {
+                                    if (result.value) {
+                                        Router.go('/quoteslist?success=true');
+                                    } else if (result.dismiss === 'cancel') {
+                                        Router.go('/quoteslist?success=true');
+                                    } else {
+                                        Router.go('/quoteslist?success=true');
+                                    }
+                                });
+                                $('.fullScreenSpin').css('display', 'none');
+                            }
+                        });
+
+
+
+
+
+                    }
 
                 }
+                setTimeout(function () {
+                   addAttachment();
+                }, 2500);
 
-            }
-            setTimeout(function () {
-                addAttachment();
-            }, 1500);
+            
             function generatePdfForMail(invoiceId) {
                 return new Promise((resolve, reject) => {
                     let templateObject = Template.instance();
-                    // let data = templateObject.singleInvoiceData.get();
+
                     let completeTabRecord;
                     let doc = new jsPDF('p', 'pt', 'a4');
                     doc.setFontSize(18);
                     var source = document.getElementById('html-2-pdfwrapper1');
                     doc.addHTML(source, function () {
-                        //pdf.save('Invoice.pdf');
+
                         resolve(doc.output('blob'));
-                        $('#html-2-pdfwrapper1').css('display','none');
+                        $('#html-2-pdfwrapper1').css('display', 'none');
                     });
                 });
             }
@@ -1341,7 +1383,7 @@ Template.new_quote.onRendered(() => {
         currentQuote = getso_id[1];
         $('.printID').attr("id", currentQuote);
         templateObject.getQuoteData = function () {
-            //getOneQuotedata
+
             getVS1Data('TQuote').then(function (dataObject) {
                 let customerData = templateObject.clientrecords.get();
 
@@ -1422,8 +1464,6 @@ Template.new_quote.onRendered(() => {
                         let quoterecord = {
                             id: data.fields.ID,
                             lid: 'Edit Quote' + ' ' + data.fields.ID,
-                            firstname: cust_result[0].firstname,
-                            lastname: cust_result[0].lastname,
                             socustomer: data.fields.CustomerName,
                             salesOrderto: data.fields.InvoiceToDesc,
                             shipto: data.fields.ShipToDesc,
@@ -1459,7 +1499,7 @@ Template.new_quote.onRendered(() => {
                         $('#edtCustomerName').val(data.fields.CustomerName);
                         templateObject.CleintName.set(data.fields.CustomerName);
                         $('#sltCurrency').val(data.fields.ForeignExchangeCode);
-                        /* START attachment */
+
                         templateObject.attachmentCount.set(0);
                         if (data.fields.Attachments) {
                             if (data.fields.Attachments.length) {
@@ -1467,35 +1507,38 @@ Template.new_quote.onRendered(() => {
                                 templateObject.uploadedFiles.set(data.fields.Attachments);
                             }
                         }
-                        /* END  attachment */
+
                         setTimeout(function () {
                             if (clientList) {
                                 for (var i = 0; i < clientList.length; i++) {
                                     if (clientList[i].customername == data.fields.CustomerName) {
+                                        quoterecord.firstname = clientList[i].firstname || '';
+                                        quoterecord.lastname = clientList[i].lastname || '';
+                                        templateObject.invoicerecord.set(invoicerecord);
                                         $('#edtCustomerEmail').val(clientList[i].customeremail);
                                         $('#edtCustomerEmail').attr('customerid', clientList[i].customerid);
                                     }
                                 }
-                            }
+                            };
                         }, 100);
 
                         templateObject.quoterecord.set(quoterecord);
 
 
                         templateObject.lineitems.set(lineItems);
-                        // alert(JSON.stringify(templateObject.quoterecord.get()));
+
                         templateObject.selectedCurrency.set(quoterecord.currency);
                         templateObject.inputSelectedCurrency.set(quoterecord.currency);
                         if (templateObject.quoterecord.get()) {
 
-                            // $('#tblQuoteLine').colResizable({
-                            //   liveDrag:true});
-                            //$('#tblQuoteLine').removeClass('JColResizer');
+
+
+
 
                             Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblQuoteLine', function (error, result) {
                                 if (error) {
-                                    // console.log(error);
-                                    //Bert.alert('<strong>Error:</strong> user-not-found, no user found please try again!', 'danger');
+
+
                                 } else {
                                     if (result) {
                                         for (let i = 0; i < result.customFields.length; i++) {
@@ -1506,23 +1549,23 @@ Template.new_quote.onRendered(() => {
                                             let columnClass = columHeaderUpdate.substring(columHeaderUpdate.indexOf(".") + 1);
                                             let columnWidth = customcolumn[i].width;
 
-                                            //alert(columnClass);
+
                                             $("" + columHeaderUpdate + "").html(columData);
                                             if (columnWidth != 0) {
                                                 $("" + columHeaderUpdate + "").css('width', columnWidth);
                                             }
 
                                             if (hiddenColumn == true) {
-                                                //alert(columnClass);
-                                                //$("."+columnClass+"").css('display','none');
+
+
                                                 $("." + columnClass + "").addClass('hiddenColumn');
                                                 $("." + columnClass + "").removeClass('showColumn');
                                             } else if (hiddenColumn == false) {
                                                 $("." + columnClass + "").removeClass('hiddenColumn');
                                                 $("." + columnClass + "").addClass('showColumn');
-                                                //$("."+columnClass+"").css('display','table-cell');
-                                                //$("."+columnClass+"").css('padding','.75rem');
-                                                //$("."+columnClass+"").css('vertical-align','top');
+
+
+
                                             }
 
                                         }
@@ -1546,7 +1589,7 @@ Template.new_quote.onRendered(() => {
                             }
                         });
                         $('.fullScreenSpin').css('display', 'none');
-                        // Meteor._reload.reload();
+
                     });
                 } else {
                     let data = JSON.parse(dataObject[0].data);
@@ -1632,8 +1675,6 @@ Template.new_quote.onRendered(() => {
                             let quoterecord = {
                                 id: useData[d].fields.ID,
                                 lid: 'Edit Quote' + ' ' + useData[d].fields.ID,
-                                firstname: cust_result[0].firstname,
-                                lastname: cust_result[0].lastname,
                                 socustomer: useData[d].fields.CustomerName,
                                 salesOrderto: useData[d].fields.InvoiceToDesc,
                                 shipto: useData[d].fields.ShipToDesc,
@@ -1669,7 +1710,7 @@ Template.new_quote.onRendered(() => {
                             $('#edtCustomerName').val(useData[d].fields.CustomerName);
                             templateObject.CleintName.set(useData[d].fields.CustomerName);
                             $('#sltCurrency').val(useData[d].fields.ForeignExchangeCode);
-                            /* START attachment */
+
                             templateObject.attachmentCount.set(0);
                             if (useData[d].fields.Attachments) {
                                 if (useData[d].fields.Attachments.length) {
@@ -1677,32 +1718,35 @@ Template.new_quote.onRendered(() => {
                                     templateObject.uploadedFiles.set(useData[d].fields.Attachments);
                                 }
                             }
-                            /* END  attachment */
+
                             setTimeout(function () {
                                 if (clientList) {
                                     for (var i = 0; i < clientList.length; i++) {
                                         if (clientList[i].customername == useData[d].fields.CustomerName) {
+                                            quoterecord.firstname = clientList[i].firstname || '';
+                                            quoterecord.lastname = clientList[i].lastname || '';
+                                            templateObject.invoicerecord.set(invoicerecord);
                                             $('#edtCustomerEmail').val(clientList[i].customeremail);
                                             $('#edtCustomerEmail').attr('customerid', clientList[i].customerid);
                                         }
                                     }
-                                }
+                                };
                             }, 100);
 
                             templateObject.quoterecord.set(quoterecord);
-                            // alert(JSON.stringify(templateObject.quoterecord.get()));
+
                             templateObject.selectedCurrency.set(quoterecord.currency);
                             templateObject.inputSelectedCurrency.set(quoterecord.currency);
                             if (templateObject.quoterecord.get()) {
 
-                                // $('#tblQuoteLine').colResizable({
-                                //   liveDrag:true});
-                                //$('#tblQuoteLine').removeClass('JColResizer');
+
+
+
 
                                 Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblQuoteLine', function (error, result) {
                                     if (error) {
-                                        // console.log(error);
-                                        //Bert.alert('<strong>Error:</strong> user-not-found, no user found please try again!', 'danger');
+
+
                                     } else {
                                         if (result) {
                                             for (let i = 0; i < result.customFields.length; i++) {
@@ -1713,23 +1757,23 @@ Template.new_quote.onRendered(() => {
                                                 let columnClass = columHeaderUpdate.substring(columHeaderUpdate.indexOf(".") + 1);
                                                 let columnWidth = customcolumn[i].width;
 
-                                                //alert(columnClass);
+
                                                 $("" + columHeaderUpdate + "").html(columData);
                                                 if (columnWidth != 0) {
                                                     $("" + columHeaderUpdate + "").css('width', columnWidth);
                                                 }
 
                                                 if (hiddenColumn == true) {
-                                                    //alert(columnClass);
-                                                    //$("."+columnClass+"").css('display','none');
+
+
                                                     $("." + columnClass + "").addClass('hiddenColumn');
                                                     $("." + columnClass + "").removeClass('showColumn');
                                                 } else if (hiddenColumn == false) {
                                                     $("." + columnClass + "").removeClass('hiddenColumn');
                                                     $("." + columnClass + "").addClass('showColumn');
-                                                    //$("."+columnClass+"").css('display','table-cell');
-                                                    //$("."+columnClass+"").css('padding','.75rem');
-                                                    //$("."+columnClass+"").css('vertical-align','top');
+
+
+
                                                 }
 
                                             }
@@ -1850,7 +1894,7 @@ Template.new_quote.onRendered(() => {
                             $('#edtCustomerName').val(data.fields.CustomerName);
                             templateObject.CleintName.set(data.fields.CustomerName);
                             $('#sltCurrency').val(data.fields.ForeignExchangeCode);
-                            /* START attachment */
+
                             templateObject.attachmentCount.set(0);
                             if (data.fields.Attachments) {
                                 if (data.fields.Attachments.length) {
@@ -1858,32 +1902,35 @@ Template.new_quote.onRendered(() => {
                                     templateObject.uploadedFiles.set(data.fields.Attachments);
                                 }
                             }
-                            /* END  attachment */
+
                             setTimeout(function () {
                                 if (clientList) {
                                     for (var i = 0; i < clientList.length; i++) {
                                         if (clientList[i].customername == data.fields.CustomerName) {
+                                            quoterecord.firstname = clientList[i].firstname || '';
+                                            quoterecord.lastname = clientList[i].lastname || '';
+                                            templateObject.invoicerecord.set(invoicerecord);
                                             $('#edtCustomerEmail').val(clientList[i].customeremail);
                                             $('#edtCustomerEmail').attr('customerid', clientList[i].customerid);
                                         }
                                     }
-                                }
+                                };
                             }, 100);
 
                             templateObject.quoterecord.set(quoterecord);
-                            // alert(JSON.stringify(templateObject.quoterecord.get()));
+
                             templateObject.selectedCurrency.set(quoterecord.currency);
                             templateObject.inputSelectedCurrency.set(quoterecord.currency);
                             if (templateObject.quoterecord.get()) {
 
-                                // $('#tblQuoteLine').colResizable({
-                                //   liveDrag:true});
-                                //$('#tblQuoteLine').removeClass('JColResizer');
+
+
+
 
                                 Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblQuoteLine', function (error, result) {
                                     if (error) {
-                                        // console.log(error);
-                                        //Bert.alert('<strong>Error:</strong> user-not-found, no user found please try again!', 'danger');
+
+
                                     } else {
                                         if (result) {
                                             for (let i = 0; i < result.customFields.length; i++) {
@@ -1894,23 +1941,23 @@ Template.new_quote.onRendered(() => {
                                                 let columnClass = columHeaderUpdate.substring(columHeaderUpdate.indexOf(".") + 1);
                                                 let columnWidth = customcolumn[i].width;
 
-                                                //alert(columnClass);
+
                                                 $("" + columHeaderUpdate + "").html(columData);
                                                 if (columnWidth != 0) {
                                                     $("" + columHeaderUpdate + "").css('width', columnWidth);
                                                 }
 
                                                 if (hiddenColumn == true) {
-                                                    //alert(columnClass);
-                                                    //$("."+columnClass+"").css('display','none');
+
+
                                                     $("." + columnClass + "").addClass('hiddenColumn');
                                                     $("." + columnClass + "").removeClass('showColumn');
                                                 } else if (hiddenColumn == false) {
                                                     $("." + columnClass + "").removeClass('hiddenColumn');
                                                     $("." + columnClass + "").addClass('showColumn');
-                                                    //$("."+columnClass+"").css('display','table-cell');
-                                                    //$("."+columnClass+"").css('padding','.75rem');
-                                                    //$("."+columnClass+"").css('vertical-align','top');
+
+
+
                                                 }
 
                                             }
@@ -1934,7 +1981,7 @@ Template.new_quote.onRendered(() => {
                                 }
                             });
                             $('.fullScreenSpin').css('display', 'none');
-                            // Meteor._reload.reload();
+
                         });
                     }
                 }
@@ -2018,8 +2065,6 @@ Template.new_quote.onRendered(() => {
                     let quoterecord = {
                         id: data.fields.ID,
                         lid: 'Edit Quote' + ' ' + data.fields.ID,
-                        firstname: cust_result[0].firstname,
-                        lastname: cust_result[0].lastname,
                         socustomer: data.fields.CustomerName,
                         salesOrderto: data.fields.InvoiceToDesc,
                         shipto: data.fields.ShipToDesc,
@@ -2056,7 +2101,7 @@ Template.new_quote.onRendered(() => {
                     $('#edtCustomerName').val(data.fields.CustomerName);
                     templateObject.CleintName.set(data.fields.CustomerName);
                     $('#sltCurrency').val(data.fields.ForeignExchangeCode);
-                    /* START attachment */
+
                     templateObject.attachmentCount.set(0);
                     if (data.fields.Attachments) {
                         if (data.fields.Attachments.length) {
@@ -2064,32 +2109,35 @@ Template.new_quote.onRendered(() => {
                             templateObject.uploadedFiles.set(data.fields.Attachments);
                         }
                     }
-                    /* END  attachment */
+
                     setTimeout(function () {
                         if (clientList) {
                             for (var i = 0; i < clientList.length; i++) {
                                 if (clientList[i].customername == data.fields.CustomerName) {
+                                    quoterecord.firstname = clientList[i].firstname || '';
+                                    quoterecord.lastname = clientList[i].lastname || '';
+                                    templateObject.invoicerecord.set(invoicerecord);
                                     $('#edtCustomerEmail').val(clientList[i].customeremail);
                                     $('#edtCustomerEmail').attr('customerid', clientList[i].customerid);
                                 }
                             }
-                        }
+                        };
                     }, 100);
 
                     templateObject.quoterecord.set(quoterecord);
-                    // alert(JSON.stringify(templateObject.quoterecord.get()));
+
                     templateObject.selectedCurrency.set(quoterecord.currency);
                     templateObject.inputSelectedCurrency.set(quoterecord.currency);
                     if (templateObject.quoterecord.get()) {
 
-                        // $('#tblQuoteLine').colResizable({
-                        //   liveDrag:true});
-                        //$('#tblQuoteLine').removeClass('JColResizer');
+
+
+
 
                         Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblQuoteLine', function (error, result) {
                             if (error) {
-                                // console.log(error);
-                                //Bert.alert('<strong>Error:</strong> user-not-found, no user found please try again!', 'danger');
+
+
                             } else {
                                 if (result) {
                                     for (let i = 0; i < result.customFields.length; i++) {
@@ -2100,23 +2148,23 @@ Template.new_quote.onRendered(() => {
                                         let columnClass = columHeaderUpdate.substring(columHeaderUpdate.indexOf(".") + 1);
                                         let columnWidth = customcolumn[i].width;
 
-                                        //alert(columnClass);
+
                                         $("" + columHeaderUpdate + "").html(columData);
                                         if (columnWidth != 0) {
                                             $("" + columHeaderUpdate + "").css('width', columnWidth);
                                         }
 
                                         if (hiddenColumn == true) {
-                                            //alert(columnClass);
-                                            //$("."+columnClass+"").css('display','none');
+
+
                                             $("." + columnClass + "").addClass('hiddenColumn');
                                             $("." + columnClass + "").removeClass('showColumn');
                                         } else if (hiddenColumn == false) {
                                             $("." + columnClass + "").removeClass('hiddenColumn');
                                             $("." + columnClass + "").addClass('showColumn');
-                                            //$("."+columnClass+"").css('display','table-cell');
-                                            //$("."+columnClass+"").css('padding','.75rem');
-                                            //$("."+columnClass+"").css('vertical-align','top');
+
+
+
                                         }
 
                                     }
@@ -2140,7 +2188,7 @@ Template.new_quote.onRendered(() => {
                         }
                     });
                     $('.fullScreenSpin').css('display', 'none');
-                    // Meteor._reload.reload();
+
                 });
             });
 
@@ -2220,11 +2268,11 @@ Template.new_quote.onRendered(() => {
 
         templateObject.quoterecord.set(quoterecord);
         if (templateObject.quoterecord.get()) {
-            // $('#tblQuoteLine').colResizable({liveDrag:true});
+
             Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblQuoteLine', function (error, result) {
                 if (error) {
                     console.log(error);
-                    //Bert.alert('<strong>Error:</strong> user-not-found, no user found please try again!', 'danger');
+
                 } else {
                     if (result) {
                         for (let i = 0; i < result.customFields.length; i++) {
@@ -2234,7 +2282,7 @@ Template.new_quote.onRendered(() => {
                             let hiddenColumn = customcolumn[i].hidden;
                             let columnClass = columHeaderUpdate.substring(columHeaderUpdate.indexOf(".") + 1);
                             let columnWidth = customcolumn[i].width;
-                            //alert(columnClass);
+
                             $("" + columHeaderUpdate + "").html(columData);
                             if (columnWidth != 0) {
                                 $("" + columHeaderUpdate + "").css('width', columnWidth);
@@ -2253,11 +2301,11 @@ Template.new_quote.onRendered(() => {
                 }
             });
         }
-        //console.log(templateObject.quoterecord.get());
-        // alert('No ID');
+
+
     }
 
-    // $('.tblQuoteLine').dragableColumns();
+
     templateObject.getDepartments = function () {
         getVS1Data('TDeptClass').then(function (dataObject) {
             if (dataObject.length == 0) {
@@ -2353,8 +2401,8 @@ Template.new_quote.onRendered(() => {
     }
     templateObject.getDepartments();
     templateObject.getTerms();
-    // console.log(templateObject.quoterecord.get());
-    //alert(JSON.stringify(templateObject.quoterecord.get()));
+
+
 
     let table;
     $(document).ready(function () {
@@ -2378,7 +2426,7 @@ Template.new_quote.onRendered(() => {
 
     });
 
-    /* On clik Inventory Line */
+
     $(document).on("click", "#tblInventory tbody tr", function (e) {
         let selectLineID = $('#selectLineID').val();
         let taxcodeList = templateObject.taxraterecords.get();
@@ -2391,7 +2439,7 @@ Template.new_quote.onRendered(() => {
         let utilityService = new UtilityService();
         let $tblrows = $("#tblQuoteLine tbody tr");
         let taxcode1 = "";
-        //var data = table.row( this ).data();
+
         let selectedCust = $('#edtCustomerName').val();
         let getCustDetails = "";
         let lineTaxRate = "";
@@ -2431,7 +2479,7 @@ Template.new_quote.onRendered(() => {
             if (taxcodeList) {
                 for (var i = 0; i < taxcodeList.length; i++) {
                     if (taxcodeList[i].codename == lineTaxRate) {
-                        //lineTaxCode = taxcodeList[i].coderate;
+
                         $('#' + selectLineID + " .lineTaxRate").text(taxcodeList[i].coderate);
                     }
                 }
@@ -2494,14 +2542,14 @@ Template.new_quote.onRendered(() => {
         }
     });
 
-    /* On Click TaxCode List */
+
     $(document).on("click", "#tblTaxRate tbody tr", function (e) {
         let selectLineID = $('#selectLineID').val();
         let taxcodeList = templateObject.taxraterecords.get();
         var table = $(this);
         let utilityService = new UtilityService();
         let $tblrows = $("#tblQuoteLine tbody tr");
-        //var data = table.row( this ).data();
+
         if (selectLineID) {
             let lineTaxCode = table.find(".taxName").text();
             let lineTaxRate = table.find(".taxRate").text();
@@ -2524,14 +2572,14 @@ Template.new_quote.onRendered(() => {
                 if (taxcodeList) {
                     for (var i = 0; i < taxcodeList.length; i++) {
                         if (taxcodeList[i].codename == taxcode) {
-                            //if(taxcodeList[i].coderate.trim() != ''){
+
                             taxrateamount = taxcodeList[i].coderate.replace('%', "") / 100;
-                            //}
+
                         }
                     }
                 }
 
-                //alert(taxrateamount);
+
                 var subTotal = parseInt(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) || 0;
                 $tblrow.find('.lineTaxAmount').text(utilityService.modifynegativeCurrencyFormat(taxTotal));
                 if ((taxrateamount == '') || (taxrateamount == ' ')) {
@@ -2596,9 +2644,9 @@ Template.new_quote.onRendered(() => {
                             code = "E";
                         }
                         let taxcodeList = templateObject.taxraterecords.get();
-                        // let utilityService = new UtilityService();
+
                         let $tblrows = $("#tblQuoteLine tbody tr");
-                        //if(selectLineID){
+
                         let lineAmount = 0;
                         let subGrandTotal = 0;
                         let taxGrandTotal = 0;
@@ -2699,16 +2747,16 @@ Template.new_quote.onRendered(() => {
         }
         stringQuery = stringQuery + "tax=" + tax + "&total=" + total + "&customer=" + customer + "&name=" + name + "&surname=" + surname + "&quoteid=" + quoteData.id + "&company=" + company + "&vs1email=" + vs1User + "&customeremail=" + customerEmail + "&type=Quote&url=" + window.location.href + "&server=" + erpGet.ERPIPAddress + "&username=" + erpGet.ERPUsername + "&token=" + erpGet.ERPPassword + "&session=" + erpGet.ERPDatabase + "&port=" + erpGet.ERPPort;;
         var pdf = new jsPDF('p', 'pt', 'a4');
-        //let qouteId =  $('h1').text().replace( /^\D+/g, '');
-        //console.log(qouteId);
-        //new jsPDF('p', 'pt', 'letter');
-        // new jsPDF('p', 'mm', 'a4');
+
+
+
+
         pdf.setFontSize(18);
         var source = document.getElementById('html-2-pdfwrapper');
         pdf.addHTML(source, function () {
             pdf.setFontSize(10);
             pdf.setTextColor(255, 255, 255);
-            pdf.textWithLink('Pay Now', 480, 104, { url: 'https://www.depot.vs1cloud.com/stripe/' + stringQuery });
+            pdf.textWithLink('Pay Now', 480, 104, { url: 'https://depot.vs1cloud.com/stripe/' + stringQuery });
             pdf.save('Quote-' + id + '.pdf');
             $('#html-2-pdfwrapper').css('display', 'none');
         });
@@ -2717,13 +2765,13 @@ Template.new_quote.onRendered(() => {
 
     };
 
-    // JQuery & CSS by Bruno BEGIN
+
     setTimeout(function () {
 
         var x = window.matchMedia("(max-width: 1024px)")
 
         function mediaQuery(x) {
-            if (x.matches) { // If media query matches
+            if (x.matches) {
 
                 $("#colInvnoReference").removeClass("col-auto");
                 $("#colInvnoReference").addClass("col-6");
@@ -2745,8 +2793,8 @@ Template.new_quote.onRendered(() => {
 
             }
         }
-        mediaQuery(x) // Call listener function at run time
-        x.addListener(mediaQuery) // Attach listener function on state changes
+        mediaQuery(x)
+        x.addListener(mediaQuery)
     }, 10);
 
     setTimeout(function () {
@@ -2754,7 +2802,7 @@ Template.new_quote.onRendered(() => {
         var x = window.matchMedia("(max-width: 420px)")
 
         function mediaQuery(x) {
-            if (x.matches) { // If media query matches
+            if (x.matches) {
 
                 $("#colInvnoReference").removeClass("col-auto");
                 $("#colInvnoReference").addClass("col-12");
@@ -2782,10 +2830,10 @@ Template.new_quote.onRendered(() => {
 
             }
         }
-        mediaQuery(x) // Call listener function at run time
-        x.addListener(mediaQuery) // Attach listener function on state changes
+        mediaQuery(x)
+        x.addListener(mediaQuery)
     }, 10);
-    // JQuery & CSS by Bruno END
+
 });
 Template.new_quote.onRendered(function () {
     let tempObj = Template.instance();
@@ -2805,8 +2853,8 @@ Template.new_quote.onRendered(function () {
                     let inventoryData = [];
                     for (let i = 0; i < data.tproductvs1.length; i++) {
                         var dataList = [
-                            // data.tproductvs1[i].Id || '',
-                            // data.tproductvs1[i].Id || '',
+
+
                             data.tproductvs1[i].ProductName || '-',
                             data.tproductvs1[i].SalesDescription || '',
                             utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductvs1[i].BuyQty1Cost * 100) / 100),
@@ -2823,13 +2871,13 @@ Template.new_quote.onRendered(function () {
 
                         $('#tblInventory').dataTable({
                             data: splashArrayProductList,
-                            // processing: true,
+
                             "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
                             paging: true,
                             "aaSorting": [],
                             "orderMulti": true,
                             columnDefs: [
-                                // { orderable: false, targets: 0 },
+
                                 { className: "productName", "targets": [0] },
                                 { className: "productDesc", "targets": [1] },
                                 { className: "costPrice text-right", "targets": [2] },
@@ -2838,12 +2886,12 @@ Template.new_quote.onRendered(function () {
                                 { className: "taxrate", "targets": [5] }
                             ],
                             colReorder: true,
-                            // colReorder: {
-                            //   fixedColumnsLeft: 1
-                            // },
+
+
+
                             bStateSave: true,
-                            //scrollX: 1000,
-                            //rowId: 0,
+
+
                             pageLength: 25,
                             lengthMenu: [
                                 [10, 25, 50, -1],
@@ -2855,12 +2903,12 @@ Template.new_quote.onRendered(function () {
                         });
 
                         $('div.dataTables_filter input').addClass('form-control form-control-sm');
-                        // tableProductList
-                        //     .order( [ 1, 'desc' ] )
-                        //     .draw();
-                        //$('#tblInventory').DataTable().column( 0 ).visible( false );
-                        //$('#tblInventory').DataTable().column( 5 ).visible( false );
-                        //$('#tblInventory').DataTable().column( 6 ).visible( false );
+
+
+
+
+
+
                     }
                 })
             } else {
@@ -2871,8 +2919,8 @@ Template.new_quote.onRendered(function () {
                 let inventoryData = [];
                 for (let i = 0; i < useData.length; i++) {
                     var dataList = [
-                        // data.tproductvs1[i].Id || '',
-                        // data.tproductvs1[i].Id || '',
+
+
                         useData[i].fields.ProductName || '-',
                         useData[i].fields.SalesDescription || '',
                         utilityService.modifynegativeCurrencyFormat(Math.floor(useData[i].fields.BuyQty1Cost * 100) / 100),
@@ -2889,13 +2937,13 @@ Template.new_quote.onRendered(function () {
 
                     $('#tblInventory').dataTable({
                         data: splashArrayProductList,
-                        // processing: true,
+
                         "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
                         paging: true,
                         "aaSorting": [],
                         "orderMulti": true,
                         columnDefs: [
-                            // { orderable: false, targets: 0 },
+
                             { className: "productName", "targets": [0] },
                             { className: "productDesc", "targets": [1] },
                             { className: "costPrice text-right", "targets": [2] },
@@ -2904,12 +2952,12 @@ Template.new_quote.onRendered(function () {
                             { className: "taxrate", "targets": [5] }
                         ],
                         colReorder: true,
-                        // colReorder: {
-                        //   fixedColumnsLeft: 1
-                        // },
+
+
+
                         bStateSave: true,
-                        //scrollX: 1000,
-                        //rowId: 0,
+
+
                         pageLength: 25,
                         lengthMenu: [
                             [10, 25, 50, -1],
@@ -2921,12 +2969,12 @@ Template.new_quote.onRendered(function () {
                     });
 
                     $('div.dataTables_filter input').addClass('form-control form-control-sm');
-                    // tableProductList
-                    //     .order( [ 1, 'desc' ] )
-                    //     .draw();
-                    //$('#tblInventory').DataTable().column( 0 ).visible( false );
-                    //$('#tblInventory').DataTable().column( 5 ).visible( false );
-                    //$('#tblInventory').DataTable().column( 6 ).visible( false );
+
+
+
+
+
+
                 }
             }
         }).catch(function (err) {
@@ -2937,8 +2985,8 @@ Template.new_quote.onRendered(function () {
                 for (let i = 0; i < data.tproductvs1.length; i++) {
 
                     var dataList = [
-                        // data.tproductvs1[i].Id || '',
-                        // data.tproductvs1[i].Id || '',
+
+
                         data.tproductvs1[i].ProductName || '-',
                         data.tproductvs1[i].SalesDescription || '',
                         utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductvs1[i].BuyQty1Cost * 100) / 100),
@@ -2956,13 +3004,13 @@ Template.new_quote.onRendered(function () {
 
                     $('#tblInventory').dataTable({
                         data: splashArrayProductList,
-                        // processing: true,
+
                         "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
                         paging: true,
                         "aaSorting": [],
                         "orderMulti": true,
                         columnDefs: [
-                            // { orderable: false, targets: 0 },
+
                             { className: "productName", "targets": [0] },
                             { className: "productDesc", "targets": [1] },
                             { className: "costPrice text-right", "targets": [2] },
@@ -2971,12 +3019,12 @@ Template.new_quote.onRendered(function () {
                             { className: "taxrate", "targets": [5] }
                         ],
                         colReorder: true,
-                        // colReorder: {
-                        //   fixedColumnsLeft: 1
-                        // },
+
+
+
                         bStateSave: true,
-                        //scrollX: 1000,
-                        //rowId: 0,
+
+
                         pageLength: 25,
                         lengthMenu: [
                             [10, 25, 50, -1],
@@ -2988,75 +3036,75 @@ Template.new_quote.onRendered(function () {
                     });
 
                     $('div.dataTables_filter input').addClass('form-control form-control-sm');
-                    // tableProductList
-                    //     .order( [ 1, 'desc' ] )
-                    //     .draw();
-                    //$('#tblInventory').DataTable().column( 0 ).visible( false );
-                    //$('#tblInventory').DataTable().column( 5 ).visible( false );
-                    //$('#tblInventory').DataTable().column( 6 ).visible( false );
+
+
+
+
+
+
                 }
             })
         });
     };
-    // if (!localStorage.getItem('VS1SalesProductList')) {
-    tempObj.getAllProducts();
-    // }else{
-    //  $('#tblInventory').dataTable({
-    //     data :  JSON.parse(localStorage.getItem('VS1SalesProductList')),
-    //     // processing: true,
-    //     paging: true,
-    //     "aaSorting": [],
-    //     "orderMulti": true,
-    //     columnDefs: [
-    //       // { orderable: false, targets: 0},
-    //       { className: "productName", "targets": [ 0 ] },
-    //       { className: "productDesc", "targets": [ 1 ] },
-    //       { className: "costPrice text-right", "targets": [ 2 ] },
-    //       { className: "salePrice text-right", "targets": [ 3 ] },
-    //       { className: "prdqty", "targets": [ 4 ] },
-    //       { className: "taxrate", "targets": [ 5 ] }
-    //
-    //     ],
-    //     colReorder: true,
-    //     // colReorder: {
-    //     //   fixedColumnsLeft: 1
-    //     // },
-    //     bStateSave: true,
-    //     //scrollX: 1000,
-    //     //rowId: 0,
-    //     pageLength: 25,
-    //     lengthMenu: [ [10, 25, 50, -1], [10, 25, 50, "All"] ],
-    //     info: true,
-    //     responsive: true
-    //
-    //   });
-    //
-    //   $('div.dataTables_filter input').addClass('form-control form-control-sm');
-    //   // tableProductList
-    //   //     .order( [ 1, 'desc' ] )
-    //   //     .draw();
-    // }
-    // $('#tblInventory').DataTable().column( 0 ).visible( false );
-    //$('#tblInventory').DataTable().column( 5 ).visible( false );
 
-    // $(document).ready(function () {
-    //     history.pushState(null, document.title, location.href);
-    //     window.addEventListener('popstate', function (event) {
-    //         swal({
-    //             title: 'Save Or Cancel To Continue',
-    //             text: "Do you want to Save or Cancel this transaction?",
-    //             type: 'info',
-    //             showCancelButton: true,
-    //             confirmButtonText: 'Save'
-    //         }).then((result) => {
-    //             if (result.value) {
-    //                 $(".btnSave").trigger("click");
-    //             } else if (result.dismiss === 'cancel') {
-    //                 window.open('/quoteslist', '_self');
-    //             } else { }
-    //         });
-    //     });
-    // });
+    tempObj.getAllProducts();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
     tempObj.getAllTaxCodes = function () {
@@ -3085,7 +3133,7 @@ Template.new_quote.onRendered(function () {
                         splashArrayTaxRateList.push(dataList);
                     }
                     tempObj.taxraterecords.set(taxCodesList);
-                    //localStorage.setItem('VS1ProductList', JSON.stringify(splashArrayProductList));
+
 
                     if (splashArrayTaxRateList) {
 
@@ -3102,12 +3150,12 @@ Template.new_quote.onRendered(function () {
                                 { className: "taxRate text-right", "targets": [3] }
                             ],
                             colReorder: true,
-                            // colReorder: {
-                            //   fixedColumnsLeft: 1
-                            // },
+
+
+
                             bStateSave: true,
-                            //scrollX: 1000,
-                            //rowId: 0,
+
+
                             pageLength: 25,
                             lengthMenu: [
                                 [10, 25, 50, -1],
@@ -3117,12 +3165,12 @@ Template.new_quote.onRendered(function () {
                             responsive: true
 
                         });
-                        // tableProductList
-                        //     .order( [ 1, 'desc' ] )
-                        //     .draw();
-                        // $('#tblTaxRate').DataTable().column( 0 ).visible( false );
-                        //$('#tblInventory').DataTable().column( 5 ).visible( false );
-                        //$('#tblInventory').DataTable().column( 6 ).visible( false );
+
+
+
+
+
+
                     }
                 })
             } else {
@@ -3150,7 +3198,7 @@ Template.new_quote.onRendered(function () {
                     splashArrayTaxRateList.push(dataList);
                 }
                 tempObj.taxraterecords.set(taxCodesList);
-                //localStorage.setItem('VS1ProductList', JSON.stringify(splashArrayProductList));
+
 
                 if (splashArrayTaxRateList) {
 
@@ -3167,12 +3215,12 @@ Template.new_quote.onRendered(function () {
                             { className: "taxRate text-right", "targets": [3] }
                         ],
                         colReorder: true,
-                        // colReorder: {
-                        //   fixedColumnsLeft: 1
-                        // },
+
+
+
                         bStateSave: true,
-                        //scrollX: 1000,
-                        //rowId: 0,
+
+
                         pageLength: 25,
                         lengthMenu: [
                             [10, 25, 50, -1],
@@ -3182,12 +3230,12 @@ Template.new_quote.onRendered(function () {
                         responsive: true
 
                     });
-                    // tableProductList
-                    //     .order( [ 1, 'desc' ] )
-                    //     .draw();
-                    // $('#tblTaxRate').DataTable().column( 0 ).visible( false );
-                    //$('#tblInventory').DataTable().column( 5 ).visible( false );
-                    //$('#tblInventory').DataTable().column( 6 ).visible( false );
+
+
+
+
+
+
                 }
             }
         }).catch(function (err) {
@@ -3215,7 +3263,7 @@ Template.new_quote.onRendered(function () {
                     splashArrayTaxRateList.push(dataList);
                 }
                 tempObj.taxraterecords.set(taxCodesList);
-                //localStorage.setItem('VS1ProductList', JSON.stringify(splashArrayProductList));
+
 
                 if (splashArrayTaxRateList) {
 
@@ -3232,12 +3280,12 @@ Template.new_quote.onRendered(function () {
                             { className: "taxRate text-right", "targets": [3] }
                         ],
                         colReorder: true,
-                        // colReorder: {
-                        //   fixedColumnsLeft: 1
-                        // },
+
+
+
                         bStateSave: true,
-                        //scrollX: 1000,
-                        //rowId: 0,
+
+
                         pageLength: 25,
                         lengthMenu: [
                             [10, 25, 50, -1],
@@ -3247,18 +3295,18 @@ Template.new_quote.onRendered(function () {
                         responsive: true
 
                     });
-                    // tableProductList
-                    //     .order( [ 1, 'desc' ] )
-                    //     .draw();
-                    // $('#tblTaxRate').DataTable().column( 0 ).visible( false );
-                    //$('#tblInventory').DataTable().column( 5 ).visible( false );
-                    //$('#tblInventory').DataTable().column( 6 ).visible( false );
+
+
+
+
+
+
                 }
             })
         });
     };
     tempObj.getAllTaxCodes();
-    //$('#tblInventory').DataTable().column( 6 ).visible( false );
+
 });
 
 Template.new_quote.helpers({
@@ -3268,9 +3316,9 @@ Template.new_quote.helpers({
     currentDate: () => {
         var currentDate = new Date();
         var begunDate = moment(currentDate).format("DD/MM/YYYY");
-          return begunDate;
-      },
-      record: () => {
+        return begunDate;
+    },
+    record: () => {
         return Template.instance().record.get();
     },
     querystring: () => {
@@ -3340,8 +3388,8 @@ Template.new_quote.helpers({
         return Session.get('vs1companyURL');
     },
     isMobileDevices: () => {
-        var isMobile = false; //initiate as false
-        // device detection
+        var isMobile = false;
+
         if (/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|ipad|iris|kindle|Android|Silk|lge |maemo|midp|mmp|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows (ce|phone)|xda|xiino/i.test(navigator.userAgent) ||
             /1207|6310|6590|3gso|4thp|50[1-6]i|770s|802s|a wa|abac|ac(er|oo|s\-)|ai(ko|rn)|al(av|ca|co)|amoi|an(ex|ny|yw)|aptu|ar(ch|go)|as(te|us)|attw|au(di|\-m|r |s )|avan|be(ck|ll|nq)|bi(lb|rd)|bl(ac|az)|br(e|v)w|bumb|bw\-(n|u)|c55\/|capi|ccwa|cdm\-|cell|chtm|cldc|cmd\-|co(mp|nd)|craw|da(it|ll|ng)|dbte|dc\-s|devi|dica|dmob|do(c|p)o|ds(12|\-d)|el(49|ai)|em(l2|ul)|er(ic|k0)|esl8|ez([4-7]0|os|wa|ze)|fetc|fly(\-|_)|g1 u|g560|gene|gf\-5|g\-mo|go(\.w|od)|gr(ad|un)|haie|hcit|hd\-(m|p|t)|hei\-|hi(pt|ta)|hp( i|ip)|hs\-c|ht(c(\-| |_|a|g|p|s|t)|tp)|hu(aw|tc)|i\-(20|go|ma)|i230|iac( |\-|\/)|ibro|idea|ig01|ikom|im1k|inno|ipaq|iris|ja(t|v)a|jbro|jemu|jigs|kddi|keji|kgt( |\/)|klon|kpt |kwc\-|kyo(c|k)|le(no|xi)|lg( g|\/(k|l|u)|50|54|\-[a-w])|libw|lynx|m1\-w|m3ga|m50\/|ma(te|ui|xo)|mc(01|21|ca)|m\-cr|me(rc|ri)|mi(o8|oa|ts)|mmef|mo(01|02|bi|de|do|t(\-| |o|v)|zz)|mt(50|p1|v )|mwbp|mywa|n10[0-2]|n20[2-3]|n30(0|2)|n50(0|2|5)|n7(0(0|1)|10)|ne((c|m)\-|on|tf|wf|wg|wt)|nok(6|i)|nzph|o2im|op(ti|wv)|oran|owg1|p800|pan(a|d|t)|pdxg|pg(13|\-([1-8]|c))|phil|pire|pl(ay|uc)|pn\-2|po(ck|rt|se)|prox|psio|pt\-g|qa\-a|qc(07|12|21|32|60|\-[2-7]|i\-)|qtek|r380|r600|raks|rim9|ro(ve|zo)|s55\/|sa(ge|ma|mm|ms|ny|va)|sc(01|h\-|oo|p\-)|sdk\/|se(c(\-|0|1)|47|mc|nd|ri)|sgh\-|shar|sie(\-|m)|sk\-0|sl(45|id)|sm(al|ar|b3|it|t5)|so(ft|ny)|sp(01|h\-|v\-|v )|sy(01|mb)|t2(18|50)|t6(00|10|18)|ta(gt|lk)|tcl\-|tdg\-|tel(i|m)|tim\-|t\-mo|to(pl|sh)|ts(70|m\-|m3|m5)|tx\-9|up(\.b|g1|si)|utst|v400|v750|veri|vi(rg|te)|vk(40|5[0-3]|\-v)|vm40|voda|vulc|vx(52|53|60|61|70|80|81|83|85|98)|w3c(\-| )|webc|whit|wi(g |nc|nw)|wmlb|wonu|x700|yas\-|your|zeto|zte\-/i.test(navigator.userAgent.substr(0, 4))) {
             isMobile = true;
@@ -3383,18 +3431,16 @@ Template.new_quote.events({
                         if (id != "") {
                             window.open("/quotecard?id=" + id);
                         } else {
-                           window.open("/quotecard");
+                            window.open("/quotecard");
                         }
-                     }).catch(function (err) {
+                    }).catch(function (err) {
 
                     });
                 }).catch(function (err) {
-                    console.log(err);
-                   window.open('/quotecard', '_self');
+                    window.open('/quotecard', '_self');
                 });
             }).catch(function (err) {
                 $('.fullScreenSpin').css('display', 'none');
-                console.log(err);
                 swal({
                     title: 'Something went wrong',
                     text: err,
@@ -3403,12 +3449,12 @@ Template.new_quote.events({
                     confirmButtonText: 'Try Again'
                 }).then((result) => {
                     if (result.value) {
-                        //Meteor._reload.reload();
+
                     } else if (result.dismiss === 'cancel') {
 
                     }
                 });
-                //$('.loginSpinner').css('display','none');
+
                 $('.fullScreenSpin').css('display', 'none');
             });
         } else {
@@ -3432,7 +3478,7 @@ Template.new_quote.events({
         let taxcodeList = templateObject.taxraterecords.get();
         let utilityService = new UtilityService();
         let $tblrows = $("#tblQuoteLine tbody tr");
-        //if(selectLineID){
+
         let lineAmount = 0;
         let subGrandTotal = 0;
         let taxGrandTotal = 0;
@@ -3475,7 +3521,7 @@ Template.new_quote.events({
 
             }
         });
-        //}
+
     },
     'change .lineUnitPrice': function (event) {
 
@@ -3485,16 +3531,16 @@ Template.new_quote.events({
             $(event.target).val(utilityService.modifynegativeCurrencyFormat(inputUnitPrice));
         } else {
             let inputUnitPrice = Number($(event.target).val().replace(/[^0-9.-]+/g, "")) || 0;
-            //parseFloat(parseFloat($.trim($(event.target).text().substring(Currency.length).replace(",", ""))) || 0);
+
             $(event.target).val(utilityService.modifynegativeCurrencyFormat(inputUnitPrice));
-            //$('.lineUnitPrice').text();
+
 
         }
         let templateObject = Template.instance();
         let taxcodeList = templateObject.taxraterecords.get();
-        // let utilityService = new UtilityService();
+
         let $tblrows = $("#tblQuoteLine tbody tr");
-        //if(selectLineID){
+
         let lineAmount = 0;
         let subGrandTotal = 0;
         let taxGrandTotal = 0;
@@ -3549,9 +3595,9 @@ Template.new_quote.events({
     'click .lineProductName': function (event) {
         $('#tblQuoteLine tbody tr .lineProductName').attr("data-toggle", "modal");
         $('#tblQuoteLine tbody tr .lineProductName').attr("data-target", "#productListModal");
-        var targetID = $(event.target).closest('tr').attr('id'); // table row ID
+        var targetID = $(event.target).closest('tr').attr('id');
         $('#selectLineID').val(targetID);
-        // Autofocus Searchbar
+
         setTimeout(function () {
             $('#tblInventory_filter .form-control-sm').focus();
         }, 500);
@@ -3567,13 +3613,13 @@ Template.new_quote.events({
     'click .lineTaxRate': function (event) {
         $('#tblQuoteLine tbody tr .lineTaxRate').attr("data-toggle", "modal");
         $('#tblQuoteLine tbody tr .lineTaxRate').attr("data-target", "#taxRateListModal");
-        var targetID = $(event.target).closest('tr').attr('id'); // table row ID
+        var targetID = $(event.target).closest('tr').attr('id');
         $('#selectLineID').val(targetID);
     },
     'click .lineTaxCode': function (event) {
         $('#tblQuoteLine tbody tr .lineTaxCode').attr("data-toggle", "modal");
         $('#tblQuoteLine tbody tr .lineTaxCode').attr("data-target", "#taxRateListModal");
-        var targetID = $(event.target).closest('tr').attr('id'); // table row ID
+        var targetID = $(event.target).closest('tr').attr('id');
         $('#selectLineID').val(targetID);
     },
     'click .printConfirm': function (event) {
@@ -3586,11 +3632,11 @@ Template.new_quote.events({
     },
     'keydown .lineQty, keydown .lineUnitPrice': function (event) {
         if ($.inArray(event.keyCode, [46, 8, 9, 27, 13, 110]) !== -1 ||
-            // Allow: Ctrl+A, Command+A
+
             (event.keyCode === 65 && (event.ctrlKey === true || event.metaKey === true)) ||
-            // Allow: home, end, left, right, down, up
+
             (event.keyCode >= 35 && event.keyCode <= 40)) {
-            // let it happen, don't do anything
+
             return;
         }
 
@@ -3612,7 +3658,7 @@ Template.new_quote.events({
         let utilityService = new UtilityService();
 
         var clicktimes = 0;
-        var targetID = $(event.target).closest('tr').attr('id'); // table row ID
+        var targetID = $(event.target).closest('tr').attr('id');
         $('#selectDeleteLineID').val(targetID);
 
         times++;
@@ -3625,7 +3671,7 @@ Template.new_quote.events({
                 $(event.target).closest('tr').remove();
                 event.preventDefault();
                 let $tblrows = $("#tblQuoteLine tbody tr");
-                //if(selectLineID){
+
                 let lineAmount = 0;
                 let subGrandTotal = 0;
                 let taxGrandTotal = 0;
@@ -3705,7 +3751,7 @@ Template.new_quote.events({
                     confirmButtonText: 'Try Again'
                 }).then((result) => {
                     if (result.value) {
-                        //Meteor._reload.reload();
+
                     } else if (result.dismiss === 'cancel') {
 
                     }
@@ -3726,9 +3772,9 @@ Template.new_quote.events({
             this.click;
 
             $('#' + selectLineID).closest('tr').remove();
-            //event.preventDefault();
+
             let $tblrows = $("#tblQuoteLine tbody tr");
-            //if(selectLineID){
+
             let lineAmount = 0;
             let subGrandTotal = 0;
             let taxGrandTotal = 0;
@@ -3771,11 +3817,11 @@ Template.new_quote.events({
 
                 }
             });
-            //return false;
+
 
         } else {
             this.click;
-            // $(event.target).closest('tr').remove();
+
             $('#' + selectLineID + " .lineProductName").text('');
             $('#' + selectLineID + " .lineProductDesc").text('');
             $('#' + selectLineID + " .lineOrdered").val('');
@@ -3794,7 +3840,7 @@ Template.new_quote.events({
             document.getElementById("balanceDue").innerHTML = Currency + '0.00';
             document.getElementById("totalBalanceDue").innerHTML = Currency + '0.00';
 
-            //event.preventDefault();
+
 
         }
 
@@ -3804,7 +3850,7 @@ Template.new_quote.events({
         $('#myModal4').modal('toggle');
     },
     'click .btnSave': function (event) {
-        //let testDate = $("#dtSODate").datepicker({dateFormat: 'dd-mm-yy' });
+
         let templateObject = Template.instance();
         let quoteData = templateObject.quoterecord.get();
         let lineItems = [];
@@ -3816,7 +3862,7 @@ Template.new_quote.events({
             swal('Customer has not been selected!', '', 'warning');
             e.preventDefault();
         } else {
-            //$('.loginSpinner').css('display','inline-block');
+
             $('.fullScreenSpin').css('display', 'inline-block');
             var splashLineArray = new Array();
             let lineItemsForm = [];
@@ -3944,7 +3990,7 @@ Template.new_quote.events({
                     }
                 };
             }
-            //alert(JSON.stringify(objDetails));
+
             salesService.saveQuoteEx(objDetails).then(function (objDetails) {
                 var erpGet = erpDb();
                 let company = Session.get('vs1companyName');
@@ -3957,8 +4003,8 @@ Template.new_quote.events({
                     stringQuery = stringQuery + "product" + l + "=" + lineItems[l].description + "&price" + l + "=" + lineItems[l].unitPrice + "&qty" + l + "=" + lineItems[l].quantity + "&";
                 }
 
-                stringQuery = stringQuery + "tax=" + tax + "&total=" + total + "&customer=" + customer + "&name=" + name + "&surname=" + surname + "&quoteid=" + quoteData.id + "&company=" + company + "&vs1email=" + vs1User + "&customeremail=" + customerEmail + "&type=Quote&url="+window.location.href+"&server=" + erpGet.ERPIPAddress + "&username=" + erpGet.ERPUsername + "&token=" + erpGet.ERPPassword + "&session=" + erpGet.ERPDatabase + "&port=" + erpGet.ERPPort;
-                // Send Email
+                stringQuery = stringQuery + "tax=" + tax + "&total=" + total + "&customer=" + customer + "&name=" + name + "&surname=" + surname + "&quoteid=" + quoteData.id + "&company=" + company + "&vs1email=" + vs1User + "&customeremail=" + customerEmail + "&type=Quote&url=" + window.location.href + "&server=" + erpGet.ERPIPAddress + "&username=" + erpGet.ERPUsername + "&token=" + erpGet.ERPPassword + "&session=" + erpGet.ERPDatabase + "&port=" + erpGet.ERPPort;
+
 
                 $('#html-2-pdfwrapper').css('display', 'block');
                 $('.pdfCustomerName').html($('#edtCustomerName').val());
@@ -3967,7 +4013,7 @@ Template.new_quote.events({
                 function generatePdfForMail(invoiceId) {
                     return new Promise((resolve, reject) => {
                         let templateObject = Template.instance();
-                        // let data = templateObject.singleInvoiceData.get();
+
                         let completeTabRecord;
                         let doc = new jsPDF('p', 'pt', 'a4');
                         doc.setFontSize(18);
@@ -3977,7 +4023,8 @@ Template.new_quote.events({
                         doc.addHTML(source, function () {
                             doc.setFontSize(10);
                             doc.setTextColor(89, 177, 253);
-                            doc.textWithLink('Pay Now', 480, 104, { url: 'https://www.depot.vs1cloud.com/stripe/' + stringQuery });
+                            doc.textWithLink('Pay Now', 480, 104, { url: 'https://depot.vs1cloud.com/stripe/' + stringQuery });
+
                             resolve(doc.output('blob'));
                             $('#html-2-pdfwrapper').css('display', 'none');
                         });
@@ -3995,7 +4042,7 @@ Template.new_quote.events({
                     reader.onloadend = function () {
                         var base64data = reader.result;
                         base64data = base64data.split(',')[1];
-                        // console.log(base64data);
+
                         pdfObject = {
                             filename: 'Quote ' + invoiceId + '.pdf',
                             content: base64data,
@@ -4003,7 +4050,7 @@ Template.new_quote.events({
                         };
                         attachment.push(pdfObject);
 
-                        // let mailBody = "VS1 Cloud Test";
+
                         let erpInvoiceId = objDetails.fields.ID;
 
 
@@ -4011,7 +4058,7 @@ Template.new_quote.events({
                         let mailFrom = localStorage.getItem('mySession');
                         let customerEmailName = $('#edtCustomerName').val();
                         let checkEmailData = $('#edtCustomerEmail').val();
-                        // let mailCC = templateObject.mailCopyToUsr.get();
+
                         let grandtotal = $('#grandTotal').html();
                         let amountDueEmail = $('#totalBalanceDue').html();
                         let emailDueDate = $("#dtDueDate").val();
@@ -4040,7 +4087,7 @@ Template.new_quote.events({
                             '                </tr>' +
                             '                <tr>' +
                             '                    <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0 10px 0;">' +
-                            '                        Simply click on <a style="border: none; color: white; padding: 6px 12px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin: 4px 2px; cursor: pointer; background-color: #5cb85c; border-color: #4cae4c; border-radius: 10px;" href="https://www.depot.vs1cloud.com/stripe/' + stringQuery + '">Make Payment</a> to pay now.' +
+                            '                        Simply click on <a style="border: none; color: white; padding: 6px 12px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin: 4px 2px; cursor: pointer; background-color: #5cb85c; border-color: #4cae4c; border-radius: 10px;" href="https://depot.vs1cloud.com/stripe/' + stringQuery + '">Make Payment</a> to pay now.' +
                             '                    </td>' +
                             '                </tr>' +
                             '                 <tr>' +
@@ -4077,6 +4124,7 @@ Template.new_quote.events({
                             '        </td>' +
                             '    </tr>' +
                             '</table>';
+
 
                         if (($('.chkEmailCopy').is(':checked')) && ($('.chkEmailRep').is(':checked'))) {
                             Meteor.call('sendEmail', {
@@ -4137,7 +4185,7 @@ Template.new_quote.events({
 
                                 if (error && error.error === "error") {
                                     console.log(error);
-                                    //Router.go('/quoteslist?success=true');
+
 
                                 } else {
                                     $('#html-2-pdfwrapper').css('display', 'none');
@@ -4201,7 +4249,7 @@ Template.new_quote.events({
                 addAttachment();
 
 
-                // End Send Email
+
                 if (customerID !== " ") {
                     let customerEmailData = {
                         type: "TCustomer",
@@ -4210,9 +4258,9 @@ Template.new_quote.events({
                             Email: customerEmail
                         }
                     }
-                    // salesService.saveCustomerEmail(customerEmailData).then(function (customerEmailData) {
-                    //
-                    // });
+
+
+
                 };
                 var getcurrentCloudDetails = CloudUser.findOne({ _id: Session.get('mycloudLogonID'), clouddatabaseID: Session.get('mycloudLogonDBID') });
                 if (getcurrentCloudDetails) {
@@ -4221,7 +4269,7 @@ Template.new_quote.events({
                         var clientUsername = getcurrentCloudDetails.cloudUsername;
                         var clientEmail = getcurrentCloudDetails.cloudEmail;
                         var checkPrefDetails = CloudPreference.findOne({ userid: clientID, PrefName: 'new_quote' });
-                        // console.log(checkPrefDetails);
+
                         if (checkPrefDetails) {
                             CloudPreference.update({ _id: checkPrefDetails._id }, {
                                 $set: {
@@ -4243,9 +4291,9 @@ Template.new_quote.events({
                                 }
                             }, function (err, idTag) {
                                 if (err) {
-                                    // window.open('/quoteslist','_self');
+
                                 } else {
-                                    // window.open('/quoteslist','_self');
+
 
                                 }
                             });
@@ -4269,16 +4317,16 @@ Template.new_quote.events({
                                 createdAt: new Date()
                             }, function (err, idTag) {
                                 if (err) {
-                                    // window.open('/quoteslist','_self');
+
                                 } else {
-                                    // window.open('/quoteslist','_self');
+
 
                                 }
                             });
                         }
                     }
                 }
-                //console.log(getcurrentCloudDetails);
+
 
             }).catch(function (err) {
                 swal({
@@ -4289,12 +4337,12 @@ Template.new_quote.events({
                     confirmButtonText: 'Try Again'
                 }).then((result) => {
                     if (result.value) {
-                        //Meteor._reload.reload();
+
                     } else if (result.dismiss === 'cancel') {
 
                     }
                 });
-                //$('.loginSpinner').css('display','none');
+
                 $('.fullScreenSpin').css('display', 'none');
             });
         }
@@ -4436,7 +4484,7 @@ Template.new_quote.events({
     },
     'click .btnSaveGridSettings': function (event) {
         let lineItems = [];
-        //let lineItemObj = {};
+
         $('.columnSettings').each(function (index) {
             var $tblrow = $(this);
             var colTitle = $tblrow.find(".divcolumn").text() || '';
@@ -4457,8 +4505,8 @@ Template.new_quote.events({
             }
 
             lineItems.push(lineItemObj);
-            // var price = $tblrow.find(".lineUnitPrice").text()||0;
-            // var taxcode = $tblrow.find(".lineTaxRate").text()||0;
+
+
 
         });
 
@@ -4485,10 +4533,10 @@ Template.new_quote.events({
                     }, function (err, idTag) {
                         if (err) {
                             $('#myModal2').modal('toggle');
-                            //window.open('/quoteslist','_self');
+
                         } else {
                             $('#myModal2').modal('toggle');
-                            //window.open('/quoteslist','_self');
+
 
                         }
                     });
@@ -4506,14 +4554,14 @@ Template.new_quote.events({
                     }, function (err, idTag) {
                         if (err) {
                             $('#myModal2').modal('toggle');
-                            //window.open('/quoteslist','_self');
+
                         } else {
                             $('#myModal2').modal('toggle');
-                            //window.open('/quoteslist','_self');
+
 
                         }
                     });
-                    // console.log(checkPrefDetails);
+
                 }
             }
         }
@@ -4608,7 +4656,7 @@ Template.new_quote.events({
         let attachmentID = parseInt(event.currentTarget.parentNode.id.split('attachment-name-')[1]);
         let templateObj = Template.instance();
         let uploadedFiles = templateObj.uploadedFiles.get();
-        // console.log(uploadedFiles);
+
         $('#myModalAttachment').modal('hide');
         let previewFile = {};
         let input = uploadedFiles[attachmentID].fields.Description;
@@ -4716,8 +4764,9 @@ Template.new_quote.events({
             for (let l = 0; l < lineItems.length; l++) {
                 stringQuery = stringQuery + "product" + l + "=" + lineItems[l].description + "&price" + l + "=" + lineItems[l].unitPrice + "&qty" + l + "=" + lineItems[l].quantity + "&";
             }
-            stringQuery = stringQuery + "tax=" + tax + "&total=" + total + "&customer=" + customer + "&name=" + name + "&surname=" + surname + "&quoteid=" + quoteData.id + "&company=" + company + "&vs1email=" + vs1User + "&customeremail=" + customerEmail + "&type=Quote&url="+window.location.href+"&server=" + erpGet.ERPIPAddress + "&username=" + erpGet.ERPUsername + "&token=" + erpGet.ERPPassword + "&session=" + erpGet.ERPDatabase + "&port=" + erpGet.ERPPort;
-            window.open("https://www.depot.vs1cloud.com/stripe/" + stringQuery, '_self');
+            stringQuery = stringQuery + "tax=" + tax + "&total=" + total + "&customer=" + customer + "&name=" + name + "&surname=" + surname + "&quoteid=" + quoteData.id + "&company=" + company + "&vs1email=" + vs1User + "&customeremail=" + customerEmail + "&type=Quote&url=" + window.location.href + "&server=" + erpGet.ERPIPAddress + "&username=" + erpGet.ERPUsername + "&token=" + erpGet.ERPPassword + "&session=" + erpGet.ERPDatabase + "&port=" + erpGet.ERPPort;
+            window.open("https://depot.vs1cloud.com/stripe/" + stringQuery, '_self');
+
         }
     },
     'click #btnPayment': function () {
@@ -4729,7 +4778,7 @@ Template.new_quote.events({
             swal('Customer has not been selected!', '', 'warning');
             e.preventDefault();
         } else {
-            //$('.loginSpinner').css('display','inline-block');
+
             $('.fullScreenSpin').css('display', 'inline-block');
             var splashLineArray = new Array();
             let lineItemsForm = [];
@@ -4775,8 +4824,8 @@ Template.new_quote.events({
             let customer = $('#edtCustomerName').val();
             let customerEmail = $('#edtCustomerEmail').val();
             let billingAddress = $('#txabillingAddress').val();
-            // let saleDate = $('#dtSODate').val();
-            // let dueDate = $('#dtDueDate').val();
+
+
             var saledateTime = new Date($("#dtSODate").datepicker("getDate"));
             var duedateTime = new Date($("#dtDueDate").datepicker("getDate"));
 
@@ -4850,7 +4899,7 @@ Template.new_quote.events({
                     }
                 };
             }
-            //alert(JSON.stringify(objDetails));
+
             salesService.saveQuoteEx(objDetails).then(function (objDetails) {
                 var customerID = $('#edtCustomerEmail').attr('customerid');
                 if (customerID !== " ") {
@@ -4865,7 +4914,7 @@ Template.new_quote.events({
 
                     });
                 };
-                //console.log(objDetails.fields.ID);
+
                 let linesave = objDetails.fields.ID;
 
                 var getcurrentCloudDetails = CloudUser.findOne({ _id: Session.get('mycloudLogonID'), clouddatabaseID: Session.get('mycloudLogonDBID') });
@@ -4875,7 +4924,7 @@ Template.new_quote.events({
                         var clientUsername = getcurrentCloudDetails.cloudUsername;
                         var clientEmail = getcurrentCloudDetails.cloudEmail;
                         var checkPrefDetails = CloudPreference.findOne({ userid: clientID, PrefName: 'new_quote' });
-                        // console.log(checkPrefDetails);
+
                         if (checkPrefDetails) {
                             CloudPreference.update({ _id: checkPrefDetails._id }, {
                                 $set: {
@@ -4932,7 +4981,7 @@ Template.new_quote.events({
                         }
                     }
                 }
-                //console.log(getcurrentCloudDetails);
+
 
             }).catch(function (err) {
                 swal({
@@ -4943,12 +4992,12 @@ Template.new_quote.events({
                     confirmButtonText: 'Try Again'
                 }).then((result) => {
                     if (result.value) {
-                        //Meteor._reload.reload();
+
                     } else if (result.dismiss === 'cancel') {
 
                     }
                 });
-                //$('.loginSpinner').css('display','none');
+
                 $('.fullScreenSpin').css('display', 'none');
             });
         }
@@ -4957,8 +5006,8 @@ Template.new_quote.events({
     'click .btnBack': function (event) {
         event.preventDefault();
         history.back(1);
-        //Router.go('/quoteslist');
-        //window.open('/invoicelist','_self');
+
+
     },
     'click #btnCopyToOrder': function () {
         $('.fullScreenSpin').css('display', 'inline-block');
@@ -4971,7 +5020,7 @@ Template.new_quote.events({
                 swal('Customer has not been selected!', '', 'warning');
                 e.preventDefault();
             } else {
-                //$('.loginSpinner').css('display','inline-block');
+
                 $('.fullScreenSpin').css('display', 'inline-block');
                 var splashLineArray = new Array();
                 let lineItemsForm = [];
@@ -5091,7 +5140,7 @@ Template.new_quote.events({
                         }
                     };
                 }
-                //alert(JSON.stringify(objDetails));
+
                 salesService.saveQuoteEx(objDetails).then(function (objDetails) {
                     var customerID = $('#edtCustomerEmail').attr('customerid');
                     if (customerID !== " ") {
@@ -5102,11 +5151,11 @@ Template.new_quote.events({
                                 Email: customerEmail
                             }
                         }
-                        // salesService.saveCustomerEmail(customerEmailData).then(function (customerEmailData) {
-                        //
-                        // });
+
+
+
                     };
-                    //console.log(objDetails.fields.ID);
+
                     let linesave = objDetails.fields.ID;
 
                     var getcurrentCloudDetails = CloudUser.findOne({ _id: Session.get('mycloudLogonID'), clouddatabaseID: Session.get('mycloudLogonDBID') });
@@ -5116,7 +5165,7 @@ Template.new_quote.events({
                             var clientUsername = getcurrentCloudDetails.cloudUsername;
                             var clientEmail = getcurrentCloudDetails.cloudEmail;
                             var checkPrefDetails = CloudPreference.findOne({ userid: clientID, PrefName: 'new_quote' });
-                            // console.log(checkPrefDetails);
+
                             if (checkPrefDetails) {
                                 CloudPreference.update({ _id: checkPrefDetails._id }, {
                                     $set: {
@@ -5175,7 +5224,7 @@ Template.new_quote.events({
                     } else {
                         window.open('/salesordercard?copyquid=' + linesave, '_self');
                     }
-                    //console.log(getcurrentCloudDetails);
+
 
                 }).catch(function (err) {
                     swal({
@@ -5186,12 +5235,12 @@ Template.new_quote.events({
                         confirmButtonText: 'Try Again'
                     }).then((result) => {
                         if (result.value) {
-                            //Meteor._reload.reload();
+
                         } else if (result.dismiss === 'cancel') {
 
                         }
                     });
-                    //$('.loginSpinner').css('display','none');
+
                     $('.fullScreenSpin').css('display', 'none');
                 });
             }
@@ -5210,7 +5259,7 @@ Template.new_quote.events({
                 swal('Customer has not been selected!', '', 'warning');
                 e.preventDefault();
             } else {
-                //$('.loginSpinner').css('display','inline-block');
+
                 $('.fullScreenSpin').css('display', 'inline-block');
                 var splashLineArray = new Array();
                 let lineItemsForm = [];
@@ -5256,8 +5305,8 @@ Template.new_quote.events({
                 let customer = $('#edtCustomerName').val();
                 let customerEmail = $('#edtCustomerEmail').val();
                 let billingAddress = $('#txabillingAddress').val();
-                // let saleDate = $('#dtSODate').val();
-                // let dueDate = $('#dtDueDate').val();
+
+
 
                 var saledateTime = new Date($("#dtSODate").datepicker("getDate"));
                 var duedateTime = new Date($("#dtDueDate").datepicker("getDate"));
@@ -5332,7 +5381,7 @@ Template.new_quote.events({
                         }
                     };
                 }
-                //alert(JSON.stringify(objDetails));
+
                 salesService.saveQuoteEx(objDetails).then(function (objDetails) {
                     var customerID = $('#edtCustomerEmail').attr('customerid');
                     if (customerID !== " ") {
@@ -5343,11 +5392,11 @@ Template.new_quote.events({
                                 Email: customerEmail
                             }
                         }
-                        // salesService.saveCustomerEmail(customerEmailData).then(function (customerEmailData) {
-                        //
-                        // });
+
+
+
                     };
-                    //console.log(objDetails.fields.ID);
+
                     let linesave = objDetails.fields.ID;
 
                     var getcurrentCloudDetails = CloudUser.findOne({ _id: Session.get('mycloudLogonID'), clouddatabaseID: Session.get('mycloudLogonDBID') });
@@ -5357,7 +5406,7 @@ Template.new_quote.events({
                             var clientUsername = getcurrentCloudDetails.cloudUsername;
                             var clientEmail = getcurrentCloudDetails.cloudEmail;
                             var checkPrefDetails = CloudPreference.findOne({ userid: clientID, PrefName: 'new_quote' });
-                            // console.log(checkPrefDetails);
+
                             if (checkPrefDetails) {
                                 CloudPreference.update({ _id: checkPrefDetails._id }, {
                                     $set: {
@@ -5416,7 +5465,7 @@ Template.new_quote.events({
                     } else {
                         window.open('/invoicecard?copyquid=' + linesave, '_self');
                     }
-                    //console.log(getcurrentCloudDetails);
+
 
                 }).catch(function (err) {
                     swal({
@@ -5427,12 +5476,12 @@ Template.new_quote.events({
                         confirmButtonText: 'Try Again'
                     }).then((result) => {
                         if (result.value) {
-                            // Meteor._reload.reload();
+
                         } else if (result.dismiss === 'cancel') {
 
                         }
                     });
-                    //$('.loginSpinner').css('display','none');
+
                     $('.fullScreenSpin').css('display', 'none');
                 });
             }
@@ -5448,7 +5497,7 @@ Template.new_quote.events({
                 swal('Customer Email cannot be blank!', '', 'warning');
                 event.preventDefault();
             } else {
-                // alert('here 1');
+
                 function isEmailValid(mailTo) {
                     return /^[A-Z0-9'.1234z_%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(mailTo);
                 };

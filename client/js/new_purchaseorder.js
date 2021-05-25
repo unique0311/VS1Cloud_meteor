@@ -8,7 +8,6 @@ import { ProductService } from "../product/product-service";
 import '../lib/global/erp-objects';
 import 'jquery-ui-dist/external/jquery/jquery';
 import 'jquery-ui-dist/jquery-ui';
-// import 'jquery-ui-dist/jquery-ui.css';
 import { Random } from 'meteor/random';
 import { jsPDF } from 'jspdf';
 import 'jQuery.print/jQuery.print.js';
@@ -20,8 +19,6 @@ let utilityService = new UtilityService();
 let sideBarService = new SideBarService();
 var times = 0;
 Template.purchaseordercard.onCreated(() => {
-    // Session.set('validateInvoiceNo',false);
-    // $("#dtDueDate").val(moment().format('DD/MM/YYYY'));
 
     const templateObject = Template.instance();
     templateObject.records = new ReactiveVar();
@@ -49,7 +46,7 @@ Template.purchaseordercard.onCreated(() => {
     templateObject.clientrecords = new ReactiveVar([]);
     templateObject.taxraterecords = new ReactiveVar([]);
 
-    /* Attachments */
+   
     templateObject.uploadedFile = new ReactiveVar();
     templateObject.uploadedFiles = new ReactiveVar([]);
     templateObject.attachmentCount = new ReactiveVar();
@@ -73,7 +70,6 @@ Template.purchaseordercard.onRendered(() => {
     let purchaseService = new PurchaseBoardService();
     let clientsService = new PurchaseBoardService();
     let productsService = new PurchaseBoardService();
-    // let accountService = new PurchaseBoardService();
     const clientList = [];
     const productsList = [];
     const accountsList = [];
@@ -86,7 +82,7 @@ Template.purchaseordercard.onRendered(() => {
     if (isBOnShippedQty) {
         templateObject.includeBOnShippedQty.set(false);
     }
-    //dd M yy
+
     $("#date-input,#dtSODate,#dtDueDate").datepicker({
         showOn: 'button',
         buttonText: 'Show Date',
@@ -100,13 +96,8 @@ Template.purchaseordercard.onRendered(() => {
         yearRange: "-90:+10",
     });
 
-    //let purchaseCloudGridPreferenceRec = CloudPreference.findOne({userid:Session.get('mycloudLogonID'),PrefName:'tblPurchaseOrderLine'});
-    //alert(purchaseCloudGridPreferenceRec.PrefGroup);
-    //console.log(purchaseCloudGridPreferenceRec);
     $(document).ready(function() {
         $('#formCheck-one').click(function() {
-            // var inputValue = $(this).attr("value");
-            // $("." + inputValue).toggle();
             if ($(event.target).is(':checked')) {
                 $('.checkbox1div').css('display', 'block');
             } else {
@@ -114,8 +105,6 @@ Template.purchaseordercard.onRendered(() => {
             }
         });
         $('#formCheck-two').click(function() {
-            // var inputValue = $(this).attr("value");
-            // $("." + inputValue).toggle();
             if ($(event.target).is(':checked')) {
                 $('.checkbox2div').css('display', 'block');
             } else {
@@ -136,27 +125,7 @@ Template.purchaseordercard.onRendered(() => {
 
     });
 
-    // $(document).ready(function() {
-    //     history.pushState(null, document.title, location.href);
-    //     window.addEventListener('popstate', function(event) {
-    //         swal({
-    //             title: 'Save Or Cancel To Continue',
-    //             text: "Do you want to Save or Cancel this transaction?",
-    //             type: 'info',
-    //             showCancelButton: true,
-    //             confirmButtonText: 'Save'
-    //         }).then((result) => {
-    //             if (result.value) {
-    //                 $(".btnSave").trigger("click");
-    //             } else if (result.dismiss === 'cancel') {
-    //                 window.open('/purchaseorderlist', '_self');
-    //             } else {
-
-    //             }
-    //         });
-    //     });
-    // });
-
+    
     $('.fullScreenSpin').css('display', 'inline-block');
     templateObject.getAllClients = function() {
         getVS1Data('TSupplierVS1').then(function(dataObject) {
@@ -176,12 +145,9 @@ Template.purchaseordercard.onRendered(() => {
                             country: data.tsuppliervs1[i].Country || ' ',
                             termsName: data.tsuppliervs1[i].TermsName || ''
                         };
-                        //clientList.push(data.tsuppliervs1[i].ClientName,supplieremail: data.tsuppliervs1[i].Email);
                         clientList.push(supplierrecordObj);
 
-                        //('#edtSupplierName').editableSelect('add',data.tsuppliervs1[i].ClientName);
                     }
-                    //templateObject.clientrecords.set(clientList);
                     templateObject.clientrecords.set(clientList.sort(function(a, b) {
                         if (a.suppliername == 'NA') {
                             return 1;
@@ -219,12 +185,9 @@ Template.purchaseordercard.onRendered(() => {
                         country: useData[i].fields.Country || ' ',
                         termsName: useData[i].fields.TermsName || ''
                     };
-                    //clientList.push(data.tsuppliervs1[i].ClientName,supplieremail: data.tsuppliervs1[i].Email);
                     clientList.push(supplierrecordObj);
 
-                    //('#edtSupplierName').editableSelect('add',data.tsuppliervs1[i].ClientName);
                 }
-                //templateObject.clientrecords.set(clientList);
                 templateObject.clientrecords.set(clientList.sort(function(a, b) {
                     if (a.suppliername == 'NA') {
                         return 1;
@@ -262,12 +225,9 @@ Template.purchaseordercard.onRendered(() => {
                         country: data.tsuppliervs1[i].Country || ' ',
                         termsName: data.tsuppliervs1[i].TermsName || ''
                     };
-                    //clientList.push(data.tsuppliervs1[i].ClientName,supplieremail: data.tsuppliervs1[i].Email);
                     clientList.push(supplierrecordObj);
 
-                    //('#edtSupplierName').editableSelect('add',data.tsuppliervs1[i].ClientName);
                 }
-                //templateObject.clientrecords.set(clientList);
                 templateObject.clientrecords.set(clientList.sort(function(a, b) {
                     if (a.suppliername == 'NA') {
                         return 1;
@@ -355,7 +315,6 @@ Template.purchaseordercard.onRendered(() => {
             currentPurchaseOrder = parseInt(currentPurchaseOrder);
             $('.printID').attr("id", currentPurchaseOrder);
             templateObject.getPurchaseOrderData = function() {
-                //getOnePurchaseOrderdata
                 getVS1Data('TPurchaseOrderEx').then(function(dataObject) {
                     if (dataObject.length == 0) {
                         purchaseService.getOnePurchaseOrderdataEx(currentPurchaseOrder).then(function(data) {
@@ -465,7 +424,7 @@ Template.purchaseordercard.onRendered(() => {
                             $('#edtSupplierName').val(data.fields.SupplierName);
                             templateObject.CleintName.set(data.fields.SupplierName);
                             $('#sltCurrency').val(data.fields.ForeignExchangeCode);
-                            /* START attachment */
+                           
                             templateObject.attachmentCount.set(0);
                             if (data.fields.Attachments) {
                                 if (data.fields.Attachments.length) {
@@ -473,7 +432,7 @@ Template.purchaseordercard.onRendered(() => {
                                     templateObject.uploadedFiles.set(data.fields.Attachments);
                                 }
                             }
-                            /* END  attachment */
+                           
                             setTimeout(function() {
                                 if (clientList) {
                                     for (var i = 0; i < clientList.length; i++) {
@@ -486,19 +445,12 @@ Template.purchaseordercard.onRendered(() => {
                             }, 100);
 
                             templateObject.purchaseorderrecord.set(purchaseorderrecord);
-                            // alert(JSON.stringify(templateObject.purchaseorderrecord.get()));
                             templateObject.selectedCurrency.set(purchaseorderrecord.currency);
                             templateObject.inputSelectedCurrency.set(purchaseorderrecord.currency);
                             if (templateObject.purchaseorderrecord.get()) {
-
-                                // $('#tblPurchaseOrderLine').colResizable({
-                                //   liveDrag:true});
-                                //$('#tblPurchaseOrderLine').removeClass('JColResizer');
-
                                 Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblPurchaseOrderLine', function(error, result) {
                                     if (error) {
-                                        // console.log(error);
-                                        //Bert.alert('<strong>Error:</strong> user-not-found, no user found please try again!', 'danger');
+                                     
                                     } else {
                                         if (result) {
                                             for (let i = 0; i < result.customFields.length; i++) {
@@ -508,24 +460,18 @@ Template.purchaseordercard.onRendered(() => {
                                                 let hiddenColumn = customcolumn[i].hidden;
                                                 let columnClass = columHeaderUpdate.substring(columHeaderUpdate.indexOf(".") + 1);
                                                 let columnWidth = customcolumn[i].width;
-
-                                                //alert(columnClass);
                                                 $("" + columHeaderUpdate + "").html(columData);
                                                 if (columnWidth != 0) {
                                                     $("" + columHeaderUpdate + "").css('width', columnWidth + '%');
                                                 }
 
                                                 if (hiddenColumn == true) {
-                                                    //alert(columnClass);
-                                                    //$("."+columnClass+"").css('display','none');
+                                                
                                                     $("." + columnClass + "").addClass('hiddenColumn');
                                                     $("." + columnClass + "").removeClass('showColumn');
                                                 } else if (hiddenColumn == false) {
                                                     $("." + columnClass + "").removeClass('hiddenColumn');
                                                     $("." + columnClass + "").addClass('showColumn');
-                                                    //$("."+columnClass+"").css('display','table-cell');
-                                                    //$("."+columnClass+"").css('padding','.75rem');
-                                                    //$("."+columnClass+"").css('vertical-align','top');
                                                 }
 
                                             }
@@ -549,7 +495,6 @@ Template.purchaseordercard.onRendered(() => {
                                 }
                             });
                             $('.fullScreenSpin').css('display', 'none');
-                            // Meteor._reload.reload();
                         });
                     } else {
                         let data = JSON.parse(dataObject[0].data);
@@ -664,7 +609,7 @@ Template.purchaseordercard.onRendered(() => {
                                 $('#edtSupplierName').val(useData[d].fields.SupplierName);
                                 templateObject.CleintName.set(useData[d].fields.SupplierName);
                                 $('#sltCurrency').val(useData[d].fields.ForeignExchangeCode);
-                                /* START attachment */
+                               
                                 templateObject.attachmentCount.set(0);
                                 if (useData[d].fields.Attachments) {
                                     if (useData[d].fields.Attachments.length) {
@@ -672,7 +617,7 @@ Template.purchaseordercard.onRendered(() => {
                                         templateObject.uploadedFiles.set(useData[d].fields.Attachments);
                                     }
                                 }
-                                /* END  attachment */
+                               
                                 setTimeout(function() {
                                     if (clientList) {
                                         for (var i = 0; i < clientList.length; i++) {
@@ -685,19 +630,12 @@ Template.purchaseordercard.onRendered(() => {
                                 }, 100);
 
                                 templateObject.purchaseorderrecord.set(purchaseorderrecord);
-                                // alert(JSON.stringify(templateObject.purchaseorderrecord.get()));
                                 templateObject.selectedCurrency.set(purchaseorderrecord.currency);
                                 templateObject.inputSelectedCurrency.set(purchaseorderrecord.currency);
                                 if (templateObject.purchaseorderrecord.get()) {
-
-                                    // $('#tblPurchaseOrderLine').colResizable({
-                                    //   liveDrag:true});
-                                    //$('#tblPurchaseOrderLine').removeClass('JColResizer');
-
                                     Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblPurchaseOrderLine', function(error, result) {
                                         if (error) {
-                                            // console.log(error);
-                                            //Bert.alert('<strong>Error:</strong> user-not-found, no user found please try again!', 'danger');
+                                         
                                         } else {
                                             if (result) {
                                                 for (let i = 0; i < result.customFields.length; i++) {
@@ -708,30 +646,26 @@ Template.purchaseordercard.onRendered(() => {
                                                     let columnClass = columHeaderUpdate.substring(columHeaderUpdate.indexOf(".") + 1);
                                                     let columnWidth = customcolumn[i].width;
 
-                                                    //alert(columnClass);
                                                     $("" + columHeaderUpdate + "").html(columData);
                                                     if (columnWidth != 0) {
                                                         $("" + columHeaderUpdate + "").css('width', columnWidth + '%');
                                                     }
 
                                                     if (hiddenColumn == true) {
-                                                        //alert(columnClass);
-                                                        //$("."+columnClass+"").css('display','none');
+                                                      
                                                         $("." + columnClass + "").addClass('hiddenColumn');
                                                         $("." + columnClass + "").removeClass('showColumn');
                                                     } else if (hiddenColumn == false) {
                                                         $("." + columnClass + "").removeClass('hiddenColumn');
                                                         $("." + columnClass + "").addClass('showColumn');
-                                                        //$("."+columnClass+"").css('display','table-cell');
-                                                        //$("."+columnClass+"").css('padding','.75rem');
-                                                        //$("."+columnClass+"").css('vertical-align','top');
-                                                    }
+                                                      
 
                                                 }
                                             }
 
                                         }
-                                    });
+                                    }
+                                });
                                 }
                             }
                         }
@@ -843,7 +777,7 @@ Template.purchaseordercard.onRendered(() => {
                                 $('#edtSupplierName').val(data.fields.SupplierName);
                                 templateObject.CleintName.set(data.fields.SupplierName);
                                 $('#sltCurrency').val(data.fields.ForeignExchangeCode);
-                                /* START attachment */
+                               
                                 templateObject.attachmentCount.set(0);
                                 if (data.fields.Attachments) {
                                     if (data.fields.Attachments.length) {
@@ -851,7 +785,7 @@ Template.purchaseordercard.onRendered(() => {
                                         templateObject.uploadedFiles.set(data.fields.Attachments);
                                     }
                                 }
-                                /* END  attachment */
+                               
                                 setTimeout(function() {
                                     if (clientList) {
                                         for (var i = 0; i < clientList.length; i++) {
@@ -864,19 +798,14 @@ Template.purchaseordercard.onRendered(() => {
                                 }, 100);
 
                                 templateObject.purchaseorderrecord.set(purchaseorderrecord);
-                                // alert(JSON.stringify(templateObject.purchaseorderrecord.get()));
                                 templateObject.selectedCurrency.set(purchaseorderrecord.currency);
                                 templateObject.inputSelectedCurrency.set(purchaseorderrecord.currency);
                                 if (templateObject.purchaseorderrecord.get()) {
 
-                                    // $('#tblPurchaseOrderLine').colResizable({
-                                    //   liveDrag:true});
-                                    //$('#tblPurchaseOrderLine').removeClass('JColResizer');
 
                                     Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblPurchaseOrderLine', function(error, result) {
                                         if (error) {
-                                            // console.log(error);
-                                            //Bert.alert('<strong>Error:</strong> user-not-found, no user found please try again!', 'danger');
+                                         
                                         } else {
                                             if (result) {
                                                 for (let i = 0; i < result.customFields.length; i++) {
@@ -887,23 +816,18 @@ Template.purchaseordercard.onRendered(() => {
                                                     let columnClass = columHeaderUpdate.substring(columHeaderUpdate.indexOf(".") + 1);
                                                     let columnWidth = customcolumn[i].width;
 
-                                                    //alert(columnClass);
                                                     $("" + columHeaderUpdate + "").html(columData);
                                                     if (columnWidth != 0) {
                                                         $("" + columHeaderUpdate + "").css('width', columnWidth + '%');
                                                     }
 
                                                     if (hiddenColumn == true) {
-                                                        //alert(columnClass);
-                                                        //$("."+columnClass+"").css('display','none');
+                                                       
                                                         $("." + columnClass + "").addClass('hiddenColumn');
                                                         $("." + columnClass + "").removeClass('showColumn');
                                                     } else if (hiddenColumn == false) {
                                                         $("." + columnClass + "").removeClass('hiddenColumn');
                                                         $("." + columnClass + "").addClass('showColumn');
-                                                        //$("."+columnClass+"").css('display','table-cell');
-                                                        //$("."+columnClass+"").css('padding','.75rem');
-                                                        //$("."+columnClass+"").css('vertical-align','top');
                                                     }
 
                                                 }
@@ -927,7 +851,7 @@ Template.purchaseordercard.onRendered(() => {
                                     }
                                 });
                                 $('.fullScreenSpin').css('display', 'none');
-                                // Meteor._reload.reload();
+
                             });
                         }
 
@@ -1040,7 +964,7 @@ Template.purchaseordercard.onRendered(() => {
                         $('#edtSupplierName').val(data.fields.SupplierName);
                         templateObject.CleintName.set(data.fields.SupplierName);
                         $('#sltCurrency').val(data.fields.ForeignExchangeCode);
-                        /* START attachment */
+                       
                         templateObject.attachmentCount.set(0);
                         if (data.fields.Attachments) {
                             if (data.fields.Attachments.length) {
@@ -1048,7 +972,7 @@ Template.purchaseordercard.onRendered(() => {
                                 templateObject.uploadedFiles.set(data.fields.Attachments);
                             }
                         }
-                        /* END  attachment */
+                       
                         setTimeout(function() {
                             if (clientList) {
                                 for (var i = 0; i < clientList.length; i++) {
@@ -1061,19 +985,14 @@ Template.purchaseordercard.onRendered(() => {
                         }, 100);
 
                         templateObject.purchaseorderrecord.set(purchaseorderrecord);
-                        // alert(JSON.stringify(templateObject.purchaseorderrecord.get()));
                         templateObject.selectedCurrency.set(purchaseorderrecord.currency);
                         templateObject.inputSelectedCurrency.set(purchaseorderrecord.currency);
                         if (templateObject.purchaseorderrecord.get()) {
 
-                            // $('#tblPurchaseOrderLine').colResizable({
-                            //   liveDrag:true});
-                            //$('#tblPurchaseOrderLine').removeClass('JColResizer');
 
                             Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblPurchaseOrderLine', function(error, result) {
                                 if (error) {
-                                    // console.log(error);
-                                    //Bert.alert('<strong>Error:</strong> user-not-found, no user found please try again!', 'danger');
+                                  
                                 } else {
                                     if (result) {
                                         for (let i = 0; i < result.customFields.length; i++) {
@@ -1084,23 +1003,18 @@ Template.purchaseordercard.onRendered(() => {
                                             let columnClass = columHeaderUpdate.substring(columHeaderUpdate.indexOf(".") + 1);
                                             let columnWidth = customcolumn[i].width;
 
-                                            //alert(columnClass);
                                             $("" + columHeaderUpdate + "").html(columData);
                                             if (columnWidth != 0) {
                                                 $("" + columHeaderUpdate + "").css('width', columnWidth + '%');
                                             }
 
                                             if (hiddenColumn == true) {
-                                                //alert(columnClass);
-                                                //$("."+columnClass+"").css('display','none');
+                                             
                                                 $("." + columnClass + "").addClass('hiddenColumn');
                                                 $("." + columnClass + "").removeClass('showColumn');
                                             } else if (hiddenColumn == false) {
                                                 $("." + columnClass + "").removeClass('hiddenColumn');
                                                 $("." + columnClass + "").addClass('showColumn');
-                                                //$("."+columnClass+"").css('display','table-cell');
-                                                //$("."+columnClass+"").css('padding','.75rem');
-                                                //$("."+columnClass+"").css('vertical-align','top');
                                             }
 
                                         }
@@ -1124,7 +1038,6 @@ Template.purchaseordercard.onRendered(() => {
                             }
                         });
                         $('.fullScreenSpin').css('display', 'none');
-                        // Meteor._reload.reload();
                     });
                 });
 
@@ -1246,7 +1159,7 @@ Template.purchaseordercard.onRendered(() => {
               $('#edtSupplierName').val(data.fields.SupplierName);
               templateObject.CleintName.set(data.fields.SupplierName);
               $('#sltCurrency').val(data.fields.ForeignExchangeCode);
-              /* START attachment */
+             
               templateObject.attachmentCount.set(0);
               if (data.fields.Attachments) {
                   if (data.fields.Attachments.length) {
@@ -1254,7 +1167,7 @@ Template.purchaseordercard.onRendered(() => {
                       templateObject.uploadedFiles.set(data.fields.Attachments);
                   }
               }
-              /* END  attachment */
+             
               setTimeout(function() {
                   if (clientList) {
                       for (var i = 0; i < clientList.length; i++) {
@@ -1267,19 +1180,15 @@ Template.purchaseordercard.onRendered(() => {
               }, 100);
 
               templateObject.purchaseorderrecord.set(purchaseorderrecord);
-              // alert(JSON.stringify(templateObject.purchaseorderrecord.get()));
               templateObject.selectedCurrency.set(purchaseorderrecord.currency);
               templateObject.inputSelectedCurrency.set(purchaseorderrecord.currency);
               if (templateObject.purchaseorderrecord.get()) {
 
-                  // $('#tblPurchaseOrderLine').colResizable({
-                  //   liveDrag:true});
-                  //$('#tblPurchaseOrderLine').removeClass('JColResizer');
+
 
                   Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblPurchaseOrderLine', function(error, result) {
                       if (error) {
-                          // console.log(error);
-                          //Bert.alert('<strong>Error:</strong> user-not-found, no user found please try again!', 'danger');
+                       
                       } else {
                           if (result) {
                               for (let i = 0; i < result.customFields.length; i++) {
@@ -1290,23 +1199,20 @@ Template.purchaseordercard.onRendered(() => {
                                   let columnClass = columHeaderUpdate.substring(columHeaderUpdate.indexOf(".") + 1);
                                   let columnWidth = customcolumn[i].width;
 
-                                  //alert(columnClass);
+                               
                                   $("" + columHeaderUpdate + "").html(columData);
                                   if (columnWidth != 0) {
                                       $("" + columHeaderUpdate + "").css('width', columnWidth + '%');
                                   }
 
                                   if (hiddenColumn == true) {
-                                      //alert(columnClass);
-                                      //$("."+columnClass+"").css('display','none');
+                                
                                       $("." + columnClass + "").addClass('hiddenColumn');
                                       $("." + columnClass + "").removeClass('showColumn');
                                   } else if (hiddenColumn == false) {
                                       $("." + columnClass + "").removeClass('hiddenColumn');
                                       $("." + columnClass + "").addClass('showColumn');
-                                      //$("."+columnClass+"").css('display','table-cell');
-                                      //$("."+columnClass+"").css('padding','.75rem');
-                                      //$("."+columnClass+"").css('vertical-align','top');
+                                     
                                   }
 
                               }
@@ -1330,7 +1236,7 @@ Template.purchaseordercard.onRendered(() => {
                   }
               });
               $('.fullScreenSpin').css('display', 'none');
-              // Meteor._reload.reload();
+
           });
         }
     }else {
@@ -1412,11 +1318,8 @@ Template.purchaseordercard.onRendered(() => {
 
         templateObject.purchaseorderrecord.set(purchaseorderrecord);
         if (templateObject.purchaseorderrecord.get()) {
-            // $('#tblPurchaseOrderLine').colResizable({liveDrag:true});
             Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblPurchaseOrderLine', function(error, result) {
                 if (error) {
-                    console.log(error);
-                    //Bert.alert('<strong>Error:</strong> user-not-found, no user found please try again!', 'danger');
                 } else {
                     if (result) {
                         for (let i = 0; i < result.customFields.length; i++) {
@@ -1426,7 +1329,6 @@ Template.purchaseordercard.onRendered(() => {
                             let hiddenColumn = customcolumn[i].hidden;
                             let columnClass = columHeaderUpdate.substring(columHeaderUpdate.indexOf(".") + 1);
                             let columnWidth = customcolumn[i].width;
-                            //alert(columnClass);
                             $("" + columHeaderUpdate + "").html(columData);
                             if (columnWidth != 0) {
                                 $("" + columHeaderUpdate + "").css('width', columnWidth + '%');
@@ -1445,11 +1347,9 @@ Template.purchaseordercard.onRendered(() => {
                 }
             });
         }
-        //console.log(templateObject.purchaseorderrecord.get());
-        // alert('No ID');
     }
 
-    // $('.tblPurchaseOrderLine').dragableColumns();
+
     templateObject.getShpVias = function() {
         getVS1Data('TShippingMethod').then(function(dataObject) {
             if (dataObject.length == 0) {
@@ -1596,8 +1496,7 @@ Template.purchaseordercard.onRendered(() => {
     templateObject.getShpVias();
     templateObject.getTerms();
     templateObject.getDepartments();
-    // console.log(templateObject.purchaseorderrecord.get());
-    //alert(JSON.stringify(templateObject.purchaseorderrecord.get()));
+
 
     let table;
     $(document).ready(function() {
@@ -1615,20 +1514,34 @@ Template.purchaseordercard.onRendered(() => {
             rowData.attr('id', tokenid);
             $("#tblPurchaseOrderLine tbody").append(rowData);
 
+            if ($('#printID').val() != "") {
+                var rowData1 = $('.purchase_print tbody>tr:last').clone(true);
+                $("#lineProductName", rowData1).text("");
+                $("#lineProductDesc", rowData1).text("");
+                $("#lineQty", rowData1).text("");
+                $("#lineOrdered", rowData1).text("");
+                $("#lineUnitPrice", rowData1).text("");
+                // $(".lineTaxRate", rowData).text("");
+                $("#lineTaxAmount", rowData1).text("");
+                $("#lineAmt", rowData1).text("");
+                rowData1.attr('id', tokenid);
+                $(".purchase_print tbody").append(rowData1);
+            }
+
         });
 
 
 
     });
 
-    /* On clik Inventory Line */
+   
     $(document).on("click", "#tblInventory tbody tr", function(e) {
         let selectLineID = $('#selectLineID').val();
         let taxcodeList = templateObject.taxraterecords.get();
         var table = $(this);
         let utilityService = new UtilityService();
         let $tblrows = $("#tblPurchaseOrderLine tbody tr");
-        //var data = table.row( this ).data();
+        var $printrows = $(".purchase_print tbody tr");
         if (selectLineID) {
             let lineProductName = table.find(".productName").text();
             let lineProductDesc = table.find(".productDesc").text();
@@ -1636,6 +1549,7 @@ Template.purchaseordercard.onRendered(() => {
             let lineTaxRate = table.find(".taxrate").text();
             let lineAmount = 0;
             let subGrandTotal = 0;
+            let taxGrandTotalPrint = 0;
             let taxGrandTotal = 0;
             if (taxcodeList) {
                 for (var i = 0; i < taxcodeList.length; i++) {
@@ -1651,9 +1565,35 @@ Template.purchaseordercard.onRendered(() => {
             $('#' + selectLineID + " .lineUnitPrice").val(lineUnitPrice);
             $('#' + selectLineID + " .lineTaxCode").text(lineTaxRate);
 
-            lineAmount = 1 * Number(lineUnitPrice.replace(/[^0-9.-]+/g, "")) || 0;
+            if ($('.printID').val() == "") {
+                $('#' + selectLineID + " #lineProductName").text(lineProductName);
+                $('#' + selectLineID + " #lineProductDesc").text(lineProductDesc);
+                $('#' + selectLineID + " #lineOrdered").text(1);
+                $('#' + selectLineID + " #lineQty").text(1);
+                $('#' + selectLineID + " #lineUnitPrice").text(lineUnitPrice);
+            }
 
+
+            if (lineTaxRate == "NT") {
+                lineTaxRate = "E";
+                $('#' + selectLineID + " .lineTaxCode").text(lineTaxRate);
+                if ($('.printID').val() == "") {
+                    $('#' + selectLineID + " #lineTaxCode").text(lineTaxRate);
+                }
+
+            } else {
+                $('#' + selectLineID + " .lineTaxCode").text(lineTaxRate);
+                if ($('.printID').val() == "") {
+                    $('#' + selectLineID + " #lineTaxCode").text(lineTaxRate);
+                }
+            }
+
+            
+            lineAmount = 1 * Number(lineUnitPrice.replace(/[^0-9.-]+/g, "")) || 0;
             $('#' + selectLineID + " .lineAmt").text(utilityService.modifynegativeCurrencyFormat(lineAmount));
+            if ($('.printID').val() == "") {
+                $('#' + selectLineID + " #lineAmt").text(utilityService.modifynegativeCurrencyFormat(lineAmount));
+            }
 
             $('#productListModal').modal('toggle');
             $tblrows.each(function(index) {
@@ -1694,17 +1634,54 @@ Template.purchaseordercard.onRendered(() => {
 
                 }
             });
+
+            if ($(".printID").val() == "") {
+                $printrows.each(function (index) {
+                    var $printrows = $(this);
+                    var qty = $printrows.find("#lineQty").text() || 0;
+                    var price = $printrows.find("#lineUnitPrice").text() || 0;
+                    var taxrateamount = 0;
+                    var taxRate = $printrows.find("#lineTaxCode").text();
+                    if (taxcodeList) {
+                        for (var i = 0; i < taxcodeList.length; i++) {
+                            if (taxcodeList[i].codename == taxRate) {
+                                taxrateamount = taxcodeList[i].coderate.replace('%', "") / 100;
+                            }
+                        }
+                    }
+
+                    var subTotal = parseInt(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) || 0;
+                    var taxTotal = parseInt(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) * parseFloat(taxrateamount);
+                    $printrows.find('#lineTaxAmount').text(utilityService.modifynegativeCurrencyFormat(taxTotal))
+                    if (!isNaN(subTotal)) {
+                        $printrows.find('#lineAmt').text(utilityService.modifynegativeCurrencyFormat(subTotal));
+                        subGrandTotal += isNaN(subTotal) ? 0 : subTotal;
+                        document.getElementById("subtotal_totalPrint").innerHTML = $('#subtotal_total').text();
+                    }
+
+                    if (!isNaN(taxTotal)) {
+                        taxGrandTotalPrint += isNaN(taxTotal) ? 0 : taxTotal;
+                    }
+                    if (!isNaN(subGrandTotal) && (!isNaN(taxGrandTotal))) {
+                        let GrandTotal = (parseFloat(subGrandTotal)) + (parseFloat(taxGrandTotal));
+                        document.getElementById("grandTotalPrint").innerHTML = $('#grandTotal').text();
+                        document.getElementById("balanceDue").innerHTML = utilityService.modifynegativeCurrencyFormat(GrandTotal);
+                        //document.getElementById("totalBalanceDuePrint").innerHTML = $('#totalBalanceDue').text();
+
+                    }
+                });
+                $("#print_subtotal_tax").text($("#subtotal_tax").text());
+            }
         }
     });
 
-    /* On Click TaxCode List */
+
     $(document).on("click", "#tblTaxRate tbody tr", function(e) {
         let selectLineID = $('#selectLineID').val();
         let taxcodeList = templateObject.taxraterecords.get();
         var table = $(this);
         let utilityService = new UtilityService();
         let $tblrows = $("#tblPurchaseOrderLine tbody tr");
-        //var data = table.row( this ).data();
         if (selectLineID) {
             let lineTaxCode = table.find(".taxName").text();
             let lineTaxRate = table.find(".taxRate").text();
@@ -1727,14 +1704,12 @@ Template.purchaseordercard.onRendered(() => {
                 if (taxcodeList) {
                     for (var i = 0; i < taxcodeList.length; i++) {
                         if (taxcodeList[i].codename == taxcode) {
-                            //if(taxcodeList[i].coderate.trim() != ''){
+
                             taxrateamount = taxcodeList[i].coderate.replace('%', "") / 100;
-                            //}
+
                         }
                     }
                 }
-
-                //alert(taxrateamount);
                 var subTotal = parseInt(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) || 0;
                 if ((taxrateamount == '') || (taxrateamount == ' ')) {
                     var taxTotal = 0;
@@ -1764,7 +1739,7 @@ Template.purchaseordercard.onRendered(() => {
         }
     });
 
-    /* On Click Customer List */
+   
     $(document).on("click", "#tblCustomerlist tbody tr", function(e) {
         let selectLineID = $('#customerSelectLineID').val();
         var table = $(this);
@@ -1811,8 +1786,6 @@ Template.purchaseordercard.onRendered(() => {
         };
         let id = $('.printID').attr("id");
         var pdf = new jsPDF('p', 'pt', 'a4');
-        //new jsPDF('p', 'pt', 'letter');
-        // new jsPDF('p', 'mm', 'a4');
         pdf.setFontSize(18);
         var source = document.getElementById('html-2-pdfwrapper');
         pdf.addHTML(source, function() {
@@ -1821,13 +1794,12 @@ Template.purchaseordercard.onRendered(() => {
         });
     };
 
-    // JQuery & CSS by Bruno BEGIN
     setTimeout(function() {
 
         var x = window.matchMedia("(max-width: 1024px)")
 
         function mediaQuery(x) {
-            if (x.matches) { // If media query matches
+            if (x.matches) { 
 
                 $("#colInvnoReference").removeClass("col-auto");
                 $("#colInvnoReference").addClass("col-4");
@@ -1849,8 +1821,8 @@ Template.purchaseordercard.onRendered(() => {
 
             }
         }
-        mediaQuery(x) // Call listener function at run time
-        x.addListener(mediaQuery) // Attach listener function on state changes
+        mediaQuery(x) 
+        x.addListener(mediaQuery) 
     }, 10);
 
     setTimeout(function() {
@@ -1858,7 +1830,7 @@ Template.purchaseordercard.onRendered(() => {
         var x = window.matchMedia("(max-width: 420px)")
 
         function mediaQuery(x) {
-            if (x.matches) { // If media query matches
+            if (x.matches) { 
 
                 $("#colInvnoReference").removeClass("col-auto");
                 $("#colInvnoReference").addClass("col-12");
@@ -1886,10 +1858,10 @@ Template.purchaseordercard.onRendered(() => {
 
             }
         }
-        mediaQuery(x) // Call listener function at run time
-        x.addListener(mediaQuery) // Attach listener function on state changes
+        mediaQuery(x) 
+        x.addListener(mediaQuery) 
     }, 10);
-    // JQuery & CSS by Bruno END
+    
 });
 Template.purchaseordercard.onRendered(function() {
     let tempObj = Template.instance();
@@ -1909,8 +1881,6 @@ Template.purchaseordercard.onRendered(function() {
                     let inventoryData = [];
                     for (let i = 0; i < data.tproductvs1.length; i++) {
                         var dataList = [
-                            // data.tproductvs1[i].Id || '',
-                            // data.tproductvs1[i].Id || '',
                             data.tproductvs1[i].ProductName || '-',
                             data.tproductvs1[i].SalesDescription || '',
                             utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductvs1[i].BuyQty1Cost * 100) / 100),
@@ -1927,13 +1897,11 @@ Template.purchaseordercard.onRendered(function() {
 
                         $('#tblInventory').dataTable({
                             data: splashArrayProductList,
-                            // processing: true,
                             "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
                             paging: true,
                             "aaSorting": [],
                             "orderMulti": true,
                             columnDefs: [
-                                // { orderable: false, targets: 0 },
                                 { className: "productName", "targets": [0] },
                                 { className: "productDesc", "targets": [1] },
                                 { className: "costPrice text-right", "targets": [2] },
@@ -1942,12 +1910,7 @@ Template.purchaseordercard.onRendered(function() {
                                 { className: "taxrate", "targets": [5] }
                             ],
                             colReorder: true,
-                            // colReorder: {
-                            //   fixedColumnsLeft: 1
-                            // },
                             bStateSave: true,
-                            //scrollX: 1000,
-                            //rowId: 0,
                             pageLength: 25,
                             lengthMenu: [
                                 [10, 25, 50, -1],
@@ -1959,12 +1922,7 @@ Template.purchaseordercard.onRendered(function() {
                         });
 
                         $('div.dataTables_filter input').addClass('form-control form-control-sm');
-                        // tableProductList
-                        //     .order( [ 1, 'desc' ] )
-                        //     .draw();
-                        //$('#tblInventory').DataTable().column( 0 ).visible( false );
-                        //$('#tblInventory').DataTable().column( 5 ).visible( false );
-                        //$('#tblInventory').DataTable().column( 6 ).visible( false );
+                      
                     }
                 })
             } else {
@@ -1975,8 +1933,6 @@ Template.purchaseordercard.onRendered(function() {
                 let inventoryData = [];
                 for (let i = 0; i < useData.length; i++) {
                     var dataList = [
-                        // data.tproductvs1[i].Id || '',
-                        // data.tproductvs1[i].Id || '',
                         useData[i].fields.ProductName || '-',
                         useData[i].fields.SalesDescription || '',
                         utilityService.modifynegativeCurrencyFormat(Math.floor(useData[i].fields.BuyQty1Cost * 100) / 100),
@@ -1993,13 +1949,13 @@ Template.purchaseordercard.onRendered(function() {
 
                     $('#tblInventory').dataTable({
                         data: splashArrayProductList,
-                        // processing: true,
+
                         "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
                         paging: true,
                         "aaSorting": [],
                         "orderMulti": true,
                         columnDefs: [
-                            // { orderable: false, targets: 0 },
+
                             { className: "productName", "targets": [0] },
                             { className: "productDesc", "targets": [1] },
                             { className: "costPrice text-right", "targets": [2] },
@@ -2008,12 +1964,9 @@ Template.purchaseordercard.onRendered(function() {
                             { className: "taxrate", "targets": [5] }
                         ],
                         colReorder: true,
-                        // colReorder: {
-                        //   fixedColumnsLeft: 1
-                        // },
+
                         bStateSave: true,
-                        //scrollX: 1000,
-                        //rowId: 0,
+
                         pageLength: 25,
                         lengthMenu: [
                             [10, 25, 50, -1],
@@ -2025,12 +1978,7 @@ Template.purchaseordercard.onRendered(function() {
                     });
 
                     $('div.dataTables_filter input').addClass('form-control form-control-sm');
-                    // tableProductList
-                    //     .order( [ 1, 'desc' ] )
-                    //     .draw();
-                    //$('#tblInventory').DataTable().column( 0 ).visible( false );
-                    //$('#tblInventory').DataTable().column( 5 ).visible( false );
-                    //$('#tblInventory').DataTable().column( 6 ).visible( false );
+
                 }
             }
         }).catch(function(err) {
@@ -2040,8 +1988,8 @@ Template.purchaseordercard.onRendered(function() {
                 let inventoryData = [];
                 for (let i = 0; i < data.tproductvs1.length; i++) {
                     var dataList = [
-                        // data.tproductvs1[i].Id || '',
-                        // data.tproductvs1[i].Id || '',
+                        
+                        
                         data.tproductvs1[i].ProductName || '-',
                         data.tproductvs1[i].SalesDescription || '',
                         utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductvs1[i].BuyQty1Cost * 100) / 100),
@@ -2058,13 +2006,13 @@ Template.purchaseordercard.onRendered(function() {
 
                     $('#tblInventory').dataTable({
                         data: splashArrayProductList,
-                        // processing: true,
+                        
                         "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
                         paging: true,
                         "aaSorting": [],
                         "orderMulti": true,
                         columnDefs: [
-                            // { orderable: false, targets: 0 },
+                            
                             { className: "productName", "targets": [0] },
                             { className: "productDesc", "targets": [1] },
                             { className: "costPrice text-right", "targets": [2] },
@@ -2073,12 +2021,12 @@ Template.purchaseordercard.onRendered(function() {
                             { className: "taxrate", "targets": [5] }
                         ],
                         colReorder: true,
-                        // colReorder: {
-                        //   fixedColumnsLeft: 1
-                        // },
+                        
+                        
+                        
                         bStateSave: true,
-                        //scrollX: 1000,
-                        //rowId: 0,
+                        
+                        
                         pageLength: 25,
                         lengthMenu: [
                             [10, 25, 50, -1],
@@ -2090,61 +2038,21 @@ Template.purchaseordercard.onRendered(function() {
                     });
 
                     $('div.dataTables_filter input').addClass('form-control form-control-sm');
-                    // tableProductList
-                    //     .order( [ 1, 'desc' ] )
-                    //     .draw();
-                    //$('#tblInventory').DataTable().column( 0 ).visible( false );
-                    //$('#tblInventory').DataTable().column( 5 ).visible( false );
-                    //$('#tblInventory').DataTable().column( 6 ).visible( false );
+                    
+                    
+                    
+                    
+                    
+                    
                 }
             })
         });
     };
 
     tempObj.getAllProducts();
-    /*
-    if (!localStorage.getItem('VS1SalesProductList')) {
-       tempObj.getAllProducts();
-    }else{
-     $('#tblInventory').dataTable({
-        data :  JSON.parse(localStorage.getItem('VS1SalesProductList')),
-        // processing: true,
-        paging: true,
-        "aaSorting": [],
-        "orderMulti": true,
-        columnDefs: [
-          // { orderable: false, targets: 0},
-          { className: "productName", "targets": [ 0 ] },
-          { className: "productDesc", "targets": [ 1 ] },
-          { className: "costPrice text-right", "targets": [ 2 ] },
-          { className: "salePrice text-right", "targets": [ 3 ] },
-          { className: "prdqty", "targets": [ 4 ] },
-          { className: "taxrate", "targets": [ 5 ] }
-
-        ],
-        colReorder: true,
-        // colReorder: {
-        //   fixedColumnsLeft: 1
-        // },
-        bStateSave: true,
-        //scrollX: 1000,
-        //rowId: 0,
-        pageLength: 25,
-        lengthMenu: [ [10, 25, 50, -1], [10, 25, 50, "All"] ],
-        info: true,
-        responsive: true
-
-      });
-
-      $('div.dataTables_filter input').addClass('form-control form-control-sm');
-      // tableProductList
-      //     .order( [ 1, 'desc' ] )
-      //     .draw();
-    }
-    */
-    // $('#tblInventory').DataTable().column( 0 ).visible( false );
-    //$('#tblInventory').DataTable().column( 5 ).visible( false );
-
+  
+    
+    
     tempObj.getAllTaxCodes = function() {
         getVS1Data('TTaxcodeVS1').then(function(dataObject) {
             if (dataObject.length == 0) {
@@ -2171,7 +2079,7 @@ Template.purchaseordercard.onRendered(function() {
                         splashArrayTaxRateList.push(dataList);
                     }
                     tempObj.taxraterecords.set(taxCodesList);
-                    //localStorage.setItem('VS1ProductList', JSON.stringify(splashArrayProductList));
+                    
 
                     if (splashArrayTaxRateList) {
 
@@ -2188,12 +2096,12 @@ Template.purchaseordercard.onRendered(function() {
                                 { className: "taxRate text-right", "targets": [3] }
                             ],
                             colReorder: true,
-                            // colReorder: {
-                            //   fixedColumnsLeft: 1
-                            // },
+                            
+                            
+                            
                             bStateSave: true,
-                            //scrollX: 1000,
-                            //rowId: 0,
+                            
+                            
                             pageLength: 25,
                             lengthMenu: [
                                 [10, 25, 50, -1],
@@ -2203,12 +2111,12 @@ Template.purchaseordercard.onRendered(function() {
                             responsive: true
 
                         });
-                        // tableProductList
-                        //     .order( [ 1, 'desc' ] )
-                        //     .draw();
-                        // $('#tblTaxRate').DataTable().column( 0 ).visible( false );
-                        //$('#tblInventory').DataTable().column( 5 ).visible( false );
-                        //$('#tblInventory').DataTable().column( 6 ).visible( false );
+                        
+                        
+                        
+                        
+                        
+                        
                     }
                 })
             } else {
@@ -2235,7 +2143,7 @@ Template.purchaseordercard.onRendered(function() {
                     splashArrayTaxRateList.push(dataList);
                 }
                 tempObj.taxraterecords.set(taxCodesList);
-                //localStorage.setItem('VS1ProductList', JSON.stringify(splashArrayProductList));
+                
 
                 if (splashArrayTaxRateList) {
 
@@ -2252,12 +2160,12 @@ Template.purchaseordercard.onRendered(function() {
                             { className: "taxRate text-right", "targets": [3] }
                         ],
                         colReorder: true,
-                        // colReorder: {
-                        //   fixedColumnsLeft: 1
-                        // },
+                        
+                        
+                        
                         bStateSave: true,
-                        //scrollX: 1000,
-                        //rowId: 0,
+                        
+                        
                         pageLength: 25,
                         lengthMenu: [
                             [10, 25, 50, -1],
@@ -2267,12 +2175,12 @@ Template.purchaseordercard.onRendered(function() {
                         responsive: true
 
                     });
-                    // tableProductList
-                    //     .order( [ 1, 'desc' ] )
-                    //     .draw();
-                    // $('#tblTaxRate').DataTable().column( 0 ).visible( false );
-                    //$('#tblInventory').DataTable().column( 5 ).visible( false );
-                    //$('#tblInventory').DataTable().column( 6 ).visible( false );
+                    
+                    
+                    
+                    
+                    
+                    
                 }
 
             }
@@ -2300,7 +2208,7 @@ Template.purchaseordercard.onRendered(function() {
                     splashArrayTaxRateList.push(dataList);
                 }
                 tempObj.taxraterecords.set(taxCodesList);
-                //localStorage.setItem('VS1ProductList', JSON.stringify(splashArrayProductList));
+                
 
                 if (splashArrayTaxRateList) {
 
@@ -2317,12 +2225,12 @@ Template.purchaseordercard.onRendered(function() {
                             { className: "taxRate text-right", "targets": [3] }
                         ],
                         colReorder: true,
-                        // colReorder: {
-                        //   fixedColumnsLeft: 1
-                        // },
+                        
+                        
+                        
                         bStateSave: true,
-                        //scrollX: 1000,
-                        //rowId: 0,
+                        
+                        
                         pageLength: 25,
                         lengthMenu: [
                             [10, 25, 50, -1],
@@ -2332,19 +2240,19 @@ Template.purchaseordercard.onRendered(function() {
                         responsive: true
 
                     });
-                    // tableProductList
-                    //     .order( [ 1, 'desc' ] )
-                    //     .draw();
-                    // $('#tblTaxRate').DataTable().column( 0 ).visible( false );
-                    //$('#tblInventory').DataTable().column( 5 ).visible( false );
-                    //$('#tblInventory').DataTable().column( 6 ).visible( false );
+                    
+                    
+                    
+                    
+                    
+                    
                 }
             })
         });
 
     };
     tempObj.getAllTaxCodes();
-    //$('#tblInventory').DataTable().column( 6 ).visible( false );
+    
 });
 Template.purchaseordercard.helpers({
     purchaseorderrecord: () => {
@@ -2427,8 +2335,8 @@ Template.purchaseordercard.helpers({
         return Session.get('vs1companyURL');
     },
     isMobileDevices: () => {
-        var isMobile = false; //initiate as false
-        // device detection
+        var isMobile = false; 
+        
         if (/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|ipad|iris|kindle|Android|Silk|lge |maemo|midp|mmp|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows (ce|phone)|xda|xiino/i.test(navigator.userAgent) ||
             /1207|6310|6590|3gso|4thp|50[1-6]i|770s|802s|a wa|abac|ac(er|oo|s\-)|ai(ko|rn)|al(av|ca|co)|amoi|an(ex|ny|yw)|aptu|ar(ch|go)|as(te|us)|attw|au(di|\-m|r |s )|avan|be(ck|ll|nq)|bi(lb|rd)|bl(ac|az)|br(e|v)w|bumb|bw\-(n|u)|c55\/|capi|ccwa|cdm\-|cell|chtm|cldc|cmd\-|co(mp|nd)|craw|da(it|ll|ng)|dbte|dc\-s|devi|dica|dmob|do(c|p)o|ds(12|\-d)|el(49|ai)|em(l2|ul)|er(ic|k0)|esl8|ez([4-7]0|os|wa|ze)|fetc|fly(\-|_)|g1 u|g560|gene|gf\-5|g\-mo|go(\.w|od)|gr(ad|un)|haie|hcit|hd\-(m|p|t)|hei\-|hi(pt|ta)|hp( i|ip)|hs\-c|ht(c(\-| |_|a|g|p|s|t)|tp)|hu(aw|tc)|i\-(20|go|ma)|i230|iac( |\-|\/)|ibro|idea|ig01|ikom|im1k|inno|ipaq|iris|ja(t|v)a|jbro|jemu|jigs|kddi|keji|kgt( |\/)|klon|kpt |kwc\-|kyo(c|k)|le(no|xi)|lg( g|\/(k|l|u)|50|54|\-[a-w])|libw|lynx|m1\-w|m3ga|m50\/|ma(te|ui|xo)|mc(01|21|ca)|m\-cr|me(rc|ri)|mi(o8|oa|ts)|mmef|mo(01|02|bi|de|do|t(\-| |o|v)|zz)|mt(50|p1|v )|mwbp|mywa|n10[0-2]|n20[2-3]|n30(0|2)|n50(0|2|5)|n7(0(0|1)|10)|ne((c|m)\-|on|tf|wf|wg|wt)|nok(6|i)|nzph|o2im|op(ti|wv)|oran|owg1|p800|pan(a|d|t)|pdxg|pg(13|\-([1-8]|c))|phil|pire|pl(ay|uc)|pn\-2|po(ck|rt|se)|prox|psio|pt\-g|qa\-a|qc(07|12|21|32|60|\-[2-7]|i\-)|qtek|r380|r600|raks|rim9|ro(ve|zo)|s55\/|sa(ge|ma|mm|ms|ny|va)|sc(01|h\-|oo|p\-)|sdk\/|se(c(\-|0|1)|47|mc|nd|ri)|sgh\-|shar|sie(\-|m)|sk\-0|sl(45|id)|sm(al|ar|b3|it|t5)|so(ft|ny)|sp(01|h\-|v\-|v )|sy(01|mb)|t2(18|50)|t6(00|10|18)|ta(gt|lk)|tcl\-|tdg\-|tel(i|m)|tim\-|t\-mo|to(pl|sh)|ts(70|m\-|m3|m5)|tx\-9|up(\.b|g1|si)|utst|v400|v750|veri|vi(rg|te)|vk(40|5[0-3]|\-v)|vm40|voda|vulc|vx(52|53|60|61|70|80|81|83|85|98)|w3c(\-| )|webc|whit|wi(g |nc|nw)|wmlb|wonu|x700|yas\-|your|zeto|zte\-/i.test(navigator.userAgent.substr(0, 4))) {
             isMobile = true;
@@ -2479,12 +2387,10 @@ Template.purchaseordercard.events({
                        
                     });
                 }).catch(function (err) {
-                    console.log(err);
                    window.open('/purchaseordercard', '_self');
                 });
             }).catch(function (err) {
                 $('.fullScreenSpin').css('display', 'none');
-                console.log(err);
                 swal({
                     title: 'Something went wrong',
                     text: err,
@@ -2493,12 +2399,12 @@ Template.purchaseordercard.events({
                     confirmButtonText: 'Try Again'
                 }).then((result) => {
                     if (result.value) {
-                        //Meteor._reload.reload();
+                        
                     } else if (result.dismiss === 'cancel') {
 
                     }
                 });
-                //$('.loginSpinner').css('display','none');
+                
                 $('.fullScreenSpin').css('display', 'none');
             });
         } else {
@@ -2522,6 +2428,7 @@ Template.purchaseordercard.events({
         let taxcodeList = templateObject.taxraterecords.get();
         let utilityService = new UtilityService();
         let $tblrows = $("#tblPurchaseOrderLine tbody tr");
+        let $printrows = $(".purchase_print tbody tr");
         let isBOnShippedQty = templateObject.includeBOnShippedQty.get();
         var targetID = $(event.target).closest('tr').attr('id');
         if (isBOnShippedQty == true) {
@@ -2541,10 +2448,15 @@ Template.purchaseordercard.events({
                 $('#' + targetID + " .lineBo").text(boValue);
             }
         }
-        //if(selectLineID){
+
+        if ($('.printID').val() == "") {
+            $('#' + targetID + " #lineQty").text($('#' + targetID + " .lineQty").val());
+        }
+        
         let lineAmount = 0;
         let subGrandTotal = 0;
         let taxGrandTotal = 0;
+        let taxGrandTotalPrint = 0;
 
         $tblrows.each(function(index) {
             var $tblrow = $(this);
@@ -2584,7 +2496,44 @@ Template.purchaseordercard.events({
 
             }
         });
-        //}
+
+        if ($(".printID").val() == "") {
+            $printrows.each(function (index) {
+                var $printrows = $(this);
+                var qty = $printrows.find("#lineQty").text() || 0;
+                var price = $printrows.find("#lineUnitPrice").text() || 0;
+                var taxrateamount = 0;
+                var taxRate = $printrows.find("#lineTaxCode").text();
+                if (taxcodeList) {
+                    for (var i = 0; i < taxcodeList.length; i++) {
+                        if (taxcodeList[i].codename == taxRate) {
+                            taxrateamount = taxcodeList[i].coderate.replace('%', "") / 100;
+                        }
+                    }
+                }
+
+                var subTotal = parseInt(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) || 0;
+                var taxTotal = parseInt(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) * parseFloat(taxrateamount);
+                $printrows.find('#lineTaxAmount').text(utilityService.modifynegativeCurrencyFormat(taxTotal))
+                if (!isNaN(subTotal)) {
+                    $printrows.find('#lineAmt').text(utilityService.modifynegativeCurrencyFormat(subTotal));
+                    subGrandTotal += isNaN(subTotal) ? 0 : subTotal;
+                    document.getElementById("subtotal_totalPrint").innerHTML = $('#subtotal_total').text();
+                }
+
+                if (!isNaN(taxTotal)) {
+                    taxGrandTotalPrint += isNaN(taxTotal) ? 0 : taxTotal;
+                }
+                if (!isNaN(subGrandTotal) && (!isNaN(taxGrandTotal))) {
+                    let GrandTotal = (parseFloat(subGrandTotal)) + (parseFloat(taxGrandTotal));
+                    document.getElementById("grandTotalPrint").innerHTML = $('#grandTotal').text();
+                    document.getElementById("balanceDue").innerHTML = utilityService.modifynegativeCurrencyFormat(GrandTotal);
+                    //document.getElementById("totalBalanceDuePrint").innerHTML = $('#totalBalanceDue').text();
+
+                }
+            });
+        }
+        
     },
     'change .lineUnitPrice': function(event) {
 
@@ -2594,16 +2543,16 @@ Template.purchaseordercard.events({
             $(event.target).val(utilityService.modifynegativeCurrencyFormat(inputUnitPrice));
         } else {
             let inputUnitPrice = Number($(event.target).val().replace(/[^0-9.-]+/g, ""))||0;
-            //parseFloat(parseFloat($.trim($(event.target).text().substring(Currency.length).replace(",", ""))) || 0);
+            
             $(event.target).val(utilityService.modifynegativeCurrencyFormat(inputUnitPrice));
-            //$('.lineUnitPrice').text();
+            
 
         }
         let templateObject = Template.instance();
         let taxcodeList = templateObject.taxraterecords.get();
-        // let utilityService = new UtilityService();
+        
         let $tblrows = $("#tblPurchaseOrderLine tbody tr");
-        //if(selectLineID){
+        
         let lineAmount = 0;
         let subGrandTotal = 0;
         let taxGrandTotal = 0;
@@ -2658,9 +2607,9 @@ Template.purchaseordercard.events({
     'click .lineProductName': function(event) {
         $('#tblPurchaseOrderLine tbody tr .lineProductName').attr("data-toggle", "modal");
         $('#tblPurchaseOrderLine tbody tr .lineProductName').attr("data-target", "#productListModal");
-        var targetID = $(event.target).closest('tr').attr('id'); // table row ID
+        var targetID = $(event.target).closest('tr').attr('id'); 
         $('#selectLineID').val(targetID);
-        // Autofocus Searchbar
+        
         setTimeout(function() {
             $('#tblInventory_filter .form-control-sm').focus();
         }, 500);
@@ -2676,19 +2625,19 @@ Template.purchaseordercard.events({
     'click .lineTaxRate': function(event) {
         $('#tblPurchaseOrderLine tbody tr .lineTaxRate').attr("data-toggle", "modal");
         $('#tblPurchaseOrderLine tbody tr .lineTaxRate').attr("data-target", "#taxRateListModal");
-        var targetID = $(event.target).closest('tr').attr('id'); // table row ID
+        var targetID = $(event.target).closest('tr').attr('id'); 
         $('#selectLineID').val(targetID);
     },
     'click .lineTaxCode': function(event) {
         $('#tblPurchaseOrderLine tbody tr .lineTaxCode').attr("data-toggle", "modal");
         $('#tblPurchaseOrderLine tbody tr .lineTaxCode').attr("data-target", "#taxRateListModal");
-        var targetID = $(event.target).closest('tr').attr('id'); // table row ID
+        var targetID = $(event.target).closest('tr').attr('id'); 
         $('#selectLineID').val(targetID);
     },
     'click .colCustomerJob': function(event) {
         $('#tblPurchaseOrderLine tbody tr .colCustomerJob').attr("data-toggle", "modal");
         $('#tblPurchaseOrderLine tbody tr .colCustomerJob').attr("data-target", "#customerListModal");
-        var targetID = $(event.target).closest('tr').attr('id'); // table row ID
+        var targetID = $(event.target).closest('tr').attr('id'); 
         $('#customerSelectLineID').val(targetID);
     },
     'click .printConfirm': function(event) {
@@ -2700,11 +2649,11 @@ Template.purchaseordercard.events({
     },
     'keydown .lineQty, keydown .lineUnitPrice,keydown .lineOrdered': function(event) {
         if ($.inArray(event.keyCode, [46, 8, 9, 27, 13, 110]) !== -1 ||
-            // Allow: Ctrl+A, Command+A
+            
             (event.keyCode === 65 && (event.ctrlKey === true || event.metaKey === true)) ||
-            // Allow: home, end, left, right, down, up
+            
             (event.keyCode >= 35 && event.keyCode <= 40)) {
-            // let it happen, don't do anything
+            
             return;
         }
 
@@ -2712,7 +2661,7 @@ Template.purchaseordercard.events({
             event.preventDefault();
         }
 
-        //.replace(/[^0-9.-]+/g,"")
+        
 
 
         if ((event.keyCode >= 48 && event.keyCode <= 57) ||
@@ -2729,7 +2678,7 @@ Template.purchaseordercard.events({
         let utilityService = new UtilityService();
 
         var clicktimes = 0;
-        var targetID = $(event.target).closest('tr').attr('id'); // table row ID
+        var targetID = $(event.target).closest('tr').attr('id'); 
         $('#selectDeleteLineID').val(targetID);
 
         times++;
@@ -2742,7 +2691,7 @@ Template.purchaseordercard.events({
                 $(event.target).closest('tr').remove();
                 event.preventDefault();
                 let $tblrows = $("#tblPurchaseOrderLine tbody tr");
-                //if(selectLineID){
+                
                 let lineAmount = 0;
                 let subGrandTotal = 0;
                 let taxGrandTotal = 0;
@@ -2822,7 +2771,7 @@ Template.purchaseordercard.events({
                     confirmButtonText: 'Try Again'
                 }).then((result) => {
                     if (result.value) {
-                        //Meteor._reload.reload();
+                        
                     } else if (result.dismiss === 'cancel') {
 
                     }
@@ -2843,9 +2792,9 @@ Template.purchaseordercard.events({
             this.click;
 
             $('#' + selectLineID).closest('tr').remove();
-            //event.preventDefault();
+            
             let $tblrows = $("#tblPurchaseOrderLine tbody tr");
-            //if(selectLineID){
+            
             let lineAmount = 0;
             let subGrandTotal = 0;
             let taxGrandTotal = 0;
@@ -2888,11 +2837,11 @@ Template.purchaseordercard.events({
 
                 }
             });
-            //return false;
+            
 
         } else {
             this.click;
-            // $(event.target).closest('tr').remove();
+            
             $('#' + selectLineID + " .lineProductName").text('');
             $('#' + selectLineID + " .lineProductDesc").text('');
             $('#' + selectLineID + " .lineOrdered").val('');
@@ -2911,7 +2860,7 @@ Template.purchaseordercard.events({
             document.getElementById("balanceDue").innerHTML = Currency + '0.00';
             document.getElementById("totalBalanceDue").innerHTML = Currency + '0.00';
 
-            //event.preventDefault();
+            
 
         }
 
@@ -2929,7 +2878,7 @@ Template.purchaseordercard.events({
             swal('Supplier has not been selected!', '', 'warning');
             e.preventDefault();
         } else {
-            //$('.loginSpinner').css('display','inline-block');
+            
             $('.fullScreenSpin').css('display', 'inline-block');
             var splashLineArray = new Array();
             let lineItemsForm = [];
@@ -3045,16 +2994,16 @@ Template.purchaseordercard.events({
                     objDetails = {
                         type: "TPurchaseOrderEx",
                         fields: {
-                            // ID: currentPurchaseOrder,
+                            
                             SupplierName: supplier,
                             ForeignExchangeCode: currencyCode,
                             SupplierInvoiceNumber: poNumber || ' ',
                             Lines: splashLineArray,
                             OrderTo: billingAddress,
                             OrderDate: saleDate,
-                            //DueDate: dueDate,
+                            
                             SupplierInvoiceDate: saleDate,
-                            //CustPONumber: poNumber,
+                            
                             SaleLineRef: reference,
                             TermsName: termname,
                             Shipping: departement,
@@ -3076,9 +3025,9 @@ Template.purchaseordercard.events({
                             Lines: splashLineArray,
                             OrderTo: billingAddress,
                             OrderDate: saleDate,
-                            //DueDate: dueDate,
+                            
                             SupplierInvoiceDate: saleDate,
-                            //CustPONumber: poNumber,
+                            
                             SaleLineRef: reference,
                             TermsName: termname,
                             Shipping: departement,
@@ -3100,26 +3049,26 @@ Template.purchaseordercard.events({
                         Lines: splashLineArray,
                         OrderTo: billingAddress,
                         OrderDate: saleDate,
-                        //DueDate: dueDate,
+                        
                         SupplierInvoiceDate: saleDate,
-                        //CustPONumber: poNumber,
+                        
                         SaleLineRef: reference,
                         TermsName: termname,
                         Shipping: departement,
                         ShipTo: shippingAddress,
                         Comments: comments,
-                        // SaleCustField1:saleCustField1,
-                        // SaleCustField2:saleCustField2,
+                        
+                        
                         SalesComments: pickingInfrmation,
                         Attachments: uploadedItems,
                         OrderStatus: $('#sltStatus').val()
                     }
                 };
             }
-            //alert(JSON.stringify(objDetails));
+            
             purchaseService.savePurchaseOrderEx(objDetails).then(function(objDetails) {
                 var supplierID = $('#edtSupplierEmail').attr('supplierid');
-                // Start End Send Email
+                
                 $('#html-2-pdfwrapper').css('display', 'block');
                 $('.pdfCustomerName').html($('#edtSupplierEmail').val());
                 $('.pdfCustomerAddress').html($('#txabillingAddress').val());
@@ -3149,7 +3098,7 @@ Template.purchaseordercard.events({
                         let mailFrom = localStorage.getItem('mySession');
                         let customerEmailName = $('#edtSupplierName').val();
                         let checkEmailData = $('#edtSupplierEmail').val();
-                        // let mailCC = templateObject.mailCopyToUsr.get();
+                        
                         let grandtotal = $('#grandTotal').html();
                         let amountDueEmail = $('#totalBalanceDue').html();
                         let emailDueDate = $("#dtDueDate").val();
@@ -3328,19 +3277,19 @@ Template.purchaseordercard.events({
                 function generatePdfForMail(invoiceId) {
                     return new Promise((resolve, reject) => {
                         let templateObject = Template.instance();
-                        // let data = templateObject.singleInvoiceData.get();
+                        
                         let completeTabRecord;
                         let doc = new jsPDF('p', 'pt', 'a4');
                         doc.setFontSize(18);
                         var source = document.getElementById('html-2-pdfwrapper');
                         doc.addHTML(source, function() {
-                            //pdf.save('Invoice.pdf');
+                            
                             resolve(doc.output('blob'));
-                            // $('#html-2-pdfwrapper').css('display','none');
+                            
                         });
                     });
                 }
-                // End Send Email
+                
 
                 if (supplierID !== " ") {
                     let supplierEmailData = {
@@ -3350,9 +3299,9 @@ Template.purchaseordercard.events({
                                 Email: supplierEmail
                             }
                         }
-                        // purchaseService.saveSupplierEmail(supplierEmailData).then(function (supplierEmailData) {
-                        //
-                        // });
+                        
+                        
+                        
                 };
                 var getcurrentCloudDetails = CloudUser.findOne({ _id: Session.get('mycloudLogonID'), clouddatabaseID: Session.get('mycloudLogonDBID') });
                 if (getcurrentCloudDetails) {
@@ -3361,7 +3310,6 @@ Template.purchaseordercard.events({
                         var clientUsername = getcurrentCloudDetails.cloudUsername;
                         var clientEmail = getcurrentCloudDetails.cloudEmail;
                         var checkPrefDetails = CloudPreference.findOne({ userid: clientID, PrefName: 'purchaseordercard' });
-                        // console.log(checkPrefDetails);
                         if (checkPrefDetails) {
                             CloudPreference.update({ _id: checkPrefDetails._id }, {
                                 $set: {
@@ -3383,9 +3331,9 @@ Template.purchaseordercard.events({
                                 }
                             }, function(err, idTag) {
                                 if (err) {
-                                    // Router.go('/purchaseorderlist?success=true');
+                                    
                                 } else {
-                                    // Router.go('/purchaseorderlist?success=true');
+                                    
 
                                 }
                             });
@@ -3409,18 +3357,17 @@ Template.purchaseordercard.events({
                                 createdAt: new Date()
                             }, function(err, idTag) {
                                 if (err) {
-                                    // Router.go('/purchaseorderlist?success=true');
+                                    
                                 } else {
-                                    // Router.go('/purchaseorderlist?success=true');
+                                    
 
                                 }
                             });
                         }
                     }
                 } else {
-                    // Router.go('/purchaseorderlist?success=true');
+
                 }
-                //console.log(getcurrentCloudDetails);
 
             }).catch(function(err) {
                 swal({
@@ -3431,12 +3378,11 @@ Template.purchaseordercard.events({
                     confirmButtonText: 'Try Again'
                 }).then((result) => {
                     if (result.value) {
-                        //Meteor._reload.reload();
+                        
                     } else if (result.dismiss === 'cancel') {
 
                     }
                 });
-                //$('.loginSpinner').css('display','none');
                 $('.fullScreenSpin').css('display', 'none');
             });
         }
@@ -3594,7 +3540,7 @@ Template.purchaseordercard.events({
     },
     'click .btnSaveGridSettings': function(event) {
         let lineItems = [];
-        //let lineItemObj = {};
+        
         $('.columnSettings').each(function(index) {
             var $tblrow = $(this);
             var colTitle = $tblrow.find(".divcolumn").text() || '';
@@ -3615,8 +3561,8 @@ Template.purchaseordercard.events({
             }
 
             lineItems.push(lineItemObj);
-            // var price = $tblrow.find(".lineUnitPrice").text()||0;
-            // var taxcode = $tblrow.find(".lineTaxRate").text()||0;
+            
+            
 
         });
 
@@ -3643,10 +3589,10 @@ Template.purchaseordercard.events({
                     }, function(err, idTag) {
                         if (err) {
                             $('#myModal2').modal('toggle');
-                            //Router.go('/purchaseorderlist?success=true');
+                            
                         } else {
                             $('#myModal2').modal('toggle');
-                            //Router.go('/purchaseorderlist?success=true');
+                            
 
                         }
                     });
@@ -3664,10 +3610,10 @@ Template.purchaseordercard.events({
                     }, function(err, idTag) {
                         if (err) {
                             $('#myModal2').modal('toggle');
-                            //Router.go('/purchaseorderlist?success=true');
+                            
                         } else {
                             $('#myModal2').modal('toggle');
-                            //Router.go('/purchaseorderlist?success=true');
+                            
 
                         }
                     });
@@ -3765,7 +3711,6 @@ Template.purchaseordercard.events({
         let attachmentID = parseInt(event.currentTarget.parentNode.id.split('attachment-name-')[1]);
         let templateObj = Template.instance();
         let uploadedFiles = templateObj.uploadedFiles.get();
-        // console.log(uploadedFiles);
         $('#myModalAttachment').modal('hide');
         let previewFile = {};
         let input = uploadedFiles[attachmentID].fields.Description;
@@ -3840,7 +3785,7 @@ Template.purchaseordercard.events({
             swal('Supplier has not been selected!', '', 'warning');
             e.preventDefault();
         } else {
-            //$('.loginSpinner').css('display','inline-block');
+            
             $('.fullScreenSpin').css('display', 'inline-block');
             var splashLineArray = new Array();
             let lineItemsForm = [];
@@ -3881,7 +3826,7 @@ Template.purchaseordercard.events({
                                 ProductName: tdproduct || '',
                                 ProductDescription: tddescription || '',
                                 UOMQtySold: parseFloat(tdQty) || 0,
-                                // UOMQtyShipped:parseFloat(tdQty) || 0,
+                                
                                 LineCost: Number(tdunitprice.replace(/[^0-9.-]+/g, "")) || 0,
                                 CustomerJob: tdCustomerJob || '',
                                 LineTaxCode: tdtaxCode || '',
@@ -3908,8 +3853,8 @@ Template.purchaseordercard.events({
             let supplier = $('#edtSupplierName').val();
             let supplierEmail = $('#edtSupplierEmail').val();
             let billingAddress = $('#txabillingAddress').val();
-            // let saleDate = $('#dtSODate').val();
-            // let dueDate = $('#dtDueDate').val();
+            
+            
             var saledateTime = new Date($("#dtSODate").datepicker("getDate"));
             var duedateTime = new Date($("#dtDueDate").datepicker("getDate"));
 
@@ -3944,16 +3889,16 @@ Template.purchaseordercard.events({
                         Lines: splashLineArray,
                         OrderTo: billingAddress,
                         OrderDate: saleDate,
-                        //DueDate: dueDate,
+                        
                         SupplierInvoiceDate: saleDate,
-                        //CustPONumber: poNumber,
+                        
                         SaleLineRef: reference,
                         TermsName: termname,
                         Shipping: departement,
                         ShipTo: shippingAddress,
                         Comments: comments,
-                        // SaleCustField1:saleCustField1,
-                        // SaleCustField2:saleCustField2,
+                        
+                        
                         SalesComments: pickingInfrmation,
                         Attachments: uploadedItems,
                         OrderStatus: $('#sltStatus').val()
@@ -3969,25 +3914,21 @@ Template.purchaseordercard.events({
                         Lines: splashLineArray,
                         OrderTo: billingAddress,
                         OrderDate: saleDate,
-                        //DueDate: dueDate,
+                        
                         SupplierInvoiceDate: saleDate,
-                        //CustPONumber: poNumber,
+                        
                         SaleLineRef: reference,
                         TermsName: termname,
                         Shipping: departement,
                         ShipTo: shippingAddress,
                         Comments: comments,
-                        // SaleCustField1:saleCustField1,
-                        // SaleCustField2:saleCustField2,
                         SalesComments: pickingInfrmation,
                         Attachments: uploadedItems,
                         OrderStatus: $('#sltStatus').val()
                     }
                 };
             }
-            //alert(JSON.stringify(objDetails));
             purchaseService.savePurchaseOrderEx(objDetails).then(function(objDetails) {
-                //console.log(objDetails.fields.ID);
                 var supplierID = $('#edtSupplierEmail').attr('supplierid');
                 if (supplierID !== " ") {
                     let supplierEmailData = {
@@ -3997,9 +3938,7 @@ Template.purchaseordercard.events({
                                 Email: supplierEmail
                             }
                         }
-                        // purchaseService.saveSupplierEmail(supplierEmailData).then(function (supplierEmailData) {
-                        //
-                        // });
+                     
                 };
                 let linesave = objDetails.fields.ID;
 
@@ -4010,7 +3949,6 @@ Template.purchaseordercard.events({
                         var clientUsername = getcurrentCloudDetails.cloudUsername;
                         var clientEmail = getcurrentCloudDetails.cloudEmail;
                         var checkPrefDetails = CloudPreference.findOne({ userid: clientID, PrefName: 'purchaseordercard' });
-                        // console.log(checkPrefDetails);
                         if (checkPrefDetails) {
                             CloudPreference.update({ _id: checkPrefDetails._id }, {
                                 $set: {
@@ -4067,7 +4005,6 @@ Template.purchaseordercard.events({
                         }
                     }
                 }
-                //console.log(getcurrentCloudDetails);
 
             }).catch(function(err) {
                 swal({
@@ -4078,12 +4015,12 @@ Template.purchaseordercard.events({
                     confirmButtonText: 'Try Again'
                 }).then((result) => {
                     if (result.value) {
-                        //Meteor._reload.reload();
+                        
                     } else if (result.dismiss === 'cancel') {
 
                     }
                 });
-                //$('.loginSpinner').css('display','none');
+                
                 $('.fullScreenSpin').css('display', 'none');
             });
         }
@@ -4092,12 +4029,12 @@ Template.purchaseordercard.events({
     'click .btnBack': function(event) {
         event.preventDefault();
         history.back(1);
-        //Router.go('/purchaseorderlist');
-        //window.open('/invoicelist','_self');
+        
+        
     },
     'click #btnCopyToInvoice': function() {
-        //Router.go('/purchaseorderlist');
-        //window.open('/invoicelist','_self');
+        
+        
         $('.fullScreenSpin').css('display', 'inline-block');
         var url = window.location.href;
         if ((url.indexOf('?id=') > 0) || (url.indexOf('?copyquid=') > 0)) {
@@ -4108,7 +4045,7 @@ Template.purchaseordercard.events({
                 swal('Supplier has not been selected!', '', 'warning');
                 e.preventDefault();
             } else {
-                //$('.loginSpinner').css('display','inline-block');
+                
                 $('.fullScreenSpin').css('display', 'inline-block');
                 var splashLineArray = new Array();
                 let lineItemsForm = [];
@@ -4149,7 +4086,7 @@ Template.purchaseordercard.events({
                                     ProductName: tdproduct || '',
                                     ProductDescription: tddescription || '',
                                     UOMQtySold: parseFloat(tdQty) || 0,
-                                    // UOMQtyShipped:parseFloat(tdQty) || 0,
+                                    
                                     LineCost: Number(tdunitprice.replace(/[^0-9.-]+/g, "")) || 0,
                                     CustomerJob: tdCustomerJob || '',
                                     LineTaxCode: tdtaxCode || '',
@@ -4176,8 +4113,8 @@ Template.purchaseordercard.events({
                 let supplier = $('#edtSupplierName').val();
                 let supplierEmail = $('#edtSupplierEmail').val();
                 let billingAddress = $('#txabillingAddress').val();
-                // let saleDate = $('#dtSODate').val();
-                // let dueDate = $('#dtDueDate').val();
+                
+                
 
                 var saledateTime = new Date($("#dtSODate").datepicker("getDate"));
                 var duedateTime = new Date($("#dtDueDate").datepicker("getDate"));
@@ -4213,16 +4150,16 @@ Template.purchaseordercard.events({
                             Lines: splashLineArray,
                             OrderTo: billingAddress,
                             OrderDate: saleDate,
-                            //DueDate: dueDate,
+                            
                             SupplierInvoiceDate: saleDate,
-                            //CustPONumber: poNumber,
+                            
                             SaleLineRef: reference,
                             TermsName: termname,
                             Shipping: departement,
                             ShipTo: shippingAddress,
                             Comments: comments,
-                            // SaleCustField1:saleCustField1,
-                            // SaleCustField2:saleCustField2,
+                            
+                            
                             SalesComments: pickingInfrmation,
                             Attachments: uploadedItems,
                             OrderStatus: $('#sltStatus').val()
@@ -4238,25 +4175,21 @@ Template.purchaseordercard.events({
                             Lines: splashLineArray,
                             OrderTo: billingAddress,
                             OrderDate: saleDate,
-                            //DueDate: dueDate,
+                            
                             SupplierInvoiceDate: saleDate,
-                            //CustPONumber: poNumber,
+                            
                             SaleLineRef: reference,
                             TermsName: termname,
                             Shipping: departement,
                             ShipTo: shippingAddress,
                             Comments: comments,
-                            // SaleCustField1:saleCustField1,
-                            // SaleCustField2:saleCustField2,
                             SalesComments: pickingInfrmation,
                             Attachments: uploadedItems,
                             OrderStatus: $('#sltStatus').val()
                         }
                     };
                 }
-                //alert(JSON.stringify(objDetails));
                 purchaseService.savePurchaseOrderEx(objDetails).then(function(objDetails) {
-                    //console.log(objDetails.fields.ID);
                     var supplierID = $('#edtSupplierEmail').attr('supplierid');
                     if (supplierID !== " ") {
                         let supplierEmailData = {
@@ -4266,9 +4199,9 @@ Template.purchaseordercard.events({
                                     Email: supplierEmail
                                 }
                             }
-                            // purchaseService.saveSupplierEmail(supplierEmailData).then(function (supplierEmailData) {
-                            //
-                            // });
+                            
+                            
+                            
                     };
                     let linesave = objDetails.fields.ID;
 
@@ -4279,7 +4212,6 @@ Template.purchaseordercard.events({
                             var clientUsername = getcurrentCloudDetails.cloudUsername;
                             var clientEmail = getcurrentCloudDetails.cloudEmail;
                             var checkPrefDetails = CloudPreference.findOne({ userid: clientID, PrefName: 'purchaseordercard' });
-                            // console.log(checkPrefDetails);
                             if (checkPrefDetails) {
                                 CloudPreference.update({ _id: checkPrefDetails._id }, {
                                     $set: {
@@ -4336,7 +4268,6 @@ Template.purchaseordercard.events({
                             }
                         }
                     }
-                    //console.log(getcurrentCloudDetails);
 
                 }).catch(function(err) {
                     swal({
@@ -4347,12 +4278,12 @@ Template.purchaseordercard.events({
                         confirmButtonText: 'Try Again'
                     }).then((result) => {
                         if (result.value) {
-                            //Meteor._reload.reload();
+                            
                         } else if (result.dismiss === 'cancel') {
 
                         }
                     });
-                    //$('.loginSpinner').css('display','none');
+                    
                     $('.fullScreenSpin').css('display', 'none');
                 });
             }
@@ -4361,11 +4292,11 @@ Template.purchaseordercard.events({
         }
     },
     'click #btnCopyPO': function() {
-        //Router.go('/purchaseorderlist');
-        //window.open('/invoicelist','_self');
+        
+        
         $('.fullScreenSpin').css('display', 'inline-block');
         var url = window.location.href;
-        //if ((url.indexOf('?id=') > 0) || (url.indexOf('?copypoid=') > 0)) {
+        
             let templateObject = Template.instance();
             let suppliername = $('#edtSupplierName');
             let purchaseService = new PurchaseBoardService();
@@ -4373,7 +4304,7 @@ Template.purchaseordercard.events({
                 swal('Supplier has not been selected!', '', 'warning');
                 e.preventDefault();
             } else {
-                //$('.loginSpinner').css('display','inline-block');
+                
                 $('.fullScreenSpin').css('display', 'inline-block');
                 var splashLineArray = new Array();
                 let lineItemsForm = [];
@@ -4489,16 +4420,16 @@ Template.purchaseordercard.events({
                         objDetails = {
                             type: "TPurchaseOrderEx",
                             fields: {
-                                // ID: currentPurchaseOrder,
+                                
                                 SupplierName: supplier,
                                 ForeignExchangeCode: currencyCode,
                                 SupplierInvoiceNumber: poNumber || ' ',
                                 Lines: splashLineArray,
                                 OrderTo: billingAddress,
                                 OrderDate: saleDate,
-                                //DueDate: dueDate,
+                                
                                 SupplierInvoiceDate: saleDate,
-                                //CustPONumber: poNumber,
+                                
                                 SaleLineRef: reference,
                                 TermsName: termname,
                                 Shipping: departement,
@@ -4513,16 +4444,16 @@ Template.purchaseordercard.events({
                         objDetails = {
                             type: "TPurchaseOrderEx",
                             fields: {
-                                //ID: currentPurchaseOrder,
+                                
                                 SupplierName: supplier,
                                 ForeignExchangeCode: currencyCode,
                                 SupplierInvoiceNumber: poNumber || ' ',
                                 Lines: splashLineArray,
                                 OrderTo: billingAddress,
                                 OrderDate: saleDate,
-                                //DueDate: dueDate,
+                                
                                 SupplierInvoiceDate: saleDate,
-                                //CustPONumber: poNumber,
+                                
                                 SaleLineRef: reference,
                                 TermsName: termname,
                                 Shipping: departement,
@@ -4544,25 +4475,23 @@ Template.purchaseordercard.events({
                             Lines: splashLineArray,
                             OrderTo: billingAddress,
                             OrderDate: saleDate,
-                            //DueDate: dueDate,
+                            
                             SupplierInvoiceDate: saleDate,
-                            //CustPONumber: poNumber,
+                            
                             SaleLineRef: reference,
                             TermsName: termname,
                             Shipping: departement,
                             ShipTo: shippingAddress,
                             Comments: comments,
-                            // SaleCustField1:saleCustField1,
-                            // SaleCustField2:saleCustField2,
+                            
+                            
                             SalesComments: pickingInfrmation,
                             Attachments: uploadedItems,
                             OrderStatus: $('#sltStatus').val()
                         }
                     };
                 }
-                //alert(JSON.stringify(objDetails));
                 purchaseService.savePurchaseOrderEx(objDetails).then(function(objDetails) {
-                    //console.log(objDetails.fields.ID);
                     var supplierID = $('#edtSupplierEmail').attr('supplierid');
                     if (supplierID !== " ") {
                         let supplierEmailData = {
@@ -4572,9 +4501,6 @@ Template.purchaseordercard.events({
                                     Email: supplierEmail
                                 }
                             }
-                            // purchaseService.saveSupplierEmail(supplierEmailData).then(function (supplierEmailData) {
-                            //
-                            // });
                     };
                     let linesave = objDetails.fields.ID;
 
@@ -4585,7 +4511,6 @@ Template.purchaseordercard.events({
                             var clientUsername = getcurrentCloudDetails.cloudUsername;
                             var clientEmail = getcurrentCloudDetails.cloudEmail;
                             var checkPrefDetails = CloudPreference.findOne({ userid: clientID, PrefName: 'purchaseordercard' });
-                            // console.log(checkPrefDetails);
                             if (checkPrefDetails) {
                                 CloudPreference.update({ _id: checkPrefDetails._id }, {
                                     $set: {
@@ -4644,7 +4569,6 @@ Template.purchaseordercard.events({
                     }else{
                       window.open('/purchaseordercard?copypoid=' + linesave, '_self');
                     }
-                    //console.log(getcurrentCloudDetails);
 
                 }).catch(function(err) {
                     swal({
@@ -4655,18 +4579,18 @@ Template.purchaseordercard.events({
                         confirmButtonText: 'Try Again'
                     }).then((result) => {
                         if (result.value) {
-                            //Meteor._reload.reload();
+                            
                         } else if (result.dismiss === 'cancel') {
 
                         }
                     });
-                    //$('.loginSpinner').css('display','none');
+                    
                     $('.fullScreenSpin').css('display', 'none');
                 });
             }
-        // } else {
-        //     Router.go('/purchaseordercard');
-        // }
+        
+        
+        
     },
     'click .chkCreatePOCredit': function(event) {
         let templateObject = Template.instance();
@@ -4675,10 +4599,10 @@ Template.purchaseordercard.events({
         let $tblrows = $("#tblPurchaseOrderLine tbody tr");
         let isBOnShippedQty = templateObject.includeBOnShippedQty.get();
 
-        //var targetID = $(event.target).closest('tr').attr('id');
+        
 
         if ($(event.target).is(':checked')) {
-            //if(selectLineID){
+            
             let lineAmount = 0;
             let subGrandTotal = 0;
             let taxGrandTotal = 0;
@@ -4805,9 +4729,9 @@ Template.purchaseordercard.events({
                     cancelButtonText: 'No'
                 }).then((result) => {
                     if (result.value) {
-                        // let purchaseService = new PurchaseBoardService();
-                        // let supplier = $('#edtSupplierName').val();
-                        //window.open('/supplierpaymentcard?suppcreditname='+ supplier+'&pocreditid='+ currentId,'_self');
+                        
+                        
+                        
                         $('.fullScreenSpin').css('display', 'inline-block');
                         var splashLineArray = new Array();
                         let lineItemsForm = [];
@@ -4924,16 +4848,16 @@ Template.purchaseordercard.events({
                                 objDetails = {
                                     type: "TPurchaseOrderEx",
                                     fields: {
-                                        // ID: currentPurchaseOrder,
+                                        
                                         SupplierName: supplier,
                                         ForeignExchangeCode: currencyCode,
                                         SupplierInvoiceNumber: poNumber || ' ',
                                         Lines: splashLineArray,
                                         OrderTo: billingAddress,
                                         OrderDate: saleDate,
-                                        //DueDate: dueDate,
+                                        
                                         SupplierInvoiceDate: saleDate,
-                                        //CustPONumber: poNumber,
+                                        
                                         SaleLineRef: reference,
                                         TermsName: termname,
                                         Shipping: departement,
@@ -4955,9 +4879,9 @@ Template.purchaseordercard.events({
                                         Lines: splashLineArray,
                                         OrderTo: billingAddress,
                                         OrderDate: saleDate,
-                                        //DueDate: dueDate,
+                                        
                                         SupplierInvoiceDate: saleDate,
-                                        //CustPONumber: poNumber,
+                                        
                                         SaleLineRef: reference,
                                         TermsName: termname,
                                         Shipping: departement,
@@ -4979,16 +4903,16 @@ Template.purchaseordercard.events({
                                     Lines: splashLineArray,
                                     OrderTo: billingAddress,
                                     OrderDate: saleDate,
-                                    //DueDate: dueDate,
+                                    
                                     SupplierInvoiceDate: saleDate,
-                                    //CustPONumber: poNumber,
+                                    
                                     SaleLineRef: reference,
                                     TermsName: termname,
                                     Shipping: departement,
                                     ShipTo: shippingAddress,
                                     Comments: comments,
-                                    // SaleCustField1:saleCustField1,
-                                    // SaleCustField2:saleCustField2,
+                                    
+                                    
                                     SalesComments: pickingInfrmation,
                                     Attachments: uploadedItems,
                                     OrderStatus: $('#sltStatus').val()
@@ -5006,9 +4930,9 @@ Template.purchaseordercard.events({
                                             Email: supplierEmail
                                         }
                                     }
-                                    // purchaseService.saveSupplierEmail(supplierEmailData).then(function (supplierEmailData) {
-                                    //
-                                    // });
+                                    
+                                    
+                                    
                             };
                             let linesave = objDetails.fields.ID;
                             var getcurrentCloudDetails = CloudUser.findOne({ _id: Session.get('mycloudLogonID'), clouddatabaseID: Session.get('mycloudLogonDBID') });
@@ -5105,7 +5029,7 @@ Template.purchaseordercard.events({
                                 swal('Supplier has not been selected!', '', 'warning');
                                 e.preventDefault();
                             } else {
-                                //$('.loginSpinner').css('display','inline-block');
+                                
                                 $('.fullScreenSpin').css('display', 'inline-block');
                                 var splashLineArray = new Array();
                                 let lineItemsForm = [];
@@ -5222,16 +5146,16 @@ Template.purchaseordercard.events({
                                         objDetails = {
                                             type: "TPurchaseOrderEx",
                                             fields: {
-                                                // ID: currentPurchaseOrder,
+                                                
                                                 SupplierName: supplier,
                                                 ForeignExchangeCode: currencyCode,
                                                 SupplierInvoiceNumber: poNumber || ' ',
                                                 Lines: splashLineArray,
                                                 OrderTo: billingAddress,
                                                 OrderDate: saleDate,
-                                                //DueDate: dueDate,
+                                                
                                                 SupplierInvoiceDate: saleDate,
-                                                //CustPONumber: poNumber,
+                                                
                                                 SaleLineRef: reference,
                                                 TermsName: termname,
                                                 Shipping: departement,
@@ -5253,9 +5177,9 @@ Template.purchaseordercard.events({
                                                 Lines: splashLineArray,
                                                 OrderTo: billingAddress,
                                                 OrderDate: saleDate,
-                                                //DueDate: dueDate,
+                                                
                                                 SupplierInvoiceDate: saleDate,
-                                                //CustPONumber: poNumber,
+                                                
                                                 SaleLineRef: reference,
                                                 TermsName: termname,
                                                 Shipping: departement,
@@ -5277,23 +5201,23 @@ Template.purchaseordercard.events({
                                             Lines: splashLineArray,
                                             OrderTo: billingAddress,
                                             OrderDate: saleDate,
-                                            //DueDate: dueDate,
+                                            
                                             SupplierInvoiceDate: saleDate,
-                                            //CustPONumber: poNumber,
+                                            
                                             SaleLineRef: reference,
                                             TermsName: termname,
                                             Shipping: departement,
                                             ShipTo: shippingAddress,
                                             Comments: comments,
-                                            // SaleCustField1:saleCustField1,
-                                            // SaleCustField2:saleCustField2,
+                                            
+                                            
                                             SalesComments: pickingInfrmation,
                                             Attachments: uploadedItems,
                                             OrderStatus: $('#sltStatus').val()
                                         }
                                     };
                                 }
-                                //alert(JSON.stringify(objDetails));
+                                
                                 purchaseService.savePurchaseOrderEx(objDetails).then(function(objDetails) {
                                     var supplierID = $('#edtSupplierEmail').attr('supplierid');
                                     if (supplierID !== " ") {
@@ -5304,9 +5228,9 @@ Template.purchaseordercard.events({
                                                     Email: supplierEmail
                                                 }
                                             }
-                                            // purchaseService.saveSupplierEmail(supplierEmailData).then(function (supplierEmailData) {
-                                            //
-                                            // });
+                                            
+                                            
+                                            
                                     };
                                     let linesave = objDetails.fields.ID;
                                     var getcurrentCloudDetails = CloudUser.findOne({ _id: Session.get('mycloudLogonID'), clouddatabaseID: Session.get('mycloudLogonDBID') });
@@ -5316,7 +5240,6 @@ Template.purchaseordercard.events({
                                             var clientUsername = getcurrentCloudDetails.cloudUsername;
                                             var clientEmail = getcurrentCloudDetails.cloudEmail;
                                             var checkPrefDetails = CloudPreference.findOne({ userid: clientID, PrefName: 'purchaseordercard' });
-                                            // console.log(checkPrefDetails);
                                             if (checkPrefDetails) {
                                                 CloudPreference.update({ _id: checkPrefDetails._id }, {
                                                     $set: {
@@ -5375,7 +5298,6 @@ Template.purchaseordercard.events({
                                     } else {
                                         window.open('/supplierpaymentcard?poid=' + linesave, '_self');
                                     }
-                                    //console.log(getcurrentCloudDetails);
 
                                 }).catch(function(err) {
                                     swal({
@@ -5386,12 +5308,12 @@ Template.purchaseordercard.events({
                                         confirmButtonText: 'Try Again'
                                     }).then((result) => {
                                         if (result.value) {
-                                            //Meteor._reload.reload();
+                                            
                                         } else if (result.dismiss === 'cancel') {
 
                                         }
                                     });
-                                    //$('.loginSpinner').css('display','none');
+                                    
                                     $('.fullScreenSpin').css('display', 'none');
                                 });
                             }
@@ -5412,7 +5334,7 @@ Template.purchaseordercard.events({
                         swal('Supplier has not been selected!', '', 'warning');
                         e.preventDefault();
                     } else {
-                        //$('.loginSpinner').css('display','inline-block');
+                        
                         $('.fullScreenSpin').css('display', 'inline-block');
                         var splashLineArray = new Array();
                         let lineItemsForm = [];
@@ -5529,16 +5451,16 @@ Template.purchaseordercard.events({
                                 objDetails = {
                                     type: "TPurchaseOrderEx",
                                     fields: {
-                                        // ID: currentPurchaseOrder,
+                                        
                                         SupplierName: supplier,
                                         ForeignExchangeCode: currencyCode,
                                         SupplierInvoiceNumber: poNumber || ' ',
                                         Lines: splashLineArray,
                                         OrderTo: billingAddress,
                                         OrderDate: saleDate,
-                                        //DueDate: dueDate,
+                                        
                                         SupplierInvoiceDate: saleDate,
-                                        //CustPONumber: poNumber,
+                                        
                                         SaleLineRef: reference,
                                         TermsName: termname,
                                         Shipping: departement,
@@ -5560,9 +5482,9 @@ Template.purchaseordercard.events({
                                         Lines: splashLineArray,
                                         OrderTo: billingAddress,
                                         OrderDate: saleDate,
-                                        //DueDate: dueDate,
+                                        
                                         SupplierInvoiceDate: saleDate,
-                                        //CustPONumber: poNumber,
+                                        
                                         SaleLineRef: reference,
                                         TermsName: termname,
                                         Shipping: departement,
@@ -5584,23 +5506,23 @@ Template.purchaseordercard.events({
                                     Lines: splashLineArray,
                                     OrderTo: billingAddress,
                                     OrderDate: saleDate,
-                                    //DueDate: dueDate,
+                                    
                                     SupplierInvoiceDate: saleDate,
-                                    //CustPONumber: poNumber,
+                                    
                                     SaleLineRef: reference,
                                     TermsName: termname,
                                     Shipping: departement,
                                     ShipTo: shippingAddress,
                                     Comments: comments,
-                                    // SaleCustField1:saleCustField1,
-                                    // SaleCustField2:saleCustField2,
+                                    
+                                    
                                     SalesComments: pickingInfrmation,
                                     Attachments: uploadedItems,
                                     OrderStatus: $('#sltStatus').val()
                                 }
                             };
                         }
-                        //alert(JSON.stringify(objDetails));
+                        
                         purchaseService.savePurchaseOrderEx(objDetails).then(function(objDetails) {
                             var supplierID = $('#edtSupplierEmail').attr('supplierid');
                             if (supplierID !== " ") {
@@ -5611,9 +5533,9 @@ Template.purchaseordercard.events({
                                             Email: supplierEmail
                                         }
                                     }
-                                    // purchaseService.saveSupplierEmail(supplierEmailData).then(function (supplierEmailData) {
-                                    //
-                                    // });
+                                    
+                                    
+                                    
                             };
                             let linesave = objDetails.fields.ID;
                             var getcurrentCloudDetails = CloudUser.findOne({ _id: Session.get('mycloudLogonID'), clouddatabaseID: Session.get('mycloudLogonDBID') });
@@ -5623,7 +5545,6 @@ Template.purchaseordercard.events({
                                     var clientUsername = getcurrentCloudDetails.cloudUsername;
                                     var clientEmail = getcurrentCloudDetails.cloudEmail;
                                     var checkPrefDetails = CloudPreference.findOne({ userid: clientID, PrefName: 'purchaseordercard' });
-                                    // console.log(checkPrefDetails);
                                     if (checkPrefDetails) {
                                         CloudPreference.update({ _id: checkPrefDetails._id }, {
                                             $set: {
@@ -5682,7 +5603,6 @@ Template.purchaseordercard.events({
                             } else {
                                 window.open('/supplierpaymentcard?poid=' + linesave, '_self');
                             }
-                            //console.log(getcurrentCloudDetails);
 
                         }).catch(function(err) {
                             swal({
@@ -5693,12 +5613,10 @@ Template.purchaseordercard.events({
                                 confirmButtonText: 'Try Again'
                             }).then((result) => {
                                 if (result.value) {
-                                    //Meteor._reload.reload();
                                 } else if (result.dismiss === 'cancel') {
 
                                 }
                             });
-                            //$('.loginSpinner').css('display','none');
                             $('.fullScreenSpin').css('display', 'none');
                         });
                     }
@@ -5718,7 +5636,7 @@ Template.purchaseordercard.events({
                     swal('Supplier has not been selected!', '', 'warning');
                     e.preventDefault();
                 } else {
-                    //$('.loginSpinner').css('display','inline-block');
+                    
                     $('.fullScreenSpin').css('display', 'inline-block');
                     var splashLineArray = new Array();
                     let lineItemsForm = [];
@@ -5835,16 +5753,16 @@ Template.purchaseordercard.events({
                             objDetails = {
                                 type: "TPurchaseOrderEx",
                                 fields: {
-                                    // ID: currentPurchaseOrder,
+                                    
                                     SupplierName: supplier,
                                     ForeignExchangeCode: currencyCode,
                                     SupplierInvoiceNumber: poNumber || ' ',
                                     Lines: splashLineArray,
                                     OrderTo: billingAddress,
                                     OrderDate: saleDate,
-                                    //DueDate: dueDate,
+                                    
                                     SupplierInvoiceDate: saleDate,
-                                    //CustPONumber: poNumber,
+                                    
                                     SaleLineRef: reference,
                                     TermsName: termname,
                                     Shipping: departement,
@@ -5866,9 +5784,9 @@ Template.purchaseordercard.events({
                                     Lines: splashLineArray,
                                     OrderTo: billingAddress,
                                     OrderDate: saleDate,
-                                    //DueDate: dueDate,
+                                    
                                     SupplierInvoiceDate: saleDate,
-                                    //CustPONumber: poNumber,
+                                    
                                     SaleLineRef: reference,
                                     TermsName: termname,
                                     Shipping: departement,
@@ -5890,23 +5808,23 @@ Template.purchaseordercard.events({
                                 Lines: splashLineArray,
                                 OrderTo: billingAddress,
                                 OrderDate: saleDate,
-                                //DueDate: dueDate,
+                                
                                 SupplierInvoiceDate: saleDate,
-                                //CustPONumber: poNumber,
+                                
                                 SaleLineRef: reference,
                                 TermsName: termname,
                                 Shipping: departement,
                                 ShipTo: shippingAddress,
                                 Comments: comments,
-                                // SaleCustField1:saleCustField1,
-                                // SaleCustField2:saleCustField2,
+                                
+                                
                                 SalesComments: pickingInfrmation,
                                 Attachments: uploadedItems,
                                 OrderStatus: $('#sltStatus').val()
                             }
                         };
                     }
-                    //alert(JSON.stringify(objDetails));
+                    
                     purchaseService.savePurchaseOrderEx(objDetails).then(function(objDetails) {
                         var supplierID = $('#edtSupplierEmail').attr('supplierid');
                         if (supplierID !== " ") {
@@ -5917,9 +5835,9 @@ Template.purchaseordercard.events({
                                         Email: supplierEmail
                                     }
                                 }
-                                // purchaseService.saveSupplierEmail(supplierEmailData).then(function (supplierEmailData) {
-                                //
-                                // });
+                                
+                                
+                                
                         };
                         let linesave = objDetails.fields.ID;
                         var getcurrentCloudDetails = CloudUser.findOne({ _id: Session.get('mycloudLogonID'), clouddatabaseID: Session.get('mycloudLogonDBID') });
@@ -5929,7 +5847,6 @@ Template.purchaseordercard.events({
                                 var clientUsername = getcurrentCloudDetails.cloudUsername;
                                 var clientEmail = getcurrentCloudDetails.cloudEmail;
                                 var checkPrefDetails = CloudPreference.findOne({ userid: clientID, PrefName: 'purchaseordercard' });
-                                // console.log(checkPrefDetails);
                                 if (checkPrefDetails) {
                                     CloudPreference.update({ _id: checkPrefDetails._id }, {
                                         $set: {
@@ -5988,7 +5905,6 @@ Template.purchaseordercard.events({
                         } else {
                             window.open('/supplierpaymentcard?poid=' + linesave, '_self');
                         }
-                        //console.log(getcurrentCloudDetails);
 
                     }).catch(function(err) {
                         swal({
@@ -5999,12 +5915,12 @@ Template.purchaseordercard.events({
                             confirmButtonText: 'Try Again'
                         }).then((result) => {
                             if (result.value) {
-                                //Meteor._reload.reload();
+                                
                             } else if (result.dismiss === 'cancel') {
 
                             }
                         });
-                        //$('.loginSpinner').css('display','none');
+                        
                         $('.fullScreenSpin').css('display', 'none');
                     });
                 }
@@ -6030,7 +5946,7 @@ Template.purchaseordercard.events({
                 swal('Supplier Email cannot be blank!', '', 'warning');
                 event.preventDefault();
             } else {
-                // alert('here 1');
+                
                 function isEmailValid(mailTo) {
                     return /^[A-Z0-9'.1234z_%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(mailTo);
                 };
