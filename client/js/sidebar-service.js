@@ -104,7 +104,7 @@ export class SideBarService extends BaseService {
          IgnoreDates: true,
          Listtype: 1,
          FilterIndex: 2
-         //select: '[MsTimeStamp]>"'+msTimeStamp+'"'
+         
        };
     }else{
       options = {
@@ -327,7 +327,7 @@ export class SideBarService extends BaseService {
   getAllInvoiceList() {
     let options = {
       ListType: "Detail",
-      //PropertyList: "ID,EmployeeName,DocNumber,CustPONumber,CustomerName,ForeignExchangeCode,PayMethod,ShipDate,SaleDate,SalesStatus,SalesDescription,DueDate,TotalAmount,TotalAmountInc,TotalPaid,TotalBalance,TotalTax,ReferenceNo,Comments,SaleClassName,TermsName,Comments,IsBackOrder",
+      
       select: "[Deleted]=false",
     };
     return this.getList(this.ERPObjects.TInvoiceEx, options);
@@ -343,7 +343,7 @@ export class SideBarService extends BaseService {
 
   getAllInvoiceListNonBO() {
     let options = {
-      // ListType: "Detail"
+      
       PropertyList: "ID,EmployeeName,SaleClassName,SaleDate,CustomerName,TotalAmount,SalesStatus,ShipDate,SalesDescription,CustPONumber,TermsName,TotalTax,TotalAmountInc,TotalPaid,TotalBalance,Comments,Deleted",
     };
     return this.getList(this.ERPObjects.TInvoiceNonBackOrder, options);
@@ -351,7 +351,7 @@ export class SideBarService extends BaseService {
 
   getAllBOInvoiceList() {
     let options = {
-      // ListType: "Detail"
+      
       FilterString: "SaleType='Invoice'",
       select: "[Deleted]=false",
     };
@@ -392,7 +392,7 @@ export class SideBarService extends BaseService {
 
   getAllPurchaseOrderListNonBo() {
     let options = {
-      // ListType: "Detail"
+      
       PropertyList: "ID,EmployeeName,SaleClassName,OrderDate,SupplierName,TotalAmount,OrderStatus,ShipDate,SalesDescription,CustPONumber,TermsName,TotalTax,TotalAmountInc,TotalPaid,TotalBalance,Comments,Deleted",
     };
     return this.getList(this.ERPObjects.TpurchaseOrderNonBackOrder, options);
@@ -409,7 +409,7 @@ export class SideBarService extends BaseService {
 
   getAllPurchaseOrderListBO() {
     let options = {
-      // ListType: "Detail"
+      
       PropertyList: "ID,EmployeeName,SaleClassName,OrderDate,SupplierName,TotalAmount,OrderStatus,ShipDate,SalesDescription,CustPONumber,TermsName,TotalTax,TotalAmountInc,TotalPaid,TotalBalance,Comments,Deleted",
     };
     return this.getList(this.ERPObjects.TpurchaseOrderBackOrder, options);
@@ -460,7 +460,7 @@ export class SideBarService extends BaseService {
   getCurrentLoggedUser() {
       let options = {
           PropertyList: "ID,DatabaseName,UserName,MultiLogon,EmployeeID,FirstName,LastName,LastTime",
-          // select: "[MultiLogon]=true"
+          
       };
       return this.getList(this.ERPObjects.TAppUser, options);
   }
@@ -534,9 +534,9 @@ export class SideBarService extends BaseService {
 
   getAllSalesOrderListNonBO() {
     let options = {
-      // ListType: "Detail"
+      
       PropertyList: "ID,EmployeeName,SaleClassName,SaleDate,CustomerName,TotalAmount,SalesStatus,ShipDate,SalesDescription,CustPONumber,TermsName,SaleCustField1,SaleCustField2,TotalTax,TotalAmountInc,TotalPaid,TotalBalance,Comments,Deleted",
-      // select: "[Deleted]=false",
+      
     };
     return this.getList(this.ERPObjects.TsalesOrderNonBackOrder, options);
   }

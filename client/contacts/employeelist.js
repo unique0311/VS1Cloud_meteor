@@ -221,7 +221,7 @@ Template.employeelist.onRendered(function() {
         }else{
           let data = JSON.parse(dataObject[0].data);
           let useData = data.temployee;
-          // console.log(useData);
+          
           let lineItems = [];
 let lineItemObj = {};
 for(let i=0; i<useData.length; i++){
@@ -715,7 +715,7 @@ Template.employeelist.events({
     'click .btnOpenSettings' : function(event){
       let templateObject = Template.instance();
       var columns = $('#tblEmployeelist th');
-      // console.log(columns);
+      
       const tableHeaderList = [];
       let sTible = "";
       let sWidth = "";
@@ -838,17 +838,17 @@ Template.employeelist.events({
                    var data = e.target.result;
                    data = new Uint8Array(data);
                    var workbook = XLSX.read(data, {type: 'array'});
-                   //console.log(workbook);
+                   
                    var result = {};
                    workbook.SheetNames.forEach(function (sheetName) {
                        var roa = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName], {header: 1});
                        var sCSV = XLSX.utils.make_csv(workbook.Sheets[sheetName]);
                        templateObj.selectedFile.set(sCSV);
-                       //console.log(sCSV);
+                       
                        if (roa.length) result[sheetName] = roa;
                    });
                    // see the result, caution: it works after reader event is done.
-                   //console.log(result);
+                   
                };
                reader.readAsArrayBuffer(oFile);
 

@@ -218,7 +218,7 @@ Template.depositlist.onRendered(function() {
                   columVisible = false;
                 }
                 sWidth = v.style.width.replace('px', "");
-                //console.log(sWidth);
+
                 let datatablerecordObj = {
                   sTitle: v.innerText || '',
                   sWidth: sWidth || '',
@@ -403,7 +403,7 @@ Template.depositlist.onRendered(function() {
                 columVisible = false;
               }
               sWidth = v.style.width.replace('px', "");
-              //console.log(sWidth);
+
               let datatablerecordObj = {
                 sTitle: v.innerText || '',
                 sWidth: sWidth || '',
@@ -576,7 +576,7 @@ Template.depositlist.onRendered(function() {
                 columVisible = false;
               }
               sWidth = v.style.width.replace('px', "");
-              //console.log(sWidth);
+
               let datatablerecordObj = {
                 sTitle: v.innerText || '',
                 sWidth: sWidth || '',
@@ -720,7 +720,7 @@ Template.depositlist.events({
 
             }
           });
-           // console.log(checkPrefDetails);
+           
         }
       }
     }
@@ -745,7 +745,7 @@ Template.depositlist.events({
     let columnDataValue = $(event.target).closest("div").prev().find(".divcolumn").text();
     var datable = $('#tblDepositList th');
     $.each(datable, function(i,v) {
-      console.log(datable);
+
     if(v.innerText == columnDataValue){
         let className = v.className;
         let replaceClass = className.replace(/ /g, ".");
@@ -758,7 +758,7 @@ Template.depositlist.events({
   'click .btnOpenSettings' : function(event){
     let templateObject = Template.instance();
     var columns = $('#tblDepositList th');
-    // console.log(columns);
+
     const tableHeaderList = [];
     let sTible = "";
     let sWidth = "";

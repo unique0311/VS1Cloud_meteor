@@ -31,7 +31,7 @@ Template.salesoverview.onRendered(function() {
 
         }else{
             if(result){
-                //console.log(result);
+                
                 for (let i = 0; i < result.customFields.length; i++) {
                     let customcolumn = result.customFields;
                     let columData = customcolumn[i].label;
@@ -230,7 +230,7 @@ Template.salesoverview.onRendered(function() {
                             columVisible = false;
                         }
                         sWidth = v.style.width.replace('px', "");
-                        //console.log(sWidth);
+                        
                         let datatablerecordObj = {
                             sTitle: v.innerText || '',
                             sWidth: sWidth || '',
@@ -253,7 +253,7 @@ Template.salesoverview.onRendered(function() {
                 let useData = data.tsaleslist;
                 let lineItems = [];
                 let lineItemObj = {};
-                // console.log(useData);
+                
                 $('.fullScreenSpin').css('display','none');
                 for(let i=0; i<useData.length; i++){
                     let totalAmountEx = utilityService.modifynegativeCurrencyFormat(useData[i].TotalAmount)|| 0.00;
@@ -415,7 +415,7 @@ Template.salesoverview.onRendered(function() {
                         columVisible = false;
                     }
                     sWidth = v.style.width.replace('px', "");
-                    //console.log(sWidth);
+                    
                     let datatablerecordObj = {
                         sTitle: v.innerText || '',
                         sWidth: sWidth || '',
@@ -594,7 +594,7 @@ Template.salesoverview.onRendered(function() {
                         columVisible = false;
                     }
                     sWidth = v.style.width.replace('px', "");
-                    //console.log(sWidth);
+                    
                     let datatablerecordObj = {
                         sTitle: v.innerText || '',
                         sWidth: sWidth || '',
@@ -804,7 +804,7 @@ Template.salesoverview.events({
 
                         }
                     });
-                    // console.log(checkPrefDetails);
+                    
                 }
             }
         }
@@ -829,7 +829,7 @@ Template.salesoverview.events({
         let columnDataValue = $(event.target).closest("div").prev().find(".divcolumn").text();
         var datable = $('#tblSalesOverview th');
         $.each(datable, function(i,v) {
-            console.log(datable);
+            
             if(v.innerText == columnDataValue){
                 let className = v.className;
                 let replaceClass = className.replace(/ /g, ".");
@@ -842,7 +842,7 @@ Template.salesoverview.events({
     'click .btnOpenSettings' : function(event){
         let templateObject = Template.instance();
         var columns = $('#tblSalesOverview th');
-        // console.log(columns);
+        
         const tableHeaderList = [];
         let sTible = "";
         let sWidth = "";

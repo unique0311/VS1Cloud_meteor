@@ -205,7 +205,7 @@ Template.customerpayment.onRendered(function() {
                 columVisible = false;
               }
               sWidth = v.style.width.replace('px', "");
-              //console.log(sWidth);
+              
               let datatablerecordObj = {
                 sTitle: v.innerText || '',
                 sWidth: sWidth || '',
@@ -380,7 +380,7 @@ Template.customerpayment.onRendered(function() {
           columVisible = false;
         }
         sWidth = v.style.width.replace('px', "");
-        //console.log(sWidth);
+        
         let datatablerecordObj = {
           sTitle: v.innerText || '',
           sWidth: sWidth || '',
@@ -549,7 +549,7 @@ Template.customerpayment.onRendered(function() {
               columVisible = false;
             }
             sWidth = v.style.width.replace('px', "");
-            //console.log(sWidth);
+            
             let datatablerecordObj = {
               sTitle: v.innerText || '',
               sWidth: sWidth || '',
@@ -697,7 +697,7 @@ Template.customerpayment.events({
 
             }
           });
-           // console.log(checkPrefDetails);
+           
         }
       }
     }
@@ -722,7 +722,7 @@ Template.customerpayment.events({
     let columnDataValue = $(event.target).closest("div").prev().find(".divcolumn").text();
     var datable = $('#tblCustomerPayment th');
     $.each(datable, function(i,v) {
-      console.log(datable);
+      
     if(v.innerText == columnDataValue){
         let className = v.className;
         let replaceClass = className.replace(/ /g, ".");
@@ -735,7 +735,7 @@ Template.customerpayment.events({
   'click .btnOpenSettings' : function(event){
     let templateObject = Template.instance();
     var columns = $('#tblCustomerPayment th');
-    // console.log(columns);
+    
     const tableHeaderList = [];
     let sTible = "";
     let sWidth = "";

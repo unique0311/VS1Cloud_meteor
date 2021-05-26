@@ -219,7 +219,7 @@ Template.accounttransactions.onRendered(function() {
                             columVisible = false;
                         }
                         sWidth = v.style.width.replace('px', "");
-                        //console.log(sWidth);
+
                         let datatablerecordObj = {
                             sTitle: v.innerText || '',
                             sWidth: sWidth || '',
@@ -252,7 +252,7 @@ Template.accounttransactions.onRendered(function() {
                 for (let i = 0; i < useData.length; i++) {
 
                     if (Id != null) {
-                        console.log("I get here");
+
                         if (Id == useData[i].fields.GLAccountName) {
                             let totalAmountEx = utilityService.modifynegativeCurrencyFormat(useData[i].fields.TotalAmount) || 0.00;
                             let totalTax = utilityService.modifynegativeCurrencyFormat(useData[i].fields.TotalTax) || 0.00;
@@ -281,7 +281,7 @@ Template.accounttransactions.onRendered(function() {
                         }
 
                     } else {
-                        console.log("I get here");
+                        
                         let totalAmountEx = utilityService.modifynegativeCurrencyFormat(useData[i].fields.TotalAmount) || 0.00;
                         let totalTax = utilityService.modifynegativeCurrencyFormat(useData[i].fields.TotalTax) || 0.00;
                         let totalAmount = utilityService.modifynegativeCurrencyFormat(useData[i].fields.TotalAmountInc) || 0.00;
@@ -432,7 +432,7 @@ Template.accounttransactions.onRendered(function() {
                     columVisible = false;
                 }
                 sWidth = v.style.width.replace('px', "");
-                //console.log(sWidth);
+
                 let datatablerecordObj = {
                     sTitle: v.innerText || '',
                     sWidth: sWidth || '',
@@ -605,7 +605,7 @@ Template.accounttransactions.onRendered(function() {
                         columVisible = false;
                     }
                     sWidth = v.style.width.replace('px', "");
-                    //console.log(sWidth);
+
                     let datatablerecordObj = {
                         sTitle: v.innerText || '',
                         sWidth: sWidth || '',

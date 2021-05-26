@@ -42,7 +42,7 @@ Template.profitandlosschart.onRendered(()=>{
   templateObject.dateAsAt.set(begunDate);
  const dataTableList = [];
  const deptrecords = [];
- // console.log(localStorage.getItem('VS1ProfitandLoss_netIncomeEx_dash'));
+ 
  if ((!localStorage.getItem('VS1ProfitandLoss_netIncomeEx_dash'))) {
     templateObject.getProfitandLossReports = function (dateFrom, dateTo, ignoreDate) {
         vs1chartService.getProfitandLoss(dateFrom, dateTo, ignoreDate).then(function (data) {
@@ -105,8 +105,8 @@ Template.profitandlosschart.onRendered(()=>{
 
         }
         if((!isNaN(totalExpense))&&(!isNaN(totalCOGS))){
-          // console.log('Expense:', totalExpense);
-          // console.log('COGS:', totalCOGS);
+          
+          
              sumTotalExpense = (Number(totalExpense) + Number(totalCOGS));
             $('.spnTotalExpense').html(utilityService.modifynegativeCurrencyFormat(Math.abs(sumTotalExpense)));
         }

@@ -27,9 +27,9 @@ export class OrganisationService extends BaseService {
 
      getEmployeeProfileImageByName(employeeName) {
          let options = {
-             // ListType:"Detail",
+             
              PropertyList: "ID,EncodedPic,EmployeeName",
-             // select: "[EmployeeName]='"+employeeName+"'",
+             
          };
          return this.getList(this.ERPObjects.TemployeePicture, options);
      }

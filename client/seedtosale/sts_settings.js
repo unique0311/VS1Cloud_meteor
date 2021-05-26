@@ -27,13 +27,13 @@ Template.stssettings.onRendered(function() {
     // Pulling customer list
     const clientList = [];
 
-    // For storing table headers 
+    // For storing table headers
     Meteor.call('readPrefMethod',Session.get('mycloudLogonID'),'tblStrains', function(error, result){
         if(error){
 
         }else{
             if(result){
-                //console.log(result);
+
                 for (let i = 0; i < result.customFields.length; i++) {
                     let customcolumn = result.customFields;
                     let columData = customcolumn[i].label;
@@ -245,7 +245,7 @@ Template.stssettings.onRendered(function() {
 
 
 Template.stssettings.events({
-    
+
     'click #formCheck-tested': function () {
         if($('#formCheck-tested').is(':checked')){
             $('#formCheck-inHouse').attr( "disabled", false);
@@ -254,7 +254,7 @@ Template.stssettings.events({
         else {
             $('#formCheck-inHouse').attr( "disabled", true);
             $('#edtCustomerName').attr( "disabled", true);
-        }  
+        }
     },
     'click .btnCreateStrain': function () {
         $('.fullScreenSpin').css('display','inline-block');
@@ -305,12 +305,11 @@ Template.stssettings.events({
             }
         };
 
-        console.log(data);
 
         stsService.saveStrain(data).then(function (data) {
             window.open('/stssettings','_self');
         }).catch(function (err) {
-            console.log(err);
+
             $('.fullScreenSpin').css('display','none');
         });
     },
@@ -325,7 +324,7 @@ Template.stssettings.events({
         jQuery('#tblStrains_wrapper .dt-buttons .btntabletocsv').click();
         $('.fullScreenSpin').css('display','none');
     }
-    
+
 });
 
 Template.stssettings.helpers({

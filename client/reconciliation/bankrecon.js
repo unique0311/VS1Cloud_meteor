@@ -379,9 +379,9 @@ Template.bankrecon.onRendered(function() {
                             AccountName:data.treconciliation[k].AccountName,
                             CloseBalance:data.treconciliation[k].CloseBalance
                         }
-                        //console.log(data.treconciliation[k].AccountName);
+
                         dataArray.push(objData);
-                        // console.log(counter);
+
                         // openBal = data.treconciliation[data.treconciliation.length - 1].CloseBalance;
 
                     }
@@ -2394,14 +2394,11 @@ Template.bankrecon.events({
         var rowCountDep = $('#tblSelectedDeposits tbody tr').length;
         var rowCountWith = $('#tblSelectedWithdrawals tbody tr').length; // a response of 2 = 1 element in table
 
-        console.log(rowCountDep);
-        console.log(rowCountWith);
-
         if (difference == zero && endingbal == clearedbal ){
             if (rowCountDep >= 1 || rowCountWith >= 1) {
                 if ($('#statementno').val().replace(/\s/g, '') != ''){
                     $('.reconbtn').prop("disabled", false);//enables button
-                    console.log("statementno");
+                    
                 } else {
                     $('.reconbtn').prop("disabled", true);
                     swal('A Statement Number is required in order to reconcile!', '', 'warning');

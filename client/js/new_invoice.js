@@ -1542,7 +1542,7 @@ Template.new_invoice.onRendered(() => {
                             }
                         });
                         $('.fullScreenSpin').css('display', 'none');
-                        // Meteor._reload.reload();
+
                     });
                 });
 
@@ -1628,7 +1628,7 @@ Template.new_invoice.onRendered(() => {
                             '    </tr>' +
                             '</table>';
 
-                        //$('.fullScreenSpin').css('display', 'none');
+
                         Meteor.call('sendEmail', {
                             from: "" + mailFromName + " <" + mailFrom + ">",
                             to: checkEmailData,
@@ -1637,15 +1637,9 @@ Template.new_invoice.onRendered(() => {
                             html: htmlmailBody,
                             attachments: attachment
                         }, function (error, result) {
-                            if (error && error.error === "error") {
+
                                 if (error && error.error === "error") {
-                                    swal({
-                                        title: 'Something went wrong',
-                                        text: err,
-                                        type: 'error',
-                                        showCancelButton: false,
-                                        confirmButtonText: 'OK'
-                                    });
+                                    Router.go('/invoicelist?success=true');
                                     $('.fullScreenSpin').css('display', 'none');
                                 } else {
                                     $('.fullScreenSpin').css('display', 'none');
@@ -1666,7 +1660,7 @@ Template.new_invoice.onRendered(() => {
                                         }
                                     });
                                 }
-                            }
+
                         });
 
                     }
@@ -1691,7 +1685,7 @@ Template.new_invoice.onRendered(() => {
                 }
             }
             catch (err) {
-                console.log(err);
+
             }
 
         }
@@ -1702,7 +1696,7 @@ Template.new_invoice.onRendered(() => {
         if (getso_id[1]) {
             currentInvoice = parseInt(currentInvoice);
             templateObject.getInvoiceData = function () {
-                //getOneInvoicedata
+
                 getVS1Data('TInvoiceEx').then(function (dataObject) {
                     if (dataObject.length == 0) {
                         let customerData = templateObject.clientrecords.get();
@@ -1723,7 +1717,7 @@ Template.new_invoice.onRendered(() => {
                             let subTotal = currencySymbol + '' + data.fields.TotalAmount.toLocaleString(undefined, { minimumFractionDigits: 2 });
                             let totalTax = currencySymbol + '' + data.fields.TotalTax.toLocaleString(undefined, { minimumFractionDigits: 2 });
                             let totalBalance = utilityService.modifynegativeCurrencyFormat(data.fields.TotalBalance).toLocaleString(undefined, { minimumFractionDigits: 2 });
-                            // currencySymbol +''+data.fields.TotalBalance.toLocaleString(undefined, {minimumFractionDigits: 2});
+
                             let totalPaidAmount = currencySymbol + '' + data.fields.TotalPaid.toLocaleString(undefined, { minimumFractionDigits: 2 });
                             if (data.fields.Lines.length) {
                                 for (let i = 0; i < data.fields.Lines.length; i++) {
@@ -1852,7 +1846,7 @@ Template.new_invoice.onRendered(() => {
                                     $('#edtCustomerName').attr('disabled', 'disabled');
                                     $('.btn-primary').attr('disabled', 'disabled');
                                     $('#edtCustomerName').css('background-color', '#eaecf4');
-                                    //$('#sltAccountType').removeAttr('readonly', true);
+
                                     $('#btnViewPayment').removeAttr('disabled', 'disabled');
                                     $('#btnCopyInvoice').removeAttr('disabled', 'disabled');
                                     $('#btnBack').removeAttr('disabled', 'disabled');
@@ -1881,7 +1875,7 @@ Template.new_invoice.onRendered(() => {
 
                                 Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblInvoiceLine', function (error, result) {
                                     if (error) {
-                                        //Bert.alert('<strong>Error:</strong> user-not-found, no user found please try again!', 'danger');
+
                                     } else {
                                         if (result) {
                                             for (let i = 0; i < result.customFields.length; i++) {
@@ -1892,23 +1886,23 @@ Template.new_invoice.onRendered(() => {
                                                 let columnClass = columHeaderUpdate.substring(columHeaderUpdate.indexOf(".") + 1);
                                                 let columnWidth = customcolumn[i].width;
 
-                                                //alert(columnClass);
+
                                                 $("" + columHeaderUpdate + "").html(columData);
                                                 if (columnWidth != 0) {
                                                     $("" + columHeaderUpdate + "").css('width', columnWidth + '%');
                                                 }
 
                                                 if (hiddenColumn == true) {
-                                                    //alert(columnClass);
-                                                    //$("."+columnClass+"").css('display','none');
+
+
                                                     $("." + columnClass + "").addClass('hiddenColumn');
                                                     $("." + columnClass + "").removeClass('showColumn');
                                                 } else if (hiddenColumn == false) {
                                                     $("." + columnClass + "").removeClass('hiddenColumn');
                                                     $("." + columnClass + "").addClass('showColumn');
-                                                    //$("."+columnClass+"").css('display','table-cell');
-                                                    //$("."+columnClass+"").css('padding','.75rem');
-                                                    //$("."+columnClass+"").css('vertical-align','top');
+
+
+
                                                 }
 
                                             }
@@ -1932,15 +1926,15 @@ Template.new_invoice.onRendered(() => {
                                 }
                             });
                             $('.fullScreenSpin').css('display', 'none');
-                            // Meteor._reload.reload();
+
                         });
                     } else {
                         let data = JSON.parse(dataObject[0].data);
                         let useData = data.tinvoiceex;
                         let customerData = templateObject.clientrecords.get();
-                        // setTimeout(function () {
-                        //     console.log(customerData);
-                        // }, 1000);
+
+
+
                         var added = false;
                         for (let d = 0; d < useData.length; d++) {
                             if (parseInt(useData[d].fields.ID) === currentInvoice) {
@@ -1961,7 +1955,7 @@ Template.new_invoice.onRendered(() => {
                                 let subTotal = currencySymbol + '' + useData[d].fields.TotalAmount.toLocaleString(undefined, { minimumFractionDigits: 2 });
                                 let totalTax = currencySymbol + '' + useData[d].fields.TotalTax.toLocaleString(undefined, { minimumFractionDigits: 2 });
                                 let totalBalance = utilityService.modifynegativeCurrencyFormat(useData[d].fields.TotalBalance).toLocaleString(undefined, { minimumFractionDigits: 2 });
-                                // currencySymbol +''+useData[d].fields.TotalBalance.toLocaleString(undefined, {minimumFractionDigits: 2});
+
                                 let totalPaidAmount = currencySymbol + '' + useData[d].fields.TotalPaid.toLocaleString(undefined, { minimumFractionDigits: 2 });
                                 if (useData[d].fields.Lines.length) {
                                     for (let i = 0; i < useData[d].fields.Lines.length; i++) {
@@ -2090,7 +2084,7 @@ Template.new_invoice.onRendered(() => {
                                         $('#edtCustomerName').attr('disabled', 'disabled');
                                         $('.btn-primary').attr('disabled', 'disabled');
                                         $('#edtCustomerName').css('background-color', '#eaecf4');
-                                        //$('#sltAccountType').removeAttr('readonly', true);
+
                                         $('#btnViewPayment').removeAttr('disabled', 'disabled');
                                         $('#btnCopyInvoice').removeAttr('disabled', 'disabled');
                                         $('#btnBack').removeAttr('disabled', 'disabled');
@@ -2112,18 +2106,18 @@ Template.new_invoice.onRendered(() => {
                                 }, 100);
 
                                 templateObject.invoicerecord.set(invoicerecord);
-                                // alert(JSON.stringify(templateObject.invoicerecord.get()));
+
                                 templateObject.selectedCurrency.set(invoicerecord.currency);
                                 templateObject.inputSelectedCurrency.set(invoicerecord.currency);
                                 if (templateObject.invoicerecord.get()) {
 
-                                    // $('#tblInvoiceLine').colResizable({
-                                    //   liveDrag:true});
-                                    //$('#tblInvoiceLine').removeClass('JColResizer');
+
+
+
 
                                     Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblInvoiceLine', function (error, result) {
                                         if (error) {
-                                            //Bert.alert('<strong>Error:</strong> user-not-found, no user found please try again!', 'danger');
+
                                         } else {
                                             if (result) {
                                                 for (let i = 0; i < result.customFields.length; i++) {
@@ -2134,23 +2128,23 @@ Template.new_invoice.onRendered(() => {
                                                     let columnClass = columHeaderUpdate.substring(columHeaderUpdate.indexOf(".") + 1);
                                                     let columnWidth = customcolumn[i].width;
 
-                                                    //alert(columnClass);
+
                                                     $("" + columHeaderUpdate + "").html(columData);
                                                     if (columnWidth != 0) {
                                                         $("" + columHeaderUpdate + "").css('width', columnWidth + '%');
                                                     }
 
                                                     if (hiddenColumn == true) {
-                                                        //alert(columnClass);
-                                                        //$("."+columnClass+"").css('display','none');
+
+
                                                         $("." + columnClass + "").addClass('hiddenColumn');
                                                         $("." + columnClass + "").removeClass('showColumn');
                                                     } else if (hiddenColumn == false) {
                                                         $("." + columnClass + "").removeClass('hiddenColumn');
                                                         $("." + columnClass + "").addClass('showColumn');
-                                                        //$("."+columnClass+"").css('display','table-cell');
-                                                        //$("."+columnClass+"").css('padding','.75rem');
-                                                        //$("."+columnClass+"").css('vertical-align','top');
+
+
+
                                                     }
 
                                                 }
@@ -2176,7 +2170,7 @@ Template.new_invoice.onRendered(() => {
                                 let subTotal = currencySymbol + '' + data.fields.TotalAmount.toLocaleString(undefined, { minimumFractionDigits: 2 });
                                 let totalTax = currencySymbol + '' + data.fields.TotalTax.toLocaleString(undefined, { minimumFractionDigits: 2 });
                                 let totalBalance = utilityService.modifynegativeCurrencyFormat(data.fields.TotalBalance).toLocaleString(undefined, { minimumFractionDigits: 2 });
-                                // currencySymbol +''+data.fields.TotalBalance.toLocaleString(undefined, {minimumFractionDigits: 2});
+
                                 let totalPaidAmount = currencySymbol + '' + data.fields.TotalPaid.toLocaleString(undefined, { minimumFractionDigits: 2 });
                                 if (data.fields.Lines.length) {
                                     for (let i = 0; i < data.fields.Lines.length; i++) {
@@ -2302,7 +2296,7 @@ Template.new_invoice.onRendered(() => {
                                         $('#edtCustomerName').attr('disabled', 'disabled');
                                         $('.btn-primary').attr('disabled', 'disabled');
                                         $('#edtCustomerName').css('background-color', '#eaecf4');
-                                        //$('#sltAccountType').removeAttr('readonly', true);
+
                                         $('#btnViewPayment').removeAttr('disabled', 'disabled');
                                         $('#btnCopyInvoice').removeAttr('disabled', 'disabled');
                                         $('#btnBack').removeAttr('disabled', 'disabled');
@@ -2323,19 +2317,19 @@ Template.new_invoice.onRendered(() => {
                                 }, 100);
 
                                 templateObject.invoicerecord.set(invoicerecord);
-                                // alert(JSON.stringify(templateObject.invoicerecord.get()));
+
                                 templateObject.selectedCurrency.set(invoicerecord.currency);
                                 templateObject.inputSelectedCurrency.set(invoicerecord.currency);
                                 if (templateObject.invoicerecord.get()) {
 
-                                    // $('#tblInvoiceLine').colResizable({
-                                    //   liveDrag:true});
-                                    //$('#tblInvoiceLine').removeClass('JColResizer');
+
+
+
 
                                     Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblInvoiceLine', function (error, result) {
                                         if (error) {
 
-                                            //Bert.alert('<strong>Error:</strong> user-not-found, no user found please try again!', 'danger');
+
                                         } else {
                                             if (result) {
                                                 for (let i = 0; i < result.customFields.length; i++) {
@@ -2346,23 +2340,23 @@ Template.new_invoice.onRendered(() => {
                                                     let columnClass = columHeaderUpdate.substring(columHeaderUpdate.indexOf(".") + 1);
                                                     let columnWidth = customcolumn[i].width;
 
-                                                    //alert(columnClass);
+
                                                     $("" + columHeaderUpdate + "").html(columData);
                                                     if (columnWidth != 0) {
                                                         $("" + columHeaderUpdate + "").css('width', columnWidth + '%');
                                                     }
 
                                                     if (hiddenColumn == true) {
-                                                        //alert(columnClass);
-                                                        //$("."+columnClass+"").css('display','none');
+
+
                                                         $("." + columnClass + "").addClass('hiddenColumn');
                                                         $("." + columnClass + "").removeClass('showColumn');
                                                     } else if (hiddenColumn == false) {
                                                         $("." + columnClass + "").removeClass('hiddenColumn');
                                                         $("." + columnClass + "").addClass('showColumn');
-                                                        //$("."+columnClass+"").css('display','table-cell');
-                                                        //$("."+columnClass+"").css('padding','.75rem');
-                                                        //$("."+columnClass+"").css('vertical-align','top');
+
+
+
                                                     }
 
                                                 }
@@ -2372,7 +2366,7 @@ Template.new_invoice.onRendered(() => {
                                     });
                                 }
                             }).catch(function (err) {
-                                console.log(err);
+
                                 swal({
                                     title: 'Something went wrong',
                                     text: err,
@@ -2387,7 +2381,7 @@ Template.new_invoice.onRendered(() => {
                                     }
                                 });
                                 $('.fullScreenSpin').css('display', 'none');
-                                // Meteor._reload.reload();
+
                             });
                         }
 
@@ -2411,7 +2405,7 @@ Template.new_invoice.onRendered(() => {
                         let subTotal = currencySymbol + '' + data.fields.TotalAmount.toLocaleString(undefined, { minimumFractionDigits: 2 });
                         let totalTax = currencySymbol + '' + data.fields.TotalTax.toLocaleString(undefined, { minimumFractionDigits: 2 });
                         let totalBalance = utilityService.modifynegativeCurrencyFormat(data.fields.TotalBalance).toLocaleString(undefined, { minimumFractionDigits: 2 });
-                        // currencySymbol +''+data.fields.TotalBalance.toLocaleString(undefined, {minimumFractionDigits: 2});
+
                         let totalPaidAmount = currencySymbol + '' + data.fields.TotalPaid.toLocaleString(undefined, { minimumFractionDigits: 2 });
                         if (data.fields.Lines.length) {
                             for (let i = 0; i < data.fields.Lines.length; i++) {
@@ -2539,7 +2533,7 @@ Template.new_invoice.onRendered(() => {
                                 $('#edtCustomerName').attr('disabled', 'disabled');
                                 $('.btn-primary').attr('disabled', 'disabled');
                                 $('#edtCustomerName').css('background-color', '#eaecf4');
-                                //$('#sltAccountType').removeAttr('readonly', true);
+
                                 $('#btnViewPayment').removeAttr('disabled', 'disabled');
                                 $('#btnCopyInvoice').removeAttr('disabled', 'disabled');
                                 $('#btnBack').removeAttr('disabled', 'disabled');
@@ -2562,19 +2556,19 @@ Template.new_invoice.onRendered(() => {
 
 
                         templateObject.invoicerecord.set(invoicerecord);
-                        // alert(JSON.stringify(templateObject.invoicerecord.get()));
+
                         templateObject.selectedCurrency.set(invoicerecord.currency);
                         templateObject.inputSelectedCurrency.set(invoicerecord.currency);
                         if (templateObject.invoicerecord.get()) {
 
-                            // $('#tblInvoiceLine').colResizable({
-                            //   liveDrag:true});
-                            //$('#tblInvoiceLine').removeClass('JColResizer');
+
+
+
 
                             Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblInvoiceLine', function (error, result) {
                                 if (error) {
 
-                                    //Bert.alert('<strong>Error:</strong> user-not-found, no user found please try again!', 'danger');
+
                                 } else {
                                     if (result) {
                                         for (let i = 0; i < result.customFields.length; i++) {
@@ -2585,23 +2579,23 @@ Template.new_invoice.onRendered(() => {
                                             let columnClass = columHeaderUpdate.substring(columHeaderUpdate.indexOf(".") + 1);
                                             let columnWidth = customcolumn[i].width;
 
-                                            //alert(columnClass);
+
                                             $("" + columHeaderUpdate + "").html(columData);
                                             if (columnWidth != 0) {
                                                 $("" + columHeaderUpdate + "").css('width', columnWidth + '%');
                                             }
 
                                             if (hiddenColumn == true) {
-                                                //alert(columnClass);
-                                                //$("."+columnClass+"").css('display','none');
+
+
                                                 $("." + columnClass + "").addClass('hiddenColumn');
                                                 $("." + columnClass + "").removeClass('showColumn');
                                             } else if (hiddenColumn == false) {
                                                 $("." + columnClass + "").removeClass('hiddenColumn');
                                                 $("." + columnClass + "").addClass('showColumn');
-                                                //$("."+columnClass+"").css('display','table-cell');
-                                                //$("."+columnClass+"").css('padding','.75rem');
-                                                //$("."+columnClass+"").css('vertical-align','top');
+
+
+
                                             }
 
                                         }
@@ -2611,7 +2605,7 @@ Template.new_invoice.onRendered(() => {
                             });
                         }
                     }).catch(function (err) {
-                        console.log(err);
+
                         swal({
                             title: 'Something went wrong',
                             text: err,
@@ -2626,7 +2620,7 @@ Template.new_invoice.onRendered(() => {
                             }
                         });
                         $('.fullScreenSpin').css('display', 'none');
-                        // Meteor._reload.reload();
+
                     });
                 });
 
@@ -3110,10 +3104,10 @@ Template.new_invoice.onRendered(() => {
 
         templateObject.invoicerecord.set(invoicerecord);
         if (templateObject.invoicerecord.get()) {
-            // $('#tblInvoiceLine').colResizable({liveDrag:true});
+
             Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblInvoiceLine', function (error, result) {
                 if (error) {
-                    //Bert.alert('<strong>Error:</strong> user-not-found, no user found please try again!', 'danger');
+
                 } else {
                     if (result) {
                         for (let i = 0; i < result.customFields.length; i++) {
@@ -3123,7 +3117,7 @@ Template.new_invoice.onRendered(() => {
                             let hiddenColumn = customcolumn[i].hidden;
                             let columnClass = columHeaderUpdate.substring(columHeaderUpdate.indexOf(".") + 1);
                             let columnWidth = customcolumn[i].width;
-                            //alert(columnClass);
+
                             $("" + columHeaderUpdate + "").html(columData);
                             if (columnWidth != 0) {
                                 $("" + columHeaderUpdate + "").css('width', columnWidth + '%');
@@ -3278,7 +3272,7 @@ Template.new_invoice.onRendered(() => {
                 $("#lineQty", rowData1).text("");
                 $("#lineOrdered", rowData1).text("");
                 $("#lineUnitPrice", rowData1).text("");
-                // $(".lineTaxRate", rowData).text("");
+
                 $("#lineTaxAmount", rowData1).text("");
                 $("#lineAmt", rowData1).text("");
                 rowData1.attr('id', tokenid);
@@ -3312,10 +3306,10 @@ Template.new_invoice.onRendered(() => {
         });
 
 
-        // $('#tblInvoiceLine tbody').on( 'click', '.btnRemove', function () {
-        //   //var tblInvoiceLine = $('.tblInvoiceLine').DataTable();
-        //
-        // });
+
+
+
+
 
     });
 
@@ -3329,7 +3323,7 @@ Template.new_invoice.onRendered(() => {
         let utilityService = new UtilityService();
         let $tblrows = $("#tblInvoiceLine tbody tr");
         let taxcode1 = "";
-        //var data = table.row( this ).data();
+
         let selectedCust = $('#edtCustomerName').val();
         let getCustDetails = "";
         let lineTaxRate = "";
@@ -3374,7 +3368,7 @@ Template.new_invoice.onRendered(() => {
             if (taxcodeList) {
                 for (var i = 0; i < taxcodeList.length; i++) {
                     if (taxcodeList[i].codename == lineTaxRate) {
-                        //lineTaxCode = taxcodeList[i].coderate;
+
                         $('#' + selectLineID + " .lineTaxRate").text(taxcodeList[i].coderate);
                     }
                 }
@@ -3503,7 +3497,7 @@ Template.new_invoice.onRendered(() => {
         var table = $(this);
         let utilityService = new UtilityService();
         let $tblrows = $("#tblInvoiceLine tbody tr");
-        //var data = table.row( this ).data();
+
         if (selectLineID) {
             let lineTaxCode = table.find(".taxName").text();
             let lineTaxRate = table.find(".taxRate").text();
@@ -3526,14 +3520,14 @@ Template.new_invoice.onRendered(() => {
                 if (taxcodeList) {
                     for (var i = 0; i < taxcodeList.length; i++) {
                         if (taxcodeList[i].codename == taxcode) {
-                            //if(taxcodeList[i].coderate.trim() != ''){
+
                             taxrateamount = taxcodeList[i].coderate.replace('%', "") / 100;;
-                            //}
+
                         }
                     }
                 }
 
-                //alert(taxrateamount);
+
                 var subTotal = parseInt(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) || 0;
                 if ((taxrateamount == '') || (taxrateamount == ' ')) {
                     var taxTotal = 0;
@@ -3605,8 +3599,8 @@ Template.new_invoice.onRendered(() => {
                             code = "E";
                         }
                         let taxcodeList = templateObject.taxraterecords.get();
-                        // let utilityService = new UtilityService();
-                        //if(selectLineID){
+
+
                         let lineAmount = 0;
                         let subGrandTotal = 0;
                         let taxGrandTotal = 0;
@@ -3661,7 +3655,7 @@ Template.new_invoice.onRendered(() => {
                                 $printrows.find("#lineTaxCode").text(code);
                                 $printrows.find("#lineTaxRate").text(rate);
                                 var taxrateamount = 0;
-                                // var taxRate = $printrows.find("#lineTaxCode").text();
+
                                 if (taxcodeList) {
                                     for (var i = 0; i < taxcodeList.length; i++) {
                                         if (taxcodeList[i].codename == taxcode) {
@@ -3746,16 +3740,16 @@ Template.new_invoice.onRendered(() => {
         }
         stringQuery = stringQuery + "tax=" + tax + "&total=" + total + "&customer=" + customer + "&name=" + name + "&surname=" + surname + "&quoteid=" + invoiceData.id + "&company=" + company + "&vs1email=" + vs1User + "&customeremail=" + customerEmail + "&type=Invoice";
         var pdf = new jsPDF('p', 'pt', 'a4');
-        //new jsPDF('p', 'pt', 'letter');
-        // new jsPDF('p', 'mm', 'a4');
+
+
         pdf.setFontSize(18);
         var source = document.getElementById('html-2-pdfwrapper');
         pdf.addHTML(source, function () {
-            //pdf.save('Invoice.pdf');
+
             pdf.setFontSize(10);
             pdf.setTextColor(255, 255, 255);
-            pdf.textWithLink('Pay Now', 480, 104, { url: 'https://www.depot.vs1cloud.com/stripe/' + stringQuery });
-            //pdf.autoPrint();
+             pdf.textWithLink('Pay Now', 480, 104, { url: 'https://www.depot.vs1cloud.com/stripe/' + stringQuery });
+
             if ($(".printID").val() == "") {
                 pdf.save('Invoice-' + id + '.pdf');
             } else {
@@ -3838,8 +3832,8 @@ Template.new_invoice.onRendered(function () {
                 let inventoryData = [];
                 for (let i = 0; i < useData.length; i++) {
                     var dataList = [
-                        // data.tproductvs1[i].Id || '',
-                        // data.tproductvs1[i].Id || '',
+
+
                         useData[i].fields.ProductName || '-',
                         useData[i].fields.SalesDescription || '',
                         utilityService.modifynegativeCurrencyFormat(Math.floor(useData[i].fields.BuyQty1Cost * 100) / 100),
@@ -3856,13 +3850,13 @@ Template.new_invoice.onRendered(function () {
 
                     $('#tblInventory').dataTable({
                         data: splashArrayProductList,
-                        // processing: true,
+
                         "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
                         paging: true,
                         "aaSorting": [],
                         "orderMulti": true,
                         columnDefs: [
-                            // { orderable: false, targets: 0 },
+
                             { className: "productName", "targets": [0] },
                             { className: "productDesc", "targets": [1] },
                             { className: "costPrice text-right", "targets": [2] },
@@ -3871,12 +3865,12 @@ Template.new_invoice.onRendered(function () {
                             { className: "taxrate", "targets": [5] }
                         ],
                         colReorder: true,
-                        // colReorder: {
-                        //   fixedColumnsLeft: 1
-                        // },
+
+
+
                         bStateSave: true,
-                        //scrollX: 1000,
-                        //rowId: 0,
+
+
                         pageLength: 25,
                         lengthMenu: [
                             [10, 25, 50, -1],
@@ -3898,8 +3892,8 @@ Template.new_invoice.onRendered(function () {
                 for (let i = 0; i < data.tproductvs1.length; i++) {
 
                     var dataList = [
-                        // data.tproductvs1[i].Id || '',
-                        // data.tproductvs1[i].Id || '',
+
+
                         data.tproductvs1[i].ProductName || '-',
                         data.tproductvs1[i].SalesDescription || '',
                         utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductvs1[i].BuyQty1Cost * 100) / 100),
@@ -3917,13 +3911,13 @@ Template.new_invoice.onRendered(function () {
 
                     $('#tblInventory').dataTable({
                         data: splashArrayProductList,
-                        // processing: true,
+
                         "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
                         paging: true,
                         "aaSorting": [],
                         "orderMulti": true,
                         columnDefs: [
-                            // { orderable: false, targets: 0 },
+
                             { className: "productName", "targets": [0] },
                             { className: "productDesc", "targets": [1] },
                             { className: "costPrice text-right", "targets": [2] },
@@ -3932,12 +3926,12 @@ Template.new_invoice.onRendered(function () {
                             { className: "taxrate", "targets": [5] }
                         ],
                         colReorder: true,
-                        // colReorder: {
-                        //   fixedColumnsLeft: 1
-                        // },
+
+
+
                         bStateSave: true,
-                        //scrollX: 1000,
-                        //rowId: 0,
+
+
                         pageLength: 25,
                         lengthMenu: [
                             [10, 25, 50, -1],
@@ -3949,12 +3943,12 @@ Template.new_invoice.onRendered(function () {
                     });
 
                     $('div.dataTables_filter input').addClass('form-control form-control-sm');
-                    // tableProductList
-                    //     .order( [ 1, 'desc' ] )
-                    //     .draw();
-                    //$('#tblInventory').DataTable().column( 0 ).visible( false );
-                    //$('#tblInventory').DataTable().column( 5 ).visible( false );
-                    //$('#tblInventory').DataTable().column( 6 ).visible( false );
+
+
+
+
+
+
                 }
             })
         });
@@ -5094,8 +5088,8 @@ Template.new_invoice.events({
                             '                </tr>' +
                             '                <tr>' +
                             '                    <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0 10px 0;">' +
-                            '                        Simply click on <a style="border: none; color: white; padding: 6px 12px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin: 4px 2px; cursor: pointer; background-color: #5cb85c; border-color: #4cae4c; border-radius: 10px;" href="https://www.depot.vs1cloud.com/stripe/' + stringQuery + '">Make Payment</a> to pay now.' +
-                            '                    </td>' +
+                           '                        Simply click on <a style="border: none; color: white; padding: 6px 12px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin: 4px 2px; cursor: pointer; background-color: #5cb85c; border-color: #4cae4c; border-radius: 10px;" href="https://www.depot.vs1cloud.com/stripe/' + stringQuery + '">Make Payment</a> to pay now.' +
+                           '                    </td>' +
                             '                </tr>' +
                             '                <tr>' +
                             '                    <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0 30px 0;">' +

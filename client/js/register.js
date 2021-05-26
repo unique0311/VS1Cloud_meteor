@@ -1,32 +1,9 @@
 import { Mongo } from 'meteor/mongo';
 if (Meteor.isClient) {
-  /*
-  Meteor.call("authCall", function(error, results) {
-        console.log(results); //results.data should be a JSON object
-    });
 
-    var oReq = new XMLHttpRequest();
-    // this.unblock(); // Make sure server doesn't get block from this call
-    var auth_url="http://110.142.175.245:88/erpapi/TERPSysInfo";
-    oReq.open("GET",auth_url, true);
-    oReq.setRequestHeader("database","vs1_cloud_db_caca_aj_ac_ouxfnk");
-    oReq.setRequestHeader("username","WebUser");
-    oReq.setRequestHeader("password","WebUser");
-    oReq.setRequestHeader("content-type","application/json");
-    oReq.setRequestHeader("Accept","WebUser");
-    oReq.send();
-
-    oReq.onreadystatechange = function() {
-      this.unblock();
-    //alert(oReq.responseText);
-      if (oReq.readyState == 4 && oReq.status == 200) {
-
-      }
-    }
-*/
 Template.register.events({
   'submit .addRegisterForm' : function (event, template) {
-   // alert(Random.id);
+   
    event.preventDefault();
    var serverIP = event.target.Server.value;
    var databaseName = event.target.Database.value;
@@ -45,16 +22,16 @@ Template.register.events({
 
   }else{
     if((cloudpassword.match(/[A-z]/)) && (cloudpassword.match(/[A-Z]/)) && (cloudpassword.match(/\d/))){
-    // if(cloudpassword.match(/^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{7,15}$/)) {
+    
       $('.CloudPassword').css('border-color','#b5b8bb #e2e4e7 #e8eaec #bdbfc3');
       if (emailAlreadyExist.length > 0) {
         Bert.alert('<strong>Error:</strong> Email already registered!', 'warning');
        }else{
          CloudDatabase.insert({ server: serverIP,database:databaseName,username:userName,useremail:userEmail,password:password,port:port,description:description,createdAt: new Date() }, function(err, idTag) {
            if (err) {
-             console.log("ALREADY FOUND TAG " + err);
+
            } else {
-             console.log("Creation of " + serverIP + "in DB" + idTag);
+
              CloudUser.insert({ clouddatabaseID:idTag,cloudEmail:userEmail,cloudUsername:userName,cloudPassword:cloudpassword,cloudHashPassword:cloudHashPassword,server: serverIP,database:databaseName,username:userName,password:password,port:port,userMultiLogon:false,createdAt: new Date() });
            }
          });
@@ -117,7 +94,7 @@ Template.register.onRendered( function() {
   var cloudHashPassword = CryptoJS.MD5(cloudPassword).toString().toUpperCase();
   CloudDatabase.update({_id:id}, {server: serverIP,database:databaseName,username:userName,useremail:userEmail,password:password,port:port,description:description}, function(err, idTag) {
     if(err){
-      console.log("ALREADY FOUND TAG " + err);
+      
     }else{
       var queryList = [];
       var usertoUpdate = CloudUser.find({clouddatabaseID:id}).forEach(function(doc){
@@ -135,12 +112,12 @@ Template.register.onRendered( function() {
       }
 
       });
-      //CloudUser.update({clouddatabaseID:id}, {cloudEmail:userEmail,cloudUsername:userName, cloudPassword:password,server: serverIP,database:databaseName,username:userName,password:password,port:port});
+      
     }
    });
   Bert.alert('<strong>Success:</strong> Server connection details successfully updated for <strong>'+databaseName+'</strong>!', 'success');
       event.preventDefault();
-    //  return false;
+    
 
   });
 
@@ -157,27 +134,27 @@ Template.register.onRendered( function() {
   var description = $(this).closest('tr').find("[id=Description1]").val();
 
   var usertoReset = CloudUser.find({clouddatabaseID:id}).forEach(function(doc){
-  // CloudUser.remove({_id:doc._id});
+  
   CloudUser.update({_id: doc._id},{ $set: {userMultiLogon: false}});
   });
-  // Bert.alert('Testing connection to: <strong>'+databaseName+'</strong>', 'success');
-//alert('Connected to: '+setup.database);
+  
+
 var serverTest = URLRequest + serverIP + ':' + port + '/erpapi/TERPSysInfo';
-//alert(serverTest);
+
 var oReq = new XMLHttpRequest();
 oReq.open("GET",serverTest, true);
 oReq.setRequestHeader("database",databaseName);
 oReq.setRequestHeader("username",userName);
 oReq.setRequestHeader("password",password);
-// oReq.setRequestHeader("Access-Control-Allow-Headers", "accept, content-type, database, password, username");
-// oReq.setRequestHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
-// oReq.setRequestHeader("Access-Control-Allow-Origin", "*");
-// oReq.setRequestHeader("ssl_verify_client_cert","yes");
-// oReq.setRequestHeader("Content-Type","application/json; charset=UTF-8");
+
+
+
+
+
 /*
 oReq.onload = function(){
   alert('here');
-  // do some stuff
+  
   var ErrorMessage = oReq.getResponseHeader('content-type');
   alert(ErrorMessage);
 };
@@ -187,10 +164,10 @@ oReq.send();
 
 oReq.timeout = 30000;
 oReq.onreadystatechange = function() {
-//alert(oReq.responseText);
+
   if (oReq.readyState == 4 && oReq.status == 200) {
-   // alert(oReq.responseText);
-    //document.getElementById("result").innerHTML = oReq.responseText;
+   
+    
     $('#isnotokayres').css('display','none');
     $('#isokay').css('display','block');
     document.getElementById("isokay").innerHTML = 'Testing Connection to <strong>'+databaseName+'</strong> server <b style="float:right"> Pass </b>';
@@ -212,7 +189,7 @@ oReq.onreadystatechange = function() {
     setTimeout(function () {
       $('#isnotokayres').css('display','none');
     }, 3500);
-    //document.getElementById("result").innerHTML = 'Connection Timeout: Please check that your servers IP address and port is correct.';
+    
   }else if(oReq.readyState == 4 && oReq.status == 403){
     $('#isokay').css('display','none');
     $('#isnotokayres').css('display','block');
@@ -225,7 +202,7 @@ oReq.onreadystatechange = function() {
     setTimeout(function () {
       $('#isnotokayres').css('display','none');
     }, 3500);
-    //document.getElementById("result").innerHTML = oReq.getResponseHeader('errormessage');
+    
   }else if(oReq.readyState == 4 && oReq.status == 406){
     $('#isokay').css('display','none');
     $('#isnotokayres').css('display','block');
@@ -238,7 +215,7 @@ oReq.onreadystatechange = function() {
     setTimeout(function () {
       $('#isnotokayres').css('display','none');
     }, 3500);
-    //document.getElementById("result").innerHTML = oReq.getResponseHeader('errormessage');
+    
   }else if(oReq.readyState == 4 && oReq.status == 500){
     $('#isokay').css('display','none');
     $('#isnotokayres').css('display','block');
@@ -251,11 +228,11 @@ oReq.onreadystatechange = function() {
     setTimeout(function () {
       $('#isnotokayres').css('display','none');
     }, 3500);
-    //document.getElementById("result").innerHTML = oReq.getResponseHeader('errormessage');
+    
   }else{
     $('.fullScreenSpin').css('display','none');
   }
-//alert(oReq.getResponseHeader('error'));
+
 AddUERP(oReq.responseText);
 }
 
@@ -265,15 +242,15 @@ $(document).ready(function() {
   $('.CloudPassword').keyup(function() {
 
   }).focus(function() {
-      // focus code here
+      
   }).blur(function() {
     var pswd = $(this).val();
-    // var checkPassword= '/^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{7,15}$/';
+    
     if(pswd.length < 8) {
     Bert.alert('<strong>Error: Invalid VS1 Password</strong> must be at <b>least eight characters</b> including one capital letter, one number and one special characters [! @ # $ % ^ & *] !', 'danger');
     $('.CloudPassword').css('border-color','red');
     }else {
-        //validate capital letter
+        
         if(pswd.match(/^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{7,15}$/)) {
           $('.CloudPassword').css('border-color','#b5b8bb #e2e4e7 #e8eaec #bdbfc3');
         } else {
@@ -282,8 +259,8 @@ $(document).ready(function() {
         }
 
     }
-    // $('.CloudPassword').css('border-color','#b5b8bb #e2e4e7 #e8eaec #bdbfc3');
-      // blur code here
+    
+      
   });
 });
 

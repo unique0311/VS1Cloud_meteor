@@ -758,7 +758,6 @@ Template.quoteslist.events({
     let columnDataValue = $(event.target).closest("div").prev().find(".divcolumn").text();
     var datable = $('#tblquotelist th');
     $.each(datable, function(i,v) {
-      // console.log(datable);
     if(v.innerText == columnDataValue){
         let className = v.className;
         let replaceClass = className.replace(/ /g, ".");
@@ -771,7 +770,7 @@ Template.quoteslist.events({
   'click .btnOpenSettings' : function(event){
     let templateObject = Template.instance();
     var columns = $('#tblquotelist th');
-    // console.log(columns);
+
     const tableHeaderList = [];
     let sTible = "";
     let sWidth = "";
@@ -787,7 +786,7 @@ Template.quoteslist.events({
         columVisible = false;
       }
       sWidth = v.style.width.replace('px', "");
-      console.log(sWidth);
+
       let datatablerecordObj = {
         sTitle: v.innerText || '',
         sWidth: sWidth || '',

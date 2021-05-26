@@ -46,7 +46,7 @@ Template.employeetimeclock.onRendered(function () {
       let sumSumHour = 0;
       let sumSumHourlyRate = 0;
       for (let t = 0; t < data.ttimesheet.length; t++) {
-        // console.log(data.ttimesheet[t].Id);
+
         let hourlyRate = utilityService.modifynegativeCurrencyFormat(data.ttimesheet[t].HourlyRate) || 0.00;
         let labourCost = utilityService.modifynegativeCurrencyFormat(data.ttimesheet[t].LabourCost) || 0.00;
         let totalAmount = utilityService.modifynegativeCurrencyFormat(data.ttimesheet[t].Total) || 0.00;
@@ -213,7 +213,7 @@ Template.employeetimeclock.onRendered(function () {
           columVisible = false;
         }
         sWidth = v.style.width.replace('px', "");
-        //console.log(sWidth);
+
         let datatablerecordObj = {
           sTitle: v.innerText || '',
           sWidth: sWidth || '',
@@ -519,7 +519,7 @@ Template.employeetimeclock.events({
     if (endTime > startTime) {
       document.getElementById('txtBookedHoursSpent').value = parseFloat(templateObject.diff_hours(endTime, startTime)).toFixed(2);
     } else {
-      console.log("Enter end time above start time to calculate total hours");
+
     }
   },
   'change #endTime': function () {
@@ -536,7 +536,7 @@ Template.employeetimeclock.events({
     if (endTime > startTime) {
       document.getElementById('txtBookedHoursSpent').value = parseFloat(templateObject.diff_hours(endTime, startTime)).toFixed(2);
     } else {
-      console.log("End time must be greater than start time");
+      
     }
   },
   'click .resetTable': function (event) {
@@ -621,7 +621,7 @@ Template.employeetimeclock.events({
 
             }
           });
-          // console.log(checkPrefDetails);
+
         }
       }
     }
@@ -646,7 +646,7 @@ Template.employeetimeclock.events({
     let columnDataValue = $(event.target).closest("div").prev().find(".divcolumn").text();
     var datable = $('#tblTimeSheet th');
     $.each(datable, function (i, v) {
-      console.log(datable);
+
       if (v.innerText == columnDataValue) {
         let className = v.className;
         let replaceClass = className.replace(/ /g, ".");
@@ -659,7 +659,7 @@ Template.employeetimeclock.events({
   'click .btnOpenSettings': function (event) {
     let templateObject = Template.instance();
     var columns = $('#tblTimeSheet th');
-    // console.log(columns);
+
     const tableHeaderList = [];
     let sTible = "";
     let sWidth = "";
@@ -762,12 +762,11 @@ Template.employeetimeclock.events({
         $('.fullScreenSpin').css('display', 'none');
       });
 
-    
+
 
       contactService.saveTimeSheetUpdate(data).then(function (data) {
         window.open('/employeetimeclock', '_self');
       }).catch(function (err) {
-        console.log(err)
         swal({
           title: 'Something went wrong',
           text: err,

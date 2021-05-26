@@ -32,7 +32,7 @@ Template.stockadjustmentoverview.onRendered(function() {
 
   }else{
     if(result){
-      console.log(result);
+
       for (let i = 0; i < result.customFields.length; i++) {
         let customcolumn = result.customFields;
         let columData = customcolumn[i].label;
@@ -81,7 +81,7 @@ Template.stockadjustmentoverview.onRendered(function() {
              };
                 dataTableList.push(dataList);
           }
-          console.log(dataTableList);
+
           templateObject.datatablerecords.set(dataTableList);
           if(templateObject.datatablerecords.get()){
 
@@ -212,7 +212,7 @@ Template.stockadjustmentoverview.onRendered(function() {
                 columVisible = false;
               }
               sWidth = v.style.width.replace('px', "");
-              //console.log(sWidth);
+
               let datatablerecordObj = {
                 sTitle: v.innerText || '',
                 sWidth: sWidth || '',
@@ -391,7 +391,7 @@ setTimeout(function () {
       columVisible = false;
     }
     sWidth = v.style.width.replace('px', "");
-    //console.log(sWidth);
+
     let datatablerecordObj = {
       sTitle: v.innerText || '',
       sWidth: sWidth || '',
@@ -435,7 +435,7 @@ templateObject.tableheaderrecords.set(tableHeaderList);
            };
               dataTableList.push(dataList);
         }
-        console.log(dataTableList);
+
         templateObject.datatablerecords.set(dataTableList);
         if(templateObject.datatablerecords.get()){
 
@@ -566,7 +566,7 @@ templateObject.tableheaderrecords.set(tableHeaderList);
               columVisible = false;
             }
             sWidth = v.style.width.replace('px', "");
-            //console.log(sWidth);
+
             let datatablerecordObj = {
               sTitle: v.innerText || '',
               sWidth: sWidth || '',
@@ -844,7 +844,7 @@ Template.stockadjustmentoverview.events({
 
             }
           });
-           // console.log(checkPrefDetails);
+
         }
       }
     }
@@ -869,7 +869,7 @@ Template.stockadjustmentoverview.events({
     let columnDataValue = $(event.target).closest("div").prev().find(".divcolumn").text();
     var datable = $('#tblStockAdjustOverview th');
     $.each(datable, function(i,v) {
-      console.log(datable);
+
     if(v.innerText == columnDataValue){
         let className = v.className;
         let replaceClass = className.replace(/ /g, ".");
@@ -882,7 +882,7 @@ Template.stockadjustmentoverview.events({
   'click .btnOpenSettings' : function(event){
     let templateObject = Template.instance();
     var columns = $('#tblStockAdjustOverview th');
-    // console.log(columns);
+
     const tableHeaderList = [];
     let sTible = "";
     let sWidth = "";

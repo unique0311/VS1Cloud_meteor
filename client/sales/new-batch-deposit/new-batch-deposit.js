@@ -22,7 +22,6 @@ Template.newBatchDeposit.onCreated(function(){
 });
 Template.newBatchDeposit.onRendered(function() {
     let templateObj = Template.instance();
-    console.log(Session.get('recordId'));
     let accountService = new AccountService()
     let invoiceService = new InvoiceService()
     let accountsList=[];

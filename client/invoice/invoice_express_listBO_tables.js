@@ -258,12 +258,12 @@ Template.invoicelistBO.onRendered(function() {
         let totalOutstanding = utilityService.modifynegativeCurrencyFormat(useData[i].fields.TotalBalance)|| 0.00;
         let productQty = 0;
         let productName = "";
-        //console.log(useData[i].fields.Lines.length);
+        
         //if(useData[i].fields.CustomerName.replace(/\s/g, '') != ''){
           if(useData[i].fields.Lines){
-            //console.log(useData[i].fields.Lines);
+            
           if(useData[i].fields.Lines.length){
-            //console.log(useData[i].fields.Lines);
+            
             for(let d=0; d<useData[i].fields.Lines.length; d++){
               productName = useData[i].fields.Lines[d].fields.ProductPrintName;
               productQty +=  parseInt(useData[i].fields.Lines[d].fields.QtyBackOrder);
@@ -296,7 +296,7 @@ Template.invoicelistBO.onRendered(function() {
              // shipdate:useData[i].ShipDate !=''? moment(useData[i].ShipDate).format("DD/MM/YYYY"): useData[i].ShipDate,
 
          };
-         //console.log(useData[i].fields.Lines[0].fields.ProductPrintName, useData[i].fields.ID);
+         
          if(useData[i].fields.Deleted == false && useData[i].fields.IsBackOrder == true && useData[i].fields.CustomerName.replace(/\s/g, '') != ''){
            dataTableList.push(dataList);
          }
@@ -445,7 +445,7 @@ Template.invoicelistBO.onRendered(function() {
 
         }
         }).catch(function (err) {
-          console.log(err);
+          
           salesService.getAllBOInvoiceList().then(function (data) {
             let lineItems = [];
             let lineItemObj = {};
@@ -771,7 +771,7 @@ Template.invoicelistBO.events({
       let columnDataValue = $(event.target).closest("div").prev().find(".divcolumn").text();
       var datable = $('#tblInvoicelistBO th');
       $.each(datable, function(i,v) {
-        console.log(datable);
+        
       if(v.innerText == columnDataValue){
           let className = v.className;
           let replaceClass = className.replace(/ /g, ".");
@@ -784,7 +784,7 @@ Template.invoicelistBO.events({
     'click .btnOpenSettings' : function(event){
       let templateObject = Template.instance();
       var columns = $('#tblInvoicelistBO th');
-      // console.log(columns);
+      
       const tableHeaderList = [];
       let sTible = "";
       let sWidth = "";
@@ -800,7 +800,7 @@ Template.invoicelistBO.events({
           columVisible = false;
         }
         sWidth = v.style.width.replace('px', "");
-        console.log(sWidth);
+        
         let datatablerecordObj = {
           sTitle: v.innerText || '',
           sWidth: sWidth || '',

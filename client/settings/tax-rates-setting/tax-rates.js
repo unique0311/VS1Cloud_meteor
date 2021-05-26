@@ -741,7 +741,7 @@ Template.taxRatesSettings.events({
       let columnDataValue = $(event.target).closest("div").prev().find(".divcolumn").text();
       var datable = $('#taxRatesList th');
       $.each(datable, function(i,v) {
-        console.log(datable);
+        
       if(v.innerText == columnDataValue){
           let className = v.className;
           let replaceClass = className.replace(/ /g, ".");
@@ -754,7 +754,7 @@ Template.taxRatesSettings.events({
     'click .btnOpenSettings' : function(event){
       let templateObject = Template.instance();
       var columns = $('#taxRatesList th');
-      // console.log(columns);
+      
       const tableHeaderList = [];
       let sTible = "";
       let sWidth = "";
@@ -770,7 +770,7 @@ Template.taxRatesSettings.events({
           columVisible = false;
         }
         sWidth = v.style.width.replace('px', "");
-        console.log(sWidth);
+        
         let datatablerecordObj = {
           sTitle: v.innerText || '',
           sWidth: sWidth || '',

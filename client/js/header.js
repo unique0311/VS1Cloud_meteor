@@ -42,7 +42,7 @@ Template.header.onCreated(function(){
   templateObject.includePurchases = new ReactiveVar();
   templateObject.includePurchases.set(false);
 
-  // NEW FROM IAN 22102019
+  
   templateObject.includePayments = new ReactiveVar();
   templateObject.includePayments.set(false);
   templateObject.includeContacts = new ReactiveVar();
@@ -122,7 +122,7 @@ Template.header.onRendered(function(){
           info: true,
           responsive: true,
           "order": [[ 0, "asc" ]],
-          // "aaSorting": [[1,'desc']],
+          
           action: function () {
               $('#tblSearchOverview').DataTable().ajax.reload();
           },
@@ -146,7 +146,7 @@ Template.header.onRendered(function(){
         let dataSelectID =  '';
         var splashArrayList = new Array();
         $('.fullScreenSpin').css('display','none');
-        // templateObject.searchdatatablerecords.set('');
+        
         let dataTableList = [];
           for(let i=0; i<data.tglobalsearchreport.length; i++){
             if(data.tglobalsearchreport[i].Type === "Purchase Order"){
@@ -204,17 +204,17 @@ Template.header.onRendered(function(){
             data.tglobalsearchreport[i].company || '',
             data.tglobalsearchreport[i].Type || '',
             data.tglobalsearchreport[i].Globalref || ''
-            // data.tglobalsearchreport[i].TransDate!=''? moment(data.tglobalsearchreport[i].TransDate).format("YYYY/MM/DD"): data.tglobalsearchreport[i].TransDate
+            
           ];
              dataTableList.push(dataList);
              splashArrayList.push(dataListNew);
           }
-          //templateObject.searchdatatablerecords.set(dataTableList);
-          //if(templateObject.searchdatatablerecords.get()){
+          
+          
 
             setTimeout(function () {
               $('#searchPOP').modal('toggle');
-              // $.fn.dataTable.ext.errMode = 'none';
+              
               $('#tblSearchOverview').DataTable({
                     data :  splashArrayList,
                     paging: true,
@@ -225,7 +225,7 @@ Template.header.onRendered(function(){
                       { className: "colName", "targets": [ 1 ] },
                       { className: "colType", "targets": [ 2 ] },
                       { className: "colTransGlobal", "targets": [ 3 ] }
-                      // { className: "colTransDate", "targets": [ 4 ] }
+                      
                     ],
                     rowId: 0,
                     select: true,
@@ -239,8 +239,8 @@ Template.header.onRendered(function(){
                     lengthMenu: [ [10, 25, 50, -1], [10, 25, 50, "All"] ],
                     info: true,
                     responsive: true
-                    // "order": [[ 0, "asc" ]],
-                    // "aaSorting": [[1,'desc']],
+                    
+                    
 
 
                 });
@@ -282,17 +282,17 @@ Template.header.onRendered(function(){
           }else if(transactiontype === 'INV-BO'){
              window.open('/invoicecard?id=' + listData,'_self');
           }else{
-              //window.open('/purchaseordercard?id=' + listData,'_self');
+              
           }
 
         }
 
 
           });
-            // setTimeout(function () {
-            //   $('#tblSearchOverview').DataTable().ajax.reload();
-            // }, 500);
-        ///  }
+            
+            
+            
+        
       }).catch(function (err) {
         $('.fullScreenSpin').css('display','none');
       });
@@ -302,7 +302,7 @@ Template.header.onRendered(function(){
 
 
 
-  //alert(sidePanelToggle);
+  
   if(sidePanelToggle){
     if(sidePanelToggle === "toggled"){
       $("#sidenavbar").addClass("toggled");
@@ -310,11 +310,11 @@ Template.header.onRendered(function(){
       $("#sidenavbar").removeClass("toggled");
     }
   }
-  //let employeeLoggedAccess = templateObject.employeeformaccessrecord.get();
+  
   let employeeLoggedUserAccess = Session.get('ERPSolidCurrentUSerAccess');
   var sessionDataToLog = localStorage.getItem('mySession');
   document.getElementById("logged_user").innerHTML = sessionDataToLog;
-    // let myarrEmpDetail = Session.get('ERPMobileTERPFormToAccess');
+    
   let isDashboard = Session.get('CloudDashboardModule');
   let isMain= Session.get('CloudMainModule');
   let isInventory = Session.get('CloudInventoryModule');
@@ -363,25 +363,25 @@ Template.header.onRendered(function(){
                   data.tproduct[i].TotalStockQty
               ];
 
-              // records.push(recordObj);
+              
 
-              // alert(data.tproduct[i].Id);
+              
               var dataList = [
                 data.tproduct[i].Id || '',
-              // '<td><input  type="checkbox" class="select-product" style="margin: 4px 0 0!important;"></td>',
+              
               data.tproduct[i].ProductName || '-',
               ProductPrintName || '',
               utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproduct[i].BuyQty1CostInc * 100) / 100),
               utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproduct[i].SellQty1PriceInc * 100) / 100),
               data.tproduct[i].TotalStockQty];
-              //lineItems.push(lineItemObj);
+              
               splashArrayProd.push(dataList);
-              // $('.fullScreenSpin').css('display','none');
+              
           }
 
-          // alert(JSON.stringify(splashArrayProd));
+          
           localStorage.setItem('VS1ProductList', JSON.stringify(splashArrayProd));
-          // localStorage.setItem('VS1ProductPrintList', JSON.stringify(inventoryData));
+          
 
       })
   };
@@ -393,7 +393,7 @@ Template.header.onRendered(function(){
            let companyName = data.tcompanyinfo[0].CompanyName;
            let companyaddress1 = data.tcompanyinfo[0].PoBox;
            let companyaddress2 = data.tcompanyinfo[0].PoBox2 + ' ' + data.tcompanyinfo[0].PoBox3;
-           // data.tcompanyinfo[0].Address + ' ' + data.tcompanyinfo[0].Address2 + ' ' + data.tcompanyinfo[0].Address3;
+           
            let companyABN = data.tcompanyinfo[0].abn;
            let companyPhone = data.tcompanyinfo[0].PhoneNumber;
            let companyURL = data.tcompanyinfo[0].Url
@@ -421,15 +421,15 @@ Template.header.onRendered(function(){
 
               if (data.temployeepicture[i].EmployeeName === sessionDataToLog) {
                   employeeProfile = data.temployeepicture[i].EncodedPic;
-                  // console.log(employeeProfile);
-                  // templateObject.profilePhoto.set('data:image/jpeg;base64,'+employeeProfile);
+
+                  
                   $('.img-profile').attr('src', 'data:image/jpeg;base64,'+employeeProfile);
               }
           }
     });
     */
 var erpGet = erpDb();
-// templateObject.getCompanyInfo();
+
 var LoggedDB = erpGet.ERPDatabase;
 if(loggedUserEventFired){
     $(document).ready(function() {
@@ -445,8 +445,8 @@ if(loggedUserEventFired){
      });
 
   setTimeout(function () {
-      // templateObject.getAllProducts();
-      // templateObject.getCompanyInfo();
+      
+      
   },0);
 
 if (!localStorage.getItem('VS1TERPFormList')) {
@@ -454,28 +454,28 @@ if (!localStorage.getItem('VS1TERPFormList')) {
 }
 
 if(Session.get('userlogged_status')){
-  // alert(Session.get('userlogged_status'));
+  
  CloudUser.update({_id: Session.get('mycloudLogonID')},{ $set: {userMultiLogon: true}});
 }
-// Session.setPersistent('LoggedUserEventFired', false);
+
 }
-// document.getElementById("erpconnected").innerHTML = LoggedDB;
-//document.getElementById("loggeddatabase").innerHTML = LoggedDB;
+
+
 
 var LoggedUser = localStorage.getItem('mySession');
 document.getElementById("logged_user").innerHTML = LoggedUser;
-//document.getElementById("logged_dropdown").innerHTML = LoggedUser;
+
 /*document.getElementById("loggeddatabaseuser").innerHTML = LoggedUser;*/
 var CloudUserPass = Session.get('CloudUserPass');
 var currentLoc = window.location.pathname;
 if(CloudUserPass){
   templateObject.isCloudUserPass.set(true);
-  // alert(templateObject.isCloudUserPass.get());
+  
 }
 if(isSidePanel){
   templateObject.isCloudSidePanelMenu.set(true);
-  // $("html").toggleClass("hasSideBar");
-  // $("body").toggleClass("hasSideBar");
+  
+  
 }
 
 if(LoggedDB !== null){
@@ -550,7 +550,7 @@ if(LoggedDB !== null){
     templateObject.isCloudTopPanelMenu.set(true);
   }
 }else{
-  // window.open('/','_self');
+  
 }
 });
 
@@ -578,15 +578,15 @@ Template.header.events({
     let templateObject = Template.instance();
     templateObject.searchdatatablerecords.set('');
     $('.txtGlobalSearch').val('');
-    //Meteor._reload.reload();
+    
   },
   'click #sidebarToggleTop' : function(event){
   var sideBarPanel = $("#sidenavbar").attr("class");
     if(sideBarPanel.indexOf("toggled") >= 0){
-      //$("#sidenavbar").removeClass("toggled");
+      
       Session.setPersistent('sidePanelToggle', "toggled");
     }else{
-      //$("#sidenavbar").addClass("toggled");
+      
       Session.setPersistent('sidePanelToggle', "");
     }
   },
@@ -719,11 +719,11 @@ Template.header.events({
 if(confirm("Are you sure you want to close the top panel?")) {
   accesslevelService.saveEmpAccess(data).then(function (data) {
     Session.setPersistent('CloudTopPanelMenu', isTopPanel);
-    // console.log(JSON.stringify(data));
+
     Meteor._reload.reload();
   }).catch(function (err) {
       Bert.alert('<strong>' + err + '</strong>!', 'danger');
-      // $('.fullScreenSpin').css('display','none');
+      
   });
 } else { }
 },
@@ -745,14 +745,13 @@ jQuery('#tblSearchOverview_wrapper .dt-buttons .btntabletocsv').click();
   jQuery('#tblSearchOverview_wrapper .dt-buttons .btntabletopdf').click();
 },
 'click .dropdown-toggle' : function(event){
-//   event.stopPropagation();
-// if (!$('.dropdown').find('.dropdown-menu').hasClass("show")){
-//   // $('.dropdown-menu').removeClass('show');
-// }else{
-//   //console.log("No Show");
-//   $('.dropdown-menu').addClass('show');
-//   //$('.dropdown-menu').dropdown('toggle');
-// }
+
+
+
+
+
+
+
 }
 
 });

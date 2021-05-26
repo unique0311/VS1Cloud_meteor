@@ -31,7 +31,7 @@ Template.supplierawaitingpurchaseorder.onRendered(function () {
 
     } else {
       if (result) {
-        //console.log(result);
+        
         for (let i = 0; i < result.customFields.length; i++) {
           let customcolumn = result.customFields;
           let columData = customcolumn[i].label;
@@ -227,7 +227,7 @@ Template.supplierawaitingpurchaseorder.onRendered(function () {
               columVisible = false;
             }
             sWidth = v.style.width.replace('px', "");
-            //console.log(sWidth);
+            
             let datatablerecordObj = {
               sTitle: v.innerText || '',
               sWidth: sWidth || '',
@@ -434,7 +434,7 @@ Template.supplierawaitingpurchaseorder.onRendered(function () {
             columVisible = false;
           }
           sWidth = v.style.width.replace('px', "");
-          //console.log(sWidth);
+          
           let datatablerecordObj = {
             sTitle: v.innerText || '',
             sWidth: sWidth || '',
@@ -635,7 +635,7 @@ Template.supplierawaitingpurchaseorder.onRendered(function () {
             columVisible = false;
           }
           sWidth = v.style.width.replace('px', "");
-          //console.log(sWidth);
+          
           let datatablerecordObj = {
             sTitle: v.innerText || '',
             sWidth: sWidth || '',
@@ -802,7 +802,7 @@ Template.supplierawaitingpurchaseorder.events({
 
             }
           });
-          // console.log(checkPrefDetails);
+          
         }
       }
     }
@@ -827,7 +827,7 @@ Template.supplierawaitingpurchaseorder.events({
     let columnDataValue = $(event.target).closest("div").prev().find(".divcolumn").text();
     var datable = $('#tblSupplierAwaitingPO th');
     $.each(datable, function (i, v) {
-      console.log(datable);
+      
       if (v.innerText == columnDataValue) {
         let className = v.className;
         let replaceClass = className.replace(/ /g, ".");
@@ -840,7 +840,7 @@ Template.supplierawaitingpurchaseorder.events({
   'click .btnOpenSettings': function (event) {
     let templateObject = Template.instance();
     var columns = $('#tblSupplierAwaitingPO th');
-    // console.log(columns);
+    
     const tableHeaderList = [];
     let sTible = "";
     let sWidth = "";

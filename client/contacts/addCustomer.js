@@ -201,7 +201,7 @@ Template.customerscard.onRendered(function () {
 
         } else {
             if (result) {
-                // console.log(result);
+
                 for (let i = 0; i < result.customFields.length; i++) {
                     let customcolumn = result.customFields;
                     let columData = customcolumn[i].label;
@@ -433,7 +433,7 @@ Template.customerscard.onRendered(function () {
                             columVisible = false;
                         }
                         sWidth = v.style.width.replace('px', "");
-                        //console.log(sWidth);
+
                         let datatablerecordObj = {
                             sTitle: v.innerText || '',
                             sWidth: sWidth || '',
@@ -485,7 +485,7 @@ Template.customerscard.onRendered(function () {
             } else {
                 let data = JSON.parse(dataObject[0].data);
                 let useData = data.ttransactionlistreport;
-                console.log(useData);
+
                 let lineItems = [];
                 let lineItemObj = {};
                 for (let i = 0; i < useData.length; i++) {
@@ -535,8 +535,8 @@ Template.customerscard.onRendered(function () {
                         custfield2: '',
                         comments: useData[i].Memo || '',
                     };
-                    // console.log(customerName);
-                    // console.log(useData[i].CLIENTNAME);
+
+
                     if (useData[i].CLIENTNAME === customerName) {
                         dataTableList.push(dataList);
                     }
@@ -671,7 +671,7 @@ Template.customerscard.onRendered(function () {
                         columVisible = false;
                     }
                     sWidth = v.style.width.replace('px', "");
-                    //console.log(sWidth);
+
                     let datatablerecordObj = {
                         sTitle: v.innerText || '',
                         sWidth: sWidth || '',
@@ -907,7 +907,7 @@ Template.customerscard.onRendered(function () {
                         columVisible = false;
                     }
                     sWidth = v.style.width.replace('px', "");
-                    //console.log(sWidth);
+
                     let datatablerecordObj = {
                         sTitle: v.innerText || '',
                         sWidth: sWidth || '',
@@ -996,7 +996,7 @@ Template.customerscard.onRendered(function () {
                     }
                     templateObject.datatablerecordsjob.set(dataTableListJob);
 
-                    //console.log(dataTableListJob);
+
                     if (templateObject.datatablerecordsjob.get()) {
 
                         Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblJoblist', function (error, result) {
@@ -1121,7 +1121,7 @@ Template.customerscard.onRendered(function () {
                             columVisible = false;
                         }
                         sWidth = v.style.width.replace('px', "");
-                        //console.log(sWidth);
+
                         let datatablerecordObj = {
                             sTitle: v.innerText || '',
                             sWidth: sWidth || '',
@@ -1180,7 +1180,7 @@ Template.customerscard.onRendered(function () {
                 }
                 templateObject.datatablerecordsjob.set(dataTableListJob);
 
-                //console.log(dataTableListJob);
+
                 if (templateObject.datatablerecordsjob.get()) {
 
                     Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblJoblist', function (error, result) {
@@ -1304,7 +1304,7 @@ Template.customerscard.onRendered(function () {
                         columVisible = false;
                     }
                     sWidth = v.style.width.replace('px', "");
-                    //console.log(sWidth);
+
                     let datatablerecordObj = {
                         sTitle: v.innerText || '',
                         sWidth: sWidth || '',
@@ -1358,7 +1358,7 @@ Template.customerscard.onRendered(function () {
                 }
                 templateObject.datatablerecordsjob.set(dataTableListJob);
 
-                //console.log(dataTableListJob);
+
                 if (templateObject.datatablerecordsjob.get()) {
 
                     Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblJoblist', function (error, result) {
@@ -1483,7 +1483,7 @@ Template.customerscard.onRendered(function () {
                         columVisible = false;
                     }
                     sWidth = v.style.width.replace('px', "");
-                    //console.log(sWidth);
+
                     let datatablerecordObj = {
                         sTitle: v.innerText || '',
                         sWidth: sWidth || '',
@@ -1554,7 +1554,7 @@ Template.customerscard.onRendered(function () {
                         preferedPayments.push(data.tpaymentmethodvs1[i].PaymentMethodName)
                     }
                     preferedPayments = _.sortBy(preferedPayments);
-                    // console.log(preferedPayments);
+
                     templateObject.preferedPaymentList.set(preferedPayments);
                 });
             } else {
@@ -1572,7 +1572,7 @@ Template.customerscard.onRendered(function () {
                     preferedPayments.push(data.tpaymentmethodvs1[i].PaymentMethodName)
                 }
                 preferedPayments = _.sortBy(preferedPayments);
-                // console.log(preferedPayments);
+
                 templateObject.preferedPaymentList.set(preferedPayments);
             });
         });
@@ -1875,7 +1875,7 @@ Template.customerscard.onRendered(function () {
                                 if (data.fields.Attachments.length) {
                                     templateObject.attachmentCount.set(data.fields.Attachments.length);
                                     templateObject.uploadedFiles.set(data.fields.Attachments);
-                                    // console.log(data.fields.Attachments);
+
                                 }
                             }
                             /* END  attachment */
@@ -1903,7 +1903,7 @@ Template.customerscard.onRendered(function () {
                     } else {
                         let data = JSON.parse(dataObject[0].data);
                         let useData = data.tcustomervs1;
-                        console.log(useData);
+                        
                         var added = false;
                         for (let i = 0; i < useData.length; i++) {
                             if (parseInt(useData[i].fields.ID) === parseInt(customerID)) {
@@ -2017,7 +2017,7 @@ Template.customerscard.onRendered(function () {
                                     if (useData[i].fields.Attachments.length) {
                                         templateObject.attachmentCount.set(useData[i].fields.Attachments.length);
                                         templateObject.uploadedFiles.set(useData[i].fields.Attachments);
-                                        // console.log(useData[i].fields.Attachments);
+
                                     }
                                 }
                                 /* END  attachment */
@@ -2132,7 +2132,7 @@ Template.customerscard.onRendered(function () {
                                     if (data.fields.Attachments.length) {
                                         templateObject.attachmentCount.set(data.fields.Attachments.length);
                                         templateObject.uploadedFiles.set(data.fields.Attachments);
-                                        // console.log(data.fields.Attachments);
+
                                     }
                                 }
                                 /* END  attachment */
@@ -2256,7 +2256,7 @@ Template.customerscard.onRendered(function () {
                             if (data.fields.Attachments.length) {
                                 templateObject.attachmentCount.set(data.fields.Attachments.length);
                                 templateObject.uploadedFiles.set(data.fields.Attachments);
-                                // console.log(data.fields.Attachments);
+
                             }
                         }
                         /* END  attachment */
@@ -2352,7 +2352,7 @@ Template.customerscard.onRendered(function () {
                                 if (data.fields.Attachments.length) {
                                     templateObject.attachmentCountJobNoPOP.set(data.fields.Attachments.length);
                                     templateObject.uploadedFilesJobNoPOP.set(data.fields.Attachments);
-                                    // console.log(data.fields.Attachments);
+
                                 }
                             }
                             /* END  attachment */
@@ -2439,7 +2439,7 @@ Template.customerscard.onRendered(function () {
                                     if (useData[i].fields.Attachments.length) {
                                         templateObject.attachmentCountJobNoPOP.set(useData[i].fields.Attachments.length);
                                         templateObject.uploadedFilesJobNoPOP.set(useData[i].fields.Attachments);
-                                        // console.log(useData[i].fields.Attachments);
+
                                     }
                                 }
                                 /* END  attachment */
@@ -2524,7 +2524,7 @@ Template.customerscard.onRendered(function () {
                                     if (data.fields.Attachments.length) {
                                         templateObject.attachmentCountJobNoPOP.set(data.fields.Attachments.length);
                                         templateObject.uploadedFilesJobNoPOP.set(data.fields.Attachments);
-                                        // console.log(data.fields.Attachments);
+
                                     }
                                 }
                                 /* END  attachment */
@@ -2609,7 +2609,7 @@ Template.customerscard.onRendered(function () {
                             if (data.fields.Attachments.length) {
                                 templateObject.attachmentCountJobNoPOP.set(data.fields.Attachments.length);
                                 templateObject.uploadedFilesJobNoPOP.set(data.fields.Attachments);
-                                // console.log(data.fields.Attachments);
+
                             }
                         }
                         /* END  attachment */
@@ -2916,7 +2916,7 @@ Template.customerscard.events({
                 });
                // Meteor._reload.reload();
             }).catch(function (err) {
-                console.log(err);
+
                 swal({
                     title: 'Something went wrong',
                     text: err,
@@ -3039,7 +3039,7 @@ Template.customerscard.events({
         //     });
         // }
 
-        //console.log(objDetails);
+
 
 
     },
@@ -3405,8 +3405,8 @@ Template.customerscard.events({
         // let sltTaxCodeNameJob =  $('#sltJobTaxCode').val();
         let uploadedItemsJob = templateObject.uploadedFilesJob.get();
         let uploadedItemsJobNoPOP = templateObject.uploadedFilesJobNoPOP.get();
-        //console.log(uploadedItemsJob);
-        //console.log(uploadedItemsJobNoPOP);
+
+
         let sltTaxCodeNameJob = "";
 
         let isChecked = $(".chkJobTaxExempt").is(":checked");
@@ -3715,7 +3715,7 @@ Template.customerscard.events({
 
                         }
                     });
-                    // console.log(checkPrefDetails);
+
                 }
             }
         }
@@ -3752,7 +3752,7 @@ Template.customerscard.events({
     'click .btnOpenSettingsCustomer': function (event) {
         let templateObject = Template.instance();
         var columns = $('#tblTransactionlist th');
-        // console.log(columns);
+
         const tableHeaderList = [];
         let sTible = "";
         let sWidth = "";
@@ -4079,7 +4079,7 @@ Template.customerscard.events({
                 var clientUsername = getcurrentCloudDetails.cloudUsername;
                 var clientEmail = getcurrentCloudDetails.cloudEmail;
                 var checkPrefDetails = CloudPreference.findOne({ userid: clientID, PrefName: 'customerscard' });
-                // console.log(checkPrefDetails);
+
                 if (checkPrefDetails) {
                     CloudPreference.remove({ _id: checkPrefDetails._id }, function (err, idTag) {
                         if (err) {
@@ -4148,7 +4148,7 @@ Template.customerscard.events({
         let attachmentID = parseInt(event.currentTarget.parentNode.id.split('attachment-name-')[1]);
         let templateObj = Template.instance();
         let uploadedFiles = templateObj.uploadedFiles.get();
-        // console.log(uploadedFiles);
+
         $('#myModalAttachment').modal('hide');
         let previewFile = {};
         let input = uploadedFiles[attachmentID].fields.Description;
@@ -4254,7 +4254,7 @@ Template.customerscard.events({
         let attachmentID = parseInt(event.currentTarget.parentNode.id.split('attachment-nameJobPOP-')[1]);
         let templateObj = Template.instance();
         let uploadedFiles = templateObj.uploadedFilesJob.get();
-        // console.log(uploadedFiles);
+
         $('#myModalAttachmentJobPOP').modal('hide');
         let previewFile = {};
         let input = uploadedFiles[attachmentID].fields.Description;
@@ -4335,12 +4335,12 @@ Template.customerscard.events({
         let lineIDForAttachment = false;
         let uploadedFilesArrayJob = templateObj.uploadedFilesJobNoPOP.get();
 
-        // console.log(uploadedFilesArrayJob);
+
         let myFiles = $('#attachment-uploadJobNoPOP')[0].files;
 
         let uploadData = utilityService.attachmentUploadJobNoPOP(uploadedFilesArrayJob, myFiles, saveToTAttachment, lineIDForAttachment);
 
-        // console.log(uploadData);
+
         templateObj.uploadedFilesJobNoPOP.set(uploadData.uploadedFilesArray);
         templateObj.attachmentCountJobNoPOP.set(uploadData.totalAttachments);
     },
@@ -4361,7 +4361,7 @@ Template.customerscard.events({
         let attachmentID = parseInt(event.currentTarget.parentNode.id.split('attachment-nameJobNoPOP-')[1]);
         let templateObj = Template.instance();
         let uploadedFiles = templateObj.uploadedFilesJobNoPOP.get();
-        // console.log(uploadedFiles);
+
         //$('#myModalAttachmentJobNoPOP').modal('hide');
         let previewFile = {};
         let input = uploadedFiles[attachmentID].fields.Description;

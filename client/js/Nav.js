@@ -1,6 +1,6 @@
-//
-//
-//
+
+
+
 
 Template.nav.events({
 'click #navhome' : function(event){
@@ -209,18 +209,18 @@ $('#navsettings').addClass('nav_activestate');
 }
 
 });
-   //$( '#navhome' ).on( 'click', function() {
-    // $('#navhome').addClass('nav_activestate');
-     //var loc = window.location.pathname; // returns the full path
-     //if(/home/.test(loc)) {
-    //   $('#navhome').addClass('nav_activestate');
-     //} else {
-    //   $('#navhome').removeClass('nav_activestate');
-    // }
-   //$( this ).parent().find( 'li.nav_activestate' ).removeClass( 'nav_activestate' );
-   //$( this ).addClass( 'nav_activestate' );
-   //});
- //});
+   
+    
+     
+     
+    
+     
+    
+    
+   
+   
+   
+ 
  /*
  $(function() {
  $( '.nav li' ).on( 'click', function() {
@@ -237,7 +237,7 @@ Template.nav.onRendered(function(){
   $('#navhome, #navaccounts').click(function () {
 if (this.id == 'navhome') {
  $('#navhome').addClass('nav_activestate');
- //alert('here');
+ 
 }
 else if (this.id == 'navaccounts') {
    $('#navaccounts').addClass('nav_activestate');

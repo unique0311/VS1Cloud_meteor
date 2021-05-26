@@ -121,7 +121,7 @@ batchUpdateCall = function (url) {
         if(oReq.readyState == 4 && oReq.status == 200) {
           var myArrResponse = JSON.parse(oReq.responseText);
           let responseBack = myArrResponse.ProcessLog.ResponseStatus;
-          // console.log(responseBack);
+          
           if (~responseBack.indexOf("Finished Batch Update")){
 
             sideBarService.getTTransactionListReport('').then(function(data) {
@@ -149,7 +149,7 @@ batchUpdateCall = function (url) {
                 if(oReq2.readyState == 4 && oReq2.status == 200) {
                   // var myArrResponse2 = JSON.parse(oReq2.responseText);
                   var dataReturnRes = JSON.parse(oReq2.responseText);
-                  // console.log(dataReturnRes.ProcessLog.TUser);
+                  
                   //Dashboard API:
                   if(dataReturnRes.ProcessLog.TUser.TVS1_Dashboard_summary.fields){
                   Session.setPersistent('vs1companyName', dataReturnRes.ProcessLog.TUser.TVS1_Dashboard_summary.fields.Companyinfo_CompanyName||'');
@@ -196,9 +196,9 @@ batchUpdateCall = function (url) {
                     }else{
                       //let userData = dataObject[0].data;
                       dashboardArray = dataObject[0].data;
-                      // console.log(dataReturnRes.ProcessLog.TUser.TVS1_Dashboard_salesperemployee);
-                      // console.log(dataReturnRes.ProcessLog.TUser.TVS1_Dashboard_salesperemployee);
-                      // console.log(dashboardArray.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_salesperemployee);
+                      
+                      
+                      
                       dashboardArray.ProcessLog.ClientDetails.ProcessLog.TUser.TEmployeePicture = dataReturnRes.ProcessLog.TUser.TEmployeePicture;
                       dashboardArray.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_ap_report = dataReturnRes.ProcessLog.TUser.TVS1_Dashboard_ap_report;
                       dashboardArray.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_pnl_period = dataReturnRes.ProcessLog.TUser.TVS1_Dashboard_pnl_period;
@@ -217,7 +217,7 @@ batchUpdateCall = function (url) {
 
 
                     }
-                    //console.log(dashboardArray);
+                    
                     addLoginData(dashboardArray).then(function (datareturnCheck) {
                       if(url){
                         window.open(url,'_self');

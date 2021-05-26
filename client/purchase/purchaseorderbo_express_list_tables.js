@@ -30,7 +30,7 @@ Template.purchaseorderlistBO.onRendered(function() {
 
     }else{
       if(result){
-        console.log(result);
+        
         for (let i = 0; i < result.customFields.length; i++) {
           let customcolumn = result.customFields;
           let columData = customcolumn[i].label;
@@ -206,7 +206,7 @@ Template.purchaseorderlistBO.onRendered(function() {
                   columVisible = false;
                 }
                 sWidth = v.style.width.replace('px', "");
-                //console.log(sWidth);
+                
                 let datatablerecordObj = {
                   sTitle: v.innerText || '',
                   sWidth: sWidth || '',
@@ -380,7 +380,7 @@ setTimeout(function () {
       columVisible = false;
     }
     sWidth = v.style.width.replace('px', "");
-    //console.log(sWidth);
+    
     let datatablerecordObj = {
       sTitle: v.innerText || '',
       sWidth: sWidth || '',
@@ -550,7 +550,7 @@ templateObject.tableheaderrecords.set(tableHeaderList);
                   columVisible = false;
                 }
                 sWidth = v.style.width.replace('px', "");
-                //console.log(sWidth);
+                
                 let datatablerecordObj = {
                   sTitle: v.innerText || '',
                   sWidth: sWidth || '',

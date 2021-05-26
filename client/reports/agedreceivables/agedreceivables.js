@@ -52,7 +52,7 @@ yearRange: "-90:+10",
   $("#dateFrom").val(fromDate);
    $("#dateTo").val(begunDate);
    let currenctURL = Router.current().params.query;
-   // console.log(currenctURL.contact);
+   
     templateObject.getAgedReceivableReports = function (dateFrom, dateTo, ignoreDate) {
       templateObject.records.set('');
       templateObject.grandrecords.set('');
@@ -165,7 +165,7 @@ let grandOlder = 0;
     for (let n = 0; n < current.length; n++) {
 
         const grandcurrencyLength = Currency.length;
-        // console.log(current[n][4]);
+        
         //for (let m = 0; m < current[n].data.length; m++) {
              grandamountduetotal = grandamountduetotal + utilityService.convertSubstringParseFloat(current[n][4]);
             grandCurrenttotal = grandCurrenttotal + utilityService.convertSubstringParseFloat(current[n][5]);
@@ -192,7 +192,7 @@ let grandOlder = 0;
 
         templateObject.records.set(totalRecord);
         templateObject.grandrecords.set(grandval);
-        //console.log(templateObject.records.get());
+        
 
         if(templateObject.records.get()){
         setTimeout(function () {
@@ -204,7 +204,7 @@ let grandOlder = 0;
           });
 
           $('td').each(function(){
-            // console.log($(this).first().text()[0]);
+            
             let lineValue = $(this).first().text()[0];
             if(lineValue != undefined){
               if(lineValue.indexOf(Currency) >= 0) $(this).addClass('text-right')
@@ -363,7 +363,7 @@ let grandOlder = 0;
   for (let n = 0; n < current.length; n++) {
 
       const grandcurrencyLength = Currency.length;
-      // console.log(current[n][4]);
+      
       //for (let m = 0; m < current[n].data.length; m++) {
            grandamountduetotal = grandamountduetotal + utilityService.convertSubstringParseFloat(current[n][4]);
           grandCurrenttotal = grandCurrenttotal + utilityService.convertSubstringParseFloat(current[n][5]);
@@ -390,7 +390,7 @@ let grandOlder = 0;
 
       templateObject.records.set(totalRecord);
       templateObject.grandrecords.set(grandval);
-      //console.log(templateObject.records.get());
+      
 
       if(templateObject.records.get()){
       setTimeout(function () {
@@ -402,7 +402,7 @@ let grandOlder = 0;
         });
 
         $('td').each(function(){
-          // console.log($(this).first().text()[0]);
+          
           let lineValue = $(this).first().text()[0];
           if(lineValue != undefined){
             if(lineValue.indexOf(Currency) >= 0) $(this).addClass('text-right')

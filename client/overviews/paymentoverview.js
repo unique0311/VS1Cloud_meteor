@@ -474,7 +474,7 @@ Template.paymentoverview.onRendered(function() {
                             columVisible = false;
                         }
                         sWidth = v.style.width.replace('px', "");
-                        //console.log(sWidth);
+                        
                         let datatablerecordObj = {
                             sTitle: v.innerText || '',
                             sWidth: sWidth || '',
@@ -659,7 +659,7 @@ Template.paymentoverview.onRendered(function() {
                         columVisible = false;
                     }
                     sWidth = v.style.width.replace('px', "");
-                    //console.log(sWidth);
+                    
                     let datatablerecordObj = {
                         sTitle: v.innerText || '',
                         sWidth: sWidth || '',
@@ -842,7 +842,7 @@ Template.paymentoverview.onRendered(function() {
                         columVisible = false;
                     }
                     sWidth = v.style.width.replace('px', "");
-                    //console.log(sWidth);
+                    
                     let datatablerecordObj = {
                         sTitle: v.innerText || '',
                         sWidth: sWidth || '',
@@ -1067,7 +1067,7 @@ Template.paymentoverview.events({
 
                         }
                     });
-                    // console.log(checkPrefDetails);
+                    
                 }
             }
         }
@@ -1092,7 +1092,7 @@ Template.paymentoverview.events({
         let columnDataValue = $(event.target).closest("div").prev().find(".divcolumn").text();
         var datable = $('#tblPaymentOverview th');
         $.each(datable, function(i,v) {
-            console.log(datable);
+            
             if(v.innerText == columnDataValue){
                 let className = v.className;
                 let replaceClass = className.replace(/ /g, ".");
@@ -1105,7 +1105,7 @@ Template.paymentoverview.events({
     'click .btnOpenSettings' : function(event){
         let templateObject = Template.instance();
         var columns = $('#tblPaymentOverview th');
-        // console.log(columns);
+        
         const tableHeaderList = [];
         let sTible = "";
         let sWidth = "";

@@ -41,13 +41,13 @@ if((currentId === "addNewAccount") || (currentId ==='newaccount')){
 
 }
 
- //console.log(currentId);
+
   Meteor.call('readPrefMethod',Session.get('mycloudLogonID'),'tblAccountOverview', function(error, result){
   if(error){
 
   }else{
     if(result){
-      //console.log(result);
+
       for (let i = 0; i < result.customFields.length; i++) {
         let customcolumn = result.customFields;
         let columData = customcolumn[i].label;
@@ -82,7 +82,7 @@ getVS1Data('TAccountType').then(function (dataObject) {
   }else{
     let data = JSON.parse(dataObject[0].data);
     let useData = data.taccounttype;
-    // console.log(useData);
+
     for(let i=0; i<useData.length; i++){
     let accounttyperecordObj = {
       accounttypename: useData[i].AccountTypeName || ' ',
@@ -367,7 +367,7 @@ templateObject.getAllTaxCodes();
                 columVisible = false;
               }
               sWidth = v.style.width.replace('px', "");
-              //console.log(sWidth);
+
               let datatablerecordObj = {
                 sTitle: v.innerText || '',
                 sWidth: sWidth || '',
@@ -569,7 +569,7 @@ templateObject.getAllTaxCodes();
               columVisible = false;
             }
             sWidth = v.style.width.replace('px', "");
-            //console.log(sWidth);
+
             let datatablerecordObj = {
               sTitle: v.innerText || '',
               sWidth: sWidth || '',
@@ -763,7 +763,7 @@ templateObject.getAllTaxCodes();
               columVisible = false;
             }
             sWidth = v.style.width.replace('px', "");
-            //console.log(sWidth);
+
             let datatablerecordObj = {
               sTitle: v.innerText || '',
               sWidth: sWidth || '',
@@ -794,7 +794,7 @@ templateObject.getAllTaxCodes();
   var accountName = $(event.target).closest("tr").find(".colAccountName").text();
   let columnBalClass = $(event.target).attr('class');
    // let accountService = new AccountService();
-   // console.log(columnBalClass);
+
    // if(columnBalClass.indexOf("colBalance") != -1){
    //     window.open('/balancetransactionlist?accountName=' + accountName+ '&isTabItem='+false,'_self');
    // }else{
@@ -966,7 +966,7 @@ Template.accountsoverview.events({
 
             }
           });
-           // console.log(checkPrefDetails);
+
         }
       }
     }
@@ -991,7 +991,7 @@ Template.accountsoverview.events({
     let columnDataValue = $(event.target).closest("div").prev().find(".divcolumn").text();
     var datable = $('#tblAccountOverview th');
     $.each(datable, function(i,v) {
-      console.log(datable);
+
     if(v.innerText == columnDataValue){
         let className = v.className;
         let replaceClass = className.replace(/ /g, ".");
@@ -1004,7 +1004,7 @@ Template.accountsoverview.events({
   'click .btnOpenSettings' : function(event){
     let templateObject = Template.instance();
     var columns = $('#tblAccountOverview th');
-    // console.log(columns);
+
     const tableHeaderList = [];
     let sTible = "";
     let sWidth = "";
@@ -1287,7 +1287,7 @@ $('.fullScreenSpin').css('display','none');
       // alert('here 1');
       $('.file-name').text(filename);
       let selectedFile = event.target.files[0];
-      console.log(selectedFile);
+
       templateObj.selectedFile.set(selectedFile);
       if($('.file-name').text() != ""){
         $(".btnImport").removeAttr("disabled");
@@ -1308,17 +1308,17 @@ $('.fullScreenSpin').css('display','none');
                 var data = e.target.result;
                 data = new Uint8Array(data);
                 var workbook = XLSX.read(data, {type: 'array'});
-                console.log(workbook);
+            
                 var result = {};
                 workbook.SheetNames.forEach(function (sheetName) {
                     var roa = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName], {header: 1});
                     var sCSV = XLSX.utils.make_csv(workbook.Sheets[sheetName]);
                     templateObj.selectedFile.set(sCSV);
-                    //console.log(sCSV);
+
                     if (roa.length) result[sheetName] = roa;
                 });
                 // see the result, caution: it works after reader event is done.
-                //console.log(result);
+
             };
             reader.readAsArrayBuffer(oFile);
 
@@ -1344,13 +1344,13 @@ $('.fullScreenSpin').css('display','none');
     if((fileType == "csv") || (fileType == "txt") || (fileType == "xlsx")){
     Papa.parse(templateObject.selectedFile.get(), {
         complete: function(results) {
-           //console.log(results.data[0][0]);
+
         if(results.data.length > 0){
         if((results.data[0][0] == "Account Name") && (results.data[0][1] == "Description")
       && (results.data[0][2] == "Account No") && (results.data[0][3] == "Type")
     && (results.data[0][4] == "Balance") && (results.data[0][5] == "Tax Code")
   && (results.data[0][6] == "Bank Acc Name") && (results.data[0][7] == "BSB") && (results.data[0][8] == "Bank Acc No")) {
-    //console.log(results.data[0][0]);
+
     let dataLength = results.data.length * 500;
     setTimeout(function(){
      // $('#importModal').modal('toggle');
@@ -1447,7 +1447,7 @@ $('.fullScreenSpin').css('display','none');
       let templateObject = Template.instance();
       let accountService = new AccountService();
       let accountID = $('#edtAccountID').val();
-     
+
       if(accountID == ""){
         window.open('/accountsoverview','_self');
       }else{
@@ -1458,7 +1458,7 @@ $('.fullScreenSpin').css('display','none');
           Active: false,
          }
        };
-    
+
        accountService.saveAccount(data).then(function (data) {
          sideBarService.getAccountListVS1().then(function(dataReload) {
            addVS1Data('TAccountVS1',JSON.stringify(dataReload)).then(function (datareturn) {
@@ -1480,14 +1480,14 @@ $('.fullScreenSpin').css('display','none');
          if (result.value) {
           Meteor._reload.reload();
          } else if (result.dismiss === 'cancel') {
-    
+
          }
          });
            $('.fullScreenSpin').css('display','none');
        });
       }
-    
-    
+
+
     }
     else {
 

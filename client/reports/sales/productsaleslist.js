@@ -28,7 +28,7 @@ Template.productsaleslist.onRendered(()=>{
 
  }else{
    if(result){
-     //console.log(result);
+
      for (let i = 0; i < result.customFields.length; i++) {
        let customcolumn = result.customFields;
        let columData = customcolumn[i].label;
@@ -94,7 +94,7 @@ Template.productsaleslist.onRendered(()=>{
         let lineItemObj = {};
         // alert(data.tproductsalesdetailsreport[1].Id);
         for(let i=0; i<data.tproductsalesdetailsreport.length; i++){
-          //console.log(data.tproductsalesdetailsreport[i].TransactionNo);
+          
 
           let totalAmount = utilityService.modifynegativeCurrencyFormat(data.tproductsalesdetailsreport[i]['Total Amount (Inc)'])|| 0.00;
           let totalProfit = utilityService.modifynegativeCurrencyFormat(data.tproductsalesdetailsreport[i]['Total Profit (Inc)'])|| 0.00;
@@ -124,7 +124,7 @@ Template.productsaleslist.onRendered(()=>{
         }
 
         templateObject.datatablerecords.set(dataTableList);
-        //console.log(templateObject.datatablerecords.get());
+        
         if(templateObject.datatablerecords.get()){
 
           Meteor.call('readPrefMethod',Session.get('mycloudLogonID'),'tblProductalesReport', function(error, result){
@@ -271,7 +271,7 @@ Template.productsaleslist.onRendered(()=>{
     let lineItemObj = {};
     // alert(data.tproductsalesdetailsreport[1].Id);
     for(let i=0; i<data.tproductsalesdetailsreport.length; i++){
-      //console.log(data.tproductsalesdetailsreport[i].TransactionNo);
+      
 
       let totalAmount = utilityService.modifynegativeCurrencyFormat(data.tproductsalesdetailsreport[i]['Total Amount (Inc)'])|| 0.00;
       let totalProfit = utilityService.modifynegativeCurrencyFormat(data.tproductsalesdetailsreport[i]['Total Profit (Inc)'])|| 0.00;
@@ -301,7 +301,7 @@ Template.productsaleslist.onRendered(()=>{
     }
 
     templateObject.datatablerecords.set(dataTableList);
-    //console.log(templateObject.datatablerecords.get());
+    
     if(templateObject.datatablerecords.get()){
 
       Meteor.call('readPrefMethod',Session.get('mycloudLogonID'),'tblProductalesReport', function(error, result){
@@ -579,7 +579,6 @@ Template.productsaleslist.events({
       let columnDataValue = $(event.target).closest("div").prev().find(".divcolumn").text();
       var datable = $('#tblProductalesReport th');
       $.each(datable, function(i,v) {
-        //console.log(datable);
       if(v.innerText == columnDataValue){
           let className = v.className;
           let replaceClass = className.replace(/ /g, ".");
@@ -592,7 +591,7 @@ Template.productsaleslist.events({
     'click .btnOpenSettings' : function(event){
       let templateObject = Template.instance();
       var columns = $('#tblProductalesReport th');
-      // console.log(columns);
+
       const tableHeaderList = [];
       let sTible = "";
       let sWidth = "";
@@ -608,7 +607,7 @@ Template.productsaleslist.events({
           columVisible = false;
         }
         sWidth = v.style.width.replace('px', "");
-        //console.log(sWidth);
+
         let datatablerecordObj = {
           sTitle: v.innerText || '',
           sWidth: sWidth || '',

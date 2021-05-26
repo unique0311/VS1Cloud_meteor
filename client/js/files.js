@@ -6,7 +6,7 @@ var employeeProfileService = new EmployeeProfileService();
 getEmployeeProfiles();
 function getEmployeeProfiles () {
 employeeProfileService.getEmployeeProfile().then((dataListRet)=>{
-//var dataListRet = JSON.parse(oReq.responseText)
+
     for (var event in dataListRet) {
     var dataCopy = dataListRet[event];
     for (var data in dataCopy) {

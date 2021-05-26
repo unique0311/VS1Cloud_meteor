@@ -763,7 +763,7 @@ Template.currenciesSettings.events({
       let columnDataValue = $(event.target).closest("div").prev().find(".divcolumn").text();
       var datable = $('#currencyLists th');
       $.each(datable, function(i,v) {
-        console.log(datable);
+        
       if(v.innerText == columnDataValue){
           let className = v.className;
           let replaceClass = className.replace(/ /g, ".");
@@ -776,7 +776,7 @@ Template.currenciesSettings.events({
     'click .btnOpenSettings' : function(event){
       let templateObject = Template.instance();
       var columns = $('#currencyLists th');
-      // console.log(columns);
+      
       const tableHeaderList = [];
       let sTible = "";
       let sWidth = "";
@@ -792,7 +792,7 @@ Template.currenciesSettings.events({
           columVisible = false;
         }
         sWidth = v.style.width.replace('px', "");
-        console.log(sWidth);
+        
         let datatablerecordObj = {
           sTitle: v.innerText || '',
           sWidth: sWidth || '',
@@ -982,7 +982,7 @@ Template.currenciesSettings.events({
     };
    }
 
-   //console.log(objDetails);
+   
     taxRateService.saveCurrency(objDetails).then(function (objDetails) {
       sideBarService.getCurrencies().then(function(dataReload) {
             addVS1Data('TCurrency',JSON.stringify(dataReload)).then(function (datareturn) {

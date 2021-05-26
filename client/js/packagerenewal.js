@@ -1,11 +1,11 @@
 import {Mongo} from 'meteor/mongo';
 
 Template.packagerenewal.onCreated(function() {
-  //const templateObject = Template.instance();
+  
   Meteor.call('sendEmail', {
       from: "VS1 Cloud <info@vs1cloud.com>",
       to: 'rasheed@trueerp.com',
-      // cc: 'info@vs1cloud.com',
+      
       subject: '[VS1 Cloud] - Licence Renewal',
       text: "Test Render",
       html:'',
@@ -23,10 +23,10 @@ Template.packagerenewal.onRendered(function() {
   let currentURL = Router.current().params.query;
   Meteor.call('magentoAWSProfileRenewal', function(error, result) {
     if (error) {
-      // console.log(error);
+
     } else {
       if (result) {
-        // console.log(result);
+
         let valueData = result.items;
         for (let j in valueData) {
           if (valueData[j].status == "active") {
@@ -34,18 +34,18 @@ Template.packagerenewal.onRendered(function() {
               var currentDate = new Date();
               var renewCurrentDate = moment(currentDate).format("YYYY-MM-DD");
               let lastOrderDate = valueData[j].last_order_date.split(' ')[0];
-              // console.log(lastOrderDate);
+
               let customerEmail = valueData[j].customer_email;
               let paymentMethod = valueData[j].payment_method;
               let paymentAmount = valueData[j].regular_subtotal;
-              // $('#emEmail').html(currentURL.emailakey);
-              // $('#emPassword').html(currentURL.passkey);
+              
+              
     if (lastOrderDate === renewCurrentDate) {
               let objDetails = {
                 Name: "VS1_Renew",
                 Params: {
                   CloudUserName: customerEmail,
-                  // CloudPassword: "Pass@123",
+                  
                   Paymentamount: parseFloat(paymentAmount) || 0,
                   PayMethod: paymentMethod,
                 }
@@ -62,7 +62,7 @@ Template.packagerenewal.onRendered(function() {
               oPost.setRequestHeader("Accept", "application/json");
               oPost.setRequestHeader("Accept", "application/html");
               oPost.setRequestHeader("Content-type", "application/json");
-              // console.log(objDetails);
+
               var myString = JSON.stringify(objDetails);
               oPost.send(myString);
               oPost.onreadystatechange = function() {
@@ -72,7 +72,7 @@ Template.packagerenewal.onRendered(function() {
                   Meteor.call('sendEmail', {
                       from: "VS1 Cloud <info@vs1cloud.com>",
                       to: 'rasheed@trueerp.com',
-                      // cc: 'info@vs1cloud.com',
+                      
                       subject: '[VS1 Cloud] - Licence Renewal',
                       text: customerEmail,
                       html:'',
@@ -83,11 +83,11 @@ Template.packagerenewal.onRendered(function() {
                   });
 
                   var myArrResponse = JSON.parse(oPost.responseText);
-                  //console.log(myArrResponse);
+
                   if (myArrResponse.ProcessLog.Error) {
-                    // Bert.alert('Database Error<strong> :'+ myArrResponse.ProcessLog.Error+'</strong>', 'now-error');
-                    // swal('Database Error', myArrResponse.ProcessLog.Error, 'error');
-                    // $('.fullScreenSpin').css('display','none');
+                    
+                    
+                    
                   } else {
                     var databaseName = myArrResponse.ProcessLog.Databasename;
 
@@ -102,10 +102,10 @@ Template.packagerenewal.onRendered(function() {
 
                   if ((segError[1]) == ' "Unable to lock object') {
 
-                    //Bert.alert('<strong>'+ oPost.getResponseHeader('errormessage')+'</strong>. Please close the customer form in ERP!', 'danger');
+                    
 
                   } else {
-                    //Bert.alert('<strong>'+ oPost.getResponseHeader('errormessage')+'</strong>!', 'danger');
+                    
 
                   }
 
@@ -128,7 +128,7 @@ Template.packagerenewal.onRendered(function() {
 
     }
   });
-  //console.log(currentURL.quoteid);
+
   let userEmail = '';
   let cloudpassword = '';
 
@@ -159,7 +159,7 @@ Template.packagerenewal.onRendered(function() {
     oPost.setRequestHeader("Accept", "application/json");
     oPost.setRequestHeader("Accept", "application/html");
     oPost.setRequestHeader("Content-type", "application/json");
-     console.log(JSON.stringify(objDetails));
+     
     var myString = JSON.stringify(objDetails);
     oPost.send(myString);
     oPost.onreadystatechange = function() {
@@ -167,36 +167,36 @@ Template.packagerenewal.onRendered(function() {
       if (oPost.readyState == 4 && oPost.status == 200) {
 
         var myArrResponse = JSON.parse(oPost.responseText);
-        //console.log(myArrResponse);
+
         if (myArrResponse.ProcessLog.Error) {
-          // Bert.alert('Database Error<strong> :'+ myArrResponse.ProcessLog.Error+'</strong>', 'now-error');
+          
           swal('Database Error', myArrResponse.ProcessLog.Error, 'error');
-          // $('.fullScreenSpin').css('display','none');
+          
         } else {
           var databaseName = myArrResponse.ProcessLog.Databasename;
 
           localStorage.usremail = userEmail;
           localStorage.usrpassword = cloudpassword;
           window.open('/','_self');
-          // let mailBodyNew = $('.emailBody').html();
-          // Meteor.call('sendEmail', {
-          //     from: "VS1 Cloud <info@vs1cloud.com>",
-          //     to: userEmail,
-          //     cc: 'info@vs1cloud.com',
-          //     subject: '[VS1 Cloud] - Licence Renewal',
-          //     text: '',
-          //     html:mailBodyNew,
-          //     attachments : ''
-          //
-          // }, function (error, result) {
-          //
-          //       window.open('/','_self');
-          //
-          // });
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
 
 
 
-          // Meteor.call('chargeCard2', stripeToken);
+          
 
         }
 
@@ -222,22 +222,22 @@ Template.packagerenewal.onRendered(function() {
 
         if ((segError[1]) == ' "Unable to lock object') {
 
-          //Bert.alert('<strong>'+ oPost.getResponseHeader('errormessage')+'</strong>. Please close the customer form in ERP!', 'danger');
+          
           swal('WARNING', oPost.getResponseHeader('errormessage') + 'Please try again!', 'error');
         } else {
-          //Bert.alert('<strong>'+ oPost.getResponseHeader('errormessage')+'</strong>!', 'danger');
+          
           swal('WARNING', oPost.getResponseHeader('errormessage') + 'Please try again!', 'error');
         }
 
       } else if (oPost.readyState == '') {
         $('.fullScreenSpin').css('display', 'none');
-        //Bert.alert('<strong>'+ oPost.getResponseHeader('errormessage')+'</strong>!', 'danger');
+        
         swal('Connection Failed', oPost.getResponseHeader('errormessage') + ' Please try again!', 'error');
       }
 
     }
   } else {
-    // window.open('/','_self');
+    
   }
 
 

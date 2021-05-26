@@ -61,7 +61,7 @@ yearRange: "-90:+10",
           let totalRecord = [];
           let grandtotalRecord = [];
 
-          //console.log(data);
+          
         if(data.tproductsalesdetailsreport.length){
           localStorage.setItem('VS1ProductSales_Report', JSON.stringify(data)||'');
           let records = [];
@@ -114,7 +114,7 @@ yearRange: "-90:+10",
 
         }
         // alert('here');
-        //console.log(records);
+        
           records = _.sortBy(records, 'Company');
         records = _.groupBy(records, 'Company');
         for (let key in records) {
@@ -134,7 +134,7 @@ yearRange: "-90:+10",
           let totalQty = 0;
           const currencyLength = Currency.length;
           for (let k = 0; k < allRecords[i][1].data.length; k++) {
-            //console.log(allRecords[i][1].data[k].dataArr[5]);
+            
               // totalAmountEx = totalAmountEx + utilityService.convertSubstringParseFloat(allRecords[i][1].data[k].dataArr[5]);
               totalQty = totalQty + allRecords[i][1].data[k].dataArr[5];
               totalTax = totalTax + utilityService.convertSubstringParseFloat(allRecords[i][1].data[k].dataArr[6]);
@@ -142,7 +142,7 @@ yearRange: "-90:+10",
               balance = balance + utilityService.convertSubstringParseFloat(allRecords[i][1].data[k].dataArr[8]);
 
           }
-          //console.log(totalQty);
+          
           let val = ['Total ' + allRecords[i][0].key+'', '', '', '','',''+totalQty+'',
                utilityService.modifynegativeCurrencyFormat(totalTax), utilityService.modifynegativeCurrencyFormat(amountInc), utilityService.modifynegativeCurrencyFormat(balance)];
           current.push(val);
@@ -162,7 +162,7 @@ let grandtotalqty = 0;
         const grandcurrencyLength = Currency.length;
 
              grandtotalqty = grandtotalqty + Number(current[n][5].replace(/[^0-9.-]+/g,"")) || 0;
-              //console.log(grandtotalqty);
+              
              // grandtotalAmountEx = grandtotalAmountEx + utilityService.convertSubstringParseFloat(current[n][5]);
              grandtotalTax = grandtotalTax + utilityService.convertSubstringParseFloat(current[n][6]);
              grandamountInc = grandamountInc + utilityService.convertSubstringParseFloat(current[n][7]);
@@ -171,7 +171,7 @@ let grandtotalqty = 0;
 
     }
 
-// console.log(grandCurrenttotal);
+
     let grandval = ['Grand Total ' +  '', '', '','','',''+grandtotalqty+'',
     //utilityService.modifynegativeCurrencyFormat(grandtotalAmountEx),
         utilityService.modifynegativeCurrencyFormat(grandtotalTax),
@@ -188,7 +188,7 @@ let grandtotalqty = 0;
 
         templateObject.records.set(totalRecord);
         templateObject.grandrecords.set(grandval);
-        // console.log(templateObject.grandrecords.get());
+        
 
         if(templateObject.records.get()){
           setTimeout(function () {
@@ -200,7 +200,7 @@ let grandtotalqty = 0;
             });
 
             $('td').each(function(){
-              // console.log($(this).first().text()[0]);
+              
               let lineValue = $(this).first().text()[0];
               if(lineValue != undefined){
                 if(lineValue.indexOf(Currency) >= 0) $(this).addClass('text-right')
@@ -306,7 +306,7 @@ let grandtotalqty = 0;
 
       }
       // alert('here');
-      //console.log(records);
+      
         records = _.sortBy(records, 'Company');
       records = _.groupBy(records, 'Company');
       for (let key in records) {
@@ -326,7 +326,7 @@ let grandtotalqty = 0;
         let totalQty = 0;
         const currencyLength = Currency.length;
         for (let k = 0; k < allRecords[i][1].data.length; k++) {
-          //console.log(allRecords[i][1].data[k].dataArr[5]);
+          
             // totalAmountEx = totalAmountEx + utilityService.convertSubstringParseFloat(allRecords[i][1].data[k].dataArr[5]);
             totalQty = totalQty + allRecords[i][1].data[k].dataArr[5];
             totalTax = totalTax + utilityService.convertSubstringParseFloat(allRecords[i][1].data[k].dataArr[6]);
@@ -334,7 +334,7 @@ let grandtotalqty = 0;
             balance = balance + utilityService.convertSubstringParseFloat(allRecords[i][1].data[k].dataArr[8]);
 
         }
-        //console.log(totalQty);
+        
         let val = ['Total ' + allRecords[i][0].key+'', '', '', '','',''+totalQty+'',
              utilityService.modifynegativeCurrencyFormat(totalTax), utilityService.modifynegativeCurrencyFormat(amountInc), utilityService.modifynegativeCurrencyFormat(balance)];
         current.push(val);
@@ -354,7 +354,7 @@ let grandtotalqty = 0;
       const grandcurrencyLength = Currency.length;
 
            grandtotalqty = grandtotalqty + Number(current[n][5].replace(/[^0-9.-]+/g,"")) || 0;
-            //console.log(grandtotalqty);
+            
            // grandtotalAmountEx = grandtotalAmountEx + utilityService.convertSubstringParseFloat(current[n][5]);
            grandtotalTax = grandtotalTax + utilityService.convertSubstringParseFloat(current[n][6]);
            grandamountInc = grandamountInc + utilityService.convertSubstringParseFloat(current[n][7]);
@@ -363,7 +363,7 @@ let grandtotalqty = 0;
 
   }
 
-// console.log(grandCurrenttotal);
+
   let grandval = ['Grand Total ' +  '', '', '','','',''+grandtotalqty+'',
   //utilityService.modifynegativeCurrencyFormat(grandtotalAmountEx),
       utilityService.modifynegativeCurrencyFormat(grandtotalTax),
@@ -380,7 +380,7 @@ let grandtotalqty = 0;
 
       templateObject.records.set(totalRecord);
       templateObject.grandrecords.set(grandval);
-      // console.log(templateObject.grandrecords.get());
+      
 
       if(templateObject.records.get()){
         setTimeout(function () {
@@ -392,7 +392,7 @@ let grandtotalqty = 0;
           });
 
           $('td').each(function(){
-            // console.log($(this).first().text()[0]);
+            
             let lineValue = $(this).first().text()[0];
             if(lineValue != undefined){
               if(lineValue.indexOf(Currency) >= 0) $(this).addClass('text-right')

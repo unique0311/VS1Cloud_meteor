@@ -297,7 +297,7 @@ Template.stockadjustmentcard.onRendered(() => {
 
                             Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblJournalEntryLine', function (error, result) {
                                 if (error) {
-                                    // console.log(error);
+                                    
                                     //Bert.alert('<strong>Error:</strong> user-not-found, no user found please try again!', 'danger');
                                 } else {
                                     if (result) {
@@ -478,7 +478,7 @@ Template.stockadjustmentcard.onRendered(() => {
                     //here
                 }
             }).catch(function (err) {
-                console.log(err);
+                
                 stockTransferService.getOneStockAdjustData(currentStockAdjust).then(function (data) {
                     $('.fullScreenSpin').css('display', 'none');
                     let lineItems = [];
@@ -535,7 +535,7 @@ Template.stockadjustmentcard.onRendered(() => {
 
                         Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblJournalEntryLine', function (error, result) {
                             if (error) {
-                                // console.log(error);
+                                
                                 //Bert.alert('<strong>Error:</strong> user-not-found, no user found please try again!', 'danger');
                             } else {
                                 if (result) {
@@ -640,7 +640,7 @@ Template.stockadjustmentcard.onRendered(() => {
             // $('#tblJournalEntryLine').colResizable({liveDrag:true});
             Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblJournalEntryLine', function (error, result) {
                 if (error) {
-                    //console.log(error);
+                    
                     //Bert.alert('<strong>Error:</strong> user-not-found, no user found please try again!', 'danger');
                 } else {
                     if (result) {
@@ -1530,7 +1530,7 @@ Template.stockadjustmentcard.events({
             stockTransferService.saveStockAdjustment(objDetails).then(function (objDetails) {
                 Router.go('/stockadjustmentoverview?success=true');
                 $('.modal-backdrop').css('display', 'none');
-                //console.log(getcurrentCloudDetails);
+                
 
             }).catch(function (err) {
                 swal({
@@ -1757,7 +1757,7 @@ Template.stockadjustmentcard.events({
 
                         }
                     });
-                    // console.log(checkPrefDetails);
+                    
                 }
             }
         }
@@ -1852,7 +1852,7 @@ Template.stockadjustmentcard.events({
         let attachmentID = parseInt(event.currentTarget.parentNode.id.split('attachment-name-')[1]);
         let templateObj = Template.instance();
         let uploadedFiles = templateObj.uploadedFiles.get();
-        // console.log(uploadedFiles);
+        
         $('#myModalAttachment').modal('hide');
         let previewFile = {};
         let input = uploadedFiles[attachmentID].fields.Description;

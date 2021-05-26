@@ -28,19 +28,10 @@ Template.companyappsettingsdup.onRendered(function(){
     const extraArr = [];
     let getPackType = "";
 
-    // Meteor.call('StripeTestChargeCard', function(error, result){
-    //   if(error){
-    //     console.log(error);
-    //   }else{
-    //     console.log(result);
-    //   }
-    //  });
-
-    // let regionData = Session.get('ERPLoggedCountry');
     var erpGet = erpDb();
     Meteor.call('magentoAWSProfileLoggedUser', erpGet.ERPUsername, function(error, result) {
         if (error) {
-            // console.log(error);
+
         } else {
             if (result) {
                 let valueData = result.items;
@@ -173,8 +164,7 @@ Template.companyappsettingsdup.onRendered(function(){
                 // }
                 // $('.fullScreenSpin').css('display','none');
             }, 500);
-            // console.log(JSON.stringify(simplestartArr));
-            // alert(JSON.stringify(data));
+
         });
     }else{
         $.get("VS1Modules.json").success(function(data){
@@ -290,8 +280,7 @@ Template.companyappsettingsdup.onRendered(function(){
                 }
                 // $('.fullScreenSpin').css('display','none');
             }, 500);
-            // console.log(JSON.stringify(simplestartArr));
-            // alert(JSON.stringify(data));
+
         });
 
         setTimeout(function () {
@@ -440,7 +429,7 @@ Template.companyappsettingsdup.events({
         // var panel= $(event.target).closest('div.panel2').attr('id');
         // $(event.target).closest("div").find(".panel2").text();
         var panel = 'panel2-'+ targetID;
-        // console.log(targetID);
+        
 
         var x = document.getElementById(panel);
         if (x.style.display === "none") {
@@ -545,7 +534,7 @@ Template.companyappsettingsdup.events({
 
         });
         grandTotal = paymentAmount + totalAdditions;
-        // console.log(lineItemsForm);
+        
         var erpGet = erpDb();
         let objDetailsUser = "";
         if (accessLevel === accessLevelCheck){
@@ -606,7 +595,7 @@ Template.companyappsettingsdup.events({
         let newStripePrice = grandTotal.toFixed(2);
 
         // alert(newStripePrice.replace('.', ''));
-        // console.log(oPost.status);
+        
         oPost.onreadystatechange = function() {
             if(oPost.readyState == 4 && oPost.status == 200) {
                 Meteor.call('braintreeChargeCard', Session.get('VS1AdminUserName'), parseFloat(grandTotal));

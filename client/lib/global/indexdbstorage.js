@@ -286,7 +286,7 @@ queryLoginDataObject = function (objectStore, VS1AdminUserName) {
   var promise =  new Promise((resolve, reject) => {
     let results = objectStore.openCursor();
     let data = [];
-    results.onerror = () => reject(Console.log('Encountered error querying object store.'));
+    results.onerror = () => reject();
     results.onsuccess = (event) => {
       let cursor = event.target.result;
       if (cursor) {
@@ -324,7 +324,7 @@ queryVS1DataObject = function (objectStore, VS1AdminUserName) {
     let results = objectStore.openCursor();
     let data = [];
 
-    results.onerror = () => reject(Console.log('Encountered error querying object store.'));
+    results.onerror = () => reject();
     results.onsuccess = (event) => {
       let cursor = event.target.result;
       if (cursor) {

@@ -63,11 +63,11 @@ Template.testlogin.onRendered(function(){
   localStorage.setItem('VS1TERPFormList', '');
 
 
-  // EMPTY THE SESSION
+
   Session.setPersistent('ERPCurrency', '');
   Session.setPersistent('ERPCountryAbbr', '');
   Session.setPersistent('ERPDefaultDepartment', '');
-  // Session.setPersistent('mycloudLogonEmail', '');
+
   Session.setPersistent('mycloudLogonPassword', '');
   Session.setPersistent('mycloudLogonID', '');
   Session.setPersistent('mycloudLogonRole', '');
@@ -97,8 +97,8 @@ Template.testlogin.onRendered(function(){
     localStorage.setItem('sidePanelToggle', "toggled");
   }
 
-  //Session.setPersistent('ERPSolidCurrentUSerAccess', '');
-  //Session.setPersistent('ERPMobileTERPFormToAccess', '');
+
+
   const templateObject = Template.instance();
   const arrayformid =[];
   const arrayformdet =[];
@@ -106,9 +106,9 @@ Template.testlogin.onRendered(function(){
   var employeeProfileService = new EmployeeProfileService();
 
   function getSideBarData(employeeID, accessUserName, accessDatabase,erpdbname){
-    // getSideBarData(employeeUserID,employeeUserLogon,ERPIPAdderess,erpdbname);
-    // $('.loginSpinner').css('display','inline-block');
-    // $('.fullScreenSpin').css('display','inline-block');
+
+
+
     let lineItemslevel = [];
     let lineItemObjlevel = {};
 
@@ -136,13 +136,13 @@ Template.testlogin.onRendered(function(){
     let isExpenseClaims = false;
     let isFixedAssets = false;
 
-    // New Access from Ian
+
     let isPayments = false;
     let isContacts = false;
     let isAccounts = false;
     let isReports = false;
     let isSettings = false;
-    // End New Access
+
     let isSidePanel = false;
     let isTopPanel = false;
     let isSidePanelID = '';
@@ -182,7 +182,7 @@ Template.testlogin.onRendered(function(){
     oReqFormAccessDetailObject.setRequestHeader("username",SegsDatabase[2]);
     oReqFormAccessDetailObject.setRequestHeader("password",SegsDatabase[3]);
     oReqFormAccessDetailObject.send();
-    // oReqFormAccessDetailObject.timeout = 30000;
+
     oReqFormAccessDetailObject.onreadystatechange = function() {
     if (oReqFormAccessDetailObject.readyState == 4 && oReqFormAccessDetailObject.status == 200) {
          var data = JSON.parse(oReqFormAccessDetailObject.responseText)
@@ -404,11 +404,11 @@ Template.testlogin.onRendered(function(){
          return (a.description.toLowerCase() > b.description.toLowerCase()) ? 1 : -1;
        });
 
-       //localStorage.setItem('login_email', Session.get('mycloudLogonUserEmail'));
-      // localStorage.setItem('logged_status', true);
-       //if ((!localStorage.getItem('login_email'))&&(!localStorage.getItem('logged_status'))) {
-         // window.open('/dashboard','_self');
-      //}
+
+
+
+
+
 window.open('/dashboard','_self');
 
     }
@@ -443,7 +443,7 @@ window.open('/dashboard','_self');
     let isDashboardLicence = true;
 
 /* Remove licence */
-    //licence Option To Add Session
+
     Session.setPersistent('CloudAccountsLicence', isAccountsLicence);
     Session.setPersistent('CloudContactsLicence', isContactsLicence);
     Session.setPersistent('CloudExpenseClaimsLicence', isExpenseClaimsLicence);
@@ -454,7 +454,7 @@ window.open('/dashboard','_self');
     Session.setPersistent('CloudMainLicence', isMainLicence);
     Session.setPersistent('CloudDashboardLicence', isDashboardLicence);
 
-   //End licence to Add Session
+
 
       Session.setPersistent('CloudFixedAssetsLicence', isFixedAssetsLicence);
       Session.setPersistent('CloudInventoryLicence', isInventoryLicence);
@@ -527,7 +527,7 @@ window.open('/dashboard','_self');
 
             });
 
-          //licence Option To Add Session
+
           Session.setPersistent('CloudAccountsLicence', isAccountsLicence);
           Session.setPersistent('CloudContactsLicence', isContactsLicence);
           Session.setPersistent('CloudExpenseClaimsLicence', isExpenseClaimsLicence);
@@ -538,7 +538,7 @@ window.open('/dashboard','_self');
           Session.setPersistent('CloudMainLicence', isMainLicence);
           Session.setPersistent('CloudDashboardLicence', isDashboardLicence);
 
-         //End licence to Add Session
+
 
             Session.setPersistent('CloudFixedAssetsLicence', isFixedAssetsLicence);
             Session.setPersistent('CloudInventoryLicence', isInventoryLicence);
@@ -592,13 +592,13 @@ window.open('/dashboard','_self');
     let isExpenseClaims = false;
     let isFixedAssets = false;
 
-    // New Access from Ian
+
     let isPayments = false;
     let isContacts = false;
     let isAccounts = false;
     let isReports = false;
     let isSettings = false;
-    // End New Access
+
     let isSidePanel = false;
     let isTopPanel = false;
     let isSidePanelID = '';
@@ -637,9 +637,9 @@ window.open('/dashboard','_self');
     /* End Licence Check for menu option */
 
     if(userAccessOptions.items){
-      // console.log(userAccessOptions.items);
+
     $.each(userAccessOptions.items, function (itemaccess, optionaccess) {
-          // console.log(optionaccess.fields.FormId);
+
           lineItemObjlevel = {
           formID: optionaccess.fields.FormId || '',
           accessLevel: optionaccess.fields.AccessLevel || '',
@@ -855,7 +855,7 @@ window.open('/dashboard','_self');
    Session.setPersistent('CloudSeedToSaleModule', isSeedToSale);
    Session.setPersistent('CloudBankingModule', isBanking);
    Session.setPersistent('CloudPayrollModule', isPayroll);
-// alert(userAccessOptions[0].EmployeeId);
+
     let userSerssion = {'loggedEmpID':userAccessOptions.items[0].fields.EmployeeId,
                         'loggedUserName':Session.get('EUserName'),
                         'loggedDatabase':Session.get('EDatabase'),
@@ -872,15 +872,15 @@ window.open('/dashboard','_self');
     return (a.description.toLowerCase() > b.description.toLowerCase()) ? 1 : -1;
   });
 
-    // if(isSameUserLogin == true){
-    //   Router.go('/dashboard');
-    // }else{
-    //   window.open('/dashboard','_self');
-    // }
+
+
+
+
+
 
     window.open('/dashboard','_self');
 
-   //Router.go('/dashboard');
+
 
 
 }else{
@@ -890,23 +890,23 @@ window.open('/dashboard','_self');
   }
 var times = 0;
 $("#login-button").click(function(e){
-  //
-  // e.preventDefault();
+
+
   let userLoginEmail = $("#email").val();
   let userLoginPassword = $('#erppassword').val();
   let hashUserLoginPassword = CryptoJS.MD5(userLoginPassword).toString().toUpperCase();
   var counterUserRec = null;
   let employeeUserID = '';
   let loggedUserEventFired = false;
-//console.log(userLoginPassword);
+
   Session.setPersistent('ERPCurrency', '$');
   Session.setPersistent('ERPCountryAbbr', 'AUD');
   Session.setPersistent('ERPDefaultDepartment', 'Default');
   Session.setPersistent('ERPDefaultUOM', '');
-  // Session.set('loginEmail', userLoginEmail);
-  // alert(Meteor.userId());
+
+
   if ($('#remember_me').is(':checked')) {
-      // save username and password
+
       localStorage.usremail = $('#email').val();
       localStorage.usrpassword = $('#erppassword').val();
       localStorage.chkbx = $('#remember_me').val();
@@ -917,20 +917,20 @@ $("#login-button").click(function(e){
   };
 
   if ($("#erppassword").val() == '') {
-    // Bert.alert('<strong>Error:</strong> Please enter your user password!', 'warning');
+
     swal('Invalid VS1 Password', 'The entered user password is not correct, please re-enter your password and try again!', 'error');
     $("#erppassword").focus();
     e.preventDefault();
   }else if(userLoginEmail === '') {
-      //Bert.alert('<strong>Error:</strong> Please enter email address!', 'warning');
+
       swal('Invalid VS1 Email Address', 'The entered your user email address is not correct, please re-enter your email address and try again!', 'error');
       $("#email").focus();
       e.preventDefault();
   }else{
   Meteor.call('readMethodLog',userLoginEmail,hashUserLoginPassword, function(error, result){
   if(error){
-    //console.log(error);
-    // Bert.alert('<strong>Error:</strong> user-not-found, no user found please try again!', 'danger');
+
+
     swal('Oops...', 'user-not-found, no user found please try again!', 'info');
   }else{
   let regUserDetails = result;
@@ -942,7 +942,7 @@ $("#login-button").click(function(e){
       }else {
 
       }
-      //Bert.alert('<strong>Error:</strong>  Your email or password is incorrect!', 'warning');
+
       swal('Oops...', 'Your email or password is incorrect, please try again!', 'error');
       e.preventDefault();
     }
@@ -963,7 +963,7 @@ $("#login-button").click(function(e){
       var cloudUserEmail = regUserDetails[i].cloudEmail;
       var cloudUserpassword = regUserDetails[i].cloudHashPassword;
 
-      // Session.setPersistent('mycloudLogonEmail', cloudUserEmail);
+
        Session.setPersistent('mycloudLogonPassword', cloudUserpassword);
 
       let erpdbname = ERPIPAdderess+','+ERPdbName+','+ERPuserName+','+ERPpassword+','+ERPport;
@@ -987,7 +987,7 @@ $("#login-button").click(function(e){
 
         Session.setPersistent('myerpPassword', cloudUserpassword);
         Session.setPersistent('mySessionEmployee', ERPuserName);
-        //localStorage.setItem('mySession', ERPuserName);
+
         localStorage.setItem('EIPAddress', ERPIPAdderess);
         localStorage.setItem('EUserName', ERPuserName);
         localStorage.setItem('EPassword', ERPpassword);
@@ -1005,7 +1005,7 @@ $("#login-button").click(function(e){
         oReqCheackUserObject.setRequestHeader("username",ERPuserName);
         oReqCheackUserObject.setRequestHeader("password",ERPpassword);
         oReqCheackUserObject.send();
-        // oReqCheackUserObject.timeout = 30000;
+
         oReqCheackUserObject.onreadystatechange = function() {
         if (oReqCheackUserObject.readyState == 4 && oReqCheackUserObject.status == 200) {
           Session.setPersistent('LoggedUserEventFired', loggedUserEventFired);
@@ -1024,7 +1024,7 @@ $("#login-button").click(function(e){
               localStorage.setItem('mySession', empusername);
               var sessionDataToLog = localStorage.getItem('mySession');
               Session.setPersistent('mySessionEmployee', employeename);
-              // document.getElementById("logged_user").innerHTML = sessionDataToLog;
+
               var ERPCheackAppUserObject = "TAppUser?PropertyList==ID,DatabaseName,UserName,MultiLogon&Select=[DatabaseName]='"+ERPdbName+"' and [UserName]='"+ERPLoggeduserName+"'";
               var oReqCheackAppUserObject = new XMLHttpRequest();
               oReqCheackAppUserObject.open("GET",URLRequest + ERPIPAdderess + ':' + ERPport + '/' + "erpapi" + '/' + ERPCheackAppUserObject, true);
@@ -1033,7 +1033,7 @@ $("#login-button").click(function(e){
               oReqCheackAppUserObject.setRequestHeader("password",ERPpassword);
               oReqCheackAppUserObject.send();
 
-              // oReqCheackAppUserObject.timeout = 30000;
+
               oReqCheackAppUserObject.onreadystatechange = function() {
               if (oReqCheackAppUserObject.readyState == 4 && oReqCheackAppUserObject.status == 200) {
                 var dataListCheackAppUser = JSON.parse(oReqCheackAppUserObject.responseText)
@@ -1058,7 +1058,7 @@ $("#login-button").click(function(e){
 
                   }
               if(counterUserRec === true){
-                // alert(counterUserRec);
+
                  getSideBarData(employeeUserID,employeeUserLogon,ERPIPAdderess,erpdbname);
 
 
@@ -1067,18 +1067,18 @@ $("#login-button").click(function(e){
 
 
               }else{
-                // Bert.alert('<strong>Info:</strong>ERP User is already logged in!', 'now-error');
+
                 swal('Oops...', 'VS1 User Name is already logged in. Select "Sign me out of all devices" to login', 'info');
                 $('.loginSpinner').css('display','none');
                 $('.fullScreenSpin').css('display','none');
-                // Bert.alert('<strong>Error:</strong> User currently logged in ERP, please log out ERP and try again!', 'danger');
+
               }
               }
               }
 
               }
               /*END APPUSER*/
-              //getSideBarData(employeeUserID,employeeUserLogon,ERPIPAdderess,erpdbname);
+
             }
         }
       }else if(oReqCheackUserObject.readyState == 4 && oReqCheackUserObject.status == 403){
@@ -1114,7 +1114,7 @@ $("#login-button").click(function(e){
         $('.loginSpinner').css('display','none');
         $('.fullScreenSpin').css('display','none');
         }else if(oReqCheackUserObject.status == 0 && oReqCheackUserObject.statusText == '') {
-        //Bert.alert('<strong>Err Connection Refused:</strong> please check setup connection', 'danger');
+
         swal('Err Connection Refused', 'Please check setup connection!', 'error');
         setTimeout(function () {
             Meteor._reload.reload();
@@ -1122,7 +1122,7 @@ $("#login-button").click(function(e){
         }
       }
       }else{
-        //Bert.alert('<strong>Error:</strong> The Password You Entered is Incorrect, Please Try Again.', 'danger');
+
         swal('Invalid VS1 Password', 'The entered user password is not correct, please re-enter your password and try again!', 'error');
         $('.loginSpinner').css('display','none');
         $('.fullScreenSpin').css('display','none');
@@ -1131,7 +1131,7 @@ $("#login-button").click(function(e){
 
 
     }else{
-    //alert(regUserDetails[i].database);
+
     }
   }
   }else{
@@ -1141,7 +1141,7 @@ $("#login-button").click(function(e){
     } else {
 
     }
-  //Bert.alert('<strong>Error:</strong> Your email or password is incorrect!', 'warning');
+
   swal('Oops...', 'Your email or password is incorrect, please try again!', 'error');
   setTimeout(function () {
       Meteor._reload.reload();
@@ -1207,7 +1207,7 @@ $("#erplogin-button").click(function(e){
   let loggedUserEventFired = false;
 
   if ($('#remember_me').is(':checked')) {
-      // save username and password
+
       localStorage.usremail = $('#email').val();
       localStorage.usrpassword = $('#erppassword').val();
       localStorage.chkbx = $('#remember_me').val();
@@ -1218,12 +1218,12 @@ $("#erplogin-button").click(function(e){
   };
 
   if ($("#erppassword").val() == '') {
-    // Bert.alert('<strong>Error:</strong> Please enter your user password!', 'warning');
+
     swal('Invalid VS1 Password', 'The entered user password is not correct, please re-enter your password and try again!', 'error');
     $("#erppassword").focus();
     e.preventDefault();
   }else if(userLoginEmail === '') {
-      // Bert.alert('<strong>Error:</strong> Please enter email address!', 'warning');
+
       swal('Please enter email address! ', '', 'warning');
       $("#email").focus();
       e.preventDefault();
@@ -1255,7 +1255,7 @@ $("#erplogin-button").click(function(e){
     $('.loginSpinner').css('display','inline-block');
     $('.fullScreenSpin').css('display','inline-block');
     var serverTest = URLRequest + "192.168.15.23" + ':' + "888" + '/erpapi/Vs1_Logon?Vs1UserName="'+userLoginEmail+'"&vs1Password="'+userLoginPassword+'"';
-    //alert(serverTest);
+
     var oReq = new XMLHttpRequest();
     oReq.open("GET",serverTest, true);
     oReq.setRequestHeader("database",'vs1_sandbox_license');
@@ -1265,9 +1265,9 @@ $("#erplogin-button").click(function(e){
     oReq.send();
 
 
-    // oReq.timeout = 30000;
+
     oReq.onreadystatechange = function() {
-    //alert(oReq.responseText);
+
       if (oReq.readyState == 4 && oReq.status == 200) {
         $('.loginSpinner').css('display','inline-block');
         $('.fullScreenSpin').css('display','inline-block');
@@ -1275,17 +1275,17 @@ $("#erplogin-button").click(function(e){
         Session.setPersistent('mainEPort', '888');
         localStorage.setItem('mainEIPAddress', '192.168.15.23');
         localStorage.setItem('mainEPort', '888');
-       // alert(oReq.responseText);
-        //document.getElementById("result").innerHTML = oReq.responseText;
+
+
         var dataReturnRes = JSON.parse(oReq.responseText);
 
-        //console.log(myArrResponse);
+
         if(dataReturnRes.ProcessLog){
         if(dataReturnRes.ProcessLog.ResponseStatus != "OK"){
           if(dataReturnRes.ProcessLog.ResponseStatus == "Payment is Due"){
             $('.loginSpinner').css('display','none');
             $('.fullScreenSpin').css('display','none');
-            // swal("Your payment has been declined please update your payment subscription information!", '', 'error');
+
             swal({
               title: 'Your payment has been declined please update your payment subscription information!',
               text: '',
@@ -1393,12 +1393,12 @@ $("#erplogin-button").click(function(e){
               localStorage.setItem('VS1TrialBalance_Report', '');
               localStorage.setItem('VS1PrintStatements_Report', '');
 
-              //Lists
+
               localStorage.setItem('VS1AccoountList','');
               Session.setPersistent('bankaccountid', '');
             }
           }
-          // console.log(dataReturnRes.ProcessLog.TRegionalOptions.CurrencySymbol);
+
           Session.setPersistent('ERPCurrency', dataReturnRes.ProcessLog.TRegionalOptions.CurrencySymbol);
 
           var region = dataReturnRes.ProcessLog.RegionName;
@@ -1438,10 +1438,10 @@ $("#erplogin-button").click(function(e){
      var ERPdbName = dataReturnRes.ProcessLog.Databasename;
 
      var ERPport = dataReturnRes.ProcessLog.APIPort;
-     // alert(ERPdbName);
+
 
        Session.setPersistent('mycloudLogonUserEmail', userLoginEmail);
-     //alert(ERPdbName);
+
      var ERPuserName = userLoginEmail;
       var ERPLoggeduserName = userLoginEmail;
      var ERPpassword = userLoginPassword;
@@ -1507,7 +1507,7 @@ $("#erplogin-button").click(function(e){
     });
 
     /* Remove licence */
-        //licence Option To Add Session
+
         Session.setPersistent('CloudAccountsLicence', isAccountsLicence);
         Session.setPersistent('CloudContactsLicence', isContactsLicence);
         Session.setPersistent('CloudExpenseClaimsLicence', isExpenseClaimsLicence);
@@ -1522,7 +1522,7 @@ $("#erplogin-button").click(function(e){
         Session.setPersistent('CloudSeedToSaleLicence', isSeedToSaleLicence);
         Session.setPersistent('CloudBankingLicence', isBankingLicence);
         Session.setPersistent('CloudPayrollLicence', isPayrollLicence);
-        //End licence to Add Session
+
         Session.setPersistent('CloudFixedAssetsLicence', isFixedAssetsLicence);
         Session.setPersistent('CloudInventoryLicence', isInventoryLicence);
         Session.setPersistent('CloudManufacturingLicence', isManufacturingLicence);
@@ -1538,8 +1538,8 @@ $("#erplogin-button").click(function(e){
         Session.setPersistent('CloudUseForeignLicence', isFxCurrencyLicence);
         Session.setPersistent('CloudWMSLicence', isWMSLicence);
           /* End Remove licence */
-          // alert(dataReturnRes.ProcessLog.AccessLevels);
-          //Dashboard API:
+
+
           if(dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields){
           Session.setPersistent('vs1companyName', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.Companyinfo_CompanyName||'');
           Session.setPersistent('vs1companyaddress1', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.Companyinfo_Address||'');
@@ -1552,7 +1552,7 @@ $("#erplogin-button").click(function(e){
           Session.setPersistent('ERPDefaultUOM', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.ColumnHeadings_DefaultUOM||'');
 
 
-          // Session.setPersistent('ERPCurrency', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.RegionalOptions_CurrencySymbol||'');
+
           Session.setPersistent('ERPCountryAbbr', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.RegionalOptions_ForeignExDefault||'');
           Session.setPersistent('ERPTaxCodePurchaseInc', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.RegionalOptions_TaxCodePurchaseInc||'');
           Session.setPersistent('ERPTaxCodeSalesInc', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.RegionalOptions_TaxCodeSalesInc||'');
@@ -1565,7 +1565,7 @@ $("#erplogin-button").click(function(e){
 
           localStorage.setItem('VS1MonthlyProfitandLoss_dash', '');
 
-            //Profit & Loss
+
           localStorage.setItem('VS1ProfitandLoss_netIncomeEx_dash', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.PnL_NetIncomeEx||0);
           localStorage.setItem('VS1ProfitandLoss_IncomeEx_dash', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.PnL_TotalIncomeEx||0);
           localStorage.setItem('VS1ProfitandLoss_ExpEx_dash', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.PnL_TotalExpenseEx||0);
@@ -1588,7 +1588,7 @@ $("#erplogin-button").click(function(e){
             Session.setPersistent('ERPDefaultUOM', '');
 
 
-            //Session.setPersistent('ERPCountryAbbr', '');
+
             Session.setPersistent('ERPTaxCodePurchaseInc', '');
             Session.setPersistent('ERPTaxCodeSalesInc', '');
 
@@ -1600,13 +1600,13 @@ $("#erplogin-button").click(function(e){
 
             localStorage.setItem('VS1MonthlyProfitandLoss_dash', '');
 
-              //Profit & Loss
+
             localStorage.setItem('VS1ProfitandLoss_netIncomeEx_dash', '');
             localStorage.setItem('VS1ProfitandLoss_IncomeEx_dash', '');
             localStorage.setItem('VS1ProfitandLoss_ExpEx_dash', '');
             localStorage.setItem('VS1ProfitandLoss_COGSEx_dash', '');
           }
-            // console.log(dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_pnl_period.items);
+
           localStorage.setItem('VS1APReport_dash', JSON.stringify(dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_ap_report.items)||'');
           localStorage.setItem('VS1PNLPeriodReport_dash', JSON.stringify(dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_pnl_period.items)||'');
           localStorage.setItem('VS1SalesListReport_dash', JSON.stringify(dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_saleslist.items)||'');
@@ -1630,7 +1630,7 @@ $("#erplogin-button").click(function(e){
 
                 }
 
-        }//here
+        }
       }
 
       } else if(oReq.statusText == '') {
@@ -1698,19 +1698,19 @@ $("#erplogin-button").click(function(e){
         $('.loginSpinner').css('display','none');
         $('.fullScreenSpin').css('display','none');
       }else{
-        // swal({
-        //   title: 'Something went wrong',
-        //   text: "Connection Failed, Please try again",
-        //   type: 'error',
-        //   showCancelButton: false,
-        //   confirmButtonText: 'Try Again'
-        //   }).then((result) => {
-        //   if (result.value) {
-        //     Meteor._reload.reload();
-        //   } else if (result.dismiss === 'cancel') {
-        //
-        //   }
-        // });
+
+
+
+
+
+
+
+
+
+
+
+
+
         $('.loginSpinner').css('display','none');
         $('.fullScreenSpin').css('display','none');
       }
@@ -1770,10 +1770,10 @@ $("#erplogin-buttonSimon").click(function(e){
 
 
 
-  // Session.set('loginEmail', userLoginEmail);
-  // alert(Meteor.userId());
+
+
   if ($('#remember_me').is(':checked')) {
-      // save username and password
+
       localStorage.usremail = $('#email').val();
       localStorage.usrpassword = $('#erppassword').val();
       localStorage.chkbx = $('#remember_me').val();
@@ -1784,12 +1784,12 @@ $("#erplogin-buttonSimon").click(function(e){
   };
 
   if ($("#erppassword").val() == '') {
-    // Bert.alert('<strong>Error:</strong> Please enter your user password!', 'warning');
+
     swal('Invalid VS1 Password', 'The entered user password is not correct, please re-enter your password and try again!', 'error');
     $("#erppassword").focus();
     e.preventDefault();
   }else if(userLoginEmail === '') {
-      // Bert.alert('<strong>Error:</strong> Please enter email address!', 'warning');
+
       swal('Please enter email address! ', '', 'warning');
       $("#email").focus();
       e.preventDefault();
@@ -1821,7 +1821,7 @@ $("#erplogin-buttonSimon").click(function(e){
     $('.loginSpinner').css('display','inline-block');
     $('.fullScreenSpin').css('display','inline-block');
     var serverTest = URLRequest + "192.168.1.19" + ':' + "88" + '/erpapi/Vs1_Logon?Vs1UserName="'+userLoginEmail+'"&vs1Password="'+userLoginPassword+'"';
-    //alert(serverTest);
+
     var oReq = new XMLHttpRequest();
     oReq.open("GET",serverTest, true);
     oReq.setRequestHeader("database",'vs1_sandbox_license');
@@ -1831,9 +1831,9 @@ $("#erplogin-buttonSimon").click(function(e){
     oReq.send();
 
 
-    // oReq.timeout = 30000;
+
     oReq.onreadystatechange = function() {
-    //alert(oReq.responseText);
+
       if (oReq.readyState == 4 && oReq.status == 200) {
         $('.loginSpinner').css('display','inline-block');
         $('.fullScreenSpin').css('display','inline-block');
@@ -1842,20 +1842,20 @@ $("#erplogin-buttonSimon").click(function(e){
 
         localStorage.setItem('mainEIPAddress', '192.168.15.23');
         localStorage.setItem('mainEPort', '888');
-       // alert(oReq.responseText);
-        //document.getElementById("result").innerHTML = oReq.responseText;
+
+
         var dataReturnRes = JSON.parse(oReq.responseText);
 
-        //console.log(myArrResponse);
+
         if(dataReturnRes.ProcessLog.Error){
-          // Bert.alert('Database Error<strong> :'+ myArrResponse.ProcessLog.Error+'</strong>', 'now-error');
+
           swal(dataReturnRes.ProcessLog.Error, '', 'error');
           $('.loginSpinner').css('display','none');
           $('.fullScreenSpin').css('display','none');
         }else{
 
           localStorage.setItem('vs1cloudlicenselevel', dataReturnRes.ProcessLog.LicenseLevel);
-          // console.log(dataReturnRes.ProcessLog.TRegionalOptions.CurrencySymbol);
+
           Session.setPersistent('ERPCurrency', dataReturnRes.ProcessLog.TRegionalOptions.CurrencySymbol);
 
           var region = dataReturnRes.ProcessLog.RegionName;
@@ -1869,10 +1869,10 @@ $("#erplogin-buttonSimon").click(function(e){
      var ERPdbName = dataReturnRes.ProcessLog.Databasename;
 
      var ERPport = dataReturnRes.ProcessLog.APIPort;
-     // alert(ERPdbName);
+
 
        Session.setPersistent('mycloudLogonUserEmail', userLoginEmail);
-     //alert(ERPdbName);
+
      var ERPuserName = userLoginEmail;
       var ERPLoggeduserName = userLoginEmail;
      var ERPpassword = userLoginPassword;
@@ -1918,7 +1918,7 @@ $("#erplogin-buttonSimon").click(function(e){
     });
 
     /* Remove licence */
-        //licence Option To Add Session
+
         Session.setPersistent('CloudAccountsLicence', isAccountsLicence);
         Session.setPersistent('CloudContactsLicence', isContactsLicence);
         Session.setPersistent('CloudExpenseClaimsLicence', isExpenseClaimsLicence);
@@ -1929,7 +1929,7 @@ $("#erplogin-buttonSimon").click(function(e){
         Session.setPersistent('CloudMainLicence', isMainLicence);
         Session.setPersistent('CloudDashboardLicence', isDashboardLicence);
 
-       //End licence to Add Session
+
 
           Session.setPersistent('CloudFixedAssetsLicence', isFixedAssetsLicence);
           Session.setPersistent('CloudInventoryLicence', isInventoryLicence);
@@ -1940,25 +1940,25 @@ $("#erplogin-buttonSimon").click(function(e){
           Session.setPersistent('CloudStockTakeLicence', isStockTakeLicence);
           Session.setPersistent('CloudStockTransferLicence', isStockTransferLicence);
           /* End Remove licence */
-          // alert(dataReturnRes.ProcessLog.AccessLevels);
+
           if(dataReturnRes.ProcessLog.AccessLevels == undefined){
             swal('Sorry, You do not have access to any VS1 Modules!', '', 'error');
             $('.fullScreenSpin').css('display','none');
             $('.loginSpinner').css('display','none');
             return false;
-            // let userAccessOptions = dataReturnRes.ProcessLog.AccessLevels.AccessLevels;
+
           };
           let userAccessOptions = dataReturnRes.ProcessLog.AccessLevels.AccessLevels;
 
 
-  // Session.setPersistent('mycloudLogonDBID', 'db'+ERPdbName);
-  // Session.setPersistent('mycloudLogonID', ERPdbName);
+
+
   Session.setPersistent('mycloudLogonUsername', ERPuserName);
   Session.setPersistent('mycloudLogonUserEmail', ERPuserName);
 
 Session.setPersistent('myerpPassword', userLoginPassword);
 Session.setPersistent('mySessionEmployee', ERPuserName);
-//localStorage.setItem('mySession', ERPuserName);
+
 localStorage.setItem('EIPAddress', ERPIPAdderess);
 localStorage.setItem('EUserName', ERPuserName);
 localStorage.setItem('EPassword', ERPpassword);
@@ -1976,7 +1976,7 @@ oReqCheackUserObject.setRequestHeader("database",ERPdbName);
 oReqCheackUserObject.setRequestHeader("username",ERPuserName);
 oReqCheackUserObject.setRequestHeader("password",ERPpassword);
 oReqCheackUserObject.send();
-// oReqCheackUserObject.timeout = 30000;
+
 oReqCheackUserObject.onreadystatechange = function() {
 if (oReqCheackUserObject.readyState == 4 && oReqCheackUserObject.status == 200) {
   Session.setPersistent('LoggedUserEventFired', loggedUserEventFired);
@@ -1995,7 +1995,7 @@ if (oReqCheackUserObject.readyState == 4 && oReqCheackUserObject.status == 200) 
       localStorage.setItem('mySession', employeeUserLogon);
       var sessionDataToLog = localStorage.getItem('mySession');
       Session.setPersistent('mySessionEmployee', employeename);
-      // document.getElementById("logged_user").innerHTML = sessionDataToLog;
+
       var ERPCheackAppUserObject = "TAppUser?PropertyList==ID,DatabaseName,UserName,MultiLogon&Select=[DatabaseName]='"+ERPdbName+"' and [UserName]='"+ERPLoggeduserName+"'";
       var oReqCheackAppUserObject = new XMLHttpRequest();
       oReqCheackAppUserObject.open("GET",URLRequest + ERPIPAdderess + ':' + ERPport + '/' + "erpapi" + '/' + ERPCheackAppUserObject, true);
@@ -2004,7 +2004,7 @@ if (oReqCheackUserObject.readyState == 4 && oReqCheackUserObject.status == 200) 
       oReqCheackAppUserObject.setRequestHeader("password",ERPpassword);
       oReqCheackAppUserObject.send();
 
-      // oReqCheackAppUserObject.timeout = 30000;
+
       oReqCheackAppUserObject.onreadystatechange = function() {
       if (oReqCheackAppUserObject.readyState == 4 && oReqCheackAppUserObject.status == 200) {
         var dataListCheackAppUser = JSON.parse(oReqCheackAppUserObject.responseText)
@@ -2029,31 +2029,31 @@ if (oReqCheackUserObject.readyState == 4 && oReqCheackUserObject.status == 200) 
 
           }
       if(counterUserRec === true){
-        // alert(counterUserRec);
-         // getSideBarData(employeeUserID,employeeUserLogon,ERPIPAdderess,erpdbname);
+
+
          if(userAccessOptions != ""){
            getAccessLevelData(userAccessOptions);
          }
 
 
-         //window.open('/dashboard','_self');
 
-      // document.getElementById("error_log").style.display = 'none';
+
+
 
 
       }else{
-        // Bert.alert('<strong>Info:</strong>User is already logged in!', 'now-error');
+
           swal('Oops...', 'VS1 User Name is already logged in. Select "Sign me out of all devices" to login', 'info');
         $('.loginSpinner').css('display','none');
         $('.fullScreenSpin').css('display','none');
-        // Bert.alert('<strong>Error:</strong> User currently logged in ERP, please log out ERP and try again!', 'danger');
+
       }
       }
       }
 
       }
       /*END APPUSER*/
-      //getSideBarData(employeeUserID,employeeUserLogon,ERPIPAdderess,erpdbname);
+
     }
 }
 }else if(oReqCheackUserObject.readyState == 4 && oReqCheackUserObject.status == 403){
@@ -2097,13 +2097,13 @@ setTimeout(function () {
 }, 1500);
 }
 }
-     // var ERPLoggeduserName = regUserDetails[i].cloudUsername;
-     // var cloudLoggedID = '';
-     // var cloudLoggedDBID = '';
-     // var cloudLoggedUsername = '';
-     // var cloudLoggedRole = regUserDetails[i].role;
-     // var cloudUserEmail = regUserDetails[i].cloudEmail;
-     // var cloudUserpassword = regUserDetails[i].cloudHashPassword;
+
+
+
+
+
+
+
 
    }
 
@@ -2172,19 +2172,19 @@ setTimeout(function () {
         $('.loginSpinner').css('display','none');
         $('.fullScreenSpin').css('display','none');
       }else{
-        // swal({
-        //   title: 'Something went wrong',
-        //   text: "Connection Failed, Please try again",
-        //   type: 'error',
-        //   showCancelButton: false,
-        //   confirmButtonText: 'Try Again'
-        //   }).then((result) => {
-        //   if (result.value) {
-        //     Meteor._reload.reload();
-        //   } else if (result.dismiss === 'cancel') {
-        //
-        //   }
-        // });
+
+
+
+
+
+
+
+
+
+
+
+
+
         $('.loginSpinner').css('display','none');
         $('.fullScreenSpin').css('display','none');
       }
@@ -2207,13 +2207,13 @@ $("#signmeout").click(function(e){
    let userLoginPassword = $("#erppassword").val();
    let hashUserLoginPassword = CryptoJS.MD5(userLoginPassword).toString().toUpperCase();
    if ($("#erppassword").val() == '') {
-   // Bert.alert('<strong>Error:</strong> Please enter your user password!', 'warning');
+
    swal('Please enter your user password!', '', 'warning');
    $('.fullScreenSpin').css('display','none');
    $("#erppassword").focus();
    e.preventDefault();
    }else if(userLoginEmail === '') {
-       // Bert.alert('<strong>Error:</strong> Please enter email address!', 'warning');
+
        swal('Please enter email address!', '', 'warning');
        $('.fullScreenSpin').css('display','none');
        $("#email").focus();

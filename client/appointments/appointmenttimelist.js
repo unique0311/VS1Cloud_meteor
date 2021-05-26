@@ -120,7 +120,7 @@ Template.appointmenttimelist.onRendered(function () {
 
       }
     }).catch(function (err) {
-      console.log(err);
+
       productService.getNewProductListVS1().then(function (data) {
 
         var dataList = {};
@@ -531,7 +531,7 @@ Template.appointmenttimelist.onRendered(function () {
               columVisible = false;
             }
             sWidth = v.style.width.replace('px', "");
-            //console.log(sWidth);
+
             let datatablerecordObj = {
               sTitle: v.innerText || '',
               sWidth: sWidth || '',
@@ -613,7 +613,7 @@ Template.appointmenttimelist.onRendered(function () {
                     let dt2 = new Date(time.getFullYear() +'-'+("0"+(time.getMonth()+1)).slice(-2)+'-'+("0"+(time.getDate()+1)).slice(-1) + ' '+  useData[i].fields.AppointmentsTimeLog[a].fields.EndDatetime.split(' ')[0]);
                     if(useData[i].fields.AppointmentsTimeLog[a].fields.StartDatetime != "" && useData[i].fields.AppointmentsTimeLog[a].fields.EndDatetime != "") {
                         Hours = templateObject.diff_hours1(dt2, dt1);
-                        console.log(Hours);
+
                     } else {
                         Hours = 0;
                     }
@@ -788,7 +788,7 @@ Template.appointmenttimelist.onRendered(function () {
                 let dt2 = new Date(time.getFullYear() +'-'+("0"+(time.getMonth()+1)).slice(-2)+'-'+("0"+(time.getDate()+1)).slice(-1) + ' '+  useData[i].fields.AppointmentsTimeLog.fields.EndDatetime.split(' ')[0]);
                 if(useData[i].fields.AppointmentsTimeLog.fields.StartDatetime != "" && useData[i].fields.AppointmentsTimeLog.fields.EndDatetime != "") {
                     Hours = templateObject.diff_hours1(dt2, dt1);
-                    console.log(Hours);
+
                 } else {
                     Hours = 0;
                 }
@@ -955,7 +955,7 @@ Template.appointmenttimelist.onRendered(function () {
           columVisible = false;
         }
         sWidth = v.style.width.replace('px', "");
-        //console.log(sWidth);
+
         let datatablerecordObj = {
           sTitle: v.innerText || '',
           sWidth: sWidth || '',
@@ -969,7 +969,7 @@ Template.appointmenttimelist.onRendered(function () {
       templateObject.tableheaderrecords.set(tableHeaderList);
       $('div.dataTables_filter input').addClass('form-control form-control-sm');
     }).catch(function (err) {
-      console.log(err);
+
       sideBarService.getAllAppointmentList().then(function (data) {
         // localStorage.setItem('VS1TReconcilationList', JSON.stringify(data)||'');
         let lineItems = [];
@@ -1180,7 +1180,7 @@ Template.appointmenttimelist.onRendered(function () {
             columVisible = false;
           }
           sWidth = v.style.width.replace('px', "");
-          //console.log(sWidth);
+
           let datatablerecordObj = {
             sTitle: v.innerText || '',
             sWidth: sWidth || '',
@@ -1446,7 +1446,7 @@ Template.appointmenttimelist.events({
     if (date2 != "" && endTime > startTime) {
       document.getElementById('txtBookedHoursSpent').value = parseFloat(templateObject.diff_hours(endTime, startTime)).toFixed(2);
     } else {
-      console.log("Enter end time above start time to calculate total hours");
+
     }
   },
   'change #endTime': function () {
@@ -1460,7 +1460,7 @@ Template.appointmenttimelist.events({
     if (endTime > startTime) {
       document.getElementById('txtBookedHoursSpent').value = parseFloat(templateObject.diff_hours(endTime, startTime)).toFixed(2);
     } else {
-      console.log("End time must be greater than start time");
+
     }
   },
   'change #tActualStartTime': function () {
@@ -1474,7 +1474,7 @@ Template.appointmenttimelist.events({
     if (date2 != "" && endTime > startTime) {
       document.getElementById('txtActualHoursSpent').value = parseFloat(templateObject.diff_hours(endTime, startTime)).toFixed(2);
     } else {
-      console.log("Enter end time above actual start time to calculate total hours");
+
     }
   },
   'change #tActualEndTime': function () {
@@ -1488,7 +1488,7 @@ Template.appointmenttimelist.events({
     if (endTime > startTime) {
       document.getElementById('txtActualHoursSpent').value = parseFloat(templateObject.diff_hours(endTime, startTime)).toFixed(2);
     } else {
-      console.log("End time must be greater than start time");
+
     }
   },
   'click .saveTable': function (event) {
@@ -1642,7 +1642,7 @@ Template.appointmenttimelist.events({
     $('.chkBox:checkbox:checked').each(function () {
       var chkIdLine = $(this).closest('tr').attr('id');
       //var customername = $(this).closest('#colAccountName').text();
-      //console.log(customername);
+
       JsonIn = {
         Params: {
           AppointID: parseInt(chkIdLine)
@@ -1662,7 +1662,6 @@ Template.appointmenttimelist.events({
       //      return slctdApt.clientname == $('#colAccountName' + chkIdLine).text();
       //    });
 
-      //    console.log(selectedAppointmentCheck);
 
       //    if (checkClient.length > 0) {
       //     selectedAppointmentList.push(JsonIn);

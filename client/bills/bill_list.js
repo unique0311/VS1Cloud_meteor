@@ -215,7 +215,7 @@ Template.billlist.onRendered(function() {
                   columVisible = false;
                 }
                 sWidth = v.style.width.replace('px', "");
-                //console.log(sWidth);
+                
                 let datatablerecordObj = {
                   sTitle: v.innerText || '',
                   sWidth: sWidth || '',
@@ -389,7 +389,7 @@ setTimeout(function () {
       columVisible = false;
     }
     sWidth = v.style.width.replace('px', "");
-    //console.log(sWidth);
+    
     let datatablerecordObj = {
       sTitle: v.innerText || '',
       sWidth: sWidth || '',
@@ -558,7 +558,7 @@ templateObject.tableheaderrecords.set(tableHeaderList);
                   columVisible = false;
                 }
                 sWidth = v.style.width.replace('px', "");
-                //console.log(sWidth);
+                
                 let datatablerecordObj = {
                   sTitle: v.innerText || '',
                   sWidth: sWidth || '',

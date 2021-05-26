@@ -140,7 +140,7 @@ import { autoTable }from 'jspdf-autotable';
                 dataMe = toCsv(table);
 
                 if(defaults.consoleLog){
-                    console.log(dataMe);
+                    
                 }
 
                 download(options.filename,dataMe);
@@ -1143,7 +1143,7 @@ export class UtilityService {
 
         // }
         // catch(e){
-        //     console.log(e.message);
+
         // }
 
     };

@@ -214,7 +214,7 @@ Template.journalentrylist.onRendered(function() {
                   columVisible = false;
                 }
                 sWidth = v.style.width.replace('px', "");
-                //console.log(sWidth);
+
                 let datatablerecordObj = {
                   sTitle: v.innerText || '',
                   sWidth: sWidth || '',
@@ -405,7 +405,7 @@ Template.journalentrylist.onRendered(function() {
                 columVisible = false;
               }
               sWidth = v.style.width.replace('px', "");
-              //console.log(sWidth);
+
               let datatablerecordObj = {
                 sTitle: v.innerText || '',
                 sWidth: sWidth || '',
@@ -584,7 +584,7 @@ Template.journalentrylist.onRendered(function() {
                 columVisible = false;
               }
               sWidth = v.style.width.replace('px', "");
-              //console.log(sWidth);
+
               let datatablerecordObj = {
                 sTitle: v.innerText || '',
                 sWidth: sWidth || '',
@@ -738,7 +738,7 @@ Template.journalentrylist.events({
 
             }
           });
-           // console.log(checkPrefDetails);
+           
         }
       }
     }
@@ -763,7 +763,7 @@ Template.journalentrylist.events({
     let columnDataValue = $(event.target).closest("div").prev().find(".divcolumn").text();
     var datable = $('#tblJournalList th');
     $.each(datable, function(i,v) {
-      console.log(datable);
+
     if(v.innerText == columnDataValue){
         let className = v.className;
         let replaceClass = className.replace(/ /g, ".");
@@ -776,7 +776,7 @@ Template.journalentrylist.events({
   'click .btnOpenSettings' : function(event){
     let templateObject = Template.instance();
     var columns = $('#tblJournalList th');
-    // console.log(columns);
+
     const tableHeaderList = [];
     let sTible = "";
     let sWidth = "";

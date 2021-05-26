@@ -59,7 +59,7 @@ Template.paymentcard.onRendered(() => {
 setTimeout(function () {
   Meteor.call('readPrefMethod',Session.get('mycloudLogonID'),'tblPaymentcard', function(error, result){
     if(error){
-//console.log(error);
+
     //Bert.alert('<strong>Error:</strong> user-not-found, no user found please try again!', 'danger');
   }else{
     if(result){
@@ -532,7 +532,7 @@ yearRange: "-90:+10",
             //setTimeout(function () {
               Meteor.call('readPrefMethod',Session.get('mycloudLogonID'),'tblPaymentcard', function(error, result){
                 if(error){
-            //console.log(error);
+            
                 //Bert.alert('<strong>Error:</strong> user-not-found, no user found please try again!', 'danger');
               }else{
                 if(result){
@@ -597,7 +597,7 @@ yearRange: "-90:+10",
         }else{
           let data = JSON.parse(dataObject[0].data);
           let useData = data.tcustomerpayment;
-          // console.log(useData);
+          
           var added=false;
           for(let d=0; d<useData.length; d++){
 
@@ -693,7 +693,7 @@ yearRange: "-90:+10",
         //setTimeout(function () {
           Meteor.call('readPrefMethod',Session.get('mycloudLogonID'),'tblPaymentcard', function(error, result){
             if(error){
-        //console.log(error);
+        
             //Bert.alert('<strong>Error:</strong> user-not-found, no user found please try again!', 'danger');
           }else{
             if(result){
@@ -846,7 +846,7 @@ yearRange: "-90:+10",
               //setTimeout(function () {
                 Meteor.call('readPrefMethod',Session.get('mycloudLogonID'),'tblPaymentcard', function(error, result){
                   if(error){
-              //console.log(error);
+              
                   //Bert.alert('<strong>Error:</strong> user-not-found, no user found please try again!', 'danger');
                 }else{
                   if(result){
@@ -999,7 +999,7 @@ yearRange: "-90:+10",
             //setTimeout(function () {
               Meteor.call('readPrefMethod',Session.get('mycloudLogonID'),'tblPaymentcard', function(error, result){
                 if(error){
-            //console.log(error);
+            
                 //Bert.alert('<strong>Error:</strong> user-not-found, no user found please try again!', 'danger');
               }else{
                 if(result){
@@ -1130,7 +1130,7 @@ yearRange: "-90:+10",
         }
         Meteor.call('readPrefMethod',Session.get('mycloudLogonID'),'tblPaymentcard', function(error, result){
           if(error){
-      //console.log(error);
+      
           //Bert.alert('<strong>Error:</strong> user-not-found, no user found please try again!', 'danger');
         }else{
           if(result){
@@ -1232,7 +1232,7 @@ yearRange: "-90:+10",
         }
         Meteor.call('readPrefMethod',Session.get('mycloudLogonID'),'tblPaymentcard', function(error, result){
           if(error){
-      //console.log(error);
+      
           //Bert.alert('<strong>Error:</strong> user-not-found, no user found please try again!', 'danger');
         }else{
           if(result){
@@ -1338,7 +1338,7 @@ yearRange: "-90:+10",
             }
             Meteor.call('readPrefMethod',Session.get('mycloudLogonID'),'tblPaymentcard', function(error, result){
               if(error){
-          //console.log(error);
+          
               //Bert.alert('<strong>Error:</strong> user-not-found, no user found please try again!', 'danger');
             }else{
               if(result){
@@ -1436,7 +1436,7 @@ for (var i = 0; i < clientList.length; i++) {
 }
 Meteor.call('readPrefMethod',Session.get('mycloudLogonID'),'tblPaymentcard', function(error, result){
 if(error){
-//console.log(error);
+
 //Bert.alert('<strong>Error:</strong> user-not-found, no user found please try again!', 'danger');
 }else{
 if(result){
@@ -1533,7 +1533,7 @@ $('.fullScreenSpin').css('display','none');
           }
           Meteor.call('readPrefMethod',Session.get('mycloudLogonID'),'tblPaymentcard', function(error, result){
             if(error){
-        //console.log(error);
+        
             //Bert.alert('<strong>Error:</strong> user-not-found, no user found please try again!', 'danger');
           }else{
             if(result){
@@ -1729,7 +1729,7 @@ $('.fullScreenSpin').css('display','none');
 
         Meteor.call('readPrefMethod',Session.get('mycloudLogonID'),'tblPaymentcard', function(error, result){
           if(error){
-      //console.log(error);
+      
           //Bert.alert('<strong>Error:</strong> user-not-found, no user found please try again!', 'danger');
         }else{
           if(result){
@@ -1826,7 +1826,7 @@ $('.fullScreenSpin').css('display','none');
         }
         Meteor.call('readPrefMethod',Session.get('mycloudLogonID'),'tblPaymentcard', function(error, result){
           if(error){
-      //console.log(error);
+      
           //Bert.alert('<strong>Error:</strong> user-not-found, no user found please try again!', 'danger');
         }else{
           if(result){
@@ -1872,7 +1872,7 @@ $('.fullScreenSpin').css('display','none');
     // alert('here');
     var getsale_id = url.split('?selectcust=');
     var currentSalesID = getsale_id[getsale_id.length-1];
-    //console.log(currentSalesID);
+    
     if(getsale_id[1]){
     let lineItems = [];
   let lineItemObj = {};
@@ -1938,7 +1938,7 @@ $('.fullScreenSpin').css('display','none');
       }
       Meteor.call('readPrefMethod',Session.get('mycloudLogonID'),'tblPaymentcard', function(error, result){
         if(error){
-    //console.log(error);
+    
         //Bert.alert('<strong>Error:</strong> user-not-found, no user found please try again!', 'danger');
       }else{
         if(result){
@@ -2163,7 +2163,7 @@ Template.paymentcard.events({
                reader.onloadend = function() {
                    var base64data = reader.result;
                    base64data = base64data.split(',')[1];
-                   // console.log(base64data);
+                   
                    pdfObject = {
                       filename: 'Customer Payment ' + invoiceId + '.pdf',
                       content: base64data,
@@ -2464,7 +2464,7 @@ if(paymentAmt.replace(/[^0-9.-]+/g,"") < 0){
            reader.onloadend = function() {
                var base64data = reader.result;
                base64data = base64data.split(',')[1];
-               // console.log(base64data);
+               
                pdfObject = {
                   filename: 'Customer Payment-' + invoiceId + '.pdf',
                   content: base64data,
@@ -2741,7 +2741,7 @@ var htmlmailBody = '<table align="center" border="0" cellpadding="0" cellspacing
            reader.onloadend = function() {
                var base64data = reader.result;
                base64data = base64data.split(',')[1];
-               // console.log(base64data);
+               
                pdfObject = {
                   filename: 'Customer Payment ' + invoiceId + '.pdf',
                   content: base64data,
@@ -3042,7 +3042,7 @@ var htmlmailBody = '<table align="center" border="0" cellpadding="0" cellspacing
                        reader.onloadend = function() {
                            var base64data = reader.result;
                            base64data = base64data.split(',')[1];
-                           // console.log(base64data);
+                           
                            pdfObject = {
                               filename: 'customerpayment-' + invoiceId + '.pdf',
                               content: base64data,
@@ -3339,7 +3339,7 @@ var htmlmailBody = '<table align="center" border="0" cellpadding="0" cellspacing
                reader.onloadend = function() {
                    var base64data = reader.result;
                    base64data = base64data.split(',')[1];
-                   // console.log(base64data);
+                   
                    pdfObject = {
                       filename: 'customerpayment-' + invoiceId + '.pdf',
                       content: base64data,
@@ -3595,7 +3595,7 @@ var htmlmailBody = '<table align="center" border="0" cellpadding="0" cellspacing
              reader.onloadend = function() {
                  var base64data = reader.result;
                  base64data = base64data.split(',')[1];
-                 // console.log(base64data);
+                 
                  pdfObject = {
                     filename: 'customerpayment-' + invoiceId + '.pdf',
                     content: base64data,
@@ -3935,7 +3935,7 @@ if(paymentAmt.replace(/[^0-9.-]+/g,"") < 0){
            reader.onloadend = function() {
                var base64data = reader.result;
                base64data = base64data.split(',')[1];
-               // console.log(base64data);
+               
                pdfObject = {
                   filename: 'customerpayment-' + invoiceId + '.pdf',
                   content: base64data,
@@ -4209,7 +4209,7 @@ var htmlmailBody = '<table align="center" border="0" cellpadding="0" cellspacing
            reader.onloadend = function() {
                var base64data = reader.result;
                base64data = base64data.split(',')[1];
-               // console.log(base64data);
+               
                pdfObject = {
                   filename: 'customerpayment-' + invoiceId + '.pdf',
                   content: base64data,
@@ -4811,7 +4811,7 @@ var htmlmailBody = '<table align="center" border="0" cellpadding="0" cellspacing
 
               }
             });
-             // console.log(checkPrefDetails);
+             
           }
         }
       }

@@ -8,7 +8,7 @@ import {AccountService} from "../accounts/account-service";
 import '../lib/global/erp-objects';
 import 'jquery-ui-dist/external/jquery/jquery';
 import 'jquery-ui-dist/jquery-ui';
-// import 'jquery-ui-dist/jquery-ui.css';
+
 import { Random } from 'meteor/random';
 import { jsPDF } from 'jspdf';
 import 'jQuery.print/jQuery.print.js';
@@ -43,7 +43,7 @@ Template.depositcard.onCreated(()=>{
     templateObject.inputSelectedCurrency = new ReactiveVar([]);
     templateObject.currencySymbol = new ReactiveVar([]);
     templateObject.deptrecords = new ReactiveVar();
-    // templateObject.arearecords = new ReactiveVar();
+    
     templateObject.termrecords = new ReactiveVar();
     templateObject.clientrecords = new ReactiveVar([]);
     templateObject.taxraterecords = new ReactiveVar([]);
@@ -65,13 +65,13 @@ Template.depositcard.onCreated(()=>{
     templateObject.totalDebit.set(Currency+ '0.00');
     templateObject.accountnamerecords = new ReactiveVar();
     templateObject.datatablepaymentlistrecords = new ReactiveVar([]);
-    // JQuery & CSS by Bruno BEGIN
+    
     setTimeout(function () {
 
         var x = window.matchMedia("(max-width: 1024px)")
 
         function mediaQuery(x) {
-            if (x.matches) { // If media query matches
+            if (x.matches) { 
 
                 $("#colDate").removeClass("col-1");
                 $("#colDate").addClass("col-4")
@@ -84,8 +84,8 @@ Template.depositcard.onCreated(()=>{
 
             }
         }
-        mediaQuery(x) // Call listener function at run time
-        x.addListener(mediaQuery) // Attach listener function on state changes
+        mediaQuery(x) 
+        x.addListener(mediaQuery) 
     }, 10);
 
     setTimeout(function () {
@@ -93,7 +93,7 @@ Template.depositcard.onCreated(()=>{
         var x = window.matchMedia("(max-width: 420px)")
 
         function mediaQuery(x) {
-            if (x.matches) { // If media query matches
+            if (x.matches) { 
 
                 $("#colDate").removeClass("col-1");
                 $("#colDate").addClass("col-12")
@@ -106,10 +106,10 @@ Template.depositcard.onCreated(()=>{
 
             }
         }
-        mediaQuery(x) // Call listener function at run time
-        x.addListener(mediaQuery) // Attach listener function on state changes
+        mediaQuery(x) 
+        x.addListener(mediaQuery) 
     }, 10);
-    // JQuery & CSS by Bruno END
+    
 });
 Template.depositcard.onRendered(()=>{
     let imageData= (localStorage.getItem("Image"));
@@ -118,29 +118,29 @@ Template.depositcard.onRendered(()=>{
         $('.uploadedImage').attr('src', imageData);
     };
 
-    // $(document).ready(function () {
-    //     history.pushState(null, document.title, location.href);
-    //     window.addEventListener('popstate', function (event) {
-    //         swal({
-    //             title: 'Leave Deposit Page',
-    //             text: "Do you want to leave this screen?",
-    //             type: 'question',
-    //             showCancelButton: true,
-    //             confirmButtonText: 'Yes'
-    //         }).then((result) => {
-    //             if (result.value) {
-    //                 $(".btnSave").trigger("click");
-    //             } else if (result.dismiss === 'cancel') {
-    //                 window.open('/depositlist', "_self");
-    //             } else {
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 
-    //             }
-    //         });
+    
+    
 
-    //     });
+    
 
 
-    // });
+    
     const templateObject = Template.instance();
     const records =[];
     let purchaseService = new PurchaseBoardService();
@@ -148,12 +148,12 @@ Template.depositcard.onRendered(()=>{
     let productsService = new PurchaseBoardService();
     let taxRateService = new TaxRateService();
     const dataTableList = [];
-    // let accountService = new PurchaseBoardService();
+    
     const clientList = [];
     const productsList = [];
     const accountsList = [];
     const deptrecords = [];
-    //const arearecords = [];
+    
     const termrecords = [];
     const statusList = [];
     const newDepositId = '';
@@ -167,7 +167,7 @@ Template.depositcard.onRendered(()=>{
             }else{
                 latestPOId = 0;
             }
-            // console.log(latestPOId);
+
             newDepositId = (latestPOId + 1);
             $('#edtEnrtyNo').val(newDepositId);
 
@@ -176,8 +176,8 @@ Template.depositcard.onRendered(()=>{
             $('#edtEnrtyNo').val(newDepositId);
         });
     };
-    //
-    //dd M yy
+    
+    
 
     setTimeout(function () {
       $("#date-input,#dtSODate,#dtTransDate").datepicker({
@@ -210,7 +210,7 @@ Template.depositcard.onRendered(()=>{
                     statecode : data.tsuppliervs1[i].State +' '+data.tsuppliervs1[i].Postcode || ' ',
                     country : data.tsuppliervs1[i].Country || ' '
                 };
-                //clientList.push(data.tsuppliervs1[i].ClientName,supplieremail: data.tsuppliervs1[i].Email);
+                
                 clientList.push(supplierrecordObj);
 
                 $('#edtSupplierName').editableSelect('add',data.tsuppliervs1[i].ClientName);
@@ -220,21 +220,21 @@ Template.depositcard.onRendered(()=>{
 
         });
     };
-    //templateObject.getAllClients();
-    // templateObject.getDepartments = function(){
-    //   purchaseService.getAreaCode().then(function(data){
-    //       for(let i in data.tareacode){
-    //
-    //           let arearecordsObj = {
-    //               areacode: data.tareacode[i].Areacode || ' ',
-    //           };
-    //
-    //           arearecords.push(arearecordsObj);
-    //           templateObject.arearecords.set(arearecords);
-    //
-    //       }
-    //   });
-    // }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 
     templateObject.getPaymentMetod = function () {
 
@@ -245,7 +245,7 @@ Template.depositcard.onRendered(()=>{
             let lineItems = [];
             let lineItemObj = {};
             for(let i=0; i<data.tpaymentmethodvs1.length; i++){
-              // let taxRate = (data.tdeptclass[i].fields.Rate * 100).toFixed(2) + '%';
+              
                  var dataList = {
                    id: data.tpaymentmethodvs1[i].Id || '',
                    paymentmethodname: data.tpaymentmethodvs1[i].PaymentMethodName || '',
@@ -253,7 +253,7 @@ Template.depositcard.onRendered(()=>{
                };
 
                 dataTableList.push(dataList);
-                //}
+                
             }
 
             templateObject.datatablepaymentlistrecords.set(dataTableList);
@@ -337,21 +337,21 @@ Template.depositcard.onRendered(()=>{
                         exportOptions: {
                         columns: ':visible'
                       }
-                      // ,
-                      // customize: function ( win ) {
-                      //   $(win.document.body).children("h1:first").remove();
-                      // }
+                      
+                      
+                      
+                      
 
                       }],
-                      // bStateSave: true,
-                      // rowId: 0,
+                      
+                      
                       paging: false,
                       "scrollY": "400px",
                       "scrollCollapse": true,
                       info: true,
                       responsive: true,
                       "order": [[ 0, "asc" ]],
-                      // "aaSorting": [[1,'desc']],
+                      
                       action: function () {
                           $('#tblpaymentmethodList').DataTable().ajax.reload();
                       },
@@ -407,9 +407,9 @@ Template.depositcard.onRendered(()=>{
              $('div.dataTables_filter input').addClass('form-control form-control-sm');
 
           }).catch(function (err) {
-              // Bert.alert('<strong>' + err + '</strong>!', 'danger');
+              
               $('.fullScreenSpin').css('display','none');
-              // Meteor._reload.reload();
+              
           });
         }else{
           const dataTableList = [];
@@ -418,7 +418,7 @@ Template.depositcard.onRendered(()=>{
         let lineItems = [];
   let lineItemObj = {};
   for(let i=0; i<useData.length; i++){
-    // let taxRate = (data.tdeptclass[i].fields.Rate * 100).toFixed(2) + '%';
+    
        var dataList = {
          id: useData[i].fields.ID || '',
          paymentmethodname: useData[i].fields.PaymentMethodName || '',
@@ -426,7 +426,7 @@ Template.depositcard.onRendered(()=>{
      };
 
       dataTableList.push(dataList);
-      //}
+      
   }
 
   templateObject.datatablepaymentlistrecords.set(dataTableList);
@@ -510,21 +510,21 @@ Template.depositcard.onRendered(()=>{
               exportOptions: {
               columns: ':visible'
             }
-            // ,
-            // customize: function ( win ) {
-            //   $(win.document.body).children("h1:first").remove();
-            // }
+            
+            
+            
+            
 
             }],
-            // bStateSave: true,
-            // rowId: 0,
+            
+            
             paging: false,
             "scrollY": "400px",
             "scrollCollapse": true,
             info: true,
             responsive: true,
             "order": [[ 0, "asc" ]],
-            // "aaSorting": [[1,'desc']],
+            
             action: function () {
                 $('#tblpaymentmethodList').DataTable().ajax.reload();
             },
@@ -585,7 +585,7 @@ Template.depositcard.onRendered(()=>{
           let lineItems = [];
           let lineItemObj = {};
           for(let i=0; i<data.tpaymentmethodvs1.length; i++){
-            // let taxRate = (data.tdeptclass[i].fields.Rate * 100).toFixed(2) + '%';
+            
                var dataList = {
                  id: data.tpaymentmethodvs1[i].Id || '',
                  paymentmethodname: data.tpaymentmethodvs1[i].PaymentMethodName || '',
@@ -593,7 +593,7 @@ Template.depositcard.onRendered(()=>{
              };
 
               dataTableList.push(dataList);
-              //}
+              
           }
 
           templateObject.datatablepaymentlistrecords.set(dataTableList);
@@ -677,21 +677,21 @@ Template.depositcard.onRendered(()=>{
                       exportOptions: {
                       columns: ':visible'
                     }
-                    // ,
-                    // customize: function ( win ) {
-                    //   $(win.document.body).children("h1:first").remove();
-                    // }
+                    
+                    
+                    
+                    
 
                     }],
-                    // bStateSave: true,
-                    // rowId: 0,
+                    
+                    
                     paging: false,
                     "scrollY": "400px",
                     "scrollCollapse": true,
                     info: true,
                     responsive: true,
                     "order": [[ 0, "asc" ]],
-                    // "aaSorting": [[1,'desc']],
+                    
                     action: function () {
                         $('#tblpaymentmethodList').DataTable().ajax.reload();
                     },
@@ -747,9 +747,9 @@ Template.depositcard.onRendered(()=>{
            $('div.dataTables_filter input').addClass('form-control form-control-sm');
 
         }).catch(function (err) {
-            // Bert.alert('<strong>' + err + '</strong>!', 'danger');
+            
             $('.fullScreenSpin').css('display','none');
-            // Meteor._reload.reload();
+            
         });
       });
 
@@ -759,7 +759,7 @@ Template.depositcard.onRendered(()=>{
     templateObject.getPaymentMetod();
 
     setTimeout(function () {
-      //templateObject.getDepartments();
+      
     }, 500);
     var url = window.location.href;
     if(url.indexOf('?id=') > 0){
@@ -818,14 +818,14 @@ Template.depositcard.onRendered(()=>{
                     $(".printConfirm").prop("disabled", false);
                     $(".btnBack").prop("disabled", false);
                     templateObject.record.set(record);
-                    // templateObject.totalCredit.set(utilityService.modifynegativeCurrencyFormat(totalCredit));
-                    // templateObject.totalDebit.set(utilityService.modifynegativeCurrencyFormat(totalDebit));
+                    
+                    
 
                     if(templateObject.record.get()){
                         Meteor.call('readPrefMethod',Session.get('mycloudLogonID'),'tblDepositEntryLine', function(error, result){
                             if(error){
-                                // console.log(error);
-                                //Bert.alert('<strong>Error:</strong> user-not-found, no user found please try again!', 'danger');
+
+                                
                             }else{
                                 if(result){
                                     for (let i = 0; i < result.customFields.length; i++) {
@@ -836,7 +836,7 @@ Template.depositcard.onRendered(()=>{
                                         let columnClass = columHeaderUpdate.substring(columHeaderUpdate.indexOf(".") + 1);
                                         let columnWidth = customcolumn[i].width;
 
-                                        //alert(columnClass);
+                                        
                                         $(""+columHeaderUpdate+"").html(columData);
                                         if(columnWidth != 0){
                                             $(""+columHeaderUpdate+"").css('width',columnWidth+'%');
@@ -875,7 +875,7 @@ Template.depositcard.onRendered(()=>{
                         }
                     });
                     $('.fullScreenSpin').css('display','none');
-                    // Meteor._reload.reload();
+                    
                 });
               }else{
                 let data = JSON.parse(dataObject[0].data);
@@ -884,7 +884,7 @@ Template.depositcard.onRendered(()=>{
                 for(let d=0; d<useData.length; d++){
                   if(parseInt(useData[d].fields.ID) === currentDeposit){
                     added = true;
-                    console.log(useData[d]);
+                    
                     $('.fullScreenSpin').css('display','none');
 
               let lineItems = [];
@@ -948,7 +948,7 @@ Template.depositcard.onRendered(()=>{
                                   let columnClass = columHeaderUpdate.substring(columHeaderUpdate.indexOf(".") + 1);
                                   let columnWidth = customcolumn[i].width;
 
-                                  //alert(columnClass);
+                                  
                                   $(""+columHeaderUpdate+"").html(columData);
                                   if(columnWidth != 0){
                                       $(""+columHeaderUpdate+"").css('width',columnWidth+'%');
@@ -1024,14 +1024,14 @@ Template.depositcard.onRendered(()=>{
                       $(".printConfirm").prop("disabled", false);
                       $(".btnBack").prop("disabled", false);
                       templateObject.record.set(record);
-                      // templateObject.totalCredit.set(utilityService.modifynegativeCurrencyFormat(totalCredit));
-                      // templateObject.totalDebit.set(utilityService.modifynegativeCurrencyFormat(totalDebit));
+                      
+                      
 
                       if(templateObject.record.get()){
                           Meteor.call('readPrefMethod',Session.get('mycloudLogonID'),'tblDepositEntryLine', function(error, result){
                               if(error){
-                                  // console.log(error);
-                                  //Bert.alert('<strong>Error:</strong> user-not-found, no user found please try again!', 'danger');
+
+                                  
                               }else{
                                   if(result){
                                       for (let i = 0; i < result.customFields.length; i++) {
@@ -1042,7 +1042,7 @@ Template.depositcard.onRendered(()=>{
                                           let columnClass = columHeaderUpdate.substring(columHeaderUpdate.indexOf(".") + 1);
                                           let columnWidth = customcolumn[i].width;
 
-                                          //alert(columnClass);
+                                          
                                           $(""+columHeaderUpdate+"").html(columData);
                                           if(columnWidth != 0){
                                               $(""+columHeaderUpdate+"").css('width',columnWidth+'%');
@@ -1081,7 +1081,7 @@ Template.depositcard.onRendered(()=>{
                           }
                       });
                       $('.fullScreenSpin').css('display','none');
-                      // Meteor._reload.reload();
+                      
                   });
                 }
               }
@@ -1134,14 +1134,14 @@ Template.depositcard.onRendered(()=>{
                   $(".printConfirm").prop("disabled", false);
                   $(".btnBack").prop("disabled", false);
                   templateObject.record.set(record);
-                  // templateObject.totalCredit.set(utilityService.modifynegativeCurrencyFormat(totalCredit));
-                  // templateObject.totalDebit.set(utilityService.modifynegativeCurrencyFormat(totalDebit));
+                  
+                  
 
                   if(templateObject.record.get()){
                       Meteor.call('readPrefMethod',Session.get('mycloudLogonID'),'tblDepositEntryLine', function(error, result){
                           if(error){
-                              // console.log(error);
-                              //Bert.alert('<strong>Error:</strong> user-not-found, no user found please try again!', 'danger');
+
+                              
                           }else{
                               if(result){
                                   for (let i = 0; i < result.customFields.length; i++) {
@@ -1152,7 +1152,7 @@ Template.depositcard.onRendered(()=>{
                                       let columnClass = columHeaderUpdate.substring(columHeaderUpdate.indexOf(".") + 1);
                                       let columnWidth = customcolumn[i].width;
 
-                                      //alert(columnClass);
+                                      
                                       $(""+columHeaderUpdate+"").html(columData);
                                       if(columnWidth != 0){
                                           $(""+columHeaderUpdate+"").css('width',columnWidth+'%');
@@ -1191,7 +1191,7 @@ Template.depositcard.onRendered(()=>{
                       }
                   });
                   $('.fullScreenSpin').css('display','none');
-                  // Meteor._reload.reload();
+                  
               });
             });
 
@@ -1210,7 +1210,7 @@ Template.depositcard.onRendered(()=>{
         let lineItemsTable = [];
         let lineItemObj = {};
 
-        //for(let i=0; i<2; i++){
+        
             lineItemObj = {
                 lineID :Random.id(),
                 id: '',
@@ -1222,7 +1222,7 @@ Template.depositcard.onRendered(()=>{
                paymentmethod: ''
             };
             lineItems.push(lineItemObj);
-        //}
+        
         var currentDate = new Date();
         var begunDate = moment(currentDate).format("DD/MM/YYYY");
         let record = {
@@ -1242,8 +1242,8 @@ Template.depositcard.onRendered(()=>{
         if(templateObject.record.get()){
             Meteor.call('readPrefMethod',Session.get('mycloudLogonID'),'tblDepositEntryLine', function(error, result){
                 if(error){
-                    // console.log(error);
-                    //Bert.alert('<strong>Error:</strong> user-not-found, no user found please try again!', 'danger');
+
+                    
                 }else{
                     if(result){
                         for (let i = 0; i < result.customFields.length; i++) {
@@ -1253,7 +1253,7 @@ Template.depositcard.onRendered(()=>{
                             let hiddenColumn = customcolumn[i].hidden;
                             let columnClass = columHeaderUpdate.substring(columHeaderUpdate.indexOf(".") + 1);
                             let columnWidth = customcolumn[i].width;
-                            //alert(columnClass);
+                            
                             $(""+columHeaderUpdate+"").html(columData);
                             if(columnWidth != 0){
                                 $(""+columHeaderUpdate+"").css('width',columnWidth+'%');
@@ -1286,8 +1286,8 @@ Template.depositcard.onRendered(()=>{
             $(".colReference", rowData).text("");
             $(".lineCompany", rowData).text("");
             $(".colAmount", rowData).val("");
-            // $(".lineTaxCode", rowData).text("");
-            // $(".lineAmt", rowData).text("");
+            
+            
             rowData.attr('id', tokenid);
             $("#tblDepositEntryLine tbody").append(rowData);
 
@@ -1304,7 +1304,7 @@ Template.depositcard.onRendered(()=>{
         var table = $(this);
         let utilityService = new UtilityService();
         let $tblrows = $("#tblDepositEntryLine tbody tr");
-        //var data = table.row( this ).data();
+        
         if(selectLineID){
             let lineProductName = table.find(".productName").text();
             let lineProductDesc = table.find(".productDesc").text();
@@ -1319,10 +1319,10 @@ Template.depositcard.onRendered(()=>{
 
     $(document).on("click", "#tblCustomerlist tbody tr", function(e) {
         let selectCustomerLineID = $('#customerSelectLineID').val();
-        // alert(selectCustomerLineID);
+        
         var table = $(this);
         let utilityService = new UtilityService();
-        //var data = table.row( this ).data();
+        
         if(selectCustomerLineID){
             let lineCompany = table.find(".colCompany").text();
 
@@ -1334,10 +1334,10 @@ Template.depositcard.onRendered(()=>{
 
     $(document).on("click", "#tblpaymentmethodList tbody tr", function(e) {
         let selectPaymentLineID = $('#selectPaymentMethodLineID').val();
-        // alert(selectCustomerLineID);
+        
         var table = $(this);
         let utilityService = new UtilityService();
-        //var data = table.row( this ).data();
+        
         if(selectPaymentLineID){
             let linePaymentMethod = table.find(".colNamePaymentMethod").text();
 
@@ -1354,7 +1354,7 @@ Template.depositcard.onRendered(()=>{
         var table = $(this);
         let utilityService = new UtilityService();
         let $tblrows = $("#tblDepositEntryLine tbody tr");
-        //var data = table.row( this ).data();
+        
         if(selectLineID){
             let lineTaxCode = table.find(".taxName").text();
             let lineTaxRate = table.find(".taxRate").text();
@@ -1376,14 +1376,14 @@ Template.depositcard.onRendered(()=>{
                 if(taxcodeList){
                     for (var i = 0; i < taxcodeList.length; i++) {
                         if(taxcodeList[i].codename == taxcode){
-                            //if(taxcodeList[i].coderate.trim() != ''){
+                            
                             taxrateamount = taxcodeList[i].coderate;
-                            //}
+                            
                         }
                     }
                 }
 
-                //alert(taxrateamount);
+                
                 var subTotal =  parseFloat(amount.replace(/[^0-9.-]+/g,"")) || 0;
                 if((taxrateamount == '') ||(taxrateamount == ' ')){
                     var taxTotal = 0;
@@ -1422,8 +1422,8 @@ Template.depositcard.onRendered(()=>{
         };
         let id = $('.printID').attr("id");
         var pdf =  new jsPDF('p', 'pt', 'a4');
-        //new jsPDF('p', 'pt', 'letter');
-        // new jsPDF('p', 'mm', 'a4');
+        
+        
         pdf.setFontSize(18);
         var source = document.getElementById('html-2-pdfwrapper');
         pdf.addHTML(source, function () {
@@ -1476,13 +1476,13 @@ Template.depositcard.onRendered(function(){
 
                   $('#tblAccount').dataTable({
                       data :  splashArrayProductList.sort(),
-                      // processing: true,
+                      
                       "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
                       paging: true,
                       "aaSorting": [],
                       "orderMulti": true,
                       columnDefs: [
-                          // { orderable: false, targets: 0 },
+                          
                           { className: "productName", "targets": [ 0 ] },
                           { className: "productDesc", "targets": [ 1 ] },
                           { className: "accountnumber", "targets": [ 2 ] },
@@ -1491,12 +1491,12 @@ Template.depositcard.onRendered(function(){
                           { className: "taxrate", "targets": [ 5 ] }
                       ],
                       colReorder: true,
-                      // colReorder: {
-                      //   fixedColumnsLeft: 1
-                      // },
+                      
+                      
+                      
                       "order": [[ 0, "asc" ]],
-                      //scrollX: 1000,
-                      //rowId: 0,
+                      
+                      
                       pageLength: 25,
                       lengthMenu: [ [10, 25, 50, -1], [10, 25, 50, "All"] ],
                       info: true,
@@ -1505,12 +1505,12 @@ Template.depositcard.onRendered(function(){
                   });
 
                   $('div.dataTables_filter input').addClass('form-control form-control-sm');
-                  // tableProductList
-                  //     .order( [ 1, 'desc' ] )
-                  //     .draw();
-                  //$('#tblAccount').DataTable().column( 0 ).visible( false );
-                  //$('#tblAccount').DataTable().column( 5 ).visible( false );
-                  //$('#tblAccount').DataTable().column( 6 ).visible( false );
+                  
+                  
+                  
+                  
+                  
+                  
               }
           });
         }else{
@@ -1549,13 +1549,13 @@ Template.depositcard.onRendered(function(){
 
               $('#tblAccount').dataTable({
                   data :  splashArrayProductList.sort(),
-                  // processing: true,
+                  
                   "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
                   paging: true,
                   "aaSorting": [],
                   "orderMulti": true,
                   columnDefs: [
-                      // { orderable: false, targets: 0 },
+                      
                       { className: "productName", "targets": [ 0 ] },
                       { className: "productDesc", "targets": [ 1 ] },
                       { className: "accountnumber", "targets": [ 2 ] },
@@ -1564,12 +1564,12 @@ Template.depositcard.onRendered(function(){
                       { className: "taxrate", "targets": [ 5 ] }
                   ],
                   colReorder: true,
-                  // colReorder: {
-                  //   fixedColumnsLeft: 1
-                  // },
+                  
+                  
+                  
                   "order": [[ 0, "asc" ]],
-                  //scrollX: 1000,
-                  //rowId: 0,
+                  
+                  
                   pageLength: 25,
                   lengthMenu: [ [10, 25, 50, -1], [10, 25, 50, "All"] ],
                   info: true,
@@ -1578,12 +1578,12 @@ Template.depositcard.onRendered(function(){
               });
 
               $('div.dataTables_filter input').addClass('form-control form-control-sm');
-              // tableProductList
-              //     .order( [ 1, 'desc' ] )
-              //     .draw();
-              //$('#tblAccount').DataTable().column( 0 ).visible( false );
-              //$('#tblAccount').DataTable().column( 5 ).visible( false );
-              //$('#tblAccount').DataTable().column( 6 ).visible( false );
+              
+              
+              
+              
+              
+              
           }
         }
       }).catch(function (err) {
@@ -1617,13 +1617,13 @@ Template.depositcard.onRendered(function(){
 
                 $('#tblAccount').dataTable({
                     data :  splashArrayProductList.sort(),
-                    // processing: true,
+                    
                     "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
                     paging: true,
                     "aaSorting": [],
                     "orderMulti": true,
                     columnDefs: [
-                        // { orderable: false, targets: 0 },
+                        
                         { className: "productName", "targets": [ 0 ] },
                         { className: "productDesc", "targets": [ 1 ] },
                         { className: "accountnumber", "targets": [ 2 ] },
@@ -1632,12 +1632,12 @@ Template.depositcard.onRendered(function(){
                         { className: "taxrate", "targets": [ 5 ] }
                     ],
                     colReorder: true,
-                    // colReorder: {
-                    //   fixedColumnsLeft: 1
-                    // },
+                    
+                    
+                    
                     "order": [[ 0, "asc" ]],
-                    //scrollX: 1000,
-                    //rowId: 0,
+                    
+                    
                     pageLength: 25,
                     lengthMenu: [ [10, 25, 50, -1], [10, 25, 50, "All"] ],
                     info: true,
@@ -1646,12 +1646,12 @@ Template.depositcard.onRendered(function(){
                 });
 
                 $('div.dataTables_filter input').addClass('form-control form-control-sm');
-                // tableProductList
-                //     .order( [ 1, 'desc' ] )
-                //     .draw();
-                //$('#tblAccount').DataTable().column( 0 ).visible( false );
-                //$('#tblAccount').DataTable().column( 5 ).visible( false );
-                //$('#tblAccount').DataTable().column( 6 ).visible( false );
+                
+                
+                
+                
+                
+                
             }
         });
       });
@@ -1661,7 +1661,7 @@ Template.depositcard.onRendered(function(){
     setTimeout(function () {
     tempObj.getAllProducts();
     }, 500);
-    //$('#tblAccount').DataTable().column( 6 ).visible( false );
+    
 });
 Template.depositcard.helpers({
     record : () => {
@@ -1678,17 +1678,17 @@ Template.depositcard.helpers({
             return (a.department.toUpperCase() > b.department.toUpperCase()) ? 1 : -1;
         });
     },
-    // arearecords: () => {
-    //     return Template.instance().arearecords.get().sort(function(a, b){
-    //         if (a.areacode == 'NA') {
-    //             return 1;
-    //         }
-    //         else if (b.areacode == 'NA') {
-    //             return -1;
-    //         }
-    //         return (a.areacode.toUpperCase() > b.areacode.toUpperCase()) ? 1 : -1;
-    //     });
-    // },
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     termrecords: () => {
         return Template.instance().termrecords.get().sort(function(a, b){
             if (a.termsname == 'NA') {
@@ -1762,8 +1762,8 @@ Template.depositcard.helpers({
         return Session.get('vs1companyURL');
     },
     isMobileDevices: () =>{
-        var isMobile = false; //initiate as false
-        // device detection
+        var isMobile = false; 
+        
         if(/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|ipad|iris|kindle|Android|Silk|lge |maemo|midp|mmp|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows (ce|phone)|xda|xiino/i.test(navigator.userAgent)
            || /1207|6310|6590|3gso|4thp|50[1-6]i|770s|802s|a wa|abac|ac(er|oo|s\-)|ai(ko|rn)|al(av|ca|co)|amoi|an(ex|ny|yw)|aptu|ar(ch|go)|as(te|us)|attw|au(di|\-m|r |s )|avan|be(ck|ll|nq)|bi(lb|rd)|bl(ac|az)|br(e|v)w|bumb|bw\-(n|u)|c55\/|capi|ccwa|cdm\-|cell|chtm|cldc|cmd\-|co(mp|nd)|craw|da(it|ll|ng)|dbte|dc\-s|devi|dica|dmob|do(c|p)o|ds(12|\-d)|el(49|ai)|em(l2|ul)|er(ic|k0)|esl8|ez([4-7]0|os|wa|ze)|fetc|fly(\-|_)|g1 u|g560|gene|gf\-5|g\-mo|go(\.w|od)|gr(ad|un)|haie|hcit|hd\-(m|p|t)|hei\-|hi(pt|ta)|hp( i|ip)|hs\-c|ht(c(\-| |_|a|g|p|s|t)|tp)|hu(aw|tc)|i\-(20|go|ma)|i230|iac( |\-|\/)|ibro|idea|ig01|ikom|im1k|inno|ipaq|iris|ja(t|v)a|jbro|jemu|jigs|kddi|keji|kgt( |\/)|klon|kpt |kwc\-|kyo(c|k)|le(no|xi)|lg( g|\/(k|l|u)|50|54|\-[a-w])|libw|lynx|m1\-w|m3ga|m50\/|ma(te|ui|xo)|mc(01|21|ca)|m\-cr|me(rc|ri)|mi(o8|oa|ts)|mmef|mo(01|02|bi|de|do|t(\-| |o|v)|zz)|mt(50|p1|v )|mwbp|mywa|n10[0-2]|n20[2-3]|n30(0|2)|n50(0|2|5)|n7(0(0|1)|10)|ne((c|m)\-|on|tf|wf|wg|wt)|nok(6|i)|nzph|o2im|op(ti|wv)|oran|owg1|p800|pan(a|d|t)|pdxg|pg(13|\-([1-8]|c))|phil|pire|pl(ay|uc)|pn\-2|po(ck|rt|se)|prox|psio|pt\-g|qa\-a|qc(07|12|21|32|60|\-[2-7]|i\-)|qtek|r380|r600|raks|rim9|ro(ve|zo)|s55\/|sa(ge|ma|mm|ms|ny|va)|sc(01|h\-|oo|p\-)|sdk\/|se(c(\-|0|1)|47|mc|nd|ri)|sgh\-|shar|sie(\-|m)|sk\-0|sl(45|id)|sm(al|ar|b3|it|t5)|so(ft|ny)|sp(01|h\-|v\-|v )|sy(01|mb)|t2(18|50)|t6(00|10|18)|ta(gt|lk)|tcl\-|tdg\-|tel(i|m)|tim\-|t\-mo|to(pl|sh)|ts(70|m\-|m3|m5)|tx\-9|up(\.b|g1|si)|utst|v400|v750|veri|vi(rg|te)|vk(40|5[0-3]|\-v)|vm40|voda|vulc|vx(52|53|60|61|70|80|81|83|85|98)|w3c(\-| )|webc|whit|wi(g |nc|nw)|wmlb|wonu|x700|yas\-|your|zeto|zte\-/i.test(navigator.userAgent.substr(0,4))) {
             isMobile = true;
@@ -1790,7 +1790,7 @@ Template.depositcard.events({
         $('#edtSupplierName').editableSelect();
     },
     'blur .lineCreditEx': function(event){
-        //if (event.which >= 48 && event.which <= 57) {
+        
         if (!isNaN($(event.target).val())){
             let inputCreditEx = parseFloat($(event.target).val());
             $(event.target).val(Currency+''+inputCreditEx.toLocaleString(undefined, {minimumFractionDigits: 2}));
@@ -1817,7 +1817,7 @@ Template.depositcard.events({
         if($(event.target).val().replace(/[^0-9.-]+/g,"") != 0){
           $('#'+targetID+" .lineDebitEx").val(Currency+'0.00');
         }
-        //if(selectLineID){
+        
         let lineAmount = 0;
         let subGrandCreditTotal = 0;
         let subGrandDebitTotal = 0;
@@ -1837,7 +1837,7 @@ Template.depositcard.events({
         });
         templateObject.totalCredit.set(utilityService.modifynegativeCurrencyFormat(subGrandCreditTotal));
         templateObject.totalDebit.set(utilityService.modifynegativeCurrencyFormat(subGrandDebitTotal));
-        //}
+        
     },
     'click #btnCustomFileds': function(event){
         var x = document.getElementById("divCustomFields");
@@ -1853,9 +1853,9 @@ Template.depositcard.events({
         if (!getso_id[1]) {
         $('#tblDepositEntryLine tbody tr .lineAccountName').attr("data-toggle","modal");
         $('#tblDepositEntryLine tbody tr .lineAccountName').attr("data-target","#productListModal");
-        var targetID = $(event.target).closest('tr').attr('id'); // table row ID
+        var targetID = $(event.target).closest('tr').attr('id'); 
         $('#selectLineID').val(targetID);
-        // Autofocus Searchbar
+        
         setTimeout(function () {
             $('#tblAccount_filter .form-control-sm').focus();
         }, 500);
@@ -1870,29 +1870,29 @@ Template.depositcard.events({
     'click .lineTaxRate' : function(event){
         $('#tblDepositEntryLine tbody tr .lineTaxRate').attr("data-toggle","modal");
         $('#tblDepositEntryLine tbody tr .lineTaxRate').attr("data-target","#taxRateListModal");
-        var targetID = $(event.target).closest('tr').attr('id'); // table row ID
+        var targetID = $(event.target).closest('tr').attr('id'); 
         $('#selectLineID').val(targetID);
     },
     'click .lineTaxCode' : function(event){
         $('#tblDepositEntryLine tbody tr .lineTaxCode').attr("data-toggle","modal");
         $('#tblDepositEntryLine tbody tr .lineTaxCode').attr("data-target","#taxRateListModal");
-        var targetID = $(event.target).closest('tr').attr('id'); // table row ID
+        var targetID = $(event.target).closest('tr').attr('id'); 
         $('#selectLineID').val(targetID);
     },
     'click .printConfirm' : function(event){
         $('#html-2-pdfwrapper').css('display','block');
-        // $('.pdfCustomerName').html($('#edtSupplierName').val());
-        // $('.pdfCustomerAddress').html('');
+        
+        
         exportSalesToPdf();
 
     },
     'keydown .lineCreditEx, keydown .lineDebitEx, keydown .lineAmount' : function(event){
       if ($.inArray(event.keyCode, [46, 8, 9, 27, 13, 110]) !== -1 ||
-          // Allow: Ctrl+A, Command+A
+          
           (event.keyCode === 65 && (event.ctrlKey === true || event.metaKey === true)) ||
-          // Allow: home, end, left, right, down, up
+          
           (event.keyCode >= 35 && event.keyCode <= 40)) {
-          // let it happen, don't do anything
+          
           return;
       }
 
@@ -1915,7 +1915,7 @@ Template.depositcard.events({
         let utilityService = new UtilityService();
 
         var clicktimes = 0;
-        var targetID = $(event.target).closest('tr').attr('id'); // table row ID
+        var targetID = $(event.target).closest('tr').attr('id'); 
         $('#selectDeleteLineID').val(targetID);
 
         times++;
@@ -1928,7 +1928,7 @@ Template.depositcard.events({
                 $(event.target).closest('tr').remove();
                 event.preventDefault();
                 let $tblrows = $("#tblDepositEntryLine tbody tr");
-                //if(selectLineID){
+                
                 let lineAmount = 0;
                 let subGrandTotal = 0;
                 let taxGrandTotal = 0;
@@ -2077,7 +2077,7 @@ Template.depositcard.events({
             Router.go('/depositlist?success=true');
             $('.modal-backdrop').css('display','none');
         }
-        //$('#deleteLineModal').modal('toggle');
+        
     },
     'click .btnDeleteLine': function(event){
         let templateObject = Template.instance();
@@ -2088,18 +2088,18 @@ Template.depositcard.events({
             this.click;
 
             $('#'+selectLineID).closest('tr').remove();
-            // event.preventDefault();
+            
             let $tblrows = $("#tblDepositEntryLine tbody tr");
-            //if(selectLineID){
+            
             let lineAmount = 0;
             let subGrandTotal = 0;
             let taxGrandTotal = 0;
 
-            //return false;
+            
 
         }else{
             this.click;
-            // $(event.target).closest('tr').remove();
+            
             $('#'+selectLineID+" .lineAccountName").text('');
             $('#'+selectLineID+" .lineAccountName").text('');
 
@@ -2109,7 +2109,7 @@ Template.depositcard.events({
 
 
 
-            //event.preventDefault();
+            
 
         }
 
@@ -2124,8 +2124,8 @@ Template.depositcard.events({
         let account = $('#sltAccountName').val();
         let depositTotal = $('#depositTotal').val();
         let depositTotalLine = $('#depositTotalLine').text();
-        //alert(depositTotalLine);
-        //let headMemo = $('#txaMemo').val();
+        
+        
         let txaNotes = $('#txaNotes').val();
         let purchaseService = new PurchaseBoardService();
         if (account === ''){
@@ -2133,7 +2133,7 @@ Template.depositcard.events({
             e.preventDefault();
         }else {
           if($('#depositTotal').val().replace(/[^0-9.-]+/g,"")!= $('#depositTotalLine').text().replace(/[^0-9.-]+/g,"")){
-              // swal('Total Deposit does not equal Total Deposited!', '', 'warning');
+              
               swal({
                   title: 'Total Deposit does not equal Total Deposited!',
                   text: 'Do You Wish To Update Deposit Total?',
@@ -2178,10 +2178,10 @@ Template.depositcard.events({
                                         Amount: parseFloat(tdamount.replace(/[^0-9.-]+/g,"")) || 0,
                                         ReferenceNo: tddmemo || txaNotes,
                                         CompanyName:tdcompany || '',
-                                        //Contact:false,
-                                        //Customer:true,
+                                        
+                                        
                                         Deleted:false,
-                                        //Deposited:true,
+                                        
                                         PaymentMethod: tdpaymentmethod || "Cash",
                                         TransClassName:"Default",
                                         TrnsType:"Deposit Entry"
@@ -2220,7 +2220,7 @@ Template.depositcard.events({
                                   type:"TBankDepositLines",
                                   fields:
                                   {
-                                      //ID:parseInt(erpLineID) ||0,
+                                      
                                       AccountName: tdaccount || '',
                                       Amount: parseFloat(tdamount.replace(/[^0-9.-]+/g,"")) || 0,
                                       ReferenceNo: tddmemo || txaNotes,
@@ -2254,7 +2254,7 @@ Template.depositcard.events({
                     purchaseService.saveBankDeposit(objDetails).then(function (objDetails) {
                     Router.go('/depositlist?success=true');
                     $('.modal-backdrop').css('display','none');
-                        //console.log(getcurrentCloudDetails);
+
 
                     }).catch(function (err) {
                         swal({
@@ -2265,19 +2265,19 @@ Template.depositcard.events({
                             confirmButtonText: 'Try Again'
                         }).then((result) => {
                             if (result.value) {
-                                //Meteor._reload.reload();
+                                
                             } else if (result.dismiss === 'cancel') {
 
                             }
                         });
-                        //$('.loginSpinner').css('display','none');
+                        
                         $('.fullScreenSpin').css('display','none');
                     });
                   } else if (result.dismiss === 'cancel') {
                     $('.fullScreenSpin').css('display','none');
                   }
               });
-            //e.preventDefault();
+            
           }else{
             $('.fullScreenSpin').css('display','inline-block');
             var splashLineArray = new Array();
@@ -2314,10 +2314,10 @@ Template.depositcard.events({
                                 Amount: parseFloat(tdamount.replace(/[^0-9.-]+/g,"")) || 0,
                                 ReferenceNo: tddmemo || txaNotes,
                                 CompanyName:tdcompany || '',
-                                //Contact:false,
-                                //Customer:true,
+                                
+                                
                                 Deleted:false,
-                                //Deposited:true,
+                                
                                 PaymentMethod: tdpaymentmethod || "Cash",
                                 TransClassName:"Default",
                                 TrnsType:"Deposit Entry"
@@ -2356,7 +2356,7 @@ Template.depositcard.events({
                           type:"TBankDepositLines",
                           fields:
                           {
-                              //ID:parseInt(erpLineID) ||0,
+                              
                               AccountName: tdaccount || '',
                               Amount: parseFloat(tdamount.replace(/[^0-9.-]+/g,"")) || 0,
                               ReferenceNo: tddmemo || txaNotes,
@@ -2390,7 +2390,7 @@ Template.depositcard.events({
             purchaseService.saveBankDeposit(objDetails).then(function (objDetails) {
             Router.go('/depositlist?success=true');
             $('.modal-backdrop').css('display','none');
-                //console.log(getcurrentCloudDetails);
+
 
             }).catch(function (err) {
                 swal({
@@ -2401,16 +2401,16 @@ Template.depositcard.events({
                     confirmButtonText: 'Try Again'
                 }).then((result) => {
                     if (result.value) {
-                        //Meteor._reload.reload();
+                        
                     } else if (result.dismiss === 'cancel') {
 
                     }
                 });
-                //$('.loginSpinner').css('display','none');
+                
                 $('.fullScreenSpin').css('display','none');
             });
           }
-            //$('.loginSpinner').css('display','inline-block');
+            
 
         }
 
@@ -2503,7 +2503,7 @@ Template.depositcard.events({
     },
     'click .btnSaveGridSettings' : function(event){
         let lineItems = [];
-        //let lineItemObj = {};
+        
         $('.columnSettings').each(function (index) {
             var $tblrow = $(this);
             var colTitle = $tblrow.find(".divcolumn").text()||'';
@@ -2524,8 +2524,8 @@ Template.depositcard.events({
             }
 
             lineItems.push(lineItemObj);
-            // var price = $tblrow.find(".lineUnitPrice").text()||0;
-            // var taxcode = $tblrow.find(".lineTaxRate").text()||0;
+            
+            
 
         });
 
@@ -2544,10 +2544,10 @@ Template.depositcard.events({
                                                                                updatedAt: new Date() }}, function(err, idTag) {
                         if (err) {
                             $('#myModal2').modal('toggle');
-                            //window.open('/billlist','_self');
+                            
                         } else {
                             $('#myModal2').modal('toggle');
-                            //window.open('/billlist','_self');
+                            
 
                         }
                     });
@@ -2559,14 +2559,14 @@ Template.depositcard.events({
                                             createdAt: new Date() }, function(err, idTag) {
                         if (err) {
                             $('#myModal2').modal('toggle');
-                            //window.open('/billlist','_self');
+                            
                         } else {
                             $('#myModal2').modal('toggle');
-                            //window.open('/billlist','_self');
+                            
 
                         }
                     });
-                    // console.log(checkPrefDetails);
+
                 }
             }
         }
@@ -2661,7 +2661,7 @@ Template.depositcard.events({
         let attachmentID = parseInt(event.currentTarget.parentNode.id.split('attachment-name-')[1]);
         let templateObj = Template.instance();
         let uploadedFiles = templateObj.uploadedFiles.get();
-        // console.log(uploadedFiles);
+
         $('#myModalAttachment').modal('hide');
         let previewFile = {};
         let input = uploadedFiles[attachmentID].fields.Description;
@@ -2735,15 +2735,15 @@ Template.depositcard.events({
     'click .btnBack':function(event){
         event.preventDefault();
         history.back(1);
-        //Router.go('/billlist');
-        //window.open('/invoicelist','_self');
+        
+        
     },
     'click .colAccount': function(event) {
         $('#tblDepositEntryLine tbody tr .colAccount').attr("data-toggle", "modal");
         $('#tblDepositEntryLine tbody tr .colAccount').attr("data-target", "#productListModal");
-        var targetID = $(event.target).closest('tr').attr('id'); // table row ID
+        var targetID = $(event.target).closest('tr').attr('id'); 
         $('#selectLineID').val(targetID);
-        // Autofocus Searchbar
+        
         setTimeout(function() {
             $('#tblAccount_filter .form-control-sm').focus();
         }, 500);
@@ -2751,9 +2751,9 @@ Template.depositcard.events({
     'click .lineCompany': function(event) {
         $('#tblDepositEntryLine tbody tr .lineCompany').attr("data-toggle", "modal");
         $('#tblDepositEntryLine tbody tr .lineCompany').attr("data-target", "#customerListModal");
-        var targetID = $(event.target).closest('tr').attr('id'); // table row ID
+        var targetID = $(event.target).closest('tr').attr('id'); 
         $('#customerSelectLineID').val(targetID);
-        // Autofocus Searchbar
+        
         setTimeout(function() {
             $('#tblCustomerlist_filter .form-control-sm').focus();
         }, 500);
@@ -2761,9 +2761,9 @@ Template.depositcard.events({
     'click .colPaymentMethod': function(event) {
         $('#tblDepositEntryLine tbody tr .colPaymentMethod').attr("data-toggle", "modal");
         $('#tblDepositEntryLine tbody tr .colPaymentMethod').attr("data-target", "#paymentMethodModal");
-        var targetID = $(event.target).closest('tr').attr('id'); // table row ID
+        var targetID = $(event.target).closest('tr').attr('id'); 
         $('#selectPaymentMethodLineID').val(targetID);
-        // Autofocus Searchbar
+        
         setTimeout(function() {
             $('#tblpaymentmethodList_filter .form-control-sm').focus();
         }, 500);
@@ -2786,7 +2786,7 @@ Template.depositcard.events({
       });
 
       document.getElementById("depositTotalLine").innerHTML = utilityService.modifynegativeCurrencyFormat(lineAmountTotal)||0;
-      //$('.depositTotal').val(utilityService.modifynegativeCurrencyFormat(lineAmountTotal)||0);
+      
     },
     'change .depositTotal': function(event) {
       let utilityService = new UtilityService();
@@ -2800,11 +2800,11 @@ Template.depositcard.events({
     },
     'keydown .colAmount, keydown .depositTotal, keydown .edtEnrtyNo': function(event) {
         if ($.inArray(event.keyCode, [46, 8, 9, 27, 13, 110]) !== -1 ||
-            // Allow: Ctrl+A, Command+A
+            
             (event.keyCode === 65 && (event.ctrlKey === true || event.metaKey === true)) ||
-            // Allow: home, end, left, right, down, up
+            
             (event.keyCode >= 35 && event.keyCode <= 40)) {
-            // let it happen, don't do anything
+            
             return;
         }
 

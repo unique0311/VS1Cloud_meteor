@@ -60,7 +60,7 @@ Template.resetpassword.events({
         var emailExist  = CloudUser.findOne({cloudEmail: enteredEmail});
 
         if (emailExist) {
-          //console.log(emailExist);
+
           /*
           CloudUser.update({_id:emailExist._id},
             {$set:{clouddatabaseID:emailExist.clouddatabaseID,server: emailExist.server,
@@ -71,14 +71,14 @@ Template.resetpassword.events({
                  */
           CloudUser.update({_id:emailExist._id},{$set:{cloudPassword:enteredPassword,cloudHashPassword:cloudHashPassword,userMultiLogon:false}}, function(err, idTag) {
             if(err){
-              console.log("ALREADY FOUND TAG " + err);
+              
             }else{
-              //console.log(idTag);
+
               $('.fullScreenSpin').css('display','none');
               window.open('/','_self');
             }
           });
-          // Bert.alert('<strong>Error:</strong> Email already registered!', 'warning');
+          
          }else{
            Meteor._reload.reload();
          }

@@ -60,7 +60,7 @@ Template.trueERPSettings.events({
             event.preventDefault();
             // show a nice error message
             // Session.set("errorMessage", "Please log in to delete a family.");
-            // console.log(error);
+            
           } else {
             Bert.alert("<strong>Success:</strong> Mail Sent!", "success");
             $(".close").click();

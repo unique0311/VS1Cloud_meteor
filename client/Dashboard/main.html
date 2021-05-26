@@ -6,7 +6,7 @@
                 var ip = "the ip number, retrieved of some way by a server";
                 // the request will be to http://www.geoplugin.net/json.gp?ip=my.ip.number but we need to avoid the cors issue, and we use cors-anywhere api.
                 $.getJSON("http://www.geoplugin.net/json.gp?ip="+ip,function(response){
-                // console.log(response);
+                
                 document.getElementById("countryLogin").innerHTML = response.geoplugin_countryName;
               });
               </script>

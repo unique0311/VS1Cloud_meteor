@@ -421,14 +421,14 @@ export class SalesBoardService extends BaseService {
     getAllSalesOrderdata() {
       let options = {
         ListType: "Detail"
-          // PropertyList: "ID,CustomerName,EmployeeName,SaleClassName,SaleDate,TotalAmount,ShipDate,SalesDescription,TermsName,SalesStatus,CustPONumber",
+          
       };
       return this.getList(this.ERPObjects.TSalesOrder, options);
     }
 
     getAllSalesOrderList() {
       let options = {
-        // ListType: "Detail"
+        
         PropertyList: "ID,EmployeeName,SaleClassName,SaleDate,CustomerName,TotalAmount,SalesStatus,ShipDate,SalesDescription,CustPONumber,TermsName,SaleCustField1,SaleCustField2,TotalTax,TotalAmountInc,TotalPaid,TotalBalance,Comments",
         select: "[Deleted]=false",
       };
@@ -437,16 +437,16 @@ export class SalesBoardService extends BaseService {
 
     getAllSalesOrderListNonBO() {
       let options = {
-        // ListType: "Detail"
+        
         PropertyList: "ID,EmployeeName,SaleClassName,SaleDate,CustomerName,TotalAmount,SalesStatus,ShipDate,SalesDescription,CustPONumber,TermsName,SaleCustField1,SaleCustField2,TotalTax,TotalAmountInc,TotalPaid,TotalBalance,Comments,Deleted",
-        // select: "[Deleted]=false",
+        
       };
       return this.getList(this.ERPObjects.TsalesOrderNonBackOrder, options);
     }
 
     getAllQuoteList() {
       let options = {
-        // ListType: "Detail"
+        
         PropertyList: "ID,EmployeeName,SaleClassName,SaleDate,DueDate,CustomerName,TotalAmount,SalesStatus,ShipDate,SalesDescription,CustPONumber,TermsName,TotalTax,TotalAmountInc,TotalPaid,TotalBalance,Comments",
         select: "[Deleted]=false",
       };
@@ -454,7 +454,7 @@ export class SalesBoardService extends BaseService {
     }
     getAllInvoiceList() {
       let options = {
-        // ListType: "Detail"
+        
         PropertyList: "ID,EmployeeName,SaleClassName,SaleDate,DueDate,CustomerName,TotalAmount,SalesStatus,ShipDate,SalesDescription,CustPONumber,TermsName,TotalTax,TotalAmountInc,TotalPaid,TotalBalance,Comments,IsBackOrder",
         select: "[Deleted]=false",
       };
@@ -463,16 +463,16 @@ export class SalesBoardService extends BaseService {
 
     getAllInvoiceListNonBO() {
       let options = {
-        // ListType: "Detail"
+        
         PropertyList: "ID,EmployeeName,SaleClassName,SaleDate,DueDate,CustomerName,TotalAmount,SalesStatus,ShipDate,SalesDescription,CustPONumber,TermsName,TotalTax,TotalAmountInc,TotalPaid,TotalBalance,Comments,Deleted",
-        //select: "[Deleted]=false",
+        
       };
       return this.getList(this.ERPObjects.TInvoiceNonBackOrder, options);
     }
 
     getAllBOInvoiceList() {
       let options = {
-        // ListType: "Detail"
+        
         FilterString: "SaleType='Invoice'",
         select: "[Deleted]=false",
       };

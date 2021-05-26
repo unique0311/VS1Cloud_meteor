@@ -28,7 +28,7 @@ Template.supplierawaitingbills.onRendered(function() {
 
   }else{
     if(result){
-      console.log(result);
+      
       for (let i = 0; i < result.customFields.length; i++) {
         let customcolumn = result.customFields;
         let columData = customcolumn[i].label;
@@ -209,7 +209,7 @@ Template.supplierawaitingbills.onRendered(function() {
             columVisible = false;
           }
           sWidth = v.style.width.replace('px', "");
-          //console.log(sWidth);
+          
           let datatablerecordObj = {
             sTitle: v.innerText || '',
             sWidth: sWidth || '',
@@ -338,7 +338,7 @@ Template.supplierawaitingbills.events({
 
             }
           });
-           // console.log(checkPrefDetails);
+           
         }
       }
     }
@@ -363,7 +363,7 @@ Template.supplierawaitingbills.events({
     let columnDataValue = $(event.target).closest("div").prev().find(".divcolumn").text();
     var datable = $('#tblSupplierAwaitingBills th');
     $.each(datable, function(i,v) {
-      console.log(datable);
+      
     if(v.innerText == columnDataValue){
         let className = v.className;
         let replaceClass = className.replace(/ /g, ".");
@@ -376,7 +376,7 @@ Template.supplierawaitingbills.events({
   'click .btnOpenSettings' : function(event){
     let templateObject = Template.instance();
     var columns = $('#tblSupplierAwaitingBills th');
-    // console.log(columns);
+    
     const tableHeaderList = [];
     let sTible = "";
     let sWidth = "";

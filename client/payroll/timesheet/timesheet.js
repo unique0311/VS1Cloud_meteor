@@ -94,7 +94,7 @@ yearRange: "-90:+10",
         let sumSumHour = 0;
         let sumSumHourlyRate = 0;
         for(let t=0; t<data.ttimesheet.length; t++){
-          // console.log(data.ttimesheet[t].Id);
+
           let hourlyRate = utilityService.modifynegativeCurrencyFormat(data.ttimesheet[t].HourlyRate)|| 0.00;
           let labourCost = utilityService.modifynegativeCurrencyFormat(data.ttimesheet[t].LabourCost) || 0.00;
           let totalAmount = utilityService.modifynegativeCurrencyFormat(data.ttimesheet[t].Total)|| 0.00;
@@ -261,7 +261,7 @@ yearRange: "-90:+10",
               columVisible = false;
             }
             sWidth = v.style.width.replace('px', "");
-            //console.log(sWidth);
+
             let datatablerecordObj = {
               sTitle: v.innerText || '',
               sWidth: sWidth || '',
@@ -370,20 +370,6 @@ yearRange: "-90:+10",
   templateObject.getJobs();
 
 
-
-//   var SquareConnect = require('square-connect');
-// var defaultClient = SquareConnect.ApiClient.instance;
-//   // Configure OAuth2 access token for authorization: oauth2
-//   var oauth2 = defaultClient.authentications['oauth2'];
-//   oauth2.accessToken = "EAAAEEBpJegeo6BPa6JMFmbL7KmpnQuXKG94jmO4l99Fy_Zmj0Nsc7GxCQR5sdm5";
-//
-//   var api = new SquareConnect.LocationsApi();
-//
-//   api.listLocations().then(function(data) {
-//     console.log('API called successfully. Returned data: ' + JSON.stringify(data, 0, 1));
-//   }, function(error) {
-//     console.error(error);
-//   });
 $(document).ready(function (){
    var table = $('#example').DataTable({
      "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
@@ -558,7 +544,7 @@ Template.timesheet.events({
 
             }
           });
-           // console.log(checkPrefDetails);
+
         }
       }
     }
@@ -583,7 +569,7 @@ Template.timesheet.events({
     let columnDataValue = $(event.target).closest("div").prev().find(".divcolumn").text();
     var datable = $('#tblTimeSheet th');
     $.each(datable, function(i,v) {
-      console.log(datable);
+
     if(v.innerText == columnDataValue){
         let className = v.className;
         let replaceClass = className.replace(/ /g, ".");
@@ -596,7 +582,7 @@ Template.timesheet.events({
   'click .btnOpenSettings' : function(event){
     let templateObject = Template.instance();
     var columns = $('#tblTimeSheet th');
-    // console.log(columns);
+
     const tableHeaderList = [];
     let sTible = "";
     let sWidth = "";

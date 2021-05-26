@@ -32,7 +32,7 @@ Template.customerawaitingpayments.onRendered(function() {
 
   }else{
     if(result){
-      //console.log(result);
+
       for (let i = 0; i < result.customFields.length; i++) {
         let customcolumn = result.customFields;
         let columData = customcolumn[i].label;
@@ -217,7 +217,7 @@ Template.customerawaitingpayments.onRendered(function() {
               columVisible = false;
             }
             sWidth = v.style.width.replace('px', "");
-            //console.log(sWidth);
+
             let datatablerecordObj = {
               sTitle: v.innerText || '',
               sWidth: sWidth || '',
@@ -401,7 +401,7 @@ setTimeout(function () {
       columVisible = false;
     }
     sWidth = v.style.width.replace('px', "");
-    //console.log(sWidth);
+
     let datatablerecordObj = {
       sTitle: v.innerText || '',
       sWidth: sWidth || '',
@@ -580,7 +580,7 @@ templateObject.tableheaderrecords.set(tableHeaderList);
               columVisible = false;
             }
             sWidth = v.style.width.replace('px', "");
-            //console.log(sWidth);
+
             let datatablerecordObj = {
               sTitle: v.innerText || '',
               sWidth: sWidth || '',
@@ -709,7 +709,7 @@ Template.customerawaitingpayments.events({
 
             }
           });
-           // console.log(checkPrefDetails);
+           
         }
       }
     }
@@ -734,7 +734,6 @@ Template.customerawaitingpayments.events({
     let columnDataValue = $(event.target).closest("div").prev().find(".divcolumn").text();
     var datable = $('#tblcustomerAwaitingPayment th');
     $.each(datable, function(i,v) {
-      //console.log(datable);
     if(v.innerText == columnDataValue){
         let className = v.className;
         let replaceClass = className.replace(/ /g, ".");
@@ -747,7 +746,7 @@ Template.customerawaitingpayments.events({
   'click .btnOpenSettings' : function(event){
     let templateObject = Template.instance();
     var columns = $('#tblcustomerAwaitingPayment th');
-    // console.log(columns);
+
     const tableHeaderList = [];
     let sTible = "";
     let sWidth = "";
@@ -773,7 +772,7 @@ Template.customerawaitingpayments.events({
       };
       tableHeaderList.push(datatablerecordObj);
     });
-    
+
     templateObject.tableheaderrecords.set(tableHeaderList);
   },
     'click #exportbtn': function () {

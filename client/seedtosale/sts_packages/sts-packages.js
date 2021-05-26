@@ -18,14 +18,14 @@ Template.stspackages.onRendered(function() {
     const templateObject = Template.instance();
     const dataTableList = [];
     const tableHeaderList = [];
-    
-    // For storing table headers 
+
+    // For storing table headers
     Meteor.call('readPrefMethod',Session.get('mycloudLogonID'),'tblPlants', function(error, result){
         if(error){
 
         }else{
             if(result){
-                //console.log(result);
+                
                 for (let i = 0; i < result.customFields.length; i++) {
                     let customcolumn = result.customFields;
                     let columData = customcolumn[i].label;

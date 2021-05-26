@@ -38,7 +38,7 @@ Template.bankingoverview.onRendered(function() {
 
         } else {
             if (result) {
-                //console.log(result);
+                
                 for (let i = 0; i < result.customFields.length; i++) {
                     let customcolumn = result.customFields;
                     let columData = customcolumn[i].label;
@@ -441,7 +441,7 @@ Template.bankingoverview.onRendered(function() {
                                 //   {"targets":1,
                                 //   render: function(data, type, row) {
                                 //     let getData = data.split('</span>');
-                                //     //console.log(getData[1]);
+                                //     
                                 //     return getData[1];
                                 //   }
                                 // }
@@ -533,7 +533,7 @@ Template.bankingoverview.onRendered(function() {
                             columVisible = false;
                         }
                         sWidth = v.style.width.replace('px', "");
-                        //console.log(sWidth);
+                        
                         let datatablerecordObj = {
                             sTitle: v.innerText || '',
                             sWidth: sWidth || '',
@@ -709,7 +709,7 @@ Template.bankingoverview.onRendered(function() {
                             //   {"targets":1,
                             //   render: function(data, type, row) {
                             //     let getData = data.split('</span>');
-                            //     //console.log(getData[1]);
+                            //     
                             //     return getData[1];
                             //   }
                             // }
@@ -801,7 +801,7 @@ Template.bankingoverview.onRendered(function() {
                         columVisible = false;
                     }
                     sWidth = v.style.width.replace('px', "");
-                    //console.log(sWidth);
+                    
                     let datatablerecordObj = {
                         sTitle: v.innerText || '',
                         sWidth: sWidth || '',
@@ -973,7 +973,7 @@ Template.bankingoverview.onRendered(function() {
                             //   {"targets":1,
                             //   render: function(data, type, row) {
                             //     let getData = data.split('</span>');
-                            //     //console.log(getData[1]);
+                            //     
                             //     return getData[1];
                             //   }
                             // }
@@ -1065,7 +1065,7 @@ Template.bankingoverview.onRendered(function() {
                         columVisible = false;
                     }
                     sWidth = v.style.width.replace('px', "");
-                    //console.log(sWidth);
+                    
                     let datatablerecordObj = {
                         sTitle: v.innerText || '',
                         sWidth: sWidth || '',
@@ -1269,7 +1269,7 @@ Template.bankingoverview.events({
 
                         }
                     });
-                    // console.log(checkPrefDetails);
+                    
                 }
             }
         }
@@ -1294,7 +1294,7 @@ Template.bankingoverview.events({
         let columnDataValue = $(event.target).closest("div").prev().find(".divcolumn").text();
         var datable = $('#tblBankingOverview th');
         $.each(datable, function(i, v) {
-            console.log(datable);
+            
             if (v.innerText == columnDataValue) {
                 let className = v.className;
                 let replaceClass = className.replace(/ /g, ".");
@@ -1307,7 +1307,7 @@ Template.bankingoverview.events({
     'click .btnOpenSettings': function(event) {
         let templateObject = Template.instance();
         var columns = $('#tblBankingOverview th');
-        // console.log(columns);
+        
         const tableHeaderList = [];
         let sTible = "";
         let sWidth = "";

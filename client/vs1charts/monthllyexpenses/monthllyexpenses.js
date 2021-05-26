@@ -30,7 +30,7 @@ Template.monthllyexpenses.onRendered(()=>{
   let topData = this;
 if (!localStorage.getItem('VS1PNLPeriodReport_dash')) {
   getInvSales(function (data) {
-    // console.log(data);
+    
     let currentDate = new Date();
     let currentMonthDate = currentDate.getMonth() + 1;
     let currentYear = currentDate.getFullYear();
@@ -389,7 +389,7 @@ if (!localStorage.getItem('VS1PNLPeriodReport_dash')) {
           let initialData = _.filter(graphData, obj => (obj.OrderDate !== ''));
 
                 callback(initialData);
-                // console.log(prevMonth3Data);
+                
           /*vs1chartService.getInvSaleByEmployee().then((data) => {
               // templateObject.getAllData(data);
               let filterData =  _.filter(data.tinvoiceex, function (data) {

@@ -575,7 +575,7 @@ Template.organisationsettings.events({
         let reader = new FileReader();
         $(".Choose_file").text('');
         reader.onload = function(event) {
-          // console.log(event);
+          
             $( "#uploadImg" ).prop( "disabled", false );
             $("#uploadImg").addClass("on-upload-logo");
             $(".Choose_file").text(selectedFile.name);

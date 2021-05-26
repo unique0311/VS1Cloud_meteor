@@ -9,7 +9,7 @@ export class EmployeeProfileService extends BaseService {
           select: "[EmployeeName]='"+employeeName+"'",
       };
       return this.getList(this.ERPObjects.TEmployee, options);
-      // return this.GET(this.erpGet.ERPEmpID);
+      
     }
     getEmployeeProfileImage(employeeName) {
         let options = {

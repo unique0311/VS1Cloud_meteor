@@ -27,7 +27,7 @@ Template.resalescomparision.onRendered(()=>{
   let topData = this;
 if (!localStorage.getItem('VS1SalesEmpReport_dash')) {
   getInvSales(function (data) {
-    // console.log(data);
+    
       topTenData1 = _.take(data, 5);
       let totalBalance = 0;
       let itemName = [];

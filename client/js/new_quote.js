@@ -559,10 +559,10 @@ Template.new_quote.onRendered(() => {
                                     LineItems: paymentItems,
                                     department: "Default",
                                     applied: paidAmount.toLocaleString(undefined, { minimumFractionDigits: 2 })
-    
+
                                 };
                                 templateObject.record.set(record);
-                            
+
                             },1500)
                         }).catch(function (err) {
                             swal({
@@ -776,7 +776,7 @@ Template.new_quote.onRendered(() => {
                                 }
                             }
                         }
-                        
+
                         if (!added) {
                             accountService.getOneQuotedataEx(currentQuote).then(function (data) {
                                 $('.fullScreenSpin').css('display', 'none');
@@ -1013,7 +1013,7 @@ Template.new_quote.onRendered(() => {
 
 
                 }).catch(function (err) {
-                    console.log(err);
+
                     accountService.getOneQuotedataEx(currentQuote).then(function (data) {
                         $('.fullScreenSpin').css('display', 'none');
                         let lineItems = [];
@@ -1361,7 +1361,7 @@ Template.new_quote.onRendered(() => {
                    addAttachment();
                 }, 2500);
 
-            
+
             function generatePdfForMail(invoiceId) {
                 return new Promise((resolve, reject) => {
                     let templateObject = Template.instance();
@@ -1987,7 +1987,7 @@ Template.new_quote.onRendered(() => {
                 }
 
             }).catch(function (err) {
-                console.log(err);
+
                 let customerData = templateObject.clientrecords.get();
                 accountService.getOneQuotedataEx(currentQuote).then(function (data) {
                     let cust_result = customerData.filter(cust_data => {
@@ -2271,7 +2271,7 @@ Template.new_quote.onRendered(() => {
 
             Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblQuoteLine', function (error, result) {
                 if (error) {
-                    console.log(error);
+
 
                 } else {
                     if (result) {
@@ -2632,11 +2632,11 @@ Template.new_quote.onRendered(() => {
                     getCustDetails = customers.filter(customer => {
                         return customer.customername == selectedCustomer
                     });
-                    console.log(getCustDetails);
+
                     taxRate = taxcodeList.filter(taxrate => {
                         return taxrate.codename == getCustDetails[0].taxCode
                     });
-                    console.log(taxRate);
+
                     if (taxRate[0].codename != "") {
                         let rate = taxRate[0].coderate;
                         let code = getCustDetails[0].taxCode;
@@ -2756,7 +2756,7 @@ Template.new_quote.onRendered(() => {
         pdf.addHTML(source, function () {
             pdf.setFontSize(10);
             pdf.setTextColor(255, 255, 255);
-            pdf.textWithLink('Pay Now', 480, 104, { url: 'https://depot.vs1cloud.com/stripe/' + stringQuery });
+            pdf.textWithLink('Pay Now', 480, 104, { url: 'https://www.depot.vs1cloud.com/stripe/' + stringQuery });
             pdf.save('Quote-' + id + '.pdf');
             $('#html-2-pdfwrapper').css('display', 'none');
         });
@@ -3239,7 +3239,7 @@ Template.new_quote.onRendered(function () {
                 }
             }
         }).catch(function (err) {
-            console.log(err);
+
             salesService.getTaxCodesVS1().then(function (data) {
 
                 let records = [];
@@ -4023,7 +4023,7 @@ Template.new_quote.events({
                         doc.addHTML(source, function () {
                             doc.setFontSize(10);
                             doc.setTextColor(89, 177, 253);
-                            doc.textWithLink('Pay Now', 480, 104, { url: 'https://depot.vs1cloud.com/stripe/' + stringQuery });
+                            doc.textWithLink('Pay Now', 480, 104, { url: 'https://www.depot.vs1cloud.com/stripe/' + stringQuery });
 
                             resolve(doc.output('blob'));
                             $('#html-2-pdfwrapper').css('display', 'none');
@@ -4069,7 +4069,7 @@ Template.new_quote.events({
                         var htmlmailBody = '<table align="center" border="0" cellpadding="0" cellspacing="0" width="600">' +
                             '    <tr>' +
                             '        <td align="center" bgcolor="#54c7e2" style="padding: 40px 0 30px 0;">' +
-                            '            <img src="http://login.vs1cloud.com:3000/assets/VS1logo.png" class="uploadedImage" alt="VS1 Cloud" width="250px" style="display: block;" />' +
+                            '            <img src="https://sandbox.vs1cloud.com/assets/VS1logo.png" class="uploadedImage" alt="VS1 Cloud" width="250px" style="display: block;" />' +
                             '        </td>' +
                             '    </tr>' +
                             '    <tr>' +
@@ -4087,8 +4087,8 @@ Template.new_quote.events({
                             '                </tr>' +
                             '                <tr>' +
                             '                    <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0 10px 0;">' +
-                            '                        Simply click on <a style="border: none; color: white; padding: 6px 12px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin: 4px 2px; cursor: pointer; background-color: #5cb85c; border-color: #4cae4c; border-radius: 10px;" href="https://depot.vs1cloud.com/stripe/' + stringQuery + '">Make Payment</a> to pay now.' +
-                            '                    </td>' +
+                           '                        Simply click on <a style="border: none; color: white; padding: 6px 12px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin: 4px 2px; cursor: pointer; background-color: #5cb85c; border-color: #4cae4c; border-radius: 10px;" href="https://www.depot.vs1cloud.com/stripe/' + stringQuery + '">Make Payment</a> to pay now.' +
+                           '                    </td>' +
                             '                </tr>' +
                             '                 <tr>' +
                             '                    <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0 10px 0;">' +
@@ -4184,7 +4184,7 @@ Template.new_quote.events({
                             }, function (error, result) {
 
                                 if (error && error.error === "error") {
-                                    console.log(error);
+
 
 
                                 } else {
@@ -4216,7 +4216,7 @@ Template.new_quote.events({
                                 html: htmlmailBody,
                                 attachments: attachment
                             }, function (error, result) {
-                                console.log(error);
+
                                 if (error && error.error === "error") {
                                     Router.go('/quoteslist?success=true');
                                 } else {
@@ -4765,7 +4765,7 @@ Template.new_quote.events({
                 stringQuery = stringQuery + "product" + l + "=" + lineItems[l].description + "&price" + l + "=" + lineItems[l].unitPrice + "&qty" + l + "=" + lineItems[l].quantity + "&";
             }
             stringQuery = stringQuery + "tax=" + tax + "&total=" + total + "&customer=" + customer + "&name=" + name + "&surname=" + surname + "&quoteid=" + quoteData.id + "&company=" + company + "&vs1email=" + vs1User + "&customeremail=" + customerEmail + "&type=Quote&url=" + window.location.href + "&server=" + erpGet.ERPIPAddress + "&username=" + erpGet.ERPUsername + "&token=" + erpGet.ERPPassword + "&session=" + erpGet.ERPDatabase + "&port=" + erpGet.ERPPort;
-            window.open("https://depot.vs1cloud.com/stripe/" + stringQuery, '_self');
+            window.open("https://www.depot.vs1cloud.com/stripe/" + stringQuery, '_self');
 
         }
     },

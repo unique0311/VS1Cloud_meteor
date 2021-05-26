@@ -48,7 +48,7 @@ Template.employeescard.onCreated(function () {
 
 Template.employeescard.onRendered(function () {
     var erpGet = erpDb();
-    // console.log(erpGet);
+    
     $('.fullScreenSpin').css('display', 'inline-block');
     Session.setPersistent('cloudCurrentLogonName', '');
     let templateObject = Template.instance();
@@ -171,7 +171,7 @@ Template.employeescard.onRendered(function () {
 
         } else {
             if (result) {
-                //console.log(result);
+                
                 for (let i = 0; i < result.customFields.length; i++) {
                     let customcolumn = result.customFields;
                     let columData = customcolumn[i].label;
@@ -415,7 +415,7 @@ Template.employeescard.onRendered(function () {
                             columVisible = false;
                         }
                         sWidth = v.style.width.replace('px', "");
-                        //console.log(sWidth);
+                        
                         let datatablerecordObj = {
                             sTitle: v.innerText || '',
                             sWidth: sWidth || '',
@@ -584,7 +584,7 @@ Template.employeescard.onRendered(function () {
                         columVisible = false;
                     }
                     sWidth = v.style.width.replace('px', "");
-                    //console.log(sWidth);
+                    
                     let datatablerecordObj = {
                         sTitle: v.innerText || '',
                         sWidth: sWidth || '',
@@ -747,7 +747,7 @@ Template.employeescard.onRendered(function () {
                         columVisible = false;
                     }
                     sWidth = v.style.width.replace('px', "");
-                    //console.log(sWidth);
+                    
                     let datatablerecordObj = {
                         sTitle: v.innerText || '',
                         sWidth: sWidth || '',
@@ -1031,7 +1031,7 @@ Template.employeescard.onRendered(function () {
                                 if (data.fields.Attachments.length) {
                                     templateObject.attachmentCount.set(data.fields.Attachments.length);
                                     templateObject.uploadedFiles.set(data.fields.Attachments);
-                                    //console.log(data.fields.Attachments);
+                                    
                                 }
                             }
                             /* END  attachment */
@@ -1210,7 +1210,7 @@ Template.employeescard.onRendered(function () {
                                     if (useData[i].fields.Attachments.length) {
                                         templateObject.attachmentCount.set(useData[i].fields.Attachments.length);
                                         templateObject.uploadedFiles.set(useData[i].fields.Attachments);
-                                        //console.log(useData[i].fields.Attachments);
+                                        
                                     }
                                 }
                                 /* END  attachment */
@@ -1384,7 +1384,7 @@ Template.employeescard.onRendered(function () {
                                     if (data.fields.Attachments.length) {
                                         templateObject.attachmentCount.set(data.fields.Attachments.length);
                                         templateObject.uploadedFiles.set(data.fields.Attachments);
-                                        //console.log(data.fields.Attachments);
+                                        
                                     }
                                 }
                                 /* END  attachment */
@@ -1413,7 +1413,7 @@ Template.employeescard.onRendered(function () {
                         }
                     }
                 }).catch(function (err) {
-                  console.log(err);
+                  
                     contactService.getOneEmployeeDataEx(employeeID).then(function (data) {
                         $('.fullScreenSpin').css('display', 'none');
                         let lineItems = [];
@@ -1558,7 +1558,7 @@ Template.employeescard.onRendered(function () {
                             if (data.fields.Attachments.length) {
                                 templateObject.attachmentCount.set(data.fields.Attachments.length);
                                 templateObject.uploadedFiles.set(data.fields.Attachments);
-                                //console.log(data.fields.Attachments);
+                                
                             }
                         }
                         /* END  attachment */
@@ -1697,7 +1697,7 @@ Template.employeescard.onRendered(function () {
                         preferedPayments.push(data.tpaymentmethodvs1[i].PaymentMethodName)
                     }
                     preferedPayments = _.sortBy(preferedPayments);
-                    // console.log(preferedPayments);
+                    
                     templateObject.preferedPaymentList.set(preferedPayments);
                 });
             } else {
@@ -1715,7 +1715,7 @@ Template.employeescard.onRendered(function () {
                     preferedPayments.push(data.tpaymentmethodvs1[i].PaymentMethodName)
                 }
                 preferedPayments = _.sortBy(preferedPayments);
-                // console.log(preferedPayments);
+                
                 templateObject.preferedPaymentList.set(preferedPayments);
             });
         });
@@ -1758,7 +1758,7 @@ Template.employeescard.onRendered(function () {
                     let lineItems = [];
                     let lineItemObj = {};
                     let totalUser = 0;
-                    // console.log(data);
+                    
                     for (let i = 0; i < data.temployee.length; i++) {
                         let classname = '';
                         if (!isNaN(currentId.id)) {
@@ -1806,7 +1806,7 @@ Template.employeescard.onRendered(function () {
                 let lineItems = [];
                 let lineItemObj = {};
                 let totalUser = 0;
-                // console.log(data);
+                
                 for (let i = 0; i < useData.length; i++) {
                     let classname = '';
                     if (!isNaN(currentId.id)) {
@@ -1852,7 +1852,7 @@ Template.employeescard.onRendered(function () {
                 let lineItems = [];
                 let lineItemObj = {};
                 let totalUser = 0;
-                // console.log(data);
+                
                 for (let i = 0; i < data.temployee.length; i++) {
                     let classname = '';
                     if (!isNaN(currentId.id)) {
@@ -2080,7 +2080,7 @@ Template.employeescard.events({
             imageData = templateObject.imageFileData.get().split(',')[1] || '';
         }
 
-        //console.log(imageData);
+        
         if (!isNaN(currentId.id)) {
 
             currentEmployee = parseInt(currentId.id);
@@ -2282,12 +2282,12 @@ Template.employeescard.events({
                       oPost.setRequestHeader("Accept", "application/json");
                       oPost.setRequestHeader("Accept", "application/html");
                       oPost.setRequestHeader("Content-type", "application/json");
-                      //console.log(objDetailsUserPassword);
+                      
                       //var myString = '"JsonIn"' + ':' + JSON.stringify(objDetailsUser);
                       var myStringUserPassword = JSON.stringify(objDetailsUserPassword);
                       //
                       oPost.send(myStringUserPassword);
-                      //console.log(myStringUserPassword);
+                      
                       oPost.onreadystatechange = function () {
                           if (oPost.readyState == 4 && oPost.status == 200) {
 
@@ -2646,18 +2646,18 @@ Template.employeescard.events({
         oPost.setRequestHeader("Accept", "application/json");
         oPost.setRequestHeader("Accept", "application/html");
         oPost.setRequestHeader("Content-type", "application/json");
-        // console.log(objDetails);
+        
         var myString = '"JsonIn"' + ':' + JSON.stringify(objDetailsUser);
 
         //
         oPost.send(myString);
-        // console.log(oPost.status);
+        
         oPost.onreadystatechange = function () {
             if (oPost.readyState == 4 && oPost.status == 200) {
 
                 $('.fullScreenSpin').css('display', 'none');
                 var myArrResponse = JSON.parse(oPost.responseText);
-                // console.log(myArrResponse);
+                
                 if (myArrResponse.ProcessLog.ResponseStatus != "OK") {
                     // Bert.alert('Database Error<strong> :'+ myArrResponse.ProcessLog.Error+'</strong>', 'now-error');
                     // swal('Ooops...', myArrResponse.ProcessLog.Error, 'error');
@@ -2867,7 +2867,7 @@ Template.employeescard.events({
         oPost.setRequestHeader("Accept", "application/json");
         oPost.setRequestHeader("Accept", "application/html");
         oPost.setRequestHeader("Content-type", "application/json");
-        // console.log(objDetails);
+        
         var myString = '"JsonIn"' + ':' + JSON.stringify(objDetailsUser);
         oPost.send(myString);
         oPost.onreadystatechange = function () {
@@ -3184,7 +3184,7 @@ Template.employeescard.events({
 
                         }
                     });
-                    // console.log(checkPrefDetails);
+                    
                 }
             }
         }
@@ -3270,7 +3270,7 @@ Template.employeescard.events({
     'click .btnOpenSettings': function (event) {
         let templateObject = Template.instance();
         var columns = $('#tblTransactionlist th');
-        // console.log(columns);
+        
         const tableHeaderList = [];
         let sTible = "";
         let sWidth = "";
@@ -3400,7 +3400,7 @@ Template.employeescard.events({
         }
 
         var getcurrentCloudDetails = CloudUser.findOne({ _id: Session.get('mycloudLogonID'), clouddatabaseID: Session.get('mycloudLogonDBID') });
-        // console.log(Session.get('mycloudLogonID'));
+        
         if (getcurrentCloudDetails) {
             if (getcurrentCloudDetails._id.length > 0) {
                 var clientID = getcurrentCloudDetails._id;
@@ -3578,7 +3578,7 @@ Template.employeescard.events({
         let attachmentID = parseInt(event.currentTarget.parentNode.id.split('attachment-name-')[1]);
         let templateObj = Template.instance();
         let uploadedFiles = templateObj.uploadedFiles.get();
-        // console.log(uploadedFiles);
+        
         $('#myModalAttachment').modal('hide');
         let previewFile = {};
         let input = uploadedFiles[attachmentID].fields.Description;

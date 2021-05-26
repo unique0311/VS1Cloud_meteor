@@ -158,7 +158,7 @@ let grandbalance = 0;
 
     }
 
-// console.log(grandCurrenttotal);
+
     let grandval = ['Grand Total ' +  '', '', '','','',
     '',
       '',
@@ -175,7 +175,7 @@ let grandbalance = 0;
 
         templateObject.records.set(totalRecord);
         templateObject.grandrecords.set(grandval);
-        // console.log(templateObject.grandrecords.get());
+        
 
         if(templateObject.records.get()){
           setTimeout(function () {
@@ -187,7 +187,7 @@ let grandbalance = 0;
             });
 
             $('td').each(function(){
-              // console.log($(this).first().text()[0]);
+              
               let lineValue = $(this).first().text()[0];
               if(lineValue != undefined){
                 if(lineValue.indexOf(Currency) >= 0) $(this).addClass('text-right')
@@ -331,7 +331,7 @@ let grandbalance = 0;
 
     }
 
-// console.log(grandCurrenttotal);
+
     let grandval = ['Grand Total ' +  '', '', '','','',
     '',
       '',
@@ -348,7 +348,7 @@ let grandbalance = 0;
 
         templateObject.records.set(totalRecord);
         templateObject.grandrecords.set(grandval);
-        // console.log(templateObject.grandrecords.get());
+        
 
         if(templateObject.records.get()){
           setTimeout(function () {
@@ -360,7 +360,7 @@ let grandbalance = 0;
             });
 
             $('td').each(function(){
-              // console.log($(this).first().text()[0]);
+              
               let lineValue = $(this).first().text()[0];
               if(lineValue != undefined){
                 if(lineValue.indexOf(Currency) >= 0) $(this).addClass('text-right')

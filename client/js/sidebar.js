@@ -32,7 +32,7 @@ Template.sidenav.onRendered(function() {
     let loggedUserEventFired = Session.get('LoggedUserEventFired');
     if (isGreenTrack) {
         $(".navbar").css("background-color", "#00a969");
-        // $(".nav-item div").css("background-color", "#3ddc97");
+        
 
         $(".collapse").css("background-color", "#3ddc97");
         $(".show").css("background-color", "#3ddc97");
@@ -69,9 +69,9 @@ Template.sidenav.onRendered(function() {
     }
 
     let currentDate = new Date();
-    let hours = currentDate.getHours(); //returns 0-23
-    let minutes = currentDate.getMinutes(); //returns 0-59
-    let seconds = currentDate.getSeconds(); //returns 0-59
+    let hours = currentDate.getHours(); 
+    let minutes = currentDate.getMinutes(); 
+    let seconds = currentDate.getSeconds(); 
     let month = (currentDate.getMonth()+1);
     let days = currentDate.getDate();
 
@@ -84,8 +84,8 @@ Template.sidenav.onRendered(function() {
     }
     let currenctTodayDate = currentDate.getFullYear() + "-" + month + "-" + days;
 
-    // $('.navbar').css
-    // alert(isGreenTrack);
+    
+    
     if (sidePanelToggle) {
         if (sidePanelToggle === "toggled") {
             $("#sidenavbar").addClass("toggled");
@@ -531,10 +531,10 @@ Template.sidenav.onRendered(function() {
     });
 
   }
-    //Cron Jon to Run Every Friday
+    
     var job = new CronJob('00 00 00 * * *', function() {
         if (loggedUserEventFired) {
-            //console.log(loggedUserEventFired);
+            
             templateObject.getAllTProductStocknSalePeriodReportData();
             templateObject.getAllProductData();
             templateObject.getAllTSalesListData();
@@ -2534,7 +2534,7 @@ Template.sidenav.onRendered(function() {
             }
         }
     }).catch(function (err) {
-        //templateObject.getAllAppointmentPrefData();
+        
     });
 
     getVS1Data('TStatementList').then(function (dataObject) {
@@ -2707,7 +2707,7 @@ Template.sidenav.onRendered(function() {
     let isPurchaseReport = Session.get('cloudPurchaseReport');
     let isPurchaseSummaryReport = Session.get('cloudPurchaseSummaryReport');
     let isPrintStatement = Session.get('cloudPrintStatement');
-    // alert(isBalanceSheet);
+    
     if (isProfitLoss == true) {
         templateObject.isProfitLoss.set(true);
     }
@@ -2762,7 +2762,7 @@ Template.sidenav.events({
         window.open('#', '_self');
     },
     'mouseleave .hoverSidenavinventory': function(event) {
-        //$('.hoverSidenavinventory .collapse').removeClass('show');
+        
     },
     'mouseenter .hoverSidenavinventory .sidenavinventory': function(event) {
         $('.hoverSideNavAccounts .collapse').removeClass('show');
@@ -2777,7 +2777,7 @@ Template.sidenav.events({
         $('.hoverSideNavSettings .collapse').removeClass('show');
         $('.hoverSideNavPayroll .collapse').removeClass('show');
         $('.hoverSideNavAppointment .collapse').removeClass('show');
-        //$('.hoverSidenavinventory .collapse').removeClass('show');
+        
     },
     'mouseleave .hoverSidenavinventory .collapse': function(event) {
         $('.hoverSideNavAccounts .collapse').removeClass('show');
@@ -2794,7 +2794,7 @@ Template.sidenav.events({
         $('.hoverSideNavAppointment .collapse').removeClass('show');
     },
     'mouseleave .hoverSideNavAccounts': function(event) {
-        // $('.hoverSideNavAccounts .collapse').removeClass('show');
+        
     },
     'mouseenter .hoverSideNavAccounts .sidenavaccounts': function(event) {
         $('.hoverSideNavAccounts .collapse').addClass('show');
@@ -2853,7 +2853,7 @@ Template.sidenav.events({
         $('.hoverSideNavAppointment .collapse').removeClass('show');
     },
     'mouseleave .hoverSideNavContacts': function(event) {
-        //$('.hoverSideNavContacts .collapse').removeClass('show');
+        
     },
     'mouseenter .hoverSideNavContacts .sidenavcontacts': function(event) {
         $('.hoverSideNavAccounts .collapse').removeClass('show');
@@ -3128,7 +3128,7 @@ Template.sidenav.events({
         Router.go('/accountsoverview');
         let templateObject = Template.instance();
         templateObject.getSetSideNavFocus();
-        //window.open('/accountsoverview','_self');
+        
     },
     'click #sidenavnewaccounts': function(event) {
 
@@ -3144,39 +3144,39 @@ Template.sidenav.events({
             $('#allocationModal').modal('show');
         } else {
             Router.go('/appointments#allocationModal');
-            // window.open('/appointments#allocationModal', '_self');
+            
         }
     },
     'click #sidenavjournalentry': function(event) {
-        // window.open('/journalentrylist','_self');
+        
         event.preventDefault();
         Router.go('/journalentrylist');
         let templateObject = Template.instance();
         templateObject.getSetSideNavFocus();
     },
     'click #sidenavnewjournalentry': function(event) {
-        // window.open('/journalentrycard','_self');
+        
         event.preventDefault();
         Router.go('/journalentrycard');
         let templateObject = Template.instance();
         templateObject.getSetSideNavFocus();
     },
     'click .sidenavbanking': function(event) {
-        // window.open('/bankingoverview','_self');
+        
         event.preventDefault();
         Router.go('/bankingoverview');
         let templateObject = Template.instance();
         templateObject.getSetSideNavFocus();
     },
     'click #sidenavcheque': function(event) {
-        //window.open('/chequelist','_self');
+        
         event.preventDefault();
         Router.go('/chequelist');
         let templateObject = Template.instance();
         templateObject.getSetSideNavFocus();
     },
     'click #sidenavreconciliation': function(event) {
-        //window.open('/reconciliationlist','_self');
+        
         event.preventDefault();
         Router.go('/reconciliationlist');
         let templateObject = Template.instance();
@@ -3184,27 +3184,27 @@ Template.sidenav.events({
     },
     'click #sidenavbankreconciliation': function(event) {
         window.open('/bankrecon','_self');
-        // event.preventDefault();
-        // Router.go('/bankrecon');
-        // let templateObject = Template.instance();
-        // templateObject.getSetSideNavFocus();
+        
+        
+        
+        
     },
     'click #sidenavnewreconcile': function(event) {
-        //window.open('/reconciliation','_self');
+        
         event.preventDefault();
         Router.go('/reconciliation');
         let templateObject = Template.instance();
         templateObject.getSetSideNavFocus();
     },
     'click #sidenavnewcheque': function(event) {
-        //window.open('/chequecard','_self');
+        
         event.preventDefault();
         Router.go('/chequecard');
         let templateObject = Template.instance();
         templateObject.getSetSideNavFocus();
     },
     'click #sidenavbalancesheet': function(event) {
-        //window.open('/balancesheetreport','_self');
+        
         event.preventDefault();
         Router.go('/balancesheetreport');
         let templateObject = Template.instance();
@@ -3214,65 +3214,65 @@ Template.sidenav.events({
         var sideBarPanel = $("#sidenavbar").attr("class");
 
         if (sideBarPanel.indexOf("toggled") >= 0) {
-            //$("#sidenavbar").removeClass("toggled");
+            
             Session.setPersistent('sidePanelToggle', "toggled");
             $("#sidenavbar").addClass("toggled");
 
         } else {
-            //$("#sidenavbar").addClass("toggled");
+            
             Session.setPersistent('sidePanelToggle', "");
             ("#sidenavbar").removeClass("toggled");
 
         }
-        // $("#sidenavbar").load();
-        // alert(sideBarPanel);
+        
+        
 
     },
 
     'click .sidenavcontacts': function(event) {
-        //window.open('/contactoverview','_self');
+        
         event.preventDefault();
         Router.go('/contactoverview');
         let templateObject = Template.instance();
         templateObject.getSetSideNavFocus();
     },
     'click #sidenavdashbaord': function(event) {
-        //window.open('/dashboard','_self');
+        
         event.preventDefault();
         Router.go('/dashboard');
         let templateObject = Template.instance();
         templateObject.getSetSideNavFocus();
     },
     'click .sidenavappointment': function(event) {
-        //  window.open('/appointments','_self');
+        
         event.preventDefault();
         Router.go('/appointments');
         let templateObject = Template.instance();
         templateObject.getSetSideNavFocus();
     },
     'click #sidenavappointmentList': function(event) {
-        //window.open('/appointments','_self');
+        
         event.preventDefault();
         Router.go('/appointmentlist');
         let templateObject = Template.instance();
         templateObject.getSetSideNavFocus();
     },
     'click #sidenavappointmenttimeList': function(event) {
-        //window.open('/appointments','_self');
+        
         event.preventDefault();
         Router.go('/appointmenttimelist');
         let templateObject = Template.instance();
         templateObject.getSetSideNavFocus();
     },
     'click #sidenavemployeesGreenTrack': function(event) {
-        //window.open('/employeelist','_self');
+        
         event.preventDefault();
         Router.go('/employeelist');
         let templateObject = Template.instance();
         templateObject.getSetSideNavFocus();
     },
     'click #sidenavexpenseclaims': function(event) {
-        //window.open('/expenseclaims','_self');
+        
         event.preventDefault();
         Router.go('/expenseclaims');
         let templateObject = Template.instance();
@@ -3282,14 +3282,14 @@ Template.sidenav.events({
         window.open('#', '_self');
     },
     'click .sidenavinventory': function(event) {
-        //window.open('/inventorylist','_self');
+        
         event.preventDefault();
         Router.go('/inventorylist');
         let templateObject = Template.instance();
         templateObject.getSetSideNavFocus();
     },
     'click .sidenavnewinventory': function(event) {
-        //window.open('/productview','_self');
+        
         event.preventDefault();
         Router.go('/productview');
         let templateObject = Template.instance();
@@ -3302,91 +3302,91 @@ Template.sidenav.events({
         window.open('#', '_self');
     },
     'click .sidenavpayments': function(event) {
-        //window.open('/paymentoverview','_self');
+        
         event.preventDefault();
         Router.go('/paymentoverview');
         let templateObject = Template.instance();
         templateObject.getSetSideNavFocus();
     },
     'click .sidenavpurchases': function(event) {
-        //window.open('/purchasesoverview','_self');
+        
         event.preventDefault();
         Router.go('/purchasesoverview');
         let templateObject = Template.instance();
         templateObject.getSetSideNavFocus();
     },
     'click #sidenavreports': function(event) {
-        //window.open('/allreports','_self');
+        
         event.preventDefault();
         Router.go('/allreports');
         let templateObject = Template.instance();
         templateObject.getSetSideNavFocus();
     },
     'click #sidenav1099report': function(event) {
-        //window.open('/1099report','_self');
+        
         event.preventDefault();
         Router.go('/1099report');
         let templateObject = Template.instance();
         templateObject.getSetSideNavFocus();
     },
     'click #sidenavagedpayables': function(event) {
-        //window.open('/agedpayables','_self');
+        
         event.preventDefault();
         Router.go('/agedpayables');
         let templateObject = Template.instance();
         templateObject.getSetSideNavFocus();
     },
     'click #sidenavagedpayablessummary': function(event) {
-        //window.open('/agedpayablessummary','_self');
+        
         event.preventDefault();
         Router.go('/agedpayablessummary');
         let templateObject = Template.instance();
         templateObject.getSetSideNavFocus();
     },
     'click #sidenavagedreceivables': function(event) {
-        //window.open('/agedreceivables','_self');
+        
         event.preventDefault();
         Router.go('/agedreceivables');
         let templateObject = Template.instance();
         templateObject.getSetSideNavFocus();
     },
     'click #sidenavagedreceivablessummary': function(event) {
-        //window.open('/agedreceivablessummary','_self');
+        
         event.preventDefault();
         Router.go('/agedreceivablessummary');
         let templateObject = Template.instance();
         templateObject.getSetSideNavFocus();
     },
     'click #sidenavbalancesheetreport': function(event) {
-        //window.open('/balancesheetreport','_self');
+        
         event.preventDefault();
         Router.go('/balancesheetreport');
         let templateObject = Template.instance();
         templateObject.getSetSideNavFocus();
     },
     'click #sidenavgeneralledger': function(event) {
-        //window.open('/generalledger','_self');
+        
         event.preventDefault();
         Router.go('/generalledger');
         let templateObject = Template.instance();
         templateObject.getSetSideNavFocus();
     },
     'click #sidenavstatementlist': function(event) {
-        //window.open('/statementlist','_self');
+        
         event.preventDefault();
         Router.go('/statementlist');
         let templateObject = Template.instance();
         templateObject.getSetSideNavFocus();
     },
     'click #sidenavstatementlist2': function(event) {
-        //window.open('/statementlist','_self');
+        
         event.preventDefault();
         Router.go('/statementlist');
         let templateObject = Template.instance();
         templateObject.getSetSideNavFocus();
     },
     'click #sidenavprofitlossreport': function(event) {
-        //window.open('/profitlossreport','_self');
+        
         event.preventDefault();
         Router.go('/profitlossreport');
         let templateObject = Template.instance();
@@ -3397,66 +3397,66 @@ Template.sidenav.events({
         Router.go('/purchasesreport');
         let templateObject = Template.instance();
         templateObject.getSetSideNavFocus();
-        //window.open('/purchasesreport','_self');
+        
     },
     'click #sidenavpurchasesummaryreport': function(event) {
-        //window.open('/purchasesummaryreport','_self');
+        
         event.preventDefault();
         Router.go('/purchasesummaryreport');
         let templateObject = Template.instance();
         templateObject.getSetSideNavFocus();
     },
     'click #sidenavproductsalesreport': function(event) {
-        //window.open('/productsalesreport','_self');
+        
         event.preventDefault();
         Router.go('/productsalesreport');
         let templateObject = Template.instance();
         templateObject.getSetSideNavFocus();
     },
     'click #sidenavsalesreport': function(event) {
-        //window.open('/salesreport','_self');
+        
         event.preventDefault();
         Router.go('/salesreport');
         let templateObject = Template.instance();
         templateObject.getSetSideNavFocus();
     },
     'click #sidenavsalessummaryreport': function(event) {
-        //window.open('/salessummaryreport','_self');
+        
         event.preventDefault();
         Router.go('/salessummaryreport');
         let templateObject = Template.instance();
         templateObject.getSetSideNavFocus();
     },
     'click #sidenavtaxsummaryreport': function(event) {
-        //window.open('/taxsummaryreport','_self');
+        
         event.preventDefault();
         Router.go('/taxsummaryreport');
         let templateObject = Template.instance();
         templateObject.getSetSideNavFocus();
     },
     'click #sidenavtrialbalance': function(event) {
-        //window.open('/trialbalance','_self');
+        
         event.preventDefault();
         Router.go('/trialbalance');
         let templateObject = Template.instance();
         templateObject.getSetSideNavFocus();
     },
     'click .sidenavreports': function(event) {
-        //window.open('/allreports','_self');
+        
         event.preventDefault();
         Router.go('/allreports');
         let templateObject = Template.instance();
         templateObject.getSetSideNavFocus();
     },
     'click .sidenavsales': function(event) {
-        //window.open('/salesoverview','_self');
+        
         event.preventDefault();
         Router.go('/salesoverview');
         let templateObject = Template.instance();
         templateObject.getSetSideNavFocus();
     },
     'click .sidenavsettings': function(event) {
-        //window.open('/settings','_self');
+        
         event.preventDefault();
         Router.go('/settings');
         let templateObject = Template.instance();
@@ -3472,7 +3472,7 @@ Template.sidenav.events({
         templateObject.getSetSideNavFocus();
     },
     'click #sidenaveproductlist': function(event) {
-        //window.open('/productlist','_self');
+        
         event.preventDefault();
         Router.go('/productlist');
         let templateObject = Template.instance();
@@ -3485,35 +3485,35 @@ Template.sidenav.events({
         window.open('#', '_self');
     },
     'click #sidenavcustomers': function(event) {
-        //window.open('/customerlist','_self');
+        
         event.preventDefault();
         Router.go('/customerlist');
         let templateObject = Template.instance();
         templateObject.getSetSideNavFocus();
     },
     'click #sidenavemployees': function(event) {
-        //window.open('/employeelist','_self');
+        
         event.preventDefault();
         Router.go('/employeelist');
         let templateObject = Template.instance();
         templateObject.getSetSideNavFocus();
     },
     'click #sidenavjobs': function(event) {
-        //window.open('/joblist','_self');
+        
         event.preventDefault();
         Router.go('/joblist');
         let templateObject = Template.instance();
         templateObject.getSetSideNavFocus();
     },
     'click #sidenavsuppliers': function(event) {
-        //window.open('/supplierlist','_self');
+        
         event.preventDefault();
         Router.go('/supplierlist');
         let templateObject = Template.instance();
         templateObject.getSetSideNavFocus();
     },
     'click #sidenavnewcustomers': function(event) {
-        //window.open('/customerscard','_self');
+        
         if (window.location.pathname == "/customerscard") {
             window.open('/customerscard', '_self');
         } else {
@@ -3524,7 +3524,7 @@ Template.sidenav.events({
         }
     },
     'click #sidenavnewemployees': function(event) {
-        //window.open('/employeescard','_self');
+        
         if (window.location.pathname == "/employeescard") {
             window.open('/employeescard', '_self');
         } else {
@@ -3537,7 +3537,7 @@ Template.sidenav.events({
     },
     'click #sidenavnewsuppliers': function(event) {
 
-        //window.open('/supplierscard','_self');
+        
         if (window.location.pathname == "/supplierscard") {
             window.open('/supplierscard', '_self');
         } else {
@@ -3548,147 +3548,147 @@ Template.sidenav.events({
         }
     },
     'click #sidenavawaitingCP': function(event) {
-        //window.open('/customerawaitingpayments','_self');
+        
         event.preventDefault();
         Router.go('/customerawaitingpayments');
         let templateObject = Template.instance();
         templateObject.getSetSideNavFocus();
     },
     'click #sidenavawaitingSPPO': function(event) {
-        //window.open('/supplierawaitingpurchaseorder','_self');
+        
         event.preventDefault();
         Router.go('/supplierawaitingpurchaseorder');
         let templateObject = Template.instance();
         templateObject.getSetSideNavFocus();
     },
     'click #sidenavawaitingSPBill': function(event) {
-        //window.open('/supplierawaitingbills','_self');
+        
         event.preventDefault();
         Router.go('/supplierawaitingbills');
         let templateObject = Template.instance();
         templateObject.getSetSideNavFocus();
     },
     'click #sidenavcustomerP': function(event) {
-        //window.open('/customerpayment','_self');
+        
         event.preventDefault();
         Router.go('/customerpayment');
         let templateObject = Template.instance();
         templateObject.getSetSideNavFocus();
     },
     'click #sidenavsupplierP': function(event) {
-        //window.open('/supplierpayment','_self');
+        
         event.preventDefault();
         Router.go('/supplierpayment');
         let templateObject = Template.instance();
         templateObject.getSetSideNavFocus();
     },
     'click #sidenavBill': function(event) {
-        //window.open('/billlist','_self');
+        
         event.preventDefault();
         Router.go('/billlist');
         let templateObject = Template.instance();
         templateObject.getSetSideNavFocus();
     },
     'click #sidenavCredit': function(event) {
-        //window.open('/creditlist','_self');
+        
         event.preventDefault();
         Router.go('/creditlist');
         let templateObject = Template.instance();
         templateObject.getSetSideNavFocus();
     },
     'click #sidenavPurchaseOrder': function(event) {
-        //window.open('/purchaseorderlist','_self');
+        
         event.preventDefault();
         Router.go('/purchaseorderlist');
         let templateObject = Template.instance();
         templateObject.getSetSideNavFocus();
     },
     'click #sidenavPurchaseOrderBO': function(event) {
-        //window.open('/purchaseorderlistBO','_self');
+        
         event.preventDefault();
         Router.go('/purchaseorderlistBO');
         let templateObject = Template.instance();
         templateObject.getSetSideNavFocus();
     },
     'click #sidenavnewBill': function(event) {
-        //window.open('/billcard','_self');
+        
         event.preventDefault();
         Router.go('/billcard');
         let templateObject = Template.instance();
         templateObject.getSetSideNavFocus();
     },
     'click #sidenavnewCredit': function(event) {
-        //window.open('/creditcard','_self');
+        
         event.preventDefault();
         Router.go('/creditcard');
         let templateObject = Template.instance();
         templateObject.getSetSideNavFocus();
     },
     'click #sidenavnewPO': function(event) {
-        //window.open('/purchaseordercard','_self');
+        
         event.preventDefault();
         Router.go('/purchaseordercard');
         let templateObject = Template.instance();
         templateObject.getSetSideNavFocus();
     },
     'click #sidenavInvoice': function(event) {
-        //window.open('/invoicelist','_self');
+        
         event.preventDefault();
         Router.go('/invoicelist');
         let templateObject = Template.instance();
         templateObject.getSetSideNavFocus();
     },
     'click #sidenavInvoiceEmail': function(event) {
-        //window.open('/invoicelist','_self');
+        
         event.preventDefault();
         Router.go('/invoiceemail');
         let templateObject = Template.instance();
         templateObject.getSetSideNavFocus();
     },
     'click #sidenavInvoiceBO': function(event) {
-        //window.open('/invoicelistBO','_self');
+        
         event.preventDefault();
         Router.go('/invoicelistBO');
         let templateObject = Template.instance();
         templateObject.getSetSideNavFocus();
     },
     'click #sidenavQuote': function(event) {
-        //window.open('/quoteslist','_self');
+        
         event.preventDefault();
         Router.go('/quoteslist');
         let templateObject = Template.instance();
         templateObject.getSetSideNavFocus();
     },
     'click #sidenavSalesOrder': function(event) {
-        //window.open('/salesorderslist','_self');
+        
         event.preventDefault();
         Router.go('/salesorderslist');
         let templateObject = Template.instance();
         templateObject.getSetSideNavFocus();
     },
     'click #sidenavnewInvoice': function(event) {
-        //window.open('/invoicecard','_self');
+        
         event.preventDefault();
         Router.go('/invoicecard');
         let templateObject = Template.instance();
         templateObject.getSetSideNavFocus();
     },
     'click #sidenavnewQuote': function(event) {
-        //window.open('/quotecard','_self');
+        
         event.preventDefault();
         Router.go('/quotecard');
         let templateObject = Template.instance();
         templateObject.getSetSideNavFocus();
     },
     'click #sidenavnewRefund': function(event) {
-        //window.open('/refundcard','_self');
+        
         event.preventDefault();
         Router.go('/refundcard');
         let templateObject = Template.instance();
         templateObject.getSetSideNavFocus();
     },
     'click #sidenavnewSO': function(event) {
-        //window.open('/salesordercard','_self');
+        
         event.preventDefault();
         Router.go('/salesordercard');
         let templateObject = Template.instance();
@@ -3696,69 +3696,69 @@ Template.sidenav.events({
     },
     'click #sidenavaccesslevel': function(event) {
         window.open('/accesslevel','_self');
-        // event.preventDefault();
-        // Router.go('/accesslevel');
-        // let templateObject = Template.instance();
-        // templateObject.getSetSideNavFocus();
+        
+        
+        
+        
     },
     'click #sidenavcompanyappsettings': function(event) {
         window.open('/companyappsettings','_self');
-        // event.preventDefault();
-        // Router.go('/companyappsettings');
-        // let templateObject = Template.instance();
-        // templateObject.getSetSideNavFocus();
+        
+        
+        
+        
     },
     'click #sidenavcurrenciesSettings': function(event) {
-        //window.open('/currenciesSettings','_self');
+        
         event.preventDefault();
         Router.go('/currenciesSettings');
         let templateObject = Template.instance();
         templateObject.getSetSideNavFocus();
     },
     'click #sidenavdepartmentSettings': function(event) {
-        //window.open('/departmentSettings','_self');
+        
         event.preventDefault();
         Router.go('/departmentSettings');
         let templateObject = Template.instance();
         templateObject.getSetSideNavFocus();
     },
     'click #sidenavorganisationsettings': function(event) {
-        //window.open('/organisationsettings','_self');
+        
         event.preventDefault();
         Router.go('/organisationsettings');
         let templateObject = Template.instance();
         templateObject.getSetSideNavFocus();
     },
     'click #sidenavpaymentmethodSettings': function(event) {
-        //window.open('/paymentmethodSettings','_self');
+        
         event.preventDefault();
         Router.go('/paymentmethodSettings');
         let templateObject = Template.instance();
         templateObject.getSetSideNavFocus();
     },
     'click #sidenavtaxratesettings': function(event) {
-        //window.open('/taxratesettings','_self');
+        
         event.preventDefault();
         Router.go('/taxratesettings');
         let templateObject = Template.instance();
         templateObject.getSetSideNavFocus();
     },
     'click #sidenavtermsettings': function(event) {
-        //window.open('/termsettings','_self');
+        
         event.preventDefault();
         Router.go('/termsettings');
         let templateObject = Template.instance();
         templateObject.getSetSideNavFocus();
     },
     'click #sidenavtimesheet': function(event) {
-        //window.open('/timesheet','_self');
+        
         event.preventDefault();
         Router.go('/timesheet');
         let templateObject = Template.instance();
         templateObject.getSetSideNavFocus();
     },
     'click #sidenavtimeclock': function(event) {
-        //window.open('/timesheet','_self');
+        
         event.preventDefault();
         Router.go('/employeetimeclock');
         let templateObject = Template.instance();
@@ -3817,7 +3817,7 @@ Template.sidenav.events({
 
         accesslevelService.saveEmpAccess(data).then(function(data) {
             Session.setPersistent('CloudSidePanelMenu', isSidePanel);
-            //console.log(JSON.stringify(data));
+            
             Meteor._reload.reload();
         }).catch(function(err) {
             swal({
@@ -3833,7 +3833,7 @@ Template.sidenav.events({
 
                 }
             });
-            // $('.fullScreenSpin').css('display','none');
+            
         });
 
     }
@@ -3868,7 +3868,7 @@ Template.sidenav.onCreated(function() {
     templateObject.includePurchases = new ReactiveVar();
     templateObject.includePurchases.set(false);
 
-    // NEW FROM IAN 22102019
+    
     templateObject.includePayments = new ReactiveVar();
     templateObject.includePayments.set(false);
     templateObject.includeContacts = new ReactiveVar();
@@ -3898,7 +3898,7 @@ Template.sidenav.onCreated(function() {
     templateObject.isCloudTopPanelMenu.set(false);
 
 
-    // Reports
+    
     templateObject.isBalanceSheet = new ReactiveVar();
     templateObject.isBalanceSheet.set(false);
     templateObject.isProfitLoss = new ReactiveVar();
@@ -3943,9 +3943,9 @@ Template.sidenav.onCreated(function() {
 
 Template.sidenav.onRendered(function() {
     const templateObject = Template.instance();
-    //let employeeLoggedAccess = templateObject.employeeformaccessrecord.get();
+    
     let employeeLoggedUserAccess = Session.get('ERPSolidCurrentUSerAccess');
-    // let myarrEmpDetail = Session.get('ERPMobileTERPFormToAccess');
+    
     let isDashboard = Session.get('CloudDashboardModule');
     let isMain = Session.get('CloudMainModule');
     let isInventory = Session.get('CloudInventoryModule');
@@ -3987,7 +3987,7 @@ Template.sidenav.onRendered(function() {
         var currentLoc = window.location.pathname;
         setTimeout(function() {
             var currentLoc = window.location.pathname;
-            //console.log(currentLoc);
+            
             if (currentLoc == "/dashboard") {
                 $('#sidenavaccounts').removeClass('active');
                 $('#sidenavbanking').removeClass('active');
@@ -4269,22 +4269,22 @@ Template.sidenav.onRendered(function() {
                 $('#sidenavseedtosale').addClass('active');
                 $('#sidenavseedtosale .nav-link').addClass('active');
             }
-            // else if((currentLoc == "/stockadjustmentcard")
-            //  || (currentLoc == "/stockadjustmentoverview")){
-            //   $('#sidenavaccounts').removeClass('active');
-            //   $('#sidenavbanking').removeClass('active');
-            //   $('#sidenavdashbaord .nav-link').removeClass('active');
-            //   $('#sidenavcontacts').removeClass('active');
-            //   $('#sidenavexpenseclaims .nav-link').removeClass('active');
-            //   $('#sidenavinventory').removeClass('active');
-            //   $('#sidenavpayments').removeClass('active');
-            //   $('#sidenavpurchases').removeClass('active');
-            //   $('#sidenavreports .nav-link').removeClass('active');
-            //   $('#sidenavsales').removeClass('active');
-            //   $('#sidenavsettings').removeClass('active');
-            //   $('#sidenavstocktake .nav-link').addClass('active');
-            //
-            // }
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
         }, 50);
     }
 
@@ -4301,7 +4301,7 @@ Template.sidenav.onRendered(function() {
         $("html").addClass("hasSideBar");
         $("body").addClass("hasSideBar");
     }
-    //alert(LoggedDB);
+    
     if (LoggedDB !== null) {
         if (isDashboard) {
             templateObject.includeDashboard.set(true);
@@ -4392,10 +4392,10 @@ Template.sidenav.onRendered(function() {
     }
 
     if (LoggedUser) {
-        // alert(LoggedUser);
-        // alert(Session.get('mycloudLogonID'));
+        
+        
     } else {
-        //window.open('/','_self');
+        
     }
     if ((employeeLoggedUserAccess) && (LoggedDB !== null)) {
         /*
@@ -4405,7 +4405,7 @@ if((LoggedDB === employeeLoggedUserAccess.loggedDatabase)
        let lineItemObjlevel = employeeLoggedUserAccess.loggedAccessData[i];
 
         if((lineItemObjlevel.formName === "FnMobShipping") && (lineItemObjlevel.accessLevel == 1)){
-          // alert(lineItemObjlevel.accessLevel);
+          
             $("#FnMobShipping").css("display","block");
         }else if((lineItemObjlevel.formName === "FnMobShipping") && (lineItemObjlevel.accessLevel != 1)){
           $("#FnMobShipping").css("display","none");
@@ -4447,7 +4447,7 @@ if((LoggedDB === employeeLoggedUserAccess.loggedDatabase)
 */
     } else {
         if (currentLoc !== '/') {
-            //window.open('/','_self');
+            
             CloudUser.update({
                 _id: Session.get('mycloudLogonID')
             }, {
@@ -4596,7 +4596,7 @@ Template.sidenav.helpers({
         let isPurchaseSummaryReport = Template.instance().isPurchaseSummaryReport.get();
         let isPrintStatement = Template.instance().isPrintStatement.get();
         let isShowFavorite = false;
-        // alert(isAgedReceivables);
+        
         if (isBalanceSheet || isProfitLoss || isAgedReceivables || isProductSalesReport || isSalesReport || isSalesSummaryReport ||
             isGeneralLedger || isTaxSummaryReport || isTrialBalance || is1099Transaction || isAgedPayables ||
             isPurchaseReport || isPurchaseSummaryReport || isPrintStatement || isAgedReceivablesSummary || isAgedPayablesSummary) {

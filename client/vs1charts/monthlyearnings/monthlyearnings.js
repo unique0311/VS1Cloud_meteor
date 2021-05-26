@@ -30,7 +30,7 @@ Template.monthlyearnings.onRendered(()=>{
   let topData = this;
 if (!localStorage.getItem('VS1SalesListReport_dash')) {
   getInvSales(function (data) {
-    // console.log(data);
+    
     let currentDate = new Date();
     let currentMonthDate = currentDate.getMonth() + 1;
     let currentYear = currentDate.getFullYear();

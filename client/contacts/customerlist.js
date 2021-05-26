@@ -30,7 +30,7 @@ if(error){
 
 }else{
 if(result){
-//console.log(result);
+
 for (let i = 0; i < result.customFields.length; i++) {
 let customcolumn = result.customFields;
 let columData = customcolumn[i].label;
@@ -839,7 +839,7 @@ $("."+replaceClass+"").css('width',range+'px');
 'click .btnOpenSettings' : function(event){
 let templateObject = Template.instance();
 var columns = $('#tblCustomerlist th');
-// console.log(columns);
+
 const tableHeaderList = [];
 let sTible = "";
 let sWidth = "";
@@ -969,17 +969,17 @@ $('#attachment-upload').trigger('click');
                 var data = e.target.result;
                 data = new Uint8Array(data);
                 var workbook = XLSX.read(data, {type: 'array'});
-                //console.log(workbook);
+                
                 var result = {};
                 workbook.SheetNames.forEach(function (sheetName) {
                     var roa = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName], {header: 1});
                     var sCSV = XLSX.utils.make_csv(workbook.Sheets[sheetName]);
                     templateObj.selectedFile.set(sCSV);
-                    //console.log(sCSV);
+                    
                     if (roa.length) result[sheetName] = roa;
                 });
                 // see the result, caution: it works after reader event is done.
-                //console.log(result);
+                
             };
             reader.readAsArrayBuffer(oFile);
 

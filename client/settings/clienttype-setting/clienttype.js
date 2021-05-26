@@ -125,7 +125,7 @@ Template.clienttypesettings.onRendered(function() {
                     MakeNegative();
                 }, 100);
             } else{
-                console.log('Nothing');
+
             }
 
             $('.fullScreenSpin').css('display','none');
@@ -379,7 +379,7 @@ Template.clienttypesettings.events({
 
             lineItems.push(lineItemObj);
         });
-        
+
         var getcurrentCloudDetails = CloudUser.findOne({_id:Session.get('mycloudLogonID'),clouddatabaseID:Session.get('mycloudLogonDBID')});
         if(getcurrentCloudDetails){
             if (getcurrentCloudDetails._id.length > 0) {
@@ -433,7 +433,7 @@ Template.clienttypesettings.events({
         let columnDataValue = $(event.target).closest("div").prev().find(".divcolumn").text();
         var datable = $('#clienttypeList th');
         $.each(datable, function(i,v) {
-            console.log(datable);
+
             if(v.innerText == columnDataValue){
                 let className = v.className;
                 let replaceClass = className.replace(/ /g, ".");
@@ -446,7 +446,7 @@ Template.clienttypesettings.events({
     'click .btnOpenSettings' : function(event){
         let templateObject = Template.instance();
         var columns = $('#clienttypeList th');
-        // console.log(columns);
+
         const tableHeaderList = [];
         let sTible = "";
         let sWidth = "";
@@ -462,7 +462,7 @@ Template.clienttypesettings.events({
                 columVisible = false;
             }
             sWidth = v.style.width.replace('px', "");
-            console.log(sWidth);
+
             let datatablerecordObj = {
                 sTitle: v.innerText || '',
                 sWidth: sWidth || '',
@@ -669,7 +669,7 @@ Template.clienttypesettings.events({
             });
         }
 
-        //console.log(objDetails);
+
 
 
     },
@@ -735,12 +735,11 @@ Template.clienttypesettings.events({
             }
         };
 
-        console.log(data);
-
+        
         taxRateService.saveRoom(data).then(function (data) {
             window.open('/clienttypesettings','_self');
         }).catch(function (err) {
-            console.log(err);
+
             $('.fullScreenSpin').css('display','none');
         });
     },

@@ -33,7 +33,7 @@ Template.statementlist.onRendered(function() {
 
         } else {
             if (result) {
-                //console.log(result);
+
                 for (let i = 0; i < result.customFields.length; i++) {
                     let customcolumn = result.customFields;
                     let columData = customcolumn[i].label;
@@ -57,7 +57,7 @@ Template.statementlist.onRendered(function() {
         let data = await contactService.getCustomerStatementPrintData(clientID);
         //contactService.getCustomerStatementPrintData(clientID).then(function (data) {
         // alert(clientID);
-        // console.log(data);
+
         $('.fullScreenSpin').css('display', 'none');
         let lineItems = [];
         let lineItemObj = {};
@@ -66,7 +66,7 @@ Template.statementlist.onRendered(function() {
 
 
         if (data.tstatementforcustomer.length) {
-            console.log(data.tstatementforcustomer);
+
             // let total = utilityService.modifynegativeCurrencyFormat(data.fields.TotalAmount).toLocaleString(undefined, {minimumFractionDigits: 2});
             // let totalInc = utilityService.modifynegativeCurrencyFormat(data.fields.TotalAmountInc).toLocaleString(undefined, {minimumFractionDigits: 2});
             // let subTotal = utilityService.modifynegativeCurrencyFormat(data.fields.TotalAmount).toLocaleString(undefined, {minimumFractionDigits: 2});
@@ -142,7 +142,7 @@ Template.statementlist.onRendered(function() {
 
         //contactService.getCustomerStatementPrintData(clientID).then(function (data) {
         // alert(clientID);
-        // console.log(data);
+
         return new Promise((resolve, reject) => {
             contactService.getCustomerStatementPrintData(clientID).then(function(data) {
                 let lineItems = [];
@@ -836,7 +836,7 @@ Template.statementlist.onRendered(function() {
     $('#tblCustomerlist tbody').on('click', 'tr', function() {
         var listData = $(this).closest('tr').attr('id');
         let columnBalClass = $(event.target).attr('class');
-        // console.log(columnBalClass);
+
         if (columnBalClass.indexOf("chkBox") != -1) {
             // $('.printConfirm').css('display','inline-block');
         } else {
@@ -1033,7 +1033,7 @@ Template.statementlist.events({
     'click .btnOpenSettings': function(event) {
         let templateObject = Template.instance();
         var columns = $('#tblCustomerlist th');
-        // console.log(columns);
+
         const tableHeaderList = [];
         let sTible = "";
         let sWidth = "";
@@ -1049,7 +1049,7 @@ Template.statementlist.events({
                 columVisible = false;
             }
             sWidth = v.style.width.replace('px', "");
-            //console.log(sWidth);
+
             let datatablerecordObj = {
                 sTitle: v.innerText || '',
                 sWidth: sWidth || '',

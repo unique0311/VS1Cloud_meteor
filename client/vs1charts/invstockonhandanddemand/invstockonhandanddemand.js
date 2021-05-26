@@ -32,7 +32,7 @@ Template.invstockonhandanddemand.onRendered(()=>{
   let topData = this;
 
   getProductStock(function (data) {
-    // console.log(data);
+    
     let currentDate = new Date();
     let currentMonthDate = currentDate.getMonth() + 1;
     let currentYear = currentDate.getFullYear();
@@ -100,7 +100,7 @@ Template.invstockonhandanddemand.onRendered(()=>{
     let prevMonth11Date = (moment().subtract(11, 'months')).format("YYYY-MM-DD");
 
     getVS1Data('TProductStocknSalePeriodReport').then(function (dataObject) {
-      // console.log(dataObject);
+      
       if(dataObject.length == 0){
         vs1chartService.getProductStocknSaleReportData(prevMonth11Date, fromDate).then((data) => {
           addVS1Data('TProductStocknSalePeriodReport',JSON.stringify(data));
@@ -501,7 +501,7 @@ function chartClickEvent(event, array){
           // var salesBoardService = new SalesBoardService();
 
                 callback('');
-                // console.log(prevMonth3Data);
+                
 
 
       });

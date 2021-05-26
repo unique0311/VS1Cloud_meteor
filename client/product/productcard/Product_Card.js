@@ -119,7 +119,7 @@ Template.productcard.onRendered(function(){
             $('.product_recent_trans').css('display','block');
             $('.fullScreenSpin').css('display','none');
         }).catch(function (err) {
-            console.log(err);
+            
             $('.fullScreenSpin').css('display','none');
             //Bert.alert('<strong>' + err + '</strong>!', 'deleting products failed');
         });

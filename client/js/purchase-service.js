@@ -55,13 +55,13 @@ export class PurchaseBoardService extends BaseService {
       return this.getList(this.ERPObjects.TSupplierVS1, options);
     }
 
-    // getSupplier() {
-    //     let options = {
-    //         PropertyList: "ClientName",
-    //         select: "[Active]=true"
-    //     };
-    //     return this.getList(this.ERPObjects.TSupplier, options);
-    // }
+    
+    
+    
+    
+    
+    
+    
 
     getProducts() {
         let options = {
@@ -388,14 +388,14 @@ export class PurchaseBoardService extends BaseService {
     getAllSalesOrderdata() {
       let options = {
         ListType: "Detail"
-          // PropertyList: "ID,CustomerName,EmployeeName,SaleClassName,SaleDate,TotalAmount,ShipDate,SalesDescription,TermsName,SalesStatus,CustPONumber",
+          
       };
       return this.getList(this.ERPObjects.TSalesOrder, options);
     }
 
     getAllSalesOrderList() {
       let options = {
-        // ListType: "Detail"
+        
         PropertyList: "ID,EmployeeName,SaleClassName,SaleDate,CustomerName,TotalAmount,SalesStatus,ShipDate,SalesDescription,CustPONumber,TermsName,SaleCustField1,SaleCustField2",
         select: "[Deleted]=false",
       };
@@ -404,7 +404,7 @@ export class PurchaseBoardService extends BaseService {
 
     getAllQuoteList() {
       let options = {
-        // ListType: "Detail"
+        
         PropertyList: "ID,EmployeeName,SaleClassName,SaleDate,CustomerName,TotalAmount,SalesStatus,ShipDate,SalesDescription,CustPONumber,TermsName",
         select: "[Deleted]=false",
       };
@@ -412,7 +412,7 @@ export class PurchaseBoardService extends BaseService {
     }
     getAllInvoiceList() {
       let options = {
-        // ListType: "Detail"
+        
         PropertyList: "ID,EmployeeName,SaleClassName,SaleDate,CustomerName,TotalAmount,SalesStatus,ShipDate,SalesDescription,CustPONumber,TermsName",
         select: "[Deleted]=false",
       };
@@ -421,7 +421,7 @@ export class PurchaseBoardService extends BaseService {
 
     getAllPurchaseOrderList() {
       let options = {
-        // ListType: "Detail"
+        
         PropertyList: "ID,EmployeeName,SaleClassName,OrderDate,SupplierName,TotalAmount,OrderStatus,ShipDate,SalesDescription,CustPONumber,TermsName,TotalTax,TotalAmountInc,TotalPaid,TotalBalance,Comments,IsBackOrder",
         select: "[Deleted]=false",
       };
@@ -430,9 +430,9 @@ export class PurchaseBoardService extends BaseService {
 
     getAllPurchaseOrderListNonBo() {
       let options = {
-        // ListType: "Detail"
+        
         PropertyList: "ID,EmployeeName,SaleClassName,OrderDate,SupplierName,TotalAmount,OrderStatus,ShipDate,SalesDescription,CustPONumber,TermsName,TotalTax,TotalAmountInc,TotalPaid,TotalBalance,Comments,Deleted",
-        // select: "[Deleted]=false",
+        
       };
       return this.getList(this.ERPObjects.TpurchaseOrderNonBackOrder, options);
     }
@@ -448,16 +448,16 @@ export class PurchaseBoardService extends BaseService {
 
     getAllPurchaseOrderListBO() {
       let options = {
-        // ListType: "Detail"
+        
         PropertyList: "ID,EmployeeName,SaleClassName,OrderDate,SupplierName,TotalAmount,OrderStatus,ShipDate,SalesDescription,CustPONumber,TermsName,TotalTax,TotalAmountInc,TotalPaid,TotalBalance,Comments,Deleted",
-        // select: "[Deleted]=false",
+        
       };
       return this.getList(this.ERPObjects.TpurchaseOrderBackOrder, options);
     }
 
     getAllBillList() {
       let options = {
-        // ListType: "Detail"
+        
         PropertyList: "ID,EmployeeName,AccountName,SaleClassName,OrderDate,SupplierName,TotalAmount,OrderStatus,ShipDate,SalesDescription,CustPONumber,TermsName,TotalTax,TotalAmountInc,TotalPaid,TotalBalance,Comments",
         select: "[Deleted]=false and [Cancelled]=false",
       };
@@ -543,7 +543,7 @@ export class PurchaseBoardService extends BaseService {
 
   getAllChequeList() {
     let options = {
-      // ListType: "Detail"
+      
       PropertyList: "ID,EmployeeName,GLAccountName,OrderDate,SupplierName,TotalAmount,OrderStatus,ShipDate,SalesDescription,CustPONumber,TermsName,TotalTax,TotalAmountInc,TotalPaid,TotalBalance,Comments,SupplierInvoiceNumber",
       select: "[Deleted]=false and [Cancelled]=false",
     };
@@ -552,7 +552,7 @@ export class PurchaseBoardService extends BaseService {
 
   getAllChequeList1() {
     let options = {
-      // ListType: "Detail"
+      
       PropertyList: "ID",
     };
     return this.getList(this.ERPObjects.TCheque, options);
@@ -560,7 +560,7 @@ export class PurchaseBoardService extends BaseService {
 
   getAllReconcilationList() {
     let options = {
-      // ListType: "Detail"
+      
       PropertyList: "ID,ReconciliationDate,EmployeeName,AccountName,StatementNo,DeptName,OpenBalance,CloseBalance,EmployeeName,Finished,Notes",
       select: "[Deleted]=false",
     };

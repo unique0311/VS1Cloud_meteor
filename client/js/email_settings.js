@@ -9,7 +9,7 @@ Template.emailSettings.onRendered(function(){
   function getEmployeeProfiles () {
 
       employeeProfileService.getEmployeeProfile().then((dataListRet)=>{
-    //var dataListRet = JSON.parse(oReq.responseText)
+    
     for (var event in dataListRet) {
     var dataCopy = dataListRet[event];
     for (var data in dataCopy) {
@@ -17,13 +17,13 @@ Template.emailSettings.onRendered(function(){
     var userEmail = mainData.Email;
 
     if(userEmail != ""){
-      //markusjones041@gmail.com
+      
       document.getElementById("loggeduseremail").innerHTML = '&lt;'+userEmail+'&gt;';
       document.getElementById("loggeduseremailEdit").innerHTML = '&lt;'+userEmail+'&gt;';
       $('#sltnew_email').append($('<option>', {value:userEmail, text:userEmail}));
 
     }else{
-      //document.getElementById("loggedUserJobTitle").innerHTML = '<a href="/settings/user"> + Add Job Title</a>';
+      
     }
 
 

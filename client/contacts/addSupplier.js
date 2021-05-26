@@ -421,7 +421,7 @@ yearRange: "-90:+10",
                       columVisible = false;
                   }
                   sWidth = v.style.width.replace('px', "");
-                  //console.log(sWidth);
+                  
                   let datatablerecordObj = {
                       sTitle: v.innerText || '',
                       sWidth: sWidth || '',
@@ -604,7 +604,7 @@ yearRange: "-90:+10",
                   columVisible = false;
               }
               sWidth = v.style.width.replace('px', "");
-              //console.log(sWidth);
+              
               let datatablerecordObj = {
                   sTitle: v.innerText || '',
                   sWidth: sWidth || '',
@@ -782,7 +782,7 @@ yearRange: "-90:+10",
                       columVisible = false;
                   }
                   sWidth = v.style.width.replace('px', "");
-                  //console.log(sWidth);
+                  
                   let datatablerecordObj = {
                       sTitle: v.innerText || '',
                       sWidth: sWidth || '',
@@ -828,7 +828,7 @@ yearRange: "-90:+10",
                 preferedPayments.push(data.tpaymentmethodvs1[i].PaymentMethodName)
             }
             preferedPayments = _.sortBy(preferedPayments);
-            // console.log(preferedPayments);
+            
             templateObject.preferedPaymentList.set(preferedPayments);
         });
       }else{
@@ -846,7 +846,7 @@ yearRange: "-90:+10",
                 preferedPayments.push(data.tpaymentmethodvs1[i].PaymentMethodName)
             }
             preferedPayments = _.sortBy(preferedPayments);
-            // console.log(preferedPayments);
+            
             templateObject.preferedPaymentList.set(preferedPayments);
         });
       });
@@ -1073,7 +1073,7 @@ yearRange: "-90:+10",
                           if(data.fields.Attachments.length){
                               templateObject.attachmentCount.set(data.fields.Attachments.length);
                               templateObject.uploadedFiles.set(data.fields.Attachments);
-                              // console.log(data.fields.Attachments);
+                              
                           }
                       }
                       /* END  attachment */
@@ -1152,7 +1152,7 @@ yearRange: "-90:+10",
                               if(useData[i].fields.Attachments.length){
                                   templateObject.attachmentCount.set(useData[i].fields.Attachments.length);
                                   templateObject.uploadedFiles.set(useData[i].fields.Attachments);
-                                  // console.log(useData[i].fields.Attachments);
+                                  
                               }
                           }
                           /* END  attachment */
@@ -1227,7 +1227,7 @@ yearRange: "-90:+10",
                               if(data.fields.Attachments.length){
                                   templateObject.attachmentCount.set(data.fields.Attachments.length);
                                   templateObject.uploadedFiles.set(data.fields.Attachments);
-                                  // console.log(data.fields.Attachments);
+                                  
                               }
                           }
                           /* END  attachment */
@@ -1303,7 +1303,7 @@ yearRange: "-90:+10",
                       if(data.fields.Attachments.length){
                           templateObject.attachmentCount.set(data.fields.Attachments.length);
                           templateObject.uploadedFiles.set(data.fields.Attachments);
-                          // console.log(data.fields.Attachments);
+                          
                       }
                   }
                   /* END  attachment */
@@ -1939,7 +1939,7 @@ Template.supplierscard.events({
 
                         }
                     });
-                    // console.log(checkPrefDetails);
+                    
                 }
             }
         }
@@ -1977,7 +1977,7 @@ Template.supplierscard.events({
     'click .btnOpenSettings' : function(event){
         let templateObject = Template.instance();
         var columns = $('#tblTransactionlist th');
-        // console.log(columns);
+        
         const tableHeaderList = [];
         let sTible = "";
         let sWidth = "";
@@ -2244,7 +2244,7 @@ Template.supplierscard.events({
         let attachmentID = parseInt(event.currentTarget.parentNode.id.split('attachment-name-')[1]);
         let templateObj = Template.instance();
         let uploadedFiles = templateObj.uploadedFiles.get();
-        // console.log(uploadedFiles);
+        
         $('#myModalAttachment').modal('hide');
         let previewFile = {};
         let input = uploadedFiles[attachmentID].fields.Description;

@@ -100,7 +100,7 @@ Template.productlist.onRendered(function() {
         }
         // $('#edttotalqtyinstock').val(totaldeptquantity);
         templateObject.productdeptrecords.set(deptprodlineItems);
-        // console.log(splashArrayProdDept);
+
         // templateObject.totaldeptquantity.set(totaldeptquantity);
         templateObject.getAllProductData('All');
     }).catch(function (err) {
@@ -611,7 +611,7 @@ Template.productlist.onRendered(function() {
         }
         // $('#edttotalqtyinstock').val(totaldeptquantity);
         templateObject.productdeptrecords.set(deptprodlineItems);
-        // console.log(splashArrayProdDept);
+
         // templateObject.totaldeptquantity.set(totaldeptquantity);
 
     }).catch(function (err) {
@@ -636,7 +636,7 @@ Template.productlist.onRendered(function() {
   if ((Session.get('VS1ProductList') === '') || (!Session.get('VS1ProductList'))) {
    templateObject.getAllProductData();
   }else{
-    console.log(Session.get('VS1ProductList'));
+
     templateObject.datatablerecords.set(Session.get('VS1ProductList'));
     if(templateObject.datatablerecords.get()){
 
@@ -1109,7 +1109,7 @@ Template.productlist.helpers({
           let columnDataValue = $(event.target).closest("div").prev().find(".divcolumn").text();
           var datable = $('#tblInventory th');
           $.each(datable, function(i,v) {
-            console.log(datable);
+
           if(v.innerText == columnDataValue){
               let className = v.className;
               let replaceClass = className.replace(/ /g, ".");
@@ -1122,7 +1122,7 @@ Template.productlist.helpers({
         'click .btnOpenSettings' : function(event){
           let templateObject = Template.instance();
           var columns = $('#tblInventory th');
-          // console.log(columns);
+
           const tableHeaderList = [];
           let sTible = "";
           let sWidth = "";
@@ -1282,7 +1282,7 @@ Template.productlist.helpers({
          $.each($("input[name='chkDepartment']:checked"), function(){
            favorite.push($(this).val());
           });
-      // console.log(favorite);
+
       // if(favorite){
       //   for (var j = 0; j < favorite.length; j++) {
       //     // alert(favorite[j]);
@@ -1405,7 +1405,7 @@ Template.productlist.helpers({
          }
 
 
-        // // console.log(productValue);
+        //
         // if($(event.target).is(':checked')){
         //
         //
@@ -1468,7 +1468,6 @@ $('#attachment-upload').trigger('click');
       // alert('here 1');
       $('.file-name').text(filename);
       let selectedFile = event.target.files[0];
-      console.log(selectedFile);
       templateObj.selectedFile.set(selectedFile);
       if($('.file-name').text() != ""){
         $(".btnImport").removeAttr("disabled");
@@ -1489,17 +1488,17 @@ $('#attachment-upload').trigger('click');
                 var data = e.target.result;
                 data = new Uint8Array(data);
                 var workbook = XLSX.read(data, {type: 'array'});
-                //console.log(workbook);
+
                 var result = {};
                 workbook.SheetNames.forEach(function (sheetName) {
                     var roa = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName], {header: 1});
                     var sCSV = XLSX.utils.make_csv(workbook.Sheets[sheetName]);
                     templateObj.selectedFile.set(sCSV);
-                    //console.log(sCSV);
+
                     if (roa.length) result[sheetName] = roa;
                 });
                 // see the result, caution: it works after reader event is done.
-                //console.log(result);
+
             };
             reader.readAsArrayBuffer(oFile);
 

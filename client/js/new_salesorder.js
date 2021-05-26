@@ -7,7 +7,7 @@ import { ProductService } from "../product/product-service";
 import '../lib/global/erp-objects';
 import 'jquery-ui-dist/external/jquery/jquery';
 import 'jquery-ui-dist/jquery-ui';
-// import 'jquery-ui-dist/jquery-ui.css';
+
 import { Random } from 'meteor/random';
 import { jsPDF } from 'jspdf';
 import 'jQuery.print/jQuery.print.js';
@@ -21,8 +21,8 @@ let sideBarService = new SideBarService();
 let utilityService = new UtilityService();
 var times = 0;
 Template.new_salesorder.onCreated(() => {
-    // Session.set('validateInvoiceNo',false);
-    // $("#dtDueDate").val(moment().format('DD/MM/YYYY'));
+
+
 
     const templateObject = Template.instance();
     templateObject.records = new ReactiveVar();
@@ -78,7 +78,7 @@ Template.new_salesorder.onRendered(() => {
     const deptrecords = [];
     const termrecords = [];
     const statusList = [];
-    //dd M yy
+
     $("#date-input,#dtSODate,#dtDueDate").datepicker({
         showOn: 'button',
         buttonText: 'Show Date',
@@ -92,13 +92,13 @@ Template.new_salesorder.onRendered(() => {
         yearRange: "-90:+10",
     });
 
-    //let salesCloudGridPreferenceRec = CloudPreference.findOne({userid:Session.get('mycloudLogonID'),PrefName:'tblSalesOrderLine'});
-    //alert(salesCloudGridPreferenceRec.PrefGroup);
-    //console.log(salesCloudGridPreferenceRec);
+
+
+
     $(document).ready(function () {
         $('#formCheck-one').click(function () {
-            // var inputValue = $(this).attr("value");
-            // $("." + inputValue).toggle();
+
+
             if ($(event.target).is(':checked')) {
                 $('.checkbox1div').css('display', 'block');
             } else {
@@ -108,28 +108,28 @@ Template.new_salesorder.onRendered(() => {
 
 
 
-        // history.pushState(null, document.title, location.href);
-        // window.addEventListener('popstate', function(event) {
-        //     swal({
-        //         title: 'Save Or Cancel To Continue',
-        //         text: "Do you want to Save or Cancel this transaction?",
-        //         type: 'info',
-        //         showCancelButton: true,
-        //         confirmButtonText: 'Save'
-        //     }).then((result) => {
-        //         if (result.value) {
-        //             $(".btnSave").trigger("click");
-        //         } else if (result.dismiss === 'cancel') {
-        //             Router.go('/salesorderslist', '_self');
-        //         } else {
 
-        //         }
-        //     });
-        // });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         $('#formCheck-two').click(function () {
-            // var inputValue = $(this).attr("value");
-            // $("." + inputValue).toggle();
+
+
             if ($(event.target).is(':checked')) {
                 $('.checkbox2div').css('display', 'block');
             } else {
@@ -169,12 +169,12 @@ Template.new_salesorder.onRendered(() => {
                             termsName: data.tcustomervs1[i].TermsName || '',
                             taxCode: data.tcustomervs1[i].TaxCodeName || ''
                         };
-                        //clientList.push(data.tcustomer[i].ClientName,customeremail: data.tcustomer[i].Email);
+
                         clientList.push(customerrecordObj);
 
-                        //$('#edtCustomerName').editableSelect('add',data.tcustomer[i].ClientName);
+
                     }
-                    //templateObject.clientrecords.set(clientList);
+
                     templateObject.clientrecords.set(clientList.sort(function (a, b) {
                         if (a.customername == 'NA') {
                             return 1;
@@ -209,12 +209,12 @@ Template.new_salesorder.onRendered(() => {
                         termsName: useData[i].fields.TermsName || '',
                         taxCode: useData[i].fields.TaxCodeName || ''
                     };
-                    //clientList.push(data.tcustomer[i].ClientName,customeremail: data.tcustomer[i].Email);
+
                     clientList.push(customerrecordObj);
 
-                    //$('#edtCustomerName').editableSelect('add',data.tcustomer[i].ClientName);
+
                 }
-                //templateObject.clientrecords.set(clientList);
+
                 templateObject.clientrecords.set(clientList.sort(function (a, b) {
                     if (a.customername == 'NA') {
                         return 1;
@@ -245,12 +245,12 @@ Template.new_salesorder.onRendered(() => {
                         termsName: data.tcustomervs1[i].TermsName || '',
                         taxCode: data.tcustomervs1[i].TaxCodeName || ''
                     };
-                    //clientList.push(data.tcustomer[i].ClientName,customeremail: data.tcustomer[i].Email);
+
                     clientList.push(customerrecordObj);
 
-                    //$('#edtCustomerName').editableSelect('add',data.tcustomer[i].ClientName);
+
                 }
-                //templateObject.clientrecords.set(clientList);
+
                 templateObject.clientrecords.set(clientList.sort(function (a, b) {
                     if (a.customername == 'NA') {
                         return 1;
@@ -459,7 +459,7 @@ Template.new_salesorder.onRendered(() => {
                     }, 100);
 
                     templateObject.salesorderrecord.set(salesorderrecord);
-                    // alert(JSON.stringify(templateObject.salesorderrecord.get()));
+
                     templateObject.selectedCurrency.set(salesorderrecord.currency);
                     templateObject.inputSelectedCurrency.set(salesorderrecord.currency);
                     if (templateObject.salesorderrecord.get()) {
@@ -528,7 +528,7 @@ Template.new_salesorder.onRendered(() => {
             currentSalesOrder = parseInt(currentSalesOrder);
             $('.printID').attr("id", currentSalesOrder);
             templateObject.getSalesOrderData = function () {
-                //getOneSalesOrderdata
+
                 getVS1Data('TSalesOrderEx').then(function (dataObject) {
                     if (dataObject.length == 0) {
                         accountService.getOneSalesOrderdataEx(currentSalesOrder).then(function (data) {
@@ -660,19 +660,19 @@ Template.new_salesorder.onRendered(() => {
                             }, 100);
 
                             templateObject.salesorderrecord.set(salesorderrecord);
-                            // alert(JSON.stringify(templateObject.salesorderrecord.get()));
+
                             templateObject.selectedCurrency.set(salesorderrecord.currency);
                             templateObject.inputSelectedCurrency.set(salesorderrecord.currency);
                             if (templateObject.salesorderrecord.get()) {
 
-                                // $('#tblSalesOrderLine').colResizable({
-                                //   liveDrag:true});
-                                //$('#tblSalesOrderLine').removeClass('JColResizer');
+
+
+
 
                                 Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblSalesOrderLine', function (error, result) {
                                     if (error) {
-                                        // console.log(error);
-                                        //Bert.alert('<strong>Error:</strong> user-not-found, no user found please try again!', 'danger');
+
+
                                     } else {
                                         if (result) {
                                             for (let i = 0; i < result.customFields.length; i++) {
@@ -683,23 +683,23 @@ Template.new_salesorder.onRendered(() => {
                                                 let columnClass = columHeaderUpdate.substring(columHeaderUpdate.indexOf(".") + 1);
                                                 let columnWidth = customcolumn[i].width;
 
-                                                //alert(columnClass);
+
                                                 $("" + columHeaderUpdate + "").html(columData);
                                                 if (columnWidth != 0) {
                                                     $("" + columHeaderUpdate + "").css('width', columnWidth + '%');
                                                 }
 
                                                 if (hiddenColumn == true) {
-                                                    //alert(columnClass);
-                                                    //$("."+columnClass+"").css('display','none');
+
+
                                                     $("." + columnClass + "").addClass('hiddenColumn');
                                                     $("." + columnClass + "").removeClass('showColumn');
                                                 } else if (hiddenColumn == false) {
                                                     $("." + columnClass + "").removeClass('hiddenColumn');
                                                     $("." + columnClass + "").addClass('showColumn');
-                                                    //$("."+columnClass+"").css('display','table-cell');
-                                                    //$("."+columnClass+"").css('padding','.75rem');
-                                                    //$("."+columnClass+"").css('vertical-align','top');
+
+
+
                                                 }
 
                                             }
@@ -723,7 +723,7 @@ Template.new_salesorder.onRendered(() => {
                                 }
                             });
                             $('.fullScreenSpin').css('display', 'none');
-                            // Meteor._reload.reload();
+
                         });
                     } else {
                         let data = JSON.parse(dataObject[0].data);
@@ -860,19 +860,19 @@ Template.new_salesorder.onRendered(() => {
                                 }, 100);
 
                                 templateObject.salesorderrecord.set(salesorderrecord);
-                                // alert(JSON.stringify(templateObject.salesorderrecord.get()));
+
                                 templateObject.selectedCurrency.set(salesorderrecord.currency);
                                 templateObject.inputSelectedCurrency.set(salesorderrecord.currency);
                                 if (templateObject.salesorderrecord.get()) {
 
-                                    // $('#tblSalesOrderLine').colResizable({
-                                    //   liveDrag:true});
-                                    //$('#tblSalesOrderLine').removeClass('JColResizer');
+
+
+
 
                                     Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblSalesOrderLine', function (error, result) {
                                         if (error) {
-                                            // console.log(error);
-                                            //Bert.alert('<strong>Error:</strong> user-not-found, no user found please try again!', 'danger');
+
+
                                         } else {
                                             if (result) {
                                                 for (let i = 0; i < result.customFields.length; i++) {
@@ -883,23 +883,23 @@ Template.new_salesorder.onRendered(() => {
                                                     let columnClass = columHeaderUpdate.substring(columHeaderUpdate.indexOf(".") + 1);
                                                     let columnWidth = customcolumn[i].width;
 
-                                                    //alert(columnClass);
+
                                                     $("" + columHeaderUpdate + "").html(columData);
                                                     if (columnWidth != 0) {
                                                         $("" + columHeaderUpdate + "").css('width', columnWidth + '%');
                                                     }
 
                                                     if (hiddenColumn == true) {
-                                                        //alert(columnClass);
-                                                        //$("."+columnClass+"").css('display','none');
+
+
                                                         $("." + columnClass + "").addClass('hiddenColumn');
                                                         $("." + columnClass + "").removeClass('showColumn');
                                                     } else if (hiddenColumn == false) {
                                                         $("." + columnClass + "").removeClass('hiddenColumn');
                                                         $("." + columnClass + "").addClass('showColumn');
-                                                        //$("."+columnClass+"").css('display','table-cell');
-                                                        //$("."+columnClass+"").css('padding','.75rem');
-                                                        //$("."+columnClass+"").css('vertical-align','top');
+
+
+
                                                     }
 
                                                 }
@@ -1043,19 +1043,19 @@ Template.new_salesorder.onRendered(() => {
                         }, 100);
 
                         templateObject.salesorderrecord.set(salesorderrecord);
-                        // alert(JSON.stringify(templateObject.salesorderrecord.get()));
+
                         templateObject.selectedCurrency.set(salesorderrecord.currency);
                         templateObject.inputSelectedCurrency.set(salesorderrecord.currency);
                         if (templateObject.salesorderrecord.get()) {
 
-                            // $('#tblSalesOrderLine').colResizable({
-                            //   liveDrag:true});
-                            //$('#tblSalesOrderLine').removeClass('JColResizer');
+
+
+
 
                             Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblSalesOrderLine', function (error, result) {
                                 if (error) {
-                                    // console.log(error);
-                                    //Bert.alert('<strong>Error:</strong> user-not-found, no user found please try again!', 'danger');
+
+
                                 } else {
                                     if (result) {
                                         for (let i = 0; i < result.customFields.length; i++) {
@@ -1066,23 +1066,23 @@ Template.new_salesorder.onRendered(() => {
                                             let columnClass = columHeaderUpdate.substring(columHeaderUpdate.indexOf(".") + 1);
                                             let columnWidth = customcolumn[i].width;
 
-                                            //alert(columnClass);
+
                                             $("" + columHeaderUpdate + "").html(columData);
                                             if (columnWidth != 0) {
                                                 $("" + columHeaderUpdate + "").css('width', columnWidth + '%');
                                             }
 
                                             if (hiddenColumn == true) {
-                                                //alert(columnClass);
-                                                //$("."+columnClass+"").css('display','none');
+
+
                                                 $("." + columnClass + "").addClass('hiddenColumn');
                                                 $("." + columnClass + "").removeClass('showColumn');
                                             } else if (hiddenColumn == false) {
                                                 $("." + columnClass + "").removeClass('hiddenColumn');
                                                 $("." + columnClass + "").addClass('showColumn');
-                                                //$("."+columnClass+"").css('display','table-cell');
-                                                //$("."+columnClass+"").css('padding','.75rem');
-                                                //$("."+columnClass+"").css('vertical-align','top');
+
+
+
                                             }
 
                                         }
@@ -1106,7 +1106,7 @@ Template.new_salesorder.onRendered(() => {
                             }
                         });
                         $('.fullScreenSpin').css('display', 'none');
-                        // Meteor._reload.reload();
+
                     });
                 });
 
@@ -1188,11 +1188,11 @@ Template.new_salesorder.onRendered(() => {
 
         templateObject.salesorderrecord.set(salesorderrecord);
         if (templateObject.salesorderrecord.get()) {
-            // $('#tblSalesOrderLine').colResizable({liveDrag:true});
+
             Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblSalesOrderLine', function (error, result) {
                 if (error) {
-                    console.log(error);
-                    //Bert.alert('<strong>Error:</strong> user-not-found, no user found please try again!', 'danger');
+
+
                 } else {
                     if (result) {
                         for (let i = 0; i < result.customFields.length; i++) {
@@ -1202,7 +1202,7 @@ Template.new_salesorder.onRendered(() => {
                             let hiddenColumn = customcolumn[i].hidden;
                             let columnClass = columHeaderUpdate.substring(columHeaderUpdate.indexOf(".") + 1);
                             let columnWidth = customcolumn[i].width;
-                            //alert(columnClass);
+
                             $("" + columHeaderUpdate + "").html(columData);
                             if (columnWidth != 0) {
                                 $("" + columHeaderUpdate + "").css('width', columnWidth + '%');
@@ -1221,11 +1221,11 @@ Template.new_salesorder.onRendered(() => {
                 }
             });
         }
-        //console.log(templateObject.salesorderrecord.get());
-        // alert('No ID');
+
+
     }
 
-    // $('.tblSalesOrderLine').dragableColumns();
+
     templateObject.getDepartments = function () {
         getVS1Data('TDeptClass').then(function (dataObject) {
             if (dataObject.length == 0) {
@@ -1321,8 +1321,8 @@ Template.new_salesorder.onRendered(() => {
     }
     templateObject.getDepartments();
     templateObject.getTerms();
-    // console.log(templateObject.salesorderrecord.get());
-    //alert(JSON.stringify(templateObject.salesorderrecord.get()));
+
+
 
     let table;
     $(document).ready(function () {
@@ -1359,7 +1359,7 @@ Template.new_salesorder.onRendered(() => {
         let utilityService = new UtilityService();
         let $tblrows = $("#tblSalesOrderLine tbody tr");
         let taxcode1 = "";
-        //var data = table.row( this ).data();
+
         let selectedCust = $('#edtCustomerName').val();
         let getCustDetails = "";
         let lineTaxRate = "";
@@ -1401,7 +1401,7 @@ Template.new_salesorder.onRendered(() => {
             if (taxcodeList) {
                 for (var i = 0; i < taxcodeList.length; i++) {
                     if (taxcodeList[i].codename == lineTaxRate) {
-                        //lineTaxCode = taxcodeList[i].coderate;
+
                         $('#' + selectLineID + " .lineTaxRate").text(taxcodeList[i].coderate);
                     }
                 }
@@ -1471,7 +1471,7 @@ Template.new_salesorder.onRendered(() => {
         var table = $(this);
         let utilityService = new UtilityService();
         let $tblrows = $("#tblSalesOrderLine tbody tr");
-        //var data = table.row( this ).data();
+
         if (selectLineID) {
             let lineTaxCode = table.find(".taxName").text();
             let lineTaxRate = table.find(".taxRate").text();
@@ -1494,14 +1494,14 @@ Template.new_salesorder.onRendered(() => {
                 if (taxcodeList) {
                     for (var i = 0; i < taxcodeList.length; i++) {
                         if (taxcodeList[i].codename == taxcode) {
-                            //if(taxcodeList[i].coderate.trim() != ''){
+
                             taxrateamount = taxcodeList[i].coderate.replace('%', "") / 100;
-                            //}
+
                         }
                     }
                 }
 
-                //alert(taxrateamount);
+
                 var subTotal = parseInt(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) || 0;
                 if ((taxrateamount == '') || (taxrateamount == ' ')) {
                     var taxTotal = 0;
@@ -1563,9 +1563,9 @@ Template.new_salesorder.onRendered(() => {
                             code = "E";
                         }
                         let taxcodeList = templateObject.taxraterecords.get();
-                        // let utilityService = new UtilityService();
+
                         let $tblrows = $("#tblSalesOrderLine tbody tr");
-                        //if(selectLineID){
+
                         let lineAmount = 0;
                         let subGrandTotal = 0;
                         let taxGrandTotal = 0;
@@ -1627,21 +1627,21 @@ Template.new_salesorder.onRendered(() => {
         };
         var pdf = new jsPDF('p', 'pt', 'a4');
         let id = $('.printID').attr("id");
-        //new jsPDF('p', 'pt', 'letter');
-        // new jsPDF('p', 'mm', 'a4');
+
+
         pdf.setFontSize(18);
         var source = document.getElementById('html-2-pdfwrapper');
         pdf.addHTML(source, function () {
-            //pdf.autoPrint();
+
             pdf.save('Sales Order ' + id + '.pdf');
             $('#html-2-pdfwrapper').css('display', 'none');
         });
-        //     pdf.fromHTML(source, 0, 0, {
-        //     'width': 100 // max width of content on PDF
-        //     // 'elementHandlers': specialElementHandlers
-        // },
-        // function(bla){pdf.save('salesorder.pdf');},
-        // margins);
+
+
+
+
+
+
         /*
     var divToPrint=document.getElementById('html-2-pdfwrapper');
 
@@ -1655,42 +1655,42 @@ newWin.document.close();
 
 setTimeout(function(){newWin.close();},10);
     */
-        //   pdf.fromHTML(
-        // source,
-        // 15,
-        // 15,
-        // {
-        //   'width': 180
-        // });
-        //
-        // pdf.output("datauri");
-        //document.getElementById('html-2-pdfwrapper')
-        // pdf.fromHTML(source,
-        //   margins.left, // x coord
-        //   margins.top,
-        //   {
-        //     // y coord
-        //     width: margins.width// max width of content on PDF
-        //   },function(dispose) {
-        //     //headerFooterFormatting(pdf, pdf.internal.getNumberOfPages());
-        //   },
-        //   margins);
-        //   pdf.output("datauri");
-        //   pdf.save(loggedCompany + '-salesorder.pdf');
-        // var iframe = document.createElement('iframe');
-        // iframe.setAttribute('style','position:absolute;right:0; top:0; bottom:0; height:100%; width:650px; padding:20px;');
-        // document.body.appendChild(iframe);
-        //
-        // iframe.src = pdf.output('datauristring');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     };
 
-    // JQuery & CSS by Bruno BEGIN
+
     setTimeout(function () {
 
         var x = window.matchMedia("(max-width: 1024px)")
 
         function mediaQuery(x) {
-            if (x.matches) { // If media query matches
+            if (x.matches) {
 
                 $("#colInvnoReference").removeClass("col-auto");
                 $("#colInvnoReference").addClass("col-6");
@@ -1712,8 +1712,8 @@ setTimeout(function(){newWin.close();},10);
 
             }
         }
-        mediaQuery(x) // Call listener function at run time
-        x.addListener(mediaQuery) // Attach listener function on state changes
+        mediaQuery(x)
+        x.addListener(mediaQuery)
     }, 10);
 
     setTimeout(function () {
@@ -1721,7 +1721,7 @@ setTimeout(function(){newWin.close();},10);
         var x = window.matchMedia("(max-width: 420px)")
 
         function mediaQuery(x) {
-            if (x.matches) { // If media query matches
+            if (x.matches) {
 
                 $("#colInvnoReference").removeClass("col-auto");
                 $("#colInvnoReference").addClass("col-12");
@@ -1749,10 +1749,10 @@ setTimeout(function(){newWin.close();},10);
 
             }
         }
-        mediaQuery(x) // Call listener function at run time
-        x.addListener(mediaQuery) // Attach listener function on state changes
+        mediaQuery(x)
+        x.addListener(mediaQuery)
     }, 10);
-    // JQuery & CSS by Bruno END
+
 });
 Template.new_salesorder.onRendered(function () {
     let tempObj = Template.instance();
@@ -1772,8 +1772,8 @@ Template.new_salesorder.onRendered(function () {
                     let inventoryData = [];
                     for (let i = 0; i < data.tproductvs1.length; i++) {
                         var dataList = [
-                            // data.tproductvs1[i].Id || '',
-                            // data.tproductvs1[i].Id || '',
+
+
                             data.tproductvs1[i].ProductName || '-',
                             data.tproductvs1[i].SalesDescription || '',
                             utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductvs1[i].BuyQty1Cost * 100) / 100),
@@ -1790,13 +1790,13 @@ Template.new_salesorder.onRendered(function () {
 
                         $('#tblInventory').dataTable({
                             data: splashArrayProductList,
-                            // processing: true,
+
                             "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
                             paging: true,
                             "aaSorting": [],
                             "orderMulti": true,
                             columnDefs: [
-                                // { orderable: false, targets: 0 },
+
                                 { className: "productName", "targets": [0] },
                                 { className: "productDesc", "targets": [1] },
                                 { className: "costPrice text-right", "targets": [2] },
@@ -1805,12 +1805,12 @@ Template.new_salesorder.onRendered(function () {
                                 { className: "taxrate", "targets": [5] }
                             ],
                             colReorder: true,
-                            // colReorder: {
-                            //   fixedColumnsLeft: 1
-                            // },
+
+
+
                             bStateSave: true,
-                            //scrollX: 1000,
-                            //rowId: 0,
+
+
                             pageLength: 25,
                             lengthMenu: [
                                 [10, 25, 50, -1],
@@ -1822,12 +1822,12 @@ Template.new_salesorder.onRendered(function () {
                         });
 
                         $('div.dataTables_filter input').addClass('form-control form-control-sm');
-                        // tableProductList
-                        //     .order( [ 1, 'desc' ] )
-                        //     .draw();
-                        //$('#tblInventory').DataTable().column( 0 ).visible( false );
-                        //$('#tblInventory').DataTable().column( 5 ).visible( false );
-                        //$('#tblInventory').DataTable().column( 6 ).visible( false );
+
+
+
+
+
+
                     }
                 })
             } else {
@@ -1838,8 +1838,8 @@ Template.new_salesorder.onRendered(function () {
                 let inventoryData = [];
                 for (let i = 0; i < useData.length; i++) {
                     var dataList = [
-                        // data.tproductvs1[i].Id || '',
-                        // data.tproductvs1[i].Id || '',
+
+
                         useData[i].fields.ProductName || '-',
                         useData[i].fields.SalesDescription || '',
                         utilityService.modifynegativeCurrencyFormat(Math.floor(useData[i].fields.BuyQty1Cost * 100) / 100),
@@ -1856,13 +1856,13 @@ Template.new_salesorder.onRendered(function () {
 
                     $('#tblInventory').dataTable({
                         data: splashArrayProductList,
-                        // processing: true,
+
                         "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
                         paging: true,
                         "aaSorting": [],
                         "orderMulti": true,
                         columnDefs: [
-                            // { orderable: false, targets: 0 },
+
                             { className: "productName", "targets": [0] },
                             { className: "productDesc", "targets": [1] },
                             { className: "costPrice text-right", "targets": [2] },
@@ -1871,12 +1871,12 @@ Template.new_salesorder.onRendered(function () {
                             { className: "taxrate", "targets": [5] }
                         ],
                         colReorder: true,
-                        // colReorder: {
-                        //   fixedColumnsLeft: 1
-                        // },
+
+
+
                         bStateSave: true,
-                        //scrollX: 1000,
-                        //rowId: 0,
+
+
                         pageLength: 25,
                         lengthMenu: [
                             [10, 25, 50, -1],
@@ -1888,12 +1888,12 @@ Template.new_salesorder.onRendered(function () {
                     });
 
                     $('div.dataTables_filter input').addClass('form-control form-control-sm');
-                    // tableProductList
-                    //     .order( [ 1, 'desc' ] )
-                    //     .draw();
-                    //$('#tblInventory').DataTable().column( 0 ).visible( false );
-                    //$('#tblInventory').DataTable().column( 5 ).visible( false );
-                    //$('#tblInventory').DataTable().column( 6 ).visible( false );
+
+
+
+
+
+
                 }
             }
         }).catch(function (err) {
@@ -1903,8 +1903,8 @@ Template.new_salesorder.onRendered(function () {
                 let inventoryData = [];
                 for (let i = 0; i < data.tproductvs1.length; i++) {
                     var dataList = [
-                        // data.tproductvs1[i].Id || '',
-                        // data.tproductvs1[i].Id || '',
+
+
                         data.tproductvs1[i].ProductName || '-',
                         data.tproductvs1[i].SalesDescription || '',
                         utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductvs1[i].BuyQty1Cost * 100) / 100),
@@ -1921,13 +1921,13 @@ Template.new_salesorder.onRendered(function () {
 
                     $('#tblInventory').dataTable({
                         data: splashArrayProductList,
-                        // processing: true,
+
                         "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
                         paging: true,
                         "aaSorting": [],
                         "orderMulti": true,
                         columnDefs: [
-                            // { orderable: false, targets: 0 },
+
                             { className: "productName", "targets": [0] },
                             { className: "productDesc", "targets": [1] },
                             { className: "costPrice text-right", "targets": [2] },
@@ -1936,12 +1936,12 @@ Template.new_salesorder.onRendered(function () {
                             { className: "taxrate", "targets": [5] }
                         ],
                         colReorder: true,
-                        // colReorder: {
-                        //   fixedColumnsLeft: 1
-                        // },
+
+
+
                         bStateSave: true,
-                        //scrollX: 1000,
-                        //rowId: 0,
+
+
                         pageLength: 25,
                         lengthMenu: [
                             [10, 25, 50, -1],
@@ -1953,56 +1953,56 @@ Template.new_salesorder.onRendered(function () {
                     });
 
                     $('div.dataTables_filter input').addClass('form-control form-control-sm');
-                    // tableProductList
-                    //     .order( [ 1, 'desc' ] )
-                    //     .draw();
-                    //$('#tblInventory').DataTable().column( 0 ).visible( false );
-                    //$('#tblInventory').DataTable().column( 5 ).visible( false );
-                    //$('#tblInventory').DataTable().column( 6 ).visible( false );
+
+
+
+
+
+
                 }
             })
         });
     };
-    //if (!localStorage.getItem('VS1SalesProductList')) {
+
     tempObj.getAllProducts();
-    // }else{
-    //  $('#tblInventory').dataTable({
-    //     data :  JSON.parse(localStorage.getItem('VS1SalesProductList')),
-    //     // processing: true,
-    //     paging: true,
-    //     "aaSorting": [],
-    //     "orderMulti": true,
-    //     columnDefs: [
-    //       // { orderable: false, targets: 0},
-    //       { className: "productName", "targets": [ 0 ] },
-    //       { className: "productDesc", "targets": [ 1 ] },
-    //       { className: "costPrice text-right", "targets": [ 2 ] },
-    //       { className: "salePrice text-right", "targets": [ 3 ] },
-    //       { className: "prdqty", "targets": [ 4 ] },
-    //       { className: "taxrate", "targets": [ 5 ] }
-    //
-    //     ],
-    //     colReorder: true,
-    //     // colReorder: {
-    //     //   fixedColumnsLeft: 1
-    //     // },
-    //     bStateSave: true,
-    //     //scrollX: 1000,
-    //     //rowId: 0,
-    //     pageLength: 25,
-    //     lengthMenu: [ [10, 25, 50, -1], [10, 25, 50, "All"] ],
-    //     info: true,
-    //     responsive: true
-    //
-    //   });
-    //
-    //   $('div.dataTables_filter input').addClass('form-control form-control-sm');
-    //   // tableProductList
-    //   //     .order( [ 1, 'desc' ] )
-    //   //     .draw();
-    // }
-    // $('#tblInventory').DataTable().column( 0 ).visible( false );
-    //$('#tblInventory').DataTable().column( 5 ).visible( false );
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     tempObj.getAllTaxCodes = function () {
         getVS1Data('TTaxcodeVS1').then(function (dataObject) {
@@ -2030,7 +2030,7 @@ Template.new_salesorder.onRendered(function () {
                         splashArrayTaxRateList.push(dataList);
                     }
                     tempObj.taxraterecords.set(taxCodesList);
-                    //localStorage.setItem('VS1ProductList', JSON.stringify(splashArrayProductList));
+
 
                     if (splashArrayTaxRateList) {
 
@@ -2047,12 +2047,12 @@ Template.new_salesorder.onRendered(function () {
                                 { className: "taxRate text-right", "targets": [3] }
                             ],
                             colReorder: true,
-                            // colReorder: {
-                            //   fixedColumnsLeft: 1
-                            // },
+
+
+
                             bStateSave: true,
-                            //scrollX: 1000,
-                            //rowId: 0,
+
+
                             pageLength: 25,
                             lengthMenu: [
                                 [10, 25, 50, -1],
@@ -2062,12 +2062,12 @@ Template.new_salesorder.onRendered(function () {
                             responsive: true
 
                         });
-                        // tableProductList
-                        //     .order( [ 1, 'desc' ] )
-                        //     .draw();
-                        // $('#tblTaxRate').DataTable().column( 0 ).visible( false );
-                        //$('#tblInventory').DataTable().column( 5 ).visible( false );
-                        //$('#tblInventory').DataTable().column( 6 ).visible( false );
+
+
+
+
+
+
                     }
                 })
             } else {
@@ -2095,7 +2095,7 @@ Template.new_salesorder.onRendered(function () {
                     splashArrayTaxRateList.push(dataList);
                 }
                 tempObj.taxraterecords.set(taxCodesList);
-                //localStorage.setItem('VS1ProductList', JSON.stringify(splashArrayProductList));
+
 
                 if (splashArrayTaxRateList) {
 
@@ -2112,12 +2112,12 @@ Template.new_salesorder.onRendered(function () {
                             { className: "taxRate text-right", "targets": [3] }
                         ],
                         colReorder: true,
-                        // colReorder: {
-                        //   fixedColumnsLeft: 1
-                        // },
+
+
+
                         bStateSave: true,
-                        //scrollX: 1000,
-                        //rowId: 0,
+
+
                         pageLength: 25,
                         lengthMenu: [
                             [10, 25, 50, -1],
@@ -2127,12 +2127,12 @@ Template.new_salesorder.onRendered(function () {
                         responsive: true
 
                     });
-                    // tableProductList
-                    //     .order( [ 1, 'desc' ] )
-                    //     .draw();
-                    // $('#tblTaxRate').DataTable().column( 0 ).visible( false );
-                    //$('#tblInventory').DataTable().column( 5 ).visible( false );
-                    //$('#tblInventory').DataTable().column( 6 ).visible( false );
+
+
+
+
+
+
                 }
             }
         }).catch(function (err) {
@@ -2159,7 +2159,7 @@ Template.new_salesorder.onRendered(function () {
                     splashArrayTaxRateList.push(dataList);
                 }
                 tempObj.taxraterecords.set(taxCodesList);
-                //localStorage.setItem('VS1ProductList', JSON.stringify(splashArrayProductList));
+
 
                 if (splashArrayTaxRateList) {
 
@@ -2176,12 +2176,12 @@ Template.new_salesorder.onRendered(function () {
                             { className: "taxRate text-right", "targets": [3] }
                         ],
                         colReorder: true,
-                        // colReorder: {
-                        //   fixedColumnsLeft: 1
-                        // },
+
+
+
                         bStateSave: true,
-                        //scrollX: 1000,
-                        //rowId: 0,
+
+
                         pageLength: 25,
                         lengthMenu: [
                             [10, 25, 50, -1],
@@ -2191,18 +2191,18 @@ Template.new_salesorder.onRendered(function () {
                         responsive: true
 
                     });
-                    // tableProductList
-                    //     .order( [ 1, 'desc' ] )
-                    //     .draw();
-                    // $('#tblTaxRate').DataTable().column( 0 ).visible( false );
-                    //$('#tblInventory').DataTable().column( 5 ).visible( false );
-                    //$('#tblInventory').DataTable().column( 6 ).visible( false );
+
+
+
+
+
+
                 }
             })
         });
     };
     tempObj.getAllTaxCodes();
-    //$('#tblInventory').DataTable().column( 6 ).visible( false );
+
 });
 Template.new_salesorder.helpers({
     salesorderrecord: () => {
@@ -2272,8 +2272,8 @@ Template.new_salesorder.helpers({
         return Session.get('vs1companyURL');
     },
     isMobileDevices: () => {
-        var isMobile = false; //initiate as false
-        // device detection
+        var isMobile = false;
+
         if (/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|ipad|iris|kindle|Android|Silk|lge |maemo|midp|mmp|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows (ce|phone)|xda|xiino/i.test(navigator.userAgent) ||
             /1207|6310|6590|3gso|4thp|50[1-6]i|770s|802s|a wa|abac|ac(er|oo|s\-)|ai(ko|rn)|al(av|ca|co)|amoi|an(ex|ny|yw)|aptu|ar(ch|go)|as(te|us)|attw|au(di|\-m|r |s )|avan|be(ck|ll|nq)|bi(lb|rd)|bl(ac|az)|br(e|v)w|bumb|bw\-(n|u)|c55\/|capi|ccwa|cdm\-|cell|chtm|cldc|cmd\-|co(mp|nd)|craw|da(it|ll|ng)|dbte|dc\-s|devi|dica|dmob|do(c|p)o|ds(12|\-d)|el(49|ai)|em(l2|ul)|er(ic|k0)|esl8|ez([4-7]0|os|wa|ze)|fetc|fly(\-|_)|g1 u|g560|gene|gf\-5|g\-mo|go(\.w|od)|gr(ad|un)|haie|hcit|hd\-(m|p|t)|hei\-|hi(pt|ta)|hp( i|ip)|hs\-c|ht(c(\-| |_|a|g|p|s|t)|tp)|hu(aw|tc)|i\-(20|go|ma)|i230|iac( |\-|\/)|ibro|idea|ig01|ikom|im1k|inno|ipaq|iris|ja(t|v)a|jbro|jemu|jigs|kddi|keji|kgt( |\/)|klon|kpt |kwc\-|kyo(c|k)|le(no|xi)|lg( g|\/(k|l|u)|50|54|\-[a-w])|libw|lynx|m1\-w|m3ga|m50\/|ma(te|ui|xo)|mc(01|21|ca)|m\-cr|me(rc|ri)|mi(o8|oa|ts)|mmef|mo(01|02|bi|de|do|t(\-| |o|v)|zz)|mt(50|p1|v )|mwbp|mywa|n10[0-2]|n20[2-3]|n30(0|2)|n50(0|2|5)|n7(0(0|1)|10)|ne((c|m)\-|on|tf|wf|wg|wt)|nok(6|i)|nzph|o2im|op(ti|wv)|oran|owg1|p800|pan(a|d|t)|pdxg|pg(13|\-([1-8]|c))|phil|pire|pl(ay|uc)|pn\-2|po(ck|rt|se)|prox|psio|pt\-g|qa\-a|qc(07|12|21|32|60|\-[2-7]|i\-)|qtek|r380|r600|raks|rim9|ro(ve|zo)|s55\/|sa(ge|ma|mm|ms|ny|va)|sc(01|h\-|oo|p\-)|sdk\/|se(c(\-|0|1)|47|mc|nd|ri)|sgh\-|shar|sie(\-|m)|sk\-0|sl(45|id)|sm(al|ar|b3|it|t5)|so(ft|ny)|sp(01|h\-|v\-|v )|sy(01|mb)|t2(18|50)|t6(00|10|18)|ta(gt|lk)|tcl\-|tdg\-|tel(i|m)|tim\-|t\-mo|to(pl|sh)|ts(70|m\-|m3|m5)|tx\-9|up(\.b|g1|si)|utst|v400|v750|veri|vi(rg|te)|vk(40|5[0-3]|\-v)|vm40|voda|vulc|vx(52|53|60|61|70|80|81|83|85|98)|w3c(\-| )|webc|whit|wi(g |nc|nw)|wmlb|wonu|x700|yas\-|your|zeto|zte\-/i.test(navigator.userAgent.substr(0, 4))) {
             isMobile = true;
@@ -2321,12 +2321,12 @@ Template.new_salesorder.events({
 
                     });
                 }).catch(function (err) {
-                    console.log(err);
+
                     window.open('/salesordercard', '_self');
                 });
             }).catch(function (err) {
                 $('.fullScreenSpin').css('display', 'none');
-                console.log(err);
+
                 swal({
                     title: 'Something went wrong',
                     text: err,
@@ -2335,12 +2335,12 @@ Template.new_salesorder.events({
                     confirmButtonText: 'Try Again'
                 }).then((result) => {
                     if (result.value) {
-                        //Meteor._reload.reload();
+
                     } else if (result.dismiss === 'cancel') {
 
                     }
                 });
-                //$('.loginSpinner').css('display','none');
+
                 $('.fullScreenSpin').css('display', 'none');
             });
         } else {
@@ -2364,7 +2364,7 @@ Template.new_salesorder.events({
         let taxcodeList = templateObject.taxraterecords.get();
         let utilityService = new UtilityService();
         let $tblrows = $("#tblSalesOrderLine tbody tr");
-        //if(selectLineID){
+
         let lineAmount = 0;
         let subGrandTotal = 0;
         let taxGrandTotal = 0;
@@ -2407,7 +2407,7 @@ Template.new_salesorder.events({
 
             }
         });
-        //}
+
     },
     'change .lineUnitPrice': function (event) {
 
@@ -2417,16 +2417,16 @@ Template.new_salesorder.events({
             $(event.target).val(utilityService.modifynegativeCurrencyFormat(inputUnitPrice));
         } else {
             let inputUnitPrice = Number($(event.target).val().replace(/[^0-9.-]+/g, "")) || 0;
-            //parseFloat(parseFloat($.trim($(event.target).text().substring(Currency.length).replace(",", ""))) || 0);
+
             $(event.target).val(utilityService.modifynegativeCurrencyFormat(inputUnitPrice));
-            //$('.lineUnitPrice').text();
+
 
         }
         let templateObject = Template.instance();
         let taxcodeList = templateObject.taxraterecords.get();
-        // let utilityService = new UtilityService();
+
         let $tblrows = $("#tblSalesOrderLine tbody tr");
-        //if(selectLineID){
+
         let lineAmount = 0;
         let subGrandTotal = 0;
         let taxGrandTotal = 0;
@@ -2481,9 +2481,9 @@ Template.new_salesorder.events({
     'click .lineProductName': function (event) {
         $('#tblSalesOrderLine tbody tr .lineProductName').attr("data-toggle", "modal");
         $('#tblSalesOrderLine tbody tr .lineProductName').attr("data-target", "#productListModal");
-        var targetID = $(event.target).closest('tr').attr('id'); // table row ID
+        var targetID = $(event.target).closest('tr').attr('id');
         $('#selectLineID').val(targetID);
-        // Autofocus Searchbar
+
         setTimeout(function () {
             $('#tblInventory_filter .form-control-sm').focus();
         }, 500);
@@ -2499,13 +2499,13 @@ Template.new_salesorder.events({
     'click .lineTaxRate': function (event) {
         $('#tblSalesOrderLine tbody tr .lineTaxRate').attr("data-toggle", "modal");
         $('#tblSalesOrderLine tbody tr .lineTaxRate').attr("data-target", "#taxRateListModal");
-        var targetID = $(event.target).closest('tr').attr('id'); // table row ID
+        var targetID = $(event.target).closest('tr').attr('id');
         $('#selectLineID').val(targetID);
     },
     'click .lineTaxCode': function (event) {
         $('#tblSalesOrderLine tbody tr .lineTaxCode').attr("data-toggle", "modal");
         $('#tblSalesOrderLine tbody tr .lineTaxCode').attr("data-target", "#taxRateListModal");
-        var targetID = $(event.target).closest('tr').attr('id'); // table row ID
+        var targetID = $(event.target).closest('tr').attr('id');
         $('#selectLineID').val(targetID);
     },
     'click .printConfirm': function (event) {
@@ -2513,128 +2513,128 @@ Template.new_salesorder.events({
         $('.pdfCustomerName').html($('#edtCustomerName').val());
         $('.pdfCustomerAddress').html($('#txabillingAddress').val());
         exportSalesToPdf();
-        // let doc = new jsPDF();
-        //   let lineItemObj = {};
-        //   let salesData = [];
-        //   var url = window.location.href;
-        //   var getso_id = url.split('?id=');
-        //   var currentSalesOrder = getso_id[getso_id.length-1];
-        //
-        //   let accountService = new SalesBoardService();
-        //   if(getso_id[1]){
-        //       currentSalesOrder = parseInt(currentSalesOrder);
-        //   accountService.getOneSalesOrderdata(currentSalesOrder).then(function (data) {
-        //     if(data.fields.Lines.length){
-        //         for(let i=0; i<data.fields.Lines.length; i++){
-        //             lineItemObj = {
-        //                 productname: data.fields.Lines[i].fields.ProductName || '',
-        //                 description: data.fields.Lines[i].fields.ProductDescription || '',
-        //                 quantity: data.fields.Lines[i].fields.UOMOrderQty || 0,
-        //                 unitPrice: data.fields.Lines[i].fields.LinePrice.toFixed(2) || 0,
-        //                 taxcode: data.fields.Lines[i].fields.LineTaxCode || '',
-        //                 clientName:data.fields.ClientName,
-        //                 TotalAmt: data.fields.Lines[i].fields.TotalLineAmount.toLocaleString(undefined, {minimumFractionDigits: 2}) || 0,
-        //                 curTotalAmt:data.fields.Lines[i].fields.TotalLineAmount.toFixed(2) || 0,
-        //                 TotalAmtInc: data.fields.Lines[i].fields.TotalLineAmountInc.toLocaleString(undefined, {minimumFractionDigits: 2}) || 0,
-        //                 TaxTotal: utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.LineTaxTotal).toLocaleString(undefined, {minimumFractionDigits: 2}) || 0,
-        //                 TaxRate: (data.fields.Lines[i].fields.LineTaxRate * 100).toFixed(2)  || 0,
-        //             };
-        //         }
-        //         var salesorderrecord = {
-        //             salesOrderto : data.fields.InvoiceToDesc,
-        //             shipto : data.fields.ShipToDesc,
-        //             docnumber : data.fields.DocNumber,
-        //             saledate : data.fields.SaleDate ? moment(data.fields.SaleDate).format('DD/MM/YYYY') : "",
-        //             duedate : data.fields.DueDate ? moment(data.fields.DueDate).format('DD/MM/YYYY') : "",
-        //             status : data.fields.SalesStatus,
-        //             pickmemo : data.fields.PickMemo,
-        //             ponumber : data.fields.CustPONumber,
-        //
-        //         };
-        //         salesData.push(lineItemObj);
-        //     }
-        //
-        //     doc.setFontSize(16);
-        //     doc.text(" SALES ORDER ", 20,40);
-        //     doc.setFontSize(8);
-        //     doc.text(''+salesData[0].clientName,35,53);
-        //     //purchase date
-        //     doc.setFontType('bold');
-        //     let logo= 'data:image/png;' +
-        //         'base64,' +
-        //         'iVBORw0KGgoAAAANSUhEUgAAANgAAAA/CAYAAAH1ZjZBAAAKQ2lDQ1BJQ0MgcHJvZmlsZQAAeNqdU3dYk' +
-        //         '/cWPt/3ZQ9WQtjwsZdsgQAiI6wIyBBZohCSAGGEEBJAxYWIClYUFRGcSFXEgtUKSJ2I4qAouGdBiohai1VcOO4' +
-        //         'f3Ke1fXrv7e371/u855zn/M55zw+AERImkeaiagA5UoU8Otgfj09IxMm9gAIVSOAEIBDmy8JnBcUAAPADeXh+dLA//' +
-        //         'AGvbwACAHDVLiQSx+H/g7pQJlcAIJEA4CIS5wsBkFIAyC5UyBQAyBgAsFOzZAoAlAAAbHl8QiIAqg0A7PRJPgUA2KmT3BcA2KI' +
-        //         'cqQgAjQEAmShHJAJAuwBgVYFSLALAwgCgrEAiLgTArgGAWbYyRwKAvQUAdo5YkA9AYACAmUIszAAgOAIAQx4TzQMgTAOgMNK/' +
-        //         '4KlfcIW4SAEAwMuVzZdL0jMUuJXQGnfy8ODiIeLCbLFCYRcpEGYJ5CKcl5sjE0jnA0zODAAAGvnRwf44P5Dn5uTh5mbnbO/0xaL+a/' +
-        //         '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';
-        //     //doc.addImage(logo, 'PNG', 82, 18, 83, 18);
-        //     doc.text("Date:", 110,40);
-        //     //Delivery Date
-        //     doc.text("Sales Order Number:", 110,52);
-        //     doc.text("ABN:",110,64);
-        //     doc.setFontType('normal');
-        //     doc.text(salesorderrecord.saledate, 110,45);
-        //     doc.text(salesorderrecord.docnumber ,110,57);
-        //     doc.text("123456789" ,110,69);
-        //
-        //     doc.text(loggedCompany, 160,40);
-        //     doc.text("106 O'Reilly Merry street",160,45);
-        //     doc.text("Rynfield, Benon",160,50);
-        //
-        //
-        //     //table
-        //     doc.setFontType('bold');
-        //     doc.text("Product Name",20,100);
-        //     doc.text("Description",60,100);
-        //     doc.text("Qty ",110,100);
-        //     doc.text("Unit Price",132,100);
-        //     doc.text("Tax Rate",155,100);
-        //     doc.text("Amount",180,100);
-        //     doc.line(18,103,195,103);
-        //     doc.setFontType('normal');
-        //     doc.setFontSize(8);
-        //     let axiz=0;
-        //     for(let i=0;i<salesData.length ;i++){
-        //         doc.text(''+salesData[i].productname,20,110+axiz);
-        //         doc.text(''+salesData[i].description,60,110+axiz);
-        //         doc.text(''+salesData[i].quantity,110,110+axiz);
-        //         doc.text(Currency+''+salesData[i].unitPrice,132,110+axiz);
-        //         doc.text(''+salesData[i].taxcode,156,110+axiz);
-        //         doc.text(Currency+''+salesData[i].curTotalAmt,180,110+axiz);
-        //         axiz+=3;
-        //         doc.line(18,110+axiz,195,110+axiz);
-        //         axiz+=10;
-        //     }
-        //     doc.text('Subtotal',145,110+axiz);
-        //     doc.text(Currency+''+salesData[0].curTotalAmt,180,110+axiz);
-        //
-        //     axiz+=5;
-        //     doc.text('Tax',145,110+axiz);
-        //     doc.text(Currency+''+salesData[0].TaxTotal,180,110+axiz);
-        //
-        //     axiz+=10;
-        //     doc.line(105,110+axiz,195,110+axiz);
-        //     axiz+=10;
-        //     doc.setFontType('bold');
-        //     doc.setFontSize(10);
-        //     doc.text('TOTAL',140,110+axiz);
-        //     doc.text(Currency+''+salesData[0].TotalAmtInc,175,110+axiz);
-        //     axiz+=5;
-        //     doc.line(105,110+axiz,195,110+axiz);
-        //
-        //     doc.save('Sales #'+salesorderrecord.docnumber+'.pdf');
-        // });
-        // }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     },
     'keydown .lineQty, keydown .lineUnitPrice': function (event) {
         if ($.inArray(event.keyCode, [46, 8, 9, 27, 13, 110]) !== -1 ||
-            // Allow: Ctrl+A, Command+A
+
             (event.keyCode === 65 && (event.ctrlKey === true || event.metaKey === true)) ||
-            // Allow: home, end, left, right, down, up
+
             (event.keyCode >= 35 && event.keyCode <= 40)) {
-            // let it happen, don't do anything
+
             return;
         }
 
@@ -2656,7 +2656,7 @@ Template.new_salesorder.events({
         let utilityService = new UtilityService();
 
         var clicktimes = 0;
-        var targetID = $(event.target).closest('tr').attr('id'); // table row ID
+        var targetID = $(event.target).closest('tr').attr('id');
         $('#selectDeleteLineID').val(targetID);
 
         times++;
@@ -2669,7 +2669,7 @@ Template.new_salesorder.events({
                 $(event.target).closest('tr').remove();
                 event.preventDefault();
                 let $tblrows = $("#tblSalesOrderLine tbody tr");
-                //if(selectLineID){
+
                 let lineAmount = 0;
                 let subGrandTotal = 0;
                 let taxGrandTotal = 0;
@@ -2749,7 +2749,7 @@ Template.new_salesorder.events({
                     confirmButtonText: 'Try Again'
                 }).then((result) => {
                     if (result.value) {
-                        //Meteor._reload.reload();
+
                     } else if (result.dismiss === 'cancel') {
 
                     }
@@ -2770,9 +2770,9 @@ Template.new_salesorder.events({
             this.click;
 
             $('#' + selectLineID).closest('tr').remove();
-            //event.preventDefault();
+
             let $tblrows = $("#tblSalesOrderLine tbody tr");
-            //if(selectLineID){
+
             let lineAmount = 0;
             let subGrandTotal = 0;
             let taxGrandTotal = 0;
@@ -2815,11 +2815,11 @@ Template.new_salesorder.events({
 
                 }
             });
-            //return false;
+
 
         } else {
             this.click;
-            // $(event.target).closest('tr').remove();
+
             $('#' + selectLineID + " .lineProductName").text('');
             $('#' + selectLineID + " .lineProductDesc").text('');
             $('#' + selectLineID + " .lineOrdered").val('');
@@ -2838,7 +2838,7 @@ Template.new_salesorder.events({
             document.getElementById("balanceDue").innerHTML = Currency + '0.00';
             document.getElementById("totalBalanceDue").innerHTML = Currency + '0.00';
 
-            //event.preventDefault();
+
 
         }
 
@@ -2883,10 +2883,10 @@ Template.new_salesorder.events({
           createdAt: new Date() }}, function(err, idTag) {
           if (err) {
             $('#myModal4').modal('toggle');
-          //  Router.go('/salesorderslist?success=true');
+
           } else {
             $('#myModal4').modal('toggle');
-          //Router.go('/salesorderslist?success=true');
+
 
           }
         });
@@ -2927,7 +2927,7 @@ Template.new_salesorder.events({
             swal('Customer has not been selected!', '', 'warning');
             e.preventDefault();
         } else {
-            //$('.loginSpinner').css('display','inline-block');
+
             $('.fullScreenSpin').css('display', 'inline-block');
             var splashLineArray = new Array();
             let lineItemsForm = [];
@@ -3006,7 +3006,7 @@ Template.new_salesorder.events({
                         Lines: splashLineArray,
                         InvoiceToDesc: billingAddress,
                         SaleDate: saleDate,
-                        //DueDate: dueDate,
+
                         CustPONumber: poNumber,
                         ReferenceNo: reference,
                         TermsName: termname,
@@ -3029,7 +3029,7 @@ Template.new_salesorder.events({
                         Lines: splashLineArray,
                         InvoiceToDesc: billingAddress,
                         SaleDate: saleDate,
-                        //DueDate: dueDate,
+
                         CustPONumber: poNumber,
                         ReferenceNo: reference,
                         TermsName: termname,
@@ -3044,10 +3044,10 @@ Template.new_salesorder.events({
                     }
                 };
             }
-            //alert(JSON.stringify(objDetails));
+
             salesService.saveSalesOrderEx(objDetails).then(function (objDetails) {
                 var customerID = $('#edtCustomerEmail').attr('customerid');
-                // Send Email
+
                 $('#html-2-pdfwrapper').css('display', 'block');
                 $('.pdfCustomerName').html($('#edtCustomerName').val());
                 $('.pdfCustomerAddress').html($('#txabillingAddress').val());
@@ -3063,14 +3063,14 @@ Template.new_salesorder.events({
                     reader.onloadend = function () {
                         var base64data = reader.result;
                         base64data = base64data.split(',')[1];
-                        // console.log(base64data);
+
                         pdfObject = {
                             filename: 'Sales Order' + invoiceId + '.pdf',
                             content: base64data,
                             encoding: 'base64'
                         };
                         attachment.push(pdfObject);
-                        // let mailBody = "VS1 Cloud Test";
+
                         let erpInvoiceId = objDetails.fields.ID;
 
 
@@ -3078,7 +3078,7 @@ Template.new_salesorder.events({
                         let mailFrom = localStorage.getItem('mySession');
                         let customerEmailName = $('#edtCustomerName').val();
                         let checkEmailData = $('#edtCustomerEmail').val();
-                        // let mailCC = templateObject.mailCopyToUsr.get();
+
                         let grandtotal = $('#grandTotal').html();
                         let amountDueEmail = $('#totalBalanceDue').html();
                         let emailDueDate = $("#dtDueDate").val();
@@ -3259,19 +3259,19 @@ Template.new_salesorder.events({
                 function generatePdfForMail(invoiceId) {
                     return new Promise((resolve, reject) => {
                         let templateObject = Template.instance();
-                        // let data = templateObject.singleInvoiceData.get();
+
                         let completeTabRecord;
                         let doc = new jsPDF('p', 'pt', 'a4');
                         doc.setFontSize(18);
                         var source = document.getElementById('html-2-pdfwrapper');
                         doc.addHTML(source, function () {
-                            //pdf.save('Invoice.pdf');
+
                             resolve(doc.output('blob'));
-                            // $('#html-2-pdfwrapper').css('display','none');
+
                         });
                     });
                 }
-                // End Send Email
+
 
                 if (customerID !== " ") {
                     let customerEmailData = {
@@ -3281,9 +3281,9 @@ Template.new_salesorder.events({
                             Email: customerEmail
                         }
                     }
-                    // salesService.saveCustomerEmail(customerEmailData).then(function (customerEmailData) {
-                    //
-                    // });
+
+
+
                 };
                 var getcurrentCloudDetails = CloudUser.findOne({ _id: Session.get('mycloudLogonID'), clouddatabaseID: Session.get('mycloudLogonDBID') });
                 if (getcurrentCloudDetails) {
@@ -3292,7 +3292,7 @@ Template.new_salesorder.events({
                         var clientUsername = getcurrentCloudDetails.cloudUsername;
                         var clientEmail = getcurrentCloudDetails.cloudEmail;
                         var checkPrefDetails = CloudPreference.findOne({ userid: clientID, PrefName: 'new_salesorder' });
-                        // console.log(checkPrefDetails);
+
                         if (checkPrefDetails) {
                             CloudPreference.update({ _id: checkPrefDetails._id }, {
                                 $set: {
@@ -3349,7 +3349,7 @@ Template.new_salesorder.events({
                         }
                     }
                 }
-                //console.log(getcurrentCloudDetails);
+
 
             }).catch(function (err) {
                 swal({
@@ -3360,12 +3360,12 @@ Template.new_salesorder.events({
                     confirmButtonText: 'Try Again'
                 }).then((result) => {
                     if (result.value) {
-                        //Meteor._reload.reload();
+
                     } else if (result.dismiss === 'cancel') {
 
                     }
                 });
-                //$('.loginSpinner').css('display','none');
+
                 $('.fullScreenSpin').css('display', 'none');
             });
         }
@@ -3507,7 +3507,7 @@ Template.new_salesorder.events({
     },
     'click .btnSaveGridSettings': function (event) {
         let lineItems = [];
-        //let lineItemObj = {};
+
         $('.columnSettings').each(function (index) {
             var $tblrow = $(this);
             var colTitle = $tblrow.find(".divcolumn").text() || '';
@@ -3528,8 +3528,8 @@ Template.new_salesorder.events({
             }
 
             lineItems.push(lineItemObj);
-            // var price = $tblrow.find(".lineUnitPrice").text()||0;
-            // var taxcode = $tblrow.find(".lineTaxRate").text()||0;
+
+
 
         });
 
@@ -3556,10 +3556,10 @@ Template.new_salesorder.events({
                     }, function (err, idTag) {
                         if (err) {
                             $('#myModal2').modal('toggle');
-                            //Router.go('/salesorderslist?success=true');
+
                         } else {
                             $('#myModal2').modal('toggle');
-                            //Router.go('/salesorderslist?success=true');
+
 
                         }
                     });
@@ -3577,14 +3577,14 @@ Template.new_salesorder.events({
                     }, function (err, idTag) {
                         if (err) {
                             $('#myModal2').modal('toggle');
-                            //Router.go('/salesorderslist?success=true');
+
                         } else {
                             $('#myModal2').modal('toggle');
-                            //Router.go('/salesorderslist?success=true');
+
 
                         }
                     });
-                    // console.log(checkPrefDetails);
+
                 }
             }
         }
@@ -3679,7 +3679,7 @@ Template.new_salesorder.events({
         let attachmentID = parseInt(event.currentTarget.parentNode.id.split('attachment-name-')[1]);
         let templateObj = Template.instance();
         let uploadedFiles = templateObj.uploadedFiles.get();
-        // console.log(uploadedFiles);
+
         $('#myModalAttachment').modal('hide');
         let previewFile = {};
         let input = uploadedFiles[attachmentID].fields.Description;
@@ -3754,7 +3754,7 @@ Template.new_salesorder.events({
             swal('Customer has not been selected!', '', 'warning');
             e.preventDefault();
         } else {
-            //$('.loginSpinner').css('display','inline-block');
+
             $('.fullScreenSpin').css('display', 'inline-block');
             var splashLineArray = new Array();
             let lineItemsForm = [];
@@ -3800,8 +3800,8 @@ Template.new_salesorder.events({
             let customer = $('#edtCustomerName').val();
             let customerEmail = $('#edtCustomerEmail').val();
             let billingAddress = $('#txabillingAddress').val();
-            // let saleDate = $('#dtSODate').val();
-            // let dueDate = $('#dtDueDate').val();
+
+
             var saledateTime = new Date($("#dtSODate").datepicker("getDate"));
             var duedateTime = new Date($("#dtDueDate").datepicker("getDate"));
 
@@ -3835,7 +3835,7 @@ Template.new_salesorder.events({
                         Lines: splashLineArray,
                         InvoiceToDesc: billingAddress,
                         SaleDate: saleDate,
-                        //DueDate: dueDate,
+
                         CustPONumber: poNumber,
                         ReferenceNo: reference,
                         TermsName: termname,
@@ -3858,7 +3858,7 @@ Template.new_salesorder.events({
                         Lines: splashLineArray,
                         InvoiceToDesc: billingAddress,
                         SaleDate: saleDate,
-                        //DueDate: dueDate,
+
                         CustPONumber: poNumber,
                         ReferenceNo: reference,
                         TermsName: termname,
@@ -3873,9 +3873,9 @@ Template.new_salesorder.events({
                     }
                 };
             }
-            //alert(JSON.stringify(objDetails));
+
             salesService.saveSalesOrderEx(objDetails).then(function (objDetails) {
-                //console.log(objDetails.fields.ID);
+
                 var customerID = $('#edtCustomerEmail').attr('customerid');
                 if (customerID !== " ") {
                     let customerEmailData = {
@@ -3898,7 +3898,7 @@ Template.new_salesorder.events({
                         var clientUsername = getcurrentCloudDetails.cloudUsername;
                         var clientEmail = getcurrentCloudDetails.cloudEmail;
                         var checkPrefDetails = CloudPreference.findOne({ userid: clientID, PrefName: 'new_salesorder' });
-                        // console.log(checkPrefDetails);
+
                         if (checkPrefDetails) {
                             CloudPreference.update({ _id: checkPrefDetails._id }, {
                                 $set: {
@@ -3955,7 +3955,7 @@ Template.new_salesorder.events({
                         }
                     }
                 }
-                //console.log(getcurrentCloudDetails);
+
 
             }).catch(function (err) {
                 swal({
@@ -3966,12 +3966,12 @@ Template.new_salesorder.events({
                     confirmButtonText: 'Try Again'
                 }).then((result) => {
                     if (result.value) {
-                        //Meteor._reload.reload();
+
                     } else if (result.dismiss === 'cancel') {
 
                     }
                 });
-                //$('.loginSpinner').css('display','none');
+
                 $('.fullScreenSpin').css('display', 'none');
             });
         }
@@ -3980,15 +3980,15 @@ Template.new_salesorder.events({
     'click .btnBack': function (event) {
         event.preventDefault();
         history.back(1);
-        //Router.go('/salesorderslist');
-        //window.open('/invoicelist','_self');
+
+
     },
     'click #btnCopyToInvoice': function () {
-        //Router.go('/salesorderslist');
-        //window.open('/invoicelist','_self');
+
+
         $('.fullScreenSpin').css('display', 'inline-block');
         var url = window.location.href;
-        //if ((url.indexOf('?id=') > 0) || (url.indexOf('?copyquid=') > 0)) {
+
         let templateObject = Template.instance();
         let customername = $('#edtCustomerName');
         let salesService = new SalesBoardService();
@@ -3996,7 +3996,7 @@ Template.new_salesorder.events({
             swal('Customer has not been selected!', '', 'warning');
             e.preventDefault();
         } else {
-            //$('.loginSpinner').css('display','inline-block');
+
             $('.fullScreenSpin').css('display', 'inline-block');
             var splashLineArray = new Array();
             let lineItemsForm = [];
@@ -4076,7 +4076,7 @@ Template.new_salesorder.events({
                         Lines: splashLineArray,
                         InvoiceToDesc: billingAddress,
                         SaleDate: saleDate,
-                        //DueDate: dueDate,
+
                         CustPONumber: poNumber,
                         ReferenceNo: reference,
                         TermsName: termname,
@@ -4099,7 +4099,7 @@ Template.new_salesorder.events({
                         Lines: splashLineArray,
                         InvoiceToDesc: billingAddress,
                         SaleDate: saleDate,
-                        //DueDate: dueDate,
+
                         CustPONumber: poNumber,
                         ReferenceNo: reference,
                         TermsName: termname,
@@ -4114,9 +4114,9 @@ Template.new_salesorder.events({
                     }
                 };
             }
-            //alert(JSON.stringify(objDetails));
+
             salesService.saveSalesOrderEx(objDetails).then(function (objDetails) {
-                //console.log(objDetails.fields.ID);
+
                 var customerID = $('#edtCustomerEmail').attr('customerid');
                 if (customerID !== " ") {
                     let customerEmailData = {
@@ -4139,7 +4139,7 @@ Template.new_salesorder.events({
                         var clientUsername = getcurrentCloudDetails.cloudUsername;
                         var clientEmail = getcurrentCloudDetails.cloudEmail;
                         var checkPrefDetails = CloudPreference.findOne({ userid: clientID, PrefName: 'new_salesorder' });
-                        // console.log(checkPrefDetails);
+
                         if (checkPrefDetails) {
                             CloudPreference.update({ _id: checkPrefDetails._id }, {
                                 $set: {
@@ -4196,7 +4196,7 @@ Template.new_salesorder.events({
                         }
                     }
                 }
-                //console.log(getcurrentCloudDetails);
+
 
             }).catch(function (err) {
                 swal({
@@ -4207,18 +4207,18 @@ Template.new_salesorder.events({
                     confirmButtonText: 'Try Again'
                 }).then((result) => {
                     if (result.value) {
-                        //Meteor._reload.reload();
+
                     } else if (result.dismiss === 'cancel') {
 
                     }
                 });
-                //$('.loginSpinner').css('display','none');
+
                 $('.fullScreenSpin').css('display', 'none');
             });
         }
-        // } else {
-        //     Router.go('/invoicecard');
-        // }
+
+
+
     },
     'click .chkEmailCopy': function (event) {
         $('#edtCustomerEmail').val($('#edtCustomerEmail').val().replace(/\s/g, ''));
@@ -4228,7 +4228,7 @@ Template.new_salesorder.events({
                 swal('Customer Email cannot be blank!', '', 'warning');
                 event.preventDefault();
             } else {
-                // alert('here 1');
+
                 function isEmailValid(mailTo) {
                     return /^[A-Z0-9'.1234z_%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(mailTo);
                 };

@@ -3,11 +3,11 @@
  * version 3.0.7 Build 89
  * © Denis Ineshin, 2016
  *
- * Project page:    http://ionden.com/a/plugins/ion.sound/en.html
- * GitHub page:     https://github.com/IonDen/ion.sound
+ * Project page:    http:
+ * GitHub page:     https:
  *
  * Released under MIT licence:
- * http://ionden.com/a/plugins/licence-en.html
+ * http:
  */
 
 ;(function (window, navigator, $, undefined) {
@@ -24,9 +24,9 @@
 
         if (window.console) {
             if (console.warn && typeof console.warn === "function") {
-                console.warn(text);
+
             } else if (console.log && typeof console.log === "function") {
-                console.log(text);
+
             }
 
             var d = $ && $("#debug");
@@ -308,7 +308,7 @@
             this.request.removeEventListener("error", this.error.bind(this), false);
             this.request = null;
             this.loaded = true;
-            //warn("Loaded: " + this.options.name + "." + settings.supported[this.ext]);
+            
 
             this.decode();
         },
@@ -324,7 +324,7 @@
         setBuffer: function (buffer) {
             this.options.buffer = buffer;
             this.decoded = true;
-            //warn("Decoded: " + this.options.name + "." + settings.supported[this.ext]);
+            
 
             var config = {
                 name: this.options.name,
@@ -763,7 +763,7 @@
                 extend(options, this.options);
             }
 
-            console.log(1);
+            
             if (!this.loaded) {
                 if (!this.options.preload) {
                     this.autoplay = true;

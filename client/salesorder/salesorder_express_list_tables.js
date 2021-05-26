@@ -419,7 +419,7 @@ Template.salesorderslist.onRendered(function() {
 
       }
       }).catch(function (err) {
-        console.log(err);
+        
         salesService.getAllSalesOrderListNonBO().then(function (data) {
           let lineItems = [];
           let lineItemObj = {};
@@ -753,7 +753,7 @@ Template.salesorderslist.events({
       let columnDataValue = $(event.target).closest("div").prev().find(".divcolumn").text();
       var datable = $('#tblSalesOrderlist th');
       $.each(datable, function(i,v) {
-        console.log(datable);
+        
       if(v.innerText == columnDataValue){
           let className = v.className;
           let replaceClass = className.replace(/ /g, ".");
@@ -766,7 +766,7 @@ Template.salesorderslist.events({
     'click .btnOpenSettings' : function(event){
       let templateObject = Template.instance();
       var columns = $('#tblSalesOrderlist th');
-      // console.log(columns);
+      
       const tableHeaderList = [];
       let sTible = "";
       let sWidth = "";
@@ -782,7 +782,7 @@ Template.salesorderslist.events({
           columVisible = false;
         }
         sWidth = v.style.width.replace('px', "");
-        console.log(sWidth);
+        
         let datatablerecordObj = {
           sTitle: v.innerText || '',
           sWidth: sWidth || '',

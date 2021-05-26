@@ -9,7 +9,7 @@ Template.registersts.onCreated(function(){
 if (Meteor.isClient) {
 Template.registersts.events({
   'submit .addDatabaseForm' : function (event, template) {
-   // alert(Random.id);
+
    $('.fullScreenSpin').css('display','inline-block');
    event.preventDefault();
    var firstname = event.target.fname.value;
@@ -22,13 +22,13 @@ Template.registersts.events({
    if(Router.current().params.query.quoteid){
      currentURLQuoteID = Router.current().params.query.quoteid;
    }
-   // console.log(currentURL.quoteid);
-   // Payment Info
-   // var nameoncard = event.target.nameoncard.value;
-   // var cardnumber = event.target.cardnumber.value;
+
+
+
+
     var expiredate = "11/30";
     let extraModuleAdd = '';
-   // var ccv = event.target.ccv.value;
+
 
    var userEmail = event.target.email.value;
 
@@ -515,13 +515,13 @@ Template.registersts.events({
    if(cloudpassword === cloudconfirmpassword){
    var cloudHashPassword = CryptoJS.MD5(cloudpassword).toString().toUpperCase();
     if(cloudpassword.length < 8) {
-      // Bert.alert('<strong>Error: Invalid VS1 Password</strong> must be at least eight characters including one capital letter, one number and one special characters [! @ # $ % ^ & *] !', 'danger');
+
       swal('Invalid GreenTrack Password', 'Password must be at least eight characters including one capital letter, one number and one special characters [! @ # $ % ^ & *] !', 'error');
-      // $('.CloudPassword').css('border-color','red');
-      // $('.password').focus();
+
+
       $('.fullScreenSpin').css('display','none');
     }else{
-      // console.log(extraModuleAdd);
+
       var getpackagename = url.split('?package=');
       let currentpackagename = getpackagename[getpackagename.length-1].split("&");
     let packagenameCheck  = currentpackagename[0].replace(/%20/g, " ");
@@ -552,7 +552,7 @@ Template.registersts.events({
           CreditCardExpiryyear:25,
           Paymentamount:225,
           Paymethod:"Cash",
-          // CreateNewDB:"T",
+
           Price:75,
           DiscountedPrice:75,
           DiscountDesc:"",
@@ -569,9 +569,9 @@ Template.registersts.events({
             "RenewDiscountedPrice":150,
             "RenewDiscountDesc":""
           }
-         // { "ModuleName":"Expense Claims / Receipt Claiming"},
-         // {"ModuleName":"POS"},
-         // {"ModuleName":"Seed To Sale"}
+
+
+
        ],
          StSDefaults:{
             "UseSeedtoSale":true,
@@ -585,7 +585,7 @@ Template.registersts.events({
             "StSDefaultClass":"Sts1",
             "StSDefaultWeightUOM":"KG"
             }
-          // LicenseLevelDesc:"Simple Start"
+
          }
       };
     }else{
@@ -611,7 +611,7 @@ Template.registersts.events({
           CreditCardExpiryyear:25,
           Paymentamount:parseFloat(paymentamount),
           Paymethod:"Cash",
-          // CreateNewDB:"T",
+
           Price:parseFloat(packagePrice),
           DiscountedPrice:parseFloat(discountPrice),
           DiscountDesc:discountDesc,
@@ -619,7 +619,7 @@ Template.registersts.events({
           RenewDiscountedPrice:parseFloat(renewalDiscountPrice),
           RenewDiscountDesc:"",
           LicenseLevel:parseInt(licencelevel)
-          // LicenseLevelDesc:"Simple Start"
+
          }
       };
     }else{
@@ -644,7 +644,7 @@ Template.registersts.events({
           CreditCardExpiryyear:25,
           Paymentamount:parseFloat(paymentamount),
           Paymethod:"Cash",
-          // CreateNewDB:"T",
+
           Price:parseFloat(packagePrice),
           DiscountedPrice:parseFloat(discountPrice),
           DiscountDesc:discountDesc,
@@ -669,19 +669,19 @@ Template.registersts.events({
   oPost.setRequestHeader("Accept", "application/json");
   oPost.setRequestHeader("Accept", "application/html");
   oPost.setRequestHeader("Content-type", "application/json");
-      // console.log(objDetails);
-    // var myString = JSON.stringify(objDetails);
+
+
     var myString = '"JsonIn"'+':'+JSON.stringify(objDetails);
     oPost.send(myString);
-    //oPost.send(objDetails);
-    //oPost.timeout = 30000;
+
+
     oPost.onreadystatechange = function() {
 
   if (oPost.readyState == 4 && oPost.status == 200) {
 
   var myArrResponse = JSON.parse(oPost.responseText);
   let dataTocheck = "'"+userEmail+"' Already Exists for Another Client";
-  // console.log(dataTocheck);
+
   if(myArrResponse.ProcessLog.Error){
     var segError = myArrResponse.ProcessLog.Error;
     if((segError) == dataTocheck){
@@ -689,7 +689,7 @@ Template.registersts.events({
     }else{
         swal('Database Error', myArrResponse.ProcessLog.Error, 'error');
     }
-    // Bert.alert('Database Error<strong> :'+ myArrResponse.ProcessLog.Error+'</strong>', 'now-error');
+
 
     $('.fullScreenSpin').css('display','none');
   }else{
@@ -697,17 +697,17 @@ Template.registersts.events({
     $(".addloginkey").attr("href", 'https://sandbox.vs1cloud.com/vs1greentracklogin?emailakey='+userEmail+'&passkey='+cloudpassword+'&secret='+currentURLQuoteID+'');
     localStorage.usremail = userEmail;
     localStorage.usrpassword = cloudpassword;
-    // var emailAlreadyExist  = CloudUser.find({cloudEmail: userEmail}).fetch();
-    // if (emailAlreadyExist.length > 0) {
-    //   Bert.alert('<strong>Error:</strong> Email already registered!', 'warning');
-    //   $('.fullScreenSpin').css('display','none');
-    //  }else{
+
+
+
+
+
        CloudDatabase.insert({ server: serverIP,database:databaseName,username:userEmail.toLowerCase(),useremail:userEmail.toLowerCase(),password:cloudpassword,port:port,description:company,createdAt: new Date() }, function(err, idTag) {
          if (err) {
            $('.fullScreenSpin').css('display','none');
-           //console.log("ALREADY FOUND TAG " + err);
+
          } else {
-           //console.log("Creation of " + '192.168.1.50' + "in DB" + idTag);
+
            CloudUser.insert({ clouddatabaseID:idTag,cloudEmail:userEmail.toLowerCase(),cloudUsername:userEmail.toLowerCase(),cloudPassword:cloudpassword,cloudHashPassword:cloudHashPassword,server: serverIP,database:databaseName,username:userEmail,password:cloudpassword,port:port,userMultiLogon:false,createdAt: new Date() });
          }
        });
@@ -727,7 +727,7 @@ Template.registersts.events({
 
              setTimeout(function () {
                $('.fullScreenSpin').css('display','none');
-             // window.open('/VS1Cloud.exe','_self');
+
              $('#myModal').modal('toggle');
            }, 50);
 
@@ -735,7 +735,7 @@ Template.registersts.events({
 
 
 
-    // Meteor.call('chargeCard2', stripeToken);
+
 
   }
 
@@ -761,10 +761,10 @@ if (result.value) {
 
   if((segError[1]) == ' "Unable to lock object'){
 
-    //Bert.alert('<strong>'+ oPost.getResponseHeader('errormessage')+'</strong>. Please close the customer form in ERP!', 'danger');
+
     swal('WARNING', oPost.getResponseHeader('errormessage')+'Please try again!', 'error');
   }else{
-    //Bert.alert('<strong>'+ oPost.getResponseHeader('errormessage')+'</strong>!', 'danger');
+
     swal('WARNING', oPost.getResponseHeader('errormessage')+'Please try again!', 'error');
   }
 
@@ -775,32 +775,32 @@ if (result.value) {
 
 if((segError[1]) == ' "Unable to lock object'){
 
-  //Bert.alert('<strong>'+ oPost.getResponseHeader('errormessage')+'</strong>. Please close the customer form in ERP!', 'danger');
+
   swal('WARNING', oPost.getResponseHeader('errormessage')+'Please try again!', 'error');
 }else{
-  //Bert.alert('<strong>'+ oPost.getResponseHeader('errormessage')+'</strong>!', 'danger');
+
   swal('WARNING', oPost.getResponseHeader('errormessage')+'Please try again!', 'error');
 }
 
 }else if(oPost.readyState == '') {
   $('.fullScreenSpin').css('display','none');
-  //Bert.alert('<strong>'+ oPost.getResponseHeader('errormessage')+'</strong>!', 'danger');
+
   swal('Connection Failed', oPost.getResponseHeader('errormessage') +' Please try again!', 'error');
 }
 
-  // AddUERP(oPost.responseText);
+
   }
     }
 
 
     }else{
       $('.fullScreenSpin').css('display','none');
-      //Bert.alert('Error<strong> The specified passwords do no match.</strong>', 'danger');
+
       swal('Ooops...', 'The specified passwords do no match, Please try again!', 'error');
       $('.confirmpassword').focus();
     }
 
-      //};
+
 },
 
 'click .btnCloseRedirect': function () {
@@ -809,7 +809,7 @@ let last_name = $('#lname').val();
 let useremail = $('#email').val();
 let userpassword = $('#confirmpassword').val();
 
-// window.open("http://domain.com/document.pdf",'_blank');
+
 window.location = 'https://www.vs1greentrack.com/GreenTrack.exe';
 setTimeout(function () { window.open('https://www.vs1greentrack.com/purchaseaddcustomer.php?firstname='+first_name+'&lastname='+last_name+'&email='+useremail+'&password='+userpassword+'','_self'); }, 1000);
 
@@ -818,7 +818,7 @@ setTimeout(function () { window.open('https://www.vs1greentrack.com/purchaseaddc
 'click .btnGetAccess': function () {
 
   var serverTest = URLRequest + "192.168.1.50" + ':' + "850" + '/erpapi/TUser';
-  //alert(serverTest);
+
   var oReq = new XMLHttpRequest();
   oReq.open("GET",serverTest, true);
   oReq.setRequestHeader("database","VS1_Cloud_DB_caca_ai_ci_4SpUDH");
@@ -828,13 +828,13 @@ setTimeout(function () { window.open('https://www.vs1greentrack.com/purchaseaddc
   oReq.send();
 
 
-  // oReq.timeout = 50000;
+
   oReq.onreadystatechange = function() {
-  //alert(oReq.responseText);
+
     if (oReq.readyState == 4 && oReq.status == 200) {
-     // alert(oReq.responseText);
-      //document.getElementById("result").innerHTML = oReq.responseText;
-      //console.log(oReq.responseText);
+
+
+
       $('#isnotokayres').css('display','none');
       $('#isokay').css('display','block');
       document.getElementById("isokay").innerHTML = 'Testing Connection to <strong>'+databaseName+'</strong> server <b style="float:right"> Pass </b>';
@@ -856,7 +856,7 @@ setTimeout(function () { window.open('https://www.vs1greentrack.com/purchaseaddc
       setTimeout(function () {
         $('#isnotokayres').css('display','none');
       }, 3500);
-      //document.getElementById("result").innerHTML = 'Connection Timeout: Please check that your servers IP address and port is correct.';
+
     }else if(oReq.readyState == 4 && oReq.status == 403){
       $('#isokay').css('display','none');
       $('#isnotokayres').css('display','block');
@@ -869,7 +869,7 @@ setTimeout(function () { window.open('https://www.vs1greentrack.com/purchaseaddc
       setTimeout(function () {
         $('#isnotokayres').css('display','none');
       }, 3500);
-      //document.getElementById("result").innerHTML = oReq.getResponseHeader('errormessage');
+
     }else if(oReq.readyState == 4 && oReq.status == 406){
       $('#isokay').css('display','none');
       $('#isnotokayres').css('display','block');
@@ -882,7 +882,7 @@ setTimeout(function () { window.open('https://www.vs1greentrack.com/purchaseaddc
       setTimeout(function () {
         $('#isnotokayres').css('display','none');
       }, 3500);
-      //document.getElementById("result").innerHTML = oReq.getResponseHeader('errormessage');
+
     }else if(oReq.readyState == 4 && oReq.status == 500){
       $('#isokay').css('display','none');
       $('#isnotokayres').css('display','block');
@@ -895,7 +895,7 @@ setTimeout(function () { window.open('https://www.vs1greentrack.com/purchaseaddc
       setTimeout(function () {
         $('#isnotokayres').css('display','none');
       }, 3500);
-      //document.getElementById("result").innerHTML = oReq.getResponseHeader('errormessage');
+
     }else{
       $('.fullScreenSpin').css('display','none');
     }
@@ -912,10 +912,10 @@ setTimeout(function () { window.open('https://www.vs1greentrack.com/purchaseaddc
       };
       if(emailData != ''){
       if(!isEmailValid(emailData)){
-          // Bert.alert('<strong>WARNING:</strong> The email field must be a valid email address !', 'danger');
+
           swal('Oops...', 'The email field must be a valid email address, please re-enter your email addres and try again!', 'error');
-          // $('#email').val('');
-          // $('#email').focus();
+
+
           e.preventDefault();
           return false;
       }
@@ -931,10 +931,10 @@ setTimeout(function () { window.open('https://www.vs1greentrack.com/purchaseaddc
       if(cloudpassword === cloudconfirmpassword){
         $('#emPassword').html(cloudconfirmpassword);
       }else{
-        //Bert.alert('Error<strong> The specified passwords do no match.</strong>', 'danger');
+
         swal('Oops...', 'The specified passwords does not match, please re-enter your password and try again!', 'error');
-        //$('#password').focus();
-        //$('#confirmpassword').focus();
+
+
         e.preventDefault();
         return false;
       }
@@ -943,16 +943,16 @@ setTimeout(function () { window.open('https://www.vs1greentrack.com/purchaseaddc
     'blur #password' : function(event){
       let cloudpassword = $(event.target).val().replace(/;/g, ",");
       if(cloudpassword.length < 8) {
-              // Bert.alert('<strong>Error: Invalid VS1 Password</strong> must be at least eight characters including one capital letter, one number and one special characters [! @ # $ % ^ & *] !', 'danger');
+
               swal('Invalid GreenTrack Password', 'Password must be at least eight characters including one capital letter, one number and one special characters [! @ # $ % ^ & *] !', 'error');
-              // $('#password').focus();
+
               e.preventDefault();
               return false;
       }
 
     },
     'click .btnReset' : function(event){
-        // $('#myModal').modal('toggle');
+
               $('#fname').focus();
 
     }
@@ -962,18 +962,17 @@ setTimeout(function () { window.open('https://www.vs1greentrack.com/purchaseaddc
 
 Template.registersts.onRendered( function() {
   const templateObject = Template.instance();
-  // Meteor.call('magentoSKUProductsDetail', 'vs1_essentials_sub', function(error, result) {
-  //   if (error) {
-  //     // console.log(error);
-  //   } else {
-  //     if (result) {
-  //       // console.log(JSON.stringify(result));
-  //     }
-  //   }
-  // });
+
+
+
+
+
+
+
+
 
   let currentURL = Router.current().params.query;
-  //console.log(currentURL.quoteid);
+
   if(currentURL.company){
     $('#cname').val(currentURL.company);
     $('.emCompanyName').html("Welcome to GreenTrack, "+currentURL.company+ '!');
@@ -1003,12 +1002,12 @@ Template.registersts.onRendered( function() {
       }else if(response.country === "CAN"){
         templateObject.currenctRegion.set("Canada");
       }
-      // setTimeout(function () {
+
       let currencyRegion = templateObject.currenctRegion.get();
       if(currencyRegion){
         $('#country').val(currencyRegion);
       };
-       // }, 50);
+
     }, "jsonp");
         if (window.matchMedia('(max-width: 500px)').matches) {
              $( "#leftcol" ).removeClass( "col-12-narrow" );
@@ -1056,7 +1055,7 @@ Template.registersts.onRendered( function() {
   var cloudHashPassword = CryptoJS.MD5(cloudPassword).toString().toUpperCase();
   CloudDatabase.update({_id:id}, {server: serverIP,database:databaseName,username:userName,useremail:userEmail,password:password,port:port,description:description}, function(err, idTag) {
     if(err){
-      //console.log("ALREADY FOUND TAG " + err);
+
     }else{
       var queryList = [];
       var usertoUpdate = CloudUser.find({clouddatabaseID:id}).forEach(function(doc){
@@ -1074,12 +1073,12 @@ Template.registersts.onRendered( function() {
       }
 
       });
-      //CloudUser.update({clouddatabaseID:id}, {cloudEmail:userEmail,cloudUsername:userName, cloudPassword:password,server: serverIP,database:databaseName,username:userName,password:password,port:port});
+
     }
    });
   Bert.alert('<strong>Success:</strong> Server connection details successfully updated for <strong>'+databaseName+'</strong>!', 'success');
       event.preventDefault();
-    //  return false;
+
 
   });
 
@@ -1096,23 +1095,23 @@ Template.registersts.onRendered( function() {
   var description = $(this).closest('tr').find("[id=Description1]").val();
 
   var usertoReset = CloudUser.find({clouddatabaseID:id}).forEach(function(doc){
-  // CloudUser.remove({_id:doc._id});
+
   CloudUser.update({_id: doc._id},{ $set: {userMultiLogon: false}});
   });
-  // Bert.alert('Testing connection to: <strong>'+databaseName+'</strong>', 'success');
-//alert('Connected to: '+setup.database);
+
+
 var serverTest = URLRequest + serverIP + ':' + port + '/erpapi/TERPSysInfo';
-//alert(serverTest);
+
 var oReq = new XMLHttpRequest();
 oReq.open("GET",serverTest, true);
 oReq.setRequestHeader("database",databaseName);
 oReq.setRequestHeader("username",userName);
 oReq.setRequestHeader("password",password);
-//oReq.AddHeader("Access-Control-Allow-Credentials","true");
+
 /*
 oReq.onload = function(){
   alert('here');
-  // do some stuff
+
   var ErrorMessage = oReq.getResponseHeader('content-type');
   alert(ErrorMessage);
 };
@@ -1122,10 +1121,10 @@ oReq.send();
 
 oReq.timeout = 30000;
 oReq.onreadystatechange = function() {
-//alert(oReq.responseText);
+
   if (oReq.readyState == 4 && oReq.status == 200) {
-   // alert(oReq.responseText);
-    //document.getElementById("result").innerHTML = oReq.responseText;
+
+
     $('#isnotokayres').css('display','none');
     $('#isokay').css('display','block');
     document.getElementById("isokay").innerHTML = 'Testing Connection to <strong>'+databaseName+'</strong> server <b style="float:right"> Pass </b>';
@@ -1147,7 +1146,7 @@ oReq.onreadystatechange = function() {
     setTimeout(function () {
       $('#isnotokayres').css('display','none');
     }, 3500);
-    //document.getElementById("result").innerHTML = 'Connection Timeout: Please check that your servers IP address and port is correct.';
+
   }else if(oReq.readyState == 4 && oReq.status == 403){
     $('#isokay').css('display','none');
     $('#isnotokayres').css('display','block');
@@ -1160,7 +1159,7 @@ oReq.onreadystatechange = function() {
     setTimeout(function () {
       $('#isnotokayres').css('display','none');
     }, 3500);
-    //document.getElementById("result").innerHTML = oReq.getResponseHeader('errormessage');
+
   }else if(oReq.readyState == 4 && oReq.status == 406){
     $('#isokay').css('display','none');
     $('#isnotokayres').css('display','block');
@@ -1173,7 +1172,7 @@ oReq.onreadystatechange = function() {
     setTimeout(function () {
       $('#isnotokayres').css('display','none');
     }, 3500);
-    //document.getElementById("result").innerHTML = oReq.getResponseHeader('errormessage');
+
   }else if(oReq.readyState == 4 && oReq.status == 500){
     $('#isokay').css('display','none');
     $('#isnotokayres').css('display','block');
@@ -1186,11 +1185,11 @@ oReq.onreadystatechange = function() {
     setTimeout(function () {
       $('#isnotokayres').css('display','none');
     }, 3500);
-    //document.getElementById("result").innerHTML = oReq.getResponseHeader('errormessage');
+
   }else{
     $('.fullScreenSpin').css('display','none');
   }
-//alert(oReq.getResponseHeader('error'));
+
 AddUERP(oReq.responseText);
 }
 
@@ -1200,15 +1199,15 @@ $(document).ready(function() {
   $('.CloudPassword').keyup(function() {
 
   }).focus(function() {
-      // focus code here
+
   }).blur(function() {
     var pswd = $(this).val();
-    // var checkPassword= '/^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{7,15}$/';
+
     if(pswd.length < 8) {
     Bert.alert('<strong>Error: Invalid GreenTrack Password</strong> must be at <b>least eight characters</b> including one capital letter, one number and one special characters [! @ # $ % ^ & *] !', 'danger');
     $('.CloudPassword').css('border-color','red');
     }else {
-        //validate capital letter
+
         if(pswd.match(/^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{7,15}$/)) {
           $('.CloudPassword').css('border-color','#b5b8bb #e2e4e7 #e8eaec #bdbfc3');
         } else {
@@ -1217,8 +1216,8 @@ $(document).ready(function() {
         }
 
     }
-    // $('.CloudPassword').css('border-color','#b5b8bb #e2e4e7 #e8eaec #bdbfc3');
-      // blur code here
+
+
   });
 
   $('#expdate').keyup(function() {
@@ -1235,11 +1234,11 @@ $(document).ready(function() {
 
   }).keydown(function() {
     if ($.inArray(event.keyCode, [46, 8, 9, 27, 13, 110]) !== -1 ||
-            // Allow: Ctrl+A, Command+A
+
            (event.keyCode === 65 && (event.ctrlKey === true || event.metaKey === true)) ||
-            // Allow: home, end, left, right, down, up
+
            (event.keyCode >= 35 && event.keyCode <= 40)) {
-                // let it happen, don't do anything
+
                 return;
        }
 
@@ -1270,9 +1269,9 @@ oReq.setRequestHeader("password","DptfGw83mFl1j&9");
 oReq.send();
 
 
-// oReq.timeout = 50000;
+
 oReq.onreadystatechange = function() {
-//alert(oReq.responseText);
+
   if (oReq.readyState == 4 && oReq.status == 200) {
     var data = JSON.parse(oReq.responseText);
     for (let i = 0; i < data.tregionaloptions.length; i++) {
@@ -1283,16 +1282,16 @@ oReq.onreadystatechange = function() {
 
   } else if(oReq.statusText == '') {
 
-    //document.getElementById("result").innerHTML = 'Connection Timeout: Please check that your servers IP address and port is correct.';
+
   }else if(oReq.readyState == 4 && oReq.status == 403){
 
-    //document.getElementById("result").innerHTML = oReq.getResponseHeader('errormessage');
+
   }else if(oReq.readyState == 4 && oReq.status == 406){
 
-    //document.getElementById("result").innerHTML = oReq.getResponseHeader('errormessage');
+
   }else if(oReq.readyState == 4 && oReq.status == 500){
 
-    //document.getElementById("result").innerHTML = oReq.getResponseHeader('errormessage');
+
   }else{
 
   }

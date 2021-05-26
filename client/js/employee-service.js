@@ -23,7 +23,7 @@ export class EmployeeService extends BaseService {
 
     getAllEmployeeList() {
       let options = {
-        // ListType: "Detail"
+        
         PropertyList: "ID,EmployeeNo,EmployeeName,FirstName,LastName,Phone,Mobile,Email,Street,Country,DefaultClassName,CustFld1,CustFld2,CustFld3,CustFld4",
         select: "[Active]=true",
       };

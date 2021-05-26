@@ -73,7 +73,7 @@ Template.termsettings.onRendered(function() {
             let setISCOD = false;
             for(let i=0; i<data.ttermsvs1.length; i++){
               if((data.ttermsvs1[i].IsDays == true) && (data.ttermsvs1[i].Days == 0)){
-              //  console.log(data.tterms[i].TermsName);
+
                 setISCOD = true;
               }else{
                   setISCOD = false;
@@ -95,7 +95,7 @@ Template.termsettings.onRendered(function() {
                 //}
             }
 
-            //console.log(dataTableList);
+
             templateObject.datatablerecords.set(dataTableList);
 
             if(templateObject.datatablerecords.get()){
@@ -259,7 +259,7 @@ let lineItemObj = {};
 let setISCOD = false;
 for(let i=0; i<useData.length; i++){
   if((useData[i].IsDays == true) && (useData[i].Days == 0)){
-  //  console.log(data.tterms[i].TermsName);
+
     setISCOD = true;
   }else{
       setISCOD = false;
@@ -281,7 +281,7 @@ for(let i=0; i<useData.length; i++){
     //}
 }
 
-//console.log(dataTableList);
+
 templateObject.datatablerecords.set(dataTableList);
 
 if(templateObject.datatablerecords.get()){
@@ -440,7 +440,7 @@ templateObject.tableheaderrecords.set(tableHeaderList);
           let setISCOD = false;
           for(let i=0; i<data.ttermsvs1.length; i++){
             if((data.ttermsvs1[i].IsDays == true) && (data.ttermsvs1[i].Days == 0)){
-            //  console.log(data.tterms[i].TermsName);
+
               setISCOD = true;
             }else{
                 setISCOD = false;
@@ -462,7 +462,7 @@ templateObject.tableheaderrecords.set(tableHeaderList);
               //}
           }
 
-          //console.log(dataTableList);
+
           templateObject.datatablerecords.set(dataTableList);
 
           if(templateObject.datatablerecords.get()){
@@ -880,7 +880,7 @@ Template.termsettings.events({
     'click .btnOpenSettings' : function(event){
       let templateObject = Template.instance();
       var columns = $('#termsList th');
-      // console.log(columns);
+
       const tableHeaderList = [];
       let sTible = "";
       let sWidth = "";
@@ -1154,7 +1154,7 @@ Template.termsettings.events({
     });
    }
 
-   // console.log(objDetails);
+
 
 
   },

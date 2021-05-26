@@ -12,7 +12,7 @@ Template.appAlertPage.onRendered(function(){
     if(entpassword == userPassword){
       document.getElementById('apptimer').style.display='none';
     }else{
-      //alert('Invalide password');
+      
       Bert.alert('<strong>Error:</strong> The Password You Entered is Incorrect, Please Try Again.', 'danger');
       $("#re_login").focus();
     }

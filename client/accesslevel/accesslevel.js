@@ -81,7 +81,7 @@ if(oPost.readyState == 4 && oPost.status == 200) {
 
         }
         });
-          // swal('Licence Successfully Changed', '', 'success');
+          
       }
 
   }else if(oPost.readyState == 4 && oPost.status == 403){
@@ -94,7 +94,7 @@ showCancelButton: false,
 confirmButtonText: 'Try Again'
 }).then((result) => {
 if (result.value) {
-  // Meteor._reload.reload();
+  
 } else if (result.dismiss === 'cancel') {
 
 }
@@ -120,7 +120,7 @@ if (result.value) {
 }
   };
 
-  // templateObject.upgradeCompanyAsppSettings();
+  
   });
 
   Template.registerHelper('equals', function (a, b) {
@@ -205,30 +205,30 @@ Template.accesslevel.events({
       let templateObject = Template.instance();
       let tempInstance = Template.instance();
       templateObject.$("#STEmployeeName").trigger("focus");
-      //let accountTypeName = tempInstance.newEmployeeID.get();
-      // alert(accountTypeName);
+      
+      
   },
   'change #sltEmploy22222eeName': function (event) {
       let templateObject = Template.instance();
       let employeeName = $(event.target).val();
       let employeeID = $('option:selected', event.target).attr('mytag');
-      // $(event.target).empdatasetid("empdatasetid");
-      // alert(employeeID);
+      
+      
       if(employeeID){
        templateObject.accessgrouprecord.set('');
        templateObject.getTableData(employeeID);
-       // getTableData(employeeID);
+       
      }
-      // accessgrouprecord
+      
 
   },
   'click .inactiveLicence': function (event) {
 
     var targetID = '';
     var $cell= $(event.target).closest('td');
-    var targetID = $(event.target).closest('tr').attr('id'); // table row ID
+    var targetID = $(event.target).closest('tr').attr('id'); 
 
-    /* Lincence Check for Menu Options */
+   
 let isFixedAssetsLicence = Session.get('CloudFixedAssetsLicence');
 let isInventoryLicence = Session.get('CloudInventoryLicence');
 let isManufacturingLicence = Session.get('CloudManufacturingLicence');
@@ -240,7 +240,7 @@ let isStockTransferLicence = Session.get('CloudStockTransferLicence');
 let isMainLicence = Session.get('CloudMainLicence');
 let isDashboardLicence = Session.get('CloudDashboardLicence');
 
-/*Licence Check Menu to add */
+
 let isAccountsLicence = Session.get('CloudAccountsLicence');
 let isContactsLicence = Session.get('CloudContactsLicence');
 let isExpenseClaimsLicence = Session.get('CloudExpenseClaimsLicence');
@@ -248,10 +248,10 @@ let isPaymentsLicence = Session.get('CloudPaymentsLicence');
 let isReportsLicence = Session.get('CloudReportsLicence');
 let isSettingsLicence = Session.get('CloudSettingsLicence');
 
-/*End Licence Check Menu to add */
-/* End Licence Check for menu option */
 
-    //if($cell.index() != 0){
+
+
+    
       let accessDesc = $("#"+targetID+"_accessDesc").val();
       $('.upgModule').html(accessDesc);
       $('#upgradeModal').modal('toggle');
@@ -259,8 +259,8 @@ let isSettingsLicence = Session.get('CloudSettingsLicence');
 
   },
   'click #tblAccessLevel tbody tr td': function (event) {
-  //  var $tblrow = $(this);
-    //var data = $(this).attr('id');
+  
+    
     var targetID = '';
     var $cell= $(event.target).closest('td');
 
@@ -269,11 +269,11 @@ let isSettingsLicence = Session.get('CloudSettingsLicence');
          targetID = event.target.name;
 
 
-         // if($("#"+targetID+"_noaccess").is(':checked')) {
-         //   alert("it's checked");
-         // }else if($("#"+targetID+"_fullwithdelete").is(':checked')){
-         //   alert("it's checked full");
-         // }
+         
+         
+         
+         
+         
          if($cell.index() == 1){
            $("."+targetID+"_noaccess").css('opacity','1');
            $("."+targetID+"_readonly").css('opacity','1');
@@ -316,7 +316,7 @@ let isSettingsLicence = Session.get('CloudSettingsLicence');
        Meteor._reload.reload();
      },
      'click .chkSettings': function (event) {
-       // Meteor._reload.reload();
+       
        if($(event.target).is(':checked')){
          $(event.target).val(1);
        }else{
@@ -324,34 +324,34 @@ let isSettingsLicence = Session.get('CloudSettingsLicence');
        }
      },
      'click .chkSettings.chkInventory': function (event) {
-       // Meteor._reload.reload();
+       
        if($(event.target).is(':checked')){
-         //swal('Info', 'Please note if Inventory Tracking is turned on it cannot be turned off for a product in the future.', 'info');
+         
          swal('PLEASE NOTE', 'If Inventory tracking is turned on it cannot be disabled in the future.', 'info');
        }else{
-         //$(event.target).val(6);
+         
        }
      },
      'click .btnGlobalSaveNOT': function () {
        let templateObject = Template.instance();
        let accesslevelService = new AccessLevelService();
         var erpGet = erpDb();
-       // let employeeID = templateObject.newEmployeeID.get();
+       
        let empInputValue = templateObject.$("#sltEmployeeName").val();
 
        if(empInputValue === "All"){
 
        }else{
-       // let employeeName = $(event.target).val();
+       
        let employeeID = $("#sltEmployeeName").find('option:selected').attr('mytag');
-       // $('#sltEmployeeName option:selected').attr('mytag');
-        // alert(employeeID);
+       
+        
        var loggedEmpName = localStorage.getItem('mySession');
        let empLoggedID = Session.get('mySessionEmployeeLoggedID');
        let isSidePanelID = '';
        let isTopPanelID = '';
 
-       /* Lincence Check for Menu Options */
+      
        let isFixedAssetsLicence = Session.get('CloudFixedAssetsLicence');
        let isInventoryLicence = Session.get('CloudInventoryLicence');
        let isManufacturingLicence = Session.get('CloudManufacturingLicence');
@@ -363,15 +363,15 @@ let isSettingsLicence = Session.get('CloudSettingsLicence');
        let isMainLicence = Session.get('CloudMainLicence');
        let isDashboardLicence = Session.get('CloudDashboardLicence');
 
-           /*Licence Check Menu to add */
+          
        let isAccountsLicence = Session.get('CloudAccountsLicence');
        let isContactsLicence = Session.get('CloudContactsLicence');
        let isExpenseClaimsLicence = Session.get('CloudExpenseClaimsLicence');
        let isPaymentsLicence = Session.get('CloudPaymentsLicence');
        let isReportsLicence = Session.get('CloudReportsLicence');
        let isSettingsLicence = Session.get('CloudSettingsLicence');
-          /*End Licence Check Menu to add */
-       /* End Licence Check for menu option */
+         
+      
 
        if(employeeID){
          $('.fullScreenSpin').css('display','inline-block');
@@ -454,13 +454,13 @@ let isSettingsLicence = Session.get('CloudSettingsLicence');
                     Session.setPersistent('CloudDashboardModule', isDashboard);
                   }
 
-                  // if((radioValue == 1) && (accessDesc == "Main") && (isMainLicence)){
-                  //   isMain = true;
-                  //   Session.setPersistent('CloudMainModule', isMain);
-                  // }else if((radioValue != 1) && (accessDesc == "Main") && (isMainLicence)){
-                  //   isMain = false;
-                  //   Session.setPersistent('CloudMainModule', isMain);
-                  // }
+                  
+                  
+                  
+                  
+                  
+                  
+                  
 
                   if((radioValue == 1) && (accessDesc == "Inventory" || accessDesc == "Inventory Tracking") && (isInventoryLicence)){
                     isInventory = true;
@@ -573,29 +573,29 @@ let isSettingsLicence = Session.get('CloudSettingsLicence');
                     Session.setPersistent('CloudSettingsModule', isSettings);
                   }
 
-                  // if((radioValue == 1) && (accessDesc == "Side Panel Menu")){
-                  //   isSidePanel = true;
-                  //   Session.setPersistent('CloudSidePanelMenuID', data.fields.ID);
-                  //   Session.setPersistent('CloudSidePanelMenu', isSidePanel);
-                  // }else if((radioValue != 1) && (accessDesc == "Side Panel Menu")){
-                  //   isSidePanel = false;
-                  //   Session.setPersistent('CloudSidePanelMenuID', data.fields.ID);
-                  //   Session.setPersistent('CloudSidePanelMenu', isSidePanel);
-                  // }
-                  //
-                  // if((radioValue == 1) && (accessDesc == "Top Panel Menu")){
-                  //   isTopPanel = true;
-                  //   Session.setPersistent('CloudTopPanelMenuID', data.fields.ID);
-                  //   Session.setPersistent('CloudTopPanelMenu', isTopPanel);
-                  // }else if((radioValue != 1) && (accessDesc == "Top Panel Menu")){
-                  //   isTopPanel = false;
-                  //   Session.setPersistent('CloudTopPanelMenuID', data.fields.ID);
-                  //   Session.setPersistent('CloudTopPanelMenu', isTopPanel);
-                  // }
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
 
                   }
                 }).catch(function (err) {
-                    // Bert.alert('<strong>' + err + '</strong>!', 'danger');
+                    
                     swal({
                     title: 'Something went wrong',
                     text: err,
@@ -604,7 +604,7 @@ let isSettingsLicence = Session.get('CloudSettingsLicence');
                     confirmButtonText: 'Try Again'
                     }).then((result) => {
                     if (result.value) {
-                      // Meteor._reload.reload();
+                      
                     } else if (result.dismiss === 'cancel') {
 
                     }
@@ -679,13 +679,13 @@ let isSettingsLicence = Session.get('CloudSettingsLicence');
                       Session.setPersistent('CloudDashboardModule', isDashboard);
                     }
 
-                    // if((radioValue == 1) && (accessDesc == "Main") && (isMainLicence)){
-                    //   isMain = true;
-                    //   Session.setPersistent('CloudMainModule', isMain);
-                    // }else if((radioValue != 1) && (accessDesc == "Main") && (isMainLicence)){
-                    //   isMain = false;
-                    //   Session.setPersistent('CloudMainModule', isMain);
-                    // }
+                    
+                    
+                    
+                    
+                    
+                    
+                    
 
                     if((radioValue == 1) && (accessDesc == "Inventory" || accessDesc == "Inventory Tracking") && (isInventoryLicence)){
                       isInventory = true;
@@ -798,29 +798,29 @@ let isSettingsLicence = Session.get('CloudSettingsLicence');
                       Session.setPersistent('CloudSettingsModule', isSettings);
                     }
 
-                    // if((radioValue == 1) && (accessDesc == "Side Panel Menu")){
-                    //   isSidePanel = true;
-                    //   Session.setPersistent('CloudSidePanelMenuID', data.fields.ID);
-                    //   Session.setPersistent('CloudSidePanelMenu', isSidePanel);
-                    // }else if((radioValue != 1) && (accessDesc == "Side Panel Menu")){
-                    //   isSidePanel = false;
-                    //   Session.setPersistent('CloudSidePanelMenuID', data.fields.ID);
-                    //   Session.setPersistent('CloudSidePanelMenu', isSidePanel);
-                    // }
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
 
-                    // if((radioValue == 1) && (accessDesc == "Top Panel Menu")){
-                    //   isTopPanel = true;
-                    //   Session.setPersistent('CloudTopPanelMenuID', data.fields.ID);
-                    //   Session.setPersistent('CloudTopPanelMenu', isTopPanel);
-                    // }else if((radioValue != 1) && (accessDesc == "Top Panel Menu")){
-                    //   isTopPanel = false;
-                    //   Session.setPersistent('CloudTopPanelMenuID', data.fields.ID);
-                    //   Session.setPersistent('CloudTopPanelMenu', isTopPanel);
-                    // }
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
 
                     }
                   }).catch(function (err) {
-                      // Bert.alert('<strong>' + err + '</strong>!', 'danger');
+                      
                       swal({
                       title: 'Something went wrong',
                       text: err,
@@ -829,7 +829,7 @@ let isSettingsLicence = Session.get('CloudSettingsLicence');
                       confirmButtonText: 'Try Again'
                       }).then((result) => {
                       if (result.value) {
-                        //Meteor._reload.reload();
+                        
                       } else if (result.dismiss === 'cancel') {
 
                       }
@@ -843,7 +843,7 @@ let isSettingsLicence = Session.get('CloudSettingsLicence');
        }
 
        setTimeout(function () {
-           //Meteor._reload.reload();
+           
            $('.fullScreenSpin').css('display','none');
        }, 5000);
 
@@ -868,19 +868,19 @@ let isSettingsLicence = Session.get('CloudSettingsLicence');
      'click .btnSaveAccess': function () {
        let templateObject = Template.instance();
        let accesslevelService = new AccessLevelService();
-       // let employeeID = templateObject.newEmployeeID.get();
+       
        let empInputValue = templateObject.$("#sltEmployeeName").val();
 
-       // let employeeName = $(event.target).val();
+       
        let employeeID = $("#sltEmployeeName").find('option:selected').attr('mytag');
-       // $('#sltEmployeeName option:selected').attr('mytag');
-        // alert(employeeID);
+       
+        
        var loggedEmpName = localStorage.getItem('mySession');
        let empLoggedID = Session.get('mySessionEmployeeLoggedID');
        let isSidePanelID = '';
        let isTopPanelID = '';
 
-       /* Lincence Check for Menu Options */
+      
        let isFixedAssetsLicence = Session.get('CloudFixedAssetsLicence');
        let isInventoryLicence = Session.get('CloudInventoryLicence');
        let isManufacturingLicence = Session.get('CloudManufacturingLicence');
@@ -892,15 +892,15 @@ let isSettingsLicence = Session.get('CloudSettingsLicence');
        let isMainLicence = Session.get('CloudMainLicence');
        let isDashboardLicence = Session.get('CloudDashboardLicence');
 
-           /*Licence Check Menu to add */
+          
        let isAccountsLicence = Session.get('CloudAccountsLicence');
        let isContactsLicence = Session.get('CloudContactsLicence');
        let isExpenseClaimsLicence = Session.get('CloudExpenseClaimsLicence');
        let isPaymentsLicence = Session.get('CloudPaymentsLicence');
        let isReportsLicence = Session.get('CloudReportsLicence');
        let isSettingsLicence = Session.get('CloudSettingsLicence');
-          /*End Licence Check Menu to add */
-       /* End Licence Check for menu option */
+         
+      
 
        if(employeeID){
          $('.fullScreenSpin').css('display','inline-block');
@@ -982,13 +982,13 @@ let isSettingsLicence = Session.get('CloudSettingsLicence');
                     Session.setPersistent('CloudDashboardModule', isDashboard);
                   }
 
-                  // if((radioValue == 1) && (accessDesc == "Main") && (isMainLicence)){
-                  //   isMain = true;
-                  //   Session.setPersistent('CloudMainModule', isMain);
-                  // }else if((radioValue != 1) && (accessDesc == "Main") && (isMainLicence)){
-                  //   isMain = false;
-                  //   Session.setPersistent('CloudMainModule', isMain);
-                  // }
+                  
+                  
+                  
+                  
+                  
+                  
+                  
 
                   if((radioValue == 1) && (accessDesc == "Inventory" || accessDesc == "Inventory Tracking") && (isInventoryLicence)){
                     isInventory = true;
@@ -1101,29 +1101,29 @@ let isSettingsLicence = Session.get('CloudSettingsLicence');
                     Session.setPersistent('CloudSettingsModule', isSettings);
                   }
 
-                  // if((radioValue == 1) && (accessDesc == "Side Panel Menu")){
-                  //   isSidePanel = true;
-                  //   Session.setPersistent('CloudSidePanelMenuID', data.fields.ID);
-                  //   Session.setPersistent('CloudSidePanelMenu', isSidePanel);
-                  // }else if((radioValue != 1) && (accessDesc == "Side Panel Menu")){
-                  //   isSidePanel = false;
-                  //   Session.setPersistent('CloudSidePanelMenuID', data.fields.ID);
-                  //   Session.setPersistent('CloudSidePanelMenu', isSidePanel);
-                  // }
-                  //
-                  // if((radioValue == 1) && (accessDesc == "Top Panel Menu")){
-                  //   isTopPanel = true;
-                  //   Session.setPersistent('CloudTopPanelMenuID', data.fields.ID);
-                  //   Session.setPersistent('CloudTopPanelMenu', isTopPanel);
-                  // }else if((radioValue != 1) && (accessDesc == "Top Panel Menu")){
-                  //   isTopPanel = false;
-                  //   Session.setPersistent('CloudTopPanelMenuID', data.fields.ID);
-                  //   Session.setPersistent('CloudTopPanelMenu', isTopPanel);
-                  // }
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
 
                   }
                 }).catch(function (err) {
-                    //Bert.alert('<strong>' + err + '</strong>!', 'danger');
+                    
                     swal({
                     title: 'Something went wrong',
                     text: err,
@@ -1207,13 +1207,13 @@ let isSettingsLicence = Session.get('CloudSettingsLicence');
                       Session.setPersistent('CloudDashboardModule', isDashboard);
                     }
 
-                    // if((radioValue == 1) && (accessDesc == "Main") && (isMainLicence)){
-                    //   isMain = true;
-                    //   Session.setPersistent('CloudMainModule', isMain);
-                    // }else if((radioValue != 1) && (accessDesc == "Main") && (isMainLicence)){
-                    //   isMain = false;
-                    //   Session.setPersistent('CloudMainModule', isMain);
-                    // }
+                    
+                    
+                    
+                    
+                    
+                    
+                    
 
                     if((radioValue == 1) && (accessDesc == "Inventory" || accessDesc == "Inventory Tracking") && (isInventoryLicence)){
                       isInventory = true;
@@ -1326,29 +1326,29 @@ let isSettingsLicence = Session.get('CloudSettingsLicence');
                       Session.setPersistent('CloudSettingsModule', isSettings);
                     }
 
-                    // if((radioValue == 1) && (accessDesc == "Side Panel Menu")){
-                    //   isSidePanel = true;
-                    //   Session.setPersistent('CloudSidePanelMenuID', data.fields.ID);
-                    //   Session.setPersistent('CloudSidePanelMenu', isSidePanel);
-                    // }else if((radioValue != 1) && (accessDesc == "Side Panel Menu")){
-                    //   isSidePanel = false;
-                    //   Session.setPersistent('CloudSidePanelMenuID', data.fields.ID);
-                    //   Session.setPersistent('CloudSidePanelMenu', isSidePanel);
-                    // }
-                    //
-                    // if((radioValue == 1) && (accessDesc == "Top Panel Menu")){
-                    //   isTopPanel = true;
-                    //   Session.setPersistent('CloudTopPanelMenuID', data.fields.ID);
-                    //   Session.setPersistent('CloudTopPanelMenu', isTopPanel);
-                    // }else if((radioValue != 1) && (accessDesc == "Top Panel Menu")){
-                    //   isTopPanel = false;
-                    //   Session.setPersistent('CloudTopPanelMenuID', data.fields.ID);
-                    //   Session.setPersistent('CloudTopPanelMenu', isTopPanel);
-                    // }
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
 
                     }
                   }).catch(function (err) {
-                      //Bert.alert('<strong>' + err + '</strong>!', 'danger');
+                      
                       swal({
                       title: 'Something went wrong',
                       text: err,
@@ -1383,7 +1383,7 @@ let isSettingsLicence = Session.get('CloudSettingsLicence');
        history.back(1);
      },
      'click .btnAddVS1User':function(event){
-      //Router.go('/employeescard');
+      
       swal({
         title: 'Is this an existing Employee?',
         text: '',
@@ -1395,14 +1395,14 @@ let isSettingsLicence = Session.get('CloudSettingsLicence');
         if (result.value) {
           swal("Please select the employee from the list below.", "", "info");
           $('#employeeListModal').modal('toggle');
-        // result.dismiss can be 'overlay', 'cancel', 'close', 'esc', 'timer'
+        
         } else if (result.dismiss === 'cancel') {
           Router.go('/employeescard?addvs1user=true');
         }
       })
      },
      'click .essentialsdiv .chkSettings': function (event) {
-       // Meteor._reload.reload();
+       
        if($(event.target).is(':checked')){
          $(event.target).val(1);
          $('#upgradeModal').modal('toggle');

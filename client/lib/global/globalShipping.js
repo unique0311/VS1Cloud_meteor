@@ -453,7 +453,7 @@ function updateRowOrder(){
                   break;
               }
               default:{
-                  console.log(event)
+                  
                   break;
               }
           }

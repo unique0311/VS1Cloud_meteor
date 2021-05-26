@@ -17,7 +17,7 @@ Template.forgotpassword.onCreated(function(){
 Template.forgotpassword.events({
   'click #reset-button':function(){
     var originURL  = window.location.origin;
-    //console.log(originURL);
+    
     var token = Random.secret();
     var when = new Date();
     let mailTo = $('#email').val().replace(/;/g, ",");
@@ -40,7 +40,7 @@ Template.forgotpassword.events({
       Meteor.call('sendEmail', {
           from: "VS1 Cloud <info@vs1cloud.com>",
           to: mailTo,
-          // cc: mailCC,
+          
           subject: '[VS1 Cloud] - Reset Your Password',
           text: 'A password reset has been requested for the account related to this address ('+mailTo+'). To reset the password, visit the following link:\n\n'+urlWithoutHash+'\n\n If you did not request this reset, please ignore this email. If you feel something is wrong, please contact our support team: support@vs1cloud.com.',
           html:'',
@@ -63,7 +63,7 @@ Template.forgotpassword.events({
       Meteor.call('sendEmail', {
           from: "VS1 Cloud <info@vs1cloud.com>",
           to: mailTo,
-          // cc: mailCC,
+          
           subject: '[VS1 Cloud] - Reset Your Password',
           text: 'VS1Cloud doesn’t have a registered user with that email address ['+mailTo+']. If you’re a registered user, then it’s with a different email address. Please contact us at support@vs1cloud.com.',
           html:'',

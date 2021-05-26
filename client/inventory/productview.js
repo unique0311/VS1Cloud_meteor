@@ -116,19 +116,19 @@ Template.productview.onRendered(function() {
     //             } else if (result.dismiss === 'cancel') {
     //                 window.open('/productlist', "_self");
     //             } else {
-    
+
     //             }
     //         });
-           
+
     //     });
-    
-    
+
+
     // });
     templateObject.getAccountNames = function(){
       getVS1Data('TAccountVS1').then(function (dataObject) {
         if(dataObject.length == 0){
           productService.getAccountName().then(function(data){
-              // console.log(data)
+
               let productData = templateObject.records.get();
               for(let i in data.taccount){
 
@@ -188,7 +188,7 @@ Template.productview.onRendered(function() {
         }
       }).catch(function (err) {
         productService.getAccountName().then(function(data){
-            // console.log(data)
+
             let productData = templateObject.records.get();
             for(let i in data.taccount){
 
@@ -409,7 +409,7 @@ Template.productview.onRendered(function() {
                   let lineItemObj = {};
                   let currencySymbol = Currency;
                   let totalquantity = 0;
-                  // console.log(useData[i].fields.ProductName);
+                  
                   let productrecord = {
                       id : useData[i].fields.ID,
                       productname : useData[i].fields.ProductName,
@@ -651,7 +651,7 @@ Template.productview.onRendered(function() {
                 $('.product_recent_trans').css('display','block');
                 $('.fullScreenSpin').css('display','none');
             }).catch(function (err) {
-                // console.log(err);
+
                 $('.fullScreenSpin').css('display','none');
                 $('.product_recent_trans').css('display','block');
 
@@ -1512,7 +1512,7 @@ Template.productview.events({
 
 
         }
-        //console.log(objDetails);
+        
 
     },
     'click .btnBack':function(event){
@@ -1688,7 +1688,7 @@ Template.productview.events({
                             PublishOnVS1:false
                         }
                     };
-        
+
                     productService.saveProduct(objDetails).then(function (objDetails) {
                         window.open('/inventorylist','_self');
                     }).catch(function (err) {
@@ -1702,7 +1702,7 @@ Template.productview.events({
                             if (result.value) {
                                 Meteor._reload.reload();
                             } else if (result.dismiss === 'cancel') {
-        
+
                             }
                         });
                         $('.fullScreenSpin').css('display','none');
@@ -1710,14 +1710,14 @@ Template.productview.events({
                 }else{
                     window.open('/inventorylist','_self');
                 }
-                
+
             } else if (result.dismiss === 'cancel') {
                 window.open('/inventorylist', "_self");
             } else {
 
             }
         });
-      
+
 
     },
     'click .btnUpgradeToEssentials':function(event){

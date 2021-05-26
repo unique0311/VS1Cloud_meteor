@@ -179,7 +179,7 @@ let grandOlder = 0;
     for (let n = 0; n < current.length; n++) {
 
         const grandcurrencyLength = Currency.length;
-        // console.log(current[n][4]);
+
         //for (let m = 0; m < current[n].data.length; m++) {
              grandamountduetotal = grandamountduetotal + utilityService.convertSubstringParseFloat(current[n][4]);
              grandCurrenttotal = grandCurrenttotal + utilityService.convertSubstringParseFloat(current[n][5]);
@@ -195,7 +195,7 @@ let grandOlder = 0;
 
     }
 
-// console.log(grandCurrenttotal);
+
     let grandval = ['Grand Total ', '', '','',
     utilityService.modifynegativeCurrencyFormat(grandamountduetotal),
     // utilityService.modifynegativeCurrencyFormat(grandamountduetotal),
@@ -214,7 +214,7 @@ let grandOlder = 0;
 
         templateObject.records.set(totalRecord);
         templateObject.grandrecords.set(grandval);
-        // console.log(templateObject.grandrecords.get());
+
 
         if(templateObject.records.get()){
           setTimeout(function () {
@@ -226,7 +226,7 @@ let grandOlder = 0;
             });
 
             $('td').each(function(){
-              // console.log($(this).first().text()[0]);
+
               let lineValue = $(this).first().text()[0];
               if(lineValue != undefined){
                 if(lineValue.indexOf(Currency) >= 0) $(this).addClass('text-right')
@@ -294,7 +294,7 @@ let grandOlder = 0;
               let accountType = '';
 
               for (let i = 0; i < useData.length; i++) {
-                //console.log(useData[i].Name.replace(/\s/g, ''));
+
                 let amountdue = utilityService.modifynegativeCurrencyFormat(useData[i].AmountDue) || 0;
                 let current = utilityService.modifynegativeCurrencyFormat(useData[i].Current) || 0;
                 let day30 = utilityService.modifynegativeCurrencyFormat(useData[i]["30Days"]) || 0;
@@ -390,7 +390,7 @@ let grandOlder = 0;
               let Older = 0;
               const currencyLength = Currency.length;
               for (let k = 0; k < allRecords[i][1].data.length; k++) {
-                console.log(allRecords[i][1].data[k]);
+                
                   amountduetotal = amountduetotal + utilityService.convertSubstringParseFloat(allRecords[i][1].data[k].dataArr[4]);
                   Currenttotal = Currenttotal + utilityService.convertSubstringParseFloat(allRecords[i][1].data[k].dataArr[5]);
                   oneMonth = oneMonth + utilityService.convertSubstringParseFloat(allRecords[i][1].data[k].dataArr[6]);
@@ -398,7 +398,7 @@ let grandOlder = 0;
                   threeMonth = threeMonth + utilityService.convertSubstringParseFloat(allRecords[i][1].data[k].dataArr[8]);
                   Older = Older + utilityService.convertSubstringParseFloat(allRecords[i][1].data[k].dataArr[9]);
               }
-              //console.log(allRecords[i][0].key);
+
               var dataListLoad  = {
               id: data.tapreport[i].PurchaseOrderID || '',
               contact:allRecords[i][0].key || '',
@@ -432,7 +432,7 @@ let grandOlder = 0;
         for (let n = 0; n < current.length; n++) {
 
             const grandcurrencyLength = Currency.length;
-            // console.log(current[n][4]);
+
             //for (let m = 0; m < current[n].data.length; m++) {
                  grandamountduetotal = grandamountduetotal + utilityService.convertSubstringParseFloat(current[n][4]);
                  grandCurrenttotal = grandCurrenttotal + utilityService.convertSubstringParseFloat(current[n][5]);
@@ -448,7 +448,7 @@ let grandOlder = 0;
 
         }
 
-      // console.log(grandCurrenttotal);
+
         let grandval = ['Grand Total ', '', '','',
         utilityService.modifynegativeCurrencyFormat(grandamountduetotal),
         // utilityService.modifynegativeCurrencyFormat(grandamountduetotal),
@@ -467,7 +467,7 @@ let grandOlder = 0;
 
             templateObject.records.set(totalRecord);
             templateObject.grandrecords.set(grandval);
-            // console.log(templateObject.grandrecords.get());
+
 
             if(templateObject.records.get()){
               setTimeout(function () {
@@ -479,7 +479,7 @@ let grandOlder = 0;
                 });
 
                 $('td').each(function(){
-                  // console.log($(this).first().text()[0]);
+
                   let lineValue = $(this).first().text()[0];
                   if(lineValue != undefined){
                     if(lineValue.indexOf(Currency) >= 0) $(this).addClass('text-right')
@@ -642,7 +642,7 @@ let grandOlder = 0;
     for (let n = 0; n < current.length; n++) {
 
         const grandcurrencyLength = Currency.length;
-        // console.log(current[n][4]);
+
         //for (let m = 0; m < current[n].data.length; m++) {
              grandamountduetotal = grandamountduetotal + utilityService.convertSubstringParseFloat(current[n][4]);
              grandCurrenttotal = grandCurrenttotal + utilityService.convertSubstringParseFloat(current[n][5]);
@@ -658,7 +658,7 @@ let grandOlder = 0;
 
     }
 
-// console.log(grandCurrenttotal);
+
     let grandval = ['Grand Total ', '', '','',
     utilityService.modifynegativeCurrencyFormat(grandamountduetotal),
     // utilityService.modifynegativeCurrencyFormat(grandamountduetotal),
@@ -677,7 +677,7 @@ let grandOlder = 0;
 
         templateObject.records.set(totalRecord);
         templateObject.grandrecords.set(grandval);
-        // console.log(templateObject.grandrecords.get());
+
 
         if(templateObject.records.get()){
           setTimeout(function () {
@@ -689,7 +689,7 @@ let grandOlder = 0;
             });
 
             $('td').each(function(){
-              // console.log($(this).first().text()[0]);
+
               let lineValue = $(this).first().text()[0];
               if(lineValue != undefined){
                 if(lineValue.indexOf(Currency) >= 0) $(this).addClass('text-right')

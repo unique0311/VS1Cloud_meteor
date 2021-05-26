@@ -6,7 +6,7 @@ Template.vs1check.onCreated(()=>{
       window.open('https://play.google.com/store/apps/details?id=com.wVS1Cloud_13053161','_self');
   }else{
 
-    // window.location = 'https://vs1cloud.com/VS1cloudSetUp.exe';
+
     setTimeout(function () { window.open('https://sandbox.vs1cloud.com','_self'); }, 1000);
   }
 

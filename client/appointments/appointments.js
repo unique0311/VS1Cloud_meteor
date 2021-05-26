@@ -445,7 +445,7 @@ Template.appointments.onRendered(function () {
             let useData = data.tappointmentpreferences;
             for (let i = 0; i < useData.length; i++) {
                 if (useData[i].EmployeeID == Session.get('mySessionEmployeeLoggedID')) {
-                  // console.log(useData[i]);
+
                   let appEndTimeData = useData[i].ApptEndtime.split(' ')[0];
                   let timeSplit = appEndTimeData.split(':');
                   let appEndTimeDataHours = parseInt(timeSplit[0]) + 2;
@@ -1019,7 +1019,7 @@ Template.appointments.onRendered(function () {
                             var endTime = moment(document.getElementById("dtSODate2").value + ' ' + document.getElementById("endTime").value).format('DD/MM/YYYY HH:mm');
                             var startTime = moment(document.getElementById("dtSODate2").value + ' ' + document.getElementById("startTime").value).format('DD/MM/YYYY HH:mm');
                             // if (moment(startTime).isAfter(endTime)) {
-                            //     console.log("Start time cant be greater than end time");
+
                             // } else {
                             //     var duration = moment.duration(moment(endTime).diff(moment(startTime)));
                             //     var hours = duration.asHours();
@@ -2040,7 +2040,7 @@ Template.appointments.onRendered(function () {
                         var endTime = moment(document.getElementById("dtSODate2").value + ' ' + document.getElementById("endTime").value).format('DD/MM/YYYY HH:mm');
                         var startTime = moment(document.getElementById("dtSODate2").value + ' ' + document.getElementById("startTime").value).format('DD/MM/YYYY HH:mm');
                         // if (moment(startTime).isAfter(endTime)) {
-                        //     console.log("Start time cant be greater than end time");
+
                         // } else {
                         //     var duration = moment.duration(moment(endTime).diff(moment(startTime)));
                         //     var hours = duration.asHours();
@@ -2420,7 +2420,7 @@ Template.appointments.onRendered(function () {
 
             }
         }).catch(function (err) {
-            console.log(err);
+
             appointmentService.getAllAppointmentList().then(function (data) {
                 $('.fullScreenSpin').css('display', 'inline-block');
                 let calendarSet = templateObject.calendarOptions.get();
@@ -2842,7 +2842,7 @@ Template.appointments.onRendered(function () {
                         var endTime = moment(document.getElementById("dtSODate2").value + ' ' + document.getElementById("endTime").value).format('DD/MM/YYYY HH:mm');
                         var startTime = moment(document.getElementById("dtSODate2").value + ' ' + document.getElementById("startTime").value).format('DD/MM/YYYY HH:mm');
                         // if (moment(startTime).isAfter(endTime)) {
-                        //     console.log("Start time cant be greater than end time");
+
                         // } else {
                         //     var duration = moment.duration(moment(endTime).diff(moment(startTime)));
                         //     var hours = duration.asHours();
@@ -3462,7 +3462,7 @@ Template.appointments.onRendered(function () {
                 let data = JSON.parse(dataObject[0].data);
                 let useData = data.tcustomervs1;
                 for (let i in useData) {
-                    // console.log(useData[i].fields.Street.replace('\n', ','));
+
                     let customerrecordObj = {
                         customerid: useData[i].fields.ID || ' ',
                         customername: useData[i].fields.ClientName || ' ',
@@ -4022,7 +4022,7 @@ Template.appointments.onRendered(function () {
                         var endTime = moment(document.getElementById("dtSODate2").value + ' ' + document.getElementById("endTime").value).format('DD/MM/YYYY HH:mm');
                         var startTime = moment(document.getElementById("dtSODate2").value + ' ' + document.getElementById("startTime").value).format('DD/MM/YYYY HH:mm');
                         // if (moment(startTime).isAfter(endTime)) {
-                        //     console.log("Start time cant be greater than end time");
+
                         // } else {
                         //     var duration = moment.duration(moment(endTime).diff(moment(startTime)));
                         //     var hours = duration.asHours();
@@ -6978,7 +6978,7 @@ Template.appointments.events({
         if (date2 != "" && endTime > startTime) {
             document.getElementById('txtBookedHoursSpent').value = parseFloat(templateObject.diff_hours(endTime, startTime)).toFixed(2);
         } else {
-            console.log("Enter end time above start time to calculate total hours");
+
         }
     },
     'change #endTime': function () {
@@ -6992,7 +6992,7 @@ Template.appointments.events({
         if (endTime > startTime) {
             document.getElementById('txtBookedHoursSpent').value = parseFloat(templateObject.diff_hours(endTime, startTime)).toFixed(2);
         } else {
-            console.log("End time must be greater than start time");
+
         }
     },
     'change #tActualStartTime': function () {
@@ -7006,7 +7006,7 @@ Template.appointments.events({
         if (date2 != "" && endTime > startTime) {
             document.getElementById('txtActualHoursSpent').value = parseFloat(templateObject.diff_hours(endTime, startTime)).toFixed(2);
         } else {
-            console.log("Enter end time above actual start time to calculate total hours");
+
         }
     },
     'change #tActualEndTime': function () {
@@ -7020,7 +7020,7 @@ Template.appointments.events({
         if (endTime > startTime) {
             document.getElementById('txtActualHoursSpent').value = parseFloat(templateObject.diff_hours(endTime, startTime)).toFixed(2);
         } else {
-            console.log("End time must be greater than start time");
+            
         }
     },
     'submit #appointmentOptions': function (event) {
@@ -7200,7 +7200,7 @@ Template.appointments.events({
                             });
 
                         }).catch(function (err) {
-                            console.log(err);
+
                             swal({
                                 title: 'Something went wrong',
                                 text: err,

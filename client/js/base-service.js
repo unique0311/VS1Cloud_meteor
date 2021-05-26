@@ -35,17 +35,17 @@ export class BaseService{
     responseHandler(url, response) {
         if (response.statusCode === 200) {
             try {
-              // if(response.data == null){
-              //var content = response.content;
-              //response.content;
-            // }else{
+              
+              
+              
+            
             var content = JSON.parse(response.content);
-            // }
+            
 
                 return content;
             }
             catch (e) {
-                console.error('Error while fetching url : ' + url + ', Error : ', response);
+                
             }
         } else {
             return response.headers.errormessage;

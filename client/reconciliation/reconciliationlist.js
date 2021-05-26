@@ -24,7 +24,7 @@ Template.reconciliationlist.onRendered(function() {
     var splashArray = new Array();
     const dataTableList = [];
     const tableHeaderList = [];
-    // console.log(Router.current().params.success);
+    
     if(Router.current().params.query.success){
       $('.btnRefresh').addClass('btnRefreshAlert');
     }
@@ -199,7 +199,7 @@ Template.reconciliationlist.onRendered(function() {
                   columVisible = false;
                 }
                 sWidth = v.style.width.replace('px', "");
-                //console.log(sWidth);
+                
                 let datatablerecordObj = {
                   sTitle: v.innerText || '',
                   sWidth: sWidth || '',
@@ -367,7 +367,7 @@ Template.reconciliationlist.onRendered(function() {
             columVisible = false;
           }
           sWidth = v.style.width.replace('px', "");
-          //console.log(sWidth);
+          
           let datatablerecordObj = {
             sTitle: v.innerText || '',
             sWidth: sWidth || '',
@@ -530,7 +530,7 @@ Template.reconciliationlist.onRendered(function() {
                   columVisible = false;
                 }
                 sWidth = v.style.width.replace('px', "");
-                //console.log(sWidth);
+                
                 let datatablerecordObj = {
                   sTitle: v.innerText || '',
                   sWidth: sWidth || '',

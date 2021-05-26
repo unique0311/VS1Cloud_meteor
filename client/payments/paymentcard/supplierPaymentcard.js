@@ -66,7 +66,7 @@ Template.supplierpaymentcard.onRendered(() => {
   setTimeout(function() {
     Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblSupplierPaymentcard', function(error, result) {
       if (error) {
-        //console.log(error);
+
         //Bert.alert('<strong>Error:</strong> user-not-found, no user found please try again!', 'danger');
       } else {
         if (result) {
@@ -562,7 +562,7 @@ yearRange: "-90:+10",
 
             Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblSupplierPaymentcard', function(error, result) {
               if (error) {
-                //console.log(error);
+
                 //Bert.alert('<strong>Error:</strong> user-not-found, no user found please try again!', 'danger');
               } else {
                 if (result) {
@@ -624,8 +624,8 @@ yearRange: "-90:+10",
         }else{
           let data = JSON.parse(dataObject[0].data);
           let useData = data.tsupplierpayment;
-          console.log(useData);
-          // console.log(useData);
+          
+
           var added=false;
           for(let d=0; d<useData.length; d++){
 
@@ -743,7 +743,7 @@ $('#sltDepartment').attr('readonly', true);
 
 Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblSupplierPaymentcard', function(error, result) {
   if (error) {
-    //console.log(error);
+
     //Bert.alert('<strong>Error:</strong> user-not-found, no user found please try again!', 'danger');
   } else {
     if (result) {
@@ -917,7 +917,7 @@ $('.fullScreenSpin').css('display', 'none');
 
               Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblSupplierPaymentcard', function(error, result) {
                 if (error) {
-                  //console.log(error);
+
                   //Bert.alert('<strong>Error:</strong> user-not-found, no user found please try again!', 'danger');
                 } else {
                   if (result) {
@@ -1091,7 +1091,7 @@ $('.fullScreenSpin').css('display', 'none');
 
           Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblSupplierPaymentcard', function(error, result) {
             if (error) {
-              //console.log(error);
+
               //Bert.alert('<strong>Error:</strong> user-not-found, no user found please try again!', 'danger');
             } else {
               if (result) {
@@ -1251,7 +1251,7 @@ $('.fullScreenSpin').css('display', 'none');
 
             Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblSupplierPaymentcard', function(error, result) {
               if (error) {
-                //console.log(error);
+
                 //Bert.alert('<strong>Error:</strong> user-not-found, no user found please try again!', 'danger');
               } else {
                 if (result) {
@@ -1368,7 +1368,7 @@ $('.fullScreenSpin').css('display', 'none');
 
         Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblSupplierPaymentcard', function(error, result) {
           if (error) {
-            //console.log(error);
+
             //Bert.alert('<strong>Error:</strong> user-not-found, no user found please try again!', 'danger');
           } else {
             if (result) {
@@ -1482,7 +1482,7 @@ $('.fullScreenSpin').css('display', 'none');
 
                 Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblSupplierPaymentcard', function(error, result) {
                   if (error) {
-                    //console.log(error);
+
                     //Bert.alert('<strong>Error:</strong> user-not-found, no user found please try again!', 'danger');
                   } else {
                     if (result) {
@@ -1596,7 +1596,7 @@ $('.fullScreenSpin').css('display', 'none');
 
           Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblSupplierPaymentcard', function(error, result) {
             if (error) {
-              //console.log(error);
+
               //Bert.alert('<strong>Error:</strong> user-not-found, no user found please try again!', 'danger');
             } else {
               if (result) {
@@ -1716,7 +1716,7 @@ $('.fullScreenSpin').css('display', 'none');
 
             Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblSupplierPaymentcard', function(error, result) {
               if (error) {
-                //console.log(error);
+
                 //Bert.alert('<strong>Error:</strong> user-not-found, no user found please try again!', 'danger');
               } else {
                 if (result) {
@@ -1833,7 +1833,7 @@ $('.fullScreenSpin').css('display', 'none');
 
         Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblSupplierPaymentcard', function(error, result) {
           if (error) {
-            //console.log(error);
+
             //Bert.alert('<strong>Error:</strong> user-not-found, no user found please try again!', 'danger');
           } else {
             if (result) {
@@ -1950,7 +1950,7 @@ $('.fullScreenSpin').css('display', 'none');
 
           Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblSupplierPaymentcard', function(error, result) {
             if (error) {
-              //console.log(error);
+
               //Bert.alert('<strong>Error:</strong> user-not-found, no user found please try again!', 'danger');
             } else {
               if (result) {
@@ -2449,7 +2449,7 @@ $('.fullScreenSpin').css('display', 'none');
 
         Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblSupplierPaymentcard', function(error, result) {
           if (error) {
-            //console.log(error);
+
             //Bert.alert('<strong>Error:</strong> user-not-found, no user found please try again!', 'danger');
           } else {
             if (result) {
@@ -2596,7 +2596,7 @@ $('.fullScreenSpin').css('display', 'none');
 
         Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblSupplierPaymentcard', function(error, result) {
           if (error) {
-            //console.log(error);
+
             //Bert.alert('<strong>Error:</strong> user-not-found, no user found please try again!', 'danger');
           } else {
             if (result) {
@@ -3026,7 +3026,7 @@ $('.fullScreenSpin').css('display', 'none');
 
           Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblSupplierPaymentcard', function(error, result) {
             if (error) {
-              //console.log(error);
+
               //Bert.alert('<strong>Error:</strong> user-not-found, no user found please try again!', 'danger');
             } else {
               if (result) {
@@ -3143,7 +3143,7 @@ $('.fullScreenSpin').css('display', 'none');
 
           Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblSupplierPaymentcard', function(error, result) {
             if (error) {
-              //console.log(error);
+
               //Bert.alert('<strong>Error:</strong> user-not-found, no user found please try again!', 'danger');
             } else {
               if (result) {
@@ -3906,7 +3906,7 @@ Template.supplierpaymentcard.events({
        };
       }
 
-      // console.log(objDetails);
+
 
       paymentService.saveSuppDepositData(objDetails).then(function(data) {
         var customerID = $('#edtSupplierEmail').attr('customerid');
@@ -5290,7 +5290,7 @@ Template.supplierpaymentcard.events({
         }
       };
     }
-      // console.log(objDetails);
+
 
       paymentService.saveSuppDepositData(objDetails).then(function(data) {
         var customerID = $('#edtSupplierEmail').attr('customerid');
@@ -5632,7 +5632,7 @@ Template.supplierpaymentcard.events({
       };
 
     }
-      // console.log(objDetails);
+
 
       paymentService.saveSuppDepositData(objDetails).then(function(data) {
         var customerID = $('#edtSupplierEmail').attr('customerid');
@@ -6636,7 +6636,7 @@ Template.supplierpaymentcard.events({
 
             }
           });
-          // console.log(checkPrefDetails);
+
         }
       }
     }

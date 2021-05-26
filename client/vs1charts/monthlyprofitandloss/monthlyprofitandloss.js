@@ -38,7 +38,7 @@ Template.monthlyprofitandloss.onRendered(()=>{
 
  if (!localStorage.getItem('VS1PNLPeriodReport_dash')) {
   getInvSales(function (data) {
-    // console.log(data);
+    
     let currentDate = new Date();
     let currentMonthDate = currentDate.getMonth() + 1;
     let currentYear = currentDate.getFullYear();
@@ -335,7 +335,7 @@ Template.monthlyprofitandloss.onRendered(()=>{
           // var salesBoardService = new SalesBoardService();
 
                 callback('');
-                // console.log(prevMonth3Data);
+                
 
 
       });

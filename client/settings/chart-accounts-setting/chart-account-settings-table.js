@@ -16,7 +16,6 @@ Template.chartaccountsettingtable.events({
         $("#detail-modal-"+Template.currentData().type).show();
     },
     'click .closeCurrModel-allaccountlist, click .closeCurrModel-accountassetslist, click .closeCurrModel-accountliabilitylist,  click .closeCurrModel-accountequitylist, click .closeCurrModel-accountexpenselist, click .closeCurrModel-accountrevenuelist,  click .closeCurrModel-accountarchivelist ' : function () {
-        console.log(Template.currentData().type);
         $("#detail-modal-"+Template.currentData().type).hide();
         // $('.addActivityStatement').hide();
     }

@@ -105,10 +105,10 @@ Template.inventorylist.onRendered(function() {
         }
 
         let groupData = _.omit(_.groupBy(deptprodlineItems, 'productid'), ['']);
-        //console.log(groupData);
+
         templateObject.productdeptrecords.set(groupData);
         let totalAmountCalculation = _.map(groupData, function (value, key) {
-          //console.log(key);
+
 
             let totalPayment  = 0;
             let departmentname = '';
@@ -123,11 +123,11 @@ Template.inventorylist.onRendered(function() {
             return userObject;
 
         });
-        //console.log(totalAmountCalculation);
+
         // $('#edttotalqtyinstock').val(totaldeptquantity);
 
 
-        // console.log(splashArrayProdDept);
+
         // templateObject.totaldeptquantity.set(totaldeptquantity);
         //templateObject.getAllProductData('All');
     }).catch(function (err) {
@@ -308,7 +308,7 @@ Template.inventorylist.onRendered(function() {
             // Meteor._reload.reload();
         });
       }else{
-        // console.log(dataObject.length);
+
       let data = JSON.parse(dataObject[0].data);
       let useData = data.tproductvs1;
       let lineItems = [];
@@ -463,21 +463,21 @@ $('.fullScreenSpin').css('display','none');
         }
 
         // if(searchTerm == ""){
-        //   console.log(draftRecord);
+
         //   templateObject.datatablerecords.set(draftRecord);
         //   tableInventory.search(searchTerm).draw();
         // }else{
         //   $.grep(draftRecord, function(elem) {
-        //     //console.log(elem);
+        //
         //     //return elem.toLowerCase().indexOf(searchTerm) > -1;
         //   });
         // }
 
-      //  console.log(results);
+
         // $.each(draftRecord, function(i, v) {
-        // console.log(v);
+
         // if (v.index(eventData) !== -1) {
-        //   console.log('my object is in my array');
+
         // }
         //   // useData[i].fields.ID
         //   //   if (v[i].fields.name.search(new RegExp(/peter/i)) != -1) {
@@ -494,7 +494,7 @@ $('.fullScreenSpin').css('display','none');
 
       }
     }).catch(function (err) {
-      console.log(err);
+
       productService.getNewProductListVS1().then(function (data) {
       //localStorage.setItem('VS1ProductList', JSON.stringify(data)||'');
         let lineItems = [];
@@ -737,7 +737,7 @@ $('.fullScreenSpin').css('display','none');
         }
         // $('#edttotalqtyinstock').val(totaldeptquantity);
         // templateObject.productdeptrecords.set(deptprodlineItems);
-        // console.log(splashArrayProdDept);
+
         // templateObject.totaldeptquantity.set(totaldeptquantity);
 
     }).catch(function (err) {
@@ -762,7 +762,7 @@ $('.fullScreenSpin').css('display','none');
   if ((Session.get('VS1ProductList') === '') || (!Session.get('VS1ProductList'))) {
    templateObject.getAllProductData();
   }else{
-    console.log(Session.get('VS1ProductList'));
+
     templateObject.datatablerecords.set(Session.get('VS1ProductList'));
     if(templateObject.datatablerecords.get()){
 
@@ -1260,7 +1260,7 @@ Template.inventorylist.helpers({
           let columnDataValue = $(event.target).closest("div").prev().find(".divcolumn").text();
           var datable = $('#tblInventory th');
           $.each(datable, function(i,v) {
-            // console.log(datable);
+
           if(v.innerText == columnDataValue){
               let className = v.className;
               let replaceClass = className.replace(/ /g, ".");
@@ -1273,7 +1273,7 @@ Template.inventorylist.helpers({
         'click .btnOpenSettings' : function(event){
           let templateObject = Template.instance();
           var columns = $('#tblInventory th');
-          // console.log(columns);
+
           const tableHeaderList = [];
           let sTible = "";
           let sWidth = "";
@@ -1289,7 +1289,7 @@ Template.inventorylist.helpers({
               columVisible = false;
             }
             sWidth = v.style.width.replace('px', "");
-            // console.log(sWidth);
+
             let datatablerecordObj = {
               sTitle: v.innerText || '',
               sWidth: sWidth || '',
@@ -1330,24 +1330,6 @@ Template.inventorylist.helpers({
         $('.fullScreenSpin').css('display','inline-block');
         jQuery('#tblInventory_wrapper .dt-buttons .btntabletocsv').click();
          $('.fullScreenSpin').css('display','none');
-        // $('.fullScreenSpin').css('display','inline-block');
-        //   let productService = new ProductService();
-        //   let utilityService = new UtilityService();
-        //   const filename = 'Inventorylist_' + moment().format() + '.csv';
-        //   let rows = [];
-        //   productService.getNewProductList().then(function (data) {
-        //
-        //       rows[0] = ['ProductName', 'Sales Description', 'Department', 'Cost Price', 'Sales Price' , 'Quantity' , 'Barcode'];
-        //       data.tproductvs1.forEach(function (e, i) {
-        //
-        //         let costprice = utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductvs1[i].BuyQty1CostInc * 100) / 100) || 0;
-        //         let saleprice = utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductvs1[i].SellQty1PriceInc * 100) / 100) || 0;
-        //           rows.push([ data.tproductvs1[i].ProductName, data.tproductvs1[i].SalesDescription, '', costprice, saleprice, data.tproductvs1[i].TotalStockQty, data.tproductvs1[i].BARCODE]);
-        //       });
-        //       utilityService.exportToCsv(rows, filename, 'csv');
-        //       $('.fullScreenSpin').css('display','none');
-        //   });
-
       },
       'click #btnSave': async function () {
         let productService = new ProductService();
@@ -1432,7 +1414,7 @@ Template.inventorylist.helpers({
         //let dataValue = $(event.target).val();
           let productService = new ProductService();
         // var dataList = {};
-        // console.log(productValue);
+
         const dataTableList = [];
         var dataList = {};
         var favorite = [];
@@ -1478,7 +1460,7 @@ Template.inventorylist.helpers({
 
 
           }
-       // console.log(dataTableList);
+
        templateObject.datatablerecords.set(dataTableList);
        // templateObject.datatablerecords.set(dataTableList);
 
@@ -1547,7 +1529,7 @@ $('#attachment-upload').trigger('click');
       // alert('here 1');
       $('.file-name').text(filename);
       let selectedFile = event.target.files[0];
-      //console.log(selectedFile);
+
       templateObj.selectedFile.set(selectedFile);
       if($('.file-name').text() != ""){
         $(".btnImport").removeAttr("disabled");
@@ -1568,17 +1550,17 @@ $('#attachment-upload').trigger('click');
                 var data = e.target.result;
                 data = new Uint8Array(data);
                 var workbook = XLSX.read(data, {type: 'array'});
-                //console.log(workbook);
+
                 var result = {};
                 workbook.SheetNames.forEach(function (sheetName) {
                     var roa = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName], {header: 1});
                     var sCSV = XLSX.utils.make_csv(workbook.Sheets[sheetName]);
                     templateObj.selectedFile.set(sCSV);
-                    //console.log(sCSV);
+
                     if (roa.length) result[sheetName] = roa;
                 });
                 // see the result, caution: it works after reader event is done.
-                //console.log(result);
+
             };
             reader.readAsArrayBuffer(oFile);
 
