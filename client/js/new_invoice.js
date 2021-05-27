@@ -15,7 +15,6 @@ import { autoTable } from 'jspdf-autotable';
 import 'jquery-editable-select';
 import { SideBarService } from '../js/sidebar-service';
 import '../lib/global/indexdbstorage.js';
-import { get } from 'jquery';
 let sideBarService = new SideBarService();
 let utilityService = new UtilityService();
 var times = 0;
@@ -478,8 +477,6 @@ Template.new_invoice.onRendered(() => {
                     let invoicerecord = {
                         id: data.fields.ID,
                         lid: 'New Invoice',
-                        firstname: cust_result[0].firstname,
-                        lastname: cust_result[0].lastname,
                         socustomer: data.fields.CustomerName,
                         salesOrderto: data.fields.InvoiceToDesc,
                         shipto: data.fields.ShipToDesc,
@@ -735,8 +732,6 @@ Template.new_invoice.onRendered(() => {
                             templateObject.attachmentCount.set(0);
                             if (data.fields.Attachments) {
                                 if (data.fields.Attachments.length) {
-                                    invoicerecord.firstname = clientList[i].firstname || '';
-                                    invoicerecord.lastname = clientList[i].lastname || '';
                                     templateObject.attachmentCount.set(data.fields.Attachments.length);
                                     templateObject.uploadedFiles.set(data.fields.Attachments);
                                 }
@@ -745,6 +740,8 @@ Template.new_invoice.onRendered(() => {
                                 if (clientList) {
                                     for (var i = 0; i < clientList.length; i++) {
                                         if (clientList[i].customername == data.fields.CustomerName) {
+                                            invoicerecord.firstname = clientList[i].firstname || '';
+                                            invoicerecord.lastname = clientList[i].lastname || '';
                                             $('#edtCustomerEmail').val(clientList[i].customeremail);
                                             $('#edtCustomerEmail').attr('customerid', clientList[i].customerid);
                                         }
@@ -2716,8 +2713,6 @@ Template.new_invoice.onRendered(() => {
                     let invoicerecord = {
                         id: data.fields.ID,
                         lid: 'New Invoice',
-                        firstname: cust_result[0].firstname,
-                        lastname: cust_result[0].lastname,
                         socustomer: data.fields.CustomerName,
                         salesOrderto: data.fields.InvoiceToDesc,
                         shipto: data.fields.ShipToDesc,
@@ -2765,6 +2760,9 @@ Template.new_invoice.onRendered(() => {
                         if (clientList) {
                             for (var i = 0; i < clientList.length; i++) {
                                 if (clientList[i].customername == data.fields.CustomerName) {
+                                    invoicerecord.firstname = clientList[i].firstname || '';
+                                    invoicerecord.lastname = clientList[i].lastname || '';
+                                    templateObject.invoicerecord.set(invoicerecord);
                                     $('#edtCustomerEmail').val(clientList[i].customeremail);
                                     $('#edtCustomerEmail').attr('customerid', clientList[i].customerid);
                                 }
@@ -2962,6 +2960,9 @@ Template.new_invoice.onRendered(() => {
                         if (clientList) {
                             for (var i = 0; i < clientList.length; i++) {
                                 if (clientList[i].customername == data.fields.CustomerName) {
+                                    invoicerecord.firstname = clientList[i].firstname || '';
+                                    invoicerecord.lastname = clientList[i].lastname || '';
+                                    templateObject.invoicerecord.set(invoicerecord);
                                     $('#edtCustomerEmail').val(clientList[i].customeremail);
                                     $('#edtCustomerEmail').attr('customerid', clientList[i].customerid);
                                 }
@@ -3454,7 +3455,7 @@ Template.new_invoice.onRendered(() => {
                 $printrows.each(function (index) {
                     var $printrows = $(this);
                     var qty = $printrows.find("#lineQty").text() || 0;
-                    var price = $printrows.find("#lineUnitPrice").text() || 0;
+                    var price = $printrows.find("#lineUnitPrice").text() || "0";
                     var taxrateamount = 0;
                     var taxRate = $printrows.find("#lineTaxCode").text();
                     if (taxcodeList) {
@@ -3650,7 +3651,7 @@ Template.new_invoice.onRendered(() => {
                             $printrows.each(function (index) {
                                 var $printrows = $(this);
                                 var qty = $printrows.find("#lineQty").text() || 0;
-                                var price = $printrows.find("#lineUnitPrice").text() || 0;
+                                var price = $printrows.find("#lineUnitPrice").text() || "0";
                                 var taxcode = code;
                                 $printrows.find("#lineTaxCode").text(code);
                                 $printrows.find("#lineTaxRate").text(rate);
@@ -3706,11 +3707,13 @@ Template.new_invoice.onRendered(() => {
         };
         let invoiceData = templateObject.invoicerecord.get();
         let lineItems = [];
-        let total = $('#grandTotal').html() || 0;
+        let total = $('#totalBalanceDue').html() || 0;
         let tax = $('#subtotal_tax').html() || 0;
         let customer = $('#edtCustomerName').val();
         let name = $('#firstname').val();
         let surname = $('#lastname').val();
+        let dept = $('#sltDept').val();
+        var erpGet = erpDb();
         $('#tblInvoiceLine > tbody > tr').each(function () {
             var lineID = this.id;
             let tdproduct = $('#' + lineID + " .lineProductName").text();
@@ -3738,10 +3741,8 @@ Template.new_invoice.onRendered(() => {
         for (let l = 0; l < lineItems.length; l++) {
             stringQuery = stringQuery + "product" + l + "=" + lineItems[l].description + "&price" + l + "=" + lineItems[l].unitPrice + "&qty" + l + "=" + lineItems[l].quantity + "&";
         }
-        stringQuery = stringQuery + "tax=" + tax + "&total=" + total + "&customer=" + customer + "&name=" + name + "&surname=" + surname + "&quoteid=" + invoiceData.id + "&company=" + company + "&vs1email=" + vs1User + "&customeremail=" + customerEmail + "&type=Invoice";
+        stringQuery = stringQuery + "tax=" + tax + "&total=" + total + "&customer=" + customer + "&name=" + name + "&surname=" + surname + "&quoteid=" + invoiceData.id + "&company=" + company + "&vs1email=" + vs1User + "&customeremail=" + customerEmail + "&type=Invoice&url=" + window.location.href + "&server=" + erpGet.ERPIPAddress + "&username=" + erpGet.ERPUsername + "&token=" + erpGet.ERPPassword + "&session=" + erpGet.ERPDatabase + "&port=" + erpGet.ERPPort + "&dept=" + dept;      
         var pdf = new jsPDF('p', 'pt', 'a4');
-
-
         pdf.setFontSize(18);
         var source = document.getElementById('html-2-pdfwrapper');
         pdf.addHTML(source, function () {
@@ -4421,7 +4422,7 @@ Template.new_invoice.events({
             $printrows.each(function (index) {
                 var $printrows = $(this);
                 var qty = $printrows.find("#lineQty").text() || 0;
-                var price = $printrows.find("#lineUnitPrice").text() || 0;
+                var price = $printrows.find("#lineUnitPrice").text() || "0";
                 var taxrateamount = 0;
                 var taxRate = $printrows.find("#lineTaxCode").text();
                 if (taxcodeList) {
@@ -4864,6 +4865,7 @@ Template.new_invoice.events({
             var splashLineArray = new Array();
             let lineItemsForm = [];
             let lineItemObjForm = {};
+            var erpGet = erpDb();
             let checkBackOrder = templateObject.includeBOnShippedQty.get();
             $('#tblInvoiceLine > tbody > tr').each(function () {
                 var lineID = this.id;
@@ -4947,7 +4949,7 @@ Template.new_invoice.events({
             let shippingAddress = $('#txaShipingInfo').val();
             let comments = $('#txaComment').val();
             let pickingInfrmation = $('#txapickmemo').val();
-            let total = $('#grandTotal').html() || 0;
+            let total = $('#totalBalanceDue').html() || 0;
             let tax = $('#subtotal_tax').html() || 0;
             let saleCustField1 = $('#edtSaleCustField1').val();
             let saleCustField2 = $('#edtSaleCustField2').val();
@@ -5013,8 +5015,7 @@ Template.new_invoice.events({
                 for (let l = 0; l < lineItems.length; l++) {
                     stringQuery = stringQuery + "product" + l + "=" + lineItems[l].description + "&price" + l + "=" + lineItems[l].unitPrice + "&qty" + l + "=" + lineItems[l].quantity + "&";
                 }
-                stringQuery = stringQuery + "tax=" + tax + "&total=" + total + "&customer=" + customer + "&name=" + name + "&surname=" + surname + "&quoteid=" + objDetails.fields.ID + "&company=" + company + "&vs1email=" + vs1User + "&customeremail=" + customerEmail + "&type=Invoice&url=" + window.location.href;
-
+                stringQuery = stringQuery + "tax=" + tax + "&total=" + total + "&customer=" + customer + "&name=" + name + "&surname=" + surname + "&quoteid=" + objDetails.fields.ID + "&company=" + company + "&vs1email=" + vs1User + "&customeremail=" + customerEmail + "&type=Invoice&url=" + window.location.href  + "&server=" + erpGet.ERPIPAddress + "&username=" + erpGet.ERPUsername + "&token=" + erpGet.ERPPassword + "&session=" + erpGet.ERPDatabase + "&port=" + erpGet.ERPPort + "&dept=" + departement;
                 $('#html-2-pdfwrapper').css('display', 'block');
                 $('.pdfCustomerName').html($('#edtCustomerName').val());
                 $('.pdfCustomerAddress').html($('#txabillingAddress').val());

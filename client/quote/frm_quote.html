@@ -948,7 +948,7 @@ style="margin: 16px;margin-top: 0px;width: 95px;"><i class="fa fa-remove" style=
         </div>
         <!-- Start PDF -->
         <!-- New A4 -->
-        <div style="width: 210mm; background-color: #ffffff; padding: 8px; height: 297mm; font-size: 13.33px; color: #000000; display:none; overflow-x: visible;" id="html-2-pdfwrapper" name="html-2-pdfwrapper">
+        <div style="width: 210mm; background-color: #ffffff; padding: 8px; height: 297mm; font-size: 13.33px; color: #000000; display:block; overflow-x: visible;" id="html-2-pdfwrapper" name="html-2-pdfwrapper">
             <div style="display: flex; height: 70mm;">
                 <div style="margin: 0px; padding: 16px; width: 130mm; max-width: 130mm;">
                     <div style="display: flex;">
@@ -1025,7 +1025,7 @@ style="margin: 16px;margin-top: 0px;width: 95px;"><i class="fa fa-remove" style=
             <div style="display: flex;">
                 <div style="margin: 8px;min-width: 100mm;max-width: 100mm;width: 100mm;">
                     <h4 style="font-size: 20px;font-weight: bold; color: rgb(0 0 0);">Comments</h4>
-                    <p style="color: rgb(0 0 0);">{{invoicerecord.comments}}</p>
+                    <p style="color: rgb(0 0 0);">{{quoterecord.comments}}</p>
                 </div>
                 <div style="margin: 8px; border: none !important; min-width: 90mm;max-width: 90mm;width: 90mm;">
                     <div style="width: 100%; display: flex;">
@@ -1034,8 +1034,8 @@ style="margin: 16px;margin-top: 0px;width: 95px;"><i class="fa fa-remove" style=
                             <p id="grandTotal" style="font-weight: 600; margin-bottom: 8px; color: rgb(0 0 0);">Total GST</p>
                         </div>
                         <div style="padding-left: 16px; width: 50%;">
-                            <p id="subtotal_totalPrint" style="text-align: right; margin-bottom: 8px; font-weight: 600; color: rgb(0 0 0);">{{invoicerecord.SubTotal}}</p>
-                            <p style="text-align: right; margin-bottom: 8px; font-weight: 600; color: rgb(0 0 0);">{{invoicerecord.TotalTax}}</p>
+                            <p id="subtotal_totalPrint" style="text-align: right; margin-bottom: 8px; font-weight: 600; color: rgb(0 0 0);">{{quoterecord.SubTotal}}</p>
+                            <p style="text-align: right; margin-bottom: 8px; font-weight: 600; color: rgb(0 0 0);">{{quoterecord.TotalTax}}</p>
                         </div>
                     </div>
                     <hr>
@@ -1044,7 +1044,7 @@ style="margin: 16px;margin-top: 0px;width: 95px;"><i class="fa fa-remove" style=
                             <p  style="font-weight: 800; margin-bottom: 8px; color: rgb(0 0 0);">TOTAL</p>
                         </div>
                         <div style="padding-left: 16px; width: 50%;">
-                            <p id="grandTotalPrint" style="text-align: right; margin-bottom: 8px; font-weight: 800;">{{invoicerecord.Total}}<br></p>
+                            <p id="grandTotalPrint" style="text-align: right; margin-bottom: 8px; font-weight: 800;">{{quoterecord.Total}}<br></p>
                         </div>
                     </div>
                     <hr>
@@ -1054,8 +1054,8 @@ style="margin: 16px;margin-top: 0px;width: 95px;"><i class="fa fa-remove" style=
                             <p style="font-weight: 600; margin-bottom: 8px; color: rgb(0 0 0);">Balance Due</p>
                         </div>
                         <div style="padding-left: 16px; width: 50%;">
-                            <p style="text-align: right; margin-bottom: 8px; font-weight: 600; color: rgb(0 0 0);">{{invoicerecord.totalPaid}}</p>
-                            <p id="totalBalanceDuePrint" style="text-align: right; margin-bottom: 8px; font-weight: 600; color: rgb(0 0 0);">{{invoicerecord.balanceDue}}</p>
+                            <p style="text-align: right; margin-bottom: 8px; font-weight: 600; color: rgb(0 0 0);">{{quoterecord.totalPaid}}</p>
+                            <p id="totalBalanceDuePrint" style="text-align: right; margin-bottom: 8px; font-weight: 600; color: rgb(0 0 0);">{{quoterecord.balanceDue}}</p>
                         </div>
                     </div>
                 </div>
