@@ -468,14 +468,13 @@ Template.new_quote.onRendered(() => {
                                         if (clientList[i].customername == data.fields.CustomerName) {
                                             quoterecord.firstname = clientList[i].firstname || '';
                                             quoterecord.lastname = clientList[i].lastname || '';
-                                            templateObject.invoicerecord.set(invoicerecord);
+                                            templateObject.quoterecord.set(quoterecord);
                                             $('#edtCustomerEmail').val(clientList[i].customeremail);
                                             $('#edtCustomerEmail').attr('customerid', clientList[i].customerid);
                                         }
                                     }
                                 };
                             }, 100);
-
                             templateObject.quoterecord.set(quoterecord);
 
 
@@ -714,9 +713,9 @@ Template.new_quote.onRendered(() => {
                                     if (clientList) {
                                         for (var i = 0; i < clientList.length; i++) {
                                             if (clientList[i].customername == useData[d].fields.CustomerName) {
-                                                invoicerecord.firstname = clientList[i].firstname || '';
-                                                invoicerecord.lastname = clientList[i].lastname || '';
-                                                templateObject.invoicerecord.set(invoicerecord);
+                                                quoterecord.firstname = clientList[i].firstname || '';
+                                                quoterecord.lastname = clientList[i].lastname || '';
+                                                templateObject.quoterecord.set(quoterecord);
                                                 $('#edtCustomerEmail').val(clientList[i].customeremail);
                                                 $('#edtCustomerEmail').attr('customerid', clientList[i].customerid);
                                             }
@@ -1512,7 +1511,7 @@ Template.new_quote.onRendered(() => {
                                     if (clientList[i].customername == data.fields.CustomerName) {
                                         quoterecord.firstname = clientList[i].firstname || '';
                                         quoterecord.lastname = clientList[i].lastname || '';
-                                        templateObject.invoicerecord.set(invoicerecord);
+                                        templateObject.quoterecord.set(quoterecord);
                                         $('#edtCustomerEmail').val(clientList[i].customeremail);
                                         $('#edtCustomerEmail').attr('customerid', clientList[i].customerid);
                                     }
@@ -1723,7 +1722,7 @@ Template.new_quote.onRendered(() => {
                                         if (clientList[i].customername == useData[d].fields.CustomerName) {
                                             quoterecord.firstname = clientList[i].firstname || '';
                                             quoterecord.lastname = clientList[i].lastname || '';
-                                            templateObject.invoicerecord.set(invoicerecord);
+                                            templateObject.quoterecord.set(quoterecord);
                                             $('#edtCustomerEmail').val(clientList[i].customeremail);
                                             $('#edtCustomerEmail').attr('customerid', clientList[i].customerid);
                                         }
@@ -1907,7 +1906,7 @@ Template.new_quote.onRendered(() => {
                                         if (clientList[i].customername == data.fields.CustomerName) {
                                             quoterecord.firstname = clientList[i].firstname || '';
                                             quoterecord.lastname = clientList[i].lastname || '';
-                                            templateObject.invoicerecord.set(invoicerecord);
+                                            templateObject.quoterecord.set(quoterecord);
                                             $('#edtCustomerEmail').val(clientList[i].customeremail);
                                             $('#edtCustomerEmail').attr('customerid', clientList[i].customerid);
                                         }
@@ -2114,7 +2113,7 @@ Template.new_quote.onRendered(() => {
                                 if (clientList[i].customername == data.fields.CustomerName) {
                                     quoterecord.firstname = clientList[i].firstname || '';
                                     quoterecord.lastname = clientList[i].lastname || '';
-                                    templateObject.invoicerecord.set(invoicerecord);
+                                    templateObject.quoterecord.set(quoterecord);
                                     $('#edtCustomerEmail').val(clientList[i].customeremail);
                                     $('#edtCustomerEmail').attr('customerid', clientList[i].customerid);
                                 }
