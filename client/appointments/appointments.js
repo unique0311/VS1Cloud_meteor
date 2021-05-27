@@ -741,7 +741,7 @@ Template.appointments.onRendered(function () {
                     }
 
                     if (prefObject.apptEndTime) {
-                        $('#hoursTo').val(prefObject.apptEndTime);
+                        $('#hoursTo').val(prefObject.apptEndTimeCal);
                     }
 
                     templateObject.calendarOptions.set(prefObject);
@@ -5842,7 +5842,7 @@ Template.appointments.events({
         let defaultProduct = $('#productlist').children("option:selected").text() || '';
         let defaultProductID = $('#productlist').children("option:selected").val() || '';
         let date = new Date('2021-03-25 ' + showTimeTo);
-        showTimeTo = date.getHours() + 2 + ':' + ('0' + date.getMinutes()).slice(-2);
+        showTimeTo = date.getHours() + ':' + ('0' + date.getMinutes()).slice(-2);
         let appointmentService = new AppointmentService();
 
         let objectData = "";
