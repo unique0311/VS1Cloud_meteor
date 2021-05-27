@@ -8,13 +8,10 @@ import { AccountService } from "../accounts/account-service";
 import '../lib/global/erp-objects';
 import 'jquery-ui-dist/external/jquery/jquery';
 import 'jquery-ui-dist/jquery-ui';
-
 import { Random } from 'meteor/random';
 import { jsPDF } from 'jspdf';
 import 'jQuery.print/jQuery.print.js';
 import { autoTable } from 'jspdf-autotable';
-
-
 import 'jquery-editable-select';
 import { SideBarService } from '../js/sidebar-service';
 import '../lib/global/indexdbstorage.js';

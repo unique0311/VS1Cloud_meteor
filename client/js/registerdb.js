@@ -133,7 +133,7 @@ Template.registerdb.events({
             extraModuleArr.push(extraModuleAdd);
          }else if(arrPackage[i] == 'vs1_expenseclaimsreceiptclaiming_sub'){
             extraModuleAdd = {
-              "ModuleName":"Expense Claims / Receipt Claiming",
+              "ModuleName":"Expense Claims",
               "Price":22,
               "DiscountedPrice":11,
               "RenewPrice":22,
@@ -350,12 +350,10 @@ Template.registerdb.events({
   }else{
     var databaseName = myArrResponse.ProcessLog.Databasename;
 
-      $(".addloginkey").attr("href", 'https://vs1cloud.com/vs1check.php');
+      $(".addloginkey").attr("href", 'https://www.depot.vs1cloud.com/vs1check/vs1checklogin.php?login=sandbox');
+      $(".addloginActive").attr("href", 'https://www.depot.vs1cloud.com/vs1check/vs1check.php?from=sandbox&checktoken='+databaseName+'');
     localStorage.usremail = userEmail;
     localStorage.usrpassword = cloudpassword;
-
-
-
 
 
        CloudDatabase.insert({ server: serverIP,database:databaseName,username:userEmail.toLowerCase(),useremail:userEmail.toLowerCase(),password:cloudpassword,port:port,description:company,createdAt: new Date() }, function(err, idTag) {
