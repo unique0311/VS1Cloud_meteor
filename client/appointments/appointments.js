@@ -638,16 +638,40 @@ Template.appointments.onRendered(function () {
                     let timeSplit = appEndTimeData.split(':');
                     let appEndTimeDataHours = parseInt(timeSplit[0]) + 2;
                     let appEndTimeDataToLoad = appEndTimeDataHours + ':' + timeSplit[1];
+                    let defaultAppHour = 1;
+
+                    let defaultEndTime = '17:00';
+                    if(data.tappointmentpreferences[data.tappointmentpreferences.length - 1].ApptEndtime.split(' ')[0] == '05:30'){
+                      defaultEndTime = '17:00';
+                      appEndTimeDataToLoad = '19:00';
+                    }else{
+                      defaultEndTime = udata.tappointmentpreferences[data.tappointmentpreferences.length - 1].ApptEndtime.split(' ')[0];
+                    }
+
+                    if(data.tappointmentpreferences[data.tappointmentpreferences.length - 1].DefaultApptDuration == 120){
+                      defaultAppHour = 2;
+                    }else{
+                      defaultAppHour = data.tappointmentpreferences[data.tappointmentpreferences.length - 1].DefaultApptDuration;
+                    }
+
+                    let showAppDurIn = 1;
+
+                    if(data.tappointmentpreferences[data.tappointmentpreferences.length - 1].ShowApptDurationin == 60){
+                      showAppDurIn = 1;
+                    }else{
+                      showAppDurIn = data.tappointmentpreferences[data.tappointmentpreferences.length - 1].ShowApptDurationin;
+                    }
+
                     prefObject = {
                         id: data.tappointmentpreferences[data.tappointmentpreferences.length - 1].Id || '',
                         defaultProduct: data.tappointmentpreferences[data.tappointmentpreferences.length - 1].DefaultServiceProduct || '',
                         defaultProductID: data.tappointmentpreferences[data.tappointmentpreferences.length - 1].DefaultServiceProductID || '',
                         showSat: data.tappointmentpreferences[data.tappointmentpreferences.length - 1].ShowSaturdayinApptCalendar || false,
                         showSun: data.tappointmentpreferences[data.tappointmentpreferences.length - 1].ShowSundayinApptCalendar || false,
-                        showApptDurationin: data.tappointmentpreferences[data.tappointmentpreferences.length - 1].ShowApptDurationin || '1',
-                        defaultApptDuration: data.tappointmentpreferences[data.tappointmentpreferences.length - 1].DefaultApptDuration || '2',
+                        showApptDurationin: showAppDurIn || '1',
+                        defaultApptDuration: defaultAppHour || '2',
                         apptStartTime: data.tappointmentpreferences[data.tappointmentpreferences.length - 1].ApptStartTime.split(' ')[0] || '08:00',
-                        apptEndTime: data.tappointmentpreferences[data.tappointmentpreferences.length - 1].ApptEndtime.split(' ')[0] || '17:00',
+                        apptEndTime: defaultEndTime || '17:00',
                         apptEndTimeCal: appEndTimeDataToLoad || '17:00'
 
                     }
@@ -692,6 +716,7 @@ Template.appointments.onRendered(function () {
         } else {
             let data = JSON.parse(dataObject[0].data);
             let useData = data.tappointmentpreferences;
+            // console.log(useData);
             for (let i = 0; i < useData.length; i++) {
                 if (useData[i].EmployeeID == Session.get('mySessionEmployeeLoggedID')) {
 
@@ -699,16 +724,39 @@ Template.appointments.onRendered(function () {
                     let timeSplit = appEndTimeData.split(':');
                     let appEndTimeDataHours = parseInt(timeSplit[0]) + 2;
                     let appEndTimeDataToLoad = appEndTimeDataHours + ':' + timeSplit[1];
+                    let defaultAppHour = 1;
+                    let defaultEndTime = '17:00';
+                    if(useData[i].ApptEndtime.split(' ')[0] == '05:30'){
+                      defaultEndTime = '17:00';
+                      appEndTimeDataToLoad = '19:00';
+                    }else{
+                      defaultEndTime = useData[i].ApptEndtime.split(' ')[0];
+                    }
+
+                    if(useData[i].DefaultApptDuration == 120){
+                      defaultAppHour = 2;
+                    }else{
+                      defaultAppHour = useData[i].DefaultApptDuration;
+                    }
+
+                    let showAppDurIn = 1;
+
+                    if(useData[i].ShowApptDurationin == 60){
+                      showAppDurIn = 1;
+                    }else{
+                      showAppDurIn = useData[i].ShowApptDurationin;
+                    }
+
                     prefObject = {
                         id: useData[i].Id || '',
                         defaultProduct: useData[i].EmployeeID.DefaultServiceProduct || '',
                         defaultProductID: useData[i].DefaultServiceProductID || '',
                         showSat: useData[i].ShowSaturdayinApptCalendar || false,
                         showSun: useData[i].ShowSundayinApptCalendar || false,
-                        showApptDurationin: useData[i].ShowApptDurationin || '1',
-                        defaultApptDuration: useData[i].DefaultApptDuration || '2',
+                        showApptDurationin: showAppDurIn || '1',
+                        defaultApptDuration: defaultAppHour || '2',
                         apptStartTime: useData[i].ApptStartTime.split(' ')[0] || '08:00',
-                        apptEndTime: useData[i].ApptEndtime.split(' ')[0] || '17:00',
+                        apptEndTime: defaultEndTime || '17:00',
                         apptEndTimeCal: appEndTimeDataToLoad || '17:00'
 
                     }
@@ -762,16 +810,38 @@ Template.appointments.onRendered(function () {
                 let timeSplit = appEndTimeData.split(':');
                 let appEndTimeDataHours = parseInt(timeSplit[0]) + 2;
                 let appEndTimeDataToLoad = appEndTimeDataHours + ':' + timeSplit[1];
+                let defaultAppHour = 1;
+                let defaultEndTime = '17:00';
+                if(data.tappointmentpreferences[data.tappointmentpreferences.length - 1].ApptEndtime.split(' ')[0] == '05:30'){
+                  defaultEndTime = '17:00';
+                  appEndTimeDataToLoad = '19:00';
+                }else{
+                  defaultEndTime = udata.tappointmentpreferences[data.tappointmentpreferences.length - 1].ApptEndtime.split(' ')[0];
+                }
+
+                if(data.tappointmentpreferences[data.tappointmentpreferences.length - 1].DefaultApptDuration == 120){
+                  defaultAppHour = 2;
+                }else{
+                  defaultAppHour = data.tappointmentpreferences[data.tappointmentpreferences.length - 1].DefaultApptDuration;
+                }
+
+                let showAppDurIn = 1;
+
+                if(data.tappointmentpreferences[data.tappointmentpreferences.length - 1].ShowApptDurationin == 60){
+                  showAppDurIn = 1;
+                }else{
+                  showAppDurIn = data.tappointmentpreferences[data.tappointmentpreferences.length - 1].ShowApptDurationin;
+                }
                 prefObject = {
                     id: data.tappointmentpreferences[data.tappointmentpreferences.length - 1].Id || '',
                     defaultProduct: data.tappointmentpreferences[data.tappointmentpreferences.length - 1].DefaultServiceProduct || '',
                     defaultProductID: data.tappointmentpreferences[data.tappointmentpreferences.length - 1].DefaultServiceProductID || '',
                     showSat: data.tappointmentpreferences[data.tappointmentpreferences.length - 1].ShowSaturdayinApptCalendar || false,
                     showSun: data.tappointmentpreferences[data.tappointmentpreferences.length - 1].ShowSundayinApptCalendar || false,
-                    showApptDurationin: data.tappointmentpreferences[data.tappointmentpreferences.length - 1].ShowApptDurationin || '',
-                    defaultApptDuration: data.tappointmentpreferences[data.tappointmentpreferences.length - 1].DefaultApptDuration || '',
+                    showApptDurationin: dshowAppDurIn || '',
+                    defaultApptDuration: defaultAppHour || '2',
                     apptStartTime: data.tappointmentpreferences[data.tappointmentpreferences.length - 1].ApptStartTime.split(' ')[0] || '',
-                    apptEndTime: data.tappointmentpreferences[data.tappointmentpreferences.length - 1].ApptEndtime.split(' ')[0] || '',
+                    apptEndTime: defaultEndTime || '',
                     apptEndTimeCal: appEndTimeDataToLoad || '17:00'
 
                 }
@@ -1830,12 +1900,23 @@ Template.appointments.onRendered(function () {
                 let useData = data.tappointment;
                 $('.fullScreenSpin').css('display', 'none');
                 let calendarSet = templateObject.calendarOptions.get();
+
                 let hideDays = '';
                 let slotMin = "06:00:00";
                 let slotMax = "21:00:00";
-                if (calendarSet.showSat == false) {
-                    hideDays = [6];
+
+                if(calendarSet){
+                  if (calendarSet.showSat == false) {
+                      hideDays = [6];
+                  }
+
+                  if (calendarSet.showSun == false) {
+                      hideDays = [0];
+                  }
+                }else{
+                  hideDays = [0,6];
                 }
+
 
                 if (calendarSet.apptStartTime) {
                     slotMin = calendarSet.apptStartTime;
@@ -1845,9 +1926,7 @@ Template.appointments.onRendered(function () {
                     slotMax = calendarSet.apptEndTimeCal;
                 }
 
-                if (calendarSet.showSun == false) {
-                    hideDays = [0];
-                }
+
 
                 if (calendarSet.showSat == false && calendarSet.showSun == false) {
                     hideDays = [0, 6];
@@ -4249,7 +4328,7 @@ Template.appointments.onRendered(function () {
                 $("#allocationTable > tbody > tr> td > .card").addClass("cardHiddenSundayOrSaturday");
                 setTimeout(function () {
                     templateObject.renderCalendar(slotMin, slotMax, hideDays);
-                    
+
                 }, 50);
             } else if (checkboxSaturday.checked) {
                 let hideDays = [0];
@@ -4268,7 +4347,7 @@ Template.appointments.onRendered(function () {
                 $("#allocationTable > tbody > tr> td > .card").addClass("cardHiddenSundayOrSaturday");
                 setTimeout(function () {
                     templateObject.renderCalendar(slotMin, slotMax, hideDays);
-                    
+
                 }, 50);
             } else {
                 let hideDays = [0,6];
@@ -4285,7 +4364,7 @@ Template.appointments.onRendered(function () {
                     $("#allocationTable > tbody > tr> td > .card").addClass("cardFullWeek");
                     $("#allocationTable > tbody > tr> td > .card").removeClass("cardHiddenWeekend");
                     $("#allocationTable > tbody > tr> td > .card").removeClass("cardHiddenSundayOrSaturday");
-                 
+
                     setTimeout(function () {
                         templateObject.renderCalendar(slotMin, slotMax, hideDays);
 
@@ -4377,7 +4456,7 @@ Template.appointments.onRendered(function () {
                     $("#allocationTable > tbody > tr> td > .card").addClass("cardFullWeek");
                     $("#allocationTable > tbody > tr> td > .card").removeClass("cardHiddenWeekend");
                     $("#allocationTable > tbody > tr> td > .card").removeClass("cardHiddenSundayOrSaturday");
-                 
+
                     setTimeout(function () {
                         templateObject.renderCalendar(slotMin, slotMax, hideDays);
                 }, 50);

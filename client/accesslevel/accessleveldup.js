@@ -1169,9 +1169,9 @@ Template.accessleveldup.events({
                         formID:parseInt(this.id)|| '',
                         Access : accessNumber,
                     };
-                    if(radioValue != accessInitialValue){
+                    //if(radioValue != accessInitialValue){
                         lineItemsFormAccess.push(lineItemObjFormAccess);
-                    }
+                    //}
 
                 });
 

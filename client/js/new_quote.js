@@ -2603,10 +2603,78 @@ Template.new_quote.onRendered(() => {
     });
 
 
+    /* On Click TaxCode List */
+    $(document).on("click", "#tblTaxRate tbody tr", function (e) {
+        let selectLineID = $('#selectLineID').val();
+        let taxcodeList = templateObject.taxraterecords.get();
+        var table = $(this);
+        let utilityService = new UtilityService();
+        let $tblrows = $("#tblQuoteLine tbody tr");
+
+        if (selectLineID) {
+            let lineTaxCode = table.find(".taxName").text();
+            let lineTaxRate = table.find(".taxRate").text();
+            let lineAmount = 0;
+            let subGrandTotal = 0;
+            let taxGrandTotal = 0;
+
+            $('#' + selectLineID + " .lineTaxRate").text(lineTaxRate || 0);
+            $('#' + selectLineID + " .lineTaxCode").text(lineTaxCode);
+
+
+            $('#taxRateListModal').modal('toggle');
+            $tblrows.each(function (index) {
+                var $tblrow = $(this);
+                var qty = $tblrow.find(".lineQty").val() || 0;
+                var price = $tblrow.find(".lineUnitPrice").val() || 0;
+                var taxcode = $tblrow.find(".lineTaxCode").text() || '';
+
+                var taxrateamount = 0;
+                if (taxcodeList) {
+                    for (var i = 0; i < taxcodeList.length; i++) {
+                        if (taxcodeList[i].codename == taxcode) {
+
+                            taxrateamount = taxcodeList[i].coderate.replace('%', "") / 100;;
+
+                        }
+                    }
+                }
+
+
+                var subTotal = parseInt(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) || 0;
+                if ((taxrateamount == '') || (taxrateamount == ' ')) {
+                    var taxTotal = 0;
+                } else {
+                    var taxTotal = parseInt(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) * parseFloat(taxrateamount);
+                }
+                $tblrow.find('.lineTaxAmount').text(utilityService.modifynegativeCurrencyFormat(taxTotal));
+                if (!isNaN(subTotal)) {
+                    $tblrow.find('.lineAmt').text(utilityService.modifynegativeCurrencyFormat(subTotal));
+                    subGrandTotal += isNaN(subTotal) ? 0 : subTotal;
+                    document.getElementById("subtotal_total").innerHTML = utilityService.modifynegativeCurrencyFormat(subGrandTotal);
+                }
+
+                if (!isNaN(taxTotal)) {
+                    taxGrandTotal += isNaN(taxTotal) ? 0 : taxTotal;
+                    document.getElementById("subtotal_tax").innerHTML = utilityService.modifynegativeCurrencyFormat(taxGrandTotal);
+                }
+
+                if (!isNaN(subGrandTotal) && (!isNaN(taxGrandTotal))) {
+                    let GrandTotal = (parseFloat(subGrandTotal)) + (parseFloat(taxGrandTotal));
+                    document.getElementById("grandTotal").innerHTML = utilityService.modifynegativeCurrencyFormat(GrandTotal);
+                    document.getElementById("balanceDue").innerHTML = utilityService.modifynegativeCurrencyFormat(GrandTotal);
+                    document.getElementById("totalBalanceDue").innerHTML = utilityService.modifynegativeCurrencyFormat(GrandTotal);
+
+                }
+            });
+        }
+    });
+
     $('#edtCustomerName').editableSelect()
         .on('select.editable-select', function (e, li) {
             let taxcodeList = templateObject.taxraterecords.get();
             let customers = templateObject.clientrecords.get();
+            if (li.text() != undefined) {
             let selectedCustomer = li.text();
             if (clientList) {
                 for (var i = 0; i < clientList.length; i++) {
@@ -2629,7 +2697,7 @@ Template.new_quote.onRendered(() => {
                         return taxrate.codename == getCustDetails[0].taxCode
                     });
 
-                    if (taxRate[0].codename != "") {
+                    if (taxRate.length > 0) {
                         let rate = taxRate[0].coderate;
                         let code = getCustDetails[0].taxCode;
                         if (code == "NT") {
@@ -2687,6 +2755,7 @@ Template.new_quote.onRendered(() => {
                     }
                 }
             }
+          }
 
 
         });

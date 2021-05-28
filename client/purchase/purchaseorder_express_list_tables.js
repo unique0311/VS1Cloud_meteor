@@ -32,7 +32,7 @@ Template.purchaseorderlist.onRendered(function() {
 
     }else{
       if(result){
-        
+
         for (let i = 0; i < result.customFields.length; i++) {
           let customcolumn = result.customFields;
           let columData = customcolumn[i].label;
@@ -84,7 +84,7 @@ Template.purchaseorderlist.onRendered(function() {
               custfield2: '' || '',
               comments: data.tpurchaseordernonbackorder[i].Comments || '',
             };
-            if(data.tpurchaseordernonbackorder[i].Deleted === false){
+            if(data.tpurchaseordernonbackorder[i].Deleted === false && data.tpurchaseordernonbackorder[i].SupplierName.replace(/\s/g, '') != ''){
               dataTableList.push(dataList);
             }
               // dataTableList.push(dataList);
@@ -207,7 +207,7 @@ Template.purchaseorderlist.onRendered(function() {
                   columVisible = false;
                 }
                 sWidth = v.style.width.replace('px', "");
-                
+
                 let datatablerecordObj = {
                   sTitle: v.innerText || '',
                   sWidth: sWidth || '',
@@ -258,7 +258,7 @@ Template.purchaseorderlist.onRendered(function() {
       custfield2: '' || '',
       comments: useData[i].fields.Comments || '',
     };
-    if(useData[i].fields.Deleted === false){
+    if(useData[i].fields.Deleted === false && useData[i].fields.SupplierName.replace(/\s/g, '') != ''){
       dataTableList.push(dataList);
     }
       // dataTableList.push(dataList);
@@ -381,7 +381,7 @@ Template.purchaseorderlist.onRendered(function() {
           columVisible = false;
         }
         sWidth = v.style.width.replace('px', "");
-        
+
         let datatablerecordObj = {
           sTitle: v.innerText || '',
           sWidth: sWidth || '',
@@ -427,7 +427,7 @@ Template.purchaseorderlist.onRendered(function() {
               custfield2: '' || '',
               comments: data.tpurchaseordernonbackorder[i].Comments || '',
             };
-            if(data.tpurchaseordernonbackorder[i].Deleted === false){
+            if(data.tpurchaseordernonbackorder[i].Deleted === false && data.tpurchaseordernonbackorder[i].SupplierName.replace(/\s/g, '') != ''){
               dataTableList.push(dataList);
             }
               // dataTableList.push(dataList);
@@ -550,7 +550,7 @@ Template.purchaseorderlist.onRendered(function() {
                   columVisible = false;
                 }
                 sWidth = v.style.width.replace('px', "");
-                
+
                 let datatablerecordObj = {
                   sTitle: v.innerText || '',
                   sWidth: sWidth || '',
