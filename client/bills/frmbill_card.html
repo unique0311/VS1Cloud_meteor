@@ -903,22 +903,24 @@
             <hr>
             <div style="height: 160mm;">
                 <div style="margin: 8px; border: none !important; background-color: rgba(0,0,0,0);">
-                    <table style="width: 200mm; max-width: 200mm; margin: auto;">
+                    <table class="bill_print" style="width: 200mm; max-width: 200mm; margin: auto;">
                         <thead style="color: rgb(251,251,251);">
                             <tr style="border-bottom: 1px solid rgba(0, 0, 0, 1);">
                                 <th style="width: 200px; background-color: white; color: rgb(0 0 0);">Account Name</th>
                                 <th style="width: 250px; background-color: white; color: rgb(0 0 0);">Memo</th>
                                 <th style="text-align: right; width: 77px; background-color: white; color: rgb(0 0 0);">Tax</th>
+                                 <th style="text-align: right; width: 77px; background-color: white; color: rgb(0 0 0);" class="hiddenColumn">Tax</th>
                                 <th style="text-align: right; width: 100px; background-color: white; color: rgb(0 0 0);">Amount</th>
                             </tr>
                         </thead>
                         <tbody style="color: rgb(0 0 0);">
                             {{#each item in billrecord.LineItems}}
-                            <tr style="border-bottom: 1px solid rgba(0, 0, 0, .1);">
-                                <td>{{item.accountname}}</td>
-                                <td>{{item.description}}</td>
-                                <td style="text-align: right;">{{item.TaxTotal}}</td>
-                                <td style="text-align: right;">{{item.TotalAmt}}</td>
+                            <tr id={{item.lineID}} style="border-bottom: 1px solid rgba(0, 0, 0, .1);">
+                                <td id="lineAccountName">{{item.accountname}}</td>
+                                <td id="lineMemo">{{item.description}}</td>
+                                <td id="lineTaxAmount" style="text-align: right;">{{item.TaxTotal}}</td>
+                                <td id="lineTaxCode" class="hiddenColumn" style="text-align: right;">{{item.taxCode}}</td>
+                                <td id="lineAmount" style="text-align: right;">{{item.TotalAmt}}</td>
                             </tr>
                             {{/each}}
                         </tbody>
@@ -929,26 +931,37 @@
             <div style="display: flex;">
                 <div style="margin: 8px;min-width: 100mm;max-width: 100mm;width: 100mm;">
                     <h4 style="font-size: 20px;font-weight: bold; color: rgb(0 0 0);">Comments</h4>
-                    <p style="color: rgb(0 0 0);">{{quoterecord.comments}}</p>
+                    <p style="color: rgb(0 0 0);">{{billrecord.comments}}</p>
                 </div>
                 <div style="margin: 8px; border: none !important; min-width: 90mm;max-width: 90mm;width: 90mm;">
                     <div style="width: 100%; display: flex;">
                         <div style="padding-right: 16px; width: 50%;">
-                            <p style="font-weight: 600; margin-bottom: 8px; color: rgb(0 0 0);">Sub Total</p>
-                            <p style="font-weight: 600; margin-bottom: 8px; color: rgb(0 0 0);">Total GST</p>
+                            <p id="subtotal_total" style="font-weight: 600; margin-bottom: 8px; color: rgb(0 0 0);">Sub Total</p>
+                            <p id="grandTotal" style="font-weight: 600; margin-bottom: 8px; color: rgb(0 0 0);">Total GST</p>
                         </div>
                         <div style="padding-left: 16px; width: 50%;">
-                            <p style="text-align: right; margin-bottom: 8px; font-weight: 600; color: rgb(0 0 0);">{{billrecord.SubTotal}}</p>
+                            <p id="subtotal_totalPrint" style="text-align: right; margin-bottom: 8px; font-weight: 600; color: rgb(0 0 0);">{{billrecord.SubTotal}}</p>
                             <p style="text-align: right; margin-bottom: 8px; font-weight: 600; color: rgb(0 0 0);">{{billrecord.TotalTax}}</p>
                         </div>
                     </div>
                     <hr>
                     <div style="width: 100%; display: flex;">
                         <div style="padding-right: 16px; width: 50%;">
-                            <p style="font-weight: 800; margin-bottom: 8px; color: rgb(0 0 0);">TOTAL&nbsp; (inc GST)</p>
+                            <p  style="font-weight: 800; margin-bottom: 8px; color: rgb(0 0 0);">TOTAL</p>
                         </div>
                         <div style="padding-left: 16px; width: 50%;">
-                            <p style="text-align: right; margin-bottom: 8px; font-weight: 800;">{{billrecord.Total}}<br></p>
+                            <p id="grandTotalPrint" style="text-align: right; margin-bottom: 8px; font-weight: 800;">{{billrecord.Total}}<br></p>
+                        </div>
+                    </div>
+                    <hr>
+                    <div style="width: 100%; display: flex;">
+                        <div style="padding-right: 16px; width: 50%;">
+                            <p style="font-weight: 600; margin-bottom: 8px; color: rgb(0 0 0);">Paid Amount</p>
+                            <p style="font-weight: 600; margin-bottom: 8px; color: rgb(0 0 0);">Balance Due</p>
+                        </div>
+                        <div style="padding-left: 16px; width: 50%;">
+                            <p style="text-align: right; margin-bottom: 8px; font-weight: 600; color: rgb(0 0 0);">{{billrecord.totalPaid}}</p>
+                            <p id="totalBalanceDuePrint" style="text-align: right; margin-bottom: 8px; font-weight: 600; color: rgb(0 0 0);">{{billrecord.balanceDue}}</p>
                         </div>
                     </div>
                 </div>

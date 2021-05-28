@@ -1410,6 +1410,19 @@ Template.creditcard.onRendered(() => {
             rowData.attr('id', tokenid);
             $("#tblCreditLine tbody").append(rowData);
 
+            if ($('#printID').val() != "") {
+                var rowData1 = $('.credit_print tbody>tr:last').clone(true);
+                $("#lineAccountName", rowData1).text("");
+                $("#lineMemo", rowData1).text("");
+                $("#lineQty", rowData1).text("");
+                $("#lineAmount", rowData1).text("");
+                $("#lineTaxRate", rowData).text("");
+                $("#lineTaxCode", rowData1).text("");
+                $("#lineAmt", rowData1).text("");
+                rowData1.attr('id', tokenid);
+                $(".credit_print tbody").append(rowData1);
+            }
+
         });
 
 
@@ -1423,6 +1436,7 @@ Template.creditcard.onRendered(() => {
         var table = $(this);
         let utilityService = new UtilityService();
         let $tblrows = $("#tblCreditLine tbody tr");
+        let $printrows = $(".credit_print tbody tr");
 
         if (selectLineID) {
             let lineProductName = table.find(".productName").text();
@@ -1433,6 +1447,8 @@ Template.creditcard.onRendered(() => {
             let lineAmount = 0;
             let subGrandTotal = 0;
             let taxGrandTotal = 0;
+            let taxGrandTotalPrint = 0;
+
             $('#' + selectLineID + " .lineTaxRate").text(0);
             if (taxcodeList) {
                 for (var i = 0; i < taxcodeList.length; i++) {
@@ -1446,7 +1462,12 @@ Template.creditcard.onRendered(() => {
             $('#' + selectLineID + " .colAmount").val(lineUnitPrice);
             $('#' + selectLineID + " .lineTaxCode").text(lineTaxRate);
 
-
+            if ($('.printID').val() == "") {
+                $('#' + selectLineID + " #lineAccountName").text(lineProductName);
+                $('#' + selectLineID + " #lineMemo").text(lineProductDesc);
+                $('#' + selectLineID + " #colAmount").text(lineUnitPrice);
+                $('#' + selectLineID + " #lineTaxCode").text(lineTaxRate);
+            }
 
 
 
@@ -1488,6 +1509,45 @@ Template.creditcard.onRendered(() => {
 
                 }
             });
+
+            if ($(".printID").val() == "") {
+                $printrows.each(function(index) {
+                var $printrows = $(this);
+                var amount = $printrows.find("#lineAmount").text() || "0";
+                var taxcode = $printrows.find("#lineTaxCode").text() || 0;
+
+                var taxrateamount = 0;
+                if (taxcodeList) {
+                    for (var i = 0; i < taxcodeList.length; i++) {
+                        if (taxcodeList[i].codename == taxcode) {
+                            taxrateamount = taxcodeList[i].coderate.replace('%', "") / 100 || 0;
+                        }
+                    }
+                }
+
+
+                    var subTotal = parseFloat(amount.replace(/[^0-9.-]+/g, "")) || 0;
+                    var taxTotal = parseFloat(amount.replace(/[^0-9.-]+/g, "")) * parseFloat(taxrateamount);
+                    $printrows.find('#lineTaxAmount').text(utilityService.modifynegativeCurrencyFormat(taxTotal))
+                   
+                    if (!isNaN(subTotal)) {
+                        $printrows.find('#lineAmt').text(utilityService.modifynegativeCurrencyFormat(subTotal));
+                        subGrandTotal += isNaN(subTotal) ? 0 : subTotal;
+                        document.getElementById("subtotal_totalPrint").innerHTML = $('#subtotal_total').text();
+                    }
+
+                    if (!isNaN(taxTotal)) {
+                        taxGrandTotalPrint += isNaN(taxTotal) ? 0 : taxTotal;
+                    }
+                    if (!isNaN(subGrandTotal) && (!isNaN(taxGrandTotal))) {
+                        let GrandTotal = (parseFloat(subGrandTotal)) + (parseFloat(taxGrandTotal));
+                        document.getElementById("grandTotalPrint").innerHTML = $('#grandTotal').text();
+                        document.getElementById("balanceDue").innerHTML = utilityService.modifynegativeCurrencyFormat(GrandTotal);
+                        document.getElementById("totalBalanceDuePrint").innerHTML = $('#totalBalanceDue').text();
+
+                    }
+                });
+            }
         }
     });
 
@@ -1505,10 +1565,17 @@ Template.creditcard.onRendered(() => {
             let lineAmount = 0;
             let subGrandTotal = 0;
             let taxGrandTotal = 0;
+            let taxGrandTotalPrint = 0;
 
             $('#' + selectLineID + " .lineTaxRate").text(lineTaxRate || 0);
             $('#' + selectLineID + " .lineTaxCode").text(lineTaxCode);
 
+            let $printrows = $(".credit_print tbody tr");
+                if ($('.printID').val() == "") {
+                    $('#' + selectLineID + " #lineAmount").text($('#' + selectLineID + " .colAmount").val());
+                    $('#' + selectLineID + " #lineTaxCode").text(lineTaxCode);
+
+                }
 
             $('#taxRateListModal').modal('toggle');
             $tblrows.each(function(index) {
@@ -1554,6 +1621,43 @@ Template.creditcard.onRendered(() => {
 
                 }
             });
+
+        if($(".printID").val() == "") {
+            $printrows.each(function(index) {
+            var $printrow = $(this);
+            var amount = $printrow.find("#lineAmount").text() || "0";
+            var taxcode = $printrow.find("#lineTaxCode").text() || "E";
+
+            var taxrateamount = 0;
+            if (taxcodeList) {
+                for (var i = 0; i < taxcodeList.length; i++) {
+                    if (taxcodeList[i].codename == taxcode) {
+                        taxrateamount = taxcodeList[i].coderate.replace('%', "") / 100 || 0;
+                    }
+                }
+            }
+
+                var subTotal = parseFloat(amount.replace(/[^0-9.-]+/g, "")) || 0;
+                var taxTotal = parseFloat(amount.replace(/[^0-9.-]+/g, "")) * parseFloat(taxrateamount);
+                 $printrow.find('#lineTaxAmount').text(utilityService.modifynegativeCurrencyFormat(taxTotal));
+                if (!isNaN(subTotal)) {
+                    $printrow.find('#lineAmt').text(utilityService.modifynegativeCurrencyFormat(subTotal));
+                    subGrandTotal += isNaN(subTotal) ? 0 : subTotal;
+                    document.getElementById("subtotal_totalPrint").innerHTML = $('#subtotal_total').text();
+                }
+
+                if (!isNaN(taxTotal)) {
+                    taxGrandTotalPrint += isNaN(taxTotal) ? 0 : taxTotal;
+                }
+                if (!isNaN(subGrandTotal) && (!isNaN(taxGrandTotal))) {
+                    let GrandTotal = (parseFloat(subGrandTotal)) + (parseFloat(taxGrandTotal));
+                    document.getElementById("grandTotalPrint").innerHTML = $('#grandTotal').text();
+                    document.getElementById("balanceDue").innerHTML = utilityService.modifynegativeCurrencyFormat(GrandTotal);
+                    document.getElementById("totalBalanceDuePrint").innerHTML = $('#totalBalanceDue').text();
+
+                }
+            });
+        }
         }
     });
 
@@ -2257,6 +2361,7 @@ Template.creditcard.events({
         let templateObject = Template.instance();
         let taxcodeList = templateObject.taxraterecords.get();
         let utilityService = new UtilityService();
+        var targetID = $(event.target).closest('tr').attr('id');
         if (!isNaN($(event.target).val())) {
             let inputUnitPrice = parseFloat($(event.target).val()) ||0;
             $(event.target).val(utilityService.modifynegativeCurrencyFormat(inputUnitPrice));
@@ -2269,13 +2374,21 @@ Template.creditcard.events({
         }
         let $tblrows = $("#tblCreditLine tbody tr");
 
+        let $printrows = $(".credit_print tbody tr");
+        
+        if ($('.printID').val() == "") {
+            $('#' + targetID + " #lineAmount").text($('#' + targetID + " .colAmount").val());
+            $('#' + targetID + " #lineTaxCode").text($('#' + targetID + " .lineTaxCode").text());
+        }
+
         let lineAmount = 0;
         let subGrandTotal = 0;
         let taxGrandTotal = 0;
+        let taxGrandTotalPrint = 0;
 
         $tblrows.each(function(index) {
             var $tblrow = $(this);
-            var amount = $tblrow.find(".colAmount").val() || 0;
+            var amount = $tblrow.find(".colAmount").val() || "0";
             var taxcode = $tblrow.find(".lineTaxCode").text() || 0;
             var taxrateamount = 0;
             if (taxcodeList) {
@@ -2309,6 +2422,45 @@ Template.creditcard.events({
 
             }
         });
+
+        if ($(".printID").val() == "") {
+            $printrows.each(function(index) {
+            var $printrows = $(this);
+            var amount = $printrows.find("#lineAmount").text() || "0";
+            var taxcode = $printrows.find("#lineTaxCode").text() || 0;
+
+            var taxrateamount = 0;
+            if (taxcodeList) {
+                for (var i = 0; i < taxcodeList.length; i++) {
+                    if (taxcodeList[i].codename == taxcode) {
+                        taxrateamount = taxcodeList[i].coderate.replace('%', "") / 100 || 0;
+                    }
+                }
+            }
+
+
+                var subTotal = parseFloat(amount.replace(/[^0-9.-]+/g, "")) || 0;
+                var taxTotal = parseFloat(amount.replace(/[^0-9.-]+/g, "")) * parseFloat(taxrateamount);
+                $printrows.find('#lineTaxAmount').text(utilityService.modifynegativeCurrencyFormat(taxTotal))
+               
+                if (!isNaN(subTotal)) {
+                    $printrows.find('#lineAmt').text(utilityService.modifynegativeCurrencyFormat(subTotal));
+                    subGrandTotal += isNaN(subTotal) ? 0 : subTotal;
+                    document.getElementById("subtotal_totalPrint").innerHTML = $('#subtotal_total').text();
+                }
+
+                if (!isNaN(taxTotal)) {
+                    taxGrandTotalPrint += isNaN(taxTotal) ? 0 : taxTotal;
+                }
+                if (!isNaN(subGrandTotal) && (!isNaN(taxGrandTotal))) {
+                    let GrandTotal = (parseFloat(subGrandTotal)) + (parseFloat(taxGrandTotal));
+                    document.getElementById("grandTotalPrint").innerHTML = $('#grandTotal').text();
+                    document.getElementById("balanceDue").innerHTML = utilityService.modifynegativeCurrencyFormat(GrandTotal);
+                    document.getElementById("totalBalanceDuePrint").innerHTML = $('#totalBalanceDue').text();
+
+                }
+            });
+        }
 
     },
     'click #btnCustomFileds': function(event) {
