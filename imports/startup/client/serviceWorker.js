@@ -29,16 +29,18 @@ window.addEventListener('beforeinstallprompt', (e) => {
   e.preventDefault();
   // Stash the event so it can be triggered later.
   deferredPrompt = e;
-  console.log(`'beforeinstallprompt' event was fired.`);
-  let buttonInstall = document.querySelector("#erplogin-button");
-  buttonInstall.addEventListener('click', async (e) => {
-    e.preventDefault();
-    deferredPrompt.prompt();
-    // Wait for the user to respond to the prompt
-    const { outcome } = await deferredPrompt.userChoice;
-    // Optionally, send analytics event with outcome of user choice
-    console.log(`User response to the install prompt: ${outcome}`);
-    // We've used the prompt, and can't use it again, throw it away
-    deferredPrompt = null;
-  });
+  // console.log(`'beforeinstallprompt' event was fired.`);
+  if ((window.location.pathname == "/") && (window.location.pathname != '/vs1greentracklogin')) {
+    let buttonInstall = document.querySelector("#erplogin-button");
+    buttonInstall.addEventListener('click', async (e) => {
+      e.preventDefault();
+      deferredPrompt.prompt();
+      // Wait for the user to respond to the prompt
+      const { outcome } = await deferredPrompt.userChoice;
+      // Optionally, send analytics event with outcome of user choice
+      // console.log(`User response to the install prompt: ${outcome}`);
+      // We've used the prompt, and can't use it again, throw it away
+      deferredPrompt = null;
+    });
+}
 });

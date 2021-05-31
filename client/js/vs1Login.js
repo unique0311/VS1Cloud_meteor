@@ -225,7 +225,7 @@ Template.vs1login.onRendered(function(){
     let isReports = false;
     let isSettings = false;
 
-    let isSidePanel = false;
+    let isSidePanel = true;
     let isTopPanel = false;
     let isSidePanelID = '';
     let isTopPanelID = '';
@@ -485,11 +485,8 @@ Template.vs1login.onRendered(function(){
          }
          return (a.description.toLowerCase() > b.description.toLowerCase()) ? 1 : -1;
        });
-
-
-
-
-
+       // myVS1Video.pause();
+       $('.myVS1Video').css('display','none');
 
       window.open('/dashboard','_self');
 
@@ -680,7 +677,7 @@ Template.vs1login.onRendered(function(){
     let isReports = false;
     let isSettings = false;
 
-    let isSidePanel = false;
+    let isSidePanel = true;
     let isTopPanel = false;
     let isSidePanelID = '';
     let isTopPanelID = '';
@@ -1078,6 +1075,7 @@ $("#login-button").click(function(e){
       if (hashPassword == cloudUserpassword){
         $('.loginSpinner').css('display','inline-block');
         $('.fullScreenSpin').css('display','inline-block');
+        // $('.myVS1Video').css('display','inline-block');
         cloudLoggedID = regUserDetails[i]._id;
         cloudLoggedDBID = regUserDetails[i].clouddatabaseID;
         cloudLoggedUsername = regUserDetails[i].cloudUsername;
@@ -1264,6 +1262,7 @@ e.preventDefault();
 $("#erplogin-button").click(async function(e){
   e.preventDefault();
    /* VS1 Licence Info */
+   var myVS1Video = document.getElementById("myVS1Video");
 
    let licenceitemsoption = [];
     let licenceitemsObj = {};
@@ -1338,7 +1337,10 @@ $("#erplogin-button").click(async function(e){
 
 
     $('.loginSpinner').css('display','inline-block');
-    $('.fullScreenSpin').css('display','inline-block');
+    //$('.fullScreenSpin').css('display','inline-block');
+    $('.myVS1Video').css('display','inline-block');
+    myVS1Video.play();
+
     let test = "";
     let isValidateEmailCheck = false;
     storeExists1(userLoginEmail).then(function(data) {
@@ -1364,17 +1366,17 @@ $("#erplogin-button").click(async function(e){
 
                   var dataReturnRes = JSON.parse(oReq.responseText);
 
-                  // var oReqCheckActive = new XMLHttpRequest();
-                  // oReqCheckActive.open("GET",URLRequest + licenceIPAddress + ':' + checkSSLPorts + '/' + 'erpapi/TVS1_Clients_Simple?PropertyList="ID,EmailVarified"&select=[Databasename]="'+dataReturnRes.ProcessLog.Databasename+'"', true);
-                  // oReqCheckActive.setRequestHeader("database",vs1loggedDatatbase);
-                  // oReqCheckActive.setRequestHeader("username",'VS1_Cloud_Admin');
-                  // oReqCheckActive.setRequestHeader("password",'DptfGw83mFl1j&9');
-                  // oReqCheckActive.send();
-                  //  oReqCheckActive.onreadystatechange = function() {
-                  //  if(oReqCheckActive.readyState == 4 && oReqCheckActive.status == 200) {
-                  //    var dataDBActive = JSON.parse(oReqCheckActive.responseText);
+                  var oReqCheckActive = new XMLHttpRequest();
+                  oReqCheckActive.open("GET",URLRequest + licenceIPAddress + ':' + checkSSLPorts + '/' + 'erpapi/TVS1_Clients_Simple?PropertyList="ID,EmailVarified"&select=[Databasename]="'+dataReturnRes.ProcessLog.Databasename+'"', true);
+                  oReqCheckActive.setRequestHeader("database",vs1loggedDatatbase);
+                  oReqCheckActive.setRequestHeader("username",'VS1_Cloud_Admin');
+                  oReqCheckActive.setRequestHeader("password",'DptfGw83mFl1j&9');
+                  oReqCheckActive.send();
+                   oReqCheckActive.onreadystatechange = function() {
+                   if(oReqCheckActive.readyState == 4 && oReqCheckActive.status == 200) {
+                     var dataDBActive = JSON.parse(oReqCheckActive.responseText);
 
-                     // if(dataDBActive.tvs1_clients_simple[0].EmailVarified){
+                     if(dataDBActive.tvs1_clients_simple[0].EmailVarified){
                        if(dataReturnRes.ProcessLog.ResponseStatus != "OK"){
                          if(dataReturnRes.ProcessLog.ResponseStatus == "Payment is Due"){
                            $('.loginSpinner').css('display','none');
@@ -1741,10 +1743,14 @@ $("#erplogin-button").click(async function(e){
                localStorage.setItem('VS1ProfitandLoss_ExpEx_dash', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.PnL_TotalExpenseEx||0);
                localStorage.setItem('VS1ProfitandLoss_COGSEx_dash', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.PnL_TotalCOGSEx||0);
 
-               if(dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TEmployeePicture.fields){
-               localStorage.setItem('vs1LoggedEmployeeImages_dash', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TEmployeePicture.fields.EncodedPic|| '');
-               }else{
+               if(dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TEmployeePicture.ResponseNo == 401){
                  localStorage.setItem('vs1LoggedEmployeeImages_dash','');
+               }else{
+                 if(dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TEmployeePicture.fields){
+                 localStorage.setItem('vs1LoggedEmployeeImages_dash', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TEmployeePicture.fields.EncodedPic|| '');
+                 }else{
+                   localStorage.setItem('vs1LoggedEmployeeImages_dash','');
+                 }
                }
                }else{
                  Session.setPersistent('vs1companyName', '');
@@ -1795,104 +1801,104 @@ $("#erplogin-button").click(async function(e){
                      Session.setPersistent('mySessionEmployee', employeename);
                      let userAccessOptions = dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.AccessLevels || '';
 
-
-                     var ERPCheackAppUserObject = "TAppUser?PropertyList==ID,DatabaseName,UserName,MultiLogon&Select=[DatabaseName]='"+ERPdbName+"' and [UserName]='"+ERPLoggeduserName+"'";
-                     var oReqCheackAppUserObject = new XMLHttpRequest();
-                     oReqCheackAppUserObject.open("GET",URLRequest + ERPIPAdderess + ':' + ERPport + '/' + "erpapi" + '/' + ERPCheackAppUserObject, true);
-                     oReqCheackAppUserObject.setRequestHeader("database",ERPdbName);
-                     oReqCheackAppUserObject.setRequestHeader("username",ERPuserName);
-                     oReqCheackAppUserObject.setRequestHeader("password",ERPpassword);
-                     oReqCheackAppUserObject.send();
-
-
-                     oReqCheackAppUserObject.onreadystatechange = function() {
-                     if (oReqCheackAppUserObject.readyState == 4 && oReqCheackAppUserObject.status == 200) {
-                       var dataListCheackAppUser = JSON.parse(oReqCheackAppUserObject.responseText)
-                       for (var eventCheackAppUser in dataListCheackAppUser) {
-                         var dataCheackAppUserCopy = dataListCheackAppUser[eventCheackAppUser];
-                         if(dataCheackAppUserCopy.length === 0){
-                           counterUserRec = true;
-                         }else if(dataCheackAppUserCopy.length === 1){
-                           if(ERPuserName.toString().toUpperCase() == ERPLoggeduserName.toString().toUpperCase()){
-                             counterUserRec = true;
-                           }else{
-                             counterUserRec = false;
-                           }
-
-                         }else{
-                           counterUserRec = false;
-                         };
-
-                         for (var dataCheackAppUser in dataCheackAppUserCopy) {
-                           var mainCheackAppUserData = dataCheackAppUserCopy[dataCheackAppUser];
-                           var erpUsername = mainCheackAppUserData.UserName;
-
-                         }
-                     if(counterUserRec === true){
-
-                       if(userAccessOptions != ""){
-                         addLoginData(dataReturnRes).then(function (datareturn) {
-                           getAccessLevelData(userAccessOptions,isSameUserLogin);
-                         }).catch(function (err) {
-                           getAccessLevelData(userAccessOptions,isSameUserLogin);
-                         });
-
-                       }
-
-
-                     }else{
-
-                         swal('Oops...', 'VS1 User Name is already logged in. Select "Sign me out of all devices" to login', 'info');
-                       $('.loginSpinner').css('display','none');
-                       $('.fullScreenSpin').css('display','none');
+                     if(userAccessOptions != ""){
+                       addLoginData(dataReturnRes).then(function (datareturn) {
+                         getAccessLevelData(userAccessOptions,isSameUserLogin);
+                       }).catch(function (err) {
+                         getAccessLevelData(userAccessOptions,isSameUserLogin);
+                       });
 
                      }
-                     }
-                     }
-
-                     }
+                     // var ERPCheackAppUserObject = "TAppUser?PropertyList==ID,DatabaseName,UserName,MultiLogon&Select=[DatabaseName]='"+ERPdbName+"' and [UserName]='"+ERPLoggeduserName+"'";
+                     // var oReqCheackAppUserObject = new XMLHttpRequest();
+                     // oReqCheackAppUserObject.open("GET",URLRequest + ERPIPAdderess + ':' + ERPport + '/' + "erpapi" + '/' + ERPCheackAppUserObject, true);
+                     // oReqCheackAppUserObject.setRequestHeader("database",ERPdbName);
+                     // oReqCheackAppUserObject.setRequestHeader("username",ERPuserName);
+                     // oReqCheackAppUserObject.setRequestHeader("password",ERPpassword);
+                     // oReqCheackAppUserObject.send();
+                     //
+                     //
+                     // oReqCheackAppUserObject.onreadystatechange = function() {
+                     // if (oReqCheackAppUserObject.readyState == 4 && oReqCheackAppUserObject.status == 200) {
+                     //   var dataListCheackAppUser = JSON.parse(oReqCheackAppUserObject.responseText)
+                     //   for (var eventCheackAppUser in dataListCheackAppUser) {
+                     //     var dataCheackAppUserCopy = dataListCheackAppUser[eventCheackAppUser];
+                     //     if(dataCheackAppUserCopy.length === 0){
+                     //       counterUserRec = true;
+                     //     }else if(dataCheackAppUserCopy.length === 1){
+                     //       if(ERPuserName.toString().toUpperCase() == ERPLoggeduserName.toString().toUpperCase()){
+                     //         counterUserRec = true;
+                     //       }else{
+                     //         counterUserRec = false;
+                     //       }
+                     //
+                     //     }else{
+                     //       counterUserRec = false;
+                     //     };
+                     //
+                     //     for (var dataCheackAppUser in dataCheackAppUserCopy) {
+                     //       var mainCheackAppUserData = dataCheackAppUserCopy[dataCheackAppUser];
+                     //       var erpUsername = mainCheackAppUserData.UserName;
+                     //
+                     //     }
+                     // if(counterUserRec === true){
+                     //
+                     //
+                     //
+                     //
+                     // }else{
+                     //
+                     //     swal('Oops...', 'VS1 User Name is already logged in. Select "Sign me out of all devices" to login', 'info');
+                     //   $('.loginSpinner').css('display','none');
+                     //   $('.fullScreenSpin').css('display','none');
+                     //
+                     // }
+                     // }
+                     // }
+                     //
+                     // }
 
                      /*END APPUSER*/
 
                   }
-                 //     }else{
-                 //       $('#emEmail').html(dataReturnRes.ProcessLog.VS1AdminUserName);
-                 //       $(".addloginkey").attr("href", 'https://www.depot.vs1cloud.com/vs1check/vs1checklogin.php?login=sandbox');
-                 //       $(".addloginActive").attr("href", 'https://www.depot.vs1cloud.com/vs1check/vs1check.php?from=sandbox&checktoken='+dataReturnRes.ProcessLog.Databasename+'');
-                 //       swal({
-                 //         title: 'Awaiting Email Validation',
-                 //         html: true,
-                 //         html: "This account has not been validated because the email address that it is linked to has not yet been validated.\n \n <br></br> We've sent an email containing a validation link to: <strong> "+dataReturnRes.ProcessLog.VS1AdminUserName+" </strong>",
-                 //         type: 'info',
-                 //         showCancelButton: false,
-                 //         confirmButtonText: 'Resend Validation Email',
-                 //         cancelButtonText: 'No'
-                 //       }).then((result) => {
-                 //         if (result.value) {
-                 //           let mailBodyNew = $('.emailBody').html();
-                 //           Meteor.call('sendEmail', {
-                 //               from: "VS1 Cloud <info@vs1cloud.com>",
-                 //               to: dataReturnRes.ProcessLog.VS1AdminUserName,
-                 //               cc: 'info@vs1cloud.com',
-                 //               subject: '[VS1 Cloud] - Email Validation',
-                 //               text: '',
-                 //               html:mailBodyNew,
-                 //               attachments : ''
-                 //
-                 //           }, function (error, result) {
-                 //             location.reload(true);
-                 //           });
-                 //         } else if (result.dismiss === 'cancel') {
-                 //           // Router.go('/employeescard?addvs1user=true');
-                 //         }
-                 //       });
-                 //
-                 //       $('.fullScreenSpin').css('display','none');
-                 //       $('.loginSpinner').css('display','none');
-                 //       return false;
-                 //     }
-                 //   }
-                 // }
+                     }else{
+                       $('#emEmail').html(dataReturnRes.ProcessLog.VS1AdminUserName);
+                       $(".addloginkey").attr("href", 'https://www.depot.vs1cloud.com/vs1check/vs1checklogin.php?login=sandbox');
+                       $(".addloginActive").attr("href", 'https://www.depot.vs1cloud.com/vs1check/vs1check.php?from=sandbox&checktoken='+dataReturnRes.ProcessLog.Databasename+'');
+                       swal({
+                         title: 'Awaiting Email Validation',
+                         html: true,
+                         html: "This account has not been validated because the email address that it is linked to has not yet been validated.\n \n <br></br> We've sent an email containing a validation link to: <strong> "+dataReturnRes.ProcessLog.VS1AdminUserName+" </strong>",
+                         type: 'info',
+                         showCancelButton: false,
+                         confirmButtonText: 'Resend Validation Email',
+                         cancelButtonText: 'No'
+                       }).then((result) => {
+                         if (result.value) {
+                           let mailBodyNew = $('.emailBody').html();
+                           Meteor.call('sendEmail', {
+                               from: "VS1 Cloud <info@vs1cloud.com>",
+                               to: dataReturnRes.ProcessLog.VS1AdminUserName,
+                               cc: 'info@vs1cloud.com',
+                               subject: '[VS1 Cloud] - Email Validation',
+                               text: '',
+                               html:mailBodyNew,
+                               attachments : ''
+
+                           }, function (error, result) {
+                             location.reload(true);
+                           });
+                         } else if (result.dismiss === 'cancel') {
+                           // Router.go('/employeescard?addvs1user=true');
+                         }
+                       });
+
+                       $('.fullScreenSpin').css('display','none');
+                       $('.loginSpinner').css('display','none');
+                       return false;
+                     }
+                   }
+                 }
                 } else if(oReq.statusText == '') {
                   swal({
                     title: 'Ooops...',
@@ -1907,8 +1913,11 @@ $("#erplogin-button").click(async function(e){
 
                     }
                   });
+                  myVS1Video.pause();
+                  $('.myVS1Video').css('display','none');
                   $('.loginSpinner').css('display','none');
                   $('.fullScreenSpin').css('display','none');
+
                 }else if(oReq.readyState == 4 && oReq.status == 403){
                   swal({
                     title: 'Ooops...',
@@ -1923,6 +1932,8 @@ $("#erplogin-button").click(async function(e){
 
                     }
                   });
+                  myVS1Video.pause();
+                  $('.myVS1Video').css('display','none');
                   $('.loginSpinner').css('display','none');
                   $('.fullScreenSpin').css('display','none');
                 }else if(oReq.readyState == 4 && oReq.status == 406){
@@ -1939,6 +1950,8 @@ $("#erplogin-button").click(async function(e){
 
                     }
                   });
+                  myVS1Video.pause();
+                  $('.myVS1Video').css('display','none');
                   $('.loginSpinner').css('display','none');
                   $('.fullScreenSpin').css('display','none');
                 }else if(oReq.readyState == 4 && oReq.status == 500){
@@ -1972,6 +1985,8 @@ $("#erplogin-button").click(async function(e){
                       }
                     });
                   }
+                  myVS1Video.pause();
+                  $('.myVS1Video').css('display','none');
                   $('.loginSpinner').css('display','none');
                   $('.fullScreenSpin').css('display','none');
                 }else{
@@ -1979,9 +1994,13 @@ $("#erplogin-button").click(async function(e){
                 }
             }
             }else{
+              myVS1Video.pause();
+              $('.myVS1Video').css('display','none');
               let dataReturnRes = dataObject[0].data;
               if(dataReturnRes.ProcessLog.VS1AdminPassword){
               if ($("#erppassword").val() != dataReturnRes.ProcessLog.VS1AdminPassword) {
+                myVS1Video.pause();
+                $('.myVS1Video').css('display','none');
                 $('.loginSpinner').css('display','none');
                 $('.fullScreenSpin').css('display','none');
                 swal('Invalid VS1 Password', 'The entered user password is not correct, please re-enter your password and try again!', 'error');
@@ -1995,7 +2014,8 @@ $("#erplogin-button").click(async function(e){
          if(dataReturnRes.ProcessLog.ResponseStatus == "Payment is Due"){
            $('.loginSpinner').css('display','none');
            $('.fullScreenSpin').css('display','none');
-
+           myVS1Video.pause();
+           $('.myVS1Video').css('display','none');
            swal({
              title: 'Your payment has been declined please update your payment subscription information!',
              text: '',
@@ -2013,7 +2033,8 @@ $("#erplogin-button").click(async function(e){
 
          }else{
            swal(dataReturnRes.ProcessLog.ResponseStatus, dataReturnRes.ProcessLog.ResponseStatus, 'error');
-
+           myVS1Video.pause();
+           $('.myVS1Video').css('display','none');
            $('.loginSpinner').css('display','none');
            $('.fullScreenSpin').css('display','none');
          }
@@ -2286,6 +2307,8 @@ $("#erplogin-button").click(async function(e){
 
          if(dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.AccessLevels == undefined){
            swal('Sorry, You do not have access to any VS1 Modules!', '', 'error');
+           myVS1Video.pause();
+           $('.myVS1Video').css('display','none');
            $('.fullScreenSpin').css('display','none');
            $('.loginSpinner').css('display','none');
            return false;
@@ -2294,6 +2317,8 @@ $("#erplogin-button").click(async function(e){
 
          if(dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.AccessLevels.ResponseNo == 401){
            swal('Sorry, You do not have access to any VS1 Modules!', '', 'error');
+           myVS1Video.pause();
+           $('.myVS1Video').css('display','none');
            $('.fullScreenSpin').css('display','none');
            $('.loginSpinner').css('display','none');
            return false;
@@ -2349,10 +2374,14 @@ $("#erplogin-button").click(async function(e){
     localStorage.setItem('VS1ProfitandLoss_ExpEx_dash', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.PnL_TotalExpenseEx||0);
     localStorage.setItem('VS1ProfitandLoss_COGSEx_dash', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.PnL_TotalCOGSEx||0);
 
-    if(dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TEmployeePicture.fields){
-    localStorage.setItem('vs1LoggedEmployeeImages_dash', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TEmployeePicture.fields.EncodedPic|| '');
+    if(dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TEmployeePicture.ResponseNo == 401){
+      localStorage.setItem('vs1LoggedEmployeeImages_dash','');
     }else{
-    localStorage.setItem('vs1LoggedEmployeeImages_dash','');
+      if(dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TEmployeePicture.fields){
+      localStorage.setItem('vs1LoggedEmployeeImages_dash', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TEmployeePicture.fields.EncodedPic|| '');
+      }else{
+        localStorage.setItem('vs1LoggedEmployeeImages_dash','');
+      }
     }
     }else{
     Session.setPersistent('vs1companyName', '');
@@ -2431,19 +2460,21 @@ $("#erplogin-button").click(async function(e){
 
 
                 var dataReturnRes = JSON.parse(oReq.responseText);
-                // var oReqCheckActive = new XMLHttpRequest();
-                // oReqCheckActive.open("GET",URLRequest + licenceIPAddress + ':' + checkSSLPorts + '/' + 'erpapi/TVS1_Clients_Simple?PropertyList="ID,EmailVarified"&select=[Databasename]="'+dataReturnRes.ProcessLog.Databasename+'"', true);
-                // oReqCheckActive.setRequestHeader("database",vs1loggedDatatbase);
-                // oReqCheckActive.setRequestHeader("username",'VS1_Cloud_Admin');
-                // oReqCheckActive.setRequestHeader("password",'DptfGw83mFl1j&9');
-                // oReqCheckActive.send();
-                //  oReqCheckActive.onreadystatechange = function() {
-                //  if(oReqCheckActive.readyState == 4 && oReqCheckActive.status == 200) {
-                //    var dataDBActive = JSON.parse(oReqCheckActive.responseText);
+                var oReqCheckActive = new XMLHttpRequest();
+                oReqCheckActive.open("GET",URLRequest + licenceIPAddress + ':' + checkSSLPorts + '/' + 'erpapi/TVS1_Clients_Simple?PropertyList="ID,EmailVarified"&select=[Databasename]="'+dataReturnRes.ProcessLog.Databasename+'"', true);
+                oReqCheckActive.setRequestHeader("database",vs1loggedDatatbase);
+                oReqCheckActive.setRequestHeader("username",'VS1_Cloud_Admin');
+                oReqCheckActive.setRequestHeader("password",'DptfGw83mFl1j&9');
+                oReqCheckActive.send();
+                 oReqCheckActive.onreadystatechange = function() {
+                 if(oReqCheckActive.readyState == 4 && oReqCheckActive.status == 200) {
+                   var dataDBActive = JSON.parse(oReqCheckActive.responseText);
 
-                   // if(dataDBActive.tvs1_clients_simple[0].EmailVarified){
+                   if(dataDBActive.tvs1_clients_simple[0].EmailVarified){
                      if(dataReturnRes.ProcessLog.ResponseStatus != "OK"){
                        if(dataReturnRes.ProcessLog.ResponseStatus == "Payment is Due"){
+                         myVS1Video.pause();
+                         $('.myVS1Video').css('display','none');
                          $('.loginSpinner').css('display','none');
                          $('.fullScreenSpin').css('display','none');
 
@@ -2464,7 +2495,8 @@ $("#erplogin-button").click(async function(e){
 
                        }else{
                          swal(dataReturnRes.ProcessLog.ResponseStatus, dataReturnRes.ProcessLog.ResponseStatus, 'error');
-
+                         myVS1Video.pause();
+                         $('.myVS1Video').css('display','none');
                          $('.loginSpinner').css('display','none');
                          $('.fullScreenSpin').css('display','none');
                        }
@@ -2744,6 +2776,8 @@ $("#erplogin-button").click(async function(e){
 
                        if(dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.AccessLevels == undefined){
                          swal('Sorry, You do not have access to any VS1 Modules!', '', 'error');
+                         myVS1Video.pause();
+                         $('.myVS1Video').css('display','none');
                          $('.fullScreenSpin').css('display','none');
                          $('.loginSpinner').css('display','none');
                          return false;
@@ -2752,6 +2786,8 @@ $("#erplogin-button").click(async function(e){
 
                        if(dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.AccessLevels.ResponseNo == 401){
                          swal('Sorry, You do not have access to any VS1 Modules!', '', 'error');
+                         myVS1Video.pause();
+                         $('.myVS1Video').css('display','none');
                          $('.fullScreenSpin').css('display','none');
                          $('.loginSpinner').css('display','none');
                          return false;
@@ -2808,10 +2844,14 @@ $("#erplogin-button").click(async function(e){
              localStorage.setItem('VS1ProfitandLoss_ExpEx_dash', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.PnL_TotalExpenseEx||0);
              localStorage.setItem('VS1ProfitandLoss_COGSEx_dash', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.PnL_TotalCOGSEx||0);
 
-             if(dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TEmployeePicture.fields){
-             localStorage.setItem('vs1LoggedEmployeeImages_dash', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TEmployeePicture.fields.EncodedPic|| '');
-             }else{
+             if(dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TEmployeePicture.ResponseNo == 401){
                localStorage.setItem('vs1LoggedEmployeeImages_dash','');
+             }else{
+               if(dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TEmployeePicture.fields){
+               localStorage.setItem('vs1LoggedEmployeeImages_dash', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TEmployeePicture.fields.EncodedPic|| '');
+               }else{
+                 localStorage.setItem('vs1LoggedEmployeeImages_dash','');
+               }
              }
              }else{
                Session.setPersistent('vs1companyName', '');
@@ -2861,105 +2901,106 @@ $("#erplogin-button").click(async function(e){
                    var sessionDataToLog = localStorage.getItem('mySession');
                    Session.setPersistent('mySessionEmployee', employeename);
                    let userAccessOptions = dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.AccessLevels || '';
-
-
-                   var ERPCheackAppUserObject = "TAppUser?PropertyList==ID,DatabaseName,UserName,MultiLogon&Select=[DatabaseName]='"+ERPdbName+"' and [UserName]='"+ERPLoggeduserName+"'";
-                   var oReqCheackAppUserObject = new XMLHttpRequest();
-                   oReqCheackAppUserObject.open("GET",URLRequest + ERPIPAdderess + ':' + ERPport + '/' + "erpapi" + '/' + ERPCheackAppUserObject, true);
-                   oReqCheackAppUserObject.setRequestHeader("database",ERPdbName);
-                   oReqCheackAppUserObject.setRequestHeader("username",ERPuserName);
-                   oReqCheackAppUserObject.setRequestHeader("password",ERPpassword);
-                   oReqCheackAppUserObject.send();
-
-
-                   oReqCheackAppUserObject.onreadystatechange = function() {
-                   if (oReqCheackAppUserObject.readyState == 4 && oReqCheackAppUserObject.status == 200) {
-                     var dataListCheackAppUser = JSON.parse(oReqCheackAppUserObject.responseText)
-                     for (var eventCheackAppUser in dataListCheackAppUser) {
-                       var dataCheackAppUserCopy = dataListCheackAppUser[eventCheackAppUser];
-                       if(dataCheackAppUserCopy.length === 0){
-                         counterUserRec = true;
-                       }else if(dataCheackAppUserCopy.length === 1){
-                         if(ERPuserName.toString().toUpperCase() == ERPLoggeduserName.toString().toUpperCase()){
-                           counterUserRec = true;
-                         }else{
-                           counterUserRec = false;
-                         }
-
-                       }else{
-                         counterUserRec = false;
-                       };
-
-                       for (var dataCheackAppUser in dataCheackAppUserCopy) {
-                         var mainCheackAppUserData = dataCheackAppUserCopy[dataCheackAppUser];
-                         var erpUsername = mainCheackAppUserData.UserName;
-
-                       }
-                   if(counterUserRec === true){
-
-                     if(userAccessOptions != ""){
-                       addLoginData(dataReturnRes).then(function (datareturn) {
-                         getAccessLevelData(userAccessOptions,isSameUserLogin);
-                       }).catch(function (err) {
-                         getAccessLevelData(userAccessOptions,isSameUserLogin);
-                       });
-
-                     }
-
-
-                   }else{
-
-                       swal('Oops...', 'VS1 User Name is already logged in. Select "Sign me out of all devices" to login', 'info');
-                     $('.loginSpinner').css('display','none');
-                     $('.fullScreenSpin').css('display','none');
+                   if(userAccessOptions != ""){
+                     addLoginData(dataReturnRes).then(function (datareturn) {
+                       getAccessLevelData(userAccessOptions,isSameUserLogin);
+                     }).catch(function (err) {
+                       getAccessLevelData(userAccessOptions,isSameUserLogin);
+                     });
 
                    }
-                   }
-                   }
 
-                   }
+                   // var ERPCheackAppUserObject = "TAppUser?PropertyList==ID,DatabaseName,UserName,MultiLogon&Select=[DatabaseName]='"+ERPdbName+"' and [UserName]='"+ERPLoggeduserName+"'";
+                   // var oReqCheackAppUserObject = new XMLHttpRequest();
+                   // oReqCheackAppUserObject.open("GET",URLRequest + ERPIPAdderess + ':' + ERPport + '/' + "erpapi" + '/' + ERPCheackAppUserObject, true);
+                   // oReqCheackAppUserObject.setRequestHeader("database",ERPdbName);
+                   // oReqCheackAppUserObject.setRequestHeader("username",ERPuserName);
+                   // oReqCheackAppUserObject.setRequestHeader("password",ERPpassword);
+                   // oReqCheackAppUserObject.send();
+                   //
+                   //
+                   // oReqCheackAppUserObject.onreadystatechange = function() {
+                   // if (oReqCheackAppUserObject.readyState == 4 && oReqCheackAppUserObject.status == 200) {
+                   //   var dataListCheackAppUser = JSON.parse(oReqCheackAppUserObject.responseText)
+                   //   for (var eventCheackAppUser in dataListCheackAppUser) {
+                   //     var dataCheackAppUserCopy = dataListCheackAppUser[eventCheackAppUser];
+                   //     if(dataCheackAppUserCopy.length === 0){
+                   //       counterUserRec = true;
+                   //     }else if(dataCheackAppUserCopy.length === 1){
+                   //       if(ERPuserName.toString().toUpperCase() == ERPLoggeduserName.toString().toUpperCase()){
+                   //         counterUserRec = true;
+                   //       }else{
+                   //         counterUserRec = false;
+                   //       }
+                   //
+                   //     }else{
+                   //       counterUserRec = false;
+                   //     };
+                   //
+                   //     for (var dataCheackAppUser in dataCheackAppUserCopy) {
+                   //       var mainCheackAppUserData = dataCheackAppUserCopy[dataCheackAppUser];
+                   //       var erpUsername = mainCheackAppUserData.UserName;
+                   //
+                   //     }
+                   // if(counterUserRec === true){
+                   //
+                   //
+                   //
+                   //
+                   // }else{
+                   //
+                   //     swal('Oops...', 'VS1 User Name is already logged in. Select "Sign me out of all devices" to login', 'info');
+                   //   $('.loginSpinner').css('display','none');
+                   //   $('.fullScreenSpin').css('display','none');
+                   //
+                   // }
+                   // }
+                   // }
+                   //
+                   // }
 
                    /*END APPUSER*/
 
                 }
-               //     }else{
-               //       $('#emEmail').html(dataReturnRes.ProcessLog.VS1AdminUserName);
-               //       $(".addloginkey").attr("href", 'https://www.depot.vs1cloud.com/vs1check/vs1checklogin.php?login=sandbox');
-               //       $(".addloginActive").attr("href", 'https://www.depot.vs1cloud.com/vs1check/vs1check.php?from=sandbox&checktoken='+dataReturnRes.ProcessLog.Databasename+'');
-               //       swal({
-               //         title: 'Awaiting Email Validation',
-               //         html: true,
-               //         html: "This account has not been validated because the email address that it is linked to has not yet been validated.\n \n <br></br> We've sent an email containing a validation link to: <strong> "+dataReturnRes.ProcessLog.VS1AdminUserName+" </strong>",
-               //         type: 'info',
-               //         showCancelButton: false,
-               //         confirmButtonText: 'Resend Validation Email',
-               //         cancelButtonText: 'No'
-               //       }).then((result) => {
-               //         if (result.value) {
-               //           let mailBodyNew = $('.emailBody').html();
-               //           Meteor.call('sendEmail', {
-               //               from: "VS1 Cloud <info@vs1cloud.com>",
-               //               to: dataReturnRes.ProcessLog.VS1AdminUserName,
-               //               cc: 'info@vs1cloud.com',
-               //               subject: '[VS1 Cloud] - Email Validation',
-               //               text: '',
-               //               html:mailBodyNew,
-               //               attachments : ''
-               //
-               //           }, function (error, result) {
-               //             location.reload(true);
-               //           });
-               //         } else if (result.dismiss === 'cancel') {
-               //           // Router.go('/employeescard?addvs1user=true');
-               //         }
-               //       });
-               //
-               //       $('.fullScreenSpin').css('display','none');
-               //       $('.loginSpinner').css('display','none');
-               //       return false;
-               //     }
-               //   }
-               // }
+                   }else{
+                     $('#emEmail').html(dataReturnRes.ProcessLog.VS1AdminUserName);
+                     $(".addloginkey").attr("href", 'https://www.depot.vs1cloud.com/vs1check/vs1checklogin.php?login=sandbox');
+                     $(".addloginActive").attr("href", 'https://www.depot.vs1cloud.com/vs1check/vs1check.php?from=sandbox&checktoken='+dataReturnRes.ProcessLog.Databasename+'');
+                     swal({
+                       title: 'Awaiting Email Validation',
+                       html: true,
+                       html: "This account has not been validated because the email address that it is linked to has not yet been validated.\n \n <br></br> We've sent an email containing a validation link to: <strong> "+dataReturnRes.ProcessLog.VS1AdminUserName+" </strong>",
+                       type: 'info',
+                       showCancelButton: false,
+                       confirmButtonText: 'Resend Validation Email',
+                       cancelButtonText: 'No'
+                     }).then((result) => {
+                       if (result.value) {
+                         let mailBodyNew = $('.emailBody').html();
+                         Meteor.call('sendEmail', {
+                             from: "VS1 Cloud <info@vs1cloud.com>",
+                             to: dataReturnRes.ProcessLog.VS1AdminUserName,
+                             cc: 'info@vs1cloud.com',
+                             subject: '[VS1 Cloud] - Email Validation',
+                             text: '',
+                             html:mailBodyNew,
+                             attachments : ''
+
+                         }, function (error, result) {
+                           location.reload(true);
+                         });
+                       } else if (result.dismiss === 'cancel') {
+                         // Router.go('/employeescard?addvs1user=true');
+                       }
+                     });
+                     myVS1Video.pause();
+                     $('.myVS1Video').css('display','none');
+                     $('.fullScreenSpin').css('display','none');
+                     $('.loginSpinner').css('display','none');
+                     return false;
+                   }
+                 }
+               }
 
               } else if(oReq.statusText == '') {
                 swal({
@@ -2975,6 +3016,8 @@ $("#erplogin-button").click(async function(e){
 
                   }
                 });
+                myVS1Video.pause();
+                $('.myVS1Video').css('display','none');
                 $('.loginSpinner').css('display','none');
                 $('.fullScreenSpin').css('display','none');
               }else if(oReq.readyState == 4 && oReq.status == 403){
@@ -2991,6 +3034,8 @@ $("#erplogin-button").click(async function(e){
 
                   }
                 });
+                myVS1Video.pause();
+                $('.myVS1Video').css('display','none');
                 $('.loginSpinner').css('display','none');
                 $('.fullScreenSpin').css('display','none');
               }else if(oReq.readyState == 4 && oReq.status == 406){
@@ -3007,6 +3052,8 @@ $("#erplogin-button").click(async function(e){
 
                   }
                 });
+                myVS1Video.pause();
+                $('.myVS1Video').css('display','none');
                 $('.loginSpinner').css('display','none');
                 $('.fullScreenSpin').css('display','none');
               }else if(oReq.readyState == 4 && oReq.status == 500){
@@ -3040,6 +3087,8 @@ $("#erplogin-button").click(async function(e){
                     }
                   });
                 }
+                myVS1Video.pause();
+                $('.myVS1Video').css('display','none');
                 $('.loginSpinner').css('display','none');
                 $('.fullScreenSpin').css('display','none');
               }else{
@@ -3070,19 +3119,21 @@ $("#erplogin-button").click(async function(e){
 
             var dataReturnRes = JSON.parse(oReq.responseText);
 
-            // var oReqCheckActive = new XMLHttpRequest();
-            // oReqCheckActive.open("GET",URLRequest + licenceIPAddress + ':' + checkSSLPorts + '/' + 'erpapi/TVS1_Clients_Simple?PropertyList="ID,EmailVarified"&select=[Databasename]="'+dataReturnRes.ProcessLog.Databasename+'"', true);
-            // oReqCheckActive.setRequestHeader("database",vs1loggedDatatbase);
-            // oReqCheckActive.setRequestHeader("username",'VS1_Cloud_Admin');
-            // oReqCheckActive.setRequestHeader("password",'DptfGw83mFl1j&9');
-            // oReqCheckActive.send();
-            //  oReqCheckActive.onreadystatechange = function() {
-            //  if(oReqCheckActive.readyState == 4 && oReqCheckActive.status == 200) {
-            //    var dataDBActive = JSON.parse(oReqCheckActive.responseText);
+            var oReqCheckActive = new XMLHttpRequest();
+            oReqCheckActive.open("GET",URLRequest + licenceIPAddress + ':' + checkSSLPorts + '/' + 'erpapi/TVS1_Clients_Simple?PropertyList="ID,EmailVarified"&select=[Databasename]="'+dataReturnRes.ProcessLog.Databasename+'"', true);
+            oReqCheckActive.setRequestHeader("database",vs1loggedDatatbase);
+            oReqCheckActive.setRequestHeader("username",'VS1_Cloud_Admin');
+            oReqCheckActive.setRequestHeader("password",'DptfGw83mFl1j&9');
+            oReqCheckActive.send();
+             oReqCheckActive.onreadystatechange = function() {
+             if(oReqCheckActive.readyState == 4 && oReqCheckActive.status == 200) {
+               var dataDBActive = JSON.parse(oReqCheckActive.responseText);
 
-               // if(dataDBActive.tvs1_clients_simple[0].EmailVarified){
+               if(dataDBActive.tvs1_clients_simple[0].EmailVarified){
                  if(dataReturnRes.ProcessLog.ResponseStatus != "OK"){
                    if(dataReturnRes.ProcessLog.ResponseStatus == "Payment is Due"){
+                     myVS1Video.pause();
+                     $('.myVS1Video').css('display','none');
                      $('.loginSpinner').css('display','none');
                      $('.fullScreenSpin').css('display','none');
 
@@ -3103,7 +3154,8 @@ $("#erplogin-button").click(async function(e){
 
                    }else{
                      swal(dataReturnRes.ProcessLog.ResponseStatus, dataReturnRes.ProcessLog.ResponseStatus, 'error');
-
+                     myVS1Video.pause();
+                     $('.myVS1Video').css('display','none');
                      $('.loginSpinner').css('display','none');
                      $('.fullScreenSpin').css('display','none');
                    }
@@ -3383,6 +3435,8 @@ $("#erplogin-button").click(async function(e){
 
                    if(dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.AccessLevels == undefined){
                      swal('Sorry, You do not have access to any VS1 Modules!', '', 'error');
+                     myVS1Video.pause();
+                     $('.myVS1Video').css('display','none');
                      $('.fullScreenSpin').css('display','none');
                      $('.loginSpinner').css('display','none');
                      return false;
@@ -3391,6 +3445,8 @@ $("#erplogin-button").click(async function(e){
 
                    if(dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.AccessLevels.ResponseNo == 401){
                      swal('Sorry, You do not have access to any VS1 Modules!', '', 'error');
+                     myVS1Video.pause();
+                     $('.myVS1Video').css('display','none');
                      $('.fullScreenSpin').css('display','none');
                      $('.loginSpinner').css('display','none');
                      return false;
@@ -3447,10 +3503,14 @@ $("#erplogin-button").click(async function(e){
          localStorage.setItem('VS1ProfitandLoss_ExpEx_dash', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.PnL_TotalExpenseEx||0);
          localStorage.setItem('VS1ProfitandLoss_COGSEx_dash', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.PnL_TotalCOGSEx||0);
 
-         if(dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TEmployeePicture.fields){
-         localStorage.setItem('vs1LoggedEmployeeImages_dash', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TEmployeePicture.fields.EncodedPic|| '');
-         }else{
+         if(dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TEmployeePicture.ResponseNo == 401){
            localStorage.setItem('vs1LoggedEmployeeImages_dash','');
+         }else{
+           if(dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TEmployeePicture.fields){
+           localStorage.setItem('vs1LoggedEmployeeImages_dash', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TEmployeePicture.fields.EncodedPic|| '');
+           }else{
+             localStorage.setItem('vs1LoggedEmployeeImages_dash','');
+           }
          }
          }else{
            Session.setPersistent('vs1companyName', '');
@@ -3501,104 +3561,105 @@ $("#erplogin-button").click(async function(e){
                Session.setPersistent('mySessionEmployee', employeename);
                let userAccessOptions = dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.AccessLevels || '';
 
-
-               var ERPCheackAppUserObject = "TAppUser?PropertyList==ID,DatabaseName,UserName,MultiLogon&Select=[DatabaseName]='"+ERPdbName+"' and [UserName]='"+ERPLoggeduserName+"'";
-               var oReqCheackAppUserObject = new XMLHttpRequest();
-               oReqCheackAppUserObject.open("GET",URLRequest + ERPIPAdderess + ':' + ERPport + '/' + "erpapi" + '/' + ERPCheackAppUserObject, true);
-               oReqCheackAppUserObject.setRequestHeader("database",ERPdbName);
-               oReqCheackAppUserObject.setRequestHeader("username",ERPuserName);
-               oReqCheackAppUserObject.setRequestHeader("password",ERPpassword);
-               oReqCheackAppUserObject.send();
-
-
-               oReqCheackAppUserObject.onreadystatechange = function() {
-               if (oReqCheackAppUserObject.readyState == 4 && oReqCheackAppUserObject.status == 200) {
-                 var dataListCheackAppUser = JSON.parse(oReqCheackAppUserObject.responseText)
-                 for (var eventCheackAppUser in dataListCheackAppUser) {
-                   var dataCheackAppUserCopy = dataListCheackAppUser[eventCheackAppUser];
-                   if(dataCheackAppUserCopy.length === 0){
-                     counterUserRec = true;
-                   }else if(dataCheackAppUserCopy.length === 1){
-                     if(ERPuserName.toString().toUpperCase() == ERPLoggeduserName.toString().toUpperCase()){
-                       counterUserRec = true;
-                     }else{
-                       counterUserRec = false;
-                     }
-
-                   }else{
-                     counterUserRec = false;
-                   };
-
-                   for (var dataCheackAppUser in dataCheackAppUserCopy) {
-                     var mainCheackAppUserData = dataCheackAppUserCopy[dataCheackAppUser];
-                     var erpUsername = mainCheackAppUserData.UserName;
-
-                   }
-               if(counterUserRec === true){
-
-                 if(userAccessOptions != ""){
-                   addLoginData(dataReturnRes).then(function (datareturn) {
-                     getAccessLevelData(userAccessOptions,isSameUserLogin);
-                   }).catch(function (err) {
-                     getAccessLevelData(userAccessOptions,isSameUserLogin);
-                   });
-
-                 }
-
-
-               }else{
-
-                   swal('Oops...', 'VS1 User Name is already logged in. Select "Sign me out of all devices" to login', 'info');
-                 $('.loginSpinner').css('display','none');
-                 $('.fullScreenSpin').css('display','none');
+               if(userAccessOptions != ""){
+                 addLoginData(dataReturnRes).then(function (datareturn) {
+                   getAccessLevelData(userAccessOptions,isSameUserLogin);
+                 }).catch(function (err) {
+                   getAccessLevelData(userAccessOptions,isSameUserLogin);
+                 });
 
                }
-               }
-               }
-
-               }
+               // var ERPCheackAppUserObject = "TAppUser?PropertyList==ID,DatabaseName,UserName,MultiLogon&Select=[DatabaseName]='"+ERPdbName+"' and [UserName]='"+ERPLoggeduserName+"'";
+               // var oReqCheackAppUserObject = new XMLHttpRequest();
+               // oReqCheackAppUserObject.open("GET",URLRequest + ERPIPAdderess + ':' + ERPport + '/' + "erpapi" + '/' + ERPCheackAppUserObject, true);
+               // oReqCheackAppUserObject.setRequestHeader("database",ERPdbName);
+               // oReqCheackAppUserObject.setRequestHeader("username",ERPuserName);
+               // oReqCheackAppUserObject.setRequestHeader("password",ERPpassword);
+               // oReqCheackAppUserObject.send();
+               //
+               //
+               // oReqCheackAppUserObject.onreadystatechange = function() {
+               // if (oReqCheackAppUserObject.readyState == 4 && oReqCheackAppUserObject.status == 200) {
+               //   var dataListCheackAppUser = JSON.parse(oReqCheackAppUserObject.responseText)
+               //   for (var eventCheackAppUser in dataListCheackAppUser) {
+               //     var dataCheackAppUserCopy = dataListCheackAppUser[eventCheackAppUser];
+               //     if(dataCheackAppUserCopy.length === 0){
+               //       counterUserRec = true;
+               //     }else if(dataCheackAppUserCopy.length === 1){
+               //       if(ERPuserName.toString().toUpperCase() == ERPLoggeduserName.toString().toUpperCase()){
+               //         counterUserRec = true;
+               //       }else{
+               //         counterUserRec = false;
+               //       }
+               //
+               //     }else{
+               //       counterUserRec = false;
+               //     };
+               //
+               //     for (var dataCheackAppUser in dataCheackAppUserCopy) {
+               //       var mainCheackAppUserData = dataCheackAppUserCopy[dataCheackAppUser];
+               //       var erpUsername = mainCheackAppUserData.UserName;
+               //
+               //     }
+               // if(counterUserRec === true){
+               //
+               //
+               //
+               //
+               // }else{
+               //
+               //     swal('Oops...', 'VS1 User Name is already logged in. Select "Sign me out of all devices" to login', 'info');
+               //   $('.loginSpinner').css('display','none');
+               //   $('.fullScreenSpin').css('display','none');
+               //
+               // }
+               // }
+               // }
+               //
+               // }
 
                /*END APPUSER*/
 
             }
-           //     }else{
-           //       $('#emEmail').html(dataReturnRes.ProcessLog.VS1AdminUserName);
-           //       $(".addloginkey").attr("href", 'https://www.depot.vs1cloud.com/vs1check/vs1checklogin.php?login=sandbox');
-           //       $(".addloginActive").attr("href", 'https://www.depot.vs1cloud.com/vs1check/vs1check.php?from=sandbox&checktoken='+dataReturnRes.ProcessLog.Databasename+'');
-           //       swal({
-           //         title: 'Awaiting Email Validation',
-           //         html: true,
-           //         html: "This account has not been validated because the email address that it is linked to has not yet been validated.\n \n <br></br> We've sent an email containing a validation link to: <strong> "+dataReturnRes.ProcessLog.VS1AdminUserName+" </strong>",
-           //         type: 'info',
-           //         showCancelButton: false,
-           //         confirmButtonText: 'Resend Validation Email',
-           //         cancelButtonText: 'No'
-           //       }).then((result) => {
-           //         if (result.value) {
-           //           let mailBodyNew = $('.emailBody').html();
-           //           Meteor.call('sendEmail', {
-           //               from: "VS1 Cloud <info@vs1cloud.com>",
-           //               to: dataReturnRes.ProcessLog.VS1AdminUserName,
-           //               cc: 'info@vs1cloud.com',
-           //               subject: '[VS1 Cloud] - Email Validation',
-           //               text: '',
-           //               html:mailBodyNew,
-           //               attachments : ''
-           //
-           //           }, function (error, result) {
-           //             location.reload(true);
-           //           });
-           //         } else if (result.dismiss === 'cancel') {
-           //           // Router.go('/employeescard?addvs1user=true');
-           //         }
-           //       });
-           //
-           //       $('.fullScreenSpin').css('display','none');
-           //       $('.loginSpinner').css('display','none');
-           //       return false;
-           //     }
-           //   }
-           // }
+               }else{
+                 $('#emEmail').html(dataReturnRes.ProcessLog.VS1AdminUserName);
+                 $(".addloginkey").attr("href", 'https://www.depot.vs1cloud.com/vs1check/vs1checklogin.php?login=sandbox');
+                 $(".addloginActive").attr("href", 'https://www.depot.vs1cloud.com/vs1check/vs1check.php?from=sandbox&checktoken='+dataReturnRes.ProcessLog.Databasename+'');
+                 swal({
+                   title: 'Awaiting Email Validation',
+                   html: true,
+                   html: "This account has not been validated because the email address that it is linked to has not yet been validated.\n \n <br></br> We've sent an email containing a validation link to: <strong> "+dataReturnRes.ProcessLog.VS1AdminUserName+" </strong>",
+                   type: 'info',
+                   showCancelButton: false,
+                   confirmButtonText: 'Resend Validation Email',
+                   cancelButtonText: 'No'
+                 }).then((result) => {
+                   if (result.value) {
+                     let mailBodyNew = $('.emailBody').html();
+                     Meteor.call('sendEmail', {
+                         from: "VS1 Cloud <info@vs1cloud.com>",
+                         to: dataReturnRes.ProcessLog.VS1AdminUserName,
+                         cc: 'info@vs1cloud.com',
+                         subject: '[VS1 Cloud] - Email Validation',
+                         text: '',
+                         html:mailBodyNew,
+                         attachments : ''
+
+                     }, function (error, result) {
+                       location.reload(true);
+                     });
+                   } else if (result.dismiss === 'cancel') {
+                     // Router.go('/employeescard?addvs1user=true');
+                   }
+                 });
+                 myVS1Video.pause();
+                 $('.myVS1Video').css('display','none');
+                 $('.fullScreenSpin').css('display','none');
+                 $('.loginSpinner').css('display','none');
+                 return false;
+               }
+             }
+           }
 
 
 
@@ -3616,6 +3677,8 @@ $("#erplogin-button").click(async function(e){
 
               }
             });
+            myVS1Video.pause();
+            $('.myVS1Video').css('display','none');
             $('.loginSpinner').css('display','none');
             $('.fullScreenSpin').css('display','none');
           }else if(oReq.readyState == 4 && oReq.status == 403){
@@ -3632,6 +3695,8 @@ $("#erplogin-button").click(async function(e){
 
               }
             });
+            myVS1Video.pause();
+            $('.myVS1Video').css('display','none');
             $('.loginSpinner').css('display','none');
             $('.fullScreenSpin').css('display','none');
           }else if(oReq.readyState == 4 && oReq.status == 406){
@@ -3648,6 +3713,8 @@ $("#erplogin-button").click(async function(e){
 
               }
             });
+            myVS1Video.pause();
+            $('.myVS1Video').css('display','none');
             $('.loginSpinner').css('display','none');
             $('.fullScreenSpin').css('display','none');
           }else if(oReq.readyState == 4 && oReq.status == 500){
@@ -3681,23 +3748,11 @@ $("#erplogin-button").click(async function(e){
                 }
               });
             }
+            myVS1Video.pause();
+            $('.myVS1Video').css('display','none');
             $('.loginSpinner').css('display','none');
             $('.fullScreenSpin').css('display','none');
           }else{
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
           }
       }
@@ -3723,19 +3778,21 @@ $("#erplogin-button").click(async function(e){
 
                 var dataReturnRes = JSON.parse(oReq.responseText);
 
-                // var oReqCheckActive = new XMLHttpRequest();
-                // oReqCheckActive.open("GET",URLRequest + licenceIPAddress + ':' + checkSSLPorts + '/' + 'erpapi/TVS1_Clients_Simple?PropertyList="ID,EmailVarified"&select=[Databasename]="'+dataReturnRes.ProcessLog.Databasename+'"', true);
-                // oReqCheckActive.setRequestHeader("database",vs1loggedDatatbase);
-                // oReqCheckActive.setRequestHeader("username",'VS1_Cloud_Admin');
-                // oReqCheckActive.setRequestHeader("password",'DptfGw83mFl1j&9');
-                // oReqCheckActive.send();
-                //  oReqCheckActive.onreadystatechange = function() {
-                //  if(oReqCheckActive.readyState == 4 && oReqCheckActive.status == 200) {
-                //    var dataDBActive = JSON.parse(oReqCheckActive.responseText);
-                //
-                //    if(dataDBActive.tvs1_clients_simple[0].EmailVarified){
+                var oReqCheckActive = new XMLHttpRequest();
+                oReqCheckActive.open("GET",URLRequest + licenceIPAddress + ':' + checkSSLPorts + '/' + 'erpapi/TVS1_Clients_Simple?PropertyList="ID,EmailVarified"&select=[Databasename]="'+dataReturnRes.ProcessLog.Databasename+'"', true);
+                oReqCheckActive.setRequestHeader("database",vs1loggedDatatbase);
+                oReqCheckActive.setRequestHeader("username",'VS1_Cloud_Admin');
+                oReqCheckActive.setRequestHeader("password",'DptfGw83mFl1j&9');
+                oReqCheckActive.send();
+                 oReqCheckActive.onreadystatechange = function() {
+                 if(oReqCheckActive.readyState == 4 && oReqCheckActive.status == 200) {
+                   var dataDBActive = JSON.parse(oReqCheckActive.responseText);
+
+                   if(dataDBActive.tvs1_clients_simple[0].EmailVarified){
                      if(dataReturnRes.ProcessLog.ResponseStatus != "OK"){
                        if(dataReturnRes.ProcessLog.ResponseStatus == "Payment is Due"){
+                         myVS1Video.pause();
+                         $('.myVS1Video').css('display','none');
                          $('.loginSpinner').css('display','none');
                          $('.fullScreenSpin').css('display','none');
 
@@ -3756,7 +3813,8 @@ $("#erplogin-button").click(async function(e){
 
                        }else{
                          swal(dataReturnRes.ProcessLog.ResponseStatus, dataReturnRes.ProcessLog.ResponseStatus, 'error');
-
+                         myVS1Video.pause();
+                         $('.myVS1Video').css('display','none');
                          $('.loginSpinner').css('display','none');
                          $('.fullScreenSpin').css('display','none');
                        }
@@ -4036,6 +4094,8 @@ $("#erplogin-button").click(async function(e){
 
                        if(dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.AccessLevels == undefined){
                          swal('Sorry, You do not have access to any VS1 Modules!', '', 'error');
+                         myVS1Video.pause();
+                         $('.myVS1Video').css('display','none');
                          $('.fullScreenSpin').css('display','none');
                          $('.loginSpinner').css('display','none');
                          return false;
@@ -4044,6 +4104,8 @@ $("#erplogin-button").click(async function(e){
 
                        if(dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.AccessLevels.ResponseNo == 401){
                          swal('Sorry, You do not have access to any VS1 Modules!', '', 'error');
+                         myVS1Video.pause();
+                         $('.myVS1Video').css('display','none');
                          $('.fullScreenSpin').css('display','none');
                          $('.loginSpinner').css('display','none');
                          return false;
@@ -4100,11 +4162,16 @@ $("#erplogin-button").click(async function(e){
              localStorage.setItem('VS1ProfitandLoss_ExpEx_dash', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.PnL_TotalExpenseEx||0);
              localStorage.setItem('VS1ProfitandLoss_COGSEx_dash', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.PnL_TotalCOGSEx||0);
 
-             if(dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TEmployeePicture.fields){
-             localStorage.setItem('vs1LoggedEmployeeImages_dash', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TEmployeePicture.fields.EncodedPic|| '');
-             }else{
+             if(dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TEmployeePicture.ResponseNo == 401){
                localStorage.setItem('vs1LoggedEmployeeImages_dash','');
+             }else{
+               if(dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TEmployeePicture.fields){
+               localStorage.setItem('vs1LoggedEmployeeImages_dash', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TEmployeePicture.fields.EncodedPic|| '');
+               }else{
+                 localStorage.setItem('vs1LoggedEmployeeImages_dash','');
+               }
              }
+
              }else{
                Session.setPersistent('vs1companyName', '');
                Session.setPersistent('vs1companyaddress1', '');
@@ -4154,104 +4221,105 @@ $("#erplogin-button").click(async function(e){
                    Session.setPersistent('mySessionEmployee', employeename);
                    let userAccessOptions = dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.AccessLevels || '';
 
-
-                   var ERPCheackAppUserObject = "TAppUser?PropertyList==ID,DatabaseName,UserName,MultiLogon&Select=[DatabaseName]='"+ERPdbName+"' and [UserName]='"+ERPLoggeduserName+"'";
-                   var oReqCheackAppUserObject = new XMLHttpRequest();
-                   oReqCheackAppUserObject.open("GET",URLRequest + ERPIPAdderess + ':' + ERPport + '/' + "erpapi" + '/' + ERPCheackAppUserObject, true);
-                   oReqCheackAppUserObject.setRequestHeader("database",ERPdbName);
-                   oReqCheackAppUserObject.setRequestHeader("username",ERPuserName);
-                   oReqCheackAppUserObject.setRequestHeader("password",ERPpassword);
-                   oReqCheackAppUserObject.send();
-
-
-                   oReqCheackAppUserObject.onreadystatechange = function() {
-                   if (oReqCheackAppUserObject.readyState == 4 && oReqCheackAppUserObject.status == 200) {
-                     var dataListCheackAppUser = JSON.parse(oReqCheackAppUserObject.responseText)
-                     for (var eventCheackAppUser in dataListCheackAppUser) {
-                       var dataCheackAppUserCopy = dataListCheackAppUser[eventCheackAppUser];
-                       if(dataCheackAppUserCopy.length === 0){
-                         counterUserRec = true;
-                       }else if(dataCheackAppUserCopy.length === 1){
-                         if(ERPuserName.toString().toUpperCase() == ERPLoggeduserName.toString().toUpperCase()){
-                           counterUserRec = true;
-                         }else{
-                           counterUserRec = false;
-                         }
-
-                       }else{
-                         counterUserRec = false;
-                       };
-
-                       for (var dataCheackAppUser in dataCheackAppUserCopy) {
-                         var mainCheackAppUserData = dataCheackAppUserCopy[dataCheackAppUser];
-                         var erpUsername = mainCheackAppUserData.UserName;
-
-                       }
-                   if(counterUserRec === true){
-
-                     if(userAccessOptions != ""){
-                       addLoginData(dataReturnRes).then(function (datareturn) {
-                         getAccessLevelData(userAccessOptions,isSameUserLogin);
-                       }).catch(function (err) {
-                         getAccessLevelData(userAccessOptions,isSameUserLogin);
-                       });
-
-                     }
-
-
-                   }else{
-
-                       swal('Oops...', 'VS1 User Name is already logged in. Select "Sign me out of all devices" to login', 'info');
-                     $('.loginSpinner').css('display','none');
-                     $('.fullScreenSpin').css('display','none');
+                   if(userAccessOptions != ""){
+                     addLoginData(dataReturnRes).then(function (datareturn) {
+                       getAccessLevelData(userAccessOptions,isSameUserLogin);
+                     }).catch(function (err) {
+                       getAccessLevelData(userAccessOptions,isSameUserLogin);
+                     });
 
                    }
-                   }
-                   }
-
-                   }
+                   // var ERPCheackAppUserObject = "TAppUser?PropertyList==ID,DatabaseName,UserName,MultiLogon&Select=[DatabaseName]='"+ERPdbName+"' and [UserName]='"+ERPLoggeduserName+"'";
+                   // var oReqCheackAppUserObject = new XMLHttpRequest();
+                   // oReqCheackAppUserObject.open("GET",URLRequest + ERPIPAdderess + ':' + ERPport + '/' + "erpapi" + '/' + ERPCheackAppUserObject, true);
+                   // oReqCheackAppUserObject.setRequestHeader("database",ERPdbName);
+                   // oReqCheackAppUserObject.setRequestHeader("username",ERPuserName);
+                   // oReqCheackAppUserObject.setRequestHeader("password",ERPpassword);
+                   // oReqCheackAppUserObject.send();
+                   //
+                   //
+                   // oReqCheackAppUserObject.onreadystatechange = function() {
+                   // if (oReqCheackAppUserObject.readyState == 4 && oReqCheackAppUserObject.status == 200) {
+                   //   var dataListCheackAppUser = JSON.parse(oReqCheackAppUserObject.responseText)
+                   //   for (var eventCheackAppUser in dataListCheackAppUser) {
+                   //     var dataCheackAppUserCopy = dataListCheackAppUser[eventCheackAppUser];
+                   //     if(dataCheackAppUserCopy.length === 0){
+                   //       counterUserRec = true;
+                   //     }else if(dataCheackAppUserCopy.length === 1){
+                   //       if(ERPuserName.toString().toUpperCase() == ERPLoggeduserName.toString().toUpperCase()){
+                   //         counterUserRec = true;
+                   //       }else{
+                   //         counterUserRec = false;
+                   //       }
+                   //
+                   //     }else{
+                   //       counterUserRec = false;
+                   //     };
+                   //
+                   //     for (var dataCheackAppUser in dataCheackAppUserCopy) {
+                   //       var mainCheackAppUserData = dataCheackAppUserCopy[dataCheackAppUser];
+                   //       var erpUsername = mainCheackAppUserData.UserName;
+                   //
+                   //     }
+                   // if(counterUserRec === true){
+                   //
+                   //
+                   //
+                   //
+                   // }else{
+                   //
+                   //     swal('Oops...', 'VS1 User Name is already logged in. Select "Sign me out of all devices" to login', 'info');
+                   //   $('.loginSpinner').css('display','none');
+                   //   $('.fullScreenSpin').css('display','none');
+                   //
+                   // }
+                   // }
+                   // }
+                   //
+                   // }
 
                    /*END APPUSER*/
 
                 }
-               //     }else{
-               //       $('#emEmail').html(dataReturnRes.ProcessLog.VS1AdminUserName);
-               //       $(".addloginkey").attr("href", 'https://www.depot.vs1cloud.com/vs1check/vs1checklogin.php?login=sandbox');
-               //       $(".addloginActive").attr("href", 'https://www.depot.vs1cloud.com/vs1check/vs1check.php?from=sandbox&checktoken='+dataReturnRes.ProcessLog.Databasename+'');
-               //       swal({
-               //         title: 'Awaiting Email Validation',
-               //         html: true,
-               //         html: "This account has not been validated because the email address that it is linked to has not yet been validated.\n \n <br></br> We've sent an email containing a validation link to: <strong> "+dataReturnRes.ProcessLog.VS1AdminUserName+" </strong>",
-               //         type: 'info',
-               //         showCancelButton: false,
-               //         confirmButtonText: 'Resend Validation Email',
-               //         cancelButtonText: 'No'
-               //       }).then((result) => {
-               //         if (result.value) {
-               //           let mailBodyNew = $('.emailBody').html();
-               //           Meteor.call('sendEmail', {
-               //               from: "VS1 Cloud <info@vs1cloud.com>",
-               //               to: dataReturnRes.ProcessLog.VS1AdminUserName,
-               //               cc: 'info@vs1cloud.com',
-               //               subject: '[VS1 Cloud] - Email Validation',
-               //               text: '',
-               //               html:mailBodyNew,
-               //               attachments : ''
-               //
-               //           }, function (error, result) {
-               //             location.reload(true);
-               //           });
-               //         } else if (result.dismiss === 'cancel') {
-               //           // Router.go('/employeescard?addvs1user=true');
-               //         }
-               //       });
-               //
-               //       $('.fullScreenSpin').css('display','none');
-               //       $('.loginSpinner').css('display','none');
-               //       return false;
-               //     }
-               //   }
-               // }
+                   }else{
+                     $('#emEmail').html(dataReturnRes.ProcessLog.VS1AdminUserName);
+                     $(".addloginkey").attr("href", 'https://www.depot.vs1cloud.com/vs1check/vs1checklogin.php?login=sandbox');
+                     $(".addloginActive").attr("href", 'https://www.depot.vs1cloud.com/vs1check/vs1check.php?from=sandbox&checktoken='+dataReturnRes.ProcessLog.Databasename+'');
+                     swal({
+                       title: 'Awaiting Email Validation',
+                       html: true,
+                       html: "This account has not been validated because the email address that it is linked to has not yet been validated.\n \n <br></br> We've sent an email containing a validation link to: <strong> "+dataReturnRes.ProcessLog.VS1AdminUserName+" </strong>",
+                       type: 'info',
+                       showCancelButton: false,
+                       confirmButtonText: 'Resend Validation Email',
+                       cancelButtonText: 'No'
+                     }).then((result) => {
+                       if (result.value) {
+                         let mailBodyNew = $('.emailBody').html();
+                         Meteor.call('sendEmail', {
+                             from: "VS1 Cloud <info@vs1cloud.com>",
+                             to: dataReturnRes.ProcessLog.VS1AdminUserName,
+                             cc: 'info@vs1cloud.com',
+                             subject: '[VS1 Cloud] - Email Validation',
+                             text: '',
+                             html:mailBodyNew,
+                             attachments : ''
+
+                         }, function (error, result) {
+                           location.reload(true);
+                         });
+                       } else if (result.dismiss === 'cancel') {
+                         // Router.go('/employeescard?addvs1user=true');
+                       }
+                     });
+                     myVS1Video.pause();
+                     $('.myVS1Video').css('display','none');
+                     $('.fullScreenSpin').css('display','none');
+                     $('.loginSpinner').css('display','none');
+                     return false;
+                   }
+                 }
+               }
 
               } else if(oReq.statusText == '') {
                 swal({
@@ -4267,6 +4335,8 @@ $("#erplogin-button").click(async function(e){
 
                   }
                 });
+                myVS1Video.pause();
+                $('.myVS1Video').css('display','none');
                 $('.loginSpinner').css('display','none');
                 $('.fullScreenSpin').css('display','none');
               }else if(oReq.readyState == 4 && oReq.status == 403){
@@ -4283,6 +4353,8 @@ $("#erplogin-button").click(async function(e){
 
                   }
                 });
+                myVS1Video.pause();
+                $('.myVS1Video').css('display','none');
                 $('.loginSpinner').css('display','none');
                 $('.fullScreenSpin').css('display','none');
               }else if(oReq.readyState == 4 && oReq.status == 406){
@@ -4299,6 +4371,8 @@ $("#erplogin-button").click(async function(e){
 
                   }
                 });
+                myVS1Video.pause();
+                $('.myVS1Video').css('display','none');
                 $('.loginSpinner').css('display','none');
                 $('.fullScreenSpin').css('display','none');
               }else if(oReq.readyState == 4 && oReq.status == 500){
@@ -4332,7 +4406,8 @@ $("#erplogin-button").click(async function(e){
                     }
                   });
                 }
-
+                myVS1Video.pause();
+                $('.myVS1Video').css('display','none');
                 $('.loginSpinner').css('display','none');
                 $('.fullScreenSpin').css('display','none');
               }else{
@@ -4355,6 +4430,7 @@ $("#erppassword").keyup(function (e) {
 $("#signmeout").click(function(e){
    e.preventDefault();
    $('.fullScreenSpin').css('display','inline-block');
+   // $('.myVS1Video').css('display','inline-block');
    let userLoginEmail = $("#email").val();
 
    if(userLoginEmail === '') {

@@ -26,6 +26,8 @@ Template.stockadjustmentcard.onCreated(() => {
     templateObject.attachmentCount = new ReactiveVar();
     templateObject.record = new ReactiveVar({});
 
+    templateObject.productquantityrecord = new ReactiveVar([]);
+
     // JQuery & CSS by Bruno BEGIN
     setTimeout(function () {
 
@@ -195,11 +197,36 @@ Template.stockadjustmentcard.onRendered(() => {
 
     templateObject.getDepartments();
     templateObject.getAccountNames();
+    stockTransferService.getProductClassQuantitys().then(function (dataProductQty) {
+        templateObject.productquantityrecord.set(dataProductQty);
+    });
 
     templateObject.getProductQty = function (id, productname) {
         let totalAvailQty = 0;
         let totalInStockQty = 0;
         let deptName = $('#sltDepartment').val();
+        let dataValue = templateObject.productquantityrecord.get();
+        if(dataValue){
+          for (let i = 0; i < dataValue.tproductclassquantity.length; i++) {
+              let dataObj = {};
+
+              let prodQtyName = dataValue.tproductclassquantity[i].ProductName;
+              let deptQtyName = dataValue.tproductclassquantity[i].DepartmentName;
+              if (productname == prodQtyName && deptQtyName == deptName) {
+                  //if(productname == prodQtyName){
+                  let availQty = dataValue.tproductclassquantity[i].AvailableQty;
+                  let inStockQty = dataValue.tproductclassquantity[i].InStockQty;
+
+                  totalAvailQty += parseFloat(availQty);
+                  totalInStockQty += parseFloat(inStockQty);
+              }
+          }
+
+          $('#' + id + " .lineInStockQty").text(totalInStockQty);
+          // $('#'+id+" .lineDescription").text(lineProductDesc);
+          $('#' + id + " .lineFinalQty").val(totalInStockQty);
+          $('#' + id + " .lineAdjustQty").val(0);
+        }else{
         stockTransferService.getProductClassQuantitys().then(function (data) {
             for (let i = 0; i < data.tproductclassquantity.length; i++) {
                 let dataObj = {};
@@ -220,14 +247,10 @@ Template.stockadjustmentcard.onRendered(() => {
             // $('#'+id+" .lineDescription").text(lineProductDesc);
             $('#' + id + " .lineFinalQty").val(totalInStockQty);
             $('#' + id + " .lineAdjustQty").val(0);
-            // $('#'+id+" .lineAdjustQty").text(1).trigger("blur");
 
-            // $("#instock-" + id).html(totalInStockQty);
-            // $("#available-" + id).html(totalAvailQty);
-            // $("#finalQty-" + id).html(totalInStockQty);
-            // $("#adjust-" + id).html(1).trigger("blur");
 
         });
+        }
 
     };
 
@@ -291,13 +314,13 @@ Template.stockadjustmentcard.onRendered(() => {
 
                         if (templateObject.record.get()) {
 
-                            // $('#tblJournalEntryLine').colResizable({
+                            // $('#tblStockAdjustmentLine').colResizable({
                             //   liveDrag:true});
-                            //$('#tblJournalEntryLine').removeClass('JColResizer');
+                            //$('#tblStockAdjustmentLine').removeClass('JColResizer');
 
-                            Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblJournalEntryLine', function (error, result) {
+                            Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblStockAdjustmentLine', function (error, result) {
                                 if (error) {
-                                    
+
                                     //Bert.alert('<strong>Error:</strong> user-not-found, no user found please try again!', 'danger');
                                 } else {
                                     if (result) {
@@ -427,7 +450,7 @@ Template.stockadjustmentcard.onRendered(() => {
                             $(".btnDeleteProduct").prop("disabled", false);
                             $(".close").prop("disabled", false);
                             if (templateObject.record.get()) {
-                                Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblJournalEntryLine', function (error, result) {
+                                Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblStockAdjustmentLine', function (error, result) {
                                     if (error) {
 
                                     } else {
@@ -478,7 +501,7 @@ Template.stockadjustmentcard.onRendered(() => {
                     //here
                 }
             }).catch(function (err) {
-                
+
                 stockTransferService.getOneStockAdjustData(currentStockAdjust).then(function (data) {
                     $('.fullScreenSpin').css('display', 'none');
                     let lineItems = [];
@@ -529,13 +552,13 @@ Template.stockadjustmentcard.onRendered(() => {
 
                     if (templateObject.record.get()) {
 
-                        // $('#tblJournalEntryLine').colResizable({
+                        // $('#tblStockAdjustmentLine').colResizable({
                         //   liveDrag:true});
-                        //$('#tblJournalEntryLine').removeClass('JColResizer');
+                        //$('#tblStockAdjustmentLine').removeClass('JColResizer');
 
-                        Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblJournalEntryLine', function (error, result) {
+                        Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblStockAdjustmentLine', function (error, result) {
                             if (error) {
-                                
+
                                 //Bert.alert('<strong>Error:</strong> user-not-found, no user found please try again!', 'danger');
                             } else {
                                 if (result) {
@@ -637,10 +660,10 @@ Template.stockadjustmentcard.onRendered(() => {
 
         templateObject.record.set(record);
         if (templateObject.record.get()) {
-            // $('#tblJournalEntryLine').colResizable({liveDrag:true});
-            Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblJournalEntryLine', function (error, result) {
+            // $('#tblStockAdjustmentLine').colResizable({liveDrag:true});
+            Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblStockAdjustmentLine', function (error, result) {
                 if (error) {
-                    
+
                     //Bert.alert('<strong>Error:</strong> user-not-found, no user found please try again!', 'danger');
                 } else {
                     if (result) {
@@ -679,7 +702,7 @@ Template.stockadjustmentcard.onRendered(() => {
 
         var table = $(this);
         let utilityService = new UtilityService();
-        let $tblrows = $("#tblJournalEntryLine tbody tr");
+        let $tblrows = $("#tblStockAdjustmentLine tbody tr");
         //var data = table.row( this ).data();
         if (selectLineID) {
             // $(event.target).closest('tr').attr('id');
@@ -733,7 +756,7 @@ Template.stockadjustmentcard.onRendered(() => {
     let table;
     $(document).ready(function () {
         $('#addRow').on('click', function () {
-            var rowData = $('#tblJournalEntryLine tbody>tr:last').clone(true);
+            var rowData = $('#tblStockAdjustmentLine tbody>tr:last').clone(true);
             let tokenid = Random.id();
             $(".lineProductName", rowData).text("");
             $(".lineProductBarCode", rowData).text("");
@@ -743,7 +766,7 @@ Template.stockadjustmentcard.onRendered(() => {
             $(".lineAdjustQty", rowData).val("");
             // $(".lineAmt", rowData).text("");
             rowData.attr('id', tokenid);
-            $("#tblJournalEntryLine tbody").append(rowData);
+            $("#tblStockAdjustmentLine tbody").append(rowData);
 
         });
 
@@ -772,7 +795,7 @@ Template.stockadjustmentcard.onRendered(() => {
     //             }
     //         });
     //     }
-           
+
     //     });
     // });
 
@@ -1013,7 +1036,7 @@ Template.stockadjustmentcard.helpers({
         return CloudPreference.findOne({ userid: Session.get('mycloudLogonID'), PrefName: 'stockadjustmentcard' });
     },
     salesCloudGridPreferenceRec: () => {
-        return CloudPreference.findOne({ userid: Session.get('mycloudLogonID'), PrefName: 'tblJournalEntryLine' });
+        return CloudPreference.findOne({ userid: Session.get('mycloudLogonID'), PrefName: 'tblStockAdjustmentLine' });
     },
     uploadedFiles: () => {
         return Template.instance().uploadedFiles.get();
@@ -1059,11 +1082,26 @@ Template.stockadjustmentcard.events({
         $('#edtCustomerName').select();
         $('#edtCustomerName').editableSelect();
     },
+    'change #sltDepartment': function (event) {
+      let templateObject = Template.instance();
+      let totalAvailQty = 0;
+      let totalInStockQty = 0;
+      let deptName = $('#sltDepartment').val();
+      //let dataValue = templateObject.productquantityrecord.get();
+      let $tblrows = $("#tblStockAdjustmentLine tbody tr");
+      $tblrows.each(function (index) {
+          var $tblrow = $(this);
+          let productname = $tblrow.find(".colProductName").text() || '';
+          let selectLineID = $tblrow.closest('tr').attr('id');
+          templateObject.getProductQty(selectLineID, productname);
+          // console.log(selectLineID);
+      });
+    },
     'blur .lineQty': function (event) {
         let templateObject = Template.instance();
         let taxcodeList = templateObject.taxraterecords.get();
         let utilityService = new UtilityService();
-        let $tblrows = $("#tblJournalEntryLine tbody tr");
+        let $tblrows = $("#tblStockAdjustmentLine tbody tr");
         //if(selectLineID){
         let lineAmount = 0;
         let subGrandTotal = 0;
@@ -1124,7 +1162,7 @@ Template.stockadjustmentcard.events({
         let templateObject = Template.instance();
         let taxcodeList = templateObject.taxraterecords.get();
         // let utilityService = new UtilityService();
-        let $tblrows = $("#tblJournalEntryLine tbody tr");
+        let $tblrows = $("#tblStockAdjustmentLine tbody tr");
         //if(selectLineID){
         let lineAmount = 0;
         let subGrandTotal = 0;
@@ -1180,8 +1218,8 @@ Template.stockadjustmentcard.events({
         var url = window.location.href;
         var getso_id = url.split('?id=');
         if (!getso_id[1]) {
-            $('#tblJournalEntryLine tbody tr .lineProductName').attr("data-toggle", "modal");
-            $('#tblJournalEntryLine tbody tr .lineProductName').attr("data-target", "#productListModal");
+            $('#tblStockAdjustmentLine tbody tr .lineProductName').attr("data-toggle", "modal");
+            $('#tblStockAdjustmentLine tbody tr .lineProductName').attr("data-target", "#productListModal");
             var targetID = $(event.target).closest('tr').attr('id'); // table row ID
             $('#selectLineID').val(targetID);
             // Autofocus Searchbar
@@ -1199,14 +1237,14 @@ Template.stockadjustmentcard.events({
 
     },
     'click .lineTaxRate': function (event) {
-        $('#tblJournalEntryLine tbody tr .lineTaxRate').attr("data-toggle", "modal");
-        $('#tblJournalEntryLine tbody tr .lineTaxRate').attr("data-target", "#taxRateListModal");
+        $('#tblStockAdjustmentLine tbody tr .lineTaxRate').attr("data-toggle", "modal");
+        $('#tblStockAdjustmentLine tbody tr .lineTaxRate').attr("data-target", "#taxRateListModal");
         var targetID = $(event.target).closest('tr').attr('id'); // table row ID
         $('#selectLineID').val(targetID);
     },
     'click .lineTaxCode': function (event) {
-        $('#tblJournalEntryLine tbody tr .lineTaxCode').attr("data-toggle", "modal");
-        $('#tblJournalEntryLine tbody tr .lineTaxCode').attr("data-target", "#taxRateListModal");
+        $('#tblStockAdjustmentLine tbody tr .lineTaxCode').attr("data-toggle", "modal");
+        $('#tblStockAdjustmentLine tbody tr .lineTaxCode').attr("data-target", "#taxRateListModal");
         var targetID = $(event.target).closest('tr').attr('id'); // table row ID
         $('#selectLineID').val(targetID);
     },
@@ -1252,11 +1290,11 @@ Template.stockadjustmentcard.events({
         if (times == 1) {
             $('#deleteLineModal').modal('toggle');
         } else {
-            if ($('#tblJournalEntryLine tbody>tr').length > 1) {
+            if ($('#tblStockAdjustmentLine tbody>tr').length > 1) {
                 this.click;
                 $(event.target).closest('tr').remove();
                 event.preventDefault();
-                let $tblrows = $("#tblJournalEntryLine tbody tr");
+                let $tblrows = $("#tblStockAdjustmentLine tbody tr");
                 //if(selectLineID){
                 let lineAmount = 0;
                 let subGrandTotal = 0;
@@ -1373,12 +1411,12 @@ Template.stockadjustmentcard.events({
         let templateObject = Template.instance();
         let utilityService = new UtilityService();
         let selectLineID = $('#selectDeleteLineID').val();
-        if ($('#tblJournalEntryLine tbody>tr').length > 1) {
+        if ($('#tblStockAdjustmentLine tbody>tr').length > 1) {
             this.click;
 
             $('#' + selectLineID).closest('tr').remove();
             //event.preventDefault();
-            let $tblrows = $("#tblJournalEntryLine tbody tr");
+            let $tblrows = $("#tblStockAdjustmentLine tbody tr");
             //if(selectLineID){
             let lineAmount = 0;
             let subGrandTotal = 0;
@@ -1430,7 +1468,7 @@ Template.stockadjustmentcard.events({
             var splashLineArray = new Array();
             let lineItemsForm = [];
             let lineItemObjForm = {};
-            $('#tblJournalEntryLine > tbody > tr').each(function () {
+            $('#tblStockAdjustmentLine > tbody > tr').each(function () {
                 var lineID = this.id;
                 let tdproduct = $('#' + lineID + " .lineProductName").text();
                 let tdproductID = $('#' + lineID + " .lineProductName").attr('productid');
@@ -1457,7 +1495,7 @@ Template.stockadjustmentcard.events({
                             UOMQty: parseFloat(tdadjustqty) || 0,
                             FinalQty: parseFloat(tdfinalqty) || 0,
                             FinalUOMQty: parseFloat(tdfinalqty) || 0,
-                            //InStockUOMQty:parseFloat(tdinstockqty) || 0,
+                            InStockUOMQty:parseFloat(tdinstockqty) || 0,
                             DeptName: department || '',
                             ProductPrintName: tdproduct || '',
                             PartBarcode: tdbarcode || '',
@@ -1530,7 +1568,7 @@ Template.stockadjustmentcard.events({
             stockTransferService.saveStockAdjustment(objDetails).then(function (objDetails) {
                 Router.go('/stockadjustmentoverview?success=true');
                 $('.modal-backdrop').css('display', 'none');
-                
+
 
             }).catch(function (err) {
                 swal({
@@ -1721,12 +1759,12 @@ Template.stockadjustmentcard.events({
                 var clientID = getcurrentCloudDetails._id;
                 var clientUsername = getcurrentCloudDetails.cloudUsername;
                 var clientEmail = getcurrentCloudDetails.cloudEmail;
-                var checkPrefDetails = CloudPreference.findOne({ userid: clientID, PrefName: 'tblJournalEntryLine' });
+                var checkPrefDetails = CloudPreference.findOne({ userid: clientID, PrefName: 'tblStockAdjustmentLine' });
                 if (checkPrefDetails) {
                     CloudPreference.update({ _id: checkPrefDetails._id }, {
                         $set: {
                             userid: clientID, username: clientUsername, useremail: clientEmail,
-                            PrefGroup: 'salesform', PrefName: 'tblJournalEntryLine', published: true,
+                            PrefGroup: 'salesform', PrefName: 'tblStockAdjustmentLine', published: true,
                             customFields: lineItems,
                             updatedAt: new Date()
                         }
@@ -1744,7 +1782,7 @@ Template.stockadjustmentcard.events({
                 } else {
                     CloudPreference.insert({
                         userid: clientID, username: clientUsername, useremail: clientEmail,
-                        PrefGroup: 'salesform', PrefName: 'tblJournalEntryLine', published: true,
+                        PrefGroup: 'salesform', PrefName: 'tblStockAdjustmentLine', published: true,
                         customFields: lineItems,
                         createdAt: new Date()
                     }, function (err, idTag) {
@@ -1757,7 +1795,7 @@ Template.stockadjustmentcard.events({
 
                         }
                     });
-                    
+
                 }
             }
         }
@@ -1770,7 +1808,7 @@ Template.stockadjustmentcard.events({
                 var clientID = getcurrentCloudDetails._id;
                 var clientUsername = getcurrentCloudDetails.cloudUsername;
                 var clientEmail = getcurrentCloudDetails.cloudEmail;
-                var checkPrefDetails = CloudPreference.findOne({ userid: clientID, PrefName: 'tblJournalEntryLine' });
+                var checkPrefDetails = CloudPreference.findOne({ userid: clientID, PrefName: 'tblStockAdjustmentLine' });
                 if (checkPrefDetails) {
                     CloudPreference.remove({ _id: checkPrefDetails._id }, function (err, idTag) {
                         if (err) {
@@ -1852,7 +1890,7 @@ Template.stockadjustmentcard.events({
         let attachmentID = parseInt(event.currentTarget.parentNode.id.split('attachment-name-')[1]);
         let templateObj = Template.instance();
         let uploadedFiles = templateObj.uploadedFiles.get();
-        
+
         $('#myModalAttachment').modal('hide');
         let previewFile = {};
         let input = uploadedFiles[attachmentID].fields.Description;
