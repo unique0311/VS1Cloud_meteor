@@ -80,7 +80,7 @@ Template.appointments.onRendered(function () {
             themeSystem: 'bootstrap',
             initialView: 'timeGridWeek',
             hiddenDays: hideDays, // hide Sunday and Saturday
-            longPressDelay: 2000,
+            longPressDelay: 100,
             customButtons: {
                 appointments: {
                     text: 'Appointment List',
@@ -341,10 +341,10 @@ Template.appointments.onRendered(function () {
         results = weeks
             .filter((w) => !!w.length)
             .map((w) => ({
-                start: w[0],
-                end: w[w.length - 1],
-                dates: w,
-            }));
+            start: w[0],
+            end: w[w.length - 1],
+            dates: w,
+        }));
 
 
         if (results[0].dates.length < 7) {
@@ -642,24 +642,24 @@ Template.appointments.onRendered(function () {
 
                     let defaultEndTime = '17:00';
                     if(data.tappointmentpreferences[data.tappointmentpreferences.length - 1].ApptEndtime.split(' ')[0] == '05:30'){
-                      defaultEndTime = '17:00';
-                      appEndTimeDataToLoad = '19:00';
+                        defaultEndTime = '17:00';
+                        appEndTimeDataToLoad = '19:00';
                     }else{
-                      defaultEndTime = udata.tappointmentpreferences[data.tappointmentpreferences.length - 1].ApptEndtime.split(' ')[0];
+                        defaultEndTime = udata.tappointmentpreferences[data.tappointmentpreferences.length - 1].ApptEndtime.split(' ')[0];
                     }
 
                     if(data.tappointmentpreferences[data.tappointmentpreferences.length - 1].DefaultApptDuration == 120){
-                      defaultAppHour = 2;
+                        defaultAppHour = 2;
                     }else{
-                      defaultAppHour = data.tappointmentpreferences[data.tappointmentpreferences.length - 1].DefaultApptDuration;
+                        defaultAppHour = data.tappointmentpreferences[data.tappointmentpreferences.length - 1].DefaultApptDuration;
                     }
 
                     let showAppDurIn = 1;
 
                     if(data.tappointmentpreferences[data.tappointmentpreferences.length - 1].ShowApptDurationin == 60){
-                      showAppDurIn = 1;
+                        showAppDurIn = 1;
                     }else{
-                      showAppDurIn = data.tappointmentpreferences[data.tappointmentpreferences.length - 1].ShowApptDurationin;
+                        showAppDurIn = data.tappointmentpreferences[data.tappointmentpreferences.length - 1].ShowApptDurationin;
                     }
 
                     prefObject = {
@@ -727,24 +727,24 @@ Template.appointments.onRendered(function () {
                     let defaultAppHour = 1;
                     let defaultEndTime = '17:00';
                     if(useData[i].ApptEndtime.split(' ')[0] == '05:30'){
-                      defaultEndTime = '17:00';
-                      appEndTimeDataToLoad = '19:00';
+                        defaultEndTime = '17:00';
+                        appEndTimeDataToLoad = '19:00';
                     }else{
-                      defaultEndTime = useData[i].ApptEndtime.split(' ')[0];
+                        defaultEndTime = useData[i].ApptEndtime.split(' ')[0];
                     }
 
                     if(useData[i].DefaultApptDuration == 120){
-                      defaultAppHour = 2;
+                        defaultAppHour = 2;
                     }else{
-                      defaultAppHour = useData[i].DefaultApptDuration;
+                        defaultAppHour = useData[i].DefaultApptDuration;
                     }
 
                     let showAppDurIn = 1;
 
                     if(useData[i].ShowApptDurationin == 60){
-                      showAppDurIn = 1;
+                        showAppDurIn = 1;
                     }else{
-                      showAppDurIn = useData[i].ShowApptDurationin;
+                        showAppDurIn = useData[i].ShowApptDurationin;
                     }
 
                     prefObject = {
@@ -813,24 +813,24 @@ Template.appointments.onRendered(function () {
                 let defaultAppHour = 1;
                 let defaultEndTime = '17:00';
                 if(data.tappointmentpreferences[data.tappointmentpreferences.length - 1].ApptEndtime.split(' ')[0] == '05:30'){
-                  defaultEndTime = '17:00';
-                  appEndTimeDataToLoad = '19:00';
+                    defaultEndTime = '17:00';
+                    appEndTimeDataToLoad = '19:00';
                 }else{
-                  defaultEndTime = udata.tappointmentpreferences[data.tappointmentpreferences.length - 1].ApptEndtime.split(' ')[0];
+                    defaultEndTime = udata.tappointmentpreferences[data.tappointmentpreferences.length - 1].ApptEndtime.split(' ')[0];
                 }
 
                 if(data.tappointmentpreferences[data.tappointmentpreferences.length - 1].DefaultApptDuration == 120){
-                  defaultAppHour = 2;
+                    defaultAppHour = 2;
                 }else{
-                  defaultAppHour = data.tappointmentpreferences[data.tappointmentpreferences.length - 1].DefaultApptDuration;
+                    defaultAppHour = data.tappointmentpreferences[data.tappointmentpreferences.length - 1].DefaultApptDuration;
                 }
 
                 let showAppDurIn = 1;
 
                 if(data.tappointmentpreferences[data.tappointmentpreferences.length - 1].ShowApptDurationin == 60){
-                  showAppDurIn = 1;
+                    showAppDurIn = 1;
                 }else{
-                  showAppDurIn = data.tappointmentpreferences[data.tappointmentpreferences.length - 1].ShowApptDurationin;
+                    showAppDurIn = data.tappointmentpreferences[data.tappointmentpreferences.length - 1].ShowApptDurationin;
                 }
                 prefObject = {
                     id: data.tappointmentpreferences[data.tappointmentpreferences.length - 1].Id || '',
@@ -1906,15 +1906,15 @@ Template.appointments.onRendered(function () {
                 let slotMax = "21:00:00";
 
                 if(calendarSet){
-                  if (calendarSet.showSat == false) {
-                      hideDays = [6];
-                  }
+                    if (calendarSet.showSat == false) {
+                        hideDays = [6];
+                    }
 
-                  if (calendarSet.showSun == false) {
-                      hideDays = [0];
-                  }
+                    if (calendarSet.showSun == false) {
+                        hideDays = [0];
+                    }
                 }else{
-                  hideDays = [0,6];
+                    hideDays = [0,6];
                 }
 
 
@@ -2099,7 +2099,7 @@ Template.appointments.onRendered(function () {
                     themeSystem: 'bootstrap',
                     initialView: 'timeGridWeek',
                     hiddenDays: hideDays, // hide Sunday and Saturday
-                    longPressDelay: 2000,
+                    longPressDelay: 100,
                     customButtons: {
                         appointments: {
                             text: 'Appointment List',
@@ -3788,21 +3788,21 @@ Template.appointments.onRendered(function () {
 
     $('#customer').editableSelect()
         .on('select.editable-select', function (e, li) {
-            //let selectedCustomer = li.text();
-            var custName = li.text();
-            var newJob = clientList.filter(function (customer) {
-                return customer.customername == custName;
-            });
-
-            document.getElementById("customer").value = newJob[0].customername || '';
-            document.getElementById("phone").value = newJob[0].phone || '';
-            document.getElementById("mobile").value = newJob[0].phone || '';
-            document.getElementById("state").value = newJob[0].country || '';
-            document.getElementById("address").value = newJob[0].street || '';
-            // document.getElementById("txtNotes").value = $(this).find(".colNotes").text();
-            document.getElementById("suburb").value = newJob[0].suburb || '';
-            document.getElementById("zip").value = newJob[0].statecode || '0';
+        //let selectedCustomer = li.text();
+        var custName = li.text();
+        var newJob = clientList.filter(function (customer) {
+            return customer.customername == custName;
         });
+
+        document.getElementById("customer").value = newJob[0].customername || '';
+        document.getElementById("phone").value = newJob[0].phone || '';
+        document.getElementById("mobile").value = newJob[0].phone || '';
+        document.getElementById("state").value = newJob[0].country || '';
+        document.getElementById("address").value = newJob[0].street || '';
+        // document.getElementById("txtNotes").value = $(this).find(".colNotes").text();
+        document.getElementById("suburb").value = newJob[0].suburb || '';
+        document.getElementById("zip").value = newJob[0].statecode || '0';
+    });
 
     getHours = function (start, end) {
         var hour = 0;
@@ -4351,22 +4351,22 @@ Template.appointments.onRendered(function () {
                 }, 50);
             } else {
                 let hideDays = [0,6];
-                    $("#allocationTable .sunday").addClass("hidesunday");
-                    $("#allocationTable .saturday").addClass("hidesaturday");
-                    $("#allocationTable > thead > tr> th").addClass("fullWeek");
-                    $("#allocationTable > thead > tr> th").removeClass("cardHiddenWeekend");
-                    $("#allocationTable > thead > tr> th").removeClass("cardHiddenSundayOrSaturday");
+                $("#allocationTable .sunday").addClass("hidesunday");
+                $("#allocationTable .saturday").addClass("hidesaturday");
+                $("#allocationTable > thead > tr> th").addClass("fullWeek");
+                $("#allocationTable > thead > tr> th").removeClass("cardHiddenWeekend");
+                $("#allocationTable > thead > tr> th").removeClass("cardHiddenSundayOrSaturday");
 
-                    $("#allocationTable > tbody > tr> td").addClass("fullWeek");
-                    $("#allocationTable > tbody > tr> td").removeClass("cardHiddenWeekend");
-                    $("#allocationTable > tbody > tr> td").removeClass("cardHiddenSundayOrSaturday");
+                $("#allocationTable > tbody > tr> td").addClass("fullWeek");
+                $("#allocationTable > tbody > tr> td").removeClass("cardHiddenWeekend");
+                $("#allocationTable > tbody > tr> td").removeClass("cardHiddenSundayOrSaturday");
 
-                    $("#allocationTable > tbody > tr> td > .card").addClass("cardFullWeek");
-                    $("#allocationTable > tbody > tr> td > .card").removeClass("cardHiddenWeekend");
-                    $("#allocationTable > tbody > tr> td > .card").removeClass("cardHiddenSundayOrSaturday");
+                $("#allocationTable > tbody > tr> td > .card").addClass("cardFullWeek");
+                $("#allocationTable > tbody > tr> td > .card").removeClass("cardHiddenWeekend");
+                $("#allocationTable > tbody > tr> td > .card").removeClass("cardHiddenSundayOrSaturday");
 
-                    setTimeout(function () {
-                        templateObject.renderCalendar(slotMin, slotMax, hideDays);
+                setTimeout(function () {
+                    templateObject.renderCalendar(slotMin, slotMax, hideDays);
 
                 }, 50);
             }
@@ -4386,7 +4386,7 @@ Template.appointments.onRendered(function () {
                 slotMax = calendarSet2.apptEndTimeCal;
             }
 
-             if (checkbox.checked && (checkboxSaturday.checked)) {
+            if (checkbox.checked && (checkboxSaturday.checked)) {
                 let hideDays = '';
                 $("#allocationTable .sunday").removeClass("hidesunday");
                 $("#allocationTable .saturday").removeClass("hidesaturday");
@@ -4443,22 +4443,22 @@ Template.appointments.onRendered(function () {
                 }, 50);
             } else {
                 let hideDays = [0,6];
-                    $("#allocationTable .sunday").addClass("hidesunday");
-                    $("#allocationTable .saturday").addClass("hidesaturday");
-                    $("#allocationTable > thead > tr> th").addClass("fullWeek");
-                    $("#allocationTable > thead > tr> th").removeClass("cardHiddenWeekend");
-                    $("#allocationTable > thead > tr> th").removeClass("cardHiddenSundayOrSaturday");
+                $("#allocationTable .sunday").addClass("hidesunday");
+                $("#allocationTable .saturday").addClass("hidesaturday");
+                $("#allocationTable > thead > tr> th").addClass("fullWeek");
+                $("#allocationTable > thead > tr> th").removeClass("cardHiddenWeekend");
+                $("#allocationTable > thead > tr> th").removeClass("cardHiddenSundayOrSaturday");
 
-                    $("#allocationTable > tbody > tr> td").addClass("fullWeek");
-                    $("#allocationTable > tbody > tr> td").removeClass("cardHiddenWeekend");
-                    $("#allocationTable > tbody > tr> td").removeClass("cardHiddenSundayOrSaturday");
+                $("#allocationTable > tbody > tr> td").addClass("fullWeek");
+                $("#allocationTable > tbody > tr> td").removeClass("cardHiddenWeekend");
+                $("#allocationTable > tbody > tr> td").removeClass("cardHiddenSundayOrSaturday");
 
-                    $("#allocationTable > tbody > tr> td > .card").addClass("cardFullWeek");
-                    $("#allocationTable > tbody > tr> td > .card").removeClass("cardHiddenWeekend");
-                    $("#allocationTable > tbody > tr> td > .card").removeClass("cardHiddenSundayOrSaturday");
+                $("#allocationTable > tbody > tr> td > .card").addClass("cardFullWeek");
+                $("#allocationTable > tbody > tr> td > .card").removeClass("cardHiddenWeekend");
+                $("#allocationTable > tbody > tr> td > .card").removeClass("cardHiddenSundayOrSaturday");
 
-                    setTimeout(function () {
-                        templateObject.renderCalendar(slotMin, slotMax, hideDays);
+                setTimeout(function () {
+                    templateObject.renderCalendar(slotMin, slotMax, hideDays);
                 }, 50);
             }
         });
@@ -6359,23 +6359,23 @@ Template.appointments.helpers({
     employeerecords: () => {
         return Template.instance().employeerecords.get()
             .sort(function (a, b) {
-                if (a.employeeName == 'NA') {
-                    return 1;
-                } else if (b.employeeName == 'NA') {
-                    return -1;
-                }
-                return (a.employeeName.toUpperCase() > b.employeeName.toUpperCase()) ? 1 : -1;
-            }).sort(function (a, b) {
-                // return (a.employeeName.toUpperCase() > b.employeeName.toUpperCase());
-                if (a.priority == "" || a.priority == "0") {
-                    return 1;
-                } else if (b.priority == "" || b.priority == "0") {
-                    return -1;
-                }
+            if (a.employeeName == 'NA') {
+                return 1;
+            } else if (b.employeeName == 'NA') {
+                return -1;
+            }
+            return (a.employeeName.toUpperCase() > b.employeeName.toUpperCase()) ? 1 : -1;
+        }).sort(function (a, b) {
+            // return (a.employeeName.toUpperCase() > b.employeeName.toUpperCase());
+            if (a.priority == "" || a.priority == "0") {
+                return 1;
+            } else if (b.priority == "" || b.priority == "0") {
+                return -1;
+            }
 
-                return (parseInt(a.priority) > parseInt(b.priority)) ? 1 : -1;
+            return (parseInt(a.priority) > parseInt(b.priority)) ? 1 : -1;
 
-            });
+        });
 
     },
     calendarOptions: () => {
