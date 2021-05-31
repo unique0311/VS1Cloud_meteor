@@ -7,21 +7,21 @@
             <header style="padding: 16px;background-color: #ededed;">
                 <!-- <button id="hideMe"></button> -->
                 <h1 style="margin: 16px;">Appointment List <a role="button" data-toggle="modal" href="#helpModal"
-                        class="helpModal"><label class="lblplay">PLAY</label><i class="far fa-play-circle"
-                            style="font-size: 20px;"></i></a></h1>
+                                                              class="helpModal"><label class="lblplay">PLAY</label><i class="far fa-play-circle"
+                                                                                                                      style="font-size: 20px;"></i></a></h1>
             </header>
 
             <div class="row d-xl-flex flex-row justify-content-xl-center"
-                style="padding: 0px 20px; background-color: #ededed;">
+                 style="padding: 0px 20px; background-color: #ededed;">
 
                 <div class="col float-left flex-grow-1 mb-4">
                     <button class="btn btn-primary btnRefresh" type="button" style="margin: 16px;"><i
-                            class="la la-lightbulb-o" style="padding-right: 5px;"></i>Refresh</button>
+                                                                                                      class="la la-lightbulb-o" style="padding-right: 5px;"></i>Refresh</button>
                     <button id="btnAppointment" name="btnAppointment" class="btn btn-primary" type="button"
-                        style="margin: 16px;"><i class="icon ion-plus" style="padding-right: 5px;"></i>New
+                            style="margin: 16px;"><i class="icon ion-plus" style="padding-right: 5px;"></i>New
                         Appointment</button>
                     <button id="btnInvoice" name="btnInvoice" class="btn btn-primary" type="button"
-                        style="margin: 16px;"><i class="fa fa-refresh" style="padding-right: 5px;"></i>Create
+                            style="margin: 16px;"><i class="fa fa-refresh" style="padding-right: 5px;"></i>Create
                         Invoice</button>
                 </div>
 
@@ -31,10 +31,10 @@
                         <label style="width: 160px; " class="custom-control-label" for="hideConverted">Hide Converted</label>
                     </div>
                     <button class="btn btn-primary export float-right" type="button" style="margin: 16px;"
-                        id="exportbtn" name="exportbtn"><i class="fas fa-file-export"
-                            style="padding-right: 5px;"></i>Export</button>
+                            id="exportbtn" name="exportbtn"><i class="fas fa-file-export"
+                                                               style="padding-right: 5px;"></i>Export</button>
                     <button class="btn btn-primary printConfirm float-right" type="button" style="margin: 16px;"><i
-                            class="fa fa-print" style="padding-right: 5px;"></i>Print</button>
+                                                                                                                    class="fa fa-print" style="padding-right: 5px;"></i>Print</button>
                 </div>
 
             </div>
@@ -45,14 +45,14 @@
                     <!-- Start {{> optionNavSalesOverview}} -->
                     <div class="d-xl-flex justify-content-xl-end">
                         <div><a class="btn btnOpenSettings" role="button" data-toggle="modal" href="#myModal2"><i
-                                    class="icon ion-android-more-horizontal"></i></a>
+                                                                                                                  class="icon ion-android-more-horizontal"></i></a>
                             <div class="modal fade" role="dialog" tabindex="-1" id="myModal2">
                                 <div class="modal-dialog modal-dialog-centered" role="document" style="float: right;">
                                     <div class="modal-content">
                                         <div class="modal-header">
                                             <h4>Display Settings</h4><button type="button" class="close"
-                                                data-dismiss="modal" aria-label="Close"><span
-                                                    aria-hidden="true">×</span></button>
+                                                                             data-dismiss="modal" aria-label="Close"><span
+                                                                                                                           aria-hidden="true">×</span></button>
                                         </div>
                                         <div class="modal-body">
                                             <div>
@@ -105,27 +105,27 @@
 
                                                         <div id="{{item.sIndex}}" class="columnSettings">
                                                             <div class="custom-control custom-switch"
-                                                                style="margin: 8px; float:left;">
+                                                                 style="margin: 8px; float:left;">
                                                                 <input class="custom-control-input chkDatatable"
-                                                                    type="checkbox" id="chkSalesNo-{{item.sIndex}}"
-                                                                    name="chkSalesNo-{{item.sIndex}}"
-                                                                    checked="{{#if item.sVisible}}checked{{else}}{{/if}}"
-                                                                    value="{{item.sTitle}}">
+                                                                       type="checkbox" id="chkSalesNo-{{item.sIndex}}"
+                                                                       name="chkSalesNo-{{item.sIndex}}"
+                                                                       checked="{{#if item.sVisible}}checked{{else}}{{/if}}"
+                                                                       value="{{item.sTitle}}">
                                                                 <label class="custom-control-label"
-                                                                    for="chkSalesNo-{{item.sIndex}}"></label>
+                                                                       for="chkSalesNo-{{item.sIndex}}"></label>
                                                                 <div contenteditable="true" class="groove divcolumn"
-                                                                    type="text" value="{{item.sTitle}}"
-                                                                    valueupdate="{{item.sClass}}">{{item.sTitle}}</div>
+                                                                     type="text" value="{{item.sTitle}}"
+                                                                     valueupdate="{{item.sClass}}">{{item.sTitle}}</div>
                                                             </div>
                                                             <div class="d-xl-flex align-items-xl-center divColWidth"
-                                                                style="margin: 8px;">
+                                                                 style="margin: 8px;">
                                                                 <label class="text-nowrap"
-                                                                    style="padding-left: 0px;margin-top: 8px;">Width:
+                                                                       style="padding-left: 0px;margin-top: 8px;">Width:
                                                                     <!--<span class="spWidth" value="{{item.sTitle}}">{{item.sWidth}}px</span>-->
                                                                 </label>
                                                                 <input class="custom-range rngRange" type="number"
-                                                                    style="margin: 8px;" value="{{item.sWidth}}" min="0"
-                                                                    max="1000">
+                                                                       style="margin: 8px;" value="{{item.sWidth}}" min="0"
+                                                                       max="1000">
                                                                 <!-- <div contenteditable="true" class="groove rngRange" type="text" value="{{item.sWidth}}" min="0" max="1000">{{item.sWidth}}px</div> -->
                                                             </div>
                                                         </div>
@@ -149,12 +149,12 @@
                                         </div>
                                         <div class="modal-footer">
                                             <button class="btn btn-primary saveTable" type="button"><i
-                                                    class="fa fa-save" style="margin-right: 5px;"></i>Save</button>
+                                                                                                       class="fa fa-save" style="margin-right: 5px;"></i>Save</button>
                                             <button class="btn btn-warning resetTable" data-dismiss="modal"
-                                                type="reset"><i class="fa fa-repeat"
-                                                    style="margin-right: 5px;"></i>Reset</button>
+                                                    type="reset"><i class="fa fa-repeat"
+                                                                    style="margin-right: 5px;"></i>Reset</button>
                                             <button class="btn btn-secondary" data-dismiss="modal" type="button"><i
-                                                    class="fa fa-remove" style="margin-right: 5px;"></i>Close</button>
+                                                                                                                    class="fa fa-remove" style="margin-right: 5px;"></i>Close</button>
                                         </div>
                                     </div>
                                 </div>
@@ -197,10 +197,16 @@
                             }
                         </style>
                         <table id="tblappointmentlist" name="tblappointmentlist" style="width:100%"
-                            class="dataTable table table-hover table-striped table-bordered tblappointmentlist">
+                               class="dataTable table table-hover table-striped table-bordered tblappointmentlist">
                             <thead>
                                 <tr class="dnd-moved">
-                                    <th class="th" style="width: 10px;"><input class="n" type="checkbox" id="check-all">
+                                    <th class="th" style="width: 10px;">
+                                        <!--                                        <input class="n" type="checkbox" id="check-all">-->
+
+                                        <div class="custom-control custom-checkbox" style="width:15px;">
+                                            <input class="custom-control-input n" type="checkbox" id="check-all">
+                                            <label class="custom-control-label" for="check-all"></label>
+                                        </div>
                                     </th>
                                     <th class="th colSortDate hiddenColumn">id</th>
                                     <th class="th colDate" style="width:84px;">Date</th>
@@ -218,12 +224,18 @@
                                 {{#if datatablerecords}}
                                 {{#each item in datatablerecords}}
                                 <tr class="dnd-moved" id="{{item.id}}" style="cursor: pointer;">
-                                    <td><input class="notevent chkBox pointer" type="checkbox" id="{{item.id}}"
-                                            name="{{item.id}}"></td>
+                                    <td>
+                                        <!--<input class="notevent chkBox pointer" type="checkbox" id="{{item.id}}" name="{{item.id}}">-->
+
+                                        <div class="custom-control custom-checkbox pointer" style="width:15px;">
+                                            <input class="custom-control-input chkBox notevent pointer" type="checkbox" id="f-{{item.id}}" name="{{item.id}}">
+                                            <label class="custom-control-label" for="f-{{item.id}}"></label>
+                                        </div>
+                                    </td>
                                     <!-- <td contenteditable="false" class="colSortDate hiddenColumn">{{item.sortdate}}</td> -->
                                     <td contenteditable="false" class="colSortDate hiddenColumn">{{item.sortdate}}</td>
                                     <td contenteditable="false" class="colDate"><span
-                                            style="display:none;">{{item.sortdate}}</span>{{item.appointmentdate}}</td>
+                                                                                      style="display:none;">{{item.sortdate}}</span>{{item.appointmentdate}}</td>
                                     <td contenteditable="false" class="colAccountName" id="colAccountName{{item.id}}">
                                         {{item.accountname}}</td>
                                     <td contenteditable="false" class="colStatementNo">{{item.statementno}}</td>
@@ -247,7 +259,7 @@
                                             <h4 style="margin-bottom: 0px;">Create Appointments</h4><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
                                         </div>
                                         <div class="modal-body" style="padding: 0px;">
-                    
+
                                             <div class="row d-xl-flex flex-column justify-content-xl-center" style="margin: 12px;">
                                                 <div class="col" style="padding: 0px;">
                                                     <div class="row" style="padding: 0px 8px;">
@@ -386,7 +398,7 @@
                                                                     <div class="form-group flex-grow-1" style="margin: 8px 0px;"><label>End
                                                                         Time</label><input class="form-control" type="time"
                                                                                            id="tActualEndTime" name="tActualEndTime">
-                    
+
                                                                         <span class="btn btn-warning paused" style="margin: 8px 0px; width: 100%; margin-top: -56px; background-color: rgba(246, 194, 62, 0.4); cursor: default;">Paused</span>
                                                                     </div>
                                                                 </div>
@@ -405,10 +417,10 @@
                                                             </div>
                                                         </div>
                                                         <!-- <div class="row" style="padding: 0px 8px;">
-                    <div class="col-12">
-                    <a href="#" style="margin: 8px 0px; text-align:right;">View Time List</a>
-                    </div>
-                    </div> -->
+<div class="col-12">
+<a href="#" style="margin: 8px 0px; text-align:right;">View Time List</a>
+</div>
+</div> -->
                                                     </div>
                                                     <hr style="margin: 8px">
                                                     <div class="row" style="padding: 0px 8px;">
@@ -438,7 +450,7 @@
                                         <div class="modal-footer">
                                             <button class="btn btn-success btnSaveAppointment" type="submit" style="margin: 8px;" id="btnSaveAppointment" name="btnSaveAppointment"><i class="fa fa-save" style="margin-right: 5px;"></i>Save</button>
                                             <button class="btn btn-danger btnDelete" type="button" style="margin: 8px;" id="btnDelete" name="btnDelete"><i class="fas fa-trash-alt" style="margin-right: 5px;"></i>Delete</button>
-                    
+
                                             <div class="btn-group" style="margin: 8px;">
                                                 <button class="btn btn-warning dropdown-toggle dropdown-toggle-split btnOptions" type="button"  id="btnOptions" name="btnOptions" data-toggle="dropdown" aria-expanded="false"><i class="fas fa-cogs" style="margin-right: 5px;"></i>Options</button>
                                                 <style>
@@ -467,10 +479,10 @@
                                                     <a role="presentation" class="dropdown-item" href="#" id="createInvoice" data-toggle="modal">Create Invoice</a>
                                                 </div>
                                             </div>
-                    
+
                                             <button class="btn btn-secondary" id="btnDeleteAppointment" name="btnDeleteAppointment" data-dismiss="modal" type="button" style="margin: 8px;"><i class="fa fa-close" style="margin-right: 5px;"></i>Close</button>
                                         </div>
-                    
+
                                     </div>
                                 </div>
                             </form>
@@ -490,13 +502,13 @@
 
                     <h4 class="title-header">Appointment List</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                            aria-hidden="true">×</span></button>
+                                                                                                      aria-hidden="true">×</span></button>
                 </div>
                 <div class="modal-body">
                     <!-- <iframe width="640" height="360" src="https://player.vimeo.com/video/99892791" frameborder="0" allowfullscreen=""></iframe> -->
                     <!-- <iframe width="640" height="360" src="https://www.youtube.com/embed/BzxoYOp42fg" frameborder="0" allowfullscreen=""></iframe> -->
                     <video id="myVideo" width="640" height="360" controls="" name="media"
-                        style="border: solid 5px #999999f0; height: auto; outline: none;">
+                           style="border: solid 5px #999999f0; height: auto; outline: none;">
                         <source src="https://www.vs1cloud.com/vs1videos/comingsoon.mp4" type="video/mp4">
                     </video>
                 </div>
