@@ -2,6 +2,12 @@ $(document).ready(function(){
     $( document ).on( 'focus', ':input', function(){
         $( this ).attr( 'autocomplete', 'off' );
     });
+    $( document ).on( 'focus', ':password', function(){
+        $( this ).attr( 'autocomplete', 'off' );
+    });
+    $( document ).on( 'focus', ':password', function(){
+        $( this ).attr( 'autocomplete', 'new-password' );
+    });
     $( document ).on( 'click', '.close', function(){
       var vid = document.getElementById("myVideo");
       vid.pause();

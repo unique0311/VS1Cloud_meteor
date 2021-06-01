@@ -6,9 +6,14 @@ Meteor.startup(function(){
     * */
     if (Meteor.isServer) {
        Meteor.startup( function() {
-          process.env.MAIL_URL =
+          // process.env.MAIL_URL = "smtps://vsonecloud%40gmail.com:Jp9CvV2M5g@smtp.gmail.com:465/";
              // "smtp://YOUR_DEFAULT_SMTP_LOGIN:YOUR_DEFAULT_PASSWORD@smtp.mailgun.org:587";
-             "smtps://vsonecloud%40gmail.com:Jp9CvV2M5g@smtp.gmail.com:465/";
+
+             //process.env.MAIL_URL = "smtps://info%40vs1cloud.com:Jp9CvV2M5g@smtp.vs1cloud.com:465/";
+                // "smtp://YOUR_DEFAULT_SMTP_LOGIN:YOUR_DEFAULT_PASSWORD@smtp.mailgun.org:587";
+
+           process.env.MAIL_URL='smtps://noreply%40vs1cloud.com:' + encodeURIComponent("Jp9CvV2M5g") + '@mail.vs1cloud.com:465';
+                //"smtp://info@vs1cloud.com:Jp9CvV2M5g@ns2.auserver.com.au:587/";
              //"smtp://info@vs1cloud.com:Jp9CvV2M5g@ns2.auserver.com.au:587/";
 
          process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = '0';
@@ -104,7 +109,7 @@ Meteor.methods({
             });
         } catch(e) {
             if (e) {
-                // console.log(e);
+                console.log(e);
                 throw new Meteor.Error("error", e.response);
             }
         }
@@ -157,7 +162,7 @@ return Stripe.customers.list({
 // limit: 2
 },function(err, charge) {
   if(err){
-console.log(err);
+//console.log(err);
   }else{
       // console.log(charge);
       let valueData = charge.data;
@@ -176,10 +181,3 @@ console.log(err);
 });
 }
 });
-// Meteor.call('sendEmail',{
-//     to: 'rasheed@trueerp.com',
-//     from: 'info@vs1cloud.com',
-//     subject: 'eeeeeeeeeeeee8888eeeeeeeee!',
-//     text: 'eeeeeeeeeeeeee8888eeeeeeee!',
-//     html: 'With meteor it&apos;s easy to set up <strong>HTML</strong> <span style="color:red">emails</span> too.'
-// });
