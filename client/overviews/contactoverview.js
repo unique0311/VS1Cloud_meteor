@@ -644,7 +644,7 @@ Template.contactoverview.onRendered(function() {
              salesOrderBalance = Currency + "0.00";
           }
 
-          // alert(salesOrderBalance);
+          
               var dataList = {
                 id: data.terpcombinedcontactsvs1[i].ID || '',
                 employeeno: data.terpcombinedcontactsvs1[i].printname || '',
@@ -905,7 +905,7 @@ Template.contactoverview.onRendered(function() {
            salesOrderBalance = Currency + "0.00";
         }
 
-        // alert(salesOrderBalance);
+        
             var dataList = {
               id: useData[i].ID || '',
               employeeno: useData[i].printname || '',
@@ -1162,7 +1162,7 @@ Template.contactoverview.onRendered(function() {
              salesOrderBalance = Currency + "0.00";
           }
 
-          // alert(salesOrderBalance);
+          
               var dataList = {
                 id: data.terpcombinedcontactsvs1[i].ID || '',
                 employeeno: data.terpcombinedcontactsvs1[i].printname || '',
@@ -1501,7 +1501,7 @@ Template.contactoverview.events({
     let columData = $(event.target).text();
 
     let columnDatanIndex = $(event.target).closest("div.columnSettings").attr('id');
-    //alert(columnDataValue);
+    
     var datable = $('#tblcontactoverview').DataTable();
     var title = datable.column( columnDatanIndex ).header();
     $(title).html(columData);

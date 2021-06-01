@@ -418,7 +418,7 @@ Template.bankrecon.onRendered(function() {
             if(data.treconciliation.length){
                 let lastElement = data.treconciliation[data.treconciliation.length - 1];
                 latestReconId = (lastElement.Id);
-                // alert(latestReconId);
+                
                 if(latestReconId === parseInt(currentRecon)){
                     $('.btnDeleteRecon').prop("disabled", false);
                 }else{
@@ -486,7 +486,7 @@ Template.bankrecon.onRendered(function() {
                     $('#hideSelectionToggle').attr('disabled', 'disabled');
                     $('#hideSelectionToggle').attr('readonly', true);
                     if(data.fields.DepositLines.length > 0){
-                        // alert( data.fields.DepositLines[0].fields.DepositDate);
+                        
                         for(let i in data.fields.DepositLines){
                             let depositamount = utilityService.modifynegativeCurrencyFormat(data.fields.DepositLines[i].fields.Amount)|| 0.00;
                             let reconciledepositObj = {
@@ -813,7 +813,7 @@ $('.statementDate').css('pointer-events', 'none');
 $('#hideSelectionToggle').attr('disabled', 'disabled');
 $('#hideSelectionToggle').attr('readonly', true);
 if(useData[d].fields.DepositLines.length > 0){
-    // alert( useData[d].fields.DepositLines[0].fields.DepositDate);
+    
     for(let i in useData[d].fields.DepositLines){
         let depositamount = utilityService.modifynegativeCurrencyFormat(useData[d].fields.DepositLines[i].fields.Amount)|| 0.00;
         let reconciledepositObj = {
@@ -1129,7 +1129,7 @@ if(useData[d].fields.WithdrawalLines.length > 0){
                       $('#hideSelectionToggle').attr('disabled', 'disabled');
                       $('#hideSelectionToggle').attr('readonly', true);
                       if(data.fields.DepositLines.length > 0){
-                          // alert( data.fields.DepositLines[0].fields.DepositDate);
+                          
                           for(let i in data.fields.DepositLines){
                               let depositamount = utilityService.modifynegativeCurrencyFormat(data.fields.DepositLines[i].fields.Amount)|| 0.00;
                               let reconciledepositObj = {
@@ -1453,7 +1453,7 @@ if(useData[d].fields.WithdrawalLines.length > 0){
                   $('#hideSelectionToggle').attr('disabled', 'disabled');
                   $('#hideSelectionToggle').attr('readonly', true);
                   if(data.fields.DepositLines.length > 0){
-                      // alert( data.fields.DepositLines[0].fields.DepositDate);
+                      
                       for(let i in data.fields.DepositLines){
                           let depositamount = utilityService.modifynegativeCurrencyFormat(data.fields.DepositLines[i].fields.Amount)|| 0.00;
                           let reconciledepositObj = {
@@ -2160,7 +2160,7 @@ Template.bankrecon.events({
                 // else if($("#"+depID+"_desc").text() == "Journal Entry"){
                 //   deppaymentid = depID;
                 // }
-                //alert(deppaymentid);
+                
                 let splitDepdepositdate = depdepositdate.split("/");
                 let depositYear = splitDepdepositdate[2];
                 let depositMonth = splitDepdepositdate[1];

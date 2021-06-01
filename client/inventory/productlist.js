@@ -1285,14 +1285,14 @@ Template.productlist.helpers({
 
       // if(favorite){
       //   for (var j = 0; j < favorite.length; j++) {
-      //     // alert(favorite[j]);
+      //     
       //     // if(deptprodlineItems[d].productid == data.tproductvs1[i].Id){
       //     //   departmentDataLoad = deptprodlineItems[d].department;
       //     //   favoriteDept.push(deptprodlineItems[d].department);
       //     // }
       //   }
       // };
-        // alert("My favourite sports are: " + favorite.join(","));
+        
 
          for(let i=0; i<productValue.length; i++){
            let deptString = productValue[i].departmentcheck;
@@ -1353,7 +1353,7 @@ Template.productlist.helpers({
          }
 
 
-         // alert(favoriteproddeptIDrecords.join(","));
+         
          templateObject.datatablerecords.set(dataTableList.filter(function(item) {
            if (!~dataTableList.indexOf(item.id)) {
              dataTableList.push(item.id);
@@ -1409,7 +1409,7 @@ Template.productlist.helpers({
         // if($(event.target).is(':checked')){
         //
         //
-        //   // alert(dataValue);
+        //   
         // }else{
         //   // templateObject.getProductClassDeptData(dataValue);
         // }
@@ -1447,7 +1447,7 @@ $('#attachment-upload').trigger('click');
 
 },
 'click .templateDownloadXLSX': function (e) {
-  //alert('here')
+  
   e.preventDefault();  //stop the browser from following
   window.location.href = 'sample_imports/SampleProduct.xlsx';
 },
@@ -1465,7 +1465,7 @@ $('#attachment-upload').trigger('click');
         $('.file-name').text('');
         $(".btnImport").Attr("disabled");
     }else if(validCSVExtensions.indexOf(fileExtension) != -1){
-      // alert('here 1');
+      
       $('.file-name').text(filename);
       let selectedFile = event.target.files[0];
       templateObj.selectedFile.set(selectedFile);

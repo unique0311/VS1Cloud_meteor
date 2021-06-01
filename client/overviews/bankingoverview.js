@@ -1280,7 +1280,7 @@ Template.bankingoverview.events({
         let columData = $(event.target).text();
 
         let columnDatanIndex = $(event.target).closest("div.columnSettings").attr('id');
-        //alert(columnDataValue);
+        
         var datable = $('#tblBankingOverview').DataTable();
         var title = datable.column(columnDatanIndex).header();
         $(title).html(columData);
@@ -1336,7 +1336,7 @@ Template.bankingoverview.events({
         templateObject.tableheaderrecords.set(tableHeaderList);
     },
     'click #exportbtn': function() {
-        // alert('here');
+        
         $('.fullScreenSpin').css('display', 'inline-block');
         jQuery('#tblBankingOverview_wrapper .dt-buttons .btntabletoexcel').click();
         $('.fullScreenSpin').css('display', 'none');

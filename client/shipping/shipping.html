@@ -18,13 +18,13 @@
    var url = window.location.href;
    var getbarcode = url.split('?bc=');
    var salesbarcode = getbarcode[getbarcode.length-1];
-   //alert(salesbarcode);
+
    if(salesbarcode != ''){
      if(salesbarcode.length <= 2){
        Bert.alert( '<strong>WARNING:</strong>Invalid Barcode "'+salesbarcode+'"', 'danger','fixed-top', 'fa-frown-o' );
      }else{
        var segs = salesbarcode.split('-');
-      // alert(segs[1]);
+
        if(segs[0] == Barcode_Prefix_Sale){
          var sales_ID = segs[1];
          var erpGet = erpDb();
@@ -110,34 +110,9 @@
        }
      }
    }
-   //alert("zxing://scan/?ret="+window.location.protocol+"//"+window.location.host+"/socard?id=%7BCODE%7D");
-  // alert(window.location.protocol);
+
    </script>
-   <!-- <div class="tabs_line_panel"> -->
-   <!-- <div class="reports_container1" style="float: none; margin-top: 0px;"> -->
-     <!-- <div class="search_box_inner" style="padding-bottom: 13px;">
-         <table class="invoice_list_search" style="width: 50%;">
-         <tbody>
-           <tr>
-             <td><br><br>
-               <a href="" id="scanBarcode" name="scanBarcode" class="scan_new_btnBig"><i class="fa fa-camera" aria-hidden="true"></i> Scan</a>
-            </td>
-           </tr>
-           <tr>
 
-             <td><br>
-               <h3 class="page_subheader" style="width: 100%; margin-bottom: 7px; margin-left: 4px;">Enter Barcode:</h3>
-               <input type="text" style="height: 30px; margin-left: 4px;" id="SalesBC" name="salesbarcode" placeholder="Enter the barcode"></td>
-           </tr>
-           <tr>
-
-             <td><br><br>
-               <a href="/shippinglist" id="viewdocketlist" name="viewdocketlist" class="btnViewdocketList">View Docket</a>
-               <a href="#" id="viewdocket" name="viewdocket" class="send_new" style="display:none">View Docket</a></td>
-           </tr>
-         </tbody>
-       </table>
-     </div> -->
      <div class="container reports_container1">
        <div class="row">
         <!-- <div class="reports_container1" style="float: none; margin-top: 0px;"> -->

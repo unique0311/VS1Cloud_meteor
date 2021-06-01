@@ -99,7 +99,7 @@ Template.productcard.onRendered(function(){
 
     templateObject.getAllProductRecentTransactions = function () {
         productService.getProductRecentTransactions(productId).then(function (data) {
-           //alert(JSON.stringify(data));
+           
            recentTransList = [];
             for(let i=0; i<data.tproductsalesdetailsreport.length; i++){
               //if(data.tproductsalesdetailsreport[i].ProductID === productId){
@@ -129,7 +129,7 @@ Template.productcard.onRendered(function(){
 
     templateObject.getAllRecentTransactions = function () {
         productService.getRecentTransactions().then(function (data) {
-          //alert(JSON.stringify(data));
+          
             for(let i=0; i<data.tproductsalesdetailsreport.length; i++){
               if(data.tproductsalesdetailsreport[i].ProductID === productId){
                 let recentTranObject = {
@@ -302,7 +302,7 @@ Template.productcard.onRendered(function(){
     var url = window.location.href;
     var getproduct_id = url.split('?id=');
     var product_id = getproduct_id[getproduct_id.length-1];
-    //alert(customer_id);
+    
 
     var oReq = new XMLHttpRequest();
     oReq.open("GET",URLRequest + erpGet.ERPIPAddress + ':' + erpGet.ERPPort + '/' + erpGet.ERPApi + '/' + erpGet.ERPProductCardMain + "&select=[ID]='" + product_id + "'", true);
@@ -493,7 +493,7 @@ oPost.onreadystatechange = function() {
   });
 
 } else if(oPost.readyState == 4 && oPost.status == 403){
-//alert(oPost.status);
+
 
 
 swal({
@@ -515,9 +515,9 @@ swal({
   //oPost.setRequestHeader("Content-Length", "1");
   var ErrorResponse = oPost.getResponseHeader('errormessage');
   var segError = ErrorResponse.split(':');
-  //alert(segError[1]);
+  
 if((segError[1]) == ' "Unable to lock object'){
-  //alert(oPost.getAllResponseHeaders());
+  
   Bert.alert('<strong>'+ oPost.getResponseHeader('errormessage')+'</strong>. Please close the product in ERP!', 'danger');
 }else{
   swal({
@@ -540,7 +540,7 @@ if((segError[1]) == ' "Unable to lock object'){
 
 AddUERP(oPost.responseText);
 }
-//alert(myString);
+
 //Bert.alert('<strong>Success:</strong> Product successfully updated!', 'success');
 e.preventDefault();
 this.submit();
@@ -584,11 +584,11 @@ oPost.onreadystatechange = function() {
 
 
 if (oPost.readyState == 4 && oPost.status == 200) {
-//alert(oPost.status);
+
 Bert.alert('<strong>SUCCESS:</strong> Product notes successfully updated!', 'success');
 
 } else if(oPost.readyState == 4 && oPost.status == 403){
-//alert(oPost.status);
+
 
 
 swal({
@@ -610,9 +610,9 @@ swal({
   //oPost.setRequestHeader("Content-Length", "1");
   var ErrorResponse = oPost.getResponseHeader('errormessage');
   var segError = ErrorResponse.split(':');
-  //alert(segError[1]);
+  
 if((segError[1]) == ' "Unable to lock object'){
-  //alert(oPost.getAllResponseHeaders());
+  
   Bert.alert('<strong>'+ oPost.getResponseHeader('errormessage')+'</strong>. Please close the product in ERP!', 'danger');
 }else{
   swal({
@@ -635,7 +635,7 @@ if((segError[1]) == ' "Unable to lock object'){
 
 AddUERP(oPost.responseText);
 }
-//alert(myString);
+
 //Bert.alert('<strong>Success:</strong> Product notes successfully updated!', 'success');
 e.preventDefault();
 this.submit();

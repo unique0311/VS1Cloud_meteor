@@ -646,7 +646,7 @@ Template.stockadjlist.onRendered(function(){
               }else if($(mySearchDropdown).val() == 'Expiry Date'){
                   searchNow3 = enddate_format3;
               }
-//alert(searchNow2);
+
               table3.search(searchNow3).draw();
           });
 
@@ -668,7 +668,7 @@ Template.stockadjlist.onRendered(function () {
       for(let j =0;j<listIds.length;j++) {
 
           StockPrintService.getOneStockAdjustData(listIds[j]).then(function (data) {
-            //alert(data.fields.GlobalRef);
+            
               if (data.fields.Lines.length) {
                   var stockrecord = {
                     stockid: data.fields.ID,
@@ -884,7 +884,7 @@ Template.stockadjlist.events({
 
       records =  records[type];
       let index = records.indexOf(this);
-      //alert(index);
+      
       if (index !== -1) {
           this.selected = !this.selected;
           records[index].selected = this.selected;
@@ -1129,7 +1129,7 @@ Template.stockadjlist.events({
 
       Session.set('pendingDeleteMsg',true);
       for (let i = 0; i < templateObj.selectedRowData.length; i++) {
-        //alert(templateObj.selectedRowData[i].id);
+        
           let objDetails = {
               type: "TStockAdjustEntry",
               fields: {

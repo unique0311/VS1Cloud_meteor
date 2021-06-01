@@ -7,7 +7,7 @@ import { ProductService } from "../product/product-service";
 import '../lib/global/erp-objects';
 import 'jquery-ui-dist/external/jquery/jquery';
 import 'jquery-ui-dist/jquery-ui';
-// import 'jquery-ui-dist/jquery-ui.css';
+
 import { Random } from 'meteor/random';
 import { jsPDF } from 'jspdf';
 import 'jQuery.print/jQuery.print.js';
@@ -1002,7 +1002,7 @@ Template.new_salesorder.onRendered(() => {
 
                                 });
                             } catch (err) {
-                                console.log(err);
+
                             }
                         }
                         setTimeout(function() {
@@ -1044,7 +1044,7 @@ Template.new_salesorder.onRendered(() => {
                                     })
 
                                 };
-                                templateObject.record.set(record); 
+                                templateObject.record.set(record);
                         }, 1500);
 
                     }
@@ -1356,7 +1356,7 @@ Template.new_salesorder.onRendered(() => {
                         '    </tr>' +
                         '</table>';
 
-                   
+
                     Meteor.call('sendEmail', {
                         from: "" + mailFromName + " <" + mailFrom + ">",
                         to: checkEmailData,
@@ -2977,7 +2977,7 @@ Template.new_salesorder.onRendered(() => {
         for (let l = 0; l < lineItems.length; l++) {
             stringQuery = stringQuery + "product" + l + "=" + lineItems[l].description + "&price" + l + "=" + lineItems[l].unitPrice + "&qty" + l + "=" + lineItems[l].quantity + "&";
         }
-        stringQuery = stringQuery + "tax=" + tax + "&total=" + total + "&customer=" + customer + "&name=" + name + "&surname=" + surname + "&quoteid=" + invoiceData.id + "&company=" + company + "&vs1email=" + vs1User + "&customeremail=" + customerEmail + "&type=Sales Order&url=" + window.location.href + "&server=" + erpGet.ERPIPAddress + "&username=" + erpGet.ERPUsername + "&token=" + erpGet.ERPPassword + "&session=" + erpGet.ERPDatabase + "&port=" + erpGet.ERPPort + "&dept=" + dept;      
+        stringQuery = stringQuery + "tax=" + tax + "&total=" + total + "&customer=" + customer + "&name=" + name + "&surname=" + surname + "&quoteid=" + invoiceData.id + "&company=" + company + "&vs1email=" + vs1User + "&customeremail=" + customerEmail + "&type=Sales Order&url=" + window.location.href + "&server=" + erpGet.ERPIPAddress + "&username=" + erpGet.ERPUsername + "&token=" + erpGet.ERPPassword + "&session=" + erpGet.ERPDatabase + "&port=" + erpGet.ERPPort + "&dept=" + dept;
         var pdf = new jsPDF('p', 'pt', 'a4');
         pdf.setFontSize(18);
         var source = document.getElementById('html-2-pdfwrapper');
@@ -4528,7 +4528,7 @@ Template.new_salesorder.events({
                     }
                 };
             }
-            //alert(JSON.stringify(objDetails));
+            
             salesService.saveSalesOrderEx(objDetails).then(function(objDetails) {
                 let company = Session.get('vs1companyName');
                 let vs1User = localStorage.getItem('mySession');
@@ -4852,7 +4852,7 @@ Template.new_salesorder.events({
                 }
 
             }).catch(function(err) {
-                console.log(err);
+
                 swal({
                     title: 'Something went wrong',
                     text: err,
@@ -5352,7 +5352,7 @@ Template.new_salesorder.events({
                     splashLineArray.push(lineItemObjForm);
                 }
             });
-            console.log(lineItemsForm);
+
             let getchkcustomField1 = true;
             let getchkcustomField2 = true;
             let getcustomField1 = $('.customField1Text').html();
@@ -5439,9 +5439,8 @@ Template.new_salesorder.events({
                     }
                 };
             }
-            //alert(JSON.stringify(objDetails));
+            
             setTimeout(function(){
-            console.log(lineItemsForm);
             salesService.saveSalesOrderEx(objDetails).then(function(objDetails) {
                 let company = Session.get('vs1companyName');
                 let vs1User = localStorage.getItem('mySession');
@@ -5571,9 +5570,7 @@ Template.new_salesorder.events({
                                 attachments: attachment
                             }, function(error, result) {
                                 if (error && error.error === "error") {
-                                    //Router.go('/salesorderslist?success=true');
-                                    console.log(error);
-                                    console.log(error.error);
+                                    Router.go('/salesorderslist?success=true');
                                 } else {
                                     $('#html-2-pdfwrapper').css('display', 'none');
                                     swal({
@@ -5768,7 +5765,7 @@ Template.new_salesorder.events({
                 }
 
             }).catch(function(err) {
-                console.log(err);
+
                 swal({
                     title: 'Something went wrong',
                     text: err,
@@ -6281,7 +6278,7 @@ Template.new_salesorder.events({
                 swal('Customer Email cannot be blank!', '', 'warning');
                 event.preventDefault();
             } else {
-                // alert('here 1');
+                
                 function isEmailValid(mailTo) {
                     return /^[A-Z0-9'.1234z_%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(mailTo);
                 };

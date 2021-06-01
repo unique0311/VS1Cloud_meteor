@@ -2,15 +2,15 @@ import { ReactiveVar } from 'meteor/reactive-var';
 Template.settings.onRendered(function() {
   let isFxCurrencyLicence = Session.get('CloudUseForeignLicence');
 
-   // alert(isFxCurrencyLicence);
+   
 
-    // JQuery & CSS by Bruno BEGIN
+    
     setTimeout(function () {
 
         var x = window.matchMedia("(max-width: 1024px)")
 
         function mediaQuery(x) {
-            if (x.matches) { // If media query matches
+            if (x.matches) { 
 
 //                alert("Matches");
                 $("#settingsCard").removeClass("col-8");
@@ -18,10 +18,10 @@ Template.settings.onRendered(function() {
 
             }
         }
-        mediaQuery(x) // Call listener function at run time
-        x.addListener(mediaQuery) // Attach listener function on state changes
+        mediaQuery(x) 
+        x.addListener(mediaQuery) 
     }, 500);
-    // JQuery & CSS by Bruno END
+    
 
     let imageData= (localStorage.getItem("Image"));
     if(imageData)

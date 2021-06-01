@@ -92,7 +92,7 @@ $("select[name='edtBankAccountName'] > option").each(function () {
 });
 
 $('.dropdown-toggle').on("click",function(event){
-  // alert('HERE');
+  
     //event.stopPropagation();
 });
 // $('.dropdown-toggle').click(e => e.stopPropagation());
@@ -275,7 +275,7 @@ batchUpdateCall = function (url) {
 
 
 // $(window).load(function() {
-//     // alert("window load occurred!");
+//     
 // });
 
 //$(document).ready(function(){

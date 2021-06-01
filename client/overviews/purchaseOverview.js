@@ -1103,7 +1103,7 @@ Template.purchasesoverview.events({
         let columData = $(event.target).text();
 
         let columnDatanIndex = $(event.target).closest("div.columnSettings").attr('id');
-        //alert(columnDataValue);
+        
         var datable = $('#tblPurchaseOverview').DataTable();
         var title = datable.column( columnDatanIndex ).header();
         $(title).html(columData);

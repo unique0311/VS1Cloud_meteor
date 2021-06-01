@@ -51,13 +51,7 @@ Template.billlist.onRendered(function() {
     });
 
     function MakeNegative() {
-      // TDs = document.getElementsByTagName('td');
-      // for (var i=0; i<TDs.length; i++) {
-      //         var temp = TDs[i];
-      //         if (temp.firstChild.nodeValue.indexOf('-'+Currency) == 0){
-      //           temp.className = "text-danger";
-      //         }
-      //     }
+
       $('td').each(function(){
         if($(this).text().indexOf('-'+Currency) >= 0) $(this).addClass('text-danger')
        });
@@ -137,11 +131,9 @@ Template.billlist.onRendered(function() {
 
             setTimeout(function () {
               $('.fullScreenSpin').css('display','none');
-              //$.fn.dataTable.moment('DD/MM/YY');
+
                 $('#tblbilllist').DataTable({
-                      // columnDefs: [
-                      //     {type: 'date', targets: 0}
-                      // ],
+
                       "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
                       buttons: [
                             {
@@ -168,8 +160,6 @@ Template.billlist.onRendered(function() {
                       select: true,
                       destroy: true,
                       colReorder: true,
-                      // bStateSave: true,
-                      // rowId: 0,
                       pageLength: 25,
                       lengthMenu: [ [10, 25, 50, -1], [10, 25, 50, "All"] ],
                       info: true,
@@ -215,7 +205,7 @@ Template.billlist.onRendered(function() {
                   columVisible = false;
                 }
                 sWidth = v.style.width.replace('px', "");
-                
+
                 let datatablerecordObj = {
                   sTitle: v.innerText || '',
                   sWidth: sWidth || '',
@@ -235,9 +225,9 @@ Template.billlist.onRendered(function() {
            });
 
           }).catch(function (err) {
-              // Bert.alert('<strong>' + err + '</strong>!', 'danger');
+
               $('.fullScreenSpin').css('display','none');
-              // Meteor._reload.reload();
+
           });
         }else{
         let data = JSON.parse(dataObject[0].data);
@@ -311,11 +301,9 @@ if(templateObject.datatablerecords.get()){
 
 setTimeout(function () {
   $('.fullScreenSpin').css('display','none');
-  //$.fn.dataTable.moment('DD/MM/YY');
+
     $('#tblbilllist').DataTable({
-          // columnDefs: [
-          //     {type: 'date', targets: 0}
-          // ],
+
           "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
           buttons: [
                 {
@@ -342,8 +330,8 @@ setTimeout(function () {
           select: true,
           destroy: true,
           colReorder: true,
-          // bStateSave: true,
-          // rowId: 0,
+
+
           pageLength: 25,
           lengthMenu: [ [10, 25, 50, -1], [10, 25, 50, "All"] ],
           info: true,
@@ -389,7 +377,7 @@ setTimeout(function () {
       columVisible = false;
     }
     sWidth = v.style.width.replace('px', "");
-    
+
     let datatablerecordObj = {
       sTitle: v.innerText || '',
       sWidth: sWidth || '',
@@ -480,11 +468,9 @@ templateObject.tableheaderrecords.set(tableHeaderList);
 
             setTimeout(function () {
               $('.fullScreenSpin').css('display','none');
-              //$.fn.dataTable.moment('DD/MM/YY');
+
                 $('#tblbilllist').DataTable({
-                      // columnDefs: [
-                      //     {type: 'date', targets: 0}
-                      // ],
+
                       "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
                       buttons: [
                             {
@@ -511,8 +497,8 @@ templateObject.tableheaderrecords.set(tableHeaderList);
                       select: true,
                       destroy: true,
                       colReorder: true,
-                      // bStateSave: true,
-                      // rowId: 0,
+
+
                       pageLength: 25,
                       lengthMenu: [ [10, 25, 50, -1], [10, 25, 50, "All"] ],
                       info: true,
@@ -558,7 +544,7 @@ templateObject.tableheaderrecords.set(tableHeaderList);
                   columVisible = false;
                 }
                 sWidth = v.style.width.replace('px', "");
-                
+
                 let datatablerecordObj = {
                   sTitle: v.innerText || '',
                   sWidth: sWidth || '',
@@ -578,9 +564,9 @@ templateObject.tableheaderrecords.set(tableHeaderList);
            });
 
           }).catch(function (err) {
-              // Bert.alert('<strong>' + err + '</strong>!', 'danger');
+
               $('.fullScreenSpin').css('display','none');
-              // Meteor._reload.reload();
+
           });
         });
     }
@@ -756,9 +742,9 @@ Template.billlist.events({
       'click .btnRefresh': function () {
         $('.fullScreenSpin').css('display','inline-block');
     let currentDate = new Date();
-    let hours = currentDate.getHours(); //returns 0-23
-    let minutes = currentDate.getMinutes(); //returns 0-59
-    let seconds = currentDate.getSeconds(); //returns 0-59
+    let hours = currentDate.getHours();
+    let minutes = currentDate.getMinutes();
+    let seconds = currentDate.getSeconds();
     let month = (currentDate.getMonth()+1);
     let days = currentDate.getDate();
 
@@ -771,124 +757,6 @@ Template.billlist.events({
     }
     let currenctTodayDate = currentDate.getFullYear() + "-" + month + "-" + days + " "+ hours+ ":"+ minutes+ ":"+ seconds;
     let templateObject = Template.instance();
-      // getVS1Data('TBillEx').then(function (dataObject) {
-      //   if(dataObject.length == 0){
-      //     sideBarService.getAllBillExList().then(function(data) {
-      //       addVS1Data('TBillEx',JSON.stringify(data)).then(function (datareturn) {
-      //       window.open('/billlist','_self');
-      //       }).catch(function (err) {
-      //       window.open('/billlist','_self');
-      //       });
-      //     }).catch(function(err) {
-      //       window.open('/billlist','_self');
-      //     });
-      //   }else{
-      //     let data = JSON.parse(dataObject[0].data);
-      //     let useData = data.tbillex;
-      //     if(useData[0].Id){
-      //       sideBarService.getAllBillExList().then(function(data) {
-      //         addVS1Data('TBillEx',JSON.stringify(data)).then(function (datareturn) {
-      //           window.open('/billlist','_self');
-      //         }).catch(function (err) {
-      //         window.open('/billlist','_self');
-      //         });
-      //       }).catch(function(err) {
-      //         window.open('/billlist','_self');
-      //       });
-      //     }else{
-      //     let getTimeStamp = dataObject[0].timestamp;
-      //     if(getTimeStamp){
-      //         if(getTimeStamp[0] != currenctTodayDate){
-      //           sideBarService.getAllBillExList(getTimeStamp).then(function(dataUpdate) {
-      //             let newDataObject = [];
-      //             if(dataUpdate.tbillex.length === 0){
-      //               sideBarService.getAllBillExList().then(function(data) {
-      //                 addVS1Data('TBillEx',JSON.stringify(data)).then(function (datareturn) {
-      //                   window.open('/billlist','_self');
-      //                 }).catch(function (err) {
-      //                 window.open('/billlist','_self');
-      //                 });
-      //               }).catch(function(err) {
-      //               window.open('/billlist','_self');
-      //               });
-      //             }else{
-      //               let dataOld = JSON.parse(dataObject[0].data);
-      //               let oldObjectData = dataOld.tbillex;
-      //
-      //               let dataNew = dataUpdate;
-      //               let newObjectData = dataNew.tbillex;
-      //               let index = '';
-      //               let index2 = '';
-      //
-      //               var resultArray = []
-      //
-      //               oldObjectData.forEach(function(destObj) {
-      //                   var addedcheck=false;
-      //                   newObjectData.some(function(origObj) {
-      //                     if(origObj.fields.ID == destObj.fields.ID) {
-      //                       addedcheck = true;
-      //                       index = oldObjectData.map(function (e) { return e.fields.ID; }).indexOf(parseInt(origObj.fields.ID));
-      //                       destObj = origObj;
-      //                       resultArray.push(destObj);
-      //
-      //                     }
-      //                   });
-      //                   if(!addedcheck) {
-      //                         resultArray.push(destObj)
-      //                   }
-      //
-      //                 });
-      //                 newObjectData.forEach(function(origObj) {
-      //                   var addedcheck=false;
-      //                   oldObjectData.some(function(destObj) {
-      //                     if(origObj.fields.ID == destObj.fields.ID) {
-      //                       addedcheck = true;
-      //                       index = oldObjectData.map(function (e) { return e.fields.ID; }).indexOf(parseInt(origObj.fields.ID));
-      //                       destObj = origObj;
-      //                       resultArray.push(destObj);
-      //
-      //                     }
-      //                   });
-      //                   if(!addedcheck) {
-      //                         resultArray.push(origObj)
-      //                   }
-      //
-      //                 });
-      //             var resultGetData = [];
-      //             $.each(resultArray, function (i, e) {
-      //               var matchingItems = $.grep(resultGetData, function (item) {
-      //                  return item.fields.ID === e.fields.ID;
-      //               });
-      //               if (matchingItems.length === 0){
-      //                   resultGetData.push(e);
-      //               }
-      //           });
-      //
-      //           let dataToAdd = {
-      //               tbillex: resultGetData
-      //           };
-      //             addVS1Data('TBillEx',JSON.stringify(dataToAdd)).then(function (datareturn) {
-      //               window.open('/billlist','_self');
-      //             }).catch(function (err) {
-      //               window.open('/billlist','_self');
-      //             });
-      //             }
-      //
-      //           }).catch(function(err) {
-      //             addVS1Data('TBillEx',dataObject[0].data).then(function (datareturn) {
-      //               window.open('/billlist','_self');
-      //             }).catch(function (err) {
-      //               window.open('/billlist','_self');
-      //             });
-      //           });
-      //         }
-      //
-      //     }
-      //   }
-      //   }
-      // }).catch(function (err) {
-      //
-      // });
 
 
       sideBarService.getAllPurchaseOrderListAll().then(function(data) {

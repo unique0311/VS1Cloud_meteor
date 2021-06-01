@@ -408,7 +408,7 @@ Template.paychexapi.events({
     let columData = $(event.target).text();
 
     let columnDatanIndex = $(event.target).closest("div.columnSettings").attr('id');
-    //alert(columnDataValue);
+    
     var datable = $('#tblpaychex').DataTable();
     var title = datable.column( columnDatanIndex ).header();
     $(title).html(columData);

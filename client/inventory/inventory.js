@@ -1,6 +1,6 @@
 import { jsPDF } from 'jspdf';
 import 'jQuery.print/jQuery.print.js';
-// import {jsPDF} from "jspdf";
+
 import { autoTable }from 'jspdf-autotable';
 import {ProductService} from "../product/product-service";
 import {ReactiveVar} from 'meteor/reactive-var';
@@ -51,11 +51,11 @@ const tempObj2 = Template.instance();
                 inventoryData.push(recentTranObject);
                 // break;
             }
-            //alert(JSON.stringify(splashArray));
+            
              const lineData = await tempObj2.productListID.set(lineItems);
              tempObj2.productListData.set(inventoryData);
              // tempObj2.productListData.set(lineItems);
-             // alert(JSON.stringify(tempObj2.productListID.get()));
+             
              if(tempObj2.productListData.get()) {
                exportInventoryToPdf();
                  //tempObj2.getAllRecentTransactions();
@@ -63,7 +63,7 @@ const tempObj2 = Template.instance();
     };
 
     getAllRecentTransactions = function () {
-      // alert('ere');
+      
         productService.getRecentTransactions().then(function (productData) {
             let inventoryData = [];
            let listId= tempObj2.productListID.get();

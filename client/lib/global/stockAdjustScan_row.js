@@ -144,7 +144,7 @@ $(document).on('click', 'a.send_new', function () {
                     $('input[name="'+available+'"]').val('0');
                    $('input[name="'+productdesc+'"]').val(ProdDesc);
                   // $('input[name="'+adjust+'"]').val('1');
-                    // alert(itemVal);
+                    
                     $('input[name="'+barcode+'"]').val(ProdBarcode);
                     var oReq = new XMLHttpRequest();
 
@@ -156,7 +156,7 @@ $(document).on('click', 'a.send_new', function () {
                     oReq.send();
 
                     oReq.timeout = 30000;
-                    //alert('1');
+                    
                     oReq.onreadystatechange = function() {
                     if (oReq.readyState == 4 && oReq.status == 200) {
                       var dataListRet2 = JSON.parse(oReq.responseText);
@@ -165,7 +165,7 @@ $(document).on('click', 'a.send_new', function () {
                         var dataCopy2 = dataListRet2[event];
                         for (var data2 in dataCopy2) {
                           var mainData2 = dataCopy2[data2];
-                          //alert(mainData2.EmployeeName);
+                          
                          // department = mainData2.DeptName;
                           quantity = mainData2.AvailableQty;
                           inStockQty = mainData2.InStockQty;
@@ -179,7 +179,7 @@ $(document).on('click', 'a.send_new', function () {
                      $('input[name="'+final+'"]').val(inStockQty);
                        $('input[name="'+adjust+'"]').val('1');
                        var adjustment = 1;
-                       //alert(qty);
+                       
                       // var availableQty = $tblrow.find("[id=instock]").val();
                        var sumTotal = parseInt(adjustment) + parseInt(inStockQty);
                        if (!isNaN(sumTotal)) {
@@ -189,7 +189,7 @@ $(document).on('click', 'a.send_new', function () {
 
                       }
 
-                       //alert(quantity);
+                       
 
                    /* var dataListRet = oReq.responseText;
                     //var id = '';
@@ -218,7 +218,7 @@ $(document).on('click', 'a.send_new', function () {
 
                   $tblrow.find('.AdjustQty').on('change', function () {
                     var adjust = $tblrow.find("[id=adjust]").val();
-                    //alert(qty);
+                    
                     var availableQty = $tblrow.find("[id=instock]").val();
                     var sumTotal = parseInt(adjust) + parseInt(availableQty);
                     if (!isNaN(sumTotal)) {
@@ -258,11 +258,11 @@ $(document).on('click', 'a.send_new', function () {
    }
  }
 }
-//alert(prodName);
+
     //$('#component_tb tbody>tr:last').clone(true).insertAfter('#component_tb tbody>tr:last');
   //  var rowCount = $('#component_tb tbody>tr').length;
 
-    //alert(num);
+    
     $('input[name="prodBarcode"]').val('');
   });
 
@@ -279,7 +279,7 @@ $(document).on('click', 'a.send_new', function () {
       //var AccTaxCode = Segs[1];
 
       var erpGet2 = erpDb();
-       //alert(itemVal2);
+       
           if (x != null) {
 
               for (var i = 0; i < x.rows.length; i++) {
@@ -289,7 +289,7 @@ $(document).on('click', 'a.send_new', function () {
                       x.rows[i].cells[5].onclick = function () {
 
                         var cnt = i;
-                      //alert('here 3');
+                      
                         var instock2N ="instock_"+cnt;
                         var available2N ="available_"+cnt;
                         var final2N ="final_"+cnt;
@@ -314,7 +314,7 @@ $(document).on('click', 'a.send_new', function () {
                  oReqDept.send();
 
                  oReqDept.timeout = 30000;
-                 //alert('1');
+                 
                  oReqDept.onreadystatechange = function() {
                  if (oReqDept.readyState == 4 && oReqDept.status == 200) {
                    var dataListRet3 = JSON.parse(oReqDept.responseText);

@@ -632,7 +632,7 @@ Template.employeetimeclock.events({
     let columData = $(event.target).text();
 
     let columnDatanIndex = $(event.target).closest("div.columnSettings").attr('id');
-    //alert(columnDataValue);
+    
     var datable = $('#tblTimeSheet').DataTable();
     var title = datable.column(columnDatanIndex).header();
     $(title).html(columData);
@@ -785,7 +785,7 @@ Template.employeetimeclock.events({
 
   },
   'click .btnAddNewAccounts': function () {
-    // alert(loggedTaxCodePurchaseInc);
+    
     $('#add-account-title').text('Add New Account');
     $('#edtAccountID').val('');
     $('#sltAccountType').val('');

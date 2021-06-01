@@ -749,7 +749,7 @@ Template.journalentrylist.events({
     let columData = $(event.target).text();
 
     let columnDatanIndex = $(event.target).closest("div.columnSettings").attr('id');
-    //alert(columnDataValue);
+    
     var datable = $('#tblJournalList').DataTable();
     var title = datable.column( columnDatanIndex ).header();
     $(title).html(columData);
@@ -806,7 +806,7 @@ Template.journalentrylist.events({
     templateObject.tableheaderrecords.set(tableHeaderList);
   },
 'click #exportbtn': function () {
-  // alert('here');
+  
   $('.fullScreenSpin').css('display','inline-block');
   jQuery('#tblJournalList_wrapper .dt-buttons .btntabletocsv').click();
    $('.fullScreenSpin').css('display','none');

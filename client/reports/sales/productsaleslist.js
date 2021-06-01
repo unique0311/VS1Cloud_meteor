@@ -92,7 +92,7 @@ Template.productsaleslist.onRendered(()=>{
       localStorage.setItem('VS1ProductSales_List', JSON.stringify(data)||'');
         let lineItems = [];
         let lineItemObj = {};
-        // alert(data.tproductsalesdetailsreport[1].Id);
+        
         for(let i=0; i<data.tproductsalesdetailsreport.length; i++){
           
 
@@ -269,7 +269,7 @@ Template.productsaleslist.onRendered(()=>{
     let data = JSON.parse(localStorage.getItem('VS1ProductSales_List'));
     let lineItems = [];
     let lineItemObj = {};
-    // alert(data.tproductsalesdetailsreport[1].Id);
+    
     for(let i=0; i<data.tproductsalesdetailsreport.length; i++){
       
 

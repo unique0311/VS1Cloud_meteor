@@ -160,7 +160,7 @@ Template.registerdb.events({
                "RenewDiscountedPrice":userQuantityDisc,
                "RenewDiscountDesc":""
             }
-            extraModuleArr.push(extraModuleAdd);
+            // extraModuleArr.push(extraModuleAdd);
          }
 
       }
@@ -463,9 +463,12 @@ let last_name = $('#lname').val();
 let useremail = $('#email').val();
 let userpassword = $('#confirmpassword').val();
 
+let currentURL = Router.current().params.query;
+// if(currentURL.url){
+setTimeout(function () { window.open('https://www.depot.vs1cloud.com/vs1subscription/purchaseaddcustomer.php?firstname='+first_name+'&lastname='+last_name+'&email='+useremail+'&password='+userpassword+'&urlfrom='+currentURL.url+'','_self'); }, 1000);
+// }
 
 
-setTimeout(function () { window.open('https://www.depot.vs1cloud.com/vs1subscription/purchaseaddcustomer.php?firstname='+first_name+'&lastname='+last_name+'&email='+useremail+'&password='+userpassword+'','_self'); }, 1000);
 
 },
 
@@ -570,7 +573,7 @@ setTimeout(function () { window.open('https://www.depot.vs1cloud.com/vs1subscrip
           swal('Oops...', 'The email field must be a valid email address, please re-enter your email addres and try again!', 'error');
 
 
-          e.preventDefault();
+          event.preventDefault();
           return false;
       }
     }
@@ -589,7 +592,7 @@ setTimeout(function () { window.open('https://www.depot.vs1cloud.com/vs1subscrip
         swal('Oops...', 'The specified passwords does not match, please re-enter your password and try again!', 'error');
 
 
-        e.preventDefault();
+        event.preventDefault();
         return false;
       }
 
@@ -600,7 +603,7 @@ setTimeout(function () { window.open('https://www.depot.vs1cloud.com/vs1subscrip
 
               swal('Invalid VS1 Password', 'Password must be at least eight characters including one capital letter, one number and one special characters [! @ # $ % ^ & *] !', 'error');
 
-              e.preventDefault();
+              event.preventDefault();
               return false;
       }
 

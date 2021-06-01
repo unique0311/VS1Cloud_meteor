@@ -3,11 +3,11 @@
 //
 import {StockTransferService} from "../stocktransfer/stocktransfer-service";
 import {ReactiveVar} from "meteor/reactive-var";
-// import {UtilityService} from "../utility-service";
-// import { CoreService } from '../js/core-service';
-// import {AccountService} from "../accounts/account-service";
-// import {SalesBoardService} from '../js/sales-service';
-// import 'colresizable/colResizable-1.6.min';
+
+
+
+
+
 Template.stocktransferlist.onCreated(function () {
   const templateObject = Template.instance();
       templateObject.records = new ReactiveVar([]);
@@ -34,7 +34,7 @@ Template.stocktransferlist.onRendered(function () {
   let records = [];
   let lineItemObj = {};
 
-  //alert(JSON.stringify(data));
+  
   for(let i=0; i<data.tstocktransferentry.length; i++){
      let recordObj = {};
      let deleteOption = data.tstocktransferentry[i].deleted;
@@ -103,7 +103,7 @@ Template.stocktransferlist.onRendered(function () {
   $('#stocktransfer_list tbody').on( 'click', 'tr', function () {
       //var listData = table.row( this ).id();
       var listData = $(this).closest('tr').attr('id');
-      // alert(listData);
+      
       if(listData){
         window.open('/stocktransfercard?id=' + listData,'_self');
       }
@@ -148,7 +148,7 @@ if (!localStorage.getItem('VS1StockTransferList')) {
   $('#stocktransfer_list tbody').on( 'click', 'tr', function () {
       //var listData = table.row( this ).id();
       var listData = $(this).closest('tr').attr('id');
-      // alert(listData);
+      
       //for(let i=0 ; i<splashArray.length ;i++){
       if(listData){
         window.open('/stocktransfercard?id=' + listData,'_self');
@@ -183,7 +183,7 @@ Template.stocktransferlist.helpers({
          templateObject.getStockTransfers();
     },
     'click .disable-click-event':function (event) {
-      // alert('cliekced');
+      
         // event.stopPropagation();
     }
     });

@@ -146,10 +146,6 @@ Router.route('/', {
     template: 'vs1login'
 });
 
-// Router.route('/sshvs1login', {
-//     name: 'sshvs1login',
-//     template: 'sshvs1login'
-// });
 
 Router.route('/vs1greentracklogin', {
     name: 'vs1greentracklogin',

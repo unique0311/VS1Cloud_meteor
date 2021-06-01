@@ -63,7 +63,7 @@ Template.invoiceemail.onRendered(function() {
           salesService.getAllInvoiceListNonBO().then(function (data) {
             let lineItems = [];
             let lineItemObj = {};
-            // alert(data.tinvoicenonbackorder[1].Id);
+            
             for(let i=0; i<data.tinvoicenonbackorder.length; i++){
               let totalAmountEx = utilityService.modifynegativeCurrencyFormat(data.tinvoicenonbackorder[i].TotalAmount)|| 0.00;
               let totalTax = utilityService.modifynegativeCurrencyFormat(data.tinvoicenonbackorder[i].TotalTax) || 0.00;
@@ -247,7 +247,7 @@ Template.invoiceemail.onRendered(function() {
           let useData = data.tinvoiceex;
           let lineItems = [];
 let lineItemObj = {};
-// alert(useData[1].Id);
+
 for(let i=0; i<useData.length; i++){
   let totalAmountEx = utilityService.modifynegativeCurrencyFormat(useData[i].fields.TotalAmount)|| 0.00;
   let totalTax = utilityService.modifynegativeCurrencyFormat(useData[i].fields.TotalTax) || 0.00;
@@ -426,7 +426,7 @@ templateObject.tableheaderrecords.set(tableHeaderList);
           salesService.getAllInvoiceListNonBO().then(function (data) {
             let lineItems = [];
             let lineItemObj = {};
-            // alert(data.tinvoicenonbackorder[1].Id);
+            
             for(let i=0; i<data.tinvoicenonbackorder.length; i++){
               let totalAmountEx = utilityService.modifynegativeCurrencyFormat(data.tinvoicenonbackorder[i].TotalAmount)|| 0.00;
               let totalTax = utilityService.modifynegativeCurrencyFormat(data.tinvoicenonbackorder[i].TotalTax) || 0.00;

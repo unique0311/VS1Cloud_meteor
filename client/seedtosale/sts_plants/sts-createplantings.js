@@ -30,7 +30,7 @@ Template.stscreateplantings.onRendered(function() {
                     departid: data.tdeptclass[i].Id || ' ',
                     deptname: data.tdeptclass[i].DeptClassName || ' ',
                 };
-                //alert(data.tdeptclass[i].DeptClassName);
+                
                 if(data.tdeptclass[i].DeptClassName.replace(/\s/g, '') != ''){
                     deptList.push(dataObject);
                 }

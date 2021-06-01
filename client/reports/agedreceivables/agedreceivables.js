@@ -75,7 +75,7 @@ yearRange: "-90:+10",
           let expArr = [];
           let accountData = data.tarreport;
           let accountType = '';
-          // alert(accountData[0].SaleID);
+          
           for (let i = 0; i < accountData.length; i++) {
 
             if(data.tarreport[i].AmountDue < 0){
@@ -273,7 +273,7 @@ let grandOlder = 0;
         let expArr = [];
         let accountData = data.tarreport;
         let accountType = '';
-        // alert(accountData[0].SaleID);
+        
         for (let i = 0; i < accountData.length; i++) {
 
           if(data.tarreport[i].AmountDue < 0){
@@ -541,7 +541,7 @@ let grandOlder = 0;
         let redirectid = $(event.target).closest('tr').attr('id');
 
         let transactiontype = $(event.target).closest('tr').attr('class');;
-        // alert(transactiontype);
+        
         if(redirectid && transactiontype){
           if(transactiontype === 'Quote' ){
             window.open('/quotecard?id=' + redirectid,'_self');

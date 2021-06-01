@@ -31,20 +31,20 @@ Template.productview.onCreated(()=>{
     templateObject.includeInventory = new ReactiveVar();
     templateObject.includeInventory.set(false);
 
-    // JQuery & CSS by Bruno BEGIN
+    
     setTimeout(function () {
 
         var x = window.matchMedia("(max-width: 1024px)")
 
         function mediaQuery(x) {
-            if (x.matches) { // If media query matches
+            if (x.matches) { 
 
                 $("#productCard").removeClass("col-6");
                 $("#productCard").addClass("col-12");
             }
         }
-        mediaQuery(x) // Call listener function at run time
-        x.addListener(mediaQuery) // Attach listener function on state changes
+        mediaQuery(x) 
+        x.addListener(mediaQuery) 
     }, 10);
 
     setTimeout(function () {
@@ -52,7 +52,7 @@ Template.productview.onCreated(()=>{
         var x = window.matchMedia("(max-width: 420px)")
 
         function mediaQuery(x) {
-            if (x.matches) { // If media query matches
+            if (x.matches) { 
 
                 $("#productCard").removeClass("col-6");
                 $("#productCard").addClass("col-12");
@@ -82,10 +82,10 @@ Template.productview.onCreated(()=>{
                 $("#colCost").addClass("col-4");
             }
         }
-        mediaQuery(x) // Call listener function at run time
-        x.addListener(mediaQuery) // Attach listener function on state changes
+        mediaQuery(x) 
+        x.addListener(mediaQuery) 
     }, 10);
-    // JQuery & CSS by Bruno END
+    
 });
 
 
@@ -752,7 +752,7 @@ Template.productview.onRendered(function() {
             }
         });
         //}, 500);
-        // alert(templateObject.defaultpurchasetaxcode.get());
+        
 
         $('.fullScreenSpin').css('display','none');
 
@@ -762,13 +762,13 @@ Template.productview.onRendered(function() {
 
     }
 
-    // JQuery & CSS by Bruno BEGIN
+    
     setTimeout(function () {
 
         var x = window.matchMedia("(max-width: 1024px)")
 
         function mediaQuery(x) {
-            if (x.matches) { // If media query matches
+            if (x.matches) { 
 
                 //                alert("Matches");
                 $("#productCard").removeClass("col-6");
@@ -776,10 +776,10 @@ Template.productview.onRendered(function() {
 
             }
         }
-        mediaQuery(x) // Call listener function at run time
-        x.addListener(mediaQuery) // Attach listener function on state changes
+        mediaQuery(x) 
+        x.addListener(mediaQuery) 
     }, 500);
-    // JQuery & CSS by Bruno END
+    
 
 
 });

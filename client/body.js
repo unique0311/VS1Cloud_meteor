@@ -21,7 +21,9 @@ Template.body.onRendered(function(){
     $("html").addClass("hasSideBar");
     $("body").addClass("hasSideBar");
   }
-
+  // document.addEventListener('contextmenu', function(e) {
+  // e.preventDefault();
+  // });
 
   $(document).ready(function() {
     var loc = window.location.pathname;

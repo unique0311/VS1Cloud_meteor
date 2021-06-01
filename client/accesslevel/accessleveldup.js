@@ -24,13 +24,13 @@ Template.accessleveldup.onCreated(()=>{
     templateObject.employeeformaccessrecord = new ReactiveVar({});
     templateObject.accessgrouprecord = new ReactiveVar({});
 
-    // JQuery & CSS by Bruno BEGIN
+
     setTimeout(function () {
 
         var x = window.matchMedia("(min-width: 1080px)")
 
         function mediaQuery(x) {
-            if (x.matches) { // If media query matches
+            if (x.matches) {
 
                 $("#buttonsLeft").removeClass("d-xl-flex");
                 $("#buttonsLeft").addClass("d-flex");
@@ -39,10 +39,10 @@ Template.accessleveldup.onCreated(()=>{
 
             }
         }
-        mediaQuery(x) // Call listener function at run time
-        x.addListener(mediaQuery) // Attach listener function on state changes
+        mediaQuery(x)
+        x.addListener(mediaQuery)
     }, 10);
-    // JQuery & CSS by Bruno END
+
 
 });
 Template.accessleveldup.onRendered(function(){
@@ -59,12 +59,10 @@ Template.accessleveldup.onRendered(function(){
     var splashArray = new Array();
     var empName = localStorage.getItem('mySession');
     $('.fullScreenSpin').css('display','inline-block');
-    // $("#sltEmployeeName").val(empName);
+
     templateObject.employeename.set(empName);
     if(Router.current().params.query.empuser){
-      // $('html, body').animate({
-      //      scrollTop: $('.paymentDetails').offset().top
-      //  }, 'slow');
+
       $([document.documentElement, document.body]).animate({
        scrollTop: $(".employeeModules").offset().top
       }, 2000);
@@ -84,10 +82,6 @@ Template.accessleveldup.onRendered(function(){
         let lineItemObjForm = {};
         let isSidePanelFormID = '';
         let isTopPanelFormID = '';
-        // let getData = data.sort()
-
-
-        // var groups = {};
 
         for(let i=0; i<data.terpform.length; i++){
             lineItemObjForm = {
@@ -97,27 +91,7 @@ Template.accessleveldup.onRendered(function(){
 
             };
 
-            // splashArray.push(lineItemObjForm);
-            /*
-             var groupName = data.terpform[i].SkinsGroup;
-             if (!groups[groupName]) {
-                 groups[groupName] = [];
-               }
 
-
-               groups[groupName].sort(function(a, b){
-                 if (a.description == 'NA') {
-               return 1;
-                   }
-               else if (b.description == 'NA') {
-                 return -1;
-               }
-             return (a.description.toUpperCase() > b.description.toUpperCase()) ? 1 : -1;
-             });
-              groups[groupName].push(lineItemObjForm);
-              */
-
-            // alert(JSON.stringify(lineItemObjForm));
 
 
             if(data.terpform[i].Description === "Side Panel Menu"){
@@ -134,17 +108,8 @@ Template.accessleveldup.onRendered(function(){
 
         }
 
-        // if(Router.current().params.query.empuser){
-        //   let empToSelect = Router.current().params.query.empuser;
-        //   $('#sltEmployeeName option[value='+empToSelect+']').attr('selected','selected');
-        //   getTableData('All');
-        // }else{
-        //
-        // }
         getTableData('All');
-        //$('.fullScreenSpin').css('display','none');
-        // templateObject.accessgrouprecord.set(groups);
-        //localStorage.setItem('VS1TERPFormList', JSON.stringify(data));
+
     });
     if (!localStorage.getItem('VS1TERPFormList')) {
 
@@ -156,28 +121,7 @@ Template.accessleveldup.onRendered(function(){
     let loggedEmpID = Session.get('mySessionEmployeeLoggedID');
 
     if((loggedEmpID) && (loggedEmpID !== null)){
-        /*
-           setTimeout(function () {
-             getTableData(loggedEmpID);
-            },1000);
-           let hasVS1AccessLevelList = localStorage.getItem('VS1AccessLevelList');
-           let hasVS1TERPFormList = localStorage.getItem('VS1TERPFormList');
-           //alert(hasVS1TERPFormList);
-           if((!hasVS1AccessLevelList) && (!hasVS1TERPFormList)){
-             setTimeout(function () {
-               getTableData(loggedEmpID);
-              },1000);
-           }else if((!hasVS1AccessLevelList) && (hasVS1TERPFormList)){
-             getTableData(loggedEmpID);
-           }else if((hasVS1AccessLevelList) && (!hasVS1TERPFormList)){
-             getTableData(loggedEmpID);
-           }else if((hasVS1AccessLevelList) && (hasVS1TERPFormList)){
-             templateObject.accesslevelrecord.set(JSON.parse(localStorage.getItem('VS1AccessLevelList')));
 
-           }else{
-             Meteor._reload.reload();
-           }
-*/
         templateObject.employeeID.set(loggedEmpID);
     }
 
@@ -190,13 +134,8 @@ Template.accessleveldup.onRendered(function(){
                     empID: data.temployee[i].Id || ' ',
                     employeename: data.temployee[i].EmployeeName || ' '
                 };
-                // let label = data.temployee[i].EmployeeName;
-                // let empID = data.temployee[i].Id;
-                //dataObj.label = label;
-                //  dataObj.category = empID;
-                //  addNewEmployeesList.push(dataObj);
+
                 if(data.temployee[i].EmployeeName.replace(/\s/g, '') != ''){
-                    //alert(data.temployee[i].EmployeeName);
                     employeeList.push(dataObj);
                 }
             }
@@ -211,23 +150,18 @@ Template.accessleveldup.onRendered(function(){
                     setTimeout(function () {
                         $('select[name="sltEmployeeName"] option[value="'+empToSelect+'"]').prop('selected', true);
                     }, 100);
-                    // $('#sltEmployeeName option[value=Rasheed Olakunle']').attr('selected','selected');
+
                 }
             }
 
-            //temp = _.orderBy(temp, 'label');
-            //addNewEmployeesList = _.orderBy(temp, 'category');
 
         });
     };
 
-
-    //setTimeout(function () {
     templateObject.getAllEmployees();
-    //},5000);
 
     function getTableData(employeeID){
-        // alert(employeeID);
+
         /* Lincence Check for Menu Options */
         let isFixedAssetsLicence = Session.get('CloudFixedAssetsLicence');
         let isInventoryLicence = Session.get('CloudInventoryLicence');
@@ -258,11 +192,9 @@ Template.accessleveldup.onRendered(function(){
             let formClass = '';
             var groupName = '';
             if(splashArray.length > 0){
-                // alert('here 1');
+
                 $.grep(splashArray, function(n) {
 
-
-                    //if(data.temployeeformaccessdetail[i].fields.FormId === n.lineID){
 
                     if((n.description === "Accounts") && (!isAccountsLicence)){
                         formClass = 'activeLicence';
@@ -385,8 +317,6 @@ Template.accessleveldup.onRendered(function(){
                             });
 
 
-                            //lineItemObjlevel = _.sortBy(lineItemObjlevel, 'description');
-
                             groups[groupName].push(lineItemObjlevel);
                             splashArrayAccess.push(lineItemObjlevel);
                             lineItemslevel.push(lineItemObjlevel);
@@ -410,7 +340,7 @@ Template.accessleveldup.onRendered(function(){
                 let formClass = '';
                 var groupName = '';
                 if(splashArray.length > 0){
-                    // alert('here 1');
+
                     $.grep(splashArray, function(n) {
 
                         lineItemObjlevel = {
@@ -432,10 +362,8 @@ Template.accessleveldup.onRendered(function(){
                                     groups[groupName] = [];
                                 }
 
-
-                                //alert(isAccountsLicence);
                                 for (let i = 0; i < data.temployeeformaccessdetail.length; i++) {
-                                    // alert('yes');
+
 
                                     if(data.temployeeformaccessdetail[i].fields.FormId === n.lineID){
 
@@ -542,17 +470,6 @@ Template.accessleveldup.onRendered(function(){
                                             groups[groupName] = [];
                                         }
 
-                                        //
-                                        //   groups[groupName].sort(function(a, b){
-                                        //     if (a.description == 'NA') {
-                                        //   return 1;
-                                        //       }
-                                        //   else if (b.description == 'NA') {
-                                        //     return -1;
-                                        //   }
-                                        // return (a.description.toUpperCase() > b.description.toUpperCase()) ? 1 : -1;
-                                        // });
-                                        //  groups[groupName].push(lineItemObjlevel);
                                     }
 
 
@@ -568,9 +485,9 @@ Template.accessleveldup.onRendered(function(){
                                     }
                                     return (a.description.toUpperCase() > b.description.toUpperCase()) ? 1 : -1;
                                 });
-                                //lineItemObjlevel = _.sortBy(lineItemObjlevel, 'description');
+
                                 groups[groupName].push(lineItemObjlevel);
-                                // alert(JSON.stringify(groups));
+
                                 splashArrayAccess.push(lineItemObjlevel);
                                 lineItemslevel.push(lineItemObjlevel);
                                 recordsaccess.push(lineItemObjlevel);
@@ -581,7 +498,6 @@ Template.accessleveldup.onRendered(function(){
                         }
                     });
                 }else{
-                    //alert('here');
                     for (let i = 0; i < data.temployeeformaccessdetail.length; i++) {
                         if((data.temployeeformaccessdetail[i].fields.description != "Fixed Assets") || (data.temployeeformaccessdetail[i].fields.skingroup != "Fixed Assets")){
                             if((data.temployeeformaccessdetail[i].fields.description != "TrueERP Mobile Data Export")){
@@ -698,7 +614,7 @@ Template.accessleveldup.onRendered(function(){
                                     }
                                     return (a.description.toUpperCase() > b.description.toUpperCase()) ? 1 : -1;
                                 });
-                                //lineItemObjlevel = _.sortBy(lineItemObjlevel, 'description');
+
                                 groups[groupName].push(lineItemObjlevel);
 
 
@@ -713,7 +629,7 @@ Template.accessleveldup.onRendered(function(){
                     templateObject.accessgrouprecord.set(groups);
                 }
 
-                // alert(lineItemslevel.description);
+
                 let loggedEmpID = Session.get('mySessionEmployeeLoggedID');
                 if((employeeID == loggedEmpID) && (loggedEmpID !== null)){
                     localStorage.setItem('VS1AccessLevelList', JSON.stringify(splashArrayAccess));
@@ -721,7 +637,7 @@ Template.accessleveldup.onRendered(function(){
                 }else{
                     templateObject.accesslevelrecord.set(lineItemslevel);
                 }
-                // templateObject.accesslevelrecord.set(lineItemslevel);
+
                 templateObject.employeeformaccessrecord.set(lineItemslevel);
                 $('.fullScreenSpin').css('display','none');
             });
@@ -730,16 +646,16 @@ Template.accessleveldup.onRendered(function(){
     }
 
     $("#sltEmployeeName").change(function(event){
-        // alert("The text has been changed.");
+
         $('.fullScreenSpin').css('display','inline-block');
         let employeeName = $(event.target).val();
         let employeeID = $('option:selected', event.target).attr('mytag');
-        // $(event.target).empdatasetid("empdatasetid");
-        // alert(employeeID);
+
+
         if(employeeID){
             templateObject.accessgrouprecord.set('');
             getTableData(employeeID);
-            // getTableData(employeeID);
+
         }else{
             getTableData('All');
         }
@@ -828,28 +744,27 @@ Template.accessleveldup.events({
         let templateObject = Template.instance();
         let tempInstance = Template.instance();
         templateObject.$("#STEmployeeName").trigger("focus");
-        //let accountTypeName = tempInstance.newEmployeeID.get();
-        // alert(accountTypeName);
+
     },
     'change #sltEmploy22222eeName': function (event) {
         let templateObject = Template.instance();
         let employeeName = $(event.target).val();
         let employeeID = $('option:selected', event.target).attr('mytag');
-        // $(event.target).empdatasetid("empdatasetid");
-        // alert(employeeID);
+
+
         if(employeeID){
             templateObject.accessgrouprecord.set('');
             templateObject.getTableData(employeeID);
-            // getTableData(employeeID);
+
         }
-        // accessgrouprecord
+
 
     },
     'click .inactiveLicence': function (event) {
 
         var targetID = '';
         var $cell= $(event.target).closest('td');
-        var targetID = $(event.target).closest('tr').attr('id'); // table row ID
+        var targetID = $(event.target).closest('tr').attr('id');
 
         /* Lincence Check for Menu Options */
         let isFixedAssetsLicence = Session.get('CloudFixedAssetsLicence');
@@ -871,10 +786,6 @@ Template.accessleveldup.events({
         let isReportsLicence = Session.get('CloudReportsLicence');
         let isSettingsLicence = Session.get('CloudSettingsLicence');
 
-        /*End Licence Check Menu to add */
-        /* End Licence Check for menu option */
-
-        //if($cell.index() != 0){
         let accessDesc = $("#"+targetID+"_accessDesc").val();
         $('.upgModule').html(accessDesc);
         $('#upgradeModal').modal('toggle');
@@ -882,8 +793,7 @@ Template.accessleveldup.events({
 
     },
     'click #tblAccessLevel tbody tr td': function (event) {
-        //  var $tblrow = $(this);
-        //var data = $(this).attr('id');
+
         var targetID = '';
         var $cell= $(event.target).closest('td');
 
@@ -892,11 +802,11 @@ Template.accessleveldup.events({
                 targetID = event.target.name;
 
 
-                // if($("#"+targetID+"_noaccess").is(':checked')) {
-                //   alert("it's checked");
-                // }else if($("#"+targetID+"_fullwithdelete").is(':checked')){
-                //   alert("it's checked full");
-                // }
+
+
+
+
+
                 if($cell.index() == 1){
                     $("."+targetID+"_noaccess").css('opacity','1');
                     $("."+targetID+"_readonly").css('opacity','1');
@@ -939,7 +849,7 @@ Template.accessleveldup.events({
         Meteor._reload.reload();
     },
     'click .chkSettings': function (event) {
-        // Meteor._reload.reload();
+
         if($(event.target).is(':checked')){
             $(event.target).val(1);
         }else{
@@ -947,16 +857,16 @@ Template.accessleveldup.events({
         }
     },
     'click .chkSettings.chkInventory': function (event) {
-        // Meteor._reload.reload();
+
         if($(event.target).is(':checked')){
-            //swal('Info', 'Please note if Inventory Tracking is turned on it cannot be turned off for a product in the future.', 'info');
+
             swal('PLEASE NOTE', 'If Inventory tracking is turned on it cannot be disabled in the future.', 'info');
         }else{
-            //$(event.target).val(6);
+
         }
     },
     'click .chkSettings.chkOnlyQtySales':async function (event) {
-        // Meteor._reload.reload();
+
         let accesslevelService = new AccessLevelService();
         if($(event.target).is(':checked')){
             let checkBOQtyData = await accesslevelService.getCheckBOInvoiceList();
@@ -970,7 +880,7 @@ Template.accessleveldup.events({
         }
     },
     'click .chkSettings.chkOnlyQtyPO':async function (event) {
-        // Meteor._reload.reload();
+
         let accesslevelService = new AccessLevelService();
         if($(event.target).is(':checked')){
             let checkBOQtyData = await accesslevelService.getCheckBOPOList();
@@ -987,11 +897,11 @@ Template.accessleveldup.events({
     'click .btnGlobalSave': function () {
         let templateObject = Template.instance();
         let accesslevelService = new AccessLevelService();
-        // let employeeID = templateObject.newEmployeeID.get();
+
         let empInputValue = templateObject.$("#sltEmployeeName").val();
         var erpGet = erpDb();
         if(empInputValue === "All"){
-            // swal('Please select Employee Name!', '', 'info');
+
             $('.fullScreenSpin').css('display','inline-block');
             /*Test Start HERE*/
             let objDetailsAccess = {
@@ -1112,10 +1022,10 @@ Template.accessleveldup.events({
             }
             /*Test End HERE*/
         }else{
-            // let employeeName = $(event.target).val();
+
             let employeeID = $("#sltEmployeeName").find('option:selected').attr('mytag');
-            // $('#sltEmployeeName option:selected').attr('mytag');
-            // alert(employeeID);
+
+
             var loggedEmpName = localStorage.getItem('mySession');
             let empLoggedID = Session.get('mySessionEmployeeLoggedID');
             let isSidePanelID = '';
@@ -1169,13 +1079,12 @@ Template.accessleveldup.events({
                         formID:parseInt(this.id)|| '',
                         Access : accessNumber,
                     };
-                    //if(radioValue != accessInitialValue){
+
                         lineItemsFormAccess.push(lineItemObjFormAccess);
-                    //}
+
 
                 });
 
-                /*Test Start HERE*/
                 let objDetailsAccess = {
                     Name: "VS1_EmployeeAccess",
                     Params: {
@@ -1293,7 +1202,6 @@ Template.accessleveldup.events({
             }
 
             setTimeout(function () {
-                //Meteor._reload.reload();
                 $('.fullScreenSpin').css('display','none');
             }, 5000);
 
@@ -1318,13 +1226,13 @@ Template.accessleveldup.events({
     'click .btnSaveAccess': function () {
         let templateObject = Template.instance();
         let accesslevelService = new AccessLevelService();
-        // let employeeID = templateObject.newEmployeeID.get();
+
         let empInputValue = templateObject.$("#sltEmployeeName").val();
 
-        // let employeeName = $(event.target).val();
+
         let employeeID = $("#sltEmployeeName").find('option:selected').attr('mytag');
-        // $('#sltEmployeeName option:selected').attr('mytag');
-        // alert(employeeID);
+
+
         var loggedEmpName = localStorage.getItem('mySession');
         let empLoggedID = Session.get('mySessionEmployeeLoggedID');
         let isSidePanelID = '';
@@ -1432,13 +1340,13 @@ Template.accessleveldup.events({
                                     Session.setPersistent('CloudDashboardModule', isDashboard);
                                 }
 
-                                // if((radioValue == 1) && (accessDesc == "Main") && (isMainLicence)){
-                                //   isMain = true;
-                                //   Session.setPersistent('CloudMainModule', isMain);
-                                // }else if((radioValue != 1) && (accessDesc == "Main") && (isMainLicence)){
-                                //   isMain = false;
-                                //   Session.setPersistent('CloudMainModule', isMain);
-                                // }
+
+
+
+
+
+
+
 
                                 if((radioValue == 1) && (accessDesc == "Inventory" || accessDesc == "Inventory Tracking") && (isInventoryLicence)){
                                     isInventory = true;
@@ -1551,29 +1459,8 @@ Template.accessleveldup.events({
                                     Session.setPersistent('CloudSettingsModule', isSettings);
                                 }
 
-                                // if((radioValue == 1) && (accessDesc == "Side Panel Menu")){
-                                //   isSidePanel = true;
-                                //   Session.setPersistent('CloudSidePanelMenuID', data.fields.ID);
-                                //   Session.setPersistent('CloudSidePanelMenu', isSidePanel);
-                                // }else if((radioValue != 1) && (accessDesc == "Side Panel Menu")){
-                                //   isSidePanel = false;
-                                //   Session.setPersistent('CloudSidePanelMenuID', data.fields.ID);
-                                //   Session.setPersistent('CloudSidePanelMenu', isSidePanel);
-                                // }
-                                //
-                                // if((radioValue == 1) && (accessDesc == "Top Panel Menu")){
-                                //   isTopPanel = true;
-                                //   Session.setPersistent('CloudTopPanelMenuID', data.fields.ID);
-                                //   Session.setPersistent('CloudTopPanelMenu', isTopPanel);
-                                // }else if((radioValue != 1) && (accessDesc == "Top Panel Menu")){
-                                //   isTopPanel = false;
-                                //   Session.setPersistent('CloudTopPanelMenuID', data.fields.ID);
-                                //   Session.setPersistent('CloudTopPanelMenu', isTopPanel);
-                                // }
-
                             }
                         }).catch(function (err) {
-                            //Bert.alert('<strong>' + err + '</strong>!', 'danger');
                             swal({
                                 title: 'Something went wrong',
                                 text: err,
@@ -1657,13 +1544,7 @@ Template.accessleveldup.events({
                                     Session.setPersistent('CloudDashboardModule', isDashboard);
                                 }
 
-                                // if((radioValue == 1) && (accessDesc == "Main") && (isMainLicence)){
-                                //   isMain = true;
-                                //   Session.setPersistent('CloudMainModule', isMain);
-                                // }else if((radioValue != 1) && (accessDesc == "Main") && (isMainLicence)){
-                                //   isMain = false;
-                                //   Session.setPersistent('CloudMainModule', isMain);
-                                // }
+
 
                                 if((radioValue == 1) && (accessDesc == "Inventory" || accessDesc == "Inventory Tracking") && (isInventoryLicence)){
                                     isInventory = true;
@@ -1776,29 +1657,11 @@ Template.accessleveldup.events({
                                     Session.setPersistent('CloudSettingsModule', isSettings);
                                 }
 
-                                // if((radioValue == 1) && (accessDesc == "Side Panel Menu")){
-                                //   isSidePanel = true;
-                                //   Session.setPersistent('CloudSidePanelMenuID', data.fields.ID);
-                                //   Session.setPersistent('CloudSidePanelMenu', isSidePanel);
-                                // }else if((radioValue != 1) && (accessDesc == "Side Panel Menu")){
-                                //   isSidePanel = false;
-                                //   Session.setPersistent('CloudSidePanelMenuID', data.fields.ID);
-                                //   Session.setPersistent('CloudSidePanelMenu', isSidePanel);
-                                // }
-                                //
-                                // if((radioValue == 1) && (accessDesc == "Top Panel Menu")){
-                                //   isTopPanel = true;
-                                //   Session.setPersistent('CloudTopPanelMenuID', data.fields.ID);
-                                //   Session.setPersistent('CloudTopPanelMenu', isTopPanel);
-                                // }else if((radioValue != 1) && (accessDesc == "Top Panel Menu")){
-                                //   isTopPanel = false;
-                                //   Session.setPersistent('CloudTopPanelMenuID', data.fields.ID);
-                                //   Session.setPersistent('CloudTopPanelMenu', isTopPanel);
-                                // }
+
 
                             }
                         }).catch(function (err) {
-                            //Bert.alert('<strong>' + err + '</strong>!', 'danger');
+
                             swal({
                                 title: 'Something went wrong',
                                 text: err,
@@ -1833,7 +1696,6 @@ Template.accessleveldup.events({
         history.back(1);
     },
     'click .btnAddVS1User':function(event){
-        //Router.go('/employeescard');
         swal({
             title: 'Is this an existing Employee?',
             text: '',
@@ -1845,14 +1707,14 @@ Template.accessleveldup.events({
             if (result.value) {
                 swal("Please select the employee from the list below.", "", "info");
                 $('#employeeListModal').modal('toggle');
-                // result.dismiss can be 'overlay', 'cancel', 'close', 'esc', 'timer'
+
             } else if (result.dismiss === 'cancel') {
                 Router.go('/employeescard?addvs1user=true');
             }
         })
     },
     'click .essentialsdiv .chkSettings': function (event) {
-        // Meteor._reload.reload();
+
         if($(event.target).is(':checked')){
             $(event.target).val(1);
             $('#upgradeModal').modal('toggle');

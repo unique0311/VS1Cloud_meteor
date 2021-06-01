@@ -74,7 +74,7 @@ Template.companyappsettingsdup.onRendered(function(){
     let recordObj = null;
     let essentailPrice = 0;
     let plusPrice = 0;
-    // alert(regionData);
+
     let cloudPackage = localStorage.getItem('vs1cloudlicenselevel');
     let isGreenTrack = Session.get('isGreenTrack');
 
@@ -299,15 +299,15 @@ Template.companyappsettingsdup.onRendered(function(){
 
 
 
-    // alert(cloudPackage);
 
-    // JQuery & CSS by Bruno BEGIN
+
+
     setTimeout(function () {
 
         var x = window.matchMedia("(max-width: 1024px)")
 
         function mediaQuery(x) {
-            if (x.matches) { // If media query matches
+            if (x.matches) {
 
                 //                alert("Matches");
                 $("#settingsCard1").removeClass("col-3");
@@ -321,8 +321,8 @@ Template.companyappsettingsdup.onRendered(function(){
 
             }
         }
-        mediaQuery(x) // Call listener function at run time
-        x.addListener(mediaQuery) // Attach listener function on state changes
+        mediaQuery(x)
+        x.addListener(mediaQuery)
     }, 250);
 
     setTimeout(function () {
@@ -330,7 +330,7 @@ Template.companyappsettingsdup.onRendered(function(){
         var x = window.matchMedia("(max-width: 420px)")
 
         function mediaQuery(x) {
-            if (x.matches) { // If media query matches
+            if (x.matches) {
 
                 //                alert("Matches");
                 $("#settingsCard1").removeClass("col-3");
@@ -344,10 +344,10 @@ Template.companyappsettingsdup.onRendered(function(){
 
             }
         }
-        mediaQuery(x) // Call listener function at run time
-        x.addListener(mediaQuery) // Attach listener function on state changes
+        mediaQuery(x)
+        x.addListener(mediaQuery)
     }, 250);
-    // JQuery & CSS by Bruno END
+
 
 
 });
@@ -429,7 +429,7 @@ Template.companyappsettingsdup.events({
         // var panel= $(event.target).closest('div.panel2').attr('id');
         // $(event.target).closest("div").find(".panel2").text();
         var panel = 'panel2-'+ targetID;
-        
+
 
         var x = document.getElementById(panel);
         if (x.style.display === "none") {
@@ -503,8 +503,8 @@ Template.companyappsettingsdup.events({
         $('.additionalModule:checkbox:checked').each(function(){
             userQuantity = $(this).attr('additionalqty');
             sumPriceUser = parseFloat($(this).val()) * parseInt(userQuantity);
-            // alert('here');
-            // alert(userQuantity);
+
+
             totalAdditions += isNaN(parseFloat(sumPriceUser)) ? 0 : parseFloat(sumPriceUser);
             var mytext =  $(this).next('label').text();
             if(mytext === "Link To TrueERP" || mytext === "Connect to Live ERP DB"){
@@ -534,7 +534,7 @@ Template.companyappsettingsdup.events({
 
         });
         grandTotal = paymentAmount + totalAdditions;
-        
+
         var erpGet = erpDb();
         let objDetailsUser = "";
         if (accessLevel === accessLevelCheck){
@@ -594,8 +594,8 @@ Template.companyappsettingsdup.events({
         oPost.send(myString);
         let newStripePrice = grandTotal.toFixed(2);
 
-        // alert(newStripePrice.replace('.', ''));
-        
+
+
         oPost.onreadystatechange = function() {
             if(oPost.readyState == 4 && oPost.status == 200) {
                 Meteor.call('braintreeChargeCard', Session.get('VS1AdminUserName'), parseFloat(grandTotal));

@@ -1465,13 +1465,13 @@ yearRange: "-90:+10",
     }
     templateObject.getSuppliersList();
 
-    // JQuery & CSS by Bruno BEGIN
+    
     setTimeout(function () {
 
         var x = window.matchMedia("(max-width: 1024px)");
 
         function mediaQuery(x) {
-            if (x.matches) { // If media query matches
+            if (x.matches) { 
 
                 $("#displayList").removeClass("col-2");
                 $("#displayList").addClass("col-3");
@@ -1480,8 +1480,8 @@ yearRange: "-90:+10",
                 $("#displayInfo").addClass("col-9");
             }
         }
-        mediaQuery(x) // Call listener function at run time
-        x.addListener(mediaQuery) // Attach listener function on state changes
+        mediaQuery(x) 
+        x.addListener(mediaQuery) 
     }, 500);
 
     setTimeout(function () {
@@ -1491,7 +1491,7 @@ yearRange: "-90:+10",
 
 
         function mediaQuery(x) {
-            if (x.matches) { // If media query matches
+            if (x.matches) { 
 
                 $("#displayList").removeClass("col-3");
                 $("#displayList").addClass("col-12");
@@ -1503,10 +1503,10 @@ yearRange: "-90:+10",
                 $("#displayInfo").addClass("col-12");
             }
         }
-        mediaQuery(x) // Call listener function at run time
-        x.addListener(mediaQuery) // Attach listener function on state changes
+        mediaQuery(x) 
+        x.addListener(mediaQuery) 
     }, 500);
-    // JQuery & CSS by Bruno END
+    
 
 });
 
@@ -1950,7 +1950,7 @@ Template.supplierscard.events({
         let columData = $(event.target).text();
 
         let columnDatanIndex = $(event.target).closest("div.columnSettings").attr('id');
-        //alert(columnDataValue);
+        
         var datable = $('#tblTransactionlist').DataTable();
         var title = datable.column( columnDatanIndex ).header();
         $(title).html(columData);

@@ -36,7 +36,7 @@ yearRange: "-90:+10",
       let lineItems = [];
       let lineItemObj = {};
       localStorage.setItem('VS1Sales_List', JSON.stringify(data)||'');
-      // alert(data.tsalesorder[1].Id);
+      
       for(let i=0; i<data.tsalesorder.length; i++){
         let totalAmount = Currency+''+data.tsalesorder[i].TotalAmount.toFixed(2);
            var dataList = [
@@ -103,7 +103,7 @@ $('.fullScreenSpin').css('display','none');
     let lineItems = [];
     let lineItemObj = {};
 
-    // alert(data.tsalesorder[1].Id);
+    
     for(let i=0; i<data.tsalesorder.length; i++){
       let totalAmount = Currency+''+data.tsalesorder[i].TotalAmount.toFixed(2);
          var dataList = [

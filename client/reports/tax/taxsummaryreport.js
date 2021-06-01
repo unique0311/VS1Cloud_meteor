@@ -486,7 +486,7 @@ yearRange: "-90:+10",
         let redirectid = $(event.target).closest('tr').attr('id');
 
         let transactiontype = $(event.target).closest('tr').attr('class');;
-        // alert(transactiontype);
+        
         if(redirectid && transactiontype){
           if(transactiontype === 'Bill' ){
             window.open('/billcard?id=' + redirectid,'_self');

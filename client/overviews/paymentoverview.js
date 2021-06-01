@@ -19,13 +19,13 @@ Template.paymentoverview.onCreated(function(){
     templateObject.overduecustpaymentCount = new ReactiveVar();
     templateObject.overduesupppaymentCount = new ReactiveVar();
 
-    // JQuery & CSS by Bruno BEGIN
+    
     setTimeout(function () {
 
         var x = window.matchMedia("(max-width: 1024px)")
 
         function mediaQuery(x) {
-            if (x.matches) { // If media query matches
+            if (x.matches) { 
 
                 $("#colAwaitingPayment").removeClass("col");
                 $("#colAwaitingPayment").addClass("col-12");
@@ -81,7 +81,7 @@ Template.paymentoverview.onCreated(function(){
         mediaQuery(x)
         x.addListener(mediaQuery)
     }, 10);
-    // JQuery & CSS by Bruno END
+    
 });
 
 Template.paymentoverview.onRendered(function() {
@@ -880,13 +880,13 @@ Template.paymentoverview.onRendered(function() {
 
     templateObject.getAllSalesOrderData();
 
-    // JQuery & CSS by Bruno BEGIN
+    
     setTimeout(function () {
 
         var x = window.matchMedia("(max-width: 1024px)")
 
         function mediaQuery(x) {
-            if (x.matches) { // If media query matches
+            if (x.matches) { 
 
                 //                alert("Matches");
                 $("#paymentCard1").removeClass("col-auto");
@@ -900,10 +900,10 @@ Template.paymentoverview.onRendered(function() {
 
             }
         }
-        mediaQuery(x) // Call listener function at run time
-        x.addListener(mediaQuery) // Attach listener function on state changes
+        mediaQuery(x) 
+        x.addListener(mediaQuery) 
     }, 500);
-    // JQuery & CSS by Bruno END
+    
 
 });
 
@@ -1078,7 +1078,7 @@ Template.paymentoverview.events({
         let columData = $(event.target).text();
 
         let columnDatanIndex = $(event.target).closest("div.columnSettings").attr('id');
-        //alert(columnDataValue);
+        
         var datable = $('#tblPaymentOverview').DataTable();
         var title = datable.column( columnDatanIndex ).header();
         $(title).html(columData);
@@ -1134,7 +1134,7 @@ Template.paymentoverview.events({
         templateObject.tableheaderrecords.set(tableHeaderList);
     },
     'click #exportbtn': function () {
-        // alert('here');
+        
         $('.fullScreenSpin').css('display','inline-block');
         jQuery('#tblPaymentOverview_wrapper .dt-buttons .btntabletocsv').click();
         $('.fullScreenSpin').css('display','none');

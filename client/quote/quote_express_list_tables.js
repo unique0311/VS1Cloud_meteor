@@ -62,7 +62,7 @@ Template.quoteslist.onRendered(function() {
         salesService.getAllQuoteList().then(function (data) {
           let lineItems = [];
           let lineItemObj = {};
-          // alert(data.tquote[1].Id);
+          
           for(let i=0; i<data.tquote.length; i++){
             let totalAmountEx = utilityService.modifynegativeCurrencyFormat(data.tquote[i].TotalAmount)|| 0.00;
             let totalTax = utilityService.modifynegativeCurrencyFormat(data.tquote[i].TotalTax) || 0.00;
@@ -419,7 +419,7 @@ templateObject.tableheaderrecords.set(tableHeaderList);
         salesService.getAllQuoteList().then(function (data) {
           let lineItems = [];
           let lineItemObj = {};
-          // alert(data.tquote[1].Id);
+          
           for(let i=0; i<data.tquote.length; i++){
             let totalAmountEx = utilityService.modifynegativeCurrencyFormat(data.tquote[i].TotalAmount)|| 0.00;
             let totalTax = utilityService.modifynegativeCurrencyFormat(data.tquote[i].TotalTax) || 0.00;

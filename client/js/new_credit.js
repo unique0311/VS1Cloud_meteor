@@ -48,7 +48,6 @@ Template.creditcard.onCreated(() => {
     templateObject.clientrecords = new ReactiveVar([]);
     templateObject.taxraterecords = new ReactiveVar([]);
 
-    /* Attachments */
     templateObject.uploadedFile = new ReactiveVar();
     templateObject.uploadedFiles = new ReactiveVar([]);
     templateObject.attachmentCount = new ReactiveVar();
@@ -445,7 +444,7 @@ Template.creditcard.onRendered(() => {
                           $('#edtSupplierName').val(data.fields.SupplierName);
                           templateObject.CleintName.set(data.fields.SupplierName);
                           $('#sltCurrency').val(data.fields.ForeignExchangeCode);
-                          /* START attachment */
+
                           templateObject.attachmentCount.set(0);
                           if (data.fields.Attachments) {
                               if (data.fields.Attachments.length) {
@@ -453,7 +452,7 @@ Template.creditcard.onRendered(() => {
                                   templateObject.uploadedFiles.set(data.fields.Attachments);
                               }
                           }
-                          /* END  attachment */
+
                           setTimeout(function() {
                               if (clientList) {
                                   for (var i = 0; i < clientList.length; i++) {
@@ -638,7 +637,7 @@ Template.creditcard.onRendered(() => {
                                 $('#edtSupplierName').val(useData[d].fields.SupplierName);
                                 templateObject.CleintName.set(useData[d].fields.SupplierName);
                                 $('#sltCurrency').val(useData[d].fields.ForeignExchangeCode);
-                                /* START attachment */
+
                                 templateObject.attachmentCount.set(0);
                                 if (useData[d].fields.Attachments) {
                                     if (useData[d].fields.Attachments.length) {
@@ -646,7 +645,7 @@ Template.creditcard.onRendered(() => {
                                         templateObject.uploadedFiles.set(useData[d].fields.Attachments);
                                     }
                                 }
-                                /* END  attachment */
+
                                 setTimeout(function() {
                                     if (clientList) {
                                         for (var i = 0; i < clientList.length; i++) {
@@ -831,7 +830,7 @@ Template.creditcard.onRendered(() => {
                                 $('#edtSupplierName').val(data.fields.SupplierName);
                                 templateObject.CleintName.set(data.fields.SupplierName);
                                 $('#sltCurrency').val(data.fields.ForeignExchangeCode);
-                                /* START attachment */
+
                                 templateObject.attachmentCount.set(0);
                                 if (data.fields.Attachments) {
                                     if (data.fields.Attachments.length) {
@@ -839,7 +838,7 @@ Template.creditcard.onRendered(() => {
                                         templateObject.uploadedFiles.set(data.fields.Attachments);
                                     }
                                 }
-                                /* END  attachment */
+
                                 setTimeout(function() {
                                     if (clientList) {
                                         for (var i = 0; i < clientList.length; i++) {
@@ -1040,7 +1039,7 @@ Template.creditcard.onRendered(() => {
                       $('#edtSupplierName').val(data.fields.SupplierName);
                       templateObject.CleintName.set(data.fields.SupplierName);
                       $('#sltCurrency').val(data.fields.ForeignExchangeCode);
-                      /* START attachment */
+
                       templateObject.attachmentCount.set(0);
                       if (data.fields.Attachments) {
                           if (data.fields.Attachments.length) {
@@ -1048,7 +1047,7 @@ Template.creditcard.onRendered(() => {
                               templateObject.uploadedFiles.set(data.fields.Attachments);
                           }
                       }
-                      /* END  attachment */
+
                       setTimeout(function() {
                           if (clientList) {
                               for (var i = 0; i < clientList.length; i++) {
@@ -1429,7 +1428,7 @@ Template.creditcard.onRendered(() => {
 
     });
 
-    /* On clik Inventory Line */
+
     $(document).on("click", "#tblInventory tbody tr", function(e) {
         let selectLineID = $('#selectLineID').val();
         let taxcodeList = templateObject.taxraterecords.get();
@@ -1529,7 +1528,7 @@ Template.creditcard.onRendered(() => {
                     var subTotal = parseFloat(amount.replace(/[^0-9.-]+/g, "")) || 0;
                     var taxTotal = parseFloat(amount.replace(/[^0-9.-]+/g, "")) * parseFloat(taxrateamount);
                     $printrows.find('#lineTaxAmount').text(utilityService.modifynegativeCurrencyFormat(taxTotal))
-                   
+
                     if (!isNaN(subTotal)) {
                         $printrows.find('#lineAmt').text(utilityService.modifynegativeCurrencyFormat(subTotal));
                         subGrandTotal += isNaN(subTotal) ? 0 : subTotal;
@@ -1551,7 +1550,7 @@ Template.creditcard.onRendered(() => {
         }
     });
 
-    /* On Click TaxCode List */
+
     $(document).on("click", "#tblTaxRate tbody tr", function(e) {
         let selectLineID = $('#selectLineID').val();
         let taxcodeList = templateObject.taxraterecords.get();
@@ -2379,7 +2378,7 @@ Template.creditcard.events({
         let $tblrows = $("#tblCreditLine tbody tr");
 
         let $printrows = $(".credit_print tbody tr");
-        
+
         if ($('.printID').val() == "") {
             $('#' + targetID + " #lineAmount").text($('#' + targetID + " .colAmount").val());
             $('#' + targetID + " #lineTaxCode").text($('#' + targetID + " .lineTaxCode").text());
@@ -2446,7 +2445,7 @@ Template.creditcard.events({
                 var subTotal = parseFloat(amount.replace(/[^0-9.-]+/g, "")) || 0;
                 var taxTotal = parseFloat(amount.replace(/[^0-9.-]+/g, "")) * parseFloat(taxrateamount);
                 $printrows.find('#lineTaxAmount').text(utilityService.modifynegativeCurrencyFormat(taxTotal))
-               
+
                 if (!isNaN(subTotal)) {
                     $printrows.find('#lineAmt').text(utilityService.modifynegativeCurrencyFormat(subTotal));
                     subGrandTotal += isNaN(subTotal) ? 0 : subTotal;
@@ -2616,7 +2615,7 @@ Template.creditcard.events({
                     var subTotal = parseFloat(amount.replace(/[^0-9.-]+/g, "")) || 0;
                     var taxTotal = parseFloat(amount.replace(/[^0-9.-]+/g, "")) * parseFloat(taxrateamount);
                     $printrows.find('#lineTaxAmount').text(utilityService.modifynegativeCurrencyFormat(taxTotal))
-                   
+
                     if (!isNaN(subTotal)) {
                         $printrows.find('#lineAmt').text(utilityService.modifynegativeCurrencyFormat(subTotal));
                         subGrandTotal += isNaN(subTotal) ? 0 : subTotal;
@@ -2761,7 +2760,7 @@ Template.creditcard.events({
                     var subTotal = parseFloat(amount.replace(/[^0-9.-]+/g, "")) || 0;
                     var taxTotal = parseFloat(amount.replace(/[^0-9.-]+/g, "")) * parseFloat(taxrateamount);
                     $printrows.find('#lineTaxAmount').text(utilityService.modifynegativeCurrencyFormat(taxTotal))
-                   
+
                     if (!isNaN(subTotal)) {
                         $printrows.find('#lineAmt').text(utilityService.modifynegativeCurrencyFormat(subTotal));
                         subGrandTotal += isNaN(subTotal) ? 0 : subTotal;

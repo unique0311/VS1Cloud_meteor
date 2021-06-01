@@ -47,7 +47,7 @@ Template.trialbalance.onRendered(()=>{
       changeYear: true,
 yearRange: "-90:+10",
   });
-  // alert(fromDate);
+  
    $("#dateFrom").val(fromDate);
    $("#dateTo").val(begunDate);
 
@@ -71,7 +71,7 @@ yearRange: "-90:+10",
           let expArr = [];
           let accountData = data.ttrialbalancereport;
           let accountType = '';
-          // alert(accountData[0].SaleID);
+          
           for (let i = 0; i < accountData.length; i++) {
 
             let recordObj = {};
@@ -233,7 +233,7 @@ let grandOlder = 0;
         let expArr = [];
         let accountData = data.ttrialbalancereport;
         let accountType = '';
-        // alert(accountData[0].SaleID);
+        
         for (let i = 0; i < accountData.length; i++) {
 
           let recordObj = {};
@@ -379,7 +379,7 @@ let grandOlder = 0;
     var getLoadDate = moment(currentDate2).format("YYYY-MM-DD");
 
     let getDateFrom = currentDate2.getFullYear() + "-" + (currentDate2.getMonth()) + "-" + currentDate2.getDate();
-    //alert(getDateFrom);
+    
     templateObject.getTrialBalanceReports(getDateFrom,getLoadDate,false);
 
     templateObject.getDepartments = function(){
