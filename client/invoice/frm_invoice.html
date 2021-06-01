@@ -180,7 +180,7 @@
                 <div class="col-auto colSupplierEmail" id="colSupplierEmail">
                     <div style="margin: 16px 0px;width: 350px;" class="formgoup">
                         <div class="form-group"><label>Customer Email</label>
-                            <input class="form-control form-control" type="text" id="edtCustomerEmail" name="edtCustomerEmail" customerid=" "></div>
+                            <input class="form-control form-control" type="text" id="edtCustomerEmail" name="edtCustomerEmail" customerid=" " customerfirstname=" " customerlastname=" "></div>
                         <div class="custom-control custom-control-inline custom-switch d-xl-flex align-items-xl-center" style="margin: 0px 16px;padding: -2px;padding-left: 24px;width: 100%;">
                             <div class="form-group" style="margin-right: 35px; Width:50%;">
                                 <input class="custom-control-input chkEmailCopy" type="checkbox" id="formCheck-1"
@@ -1096,7 +1096,7 @@ style="margin: 16px;margin-top: 0px;width: 95px;"><i class="fa fa-remove" style=
                         </div>
                         <div style="padding-left: 16px; width: 50%;">
                             <p id="subtotal_totalPrint" style="text-align: right; margin-bottom: 8px; font-weight: 600; color: rgb(0 0 0);">{{invoicerecord.SubTotal}}</p>
-                            <p style="text-align: right; margin-bottom: 8px; font-weight: 600; color: rgb(0 0 0);">{{invoicerecord.TotalTax}}</p>
+                            <p id="totalTax" style="text-align: right; margin-bottom: 8px; font-weight: 600; color: rgb(0 0 0);">{{invoicerecord.TotalTax}}</p>
                         </div>
                     </div>
                     <hr>

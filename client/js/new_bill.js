@@ -2310,7 +2310,7 @@ Template.billcard.events({
     },
     'blur .lineMemo': function (event) {
         var targetID = $(event.target).closest('tr').attr('id');
-        $('#' + targetID + " #lineMemo").text($('#' + targetID + " .lineMemo").text());
+        $('#' + targetID + " #lineMemo").text($('#' + targetID + ".lineMemo").text());
     },
     'blur .colAmount': function(event) {
         let templateObject = Template.instance();
@@ -2506,12 +2506,16 @@ Template.billcard.events({
             if ($('#tblBillLine tbody>tr').length > 1) {
                 this.click;
                 $(event.target).closest('tr').remove();
+                $(".bill_print #"+targetID).remove();
                 event.preventDefault();
                 let $tblrows = $("#tblBillLine tbody tr");
+                let $printrows = $(".bill_print tbody tr");
+
                 
                 let lineAmount = 0;
                 let subGrandTotal = 0;
                 let taxGrandTotal = 0;
+                let taxGrandTotalPrint = 0;
 
                 $tblrows.each(function(index) {
                     var $tblrow = $(this);
@@ -2549,6 +2553,45 @@ Template.billcard.events({
 
                     }
                 });
+
+            if ($(".printID").val() == "") {
+                $printrows.each(function(index) {
+                var $printrows = $(this);
+                var amount = $printrows.find("#lineAmount").text() || "0";
+                var taxcode = $printrows.find("#lineTaxCode").text() || 0;
+
+                var taxrateamount = 0;
+                if (taxcodeList) {
+                    for (var i = 0; i < taxcodeList.length; i++) {
+                        if (taxcodeList[i].codename == taxcode) {
+                            taxrateamount = taxcodeList[i].coderate.replace('%', "") / 100 || 0;
+                        }
+                    }
+                }
+
+
+                    var subTotal = parseFloat(amount.replace(/[^0-9.-]+/g, "")) || 0;
+                    var taxTotal = parseFloat(amount.replace(/[^0-9.-]+/g, "")) * parseFloat(taxrateamount);
+                    $printrows.find('#lineTaxAmount').text(utilityService.modifynegativeCurrencyFormat(taxTotal))
+                   
+                    if (!isNaN(subTotal)) {
+                        $printrows.find('#lineAmt').text(utilityService.modifynegativeCurrencyFormat(subTotal));
+                        subGrandTotal += isNaN(subTotal) ? 0 : subTotal;
+                        document.getElementById("subtotal_totalPrint").innerHTML = $('#subtotal_total').text();
+                    }
+
+                    if (!isNaN(taxTotal)) {
+                        taxGrandTotalPrint += isNaN(taxTotal) ? 0 : taxTotal;
+                    }
+                    if (!isNaN(subGrandTotal) && (!isNaN(taxGrandTotal))) {
+                        let GrandTotal = (parseFloat(subGrandTotal)) + (parseFloat(taxGrandTotal));
+                        document.getElementById("grandTotalPrint").innerHTML = $('#grandTotal').text();
+                        document.getElementById("balanceDue").innerHTML = utilityService.modifynegativeCurrencyFormat(GrandTotal);
+                        document.getElementById("totalBalanceDuePrint").innerHTML = $('#totalBalanceDue').text();
+
+                    }
+                });
+            }
                 return false;
 
             } else {
@@ -2609,12 +2652,14 @@ Template.billcard.events({
             this.click;
 
             $('#' + selectLineID).closest('tr').remove();
-            
+            $('.bill_print #' + selectLineID).remove();
             let $tblrows = $("#tblBillLine tbody tr");
+            let $printrows = $(".bill tbody tr");
             
             let lineAmount = 0;
             let subGrandTotal = 0;
             let taxGrandTotal = 0;
+            let taxGrandTotalPrint = 0;
 
             $tblrows.each(function(index) {
                 var $tblrow = $(this);
@@ -2654,6 +2699,45 @@ Template.billcard.events({
 
                 }
             });
+
+            if ($(".printID").val() == "") {
+                $printrows.each(function(index) {
+                var $printrows = $(this);
+                var amount = $printrows.find("#lineAmount").text() || "0";
+                var taxcode = $printrows.find("#lineTaxCode").text() || 0;
+
+                var taxrateamount = 0;
+                if (taxcodeList) {
+                    for (var i = 0; i < taxcodeList.length; i++) {
+                        if (taxcodeList[i].codename == taxcode) {
+                            taxrateamount = taxcodeList[i].coderate.replace('%', "") / 100 || 0;
+                        }
+                    }
+                }
+
+
+                    var subTotal = parseFloat(amount.replace(/[^0-9.-]+/g, "")) || 0;
+                    var taxTotal = parseFloat(amount.replace(/[^0-9.-]+/g, "")) * parseFloat(taxrateamount);
+                    $printrows.find('#lineTaxAmount').text(utilityService.modifynegativeCurrencyFormat(taxTotal))
+                   
+                    if (!isNaN(subTotal)) {
+                        $printrows.find('#lineAmt').text(utilityService.modifynegativeCurrencyFormat(subTotal));
+                        subGrandTotal += isNaN(subTotal) ? 0 : subTotal;
+                        document.getElementById("subtotal_totalPrint").innerHTML = $('#subtotal_total').text();
+                    }
+
+                    if (!isNaN(taxTotal)) {
+                        taxGrandTotalPrint += isNaN(taxTotal) ? 0 : taxTotal;
+                    }
+                    if (!isNaN(subGrandTotal) && (!isNaN(taxGrandTotal))) {
+                        let GrandTotal = (parseFloat(subGrandTotal)) + (parseFloat(taxGrandTotal));
+                        document.getElementById("grandTotalPrint").innerHTML = $('#grandTotal').text();
+                        document.getElementById("balanceDue").innerHTML = utilityService.modifynegativeCurrencyFormat(GrandTotal);
+                        document.getElementById("totalBalanceDuePrint").innerHTML = $('#totalBalanceDue').text();
+
+                    }
+                });
+            }
             
 
         } else {

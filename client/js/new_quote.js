@@ -2528,7 +2528,7 @@ Template.new_quote.onRendered(() => {
             $tblrows.each(function (index) {
                 var $tblrow = $(this);
                 var qty = $tblrow.find(".lineQty").val() || 0;
-                var price = $tblrow.find(".lineUnitPrice").val() || 0;
+                var price = $tblrow.find(".lineUnitPrice").val() || "0";
                 var taxRate = $tblrow.find(".lineTaxCode").text();
                 var taxrateamount = 0;
                 if (taxcodeList) {
@@ -2576,7 +2576,6 @@ Template.new_quote.onRendered(() => {
                             }
                         }
                     }
-                    console.log(price)
                     var subTotal = parseInt(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) || 0;
                     var taxTotal = parseInt(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) * parseFloat(taxrateamount);
                     $printrows.find('#lineTaxAmount').text(utilityService.modifynegativeCurrencyFormat(taxTotal))
@@ -2610,6 +2609,7 @@ Template.new_quote.onRendered(() => {
         var table = $(this);
         let utilityService = new UtilityService();
         let $tblrows = $("#tblQuoteLine tbody tr");
+        var $printrows = $(".quote_print tbody tr");
 
         if (selectLineID) {
             let lineTaxCode = table.find(".taxName").text();
@@ -2617,16 +2617,21 @@ Template.new_quote.onRendered(() => {
             let lineAmount = 0;
             let subGrandTotal = 0;
             let taxGrandTotal = 0;
+            let taxGrandTotalPrint = 0;
 
             $('#' + selectLineID + " .lineTaxRate").text(lineTaxRate || 0);
             $('#' + selectLineID + " .lineTaxCode").text(lineTaxCode);
+
+            if($(".printID").val() == "") {
+                $('#' + selectLineID + " #lineTaxCode").text(lineTaxCode);
+            }
 
 
             $('#taxRateListModal').modal('toggle');
             $tblrows.each(function (index) {
                 var $tblrow = $(this);
                 var qty = $tblrow.find(".lineQty").val() || 0;
-                var price = $tblrow.find(".lineUnitPrice").val() || 0;
+                var price = $tblrow.find(".lineUnitPrice").val() || "0";
                 var taxcode = $tblrow.find(".lineTaxCode").text() || '';
 
                 var taxrateamount = 0;
@@ -2667,6 +2672,43 @@ Template.new_quote.onRendered(() => {
 
                 }
             });
+
+            if ($(".printID").val() == "") {
+                $printrows.each(function (index) {
+                    var $printrows = $(this);
+                    var qty = $printrows.find("#lineQty").text() || 0;
+                    var price = $printrows.find("#lineUnitPrice").text() || "0";
+                    var taxrateamount = 0;
+                    var taxRate = $printrows.find("#lineTaxCode").text();
+                    if (taxcodeList) {
+                        for (var i = 0; i < taxcodeList.length; i++) {
+                            if (taxcodeList[i].codename == taxRate) {
+                                taxrateamount = taxcodeList[i].coderate.replace('%', "") / 100;
+                            }
+                        }
+                    }
+                    var subTotal = parseInt(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) || 0;
+                    var taxTotal = parseInt(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) * parseFloat(taxrateamount);
+                    $printrows.find('#lineTaxAmount').text(utilityService.modifynegativeCurrencyFormat(taxTotal))
+                    if (!isNaN(subTotal)) {
+                        $printrows.find('#lineAmt').text(utilityService.modifynegativeCurrencyFormat(subTotal));
+                        subGrandTotal += isNaN(subTotal) ? 0 : subTotal;
+                        document.getElementById("subtotal_totalPrint").innerHTML = $('#subtotal_total').text();
+                    }
+
+                    if (!isNaN(taxTotal)) {
+                        taxGrandTotalPrint += isNaN(taxTotal) ? 0 : taxTotal;
+                    }
+                    if (!isNaN(subGrandTotal) && (!isNaN(taxGrandTotal))) {
+                        let GrandTotal = (parseFloat(subGrandTotal)) + (parseFloat(taxGrandTotal));
+                        document.getElementById("grandTotalPrint").innerHTML = $('#grandTotal').text();
+                        document.getElementById("totalTax").innerHTML = $('#subtotal_tax').text();
+                        document.getElementById("balanceDue").innerHTML = utilityService.modifynegativeCurrencyFormat(GrandTotal);
+                        document.getElementById("totalBalanceDuePrint").innerHTML = $('#totalBalanceDue').text();
+
+                    }
+                });
+            }
         }
     });
 
@@ -2681,8 +2723,11 @@ Template.new_quote.onRendered(() => {
                     if (clientList[i].customername == selectedCustomer) {
                         $('#edtCustomerEmail').val(clientList[i].customeremail);
                         $('#edtCustomerEmail').attr('customerid', clientList[i].customerid);
+                        $('#edtCustomerEmail').attr('customerfirstname', clientList[i].firstname);
+                        $('#edtCustomerEmail').attr('customerlastname', clientList[i].lastname);
                         let postalAddress = clientList[i].customername + '\n' + clientList[i].street + '\n' + clientList[i].street2 + '\n' + clientList[i].street3 + '\n' + clientList[i].suburb + '\n' + clientList[i].statecode + '\n' + clientList[i].country;
                         $('#txabillingAddress').val(postalAddress);
+                        $('.pdfCustomerAddress').text(postalAddress);
                         $('#txaShipingInfo').val(postalAddress);
                     }
                 }
@@ -2706,15 +2751,16 @@ Template.new_quote.onRendered(() => {
                         let taxcodeList = templateObject.taxraterecords.get();
 
                         let $tblrows = $("#tblQuoteLine tbody tr");
+                        let $printrows = $(".quote_print tbody tr");
 
                         let lineAmount = 0;
                         let subGrandTotal = 0;
                         let taxGrandTotal = 0;
-
+                        let taxGrandTotalPrint = 0;
                         $tblrows.each(function (index) {
                             var $tblrow = $(this);
                             var qty = $tblrow.find(".lineQty").val() || 0;
-                            var price = $tblrow.find(".lineUnitPrice").val() || 0;
+                            var price = $tblrow.find(".lineUnitPrice").val() || "0";
                             var taxcode = code;
                             $tblrow.find(".lineTaxCode").text(code);
                             $tblrow.find(".lineTaxRate").text(rate);
@@ -2751,6 +2797,49 @@ Template.new_quote.onRendered(() => {
 
                             }
                         });
+                         if ($(".printID").val() == "") {
+                            $printrows.each(function (index) {
+                                var $printrows = $(this);
+                                var qty = $printrows.find("#lineQty").text() || 0;
+                                var price = $printrows.find("#lineUnitPrice").text() || "0";
+                                var taxcode = code;
+                                $printrows.find("#lineTaxCode").text(code);
+                                $printrows.find("#lineTaxRate").text(rate);
+                                var taxrateamount = 0;
+
+                                if (taxcodeList) {
+                                    for (var i = 0; i < taxcodeList.length; i++) {
+                                        if (taxcodeList[i].codename == taxcode) {
+                                            taxrateamount = taxcodeList[i].coderate.replace('%', "") / 100;
+                                        }
+                                    }
+                                }
+
+
+                                var subTotal = parseInt(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) || 0;
+                                var taxTotal = parseInt(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) * parseFloat(taxrateamount);
+                                $printrows.find('#lineTaxAmount').text(utilityService.modifynegativeCurrencyFormat(taxTotal))
+                                if (!isNaN(subTotal)) {
+                                    $printrows.find('#lineAmt').text(utilityService.modifynegativeCurrencyFormat(subTotal));
+                                    subGrandTotal += isNaN(subTotal) ? 0 : subTotal;
+                                    document.getElementById("subtotal_totalPrint").innerHTML = $('#subtotal_total').text();
+                                }
+
+                                if (!isNaN(taxTotal)) {
+                                    taxGrandTotalPrint += isNaN(taxTotal) ? 0 : taxTotal;
+                                }
+                                if (!isNaN(subGrandTotal) && (!isNaN(taxGrandTotal))) {
+                                    let GrandTotal = (parseFloat(subGrandTotal)) + (parseFloat(taxGrandTotal));
+                                    document.getElementById("grandTotalPrint").innerHTML = $('#grandTotal').text();
+                                    document.getElementById("totalTax").innerHTML = $('#subtotal_tax').text();
+                                    document.getElementById("balanceDue").innerHTML = utilityService.modifynegativeCurrencyFormat(GrandTotal);
+                                    document.getElementById("totalBalanceDuePrint").innerHTML = $('#totalBalanceDue').text();
+
+                                }
+                            });
+                    
+                        }
+
 
                     }
                 }
@@ -3554,7 +3643,7 @@ Template.new_quote.events({
         $tblrows.each(function (index) {
             var $tblrow = $(this);
             var qty = $tblrow.find(".lineQty").val() || 0;
-            var price = $tblrow.find(".lineUnitPrice").val() || 0;
+            var price = $tblrow.find(".lineUnitPrice").val() || "0";
             var taxcode = $tblrow.find(".lineTaxCode").text() || 0;
 
             var taxrateamount = 0;
@@ -3620,12 +3709,17 @@ Template.new_quote.events({
                 if (!isNaN(subGrandTotal) && (!isNaN(taxGrandTotal))) {
                     let GrandTotal = (parseFloat(subGrandTotal)) + (parseFloat(taxGrandTotal));
                     document.getElementById("grandTotalPrint").innerHTML = $('#grandTotal').text();
+                    document.getElementById("totalTax").innerHTML = $('#subtotal_tax').text();
                     document.getElementById("balanceDue").innerHTML = utilityService.modifynegativeCurrencyFormat(GrandTotal);
                     document.getElementById("totalBalanceDuePrint").innerHTML = $('#totalBalanceDue').text();
 
                 }
             });
         }
+    },
+    'blur .lineProductDesc': function (event) {
+        var targetID = $(event.target).closest('tr').attr('id');
+        $('#' + targetID + " #lineProductDesc").text($('#' + targetID + " .lineProductDesc").text());
     },
     'change .lineUnitPrice': function (event) {
 
@@ -3644,15 +3738,24 @@ Template.new_quote.events({
         let taxcodeList = templateObject.taxraterecords.get();
 
         let $tblrows = $("#tblQuoteLine tbody tr");
+        let $printrows = $(".quote_print tbody tr");
+        var targetID = $(event.target).closest('tr').attr('id'); // table row ID
+
+        
 
         let lineAmount = 0;
         let subGrandTotal = 0;
         let taxGrandTotal = 0;
+        let taxGrandTotalPrint = 0;
+
+        if ($('.printID').val() == "") {
+            $('#' + targetID + " #lineUnitPrice").text($('#' + targetID + " .lineUnitPrice").val());
+        }
 
         $tblrows.each(function (index) {
             var $tblrow = $(this);
             var qty = $tblrow.find(".lineQty").val() || 0;
-            var price = $tblrow.find(".lineUnitPrice").val() || 0;
+            var price = $tblrow.find(".lineUnitPrice").val() || "0";
             var taxcode = $tblrow.find(".lineTaxRate").text() || 0;
 
             var taxrateamount = 0;
@@ -3687,6 +3790,44 @@ Template.new_quote.events({
 
             }
         });
+
+         if ($(".printID").val() == "") {
+            $printrows.each(function(index) {
+                var $printrows = $(this);
+                var qty = $printrows.find("#lineQty").text() || 0;
+                var price = $printrows.find("#lineUnitPrice").text() || "0";
+                var taxrateamount = 0;
+                var taxRate = $printrows.find("#lineTaxCode").text();
+                if (taxcodeList) {
+                    for (var i = 0; i < taxcodeList.length; i++) {
+                        if (taxcodeList[i].codename == taxRate) {
+                            taxrateamount = taxcodeList[i].coderate.replace('%', "") / 100;
+                        }
+                    }
+                }
+
+                var subTotal = parseInt(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) || 0;
+                var taxTotal = parseInt(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) * parseFloat(taxrateamount);
+                $printrows.find('#lineTaxAmount').text(utilityService.modifynegativeCurrencyFormat(taxTotal))
+                if (!isNaN(subTotal)) {
+                    $printrows.find('#lineAmt').text(utilityService.modifynegativeCurrencyFormat(subTotal));
+                    subGrandTotal += isNaN(subTotal) ? 0 : subTotal;
+                    document.getElementById("subtotal_totalPrint").innerHTML = $('#subtotal_total').text();
+                }
+
+                if (!isNaN(taxTotal)) {
+                    taxGrandTotalPrint += isNaN(taxTotal) ? 0 : taxTotal;
+                }
+                if (!isNaN(subGrandTotal) && (!isNaN(taxGrandTotal))) {
+                    let GrandTotal = (parseFloat(subGrandTotal)) + (parseFloat(taxGrandTotal));
+                    document.getElementById("grandTotalPrint").innerHTML = $('#grandTotal').text();
+                    document.getElementById("totalTax").innerHTML = $('#subtotal_tax').text();
+                    document.getElementById("balanceDue").innerHTML = utilityService.modifynegativeCurrencyFormat(GrandTotal);
+                    document.getElementById("totalBalanceDuePrint").innerHTML = $('#totalBalanceDue').text();
+
+                }
+            });
+        }
     },
     'click #btnCustomFileds': function (event) {
         var x = document.getElementById("divCustomFields");
@@ -3773,8 +3914,10 @@ Template.new_quote.events({
             if ($('#tblQuoteLine tbody>tr').length > 1) {
                 this.click;
                 $(event.target).closest('tr').remove();
+                $(".quote_print #"+targetID).remove();
                 event.preventDefault();
                 let $tblrows = $("#tblQuoteLine tbody tr");
+                let $printrows = $(".sales_print tbody tr");
 
                 let lineAmount = 0;
                 let subGrandTotal = 0;
@@ -3783,7 +3926,7 @@ Template.new_quote.events({
                 $tblrows.each(function (index) {
                     var $tblrow = $(this);
                     var qty = $tblrow.find(".lineQty").val() || 0;
-                    var price = $tblrow.find(".lineUnitPrice").val() || 0;
+                    var price = $tblrow.find(".lineUnitPrice").val() || "0";
                     var taxcode = $tblrow.find(".lineTaxCode").text() || 0;
 
                     var taxrateamount = 0;
@@ -3818,6 +3961,43 @@ Template.new_quote.events({
 
                     }
                 });
+
+                if ($(".printID").val() == "") {
+                $printrows.each(function (index) {
+                    var $printrows = $(this);
+                    var qty = $printrows.find("#lineQty").text() || 0;
+                    var price = $printrows.find("#lineUnitPrice").text() || "0";
+                    var taxrateamount = 0;
+                    var taxRate = $printrows.find("#lineTaxCode").text();
+                    if (taxcodeList) {
+                        for (var i = 0; i < taxcodeList.length; i++) {
+                            if (taxcodeList[i].codename == taxRate) {
+                                taxrateamount = taxcodeList[i].coderate.replace('%', "") / 100;
+                            }
+                        }
+                    }
+                    var subTotal = parseInt(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) || 0;
+                    var taxTotal = parseInt(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) * parseFloat(taxrateamount);
+                    $printrows.find('#lineTaxAmount').text(utilityService.modifynegativeCurrencyFormat(taxTotal))
+                    if (!isNaN(subTotal)) {
+                        $printrows.find('#lineAmt').text(utilityService.modifynegativeCurrencyFormat(subTotal));
+                        subGrandTotal += isNaN(subTotal) ? 0 : subTotal;
+                        document.getElementById("subtotal_totalPrint").innerHTML = $('#subtotal_total').text();
+                    }
+
+                    if (!isNaN(taxTotal)) {
+                        taxGrandTotalPrint += isNaN(taxTotal) ? 0 : taxTotal;
+                    }
+                    if (!isNaN(subGrandTotal) && (!isNaN(taxGrandTotal))) {
+                        let GrandTotal = (parseFloat(subGrandTotal)) + (parseFloat(taxGrandTotal));
+                        document.getElementById("grandTotalPrint").innerHTML = $('#grandTotal').text();
+                        document.getElementById("totalTax").innerHTML = $('#subtotal_tax').text();
+                        document.getElementById("balanceDue").innerHTML = utilityService.modifynegativeCurrencyFormat(GrandTotal);
+                        document.getElementById("totalBalanceDuePrint").innerHTML = $('#totalBalanceDue').text();
+
+                    }
+                });
+            }
                 return false;
 
             } else {
@@ -3876,8 +4056,10 @@ Template.new_quote.events({
             this.click;
 
             $('#' + selectLineID).closest('tr').remove();
+            $(".quote_print #"+selectLineID).remove();
 
             let $tblrows = $("#tblQuoteLine tbody tr");
+            let $printrows = $(".qoute_print tbody tr");
 
             let lineAmount = 0;
             let subGrandTotal = 0;
@@ -3886,7 +4068,7 @@ Template.new_quote.events({
             $tblrows.each(function (index) {
                 var $tblrow = $(this);
                 var qty = $tblrow.find(".lineQty").val() || 0;
-                var price = $tblrow.find(".lineUnitPrice").val() || 0;
+                var price = $tblrow.find(".lineUnitPrice").val() || "0";
                 var taxcode = $tblrow.find(".lineTaxCode").text() || 0;
 
                 var taxrateamount = 0;
@@ -3921,6 +4103,42 @@ Template.new_quote.events({
 
                 }
             });
+
+
+            $printrows.each(function (index) {
+                    var $printrows = $(this);
+                    var qty = $printrows.find("#lineQty").text() || 0;
+                    var price = $printrows.find("#lineUnitPrice").text() || "0";
+                    var taxrateamount = 0;
+                    var taxRate = $printrows.find("#lineTaxCode").text();
+                    if (taxcodeList) {
+                        for (var i = 0; i < taxcodeList.length; i++) {
+                            if (taxcodeList[i].codename == taxRate) {
+                                taxrateamount = taxcodeList[i].coderate.replace('%', "") / 100;
+                            }
+                        }
+                    }
+                    var subTotal = parseInt(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) || 0;
+                    var taxTotal = parseInt(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) * parseFloat(taxrateamount);
+                    $printrows.find('#lineTaxAmount').text(utilityService.modifynegativeCurrencyFormat(taxTotal))
+                    if (!isNaN(subTotal)) {
+                        $printrows.find('#lineAmt').text(utilityService.modifynegativeCurrencyFormat(subTotal));
+                        subGrandTotal += isNaN(subTotal) ? 0 : subTotal;
+                        document.getElementById("subtotal_totalPrint").innerHTML = $('#subtotal_total').text();
+                    }
+
+                    if (!isNaN(taxTotal)) {
+                        taxGrandTotalPrint += isNaN(taxTotal) ? 0 : taxTotal;
+                    }
+                    if (!isNaN(subGrandTotal) && (!isNaN(taxGrandTotal))) {
+                        let GrandTotal = (parseFloat(subGrandTotal)) + (parseFloat(taxGrandTotal));
+                        document.getElementById("grandTotalPrint").innerHTML = $('#grandTotal').text();
+                        document.getElementById("totalTax").innerHTML = $('#subtotal_tax').text();
+                        document.getElementById("balanceDue").innerHTML = utilityService.modifynegativeCurrencyFormat(GrandTotal);
+                        document.getElementById("totalBalanceDuePrint").innerHTML = $('#totalBalanceDue').text();
+
+                    }
+                });
 
 
         } else {
@@ -3959,8 +4177,8 @@ Template.new_quote.events({
         let quoteData = templateObject.quoterecord.get();
         let lineItems = [];
         let customername = $('#edtCustomerName');
-        let name = $('#firstname').val();
-        let surname = $('#lastname').val();
+        let name = $('#edtCustomerEmail').attr('customerfirstname');
+        let surname = $('#edtCustomerEmail').attr('customerlastname');
         let salesService = new SalesBoardService();
         if (customername.val() === '') {
             swal('Customer has not been selected!', '', 'warning');
@@ -4104,7 +4322,7 @@ Template.new_quote.events({
                 let stringQuery = "?";
                 var customerID = $('#edtCustomerEmail').attr('customerid');
                 for (let l = 0; l < lineItems.length; l++) {
-                    stringQuery = stringQuery + "product" + l + "=" + lineItems[l].description + "&price" + l + "=" + lineItems[l].unitPrice + "&qty" + l + "=" + lineItems[l].quantity + "&";
+                    stringQuery = stringQuery + "product" + l + "=" + lineItemsForm[l].fields.ProductName + "&price" + l + "=" + lineItemsForm[l].fields.LinePrice + "&qty" + l + "=" + lineItemsForm[l].fields.UOMQtySold + "&";
                 }
 
                 stringQuery = stringQuery + "tax=" + tax + "&total=" + total + "&customer=" + customer + "&name=" + name + "&surname=" + surname + "&quoteid=" + quoteData.id + "&company=" + company + "&vs1email=" + vs1User + "&customeremail=" + customerEmail + "&type=Quote&url=" + window.location.href + "&server=" + erpGet.ERPIPAddress + "&username=" + erpGet.ERPUsername + "&token=" + erpGet.ERPPassword + "&session=" + erpGet.ERPDatabase + "&port=" + erpGet.ERPPort;
@@ -4870,6 +5088,425 @@ Template.new_quote.events({
             }
             stringQuery = stringQuery + "tax=" + tax + "&total=" + total + "&customer=" + customer + "&name=" + name + "&surname=" + surname + "&quoteid=" + quoteData.id + "&company=" + company + "&vs1email=" + vs1User + "&customeremail=" + customerEmail + "&type=Quote&url=" + window.location.href + "&server=" + erpGet.ERPIPAddress + "&username=" + erpGet.ERPUsername + "&token=" + erpGet.ERPPassword + "&session=" + erpGet.ERPDatabase + "&port=" + erpGet.ERPPort;
             window.open("https://www.depot.vs1cloud.com/stripe/" + stringQuery, '_self');
+
+        } else {
+        let templateObject = Template.instance();
+        let quoteData = templateObject.quoterecord.get();
+        let lineItems = [];
+        let customername = $('#edtCustomerName');
+        let name = $('#edtCustomerEmail').attr('customerfirstname');
+        let surname = $('#edtCustomerEmail').attr('customerlastname');
+        let salesService = new SalesBoardService();
+        if (customername.val() === '') {
+            swal('Customer has not been selected!', '', 'warning');
+            e.preventDefault();
+        } else {
+
+            $('.fullScreenSpin').css('display', 'inline-block');
+            var splashLineArray = new Array();
+            let lineItemsForm = [];
+            let lineItemObjForm = {};
+            $('#tblQuoteLine > tbody > tr').each(function () {
+                var lineID = this.id;
+                let tdproduct = $('#' + lineID + " .lineProductName").text();
+                let tddescription = $('#' + lineID + " .lineProductDesc").text();
+                let tdQty = $('#' + lineID + " .lineQty").val();
+                let tdunitprice = $('#' + lineID + " .lineUnitPrice").val();
+                let tdtaxrate = $('#' + lineID + " .lineTaxRate").text();
+                let tdtaxCode = $('#' + lineID + " .lineTaxCode").text();
+                let tdlineamt = $('#' + lineID + " .lineAmt").text();
+
+                lineItemObj = {
+                    description: tddescription || '',
+                    quantity: tdQty || 0,
+                    unitPrice: tdunitprice.toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0
+                }
+
+                lineItems.push(lineItemObj);
+
+                if (tdproduct != "") {
+
+                    lineItemObjForm = {
+                        type: "TQuoteLine",
+                        fields: {
+                            ProductName: tdproduct || '',
+                            ProductDescription: tddescription || '',
+                            UOMQtySold: parseFloat(tdQty) || 0,
+                            UOMQtyShipped: parseFloat(tdQty) || 0,
+                            LinePrice: Number(tdunitprice.replace(/[^0-9.-]+/g, "")) || 0,
+                            LineTaxCode: tdtaxCode || '',
+                        }
+                    };
+                    lineItemsForm.push(lineItemObjForm);
+                    splashLineArray.push(lineItemObjForm);
+                }
+            });
+            let getchkcustomField1 = true;
+            let getchkcustomField2 = true;
+            let getcustomField1 = $('.customField1Text').html();
+            let getcustomField2 = $('.customField2Text').html();
+            if ($('#formCheck-one').is(':checked')) {
+                getchkcustomField1 = false;
+            }
+            if ($('#formCheck-two').is(':checked')) {
+                getchkcustomField2 = false;
+            }
+
+            let customer = $('#edtCustomerName').val();
+            let customerEmail = $('#edtCustomerEmail').val();
+            let billingAddress = $('#txabillingAddress').val();
+
+            var saledateTime = new Date($("#dtSODate").datepicker("getDate"));
+            var duedateTime = new Date($("#dtDueDate").datepicker("getDate"));
+
+            let saleDate = saledateTime.getFullYear() + "-" + (saledateTime.getMonth() + 1) + "-" + saledateTime.getDate();
+            let dueDate = duedateTime.getFullYear() + "-" + (duedateTime.getMonth() + 1) + "-" + duedateTime.getDate();
+            let poNumber = $('#ponumber').val();
+            let reference = $('#edtRef').val();
+            let termname = $('#sltTerms').val();
+            let departement = $('#sltDept').val();
+            let shippingAddress = $('#txaShipingInfo').val();
+            let comments = $('#txaComment').val();
+            let pickingInfrmation = $('#txapickmemo').val();
+            let total = $('#grandTotal').html() || 0;
+            let tax = $('#subtotal_tax').html() || 0;
+            let saleCustField1 = $('#edtSaleCustField1').val();
+            let saleCustField2 = $('#edtSaleCustField2').val();
+            var url = window.location.href;
+            var getso_id = url.split('?id=');
+            var currentQuote = getso_id[getso_id.length - 1];
+            let uploadedItems = templateObject.uploadedFiles.get();
+            var currencyCode = $("#sltCurrency").val() || CountryAbbr;
+            var objDetails = '';
+            if (getso_id[1]) {
+                currentQuote = parseInt(currentQuote);
+                objDetails = {
+                    type: "TQuoteEx",
+                    fields: {
+                        ID: currentQuote,
+                        CustomerName: customer,
+                        ForeignExchangeCode: currencyCode,
+                        Lines: splashLineArray,
+                        InvoiceToDesc: billingAddress,
+                        SaleDate: saleDate,
+                        DueDate: dueDate,
+                        CustPONumber: poNumber,
+                        ReferenceNo: reference,
+                        Reference: reference,
+                        TermsName: termname,
+                        SaleClassName: departement,
+                        ShipToDesc: shippingAddress,
+                        Comments: comments,
+                        SaleCustField1: saleCustField1,
+                        SaleCustField2: saleCustField2,
+                        PickMemo: pickingInfrmation,
+                        Attachments: uploadedItems,
+                        SalesStatus: $('#sltStatus').val()
+                    }
+                };
+            } else {
+                objDetails = {
+                    type: "TQuoteEx",
+                    fields: {
+                        CustomerName: customer,
+                        ForeignExchangeCode: currencyCode,
+                        Lines: splashLineArray,
+                        InvoiceToDesc: billingAddress,
+                        SaleDate: saleDate,
+                        DueDate: dueDate,
+                        CustPONumber: poNumber,
+                        ReferenceNo: reference,
+                        Reference: reference,
+                        TermsName: termname,
+                        SaleClassName: departement,
+                        ShipToDesc: shippingAddress,
+                        Comments: comments,
+                        SaleCustField1: saleCustField1,
+                        SaleCustField2: saleCustField2,
+                        PickMemo: pickingInfrmation,
+                        Attachments: uploadedItems,
+                        SalesStatus: $('#sltStatus').val()
+                    }
+                };
+            }
+
+            salesService.saveQuoteEx(objDetails).then(function (objDetails) {
+                var erpGet = erpDb();
+                let company = Session.get('vs1companyName');
+                let vs1User = localStorage.getItem('mySession');
+                let customerEmail = $('#edtCustomerEmail').val();
+                let customer = $('#edtCustomerName').val();
+                let stringQuery = "?";
+                var customerID = $('#edtCustomerEmail').attr('customerid');
+                for (let l = 0; l < lineItems.length; l++) {
+                    stringQuery = stringQuery + "product" + l + "=" + lineItemsForm[l].fields.ProductName + "&price" + l + "=" + lineItemsForm[l].fields.LinePrice + "&qty" + l + "=" + lineItemsForm[l].fields.UOMQtySold + "&";
+                }
+
+                stringQuery = stringQuery + "tax=" + tax + "&total=" + total + "&customer=" + customer + "&name=" + name + "&surname=" + surname + "&quoteid=" + quoteData.id + "&company=" + company + "&vs1email=" + vs1User + "&customeremail=" + customerEmail + "&type=Quote&url=" + window.location.href + "&server=" + erpGet.ERPIPAddress + "&username=" + erpGet.ERPUsername + "&token=" + erpGet.ERPPassword + "&session=" + erpGet.ERPDatabase + "&port=" + erpGet.ERPPort;
+
+
+                $('#html-2-pdfwrapper').css('display', 'block');
+                $('.pdfCustomerName').html($('#edtCustomerName').val());
+                $('.pdfCustomerAddress').html($('#txabillingAddress').val());
+
+                function generatePdfForMail(invoiceId) {
+                    return new Promise((resolve, reject) => {
+                        let templateObject = Template.instance();
+
+                        let completeTabRecord;
+                        let doc = new jsPDF('p', 'pt', 'a4');
+                        doc.setFontSize(18);
+
+                        var source = document.getElementById('html-2-pdfwrapper');
+                        source.style.display = "block";
+                        doc.addHTML(source, function () {
+                            doc.setFontSize(10);
+                            doc.setTextColor(89, 177, 253);
+                            doc.textWithLink('Pay Now', 480, 104, { url: 'https://www.depot.vs1cloud.com/stripe/' + stringQuery });
+
+                            resolve(doc.output('blob'));
+                            $('#html-2-pdfwrapper').css('display', 'none');
+                        });
+                    });
+                }
+                async function addAttachment() {
+                    let attachment = [];
+                    let templateObject = Template.instance();
+
+                    let invoiceId = objDetails.fields.ID;
+                    let encodedPdf = await generatePdfForMail(invoiceId);
+                    let pdfObject = "";
+                    var reader = new FileReader();
+                    reader.readAsDataURL(encodedPdf);
+                    reader.onloadend = function () {
+                        var base64data = reader.result;
+                        base64data = base64data.split(',')[1];
+
+                        pdfObject = {
+                            filename: 'Quote ' + invoiceId + '.pdf',
+                            content: base64data,
+                            encoding: 'base64'
+                        };
+                        attachment.push(pdfObject);
+
+
+                        let erpInvoiceId = objDetails.fields.ID;
+
+
+                        let mailFromName = Session.get('vs1companyName');
+                        let mailFrom = localStorage.getItem('mySession');
+                        let customerEmailName = $('#edtCustomerName').val();
+                        let checkEmailData = $('#edtCustomerEmail').val();
+
+                        let grandtotal = $('#grandTotal').html();
+                        let amountDueEmail = $('#totalBalanceDue').html();
+                        let emailDueDate = $("#dtDueDate").val();
+                        let mailSubject = 'Quote ' + erpInvoiceId + ' from ' + mailFromName + ' for ' + customerEmailName;
+                        let mailBody = "Hi " + customerEmailName + ",\n\n Here's invoice " + erpInvoiceId + " for  " + grandtotal + "." +
+                            "\n\nThe amount outstanding of " + amountDueEmail + " is due on " + emailDueDate + "." +
+                            "\n\nIf you have any questions, please let us know : " + mailFrom + ".\n\nThanks,\n" + mailFromName;
+                        var htmlmailBody = '<table align="center" border="0" cellpadding="0" cellspacing="0" width="600">' +
+                            '    <tr>' +
+                            '        <td align="center" bgcolor="#54c7e2" style="padding: 40px 0 30px 0;">' +
+                            '            <img src="https://sandbox.vs1cloud.com/assets/VS1logo.png" class="uploadedImage" alt="VS1 Cloud" width="250px" style="display: block;" />' +
+                            '        </td>' +
+                            '    </tr>' +
+                            '    <tr>' +
+                            '        <td style="padding: 40px 30px 40px 30px;">' +
+                            '            <table border="0" cellpadding="0" cellspacing="0" width="100%">' +
+                            '                <tr>' +
+                            '                    <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0 20px 0;">' +
+                            '                        Hi <span>' + customerEmailName + '</span>.' +
+                            '                    </td>' +
+                            '                </tr>' +
+                            '                <tr>' +
+                            '                    <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0 10px 0;">' +
+                            '                        Please find attached Quote <span>' + erpInvoiceId + '</span>' +
+                            '                    </td>' +
+                            '                </tr>' +
+                            '                <tr>' +
+                            '                    <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0 10px 0;">' +
+                           '                        Simply click on <a style="border: none; color: white; padding: 6px 12px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin: 4px 2px; cursor: pointer; background-color: #5cb85c; border-color: #4cae4c; border-radius: 10px;" href="https://www.depot.vs1cloud.com/stripe/' + stringQuery + '">Make Payment</a> to pay now.' +
+                           '                    </td>' +
+                            '                </tr>' +
+                            '                 <tr>' +
+                            '                    <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0 10px 0;">' +
+                            '                        The invoice is due by the ' + emailDueDate +
+                            '                    </td>' +
+                            '                </tr>' +
+                            '                <tr>' +
+                            '                     <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0 10px 0;">' +
+                            '                        Thank you again for business' +
+                            '                    </td>' +
+                            '                <tr>' +
+                            '                    <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0 30px 0;">' +
+                            '                        Kind regards,' +
+                            '                        <br>' +
+                            '                        ' + mailFromName + '' +
+                            '                    </td>' +
+                            '                </tr>' +
+                            '            </table>' +
+                            '        </td>' +
+                            '    </tr>' +
+                            '    <tr>' +
+                            '        <td bgcolor="#00a3d3" style="padding: 30px 30px 30px 30px;">' +
+                            '            <table border="0" cellpadding="0" cellspacing="0" width="100%">' +
+                            '                <tr>' +
+                            '                    <td width="50%" style="color: #ffffff; font-family: Arial, sans-serif; font-size: 14px;">' +
+                            '                        If you have any question, please do not hesitate to contact us.' +
+                            '                    </td>' +
+                            '                    <td align="right">' +
+                            '                        <a style="border: none; color: white; padding: 15px 32px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin: 4px 2px; cursor: pointer; background-color: #4CAF50;" href="mailto:' + mailFrom + '">Contact Us</a>' +
+                            '                    </td>' +
+                            '                </tr>' +
+                            '            </table>' +
+                            '        </td>' +
+                            '    </tr>' +
+                            '</table>';
+
+
+                        if (($('.chkEmailCopy').is(':checked')) && ($('.chkEmailRep').is(':checked'))) {
+                            Meteor.call('sendEmail', {
+                                from: "" + mailFromName + " <" + mailFrom + ">",
+                                to: checkEmailData,
+                                subject: mailSubject,
+                                text: '',
+                                html: htmlmailBody,
+                                attachments: attachment
+                            }, function (error, result) {
+                                if (error && error.error === "error") {
+                                    Router.go('/quoteslist?success=true');
+
+                                } else {
+
+                                }
+                            });
+
+                            Meteor.call('sendEmail', {
+                                from: "" + mailFromName + " <" + mailFrom + ">",
+                                to: mailFrom,
+                                subject: mailSubject,
+                                text: '',
+                                html: htmlmailBody,
+                                attachments: attachment
+                            }, function (error, result) {
+                                if (error && error.error === "error") {
+                                    Router.go('/quoteslist?success=true');
+                                } else {
+                                    $('#html-2-pdfwrapper').css('display', 'none');
+                                    swal({
+                                        title: 'SUCCESS',
+                                        text: "Email Sent To Customer: " + checkEmailData + " and User: " + mailFrom + "",
+                                        type: 'success',
+                                        showCancelButton: false,
+                                        confirmButtonText: 'OK'
+                                    }).then((result) => {
+                                        if (result.value) {
+                                            Router.go('/quoteslist?success=true');
+                                        } else if (result.dismiss === 'cancel') {
+
+                                        }
+                                    });
+
+                                    $('.fullScreenSpin').css('display', 'none');
+                                }
+                            });
+
+                        } else if (($('.chkEmailCopy').is(':checked'))) {
+                            Meteor.call('sendEmail', {
+                                from: "" + mailFromName + " <" + mailFrom + ">",
+                                to: checkEmailData,
+                                subject: mailSubject,
+                                text: '',
+                                html: htmlmailBody,
+                                attachments: attachment
+                            }, function (error, result) {
+
+                                if (error && error.error === "error") {
+
+
+
+                                } else {
+                                    $('#html-2-pdfwrapper').css('display', 'none');
+                                    swal({
+                                        title: 'SUCCESS',
+                                        text: "Email Sent To Customer: " + checkEmailData + " ",
+                                        type: 'success',
+                                        showCancelButton: false,
+                                        confirmButtonText: 'OK'
+                                    }).then((result) => {
+                                        if (result.value) {
+                                            Router.go('/quoteslist?success=true');
+                                        } else if (result.dismiss === 'cancel') {
+
+                                        }
+                                    });
+
+                                    $('.fullScreenSpin').css('display', 'none');
+                                }
+                            });
+
+                        } else if (($('.chkEmailRep').is(':checked'))) {
+                            Meteor.call('sendEmail', {
+                                from: "" + mailFromName + " <" + mailFrom + ">",
+                                to: mailFrom,
+                                subject: mailSubject,
+                                text: '',
+                                html: htmlmailBody,
+                                attachments: attachment
+                            }, function (error, result) {
+
+                                if (error && error.error === "error") {
+                                    Router.go('/quoteslist?success=true');
+                                } else {
+                                    $('#html-2-pdfwrapper').css('display', 'none');
+                                    swal({
+                                        title: 'SUCCESS',
+                                        text: "Email Sent To User: " + mailFrom + " ",
+                                        type: 'success',
+                                        showCancelButton: false,
+                                        confirmButtonText: 'OK'
+                                    }).then((result) => {
+                                        if (result.value) {
+                                            Router.go('/quoteslist?success=true');
+                                        } else if (result.dismiss === 'cancel') {
+
+                                        }
+                                    });
+
+                                    $('.fullScreenSpin').css('display', 'none');
+                                }
+                            });
+
+                        } else {
+                            Router.go('/quoteslist?success=true');
+                        };
+                    };
+
+
+                }
+                addAttachment();
+
+
+            }).catch(function (err) {
+                console.log(err);
+                swal({
+                    title: 'Something went wrong',
+                    text: err,
+                    type: 'error',
+                    showCancelButton: false,
+                    confirmButtonText: 'Try Again'
+                }).then((result) => {
+                    if (result.value) {
+
+                    } else if (result.dismiss === 'cancel') {
+
+                    }
+                });
+
+                $('.fullScreenSpin').css('display', 'none');
+            });
+        }
 
         }
     },
