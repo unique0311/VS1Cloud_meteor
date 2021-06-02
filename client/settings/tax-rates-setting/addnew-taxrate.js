@@ -61,7 +61,7 @@ Template.addnewtaxrate.events({
 
 
         } else if(oPost.readyState == 4 && oPost.status == 403){
-        //alert(oPost.status);
+        
 
 
         swal({
@@ -83,9 +83,9 @@ Template.addnewtaxrate.events({
           //oPost.setRequestHeader("Content-Length", "1");
           let ErrorResponse = oPost.getResponseHeader('errormessage');
           let segError = ErrorResponse.split(':');
-          //alert(segError[1]);
+          
         if((segError[1]) == ' "Unable to lock object'){
-          //alert(oPost.getAllResponseHeaders());
+          
           Bert.alert('<strong>'+ oPost.getResponseHeader('errormessage')+'</strong>. Please close the Tax Code Information in ERP!', 'danger');
         }else{
           swal({

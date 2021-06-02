@@ -52,7 +52,7 @@ Template.allreports.onRendered(() => {
   let isPurchaseReport = Session.get('cloudPurchaseReport');
   let isPurchaseSummaryReport = Session.get('cloudPurchaseSummaryReport');
   let isPrintStatement = Session.get('cloudPrintStatement');
-  // alert(isBalanceSheet);
+  
     if(isProfitLoss == true){
     templateObject.isProfitLoss.set(true);
     }
@@ -393,7 +393,7 @@ Template.allreports.helpers({
       let isPurchaseSummaryReport =  Template.instance().isPurchaseSummaryReport.get();
       let isPrintStatement =  Template.instance().isPrintStatement.get();
       let isShowFavorite = false;
-      // alert(isAgedReceivables);
+      
       if(isBalanceSheet || isProfitLoss || isAgedReceivables || isProductSalesReport || isSalesReport || isSalesSummaryReport
       || isGeneralLedger || isTaxSummaryReport|| isTrialBalance || is1099Transaction || isAgedPayables
       || isPurchaseReport || isPurchaseSummaryReport || isPrintStatement ||isAgedReceivablesSummary ||isAgedPayablesSummary){

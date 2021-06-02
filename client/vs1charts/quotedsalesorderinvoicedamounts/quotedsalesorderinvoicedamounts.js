@@ -3,7 +3,7 @@ import 'jQuery.print/jQuery.print.js';
 import {UtilityService} from "../../utility-service";
 import { ReactiveVar } from 'meteor/reactive-var';
 import { CoreService } from '../../js/core-service';
-// import {SalesBoardService} from '../../js/sales-service';
+
 
 let vs1chartService = new VS1ChartService();
 let utilityService = new UtilityService();

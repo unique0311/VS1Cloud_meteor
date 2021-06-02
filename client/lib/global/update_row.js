@@ -104,7 +104,7 @@ updateRow = function (rowCount) {
                     $tblrow.find('.qty').on('change', function () {
                     
                    var qty = $tblrow.find("[id=Ordered]").val();
-                   //alert(qty);
+                   
                    var price = $tblrow.find("[id=UnitPrice]").val();
                    var subTotal = parseInt(qty,10) * parseFloat(price);
                    if (!isNaN(subTotal)) {
@@ -114,21 +114,21 @@ updateRow = function (rowCount) {
                   $(".subtot").each(function () {
                       var stval = parseFloat($(this).val());
                       SubGrandTotal += isNaN(stval) ? 0 : stval;
-                      //alert(SubGrandTotal);
+                      
                   });
 
                   document.getElementById("subtotal_total").innerHTML = Currency+''+SubGrandTotal.toFixed(2);
                   document.getElementById("subtotal_total2").innerHTML = Currency+''+SubGrandTotal.toFixed(2);
                   //$('.subtotal_total').val(grandTotal.toFixed(2));
                   }
-                    //alert(subTotal);
+                    
 
                    });
 
                    $tblrow.find('.unitPrice').on('change', function () {
                    
                   var qty = $tblrow.find("[id=Ordered]").val();
-                  //alert(qty);
+                  
                   var price = $tblrow.find("[id=UnitPrice]").val();
                   var subTotal = parseInt(qty,10) * parseFloat(price);
                   if (!isNaN(subTotal)) {
@@ -138,19 +138,19 @@ updateRow = function (rowCount) {
                  $(".subtot").each(function () {
                      var stval = parseFloat($(this).val());
                      SubGrandTotal += isNaN(stval) ? 0 : stval;
-                     //alert(SubGrandTotal);
+                     
                  });
 
                  document.getElementById("subtotal_total").innerHTML = Currency+''+SubGrandTotal.toFixed(2);
                  document.getElementById("subtotal_total2").innerHTML = Currency+''+SubGrandTotal.toFixed(2);
                  //$('.subtotal_total').val(grandTotal.toFixed(2));
                  }
-                   //alert(subTotal);
+                   
 
                   });
 
                 });
-   //alert(num);
+   
  //});
 /*
  $('.Show').click(function() {
@@ -166,7 +166,7 @@ updateRow = function (rowCount) {
 
 
  $(document).on('click', '.allocate_edit', function () {
-   //alert('Allocation');
+   
    event.stopPropagation();
  //if($('#component_tbUpdate tbody>tr').length > 1){
      $('#allocate_box').toggle('slow');
@@ -241,7 +241,7 @@ updateRow = function (rowCount) {
                     //$tblrow.find('.qty').on('change', function () {
                     
                    var qty = $tblrow.find("[id=Ordered]").val();
-                   //alert(qty);
+                   
                    var price = $tblrow.find("[id=UnitPrice]").val();
                    var subTotal = parseInt(qty,10) * parseFloat(price);
                    if (!isNaN(subTotal)) {
@@ -305,7 +305,7 @@ tableCalc = function () {
      $tblrow.find('.qty').on('change', function () {
      
     var qty = $tblrow.find("[id=Ordered]").val();
-    //alert(qty);
+    
     var price = $tblrow.find("[id=UnitPrice]").val();
     var subTotal = parseInt(qty,10) * parseFloat(price);
     if (!isNaN(subTotal)) {
@@ -315,14 +315,14 @@ tableCalc = function () {
    $(".subtot").each(function () {
        var stval = parseFloat($(this).val());
        SubGrandTotal += isNaN(stval) ? 0 : stval;
-       //alert(SubGrandTotal);
+       
    });
 
    document.getElementById("subtotal_total").innerHTML = Currency+''+SubGrandTotal.toFixed(2);
    document.getElementById("subtotal_total2").innerHTML = Currency+''+SubGrandTotal.toFixed(2);
    //$('.subtotal_total').val(grandTotal.toFixed(2));
    }
-     //alert(subTotal);
+     
 
     });
 
@@ -346,8 +346,8 @@ $('#component_tbUpdate tbody >tr').each(function () {
      var items = {};
      items[tr] = td;
      tdArray.push(items);
-     //alert(items);
-     //alert(JSON.stringify(tdArray));
+     
+     
  });
 });
 

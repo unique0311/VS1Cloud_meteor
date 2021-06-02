@@ -11,8 +11,6 @@ var day = d.getDate();
 var output = d.getFullYear() + '-' +
     ((''+month).length<2 ? '0' : '') + month + '-' +
     ((''+day).length<2 ? '0' : '') + day;
-//alert(output);
-//alert("Database: " +Database+ " IP Address: " +IPAddress+ "User Name: " +UserName+ "Password: "+Password+ "Port: "+Port);
 erpDb = function () {
 var erpConnection = {
     logMsg: "",
@@ -181,31 +179,31 @@ if (erpConnection.ERPIPAddress == '') {
     LastError = '<img src="icons/icons_40x33/error_red_40x33_a.png"> <strong>ERROR:</strong> TrueERP Server IP Address not specified. Please go to <a href="/register">Setup Connection</a> to rectify this.';
     document.getElementById("error_log").innerHTML = LastError;
     document.getElementById("error_log").style.display = 'block';
-    //alert(LastError);
+
 }
 else if (erpConnection.ERPUsername == '') {
     LastError = '<img src="icons/icons_40x33/error_red_40x33_a.png"> <strong>ERROR:</strong> TrueERP Web API username not specified. Please go to <a href="/register">Setup Connection</a> to rectify this.';
     document.getElementById("error_log").innerHTML = LastError;
     document.getElementById("error_log").style.display = 'block';
-    //alert(LastError);
+
 }
 else if (erpConnection.ERPPassword == '') {
     LastError = '<img src="icons/icons_40x33/error_red_40x33_a.png"> <strong>ERROR:</strong> TrueERP Web API password not specified. Please go to <a href="/register">Setup Connection</a> to rectify this.';
     document.getElementById("error_log").innerHTML = LastError;
     document.getElementById("error_log").style.display = 'block';
-    //alert(LastError);
+
 }
 else if (erpConnection.ERPDatabase == '') {
     LastError = '<img src="icons/icons_40x33/error_red_40x33_a.png"> <strong>ERROR:</strong> TrueERP database name not specified. Please go to <a href="/register">Setup Connection</a> to rectify this.';
     document.getElementById("error_log").innerHTML = LastError;
     document.getElementById("error_log").style.display = 'block';
-    //alert(LastError);
+
 }
 else if (erpConnection.ERPPort == '') {
     LastError = '<img src="icons/icons_40x33/error_red_40x33_a.png"> <strong>ERROR:</strong> TrueERP server port not specified. Please go to <a href="/register">Setup Connection</a> to rectify this.';
     document.getElementById("error_log").innerHTML = LastError;
     document.getElementById("error_log").style.display = 'block';
-    //alert(LastError);
+
 }
 
 var req = new XMLHttpRequest();
@@ -216,7 +214,7 @@ req.setRequestHeader("password",erpConnection.ERPPassword);
 req.send(null);
 var headers = req.getAllResponseHeaders().toLowerCase();
 */
-//alert(headers);
+
 //document.getElementById("error_log").innerHTML = headers;
 //document.getElementById("error_log").style.display = 'block';
 
@@ -238,4 +236,3 @@ return erpConnection;
 }
 
 */
-//alert (erpDb.ERPCustomerObject);

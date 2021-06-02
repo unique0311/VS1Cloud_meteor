@@ -1,24 +1,33 @@
 import {Mongo} from 'meteor/mongo';
 
 Template.packagerenewal.onCreated(function() {
-  
-  Meteor.call('sendEmail', {
-      from: "VS1 Cloud <info@vs1cloud.com>",
-      to: 'rasheed@trueerp.com',
-      
-      subject: '[VS1 Cloud] - Licence Renewal',
-      text: "Test Render",
-      html:'',
-      attachments : ''
 
-  }, function (error, result) {
-
-  });
+  // Meteor.call('sendEmail', {
+  //     from: "VS1 Cloud <info@vs1cloud.com>",
+  //     to: 'rasheed@trueerp.com',
+  //
+  //     subject: '[VS1 Cloud] - Licence Renewal',
+  //     text: "Test Render",
+  //     html:'',
+  //     attachments : ''
+  //
+  // }, function (error, result) {
+  //
+  // });
 });
 
 
 Template.packagerenewal.onRendered(function() {
   const templateObject = Template.instance();
+  Meteor.call('sendEmail',{
+      to: 'rasheed@vs1cloud.com',
+      from: 'info@vs1cloud.com',
+      subject: 'Rasheed Test!',
+      text: 'eeeeeeeeeeeeee8888eeeeeeee!',
+      html: 'With meteor it&apos;s easy to set up <strong>HTML</strong> <span style="color:red">emails</span> too.'
+      }, function (error, result) {
+        
+      });
 
   let currentURL = Router.current().params.query;
   Meteor.call('magentoAWSProfileRenewal', function(error, result) {
@@ -38,14 +47,14 @@ Template.packagerenewal.onRendered(function() {
               let customerEmail = valueData[j].customer_email;
               let paymentMethod = valueData[j].payment_method;
               let paymentAmount = valueData[j].regular_subtotal;
-              
-              
+
+
     if (lastOrderDate === renewCurrentDate) {
               let objDetails = {
                 Name: "VS1_Renew",
                 Params: {
                   CloudUserName: customerEmail,
-                  
+
                   Paymentamount: parseFloat(paymentAmount) || 0,
                   PayMethod: paymentMethod,
                 }
@@ -72,7 +81,7 @@ Template.packagerenewal.onRendered(function() {
                   Meteor.call('sendEmail', {
                       from: "VS1 Cloud <info@vs1cloud.com>",
                       to: 'rasheed@trueerp.com',
-                      
+
                       subject: '[VS1 Cloud] - Licence Renewal',
                       text: customerEmail,
                       html:'',
@@ -85,9 +94,9 @@ Template.packagerenewal.onRendered(function() {
                   var myArrResponse = JSON.parse(oPost.responseText);
 
                   if (myArrResponse.ProcessLog.Error) {
-                    
-                    
-                    
+
+
+
                   } else {
                     var databaseName = myArrResponse.ProcessLog.Databasename;
 
@@ -102,10 +111,10 @@ Template.packagerenewal.onRendered(function() {
 
                   if ((segError[1]) == ' "Unable to lock object') {
 
-                    
+
 
                   } else {
-                    
+
 
                   }
 
@@ -159,7 +168,7 @@ Template.packagerenewal.onRendered(function() {
     oPost.setRequestHeader("Accept", "application/json");
     oPost.setRequestHeader("Accept", "application/html");
     oPost.setRequestHeader("Content-type", "application/json");
-     
+
     var myString = JSON.stringify(objDetails);
     oPost.send(myString);
     oPost.onreadystatechange = function() {
@@ -169,34 +178,34 @@ Template.packagerenewal.onRendered(function() {
         var myArrResponse = JSON.parse(oPost.responseText);
 
         if (myArrResponse.ProcessLog.Error) {
-          
+
           swal('Database Error', myArrResponse.ProcessLog.Error, 'error');
-          
+
         } else {
           var databaseName = myArrResponse.ProcessLog.Databasename;
 
           localStorage.usremail = userEmail;
           localStorage.usrpassword = cloudpassword;
           window.open('/','_self');
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
 
 
 
-          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         }
 
@@ -222,22 +231,22 @@ Template.packagerenewal.onRendered(function() {
 
         if ((segError[1]) == ' "Unable to lock object') {
 
-          
+
           swal('WARNING', oPost.getResponseHeader('errormessage') + 'Please try again!', 'error');
         } else {
-          
+
           swal('WARNING', oPost.getResponseHeader('errormessage') + 'Please try again!', 'error');
         }
 
       } else if (oPost.readyState == '') {
         $('.fullScreenSpin').css('display', 'none');
-        
+
         swal('Connection Failed', oPost.getResponseHeader('errormessage') + ' Please try again!', 'error');
       }
 
     }
   } else {
-    
+
   }
 
 

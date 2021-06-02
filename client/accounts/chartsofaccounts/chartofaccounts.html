@@ -68,7 +68,7 @@
 
         $('#addRow').on( 'click', function () {
         var rowData = $('.tblAccountOverview tbody>tr:last').clone(true);
-        // alert(JSON.stringify($('.tblInvoiceList tbody>tr:last')));
+        
         if($('.tblAccountOverview tbody>tr').length > 0){
           $(".edtItem", rowData).text("");
           $(".edtMemo", rowData).text("");

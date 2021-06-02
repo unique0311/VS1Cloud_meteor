@@ -3,11 +3,11 @@
 //
 import {FittingService} from "../fittings/fitting-service";
 import {ReactiveVar} from "meteor/reactive-var";
-// import {UtilityService} from "../utility-service";
-// import { CoreService } from '../js/core-service';
-// import {AccountService} from "../accounts/account-service";
-// import {SalesBoardService} from '../js/sales-service';
-// import 'colresizable/colResizable-1.6.min';
+
+
+
+
+
 Template.manufacturinglist.onCreated(function () {
   const templateObject = Template.instance();
       templateObject.records = new ReactiveVar([]);
@@ -35,7 +35,7 @@ Template.manufacturinglist.onRendered(function () {
   let records = [];
   let lineItemObj = {};
 
-  //alert(JSON.stringify(data));
+  
   for(let i=0; i<data.tsalesorder.length; i++){
      let recordObj = {};
      let deleteOption = data.tsalesorder[i].deleted;
@@ -103,7 +103,7 @@ Template.manufacturinglist.onRendered(function () {
   $('#manufacturing_list tbody').on( 'click', 'tr', function () {
       //var listData = table.row( this ).id();
       var listData = $(this).closest('tr').attr('id');
-      // alert(listData);
+      
       //for(let i=0 ; i<splashArray.length ;i++){
       if(listData){
         window.open('/manufacturingquickSO?id=' + listData,'_self');
@@ -153,7 +153,7 @@ if (!localStorage.getItem('VS1ManufacturingList')) {
   $('#manufacturing_list tbody').on( 'click', 'tr', function () {
       //var listData = table.row( this ).id();
       var listData = $(this).closest('tr').attr('id');
-      // alert(listData);
+      
       //for(let i=0 ; i<splashArray.length ;i++){
       if(listData){
         window.open('/manufacturingquickSO?id=' + listData,'_self');

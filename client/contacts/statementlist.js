@@ -56,7 +56,7 @@ Template.statementlist.onRendered(function() {
         //getOneInvoicedata
         let data = await contactService.getCustomerStatementPrintData(clientID);
         //contactService.getCustomerStatementPrintData(clientID).then(function (data) {
-        // alert(clientID);
+        
 
         $('.fullScreenSpin').css('display', 'none');
         let lineItems = [];
@@ -86,7 +86,7 @@ Template.statementlist.onRendered(function() {
                 let total = utilityService.modifynegativeCurrencyFormat(data.tstatementforcustomer[i].Amount).toLocaleString(undefined, { minimumFractionDigits: 2 });
                 let totalPaid = utilityService.modifynegativeCurrencyFormat(data.tstatementforcustomer[i].Amount).toLocaleString(undefined, { minimumFractionDigits: 2 });
                 let balance = utilityService.modifynegativeCurrencyFormat(data.tstatementforcustomer[i].Amount).toLocaleString(undefined, { minimumFractionDigits: 2 });
-                // alert(transdate);
+                
                 lineItemObj = {
                     lineID: id,
                     id: id || '',
@@ -141,7 +141,7 @@ Template.statementlist.onRendered(function() {
         //getOneInvoicedata
 
         //contactService.getCustomerStatementPrintData(clientID).then(function (data) {
-        // alert(clientID);
+        
 
         return new Promise((resolve, reject) => {
             contactService.getCustomerStatementPrintData(clientID).then(function(data) {
@@ -174,7 +174,7 @@ Template.statementlist.onRendered(function() {
                         let total = utilityService.modifynegativeCurrencyFormat(data.tstatementforcustomer[i].Amount).toLocaleString(undefined, { minimumFractionDigits: 2 });
                         let totalPaid = utilityService.modifynegativeCurrencyFormat(data.tstatementforcustomer[i].Amount).toLocaleString(undefined, { minimumFractionDigits: 2 });
                         let balance = utilityService.modifynegativeCurrencyFormat(data.tstatementforcustomer[i].Amount).toLocaleString(undefined, { minimumFractionDigits: 2 });
-                        // alert(transdate);
+                        
                         lineItemObj = {
                             lineID: id,
                             id: id || '',
@@ -236,7 +236,7 @@ Template.statementlist.onRendered(function() {
                     let lineItems = [];
                     let lineItemObj = {};
                     for (let i = 0; i < data.tstatementlist.length; i++) {
-                        // alert('here');
+                        
                         // let arBalance = utilityService.modifynegativeCurrencyFormat(data.tstatementforcustomer[i].ARBalance)|| 0.00;
                         // let creditBalance = utilityService.modifynegativeCurrencyFormat(data.tstatementforcustomer[i].CreditBalance) || 0.00;
                         let balance = utilityService.modifynegativeCurrencyFormat(data.tstatementlist[i].amount) || 0.00;
@@ -437,7 +437,7 @@ Template.statementlist.onRendered(function() {
                 let lineItems = [];
                 let lineItemObj = {};
                 for (let i = 0; i < useData.length; i++) {
-                    // alert('here');
+                    
                     // let arBalance = utilityService.modifynegativeCurrencyFormat(data.tstatementforcustomer[i].ARBalance)|| 0.00;
                     // let creditBalance = utilityService.modifynegativeCurrencyFormat(data.tstatementforcustomer[i].CreditBalance) || 0.00;
                     let balance = utilityService.modifynegativeCurrencyFormat(useData[i].amount) || 0.00;
@@ -632,7 +632,7 @@ Template.statementlist.onRendered(function() {
                 let lineItems = [];
                 let lineItemObj = {};
                 for (let i = 0; i < data.tstatementlist.length; i++) {
-                    // alert('here');
+                    
                     // let arBalance = utilityService.modifynegativeCurrencyFormat(data.tstatementforcustomer[i].ARBalance)|| 0.00;
                     // let creditBalance = utilityService.modifynegativeCurrencyFormat(data.tstatementforcustomer[i].CreditBalance) || 0.00;
                     let balance = utilityService.modifynegativeCurrencyFormat(data.tstatementlist[i].amount) || 0.00;
@@ -856,7 +856,7 @@ Template.statementlist.onRendered(function() {
         for (let j = 0; j < listIds.length; j++) {
             $('#printstatmentdesign').css('display', 'block');
             // $('#printstatmentdesign').css('visibility','hidden');
-            // alert(listIds[j]);
+            
             //setTimeout(function () {
             await templateObject.getStatePrintData(listIds[j]);
             // let data = await contactService.getOneCustomerData(listIds[j]);
@@ -873,7 +873,7 @@ Template.statementlist.onRendered(function() {
         for (let j = 0; j < listIds.length; j++) {
             $('#printstatmentdesign').css('display', 'block');
             // $('#printstatmentdesign').css('visibility','hidden');
-            // alert(listIds[j]);
+            
             //setTimeout(function () {
             let data = await templateObject.getStatementPdfData(listIds[j])
             multiPDF.push(data);
@@ -1237,7 +1237,7 @@ Template.statementlist.events({
 
         if (listIds != '') {
             templateObject.customerToMultiplePdf(listIds);
-            // alert(listIds);
+            
         } else {
             $('#printLineModal').modal('toggle');
         }

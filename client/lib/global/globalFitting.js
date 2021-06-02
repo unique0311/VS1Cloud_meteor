@@ -1,5 +1,5 @@
 FittingRow = function () {
-  //alert('here');
+  
 
   var click_count = 0;
   var batch_count = 0;
@@ -37,7 +37,7 @@ function updateRowOrder(){
     var scannedSerial = "";
     var erpGet = erpDb();
     var lineQuantity = $('input[name="orderQty"]').val();
-//alert(lineQuantity);
+
       if(scannedCode != ''){
           var segs = scannedCode.split('-');
           if(segs[0] == Barcode_Prefix_PQASN){
@@ -53,9 +53,9 @@ function updateRowOrder(){
             oReqSID.timeout = 30000;
             oReqSID.onreadystatechange = function() {
             if (oReqSID.readyState == 4 && oReqSID.status == 200) {
-              //alert(oReqSID.responseText);
+              
               var valListRet = jQuery.parseJSON(oReqSID.responseText);
-              //alert(valListRet.ValidateSN.Result);
+              
               if(valListRet.ValidateSN.Result == false){
                  scannedSerial = "";
                 Bert.alert('<strong>WARNING:</strong> '+valListRet.ValidateSN.Message+' or product is not on this order!', 'now-danger');
@@ -85,7 +85,7 @@ function updateRowOrder(){
           if($tblrow.click()){
             var $tblrowAlloc = $("#serailscanlist > tbody  > tr");
             var newQuantity = $('input[name="orderQty"]').val();
-            //alert(lineQuantity +'New: '+ newQuantity);
+            
             //var rowCount = $tblrowAlloc.length;
              var rowCount = $('#serailscanlist  > tbody  > tr').length;
               if(rowCount == newQuantity){
@@ -143,9 +143,9 @@ function updateRowOrder(){
         oReqSID.timeout = 30000;
         oReqSID.onreadystatechange = function() {
         if (oReqSID.readyState == 4 && oReqSID.status == 200) {
-          //alert(oReqSID.responseText);
+          
           var valListRet = jQuery.parseJSON(oReqSID.responseText);
-          //alert(valListRet.ValidateSN.Result);
+          
           if(valListRet.ValidateSN.Result == false){
              scannedSerial = "";
             Bert.alert('<strong>WARNING:</strong> '+valListRet.ValidateSN.Message+' or product is not on this order!', 'now-danger');
@@ -197,7 +197,7 @@ function updateRowOrder(){
                        }
 
                       }
-            // alert(scannedSerial);
+            
           }
 
         }
@@ -209,7 +209,7 @@ function updateRowOrder(){
       }else{
         $("#allocBarcode").focus();
       }
-       //alert(scannedSerial);
+       
 
 
     $('input[name="allocBarcode"]').val('');
@@ -225,7 +225,7 @@ function updateRowOrder(){
         var scannedSerial = "";
          var confirmAssignee = false;
           var erpGet = erpDb();
-//alert(departmentID +""+scannedCode)
+
           if(scannedCode != ''){
               var segs = scannedCode.split('-');
               if(segs[0] == Barcode_Prefix_PQASN){
@@ -240,12 +240,12 @@ function updateRowOrder(){
                 oReqSID.timeout = 30000;
                 oReqSID.onreadystatechange = function() {
                 if (oReqSID.readyState == 4 && oReqSID.status == 200) {
-                  //alert(oReqSID.responseText);
+                  
                   var valListRet = jQuery.parseJSON(oReqSID.responseText);
-                  //alert(valListRet.ValidateSN.Result);
+                  
                   if(valListRet.ValidateSN.Result == false){
                      scannedSerial = "";
-                     //alert('Product Not on Order');
+                     
                     Bert.alert('<strong>WARNING:</strong> '+valListRet.ValidateSN.Message+' or product is not on this order!', 'now-danger');
                     DangerSound();
                     //var audio = new Audio('/sounds/system-fault.mp3');
@@ -333,9 +333,9 @@ function updateRowOrder(){
             oReqSID.timeout = 30000;
             oReqSID.onreadystatechange = function() {
             if (oReqSID.readyState == 4 && oReqSID.status == 200) {
-              //alert(oReqSID.responseText);
+              
               var valListRet = jQuery.parseJSON(oReqSID.responseText);
-              //alert(valListRet.ValidateSN.Result);
+              
               if(valListRet.ValidateSN.Result == false){
                  scannedSerial = "";
               Bert.alert('<strong>WARNING:</strong> '+valListRet.ValidateSN.Message+' or product is not on this order!', 'now-danger');
@@ -398,7 +398,7 @@ function updateRowOrder(){
           }else{
             $("#allocBarcode").focus();
           }
-           //alert(scannedSerial);
+           
 
 
         $('input[name="allocBarcode"]').val('');
@@ -479,7 +479,7 @@ function updateRowOrder(){
       }
 
       function processBarcode(bc){
-        //alert(bc);
+        
         $("#allocBarcode").val(bc);
         var scannedCode =  bc.toUpperCase();
         var departmentID =  $('input[name="deptID"]').val();
@@ -488,7 +488,7 @@ function updateRowOrder(){
         var scannedSerial = "";
          var confirmAssignee = false;
           var erpGet = erpDb();
-//alert(departmentID +""+scannedCode)
+
           if(scannedCode != ''){
               var segs = scannedCode.split('-');
               if(segs[0] == Barcode_Prefix_PQASN){
@@ -503,12 +503,12 @@ function updateRowOrder(){
                 oReqSID.timeout = 30000;
                 oReqSID.onreadystatechange = function() {
                 if (oReqSID.readyState == 4 && oReqSID.status == 200) {
-                  //alert(oReqSID.responseText);
+                  
                   var valListRet = jQuery.parseJSON(oReqSID.responseText);
-                  //alert(valListRet.ValidateSN.Result);
+                  
                   if(valListRet.ValidateSN.Result == false){
                      scannedSerial = "";
-                     //alert('Product Not on Order');
+                     
                     Bert.alert('<strong>WARNING:</strong> '+valListRet.ValidateSN.Message+' or product is not on this order!', 'now-danger');
                     DangerSound();
                     //var audio = new Audio('/sounds/system-fault.mp3');
@@ -596,9 +596,9 @@ function updateRowOrder(){
             oReqSID.timeout = 30000;
             oReqSID.onreadystatechange = function() {
             if (oReqSID.readyState == 4 && oReqSID.status == 200) {
-              //alert(oReqSID.responseText);
+              
               var valListRet = jQuery.parseJSON(oReqSID.responseText);
-              //alert(valListRet.ValidateSN.Result);
+              
               if(valListRet.ValidateSN.Result == false){
                  scannedSerial = "";
               Bert.alert('<strong>WARNING:</strong> '+valListRet.ValidateSN.Message+' or product is not on this order!', 'now-danger');
@@ -661,7 +661,7 @@ function updateRowOrder(){
           }else{
             $("#allocBarcode").focus();
           }
-           //alert(scannedSerial);
+           
 
 
         $('input[name="allocBarcode"]').val('');

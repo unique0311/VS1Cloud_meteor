@@ -977,7 +977,7 @@ Template.accountsoverview.events({
     let columData = $(event.target).text();
 
     let columnDatanIndex = $(event.target).closest("div.columnSettings").attr('id');
-    //alert(columnDataValue);
+    
     var datable = $('#tblAccountOverview').DataTable();
     var title = datable.column( columnDatanIndex ).header();
     $(title).html(columData);
@@ -1216,7 +1216,7 @@ Template.accountsoverview.events({
 
     },
     'click .btnAddNewAccounts': function () {
-      // alert(loggedTaxCodePurchaseInc);
+      
       $('#add-account-title').text('Add New Account');
       $('#edtAccountID').val('');
       $('#sltAccountType').val('');
@@ -1260,7 +1260,7 @@ $('.fullScreenSpin').css('display','none');
             utilityService.exportToCsv(rows, filename, 'csv');
 },
 'click .templateDownloadXLSX': function (e) {
-  //alert('here')
+  
   e.preventDefault();  //stop the browser from following
   window.location.href = 'sample_imports/SampleAccounts.xlsx';
 },
@@ -1284,7 +1284,7 @@ $('.fullScreenSpin').css('display','none');
         $('.file-name').text('');
         $(".btnImport").Attr("disabled");
     }else if(validCSVExtensions.indexOf(fileExtension) != -1){
-      // alert('here 1');
+      
       $('.file-name').text(filename);
       let selectedFile = event.target.files[0];
 
@@ -1340,7 +1340,7 @@ $('.fullScreenSpin').css('display','none');
     let objDetails;
     var filename = $('#attachment-upload')[0].files[0]['name'];
     var fileType = filename.split('.').pop().toLowerCase();
-    // alert(filename.split('.').pop().toLowerCase());
+    
     if((fileType == "csv") || (fileType == "txt") || (fileType == "xlsx")){
     Papa.parse(templateObject.selectedFile.get(), {
         complete: function(results) {

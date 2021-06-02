@@ -1207,20 +1207,20 @@ var getInputRadio = goToParent.find("input[id = " + getValue + "]");
             var x = window.matchMedia("(max-width: 1024px)")
 
             function mediaQuery(x) {
-                if (x.matches) { // If media query matches
+                if (x.matches) { 
 
                     $("#newcardb").addClass("alignColCenter");
                 }
             }
-            mediaQuery(x) // Call listener function at run time
-            x.addListener(mediaQuery) // Attach listener function on state changes
+            mediaQuery(x) 
+            x.addListener(mediaQuery) 
         }, 10);
         setTimeout(function () {
 
             var x = window.matchMedia("(max-width: 812px)")
 
             function mediaQuery(x) {
-                if (x.matches) { // If media query matches
+                if (x.matches) { 
 
                     $("#newcardb").addClass("alignColCenter");
 
@@ -1272,8 +1272,8 @@ var getInputRadio = goToParent.find("input[id = " + getValue + "]");
                     $("#colAppointmentList").addClass("col-2");
                 }
             }
-            mediaQuery(x) // Call listener function at run time
-            x.addListener(mediaQuery) // Attach listener function on state changes
+            mediaQuery(x) 
+            x.addListener(mediaQuery) 
         }, 10);
         setTimeout(function() {
 

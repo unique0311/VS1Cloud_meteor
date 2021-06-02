@@ -120,7 +120,7 @@ let currenctURL = Router.current().params.query;
 
 
         }
-        // alert('here');
+        
           records = _.sortBy(records, 'Company');
         records = _.groupBy(records, 'Company');
         for (let key in records) {
@@ -307,7 +307,7 @@ let grandbalance = 0;
 
 
       }
-      // alert('here');
+      
         records = _.sortBy(records, 'Company');
       records = _.groupBy(records, 'Company');
       for (let key in records) {
@@ -516,7 +516,7 @@ let grandbalance = 0;
         let redirectid = $(event.target).closest('tr').attr('id');
 
         let transactiontype = $(event.target).closest('tr').attr('class');;
-        // alert(transactiontype);
+        
         if(redirectid && transactiontype){
           if(transactiontype === 'Quote' ){
             window.open('/quotecard?id=' + redirectid,'_self');

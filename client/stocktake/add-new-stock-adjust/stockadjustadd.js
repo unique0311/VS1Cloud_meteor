@@ -55,7 +55,7 @@ let uomList = "";
 let departmentList = [];
 let DataList=[];
 let currentStockAdjustId = '';
-//alert(currentStockAdjustId);
+
 function getUrlParam(name) {
     var results = new RegExp('[\\?&]' + name + '=([^&#]*)').exec(window.location.href);
     return (results && results[1]) || undefined;
@@ -63,7 +63,7 @@ function getUrlParam(name) {
 var id = getUrlParam('id');
 if (id > "") {
   currentStockAdjustId = id;
-  //alert(id);
+  
     // do something with the id
 } else {
   currentStockAdjustId = 'newstockadjust';
@@ -467,7 +467,7 @@ templateObject.loadProductImage = function (productName) {
     for (let i = 0; i < data.tproductpicture.length; i++) {
       let previewImage = {};
       let input =  data.tproductpicture[i].PicType;
-      //alert(input);
+      
       let prodAttachment = data.tproductpicture[i].MIMEEncodedPicture;
       previewImage.link = 'data:'+input+';base64,'+prodAttachment;
       previewImage.name = data.tproductpicture[i].ImageName;
@@ -476,7 +476,7 @@ templateObject.loadProductImage = function (productName) {
         $('#myPrevImgModal').modal('show');
 
     }
-  //alert('Rasheed :' +productName);
+  
 });
 };
 
@@ -610,7 +610,7 @@ getProductByBarcode = function (barcode) {
   let scannedCode =  barcode;
   if(scannedCode != ''){
     var segs = scannedCode.split('-');
-    //alert(segs.length);
+    
     if(segs.length >= 3){
       if(segs[0] == Barcode_Prefix_PQASN){
         accountService.validateProdSerialNumbers(scannedCode).then(function (data) {
@@ -618,8 +618,8 @@ getProductByBarcode = function (barcode) {
           var valListRet = JSON.stringify(data);
           let valueObj = JSON.parse(valListRet);
           let returnedResult = valueObj.ValidateSN.Result;
-          //alert(returnedResult);
-          //alert(valueObj.ValidateSN.Result);
+          
+          
         //  alert(valListRet.ValidateSN.Result);
           if(returnedResult == false){
              scannedSerial = "";
@@ -662,11 +662,11 @@ getProductByBarcode = function (barcode) {
           });
 
       }else if(segs[0] == Barcode_Prefix_PQABATCH){
-        //alert('Batch');
+        
       }
     }else{
       accountService.getProductDataByBarcodes(barcode).then(function (data) {
-       //alert(JSON.stringify(data.tproductbarcode));
+       
             if(data.tproductbarcode.length === 0){
               Bert.alert('<strong>WARNING:</strong> Product Not Found for this Barcode "'+barcode+'"', 'now-dangerorange');
             }
@@ -862,7 +862,7 @@ $(".add-stock-diff-status").click(function(e) {
       var empName = ($("#STEmployeeName").val());
         var tableLine = $('#component_tb tbody tr').map(function (idxRow, ele) {
         var itemValProd = $(this).closest("tr") .find(".select-product").html();
-        //alert(itemValProd.replace(/\s/g, ''));
+        
     if(itemValProd.replace(/\s/g, '') != ""){
     var typeName = 'TSAELinesFlat';
     var retVal = {PartBarcode: ""};
@@ -957,7 +957,7 @@ $(".add-stock-diff-status").click(function(e) {
     return Line;
 }).get();
 
-//alert(JSON.stringify(tableLine));
+
 let stockDate_format = moment(stockDate).format();
         let stockStatus;
         if(e.target.id === "createStockAdjust"){
@@ -1029,11 +1029,11 @@ var myString = JSON.stringify(objDetails);
 
 oPost.send(myString);
 
-//alert(myString);
+
 oPost.timeout = 30000;
-//alert('testLine');
+
 oPost.onreadystatechange = function() {
-//alert('Rasheed');
+
 if (oPost.readyState == 4 && oPost.status == 200) {
 
 Router.go('/stockadjlist');
@@ -1099,10 +1099,10 @@ this.submit();
 
 $("#btnScanPSN").click(function(e) {
   var scannedCode =  $('input[name="prodBarcode"]').val().toUpperCase();
-  //alert(scannedCode);
+  
    //let tempObjNew = Template.instance();
   getProductByBarcode(scannedCode);
-  //alert(scannedCode);
+  
   });
 
 });
@@ -1880,7 +1880,7 @@ Template.stockscan.events({
                         var qty = $tblrow.find(".qty").html();
 
                         var taxrate = $tblrow.find(".taxrate").val();
-                        //alert(taxrate);
+                        
                         var price = $tblrow.find(".unitPrice").html();
                         var subTotal = parseInt(qty, 10) * parseFloat(price);
                         var taxTotal = 0;
@@ -1937,7 +1937,7 @@ Template.stockscan.events({
                         var qty = $tblrow.find(".qty").html();
 
                         var taxrate = $tblrow.find(".taxrate").val();
-                        //alert(taxrate);
+                        
                         var price = $tblrow.find(".unitPrice").html();
                         var subTotal = parseInt(qty, 10) * parseFloat(price);
                         var taxTotal = parseInt(qty, 10) * parseFloat(price) * parseFloat(taxrate);
@@ -2045,7 +2045,7 @@ Template.stockscan.events({
                 var ErrorResponse = oPost.getResponseHeader('errormessage');
                 var segError = ErrorResponse.split(':');
                 if ((segError[1]) == ' "Unable to lock object') {
-                    //alert(oPost.getAllResponseHeaders());
+                    
                     Bert.alert('<strong>' + oPost.getResponseHeader('errormessage') + '</strong>. Please close the product in ERP!', 'danger');
                 } else {
                   swal({
@@ -2112,7 +2112,7 @@ Template.stockscan.events({
         Session.set('isShowSaveNotification', false);
     },
     'keyup #prodBarcode':function (e) {
-      //alert('Rasheed');
+      
       if (e.keyCode == 13) {
         var scannedCode =  $('input[name="prodBarcode"]').val().toUpperCase();
         getProductByBarcode(scannedCode);

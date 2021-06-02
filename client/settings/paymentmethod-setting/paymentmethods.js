@@ -598,7 +598,7 @@ if(listData){
    var paymentMethodID = listData || '';
    var paymentMethodName = $(event.target).closest("tr").find(".colName").text() || '';
     // isCreditcard = $(event.target).closest("tr").find(".colName").text() || '';
-   // alert(isCreditcard);
+   
    if($(event.target).closest("tr").find(".colIsCreditCard .chkBox").is(':checked')){
      isCreditcard = true;
    }

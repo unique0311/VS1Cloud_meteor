@@ -6,7 +6,7 @@ import { ProductService } from "../../product/product-service";
 import '../../lib/global/erp-objects';
 import 'jquery-ui-dist/external/jquery/jquery';
 import 'jquery-ui-dist/jquery-ui';
-// import 'jquery-ui-dist/jquery-ui.css';
+
 import { Random } from 'meteor/random';
 import { jsPDF } from 'jspdf';
 import 'jQuery.print/jQuery.print.js';
@@ -28,13 +28,13 @@ Template.stockadjustmentcard.onCreated(() => {
 
     templateObject.productquantityrecord = new ReactiveVar([]);
 
-    // JQuery & CSS by Bruno BEGIN
+    
     setTimeout(function () {
 
         var x = window.matchMedia("(max-width: 1024px)")
 
         function mediaQuery(x) {
-            if (x.matches) { // If media query matches
+            if (x.matches) { 
 
                 $("#colToAccount").removeClass("col-2");
                 $("#colToAccount").addClass("col-4");
@@ -44,8 +44,8 @@ Template.stockadjustmentcard.onCreated(() => {
                 $("#colDate").addClass("col-4");
             }
         }
-        mediaQuery(x) // Call listener function at run time
-        x.addListener(mediaQuery) // Attach listener function on state changes
+        mediaQuery(x) 
+        x.addListener(mediaQuery) 
     }, 10);
 
     setTimeout(function () {
@@ -53,7 +53,7 @@ Template.stockadjustmentcard.onCreated(() => {
         var x = window.matchMedia("(max-width: 420px)")
 
         function mediaQuery(x) {
-            if (x.matches) { // If media query matches
+            if (x.matches) { 
 
                 $("#colToAccount").removeClass("col-2");
                 $("#colToAccount").addClass("col-12");
@@ -66,10 +66,10 @@ Template.stockadjustmentcard.onCreated(() => {
                 $("#colDate").addClass("marginright16");
             }
         }
-        mediaQuery(x) // Call listener function at run time
-        x.addListener(mediaQuery) // Attach listener function on state changes
+        mediaQuery(x) 
+        x.addListener(mediaQuery) 
     }, 10);
-    // JQuery & CSS by Bruno END
+    
 
 });
 Template.stockadjustmentcard.onRendered(() => {
@@ -332,14 +332,14 @@ Template.stockadjustmentcard.onRendered(() => {
                                             let columnClass = columHeaderUpdate.substring(columHeaderUpdate.indexOf(".") + 1);
                                             let columnWidth = customcolumn[i].width;
 
-                                            //alert(columnClass);
+                                            
                                             $("" + columHeaderUpdate + "").html(columData);
                                             if (columnWidth != 0) {
                                                 $("" + columHeaderUpdate + "").css('width', columnWidth + '%');
                                             }
 
                                             if (hiddenColumn == true) {
-                                                //alert(columnClass);
+                                                
                                                 //$("."+columnClass+"").css('display','none');
                                                 $("." + columnClass + "").addClass('hiddenColumn');
                                                 $("." + columnClass + "").removeClass('showColumn');
@@ -463,14 +463,14 @@ Template.stockadjustmentcard.onRendered(() => {
                                                 let columnClass = columHeaderUpdate.substring(columHeaderUpdate.indexOf(".") + 1);
                                                 let columnWidth = customcolumn[i].width;
 
-                                                //alert(columnClass);
+                                                
                                                 $("" + columHeaderUpdate + "").html(columData);
                                                 if (columnWidth != 0) {
                                                     $("" + columHeaderUpdate + "").css('width', columnWidth + '%');
                                                 }
 
                                                 if (hiddenColumn == true) {
-                                                    //alert(columnClass);
+                                                    
                                                     //$("."+columnClass+"").css('display','none');
                                                     $("." + columnClass + "").addClass('hiddenColumn');
                                                     $("." + columnClass + "").removeClass('showColumn');
@@ -570,14 +570,14 @@ Template.stockadjustmentcard.onRendered(() => {
                                         let columnClass = columHeaderUpdate.substring(columHeaderUpdate.indexOf(".") + 1);
                                         let columnWidth = customcolumn[i].width;
 
-                                        //alert(columnClass);
+                                        
                                         $("" + columHeaderUpdate + "").html(columData);
                                         if (columnWidth != 0) {
                                             $("" + columHeaderUpdate + "").css('width', columnWidth + '%');
                                         }
 
                                         if (hiddenColumn == true) {
-                                            //alert(columnClass);
+                                            
                                             //$("."+columnClass+"").css('display','none');
                                             $("." + columnClass + "").addClass('hiddenColumn');
                                             $("." + columnClass + "").removeClass('showColumn');
@@ -674,7 +674,7 @@ Template.stockadjustmentcard.onRendered(() => {
                             let hiddenColumn = customcolumn[i].hidden;
                             let columnClass = columHeaderUpdate.substring(columHeaderUpdate.indexOf(".") + 1);
                             let columnWidth = customcolumn[i].width;
-                            //alert(columnClass);
+                            
                             $("" + columHeaderUpdate + "").html(columData);
                             if (columnWidth != 0) {
                                 $("" + columHeaderUpdate + "").css('width', columnWidth + '%');
@@ -715,7 +715,7 @@ Template.stockadjustmentcard.onRendered(() => {
             let lineAmount = 0;
             let subGrandTotal = 0;
             let taxGrandTotal = 0;
-            // alert(lineProductID);
+            
             $('#' + selectLineID + " .lineProductName").text(lineProductName);
             $('#' + selectLineID + " .lineProductName").attr('productid', lineProductID);
             $('#' + selectLineID + " .lineProductName").attr('productcost', lineProdCost);
@@ -1094,7 +1094,7 @@ Template.stockadjustmentcard.events({
           let productname = $tblrow.find(".colProductName").text() || '';
           let selectLineID = $tblrow.closest('tr').attr('id');
           templateObject.getProductQty(selectLineID, productname);
-          // console.log(selectLineID);
+
       });
     },
     'blur .lineQty': function (event) {
@@ -1564,7 +1564,7 @@ Template.stockadjustmentcard.events({
                     }
                 };
             }
-            //alert(JSON.stringify(objDetails));
+            
             stockTransferService.saveStockAdjustment(objDetails).then(function (objDetails) {
                 Router.go('/stockadjustmentoverview?success=true');
                 $('.modal-backdrop').css('display', 'none');

@@ -2805,7 +2805,7 @@ $('.fullScreenSpin').css('display', 'none');
             templateObject.record.set(record);
 
             //
-            // alert(totalGrandAmount);
+            
           });
 
         }
@@ -6655,7 +6655,7 @@ Template.supplierpaymentcard.events({
         swal('Supplier Email cannot be blank!', '', 'warning');
         event.preventDefault();
       } else {
-        // alert('here 1');
+        
         function isEmailValid(mailTo) {
           return /^[A-Z0-9'.1234z_%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(mailTo);
         };

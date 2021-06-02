@@ -112,7 +112,7 @@ addStockAdjustRow = function (rowCount) {
                      $tblrow.find('.AdjustQty').on('change', function () {
                     // alert('now here');
                     var adjust = $tblrow.find("[id=adjust]").val();
-                    //alert(qty);
+                    
                     var availableQty = $tblrow.find("[id=instock]").val();
                     var sumTotal = parseInt(adjust) + parseInt(availableQty);
                     if (!isNaN(sumTotal)) {
@@ -126,7 +126,7 @@ addStockAdjustRow = function (rowCount) {
                     });
 
                  });
-    //alert(num);
+    
   //});
 
   $(document).on('click', 'a.removebutton', function () {
@@ -155,7 +155,7 @@ addStockAdjustRow = function (rowCount) {
       var ProdBarcode = Segs[2];
       var ProdName = Segs[0];
       var erpGet = erpDb();
-       //alert(ProdName);
+       
           if (x != null) {
 
               for (var i = 0; i < x.rows.length; i++) {
@@ -187,7 +187,7 @@ addStockAdjustRow = function (rowCount) {
                  oReq.send();
 
                  oReq.timeout = 30000;
-                 //alert('1');
+                 
                  oReq.onreadystatechange = function() {
                  if (oReq.readyState == 4 && oReq.status == 200) {
                    var dataListRet2 = JSON.parse(oReq.responseText);
@@ -196,7 +196,7 @@ addStockAdjustRow = function (rowCount) {
                      var dataCopy2 = dataListRet2[event];
                      for (var data2 in dataCopy2) {
                        var mainData2 = dataCopy2[data2];
-                       //alert(mainData2.EmployeeName);
+                       
                       // department = mainData2.DeptName;
                        quantity = mainData2.AvailableQty;
                        inStockQty = mainData2.InStockQty;
@@ -209,7 +209,7 @@ addStockAdjustRow = function (rowCount) {
                   $('input[name="'+availableN+'"]').val(quantity);
                   $('input[name="'+finalN+'"]').val(inStockQty);
                   $('input[name="'+adjustN+'"]').val('1').trigger("change");
-                    //alert(quantity);
+                    
 
                 /* var dataListRet = oReq.responseText;
                  //var id = '';
@@ -253,7 +253,7 @@ addStockAdjustRow = function (rowCount) {
       //var AccTaxCode = Segs[1];
 
       var erpGet2 = erpDb();
-       //alert(itemVal2);
+       
           if (x != null) {
 
               for (var i = 0; i < x.rows.length; i++) {
@@ -263,7 +263,7 @@ addStockAdjustRow = function (rowCount) {
                       x.rows[i].cells[5].onclick = function () {
 
                         var cnt = i;
-                      //alert('here 3');
+                      
                         var instock2N ="instock_"+cnt;
                         var available2N ="available_"+cnt;
                         var final2N ="final_"+cnt;
@@ -290,7 +290,7 @@ addStockAdjustRow = function (rowCount) {
                  oReqDept.send();
 
                  oReqDept.timeout = 30000;
-                 //alert('1');
+                 
                  oReqDept.onreadystatechange = function() {
                  if (oReqDept.readyState == 4 && oReqDept.status == 200) {
                    var dataListRet3 = JSON.parse(oReqDept.responseText);
@@ -300,12 +300,12 @@ addStockAdjustRow = function (rowCount) {
                      var dataCopy3 = dataListRet3[event2];
                      for (var data3 in dataCopy3) {
                        var mainData3 = dataCopy3[data3];
-                       //alert(mainData2.EmployeeName);
+                       
                       // department = mainData2.DeptName;
                        quantity2 = mainData3.AvailableQty;
                        inStockQty2 = mainData3.InStockQty;
                        //sumQty += parseInt(quantity);
-                       //alert(sumQty);
+                       
                        //employeeaccno = mainData2.AccountNo;
                        //employeeaccname = mainData2.AccountName;
                        //employeebankcode = mainData2.BankCode;
@@ -324,7 +324,7 @@ addStockAdjustRow = function (rowCount) {
                    $('input[name="'+instock2N+'"]').val(inStockQty2);
                    $('input[name="'+final2N+'"]').val(inStockQty2);
                   //$('input[name="'+finalN+'"]').val(quantity);
-                    //alert(quantity);
+                    
 
                AddUERP(oReqDept.responseText);
                  }

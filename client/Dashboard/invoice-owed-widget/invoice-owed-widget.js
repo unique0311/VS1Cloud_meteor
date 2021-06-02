@@ -166,7 +166,7 @@ Template.invoiceOwedWidget.onRendered(()=>{
                 for (var data3 in dataCopy3) {
                     var mainData3 = dataCopy3[data3];
                     draftTotal += mainData3.TotalAmountInc;
-                    //alert(sum_count3);
+                    
                     sum_count3++;
                 }
             }

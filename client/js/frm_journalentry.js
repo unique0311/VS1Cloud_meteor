@@ -44,7 +44,7 @@ Template.journalentrycard.onCreated(() => {
     templateObject.clientrecords = new ReactiveVar([]);
     templateObject.taxraterecords = new ReactiveVar([]);
 
-    /* Attachments */
+
     templateObject.uploadedFile = new ReactiveVar();
     templateObject.uploadedFiles = new ReactiveVar([]);
     templateObject.attachmentCount = new ReactiveVar();
@@ -893,7 +893,7 @@ Template.journalentrycard.onRendered(() => {
 
     });
 
-    /* On clik Inventory Line */
+
     $(document).on("click", "#tblAccount tbody tr", function (e) {
         let selectLineID = $('#selectLineID').val();
         let taxcodeList = templateObject.taxraterecords.get();
@@ -968,7 +968,7 @@ Template.journalentrycard.onRendered(() => {
         }
     });
 
-    /* On Click TaxCode List */
+    
     $(document).on("click", "#tblTaxRate tbody tr", function (e) {
         let selectLineID = $('#selectLineID').val();
         let taxcodeList = templateObject.taxraterecords.get();

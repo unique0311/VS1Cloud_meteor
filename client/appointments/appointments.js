@@ -4,12 +4,11 @@ import { ProductService } from "../product/product-service";
 import { CoreService } from '../js/core-service';
 import { UtilityService } from "../utility-service";
 import 'jquery-ui-dist/external/jquery/jquery';
-//import 'jquery-ui-dist/jquery-ui';
 import { SalesBoardService } from '../js/sales-service';
 import { AppointmentService } from './appointment-service';
 //Calendar
 import { Calendar, formatDate } from '@fullcalendar/core';
-// import interactionPlugin from '@fullcalendar/interaction';
+
 import interactionPlugin, { Draggable } from '@fullcalendar/interaction';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
@@ -716,7 +715,7 @@ Template.appointments.onRendered(function () {
         } else {
             let data = JSON.parse(dataObject[0].data);
             let useData = data.tappointmentpreferences;
-            // console.log(useData);
+
             for (let i = 0; i < useData.length; i++) {
                 if (useData[i].EmployeeID == Session.get('mySessionEmployeeLoggedID')) {
 
@@ -749,7 +748,7 @@ Template.appointments.onRendered(function () {
 
                     prefObject = {
                         id: useData[i].Id || '',
-                        defaultProduct: useData[i].EmployeeID.DefaultServiceProduct || '',
+                        defaultProduct: useData[i].DefaultServiceProduct || '',
                         defaultProductID: useData[i].DefaultServiceProductID || '',
                         showSat: useData[i].ShowSaturdayinApptCalendar || false,
                         showSun: useData[i].ShowSundayinApptCalendar || false,
@@ -1772,7 +1771,7 @@ Template.appointments.onRendered(function () {
                         dayMaxEvents: true, // allow "more" link when too many events
                         //Triggers modal once event is moved to another date within the calendar.
                         eventDrop: function (event) {
-                            //alert($(this).date.format());
+
                             if (info.event._def.publicId != "") {
                                 let eventDropID = info.event._def.publicId || '0';
                                 let dateStart = new Date(info.event.start);
@@ -3870,15 +3869,7 @@ Template.appointments.onRendered(function () {
                     }
                 }
                 document.getElementById("appID").value = max + 1;
-                // Math.max.apply(Math, data.tappointment.map(function (max) {
-                //     //alert(max.id);
-                //     if (max.id > 0) {
-                //         let appID = max.id + 1;
-                //         document.getElementById("appID").value = appID;
-                //     } else {
-                //         document.getElementById("appID").value = 1;
-                //     }
-                // }));
+
             } else {
                 document.getElementById("appID").value = 1;
             }

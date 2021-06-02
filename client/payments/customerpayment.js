@@ -708,7 +708,7 @@ Template.customerpayment.events({
     let columData = $(event.target).text();
 
     let columnDatanIndex = $(event.target).closest("div.columnSettings").attr('id');
-    //alert(columnDataValue);
+    
     var datable = $('#tblCustomerPayment').DataTable();
     var title = datable.column( columnDatanIndex ).header();
     $(title).html(columData);
@@ -764,7 +764,7 @@ Template.customerpayment.events({
     templateObject.tableheaderrecords.set(tableHeaderList);
   },
     'click #exportbtn': function () {
-      // alert('here');
+      
       $('.fullScreenSpin').css('display','inline-block');
       jQuery('#tblCustomerPayment_wrapper .dt-buttons .btntabletocsv').click();
        $('.fullScreenSpin').css('display','none');

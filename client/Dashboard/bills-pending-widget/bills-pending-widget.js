@@ -217,7 +217,7 @@ Template.billsPendingWidget.onRendered(()=>{
                 for (var data5 in dataCopy5) {
                     var mainData5 = dataCopy5[data5];
                     billdraftTotal += mainData5.TotalAmountInc;
-                    //alert(sum_count3);
+                    
                     sum_count5++;
                 }
             }

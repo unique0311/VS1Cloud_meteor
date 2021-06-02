@@ -1903,7 +1903,7 @@ Template.customerscard.onRendered(function () {
                     } else {
                         let data = JSON.parse(dataObject[0].data);
                         let useData = data.tcustomervs1;
-                        
+
                         var added = false;
                         for (let i = 0; i < useData.length; i++) {
                             if (parseInt(useData[i].fields.ID) === parseInt(customerID)) {
@@ -2818,13 +2818,13 @@ Template.customerscard.onRendered(function () {
     }
     templateObject.getCustomersList();
 
-    // JQuery & CSS by Bruno BEGIN
+
     setTimeout(function () {
 
         var x = window.matchMedia("(max-width: 1024px)")
 
         function mediaQuery(x) {
-            if (x.matches) { // If media query matches
+            if (x.matches) {
 
                 $("#displayList").removeClass("col-2");
                 $("#displayList").addClass("col-3");
@@ -2833,8 +2833,8 @@ Template.customerscard.onRendered(function () {
                 $("#displayInfo").addClass("col-9");
             }
         }
-        mediaQuery(x) // Call listener function at run time
-        x.addListener(mediaQuery) // Attach listener function on state changes
+        mediaQuery(x)
+        x.addListener(mediaQuery)
     }, 500);
 
     setTimeout(function () {
@@ -2844,7 +2844,7 @@ Template.customerscard.onRendered(function () {
 
 
         function mediaQuery(x) {
-            if (x.matches) { // If media query matches
+            if (x.matches) {
 
                 $("#displayList").removeClass("col-3");
                 $("#displayList").addClass("col-12");
@@ -2856,11 +2856,11 @@ Template.customerscard.onRendered(function () {
                 $("#displayInfo").addClass("col-12");
             }
         }
-        mediaQuery(x) // Call listener function at run time
-        x.addListener(mediaQuery) // Attach listener function on state changes
+        mediaQuery(x)
+        x.addListener(mediaQuery)
 
     }, 500);
-    // JQuery & CSS by Bruno END
+
     setTimeout
 
 });
@@ -3602,7 +3602,7 @@ Template.customerscard.events({
 
         var custLineID = $(event.target).attr('id');
         var custLineClass = $(event.target).attr('class');
-        // alert(custLineClass);
+
         if (custLineID) {
             if (custLineClass == 'true') {
                 window.open('/customerscard?jobid=' + custLineID, '_self');
@@ -3726,7 +3726,7 @@ Template.customerscard.events({
         let columData = $(event.target).text();
 
         let columnDatanIndex = $(event.target).closest("div.columnSettings").attr('id');
-        //alert(columnDataValue);
+
         var datable = $('#tblTransactionlist').DataTable();
         var title = datable.column(columnDatanIndex).header();
         $(title).html(columData);

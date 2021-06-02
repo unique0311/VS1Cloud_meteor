@@ -122,7 +122,7 @@ addBillRow = function (rowCount) {
 
                     $tblrow.find('.qty').on('change', function () {
                       var qty = $tblrow.find("[id=Ordered]").val();
-                      //alert(qty);
+                      
                       var price = $tblrow.find("[id=UnitPrice]").val();
                       var subTotal = parseInt(qty,10) * parseFloat(price);
                       if (!isNaN(subTotal)) {
@@ -132,7 +132,7 @@ addBillRow = function (rowCount) {
                      $(".subtot").each(function () {
                          var stval = parseFloat($(this).val());
                          SubGrandTotal += isNaN(stval) ? 0 : stval;
-                         //alert(SubGrandTotal);
+                         
                      });
 
 
@@ -145,7 +145,7 @@ addBillRow = function (rowCount) {
 
                     $tblrow.find('.unitPrice').on('change', function () {
                       var qty = $tblrow.find("[id=Ordered]").val();
-                      //alert(qty);
+                      
                       var price = $tblrow.find("[id=UnitPrice]").val();
                       var subTotal = parseInt(qty,10) * parseFloat(price);
                       if (!isNaN(subTotal)) {
@@ -155,7 +155,7 @@ addBillRow = function (rowCount) {
                      $(".subtot").each(function () {
                          var stval = parseFloat($(this).val());
                          SubGrandTotal += isNaN(stval) ? 0 : stval;
-                         //alert(SubGrandTotal);
+                         
                      });
 
 
@@ -194,7 +194,7 @@ $(document).on("click", "#component_tb tr", function(e) {
   var $tblrow = $(this);
 
   var $cell= $(e.target).closest('td');
-  //alert($cell.index());
+  
  if(($cell.index() == 2)){
   var erpGetAccount = erpReqAccount();
   erpGetAccount.onreadystatechange = function() {
@@ -272,7 +272,7 @@ $tblrows.each(function (index) {
 
    $tblrow.find('.qty').on('change', function () {
      var qty = $tblrow.find("[id=Ordered]").val();
-     //alert(qty);
+     
      var price = $tblrow.find("[id=UnitPrice]").val();
      var subTotal = parseInt(qty,10) * parseFloat(price);
      if (!isNaN(subTotal)) {
@@ -282,7 +282,7 @@ $tblrows.each(function (index) {
     $(".subtot").each(function () {
         var stval = parseFloat($(this).val());
         SubGrandTotal += isNaN(stval) ? 0 : stval;
-        //alert(SubGrandTotal);
+        
     });
 
 
@@ -295,7 +295,7 @@ $tblrows.each(function (index) {
 
    $tblrow.find('.unitPrice').on('change', function () {
      var qty = $tblrow.find("[id=Ordered]").val();
-     //alert(qty);
+     
      var price = $tblrow.find("[id=UnitPrice]").val();
      var subTotal = parseInt(qty,10) * parseFloat(price);
      if (!isNaN(subTotal)) {
@@ -305,7 +305,7 @@ $tblrows.each(function (index) {
     $(".subtot").each(function () {
         var stval = parseFloat($(this).val());
         SubGrandTotal += isNaN(stval) ? 0 : stval;
-        //alert(SubGrandTotal);
+        
     });
 
 
@@ -368,7 +368,7 @@ tableCalc = function () {
       $tblrow.find('.qty').on('change', function () {
       
      //var qty = $tblrow.find("[id=Ordered]").val();
-     //alert(qty);
+     
      var price = $tblrow.find("[id=UnitPrice]").val();
      var subTotal =  parseFloat(price);
      if (!isNaN(subTotal)) {
@@ -378,7 +378,7 @@ tableCalc = function () {
     $(".qty").each(function () {
         var stval = parseFloat($(this).val());
         SubGrandTotal += isNaN(stval) ? 0 : stval;
-        //alert(SubGrandTotal);
+        
     });
 
     document.getElementById("subtotal_total").innerHTML = Currency+''+SubGrandTotal.toFixed(2);
@@ -386,7 +386,7 @@ tableCalc = function () {
     $('input[name="subtotal_total_2"]').val(SubGrandTotal.toFixed(2));
     //$('.subtotal_total').val(grandTotal.toFixed(2));
     }
-      //alert(subTotal);
+      
 
      });
 
@@ -410,8 +410,8 @@ $('#component_tb tbody >tr').each(function () {
       var items = {};
       items[tr] = td;
       tdArray.push(items);
-      //alert(items);
-      //alert(JSON.stringify(tdArray));
+      
+      
   });
 });
 

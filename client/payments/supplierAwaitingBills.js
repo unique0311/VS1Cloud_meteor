@@ -349,7 +349,7 @@ Template.supplierawaitingbills.events({
     let columData = $(event.target).text();
 
     let columnDatanIndex = $(event.target).closest("div.columnSettings").attr('id');
-    //alert(columnDataValue);
+    
     var datable = $('#tblSupplierAwaitingBills').DataTable();
     var title = datable.column( columnDatanIndex ).header();
     $(title).html(columData);
@@ -406,7 +406,7 @@ Template.supplierawaitingbills.events({
     templateObject.tableheaderrecords.set(tableHeaderList);
   },
     'click #exportbtn': function () {
-      // alert('here');
+      
       $('.fullScreenSpin').css('display','inline-block');
       jQuery('#tblSupplierAwaitingBills_wrapper .dt-buttons .btntabletocsv').click();
        $('.fullScreenSpin').css('display','none');

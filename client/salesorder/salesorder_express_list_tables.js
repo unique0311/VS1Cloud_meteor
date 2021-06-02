@@ -63,7 +63,7 @@ Template.salesorderslist.onRendered(function() {
         salesService.getAllSalesOrderListNonBO().then(function (data) {
           let lineItems = [];
           let lineItemObj = {};
-          // alert(data.tsalesordernonbackorder[1].Id);
+          
           for(let i=0; i<data.tsalesordernonbackorder.length; i++){
             let totalAmountEx = utilityService.modifynegativeCurrencyFormat(data.tsalesordernonbackorder[i].TotalAmount)|| 0.00;
             let totalTax = utilityService.modifynegativeCurrencyFormat(data.tsalesordernonbackorder[i].TotalTax) || 0.00;
@@ -245,7 +245,7 @@ Template.salesorderslist.onRendered(function() {
         let useData = data.tsalesorderex;
         let lineItems = [];
   let lineItemObj = {};
-  // alert(useData[1].Id);
+  
   for(let i=0; i<useData.length; i++){
     let totalAmountEx = utilityService.modifynegativeCurrencyFormat(useData[i].fields.TotalAmount)|| 0.00;
     let totalTax = utilityService.modifynegativeCurrencyFormat(useData[i].fields.TotalTax) || 0.00;
@@ -423,7 +423,7 @@ Template.salesorderslist.onRendered(function() {
         salesService.getAllSalesOrderListNonBO().then(function (data) {
           let lineItems = [];
           let lineItemObj = {};
-          // alert(data.tsalesordernonbackorder[1].Id);
+          
           for(let i=0; i<data.tsalesordernonbackorder.length; i++){
             let totalAmountEx = utilityService.modifynegativeCurrencyFormat(data.tsalesordernonbackorder[i].TotalAmount)|| 0.00;
             let totalTax = utilityService.modifynegativeCurrencyFormat(data.tsalesordernonbackorder[i].TotalTax) || 0.00;

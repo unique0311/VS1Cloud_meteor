@@ -1072,7 +1072,7 @@ yearRange: "-90:+10",
     }
     });
   }else if(url.indexOf('?soid=') > 0){
-    // alert('here');
+    
     var getsale_id = url.split('?soid=');
     var currentSalesID = getsale_id[getsale_id.length-1];
     if(getsale_id[1]){
@@ -1174,7 +1174,7 @@ yearRange: "-90:+10",
     }
     });
   }else if(url.indexOf('?quoteid=') > 0){
-    // alert('here');
+    
     var getsale_id = url.split('?quoteid=');
     var currentSalesID = getsale_id[getsale_id.length-1];
     if(getsale_id[1]){
@@ -1275,7 +1275,7 @@ yearRange: "-90:+10",
     }
     });
   }else if(url.indexOf('?invid=') > 0){
-    // alert('here');
+    
     var getsale_id = url.split('?invid=');
     var currentSalesID = getsale_id[getsale_id.length-1];
     if(getsale_id[1]){
@@ -1642,7 +1642,7 @@ $('.fullScreenSpin').css('display','none');
           }
           }
       }
-// alert(companyName);
+
       let record = {
           lid:'',
           customerName: companyName || '',
@@ -1765,7 +1765,7 @@ $('.fullScreenSpin').css('display','none');
         });
     }
   }else if(url.indexOf('?customername=') > 0){
-    // alert('here');
+    
     var getsale_id = url.split('?customername=');
     var currentSalesName = getsale_id[getsale_id.length-1];
     if(getsale_id[1]){
@@ -1869,7 +1869,7 @@ $('.fullScreenSpin').css('display','none');
     }
     });
   }else if(url.indexOf('?selectcust=') > 0){
-    // alert('here');
+    
     var getsale_id = url.split('?selectcust=');
     var currentSalesID = getsale_id[getsale_id.length-1];
     
@@ -1879,7 +1879,7 @@ $('.fullScreenSpin').css('display','none');
   let amountData =  0;
       var arr = currentSalesID.split(',');
       for (let i = 0; i < arr.length; i++) {
-        // alert(arr[i]);
+        
         currentSalesID = parseInt(arr[i]);
 
     paymentService.getOneInvoicePayment(currentSalesID).then(function (data) {
@@ -4831,7 +4831,7 @@ var htmlmailBody = '<table align="center" border="0" cellpadding="0" cellspacing
           swal('Customer Email cannot be blank!', '', 'warning');
           event.preventDefault();
         }else{
-          // alert('here 1');
+          
           function isEmailValid(mailTo) {
             return /^[A-Z0-9'.1234z_%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(mailTo);
           };

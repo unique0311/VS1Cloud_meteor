@@ -791,7 +791,7 @@ Template.employeelist.events({
                utilityService.exportToCsv(rows, filename, 'csv');
    },
    'click .templateDownloadXLSX': function (e) {
-     //alert('here')
+     
      e.preventDefault();  //stop the browser from following
      window.location.href = 'sample_imports/SampleEmployee.xlsx';
    },
@@ -815,7 +815,7 @@ Template.employeelist.events({
            $('.file-name').text('');
            $(".btnImport").Attr("disabled");
        }else if(validCSVExtensions.indexOf(fileExtension) != -1){
-         // alert('here 1');
+         
          $('.file-name').text(filename);
          let selectedFile = event.target.files[0];
          templateObj.selectedFile.set(selectedFile);

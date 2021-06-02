@@ -31,7 +31,7 @@ export class InvoiceService extends BaseService {
         return this.getOneById(this.ERPObjects.TInvoiceEx, id);
     }
     savePaidStatusData(data){
-        //alert(JSON.stringify(data));
+        
         return this.POST(this.ERPObjects.TInvoice, data);
     }
     saveDepositData(data){

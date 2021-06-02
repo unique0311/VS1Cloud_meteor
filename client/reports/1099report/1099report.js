@@ -108,7 +108,7 @@ yearRange: "-90:+10",
           records.push(recordObj);
 
         }
-        // alert('here');
+        
           records = _.sortBy(records, 'Company');
         records = _.groupBy(records, 'Company');
         for (let key in records) {
@@ -281,7 +281,7 @@ let grandbalance = 0;
           records.push(recordObj);
 
         }
-        // alert('here');
+        
           records = _.sortBy(records, 'Company');
         records = _.groupBy(records, 'Company');
         for (let key in records) {
@@ -489,7 +489,7 @@ let grandbalance = 0;
         let redirectid = $(event.target).closest('tr').attr('id');
 
         let transactiontype = $(event.target).closest('tr').attr('class');;
-        // alert(transactiontype);
+        
         if(redirectid && transactiontype){
           if(transactiontype === 'Customer Payment' ){
             window.open('/paymentcard?id=' + redirectid,'_self');

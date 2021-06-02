@@ -681,7 +681,7 @@ if(listData){
    }else{
      isDays = true;
    }
-   // alert(isCreditcard);
+   
 
    $('#edtTermsID').val(termsID);
    $('#edtName').val(termsName);

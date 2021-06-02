@@ -181,7 +181,7 @@ yearRange: "-90:+10",
                             //$tblrow.find('.qty').on('change', function () {
                             var qty = $tblrow.find(".qty").html();
                             var taxrate = $tblrow.find(".taxrate").val();
-                            //alert(taxrate);
+                            
                             var price = $tblrow.find(".unitPrice").html();
                             var subTotal = parseInt(qty, 10) * parseFloat(price);
                             var taxTotal = 0;
@@ -235,7 +235,7 @@ yearRange: "-90:+10",
                             var qty = $tblrow.find(".qty").html();
 
                             var taxrate = $tblrow.find(".taxrate").val();
-                            //alert(taxrate);
+                            
                             var price = $tblrow.find(".unitPrice").html();
                             var subTotal = parseInt(qty, 10) * parseFloat(price);
                             var taxTotal = parseInt(qty, 10) * parseFloat(price) * parseFloat(taxrate);
@@ -372,7 +372,7 @@ yearRange: "-90:+10",
                     var qty = $tblrow.find(".qty").html();
 
                     var taxrate = $tblrow.find(".taxrate").val();
-                    //alert(taxrate);
+                    
                     var price = $tblrow.find(".unitPrice").html();
                     var subTotal = parseInt(qty,10) * parseFloat(price);
                     var taxTotal = parseInt(qty,10) * parseFloat(price) * parseFloat(taxrate);
@@ -412,7 +412,7 @@ yearRange: "-90:+10",
                         document.getElementById("subtotal_total2").innerHTML = currencySymbol+''+GrandTotal.toFixed(2);
                     }
                     //let GrandTotal = (parseFloat(GrandTaxTotal)) + (parseFloat(SubGrandTotal));
-                    //alert(GrandTotal);
+                    
                     //document.getElementById("subtotal_total2").innerHTML = Currency+''+GrandTotal.toFixed(2);
                     // });
 
@@ -1001,7 +1001,7 @@ Template.editRepeating.events({
                 let currencySymbol = templateObject.currencySymbol.get();
                 var itemVal = templateObject.$("#myTaxDropdown").val();
                 if( itemVal === "No Tax"){
-                    //alert(itemVal);
+                    
                     templateObject.$('#taxRateHeader').css('background','#ccc');
                     $('.select-tax-rate').attr('readonly', true);
                     $(".select-tax-rate").prop('disabled', true);

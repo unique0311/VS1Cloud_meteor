@@ -41,7 +41,7 @@ Template.taxRatesSettings.onRendered(function() {
     });
   }, 500);
 
-  // alert(salestaxcode);
+  
 
     Meteor.call('readPrefMethod',Session.get('mycloudLogonID'),'taxRatesList', function(error, result){
     if(error){
@@ -825,7 +825,7 @@ Template.taxRatesSettings.events({
 
     });
 
-    // alert(purchasetaxcode +""+salestaxcode);
+    
     var getcurrentCloudDetails = CloudUser.findOne({_id:Session.get('mycloudLogonID'),clouddatabaseID:Session.get('mycloudLogonDBID')});
         if(getcurrentCloudDetails){
         if (getcurrentCloudDetails._id.length > 0) {

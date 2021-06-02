@@ -15,8 +15,8 @@ export class StockAdjust extends BaseService {
     }
 
     saveStock(data){
-      //alert(JSON.stringify(data));
-      //alert(data);
+      
+      
         return this.POST(this.ERPObjects.TStockAdjustEntry, data);
     }
 

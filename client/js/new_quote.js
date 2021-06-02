@@ -2424,7 +2424,6 @@ Template.new_quote.onRendered(() => {
                 $("#lineQty", rowData1).text("");
                 $("#lineOrdered", rowData1).text("");
                 $("#lineUnitPrice", rowData1).text("");
-                // $(".lineTaxRate", rowData).text("");
                 $("#lineTaxAmount", rowData1).text("");
                 $("#lineAmt", rowData1).text("");
                 rowData1.attr('id', tokenid);
@@ -2446,7 +2445,7 @@ Template.new_quote.onRendered(() => {
         let utilityService = new UtilityService();
         let $tblrows = $("#tblQuoteLine tbody tr");
         let taxcode1 = "";
-        //var data = table.row( this ).data();
+
         let selectedCust = $('#edtCustomerName').val();
         let getCustDetails = "";
         let lineTaxRate = "";
@@ -2487,7 +2486,6 @@ Template.new_quote.onRendered(() => {
             if (taxcodeList) {
                 for (var i = 0; i < taxcodeList.length; i++) {
                     if (taxcodeList[i].codename == lineTaxRate) {
-                        //lineTaxCode = taxcodeList[i].coderate;
                         $('#' + selectLineID + " .lineTaxRate").text(taxcodeList[i].coderate);
                     }
                 }
@@ -2601,8 +2599,6 @@ Template.new_quote.onRendered(() => {
         }
     });
 
-
-    /* On Click TaxCode List */
     $(document).on("click", "#tblTaxRate tbody tr", function (e) {
         let selectLineID = $('#selectLineID').val();
         let taxcodeList = templateObject.taxraterecords.get();
@@ -2837,7 +2833,7 @@ Template.new_quote.onRendered(() => {
 
                                 }
                             });
-                    
+
                         }
 
 
@@ -3630,7 +3626,7 @@ Template.new_quote.events({
         let $tblrows = $("#tblQuoteLine tbody tr");
         let $printrows = $(".quote_print tbody tr");
         var targetID = $(event.target).closest('tr').attr('id');
-        //if(selectLineID){
+
         let lineAmount = 0;
         let subGrandTotal = 0;
         let taxGrandTotal = 0;
@@ -3739,10 +3735,7 @@ Template.new_quote.events({
 
         let $tblrows = $("#tblQuoteLine tbody tr");
         let $printrows = $(".quote_print tbody tr");
-        var targetID = $(event.target).closest('tr').attr('id'); // table row ID
-
-        
-
+        var targetID = $(event.target).closest('tr').attr('id');
         let lineAmount = 0;
         let subGrandTotal = 0;
         let taxGrandTotal = 0;
@@ -5489,7 +5482,7 @@ Template.new_quote.events({
 
 
             }).catch(function (err) {
-                console.log(err);
+
                 swal({
                     title: 'Something went wrong',
                     text: err,

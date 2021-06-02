@@ -1930,13 +1930,13 @@ Template.employeescard.onRendered(function () {
     });
 },1000);
 
-    // JQuery & CSS by Bruno BEGIN
+    
     setTimeout(function () {
 
         var x = window.matchMedia("(max-width: 1024px)");
 
         function mediaQuery(x) {
-            if (x.matches) { // If media query matches
+            if (x.matches) { 
 
                 $("#displayList").removeClass("col-2");
                 $("#displayList").addClass("col-3");
@@ -1951,8 +1951,8 @@ Template.employeescard.onRendered(function () {
                 $("#absentChart").addClass("col-12");
             }
         }
-        mediaQuery(x) // Call listener function at run time
-        x.addListener(mediaQuery) // Attach listener function on state changes
+        mediaQuery(x) 
+        x.addListener(mediaQuery) 
     }, 500);
 
     setTimeout(function () {
@@ -1961,7 +1961,7 @@ Template.employeescard.onRendered(function () {
         var btnView = document.getElementById("btnsViewHide");
 
         function mediaQuery(x) {
-            if (x.matches) { // If media query matches
+            if (x.matches) { 
 
                 $("#displayList").removeClass("col-2");
                 $("#displayList").addClass("col-12");
@@ -1979,10 +1979,10 @@ Template.employeescard.onRendered(function () {
                 $("#absentChart").addClass("col-12");
             }
         }
-        mediaQuery(x) // Call listener function at run time
-        x.addListener(mediaQuery) // Attach listener function on state changes
+        mediaQuery(x) 
+        x.addListener(mediaQuery) 
     }, 500);
-    // JQuery & CSS by Bruno END
+    
 
 
 });
@@ -2074,7 +2074,7 @@ Template.employeescard.events({
             }
         };
         var objDetails = '';
-        // alert(getemp_id);
+        
         let imageData = '';
         if (templateObject.imageFileData.get()) {
             imageData = templateObject.imageFileData.get().split(',')[1] || '';
@@ -3238,7 +3238,7 @@ Template.employeescard.events({
         let columData = $(event.target).text();
 
         let columnDatanIndex = $(event.target).closest("div.columnSettings").attr('id');
-        //alert(columnDataValue);
+        
         var datable = $('#tblTransactionlist').DataTable();
         var title = datable.column(columnDatanIndex).header();
         $(title).html(columData);

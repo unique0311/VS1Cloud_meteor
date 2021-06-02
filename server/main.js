@@ -20,13 +20,11 @@ Meteor.startup(() => {
     privateKey: 'cdd3badd1bddcc1388198d78b6da5652'
   });
 
-  //instantiate the client object
-
   const options = {
   url: 'https://www.payments.vs1cloud.com',
-  store: 'default', //set a store to contextualise in
+  store: 'default',
   authentication: {
-    integration: { //from the integrations section in the magento2 backend
+    integration: {
       access_token: 'v5qr02ewd2wemjotpujb9fatembkgm47'
     }
   }
@@ -35,7 +33,7 @@ Meteor.startup(() => {
 
 
   const mageClient = new Magento2('https://www.payments.vs1cloud.com', options)
-  //initialise the helpers
+
   mageClient.init();
   let $json = {
       "search_criteria": {
@@ -52,17 +50,13 @@ Meteor.startup(() => {
           ]
       }
   };
-// var sessionDataToLog = Session.get('mySession');
+
   let $jsonProfile = {
       "search_criteria": {
           "filter_groups": [
               {
                   "filters": [
-                      // {
-                      //     "field": "customer_email",
-                      //     "value": "rasheedt4@vs1cloud.com",
-                      //     "condition_type": "eq"
-                      // },
+
                       {
                           "field": "status",
                           "value": "active",
@@ -89,72 +83,27 @@ Meteor.startup(() => {
           ]
       }
   };
-  //basic usage
-  // mageClient.init()
-  // .then(mageClient => {
-  // return mageClient.get('/V1/customers');
-  // }).then(function(option) {
-  //   console.log(option);
-  // }).catch(function(error) {
-  //   console.log(error);
-  // });
 
-  // mageClient.get('/V1/STRIPE_CUSTOMERS', $jsonStripe)
-  // .then(function(option) {
-  //   console.log(option);
-  // })
-  // .catch(function(error) {
-  //   console.log(error);
-  // });
-
-
-
-  // mageClient.get('/V1/products', $json).then(function(optionvalue) {
-  //   // console.log(optionvalue)
-  // })
-  // .catch(function(error) {
-  //   //console.log(error);
-  // });
-
-
-
-    // mageClient.get('/V1/awSarp2/profile/85').then(function(optionvalue) {
-    //   console.log(optionvalue)
-    // })
-    // .catch(function(error) {
-    //   console.log(error)
-    // });
-
-
-
-/* Connection to Yodlee Banking Interagion */
-//   yodlee.use({
-//     username: 'VIutoeFzbkYHrqQ9IV176CF1QGlt3ljs',
-//     password: '1sFr1EO2DcwnKXWG',
-//     api_base: 'https://node.sandbox.yodlee.com/authenticate/restserver/v1.1'
-//   });
-//
 yodlee.getAccessToken({
     username: 'sbMem5f7qb50a65a361',
     password: 'site16441.2'
 }).then(function(accessToken) {
-    //console.log(accessToken);
+
   })
   .catch(function(error) {
-    //console.log(error);
+
   });
 
 
 
-/* Braintree Method to Charge Client */
   Meteor.methods({
     'magentoAWSProfileRenewal': function() {
       return mageClient.get('/V1/awSarp2/profile/search?', $jsonProfile)
           .then(function(option) {
             return option;
-            // console.log(option);
+
           }).catch(function(error) {
-            // console.log(error);
+
           });
     },
     'magentoAWSProfileLoggedUser': function(useremail) {
@@ -182,9 +131,9 @@ yodlee.getAccessToken({
       return mageClient.get('/V1/awSarp2/profile/search?', $jsonOneProfile)
           .then(function(option) {
             return option;
-            // console.log(option);
+
           }).catch(function(error) {
-            // console.log(error);
+
           });
     },
     'magentoSKUProductsDetail': function(productSKU) {
@@ -211,11 +160,11 @@ yodlee.getAccessToken({
 
       return mageClient.get('/V1/products', $jsonOneProfile)
           .then(function(option) {
-            // console.log(option.extension_attributes);
+
             return option;
 
           }).catch(function(error) {
-            // console.log(error);
+
           });
     },
     'braintreeChargeCard': function(stripeToken, amountCharged) {
@@ -233,12 +182,12 @@ yodlee.getAccessToken({
           }
         }).then(function (result) {
           if (result.success) {
-            //console.log('Transaction ID: ' + result.transaction.id);
+
           } else {
-             //console.error(result.message);
+
           }
         }).catch(function (err) {
-            //console.error(err);
+
         });
         }else{
           gateway.transaction.sale({
@@ -249,12 +198,12 @@ yodlee.getAccessToken({
           }
         }).then(function (result) {
           if (result.success) {
-             //console.log('Transaction ID: ' + result.transaction.id);
+
           } else {
-             //console.error(result.message);
+
           }
         }).catch(function (err) {
-            //console.error(err);
+
         });
         }
 
@@ -269,14 +218,14 @@ yodlee.getAccessToken({
        email: useradminEmail,
       },function(err, charge) {
        Stripe.charges.create({
-         amount: amountCharged,// this is equivalent to $50
+         amount: amountCharged,
          currency: 'usd',
          customer: charge.id
        },function(errData, chargeData) {
          if(errData){
-           //console.log(errData);
+
          }else{
-           //console.log(chargeData);
+
          }
        });
       });
@@ -292,17 +241,7 @@ yodlee.getAccessToken({
            }else{
            return charge;
            }
-        // Stripe.charges.create({
-        //   amount: amountCharged,// this is equivalent to $50
-        //   currency: 'usd',
-        //   customer: charge.id
-        // },function(errData, chargeData) {
-        //   if(errData){
-        //
-        //   }else{
-        //
-        //   }
-        // });
+
        });
     },
     getClientToken: (clientId) => {
@@ -341,21 +280,18 @@ yodlee.getAccessToken({
           });
 
           if (subscriptionResult.success) {
-            // Set / check the correct role for your user
+
             const currentRoles = Roles.getRolesForUser(Meteor.userId());
             currentRoles.forEach((role) => {
               if (role === plan) {
                 throw new Meteor.Error('400', 'User already subscribed to this plan');
               } else {
-
-                // We support 3 roles, but you may have more or less (it's probably better to get these from the braintree api)
                 if (role === 'free' || role === 'developer' || role === 'professional') {
                   Roles.removeUsersFromRoles(Meteor.userId(), role);
                 }
               }
             });
 
-            // add new subscription
             Roles.addUsersToRoles(Meteor.userId(), plan);
 
             return true;
@@ -363,5 +299,5 @@ yodlee.getAccessToken({
         }
     },
   });
-  // code to run on server at startup
+
 });

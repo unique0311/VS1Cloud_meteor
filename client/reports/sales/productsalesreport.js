@@ -1,6 +1,5 @@
 import {ReportService} from "../report-service";
 import 'jQuery.print/jQuery.print.js';
-//import 'jQuery-highlight/jQuery.highlight.js';
 import {UtilityService} from "../../utility-service";
 
 let reportService = new ReportService();
@@ -61,7 +60,7 @@ yearRange: "-90:+10",
           let totalRecord = [];
           let grandtotalRecord = [];
 
-          
+
         if(data.tproductsalesdetailsreport.length){
           localStorage.setItem('VS1ProductSales_Report', JSON.stringify(data)||'');
           let records = [];
@@ -113,8 +112,8 @@ yearRange: "-90:+10",
 
 
         }
-        // alert('here');
-        
+
+
           records = _.sortBy(records, 'Company');
         records = _.groupBy(records, 'Company');
         for (let key in records) {
@@ -134,7 +133,7 @@ yearRange: "-90:+10",
           let totalQty = 0;
           const currencyLength = Currency.length;
           for (let k = 0; k < allRecords[i][1].data.length; k++) {
-            
+
               // totalAmountEx = totalAmountEx + utilityService.convertSubstringParseFloat(allRecords[i][1].data[k].dataArr[5]);
               totalQty = totalQty + allRecords[i][1].data[k].dataArr[5];
               totalTax = totalTax + utilityService.convertSubstringParseFloat(allRecords[i][1].data[k].dataArr[6]);
@@ -142,7 +141,7 @@ yearRange: "-90:+10",
               balance = balance + utilityService.convertSubstringParseFloat(allRecords[i][1].data[k].dataArr[8]);
 
           }
-          
+
           let val = ['Total ' + allRecords[i][0].key+'', '', '', '','',''+totalQty+'',
                utilityService.modifynegativeCurrencyFormat(totalTax), utilityService.modifynegativeCurrencyFormat(amountInc), utilityService.modifynegativeCurrencyFormat(balance)];
           current.push(val);
@@ -162,7 +161,7 @@ let grandtotalqty = 0;
         const grandcurrencyLength = Currency.length;
 
              grandtotalqty = grandtotalqty + Number(current[n][5].replace(/[^0-9.-]+/g,"")) || 0;
-              
+
              // grandtotalAmountEx = grandtotalAmountEx + utilityService.convertSubstringParseFloat(current[n][5]);
              grandtotalTax = grandtotalTax + utilityService.convertSubstringParseFloat(current[n][6]);
              grandamountInc = grandamountInc + utilityService.convertSubstringParseFloat(current[n][7]);
@@ -188,7 +187,7 @@ let grandtotalqty = 0;
 
         templateObject.records.set(totalRecord);
         templateObject.grandrecords.set(grandval);
-        
+
 
         if(templateObject.records.get()){
           setTimeout(function () {
@@ -200,7 +199,7 @@ let grandtotalqty = 0;
             });
 
             $('td').each(function(){
-              
+
               let lineValue = $(this).first().text()[0];
               if(lineValue != undefined){
                 if(lineValue.indexOf(Currency) >= 0) $(this).addClass('text-right')
@@ -305,8 +304,8 @@ let grandtotalqty = 0;
 
 
       }
-      // alert('here');
-      
+
+
         records = _.sortBy(records, 'Company');
       records = _.groupBy(records, 'Company');
       for (let key in records) {
@@ -326,7 +325,7 @@ let grandtotalqty = 0;
         let totalQty = 0;
         const currencyLength = Currency.length;
         for (let k = 0; k < allRecords[i][1].data.length; k++) {
-          
+
             // totalAmountEx = totalAmountEx + utilityService.convertSubstringParseFloat(allRecords[i][1].data[k].dataArr[5]);
             totalQty = totalQty + allRecords[i][1].data[k].dataArr[5];
             totalTax = totalTax + utilityService.convertSubstringParseFloat(allRecords[i][1].data[k].dataArr[6]);
@@ -334,7 +333,7 @@ let grandtotalqty = 0;
             balance = balance + utilityService.convertSubstringParseFloat(allRecords[i][1].data[k].dataArr[8]);
 
         }
-        
+
         let val = ['Total ' + allRecords[i][0].key+'', '', '', '','',''+totalQty+'',
              utilityService.modifynegativeCurrencyFormat(totalTax), utilityService.modifynegativeCurrencyFormat(amountInc), utilityService.modifynegativeCurrencyFormat(balance)];
         current.push(val);
@@ -354,7 +353,7 @@ let grandtotalqty = 0;
       const grandcurrencyLength = Currency.length;
 
            grandtotalqty = grandtotalqty + Number(current[n][5].replace(/[^0-9.-]+/g,"")) || 0;
-            
+
            // grandtotalAmountEx = grandtotalAmountEx + utilityService.convertSubstringParseFloat(current[n][5]);
            grandtotalTax = grandtotalTax + utilityService.convertSubstringParseFloat(current[n][6]);
            grandamountInc = grandamountInc + utilityService.convertSubstringParseFloat(current[n][7]);
@@ -380,7 +379,7 @@ let grandtotalqty = 0;
 
       templateObject.records.set(totalRecord);
       templateObject.grandrecords.set(grandval);
-      
+
 
       if(templateObject.records.get()){
         setTimeout(function () {
@@ -392,7 +391,7 @@ let grandtotalqty = 0;
           });
 
           $('td').each(function(){
-            
+
             let lineValue = $(this).first().text()[0];
             if(lineValue != undefined){
               if(lineValue.indexOf(Currency) >= 0) $(this).addClass('text-right')
@@ -527,7 +526,7 @@ let grandtotalqty = 0;
         let redirectid = $(event.target).closest('tr').attr('id');
 
         let transactiontype = $(event.target).closest('tr').attr('class');;
-        // alert(transactiontype);
+
         if(redirectid && transactiontype){
           if(transactiontype === 'Quote' ){
             window.open('/quotecard?id=' + redirectid,'_self');
