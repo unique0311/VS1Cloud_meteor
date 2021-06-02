@@ -52,7 +52,7 @@ yearRange: "-90:+10",
   $("#dateFrom").val(fromDate);
    $("#dateTo").val(begunDate);
    let currenctURL = Router.current().params.query;
-   
+
     templateObject.getAgedReceivableReports = function (dateFrom, dateTo, ignoreDate) {
       templateObject.records.set('');
       templateObject.grandrecords.set('');
@@ -75,7 +75,7 @@ yearRange: "-90:+10",
           let expArr = [];
           let accountData = data.tarreport;
           let accountType = '';
-          
+
           for (let i = 0; i < accountData.length; i++) {
 
             if(data.tarreport[i].AmountDue < 0){
@@ -165,7 +165,7 @@ let grandOlder = 0;
     for (let n = 0; n < current.length; n++) {
 
         const grandcurrencyLength = Currency.length;
-        
+
         //for (let m = 0; m < current[n].data.length; m++) {
              grandamountduetotal = grandamountduetotal + utilityService.convertSubstringParseFloat(current[n][4]);
             grandCurrenttotal = grandCurrenttotal + utilityService.convertSubstringParseFloat(current[n][5]);
@@ -192,7 +192,7 @@ let grandOlder = 0;
 
         templateObject.records.set(totalRecord);
         templateObject.grandrecords.set(grandval);
-        
+
 
         if(templateObject.records.get()){
         setTimeout(function () {
@@ -204,7 +204,7 @@ let grandOlder = 0;
           });
 
           $('td').each(function(){
-            
+
             let lineValue = $(this).first().text()[0];
             if(lineValue != undefined){
               if(lineValue.indexOf(Currency) >= 0) $(this).addClass('text-right')
@@ -273,7 +273,7 @@ let grandOlder = 0;
         let expArr = [];
         let accountData = data.tarreport;
         let accountType = '';
-        
+
         for (let i = 0; i < accountData.length; i++) {
 
           if(data.tarreport[i].AmountDue < 0){
@@ -363,7 +363,7 @@ let grandOlder = 0;
   for (let n = 0; n < current.length; n++) {
 
       const grandcurrencyLength = Currency.length;
-      
+
       //for (let m = 0; m < current[n].data.length; m++) {
            grandamountduetotal = grandamountduetotal + utilityService.convertSubstringParseFloat(current[n][4]);
           grandCurrenttotal = grandCurrenttotal + utilityService.convertSubstringParseFloat(current[n][5]);
@@ -390,7 +390,7 @@ let grandOlder = 0;
 
       templateObject.records.set(totalRecord);
       templateObject.grandrecords.set(grandval);
-      
+
 
       if(templateObject.records.get()){
       setTimeout(function () {
@@ -402,7 +402,7 @@ let grandOlder = 0;
         });
 
         $('td').each(function(){
-          
+
           let lineValue = $(this).first().text()[0];
           if(lineValue != undefined){
             if(lineValue.indexOf(Currency) >= 0) $(this).addClass('text-right')
@@ -535,13 +535,13 @@ let grandOlder = 0;
     'click .btnRefresh': function () {
       $('.fullScreenSpin').css('display','inline-block');
       localStorage.setItem('VS1AgedReceivables_Report', '');
-      batchUpdateCall();
+      Meteor._reload.reload();
     },
     'click td a':function (event) {
         let redirectid = $(event.target).closest('tr').attr('id');
 
         let transactiontype = $(event.target).closest('tr').attr('class');;
-        
+
         if(redirectid && transactiontype){
           if(transactiontype === 'Quote' ){
             window.open('/quotecard?id=' + redirectid,'_self');

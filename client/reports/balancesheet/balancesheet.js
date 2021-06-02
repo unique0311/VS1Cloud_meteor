@@ -507,7 +507,7 @@ Template.balancesheetreport.onRendered(() => {
         var months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];;
         var date = new Date();
         var monthCase;
-        
+
         switch (SegsBalDate[0]) {
 
             case 'January':
@@ -759,7 +759,7 @@ Template.balancesheetreport.events({
         $('.fullScreenSpin').css('display','inline-block');
         var dateTo = new Date($("#balancedate").datepicker("getDate"));
         //if(dateTo.getMonth()+1)
-        
+
         let formatDateTo = dateTo.getFullYear() + "-" + (dateTo.getMonth()) + "-" + dateTo.getDate();
         templateObject.getBalanceSheetReports(formatDateTo);
 
@@ -825,7 +825,7 @@ Template.balancesheetreport.events({
     'click .btnRefresh': function () {
       $('.fullScreenSpin').css('display','inline-block');
       localStorage.setItem('VS1BalanceSheet_Report', '');
-      batchUpdateCall();
+      Meteor._reload.reload();
     },
     'click .btnPrintReport':function (event) {
       $(".printReport").print({

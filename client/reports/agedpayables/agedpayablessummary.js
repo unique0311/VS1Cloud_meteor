@@ -355,13 +355,13 @@ let grandOlder = 0;
     'click .btnRefresh': function () {
       $('.fullScreenSpin').css('display','inline-block');
       localStorage.setItem('VS1AgedPayablesSummary_Report', '');
-      batchUpdateCall();
+      Meteor._reload.reload();
     },
     'click td a':function (event) {
         let redirectid = $(event.target).closest('tr').attr('id');
 
         let transactiontype = $(event.target).closest('tr').attr('class');;
-        
+
         if(redirectid && transactiontype){
           if(transactiontype === 'Bill' ){
             window.open('/billcard?id=' + redirectid,'_self');

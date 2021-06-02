@@ -720,6 +720,7 @@ Template.new_salesorder.onRendered(() => {
                                 setTimeout(function() {
                                     if (clientList) {
                                         for (var i = 0; i < clientList.length; i++) {
+                                          console.log(clientList[i].firstname);
                                             if (clientList[i].customername == useData[d].fields.CustomerName) {
                                                 salesorderrecord.firstname = clientList[i].firstname || '';
                                                 salesorderrecord.lastname = clientList[i].lastname || '';
@@ -4528,7 +4529,7 @@ Template.new_salesorder.events({
                     }
                 };
             }
-            
+
             salesService.saveSalesOrderEx(objDetails).then(function(objDetails) {
                 let company = Session.get('vs1companyName');
                 let vs1User = localStorage.getItem('mySession');
@@ -5276,11 +5277,10 @@ Template.new_salesorder.events({
             let total = $('#grandTotal').html() || 0;
             let tax = $('#subtotal_tax').html() || 0;
             let customer = $('#edtCustomerName').val();
+            let name = $('#firstname').val();
+            let surname = $('#lastname').val();
             $('#tblSalesOrderLine > tbody > tr').each(function() {
                 var lineID = this.id;
-
-
-
                 let tdproduct = $('#' + lineID + " .lineProductName").text();
                 let tddescription = $('#' + lineID + " .lineProductDesc").text();
                 let tdQty = $('#' + lineID + " .lineQty").val();
@@ -5439,7 +5439,7 @@ Template.new_salesorder.events({
                     }
                 };
             }
-            
+
             setTimeout(function(){
             salesService.saveSalesOrderEx(objDetails).then(function(objDetails) {
                 let company = Session.get('vs1companyName');
@@ -6278,7 +6278,7 @@ Template.new_salesorder.events({
                 swal('Customer Email cannot be blank!', '', 'warning');
                 event.preventDefault();
             } else {
-                
+
                 function isEmailValid(mailTo) {
                     return /^[A-Z0-9'.1234z_%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(mailTo);
                 };

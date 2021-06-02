@@ -62,7 +62,7 @@ Template.salessummaryreport.onRendered(()=>{
           let totalRecord = [];
           let grandtotalRecord = [];
 
-          
+
         if(data.tsaleslist.length){
           localStorage.setItem('VS1SalesSummary_Report', JSON.stringify(data)||'');
           let records = [];
@@ -120,7 +120,7 @@ Template.salessummaryreport.onRendered(()=>{
 
 
         }
-        
+
 
           records = _.sortBy(records, 'Company');
         records = _.groupBy(records, 'Company');
@@ -208,7 +208,7 @@ let grandbalance = 0;
 
         templateObject.records.set(totalRecord);
         templateObject.grandrecords.set(grandval);
-        
+
 
         if(templateObject.records.get()){
           setTimeout(function () {
@@ -220,7 +220,7 @@ let grandbalance = 0;
             });
 
             $('td').each(function(){
-              
+
               let lineValue = $(this).first().text()[0];
               if(lineValue != undefined){
                 if(lineValue.indexOf(Currency) >= 0) $(this).addClass('text-right')
@@ -326,7 +326,7 @@ let grandbalance = 0;
 
 
       }
-      
+
 
         records = _.sortBy(records, 'Company');
       records = _.groupBy(records, 'Company');
@@ -414,7 +414,7 @@ let grandbalance = 0;
 
       templateObject.records.set(totalRecord);
       templateObject.grandrecords.set(grandval);
-      
+
 
       if(templateObject.records.get()){
         setTimeout(function () {
@@ -426,7 +426,7 @@ let grandbalance = 0;
           });
 
           $('td').each(function(){
-            
+
             let lineValue = $(this).first().text()[0];
             if(lineValue != undefined){
               if(lineValue.indexOf(Currency) >= 0) $(this).addClass('text-right')
@@ -550,13 +550,13 @@ let grandbalance = 0;
     'click .btnRefresh': function () {
       $('.fullScreenSpin').css('display','inline-block');
       localStorage.setItem('VS1SalesSummary_Report', '');
-      batchUpdateCall();
+      Meteor._reload.reload();
     },
     'click td a':function (event) {
         let redirectid = $(event.target).closest('tr').attr('id');
 
         let transactiontype = $(event.target).closest('tr').attr('class');;
-        
+
         if(redirectid && transactiontype){
           if(transactiontype === 'Quote' ){
             window.open('/quotecard?id=' + redirectid,'_self');

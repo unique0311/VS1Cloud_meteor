@@ -47,7 +47,7 @@ Template.trialbalance.onRendered(()=>{
       changeYear: true,
 yearRange: "-90:+10",
   });
-  
+
    $("#dateFrom").val(fromDate);
    $("#dateTo").val(begunDate);
 
@@ -71,7 +71,7 @@ yearRange: "-90:+10",
           let expArr = [];
           let accountData = data.ttrialbalancereport;
           let accountType = '';
-          
+
           for (let i = 0; i < accountData.length; i++) {
 
             let recordObj = {};
@@ -135,7 +135,7 @@ let grandOlder = 0;
     for (let n = 0; n < current.length; n++) {
 
         const grandcurrencyLength = Currency.length;
-        
+
         //for (let m = 0; m < current[n].data.length; m++) {
 
              grandCreditEx = grandCreditEx + utilityService.convertSubstringParseFloat(current[n][3]);
@@ -157,7 +157,7 @@ let grandOlder = 0;
 
         templateObject.records.set(totalRecord);
         templateObject.grandrecords.set(grandval);
-        
+
 
         if(templateObject.records.get()){
         setTimeout(function () {
@@ -169,7 +169,7 @@ let grandOlder = 0;
           });
 
           $('td').each(function(){
-            
+
             let lineValue = $(this).first().text()[0];
             if(lineValue != undefined){
               if(lineValue.indexOf(Currency) >= 0) $(this).addClass('text-right')
@@ -233,7 +233,7 @@ let grandOlder = 0;
         let expArr = [];
         let accountData = data.ttrialbalancereport;
         let accountType = '';
-        
+
         for (let i = 0; i < accountData.length; i++) {
 
           let recordObj = {};
@@ -297,7 +297,7 @@ let grandOlder = 0;
   for (let n = 0; n < current.length; n++) {
 
       const grandcurrencyLength = Currency.length;
-      
+
       //for (let m = 0; m < current[n].data.length; m++) {
 
            grandCreditEx = grandCreditEx + utilityService.convertSubstringParseFloat(current[n][3]);
@@ -319,7 +319,7 @@ let grandOlder = 0;
 
       templateObject.records.set(totalRecord);
       templateObject.grandrecords.set(grandval);
-      
+
 
       if(templateObject.records.get()){
       setTimeout(function () {
@@ -331,7 +331,7 @@ let grandOlder = 0;
         });
 
         $('td').each(function(){
-          
+
           let lineValue = $(this).first().text()[0];
           if(lineValue != undefined){
             if(lineValue.indexOf(Currency) >= 0) $(this).addClass('text-right')
@@ -379,7 +379,7 @@ let grandOlder = 0;
     var getLoadDate = moment(currentDate2).format("YYYY-MM-DD");
 
     let getDateFrom = currentDate2.getFullYear() + "-" + (currentDate2.getMonth()) + "-" + currentDate2.getDate();
-    
+
     templateObject.getTrialBalanceReports(getDateFrom,getLoadDate,false);
 
     templateObject.getDepartments = function(){
@@ -467,7 +467,7 @@ let grandOlder = 0;
     'click .btnRefresh': function () {
       $('.fullScreenSpin').css('display','inline-block');
       localStorage.setItem('VS1TrialBalance_Report', '');
-      batchUpdateCall();
+      Meteor._reload.reload();
     },
     'click .btnPrintReport':function (event) {
       $(".printReport").print({

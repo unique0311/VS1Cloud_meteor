@@ -76,7 +76,7 @@ yearRange: "-90:+10",
           let expArr = [];
           let accountData = data.tarreport;
           let accountType = '';
-          
+
           for (let i = 0; i < accountData.length; i++) {
             let amountdue = utilityService.modifynegativeCurrencyFormat(data.tarreport[i].AmountDue) || 0;
             let current = utilityService.modifynegativeCurrencyFormat(data.tarreport[i].Current) || 0;
@@ -283,7 +283,7 @@ let grandOlder = 0;
         let expArr = [];
         let accountData = data.tarreport;
         let accountType = '';
-        
+
         for (let i = 0; i < accountData.length; i++) {
           let amountdue = utilityService.modifynegativeCurrencyFormat(data.tarreport[i].AmountDue) || 0;
           let current = utilityService.modifynegativeCurrencyFormat(data.tarreport[i].Current) || 0;
@@ -551,13 +551,13 @@ let grandOlder = 0;
     'click .btnRefresh': function () {
       $('.fullScreenSpin').css('display','inline-block');
       localStorage.setItem('VS1AgedReceivableSummary_Report', '');
-      batchUpdateCall();
+      Meteor._reload.reload();
     },
     'click td a':function (event) {
         let redirectid = $(event.target).closest('tr').attr('id');
 
         let transactiontype = $(event.target).closest('tr').attr('class');
-        
+
         if(redirectid && transactiontype){
           if(transactiontype === 'Quote' ){
             window.open('/quotecard?id=' + redirectid,'_self');

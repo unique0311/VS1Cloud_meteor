@@ -644,7 +644,7 @@ Template.contactoverview.onRendered(function() {
              salesOrderBalance = Currency + "0.00";
           }
 
-          
+
               var dataList = {
                 id: data.terpcombinedcontactsvs1[i].ID || '',
                 employeeno: data.terpcombinedcontactsvs1[i].printname || '',
@@ -788,7 +788,7 @@ Template.contactoverview.onRendered(function() {
               columVisible = false;
             }
             sWidth = v.style.width.replace('px', "");
-            
+
             let datatablerecordObj = {
               sTitle: v.innerText || '',
               sWidth: sWidth || '',
@@ -905,7 +905,7 @@ Template.contactoverview.onRendered(function() {
            salesOrderBalance = Currency + "0.00";
         }
 
-        
+
             var dataList = {
               id: useData[i].ID || '',
               employeeno: useData[i].printname || '',
@@ -1049,7 +1049,7 @@ Template.contactoverview.onRendered(function() {
             columVisible = false;
           }
           sWidth = v.style.width.replace('px', "");
-          
+
           let datatablerecordObj = {
             sTitle: v.innerText || '',
             sWidth: sWidth || '',
@@ -1162,7 +1162,7 @@ Template.contactoverview.onRendered(function() {
              salesOrderBalance = Currency + "0.00";
           }
 
-          
+
               var dataList = {
                 id: data.terpcombinedcontactsvs1[i].ID || '',
                 employeeno: data.terpcombinedcontactsvs1[i].printname || '',
@@ -1306,7 +1306,7 @@ Template.contactoverview.onRendered(function() {
               columVisible = false;
             }
             sWidth = v.style.width.replace('px', "");
-            
+
             let datatablerecordObj = {
               sTitle: v.innerText || '',
               sWidth: sWidth || '',
@@ -1365,14 +1365,15 @@ Template.contactoverview.events({
    'click .btnRefresh': function () {
      $('.fullScreenSpin').css('display','inline-block');
      let templateObject = Template.instance();
-     batchUpdateCall();
+
      sideBarService.getAllContactCombineVS1().then(function(data) {
        addVS1Data('TERPCombinedContactsVS1',JSON.stringify(data)).then(function (datareturn) {
+         Meteor._reload.reload();
        }).catch(function (err) {
-
+         Meteor._reload.reload();
        });
      }).catch(function(err) {
-
+       Meteor._reload.reload();
      });
    },
   'click #newSalesOrder' : function(event){
@@ -1490,7 +1491,7 @@ Template.contactoverview.events({
 
             }
           });
-           
+
         }
       }
     }
@@ -1501,7 +1502,7 @@ Template.contactoverview.events({
     let columData = $(event.target).text();
 
     let columnDatanIndex = $(event.target).closest("div.columnSettings").attr('id');
-    
+
     var datable = $('#tblcontactoverview').DataTable();
     var title = datable.column( columnDatanIndex ).header();
     $(title).html(columData);
@@ -1515,7 +1516,7 @@ Template.contactoverview.events({
     let columnDataValue = $(event.target).closest("div").prev().find(".divcolumn").text();
     var datable = $('#tblcontactoverview th');
     $.each(datable, function(i,v) {
-      
+
     if(v.innerText == columnDataValue){
         let className = v.className;
         let replaceClass = className.replace(/ /g, ".");
@@ -1528,7 +1529,7 @@ Template.contactoverview.events({
   'click .btnOpenSettings' : function(event){
     let templateObject = Template.instance();
     var columns = $('#tblcontactoverview th');
-    
+
     const tableHeaderList = [];
     let sTible = "";
     let sWidth = "";

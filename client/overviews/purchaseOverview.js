@@ -78,7 +78,7 @@ Template.purchasesoverview.onRendered(function() {
 
         }else{
             if(result){
-                
+
                 for (let i = 0; i < result.customFields.length; i++) {
                     let customcolumn = result.customFields;
                     let columData = customcolumn[i].label;
@@ -171,9 +171,9 @@ Template.purchasesoverview.onRendered(function() {
                         // splashArray.push(dataList);
                         //}
                     }
-                    
+
                     var totalPerc = Math.abs(totalCredit)+Math.abs(totalBill)+Math.abs(totalPO);
-                    
+
                     var xwidth = (Math.abs(totalCredit)/totalPerc)*100;
                     var ywidth = (Math.abs(totalBill)/totalPerc)*100;
                     var zwidth = (Math.abs(totalPO)/totalPerc)*100;
@@ -182,12 +182,12 @@ Template.purchasesoverview.onRendered(function() {
                     templateObject.creditpercTotal.set(Math.round(xwidth));
                     templateObject.billpercTotal.set(Math.round(ywidth));
                     templateObject.popercTotal.set(Math.round(zwidth));
-                    
-                    
-                    
+
+
+
                     templateObject.datatablerecords.set(dataTableList);
                     $('.spExpenseTotal').text(utilityService.modifynegativeCurrencyFormat(totalExpense));
-                    
+
                     if(templateObject.datatablerecords.get()){
 
                         Meteor.call('readPrefMethod',Session.get('mycloudLogonID'),'tblPurchaseOverview', function(error, result){
@@ -307,7 +307,7 @@ Template.purchasesoverview.onRendered(function() {
                             columVisible = false;
                         }
                         sWidth = v.style.width.replace('px', "");
-                        
+
                         let datatablerecordObj = {
                             sTitle: v.innerText || '',
                             sWidth: sWidth || '',
@@ -350,7 +350,7 @@ Template.purchasesoverview.onRendered(function() {
 
                     let daysDataArray = [];
                     let currentDateNow = new Date();
-                    
+
 
                     let initialData = _.filter(graphData, obj => (moment(obj.OrderDate).format("YYYY-MM-DD") === moment(currentDateNow).format("YYYY-MM-DD")));
                     let groupData = _.omit(_.groupBy(initialData, 'OrderDate'), ['']);
@@ -436,9 +436,9 @@ Template.purchasesoverview.onRendered(function() {
                     // splashArray.push(dataList);
                     //}
                 }
-                
+
                 var totalPerc = Math.abs(totalCredit)+Math.abs(totalBill)+Math.abs(totalPO);
-                
+
                 var xwidth = (Math.abs(totalCredit)/totalPerc)*100;
                 var ywidth = (Math.abs(totalBill)/totalPerc)*100;
                 var zwidth = (Math.abs(totalPO)/totalPerc)*100;
@@ -447,12 +447,12 @@ Template.purchasesoverview.onRendered(function() {
                 templateObject.creditpercTotal.set(Math.round(xwidth));
                 templateObject.billpercTotal.set(Math.round(ywidth));
                 templateObject.popercTotal.set(Math.round(zwidth));
-                
-                
-                
+
+
+
                 templateObject.datatablerecords.set(dataTableList);
                 $('.spExpenseTotal').text(utilityService.modifynegativeCurrencyFormat(totalExpense));
-                
+
                 if(templateObject.datatablerecords.get()){
 
                     Meteor.call('readPrefMethod',Session.get('mycloudLogonID'),'tblPurchaseOverview', function(error, result){
@@ -572,7 +572,7 @@ Template.purchasesoverview.onRendered(function() {
                         columVisible = false;
                     }
                     sWidth = v.style.width.replace('px', "");
-                    
+
                     let datatablerecordObj = {
                         sTitle: v.innerText || '',
                         sWidth: sWidth || '',
@@ -615,7 +615,7 @@ Template.purchasesoverview.onRendered(function() {
 
                 let daysDataArray = [];
                 let currentDateNow = new Date();
-                
+
 
                 let initialData = _.filter(graphData, obj => (moment(obj.OrderDate).format("YYYY-MM-DD") === moment(currentDateNow).format("YYYY-MM-DD")));
                 let groupData = _.omit(_.groupBy(initialData, 'OrderDate'), ['']);
@@ -694,9 +694,9 @@ Template.purchasesoverview.onRendered(function() {
                     // splashArray.push(dataList);
                     //}
                 }
-                
+
                 var totalPerc = Math.abs(totalCredit)+Math.abs(totalBill)+Math.abs(totalPO);
-                
+
                 var xwidth = (Math.abs(totalCredit)/totalPerc)*100;
                 var ywidth = (Math.abs(totalBill)/totalPerc)*100;
                 var zwidth = (Math.abs(totalPO)/totalPerc)*100;
@@ -705,12 +705,12 @@ Template.purchasesoverview.onRendered(function() {
                 templateObject.creditpercTotal.set(Math.round(xwidth));
                 templateObject.billpercTotal.set(Math.round(ywidth));
                 templateObject.popercTotal.set(Math.round(zwidth));
-                
-                
-                
+
+
+
                 templateObject.datatablerecords.set(dataTableList);
                 $('.spExpenseTotal').text(utilityService.modifynegativeCurrencyFormat(totalExpense));
-                
+
                 if(templateObject.datatablerecords.get()){
 
                     Meteor.call('readPrefMethod',Session.get('mycloudLogonID'),'tblPurchaseOverview', function(error, result){
@@ -830,7 +830,7 @@ Template.purchasesoverview.onRendered(function() {
                         columVisible = false;
                     }
                     sWidth = v.style.width.replace('px', "");
-                    
+
                     let datatablerecordObj = {
                         sTitle: v.innerText || '',
                         sWidth: sWidth || '',
@@ -873,7 +873,7 @@ Template.purchasesoverview.onRendered(function() {
 
                 let daysDataArray = [];
                 let currentDateNow = new Date();
-                
+
 
                 let initialData = _.filter(graphData, obj => (moment(obj.OrderDate).format("YYYY-MM-DD") === moment(currentDateNow).format("YYYY-MM-DD")));
                 let groupData = _.omit(_.groupBy(initialData, 'OrderDate'), ['']);
@@ -942,15 +942,15 @@ Template.purchasesoverview.events({
     'click .btnRefresh': function () {
         $('.fullScreenSpin').css('display','inline-block');
         let templateObject = Template.instance();
-        batchUpdateCall();
+
         sideBarService.getAllPurchaseOrderListAll().then(function(data) {
             addVS1Data('TbillReport',JSON.stringify(data)).then(function (datareturn) {
-
+              Meteor._reload.reload();
             }).catch(function (err) {
-
+              Meteor._reload.reload();
             });
         }).catch(function(err) {
-
+          Meteor._reload.reload();
         });
     },
     'click #newPurchaseorder' : function(event){
@@ -1092,7 +1092,7 @@ Template.purchasesoverview.events({
 
                         }
                     });
-                    
+
                 }
             }
         }
@@ -1103,7 +1103,7 @@ Template.purchasesoverview.events({
         let columData = $(event.target).text();
 
         let columnDatanIndex = $(event.target).closest("div.columnSettings").attr('id');
-        
+
         var datable = $('#tblPurchaseOverview').DataTable();
         var title = datable.column( columnDatanIndex ).header();
         $(title).html(columData);
@@ -1117,7 +1117,7 @@ Template.purchasesoverview.events({
         let columnDataValue = $(event.target).closest("div").prev().find(".divcolumn").text();
         var datable = $('#tblPurchaseOverview th');
         $.each(datable, function(i,v) {
-            
+
             if(v.innerText == columnDataValue){
                 let className = v.className;
                 let replaceClass = className.replace(/ /g, ".");
@@ -1130,7 +1130,7 @@ Template.purchasesoverview.events({
     'click .btnOpenSettings' : function(event){
         let templateObject = Template.instance();
         var columns = $('#tblPurchaseOverview th');
-        
+
         const tableHeaderList = [];
         let sTible = "";
         let sWidth = "";

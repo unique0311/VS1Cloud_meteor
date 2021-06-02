@@ -275,7 +275,7 @@ yearRange: "-90:+10",
     'click .btnRefresh': function () {
       $('.fullScreenSpin').css('display','inline-block');
       localStorage.setItem('VS1ProfitandLoss_Report', '');
-      batchUpdateCall();
+      Meteor._reload.reload();
     },
     'click .btnPrintReport':function (event) {
       $(".printReport").print({

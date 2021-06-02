@@ -630,7 +630,7 @@ Template.balancetransactionlist.events({
   'click .btnRefresh': function () {
     $('.fullScreenSpin').css('display','inline-block');
     localStorage.setItem('VS1BalanceTrans_Report', '');
-    batchUpdateCall();
+    Meteor._reload.reload();
   }
 
 

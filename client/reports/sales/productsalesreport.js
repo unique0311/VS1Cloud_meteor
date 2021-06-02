@@ -520,7 +520,7 @@ let grandtotalqty = 0;
     'click .btnRefresh': function () {
       $('.fullScreenSpin').css('display','inline-block');
       localStorage.setItem('VS1ProductSales_Report', '');
-      batchUpdateCall();
+      Meteor._reload.reload();
     },
     'click td a':function (event) {
         let redirectid = $(event.target).closest('tr').attr('id');

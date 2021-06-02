@@ -92,9 +92,9 @@ Template.productsaleslist.onRendered(()=>{
       localStorage.setItem('VS1ProductSales_List', JSON.stringify(data)||'');
         let lineItems = [];
         let lineItemObj = {};
-        
+
         for(let i=0; i<data.tproductsalesdetailsreport.length; i++){
-          
+
 
           let totalAmount = utilityService.modifynegativeCurrencyFormat(data.tproductsalesdetailsreport[i]['Total Amount (Inc)'])|| 0.00;
           let totalProfit = utilityService.modifynegativeCurrencyFormat(data.tproductsalesdetailsreport[i]['Total Profit (Inc)'])|| 0.00;
@@ -124,7 +124,7 @@ Template.productsaleslist.onRendered(()=>{
         }
 
         templateObject.datatablerecords.set(dataTableList);
-        
+
         if(templateObject.datatablerecords.get()){
 
           Meteor.call('readPrefMethod',Session.get('mycloudLogonID'),'tblProductalesReport', function(error, result){
@@ -269,9 +269,9 @@ Template.productsaleslist.onRendered(()=>{
     let data = JSON.parse(localStorage.getItem('VS1ProductSales_List'));
     let lineItems = [];
     let lineItemObj = {};
-    
+
     for(let i=0; i<data.tproductsalesdetailsreport.length; i++){
-      
+
 
       let totalAmount = utilityService.modifynegativeCurrencyFormat(data.tproductsalesdetailsreport[i]['Total Amount (Inc)'])|| 0.00;
       let totalProfit = utilityService.modifynegativeCurrencyFormat(data.tproductsalesdetailsreport[i]['Total Profit (Inc)'])|| 0.00;
@@ -301,7 +301,7 @@ Template.productsaleslist.onRendered(()=>{
     }
 
     templateObject.datatablerecords.set(dataTableList);
-    
+
     if(templateObject.datatablerecords.get()){
 
       Meteor.call('readPrefMethod',Session.get('mycloudLogonID'),'tblProductalesReport', function(error, result){
@@ -634,7 +634,7 @@ Template.productsaleslist.events({
   'click .btnRefresh': function () {
     $('.fullScreenSpin').css('display','inline-block');
     localStorage.setItem('VS1ProductSales_List', '');
-    batchUpdateCall();
+    Meteor._reload.reload();
   },
   'change #dateTo':function(){
       let templateObject = Template.instance();

@@ -57,7 +57,7 @@ Template.agedpayables.onRendered(()=>{
     templateObject.getAgedPayableReports = function (dateFrom, dateTo, ignoreDate) {
       templateObject.records.set('');
       templateObject.grandrecords.set('');
-    
+
 
       getVS1Data('TAPReport').then(function (dataObject) {
       if(dataObject.length == 0){
@@ -161,7 +161,7 @@ let grandOlder = 0;
     for (let n = 0; n < current.length; n++) {
 
         const grandcurrencyLength = Currency.length;
-        
+
         //for (let m = 0; m < current[n].data.length; m++) {
              grandamountduetotal = grandamountduetotal + utilityService.convertSubstringParseFloat(current[n][4]);
              grandCurrenttotal = grandCurrenttotal + utilityService.convertSubstringParseFloat(current[n][5]);
@@ -196,7 +196,7 @@ let grandOlder = 0;
 
         templateObject.records.set(totalRecord);
         templateObject.grandrecords.set(grandval);
-        
+
 
         if(templateObject.records.get()){
           setTimeout(function () {
@@ -208,7 +208,7 @@ let grandOlder = 0;
             });
 
             $('td').each(function(){
-              
+
               let lineValue = $(this).first().text()[0];
               if(lineValue != undefined){
                 if(lineValue.indexOf(Currency) >= 0) $(this).addClass('text-right')
@@ -416,7 +416,7 @@ if(templateObject.records.get()){
     });
 
     $('td').each(function(){
-      
+
       let lineValue = $(this).first().text()[0];
       if(lineValue != undefined){
         if(lineValue.indexOf(Currency) >= 0) $(this).addClass('text-right')
@@ -562,7 +562,7 @@ let grandOlder = 0;
     for (let n = 0; n < current.length; n++) {
 
         const grandcurrencyLength = Currency.length;
-        
+
         //for (let m = 0; m < current[n].data.length; m++) {
              grandamountduetotal = grandamountduetotal + utilityService.convertSubstringParseFloat(current[n][4]);
              grandCurrenttotal = grandCurrenttotal + utilityService.convertSubstringParseFloat(current[n][5]);
@@ -597,7 +597,7 @@ let grandOlder = 0;
 
         templateObject.records.set(totalRecord);
         templateObject.grandrecords.set(grandval);
-        
+
 
         if(templateObject.records.get()){
           setTimeout(function () {
@@ -609,7 +609,7 @@ let grandOlder = 0;
             });
 
             $('td').each(function(){
-              
+
               let lineValue = $(this).first().text()[0];
               if(lineValue != undefined){
                 if(lineValue.indexOf(Currency) >= 0) $(this).addClass('text-right')
@@ -760,7 +760,7 @@ let grandOlder = 0;
 //     for (let n = 0; n < current.length; n++) {
 //
 //         const grandcurrencyLength = Currency.length;
-//         
+//
 //         //for (let m = 0; m < current[n].data.length; m++) {
 //              grandamountduetotal = grandamountduetotal + utilityService.convertSubstringParseFloat(current[n][4]);
 //              grandCurrenttotal = grandCurrenttotal + utilityService.convertSubstringParseFloat(current[n][5]);
@@ -776,7 +776,7 @@ let grandOlder = 0;
 //
 //     }
 //
-// 
+//
 //     let grandval = ['Grand Total ' +  '', '', '','',
 //     utilityService.modifynegativeCurrencyFormat(grandamountduetotal),
 //     // utilityService.modifynegativeCurrencyFormat(grandamountduetotal),
@@ -795,7 +795,7 @@ let grandOlder = 0;
 //
 //         templateObject.records.set(totalRecord);
 //         templateObject.grandrecords.set(grandval);
-//         
+//
 //
 //         if(templateObject.records.get()){
 //           setTimeout(function () {
@@ -807,7 +807,7 @@ let grandOlder = 0;
 //             });
 //
 //             $('td').each(function(){
-//               
+//
 //               let lineValue = $(this).first().text()[0];
 //               if(lineValue != undefined){
 //                 if(lineValue.indexOf(Currency) >= 0) $(this).addClass('text-right')
@@ -955,7 +955,7 @@ let grandOlder = 0;
 //   for (let n = 0; n < current.length; n++) {
 //
 //       const grandcurrencyLength = Currency.length;
-//       
+//
 //       //for (let m = 0; m < current[n].data.length; m++) {
 //            grandamountduetotal = grandamountduetotal + utilityService.convertSubstringParseFloat(current[n][4]);
 //            grandCurrenttotal = grandCurrenttotal + utilityService.convertSubstringParseFloat(current[n][5]);
@@ -971,7 +971,7 @@ let grandOlder = 0;
 //
 //   }
 //
-// 
+//
 //   let grandval = ['Grand Total ' +  '', '', '','',
 //   utilityService.modifynegativeCurrencyFormat(grandamountduetotal),
 //   // utilityService.modifynegativeCurrencyFormat(grandamountduetotal),
@@ -990,7 +990,7 @@ let grandOlder = 0;
 //
 //       templateObject.records.set(totalRecord);
 //       templateObject.grandrecords.set(grandval);
-//       
+//
 //
 //       if(templateObject.records.get()){
 //         setTimeout(function () {
@@ -1002,7 +1002,7 @@ let grandOlder = 0;
 //           });
 //
 //           $('td').each(function(){
-//             
+//
 //             let lineValue = $(this).first().text()[0];
 //             if(lineValue != undefined){
 //               if(lineValue.indexOf(Currency) >= 0) $(this).addClass('text-right')
@@ -1127,19 +1127,13 @@ let grandOlder = 0;
     },
     'click .btnRefresh': function () {
       $('.fullScreenSpin').css('display','inline-block');
-      // sideBarService.getTAPReport().then(function(data) {
-      // 	addVS1Data('TAPReport',JSON.stringify(data));
-      // }).catch(function(err) {
-      //
-      // });
-      batchUpdateCall();
-    // Meteor._reload.reload();
+      Meteor._reload.reload();
     },
     'click td a':function (event) {
         let redirectid = $(event.target).closest('tr').attr('id');
 
         let transactiontype = $(event.target).closest('tr').attr('class');;
-        
+
         if(redirectid && transactiontype){
           if(transactiontype === 'Bill' ){
             window.open('/billcard?id=' + redirectid,'_self');

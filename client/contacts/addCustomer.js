@@ -2697,44 +2697,44 @@ Template.customerscard.onRendered(function () {
     templateObject.getCustomersList = function () {
         getVS1Data('TCustomerVS1').then(function (dataObject) {
             if (dataObject.length == 0) {
-                contactService.getAllCustomerSideDataVS1().then(function (data) {
-                    let lineItems = [];
-                    let lineItemObj = {};
-                    for (let i = 0; i < data.tcustomervs1.length; i++) {
-                        let classname = '';
-                        if (!isNaN(currentId.id)) {
-                            if (useData[i].fields.ID == parseInt(currentId.id)) {
-                                classname = 'currentSelect';
-                            }
-                        }
-                        if (!isNaN(currentId.jobid)) {
-                            if (useData[i].fields.ID == parseInt(currentId.jobid)) {
-                                classname = 'currentSelect';
-                            }
-                        }
-                        var dataList = {
-                            id: data.tcustomervs1[i].Id || '',
-                            company: data.tcustomervs1[i].ClientName || '',
-                            isslectJob: data.tcustomervs1[i].IsJob || false,
-                            classname: classname
-                        };
+              contactService.getAllCustomerSideDataVS1().then(function (data) {
+                  let lineItems = [];
+                  let lineItemObj = {};
+                  for (let i = 0; i < data.tcustomervs1.length; i++) {
+                      let classname = '';
+                      if (!isNaN(currentId.id)) {
+                          if (data.tcustomervs1.Id == parseInt(currentId.id)) {
+                              classname = 'currentSelect';
+                          }
+                      }
+                      if (!isNaN(currentId.jobid)) {
+                          if (data.tcustomervs1.Id == parseInt(currentId.jobid)) {
+                              classname = 'currentSelect';
+                          }
+                      }
+                      var dataList = {
+                          id: data.tcustomervs1[i].Id || '',
+                          company: data.tcustomervs1[i].ClientName || '',
+                          isslectJob: data.tcustomervs1[i].IsJob || false,
+                          classname: classname
+                      };
 
-                        lineItems.push(dataList);
-                    }
+                      lineItems.push(dataList);
+                  }
 
-                    templateObject.customerrecords.set(lineItems);
+                  templateObject.customerrecords.set(lineItems);
 
-                    if (templateObject.customerrecords.get()) {
+                  if (templateObject.customerrecords.get()) {
 
-                        setTimeout(function () {
-                            $('.counter').text(lineItems.length + ' items');
-                        }, 100);
-                    }
+                      setTimeout(function () {
+                          $('.counter').text(lineItems.length + ' items');
+                      }, 100);
+                  }
 
-                }).catch(function (err) {
-                    //Bert.alert('<strong>' + err + '</strong>!', 'danger');
+              }).catch(function (err) {
+                  //Bert.alert('<strong>' + err + '</strong>!', 'danger');
 
-                });
+              });
             } else {
                 let data = JSON.parse(dataObject[0].data);
                 let useData = data.tcustomervs1;
@@ -2775,44 +2775,44 @@ Template.customerscard.onRendered(function () {
 
             }
         }).catch(function (err) {
-            contactService.getAllCustomerSideDataVS1().then(function (data) {
-                let lineItems = [];
-                let lineItemObj = {};
-                for (let i = 0; i < data.tcustomervs1.length; i++) {
-                    let classname = '';
-                    if (!isNaN(currentId.id)) {
-                        if (useData[i].fields.ID == parseInt(currentId.id)) {
-                            classname = 'currentSelect';
-                        }
-                    }
-                    if (!isNaN(currentId.jobid)) {
-                        if (useData[i].fields.ID == parseInt(currentId.jobid)) {
-                            classname = 'currentSelect';
-                        }
-                    }
-                    var dataList = {
-                        id: data.tcustomervs1[i].Id || '',
-                        company: data.tcustomervs1[i].ClientName || '',
-                        isslectJob: data.tcustomervs1[i].IsJob || false,
-                        classname: classname
-                    };
+          contactService.getAllCustomerSideDataVS1().then(function (data) {
+              let lineItems = [];
+              let lineItemObj = {};
+              for (let i = 0; i < data.tcustomervs1.length; i++) {
+                  let classname = '';
+                  if (!isNaN(currentId.id)) {
+                      if (data.tcustomervs1.Id == parseInt(currentId.id)) {
+                          classname = 'currentSelect';
+                      }
+                  }
+                  if (!isNaN(currentId.jobid)) {
+                      if (data.tcustomervs1.Id == parseInt(currentId.jobid)) {
+                          classname = 'currentSelect';
+                      }
+                  }
+                  var dataList = {
+                      id: data.tcustomervs1[i].Id || '',
+                      company: data.tcustomervs1[i].ClientName || '',
+                      isslectJob: data.tcustomervs1[i].IsJob || false,
+                      classname: classname
+                  };
 
-                    lineItems.push(dataList);
-                }
+                  lineItems.push(dataList);
+              }
 
-                templateObject.customerrecords.set(lineItems);
+              templateObject.customerrecords.set(lineItems);
 
-                if (templateObject.customerrecords.get()) {
+              if (templateObject.customerrecords.get()) {
 
-                    setTimeout(function () {
-                        $('.counter').text(lineItems.length + ' items');
-                    }, 100);
-                }
+                  setTimeout(function () {
+                      $('.counter').text(lineItems.length + ' items');
+                  }, 100);
+              }
 
-            }).catch(function (err) {
-                //Bert.alert('<strong>' + err + '</strong>!', 'danger');
+          }).catch(function (err) {
+              //Bert.alert('<strong>' + err + '</strong>!', 'danger');
 
-            });
+          });
         });
 
     }

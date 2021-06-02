@@ -145,7 +145,7 @@ yearRange: "-90:+10",
           taxtotal = taxtotal + utilityService.convertSubstringParseFloat(reportrecords[i].totaltax);
           taxratetotal = taxratetotal + Number(reportrecords[i].taxrate2.replace(/[^0-9.-]+/g,"")) || 0;
           taxtotal1 = taxtotal1 + utilityService.convertSubstringParseFloat(reportrecords[i].totaltax1);
-            
+
           let val = ['', utilityService.modifynegativeCurrencyFormat(inputsexpurchasestotal), utilityService.modifynegativeCurrencyFormat(inputsincpurchasestotal),
               utilityService.modifynegativeCurrencyFormat(outputexsalestotal), utilityService.modifynegativeCurrencyFormat(outputincsalestotal), utilityService.modifynegativeCurrencyFormat(nettotal), utilityService.modifynegativeCurrencyFormat(taxtotal),'', utilityService.modifynegativeCurrencyFormat(taxtotal1)];
           current.push(val);
@@ -168,7 +168,7 @@ yearRange: "-90:+10",
 
         //templateObject.records.set(totalRecord);
         templateObject.grandrecords.set(grandval);
-        
+
 
         if(templateObject.reportrecords.get()){
           setTimeout(function () {
@@ -180,7 +180,7 @@ yearRange: "-90:+10",
             });
 
             $('td').each(function(){
-              
+
               let lineValue = $(this).first().text()[0];
               if(lineValue != undefined){
                 if(lineValue.indexOf(Currency) >= 0) $(this).addClass('text-right')
@@ -318,7 +318,7 @@ yearRange: "-90:+10",
         taxtotal = taxtotal + utilityService.convertSubstringParseFloat(reportrecords[i].totaltax);
         taxratetotal = taxratetotal + Number(reportrecords[i].taxrate2.replace(/[^0-9.-]+/g,"")) || 0;
         taxtotal1 = taxtotal1 + utilityService.convertSubstringParseFloat(reportrecords[i].totaltax1);
-          
+
         let val = ['', utilityService.modifynegativeCurrencyFormat(inputsexpurchasestotal), utilityService.modifynegativeCurrencyFormat(inputsincpurchasestotal),
             utilityService.modifynegativeCurrencyFormat(outputexsalestotal), utilityService.modifynegativeCurrencyFormat(outputincsalestotal), utilityService.modifynegativeCurrencyFormat(nettotal), utilityService.modifynegativeCurrencyFormat(taxtotal),'', utilityService.modifynegativeCurrencyFormat(taxtotal1)];
         current.push(val);
@@ -341,7 +341,7 @@ yearRange: "-90:+10",
 
       //templateObject.records.set(totalRecord);
       templateObject.grandrecords.set(grandval);
-      
+
 
       if(templateObject.reportrecords.get()){
         setTimeout(function () {
@@ -353,7 +353,7 @@ yearRange: "-90:+10",
           });
 
           $('td').each(function(){
-            
+
             let lineValue = $(this).first().text()[0];
             if(lineValue != undefined){
               if(lineValue.indexOf(Currency) >= 0) $(this).addClass('text-right')
@@ -480,13 +480,13 @@ yearRange: "-90:+10",
     'click .btnRefresh': function () {
       $('.fullScreenSpin').css('display','inline-block');
       localStorage.setItem('VS1TaxSummary_Report', '');
-      batchUpdateCall();
+      Meteor._reload.reload();
     },
     'click td a':function (event) {
         let redirectid = $(event.target).closest('tr').attr('id');
 
         let transactiontype = $(event.target).closest('tr').attr('class');;
-        
+
         if(redirectid && transactiontype){
           if(transactiontype === 'Bill' ){
             window.open('/billcard?id=' + redirectid,'_self');

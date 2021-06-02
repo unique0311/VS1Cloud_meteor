@@ -977,7 +977,7 @@ Template.accountsoverview.events({
     let columData = $(event.target).text();
 
     let columnDatanIndex = $(event.target).closest("div.columnSettings").attr('id');
-    
+
     var datable = $('#tblAccountOverview').DataTable();
     var title = datable.column( columnDatanIndex ).header();
     $(title).html(columData);
@@ -1045,7 +1045,7 @@ Template.accountsoverview.events({
     'click .btnRefresh': function () {
       $('.fullScreenSpin').css('display','inline-block');
       let templateObject = Template.instance();
-      batchUpdateCall();
+
       sideBarService.getAccountListVS1().then(function(data) {
         addVS1Data('TAccountVS1',JSON.stringify(data)).then(function (datareturn) {
 
@@ -1055,6 +1055,10 @@ Template.accountsoverview.events({
       }).catch(function(err) {
 
       });
+    },
+    'click .btnBatchUpdate': function () {
+      $('.fullScreenSpin').css('display','inline-block');
+        batchUpdateCall();
     },
     'click .btnSaveAccount': function () {
       $('.fullScreenSpin').css('display','inline-block');
@@ -1216,7 +1220,7 @@ Template.accountsoverview.events({
 
     },
     'click .btnAddNewAccounts': function () {
-      
+
       $('#add-account-title').text('Add New Account');
       $('#edtAccountID').val('');
       $('#sltAccountType').val('');
@@ -1260,7 +1264,7 @@ $('.fullScreenSpin').css('display','none');
             utilityService.exportToCsv(rows, filename, 'csv');
 },
 'click .templateDownloadXLSX': function (e) {
-  
+
   e.preventDefault();  //stop the browser from following
   window.location.href = 'sample_imports/SampleAccounts.xlsx';
 },
@@ -1284,7 +1288,7 @@ $('.fullScreenSpin').css('display','none');
         $('.file-name').text('');
         $(".btnImport").Attr("disabled");
     }else if(validCSVExtensions.indexOf(fileExtension) != -1){
-      
+
       $('.file-name').text(filename);
       let selectedFile = event.target.files[0];
 
@@ -1308,7 +1312,7 @@ $('.fullScreenSpin').css('display','none');
                 var data = e.target.result;
                 data = new Uint8Array(data);
                 var workbook = XLSX.read(data, {type: 'array'});
-            
+
                 var result = {};
                 workbook.SheetNames.forEach(function (sheetName) {
                     var roa = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName], {header: 1});
@@ -1340,7 +1344,7 @@ $('.fullScreenSpin').css('display','none');
     let objDetails;
     var filename = $('#attachment-upload')[0].files[0]['name'];
     var fileType = filename.split('.').pop().toLowerCase();
-    
+
     if((fileType == "csv") || (fileType == "txt") || (fileType == "xlsx")){
     Papa.parse(templateObject.selectedFile.get(), {
         complete: function(results) {

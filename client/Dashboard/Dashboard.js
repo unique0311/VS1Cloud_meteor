@@ -23,5 +23,8 @@ Template.dashboard.helpers({
 
 // Listen to event to update reactive variable
 Template.dashboard.events({
-    //to do
+'click .btnBatchUpdate': function () {
+  $('.fullScreenSpin').css('display','inline-block');
+    batchUpdateCall();
+}
 });

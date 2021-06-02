@@ -38,7 +38,7 @@ Template.bankingoverview.onRendered(function() {
 
         } else {
             if (result) {
-                
+
                 for (let i = 0; i < result.customFields.length; i++) {
                     let customcolumn = result.customFields;
                     let columData = customcolumn[i].label;
@@ -441,7 +441,7 @@ Template.bankingoverview.onRendered(function() {
                                 //   {"targets":1,
                                 //   render: function(data, type, row) {
                                 //     let getData = data.split('</span>');
-                                //     
+                                //
                                 //     return getData[1];
                                 //   }
                                 // }
@@ -533,7 +533,7 @@ Template.bankingoverview.onRendered(function() {
                             columVisible = false;
                         }
                         sWidth = v.style.width.replace('px', "");
-                        
+
                         let datatablerecordObj = {
                             sTitle: v.innerText || '',
                             sWidth: sWidth || '',
@@ -709,7 +709,7 @@ Template.bankingoverview.onRendered(function() {
                             //   {"targets":1,
                             //   render: function(data, type, row) {
                             //     let getData = data.split('</span>');
-                            //     
+                            //
                             //     return getData[1];
                             //   }
                             // }
@@ -801,7 +801,7 @@ Template.bankingoverview.onRendered(function() {
                         columVisible = false;
                     }
                     sWidth = v.style.width.replace('px', "");
-                    
+
                     let datatablerecordObj = {
                         sTitle: v.innerText || '',
                         sWidth: sWidth || '',
@@ -973,7 +973,7 @@ Template.bankingoverview.onRendered(function() {
                             //   {"targets":1,
                             //   render: function(data, type, row) {
                             //     let getData = data.split('</span>');
-                            //     
+                            //
                             //     return getData[1];
                             //   }
                             // }
@@ -1065,7 +1065,7 @@ Template.bankingoverview.onRendered(function() {
                         columVisible = false;
                     }
                     sWidth = v.style.width.replace('px', "");
-                    
+
                     let datatablerecordObj = {
                         sTitle: v.innerText || '',
                         sWidth: sWidth || '',
@@ -1127,13 +1127,13 @@ Template.bankingoverview.events({
 
         $('.fullScreenSpin').css('display', 'inline-block');
         let templateObject = Template.instance();
-        batchUpdateCall();
+
         sideBarService.getAllBankAccountDetails().then(function(data) {
             addVS1Data('TBankAccountReport', JSON.stringify(data)).then(function(datareturn) {}).catch(function(err) {
-
+              Meteor._reload.reload();
             });
         }).catch(function(err) {
-
+          Meteor._reload.reload();
         });
         //templateObject.getAllBankAccountData();
     },
@@ -1269,7 +1269,7 @@ Template.bankingoverview.events({
 
                         }
                     });
-                    
+
                 }
             }
         }
@@ -1280,7 +1280,7 @@ Template.bankingoverview.events({
         let columData = $(event.target).text();
 
         let columnDatanIndex = $(event.target).closest("div.columnSettings").attr('id');
-        
+
         var datable = $('#tblBankingOverview').DataTable();
         var title = datable.column(columnDatanIndex).header();
         $(title).html(columData);
@@ -1294,7 +1294,7 @@ Template.bankingoverview.events({
         let columnDataValue = $(event.target).closest("div").prev().find(".divcolumn").text();
         var datable = $('#tblBankingOverview th');
         $.each(datable, function(i, v) {
-            
+
             if (v.innerText == columnDataValue) {
                 let className = v.className;
                 let replaceClass = className.replace(/ /g, ".");
@@ -1307,7 +1307,7 @@ Template.bankingoverview.events({
     'click .btnOpenSettings': function(event) {
         let templateObject = Template.instance();
         var columns = $('#tblBankingOverview th');
-        
+
         const tableHeaderList = [];
         let sTible = "";
         let sWidth = "";
@@ -1336,7 +1336,7 @@ Template.bankingoverview.events({
         templateObject.tableheaderrecords.set(tableHeaderList);
     },
     'click #exportbtn': function() {
-        
+
         $('.fullScreenSpin').css('display', 'inline-block');
         jQuery('#tblBankingOverview_wrapper .dt-buttons .btntabletoexcel').click();
         $('.fullScreenSpin').css('display', 'none');

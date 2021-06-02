@@ -31,7 +31,7 @@ Template.salesoverview.onRendered(function() {
 
         }else{
             if(result){
-                
+
                 for (let i = 0; i < result.customFields.length; i++) {
                     let customcolumn = result.customFields;
                     let columData = customcolumn[i].label;
@@ -230,7 +230,7 @@ Template.salesoverview.onRendered(function() {
                             columVisible = false;
                         }
                         sWidth = v.style.width.replace('px', "");
-                        
+
                         let datatablerecordObj = {
                             sTitle: v.innerText || '',
                             sWidth: sWidth || '',
@@ -253,7 +253,7 @@ Template.salesoverview.onRendered(function() {
                 let useData = data.tsaleslist;
                 let lineItems = [];
                 let lineItemObj = {};
-                
+
                 $('.fullScreenSpin').css('display','none');
                 for(let i=0; i<useData.length; i++){
                     let totalAmountEx = utilityService.modifynegativeCurrencyFormat(useData[i].TotalAmount)|| 0.00;
@@ -415,7 +415,7 @@ Template.salesoverview.onRendered(function() {
                         columVisible = false;
                     }
                     sWidth = v.style.width.replace('px', "");
-                    
+
                     let datatablerecordObj = {
                         sTitle: v.innerText || '',
                         sWidth: sWidth || '',
@@ -594,7 +594,7 @@ Template.salesoverview.onRendered(function() {
                         columVisible = false;
                     }
                     sWidth = v.style.width.replace('px', "");
-                    
+
                     let datatablerecordObj = {
                         sTitle: v.innerText || '',
                         sWidth: sWidth || '',
@@ -643,7 +643,7 @@ Template.salesoverview.events({
     'click .btnRefresh': function () {
         $('.fullScreenSpin').css('display','inline-block');
         let templateObject = Template.instance();
-        batchUpdateCall();
+
         sideBarService.getSalesListData().then(function(data) {
             addVS1Data('TSalesList',JSON.stringify(data)).then(function (datareturn) {
 
@@ -656,9 +656,12 @@ Template.salesoverview.events({
 
         sideBarService.getAllInvoiceList().then(function(data) {
             addVS1Data('TInvoiceEx',JSON.stringify(data)).then(function (datareturn) {
+              Meteor._reload.reload();
             }).catch(function (err) {
+              Meteor._reload.reload();
             });
         }).catch(function(err) {
+          Meteor._reload.reload();
         });
     },
     'click .feeOnTopInput':function(event){
@@ -804,7 +807,7 @@ Template.salesoverview.events({
 
                         }
                     });
-                    
+
                 }
             }
         }
@@ -815,7 +818,7 @@ Template.salesoverview.events({
         let columData = $(event.target).text();
 
         let columnDatanIndex = $(event.target).closest("div.columnSettings").attr('id');
-        
+
         var datable = $('#tblSalesOverview').DataTable();
         var title = datable.column( columnDatanIndex ).header();
         $(title).html(columData);
@@ -829,7 +832,7 @@ Template.salesoverview.events({
         let columnDataValue = $(event.target).closest("div").prev().find(".divcolumn").text();
         var datable = $('#tblSalesOverview th');
         $.each(datable, function(i,v) {
-            
+
             if(v.innerText == columnDataValue){
                 let className = v.className;
                 let replaceClass = className.replace(/ /g, ".");
@@ -842,7 +845,7 @@ Template.salesoverview.events({
     'click .btnOpenSettings' : function(event){
         let templateObject = Template.instance();
         var columns = $('#tblSalesOverview th');
-        
+
         const tableHeaderList = [];
         let sTible = "";
         let sWidth = "";
@@ -872,7 +875,7 @@ Template.salesoverview.events({
         templateObject.tableheaderrecords.set(tableHeaderList);
     },
     'click #exportbtn': function () {
-        
+
         $('.fullScreenSpin').css('display','inline-block');
         jQuery('#tblSalesOverview_wrapper .dt-buttons .btntabletocsv').click();
         $('.fullScreenSpin').css('display','none');
