@@ -3,9 +3,9 @@
         <div class="fullScreenSpin" style="display:none;">
             <div class="spinner"></div>
         </div>
-
-        <header style="padding: 0px 16px;">
-            <h2 style="margin: 16px;">Accounts Overview
+        
+        <div class="d-sm-flex justify-content-between align-items-center mb-4" style="padding: 0 1.5rem 0 1.5rem;">
+            <h2>Accounts Overview
                 <!-- <a role="button" data-toggle="modal" href="#helpModal" class="helpModal"><label class="lblplay">PLAY</label><i class="far fa-play-circle"  style="font-size: 20px;"></i></a> -->
                 <a role="button" data-toggle="modal" href="#helpViewModal"  style="font-size: 20px;">Help <i class="fa fa-question-circle-o" style="font-size: 20px;"></i></a>
 
@@ -27,7 +27,8 @@
                 </div>
                 <!-- End Help View Modal -->
             </h2>
-        </header>
+            <button class="btn btn-primary btnBatchUpdate" id="btnBatchUpdate" type="button" style=""><i class="fas fa-sync-alt" style="padding-right: 5px;"></i>Update Reporting Tables</button>
+        </div>
 
         <div class="row" style="padding:0px 24px;">
             {{> purchasesaleschart}}

@@ -1,7 +1,7 @@
 <template name="allreports">
     <div style="margin-top: -24px;">
-        <header style="padding: 16px;">
-            <h1 style="margin: 16px;">Reports
+        <div class="d-sm-flex justify-content-between align-items-center mb-4" style="padding: 1.5rem;">
+            <h3 class="text-dark mb-0">Reports
                 <!-- <a role="button" data-toggle="modal" href="#helpModal" class="helpModal"><label class="lblplay">PLAY</label><i class="far fa-play-circle"  style="font-size: 20px;"></i></a> -->
                 <a role="button" data-toggle="modal" href="#helpViewModal"  style="font-size: 20px;">Help <i class="fa fa-question-circle-o" style="font-size: 20px;"></i></a>
 
@@ -22,8 +22,9 @@
                     </div>
                 </div>
                 <!-- End Help View Modal -->
-            </h1>
-        </header>
+            </h3>
+            <button class="btn btn-primary btnBatchUpdate" id="btnBatchUpdate" type="button" style=""><i class="fas fa-sync-alt" style="padding-right: 5px;"></i>Update Reporting Tables</button>
+        </div>
         <style>
             @media only screen and (min-width: 428px) {
                 .rowB {
