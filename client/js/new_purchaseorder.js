@@ -1688,9 +1688,16 @@ Template.purchaseordercard.onRendered(() => {
             let lineAmount = 0;
             let subGrandTotal = 0;
             let taxGrandTotal = 0;
+            let taxGrandTotalPrint = 0;
 
             $('#' + selectLineID + " .lineTaxRate").text(lineTaxRate || 0);
             $('#' + selectLineID + " .lineTaxCode").text(lineTaxCode);
+
+            let $printrows = $(".purchase_print tbody tr");
+            if ($('.printID').val() == "") {
+                $('#' + selectLineID + " #lineAmount").text($('#' + selectLineID + " .colAmount").val());
+                $('#' + selectLineID + " #lineTaxCode").text(lineTaxCode);
+            }
 
 
             $('#taxRateListModal').modal('toggle');
@@ -1736,6 +1743,42 @@ Template.purchaseordercard.onRendered(() => {
 
                 }
             });
+
+        if($(".printID").val() == "") {
+            $printrows.each(function (index) {
+            var $printrows = $(this);
+            var qty = $printrows.find("#lineQty").text() || 0;
+            var price = $printrows.find("#lineUnitPrice").text() || 0;
+            var taxrateamount = 0;
+            var taxRate = $printrows.find("#lineTaxCode").text();
+            if (taxcodeList) {
+                for (var i = 0; i < taxcodeList.length; i++) {
+                    if (taxcodeList[i].codename == taxRate) {
+                        taxrateamount = taxcodeList[i].coderate.replace('%', "") / 100;
+                    }
+                }
+            }
+
+            var subTotal = parseInt(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) || 0;
+            var taxTotal = parseInt(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) * parseFloat(taxrateamount);
+            $printrows.find('#lineTaxAmount').text(utilityService.modifynegativeCurrencyFormat(taxTotal))
+            if (!isNaN(subTotal)) {
+                $printrows.find('#lineAmt').text(utilityService.modifynegativeCurrencyFormat(subTotal));
+                subGrandTotal += isNaN(subTotal) ? 0 : subTotal;
+                document.getElementById("subtotal_totalPrint").innerHTML = $('#subtotal_total').text();
+            }
+
+            if (!isNaN(taxTotal)) {
+                taxGrandTotalPrint += isNaN(taxTotal) ? 0 : taxTotal;
+            }
+            if (!isNaN(subGrandTotal) && (!isNaN(taxGrandTotal))) {
+                let GrandTotal = (parseFloat(subGrandTotal)) + (parseFloat(taxGrandTotal));
+                document.getElementById("grandTotalPrint").innerHTML = $('#grandTotal').text();
+                document.getElementById("balanceDue").innerHTML = utilityService.modifynegativeCurrencyFormat(GrandTotal);
+            }
+        });
+        $("#print_subtotal_tax").text($("#subtotal_tax").text());
+    }
         }
     });
 
@@ -1770,6 +1813,7 @@ Template.purchaseordercard.onRendered(() => {
                         $('#edtSupplierEmail').attr('supplierid', clientList[i].supplierid);
                         let postalAddress = clientList[i].suppliername + '\n' + clientList[i].street + '\n' + clientList[i].street2 + '\n' + clientList[i].street3 + '\n' + clientList[i].suburb + '\n' + clientList[i].statecode + '\n' + clientList[i].country;
                         $('#txabillingAddress').val(postalAddress);
+                        $('.pdfCustomerAddress').html(clientList[i].suppliername);
                         $('#txaShipingInfo').val(postalAddress);
                         $('#sltTerms').val(clientList[i].termsName || '');
                     }
@@ -2423,6 +2467,10 @@ Template.purchaseordercard.events({
             });
         }
     },
+    'blur .lineProductDesc': function (event) {
+        var targetID = $(event.target).closest('tr').attr('id');
+        $('#' + targetID + " #lineProductDesc").text($('#' + targetID + " .lineProductDesc").text());
+    },
     'blur .lineQty': function(event) {
         let templateObject = Template.instance();
         let taxcodeList = templateObject.taxraterecords.get();
@@ -2552,10 +2600,17 @@ Template.purchaseordercard.events({
         let taxcodeList = templateObject.taxraterecords.get();
 
         let $tblrows = $("#tblPurchaseOrderLine tbody tr");
+        let $printrows = $(".purchase_print tbody tr");
+        var targetID = $(event.target).closest('tr').attr('id'); // table row ID
 
         let lineAmount = 0;
         let subGrandTotal = 0;
         let taxGrandTotal = 0;
+        let taxGrandTotalPrint = 0;
+
+         if ($('.printID').val() == "") {
+            $('#' + targetID + " #lineUnitPrice").text($('#' + targetID + " .lineUnitPrice").val());
+        }
 
         $tblrows.each(function(index) {
             var $tblrow = $(this);
@@ -2595,6 +2650,44 @@ Template.purchaseordercard.events({
 
             }
         });
+
+         if ($(".printID").val() == "") {
+            $printrows.each(function(index) {
+                var $printrows = $(this);
+                var qty = $printrows.find("#lineQty").text() || 0;
+                var price = $printrows.find("#lineUnitPrice").text() || "0";
+                var taxrateamount = 0;
+                var taxRate = $printrows.find("#lineTaxCode").text();
+                if (taxcodeList) {
+                    for (var i = 0; i < taxcodeList.length; i++) {
+                        if (taxcodeList[i].codename == taxRate) {
+                            taxrateamount = taxcodeList[i].coderate.replace('%', "") / 100;
+                        }
+                    }
+                }
+
+                var subTotal = parseInt(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) || 0;
+                var taxTotal = parseInt(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) * parseFloat(taxrateamount);
+                $printrows.find('#lineTaxAmount').text(utilityService.modifynegativeCurrencyFormat(taxTotal))
+                if (!isNaN(subTotal)) {
+                    $printrows.find('#lineAmt').text(utilityService.modifynegativeCurrencyFormat(subTotal));
+                    subGrandTotal += isNaN(subTotal) ? 0 : subTotal;
+                    document.getElementById("subtotal_totalPrint").innerHTML = $('#subtotal_total').text();
+                }
+
+                if (!isNaN(taxTotal)) {
+                    taxGrandTotalPrint += isNaN(taxTotal) ? 0 : taxTotal;
+                }
+                if (!isNaN(subGrandTotal) && (!isNaN(taxGrandTotal))) {
+                    let GrandTotal = (parseFloat(subGrandTotal)) + (parseFloat(taxGrandTotal));
+                    document.getElementById("grandTotalPrint").innerHTML = $('#grandTotal').text();
+                    document.getElementById("totalTax").innerHTML = $('#subtotal_tax').text();
+                    document.getElementById("balanceDue").innerHTML = utilityService.modifynegativeCurrencyFormat(GrandTotal);
+                    document.getElementById("totalBalanceDuePrint").innerHTML = $('#totalBalanceDue').text();
+
+                }
+            });
+        }
     },
     'click #btnCustomFileds': function(event) {
         var x = document.getElementById("divCustomFields");
@@ -2689,12 +2782,14 @@ Template.purchaseordercard.events({
             if ($('#tblPurchaseOrderLine tbody>tr').length > 1) {
                 this.click;
                 $(event.target).closest('tr').remove();
+                $('.purchase_print #'+targetID).remove();
                 event.preventDefault();
                 let $tblrows = $("#tblPurchaseOrderLine tbody tr");
-
+                let $printrows = $(".purchase_print tbody tr");
                 let lineAmount = 0;
                 let subGrandTotal = 0;
                 let taxGrandTotal = 0;
+                let taxGrandTotalPrint = 0;
 
                 $tblrows.each(function(index) {
                     var $tblrow = $(this);
@@ -2734,6 +2829,44 @@ Template.purchaseordercard.events({
 
                     }
                 });
+
+            if ($(".printID").val() == "") {
+                $printrows.each(function(index) {
+                var $printrows = $(this);
+                var qty = $printrows.find("#lineQty").text() || 0;
+                var price = $printrows.find("#lineUnitPrice").text() || "0";
+                var taxrateamount = 0;
+                var taxRate = $printrows.find("#lineTaxCode").text();
+                if (taxcodeList) {
+                    for (var i = 0; i < taxcodeList.length; i++) {
+                        if (taxcodeList[i].codename == taxRate) {
+                            taxrateamount = taxcodeList[i].coderate.replace('%', "") / 100;
+                        }
+                    }
+                }
+
+                var subTotal = parseInt(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) || 0;
+                var taxTotal = parseInt(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) * parseFloat(taxrateamount);
+                $printrows.find('#lineTaxAmount').text(utilityService.modifynegativeCurrencyFormat(taxTotal))
+                if (!isNaN(subTotal)) {
+                    $printrows.find('#lineAmt').text(utilityService.modifynegativeCurrencyFormat(subTotal));
+                    subGrandTotal += isNaN(subTotal) ? 0 : subTotal;
+                    document.getElementById("subtotal_totalPrint").innerHTML = $('#subtotal_total').text();
+                }
+
+                if (!isNaN(taxTotal)) {
+                    taxGrandTotalPrint += isNaN(taxTotal) ? 0 : taxTotal;
+                }
+                if (!isNaN(subGrandTotal) && (!isNaN(taxGrandTotal))) {
+                    let GrandTotal = (parseFloat(subGrandTotal)) + (parseFloat(taxGrandTotal));
+                    document.getElementById("grandTotalPrint").innerHTML = $('#grandTotal').text();
+                    document.getElementById("totalTax").innerHTML = $('#subtotal_tax').text();
+                    document.getElementById("balanceDue").innerHTML = utilityService.modifynegativeCurrencyFormat(GrandTotal);
+                    document.getElementById("totalBalanceDuePrint").innerHTML = $('#totalBalanceDue').text();
+
+                }
+            });
+        }
                 return false;
 
             } else {
@@ -2794,10 +2927,13 @@ Template.purchaseordercard.events({
             $('#' + selectLineID).closest('tr').remove();
 
             let $tblrows = $("#tblPurchaseOrderLine tbody tr");
+            let $printrows = $(".invoice_print tbody tr");
+            $(".purchase_print #"+selectLineID).remove();
 
             let lineAmount = 0;
             let subGrandTotal = 0;
             let taxGrandTotal = 0;
+            let taxGrandTotalPrint = 0;
 
             $tblrows.each(function(index) {
                 var $tblrow = $(this);
@@ -2838,6 +2974,43 @@ Template.purchaseordercard.events({
                 }
             });
 
+            if ($(".printID").val() == "") {
+                $printrows.each(function(index) {
+                var $printrows = $(this);
+                var qty = $printrows.find("#lineQty").text() || 0;
+                var price = $printrows.find("#lineUnitPrice").text() || "0";
+                var taxrateamount = 0;
+                var taxRate = $printrows.find("#lineTaxCode").text();
+                if (taxcodeList) {
+                    for (var i = 0; i < taxcodeList.length; i++) {
+                        if (taxcodeList[i].codename == taxRate) {
+                            taxrateamount = taxcodeList[i].coderate.replace('%', "") / 100;
+                        }
+                    }
+                }
+
+                var subTotal = parseInt(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) || 0;
+                var taxTotal = parseInt(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) * parseFloat(taxrateamount);
+                $printrows.find('#lineTaxAmount').text(utilityService.modifynegativeCurrencyFormat(taxTotal))
+                if (!isNaN(subTotal)) {
+                    $printrows.find('#lineAmt').text(utilityService.modifynegativeCurrencyFormat(subTotal));
+                    subGrandTotal += isNaN(subTotal) ? 0 : subTotal;
+                    document.getElementById("subtotal_totalPrint").innerHTML = $('#subtotal_total').text();
+                }
+
+                if (!isNaN(taxTotal)) {
+                    taxGrandTotalPrint += isNaN(taxTotal) ? 0 : taxTotal;
+                }
+                if (!isNaN(subGrandTotal) && (!isNaN(taxGrandTotal))) {
+                    let GrandTotal = (parseFloat(subGrandTotal)) + (parseFloat(taxGrandTotal));
+                    document.getElementById("grandTotalPrint").innerHTML = $('#grandTotal').text();
+                    document.getElementById("totalTax").innerHTML = $('#subtotal_tax').text();
+                    document.getElementById("balanceDue").innerHTML = utilityService.modifynegativeCurrencyFormat(GrandTotal);
+                    document.getElementById("totalBalanceDuePrint").innerHTML = $('#totalBalanceDue').text();
+
+                }
+            });
+
 
         } else {
             this.click;
@@ -2865,6 +3038,7 @@ Template.purchaseordercard.events({
         }
 
         $('#deleteLineModal').modal('toggle');
+     }
     },
     'click .btnSaveSettings': function(event) {
 

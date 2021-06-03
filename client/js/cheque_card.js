@@ -88,8 +88,13 @@ Template.chequecard.onRendered(() => {
 
     templateObject.getAllCheques = function() {
         clientsService.getAllChequeList1().then(function(data) {
-            let lastCheque = data.tcheque[data.tcheque.length - 1];
-            newChequeID = parseInt(lastCheque.Id) + 1;
+            let newChequeID = 1;
+            if(data.tcheque.length > 0){
+                lastCheque = data.tcheque[data.tcheque.length - 1]
+                newChequeID = parseInt(lastCheque.Id) + 1;
+            } else{
+
+            }
             $('.heading').html('New ' + chequeSpelling + ' #' + newChequeID + '<a role="button" data-toggle="modal" href="#helpModal" class="helpModal"><label class="lblplay">PLAY</label><i class="far fa-play-circle"  style="font-size: 20px;"></i></a>  <a class="btn" role="button" data-toggle="modal" href="#myModal4" style="float: right;"><i class="icon ion-android-more-horizontal"></i></a><!--<button class="btn float-right" type="button" id="btnCustomFileds" name="btnCustomFileds"><i class="icon ion-android-more-horizontal"></i></button>-->');
 
         });
@@ -1421,6 +1426,21 @@ Template.chequecard.onRendered(() => {
             rowData.attr('id', tokenid);
             $("#tblChequeLine tbody").append(rowData);
 
+
+            if ($('#printID').val() != "") {
+                var rowData1 = $('.cheque_print tbody>tr:last').clone(true);
+                $("#lineAccountName", rowData1).text("");
+                $("#lineMemo", rowData1).text("");
+                $("#lineQty", rowData1).text("");
+                $("#lineAmount", rowData1).text("");
+                $("#lineTaxRate", rowData).text("");
+                $("#lineTaxCode", rowData1).text("");
+                $("#lineAmt", rowData1).text("");
+                rowData1.attr('id', tokenid);
+                $(".cheque_print tbody").append(rowData1);
+            }
+
+
         });
 
 
@@ -1434,6 +1454,7 @@ Template.chequecard.onRendered(() => {
         var table = $(this);
         let utilityService = new UtilityService();
         let $tblrows = $("#tblChequeLine tbody tr");
+        let $printrows = $(".cheque_print tbody tr");
 
         if (selectLineID) {
             let lineProductName = table.find(".productName").text();
@@ -1444,6 +1465,7 @@ Template.chequecard.onRendered(() => {
             let lineAmount = 0;
             let subGrandTotal = 0;
             let taxGrandTotal = 0;
+            let taxGrandTotalPrint = 0;
             $('#' + selectLineID + " .lineTaxRate").text(0);
             if (taxcodeList) {
                 for (var i = 0; i < taxcodeList.length; i++) {
@@ -1457,7 +1479,12 @@ Template.chequecard.onRendered(() => {
             $('#' + selectLineID + " .colAmount").val(lineUnitPrice);
             $('#' + selectLineID + " .lineTaxCode").text(lineTaxRate);
 
-
+            if ($('.printID').val() == "") {
+                $('#' + selectLineID + " #lineAccountName").text(lineProductName);
+                $('#' + selectLineID + " #lineMemo").text(lineProductDesc);
+                $('#' + selectLineID + " #colAmount").text(lineUnitPrice);
+                $('#' + selectLineID + " #lineTaxCode").text(lineTaxRate);
+            }
 
 
 
@@ -1499,6 +1526,46 @@ Template.chequecard.onRendered(() => {
 
                 }
             });
+
+            if ($(".printID").val() == "") {
+                $printrows.each(function(index) {
+                var $printrows = $(this);
+                var amount = $printrows.find("#lineAmount").text() || "0";
+                var taxcode = $printrows.find("#lineTaxCode").text() || 0;
+
+                var taxrateamount = 0;
+                if (taxcodeList) {
+                    for (var i = 0; i < taxcodeList.length; i++) {
+                        if (taxcodeList[i].codename == taxcode) {
+                            taxrateamount = taxcodeList[i].coderate.replace('%', "") / 100 || 0;
+                        }
+                    }
+                }
+
+
+                    var subTotal = parseFloat(amount.replace(/[^0-9.-]+/g, "")) || 0;
+                    var taxTotal = parseFloat(amount.replace(/[^0-9.-]+/g, "")) * parseFloat(taxrateamount);
+                    $printrows.find('#lineTaxAmount').text(utilityService.modifynegativeCurrencyFormat(taxTotal))
+
+                    if (!isNaN(subTotal)) {
+                        $printrows.find('#lineAmt').text(utilityService.modifynegativeCurrencyFormat(subTotal));
+                        subGrandTotal += isNaN(subTotal) ? 0 : subTotal;
+                        document.getElementById("subtotal_totalPrint").innerHTML = $('#subtotal_total').text();
+                    }
+
+                    if (!isNaN(taxTotal)) {
+                        taxGrandTotalPrint += isNaN(taxTotal) ? 0 : taxTotal;
+                    }
+                    if (!isNaN(subGrandTotal) && (!isNaN(taxGrandTotal))) {
+                        let GrandTotal = (parseFloat(subGrandTotal)) + (parseFloat(taxGrandTotal));
+                        document.getElementById("grandTotalPrint").innerHTML = $('#grandTotal').text();
+                        document.getElementById("totalTax").innerHTML = $('#subtotal_tax').text();
+                        document.getElementById("balanceDue").innerHTML = utilityService.modifynegativeCurrencyFormat(GrandTotal);
+                        document.getElementById("totalBalanceDuePrint").innerHTML = $('#totalBalanceDue').text();
+
+                    }
+                });
+            }
         }
     });
 
@@ -1516,9 +1583,16 @@ Template.chequecard.onRendered(() => {
             let lineAmount = 0;
             let subGrandTotal = 0;
             let taxGrandTotal = 0;
+            let taxGrandTotalPrint = 0;
+
 
             $('#' + selectLineID + " .lineTaxRate").text(lineTaxRate || 0);
             $('#' + selectLineID + " .lineTaxCode").text(lineTaxCode);
+            let $printrows = $(".cheque_print tbody tr");
+            if ($('.printID').val() == "") {
+                $('#' + selectLineID + " #lineAmount").text($('#' + selectLineID + " .colAmount").val());
+                $('#' + selectLineID + " #lineTaxCode").text(lineTaxCode);
+            }
 
 
             $('#taxRateListModal').modal('toggle');
@@ -1565,6 +1639,43 @@ Template.chequecard.onRendered(() => {
 
                 }
             });
+
+        if($(".printID").val() == "") {
+            $printrows.each(function(index) {
+            var $printrow = $(this);
+            var amount = $printrow.find("#lineAmount").text() || "0";
+            var taxcode = $printrow.find("#lineTaxCode").text() || "E";
+
+            var taxrateamount = 0;
+            if (taxcodeList) {
+                for (var i = 0; i < taxcodeList.length; i++) {
+                    if (taxcodeList[i].codename == taxcode) {
+                        taxrateamount = taxcodeList[i].coderate.replace('%', "") / 100 || 0;
+                    }
+                }
+            }
+                var subTotal = parseFloat(amount.replace(/[^0-9.-]+/g, "")) || 0;
+                var taxTotal = parseFloat(amount.replace(/[^0-9.-]+/g, "")) * parseFloat(taxrateamount);
+                 $printrow.find('#lineTaxAmount').text(utilityService.modifynegativeCurrencyFormat(taxTotal));
+                if (!isNaN(subTotal)) {
+                    $printrow.find('#lineAmt').text(utilityService.modifynegativeCurrencyFormat(subTotal));
+                    subGrandTotal += isNaN(subTotal) ? 0 : subTotal;
+                    document.getElementById("subtotal_totalPrint").innerHTML = $('#subtotal_total').text();
+                }
+
+                if (!isNaN(taxTotal)) {
+                    taxGrandTotalPrint += isNaN(taxTotal) ? 0 : taxTotal;
+                }
+                if (!isNaN(subGrandTotal) && (!isNaN(taxGrandTotal))) {
+                    let GrandTotal = (parseFloat(subGrandTotal)) + (parseFloat(taxGrandTotal));
+                    document.getElementById("grandTotalPrint").innerHTML = $('#grandTotal').text();
+                    document.getElementById("totalTax").innerHTML = $('#subtotal_tax').text();
+                    document.getElementById("balanceDue").innerHTML = utilityService.modifynegativeCurrencyFormat(GrandTotal);
+                    document.getElementById("totalBalanceDuePrint").innerHTML = $('#totalBalanceDue').text();
+
+                }
+            });
+        }
         }
     });
 
@@ -1580,6 +1691,7 @@ Template.chequecard.onRendered(() => {
                         $('#edtSupplierEmail').val(clientList[i].supplieremail);
                         $('#edtSupplierEmail').attr('supplierid', clientList[i].supplierid);
                         let postalAddress = clientList[i].suppliername + '\n' + clientList[i].street + '\n' + clientList[i].street2 + '\n' + clientList[i].street3 + '\n' + clientList[i].suburb + '\n' + clientList[i].statecode + '\n' + clientList[i].country;
+                        $('.pdfCustomerAddress').html(clientList[i].suppliername);
                         $('#txabillingAddress').val(postalAddress);
                         $('#txaShipingInfo').val(postalAddress);
 
@@ -2254,10 +2366,15 @@ Template.chequecard.events({
             });
         }
     },
+    'blur .lineMemo': function (event) {
+        var targetID = $(event.target).closest('tr').attr('id');
+        $('#' + targetID + " #lineMemo").text($('#' + targetID + " .lineMemo").text());
+    },
     'blur .colAmount': function(event) {
         let templateObject = Template.instance();
         let taxcodeList = templateObject.taxraterecords.get();
         let utilityService = new UtilityService();
+        var targetID = $(event.target).closest('tr').attr('id');
         if (!isNaN($(event.target).val())) {
             let inputUnitPrice = parseFloat($(event.target).val()) ||0;
             $(event.target).val(utilityService.modifynegativeCurrencyFormat(inputUnitPrice));
@@ -2269,10 +2386,18 @@ Template.chequecard.events({
 
         }
         let $tblrows = $("#tblChequeLine tbody tr");
+        let $printrows = $(".cheque_print tbody tr");
+
+         if ($('.printID').val() == "") {
+            $('#' + targetID + " #lineAmount").text($('#' + targetID + " .colAmount").val());
+            $('#' + targetID + " #lineTaxCode").text($('#' + targetID + " .lineTaxCode").text());
+
+        }
 
         let lineAmount = 0;
         let subGrandTotal = 0;
         let taxGrandTotal = 0;
+        let taxGrandTotalPrint = 0;
 
         $tblrows.each(function(index) {
             var $tblrow = $(this);
@@ -2310,6 +2435,43 @@ Template.chequecard.events({
 
             }
         });
+
+        if($(".printID").val() == "") {
+            $printrows.each(function(index) {
+            var $printrow = $(this);
+            var amount = $printrow.find("#lineAmount").text() || "0";
+            var taxcode = $printrow.find("#lineTaxCode").text() || "E";
+
+            var taxrateamount = 0;
+            if (taxcodeList) {
+                for (var i = 0; i < taxcodeList.length; i++) {
+                    if (taxcodeList[i].codename == taxcode) {
+                        taxrateamount = taxcodeList[i].coderate.replace('%', "") / 100 || 0;
+                    }
+                }
+            }
+                var subTotal = parseFloat(amount.replace(/[^0-9.-]+/g, "")) || 0;
+                var taxTotal = parseFloat(amount.replace(/[^0-9.-]+/g, "")) * parseFloat(taxrateamount);
+                 $printrow.find('#lineTaxAmount').text(utilityService.modifynegativeCurrencyFormat(taxTotal));
+                if (!isNaN(subTotal)) {
+                    $printrow.find('#lineAmt').text(utilityService.modifynegativeCurrencyFormat(subTotal));
+                    subGrandTotal += isNaN(subTotal) ? 0 : subTotal;
+                    document.getElementById("subtotal_totalPrint").innerHTML = $('#subtotal_total').text();
+                }
+
+                if (!isNaN(taxTotal)) {
+                    taxGrandTotalPrint += isNaN(taxTotal) ? 0 : taxTotal;
+                }
+                if (!isNaN(subGrandTotal) && (!isNaN(taxGrandTotal))) {
+                    let GrandTotal = (parseFloat(subGrandTotal)) + (parseFloat(taxGrandTotal));
+                    document.getElementById("grandTotalPrint").innerHTML = $('#grandTotal').text();
+                    document.getElementById("totalTax").innerHTML = $('#subtotal_tax').text();
+                    document.getElementById("balanceDue").innerHTML = utilityService.modifynegativeCurrencyFormat(GrandTotal);
+                    document.getElementById("totalBalanceDuePrint").innerHTML = $('#totalBalanceDue').text();
+
+                }
+            });
+        }
 
     },
     'click #btnCustomFileds': function(event) {
@@ -2396,12 +2558,15 @@ Template.chequecard.events({
             if ($('#tblChequeLine tbody>tr').length > 1) {
                 this.click;
                 $(event.target).closest('tr').remove();
+                 $(".cheque_print #"+targetID).remove();
                 event.preventDefault();
                 let $tblrows = $("#tblChequeLine tbody tr");
+                let $printrows = $(".cheque_print tbody tr");
 
                 let lineAmount = 0;
                 let subGrandTotal = 0;
                 let taxGrandTotal = 0;
+                let taxGrandTotalPrint = 0;
 
                 $tblrows.each(function(index) {
                     var $tblrow = $(this);
@@ -2439,6 +2604,45 @@ Template.chequecard.events({
 
                     }
                 });
+
+            if ($(".printID").val() == "") {
+                $printrows.each(function(index) {
+                var $printrows = $(this);
+                var amount = $printrows.find("#lineAmount").text() || "0";
+                var taxcode = $printrows.find("#lineTaxCode").text() || 0;
+
+                var taxrateamount = 0;
+                if (taxcodeList) {
+                    for (var i = 0; i < taxcodeList.length; i++) {
+                        if (taxcodeList[i].codename == taxcode) {
+                            taxrateamount = taxcodeList[i].coderate.replace('%', "") / 100 || 0;
+                        }
+                    }
+                }
+
+
+                    var subTotal = parseFloat(amount.replace(/[^0-9.-]+/g, "")) || 0;
+                    var taxTotal = parseFloat(amount.replace(/[^0-9.-]+/g, "")) * parseFloat(taxrateamount);
+                    $printrows.find('#lineTaxAmount').text(utilityService.modifynegativeCurrencyFormat(taxTotal))
+
+                    if (!isNaN(subTotal)) {
+                        $printrows.find('#lineAmt').text(utilityService.modifynegativeCurrencyFormat(subTotal));
+                        subGrandTotal += isNaN(subTotal) ? 0 : subTotal;
+                        document.getElementById("subtotal_totalPrint").innerHTML = $('#subtotal_total').text();
+                    }
+
+                    if (!isNaN(taxTotal)) {
+                        taxGrandTotalPrint += isNaN(taxTotal) ? 0 : taxTotal;
+                    }
+                    if (!isNaN(subGrandTotal) && (!isNaN(taxGrandTotal))) {
+                        let GrandTotal = (parseFloat(subGrandTotal)) + (parseFloat(taxGrandTotal));
+                        document.getElementById("grandTotalPrint").innerHTML = $('#grandTotal').text();
+                        document.getElementById("balanceDue").innerHTML = utilityService.modifynegativeCurrencyFormat(GrandTotal);
+                        document.getElementById("totalBalanceDuePrint").innerHTML = $('#totalBalanceDue').text();
+
+                    }
+                });
+            }
                 return false;
 
             } else {
@@ -2499,12 +2703,16 @@ Template.chequecard.events({
             this.click;
 
             $('#' + selectLineID).closest('tr').remove();
+            $('.cheque_print #' + selectLineID).remove();
 
             let $tblrows = $("#tblChequeLine tbody tr");
+            let $printrows = $(".cheque_print tbody tr");
+
 
             let lineAmount = 0;
             let subGrandTotal = 0;
             let taxGrandTotal = 0;
+            let taxGrandTotalPrint = 0;
 
             $tblrows.each(function(index) {
                 var $tblrow = $(this);
@@ -2544,6 +2752,45 @@ Template.chequecard.events({
 
                 }
             });
+
+            if ($(".printID").val() == "") {
+                $printrows.each(function(index) {
+                var $printrows = $(this);
+                var amount = $printrows.find("#lineAmount").text() || "0";
+                var taxcode = $printrows.find("#lineTaxCode").text() || 0;
+
+                var taxrateamount = 0;
+                if (taxcodeList) {
+                    for (var i = 0; i < taxcodeList.length; i++) {
+                        if (taxcodeList[i].codename == taxcode) {
+                            taxrateamount = taxcodeList[i].coderate.replace('%', "") / 100 || 0;
+                        }
+                    }
+                }
+
+
+                    var subTotal = parseFloat(amount.replace(/[^0-9.-]+/g, "")) || 0;
+                    var taxTotal = parseFloat(amount.replace(/[^0-9.-]+/g, "")) * parseFloat(taxrateamount);
+                    $printrows.find('#lineTaxAmount').text(utilityService.modifynegativeCurrencyFormat(taxTotal))
+
+                    if (!isNaN(subTotal)) {
+                        $printrows.find('#lineAmt').text(utilityService.modifynegativeCurrencyFormat(subTotal));
+                        subGrandTotal += isNaN(subTotal) ? 0 : subTotal;
+                        document.getElementById("subtotal_totalPrint").innerHTML = $('#subtotal_total').text();
+                    }
+
+                    if (!isNaN(taxTotal)) {
+                        taxGrandTotalPrint += isNaN(taxTotal) ? 0 : taxTotal;
+                    }
+                    if (!isNaN(subGrandTotal) && (!isNaN(taxGrandTotal))) {
+                        let GrandTotal = (parseFloat(subGrandTotal)) + (parseFloat(taxGrandTotal));
+                        document.getElementById("grandTotalPrint").innerHTML = $('#grandTotal').text();
+                        document.getElementById("balanceDue").innerHTML = utilityService.modifynegativeCurrencyFormat(GrandTotal);
+                        document.getElementById("totalBalanceDuePrint").innerHTML = $('#totalBalanceDue').text();
+
+                    }
+                });
+            }
 
 
         } else {
@@ -2715,6 +2962,221 @@ Template.chequecard.events({
 
             purchaseService.saveChequeEx(objDetails).then(function(objDetails) {
                 var supplierID = $('#edtSupplierEmail').attr('supplierid');
+
+                $('#html-2-pdfwrapper').css('display', 'block');
+                $('.pdfCustomerName').html($('#edtSupplierEmail').val());
+                $('.pdfCustomerAddress').html($('#txabillingAddress').val());
+                async function addAttachment() {
+                    let attachment = [];
+                    let templateObject = Template.instance();
+
+                    let invoiceId = objDetails.fields.ID;
+                    let encodedPdf = await generatePdfForMail(invoiceId);
+                    let pdfObject = "";
+                    var reader = new FileReader();
+                    reader.readAsDataURL(encodedPdf);
+                    reader.onloadend = function() {
+                        var base64data = reader.result;
+                        base64data = base64data.split(',')[1];
+                        pdfObject = {
+                            filename: 'Bill ' + invoiceId + '.pdf',
+                            content: base64data,
+                            encoding: 'base64'
+                        };
+                        attachment.push(pdfObject);
+                        let erpInvoiceId = objDetails.fields.ID;
+                        let mailFromName = Session.get('vs1companyName');
+                        let mailFrom = localStorage.getItem('mySession');
+                        let customerEmailName = $('#edtSupplierName').val();
+                        let checkEmailData = $('#edtSupplierEmail').val();
+                        let grandtotal = $('#grandTotal').html();
+                        let amountDueEmail = $('#totalBalanceDue').html();
+                        let emailDueDate = $("#dtDueDate").val();
+                        let mailSubject = 'Cheque ' + erpInvoiceId + ' from ' + mailFromName + ' for ' + customerEmailName;
+                        let mailBody = "Hi " + customerEmailName + ",\n\n Here's Cheque " + erpInvoiceId + " for  " + grandtotal + "." +
+                            "\n\nThe amount outstanding of " + amountDueEmail + " is due on " + emailDueDate + "." +
+                            "\n\nIf you have any questions, please let us know : " + mailFrom + ".\n\nThanks,\n" + mailFromName;
+                        var htmlmailBody = '<table align="center" border="0" cellpadding="0" cellspacing="0" width="600">' +
+                            '    <tr>' +
+                            '        <td align="center" bgcolor="#54c7e2" style="padding: 40px 0 30px 0;">' +
+                            '        <img src="https://sandbox.vs1cloud.com/assets/VS1logo.png" class="uploadedImage" alt="VS1 Cloud" width="250px" style="display: block;" />' +
+                            '        </td>' +
+                            '    </tr>' +
+                            '    <tr>' +
+                            '        <td style="padding: 40px 30px 40px 30px;">' +
+                            '            <table border="0" cellpadding="0" cellspacing="0" width="100%">' +
+                            '                <tr>' +
+                            '                    <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0 20px 0;">' +
+                            '                        Hello there <span>' + customerEmailName + '</span>,' +
+                            '                    </td>' +
+                            '                </tr>' +
+                            '                <tr>' +
+                            '                    <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0 10px 0;">' +
+                            '                        Please find Cheque <span>' + erpInvoiceId + '</span> attached below.' +
+                            '                    </td>' +
+                            '                </tr>' +
+                            '                <tr>' +
+                            '                    <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0 10px 0;">' +
+                            '                        The amount outstanding of <span>' + amountDueEmail + '</span> is due on <span>' + emailDueDate + '</span>' +
+                            '                    </td>' +
+                            '                </tr>' +
+                            '                <tr>' +
+                            '                    <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0 30px 0;">' +
+                            '                        Kind regards,' +
+                            '                        <br>' +
+                            '                        ' + mailFromName + '' +
+                            '                    </td>' +
+                            '                </tr>' +
+                            '            </table>' +
+                            '        </td>' +
+                            '    </tr>' +
+                            '    <tr>' +
+                            '        <td bgcolor="#00a3d3" style="padding: 30px 30px 30px 30px;">' +
+                            '            <table border="0" cellpadding="0" cellspacing="0" width="100%">' +
+                            '                <tr>' +
+                            '                    <td width="50%" style="color: #ffffff; font-family: Arial, sans-serif; font-size: 14px;">' +
+                            '                        If you have any question, please do not hesitate to contact us.' +
+                            '                    </td>' +
+                            '                    <td align="right">' +
+                            '                        <a style="border: none; color: white; padding: 15px 32px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin: 4px 2px; cursor: pointer; background-color: #4CAF50;" href="mailto:' + mailFrom + '">Contact Us</a>' +
+                            '                    </td>' +
+                            '                </tr>' +
+                            '            </table>' +
+                            '        </td>' +
+                            '    </tr>' +
+                            '</table>';
+
+                        if (($('.chkEmailCopy').is(':checked')) && ($('.chkEmailRep').is(':checked'))) {
+                            Meteor.call('sendEmail', {
+                                from: "" + mailFromName + " <" + mailFrom + ">",
+                                to: checkEmailData,
+                                subject: mailSubject,
+                                text: '',
+                                html: htmlmailBody,
+                                attachments: attachment
+                            }, function(error, result) {
+                                if (error && error.error === "error") {
+
+
+                                } else {
+
+                                }
+                            });
+
+                            Meteor.call('sendEmail', {
+                                from: "" + mailFromName + " <" + mailFrom + ">",
+                                to: mailFrom,
+                                subject: mailSubject,
+                                text: '',
+                                html: htmlmailBody,
+                                attachments: attachment
+                            }, function(error, result) {
+                                if (error && error.error === "error") {
+                                    Router.go('/chequelist?success=true');
+                                } else {
+                                    $('#html-2-pdfwrapper').css('display', 'none');
+                                    swal({
+                                        title: 'SUCCESS',
+                                        text: "Email Sent To Supplier: " + checkEmailData + " and User: " + mailFrom + "",
+                                        type: 'success',
+                                        showCancelButton: false,
+                                        confirmButtonText: 'OK'
+                                    }).then((result) => {
+                                        if (result.value) {
+                                            Router.go('/chequelist?success=true');
+                                        } else if (result.dismiss === 'cancel') {
+
+                                        }
+                                    });
+
+                                    $('.fullScreenSpin').css('display', 'none');
+                                }
+                            });
+
+                        } else if (($('.chkEmailCopy').is(':checked'))) {
+                            Meteor.call('sendEmail', {
+                                from: "" + mailFromName + " <" + mailFrom + ">",
+                                to: checkEmailData,
+                                subject: mailSubject,
+                                text: '',
+                                html: htmlmailBody,
+                                attachments: attachment
+                            }, function(error, result) {
+                                if (error && error.error === "error") {
+                                    Router.go('/chequelist?success=true');
+                                } else {
+                                    $('#html-2-pdfwrapper').css('display', 'none');
+                                    swal({
+                                        title: 'SUCCESS',
+                                        text: "Email Sent To Supplier: " + checkEmailData + " ",
+                                        type: 'success',
+                                        showCancelButton: false,
+                                        confirmButtonText: 'OK'
+                                    }).then((result) => {
+                                        if (result.value) {
+                                            Router.go('/chequelist?success=true');
+                                        } else if (result.dismiss === 'cancel') {
+
+                                        }
+                                    });
+
+                                    $('.fullScreenSpin').css('display', 'none');
+                                }
+                            });
+
+                        } else if (($('.chkEmailRep').is(':checked'))) {
+                            Meteor.call('sendEmail', {
+                                from: "" + mailFromName + " <" + mailFrom + ">",
+                                to: mailFrom,
+                                subject: mailSubject,
+                                text: '',
+                                html: htmlmailBody,
+                                attachments: attachment
+                            }, function(error, result) {
+                                if (error && error.error === "error") {
+                                    Router.go('/chequelist?success=true');
+                                } else {
+                                    $('#html-2-pdfwrapper').css('display', 'none');
+                                    swal({
+                                        title: 'SUCCESS',
+                                        text: "Email Sent To User: " + mailFrom + " ",
+                                        type: 'success',
+                                        showCancelButton: false,
+                                        confirmButtonText: 'OK'
+                                    }).then((result) => {
+                                        if (result.value) {
+                                            Router.go('/chequelist?success=true');
+                                        } else if (result.dismiss === 'cancel') {
+
+                                        }
+                                    });
+
+                                    $('.fullScreenSpin').css('display', 'none');
+                                }
+                            });
+
+                        } else {
+                           Router.go('/chequelist?success=true');
+                        };
+                    };
+                }
+                addAttachment();
+
+                function generatePdfForMail(invoiceId) {
+                    return new Promise((resolve, reject) => {
+                        let templateObject = Template.instance();
+
+                        let completeTabRecord;
+                        let doc = new jsPDF('p', 'pt', 'a4');
+                        doc.setFontSize(18);
+                        var source = document.getElementById('html-2-pdfwrapper');
+                        doc.addHTML(source, function() {
+
+                            resolve(doc.output('blob'));
+
+                        });
+                    });
+                }
                 if (supplierID !== " ") {
                     let supplierEmailData = {
                             type: "TSupplier",
@@ -2818,6 +3280,33 @@ Template.chequecard.events({
             $('.colAccountName').css('vertical-align', 'top');
         } else {
             $('.colAccountName').css('display', 'none');
+        }
+    },
+    'click .chkEmailCopy': function (event) {
+        $('#edtSupplierEmail').val($('#edtSupplierEmail').val().replace(/\s/g, ''));
+        if ($(event.target).is(':checked')) {
+            let checkEmailData = $('#edtSupplierEmail').val();
+
+            if (checkEmailData.replace(/\s/g, '') === '') {
+                swal('Supplier Email cannot be blank!', '', 'warning');
+                event.preventDefault();
+            } else {
+
+                function isEmailValid(mailTo) {
+                    return /^[A-Z0-9'.1234z_%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(mailTo);
+                };
+                if (!isEmailValid(checkEmailData)) {
+                    swal('The email field must be a valid email address !', '', 'warning');
+
+                    event.preventDefault();
+                    return false;
+                } else {
+
+
+                }
+            }
+        } else {
+
         }
     },
     'click .chkMemo': function(event) {
