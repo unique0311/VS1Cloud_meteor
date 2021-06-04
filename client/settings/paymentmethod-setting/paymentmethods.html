@@ -310,6 +310,9 @@
                             </div>
                             <div class="card-body">
                                 <div class="card-body p-3 rounded checkBoxModal">
+                                    {{#if accountID}}
+
+                                    {{else}}
                                     <div class="row">
                                         <div class="col-3">
                                             <div class="d-xl-flex justify-content-between align-items-xl-center">
@@ -318,15 +321,13 @@
                                         </div>
                                     </div>
                                     <div class="row">
-                                        <div class="col-3" style="margin-bottom: 16px;">
+                                        <div class="col-3">
                                             <div class="d-xl-flex justify-content-between align-items-xl-center">
-                                                <div class="form-group flex-grow-1">
-                                                    <label data-toggle="tooltip" data-bs-tooltip="Your Stripe account ID number" data-placement="bottom">Stripe Account ID</label>
-                                                    <input type="text" class="form-control" id="stripeAccID" name="stripeAccID">
-                                                </div>
+                                                <p>If you have an existing Stripe Account <a href="" target="_blank">Click here to link to VS1 Cloud.</a></p>
                                             </div>
                                         </div>
                                     </div>
+                                     {{/if}}
                                     <div class="row">
                                         <div class="col-3">
                                             <div class="d-xl-flex justify-content-between align-items-xl-center">
@@ -353,7 +354,7 @@
                                 </div>
                                 <div class="row no-gutters">
                                     <div class="col">
-                                        <button class="btn btn-success float-right" type="button" style="margin: 16px;"><i class="fa fa-save" style="margin-right: 5px;"></i>Save</button>
+                                        <button class="btn btn-success float-right" id="saveStripeID" type="button" style="margin: 16px;"><i class="fa fa-save" style="margin-right: 5px;"></i>Save</button>
                                         <button class="btn btn-secondary float-right btnBack" type="button" style="margin: 16px;"><i class="fa fa-close" style="margin-right: 5px;"></i>Cancel</button>
 
                                     </div>

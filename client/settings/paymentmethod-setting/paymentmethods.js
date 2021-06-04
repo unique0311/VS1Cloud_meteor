@@ -1,8 +1,10 @@
 import {TaxRateService} from "../settings-service";
 import { ReactiveVar } from 'meteor/reactive-var';
+import {OrganisationService} from '../../js/organisation-service';
 import { SideBarService } from '../../js/sidebar-service';
 import '../../lib/global/indexdbstorage.js';
 let sideBarService = new SideBarService();
+let organisationService = new OrganisationService();
 Template.paymentmethodSettings.onCreated(function(){
   const templateObject = Template.instance();
   templateObject.datatablerecords = new ReactiveVar([]);
@@ -12,6 +14,7 @@ Template.paymentmethodSettings.onCreated(function(){
 
   templateObject.includeCreditCard = new ReactiveVar();
   templateObject.includeCreditCard.set(false);
+  templateObject.accountID = new ReactiveVar();
 });
 
 Template.paymentmethodSettings.onRendered(function() {
@@ -22,7 +25,7 @@ Template.paymentmethodSettings.onRendered(function() {
     const tableHeaderList = [];
     const deptrecords = [];
     let deptprodlineItems = [];
-    Meteor.call('readPrefMethod',Session.get('mycloudLogonID'),'paymentmethodList', function(error, result){
+  Meteor.call('readPrefMethod',Session.get('mycloudLogonID'),'paymentmethodList', function(error, result){
     if(error){
 
     }else{
@@ -50,6 +53,15 @@ Template.paymentmethodSettings.onRendered(function() {
        });
     };
 
+
+        templateObject.getOrganisationDetails = function () {
+        organisationService.getOrganisationDetail().then((dataListRet) => {
+            let account_id = dataListRet.tcompanyinfo.Apcano || '';
+            templateObject.accountID.set(account_id);
+        });
+
+    }
+    templateObject.getOrganisationDetails();
     templateObject.getTaxRates = function () {
       getVS1Data('TPaymentMethod').then(function (dataObject) {
         if(dataObject.length == 0){
@@ -278,6 +290,7 @@ Template.paymentmethodSettings.onRendered(function() {
       MakeNegative();
     }, 100);
   }
+
 
   $('.fullScreenSpin').css('display','none');
   setTimeout(function () {
@@ -566,6 +579,176 @@ Template.paymentmethodSettings.onRendered(function() {
 
 
     }
+
+    $(document).ready(function() {
+      let url = window.location.href;
+      if(url.indexOf("?code") > 0){
+        $('.fullScreenSpin').css('display','inline-block');
+         url = url.split('?code=');
+         var id = url[url.length - 1];
+         
+         $.ajax({
+                url: 'https://depot.vs1cloud.com/stripe/connect-to-stripe.php',
+                data: {
+                    'code': id,
+                },
+                method: 'post',
+                success: function(response) {
+                  if(response.stripe_user_id){
+                    const templateObject = Template.instance();
+                    let stripe_acc_id = response.stripe_user_id;
+                    let companyID = 1;
+        
+                    var objDetails = {
+                        type: "TCompanyInfo",
+                        fields: {
+                            Id: companyID,
+                            Apcano:stripe_acc_id
+                        }
+                    };
+                  organisationService.saveOrganisationSetting(objDetails).then(function (data){
+                    $('.fullScreenSpin').css('display','none');
+                    swal({
+                    title: 'Stripe Connection Successful',
+                    text: "Your stripe account connection is successful",
+                    type: 'success',
+                    showCancelButton: false,
+                    confirmButtonText: 'Ok'
+                    }).then((result) => {
+                    if (result.value) {
+                      window.open('/paymentmethodSettings','_self');
+                    } else if (result.dismiss === 'cancel') {
+                      window.open('/paymentmethodSettings','_self');
+                    }else{
+                        window.open('/paymentmethodSettings','_self');
+                    }
+                    });
+                 }).catch(function (err) {
+                        $('.fullScreenSpin').css('display','none');
+                          swal({
+                            title: 'Stripe Connection Successful',
+                            text: err,
+                            type: 'error',
+                            showCancelButton: false,
+                            confirmButtonText: 'Try Again'
+                          }).then((result) => {
+                            if (result.value) {
+                              // Meteor._reload.reload();
+                            } else if (result.dismiss === 'cancel') {
+
+                            }
+                          });
+                      })
+
+                  } else{
+                    $('.fullScreenSpin').css('display','none');
+                     swal({
+                    title: 'Something went wrong',
+                    text: response,
+                    type: 'error',
+                    showCancelButton: false,
+                    confirmButtonText: 'Try Again'
+                    }).then((result) => {
+                    if (result.value) {
+                     
+                    } else if (result.dismiss === 'cancel') {
+
+                    }
+                    });
+                  }
+                 }
+            });
+
+        }
+
+
+        $("#saveStripeID").click(function(){
+          if($('#stripeAccID').val() != ""){
+                var id = $('#stripeAccID').val();
+                $.ajax({
+                url: 'http://127.0.0.1/stripe/create-account-link.php',
+                data: {
+                    'code': id,
+                },
+                method: 'post',
+                success: function(response) {
+                  if(response.stripe_user_id){
+                    const templateObject = Template.instance();
+                    let stripe_acc_id = response.stripe_user_id;
+                    let companyID = 1;
+        
+                    var objDetails = {
+                        type: "TCompanyInfo",
+                        fields: {
+                            Id: companyID,
+                            Apcano:stripe_acc_id
+                        }
+                    };
+                  organisationService.saveOrganisationSetting(objDetails).then(function (data){
+                    $('.fullScreenSpin').css('display','none');
+                    swal({
+                    title: 'Stripe Connection Successful',
+                    text: "Your stripe account connection is successful",
+                    type: 'success',
+                    showCancelButton: false,
+                    confirmButtonText: 'Ok'
+                    }).then((result) => {
+                    if (result.value) {
+                      //window.open('/paymentmethodSettings','_self');
+                    } else if (result.dismiss === 'cancel') {
+                     // window.open('/paymentmethodSettings','_self');
+                    }else{
+                        //window.open('/paymentmethodSettings','_self');
+                    }
+                    });
+                 }).catch(function (err) {
+                        $('.fullScreenSpin').css('display','none');
+                          swal({
+                            title: 'Stripe Connection Successful',
+                            text: err,
+                            type: 'error',
+                            showCancelButton: false,
+                            confirmButtonText: 'Try Again'
+                          }).then((result) => {
+                            if (result.value) {
+                              // Meteor._reload.reload();
+                            } else if (result.dismiss === 'cancel') {
+
+                            }
+                          });
+                      })
+
+                  } else{
+                    $('.fullScreenSpin').css('display','none');
+                     swal({
+                    title: 'Something went wrong',
+                    text: response,
+                    type: 'error',
+                    showCancelButton: false,
+                    confirmButtonText: 'Try Again'
+                    }).then((result) => {
+                    if (result.value) {
+                     
+                    } else if (result.dismiss === 'cancel') {
+
+                    }
+                    });
+                  }
+                 }
+            });
+          }else {
+            $('.fullScreenSpin').css('display','none');
+                    swal({
+                    title: 'Stripe Acount ID Required',
+                    text: "Please enter stripe account ID",
+                    type: 'warning',
+                    showCancelButton: false,
+                    confirmButtonText: 'Ok'
+                    })
+          }
+        });
+
+    })
 
     templateObject.getTaxRates();
 
@@ -1030,6 +1213,9 @@ Template.paymentmethodSettings.helpers({
    return (a.paymentmethodname.toUpperCase() > b.paymentmethodname.toUpperCase()) ? 1 : -1;
    });
   },
+ accountID: () => {
+    return Template.instance().accountID().get();
+ },
   tableheaderrecords: () => {
      return Template.instance().tableheaderrecords.get();
   },
