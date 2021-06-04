@@ -1664,7 +1664,7 @@ Template.customerscard.onRendered(function () {
                 let data = JSON.parse(dataObject[0].data);
                 let useData = data.tclienttype;
                 for (let i = 0; i < useData.length; i++) {
-                    clientType.push(useData[i].fields.TypeName)
+                    clientType.push(useData[i].TypeName)
                 }
                 clientType = _.sortBy(clientType);
                 templateObject.clienttypeList.set(clientType);
@@ -2905,15 +2905,15 @@ Template.customerscard.events({
                 }
             }
             contactService.saveClientTypeData(objDetails).then(function (objDetails) {
-                contactService.getClientTypeData().then(function (dataReload) {
-                    addVS1Data('TClientType', JSON.stringify(dataReload)).then(function (datareturn) {
-                        Meteor._reload.reload();
-                    }).catch(function (err) {
-                        Meteor._reload.reload();
-                    });
+              sideBarService.getClientTypeData().then(function(dataReload) {
+                addVS1Data('TClientType', JSON.stringify(dataReload)).then(function (datareturn) {
+                    Meteor._reload.reload();
                 }).catch(function (err) {
                     Meteor._reload.reload();
                 });
+            }).catch(function (err) {
+                Meteor._reload.reload();
+            });
                // Meteor._reload.reload();
             }).catch(function (err) {
 

@@ -92,7 +92,7 @@ $("select[name='edtBankAccountName'] > option").each(function () {
 });
 
 $('.dropdown-toggle').on("click",function(event){
-  
+
     //event.stopPropagation();
 });
 // $('.dropdown-toggle').click(e => e.stopPropagation());
@@ -121,7 +121,7 @@ batchUpdateCall = function (url) {
         if(oReq.readyState == 4 && oReq.status == 200) {
           var myArrResponse = JSON.parse(oReq.responseText);
           let responseBack = myArrResponse.ProcessLog.ResponseStatus;
-          
+
           if (~responseBack.indexOf("Finished Batch Update")){
 
             sideBarService.getTTransactionListReport('').then(function(data) {
@@ -149,7 +149,7 @@ batchUpdateCall = function (url) {
                 if(oReq2.readyState == 4 && oReq2.status == 200) {
                   // var myArrResponse2 = JSON.parse(oReq2.responseText);
                   var dataReturnRes = JSON.parse(oReq2.responseText);
-                  
+
                   //Dashboard API:
                   if(dataReturnRes.ProcessLog.TUser.TVS1_Dashboard_summary.fields){
                   Session.setPersistent('vs1companyName', dataReturnRes.ProcessLog.TUser.TVS1_Dashboard_summary.fields.Companyinfo_CompanyName||'');
@@ -182,8 +182,14 @@ batchUpdateCall = function (url) {
                   localStorage.setItem('VS1ProfitandLoss_ExpEx_dash', dataReturnRes.ProcessLog.TUser.TVS1_Dashboard_summary.fields.PnL_TotalExpenseEx||0);
                   localStorage.setItem('VS1ProfitandLoss_COGSEx_dash', dataReturnRes.ProcessLog.TUser.TVS1_Dashboard_summary.fields.PnL_TotalCOGSEx||0);
 
-                  if(dataReturnRes.ProcessLog.TUser.TEmployeePicture.fields){
-                  localStorage.setItem('vs1LoggedEmployeeImages_dash', dataReturnRes.ProcessLog.TUser.TEmployeePicture.fields.EncodedPic|| '');
+                  if(dataReturnRes.ProcessLog.TUser.TEmployeePicture.ResponseNo == 401){
+                    localStorage.setItem('vs1LoggedEmployeeImages_dash','');
+                  }else{
+                    if(dataReturnRes.ProcessLog.TUser.TEmployeePicture.fields){
+                    localStorage.setItem('vs1LoggedEmployeeImages_dash', dataReturnRes.ProcessLog.TUser.TEmployeePicture.fields.EncodedPic|| '');
+                    }else{
+                      localStorage.setItem('vs1LoggedEmployeeImages_dash','');
+                    }
                   }
                   }
                   localStorage.setItem('VS1APReport_dash', JSON.stringify(dataReturnRes.ProcessLog.TUser.TVS1_Dashboard_ap_report.items)||'');
@@ -196,9 +202,9 @@ batchUpdateCall = function (url) {
                     }else{
                       //let userData = dataObject[0].data;
                       dashboardArray = dataObject[0].data;
-                      
-                      
-                      
+
+
+
                       dashboardArray.ProcessLog.ClientDetails.ProcessLog.TUser.TEmployeePicture = dataReturnRes.ProcessLog.TUser.TEmployeePicture;
                       dashboardArray.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_ap_report = dataReturnRes.ProcessLog.TUser.TVS1_Dashboard_ap_report;
                       dashboardArray.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_pnl_period = dataReturnRes.ProcessLog.TUser.TVS1_Dashboard_pnl_period;
@@ -217,7 +223,7 @@ batchUpdateCall = function (url) {
 
 
                     }
-                    
+
                     addLoginData(dashboardArray).then(function (datareturnCheck) {
                       if(url){
                         window.open(url,'_self');
@@ -275,7 +281,7 @@ batchUpdateCall = function (url) {
 
 
 // $(window).load(function() {
-//     
+//
 // });
 
 //$(document).ready(function(){

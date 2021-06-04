@@ -185,4 +185,15 @@ export class ProductService extends BaseService {
         return this.getList(this.ERPObjects.TProduct, options);
     }
 
+    getClientTypeData() {
+        let options = {
+            PropertyList: "ID,TypeName,",
+        };
+        return this.getList(this.ERPObjects.TClientType, options);
+    }
+
+    saveClientTypeData(data) {
+        return this.POST(this.ERPObjects.TClientType, data);
+    }
+
 }

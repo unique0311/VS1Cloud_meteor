@@ -984,7 +984,7 @@ var times = 0;
 
 $("#login-button").click(function(e){
 
-
+var myVS1Video = document.getElementById("myVS1Video");
 
   let userLoginEmail = $("#email").val();
   let userLoginPassword = $('#erppassword').val();
@@ -1367,6 +1367,8 @@ $("#erplogin-button").click(async function(e){
                   var dataReturnRes = JSON.parse(oReq.responseText);
 
                   if(dataReturnRes.ProcessLog.ResponseStatus != "OK"){
+                    myVS1Video.pause();
+                    $('.myVS1Video').css('display','none');
  if(dataReturnRes.ProcessLog.ResponseStatus == "Payment is Due"){
    $('.loginSpinner').css('display','none');
    $('.fullScreenSpin').css('display','none');
@@ -1380,7 +1382,7 @@ $("#erplogin-button").click(async function(e){
 	 cancelButtonText: 'Cancel'
    }).then((result) => {
 	 if (result.value) {
-	   window.open('https://www.payments.vs1cloud.com/customer/account/login/referer/aHR0cHM6Ly93d3cucGF5bWVudHMudnMxY2xvdWQuY29tLw%2C%2C/', '_blank');
+	   window.open('https://www.payments.vs1cloud.com/customer/account/login/referer/aHR0cHM6Ly93d3cucGF5bWVudHMudnMxY2xvdWQuY29tLw%2C%2C?urppassname='+dataReturnRes.ProcessLog.VS1AdminUserName+'&urlpasstoken='+userLoginPassword+'', '_blank');
 	 } else if (result.dismiss === 'cancel') {
 
 	 }
@@ -1388,7 +1390,8 @@ $("#erplogin-button").click(async function(e){
 
  }else{
    swal(dataReturnRes.ProcessLog.ResponseStatus, dataReturnRes.ProcessLog.ResponseStatus, 'error');
-
+   myVS1Video.pause();
+   $('.myVS1Video').css('display','none');
    $('.loginSpinner').css('display','none');
    $('.fullScreenSpin').css('display','none');
  }
@@ -1815,6 +1818,8 @@ $("#erplogin-button").click(async function(e){
 
 				//End Code Here
 				}else{
+          myVS1Video.pause();
+          $('.myVS1Video').css('display','none');
                        $('#emEmail').html(dataReturnRes.ProcessLog.VS1AdminUserName);
                        $(".addloginkey").attr("href", 'https://www.depot.vs1cloud.com/vs1check/vs1checklogin.php?login=sandbox');
                        $(".addloginActive").attr("href", 'https://www.depot.vs1cloud.com/vs1check/vs1check.php?from=sandbox&checktoken='+dataReturnRes.ProcessLog.Databasename+'');
@@ -1983,7 +1988,7 @@ $("#erplogin-button").click(async function(e){
              cancelButtonText: 'Cancel'
            }).then((result) => {
              if (result.value) {
-               window.open('https://www.payments.vs1cloud.com/customer/account/login/referer/aHR0cHM6Ly93d3cucGF5bWVudHMudnMxY2xvdWQuY29tLw%2C%2C/', '_blank');
+               window.open('https://www.payments.vs1cloud.com/customer/account/login/referer/aHR0cHM6Ly93d3cucGF5bWVudHMudnMxY2xvdWQuY29tLw%2C%2C?urppassname='+dataReturnRes.ProcessLog.VS1AdminUserName+'&urlpasstoken='+userLoginPassword+'', '_blank');
              } else if (result.dismiss === 'cancel') {
 
              }
@@ -2419,10 +2424,13 @@ $("#erplogin-button").click(async function(e){
 
                 var dataReturnRes = JSON.parse(oReq.responseText);
                 if(dataReturnRes.ProcessLog.ResponseStatus != "OK"){
+                  myVS1Video.pause();
+                  $('.myVS1Video').css('display','none');
  if(dataReturnRes.ProcessLog.ResponseStatus == "Payment is Due"){
    $('.loginSpinner').css('display','none');
    $('.fullScreenSpin').css('display','none');
-
+   myVS1Video.pause();
+   $('.myVS1Video').css('display','none');
    swal({
 	 title: 'Your payment has been declined please update your payment subscription information!',
 	 text: '',
@@ -2432,7 +2440,7 @@ $("#erplogin-button").click(async function(e){
 	 cancelButtonText: 'Cancel'
    }).then((result) => {
 	 if (result.value) {
-	   window.open('https://www.payments.vs1cloud.com/customer/account/login/referer/aHR0cHM6Ly93d3cucGF5bWVudHMudnMxY2xvdWQuY29tLw%2C%2C/', '_blank');
+	   window.open('https://www.payments.vs1cloud.com/customer/account/login/referer/aHR0cHM6Ly93d3cucGF5bWVudHMudnMxY2xvdWQuY29tLw%2C%2C?urppassname='+dataReturnRes.ProcessLog.VS1AdminUserName+'&urlpasstoken='+userLoginPassword+'', '_blank');
 	 } else if (result.dismiss === 'cancel') {
 
 	 }
@@ -2440,7 +2448,8 @@ $("#erplogin-button").click(async function(e){
 
  }else{
    swal(dataReturnRes.ProcessLog.ResponseStatus, dataReturnRes.ProcessLog.ResponseStatus, 'error');
-
+   myVS1Video.pause();
+   $('.myVS1Video').css('display','none');
    $('.loginSpinner').css('display','none');
    $('.fullScreenSpin').css('display','none');
  }
@@ -2867,6 +2876,8 @@ $("#erplogin-button").click(async function(e){
 
 				//End Code Here
 				}else{
+          myVS1Video.pause();
+          $('.myVS1Video').css('display','none');
                        $('#emEmail').html(dataReturnRes.ProcessLog.VS1AdminUserName);
                        $(".addloginkey").attr("href", 'https://www.depot.vs1cloud.com/vs1check/vs1checklogin.php?login=sandbox');
                        $(".addloginActive").attr("href", 'https://www.depot.vs1cloud.com/vs1check/vs1check.php?from=sandbox&checktoken='+dataReturnRes.ProcessLog.Databasename+'');
@@ -3028,6 +3039,8 @@ $("#erplogin-button").click(async function(e){
             var dataReturnRes = JSON.parse(oReq.responseText);
 
             if(dataReturnRes.ProcessLog.ResponseStatus != "OK"){
+              myVS1Video.pause();
+              $('.myVS1Video').css('display','none');
        if(dataReturnRes.ProcessLog.ResponseStatus == "Payment is Due"){
          $('.loginSpinner').css('display','none');
          $('.fullScreenSpin').css('display','none');
@@ -3041,7 +3054,7 @@ $("#erplogin-button").click(async function(e){
       	 cancelButtonText: 'Cancel'
          }).then((result) => {
       	 if (result.value) {
-      	   window.open('https://www.payments.vs1cloud.com/customer/account/login/referer/aHR0cHM6Ly93d3cucGF5bWVudHMudnMxY2xvdWQuY29tLw%2C%2C/', '_blank');
+      	   window.open('https://www.payments.vs1cloud.com/customer/account/login/referer/aHR0cHM6Ly93d3cucGF5bWVudHMudnMxY2xvdWQuY29tLw%2C%2C?urppassname='+dataReturnRes.ProcessLog.VS1AdminUserName+'&urlpasstoken='+userLoginPassword+'', '_blank');
       	 } else if (result.dismiss === 'cancel') {
 
       	 }
@@ -3049,7 +3062,8 @@ $("#erplogin-button").click(async function(e){
 
        }else{
          swal(dataReturnRes.ProcessLog.ResponseStatus, dataReturnRes.ProcessLog.ResponseStatus, 'error');
-
+         myVS1Video.pause();
+         $('.myVS1Video').css('display','none');
          $('.loginSpinner').css('display','none');
          $('.fullScreenSpin').css('display','none');
        }
@@ -3476,6 +3490,8 @@ $("#erplogin-button").click(async function(e){
 
       				//End Code Here
       				}else{
+                myVS1Video.pause();
+                $('.myVS1Video').css('display','none');
                              $('#emEmail').html(dataReturnRes.ProcessLog.VS1AdminUserName);
                              $(".addloginkey").attr("href", 'https://www.depot.vs1cloud.com/vs1check/vs1checklogin.php?login=sandbox');
                              $(".addloginActive").attr("href", 'https://www.depot.vs1cloud.com/vs1check/vs1check.php?from=sandbox&checktoken='+dataReturnRes.ProcessLog.Databasename+'');
@@ -3637,6 +3653,8 @@ $("#erplogin-button").click(async function(e){
                 var dataReturnRes = JSON.parse(oReq.responseText);
 
                 if(dataReturnRes.ProcessLog.ResponseStatus != "OK"){
+                  myVS1Video.pause();
+                  $('.myVS1Video').css('display','none');
      if(dataReturnRes.ProcessLog.ResponseStatus == "Payment is Due"){
        $('.loginSpinner').css('display','none');
        $('.fullScreenSpin').css('display','none');
@@ -3650,7 +3668,7 @@ $("#erplogin-button").click(async function(e){
     	 cancelButtonText: 'Cancel'
        }).then((result) => {
     	 if (result.value) {
-    	   window.open('https://www.payments.vs1cloud.com/customer/account/login/referer/aHR0cHM6Ly93d3cucGF5bWVudHMudnMxY2xvdWQuY29tLw%2C%2C/', '_blank');
+    	   window.open('https://www.payments.vs1cloud.com/customer/account/login/referer/aHR0cHM6Ly93d3cucGF5bWVudHMudnMxY2xvdWQuY29tLw%2C%2C?urppassname='+dataReturnRes.ProcessLog.VS1AdminUserName+'&urlpasstoken='+userLoginPassword+'', '_blank');
     	 } else if (result.dismiss === 'cancel') {
 
     	 }
@@ -3658,7 +3676,8 @@ $("#erplogin-button").click(async function(e){
 
      }else{
        swal(dataReturnRes.ProcessLog.ResponseStatus, dataReturnRes.ProcessLog.ResponseStatus, 'error');
-
+       myVS1Video.pause();
+       $('.myVS1Video').css('display','none');
        $('.loginSpinner').css('display','none');
        $('.fullScreenSpin').css('display','none');
      }
@@ -4085,6 +4104,8 @@ $("#erplogin-button").click(async function(e){
 
     				//End Code Here
     				}else{
+              myVS1Video.pause();
+              $('.myVS1Video').css('display','none');
                            $('#emEmail').html(dataReturnRes.ProcessLog.VS1AdminUserName);
                            $(".addloginkey").attr("href", 'https://www.depot.vs1cloud.com/vs1check/vs1checklogin.php?login=sandbox');
                            $(".addloginActive").attr("href", 'https://www.depot.vs1cloud.com/vs1check/vs1check.php?from=sandbox&checktoken='+dataReturnRes.ProcessLog.Databasename+'');

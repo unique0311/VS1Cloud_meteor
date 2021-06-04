@@ -42,7 +42,7 @@ Template.header.onCreated(function(){
   templateObject.includePurchases = new ReactiveVar();
   templateObject.includePurchases.set(false);
 
-  
+
   templateObject.includePayments = new ReactiveVar();
   templateObject.includePayments.set(false);
   templateObject.includeContacts = new ReactiveVar();
@@ -122,7 +122,7 @@ Template.header.onRendered(function(){
           info: true,
           responsive: true,
           "order": [[ 0, "asc" ]],
-          
+
           action: function () {
               $('#tblSearchOverview').DataTable().ajax.reload();
           },
@@ -146,7 +146,7 @@ Template.header.onRendered(function(){
         let dataSelectID =  '';
         var splashArrayList = new Array();
         $('.fullScreenSpin').css('display','none');
-        
+
         let dataTableList = [];
           for(let i=0; i<data.tglobalsearchreport.length; i++){
             if(data.tglobalsearchreport[i].Type === "Purchase Order"){
@@ -204,17 +204,17 @@ Template.header.onRendered(function(){
             data.tglobalsearchreport[i].company || '',
             data.tglobalsearchreport[i].Type || '',
             data.tglobalsearchreport[i].Globalref || ''
-            
+
           ];
              dataTableList.push(dataList);
              splashArrayList.push(dataListNew);
           }
-          
-          
+
+
 
             setTimeout(function () {
               $('#searchPOP').modal('toggle');
-              
+
               $('#tblSearchOverview').DataTable({
                     data :  splashArrayList,
                     paging: true,
@@ -225,7 +225,7 @@ Template.header.onRendered(function(){
                       { className: "colName", "targets": [ 1 ] },
                       { className: "colType", "targets": [ 2 ] },
                       { className: "colTransGlobal", "targets": [ 3 ] }
-                      
+
                     ],
                     rowId: 0,
                     select: true,
@@ -239,8 +239,8 @@ Template.header.onRendered(function(){
                     lengthMenu: [ [10, 25, 50, -1], [10, 25, 50, "All"] ],
                     info: true,
                     responsive: true
-                    
-                    
+
+
 
 
                 });
@@ -282,17 +282,17 @@ Template.header.onRendered(function(){
           }else if(transactiontype === 'INV-BO'){
              window.open('/invoicecard?id=' + listData,'_self');
           }else{
-              
+
           }
 
         }
 
 
           });
-            
-            
-            
-        
+
+
+
+
       }).catch(function (err) {
         $('.fullScreenSpin').css('display','none');
       });
@@ -302,7 +302,7 @@ Template.header.onRendered(function(){
 
 
 
-  
+
   if(sidePanelToggle){
     if(sidePanelToggle === "toggled"){
       $("#sidenavbar").addClass("toggled");
@@ -310,11 +310,11 @@ Template.header.onRendered(function(){
       $("#sidenavbar").removeClass("toggled");
     }
   }
-  
+
   let employeeLoggedUserAccess = Session.get('ERPSolidCurrentUSerAccess');
   var sessionDataToLog = localStorage.getItem('mySession');
   document.getElementById("logged_user").innerHTML = sessionDataToLog;
-    
+
   let isDashboard = Session.get('CloudDashboardModule');
   let isMain= Session.get('CloudMainModule');
   let isInventory = Session.get('CloudInventoryModule');
@@ -363,25 +363,25 @@ Template.header.onRendered(function(){
                   data.tproduct[i].TotalStockQty
               ];
 
-              
 
-              
+
+
               var dataList = [
                 data.tproduct[i].Id || '',
-              
+
               data.tproduct[i].ProductName || '-',
               ProductPrintName || '',
               utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproduct[i].BuyQty1CostInc * 100) / 100),
               utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproduct[i].SellQty1PriceInc * 100) / 100),
               data.tproduct[i].TotalStockQty];
-              
+
               splashArrayProd.push(dataList);
-              
+
           }
 
-          
+
           localStorage.setItem('VS1ProductList', JSON.stringify(splashArrayProd));
-          
+
 
       })
   };
@@ -393,7 +393,7 @@ Template.header.onRendered(function(){
            let companyName = data.tcompanyinfo[0].CompanyName;
            let companyaddress1 = data.tcompanyinfo[0].PoBox;
            let companyaddress2 = data.tcompanyinfo[0].PoBox2 + ' ' + data.tcompanyinfo[0].PoBox3;
-           
+
            let companyABN = data.tcompanyinfo[0].abn;
            let companyPhone = data.tcompanyinfo[0].PhoneNumber;
            let companyURL = data.tcompanyinfo[0].Url
@@ -410,8 +410,13 @@ Template.header.onRendered(function(){
   if(!localStorage.getItem('vs1LoggedEmployeeImages_dash')){
 
   }else{
-    let pictureData = localStorage.getItem('vs1LoggedEmployeeImages_dash');
-    $('.img-profile').attr('src', 'data:image/jpeg;base64,'+pictureData);
+    if(localStorage.getItem('vs1LoggedEmployeeImages_dash') == ''){
+      
+    }else{
+      let pictureData = localStorage.getItem('vs1LoggedEmployeeImages_dash');
+      $('.img-profile').attr('src', 'data:image/jpeg;base64,'+pictureData);
+    }
+
   }
   /*
   organizationService.getEmployeeProfileImageByName(sessionDataToLog).then((data) => {
@@ -422,7 +427,7 @@ Template.header.onRendered(function(){
               if (data.temployeepicture[i].EmployeeName === sessionDataToLog) {
                   employeeProfile = data.temployeepicture[i].EncodedPic;
 
-                  
+
                   $('.img-profile').attr('src', 'data:image/jpeg;base64,'+employeeProfile);
               }
           }
@@ -445,8 +450,8 @@ if(loggedUserEventFired){
      });
 
   setTimeout(function () {
-      
-      
+
+
   },0);
 
 if (!localStorage.getItem('VS1TERPFormList')) {
@@ -454,7 +459,7 @@ if (!localStorage.getItem('VS1TERPFormList')) {
 }
 
 if(Session.get('userlogged_status')){
-  
+
  CloudUser.update({_id: Session.get('mycloudLogonID')},{ $set: {userMultiLogon: true}});
 }
 
@@ -470,12 +475,12 @@ var CloudUserPass = Session.get('CloudUserPass');
 var currentLoc = window.location.pathname;
 if(CloudUserPass){
   templateObject.isCloudUserPass.set(true);
-  
+
 }
 if(isSidePanel){
   templateObject.isCloudSidePanelMenu.set(true);
-  
-  
+
+
 }
 
 if(LoggedDB !== null){
@@ -550,7 +555,7 @@ if(LoggedDB !== null){
     templateObject.isCloudTopPanelMenu.set(true);
   }
 }else{
-  
+
 }
 });
 
@@ -578,15 +583,15 @@ Template.header.events({
     let templateObject = Template.instance();
     templateObject.searchdatatablerecords.set('');
     $('.txtGlobalSearch').val('');
-    
+
   },
   'click #sidebarToggleTop' : function(event){
   var sideBarPanel = $("#sidenavbar").attr("class");
     if(sideBarPanel.indexOf("toggled") >= 0){
-      
+
       Session.setPersistent('sidePanelToggle', "toggled");
     }else{
-      
+
       Session.setPersistent('sidePanelToggle', "");
     }
   },
@@ -723,7 +728,7 @@ if(confirm("Are you sure you want to close the top panel?")) {
     Meteor._reload.reload();
   }).catch(function (err) {
       Bert.alert('<strong>' + err + '</strong>!', 'danger');
-      
+
   });
 } else { }
 },

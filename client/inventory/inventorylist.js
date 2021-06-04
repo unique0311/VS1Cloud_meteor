@@ -1424,7 +1424,7 @@ Template.inventorylist.helpers({
            favorite.push($(this).val());
           });
 
-        
+
         let totalSummary =  0;
         if(favorite.length == 0){
           $('.fullScreenSpin').css('display','none');
@@ -1508,7 +1508,7 @@ $('#attachment-upload').trigger('click');
 
 },
 'click .templateDownloadXLSX': function (e) {
-  
+
   e.preventDefault();  //stop the browser from following
   window.location.href = 'sample_imports/SampleProduct.xlsx';
 },
@@ -1526,7 +1526,7 @@ $('#attachment-upload').trigger('click');
         $('.file-name').text('');
         $(".btnImport").Attr("disabled");
     }else if(validCSVExtensions.indexOf(fileExtension) != -1){
-      
+
       $('.file-name').text(filename);
       let selectedFile = event.target.files[0];
 

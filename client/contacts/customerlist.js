@@ -911,6 +911,12 @@ $('.fullScreenSpin').css('display','none');
   }).catch(function(err) {
 
   });
+
+  sideBarService.getClientTypeData().then(function(data) {
+      addVS1Data('TClientType',JSON.stringify(data));
+  }).catch(function(err) {
+
+  });
 },
 'click .templateDownload': function () {
 let utilityService = new UtilityService();
@@ -928,7 +934,7 @@ $('#attachment-upload').trigger('click');
 
 },
 'click .templateDownloadXLSX': function (e) {
-  
+
   e.preventDefault();  //stop the browser from following
   window.location.href = 'sample_imports/SampleCustomer.xlsx';
 },
@@ -946,7 +952,7 @@ $('#attachment-upload').trigger('click');
         $('.file-name').text('');
         $(".btnImport").Attr("disabled");
     }else if(validCSVExtensions.indexOf(fileExtension) != -1){
-      
+
       $('.file-name').text(filename);
       let selectedFile = event.target.files[0];
       templateObj.selectedFile.set(selectedFile);
@@ -969,17 +975,17 @@ $('#attachment-upload').trigger('click');
                 var data = e.target.result;
                 data = new Uint8Array(data);
                 var workbook = XLSX.read(data, {type: 'array'});
-                
+
                 var result = {};
                 workbook.SheetNames.forEach(function (sheetName) {
                     var roa = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName], {header: 1});
                     var sCSV = XLSX.utils.make_csv(workbook.Sheets[sheetName]);
                     templateObj.selectedFile.set(sCSV);
-                    
+
                     if (roa.length) result[sheetName] = roa;
                 });
                 // see the result, caution: it works after reader event is done.
-                
+
             };
             reader.readAsArrayBuffer(oFile);
 
