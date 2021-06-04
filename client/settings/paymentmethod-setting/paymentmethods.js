@@ -594,7 +594,8 @@ Template.paymentmethodSettings.onRendered(function() {
                 },
                 method: 'post',
                 success: function(response) {
-                  if(response.stripe_user_id){
+                  var dataReturnRes = JSON.parse(response);
+                  if(dataReturnRes.stripe_user_id){
                     const templateObject = Template.instance();
                     let stripe_acc_id = response.stripe_user_id;
                     let companyID = 1;
