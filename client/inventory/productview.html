@@ -29,15 +29,15 @@
                 background-color: #0000000d !important;
             }
             @media only screen and (max-width: 480px) {
-/*
+                /*
                 .row {
-                    display: block!important;
-                }
+                display: block!important;
+            }
                 .col-6 {
-                    flex: 2 0 50%!important;
-                    max-width: 100%!important;
-                }
-*/
+                flex: 2 0 50%!important;
+                max-width: 100%!important;
+            }
+                */
 
             }
             .groove {
@@ -79,7 +79,27 @@
         </style>
         {{#if productrecord}}
         <header style="padding: 16px;padding-bottom: 0px;">
-            <h1 style="margin: 16px;" id="productcardbodyname">{{productrecord.lib}} <a role="button" data-toggle="modal" href="#helpModal" class="helpModal"><label class="lblplay">PLAY</label><i class="far fa-play-circle"  style="font-size: 20px;"></i></a></h1>
+            <h1 style="margin: 16px;" id="productcardbodyname">{{productrecord.lib}} 
+                <a role="button" data-toggle="modal" href="#helpViewModal"  style="font-size: 20px;">Help <i class="fa fa-question-circle-o" style="font-size: 20px;"></i></a>
+
+                <!-- Start Help View Modal -->
+                <div class="modal fade" role="dialog" tabindex="-1" id="helpViewModal">
+                    <div class="modal-dialog modal-sm" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header" style="padding-bottom: 8px;">
+                                <h4>Help</h4><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button></div>
+                            <div class="modal-body">
+                                <p class="text-center text-muted"><a role="button" data-toggle="modal" href="#helpModal" class="btn btn-primary helpModal">View Help Video</a></p>
+                                <p class="text-center text-muted"><a href="https://vs1forum.com/" target="_blank" class="btn btn-primary">Download Help File</a></p>
+                                <p class="text-center text-muted"><button class="btn btn-primary" type="button">Employ Advisor</button></p>
+                                <p class="text-center text-muted" style="margin: 0px;"><a href="https://vs1forum.com/ucp.php?mode=register&cloudusername={{loggedCompany}}" target="_blank" class="btn btn-primary">Go To Forum</a></p>
+                            </div>
+                            <div class="modal-footer" style="padding: 6px;"><button class="btn btn-light" data-dismiss="modal" type="button">Close</button></div>
+                        </div>
+                    </div>
+                </div>
+                <!-- End Help View Modal -->
+            </h1>
         </header>
         <div style="padding: 0px 16px;">
             <div class="row no-gutters d-xl-flex justify-content-center justify-content-xl-center mb-3" style="width: 100%;">
@@ -338,21 +358,21 @@
 
                             <!-- Sell Price -->
                             <!-- <div class="row">
-                                <div class="col-12" style="padding-right: 0px; padding-left: 0px;">
-                                    <hr class="reporthr" style="margin: 4px; border-width: 3px;">
-                                </div>
-                            </div> -->
+<div class="col-12" style="padding-right: 0px; padding-left: 0px;">
+<hr class="reporthr" style="margin: 4px; border-width: 3px;">
+</div>
+</div> -->
                             <div class="row">
                                 <div class="col-12" style="padding-right: 0px; padding-left: 0px;">
                                     <!-- {{#if equals includeInventory false}}
-                                    <script>
-                                        $('#chkSellPrice').attr("disabled","disabled");
-                                    </script>
-                                    {{else}}
-                                    <script>
-                                        $('#chkSellPrice').removeAttr("disabled");
-                                    </script>
-                                    {{/if}} -->
+<script>
+$('#chkSellPrice').attr("disabled","disabled");
+</script>
+{{else}}
+<script>
+$('#chkSellPrice').removeAttr("disabled");
+</script>
+{{/if}} -->
                                     <div style="margin: 4px;">
                                         <div class="custom-control custom-switch">
                                             <input class="custom-control-input" type="checkbox" id="chkSellPrice" name="chkSellPrice" checked="{{#if isExtraSellChecked}}checked{{else}}{{/if}}">
@@ -368,66 +388,97 @@
                                 </div>
                             </div>
                             <style>
-                              .addClientType {
-                                height: 18px;
-                                width: 18px;
-                                border-radius: 50%;
-                                display: inline-block;
-                                margin-right: 4px;
-                                text-align: center;
-                                font-size: 12px;
-                            }
+                                .addClientType {
+                                    /*
+                                    height: 20px;
+                                    width: 20px;
+                                    border-radius: 50%;
+                                    display: inline-block;
+                                    margin-right: 4px;
+                                    text-align: center;
+                                    font-size: 12px;
+                                    */
+                                    background-color: #00a3d3;
+                                    border: none;
+                                    color: white;
+                                    padding-left: 7px;
+                                    padding-bottom: 23px;
+                                    width: 22px;
+                                    height: 20px;
+                                    text-decoration: none;
+                                    display: inline-block;
+                                    font-size: 15px;
+                                    margin: 2px 2px;
+                                    cursor: pointer;
+                                    border-radius: 50%;
+                                }
+                                .addClientType:hover {
+                                    background-color: #00c2ef;
+                                }
                             </style>
                             <div class="row trackCustomerTypeDisc" style="{{#if isExtraSellChecked}}display: flex;{{else}}display: none;{{/if}}">
-                                <div class="col-3" style="padding-right: 0px; padding-left: 0px;">
-                                    <div class="form-group" style="margin: 4px;"><label>Client Type</label>
-                                      <span class="addClientType" style="background: #00c2ef; color:white;">+</span>
+                                <div class="col-4 colClientType1" id="colClientType1" style="padding-right: 0px; padding-left: 0px;">
+                                    <div class="form-group" style="margin: 4px; margin-bottom: 0px;">
+                                        <label>Client Type</label>
+                                        <span href="#" class="addClientType">+</span>
+                                        <!--                                        <span class="addClientType" style="background: #00c2ef; color:white;">+</span>-->
                                     </div>
                                 </div>
-                                <div class="col-3" style="padding-right: 0px; padding-left: 0px;">
-                                    <div class="form-group" style="margin: 4px;"><label>% Discount</label></div>
+                                <div class="col-3 colDiscount1" id="colDiscount1" style="padding-right: 0px; padding-left: 0px;">
+                                    <div class="form-group" style="margin: 4px; margin-bottom: 0px;">
+                                        <label>% Discount</label>
+                                    </div>
                                 </div>
 
-                                <div class="col-3" style="padding-right: 0px; padding-left: 0px;">
-                                    <div class="form-group" style="margin: 4px;"><label>Price (Ex)</label></div>
+                                <div class="col-3 colPrice1" id="colPrice1" style="padding-right: 0px; padding-left: 0px;">
+                                    <div class="form-group" style="margin: 4px; margin-bottom: 0px;">
+                                        <label>Price (Ex)</label>
+                                    </div>
                                 </div>
-
-                                <div class="col-2" style="padding-right: 0px; padding-left: 0px; width: 25px;">
-                                    <div class="form-group" style="margin: 4px;"><label></label></div>
+                                <div class="col-2 colDelete1" id="colDelete1" style="padding-right: 0px; padding-left: 0px; width: 25px;">
+                                    <div class="form-group" style="margin: 4px; margin-bottom: 0px;"><label></label></div>
                                 </div>
                                 {{#each itemExtraSell in productExtraSell}}
                                 <div class="col-12 itemExtraSellRow" style="padding-right: 0px; padding-left: 0px; padding-bottom: 5px;" id={{itemExtraSell.lineID}}>
                                     <div class="row" >
-                                        <div class="col-3">
-                                          <select class="form-control pointer customerTypeSelect" id="sltCustomerType" name="sltCustomerType" style="background-color:rgb(255, 255, 255); ">
+                                        <div class="col-4 colClientType2">
+                                            <div class="form-group" style="margin: 4px;">
+                                                <select class="form-control pointer customerTypeSelect" id="sltCustomerType" name="sltCustomerType" style="background-color:rgb(255, 255, 255); ">
 
-                                              {{#if clienttypeList}}
-                                                  {{#each itemclient in clienttypeList}}
-                                                  {{#if equals itemclient itemExtraSell.clienttype }}
-                                                  <option value="{{itemExtraSell.clienttype}}" selected="">{{itemExtraSell.clienttype}}</option>
-                                                  {{else}}
-                                                      <!-- {{#if equals itemExtraSell.clienttype ''}}
-                                                        <option value="" selected=""></option>
-                                                      {{/if}} -->
-                                                  <option value="{{itemclient}}">{{itemclient}}</option>
-                                                  {{/if}}
-                                                  {{/each}}
-                                              {{else}}
-                                              <option value="" selected=""></option>
-                                              {{/if}}
+                                                    {{#if clienttypeList}}
+                                                    {{#each itemclient in clienttypeList}}
+                                                    {{#if equals itemclient itemExtraSell.clienttype }}
+                                                    <option value="{{itemExtraSell.clienttype}}" selected="">{{itemExtraSell.clienttype}}</option>
+                                                    {{else}}
+                                                    <!-- {{#if equals itemExtraSell.clienttype ''}}
+<option value="" selected=""></option>
+{{/if}} -->
+                                                    <option value="{{itemclient}}">{{itemclient}}</option>
+                                                    {{/if}}
+                                                    {{/each}}
+                                                    {{else}}
+                                                    <option value="" selected=""></option>
+                                                    {{/if}}
 
-                                          </select>
+                                                </select>
+                                            </div>
                                         </div>
                                         {{> clienttypemodal}}
-                                        <div class="col-3">
-                                            <input type="text" class="form-control edtDiscount" style="width: 100%;" value="{{itemExtraSell.discount}}">
+                                        <div class="col-3 colDiscount2" style="padding-left: 0px;">
+                                            <div class="form-group" style="margin: 4px;">
+                                                <input type="text" class="form-control edtDiscount" style="width: 100%;" value="{{itemExtraSell.discount}}">
+                                            </div>
                                         </div>
 
-                                        <div class="col-3">
-                                            <input type="text" class="form-control edtPriceEx" style="width: 100%;" value="{{itemExtraSell.price}}" readonly>
+                                        <div class="col-3 colPrice2" style="padding-left: 0px;">
+                                            <div class="form-group" style="margin: 4px;">
+                                                <input type="text" class="form-control edtPriceEx" style="width: 100%;" value="{{itemExtraSell.price}}">
+                                            </div>
                                         </div>
-                                        <div class="col-2">
-                                          <span class="table-remove btnRemove"><button type="button" class="btn btn-danger btn-rounded btn-sm my-0" autocomplete="off"><i class="fa fa-remove"></i></button></span>
+                                        <div class="col-2 colDel2" style="padding-left: 0px;">
+                                            <div class="form-group" style="margin: 6px;">
+                                                <span class="table-remove btnRemove"><button type="button" class="btn btn-danger btn-rounded btn-sm my-0" autocomplete="off"><i class="fa fa-remove"></i></button></span>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -437,9 +488,9 @@
                                     </div>
                                 </div>
                                 {{/each}}
-                              <div class="col-12" style="padding-right: 0px; padding-left: 0px;">
-                                <button class="btn btn-primary addRowLine" type="button" id="addRowLine" style="margin: 16px; margin-right: 0px; float: right;" autocomplete="off">+ Add New Entry</button>
-                              </div>
+                                <div class="col-12" style="padding-right: 0px; padding-left: 0px;">
+                                    <button class="btn btn-primary addRowLine" type="button" id="addRowLine" style="margin: 16px; margin-right: 0px; float: right;" autocomplete="off">+ Add New Entry</button>
+                                </div>
                                 <div class="col-12" style="padding-right: 0px; padding-left: 0px;">
                                     <hr class="reporthr" style="margin: 4px; border-width: 3px;">
                                 </div>
