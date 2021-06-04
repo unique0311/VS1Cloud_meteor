@@ -1106,6 +1106,8 @@ Template.productview.events({
         let productCode = $("#edtproductcode").val();
         let productName = $("#edtproductname").val();
         var objDetails = '';
+        let lineExtaSellItems = [];
+        let lineExtaSellObj = {};
         $('.fullScreenSpin').css('display','inline-block');
 
         let itrackThisItem = false;
@@ -1148,7 +1150,24 @@ Template.productview.events({
         var url = window.location.href;
         var getso_id = url.split('?id=');
         var currentID = getso_id[getso_id.length-1].split('#')[0];
+        $('.itemExtraSellRow').each(function () {
+            var lineID = this.id;
+            let tdclientType = $('#' + lineID + " .customerTypeSelect").val();
+            let tdDiscount = $('#' + lineID + " .edtDiscount").val();
 
+            lineExtaSellObj = {
+              type: "TProductExtraSellPrice",
+              fields: {
+                AllClients: false,
+                ClientTypeName: tdclientType || '',
+                QtyPercent1: parseFloat(tdDiscount) || 0,
+                ProductName: productName || ''
+              }
+            }
+
+            lineExtaSellItems.push(lineExtaSellObj);
+
+        });
         if(getso_id[1]){
             if((itrackThisItem == true) && ($("#sltinventoryacount").val() != '')){
                 objDetails = {
@@ -1176,6 +1195,7 @@ Template.productview.events({
                         UOMSales:defaultUOM,
                         Barcode:$("#edtbarcode").val(),
                         LockExtraSell: itrackThisItem,
+                        ExtraSellPrice:lineExtaSellItems||null,
                         PublishOnVS1:true
                     }
                 };
@@ -1205,6 +1225,7 @@ Template.productview.events({
                         UOMSales:defaultUOM,
                         Barcode:$("#edtbarcode").val(),
                         LockExtraSell: itrackThisItem,
+                        ExtraSellPrice:lineExtaSellItems||null,
                         PublishOnVS1:true
                     }
                 };
@@ -1322,6 +1343,7 @@ Template.productview.events({
                                 UOMSales:defaultUOM,
                                 Barcode:$("#edtbarcode").val(),
                                 LockExtraSell: itrackThisItem,
+                                ExtraSellPrice:lineExtaSellItems||null,
                                 PublishOnVS1:true
                             }
                         };
@@ -1351,6 +1373,7 @@ Template.productview.events({
                                 UOMSales:defaultUOM,
                                 Barcode:$("#edtbarcode").val(),
                                 LockExtraSell: itrackThisItem,
+                                ExtraSellPrice:lineExtaSellItems||null,
                                 PublishOnVS1:true
                             }
                         };
@@ -1464,6 +1487,7 @@ Template.productview.events({
                                 UOMSales:defaultUOM,
                                 Barcode:$("#edtbarcode").val(),
                                 LockExtraSell: itrackThisItem,
+                                ExtraSellPrice:lineExtaSellItems||null,
                                 PublishOnVS1:true
                             }
                         };
@@ -1494,6 +1518,7 @@ Template.productview.events({
                                 UOMSales:defaultUOM,
                                 Barcode:$("#edtbarcode").val(),
                                 LockExtraSell: itrackThisItem,
+                                ExtraSellPrice:lineExtaSellItems||null,
                                 PublishOnVS1:true
                             }
                         };
@@ -1608,6 +1633,7 @@ Template.productview.events({
                             UOMSales:defaultUOM,
                             Barcode:$("#edtbarcode").val(),
                             LockExtraSell: itrackThisItem,
+                            ExtraSellPrice:lineExtaSellItems||null,
                             PublishOnVS1:true
                         }
                     };
@@ -1638,6 +1664,7 @@ Template.productview.events({
                             UOMSales:defaultUOM,
                             Barcode:$("#edtbarcode").val(),
                             LockExtraSell: itrackThisItem,
+                            ExtraSellPrice:lineExtaSellItems||null,
                             PublishOnVS1:true
                         }
                     };
@@ -1885,18 +1912,6 @@ Template.productview.events({
         }
 
     },
-    'blur #edtPriceEx':function () {
-
-        let utilityService = new UtilityService();
-        let sellPrice= $('#edtPriceEx').val();
-        if (!isNaN(sellPrice)){
-            $('#edtsellqty1price').val(utilityService.modifynegativeCurrencyFormat(sellPrice));
-        }else{
-            sellPrice = Number($(event.target).val().replace(/[^0-9.-]+/g,""));
-            $('#edtPriceEx').val(utilityService.modifynegativeCurrencyFormat(sellPrice));
-        }
-
-    },
     'click .btnDeleteInv': function(event){
         let templateObject = Template.instance();
         let productService = new ProductService();
@@ -2029,6 +2044,33 @@ Template.productview.events({
       if ($('.itemExtraSellRow').length > 1) {
         $("#"+targetID).remove();
       }
+
+    },
+    'blur .edtDiscount':function (event) {
+        let utilityService = new UtilityService();
+        let templateObject = Template.instance();
+        var targetID = $(event.target).closest('.itemExtraSellRow').attr('id');
+        let itemSellPrice = parseFloat($('#edtsellqty1price').val().replace(/[^0-9.-]+/g, "")) || 0;
+        let discountPrice= parseFloat($(event.target).val()) || 0;
+        let getDiscountPrice = (itemSellPrice - ( itemSellPrice * discountPrice / 100 ));
+        $("#"+targetID+ ' .edtPriceEx').val(utilityService.modifynegativeCurrencyFormat(getDiscountPrice)||0);
+
+    },
+    'blur .edtPriceEx':function (event) {
+        let utilityService = new UtilityService();
+        if (!isNaN($(event.target).val())) {
+            let inputUnitPrice = parseFloat($(event.target).val()) ||0;
+            $(event.target).val(utilityService.modifynegativeCurrencyFormat(inputUnitPrice));
+        } else {
+            let inputUnitPrice = Number($(event.target).val().replace(/[^0-9.-]+/g, ""))||0;
+            $(event.target).val(utilityService.modifynegativeCurrencyFormat(inputUnitPrice));
+        }
+        let templateObject = Template.instance();
+        var targetID = $(event.target).closest('.itemExtraSellRow').attr('id');
+        let itemSellPrice = parseFloat($('#edtsellqty1price').val().replace(/[^0-9.-]+/g, "")) || 0;
+        let discountPrice= parseFloat($(event.target).val().replace(/[^0-9.-]+/g, "")) || 0;
+        let getDiscountRate = 100 - (discountPrice * 100 / itemSellPrice);
+        $("#"+targetID+ ' .edtDiscount').val(getDiscountRate||0);
 
     }
 
