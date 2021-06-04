@@ -335,6 +335,118 @@
                                     <hr class="reporthr" style="margin: 4px; border-width: 3px;">
                                 </div>
                             </div>
+
+                            <!-- Sell Price -->
+                            <!-- <div class="row">
+                                <div class="col-12" style="padding-right: 0px; padding-left: 0px;">
+                                    <hr class="reporthr" style="margin: 4px; border-width: 3px;">
+                                </div>
+                            </div> -->
+                            <div class="row">
+                                <div class="col-12" style="padding-right: 0px; padding-left: 0px;">
+                                    <!-- {{#if equals includeInventory false}}
+                                    <script>
+                                        $('#chkSellPrice').attr("disabled","disabled");
+                                    </script>
+                                    {{else}}
+                                    <script>
+                                        $('#chkSellPrice').removeAttr("disabled");
+                                    </script>
+                                    {{/if}} -->
+                                    <div style="margin: 4px;">
+                                        <div class="custom-control custom-switch">
+                                            <input class="custom-control-input" type="checkbox" id="chkSellPrice" name="chkSellPrice" checked="{{#if isExtraSellChecked}}checked{{else}}{{/if}}">
+                                            <label class="custom-control-label" for="chkSellPrice">Customer Type Discount</label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="row">
+                                <div class="col-12" style="padding-right: 0px; padding-left: 0px;">
+                                    <hr class="reporthr" style="margin: 4px; border-width: 3px;">
+                                </div>
+                            </div>
+                            <style>
+                              .addClientType {
+                                height: 18px;
+                                width: 18px;
+                                border-radius: 50%;
+                                display: inline-block;
+                                margin-right: 4px;
+                                text-align: center;
+                                font-size: 12px;
+                            }
+                            </style>
+                            <div class="row trackCustomerTypeDisc" style="{{#if isExtraSellChecked}}display: flex;{{else}}display: none;{{/if}}">
+                                <div class="col-3" style="padding-right: 0px; padding-left: 0px;">
+                                    <div class="form-group" style="margin: 4px;"><label>Client Type</label>
+                                      <span class="addClientType" style="background: #00c2ef; color:white;">+</span>
+                                    </div>
+                                </div>
+                                <div class="col-3" style="padding-right: 0px; padding-left: 0px;">
+                                    <div class="form-group" style="margin: 4px;"><label>% Discount</label></div>
+                                </div>
+
+                                <div class="col-3" style="padding-right: 0px; padding-left: 0px;">
+                                    <div class="form-group" style="margin: 4px;"><label>Price (Ex)</label></div>
+                                </div>
+
+                                <div class="col-2" style="padding-right: 0px; padding-left: 0px; width: 25px;">
+                                    <div class="form-group" style="margin: 4px;"><label></label></div>
+                                </div>
+                                {{#each itemExtraSell in productExtraSell}}
+                                <div class="col-12 itemExtraSellRow" style="padding-right: 0px; padding-left: 0px; padding-bottom: 5px;" id={{itemExtraSell.lineID}}>
+                                    <div class="row" >
+                                        <div class="col-3">
+                                          <select class="form-control pointer customerTypeSelect" id="sltCustomerType" name="sltCustomerType" style="background-color:rgb(255, 255, 255); ">
+
+                                              {{#if clienttypeList}}
+                                                  {{#each itemclient in clienttypeList}}
+                                                  {{#if equals itemclient itemExtraSell.clienttype }}
+                                                  <option value="{{itemExtraSell.clienttype}}" selected="">{{itemExtraSell.clienttype}}</option>
+                                                  {{else}}
+                                                      <!-- {{#if equals itemExtraSell.clienttype ''}}
+                                                        <option value="" selected=""></option>
+                                                      {{/if}} -->
+                                                  <option value="{{itemclient}}">{{itemclient}}</option>
+                                                  {{/if}}
+                                                  {{/each}}
+                                              {{else}}
+                                              <option value="" selected=""></option>
+                                              {{/if}}
+
+                                          </select>
+                                        </div>
+                                        {{> clienttypemodal}}
+                                        <div class="col-3">
+                                            <input type="text" class="form-control edtDiscount" style="width: 100%;" value="{{itemExtraSell.discount}}">
+                                        </div>
+
+                                        <div class="col-3">
+                                            <input type="text" class="form-control edtPriceEx" style="width: 100%;" value="{{itemExtraSell.price}}" readonly>
+                                        </div>
+                                        <div class="col-2">
+                                          <span class="table-remove btnRemove"><button type="button" class="btn btn-danger btn-rounded btn-sm my-0" autocomplete="off"><i class="fa fa-remove"></i></button></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12" style="padding-right: 0px; padding-left: 0px;">
+                                        <hr class="reporthr" style="margin: 4px; border-width: 3px;">
+                                    </div>
+                                </div>
+                                {{/each}}
+                              <div class="col-12" style="padding-right: 0px; padding-left: 0px;">
+                                <button class="btn btn-primary addRowLine" type="button" id="addRowLine" style="margin: 16px; margin-right: 0px; float: right;" autocomplete="off">+ Add New Entry</button>
+                              </div>
+                                <div class="col-12" style="padding-right: 0px; padding-left: 0px;">
+                                    <hr class="reporthr" style="margin: 4px; border-width: 3px;">
+                                </div>
+                            </div>
+
+
+                            <!-- End Sell Price -->
                             <div class="row recenttrasaction">
                                 <div class="col-12" style="padding-right: 0px; padding-left: 0px;">
                                     <button class="btn btn-primary loadrecenttransaction" style="margin: 4px;" type="button" id="loadrecenttransaction" name="loadrecenttransaction">Recent Transactions</button>

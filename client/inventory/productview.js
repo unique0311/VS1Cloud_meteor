@@ -4,6 +4,7 @@ import { CoreService } from '../js/core-service';
 import {AccountService} from "../accounts/account-service";
 import {UtilityService} from "../utility-service";
 import 'jquery-editable-select';
+import { Random } from 'meteor/random';
 import { SideBarService } from '../js/sidebar-service';
 import '../lib/global/indexdbstorage.js';
 let sideBarService = new SideBarService();
@@ -21,30 +22,34 @@ Template.productview.onCreated(()=>{
     templateObject.inventoryaccountrecords = new ReactiveVar();
 
     templateObject.productqtyrecords = new ReactiveVar();
+    templateObject.productExtraSell = new ReactiveVar();
     templateObject.totaldeptquantity = new ReactiveVar();
     templateObject.isTrackChecked  = new ReactiveVar();
     templateObject.isTrackChecked.set(false);
+
+    templateObject.isExtraSellChecked  = new ReactiveVar();
+    templateObject.isExtraSellChecked.set(false);
 
     templateObject.defaultpurchasetaxcode = new ReactiveVar();
     templateObject.defaultsaletaxcode = new ReactiveVar();
 
     templateObject.includeInventory = new ReactiveVar();
     templateObject.includeInventory.set(false);
+    templateObject.clienttypeList = new ReactiveVar();
 
-    
     setTimeout(function () {
 
         var x = window.matchMedia("(max-width: 1024px)")
 
         function mediaQuery(x) {
-            if (x.matches) { 
+            if (x.matches) {
 
                 $("#productCard").removeClass("col-6");
                 $("#productCard").addClass("col-12");
             }
         }
-        mediaQuery(x) 
-        x.addListener(mediaQuery) 
+        mediaQuery(x)
+        x.addListener(mediaQuery)
     }, 10);
 
     setTimeout(function () {
@@ -52,7 +57,7 @@ Template.productview.onCreated(()=>{
         var x = window.matchMedia("(max-width: 420px)")
 
         function mediaQuery(x) {
-            if (x.matches) { 
+            if (x.matches) {
 
                 $("#productCard").removeClass("col-6");
                 $("#productCard").addClass("col-12");
@@ -82,10 +87,10 @@ Template.productview.onCreated(()=>{
                 $("#colCost").addClass("col-4");
             }
         }
-        mediaQuery(x) 
-        x.addListener(mediaQuery) 
+        mediaQuery(x)
+        x.addListener(mediaQuery)
     }, 10);
-    
+
 });
 
 
@@ -100,30 +105,9 @@ Template.productview.onRendered(function() {
     const coggsaccountrecords = [];
     const salesaccountrecords = [];
     const inventoryaccountrecords = [];
-
-    // $(document).ready(function () {
-    //     history.pushState(null, document.title, location.href);
-    //     window.addEventListener('popstate', function (event) {
-    //         swal({
-    //             title: 'Leave Product View Screen',
-    //             text: "Do you want to leave this screen?",
-    //             type: 'info',
-    //             showCancelButton: true,
-    //             confirmButtonText: 'Save'
-    //         }).then((result) => {
-    //             if (result.value) {
-    //                 $(".btnSave").trigger("click");
-    //             } else if (result.dismiss === 'cancel') {
-    //                 window.open('/productlist', "_self");
-    //             } else {
-
-    //             }
-    //         });
-
-    //     });
+    let clientType = [];
 
 
-    // });
     templateObject.getAccountNames = function(){
       getVS1Data('TAccountVS1').then(function (dataObject) {
         if(dataObject.length == 0){
@@ -325,12 +309,48 @@ Template.productview.onRendered(function() {
 
     }
 
+    templateObject.getClientTypeData = function () {
+        getVS1Data('TClientType').then(function (dataObject) {
+            if (dataObject.length == 0) {
+                productService.getClientTypeData().then((data) => {
+                    for (let i = 0; i < data.tclienttype.length; i++) {
+                        clientType.push(data.tclienttype[i].TypeName)
+                    }
+                    clientType = _.sortBy(clientType);
+                    templateObject.clienttypeList.set(clientType);
+                });
+            } else {
+                let data = JSON.parse(dataObject[0].data);
+                let useData = data.tclienttype;
+                for (let i = 0; i < useData.length; i++) {
+                    clientType.push(useData[i].TypeName)
+                }
+                clientType = _.sortBy(clientType);
+                templateObject.clienttypeList.set(clientType);
+                //$('.customerTypeSelect option:first').prop('selected', false);
+                $(".customerTypeSelect").attr('selectedIndex', 0);
+
+            }
+        }).catch(function (err) {
+
+            productService.getClientTypeData().then((data) => {
+                for (let i = 0; i < data.tclienttype.length; i++) {
+                    clientType.push(data.tclienttype[i].TypeName)
+                }
+                clientType = _.sortBy(clientType);
+                templateObject.clienttypeList.set(clientType);
+            });
+        });
+
+    };
+
     setTimeout(function () {
       templateObject.getAccountNames();
       templateObject.getAllTaxCodes();
       templateObject.getDepartments();
-
+      templateObject.getClientTypeData();
     }, 500);
+
 
     let isInventory = Session.get('CloudInventoryModule');
     if(isInventory){
@@ -340,10 +360,13 @@ Template.productview.onRendered(function() {
     var url = window.location.href;
     var getprod_id = url.split('?id=');
     var currentProductID = getprod_id[getprod_id.length-1];
+    let lineExtaSellItems = [];
+    let lineExtaSellObj = {};
     if(getprod_id[1]){
         currentProductID = parseInt(currentProductID);
 
         templateObject.getProductData = function () {
+
           getVS1Data('TProductVS1').then(function (dataObject) {
             if(dataObject.length == 0){
               productService.getOneProductdatavs1(currentProductID).then(function (data) {
@@ -379,6 +402,34 @@ Template.productview.onRendered(function() {
                       //productclass :lineItems
                   };
 
+                  if(data.fields.ExtraSellPrice == null){
+                     lineExtaSellObj = {
+                        lineID: Random.id(),
+                        clienttype: '',
+                        discount: '',
+                        datefrom: '',
+                        dateto: '',
+                        price: 0
+                    };
+                    lineExtaSellItems.push(lineExtaSellObj);
+                    templateObject.productExtraSell.set(lineExtaSellItems);
+                  }else{
+                    templateObject.isExtraSellChecked.set(true);
+                    for(let e=0; e<data.fields.ExtraSellPrice.length; e++){
+                      lineExtaSellObj = {
+                         lineID: Random.id(),
+                         clienttype: data.fields.ExtraSellPrice[e].fields.ClientTypeName || '',
+                         discount: data.fields.ExtraSellPrice[e].fields.QtyPercent1 || 0,
+                         datefrom: data.fields.ExtraSellPrice[e].fields.DateFrom || '',
+                         dateto: data.fields.ExtraSellPrice[e].fields.DateTo || '',
+                         price: utilityService.modifynegativeCurrencyFormat(data.fields.ExtraSellPrice[e].fields.Price1) || 0
+                     };
+                     lineExtaSellItems.push(lineExtaSellObj);
+
+                    }
+                    templateObject.productExtraSell.set(lineExtaSellItems);
+                  }
+
                   let itrackItem = data.fields.LockExtraSell;
                   if(itrackItem ==  true){
                       templateObject.isTrackChecked.set(true);
@@ -398,9 +449,7 @@ Template.productview.onRendered(function() {
               let useData = data.tproductvs1;
 
               var added=false;
-              // if (!added) {
-              //   arr.push({id: productID, price: productPrice})
-              // }
+
               for(let i=0; i<useData.length; i++){
                 if(parseInt(useData[i].fields.ID) === currentProductID){
                   added = true;
@@ -409,7 +458,7 @@ Template.productview.onRendered(function() {
                   let lineItemObj = {};
                   let currencySymbol = Currency;
                   let totalquantity = 0;
-                  
+
                   let productrecord = {
                       id : useData[i].fields.ID,
                       productname : useData[i].fields.ProductName,
@@ -435,7 +484,33 @@ Template.productview.onRendered(function() {
                       totalqtyonorder : useData[i].fields.TotalQtyOnOrder,
                       //productclass :lineItems
                   };
+                  if(useData[i].fields.ExtraSellPrice == null){
+                     lineExtaSellObj = {
+                        lineID: Random.id(),
+                        clienttype: '',
+                        discount: '',
+                        datefrom: '',
+                        dateto: '',
+                        price: 0
+                    };
+                    lineExtaSellItems.push(lineExtaSellObj);
+                    templateObject.productExtraSell.set(lineExtaSellItems);
+                  }else{
+                    templateObject.isExtraSellChecked.set(true);
+                    for(let e=0; e<useData[i].fields.ExtraSellPrice.length; e++){
+                      lineExtaSellObj = {
+                         lineID: Random.id(),
+                         clienttype: useData[i].fields.ExtraSellPrice[e].fields.ClientTypeName || '',
+                         discount: useData[i].fields.ExtraSellPrice[e].fields.QtyPercent1 || 0,
+                         datefrom: useData[i].fields.ExtraSellPrice[e].fields.DateFrom || '',
+                         dateto: useData[i].fields.ExtraSellPrice[e].fields.DateTo || '',
+                         price: utilityService.modifynegativeCurrencyFormat(useData[i].fields.ExtraSellPrice[e].fields.Price1) || 0
+                     };
+                     lineExtaSellItems.push(lineExtaSellObj);
 
+                    }
+                    templateObject.productExtraSell.set(lineExtaSellItems);
+                  }
                   let itrackItem = useData[i].fields.LockExtraSell;
                   if(itrackItem ==  true){
                       templateObject.isTrackChecked.set(true);
@@ -482,6 +557,33 @@ Template.productview.onRendered(function() {
                         //productclass :lineItems
                     };
 
+                    if(data.fields.ExtraSellPrice == null){
+                       lineExtaSellObj = {
+                          lineID: Random.id(),
+                          clienttype: '',
+                          discount: '',
+                          datefrom: '',
+                          dateto: '',
+                          price: 0
+                      };
+                      lineExtaSellItems.push(lineExtaSellObj);
+                      templateObject.productExtraSell.set(lineExtaSellItems);
+                    }else{
+                      templateObject.isExtraSellChecked.set(true);
+                      for(let e=0; e<data.fields.ExtraSellPrice.length; e++){
+                        lineExtaSellObj = {
+                           lineID: Random.id(),
+                           clienttype: data.fields.ExtraSellPrice[e].fields.ClientTypeName || '',
+                           discount: data.fields.ExtraSellPrice[e].fields.QtyPercent1 || 0,
+                           datefrom: data.fields.ExtraSellPrice[e].fields.DateFrom || '',
+                           dateto: data.fields.ExtraSellPrice[e].fields.DateTo || '',
+                           price: utilityService.modifynegativeCurrencyFormat(data.fields.ExtraSellPrice[e].fields.Price1) || 0
+                       };
+                       lineExtaSellItems.push(lineExtaSellObj);
+
+                      }
+                      templateObject.productExtraSell.set(lineExtaSellItems);
+                    }
                     let itrackItem = data.fields.LockExtraSell;
                     if(itrackItem ==  true){
                         templateObject.isTrackChecked.set(true);
@@ -532,6 +634,34 @@ Template.productview.onRendered(function() {
                     //productclass :lineItems
                 };
 
+                if(data.fields.ExtraSellPrice == null){
+                   lineExtaSellObj = {
+                      lineID: Random.id(),
+                      clienttype: '',
+                      discount: '',
+                      datefrom: '',
+                      dateto: '',
+                      price: 0
+                  };
+                  lineExtaSellItems.push(lineExtaSellObj);
+                  templateObject.productExtraSell.set(lineExtaSellItems);
+                }else{
+                  templateObject.isExtraSellChecked.set(true);
+                  for(let e=0; e<data.fields.ExtraSellPrice.length; e++){
+                    lineExtaSellObj = {
+                       lineID: Random.id(),
+                       clienttype: data.fields.ExtraSellPrice[e].fields.ClientTypeName || '',
+                       discount: data.fields.ExtraSellPrice[e].fields.QtyPercent1 || 0,
+                       datefrom: data.fields.ExtraSellPrice[e].fields.DateFrom || '',
+                       dateto: data.fields.ExtraSellPrice[e].fields.DateTo || '',
+                       price: utilityService.modifynegativeCurrencyFormat(data.fields.ExtraSellPrice[e].fields.Price1) || 0
+                   };
+                   lineExtaSellItems.push(lineExtaSellObj);
+
+                  }
+                  templateObject.productExtraSell.set(lineExtaSellItems);
+                }
+
                 let itrackItem = data.fields.LockExtraSell;
                 if(itrackItem ==  true){
                     templateObject.isTrackChecked.set(true);
@@ -548,7 +678,57 @@ Template.productview.onRendered(function() {
             });
           });
 
+          setTimeout(function () {
+            var begin_day_value = $('#event_begin_day').attr('value');
+            $("#dtDateTo").datepicker({
+                showOn: 'button',
+                buttonText: 'Show Date',
+                buttonImageOnly: true,
+                buttonImage: '/img/imgCal2.png',
+                constrainInput: false,
+                dateFormat: 'd/mm/yy',
+                showOtherMonths: true,
+                selectOtherMonths: true,
+                changeMonth: true,
+                changeYear: true,
+                yearRange: "-90:+10",
+            }).keyup(function(e) {
+                if(e.keyCode == 8 || e.keyCode == 46) {
+                $("#dtDateTo,#dtDateFrom").val('');
+                }
+            });
 
+            $("#dtDateFrom").datepicker({
+                showOn: 'button',
+                buttonText: 'Show Date',
+                altField: "#dtDateFrom",
+                buttonImageOnly: true,
+                buttonImage: '/img/imgCal2.png',
+                constrainInput: false,
+                dateFormat: 'd/mm/yy',
+                showOtherMonths: true,
+                selectOtherMonths: true,
+                changeMonth: true,
+                changeYear: true,
+                yearRange: "-90:+10",
+            }).keyup(function(e) {
+                if(e.keyCode == 8 || e.keyCode == 46) {
+                $("#dtDateTo,#dtDateFrom").val('');
+                }
+            });
+
+            $(".ui-datepicker .ui-state-hihglight").removeClass("ui-state-highlight");
+            // var usedNames = {};
+            // $("select[name='sltCustomerType'] > option").each(function () {
+            //     if(usedNames[this.text]) {
+            //         $(this).remove();
+            //     } else {
+            //         usedNames[this.text] = this.value;
+            //     }
+            // });
+
+            // $('#sltCustomerType').append(' <option value="newCust"><span class="addType">+ Client Type</span></option>');
+          }, 1000);
         }
 
 
@@ -692,6 +872,16 @@ Template.productview.onRendered(function() {
         };
 
         templateObject.records.set(productrecord);
+        lineExtaSellObj = {
+           lineID: Random.id(),
+           clienttype: 'Default',
+           discount: '',
+           datefrom: '',
+           dateto: '',
+           price: 0
+       };
+       lineExtaSellItems.push(lineExtaSellObj);
+       templateObject.productExtraSell.set(lineExtaSellItems);
         //setTimeout(function () {
         Meteor.call('readPrefMethod',Session.get('mycloudLogonID'),'defaulttax', function(error, result){
             if(error){
@@ -752,7 +942,7 @@ Template.productview.onRendered(function() {
             }
         });
         //}, 500);
-        
+
 
         $('.fullScreenSpin').css('display','none');
 
@@ -762,13 +952,13 @@ Template.productview.onRendered(function() {
 
     }
 
-    
+
     setTimeout(function () {
 
         var x = window.matchMedia("(max-width: 1024px)")
 
         function mediaQuery(x) {
-            if (x.matches) { 
+            if (x.matches) {
 
                 //                alert("Matches");
                 $("#productCard").removeClass("col-6");
@@ -776,10 +966,10 @@ Template.productview.onRendered(function() {
 
             }
         }
-        mediaQuery(x) 
-        x.addListener(mediaQuery) 
+        mediaQuery(x)
+        x.addListener(mediaQuery)
     }, 500);
-    
+
 
 
 });
@@ -850,6 +1040,17 @@ Template.productview.helpers({
             return (a.department.toUpperCase() > b.department.toUpperCase()) ? 1 : -1;
         });
     },
+    productExtraSell: () => {
+        return Template.instance().productExtraSell.get().sort(function(a, b){
+            if (a.clienttype == 'NA') {
+                return 1;
+            }
+            else if (b.clienttype == 'NA') {
+                return -1;
+            }
+            return (a.clienttype.toUpperCase() > b.clienttype.toUpperCase()) ? 1 : -1;
+        });
+    },
     totaldeptquantity: () => {
         return Template.instance().totaldeptquantity.get();
     },
@@ -860,8 +1061,23 @@ Template.productview.helpers({
         let templateObj = Template.instance();
         return templateObj.isTrackChecked.get();
     },
+    isExtraSellChecked: () => {
+        let templateObj = Template.instance();
+        return templateObj.isExtraSellChecked.get();
+    },
     includeInventory: () => {
         return Template.instance().includeInventory.get();
+    },
+    clienttypeList: () => {
+        return Template.instance().clienttypeList.get().sort(function (a, b) {
+            if (a == 'NA') {
+                return 1;
+            }
+            else if (b == 'NA') {
+                return -1;
+            }
+            return (a.toUpperCase() > b.toUpperCase()) ? 1 : -1;
+        });
     }
 
 
@@ -1512,7 +1728,7 @@ Template.productview.events({
 
 
         }
-        
+
 
     },
     'click .btnBack':function(event){
@@ -1569,6 +1785,13 @@ Template.productview.events({
         //   $('.trackItemvisible').css('visibility','hidden');
         // }
     },
+    'click #chkSellPrice': function (event) {
+      if($(event.target).is(':checked')){
+        $('.trackCustomerTypeDisc').css('display','flex');
+      }else{
+        $('.trackCustomerTypeDisc').css('display','none');
+      }
+    },
     'click #formCheck-one': function (event) {
         if($(event.target).is(':checked')){
             $('.checkbox1div').css('display','block');
@@ -1615,7 +1838,7 @@ Template.productview.events({
             }
         }
     },
-    'keydown #edtbuyqty1cost, keydown #edtsellqty1price, keydown #edttotalqtyinstock': function(event){
+    'keydown #edtbuyqty1cost, keydown #edtsellqty1price, keydown #edttotalqtyinstock, keydown .edtPriceEx, keydown .edtDiscount': function(event){
         if ($.inArray(event.keyCode, [46, 8, 9, 27, 13, 110]) !== -1 ||
             // Allow: Ctrl+A, Command+A
             (event.keyCode === 65 && (event.ctrlKey === true || event.metaKey === true)) ||
@@ -1659,6 +1882,18 @@ Template.productview.events({
         }else{
             sellPrice = Number($(event.target).val().replace(/[^0-9.-]+/g,""));
             $('#edtsellqty1price').val(utilityService.modifynegativeCurrencyFormat(sellPrice));
+        }
+
+    },
+    'blur #edtPriceEx':function () {
+
+        let utilityService = new UtilityService();
+        let sellPrice= $('#edtPriceEx').val();
+        if (!isNaN(sellPrice)){
+            $('#edtsellqty1price').val(utilityService.modifynegativeCurrencyFormat(sellPrice));
+        }else{
+            sellPrice = Number($(event.target).val().replace(/[^0-9.-]+/g,""));
+            $('#edtPriceEx').val(utilityService.modifynegativeCurrencyFormat(sellPrice));
         }
 
     },
@@ -1722,6 +1957,79 @@ Template.productview.events({
     },
     'click .btnUpgradeToEssentials':function(event){
         window.open('/companyappsettings','_self');
+    },
+    'click .addClientType': function (event) {
+            $('#myModalClientType').modal();
+    },
+    'click .btnSaveDept': function () {
+        $('.fullScreenSpin').css('display', 'inline-block');
+        let contactService = new ProductService();
+
+        //let headerDept = $('#sltDepartment').val();
+        let custType = $('#edtDeptName').val();
+        let typeDesc = $('#txaDescription').val() || '';
+        if (custType === '') {
+            swal('Client Type name cannot be blank!', '', 'warning');
+            $('.fullScreenSpin').css('display', 'none');
+            e.preventDefault();
+        } else {
+            let objDetails = {
+                type: "TClientType",
+                fields: {
+                    TypeName: custType,
+                    TypeDescription: typeDesc,
+                }
+            }
+            contactService.saveClientTypeData(objDetails).then(function (objDetails) {
+                  sideBarService.getClientTypeData().then(function(dataReload) {
+                    addVS1Data('TClientType', JSON.stringify(dataReload)).then(function (datareturn) {
+                        Meteor._reload.reload();
+                    }).catch(function (err) {
+                        Meteor._reload.reload();
+                    });
+                }).catch(function (err) {
+                    Meteor._reload.reload();
+                });
+               // Meteor._reload.reload();
+            }).catch(function (err) {
+
+                swal({
+                    title: 'Something went wrong',
+                    text: err,
+                    type: 'error',
+                    showCancelButton: false,
+                    confirmButtonText: 'Try Again'
+                }).then((result) => {
+                    if (result.value) {
+                        // Meteor._reload.reload();
+                    } else if (result.dismiss === 'cancel') {
+
+                    }
+                });
+                $('.fullScreenSpin').css('display', 'none');
+            });
+        }
+
+
+    },
+    'click .addRowLine': function () {
+
+      var itemDataClone = $('.itemExtraSellRow:first');
+      var itemDataCloneLast = $('.itemExtraSellRow:last');
+      let tokenid = Random.id();
+      var itemClineID = itemDataClone.clone().prop('id', tokenid );
+      itemClineID.find('input[type="text"]').val('');
+      itemClineID.find('select[name^="sltCustomerType"]').val('');
+      itemClineID.insertAfter(".itemExtraSellRow:last");
+      // $('.itemExtraSellRow:first').clone().insertAfter(".itemExtraSellRow:last");
+    },
+    'click .btnRemove': function (event) {
+      let templateObject = Template.instance();
+      var targetID = $(event.target).closest('.itemExtraSellRow').attr('id');
+      if ($('.itemExtraSellRow').length > 1) {
+        $("#"+targetID).remove();
+      }
+
     }
 
 });
