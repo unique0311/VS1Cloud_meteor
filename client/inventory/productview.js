@@ -37,60 +37,6 @@ Template.productview.onCreated(()=>{
     templateObject.includeInventory.set(false);
     templateObject.clienttypeList = new ReactiveVar();
 
-    setTimeout(function () {
-
-        var x = window.matchMedia("(max-width: 1024px)")
-
-        function mediaQuery(x) {
-            if (x.matches) {
-
-                $("#productCard").removeClass("col-6");
-                $("#productCard").addClass("col-12");
-            }
-        }
-        mediaQuery(x)
-        x.addListener(mediaQuery)
-    }, 10);
-
-    setTimeout(function () {
-
-        var x = window.matchMedia("(max-width: 420px)")
-
-        function mediaQuery(x) {
-            if (x.matches) {
-
-                $("#productCard").removeClass("col-6");
-                $("#productCard").addClass("col-12");
-
-                $("#colProductName").removeClass("col-7");
-                $("#colProductName").addClass("col-6");
-                $("#colPrice").removeClass("col-3");
-                $("#colPrice").addClass("col-6");
-                $("#colTotalQty").removeClass("col-2");
-                $("#colTotalQty").addClass("col-6");
-
-                $("#colSalesAccount").removeClass("col-4");
-                $("#colSalesAccount").addClass("col-6");
-                $("#colTaxCode").removeClass("col-2");
-                $("#colTaxCode").addClass("col-6");
-
-                $("#colBarcode").removeClass("col-4");
-                $("#colBarcode").addClass("col-12");
-                $("#colCustom1").removeClass("col-3");
-                $("#colCustom1").addClass("col-6");
-                $("#colCustom2").removeClass("col-3");
-                $("#colCustom2").addClass("col-6");
-
-                $("#colTaxCode2").removeClass("col-2");
-                $("#colTaxCode2").addClass("col-4");
-                $("#colCost").removeClass("col-2");
-                $("#colCost").addClass("col-4");
-            }
-        }
-        mediaQuery(x)
-        x.addListener(mediaQuery)
-    }, 10);
-
 });
 
 
@@ -951,26 +897,6 @@ Template.productview.onRendered(function() {
         }, 500);
 
     }
-
-
-    setTimeout(function () {
-
-        var x = window.matchMedia("(max-width: 1024px)")
-
-        function mediaQuery(x) {
-            if (x.matches) {
-
-                //                alert("Matches");
-                $("#productCard").removeClass("col-6");
-                $("#productCard").addClass("col-12");
-
-            }
-        }
-        mediaQuery(x)
-        x.addListener(mediaQuery)
-    }, 500);
-
-
 
 });
 

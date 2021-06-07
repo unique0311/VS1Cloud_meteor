@@ -103,7 +103,7 @@
         </header>
         <div style="padding: 0px 16px;">
             <div class="row no-gutters d-xl-flex justify-content-center justify-content-xl-center mb-3" style="width: 100%;">
-                <div class="col-6 productCard" id="productCard">
+                <div class="col-lg-6 col-md-12 col-sm-12 productCard" id="productCard">
                     <div class="card shadow mb-4">
                         <div class="card-header d-flex justify-content-between align-items-center">
                             <div>
@@ -173,13 +173,13 @@
                         <div class="card-body" style="background-color: #ededed; padding: 2em;">
 
                             <div class="row">
-                                <div class="col-7 colProductName" id="colProductName" style="padding-right: 0px; padding-left: 0px;">
+                                <div class="col-lg-7 col-md-12 col-sm-12 colProductName" id="colProductName" style="padding-right: 0px; padding-left: 0px;">
                                     <div class="form-group" style="margin: 4px;"><label>Product Name</label><input type="text" class="form-control highlightInput" id="edtproductname" name="edtproductname" value="{{productrecord.productname}}"></div>
                                 </div>
-                                <div class="col-3 colPrice" id="colPrice" style="padding-right: 0px; padding-left: 0px;">
+                                <div class="col-lg-3 col-md-6 col-sm-6 col-6 colPrice" id="colPrice" style="padding-right: 0px; padding-left: 0px;">
                                     <div class="form-group" style="margin: 4px;"><label>Price Ex Tax</label><input type="text" class="form-control highlightInput" id="edtsellqty1price" name="edtsellqty1price" value="{{productrecord.sellqty1price}}"></div>
                                 </div>
-                                <div class="col-2 trackItemvisible colTotalQty" id="colTotalQty" style="padding-right: 0px; padding-left: 0px; padding-left: 0px; {{#if isTrackChecked}}visibility: visible;{{else}}visibility: hidden;{{/if}}">
+                                <div class="col-lg-2 col-md-6 col-sm-6 col-6 trackItemvisible colTotalQty" id="colTotalQty" style="padding-right: 0px; padding-left: 0px; padding-left: 0px; {{#if isTrackChecked}}visibility: visible;{{else}}visibility: hidden;{{/if}}">
                                     <div class="form-group" style="margin: 4px;"><label>Total Quantity</label>
                                         <input type="text" class="form-control highlightInput" id="edttotalqtyinstock" name="edttotalqtyinstock" value="{{totaldeptquantity}}">
                                     </div>
@@ -194,7 +194,7 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-4 colSalesAccount" id="colSalesAccount" style="padding-right: 0px; padding-left: 0px;">
+                                <div class="col-lg-4 col-sm-6 col-6 colSalesAccount" id="colSalesAccount" style="padding-right: 0px; padding-left: 0px;">
                                     <div class="form-group" style="margin: 4px;"><label>Sales Account</label>
                                         <select class="form-control pointer" id="sltsalesacount" name="sltsalesacount" style="background-color:rgb(255, 255, 255); ">
                                             <option value="{{productrecord.accountname}}" selected="">{{productrecord.incomeaccount}}</option>
@@ -206,7 +206,7 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-2 colTaxCode" id="colTaxCode" style="padding-right: 0px; padding-left: 0px;">
+                                <div class="col-lg-2 col-sm-6 col-6 colTaxCode" id="colTaxCode" style="padding-right: 0px; padding-left: 0px;">
                                     <div class="form-group" style="margin: 4px;"><label>Tax Code</label><select class="form-control pointer" id="slttaxcodesales" name="slttaxcodesales">
                                         {{#each item in taxraterecords}}
                                         {{#if equals item.codename productrecord.taxcodesales }}
@@ -221,19 +221,19 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-4 colBarcode" id="colBarcode" style="padding-right: 0px; padding-left: 0px;">
+                                <div class="col-lg-4 col-md-6 col-sm-6 colBarcode" id="colBarcode" style="padding-right: 0px; padding-left: 0px;">
                                     <div class="form-group" style="margin: 4px;">
                                         <label>Barcode</label>
                                         <input type="text" class="form-control highlightInput" id="edtbarcode" name="edtbarcode" value="{{productrecord.barcode}}">
                                     </div>
                                 </div>
-                                <div class="col-3 checkbox1div colCustom1" id="colCustom1" style="padding-right: 0px; padding-left: 0px; padding-left: 0px; {{#if productsCloudPreferenceRec}}{{#if equals productsCloudPreferenceRec.customFields.[0].hidden false}}display:block{{else}}display:none{{/if}}{{else}}display:none{{/if}}">
+                                <div class="col-lg-3 col-md-6 col-sm-6 col-6 checkbox1div colCustom1" id="colCustom1" style="padding-right: 0px; padding-left: 0px; padding-left: 0px; {{#if productsCloudPreferenceRec}}{{#if equals productsCloudPreferenceRec.customFields.[0].hidden false}}display:block{{else}}display:none{{/if}}{{else}}display:none{{/if}}">
                                     <div class="form-group" style="margin: 4px;">
                                         <label class="lblCustomField1">{{#if productsCloudPreferenceRec}}{{productsCloudPreferenceRec.customFields.[0].label}}{{else}}Custom Field 1{{/if}}</label>
                                         <input type="text" class="form-control highlightInput" id="txtCustomField1" name="txtCustomField1" style="" value="{{productrecord.customfield1}}">
                                     </div>
                                 </div>
-                                <div class="col-3 checkbox2div colCustom2" id="colCustom2" style="padding-right: 0px; padding-left: 0px; {{#if productsCloudPreferenceRec}}{{#if equals productsCloudPreferenceRec.customFields.[1].hidden false}}display:block{{else}}display:none{{/if}}{{else}}display:none{{/if}}">
+                                <div class="col-lg-3 col-md-6 col-sm-6 col-6 checkbox2div colCustom2" id="colCustom2" style="padding-right: 0px; padding-left: 0px; {{#if productsCloudPreferenceRec}}{{#if equals productsCloudPreferenceRec.customFields.[1].hidden false}}display:block{{else}}display:none{{/if}}{{else}}display:none{{/if}}">
                                     <div class="form-group" style="margin: 4px;">
                                         <label class="lblCustomField2">{{#if productsCloudPreferenceRec}}{{productsCloudPreferenceRec.customFields.[1].label}}{{else}}Custom Field 2{{/if}}</label>
                                         <input type="text" class="form-control highlightInput" id="txtCustomField2" name="txtCustomField2" value="{{productrecord.customfield2}}" style="">
@@ -254,7 +254,7 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-4 colCOGSaccount" id="colCOGSaccount" style="padding-right: 0px; padding-left: 0px;">
+                                <div class="col-lg-4 col-sm-6 col-6 colCOGSaccount" id="colCOGSaccount" style="padding-right: 0px; padding-left: 0px;">
                                     <div class="form-group" style="margin: 4px;"><label>COGS Account</label>
                                         <select class="form-control pointer" id="sltcogsaccount" name="sltcogsaccount" style="background-color:rgb(255, 255, 255); ">
                                             <option value="{{productrecord.cogsaccount}}" selected="">{{productrecord.cogsaccount}}</option>
@@ -264,7 +264,7 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-2 colTaxCode2" id="colTaxCode2" style="padding-right: 0px;padding-left: 0px;">
+                                <div class="col-lg-2 col-sm-6 col-6 colTaxCode2" id="colTaxCode2" style="padding-right: 0px;padding-left: 0px;">
                                     <div class="form-group" style="margin: 4px;"><label>Tax Code</label>
                                         <select class="form-control pointer" id="slttaxcodepurchase" name="slttaxcodepurchase">
                                             {{#each item in taxraterecords}}
@@ -277,7 +277,7 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-2 colCost" id="colCost" style="padding-right: 0px; padding-left: 0px;">
+                                <div class="col-2 col-sm-6 col-6 colCost" id="colCost" style="padding-right: 0px; padding-left: 0px;">
                                     <div class="form-group" style="margin: 4px;">
                                         <label>Cost Ex Tax </label>
                                         <input type="text" class="form-control highlightInput" id="edtbuyqty1cost" name="edtbuyqty1cost" value="{{productrecord.buyqty1cost}}">
@@ -331,19 +331,19 @@
                                 </div>
                             </div>
                             <div class="row trackItem" style="{{#if includeInventory}}{{#if isTrackChecked}}display: flex;{{else}}display: none;{{/if}}{{else}}display: none;{{/if}}">
-                                <div class="col-4" style="padding-right: 0px; padding-left: 0px;">
+                                <div class="col-lg-4 col-sm-6 col-6" style="padding-right: 0px; padding-left: 0px;">
                                     <div class="form-group" style="margin: 4px;"><label>Department</label></div>
                                 </div>
-                                <div class="col-4" style="padding-right: 0px; padding-left: 0px;">
+                                <div class="col-lg-4 col-sm-6 col-6" style="padding-right: 0px;">
                                     <div class="form-group" style="margin: 4px;"><label>Quantity</label></div>
                                 </div>
                                 {{#each item in productqtyrecords}}
                                 <div class="col-12" style="padding-right: 0px; padding-left: 0px;">
                                     <div class="row">
-                                        <div class="col-4">
+                                        <div class="col-lg-4 col-sm-6 col-6">
                                             <div class="form-group" style="margin: 4px;"><label style="display: none;">Deparment</label><input type="text" class="form-control" style="width: 250px;" value="{{item.department}}"></div>
                                         </div>
-                                        <div class="col-4">
+                                        <div class="col-lg-4 col-sm-6 col-6">
                                             <div class="form-group" style="margin: 4px;"><label style="display: none;">Quantity</label><input type="text" class="form-control" style="width: 150px;" value="{{item.quantity}}"></div>
                                         </div>
                                     </div>
@@ -534,9 +534,9 @@ $('#chkSellPrice').removeAttr("disabled");
                             <div class="row">
                                 <div class="col-12 justify-content-xl-end" style="padding-right: 0px; padding-left: 0px;">
                                     <div class="d-xl-flex justify-content-xl-end">
-                                        <button class="btn btn-success" type="button" style="margin: 8px;" id="btnSave" name="btnSave"><i class="fa fa-save" style="margin-right: 5px;"></i>Save</button>
-                                        <button class="btn btn-danger btnDeleteInv" type="button" style="margin: 8px;"><i class="fa fa-close" style="margin-right: 5px;"></i>Delete</button>
-                                        <button class="btn btn-secondary btnBack" data-dismiss="modal" type="button" style="margin: 8px;"><i class="fa fa-close" style="margin-right: 5px;"></i>Close</button>
+                                        <button class="btn btn-success" type="button" style="margin: 6px;" id="btnSave" name="btnSave"><i class="fa fa-save" style="margin-right: 5px;"></i>Save</button>
+                                        <button class="btn btn-danger btnDeleteInv" type="button" style="margin: 6px;"><i class="fa fa-close" style="margin-right: 5px;"></i>Delete</button>
+                                        <button class="btn btn-secondary btnBack" data-dismiss="modal" type="button" style="margin: 6px;"><i class="fa fa-close" style="margin-right: 5px;"></i>Close</button>
                                     </div>
                                 </div>
                             </div>
