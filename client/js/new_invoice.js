@@ -4,6 +4,7 @@ import { CoreService } from '../js/core-service';
 import { DashBoardService } from "../Dashboard/dashboard-service";
 import { UtilityService } from "../utility-service";
 import { ProductService } from "../product/product-service";
+import {OrganisationService} from '../js/organisation-service';
 import '../lib/global/erp-objects';
 import 'jquery-ui-dist/external/jquery/jquery';
 import 'jquery-ui-dist/jquery-ui';
@@ -44,7 +45,7 @@ Template.new_invoice.onCreated(() => {
     templateObject.clientrecords = new ReactiveVar([]);
     templateObject.taxraterecords = new ReactiveVar([]);
     templateObject.record = new ReactiveVar({});
-
+    templateObject.accountID = new ReactiveVar();
     /* Attachments */
     templateObject.uploadedFile = new ReactiveVar();
     templateObject.uploadedFiles = new ReactiveVar([]);
@@ -143,6 +144,7 @@ Template.new_invoice.onRendered(() => {
     let clientsService = new SalesBoardService();
     let productsService = new SalesBoardService();
     let accountService = new SalesBoardService();
+    let organisationService = new OrganisationService();
     const clientList = [];
     const productsList = [];
     const accountsList = [];
@@ -332,6 +334,15 @@ Template.new_invoice.onRendered(() => {
             });
         });
     };
+
+    templateObject.getOrganisationDetails = function () {
+        organisationService.getOrganisationDetail().then((dataListRet) => {
+            let account_id = dataListRet.tcompanyinfo[0].Apcano || '';
+            templateObject.accountID.set(account_id);
+        });
+
+    }
+    templateObject.getOrganisationDetails();
 
     templateObject.getAllLeadStatuss = function () {
         getVS1Data('TLeadStatusType').then(function (dataObject) {
@@ -3750,6 +3761,7 @@ Template.new_invoice.onRendered(() => {
             width: 100
         };
         let invoiceData = templateObject.invoicerecord.get();
+        let stripe_id = templateObject.accountID.get() || '';
         let lineItems = [];
         let total = $('#totalBalanceDue').html() || 0;
         let tax = $('#subtotal_tax').html() || 0;
@@ -3785,7 +3797,7 @@ Template.new_invoice.onRendered(() => {
         for (let l = 0; l < lineItems.length; l++) {
             stringQuery = stringQuery + "product" + l + "=" + lineItems[l].description + "&price" + l + "=" + lineItems[l].unitPrice + "&qty" + l + "=" + lineItems[l].quantity + "&";
         }
-        stringQuery = stringQuery + "tax=" + tax + "&total=" + total + "&customer=" + customer + "&name=" + name + "&surname=" + surname + "&quoteid=" + invoiceData.id + "&company=" + company + "&vs1email=" + vs1User + "&customeremail=" + customerEmail + "&type=Invoice&url=" + window.location.href + "&server=" + erpGet.ERPIPAddress + "&username=" + erpGet.ERPUsername + "&token=" + erpGet.ERPPassword + "&session=" + erpGet.ERPDatabase + "&port=" + erpGet.ERPPort + "&dept=" + dept;      
+        stringQuery = stringQuery + "tax=" + tax + "&total=" + total + "&customer=" + customer + "&name=" + name + "&surname=" + surname + "&quoteid=" + invoiceData.id +"&transid="+stripe_id+ "&company=" + company + "&vs1email=" + vs1User + "&customeremail=" + customerEmail + "&type=Invoice&url=" + window.location.href + "&server=" + erpGet.ERPIPAddress + "&username=" + erpGet.ERPUsername + "&token=" + erpGet.ERPPassword + "&session=" + erpGet.ERPDatabase + "&port=" + erpGet.ERPPort + "&dept=" + dept;      
         var pdf = new jsPDF('p', 'pt', 'a4');
         pdf.setFontSize(18);
         var source = document.getElementById('html-2-pdfwrapper');
@@ -4167,6 +4179,9 @@ Template.new_invoice.helpers({
     invoicerecord: () => {
         return Template.instance().invoicerecord.get();
     },
+accountID: () => {
+    return Template.instance().accountID.get();
+ },
     currentDate: () => {
         var currentDate = new Date();
         var begunDate = moment(currentDate).format("DD/MM/YYYY");
@@ -4331,24 +4346,90 @@ Template.new_invoice.events({
     $('#' + targetID + " #lineProductDesc").text($('#' + targetID + " .lineProductDesc").text());
     },
     'click .payNow': function () {
-        var url = window.location.href;
-        var id_available = url.includes("?id=");
-        if (id_available == true) {
-            if ($('.edtCustomerEmail').val() != "") {
-                let templateObject = Template.instance();
-                let quoteData = templateObject.invoicerecord.get();
-                let lineItems = [];
-                let total = $('#totalBalanceDue').html() || 0;
-                let tax = $('#subtotal_tax').html() || 0;
-                let customer = $('#edtCustomerName').val();
-                let company = Session.get('vs1companyName');
-                let name = $('#firstname').val();
-                let surname = $('#lastname').val();
+        let templateObject = Template.instance();
+        let stripe_id = templateObject.accountID.get() || '';
+        if(stripe_id != ""){
+            var url = window.location.href;
+            var id_available = url.includes("?id=");
+            if (id_available == true) {
+                if ($('.edtCustomerEmail').val() != "") {
+                    let quoteData = templateObject.invoicerecord.get();
+                    let lineItems = [];
+                    let total = $('#totalBalanceDue').html() || 0;
+                    let tax = $('#subtotal_tax').html() || 0;
+                    let customer = $('#edtCustomerName').val();
+                    let company = Session.get('vs1companyName');
+                    let name = $('#firstname').val();
+                    let surname = $('#lastname').val();
+                    $('#tblInvoiceLine > tbody > tr').each(function () {
+                        var lineID = this.id;
+                        let tdproduct = $('#' + lineID + " .lineProductName").text();
+                        let tddescription = $('#' + lineID + " .lineProductDesc").text();
+                        let tdQty = $('#' + lineID + " .lineQty").val();
+                        let tdunitprice = $('#' + lineID + " .lineUnitPrice").val();
+                        let tdtaxrate = $('#' + lineID + " .lineTaxRate").text();
+                        let tdtaxCode = $('#' + lineID + " .lineTaxCode").text();
+                        let tdlineamt = $('#' + lineID + " .lineAmt").text();
+
+                        lineItemObj = {
+                            description: tddescription || '',
+                            quantity: tdQty || 0,
+                            unitPrice: tdunitprice.toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0
+                        }
+
+                        lineItems.push(lineItemObj);
+                    });
+                    var erpGet = erpDb();
+                    let vs1User = localStorage.getItem('mySession');
+                    let customerEmail = $('#edtCustomerEmail').val();
+                    let stringQuery = "?";
+                    let dept = $('#sltDept').val();
+                    var customerID = $('#edtCustomerEmail').attr('customerid');
+                    for (let l = 0; l < lineItems.length; l++) {
+                        stringQuery = stringQuery + "product" + l + "=" + lineItems[l].description + "&price" + l + "=" + lineItems[l].unitPrice + "&qty" + l + "=" + lineItems[l].quantity + "&";
+                    }
+                    stringQuery = stringQuery + "tax=" + tax + "&total=" + total + "&customer=" + customer + "&name=" + name + "&surname=" + surname + "&quoteid=" + quoteData.id + "&transid="+stripe_id+"&company=" + company + "&vs1email=" + vs1User + "&customeremail=" + customerEmail + "&type=Invoice&url=" + window.location.href + "&server=" + erpGet.ERPIPAddress + "&username=" + erpGet.ERPUsername + "&token=" + erpGet.ERPPassword + "&session=" + erpGet.ERPDatabase + "&port=" + erpGet.ERPPort + "&dept=" + dept;
+                    window.open("https://www.depot.vs1cloud.com/stripe/" + stringQuery, '_self');
+                } else {
+                    swal({
+                        title: 'Customer Email Required',
+                        text: 'Please enter customer email',
+                        type: 'error',
+                        showCancelButton: false,
+                        confirmButtonText: 'OK'
+                    }).then((result) => {
+                        if (result.value) {
+                        } else if (result.dismiss === 'cancel') {
+
+                        }
+                    });
+                }
+        } else {
+            let templateObject = Template.instance();
+            let lineItems = [];
+            let imageData = (localStorage.getItem("Image"));
+            let customername = $('#edtCustomerName');
+            let name = $('#edtCustomerEmail').attr('customerfirstname');
+            let surname = $('#edtCustomerEmail').attr('customerlastname');
+            let salesService = new SalesBoardService();
+            if (customername.val() === '') {
+                swal('Customer has not been selected!', '', 'warning');
+                e.preventDefault();
+            } else {
+                $('.fullScreenSpin').css('display', 'inline-block');
+                var splashLineArray = new Array();
+                let lineItemsForm = [];
+                let lineItemObjForm = {};
+                var erpGet = erpDb();
+                let checkBackOrder = templateObject.includeBOnShippedQty.get();
                 $('#tblInvoiceLine > tbody > tr').each(function () {
                     var lineID = this.id;
                     let tdproduct = $('#' + lineID + " .lineProductName").text();
                     let tddescription = $('#' + lineID + " .lineProductDesc").text();
                     let tdQty = $('#' + lineID + " .lineQty").val();
+
+                    let tdOrderd = $('#' + lineID + " .lineOrdered").val();
+
                     let tdunitprice = $('#' + lineID + " .lineUnitPrice").val();
                     let tdtaxrate = $('#' + lineID + " .lineTaxRate").text();
                     let tdtaxCode = $('#' + lineID + " .lineTaxCode").text();
@@ -4361,441 +4442,390 @@ Template.new_invoice.events({
                     }
 
                     lineItems.push(lineItemObj);
-                });
-                var erpGet = erpDb();
-                let vs1User = localStorage.getItem('mySession');
-                let customerEmail = $('#edtCustomerEmail').val();
-                let stringQuery = "?";
-                let dept = $('#sltDept').val();
-                var customerID = $('#edtCustomerEmail').attr('customerid');
-                for (let l = 0; l < lineItems.length; l++) {
-                    stringQuery = stringQuery + "product" + l + "=" + lineItems[l].description + "&price" + l + "=" + lineItems[l].unitPrice + "&qty" + l + "=" + lineItems[l].quantity + "&";
-                }
-                stringQuery = stringQuery + "tax=" + tax + "&total=" + total + "&customer=" + customer + "&name=" + name + "&surname=" + surname + "&quoteid=" + quoteData.id + "&company=" + company + "&vs1email=" + vs1User + "&customeremail=" + customerEmail + "&type=Invoice&url=" + window.location.href + "&server=" + erpGet.ERPIPAddress + "&username=" + erpGet.ERPUsername + "&token=" + erpGet.ERPPassword + "&session=" + erpGet.ERPDatabase + "&port=" + erpGet.ERPPort + "&dept=" + dept;
-                window.open("https://www.depot.vs1cloud.com/stripe/" + stringQuery, '_self');
-            } else {
-                swal({
-                    title: 'Customer Email Required',
-                    text: 'Please enter customer email',
-                    type: 'error',
-                    showCancelButton: false,
-                    confirmButtonText: 'OK'
-                }).then((result) => {
-                    if (result.value) {
-                    } else if (result.dismiss === 'cancel') {
 
-                    }
-                });
-            }
+                    if (tdproduct != "") {
 
-        } else{
-        let templateObject = Template.instance();
-        let lineItems = [];
-        let imageData = (localStorage.getItem("Image"));
-        let customername = $('#edtCustomerName');
-        let name = $('#edtCustomerEmail').attr('customerfirstname');
-        let surname = $('#edtCustomerEmail').attr('customerlastname');
-        let salesService = new SalesBoardService();
-        if (customername.val() === '') {
-            swal('Customer has not been selected!', '', 'warning');
-            e.preventDefault();
-        } else {
-            $('.fullScreenSpin').css('display', 'inline-block');
-            var splashLineArray = new Array();
-            let lineItemsForm = [];
-            let lineItemObjForm = {};
-            var erpGet = erpDb();
-            let checkBackOrder = templateObject.includeBOnShippedQty.get();
-            $('#tblInvoiceLine > tbody > tr').each(function () {
-                var lineID = this.id;
-                let tdproduct = $('#' + lineID + " .lineProductName").text();
-                let tddescription = $('#' + lineID + " .lineProductDesc").text();
-                let tdQty = $('#' + lineID + " .lineQty").val();
-
-                let tdOrderd = $('#' + lineID + " .lineOrdered").val();
-
-                let tdunitprice = $('#' + lineID + " .lineUnitPrice").val();
-                let tdtaxrate = $('#' + lineID + " .lineTaxRate").text();
-                let tdtaxCode = $('#' + lineID + " .lineTaxCode").text();
-                let tdlineamt = $('#' + lineID + " .lineAmt").text();
-
-                lineItemObj = {
-                    description: tddescription || '',
-                    quantity: tdQty || 0,
-                    unitPrice: tdunitprice.toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0
-                }
-
-                lineItems.push(lineItemObj);
-
-                if (tdproduct != "") {
-
-                    if (checkBackOrder == true) {
-                        lineItemObjForm = {
-                            type: "TInvoiceLine",
-                            fields: {
-                                ProductName: tdproduct || '',
-                                ProductDescription: tddescription || '',
-                                UOMQtySold: parseFloat(tdOrderd) || 0,
-                                UOMQtyShipped: parseFloat(tdQty) || 0,
-                                LinePrice: Number(tdunitprice.replace(/[^0-9.-]+/g, "")) || 0,
-                                LineTaxCode: tdtaxCode || '',
-                            }
-                        };
-                    } else {
-                        lineItemObjForm = {
-                            type: "TInvoiceLine",
-                            fields: {
-                                ProductName: tdproduct || '',
-                                ProductDescription: tddescription || '',
-                                UOMQtySold: parseFloat(tdQty) || 0,
-                                UOMQtyShipped: parseFloat(tdQty) || 0,
-                                LinePrice: Number(tdunitprice.replace(/[^0-9.-]+/g, "")) || 0,
-                                LineTaxCode: tdtaxCode || '',
-                            }
-                        };
-                    }
-
-
-                    lineItemsForm.push(lineItemObjForm);
-                    splashLineArray.push(lineItemObjForm);
-                }
-            });
-            let getchkcustomField1 = true;
-            let getchkcustomField2 = true;
-            let getcustomField1 = $('.customField1Text').html();
-            let getcustomField2 = $('.customField2Text').html();
-            if ($('#formCheck-one').is(':checked')) {
-                getchkcustomField1 = false;
-            }
-            if ($('#formCheck-two').is(':checked')) {
-                getchkcustomField2 = false;
-            }
-
-            let customer = $('#edtCustomerName').val();
-            let customerEmail = $('#edtCustomerEmail').val();
-            let billingAddress = $('#txabillingAddress').val();
-            var saledateTime = new Date($("#dtSODate").datepicker("getDate"));
-
-            var duedateTime = new Date($("#dtDueDate").datepicker("getDate"));
-
-            let saleDate = saledateTime.getFullYear() + "-" + (saledateTime.getMonth() + 1) + "-" + saledateTime.getDate();
-            let dueDate = duedateTime.getFullYear() + "-" + (duedateTime.getMonth() + 1) + "-" + duedateTime.getDate();
-
-            let poNumber = $('#ponumber').val();
-            let reference = $('#edtRef').val();
-            let termname = $('#sltTerms').val();
-            let departement = $('#sltDept').val();
-            let shippingAddress = $('#txaShipingInfo').val();
-            let comments = $('#txaComment').val();
-            let pickingInfrmation = $('#txapickmemo').val();
-            let total = $('#totalBalanceDue').html() || 0;
-            let tax = $('#subtotal_tax').html() || 0;
-            let saleCustField1 = $('#edtSaleCustField1').val();
-            let saleCustField2 = $('#edtSaleCustField2').val();
-            var url = window.location.href;
-            var getso_id = url.split('?id=');
-            var currentInvoice = getso_id[getso_id.length - 1];
-            let uploadedItems = templateObject.uploadedFiles.get();
-            var currencyCode = $("#sltCurrency").val() || CountryAbbr;
-            var objDetails = '';
-            if (getso_id[1]) {
-                currentInvoice = parseInt(currentInvoice);
-                objDetails = {
-                    type: "TInvoiceEx",
-                    fields: {
-                        ID: currentInvoice,
-                        CustomerName: customer,
-                        ForeignExchangeCode: currencyCode,
-                        Lines: splashLineArray,
-                        InvoiceToDesc: billingAddress,
-                        SaleDate: saleDate,
-                        CustPONumber: poNumber,
-                        ReferenceNo: reference,
-                        TermsName: termname,
-                        SaleClassName: departement,
-                        ShipToDesc: shippingAddress,
-                        Comments: comments,
-                        SaleCustField1: saleCustField1,
-                        SaleCustField2: saleCustField2,
-                        PickMemo: pickingInfrmation,
-                        Attachments: uploadedItems,
-                        SalesStatus: $('#sltStatus').val()
-                    }
-                };
-            } else {
-                objDetails = {
-                    type: "TInvoiceEx",
-                    fields: {
-                        CustomerName: customer,
-                        ForeignExchangeCode: currencyCode,
-                        Lines: splashLineArray,
-                        InvoiceToDesc: billingAddress,
-                        SaleDate: saleDate,
-                        CustPONumber: poNumber,
-                        ReferenceNo: reference,
-                        TermsName: termname,
-                        SaleClassName: departement,
-                        ShipToDesc: shippingAddress,
-                        Comments: comments,
-                        SaleCustField1: saleCustField1,
-                        SaleCustField2: saleCustField2,
-                        PickMemo: pickingInfrmation,
-                        Attachments: uploadedItems,
-                        SalesStatus: $('#sltStatus').val()
-                    }
-                };
-            }
-            salesService.saveInvoiceEx(objDetails).then(function (objDetails) {
-                let company = Session.get('vs1companyName');
-                let vs1User = localStorage.getItem('mySession');
-                let customerEmail = $('#edtCustomerEmail').val() || '';
-                let stringQuery = "?";
-                var customerID = $('#edtCustomerEmail').attr('customerid');
-                for (let l = 0; l < lineItems.length; l++) {
-                    stringQuery = stringQuery + "product" + l + "=" + lineItems[l].description + "&price" + l + "=" + lineItems[l].unitPrice + "&qty" + l + "=" + lineItems[l].quantity + "&";
-                }
-                stringQuery = stringQuery + "tax=" + tax + "&total=" + total + "&customer=" + customer + "&name=" + name + "&surname=" + surname + "&quoteid=" + objDetails.fields.ID + "&company=" + company + "&vs1email=" + vs1User + "&customeremail=" + customerEmail + "&type=Invoice&url=" + window.location.href  + "&server=" + erpGet.ERPIPAddress + "&username=" + erpGet.ERPUsername + "&token=" + erpGet.ERPPassword + "&session=" + erpGet.ERPDatabase + "&port=" + erpGet.ERPPort + "&dept=" + departement;
-                let url = "https://www.depot.vs1cloud.com/stripe/" + stringQuery;
-                $('#html-2-pdfwrapper').css('display', 'block');
-                $('.pdfCustomerName').html($('#edtCustomerName').val());
-                $('.pdfCustomerAddress').html($('#txabillingAddress').val());
-
-                function generatePdfForMail(invoiceId) {
-                    return new Promise((resolve, reject) => {
-                        let templateObject = Template.instance();
-                        let completeTabRecord;
-                        let doc = new jsPDF('p', 'pt', 'a4');
-                        var source = document.getElementById('html-2-pdfwrapper');
-                        doc.addHTML(source, function () {
-                            doc.setFontSize(10);
-                            doc.setTextColor(255, 255, 255);
-                            doc.textWithLink('Pay Now', 480, 104, { url: 'https://www.depot.vs1cloud.com/stripe/' + stringQuery });
-                            resolve(doc.output('blob'));
-                            $('#html-2-pdfwrapper').css('display', 'none');
-                        });
-                    });
-                }
-                async function addAttachment() {
-                    let attachment = [];
-                    let templateObject = Template.instance();
-
-                    let invoiceId = objDetails.fields.ID;
-                    let encodedPdf = await generatePdfForMail(invoiceId);
-                    let pdfObject = "";
-                    var reader = new FileReader();
-                    reader.readAsDataURL(encodedPdf);
-                    reader.onloadend = function () {
-                        var base64data = reader.result;
-                        base64data = base64data.split(',')[1];
-                        pdfObject = {
-                            filename: 'invoice-' + invoiceId + '.pdf',
-                            content: base64data,
-                            encoding: 'base64'
-                        };
-                        attachment.push(pdfObject);
-                        let erpInvoiceId = objDetails.fields.ID;
-
-
-                        let mailFromName = Session.get('vs1companyName');
-                        let mailFrom = localStorage.getItem('mySession');
-                        let customerEmailName = $('#edtCustomerName').val();
-                        let checkEmailData = $('#edtCustomerEmail').val();
-                        let grandtotal = $('#grandTotal').html();
-                        let amountDueEmail = $('#totalBalanceDue').html();
-                        let emailDueDate = $("#dtDueDate").val();
-                        let mailSubject = 'Invoice ' + erpInvoiceId + ' from ' + mailFromName + ' for ' + customerEmailName;
-                        let mailBody = "Hi " + customerEmailName + ",\n\n Here's invoice " + erpInvoiceId + " for  " + grandtotal + "." +
-                            "\n\nThe amount outstanding of " + amountDueEmail + " is due on " + emailDueDate + "." +
-                            "\n\nIf you have any questions, please let us know : " + mailFrom + ".\n\nThanks,\n" + mailFromName;
-
-                        var htmlmailBody = '<table align="center" border="0" cellpadding="0" cellspacing="0" width="600">' +
-                            '    <tr>' +
-                            '        <td align="center" bgcolor="#54c7e2" style="padding: 40px 0 30px 0;">' +
-                            '            <img src="https://sandbox.vs1cloud.com/assets/VS1logo.png" class="uploadedImage" alt="VS1 Cloud" width="250px" style="display: block;" />' +
-                            '        </td>' +
-                            '    </tr>' +
-                            '    <tr>' +
-                            '        <td style="padding: 40px 30px 40px 30px;">' +
-                            '            <table border="0" cellpadding="0" cellspacing="0" width="100%">' +
-                            '                <tr>' +
-                            '                    <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0 20px 0;">' +
-                            '                        Hi <span>' + customerEmailName + '</span>.' +
-                            '                    </td>' +
-                            '                </tr>' +
-                            '                <tr>' +
-                            '                    <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0 10px 0;">' +
-                            '                        Please find attached Invoice <span>' + erpInvoiceId + '</span>' +
-                            '                    </td>' +
-                            '                </tr>' +
-                            '                <tr>' +
-                            '                    <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0 10px 0;">' +
-                           '                        Simply click on <a style="border: none; color: white; padding: 6px 12px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin: 4px 2px; cursor: pointer; background-color: #5cb85c; border-color: #4cae4c; border-radius: 10px;" href="https://www.depot.vs1cloud.com/stripe/' + stringQuery + '">Make Payment</a> to pay now.' +
-                           '                    </td>' +
-                            '                </tr>' +
-                            '                <tr>' +
-                            '                    <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0 30px 0;">' +
-                            '                        Kind regards,' +
-                            '                        <br>' +
-                            '                        ' + mailFromName + '' +
-                            '                    </td>' +
-                            '                </tr>' +
-                            '            </table>' +
-                            '        </td>' +
-                            '    </tr>' +
-                            '    <tr>' +
-                            '        <td bgcolor="#00a3d3" style="padding: 30px 30px 30px 30px;">' +
-                            '            <table border="0" cellpadding="0" cellspacing="0" width="100%">' +
-                            '                <tr>' +
-                            '                    <td width="50%" style="color: #ffffff; font-family: Arial, sans-serif; font-size: 14px;">' +
-                            '                        If you have any question, please do not hesitate to contact us.' +
-                            '                    </td>' +
-                            '                    <td align="right">' +
-                            '                        <a style="border: none; color: white; padding: 15px 32px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin: 4px 2px; cursor: pointer; background-color: #4CAF50;" href="mailto:' + mailFrom + '">Contact Us</a>' +
-                            '                    </td>' +
-                            '                </tr>' +
-                            '            </table>' +
-                            '        </td>' +
-                            '    </tr>' +
-                            '</table>';
-
-                        if (($('.chkEmailCopy').is(':checked')) && ($('.chkEmailRep').is(':checked'))) {
-                            Meteor.call('sendEmail', {
-                                from: "" + mailFromName + " <" + mailFrom + ">",
-                                to: checkEmailData,
-                                subject: mailSubject,
-                                text: '',
-                                html: htmlmailBody,
-                                attachments: attachment
-                            }, function (error, result) {
-                                if (error && error.error === "error") {
-                                    Router.go('/invoicelist?success=true');
-
-                                } else {
-
+                        if (checkBackOrder == true) {
+                            lineItemObjForm = {
+                                type: "TInvoiceLine",
+                                fields: {
+                                    ProductName: tdproduct || '',
+                                    ProductDescription: tddescription || '',
+                                    UOMQtySold: parseFloat(tdOrderd) || 0,
+                                    UOMQtyShipped: parseFloat(tdQty) || 0,
+                                    LinePrice: Number(tdunitprice.replace(/[^0-9.-]+/g, "")) || 0,
+                                    LineTaxCode: tdtaxCode || '',
                                 }
-                            });
-
-                            Meteor.call('sendEmail', {
-                                from: "" + mailFromName + " <" + mailFrom + ">",
-                                to: mailFrom,
-                                subject: mailSubject,
-                                text: '',
-                                html: htmlmailBody,
-                                attachments: attachment
-                            }, function (error, result) {
-                                if (error && error.error === "error") {
-                                    Router.go('/invoicelist?success=true');
-                                } else {
-                                    $('#html-2-pdfwrapper').css('display', 'none');
-                                    swal({
-                                        title: 'SUCCESS',
-                                        text: "Email Sent To Customer: " + checkEmailData + " and User: " + mailFrom + "",
-                                        type: 'success',
-                                        showCancelButton: false,
-                                        confirmButtonText: 'OK'
-                                    }).then((result) => {
-                                        if (result.value) {
-                                            window.open(url,'_self');
-                                        } else if (result.dismiss === 'cancel') {
-
-                                        }
-                                    });
-
-                                    $('.fullScreenSpin').css('display', 'none');
-                                }
-                            });
-
-                        } else if (($('.chkEmailCopy').is(':checked'))) {
-                            Meteor.call('sendEmail', {
-                                from: "" + mailFromName + " <" + mailFrom + ">",
-                                to: checkEmailData,
-                                subject: mailSubject,
-                                text: '',
-                                html: htmlmailBody,
-                                attachments: attachment
-                            }, function (error, result) {
-                                if (error && error.error === "error") {
-                                    Router.go('/invoicelist?success=true');
-
-                                } else {
-                                    $('#html-2-pdfwrapper').css('display', 'none');
-                                    swal({
-                                        title: 'SUCCESS',
-                                        text: "Email Sent To Customer: " + checkEmailData + " ",
-                                        type: 'success',
-                                        showCancelButton: false,
-                                        confirmButtonText: 'OK'
-                                    }).then((result) => {
-                                        if (result.value) {
-                                            window.open(url,'_self');
-                                        } else if (result.dismiss === 'cancel') {
-
-                                        }
-                                    });
-
-                                    $('.fullScreenSpin').css('display', 'none');
-                                }
-                            });
-
-                        } else if (($('.chkEmailRep').is(':checked'))) {
-                            Meteor.call('sendEmail', {
-                                from: "" + mailFromName + " <" + mailFrom + ">",
-                                to: mailFrom,
-                                subject: mailSubject,
-                                text: '',
-                                html: htmlmailBody,
-                                attachments: attachment
-                            }, function (error, result) {
-                                if (error && error.error === "error") {
-                                    Router.go('/invoicelist?success=true');
-                                } else {
-                                    $('#html-2-pdfwrapper').css('display', 'none');
-                                    swal({
-                                        title: 'SUCCESS',
-                                        text: "Email Sent To User: " + mailFrom + " ",
-                                        type: 'success',
-                                        showCancelButton: false,
-                                        confirmButtonText: 'OK'
-                                    }).then((result) => {
-                                        if (result.value) {
-                                            window.open(url,'_self');
-                                        } else if (result.dismiss === 'cancel') {
-
-                                        }
-                                    });
-
-                                    $('.fullScreenSpin').css('display', 'none');
-                                }
-                            });
-
+                            };
                         } else {
-                            window.open(url,'_self');
-                        };
+                            lineItemObjForm = {
+                                type: "TInvoiceLine",
+                                fields: {
+                                    ProductName: tdproduct || '',
+                                    ProductDescription: tddescription || '',
+                                    UOMQtySold: parseFloat(tdQty) || 0,
+                                    UOMQtyShipped: parseFloat(tdQty) || 0,
+                                    LinePrice: Number(tdunitprice.replace(/[^0-9.-]+/g, "")) || 0,
+                                    LineTaxCode: tdtaxCode || '',
+                                }
+                            };
+                        }
 
-                    };
 
-
-                }
-                addAttachment();
-            }).catch(function (err) {
-                $('#html-2-pdfwrapper').css('display', 'none');
-                swal({
-                    title: 'Something went wrong',
-                    text: err,
-                    type: 'error',
-                    showCancelButton: false,
-                    confirmButtonText: 'Try Again'
-                }).then((result) => {
-                    if (result.value) {
-                    } else if (result.dismiss === 'cancel') {
-
+                        lineItemsForm.push(lineItemObjForm);
+                        splashLineArray.push(lineItemObjForm);
                     }
                 });
-                $('.fullScreenSpin').css('display', 'none');
-            });
-        }
+                let getchkcustomField1 = true;
+                let getchkcustomField2 = true;
+                let getcustomField1 = $('.customField1Text').html();
+                let getcustomField2 = $('.customField2Text').html();
+                if ($('#formCheck-one').is(':checked')) {
+                    getchkcustomField1 = false;
+                }
+                if ($('#formCheck-two').is(':checked')) {
+                    getchkcustomField2 = false;
+                }
 
-        }
+                let customer = $('#edtCustomerName').val();
+                let customerEmail = $('#edtCustomerEmail').val();
+                let billingAddress = $('#txabillingAddress').val();
+                var saledateTime = new Date($("#dtSODate").datepicker("getDate"));
+
+                var duedateTime = new Date($("#dtDueDate").datepicker("getDate"));
+
+                let saleDate = saledateTime.getFullYear() + "-" + (saledateTime.getMonth() + 1) + "-" + saledateTime.getDate();
+                let dueDate = duedateTime.getFullYear() + "-" + (duedateTime.getMonth() + 1) + "-" + duedateTime.getDate();
+
+                let poNumber = $('#ponumber').val();
+                let reference = $('#edtRef').val();
+                let termname = $('#sltTerms').val();
+                let departement = $('#sltDept').val();
+                let shippingAddress = $('#txaShipingInfo').val();
+                let comments = $('#txaComment').val();
+                let pickingInfrmation = $('#txapickmemo').val();
+                let total = $('#totalBalanceDue').html() || 0;
+                let tax = $('#subtotal_tax').html() || 0;
+                let saleCustField1 = $('#edtSaleCustField1').val();
+                let saleCustField2 = $('#edtSaleCustField2').val();
+                var url = window.location.href;
+                var getso_id = url.split('?id=');
+                var currentInvoice = getso_id[getso_id.length - 1];
+                let uploadedItems = templateObject.uploadedFiles.get();
+                var currencyCode = $("#sltCurrency").val() || CountryAbbr;
+                var objDetails = '';
+                if (getso_id[1]) {
+                    currentInvoice = parseInt(currentInvoice);
+                    objDetails = {
+                        type: "TInvoiceEx",
+                        fields: {
+                            ID: currentInvoice,
+                            CustomerName: customer,
+                            ForeignExchangeCode: currencyCode,
+                            Lines: splashLineArray,
+                            InvoiceToDesc: billingAddress,
+                            SaleDate: saleDate,
+                            CustPONumber: poNumber,
+                            ReferenceNo: reference,
+                            TermsName: termname,
+                            SaleClassName: departement,
+                            ShipToDesc: shippingAddress,
+                            Comments: comments,
+                            SaleCustField1: saleCustField1,
+                            SaleCustField2: saleCustField2,
+                            PickMemo: pickingInfrmation,
+                            Attachments: uploadedItems,
+                            SalesStatus: $('#sltStatus').val()
+                        }
+                    };
+                } else {
+                    objDetails = {
+                        type: "TInvoiceEx",
+                        fields: {
+                            CustomerName: customer,
+                            ForeignExchangeCode: currencyCode,
+                            Lines: splashLineArray,
+                            InvoiceToDesc: billingAddress,
+                            SaleDate: saleDate,
+                            CustPONumber: poNumber,
+                            ReferenceNo: reference,
+                            TermsName: termname,
+                            SaleClassName: departement,
+                            ShipToDesc: shippingAddress,
+                            Comments: comments,
+                            SaleCustField1: saleCustField1,
+                            SaleCustField2: saleCustField2,
+                            PickMemo: pickingInfrmation,
+                            Attachments: uploadedItems,
+                            SalesStatus: $('#sltStatus').val()
+                        }
+                    };
+                }
+                salesService.saveInvoiceEx(objDetails).then(function (objDetails) {
+                    let company = Session.get('vs1companyName');
+                    let vs1User = localStorage.getItem('mySession');
+                    let customerEmail = $('#edtCustomerEmail').val() || '';
+                    let stringQuery = "?";
+                    var customerID = $('#edtCustomerEmail').attr('customerid');
+                    for (let l = 0; l < lineItems.length; l++) {
+                        stringQuery = stringQuery + "product" + l + "=" + lineItems[l].description + "&price" + l + "=" + lineItems[l].unitPrice + "&qty" + l + "=" + lineItems[l].quantity + "&";
+                    }
+                    stringQuery = stringQuery + "tax=" + tax + "&total=" + total + "&customer=" + customer + "&name=" + name + "&surname=" + surname + "&quoteid=" + objDetails.fields.ID + "&transid="+stripe_id+"&company=" + company + "&vs1email=" + vs1User + "&customeremail=" + customerEmail + "&type=Invoice&url=" + window.location.href  + "&server=" + erpGet.ERPIPAddress + "&username=" + erpGet.ERPUsername + "&token=" + erpGet.ERPPassword + "&session=" + erpGet.ERPDatabase + "&port=" + erpGet.ERPPort + "&dept=" + departement;
+                    let url = "https://www.depot.vs1cloud.com/stripe/" + stringQuery;
+                    $('#html-2-pdfwrapper').css('display', 'block');
+                    $('.pdfCustomerName').html($('#edtCustomerName').val());
+                    $('.pdfCustomerAddress').html($('#txabillingAddress').val());
+
+                    function generatePdfForMail(invoiceId) {
+                        return new Promise((resolve, reject) => {
+                            let templateObject = Template.instance();
+                            let completeTabRecord;
+                            let doc = new jsPDF('p', 'pt', 'a4');
+                            var source = document.getElementById('html-2-pdfwrapper');
+                            doc.addHTML(source, function () {
+                                doc.setFontSize(10);
+                                doc.setTextColor(255, 255, 255);
+                                doc.textWithLink('Pay Now', 480, 104, { url: 'https://www.depot.vs1cloud.com/stripe/' + stringQuery });
+                                resolve(doc.output('blob'));
+                                $('#html-2-pdfwrapper').css('display', 'none');
+                            });
+                        });
+                    }
+                    async function addAttachment() {
+                        let attachment = [];
+                        let templateObject = Template.instance();
+
+                        let invoiceId = objDetails.fields.ID;
+                        let encodedPdf = await generatePdfForMail(invoiceId);
+                        let pdfObject = "";
+                        var reader = new FileReader();
+                        reader.readAsDataURL(encodedPdf);
+                        reader.onloadend = function () {
+                            var base64data = reader.result;
+                            base64data = base64data.split(',')[1];
+                            pdfObject = {
+                                filename: 'invoice-' + invoiceId + '.pdf',
+                                content: base64data,
+                                encoding: 'base64'
+                            };
+                            attachment.push(pdfObject);
+                            let erpInvoiceId = objDetails.fields.ID;
+
+
+                            let mailFromName = Session.get('vs1companyName');
+                            let mailFrom = localStorage.getItem('mySession');
+                            let customerEmailName = $('#edtCustomerName').val();
+                            let checkEmailData = $('#edtCustomerEmail').val();
+                            let grandtotal = $('#grandTotal').html();
+                            let amountDueEmail = $('#totalBalanceDue').html();
+                            let emailDueDate = $("#dtDueDate").val();
+                            let mailSubject = 'Invoice ' + erpInvoiceId + ' from ' + mailFromName + ' for ' + customerEmailName;
+                            let mailBody = "Hi " + customerEmailName + ",\n\n Here's invoice " + erpInvoiceId + " for  " + grandtotal + "." +
+                                "\n\nThe amount outstanding of " + amountDueEmail + " is due on " + emailDueDate + "." +
+                                "\n\nIf you have any questions, please let us know : " + mailFrom + ".\n\nThanks,\n" + mailFromName;
+
+                            var htmlmailBody = '<table align="center" border="0" cellpadding="0" cellspacing="0" width="600">' +
+                                '    <tr>' +
+                                '        <td align="center" bgcolor="#54c7e2" style="padding: 40px 0 30px 0;">' +
+                                '            <img src="https://sandbox.vs1cloud.com/assets/VS1logo.png" class="uploadedImage" alt="VS1 Cloud" width="250px" style="display: block;" />' +
+                                '        </td>' +
+                                '    </tr>' +
+                                '    <tr>' +
+                                '        <td style="padding: 40px 30px 40px 30px;">' +
+                                '            <table border="0" cellpadding="0" cellspacing="0" width="100%">' +
+                                '                <tr>' +
+                                '                    <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0 20px 0;">' +
+                                '                        Hi <span>' + customerEmailName + '</span>.' +
+                                '                    </td>' +
+                                '                </tr>' +
+                                '                <tr>' +
+                                '                    <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0 10px 0;">' +
+                                '                        Please find attached Invoice <span>' + erpInvoiceId + '</span>' +
+                                '                    </td>' +
+                                '                </tr>' +
+                                '                <tr>' +
+                                '                    <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0 10px 0;">' +
+                               '                        Simply click on <a style="border: none; color: white; padding: 6px 12px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin: 4px 2px; cursor: pointer; background-color: #5cb85c; border-color: #4cae4c; border-radius: 10px;" href="https://www.depot.vs1cloud.com/stripe/' + stringQuery + '">Make Payment</a> to pay now.' +
+                               '                    </td>' +
+                                '                </tr>' +
+                                '                <tr>' +
+                                '                    <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0 30px 0;">' +
+                                '                        Kind regards,' +
+                                '                        <br>' +
+                                '                        ' + mailFromName + '' +
+                                '                    </td>' +
+                                '                </tr>' +
+                                '            </table>' +
+                                '        </td>' +
+                                '    </tr>' +
+                                '    <tr>' +
+                                '        <td bgcolor="#00a3d3" style="padding: 30px 30px 30px 30px;">' +
+                                '            <table border="0" cellpadding="0" cellspacing="0" width="100%">' +
+                                '                <tr>' +
+                                '                    <td width="50%" style="color: #ffffff; font-family: Arial, sans-serif; font-size: 14px;">' +
+                                '                        If you have any question, please do not hesitate to contact us.' +
+                                '                    </td>' +
+                                '                    <td align="right">' +
+                                '                        <a style="border: none; color: white; padding: 15px 32px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin: 4px 2px; cursor: pointer; background-color: #4CAF50;" href="mailto:' + mailFrom + '">Contact Us</a>' +
+                                '                    </td>' +
+                                '                </tr>' +
+                                '            </table>' +
+                                '        </td>' +
+                                '    </tr>' +
+                                '</table>';
+
+                            if (($('.chkEmailCopy').is(':checked')) && ($('.chkEmailRep').is(':checked'))) {
+                                Meteor.call('sendEmail', {
+                                    from: "" + mailFromName + " <" + mailFrom + ">",
+                                    to: checkEmailData,
+                                    subject: mailSubject,
+                                    text: '',
+                                    html: htmlmailBody,
+                                    attachments: attachment
+                                }, function (error, result) {
+                                    if (error && error.error === "error") {
+                                        Router.go('/invoicelist?success=true');
+
+                                    } else {
+
+                                    }
+                                });
+
+                                Meteor.call('sendEmail', {
+                                    from: "" + mailFromName + " <" + mailFrom + ">",
+                                    to: mailFrom,
+                                    subject: mailSubject,
+                                    text: '',
+                                    html: htmlmailBody,
+                                    attachments: attachment
+                                }, function (error, result) {
+                                    if (error && error.error === "error") {
+                                        Router.go('/invoicelist?success=true');
+                                    } else {
+                                        $('#html-2-pdfwrapper').css('display', 'none');
+                                        swal({
+                                            title: 'SUCCESS',
+                                            text: "Email Sent To Customer: " + checkEmailData + " and User: " + mailFrom + "",
+                                            type: 'success',
+                                            showCancelButton: false,
+                                            confirmButtonText: 'OK'
+                                        }).then((result) => {
+                                            if (result.value) {
+                                                window.open(url,'_self');
+                                            } else if (result.dismiss === 'cancel') {
+
+                                            }
+                                        });
+
+                                        $('.fullScreenSpin').css('display', 'none');
+                                    }
+                                });
+
+                            } else if (($('.chkEmailCopy').is(':checked'))) {
+                                Meteor.call('sendEmail', {
+                                    from: "" + mailFromName + " <" + mailFrom + ">",
+                                    to: checkEmailData,
+                                    subject: mailSubject,
+                                    text: '',
+                                    html: htmlmailBody,
+                                    attachments: attachment
+                                }, function (error, result) {
+                                    if (error && error.error === "error") {
+                                        Router.go('/invoicelist?success=true');
+
+                                    } else {
+                                        $('#html-2-pdfwrapper').css('display', 'none');
+                                        swal({
+                                            title: 'SUCCESS',
+                                            text: "Email Sent To Customer: " + checkEmailData + " ",
+                                            type: 'success',
+                                            showCancelButton: false,
+                                            confirmButtonText: 'OK'
+                                        }).then((result) => {
+                                            if (result.value) {
+                                                window.open(url,'_self');
+                                            } else if (result.dismiss === 'cancel') {
+
+                                            }
+                                        });
+
+                                        $('.fullScreenSpin').css('display', 'none');
+                                    }
+                                });
+
+                            } else if (($('.chkEmailRep').is(':checked'))) {
+                                Meteor.call('sendEmail', {
+                                    from: "" + mailFromName + " <" + mailFrom + ">",
+                                    to: mailFrom,
+                                    subject: mailSubject,
+                                    text: '',
+                                    html: htmlmailBody,
+                                    attachments: attachment
+                                }, function (error, result) {
+                                    if (error && error.error === "error") {
+                                        Router.go('/invoicelist?success=true');
+                                    } else {
+                                        $('#html-2-pdfwrapper').css('display', 'none');
+                                        swal({
+                                            title: 'SUCCESS',
+                                            text: "Email Sent To User: " + mailFrom + " ",
+                                            type: 'success',
+                                            showCancelButton: false,
+                                            confirmButtonText: 'OK'
+                                        }).then((result) => {
+                                            if (result.value) {
+                                                window.open(url,'_self');
+                                            } else if (result.dismiss === 'cancel') {
+
+                                            }
+                                        });
+
+                                        $('.fullScreenSpin').css('display', 'none');
+                                    }
+                                });
+
+                            } else {
+                                window.open(url,'_self');
+                            };
+
+                        };
+
+
+                    }
+                    addAttachment();
+                }).catch(function (err) {
+                    $('#html-2-pdfwrapper').css('display', 'none');
+                    swal({
+                        title: 'Something went wrong',
+                        text: err,
+                        type: 'error',
+                        showCancelButton: false,
+                        confirmButtonText: 'Try Again'
+                    }).then((result) => {
+                        if (result.value) {
+                        } else if (result.dismiss === 'cancel') {
+
+                        }
+                    });
+                    $('.fullScreenSpin').css('display', 'none');
+                });
+            }
+         }
+    } else {
+           swal({
+                title: 'WARNING',
+                text: "Please Set Up Payment Method To Use This Option, Click Ok to be Redirected to Payment Method page.",
+                type: 'warning',
+                showCancelButton: false,
+                confirmButtonText: 'OK'
+            }).then((result) => {
+                if (result.value) {
+                    window.open('paymentmethodSettings','_self');
+                } else if (result.dismiss === 'cancel') {
+
+                }
+            });
+}
     },
     'blur .lineQty': function (event) {
         let templateObject = Template.instance();
@@ -5427,6 +5457,7 @@ Template.new_invoice.events({
     },
     'click .btnSave': function (event) {
         let templateObject = Template.instance();
+        let stripe_id = templateObject.accountID.get();
         let lineItems = [];
         let imageData = (localStorage.getItem("Image"));
         let customername = $('#edtCustomerName');
@@ -5588,10 +5619,10 @@ Template.new_invoice.events({
                 let customerEmail = $('#edtCustomerEmail').val() || '';
                 let stringQuery = "?";
                 var customerID = $('#edtCustomerEmail').attr('customerid');
-                for (let l = 0; l < lineItems.length; l++) {
-                    stringQuery = stringQuery + "product" + l + "=" + lineItems[l].description + "&price" + l + "=" + lineItems[l].unitPrice + "&qty" + l + "=" + lineItems[l].quantity + "&";
-                }
-                stringQuery = stringQuery + "tax=" + tax + "&total=" + total + "&customer=" + customer + "&name=" + name + "&surname=" + surname + "&quoteid=" + objDetails.fields.ID + "&company=" + company + "&vs1email=" + vs1User + "&customeremail=" + customerEmail + "&type=Invoice&url=" + window.location.href  + "&server=" + erpGet.ERPIPAddress + "&username=" + erpGet.ERPUsername + "&token=" + erpGet.ERPPassword + "&session=" + erpGet.ERPDatabase + "&port=" + erpGet.ERPPort + "&dept=" + departement;
+                    for (let l = 0; l < lineItems.length; l++) {
+                        stringQuery = stringQuery + "product" + l + "=" + lineItems[l].description + "&price" + l + "=" + lineItems[l].unitPrice + "&qty" + l + "=" + lineItems[l].quantity + "&";
+                    }
+                    stringQuery = stringQuery + "tax=" + tax + "&total=" + total + "&customer=" + customer + "&name=" + name + "&surname=" + surname + "&quoteid=" + objDetails.fields.ID + "&transid="+stripe_id +"&company=" + company + "&vs1email=" + vs1User + "&customeremail=" + customerEmail + "&type=Invoice&url=" + window.location.href  + "&server=" + erpGet.ERPIPAddress + "&username=" + erpGet.ERPUsername + "&token=" + erpGet.ERPPassword + "&session=" + erpGet.ERPDatabase + "&port=" + erpGet.ERPPort + "&dept=" + departement;
                 $('#html-2-pdfwrapper').css('display', 'block');
                 $('.pdfCustomerName').html($('#edtCustomerName').val());
                 $('.pdfCustomerAddress').html($('#txabillingAddress').val());
