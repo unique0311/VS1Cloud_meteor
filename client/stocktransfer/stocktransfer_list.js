@@ -14,6 +14,13 @@ Template.stocktransferlist.onCreated(function () {
       templateObject.allCount = new ReactiveVar();
       templateObject.salesorderRecords = new ReactiveVar({});
       templateObject.allSalesOrdersData = new ReactiveVar([]);
+  //
+  //
+  // var $ = require('jquery');
+  //  ;
+  //
+
+
 });
 
 Template.stocktransferlist.onRendered(function () {
@@ -27,7 +34,7 @@ Template.stocktransferlist.onRendered(function () {
   let records = [];
   let lineItemObj = {};
 
-
+  
   for(let i=0; i<data.tstocktransferentry.length; i++){
      let recordObj = {};
      let deleteOption = data.tstocktransferentry[i].deleted;
@@ -96,7 +103,7 @@ Template.stocktransferlist.onRendered(function () {
   $('#stocktransfer_list tbody').on( 'click', 'tr', function () {
       //var listData = table.row( this ).id();
       var listData = $(this).closest('tr').attr('id');
-
+      
       if(listData){
         window.open('/stocktransfercard?id=' + listData,'_self');
       }
@@ -141,7 +148,7 @@ if (!localStorage.getItem('VS1StockTransferList')) {
   $('#stocktransfer_list tbody').on( 'click', 'tr', function () {
       //var listData = table.row( this ).id();
       var listData = $(this).closest('tr').attr('id');
-
+      
       //for(let i=0 ; i<splashArray.length ;i++){
       if(listData){
         window.open('/stocktransfercard?id=' + listData,'_self');
@@ -176,7 +183,7 @@ Template.stocktransferlist.helpers({
          templateObject.getStockTransfers();
     },
     'click .disable-click-event':function (event) {
-
+      
         // event.stopPropagation();
     }
     });

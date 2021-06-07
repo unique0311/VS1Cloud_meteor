@@ -50,14 +50,6 @@ export class ProductService extends BaseService {
         return this.getList(this.ERPObjects.TProduct, options);
     }
 
-    getAllProductExtraSell(){
-        let options = {
-            PropertyList: "ID,ClientTypeName,Price1,ProductName",
-            select: "[Active]=true"
-          };
-        return this.getList(this.ERPObjects.TProduct, options);
-    }
-
     getNewProductListVS1(){
         let options = {
             PropertyList: "ID,Active,ProductPrintName,ProductName,ProductType,SalesDescription,BuyQty1CostInc,SellQty1PriceInc,BuyQty1Cost,SellQty1Price,TotalStockQty,TaxCodeSales,TaxCodePurchase,PurchaseDescription,ProductGroup1,BARCODE,TotalQtyInStock,CUSTFLD1,CUSTFLD2",

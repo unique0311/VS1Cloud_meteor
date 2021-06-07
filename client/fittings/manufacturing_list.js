@@ -14,6 +14,13 @@ Template.manufacturinglist.onCreated(function () {
       templateObject.allCount = new ReactiveVar();
       templateObject.salesorderRecords = new ReactiveVar({});
       templateObject.allSalesOrdersData = new ReactiveVar([]);
+  //
+  //
+  // var $ = require('jquery');
+  //  ;
+  //
+  // require('datatables.net-responsive')(window, $);
+
 
 });
 
@@ -28,7 +35,7 @@ Template.manufacturinglist.onRendered(function () {
   let records = [];
   let lineItemObj = {};
 
-
+  
   for(let i=0; i<data.tsalesorder.length; i++){
      let recordObj = {};
      let deleteOption = data.tsalesorder[i].deleted;
@@ -96,7 +103,7 @@ Template.manufacturinglist.onRendered(function () {
   $('#manufacturing_list tbody').on( 'click', 'tr', function () {
       //var listData = table.row( this ).id();
       var listData = $(this).closest('tr').attr('id');
-
+      
       //for(let i=0 ; i<splashArray.length ;i++){
       if(listData){
         window.open('/manufacturingquickSO?id=' + listData,'_self');
@@ -146,7 +153,7 @@ if (!localStorage.getItem('VS1ManufacturingList')) {
   $('#manufacturing_list tbody').on( 'click', 'tr', function () {
       //var listData = table.row( this ).id();
       var listData = $(this).closest('tr').attr('id');
-
+      
       //for(let i=0 ; i<splashArray.length ;i++){
       if(listData){
         window.open('/manufacturingquickSO?id=' + listData,'_self');
