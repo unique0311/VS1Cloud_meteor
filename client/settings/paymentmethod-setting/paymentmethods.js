@@ -1215,7 +1215,7 @@ Template.paymentmethodSettings.helpers({
    });
   },
  accountID: () => {
-    return Template.instance().accountID().get();
+    return Template.instance().accountID.get();
  },
   tableheaderrecords: () => {
      return Template.instance().tableheaderrecords.get();
