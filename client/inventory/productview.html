@@ -79,7 +79,7 @@
         </style>
         {{#if productrecord}}
         <header style="padding: 16px;padding-bottom: 0px;">
-            <h1 style="margin: 16px;" id="productcardbodyname">{{productrecord.lib}} 
+            <h1 style="margin: 16px;" id="productcardbodyname">{{productrecord.lib}}
                 <a role="button" data-toggle="modal" href="#helpViewModal"  style="font-size: 20px;">Help <i class="fa fa-question-circle-o" style="font-size: 20px;"></i></a>
 
                 <!-- Start Help View Modal -->
@@ -174,14 +174,14 @@
 
                             <div class="row">
                                 <div class="col-7 colProductName" id="colProductName" style="padding-right: 0px; padding-left: 0px;">
-                                    <div class="form-group" style="margin: 4px;"><label>Product Name</label><input type="text" class="form-control" id="edtproductname" name="edtproductname" value="{{productrecord.productname}}"></div>
+                                    <div class="form-group" style="margin: 4px;"><label>Product Name</label><input type="text" class="form-control highlightInput" id="edtproductname" name="edtproductname" value="{{productrecord.productname}}"></div>
                                 </div>
                                 <div class="col-3 colPrice" id="colPrice" style="padding-right: 0px; padding-left: 0px;">
-                                    <div class="form-group" style="margin: 4px;"><label>Price Ex Tax</label><input type="text" class="form-control" id="edtsellqty1price" name="edtsellqty1price" value="{{productrecord.sellqty1price}}"></div>
+                                    <div class="form-group" style="margin: 4px;"><label>Price Ex Tax</label><input type="text" class="form-control highlightInput" id="edtsellqty1price" name="edtsellqty1price" value="{{productrecord.sellqty1price}}"></div>
                                 </div>
                                 <div class="col-2 trackItemvisible colTotalQty" id="colTotalQty" style="padding-right: 0px; padding-left: 0px; padding-left: 0px; {{#if isTrackChecked}}visibility: visible;{{else}}visibility: hidden;{{/if}}">
                                     <div class="form-group" style="margin: 4px;"><label>Total Quantity</label>
-                                        <input type="text" class="form-control" id="edttotalqtyinstock" name="edttotalqtyinstock" value="{{totaldeptquantity}}">
+                                        <input type="text" class="form-control highlightInput" id="edttotalqtyinstock" name="edttotalqtyinstock" value="{{totaldeptquantity}}">
                                     </div>
                                 </div>
                             </div>
@@ -224,19 +224,19 @@
                                 <div class="col-4 colBarcode" id="colBarcode" style="padding-right: 0px; padding-left: 0px;">
                                     <div class="form-group" style="margin: 4px;">
                                         <label>Barcode</label>
-                                        <input type="text" class="form-control" id="edtbarcode" name="edtbarcode" value="{{productrecord.barcode}}">
+                                        <input type="text" class="form-control highlightInput" id="edtbarcode" name="edtbarcode" value="{{productrecord.barcode}}">
                                     </div>
                                 </div>
                                 <div class="col-3 checkbox1div colCustom1" id="colCustom1" style="padding-right: 0px; padding-left: 0px; padding-left: 0px; {{#if productsCloudPreferenceRec}}{{#if equals productsCloudPreferenceRec.customFields.[0].hidden false}}display:block{{else}}display:none{{/if}}{{else}}display:none{{/if}}">
                                     <div class="form-group" style="margin: 4px;">
                                         <label class="lblCustomField1">{{#if productsCloudPreferenceRec}}{{productsCloudPreferenceRec.customFields.[0].label}}{{else}}Custom Field 1{{/if}}</label>
-                                        <input type="text" class="form-control" id="txtCustomField1" name="txtCustomField1" style="" value="{{productrecord.customfield1}}">
+                                        <input type="text" class="form-control highlightInput" id="txtCustomField1" name="txtCustomField1" style="" value="{{productrecord.customfield1}}">
                                     </div>
                                 </div>
                                 <div class="col-3 checkbox2div colCustom2" id="colCustom2" style="padding-right: 0px; padding-left: 0px; {{#if productsCloudPreferenceRec}}{{#if equals productsCloudPreferenceRec.customFields.[1].hidden false}}display:block{{else}}display:none{{/if}}{{else}}display:none{{/if}}">
                                     <div class="form-group" style="margin: 4px;">
                                         <label class="lblCustomField2">{{#if productsCloudPreferenceRec}}{{productsCloudPreferenceRec.customFields.[1].label}}{{else}}Custom Field 2{{/if}}</label>
-                                        <input type="text" class="form-control" id="txtCustomField2" name="txtCustomField2" value="{{productrecord.customfield2}}" style="">
+                                        <input type="text" class="form-control highlightInput" id="txtCustomField2" name="txtCustomField2" value="{{productrecord.customfield2}}" style="">
                                     </div>
                                 </div>
                             </div>
@@ -280,7 +280,7 @@
                                 <div class="col-2 colCost" id="colCost" style="padding-right: 0px; padding-left: 0px;">
                                     <div class="form-group" style="margin: 4px;">
                                         <label>Cost Ex Tax </label>
-                                        <input type="text" class="form-control" id="edtbuyqty1cost" name="edtbuyqty1cost" value="{{productrecord.buyqty1cost}}">
+                                        <input type="text" class="form-control highlightInput" id="edtbuyqty1cost" name="edtbuyqty1cost" value="{{productrecord.buyqty1cost}}">
                                     </div>
                                 </div>
                             </div>
@@ -466,13 +466,13 @@ $('#chkSellPrice').removeAttr("disabled");
                                         {{> clienttypemodal}}
                                         <div class="col-3 colDiscount2" style="padding-left: 0px;">
                                             <div class="form-group" style="margin: 4px;">
-                                                <input type="text" class="form-control edtDiscount" style="width: 100%;" value="{{itemExtraSell.discount}}">
+                                                <input type="text" class="form-control highlightInput edtDiscount" style="width: 100%;" value="{{itemExtraSell.discount}}">
                                             </div>
                                         </div>
 
                                         <div class="col-3 colPrice2" style="padding-left: 0px;">
                                             <div class="form-group" style="margin: 4px;">
-                                                <input type="text" class="form-control edtPriceEx" style="width: 100%;" value="{{itemExtraSell.price}}">
+                                                <input type="text" class="form-control highlightInput edtPriceEx" style="width: 100%;" value="{{itemExtraSell.price}}">
                                             </div>
                                         </div>
                                         <div class="col-2 colDel2" style="padding-left: 0px;">

@@ -152,12 +152,6 @@ Router.route('/vs1greentracklogin', {
     template: 'vs1greentracklogin'
 });
 
-
-Router.route('/signin', {
-    name: 'signin',
-    template: 'signin'
-});
-
 Router.route('/vs1check', {
     name: 'vs1check',
     template: 'vs1check'

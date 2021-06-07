@@ -314,7 +314,7 @@ Template.productview.onRendered(function() {
             if (dataObject.length == 0) {
                 productService.getClientTypeData().then((data) => {
                     for (let i = 0; i < data.tclienttype.length; i++) {
-                        clientType.push(data.tclienttype[i].TypeName)
+                        clientType.push(data.tclienttype[i].TypeName);
                     }
                     clientType = _.sortBy(clientType);
                     templateObject.clienttypeList.set(clientType);
