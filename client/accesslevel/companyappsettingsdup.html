@@ -1,7 +1,27 @@
 <template name="companyappsettingsdup">
     <div class="container-fluid">
         <header style="background-color: #ededed;padding: 16px;margin: -24px;">
-            <h1 style="margin: 16px;">VS1 Modules <a role="button" data-toggle="modal" href="#helpModal" class="helpModal"><label class="lblplay">PLAY</label><i class="far fa-play-circle"  style="font-size: 20px;"></i></a>
+            <h1 style="margin: 16px;">VS1 Modules 
+
+                <a role="button" data-toggle="modal" href="#helpViewModal"  style="font-size: 20px;">Help <i class="fa fa-question-circle-o" style="font-size: 20px;"></i></a>
+
+                <!-- Start Help View Modal -->
+                <div class="modal fade" role="dialog" tabindex="-1" id="helpViewModal">
+                    <div class="modal-dialog modal-sm" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header" style="padding-bottom: 8px;">
+                                <h4>Help</h4><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button></div>
+                            <div class="modal-body">
+                                <p class="text-center text-muted"><a role="button" data-toggle="modal" href="#helpModal" class="btn btn-primary helpModal">View Help Video</a></p>
+                                <p class="text-center text-muted"><a href="https://vs1forum.com/" target="_blank" class="btn btn-primary">Download Help File</a></p>
+                                <p class="text-center text-muted"><button class="btn btn-primary" type="button">Employ Advisor</button></p>
+                                <p class="text-center text-muted" style="margin: 0px;"><a href="https://vs1forum.com/ucp.php?mode=register&cloudusername={{loggedCompany}}" target="_blank" class="btn btn-primary">Go To Forum</a></p>
+                            </div>
+                            <div class="modal-footer" style="padding: 6px;"><button class="btn btn-light" data-dismiss="modal" type="button">Close</button></div>
+                        </div>
+                    </div>
+                </div>
+                <!-- End Help View Modal -->
             </h1>
         </header>
         <div class="fullScreenSpin" style="display:none;">
@@ -33,29 +53,29 @@
 
         </div>
 
-<!--
-        <div class="d-xl-flex flex-row align-items-xl-end" style="margin: -24px;padding: 32px;background-color: #ededed;margin-bottom: 20px;margin-top: 0px;">
-            <div class="d-xl-flex flex-grow-0 align-items-xl-end">
-                <button class="btn btn-primary btnRefresh" type="button" style="margin: 8px;"><i class="icon ion-android-bulb" style="margin-right: 8px;"></i>Refresh</button>
-                <button class="btn btn-success btnAddVS1User" type="button" style="margin: 8px;"><i class="fa fa-plus" style="margin-right: 8px"></i>Add VS1 User</button>
-                {{#if isGreenTrack}}
-                <button class="btn btn-success btnLink" type="button" style="margin: 8px;"><i class="fas fa-link" style="margin-right: 8px"></i>Connect To An Accounting Package</button>
-                <style>
-                    .btnLink {
-                        background-color: #EDEDED !important;
-                        border-color: #1CC88A !important;
-                        border-width: 3px !important;
-                        color: #1CC88A !important;
-                        font-weight: 500 !important;
-                    }
-                </style>
-                {{/if}}
-            </div>
-            <div class="float-right d-xl-flex flex-row flex-grow-1 justify-content-xl-end">
-                <button class="btn btn-primary btnTopGlobalSave" type="button" style="margin: 8px;margin-left: 8px;"><i class="fa fa-save" style="margin-right: 8px;"></i>Save</button>
-                <button class="btn btn-secondary btnBack" type="button" style="margin: 8px;"><i class="fa fa-close" style="margin-right: 8px;"></i>Cancel</button>
-            </div>
-        </div>
+        <!--
+<div class="d-xl-flex flex-row align-items-xl-end" style="margin: -24px;padding: 32px;background-color: #ededed;margin-bottom: 20px;margin-top: 0px;">
+<div class="d-xl-flex flex-grow-0 align-items-xl-end">
+<button class="btn btn-primary btnRefresh" type="button" style="margin: 8px;"><i class="icon ion-android-bulb" style="margin-right: 8px;"></i>Refresh</button>
+<button class="btn btn-success btnAddVS1User" type="button" style="margin: 8px;"><i class="fa fa-plus" style="margin-right: 8px"></i>Add VS1 User</button>
+{{#if isGreenTrack}}
+<button class="btn btn-success btnLink" type="button" style="margin: 8px;"><i class="fas fa-link" style="margin-right: 8px"></i>Connect To An Accounting Package</button>
+<style>
+.btnLink {
+background-color: #EDEDED !important;
+border-color: #1CC88A !important;
+border-width: 3px !important;
+color: #1CC88A !important;
+font-weight: 500 !important;
+}
+</style>
+{{/if}}
+</div>
+<div class="float-right d-xl-flex flex-row flex-grow-1 justify-content-xl-end">
+<button class="btn btn-primary btnTopGlobalSave" type="button" style="margin: 8px;margin-left: 8px;"><i class="fa fa-save" style="margin-right: 8px;"></i>Save</button>
+<button class="btn btn-secondary btnBack" type="button" style="margin: 8px;"><i class="fa fa-close" style="margin-right: 8px;"></i>Cancel</button>
+</div>
+</div>
 -->
 
         <!--        <div class="row d-xl-flex flex-row align-items-xl-start mb-3" style="width: 100%; margin-bottom: 2em;">-->
@@ -137,7 +157,7 @@
                                         margin-left: 0px;
                                     }
                                     .card {
-/*                                        max-width: min-content;*/
+                                        /*                                        max-width: min-content;*/
                                     }
                                 </style>
                                 <table class="table simplediv">
