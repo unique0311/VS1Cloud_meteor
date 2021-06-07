@@ -1,6 +1,6 @@
- 
- 
- 
+
+
+
 import {ShippingService} from "../shipping/shipping-service";
 import {ReactiveVar} from "meteor/reactive-var";
 
@@ -14,13 +14,6 @@ Template.shippinglist.onCreated(function () {
       templateObject.allCount = new ReactiveVar();
       templateObject.salesorderRecords = new ReactiveVar({});
       templateObject.allSalesOrdersData = new ReactiveVar([]);
-   
-   
-  var $ = require('jquery');
-   ;
-   
-
-
 });
 
 Template.shippinglist.onRendered(function () {
@@ -34,16 +27,10 @@ Template.shippinglist.onRendered(function () {
   let records = [];
   let lineItemObj = {};
 
-  
+
   for(let i=0; i<data.tinvoicebackorder.length; i++){
      let recordObj = {};
      let deleteOption = data.tinvoicebackorder[i].deleted;
-
-     // if(data.tsalesorder[i].deleted == false){
-     //   deleteOption = "F";
-     // }else if(data.tsalesorder[i].deleted == true){
-     //   deleteOption = "T";
-     // }
      recordObj.id = data.tinvoicebackorder[i].Id;
      recordObj.active = data.tinvoicebackorder[i].Deleted;
 
@@ -107,7 +94,7 @@ Template.shippinglist.onRendered(function () {
     $('#shipping_list tbody').on( 'click', 'tr', function () {
         //var listData = table.row( this ).id();
         var listData = $(this).closest('tr').attr('id');
-        
+
         //for(let i=0 ; i<splashArray.length ;i++){
         if(listData){
           window.open('/shipquickInv?id=' + listData,'_self');
@@ -157,7 +144,7 @@ if (!localStorage.getItem('VS1ShippingList')) {
     $('#shipping_list tbody').on( 'click', 'tr', function () {
         //var listData = table.row( this ).id();
         var listData = $(this).closest('tr').attr('id');
-        
+
         //for(let i=0 ; i<splashArray.length ;i++){
         if(listData){
           window.open('/shipquickInv?id=' + listData,'_self');
