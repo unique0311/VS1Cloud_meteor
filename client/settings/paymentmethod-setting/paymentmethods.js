@@ -56,7 +56,7 @@ Template.paymentmethodSettings.onRendered(function() {
 
         templateObject.getOrganisationDetails = function () {
         organisationService.getOrganisationDetail().then((dataListRet) => {
-            let account_id = dataListRet.tcompanyinfo[0].Apcano || '';
+            let account_id = dataListRet.tcompanyinfo.Apcano || '';
             templateObject.accountID.set(account_id);
         });
 
@@ -1215,7 +1215,7 @@ Template.paymentmethodSettings.helpers({
    });
   },
  accountID: () => {
-    return Template.instance().accountID.get();
+    return Template.instance().accountID().get();
  },
   tableheaderrecords: () => {
      return Template.instance().tableheaderrecords.get();
