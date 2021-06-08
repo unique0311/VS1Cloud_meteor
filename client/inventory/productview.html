@@ -450,9 +450,6 @@ $('#chkSellPrice').removeAttr("disabled");
                                                     {{#if equals itemclient itemExtraSell.clienttype }}
                                                     <option value="{{itemExtraSell.clienttype}}" selected="">{{itemExtraSell.clienttype}}</option>
                                                     {{else}}
-                                                    <!-- {{#if equals itemExtraSell.clienttype ''}}
-<option value="" selected=""></option>
-{{/if}} -->
                                                     <option value="{{itemclient}}">{{itemclient}}</option>
                                                     {{/if}}
                                                     {{/each}}

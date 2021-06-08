@@ -14,6 +14,10 @@ Template.paymentmethodSettings.onCreated(function(){
 
   templateObject.includeCreditCard = new ReactiveVar();
   templateObject.includeCreditCard.set(false);
+
+  templateObject.includeAccountID = new ReactiveVar();
+  templateObject.includeAccountID.set(false);
+
   templateObject.accountID = new ReactiveVar();
 });
 
@@ -57,6 +61,12 @@ Template.paymentmethodSettings.onRendered(function() {
         templateObject.getOrganisationDetails = function () {
         organisationService.getOrganisationDetail().then((dataListRet) => {
             let account_id = dataListRet.tcompanyinfo.Apcano || '';
+            if(dataListRet.tcompanyinfo[0].Apcano == ''){
+                templateObject.includeAccountID.set(false);
+            }else{
+              templateObject.includeAccountID.set(true);
+            }
+
             templateObject.accountID.set(account_id);
         });
 
@@ -586,7 +596,7 @@ Template.paymentmethodSettings.onRendered(function() {
         $('.fullScreenSpin').css('display','inline-block');
          url = url.split('?code=');
          var id = url[url.length - 1];
-         
+
          $.ajax({
                 url: 'https://depot.vs1cloud.com/stripe/connect-to-stripe.php',
                 data: {
@@ -599,7 +609,7 @@ Template.paymentmethodSettings.onRendered(function() {
                     const templateObject = Template.instance();
                     let stripe_acc_id = dataReturnRes.stripe_user_id;
                     let companyID = 1;
-        
+
                     var objDetails = {
                         type: "TCompanyInfo",
                         fields: {
@@ -651,7 +661,7 @@ Template.paymentmethodSettings.onRendered(function() {
                     confirmButtonText: 'Try Again'
                     }).then((result) => {
                     if (result.value) {
-                     
+
                     } else if (result.dismiss === 'cancel') {
 
                     }
@@ -664,7 +674,7 @@ Template.paymentmethodSettings.onRendered(function() {
 
 
         $("#saveStripeID").click(function(){
-            
+
         });
 
     })
@@ -700,7 +710,7 @@ if(listData){
    var paymentMethodID = listData || '';
    var paymentMethodName = $(event.target).closest("tr").find(".colName").text() || '';
     // isCreditcard = $(event.target).closest("tr").find(".colName").text() || '';
-   
+
    if($(event.target).closest("tr").find(".colIsCreditCard .chkBox").is(':checked')){
      isCreditcard = true;
    }
@@ -860,7 +870,7 @@ Template.paymentmethodSettings.events({
       let columnDataValue = $(event.target).closest("div").prev().find(".divcolumn").text();
       var datable = $('#paymentmethodList th');
       $.each(datable, function(i,v) {
-        
+
       if(v.innerText == columnDataValue){
           let className = v.className;
           let replaceClass = className.replace(/ /g, ".");
@@ -873,7 +883,7 @@ Template.paymentmethodSettings.events({
     'click .btnOpenSettings' : function(event){
       let templateObject = Template.instance();
       var columns = $('#paymentmethodList th');
-      
+
       const tableHeaderList = [];
       let sTible = "";
       let sWidth = "";
@@ -889,7 +899,7 @@ Template.paymentmethodSettings.events({
           columVisible = false;
         }
         sWidth = v.style.width.replace('px', "");
-        
+
         let datatablerecordObj = {
           sTitle: v.innerText || '',
           sWidth: sWidth || '',
@@ -1101,7 +1111,7 @@ Template.paymentmethodSettings.events({
     });
    }
 
-   
+
 
 
   },
@@ -1151,6 +1161,9 @@ deptrecords: () => {
     }
   return (a.department.toUpperCase() > b.department.toUpperCase()) ? 1 : -1;
   });
+},
+includeAccountID: () => {
+    return Template.instance().includeAccountID.get();
 },
 includeCreditCard: () => {
     return Template.instance().includeCreditCard.get();

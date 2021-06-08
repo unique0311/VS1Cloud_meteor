@@ -217,6 +217,7 @@ Template.header.onRendered(function(){
 
               $('#tblSearchOverview').DataTable({
                     data :  splashArrayList,
+                    "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
                     paging: true,
                     "aaSorting": [],
                     "orderMulti": true,
@@ -411,7 +412,7 @@ Template.header.onRendered(function(){
 
   }else{
     if(localStorage.getItem('vs1LoggedEmployeeImages_dash') == ''){
-      
+
     }else{
       let pictureData = localStorage.getItem('vs1LoggedEmployeeImages_dash');
       $('.img-profile').attr('src', 'data:image/jpeg;base64,'+pictureData);

@@ -340,7 +340,24 @@ Template.registerdb.events({
   if(myArrResponse.ProcessLog.Error){
     var segError = myArrResponse.ProcessLog.Error;
     if((segError) == dataTocheck){
-        swal('Email Already Exists', "We see that your email address '"+userEmail+"' is already linked with a VS1 Cloud account. <br> Please log into VS1 Cloud and make your purchase from the Settings module.", 'info');
+      swal({
+        title: 'Email Already Exists',
+        html: true,
+        html: "We see that your email address '"+userEmail+"' is already linked with a VS1 Cloud account. <br> Please log into VS1 Cloud and make your purchase from the Settings module.",
+        type: 'info',
+        showCancelButton: true,
+        confirmButtonText: 'Login',
+        cancelButtonText: 'OK'
+        }).then((result) => {
+        if (result.value) {
+          localStorage.usremail = userEmail;
+          localStorage.usrpassword = cloudpassword;
+          window.open('/','_self');
+        } else if (result.dismiss === 'cancel') {
+
+        }
+      });
+        // swal('Email Already Exists', "We see that your email address '"+userEmail+"' is already linked with a VS1 Cloud account. <br> Please log into VS1 Cloud and make your purchase from the Settings module.", 'info');
     }else{
         swal('Database Error', myArrResponse.ProcessLog.Error, 'error');
     }

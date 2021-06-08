@@ -16,6 +16,13 @@ export class ProductService extends BaseService {
         };
         return this.getList(this.ERPObjects.TProductSalesDetailsReport, options);
     }
+        getAllProductExtraSell(){
+          let options = {
+            PropertyList: "ID,ClientTypeName,Price1,ProductName",
+            select: "[Active]=true"
+            };
+            return this.getList(this.ERPObjects.TProduct, options);
+        }
 
     getProductRecentTransactions(productID) {
         let options = {
@@ -186,10 +193,10 @@ export class ProductService extends BaseService {
     }
 
     getClientTypeData() {
-        let options = {
-            PropertyList: "ID,TypeName,",
-        };
-        return this.getList(this.ERPObjects.TClientType, options);
+      let options = {
+          ListType: "Detail",
+      };
+      return this.getList(this.ERPObjects.TClientType, options);
     }
 
     saveClientTypeData(data) {

@@ -57,7 +57,7 @@ Template.refundcard.onCreated(()=>{
     templateObject.abn = new ReactiveVar();
     templateObject.referenceNumber = new ReactiveVar();
     templateObject.statusrecords = new ReactiveVar([]);
-
+    templateObject.productextrasellrecords = new ReactiveVar([]);
 
     setTimeout(function () {
 
@@ -214,7 +214,8 @@ Template.refundcard.onRendered(()=>{
                             statecode : data.tcustomervs1[i].State +' '+data.tcustomervs1[i].Postcode || ' ',
                             country : data.tcustomervs1[i].Country || ' ',
                             termsName : data.tcustomervs1[i].TermsName || '',
-                            taxCode: data.tcustomervs1[i].TaxCodeName || ''
+                            taxCode: data.tcustomervs1[i].TaxCodeName || '',
+                            clienttypename: data.tcustomervs1[i].ClientTypeName||''
                         };
 
                         clientList.push(customerrecordObj);
@@ -261,7 +262,8 @@ Template.refundcard.onRendered(()=>{
                         statecode : useData[i].fields.State +' '+useData[i].fields.Postcode || ' ',
                         country : useData[i].fields.Country || ' ',
                         termsName :  useData[i].fields.TermsName || '',
-                        taxCode: useData[i].fields.TaxCodeName || ''
+                        taxCode: useData[i].fields.TaxCodeName || '',
+                        clienttypename: useData[i].fields.ClientTypeName||''
                     };
 
                     clientList.push(customerrecordObj);
@@ -304,7 +306,8 @@ Template.refundcard.onRendered(()=>{
                         suburb : data.tcustomervs1[i].Suburb || ' ',
                         statecode : data.tcustomervs1[i].State +' '+data.tcustomervs1[i].Postcode || ' ',
                         country : data.tcustomervs1[i].Country || ' ',
-                        termsName : data.tcustomervs1[i].TermsName || ''
+                        termsName : data.tcustomervs1[i].TermsName || '',
+                        clienttypename: data.tcustomervs1[i].ClientTypeName||''
                     };
 
                     clientList.push(customerrecordObj);
@@ -836,7 +839,7 @@ Template.refundcard.onRendered(()=>{
         let selectLineID = $('#selectLineID').val();
         let taxcodeList = templateObject.taxraterecords.get();
         let customers = templateObject.clientrecords.get();
-
+        let productExtraSell = templateObject.productextrasellrecords.get();
 
         var table = $(this);
         let utilityService = new UtilityService();
@@ -867,6 +870,12 @@ Template.refundcard.onRendered(()=>{
             let lineProductDesc = table.find(".productDesc").text();
             let lineUnitPrice = table.find(".salePrice").text();
 
+            let filterProdExtraSellData =  _.filter(productExtraSell, function (dataProdExtra) {
+                return ((dataProdExtra.productname == lineProductName) && (dataProdExtra.clienttype == getCustDetails[0].clienttypename));
+            });
+            if(filterProdExtraSellData.length > 0){
+              lineUnitPrice = filterProdExtraSellData[0].price || 0;
+            }
             let lineAmount = 0;
             let subGrandTotal = 0;
             let taxGrandTotal = 0;
@@ -1118,6 +1127,7 @@ Template.refundcard.onRendered(function(){
     var splashArrayProductList = new Array();
     var splashArrayTaxRateList = new Array();
     const taxCodesList = [];
+        const lineExtaSellItems = [];
     tempObj.getAllProducts = function () {
         getVS1Data('TProductVS1').then(function (dataObject) {
             if(dataObject.length == 0){
@@ -1198,10 +1208,22 @@ Template.refundcard.onRendered(function(){
                         useData[i].fields.TotalQtyInStock,
                         useData[i].fields.TaxCodeSales || ''];
 
+                        if(useData[i].fields.ExtraSellPrice != null){
+                          for(let e=0; e<useData[i].fields.ExtraSellPrice.length; e++){
+                            let lineExtaSellObj = {
+                               clienttype: useData[i].fields.ExtraSellPrice[e].fields.ClientTypeName || '',
+                               productname: useData[i].fields.ExtraSellPrice[e].fields.ProductName || useData[i].fields.ProductName,
+                               price: utilityService.modifynegativeCurrencyFormat(useData[i].fields.ExtraSellPrice[e].fields.Price1) || 0
+                           };
+                           lineExtaSellItems.push(lineExtaSellObj);
+
+                          }
+                        }
+
                     splashArrayProductList.push(dataList);
                 }
                 localStorage.setItem('VS1SalesProductList', JSON.stringify(splashArrayProductList));
-
+                tempObj.productextrasellrecords.set(lineExtaSellItems);
                 if(splashArrayProductList){
 
                     $('#tblInventory').dataTable({
@@ -1812,6 +1834,11 @@ Template.refundcard.events({
         }
     },
     'click .lineProductName' : function(event){
+      let customername = $('#edtCustomerName').val();
+      if (customername === '') {
+          swal('Customer has not been selected!', '', 'warning');
+          event.preventDefault();
+      }else{
         $('#tblInvoiceLine tbody tr .lineProductName').attr("data-toggle","modal");
         $('#tblInvoiceLine tbody tr .lineProductName').attr("data-target","#productListModal");
         var targetID = $(event.target).closest('tr').attr('id');
@@ -1819,6 +1846,7 @@ Template.refundcard.events({
         setTimeout(function () {
             $('#tblInventory_filter .form-control-sm').focus();
         }, 500);
+      }
     },
     'click #productListModal #refreshpagelist':function(){
         $('.fullScreenSpin').css('display','inline-block');
