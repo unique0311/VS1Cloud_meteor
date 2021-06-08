@@ -4,6 +4,7 @@ import { CoreService } from '../js/core-service';
 import { DashBoardService } from "../Dashboard/dashboard-service";
 import { UtilityService } from "../utility-service";
 import { ProductService } from "../product/product-service";
+import {OrganisationService} from '../js/organisation-service';
 import '../lib/global/erp-objects';
 import 'jquery-ui-dist/external/jquery/jquery';
 import 'jquery-ui-dist/jquery-ui';
@@ -48,7 +49,7 @@ Template.new_quote.onCreated(() => {
     templateObject.clientrecords = new ReactiveVar([]);
     templateObject.taxraterecords = new ReactiveVar([]);
     templateObject.record = new ReactiveVar({});
-
+    templateObject.accountID = new ReactiveVar();
 
     templateObject.uploadedFile = new ReactiveVar();
     templateObject.uploadedFiles = new ReactiveVar([]);
@@ -71,6 +72,7 @@ Template.new_quote.onRendered(() => {
     let clientsService = new SalesBoardService();
     let productsService = new SalesBoardService();
     let accountService = new SalesBoardService();
+    let organisationService = new OrganisationService();
     const clientList = [];
     const productsList = [];
     const accountsList = [];
@@ -270,6 +272,15 @@ Template.new_quote.onRendered(() => {
             });
         });
     };
+
+    templateObject.getOrganisationDetails = function () {
+        organisationService.getOrganisationDetail().then((dataListRet) => {
+            let account_id = dataListRet.tcompanyinfo[0].Apcano || '';
+            templateObject.accountID.set(account_id);
+        });
+
+    }
+    templateObject.getOrganisationDetails();
 
     templateObject.getAllLeadStatuss = function () {
         getVS1Data('TLeadStatusType').then(function (dataObject) {
@@ -471,6 +482,8 @@ Template.new_quote.onRendered(() => {
                                             templateObject.quoterecord.set(quoterecord);
                                             $('#edtCustomerEmail').val(clientList[i].customeremail);
                                             $('#edtCustomerEmail').attr('customerid', clientList[i].customerid);
+                                            $('#edtCustomerEmail').attr('customerfirstname', clientList[i].firstname);
+                                            $('#edtCustomerEmail').attr('customerlastname', clientList[i].lastname);
                                         }
                                     }
                                 };
@@ -718,6 +731,8 @@ Template.new_quote.onRendered(() => {
                                                 templateObject.quoterecord.set(quoterecord);
                                                 $('#edtCustomerEmail').val(clientList[i].customeremail);
                                                 $('#edtCustomerEmail').attr('customerid', clientList[i].customerid);
+                                                $('#edtCustomerEmail').attr('customerfirstname', clientList[i].firstname);
+                                                $('#edtCustomerEmail').attr('customerlastname', clientList[i].lastname);
                                             }
                                         }
                                     };
@@ -898,6 +913,8 @@ Template.new_quote.onRendered(() => {
                                             if (clientList[i].customername == data.fields.CustomerName) {
                                                 $('#edtCustomerEmail').val(clientList[i].customeremail);
                                                 $('#edtCustomerEmail').attr('customerid', clientList[i].customerid);
+                                                $('#edtCustomerEmail').attr('customerfirstname', clientList[i].firstname);
+                                                $('#edtCustomerEmail').attr('customerlastname', clientList[i].lastname);
                                             }
                                         }
                                     }
@@ -1137,6 +1154,8 @@ Template.new_quote.onRendered(() => {
                                         quoterecord.lastname = clientList[i].lastname || '';
                                         $('#edtCustomerEmail').val(clientList[i].customeremail);
                                         $('#edtCustomerEmail').attr('customerid', clientList[i].customerid);
+                                        $('#edtCustomerEmail').attr('customerfirstname', clientList[i].firstname);
+                                        $('#edtCustomerEmail').attr('customerlastname', clientList[i].lastname);
                                     }
                                 }
                             }
@@ -1514,6 +1533,8 @@ Template.new_quote.onRendered(() => {
                                         templateObject.quoterecord.set(quoterecord);
                                         $('#edtCustomerEmail').val(clientList[i].customeremail);
                                         $('#edtCustomerEmail').attr('customerid', clientList[i].customerid);
+                                        $('#edtCustomerEmail').attr('customerfirstname', clientList[i].firstname);
+                                        $('#edtCustomerEmail').attr('customerlastname', clientList[i].lastname);
                                     }
                                 }
                             };
@@ -1725,6 +1746,8 @@ Template.new_quote.onRendered(() => {
                                             templateObject.quoterecord.set(quoterecord);
                                             $('#edtCustomerEmail').val(clientList[i].customeremail);
                                             $('#edtCustomerEmail').attr('customerid', clientList[i].customerid);
+                                            $('#edtCustomerEmail').attr('customerfirstname', clientList[i].firstname);
+                                            $('#edtCustomerEmail').attr('customerlastname', clientList[i].lastname);
                                         }
                                     }
                                 };
@@ -1909,6 +1932,8 @@ Template.new_quote.onRendered(() => {
                                             templateObject.quoterecord.set(quoterecord);
                                             $('#edtCustomerEmail').val(clientList[i].customeremail);
                                             $('#edtCustomerEmail').attr('customerid', clientList[i].customerid);
+                                            $('#edtCustomerEmail').attr('customerfirstname', clientList[i].firstname);
+                                            $('#edtCustomerEmail').attr('customerlastname', clientList[i].lastname);
                                         }
                                     }
                                 };
@@ -2116,6 +2141,9 @@ Template.new_quote.onRendered(() => {
                                     templateObject.quoterecord.set(quoterecord);
                                     $('#edtCustomerEmail').val(clientList[i].customeremail);
                                     $('#edtCustomerEmail').attr('customerid', clientList[i].customerid);
+                                    $('#edtCustomerEmail').attr('customerfirstname', clientList[i].firstname);
+                                    $('#edtCustomerEmail').attr('customerlastname', clientList[i].lastname);
+
                                 }
                             }
                         };
@@ -2854,6 +2882,7 @@ Template.new_quote.onRendered(() => {
             width: 100
         };
         let quoteData = templateObject.quoterecord.get();
+        let stripe_id = templateObject.accountID.get() || '';
         let lineItems = [];
         let total = $('#grandTotal').html() || 0;
         let tax = $('#subtotal_tax').html() || 0;
@@ -2891,7 +2920,7 @@ Template.new_quote.onRendered(() => {
         for (let l = 0; l < lineItems.length; l++) {
             stringQuery = stringQuery + "product" + l + "=" + lineItems[l].description + "&price" + l + "=" + lineItems[l].unitPrice + "&qty" + l + "=" + lineItems[l].quantity + "&";
         }
-        stringQuery = stringQuery + "tax=" + tax + "&total=" + total + "&customer=" + customer + "&name=" + name + "&surname=" + surname + "&quoteid=" + quoteData.id + "&company=" + company + "&vs1email=" + vs1User + "&customeremail=" + customerEmail + "&type=Quote&url=" + window.location.href + "&server=" + erpGet.ERPIPAddress + "&username=" + erpGet.ERPUsername + "&token=" + erpGet.ERPPassword + "&session=" + erpGet.ERPDatabase + "&port=" + erpGet.ERPPort;;
+        stringQuery = stringQuery + "tax=" + tax + "&total=" + total + "&customer=" + customer + "&name=" + name + "&surname=" + surname + "&quoteid=" + quoteData.id +"&transid="+stripe_id+"&company=" + company + "&vs1email=" + vs1User + "&customeremail=" + customerEmail + "&type=Quote&url=" + window.location.href + "&server=" + erpGet.ERPIPAddress + "&username=" + erpGet.ERPUsername + "&token=" + erpGet.ERPPassword + "&session=" + erpGet.ERPDatabase + "&port=" + erpGet.ERPPort;;
         var pdf = new jsPDF('p', 'pt', 'a4');
 
 
@@ -4168,6 +4197,7 @@ Template.new_quote.events({
 
         let templateObject = Template.instance();
         let quoteData = templateObject.quoterecord.get();
+        let stripe_id = templateObject.accountID.get();
         let lineItems = [];
         let customername = $('#edtCustomerName');
         let name = $('#edtCustomerEmail').attr('customerfirstname');
@@ -4318,7 +4348,7 @@ Template.new_quote.events({
                     stringQuery = stringQuery + "product" + l + "=" + lineItemsForm[l].fields.ProductName + "&price" + l + "=" + lineItemsForm[l].fields.LinePrice + "&qty" + l + "=" + lineItemsForm[l].fields.UOMQtySold + "&";
                 }
 
-                stringQuery = stringQuery + "tax=" + tax + "&total=" + total + "&customer=" + customer + "&name=" + name + "&surname=" + surname + "&quoteid=" + quoteData.id + "&company=" + company + "&vs1email=" + vs1User + "&customeremail=" + customerEmail + "&type=Quote&url=" + window.location.href + "&server=" + erpGet.ERPIPAddress + "&username=" + erpGet.ERPUsername + "&token=" + erpGet.ERPPassword + "&session=" + erpGet.ERPDatabase + "&port=" + erpGet.ERPPort;
+                stringQuery = stringQuery + "tax=" + tax + "&total=" + total + "&customer=" + customer + "&name=" + name + "&surname=" + surname + "&quoteid=" + quoteData.id + "&transid="+stripe_id +"&company=" + company + "&vs1email=" + vs1User + "&customeremail=" + customerEmail + "&type=Quote&url=" + window.location.href + "&server=" + erpGet.ERPIPAddress + "&username=" + erpGet.ERPUsername + "&token=" + erpGet.ERPPassword + "&session=" + erpGet.ERPDatabase + "&port=" + erpGet.ERPPort;
 
 
                 $('#html-2-pdfwrapper').css('display', 'block');
@@ -5038,6 +5068,9 @@ Template.new_quote.events({
         }
     },
     'click .payNow': function () {
+        let templateObject = Template.instance();
+        let stripe_id = templateObject.accountID.get() || '';
+        if(stripe_id != ""){
         var url = window.location.href;
         var id_available = url.includes("?id=");
         if (id_available == true) {
@@ -5079,17 +5112,17 @@ Template.new_quote.events({
             for (let l = 0; l < lineItems.length; l++) {
                 stringQuery = stringQuery + "product" + l + "=" + lineItems[l].description + "&price" + l + "=" + lineItems[l].unitPrice + "&qty" + l + "=" + lineItems[l].quantity + "&";
             }
-            stringQuery = stringQuery + "tax=" + tax + "&total=" + total + "&customer=" + customer + "&name=" + name + "&surname=" + surname + "&quoteid=" + quoteData.id + "&company=" + company + "&vs1email=" + vs1User + "&customeremail=" + customerEmail + "&type=Quote&url=" + window.location.href + "&server=" + erpGet.ERPIPAddress + "&username=" + erpGet.ERPUsername + "&token=" + erpGet.ERPPassword + "&session=" + erpGet.ERPDatabase + "&port=" + erpGet.ERPPort;
+            stringQuery = stringQuery + "tax=" + tax + "&total=" + total + "&customer=" + customer + "&name=" + name + "&surname=" + surname + "&quoteid=" + quoteData.id + "&transid="+stripe_id + "&company=" + company + "&vs1email=" + vs1User + "&customeremail=" + customerEmail + "&type=Quote&url=" + window.location.href + "&server=" + erpGet.ERPIPAddress + "&username=" + erpGet.ERPUsername + "&token=" + erpGet.ERPPassword + "&session=" + erpGet.ERPDatabase + "&port=" + erpGet.ERPPort;
             window.open("https://www.depot.vs1cloud.com/stripe/" + stringQuery, '_self');
 
         } else {
-        let templateObject = Template.instance();
-        let quoteData = templateObject.quoterecord.get();
-        let lineItems = [];
-        let customername = $('#edtCustomerName');
-        let name = $('#edtCustomerEmail').attr('customerfirstname');
-        let surname = $('#edtCustomerEmail').attr('customerlastname');
-        let salesService = new SalesBoardService();
+            let templateObject = Template.instance();
+            let quoteData = templateObject.quoterecord.get();
+            let lineItems = [];
+            let customername = $('#edtCustomerName');
+            let name = $('#edtCustomerEmail').attr('customerfirstname');
+            let surname = $('#edtCustomerEmail').attr('customerlastname');
+            let salesService = new SalesBoardService();
         if (customername.val() === '') {
             swal('Customer has not been selected!', '', 'warning');
             e.preventDefault();
@@ -5235,7 +5268,7 @@ Template.new_quote.events({
                     stringQuery = stringQuery + "product" + l + "=" + lineItemsForm[l].fields.ProductName + "&price" + l + "=" + lineItemsForm[l].fields.LinePrice + "&qty" + l + "=" + lineItemsForm[l].fields.UOMQtySold + "&";
                 }
 
-                stringQuery = stringQuery + "tax=" + tax + "&total=" + total + "&customer=" + customer + "&name=" + name + "&surname=" + surname + "&quoteid=" + quoteData.id + "&company=" + company + "&vs1email=" + vs1User + "&customeremail=" + customerEmail + "&type=Quote&url=" + window.location.href + "&server=" + erpGet.ERPIPAddress + "&username=" + erpGet.ERPUsername + "&token=" + erpGet.ERPPassword + "&session=" + erpGet.ERPDatabase + "&port=" + erpGet.ERPPort;
+                stringQuery = stringQuery + "tax=" + tax + "&total=" + total + "&customer=" + customer + "&name=" + name + "&surname=" + surname + "&quoteid=" + quoteData.id + "&transid="+stripe_id + "&company=" + company + "&vs1email=" + vs1User + "&customeremail=" + customerEmail + "&type=Quote&url=" + window.location.href + "&server=" + erpGet.ERPIPAddress + "&username=" + erpGet.ERPUsername + "&token=" + erpGet.ERPPassword + "&session=" + erpGet.ERPDatabase + "&port=" + erpGet.ERPPort;
 
 
                 $('#html-2-pdfwrapper').css('display', 'block');
@@ -5502,6 +5535,21 @@ Template.new_quote.events({
         }
 
         }
+    } else{
+        swal({
+                title: 'WARNING',
+                text: "Don't have a Stripe account yet, Please click Ok to set up Stripe.",
+                type: 'warning',
+                showCancelButton: false,
+                confirmButtonText: 'OK'
+            }).then((result) => {
+                if (result.value) {
+                    window.open('paymentmethodSettings','_self');
+                } else if (result.dismiss === 'cancel') {
+
+                }
+            });
+    }
     },
     'click #btnPayment': function () {
 
