@@ -7,7 +7,27 @@
         <form>
             <header style="padding: 16px; padding-right: 0px;background-color: #ededed;margin-top: -24px;padding-bottom: 0px;">
                 <input type="hidden" id="h1" name="id">
-                <h1 class="heading" style="margin: 16px;margin-bottom: 0px;">{{chequerecord.lid}}  <a role="button" data-toggle="modal" href="#helpModal" class="helpModal"><label class="lblplay">PLAY</label><i class="far fa-play-circle"  style="font-size: 20px;"></i></a>  <a class="btn" role="button" data-toggle="modal" href="#myModal4" style="float: right;"><i class="icon ion-android-more-horizontal"></i></a><!--<button class="btn float-right" type="button" id="btnCustomFileds" name="btnCustomFileds"><i class="icon ion-android-more-horizontal"></i></button>--></h1>
+                <h1 class="heading" style="margin: 16px;margin-bottom: 0px;">{{chequerecord.lid}}  
+
+                    <a role="button" data-toggle="modal" href="#helpViewModal" class=""><label class="lblplay">Help</label><i class="fa fa-question-circle-o"  style="font-size: 20px;"></i></a>
+
+                    <div class="modal fade" role="dialog" tabindex="-1" id="helpViewModal">
+                        <div class="modal-dialog modal-sm" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header" style="padding-bottom: 8px;">
+                                    <h4>Help</h4><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button></div>
+                                <div class="modal-body">
+                                    <p class="text-center text-muted"><a role="button" data-toggle="modal" href="#helpModal" class="btn btn-primary helpModal">View Help Video</a></p>
+                                    <p class="text-center text-muted"><a href="https://vs1forum.com/" target="_blank" class="btn btn-primary">Download Help File</a></p>
+                                    <p class="text-center text-muted"><button class="btn btn-primary" type="button">Employ Advisor</button></p>
+                                    <p class="text-center text-muted" style="margin: 0px;"><a href="https://vs1forum.com/ucp.php?mode=register&cloudusername={{loggedCompany}}" target="_blank" class="btn btn-primary">Go To Forum</a></p>
+                                </div>
+                                <div class="modal-footer" style="padding: 6px;"><button class="btn btn-light" data-dismiss="modal" type="button">Close</button></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <a class="btn" role="button" data-toggle="modal" href="#myModal4" style="float: right;"><i class="icon ion-android-more-horizontal"></i></a><!--<button class="btn float-right" type="button" id="btnCustomFileds" name="btnCustomFileds"><i class="icon ion-android-more-horizontal"></i></button>--></h1>
                 <div class="printID" id="{{chequerecord.id}}" style="display: none;">{{chequerecord.id}}</div>
             </header>
             <!-- Start {{> optionCustomFiled}} -->
@@ -802,7 +822,7 @@
                 </button>
                 <a class="btn btn-primary" role="button" style="margin: 16px;margin-top: 0px; width: 180px" data-toggle="modal" href="#myModalAttachment" id="btn_Attachment" name="btn_Attachment">
                     {{#if attachmentCount}}
-                        <span id="attachment-count">{{attachmentCount}}</span>
+                    <span id="attachment-count">{{attachmentCount}}</span>
                     {{/if}}
                     <i class="fa fa-paperclip" style="padding-right: 8px;"></i>Add Attachments
                 </a>
@@ -882,7 +902,7 @@
                 </div>
             </div>
             <hr>
-         <div style="display: flex;">
+            <div style="display: flex;">
                 <div style="margin: 8px;min-width: 100mm;max-width: 100mm;width: 100mm;">
                     <h4 style="font-size: 20px;font-weight: bold; color: rgb(0 0 0);">Comments</h4>
                     <p style="color: rgb(0 0 0);">{{chequerecord.comments}}</p>
@@ -922,7 +942,7 @@
             </div>
             <span style="font-size: 10px;margin-right: 8px; float: right;">Page 1 of 1</span>
         </div>
-        
+
         <!--Letter -->
         <div style="width: 216mm;background-color: #ffffff;padding: 8px;height: 279mm; font-size: 13.33px; display:none; color: #000000;" id="html-2-pdfwrapperLetter" name="html-2-pdfwrapperLetter" >
             <div class="d-xl-flex align-items-xl-start" style="height: 100%;">
