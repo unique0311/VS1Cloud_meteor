@@ -2991,7 +2991,7 @@ Template.chequecard.events({
                         let checkEmailData = $('#edtSupplierEmail').val();
                         let grandtotal = $('#grandTotal').html();
                         let amountDueEmail = $('#totalBalanceDue').html();
-                        let emailDueDate = $("#dtDueDate").val();
+                        let emailDueDate = $("#dtSODate").val();
                         let mailSubject = 'Cheque ' + erpInvoiceId + ' from ' + mailFromName + ' for ' + customerEmailName;
                         let mailBody = "Hi " + customerEmailName + ",\n\n Here's Cheque " + erpInvoiceId + " for  " + grandtotal + "." +
                             "\n\nThe amount outstanding of " + amountDueEmail + " is due on " + emailDueDate + "." +
