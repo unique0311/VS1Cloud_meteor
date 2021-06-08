@@ -664,89 +664,7 @@ Template.paymentmethodSettings.onRendered(function() {
 
 
         $("#saveStripeID").click(function(){
-          if($('#stripeAccID').val() != ""){
-                var id = $('#stripeAccID').val();
-                $.ajax({
-                url: 'http://127.0.0.1/stripe/create-account-link.php',
-                data: {
-                    'code': id,
-                },
-                method: 'post',
-                success: function(response) {
-                  if(response.stripe_user_id){
-                    const templateObject = Template.instance();
-                    let stripe_acc_id = response.stripe_user_id;
-                    let companyID = 1;
-        
-                    var objDetails = {
-                        type: "TCompanyInfo",
-                        fields: {
-                            Id: companyID,
-                            Apcano:stripe_acc_id
-                        }
-                    };
-                  organisationService.saveOrganisationSetting(objDetails).then(function (data){
-                    $('.fullScreenSpin').css('display','none');
-                    swal({
-                    title: 'Stripe Connection Successful',
-                    text: "Your stripe account connection is successful",
-                    type: 'success',
-                    showCancelButton: false,
-                    confirmButtonText: 'Ok'
-                    }).then((result) => {
-                    if (result.value) {
-                      //window.open('/paymentmethodSettings','_self');
-                    } else if (result.dismiss === 'cancel') {
-                     // window.open('/paymentmethodSettings','_self');
-                    }else{
-                        //window.open('/paymentmethodSettings','_self');
-                    }
-                    });
-                 }).catch(function (err) {
-                        $('.fullScreenSpin').css('display','none');
-                          swal({
-                            title: 'Stripe Connection Successful',
-                            text: err,
-                            type: 'error',
-                            showCancelButton: false,
-                            confirmButtonText: 'Try Again'
-                          }).then((result) => {
-                            if (result.value) {
-                              // Meteor._reload.reload();
-                            } else if (result.dismiss === 'cancel') {
-
-                            }
-                          });
-                      })
-
-                  } else{
-                    $('.fullScreenSpin').css('display','none');
-                     swal({
-                    title: 'Something went wrong',
-                    text: response,
-                    type: 'error',
-                    showCancelButton: false,
-                    confirmButtonText: 'Try Again'
-                    }).then((result) => {
-                    if (result.value) {
-                     
-                    } else if (result.dismiss === 'cancel') {
-
-                    }
-                    });
-                  }
-                 }
-            });
-          }else {
-            $('.fullScreenSpin').css('display','none');
-                    swal({
-                    title: 'Stripe Acount ID Required',
-                    text: "Please enter stripe account ID",
-                    type: 'warning',
-                    showCancelButton: false,
-                    confirmButtonText: 'Ok'
-                    })
-          }
+            
         });
 
     })
@@ -1215,7 +1133,7 @@ Template.paymentmethodSettings.helpers({
    });
   },
  accountID: () => {
-    return Template.instance().accountID().get();
+    return Template.instance().accountID.get();
  },
   tableheaderrecords: () => {
      return Template.instance().tableheaderrecords.get();

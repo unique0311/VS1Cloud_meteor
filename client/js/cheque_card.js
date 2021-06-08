@@ -2979,7 +2979,7 @@ Template.chequecard.events({
                         var base64data = reader.result;
                         base64data = base64data.split(',')[1];
                         pdfObject = {
-                            filename: 'Bill ' + invoiceId + '.pdf',
+                            filename: 'Cheque ' + invoiceId + '.pdf',
                             content: base64data,
                             encoding: 'base64'
                         };
