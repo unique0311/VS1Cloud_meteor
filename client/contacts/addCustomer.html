@@ -1089,7 +1089,7 @@ value="{{record.tfn}}"></div> -->
                                                                     </div>
                                                                     <div class="form-group d-xl-flex flex-column justify-content-xl-start" style="margin: 4px;"><label class="text-nowrap">Terms</label>
                                                                         <select class="form-control termsSelect" style="width: 260px; cursor: pointer;" id="sltTerms" name="sltTerms">
-                                                                          {{record.terms}}
+                                                                            {{record.terms}}
                                                                             {{#each item in termsList}}
                                                                             {{#if equals item record.terms }}
                                                                             <option value="{{record.terms}}" selected="">{{record.terms}}</option>
@@ -1111,6 +1111,11 @@ value="{{record.tfn}}"></div> -->
                                                                             {{/each}}
 
                                                                         </select>
+
+                                                                    </div>
+
+                                                                    <div class="form-group d-xl-flex flex-column justify-content-xl-start" style="margin: 4px;"><label class="text-nowrap">% Discount</label>
+                                                                        <input type="text" class="form-control pointer" id="" name="" value="" readonly>
 
                                                                     </div>
                                                                 </div>

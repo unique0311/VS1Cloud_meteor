@@ -174,6 +174,14 @@
                             <select type="search" class="form-control" id="edtCustomerName" name="edtCustomerName" style="background-color:rgb(255, 255, 255); cursor: pointer;">
                             </select>
                         </div>
+                        <div class="custom-control custom-control-inline custom-switch d-xl-flex align-items-xl-center" style="padding: -2px;padding-left: 1px;width: 100%;">
+                            <div class="form-group" style="width:50%;">
+                                <label id="customerType" class="customerType">Customer Type</label>
+                            </div>
+                            <div class="form-group" style="width:50%;">
+                                <label id="customerDiscount" class="customerDiscount">% Discount</label>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="col-auto colSupplierEmail" id="colSupplierEmail">
@@ -207,7 +215,7 @@
                     width: 100%;
                 }
             </style>
-            <div class="row" style="background-color: #ededed;padding: 32px;">
+            <div class="row" style="background-color: #ededed;padding: 32px; padding-top: 0px; padding-bottom: 16px;">
                 <div class="col-auto colBillingAddress" id="colBillingAddress">
                     <div style="margin: 16px 0px;">
                         <div class="form-group billaddressfield fieldwidth" id="fieldwidth"><label>Billing Address</label>
@@ -828,10 +836,12 @@ style="margin: 16px;margin-top: 0px;width: 95px;"><i class="fa fa-remove" style=
                     <div style="float: right;">
                         <div class="d-flex d-xl-flex flex-row justify-content-xl-end align-items-xl-center">
                             <div class="d-xl-flex flex-column justify-content-xl-end align-items-xl-end">
+                                <p class="lead" style="font-size: 25px; font-weight: 500; margin: 0px; color: #696969;">Discount</p>
                                 <p class="lead" style="font-size: 25px; font-weight: 500; margin: 0px; color: #696969;">Subtotal</p>
                                 <p class="lead" style="font-size: 25px; margin: 0px; font-weight: 500; color: #696969;">Tax</p>
                             </div>
                             <div class="d-xl-flex flex-column justify-content-xl-end align-items-xl-end" style="padding-left: 20px;">
+                                <p class="lead" style="font-size: 25px; font-weight: 500; margin: 0px; color: #696969;" id="subtotal_discount" name="subtotal_discount">%</p>
                                 <p class="lead" style="font-size: 25px; font-weight: 500; margin: 0px; color: #696969;" id="subtotal_total" name="subtotal_total">{{salesorderrecord.SubTotal}}</p>
                                 <p class="lead" style="font-size: 25px; margin: 0px; font-weight: 500; color: #696969;" id="subtotal_tax" name="subtotal_tax">{{salesorderrecord.TotalTax}}</p>
                             </div>

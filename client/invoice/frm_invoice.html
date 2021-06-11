@@ -8,7 +8,7 @@
             <header style="padding: 16px; padding-right: 0px;background-color: #ededed;margin-top: -24px;padding-bottom: 0px;">
                 <h1 style="margin: 16px;margin-bottom: 0px;">{{invoicerecord.lid}}   <a role="button" data-toggle="modal" href="#helpViewModal" class=""><label class="lblplay">Help</label><i class="fa fa-question-circle-o"  style="font-size: 20px;"></i></a> <a class="btn" role="button" data-toggle="modal" href="#myModal4" style="float: right;"><i class="icon ion-android-more-horizontal"></i></a><!--<button class="btn float-right" type="button" id="btnCustomFileds" name="btnCustomFileds"><i class="icon ion-android-more-horizontal"></i></button>--></h1>
             </header>
-            
+
             <div class="modal fade" role="dialog" tabindex="-1" id="helpViewModal">
                 <div class="modal-dialog modal-sm" role="document">
                     <div class="modal-content">
@@ -24,7 +24,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <!-- Start {{> optionCustomFiled}} -->
             <div class="modal fade" role="dialog" tabindex="-1" id="myModal4">
                 <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
@@ -73,7 +73,7 @@
                                 </form>
                             </div>
                         </div>
-                        
+
                         <div class="modal-footer">
                             <button class="btn btn-success btnSaveSettings" type="button"><i class="fa fa-save" style="margin-right: 5px;"></i>Save</button>
                             <button class="btn btn-warning btnResetSettings" data-dismiss="modal" type="reset"><i class="fa fa-repeat" style="margin-right: 5px;"></i>Reset</button>
@@ -175,6 +175,14 @@
                             <select type="search" class="form-control" id="edtCustomerName" name="edtCustomerName" style="background-color:rgb(255, 255, 255); cursor: pointer;">
                             </select>
                         </div>
+                        <div class="custom-control custom-control-inline custom-switch d-xl-flex align-items-xl-center" style="padding: -2px;padding-left: 1px;width: 100%;">
+                            <div class="form-group" style="width:50%;">
+                                <label id="customerType" class="customerType">Customer Type</label>
+                            </div>
+                            <div class="form-group" style="width:50%;">
+                                <label id="customerDiscount" class="customerDiscount">% Discount</label>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="col-auto colSupplierEmail" id="colSupplierEmail">
@@ -208,7 +216,7 @@
                     width: 100%;
                 }
             </style>
-            <div class="row" style="background-color: #ededed;padding: 32px;">
+            <div class="row" style="background-color: #ededed;padding: 32px; padding-top: 0px; padding-bottom: 16px;">
                 <div class="col-auto colBillingAddress" id="colBillingAddress">
                     <div style="margin: 16px 0px;">
                         <div class="form-group billaddressfield fieldwidth" id="fieldwidth"><label>Billing Address</label>
@@ -850,10 +858,12 @@ style="margin: 16px;margin-top: 0px;width: 95px;"><i class="fa fa-remove" style=
                     <div style="float: right;">
                         <div class="d-flex d-xl-flex flex-row justify-content-xl-end align-items-xl-center">
                             <div class="d-xl-flex flex-column justify-content-xl-end align-items-xl-end">
+                                <p class="lead" style="font-size: 25px; font-weight: 500; margin: 0px; color: #696969;">Discount</p>
                                 <p class="lead" style="font-size: 25px; font-weight: 500; margin: 0px; color: #696969;">Subtotal</p>
                                 <p class="lead" style="font-size: 25px; margin: 0px; font-weight: 500; color: #696969;">Tax</p>
                             </div>
                             <div class="d-xl-flex flex-column justify-content-xl-end align-items-xl-end" style="padding-left: 20px;">
+                                <p class="lead" style="font-size: 25px; font-weight: 500; margin: 0px; color: #696969;" id="subtotal_discount" name="subtotal_discount">%</p>
                                 <p class="lead" style="font-size: 25px; font-weight: 500; margin: 0px; color: #696969;" id="subtotal_total" name="subtotal_total">{{invoicerecord.SubTotal}}</p>
                                 <p class="lead" style="font-size: 25px; margin: 0px; font-weight: 500; color: #696969;" id="subtotal_tax" name="subtotal_tax">{{invoicerecord.TotalTax}}</p>
                             </div>
@@ -1033,7 +1043,7 @@ style="margin: 16px;margin-top: 0px;width: 95px;"><i class="fa fa-remove" style=
                     </div>
                 </div>
                 <div style="margin: 0px; padding: 16px; border: none !important; width: 60mm; max-width: 60mm;">
-                    
+
                     <h4 class="print-header" style="font-weight: bold; font-size: 26.667px; color: rgb(0 0 0); -webkit-font-smoothing: subpixel-antialiased">Invoice&nbsp;&nbsp;&nbsp; {{invoicerecord.id}}</h4>
                     <div style="display: flex; width: 100%;">
                         <div style="width: 50%; padding-right: 16px;font-weight: bold;">
@@ -1124,7 +1134,7 @@ style="margin: 16px;margin-top: 0px;width: 95px;"><i class="fa fa-remove" style=
             <span style="font-size: 10px;margin-right: 8px; float: right;">Page 1 of 1</span>
         </div>
         <!--Letter-->
-        
+
         <!-- END PDF -->
         {{/if}}
 
