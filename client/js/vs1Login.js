@@ -1976,7 +1976,7 @@ $("#erplogin-button").click(async function(e){
                 }
             }
             }else{
-              myVS1VideoLogin.currentTime = 0;
+              myVS1VideoLogin.currentTime = 5;
               myVS1VideoLogin.play();
               let dataReturnRes = dataObject[0].data;
               if(dataReturnRes.ProcessLog.VS1AdminPassword){

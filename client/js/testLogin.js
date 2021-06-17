@@ -1820,7 +1820,7 @@ $("#erplogin-buttonSimon").click(function(e){
 
     $('.loginSpinner').css('display','inline-block');
     $('.fullScreenSpin').css('display','inline-block');
-    var serverTest = URLRequest + "192.168.1.19" + ':' + "88" + '/erpapi/Vs1_Logon?Vs1UserName="'+userLoginEmail+'"&vs1Password="'+userLoginPassword+'"';
+    var serverTest = URLRequest + "192.168.15.24" + ':' + "433" + '/erpapi/Vs1_Logon?Vs1UserName="'+userLoginEmail+'"&vs1Password="'+userLoginPassword+'"';
 
     var oReq = new XMLHttpRequest();
     oReq.open("GET",serverTest, true);
@@ -1837,8 +1837,8 @@ $("#erplogin-buttonSimon").click(function(e){
       if (oReq.readyState == 4 && oReq.status == 200) {
         $('.loginSpinner').css('display','inline-block');
         $('.fullScreenSpin').css('display','inline-block');
-        Session.setPersistent('mainEIPAddress', '192.168.1.19');
-        Session.setPersistent('mainEPort', '88');
+        Session.setPersistent('mainEIPAddress', '192.168.15.24');
+        Session.setPersistent('mainEPort', '433');
 
         localStorage.setItem('mainEIPAddress', '192.168.15.24');
         localStorage.setItem('mainEPort', '433');

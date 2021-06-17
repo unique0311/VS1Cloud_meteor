@@ -7,7 +7,7 @@
         <form>
             <header style="padding: 16px; padding-right: 0px;background-color: #ededed;margin-top: -24px;padding-bottom: 0px;">
                 <input type="hidden" id="h1" name="id">
-                <h1 class="heading" style="margin: 16px;margin-bottom: 0px;">{{chequerecord.lid}}  
+                <h1 class="heading" style="margin: 16px;margin-bottom: 0px;">{{chequerecord.lid}}
 
                     <a role="button" data-toggle="modal" href="#helpViewModal" class=""><label class="lblplay">Help</label><i class="fa fa-question-circle-o"  style="font-size: 20px;"></i></a>
 
@@ -199,8 +199,8 @@
                     </div>
                     <div class="flex-grow-1">
                         <div class="text-right" style="font-size: 14px;min-width: 175px;margin: 16px ;">
-                            <p style="font-size: 20px; font-weight: 700;color: rgb(84,94,103);">BALANCE DUE</p>
-                            <p style="font-size: 25px;font-weight: 705;color: rgb(56,63,69);" id="balanceDue" name="balanceDue">{{chequerecord.balanceDue}}</p>
+                            <p style="font-size: 20px; font-weight: 700;color: rgb(84,94,103); display:none;">BALANCE DUE</p>
+                            <p style="font-size: 25px;font-weight: 705;color: rgb(56,63,69); display:none;" id="balanceDue" name="balanceDue">{{chequerecord.balanceDue}}</p>
                         </div>
                     </div>
                 </div>
@@ -796,7 +796,7 @@
                                     <p class="lead" style="font-size: 25px; margin: 0px; font-weight: 500; color: #696969;">Paid Amount</p>
                                 </div>
                                 <div>
-                                    <p class="lead" style="font-size: 25px; margin: 0px; font-weight: 500; color: #696969;">Balance Due</p>
+                                    <p class="lead" style="font-size: 25px; margin: 0px; font-weight: 500; color: #696969; display:none;">Balance Due</p>
                                 </div>
                             </div>
                             <div class="d-xl-flex flex-column justify-content-xl-end align-items-xl-end" style="  padding-left: 20px;">
@@ -804,7 +804,7 @@
                                     <p class="lead" style="font-size: 25px; font-weight: 500; margin: 0px; color: #696969;" id="totalPaidAmt" name="totalPaidAmt">{{chequerecord.totalPaid}}</p>
                                 </div>
                                 <div>
-                                    <p class="lead" style="font-size: 25px; font-weight: 500; margin: 0px; color: #696969;" id="totalBalanceDue" name="totalBalanceDue">{{chequerecord.balanceDue}}</p>
+                                    <p class="lead" style="font-size: 25px; font-weight: 500; margin: 0px; color: #696969; display:none;" id="totalBalanceDue" name="totalBalanceDue">{{chequerecord.balanceDue}}</p>
                                 </div>
                             </div>
                         </div>
@@ -929,11 +929,11 @@
                     <div style="width: 100%; display: flex;">
                         <div style="padding-right: 16px; width: 50%;">
                             <p style="font-weight: 600; margin-bottom: 8px; color: rgb(0 0 0);">Paid Amount</p>
-                            <p style="font-weight: 600; margin-bottom: 8px; color: rgb(0 0 0);">Balance Due</p>
+                            <p style="font-weight: 600; margin-bottom: 8px; color: rgb(0 0 0); display:none;">Balance Due</p>
                         </div>
                         <div style="padding-left: 16px; width: 50%;">
                             <p style="text-align: right; margin-bottom: 8px; font-weight: 600; color: rgb(0 0 0);">{{chequerecord.totalPaid}}</p>
-                            <p id="totalBalanceDuePrint" style="text-align: right; margin-bottom: 8px; font-weight: 600; color: rgb(0 0 0);">{{chequerecord.balanceDue}}</p>
+                            <p id="totalBalanceDuePrint" style="text-align: right; margin-bottom: 8px; font-weight: 600; color: rgb(0 0 0); display:none;">{{chequerecord.balanceDue}}</p>
                         </div>
                     </div>
                 </div>
