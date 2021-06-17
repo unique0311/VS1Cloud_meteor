@@ -1129,11 +1129,13 @@ Template.bankingoverview.events({
         let templateObject = Template.instance();
 
         sideBarService.getAllBankAccountDetails().then(function(data) {
-            addVS1Data('TBankAccountReport', JSON.stringify(data)).then(function(datareturn) {}).catch(function(err) {
-              Meteor._reload.reload();
+            addVS1Data('TBankAccountReport', JSON.stringify(data)).then(function(datareturn) {
+              location.reload();
+            }).catch(function(err) {
+              location.reload();
             });
         }).catch(function(err) {
-          Meteor._reload.reload();
+          location.reload();
         });
         //templateObject.getAllBankAccountData();
     },

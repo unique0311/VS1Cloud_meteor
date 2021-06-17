@@ -45,8 +45,6 @@ Template.vs1login.onCreated(function(){
 
 Template.vs1login.onRendered(function(){
 
-
-
    localStorage.removeItem('VS1ProductList');
    localStorage.removeItem('VS1CustomerList');
    localStorage.removeItem('VS1SupplierList');
@@ -133,7 +131,7 @@ Template.vs1login.onRendered(function(){
   localStorage.setItem('VS1StockTransferList', '');
   localStorage.setItem('VS1AccessLevelList', '');
   localStorage.setItem('VS1TERPFormList', '');
-
+  localStorage.setItem('vs1LoggedEmployeeImages_dash','');
 
   Session.setPersistent('ERPCurrency', '$');
 
@@ -976,6 +974,8 @@ Template.vs1login.onRendered(function(){
 
 
 }else{
+  myVS1Video.pause();
+  $('.myVS1Video').css('display','none');
       $('.loginSpinner').css('display','none');
       $('.fullScreenSpin').css('display','none');
     }
@@ -1170,6 +1170,8 @@ var myVS1Video = document.getElementById("myVS1Video");
               }else{
 
                 swal('Oops...', 'VS1 User Name is already logged in. Select "Sign me out of all devices" to login', 'info');
+                myVS1Video.pause();
+                $('.myVS1Video').css('display','none');
                 $('.loginSpinner').css('display','none');
                 $('.fullScreenSpin').css('display','none');
 
@@ -1196,6 +1198,8 @@ var myVS1Video = document.getElementById("myVS1Video");
 
           }
         });
+        myVS1Video.pause();
+        $('.myVS1Video').css('display','none');
         $('.loginSpinner').css('display','none');
         $('.fullScreenSpin').css('display','none');
         }else if(oReqCheackUserObject.readyState == 4 && oReqCheackUserObject.status == 406){
@@ -1212,6 +1216,8 @@ var myVS1Video = document.getElementById("myVS1Video");
 
             }
           });
+          myVS1Video.pause();
+          $('.myVS1Video').css('display','none');
         $('.loginSpinner').css('display','none');
         $('.fullScreenSpin').css('display','none');
         }else if(oReqCheackUserObject.status == 0 && oReqCheackUserObject.statusText == '') {
@@ -1225,6 +1231,8 @@ var myVS1Video = document.getElementById("myVS1Video");
       }else{
 
         swal('Invalid VS1 Password', 'The entered user password is not correct, please re-enter your password and try again!', 'error');
+        myVS1Video.pause();
+        $('.myVS1Video').css('display','none');
         $('.loginSpinner').css('display','none');
         $('.fullScreenSpin').css('display','none');
         $("#erppassword").focus();
@@ -1372,6 +1380,8 @@ $("#erplogin-button").click(async function(e){
  if(dataReturnRes.ProcessLog.ResponseStatus == "Payment is Due"){
    $('.loginSpinner').css('display','none');
    $('.fullScreenSpin').css('display','none');
+   myVS1Video.pause();
+   $('.myVS1Video').css('display','none');
 
    swal({
 	 title: 'Your payment has been declined please update your payment subscription information!',
@@ -1684,6 +1694,8 @@ $("#erplogin-button").click(async function(e){
 
                          if(dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.AccessLevels == undefined){
                            swal('Sorry, You do not have access to any VS1 Modules!', '', 'error');
+                           myVS1Video.pause();
+                           $('.myVS1Video').css('display','none');
                            $('.fullScreenSpin').css('display','none');
                            $('.loginSpinner').css('display','none');
                            return false;
@@ -1692,6 +1704,8 @@ $("#erplogin-button").click(async function(e){
 
                          if(dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.AccessLevels.ResponseNo == 401){
                            swal('Sorry, You do not have access to any VS1 Modules!', '', 'error');
+                           myVS1Video.pause();
+                           $('.myVS1Video').css('display','none');
                            $('.fullScreenSpin').css('display','none');
                            $('.loginSpinner').css('display','none');
                            return false;
@@ -1820,9 +1834,10 @@ $("#erplogin-button").click(async function(e){
 				}else{
           myVS1Video.pause();
           $('.myVS1Video').css('display','none');
-                       $('#emEmail').html(dataReturnRes.ProcessLog.VS1AdminUserName);
-                       $(".addloginkey").attr("href", 'https://www.depot.vs1cloud.com/vs1check/vs1checklogin.php?login=sandbox');
-                       $(".addloginActive").attr("href", 'https://www.depot.vs1cloud.com/vs1check/vs1check.php?from=sandbox&checktoken='+dataReturnRes.ProcessLog.Databasename+'');
+                       $('#emEmail').html(userLoginEmail);
+                       $('#emPassword').html(userLoginPassword);
+                       $(".addloginkey").attr("href", 'https://www.depot.vs1cloud.com/vs1activation/sandboxcheck.php?checktoken='+userLoginEmail+'');
+                       $(".addloginActive").attr("href", 'https://www.depot.vs1cloud.com/vs1activation/sandboxcheck.php?checktoken='+userLoginEmail+'');
                        swal({
                          title: 'Awaiting Email Validation',
                          html: true,
@@ -1850,7 +1865,8 @@ $("#erplogin-button").click(async function(e){
                            // Router.go('/employeescard?addvs1user=true');
                          }
                        });
-
+                       myVS1Video.pause();
+                       $('.myVS1Video').css('display','none');
                        $('.fullScreenSpin').css('display','none');
                        $('.loginSpinner').css('display','none');
                        return false;
@@ -2742,6 +2758,8 @@ $("#erplogin-button").click(async function(e){
 
                          if(dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.AccessLevels == undefined){
                            swal('Sorry, You do not have access to any VS1 Modules!', '', 'error');
+                           myVS1Video.pause();
+                           $('.myVS1Video').css('display','none');
                            $('.fullScreenSpin').css('display','none');
                            $('.loginSpinner').css('display','none');
                            return false;
@@ -2750,6 +2768,8 @@ $("#erplogin-button").click(async function(e){
 
                          if(dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.AccessLevels.ResponseNo == 401){
                            swal('Sorry, You do not have access to any VS1 Modules!', '', 'error');
+                           myVS1Video.pause();
+                           $('.myVS1Video').css('display','none');
                            $('.fullScreenSpin').css('display','none');
                            $('.loginSpinner').css('display','none');
                            return false;
@@ -2878,9 +2898,10 @@ $("#erplogin-button").click(async function(e){
 				}else{
           myVS1Video.pause();
           $('.myVS1Video').css('display','none');
-                       $('#emEmail').html(dataReturnRes.ProcessLog.VS1AdminUserName);
-                       $(".addloginkey").attr("href", 'https://www.depot.vs1cloud.com/vs1check/vs1checklogin.php?login=sandbox');
-                       $(".addloginActive").attr("href", 'https://www.depot.vs1cloud.com/vs1check/vs1check.php?from=sandbox&checktoken='+dataReturnRes.ProcessLog.Databasename+'');
+          $('#emEmail').html(userLoginEmail);
+          $('#emPassword').html(userLoginPassword);
+                       $(".addloginkey").attr("href", 'https://www.depot.vs1cloud.com/vs1activation/sandboxcheck.php?checktoken='+userLoginEmail+'');
+                       $(".addloginActive").attr("href", 'https://www.depot.vs1cloud.com/vs1activation/sandboxcheck.php?checktoken='+userLoginEmail+'');
                        swal({
                          title: 'Awaiting Email Validation',
                          html: true,
@@ -2908,7 +2929,8 @@ $("#erplogin-button").click(async function(e){
                            // Router.go('/employeescard?addvs1user=true');
                          }
                        });
-
+                       myVS1Video.pause();
+                       $('.myVS1Video').css('display','none');
                        $('.fullScreenSpin').css('display','none');
                        $('.loginSpinner').css('display','none');
                        return false;
@@ -3042,6 +3064,8 @@ $("#erplogin-button").click(async function(e){
               myVS1Video.pause();
               $('.myVS1Video').css('display','none');
        if(dataReturnRes.ProcessLog.ResponseStatus == "Payment is Due"){
+         myVS1Video.pause();
+         $('.myVS1Video').css('display','none');
          $('.loginSpinner').css('display','none');
          $('.fullScreenSpin').css('display','none');
 
@@ -3355,6 +3379,8 @@ $("#erplogin-button").click(async function(e){
                                /* End Remove licence */
 
                                if(dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.AccessLevels == undefined){
+                                 myVS1Video.pause();
+                                 $('.myVS1Video').css('display','none');
                                  swal('Sorry, You do not have access to any VS1 Modules!', '', 'error');
                                  $('.fullScreenSpin').css('display','none');
                                  $('.loginSpinner').css('display','none');
@@ -3364,6 +3390,8 @@ $("#erplogin-button").click(async function(e){
 
                                if(dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.AccessLevels.ResponseNo == 401){
                                  swal('Sorry, You do not have access to any VS1 Modules!', '', 'error');
+                                 myVS1Video.pause();
+                                 $('.myVS1Video').css('display','none');
                                  $('.fullScreenSpin').css('display','none');
                                  $('.loginSpinner').css('display','none');
                                  return false;
@@ -3492,9 +3520,10 @@ $("#erplogin-button").click(async function(e){
       				}else{
                 myVS1Video.pause();
                 $('.myVS1Video').css('display','none');
-                             $('#emEmail').html(dataReturnRes.ProcessLog.VS1AdminUserName);
-                             $(".addloginkey").attr("href", 'https://www.depot.vs1cloud.com/vs1check/vs1checklogin.php?login=sandbox');
-                             $(".addloginActive").attr("href", 'https://www.depot.vs1cloud.com/vs1check/vs1check.php?from=sandbox&checktoken='+dataReturnRes.ProcessLog.Databasename+'');
+                $('#emEmail').html(userLoginEmail);
+                $('#emPassword').html(userLoginPassword);
+                             $(".addloginkey").attr("href", 'https://www.depot.vs1cloud.com/vs1activation/sandboxcheck.php?checktoken='+userLoginEmail+'');
+                             $(".addloginActive").attr("href", 'https://www.depot.vs1cloud.com/vs1activation/sandboxcheck.php?checktoken='+userLoginEmail+'');
                              swal({
                                title: 'Awaiting Email Validation',
                                html: true,
@@ -3522,7 +3551,8 @@ $("#erplogin-button").click(async function(e){
                                  // Router.go('/employeescard?addvs1user=true');
                                }
                              });
-
+                             myVS1Video.pause();
+                             $('.myVS1Video').css('display','none');
                              $('.fullScreenSpin').css('display','none');
                              $('.loginSpinner').css('display','none');
                              return false;
@@ -3656,6 +3686,8 @@ $("#erplogin-button").click(async function(e){
                   myVS1Video.pause();
                   $('.myVS1Video').css('display','none');
      if(dataReturnRes.ProcessLog.ResponseStatus == "Payment is Due"){
+       myVS1Video.pause();
+       $('.myVS1Video').css('display','none');
        $('.loginSpinner').css('display','none');
        $('.fullScreenSpin').css('display','none');
 
@@ -3970,6 +4002,8 @@ $("#erplogin-button").click(async function(e){
 
                              if(dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.AccessLevels == undefined){
                                swal('Sorry, You do not have access to any VS1 Modules!', '', 'error');
+                               myVS1Video.pause();
+                               $('.myVS1Video').css('display','none');
                                $('.fullScreenSpin').css('display','none');
                                $('.loginSpinner').css('display','none');
                                return false;
@@ -3978,6 +4012,8 @@ $("#erplogin-button").click(async function(e){
 
                              if(dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.AccessLevels.ResponseNo == 401){
                                swal('Sorry, You do not have access to any VS1 Modules!', '', 'error');
+                               myVS1Video.pause();
+                               $('.myVS1Video').css('display','none');
                                $('.fullScreenSpin').css('display','none');
                                $('.loginSpinner').css('display','none');
                                return false;
@@ -4106,9 +4142,10 @@ $("#erplogin-button").click(async function(e){
     				}else{
               myVS1Video.pause();
               $('.myVS1Video').css('display','none');
-                           $('#emEmail').html(dataReturnRes.ProcessLog.VS1AdminUserName);
-                           $(".addloginkey").attr("href", 'https://www.depot.vs1cloud.com/vs1check/vs1checklogin.php?login=sandbox');
-                           $(".addloginActive").attr("href", 'https://www.depot.vs1cloud.com/vs1check/vs1check.php?from=sandbox&checktoken='+dataReturnRes.ProcessLog.Databasename+'');
+              $('#emEmail').html(userLoginEmail);
+              $('#emPassword').html(userLoginPassword);
+                           $(".addloginkey").attr("href", 'https://www.depot.vs1cloud.com/vs1activation/sandboxcheck.php?checktoken='+userLoginEmail+'');
+                           $(".addloginActive").attr("href", 'https://www.depot.vs1cloud.com/vs1activation/sandboxcheck.php?checktoken='+userLoginEmail+'');
                            swal({
                              title: 'Awaiting Email Validation',
                              html: true,
@@ -4136,7 +4173,8 @@ $("#erplogin-button").click(async function(e){
                                // Router.go('/employeescard?addvs1user=true');
                              }
                            });
-
+                           myVS1Video.pause();
+                           $('.myVS1Video').css('display','none');
                            $('.fullScreenSpin').css('display','none');
                            $('.loginSpinner').css('display','none');
                            return false;

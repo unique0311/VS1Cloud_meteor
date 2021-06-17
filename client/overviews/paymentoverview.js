@@ -19,13 +19,13 @@ Template.paymentoverview.onCreated(function(){
     templateObject.overduecustpaymentCount = new ReactiveVar();
     templateObject.overduesupppaymentCount = new ReactiveVar();
 
-    
+
     setTimeout(function () {
 
         var x = window.matchMedia("(max-width: 1024px)")
 
         function mediaQuery(x) {
-            if (x.matches) { 
+            if (x.matches) {
 
                 $("#colAwaitingPayment").removeClass("col");
                 $("#colAwaitingPayment").addClass("col-12");
@@ -81,7 +81,7 @@ Template.paymentoverview.onCreated(function(){
         mediaQuery(x)
         x.addListener(mediaQuery)
     }, 10);
-    
+
 });
 
 Template.paymentoverview.onRendered(function() {
@@ -474,7 +474,7 @@ Template.paymentoverview.onRendered(function() {
                             columVisible = false;
                         }
                         sWidth = v.style.width.replace('px', "");
-                        
+
                         let datatablerecordObj = {
                             sTitle: v.innerText || '',
                             sWidth: sWidth || '',
@@ -659,7 +659,7 @@ Template.paymentoverview.onRendered(function() {
                         columVisible = false;
                     }
                     sWidth = v.style.width.replace('px', "");
-                    
+
                     let datatablerecordObj = {
                         sTitle: v.innerText || '',
                         sWidth: sWidth || '',
@@ -842,7 +842,7 @@ Template.paymentoverview.onRendered(function() {
                         columVisible = false;
                     }
                     sWidth = v.style.width.replace('px', "");
-                    
+
                     let datatablerecordObj = {
                         sTitle: v.innerText || '',
                         sWidth: sWidth || '',
@@ -880,13 +880,13 @@ Template.paymentoverview.onRendered(function() {
 
     templateObject.getAllSalesOrderData();
 
-    
+
     setTimeout(function () {
 
         var x = window.matchMedia("(max-width: 1024px)")
 
         function mediaQuery(x) {
-            if (x.matches) { 
+            if (x.matches) {
 
                 //                alert("Matches");
                 $("#paymentCard1").removeClass("col-auto");
@@ -900,10 +900,10 @@ Template.paymentoverview.onRendered(function() {
 
             }
         }
-        mediaQuery(x) 
-        x.addListener(mediaQuery) 
+        mediaQuery(x)
+        x.addListener(mediaQuery)
     }, 500);
-    
+
 
 });
 
@@ -1067,7 +1067,7 @@ Template.paymentoverview.events({
 
                         }
                     });
-                    
+
                 }
             }
         }
@@ -1078,7 +1078,7 @@ Template.paymentoverview.events({
         let columData = $(event.target).text();
 
         let columnDatanIndex = $(event.target).closest("div.columnSettings").attr('id');
-        
+
         var datable = $('#tblPaymentOverview').DataTable();
         var title = datable.column( columnDatanIndex ).header();
         $(title).html(columData);
@@ -1092,7 +1092,7 @@ Template.paymentoverview.events({
         let columnDataValue = $(event.target).closest("div").prev().find(".divcolumn").text();
         var datable = $('#tblPaymentOverview th');
         $.each(datable, function(i,v) {
-            
+
             if(v.innerText == columnDataValue){
                 let className = v.className;
                 let replaceClass = className.replace(/ /g, ".");
@@ -1105,7 +1105,7 @@ Template.paymentoverview.events({
     'click .btnOpenSettings' : function(event){
         let templateObject = Template.instance();
         var columns = $('#tblPaymentOverview th');
-        
+
         const tableHeaderList = [];
         let sTible = "";
         let sWidth = "";
@@ -1134,7 +1134,7 @@ Template.paymentoverview.events({
         templateObject.tableheaderrecords.set(tableHeaderList);
     },
     'click #exportbtn': function () {
-        
+
         $('.fullScreenSpin').css('display','inline-block');
         jQuery('#tblPaymentOverview_wrapper .dt-buttons .btntabletocsv').click();
         $('.fullScreenSpin').css('display','none');
@@ -1143,7 +1143,6 @@ Template.paymentoverview.events({
     'click .btnRefresh': function () {
         $('.fullScreenSpin').css('display','inline-block');
         let templateObject = Template.instance();
-        batchUpdateCall('/paymentoverview');
         sideBarService.getTPaymentList().then(function(data) {
             addVS1Data('TPaymentList',JSON.stringify(data)).then(function (datareturn) {
 
@@ -1173,12 +1172,12 @@ Template.paymentoverview.events({
 
         sideBarService.getAllPurchaseOrderListAll().then(function (data) {
           addVS1Data('TbillReport', JSON.stringify(data)).then(function (datareturn) {
-
+            location.reload();
           }).catch(function (err) {
-
+            location.reload();
           });
         }).catch(function (err) {
-
+          location.reload();
         });
 
         sideBarService.getSalesListData().then(function(data) {

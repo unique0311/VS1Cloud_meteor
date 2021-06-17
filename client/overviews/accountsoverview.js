@@ -1048,12 +1048,12 @@ Template.accountsoverview.events({
 
       sideBarService.getAccountListVS1().then(function(data) {
         addVS1Data('TAccountVS1',JSON.stringify(data)).then(function (datareturn) {
-
+          location.reload();
         }).catch(function (err) {
-
+          location.reload();
         });
       }).catch(function(err) {
-
+        location.reload();
       });
     },
     'click .btnBatchUpdate': function () {

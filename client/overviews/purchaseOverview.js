@@ -945,12 +945,12 @@ Template.purchasesoverview.events({
 
         sideBarService.getAllPurchaseOrderListAll().then(function(data) {
             addVS1Data('TbillReport',JSON.stringify(data)).then(function (datareturn) {
-              Meteor._reload.reload();
+              location.reload();
             }).catch(function (err) {
-              Meteor._reload.reload();
+              location.reload();
             });
         }).catch(function(err) {
-          Meteor._reload.reload();
+          location.reload();
         });
     },
     'click #newPurchaseorder' : function(event){

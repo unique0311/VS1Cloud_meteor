@@ -1368,12 +1368,12 @@ Template.contactoverview.events({
 
      sideBarService.getAllContactCombineVS1().then(function(data) {
        addVS1Data('TERPCombinedContactsVS1',JSON.stringify(data)).then(function (datareturn) {
-         Meteor._reload.reload();
+         location.reload();
        }).catch(function (err) {
-         Meteor._reload.reload();
+         location.reload();
        });
      }).catch(function(err) {
-       Meteor._reload.reload();
+       location.reload();
      });
    },
   'click #newSalesOrder' : function(event){

@@ -407,7 +407,6 @@ Template.header.onRendered(function(){
 
       })
   };
-
   if(!localStorage.getItem('vs1LoggedEmployeeImages_dash')){
 
   }else{

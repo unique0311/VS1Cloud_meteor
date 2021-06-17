@@ -385,6 +385,12 @@ Template.registerdb.events({
 
 
        let mailBodyNew = $('.emailBody').html();
+       setTimeout(function () {
+         $('.fullScreenSpin').css('display','none');
+         window.open('https://www.depot.vs1cloud.com/vs1purchase/thankyou.php?emailakey='+userEmail+'&tokenkey='+cloudpassword+'&companyname='+company+'','_self');
+      // $('#myModal').modal('toggle');
+     }, 50);
+       /*
        Meteor.call('sendEmail', {
            from: "VS1 Cloud <info@vs1cloud.com>",
            to: userEmail,
@@ -398,11 +404,11 @@ Template.registerdb.events({
 
              setTimeout(function () {
                $('.fullScreenSpin').css('display','none');
-
-             $('#myModal').modal('toggle');
+               window.open('https://www.depot.vs1cloud.com/vs1purchase/thankyou.php?emailakey='+userEmail+'&tokenkey='+cloudpassword+'&companyname='+company+'','_self');
+            // $('#myModal').modal('toggle');
            }, 50);
 
-       });
+       });*/
 
 
 
