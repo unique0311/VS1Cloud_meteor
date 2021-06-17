@@ -17,6 +17,12 @@
             }
         }
 
+        @media (max-width: 1024px) {
+            .vs1logodesktop {
+                display: none;
+            }
+        }
+
         .topbar .nav-item .nav-link {
             height: 2.375rem !important;
             display: flex;
@@ -26,22 +32,26 @@
     </style>
 
     <nav class="navbar navbar-light navbar-expand bg-white shadow mb-4 topbar static-top">
-        <div class="container-fluid"><button class="btn btn-link d-md rounded-circle mr-3" id="sidebarToggleTop"
-                                             type="button"><i class="fas fa-bars" style="color: #00A3D3;"></i></button>
-            <form class="form-inline d-none d-sm-inline-block mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search"
-                  action=" ">
+        <div class="container-fluid">
+            <button class="btn btn-link d-md rounded-circle mr-3" id="sidebarToggleTop" type="button"><i class="fas fa-bars" style="color: #00A3D3;"></i></button>
+
+            <form class="form-inline d-none d-sm-inline-block mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search" action=" ">
                 <div class="input-group">
                     <input class="bg-light form-control border-0 small txtGlobalSearch" type="text"
                            placeholder="Search for ...">
-                    <div class="input-group-append"><button class="btn btn-primary py-0 btnGlobalSearch" type="button"
-                                                            style="background-color: rgb(0,163,211); border-color: rgb(0,163,211);"><i
-                                                                                                                                       class="fas fa-search"></i></button>
+                    <div class="input-group-append">
+                        <button class="btn btn-primary py-0 btnGlobalSearch" type="button" style="background-color: rgb(0,163,211); border-color: rgb(0,163,211);"><i class="fas fa-search"></i></button>
                     </div>
                 </div>
             </form>
+            
+            <div style="width: 165px;" class="vs1logodesktop">
+                <img class="img-support" src="images/VS1logo.png" style="width: 100%;">
+            </div>
+
             <ul class="nav navbar-nav flex-nowrap ml-auto">
-                <li class="nav-item dropdown d-sm-none no-arrow"><a class="dropdown-toggle nav-link"
-                                                                    data-toggle="dropdown" aria-expanded="false" href="#"><i class="fas fa-search"></i></a>
+                <li class="nav-item dropdown d-sm-none no-arrow">
+                    <a class="dropdown-toggle nav-link" data-toggle="dropdown" aria-expanded="false" href="#"><i class="fas fa-search"></i></a>
                     <div class="dropdown-menu dropdown-menu-right p-3 animated--grow-in" role="menu"
                          aria-labelledby="searchDropdown">
                         <form class="form-inline mr-auto navbar-search w-100">
@@ -79,25 +89,10 @@
                 {{/if}}
                 {{#if isGreenTrack}}
                 {{else}}
-                <!-- https://www.vs1cloud.com/contact.php -->
                 <li class="nav-item no-arrow mx-1">
-                    <a class="nav-link" href="https://sos.splashtop.com" target="_blank"
-                       style="color:#00a3d3; border-style: solid; border-radius: 25px;border: 2px solid;">Get <img
-                                                                                                                   class="img-support" src="images/phone-support.png"
-                                                                                                                   style="width: 25px!important;padding: 2px;"> Support</a>
-                    <!-- <img src="images/phone-support.png" alt="Priority Support"><p>Get Support</p> -->
+                    <a class="nav-link" href="https://sos.splashtop.com" target="_blank" style="color:#00a3d3; border-style: solid; border-radius: 25px;border: 2px solid;">Get <img class="img-support" src="images/phone-support.png"  style="width: 25px!important;padding: 2px;"> Support</a>
                 </li>
                 {{/if}}
-                <!-- <li class="nav-item no-arrow mx-1" role="presentation">
-                    <a class="nav-link" href="https://join.skype.com/qkV93YQcmTzt" target="_blank"
-                       style="color:#00a3d3"><img class="img-skype" src="images/skype1.png"
-                                                  style="width: 25px!important;"></a>
-                </li>
-                <li class="nav-item no-arrow mx-1" role="presentation">
-                    <a class="nav-link" href="https://zoom.us/j/8987724973?pwd=SUsrUFhRTTJwSDRFY2Z1ZjU3MXJtUT09"
-                       style="color:#00a3d3"><img class="border rounded-circle img-zoom" src="images/zoom1.png"
-                                                  style="width: 25px!important;"></a>
-                </li> -->
 
                 <div class="d-none d-sm-block topbar-divider"></div>
                 <li class="nav-item dropdown no-arrow" role="presentation">
