@@ -995,8 +995,8 @@ $("#login-button").click(function(e){
         localStorage.setItem('EPort', ERPport);
         loggedUserEventFired = true;
 
-        localStorage.setItem('mainEIPAddress', '192.168.15.23');
-        localStorage.setItem('mainEPort', '888');
+        localStorage.setItem('mainEIPAddress', '192.168.15.24');
+        localStorage.setItem('mainEPort', '433');
 
         var ERPCheackUserObject = "TUser?PropertyList==ID,EmployeeId,LogonName,EmployeeName,PasswordHash,Active&Select=[LogonName]='"+ERPLoggeduserName+"'";
         var oReqCheackUserObject = new XMLHttpRequest();
@@ -1254,7 +1254,7 @@ $("#erplogin-button").click(function(e){
 
     $('.loginSpinner').css('display','inline-block');
     $('.fullScreenSpin').css('display','inline-block');
-    var serverTest = URLRequest + "192.168.15.23" + ':' + "888" + '/erpapi/Vs1_Logon?Vs1UserName="'+userLoginEmail+'"&vs1Password="'+userLoginPassword+'"';
+    var serverTest = URLRequest + "192.168.15.24" + ':' + "433" + '/erpapi/Vs1_Logon?Vs1UserName="'+userLoginEmail+'"&vs1Password="'+userLoginPassword+'"';
 
     var oReq = new XMLHttpRequest();
     oReq.open("GET",serverTest, true);
@@ -1271,10 +1271,10 @@ $("#erplogin-button").click(function(e){
       if (oReq.readyState == 4 && oReq.status == 200) {
         $('.loginSpinner').css('display','inline-block');
         $('.fullScreenSpin').css('display','inline-block');
-        Session.setPersistent('mainEIPAddress', '192.168.15.23');
-        Session.setPersistent('mainEPort', '888');
-        localStorage.setItem('mainEIPAddress', '192.168.15.23');
-        localStorage.setItem('mainEPort', '888');
+        Session.setPersistent('mainEIPAddress', '192.168.15.24');
+        Session.setPersistent('mainEPort', '433');
+        localStorage.setItem('mainEIPAddress', '192.168.15.24');
+        localStorage.setItem('mainEPort', '433');
 
 
         var dataReturnRes = JSON.parse(oReq.responseText);
@@ -1840,8 +1840,8 @@ $("#erplogin-buttonSimon").click(function(e){
         Session.setPersistent('mainEIPAddress', '192.168.1.19');
         Session.setPersistent('mainEPort', '88');
 
-        localStorage.setItem('mainEIPAddress', '192.168.15.23');
-        localStorage.setItem('mainEPort', '888');
+        localStorage.setItem('mainEIPAddress', '192.168.15.24');
+        localStorage.setItem('mainEPort', '433');
 
 
         var dataReturnRes = JSON.parse(oReq.responseText);
@@ -1966,8 +1966,8 @@ localStorage.setItem('EDatabase', ERPdbName);
 localStorage.setItem('EPort', ERPport);
 loggedUserEventFired = true;
 
-localStorage.setItem('mainEIPAddress', '192.168.15.23');
-localStorage.setItem('mainEPort', '888');
+localStorage.setItem('mainEIPAddress', '192.168.15.24');
+localStorage.setItem('mainEPort', '433');
 
 var ERPCheackUserObject = "TUser?PropertyList==ID,EmployeeId,LogonName,EmployeeName,PasswordHash,Active&Select=[LogonName]='"+ERPuserName+"'";
 var oReqCheackUserObject = new XMLHttpRequest();

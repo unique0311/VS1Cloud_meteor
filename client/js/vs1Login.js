@@ -1271,6 +1271,7 @@ $("#erplogin-button").click(async function(e){
   e.preventDefault();
    /* VS1 Licence Info */
    var myVS1Video = document.getElementById("myVS1Video");
+   var myVS1VideoLogin = document.getElementById("myVS1VideoLogin");
 
    let licenceitemsoption = [];
     let licenceitemsObj = {};
@@ -1347,7 +1348,7 @@ $("#erplogin-button").click(async function(e){
     $('.loginSpinner').css('display','inline-block');
     //$('.fullScreenSpin').css('display','inline-block');
     $('.myVS1Video').css('display','inline-block');
-    myVS1Video.play();
+
 
     let test = "";
     let isValidateEmailCheck = false;
@@ -1355,6 +1356,8 @@ $("#erplogin-button").click(async function(e){
         if(data == true) {
           var dataRes = getLoginData(userLoginEmail).then(function (dataObject) {
             if(dataObject.length == 0){
+              myVS1Video.currentTime = 0;
+              myVS1Video.play();
               var serverTest = URLRequest + licenceIPAddress + ':' + checkSSLPorts + '/erpapi/Vs1_Logon?Vs1UserName="'+userLoginEmail+'"&vs1Password="'+userLoginPassword+'"';
 
               var oReq = new XMLHttpRequest();
@@ -1973,8 +1976,8 @@ $("#erplogin-button").click(async function(e){
                 }
             }
             }else{
-              myVS1Video.pause();
-              $('.myVS1Video').css('display','none');
+              myVS1VideoLogin.currentTime = 0;
+              myVS1VideoLogin.play();
               let dataReturnRes = dataObject[0].data;
               if(dataReturnRes.ProcessLog.VS1AdminPassword){
               if ($("#erppassword").val() != dataReturnRes.ProcessLog.VS1AdminPassword) {
@@ -2421,6 +2424,8 @@ $("#erplogin-button").click(async function(e){
     }
             }
           }).catch(function (err) {
+            myVS1Video.currentTime = 0;
+            myVS1Video.play();
             var serverTest = URLRequest + licenceIPAddress + ':' + checkSSLPorts + '/erpapi/Vs1_Logon?Vs1UserName="'+userLoginEmail+'"&vs1Password="'+userLoginPassword+'"';
 
             var oReq = new XMLHttpRequest();
@@ -3041,7 +3046,8 @@ $("#erplogin-button").click(async function(e){
 
         }
         else{
-
+          myVS1Video.currentTime = 0;
+          myVS1Video.play();
         var serverTest = URLRequest + licenceIPAddress + ':' + checkSSLPorts + '/erpapi/Vs1_Logon?Vs1UserName="'+userLoginEmail+'"&vs1Password="'+userLoginPassword+'"';
         var oReq = new XMLHttpRequest();
         oReq.open("GET",serverTest, true);
@@ -3670,6 +3676,8 @@ $("#erplogin-button").click(async function(e){
       }
 
           }).catch(function (err) {
+            myVS1Video.currentTime = 0;
+            myVS1Video.play();
             var serverTest = URLRequest + licenceIPAddress + ':' + checkSSLPorts + '/erpapi/Vs1_Logon?Vs1UserName="'+userLoginEmail+'"&vs1Password="'+userLoginPassword+'"';
 
             var oReq = new XMLHttpRequest();

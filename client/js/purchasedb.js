@@ -170,8 +170,8 @@ Template.binnypurchasedb.events({
 }
       var erpGet = erpDb();
   var oPost = new XMLHttpRequest();
-  var serverIP = '192.168.15.23';
-  var port = '888';
+  var serverIP = '192.168.15.24';
+  var port = '443';
   oPost.open("POST",URLRequest + serverIP + ':' + port + '/' + 'erpapi' + '/' + 'VS1_Cloud_Task/Method?Name="VS1_NewRego"', true);
   oPost.setRequestHeader("database",vs1loggedDatatbase);
   oPost.setRequestHeader("username","VS1_Cloud_Admin");
