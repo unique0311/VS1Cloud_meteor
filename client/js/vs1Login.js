@@ -3377,7 +3377,14 @@ $("#erplogin-button").click(async function(e){
                              Session.setPersistent('CloudUseForeignLicence', isFxCurrencyLicence);
                              Session.setPersistent('CloudWMSLicence', isWMSLicence);
                                /* End Remove licence */
-
+                               if(dataReturnRes.ProcessLog.ClientDetails.ProcessLog == undefined){
+                                 myVS1Video.pause();
+                                 $('.myVS1Video').css('display','none');
+                                 swal('Sorry, You do not have access to any VS1 Modules!', '', 'error');
+                                 $('.fullScreenSpin').css('display','none');
+                                 $('.loginSpinner').css('display','none');
+                                 return false;
+                               }
                                if(dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.AccessLevels == undefined){
                                  myVS1Video.pause();
                                  $('.myVS1Video').css('display','none');
