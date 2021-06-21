@@ -890,6 +890,18 @@ Template.employeescard.onRendered(function () {
                             $('.fullScreenSpin').css('display', 'none');
                             let lineItems = [];
                             let empEmail = '';
+                            let overideset = data.fields.User.fields.CustFld14;
+                            if(overideset != "") {
+                                if(overideset="true") {
+                                    overideset = true;
+                                }else{
+                                    overideset = false;
+                                }
+                                $("#overridesettings").prop('checked', overideset);
+                            } else {
+                                $("#overridesettings").prop('checked', false);
+                            }
+
 
                             if (data.fields.Email.replace(/\s/g, '') == '') {
                                 if (data.fields.User != null) {
@@ -974,6 +986,7 @@ Template.employeescard.onRendered(function () {
                                 custfield2: data.fields.CustFld2 || '',
                                 custfield3: data.fields.CustFld3 || '',
                                 custfield4: data.fields.CustFld4 || '',
+                                custfield14: data.fields.CustFld14 || '',
                                 website: '',
                                 notes: data.fields.Notes || '',
 
@@ -1067,7 +1080,10 @@ Template.employeescard.onRendered(function () {
                                 $('.fullScreenSpin').css('display', 'none');
                                 let lineItems = [];
                                 let empEmail = '';
+                                let overideset = useData[i].fields.CustFld14;
 
+
+                                
                                 if (useData[i].fields.Email.replace(/\s/g, '') == '') {
                                     if (useData[i].fields.User != null) {
                                         let emplineItems = [];
@@ -1151,6 +1167,7 @@ Template.employeescard.onRendered(function () {
                                     custfield2: useData[i].fields.CustFld2 || '',
                                     custfield3: useData[i].fields.CustFld3 || '',
                                     custfield4: useData[i].fields.CustFld4 || '',
+                                    custfield14: useData[i].fields.CustFld14 || '',
                                     website: '',
                                     notes: useData[i].fields.Notes || '',
 
@@ -1166,7 +1183,17 @@ Template.employeescard.onRendered(function () {
                                         $('#cloudEmpEmailAddress').focus();
                                     }, 100);
                                 }
-
+                                setTimeout(function () {
+                                if(overideset != "") {
+                                    if(overideset=="true") {
+                                        $("#overridesettings").prop('checked', true);
+                                    }else{
+                                        $("#overridesettings").prop('checked', false);
+                                    }
+                                } else {
+                                    $("#overridesettings").prop('checked', false);
+                                }
+                            }, 1000);
                                 if ((currentId.addvs1user == "true") && (currentId.id)) {
                                     // swal("Please ensure the employee has a email and password.", "", "info");
 
@@ -1328,6 +1355,7 @@ Template.employeescard.onRendered(function () {
                                     custfield2: data.fields.CustFld2 || '',
                                     custfield3: data.fields.CustFld3 || '',
                                     custfield4: data.fields.CustFld4 || '',
+                                    custfield14: data.fields.CustFld14 || '',
                                     website: '',
                                     notes: data.fields.Notes || '',
 
@@ -1413,7 +1441,7 @@ Template.employeescard.onRendered(function () {
                         }
                     }
                 }).catch(function (err) {
-                  
+                  console.log(err);
                     contactService.getOneEmployeeDataEx(employeeID).then(function (data) {
                         $('.fullScreenSpin').css('display', 'none');
                         let lineItems = [];
@@ -1900,8 +1928,9 @@ Template.employeescard.onRendered(function () {
     }
     templateObject.getEmployeesList();
     var prefObject = "";
+    if(currentId.id != undefined){
     setTimeout(function () {
-    appointmentService.getCalendarsettings(Session.get('mySessionEmployeeLoggedID')).then(function (data) {
+    appointmentService.getCalendarsettings(currentId.id).then(function (data) {
         if (data.tappointmentpreferences.length > 0) {
             prefObject = {
                 id: data.tappointmentpreferences[data.tappointmentpreferences.length - 1].Id || '',
@@ -1927,8 +1956,11 @@ Template.employeescard.onRendered(function () {
 
 
         templateObject.calendarOptions.set(prefObject);
-    });
+    }).catch(function (err) {
+            console.log(err);
+     });
 },1000);
+}
 
     
     setTimeout(function () {
@@ -2050,6 +2082,11 @@ Template.employeescard.events({
         var getemp_id = url.split('?id=');
         //var currentEmployee = getemp_id[getemp_id.length-1];
         var currentEmployee = 0;
+        let overrideGlobalCalendarSet = "false";
+        
+        if ($('#overridesettings').is(':checked')) {
+            overrideGlobalCalendarSet = "true";
+        }
 
         let currentId = Router.current().params.query;
 
@@ -2114,7 +2151,8 @@ Template.employeescard.events({
                     CustFld3: custField3,
                     CustFld4: custField4,
                     CustFld5: $('#edtPriority').val(),
-                    CustFld6: $('#favcolor').val()
+                    CustFld6: $('#favcolor').val(),
+                    CustFld14: overrideGlobalCalendarSet
                 }
             };
         } else {
@@ -2147,7 +2185,8 @@ Template.employeescard.events({
                     CustFld3: custField3,
                     CustFld4: custField4,
                     CustFld5: $('#edtPriority').val(),
-                    CustFld6: $('#favcolor').val()
+                    CustFld6: $('#favcolor').val(),
+                    CustFld14: overrideGlobalCalendarSet
 
                 }
             };
@@ -2185,12 +2224,17 @@ Template.employeescard.events({
 
             let showSat = false;
             let showSun = false;
+            let overrideGlobalCalendarSet = "false";
             if ($('#showSaturday').is(':checked')) {
                 showSat = true;
             }
 
             if ($('#showSunday').is(':checked')) {
                 showSun = true;
+            }
+
+            if ($('#overridesettings').is(':checked')) {
+                overrideGlobalCalendarSet = overrideGlobalCalendarSet;
             }
 
         let settingID = '';
@@ -2200,7 +2244,7 @@ Template.employeescard.events({
         }
 
         let defaultTime = parseInt($('#defaultTime').val().split(' ')[0]) || '2';
-        let defaultProduct = $('#product-list').children("option:selected").text() || '';
+        let defaultProduct = $('#product-list').children("option:selected").text().trim() || '';
         let defaultProductID = $('#product-list').children("option:selected").val() || '';
 
 
@@ -2209,7 +2253,7 @@ Template.employeescard.events({
           objectData = {
               type: "TAppointmentPreferences",
               fields: {
-                  EmployeeID: parseInt(Session.get('mySessionEmployeeLoggedID')),
+                  EmployeeID: employeeSaveID,
                   DefaultApptDuration: defaultTime,
                   DefaultServiceProductID: defaultProductID,
                   DefaultServiceProduct: defaultProduct,
@@ -2222,7 +2266,7 @@ Template.employeescard.events({
               type: "TAppointmentPreferences",
               fields: {
                   ID: settingID,
-                  EmployeeID: parseInt(Session.get('mySessionEmployeeLoggedID')),
+                  EmployeeID: employeeSaveID,
                   DefaultApptDuration: defaultTime,
                   DefaultServiceProductID: defaultProductID,
                   DefaultServiceProduct: defaultProduct,
@@ -2387,47 +2431,7 @@ Template.employeescard.events({
 
 
                             }
-                            /*
-                              $('.fullScreenSpin').css('display', 'none');
-                              var myArrResponse = JSON.parse(oPost.responseText);
-                              if (myArrResponse.ProcessLog.Error) {
-                                  swal({
-                                      title: 'Ooops...',
-                                      text: myArrResponse.ProcessLog.Error,
-                                      type: 'error',
-                                      showCancelButton: false,
-                                      confirmButtonText: 'OK'
-                                  }).then((result) => {
-                                    if (employeeSaveID) {
-                                        //window.open('/employeescard?id=' + employeeSaveID,'_self');
-                                       sideBarService.getAllEmployees().then(function(dataReload) {
-                                         addVS1Data('TEmployee',JSON.stringify(dataReload)).then(function (datareturn) {
-                                          Router.go('/employeelist?success=true');
-                                         }).catch(function (err) {
-                                           Router.go('/employeelist?success=true');
-                                         });
-                                       }).catch(function(err) {
-                                         Router.go('/employeelist?success=true');
-                                       });
-                                    }
-                                  });
-                              } else {
-                                if (employeeSaveID) {
-                                    //window.open('/employeescard?id=' + employeeSaveID,'_self');
-                                   sideBarService.getAllEmployees().then(function(dataReload) {
-                                     addVS1Data('TEmployee',JSON.stringify(dataReload)).then(function (datareturn) {
-                                      Router.go('/employeelist?success=true');
-                                     }).catch(function (err) {
-                                       Router.go('/employeelist?success=true');
-                                     });
-                                   }).catch(function(err) {
-                                     Router.go('/employeelist?success=true');
-                                   });
-                                }
 
-                              }
-                              */
-                              // Bert.alert('<strong>SUCCESS:</strong> Employee successfully updated!', 'success');
 
                           } else if (oPost.readyState == 4 && oPost.status == 403) {
                               $('.fullScreenSpin').css('display', 'none');
@@ -2506,7 +2510,16 @@ Template.employeescard.events({
                           //window.open('/employeescard?id=' + employeeSaveID,'_self');
                          sideBarService.getAllEmployees().then(function(dataReload) {
                            addVS1Data('TEmployee',JSON.stringify(dataReload)).then(function (datareturn) {
-                            Router.go('/employeelist?success=true');
+                            //Router.go('/employeelist?success=true');
+                            sideBarService.getAllAppointmentPredList().then(function (data) {
+                            addVS1Data('TAppointmentPreferences', JSON.stringify(data)).then(function (datareturn) {
+                                Router.go('/employeelist?success=true');
+                            }).catch(function (err) {
+                                        Router.go('/employeelist?success=true');
+                            });
+                        }).catch(function (err) {
+                                    Router.go('/employeelist?success=true');
+                        });
                            }).catch(function (err) {
                              Router.go('/employeelist?success=true');
                            });
@@ -2528,7 +2541,15 @@ Template.employeescard.events({
                     //window.open('/employeescard?id=' + employeeSaveID,'_self');
                     sideBarService.getAllEmployees().then(function(dataReload) {
                       addVS1Data('TEmployee',JSON.stringify(dataReload)).then(function (datareturn) {
-                       Router.go('/employeelist?success=true');
+                        sideBarService.getAllAppointmentPredList().then(function (data) {
+                        addVS1Data('TAppointmentPreferences', JSON.stringify(data)).then(function (datareturn) {
+                         Router.go('/employeelist?success=true');
+                         }).catch(function (err) {
+                            Router.go('/employeelist?success=true');
+                        });
+                    }).catch(function (err) {
+                        Router.go('/employeelist?success=true');
+                        });
                       }).catch(function (err) {
                         Router.go('/employeelist?success=true');
                       });
@@ -3736,13 +3757,13 @@ Template.employeescard.helpers({
         });
     },
     productsdatatable: () => {
-        return Template.instance().productsdatatable.get().sort(function (a, b) {
+         return Template.instance().productsdatatable.get().sort(function (a, b) {
             if (a.productname == 'NA') {
                 return 1;
-            }
-            else if (b.productname == 'NA') {
+            } else if (b.productname == 'NA') {
                 return -1;
             }
+            return (a.productname.toUpperCase() > b.productname.toUpperCase()) ? 1 : -1;
         });
     },
     datatablerecords: () => {
