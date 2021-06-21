@@ -4,7 +4,6 @@
             <div class="spinner"></div>
         </div>
         <h3 class="text-dark mb-4">Currency Settings
-            <!-- <a role="button" data-toggle="modal" href="#helpModal" class="helpModal"><label class="lblplay">PLAY</label><i class="far fa-play-circle"  style="font-size: 20px;"></i></a> -->
             <a role="button" data-toggle="modal" href="#helpViewModal"  style="font-size: 20px;">Help <i class="fa fa-question-circle-o" style="font-size: 20px;"></i></a>
 
             <!-- Start Help View Modal -->
@@ -25,6 +24,23 @@
             </div>
             <!-- End Help View Modal -->
         </h3>
+
+        <style>
+            @media screen and (max-width: 420px) {
+                .btnRefreshMobile {
+                    margin-right: 30px !important;
+                }
+                .btnOpenSettings {
+                    float: right;
+                    margin-bottom: 6px;
+                }
+                .card-body {
+                    padding: 0.75rem !important;
+                }
+            }
+
+        </style>
+
         <div class="row mb-3">
             <div class="col">
                 <div class="row">
@@ -34,62 +50,63 @@
                                 <p class="text-primary m-0 font-weight-bold">Currency Settings</p>
                             </div>
                             <div class="card-body">
-                                <div class="card-body p-3 rounded">
+                                <div class="card-body rounded">
                                     <div class="row no-gutters">
-                                        <div class="col">
-                                            <button class="btn btn-primary btnRefresh float-left" type="button" style="margin: 16px 0px; margin-right: 32px;"><i class="la la-lightbulb-o" style="padding-right: 5px;"></i>Refresh</button>
-                                            <div><a class="btn btn-primary btnAddCurrency" role="button" data-toggle="modal" href="#myModal" style="margin-top: 16px;"><i class="fa fa-plus" style="margin-right: 8px;"></i>Add New Currency<br></a>
-                                                <div class="modal fade" role="dialog"
-                                                     tabindex="-1" id="myModal">
-                                                    <div class="modal-dialog modal-dialog-centered" role="document">
-                                                        <div class="modal-content">
-                                                            <div class="modal-header">
-                                                                <h4 id="add-currency-title" name="add-currency-title">Add New Currency</h4><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button></div>
-                                                            <div class="modal-body" style="background-color: #ededed;">
-                                                                <input type="hidden" class="form-control" id="edtCurrencyID" name="edtCurrencyID" style="display:none;">
-                                                                <div class="row no-gutters">
-                                                                    <div class="col d-xl-flex align-items-xl-end">
+                                        <div class="col-12">
+                                            <button class="btn btn-primary btnRefresh float-left btnRefreshMobile" type="button" style="margin: 16px 0px; margin-right: 32px;"><i class="la la-lightbulb-o" style="padding-right: 5px;"></i>Refresh</button>
 
-                                                                        <div class="form-group flex-grow-1" style="margin: 8px;"><label data-toggle="tooltip" data-bs-tooltip="" data-placement="bottom" title="The name for the Tax Rate to appear in VS1 Cloud">Country</label>
-                                                                            <select class="form-control" id="sedtCountry" name="sedtCountry" style="cursor: pointer;">
-                                                                                {{#each item in countryList}}
-                                                                                {{#if equals item record.scountry }}
-                                                                                <option value="{{record.scountry}}" selected="">{{record.scountry}}</option>
-                                                                                {{else}}
-                                                                                <option value="{{item}}">{{item}}</option>
-                                                                                {{/if}}
-                                                                                {{/each}}
-                                                                            </select>
-                                                                        </div>
-                                                                        <div class="form-group flex-grow-0" style="margin: 8px;"><label data-toggle="tooltip" data-bs-tooltip="" data-placement="bottom" title="The name for the Tax Rate to appear in VS1 Cloud">Code</label>
-                                                                            <input type="text" class="form-control"  id="currencyCode" name="currencyCode" style="width: 110px;">
-                                                                        </div>
-                                                                        <div class="form-group flex-grow-0" style="margin: 8px;"><label data-toggle="tooltip" data-bs-tooltip="" data-placement="bottom" title="The name for the Tax Rate to appear in VS1 Cloud">Symbol</label>
-                                                                            <input type="text" class="form-control" id="currencySymbol" name="currencySymbol" style="width: 110px;">
-                                                                        </div>
+                                            <a class="btn btn-primary btnAddCurrency" role="button" data-toggle="modal" href="#myModal" style="margin-top: 16px;"><i class="fa fa-plus" style="margin-right: 8px;"></i>Add New Currency<br></a>
+
+                                            <div class="modal fade" role="dialog"
+                                                 tabindex="-1" id="myModal">
+                                                <div class="modal-dialog modal-dialog-centered" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h4 id="add-currency-title" name="add-currency-title">Add New Currency</h4><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button></div>
+                                                        <div class="modal-body" style="background-color: #ededed;">
+                                                            <input type="hidden" class="form-control" id="edtCurrencyID" name="edtCurrencyID" style="display:none;">
+                                                            <div class="row no-gutters">
+                                                                <div class="col d-xl-flex align-items-xl-end">
+
+                                                                    <div class="form-group flex-grow-1" style="margin: 8px;"><label data-toggle="tooltip" data-bs-tooltip="" data-placement="bottom" title="The name for the Tax Rate to appear in VS1 Cloud">Country</label>
+                                                                        <select class="form-control" id="sedtCountry" name="sedtCountry" style="cursor: pointer;">
+                                                                            {{#each item in countryList}}
+                                                                            {{#if equals item record.scountry }}
+                                                                            <option value="{{record.scountry}}" selected="">{{record.scountry}}</option>
+                                                                            {{else}}
+                                                                            <option value="{{item}}">{{item}}</option>
+                                                                            {{/if}}
+                                                                            {{/each}}
+                                                                        </select>
                                                                     </div>
-                                                                </div>
-                                                                <div class="row no-gutters">
-                                                                    <div class="col d-xl-flex align-items-xl-end">
-                                                                        <div class="form-group flex-grow-1" style="margin: 8px;"><label data-toggle="tooltip" data-bs-tooltip="" data-placement="bottom">Currency Name</label>
-                                                                            <input type="text" class="form-control" id="edtCurrencyName" name="edtCurrencyName"></div>
-                                                                        <div class="form-group flex-grow-1" style="margin: 8px;"><label>Description</label>
-                                                                            <input type="text" class="form-control" id="edtCurrencyDesc" name="edtCurrencyDesc"></div>
+                                                                    <div class="form-group flex-grow-0" style="margin: 8px;"><label data-toggle="tooltip" data-bs-tooltip="" data-placement="bottom" title="The name for the Tax Rate to appear in VS1 Cloud">Code</label>
+                                                                        <input type="text" class="form-control"  id="currencyCode" name="currencyCode" style="width: 110px;">
                                                                     </div>
-                                                                </div>
-                                                                <div class="row no-gutters">
-                                                                    <div class="col d-xl-flex align-items-xl-end">
-                                                                        <div class="form-group flex-grow-1" style="margin: 8px;"><label data-toggle="tooltip" data-bs-tooltip="" data-placement="bottom">Buy Rate</label>
-                                                                            <input type="text" class="form-control" id="edtBuyRate" name="edtBuyRate"></div>
-                                                                        <div class="form-group flex-grow-1" style="margin: 8px;"><label>Sell Rate</label>
-                                                                            <input type="text" class="form-control" id="edtSellRate" name="edtSellRate"></div>
+                                                                    <div class="form-group flex-grow-0" style="margin: 8px;"><label data-toggle="tooltip" data-bs-tooltip="" data-placement="bottom" title="The name for the Tax Rate to appear in VS1 Cloud">Symbol</label>
+                                                                        <input type="text" class="form-control" id="currencySymbol" name="currencySymbol" style="width: 110px;">
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                            <div class="modal-footer" style="background-color: #ededed;">
-                                                                <button class="btn btn-success btnSaveCurrency" type="button"><i class="fa fa-save" style="padding-right: 8px;"></i>Save</button>
-                                                                <button class="btn btn-secondary" data-dismiss="modal" type="button"><i class="fa fa-close" style="margin-right: 8px;"></i>Close</button>
+                                                            <div class="row no-gutters">
+                                                                <div class="col d-xl-flex align-items-xl-end">
+                                                                    <div class="form-group flex-grow-1" style="margin: 8px;"><label data-toggle="tooltip" data-bs-tooltip="" data-placement="bottom">Currency Name</label>
+                                                                        <input type="text" class="form-control" id="edtCurrencyName" name="edtCurrencyName"></div>
+                                                                    <div class="form-group flex-grow-1" style="margin: 8px;"><label>Description</label>
+                                                                        <input type="text" class="form-control" id="edtCurrencyDesc" name="edtCurrencyDesc"></div>
+                                                                </div>
                                                             </div>
+                                                            <div class="row no-gutters">
+                                                                <div class="col d-xl-flex align-items-xl-end">
+                                                                    <div class="form-group flex-grow-1" style="margin: 8px;"><label data-toggle="tooltip" data-bs-tooltip="" data-placement="bottom">Buy Rate</label>
+                                                                        <input type="text" class="form-control" id="edtBuyRate" name="edtBuyRate"></div>
+                                                                    <div class="form-group flex-grow-1" style="margin: 8px;"><label>Sell Rate</label>
+                                                                        <input type="text" class="form-control" id="edtSellRate" name="edtSellRate"></div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="modal-footer" style="background-color: #ededed;">
+                                                            <button class="btn btn-success btnSaveCurrency" type="button"><i class="fa fa-save" style="padding-right: 8px;"></i>Save</button>
+                                                            <button class="btn btn-secondary" data-dismiss="modal" type="button"><i class="fa fa-close" style="margin-right: 8px;"></i>Close</button>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -147,93 +164,93 @@
                                     </div>
                                     <!-- Start {{> optionNavSalesOverview}} -->
                                     <div class="d-xl-flex justify-content-xl-end">
-                                        <div><a class="btn btnOpenSettings" role="button" data-toggle="modal" href="#myModal2"><i class="icon ion-android-more-horizontal"></i></a>
-                                            <div class="modal fade" role="dialog" tabindex="-1" id="myModal2">
-                                                <div class="modal-dialog modal-dialog-centered" role="document" style="float: right;">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <h4>Display Settings</h4><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button></div>
-                                                        <div class="modal-body">
-                                                            <div>
-                                                                {{#if tableheaderrecords}}
-                                                                <form class="d-xl-flex align-items-xl-center">
-                                                                    <div class="flex-grow-1">
-                                                                        <style>
-                                                                            .groove {
-                                                                                border-style: solid;
-                                                                                border-width: 1px;
-                                                                                width: 200px;
-                                                                                padding: 2px;
-                                                                                border-radius: .35rem;
-                                                                            }
-                                                                            .custom-control-label{
-                                                                                position: absolute;
-                                                                            }
-                                                                            .rngRange {
-                                                                                position: relative;
-                                                                                display: flex;
-                                                                                flex-direction: column;
-                                                                                width: 100%;
-                                                                                pointer-events: auto;
-                                                                                background-color: rgb(255, 255, 255);
-                                                                                background-clip: padding-box;
-                                                                                border: 1px solid rgb(133, 135, 150);
-                                                                                border-radius: .3rem;
-                                                                                border-style: solid;
-                                                                                border-width: 1px;
-                                                                                padding: 2px;
-                                                                                border-radius: .35rem;
-                                                                                color: rgb(128, 128, 128);
-                                                                                height:inherit!important;
-                                                                            }
-                                                                            @media only screen and (max-width: 480px) {
-                                                                                .modal.show .modal-dialog{
-                                                                                    float: inherit!important;
-                                                                                    left: inherit!important;
-                                                                                    top: auto!important;
+                                        <a class="btn btnOpenSettings" role="button" data-toggle="modal" href="#myModal2"><i class="icon ion-android-more-horizontal"></i></a>
 
-                                                                                }
-                                                                            }
-                                                                        </style>
-                                                                        {{#each item in tableheaderrecords}}
-                                                                        {{#if equals item.sTitle ""}}
-                                                                        {{else}}
+                                        <div class="modal fade" role="dialog" tabindex="-1" id="myModal2">
+                                            <div class="modal-dialog modal-dialog-centered" role="document" style="float: right;">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h4>Display Settings</h4><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button></div>
+                                                    <div class="modal-body">
+                                                        <div>
+                                                            {{#if tableheaderrecords}}
+                                                            <form class="d-xl-flex align-items-xl-center">
+                                                                <div class="flex-grow-1">
+                                                                    <style>
+                                                                        .groove {
+                                                                            border-style: solid;
+                                                                            border-width: 1px;
+                                                                            width: 200px;
+                                                                            padding: 2px;
+                                                                            border-radius: .35rem;
+                                                                        }
+                                                                        .custom-control-label{
+                                                                            position: absolute;
+                                                                        }
+                                                                        .rngRange {
+                                                                            position: relative;
+                                                                            display: flex;
+                                                                            flex-direction: column;
+                                                                            width: 100%;
+                                                                            pointer-events: auto;
+                                                                            background-color: rgb(255, 255, 255);
+                                                                            background-clip: padding-box;
+                                                                            border: 1px solid rgb(133, 135, 150);
+                                                                            border-radius: .3rem;
+                                                                            border-style: solid;
+                                                                            border-width: 1px;
+                                                                            padding: 2px;
+                                                                            border-radius: .35rem;
+                                                                            color: rgb(128, 128, 128);
+                                                                            height:inherit!important;
+                                                                        }
+                                                                        @media only screen and (max-width: 480px) {
+                                                                            .modal.show .modal-dialog{
+                                                                                float: inherit!important;
+                                                                                left: inherit!important;
+                                                                                top: auto!important;
 
-                                                                        <div id="{{item.sIndex}}" class="columnSettings">
-                                                                            <div class="custom-control custom-switch" style="margin: 8px; float:left;">
-                                                                                <input class="custom-control-input chkDatatable" type="checkbox" id="chkSalesNo-{{item.sIndex}}" name="chkSalesNo-{{item.sIndex}}" checked="{{#if item.sVisible}}checked{{else}}{{/if}}" value="{{item.sTitle}}">
-                                                                                <label class="custom-control-label" for="chkSalesNo-{{item.sIndex}}"></label>
-                                                                                <div contenteditable="true" class="groove divcolumn" type="text" value="{{item.sTitle}}" valueupdate="{{item.sClass}}">{{item.sTitle}}</div>
-                                                                            </div>
-                                                                            <div class="d-xl-flex align-items-xl-center divColWidth" style="margin: 8px;">
-                                                                                <label class="text-nowrap" style="padding-left: 0px;margin-top: 8px;">Width: <!--<span class="spWidth" value="{{item.sTitle}}">{{item.sWidth}}px</span>--></label>
-                                                                                <input class="custom-range rngRange" type="number" style="margin: 8px;" value="{{item.sWidth}}" min="0" max="1000">
-                                                                                <!-- <input class="custom-range rngRange" type="range" style="margin: 8px;" value="{{item.sWidth}}" min="0" max="1000"> -->
-                                                                            </div>
+                                                                            }
+                                                                        }
+                                                                    </style>
+                                                                    {{#each item in tableheaderrecords}}
+                                                                    {{#if equals item.sTitle ""}}
+                                                                    {{else}}
+
+                                                                    <div id="{{item.sIndex}}" class="columnSettings">
+                                                                        <div class="custom-control custom-switch" style="margin: 8px; float:left;">
+                                                                            <input class="custom-control-input chkDatatable" type="checkbox" id="chkSalesNo-{{item.sIndex}}" name="chkSalesNo-{{item.sIndex}}" checked="{{#if item.sVisible}}checked{{else}}{{/if}}" value="{{item.sTitle}}">
+                                                                            <label class="custom-control-label" for="chkSalesNo-{{item.sIndex}}"></label>
+                                                                            <div contenteditable="true" class="groove divcolumn" type="text" value="{{item.sTitle}}" valueupdate="{{item.sClass}}">{{item.sTitle}}</div>
                                                                         </div>
-
-                                                                        {{#if equals item.sVisible true}}
-                                                                        <script>
-                                                                            $("#"+{{item.sIndex}}+".chkDatatable").attr("checked","checked");
-                                                                        </script>
-                                                                        {{else}}
-                                                                        <script>
-                                                                            $("#"+{{item.sIndex}}+".chkDatatable").removeAttr("checked");
-                                                                        </script>
-                                                                        {{/if}}
-
-                                                                        {{/if}}
-                                                                        {{/each}}
+                                                                        <div class="d-xl-flex align-items-xl-center divColWidth" style="margin: 8px;">
+                                                                            <label class="text-nowrap" style="padding-left: 0px;margin-top: 8px;">Width: <!--<span class="spWidth" value="{{item.sTitle}}">{{item.sWidth}}px</span>--></label>
+                                                                            <input class="custom-range rngRange" type="number" style="margin: 8px;" value="{{item.sWidth}}" min="0" max="1000">
+                                                                            <!-- <input class="custom-range rngRange" type="range" style="margin: 8px;" value="{{item.sWidth}}" min="0" max="1000"> -->
+                                                                        </div>
                                                                     </div>
-                                                                </form>
-                                                                {{/if}}
-                                                            </div>
+
+                                                                    {{#if equals item.sVisible true}}
+                                                                    <script>
+                                                                        $("#"+{{item.sIndex}}+".chkDatatable").attr("checked","checked");
+                                                                    </script>
+                                                                    {{else}}
+                                                                    <script>
+                                                                        $("#"+{{item.sIndex}}+".chkDatatable").removeAttr("checked");
+                                                                    </script>
+                                                                    {{/if}}
+
+                                                                    {{/if}}
+                                                                    {{/each}}
+                                                                </div>
+                                                            </form>
+                                                            {{/if}}
                                                         </div>
-                                                        <div class="modal-footer">
-                                                            <button class="btn btn-success saveTable" type="button"><i class="fa fa-save" style="margin-right: 5px;"></i>Save</button>
-                                                            <button class="btn btn-warning resetTable" data-dismiss="modal" type="reset"><i class="fa fa-repeat" style="margin-right: 5px;"></i>Reset</button>
-                                                            <button class="btn btn-secondary" data-dismiss="modal" type="button"><i class="fa fa-remove" style="margin-right: 5px;"></i>Close</button>
-                                                        </div>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button class="btn btn-success saveTable" type="button"><i class="fa fa-save" style="margin-right: 5px;"></i>Save</button>
+                                                        <button class="btn btn-warning resetTable" data-dismiss="modal" type="reset"><i class="fa fa-repeat" style="margin-right: 5px;"></i>Reset</button>
+                                                        <button class="btn btn-secondary" data-dismiss="modal" type="button"><i class="fa fa-remove" style="margin-right: 5px;"></i>Close</button>
                                                     </div>
                                                 </div>
                                             </div>

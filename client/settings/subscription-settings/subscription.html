@@ -27,11 +27,28 @@
 
         <script>
             setTimeout(function () {
+                var x = window.matchMedia("(max-width: 1024px)");
+                function mediaQuery(x) {
+                    if (x.matches) {
+                        $("#colSubSettings").removeClass("col-5");
+                        $("#colSubSettings").addClass("col-10");
+                    }
+                }
+                mediaQuery(x)
+                x.addListener(mediaQuery)
+            }, 10);
+            setTimeout(function () {
                 var x = window.matchMedia("(max-width: 420px)");
                 function mediaQuery(x) {
                     if (x.matches) {
                         $("#colSubSettings").removeClass("col-5");
                         $("#colSubSettings").addClass("col-12");
+                        $("#colCardNum").removeClass("col-6");
+                        $("#colCardNum").addClass("col-12");
+                        $("#colExpDate").removeClass("col-3");
+                        $("#colExpDate").addClass("col-12");
+                        $("#colCVC").removeClass("col-3");
+                        $("#colCVC").addClass("col-12");
                     }
                 }
                 mediaQuery(x)
@@ -50,21 +67,21 @@
                             <div class="row no-gutters">
                                 <div class="col">
                                     <div class="row no-gutters" style="margin: 0px -8px; margin-bottom: 8px;">
-                                        <div class="col-6 " id="">
+                                        <div class="col-6 colCardNum" id="colCardNum">
                                           <input type="hidden" class="form-control " id="txtCardID" name="txtCardID" value="" style="display:none;">
-                                            <div class="form-group d-xl-flex flex-column justify-content-xl-start" style="margin: 0px 8px;">
+                                            <div class="form-group d-xl-flex flex-column justify-content-xl-start" style="margin: 0px 8px 8px 8px;">
                                                 <label>Card Number</label>
                                                 <input type="text" class="form-control " id="txtCardNo" name="txtCardNo" value="">
                                             </div>
                                         </div>
-                                        <div class="col-3 " id="">
-                                            <div class="form-group d-xl-flex flex-column justify-content-xl-start" style="margin: 0px 8px;">
+                                        <div class="col-3 colExpDate" id="colExpDate">
+                                            <div class="form-group d-xl-flex flex-column justify-content-xl-start" style="margin: 0px 8px 8px 8px;">
                                                 <label>Expiry Date</label>
                                                 <input type="text" class="form-control " id="txtExpireDate" name="txtExpireDate" value="">
                                             </div>
                                         </div>
-                                        <div class="col-3 " id="">
-                                            <div class="form-group d-xl-flex flex-column justify-content-xl-start" style="margin: 0px 8px;">
+                                        <div class="col-3 colCVC" id="colCVC">
+                                            <div class="form-group d-xl-flex flex-column justify-content-xl-start" style="margin: 0px 8px 8px 8px;">
                                                 <label>CVC</label>
                                                 <input type="text" class="form-control " id="txtCVC" name="txtCVC" value="">
                                             </div>
@@ -76,7 +93,7 @@
                                 <div class="col-12">
                                     <hr>
                                 </div>
-                                <div class="col d-flex justify-content-end" style="margin-top: 16px;">
+                                <div class="col-12 d-xl-flex justify-content-xl-end align-items-end" style="margin-top: 16px;">
                                     <button class="btn btn-primary btnSaveCreditCard" type="button" style="margin: 8px;"><i class="fas fa-save" style="padding-right: 5px;"></i>Update</button>
                                     <button class="btn btn-success btnAddVS1User" type="button" style="margin: 8px;"><i class="fa fa-plus" style="padding-right: 5px;"></i>Add VS1 User</button>
                                     <button class="btn btn-danger btnCancelSub" type="button" style="margin: 8px;"><i class="fa fa-times" style="padding-right: 5px;"></i>Cancel Subscription</button>

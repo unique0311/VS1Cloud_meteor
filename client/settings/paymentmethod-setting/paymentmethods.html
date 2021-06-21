@@ -4,7 +4,6 @@
             <div class="spinner"></div>
         </div>
         <h3 class="text-dark mb-4">Payment Method Settings
-            <!-- <a role="button" data-toggle="modal" href="#helpModal" class="helpModal"><label class="lblplay">PLAY</label><i class="far fa-play-circle"  style="font-size: 20px;"></i></a> -->
             <a role="button" data-toggle="modal" href="#helpViewModal"  style="font-size: 20px;">Help <i class="fa fa-question-circle-o" style="font-size: 20px;"></i></a>
 
             <!-- Start Help View Modal -->
@@ -34,11 +33,32 @@
                                 <p class="text-primary m-0 font-weight-bold">Payment Method Settings</p>
                             </div>
                             <div class="card-body">
-                                <div class="card-body p-3 rounded">
+                                <div class="card-body rounded">
                                     <div class="row no-gutters">
+                                        
+                                        <style>
+                                            @media screen and (max-width: 420px) {
+                                                .btnRefresh {
+                                                    margin-bottom: 0px;
+                                                }
+                                                .btnAddPaymentMethod {
+                                                    margin-bottom: 16px;
+                                                }
+                                                .btnOpenSettings {
+                                                    float: right;
+                                                }
+                                                .card-body {
+                                                    padding: 0.75rem !important;
+                                                }
+                                            }
+
+                                        </style>
+                                        
                                         <div class="col">
                                             <button class="btn btn-primary btnRefresh float-left" type="button" style="margin: 16px 0px; margin-right: 32px;"><i class="la la-lightbulb-o" style="padding-right: 5px;"></i>Refresh</button>
-                                            <div><a class="btn btn-primary btnAddPaymentMethod" role="button" data-toggle="modal" href="#myModal" style="margin-top: 16px;"><i class="fa fa-plus" style="margin-right: 8px;"></i>Add New Payment Method<br></a>
+                                            
+                                            <div>
+                                                <a class="btn btn-primary btnAddPaymentMethod" role="button" data-toggle="modal" href="#myModal" style="margin-top: 16px;"><i c lass="fa fa-plus" style="margin-right: 8px;"></i>Add New Payment Method<br></a>
                                                 <div class="modal fade" role="dialog"
                                                      tabindex="-1" id="myModal">
                                                     <div class="modal-dialog modal-dialog-centered" role="document">
