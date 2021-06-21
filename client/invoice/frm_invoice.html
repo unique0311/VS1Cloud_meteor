@@ -780,7 +780,8 @@
                                     <td><input class="lineOrdered colOrdered highlightInput" type="number" value="{{item.qtyordered}}"></td>
                                     <!--                                    <td contenteditable="true" class="lineQty colQty" style="text-align: right!important;" type="number">{{item.qtyshipped}}</td>-->
                                     <td><input class="lineQty colQty highlightInput" type="number" value="{{item.qtyshipped}}"></td>
-                                    <td contenteditable="false" class="lineBo colBO" style="text-align: right!important;" type="number">{{item.qtybo}}</td>
+                                    <!-- <td contenteditable="false" class="lineBo colBO" style="text-align: right!important;" type="number">{{item.qtybo}}</td> -->
+                                    <td contenteditable="false"><input class="lineBo colBO highlightInput" type="number" value="{{item.qtybo}}" readonly></td>
                                     {{else}}
                                     <!--                                    <td contenteditable="true" class="lineQty colQty" style="text-align: right!important;" type="number">{{item.quantity}}</td>-->
                                     <td><input class="lineQty colQty highlightInput" type="number" value="{{item.quantity}}"></td>

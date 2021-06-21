@@ -515,7 +515,7 @@ Template.new_invoice.onRendered(() => {
                         branding: data.fields.MedType,
                         invoiceToDesc: data.fields.InvoiceToDesc,
                         shipToDesc: data.fields.ShipToDesc,
-                        termsName: data.fields.DueDate ? moment(data.fields.DueDate).format('DD/MM/YYYY') : "",
+                        termsName: data.fields.TermsName,
                         Total: totalInc,
                         LineItems: lineItems,
                         TotalTax: totalTax,
@@ -729,7 +729,7 @@ Template.new_invoice.onRendered(() => {
                                 branding: data.fields.MedType,
                                 invoiceToDesc: data.fields.InvoiceToDesc,
                                 shipToDesc: data.fields.ShipToDesc,
-                                termsName: data.fields.DueDate ? moment(data.fields.DueDate).format('DD/MM/YYYY') : "",
+                                termsName: data.fields.TermsName,
                                 Total: totalInc || 0,
                                 LineItems: lineItems,
                                 TotalTax: totalTax || 0,
@@ -984,7 +984,7 @@ Template.new_invoice.onRendered(() => {
                                     branding: useData[d].fields.MedType,
                                     invoiceToDesc: useData[d].fields.InvoiceToDesc,
                                     shipToDesc: useData[d].fields.ShipToDesc,
-                                    termsName: useData[d].fields.DueDate ? moment(useData[d].fields.DueDate).format('DD/MM/YYYY') : "",
+                                    termsName: useData[d].fields.TermsName,
                                     Total: totalInc,
                                     LineItems: lineItems,
                                     TotalTax: totalTax,
@@ -1188,7 +1188,7 @@ Template.new_invoice.onRendered(() => {
                                     branding: data.fields.MedType,
                                     invoiceToDesc: data.fields.InvoiceToDesc,
                                     shipToDesc: data.fields.ShipToDesc,
-                                    termsName: data.fields.DueDate ? moment(data.fields.DueDate).format('DD/MM/YYYY') : "",
+                                    termsName: data.fields.TermsName,
                                     Total: totalInc,
                                     LineItems: lineItems,
                                     TotalTax: totalTax,
@@ -1444,7 +1444,7 @@ Template.new_invoice.onRendered(() => {
                             branding: data.fields.MedType,
                             invoiceToDesc: data.fields.InvoiceToDesc,
                             shipToDesc: data.fields.ShipToDesc,
-                            termsName: data.fields.DueDate ? moment(data.fields.DueDate).format('DD/MM/YYYY') : "",
+                            termsName: data.fields.TermsName,
                             Total: totalInc,
                             LineItems: lineItems,
                             TotalTax: totalTax,
@@ -1822,7 +1822,7 @@ Template.new_invoice.onRendered(() => {
                                 branding: data.fields.MedType,
                                 invoiceToDesc: data.fields.InvoiceToDesc,
                                 shipToDesc: data.fields.ShipToDesc,
-                                termsName: data.fields.DueDate ? moment(data.fields.DueDate).format('DD/MM/YYYY') : "",
+                                termsName: data.fields.TermsName,
                                 Total: totalInc,
                                 LineItems: lineItems,
                                 TotalTax: totalTax,
@@ -2062,7 +2062,7 @@ Template.new_invoice.onRendered(() => {
                                     branding: useData[d].fields.MedType,
                                     invoiceToDesc: useData[d].fields.InvoiceToDesc,
                                     shipToDesc: useData[d].fields.ShipToDesc,
-                                    termsName: useData[d].fields.DueDate ? moment(useData[d].fields.DueDate).format('DD/MM/YYYY') : "",
+                                    termsName: useData[d].fields.TermsName,
                                     Total: totalInc,
                                     LineItems: lineItems,
                                     TotalTax: totalTax,
@@ -2279,7 +2279,7 @@ Template.new_invoice.onRendered(() => {
                                     branding: data.fields.MedType,
                                     invoiceToDesc: data.fields.InvoiceToDesc,
                                     shipToDesc: data.fields.ShipToDesc,
-                                    termsName: data.fields.DueDate ? moment(data.fields.DueDate).format('DD/MM/YYYY') : "",
+                                    termsName: data.fields.TermsName,
                                     Total: totalInc,
                                     LineItems: lineItems,
                                     TotalTax: totalTax,
@@ -2515,7 +2515,7 @@ Template.new_invoice.onRendered(() => {
                             branding: data.fields.MedType,
                             invoiceToDesc: data.fields.InvoiceToDesc,
                             shipToDesc: data.fields.ShipToDesc,
-                            termsName: data.fields.DueDate ? moment(data.fields.DueDate).format('DD/MM/YYYY') : "",
+                            termsName: data.fields.TermsName,
                             Total: totalInc,
                             LineItems: lineItems,
                             TotalTax: totalTax,
@@ -2765,7 +2765,7 @@ Template.new_invoice.onRendered(() => {
                         branding: data.fields.MedType,
                         invoiceToDesc: data.fields.InvoiceToDesc,
                         shipToDesc: data.fields.ShipToDesc,
-                        termsName: data.fields.DueDate ? moment(data.fields.DueDate).format('DD/MM/YYYY') : "",
+                        termsName: data.fields.TermsName,
                         Total: totalInc,
                         LineItems: lineItems,
                         TotalTax: totalTax,
@@ -2963,7 +2963,7 @@ Template.new_invoice.onRendered(() => {
                         branding: data.fields.MedType,
                         invoiceToDesc: data.fields.InvoiceToDesc,
                         shipToDesc: data.fields.ShipToDesc,
-                        termsName: data.fields.DueDate ? moment(data.fields.DueDate).format('DD/MM/YYYY') : "",
+                        termsName: data.fields.TermsName,
                         Total: totalInc,
                         LineItems: lineItems,
                         TotalTax: totalTax,
@@ -4459,6 +4459,7 @@ Template.new_invoice.events({
                 $('.fullScreenSpin').css('display', 'inline-block');
                 var splashLineArray = new Array();
                 let lineItemsForm = [];
+                let lineItems = [];
                 let lineItemObjForm = {};
                 var erpGet = erpDb();
                 let checkBackOrder = templateObject.includeBOnShippedQty.get();
@@ -5510,13 +5511,20 @@ Template.new_invoice.events({
         let name = $('#edtCustomerEmail').attr('customerfirstname');
         let surname = $('#edtCustomerEmail').attr('customerlastname');
         let salesService = new SalesBoardService();
+        let termname = $('#sltTerms').val()||'';
+        if (termname === '') {
+            swal('Terms has not been selected!', '', 'warning');
+            event.preventDefault();
+            return false;
+        }
         if (customername.val() === '') {
             swal('Customer has not been selected!', '', 'warning');
-            e.preventDefault();
+            event.preventDefault();
         } else {
             $('.fullScreenSpin').css('display', 'inline-block');
             var splashLineArray = new Array();
             let lineItemsForm = [];
+            let lineItems = [];
             let lineItemObjForm = {};
             var erpGet = erpDb();
             let checkBackOrder = templateObject.includeBOnShippedQty.get();
@@ -5597,7 +5605,7 @@ Template.new_invoice.events({
 
             let poNumber = $('#ponumber').val();
             let reference = $('#edtRef').val();
-            let termname = $('#sltTerms').val();
+
             let departement = $('#sltDept').val();
             let shippingAddress = $('#txaShipingInfo').val();
             let comments = $('#txaComment').val();
@@ -5659,6 +5667,7 @@ Template.new_invoice.events({
                     }
                 };
             }
+
             salesService.saveInvoiceEx(objDetails).then(function (objDetails) {
                 let company = Session.get('vs1companyName');
                 let vs1User = localStorage.getItem('mySession');
@@ -5978,6 +5987,7 @@ Template.new_invoice.events({
                 });
                 $('.fullScreenSpin').css('display', 'none');
             });
+
         }
 
     },
@@ -6361,7 +6371,9 @@ Template.new_invoice.events({
             $('.fullScreenSpin').css('display', 'inline-block');
             var splashLineArray = new Array();
             let lineItemsForm = [];
+            let lineItems = [];
             let lineItemObjForm = {};
+            var erpGet = erpDb();
             let checkBackOrder = templateObject.includeBOnShippedQty.get();
             $('#tblInvoiceLine > tbody > tr').each(function () {
                 var lineID = this.id;
@@ -6375,6 +6387,14 @@ Template.new_invoice.events({
                 let tdtaxrate = $('#' + lineID + " .lineTaxRate").text();
                 let tdtaxCode = $('#' + lineID + " .lineTaxCode").text();
                 let tdlineamt = $('#' + lineID + " .lineAmt").text();
+
+                lineItemObj = {
+                    description: tddescription || '',
+                    quantity: tdQty || 0,
+                    unitPrice: tdunitprice.toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0
+                }
+
+                lineItems.push(lineItemObj);
 
                 if (tdproduct != "") {
 
@@ -6837,7 +6857,9 @@ Template.new_invoice.events({
                 $('.fullScreenSpin').css('display', 'inline-block');
                 var splashLineArray = new Array();
                 let lineItemsForm = [];
+                let lineItems = [];
                 let lineItemObjForm = {};
+                var erpGet = erpDb();
                 let checkBackOrder = templateObject.includeBOnShippedQty.get();
                 $('#tblInvoiceLine > tbody > tr').each(function () {
                     var lineID = this.id;
@@ -6851,6 +6873,14 @@ Template.new_invoice.events({
                     let tdtaxrate = $('#' + lineID + " .lineTaxRate").text();
                     let tdtaxCode = $('#' + lineID + " .lineTaxCode").text();
                     let tdlineamt = $('#' + lineID + " .lineAmt").text();
+
+                    lineItemObj = {
+                        description: tddescription || '',
+                        quantity: tdQty || 0,
+                        unitPrice: tdunitprice.toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0
+                    }
+
+                    lineItems.push(lineItemObj);
 
                     if (tdproduct != "") {
 
@@ -6873,6 +6903,7 @@ Template.new_invoice.events({
                                     ProductName: tdproduct || '',
                                     ProductDescription: tddescription || '',
                                     UOMQtySold: parseFloat(tdQty) || 0,
+                                    UOMQtyShipped: parseFloat(tdQty) || 0,
                                     LinePrice: Number(tdunitprice.replace(/[^0-9.-]+/g, "")) || 0,
                                     LineTaxCode: tdtaxCode || '',
                                 }
@@ -6967,6 +6998,8 @@ Template.new_invoice.events({
                         }
                     };
                 }
+
+
                 salesService.saveInvoiceEx(objDetails).then(function (objDetails) {
                     var customerID = $('#edtCustomerEmail').attr('customerid');
                     if (customerID !== " ") {
@@ -7064,6 +7097,8 @@ Template.new_invoice.events({
 
                     $('.fullScreenSpin').css('display', 'none');
                 });
+
+
             }
         } else {
 

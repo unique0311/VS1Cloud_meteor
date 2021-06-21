@@ -117,30 +117,6 @@ Template.depositcard.onRendered(()=>{
     {
         $('.uploadedImage').attr('src', imageData);
     };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     const templateObject = Template.instance();
     const records =[];
     let purchaseService = new PurchaseBoardService();
@@ -220,21 +196,6 @@ Template.depositcard.onRendered(()=>{
 
         });
     };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     templateObject.getPaymentMetod = function () {
 
@@ -810,11 +771,17 @@ Template.depositcard.onRendered(()=>{
                         entryno : data.fields.ID,
                         deposittotal: totalDeposit||0.00,
                         transdate : data.fields.DepositDate ? moment(data.fields.DepositDate).format('DD/MM/YYYY') : "",
-                        LineItems: lineItems
+                        LineItems: lineItems,
+                        isReconciled:data.fields.Reconciled
                     };
-                    $("#form :input").prop("disabled", true);
-                    $(".btnDeleteDeposit").prop("disabled", false);
-                    $(".btnDelete").prop("disabled", false);
+                    if(data.fields.Reconciled){
+                      $(".btnDeleteDepositEntry").prop("disabled", true);
+                      $(".btnDelete").prop("disabled", true);
+                      $(".btnSave").prop("disabled", true);
+                      $("#form :input").prop("disabled", true);
+                    }
+
+
                     $(".printConfirm").prop("disabled", false);
                     $(".btnBack").prop("disabled", false);
                     templateObject.record.set(record);
@@ -925,11 +892,17 @@ Template.depositcard.onRendered(()=>{
                   entryno : useData[d].fields.ID,
                   deposittotal: totalDeposit||0.00,
                   transdate : useData[d].fields.DepositDate ? moment(useData[d].fields.DepositDate).format('DD/MM/YYYY') : "",
-                  LineItems: lineItems
+                  LineItems: lineItems,
+                  isReconciled:useData[d].fields.Reconciled
               };
-              $("#form :input").prop("disabled", true);
-              $(".btnDeleteDeposit").prop("disabled", false);
-              $(".btnDelete").prop("disabled", false);
+              if(useData[d].fields.Reconciled){
+                $(".btnDeleteDepositEntry").prop("disabled", true);
+                $(".btnDelete").prop("disabled", true);
+                $(".btnSave").prop("disabled", true);
+                $("#form :input").prop("disabled", true);
+              }
+
+
               $(".printConfirm").prop("disabled", false);
               $(".btnBack").prop("disabled", false);
               templateObject.record.set(record);
@@ -1016,11 +989,17 @@ Template.depositcard.onRendered(()=>{
                           entryno : data.fields.ID,
                           deposittotal: totalDeposit||0.00,
                           transdate : data.fields.DepositDate ? moment(data.fields.DepositDate).format('DD/MM/YYYY') : "",
-                          LineItems: lineItems
+                          LineItems: lineItems,
+                          isReconciled:data.fields.Reconciled
                       };
-                      $("#form :input").prop("disabled", true);
-                      $(".btnDeleteDeposit").prop("disabled", false);
-                      $(".btnDelete").prop("disabled", false);
+                      if(data.fields.Reconciled){
+                        $(".btnDeleteDepositEntry").prop("disabled", true);
+                        $(".btnDelete").prop("disabled", true);
+                        $(".btnSave").prop("disabled", true);
+                        $("#form :input").prop("disabled", true);
+                      }
+
+
                       $(".printConfirm").prop("disabled", false);
                       $(".btnBack").prop("disabled", false);
                       templateObject.record.set(record);
@@ -1126,11 +1105,17 @@ Template.depositcard.onRendered(()=>{
                       entryno : data.fields.ID,
                       deposittotal: totalDeposit||0.00,
                       transdate : data.fields.DepositDate ? moment(data.fields.DepositDate).format('DD/MM/YYYY') : "",
-                      LineItems: lineItems
+                      LineItems: lineItems,
+                      isReconciled:data.fields.Reconciled
                   };
-                  $("#form :input").prop("disabled", true);
-                  $(".btnDeleteDeposit").prop("disabled", false);
-                  $(".btnDelete").prop("disabled", false);
+                  if(data.fields.Reconciled){
+                    $(".btnDeleteDepositEntry").prop("disabled", true);
+                    $(".btnDelete").prop("disabled", true);
+                    $(".btnSave").prop("disabled", true);
+                    $("#form :input").prop("disabled", true);
+                  }
+
+
                   $(".printConfirm").prop("disabled", false);
                   $(".btnBack").prop("disabled", false);
                   templateObject.record.set(record);
@@ -1234,10 +1219,11 @@ Template.depositcard.onRendered(()=>{
             entryno : '',
             deposittotal: 0.00,
             transdate : begunDate,
-            LineItems: lineItems
+            LineItems: lineItems,
+            isReconciled:false
 
         };
-
+        $("#form :input").prop("disabled", false);
         templateObject.record.set(record);
         if(templateObject.record.get()){
             Meteor.call('readPrefMethod',Session.get('mycloudLogonID'),'tblDepositEntryLine', function(error, result){

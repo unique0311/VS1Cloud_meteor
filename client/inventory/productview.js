@@ -279,9 +279,8 @@ Template.productview.onRendered(function() {
 
             }
         }).catch(function (err) {
-          console.log(err);
             productService.getClientTypeData().then((data) => {
-              console.log(data);
+
                 for (let i = 0; i < data.tclienttype.length; i++) {
 
                     clientType.push(data.tclienttype[i].fields.TypeName)

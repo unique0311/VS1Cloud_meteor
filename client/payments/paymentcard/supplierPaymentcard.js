@@ -624,7 +624,7 @@ yearRange: "-90:+10",
         }else{
           let data = JSON.parse(dataObject[0].data);
           let useData = data.tsupplierpayment;
-          
+
 
           var added=false;
           for(let d=0; d<useData.length; d++){
@@ -2805,7 +2805,7 @@ $('.fullScreenSpin').css('display', 'none');
             templateObject.record.set(record);
 
             //
-            
+
           });
 
         }
@@ -3524,7 +3524,9 @@ Template.supplierpaymentcard.events({
     let paymentService = new PaymentsService();
     let customer = $("#edtSupplierName").val();
     let paymentAmt = $("#edtPaymentAmount").val();
-    let paymentDate = $("#dtPaymentDate").val();
+    var paymentDateTime = new Date($("#dtPaymentDate").datepicker("getDate"));
+    let paymentDate = paymentDateTime.getFullYear() + "-" + (paymentDateTime.getMonth() + 1) + "-" + paymentDateTime.getDate();
+
     let bankAccount = $("#edtBankAccountName").val() || "Bank";
     let reference = $("#edtReference").val();
     let payMethod = $("#sltPaymentMethod").val();
@@ -3898,7 +3900,7 @@ Template.supplierpaymentcard.events({
            GUILines: paymentData,
            Notes: notes,
            Payment: true,
-           // PaymentDate: moment(paymentDate).format('DD/MM/YYYY'),
+           PaymentDate: paymentDate,
            PayMethodName: payMethod,
 
            ReferenceNo: reference
@@ -4247,7 +4249,7 @@ Template.supplierpaymentcard.events({
             GUILines: paymentData,
             Notes: notes,
             Payment: true,
-            // PaymentDate: moment(paymentDate).format('DD/MM/YYYY'),
+            PaymentDate: paymentDate,
             PayMethodName: payMethod,
 
             ReferenceNo: reference
@@ -4935,7 +4937,7 @@ Template.supplierpaymentcard.events({
             GUILines: paymentData,
             Notes: notes,
             Payment: true,
-            // PaymentDate: moment(paymentDate).format('DD/MM/YYYY'),
+            PaymentDate: paymentDate,
             PayMethodName: payMethod,
 
             ReferenceNo: reference
@@ -5283,7 +5285,7 @@ Template.supplierpaymentcard.events({
           GUILines: paymentData,
           Notes: notes,
           Payment: true,
-          // PaymentDate: moment(paymentDate).format('DD/MM/YYYY'),
+          PaymentDate: paymentDate,
           PayMethodName: payMethod,
 
           ReferenceNo: reference
@@ -5624,7 +5626,7 @@ Template.supplierpaymentcard.events({
           GUILines: paymentData,
           Notes: notes,
           Payment: true,
-          // PaymentDate: moment(paymentDate).format('DD/MM/YYYY'),
+          PaymentDate: paymentDate,
           PayMethodName: payMethod,
 
           ReferenceNo: reference
@@ -5965,7 +5967,7 @@ Template.supplierpaymentcard.events({
           GUILines: paymentData,
           Notes: notes,
           Payment: true,
-          // PaymentDate: moment(paymentDate).format('DD/MM/YYYY'),
+          PaymentDate: paymentDate,
           PayMethodName: payMethod,
 
           ReferenceNo: reference
@@ -6655,7 +6657,7 @@ Template.supplierpaymentcard.events({
         swal('Supplier Email cannot be blank!', '', 'warning');
         event.preventDefault();
       } else {
-        
+
         function isEmailValid(mailTo) {
           return /^[A-Z0-9'.1234z_%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(mailTo);
         };

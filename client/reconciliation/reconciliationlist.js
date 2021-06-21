@@ -24,7 +24,7 @@ Template.reconciliationlist.onRendered(function() {
     var splashArray = new Array();
     const dataTableList = [];
     const tableHeaderList = [];
-    
+
     if(Router.current().params.query.success){
       $('.btnRefresh').addClass('btnRefreshAlert');
     }
@@ -199,7 +199,7 @@ Template.reconciliationlist.onRendered(function() {
                   columVisible = false;
                 }
                 sWidth = v.style.width.replace('px', "");
-                
+
                 let datatablerecordObj = {
                   sTitle: v.innerText || '',
                   sWidth: sWidth || '',
@@ -367,7 +367,7 @@ Template.reconciliationlist.onRendered(function() {
             columVisible = false;
           }
           sWidth = v.style.width.replace('px', "");
-          
+
           let datatablerecordObj = {
             sTitle: v.innerText || '',
             sWidth: sWidth || '',
@@ -530,7 +530,7 @@ Template.reconciliationlist.onRendered(function() {
                   columVisible = false;
                 }
                 sWidth = v.style.width.replace('px', "");
-                
+
                 let datatablerecordObj = {
                   sTitle: v.innerText || '',
                   sWidth: sWidth || '',
@@ -729,6 +729,15 @@ Template.reconciliationlist.events({
       'click .btnRefresh': function () {
         $('.fullScreenSpin').css('display','inline-block');
         let templateObject = Template.instance();
+        sideBarService.getAllTVS1BankDepositData().then(function(data) {
+          addVS1Data('TVS1BankDeposit',JSON.stringify(data)).then(function (datareturn) {
+
+          }).catch(function (err) {
+
+          });
+        }).catch(function(err) {
+
+        });
         sideBarService.getAllReconcilationList().then(function(data) {
           addVS1Data('TReconciliation',JSON.stringify(data)).then(function (datareturn) {
             window.open('/reconciliationlist','_self');

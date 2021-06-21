@@ -1143,15 +1143,7 @@ Template.paymentoverview.events({
     'click .btnRefresh': function () {
         $('.fullScreenSpin').css('display','inline-block');
         let templateObject = Template.instance();
-        sideBarService.getTPaymentList().then(function(data) {
-            addVS1Data('TPaymentList',JSON.stringify(data)).then(function (datareturn) {
 
-            }).catch(function (err) {
-
-            });
-        }).catch(function(err) {
-
-        });
 
         sideBarService.getAllInvoiceList().then(function(data) {
           addVS1Data('TInvoiceEx',JSON.stringify(data)).then(function (datareturn) {
@@ -1172,12 +1164,20 @@ Template.paymentoverview.events({
 
         sideBarService.getAllPurchaseOrderListAll().then(function (data) {
           addVS1Data('TbillReport', JSON.stringify(data)).then(function (datareturn) {
-            location.reload();
+            sideBarService.getTPaymentList().then(function(data) {
+                addVS1Data('TPaymentList',JSON.stringify(data)).then(function (datareturn) {
+                  window.open('/paymentoverview','_self');
+                }).catch(function (err) {
+                  window.open('/paymentoverview','_self');
+                });
+            }).catch(function(err) {
+              window.open('/paymentoverview','_self');
+            });
           }).catch(function (err) {
-            location.reload();
+            window.open('/paymentoverview','_self');
           });
         }).catch(function (err) {
-          location.reload();
+          window.open('/paymentoverview','_self');
         });
 
         sideBarService.getSalesListData().then(function(data) {

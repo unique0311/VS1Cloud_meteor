@@ -248,6 +248,7 @@ Template.depositlist.onRendered(function() {
           $('.fullScreenSpin').css('display','none');
           let lineItems = [];
           let lineItemObj = {};
+          console.log(useData);
           for(let i=0; i<useData.length; i++){
             let totalAmount = 0;
 
@@ -720,7 +721,7 @@ Template.depositlist.events({
 
             }
           });
-           
+
         }
       }
     }
@@ -731,7 +732,7 @@ Template.depositlist.events({
     let columData = $(event.target).text();
 
     let columnDatanIndex = $(event.target).closest("div.columnSettings").attr('id');
-    
+
     var datable = $('#tblDepositList').DataTable();
     var title = datable.column( columnDatanIndex ).header();
     $(title).html(columData);
@@ -788,7 +789,7 @@ Template.depositlist.events({
     templateObject.tableheaderrecords.set(tableHeaderList);
   },
 'click #exportbtn': function () {
-  
+
   $('.fullScreenSpin').css('display','inline-block');
   jQuery('#tblDepositList_wrapper .dt-buttons .btntabletocsv').click();
    $('.fullScreenSpin').css('display','none');

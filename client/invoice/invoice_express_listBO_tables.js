@@ -63,7 +63,7 @@ Template.invoicelistBO.onRendered(function() {
           salesService.getAllBOInvoiceList().then(function (data) {
             let lineItems = [];
             let lineItemObj = {};
-            
+
             for(let i=0; i<data.BackOrderSalesList.length; i++){
               let totalAmountEx = utilityService.modifynegativeCurrencyFormat(data.BackOrderSalesList[i].TotalAmountEx)|| 0.00;
               let totalTax = utilityService.modifynegativeCurrencyFormat(data.BackOrderSalesList[i].TotalTax) || 0.00;
@@ -248,7 +248,7 @@ Template.invoicelistBO.onRendered(function() {
           let useData = data.tinvoiceex;
           let lineItems = [];
       let lineItemObj = {};
-      
+
       for(let i=0; i<useData.length; i++){
         let totalAmountEx = utilityService.modifynegativeCurrencyFormat(useData[i].fields.TotalAmount)|| 0.00;
         let totalTax = utilityService.modifynegativeCurrencyFormat(useData[i].fields.TotalTax) || 0.00;
@@ -258,12 +258,12 @@ Template.invoicelistBO.onRendered(function() {
         let totalOutstanding = utilityService.modifynegativeCurrencyFormat(useData[i].fields.TotalBalance)|| 0.00;
         let productQty = 0;
         let productName = "";
-        
+
         //if(useData[i].fields.CustomerName.replace(/\s/g, '') != ''){
           if(useData[i].fields.Lines){
-            
+
           if(useData[i].fields.Lines.length){
-            
+
             for(let d=0; d<useData[i].fields.Lines.length; d++){
               productName = useData[i].fields.Lines[d].fields.ProductPrintName;
               productQty +=  parseInt(useData[i].fields.Lines[d].fields.QtyBackOrder);
@@ -296,7 +296,7 @@ Template.invoicelistBO.onRendered(function() {
              // shipdate:useData[i].ShipDate !=''? moment(useData[i].ShipDate).format("DD/MM/YYYY"): useData[i].ShipDate,
 
          };
-         
+
          if(useData[i].fields.Deleted == false && useData[i].fields.IsBackOrder == true && useData[i].fields.CustomerName.replace(/\s/g, '') != ''){
            dataTableList.push(dataList);
          }
@@ -445,11 +445,11 @@ Template.invoicelistBO.onRendered(function() {
 
         }
         }).catch(function (err) {
-          
+
           salesService.getAllBOInvoiceList().then(function (data) {
             let lineItems = [];
             let lineItemObj = {};
-            
+
             for(let i=0; i<data.BackOrderSalesList.length; i++){
               let totalAmountEx = utilityService.modifynegativeCurrencyFormat(data.BackOrderSalesList[i].TotalAmountEx)|| 0.00;
               let totalTax = utilityService.modifynegativeCurrencyFormat(data.BackOrderSalesList[i].TotalTax) || 0.00;
@@ -771,7 +771,7 @@ Template.invoicelistBO.events({
       let columnDataValue = $(event.target).closest("div").prev().find(".divcolumn").text();
       var datable = $('#tblInvoicelistBO th');
       $.each(datable, function(i,v) {
-        
+
       if(v.innerText == columnDataValue){
           let className = v.className;
           let replaceClass = className.replace(/ /g, ".");
@@ -784,7 +784,7 @@ Template.invoicelistBO.events({
     'click .btnOpenSettings' : function(event){
       let templateObject = Template.instance();
       var columns = $('#tblInvoicelistBO th');
-      
+
       const tableHeaderList = [];
       let sTible = "";
       let sWidth = "";
@@ -800,7 +800,7 @@ Template.invoicelistBO.events({
           columVisible = false;
         }
         sWidth = v.style.width.replace('px', "");
-        
+
         let datatablerecordObj = {
           sTitle: v.innerText || '',
           sWidth: sWidth || '',

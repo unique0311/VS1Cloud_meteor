@@ -532,7 +532,7 @@ yearRange: "-90:+10",
             //setTimeout(function () {
               Meteor.call('readPrefMethod',Session.get('mycloudLogonID'),'tblPaymentcard', function(error, result){
                 if(error){
-            
+
                 //Bert.alert('<strong>Error:</strong> user-not-found, no user found please try again!', 'danger');
               }else{
                 if(result){
@@ -597,7 +597,7 @@ yearRange: "-90:+10",
         }else{
           let data = JSON.parse(dataObject[0].data);
           let useData = data.tcustomerpayment;
-          
+
           var added=false;
           for(let d=0; d<useData.length; d++){
 
@@ -693,7 +693,7 @@ yearRange: "-90:+10",
         //setTimeout(function () {
           Meteor.call('readPrefMethod',Session.get('mycloudLogonID'),'tblPaymentcard', function(error, result){
             if(error){
-        
+
             //Bert.alert('<strong>Error:</strong> user-not-found, no user found please try again!', 'danger');
           }else{
             if(result){
@@ -846,7 +846,7 @@ yearRange: "-90:+10",
               //setTimeout(function () {
                 Meteor.call('readPrefMethod',Session.get('mycloudLogonID'),'tblPaymentcard', function(error, result){
                   if(error){
-              
+
                   //Bert.alert('<strong>Error:</strong> user-not-found, no user found please try again!', 'danger');
                 }else{
                   if(result){
@@ -999,7 +999,7 @@ yearRange: "-90:+10",
             //setTimeout(function () {
               Meteor.call('readPrefMethod',Session.get('mycloudLogonID'),'tblPaymentcard', function(error, result){
                 if(error){
-            
+
                 //Bert.alert('<strong>Error:</strong> user-not-found, no user found please try again!', 'danger');
               }else{
                 if(result){
@@ -1072,7 +1072,7 @@ yearRange: "-90:+10",
     }
     });
   }else if(url.indexOf('?soid=') > 0){
-    
+
     var getsale_id = url.split('?soid=');
     var currentSalesID = getsale_id[getsale_id.length-1];
     if(getsale_id[1]){
@@ -1130,7 +1130,7 @@ yearRange: "-90:+10",
         }
         Meteor.call('readPrefMethod',Session.get('mycloudLogonID'),'tblPaymentcard', function(error, result){
           if(error){
-      
+
           //Bert.alert('<strong>Error:</strong> user-not-found, no user found please try again!', 'danger');
         }else{
           if(result){
@@ -1174,7 +1174,7 @@ yearRange: "-90:+10",
     }
     });
   }else if(url.indexOf('?quoteid=') > 0){
-    
+
     var getsale_id = url.split('?quoteid=');
     var currentSalesID = getsale_id[getsale_id.length-1];
     if(getsale_id[1]){
@@ -1232,7 +1232,7 @@ yearRange: "-90:+10",
         }
         Meteor.call('readPrefMethod',Session.get('mycloudLogonID'),'tblPaymentcard', function(error, result){
           if(error){
-      
+
           //Bert.alert('<strong>Error:</strong> user-not-found, no user found please try again!', 'danger');
         }else{
           if(result){
@@ -1275,7 +1275,7 @@ yearRange: "-90:+10",
     }
     });
   }else if(url.indexOf('?invid=') > 0){
-    
+
     var getsale_id = url.split('?invid=');
     var currentSalesID = getsale_id[getsale_id.length-1];
     if(getsale_id[1]){
@@ -1338,7 +1338,7 @@ yearRange: "-90:+10",
             }
             Meteor.call('readPrefMethod',Session.get('mycloudLogonID'),'tblPaymentcard', function(error, result){
               if(error){
-          
+
               //Bert.alert('<strong>Error:</strong> user-not-found, no user found please try again!', 'danger');
             }else{
               if(result){
@@ -1533,7 +1533,7 @@ $('.fullScreenSpin').css('display','none');
           }
           Meteor.call('readPrefMethod',Session.get('mycloudLogonID'),'tblPaymentcard', function(error, result){
             if(error){
-        
+
             //Bert.alert('<strong>Error:</strong> user-not-found, no user found please try again!', 'danger');
           }else{
             if(result){
@@ -1729,7 +1729,7 @@ $('.fullScreenSpin').css('display','none');
 
         Meteor.call('readPrefMethod',Session.get('mycloudLogonID'),'tblPaymentcard', function(error, result){
           if(error){
-      
+
           //Bert.alert('<strong>Error:</strong> user-not-found, no user found please try again!', 'danger');
         }else{
           if(result){
@@ -1765,7 +1765,7 @@ $('.fullScreenSpin').css('display','none');
         });
     }
   }else if(url.indexOf('?customername=') > 0){
-    
+
     var getsale_id = url.split('?customername=');
     var currentSalesName = getsale_id[getsale_id.length-1];
     if(getsale_id[1]){
@@ -1826,7 +1826,7 @@ $('.fullScreenSpin').css('display','none');
         }
         Meteor.call('readPrefMethod',Session.get('mycloudLogonID'),'tblPaymentcard', function(error, result){
           if(error){
-      
+
           //Bert.alert('<strong>Error:</strong> user-not-found, no user found please try again!', 'danger');
         }else{
           if(result){
@@ -1869,17 +1869,17 @@ $('.fullScreenSpin').css('display','none');
     }
     });
   }else if(url.indexOf('?selectcust=') > 0){
-    
+
     var getsale_id = url.split('?selectcust=');
     var currentSalesID = getsale_id[getsale_id.length-1];
-    
+
     if(getsale_id[1]){
     let lineItems = [];
   let lineItemObj = {};
   let amountData =  0;
       var arr = currentSalesID.split(',');
       for (let i = 0; i < arr.length; i++) {
-        
+
         currentSalesID = parseInt(arr[i]);
 
     paymentService.getOneInvoicePayment(currentSalesID).then(function (data) {
@@ -1938,7 +1938,7 @@ $('.fullScreenSpin').css('display','none');
       }
       Meteor.call('readPrefMethod',Session.get('mycloudLogonID'),'tblPaymentcard', function(error, result){
         if(error){
-    
+
         //Bert.alert('<strong>Error:</strong> user-not-found, no user found please try again!', 'danger');
       }else{
         if(result){
@@ -2084,7 +2084,11 @@ Template.paymentcard.events({
     let paymentService = new PaymentsService();
     let customer = $("#edtCustomerName").val();
     let paymentAmt = $("#edtPaymentAmount").val();
-    let paymentDate = $("#dtPaymentDate").val();
+
+    var paymentDateTime = new Date($("#dtPaymentDate").datepicker("getDate"));
+    let paymentDate = paymentDateTime.getFullYear() + "-" + (paymentDateTime.getMonth() + 1) + "-" + paymentDateTime.getDate();
+
+
     let bankAccount = $("#edtBankAccountName").val();
     let reference = $("#edtReference").val();
     let payMethod = $("#sltPaymentMethod").val();
@@ -2137,7 +2141,7 @@ Template.paymentcard.events({
                  EmployeeName: empName || ' ',
                  GUILines: paymentData,
                  Notes:notes,
-                 // PaymentDate: moment(paymentDate).format('DD/MM/YYYY'),
+                 PaymentDate: paymentDate,
                  PayMethodName: payMethod,
                  Payment:true,
                  ReferenceNo: reference,
@@ -2163,7 +2167,7 @@ Template.paymentcard.events({
                reader.onloadend = function() {
                    var base64data = reader.result;
                    base64data = base64data.split(',')[1];
-                   
+
                    pdfObject = {
                       filename: 'Customer Payment ' + invoiceId + '.pdf',
                       content: base64data,
@@ -2438,7 +2442,7 @@ if(paymentAmt.replace(/[^0-9.-]+/g,"") < 0){
              GUILines: paymentData,
              Notes:notes,
              Payment:true,
-             // PaymentDate: moment(paymentDate).format('DD/MM/YYYY'),
+             PaymentDate: paymentDate,
              PayMethodName: payMethod,
 
              ReferenceNo: reference
@@ -2464,7 +2468,7 @@ if(paymentAmt.replace(/[^0-9.-]+/g,"") < 0){
            reader.onloadend = function() {
                var base64data = reader.result;
                base64data = base64data.split(',')[1];
-               
+
                pdfObject = {
                   filename: 'Customer Payment-' + invoiceId + '.pdf',
                   content: base64data,
@@ -2715,7 +2719,7 @@ var htmlmailBody = '<table align="center" border="0" cellpadding="0" cellspacing
              GUILines: paymentData,
              Notes:notes,
              Payment:true,
-             // PaymentDate: moment(paymentDate).format('DD/MM/YYYY'),
+             PaymentDate: paymentDate,
              PayMethodName: payMethod,
 
              ReferenceNo: reference
@@ -2741,7 +2745,7 @@ var htmlmailBody = '<table align="center" border="0" cellpadding="0" cellspacing
            reader.onloadend = function() {
                var base64data = reader.result;
                base64data = base64data.split(',')[1];
-               
+
                pdfObject = {
                   filename: 'Customer Payment ' + invoiceId + '.pdf',
                   content: base64data,
@@ -3016,7 +3020,7 @@ var htmlmailBody = '<table align="center" border="0" cellpadding="0" cellspacing
                          EmployeeName: empName || ' ',
                          GUILines: paymentData,
                          Notes:notes,
-                         // PaymentDate: moment(paymentDate).format('DD/MM/YYYY'),
+                         PaymentDate: paymentDate,
                          PayMethodName: payMethod,
                          Payment:true,
                          ReferenceNo: reference,
@@ -3042,7 +3046,7 @@ var htmlmailBody = '<table align="center" border="0" cellpadding="0" cellspacing
                        reader.onloadend = function() {
                            var base64data = reader.result;
                            base64data = base64data.split(',')[1];
-                           
+
                            pdfObject = {
                               filename: 'customerpayment-' + invoiceId + '.pdf',
                               content: base64data,
@@ -3314,7 +3318,7 @@ var htmlmailBody = '<table align="center" border="0" cellpadding="0" cellspacing
                    GUILines: paymentData,
                    Notes:notes,
                    Payment:true,
-                   // PaymentDate: moment(paymentDate).format('DD/MM/YYYY'),
+                   PaymentDate: paymentDate,
                    PayMethodName: payMethod,
 
                    ReferenceNo: reference
@@ -3339,7 +3343,7 @@ var htmlmailBody = '<table align="center" border="0" cellpadding="0" cellspacing
                reader.onloadend = function() {
                    var base64data = reader.result;
                    base64data = base64data.split(',')[1];
-                   
+
                    pdfObject = {
                       filename: 'customerpayment-' + invoiceId + '.pdf',
                       content: base64data,
@@ -3595,7 +3599,7 @@ var htmlmailBody = '<table align="center" border="0" cellpadding="0" cellspacing
              reader.onloadend = function() {
                  var base64data = reader.result;
                  base64data = base64data.split(',')[1];
-                 
+
                  pdfObject = {
                     filename: 'customerpayment-' + invoiceId + '.pdf',
                     content: base64data,
@@ -3909,7 +3913,7 @@ if(paymentAmt.replace(/[^0-9.-]+/g,"") < 0){
              GUILines: paymentData,
              Notes:notes,
              Payment:true,
-             // PaymentDate: moment(paymentDate).format('DD/MM/YYYY'),
+             PaymentDate: paymentDate,
              PayMethodName: payMethod,
 
              ReferenceNo: reference
@@ -3935,7 +3939,7 @@ if(paymentAmt.replace(/[^0-9.-]+/g,"") < 0){
            reader.onloadend = function() {
                var base64data = reader.result;
                base64data = base64data.split(',')[1];
-               
+
                pdfObject = {
                   filename: 'customerpayment-' + invoiceId + '.pdf',
                   content: base64data,
@@ -4183,7 +4187,7 @@ var htmlmailBody = '<table align="center" border="0" cellpadding="0" cellspacing
              GUILines: paymentData,
              Notes:notes,
              Payment:true,
-             // PaymentDate: moment(paymentDate).format('DD/MM/YYYY'),
+             PaymentDate: paymentDate,
              PayMethodName: payMethod,
 
              ReferenceNo: reference
@@ -4209,7 +4213,7 @@ var htmlmailBody = '<table align="center" border="0" cellpadding="0" cellspacing
            reader.onloadend = function() {
                var base64data = reader.result;
                base64data = base64data.split(',')[1];
-               
+
                pdfObject = {
                   filename: 'customerpayment-' + invoiceId + '.pdf',
                   content: base64data,
@@ -4555,8 +4559,7 @@ var htmlmailBody = '<table align="center" border="0" cellpadding="0" cellspacing
       type: "TCustomerPayment",
       fields: {
           ID: currentInvoice,
-          Deleted: true,
-          Lines: null
+          Deleted: true
       }
     };
 
@@ -4811,7 +4814,7 @@ var htmlmailBody = '<table align="center" border="0" cellpadding="0" cellspacing
 
               }
             });
-             
+
           }
         }
       }
@@ -4831,7 +4834,7 @@ var htmlmailBody = '<table align="center" border="0" cellpadding="0" cellspacing
           swal('Customer Email cannot be blank!', '', 'warning');
           event.preventDefault();
         }else{
-          
+
           function isEmailValid(mailTo) {
             return /^[A-Z0-9'.1234z_%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(mailTo);
           };
