@@ -1,8 +1,8 @@
 <template name="dashboard">
     <div class="container-fluid">
-      <div class="fullScreenSpin" style="display:none;">
-          <div class="spinner"></div>
-      </div>
+        <div class="fullScreenSpin" style="display:none;">
+            <div class="spinner"></div>
+        </div>
         <div class="d-sm-flex justify-content-between align-items-center mb-4">
             <h3 class="text-dark mb-0">Dashboard
                 <!-- <a role="button" data-toggle="modal" href="#helpModal" class="helpModal"><label class="lblplay">PLAY</label><i class="far fa-play-circle"  style="font-size: 20px;"></i></a> -->
@@ -26,7 +26,14 @@
                 </div>
                 <!-- End Help View Modal -->
             </h3>
-            <button class="btn btn-primary btnBatchUpdate" id="btnBatchUpdate" type="button" style=""><i class="fas fa-sync-alt" style="padding-right: 5px;"></i>Update Reporting Tables</button>
+            <style>
+                @media screen and (max-width: 420px) {
+                    .btnBatchUpdate {
+                        margin-top: 10px;
+                    }
+                }
+            </style>
+            <button class="btn btn-primary btnBatchUpdate" id="btnBatchUpdate" type="button" style=""><i class="fas fa-sync-alt" style="padding-right: 5px; "></i>Update Reporting Tables</button>
         </div>
         <div class="row">
             {{> purchasesaleschart}}
