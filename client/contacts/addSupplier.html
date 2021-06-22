@@ -85,7 +85,7 @@
             <div class="d-sm-flex justify-content-between align-items-center mb-4" style="margin-left: 8px;">
                 <h3 class="text-dark mb-0">Supplier Overview Dashboard <a role="button" data-toggle="modal" href="#helpViewModal" class=""><label class="lblplay">Help</label><i class="fa fa-question-circle-o"  style="font-size: 20px;"></i></a></h3>
             </div>
-            
+
             <div class="modal fade" role="dialog" tabindex="-1" id="helpViewModal">
                 <div class="modal-dialog modal-sm" role="document">
                     <div class="modal-content">
@@ -101,7 +101,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <div class="row">
                 <div class="col-2 displayList" id="displayList">
                     <div class="card shadow mb-4 supplierCardParent" style="margin: 8px;">
@@ -374,6 +374,10 @@
                                                     <div class="col d-xl-flex flex-row align-items-xl-start" style="padding: 0px;">
                                                         <div class="form-group flex-grow-0" style="margin: 4px;"><label class="text-nowrap">Skype ID</label><input type="text" class="form-control" id="edtSupplierSkypeID" name="edtSupplierSkypeID" value="{{record.skype}}"></div>
                                                         <div class="form-group flex-grow-1" style="margin: 4px;"><label class="text-nowrap">Website</label><input type="text" class="form-control" id="edtSupplierWebsite" name="edtSupplierWebsite" value="{{record.website}}"></div>
+                                                        <div class="custom-control custom-switch chkaddress" style="margin: 4px;">
+                                                         <input class="custom-control-input" type="checkbox" id="chkSameAsCustomer" style=" cursor: pointer;" checked="{{#if record.iscustomer}}checked{{/if}}">
+                                                         <label class="custom-control-label" for="chkSameAsCustomer" style=" cursor: pointer;">Same as Customer</label>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
