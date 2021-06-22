@@ -1787,6 +1787,8 @@ Template.customerscard.onRendered(function () {
                                 id: data.fields.ID || '',
                                 lid: 'Edit Customer',
                                 isjob: data.fields.IsJob || '',
+                                issupplier: data.fields.IsSupplier || false,
+                                iscustomer: data.fields.IsCustomer || false,
                                 company: data.fields.ClientName || '',
                                 email: data.fields.Email || '',
                                 title: data.fields.Title || '',
@@ -1914,6 +1916,8 @@ Template.customerscard.onRendered(function () {
                                     id: useData[i].fields.ID || '',
                                     lid: 'Edit Customer',
                                     isjob: useData[i].fields.IsJob || '',
+                                    issupplier: useData[i].fields.IsSupplier || false,
+                                    iscustomer: useData[i].fields.IsCustomer || false,
                                     company: useData[i].fields.ClientName || '',
                                     email: useData[i].fields.Email || '',
                                     title: useData[i].fields.Title || '',
@@ -2042,6 +2046,8 @@ Template.customerscard.onRendered(function () {
                                     id: data.fields.ID || '',
                                     lid: 'Edit Customer',
                                     isjob: data.fields.IsJob || '',
+                                    issupplier: data.fields.IsSupplier || false,
+                                    iscustomer: data.fields.IsCustomer || false,
                                     company: data.fields.ClientName || '',
                                     email: data.fields.Email || '',
                                     title: data.fields.Title || '',
@@ -2168,6 +2174,8 @@ Template.customerscard.onRendered(function () {
                             id: data.fields.ID || '',
                             lid: 'Edit Customer',
                             isjob: data.fields.IsJob || '',
+                            issupplier: data.fields.IsSupplier || false,
+                            iscustomer: data.fields.IsCustomer || false,
                             company: data.fields.ClientName || '',
                             email: data.fields.Email || '',
                             title: data.fields.Title || '',
@@ -2299,6 +2307,8 @@ Template.customerscard.onRendered(function () {
                                 jobid: data.fields.ID || '',
                                 joblid: 'Edit Job',
                                 isjob: data.fields.IsJob || '',
+                                issupplier: data.fields.IsSupplier || false,
+                                iscustomer: data.fields.IsCustomer || false,
                                 jobcompany: data.fields.ClientName || '',
                                 jobCompanyParent: data.fields.ParentClientName || '',
                                 jobemail: data.fields.Email || '',
@@ -2471,6 +2481,8 @@ Template.customerscard.onRendered(function () {
                                     jobid: data.fields.ID || '',
                                     joblid: 'Edit Job',
                                     isjob: data.fields.IsJob || '',
+                                    issupplier: data.fields.IsSupplier || false,
+                                    iscustomer: data.fields.IsCustomer || false,
                                     jobcompany: data.fields.ClientName || '',
                                     jobCompanyParent: data.fields.ParentClientName || '',
                                     jobemail: data.fields.Email || '',
@@ -3096,6 +3108,12 @@ Template.customerscard.events({
         let bstate = '';
         let bzipcode = '';
         let bcountry = '';
+        let isSupplier = false;
+        if ($('#chkSameAsSupplier').is(':checked')) {
+          isSupplier = true;
+        }else{
+          isSupplier = false;
+        }
         if ($('#chkSameAsShipping2').is(':checked')) {
             bstreetAddress = streetAddress;
             bcity = city;
@@ -3174,7 +3192,7 @@ Template.customerscard.events({
                     BillState: bstate,
                     BillPostCode: bzipcode,
                     Billcountry: bcountry,
-
+                    IsSupplier:isSupplier,
                     Notes: notes,
                     // CustFld1: custfield1,
                     // CustFld2: custfield2,
@@ -3224,6 +3242,7 @@ Template.customerscard.events({
                         BillState: bstate,
                         BillPostCode: bzipcode,
                         Billcountry: bcountry,
+                        IsSupplier:isSupplier,
                         Notes: notes,
                         URL: website,
                         PaymentMethodName: sltPaymentMethodName,
@@ -3263,6 +3282,7 @@ Template.customerscard.events({
                         BillState: bstate,
                         BillPostCode: bzipcode,
                         Billcountry: bcountry,
+                        IsSupplier:isSupplier,
                         Notes: notes,
                         URL: website,
                         PaymentMethodName: sltPaymentMethodName,

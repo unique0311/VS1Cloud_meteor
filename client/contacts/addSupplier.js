@@ -1047,6 +1047,8 @@ yearRange: "-90:+10",
                           deliverymethod:data.fields.ShippingMethodName || '',
                           accountnumber:data.fields.ClientNo || 0.00,
                           isContractor:data.fields.Contractor || false,
+                          issupplier: data.fields.IsSupplier || false,
+                          iscustomer: data.fields.IsCustomer || false,
                           // openingbalancedate: data.fields.RewardPointsOpeningDate ? moment(data.fields.RewardPointsOpeningDate).format('DD/MM/YYYY') : "",
                           // taxcode:data.fields.TaxCodeName || templateObject.defaultsaletaxcode.get()
 
@@ -1126,6 +1128,8 @@ yearRange: "-90:+10",
                               deliverymethod:useData[i].fields.ShippingMethodName || '',
                               accountnumber:useData[i].fields.ClientNo || 0.00,
                               isContractor:useData[i].fields.Contractor || false,
+                              issupplier: useData[i].fields.IsSupplier || false,
+                              iscustomer: useData[i].fields.IsCustomer || false,
                               // openingbalancedate: useData[i].fields.RewardPointsOpeningDate ? moment(useData[i].fields.RewardPointsOpeningDate).format('DD/MM/YYYY') : "",
                               // taxcode:useData[i].fields.TaxCodeName || templateObject.defaultsaletaxcode.get()
 
@@ -1201,6 +1205,8 @@ yearRange: "-90:+10",
                               deliverymethod:data.fields.ShippingMethodName || '',
                               accountnumber:data.fields.ClientNo || 0.00,
                               isContractor:data.fields.Contractor || false,
+                              issupplier: data.fields.IsSupplier || false,
+                              iscustomer: data.fields.IsCustomer || false,
                               // openingbalancedate: data.fields.RewardPointsOpeningDate ? moment(data.fields.RewardPointsOpeningDate).format('DD/MM/YYYY') : "",
                               // taxcode:data.fields.TaxCodeName || templateObject.defaultsaletaxcode.get()
 
@@ -1277,6 +1283,8 @@ yearRange: "-90:+10",
                       deliverymethod:data.fields.ShippingMethodName || '',
                       accountnumber:data.fields.ClientNo || 0.00,
                       isContractor:data.fields.Contractor || false,
+                      issupplier: data.fields.IsSupplier || false,
+                      iscustomer: data.fields.IsCustomer || false,
                       // openingbalancedate: data.fields.RewardPointsOpeningDate ? moment(data.fields.RewardPointsOpeningDate).format('DD/MM/YYYY') : "",
                       // taxcode:data.fields.TaxCodeName || templateObject.defaultsaletaxcode.get()
 
@@ -1584,6 +1592,12 @@ Template.supplierscard.events({
         let bpostalcode = '';
         let bcountry = '';
         let isContractor = false;
+        let isCustomer = false;
+        if ($('#chkSameAsCustomer').is(':checked')) {
+          isCustomer = true;
+        }else{
+          isCustomer = false;
+        }
         if($('#isformcontractor').is(':checked')){
             isContractor = true;
         }
@@ -1629,6 +1643,7 @@ Template.supplierscard.events({
                     FirstName: firstname,
                     CUSTFLD10:middlename,
                     LastName: lastname,
+                    IsCustomer:isCustomer,
                     // TFN:suffix,
                     Email: email,
                     Phone: phone,
@@ -1680,6 +1695,7 @@ Template.supplierscard.events({
                         FirstName: firstname,
                         CUSTFLD10:middlename,
                         LastName: lastname,
+                        IsCustomer:isCustomer,
                         // TFN:suffix,
                         Email: email,
                         Phone: phone,
@@ -1725,6 +1741,7 @@ Template.supplierscard.events({
                         FirstName: firstname,
                         CUSTFLD10:middlename,
                         LastName: lastname,
+                        IsCustomer:isCustomer,
                         // TFN:suffix,
                         Email: email,
                         Phone: phone,

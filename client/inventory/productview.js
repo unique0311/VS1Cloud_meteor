@@ -1078,6 +1078,8 @@ Template.productview.events({
         var url = window.location.href;
         var getso_id = url.split('?id=');
         var currentID = getso_id[getso_id.length-1].split('#')[0];
+
+        if($('#chkSellPrice').is(':checked')){
         $('.itemExtraSellRow').each(function () {
             var lineID = this.id;
             let tdclientType = $('#' + lineID + " .customerTypeSelect").val();
@@ -1096,6 +1098,8 @@ Template.productview.events({
             lineExtaSellItems.push(lineExtaSellObj);
 
         });
+        }
+
         if(getso_id[1]){
             if((itrackThisItem == true) && ($("#sltinventoryacount").val() != '')){
                 objDetails = {

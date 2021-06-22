@@ -514,7 +514,7 @@ Template.appointmentlist.onRendered(function () {
                                     download: 'open',
                                     className: "btntabletopdf hiddenColumn",
                                     text: '',
-                                    title: 'Reconciliation',
+                                    title: 'Appointment List',
                                     filename: "appointmentlist_" + moment().format(),
                                     exportOptions: {
                                         columns: ':visible'
@@ -709,7 +709,7 @@ Template.appointmentlist.onRendered(function () {
                                 download: 'open',
                                 className: "btntabletopdf hiddenColumn",
                                 text: '',
-                                title: 'Reconciliation',
+                                title: 'Appointment List',
                                 filename: "appointmentlist_" + moment().format(),
                                 exportOptions: {
                                     columns: ':visible'
@@ -900,7 +900,7 @@ Template.appointmentlist.onRendered(function () {
                                 download: 'open',
                                 className: "btntabletopdf hiddenColumn",
                                 text: '',
-                                title: 'Reconciliation',
+                                title: 'Appointment List',
                                 filename: "appointmentlist_" + moment().format(),
                                 exportOptions: {
                                     columns: ':visible'
