@@ -734,7 +734,7 @@ Template.new_salesorder.onRendered(() => {
                                 setTimeout(function() {
                                     if (clientList) {
                                         for (var i = 0; i < clientList.length; i++) {
-                                          console.log(clientList[i].firstname);
+
                                             if (clientList[i].customername == useData[d].fields.CustomerName) {
                                                 salesorderrecord.firstname = clientList[i].firstname || '';
                                                 salesorderrecord.lastname = clientList[i].lastname || '';
@@ -2585,13 +2585,14 @@ Template.new_salesorder.onRendered(() => {
             let lineProductName = table.find(".productName").text();
             let lineProductDesc = table.find(".productDesc").text();
             let lineUnitPrice = table.find(".salePrice").text();
-
+            /*
             let filterProdExtraSellData =  _.filter(productExtraSell, function (dataProdExtra) {
                 return ((dataProdExtra.productname == lineProductName) && (dataProdExtra.clienttype == getCustDetails[0].clienttypename));
             });
             if(filterProdExtraSellData.length > 0){
               lineUnitPrice = filterProdExtraSellData[0].price || 0;
             }
+            */
 
             let lineTaxCode = 0;
             let lineAmount = 0;

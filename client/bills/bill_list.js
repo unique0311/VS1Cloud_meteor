@@ -761,18 +761,18 @@ Template.billlist.events({
 
       sideBarService.getAllPurchaseOrderListAll().then(function(data) {
         addVS1Data('TbillReport',JSON.stringify(data)).then(function (datareturn) {
-          sideBarService.getAllBillExList().then(function(data) {
-            addVS1Data('TBillEx',JSON.stringify(data)).then(function (datareturn) {
+          sideBarService.getAllBillExList().then(function(dataBill) {
+            addVS1Data('TBillEx',JSON.stringify(dataBill)).then(function (datareturn) {
               window.open('/billlist','_self');
             }).catch(function (err) {
-            window.open('/billlist','_self');
+          window.open('/billlist','_self');
             });
           }).catch(function(err) {
             window.open('/billlist','_self');
           });
         }).catch(function (err) {
-          sideBarService.getAllBillExList().then(function(data) {
-            addVS1Data('TBillEx',JSON.stringify(data)).then(function (datareturn) {
+          sideBarService.getAllBillExList().then(function(dataBill) {
+            addVS1Data('TBillEx',JSON.stringify(dataBill)).then(function (datareturn) {
               window.open('/billlist','_self');
             }).catch(function (err) {
             window.open('/billlist','_self');
@@ -782,14 +782,14 @@ Template.billlist.events({
           });
         });
       }).catch(function(err) {
-        sideBarService.getAllBillExList().then(function(data) {
-          addVS1Data('TBillEx',JSON.stringify(data)).then(function (datareturn) {
-            window.open('/billlist','_self');
+        sideBarService.getAllBillExList().then(function(dataBill) {
+          addVS1Data('TBillEx',JSON.stringify(dataBill)).then(function (datareturn) {
+          window.open('/billlist','_self');
           }).catch(function (err) {
           window.open('/billlist','_self');
           });
         }).catch(function(err) {
-          window.open('/billlist','_self');
+        window.open('/billlist','_self');
         });
       });
       },

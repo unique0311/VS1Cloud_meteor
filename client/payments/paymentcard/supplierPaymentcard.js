@@ -2498,6 +2498,7 @@ $('.fullScreenSpin').css('display', 'none');
         let lineItems = [];
         let lineItemObj = {};
         let companyName = '';
+        let suppPaymentID = '';
         let referenceNo = '';
         let paymentMethodName = '';
         let accountName = '';
@@ -2512,6 +2513,7 @@ $('.fullScreenSpin').css('display', 'none');
             for (let j = 0; j < data.tsupplierpayment[i].fields.Lines.length; j++) {
               if (data.tsupplierpayment[i].fields.Lines[j].fields.TransNo == currentSalesID) {
                 companyName = data.tsupplierpayment[i].fields.CompanyName;
+                suppPaymentID = data.tsupplierpayment[i].fields.ID;
                 referenceNo = data.tsupplierpayment[i].fields.ReferenceNo;
                 paymentMethodName = data.tsupplierpayment[i].fields.PaymentMethodName;
                 accountName = data.tsupplierpayment[i].fields.AccountName;
@@ -2558,10 +2560,58 @@ $('.fullScreenSpin').css('display', 'none');
               }
 
             }
+          }else{
+            if (data.tsupplierpayment[i].fields.Lines.fields.TransNo == currentSalesID) {
+                companyName = data.tsupplierpayment[i].fields.CompanyName;
+                suppPaymentID = data.tsupplierpayment[i].fields.ID;
+                referenceNo = data.tsupplierpayment[i].fields.ReferenceNo;
+                paymentMethodName = data.tsupplierpayment[i].fields.PaymentMethodName;
+                accountName = data.tsupplierpayment[i].fields.AccountName;
+                notes = data.tsupplierpayment[i].fields.Notes;
+                paymentdate = data.tsupplierpayment[i].fields.PaymentDate;
+                checkpayment = data.tsupplierpayment[i].fields.Payment;
+                department = data.tsupplierpayment[i].fields.DeptClassName;
+                appliedAmt = utilityService.modifynegativeCurrencyFormat(data.tsupplierpayment[i].fields.Applied).toLocaleString(undefined, {
+                  minimumFractionDigits: 2
+                });
+                templateObject.supppaymentid.set(data.tsupplierpayment[i].fields.ID);
+
+                let amountDue = Currency + '' + data.tsupplierpayment[i].fields.Lines.fields.AmountDue.toLocaleString(undefined, {
+                  minimumFractionDigits: 2
+                });
+                let paymentAmt = Currency + '' + data.tsupplierpayment[i].fields.Lines.fields.Payment.toLocaleString(undefined, {
+                  minimumFractionDigits: 2
+                });
+                let outstandingAmt = Currency + '' + data.tsupplierpayment[i].fields.Lines.fields.AmountOutstanding.toLocaleString(undefined, {
+                  minimumFractionDigits: 2
+                });
+                let originalAmt = Currency + '' + data.tsupplierpayment[i].fields.Lines.fields.OriginalAmount.toLocaleString(undefined, {
+                  minimumFractionDigits: 2
+                });
+
+
+
+                lineItemObj = {
+                  id: data.tsupplierpayment[i].fields.Lines.fields.ID || '',
+                  invoiceid: data.tsupplierpayment[i].fields.Lines.fields.ID || '',
+                  poid: data.tsupplierpayment[i].fields.Lines.fields.POID || '',
+                  transid: data.tsupplierpayment[i].fields.Lines.fields.ID || '',
+                  invoicedate: data.tsupplierpayment[i].fields.Lines.fields.Date != '' ? moment(data.tsupplierpayment[i].fields.Lines.fields.Date).format("DD/MM/YYYY") : data.tsupplierpayment[i].fields.Lines.fields.Date,
+                  refno: data.tsupplierpayment[i].fields.Lines.fields.RefNo || '',
+                  transtype: "Bill" || '',
+                  amountdue: amountDue || 0,
+                  paymentamount: paymentAmt || 0,
+                  ouststandingamount: outstandingAmt,
+                  orginalamount: originalAmt
+                };
+                lineItems.push(lineItemObj);
+              } else {
+
+              }
           }
         }
         let record = {
-          lid: '',
+          lid: suppPaymentID,
           customerName: companyName || '',
           paymentDate: paymentdate ? moment(paymentdate).format('DD/MM/YYYY') : "",
           reference: referenceNo || ' ',
@@ -6344,7 +6394,7 @@ Template.supplierpaymentcard.events({
     if (getso_id[1]) {
       currentInvoice = parseInt(currentInvoice);
       var objDetails = {
-        type: "TSupplierPayment",
+        type: "TSuppPayments",
         fields: {
           ID: currentInvoice,
           Deleted: true
@@ -6355,6 +6405,26 @@ Template.supplierpaymentcard.events({
       paymentService.deleteSuppDepositData(objDetails).then(function(objDetails) {
         $('.modal-backdrop').css('display','none');
         Router.go('/paymentoverview?success=true');
+        sideBarService.getAllBillExList().then(function(dataBill) {
+          addVS1Data('TBillEx',JSON.stringify(dataBill)).then(function (datareturn) {
+
+          }).catch(function (err) {
+
+          });
+        }).catch(function(err) {
+
+        });
+
+        sideBarService.getAllPurchaseOrderListAll().then(function(data) {
+          addVS1Data('TbillReport',JSON.stringify(data)).then(function (datareturn) {
+
+          }).catch(function (err) {
+
+          });
+        }).catch(function(err) {
+
+        });
+
       }).catch(function(err) {
         swal({
           title: 'Something went wrong',
@@ -6370,9 +6440,66 @@ Template.supplierpaymentcard.events({
           }
         });
         $('.fullScreenSpin').css('display', 'none');
+        $('.modal-backdrop').css('display','none');
       });
     } else {
-      Router.go('/paymentoverview?success=true');
+      let suppPaymentId = $('.printID').attr("id");
+      if(suppPaymentId !== ''){
+        currentInvoice = parseInt(suppPaymentId);
+        var objDetails = {
+          type: "TSuppPayments",
+          fields: {
+            ID: currentInvoice,
+            Deleted: true
+            // Lines: null
+          }
+        };
+
+        paymentService.deleteSuppDepositData(objDetails).then(function(objDetails) {
+          $('.modal-backdrop').css('display','none');
+          Router.go('/paymentoverview?success=true');
+          sideBarService.getAllBillExList().then(function(dataBill) {
+            addVS1Data('TBillEx',JSON.stringify(dataBill)).then(function (datareturn) {
+
+            }).catch(function (err) {
+
+            });
+          }).catch(function(err) {
+
+          });
+
+          sideBarService.getAllPurchaseOrderListAll().then(function(data) {
+            addVS1Data('TbillReport',JSON.stringify(data)).then(function (datareturn) {
+
+            }).catch(function (err) {
+
+            });
+          }).catch(function(err) {
+
+          });
+
+        }).catch(function(err) {
+          swal({
+            title: 'Something went wrong',
+            text: err,
+            type: 'error',
+            showCancelButton: false,
+            confirmButtonText: 'Try Again'
+          }).then((result) => {
+            if (result.value) {
+              Meteor._reload.reload();
+            } else if (result.dismiss === 'cancel') {
+
+            }
+          });
+          $('.fullScreenSpin').css('display', 'none');
+          $('.modal-backdrop').css('display','none');
+        });
+      }else{
+        Router.go('/paymentoverview?success=true');
+        $('.modal-backdrop').css('display','none');
+      }
+
     }
     // $('#deleteLineModal').modal('toggle');
   },

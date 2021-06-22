@@ -987,7 +987,7 @@ Template.customerscard.onRendered(function () {
                             clientno: data.tjob[i].ClientNo || '',
                             jobtitle: data.tjob[i].JobTitle || '',
                             notes: data.tjob[i].Notes || '',
-                            country: data.tjob[i].Country || ''
+                            country: data.tjob[i].Country || LoggedCountry
                         };
                         if (customerName === data.tjob[i].ParentCustomerName) {
                             dataTableListJob.push(dataListJob);
@@ -1171,7 +1171,7 @@ Template.customerscard.onRendered(function () {
                         clientno: useData[i].fields.ClientNo || '',
                         jobtitle: useData[i].fields.JobTitle || '',
                         notes: useData[i].fields.Notes || '',
-                        country: useData[i].fields.Country || ''
+                        country: useData[i].fields.Country || LoggedCountry
                     };
                     if (customerName === useData[i].fields.ParentCustomerName) {
                         dataTableListJob.push(dataListJob);
@@ -1349,7 +1349,7 @@ Template.customerscard.onRendered(function () {
                         clientno: data.tjob[i].ClientNo || '',
                         jobtitle: data.tjob[i].JobTitle || '',
                         notes: data.tjob[i].Notes || '',
-                        country: data.tjob[i].Country || ''
+                        country: data.tjob[i].Country || LoggedCountry
                     };
                     if (customerName === data.tjob[i].ParentCustomerName) {
                         dataTableListJob.push(dataListJob);
@@ -1803,7 +1803,7 @@ Template.customerscard.onRendered(function () {
                                 scity: data.fields.Street2 || '',
                                 sstate: data.fields.State || '',
                                 spostalcode: data.fields.Postcode || '',
-                                scountry: data.fields.Country || '',
+                                scountry: data.fields.Country || LoggedCountry,
                                 billingaddress: data.fields.BillStreet || '',
                                 bcity: data.fields.BillStreet2 || '',
                                 bstate: data.fields.BillState || '',
@@ -1838,7 +1838,7 @@ Template.customerscard.onRendered(function () {
                                 jobscity: data.fields.Street2 || '',
                                 jobsstate: data.fields.State || '',
                                 jobspostalcode: data.fields.Postcode || '',
-                                jobscountry: data.fields.Country || '',
+                                jobscountry: data.fields.Country || LoggedCountry,
                                 jobbillingaddress: data.fields.BillStreet || '',
                                 jobbcity: data.fields.BillStreet2 || '',
                                 jobbstate: data.fields.BillState || '',
@@ -1931,7 +1931,7 @@ Template.customerscard.onRendered(function () {
                                     scity: useData[i].fields.Street2 || '',
                                     sstate: useData[i].fields.State || '',
                                     spostalcode: useData[i].fields.Postcode || '',
-                                    scountry: useData[i].fields.Country || '',
+                                    scountry: useData[i].fields.Country || LoggedCountry,
                                     billingaddress: useData[i].fields.BillStreet || '',
                                     bcity: useData[i].fields.BillStreet2 || '',
                                     bstate: useData[i].fields.BillState || '',
@@ -1966,7 +1966,7 @@ Template.customerscard.onRendered(function () {
                                     jobscity: useData[i].fields.Street2 || '',
                                     jobsstate: useData[i].fields.State || '',
                                     jobspostalcode: useData[i].fields.Postcode || '',
-                                    jobscountry: useData[i].fields.Country || '',
+                                    jobscountry: useData[i].fields.Country || LoggedCountry,
                                     jobbillingaddress: useData[i].fields.BillStreet || '',
                                     jobbcity: useData[i].fields.BillStreet2 || '',
                                     jobbstate: useData[i].fields.BillState || '',
@@ -2058,7 +2058,7 @@ Template.customerscard.onRendered(function () {
                                     scity: data.fields.Street2 || '',
                                     sstate: data.fields.State || '',
                                     spostalcode: data.fields.Postcode || '',
-                                    scountry: data.fields.Country || '',
+                                    scountry: data.fields.Country || LoggedCountry,
                                     billingaddress: data.fields.BillStreet || '',
                                     bcity: data.fields.BillStreet2 || '',
                                     bstate: data.fields.BillState || '',
@@ -2093,7 +2093,7 @@ Template.customerscard.onRendered(function () {
                                     jobscity: data.fields.Street2 || '',
                                     jobsstate: data.fields.State || '',
                                     jobspostalcode: data.fields.Postcode || '',
-                                    jobscountry: data.fields.Country || '',
+                                    jobscountry: data.fields.Country || LoggedCountry,
                                     jobbillingaddress: data.fields.BillStreet || '',
                                     jobbcity: data.fields.BillStreet2 || '',
                                     jobbstate: data.fields.BillState || '',
@@ -2184,7 +2184,7 @@ Template.customerscard.onRendered(function () {
                             scity: data.fields.Street2 || '',
                             sstate: data.fields.State || '',
                             spostalcode: data.fields.Postcode || '',
-                            scountry: data.fields.Country || '',
+                            scountry: data.fields.Country || LoggedCountry,
                             billingaddress: data.fields.BillStreet || '',
                             bcity: data.fields.BillStreet2 || '',
                             bstate: data.fields.BillState || '',
@@ -2219,7 +2219,7 @@ Template.customerscard.onRendered(function () {
                             jobscity: data.fields.Street2 || '',
                             jobsstate: data.fields.State || '',
                             jobspostalcode: data.fields.Postcode || '',
-                            jobscountry: data.fields.Country || '',
+                            jobscountry: data.fields.Country || LoggedCountry,
                             jobbillingaddress: data.fields.BillStreet || '',
                             jobbcity: data.fields.BillStreet2 || '',
                             jobbstate: data.fields.BillState || '',
@@ -2316,7 +2316,7 @@ Template.customerscard.onRendered(function () {
                                 jobscity: data.fields.Street2 || '',
                                 jobsstate: data.fields.State || '',
                                 jobspostalcode: data.fields.Postcode || '',
-                                jobscountry: data.fields.Country || '',
+                                jobscountry: data.fields.Country || LoggedCountry,
                                 jobbillingaddress: data.fields.BillStreet || '',
                                 jobbcity: data.fields.BillStreet2 || '',
                                 jobbstate: data.fields.BillState || '',
@@ -2403,7 +2403,7 @@ Template.customerscard.onRendered(function () {
                                     jobscity: useData[i].fields.Street2 || '',
                                     jobsstate: useData[i].fields.State || '',
                                     jobspostalcode: useData[i].fields.Postcode || '',
-                                    jobscountry: useData[i].fields.Country || '',
+                                    jobscountry: useData[i].fields.Country || LoggedCountry,
                                     jobbillingaddress: useData[i].fields.BillStreet || '',
                                     jobbcity: useData[i].fields.BillStreet2 || '',
                                     jobbstate: useData[i].fields.BillState || '',
@@ -2488,7 +2488,7 @@ Template.customerscard.onRendered(function () {
                                     jobscity: data.fields.Street2 || '',
                                     jobsstate: data.fields.State || '',
                                     jobspostalcode: data.fields.Postcode || '',
-                                    jobscountry: data.fields.Country || '',
+                                    jobscountry: data.fields.Country || LoggedCountry,
                                     jobbillingaddress: data.fields.BillStreet || '',
                                     jobbcity: data.fields.BillStreet2 || '',
                                     jobbstate: data.fields.BillState || '',
@@ -2573,7 +2573,7 @@ Template.customerscard.onRendered(function () {
                             jobscity: data.fields.Street2 || '',
                             jobsstate: data.fields.State || '',
                             jobspostalcode: data.fields.Postcode || '',
-                            jobscountry: data.fields.Country || '',
+                            jobscountry: data.fields.Country || LoggedCountry,
                             jobbillingaddress: data.fields.BillStreet || '',
                             jobbcity: data.fields.BillStreet2 || '',
                             jobbstate: data.fields.BillState || '',

@@ -248,7 +248,7 @@ Template.depositlist.onRendered(function() {
           $('.fullScreenSpin').css('display','none');
           let lineItems = [];
           let lineItemObj = {};
-          console.log(useData);
+          
           for(let i=0; i<useData.length; i++){
             let totalAmount = 0;
 

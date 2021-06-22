@@ -48,7 +48,7 @@ Template.employeescard.onCreated(function () {
 
 Template.employeescard.onRendered(function () {
     var erpGet = erpDb();
-    
+
     $('.fullScreenSpin').css('display', 'inline-block');
     Session.setPersistent('cloudCurrentLogonName', '');
     let templateObject = Template.instance();
@@ -70,29 +70,6 @@ Template.employeescard.onRendered(function () {
     const dataTableList = [];
     const tableHeaderList = [];
 
-    // $(document).ready(function () {
-    //     history.pushState(null, document.title, location.href);
-    //     window.addEventListener('popstate', function (event) {
-    //         swal({
-    //             title: 'Leave Employee Screen',
-    //             text: "Do you want to leave this screen?",
-    //             type: 'info',
-    //             showCancelButton: true,
-    //             confirmButtonText: 'Save'
-    //         }).then((result) => {
-    //             if (result.value) {
-    //                 $(".btnSave").trigger("click");
-    //             } else if (result.dismiss === 'cancel') {
-    //                 window.open('/employeelist', "_self");
-    //             } else {
-
-    //             }
-    //         });
-
-    //     });
-
-
-    // });
     let salestaxcode = '';
     let totAmount = 0;
     let totAmountOverDue = 0;
@@ -111,35 +88,6 @@ Template.employeescard.onRendered(function () {
             }
         });
 
-        /*
-    var ctx = document.getElementById("myChartEmployee").getContext("2d");
-    var myChart = new Chart(ctx, {
-    type:"line",
-    data:{
-    labels:["2015","2016","2017","2018","2019","2020"],
-    datasets:[
-    {label:"Absenteeism Rate (Percentage)","backgroundColor":"rgba(223,78,78,0.43)","borderColor":"#df4e4e","data":["4.1","3.8","3.4","3.6","3","2.7"],"fill":true},
-    {label:"Absenteeism in Days","backgroundColor":"rgba(223,78,78,0)","borderColor":"#df4e4e","data":["8.6","8.0","7.8","6.6","5.4","4.2"],"fill":true}
-    ]
-    },
-    options:{
-    "maintainAspectRatio":true,
-    "legend":
-    {"display":true,"position":"bottom","reverse":false},
-    "title":{"display":false},
-    "scales":
-    {"xAxes":
-    [
-    {"gridLines":{"drawBorder":true,"drawTicks":true,"drawOnChartArea":true},"ticks":{"beginAtZero":true}}
-    ],
-    "yAxes":
-    [
-    {"gridLines":{"drawBorder":true,"drawTicks":true,"drawOnChartArea":true},"ticks":{"beginAtZero":true}}
-    ]
-    }
-    }
-    });
-    */
     }, 500);
 
 
@@ -171,7 +119,7 @@ Template.employeescard.onRendered(function () {
 
         } else {
             if (result) {
-                
+
                 for (let i = 0; i < result.customFields.length; i++) {
                     let customcolumn = result.customFields;
                     let columData = customcolumn[i].label;
@@ -415,7 +363,7 @@ Template.employeescard.onRendered(function () {
                             columVisible = false;
                         }
                         sWidth = v.style.width.replace('px', "");
-                        
+
                         let datatablerecordObj = {
                             sTitle: v.innerText || '',
                             sWidth: sWidth || '',
@@ -584,7 +532,7 @@ Template.employeescard.onRendered(function () {
                         columVisible = false;
                     }
                     sWidth = v.style.width.replace('px', "");
-                    
+
                     let datatablerecordObj = {
                         sTitle: v.innerText || '',
                         sWidth: sWidth || '',
@@ -747,7 +695,7 @@ Template.employeescard.onRendered(function () {
                         columVisible = false;
                     }
                     sWidth = v.style.width.replace('px', "");
-                    
+
                     let datatablerecordObj = {
                         sTitle: v.innerText || '',
                         sWidth: sWidth || '',
@@ -981,7 +929,7 @@ Template.employeescard.onRendered(function () {
                                 city: data.fields.Street2 || '',
                                 state: data.fields.State || '',
                                 postalcode: data.fields.PostCode || '',
-                                country: data.fields.Country || '',
+                                country: data.fields.Country || LoggedCountry,
                                 custfield1: data.fields.CustFld1 || '',
                                 custfield2: data.fields.CustFld2 || '',
                                 custfield3: data.fields.CustFld3 || '',
@@ -1044,7 +992,7 @@ Template.employeescard.onRendered(function () {
                                 if (data.fields.Attachments.length) {
                                     templateObject.attachmentCount.set(data.fields.Attachments.length);
                                     templateObject.uploadedFiles.set(data.fields.Attachments);
-                                    
+
                                 }
                             }
                             /* END  attachment */
@@ -1083,7 +1031,7 @@ Template.employeescard.onRendered(function () {
                                 let overideset = useData[i].fields.CustFld14;
 
 
-                                
+
                                 if (useData[i].fields.Email.replace(/\s/g, '') == '') {
                                     if (useData[i].fields.User != null) {
                                         let emplineItems = [];
@@ -1162,7 +1110,7 @@ Template.employeescard.onRendered(function () {
                                     city: useData[i].fields.Street2 || '',
                                     state: useData[i].fields.State || '',
                                     postalcode: useData[i].fields.PostCode || '',
-                                    country: useData[i].fields.Country || '',
+                                    country: useData[i].fields.Country || LoggedCountry,
                                     custfield1: useData[i].fields.CustFld1 || '',
                                     custfield2: useData[i].fields.CustFld2 || '',
                                     custfield3: useData[i].fields.CustFld3 || '',
@@ -1237,7 +1185,7 @@ Template.employeescard.onRendered(function () {
                                     if (useData[i].fields.Attachments.length) {
                                         templateObject.attachmentCount.set(useData[i].fields.Attachments.length);
                                         templateObject.uploadedFiles.set(useData[i].fields.Attachments);
-                                        
+
                                     }
                                 }
                                 /* END  attachment */
@@ -1350,7 +1298,7 @@ Template.employeescard.onRendered(function () {
                                     city: data.fields.Street2 || '',
                                     state: data.fields.State || '',
                                     postalcode: data.fields.PostCode || '',
-                                    country: data.fields.Country || '',
+                                    country: data.fields.Country || LoggedCountry,
                                     custfield1: data.fields.CustFld1 || '',
                                     custfield2: data.fields.CustFld2 || '',
                                     custfield3: data.fields.CustFld3 || '',
@@ -1412,7 +1360,7 @@ Template.employeescard.onRendered(function () {
                                     if (data.fields.Attachments.length) {
                                         templateObject.attachmentCount.set(data.fields.Attachments.length);
                                         templateObject.uploadedFiles.set(data.fields.Attachments);
-                                        
+
                                     }
                                 }
                                 /* END  attachment */
@@ -1441,7 +1389,7 @@ Template.employeescard.onRendered(function () {
                         }
                     }
                 }).catch(function (err) {
-                  console.log(err);
+
                     contactService.getOneEmployeeDataEx(employeeID).then(function (data) {
                         $('.fullScreenSpin').css('display', 'none');
                         let lineItems = [];
@@ -1525,7 +1473,7 @@ Template.employeescard.onRendered(function () {
                             city: data.fields.Street2 || '',
                             state: data.fields.State || '',
                             postalcode: data.fields.PostCode || '',
-                            country: data.fields.Country || '',
+                            country: data.fields.Country || LoggedCountry,
                             custfield1: data.fields.CustFld1 || '',
                             custfield2: data.fields.CustFld2 || '',
                             custfield3: data.fields.CustFld3 || '',
@@ -1586,7 +1534,7 @@ Template.employeescard.onRendered(function () {
                             if (data.fields.Attachments.length) {
                                 templateObject.attachmentCount.set(data.fields.Attachments.length);
                                 templateObject.uploadedFiles.set(data.fields.Attachments);
-                                
+
                             }
                         }
                         /* END  attachment */
@@ -1725,7 +1673,7 @@ Template.employeescard.onRendered(function () {
                         preferedPayments.push(data.tpaymentmethodvs1[i].PaymentMethodName)
                     }
                     preferedPayments = _.sortBy(preferedPayments);
-                    
+
                     templateObject.preferedPaymentList.set(preferedPayments);
                 });
             } else {
@@ -1743,7 +1691,7 @@ Template.employeescard.onRendered(function () {
                     preferedPayments.push(data.tpaymentmethodvs1[i].PaymentMethodName)
                 }
                 preferedPayments = _.sortBy(preferedPayments);
-                
+
                 templateObject.preferedPaymentList.set(preferedPayments);
             });
         });
@@ -1786,7 +1734,7 @@ Template.employeescard.onRendered(function () {
                     let lineItems = [];
                     let lineItemObj = {};
                     let totalUser = 0;
-                    
+
                     for (let i = 0; i < data.temployee.length; i++) {
                         let classname = '';
                         if (!isNaN(currentId.id)) {
@@ -1803,8 +1751,9 @@ Template.employeescard.onRendered(function () {
                         if (data.temployee[i].fields.User != null) {
                             totalUser = i + 1;
                         }
-
+                        if(data.temployee[i].fields.EmployeeName.replace(/\s/g, '') !== ""){
                         lineItems.push(dataList);
+                      }
                     }
 
                     let cloudPackage = localStorage.getItem('vs1cloudlicenselevel');
@@ -1815,8 +1764,10 @@ Template.employeescard.onRendered(function () {
                     } else if ((cloudPackage === "PLUS") && (totalUser < 3)) {
                         templateObject.isUserAddition.set(false);
                     }
+
                     templateObject.countUserCreated.set(totalUser);
                     templateObject.employeerecords.set(lineItems);
+
 
                     if (templateObject.employeerecords.get()) {
 
@@ -1834,11 +1785,11 @@ Template.employeescard.onRendered(function () {
                 let lineItems = [];
                 let lineItemObj = {};
                 let totalUser = 0;
-                
+
                 for (let i = 0; i < useData.length; i++) {
                     let classname = '';
                     if (!isNaN(currentId.id)) {
-                        if (data.temployee[i].fields.ID == parseInt(currentId.id)) {
+                        if (useData[i].fields.ID == parseInt(currentId.id)) {
                             classname = 'currentSelect';
                         }
                     }
@@ -1851,8 +1802,9 @@ Template.employeescard.onRendered(function () {
                     if (useData[i].fields.User != null) {
                         totalUser = i + 1;
                     }
-
+                    if(useData[i].fields.EmployeeName.replace(/\s/g, '') !== ""){
                     lineItems.push(dataList);
+                     }
                 }
 
                 let cloudPackage = localStorage.getItem('vs1cloudlicenselevel');
@@ -1863,8 +1815,11 @@ Template.employeescard.onRendered(function () {
                 } else if ((cloudPackage === "PLUS") && (totalUser < 3)) {
                     templateObject.isUserAddition.set(false);
                 }
+
+
                 templateObject.countUserCreated.set(totalUser);
                 templateObject.employeerecords.set(lineItems);
+
 
                 if (templateObject.employeerecords.get()) {
 
@@ -1876,11 +1831,12 @@ Template.employeescard.onRendered(function () {
 
             }
         }).catch(function (err) {
+
             contactService.getAllEmployeeSideData().then(function (data) {
                 let lineItems = [];
                 let lineItemObj = {};
                 let totalUser = 0;
-                
+
                 for (let i = 0; i < data.temployee.length; i++) {
                     let classname = '';
                     if (!isNaN(currentId.id)) {
@@ -1897,8 +1853,9 @@ Template.employeescard.onRendered(function () {
                     if (data.temployee[i].fields.User != null) {
                         totalUser = i + 1;
                     }
-
+                    if(data.temployee[i].fields.EmployeeName.replace(/\s/g, '') !== ""){
                     lineItems.push(dataList);
+                  }
                 }
 
                 let cloudPackage = localStorage.getItem('vs1cloudlicenselevel');
@@ -1909,8 +1866,10 @@ Template.employeescard.onRendered(function () {
                 } else if ((cloudPackage === "PLUS") && (totalUser < 3)) {
                     templateObject.isUserAddition.set(false);
                 }
+
                 templateObject.countUserCreated.set(totalUser);
                 templateObject.employeerecords.set(lineItems);
+
 
                 if (templateObject.employeerecords.get()) {
 
@@ -1957,18 +1916,18 @@ Template.employeescard.onRendered(function () {
 
         templateObject.calendarOptions.set(prefObject);
     }).catch(function (err) {
-            console.log(err);
+
      });
 },1000);
 }
 
-    
+
     setTimeout(function () {
 
         var x = window.matchMedia("(max-width: 1024px)");
 
         function mediaQuery(x) {
-            if (x.matches) { 
+            if (x.matches) {
 
                 $("#displayList").removeClass("col-2");
                 $("#displayList").addClass("col-3");
@@ -1983,8 +1942,8 @@ Template.employeescard.onRendered(function () {
                 $("#absentChart").addClass("col-12");
             }
         }
-        mediaQuery(x) 
-        x.addListener(mediaQuery) 
+        mediaQuery(x)
+        x.addListener(mediaQuery)
     }, 500);
 
     setTimeout(function () {
@@ -1993,7 +1952,7 @@ Template.employeescard.onRendered(function () {
         var btnView = document.getElementById("btnsViewHide");
 
         function mediaQuery(x) {
-            if (x.matches) { 
+            if (x.matches) {
 
                 $("#displayList").removeClass("col-2");
                 $("#displayList").addClass("col-12");
@@ -2011,10 +1970,10 @@ Template.employeescard.onRendered(function () {
                 $("#absentChart").addClass("col-12");
             }
         }
-        mediaQuery(x) 
-        x.addListener(mediaQuery) 
+        mediaQuery(x)
+        x.addListener(mediaQuery)
     }, 500);
-    
+
 
 
 });
@@ -2041,15 +2000,15 @@ Template.employeescard.events({
             e.preventDefault();
             $('#edtFirstName').focus();
         }
-        let middlename = $('#edtMiddleName').val();
-        let lastname = $('#edtLastName').val();
-        let suffix = $('#edtSuffix').val();
-        let email = $('#edtEmailAddress').val();
-        let phone = $('#edtPhone').val();
-        let mobile = $('#edtMobile').val();
-        let fax = $('#edtFax').val();
-        let skype = $('#edtSkype').val();
-        let gender = $('#edtGender').val();
+        let middlename = $('#edtMiddleName').val()||'';
+        let lastname = $('#edtLastName').val()||'';
+        let suffix = $('#edtSuffix').val()||'';
+        let email = $('#edtEmailAddress').val()||'';
+        let phone = $('#edtPhone').val()||'';
+        let mobile = $('#edtMobile').val()||'';
+        let fax = $('#edtFax').val()||'';
+        let skype = $('#edtSkype').val()||'';
+        let gender = $('#edtGender').val()||'';
         let employeeName = $('#edtCustomerCompany').val() || '';
 
         var dateofbirthTime = new Date($("#dtDOB").datepicker("getDate"));
@@ -2083,7 +2042,7 @@ Template.employeescard.events({
         //var currentEmployee = getemp_id[getemp_id.length-1];
         var currentEmployee = 0;
         let overrideGlobalCalendarSet = "false";
-        
+
         if ($('#overridesettings').is(':checked')) {
             overrideGlobalCalendarSet = "true";
         }
@@ -2111,13 +2070,13 @@ Template.employeescard.events({
             }
         };
         var objDetails = '';
-        
+
         let imageData = '';
         if (templateObject.imageFileData.get()) {
             imageData = templateObject.imageFileData.get().split(',')[1] || '';
         }
 
-        
+
         if (!isNaN(currentId.id)) {
 
             currentEmployee = parseInt(currentId.id);
@@ -2326,12 +2285,12 @@ Template.employeescard.events({
                       oPost.setRequestHeader("Accept", "application/json");
                       oPost.setRequestHeader("Accept", "application/html");
                       oPost.setRequestHeader("Content-type", "application/json");
-                      
+
                       //var myString = '"JsonIn"' + ':' + JSON.stringify(objDetailsUser);
                       var myStringUserPassword = JSON.stringify(objDetailsUserPassword);
                       //
                       oPost.send(myStringUserPassword);
-                      
+
                       oPost.onreadystatechange = function () {
                           if (oPost.readyState == 4 && oPost.status == 200) {
 
@@ -2667,18 +2626,18 @@ Template.employeescard.events({
         oPost.setRequestHeader("Accept", "application/json");
         oPost.setRequestHeader("Accept", "application/html");
         oPost.setRequestHeader("Content-type", "application/json");
-        
+
         var myString = '"JsonIn"' + ':' + JSON.stringify(objDetailsUser);
 
         //
         oPost.send(myString);
-        
+
         oPost.onreadystatechange = function () {
             if (oPost.readyState == 4 && oPost.status == 200) {
 
                 $('.fullScreenSpin').css('display', 'none');
                 var myArrResponse = JSON.parse(oPost.responseText);
-                
+
                 if (myArrResponse.ProcessLog.ResponseStatus != "OK") {
                     // Bert.alert('Database Error<strong> :'+ myArrResponse.ProcessLog.Error+'</strong>', 'now-error');
                     // swal('Ooops...', myArrResponse.ProcessLog.Error, 'error');
@@ -2888,7 +2847,7 @@ Template.employeescard.events({
         oPost.setRequestHeader("Accept", "application/json");
         oPost.setRequestHeader("Accept", "application/html");
         oPost.setRequestHeader("Content-type", "application/json");
-        
+
         var myString = '"JsonIn"' + ':' + JSON.stringify(objDetailsUser);
         oPost.send(myString);
         oPost.onreadystatechange = function () {
@@ -3205,7 +3164,7 @@ Template.employeescard.events({
 
                         }
                     });
-                    
+
                 }
             }
         }
@@ -3259,7 +3218,7 @@ Template.employeescard.events({
         let columData = $(event.target).text();
 
         let columnDatanIndex = $(event.target).closest("div.columnSettings").attr('id');
-        
+
         var datable = $('#tblTransactionlist').DataTable();
         var title = datable.column(columnDatanIndex).header();
         $(title).html(columData);
@@ -3291,7 +3250,7 @@ Template.employeescard.events({
     'click .btnOpenSettings': function (event) {
         let templateObject = Template.instance();
         var columns = $('#tblTransactionlist th');
-        
+
         const tableHeaderList = [];
         let sTible = "";
         let sWidth = "";
@@ -3421,7 +3380,7 @@ Template.employeescard.events({
         }
 
         var getcurrentCloudDetails = CloudUser.findOne({ _id: Session.get('mycloudLogonID'), clouddatabaseID: Session.get('mycloudLogonDBID') });
-        
+
         if (getcurrentCloudDetails) {
             if (getcurrentCloudDetails._id.length > 0) {
                 var clientID = getcurrentCloudDetails._id;
@@ -3599,7 +3558,7 @@ Template.employeescard.events({
         let attachmentID = parseInt(event.currentTarget.parentNode.id.split('attachment-name-')[1]);
         let templateObj = Template.instance();
         let uploadedFiles = templateObj.uploadedFiles.get();
-        
+
         $('#myModalAttachment').modal('hide');
         let previewFile = {};
         let input = uploadedFiles[attachmentID].fields.Description;

@@ -81,7 +81,7 @@ Template.resetpassword.events({
                    // LastName: lastname,
                    //EmployeeName: $('#edtCustomerCompany').val(),
                    VS1UserName: enteredEmail,
-                   VS1Password: customerPassword,
+                   // VS1Password: customerPassword,
                    NewPassword: enteredPassword
                }
                //}
@@ -98,7 +98,7 @@ Template.resetpassword.events({
 
            //var myString = '"JsonIn"' + ':' + JSON.stringify(objDetailsUser);
            var myStringUserPassword = JSON.stringify(objDetailsUserPassword);
-           console.log(myStringUserPassword);
+           
            oPost.send(myStringUserPassword);
 
            oPost.onreadystatechange = function () {

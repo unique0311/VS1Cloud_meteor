@@ -421,7 +421,7 @@ yearRange: "-90:+10",
                       columVisible = false;
                   }
                   sWidth = v.style.width.replace('px', "");
-                  
+
                   let datatablerecordObj = {
                       sTitle: v.innerText || '',
                       sWidth: sWidth || '',
@@ -604,7 +604,7 @@ yearRange: "-90:+10",
                   columVisible = false;
               }
               sWidth = v.style.width.replace('px', "");
-              
+
               let datatablerecordObj = {
                   sTitle: v.innerText || '',
                   sWidth: sWidth || '',
@@ -782,7 +782,7 @@ yearRange: "-90:+10",
                       columVisible = false;
                   }
                   sWidth = v.style.width.replace('px', "");
-                  
+
                   let datatablerecordObj = {
                       sTitle: v.innerText || '',
                       sWidth: sWidth || '',
@@ -828,7 +828,7 @@ yearRange: "-90:+10",
                 preferedPayments.push(data.tpaymentmethodvs1[i].PaymentMethodName)
             }
             preferedPayments = _.sortBy(preferedPayments);
-            
+
             templateObject.preferedPaymentList.set(preferedPayments);
         });
       }else{
@@ -846,7 +846,7 @@ yearRange: "-90:+10",
                 preferedPayments.push(data.tpaymentmethodvs1[i].PaymentMethodName)
             }
             preferedPayments = _.sortBy(preferedPayments);
-            
+
             templateObject.preferedPaymentList.set(preferedPayments);
         });
       });
@@ -1031,7 +1031,7 @@ yearRange: "-90:+10",
                           scity : data.fields.Street2 || '',
                           sstate : data.fields.State || '',
                           spostalcode : data.fields.Postcode || '',
-                          scountry : data.fields.Country || '',
+                          scountry : data.fields.Country || LoggedCountry,
                           billingaddress : data.fields.BillStreet || '',
                           bcity : data.fields.BillStreet2 || '',
                           bstate : data.fields.BillState || '',
@@ -1073,7 +1073,7 @@ yearRange: "-90:+10",
                           if(data.fields.Attachments.length){
                               templateObject.attachmentCount.set(data.fields.Attachments.length);
                               templateObject.uploadedFiles.set(data.fields.Attachments);
-                              
+
                           }
                       }
                       /* END  attachment */
@@ -1110,7 +1110,7 @@ yearRange: "-90:+10",
                               scity : useData[i].fields.Street2 || '',
                               sstate : useData[i].fields.State || '',
                               spostalcode : useData[i].fields.Postcode || '',
-                              scountry : useData[i].fields.Country || '',
+                              scountry : useData[i].fields.Country || LoggedCountry,
                               billingaddress : useData[i].fields.BillStreet || '',
                               bcity : useData[i].fields.BillStreet2 || '',
                               bstate : useData[i].fields.BillState || '',
@@ -1152,7 +1152,7 @@ yearRange: "-90:+10",
                               if(useData[i].fields.Attachments.length){
                                   templateObject.attachmentCount.set(useData[i].fields.Attachments.length);
                                   templateObject.uploadedFiles.set(useData[i].fields.Attachments);
-                                  
+
                               }
                           }
                           /* END  attachment */
@@ -1185,7 +1185,7 @@ yearRange: "-90:+10",
                               scity : data.fields.Street2 || '',
                               sstate : data.fields.State || '',
                               spostalcode : data.fields.Postcode || '',
-                              scountry : data.fields.Country || '',
+                              scountry : data.fields.Country || LoggedCountry,
                               billingaddress : data.fields.BillStreet || '',
                               bcity : data.fields.BillStreet2 || '',
                               bstate : data.fields.BillState || '',
@@ -1227,7 +1227,7 @@ yearRange: "-90:+10",
                               if(data.fields.Attachments.length){
                                   templateObject.attachmentCount.set(data.fields.Attachments.length);
                                   templateObject.uploadedFiles.set(data.fields.Attachments);
-                                  
+
                               }
                           }
                           /* END  attachment */
@@ -1261,7 +1261,7 @@ yearRange: "-90:+10",
                       scity : data.fields.Street2 || '',
                       sstate : data.fields.State || '',
                       spostalcode : data.fields.Postcode || '',
-                      scountry : data.fields.Country || '',
+                      scountry : data.fields.Country || LoggedCountry,
                       billingaddress : data.fields.BillStreet || '',
                       bcity : data.fields.BillStreet2 || '',
                       bstate : data.fields.BillState || '',
@@ -1303,7 +1303,7 @@ yearRange: "-90:+10",
                       if(data.fields.Attachments.length){
                           templateObject.attachmentCount.set(data.fields.Attachments.length);
                           templateObject.uploadedFiles.set(data.fields.Attachments);
-                          
+
                       }
                   }
                   /* END  attachment */
@@ -1354,7 +1354,7 @@ yearRange: "-90:+10",
 
             setTimeout(function () {
               $('#sltTerms').val(templateObject.defaultpurchaseterm.get()||'');
-              
+
             }, 2000);
             $('.fullScreenSpin').css('display','none');
         }
@@ -1465,13 +1465,13 @@ yearRange: "-90:+10",
     }
     templateObject.getSuppliersList();
 
-    
+
     setTimeout(function () {
 
         var x = window.matchMedia("(max-width: 1024px)");
 
         function mediaQuery(x) {
-            if (x.matches) { 
+            if (x.matches) {
 
                 $("#displayList").removeClass("col-2");
                 $("#displayList").addClass("col-3");
@@ -1480,8 +1480,8 @@ yearRange: "-90:+10",
                 $("#displayInfo").addClass("col-9");
             }
         }
-        mediaQuery(x) 
-        x.addListener(mediaQuery) 
+        mediaQuery(x)
+        x.addListener(mediaQuery)
     }, 500);
 
     setTimeout(function () {
@@ -1491,7 +1491,7 @@ yearRange: "-90:+10",
 
 
         function mediaQuery(x) {
-            if (x.matches) { 
+            if (x.matches) {
 
                 $("#displayList").removeClass("col-3");
                 $("#displayList").addClass("col-12");
@@ -1503,10 +1503,10 @@ yearRange: "-90:+10",
                 $("#displayInfo").addClass("col-12");
             }
         }
-        mediaQuery(x) 
-        x.addListener(mediaQuery) 
+        mediaQuery(x)
+        x.addListener(mediaQuery)
     }, 500);
-    
+
 
 });
 
@@ -1939,7 +1939,7 @@ Template.supplierscard.events({
 
                         }
                     });
-                    
+
                 }
             }
         }
@@ -1950,7 +1950,7 @@ Template.supplierscard.events({
         let columData = $(event.target).text();
 
         let columnDatanIndex = $(event.target).closest("div.columnSettings").attr('id');
-        
+
         var datable = $('#tblTransactionlist').DataTable();
         var title = datable.column( columnDatanIndex ).header();
         $(title).html(columData);
@@ -1977,7 +1977,7 @@ Template.supplierscard.events({
     'click .btnOpenSettings' : function(event){
         let templateObject = Template.instance();
         var columns = $('#tblTransactionlist th');
-        
+
         const tableHeaderList = [];
         let sTible = "";
         let sWidth = "";
@@ -2244,7 +2244,7 @@ Template.supplierscard.events({
         let attachmentID = parseInt(event.currentTarget.parentNode.id.split('attachment-name-')[1]);
         let templateObj = Template.instance();
         let uploadedFiles = templateObj.uploadedFiles.get();
-        
+
         $('#myModalAttachment').modal('hide');
         let previewFile = {};
         let input = uploadedFiles[attachmentID].fields.Description;

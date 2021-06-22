@@ -9,6 +9,22 @@ $(document).ready(function(){
   $(document).on('click', '.highlightInput', function () {
     $(this).select();
   });
+
+  $(document).on('click', "input[type='text']", function () {
+    $(this).select();
+  });
+
+  $(document).on('click', "input[type='email']", function () {
+    $(this).select();
+  });
+
+  $(document).on('click', "input[type='number']", function () {
+    $(this).select();
+  });
+
+  $(document).on('click', "input[type='password']", function () {
+    $(this).select();
+  });
   $("input[type='text']").on("click", function () {
    $(this).select();
  });

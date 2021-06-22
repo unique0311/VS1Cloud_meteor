@@ -869,13 +869,13 @@ Template.refundcard.onRendered(()=>{
             let lineProductName = table.find(".productName").text();
             let lineProductDesc = table.find(".productDesc").text();
             let lineUnitPrice = table.find(".salePrice").text();
-
+            /*
             let filterProdExtraSellData =  _.filter(productExtraSell, function (dataProdExtra) {
                 return ((dataProdExtra.productname == lineProductName) && (dataProdExtra.clienttype == getCustDetails[0].clienttypename));
             });
             if(filterProdExtraSellData.length > 0){
               lineUnitPrice = filterProdExtraSellData[0].price || 0;
-            }
+            }*/
             let lineAmount = 0;
             let subGrandTotal = 0;
             let taxGrandTotal = 0;

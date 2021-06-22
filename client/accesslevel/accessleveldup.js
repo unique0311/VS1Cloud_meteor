@@ -901,20 +901,49 @@ Template.accessleveldup.events({
         let empInputValue = templateObject.$("#sltEmployeeName").val();
         var erpGet = erpDb();
         if(empInputValue === "All"){
-
+          let lineItemsFormAccess = [];
+          let lineItemObjFormAccess = {};
             $('.fullScreenSpin').css('display','inline-block');
+            $('.tblAccessLevel > tbody > tr').each(function(){
+                var $tblrow = $(this);
+                var lineID = this.id;
+
+                var radioValue = $("input:checkbox[name='"+lineID+"']").val();
+                var radioValueCheck = $("input[name='"+lineID+"']:checked").val();
+                let accessDesc = $("#"+lineID+"_accessDesc").val();
+                let accessInitialValue = $("#"+lineID+"_accessInit").val();
+
+                var tableID = $(this).attr('name');
+                let accessNumber = 6;
+                if(radioValue == 1){
+                    accessNumber = 1;
+                }else{
+                    accessNumber =6;
+                }
+
+                lineItemObjFormAccess = {
+                    EmployeeId : 0,
+                    formID:parseInt(this.id)|| '',
+                    Access : accessNumber,
+                };
+
+                    lineItemsFormAccess.push(lineItemObjFormAccess);
+
+
+            });
             /*Test Start HERE*/
             let objDetailsAccess = {
                 Name: "VS1_EmployeeAccess",
                 Params: {
-                    VS1EmployeeAccessList:
-                    [
-                        {
-                            EmployeeId:0,
-                            formID:0,
-                            Access:1
-                        }
-                    ]
+                  VS1EmployeeAccessList:lineItemsFormAccess
+                    // VS1EmployeeAccessList:
+                    // [
+                    //     {
+                    //         EmployeeId:0,
+                    //         formID:0,
+                    //         Access:1
+                    //     }
+                    // ]
                 }
             };
 
