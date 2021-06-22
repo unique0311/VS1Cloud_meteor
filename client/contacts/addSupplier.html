@@ -374,7 +374,14 @@
                                                     <div class="col d-xl-flex flex-row align-items-xl-start" style="padding: 0px;">
                                                         <div class="form-group flex-grow-0" style="margin: 4px;"><label class="text-nowrap">Skype ID</label><input type="text" class="form-control" id="edtSupplierSkypeID" name="edtSupplierSkypeID" value="{{record.skype}}"></div>
                                                         <div class="form-group flex-grow-1" style="margin: 4px;"><label class="text-nowrap">Website</label><input type="text" class="form-control" id="edtSupplierWebsite" name="edtSupplierWebsite" value="{{record.website}}"></div>
-                                                        <div class="custom-control custom-switch chkaddress" style="margin: 4px;">
+                                                        <style>
+                                                            @media (max-width: 420px) {
+                                                                .chkSameCustomer {
+                                                                    margin-top: 20px !important;
+                                                                }
+                                                            }
+                                                        </style>
+                                                        <div class="custom-control custom-switch chkSameCustomer" style="margin: 4px; margin-top: 41px;">
                                                          <input class="custom-control-input" type="checkbox" id="chkSameAsCustomer" style=" cursor: pointer;" checked="{{#if record.iscustomer}}checked{{/if}}">
                                                          <label class="custom-control-label" for="chkSameAsCustomer" style=" cursor: pointer;">Same as Customer</label>
                                                         </div>

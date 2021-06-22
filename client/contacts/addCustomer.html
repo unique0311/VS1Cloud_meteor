@@ -882,9 +882,16 @@ value="{{record.tfn}}"></div> -->
                                                         </div>
                                                         <div class="form-group flex-grow-1" style="margin: 4px;"><label class="text-nowrap">Website</label><input type="text" class="form-control" id="edtCustomerWebsite" name="edtCustomerWebsite" value="{{record.website}}">
                                                         </div>
-                                                        <div class="custom-control custom-switch chkaddress" style="margin: 4px;">
-                                                         <input class="custom-control-input" type="checkbox" id="chkSameAsSupplier" style=" cursor: pointer;" checked="{{#if record.issupplier}}checked{{/if}}">
-                                                         <label class="custom-control-label" for="chkSameAsSupplier" style=" cursor: pointer;">Same as Supplier</label>
+                                                        <style>
+                                                            @media (max-width: 420px) {
+                                                                .chkSameSupplier {
+                                                                    margin-top: 20px !important;
+                                                                }
+                                                            }
+                                                        </style>
+                                                        <div class="custom-control custom-switch chkSameSupplier" style="margin: 4px; margin-top: 41px;">
+                                                            <input class="custom-control-input" type="checkbox" id="chkSameAsSupplier" style=" cursor: pointer;" checked="{{#if record.issupplier}}checked{{/if}}">
+                                                            <label class="custom-control-label" for="chkSameAsSupplier" style=" cursor: pointer;">Same as Supplier</label>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -1119,9 +1126,9 @@ value="{{record.tfn}}"></div> -->
                                                                     </div>
 
                                                                     <!-- <div class="form-group d-xl-flex flex-column justify-content-xl-start" style="margin: 4px;"><label class="text-nowrap">% Discount</label>
-                                                                        <input type="text" class="form-control pointer" id="" name="" value="" readonly>
+<input type="text" class="form-control pointer" id="" name="" value="" readonly>
 
-                                                                    </div> -->
+</div> -->
                                                                 </div>
                                                                 {{> clienttypemodal}}
                                                                 <div class="col d-xl-flex align-items-xl-end" style="display:none!important;">
