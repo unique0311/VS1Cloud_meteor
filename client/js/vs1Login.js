@@ -485,6 +485,7 @@ Template.vs1login.onRendered(function(){
        });
        // myVS1Video.pause();
        $('.myVS1Video').css('display','none');
+       $('.myVS1VideoLogin').css('display','none');
 
       window.open('/dashboard','_self');
 
@@ -976,6 +977,7 @@ Template.vs1login.onRendered(function(){
 }else{
   myVS1Video.pause();
   $('.myVS1Video').css('display','none');
+  $('.myVS1VideoLogin').css('display','none');
       $('.loginSpinner').css('display','none');
       $('.fullScreenSpin').css('display','none');
     }
@@ -1172,6 +1174,7 @@ var myVS1Video = document.getElementById("myVS1Video");
                 swal('Oops...', 'VS1 User Name is already logged in. Select "Sign me out of all devices" to login', 'info');
                 myVS1Video.pause();
                 $('.myVS1Video').css('display','none');
+                $('.myVS1VideoLogin').css('display','none');
                 $('.loginSpinner').css('display','none');
                 $('.fullScreenSpin').css('display','none');
 
@@ -1200,6 +1203,7 @@ var myVS1Video = document.getElementById("myVS1Video");
         });
         myVS1Video.pause();
         $('.myVS1Video').css('display','none');
+        $('.myVS1VideoLogin').css('display','none');
         $('.loginSpinner').css('display','none');
         $('.fullScreenSpin').css('display','none');
         }else if(oReqCheackUserObject.readyState == 4 && oReqCheackUserObject.status == 406){
@@ -1218,6 +1222,7 @@ var myVS1Video = document.getElementById("myVS1Video");
           });
           myVS1Video.pause();
           $('.myVS1Video').css('display','none');
+          $('.myVS1VideoLogin').css('display','none');
         $('.loginSpinner').css('display','none');
         $('.fullScreenSpin').css('display','none');
         }else if(oReqCheackUserObject.status == 0 && oReqCheackUserObject.statusText == '') {
@@ -1233,6 +1238,7 @@ var myVS1Video = document.getElementById("myVS1Video");
         swal('Invalid VS1 Password', 'The entered user password is not correct, please re-enter your password and try again!', 'error');
         myVS1Video.pause();
         $('.myVS1Video').css('display','none');
+        $('.myVS1VideoLogin').css('display','none');
         $('.loginSpinner').css('display','none');
         $('.fullScreenSpin').css('display','none');
         $("#erppassword").focus();
@@ -1347,7 +1353,7 @@ $("#erplogin-button").click(async function(e){
 
     $('.loginSpinner').css('display','inline-block');
     //$('.fullScreenSpin').css('display','inline-block');
-    $('.myVS1Video').css('display','inline-block');
+
 
 
     let test = "";
@@ -1356,6 +1362,7 @@ $("#erplogin-button").click(async function(e){
         if(data == true) {
           var dataRes = getLoginData(userLoginEmail).then(function (dataObject) {
             if(dataObject.length == 0){
+              $('.myVS1Video').css('display','inline-block');
               myVS1Video.currentTime = 0;
               myVS1Video.play();
               var serverTest = URLRequest + licenceIPAddress + ':' + checkSSLPorts + '/erpapi/Vs1_Logon?Vs1UserName="'+userLoginEmail+'"&vs1Password="'+userLoginPassword+'"';
@@ -1380,11 +1387,13 @@ $("#erplogin-button").click(async function(e){
                   if(dataReturnRes.ProcessLog.ResponseStatus != "OK"){
                     myVS1Video.pause();
                     $('.myVS1Video').css('display','none');
+                    $('.myVS1VideoLogin').css('display','none');
  if(dataReturnRes.ProcessLog.ResponseStatus == "Payment is Due"){
    $('.loginSpinner').css('display','none');
    $('.fullScreenSpin').css('display','none');
    myVS1Video.pause();
    $('.myVS1Video').css('display','none');
+   $('.myVS1VideoLogin').css('display','none');
 
    swal({
 	 title: 'Your payment has been declined please update your payment subscription information!',
@@ -1405,6 +1414,7 @@ $("#erplogin-button").click(async function(e){
    swal(dataReturnRes.ProcessLog.ResponseStatus, dataReturnRes.ProcessLog.ResponseStatus, 'error');
    myVS1Video.pause();
    $('.myVS1Video').css('display','none');
+   $('.myVS1VideoLogin').css('display','none');
    $('.loginSpinner').css('display','none');
    $('.fullScreenSpin').css('display','none');
  }
@@ -1699,6 +1709,7 @@ $("#erplogin-button").click(async function(e){
                            swal('Sorry, You do not have access to any VS1 Modules!', '', 'error');
                            myVS1Video.pause();
                            $('.myVS1Video').css('display','none');
+                           $('.myVS1VideoLogin').css('display','none');
                            $('.fullScreenSpin').css('display','none');
                            $('.loginSpinner').css('display','none');
                            return false;
@@ -1709,6 +1720,7 @@ $("#erplogin-button").click(async function(e){
                            swal('Sorry, You do not have access to any VS1 Modules!', '', 'error');
                            myVS1Video.pause();
                            $('.myVS1Video').css('display','none');
+                           $('.myVS1VideoLogin').css('display','none');
                            $('.fullScreenSpin').css('display','none');
                            $('.loginSpinner').css('display','none');
                            return false;
@@ -1837,6 +1849,7 @@ $("#erplogin-button").click(async function(e){
 				}else{
           myVS1Video.pause();
           $('.myVS1Video').css('display','none');
+          $('.myVS1VideoLogin').css('display','none');
                        $('#emEmail').html(userLoginEmail);
                        $('#emPassword').html(userLoginPassword);
                        $(".addloginkey").attr("href", 'https://www.depot.vs1cloud.com/vs1activation/sandboxcheck.php?checktoken='+userLoginEmail+'');
@@ -1870,6 +1883,7 @@ $("#erplogin-button").click(async function(e){
                        });
                        myVS1Video.pause();
                        $('.myVS1Video').css('display','none');
+                       $('.myVS1VideoLogin').css('display','none');
                        $('.fullScreenSpin').css('display','none');
                        $('.loginSpinner').css('display','none');
                        return false;
@@ -1897,6 +1911,7 @@ $("#erplogin-button").click(async function(e){
                   });
                   myVS1Video.pause();
                   $('.myVS1Video').css('display','none');
+                  $('.myVS1VideoLogin').css('display','none');
                   $('.loginSpinner').css('display','none');
                   $('.fullScreenSpin').css('display','none');
 
@@ -1916,6 +1931,7 @@ $("#erplogin-button").click(async function(e){
                   });
                   myVS1Video.pause();
                   $('.myVS1Video').css('display','none');
+                  $('.myVS1VideoLogin').css('display','none');
                   $('.loginSpinner').css('display','none');
                   $('.fullScreenSpin').css('display','none');
                 }else if(oReq.readyState == 4 && oReq.status == 406){
@@ -1934,6 +1950,7 @@ $("#erplogin-button").click(async function(e){
                   });
                   myVS1Video.pause();
                   $('.myVS1Video').css('display','none');
+                  $('.myVS1VideoLogin').css('display','none');
                   $('.loginSpinner').css('display','none');
                   $('.fullScreenSpin').css('display','none');
                 }else if(oReq.readyState == 4 && oReq.status == 500){
@@ -1969,6 +1986,7 @@ $("#erplogin-button").click(async function(e){
                   }
                   myVS1Video.pause();
                   $('.myVS1Video').css('display','none');
+                  $('.myVS1VideoLogin').css('display','none');
                   $('.loginSpinner').css('display','none');
                   $('.fullScreenSpin').css('display','none');
                 }else{
@@ -1976,13 +1994,15 @@ $("#erplogin-button").click(async function(e){
                 }
             }
             }else{
-              myVS1VideoLogin.currentTime = 7;
+              $('.myVS1VideoLogin').css('display','inline-block');
+              myVS1VideoLogin.currentTime = 0;
               myVS1VideoLogin.play();
               let dataReturnRes = dataObject[0].data;
               if(dataReturnRes.ProcessLog.VS1AdminPassword){
               if ($("#erppassword").val() != dataReturnRes.ProcessLog.VS1AdminPassword) {
                 myVS1Video.pause();
                 $('.myVS1Video').css('display','none');
+                $('.myVS1VideoLogin').css('display','none');
                 $('.loginSpinner').css('display','none');
                 $('.fullScreenSpin').css('display','none');
                 swal('Invalid VS1 Password', 'The entered user password is not correct, please re-enter your password and try again!', 'error');
@@ -1998,6 +2018,7 @@ $("#erplogin-button").click(async function(e){
            $('.fullScreenSpin').css('display','none');
            myVS1Video.pause();
            $('.myVS1Video').css('display','none');
+           $('.myVS1VideoLogin').css('display','none');
            swal({
              title: 'Your payment has been declined please update your payment subscription information!',
              text: '',
@@ -2017,6 +2038,7 @@ $("#erplogin-button").click(async function(e){
            swal(dataReturnRes.ProcessLog.ResponseStatus, dataReturnRes.ProcessLog.ResponseStatus, 'error');
            myVS1Video.pause();
            $('.myVS1Video').css('display','none');
+           $('.myVS1VideoLogin').css('display','none');
            $('.loginSpinner').css('display','none');
            $('.fullScreenSpin').css('display','none');
          }
@@ -2291,6 +2313,7 @@ $("#erplogin-button").click(async function(e){
            swal('Sorry, You do not have access to any VS1 Modules!', '', 'error');
            myVS1Video.pause();
            $('.myVS1Video').css('display','none');
+           $('.myVS1VideoLogin').css('display','none');
            $('.fullScreenSpin').css('display','none');
            $('.loginSpinner').css('display','none');
            return false;
@@ -2301,6 +2324,7 @@ $("#erplogin-button").click(async function(e){
            swal('Sorry, You do not have access to any VS1 Modules!', '', 'error');
            myVS1Video.pause();
            $('.myVS1Video').css('display','none');
+           $('.myVS1VideoLogin').css('display','none');
            $('.fullScreenSpin').css('display','none');
            $('.loginSpinner').css('display','none');
            return false;
@@ -2414,16 +2438,22 @@ $("#erplogin-button").click(async function(e){
      Session.setPersistent('mySessionEmployee', employeename);
      let userAccessOptions = dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.AccessLevels || '';
      if(userAccessOptions != ""){
+
        addLoginData(dataReturnRes).then(function (datareturn) {
-         getAccessLevelData(userAccessOptions,isSameUserLogin);
+         myVS1VideoLogin.onended = function(e) {
+            getAccessLevelData(userAccessOptions,isSameUserLogin);
+          }
        }).catch(function (err) {
-         getAccessLevelData(userAccessOptions,isSameUserLogin);
+         myVS1VideoLogin.onended = function(e) {
+            getAccessLevelData(userAccessOptions,isSameUserLogin);
+          }
        });
      }
 
     }
             }
           }).catch(function (err) {
+            $('.myVS1Video').css('display','inline-block');
             myVS1Video.currentTime = 0;
             myVS1Video.play();
             var serverTest = URLRequest + licenceIPAddress + ':' + checkSSLPorts + '/erpapi/Vs1_Logon?Vs1UserName="'+userLoginEmail+'"&vs1Password="'+userLoginPassword+'"';
@@ -2447,11 +2477,13 @@ $("#erplogin-button").click(async function(e){
                 if(dataReturnRes.ProcessLog.ResponseStatus != "OK"){
                   myVS1Video.pause();
                   $('.myVS1Video').css('display','none');
+                  $('.myVS1VideoLogin').css('display','none');
  if(dataReturnRes.ProcessLog.ResponseStatus == "Payment is Due"){
    $('.loginSpinner').css('display','none');
    $('.fullScreenSpin').css('display','none');
    myVS1Video.pause();
    $('.myVS1Video').css('display','none');
+   $('.myVS1VideoLogin').css('display','none');
    swal({
 	 title: 'Your payment has been declined please update your payment subscription information!',
 	 text: '',
@@ -2471,6 +2503,7 @@ $("#erplogin-button").click(async function(e){
    swal(dataReturnRes.ProcessLog.ResponseStatus, dataReturnRes.ProcessLog.ResponseStatus, 'error');
    myVS1Video.pause();
    $('.myVS1Video').css('display','none');
+   $('.myVS1VideoLogin').css('display','none');
    $('.loginSpinner').css('display','none');
    $('.fullScreenSpin').css('display','none');
  }
@@ -2765,6 +2798,7 @@ $("#erplogin-button").click(async function(e){
                            swal('Sorry, You do not have access to any VS1 Modules!', '', 'error');
                            myVS1Video.pause();
                            $('.myVS1Video').css('display','none');
+                           $('.myVS1VideoLogin').css('display','none');
                            $('.fullScreenSpin').css('display','none');
                            $('.loginSpinner').css('display','none');
                            return false;
@@ -2775,6 +2809,7 @@ $("#erplogin-button").click(async function(e){
                            swal('Sorry, You do not have access to any VS1 Modules!', '', 'error');
                            myVS1Video.pause();
                            $('.myVS1Video').css('display','none');
+                           $('.myVS1VideoLogin').css('display','none');
                            $('.fullScreenSpin').css('display','none');
                            $('.loginSpinner').css('display','none');
                            return false;
@@ -2903,6 +2938,7 @@ $("#erplogin-button").click(async function(e){
 				}else{
           myVS1Video.pause();
           $('.myVS1Video').css('display','none');
+          $('.myVS1VideoLogin').css('display','none');
           $('#emEmail').html(userLoginEmail);
           $('#emPassword').html(userLoginPassword);
                        $(".addloginkey").attr("href", 'https://www.depot.vs1cloud.com/vs1activation/sandboxcheck.php?checktoken='+userLoginEmail+'');
@@ -2936,6 +2972,7 @@ $("#erplogin-button").click(async function(e){
                        });
                        myVS1Video.pause();
                        $('.myVS1Video').css('display','none');
+                       $('.myVS1VideoLogin').css('display','none');
                        $('.fullScreenSpin').css('display','none');
                        $('.loginSpinner').css('display','none');
                        return false;
@@ -2964,6 +3001,7 @@ $("#erplogin-button").click(async function(e){
                 });
                 myVS1Video.pause();
                 $('.myVS1Video').css('display','none');
+                $('.myVS1VideoLogin').css('display','none');
                 $('.loginSpinner').css('display','none');
                 $('.fullScreenSpin').css('display','none');
               }else if(oReq.readyState == 4 && oReq.status == 403){
@@ -2982,6 +3020,7 @@ $("#erplogin-button").click(async function(e){
                 });
                 myVS1Video.pause();
                 $('.myVS1Video').css('display','none');
+                $('.myVS1VideoLogin').css('display','none');
                 $('.loginSpinner').css('display','none');
                 $('.fullScreenSpin').css('display','none');
               }else if(oReq.readyState == 4 && oReq.status == 406){
@@ -3000,6 +3039,7 @@ $("#erplogin-button").click(async function(e){
                 });
                 myVS1Video.pause();
                 $('.myVS1Video').css('display','none');
+                $('.myVS1VideoLogin').css('display','none');
                 $('.loginSpinner').css('display','none');
                 $('.fullScreenSpin').css('display','none');
               }else if(oReq.readyState == 4 && oReq.status == 500){
@@ -3035,6 +3075,7 @@ $("#erplogin-button").click(async function(e){
                 }
                 myVS1Video.pause();
                 $('.myVS1Video').css('display','none');
+                $('.myVS1VideoLogin').css('display','none');
                 $('.loginSpinner').css('display','none');
                 $('.fullScreenSpin').css('display','none');
               }else{
@@ -3046,6 +3087,7 @@ $("#erplogin-button").click(async function(e){
 
         }
         else{
+          $('.myVS1Video').css('display','inline-block');
           myVS1Video.currentTime = 0;
           myVS1Video.play();
         var serverTest = URLRequest + licenceIPAddress + ':' + checkSSLPorts + '/erpapi/Vs1_Logon?Vs1UserName="'+userLoginEmail+'"&vs1Password="'+userLoginPassword+'"';
@@ -3069,9 +3111,11 @@ $("#erplogin-button").click(async function(e){
             if(dataReturnRes.ProcessLog.ResponseStatus != "OK"){
               myVS1Video.pause();
               $('.myVS1Video').css('display','none');
+              $('.myVS1VideoLogin').css('display','none');
        if(dataReturnRes.ProcessLog.ResponseStatus == "Payment is Due"){
          myVS1Video.pause();
          $('.myVS1Video').css('display','none');
+         $('.myVS1VideoLogin').css('display','none');
          $('.loginSpinner').css('display','none');
          $('.fullScreenSpin').css('display','none');
 
@@ -3094,6 +3138,7 @@ $("#erplogin-button").click(async function(e){
          swal(dataReturnRes.ProcessLog.ResponseStatus, dataReturnRes.ProcessLog.ResponseStatus, 'error');
          myVS1Video.pause();
          $('.myVS1Video').css('display','none');
+         $('.myVS1VideoLogin').css('display','none');
          $('.loginSpinner').css('display','none');
          $('.fullScreenSpin').css('display','none');
        }
@@ -3386,6 +3431,7 @@ $("#erplogin-button").click(async function(e){
                                if(dataReturnRes.ProcessLog.ClientDetails.ProcessLog == undefined){
                                  myVS1Video.pause();
                                  $('.myVS1Video').css('display','none');
+                                 $('.myVS1VideoLogin').css('display','none');
                                  swal('Sorry, You do not have access to any VS1 Modules!', '', 'error');
                                  $('.fullScreenSpin').css('display','none');
                                  $('.loginSpinner').css('display','none');
@@ -3394,6 +3440,7 @@ $("#erplogin-button").click(async function(e){
                                if(dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.AccessLevels == undefined){
                                  myVS1Video.pause();
                                  $('.myVS1Video').css('display','none');
+                                 $('.myVS1VideoLogin').css('display','none');
                                  swal('Sorry, You do not have access to any VS1 Modules!', '', 'error');
                                  $('.fullScreenSpin').css('display','none');
                                  $('.loginSpinner').css('display','none');
@@ -3405,6 +3452,7 @@ $("#erplogin-button").click(async function(e){
                                  swal('Sorry, You do not have access to any VS1 Modules!', '', 'error');
                                  myVS1Video.pause();
                                  $('.myVS1Video').css('display','none');
+                                 $('.myVS1VideoLogin').css('display','none');
                                  $('.fullScreenSpin').css('display','none');
                                  $('.loginSpinner').css('display','none');
                                  return false;
@@ -3533,6 +3581,7 @@ $("#erplogin-button").click(async function(e){
       				}else{
                 myVS1Video.pause();
                 $('.myVS1Video').css('display','none');
+                $('.myVS1VideoLogin').css('display','none');
                 $('#emEmail').html(userLoginEmail);
                 $('#emPassword').html(userLoginPassword);
                              $(".addloginkey").attr("href", 'https://www.depot.vs1cloud.com/vs1activation/sandboxcheck.php?checktoken='+userLoginEmail+'');
@@ -3566,6 +3615,7 @@ $("#erplogin-button").click(async function(e){
                              });
                              myVS1Video.pause();
                              $('.myVS1Video').css('display','none');
+                             $('.myVS1VideoLogin').css('display','none');
                              $('.fullScreenSpin').css('display','none');
                              $('.loginSpinner').css('display','none');
                              return false;
@@ -3596,6 +3646,7 @@ $("#erplogin-button").click(async function(e){
             });
             myVS1Video.pause();
             $('.myVS1Video').css('display','none');
+            $('.myVS1VideoLogin').css('display','none');
             $('.loginSpinner').css('display','none');
             $('.fullScreenSpin').css('display','none');
           }else if(oReq.readyState == 4 && oReq.status == 403){
@@ -3614,6 +3665,7 @@ $("#erplogin-button").click(async function(e){
             });
             myVS1Video.pause();
             $('.myVS1Video').css('display','none');
+            $('.myVS1VideoLogin').css('display','none');
             $('.loginSpinner').css('display','none');
             $('.fullScreenSpin').css('display','none');
           }else if(oReq.readyState == 4 && oReq.status == 406){
@@ -3632,6 +3684,7 @@ $("#erplogin-button").click(async function(e){
             });
             myVS1Video.pause();
             $('.myVS1Video').css('display','none');
+            $('.myVS1VideoLogin').css('display','none');
             $('.loginSpinner').css('display','none');
             $('.fullScreenSpin').css('display','none');
           }else if(oReq.readyState == 4 && oReq.status == 500){
@@ -3667,6 +3720,7 @@ $("#erplogin-button").click(async function(e){
             }
             myVS1Video.pause();
             $('.myVS1Video').css('display','none');
+            $('.myVS1VideoLogin').css('display','none');
             $('.loginSpinner').css('display','none');
             $('.fullScreenSpin').css('display','none');
           }else{
@@ -3676,6 +3730,7 @@ $("#erplogin-button").click(async function(e){
       }
 
           }).catch(function (err) {
+            $('.myVS1Video').css('display','inline-block');
             myVS1Video.currentTime = 0;
             myVS1Video.play();
             var serverTest = URLRequest + licenceIPAddress + ':' + checkSSLPorts + '/erpapi/Vs1_Logon?Vs1UserName="'+userLoginEmail+'"&vs1Password="'+userLoginPassword+'"';
@@ -3700,9 +3755,11 @@ $("#erplogin-button").click(async function(e){
                 if(dataReturnRes.ProcessLog.ResponseStatus != "OK"){
                   myVS1Video.pause();
                   $('.myVS1Video').css('display','none');
+                  $('.myVS1VideoLogin').css('display','none');
      if(dataReturnRes.ProcessLog.ResponseStatus == "Payment is Due"){
        myVS1Video.pause();
        $('.myVS1Video').css('display','none');
+       $('.myVS1VideoLogin').css('display','none');
        $('.loginSpinner').css('display','none');
        $('.fullScreenSpin').css('display','none');
 
@@ -3725,6 +3782,7 @@ $("#erplogin-button").click(async function(e){
        swal(dataReturnRes.ProcessLog.ResponseStatus, dataReturnRes.ProcessLog.ResponseStatus, 'error');
        myVS1Video.pause();
        $('.myVS1Video').css('display','none');
+       $('.myVS1VideoLogin').css('display','none');
        $('.loginSpinner').css('display','none');
        $('.fullScreenSpin').css('display','none');
      }
@@ -4019,6 +4077,7 @@ $("#erplogin-button").click(async function(e){
                                swal('Sorry, You do not have access to any VS1 Modules!', '', 'error');
                                myVS1Video.pause();
                                $('.myVS1Video').css('display','none');
+                               $('.myVS1VideoLogin').css('display','none');
                                $('.fullScreenSpin').css('display','none');
                                $('.loginSpinner').css('display','none');
                                return false;
@@ -4029,6 +4088,7 @@ $("#erplogin-button").click(async function(e){
                                swal('Sorry, You do not have access to any VS1 Modules!', '', 'error');
                                myVS1Video.pause();
                                $('.myVS1Video').css('display','none');
+                               $('.myVS1VideoLogin').css('display','none');
                                $('.fullScreenSpin').css('display','none');
                                $('.loginSpinner').css('display','none');
                                return false;
@@ -4157,6 +4217,7 @@ $("#erplogin-button").click(async function(e){
     				}else{
               myVS1Video.pause();
               $('.myVS1Video').css('display','none');
+              $('.myVS1VideoLogin').css('display','none');
               $('#emEmail').html(userLoginEmail);
               $('#emPassword').html(userLoginPassword);
                            $(".addloginkey").attr("href", 'https://www.depot.vs1cloud.com/vs1activation/sandboxcheck.php?checktoken='+userLoginEmail+'');
@@ -4190,6 +4251,7 @@ $("#erplogin-button").click(async function(e){
                            });
                            myVS1Video.pause();
                            $('.myVS1Video').css('display','none');
+                           $('.myVS1VideoLogin').css('display','none');
                            $('.fullScreenSpin').css('display','none');
                            $('.loginSpinner').css('display','none');
                            return false;
@@ -4218,6 +4280,7 @@ $("#erplogin-button").click(async function(e){
                 });
                 myVS1Video.pause();
                 $('.myVS1Video').css('display','none');
+                $('.myVS1VideoLogin').css('display','none');
                 $('.loginSpinner').css('display','none');
                 $('.fullScreenSpin').css('display','none');
               }else if(oReq.readyState == 4 && oReq.status == 403){
@@ -4236,6 +4299,7 @@ $("#erplogin-button").click(async function(e){
                 });
                 myVS1Video.pause();
                 $('.myVS1Video').css('display','none');
+                $('.myVS1VideoLogin').css('display','none');
                 $('.loginSpinner').css('display','none');
                 $('.fullScreenSpin').css('display','none');
               }else if(oReq.readyState == 4 && oReq.status == 406){
@@ -4254,6 +4318,7 @@ $("#erplogin-button").click(async function(e){
                 });
                 myVS1Video.pause();
                 $('.myVS1Video').css('display','none');
+                $('.myVS1VideoLogin').css('display','none');
                 $('.loginSpinner').css('display','none');
                 $('.fullScreenSpin').css('display','none');
               }else if(oReq.readyState == 4 && oReq.status == 500){
@@ -4289,6 +4354,7 @@ $("#erplogin-button").click(async function(e){
                 }
                 myVS1Video.pause();
                 $('.myVS1Video').css('display','none');
+                $('.myVS1VideoLogin').css('display','none');
                 $('.loginSpinner').css('display','none');
                 $('.fullScreenSpin').css('display','none');
               }else{
