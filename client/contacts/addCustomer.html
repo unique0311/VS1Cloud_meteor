@@ -882,6 +882,10 @@ value="{{record.tfn}}"></div> -->
                                                         </div>
                                                         <div class="form-group flex-grow-1" style="margin: 4px;"><label class="text-nowrap">Website</label><input type="text" class="form-control" id="edtCustomerWebsite" name="edtCustomerWebsite" value="{{record.website}}">
                                                         </div>
+                                                        <div class="custom-control custom-switch chkaddress" style="margin: 4px;">
+                                                         <input class="custom-control-input" type="checkbox" id="chkSameAsSupplier" style=" cursor: pointer;" checked="{{#if record.issupplier}}checked{{/if}}">
+                                                         <label class="custom-control-label" for="chkSameAsSupplier" style=" cursor: pointer;">Same as Supplier</label>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
