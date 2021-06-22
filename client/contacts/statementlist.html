@@ -261,7 +261,12 @@
                 <div style="font-size: 14px;">
                     <h5 style="margin-bottom: 0px; color: rgb(0 0 0);font-weight: bold;">Customer</h5>
                     <p style="margin-bottom: 0px; color: rgb(0 0 0); display:none;" class="pdfCustomerName"></p>
-                    <div style="min-height:50px; width:30%; margin-bottom: 0px; color: rgb(0 0 0);" class="pdfCustomerAddress"></div>
+                    <div style="min-height:50px; width:30%; margin-bottom: 0px; color: rgb(0 0 0);" class="pdfCustomerAddress">
+                    {{statmentprintrecords.customername}} <br>
+                    {{statmentprintrecords.billaddress}} <br>
+                    {{statmentprintrecords.billstate}} <br>
+                    {{statmentprintrecords.billcountry}}
+                    </div>
                 </div>
             </div>
             <div style="margin: 0px; padding: 16px; border: none !important; width: 60mm; max-width: 60mm;">
@@ -316,7 +321,7 @@
                         <p style="font-weight: 800; margin-bottom: 8px; color: rgb(0 0 0);">Closing Balance: </p>
                     </div>
                     <div style="padding-left: 16px; width: 50%;">
-                        <p style="text-align: right; margin-bottom: 8px; font-weight: 800;">{{invoicerecord.Total}}<br></p>
+                        <p style="text-align: right; margin-bottom: 8px; font-weight: 800;">{{statmentprintrecords.closingBalance}}<br></p>
                     </div>
                 </div>
             </div>

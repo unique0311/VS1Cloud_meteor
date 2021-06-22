@@ -575,7 +575,7 @@
                                                 <a role="presentation" class="dropdown-item" href="#">Delete this Appointment and following Appointments</a>
                                             </div>
                                             <div class="col-12">
-                                                <a role="presentation" class="dropdown-item" href="#">Copy this Appointment to Another Day</a>
+                                                <a role="presentation" id="copyappointment" class="dropdown-item" href="#">Copy this Appointment to Another Day</a>
                                             </div>
                                             <div class="col-12">
                                                 <a role="presentation" class="dropdown-item btnRepeatApp" id="btnRepeatApp" href="#myModal2" data-toggle="modal">Repeat This Appointment</a>
@@ -592,6 +592,35 @@
                             </div>
                         </div>
 
+
+                        <div class="modal fade" role="dialog" id="frmNewDate">
+                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h4>Select New Date</h4><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                                    </div>
+                                    <div class="modal-body" style="padding: 10px; overflow-x: hidden;">
+                                        <div class="row">
+                                        <div class="col-8 colStartDate" id="colStartDate" >
+                                        <div class="form-group" style="margin: 8px 0px;">
+                                            <label>Start Date</label>
+                                            <div class="input-group date" style="cursor: pointer;">
+                                                <input type="text" class="form-control formClassDate statementDate" id="startDate" name="startDate" value="{{invoicerecord.saledate}}">
+                                                <div class="input-group-addon" style="">
+                                                    <span class="glyphicon glyphicon-th" style="cursor: pointer;"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                             <button class="btn btn-success btnSaveAppointment"  style="margin: 8px;" id="btnCopyAppointment" name="btnCopyAppointment"><i class="fa fa-save" style="margin-right: 5px;"></i>Save</button>
+                                            <button class="btn btn-secondary btnAppOptionsModal" id="btnAppOptionsModal" type="button"><i class="fa fa-remove" style="margin-right: 5px;"></i>Close</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         <button class="btn btn-secondary" id="btnDeleteAppointment" name="btnDeleteAppointment" data-dismiss="modal" type="button" style="margin: 8px;"><i class="fa fa-close" style="margin-right: 5px;"></i>Close</button>
                     </div>
 
@@ -610,25 +639,58 @@
                             <div class="col"><label class="col-form-label" style="width: 100%;">Repeat Appointment Every</label></div>
                         </div>
                         <div class="row no-gutters">
-                            <div class="col" style="margin-right: 4px;"><input type="text" class="float-left form-control" style="margin-right: 4px;" placeholder="1"/></div>
+                            <div class="col" style="margin-right: 4px;">
+                                <select id="frequency" class="float-right form-control">
+                                    <option value=""></option>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                    <option value="6">6</option>
+                                </select>
+                            </div>
                             <div class="col" style="margin-left: 4px;">
-                                <select class="float-right form-control">
+                                <select id="period" class="float-right form-control">
                                     <option value="days">Days</option>
                                     <option value="weeks">Weeks</option>
-                                    <option value="fortnights">Fortnights</option>
                                     <option value="months">Months</option>
                                 </select>
                             </div>
                         </div>
                     </div>
-                    <div class="form-group">
+                   <!--  <div class="form-group">
+                            <div class="row no-gutters">
+                            <div class="col" style="margin-right: 4px;">
+                                <select id="offset" class="float-right form-control">
+                                    <option value="Begin of Month Plus">Begin of Month Plus</option>
+                                    <option value="End of Month Minus">End of Month Minus</option>
+                                </select>
+                            </div>
+                            <div class="col" style="margin-left: 4px;">
+                                   <input type="number" min="0" step="1" oninput="validity.valid||(value='');" class="float-left form-control" style="margin-right: 4px;" placeholder="days" autocomplete="off">
+                            </div>
+                        </div>
+                    </div> -->
+                <div class="form-group">
                         <div class="row">
-                            <div class="col"><label class="col-form-label" style="width: 100%;">Repeat On</label></div>
+                            <div class="col repeatOn"><label class="col-form-label" style="width: 100%;">Repeat On</label></div>
                         </div>
                         <style>
                             .select-size  input{
                                 display: none;
                             }
+
+                            .day-active{
+                                background: #00a3d3 !important;
+                                color: #fff !important;
+                            }
+
+                            .normal-day{
+                                background: #fff;
+                                color: #858796;
+                            }
+
                             .radioLabel {
                                 display: inline-block;
                                 width: 50px;
@@ -638,29 +700,8 @@
                                 line-height: 50px;
                                 cursor: pointer;
                                 border-radius: 25px;
-                                background: #fff;
-                                color: #858796;
                             }
-                            #monday:checked ~ label[for="monday"],
-                            #tuesday:checked ~ label[for="tuesday"],
-                            #wednesday:checked ~ label[for="wednesday"],
-                            #thursday:checked ~ label[for="thursday"],
-                            #friday:checked ~ label[for="friday"],
-                            #saturday:checked ~ label[for="saturday"],
-                            #sunday:checked ~ label[for="sunday"]{
-                                background: #00a3d3;
-                                color: #fff;
-                            }
-                            #monday:not(:checked) ~ label[for="monday"],
-                            #tuesday:not(:checked) ~ label[for="tuesday"],
-                            #wednesday:not(:checked) ~ label[for="wednesday"],
-                            #thursday:not(:checked) ~ label[for="thursday"],
-                            #friday:not(:checked) ~ label[for="friday"],
-                            #saturday:not(:checked) ~ label[for="saturday"],
-                            #sunday:not(:checked) ~ label[for="sunday"]{
-                                background: #fff;
-                                color: #858796;
-                            }
+
                         </style> 
                         <div class="row">
                             <div class="col">
@@ -673,13 +714,13 @@
                                     <input class="radioInput" type="radio" name="saturday" id="saturday"/>
                                     <input class="radioInput" type="radio" name="sunday" id="sunday"/>
 
-                                    <label class="radioLabel" for="monday">M</label>
-                                    <label class="radioLabel" for="tuesday">T</label>
-                                    <label class="radioLabel" for="wednesday">W</label>
-                                    <label class="radioLabel" for="thursday">T</label>
-                                    <label class="radioLabel" for="friday">F</label>
-                                    <label class="radioLabel" for="saturday">S</label>
-                                    <label class="radioLabel" for="sunday">S</label>
+                                    <label class="radioLabel normal-day" for="monday">M</label>
+                                    <label class="radioLabel normal-day" for="tuesday">T</label>
+                                    <label class="radioLabel normal-day" for="wednesday">W</label>
+                                    <label class="radioLabel normal-day" for="thursday">T</label>
+                                    <label class="radioLabel normal-day" for="friday">F</label>
+                                    <label class="radioLabel normal-day" for="saturday">S</label>
+                                    <label class="radioLabel normal-day" for="sunday">S</label>
                                 </div>
                             </div>
                         </div>
@@ -700,18 +741,13 @@ var getInputRadio = goToParent.find("input[id = " + getValue + "]");
                             <div class="col"><label class="col-form-label" style="width: 100%;">Ends</label></div>
                         </div>
                         <div class="row no-gutters" style="margin-bottom: 4px;">
-                            <div class="col d-xl-flex align-items-xl-center" style="margin-bottom: 7px;">
-                                <div class="custom-control custom-checkbox"><input type="checkbox" class="custom-control-input" id="formCheck-never" checked/><label class="custom-control-label" for="formCheck-never">Never</label></div>
-                            </div>
-                        </div>
-                        <div class="row no-gutters" style="margin-bottom: 4px;">
                             <div class="col d-xl-flex align-items-xl-center">
                                 <div class="custom-control custom-checkbox"><input type="checkbox" class="custom-control-input" id="formCheck-on" /><label class="custom-control-label" for="formCheck-on">On</label></div>
                             </div>
                             <div class="col">
                                 <div class="form-group" style="margin: 8px 0px;">
                                     <div class="input-group date" style="cursor: pointer;">
-                                        <input type="text" class="form-control formClassDate" id="dtSODate" name="dtSODate" value="{{invoicerecord.saledate}}">
+                                        <input type="text" class="form-control formClassDate" id="finalDate" name="finalDate" value="{{invoicerecord.saledate}}">
                                         <div class="input-group-addon" style="">
                                             <span class="glyphicon glyphicon-th" style="cursor: pointer;"></span>
                                         </div>
@@ -719,15 +755,9 @@ var getInputRadio = goToParent.find("input[id = " + getValue + "]");
                                 </div>
                             </div>
                         </div>
-                        <div class="row no-gutters">
-                            <div class="col d-xl-flex align-items-xl-center">
-                                <div class="custom-control custom-checkbox"><input type="checkbox" class="custom-control-input" id="formCheck-after" /><label class="custom-control-label" for="formCheck-after">After</label></div>
-                            </div>
-                            <div class="col"><input type="text" class="float-left form-control" style="margin-right: 4px;" placeholder="13 Occurrences" /></div>
-                        </div>
                     </div>
                 </div>
-                <div class="modal-footer"><button class="btn btn-success" type="button"><i class="fa fa-save" style="margin-right: 5px;"></i>Save</button><button class="btn btn-secondary" data-dismiss="modal" type="button"><i class="fa fa-close" style="margin-right: 5px;"></i>Close</button></div>
+                <div class="modal-footer"><button class="btn btn-success" id="btnSaveRepeat" type="button"><i class="fa fa-save" style="margin-right: 5px;"></i>Save</button><button class="btn btn-secondary" data-dismiss="modal" type="button"><i class="fa fa-close" style="margin-right: 5px;"></i>Close</button></div>
             </div>
         </div>
     </div>

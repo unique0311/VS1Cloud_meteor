@@ -1889,7 +1889,7 @@ Template.employeescard.onRendered(function () {
     var prefObject = "";
     if(currentId.id != undefined){
     setTimeout(function () {
-    appointmentService.getCalendarsettings(currentId.id).then(function (data) {
+    appointmentService.getEmployeeCalendarSettings(currentId.id).then(function (data) {
         if (data.tappointmentpreferences.length > 0) {
             prefObject = {
                 id: data.tappointmentpreferences[data.tappointmentpreferences.length - 1].Id || '',
@@ -2150,8 +2150,7 @@ Template.employeescard.events({
                 }
             };
         }
-
-        contactService.saveEmployeeEx(objDetails).then(function (objDetails) {
+         contactService.saveEmployeeEx(objDetails).then(function (objDetails) {
             let employeeSaveID = objDetails.fields.ID;
             $('#selectEmployeeID').val(employeeSaveID);
             // var erpUserID = $("#erpEmpID").val();
@@ -2202,7 +2201,7 @@ Template.employeescard.events({
             settingID = calOptions.id;
         }
 
-        let defaultTime = parseInt($('#defaultTime').val().split(' ')[0]) || '2';
+        let defaultTime = parseInt($('#defaultTime').val().split(' ')[0]) || 2;
         let defaultProduct = $('#product-list').children("option:selected").text().trim() || '';
         let defaultProductID = $('#product-list').children("option:selected").val() || '';
 
@@ -2234,8 +2233,6 @@ Template.employeescard.events({
               }
           };
         }
-
-
         appointmentService.saveAppointmentPreferences(objectData).then(function (data) {
             var cloudDBID = Session.get('mycloudLogonDBID');
             // var logonName = $("#cloudEmpLogonName").val();

@@ -172,7 +172,9 @@ ERPObjects = function () {
         TAppointmentsTimeLog:"TAppointmentsTimeLog",
         TTransactionListReport:"TTransactionListReport",
         TVS1BankDeposit:"TVS1BankDeposit",
-        TAreaCode:"TAreaCode"
+        TAreaCode:"TAreaCode",
+        TERPPreference:"TERPPreference",
+        VS1_RepeatAppointment: "VS1_RepeatAppointment"
     }
     return objects;
 }
