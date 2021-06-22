@@ -7,9 +7,9 @@
         <form>
             <header style="padding: 16px; padding-right: 0px;background-color: #ededed;margin-top: -24px;padding-bottom: 0px;">
                 <input type="hidden" id="h1" name="id">
-                <h1 class="heading" style="margin: 16px;margin-bottom: 0px;">{{chequerecord.lid}}
+                <h2 class="heading" style="margin: 16px;margin-bottom: 0px;">{{chequerecord.lid}}
 
-                    <a role="button" data-toggle="modal" href="#helpViewModal" class=""><label class="lblplay">Help</label><i class="fa fa-question-circle-o"  style="font-size: 20px;"></i></a>
+                    <a role="button" data-toggle="modal" href="#helpViewModal" style="font-size: 20px;">Help <i class="fa fa-question-circle-o" style="font-size: 20px;"></i></a>
 
                     <div class="modal fade" role="dialog" tabindex="-1" id="helpViewModal">
                         <div class="modal-dialog modal-sm" role="document">
@@ -27,7 +27,7 @@
                         </div>
                     </div>
 
-                    <a class="btn" role="button" data-toggle="modal" href="#myModal4" style="float: right;"><i class="icon ion-android-more-horizontal"></i></a><!--<button class="btn float-right" type="button" id="btnCustomFileds" name="btnCustomFileds"><i class="icon ion-android-more-horizontal"></i></button>--></h1>
+                    <a class="btn" role="button" data-toggle="modal" href="#myModal4" style="float: right;"><i class="icon ion-android-more-horizontal"></i></a><!--<button class="btn float-right" type="button" id="btnCustomFileds" name="btnCustomFileds"><i class="icon ion-android-more-horizontal"></i></button>--></h2>
                 <div class="printID" id="{{chequerecord.id}}" style="display: none;">{{chequerecord.id}}</div>
             </header>
             <!-- Start {{> optionCustomFiled}} -->
