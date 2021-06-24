@@ -41,6 +41,10 @@ if((currentId === "addNewAccount") || (currentId ==='newaccount')){
 
 }
 
+if(Router.current().params.query.success){
+  $('.btnRefresh').addClass('btnRefreshAlert');
+}
+
 
   Meteor.call('readPrefMethod',Session.get('mycloudLogonID'),'tblAccountOverview', function(error, result){
   if(error){
@@ -1048,17 +1052,27 @@ Template.accountsoverview.events({
 
       sideBarService.getAccountListVS1().then(function(data) {
         addVS1Data('TAccountVS1',JSON.stringify(data)).then(function (datareturn) {
-          location.reload();
+          window.open('/accountsoverview','_self');
         }).catch(function (err) {
-          location.reload();
+          window.open('/accountsoverview','_self');
         });
       }).catch(function(err) {
-        location.reload();
+        window.open('/accountsoverview','_self');
       });
     },
     'click .btnBatchUpdate': function () {
       $('.fullScreenSpin').css('display','inline-block');
-        batchUpdateCall();
+        batchUpdateCall('/accountsoverview?success=true');
+        //Router.go('/salesorderslist?success=true');
+        sideBarService.getAccountListVS1().then(function(data) {
+          addVS1Data('TAccountVS1',JSON.stringify(data)).then(function (datareturn) {
+            //location.reload();
+          }).catch(function (err) {
+            //location.reload();
+          });
+        }).catch(function(err) {
+          //location.reload();
+        });
     },
     'click .btnSaveAccount': function () {
       $('.fullScreenSpin').css('display','inline-block');

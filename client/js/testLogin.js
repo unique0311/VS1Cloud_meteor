@@ -713,7 +713,7 @@ window.open('/dashboard','_self');
         if(optionaccess.fields.Description === "Contacts"){
           isContacts = true;
         }
-        if(optionaccess.fields.Description === "Account"){
+        if(optionaccess.fields.Description === "Accounts"){
 
           isAccounts = true;
         }

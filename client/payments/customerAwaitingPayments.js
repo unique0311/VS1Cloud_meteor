@@ -229,7 +229,7 @@ Template.customerawaitingpayments.onRendered(function() {
           });
         templateObject.tableheaderrecords.set(tableHeaderList);
          $('div.dataTables_filter input').addClass('form-control form-control-sm');
-         $('#tblcustomerAwaitingPayment tbody').on( 'click', 'tr .colPaymentDate, tr .colReceiptNo, tr .colPaymentAmount, tr .colApplied, tr .colBalance, tr .colCustomerName, tr .colDepartment, tr .colRefNo, tr .colPaymentMethod', function () {
+         $('#tblcustomerAwaitingPayment tbody').on( 'click', 'tr .colPaymentDate, tr .colReceiptNo, tr .colPaymentAmount, tr .colApplied, tr .colBalance, tr .colCustomerName, tr .colDepartment, tr .colRefNo, tr .colPaymentMethod, tr .colNotes', function () {
          var listData = $(this).closest('tr').attr('id');
          if(listData){
            Router.go('/paymentcard?invid='+ listData);
@@ -413,7 +413,7 @@ setTimeout(function () {
   });
 templateObject.tableheaderrecords.set(tableHeaderList);
  $('div.dataTables_filter input').addClass('form-control form-control-sm');
- $('#tblcustomerAwaitingPayment tbody').on( 'click', 'tr .colPaymentDate, tr .colReceiptNo, tr .colPaymentAmount, tr .colApplied, tr .colBalance, tr .colCustomerName, tr .colDepartment, tr .colRefNo, tr .colPaymentMethod', function () {
+ $('#tblcustomerAwaitingPayment tbody').on( 'click', 'tr .colPaymentDate, tr .colReceiptNo, tr .colPaymentAmount, tr .colApplied, tr .colBalance, tr .colCustomerName, tr .colDepartment, tr .colRefNo, tr .colPaymentMethod, tr .colNotes', function () {
  var listData = $(this).closest('tr').attr('id');
  if(listData){
    Router.go('/paymentcard?invid='+ listData);
@@ -592,7 +592,7 @@ templateObject.tableheaderrecords.set(tableHeaderList);
           });
         templateObject.tableheaderrecords.set(tableHeaderList);
          $('div.dataTables_filter input').addClass('form-control form-control-sm');
-         $('#tblcustomerAwaitingPayment tbody').on( 'click', 'tr .colPaymentDate, tr .colReceiptNo, tr .colPaymentAmount, tr .colApplied, tr .colBalance, tr .colCustomerName, tr .colDepartment, tr .colRefNo, tr .colPaymentMethod', function () {
+         $('#tblcustomerAwaitingPayment tbody').on( 'click', 'tr .colPaymentDate, tr .colReceiptNo, tr .colPaymentAmount, tr .colApplied, tr .colBalance, tr .colCustomerName, tr .colDepartment, tr .colRefNo, tr .colPaymentMethod, tr .colNotes', function () {
          var listData = $(this).closest('tr').attr('id');
          if(listData){
            Router.go('/paymentcard?invid='+ listData);
@@ -632,6 +632,9 @@ Template.customerawaitingpayments.events({
     }
     });
   },
+  'click .btnPaymentList': function() {
+        Router.go('/customerpayment');
+    },
   'click .resetTable' : function(event){
     var getcurrentCloudDetails = CloudUser.findOne({_id:Session.get('mycloudLogonID'),clouddatabaseID:Session.get('mycloudLogonDBID')});
     if(getcurrentCloudDetails){
@@ -709,7 +712,7 @@ Template.customerawaitingpayments.events({
 
             }
           });
-           
+
         }
       }
     }
@@ -720,7 +723,7 @@ Template.customerawaitingpayments.events({
     let columData = $(event.target).text();
 
     let columnDatanIndex = $(event.target).closest("div.columnSettings").attr('id');
-    
+
     var datable = $('#tblcustomerAwaitingPayment').DataTable();
     var title = datable.column( columnDatanIndex ).header();
     $(title).html(columData);
@@ -776,7 +779,7 @@ Template.customerawaitingpayments.events({
     templateObject.tableheaderrecords.set(tableHeaderList);
   },
     'click #exportbtn': function () {
-      
+
       $('.fullScreenSpin').css('display','inline-block');
       jQuery('#tblcustomerAwaitingPayment_wrapper .dt-buttons .btntabletocsv').click();
        $('.fullScreenSpin').css('display','none');
@@ -830,7 +833,7 @@ Template.customerawaitingpayments.events({
               if (checkClient.length > 0) {
                 selectedAwaitingPayment.push(paymentTransObj);
               } else {
-                swal('WARNING','You have selected multiple Customers,  a seperate payment will be created for each', 'error');
+                swal('WARNING','You have selected multiple Customers,  a separate payment will be created for each', 'error');
                 $(this).prop("checked", false);
               }
             } else {
@@ -854,10 +857,7 @@ Template.customerawaitingpayments.events({
         Router.go('/paymentcard?selectcust='+ result);
      }
 
-   },
-    'click .btnPaymentList': function() {
-        Router.go('/customerpayment');
-    }
+   }
 
 
   });

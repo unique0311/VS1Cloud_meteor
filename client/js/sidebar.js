@@ -599,1048 +599,120 @@ Template.sidenav.onRendered(function() {
     setTimeout(function() {
         Session.setPersistent('LoggedUserEventFired', false);
     }, 2500);
-
-    getVS1Data('TProductVS1').then(function (dataObject) {
-        if(dataObject.length == 0){
-            templateObject.getAllProductData();
-        }else{
-            let getTimeStamp = dataObject[0].timestamp.split(' ');
-            if(getTimeStamp){
-                if(loggedUserEventFired){
-                    if(getTimeStamp[0] != currenctTodayDate){
-                        sideBarService.getNewProductListVS1Update(getTimeStamp).then(function(dataUpdate) {
-                            let newDataObject = [];
-                            if(dataUpdate.tproductvs1.length === 0){
-                                addVS1Data('TProductVS1',dataObject[0].data).then(function (datareturn) {
-                                }).catch(function (err) {
-
-                                });
-                            }else{
-                                let dataOld = JSON.parse(dataObject[0].data);
-                                let oldObjectData = dataOld.tproductvs1;
-
-                                let dataNew = dataUpdate;
-                                let newObjectData = dataNew.tproductvs1;
-                                let index = '';
-                                let index2 = '';
-
-                                var resultArray = []
-
-                                oldObjectData.forEach(function(destObj) {
-                                    var addedcheck=false;
-                                    newObjectData.some(function(origObj) {
-                                        if(origObj.fields.ID == destObj.fields.ID) {
-                                            addedcheck = true;
-                                            index = oldObjectData.map(function (e) { return e.fields.ID; }).indexOf(parseInt(origObj.fields.ID));
-                                            destObj = origObj;
-                                            resultArray.push(destObj);
-
-                                        }
-                                    });
-                                    if(!addedcheck) {
-                                        resultArray.push(destObj)
-                                    }
-
-                                });
-                                newObjectData.forEach(function(origObj) {
-                                    var addedcheck=false;
-                                    oldObjectData.some(function(destObj) {
-                                        if(origObj.fields.ID == destObj.fields.ID) {
-                                            addedcheck = true;
-                                            index = oldObjectData.map(function (e) { return e.fields.ID; }).indexOf(parseInt(origObj.fields.ID));
-                                            destObj = origObj;
-                                            resultArray.push(destObj);
-
-                                        }
-                                    });
-                                    if(!addedcheck) {
-                                        resultArray.push(origObj)
-                                    }
-
-                                });
-
-
-                                var resultGetData = [];
-                                $.each(resultArray, function (i, e) {
-                                    var matchingItems = $.grep(resultGetData, function (item) {
-                                        return item.fields.ID === e.fields.ID;
-                                    });
-                                    if (matchingItems.length === 0){
-                                        resultGetData.push(e);
-                                    }
-                                });
-
-                                let dataToAdd = {
-                                    tproductvs1: resultGetData
-                                };
-                                addVS1Data('TProductVS1',JSON.stringify(dataToAdd)).then(function (datareturn) {
-                                }).catch(function (err) {
-
-                                });
-                            }
-
-                        }).catch(function(err) {
-                            addVS1Data('TProductVS1',dataObject[0].data).then(function (datareturn) {
-                            }).catch(function (err) {
-
-                            });
-                        });
-                    }
-                }
-            }
-        }
-    }).catch(function (err) {
-        templateObject.getAllProductData();
-    });
-
-    getVS1Data('TProductStocknSalePeriodReport').then(function (dataObject) {
-        if(dataObject.length == 0){
-            templateObject.getAllTProductStocknSalePeriodReportData();
-        }else{
+/* Start Here */
+getVS1Data('TProductVS1').then(function (dataObject) {
+      if(dataObject.length == 0){
+          templateObject.getAllProductData();
+      }else{
           let getTimeStamp = dataObject[0].timestamp.split(' ');
           if(getTimeStamp){
               if(loggedUserEventFired){
                   if(getTimeStamp[0] != currenctTodayDate){
-                    templateObject.getAllTProductStocknSalePeriodReportData();
-                  }
-                }
-            }
+                      sideBarService.getNewProductListVS1Update(getTimeStamp).then(function(dataUpdate) {
+                          let newDataObject = [];
+                          if(dataUpdate.tproductvs1.length === 0){
+                              addVS1Data('TProductVS1',dataObject[0].data).then(function (datareturn) {
+                              }).catch(function (err) {
 
-        }
-    }).catch(function (err) {
+                              });
+                          }else{
+                              let dataOld = JSON.parse(dataObject[0].data);
+                              let oldObjectData = dataOld.tproductvs1;
+
+                              let dataNew = dataUpdate;
+                              let newObjectData = dataNew.tproductvs1;
+                              let index = '';
+                              let index2 = '';
+
+                              var resultArray = []
+
+                              oldObjectData.forEach(function(destObj) {
+                                  var addedcheck=false;
+                                  newObjectData.some(function(origObj) {
+                                      if(origObj.fields.ID == destObj.fields.ID) {
+                                          addedcheck = true;
+                                          index = oldObjectData.map(function (e) { return e.fields.ID; }).indexOf(parseInt(origObj.fields.ID));
+                                          destObj = origObj;
+                                          resultArray.push(destObj);
+
+                                      }
+                                  });
+                                  if(!addedcheck) {
+                                      resultArray.push(destObj)
+                                  }
+
+                              });
+                              newObjectData.forEach(function(origObj) {
+                                  var addedcheck=false;
+                                  oldObjectData.some(function(destObj) {
+                                      if(origObj.fields.ID == destObj.fields.ID) {
+                                          addedcheck = true;
+                                          index = oldObjectData.map(function (e) { return e.fields.ID; }).indexOf(parseInt(origObj.fields.ID));
+                                          destObj = origObj;
+                                          resultArray.push(destObj);
+
+                                      }
+                                  });
+                                  if(!addedcheck) {
+                                      resultArray.push(origObj)
+                                  }
+
+                              });
+
+
+                              var resultGetData = [];
+                              $.each(resultArray, function (i, e) {
+                                  var matchingItems = $.grep(resultGetData, function (item) {
+                                      return item.fields.ID === e.fields.ID;
+                                  });
+                                  if (matchingItems.length === 0){
+                                      resultGetData.push(e);
+                                  }
+                              });
+
+                              let dataToAdd = {
+                                  tproductvs1: resultGetData
+                              };
+                              addVS1Data('TProductVS1',JSON.stringify(dataToAdd)).then(function (datareturn) {
+                              }).catch(function (err) {
+
+                              });
+                          }
+
+                      }).catch(function(err) {
+                          addVS1Data('TProductVS1',dataObject[0].data).then(function (datareturn) {
+                          }).catch(function (err) {
+
+                          });
+                      });
+                  }
+              }
+          }
+      }
+  }).catch(function (err) {
+      templateObject.getAllProductData();
+  });
+
+  getVS1Data('TProductStocknSalePeriodReport').then(function (dataObject) {
+    if(dataObject.length == 0){
         templateObject.getAllTProductStocknSalePeriodReportData();
-    });
-
-    getVS1Data('TCustomerVS1').then(function (dataObject) {
-        if(dataObject.length == 0){
-            templateObject.getAllCustomersData();
-        }else{
-            let getTimeStamp = dataObject[0].timestamp.split(' ');
-            if(getTimeStamp){
-                if(loggedUserEventFired){
-                    if(getTimeStamp[0] != currenctTodayDate){
-                        sideBarService.getAllCustomersDataVS1Update(getTimeStamp).then(function(dataUpdate) {
-                            let newDataObject = [];
-                            if(dataUpdate.tcustomervs1.length === 0){
-                                addVS1Data('TCustomerVS1',dataObject[0].data).then(function (datareturn) {
-                                }).catch(function (err) {
-
-                                });
-                            }else{
-                                let dataOld = JSON.parse(dataObject[0].data);
-                                let oldObjectData = dataOld.tcustomervs1;
-
-                                let dataNew = dataUpdate;
-                                let newObjectData = dataNew.tcustomervs1;
-                                let index = '';
-                                let index2 = '';
-
-                                var resultArray = []
-
-                                oldObjectData.forEach(function(destObj) {
-                                    var addedcheck=false;
-                                    newObjectData.some(function(origObj) {
-                                        if(origObj.fields.ID == destObj.fields.ID) {
-                                            addedcheck = true;
-                                            index = oldObjectData.map(function (e) { return e.fields.ID; }).indexOf(parseInt(origObj.fields.ID));
-                                            destObj = origObj;
-                                            resultArray.push(destObj);
-
-                                        }
-                                    });
-                                    if(!addedcheck) {
-                                        resultArray.push(destObj)
-                                    }
-
-                                });
-                                newObjectData.forEach(function(origObj) {
-                                    var addedcheck=false;
-                                    oldObjectData.some(function(destObj) {
-                                        if(origObj.fields.ID == destObj.fields.ID) {
-                                            addedcheck = true;
-                                            index = oldObjectData.map(function (e) { return e.fields.ID; }).indexOf(parseInt(origObj.fields.ID));
-                                            destObj = origObj;
-                                            resultArray.push(destObj);
-
-                                        }
-                                    });
-                                    if(!addedcheck) {
-                                        resultArray.push(origObj)
-                                    }
-
-                                });
-
-
-                                var resultGetData = [];
-                                $.each(resultArray, function (i, e) {
-                                    var matchingItems = $.grep(resultGetData, function (item) {
-                                        return item.fields.ID === e.fields.ID;
-                                    });
-                                    if (matchingItems.length === 0){
-                                        resultGetData.push(e);
-                                    }
-                                });
-
-                                let dataToAdd = {
-                                    tcustomervs1: resultGetData
-                                };
-                                addVS1Data('TCustomerVS1',JSON.stringify(dataToAdd)).then(function (datareturn) {
-                                }).catch(function (err) {
-
-                                });
-                            }
-
-                        }).catch(function(err) {
-                            addVS1Data('TCustomerVS1',dataObject[0].data).then(function (datareturn) {
-                            }).catch(function (err) {
-
-                            });
-                        });
-                    }
-                }
+    }else{
+      let getTimeStamp = dataObject[0].timestamp.split(' ');
+      if(getTimeStamp){
+          if(loggedUserEventFired){
+              if(getTimeStamp[0] != currenctTodayDate){
+                templateObject.getAllTProductStocknSalePeriodReportData();
+              }
             }
         }
-    }).catch(function (err) {
-        templateObject.getAllCustomersData();
-    });
-    getVS1Data('TSupplierVS1').then(function (dataObject) {
-        if(dataObject.length == 0){
-            templateObject.getAllSuppliersData();
-        }else{
-            let getTimeStamp = dataObject[0].timestamp.split(' ');
-            if(getTimeStamp){
-                if(loggedUserEventFired){
-                    if(getTimeStamp[0] != currenctTodayDate){
-                        sideBarService.getAllSuppliersDataVS1Update(getTimeStamp).then(function(dataUpdate) {
-                            let newDataObject = [];
-                            if(dataUpdate.tsuppliervs1.length === 0){
-                                addVS1Data('TSupplierVS1',dataObject[0].data).then(function (datareturn) {
-                                }).catch(function (err) {
 
-                                });
-                            }else{
-                                let dataOld = JSON.parse(dataObject[0].data);
-                                let oldObjectData = dataOld.tsuppliervs1;
+    }
+}).catch(function (err) {
+    templateObject.getAllTProductStocknSalePeriodReportData();
+});
 
-                                let dataNew = dataUpdate;
-                                let newObjectData = dataNew.tsuppliervs1;
-                                let index = '';
-                                let index2 = '';
 
-                                var resultArray = []
-
-                                oldObjectData.forEach(function(destObj) {
-                                    var addedcheck=false;
-                                    newObjectData.some(function(origObj) {
-                                        if(origObj.fields.ID == destObj.fields.ID) {
-                                            addedcheck = true;
-                                            index = oldObjectData.map(function (e) { return e.fields.ID; }).indexOf(parseInt(origObj.fields.ID));
-                                            destObj = origObj;
-                                            resultArray.push(destObj);
-
-                                        }
-                                    });
-                                    if(!addedcheck) {
-                                        resultArray.push(destObj)
-                                    }
-
-                                });
-                                newObjectData.forEach(function(origObj) {
-                                    var addedcheck=false;
-                                    oldObjectData.some(function(destObj) {
-                                        if(origObj.fields.ID == destObj.fields.ID) {
-                                            addedcheck = true;
-                                            index = oldObjectData.map(function (e) { return e.fields.ID; }).indexOf(parseInt(origObj.fields.ID));
-                                            destObj = origObj;
-                                            resultArray.push(destObj);
-
-                                        }
-                                    });
-                                    if(!addedcheck) {
-                                        resultArray.push(origObj)
-                                    }
-
-                                });
-
-
-                                var resultGetData = [];
-                                $.each(resultArray, function (i, e) {
-                                    var matchingItems = $.grep(resultGetData, function (item) {
-                                        return item.fields.ID === e.fields.ID;
-                                    });
-                                    if (matchingItems.length === 0){
-                                        resultGetData.push(e);
-                                    }
-                                });
-
-                                let dataToAdd = {
-                                    tsuppliervs1: resultGetData
-                                };
-                                addVS1Data('TSupplierVS1',JSON.stringify(dataToAdd)).then(function (datareturn) {
-                                }).catch(function (err) {
-
-                                });
-                            }
-
-                        }).catch(function(err) {
-                            addVS1Data('TSupplierVS1',dataObject[0].data).then(function (datareturn) {
-                            }).catch(function (err) {
-
-                            });
-                        });
-                    }
-                }
-            }
-        }
-    }).catch(function (err) {
-        templateObject.getAllSuppliersData();
-    });
-
-    getVS1Data('TPaymentList').then(function (dataObject) {
-
-        if(dataObject.length == 0){
-            templateObject.getTPaymentListData();
-        }else{
-            let getTimeStamp = dataObject[0].timestamp.split(' ');
-            if(getTimeStamp){
-                if(loggedUserEventFired){
-                    if(getTimeStamp[0] != currenctTodayDate){
-                        sideBarService.getTPaymentList(getTimeStamp).then(function(dataUpdate) {
-                            let newDataObject = [];
-                            if(dataUpdate.tpaymentlist.length === 0){
-                            }else{
-                                let dataOld = JSON.parse(dataObject[0].data);
-                                let oldObjectData = dataOld.tpaymentlist;
-
-                                let dataNew = dataUpdate;
-                                let newObjectData = dataNew.tpaymentlist;
-                                let index = '';
-                                let index2 = '';
-                                var resultArray = []
-
-                                oldObjectData.forEach(function(destObj) {
-                                    var addedcheck=false;
-                                    newObjectData.some(function(origObj) {
-                                        if(origObj.PaymentID == destObj.PaymentID) {
-                                            addedcheck = true;
-                                            destObj = origObj;
-                                            resultArray.push(destObj);
-
-                                        }
-                                    })
-                                    if(!addedcheck) {
-                                        resultArray.push(destObj)
-                                    }
-                                });
-
-                                newObjectData.forEach(function(origObj) {
-                                    var addedcheck=false;
-                                    oldObjectData.some(function(destObj) {
-                                        if(origObj.PaymentID == destObj.PaymentID) {
-                                            addedcheck = true;
-                                            destObj = origObj;
-                                            resultArray.push(destObj);
-
-                                        }
-
-                                    })
-                                    if(!addedcheck) {
-                                        resultArray.push(origObj)
-                                    }
-                                });
-
-
-                                var resultGetData = [];
-                                $.each(resultArray, function (i, e) {
-                                    var matchingItems = $.grep(resultGetData, function (item) {
-                                        return item.PaymentID === e.PaymentID;
-                                    });
-                                    if (matchingItems.length === 0){
-                                        resultGetData.push(e);
-                                    }
-                                });
-
-                                let dataToAdd = {
-                                    tpaymentlist: resultGetData
-                                };
-                                addVS1Data('TPaymentList',JSON.stringify(dataToAdd)).then(function (datareturn) {
-                                }).catch(function (err) {
-
-                                });
-                            }
-
-                        }).catch(function(err) {
-                            addVS1Data('TPaymentList',dataObject[0].data).then(function (datareturn) {
-                            }).catch(function (err) {
-
-                            });
-                        });
-                    }
-                }
-            }
-        }
-    }).catch(function (err) {
-        templateObject.getTPaymentListData();
-    });
-
-    getVS1Data('TARReport').then(function (dataObject) {
-        if(dataObject.length == 0){
-            templateObject.getTARReportData();
-        }else{
-            let getTimeStamp = dataObject[0].timestamp.split(' ');
-            if(getTimeStamp){
-                if(loggedUserEventFired){
-                    if(getTimeStamp[0] != currenctTodayDate){
-                        sideBarService.getTARReport(getTimeStamp).then(function(dataUpdate) {
-                            let newDataObject = [];
-                            if(dataUpdate.tarreport.length === 0){
-                                addVS1Data('TARReport',dataObject[0].data).then(function (datareturn) {
-                                }).catch(function (err) {
-
-                                });
-                            }else{
-                                let dataOld = JSON.parse(dataObject[0].data);
-                                let oldObjectData = dataOld.tarreport;
-
-                                let dataNew = dataUpdate;
-                                let newObjectData = dataNew.tarreport;
-
-                                addVS1Data('TARReport',JSON.stringify(dataNew)).then(function (datareturn) {
-                                }).catch(function (err) {
-
-                                });
-                            }
-
-                        }).catch(function(err) {
-                            addVS1Data('TARReport',dataObject[0].data).then(function (datareturn) {
-                            }).catch(function (err) {
-
-                            });
-                        });
-                    }
-                }
-            }
-        }
-    }).catch(function (err) {
-        templateObject.getTARReportData();
-    });
-
-    getVS1Data('TAPReport').then(function (dataObject) {
-        if(dataObject.length == 0){
-            templateObject.getTAPReportData();
-        }else{
-            let getTimeStamp = dataObject[0].timestamp.split(' ');
-            if(getTimeStamp){
-                if(loggedUserEventFired){
-                    if(getTimeStamp[0] != currenctTodayDate){
-                        sideBarService.getTAPReport(getTimeStamp).then(function(dataUpdate) {
-                            let newDataObject = [];
-                            if(dataUpdate.tapreport.length === 0){
-                                addVS1Data('TAPReport',dataObject[0].data).then(function (datareturn) {
-                                }).catch(function (err) {
-
-                                });
-                            }else{
-                                let dataOld = JSON.parse(dataObject[0].data);
-                                let oldObjectData = dataOld.tapreport;
-
-                                let dataNew = dataUpdate;
-                                let newObjectData = dataNew.tapreport;
-
-                                addVS1Data('TAPReport',JSON.stringify(dataNew)).then(function (datareturn) {
-                                }).catch(function (err) {
-
-                                });
-                            }
-
-                        }).catch(function(err) {
-                            addVS1Data('TAPReport',dataObject[0].data).then(function (datareturn) {
-                            }).catch(function (err) {
-
-                            });
-                        });
-                    }
-                }
-            }
-        }
-    }).catch(function (err) {
-        templateObject.getTAPReportData();
-    });
-
-    getVS1Data('TSupplierPayment').then(function (dataObject) {
-        if(dataObject.length == 0){
-            templateObject.getTSupplierPaymentData();
-        }else{
-            let getTimeStamp = dataObject[0].timestamp.split(' ');
-            if(getTimeStamp){
-                if(loggedUserEventFired){
-                    if(getTimeStamp[0] != currenctTodayDate){
-                        sideBarService.getTSupplierPayment(getTimeStamp).then(function(dataUpdate) {
-                            let newDataObject = [];
-                            if(dataUpdate.tsupplierpayment.length === 0){
-                            }else{
-                                let dataOld = JSON.parse(dataObject[0].data);
-                                let oldObjectData = dataOld.tsupplierpayment;
-
-                                let dataNew = dataUpdate;
-                                let newObjectData = dataNew.tsupplierpayment;
-                                let index = '';
-                                let index2 = '';
-
-                                var resultArray = []
-
-                                oldObjectData.forEach(function(destObj) {
-                                    var addedcheck=false;
-                                    newObjectData.some(function(origObj) {
-                                        if(origObj.fields.ID == destObj.fields.ID) {
-                                            addedcheck = true;
-                                            index = oldObjectData.map(function (e) { return e.fields.ID; }).indexOf(parseInt(origObj.fields.ID));
-                                            destObj = origObj;
-                                            resultArray.push(destObj);
-
-                                        }
-                                    });
-                                    if(!addedcheck) {
-                                        resultArray.push(destObj)
-                                    }
-
-                                });
-                                newObjectData.forEach(function(origObj) {
-                                    var addedcheck=false;
-                                    oldObjectData.some(function(destObj) {
-                                        if(origObj.fields.ID == destObj.fields.ID) {
-                                            addedcheck = true;
-                                            index = oldObjectData.map(function (e) { return e.fields.ID; }).indexOf(parseInt(origObj.fields.ID));
-                                            destObj = origObj;
-                                            resultArray.push(destObj);
-
-                                        }
-                                    });
-                                    if(!addedcheck) {
-                                        resultArray.push(origObj)
-                                    }
-
-                                });
-
-
-                                var resultGetData = [];
-                                $.each(resultArray, function (i, e) {
-                                    var matchingItems = $.grep(resultGetData, function (item) {
-                                        return item.fields.ID === e.fields.ID;
-                                    });
-                                    if (matchingItems.length === 0){
-                                        resultGetData.push(e);
-                                    }
-                                });
-
-                                let dataToAdd = {
-                                    tsupplierpayment: resultGetData
-                                };
-                                addVS1Data('TSupplierPayment',JSON.stringify(dataToAdd)).then(function (datareturn) {
-                                }).catch(function (err) {
-
-                                });
-                            }
-
-                        }).catch(function(err) {
-                            addVS1Data('TSupplierPayment',dataObject[0].data).then(function (datareturn) {
-                            }).catch(function (err) {
-
-                            });
-                        });
-                    }
-                }
-            }
-        }
-    }).catch(function (err) {
-        templateObject.getTSupplierPaymentData();
-    });
-
-    getVS1Data('TCustomerPayment').then(function (dataObject) {
-        if(dataObject.length == 0){
-            templateObject.getTCustomerPaymentData();
-        }else{
-            let getTimeStamp = dataObject[0].timestamp.split(' ');
-            if(getTimeStamp){
-                if(loggedUserEventFired){
-                    if(getTimeStamp[0] != currenctTodayDate){
-                        sideBarService.getTCustomerPayment(getTimeStamp).then(function(dataUpdate) {
-                            let newDataObject = [];
-                            if(dataUpdate.tcustomerpayment.length === 0){
-                            }else{
-                                let dataOld = JSON.parse(dataObject[0].data);
-                                let oldObjectData = dataOld.tcustomerpayment;
-
-                                let dataNew = dataUpdate;
-                                let newObjectData = dataNew.tcustomerpayment;
-                                let index = '';
-                                let index2 = '';
-
-                                var resultArray = []
-
-                                oldObjectData.forEach(function(destObj) {
-                                    var addedcheck=false;
-                                    newObjectData.some(function(origObj) {
-                                        if(origObj.fields.ID == destObj.fields.ID) {
-                                            addedcheck = true;
-                                            index = oldObjectData.map(function (e) { return e.fields.ID; }).indexOf(parseInt(origObj.fields.ID));
-                                            destObj = origObj;
-                                            resultArray.push(destObj);
-
-                                        }
-                                    });
-                                    if(!addedcheck) {
-                                        resultArray.push(destObj)
-                                    }
-
-                                });
-                                newObjectData.forEach(function(origObj) {
-                                    var addedcheck=false;
-                                    oldObjectData.some(function(destObj) {
-                                        if(origObj.fields.ID == destObj.fields.ID) {
-                                            addedcheck = true;
-                                            index = oldObjectData.map(function (e) { return e.fields.ID; }).indexOf(parseInt(origObj.fields.ID));
-                                            destObj = origObj;
-                                            resultArray.push(destObj);
-
-                                        }
-                                    });
-                                    if(!addedcheck) {
-                                        resultArray.push(origObj)
-                                    }
-
-                                });
-
-
-                                var resultGetData = [];
-                                $.each(resultArray, function (i, e) {
-                                    var matchingItems = $.grep(resultGetData, function (item) {
-                                        return item.fields.ID === e.fields.ID;
-                                    });
-                                    if (matchingItems.length === 0){
-                                        resultGetData.push(e);
-                                    }
-                                });
-
-                                let dataToAdd = {
-                                    tcustomerpayment: resultGetData
-                                };
-                                addVS1Data('TCustomerPayment',JSON.stringify(dataToAdd)).then(function (datareturn) {
-                                }).catch(function (err) {
-
-                                });
-                            }
-
-                        }).catch(function(err) {
-                            addVS1Data('TCustomerPayment',dataObject[0].data).then(function (datareturn) {
-                            }).catch(function (err) {
-
-                            });
-                        });
-                    }
-                }
-            }
-        }
-    }).catch(function (err) {
-        templateObject.getTCustomerPaymentData();
-    });
-
-    getVS1Data('TAccountVS1').then(function (dataObject) {
-        if(dataObject.length == 0){
-            templateObject.getAllAccountsData();
-        }else{
-            let getTimeStamp = dataObject[0].timestamp.split(' ');
-            if(getTimeStamp){
-                if(loggedUserEventFired){
-                    if(getTimeStamp[0] != currenctTodayDate){
-                        sideBarService.getAccountListVS1Update(getTimeStamp).then(function(dataUpdate) {
-                            let newDataObject = [];
-                            if(dataUpdate.taccountvs1.length === 0){
-                                addVS1Data('TAccountVS1',dataObject[0].data).then(function (datareturn) {
-                                }).catch(function (err) {
-
-                                });
-                            }else{
-                                let dataOld = JSON.parse(dataObject[0].data);
-                                let oldObjectData = dataOld.taccountvs1;
-
-                                let dataNew = dataUpdate;
-                                let newObjectData = dataNew.taccountvs1;
-                                let index = '';
-                                let index2 = '';
-
-                                var resultArray = []
-
-                                oldObjectData.forEach(function(destObj) {
-                                    var addedcheck=false;
-                                    newObjectData.some(function(origObj) {
-                                        if(origObj.fields.ID == destObj.fields.ID) {
-                                            addedcheck = true;
-                                            index = oldObjectData.map(function (e) { return e.fields.ID; }).indexOf(parseInt(origObj.fields.ID));
-                                            destObj = origObj;
-                                            resultArray.push(destObj);
-
-                                        }
-                                    });
-                                    if(!addedcheck) {
-                                        resultArray.push(destObj)
-                                    }
-
-                                });
-                                newObjectData.forEach(function(origObj) {
-                                    var addedcheck=false;
-                                    oldObjectData.some(function(destObj) {
-                                        if(origObj.fields.ID == destObj.fields.ID) {
-                                            addedcheck = true;
-                                            index = oldObjectData.map(function (e) { return e.fields.ID; }).indexOf(parseInt(origObj.fields.ID));
-                                            destObj = origObj;
-                                            resultArray.push(destObj);
-
-                                        }
-                                    });
-                                    if(!addedcheck) {
-                                        resultArray.push(origObj)
-                                    }
-
-                                });
-
-
-                                var resultGetData = [];
-                                $.each(resultArray, function (i, e) {
-                                    var matchingItems = $.grep(resultGetData, function (item) {
-                                        return item.fields.ID === e.fields.ID;
-                                    });
-                                    if (matchingItems.length === 0){
-                                        resultGetData.push(e);
-                                    }
-                                });
-
-                                let dataToAdd = {
-                                    taccountvs1: resultGetData
-                                };
-                                addVS1Data('TAccountVS1',JSON.stringify(dataToAdd)).then(function (datareturn) {
-                                }).catch(function (err) {
-
-                                });
-                            }
-
-                        }).catch(function(err) {
-                            addVS1Data('TAccountVS1',dataObject[0].data).then(function (datareturn) {
-                            }).catch(function (err) {
-
-                            });
-                        });
-                    }
-                }
-            }
-        }
-    }).catch(function (err) {
-        templateObject.getAllAccountsData();
-    });
-    getVS1Data('TTaxcodeVS1').then(function (dataObject) {
-        if(dataObject.length == 0){
-            templateObject.getAllTaxCodeData();
-        }else{
-        }
-    }).catch(function (err) {
-        templateObject.getAllTaxCodeData();
-    });
-    getVS1Data('TTermsVS1').then(function (dataObject) {
-        if(dataObject.length == 0){
-            templateObject.getAllTermsData();
-        }else{
-        }
-    }).catch(function (err) {
-        templateObject.getAllTermsData();
-    });
-    getVS1Data('TDeptClass').then(function (dataObject) {
-        if(dataObject.length == 0){
-            templateObject.getAllDepartmentData();
-        }else{
-        }
-    }).catch(function (err) {
-        templateObject.getAllDepartmentData();
-    });
-    getVS1Data('TCurrency').then(function (dataObject) {
-        if(dataObject.length == 0){
-            templateObject.getAllCurrencyData();
-        }else{
-        }
-    }).catch(function (err) {
-        templateObject.getAllCurrencyData();
-    });
-
-    getVS1Data('TCountries').then(function (dataObject) {
-        if(dataObject.length == 0){
-            templateObject.getTCountriesData();
-        }else{
-        }
-    }).catch(function (err) {
-        templateObject.getTCountriesData();
-    });
-
-    getVS1Data('TPaymentMethod').then(function (dataObject) {
-        if(dataObject.length == 0){
-            templateObject.getTPaymentMethodData();
-        }else{
-        }
-    }).catch(function (err) {
-        templateObject.getTPaymentMethodData();
-    });
-
-    getVS1Data('TClientType').then(function (dataObject) {
-        if(dataObject.length == 0){
-            templateObject.getTClientTypeData();
-        }else{
-        }
-    }).catch(function (err) {
-        templateObject.getTClientTypeData();
-    });
-
-    getVS1Data('TLeadStatusType').then(function (dataObject) {
-        if(dataObject.length == 0){
-            templateObject.getAllLeadStatusData();
-        }else{
-        }
-    }).catch(function (err) {
-        templateObject.getAllLeadStatusData();
-    });
-    getVS1Data('TShippingMethod').then(function (dataObject) {
-        if(dataObject.length == 0){
-            templateObject.getAllShippingMethodData();
-        }else{
-        }
-    }).catch(function (err) {
-        templateObject.getAllShippingMethodData();
-    });
-    getVS1Data('TAccountType').then(function (dataObject) {
-        if(dataObject.length == 0){
-            templateObject.getAllAccountTypeData();
-        }else{
-        }
-    }).catch(function (err) {
-        templateObject.getAllAccountTypeData();
-    });
-    getVS1Data('TERPCombinedContactsVS1').then(function (dataObject) {
-        if(dataObject.length == 0){
-            templateObject.getAllERPCombinedContactsData();
-        }else{
-        }
-    }).catch(function (err) {
-        templateObject.getAllERPCombinedContactsData();
-    });
-    getVS1Data('TEmployee').then(function (dataObject) {
-        if(dataObject.length == 0){
-            templateObject.getAllEmployeeData();
-        }else{
-            let getTimeStamp = dataObject[0].timestamp.split(' ');
-            if(getTimeStamp){
-                if(loggedUserEventFired){
-                    if(getTimeStamp[0] != currenctTodayDate){
-                        sideBarService.getAllEmployeesUpdate(getTimeStamp).then(function(dataUpdate) {
-                            let newDataObject = [];
-                            if(dataUpdate.temployee.length === 0){
-                                addVS1Data('TEmployee',dataObject[0].data).then(function (datareturn) {
-                                }).catch(function (err) {
-
-                                });
-                            }else{
-                                let dataOld = JSON.parse(dataObject[0].data);
-                                let oldObjectData = dataOld.temployee;
-
-                                let dataNew = dataUpdate;
-                                let newObjectData = dataNew.temployee;
-                                let index = '';
-                                let index2 = '';
-                                var resultArray = []
-                                oldObjectData.forEach(function(destObj) {
-                                    var addedcheck=false;
-                                    newObjectData.some(function(origObj) {
-                                        if(origObj.fields.ID == destObj.fields.ID) {
-                                            addedcheck = true;
-                                            index = oldObjectData.map(function (e) { return e.fields.ID; }).indexOf(parseInt(origObj.fields.ID));
-                                            destObj = origObj;
-                                            resultArray.push(destObj);
-
-                                        }
-                                    });
-                                    if(!addedcheck) {
-                                        resultArray.push(destObj)
-                                    }
-
-                                });
-                                newObjectData.forEach(function(origObj) {
-                                    var addedcheck=false;
-                                    oldObjectData.some(function(destObj) {
-                                        if(origObj.fields.ID == destObj.fields.ID) {
-                                            addedcheck = true;
-                                            index = oldObjectData.map(function (e) { return e.fields.ID; }).indexOf(parseInt(origObj.fields.ID));
-                                            destObj = origObj;
-                                            resultArray.push(destObj);
-
-                                        }
-                                    });
-                                    if(!addedcheck) {
-                                        resultArray.push(origObj)
-                                    }
-
-                                });
-
-                                var resultGetData = [];
-                                $.each(resultArray, function (i, e) {
-                                    var matchingItems = $.grep(resultGetData, function (item) {
-                                        return item.fields.ID === e.fields.ID;
-                                    });
-                                    if (matchingItems.length === 0){
-                                        resultGetData.push(e);
-                                    }
-                                });
-
-                                let dataToAdd = {
-                                    temployee: resultGetData
-                                };
-                                addVS1Data('TEmployee',JSON.stringify(dataToAdd)).then(function (datareturn) {
-                                }).catch(function (err) {
-
-                                });
-                            }
-
-                        }).catch(function(err) {
-                            addVS1Data('TEmployee',dataObject[0].data).then(function (datareturn) {
-                            }).catch(function (err) {
-
-                            });
-                        });
-                    }
-                }
-            }
-        }
-    }).catch(function (err) {
-
-        templateObject.getAllEmployeeData();
-    });
-    getVS1Data('TJournalEntryLines').then(function (dataObject) {
-
-        if(dataObject.length == 0){
-            templateObject.getAllJournalEntryLineData();
-        }else{
-
-            let data = JSON.parse(dataObject[0].data);
-
-            if(data.tjournalentrylines){
-                templateObject.getAllJournalEntryLineData();
-            }else{
-
-            }
-            let getTimeStamp = dataObject[0].timestamp.split(' ');
-            if(getTimeStamp){
-                if(loggedUserEventFired){
-                    if(getTimeStamp[0] != currenctTodayDate){
-                        sideBarService.getAllJournalEnrtryLinesListUpdate(getTimeStamp).then(function(dataUpdate) {
-                            let newDataObject = [];
-                            if(dataUpdate.tjournalentry.length === 0){
-                            }else{
-                                let dataOld = JSON.parse(dataObject[0].data);
-                                let oldObjectData = dataOld.tjournalentry;
-
-                                let dataNew = dataUpdate;
-                                let newObjectData = dataNew.tjournalentry;
-                                let index = '';
-                                let index2 = '';
-
-                                var resultArray = []
-
-                                oldObjectData.forEach(function(destObj) {
-                                    var addedcheck=false;
-                                    newObjectData.some(function(origObj) {
-                                        if(origObj.fields.ID == destObj.fields.ID) {
-                                            addedcheck = true;
-                                            index = oldObjectData.map(function (e) { return e.fields.ID; }).indexOf(parseInt(origObj.fields.ID));
-                                            destObj = origObj;
-                                            resultArray.push(destObj);
-
-                                        }
-                                    })
-                                    if(!addedcheck) {
-                                        resultArray.push(destObj)
-                                    }
-                                });
-
-                                newObjectData.forEach(function(origObj) {
-                                    var addedcheck=false;
-                                    oldObjectData.some(function(destObj) {
-                                        if(origObj.fields.ID == destObj.fields.ID) {
-                                            addedcheck = true;
-                                            index2 = oldObjectData.map(function (e) { return e.fields.ID; }).indexOf(parseInt(origObj.fields.ID));
-                                            destObj = origObj;
-                                            resultArray.push(destObj);
-                                        }
-
-                                    })
-                                    if(!addedcheck) {
-                                        resultArray.push(origObj)
-                                    }
-                                });
-
-
-                                var resultGetData = [];
-                                $.each(resultArray, function (i, e) {
-                                    var matchingItems = $.grep(resultGetData, function (item) {
-                                        return item.fields.ID === e.fields.ID;
-                                    });
-                                    if (matchingItems.length === 0){
-                                        resultGetData.push(e);
-                                    }
-                                });
-
-                                let dataToAdd = {
-                                    tjournalentry: resultGetData
-                                };
-                                addVS1Data('TJournalEntryLines',JSON.stringify(dataToAdd)).then(function (datareturn) {
-                                }).catch(function (err) {
-
-                                });
-                            }
-
-                        }).catch(function(err) {
-                            addVS1Data('TJournalEntryLines',dataObject[0].data).then(function (datareturn) {
-                            }).catch(function (err) {
-
-                            });
-                        });
-                    }
-                }
-            }
-        }
-    }).catch(function (err) {
-        templateObject.getAllJournalEntryLineData();
-    });
-    getVS1Data('TBankAccountReport').then(function (dataObject) {
-        if(dataObject.length == 0){
-            templateObject.getAllBankAccountReportData();
-        }else{
-        }
-    }).catch(function (err) {
-        templateObject.getAllBankAccountReportData();
-    });
-
-    getVS1Data('TTransactionListReport').then(function (dataObject) {
-        if(dataObject.length == 0){
-            templateObject.getAllTTransactionListReportData();
-        }else{
-          let getTimeStamp = dataObject[0].timestamp.split(' ');
-          if(getTimeStamp){
-              if(loggedUserEventFired){
-                  if(getTimeStamp[0] != currenctTodayDate){
-                      templateObject.getAllTTransactionListReportData();
-                  }
-                }
-            }
-        }
-    }).catch(function (err) {
-        templateObject.getAllTTransactionListReportData();
-    });
-    getVS1Data('TInvoiceEx').then(function (dataObject) {
+getVS1Data('TInvoiceEx').then(function (dataObject) {
         if(dataObject.length == 0){
             templateObject.getAllInvoiceListData();
         }else{
@@ -1949,193 +1021,8 @@ Template.sidenav.onRendered(function() {
     }).catch(function (err) {
         templateObject.getAllTPurchaseOrderData();
     });
-    getVS1Data('TReconciliation').then(function (dataObject) {
-        if(dataObject.length == 0){
-            templateObject.getAllTReconcilationData();
-        }else{
-          let data = JSON.parse(dataObject[0].data);
-          let useData = data.treconciliation;
-          if(useData.length > 0){
-              if(useData[0].Id){
-                templateObject.getAllTReconcilationData();
-              }
-          }
-        }
-    }).catch(function (err) {
-        templateObject.getAllTReconcilationData();
-    });
-    getVS1Data('TbillReport').then(function (dataObject) {
-        if(dataObject.length == 0){
-            templateObject.getAllTbillReportData();
-        }else{
-        }
-    }).catch(function (err) {
-        templateObject.getAllTbillReportData();
-    });
-    getVS1Data('TCheque').then(function (dataObject) {
-        if(dataObject.length == 0){
-            templateObject.getAllTChequeData();
-        }else{
-            let data = JSON.parse(dataObject[0].data);
-            let useData = data.tcheque;
-            if(useData.length > 0){
-                if(useData[0].Id){
-                    templateObject.getAllTChequeData();
-                }
-            }
-        }
-    }).catch(function (err) {
-        templateObject.getAllTChequeData();
-    });
-    getVS1Data('TProductStocknSalePeriodReport').then(function (dataObject) {
-        if(dataObject.length == 0){
-            templateObject.getAllTProductStocknSalePeriodReportData();
-        }else{
-          let getTimeStamp = dataObject[0].timestamp.split(' ');
-          if(getTimeStamp){
-              if(loggedUserEventFired){
-                  if(getTimeStamp[0] != currenctTodayDate){
-                      templateObject.getAllTProductStocknSalePeriodReportData();
-                  }
-                }
-            }
-        }
-    }).catch(function (err) {
-        templateObject.getAllTProductStocknSalePeriodReportData();
-    });
-    getVS1Data('TAppUser').then(function (dataObject) {
-        if(dataObject.length == 0){
-            templateObject.getAllAppUserData();
-        }else{
-          let getTimeStamp = dataObject[0].timestamp.split(' ');
-          if(getTimeStamp){
-              if(loggedUserEventFired){
-                  if(getTimeStamp[0] != currenctTodayDate){
-                      templateObject.getAllAppUserData();
-                  }
-                }
-            }
-        }
-    }).catch(function (err) {
-        templateObject.getAllAppUserData();
-    });
-    getVS1Data('TJobVS1').then(function (dataObject) {
-        if(dataObject.length == 0){
-            templateObject.getAllTJobVS1Data();
-        }else{
-          let getTimeStamp = dataObject[0].timestamp.split(' ');
-          if(getTimeStamp){
-              if(loggedUserEventFired){
-                  if(getTimeStamp[0] != currenctTodayDate){
-                      templateObject.getAllTJobVS1Data();
-                  }
-                }
-            }
-        }
-    }).catch(function (err) {
-        templateObject.getAllTJobVS1Data();
-    });
-    getVS1Data('TStockAdjustEntry').then(function (dataObject) {
-        if(dataObject.length == 0){
-            templateObject.getAllTStockAdjustEntryData();
-        }else{
-          let data = JSON.parse(dataObject[0].data);
-            let useData = data.tstockadjustentry;
-            if(useData.length > 0){
-                if(useData[0].Id){
-                    templateObject.getAllTStockAdjustEntryData();
-                }else{
-                    let getTimeStamp = dataObject[0].timestamp.split(' ');
-                    if(getTimeStamp){
-                        if(loggedUserEventFired){
-                            if(getTimeStamp[0] != currenctTodayDate){
-                                sideBarService.getAllStockAdjustEntry(getTimeStamp).then(function(dataUpdate) {
-                                    let newDataObject = [];
-                                    if(dataUpdate.tstockadjustentry.length === 0){
-                                        addVS1Data('TStockAdjustEntry',dataObject[0].data).then(function (datareturn) {
-                                        }).catch(function (err) {
-
-                                        });
-                                    }else{
-                                        let dataOld = JSON.parse(dataObject[0].data);
-                                        let oldObjectData = dataOld.tstockadjustentry;
-
-                                        let dataNew = dataUpdate;
-                                        let newObjectData = dataNew.tstockadjustentry;
-                                        let index = '';
-                                        let index2 = '';
 
 
-                                        var resultArray = []
-
-                                        oldObjectData.forEach(function(destObj) {
-                                            var addedcheck=false;
-                                            newObjectData.some(function(origObj) {
-                                                if(origObj.fields.ID == destObj.fields.ID) {
-                                                    addedcheck = true;
-                                                    index = oldObjectData.map(function (e) { return e.fields.ID; }).indexOf(parseInt(origObj.fields.ID));
-                                                    destObj = origObj;
-                                                    resultArray.push(destObj);
-
-                                                }
-                                            });
-                                            if(!addedcheck) {
-                                                resultArray.push(destObj)
-                                            }
-
-                                        });
-                                        newObjectData.forEach(function(origObj) {
-                                            var addedcheck=false;
-                                            oldObjectData.some(function(destObj) {
-                                                if(origObj.fields.ID == destObj.fields.ID) {
-                                                    addedcheck = true;
-                                                    index = oldObjectData.map(function (e) { return e.fields.ID; }).indexOf(parseInt(origObj.fields.ID));
-                                                    destObj = origObj;
-                                                    resultArray.push(destObj);
-
-                                                }
-                                            });
-                                            if(!addedcheck) {
-                                                resultArray.push(origObj)
-                                            }
-
-                                        });
-
-
-                                        var resultGetData = [];
-                                        $.each(resultArray, function (i, e) {
-                                            var matchingItems = $.grep(resultGetData, function (item) {
-                                                return item.fields.ID === e.fields.ID;
-                                            });
-                                            if (matchingItems.length === 0){
-                                                resultGetData.push(e);
-                                            }
-                                        });
-
-                                        let dataToAdd = {
-                                            tstockadjustentry: resultGetData
-                                        };
-                                        addVS1Data('TStockAdjustEntry',JSON.stringify(dataToAdd)).then(function (datareturn) {
-                                        }).catch(function (err) {
-
-                                        });
-                                    }
-
-                                }).catch(function(err) {
-                                    addVS1Data('TStockAdjustEntry',dataObject[0].data).then(function (datareturn) {
-                                    }).catch(function (err) {
-
-                                    });
-                                });
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }).catch(function (err) {
-        templateObject.getAllTStockAdjustEntryData();
-    });
     getVS1Data('TQuote').then(function (dataObject) {
         if(dataObject.length == 0){
             templateObject.getAllTQuoteData();
@@ -2247,22 +1134,7 @@ Template.sidenav.onRendered(function() {
     }).catch(function (err) {
         templateObject.getAllTsalesOrderNonBackOrderData();
     });
-    getVS1Data('TBill').then(function (dataObject) {
-        if(dataObject.length == 0){
-            templateObject.getAllTBillData();
-        }else{
-          let getTimeStamp = dataObject[0].timestamp.split(' ');
-          if(getTimeStamp){
-              if(loggedUserEventFired){
-                  if(getTimeStamp[0] != currenctTodayDate){
-                      templateObject.getAllTBillData();
-                  }
-                }
-            }
-        }
-    }).catch(function (err) {
-        templateObject.getAllTBillData();
-    });
+
     getVS1Data('TBillEx').then(function (dataObject) {
         if(dataObject.length == 0){
             templateObject.getAllTBillExData();
@@ -2510,150 +1382,1274 @@ Template.sidenav.onRendered(function() {
         templateObject.getAllTSalesListData();
     });
 
-    getVS1Data('TAppointment').then(function (dataObject) {
+    getVS1Data('TbillReport').then(function (dataObject) {
         if(dataObject.length == 0){
-            templateObject.getAllAppointmentData();
+            templateObject.getAllTbillReportData();
         }else{
-          let getTimeStamp = dataObject[0].timestamp.split(' ');
-          if(getTimeStamp){
-              if(loggedUserEventFired){
-                  if(getTimeStamp[0] != currenctTodayDate){
-                      templateObject.getAllAppointmentData();
-                  }
+        }
+    }).catch(function (err) {
+        templateObject.getAllTbillReportData();
+    });
+/* Quick Objects*/
+setTimeout(function() {
+getVS1Data('TCustomerVS1').then(function (dataObject) {
+    if(dataObject.length == 0){
+        templateObject.getAllCustomersData();
+    }else{
+        let getTimeStamp = dataObject[0].timestamp.split(' ');
+        if(getTimeStamp){
+            if(loggedUserEventFired){
+                if(getTimeStamp[0] != currenctTodayDate){
+                    sideBarService.getAllCustomersDataVS1Update(getTimeStamp).then(function(dataUpdate) {
+                        let newDataObject = [];
+                        if(dataUpdate.tcustomervs1.length === 0){
+                            addVS1Data('TCustomerVS1',dataObject[0].data).then(function (datareturn) {
+                            }).catch(function (err) {
+
+                            });
+                        }else{
+                            let dataOld = JSON.parse(dataObject[0].data);
+                            let oldObjectData = dataOld.tcustomervs1;
+
+                            let dataNew = dataUpdate;
+                            let newObjectData = dataNew.tcustomervs1;
+                            let index = '';
+                            let index2 = '';
+
+                            var resultArray = []
+
+                            oldObjectData.forEach(function(destObj) {
+                                var addedcheck=false;
+                                newObjectData.some(function(origObj) {
+                                    if(origObj.fields.ID == destObj.fields.ID) {
+                                        addedcheck = true;
+                                        index = oldObjectData.map(function (e) { return e.fields.ID; }).indexOf(parseInt(origObj.fields.ID));
+                                        destObj = origObj;
+                                        resultArray.push(destObj);
+
+                                    }
+                                });
+                                if(!addedcheck) {
+                                    resultArray.push(destObj)
+                                }
+
+                            });
+                            newObjectData.forEach(function(origObj) {
+                                var addedcheck=false;
+                                oldObjectData.some(function(destObj) {
+                                    if(origObj.fields.ID == destObj.fields.ID) {
+                                        addedcheck = true;
+                                        index = oldObjectData.map(function (e) { return e.fields.ID; }).indexOf(parseInt(origObj.fields.ID));
+                                        destObj = origObj;
+                                        resultArray.push(destObj);
+
+                                    }
+                                });
+                                if(!addedcheck) {
+                                    resultArray.push(origObj)
+                                }
+
+                            });
+
+
+                            var resultGetData = [];
+                            $.each(resultArray, function (i, e) {
+                                var matchingItems = $.grep(resultGetData, function (item) {
+                                    return item.fields.ID === e.fields.ID;
+                                });
+                                if (matchingItems.length === 0){
+                                    resultGetData.push(e);
+                                }
+                            });
+
+                            let dataToAdd = {
+                                tcustomervs1: resultGetData
+                            };
+                            addVS1Data('TCustomerVS1',JSON.stringify(dataToAdd)).then(function (datareturn) {
+                            }).catch(function (err) {
+
+                            });
+                        }
+
+                    }).catch(function(err) {
+                        addVS1Data('TCustomerVS1',dataObject[0].data).then(function (datareturn) {
+                        }).catch(function (err) {
+
+                        });
+                    });
+                }
+            }
+        }
+    }
+}).catch(function (err) {
+    templateObject.getAllCustomersData();
+});
+
+getVS1Data('TSupplierVS1').then(function (dataObject) {
+        if(dataObject.length == 0){
+            templateObject.getAllSuppliersData();
+        }else{
+            let getTimeStamp = dataObject[0].timestamp.split(' ');
+            if(getTimeStamp){
+                if(loggedUserEventFired){
+                    if(getTimeStamp[0] != currenctTodayDate){
+                        sideBarService.getAllSuppliersDataVS1Update(getTimeStamp).then(function(dataUpdate) {
+                            let newDataObject = [];
+                            if(dataUpdate.tsuppliervs1.length === 0){
+                                addVS1Data('TSupplierVS1',dataObject[0].data).then(function (datareturn) {
+                                }).catch(function (err) {
+
+                                });
+                            }else{
+                                let dataOld = JSON.parse(dataObject[0].data);
+                                let oldObjectData = dataOld.tsuppliervs1;
+
+                                let dataNew = dataUpdate;
+                                let newObjectData = dataNew.tsuppliervs1;
+                                let index = '';
+                                let index2 = '';
+
+                                var resultArray = []
+
+                                oldObjectData.forEach(function(destObj) {
+                                    var addedcheck=false;
+                                    newObjectData.some(function(origObj) {
+                                        if(origObj.fields.ID == destObj.fields.ID) {
+                                            addedcheck = true;
+                                            index = oldObjectData.map(function (e) { return e.fields.ID; }).indexOf(parseInt(origObj.fields.ID));
+                                            destObj = origObj;
+                                            resultArray.push(destObj);
+
+                                        }
+                                    });
+                                    if(!addedcheck) {
+                                        resultArray.push(destObj)
+                                    }
+
+                                });
+                                newObjectData.forEach(function(origObj) {
+                                    var addedcheck=false;
+                                    oldObjectData.some(function(destObj) {
+                                        if(origObj.fields.ID == destObj.fields.ID) {
+                                            addedcheck = true;
+                                            index = oldObjectData.map(function (e) { return e.fields.ID; }).indexOf(parseInt(origObj.fields.ID));
+                                            destObj = origObj;
+                                            resultArray.push(destObj);
+
+                                        }
+                                    });
+                                    if(!addedcheck) {
+                                        resultArray.push(origObj)
+                                    }
+
+                                });
+
+
+                                var resultGetData = [];
+                                $.each(resultArray, function (i, e) {
+                                    var matchingItems = $.grep(resultGetData, function (item) {
+                                        return item.fields.ID === e.fields.ID;
+                                    });
+                                    if (matchingItems.length === 0){
+                                        resultGetData.push(e);
+                                    }
+                                });
+
+                                let dataToAdd = {
+                                    tsuppliervs1: resultGetData
+                                };
+                                addVS1Data('TSupplierVS1',JSON.stringify(dataToAdd)).then(function (datareturn) {
+                                }).catch(function (err) {
+
+                                });
+                            }
+
+                        }).catch(function(err) {
+                            addVS1Data('TSupplierVS1',dataObject[0].data).then(function (datareturn) {
+                            }).catch(function (err) {
+
+                            });
+                        });
+                    }
                 }
             }
         }
     }).catch(function (err) {
+        templateObject.getAllSuppliersData();
+    });
+    getVS1Data('TAccountVS1').then(function (dataObject) {
+        if(dataObject.length == 0){
+            templateObject.getAllAccountsData();
+        }else{
+            let getTimeStamp = dataObject[0].timestamp.split(' ');
+            if(getTimeStamp){
+                if(loggedUserEventFired){
+                    if(getTimeStamp[0] != currenctTodayDate){
+                        sideBarService.getAccountListVS1Update(getTimeStamp).then(function(dataUpdate) {
+                            let newDataObject = [];
+                            if(dataUpdate.taccountvs1.length === 0){
+                                addVS1Data('TAccountVS1',dataObject[0].data).then(function (datareturn) {
+                                }).catch(function (err) {
+
+                                });
+                            }else{
+                                let dataOld = JSON.parse(dataObject[0].data);
+                                let oldObjectData = dataOld.taccountvs1;
+
+                                let dataNew = dataUpdate;
+                                let newObjectData = dataNew.taccountvs1;
+                                let index = '';
+                                let index2 = '';
+
+                                var resultArray = []
+
+                                oldObjectData.forEach(function(destObj) {
+                                    var addedcheck=false;
+                                    newObjectData.some(function(origObj) {
+                                        if(origObj.fields.ID == destObj.fields.ID) {
+                                            addedcheck = true;
+                                            index = oldObjectData.map(function (e) { return e.fields.ID; }).indexOf(parseInt(origObj.fields.ID));
+                                            destObj = origObj;
+                                            resultArray.push(destObj);
+
+                                        }
+                                    });
+                                    if(!addedcheck) {
+                                        resultArray.push(destObj)
+                                    }
+
+                                });
+                                newObjectData.forEach(function(origObj) {
+                                    var addedcheck=false;
+                                    oldObjectData.some(function(destObj) {
+                                        if(origObj.fields.ID == destObj.fields.ID) {
+                                            addedcheck = true;
+                                            index = oldObjectData.map(function (e) { return e.fields.ID; }).indexOf(parseInt(origObj.fields.ID));
+                                            destObj = origObj;
+                                            resultArray.push(destObj);
+
+                                        }
+                                    });
+                                    if(!addedcheck) {
+                                        resultArray.push(origObj)
+                                    }
+
+                                });
+
+
+                                var resultGetData = [];
+                                $.each(resultArray, function (i, e) {
+                                    var matchingItems = $.grep(resultGetData, function (item) {
+                                        return item.fields.ID === e.fields.ID;
+                                    });
+                                    if (matchingItems.length === 0){
+                                        resultGetData.push(e);
+                                    }
+                                });
+
+                                let dataToAdd = {
+                                    taccountvs1: resultGetData
+                                };
+                                addVS1Data('TAccountVS1',JSON.stringify(dataToAdd)).then(function (datareturn) {
+                                }).catch(function (err) {
+
+                                });
+                            }
+
+                        }).catch(function(err) {
+                            addVS1Data('TAccountVS1',dataObject[0].data).then(function (datareturn) {
+                            }).catch(function (err) {
+
+                            });
+                        });
+                    }
+                }
+            }
+        }
+    }).catch(function (err) {
+        templateObject.getAllAccountsData();
+    });
+    getVS1Data('TTaxcodeVS1').then(function (dataObject) {
+        if(dataObject.length == 0){
+            templateObject.getAllTaxCodeData();
+        }else{
+        }
+    }).catch(function (err) {
+        templateObject.getAllTaxCodeData();
+    });
+    getVS1Data('TTermsVS1').then(function (dataObject) {
+        if(dataObject.length == 0){
+            templateObject.getAllTermsData();
+        }else{
+        }
+    }).catch(function (err) {
+        templateObject.getAllTermsData();
+    });
+    getVS1Data('TDeptClass').then(function (dataObject) {
+        if(dataObject.length == 0){
+            templateObject.getAllDepartmentData();
+        }else{
+        }
+    }).catch(function (err) {
+        templateObject.getAllDepartmentData();
+    });
+    getVS1Data('TCurrency').then(function (dataObject) {
+        if(dataObject.length == 0){
+            templateObject.getAllCurrencyData();
+        }else{
+        }
+    }).catch(function (err) {
+        templateObject.getAllCurrencyData();
+    });
+
+    getVS1Data('TCountries').then(function (dataObject) {
+        if(dataObject.length == 0){
+            templateObject.getTCountriesData();
+        }else{
+        }
+    }).catch(function (err) {
+        templateObject.getTCountriesData();
+    });
+
+    getVS1Data('TPaymentMethod').then(function (dataObject) {
+        if(dataObject.length == 0){
+            templateObject.getTPaymentMethodData();
+        }else{
+        }
+    }).catch(function (err) {
+        templateObject.getTPaymentMethodData();
+    });
+
+    getVS1Data('TClientType').then(function (dataObject) {
+        if(dataObject.length == 0){
+            templateObject.getTClientTypeData();
+        }else{
+        }
+    }).catch(function (err) {
+        templateObject.getTClientTypeData();
+    });
+
+    getVS1Data('TLeadStatusType').then(function (dataObject) {
+        if(dataObject.length == 0){
+            templateObject.getAllLeadStatusData();
+        }else{
+        }
+    }).catch(function (err) {
+        templateObject.getAllLeadStatusData();
+    });
+    getVS1Data('TShippingMethod').then(function (dataObject) {
+        if(dataObject.length == 0){
+            templateObject.getAllShippingMethodData();
+        }else{
+        }
+    }).catch(function (err) {
+        templateObject.getAllShippingMethodData();
+    });
+    getVS1Data('TAccountType').then(function (dataObject) {
+        if(dataObject.length == 0){
+            templateObject.getAllAccountTypeData();
+        }else{
+        }
+    }).catch(function (err) {
+        templateObject.getAllAccountTypeData();
+    });
+    getVS1Data('TERPCombinedContactsVS1').then(function (dataObject) {
+        if(dataObject.length == 0){
+            templateObject.getAllERPCombinedContactsData();
+        }else{
+        }
+    }).catch(function (err) {
+        templateObject.getAllERPCombinedContactsData();
+    });
+    getVS1Data('TEmployee').then(function (dataObject) {
+        if(dataObject.length == 0){
+            templateObject.getAllEmployeeData();
+        }else{
+            let getTimeStamp = dataObject[0].timestamp.split(' ');
+            if(getTimeStamp){
+                if(loggedUserEventFired){
+                    if(getTimeStamp[0] != currenctTodayDate){
+                        sideBarService.getAllEmployeesUpdate(getTimeStamp).then(function(dataUpdate) {
+                            let newDataObject = [];
+                            if(dataUpdate.temployee.length === 0){
+                                addVS1Data('TEmployee',dataObject[0].data).then(function (datareturn) {
+                                }).catch(function (err) {
+
+                                });
+                            }else{
+                                let dataOld = JSON.parse(dataObject[0].data);
+                                let oldObjectData = dataOld.temployee;
+
+                                let dataNew = dataUpdate;
+                                let newObjectData = dataNew.temployee;
+                                let index = '';
+                                let index2 = '';
+                                var resultArray = []
+                                oldObjectData.forEach(function(destObj) {
+                                    var addedcheck=false;
+                                    newObjectData.some(function(origObj) {
+                                        if(origObj.fields.ID == destObj.fields.ID) {
+                                            addedcheck = true;
+                                            index = oldObjectData.map(function (e) { return e.fields.ID; }).indexOf(parseInt(origObj.fields.ID));
+                                            destObj = origObj;
+                                            resultArray.push(destObj);
+
+                                        }
+                                    });
+                                    if(!addedcheck) {
+                                        resultArray.push(destObj)
+                                    }
+
+                                });
+                                newObjectData.forEach(function(origObj) {
+                                    var addedcheck=false;
+                                    oldObjectData.some(function(destObj) {
+                                        if(origObj.fields.ID == destObj.fields.ID) {
+                                            addedcheck = true;
+                                            index = oldObjectData.map(function (e) { return e.fields.ID; }).indexOf(parseInt(origObj.fields.ID));
+                                            destObj = origObj;
+                                            resultArray.push(destObj);
+
+                                        }
+                                    });
+                                    if(!addedcheck) {
+                                        resultArray.push(origObj)
+                                    }
+
+                                });
+
+                                var resultGetData = [];
+                                $.each(resultArray, function (i, e) {
+                                    var matchingItems = $.grep(resultGetData, function (item) {
+                                        return item.fields.ID === e.fields.ID;
+                                    });
+                                    if (matchingItems.length === 0){
+                                        resultGetData.push(e);
+                                    }
+                                });
+
+                                let dataToAdd = {
+                                    temployee: resultGetData
+                                };
+                                addVS1Data('TEmployee',JSON.stringify(dataToAdd)).then(function (datareturn) {
+                                }).catch(function (err) {
+
+                                });
+                            }
+
+                        }).catch(function(err) {
+                            addVS1Data('TEmployee',dataObject[0].data).then(function (datareturn) {
+                            }).catch(function (err) {
+
+                            });
+                        });
+                    }
+                }
+            }
+        }
+    }).catch(function (err) {
+
+        templateObject.getAllEmployeeData();
+    });
+
+    getVS1Data('TAppUser').then(function (dataObject) {
+      if(dataObject.length == 0){
+          templateObject.getAllAppUserData();
+      }else{
+        let getTimeStamp = dataObject[0].timestamp.split(' ');
+        if(getTimeStamp){
+            if(loggedUserEventFired){
+                if(getTimeStamp[0] != currenctTodayDate){
+                    templateObject.getAllAppUserData();
+                }
+              }
+          }
+      }
+  }).catch(function (err) {
+      templateObject.getAllAppUserData();
+  });
+  getVS1Data('TJobVS1').then(function (dataObject) {
+      if(dataObject.length == 0){
+          templateObject.getAllTJobVS1Data();
+      }else{
+        let getTimeStamp = dataObject[0].timestamp.split(' ');
+        if(getTimeStamp){
+            if(loggedUserEventFired){
+                if(getTimeStamp[0] != currenctTodayDate){
+                    templateObject.getAllTJobVS1Data();
+                }
+              }
+          }
+      }
+  }).catch(function (err) {
+      templateObject.getAllTJobVS1Data();
+  });
+
+  getVS1Data('TAppointment').then(function (dataObject) {
+    if(dataObject.length == 0){
         templateObject.getAllAppointmentData();
-    });
+    }else{
+      let getTimeStamp = dataObject[0].timestamp.split(' ');
+      if(getTimeStamp){
+          if(loggedUserEventFired){
+              if(getTimeStamp[0] != currenctTodayDate){
+                  templateObject.getAllAppointmentData();
+              }
+            }
+        }
+    }
+}).catch(function (err) {
+    templateObject.getAllAppointmentData();
+});
 
-    getVS1Data('TAppointmentPreferences').then(function (dataObject) {
-        if(dataObject.length == 0){
-            templateObject.getAllAppointmentPrefData();
-        }else{
+getVS1Data('TAppointmentPreferences').then(function (dataObject) {
+    if(dataObject.length == 0){
+        templateObject.getAllAppointmentPrefData();
+    }else{
+      let getTimeStamp = dataObject[0].timestamp.split(' ');
+      if(getTimeStamp){
+          if(loggedUserEventFired){
+              if(getTimeStamp[0] != currenctTodayDate){
+                  templateObject.getAllAppointmentPrefData();
+              }
+            }
+        }
+    }
+}).catch(function (err) {
+
+});
+
+getVS1Data('TStatementList').then(function (dataObject) {
+      if(dataObject.length == 0){
+          templateObject.getTStatementListData();
+      }else{
           let getTimeStamp = dataObject[0].timestamp.split(' ');
           if(getTimeStamp){
               if(loggedUserEventFired){
                   if(getTimeStamp[0] != currenctTodayDate){
-                      templateObject.getAllAppointmentPrefData();
-                  }
-                }
-            }
-        }
-    }).catch(function (err) {
-
-    });
-
-    getVS1Data('TStatementList').then(function (dataObject) {
-          if(dataObject.length == 0){
-              templateObject.getTStatementListData();
-          }else{
-              let getTimeStamp = dataObject[0].timestamp.split(' ');
-              if(getTimeStamp){
-                  if(loggedUserEventFired){
-                      if(getTimeStamp[0] != currenctTodayDate){
-                          templateObject.getTStatementListData();
-                      }
+                      templateObject.getTStatementListData();
                   }
               }
           }
-      }).catch(function (err) {
-          templateObject.getTStatementListData();
-      });
+      }
+  }).catch(function (err) {
+      templateObject.getTStatementListData();
+  });
 
-      getVS1Data('TVS1BankDeposit').then(function (dataObject) {
-            if(dataObject.length == 0){
-                templateObject.getTVS1BankDepositData();
-            }else{
-                let getTimeStamp = dataObject[0].timestamp.split(' ');
-                if(getTimeStamp){
-                    if(loggedUserEventFired){
-                        if(getTimeStamp[0] != currenctTodayDate){
-                            sideBarService.getAllTVS1BankDepositData(getTimeStamp).then(function(dataUpdate) {
-                                let newDataObject = [];
-                                if(dataUpdate.tvs1bankdeposit.length === 0){
-                                    addVS1Data('TVS1BankDeposit',dataObject[0].data).then(function (datareturn) {
-                                    }).catch(function (err) {
-
-                                    });
-                                }else{
-                                    let dataOld = JSON.parse(dataObject[0].data);
-                                    let oldObjectData = dataOld.tvs1bankdeposit;
-
-                                    let dataNew = dataUpdate;
-                                    let newObjectData = dataNew.tvs1bankdeposit;
-                                    let index = '';
-                                    let index2 = '';
-
-                                    var resultArray = []
-
-                                    oldObjectData.forEach(function(destObj) {
-                                        var addedcheck=false;
-                                        newObjectData.some(function(origObj) {
-                                            if(origObj.fields.ID == destObj.fields.ID) {
-                                                addedcheck = true;
-                                                index = oldObjectData.map(function (e) { return e.fields.ID; }).indexOf(parseInt(origObj.fields.ID));
-                                                destObj = origObj;
-                                                resultArray.push(destObj);
-
-                                            }
-                                        });
-                                        if(!addedcheck) {
-                                            resultArray.push(destObj)
-                                        }
-
-                                    });
-                                    newObjectData.forEach(function(origObj) {
-                                        var addedcheck=false;
-                                        oldObjectData.some(function(destObj) {
-                                            if(origObj.fields.ID == destObj.fields.ID) {
-                                                addedcheck = true;
-                                                index = oldObjectData.map(function (e) { return e.fields.ID; }).indexOf(parseInt(origObj.fields.ID));
-                                                destObj = origObj;
-                                                resultArray.push(destObj);
-
-                                            }
-                                        });
-                                        if(!addedcheck) {
-                                            resultArray.push(origObj)
-                                        }
-
-                                    });
-
-
-                                    var resultGetData = [];
-                                    $.each(resultArray, function (i, e) {
-                                        var matchingItems = $.grep(resultGetData, function (item) {
-                                            return item.fields.ID === e.fields.ID;
-                                        });
-                                        if (matchingItems.length === 0){
-                                            resultGetData.push(e);
-                                        }
-                                    });
-
-                                    let dataToAdd = {
-                                        tvs1bankdeposit: resultGetData
-                                    };
-                                    addVS1Data('TVS1BankDeposit',JSON.stringify(dataToAdd)).then(function (datareturn) {
-                                    }).catch(function (err) {
-
-                                    });
-                                }
-
-                            }).catch(function(err) {
+  getVS1Data('TVS1BankDeposit').then(function (dataObject) {
+        if(dataObject.length == 0){
+            templateObject.getTVS1BankDepositData();
+        }else{
+            let getTimeStamp = dataObject[0].timestamp.split(' ');
+            if(getTimeStamp){
+                if(loggedUserEventFired){
+                    if(getTimeStamp[0] != currenctTodayDate){
+                        sideBarService.getAllTVS1BankDepositData(getTimeStamp).then(function(dataUpdate) {
+                            let newDataObject = [];
+                            if(dataUpdate.tvs1bankdeposit.length === 0){
                                 addVS1Data('TVS1BankDeposit',dataObject[0].data).then(function (datareturn) {
                                 }).catch(function (err) {
 
                                 });
+                            }else{
+                                let dataOld = JSON.parse(dataObject[0].data);
+                                let oldObjectData = dataOld.tvs1bankdeposit;
+
+                                let dataNew = dataUpdate;
+                                let newObjectData = dataNew.tvs1bankdeposit;
+                                let index = '';
+                                let index2 = '';
+
+                                var resultArray = []
+
+                                oldObjectData.forEach(function(destObj) {
+                                    var addedcheck=false;
+                                    newObjectData.some(function(origObj) {
+                                        if(origObj.fields.ID == destObj.fields.ID) {
+                                            addedcheck = true;
+                                            index = oldObjectData.map(function (e) { return e.fields.ID; }).indexOf(parseInt(origObj.fields.ID));
+                                            destObj = origObj;
+                                            resultArray.push(destObj);
+
+                                        }
+                                    });
+                                    if(!addedcheck) {
+                                        resultArray.push(destObj)
+                                    }
+
+                                });
+                                newObjectData.forEach(function(origObj) {
+                                    var addedcheck=false;
+                                    oldObjectData.some(function(destObj) {
+                                        if(origObj.fields.ID == destObj.fields.ID) {
+                                            addedcheck = true;
+                                            index = oldObjectData.map(function (e) { return e.fields.ID; }).indexOf(parseInt(origObj.fields.ID));
+                                            destObj = origObj;
+                                            resultArray.push(destObj);
+
+                                        }
+                                    });
+                                    if(!addedcheck) {
+                                        resultArray.push(origObj)
+                                    }
+
+                                });
+
+
+                                var resultGetData = [];
+                                $.each(resultArray, function (i, e) {
+                                    var matchingItems = $.grep(resultGetData, function (item) {
+                                        return item.fields.ID === e.fields.ID;
+                                    });
+                                    if (matchingItems.length === 0){
+                                        resultGetData.push(e);
+                                    }
+                                });
+
+                                let dataToAdd = {
+                                    tvs1bankdeposit: resultGetData
+                                };
+                                addVS1Data('TVS1BankDeposit',JSON.stringify(dataToAdd)).then(function (datareturn) {
+                                }).catch(function (err) {
+
+                                });
+                            }
+
+                        }).catch(function(err) {
+                            addVS1Data('TVS1BankDeposit',dataObject[0].data).then(function (datareturn) {
+                            }).catch(function (err) {
+
                             });
+                        });
+                    }
+                }
+            }
+        }
+    }).catch(function (err) {
+        templateObject.getTVS1BankDepositData();
+    });
+}, 1000);
+/* End Quick Objects */
+setTimeout(function() {
+  getVS1Data('TJournalEntryLines').then(function (dataObject) {
+
+        if(dataObject.length == 0){
+            templateObject.getAllJournalEntryLineData();
+        }else{
+
+            let data = JSON.parse(dataObject[0].data);
+
+            if(data.tjournalentrylines){
+                templateObject.getAllJournalEntryLineData();
+            }else{
+
+            }
+            let getTimeStamp = dataObject[0].timestamp.split(' ');
+            if(getTimeStamp){
+                if(loggedUserEventFired){
+                    if(getTimeStamp[0] != currenctTodayDate){
+                        sideBarService.getAllJournalEnrtryLinesListUpdate(getTimeStamp).then(function(dataUpdate) {
+                            let newDataObject = [];
+                            if(dataUpdate.tjournalentry.length === 0){
+                            }else{
+                                let dataOld = JSON.parse(dataObject[0].data);
+                                let oldObjectData = dataOld.tjournalentry;
+
+                                let dataNew = dataUpdate;
+                                let newObjectData = dataNew.tjournalentry;
+                                let index = '';
+                                let index2 = '';
+
+                                var resultArray = []
+
+                                oldObjectData.forEach(function(destObj) {
+                                    var addedcheck=false;
+                                    newObjectData.some(function(origObj) {
+                                        if(origObj.fields.ID == destObj.fields.ID) {
+                                            addedcheck = true;
+                                            index = oldObjectData.map(function (e) { return e.fields.ID; }).indexOf(parseInt(origObj.fields.ID));
+                                            destObj = origObj;
+                                            resultArray.push(destObj);
+
+                                        }
+                                    })
+                                    if(!addedcheck) {
+                                        resultArray.push(destObj)
+                                    }
+                                });
+
+                                newObjectData.forEach(function(origObj) {
+                                    var addedcheck=false;
+                                    oldObjectData.some(function(destObj) {
+                                        if(origObj.fields.ID == destObj.fields.ID) {
+                                            addedcheck = true;
+                                            index2 = oldObjectData.map(function (e) { return e.fields.ID; }).indexOf(parseInt(origObj.fields.ID));
+                                            destObj = origObj;
+                                            resultArray.push(destObj);
+                                        }
+
+                                    })
+                                    if(!addedcheck) {
+                                        resultArray.push(origObj)
+                                    }
+                                });
+
+
+                                var resultGetData = [];
+                                $.each(resultArray, function (i, e) {
+                                    var matchingItems = $.grep(resultGetData, function (item) {
+                                        return item.fields.ID === e.fields.ID;
+                                    });
+                                    if (matchingItems.length === 0){
+                                        resultGetData.push(e);
+                                    }
+                                });
+
+                                let dataToAdd = {
+                                    tjournalentry: resultGetData
+                                };
+                                addVS1Data('TJournalEntryLines',JSON.stringify(dataToAdd)).then(function (datareturn) {
+                                }).catch(function (err) {
+
+                                });
+                            }
+
+                        }).catch(function(err) {
+                            addVS1Data('TJournalEntryLines',dataObject[0].data).then(function (datareturn) {
+                            }).catch(function (err) {
+
+                            });
+                        });
+                    }
+                }
+            }
+        }
+    }).catch(function (err) {
+        templateObject.getAllJournalEntryLineData();
+    });
+
+    getVS1Data('TReconciliation').then(function (dataObject) {
+        if(dataObject.length == 0){
+            templateObject.getAllTReconcilationData();
+        }else{
+          let data = JSON.parse(dataObject[0].data);
+          let useData = data.treconciliation;
+          if(useData.length > 0){
+              if(useData[0].Id){
+                templateObject.getAllTReconcilationData();
+              }
+          }
+        }
+    }).catch(function (err) {
+        templateObject.getAllTReconcilationData();
+    });
+
+    getVS1Data('TCheque').then(function (dataObject) {
+        if(dataObject.length == 0){
+            templateObject.getAllTChequeData();
+        }else{
+            let data = JSON.parse(dataObject[0].data);
+            let useData = data.tcheque;
+            if(useData.length > 0){
+                if(useData[0].Id){
+                    templateObject.getAllTChequeData();
+                }
+            }
+        }
+    }).catch(function (err) {
+        templateObject.getAllTChequeData();
+    });
+    getVS1Data('TProductStocknSalePeriodReport').then(function (dataObject) {
+        if(dataObject.length == 0){
+            templateObject.getAllTProductStocknSalePeriodReportData();
+        }else{
+          let getTimeStamp = dataObject[0].timestamp.split(' ');
+          if(getTimeStamp){
+              if(loggedUserEventFired){
+                  if(getTimeStamp[0] != currenctTodayDate){
+                      templateObject.getAllTProductStocknSalePeriodReportData();
+                  }
+                }
+            }
+        }
+    }).catch(function (err) {
+        templateObject.getAllTProductStocknSalePeriodReportData();
+    });
+
+    getVS1Data('TStockAdjustEntry').then(function (dataObject) {
+        if(dataObject.length == 0){
+            templateObject.getAllTStockAdjustEntryData();
+        }else{
+          let data = JSON.parse(dataObject[0].data);
+            let useData = data.tstockadjustentry;
+            if(useData.length > 0){
+                if(useData[0].Id){
+                    templateObject.getAllTStockAdjustEntryData();
+                }else{
+                    let getTimeStamp = dataObject[0].timestamp.split(' ');
+                    if(getTimeStamp){
+                        if(loggedUserEventFired){
+                            if(getTimeStamp[0] != currenctTodayDate){
+                                sideBarService.getAllStockAdjustEntry(getTimeStamp).then(function(dataUpdate) {
+                                    let newDataObject = [];
+                                    if(dataUpdate.tstockadjustentry.length === 0){
+                                        addVS1Data('TStockAdjustEntry',dataObject[0].data).then(function (datareturn) {
+                                        }).catch(function (err) {
+
+                                        });
+                                    }else{
+                                        let dataOld = JSON.parse(dataObject[0].data);
+                                        let oldObjectData = dataOld.tstockadjustentry;
+
+                                        let dataNew = dataUpdate;
+                                        let newObjectData = dataNew.tstockadjustentry;
+                                        let index = '';
+                                        let index2 = '';
+
+
+                                        var resultArray = []
+
+                                        oldObjectData.forEach(function(destObj) {
+                                            var addedcheck=false;
+                                            newObjectData.some(function(origObj) {
+                                                if(origObj.fields.ID == destObj.fields.ID) {
+                                                    addedcheck = true;
+                                                    index = oldObjectData.map(function (e) { return e.fields.ID; }).indexOf(parseInt(origObj.fields.ID));
+                                                    destObj = origObj;
+                                                    resultArray.push(destObj);
+
+                                                }
+                                            });
+                                            if(!addedcheck) {
+                                                resultArray.push(destObj)
+                                            }
+
+                                        });
+                                        newObjectData.forEach(function(origObj) {
+                                            var addedcheck=false;
+                                            oldObjectData.some(function(destObj) {
+                                                if(origObj.fields.ID == destObj.fields.ID) {
+                                                    addedcheck = true;
+                                                    index = oldObjectData.map(function (e) { return e.fields.ID; }).indexOf(parseInt(origObj.fields.ID));
+                                                    destObj = origObj;
+                                                    resultArray.push(destObj);
+
+                                                }
+                                            });
+                                            if(!addedcheck) {
+                                                resultArray.push(origObj)
+                                            }
+
+                                        });
+
+
+                                        var resultGetData = [];
+                                        $.each(resultArray, function (i, e) {
+                                            var matchingItems = $.grep(resultGetData, function (item) {
+                                                return item.fields.ID === e.fields.ID;
+                                            });
+                                            if (matchingItems.length === 0){
+                                                resultGetData.push(e);
+                                            }
+                                        });
+
+                                        let dataToAdd = {
+                                            tstockadjustentry: resultGetData
+                                        };
+                                        addVS1Data('TStockAdjustEntry',JSON.stringify(dataToAdd)).then(function (datareturn) {
+                                        }).catch(function (err) {
+
+                                        });
+                                    }
+
+                                }).catch(function(err) {
+                                    addVS1Data('TStockAdjustEntry',dataObject[0].data).then(function (datareturn) {
+                                    }).catch(function (err) {
+
+                                    });
+                                });
+                            }
                         }
                     }
                 }
             }
-        }).catch(function (err) {
-            templateObject.getTVS1BankDepositData();
-        });
+        }
+    }).catch(function (err) {
+        templateObject.getAllTStockAdjustEntryData();
+    });
 
+  getVS1Data('TARReport').then(function (dataObject) {
+        if(dataObject.length == 0){
+            templateObject.getTARReportData();
+        }else{
+            let getTimeStamp = dataObject[0].timestamp.split(' ');
+            if(getTimeStamp){
+                if(loggedUserEventFired){
+                    if(getTimeStamp[0] != currenctTodayDate){
+                        sideBarService.getTARReport(getTimeStamp).then(function(dataUpdate) {
+                            let newDataObject = [];
+                            if(dataUpdate.tarreport.length === 0){
+                                addVS1Data('TARReport',dataObject[0].data).then(function (datareturn) {
+                                }).catch(function (err) {
+
+                                });
+                            }else{
+                                let dataOld = JSON.parse(dataObject[0].data);
+                                let oldObjectData = dataOld.tarreport;
+
+                                let dataNew = dataUpdate;
+                                let newObjectData = dataNew.tarreport;
+
+                                addVS1Data('TARReport',JSON.stringify(dataNew)).then(function (datareturn) {
+                                }).catch(function (err) {
+
+                                });
+                            }
+
+                        }).catch(function(err) {
+                            addVS1Data('TARReport',dataObject[0].data).then(function (datareturn) {
+                            }).catch(function (err) {
+
+                            });
+                        });
+                    }
+                }
+            }
+        }
+    }).catch(function (err) {
+        templateObject.getTARReportData();
+    });
+
+    getVS1Data('TAPReport').then(function (dataObject) {
+        if(dataObject.length == 0){
+            templateObject.getTAPReportData();
+        }else{
+            let getTimeStamp = dataObject[0].timestamp.split(' ');
+            if(getTimeStamp){
+                if(loggedUserEventFired){
+                    if(getTimeStamp[0] != currenctTodayDate){
+                        sideBarService.getTAPReport(getTimeStamp).then(function(dataUpdate) {
+                            let newDataObject = [];
+                            if(dataUpdate.tapreport.length === 0){
+                                addVS1Data('TAPReport',dataObject[0].data).then(function (datareturn) {
+                                }).catch(function (err) {
+
+                                });
+                            }else{
+                                let dataOld = JSON.parse(dataObject[0].data);
+                                let oldObjectData = dataOld.tapreport;
+
+                                let dataNew = dataUpdate;
+                                let newObjectData = dataNew.tapreport;
+
+                                addVS1Data('TAPReport',JSON.stringify(dataNew)).then(function (datareturn) {
+                                }).catch(function (err) {
+
+                                });
+                            }
+
+                        }).catch(function(err) {
+                            addVS1Data('TAPReport',dataObject[0].data).then(function (datareturn) {
+                            }).catch(function (err) {
+
+                            });
+                        });
+                    }
+                }
+            }
+        }
+    }).catch(function (err) {
+        templateObject.getTAPReportData();
+    });
+  getVS1Data('TPaymentList').then(function (dataObject) {
+
+        if(dataObject.length == 0){
+            templateObject.getTPaymentListData();
+        }else{
+            let getTimeStamp = dataObject[0].timestamp.split(' ');
+            if(getTimeStamp){
+                if(loggedUserEventFired){
+                    if(getTimeStamp[0] != currenctTodayDate){
+                        sideBarService.getTPaymentList(getTimeStamp).then(function(dataUpdate) {
+                            let newDataObject = [];
+                            if(dataUpdate.tpaymentlist.length === 0){
+                            }else{
+                                let dataOld = JSON.parse(dataObject[0].data);
+                                let oldObjectData = dataOld.tpaymentlist;
+
+                                let dataNew = dataUpdate;
+                                let newObjectData = dataNew.tpaymentlist;
+                                let index = '';
+                                let index2 = '';
+                                var resultArray = []
+
+                                oldObjectData.forEach(function(destObj) {
+                                    var addedcheck=false;
+                                    newObjectData.some(function(origObj) {
+                                        if(origObj.PaymentID == destObj.PaymentID) {
+                                            addedcheck = true;
+                                            destObj = origObj;
+                                            resultArray.push(destObj);
+
+                                        }
+                                    })
+                                    if(!addedcheck) {
+                                        resultArray.push(destObj)
+                                    }
+                                });
+
+                                newObjectData.forEach(function(origObj) {
+                                    var addedcheck=false;
+                                    oldObjectData.some(function(destObj) {
+                                        if(origObj.PaymentID == destObj.PaymentID) {
+                                            addedcheck = true;
+                                            destObj = origObj;
+                                            resultArray.push(destObj);
+
+                                        }
+
+                                    })
+                                    if(!addedcheck) {
+                                        resultArray.push(origObj)
+                                    }
+                                });
+
+
+                                var resultGetData = [];
+                                $.each(resultArray, function (i, e) {
+                                    var matchingItems = $.grep(resultGetData, function (item) {
+                                        return item.PaymentID === e.PaymentID;
+                                    });
+                                    if (matchingItems.length === 0){
+                                        resultGetData.push(e);
+                                    }
+                                });
+
+                                let dataToAdd = {
+                                    tpaymentlist: resultGetData
+                                };
+                                addVS1Data('TPaymentList',JSON.stringify(dataToAdd)).then(function (datareturn) {
+                                }).catch(function (err) {
+
+                                });
+                            }
+
+                        }).catch(function(err) {
+                            addVS1Data('TPaymentList',dataObject[0].data).then(function (datareturn) {
+                            }).catch(function (err) {
+
+                            });
+                        });
+                    }
+                }
+            }
+        }
+    }).catch(function (err) {
+        templateObject.getTPaymentListData();
+    });
+
+    getVS1Data('TSupplierPayment').then(function (dataObject) {
+        if(dataObject.length == 0){
+            templateObject.getTSupplierPaymentData();
+        }else{
+            let getTimeStamp = dataObject[0].timestamp.split(' ');
+            if(getTimeStamp){
+                if(loggedUserEventFired){
+                    if(getTimeStamp[0] != currenctTodayDate){
+                        sideBarService.getTSupplierPayment(getTimeStamp).then(function(dataUpdate) {
+                            let newDataObject = [];
+                            if(dataUpdate.tsupplierpayment.length === 0){
+                            }else{
+                                let dataOld = JSON.parse(dataObject[0].data);
+                                let oldObjectData = dataOld.tsupplierpayment;
+
+                                let dataNew = dataUpdate;
+                                let newObjectData = dataNew.tsupplierpayment;
+                                let index = '';
+                                let index2 = '';
+
+                                var resultArray = []
+
+                                oldObjectData.forEach(function(destObj) {
+                                    var addedcheck=false;
+                                    newObjectData.some(function(origObj) {
+                                        if(origObj.fields.ID == destObj.fields.ID) {
+                                            addedcheck = true;
+                                            index = oldObjectData.map(function (e) { return e.fields.ID; }).indexOf(parseInt(origObj.fields.ID));
+                                            destObj = origObj;
+                                            resultArray.push(destObj);
+
+                                        }
+                                    });
+                                    if(!addedcheck) {
+                                        resultArray.push(destObj)
+                                    }
+
+                                });
+                                newObjectData.forEach(function(origObj) {
+                                    var addedcheck=false;
+                                    oldObjectData.some(function(destObj) {
+                                        if(origObj.fields.ID == destObj.fields.ID) {
+                                            addedcheck = true;
+                                            index = oldObjectData.map(function (e) { return e.fields.ID; }).indexOf(parseInt(origObj.fields.ID));
+                                            destObj = origObj;
+                                            resultArray.push(destObj);
+
+                                        }
+                                    });
+                                    if(!addedcheck) {
+                                        resultArray.push(origObj)
+                                    }
+
+                                });
+
+
+                                var resultGetData = [];
+                                $.each(resultArray, function (i, e) {
+                                    var matchingItems = $.grep(resultGetData, function (item) {
+                                        return item.fields.ID === e.fields.ID;
+                                    });
+                                    if (matchingItems.length === 0){
+                                        resultGetData.push(e);
+                                    }
+                                });
+
+                                let dataToAdd = {
+                                    tsupplierpayment: resultGetData
+                                };
+                                addVS1Data('TSupplierPayment',JSON.stringify(dataToAdd)).then(function (datareturn) {
+                                }).catch(function (err) {
+
+                                });
+                            }
+
+                        }).catch(function(err) {
+                            addVS1Data('TSupplierPayment',dataObject[0].data).then(function (datareturn) {
+                            }).catch(function (err) {
+
+                            });
+                        });
+                    }
+                }
+            }
+        }
+    }).catch(function (err) {
+        templateObject.getTSupplierPaymentData();
+    });
+
+    getVS1Data('TCustomerPayment').then(function (dataObject) {
+        if(dataObject.length == 0){
+            templateObject.getTCustomerPaymentData();
+        }else{
+            let getTimeStamp = dataObject[0].timestamp.split(' ');
+            if(getTimeStamp){
+                if(loggedUserEventFired){
+                    if(getTimeStamp[0] != currenctTodayDate){
+                        sideBarService.getTCustomerPayment(getTimeStamp).then(function(dataUpdate) {
+                            let newDataObject = [];
+                            if(dataUpdate.tcustomerpayment.length === 0){
+                            }else{
+                                let dataOld = JSON.parse(dataObject[0].data);
+                                let oldObjectData = dataOld.tcustomerpayment;
+
+                                let dataNew = dataUpdate;
+                                let newObjectData = dataNew.tcustomerpayment;
+                                let index = '';
+                                let index2 = '';
+
+                                var resultArray = []
+
+                                oldObjectData.forEach(function(destObj) {
+                                    var addedcheck=false;
+                                    newObjectData.some(function(origObj) {
+                                        if(origObj.fields.ID == destObj.fields.ID) {
+                                            addedcheck = true;
+                                            index = oldObjectData.map(function (e) { return e.fields.ID; }).indexOf(parseInt(origObj.fields.ID));
+                                            destObj = origObj;
+                                            resultArray.push(destObj);
+
+                                        }
+                                    });
+                                    if(!addedcheck) {
+                                        resultArray.push(destObj)
+                                    }
+
+                                });
+                                newObjectData.forEach(function(origObj) {
+                                    var addedcheck=false;
+                                    oldObjectData.some(function(destObj) {
+                                        if(origObj.fields.ID == destObj.fields.ID) {
+                                            addedcheck = true;
+                                            index = oldObjectData.map(function (e) { return e.fields.ID; }).indexOf(parseInt(origObj.fields.ID));
+                                            destObj = origObj;
+                                            resultArray.push(destObj);
+
+                                        }
+                                    });
+                                    if(!addedcheck) {
+                                        resultArray.push(origObj)
+                                    }
+
+                                });
+
+
+                                var resultGetData = [];
+                                $.each(resultArray, function (i, e) {
+                                    var matchingItems = $.grep(resultGetData, function (item) {
+                                        return item.fields.ID === e.fields.ID;
+                                    });
+                                    if (matchingItems.length === 0){
+                                        resultGetData.push(e);
+                                    }
+                                });
+
+                                let dataToAdd = {
+                                    tcustomerpayment: resultGetData
+                                };
+                                addVS1Data('TCustomerPayment',JSON.stringify(dataToAdd)).then(function (datareturn) {
+                                }).catch(function (err) {
+
+                                });
+                            }
+
+                        }).catch(function(err) {
+                            addVS1Data('TCustomerPayment',dataObject[0].data).then(function (datareturn) {
+                            }).catch(function (err) {
+
+                            });
+                        });
+                    }
+                }
+            }
+        }
+    }).catch(function (err) {
+        templateObject.getTCustomerPaymentData();
+    });
+    getVS1Data('TBankAccountReport').then(function (dataObject) {
+      if(dataObject.length == 0){
+          templateObject.getAllBankAccountReportData();
+      }else{
+      }
+  }).catch(function (err) {
+      templateObject.getAllBankAccountReportData();
+  });
+  getVS1Data('TTransactionListReport').then(function (dataObject) {
+        if(dataObject.length == 0){
+            templateObject.getAllTTransactionListReportData();
+        }else{
+          let getTimeStamp = dataObject[0].timestamp.split(' ');
+          if(getTimeStamp){
+              if(loggedUserEventFired){
+                  if(getTimeStamp[0] != currenctTodayDate){
+                      templateObject.getAllTTransactionListReportData();
+                  }
+                }
+            }
+        }
+    }).catch(function (err) {
+        templateObject.getAllTTransactionListReportData();
+    });
+}, 4000);
     /*
   if (loggedUserEventFired) {
     templateObject.getAllTProductStocknSalePeriodReportData();

@@ -177,7 +177,7 @@ export class PaymentsService extends BaseService {
 
   deleteDepositData(data){
 
-      return this.POST(this.ERPObjects.TCustomerPayment, data);
+      return this.POST(this.ERPObjects.TCustPayments, data);
   }
 
   saveSuppDepositData(data){

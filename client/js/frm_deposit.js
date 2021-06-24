@@ -1984,8 +1984,8 @@ Template.depositcard.events({
                         type: "TVS1BankDeposit",
                         fields: {
                             ID: currentInvoice,
-                            Deleted: true,
-                            Lines: null
+                            Deleted: true
+                            // Lines: null
 
                         }
                     };
@@ -2010,18 +2010,18 @@ Template.depositcard.events({
                         $('.fullScreenSpin').css('display','none');
                     });
                 }else{
-                    window.open('/billlist','_self');
+                    window.open('/depositlist','_self');
                 }
-                $('#deleteLineModal').modal('toggle');
+                //$('#deleteLineModal').modal('toggle');
             } else if (result.dismiss === 'cancel') {
-                window.open('/depositlist', "_self");
+                //window.open('/depositlist', "_self");
             } else {
 
             }
         });
 
     },
-    'click .btnDelete': function(event){
+    'click .btnDeleteNothing': function(event){
         $('.fullScreenSpin').css('display','inline-block');
         let templateObject = Template.instance();
         let purchaseService = new PurchaseBoardService();
@@ -2035,8 +2035,8 @@ Template.depositcard.events({
                 type: "TVS1BankDeposit",
                 fields: {
                     ID: currentInvoice,
-                    Deleted: true,
-                    Lines: null
+                    Deleted: true
+                    //Lines: null
                 }
             };
 

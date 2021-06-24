@@ -251,7 +251,6 @@ Template.vs1login.onRendered(function(){
     let isReportsLicence = Session.get('CloudReportsLicence');
     let isSettingsLicence = Session.get('CloudSettingsLicence');
        /*End Licence Check Menu to add */
-
     /* End Licence Check for menu option */
     var ERPDetails = erpdbname;
     var SegsDatabase = ERPDetails.split(',');
@@ -716,9 +715,7 @@ Template.vs1login.onRendered(function(){
     let isSettingsLicence = Session.get('CloudSettingsLicence');
        /*End Licence Check Menu to add */
     /* End Licence Check for menu option */
-
     if(userAccessOptions.items){
-
     $.each(userAccessOptions.items, function (itemaccess, optionaccess) {
 
           lineItemObjlevel = {
@@ -794,7 +791,7 @@ Template.vs1login.onRendered(function(){
         if(optionaccess.fields.Description === "Contacts"){
           isContacts = true;
         }
-        if(optionaccess.fields.Description === "Account"){
+        if(optionaccess.fields.Description === "Accounts"){
 
           isAccounts = true;
         }
@@ -1609,7 +1606,7 @@ $("#erplogin-button").click(async function(e){
                    let licenceOptions = dataReturnRes.ProcessLog.Modules.Modules;
                    $.each(licenceOptions, function (item, option) {
 
-                             if(option.ModuleName == 'Accounts Payable Reports'){
+                             if((option.ModuleName == 'Accounts Payable Reports') ||(option.ModuleName == 'Accounts Receivable Report')){
                                isAccountsLicence = true;
                              }else if(option.ModuleName == 'Statements'){
                                isContactsLicence = true;
@@ -2213,7 +2210,7 @@ $("#erplogin-button").click(async function(e){
     let licenceOptions = dataReturnRes.ProcessLog.Modules.Modules;
     $.each(licenceOptions, function (item, option) {
 
-             if(option.ModuleName == 'Accounts Payable Reports'){
+            if((option.ModuleName == 'Accounts Payable Reports') ||(option.ModuleName == 'Accounts Receivable Report')){
                isAccountsLicence = true;
              }else if(option.ModuleName == 'Statements'){
                isContactsLicence = true;
@@ -2698,7 +2695,7 @@ $("#erplogin-button").click(async function(e){
                    let licenceOptions = dataReturnRes.ProcessLog.Modules.Modules;
                    $.each(licenceOptions, function (item, option) {
 
-                             if(option.ModuleName == 'Accounts Payable Reports'){
+                             if((option.ModuleName == 'Accounts Payable Reports') ||(option.ModuleName == 'Accounts Receivable Report')){
                                isAccountsLicence = true;
                              }else if(option.ModuleName == 'Statements'){
                                isContactsLicence = true;
@@ -3333,7 +3330,7 @@ $("#erplogin-button").click(async function(e){
                          let licenceOptions = dataReturnRes.ProcessLog.Modules.Modules;
                          $.each(licenceOptions, function (item, option) {
 
-                                   if(option.ModuleName == 'Accounts Payable Reports'){
+                                   if((option.ModuleName == 'Accounts Payable Reports') ||(option.ModuleName == 'Accounts Receivable Report')){
                                      isAccountsLicence = true;
                                    }else if(option.ModuleName == 'Statements'){
                                      isContactsLicence = true;
@@ -3977,7 +3974,7 @@ $("#erplogin-button").click(async function(e){
                        let licenceOptions = dataReturnRes.ProcessLog.Modules.Modules;
                        $.each(licenceOptions, function (item, option) {
 
-                                 if(option.ModuleName == 'Accounts Payable Reports'){
+                                 if((option.ModuleName == 'Accounts Payable Reports') ||(option.ModuleName == 'Accounts Receivable Report')){
                                    isAccountsLicence = true;
                                  }else if(option.ModuleName == 'Statements'){
                                    isContactsLicence = true;

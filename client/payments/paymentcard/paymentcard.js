@@ -4556,7 +4556,7 @@ var htmlmailBody = '<table align="center" border="0" cellpadding="0" cellspacing
    if(getso_id[1]){
    currentInvoice = parseInt(currentInvoice);
    var objDetails = {
-      type: "TCustomerPayment",
+      type: "TCustPayments",
       fields: {
           ID: currentInvoice,
           Deleted: true
