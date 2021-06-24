@@ -1148,6 +1148,9 @@ Template.bankingoverview.events({
     'click .btnNewDepositEnrty': function(event) {
         Router.go('/depositcard');
     },
+    'click .btnDepositList': function(event) {
+        Router.go('/depositlist');
+    },
     'click .btnCustomerlist': function(event) {
         Router.go('/customerpayment');
     },

@@ -854,7 +854,10 @@ Template.customerawaitingpayments.events({
         Router.go('/paymentcard?selectcust='+ result);
      }
 
-   }
+   },
+    'click .btnPaymentList': function() {
+        Router.go('/customerpayment');
+    }
 
 
   });
