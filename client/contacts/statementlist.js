@@ -4,34 +4,39 @@ import { CoreService } from '../js/core-service';
 import { UtilityService } from "../utility-service";
 import { Random } from 'meteor/random';
 import { SideBarService } from '../js/sidebar-service';
+import {OrganisationService} from '../js/organisation-service';
 import '../lib/global/indexdbstorage.js';
+import { jsPDF } from 'jspdf';
+import 'jQuery.print/jQuery.print.js';
+import { autoTable } from 'jspdf-autotable';
 let sideBarService = new SideBarService();
 let utilityService = new UtilityService();
-Template.statementlist.onCreated(function() {
+Template.statementlist.onCreated(function () {
     const templateObject = Template.instance();
     templateObject.datatablerecords = new ReactiveVar([]);
     templateObject.tableheaderrecords = new ReactiveVar([]);
 
     templateObject.statmentprintrecords = new ReactiveVar([]);
     templateObject.multiplepdfemail = new ReactiveVar([]);
+    templateObject.accountID = new ReactiveVar();
 });
 
-Template.statementlist.onRendered(function() {
+Template.statementlist.onRendered(function () {
     $('.fullScreenSpin').css('display', 'inline-block');
     // $('.printConfirm').css('display','none');
 
     let templateObject = Template.instance();
     let contactService = new ContactService();
+    let organisationService = new OrganisationService();
     const customerList = [];
     let salesOrderTable;
     var splashArray = new Array();
     const dataTableList = [];
     const tableHeaderList = [];
 
-    Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblCustomerlist', function(error, result) {
-        if (error) {
-
-        } else {
+    Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblCustomerlist', function (error, result) {
+        if (error) {}
+        else {
             if (result) {
 
                 for (let i = 0; i < result.customFields.length; i++) {
@@ -51,12 +56,19 @@ Template.statementlist.onRendered(function() {
         }
     });
 
+    templateObject.getOrganisationDetails = function () {
+        organisationService.getOrganisationDetail().then((dataListRet) => {
+            let account_id = dataListRet.tcompanyinfo[0].Apcano || '';
+            templateObject.accountID.set(account_id);
+        });
 
-    templateObject.getStatePrintData = async function(clientID) {
+    }
+    templateObject.getOrganisationDetails();
+    templateObject.getStatePrintData = async function (clientID) {
         //getOneInvoicedata
         let data = await contactService.getCustomerStatementPrintData(clientID);
         //contactService.getCustomerStatementPrintData(clientID).then(function (data) {
-        
+
 
         $('.fullScreenSpin').css('display', 'none');
         let lineItems = [];
@@ -64,29 +76,44 @@ Template.statementlist.onRendered(function() {
         let lineItemsTable = [];
         let lineItemTableObj = {};
 
-
         if (data.tstatementforcustomer.length) {
+            let lineItems = [];
+            let balance = data.tstatementforcustomer[0].closingBalance;
+            let stripe_id = templateObject.accountID.get();
+            var erpGet = erpDb();
+            let company = Session.get('vs1companyName');
+            let vs1User = localStorage.getItem('mySession');
+            let dept = "Head Office";
 
-            // let total = utilityService.modifynegativeCurrencyFormat(data.fields.TotalAmount).toLocaleString(undefined, {minimumFractionDigits: 2});
-            // let totalInc = utilityService.modifynegativeCurrencyFormat(data.fields.TotalAmountInc).toLocaleString(undefined, {minimumFractionDigits: 2});
-            // let subTotal = utilityService.modifynegativeCurrencyFormat(data.fields.TotalAmount).toLocaleString(undefined, {minimumFractionDigits: 2});
-            // let totalTax = utilityService.modifynegativeCurrencyFormat(data.fields.TotalTax).toLocaleString(undefined, {minimumFractionDigits: 2});
-            // let totalBalance = utilityService.modifynegativeCurrencyFormat(data.fields.TotalBalance).toLocaleString(undefined, {minimumFractionDigits: 2});
-            // let totalPaidAmount = utilityService.modifynegativeCurrencyFormat(data.fields.TotalPaid).toLocaleString(undefined, {minimumFractionDigits: 2});
             let customerName = data.tstatementforcustomer[0].CustomerName;
             let openingbalance = utilityService.modifynegativeCurrencyFormat(data.tstatementforcustomer[0].OpeningBalance);
             let closingbalance = utilityService.modifynegativeCurrencyFormat(data.tstatementforcustomer[0].closingBalance);
-            let customerphone = '';
+            let customerphone = data.tstatementforcustomer[0].Phone || '';
+            let customername = data.tstatementforcustomer[0].ClientName || '';
+            let billaddress = data.tstatementforcustomer[0].BillStreet || '';
+            let billstate = data.tstatementforcustomer[0].BillState || '';
+            let billcountry = data.tstatementforcustomer[0].BillCountry || '';
+            let statementId = data.tstatementforcustomer[0].TranstypeNo || '';
+            let email = data.tstatementforcustomer[0].Email || '';
+            let invoiceId = data.tstatementforcustomer[0].SaleID || '';
+            let date = data.tstatementforcustomer[0].transdate || '';
+            let stringQuery = "?";
             for (let i = 0; i < data.tstatementforcustomer.length; i++) {
                 let id = data.tstatementforcustomer[i].SaleID;
                 let transdate = data.tstatementforcustomer[i].transdate ? moment(data.tstatementforcustomer[i].transdate).format('DD/MM/YYYY') : "";
                 let type = data.tstatementforcustomer[i].Transtype;
                 let status = '';
                 // let type = data.tstatementforcustomer[i].Transtype;
-                let total = utilityService.modifynegativeCurrencyFormat(data.tstatementforcustomer[i].Amount).toLocaleString(undefined, { minimumFractionDigits: 2 });
-                let totalPaid = utilityService.modifynegativeCurrencyFormat(data.tstatementforcustomer[i].Amount).toLocaleString(undefined, { minimumFractionDigits: 2 });
-                let balance = utilityService.modifynegativeCurrencyFormat(data.tstatementforcustomer[i].Amount).toLocaleString(undefined, { minimumFractionDigits: 2 });
-                
+                let total = utilityService.modifynegativeCurrencyFormat(data.tstatementforcustomer[i].Amount).toLocaleString(undefined, {
+                    minimumFractionDigits: 2
+                });
+                let totalPaid = utilityService.modifynegativeCurrencyFormat(data.tstatementforcustomer[i].Amount).toLocaleString(undefined, {
+                    minimumFractionDigits: 2
+                });
+                let balance = utilityService.modifynegativeCurrencyFormat(data.tstatementforcustomer[i].Amount).toLocaleString(undefined, {
+                    minimumFractionDigits: 2
+                });
+
                 lineItemObj = {
                     lineID: id,
                     id: id || '',
@@ -100,8 +127,14 @@ Template.statementlist.onRendered(function() {
 
                 };
 
-
                 lineItems.push(lineItemObj);
+            }
+
+            if (balance > 0) {
+                for (let l = 0; l < lineItems.length; l++) {
+                    stringQuery = stringQuery + "product" + l + "=" + lineItems[l].type + "&price" + l + "=" + lineItems[l].balance + "&qty" + l + "=" + 1 + "&"; ;
+                }
+                stringQuery = stringQuery + "&total=" + closingbalance + "&customer=" + customerName + "&quoteid=" + invoiceId + "&transid=" + stripe_id + "&company=" + company + "&vs1email=" + vs1User + "&customeremail=" + email + "&type=Invoice&url=" + window.location.href + "&server=" + erpGet.ERPIPAddress + "&username=" + erpGet.ERPUsername + "&token=" + erpGet.ERPPassword + "&session=" + erpGet.ERPDatabase + "&port=" + erpGet.ERPPort + "&dept=" + dept;
             }
 
             var currentDate = new Date();
@@ -112,6 +145,11 @@ Template.statementlist.onRendered(function() {
                 customername: customerName,
                 LineItems: lineItems,
                 phone: customerphone,
+                customername: customername,
+                billaddress: billaddress,
+                billstate: billstate,
+                billcountry: billcountry,
+                email: email,
                 openingBalance: openingbalance,
                 closingBalance: closingbalance
             };
@@ -119,10 +157,21 @@ Template.statementlist.onRendered(function() {
             templateObject.statmentprintrecords.set(statmentrecord);
             if (templateObject.statmentprintrecords.get()) {
                 var pdf = new jsPDF('p', 'pt', 'a4');
-                setTimeout(function() {
+                setTimeout(function () {
                     pdf.setFontSize(18);
                     var source = document.getElementById('printstatmentdesign');
-                    pdf.addHTML(source, function() {
+                    pdf.addHTML(source, function () {
+                        if (balance > 0) {
+                            $('.link').show();
+                            pdf.setFontSize(10);
+                            pdf.setTextColor(255, 255, 255);
+                            pdf.textWithLink('Pay Now', 480, 104, {
+                                url: 'https://www.depot.vs1cloud.com/stripe/' + stringQuery
+                            });
+                        } else {
+
+                            $('.link').hide();
+                        }
                         pdf.save('Customer Statement.pdf');
                         $('#printstatmentdesign').css('display', 'none');
                     });
@@ -136,45 +185,56 @@ Template.statementlist.onRendered(function() {
         //});
     };
 
-
-    templateObject.getStatementPdfData = function(clientID) {
+    templateObject.getStatementPdfData = function (clientID) {
         //getOneInvoicedata
 
         //contactService.getCustomerStatementPrintData(clientID).then(function (data) {
-        
+
 
         return new Promise((resolve, reject) => {
-            contactService.getCustomerStatementPrintData(clientID).then(function(data) {
+            contactService.getCustomerStatementPrintData(clientID).then(function (data) {
                 let lineItems = [];
                 let lineItemObj = {};
                 let lineItemsTable = [];
                 let lineItemTableObj = {};
                 let id = 0;
                 let object = {};
-
-
+                let balance = data.tstatementforcustomer[0].closingBalance;
+                let stripe_id = templateObject.accountID.get();
+                var erpGet = erpDb();
+                let company = Session.get('vs1companyName');
+                let vs1User = localStorage.getItem('mySession');
+                let dept = "Head Office";
                 if (data.tstatementforcustomer.length) {
-
-                    // let total = utilityService.modifynegativeCurrencyFormat(data.fields.TotalAmount).toLocaleString(undefined, {minimumFractionDigits: 2});
-                    // let totalInc = utilityService.modifynegativeCurrencyFormat(data.fields.TotalAmountInc).toLocaleString(undefined, {minimumFractionDigits: 2});
-                    // let subTotal = utilityService.modifynegativeCurrencyFormat(data.fields.TotalAmount).toLocaleString(undefined, {minimumFractionDigits: 2});
-                    // let totalTax = utilityService.modifynegativeCurrencyFormat(data.fields.TotalTax).toLocaleString(undefined, {minimumFractionDigits: 2});
-                    // let totalBalance = utilityService.modifynegativeCurrencyFormat(data.fields.TotalBalance).toLocaleString(undefined, {minimumFractionDigits: 2});
-                    // let totalPaidAmount = utilityService.modifynegativeCurrencyFormat(data.fields.TotalPaid).toLocaleString(undefined, {minimumFractionDigits: 2});
                     let customerName = data.tstatementforcustomer[0].CustomerName;
                     let openingbalance = utilityService.modifynegativeCurrencyFormat(data.tstatementforcustomer[0].OpeningBalance);
                     let closingbalance = utilityService.modifynegativeCurrencyFormat(data.tstatementforcustomer[0].closingBalance);
-                    let customerphone = '';
+                    let customerphone = data.tstatementforcustomer[0].Phone || '';
+                    let customername = data.tstatementforcustomer[0].ClientName || '';
+                    let billaddress = data.tstatementforcustomer[0].BillStreet || '';
+                    let billstate = data.tstatementforcustomer[0].BillState || '';
+                    let billcountry = data.tstatementforcustomer[0].BillCountry || '';
+                    let statementId = data.tstatementforcustomer[0].SaleID || '';
+                    let email = data.tstatementforcustomer[0].Email || '';
+                    let invoiceId = data.tstatementforcustomer[0].SaleID || '';
+                    let date = data.tstatementforcustomer[0].transdate || '';
+                    let stringQuery = "?";
                     for (let i = 0; i < data.tstatementforcustomer.length; i++) {
                         id = data.tstatementforcustomer[i].SaleID;
                         let transdate = data.tstatementforcustomer[i].transdate ? moment(data.tstatementforcustomer[i].transdate).format('DD/MM/YYYY') : "";
                         let type = data.tstatementforcustomer[i].Transtype;
                         let status = '';
                         // let type = data.tstatementforcustomer[i].Transtype;
-                        let total = utilityService.modifynegativeCurrencyFormat(data.tstatementforcustomer[i].Amount).toLocaleString(undefined, { minimumFractionDigits: 2 });
-                        let totalPaid = utilityService.modifynegativeCurrencyFormat(data.tstatementforcustomer[i].Amount).toLocaleString(undefined, { minimumFractionDigits: 2 });
-                        let balance = utilityService.modifynegativeCurrencyFormat(data.tstatementforcustomer[i].Amount).toLocaleString(undefined, { minimumFractionDigits: 2 });
-                        
+                        let total = utilityService.modifynegativeCurrencyFormat(data.tstatementforcustomer[i].Amount).toLocaleString(undefined, {
+                            minimumFractionDigits: 2
+                        });
+                        let totalPaid = utilityService.modifynegativeCurrencyFormat(data.tstatementforcustomer[i].Amount).toLocaleString(undefined, {
+                            minimumFractionDigits: 2
+                        });
+                        let balance = utilityService.modifynegativeCurrencyFormat(data.tstatementforcustomer[i].closingBalance).toLocaleString(undefined, {
+                            minimumFractionDigits: 2
+                        });
+
                         lineItemObj = {
                             lineID: id,
                             id: id || '',
@@ -188,40 +248,70 @@ Template.statementlist.onRendered(function() {
 
                         };
 
-
                         lineItems.push(lineItemObj);
+                    }
+
+                    if (balance > 0) {
+                        for (let l = 0; l < lineItems.length; l++) {
+                            stringQuery = stringQuery + "product" + l + "=" + lineItems[l].type + "&price" + l + "=" + lineItems[l].balance + "&qty" + l + "=" + 1 + "&";
+                        }
+                        stringQuery = stringQuery + "&total=" + closingbalance + "&customer=" + customerName + "&quoteid=" + invoiceId + "&transid=" + stripe_id + "&company=" + company + "&vs1email=" + vs1User + "&customeremail=" + email + "&type=Invoice&url=" + window.location.href + "&server=" + erpGet.ERPIPAddress + "&username=" + erpGet.ERPUsername + "&token=" + erpGet.ERPPassword + "&session=" + erpGet.ERPDatabase + "&port=" + erpGet.ERPPort + "&dept=" + dept;
                     }
 
                     var currentDate = new Date();
                     var begunDate = moment(currentDate).format("DD/MM/YYYY");
                     let statmentrecord = {
-                        id: '',
+                        id: statementId,
                         printdate: begunDate,
                         customername: customerName,
                         LineItems: lineItems,
                         phone: customerphone,
+                        customername: customername,
+                        billaddress: billaddress,
+                        billstate: billstate,
+                        billcountry: billcountry,
+                        email: email,
                         openingBalance: openingbalance,
                         closingBalance: closingbalance
                     };
-
                     templateObject.statmentprintrecords.set(statmentrecord);
                     if (templateObject.statmentprintrecords.get()) {
+                         if (balance > 0) {
+                            $('.link').css('display', 'block');
+                            $('.linklabel').css('display', 'block');
+                         }  else {
+                            $('.link').css('display', 'none');
+                            $('.linklabel').css('display', 'none');
+                        }
                         $('#printstatmentdesign').css('display', 'inline-block');
                         var pdf = new jsPDF('p', 'pt', 'a4');
-                        setTimeout(function() {
+                        setTimeout(function () {
                             pdf.setFontSize(18);
                             var source = document.getElementById('printstatmentdesign');
-                            pdf.addHTML(source, function() {
+                            pdf.addHTML(source, function () {
+                                if (balance > 0) {
+                                    $('.link').css('display', 'block');
+                                    $('.linklabel').css('display', 'block');
+                                    pdf.setFontSize(10);
+                                    pdf.setTextColor(255, 255, 255);
+                                    pdf.textWithLink('Pay Now', 480, 104, {
+                                        url: 'https://www.depot.vs1cloud.com/stripe/' + stringQuery
+                                    });
+                                } 
                                 $('#printstatmentdesign').css('display', 'none');
-                                object = {
-                                    Id: id,
-                                    customer_name: customerName,
-                                    pdfObj: pdf.output('blob'),
-                                    openingBalance: openingbalance
+                                if (email != "") {
+                                    object = {
+                                        Id: statementId,
+                                        customer_name: customerName,
+                                        pdfObj: pdf.output('blob'),
+                                        openingBalance: openingbalance,
+                                        email: email,
+                                        link: stringQuery
+                                    }
                                 }
                                 resolve(object);
                             });
-                        }, 100);
+                        }, 2500);
                     }
 
                 }
@@ -229,14 +319,14 @@ Template.statementlist.onRendered(function() {
             });
         })
     }
-    templateObject.getCustomers = function() {
-        getVS1Data('TStatementList').then(function(dataObject) {
+    templateObject.getCustomers = function () {
+        getVS1Data('TStatementList').then(function (dataObject) {
             if (dataObject.length == 0) {
-                contactService.getAllCustomerStatementData().then(function(data) {
+                contactService.getAllCustomerStatementData().then(function (data) {
                     let lineItems = [];
                     let lineItemObj = {};
                     for (let i = 0; i < data.tstatementlist.length; i++) {
-                        
+
                         // let arBalance = utilityService.modifynegativeCurrencyFormat(data.tstatementforcustomer[i].ARBalance)|| 0.00;
                         // let creditBalance = utilityService.modifynegativeCurrencyFormat(data.tstatementforcustomer[i].CreditBalance) || 0.00;
                         let balance = utilityService.modifynegativeCurrencyFormat(data.tstatementlist[i].amount) || 0.00;
@@ -258,7 +348,7 @@ Template.statementlist.onRendered(function() {
                             jobname: data.tstatementlist[i].Jobname || '',
                             //jobtitle: data.tstatementforcustomer[i].JobTitle || '',
                             notes: ''
-                                //country: data.tstatementforcustomer[i].Country || ''
+                            //country: data.tstatementforcustomer[i].Country || ''
                         };
 
                         dataTableList.push(dataList);
@@ -266,8 +356,9 @@ Template.statementlist.onRendered(function() {
                     }
 
                     function MakeNegative() {
-                        $('td').each(function() {
-                            if ($(this).text().indexOf('-' + Currency) >= 0) $(this).addClass('text-danger')
+                        $('td').each(function () {
+                            if ($(this).text().indexOf('-' + Currency) >= 0)
+                                $(this).addClass('text-danger')
                         });
                     };
 
@@ -275,10 +366,9 @@ Template.statementlist.onRendered(function() {
 
                     if (templateObject.datatablerecords.get()) {
 
-                        Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblCustomerlist', function(error, result) {
-                            if (error) {
-
-                            } else {
+                        Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblCustomerlist', function (error, result) {
+                            if (error) {}
+                            else {
                                 if (result) {
                                     for (let i = 0; i < result.customFields.length; i++) {
                                         let customcolumn = result.customFields;
@@ -304,45 +394,47 @@ Template.statementlist.onRendered(function() {
                             }
                         });
 
-
-                        setTimeout(function() {
+                        setTimeout(function () {
                             MakeNegative();
                         }, 100);
                     }
 
                     $('.fullScreenSpin').css('display', 'none');
-                    setTimeout(function() {
+                    setTimeout(function () {
                         $('#tblCustomerlist').DataTable({
                             //   columnDefs: [
                             //     {orderable: false, targets: 0},
                             //     { targets: 0, className: "text-center"}
                             // ],
-                            "columnDefs": [
-                                { "orderable": false, "targets": 0 }
+                            "columnDefs": [{
+                                    "orderable": false,
+                                    "targets": 0
+                                }
                             ],
 
                             "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
                             buttons: [{
-                                extend: 'excelHtml5',
-                                text: '',
-                                download: 'open',
-                                className: "btntabletocsv hiddenColumn",
-                                filename: "statementlist_" + moment().format(),
-                                orientation: 'portrait',
-                                exportOptions: {
-                                    columns: ':visible'
+                                    extend: 'excelHtml5',
+                                    text: '',
+                                    download: 'open',
+                                    className: "btntabletocsv hiddenColumn",
+                                    filename: "statementlist_" + moment().format(),
+                                    orientation: 'portrait',
+                                    exportOptions: {
+                                        columns: ':visible'
+                                    }
+                                }, {
+                                    extend: 'print',
+                                    download: 'open',
+                                    className: "btntabletopdf hiddenColumn",
+                                    text: '',
+                                    title: 'Statement List',
+                                    filename: "statementlist_" + moment().format(),
+                                    exportOptions: {
+                                        columns: ':visible'
+                                    }
                                 }
-                            }, {
-                                extend: 'print',
-                                download: 'open',
-                                className: "btntabletopdf hiddenColumn",
-                                text: '',
-                                title: 'Statement List',
-                                filename: "statementlist_" + moment().format(),
-                                exportOptions: {
-                                    columns: ':visible'
-                                }
-                            }],
+                            ],
                             select: true,
                             destroy: true,
                             colReorder: true,
@@ -364,25 +456,23 @@ Template.statementlist.onRendered(function() {
                             "order": [
                                 [1, "desc"]
                             ],
-                            action: function() {
+                            action: function () {
                                 $('#tblCustomerlist').DataTable().ajax.reload();
                             },
-                            "fnDrawCallback": function(oSettings) {
-                                setTimeout(function() {
+                            "fnDrawCallback": function (oSettings) {
+                                setTimeout(function () {
                                     MakeNegative();
                                 }, 100);
                             },
 
-                        }).on('page', function() {
-                            setTimeout(function() {
+                        }).on('page', function () {
+                            setTimeout(function () {
                                 MakeNegative();
                             }, 100);
                             let draftRecord = templateObject.datatablerecords.get();
                             templateObject.datatablerecords.set(draftRecord);
-                        }).on('column-reorder', function() {
-
-                        }).on('length.dt', function(e, settings, len) {
-                            setTimeout(function() {
+                        }).on('column-reorder', function () {}).on('length.dt', function (e, settings, len) {
+                            setTimeout(function () {
                                 MakeNegative();
                             }, 100);
                         });
@@ -398,7 +488,7 @@ Template.statementlist.onRendered(function() {
                     let sVisible = "";
                     let columVisible = false;
                     let sClass = "";
-                    $.each(columns, function(i, v) {
+                    $.each(columns, function (i, v) {
                         if (v.hidden == false) {
                             columVisible = true;
                         }
@@ -418,14 +508,14 @@ Template.statementlist.onRendered(function() {
                     });
                     templateObject.tableheaderrecords.set(tableHeaderList);
                     $('div.dataTables_filter input').addClass('form-control form-control-sm');
-                    $('#tblCustomerlist tbody').on('click', 'tr .colCompany, tr .colJob, tr .colPhone, tr .colBalance, tr .colNotes', function() {
+                    $('#tblCustomerlist tbody').on('click', 'tr .colCompany, tr .colJob, tr .colPhone, tr .colBalance, tr .colNotes', function () {
                         var listData = $(this).closest('tr').attr('id');
                         if (listData) {
                             Router.go('/customerscard?id=' + listData);
                         }
                     });
 
-                }).catch(function(err) {
+                }).catch(function (err) {
                     // Bert.alert('<strong>' + err + '</strong>!', 'danger');
                     $('.fullScreenSpin').css('display', 'none');
                     // Meteor._reload.reload();
@@ -437,7 +527,7 @@ Template.statementlist.onRendered(function() {
                 let lineItems = [];
                 let lineItemObj = {};
                 for (let i = 0; i < useData.length; i++) {
-                    
+
                     // let arBalance = utilityService.modifynegativeCurrencyFormat(data.tstatementforcustomer[i].ARBalance)|| 0.00;
                     // let creditBalance = utilityService.modifynegativeCurrencyFormat(data.tstatementforcustomer[i].CreditBalance) || 0.00;
                     let balance = utilityService.modifynegativeCurrencyFormat(useData[i].amount) || 0.00;
@@ -459,7 +549,7 @@ Template.statementlist.onRendered(function() {
                         jobname: useData[i].Jobname || '',
                         //jobtitle: data.tstatementforcustomer[i].JobTitle || '',
                         notes: ''
-                            //country: data.tstatementforcustomer[i].Country || ''
+                        //country: data.tstatementforcustomer[i].Country || ''
                     };
 
                     dataTableList.push(dataList);
@@ -467,8 +557,9 @@ Template.statementlist.onRendered(function() {
                 }
 
                 function MakeNegative() {
-                    $('td').each(function() {
-                        if ($(this).text().indexOf('-' + Currency) >= 0) $(this).addClass('text-danger')
+                    $('td').each(function () {
+                        if ($(this).text().indexOf('-' + Currency) >= 0)
+                            $(this).addClass('text-danger')
                     });
                 };
 
@@ -476,10 +567,9 @@ Template.statementlist.onRendered(function() {
 
                 if (templateObject.datatablerecords.get()) {
 
-                    Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblCustomerlist', function(error, result) {
-                        if (error) {
-
-                        } else {
+                    Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblCustomerlist', function (error, result) {
+                        if (error) {}
+                        else {
                             if (result) {
                                 for (let i = 0; i < result.customFields.length; i++) {
                                     let customcolumn = result.customFields;
@@ -505,45 +595,47 @@ Template.statementlist.onRendered(function() {
                         }
                     });
 
-
-                    setTimeout(function() {
+                    setTimeout(function () {
                         MakeNegative();
                     }, 100);
                 }
 
                 $('.fullScreenSpin').css('display', 'none');
-                setTimeout(function() {
+                setTimeout(function () {
                     $('#tblCustomerlist').DataTable({
                         //   columnDefs: [
                         //     {orderable: false, targets: 0},
                         //     { targets: 0, className: "text-center"}
                         // ],
-                        "columnDefs": [
-                            { "orderable": false, "targets": 0 }
+                        "columnDefs": [{
+                                "orderable": false,
+                                "targets": 0
+                            }
                         ],
 
                         "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
                         buttons: [{
-                            extend: 'excelHtml5',
-                            text: '',
-                            download: 'open',
-                            className: "btntabletocsv hiddenColumn",
-                            filename: "statementlist_" + moment().format(),
-                            orientation: 'portrait',
-                            exportOptions: {
-                                columns: ':visible'
+                                extend: 'excelHtml5',
+                                text: '',
+                                download: 'open',
+                                className: "btntabletocsv hiddenColumn",
+                                filename: "statementlist_" + moment().format(),
+                                orientation: 'portrait',
+                                exportOptions: {
+                                    columns: ':visible'
+                                }
+                            }, {
+                                extend: 'print',
+                                download: 'open',
+                                className: "btntabletopdf hiddenColumn",
+                                text: '',
+                                title: 'Statement List',
+                                filename: "statementlist_" + moment().format(),
+                                exportOptions: {
+                                    columns: ':visible'
+                                }
                             }
-                        }, {
-                            extend: 'print',
-                            download: 'open',
-                            className: "btntabletopdf hiddenColumn",
-                            text: '',
-                            title: 'Statement List',
-                            filename: "statementlist_" + moment().format(),
-                            exportOptions: {
-                                columns: ':visible'
-                            }
-                        }],
+                        ],
                         select: true,
                         destroy: true,
                         colReorder: true,
@@ -565,25 +657,23 @@ Template.statementlist.onRendered(function() {
                         "order": [
                             [1, "desc"]
                         ],
-                        action: function() {
+                        action: function () {
                             $('#tblCustomerlist').DataTable().ajax.reload();
                         },
-                        "fnDrawCallback": function(oSettings) {
-                            setTimeout(function() {
+                        "fnDrawCallback": function (oSettings) {
+                            setTimeout(function () {
                                 MakeNegative();
                             }, 100);
                         },
 
-                    }).on('page', function() {
-                        setTimeout(function() {
+                    }).on('page', function () {
+                        setTimeout(function () {
                             MakeNegative();
                         }, 100);
                         let draftRecord = templateObject.datatablerecords.get();
                         templateObject.datatablerecords.set(draftRecord);
-                    }).on('column-reorder', function() {
-
-                    }).on('length.dt', function(e, settings, len) {
-                        setTimeout(function() {
+                    }).on('column-reorder', function () {}).on('length.dt', function (e, settings, len) {
+                        setTimeout(function () {
                             MakeNegative();
                         }, 100);
                     });
@@ -599,7 +689,7 @@ Template.statementlist.onRendered(function() {
                 let sVisible = "";
                 let columVisible = false;
                 let sClass = "";
-                $.each(columns, function(i, v) {
+                $.each(columns, function (i, v) {
                     if (v.hidden == false) {
                         columVisible = true;
                     }
@@ -619,7 +709,7 @@ Template.statementlist.onRendered(function() {
                 });
                 templateObject.tableheaderrecords.set(tableHeaderList);
                 $('div.dataTables_filter input').addClass('form-control form-control-sm');
-                $('#tblCustomerlist tbody').on('click', 'tr .colCompany, tr .colJob, tr .colPhone, tr .colBalance, tr .colNotes', function() {
+                $('#tblCustomerlist tbody').on('click', 'tr .colCompany, tr .colJob, tr .colPhone, tr .colBalance, tr .colNotes', function () {
                     var listData = $(this).closest('tr').attr('id');
                     if (listData) {
                         Router.go('/customerscard?id=' + listData);
@@ -627,12 +717,12 @@ Template.statementlist.onRendered(function() {
                 });
 
             }
-        }).catch(function(err) {
-            contactService.getAllCustomerStatementData().then(function(data) {
+        }).catch(function (err) {
+            contactService.getAllCustomerStatementData().then(function (data) {
                 let lineItems = [];
                 let lineItemObj = {};
                 for (let i = 0; i < data.tstatementlist.length; i++) {
-                    
+
                     // let arBalance = utilityService.modifynegativeCurrencyFormat(data.tstatementforcustomer[i].ARBalance)|| 0.00;
                     // let creditBalance = utilityService.modifynegativeCurrencyFormat(data.tstatementforcustomer[i].CreditBalance) || 0.00;
                     let balance = utilityService.modifynegativeCurrencyFormat(data.tstatementlist[i].amount) || 0.00;
@@ -654,7 +744,7 @@ Template.statementlist.onRendered(function() {
                         jobname: data.tstatementlist[i].Jobname || '',
                         //jobtitle: data.tstatementforcustomer[i].JobTitle || '',
                         notes: ''
-                            //country: data.tstatementforcustomer[i].Country || ''
+                        //country: data.tstatementforcustomer[i].Country || ''
                     };
 
                     dataTableList.push(dataList);
@@ -662,8 +752,9 @@ Template.statementlist.onRendered(function() {
                 }
 
                 function MakeNegative() {
-                    $('td').each(function() {
-                        if ($(this).text().indexOf('-' + Currency) >= 0) $(this).addClass('text-danger')
+                    $('td').each(function () {
+                        if ($(this).text().indexOf('-' + Currency) >= 0)
+                            $(this).addClass('text-danger')
                     });
                 };
 
@@ -671,10 +762,9 @@ Template.statementlist.onRendered(function() {
 
                 if (templateObject.datatablerecords.get()) {
 
-                    Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblCustomerlist', function(error, result) {
-                        if (error) {
-
-                        } else {
+                    Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblCustomerlist', function (error, result) {
+                        if (error) {}
+                        else {
                             if (result) {
                                 for (let i = 0; i < result.customFields.length; i++) {
                                     let customcolumn = result.customFields;
@@ -700,45 +790,47 @@ Template.statementlist.onRendered(function() {
                         }
                     });
 
-
-                    setTimeout(function() {
+                    setTimeout(function () {
                         MakeNegative();
                     }, 100);
                 }
 
                 $('.fullScreenSpin').css('display', 'none');
-                setTimeout(function() {
+                setTimeout(function () {
                     $('#tblCustomerlist').DataTable({
                         //   columnDefs: [
                         //     {orderable: false, targets: 0},
                         //     { targets: 0, className: "text-center"}
                         // ],
-                        "columnDefs": [
-                            { "orderable": false, "targets": 0 }
+                        "columnDefs": [{
+                                "orderable": false,
+                                "targets": 0
+                            }
                         ],
 
                         "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
                         buttons: [{
-                            extend: 'excelHtml5',
-                            text: '',
-                            download: 'open',
-                            className: "btntabletocsv hiddenColumn",
-                            filename: "statementlist_" + moment().format(),
-                            orientation: 'portrait',
-                            exportOptions: {
-                                columns: ':visible'
+                                extend: 'excelHtml5',
+                                text: '',
+                                download: 'open',
+                                className: "btntabletocsv hiddenColumn",
+                                filename: "statementlist_" + moment().format(),
+                                orientation: 'portrait',
+                                exportOptions: {
+                                    columns: ':visible'
+                                }
+                            }, {
+                                extend: 'print',
+                                download: 'open',
+                                className: "btntabletopdf hiddenColumn",
+                                text: '',
+                                title: 'Statement List',
+                                filename: "statementlist_" + moment().format(),
+                                exportOptions: {
+                                    columns: ':visible'
+                                }
                             }
-                        }, {
-                            extend: 'print',
-                            download: 'open',
-                            className: "btntabletopdf hiddenColumn",
-                            text: '',
-                            title: 'Statement List',
-                            filename: "statementlist_" + moment().format(),
-                            exportOptions: {
-                                columns: ':visible'
-                            }
-                        }],
+                        ],
                         select: true,
                         destroy: true,
                         colReorder: true,
@@ -760,25 +852,23 @@ Template.statementlist.onRendered(function() {
                         "order": [
                             [1, "desc"]
                         ],
-                        action: function() {
+                        action: function () {
                             $('#tblCustomerlist').DataTable().ajax.reload();
                         },
-                        "fnDrawCallback": function(oSettings) {
-                            setTimeout(function() {
+                        "fnDrawCallback": function (oSettings) {
+                            setTimeout(function () {
                                 MakeNegative();
                             }, 100);
                         },
 
-                    }).on('page', function() {
-                        setTimeout(function() {
+                    }).on('page', function () {
+                        setTimeout(function () {
                             MakeNegative();
                         }, 100);
                         let draftRecord = templateObject.datatablerecords.get();
                         templateObject.datatablerecords.set(draftRecord);
-                    }).on('column-reorder', function() {
-
-                    }).on('length.dt', function(e, settings, len) {
-                        setTimeout(function() {
+                    }).on('column-reorder', function () {}).on('length.dt', function (e, settings, len) {
+                        setTimeout(function () {
                             MakeNegative();
                         }, 100);
                     });
@@ -794,7 +884,7 @@ Template.statementlist.onRendered(function() {
                 let sVisible = "";
                 let columVisible = false;
                 let sClass = "";
-                $.each(columns, function(i, v) {
+                $.each(columns, function (i, v) {
                     if (v.hidden == false) {
                         columVisible = true;
                     }
@@ -814,26 +904,25 @@ Template.statementlist.onRendered(function() {
                 });
                 templateObject.tableheaderrecords.set(tableHeaderList);
                 $('div.dataTables_filter input').addClass('form-control form-control-sm');
-                $('#tblCustomerlist tbody').on('click', 'tr .colCompany, tr .colJob, tr .colPhone, tr .colBalance, tr .colNotes', function() {
+                $('#tblCustomerlist tbody').on('click', 'tr .colCompany, tr .colJob, tr .colPhone, tr .colBalance, tr .colNotes', function () {
                     var listData = $(this).closest('tr').attr('id');
                     if (listData) {
                         Router.go('/customerscard?id=' + listData);
                     }
                 });
 
-            }).catch(function(err) {
+            }).catch(function (err) {
                 // Bert.alert('<strong>' + err + '</strong>!', 'danger');
                 $('.fullScreenSpin').css('display', 'none');
                 // Meteor._reload.reload();
             });
         });
 
-
     }
 
     templateObject.getCustomers();
 
-    $('#tblCustomerlist tbody').on('click', 'tr', function() {
+    $('#tblCustomerlist tbody').on('click', 'tr', function () {
         var listData = $(this).closest('tr').attr('id');
         let columnBalClass = $(event.target).attr('class');
 
@@ -848,15 +937,14 @@ Template.statementlist.onRendered(function() {
 
     });
 
-
     //Print PDF
-    templateObject.customerToMultiplePdf = async function(listIds) {
+    templateObject.customerToMultiplePdf = async function (listIds) {
 
         let doc = new jsPDF();
         for (let j = 0; j < listIds.length; j++) {
             $('#printstatmentdesign').css('display', 'block');
             // $('#printstatmentdesign').css('visibility','hidden');
-            
+
             //setTimeout(function () {
             await templateObject.getStatePrintData(listIds[j]);
             // let data = await contactService.getOneCustomerData(listIds[j]);
@@ -865,36 +953,46 @@ Template.statementlist.onRendered(function() {
         }
     }
 
-
-
-    templateObject.emailMultipleStatementPdf = async function(listIds) {
+    templateObject.emailMultipleStatementPdf = async function (listIds) {
         let multiPDF = [];
         let doc = new jsPDF();
         for (let j = 0; j < listIds.length; j++) {
             $('#printstatmentdesign').css('display', 'block');
+            $('.link').show();
             // $('#printstatmentdesign').css('visibility','hidden');
-            
+
             //setTimeout(function () {
             let data = await templateObject.getStatementPdfData(listIds[j])
-            multiPDF.push(data);
+                multiPDF.push(data);
             // let data = await contactService.getOneCustomerData(listIds[j]);
 
             //}, 100);
         }
         return multiPDF;
     }
+
+    templateObject.base64data = function (file) {
+        return new Promise((resolve, reject) => {
+            const fr = new FileReader();
+            fr.onerror = reject;
+            fr.onload = function () {
+                resolve(fr.result);
+            }
+            fr.readAsDataURL(file);
+        })
+    }
+
 });
 
-
 Template.statementlist.events({
-    'click #btnNewCustomer': function(event) {
+    'click #btnNewCustomer': function (event) {
         Router.go('/customerscard');
     },
-    'click .chkDatatable': function(event) {
+    'click .chkDatatable': function (event) {
         var columns = $('#tblCustomerlist th');
         let columnDataValue = $(event.target).closest("div").find(".divcolumn").text();
 
-        $.each(columns, function(i, v) {
+        $.each(columns, function (i, v) {
             let className = v.classList;
             let replaceClass = className[1];
 
@@ -909,19 +1007,26 @@ Template.statementlist.events({
             }
         });
     },
-    'click .resetTable': function(event) {
-        var getcurrentCloudDetails = CloudUser.findOne({ _id: Session.get('mycloudLogonID'), clouddatabaseID: Session.get('mycloudLogonDBID') });
+    'click .resetTable': function (event) {
+        var getcurrentCloudDetails = CloudUser.findOne({
+            _id: Session.get('mycloudLogonID'),
+            clouddatabaseID: Session.get('mycloudLogonDBID')
+        });
         if (getcurrentCloudDetails) {
             if (getcurrentCloudDetails._id.length > 0) {
                 var clientID = getcurrentCloudDetails._id;
                 var clientUsername = getcurrentCloudDetails.cloudUsername;
                 var clientEmail = getcurrentCloudDetails.cloudEmail;
-                var checkPrefDetails = CloudPreference.findOne({ userid: clientID, PrefName: 'tblCustomerlist' });
+                var checkPrefDetails = CloudPreference.findOne({
+                    userid: clientID,
+                    PrefName: 'tblCustomerlist'
+                });
                 if (checkPrefDetails) {
-                    CloudPreference.remove({ _id: checkPrefDetails._id }, function(err, idTag) {
-                        if (err) {
-
-                        } else {
+                    CloudPreference.remove({
+                        _id: checkPrefDetails._id
+                    }, function (err, idTag) {
+                        if (err) {}
+                        else {
                             Meteor._reload.reload();
                         }
                     });
@@ -930,9 +1035,9 @@ Template.statementlist.events({
             }
         }
     },
-    'click .saveTable': function(event) {
+    'click .saveTable': function (event) {
         let lineItems = [];
-        $('.columnSettings').each(function(index) {
+        $('.columnSettings').each(function (index) {
             var $tblrow = $(this);
             var colTitle = $tblrow.find(".divcolumn").text() || '';
             var colWidth = $tblrow.find(".custom-range").val() || 0;
@@ -954,15 +1059,23 @@ Template.statementlist.events({
             lineItems.push(lineItemObj);
         });
 
-        var getcurrentCloudDetails = CloudUser.findOne({ _id: Session.get('mycloudLogonID'), clouddatabaseID: Session.get('mycloudLogonDBID') });
+        var getcurrentCloudDetails = CloudUser.findOne({
+            _id: Session.get('mycloudLogonID'),
+            clouddatabaseID: Session.get('mycloudLogonDBID')
+        });
         if (getcurrentCloudDetails) {
             if (getcurrentCloudDetails._id.length > 0) {
                 var clientID = getcurrentCloudDetails._id;
                 var clientUsername = getcurrentCloudDetails.cloudUsername;
                 var clientEmail = getcurrentCloudDetails.cloudEmail;
-                var checkPrefDetails = CloudPreference.findOne({ userid: clientID, PrefName: 'tblCustomerlist' });
+                var checkPrefDetails = CloudPreference.findOne({
+                    userid: clientID,
+                    PrefName: 'tblCustomerlist'
+                });
                 if (checkPrefDetails) {
-                    CloudPreference.update({ _id: checkPrefDetails._id }, {
+                    CloudPreference.update({
+                        _id: checkPrefDetails._id
+                    }, {
                         $set: {
                             userid: clientID,
                             username: clientUsername,
@@ -973,7 +1086,7 @@ Template.statementlist.events({
                             customFields: lineItems,
                             updatedAt: new Date()
                         }
-                    }, function(err, idTag) {
+                    }, function (err, idTag) {
                         if (err) {
                             $('#myModal2').modal('toggle');
                         } else {
@@ -991,7 +1104,7 @@ Template.statementlist.events({
                         published: true,
                         customFields: lineItems,
                         createdAt: new Date()
-                    }, function(err, idTag) {
+                    }, function (err, idTag) {
                         if (err) {
                             $('#myModal2').modal('toggle');
                         } else {
@@ -1004,7 +1117,7 @@ Template.statementlist.events({
         }
 
     },
-    'blur .divcolumn': function(event) {
+    'blur .divcolumn': function (event) {
         let columData = $(event.target).text();
 
         let columnDatanIndex = $(event.target).closest("div.columnSettings").attr('id');
@@ -1013,14 +1126,14 @@ Template.statementlist.events({
         $(title).html(columData);
 
     },
-    'change .rngRange': function(event) {
+    'change .rngRange': function (event) {
         let range = $(event.target).val();
         $(event.target).closest("div.divColWidth").find(".spWidth").html(range + 'px');
 
         let columData = $(event.target).closest("div.divColWidth").find(".spWidth").attr("value");
         let columnDataValue = $(event.target).closest("div").prev().find(".divcolumn").text();
         var datable = $('#tblCustomerlist th');
-        $.each(datable, function(i, v) {
+        $.each(datable, function (i, v) {
             if (v.innerText == columnDataValue) {
                 let className = v.className;
                 let replaceClass = className.replace(/ /g, ".");
@@ -1030,7 +1143,7 @@ Template.statementlist.events({
         });
 
     },
-    'click .btnOpenSettings': function(event) {
+    'click .btnOpenSettings': function (event) {
         let templateObject = Template.instance();
         var columns = $('#tblCustomerlist th');
 
@@ -1041,7 +1154,7 @@ Template.statementlist.events({
         let sVisible = "";
         let columVisible = false;
         let sClass = "";
-        $.each(columns, function(i, v) {
+        $.each(columns, function (i, v) {
             if (v.hidden == false) {
                 columVisible = true;
             }
@@ -1061,183 +1174,195 @@ Template.statementlist.events({
         });
         templateObject.tableheaderrecords.set(tableHeaderList);
     },
-    'click #exportbtn': function() {
+    'click #exportbtn': function () {
         $('.fullScreenSpin').css('display', 'inline-block');
         jQuery('#tblCustomerlist_wrapper .dt-buttons .btntabletocsv').click();
         $('.fullScreenSpin').css('display', 'none');
 
     },
-    'click .btnRefresh': function() {
-        sideBarService.getAllCustomerStatementData().then(function(data) {
-            addVS1Data('TStatementList', JSON.stringify(data)).then(function(datareturn) {
+    'click .btnRefresh': function () {
+        sideBarService.getAllCustomerStatementData().then(function (data) {
+            addVS1Data('TStatementList', JSON.stringify(data)).then(function (datareturn) {
                 window.open('/statementlist', '_self');
-            }).catch(function(err) {
+            }).catch(function (err) {
                 window.open('/statementlist', '_self');
             });
-        }).catch(function(err) {
+        }).catch(function (err) {
             window.open('/statementlist', '_self');
         });
     },
-    'click .chkBoxAll': function() {
+    'click .chkBoxAll': function () {
         if ($(event.target).is(':checked')) {
             $(".chkBox").prop("checked", true);
         } else {
             $(".chkBox").prop("checked", false);
         }
     },
-    'click #emailbtn': async function() {
+    'click #emailbtn': async function () {
         $('.fullScreenSpin').css('display', 'inline-block');
         let templateObject = Template.instance();
         let listIds = [];
-        $('.chkBox').each(function() {
+        $('.chkBox').each(function () {
             if ($(this).is(':checked')) {
                 var targetID = $(this).closest('tr').attr('id');
                 listIds.push(targetID);
-            } else {
-
-            }
+            } else {}
         });
-
 
         if (listIds != '') {
             data = await templateObject.emailMultipleStatementPdf(listIds);
-                async function addAttachment() {
-                    let attachment = [];
-                    let pdfObject = "";
-                    for (let x = 0; x < data.length; x++) {
-                        attachment = [];
-                        var reader = new FileReader();
-                        reader.readAsDataURL(data[x].pdfObj);
-                        reader.onloadend = function() {
-                            setTimeout(function(){
-                            var base64data = reader.result;
+            customerData = templateObject.statmentprintrecords.get();
+            async function addAttachment() {
+                let attachment = [];
+                let pdfObject = "";
+                let count = 0;
+                let email = [];
+                for (let x = 0; x < data.length; x++) {
+                    
+                    if (data[x].pdfObj != undefined || data[x].pdfObj != null) {
+                        let base64data = await templateObject.base64data(data[x].pdfObj);
+                        // setTimeout(function() {
+                        base64data = base64data.split(',')[1];
+                        pdfObject = {
+                            filename: 'statement-' + data[x].Id + '.pdf',
+                            content: base64data,
+                            encoding: 'base64'
+                        };
+                        attachment.push(pdfObject);
+                        let mailFromName = Session.get('vs1companyName');
+                        let mailFrom = localStorage.getItem('EUserName');
+                        let customerEmailName = data[x].customer_name;
+                        // let mailCC = templateObject.mailCopyToUsr.get();
+                        let grandtotal = $('#grandTotal').html();
+                        let amountDueEmail = $('#totalBalanceDue').html();
+                        let emailDueDate = $("#dtDueDate").val();
+                        let mailSubject = 'Statement ' + data[x].Id + ' from ' + mailFromName + ' for ' + customerEmailName;
+                        // emailTo = emails[count].toString();
+                        attachmentIndex = attachment[count];
+                        count++;
+                        var htmlmailBody = '<table align="center" border="0" cellpadding="0" cellspacing="0" width="600">' +
+                            '    <tr>' +
+                            '        <td align="center" bgcolor="#54c7e2" style="padding: 40px 0 30px 0;">' +
+                            '            <img src="https://sandbox.vs1cloud.com/assets/VS1logo.png" class="uploadedImage" alt="VS1 Cloud" width="250px" style="display: block;" />' +
+                            '        </td>' +
+                            '    </tr>' +
+                            '    <tr>' +
+                            '        <td style="padding: 40px 30px 40px 30px;">' +
+                            '            <table border="0" cellpadding="0" cellspacing="0" width="100%">' +
+                            '                <tr>' +
+                            '                    <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0 20px 0;">' +
+                            '                        Hi <span>' + customerEmailName + '</span>.' +
+                            '                    </td>' +
+                            '                </tr>' +
+                            '                <tr>' +
+                            '                    <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0 10px 0;">' +
+                            '                        Please find attached Statement <span>' + data[x].Id + '</span>' +
+                            '                    </td>' +
+                            '                </tr>' +
+                            '                 <tr>' +
+                            '                    <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0 10px 0;">' +
+                            '                        Simply click on <a style="border: none; color: white; padding: 6px 12px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin: 4px 2px; cursor: pointer; background-color: #5cb85c; border-color: #4cae4c; border-radius: 10px;" href="https://www.depot.vs1cloud.com/stripe/' + data[x].link + '">Make Payment</a> to pay now.' +
+                            '                    </td>' +
+                            '                </tr>' +
+                            '                <tr>' +
+                            '                     <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0 10px 0;">' +
+                            '                        Thank you again for business' +
+                            '                    </td>' +
+                            '                <tr>' +
+                            '                    <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0 30px 0;">' +
+                            '                        Kind regards,' +
+                            '                        <br>' +
+                            '                        ' + mailFromName + '' +
+                            '                    </td>' +
+                            '                </tr>' +
+                            '            </table>' +
+                            '        </td>' +
+                            '    </tr>' +
+                            '    <tr>' +
+                            '        <td bgcolor="#00a3d3" style="padding: 30px 30px 30px 30px;">' +
+                            '            <table border="0" cellpadding="0" cellspacing="0" width="100%">' +
+                            '                <tr>' +
+                            '                    <td width="50%" style="color: #ffffff; font-family: Arial, sans-serif; font-size: 14px;">' +
+                            '                        If you have any question, please do not hesitate to contact us.' +
+                            '                    </td>' +
+                            '                    <td align="right">' +
+                            '                        <a style="border: none; color: white; padding: 15px 32px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin: 4px 2px; cursor: pointer; background-color: #4CAF50;" href="mailto:' + mailFrom + '">Contact Us</a>' +
+                            '                    </td>' +
+                            '                </tr>' +
+                            '            </table>' +
+                            '        </td>' +
+                            '    </tr>' +
+                            '</table>';
 
-                            base64data = base64data.split(',')[1];
-                            pdfObject = {
-                                filename: 'statement-' + data[x].Id + '.pdf',
-                                content: base64data,
-                                encoding: 'base64'
-                            };
-                            attachment.push(pdfObject);
-                            let mailFromName = Session.get('vs1companyName');
-                            let mailFrom = localStorage.getItem('EUserName');
-                            let customerEmailName = data[x].customer_name;
-                            // let mailCC = templateObject.mailCopyToUsr.get();
-                            let grandtotal = $('#grandTotal').html();
-                            let amountDueEmail = $('#totalBalanceDue').html();
-                            let emailDueDate = $("#dtDueDate").val();
-                            let mailSubject = 'Statement ' + data[x].Id + ' from ' + mailFromName + ' for ' + customerEmailName;
-
-
-                            var htmlmailBody = '<table align="center" border="0" cellpadding="0" cellspacing="0" width="600">' +
-                                '    <tr>' +
-                                '        <td align="center" bgcolor="#54c7e2" style="padding: 40px 0 30px 0;">' +
-                                '            <img src="https://sandbox.vs1cloud.com/assets/VS1logo.png" class="uploadedImage" alt="VS1 Cloud" width="250px" style="display: block;" />' +
-                                '        </td>' +
-                                '    </tr>' +
-                                '    <tr>' +
-                                '        <td style="padding: 40px 30px 40px 30px;">' +
-                                '            <table border="0" cellpadding="0" cellspacing="0" width="100%">' +
-                                '                <tr>' +
-                                '                    <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0 20px 0;">' +
-                                '                        Hi <span>' + customerEmailName + '</span>.' +
-                                '                    </td>' +
-                                '                </tr>' +
-                                '                <tr>' +
-                                '                    <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0 10px 0;">' +
-                                '                        Please find attached Statement <span>' + data[x].Id + '</span>' +
-                                '                    </td>' +
-                                '                </tr>' +
-                                '                <tr>' +
-                                '                     <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0 10px 0;">' +
-                                '                        Thank you again for business' +
-                                '                    </td>' +
-                                '                <tr>' +
-                                '                    <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0 30px 0;">' +
-                                '                        Kind regards,' +
-                                '                        <br>' +
-                                '                        ' + mailFromName + '' +
-                                '                    </td>' +
-                                '                </tr>' +
-                                '            </table>' +
-                                '        </td>' +
-                                '    </tr>' +
-                                '    <tr>' +
-                                '        <td bgcolor="#00a3d3" style="padding: 30px 30px 30px 30px;">' +
-                                '            <table border="0" cellpadding="0" cellspacing="0" width="100%">' +
-                                '                <tr>' +
-                                '                    <td width="50%" style="color: #ffffff; font-family: Arial, sans-serif; font-size: 14px;">' +
-                                '                        If you have any question, please do not hesitate to contact us.' +
-                                '                    </td>' +
-                                '                    <td align="right">' +
-                                '                        <a style="border: none; color: white; padding: 15px 32px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin: 4px 2px; cursor: pointer; background-color: #4CAF50;" href="mailto:' + mailFrom + '">Contact Us</a>' +
-                                '                    </td>' +
-                                '                </tr>' +
-                                '            </table>' +
-                                '        </td>' +
-                                '    </tr>' +
-                                '</table>';
+                        if (data[x].email != "") {
                             Meteor.call('sendEmail', {
                                 from: "" + mailFromName + " <" + mailFrom + ">",
-                                to: 'thabang@vs1cloud.com',
+                                to: data[x].email,
                                 subject: mailSubject,
                                 text: '',
                                 html: htmlmailBody,
-                                attachments: attachment
-                            }, function(error, result) {
+                                attachments: attachmentIndex
+                            }, function (error, result) {
                                 $('.fullScreenSpin').css('display', 'none');
                                 if (error && error.error === "error") {
-                                   // window.open('/statementlist', '_self');
+                                    // window.open('/statementlist', '_self');
                                 } else {
                                     $('.fullScreenSpin').css('display', 'none');
                                     swal({
                                         title: 'SUCCESS',
-                                        text: "Email Sent To User: " + mailFrom + " ",
+                                        text: "Email Sent To User " + data[x].email,
                                         type: 'success',
                                         showCancelButton: false,
                                         confirmButtonText: 'OK'
                                     }).then((result) => {
                                         if (result.value) {
                                             // window.open('/statementlist', '_self');
-                                        } else if (result.dismiss === 'cancel') {
-
-                                        }
+                                        } else if (result.dismiss === 'cancel') {}
                                     });
 
                                 }
                             });
+                        } else {
+                            $('.fullScreenSpin').css('display', 'none');
+                            swal({
+                                title: 'WARNING',
+                                text: "Customer Does Not Have a Email Address, Please Add One for This Customer ",
+                                type: 'warning',
+                                showCancelButton: false,
+                                confirmButtonText: 'OK'
+                            }).then((result) => {
+                                if (result.value) {
+                                    // window.open('/statementlist', '_self');
+                                } else if (result.dismiss === 'cancel') {}
+                            });
 
-                        },3500);
+                        }
 
-                    };
-
-
+                        // },0);
+                    }
                 }
-
-        }
-        await  addAttachment();
-     } else {
+            }
+            await addAttachment();
+        } else {
             $('.fullScreenSpin').css('display', 'none');
         }
     },
-    'click .printConfirm ': function(event) {
+    'click .printConfirm ': function (event) {
+        $('.fullScreenSpin').css('display', 'block');
         let templateObject = Template.instance();
-
 
         let listIds = [];
 
-        $('.chkBox').each(function() {
+        $('.chkBox').each(function () {
             if ($(this).is(':checked')) {
                 var targetID = $(this).closest('tr').attr('id');
                 listIds.push(targetID);
-            } else {
-
-            }
+            } else {}
         });
 
         if (listIds != '') {
             templateObject.customerToMultiplePdf(listIds);
-            
+
         } else {
             $('#printLineModal').modal('toggle');
         }
@@ -1254,7 +1379,7 @@ Template.statementlist.events({
 
 Template.statementlist.helpers({
     datatablerecords: () => {
-        return Template.instance().datatablerecords.get().sort(function(a, b) {
+        return Template.instance().datatablerecords.get().sort(function (a, b) {
             if (a.company == 'NA') {
                 return 1;
             } else if (b.company == 'NA') {
@@ -1267,11 +1392,34 @@ Template.statementlist.helpers({
         return Template.instance().tableheaderrecords.get();
     },
     salesCloudPreferenceRec: () => {
-        return CloudPreference.findOne({ userid: Session.get('mycloudLogonID'), PrefName: 'tblCustomerlist' });
+        return CloudPreference.findOne({
+            userid: Session.get('mycloudLogonID'),
+            PrefName: 'tblCustomerlist'
+        });
     },
     statmentprintrecords: () => {
         return Template.instance().statmentprintrecords.get();
-    }
-
+    },
+    companyname: () => {
+        return loggedCompany;
+    },
+    companyaddress1: () => {
+        return Session.get('vs1companyaddress1');
+    },
+    companyaddress2: () => {
+        return Session.get('vs1companyaddress2');
+    },
+    companyphone: () => {
+        return Session.get('vs1companyPhone');
+    },
+    companyabn: () => {
+        return Session.get('vs1companyABN');
+    },
+    organizationname: () => {
+        return Session.get('vs1companyName');
+    },
+    organizationurl: () => {
+        return Session.get('vs1companyURL');
+    },
 
 });
