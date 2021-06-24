@@ -747,7 +747,7 @@ Template.employeetimeclock.events({
         window.open('/employeetimeclock', '_self');
       }).catch(function (err) {
         swal({
-          title: 'Something went wrong',
+          title: 'Oooops...',
           text: err,
           type: 'error',
           showCancelButton: false,
@@ -768,7 +768,7 @@ Template.employeetimeclock.events({
         window.open('/employeetimeclock', '_self');
       }).catch(function (err) {
         swal({
-          title: 'Something went wrong',
+          title: 'Oooops...',
           text: err,
           type: 'error',
           showCancelButton: false,
@@ -826,7 +826,7 @@ Template.employeetimeclock.events({
         window.open('/timesheet', '_self');
       }).catch(function (err) {
         swal({
-          title: 'Something went wrong',
+          title: 'Oooops...',
           text: err,
           type: 'error',
           showCancelButton: false,

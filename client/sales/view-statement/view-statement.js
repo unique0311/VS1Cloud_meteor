@@ -73,7 +73,7 @@ yearRange: "-90:+10",
             }
         }).catch(function (err) {
           swal({
-          title: 'Something went wrong',
+          title: 'Oooops...',
           text: err,
           type: 'error',
           showCancelButton: false,
@@ -544,7 +544,7 @@ Template.viewStatement.events({
             Meteor._reload.reload();
         }).catch(function (err) {
           swal({
-          title: 'Something went wrong',
+          title: 'Oooops...',
           text: err,
           type: 'error',
           showCancelButton: false,
@@ -687,7 +687,7 @@ Template.viewStatement.events({
                          templateObject.isShowMailSentNotification.set(true);
                      }).catch(function (err) {
                        swal({
-                       title: 'Something went wrong',
+                       title: 'Oooops...',
                        text: err,
                        type: 'error',
                        showCancelButton: false,

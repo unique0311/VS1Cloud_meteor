@@ -594,7 +594,7 @@ Template.new_invoice.onRendered(() => {
                     }
                 }).catch(function (err) {
                     swal({
-                        title: 'Something went wrong',
+                        title: 'Oooops...',
                         text: err,
                         type: 'error',
                         showCancelButton: false,
@@ -861,7 +861,7 @@ Template.new_invoice.onRendered(() => {
                             }
                         }).catch(function (err) {
                             swal({
-                                title: 'Something went wrong',
+                                title: 'Oooops...',
                                 text: err,
                                 type: 'error',
                                 showCancelButton: false,
@@ -1291,7 +1291,7 @@ Template.new_invoice.onRendered(() => {
                                 }
                             }).catch(function (err) {
                                 swal({
-                                    title: 'Something went wrong',
+                                    title: 'Oooops...',
                                     text: err,
                                     type: 'error',
                                     showCancelButton: false,
@@ -1549,7 +1549,7 @@ Template.new_invoice.onRendered(() => {
                         }
                     }).catch(function (err) {
                         swal({
-                            title: 'Something went wrong',
+                            title: 'Oooops...',
                             text: err,
                             type: 'error',
                             showCancelButton: false,
@@ -1935,7 +1935,7 @@ Template.new_invoice.onRendered(() => {
                             }
                         }).catch(function (err) {
                             swal({
-                                title: 'Something went wrong',
+                                title: 'Oooops...',
                                 text: err,
                                 type: 'error',
                                 showCancelButton: false,
@@ -2394,7 +2394,7 @@ Template.new_invoice.onRendered(() => {
                             }).catch(function (err) {
 
                                 swal({
-                                    title: 'Something went wrong',
+                                    title: 'Oooops...',
                                     text: err,
                                     type: 'error',
                                     showCancelButton: false,
@@ -2635,7 +2635,7 @@ Template.new_invoice.onRendered(() => {
                     }).catch(function (err) {
 
                         swal({
-                            title: 'Something went wrong',
+                            title: 'Oooops...',
                             text: err,
                             type: 'error',
                             showCancelButton: false,
@@ -2840,7 +2840,7 @@ Template.new_invoice.onRendered(() => {
                     }
                 }).catch(function (err) {
                     swal({
-                        title: 'Something went wrong',
+                        title: 'Oooops...',
                         text: err,
                         type: 'error',
                         showCancelButton: false,
@@ -3040,7 +3040,7 @@ Template.new_invoice.onRendered(() => {
                     }
                 }).catch(function (err) {
                     swal({
-                        title: 'Something went wrong',
+                        title: 'Oooops...',
                         text: err,
                         type: 'error',
                         showCancelButton: false,
@@ -4353,7 +4353,7 @@ Template.new_invoice.events({
             }).catch(function (err) {
                 $('.fullScreenSpin').css('display', 'none');
                 swal({
-                    title: 'Something went wrong',
+                    title: 'Oooops...',
                     text: err,
                     type: 'error',
                     showCancelButton: false,
@@ -4463,6 +4463,12 @@ Template.new_invoice.events({
                 let lineItems = [];
                 let lineItemObjForm = {};
                 var erpGet = erpDb();
+                var saledateTime = new Date($("#dtSODate").datepicker("getDate"));
+
+                var duedateTime = new Date($("#dtDueDate").datepicker("getDate"));
+
+                let saleDate = saledateTime.getFullYear() + "-" + (saledateTime.getMonth() + 1) + "-" + saledateTime.getDate();
+                let dueDate = duedateTime.getFullYear() + "-" + (duedateTime.getMonth() + 1) + "-" + duedateTime.getDate();
                 let checkBackOrder = templateObject.includeBOnShippedQty.get();
                 $('#tblInvoiceLine > tbody > tr').each(function () {
                     var lineID = this.id;
@@ -4496,6 +4502,7 @@ Template.new_invoice.events({
                                     UOMQtySold: parseFloat(tdOrderd) || 0,
                                     UOMQtyShipped: parseFloat(tdQty) || 0,
                                     LinePrice: Number(tdunitprice.replace(/[^0-9.-]+/g, "")) || 0,
+                                    Headershipdate: saleDate,
                                     LineTaxCode: tdtaxCode || '',
                                 }
                             };
@@ -4508,6 +4515,7 @@ Template.new_invoice.events({
                                     UOMQtySold: parseFloat(tdQty) || 0,
                                     UOMQtyShipped: parseFloat(tdQty) || 0,
                                     LinePrice: Number(tdunitprice.replace(/[^0-9.-]+/g, "")) || 0,
+                                    Headershipdate: saleDate,
                                     LineTaxCode: tdtaxCode || '',
                                 }
                             };
@@ -4532,12 +4540,7 @@ Template.new_invoice.events({
                 let customer = $('#edtCustomerName').val();
                 let customerEmail = $('#edtCustomerEmail').val();
                 let billingAddress = $('#txabillingAddress').val();
-                var saledateTime = new Date($("#dtSODate").datepicker("getDate"));
 
-                var duedateTime = new Date($("#dtDueDate").datepicker("getDate"));
-
-                let saleDate = saledateTime.getFullYear() + "-" + (saledateTime.getMonth() + 1) + "-" + saledateTime.getDate();
-                let dueDate = duedateTime.getFullYear() + "-" + (duedateTime.getMonth() + 1) + "-" + duedateTime.getDate();
 
                 let poNumber = $('#ponumber').val();
                 let reference = $('#edtRef').val();
@@ -4838,7 +4841,7 @@ Template.new_invoice.events({
                 }).catch(function (err) {
                     $('#html-2-pdfwrapper').css('display', 'none');
                     swal({
-                        title: 'Something went wrong',
+                        title: 'Oooops...',
                         text: err,
                         type: 'error',
                         showCancelButton: false,
@@ -5367,7 +5370,7 @@ Template.new_invoice.events({
                 Router.go('/invoicelist?success=true');
             }).catch(function (err) {
                 swal({
-                    title: 'Something went wrong',
+                    title: 'Oooops...',
                     text: err,
                     type: 'error',
                     showCancelButton: false,
@@ -5528,6 +5531,13 @@ Template.new_invoice.events({
             let lineItems = [];
             let lineItemObjForm = {};
             var erpGet = erpDb();
+            var saledateTime = new Date($("#dtSODate").datepicker("getDate"));
+
+            var duedateTime = new Date($("#dtDueDate").datepicker("getDate"));
+
+            let saleDate = saledateTime.getFullYear() + "-" + (saledateTime.getMonth() + 1) + "-" + saledateTime.getDate();
+            let dueDate = duedateTime.getFullYear() + "-" + (duedateTime.getMonth() + 1) + "-" + duedateTime.getDate();
+
             let checkBackOrder = templateObject.includeBOnShippedQty.get();
             $('#tblInvoiceLine > tbody > tr').each(function () {
                 var lineID = this.id;
@@ -5561,6 +5571,7 @@ Template.new_invoice.events({
                                 UOMQtySold: parseFloat(tdOrderd) || 0,
                                 UOMQtyShipped: parseFloat(tdQty) || 0,
                                 LinePrice: Number(tdunitprice.replace(/[^0-9.-]+/g, "")) || 0,
+                                Headershipdate: saleDate,
                                 LineTaxCode: tdtaxCode || '',
                             }
                         };
@@ -5573,6 +5584,7 @@ Template.new_invoice.events({
                                 UOMQtySold: parseFloat(tdQty) || 0,
                                 UOMQtyShipped: parseFloat(tdQty) || 0,
                                 LinePrice: Number(tdunitprice.replace(/[^0-9.-]+/g, "")) || 0,
+                                Headershipdate: saleDate,
                                 LineTaxCode: tdtaxCode || '',
                             }
                         };
@@ -5597,12 +5609,6 @@ Template.new_invoice.events({
             let customer = $('#edtCustomerName').val();
             let customerEmail = $('#edtCustomerEmail').val();
             let billingAddress = $('#txabillingAddress').val();
-            var saledateTime = new Date($("#dtSODate").datepicker("getDate"));
-
-            var duedateTime = new Date($("#dtDueDate").datepicker("getDate"));
-
-            let saleDate = saledateTime.getFullYear() + "-" + (saledateTime.getMonth() + 1) + "-" + saledateTime.getDate();
-            let dueDate = duedateTime.getFullYear() + "-" + (duedateTime.getMonth() + 1) + "-" + duedateTime.getDate();
 
             let poNumber = $('#ponumber').val();
             let reference = $('#edtRef').val();
@@ -5975,7 +5981,7 @@ Template.new_invoice.events({
             }).catch(function (err) {
                 $('#html-2-pdfwrapper').css('display', 'none');
                 swal({
-                    title: 'Something went wrong',
+                    title: 'Oooops...',
                     text: err,
                     type: 'error',
                     showCancelButton: false,
@@ -6375,6 +6381,13 @@ Template.new_invoice.events({
             let lineItems = [];
             let lineItemObjForm = {};
             var erpGet = erpDb();
+            var saledateTime = new Date($("#dtSODate").datepicker("getDate"));
+
+            var duedateTime = new Date($("#dtDueDate").datepicker("getDate"));
+
+            let saleDate = saledateTime.getFullYear() + "-" + (saledateTime.getMonth() + 1) + "-" + saledateTime.getDate();
+            let dueDate = duedateTime.getFullYear() + "-" + (duedateTime.getMonth() + 1) + "-" + duedateTime.getDate();
+
             let checkBackOrder = templateObject.includeBOnShippedQty.get();
             $('#tblInvoiceLine > tbody > tr').each(function () {
                 var lineID = this.id;
@@ -6408,6 +6421,7 @@ Template.new_invoice.events({
                                 UOMQtySold: parseFloat(tdOrderd) || 0,
                                 UOMQtyShipped: parseFloat(tdQty) || 0,
                                 LinePrice: Number(tdunitprice.replace(/[^0-9.-]+/g, "")) || 0,
+                                Headershipdate: saleDate,
                                 LineTaxCode: tdtaxCode || '',
                             }
                         };
@@ -6420,6 +6434,7 @@ Template.new_invoice.events({
                                 UOMQtySold: parseFloat(tdQty) || 0,
                                 UOMQtyShipped: parseFloat(tdQty) || 0,
                                 LinePrice: Number(tdunitprice.replace(/[^0-9.-]+/g, "")) || 0,
+                                Headershipdate: saleDate,
                                 LineTaxCode: tdtaxCode || '',
                             }
                         };
@@ -6445,12 +6460,6 @@ Template.new_invoice.events({
             let customer = $('#edtCustomerName').val();
             let customerEmail = $('#edtCustomerEmail').val();
             let billingAddress = $('#txabillingAddress').val();
-            var saledateTime = new Date($("#dtSODate").datepicker("getDate"));
-
-            var duedateTime = new Date($("#dtDueDate").datepicker("getDate"));
-
-            let saleDate = saledateTime.getFullYear() + "-" + (saledateTime.getMonth() + 1) + "-" + saledateTime.getDate();
-            let dueDate = duedateTime.getFullYear() + "-" + (duedateTime.getMonth() + 1) + "-" + duedateTime.getDate();
 
             let poNumber = $('#ponumber').val();
             let reference = $('#edtRef').val();
@@ -6812,7 +6821,7 @@ Template.new_invoice.events({
 
             }).catch(function (err) {
                 swal({
-                    title: 'Something went wrong',
+                    title: 'Oooops...',
                     text: err,
                     type: 'error',
                     showCancelButton: false,
@@ -6861,6 +6870,12 @@ Template.new_invoice.events({
                 let lineItems = [];
                 let lineItemObjForm = {};
                 var erpGet = erpDb();
+                var saledateTime = new Date($("#dtSODate").datepicker("getDate"));
+                var duedateTime = new Date($("#dtDueDate").datepicker("getDate"));
+
+                let saleDate = saledateTime.getFullYear() + "-" + (saledateTime.getMonth() + 1) + "-" + saledateTime.getDate();
+                let dueDate = duedateTime.getFullYear() + "-" + (duedateTime.getMonth() + 1) + "-" + duedateTime.getDate();
+
                 let checkBackOrder = templateObject.includeBOnShippedQty.get();
                 $('#tblInvoiceLine > tbody > tr').each(function () {
                     var lineID = this.id;
@@ -6894,6 +6909,7 @@ Template.new_invoice.events({
                                     UOMQtySold: parseFloat(tdOrderd) || 0,
                                     UOMQtyShipped: parseFloat(tdQty) || 0,
                                     LinePrice: Number(tdunitprice.replace(/[^0-9.-]+/g, "")) || 0,
+                                    Headershipdate: saleDate,
                                     LineTaxCode: tdtaxCode || '',
                                 }
                             };
@@ -6906,6 +6922,7 @@ Template.new_invoice.events({
                                     UOMQtySold: parseFloat(tdQty) || 0,
                                     UOMQtyShipped: parseFloat(tdQty) || 0,
                                     LinePrice: Number(tdunitprice.replace(/[^0-9.-]+/g, "")) || 0,
+                                    Headershipdate: saleDate,
                                     LineTaxCode: tdtaxCode || '',
                                 }
                             };
@@ -6931,11 +6948,7 @@ Template.new_invoice.events({
                 let customerEmail = $('#edtCustomerEmail').val();
                 let billingAddress = $('#txabillingAddress').val();
 
-                var saledateTime = new Date($("#dtSODate").datepicker("getDate"));
-                var duedateTime = new Date($("#dtDueDate").datepicker("getDate"));
 
-                let saleDate = saledateTime.getFullYear() + "-" + (saledateTime.getMonth() + 1) + "-" + saledateTime.getDate();
-                let dueDate = duedateTime.getFullYear() + "-" + (duedateTime.getMonth() + 1) + "-" + duedateTime.getDate();
 
                 let poNumber = $('#ponumber').val();
                 let reference = $('#edtRef').val();
@@ -7084,7 +7097,7 @@ Template.new_invoice.events({
 
                 }).catch(function (err) {
                     swal({
-                        title: 'Something went wrong',
+                        title: 'Oooops...',
                         text: err,
                         type: 'error',
                         showCancelButton: false,

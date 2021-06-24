@@ -297,8 +297,8 @@ templateObject.getAllTaxCodes();
                         download: 'open',
                         className: "btntabletopdf hiddenColumn",
                         text: '',
-                        title: 'Account Overview',
-                        filename: "accountsoverview_"+ moment().format(),
+                        title: 'Accounts Overview',
+                        filename: "Accounts Overview_"+ moment().format(),
                         exportOptions: {
                         columns: ':visible'
                       }
@@ -499,8 +499,8 @@ templateObject.getAllTaxCodes();
                       download: 'open',
                       className: "btntabletopdf hiddenColumn",
                       text: '',
-                      title: 'Account Overview',
-                      filename: "accountsoverview_"+ moment().format(),
+                      title: 'Accounts Overview',
+                      filename: "Accounts Overview_"+ moment().format(),
                       exportOptions: {
                       columns: ':visible'
                     }
@@ -693,8 +693,8 @@ templateObject.getAllTaxCodes();
                       download: 'open',
                       className: "btntabletopdf hiddenColumn",
                       text: '',
-                      title: 'Account Overview',
-                      filename: "accountsoverview_"+ moment().format(),
+                      title: 'Accounts Overview',
+                      filename: "Accounts Overview_"+ moment().format(),
                       exportOptions: {
                       columns: ':visible'
                     }
@@ -1107,7 +1107,7 @@ Template.accountsoverview.events({
             });
           }).catch(function (err) {
             swal({
-            title: 'Something went wrong',
+            title: 'Oooops...',
             text: err,
             type: 'error',
             showCancelButton: false,
@@ -1153,7 +1153,7 @@ Template.accountsoverview.events({
           });
         }).catch(function (err) {
           swal({
-          title: 'Something went wrong',
+          title: 'Oooops...',
           text: err,
           type: 'error',
           showCancelButton: false,
@@ -1200,7 +1200,7 @@ Template.accountsoverview.events({
          });
        }).catch(function (err) {
          swal({
-         title: 'Something went wrong',
+         title: 'Oooops...',
          text: err,
          type: 'error',
          showCancelButton: false,
@@ -1394,7 +1394,7 @@ $('.fullScreenSpin').css('display','none');
 
                 }).catch(function (err) {
                   //$('.fullScreenSpin').css('display','none');
-                    swal({ title: 'Something went wrong', text: err, type: 'error', showCancelButton: false, confirmButtonText: 'Try Again' }).then((result) => { if (result.value) { Meteor._reload.reload(); } else if (result.dismiss === 'cancel') {}});
+                    swal({ title: 'Oooops...', text: err, type: 'error', showCancelButton: false, confirmButtonText: 'Try Again' }).then((result) => { if (result.value) { Meteor._reload.reload(); } else if (result.dismiss === 'cancel') {}});
                 });
 
 
@@ -1475,7 +1475,7 @@ $('.fullScreenSpin').css('display','none');
          });
        }).catch(function (err) {
          swal({
-         title: 'Something went wrong',
+         title: 'Oooops...',
          text: err,
          type: 'error',
          showCancelButton: false,

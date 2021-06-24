@@ -742,7 +742,7 @@ Template.registersts.events({
   } else if(oPost.readyState == 4 && oPost.status == 403){
 $('.fullScreenSpin').css('display','none');
 swal({
-title: 'Something went wrong',
+title: 'Oooops...',
 text: 'It seems we are unable to connect you to GreenTrack Cloud at the moment. Please try again in a few minutes.',
 type: 'error',
 showCancelButton: false,

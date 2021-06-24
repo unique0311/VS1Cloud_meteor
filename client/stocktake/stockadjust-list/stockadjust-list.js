@@ -1149,7 +1149,7 @@ Template.stockadjlist.events({
               }
           }).catch(function (err) {
             swal({
-            title: 'Something went wrong',
+            title: 'Oooops...',
             text: err,
             type: 'error',
             showCancelButton: false,

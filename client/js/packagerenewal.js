@@ -212,7 +212,7 @@ Template.packagerenewal.onRendered(function() {
       } else if (oPost.readyState == 4 && oPost.status == 403) {
         $('.fullScreenSpin').css('display', 'none');
         swal({
-          title: 'Something went wrong',
+          title: 'Oooops...',
           text: oPost.getResponseHeader('errormessage'),
           type: 'error',
           showCancelButton: false,

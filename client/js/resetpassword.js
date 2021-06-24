@@ -2,7 +2,7 @@ import { ReactiveVar } from 'meteor/reactive-var';
 import { Random } from 'meteor/random';
 import { Email } from 'meteor/email';
 import "jquery-validation/dist/jquery.validate.min";
-
+import '../lib/global/indexdbstorage.js';
 Template.resetpassword.helpers({
     getUserEmail: function(){
       var url = window.location.href;
@@ -80,9 +80,11 @@ Template.resetpassword.events({
                    // FirstName: firstname,
                    // LastName: lastname,
                    //EmployeeName: $('#edtCustomerCompany').val(),
-                   VS1UserName: enteredEmail,
+                   ERPLoginDetails:{
+                   ERPUserName: enteredEmail,
                    // VS1Password: customerPassword,
                    NewPassword: enteredPassword
+                 }
                }
                //}
            };
@@ -97,8 +99,8 @@ Template.resetpassword.events({
            oPost.setRequestHeader("Content-type", "application/json");
 
            //var myString = '"JsonIn"' + ':' + JSON.stringify(objDetailsUser);
-           var myStringUserPassword = JSON.stringify(objDetailsUserPassword);
-           
+           var myStringUserPassword = '"JsonIn"' + ':' +JSON.stringify(objDetailsUserPassword);
+
            oPost.send(myStringUserPassword);
 
            oPost.onreadystatechange = function () {
@@ -108,12 +110,17 @@ Template.resetpassword.events({
                    $('.fullScreenSpin').css('display','none');
                    swal('Oooops...', myArrResponse.ProcessLog.ResponseStatus, 'error');
                  }else{
-                   window.open('/','_self');
+                   getStoreToDelete(enteredEmail).then(function(data) {
+                     window.open('/','_self');
+                  }).catch(function (err) {
+                    window.open('/','_self');
+                  });
+
                  }
                } else if (oPost.readyState == 4 && oPost.status == 403) {
                    $('.fullScreenSpin').css('display', 'none');
                    swal({
-                       title: 'Something went wrong',
+                       title: 'Oooops...',
                        text: oPost.getResponseHeader('errormessage'),
                        type: 'error',
                        showCancelButton: false,
@@ -133,7 +140,7 @@ Template.resetpassword.events({
                    if ((segError[1]) == ' "Unable to lock object') {
 
                        swal({
-                           title: 'Something went wrong',
+                           title: 'Oooops...',
                            text: oPost.getResponseHeader('errormessage'),
                            type: 'error',
                            showCancelButton: false,
@@ -147,7 +154,7 @@ Template.resetpassword.events({
                        });
                    } else {
                        swal({
-                           title: 'Something went wrong',
+                           title: 'Oooops...',
                            text: oPost.getResponseHeader('errormessage'),
                            type: 'error',
                            showCancelButton: false,
@@ -164,7 +171,7 @@ Template.resetpassword.events({
                } else if (oPost.readyState == '') {
 
                    swal({
-                       title: 'Something went wrong',
+                       title: 'Oooops...',
                        text: oPost.getResponseHeader('errormessage'),
                        type: 'error',
                        showCancelButton: false,
@@ -220,7 +227,7 @@ Template.resetpassword.events({
        $('.fullScreenSpin').css('display','none');
      }else if(oReq.readyState == 4 && oReq.status == 406){
        swal({
-         title: 'Something went wrong',
+         title: 'Oooops...',
          text: oReq.getResponseHeader('errormessage'),
          type: 'error',
          showCancelButton: false,

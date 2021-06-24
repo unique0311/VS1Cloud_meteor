@@ -169,7 +169,8 @@ Template.salesoverview.onRendered(function() {
                                     title: 'Sales Overview',
                                     filename: "salesoverview_"+ moment().format(),
                                     exportOptions: {
-                                        columns: ':visible'
+                                        columns: ':visible',
+                                        stripHtml: false
                                     },
                                     // customize: function ( win ) {
                                     //     $(win.document.body)
@@ -354,7 +355,8 @@ Template.salesoverview.onRendered(function() {
                                 title: 'Sales Overview',
                                 filename: "salesoverview_"+ moment().format(),
                                 exportOptions: {
-                                    columns: ':visible'
+                                    columns: ':visible',
+                                    stripHtml: false
                                 },
                                 // customize: function ( win ) {
                                 //     $(win.document.body)
@@ -533,7 +535,8 @@ Template.salesoverview.onRendered(function() {
                                 title: 'Sales Overview',
                                 filename: "salesoverview_"+ moment().format(),
                                 exportOptions: {
-                                    columns: ':visible'
+                                    columns: ':visible',
+                                    stripHtml: false
                                 },
                                 // customize: function ( win ) {
                                 //     $(win.document.body)

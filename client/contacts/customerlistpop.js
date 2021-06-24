@@ -991,7 +991,7 @@ contactService.saveCustomer(objDetails).then(function (data) {
 }).catch(function (err) {
 ////$('.fullScreenSpin').css('display','none');
 swal({
-title: 'Something went wrong',
+title: 'Oooops...',
 text: err,
 type: 'error',
 showCancelButton: false,

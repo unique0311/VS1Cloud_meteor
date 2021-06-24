@@ -86,7 +86,11 @@ Template.depositlist.onRendered(function() {
                  employeename: data.tvs1bankdeposit[i].fields.EmployeeName || '',
                  memo: data.tvs1bankdeposit[i].fields.Notes || '',
                };
+               if(data.tvs1bankdeposit[i].fields.Lines.length){
+                 if(data.tvs1bankdeposit[i].fields.Lines[0].fields.FromDeposited == true){
                   dataTableList.push(dataList);
+                }
+                }
             }
             templateObject.datatablerecords.set(dataTableList);
             if(templateObject.datatablerecords.get()){
@@ -248,7 +252,7 @@ Template.depositlist.onRendered(function() {
           $('.fullScreenSpin').css('display','none');
           let lineItems = [];
           let lineItemObj = {};
-          
+
           for(let i=0; i<useData.length; i++){
             let totalAmount = 0;
 
@@ -272,7 +276,11 @@ Template.depositlist.onRendered(function() {
                employeename: useData[i].fields.EmployeeName || '',
                memo: useData[i].fields.Notes || '',
              };
+             if(useData[i].fields.Lines.length){
+               if(useData[i].fields.Lines[0].fields.FromDeposited == true){
                 dataTableList.push(dataList);
+              }
+            }
           }
           templateObject.datatablerecords.set(dataTableList);
           if(templateObject.datatablerecords.get()){
@@ -455,7 +463,11 @@ Template.depositlist.onRendered(function() {
                employeename: data.tvs1bankdeposit[i].fields.EmployeeName || '',
                memo: data.tvs1bankdeposit[i].fields.Notes || '',
              };
+             if(data.tvs1bankdeposit[i].fields.Lines.length){
+               if(data.tvs1bankdeposit[i].fields.Lines[0].fields.FromDeposited == true){
                 dataTableList.push(dataList);
+              }
+            }
           }
           templateObject.datatablerecords.set(dataTableList);
           if(templateObject.datatablerecords.get()){

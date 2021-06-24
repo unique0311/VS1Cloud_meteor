@@ -634,7 +634,7 @@ Template.companyappsettingsdup.events({
                             }
                         });
                     }else{
-                        swal('Oooops...', myArrResponse.ProcessLog.ResponseStatus||'Something went wrong', 'error');
+                        swal('Oooops...', myArrResponse.ProcessLog.ResponseStatus||'Oooops...', 'error');
                     }
                 }else{
                   if(checkLinkTrueERP == true){
@@ -683,7 +683,7 @@ Template.companyappsettingsdup.events({
             }else if(oPost.readyState == 4 && oPost.status == 403){
                 $('.fullScreenSpin').css('display','none');
                 swal({
-                    title: 'Something went wrong',
+                    title: 'Oooops...',
                     text: oPost.getResponseHeader('errormessage'),
                     type: 'error',
                     showCancelButton: false,

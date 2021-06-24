@@ -363,7 +363,7 @@ Template.journalentrycard.onRendered(() => {
                                 },1000);
                         }).catch(function (err) {
                             swal({
-                                title: 'Something went wrong',
+                                title: 'Oooops...',
                                 text: err,
                                 type: 'error',
                                 showCancelButton: false,
@@ -613,7 +613,7 @@ Template.journalentrycard.onRendered(() => {
                                 }
                             }).catch(function (err) {
                                 swal({
-                                    title: 'Something went wrong',
+                                    title: 'Oooops...',
                                     text: err,
                                     type: 'error',
                                     showCancelButton: false,
@@ -748,7 +748,7 @@ Template.journalentrycard.onRendered(() => {
                             },1000);
                     }).catch(function (err) {
                         swal({
-                            title: 'Something went wrong',
+                            title: 'Oooops...',
                             text: err,
                             type: 'error',
                             showCancelButton: false,
@@ -1633,7 +1633,7 @@ Template.journalentrycard.events({
                 });
               }else{
                 swal({
-                    title: 'Something went wrong',
+                    title: 'Oooops...',
                     text: err,
                     type: 'error',
                     showCancelButton: false,
@@ -1702,7 +1702,7 @@ Template.journalentrycard.events({
                         });
                       }else{
                         swal({
-                            title: 'Something went wrong',
+                            title: 'Oooops...',
                             text: err,
                             type: 'error',
                             showCancelButton: false,
@@ -1918,7 +1918,7 @@ Template.journalentrycard.events({
                 });
               }else{
                 swal({
-                    title: 'Something went wrong',
+                    title: 'Oooops...',
                     text: err,
                     type: 'error',
                     showCancelButton: false,

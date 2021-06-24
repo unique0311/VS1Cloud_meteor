@@ -579,7 +579,7 @@ Template.refundcard.onRendered(()=>{
                     }
                 }).catch(function (err) {
                     swal({
-                        title: 'Something went wrong',
+                        title: 'Oooops...',
                         text: err,
                         type: 'error',
                         showCancelButton: false,
@@ -1683,7 +1683,7 @@ Template.refundcard.events({
                 $('.fullScreenSpin').css('display', 'none');
 
                 swal({
-                    title: 'Something went wrong',
+                    title: 'Oooops...',
                     text: err,
                     type: 'error',
                     showCancelButton: false,
@@ -1987,7 +1987,7 @@ Template.refundcard.events({
                 window.open('/invoicelist','_self');
             }).catch(function (err) {
                 swal({
-                    title: 'Something went wrong',
+                    title: 'Oooops...',
                     text: err,
                     type: 'error',
                     showCancelButton: false,
@@ -2513,7 +2513,7 @@ Template.refundcard.events({
 
             }).catch(function (err) {
                 swal({
-                    title: 'Something went wrong',
+                    title: 'Oooops...',
                     text: err,
                     type: 'error',
                     showCancelButton: false,
@@ -3094,7 +3094,7 @@ Template.refundcard.events({
 
             }).catch(function (err) {
                 swal({
-                    title: 'Something went wrong',
+                    title: 'Oooops...',
                     text: err,
                     type: 'error',
                     showCancelButton: false,
@@ -3327,7 +3327,7 @@ Template.refundcard.events({
 
                 }).catch(function (err) {
                     swal({
-                        title: 'Something went wrong',
+                        title: 'Oooops...',
                         text: err,
                         type: 'error',
                         showCancelButton: false,

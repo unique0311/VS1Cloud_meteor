@@ -995,8 +995,8 @@ $("#login-button").click(function(e){
         localStorage.setItem('EPort', ERPport);
         loggedUserEventFired = true;
 
-        localStorage.setItem('mainEIPAddress', '192.168.15.24');
-        localStorage.setItem('mainEPort', '433');
+        localStorage.setItem('mainEIPAddress', licenceIPAddress);
+        localStorage.setItem('mainEPort', checkSSLPorts);
 
         var ERPCheackUserObject = "TUser?PropertyList==ID,EmployeeId,LogonName,EmployeeName,PasswordHash,Active&Select=[LogonName]='"+ERPLoggeduserName+"'";
         var oReqCheackUserObject = new XMLHttpRequest();
@@ -1083,7 +1083,7 @@ $("#login-button").click(function(e){
         }
       }else if(oReqCheackUserObject.readyState == 4 && oReqCheackUserObject.status == 403){
         swal({
-          title: 'Something went wrong',
+          title: 'Oooops...',
           text: oReqCheackUserObject.getResponseHeader('errormessage'),
           type: 'error',
           showCancelButton: false,
@@ -1099,7 +1099,7 @@ $("#login-button").click(function(e){
         $('.fullScreenSpin').css('display','none');
         }else if(oReqCheackUserObject.readyState == 4 && oReqCheackUserObject.status == 406){
           swal({
-            title: 'Something went wrong',
+            title: 'Oooops...',
             text: oReqCheackUserObject.getResponseHeader('errormessage'),
             type: 'error',
             showCancelButton: false,
@@ -1254,7 +1254,7 @@ $("#erplogin-button").click(function(e){
 
     $('.loginSpinner').css('display','inline-block');
     $('.fullScreenSpin').css('display','inline-block');
-    var serverTest = URLRequest + "192.168.15.24" + ':' + "433" + '/erpapi/Vs1_Logon?Vs1UserName="'+userLoginEmail+'"&vs1Password="'+userLoginPassword+'"';
+    var serverTest = URLRequest + "165.228.147.127" + ':' + "3393" + '/erpapi/Vs1_Logon?Vs1UserName="'+userLoginEmail+'"&vs1Password="'+userLoginPassword+'"';
 
     var oReq = new XMLHttpRequest();
     oReq.open("GET",serverTest, true);
@@ -1271,10 +1271,10 @@ $("#erplogin-button").click(function(e){
       if (oReq.readyState == 4 && oReq.status == 200) {
         $('.loginSpinner').css('display','inline-block');
         $('.fullScreenSpin').css('display','inline-block');
-        Session.setPersistent('mainEIPAddress', '192.168.15.24');
-        Session.setPersistent('mainEPort', '433');
-        localStorage.setItem('mainEIPAddress', '192.168.15.24');
-        localStorage.setItem('mainEPort', '433');
+        Session.setPersistent('mainEIPAddress', '165.228.147.127');
+        Session.setPersistent('mainEPort', '3393');
+        localStorage.setItem('mainEIPAddress', licenceIPAddress);
+        localStorage.setItem('mainEPort', checkSSLPorts);
 
 
         var dataReturnRes = JSON.parse(oReq.responseText);
@@ -1635,7 +1635,7 @@ $("#erplogin-button").click(function(e){
 
       } else if(oReq.statusText == '') {
         swal({
-          title: 'Something went wrong',
+          title: 'Oooops...',
           text: "Connection Failed, Please try again",
           type: 'error',
           showCancelButton: false,
@@ -1651,7 +1651,7 @@ $("#erplogin-button").click(function(e){
         $('.fullScreenSpin').css('display','none');
       }else if(oReq.readyState == 4 && oReq.status == 403){
         swal({
-          title: 'Something went wrong',
+          title: 'Oooops...',
           text: oReq.getResponseHeader('errormessage'),
           type: 'error',
           showCancelButton: false,
@@ -1667,7 +1667,7 @@ $("#erplogin-button").click(function(e){
         $('.fullScreenSpin').css('display','none');
       }else if(oReq.readyState == 4 && oReq.status == 406){
         swal({
-          title: 'Something went wrong',
+          title: 'Oooops...',
           text: oReq.getResponseHeader('errormessage'),
           type: 'error',
           showCancelButton: false,
@@ -1683,7 +1683,7 @@ $("#erplogin-button").click(function(e){
         $('.fullScreenSpin').css('display','none');
       }else if(oReq.readyState == 4 && oReq.status == 500){
         swal({
-          title: 'Something went wrong',
+          title: 'Oooops...',
           text: oReq.getResponseHeader('errormessage'),
           type: 'error',
           showCancelButton: false,
@@ -1820,7 +1820,7 @@ $("#erplogin-buttonSimon").click(function(e){
 
     $('.loginSpinner').css('display','inline-block');
     $('.fullScreenSpin').css('display','inline-block');
-    var serverTest = URLRequest + "192.168.15.24" + ':' + "433" + '/erpapi/Vs1_Logon?Vs1UserName="'+userLoginEmail+'"&vs1Password="'+userLoginPassword+'"';
+    var serverTest = URLRequest + "165.228.147.127" + ':' + "3393" + '/erpapi/Vs1_Logon?Vs1UserName="'+userLoginEmail+'"&vs1Password="'+userLoginPassword+'"';
 
     var oReq = new XMLHttpRequest();
     oReq.open("GET",serverTest, true);
@@ -1837,11 +1837,11 @@ $("#erplogin-buttonSimon").click(function(e){
       if (oReq.readyState == 4 && oReq.status == 200) {
         $('.loginSpinner').css('display','inline-block');
         $('.fullScreenSpin').css('display','inline-block');
-        Session.setPersistent('mainEIPAddress', '192.168.15.24');
-        Session.setPersistent('mainEPort', '433');
+        Session.setPersistent('mainEIPAddress', '165.228.147.127');
+        Session.setPersistent('mainEPort', '3393');
 
-        localStorage.setItem('mainEIPAddress', '192.168.15.24');
-        localStorage.setItem('mainEPort', '433');
+        localStorage.setItem('mainEIPAddress', licenceIPAddress);
+        localStorage.setItem('mainEPort', checkSSLPorts);
 
 
         var dataReturnRes = JSON.parse(oReq.responseText);
@@ -1966,8 +1966,8 @@ localStorage.setItem('EDatabase', ERPdbName);
 localStorage.setItem('EPort', ERPport);
 loggedUserEventFired = true;
 
-localStorage.setItem('mainEIPAddress', '192.168.15.24');
-localStorage.setItem('mainEPort', '433');
+localStorage.setItem('mainEIPAddress', licenceIPAddress);
+localStorage.setItem('mainEPort', checkSSLPorts);
 
 var ERPCheackUserObject = "TUser?PropertyList==ID,EmployeeId,LogonName,EmployeeName,PasswordHash,Active&Select=[LogonName]='"+ERPuserName+"'";
 var oReqCheackUserObject = new XMLHttpRequest();
@@ -2059,7 +2059,7 @@ if (oReqCheackUserObject.readyState == 4 && oReqCheackUserObject.status == 200) 
 }else if(oReqCheackUserObject.readyState == 4 && oReqCheackUserObject.status == 403){
 
   swal({
-    title: 'Something went wrong',
+    title: 'Oooops...',
     text: oReqCheackUserObject.getResponseHeader('errormessage'),
     type: 'error',
     showCancelButton: false,
@@ -2075,7 +2075,7 @@ $('.loginSpinner').css('display','none');
 $('.fullScreenSpin').css('display','none');
 }else if(oReqCheackUserObject.readyState == 4 && oReqCheackUserObject.status == 406){
   swal({
-    title: 'Something went wrong',
+    title: 'Oooops...',
     text: oReqCheackUserObject.getResponseHeader('errormessage'),
     type: 'error',
     showCancelButton: false,
@@ -2109,7 +2109,7 @@ setTimeout(function () {
 
       } else if(oReq.statusText == '') {
         swal({
-          title: 'Something went wrong',
+          title: 'Oooops...',
           text: "Connection Failed, Please try again",
           type: 'error',
           showCancelButton: false,
@@ -2125,7 +2125,7 @@ setTimeout(function () {
         $('.fullScreenSpin').css('display','none');
       }else if(oReq.readyState == 4 && oReq.status == 403){
         swal({
-          title: 'Something went wrong',
+          title: 'Oooops...',
           text: oReq.getResponseHeader('errormessage'),
           type: 'error',
           showCancelButton: false,
@@ -2141,7 +2141,7 @@ setTimeout(function () {
         $('.fullScreenSpin').css('display','none');
       }else if(oReq.readyState == 4 && oReq.status == 406){
         swal({
-          title: 'Something went wrong',
+          title: 'Oooops...',
           text: oReq.getResponseHeader('errormessage'),
           type: 'error',
           showCancelButton: false,
@@ -2157,7 +2157,7 @@ setTimeout(function () {
         $('.fullScreenSpin').css('display','none');
       }else if(oReq.readyState == 4 && oReq.status == 500){
         swal({
-          title: 'Something went wrong',
+          title: 'Oooops...',
           text: oReq.getResponseHeader('errormessage'),
           type: 'error',
           showCancelButton: false,

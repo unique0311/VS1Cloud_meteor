@@ -970,7 +970,7 @@ $("#login-button").click(function(e){
         }
       }else if(oReqCheackUserObject.readyState == 4 && oReqCheackUserObject.status == 403){
         swal({
-          title: 'Something went wrong',
+          title: 'Oooops...',
           text: oReqCheackUserObject.getResponseHeader('errormessage'),
           type: 'error',
           showCancelButton: false,
@@ -986,7 +986,7 @@ $("#login-button").click(function(e){
         $('.fullScreenSpin').css('display','none');
         }else if(oReqCheackUserObject.readyState == 4 && oReqCheackUserObject.status == 406){
           swal({
-            title: 'Something went wrong',
+            title: 'Oooops...',
             text: oReqCheackUserObject.getResponseHeader('errormessage'),
             type: 'error',
             showCancelButton: false,
@@ -1629,7 +1629,7 @@ $("#erplogin-button").click(function(e){
                   $('.fullScreenSpin').css('display','none');
                 }else if(oReq.readyState == 4 && oReq.status == 406){
                   swal({
-                    title: 'Something went wrong',
+                    title: 'Oooops...',
                     text: oReq.getResponseHeader('errormessage'),
                     type: 'error',
                     showCancelButton: false,
@@ -1661,7 +1661,7 @@ $("#erplogin-button").click(function(e){
                     });
                   }else{
                     swal({
-                      title: 'Something went wrong',
+                      title: 'Oooops...',
                       text: oReq.getResponseHeader('errormessage'),
                       type: 'error',
                       showCancelButton: false,
@@ -2619,7 +2619,7 @@ $("#erplogin-button").click(function(e){
 
               } else if(oReq.statusText == '') {
                 swal({
-                  title: 'Something went wrong',
+                  title: 'Oooops...',
                   text: "Connection Failed, Please try again",
                   type: 'error',
                   showCancelButton: false,
@@ -2651,7 +2651,7 @@ $("#erplogin-button").click(function(e){
                 $('.fullScreenSpin').css('display','none');
               }else if(oReq.readyState == 4 && oReq.status == 406){
                 swal({
-                  title: 'Something went wrong',
+                  title: 'Oooops...',
                   text: oReq.getResponseHeader('errormessage'),
                   type: 'error',
                   showCancelButton: false,
@@ -2683,7 +2683,7 @@ $("#erplogin-button").click(function(e){
                   });
                 }else{
                   swal({
-                    title: 'Something went wrong',
+                    title: 'Oooops...',
                     text: oReq.getResponseHeader('errormessage'),
                     type: 'error',
                     showCancelButton: false,
@@ -3218,7 +3218,7 @@ $("#erplogin-button").click(function(e){
 
           } else if(oReq.statusText == '') {
             swal({
-              title: 'Something went wrong',
+              title: 'Oooops...',
               text: "Connection Failed, Please try again",
               type: 'error',
               showCancelButton: false,
@@ -3250,7 +3250,7 @@ $("#erplogin-button").click(function(e){
             $('.fullScreenSpin').css('display','none');
           }else if(oReq.readyState == 4 && oReq.status == 406){
             swal({
-              title: 'Something went wrong',
+              title: 'Oooops...',
               text: oReq.getResponseHeader('errormessage'),
               type: 'error',
               showCancelButton: false,
@@ -3282,7 +3282,7 @@ $("#erplogin-button").click(function(e){
               });
             }else{
               swal({
-                title: 'Something went wrong',
+                title: 'Oooops...',
                 text: oReq.getResponseHeader('errormessage'),
                 type: 'error',
                 showCancelButton: false,
@@ -3770,7 +3770,7 @@ $("#erplogin-button").click(function(e){
 
               } else if(oReq.statusText == '') {
                 swal({
-                  title: 'Something went wrong',
+                  title: 'Oooops...',
                   text: "Connection Failed, Please try again",
                   type: 'error',
                   showCancelButton: false,
@@ -3802,7 +3802,7 @@ $("#erplogin-button").click(function(e){
                 $('.fullScreenSpin').css('display','none');
               }else if(oReq.readyState == 4 && oReq.status == 406){
                 swal({
-                  title: 'Something went wrong',
+                  title: 'Oooops...',
                   text: oReq.getResponseHeader('errormessage'),
                   type: 'error',
                   showCancelButton: false,
@@ -3834,7 +3834,7 @@ $("#erplogin-button").click(function(e){
                   });
                 }else{
                   swal({
-                    title: 'Something went wrong',
+                    title: 'Oooops...',
                     text: oReq.getResponseHeader('errormessage'),
                     type: 'error',
                     showCancelButton: false,

@@ -148,7 +148,7 @@ Template.binnypurchasedb.events({
           CreditCardType:"Visa",
           CreditCardCardHolderName:company,
           CreditCardNumber:"4242424242424242",
-          CreditCardNotes:'Magento Quote ID:'+currentURLQuoteID,
+          CreditCardNotes:'Magento Quote ID:',
           CreditCardCVC:"567",
           LicenseRenewDurationType:"M",
           LicenseRenewDuration:1,
@@ -170,8 +170,8 @@ Template.binnypurchasedb.events({
 }
       var erpGet = erpDb();
   var oPost = new XMLHttpRequest();
-  var serverIP = '192.168.15.24';
-  var port = '433';
+  var serverIP = '165.228.147.127';
+  var port = '3393';
   oPost.open("POST",URLRequest + serverIP + ':' + port + '/' + 'erpapi' + '/' + 'VS1_Cloud_Task/Method?Name="VS1_NewRego"', true);
   oPost.setRequestHeader("database",vs1loggedDatatbase);
   oPost.setRequestHeader("username","VS1_Cloud_Admin");
@@ -243,7 +243,7 @@ Template.binnypurchasedb.events({
   } else if(oPost.readyState == 4 && oPost.status == 403){
 $('.fullScreenSpin').css('display','none');
 swal({
-title: 'Something went wrong',
+title: 'Oooops...',
 text: oPost.getResponseHeader('errormessage'),
 type: 'error',
 showCancelButton: false,
@@ -351,7 +351,7 @@ Bert.alert('<strong>SUCCESS:</strong>  New database successfully created!', 'suc
 
 
 swal({
-  title: 'Something went wrong',
+  title: 'Oooops...',
   text: oPost.getResponseHeader('errormessage'),
   type: 'error',
   showCancelButton: false,
@@ -373,7 +373,7 @@ if((segError[1]) == ' "Unable to lock object'){
 Bert.alert('<strong>'+ oPost.getResponseHeader('errormessage')+'</strong>. Please close the customer form in ERP!', 'danger');
 }else{
   swal({
-    title: 'Something went wrong',
+    title: 'Oooops...',
     text: oPost.getResponseHeader('errormessage'),
     type: 'error',
     showCancelButton: false,

@@ -128,7 +128,7 @@ Template.forgotpassword.events({
         $('.fullScreenSpin').css('display','none');
       }else if(oReq.readyState == 4 && oReq.status == 406){
         swal({
-          title: 'Something went wrong',
+          title: 'Oooops...',
           text: oReq.getResponseHeader('errormessage'),
           type: 'error',
           showCancelButton: false,

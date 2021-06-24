@@ -103,7 +103,7 @@ Template.appointments.onRendered(function () {
                 } else{
                     globalSet.showSat = false;
                 }
-                
+
             } else if(data.terppreference[g].PrefName == "ApptStartTime") {
                 globalSet.apptStartTime = data.terppreference[g].Fieldvalue.split(' ')[0] || "08:00";
             } else if(data.terppreference[g].PrefName == "ApptEndtime") {
@@ -133,7 +133,7 @@ Template.appointments.onRendered(function () {
                 } else {
                     globalSet.showApptDurationin = data.terppreference[g].Fieldvalue || 1;
                 }
-                
+
             }  else if(data.terppreference[g].PrefName == "MinimumChargeAppointmentTime") {
                 globalSet.MinimumChargeAppointmentTime = data.terppreference[g].Fieldvalue;
             } else if(data.terppreference[g].PrefName == "RoundApptDurationTo") {
@@ -166,7 +166,7 @@ Template.appointments.onRendered(function () {
         if (globalSet.DefaultApptDuration) {
             $('#defaultTime').prepend('<option selected>' + globalSet.DefaultApptDuration + ' Hour</option>');
         }
-        
+
         if (globalSet.apptStartTime) {
             $('#hoursFrom').val(globalSet.apptStartTime);
         }
@@ -176,7 +176,7 @@ Template.appointments.onRendered(function () {
         }
         templateObject.globalSettings.set(globalSet);
     })
-   
+
 
     templateObject.renderCalendar = function (slotMin, slotMax, hideDays) {
         let calendarSet = templateObject.globalSettings.get();
@@ -473,7 +473,7 @@ Template.appointments.onRendered(function () {
                 // }
             }
 
-                
+
                 var endTime = moment(document.getElementById("dtSODate2").value + ' ' + document.getElementById("endTime").value).format('DD/MM/YYYY HH:mm');
                 var startTime = moment(document.getElementById("dtSODate2").value + ' ' + document.getElementById("startTime").value).format('DD/MM/YYYY HH:mm');
                 $('#customerListModal').modal();
@@ -818,7 +818,7 @@ Template.appointments.onRendered(function () {
                 // }
             }
 
-                
+
                 var endTime = moment(document.getElementById("dtSODate2").value + ' ' + document.getElementById("endTime").value).format('DD/MM/YYYY HH:mm');
                 var startTime = moment(document.getElementById("dtSODate2").value + ' ' + document.getElementById("startTime").value).format('DD/MM/YYYY HH:mm');
                 $('#customerListModal').modal();
@@ -1868,7 +1868,7 @@ Template.appointments.onRendered(function () {
                             }
                         }
 
-                            
+
                             var endTime = moment(document.getElementById("dtSODate2").value + ' ' + document.getElementById("endTime").value).format('DD/MM/YYYY HH:mm');
                             var startTime = moment(document.getElementById("dtSODate2").value + ' ' + document.getElementById("startTime").value).format('DD/MM/YYYY HH:mm');
                             $('#customerListModal').modal();
@@ -3066,7 +3066,7 @@ Template.appointments.onRendered(function () {
                             }
                         }
 
-                            
+
                             var endTime = moment(document.getElementById("dtSODate2").value + ' ' + document.getElementById("endTime").value).format('DD/MM/YYYY HH:mm');
                             var startTime = moment(document.getElementById("dtSODate2").value + ' ' + document.getElementById("startTime").value).format('DD/MM/YYYY HH:mm');
                             $('#customerListModal').modal();
@@ -3711,7 +3711,7 @@ $(document).on("mouseenter", "#tblEmployeeSideList tbody tr", function () {
                         }
                     }
 
-                        
+
                         var endTime = moment(document.getElementById("dtSODate2").value + ' ' + document.getElementById("endTime").value).format('DD/MM/YYYY HH:mm');
                         var startTime = moment(document.getElementById("dtSODate2").value + ' ' + document.getElementById("startTime").value).format('DD/MM/YYYY HH:mm');
                         $('#customerListModal').modal();
@@ -4010,9 +4010,9 @@ $(document).on("mouseenter", "#tblEmployeeSideList tbody tr", function () {
                 }, 50);
             }
         });
-        
 
-        
+
+
     });
 
 
@@ -4161,7 +4161,7 @@ Template.appointments.events({
             }
             templateObject.repeatDays.set(daysObj);
         }
-        
+
     },
     'click #btnSaveRepeat': function(){
         $('.fullScreenSpin').css('display', 'inline-block');
@@ -4182,7 +4182,7 @@ Template.appointments.events({
 
         if(repeatDays.monday == 1) {
             days.push(1);
-        } 
+        }
 
         if(repeatDays.tuesday == 1){
             days.push(2);
@@ -4190,7 +4190,7 @@ Template.appointments.events({
 
         if(repeatDays.wednesday == 1) {
             days.push(3);
-        } 
+        }
 
         if(repeatDays.thursday == 1){
             days.push(4);
@@ -4202,12 +4202,12 @@ Template.appointments.events({
 
         if(repeatDays.saturday == 1) {
             days.push(6);
-        } 
+        }
 
         if(repeatDays.sunday == 1){
             days.push(7);
         }
-        
+
         if(days.length > 1){
             week_day = days;
         } else if(days.length == 1){
@@ -4291,7 +4291,7 @@ Template.appointments.events({
                 } else if (oPost.readyState == 4 && oPost.status == 403) {
                     $('.fullScreenSpin').css('display', 'none');
                     swal({
-                        title: 'Something went wrong',
+                        title: 'Oooops...',
                         text: oPost.getResponseHeader('errormessage'),
                         type: 'error',
                         showCancelButton: false,
@@ -4310,7 +4310,7 @@ Template.appointments.events({
                     if ((segError[1]) == ' "Unable to lock object') {
 
                         swal({
-                            title: 'Something went wrong',
+                            title: 'Oooops...',
                             text: oPost.getResponseHeader('errormessage'),
                             type: 'error',
                             showCancelButton: false,
@@ -4324,7 +4324,7 @@ Template.appointments.events({
                     } else {
                         $('.fullScreenSpin').css('display', 'none');
                         swal({
-                            title: 'Something went wrong',
+                            title: 'Oooops...',
                             text: oPost.getResponseHeader('errormessage'),
                             type: 'error',
                             showCancelButton: false,
@@ -4340,7 +4340,7 @@ Template.appointments.events({
                 } else if (oPost.readyState == '') {
                     $('.fullScreenSpin').css('display', 'none');
                     swal({
-                        title: 'Something went wrong',
+                        title: 'Oooops...',
                         text: oPost.getResponseHeader('errormessage'),
                         type: 'error',
                         showCancelButton: false,
@@ -4428,7 +4428,7 @@ Template.appointments.events({
                 } else if (oPost.readyState == 4 && oPost.status == 403) {
                     $('.fullScreenSpin').css('display', 'none');
                     swal({
-                        title: 'Something went wrong',
+                        title: 'Oooops...',
                         text: oPost.getResponseHeader('errormessage'),
                         type: 'error',
                         showCancelButton: false,
@@ -4447,7 +4447,7 @@ Template.appointments.events({
                     if ((segError[1]) == ' "Unable to lock object') {
 
                         swal({
-                            title: 'Something went wrong',
+                            title: 'Oooops...',
                             text: oPost.getResponseHeader('errormessage'),
                             type: 'error',
                             showCancelButton: false,
@@ -4461,7 +4461,7 @@ Template.appointments.events({
                     } else {
                         $('.fullScreenSpin').css('display', 'none');
                         swal({
-                            title: 'Something went wrong',
+                            title: 'Oooops...',
                             text: oPost.getResponseHeader('errormessage'),
                             type: 'error',
                             showCancelButton: false,
@@ -4477,7 +4477,7 @@ Template.appointments.events({
                 } else if (oPost.readyState == '') {
                     $('.fullScreenSpin').css('display', 'none');
                     swal({
-                        title: 'Something went wrong',
+                        title: 'Oooops...',
                         text: oPost.getResponseHeader('errormessage'),
                         type: 'error',
                         showCancelButton: false,
@@ -5221,7 +5221,7 @@ Template.appointments.events({
                                             templateObject.checkRefresh.set(true);
                                         }).catch(function (err) {
                                             swal({
-                                                title: 'Something went wrong',
+                                                title: 'Oooops...',
                                                 text: err,
                                                 type: 'error',
                                                 showCancelButton: false,
@@ -5237,7 +5237,7 @@ Template.appointments.events({
                                         });
                                     }).catch(function (err) {
                                         swal({
-                                            title: 'Something went wrong',
+                                            title: 'Oooops...',
                                             text: err,
                                             type: 'error',
                                             showCancelButton: false,
@@ -5254,7 +5254,7 @@ Template.appointments.events({
                                     });
                                 }).catch(function (err) {
                                     swal({
-                                        title: 'Something went wrong',
+                                        title: 'Oooops...',
                                         text: err,
                                         type: 'error',
                                         showCancelButton: false,
@@ -5290,7 +5290,7 @@ Template.appointments.events({
                                         templateObject.checkRefresh.set(true);
                                     }).catch(function (err) {
                                         swal({
-                                            title: 'Something went wrong',
+                                            title: 'Oooops...',
                                             text: err,
                                             type: 'error',
                                             showCancelButton: false,
@@ -5306,7 +5306,7 @@ Template.appointments.events({
                                     });
                                 }).catch(function (err) {
                                     swal({
-                                        title: 'Something went wrong',
+                                        title: 'Oooops...',
                                         text: err,
                                         type: 'error',
                                         showCancelButton: false,
@@ -5323,7 +5323,7 @@ Template.appointments.events({
                                 });
                             }).catch(function (err) {
                                 swal({
-                                    title: 'Something went wrong',
+                                    title: 'Oooops...',
                                     text: err,
                                     type: 'error',
                                     showCancelButton: false,
@@ -5344,7 +5344,7 @@ Template.appointments.events({
 
                 }).catch(function (err) {
                     swal({
-                        title: 'Something went wrong',
+                        title: 'Oooops...',
                         text: err,
                         type: 'error',
                         showCancelButton: false,
@@ -5422,7 +5422,7 @@ Template.appointments.events({
                                     templateObject.checkRefresh.set(true);
                                 }).catch(function (err) {
                                     swal({
-                                        title: 'Something went wrong',
+                                        title: 'Oooops...',
                                         text: err,
                                         type: 'error',
                                         showCancelButton: false,
@@ -5438,7 +5438,7 @@ Template.appointments.events({
                                 });
                             }).catch(function (err) {
                                 swal({
-                                    title: 'Something went wrong',
+                                    title: 'Oooops...',
                                     text: err,
                                     type: 'error',
                                     showCancelButton: false,
@@ -5455,7 +5455,7 @@ Template.appointments.events({
                             });
                         }).catch(function (err) {
                             swal({
-                                title: 'Something went wrong',
+                                title: 'Oooops...',
                                 text: err,
                                 type: 'error',
                                 showCancelButton: false,
@@ -5491,7 +5491,7 @@ Template.appointments.events({
                                     templateObject.checkRefresh.set(true);
                                 }).catch(function (err) {
                                     swal({
-                                        title: 'Something went wrong',
+                                        title: 'Oooops...',
                                         text: err,
                                         type: 'error',
                                         showCancelButton: false,
@@ -5507,7 +5507,7 @@ Template.appointments.events({
                                 });
                             }).catch(function (err) {
                                 swal({
-                                    title: 'Something went wrong',
+                                    title: 'Oooops...',
                                     text: err,
                                     type: 'error',
                                     showCancelButton: false,
@@ -5524,7 +5524,7 @@ Template.appointments.events({
                             });
                         }).catch(function (err) {
                             swal({
-                                title: 'Something went wrong',
+                                title: 'Oooops...',
                                 text: err,
                                 type: 'error',
                                 showCancelButton: false,
@@ -5545,7 +5545,7 @@ Template.appointments.events({
 
                 }).catch(function (err) {
                     swal({
-                        title: 'Something went wrong',
+                        title: 'Oooops...',
                         text: err,
                         type: 'error',
                         showCancelButton: false,
@@ -5607,7 +5607,7 @@ Template.appointments.events({
                             $("#btnSaveAppointment").trigger("click");
                         } else {
                             swal({
-                                title: 'Something went wrong',
+                                title: 'Oooops...',
                                 text: "Start time cannot be greater than End time",
                                 type: 'error',
                                 showCancelButton: true,
@@ -5708,7 +5708,7 @@ Template.appointments.events({
                     });
                 }
             } else if (result.dismiss === 'cancel') {
-                
+
             } else {
 
             }
@@ -5775,21 +5775,21 @@ Template.appointments.events({
         $('.fullScreenSpin').css('display', 'inline-block');
         event.preventDefault();
 
-        let showSat = false;
-        let showSun = false;
+        let showSat = "F";
+        let showSun = "F";
         if ($('#showSaturday').is(':checked')) {
-            showSat = true;
+            showSat = "T";
         }
 
         if ($('#showSunday').is(':checked')) {
-            showSun = true;
+            showSun = "T";
         }
         let settingID = '';
         let templateObject = Template.instance();
         var erpGet = erpDb();
         let showTimeFrom = $('#hoursFrom').val() || '08:00';
         let showTimeTo = $('#hoursTo').val() || '17:00';
-        let defaultTime = parseInt($('#defaultTime').val().split(' ')[0]) || '2';
+        let defaultTime = $('#defaultTime').val().split(' ')[0] || '2';
         let showTimeIn = $('#showTimeIn').val().split(' ')[0] || '1';
         let defaultProduct = $('#productlist').children("option:selected").text() || '';
         let defaultProductID = $('#productlist').children("option:selected").val() || '';
@@ -5804,16 +5804,16 @@ Template.appointments.events({
             Params: {
                 CloudUserName: erpGet.ERPUsername,
                 CloudPassword: erpGet.ERPPassword,
-                CompanyPreferenceList:[  
-                {ShowSaturdayinApptCalendar: showSat},
-                {ShowSundayinApptCalendar: showSun},             
-                {ApptStartTime: showTimeFrom},
-                {ApptEndTime: showTimeTo},
-                {DefaultApptDuration: defaultTime},
-                {ShowApptDurationin: showTimeIn},
-                {DefaultServiceProductID: defaultProductID},
-                // {DefaultServiceProduct: defaultProduct},
-                {MinimumChargeAppointmentTime: chargeTime},
+                CompanyPreferenceList:[
+                {"Name":"ShowSaturdayinApptCalendar","FieldValue":showSat},
+                {"Name":"ShowSundayinApptCalendar","FieldValue":showSun},
+                {"Name":"ApptStartTime","FieldValue":showTimeFrom},
+                {"Name":"ApptEndTime","FieldValue":showTimeTo},
+                {"Name":"DefaultApptDuration","FieldValue":defaultTime},
+                {"Name":"ShowApptDurationin","FieldValue":showTimeIn},
+                {"Name":"DefaultServiceProductID","FieldValue":defaultProductID},
+                {"Name":"DefaultServiceProduct","FieldValue":defaultProduct},
+                {"Name":"MinimumChargeAppointmentTime","FieldValue":chargeTime}
                 ]
             }
         };
@@ -5865,7 +5865,7 @@ Template.appointments.events({
                 } else if (oPost.readyState == 4 && oPost.status == 403) {
                     $('.fullScreenSpin').css('display', 'none');
                     swal({
-                        title: 'Something went wrong',
+                        title: 'Oooops...',
                         text: oPost.getResponseHeader('errormessage'),
                         type: 'error',
                         showCancelButton: false,
@@ -5884,7 +5884,7 @@ Template.appointments.events({
                     if ((segError[1]) == ' "Unable to lock object') {
 
                         swal({
-                            title: 'Something went wrong',
+                            title: 'Oooops...',
                             text: oPost.getResponseHeader('errormessage'),
                             type: 'error',
                             showCancelButton: false,
@@ -5898,7 +5898,7 @@ Template.appointments.events({
                     } else {
                         $('.fullScreenSpin').css('display', 'none');
                         swal({
-                            title: 'Something went wrong',
+                            title: 'Oooops...',
                             text: oPost.getResponseHeader('errormessage'),
                             type: 'error',
                             showCancelButton: false,
@@ -5914,7 +5914,7 @@ Template.appointments.events({
                 } else if (oPost.readyState == '') {
                     $('.fullScreenSpin').css('display', 'none');
                     swal({
-                        title: 'Something went wrong',
+                        title: 'Oooops...',
                         text: oPost.getResponseHeader('errormessage'),
                         type: 'error',
                         showCancelButton: false,
@@ -6060,7 +6060,7 @@ Template.appointments.events({
                         }).catch(function (err) {
 
                             swal({
-                                title: 'Something went wrong',
+                                title: 'Oooops...',
                                 text: err,
                                 type: 'error',
                                 showCancelButton: false,
@@ -6080,7 +6080,7 @@ Template.appointments.events({
                     }
                 }).catch(function (err) {
                     swal({
-                        title: 'Something went wrong',
+                        title: 'Oooops...',
                         text: err,
                         type: 'error',
                         showCancelButton: false,
@@ -6167,7 +6167,7 @@ Template.appointments.events({
                 }
             };
 
-        
+
 
         appointmentService.saveAppointment(objectData).then(function (data) {
          sideBarService.getAllAppointmentList().then(function (data) {
@@ -6182,7 +6182,7 @@ Template.appointments.events({
         }).catch(function (err) {
             $('.fullScreenSpin').css('display', 'none');
             swal({
-                title: 'Something went wrong',
+                title: 'Oooops...',
                 text: err,
                 type: 'error',
                 showCancelButton: false,
@@ -6386,7 +6386,7 @@ Template.appointments.events({
         }).catch(function (err) {
             $('.fullScreenSpin').css('display', 'none');
             swal({
-                title: 'Something went wrong',
+                title: 'Oooops...',
                 text: err,
                 type: 'error',
                 showCancelButton: false,

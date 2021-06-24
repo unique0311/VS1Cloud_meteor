@@ -891,7 +891,7 @@ Template.popemployeelist.events({
                       //Meteor._reload.reload();
                    }).catch(function (err) {
                      //$('.fullScreenSpin').css('display','none');
-                       swal({ title: 'Something went wrong', text: err, type: 'error', showCancelButton: false, confirmButtonText: 'Try Again' }).then((result) => { if (result.value) { Meteor._reload.reload(); } else if (result.dismiss === 'cancel') {}});
+                       swal({ title: 'Oooops...', text: err, type: 'error', showCancelButton: false, confirmButtonText: 'Try Again' }).then((result) => { if (result.value) { Meteor._reload.reload(); } else if (result.dismiss === 'cancel') {}});
                    });
                  }
                }

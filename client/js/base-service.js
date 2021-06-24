@@ -33,23 +33,30 @@ export class BaseService{
     }
 
     responseHandler(url, response) {
+      if(response === undefined){
+        let getResponse = "Connection has been lost. Please log out and log back in.";
+        return getResponse;
+      }else{
+
         if (response.statusCode === 200) {
             try {
-              
-              
-              
-            
+
+
+
+
             var content = JSON.parse(response.content);
-            
+
 
                 return content;
             }
             catch (e) {
-                
+
             }
         } else {
             return response.headers.errormessage;
         }
+
+      }
     }
 
     GET(url){

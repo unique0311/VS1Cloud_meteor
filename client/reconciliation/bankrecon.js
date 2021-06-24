@@ -51,6 +51,8 @@ Template.bankrecon.onRendered(function() {
             },10);
             // Session - set account dropdown END
             $('.fullScreenSpin').css('display','none');
+        }).catch(function (err) {
+            $('.fullScreenSpin').css('display','none');
         });
     }
 
@@ -2274,7 +2276,7 @@ Template.bankrecon.events({
             Router.go('/reconciliationlist?success=true');
         }).catch(function (err) {
             swal({
-                title: 'Something went wrong',
+                title: 'Oooops...',
                 text: err,
                 type: 'error',
                 showCancelButton: false,
@@ -2335,7 +2337,7 @@ Template.bankrecon.events({
                         Router.go('/reconciliationlist?success=true');
                     }).catch(function (err) {
                         swal({
-                            title: 'Something went wrong',
+                            title: 'Oooops...',
                             text: err,
                             type: 'error',
                             showCancelButton: false,

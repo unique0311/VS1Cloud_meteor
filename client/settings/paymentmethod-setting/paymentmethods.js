@@ -654,7 +654,7 @@ Template.paymentmethodSettings.onRendered(function() {
                   } else{
                     $('.fullScreenSpin').css('display','none');
                      swal({
-                    title: 'Something went wrong',
+                    title: 'Oooops...',
                     text: response,
                     type: 'error',
                     showCancelButton: false,
@@ -954,7 +954,7 @@ Template.paymentmethodSettings.events({
       });
     }).catch(function (err) {
       swal({
-      title: 'Something went wrong',
+      title: 'Oooops...',
       text: err,
       type: 'error',
       showCancelButton: false,
@@ -1018,7 +1018,7 @@ Template.paymentmethodSettings.events({
          });
        }).catch(function (err) {
          swal({
-         title: 'Something went wrong',
+         title: 'Oooops...',
          text: err,
          type: 'error',
          showCancelButton: false,
@@ -1055,7 +1055,7 @@ Template.paymentmethodSettings.events({
          });
        }).catch(function (err) {
          swal({
-         title: 'Something went wrong',
+         title: 'Oooops...',
          text: err,
          type: 'error',
          showCancelButton: false,
@@ -1095,7 +1095,7 @@ Template.paymentmethodSettings.events({
       });
     }).catch(function (err) {
       swal({
-      title: 'Something went wrong',
+      title: 'Oooops...',
       text: err,
       type: 'error',
       showCancelButton: false,

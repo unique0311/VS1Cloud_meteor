@@ -89,7 +89,7 @@ Template.fixedAssetEditAssetType.onRendered(()=> {
                     },0)
                 });
             },function(err){
-                swal({ title: 'Something went wrong', text: err, type: 'error', showCancelButton: false, confirmButtonText: 'Try Again' }).then((result) => { if (result.value) { Meteor._reload.reload(); } else if (result.dismiss === 'cancel') {}});
+                swal({ title: 'Oooops...', text: err, type: 'error', showCancelButton: false, confirmButtonText: 'Try Again' }).then((result) => { if (result.value) { Meteor._reload.reload(); } else if (result.dismiss === 'cancel') {}});
             });
 
         }else {
@@ -148,7 +148,7 @@ Template.fixedAssetEditAssetType.events({
             Router.go('/settings/fixedAssets/asset-type');
 
         }).catch(function (err) {
-            swal({ title: 'Something went wrong', text: err, type: 'error', showCancelButton: false, confirmButtonText: 'Try Again' }).then((result) => { if (result.value) { Meteor._reload.reload(); } else if (result.dismiss === 'cancel') {}});
+            swal({ title: 'Oooops...', text: err, type: 'error', showCancelButton: false, confirmButtonText: 'Try Again' }).then((result) => { if (result.value) { Meteor._reload.reload(); } else if (result.dismiss === 'cancel') {}});
         });
     },
     'click .assetAccount': function (event) {

@@ -566,7 +566,7 @@ Template.new_salesorder.onRendered(() => {
                             }, 1500)
                         }).catch(function(err) {
                             swal({
-                                title: 'Something went wrong',
+                                title: 'Oooops...',
                                 text: err,
                                 type: 'error',
                                 showCancelButton: false,
@@ -1001,7 +1001,7 @@ Template.new_salesorder.onRendered(() => {
                                     }
                                 }).catch(function(err) {
                                     swal({
-                                        title: 'Something went wrong',
+                                        title: 'Oooops...',
                                         text: err,
                                         type: 'error',
                                         showCancelButton: false,
@@ -1272,7 +1272,7 @@ Template.new_salesorder.onRendered(() => {
                         }
                     }).catch(function(err) {
                         swal({
-                            title: 'Something went wrong',
+                            title: 'Oooops...',
                             text: err,
                             type: 'error',
                             showCancelButton: false,
@@ -1382,7 +1382,7 @@ Template.new_salesorder.onRendered(() => {
                     }, function (error, result) {
                         if (error && error.error === "error") {
                             swal({
-                                title: 'Something went wrong',
+                                title: 'Oooops...',
                                 text: err,
                                 type: 'error',
                                 showCancelButton: false,
@@ -1639,7 +1639,7 @@ Template.new_salesorder.onRendered(() => {
                     }
                 }).catch(function(err) {
                     swal({
-                        title: 'Something went wrong',
+                        title: 'Oooops...',
                         text: err,
                         type: 'error',
                         showCancelButton: false,
@@ -1865,7 +1865,7 @@ Template.new_salesorder.onRendered(() => {
                             }
                         }).catch(function(err) {
                             swal({
-                                title: 'Something went wrong',
+                                title: 'Oooops...',
                                 text: err,
                                 type: 'error',
                                 showCancelButton: false,
@@ -2283,7 +2283,7 @@ Template.new_salesorder.onRendered(() => {
                         }
                     }).catch(function(err) {
                         swal({
-                            title: 'Something went wrong',
+                            title: 'Oooops...',
                             text: err,
                             type: 'error',
                             showCancelButton: false,
@@ -3679,7 +3679,7 @@ Template.new_salesorder.events({
             }).catch(function(err) {
                 $('.fullScreenSpin').css('display', 'none');
                 swal({
-                    title: 'Something went wrong',
+                    title: 'Oooops...',
                     text: err,
                     type: 'error',
                     showCancelButton: false,
@@ -4119,7 +4119,7 @@ Template.new_salesorder.events({
                 Router.go('/salesorderslist?success=true');
             }).catch(function(err) {
                 swal({
-                    title: 'Something went wrong',
+                    title: 'Oooops...',
                     text: err,
                     type: 'error',
                     showCancelButton: false,
@@ -4790,7 +4790,7 @@ Template.new_salesorder.events({
             }).catch(function(err) {
 
                 swal({
-                    title: 'Something went wrong',
+                    title: 'Oooops...',
                     text: err,
                     type: 'error',
                     showCancelButton: false,
@@ -5704,7 +5704,7 @@ Template.new_salesorder.events({
                 }).catch(function(err) {
 
                     swal({
-                        title: 'Something went wrong',
+                        title: 'Oooops...',
                         text: err,
                         type: 'error',
                         showCancelButton: false,
@@ -5957,7 +5957,7 @@ Template.new_salesorder.events({
 
             }).catch(function(err) {
                 swal({
-                    title: 'Something went wrong',
+                    title: 'Oooops...',
                     text: err,
                     type: 'error',
                     showCancelButton: false,
@@ -6202,7 +6202,7 @@ Template.new_salesorder.events({
 
             }).catch(function(err) {
                 swal({
-                    title: 'Something went wrong',
+                    title: 'Oooops...',
                     text: err,
                     type: 'error',
                     showCancelButton: false,

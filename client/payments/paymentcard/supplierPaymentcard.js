@@ -3872,7 +3872,7 @@ Template.supplierpaymentcard.events({
         //window.history.go(-2);
       }).catch(function(err) {
         swal({
-          title: 'Something went wrong',
+          title: 'Oooops...',
           text: err,
           type: 'error',
           showCancelButton: false,
@@ -3940,7 +3940,7 @@ Template.supplierpaymentcard.events({
            // Amount:parseFloat(paymentAmt.replace(/[^0-9.-]+/g,"")) || 0,
            // Applied:parseFloat(paymentAmt.replace(/[^0-9.-]+/g,"")) || 0,
            Deleted: false,
-           AccountName: bankAccount,
+
            ClientPrintName: customer,
            CompanyName: customer,
            DeptClassName: department,
@@ -3953,7 +3953,8 @@ Template.supplierpaymentcard.events({
            PaymentDate: paymentDate,
            PayMethodName: payMethod,
 
-           ReferenceNo: reference
+           ReferenceNo: reference,
+           AccountName: bankAccount
          }
        };
       }
@@ -4225,7 +4226,7 @@ Template.supplierpaymentcard.events({
       }).catch(function(err) {
         //window.open('/paymentoverview','_self');
         swal({
-          title: 'Something went wrong',
+          title: 'Oooops...',
           text: err,
           type: 'error',
           showCancelButton: false,
@@ -4291,7 +4292,7 @@ Template.supplierpaymentcard.events({
             // Applied:parseFloat(paymentAmt.replace(/[^0-9.-]+/g,"")) || 0,
             ID: 0,
             Deleted: false,
-            AccountName: bankAccount,
+
             ClientPrintName: customer,
             CompanyName: customer,
             DeptClassName: department,
@@ -4302,7 +4303,8 @@ Template.supplierpaymentcard.events({
             PaymentDate: paymentDate,
             PayMethodName: payMethod,
 
-            ReferenceNo: reference
+            ReferenceNo: reference,
+            AccountName: bankAccount
           }
         };
       }
@@ -4574,7 +4576,7 @@ Template.supplierpaymentcard.events({
         //window.open('/supplierawaitingpurchaseorder','_self');
         //window.history.go(-2);
         swal({
-          title: 'Something went wrong',
+          title: 'Oooops...',
           text: err,
           type: 'error',
           showCancelButton: false,
@@ -4636,7 +4638,6 @@ Template.supplierpaymentcard.events({
           fields: {
             ID: 0,
             Deleted: false,
-            AccountName: bankAccount,
             ClientPrintName: customer,
             CompanyName: customer,
             DeptClassName: department,
@@ -4644,7 +4645,8 @@ Template.supplierpaymentcard.events({
             Notes: notes,
             Payment: true,
             PayMethodName: payMethod,
-            ReferenceNo: reference
+            ReferenceNo: reference,
+            AccountName: bankAccount
           }
         };
       }
@@ -4915,7 +4917,7 @@ Template.supplierpaymentcard.events({
         //window.open('/supplierawaitingpurchaseorder','_self');
         //window.history.go(-2);
         swal({
-          title: 'Something went wrong',
+          title: 'Oooops...',
           text: err,
           type: 'error',
           showCancelButton: false,
@@ -4977,7 +4979,7 @@ Template.supplierpaymentcard.events({
             Amount: parseFloat(paymentAmt.replace(/[^0-9.-]+/g, "")) || 0,
             Applied: parseFloat(paymentAmt.replace(/[^0-9.-]+/g, "")) || 0,
             Deleted: false,
-            AccountName: bankAccount,
+
             ClientPrintName: customer,
             CompanyName: customer,
             DeptClassName: department,
@@ -4990,7 +4992,8 @@ Template.supplierpaymentcard.events({
             PaymentDate: paymentDate,
             PayMethodName: payMethod,
 
-            ReferenceNo: reference
+            ReferenceNo: reference,
+            AccountName: bankAccount
           }
         };
       }
@@ -5262,7 +5265,7 @@ Template.supplierpaymentcard.events({
         //window.history.go(-2);
         //window.open('/supplierawaitingpurchaseorder','_self');
         swal({
-          title: 'Something went wrong',
+          title: 'Oooops...',
           text: err,
           type: 'error',
           showCancelButton: false,
@@ -5325,7 +5328,7 @@ Template.supplierpaymentcard.events({
           // Amount:parseFloat(paymentAmt.replace(/[^0-9.-]+/g,"")) || 0,
           // Applied:parseFloat(paymentAmt.replace(/[^0-9.-]+/g,"")) || 0,
           Deleted: false,
-          AccountName: bankAccount,
+
           ClientPrintName: customer,
           CompanyName: customer,
           DeptClassName: department,
@@ -5338,7 +5341,8 @@ Template.supplierpaymentcard.events({
           PaymentDate: paymentDate,
           PayMethodName: payMethod,
 
-          ReferenceNo: reference
+          ReferenceNo: reference,
+          AccountName: bankAccount
         }
       };
     }
@@ -5608,7 +5612,7 @@ Template.supplierpaymentcard.events({
       }).catch(function(err) {
         //window.open('/paymentoverview','_self');
         swal({
-          title: 'Something went wrong',
+          title: 'Oooops...',
           text: err,
           type: 'error',
           showCancelButton: false,
@@ -5669,7 +5673,7 @@ Template.supplierpaymentcard.events({
         fields: {
           ID: 0,
           Deleted: false,
-          AccountName: bankAccount,
+
           ClientPrintName: customer,
           CompanyName: customer,
           DeptClassName: department,
@@ -5679,7 +5683,8 @@ Template.supplierpaymentcard.events({
           PaymentDate: paymentDate,
           PayMethodName: payMethod,
 
-          ReferenceNo: reference
+          ReferenceNo: reference,
+          AccountName: bankAccount
         }
       };
 
@@ -5943,7 +5948,7 @@ Template.supplierpaymentcard.events({
       }).catch(function(err) {
         //window.open('/paymentoverview','_self');
         swal({
-          title: 'Something went wrong',
+          title: 'Oooops...',
           text: err,
           type: 'error',
           showCancelButton: false,
@@ -6009,7 +6014,7 @@ Template.supplierpaymentcard.events({
           // Applied:parseFloat(paymentAmt.replace(/[^0-9.-]+/g,"")) || 0,
           ID: 0,
           Deleted: false,
-          AccountName: bankAccount,
+
           ClientPrintName: customer,
           CompanyName: customer,
           DeptClassName: department,
@@ -6020,7 +6025,8 @@ Template.supplierpaymentcard.events({
           PaymentDate: paymentDate,
           PayMethodName: payMethod,
 
-          ReferenceNo: reference
+          ReferenceNo: reference,
+          AccountName: bankAccount
         }
       };
     }
@@ -6288,7 +6294,7 @@ Template.supplierpaymentcard.events({
         //window.open('/supplierawaitingpurchaseorder','_self');
         //window.history.go(-2);
         swal({
-          title: 'Something went wrong',
+          title: 'Oooops...',
           text: err,
           type: 'error',
           showCancelButton: false,
@@ -6427,7 +6433,7 @@ Template.supplierpaymentcard.events({
 
       }).catch(function(err) {
         swal({
-          title: 'Something went wrong',
+          title: 'Oooops...',
           text: err,
           type: 'error',
           showCancelButton: false,
@@ -6480,7 +6486,7 @@ Template.supplierpaymentcard.events({
 
         }).catch(function(err) {
           swal({
-            title: 'Something went wrong',
+            title: 'Oooops...',
             text: err,
             type: 'error',
             showCancelButton: false,

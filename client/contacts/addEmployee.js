@@ -2266,9 +2266,11 @@ Template.employeescard.events({
                               FirstName: firstname,
                               LastName: lastname,
                               EmployeeName: $('#edtCustomerCompany').val(),
-                              VS1UserName: $('#cloudCheckEmpEmailAddress').val(),
-                              VS1Password: $('#cloudCheckEmpUserPassword').val(),
+                              ERPLoginDetails:{
+                              ERPUserName: $('#cloudCheckEmpEmailAddress').val(),
+                              // VS1Password: $('#cloudCheckEmpUserPassword').val(),
                               NewPassword: cloudpassword
+                            }
                           }
                           //}
                       };
@@ -2392,7 +2394,7 @@ Template.employeescard.events({
                           } else if (oPost.readyState == 4 && oPost.status == 403) {
                               $('.fullScreenSpin').css('display', 'none');
                               swal({
-                                  title: 'Something went wrong',
+                                  title: 'Oooops...',
                                   text: oPost.getResponseHeader('errormessage'),
                                   type: 'error',
                                   showCancelButton: false,
@@ -2412,7 +2414,7 @@ Template.employeescard.events({
                               if ((segError[1]) == ' "Unable to lock object') {
 
                                   swal({
-                                      title: 'Something went wrong',
+                                      title: 'Oooops...',
                                       text: oPost.getResponseHeader('errormessage'),
                                       type: 'error',
                                       showCancelButton: false,
@@ -2426,7 +2428,7 @@ Template.employeescard.events({
                                   });
                               } else {
                                   swal({
-                                      title: 'Something went wrong',
+                                      title: 'Oooops...',
                                       text: oPost.getResponseHeader('errormessage'),
                                       type: 'error',
                                       showCancelButton: false,
@@ -2443,7 +2445,7 @@ Template.employeescard.events({
                           } else if (oPost.readyState == '') {
 
                               swal({
-                                  title: 'Something went wrong',
+                                  title: 'Oooops...',
                                   text: oPost.getResponseHeader('errormessage'),
                                   type: 'error',
                                   showCancelButton: false,
@@ -2518,7 +2520,7 @@ Template.employeescard.events({
 
         }).catch(function (err) {
             swal({
-                title: 'Something went wrong',
+                title: 'Oooops...',
                 text: err,
                 type: 'error',
                 showCancelButton: false,
@@ -2696,7 +2698,7 @@ Template.employeescard.events({
             } else if (oPost.readyState == 4 && oPost.status == 403) {
                 $('.fullScreenSpin').css('display', 'none');
                 swal({
-                    title: 'Something went wrong',
+                    title: 'Oooops...',
                     text: oPost.getResponseHeader('errormessage'),
                     type: 'error',
                     showCancelButton: false,
@@ -2716,7 +2718,7 @@ Template.employeescard.events({
                 if ((segError[1]) == ' "Unable to lock object') {
 
                     swal({
-                        title: 'Something went wrong',
+                        title: 'Oooops...',
                         text: oPost.getResponseHeader('errormessage'),
                         type: 'error',
                         showCancelButton: false,
@@ -2730,7 +2732,7 @@ Template.employeescard.events({
                     });
                 } else {
                     swal({
-                        title: 'Something went wrong',
+                        title: 'Oooops...',
                         text: oPost.getResponseHeader('errormessage'),
                         type: 'error',
                         showCancelButton: false,
@@ -2748,7 +2750,7 @@ Template.employeescard.events({
                 $('.fullScreenSpin').css('display', 'none');
                 //Bert.alert('<strong>'+ oPost.getResponseHeader('errormessage')+'</strong>!', 'danger');
                 swal({
-                    title: 'Something went wrong',
+                    title: 'Oooops...',
                     text: oPost.getResponseHeader('errormessage'),
                     type: 'error',
                     showCancelButton: false,
@@ -2903,7 +2905,7 @@ Template.employeescard.events({
             } else if (oPost.readyState == 4 && oPost.status == 403) {
                 $('.fullScreenSpin').css('display', 'none');
                 swal({
-                    title: 'Something went wrong',
+                    title: 'Oooops...',
                     text: oPost.getResponseHeader('errormessage'),
                     type: 'error',
                     showCancelButton: false,
@@ -2923,7 +2925,7 @@ Template.employeescard.events({
                 if ((segError[1]) == ' "Unable to lock object') {
 
                     swal({
-                        title: 'Something went wrong',
+                        title: 'Oooops...',
                         text: oPost.getResponseHeader('errormessage'),
                         type: 'error',
                         showCancelButton: false,
@@ -2937,7 +2939,7 @@ Template.employeescard.events({
                     });
                 } else {
                     swal({
-                        title: 'Something went wrong',
+                        title: 'Oooops...',
                         text: oPost.getResponseHeader('errormessage'),
                         type: 'error',
                         showCancelButton: false,
@@ -2955,7 +2957,7 @@ Template.employeescard.events({
                 $('.fullScreenSpin').css('display', 'none');
                 //Bert.alert('<strong>'+ oPost.getResponseHeader('errormessage')+'</strong>!', 'danger');
                 swal({
-                    title: 'Something went wrong',
+                    title: 'Oooops...',
                     text: oPost.getResponseHeader('errormessage'),
                     type: 'error',
                     showCancelButton: false,

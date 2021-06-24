@@ -511,7 +511,7 @@ Template.creditcard.onRendered(() => {
                           }
                       }).catch(function(err) {
                           swal({
-                              title: 'Something went wrong',
+                              title: 'Oooops...',
                               text: err,
                               type: 'error',
                               showCancelButton: false,
@@ -900,7 +900,7 @@ Template.creditcard.onRendered(() => {
                                 }
                             }).catch(function(err) {
                                 swal({
-                                    title: 'Something went wrong',
+                                    title: 'Oooops...',
                                     text: err,
                                     type: 'error',
                                     showCancelButton: false,
@@ -1109,7 +1109,7 @@ Template.creditcard.onRendered(() => {
                       }
                   }).catch(function(err) {
                       swal({
-                          title: 'Something went wrong',
+                          title: 'Oooops...',
                           text: err,
                           type: 'error',
                           showCancelButton: false,
@@ -2325,7 +2325,7 @@ Template.creditcard.events({
                 $('.fullScreenSpin').css('display', 'none');
 
                 swal({
-                    title: 'Something went wrong',
+                    title: 'Oooops...',
                     text: err,
                     type: 'error',
                     showCancelButton: false,
@@ -2665,7 +2665,7 @@ Template.creditcard.events({
                 Router.go('/creditlist?success=true');
             }).catch(function(err) {
                 swal({
-                    title: 'Something went wrong',
+                    title: 'Oooops...',
                     text: err,
                     type: 'error',
                     showCancelButton: false,
@@ -3253,7 +3253,7 @@ Template.creditcard.events({
 
             }).catch(function(err) {
                 swal({
-                    title: 'Something went wrong',
+                    title: 'Oooops...',
                     text: err,
                     type: 'error',
                     showCancelButton: false,
@@ -3844,7 +3844,7 @@ Template.creditcard.events({
 
             }).catch(function(err) {
                 swal({
-                    title: 'Something went wrong',
+                    title: 'Oooops...',
                     text: err,
                     type: 'error',
                     showCancelButton: false,

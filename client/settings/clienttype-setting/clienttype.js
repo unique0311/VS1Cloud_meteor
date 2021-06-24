@@ -228,7 +228,7 @@ Template.clienttypesettings.onRendered(function() {
 
         }).catch(function (err) {
             swal({
-                title: 'Something went wrong',
+                title: 'Oooops...',
                 text: err,
                 type: 'error',
                 showCancelButton: false,
@@ -509,7 +509,7 @@ Template.clienttypesettings.events({
             Meteor._reload.reload();
         }).catch(function (err) {
             swal({
-                title: 'Something went wrong',
+                title: 'Oooops...',
                 text: err,
                 type: 'error',
                 showCancelButton: false,
@@ -588,7 +588,7 @@ Template.clienttypesettings.events({
                     Meteor._reload.reload();
                 }).catch(function (err) {
                     swal({
-                        title: 'Something went wrong',
+                        title: 'Oooops...',
                         text: err,
                         type: 'error',
                         showCancelButton: false,
@@ -619,7 +619,7 @@ Template.clienttypesettings.events({
                     Meteor._reload.reload();
                 }).catch(function (err) {
                     swal({
-                        title: 'Something went wrong',
+                        title: 'Oooops...',
                         text: err,
                         type: 'error',
                         showCancelButton: false,
@@ -653,7 +653,7 @@ Template.clienttypesettings.events({
                 Meteor._reload.reload();
             }).catch(function (err) {
                 swal({
-                    title: 'Something went wrong',
+                    title: 'Oooops...',
                     text: err,
                     type: 'error',
                     showCancelButton: false,

@@ -132,7 +132,7 @@ Template.inventorylist.onRendered(function() {
         //templateObject.getAllProductData('All');
     }).catch(function (err) {
       swal({
-      title: 'Something went wrong',
+      title: 'Oooops...',
       text: err,
       type: 'error',
       showCancelButton: false,
@@ -269,7 +269,7 @@ Template.inventorylist.onRendered(function() {
                     paging: false,
                     "scrollY": "800px",
                     "scrollCollapse": true,
-                    info: true,
+                    info: false,
                     responsive: true,
                     "order": [[ 0, "asc" ]],
                     action: function () {
@@ -424,7 +424,7 @@ $('.fullScreenSpin').css('display','none');
           paging: false,
           "scrollY": "800px",
           "scrollCollapse": true,
-          info: true,
+          info: false,
           responsive: true,
           "order": [[ 0, "asc" ]],
           action: function () {
@@ -610,7 +610,7 @@ $('.fullScreenSpin').css('display','none');
                   paging: false,
                   "scrollY": "800px",
                   "scrollCollapse": true,
-                  info: true,
+                  info: false,
                   responsive: true,
                   "order": [[ 0, "asc" ]],
                   action: function () {
@@ -742,7 +742,7 @@ $('.fullScreenSpin').css('display','none');
 
     }).catch(function (err) {
       swal({
-      title: 'Something went wrong',
+      title: 'Oooops...',
       text: err,
       type: 'error',
       showCancelButton: false,
@@ -1392,7 +1392,7 @@ Template.inventorylist.helpers({
             Router.go('/inventorylist');
           }).catch(function (err) {
             swal({
-            title: 'Something went wrong',
+            title: 'Oooops...',
             text: err,
             type: 'error',
             showCancelButton: false,
@@ -1634,7 +1634,7 @@ productService.saveProduct(objDetails).then(function (data) {
 }).catch(function (err) {
 //$('.fullScreenSpin').css('display','none');
 swal({
-title: 'Something went wrong',
+title: 'Oooops...',
 text: err,
 type: 'error',
 showCancelButton: false,

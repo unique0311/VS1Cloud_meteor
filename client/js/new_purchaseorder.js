@@ -482,7 +482,7 @@ Template.purchaseordercard.onRendered(() => {
                             }
                         }).catch(function(err) {
                             swal({
-                                title: 'Something went wrong',
+                                title: 'Oooops...',
                                 text: err,
                                 type: 'error',
                                 showCancelButton: false,
@@ -838,7 +838,7 @@ Template.purchaseordercard.onRendered(() => {
                                 }
                             }).catch(function(err) {
                                 swal({
-                                    title: 'Something went wrong',
+                                    title: 'Oooops...',
                                     text: err,
                                     type: 'error',
                                     showCancelButton: false,
@@ -1025,7 +1025,7 @@ Template.purchaseordercard.onRendered(() => {
                         }
                     }).catch(function(err) {
                         swal({
-                            title: 'Something went wrong',
+                            title: 'Oooops...',
                             text: err,
                             type: 'error',
                             showCancelButton: false,
@@ -1223,7 +1223,7 @@ Template.purchaseordercard.onRendered(() => {
               }
           }).catch(function(err) {
               swal({
-                  title: 'Something went wrong',
+                  title: 'Oooops...',
                   text: err,
                   type: 'error',
                   showCancelButton: false,
@@ -2436,7 +2436,7 @@ Template.purchaseordercard.events({
             }).catch(function (err) {
                 $('.fullScreenSpin').css('display', 'none');
                 swal({
-                    title: 'Something went wrong',
+                    title: 'Oooops...',
                     text: err,
                     type: 'error',
                     showCancelButton: false,
@@ -2897,7 +2897,7 @@ Template.purchaseordercard.events({
                 Router.go('/purchaseorderlist?success=true');
             }).catch(function(err) {
                 swal({
-                    title: 'Something went wrong',
+                    title: 'Oooops...',
                     text: err,
                     type: 'error',
                     showCancelButton: false,
@@ -3545,7 +3545,7 @@ Template.purchaseordercard.events({
 
             }).catch(function(err) {
                 swal({
-                    title: 'Something went wrong',
+                    title: 'Oooops...',
                     text: err,
                     type: 'error',
                     showCancelButton: false,
@@ -4182,7 +4182,7 @@ Template.purchaseordercard.events({
 
             }).catch(function(err) {
                 swal({
-                    title: 'Something went wrong',
+                    title: 'Oooops...',
                     text: err,
                     type: 'error',
                     showCancelButton: false,
@@ -4445,7 +4445,7 @@ Template.purchaseordercard.events({
 
                 }).catch(function(err) {
                     swal({
-                        title: 'Something went wrong',
+                        title: 'Oooops...',
                         text: err,
                         type: 'error',
                         showCancelButton: false,
@@ -4746,7 +4746,7 @@ Template.purchaseordercard.events({
 
                 }).catch(function(err) {
                     swal({
-                        title: 'Something went wrong',
+                        title: 'Oooops...',
                         text: err,
                         type: 'error',
                         showCancelButton: false,
@@ -5178,7 +5178,7 @@ Template.purchaseordercard.events({
 
                         }).catch(function(err) {
                             swal({
-                                title: 'Something went wrong',
+                                title: 'Oooops...',
                                 text: err,
                                 type: 'error',
                                 showCancelButton: false,
@@ -5475,7 +5475,7 @@ Template.purchaseordercard.events({
 
                                 }).catch(function(err) {
                                     swal({
-                                        title: 'Something went wrong',
+                                        title: 'Oooops...',
                                         text: err,
                                         type: 'error',
                                         showCancelButton: false,
@@ -5780,7 +5780,7 @@ Template.purchaseordercard.events({
 
                         }).catch(function(err) {
                             swal({
-                                title: 'Something went wrong',
+                                title: 'Oooops...',
                                 text: err,
                                 type: 'error',
                                 showCancelButton: false,
@@ -6082,7 +6082,7 @@ Template.purchaseordercard.events({
 
                     }).catch(function(err) {
                         swal({
-                            title: 'Something went wrong',
+                            title: 'Oooops...',
                             text: err,
                             type: 'error',
                             showCancelButton: false,

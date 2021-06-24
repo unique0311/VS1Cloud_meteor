@@ -100,7 +100,7 @@ Template.chequecard.onRendered(() => {
         });
     }
 
-    $(document).ready(function() {
+    /*$(document).ready(function() {
         history.pushState(null, document.title, location.href);
         window.addEventListener('popstate', function(event) {
             swal({
@@ -119,7 +119,7 @@ Template.chequecard.onRendered(() => {
                 }
             });
         });
-    });
+    });*/
 
 
     $("#date-input,#dtSODate,#dtDueDate").datepicker({
@@ -568,7 +568,7 @@ Template.chequecard.onRendered(() => {
                             }
                         }).catch(function(err) {
                             swal({
-                                title: 'Something went wrong',
+                                title: 'Oooops...',
                                 text: err,
                                 type: 'error',
                                 showCancelButton: false,
@@ -985,7 +985,7 @@ Template.chequecard.onRendered(() => {
                                 }
                             }).catch(function(err) {
                                 swal({
-                                    title: 'Something went wrong',
+                                    title: 'Oooops...',
                                     text: err,
                                     type: 'error',
                                     showCancelButton: false,
@@ -1200,7 +1200,7 @@ Template.chequecard.onRendered(() => {
                         }
                     }).catch(function(err) {
                         swal({
-                            title: 'Something went wrong',
+                            title: 'Oooops...',
                             text: err,
                             type: 'error',
                             showCancelButton: false,
@@ -2335,7 +2335,7 @@ Template.chequecard.events({
                 $('.fullScreenSpin').css('display', 'none');
 
                 swal({
-                    title: 'Something went wrong',
+                    title: 'Oooops...',
                     text: err,
                     type: 'error',
                     showCancelButton: false,
@@ -2675,7 +2675,7 @@ Template.chequecard.events({
 
             }).catch(function(err) {
                 swal({
-                    title: 'Something went wrong',
+                    title: 'Oooops...',
                     text: err,
                     type: 'error',
                     showCancelButton: false,
@@ -3255,7 +3255,7 @@ Template.chequecard.events({
 
             }).catch(function(err) {
                 swal({
-                    title: 'Something went wrong',
+                    title: 'Oooops...',
                     text: err,
                     type: 'error',
                     showCancelButton: false,

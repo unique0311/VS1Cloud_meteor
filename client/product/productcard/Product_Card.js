@@ -474,7 +474,7 @@ oPost.onreadystatechange = function() {
         $('.close').click(); // close edit modal
     }else if(oPost.readyState == 500) {
       swal({
-    title: 'Something went wrong',
+    title: 'Oooops...',
     text: oPost.getResponseHeader('errormessage'),
     type: 'error',
     showCancelButton: false,
@@ -492,7 +492,7 @@ oPost.onreadystatechange = function() {
 
 
 swal({
-  title: 'Something went wrong',
+  title: 'Oooops...',
   text: oPost.getResponseHeader('errormessage'),
   type: 'error',
   showCancelButton: false,
@@ -516,7 +516,7 @@ if((segError[1]) == ' "Unable to lock object'){
   Bert.alert('<strong>'+ oPost.getResponseHeader('errormessage')+'</strong>. Please close the product in ERP!', 'danger');
 }else{
   swal({
-  title: 'Something went wrong',
+  title: 'Oooops...',
   text: oPost.getResponseHeader('errormessage'),
   type: 'error',
   showCancelButton: false,
@@ -587,7 +587,7 @@ Bert.alert('<strong>SUCCESS:</strong> Product notes successfully updated!', 'suc
 
 
 swal({
-  title: 'Something went wrong',
+  title: 'Oooops...',
   text: oPost.getResponseHeader('errormessage'),
   type: 'error',
   showCancelButton: false,
@@ -611,7 +611,7 @@ if((segError[1]) == ' "Unable to lock object'){
   Bert.alert('<strong>'+ oPost.getResponseHeader('errormessage')+'</strong>. Please close the product in ERP!', 'danger');
 }else{
   swal({
-  title: 'Something went wrong',
+  title: 'Oooops...',
   text: oPost.getResponseHeader('errormessage'),
   type: 'error',
   showCancelButton: false,
@@ -717,7 +717,7 @@ Template.productcard.events({
                     Bert.alert('<strong>' + oPost.getResponseHeader('errormessage') + '</strong>. Please close the product in ERP!', 'danger');
                 } else {
                     swal({
-  title: 'Something went wrong',
+  title: 'Oooops...',
   text: oPost.getResponseHeader('errormessage'),
   type: 'error',
   showCancelButton: false,
@@ -774,7 +774,7 @@ Template.productcard.events({
                     Bert.alert('<strong>' + oPost.getResponseHeader('errormessage') + '</strong>. Please close the product in ERP!', 'danger');
                 } else {
                     swal({
-                      title: 'Something went wrong',
+                      title: 'Oooops...',
                       text: oPost.getResponseHeader('errormessage'),
                       type: 'error',
                       showCancelButton: false,

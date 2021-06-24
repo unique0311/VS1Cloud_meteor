@@ -495,7 +495,7 @@ Template.billcard.onRendered(() => {
                             }
                         }).catch(function(err) {
                             swal({
-                                title: 'Something went wrong',
+                                title: 'Oooops...',
                                 text: err,
                                 type: 'error',
                                 showCancelButton: false,
@@ -877,7 +877,7 @@ Template.billcard.onRendered(() => {
                               }
                           }).catch(function(err) {
                               swal({
-                                  title: 'Something went wrong',
+                                  title: 'Oooops...',
                                   text: err,
                                   type: 'error',
                                   showCancelButton: false,
@@ -1082,7 +1082,7 @@ Template.billcard.onRendered(() => {
                       }
                   }).catch(function(err) {
                       swal({
-                          title: 'Something went wrong',
+                          title: 'Oooops...',
                           text: err,
                           type: 'error',
                           showCancelButton: false,
@@ -2277,7 +2277,7 @@ Template.billcard.events({
             }).catch(function (err) {
                 $('.fullScreenSpin').css('display', 'none');
                 swal({
-                    title: 'Something went wrong',
+                    title: 'Oooops...',
                     text: err,
                     type: 'error',
                     showCancelButton: false,
@@ -2624,7 +2624,7 @@ Template.billcard.events({
 
             }).catch(function(err) {
                 swal({
-                    title: 'Something went wrong',
+                    title: 'Oooops...',
                     text: err,
                     type: 'error',
                     showCancelButton: false,
@@ -3205,7 +3205,7 @@ Template.billcard.events({
 
             }).catch(function(err) {
                 swal({
-                    title: 'Something went wrong',
+                    title: 'Oooops...',
                     text: err,
                     type: 'error',
                     showCancelButton: false,
@@ -3825,7 +3825,7 @@ Template.billcard.events({
                     });
                 }).catch(function(err) {
                     swal({
-                        title: 'Something went wrong',
+                        title: 'Oooops...',
                         text: err,
                         type: 'error',
                         showCancelButton: false,

@@ -1057,7 +1057,7 @@ Router.go('/stockadjlist');
 } else if(oPost.readyState == 4 && oPost.status == 403){
 
   swal({
-    title: 'Something went wrong',
+    title: 'Oooops...',
     text: oPost.getResponseHeader('errormessage'),
     type: 'error',
     showCancelButton: false,
@@ -1077,7 +1077,7 @@ if((segError[1]) == ' "Unable to lock object'){
   Bert.alert('<strong>'+ oPost.getResponseHeader('errormessage')+'</strong>. Please close the stock adjust in ERP!', 'danger');
  }else{
    swal({
-   title: 'Something went wrong',
+   title: 'Oooops...',
    text: oPost.getResponseHeader('errormessage'),
    type: 'error',
    showCancelButton: false,
@@ -2028,7 +2028,7 @@ Template.stockscan.events({
 
             } else if (oPost.status == 500) {
               swal({
-                title: 'Something went wrong',
+                title: 'Oooops...',
                 text: oPost.getResponseHeader('errormessage'),
                 type: 'error',
                 showCancelButton: false,
@@ -2049,7 +2049,7 @@ Template.stockscan.events({
                     Bert.alert('<strong>' + oPost.getResponseHeader('errormessage') + '</strong>. Please close the product in ERP!', 'danger');
                 } else {
                   swal({
-                    title: 'Something went wrong',
+                    title: 'Oooops...',
                     text: oPost.getResponseHeader('errormessage'),
                     type: 'error',
                     showCancelButton: false,

@@ -362,7 +362,7 @@ Template.stockadjustmentcard.onRendered(() => {
                             },1000);
                     }).catch(function (err) {
                         swal({
-                            title: 'Something went wrong',
+                            title: 'Oooops...',
                             text: err,
                             type: 'error',
                             showCancelButton: false,
@@ -597,7 +597,7 @@ Template.stockadjustmentcard.onRendered(() => {
                     }
                 }).catch(function (err) {
                     swal({
-                        title: 'Something went wrong',
+                        title: 'Oooops...',
                         text: err,
                         type: 'error',
                         showCancelButton: false,
@@ -1330,7 +1330,7 @@ Template.stockadjustmentcard.events({
                 $('.modal-backdrop').css('display', 'none');
             }).catch(function (err) {
                 swal({
-                    title: 'Something went wrong',
+                    title: 'Oooops...',
                     text: err,
                     type: 'error',
                     showCancelButton: false,
@@ -1382,7 +1382,7 @@ Template.stockadjustmentcard.events({
 
                     }).catch(function (err) {
                         swal({
-                            title: 'Something went wrong',
+                            title: 'Oooops...',
                             text: err,
                             type: 'error',
                             showCancelButton: false,
@@ -1572,7 +1572,7 @@ Template.stockadjustmentcard.events({
 
             }).catch(function (err) {
                 swal({
-                    title: 'Something went wrong',
+                    title: 'Oooops...',
                     text: err,
                     type: 'error',
                     showCancelButton: false,

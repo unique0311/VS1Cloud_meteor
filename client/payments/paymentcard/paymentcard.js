@@ -2386,7 +2386,7 @@ Template.paymentcard.events({
         // window.open('/salesorderslist','_self');
       }).catch(function (err) {
         swal({
-        title: 'Something went wrong',
+        title: 'Oooops...',
         text: err,
         type: 'error',
         showCancelButton: false,
@@ -2691,7 +2691,7 @@ var htmlmailBody = '<table align="center" border="0" cellpadding="0" cellspacing
   }).catch(function (err) {
     // Router.go('/paymentoverview?success=true');
     swal({
-    title: 'Something went wrong',
+    title: 'Oooops...',
     text: err,
     type: 'error',
     showCancelButton: false,
@@ -2965,7 +2965,7 @@ var htmlmailBody = '<table align="center" border="0" cellpadding="0" cellspacing
   }).catch(function (err) {
     // Router.go('/paymentoverview?success=true');
     swal({
-    title: 'Something went wrong',
+    title: 'Oooops...',
     text: err,
     type: 'error',
     showCancelButton: false,
@@ -3265,7 +3265,7 @@ var htmlmailBody = '<table align="center" border="0" cellpadding="0" cellspacing
                 // window.open('/invoicelist','_self');
               }).catch(function (err) {
                 swal({
-                title: 'Something went wrong',
+                title: 'Oooops...',
                 text: err,
                 type: 'error',
                 showCancelButton: false,
@@ -3563,7 +3563,7 @@ var htmlmailBody = '<table align="center" border="0" cellpadding="0" cellspacing
       }).catch(function (err) {
         //Router.go('/paymentoverview?success=true');
         swal({
-        title: 'Something went wrong',
+        title: 'Oooops...',
         text: err,
         type: 'error',
         showCancelButton: false,
@@ -3859,7 +3859,7 @@ var htmlmailBody = '<table align="center" border="0" cellpadding="0" cellspacing
       }).catch(function (err) {
         // Router.go('/paymentoverview?success=true');
         // swal({
-        // title: 'Something went wrong',
+        // title: 'Oooops...',
         // text: err,
         // type: 'error',
         // showCancelButton: false,
@@ -4159,7 +4159,7 @@ var htmlmailBody = '<table align="center" border="0" cellpadding="0" cellspacing
   }).catch(function (err) {
     // Router.go('/paymentoverview?success=true');
     swal({
-    title: 'Something went wrong',
+    title: 'Oooops...',
     text: err,
     type: 'error',
     showCancelButton: false,
@@ -4433,7 +4433,7 @@ var htmlmailBody = '<table align="center" border="0" cellpadding="0" cellspacing
   }).catch(function (err) {
     // Router.go('/paymentoverview?success=true');
     swal({
-    title: 'Something went wrong',
+    title: 'Oooops...',
     text: err,
     type: 'error',
     showCancelButton: false,
@@ -4568,7 +4568,7 @@ var htmlmailBody = '<table align="center" border="0" cellpadding="0" cellspacing
          Router.go('/paymentoverview?success=true');
       }).catch(function (err) {
           swal({
-                title: 'Something went wrong',
+                title: 'Oooops...',
                 text: err,
                 type: 'error',
                 showCancelButton: false,

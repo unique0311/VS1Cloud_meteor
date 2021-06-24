@@ -150,7 +150,7 @@ Template.addCurrencyModel.events({
             swal('Currency details successfully saved!', '', 'success');
             templateObject.clearData();
         }).catch(function (err) {
-            swal({ title: 'Something went wrong', text: err, type: 'error', showCancelButton: false, confirmButtonText: 'Try Again' }).then((result) => { if (result.value) { Meteor._reload.reload(); } else if (result.dismiss === 'cancel') {}});
+            swal({ title: 'Oooops...', text: err, type: 'error', showCancelButton: false, confirmButtonText: 'Try Again' }).then((result) => { if (result.value) { Meteor._reload.reload(); } else if (result.dismiss === 'cancel') {}});
         });
     }
 });

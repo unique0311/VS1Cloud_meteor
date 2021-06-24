@@ -2930,7 +2930,7 @@ Template.customerscard.events({
             }).catch(function (err) {
 
                 swal({
-                    title: 'Something went wrong',
+                    title: 'Oooops...',
                     text: err,
                     type: 'error',
                     showCancelButton: false,
@@ -2970,7 +2970,7 @@ Template.customerscard.events({
         //             Meteor._reload.reload();
         //         }).catch(function (err) {
         //             swal({
-        //                 title: 'Something went wrong',
+        //                 title: 'Oooops...',
         //                 text: err,
         //                 type: 'error',
         //                 showCancelButton: false,
@@ -3001,7 +3001,7 @@ Template.customerscard.events({
         //             Meteor._reload.reload();
         //         }).catch(function (err) {
         //             swal({
-        //                 title: 'Something went wrong',
+        //                 title: 'Oooops...',
         //                 text: err,
         //                 type: 'error',
         //                 showCancelButton: false,
@@ -3035,7 +3035,7 @@ Template.customerscard.events({
         //         Meteor._reload.reload();
         //     }).catch(function (err) {
         //         swal({
-        //             title: 'Something went wrong',
+        //             title: 'Oooops...',
         //             text: err,
         //             type: 'error',
         //             showCancelButton: false,
@@ -3319,7 +3319,7 @@ Template.customerscard.events({
 
         }).catch(function (err) {
             swal({
-                title: 'Something went wrong',
+                title: 'Oooops...',
                 text: err,
                 type: 'error',
                 showCancelButton: false,
@@ -3562,7 +3562,7 @@ Template.customerscard.events({
             //    }
         }).catch(function (err) {
             swal({
-                title: 'Something went wrong',
+                title: 'Oooops...',
                 text: err,
                 type: 'error',
                 showCancelButton: false,

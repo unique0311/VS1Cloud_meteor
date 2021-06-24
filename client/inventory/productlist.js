@@ -105,7 +105,7 @@ Template.productlist.onRendered(function() {
         templateObject.getAllProductData('All');
     }).catch(function (err) {
       swal({
-      title: 'Something went wrong',
+      title: 'Oooops...',
       text: err,
       type: 'error',
       showCancelButton: false,
@@ -616,7 +616,7 @@ Template.productlist.onRendered(function() {
 
     }).catch(function (err) {
       swal({
-      title: 'Something went wrong',
+      title: 'Oooops...',
       text: err,
       type: 'error',
       showCancelButton: false,
@@ -1254,7 +1254,7 @@ Template.productlist.helpers({
             Router.go('/productlist');
           }).catch(function (err) {
             swal({
-            title: 'Something went wrong',
+            title: 'Oooops...',
             text: err,
             type: 'error',
             showCancelButton: false,
@@ -1572,7 +1572,7 @@ productService.saveProduct(objDetails).then(function (data) {
 }).catch(function (err) {
 //$('.fullScreenSpin').css('display','none');
 swal({
-title: 'Something went wrong',
+title: 'Oooops...',
 text: err,
 type: 'error',
 showCancelButton: false,

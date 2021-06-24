@@ -1663,7 +1663,7 @@ Template.appointmentlist.events({
                 } else if (oPost.readyState == 4 && oPost.status == 403) {
                     $('.fullScreenSpin').css('display', 'none');
                     swal({
-                        title: 'Something went wrong',
+                        title: 'Oooops...',
                         text: oPost.getResponseHeader('errormessage'),
                         type: 'error',
                         showCancelButton: false,
@@ -1682,7 +1682,7 @@ Template.appointmentlist.events({
                     if ((segError[1]) == ' "Unable to lock object') {
 
                         swal({
-                            title: 'Something went wrong',
+                            title: 'Oooops...',
                             text: oPost.getResponseHeader('errormessage'),
                             type: 'error',
                             showCancelButton: false,
@@ -1695,7 +1695,7 @@ Template.appointmentlist.events({
                         });
                     } else {
                         swal({
-                            title: 'Something went wrong',
+                            title: 'Oooops...',
                             text: oPost.getResponseHeader('errormessage'),
                             type: 'error',
                             showCancelButton: false,
@@ -1711,7 +1711,7 @@ Template.appointmentlist.events({
                 } else if (oPost.readyState == '') {
                     $('.fullScreenSpin').css('display', 'none');
                     swal({
-                        title: 'Something went wrong',
+                        title: 'Oooops...',
                         text: oPost.getResponseHeader('errormessage'),
                         type: 'error',
                         showCancelButton: false,

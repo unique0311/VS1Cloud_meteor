@@ -829,7 +829,7 @@ Template.depositcard.onRendered(()=>{
                     }
                 }).catch(function (err) {
                     swal({
-                        title: 'Something went wrong',
+                        title: 'Oooops...',
                         text: err,
                         type: 'error',
                         showCancelButton: false,
@@ -1047,7 +1047,7 @@ Template.depositcard.onRendered(()=>{
                       }
                   }).catch(function (err) {
                       swal({
-                          title: 'Something went wrong',
+                          title: 'Oooops...',
                           text: err,
                           type: 'error',
                           showCancelButton: false,
@@ -1163,7 +1163,7 @@ Template.depositcard.onRendered(()=>{
                   }
               }).catch(function (err) {
                   swal({
-                      title: 'Something went wrong',
+                      title: 'Oooops...',
                       text: err,
                       type: 'error',
                       showCancelButton: false,
@@ -1995,7 +1995,7 @@ Template.depositcard.events({
                     $('.modal-backdrop').css('display','none');
                     }).catch(function (err) {
                         swal({
-                            title: 'Something went wrong',
+                            title: 'Oooops...',
                             text: err,
                             type: 'error',
                             showCancelButton: false,
@@ -2045,7 +2045,7 @@ Template.depositcard.events({
             $('.modal-backdrop').css('display','none');
             }).catch(function (err) {
                 swal({
-                    title: 'Something went wrong',
+                    title: 'Oooops...',
                     text: err,
                     type: 'error',
                     showCancelButton: false,
@@ -2162,6 +2162,7 @@ Template.depositcard.events({
                                         ID:parseInt(erpLineID) ||0,
                                         AccountName: tdaccount || '',
                                         Amount: parseFloat(tdamount.replace(/[^0-9.-]+/g,"")) || 0,
+                                        FromDeposited:true,
                                         ReferenceNo: tddmemo || txaNotes,
                                         CompanyName:tdcompany || '',
 
@@ -2209,6 +2210,7 @@ Template.depositcard.events({
 
                                       AccountName: tdaccount || '',
                                       Amount: parseFloat(tdamount.replace(/[^0-9.-]+/g,"")) || 0,
+                                      FromDeposited:true,
                                       ReferenceNo: tddmemo || txaNotes,
                                       CompanyName:tdcompany || '',
                                       Contact:false,
@@ -2244,7 +2246,7 @@ Template.depositcard.events({
 
                     }).catch(function (err) {
                         swal({
-                            title: 'Something went wrong',
+                            title: 'Oooops...',
                             text: err,
                             type: 'error',
                             showCancelButton: false,
@@ -2298,6 +2300,7 @@ Template.depositcard.events({
                                 ID:parseInt(erpLineID) ||0,
                                 AccountName: tdaccount || '',
                                 Amount: parseFloat(tdamount.replace(/[^0-9.-]+/g,"")) || 0,
+                                FromDeposited:true,
                                 ReferenceNo: tddmemo || txaNotes,
                                 CompanyName:tdcompany || '',
 
@@ -2345,6 +2348,7 @@ Template.depositcard.events({
 
                               AccountName: tdaccount || '',
                               Amount: parseFloat(tdamount.replace(/[^0-9.-]+/g,"")) || 0,
+                              FromDeposited:true,
                               ReferenceNo: tddmemo || txaNotes,
                               CompanyName:tdcompany || '',
                               Contact:false,
@@ -2380,7 +2384,7 @@ Template.depositcard.events({
 
             }).catch(function (err) {
                 swal({
-                    title: 'Something went wrong',
+                    title: 'Oooops...',
                     text: err,
                     type: 'error',
                     showCancelButton: false,

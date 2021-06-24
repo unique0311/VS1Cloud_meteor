@@ -283,7 +283,7 @@
                             {{#each item in datatablerecords}}
                             <tr class="dnd-moved" id="{{item.id}}" style="cursor: pointer;">
                                 <td contenteditable="false" class="colSortDate hiddenColumn">{{item.sortdate}}</td>
-                                <td contenteditable="false" class="colSaleDate" ><span style="display:none;">{{item.sortdate}}</span>{{item.saledate}}</td>
+                                <td contenteditable="false" class="colSaleDate" ><span class="hiddenColumn" style="visibility: hidden;">{{item.sortdate}}</span>{{item.saledate}}</td>
                                 <td contenteditable="false" class="colSalesNo">{{item.id}}</td>
                                 <td contenteditable="false" class="colType" >{{item.type}}</td>
                                 <td contenteditable="false" class="colCustomer">{{item.customername}}</td>

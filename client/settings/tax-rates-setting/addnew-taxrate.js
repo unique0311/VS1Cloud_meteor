@@ -65,7 +65,7 @@ Template.addnewtaxrate.events({
 
 
         swal({
-  title: 'Something went wrong',
+  title: 'Oooops...',
   text: oPost.getResponseHeader('errormessage'),
   type: 'error',
   showCancelButton: false,
@@ -89,7 +89,7 @@ Template.addnewtaxrate.events({
           Bert.alert('<strong>'+ oPost.getResponseHeader('errormessage')+'</strong>. Please close the Tax Code Information in ERP!', 'danger');
         }else{
           swal({
-  title: 'Something went wrong',
+  title: 'Oooops...',
   text: oPost.getResponseHeader('errormessage'),
   type: 'error',
   showCancelButton: false,
