@@ -50,9 +50,17 @@ export class AppointmentService extends BaseService {
    getGlobalSettings(){
          let options = {
             PropertyList: "PrefName,Fieldvalue",
-            select: '[PrefName]="DefaultServiceProductID" or [PrefName]="DefaultApptDuration" or [PrefName]="ApptStartTime" or [PrefName]="ApptEndtime" or [PrefName]="ShowSaturdayinApptCalendar" or [PrefName]="ShowSundayinApptCalendar" or [PrefName]="ShowApptDurationin" or [PrefName]="RoundApptDurationTo" or [PrefName]="MinimumChargeAppointmentTime"'
+            select: '[PrefName]="DefaultServiceProduct" or [PrefName]="DefaultServiceProductID" or [PrefName]="DefaultApptDuration" or [PrefName]="ApptStartTime" or [PrefName]="ApptEndtime" or [PrefName]="ShowSaturdayinApptCalendar" or [PrefName]="ShowSundayinApptCalendar" or [PrefName]="ShowApptDurationin" or [PrefName]="RoundApptDurationTo" or [PrefName]="MinimumChargeAppointmentTime"'
          }
         return this.getList(this.ERPObjects.TERPPreference,options);
+    }
+
+
+    getGlobalSettingsExtra(){
+         let options = {
+            PropertyList: "ID,Prefname,fieldValue",
+         }
+     return this.getList(this.ERPObjects.TERPPreferenceExtra,options);
     }
 
     getAllAppointmentList(){

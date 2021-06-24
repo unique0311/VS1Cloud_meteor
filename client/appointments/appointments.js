@@ -114,8 +114,10 @@ Template.appointments.onRendered(function () {
                     let appEndTimeDataToLoad = appEndTimeDataHours + ':' + timeSplit[1];
                     globalSet.apptEndTimeCal =  appEndTimeDataToLoad || '19:30';
                 } else {
-                    let appEndTimeDataHours = parseInt(data.terppreference[g].Fieldvalue.split(' ')[0]) + 2;
-                    let appEndTimeDataToLoad = appEndTimeDataHours + ':' + data.terppreference[g].Fieldvalue.split(' ')[1];
+                    globalSet.apptEndTime = data.terppreference[g].Fieldvalue.split(' ')[0];
+                    let timeSplit = globalSet.apptEndTime.split(':');
+                    let appEndTimeDataHours = parseInt(timeSplit[0]) + 2;
+                    let appEndTimeDataToLoad = appEndTimeDataHours + ':' + timeSplit[1];
                     globalSet.apptEndTimeCal =  appEndTimeDataToLoad || '17:00';
                     globalSet.apptEndTime = data.terppreference[g].Fieldvalue || "17:00";
                 }
@@ -126,7 +128,7 @@ Template.appointments.onRendered(function () {
                     globalSet.DefaultApptDuration = data.terppreference[g].Fieldvalue || 2;
                 }
             } else if(data.terppreference[g].PrefName == "DefaultServiceProductID") {
-                globalSet.DefaultServiceProductID = data.terppreference[g].Fieldvalue;
+                globalSet.productID = data.terppreference[g].Fieldvalue;
             } else if(data.terppreference[g].PrefName == "ShowApptDurationin") {
                 if(data.terppreference[g].Fieldvalue == "60"){
                     globalSet.showApptDurationin = 1;
@@ -135,17 +137,16 @@ Template.appointments.onRendered(function () {
                 }
 
             }  else if(data.terppreference[g].PrefName == "MinimumChargeAppointmentTime") {
-                globalSet.MinimumChargeAppointmentTime = data.terppreference[g].Fieldvalue;
+                globalSet.chargeTime = data.terppreference[g].Fieldvalue;
             } else if(data.terppreference[g].PrefName == "RoundApptDurationTo") {
                 globalSet.RoundApptDurationTo = data.terppreference[g].Fieldvalue;
             } else if(data.terppreference[g].PrefName == "RoundApptDurationTo") {
                 globalSet.RoundApptDurationTo = data.terppreference[g].Fieldvalue;
             }
         }
-
-
-        $("#showSaturday").prop('checked', prefObject.showSat);
-        $("#showSunday").prop('checked', prefObject.showSun);
+        
+        $("#showSaturday").prop('checked', globalSet.showSat);
+        $("#showSunday").prop('checked', globalSet.showSun);
         if (globalSet.showSat === false) {
             hideSat = "hidesaturday";
         }
@@ -154,9 +155,10 @@ Template.appointments.onRendered(function () {
             hideSun = "hidesunday";
         }
 
-        // if (globalSet.defaultProduct) {
-        //     $('#productlist').prepend('<option value=' + prefObject.id + '>' + prefObject.defaultProduct + '</option>');
-        // }
+
+        if (globalSet.chargeTime) {
+            $('#chargeTime').prepend('<option>' + globalSet.chargeTime + ' Hour</option>');
+        }
 
         if (globalSet.showApptDurationin) {
             $('#showTimeIn').prepend('<option selected>' + globalSet.showApptDurationin + ' Hour</option>');
@@ -175,7 +177,24 @@ Template.appointments.onRendered(function () {
             $('#hoursTo').val(globalSet.apptEndTime);
         }
         templateObject.globalSettings.set(globalSet);
+
+        if(globalSet.productID != "") {
+            appointmentService.getGlobalSettingsExtra().then(function (data) {
+            for(let p = 0; p < data.terppreferenceextra.length; p++){
+                if(data.terppreferenceextra[p].Prefname == "DefaultServiceProduct"){
+                    globalSet.defaultProduct = data.terppreferenceextra[p].fieldValue
+                }
+
+            $('#productlist').prepend('<option value=' + globalSet.id + '>' + globalSet.defaultProduct + '</option>'); 
+            $("#productlist")[0].options[0].selected = true;  
+        }
+        templateObject.globalSettings.set(globalSet);
     })
+}
+    }).catch(function (err) {
+        console.log(err);
+
+    });
 
 
     templateObject.renderCalendar = function (slotMin, slotMax, hideDays) {
@@ -436,7 +455,7 @@ Template.appointments.onRendered(function () {
                     var hoursSpent = moment(appointmentHours, 'hours').format('HH');
                     document.getElementById("txtBookedHoursSpent").value = hoursSpent.replace(/^0+/, '');
                 }
-                // $('#product-list').prepend('<option value=' + calendarSet.id + ' selected>' + calendarSet.defaultProduct + '</option>');
+                $('#product-list').prepend('<option value=' + calendarSet.id + ' selected>' + calendarSet.defaultProduct + '</option>');
             } else if(overridesettings[0].override == "true"){
                 if (templateObject.empDuration.get() != "") {
                     var endTime = moment(startTime, 'HH:mm').add(parseInt(templateObject.empDuration.get()), 'hours').format('HH:mm');
@@ -466,11 +485,13 @@ Template.appointments.onRendered(function () {
                     var hoursSpent = moment(appointmentHours, 'hours').format('HH');
                     document.getElementById("txtBookedHoursSpent").value = hoursSpent.replace(/^0+/, '');
                 }
-                //  if (empData.length > 0) {
-                //     $('#product-list').prepend('<option value=' + empData[0].Id + ' selected>' + empData[0].DefaultServiceProduct + '</option>');
-                // } else{
-                //       $('#product-list').prepend('<option value=' + calendarSet.id + ' selected>' + calendarSet.defaultProduct + '</option>');
-                // }
+
+              if (empData.length > 0) {
+                    $('#product-list').prepend('<option value=' + empData[0].Id + ' selected>' + empData[empData.length - 1].DefaultServiceProduct + '</option>');
+                } else{
+                    $('#product-list').prepend('<option value=' + calendarSet.id + ' selected>' + calendarSet.defaultProduct + '</option>');
+              }
+
             }
 
 
@@ -743,7 +764,7 @@ Template.appointments.onRendered(function () {
             drop: function (event) {
                 let draggedEmployeeID = templateObject.empID.get();
                 let calendarData = templateObject.employeeOptions.get();
-                calendarSet = templateObject.globalSettings.get();
+                let calendarSet = templateObject.globalSettings.get();
                 let employees = templateObject.employeerecords.get();
                 let overridesettings =  employees.filter(employeeData => {
                  return employeeData.id == parseInt(draggedEmployeeID)
@@ -781,7 +802,7 @@ Template.appointments.onRendered(function () {
                     var hoursSpent = moment(appointmentHours, 'hours').format('HH');
                     document.getElementById("txtBookedHoursSpent").value = hoursSpent.replace(/^0+/, '');
                 }
-                // $('#product-list').prepend('<option value=' + calendarSet.id + ' selected>' + calendarSet.defaultProduct + '</option>');
+                $('#product-list').prepend('<option value=' + calendarSet.id + ' selected>' + calendarSet.defaultProduct + '</option>');
             } else if(overridesettings[0].override == "true"){
                 if (templateObject.empDuration.get() != "") {
                     var endTime = moment(startTime, 'HH:mm').add(parseInt(templateObject.empDuration.get()), 'hours').format('HH:mm');
@@ -811,11 +832,11 @@ Template.appointments.onRendered(function () {
                     var hoursSpent = moment(appointmentHours, 'hours').format('HH');
                     document.getElementById("txtBookedHoursSpent").value = hoursSpent.replace(/^0+/, '');
                 }
-                //  if (empData.length > 0) {
-                //     $('#product-list').prepend('<option value=' + empData[0].Id + ' selected>' + empData[0].DefaultServiceProduct + '</option>');
-                // } else{
-                //       $('#product-list').prepend('<option value=' + calendarSet.id + ' selected>' + calendarSet.defaultProduct + '</option>');
-                // }
+               if (empData.length > 0) {
+                    $('#product-list').prepend('<option value=' + empData[empData.length - 1].Id + ' selected>' + empData[empData.length - 1].DefaultServiceProduct + '</option>');
+                } else{
+                      $('#product-list').prepend('<option value=' + calendarSet.id + ' selected>' + calendarSet.defaultProduct + '</option>');
+                }
             }
 
 
@@ -1861,10 +1882,10 @@ Template.appointments.onRendered(function () {
                                 var hoursSpent = moment(appointmentHours, 'hours').format('HH');
                                 document.getElementById("txtBookedHoursSpent").value = hoursSpent.replace(/^0+/, '');
                             }
-                             if (empData.length > 0) {
-                                $('#product-list').prepend('<option value=' + empData[0].Id + ' selected>' + empData[0].DefaultServiceProduct + '</option>');
+                            if (empData.length > 0) {
+                                $('#product-list').prepend('<option value=' + empData[empData.length - 1].Id + ' selected>' + empData[empData.length - 1].DefaultServiceProduct + '</option>');
                             } else{
-                                  $('#product-list').prepend('<option value=' + calendarSet.id + ' selected>' + calendarSet.defaultProduct + '</option>');
+                                $('#product-list').prepend('<option value=' + calendarSet.id + ' selected>' + calendarSet.defaultProduct + '</option>');
                             }
                         }
 
@@ -2399,6 +2420,7 @@ Template.appointments.onRendered(function () {
 
                 }
             }).catch(function (err) {
+                console.log(err);
                 appointmentService.getAllAppointmentList().then(function (data) {
                     $('.fullScreenSpin').css('display', 'inline-block');
                     let appColor = '';

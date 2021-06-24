@@ -174,6 +174,7 @@ ERPObjects = function () {
         TVS1BankDeposit:"TVS1BankDeposit",
         TAreaCode:"TAreaCode",
         TERPPreference:"TERPPreference",
+        TERPPreferenceExtra:"TERPPreferenceExtra",
         VS1_RepeatAppointment: "VS1_RepeatAppointment"
     }
     return objects;
