@@ -147,7 +147,7 @@ Template.chequelist.onRendered(function() {
                                 text: '',
                                 download: 'open',
                                 className: "btntabletocsv hiddenColumn",
-                                filename: "chequelist_" + moment().format(),
+                                filename: "Cheque List - " + moment().format(),
                                 orientation: 'portrait',
                                 exportOptions: {
                                     columns: ':visible'
@@ -158,9 +158,10 @@ Template.chequelist.onRendered(function() {
                                 className: "btntabletopdf hiddenColumn",
                                 text: '',
                                 title: 'Cheque',
-                                filename: "chequelist_" + moment().format(),
+                                filename: "Cheque List - " + moment().format(),
                                 exportOptions: {
-                                    columns: ':visible'
+                                    columns: ':visible',
+                                    stripHtml: false
                                 }
                             }],
                             select: true,
@@ -218,7 +219,7 @@ Template.chequelist.onRendered(function() {
                             columVisible = false;
                         }
                         sWidth = v.style.width.replace('px', "");
-                        
+
                         let datatablerecordObj = {
                             sTitle: v.innerText || '',
                             sWidth: sWidth || '',
@@ -326,7 +327,7 @@ Template.chequelist.onRendered(function() {
                             text: '',
                             download: 'open',
                             className: "btntabletocsv hiddenColumn",
-                            filename: "chequelist_" + moment().format(),
+                            filename: "Cheque List - " + moment().format(),
                             orientation: 'portrait',
                             exportOptions: {
                                 columns: ':visible'
@@ -337,9 +338,10 @@ Template.chequelist.onRendered(function() {
                             className: "btntabletopdf hiddenColumn",
                             text: '',
                             title: 'Cheque',
-                            filename: "chequelist_" + moment().format(),
+                            filename: "Cheque List - " + moment().format(),
                             exportOptions: {
-                                columns: ':visible'
+                                columns: ':visible',
+                                stripHtml: false
                             }
                         }],
                         select: true,
@@ -397,7 +399,7 @@ Template.chequelist.onRendered(function() {
                         columVisible = false;
                     }
                     sWidth = v.style.width.replace('px', "");
-                    
+
                     let datatablerecordObj = {
                         sTitle: v.innerText || '',
                         sWidth: sWidth || '',
@@ -499,7 +501,7 @@ Template.chequelist.onRendered(function() {
                             text: '',
                             download: 'open',
                             className: "btntabletocsv hiddenColumn",
-                            filename: "chequelist_" + moment().format(),
+                            filename: "Cheque List - " + moment().format(),
                             orientation: 'portrait',
                             exportOptions: {
                                 columns: ':visible'
@@ -510,9 +512,10 @@ Template.chequelist.onRendered(function() {
                             className: "btntabletopdf hiddenColumn",
                             text: '',
                             title: 'Cheque',
-                            filename: "chequelist_" + moment().format(),
+                            filename: "Cheque List - " + moment().format(),
                             exportOptions: {
-                                columns: ':visible'
+                                columns: ':visible',
+                                stripHtml: false
                             }
                         }],
                         select: true,
@@ -570,7 +573,7 @@ Template.chequelist.onRendered(function() {
                         columVisible = false;
                     }
                     sWidth = v.style.width.replace('px', "");
-                    
+
                     let datatablerecordObj = {
                         sTitle: v.innerText || '',
                         sWidth: sWidth || '',
@@ -925,11 +928,11 @@ Template.chequelist.events({
         });
 
         sideBarService.getAllPurchaseOrderListAll().then(function(data) {
-          addVS1Data('TbillReport',JSON.stringify(data)).then(function (datareturn) {
+            addVS1Data('TbillReport',JSON.stringify(data)).then(function (datareturn) {
 
-          }).catch(function (err) {
+            }).catch(function (err) {
 
-          });
+            });
         }).catch(function(err) {
 
         });

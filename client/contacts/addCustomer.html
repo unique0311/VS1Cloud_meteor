@@ -1426,8 +1426,8 @@ class="form-group" style="margin: 4px;"><label class="text-nowrap d-xl-flex flex
                                                 <!-- </div> -->
                                             </div>
                                             <div class="col">
-                                                <button class="btn btn-primary float-right jobprintConfirm" type="button" style="margin:16px; background-color: #00A3D3; border-color: #00A3D3;"><i class="fa fa-print" style="padding-right: 5px; background-color: #00A3D3; border-color: #00A3D3;"></i>Print</button>
-                                                <button class="btn btn-primary jobexport float-right" type="button" style="margin: 16px; background-color: #00A3D3; border-color: #00A3D3;" id="exportbtn" name="exportbtn"><i class="fas fa-file-export" style="padding-right: 5px; background-color: #00A3D3; border-color: #00A3D3;"></i>Export</button>
+                                                <button id="printConfirmJob" class="btn btn-primary float-right jobprintConfirm printConfirmJob" type="button" style="margin:16px; background-color: #00A3D3; border-color: #00A3D3;"><i class="fa fa-print" style="padding-right: 5px; background-color: #00A3D3; border-color: #00A3D3;"></i>Print</button>
+                                                <button class="btn btn-primary jobexport float-right" type="button" style="margin: 16px; background-color: #00A3D3; border-color: #00A3D3;" id="exportbtnJob" name="exportbtnJob"><i class="fas fa-file-export" style="padding-right: 5px; background-color: #00A3D3; border-color: #00A3D3;"></i>Export</button>
                                             </div>
                                         </div>
                                         <div class="row rowB" style="margin: 16px; margin-top: 0px">
@@ -2125,9 +2125,6 @@ style="margin: 8px;"><i class="fa fa-close" style="margin-right: 5px;"></i>Close
                                         </div>
                                         <div class="row rowB" style="margin: 16px; margin-top: 0px">
                                             <div class="card-body rounded" style="padding: 0px;">
-                                                <!-- <div class="row no-gutters" style="margin-right: -48px;margin-left: -48px;margin-top: -48px;">
-<div class="card-body p-5 rounded"> -->
-                                                <!-- Start {{> optionNavSalesOverview}} -->
                                                 <div class="d-xl-flex justify-content-xl-end">
                                                     <div><a class="btn btnOpenSettingsCustomer" role="button" data-toggle="modal" href="#myModal2"><i class="icon ion-android-more-horizontal"></i></a>
                                                         <div class="modal fade" role="dialog" tabindex="-1" id="myModal2">
@@ -2257,7 +2254,6 @@ style="margin: 8px;"><i class="fa fa-close" style="margin-right: 5px;"></i>Close
                                                         }
 
                                                     </style>
-
 
                                                     <table id="tblTransactionlist" style="width:100%" class="dataTable table table-striped table-bordered tblTransactionlist">
                                                         <thead>

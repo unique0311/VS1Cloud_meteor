@@ -372,7 +372,7 @@ Template.customerscard.onRendered(function () {
                                     text: '',
                                     download: 'open',
                                     className: "btntabletocsv hiddenColumn",
-                                    filename: "salestransaction__" + moment().format(),
+                                    filename: "Sales Transaction List - " + moment().format(),
                                     orientation: 'portrait',
                                     exportOptions: {
                                         columns: ':visible'
@@ -383,9 +383,10 @@ Template.customerscard.onRendered(function () {
                                     className: "btntabletopdf hiddenColumn",
                                     text: '',
                                     title: 'Sales Transaction',
-                                    filename: "salestransaction_" + moment().format(),
+                                    filename: "Sales Transaction List - " + moment().format(),
                                     exportOptions: {
-                                        columns: ':visible'
+                                        columns: ':visible',
+                                        stripHtml: false
                                     }
                                 }],
                             select: true,
@@ -610,7 +611,7 @@ Template.customerscard.onRendered(function () {
                                 text: '',
                                 download: 'open',
                                 className: "btntabletocsv hiddenColumn",
-                                filename: "salestransaction__" + moment().format(),
+                                filename: "Sales Transaction List - " + moment().format(),
                                 orientation: 'portrait',
                                 exportOptions: {
                                     columns: ':visible'
@@ -621,9 +622,10 @@ Template.customerscard.onRendered(function () {
                                 className: "btntabletopdf hiddenColumn",
                                 text: '',
                                 title: 'Sales Transaction',
-                                filename: "salestransaction_" + moment().format(),
+                                filename: "Sales Transaction List - " + moment().format(),
                                 exportOptions: {
-                                    columns: ':visible'
+                                    columns: ':visible',
+                                    stripHtml: false
                                 }
                             }],
                         select: true,
@@ -846,7 +848,7 @@ Template.customerscard.onRendered(function () {
                                 text: '',
                                 download: 'open',
                                 className: "btntabletocsv hiddenColumn",
-                                filename: "salestransaction__" + moment().format(),
+                                filename: "Sales Transaction List - " + moment().format(),
                                 orientation: 'portrait',
                                 exportOptions: {
                                     columns: ':visible'
@@ -857,9 +859,10 @@ Template.customerscard.onRendered(function () {
                                 className: "btntabletopdf hiddenColumn",
                                 text: '',
                                 title: 'Sales Transaction',
-                                filename: "salestransaction_" + moment().format(),
+                                filename: "Sales Transaction List - " + moment().format(),
                                 exportOptions: {
-                                    columns: ':visible'
+                                    columns: ':visible',
+                                    stripHtml: false
                                 }
                             }],
                         select: true,
@@ -1061,7 +1064,7 @@ Template.customerscard.onRendered(function () {
                                     text: '',
                                     download: 'open',
                                     className: "btntabletocsv hiddenColumn",
-                                    filename: "jobs__" + moment().format(),
+                                    filename: "Job Transaction List - " + moment().format(),
                                     orientation: 'portrait',
                                     exportOptions: {
                                         columns: ':visible'
@@ -1072,9 +1075,10 @@ Template.customerscard.onRendered(function () {
                                     className: "btntabletopdf hiddenColumn",
                                     text: '',
                                     title: 'Job Transaction',
-                                    filename: "jobtransaction_" + moment().format(),
+                                    filename: "Job Transaction List - " + moment().format(),
                                     exportOptions: {
-                                        columns: ':visible'
+                                        columns: ':visible',
+                                        stripHtml: false
                                     }
                                 }],
                             select: true,
@@ -1244,7 +1248,7 @@ Template.customerscard.onRendered(function () {
                                 text: '',
                                 download: 'open',
                                 className: "btntabletocsv hiddenColumn",
-                                filename: "jobs__" + moment().format(),
+                                filename: "Job Transaction List - " + moment().format(),
                                 orientation: 'portrait',
                                 exportOptions: {
                                     columns: ':visible'
@@ -1255,9 +1259,10 @@ Template.customerscard.onRendered(function () {
                                 className: "btntabletopdf hiddenColumn",
                                 text: '',
                                 title: 'Job Transaction',
-                                filename: "jobtransaction_" + moment().format(),
+                                filename: "Job Transaction List - " + moment().format(),
                                 exportOptions: {
-                                    columns: ':visible'
+                                    columns: ':visible',
+                                    stripHtml: false
                                 }
                             }],
                         select: true,
@@ -1423,7 +1428,7 @@ Template.customerscard.onRendered(function () {
                                 text: '',
                                 download: 'open',
                                 className: "btntabletocsv hiddenColumn",
-                                filename: "jobs__" + moment().format(),
+                                filename: "Job Transaction List - " + moment().format(),
                                 orientation: 'portrait',
                                 exportOptions: {
                                     columns: ':visible'
@@ -1434,9 +1439,10 @@ Template.customerscard.onRendered(function () {
                                 className: "btntabletopdf hiddenColumn",
                                 text: '',
                                 title: 'Job Transaction',
-                                filename: "jobtransaction_" + moment().format(),
+                                filename: "Job Transaction List - " + moment().format(),
                                 exportOptions: {
-                                    columns: ':visible'
+                                    columns: ':visible',
+                                    stripHtml: false
                                 }
                             }],
                         select: true,
@@ -1584,8 +1590,8 @@ Template.customerscard.onRendered(function () {
                     for (let i = 0; i < data.ttermsvs1.length; i++) {
                         terms.push(data.ttermsvs1[i].TermsName);
                         if(data.ttermsvs1[i].isSalesdefault == true){
-                          templateObject.defaultsaleterm.set(data.ttermsvs1[i].TermsName);
-                          // $('.termsSelect').val(data.ttermsvs1[i].TermsName);
+                            templateObject.defaultsaleterm.set(data.ttermsvs1[i].TermsName);
+                            // $('.termsSelect').val(data.ttermsvs1[i].TermsName);
                         }
                     }
                     terms = _.sortBy(terms);
@@ -1597,8 +1603,8 @@ Template.customerscard.onRendered(function () {
                 for (let i = 0; i < useData.length; i++) {
                     terms.push(useData[i].TermsName);
                     if(useData[i].isSalesdefault == true){
-                      templateObject.defaultsaleterm.set(useData[i].TermsName);
-                      //$('.termsSelect').val(useData[i].TermsName);
+                        templateObject.defaultsaleterm.set(useData[i].TermsName);
+                        //$('.termsSelect').val(useData[i].TermsName);
                     }
                 }
                 terms = _.sortBy(terms);
@@ -1610,7 +1616,7 @@ Template.customerscard.onRendered(function () {
                 for (let i = 0; i < data.ttermsvs1.length; i++) {
                     terms.push(data.ttermsvs1[i].TermsName);
                     if(data.ttermsvs1[i].isSalesdefault == true){
-                      templateObject.defaultsaleterm.set(data.ttermsvs1[i].TermsName);
+                        templateObject.defaultsaleterm.set(data.ttermsvs1[i].TermsName);
                     }
                 }
                 terms = _.sortBy(terms);
@@ -1761,14 +1767,14 @@ Template.customerscard.onRendered(function () {
         setTimeout(function () {
             $('#tblTransactionlist').DataTable();
             if (currentId.transTab == 'active') {
-             $('.customerTab').removeClass('active');
-             $('.transactionTab').trigger('click');
-           }else if (currentId.transTab == 'job') {
-            $('.customerTab').removeClass('active');
-            $('.jobTab').trigger('click');
-           }else{
-             $('.customerTab').addClass('active');
-             $('.customerTab').trigger('click');
+                $('.customerTab').removeClass('active');
+                $('.transactionTab').trigger('click');
+            }else if (currentId.transTab == 'job') {
+                $('.customerTab').removeClass('active');
+                $('.jobTab').trigger('click');
+            }else{
+                $('.customerTab').addClass('active');
+                $('.customerTab').trigger('click');
             }
             $('.fullScreenSpin').css('display', 'none');
         }, 500);
@@ -1891,15 +1897,15 @@ Template.customerscard.onRendered(function () {
                                 var rowCount = $('.results tbody tr').length;
                                 $('.counter').text(rowCount + ' items');
                                 if (currentId.transTab == 'active') {
-                              	  $('.customerTab').removeClass('active');
-                              	  $('.transactionTab').trigger('click');
-                              	}else if (currentId.transTab == 'job') {
-                                 $('.customerTab').removeClass('active');
-                                 $('.jobTab').trigger('click');
+                                    $('.customerTab').removeClass('active');
+                                    $('.transactionTab').trigger('click');
+                                }else if (currentId.transTab == 'job') {
+                                    $('.customerTab').removeClass('active');
+                                    $('.jobTab').trigger('click');
                                 }else{
-                              	  $('.customerTab').addClass('active');
-                              	  $('.customerTab').trigger('click');
-                              	}
+                                    $('.customerTab').addClass('active');
+                                    $('.customerTab').trigger('click');
+                                }
                             }, 500);
                         });
                     } else {
@@ -2001,15 +2007,15 @@ Template.customerscard.onRendered(function () {
                                     $('.customerTypeSelect').append('<option value="newCust">Add Customer Type</option>');
                                     $('#sltCustomerType').prepend('<option value="' + lineItemObj.custometype + '" selected>' + lineItemObj.custometype + '</option>');
                                     if (currentId.transTab == 'active') {
-                                  	  $('.customerTab').removeClass('active');
-                                  	  $('.transactionTab').trigger('click');
-                                  	}else if (currentId.transTab == 'job') {
-                                     $('.customerTab').removeClass('active');
-                                     $('.jobTab').trigger('click');
+                                        $('.customerTab').removeClass('active');
+                                        $('.transactionTab').trigger('click');
+                                    }else if (currentId.transTab == 'job') {
+                                        $('.customerTab').removeClass('active');
+                                        $('.jobTab').trigger('click');
                                     }else{
-                                  	  $('.customerTab').addClass('active');
-                                  	  $('.customerTab').trigger('click');
-                                  	}
+                                        $('.customerTab').addClass('active');
+                                        $('.customerTab').trigger('click');
+                                    }
                                 },500)
                                 //let attachmentData =  contactService.getCustomerAttachmentList(useData[i].fields.ID);
                                 templateObject.getOverviewARData(useData[i].fields.ClientName);
@@ -2152,15 +2158,15 @@ Template.customerscard.onRendered(function () {
                                     var rowCount = $('.results tbody tr').length;
                                     $('.counter').text(rowCount + ' items');
                                     if (currentId.transTab == 'active') {
-                                  	  $('.customerTab').removeClass('active');
-                                  	  $('.transactionTab').trigger('click');
-                                  	}else if (currentId.transTab == 'job') {
-                                     $('.customerTab').removeClass('active');
-                                     $('.jobTab').trigger('click');
+                                        $('.customerTab').removeClass('active');
+                                        $('.transactionTab').trigger('click');
+                                    }else if (currentId.transTab == 'job') {
+                                        $('.customerTab').removeClass('active');
+                                        $('.jobTab').trigger('click');
                                     }else{
-                                  	  $('.customerTab').addClass('active');
-                                  	  $('.customerTab').trigger('click');
-                                  	}
+                                        $('.customerTab').addClass('active');
+                                        $('.customerTab').trigger('click');
+                                    }
                                 }, 500);
                             });
                         }
@@ -2278,14 +2284,14 @@ Template.customerscard.onRendered(function () {
                             var rowCount = $('.results tbody tr').length;
                             $('.counter').text(rowCount + ' items');
                             if (currentId.transTab == 'active') {
-                              $('.customerTab').removeClass('active');
-                              $('.transactionTab').trigger('click');
+                                $('.customerTab').removeClass('active');
+                                $('.transactionTab').trigger('click');
                             }else if (currentId.transTab == 'job') {
-                             $('.customerTab').removeClass('active');
-                             $('.jobTab').trigger('click');
+                                $('.customerTab').removeClass('active');
+                                $('.jobTab').trigger('click');
                             }else{
-                              $('.customerTab').addClass('active');
-                              $('.customerTab').trigger('click');
+                                $('.customerTab').addClass('active');
+                                $('.customerTab').trigger('click');
                             }
                         }, 500);
                     });
@@ -2375,11 +2381,11 @@ Template.customerscard.onRendered(function () {
                                 var rowCount = $('.results tbody tr').length;
                                 $('.counter').text(rowCount + ' items');
                                 if (currentId.transTab == 'active') {
-                                  $('.jobTab').removeClass('active');
-                                  $('.transactionTab').trigger('click');
+                                    $('.jobTab').removeClass('active');
+                                    $('.transactionTab').trigger('click');
                                 }else{
-                                  $('.jobTab').addClass('active');
-                                  $('.jobTab').trigger('click');
+                                    $('.jobTab').addClass('active');
+                                    $('.jobTab').trigger('click');
                                 }
                             }, 500);
                         });
@@ -2463,11 +2469,11 @@ Template.customerscard.onRendered(function () {
                                     $('.counter').text(rowCount + ' items');
 
                                     if (currentId.transTab == 'active') {
-                                      $('.jobTab').removeClass('active');
-                                      $('.transactionTab').trigger('click');
+                                        $('.jobTab').removeClass('active');
+                                        $('.transactionTab').trigger('click');
                                     }else{
-                                      $('.jobTab').addClass('active');
-                                      $('.jobTab').trigger('click');
+                                        $('.jobTab').addClass('active');
+                                        $('.jobTab').trigger('click');
                                     }
                                 }, 500);
                             }
@@ -2549,11 +2555,11 @@ Template.customerscard.onRendered(function () {
                                     var rowCount = $('.results tbody tr').length;
                                     $('.counter').text(rowCount + ' items');
                                     if (currentId.transTab == 'active') {
-                                      $('.jobTab').removeClass('active');
-                                      $('.transactionTab').trigger('click');
+                                        $('.jobTab').removeClass('active');
+                                        $('.transactionTab').trigger('click');
                                     }else{
-                                      $('.jobTab').addClass('active');
-                                      $('.jobTab').trigger('click');
+                                        $('.jobTab').addClass('active');
+                                        $('.jobTab').trigger('click');
                                     }
                                 }, 500);
                             });
@@ -2634,11 +2640,11 @@ Template.customerscard.onRendered(function () {
                             var rowCount = $('.results tbody tr').length;
                             $('.counter').text(rowCount + ' items');
                             if (currentId.transTab == 'active') {
-                              $('.jobTab').removeClass('active');
-                              $('.transactionTab').trigger('click');
+                                $('.jobTab').removeClass('active');
+                                $('.transactionTab').trigger('click');
                             }else{
-                              $('.jobTab').addClass('active');
-                              $('.jobTab').trigger('click');
+                                $('.jobTab').addClass('active');
+                                $('.jobTab').trigger('click');
                             }
 
                         }, 500);
@@ -2686,17 +2692,17 @@ Template.customerscard.onRendered(function () {
                 $('#tblTransactionlist').DataTable();
                 $('.fullScreenSpin').css('display', 'none');
                 if (currentId.transTab == 'active') {
-                 $('.customerTab').removeClass('active');
-                 $('.transactionTab').trigger('click');
+                    $('.customerTab').removeClass('active');
+                    $('.transactionTab').trigger('click');
                 }else{
-                 $('.customerTab').addClass('active');
-                 $('.customerTab').trigger('click');
+                    $('.customerTab').addClass('active');
+                    $('.customerTab').trigger('click');
                 }
 
             }, 500);
 
             setTimeout(function () {
-              $('.termsSelect').val(templateObject.defaultsaleterm.get()||'');
+                $('.termsSelect').val(templateObject.defaultsaleterm.get()||'');
             }, 2000);
             $('.fullScreenSpin').css('display', 'none');
             // setTimeout(function () {
@@ -2709,44 +2715,44 @@ Template.customerscard.onRendered(function () {
     templateObject.getCustomersList = function () {
         getVS1Data('TCustomerVS1').then(function (dataObject) {
             if (dataObject.length == 0) {
-              contactService.getAllCustomerSideDataVS1().then(function (data) {
-                  let lineItems = [];
-                  let lineItemObj = {};
-                  for (let i = 0; i < data.tcustomervs1.length; i++) {
-                      let classname = '';
-                      if (!isNaN(currentId.id)) {
-                          if (data.tcustomervs1.Id == parseInt(currentId.id)) {
-                              classname = 'currentSelect';
-                          }
-                      }
-                      if (!isNaN(currentId.jobid)) {
-                          if (data.tcustomervs1.Id == parseInt(currentId.jobid)) {
-                              classname = 'currentSelect';
-                          }
-                      }
-                      var dataList = {
-                          id: data.tcustomervs1[i].Id || '',
-                          company: data.tcustomervs1[i].ClientName || '',
-                          isslectJob: data.tcustomervs1[i].IsJob || false,
-                          classname: classname
-                      };
+                contactService.getAllCustomerSideDataVS1().then(function (data) {
+                    let lineItems = [];
+                    let lineItemObj = {};
+                    for (let i = 0; i < data.tcustomervs1.length; i++) {
+                        let classname = '';
+                        if (!isNaN(currentId.id)) {
+                            if (data.tcustomervs1.Id == parseInt(currentId.id)) {
+                                classname = 'currentSelect';
+                            }
+                        }
+                        if (!isNaN(currentId.jobid)) {
+                            if (data.tcustomervs1.Id == parseInt(currentId.jobid)) {
+                                classname = 'currentSelect';
+                            }
+                        }
+                        var dataList = {
+                            id: data.tcustomervs1[i].Id || '',
+                            company: data.tcustomervs1[i].ClientName || '',
+                            isslectJob: data.tcustomervs1[i].IsJob || false,
+                            classname: classname
+                        };
 
-                      lineItems.push(dataList);
-                  }
+                        lineItems.push(dataList);
+                    }
 
-                  templateObject.customerrecords.set(lineItems);
+                    templateObject.customerrecords.set(lineItems);
 
-                  if (templateObject.customerrecords.get()) {
+                    if (templateObject.customerrecords.get()) {
 
-                      setTimeout(function () {
-                          $('.counter').text(lineItems.length + ' items');
-                      }, 100);
-                  }
+                        setTimeout(function () {
+                            $('.counter').text(lineItems.length + ' items');
+                        }, 100);
+                    }
 
-              }).catch(function (err) {
-                  //Bert.alert('<strong>' + err + '</strong>!', 'danger');
+                }).catch(function (err) {
+                    //Bert.alert('<strong>' + err + '</strong>!', 'danger');
 
-              });
+                });
             } else {
                 let data = JSON.parse(dataObject[0].data);
                 let useData = data.tcustomervs1;
@@ -2787,44 +2793,44 @@ Template.customerscard.onRendered(function () {
 
             }
         }).catch(function (err) {
-          contactService.getAllCustomerSideDataVS1().then(function (data) {
-              let lineItems = [];
-              let lineItemObj = {};
-              for (let i = 0; i < data.tcustomervs1.length; i++) {
-                  let classname = '';
-                  if (!isNaN(currentId.id)) {
-                      if (data.tcustomervs1.Id == parseInt(currentId.id)) {
-                          classname = 'currentSelect';
-                      }
-                  }
-                  if (!isNaN(currentId.jobid)) {
-                      if (data.tcustomervs1.Id == parseInt(currentId.jobid)) {
-                          classname = 'currentSelect';
-                      }
-                  }
-                  var dataList = {
-                      id: data.tcustomervs1[i].Id || '',
-                      company: data.tcustomervs1[i].ClientName || '',
-                      isslectJob: data.tcustomervs1[i].IsJob || false,
-                      classname: classname
-                  };
+            contactService.getAllCustomerSideDataVS1().then(function (data) {
+                let lineItems = [];
+                let lineItemObj = {};
+                for (let i = 0; i < data.tcustomervs1.length; i++) {
+                    let classname = '';
+                    if (!isNaN(currentId.id)) {
+                        if (data.tcustomervs1.Id == parseInt(currentId.id)) {
+                            classname = 'currentSelect';
+                        }
+                    }
+                    if (!isNaN(currentId.jobid)) {
+                        if (data.tcustomervs1.Id == parseInt(currentId.jobid)) {
+                            classname = 'currentSelect';
+                        }
+                    }
+                    var dataList = {
+                        id: data.tcustomervs1[i].Id || '',
+                        company: data.tcustomervs1[i].ClientName || '',
+                        isslectJob: data.tcustomervs1[i].IsJob || false,
+                        classname: classname
+                    };
 
-                  lineItems.push(dataList);
-              }
+                    lineItems.push(dataList);
+                }
 
-              templateObject.customerrecords.set(lineItems);
+                templateObject.customerrecords.set(lineItems);
 
-              if (templateObject.customerrecords.get()) {
+                if (templateObject.customerrecords.get()) {
 
-                  setTimeout(function () {
-                      $('.counter').text(lineItems.length + ' items');
-                  }, 100);
-              }
+                    setTimeout(function () {
+                        $('.counter').text(lineItems.length + ' items');
+                    }, 100);
+                }
 
-          }).catch(function (err) {
-              //Bert.alert('<strong>' + err + '</strong>!', 'danger');
+            }).catch(function (err) {
+                //Bert.alert('<strong>' + err + '</strong>!', 'danger');
 
-          });
+            });
         });
 
     }
@@ -2917,16 +2923,16 @@ Template.customerscard.events({
                 }
             }
             contactService.saveClientTypeData(objDetails).then(function (objDetails) {
-              sideBarService.getClientTypeData().then(function(dataReload) {
-                addVS1Data('TClientType', JSON.stringify(dataReload)).then(function (datareturn) {
-                    Meteor._reload.reload();
+                sideBarService.getClientTypeData().then(function(dataReload) {
+                    addVS1Data('TClientType', JSON.stringify(dataReload)).then(function (datareturn) {
+                        Meteor._reload.reload();
+                    }).catch(function (err) {
+                        Meteor._reload.reload();
+                    });
                 }).catch(function (err) {
                     Meteor._reload.reload();
                 });
-            }).catch(function (err) {
-                Meteor._reload.reload();
-            });
-               // Meteor._reload.reload();
+                // Meteor._reload.reload();
             }).catch(function (err) {
 
                 swal({
@@ -3110,9 +3116,9 @@ Template.customerscard.events({
         let bcountry = '';
         let isSupplier = false;
         if ($('#chkSameAsSupplier').is(':checked')) {
-          isSupplier = true;
+            isSupplier = true;
         }else{
-          isSupplier = false;
+            isSupplier = false;
         }
         if ($('#chkSameAsShipping2').is(':checked')) {
             bstreetAddress = streetAddress;
@@ -3306,12 +3312,12 @@ Template.customerscard.events({
             if (customerSaveID) {
                 sideBarService.getAllCustomersDataVS1().then(function (dataReload) {
                     addVS1Data('TCustomerVS1', JSON.stringify(dataReload)).then(function (datareturn) {
-                       window.open('/customerlist', '_self');
+                        window.open('/customerlist', '_self');
                     }).catch(function (err) {
-                       window.open('/customerlist', '_self');
+                        window.open('/customerlist', '_self');
                     });
                 }).catch(function (err) {
-                   window.open('/customerlist', '_self');
+                    window.open('/customerlist', '_self');
                 });
 
             }
@@ -3812,73 +3818,83 @@ Template.customerscard.events({
         $('.fullScreenSpin').css('display', 'inline-block');
         jQuery('#tblTransactionlist_wrapper .dt-buttons .btntabletopdf').click();
         $('.fullScreenSpin').css('display', 'none');
+    },,
+    'click #exportbtnJob': function () {
+        $('.fullScreenSpin').css('display', 'inline-block');
+        jQuery('#tblJoblist_wrapper .dt-buttons .btntabletocsv').click();
+        $('.fullScreenSpin').css('display', 'none');
+    },
+    'click .printConfirmJob': function (event) {
+        $('.fullScreenSpin').css('display', 'inline-block');
+        jQuery('#tblJoblist_wrapper .dt-buttons .btntabletopdf').click();
+        $('.fullScreenSpin').css('display', 'none');
     },
     'click .btnRefresh': function () {
         Meteor._reload.reload();
     },
     'click .btnRefreshTransaction': function () {
-      let currentId = Router.current().params.query;
-      $('.fullScreenSpin').css('display', 'inline-block');
-       sideBarService.getTTransactionListReport().then(function (data) {
-          addVS1Data('TTransactionListReport', JSON.stringify(data)).then(function (datareturn) {
+        let currentId = Router.current().params.query;
+        $('.fullScreenSpin').css('display', 'inline-block');
+        sideBarService.getTTransactionListReport().then(function (data) {
+            addVS1Data('TTransactionListReport', JSON.stringify(data)).then(function (datareturn) {
+                if (!isNaN(currentId.jobid)) {
+                    window.open('/customerscard?jobid=' + currentId.jobid +'&transTab=active', '_self');
+                }
+
+                if (!isNaN(currentId.id)) {
+                    window.open('/customerscard?id=' + currentId.id +'&transTab=active', '_self');
+                }
+
+            }).catch(function (err) {
+                if (!isNaN(currentId.jobid)) {
+                    window.open('/customerscard?jobid=' + currentId.jobid +'&transTab=active', '_self');
+                }
+
+                if (!isNaN(currentId.id)) {
+                    window.open('/customerscard?id=' + currentId.id +'&transTab=active', '_self');
+                }
+            });
+        }).catch(function (err) {
             if (!isNaN(currentId.jobid)) {
-              window.open('/customerscard?jobid=' + currentId.jobid +'&transTab=active', '_self');
+                window.open('/customerscard?jobid=' + currentId.jobid +'&transTab=active', '_self');
             }
 
             if (!isNaN(currentId.id)) {
-              window.open('/customerscard?id=' + currentId.id +'&transTab=active', '_self');
+                window.open('/customerscard?id=' + currentId.id +'&transTab=active', '_self');
             }
-
-          }).catch(function (err) {
-            if (!isNaN(currentId.jobid)) {
-              window.open('/customerscard?jobid=' + currentId.jobid +'&transTab=active', '_self');
-            }
-
-            if (!isNaN(currentId.id)) {
-              window.open('/customerscard?id=' + currentId.id +'&transTab=active', '_self');
-            }
-          });
-       }).catch(function (err) {
-         if (!isNaN(currentId.jobid)) {
-           window.open('/customerscard?jobid=' + currentId.jobid +'&transTab=active', '_self');
-         }
-
-         if (!isNaN(currentId.id)) {
-           window.open('/customerscard?id=' + currentId.id +'&transTab=active', '_self');
-         }
-       });
+        });
     },
     'click .btnRefreshJobDetails': function () {
-      let currentId = Router.current().params.query;
-      $('.fullScreenSpin').css('display', 'inline-block');
-       sideBarService.getAllJobssDataVS1().then(function (data) {
-          addVS1Data('TJobVS1', JSON.stringify(data)).then(function (datareturn) {
+        let currentId = Router.current().params.query;
+        $('.fullScreenSpin').css('display', 'inline-block');
+        sideBarService.getAllJobssDataVS1().then(function (data) {
+            addVS1Data('TJobVS1', JSON.stringify(data)).then(function (datareturn) {
+                if (!isNaN(currentId.jobid)) {
+                    window.open('/customerscard?jobid=' + currentId.jobid +'&transTab=job', '_self');
+                }
+
+                if (!isNaN(currentId.id)) {
+                    window.open('/customerscard?id=' + currentId.id +'&transTab=job', '_self');
+                }
+
+            }).catch(function (err) {
+                if (!isNaN(currentId.jobid)) {
+                    window.open('/customerscard?jobid=' + currentId.jobid +'&transTab=job', '_self');
+                }
+
+                if (!isNaN(currentId.id)) {
+                    window.open('/customerscard?id=' + currentId.id +'&transTab=job', '_self');
+                }
+            });
+        }).catch(function (err) {
             if (!isNaN(currentId.jobid)) {
-              window.open('/customerscard?jobid=' + currentId.jobid +'&transTab=job', '_self');
+                window.open('/customerscard?jobid=' + currentId.jobid +'&transTab=job', '_self');
             }
 
             if (!isNaN(currentId.id)) {
-              window.open('/customerscard?id=' + currentId.id +'&transTab=job', '_self');
+                window.open('/customerscard?id=' + currentId.id +'&transTab=job', '_self');
             }
-
-          }).catch(function (err) {
-            if (!isNaN(currentId.jobid)) {
-              window.open('/customerscard?jobid=' + currentId.jobid +'&transTab=job', '_self');
-            }
-
-            if (!isNaN(currentId.id)) {
-              window.open('/customerscard?id=' + currentId.id +'&transTab=job', '_self');
-            }
-          });
-       }).catch(function (err) {
-         if (!isNaN(currentId.jobid)) {
-           window.open('/customerscard?jobid=' + currentId.jobid +'&transTab=job', '_self');
-         }
-
-         if (!isNaN(currentId.id)) {
-           window.open('/customerscard?id=' + currentId.id +'&transTab=job', '_self');
-         }
-       });
+        });
     },
     'click #formCheck-2': function () {
         if ($(event.target).is(':checked')) {
@@ -4043,7 +4059,7 @@ Template.customerscard.events({
                                 label: getcustomField4,
                                 hidden: getchkcustomField4
                             }
-                            ],
+                                          ],
                             updatedAt: new Date()
                         }
                     }, function (err, idTag) {
@@ -4075,7 +4091,7 @@ Template.customerscard.events({
                             label: getcustomField4,
                             hidden: getchkcustomField4
                         }
-                        ],
+                                      ],
                         createdAt: new Date()
                     }, function (err, idTag) {
                         if (err) {
@@ -4158,7 +4174,7 @@ Template.customerscard.events({
             tempObj.$("#confirm-action-" + attachmentID).remove();
         } else {
             let actionElement = '<div class="confirm-action" id="confirm-action-' + attachmentID + '"><a class="confirm-delete-attachment btn btn-default" id="delete-attachment-' + attachmentID + '">'
-                + 'Delete</a><button class="save-to-library btn btn-default">Remove & save to File Library</button></div>';
+            + 'Delete</a><button class="save-to-library btn btn-default">Remove & save to File Library</button></div>';
             tempObj.$('#attachment-name-' + attachmentID).append(actionElement);
         }
         tempObj.$("#new-attachment2-tooltip").show();
@@ -4264,7 +4280,7 @@ Template.customerscard.events({
             tempObj.$("#confirm-actionJobPOP-" + attachmentID).remove();
         } else {
             let actionElement = '<div class="confirm-actionJobPOP" id="confirm-actionJobPOP-' + attachmentID + '"><a class="confirm-delete-attachmentJobPOP btn btn-default" id="delete-attachmentJobPOP-' + attachmentID + '">'
-                + 'Delete</a><button class="save-to-libraryJobPOP btn btn-default">Remove & save to File Library</button></div>';
+            + 'Delete</a><button class="save-to-libraryJobPOP btn btn-default">Remove & save to File Library</button></div>';
             tempObj.$('#attachment-nameJobPOP-' + attachmentID).append(actionElement);
         }
         tempObj.$("#new-attachment2-tooltipJobPOP").show();
@@ -4371,7 +4387,7 @@ Template.customerscard.events({
             tempObj.$("#confirm-actionJobNoPOP-" + attachmentID).remove();
         } else {
             let actionElement = '<div class="confirm-actionJobNoPOP" id="confirm-actionJobNoPOP-' + attachmentID + '"><a class="confirm-delete-attachmentJobNoPOP btn btn-default" id="delete-attachmentJobNoPOP-' + attachmentID + '">'
-                + 'Delete</a><button class="save-to-libraryJobNoPOP btn btn-default">Remove & save to File Library</button></div>';
+            + 'Delete</a><button class="save-to-libraryJobNoPOP btn btn-default">Remove & save to File Library</button></div>';
             tempObj.$('#attachment-nameJobNoPOP-' + attachmentID).append(actionElement);
         }
         tempObj.$("#new-attachment2-tooltipJobNoPOP").show();

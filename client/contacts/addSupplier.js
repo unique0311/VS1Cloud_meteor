@@ -102,81 +102,81 @@ Template.supplierscard.onRendered(function () {
     // });
 
     templateObject.getOverviewAPData = function (SupplierName) {
-      getVS1Data('TAPReport').then(function (dataObject) {
-      if(dataObject.length == 0){
-        paymentService.getOverviewAPDetails().then(function (data) {
-            let itemsAwaitingPaymentcount = [];
-            let itemsOverduePaymentcount = [];
-            let dataListAwaitingCust = {};
+        getVS1Data('TAPReport').then(function (dataObject) {
+            if(dataObject.length == 0){
+                paymentService.getOverviewAPDetails().then(function (data) {
+                    let itemsAwaitingPaymentcount = [];
+                    let itemsOverduePaymentcount = [];
+                    let dataListAwaitingCust = {};
 
-            let customerawaitingpaymentCount = '';
-            for(let i=0; i<data.tapreport.length; i++){
-                if((data.tapreport[i].AmountDue != 0) && SupplierName.replace(/\s/g, '') == data.tapreport[i].Printname.replace(/\s/g, '')){
-                    //itemsAwaitingPaymentcount.push(dataListAwaitingCust);
-                    totAmount += Number(data.tapreport[i].AmountDue);
-                    let date = new Date(data.tapreport[i].DueDate);
-                    if (date < new Date()) {
-                        //itemsOverduePaymentcount.push(dataListAwaitingCust);
-                        totAmountOverDue += Number(data.tapreport[i].AmountDue);
+                    let customerawaitingpaymentCount = '';
+                    for(let i=0; i<data.tapreport.length; i++){
+                        if((data.tapreport[i].AmountDue != 0) && SupplierName.replace(/\s/g, '') == data.tapreport[i].Printname.replace(/\s/g, '')){
+                            //itemsAwaitingPaymentcount.push(dataListAwaitingCust);
+                            totAmount += Number(data.tapreport[i].AmountDue);
+                            let date = new Date(data.tapreport[i].DueDate);
+                            if (date < new Date()) {
+                                //itemsOverduePaymentcount.push(dataListAwaitingCust);
+                                totAmountOverDue += Number(data.tapreport[i].AmountDue);
+                            }
+                        }
+
                     }
+
+                    $('.suppAwaitingAmt').text(utilityService.modifynegativeCurrencyFormat(totAmount));
+                    $('.suppOverdueAmt').text(utilityService.modifynegativeCurrencyFormat(totAmountOverDue));
+                });
+            }else{
+                let data = JSON.parse(dataObject[0].data);
+                let useData = data.tapreport;
+                let itemsAwaitingPaymentcount = [];
+                let itemsOverduePaymentcount = [];
+                let dataListAwaitingCust = {};
+                let customerawaitingpaymentCount = '';
+                for(let i=0; i<useData.length; i++){
+                    if((useData[i].AmountDue != 0) && SupplierName.replace(/\s/g, '') == useData[i].Printname.replace(/\s/g, '')){
+                        //itemsAwaitingPaymentcount.push(dataListAwaitingCust);
+                        totAmount += Number(useData[i].AmountDue);
+                        if(useData[i].DueDate != ""){
+                            let date = new Date(useData[i].DueDate);
+                            if (date < new Date()) {
+                                //itemsOverduePaymentcount.push(dataListAwaitingCust);
+                                totAmountOverDue += Number(useData[i].AmountDue);
+                            }
+                        }
+                    }
+
                 }
 
+                $('.suppAwaitingAmt').text(utilityService.modifynegativeCurrencyFormat(totAmount));
+                $('.suppOverdueAmt').text(utilityService.modifynegativeCurrencyFormat(totAmountOverDue));
+
+
             }
+        }).catch(function (err) {
+            paymentService.getOverviewAPDetails().then(function (data) {
+                let itemsAwaitingPaymentcount = [];
+                let itemsOverduePaymentcount = [];
+                let dataListAwaitingCust = {};
 
-            $('.suppAwaitingAmt').text(utilityService.modifynegativeCurrencyFormat(totAmount));
-            $('.suppOverdueAmt').text(utilityService.modifynegativeCurrencyFormat(totAmountOverDue));
-        });
-      }else{
-      let data = JSON.parse(dataObject[0].data);
-      let useData = data.tapreport;
-      let itemsAwaitingPaymentcount = [];
-      let itemsOverduePaymentcount = [];
-      let dataListAwaitingCust = {};
-      let customerawaitingpaymentCount = '';
-      for(let i=0; i<useData.length; i++){
-          if((useData[i].AmountDue != 0) && SupplierName.replace(/\s/g, '') == useData[i].Printname.replace(/\s/g, '')){
-              //itemsAwaitingPaymentcount.push(dataListAwaitingCust);
-              totAmount += Number(useData[i].AmountDue);
-              if(useData[i].DueDate != ""){
-              let date = new Date(useData[i].DueDate);
-              if (date < new Date()) {
-                  //itemsOverduePaymentcount.push(dataListAwaitingCust);
-                  totAmountOverDue += Number(useData[i].AmountDue);
-              }
-            }
-          }
-
-      }
-
-      $('.suppAwaitingAmt').text(utilityService.modifynegativeCurrencyFormat(totAmount));
-      $('.suppOverdueAmt').text(utilityService.modifynegativeCurrencyFormat(totAmountOverDue));
-
-
-      }
-      }).catch(function (err) {
-        paymentService.getOverviewAPDetails().then(function (data) {
-            let itemsAwaitingPaymentcount = [];
-            let itemsOverduePaymentcount = [];
-            let dataListAwaitingCust = {};
-
-            let customerawaitingpaymentCount = '';
-            for(let i=0; i<data.tapreport.length; i++){
-                if((data.tapreport[i].AmountDue != 0) && SupplierName.replace(/\s/g, '') == data.tapreport[i].Printname.replace(/\s/g, '')){
-                    //itemsAwaitingPaymentcount.push(dataListAwaitingCust);
-                    totAmount += Number(data.tapreport[i].AmountDue);
-                    let date = new Date(data.tapreport[i].DueDate);
-                    if (date < new Date()) {
-                        //itemsOverduePaymentcount.push(dataListAwaitingCust);
-                        totAmountOverDue += Number(data.tapreport[i].AmountDue);
+                let customerawaitingpaymentCount = '';
+                for(let i=0; i<data.tapreport.length; i++){
+                    if((data.tapreport[i].AmountDue != 0) && SupplierName.replace(/\s/g, '') == data.tapreport[i].Printname.replace(/\s/g, '')){
+                        //itemsAwaitingPaymentcount.push(dataListAwaitingCust);
+                        totAmount += Number(data.tapreport[i].AmountDue);
+                        let date = new Date(data.tapreport[i].DueDate);
+                        if (date < new Date()) {
+                            //itemsOverduePaymentcount.push(dataListAwaitingCust);
+                            totAmountOverDue += Number(data.tapreport[i].AmountDue);
+                        }
                     }
+
                 }
 
-            }
-
-            $('.suppAwaitingAmt').text(utilityService.modifynegativeCurrencyFormat(totAmount));
-            $('.suppOverdueAmt').text(utilityService.modifynegativeCurrencyFormat(totAmountOverDue));
+                $('.suppAwaitingAmt').text(utilityService.modifynegativeCurrencyFormat(totAmount));
+                $('.suppOverdueAmt').text(utilityService.modifynegativeCurrencyFormat(totAmountOverDue));
+            });
         });
-      });
 
 
     };
@@ -191,7 +191,7 @@ Template.supplierscard.onRendered(function () {
         selectOtherMonths: true,
         changeMonth: true,
         changeYear: true,
-yearRange: "-90:+10",
+        yearRange: "-90:+10",
     });
 
     setTimeout(function () {
@@ -206,7 +206,7 @@ yearRange: "-90:+10",
             selectOtherMonths: true,
             changeMonth: true,
             changeYear: true,
-yearRange: "-90:+10",
+            yearRange: "-90:+10",
         });
     }, 100);
     Meteor.call('readPrefMethod',Session.get('mycloudLogonID'),'tblTransactionlist', function(error, result){
@@ -238,723 +238,726 @@ yearRange: "-90:+10",
     };
 
     templateObject.getCountryData = function () {
-      getVS1Data('TCountries').then(function (dataObject) {
-        if(dataObject.length == 0){
-          countryService.getCountry().then((data) => {
-              for (let i = 0; i < data.tcountries.length; i++) {
-                  countries.push(data.tcountries[i].Country)
-              }
-              countries = _.sortBy(countries);
-              templateObject.countryData.set(countries);
-          });
-        }else{
-        let data = JSON.parse(dataObject[0].data);
-        let useData = data.tcountries;
-        for (let i = 0; i < useData.length; i++) {
-            countries.push(useData[i].Country)
-        }
-        countries = _.sortBy(countries);
-        templateObject.countryData.set(countries);
+        getVS1Data('TCountries').then(function (dataObject) {
+            if(dataObject.length == 0){
+                countryService.getCountry().then((data) => {
+                    for (let i = 0; i < data.tcountries.length; i++) {
+                        countries.push(data.tcountries[i].Country)
+                    }
+                    countries = _.sortBy(countries);
+                    templateObject.countryData.set(countries);
+                });
+            }else{
+                let data = JSON.parse(dataObject[0].data);
+                let useData = data.tcountries;
+                for (let i = 0; i < useData.length; i++) {
+                    countries.push(useData[i].Country)
+                }
+                countries = _.sortBy(countries);
+                templateObject.countryData.set(countries);
 
-        }
+            }
         }).catch(function (err) {
-          countryService.getCountry().then((data) => {
-              for (let i = 0; i < data.tcountries.length; i++) {
-                  countries.push(data.tcountries[i].Country)
-              }
-              countries = _.sortBy(countries);
-              templateObject.countryData.set(countries);
-          });
+            countryService.getCountry().then((data) => {
+                for (let i = 0; i < data.tcountries.length; i++) {
+                    countries.push(data.tcountries[i].Country)
+                }
+                countries = _.sortBy(countries);
+                templateObject.countryData.set(countries);
+            });
         });
 
 
     };
 
     templateObject.getAllProductRecentTransactions = function (supplierName) {
-      getVS1Data('TbillReport').then(function (dataObject) {
-        if(dataObject.length == 0){
-          contactService.getAllTransListBySupplier(supplierName).then(function (data) {
-              let lineItems = [];
-              let lineItemObj = {};
-              for(let i=0; i<data.tbillreport.length; i++){
-                  let totalAmountEx = utilityService.modifynegativeCurrencyFormat(data.tbillreport[i]['Total Amount (Ex)'])|| 0.00;
-                  let totalTax = utilityService.modifynegativeCurrencyFormat(data.tbillreport[i]['Total Tax']) || 0.00;
-                  let totalAmount = utilityService.modifynegativeCurrencyFormat(data.tbillreport[i]['Total Amount (Inc)'])|| 0.00;
-                  let amountPaidCalc = data.tbillreport[i]['Total Amount (Inc)'] - data.tbillreport[i].Balance;
-                  let totalPaid = utilityService.modifynegativeCurrencyFormat(amountPaidCalc)|| 0.00;
-                  let totalOutstanding = utilityService.modifynegativeCurrencyFormat(data.tbillreport[i].Balance)|| 0.00;
-                  var dataList = {
-                      id: data.tbillreport[i].PurchaseOrderID || '',
-                      employee:data.tbillreport[i].Contact || '',
-                      sortdate: data.tbillreport[i].OrderDate !=''? moment(data.tbillreport[i].OrderDate).format("YYYY/MM/DD"): data.tbillreport[i].OrderDate,
-                      orderdate: data.tbillreport[i].OrderDate !=''? moment(data.tbillreport[i].OrderDate).format("DD/MM/YYYY"): data.tbillreport[i].OrderDate,
-                      suppliername: data.tbillreport[i].Company || '',
-                      totalamountex: totalAmountEx || 0.00,
-                      totaltax: totalTax || 0.00,
-                      totalamount: totalAmount || 0.00,
-                      totalpaid: totalPaid || 0.00,
-                      totaloustanding: totalOutstanding || 0.00,
-                      orderstatus: '',
-                      type: data.tbillreport[i].Type || '',
-                      custfield1: data.tbillreport[i].Phone || '',
-                      custfield2: data.tbillreport[i].InvoiceNumber || '',
-                      comments: data.tbillreport[i].Comments || '',
-                  };
-                  if(data.tbillreport[i].Company === supplierName){
-                      dataTableList.push(dataList);
-                  }
+        getVS1Data('TbillReport').then(function (dataObject) {
+            if(dataObject.length == 0){
+                contactService.getAllTransListBySupplier(supplierName).then(function (data) {
+                    let lineItems = [];
+                    let lineItemObj = {};
+                    for(let i=0; i<data.tbillreport.length; i++){
+                        let totalAmountEx = utilityService.modifynegativeCurrencyFormat(data.tbillreport[i]['Total Amount (Ex)'])|| 0.00;
+                        let totalTax = utilityService.modifynegativeCurrencyFormat(data.tbillreport[i]['Total Tax']) || 0.00;
+                        let totalAmount = utilityService.modifynegativeCurrencyFormat(data.tbillreport[i]['Total Amount (Inc)'])|| 0.00;
+                        let amountPaidCalc = data.tbillreport[i]['Total Amount (Inc)'] - data.tbillreport[i].Balance;
+                        let totalPaid = utilityService.modifynegativeCurrencyFormat(amountPaidCalc)|| 0.00;
+                        let totalOutstanding = utilityService.modifynegativeCurrencyFormat(data.tbillreport[i].Balance)|| 0.00;
+                        var dataList = {
+                            id: data.tbillreport[i].PurchaseOrderID || '',
+                            employee:data.tbillreport[i].Contact || '',
+                            sortdate: data.tbillreport[i].OrderDate !=''? moment(data.tbillreport[i].OrderDate).format("YYYY/MM/DD"): data.tbillreport[i].OrderDate,
+                            orderdate: data.tbillreport[i].OrderDate !=''? moment(data.tbillreport[i].OrderDate).format("DD/MM/YYYY"): data.tbillreport[i].OrderDate,
+                            suppliername: data.tbillreport[i].Company || '',
+                            totalamountex: totalAmountEx || 0.00,
+                            totaltax: totalTax || 0.00,
+                            totalamount: totalAmount || 0.00,
+                            totalpaid: totalPaid || 0.00,
+                            totaloustanding: totalOutstanding || 0.00,
+                            orderstatus: '',
+                            type: data.tbillreport[i].Type || '',
+                            custfield1: data.tbillreport[i].Phone || '',
+                            custfield2: data.tbillreport[i].InvoiceNumber || '',
+                            comments: data.tbillreport[i].Comments || '',
+                        };
+                        if(data.tbillreport[i].Company === supplierName){
+                            dataTableList.push(dataList);
+                        }
 
-                  // splashArray.push(dataList);
-                  //}
-              }
-              templateObject.datatablerecords.set(dataTableList);
-              if(templateObject.datatablerecords.get()){
-
-                  Meteor.call('readPrefMethod',Session.get('mycloudLogonID'),'tblTransactionlist', function(error, result){
-                      if(error){
-
-                      }else{
-                          if(result){
-                              for (let i = 0; i < result.customFields.length; i++) {
-                                  let customcolumn = result.customFields;
-                                  let columData = customcolumn[i].label;
-                                  let columHeaderUpdate = customcolumn[i].thclass.replace(/ /g, ".");
-                                  let hiddenColumn = customcolumn[i].hidden;
-                                  let columnClass = columHeaderUpdate.split('.')[1];
-                                  let columnWidth = customcolumn[i].width;
-                                  let columnindex = customcolumn[i].index + 1;
-
-                                  if(hiddenColumn == true){
-
-                                      $("."+columnClass+"").addClass('hiddenColumn');
-                                      $("."+columnClass+"").removeClass('showColumn');
-                                  }else if(hiddenColumn == false){
-                                      $("."+columnClass+"").removeClass('hiddenColumn');
-                                      $("."+columnClass+"").addClass('showColumn');
-                                  }
-
-                              }
-                          }
-
-                      }
-                  });
-
-
-                  setTimeout(function () {
-                      MakeNegative();
-                  }, 100);
-              }
-              // $('.suppAwaitingAmt').text(utilityService.modifynegativeCurrencyFormat(totAmount));
-              // $('.suppOverdueAmt').text(utilityService.modifynegativeCurrencyFormat(totAmountOverDue));
-              $('.fullScreenSpin').css('display','none');
-              setTimeout(function () {
-                  //$.fn.dataTable.moment('DD/MM/YY');
-                  $('#tblTransactionlist').DataTable({
-                      // dom: 'lBfrtip',
-                      columnDefs: [
-                          {type: 'date', targets: 0}
-                      ],
-                      "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
-                      buttons: [
-                          {
-                              extend: 'excelHtml5',
-                              text: '',
-                              download: 'open',
-                              className: "btntabletocsv hiddenColumn",
-                              filename: "purchasetransaction_"+ moment().format(),
-                              orientation:'portrait',
-                              exportOptions: {
-                                  columns: ':visible'
-                              }
-                          },{
-                              extend: 'print',
-                              download: 'open',
-                              className: "btntabletopdf hiddenColumn",
-                              text: '',
-                              title: 'Purchase Transaction',
-                              filename: "purchasetransaction_"+ moment().format(),
-                              exportOptions: {
-                                  columns: ':visible'
-                              }
-                          }],
-                      select: true,
-                      destroy: true,
-                      colReorder: true,
-                      pageLength: 25,
-                      lengthMenu: [ [10, 25, 50, -1], [10, 25, 50, "All"] ],
-                      info: true,
-                      responsive: true,
-                      "order": [[ 0, "asc" ]],
-                      action: function () {
-                          $('#tblTransactionlist').DataTable().ajax.reload();
-                      },
-                      "fnDrawCallback": function (oSettings) {
-                          setTimeout(function () {
-                              MakeNegative();
-                          }, 100);
-                      },
-
-                  }).on('page', function () {
-                      setTimeout(function () {
-                          MakeNegative();
-                      }, 100);
-                      let draftRecord = templateObject.datatablerecords.get();
-                      templateObject.datatablerecords.set(draftRecord);
-                  }).on('column-reorder', function () {
-
-                  });
-                  $('.fullScreenSpin').css('display','none');
-              }, 0);
-
-              var columns = $('#tblTransactionlist th');
-              let sTible = "";
-              let sWidth = "";
-              let sIndex = "";
-              let sVisible = "";
-              let columVisible = false;
-              let sClass = "";
-              $.each(columns, function(i,v) {
-                  if(v.hidden == false){
-                      columVisible =  true;
-                  }
-                  if((v.className.includes("hiddenColumn"))){
-                      columVisible = false;
-                  }
-                  sWidth = v.style.width.replace('px', "");
-
-                  let datatablerecordObj = {
-                      sTitle: v.innerText || '',
-                      sWidth: sWidth || '',
-                      sIndex: v.cellIndex || '',
-                      sVisible: columVisible || false,
-                      sClass: v.className || ''
-                  };
-                  tableHeaderList.push(datatablerecordObj);
-              });
-              templateObject.tableheaderrecords.set(tableHeaderList);
-              $('div.dataTables_filter input').addClass('form-control form-control-sm');
-              $('#tblTransactionlist tbody').on( 'click', 'tr', function () {
-                  var listData = $(this).closest('tr').attr('id');
-                  var transactiontype = $(event.target).closest("tr").find(".colStatus").text();
-                  if((listData) && (transactiontype)){
-                    if(transactiontype === 'Purchase Order' ){
-                      window.open('/purchaseordercard?id=' + listData,'_self');
-                    }else if(transactiontype === 'Bill'){
-                     window.open('/billcard?id=' + listData,'_self');
-                   }else if(transactiontype === 'Credit'){
-                     window.open('/creditcard?id=' + listData,'_self');
-                    }else{
-                      //window.open('/purchaseordercard?id=' + listData,'_self');
+                        // splashArray.push(dataList);
+                        //}
                     }
-                  }
-              });
+                    templateObject.datatablerecords.set(dataTableList);
+                    if(templateObject.datatablerecords.get()){
 
-          }).catch(function (err) {
-              // Bert.alert('<strong>' + err + '</strong>!', 'danger');
-              $('.fullScreenSpin').css('display','none');
-              // Meteor._reload.reload();
-          });
-        }else{
-          let data = JSON.parse(dataObject[0].data);
-          let useData = data.tbillreport;
-          let lineItems = [];
-          let lineItemObj = {};
-          for(let i=0; i<useData.length; i++){
-              let totalAmountEx = utilityService.modifynegativeCurrencyFormat(useData[i]['Total Amount (Ex)'])|| 0.00;
-              let totalTax = utilityService.modifynegativeCurrencyFormat(useData[i]['Total Tax']) || 0.00;
-              let totalAmount = utilityService.modifynegativeCurrencyFormat(useData[i]['Total Amount (Inc)'])|| 0.00;
-              let amountPaidCalc = useData[i]['Total Amount (Inc)'] - useData[i].Balance;
-              let totalPaid = utilityService.modifynegativeCurrencyFormat(amountPaidCalc)|| 0.00;
-              let totalOutstanding = utilityService.modifynegativeCurrencyFormat(useData[i].Balance)|| 0.00;
-              var dataList = {
-                  id: useData[i].PurchaseOrderID || '',
-                  employee:useData[i].Contact || '',
-                  sortdate: useData[i].OrderDate !=''? moment(useData[i].OrderDate).format("YYYY/MM/DD"): useData[i].OrderDate,
-                  orderdate: useData[i].OrderDate !=''? moment(useData[i].OrderDate).format("DD/MM/YYYY"): useData[i].OrderDate,
-                  suppliername: useData[i].Company || '',
-                  totalamountex: totalAmountEx || 0.00,
-                  totaltax: totalTax || 0.00,
-                  totalamount: totalAmount || 0.00,
-                  totalpaid: totalPaid || 0.00,
-                  totaloustanding: totalOutstanding || 0.00,
-                  orderstatus: '',
-                  type: useData[i].Type || '',
-                  custfield1: useData[i].Phone || '',
-                  custfield2: useData[i].InvoiceNumber || '',
-                  comments: useData[i].Comments || '',
-              };
-              if(useData[i].Company === supplierName){
-                  dataTableList.push(dataList);
-              }
+                        Meteor.call('readPrefMethod',Session.get('mycloudLogonID'),'tblTransactionlist', function(error, result){
+                            if(error){
 
-              // splashArray.push(dataList);
-              //}
-          }
-          templateObject.datatablerecords.set(dataTableList);
-          if(templateObject.datatablerecords.get()){
+                            }else{
+                                if(result){
+                                    for (let i = 0; i < result.customFields.length; i++) {
+                                        let customcolumn = result.customFields;
+                                        let columData = customcolumn[i].label;
+                                        let columHeaderUpdate = customcolumn[i].thclass.replace(/ /g, ".");
+                                        let hiddenColumn = customcolumn[i].hidden;
+                                        let columnClass = columHeaderUpdate.split('.')[1];
+                                        let columnWidth = customcolumn[i].width;
+                                        let columnindex = customcolumn[i].index + 1;
 
-              Meteor.call('readPrefMethod',Session.get('mycloudLogonID'),'tblTransactionlist', function(error, result){
-                  if(error){
+                                        if(hiddenColumn == true){
 
-                  }else{
-                      if(result){
-                          for (let i = 0; i < result.customFields.length; i++) {
-                              let customcolumn = result.customFields;
-                              let columData = customcolumn[i].label;
-                              let columHeaderUpdate = customcolumn[i].thclass.replace(/ /g, ".");
-                              let hiddenColumn = customcolumn[i].hidden;
-                              let columnClass = columHeaderUpdate.split('.')[1];
-                              let columnWidth = customcolumn[i].width;
-                              let columnindex = customcolumn[i].index + 1;
+                                            $("."+columnClass+"").addClass('hiddenColumn');
+                                            $("."+columnClass+"").removeClass('showColumn');
+                                        }else if(hiddenColumn == false){
+                                            $("."+columnClass+"").removeClass('hiddenColumn');
+                                            $("."+columnClass+"").addClass('showColumn');
+                                        }
 
-                              if(hiddenColumn == true){
+                                    }
+                                }
 
-                                  $("."+columnClass+"").addClass('hiddenColumn');
-                                  $("."+columnClass+"").removeClass('showColumn');
-                              }else if(hiddenColumn == false){
-                                  $("."+columnClass+"").removeClass('hiddenColumn');
-                                  $("."+columnClass+"").addClass('showColumn');
-                              }
-
-                          }
-                      }
-
-                  }
-              });
+                            }
+                        });
 
 
-              setTimeout(function () {
-                  MakeNegative();
-              }, 100);
-          }
-          // $('.suppAwaitingAmt').text(utilityService.modifynegativeCurrencyFormat(totAmount));
-          // $('.suppOverdueAmt').text(utilityService.modifynegativeCurrencyFormat(totAmountOverDue));
-          $('.fullScreenSpin').css('display','none');
-          setTimeout(function () {
-              //$.fn.dataTable.moment('DD/MM/YY');
-              $('#tblTransactionlist').DataTable({
-                  // dom: 'lBfrtip',
-                  columnDefs: [
-                      {type: 'date', targets: 0}
-                  ],
-                  "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
-                  buttons: [
-                      {
-                          extend: 'excelHtml5',
-                          text: '',
-                          download: 'open',
-                          className: "btntabletocsv hiddenColumn",
-                          filename: "purchasetransaction_"+ moment().format(),
-                          orientation:'portrait',
-                          exportOptions: {
-                              columns: ':visible'
-                          }
-                      },{
-                          extend: 'print',
-                          download: 'open',
-                          className: "btntabletopdf hiddenColumn",
-                          text: '',
-                          title: 'Purchase Transaction',
-                          filename: "purchasetransaction_"+ moment().format(),
-                          exportOptions: {
-                              columns: ':visible'
-                          }
-                      }],
-                  select: true,
-                  destroy: true,
-                  colReorder: true,
-                  pageLength: 25,
-                  lengthMenu: [ [10, 25, 50, -1], [10, 25, 50, "All"] ],
-                  info: true,
-                  responsive: true,
-                  "order": [[ 0, "asc" ]],
-                  action: function () {
-                      $('#tblTransactionlist').DataTable().ajax.reload();
-                  },
-                  "fnDrawCallback": function (oSettings) {
-                      setTimeout(function () {
-                          MakeNegative();
-                      }, 100);
-                  },
+                        setTimeout(function () {
+                            MakeNegative();
+                        }, 100);
+                    }
+                    // $('.suppAwaitingAmt').text(utilityService.modifynegativeCurrencyFormat(totAmount));
+                    // $('.suppOverdueAmt').text(utilityService.modifynegativeCurrencyFormat(totAmountOverDue));
+                    $('.fullScreenSpin').css('display','none');
+                    setTimeout(function () {
+                        //$.fn.dataTable.moment('DD/MM/YY');
+                        $('#tblTransactionlist').DataTable({
+                            // dom: 'lBfrtip',
+                            columnDefs: [
+                                {type: 'date', targets: 0}
+                            ],
+                            "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
+                            buttons: [
+                                {
+                                    extend: 'excelHtml5',
+                                    text: '',
+                                    download: 'open',
+                                    className: "btntabletocsv hiddenColumn",
+                                    filename: "Supplier Purchase Transactions - "+ moment().format(),
+                                    orientation:'portrait',
+                                    exportOptions: {
+                                        columns: ':visible'
+                                    }
+                                },{
+                                    extend: 'print',
+                                    download: 'open',
+                                    className: "btntabletopdf hiddenColumn",
+                                    text: '',
+                                    title: 'Purchase Transaction',
+                                    filename: "Supplier Purchase Transactions - "+ moment().format(),
+                                    exportOptions: {
+                                        columns: ':visible',
+                                        stripHtml: false
+                                    }
+                                }],
+                            select: true,
+                            destroy: true,
+                            colReorder: true,
+                            pageLength: 25,
+                            lengthMenu: [ [10, 25, 50, -1], [10, 25, 50, "All"] ],
+                            info: true,
+                            responsive: true,
+                            "order": [[ 0, "asc" ]],
+                            action: function () {
+                                $('#tblTransactionlist').DataTable().ajax.reload();
+                            },
+                            "fnDrawCallback": function (oSettings) {
+                                setTimeout(function () {
+                                    MakeNegative();
+                                }, 100);
+                            },
 
-              }).on('page', function () {
-                  setTimeout(function () {
-                      MakeNegative();
-                  }, 100);
-                  let draftRecord = templateObject.datatablerecords.get();
-                  templateObject.datatablerecords.set(draftRecord);
-              }).on('column-reorder', function () {
+                        }).on('page', function () {
+                            setTimeout(function () {
+                                MakeNegative();
+                            }, 100);
+                            let draftRecord = templateObject.datatablerecords.get();
+                            templateObject.datatablerecords.set(draftRecord);
+                        }).on('column-reorder', function () {
 
-              });
-              $('.fullScreenSpin').css('display','none');
-          }, 0);
+                        });
+                        $('.fullScreenSpin').css('display','none');
+                    }, 0);
 
-          var columns = $('#tblTransactionlist th');
-          let sTible = "";
-          let sWidth = "";
-          let sIndex = "";
-          let sVisible = "";
-          let columVisible = false;
-          let sClass = "";
-          $.each(columns, function(i,v) {
-              if(v.hidden == false){
-                  columVisible =  true;
-              }
-              if((v.className.includes("hiddenColumn"))){
-                  columVisible = false;
-              }
-              sWidth = v.style.width.replace('px', "");
+                    var columns = $('#tblTransactionlist th');
+                    let sTible = "";
+                    let sWidth = "";
+                    let sIndex = "";
+                    let sVisible = "";
+                    let columVisible = false;
+                    let sClass = "";
+                    $.each(columns, function(i,v) {
+                        if(v.hidden == false){
+                            columVisible =  true;
+                        }
+                        if((v.className.includes("hiddenColumn"))){
+                            columVisible = false;
+                        }
+                        sWidth = v.style.width.replace('px', "");
 
-              let datatablerecordObj = {
-                  sTitle: v.innerText || '',
-                  sWidth: sWidth || '',
-                  sIndex: v.cellIndex || '',
-                  sVisible: columVisible || false,
-                  sClass: v.className || ''
-              };
-              tableHeaderList.push(datatablerecordObj);
-          });
-          templateObject.tableheaderrecords.set(tableHeaderList);
-          $('div.dataTables_filter input').addClass('form-control form-control-sm');
-          $('#tblTransactionlist tbody').on( 'click', 'tr', function () {
-            var listData = $(this).closest('tr').attr('id');
-            var transactiontype = $(event.target).closest("tr").find(".colStatus").text();
-            if((listData) && (transactiontype)){
-              if(transactiontype === 'Purchase Order' ){
-                window.open('/purchaseordercard?id=' + listData,'_self');
-              }else if(transactiontype === 'Bill'){
-               window.open('/billcard?id=' + listData,'_self');
-             }else if(transactiontype === 'Credit'){
-               window.open('/creditcard?id=' + listData,'_self');
-              }else{
-                //window.open('/purchaseordercard?id=' + listData,'_self');
-              }
-            }
-          });
+                        let datatablerecordObj = {
+                            sTitle: v.innerText || '',
+                            sWidth: sWidth || '',
+                            sIndex: v.cellIndex || '',
+                            sVisible: columVisible || false,
+                            sClass: v.className || ''
+                        };
+                        tableHeaderList.push(datatablerecordObj);
+                    });
+                    templateObject.tableheaderrecords.set(tableHeaderList);
+                    $('div.dataTables_filter input').addClass('form-control form-control-sm');
+                    $('#tblTransactionlist tbody').on( 'click', 'tr', function () {
+                        var listData = $(this).closest('tr').attr('id');
+                        var transactiontype = $(event.target).closest("tr").find(".colStatus").text();
+                        if((listData) && (transactiontype)){
+                            if(transactiontype === 'Purchase Order' ){
+                                window.open('/purchaseordercard?id=' + listData,'_self');
+                            }else if(transactiontype === 'Bill'){
+                                window.open('/billcard?id=' + listData,'_self');
+                            }else if(transactiontype === 'Credit'){
+                                window.open('/creditcard?id=' + listData,'_self');
+                            }else{
+                                //window.open('/purchaseordercard?id=' + listData,'_self');
+                            }
+                        }
+                    });
 
-        }
-        }).catch(function (err) {
-          contactService.getAllTransListBySupplier(supplierName).then(function (data) {
-              let lineItems = [];
-              let lineItemObj = {};
-              for(let i=0; i<data.tbillreport.length; i++){
-                  let totalAmountEx = utilityService.modifynegativeCurrencyFormat(data.tbillreport[i]['Total Amount (Ex)'])|| 0.00;
-                  let totalTax = utilityService.modifynegativeCurrencyFormat(data.tbillreport[i]['Total Tax']) || 0.00;
-                  let totalAmount = utilityService.modifynegativeCurrencyFormat(data.tbillreport[i]['Total Amount (Inc)'])|| 0.00;
-                  let amountPaidCalc = data.tbillreport[i]['Total Amount (Inc)'] - data.tbillreport[i].Balance;
-                  let totalPaid = utilityService.modifynegativeCurrencyFormat(amountPaidCalc)|| 0.00;
-                  let totalOutstanding = utilityService.modifynegativeCurrencyFormat(data.tbillreport[i].Balance)|| 0.00;
-                  var dataList = {
-                      id: data.tbillreport[i].PurchaseOrderID || '',
-                      employee:data.tbillreport[i].Contact || '',
-                      sortdate: data.tbillreport[i].OrderDate !=''? moment(data.tbillreport[i].OrderDate).format("YYYY/MM/DD"): data.tbillreport[i].OrderDate,
-                      orderdate: data.tbillreport[i].OrderDate !=''? moment(data.tbillreport[i].OrderDate).format("DD/MM/YYYY"): data.tbillreport[i].OrderDate,
-                      suppliername: data.tbillreport[i].Company || '',
-                      totalamountex: totalAmountEx || 0.00,
-                      totaltax: totalTax || 0.00,
-                      totalamount: totalAmount || 0.00,
-                      totalpaid: totalPaid || 0.00,
-                      totaloustanding: totalOutstanding || 0.00,
-                      orderstatus: '',
-                      type: data.tbillreport[i].Type || '',
-                      custfield1: data.tbillreport[i].Phone || '',
-                      custfield2: data.tbillreport[i].InvoiceNumber || '',
-                      comments: data.tbillreport[i].Comments || '',
-                  };
-                  if(data.tbillreport[i].Company === supplierName){
-                      dataTableList.push(dataList);
-                  }
+                }).catch(function (err) {
+                    // Bert.alert('<strong>' + err + '</strong>!', 'danger');
+                    $('.fullScreenSpin').css('display','none');
+                    // Meteor._reload.reload();
+                });
+            }else{
+                let data = JSON.parse(dataObject[0].data);
+                let useData = data.tbillreport;
+                let lineItems = [];
+                let lineItemObj = {};
+                for(let i=0; i<useData.length; i++){
+                    let totalAmountEx = utilityService.modifynegativeCurrencyFormat(useData[i]['Total Amount (Ex)'])|| 0.00;
+                    let totalTax = utilityService.modifynegativeCurrencyFormat(useData[i]['Total Tax']) || 0.00;
+                    let totalAmount = utilityService.modifynegativeCurrencyFormat(useData[i]['Total Amount (Inc)'])|| 0.00;
+                    let amountPaidCalc = useData[i]['Total Amount (Inc)'] - useData[i].Balance;
+                    let totalPaid = utilityService.modifynegativeCurrencyFormat(amountPaidCalc)|| 0.00;
+                    let totalOutstanding = utilityService.modifynegativeCurrencyFormat(useData[i].Balance)|| 0.00;
+                    var dataList = {
+                        id: useData[i].PurchaseOrderID || '',
+                        employee:useData[i].Contact || '',
+                        sortdate: useData[i].OrderDate !=''? moment(useData[i].OrderDate).format("YYYY/MM/DD"): useData[i].OrderDate,
+                        orderdate: useData[i].OrderDate !=''? moment(useData[i].OrderDate).format("DD/MM/YYYY"): useData[i].OrderDate,
+                        suppliername: useData[i].Company || '',
+                        totalamountex: totalAmountEx || 0.00,
+                        totaltax: totalTax || 0.00,
+                        totalamount: totalAmount || 0.00,
+                        totalpaid: totalPaid || 0.00,
+                        totaloustanding: totalOutstanding || 0.00,
+                        orderstatus: '',
+                        type: useData[i].Type || '',
+                        custfield1: useData[i].Phone || '',
+                        custfield2: useData[i].InvoiceNumber || '',
+                        comments: useData[i].Comments || '',
+                    };
+                    if(useData[i].Company === supplierName){
+                        dataTableList.push(dataList);
+                    }
 
-                  // splashArray.push(dataList);
-                  //}
-              }
-              templateObject.datatablerecords.set(dataTableList);
-              if(templateObject.datatablerecords.get()){
-
-                  Meteor.call('readPrefMethod',Session.get('mycloudLogonID'),'tblTransactionlist', function(error, result){
-                      if(error){
-
-                      }else{
-                          if(result){
-                              for (let i = 0; i < result.customFields.length; i++) {
-                                  let customcolumn = result.customFields;
-                                  let columData = customcolumn[i].label;
-                                  let columHeaderUpdate = customcolumn[i].thclass.replace(/ /g, ".");
-                                  let hiddenColumn = customcolumn[i].hidden;
-                                  let columnClass = columHeaderUpdate.split('.')[1];
-                                  let columnWidth = customcolumn[i].width;
-                                  let columnindex = customcolumn[i].index + 1;
-
-                                  if(hiddenColumn == true){
-
-                                      $("."+columnClass+"").addClass('hiddenColumn');
-                                      $("."+columnClass+"").removeClass('showColumn');
-                                  }else if(hiddenColumn == false){
-                                      $("."+columnClass+"").removeClass('hiddenColumn');
-                                      $("."+columnClass+"").addClass('showColumn');
-                                  }
-
-                              }
-                          }
-
-                      }
-                  });
-
-
-                  setTimeout(function () {
-                      MakeNegative();
-                  }, 100);
-              }
-              // $('.suppAwaitingAmt').text(utilityService.modifynegativeCurrencyFormat(totAmount));
-              // $('.suppOverdueAmt').text(utilityService.modifynegativeCurrencyFormat(totAmountOverDue));
-              $('.fullScreenSpin').css('display','none');
-              setTimeout(function () {
-                  //$.fn.dataTable.moment('DD/MM/YY');
-                  $('#tblTransactionlist').DataTable({
-                      // dom: 'lBfrtip',
-                      columnDefs: [
-                          {type: 'date', targets: 0}
-                      ],
-                      "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
-                      buttons: [
-                          {
-                              extend: 'excelHtml5',
-                              text: '',
-                              download: 'open',
-                              className: "btntabletocsv hiddenColumn",
-                              filename: "purchasetransaction_"+ moment().format(),
-                              orientation:'portrait',
-                              exportOptions: {
-                                  columns: ':visible'
-                              }
-                          },{
-                              extend: 'print',
-                              download: 'open',
-                              className: "btntabletopdf hiddenColumn",
-                              text: '',
-                              title: 'Purchase Transaction',
-                              filename: "purchasetransaction_"+ moment().format(),
-                              exportOptions: {
-                                  columns: ':visible'
-                              }
-                          }],
-                      select: true,
-                      destroy: true,
-                      colReorder: true,
-                      pageLength: 25,
-                      lengthMenu: [ [10, 25, 50, -1], [10, 25, 50, "All"] ],
-                      info: true,
-                      responsive: true,
-                      "order": [[ 0, "asc" ]],
-                      action: function () {
-                          $('#tblTransactionlist').DataTable().ajax.reload();
-                      },
-                      "fnDrawCallback": function (oSettings) {
-                          setTimeout(function () {
-                              MakeNegative();
-                          }, 100);
-                      },
-
-                  }).on('page', function () {
-                      setTimeout(function () {
-                          MakeNegative();
-                      }, 100);
-                      let draftRecord = templateObject.datatablerecords.get();
-                      templateObject.datatablerecords.set(draftRecord);
-                  }).on('column-reorder', function () {
-
-                  });
-                  $('.fullScreenSpin').css('display','none');
-              }, 0);
-
-              var columns = $('#tblTransactionlist th');
-              let sTible = "";
-              let sWidth = "";
-              let sIndex = "";
-              let sVisible = "";
-              let columVisible = false;
-              let sClass = "";
-              $.each(columns, function(i,v) {
-                  if(v.hidden == false){
-                      columVisible =  true;
-                  }
-                  if((v.className.includes("hiddenColumn"))){
-                      columVisible = false;
-                  }
-                  sWidth = v.style.width.replace('px', "");
-
-                  let datatablerecordObj = {
-                      sTitle: v.innerText || '',
-                      sWidth: sWidth || '',
-                      sIndex: v.cellIndex || '',
-                      sVisible: columVisible || false,
-                      sClass: v.className || ''
-                  };
-                  tableHeaderList.push(datatablerecordObj);
-              });
-              templateObject.tableheaderrecords.set(tableHeaderList);
-              $('div.dataTables_filter input').addClass('form-control form-control-sm');
-              $('#tblTransactionlist tbody').on( 'click', 'tr', function () {
-                var listData = $(this).closest('tr').attr('id');
-                var transactiontype = $(event.target).closest("tr").find(".colStatus").text();
-                if((listData) && (transactiontype)){
-                  if(transactiontype === 'Purchase Order' ){
-                    window.open('/purchaseordercard?id=' + listData,'_self');
-                  }else if(transactiontype === 'Bill'){
-                   window.open('/billcard?id=' + listData,'_self');
-                 }else if(transactiontype === 'Credit'){
-                   window.open('/creditcard?id=' + listData,'_self');
-                  }else{
-                    //window.open('/purchaseordercard?id=' + listData,'_self');
-                  }
+                    // splashArray.push(dataList);
+                    //}
                 }
-              });
+                templateObject.datatablerecords.set(dataTableList);
+                if(templateObject.datatablerecords.get()){
 
-          }).catch(function (err) {
-              // Bert.alert('<strong>' + err + '</strong>!', 'danger');
-              $('.fullScreenSpin').css('display','none');
-              // Meteor._reload.reload();
-          });
-      });
+                    Meteor.call('readPrefMethod',Session.get('mycloudLogonID'),'tblTransactionlist', function(error, result){
+                        if(error){
+
+                        }else{
+                            if(result){
+                                for (let i = 0; i < result.customFields.length; i++) {
+                                    let customcolumn = result.customFields;
+                                    let columData = customcolumn[i].label;
+                                    let columHeaderUpdate = customcolumn[i].thclass.replace(/ /g, ".");
+                                    let hiddenColumn = customcolumn[i].hidden;
+                                    let columnClass = columHeaderUpdate.split('.')[1];
+                                    let columnWidth = customcolumn[i].width;
+                                    let columnindex = customcolumn[i].index + 1;
+
+                                    if(hiddenColumn == true){
+
+                                        $("."+columnClass+"").addClass('hiddenColumn');
+                                        $("."+columnClass+"").removeClass('showColumn');
+                                    }else if(hiddenColumn == false){
+                                        $("."+columnClass+"").removeClass('hiddenColumn');
+                                        $("."+columnClass+"").addClass('showColumn');
+                                    }
+
+                                }
+                            }
+
+                        }
+                    });
+
+
+                    setTimeout(function () {
+                        MakeNegative();
+                    }, 100);
+                }
+                // $('.suppAwaitingAmt').text(utilityService.modifynegativeCurrencyFormat(totAmount));
+                // $('.suppOverdueAmt').text(utilityService.modifynegativeCurrencyFormat(totAmountOverDue));
+                $('.fullScreenSpin').css('display','none');
+                setTimeout(function () {
+                    //$.fn.dataTable.moment('DD/MM/YY');
+                    $('#tblTransactionlist').DataTable({
+                        // dom: 'lBfrtip',
+                        columnDefs: [
+                            {type: 'date', targets: 0}
+                        ],
+                        "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
+                        buttons: [
+                            {
+                                extend: 'excelHtml5',
+                                text: '',
+                                download: 'open',
+                                className: "btntabletocsv hiddenColumn",
+                                filename: "Supplier Purchase Transactions - "+ moment().format(),
+                                orientation:'portrait',
+                                exportOptions: {
+                                    columns: ':visible'
+                                }
+                            },{
+                                extend: 'print',
+                                download: 'open',
+                                className: "btntabletopdf hiddenColumn",
+                                text: '',
+                                title: 'Purchase Transaction',
+                                filename: "Supplier Purchase Transactions - "+ moment().format(),
+                                exportOptions: {
+                                    columns: ':visible',
+                                    stripHtml: false
+                                }
+                            }],
+                        select: true,
+                        destroy: true,
+                        colReorder: true,
+                        pageLength: 25,
+                        lengthMenu: [ [10, 25, 50, -1], [10, 25, 50, "All"] ],
+                        info: true,
+                        responsive: true,
+                        "order": [[ 0, "asc" ]],
+                        action: function () {
+                            $('#tblTransactionlist').DataTable().ajax.reload();
+                        },
+                        "fnDrawCallback": function (oSettings) {
+                            setTimeout(function () {
+                                MakeNegative();
+                            }, 100);
+                        },
+
+                    }).on('page', function () {
+                        setTimeout(function () {
+                            MakeNegative();
+                        }, 100);
+                        let draftRecord = templateObject.datatablerecords.get();
+                        templateObject.datatablerecords.set(draftRecord);
+                    }).on('column-reorder', function () {
+
+                    });
+                    $('.fullScreenSpin').css('display','none');
+                }, 0);
+
+                var columns = $('#tblTransactionlist th');
+                let sTible = "";
+                let sWidth = "";
+                let sIndex = "";
+                let sVisible = "";
+                let columVisible = false;
+                let sClass = "";
+                $.each(columns, function(i,v) {
+                    if(v.hidden == false){
+                        columVisible =  true;
+                    }
+                    if((v.className.includes("hiddenColumn"))){
+                        columVisible = false;
+                    }
+                    sWidth = v.style.width.replace('px', "");
+
+                    let datatablerecordObj = {
+                        sTitle: v.innerText || '',
+                        sWidth: sWidth || '',
+                        sIndex: v.cellIndex || '',
+                        sVisible: columVisible || false,
+                        sClass: v.className || ''
+                    };
+                    tableHeaderList.push(datatablerecordObj);
+                });
+                templateObject.tableheaderrecords.set(tableHeaderList);
+                $('div.dataTables_filter input').addClass('form-control form-control-sm');
+                $('#tblTransactionlist tbody').on( 'click', 'tr', function () {
+                    var listData = $(this).closest('tr').attr('id');
+                    var transactiontype = $(event.target).closest("tr").find(".colStatus").text();
+                    if((listData) && (transactiontype)){
+                        if(transactiontype === 'Purchase Order' ){
+                            window.open('/purchaseordercard?id=' + listData,'_self');
+                        }else if(transactiontype === 'Bill'){
+                            window.open('/billcard?id=' + listData,'_self');
+                        }else if(transactiontype === 'Credit'){
+                            window.open('/creditcard?id=' + listData,'_self');
+                        }else{
+                            //window.open('/purchaseordercard?id=' + listData,'_self');
+                        }
+                    }
+                });
+
+            }
+        }).catch(function (err) {
+            contactService.getAllTransListBySupplier(supplierName).then(function (data) {
+                let lineItems = [];
+                let lineItemObj = {};
+                for(let i=0; i<data.tbillreport.length; i++){
+                    let totalAmountEx = utilityService.modifynegativeCurrencyFormat(data.tbillreport[i]['Total Amount (Ex)'])|| 0.00;
+                    let totalTax = utilityService.modifynegativeCurrencyFormat(data.tbillreport[i]['Total Tax']) || 0.00;
+                    let totalAmount = utilityService.modifynegativeCurrencyFormat(data.tbillreport[i]['Total Amount (Inc)'])|| 0.00;
+                    let amountPaidCalc = data.tbillreport[i]['Total Amount (Inc)'] - data.tbillreport[i].Balance;
+                    let totalPaid = utilityService.modifynegativeCurrencyFormat(amountPaidCalc)|| 0.00;
+                    let totalOutstanding = utilityService.modifynegativeCurrencyFormat(data.tbillreport[i].Balance)|| 0.00;
+                    var dataList = {
+                        id: data.tbillreport[i].PurchaseOrderID || '',
+                        employee:data.tbillreport[i].Contact || '',
+                        sortdate: data.tbillreport[i].OrderDate !=''? moment(data.tbillreport[i].OrderDate).format("YYYY/MM/DD"): data.tbillreport[i].OrderDate,
+                        orderdate: data.tbillreport[i].OrderDate !=''? moment(data.tbillreport[i].OrderDate).format("DD/MM/YYYY"): data.tbillreport[i].OrderDate,
+                        suppliername: data.tbillreport[i].Company || '',
+                        totalamountex: totalAmountEx || 0.00,
+                        totaltax: totalTax || 0.00,
+                        totalamount: totalAmount || 0.00,
+                        totalpaid: totalPaid || 0.00,
+                        totaloustanding: totalOutstanding || 0.00,
+                        orderstatus: '',
+                        type: data.tbillreport[i].Type || '',
+                        custfield1: data.tbillreport[i].Phone || '',
+                        custfield2: data.tbillreport[i].InvoiceNumber || '',
+                        comments: data.tbillreport[i].Comments || '',
+                    };
+                    if(data.tbillreport[i].Company === supplierName){
+                        dataTableList.push(dataList);
+                    }
+
+                    // splashArray.push(dataList);
+                    //}
+                }
+                templateObject.datatablerecords.set(dataTableList);
+                if(templateObject.datatablerecords.get()){
+
+                    Meteor.call('readPrefMethod',Session.get('mycloudLogonID'),'tblTransactionlist', function(error, result){
+                        if(error){
+
+                        }else{
+                            if(result){
+                                for (let i = 0; i < result.customFields.length; i++) {
+                                    let customcolumn = result.customFields;
+                                    let columData = customcolumn[i].label;
+                                    let columHeaderUpdate = customcolumn[i].thclass.replace(/ /g, ".");
+                                    let hiddenColumn = customcolumn[i].hidden;
+                                    let columnClass = columHeaderUpdate.split('.')[1];
+                                    let columnWidth = customcolumn[i].width;
+                                    let columnindex = customcolumn[i].index + 1;
+
+                                    if(hiddenColumn == true){
+
+                                        $("."+columnClass+"").addClass('hiddenColumn');
+                                        $("."+columnClass+"").removeClass('showColumn');
+                                    }else if(hiddenColumn == false){
+                                        $("."+columnClass+"").removeClass('hiddenColumn');
+                                        $("."+columnClass+"").addClass('showColumn');
+                                    }
+
+                                }
+                            }
+
+                        }
+                    });
+
+
+                    setTimeout(function () {
+                        MakeNegative();
+                    }, 100);
+                }
+                // $('.suppAwaitingAmt').text(utilityService.modifynegativeCurrencyFormat(totAmount));
+                // $('.suppOverdueAmt').text(utilityService.modifynegativeCurrencyFormat(totAmountOverDue));
+                $('.fullScreenSpin').css('display','none');
+                setTimeout(function () {
+                    //$.fn.dataTable.moment('DD/MM/YY');
+                    $('#tblTransactionlist').DataTable({
+                        // dom: 'lBfrtip',
+                        columnDefs: [
+                            {type: 'date', targets: 0}
+                        ],
+                        "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
+                        buttons: [
+                            {
+                                extend: 'excelHtml5',
+                                text: '',
+                                download: 'open',
+                                className: "btntabletocsv hiddenColumn",
+                                filename: "Supplier Purchase Transactions - "+ moment().format(),
+                                orientation:'portrait',
+                                exportOptions: {
+                                    columns: ':visible'
+                                }
+                            },{
+                                extend: 'print',
+                                download: 'open',
+                                className: "btntabletopdf hiddenColumn",
+                                text: '',
+                                title: 'Purchase Transaction',
+                                filename: "Supplier Purchase Transactions - "+ moment().format(),
+                                exportOptions: {
+                                    columns: ':visible',
+                                    stripHtml: false
+                                }
+                            }],
+                        select: true,
+                        destroy: true,
+                        colReorder: true,
+                        pageLength: 25,
+                        lengthMenu: [ [10, 25, 50, -1], [10, 25, 50, "All"] ],
+                        info: true,
+                        responsive: true,
+                        "order": [[ 0, "asc" ]],
+                        action: function () {
+                            $('#tblTransactionlist').DataTable().ajax.reload();
+                        },
+                        "fnDrawCallback": function (oSettings) {
+                            setTimeout(function () {
+                                MakeNegative();
+                            }, 100);
+                        },
+
+                    }).on('page', function () {
+                        setTimeout(function () {
+                            MakeNegative();
+                        }, 100);
+                        let draftRecord = templateObject.datatablerecords.get();
+                        templateObject.datatablerecords.set(draftRecord);
+                    }).on('column-reorder', function () {
+
+                    });
+                    $('.fullScreenSpin').css('display','none');
+                }, 0);
+
+                var columns = $('#tblTransactionlist th');
+                let sTible = "";
+                let sWidth = "";
+                let sIndex = "";
+                let sVisible = "";
+                let columVisible = false;
+                let sClass = "";
+                $.each(columns, function(i,v) {
+                    if(v.hidden == false){
+                        columVisible =  true;
+                    }
+                    if((v.className.includes("hiddenColumn"))){
+                        columVisible = false;
+                    }
+                    sWidth = v.style.width.replace('px', "");
+
+                    let datatablerecordObj = {
+                        sTitle: v.innerText || '',
+                        sWidth: sWidth || '',
+                        sIndex: v.cellIndex || '',
+                        sVisible: columVisible || false,
+                        sClass: v.className || ''
+                    };
+                    tableHeaderList.push(datatablerecordObj);
+                });
+                templateObject.tableheaderrecords.set(tableHeaderList);
+                $('div.dataTables_filter input').addClass('form-control form-control-sm');
+                $('#tblTransactionlist tbody').on( 'click', 'tr', function () {
+                    var listData = $(this).closest('tr').attr('id');
+                    var transactiontype = $(event.target).closest("tr").find(".colStatus").text();
+                    if((listData) && (transactiontype)){
+                        if(transactiontype === 'Purchase Order' ){
+                            window.open('/purchaseordercard?id=' + listData,'_self');
+                        }else if(transactiontype === 'Bill'){
+                            window.open('/billcard?id=' + listData,'_self');
+                        }else if(transactiontype === 'Credit'){
+                            window.open('/creditcard?id=' + listData,'_self');
+                        }else{
+                            //window.open('/purchaseordercard?id=' + listData,'_self');
+                        }
+                    }
+                });
+
+            }).catch(function (err) {
+                // Bert.alert('<strong>' + err + '</strong>!', 'danger');
+                $('.fullScreenSpin').css('display','none');
+                // Meteor._reload.reload();
+            });
+        });
 
     }
     templateObject.getCountryData();
 
     templateObject.getPreferedPaymentList = function () {
-      getVS1Data('TPaymentMethod').then(function (dataObject) {
-      if(dataObject.length == 0){
-        contactService.getPaymentMethodDataVS1().then((data) => {
-            for (let i = 0; i < data.tpaymentmethodvs1.length; i++) {
-                preferedPayments.push(data.tpaymentmethodvs1[i].PaymentMethodName)
-            }
-            preferedPayments = _.sortBy(preferedPayments);
+        getVS1Data('TPaymentMethod').then(function (dataObject) {
+            if(dataObject.length == 0){
+                contactService.getPaymentMethodDataVS1().then((data) => {
+                    for (let i = 0; i < data.tpaymentmethodvs1.length; i++) {
+                        preferedPayments.push(data.tpaymentmethodvs1[i].PaymentMethodName)
+                    }
+                    preferedPayments = _.sortBy(preferedPayments);
 
-            templateObject.preferedPaymentList.set(preferedPayments);
-        });
-      }else{
-      let data = JSON.parse(dataObject[0].data);
-      let useData = data.tpaymentmethodvs1;
-      for (let i = 0; i < useData.length; i++) {
-          preferedPayments.push(useData[i].fields.PaymentMethodName)
-      }
-      preferedPayments = _.sortBy(preferedPayments);
-      templateObject.preferedPaymentList.set(preferedPayments);
-      }
-      }).catch(function (err) {
-        contactService.getPaymentMethodDataVS1().then((data) => {
-            for (let i = 0; i < data.tpaymentmethodvs1.length; i++) {
-                preferedPayments.push(data.tpaymentmethodvs1[i].PaymentMethodName)
+                    templateObject.preferedPaymentList.set(preferedPayments);
+                });
+            }else{
+                let data = JSON.parse(dataObject[0].data);
+                let useData = data.tpaymentmethodvs1;
+                for (let i = 0; i < useData.length; i++) {
+                    preferedPayments.push(useData[i].fields.PaymentMethodName)
+                }
+                preferedPayments = _.sortBy(preferedPayments);
+                templateObject.preferedPaymentList.set(preferedPayments);
             }
-            preferedPayments = _.sortBy(preferedPayments);
+        }).catch(function (err) {
+            contactService.getPaymentMethodDataVS1().then((data) => {
+                for (let i = 0; i < data.tpaymentmethodvs1.length; i++) {
+                    preferedPayments.push(data.tpaymentmethodvs1[i].PaymentMethodName)
+                }
+                preferedPayments = _.sortBy(preferedPayments);
 
-            templateObject.preferedPaymentList.set(preferedPayments);
+                templateObject.preferedPaymentList.set(preferedPayments);
+            });
         });
-      });
 
 
     };
     templateObject.getTermsList = function () {
-      getVS1Data('TTermsVS1').then(function (dataObject) {
-        if(dataObject.length == 0){
-          contactService.getTermDataVS1().then((data) => {
-              for (let i = 0; i < data.ttermsvs1.length; i++) {
-                  terms.push(data.ttermsvs1[i].TermsName);
-                  if(data.ttermsvs1[i].isPurchasedefault == true){
-                    templateObject.defaultpurchaseterm.set(data.ttermsvs1[i].TermsName);
-                  }
-              }
-              terms = _.sortBy(terms);
-              templateObject.termsList.set(terms);
-          });
-      }else{
-        let data = JSON.parse(dataObject[0].data);
-        let useData = data.ttermsvs1;
-        for (let i = 0; i < useData.length; i++) {
-            terms.push(useData[i].TermsName);
-            if(useData[i].isPurchasedefault == true){
-              templateObject.defaultpurchaseterm.set(useData[i].TermsName);
-            }
-        }
-        terms = _.sortBy(terms);
-        templateObject.termsList.set(terms);
-
-      }
-      }).catch(function (err) {
-        contactService.getTermDataVS1().then((data) => {
-            for (let i = 0; i < data.ttermsvs1.length; i++) {
-                terms.push(data.ttermsvs1[i].TermsName);
-                if(data.ttermsvs1[i].isPurchasedefault == true){
-                  templateObject.defaultpurchaseterm.set(data.ttermsvs1[i].TermsName);
+        getVS1Data('TTermsVS1').then(function (dataObject) {
+            if(dataObject.length == 0){
+                contactService.getTermDataVS1().then((data) => {
+                    for (let i = 0; i < data.ttermsvs1.length; i++) {
+                        terms.push(data.ttermsvs1[i].TermsName);
+                        if(data.ttermsvs1[i].isPurchasedefault == true){
+                            templateObject.defaultpurchaseterm.set(data.ttermsvs1[i].TermsName);
+                        }
+                    }
+                    terms = _.sortBy(terms);
+                    templateObject.termsList.set(terms);
+                });
+            }else{
+                let data = JSON.parse(dataObject[0].data);
+                let useData = data.ttermsvs1;
+                for (let i = 0; i < useData.length; i++) {
+                    terms.push(useData[i].TermsName);
+                    if(useData[i].isPurchasedefault == true){
+                        templateObject.defaultpurchaseterm.set(useData[i].TermsName);
+                    }
                 }
+                terms = _.sortBy(terms);
+                templateObject.termsList.set(terms);
+
             }
-            terms = _.sortBy(terms);
-            templateObject.termsList.set(terms);
+        }).catch(function (err) {
+            contactService.getTermDataVS1().then((data) => {
+                for (let i = 0; i < data.ttermsvs1.length; i++) {
+                    terms.push(data.ttermsvs1[i].TermsName);
+                    if(data.ttermsvs1[i].isPurchasedefault == true){
+                        templateObject.defaultpurchaseterm.set(data.ttermsvs1[i].TermsName);
+                    }
+                }
+                terms = _.sortBy(terms);
+                templateObject.termsList.set(terms);
+            });
         });
-      });
 
 
     };
 
     templateObject.getDeliveryMethodList = function () {
-      getVS1Data('TShippingMethod').then(function (dataObject) {
-        if(dataObject.length == 0){
-          contactService.getShippingMethodData().then((data) => {
-              for (let i = 0; i < data.tshippingmethod.length; i++) {
-                  deliveryMethods.push(data.tshippingmethod[i].ShippingMethod)
-              }
-              deliveryMethods = _.sortBy(deliveryMethods);
-              templateObject.deliveryMethodList.set(deliveryMethods);
-          });
-        }else{
-        let data = JSON.parse(dataObject[0].data);
-        let useData = data.tshippingmethod;
-        for (let i = 0; i < useData.length; i++) {
-            deliveryMethods.push(useData[i].ShippingMethod)
-        }
-        deliveryMethods = _.sortBy(deliveryMethods);
-        templateObject.deliveryMethodList.set(deliveryMethods);
+        getVS1Data('TShippingMethod').then(function (dataObject) {
+            if(dataObject.length == 0){
+                contactService.getShippingMethodData().then((data) => {
+                    for (let i = 0; i < data.tshippingmethod.length; i++) {
+                        deliveryMethods.push(data.tshippingmethod[i].ShippingMethod)
+                    }
+                    deliveryMethods = _.sortBy(deliveryMethods);
+                    templateObject.deliveryMethodList.set(deliveryMethods);
+                });
+            }else{
+                let data = JSON.parse(dataObject[0].data);
+                let useData = data.tshippingmethod;
+                for (let i = 0; i < useData.length; i++) {
+                    deliveryMethods.push(useData[i].ShippingMethod)
+                }
+                deliveryMethods = _.sortBy(deliveryMethods);
+                templateObject.deliveryMethodList.set(deliveryMethods);
 
-        }
+            }
         }).catch(function (err) {
-          contactService.getShippingMethodData().then((data) => {
-              for (let i = 0; i < data.tshippingmethod.length; i++) {
-                  deliveryMethods.push(data.tshippingmethod[i].ShippingMethod)
-              }
-              deliveryMethods = _.sortBy(deliveryMethods);
-              templateObject.deliveryMethodList.set(deliveryMethods);
-          });
+            contactService.getShippingMethodData().then((data) => {
+                for (let i = 0; i < data.tshippingmethod.length; i++) {
+                    deliveryMethods.push(data.tshippingmethod[i].ShippingMethod)
+                }
+                deliveryMethods = _.sortBy(deliveryMethods);
+                templateObject.deliveryMethodList.set(deliveryMethods);
+            });
         });
 
     };
 
     templateObject.getTaxCodesList = function () {
-      getVS1Data('TTaxcodeVS1').then(function (dataObject) {
-        if(dataObject.length == 0){
-          contactService.getTaxCodesVS1().then((data) => {
-              for (let i = 0; i < data.ttaxcodevs1.length; i++) {
-                  taxCodes.push(data.ttaxcodevs1[i].CodeName)
-              }
-              taxCodes = _.sortBy(taxCodes);
-              templateObject.taxCodeList.set(taxCodes);
-          });
-        }else{
-          let data = JSON.parse(dataObject[0].data);
-          let useData = data.ttaxcodevs1;
-          for (let i = 0; i < useData.length; i++) {
-              taxCodes.push(useData[i].CodeName)
-          }
-          taxCodes = _.sortBy(taxCodes);
-          templateObject.taxCodeList.set(taxCodes);
+        getVS1Data('TTaxcodeVS1').then(function (dataObject) {
+            if(dataObject.length == 0){
+                contactService.getTaxCodesVS1().then((data) => {
+                    for (let i = 0; i < data.ttaxcodevs1.length; i++) {
+                        taxCodes.push(data.ttaxcodevs1[i].CodeName)
+                    }
+                    taxCodes = _.sortBy(taxCodes);
+                    templateObject.taxCodeList.set(taxCodes);
+                });
+            }else{
+                let data = JSON.parse(dataObject[0].data);
+                let useData = data.ttaxcodevs1;
+                for (let i = 0; i < useData.length; i++) {
+                    taxCodes.push(useData[i].CodeName)
+                }
+                taxCodes = _.sortBy(taxCodes);
+                templateObject.taxCodeList.set(taxCodes);
 
-        }
+            }
         }).catch(function (err) {
-          contactService.getTaxCodesVS1().then((data) => {
-              for (let i = 0; i < data.ttaxcodevs1.length; i++) {
-                  taxCodes.push(data.ttaxcodevs1[i].CodeName)
-              }
-              taxCodes = _.sortBy(taxCodes);
-              templateObject.taxCodeList.set(taxCodes);
-          });
+            contactService.getTaxCodesVS1().then((data) => {
+                for (let i = 0; i < data.ttaxcodevs1.length; i++) {
+                    taxCodes.push(data.ttaxcodevs1[i].CodeName)
+                }
+                taxCodes = _.sortBy(taxCodes);
+                templateObject.taxCodeList.set(taxCodes);
+            });
         });
 
     };
@@ -999,327 +1002,327 @@ yearRange: "-90:+10",
             $('.supplierTab').trigger('click');
         }, 100);
         setTimeout(function () {
-          $('.sltTerms').val(templateObject.defaultpurchaseterm.get()||'');
+            $('.sltTerms').val(templateObject.defaultpurchaseterm.get()||'');
         }, 2000);
         $('.fullScreenSpin').css('display','none');
     }else{
         if(!isNaN(currentId.id)){
             supplierID = currentId.id;
             templateObject.getEmployeeData = function () {
-              getVS1Data('TSupplierVS1').then(function (dataObject) {
-                if(dataObject.length == 0){
-                  contactService.getOneSupplierDataEx(supplierID).then(function (data) {
+                getVS1Data('TSupplierVS1').then(function (dataObject) {
+                    if(dataObject.length == 0){
+                        contactService.getOneSupplierDataEx(supplierID).then(function (data) {
 
-                      let lineItems = [];
+                            let lineItems = [];
 
-                      let lineItemObj = {
-                          id : data.fields.ID,
-                          lid : 'Edit Supplier',
-                          company : data.fields.ClientName || '',
-                          email : data.fields.Email || '',
-                          title : data.fields.Title || '',
-                          firstname : data.fields.FirstName || '',
-                          middlename : data.fields.CUSTFLD10|| '',
-                          lastname : data.fields.LastName || '',
-                          tfn: '' || '',
-                          phone : data.fields.Phone || '',
-                          mobile:  data.fields.Mobile || '',
-                          fax: data.fields.Faxnumber || '',
-                          skype: data.fields.SkypeName || '',
-                          website: data.fields.URL || '',
-                          shippingaddress : data.fields.Street || '',
-                          scity : data.fields.Street2 || '',
-                          sstate : data.fields.State || '',
-                          spostalcode : data.fields.Postcode || '',
-                          scountry : data.fields.Country || LoggedCountry,
-                          billingaddress : data.fields.BillStreet || '',
-                          bcity : data.fields.BillStreet2 || '',
-                          bstate : data.fields.BillState || '',
-                          bpostalcode : data.fields.BillPostcode || '',
-                          bcountry : data.fields.Billcountry || '',
-                          custfield1 : data.fields.CUSTFLD1 || '',
-                          custfield2 : data.fields.CUSTFLD2 || '',
-                          custfield3 : data.fields.CUSTFLD3 || '',
-                          custfield4 : data.fields.CUSTFLD4 || '',
-                          notes: data.fields.Notes || '',
-                          preferedpayment:data.fields.PaymentMethodName || '',
-                          terms:data.fields.TermsName || '',
-                          deliverymethod:data.fields.ShippingMethodName || '',
-                          accountnumber:data.fields.ClientNo || 0.00,
-                          isContractor:data.fields.Contractor || false,
-                          issupplier: data.fields.IsSupplier || false,
-                          iscustomer: data.fields.IsCustomer || false,
-                          // openingbalancedate: data.fields.RewardPointsOpeningDate ? moment(data.fields.RewardPointsOpeningDate).format('DD/MM/YYYY') : "",
-                          // taxcode:data.fields.TaxCodeName || templateObject.defaultsaletaxcode.get()
+                            let lineItemObj = {
+                                id : data.fields.ID,
+                                lid : 'Edit Supplier',
+                                company : data.fields.ClientName || '',
+                                email : data.fields.Email || '',
+                                title : data.fields.Title || '',
+                                firstname : data.fields.FirstName || '',
+                                middlename : data.fields.CUSTFLD10|| '',
+                                lastname : data.fields.LastName || '',
+                                tfn: '' || '',
+                                phone : data.fields.Phone || '',
+                                mobile:  data.fields.Mobile || '',
+                                fax: data.fields.Faxnumber || '',
+                                skype: data.fields.SkypeName || '',
+                                website: data.fields.URL || '',
+                                shippingaddress : data.fields.Street || '',
+                                scity : data.fields.Street2 || '',
+                                sstate : data.fields.State || '',
+                                spostalcode : data.fields.Postcode || '',
+                                scountry : data.fields.Country || LoggedCountry,
+                                billingaddress : data.fields.BillStreet || '',
+                                bcity : data.fields.BillStreet2 || '',
+                                bstate : data.fields.BillState || '',
+                                bpostalcode : data.fields.BillPostcode || '',
+                                bcountry : data.fields.Billcountry || '',
+                                custfield1 : data.fields.CUSTFLD1 || '',
+                                custfield2 : data.fields.CUSTFLD2 || '',
+                                custfield3 : data.fields.CUSTFLD3 || '',
+                                custfield4 : data.fields.CUSTFLD4 || '',
+                                notes: data.fields.Notes || '',
+                                preferedpayment:data.fields.PaymentMethodName || '',
+                                terms:data.fields.TermsName || '',
+                                deliverymethod:data.fields.ShippingMethodName || '',
+                                accountnumber:data.fields.ClientNo || 0.00,
+                                isContractor:data.fields.Contractor || false,
+                                issupplier: data.fields.IsSupplier || false,
+                                iscustomer: data.fields.IsCustomer || false,
+                                // openingbalancedate: data.fields.RewardPointsOpeningDate ? moment(data.fields.RewardPointsOpeningDate).format('DD/MM/YYYY') : "",
+                                // taxcode:data.fields.TaxCodeName || templateObject.defaultsaletaxcode.get()
 
-                      }
+                            }
 
-                      if((data.fields.Street == data.fields.BillStreet) && (data.fields.Street2 == data.fields.BillStreet2)
-                         && (data.fields.State == data.fields.BillState)&& (data.fields.Postcode == data.fields.Postcode)
-                         && (data.fields.Country == data.fields.Billcountry)){
-                          templateObject.isSameAddress.set(true);
-                      }
+                            if((data.fields.Street == data.fields.BillStreet) && (data.fields.Street2 == data.fields.BillStreet2)
+                               && (data.fields.State == data.fields.BillState)&& (data.fields.Postcode == data.fields.Postcode)
+                               && (data.fields.Country == data.fields.Billcountry)){
+                                templateObject.isSameAddress.set(true);
+                            }
 
-                      if(data.fields.Contractor == true){
-                          // $('#isformcontractor')
-                          $('#isformcontractor').attr("checked","checked");
-                      }else{
-                          $('#isformcontractor').removeAttr("checked");
-                      }
-                      templateObject.getOverviewAPData(data.fields.ClientName);
-                      templateObject.records.set(lineItemObj);
+                            if(data.fields.Contractor == true){
+                                // $('#isformcontractor')
+                                $('#isformcontractor').attr("checked","checked");
+                            }else{
+                                $('#isformcontractor').removeAttr("checked");
+                            }
+                            templateObject.getOverviewAPData(data.fields.ClientName);
+                            templateObject.records.set(lineItemObj);
 
-                      /* START attachment */
-                      templateObject.attachmentCount.set(0);
-                      if(data.fields.Attachments){
-                          if(data.fields.Attachments.length){
-                              templateObject.attachmentCount.set(data.fields.Attachments.length);
-                              templateObject.uploadedFiles.set(data.fields.Attachments);
+                            /* START attachment */
+                            templateObject.attachmentCount.set(0);
+                            if(data.fields.Attachments){
+                                if(data.fields.Attachments.length){
+                                    templateObject.attachmentCount.set(data.fields.Attachments.length);
+                                    templateObject.uploadedFiles.set(data.fields.Attachments);
 
-                          }
-                      }
-                      /* END  attachment */
+                                }
+                            }
+                            /* END  attachment */
 
-                      //templateObject.getAllProductRecentTransactions(data.fields.ClientName);
-                      // $('.fullScreenSpin').css('display','none');
-                  });
-                }else{
-                  let data = JSON.parse(dataObject[0].data);
-                  let useData = data.tsuppliervs1;
-                  var added=false;
-                  for(let i=0; i<useData.length; i++){
-                    if(parseInt(useData[i].fields.ID) === parseInt(supplierID)){
-                      added = true;
-                        $('.fullScreenSpin').css('display','none');
+                            //templateObject.getAllProductRecentTransactions(data.fields.ClientName);
+                            // $('.fullScreenSpin').css('display','none');
+                        });
+                    }else{
+                        let data = JSON.parse(dataObject[0].data);
+                        let useData = data.tsuppliervs1;
+                        var added=false;
+                        for(let i=0; i<useData.length; i++){
+                            if(parseInt(useData[i].fields.ID) === parseInt(supplierID)){
+                                added = true;
+                                $('.fullScreenSpin').css('display','none');
+                                let lineItems = [];
+
+                                let lineItemObj = {
+                                    id : useData[i].fields.ID,
+                                    lid : 'Edit Supplier',
+                                    company : useData[i].fields.ClientName || '',
+                                    email : useData[i].fields.Email || '',
+                                    title : useData[i].fields.Title || '',
+                                    firstname : useData[i].fields.FirstName || '',
+                                    middlename : useData[i].fields.CUSTFLD10|| '',
+                                    lastname : useData[i].fields.LastName || '',
+                                    tfn: '' || '',
+                                    phone : useData[i].fields.Phone || '',
+                                    mobile:  useData[i].fields.Mobile || '',
+                                    fax: useData[i].fields.Faxnumber || '',
+                                    skype: useData[i].fields.SkypeName || '',
+                                    website: useData[i].fields.URL || '',
+                                    shippingaddress : useData[i].fields.Street || '',
+                                    scity : useData[i].fields.Street2 || '',
+                                    sstate : useData[i].fields.State || '',
+                                    spostalcode : useData[i].fields.Postcode || '',
+                                    scountry : useData[i].fields.Country || LoggedCountry,
+                                    billingaddress : useData[i].fields.BillStreet || '',
+                                    bcity : useData[i].fields.BillStreet2 || '',
+                                    bstate : useData[i].fields.BillState || '',
+                                    bpostalcode : useData[i].fields.BillPostcode || '',
+                                    bcountry : useData[i].fields.Billcountry || '',
+                                    custfield1 : useData[i].fields.CUSTFLD1 || '',
+                                    custfield2 : useData[i].fields.CUSTFLD2 || '',
+                                    custfield3 : useData[i].fields.CUSTFLD3 || '',
+                                    custfield4 : useData[i].fields.CUSTFLD4 || '',
+                                    notes: useData[i].fields.Notes || '',
+                                    preferedpayment:useData[i].fields.PaymentMethodName || '',
+                                    terms:useData[i].fields.TermsName || '',
+                                    deliverymethod:useData[i].fields.ShippingMethodName || '',
+                                    accountnumber:useData[i].fields.ClientNo || 0.00,
+                                    isContractor:useData[i].fields.Contractor || false,
+                                    issupplier: useData[i].fields.IsSupplier || false,
+                                    iscustomer: useData[i].fields.IsCustomer || false,
+                                    // openingbalancedate: useData[i].fields.RewardPointsOpeningDate ? moment(useData[i].fields.RewardPointsOpeningDate).format('DD/MM/YYYY') : "",
+                                    // taxcode:useData[i].fields.TaxCodeName || templateObject.defaultsaletaxcode.get()
+
+                                }
+
+                                if((useData[i].fields.Street == useData[i].fields.BillStreet) && (useData[i].fields.Street2 == useData[i].fields.BillStreet2)
+                                   && (useData[i].fields.State == useData[i].fields.BillState)&& (useData[i].fields.Postcode == useData[i].fields.Postcode)
+                                   && (useData[i].fields.Country == useData[i].fields.Billcountry)){
+                                    templateObject.isSameAddress.set(true);
+                                }
+
+                                if(useData[i].fields.Contractor == true){
+                                    // $('#isformcontractor')
+                                    $('#isformcontractor').attr("checked","checked");
+                                }else{
+                                    $('#isformcontractor').removeAttr("checked");
+                                }
+                                templateObject.getOverviewAPData(useData[i].fields.ClientName);
+                                templateObject.records.set(lineItemObj);
+
+                                /* START attachment */
+                                templateObject.attachmentCount.set(0);
+                                if(useData[i].fields.Attachments){
+                                    if(useData[i].fields.Attachments.length){
+                                        templateObject.attachmentCount.set(useData[i].fields.Attachments.length);
+                                        templateObject.uploadedFiles.set(useData[i].fields.Attachments);
+
+                                    }
+                                }
+                                /* END  attachment */
+
+                                //templateObject.getAllProductRecentTransactions(useData[i].fields.ClientName);
+                            }
+                        }
+
+                        if(!added) {
+                            contactService.getOneSupplierDataEx(supplierID).then(function (data) {
+
+                                let lineItems = [];
+
+                                let lineItemObj = {
+                                    id : data.fields.ID,
+                                    lid : 'Edit Supplier',
+                                    company : data.fields.ClientName || '',
+                                    email : data.fields.Email || '',
+                                    title : data.fields.Title || '',
+                                    firstname : data.fields.FirstName || '',
+                                    middlename : data.fields.CUSTFLD10|| '',
+                                    lastname : data.fields.LastName || '',
+                                    tfn: '' || '',
+                                    phone : data.fields.Phone || '',
+                                    mobile:  data.fields.Mobile || '',
+                                    fax: data.fields.Faxnumber || '',
+                                    skype: data.fields.SkypeName || '',
+                                    website: data.fields.URL || '',
+                                    shippingaddress : data.fields.Street || '',
+                                    scity : data.fields.Street2 || '',
+                                    sstate : data.fields.State || '',
+                                    spostalcode : data.fields.Postcode || '',
+                                    scountry : data.fields.Country || LoggedCountry,
+                                    billingaddress : data.fields.BillStreet || '',
+                                    bcity : data.fields.BillStreet2 || '',
+                                    bstate : data.fields.BillState || '',
+                                    bpostalcode : data.fields.BillPostcode || '',
+                                    bcountry : data.fields.Billcountry || '',
+                                    custfield1 : data.fields.CUSTFLD1 || '',
+                                    custfield2 : data.fields.CUSTFLD2 || '',
+                                    custfield3 : data.fields.CUSTFLD3 || '',
+                                    custfield4 : data.fields.CUSTFLD4 || '',
+                                    notes: data.fields.Notes || '',
+                                    preferedpayment:data.fields.PaymentMethodName || '',
+                                    terms:data.fields.TermsName || '',
+                                    deliverymethod:data.fields.ShippingMethodName || '',
+                                    accountnumber:data.fields.ClientNo || 0.00,
+                                    isContractor:data.fields.Contractor || false,
+                                    issupplier: data.fields.IsSupplier || false,
+                                    iscustomer: data.fields.IsCustomer || false,
+                                    // openingbalancedate: data.fields.RewardPointsOpeningDate ? moment(data.fields.RewardPointsOpeningDate).format('DD/MM/YYYY') : "",
+                                    // taxcode:data.fields.TaxCodeName || templateObject.defaultsaletaxcode.get()
+
+                                }
+
+                                if((data.fields.Street == data.fields.BillStreet) && (data.fields.Street2 == data.fields.BillStreet2)
+                                   && (data.fields.State == data.fields.BillState)&& (data.fields.Postcode == data.fields.Postcode)
+                                   && (data.fields.Country == data.fields.Billcountry)){
+                                    templateObject.isSameAddress.set(true);
+                                }
+
+                                if(data.fields.Contractor == true){
+                                    // $('#isformcontractor')
+                                    $('#isformcontractor').attr("checked","checked");
+                                }else{
+                                    $('#isformcontractor').removeAttr("checked");
+                                }
+                                templateObject.getOverviewAPData(data.fields.ClientName);
+                                templateObject.records.set(lineItemObj);
+
+                                /* START attachment */
+                                templateObject.attachmentCount.set(0);
+                                if(data.fields.Attachments){
+                                    if(data.fields.Attachments.length){
+                                        templateObject.attachmentCount.set(data.fields.Attachments.length);
+                                        templateObject.uploadedFiles.set(data.fields.Attachments);
+
+                                    }
+                                }
+                                /* END  attachment */
+
+                                //templateObject.getAllProductRecentTransactions(data.fields.ClientName);
+                                // $('.fullScreenSpin').css('display','none');
+                            });
+                        }
+                    }
+                }).catch(function (err) {
+                    contactService.getOneSupplierDataEx(supplierID).then(function (data) {
+
                         let lineItems = [];
 
-                          let lineItemObj = {
-                              id : useData[i].fields.ID,
-                              lid : 'Edit Supplier',
-                              company : useData[i].fields.ClientName || '',
-                              email : useData[i].fields.Email || '',
-                              title : useData[i].fields.Title || '',
-                              firstname : useData[i].fields.FirstName || '',
-                              middlename : useData[i].fields.CUSTFLD10|| '',
-                              lastname : useData[i].fields.LastName || '',
-                              tfn: '' || '',
-                              phone : useData[i].fields.Phone || '',
-                              mobile:  useData[i].fields.Mobile || '',
-                              fax: useData[i].fields.Faxnumber || '',
-                              skype: useData[i].fields.SkypeName || '',
-                              website: useData[i].fields.URL || '',
-                              shippingaddress : useData[i].fields.Street || '',
-                              scity : useData[i].fields.Street2 || '',
-                              sstate : useData[i].fields.State || '',
-                              spostalcode : useData[i].fields.Postcode || '',
-                              scountry : useData[i].fields.Country || LoggedCountry,
-                              billingaddress : useData[i].fields.BillStreet || '',
-                              bcity : useData[i].fields.BillStreet2 || '',
-                              bstate : useData[i].fields.BillState || '',
-                              bpostalcode : useData[i].fields.BillPostcode || '',
-                              bcountry : useData[i].fields.Billcountry || '',
-                              custfield1 : useData[i].fields.CUSTFLD1 || '',
-                              custfield2 : useData[i].fields.CUSTFLD2 || '',
-                              custfield3 : useData[i].fields.CUSTFLD3 || '',
-                              custfield4 : useData[i].fields.CUSTFLD4 || '',
-                              notes: useData[i].fields.Notes || '',
-                              preferedpayment:useData[i].fields.PaymentMethodName || '',
-                              terms:useData[i].fields.TermsName || '',
-                              deliverymethod:useData[i].fields.ShippingMethodName || '',
-                              accountnumber:useData[i].fields.ClientNo || 0.00,
-                              isContractor:useData[i].fields.Contractor || false,
-                              issupplier: useData[i].fields.IsSupplier || false,
-                              iscustomer: useData[i].fields.IsCustomer || false,
-                              // openingbalancedate: useData[i].fields.RewardPointsOpeningDate ? moment(useData[i].fields.RewardPointsOpeningDate).format('DD/MM/YYYY') : "",
-                              // taxcode:useData[i].fields.TaxCodeName || templateObject.defaultsaletaxcode.get()
+                        let lineItemObj = {
+                            id : data.fields.ID,
+                            lid : 'Edit Supplier',
+                            company : data.fields.ClientName || '',
+                            email : data.fields.Email || '',
+                            title : data.fields.Title || '',
+                            firstname : data.fields.FirstName || '',
+                            middlename : data.fields.CUSTFLD10|| '',
+                            lastname : data.fields.LastName || '',
+                            tfn: '' || '',
+                            phone : data.fields.Phone || '',
+                            mobile:  data.fields.Mobile || '',
+                            fax: data.fields.Faxnumber || '',
+                            skype: data.fields.SkypeName || '',
+                            website: data.fields.URL || '',
+                            shippingaddress : data.fields.Street || '',
+                            scity : data.fields.Street2 || '',
+                            sstate : data.fields.State || '',
+                            spostalcode : data.fields.Postcode || '',
+                            scountry : data.fields.Country || LoggedCountry,
+                            billingaddress : data.fields.BillStreet || '',
+                            bcity : data.fields.BillStreet2 || '',
+                            bstate : data.fields.BillState || '',
+                            bpostalcode : data.fields.BillPostcode || '',
+                            bcountry : data.fields.Billcountry || '',
+                            custfield1 : data.fields.CUSTFLD1 || '',
+                            custfield2 : data.fields.CUSTFLD2 || '',
+                            custfield3 : data.fields.CUSTFLD3 || '',
+                            custfield4 : data.fields.CUSTFLD4 || '',
+                            notes: data.fields.Notes || '',
+                            preferedpayment:data.fields.PaymentMethodName || '',
+                            terms:data.fields.TermsName || '',
+                            deliverymethod:data.fields.ShippingMethodName || '',
+                            accountnumber:data.fields.ClientNo || 0.00,
+                            isContractor:data.fields.Contractor || false,
+                            issupplier: data.fields.IsSupplier || false,
+                            iscustomer: data.fields.IsCustomer || false,
+                            // openingbalancedate: data.fields.RewardPointsOpeningDate ? moment(data.fields.RewardPointsOpeningDate).format('DD/MM/YYYY') : "",
+                            // taxcode:data.fields.TaxCodeName || templateObject.defaultsaletaxcode.get()
 
-                          }
+                        }
 
-                          if((useData[i].fields.Street == useData[i].fields.BillStreet) && (useData[i].fields.Street2 == useData[i].fields.BillStreet2)
-                             && (useData[i].fields.State == useData[i].fields.BillState)&& (useData[i].fields.Postcode == useData[i].fields.Postcode)
-                             && (useData[i].fields.Country == useData[i].fields.Billcountry)){
-                              templateObject.isSameAddress.set(true);
-                          }
+                        if((data.fields.Street == data.fields.BillStreet) && (data.fields.Street2 == data.fields.BillStreet2)
+                           && (data.fields.State == data.fields.BillState)&& (data.fields.Postcode == data.fields.Postcode)
+                           && (data.fields.Country == data.fields.Billcountry)){
+                            templateObject.isSameAddress.set(true);
+                        }
 
-                          if(useData[i].fields.Contractor == true){
-                              // $('#isformcontractor')
-                              $('#isformcontractor').attr("checked","checked");
-                          }else{
-                              $('#isformcontractor').removeAttr("checked");
-                          }
-                          templateObject.getOverviewAPData(useData[i].fields.ClientName);
-                          templateObject.records.set(lineItemObj);
+                        if(data.fields.Contractor == true){
+                            // $('#isformcontractor')
+                            $('#isformcontractor').attr("checked","checked");
+                        }else{
+                            $('#isformcontractor').removeAttr("checked");
+                        }
+                        templateObject.getOverviewAPData(data.fields.ClientName);
+                        templateObject.records.set(lineItemObj);
 
-                          /* START attachment */
-                          templateObject.attachmentCount.set(0);
-                          if(useData[i].fields.Attachments){
-                              if(useData[i].fields.Attachments.length){
-                                  templateObject.attachmentCount.set(useData[i].fields.Attachments.length);
-                                  templateObject.uploadedFiles.set(useData[i].fields.Attachments);
+                        /* START attachment */
+                        templateObject.attachmentCount.set(0);
+                        if(data.fields.Attachments){
+                            if(data.fields.Attachments.length){
+                                templateObject.attachmentCount.set(data.fields.Attachments.length);
+                                templateObject.uploadedFiles.set(data.fields.Attachments);
 
-                              }
-                          }
-                          /* END  attachment */
+                            }
+                        }
+                        /* END  attachment */
 
-                          //templateObject.getAllProductRecentTransactions(useData[i].fields.ClientName);
-                      }
-                    }
-
-                    if(!added) {
-                      contactService.getOneSupplierDataEx(supplierID).then(function (data) {
-
-                          let lineItems = [];
-
-                          let lineItemObj = {
-                              id : data.fields.ID,
-                              lid : 'Edit Supplier',
-                              company : data.fields.ClientName || '',
-                              email : data.fields.Email || '',
-                              title : data.fields.Title || '',
-                              firstname : data.fields.FirstName || '',
-                              middlename : data.fields.CUSTFLD10|| '',
-                              lastname : data.fields.LastName || '',
-                              tfn: '' || '',
-                              phone : data.fields.Phone || '',
-                              mobile:  data.fields.Mobile || '',
-                              fax: data.fields.Faxnumber || '',
-                              skype: data.fields.SkypeName || '',
-                              website: data.fields.URL || '',
-                              shippingaddress : data.fields.Street || '',
-                              scity : data.fields.Street2 || '',
-                              sstate : data.fields.State || '',
-                              spostalcode : data.fields.Postcode || '',
-                              scountry : data.fields.Country || LoggedCountry,
-                              billingaddress : data.fields.BillStreet || '',
-                              bcity : data.fields.BillStreet2 || '',
-                              bstate : data.fields.BillState || '',
-                              bpostalcode : data.fields.BillPostcode || '',
-                              bcountry : data.fields.Billcountry || '',
-                              custfield1 : data.fields.CUSTFLD1 || '',
-                              custfield2 : data.fields.CUSTFLD2 || '',
-                              custfield3 : data.fields.CUSTFLD3 || '',
-                              custfield4 : data.fields.CUSTFLD4 || '',
-                              notes: data.fields.Notes || '',
-                              preferedpayment:data.fields.PaymentMethodName || '',
-                              terms:data.fields.TermsName || '',
-                              deliverymethod:data.fields.ShippingMethodName || '',
-                              accountnumber:data.fields.ClientNo || 0.00,
-                              isContractor:data.fields.Contractor || false,
-                              issupplier: data.fields.IsSupplier || false,
-                              iscustomer: data.fields.IsCustomer || false,
-                              // openingbalancedate: data.fields.RewardPointsOpeningDate ? moment(data.fields.RewardPointsOpeningDate).format('DD/MM/YYYY') : "",
-                              // taxcode:data.fields.TaxCodeName || templateObject.defaultsaletaxcode.get()
-
-                          }
-
-                          if((data.fields.Street == data.fields.BillStreet) && (data.fields.Street2 == data.fields.BillStreet2)
-                             && (data.fields.State == data.fields.BillState)&& (data.fields.Postcode == data.fields.Postcode)
-                             && (data.fields.Country == data.fields.Billcountry)){
-                              templateObject.isSameAddress.set(true);
-                          }
-
-                          if(data.fields.Contractor == true){
-                              // $('#isformcontractor')
-                              $('#isformcontractor').attr("checked","checked");
-                          }else{
-                              $('#isformcontractor').removeAttr("checked");
-                          }
-                          templateObject.getOverviewAPData(data.fields.ClientName);
-                          templateObject.records.set(lineItemObj);
-
-                          /* START attachment */
-                          templateObject.attachmentCount.set(0);
-                          if(data.fields.Attachments){
-                              if(data.fields.Attachments.length){
-                                  templateObject.attachmentCount.set(data.fields.Attachments.length);
-                                  templateObject.uploadedFiles.set(data.fields.Attachments);
-
-                              }
-                          }
-                          /* END  attachment */
-
-                          //templateObject.getAllProductRecentTransactions(data.fields.ClientName);
-                          // $('.fullScreenSpin').css('display','none');
-                      });
-                    }
-                }
-            }).catch(function (err) {
-              contactService.getOneSupplierDataEx(supplierID).then(function (data) {
-
-                  let lineItems = [];
-
-                  let lineItemObj = {
-                      id : data.fields.ID,
-                      lid : 'Edit Supplier',
-                      company : data.fields.ClientName || '',
-                      email : data.fields.Email || '',
-                      title : data.fields.Title || '',
-                      firstname : data.fields.FirstName || '',
-                      middlename : data.fields.CUSTFLD10|| '',
-                      lastname : data.fields.LastName || '',
-                      tfn: '' || '',
-                      phone : data.fields.Phone || '',
-                      mobile:  data.fields.Mobile || '',
-                      fax: data.fields.Faxnumber || '',
-                      skype: data.fields.SkypeName || '',
-                      website: data.fields.URL || '',
-                      shippingaddress : data.fields.Street || '',
-                      scity : data.fields.Street2 || '',
-                      sstate : data.fields.State || '',
-                      spostalcode : data.fields.Postcode || '',
-                      scountry : data.fields.Country || LoggedCountry,
-                      billingaddress : data.fields.BillStreet || '',
-                      bcity : data.fields.BillStreet2 || '',
-                      bstate : data.fields.BillState || '',
-                      bpostalcode : data.fields.BillPostcode || '',
-                      bcountry : data.fields.Billcountry || '',
-                      custfield1 : data.fields.CUSTFLD1 || '',
-                      custfield2 : data.fields.CUSTFLD2 || '',
-                      custfield3 : data.fields.CUSTFLD3 || '',
-                      custfield4 : data.fields.CUSTFLD4 || '',
-                      notes: data.fields.Notes || '',
-                      preferedpayment:data.fields.PaymentMethodName || '',
-                      terms:data.fields.TermsName || '',
-                      deliverymethod:data.fields.ShippingMethodName || '',
-                      accountnumber:data.fields.ClientNo || 0.00,
-                      isContractor:data.fields.Contractor || false,
-                      issupplier: data.fields.IsSupplier || false,
-                      iscustomer: data.fields.IsCustomer || false,
-                      // openingbalancedate: data.fields.RewardPointsOpeningDate ? moment(data.fields.RewardPointsOpeningDate).format('DD/MM/YYYY') : "",
-                      // taxcode:data.fields.TaxCodeName || templateObject.defaultsaletaxcode.get()
-
-                  }
-
-                  if((data.fields.Street == data.fields.BillStreet) && (data.fields.Street2 == data.fields.BillStreet2)
-                     && (data.fields.State == data.fields.BillState)&& (data.fields.Postcode == data.fields.Postcode)
-                     && (data.fields.Country == data.fields.Billcountry)){
-                      templateObject.isSameAddress.set(true);
-                  }
-
-                  if(data.fields.Contractor == true){
-                      // $('#isformcontractor')
-                      $('#isformcontractor').attr("checked","checked");
-                  }else{
-                      $('#isformcontractor').removeAttr("checked");
-                  }
-                  templateObject.getOverviewAPData(data.fields.ClientName);
-                  templateObject.records.set(lineItemObj);
-
-                  /* START attachment */
-                  templateObject.attachmentCount.set(0);
-                  if(data.fields.Attachments){
-                      if(data.fields.Attachments.length){
-                          templateObject.attachmentCount.set(data.fields.Attachments.length);
-                          templateObject.uploadedFiles.set(data.fields.Attachments);
-
-                      }
-                  }
-                  /* END  attachment */
-
-                  //templateObject.getAllProductRecentTransactions(data.fields.ClientName);
-                  // $('.fullScreenSpin').css('display','none');
-              });
-            });
+                        //templateObject.getAllProductRecentTransactions(data.fields.ClientName);
+                        // $('.fullScreenSpin').css('display','none');
+                    });
+                });
 
 
             }
@@ -1361,7 +1364,7 @@ yearRange: "-90:+10",
             }, 100);
 
             setTimeout(function () {
-              $('#sltTerms').val(templateObject.defaultpurchaseterm.get()||'');
+                $('#sltTerms').val(templateObject.defaultpurchaseterm.get()||'');
 
             }, 2000);
             $('.fullScreenSpin').css('display','none');
@@ -1369,105 +1372,105 @@ yearRange: "-90:+10",
     }
 
     templateObject.getSuppliersList = function () {
-      getVS1Data('TSupplierVS1').then(function (dataObject) {
-        if(dataObject.length == 0){
-          contactService.getAllSupplierSideDataVS1().then(function (dataSupp) {
-              let lineItemsSupp = [];
-              let lineItemObjSupp = {};
+        getVS1Data('TSupplierVS1').then(function (dataObject) {
+            if(dataObject.length == 0){
+                contactService.getAllSupplierSideDataVS1().then(function (dataSupp) {
+                    let lineItemsSupp = [];
+                    let lineItemObjSupp = {};
 
-              for(let j=0; j<dataSupp.tsuppliervs1.length; j++){
-                let classname ='';
-                if(!isNaN(currentId.id)){
-                  if(dataSupp.tsuppliervs1[j].Id == parseInt(currentId.id)){
-                    classname = 'currentSelect';
-                  }
+                    for(let j=0; j<dataSupp.tsuppliervs1.length; j++){
+                        let classname ='';
+                        if(!isNaN(currentId.id)){
+                            if(dataSupp.tsuppliervs1[j].Id == parseInt(currentId.id)){
+                                classname = 'currentSelect';
+                            }
+                        }
+                        var dataListSupp = {
+                            id: dataSupp.tsuppliervs1[j].Id || '',
+                            company: dataSupp.tsuppliervs1[j].ClientName || '',
+                            classname:classname
+                        };
+                        //
+                        lineItemsSupp.push(dataListSupp);
+                    }
+
+                    templateObject.supplierrecords.set(lineItemsSupp);
+
+                    if(templateObject.supplierrecords.get()){
+
+                        setTimeout(function () {
+                            $('.counter').text(lineItemsSupp.length + ' items');
+                        }, 100);
+                    }
+
+                }).catch(function (err) {
+
+                });
+            }else{
+                let data = JSON.parse(dataObject[0].data);
+                let useData = data.tsuppliervs1;
+                let lineItemsSupp = [];
+                let lineItemObjSupp = {};
+
+                for(let j=0; j<useData.length; j++){
+                    let classname ='';
+                    if(!isNaN(currentId.id)){
+                        if(useData[j].fields.ID == parseInt(currentId.id)){
+                            classname = 'currentSelect';
+                        }
+                    }
+                    var dataListSupp = {
+                        id: useData[j].fields.ID || '',
+                        company: useData[j].fields.ClientName || '',
+                        classname:classname
+                    };
+                    //
+                    lineItemsSupp.push(dataListSupp);
                 }
-                  var dataListSupp = {
-                      id: dataSupp.tsuppliervs1[j].Id || '',
-                      company: dataSupp.tsuppliervs1[j].ClientName || '',
-                      classname:classname
-                  };
-                  //
-                  lineItemsSupp.push(dataListSupp);
-              }
 
-              templateObject.supplierrecords.set(lineItemsSupp);
+                templateObject.supplierrecords.set(lineItemsSupp);
 
-              if(templateObject.supplierrecords.get()){
+                if(templateObject.supplierrecords.get()){
 
-                  setTimeout(function () {
-                      $('.counter').text(lineItemsSupp.length + ' items');
-                  }, 100);
-              }
+                    setTimeout(function () {
+                        $('.counter').text(lineItemsSupp.length + ' items');
+                    }, 100);
+                }
 
-          }).catch(function (err) {
-
-          });
-        }else{
-          let data = JSON.parse(dataObject[0].data);
-          let useData = data.tsuppliervs1;
-          let lineItemsSupp = [];
-          let lineItemObjSupp = {};
-
-          for(let j=0; j<useData.length; j++){
-            let classname ='';
-            if(!isNaN(currentId.id)){
-              if(useData[j].fields.ID == parseInt(currentId.id)){
-                classname = 'currentSelect';
-              }
             }
-              var dataListSupp = {
-                  id: useData[j].fields.ID || '',
-                  company: useData[j].fields.ClientName || '',
-                  classname:classname
-              };
-              //
-              lineItemsSupp.push(dataListSupp);
-          }
-
-          templateObject.supplierrecords.set(lineItemsSupp);
-
-          if(templateObject.supplierrecords.get()){
-
-              setTimeout(function () {
-                  $('.counter').text(lineItemsSupp.length + ' items');
-              }, 100);
-          }
-
-        }
         }).catch(function (err) {
-          contactService.getAllSupplierSideDataVS1().then(function (dataSupp) {
-              let lineItemsSupp = [];
-              let lineItemObjSupp = {};
+            contactService.getAllSupplierSideDataVS1().then(function (dataSupp) {
+                let lineItemsSupp = [];
+                let lineItemObjSupp = {};
 
-              for(let j=0; j<dataSupp.tsuppliervs1.length; j++){
-                let classname ='';
-                if(!isNaN(currentId.id)){
-                  if(dataSupp.tsuppliervs1[j].Id == parseInt(currentId.id)){
-                    classname = 'currentSelect';
-                  }
+                for(let j=0; j<dataSupp.tsuppliervs1.length; j++){
+                    let classname ='';
+                    if(!isNaN(currentId.id)){
+                        if(dataSupp.tsuppliervs1[j].Id == parseInt(currentId.id)){
+                            classname = 'currentSelect';
+                        }
+                    }
+                    var dataListSupp = {
+                        id: dataSupp.tsuppliervs1[j].Id || '',
+                        company: dataSupp.tsuppliervs1[j].ClientName || '',
+                        classname:classname
+                    };
+                    //
+                    lineItemsSupp.push(dataListSupp);
                 }
-                  var dataListSupp = {
-                      id: dataSupp.tsuppliervs1[j].Id || '',
-                      company: dataSupp.tsuppliervs1[j].ClientName || '',
-                      classname:classname
-                  };
-                  //
-                  lineItemsSupp.push(dataListSupp);
-              }
 
-              templateObject.supplierrecords.set(lineItemsSupp);
+                templateObject.supplierrecords.set(lineItemsSupp);
 
-              if(templateObject.supplierrecords.get()){
+                if(templateObject.supplierrecords.get()){
 
-                  setTimeout(function () {
-                      $('.counter').text(lineItemsSupp.length + ' items');
-                  }, 100);
-              }
+                    setTimeout(function () {
+                        $('.counter').text(lineItemsSupp.length + ' items');
+                    }, 100);
+                }
 
-          }).catch(function (err) {
+            }).catch(function (err) {
 
-          });
+            });
         });
 
     }
@@ -1594,9 +1597,9 @@ Template.supplierscard.events({
         let isContractor = false;
         let isCustomer = false;
         if ($('#chkSameAsCustomer').is(':checked')) {
-          isCustomer = true;
+            isCustomer = true;
         }else{
-          isCustomer = false;
+            isCustomer = false;
         }
         if($('#isformcontractor').is(':checked')){
             isContractor = true;
@@ -1788,13 +1791,13 @@ Template.supplierscard.events({
                 //window.open('/supplierscard?id=' + supplierSaveID,'_self');
                 //window.open('/supplierlist','_self');
                 sideBarService.getAllSuppliersDataVS1().then(function(dataReload) {
-                  addVS1Data('TSupplierVS1',JSON.stringify(dataReload)).then(function (datareturn) {
-                    window.open('/supplierlist','_self');
-                  }).catch(function (err) {
-                    window.open('/supplierlist','_self');
-                  });
+                    addVS1Data('TSupplierVS1',JSON.stringify(dataReload)).then(function (datareturn) {
+                        window.open('/supplierlist','_self');
+                    }).catch(function (err) {
+                        window.open('/supplierlist','_self');
+                    });
                 }).catch(function(err) {
-                  window.open('/supplierlist','_self');
+                    window.open('/supplierlist','_self');
                 });
             }
         }).catch(function (err) {
@@ -2353,9 +2356,9 @@ Template.supplierscard.events({
         }
     },
     'click .transTab' : function(event){
-      let templateObject = Template.instance();
-      let supplierName = $('#edtSupplierCompany').val();
-      templateObject.getAllProductRecentTransactions(supplierName);
+        let templateObject = Template.instance();
+        let supplierName = $('#edtSupplierCompany').val();
+        templateObject.getAllProductRecentTransactions(supplierName);
     }
 
 });

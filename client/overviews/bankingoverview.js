@@ -452,7 +452,7 @@ Template.bankingoverview.onRendered(function() {
                                     text: '',
                                     download: 'open',
                                     className: "btntabletocsv hiddenColumn",
-                                    filename: "bankingoverview_" + moment().format(),
+                                    filename: "Banking Overview - " + moment().format(),
                                     orientation: 'portrait',
                                     exportOptions: {
                                         columns: ':visible'
@@ -463,7 +463,7 @@ Template.bankingoverview.onRendered(function() {
                                     className: "btntabletopdf hiddenColumn",
                                     text: '',
                                     title: 'Payment Overview',
-                                    filename: "bankingoverview_" + moment().format(),
+                                    filename: "Banking Overview - " + moment().format(),
                                     exportOptions: {
                                         columns: ':visible'
                                     }
@@ -473,7 +473,7 @@ Template.bankingoverview.onRendered(function() {
                                     title: '',
                                     download: 'open',
                                     className: "btntabletoexcel hiddenColumn",
-                                    filename: "bankingoverview_" + moment().format(),
+                                    filename: "Banking Overview - " + moment().format(),
                                     orientation: 'portrait',
                                     exportOptions: {
                                         columns: ':visible'
@@ -720,10 +720,10 @@ Template.bankingoverview.onRendered(function() {
                                 text: '',
                                 download: 'open',
                                 className: "btntabletocsv hiddenColumn",
-                                filename: "bankingoverview_" + moment().format(),
+                                filename: "Banking Overview - " + moment().format(),
                                 orientation: 'portrait',
                                 exportOptions: {
-                                    columns: ':visible'
+                                    columns: [':visible:not(.colPaymentDate)']
                                 }
                             }, {
                                 extend: 'print',
@@ -731,9 +731,10 @@ Template.bankingoverview.onRendered(function() {
                                 className: "btntabletopdf hiddenColumn",
                                 text: '',
                                 title: 'Payment Overview',
-                                filename: "bankingoverview_" + moment().format(),
+                                filename: "Banking Overview - " + moment().format(),
                                 exportOptions: {
-                                    columns: ':visible'
+                                    columns: [':visible'],
+                                    stripHtml: false
                                 }
                             },
                             {
@@ -741,10 +742,12 @@ Template.bankingoverview.onRendered(function() {
                                 title: '',
                                 download: 'open',
                                 className: "btntabletoexcel hiddenColumn",
-                                filename: "bankingoverview_" + moment().format(),
+                                filename: "Banking Overview - " + moment().format(),
                                 orientation: 'portrait',
                                 exportOptions: {
-                                    columns: ':visible'
+//                                    columns: ['.colSortDate',':visible:not(.colPaymentDate)']
+                                    columns: [':visible'],
+                                    stripHtml: true
                                 }
                             }
                         ],
@@ -984,7 +987,7 @@ Template.bankingoverview.onRendered(function() {
                                 text: '',
                                 download: 'open',
                                 className: "btntabletocsv hiddenColumn",
-                                filename: "bankingoverview_" + moment().format(),
+                                filename: "Banking Overview - " + moment().format(),
                                 orientation: 'portrait',
                                 exportOptions: {
                                     columns: ':visible'
@@ -995,7 +998,7 @@ Template.bankingoverview.onRendered(function() {
                                 className: "btntabletopdf hiddenColumn",
                                 text: '',
                                 title: 'Payment Overview',
-                                filename: "bankingoverview_" + moment().format(),
+                                filename: "Banking Overview - " + moment().format(),
                                 exportOptions: {
                                     columns: ':visible'
                                 }
@@ -1005,7 +1008,7 @@ Template.bankingoverview.onRendered(function() {
                                 title: '',
                                 download: 'open',
                                 className: "btntabletoexcel hiddenColumn",
-                                filename: "bankingoverview_" + moment().format(),
+                                filename: "Banking Overview - " + moment().format(),
                                 orientation: 'portrait',
                                 exportOptions: {
                                     columns: ':visible'
