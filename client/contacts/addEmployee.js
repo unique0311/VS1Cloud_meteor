@@ -3016,7 +3016,6 @@ Template.employeescard.events({
         $('#edtCustomerCompany').val(employeename);
 
     },
-
     'keyup .search': function (event) {
         var searchTerm = $(".search").val();
         var listItem = $('.results tbody').children('tr');
@@ -3296,7 +3295,6 @@ Template.employeescard.events({
     'click .btnRefresh': function () {
         Meteor._reload.reload();
     },
-
     'click #formCheck-2': function () {
         if ($(event.target).is(':checked')) {
             $('#autoUpdate').css('display', 'none');
@@ -3691,6 +3689,50 @@ Template.employeescard.events({
             btnView.style.display = "flex";
             btnHide.style.display = "none";
         }
+    },
+    'click .btnDeleteEmployee': function (event) {
+        $('.fullScreenSpin').css('display', 'inline-block');
+
+        let templateObject = Template.instance();
+        let contactService2 = new ContactService();
+
+        var url = window.location.href;
+        var getso_id = url.split('?id=');
+        
+        let currentId = Router.current().params.query;
+        var objDetails = '';
+        
+        if (!isNaN(currentId.id)) {
+            currentEmployee = parseInt(currentId.id);
+            objDetails = {
+                type: "TEmployeeEx",
+                fields: {
+                    ID: currentEmployee,
+                    Active: false
+                }
+            };
+
+            contactService2.saveEmployeeEx(objDetails).then(function (objDetails) {
+                Router.go('/employeelist?success=true');
+            }).catch(function (err) {
+                swal({
+                    title: 'Oooops...',
+                    text: err,
+                    type: 'error',
+                    showCancelButton: false,
+                    confirmButtonText: 'Try Again'
+                }).then((result) => {
+                    if (result.value) {
+                    } else if (result.dismiss === 'cancel') {
+
+                    }
+                });
+                $('.fullScreenSpin').css('display', 'none');
+            });
+        } else {
+            Router.go('/employeelist?success=true');
+        }
+        $('#deleteEmployeeModal').modal('toggle');
     }
 
 
