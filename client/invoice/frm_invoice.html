@@ -971,12 +971,11 @@ style="margin: 16px;margin-top: 0px;width: 95px;"><i class="fa fa-remove" style=
                                                 <tr>
                                                     <th class="text-nowrap" style="background-color: white; color: rgb(0 0 0);">Trans Date</th>
                                                     <th class="text-nowrap" style="background-color: white; color: rgb(0 0 0);">Type</th>
-                                                    <th class="text-nowrap" style="background-color: white; color: rgb(0 0 0);">Trans No.</th>
-                                                    <th class="text-nowrap" style="background-color: white; color: rgb(0 0 0);">Original Amount</th>
-                                                    <th class="text-nowrap" style="background-color: white; color: rgb(0 0 0);">Amount Due</th>
-                                                    <th class="text-nowrap" style="background-color: white; color: rgb(0 0 0);">Payment Amount</th>
-                                                    <th class="text-nowrap" style="background-color: white; color: rgb(0 0 0);">Outstanding Amount</th>
-                                                    <th class="text-nowrap" style="background-color: white; color: rgb(0 0 0);">Comments</th>
+                                                    <th class="text-nowrap" style="background-color: white; color: rgb(0 0 0);">No.</th>
+                                                    <th class="text-nowrap" style="background-color: white; color: rgb(0 0 0);">Original</th>
+                                                    <th class="text-nowrap" style="background-color: white; color: rgb(0 0 0);">Due</th>
+                                                    <th class="text-nowrap" style="background-color: white; color: rgb(0 0 0);">Paid</th>
+                                                    <th class="text-nowrap" style="background-color: white; color: rgb(0 0 0);">Outstanding</th>
                                                 </tr>
                                             </thead>
                                             <tbody style="color: rgb(0 0 0);">
@@ -989,7 +988,6 @@ style="margin: 16px;margin-top: 0px;width: 95px;"><i class="fa fa-remove" style=
                                                     <td class="text-nowrap" >{{item.amountdue}}</td>
                                                     <td class="text-nowrap">{{item.paymentamount}}</td>
                                                     <td class="text-nowrap" >{{item.ouststandingamount}}</td>
-                                                    <td class="text-nowrap">{{item.comments}}</td>
                                                 </tr>
                                                 {{/each}}
                                             </tbody>
