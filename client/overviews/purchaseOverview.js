@@ -245,10 +245,21 @@ Template.purchasesoverview.onRendered(function() {
                                     text: '',
                                     download: 'open',
                                     className: "btntabletocsv hiddenColumn",
-                                    filename: "purchaseoverview_"+ moment().format(),
+                                    filename: "Purchase Overview List - "+ moment().format(),
                                     orientation:'portrait',
                                     exportOptions: {
-                                        columns: ':visible'
+                                        columns: ':visible',
+                                        format: {
+                                            body: function ( data, row, column ) {
+                                                if(data.includes("</span>")){
+                                                    var res = data.split("</span>");
+                                                    data = res[1];
+                                                }
+
+                                                return column === 1 ? data.replace(/<.*?>/ig, ""): data;
+
+                                            }
+                                        }
                                     }
                                 },{
                                     extend: 'print',
@@ -256,9 +267,10 @@ Template.purchasesoverview.onRendered(function() {
                                     className: "btntabletopdf hiddenColumn",
                                     text: '',
                                     title: 'Purchase Overview',
-                                    filename: "purchaseoverview_"+ moment().format(),
+                                    filename: "Purchase Overview List - "+ moment().format(),
                                     exportOptions: {
-                                        columns: ':visible'
+                                        columns: ':visible',
+                                        stripHtml: false
                                     }
                                 }],
                             select: true,
@@ -510,10 +522,21 @@ Template.purchasesoverview.onRendered(function() {
                                 text: '',
                                 download: 'open',
                                 className: "btntabletocsv hiddenColumn",
-                                filename: "purchaseoverview_"+ moment().format(),
+                                filename: "Purchase Overview List - "+ moment().format(),
                                 orientation:'portrait',
                                 exportOptions: {
-                                    columns: ':visible'
+                                    columns: ':visible',
+                                    format: {
+                                        body: function ( data, row, column ) {
+                                            if(data.includes("</span>")){
+                                                var res = data.split("</span>");
+                                                data = res[1];
+                                            }
+
+                                            return column === 1 ? data.replace(/<.*?>/ig, ""): data;
+
+                                        }
+                                    }
                                 }
                             },{
                                 extend: 'print',
@@ -521,9 +544,10 @@ Template.purchasesoverview.onRendered(function() {
                                 className: "btntabletopdf hiddenColumn",
                                 text: '',
                                 title: 'Purchase Overview',
-                                filename: "purchaseoverview_"+ moment().format(),
+                                filename: "Purchase Overview List - "+ moment().format(),
                                 exportOptions: {
-                                    columns: ':visible'
+                                    columns: ':visible',
+                                    stripHtml: false
                                 }
                             }],
                         select: true,
@@ -768,10 +792,21 @@ Template.purchasesoverview.onRendered(function() {
                                 text: '',
                                 download: 'open',
                                 className: "btntabletocsv hiddenColumn",
-                                filename: "purchaseoverview_"+ moment().format(),
+                                filename: "Purchase Overview List - "+ moment().format(),
                                 orientation:'portrait',
                                 exportOptions: {
-                                    columns: ':visible'
+                                    columns: ':visible',
+                                    format: {
+                                        body: function ( data, row, column ) {
+                                            if(data.includes("</span>")){
+                                                var res = data.split("</span>");
+                                                data = res[1];
+                                            }
+
+                                            return column === 1 ? data.replace(/<.*?>/ig, ""): data;
+
+                                        }
+                                    }
                                 }
                             },{
                                 extend: 'print',
@@ -779,9 +814,10 @@ Template.purchasesoverview.onRendered(function() {
                                 className: "btntabletopdf hiddenColumn",
                                 text: '',
                                 title: 'Purchase Overview',
-                                filename: "purchaseoverview_"+ moment().format(),
+                                filename: "Purchase Overview List - "+ moment().format(),
                                 exportOptions: {
-                                    columns: ':visible'
+                                    columns: ':visible',
+                                    stripHtml: false
                                 }
                             }],
                         select: true,
@@ -945,12 +981,12 @@ Template.purchasesoverview.events({
 
         sideBarService.getAllPurchaseOrderListAll().then(function(data) {
             addVS1Data('TbillReport',JSON.stringify(data)).then(function (datareturn) {
-              location.reload();
+                location.reload();
             }).catch(function (err) {
-              location.reload();
+                location.reload();
             });
         }).catch(function(err) {
-          location.reload();
+            location.reload();
         });
     },
     'click #newPurchaseorder' : function(event){

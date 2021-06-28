@@ -156,10 +156,21 @@ Template.salesoverview.onRendered(function() {
                                     text: '',
                                     download: 'open',
                                     className: "btntabletocsv hiddenColumn",
-                                    filename: "salesoverview_"+ moment().format(),
+                                    filename: "Sales Overview List - "+ moment().format(),
                                     orientation:'portrait',
                                     exportOptions: {
-                                        columns: ':visible'
+                                        columns: ':visible',
+                                        format: {
+                                            body: function ( data, row, column ) {
+                                                if(data.includes("</span>")){
+                                                    var res = data.split("</span>");
+                                                    data = res[1];
+                                                }
+
+                                                return column === 1 ? data.replace(/<.*?>/ig, ""): data;
+
+                                            }
+                                        }
                                     }
                                 },{
                                     extend: 'print',
@@ -167,7 +178,7 @@ Template.salesoverview.onRendered(function() {
                                     className: "btntabletopdf hiddenColumn",
                                     text: '',
                                     title: 'Sales Overview',
-                                    filename: "salesoverview_"+ moment().format(),
+                                    filename: "Sales Overview List - "+ moment().format(),
                                     exportOptions: {
                                         columns: ':visible',
                                         stripHtml: false
@@ -342,10 +353,21 @@ Template.salesoverview.onRendered(function() {
                                 text: '',
                                 download: 'open',
                                 className: "btntabletocsv hiddenColumn",
-                                filename: "salesoverview_"+ moment().format(),
+                                filename: "Sales Overview List - "+ moment().format(),
                                 orientation:'portrait',
                                 exportOptions: {
-                                    columns: ':visible'
+                                    columns: ':visible',
+                                    format: {
+                                        body: function ( data, row, column ) {
+                                            if(data.includes("</span>")){
+                                                var res = data.split("</span>");
+                                                data = res[1];
+                                            }
+
+                                            return column === 1 ? data.replace(/<.*?>/ig, ""): data;
+
+                                        }
+                                    }
                                 }
                             },{
                                 extend: 'print',
@@ -353,7 +375,7 @@ Template.salesoverview.onRendered(function() {
                                 className: "btntabletopdf hiddenColumn",
                                 text: '',
                                 title: 'Sales Overview',
-                                filename: "salesoverview_"+ moment().format(),
+                                filename: "Sales Overview List - "+ moment().format(),
                                 exportOptions: {
                                     columns: ':visible',
                                     stripHtml: false
@@ -522,10 +544,21 @@ Template.salesoverview.onRendered(function() {
                                 text: '',
                                 download: 'open',
                                 className: "btntabletocsv hiddenColumn",
-                                filename: "salesoverview_"+ moment().format(),
+                                filename: "Sales Overview List - "+ moment().format(),
                                 orientation:'portrait',
                                 exportOptions: {
-                                    columns: ':visible'
+                                    columns: ':visible',
+                                    format: {
+                                        body: function ( data, row, column ) {
+                                            if(data.includes("</span>")){
+                                                var res = data.split("</span>");
+                                                data = res[1];
+                                            }
+
+                                            return column === 1 ? data.replace(/<.*?>/ig, ""): data;
+
+                                        }
+                                    }
                                 }
                             },{
                                 extend: 'print',
@@ -533,7 +566,7 @@ Template.salesoverview.onRendered(function() {
                                 className: "btntabletopdf hiddenColumn",
                                 text: '',
                                 title: 'Sales Overview',
-                                filename: "salesoverview_"+ moment().format(),
+                                filename: "Sales Overview List - "+ moment().format(),
                                 exportOptions: {
                                     columns: ':visible',
                                     stripHtml: false
@@ -659,23 +692,23 @@ Template.salesoverview.events({
 
         sideBarService.getAllInvoiceList().then(function(data) {
             addVS1Data('TInvoiceEx',JSON.stringify(data)).then(function (datareturn) {
-              Meteor._reload.reload();
+                Meteor._reload.reload();
             }).catch(function (err) {
-              Meteor._reload.reload();
+                Meteor._reload.reload();
             });
         }).catch(function(err) {
-          Meteor._reload.reload();
+            Meteor._reload.reload();
         });
     },
     'click .feeOnTopInput':function(event){
-      if($(event.target).is(':checked')){
-        $('.feeInPriceInput').attr('checked', false);
-      }
+        if($(event.target).is(':checked')){
+            $('.feeInPriceInput').attr('checked', false);
+        }
     },
     'click .feeInPriceInput':function(event){
-      if($(event.target).is(':checked')){
-        $('.feeOnTopInput').attr('checked', false);
-      }
+        if($(event.target).is(':checked')){
+            $('.feeOnTopInput').attr('checked', false);
+        }
     },
     'click #newSalesOrder' : function(event){
         Router.go('/salesordercard');
