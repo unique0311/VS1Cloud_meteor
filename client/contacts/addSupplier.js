@@ -2359,6 +2359,47 @@ Template.supplierscard.events({
         let templateObject = Template.instance();
         let supplierName = $('#edtSupplierCompany').val();
         templateObject.getAllProductRecentTransactions(supplierName);
+    },
+    'click .btnDeleteSupplier': function (event) {
+        $('.fullScreenSpin').css('display', 'inline-block');
+
+        let templateObject = Template.instance();
+        let contactService2 = new ContactService();
+        
+        let currentId = Router.current().params.query;
+        var objDetails = '';
+        
+        if (!isNaN(currentId.id)) {
+            currentSupplier = parseInt(currentId.id);
+            objDetails = {
+                type: "TSupplierEx",
+                fields: {
+                    ID: currentSupplier,
+                    Active: false
+                }
+            };
+
+            contactService2.saveSupplierEx(objDetails).then(function (objDetails) {
+                Router.go('/supplierlist?success=true');
+            }).catch(function (err) {
+                swal({
+                    title: 'Oooops...',
+                    text: err,
+                    type: 'error',
+                    showCancelButton: false,
+                    confirmButtonText: 'Try Again'
+                }).then((result) => {
+                    if (result.value) {
+                    } else if (result.dismiss === 'cancel') {
+
+                    }
+                });
+                $('.fullScreenSpin').css('display', 'none');
+            });
+        } else {
+            Router.go('/supplierlist?success=true');
+        }
+        $('#deleteSupplierModal').modal('toggle');
     }
 
 });

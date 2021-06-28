@@ -151,7 +151,18 @@ Template.depositlist.onRendered(function() {
                                     filename: "Deposited List - "+ moment().format(),
                                     orientation:'portrait',
                                     exportOptions: {
-                                        columns: ':visible'
+                                        columns: ':visible',
+                                        format: {
+                                            body: function ( data, row, column ) {
+                                                if(data.includes("</span>")){
+                                                    var res = data.split("</span>");
+                                                    data = res[1];
+                                                }
+
+                                                return column === 1 ? data.replace(/<.*?>/ig, ""): data;
+
+                                            }
+                                        }
                                     }
                                 },{
                                     extend: 'print',
@@ -342,7 +353,18 @@ Template.depositlist.onRendered(function() {
                                 filename: "Deposited List - "+ moment().format(),
                                 orientation:'portrait',
                                 exportOptions: {
-                                    columns: ':visible'
+                                    columns: ':visible',
+                                    format: {
+                                        body: function ( data, row, column ) {
+                                            if(data.includes("</span>")){
+                                                var res = data.split("</span>");
+                                                data = res[1];
+                                            }
+
+                                            return column === 1 ? data.replace(/<.*?>/ig, ""): data;
+
+                                        }
+                                    }
                                 }
                             },{
                                 extend: 'print',
@@ -530,7 +552,18 @@ Template.depositlist.onRendered(function() {
                                 filename: "Deposited List - "+ moment().format(),
                                 orientation:'portrait',
                                 exportOptions: {
-                                    columns: ':visible'
+                                    columns: ':visible',
+                                    format: {
+                                        body: function ( data, row, column ) {
+                                            if(data.includes("</span>")){
+                                                var res = data.split("</span>");
+                                                data = res[1];
+                                            }
+
+                                            return column === 1 ? data.replace(/<.*?>/ig, ""): data;
+
+                                        }
+                                    }
                                 }
                             },{
                                 extend: 'print',

@@ -94,7 +94,7 @@ Template.paymentoverview.onRendered(function() {
     const dataTableList = [];
     const tableHeaderList = [];
     if(Router.current().params.query.success){
-      $('.btnRefresh').addClass('btnRefreshAlert');
+        $('.btnRefresh').addClass('btnRefreshAlert');
     }
 
     Meteor.call('readPrefMethod',Session.get('mycloudLogonID'),'tblPaymentOverview', function(error, result){
@@ -410,10 +410,21 @@ Template.paymentoverview.onRendered(function() {
                                     text: '',
                                     download: 'open',
                                     className: "btntabletocsv hiddenColumn",
-                                    filename: "paymentoverview_"+ moment().format(),
+                                    filename: "Payment List - "+ moment().format(),
                                     orientation:'portrait',
                                     exportOptions: {
-                                        columns: ':visible'
+                                        columns: ':visible',
+                                        format: {
+                                            body: function ( data, row, column ) {
+                                                if(data.includes("</span>")){
+                                                    var res = data.split("</span>");
+                                                    data = res[1];
+                                                }
+
+                                                return column === 1 ? data.replace(/<.*?>/ig, ""): data;
+
+                                            }
+                                        }
                                     }
                                 },{
                                     extend: 'print',
@@ -421,9 +432,10 @@ Template.paymentoverview.onRendered(function() {
                                     className: "btntabletopdf hiddenColumn",
                                     text: '',
                                     title: 'Payment Overview',
-                                    filename: "paymentoverview_"+ moment().format(),
+                                    filename: "Payment List - "+ moment().format(),
                                     exportOptions: {
-                                        columns: ':visible'
+                                        columns: ':visible',
+                                        stripHtml: false
                                     }
                                 }],
                             select: true,
@@ -595,10 +607,21 @@ Template.paymentoverview.onRendered(function() {
                                 text: '',
                                 download: 'open',
                                 className: "btntabletocsv hiddenColumn",
-                                filename: "paymentoverview_"+ moment().format(),
+                                filename: "Payment List - "+ moment().format(),
                                 orientation:'portrait',
                                 exportOptions: {
-                                    columns: ':visible'
+                                    columns: ':visible',
+                                    format: {
+                                        body: function ( data, row, column ) {
+                                            if(data.includes("</span>")){
+                                                var res = data.split("</span>");
+                                                data = res[1];
+                                            }
+
+                                            return column === 1 ? data.replace(/<.*?>/ig, ""): data;
+
+                                        }
+                                    }
                                 }
                             },{
                                 extend: 'print',
@@ -606,9 +629,10 @@ Template.paymentoverview.onRendered(function() {
                                 className: "btntabletopdf hiddenColumn",
                                 text: '',
                                 title: 'Payment Overview',
-                                filename: "paymentoverview_"+ moment().format(),
+                                filename: "Payment List - "+ moment().format(),
                                 exportOptions: {
-                                    columns: ':visible'
+                                    columns: ':visible',
+                                    stripHtml: false
                                 }
                             }],
                         select: true,
@@ -778,10 +802,21 @@ Template.paymentoverview.onRendered(function() {
                                 text: '',
                                 download: 'open',
                                 className: "btntabletocsv hiddenColumn",
-                                filename: "paymentoverview_"+ moment().format(),
+                                filename: "Payment List - "+ moment().format(),
                                 orientation:'portrait',
                                 exportOptions: {
-                                    columns: ':visible'
+                                    columns: ':visible',
+                                    format: {
+                                        body: function ( data, row, column ) {
+                                            if(data.includes("</span>")){
+                                                var res = data.split("</span>");
+                                                data = res[1];
+                                            }
+
+                                            return column === 1 ? data.replace(/<.*?>/ig, ""): data;
+
+                                        }
+                                    }
                                 }
                             },{
                                 extend: 'print',
@@ -789,9 +824,10 @@ Template.paymentoverview.onRendered(function() {
                                 className: "btntabletopdf hiddenColumn",
                                 text: '',
                                 title: 'Payment Overview',
-                                filename: "paymentoverview_"+ moment().format(),
+                                filename: "Payment List - "+ moment().format(),
                                 exportOptions: {
-                                    columns: ':visible'
+                                    columns: ':visible',
+                                    stripHtml: false
                                 }
                             }],
                         select: true,
@@ -912,14 +948,14 @@ Template.paymentoverview.events({
         Router.go('/salesordercard');
     },
     'click .feeOnTopInput':function(event){
-      if($(event.target).is(':checked')){
-        $('.feeInPriceInput').attr('checked', false);
-      }
+        if($(event.target).is(':checked')){
+            $('.feeInPriceInput').attr('checked', false);
+        }
     },
     'click .feeInPriceInput':function(event){
-      if($(event.target).is(':checked')){
-        $('.feeOnTopInput').attr('checked', false);
-      }
+        if($(event.target).is(':checked')){
+            $('.feeOnTopInput').attr('checked', false);
+        }
     },
     'click .btnCustomerlist' : function(event){
         Router.go('/customerpayment');
@@ -1146,38 +1182,38 @@ Template.paymentoverview.events({
 
 
         sideBarService.getAllInvoiceList().then(function(data) {
-          addVS1Data('TInvoiceEx',JSON.stringify(data)).then(function (datareturn) {
-          }).catch(function (err) {
+            addVS1Data('TInvoiceEx',JSON.stringify(data)).then(function (datareturn) {
+            }).catch(function (err) {
 
-          });
+            });
         }).catch(function(err) {
 
         });
         sideBarService.getTCustomerPaymentList().then(function(data) {
-          addVS1Data('TCustomerPayment',JSON.stringify(data)).then(function (datareturn) {
-          }).catch(function (err) {
+            addVS1Data('TCustomerPayment',JSON.stringify(data)).then(function (datareturn) {
+            }).catch(function (err) {
 
-          });
+            });
         }).catch(function(err) {
 
         });
 
         sideBarService.getAllPurchaseOrderListAll().then(function (data) {
-          addVS1Data('TbillReport', JSON.stringify(data)).then(function (datareturn) {
-            sideBarService.getTPaymentList().then(function(data) {
-                addVS1Data('TPaymentList',JSON.stringify(data)).then(function (datareturn) {
-                  window.open('/paymentoverview','_self');
-                }).catch(function (err) {
-                  window.open('/paymentoverview','_self');
+            addVS1Data('TbillReport', JSON.stringify(data)).then(function (datareturn) {
+                sideBarService.getTPaymentList().then(function(data) {
+                    addVS1Data('TPaymentList',JSON.stringify(data)).then(function (datareturn) {
+                        window.open('/paymentoverview','_self');
+                    }).catch(function (err) {
+                        window.open('/paymentoverview','_self');
+                    });
+                }).catch(function(err) {
+                    window.open('/paymentoverview','_self');
                 });
-            }).catch(function(err) {
-              window.open('/paymentoverview','_self');
+            }).catch(function (err) {
+                window.open('/paymentoverview','_self');
             });
-          }).catch(function (err) {
-            window.open('/paymentoverview','_self');
-          });
         }).catch(function (err) {
-          window.open('/paymentoverview','_self');
+            window.open('/paymentoverview','_self');
         });
 
         sideBarService.getSalesListData().then(function(data) {

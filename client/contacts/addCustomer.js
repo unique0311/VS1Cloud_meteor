@@ -4501,10 +4501,48 @@ Template.customerscard.events({
             btnView.style.display = "flex";
             btnHide.style.display = "none";
         }
+    },
+    'click .btnDeleteCustomer': function (event) {
+        $('.fullScreenSpin').css('display', 'inline-block');
+
+        let templateObject = Template.instance();
+        let contactService2 = new ContactService();
+        
+        let currentId = Router.current().params.query;
+        var objDetails = '';
+        
+        if (!isNaN(currentId.id)) {
+            currentCustomer = parseInt(currentId.id);
+            objDetails = {
+                type: "TCustomerEx",
+                fields: {
+                    ID: currentCustomer,
+                    Active: false
+                }
+            };
+
+            contactService2.saveCustomerEx(objDetails).then(function (objDetails) {
+                Router.go('/customerlist?success=true');
+            }).catch(function (err) {
+                swal({
+                    title: 'Oooops...',
+                    text: err,
+                    type: 'error',
+                    showCancelButton: false,
+                    confirmButtonText: 'Try Again'
+                }).then((result) => {
+                    if (result.value) {
+                    } else if (result.dismiss === 'cancel') {
+
+                    }
+                });
+                $('.fullScreenSpin').css('display', 'none');
+            });
+        } else {
+            Router.go('/customerlist?success=true');
+        }
+        $('#deleteCustomerModal').modal('toggle');
     }
-
-
-
 });
 
 Template.customerscard.helpers({

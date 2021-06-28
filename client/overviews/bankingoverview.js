@@ -438,48 +438,48 @@ Template.bankingoverview.onRendered(function() {
                         $('#tblBankingOverview').DataTable({
                             // dom: 'lBfrtip',
                             "columnDefs": [{ "targets": 0, "type": "date" },
-                                //   {"targets":1,
-                                //   render: function(data, type, row) {
-                                //     let getData = data.split('</span>');
-                                //
-                                //     return getData[1];
-                                //   }
-                                // }
-                            ],
+                                           //   {"targets":1,
+                                           //   render: function(data, type, row) {
+                                           //     let getData = data.split('</span>');
+                                           //
+                                           //     return getData[1];
+                                           //   }
+                                           // }
+                                          ],
                             "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
                             buttons: [{
-                                    extend: 'csvHtml5',
-                                    text: '',
-                                    download: 'open',
-                                    className: "btntabletocsv hiddenColumn",
-                                    filename: "Banking Overview - " + moment().format(),
-                                    orientation: 'portrait',
-                                    exportOptions: {
-                                        columns: ':visible'
-                                    }
-                                }, {
-                                    extend: 'print',
-                                    download: 'open',
-                                    className: "btntabletopdf hiddenColumn",
-                                    text: '',
-                                    title: 'Payment Overview',
-                                    filename: "Banking Overview - " + moment().format(),
-                                    exportOptions: {
-                                        columns: ':visible'
-                                    }
-                                },
-                                {
-                                    extend: 'excelHtml5',
-                                    title: '',
-                                    download: 'open',
-                                    className: "btntabletoexcel hiddenColumn",
-                                    filename: "Banking Overview - " + moment().format(),
-                                    orientation: 'portrait',
-                                    exportOptions: {
-                                        columns: ':visible'
-                                    }
+                                extend: 'csvHtml5',
+                                text: '',
+                                download: 'open',
+                                className: "btntabletocsv hiddenColumn",
+                                filename: "Banking Overview - " + moment().format(),
+                                orientation: 'portrait',
+                                exportOptions: {
+                                    columns: ':visible'
                                 }
-                            ],
+                            }, {
+                                extend: 'print',
+                                download: 'open',
+                                className: "btntabletopdf hiddenColumn",
+                                text: '',
+                                title: 'Payment Overview',
+                                filename: "Banking Overview - " + moment().format(),
+                                exportOptions: {
+                                    columns: ':visible'
+                                }
+                            },
+                                      {
+                                          extend: 'excelHtml5',
+                                          title: '',
+                                          download: 'open',
+                                          className: "btntabletoexcel hiddenColumn",
+                                          filename: "Banking Overview - " + moment().format(),
+                                          orientation: 'portrait',
+                                          exportOptions: {
+                                              columns: ':visible'
+                                          }
+                                      }
+                                     ],
                             select: true,
                             destroy: true,
                             colReorder: true,
@@ -706,51 +706,71 @@ Template.bankingoverview.onRendered(function() {
                     $('#tblBankingOverview').DataTable({
                         // dom: 'lBfrtip',
                         "columnDefs": [{ "targets": 0, "type": "date" },
-                            //   {"targets":1,
-                            //   render: function(data, type, row) {
-                            //     let getData = data.split('</span>');
-                            //
-                            //     return getData[1];
-                            //   }
-                            // }
-                        ],
+                                       //   {"targets":1,
+                                       //   render: function(data, type, row) {
+                                       //     let getData = data.split('</span>');
+                                       //
+                                       //     return getData[1];
+                                       //   }
+                                       // }
+                                      ],
                         "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
                         buttons: [{
-                                extend: 'csvHtml5',
-                                text: '',
-                                download: 'open',
-                                className: "btntabletocsv hiddenColumn",
-                                filename: "Banking Overview - " + moment().format(),
-                                orientation: 'portrait',
-                                exportOptions: {
-                                    columns: [':visible:not(.colPaymentDate)']
-                                }
-                            }, {
-                                extend: 'print',
-                                download: 'open',
-                                className: "btntabletopdf hiddenColumn",
-                                text: '',
-                                title: 'Payment Overview',
-                                filename: "Banking Overview - " + moment().format(),
-                                exportOptions: {
-                                    columns: [':visible'],
-                                    stripHtml: false
-                                }
-                            },
-                            {
-                                extend: 'excelHtml5',
-                                title: '',
-                                download: 'open',
-                                className: "btntabletoexcel hiddenColumn",
-                                filename: "Banking Overview - " + moment().format(),
-                                orientation: 'portrait',
-                                exportOptions: {
-//                                    columns: ['.colSortDate',':visible:not(.colPaymentDate)']
-                                    columns: [':visible'],
-                                    stripHtml: true
+                            extend: 'csvHtml5',
+                            text: '',
+                            download: 'open',
+                            className: "btntabletocsv hiddenColumn",
+                            filename: "Banking Overview - " + moment().format(),
+                            orientation: 'portrait',
+                            exportOptions: {
+                                columns: [':visible'],
+                                format: {
+                                    body: function ( data, row, column ) {
+                                        if(data.includes("</span>")){
+                                            var res = data.split("</span>");
+                                            data = res[1];
+                                        }
+
+                                        return column === 1 ? data.replace(/<.*?>/ig, ""): data;
+
+                                    }
                                 }
                             }
-                        ],
+                        }, {
+                            extend: 'print',
+                            download: 'open',
+                            className: "btntabletopdf hiddenColumn",
+                            text: '',
+                            title: 'Payment Overview',
+                            filename: "Banking Overview - " + moment().format(),
+                            exportOptions: {
+                                columns: [':visible'],
+                                stripHtml: false
+                            }
+                        }, {
+                            extend: 'excelHtml5',
+                            title: '',
+                            download: 'open',
+                            className: "btntabletoexcel hiddenColumn",
+                            filename: "Banking Overview - " + moment().format(),
+                            orientation: 'portrait',
+                            exportOptions: {
+                                //                                    columns: ['.colSortDate',':visible:not(.colPaymentDate)']
+                                columns: [':visible'],
+                                format: {
+                                    body: function ( data, row, column ) {
+                                        if(data.includes("</span>")){
+                                            var res = data.split("</span>");
+                                            data = res[1];
+                                        }
+
+                                        return column === 1 ? data.replace(/<.*?>/ig, ""): data;
+
+                                    }
+                                }
+                            }
+                        }
+                                 ],
                         select: true,
                         destroy: true,
                         colReorder: true,
@@ -973,48 +993,48 @@ Template.bankingoverview.onRendered(function() {
                     $('#tblBankingOverview').DataTable({
                         // dom: 'lBfrtip',
                         "columnDefs": [{ "targets": 0, "type": "date" },
-                            //   {"targets":1,
-                            //   render: function(data, type, row) {
-                            //     let getData = data.split('</span>');
-                            //
-                            //     return getData[1];
-                            //   }
-                            // }
-                        ],
+                                       //   {"targets":1,
+                                       //   render: function(data, type, row) {
+                                       //     let getData = data.split('</span>');
+                                       //
+                                       //     return getData[1];
+                                       //   }
+                                       // }
+                                      ],
                         "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
                         buttons: [{
-                                extend: 'csvHtml5',
-                                text: '',
-                                download: 'open',
-                                className: "btntabletocsv hiddenColumn",
-                                filename: "Banking Overview - " + moment().format(),
-                                orientation: 'portrait',
-                                exportOptions: {
-                                    columns: ':visible'
-                                }
-                            }, {
-                                extend: 'print',
-                                download: 'open',
-                                className: "btntabletopdf hiddenColumn",
-                                text: '',
-                                title: 'Payment Overview',
-                                filename: "Banking Overview - " + moment().format(),
-                                exportOptions: {
-                                    columns: ':visible'
-                                }
-                            },
-                            {
-                                extend: 'excelHtml5',
-                                title: '',
-                                download: 'open',
-                                className: "btntabletoexcel hiddenColumn",
-                                filename: "Banking Overview - " + moment().format(),
-                                orientation: 'portrait',
-                                exportOptions: {
-                                    columns: ':visible'
-                                }
+                            extend: 'csvHtml5',
+                            text: '',
+                            download: 'open',
+                            className: "btntabletocsv hiddenColumn",
+                            filename: "Banking Overview - " + moment().format(),
+                            orientation: 'portrait',
+                            exportOptions: {
+                                columns: ':visible'
                             }
-                        ],
+                        }, {
+                            extend: 'print',
+                            download: 'open',
+                            className: "btntabletopdf hiddenColumn",
+                            text: '',
+                            title: 'Payment Overview',
+                            filename: "Banking Overview - " + moment().format(),
+                            exportOptions: {
+                                columns: ':visible'
+                            }
+                        },
+                                  {
+                                      extend: 'excelHtml5',
+                                      title: '',
+                                      download: 'open',
+                                      className: "btntabletoexcel hiddenColumn",
+                                      filename: "Banking Overview - " + moment().format(),
+                                      orientation: 'portrait',
+                                      exportOptions: {
+                                          columns: ':visible'
+                                      }
+                                  }
+                                 ],
                         select: true,
                         destroy: true,
                         colReorder: true,
@@ -1133,12 +1153,12 @@ Template.bankingoverview.events({
 
         sideBarService.getAllBankAccountDetails().then(function(data) {
             addVS1Data('TBankAccountReport', JSON.stringify(data)).then(function(datareturn) {
-              location.reload();
+                location.reload();
             }).catch(function(err) {
-              location.reload();
+                location.reload();
             });
         }).catch(function(err) {
-          location.reload();
+            location.reload();
         });
         //templateObject.getAllBankAccountData();
     },
