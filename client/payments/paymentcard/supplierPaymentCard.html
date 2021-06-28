@@ -618,14 +618,13 @@ style="font-size: 22px;"><label class="custom-control-label" for="formCheck-2" s
                                     <table class="table table-sm" style="width: 190mm; max-width: 190mm;">
                                         <thead class="text-secondary" style="color: rgb(251,251,251);">
                                             <tr>
-                                                <th style="background-color: white; color: rgb(0 0 0);">Trans Date</th>
+                                                <th style="background-color: white; color: rgb(0 0 0);">Date</th>
                                                 <th style="background-color: white; color: rgb(0 0 0);">Type</th>
-                                                <th style="background-color: white; color: rgb(0 0 0);">Trans No.</th>
-                                                <th style="background-color: white; color: rgb(0 0 0);">Original Amount</th>
-                                                <th style="background-color: white; color: rgb(0 0 0);">Amount Due</th>
-                                                <th style="background-color: white; color: rgb(0 0 0);">Payment Amount</th>
-                                                <th style="background-color: white; color: rgb(0 0 0);">Outstanding Amount</th>
-                                                <th style="background-color: white; color: rgb(0 0 0);">Comments</th>
+                                                <th style="background-color: white; color: rgb(0 0 0);">No.</th>
+                                                <th style="background-color: white; color: rgb(0 0 0); text-align: right;">Amount</th>
+                                                <th style="background-color: white; color: rgb(0 0 0); text-align: right;">Due</th>
+                                                <th style="background-color: white; color: rgb(0 0 0); text-align: right;">Paid</th>
+                                                <th style="background-color: white; color: rgb(0 0 0); text-align: right;">Outstanding</th>
                                             </tr>
                                         </thead>
                                         <tbody style="color: rgb(0 0 0);" >
@@ -634,11 +633,10 @@ style="font-size: 22px;"><label class="custom-control-label" for="formCheck-2" s
                                                 <td class="text-nowrap">{{item.invoicedate}}</td>
                                                 <td class="text-nowrap" style="color:#00a3d3">{{item.transtype}}</td>
                                                 <td class="text-nowrap">{{item.transid}}</td>
-                                                <td class="text-nowrap text-left" >{{item.orginalamount}}</td>
-                                                <td class="text-nowrap text-left" >{{item.amountdue}}</td>
-                                                <td class="text-nowrap text-left">{{item.paymentamount}}</td>
-                                                <td class="text-nowrap text-left" >{{item.ouststandingamount}}</td>
-                                                <td class="text-nowrap">{{item.comments}}</td>
+                                                <td class="text-nowrap text-right" >{{item.orginalamount}}</td>
+                                                <td class="text-nowrap text-right" >{{item.amountdue}}</td>
+                                                <td class="text-nowrap text-right">{{item.paymentamount}}</td>
+                                                <td class="text-nowrap text-right" >{{item.ouststandingamount}}</td>
                                             </tr>
                                             {{/each}}
                                         </tbody>
