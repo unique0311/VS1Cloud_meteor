@@ -306,7 +306,7 @@ Template.appointments.onRendered(function () {
                         var duration = moment.duration(moment(endTime).diff(moment(startTime)));
                         hours = duration.asHours();
                     }
-
+                    document.getElementById("aStartDate").value = result[0].aStartDate|| '';
                     document.getElementById("updateID").value = result[0].id || 0;
                     document.getElementById("appID").value = result[0].id;
                     document.getElementById("customer").value = result[0].accountname;
@@ -656,7 +656,8 @@ Template.appointments.onRendered(function () {
                         var duration = moment.duration(moment(endTime).diff(moment(startTime)));
                         hours = duration.asHours();
                     }
-
+        
+                    document.getElementById("aStartDate").value = result[0].aStartDate|| '';
                     document.getElementById("updateID").value = result[0].id || 0;
                     document.getElementById("appID").value = result[0].id;
                     document.getElementById("customer").value = result[0].accountname;
@@ -1373,15 +1374,25 @@ Template.appointments.onRendered(function () {
                     $('#here_table thead tr').append('<th class="employeeName"></th>');
 
                     for (let w = 0; w < daysOfTheWeek.length; w++) {
-                        if (daysOfTheWeek[w] === "Sunday") {
-                            $('#here_table thead tr').append('<th style="padding: 6px;" id="" class="fullWeek ' + daysOfTheWeek[w].toLowerCase() + ' ' + hideSun + '" >' + daysOfTheWeek[w].substring(0, 3) + ' <span class="dateSun"></span></th>');
+                       if (daysOfTheWeek[w] === "Sunday") {
+                             if($('#showSunday').is(":checked")){
+                                  $('#here_table thead tr').append('<th style="padding: 6px;" id="" class="fullWeek ' + daysOfTheWeek[w].toLowerCase() + '">' + daysOfTheWeek[w].substring(0, 3) + ' <span class="dateSun"></span></th>');
+                            } else {
+                            $('#here_table thead tr').append('<th style="padding: 6px;" id="" class="fullWeek ' + daysOfTheWeek[w].toLowerCase() + ' hidesunday">' + daysOfTheWeek[w].substring(0, 3) + ' <span class="dateSun"></span></th>');
+                        }
+                   
                         } else if (daysOfTheWeek[w] === "Saturday") {
-                            $('#here_table thead tr').append('<th style="padding: 6px;" id="" class="fullWeek ' + daysOfTheWeek[w].toLowerCase() + ' ' + hideSat + '" >' + daysOfTheWeek[w].substring(0, 3) + ' <span class="dateSat"></span></th>');
+                                if($('#showSaturday').is(":checked")){
+                                     $('#here_table thead tr').append('<th style="padding: 6px;" id="" class="fullWeek ' + daysOfTheWeek[w].toLowerCase() + '">' + daysOfTheWeek[w].substring(0, 3) + ' <span class="dateSat"></span></th>');
+                                } else {
+                                $('#here_table thead tr').append('<th style="padding: 6px;" id="" class="fullWeek ' + daysOfTheWeek[w].toLowerCase() + ' hidesaturday">' + daysOfTheWeek[w].substring(0, 3) + ' <span class="dateSat"></span></th>');
+                            }
                         } else {
                             $('#here_table thead tr').append('<th style="padding: 6px;" id="" class="fullWeek ' + daysOfTheWeek[w].toLowerCase() + '">' + daysOfTheWeek[w].substring(0, 3) + ' <span class="date' + daysOfTheWeek[w].substring(0, 3) + '"></span></th>');
                         }
-
                     }
+
+
 
                     $('#here_table').append('</tr ></thead >');
                     for (i = 0; i <= weekResults[0].dates.length; i++) {
@@ -1563,6 +1574,8 @@ Template.appointments.onRendered(function () {
                         let fridayRow = '';
                         let saturdayRow = '';
                         let tableRow = '';
+                        let saturdayStatus = '';
+                        let sundayStatus = '';
                         for (let r = 0; r < resourceChat.length; r++) {
 
                             sundayRowData = [];
@@ -1651,15 +1664,29 @@ Template.appointments.onRendered(function () {
 
                             }
 
+                            if($('#showSaturday').is(":checked")) {
+                               saturdayStatus =  '<td class="fullWeek saturday" style="padding: 0px;"><div class="droppable" style="min-height: 110px; overflow: hidden; margin: 6px;">' + saturdayRowData.join('') + '</div></td>'
+                            } else {
+                               saturdayStatus = '<td class="fullWeek saturday hidesaturday" style="padding: 0px;"><div class="droppable" style="min-height: 110px; overflow: hidden; margin: 6px;">' + saturdayRowData.join('') + '</div></td>'
+                            }
+
+                           
+                            if($('#showSunday').is(":checked")) {
+                                   sundayStatus =  '<td class="fullWeek sunday" style="padding: 0px;"><div class="droppable" style="min-height: 110px; overflow: hidden; margin: 6px;">' + sundayRowData.join('') + '</div></td>'
+                             } else {
+                                   sundayStatus = '<td class="fullWeek sunday hidesunday" style="padding: 0px;"><div class="droppable" style="min-height: 110px; overflow: hidden; margin: 6px;">' + sundayRowData.join('') + '</div></td>'
+                            }
+
+
                             tableRow = '<tr id="' + resourceChat[r].employeeName + '">' + '' +
                                 '<td class="tdEmployeeName" style="overflow: hidden; white-space: nowrap; height: 110px; max-height: 110px; font-weight: 700;padding: 6px;">' + resourceChat[r].employeeName + '</td>' + '' +
-                                '<td class="fullWeek sunday hidesunday" style="padding: 0px;"><div class="droppable" style="min-height: 110px; overflow: hidden; margin: 6px;">' + sundayRowData.join('') + '</div></td>' + '' +
+                                sundayStatus + '' +
                                 '<td class="fullWeek monday" style="padding: 0px;"><div class="droppable" style="min-height: 110px; overflow: hidden; margin: 6px;">' + mondayRowData.join('') + '</div></td>' + '' +
                                 '<td td class="fullWeek tuesday" style="padding: 0px;"><div class="droppable" style="min-height: 110px; overflow: hidden; margin: 6px;">' + tuesdayRowData.join('') + '</div></td>' + '' +
                                 '<td class="fullWeek wednesday" style="padding: 0px;"><div class="droppable" style="min-height: 110px; overflow: hidden; margin: 6px;">' + wednesdayRowData.join('') + '</div></td>' + '' +
                                 '<td class="fullWeek thursday" style="padding: 0px;"><div class="droppable" style="min-height: 110px; overflow: hidden; margin: 6px;">' + thursdayRowData.join('') + '</div></td>' + '' +
                                 '<td td class="fullWeek friday" style="padding: 0px;"><div class="droppable" style="min-height: 110px; overflow: hidden; margin: 6px;">' + fridayRowData.join('') + '</div></td>' + '' +
-                                'td class="fullWeek saturday hidesaturday" style="padding: 0px;><div class="droppable" style="min-height: 110px; overflow: hidden; margin: 6px;">' + saturdayRowData.join('') + '</div></td>' + '' +
+                                saturdayStatus + '' +
                                 '</tr>';
                             tableRowData.push(tableRow);
 
@@ -1944,7 +1971,6 @@ Template.appointments.onRendered(function () {
                         description: useData[i].fields.Notes || '',
                         color: appColor
                     };
-
                     eventData.push(dataList);
                     appointmentList.push(appointment)
                 }
@@ -2062,16 +2088,24 @@ Template.appointments.onRendered(function () {
                 $('#here_table thead tr').append('<th class="employeeName"></th>');
 
                 for (let w = 0; w < daysOfTheWeek.length; w++) {
-                    if (daysOfTheWeek[w] === "Sunday") {
-                        $('#here_table thead tr').append('<th style="padding: 6px;" id="" class="fullWeek ' + daysOfTheWeek[w].toLowerCase() + ' ' + hideSun + '" >' + daysOfTheWeek[w].substring(0, 3) + ' <span class="dateSun"></span></th>');
-                    } else if (daysOfTheWeek[w] === "Saturday") {
-                        $('#here_table thead tr').append('<th style="padding: 6px;" id="" class="fullWeek ' + daysOfTheWeek[w].toLowerCase() + ' ' + hideSat + '" >' + daysOfTheWeek[w].substring(0, 3) + ' <span class="dateSat"></span></th>');
+                if (daysOfTheWeek[w] === "Sunday") {
+                     if($('#showSunday').is(":checked")){
+                          $('#here_table thead tr').append('<th style="padding: 6px;" id="" class="fullWeek ' + daysOfTheWeek[w].toLowerCase() + '">' + daysOfTheWeek[w].substring(0, 3) + ' <span class="dateSun"></span></th>');
                     } else {
-                        $('#here_table thead tr').append('<th style="padding: 6px;" id="" class="fullWeek ' + daysOfTheWeek[w].toLowerCase() + '">' + daysOfTheWeek[w].substring(0, 3) + ' <span class="date' + daysOfTheWeek[w].substring(0, 3) + '"></span></th>');
-                    }
-
+                    $('#here_table thead tr').append('<th style="padding: 6px;" id="" class="fullWeek ' + daysOfTheWeek[w].toLowerCase() + ' hidesunday">' + daysOfTheWeek[w].substring(0, 3) + ' <span class="dateSun"></span></th>');
+                }
+                   
+                } else if (daysOfTheWeek[w] === "Saturday") {
+                    if($('#showSaturday').is(":checked")){
+                         $('#here_table thead tr').append('<th style="padding: 6px;" id="" class="fullWeek ' + daysOfTheWeek[w].toLowerCase() + '">' + daysOfTheWeek[w].substring(0, 3) + ' <span class="dateSat"></span></th>');
+                    } else {
+                    $('#here_table thead tr').append('<th style="padding: 6px;" id="" class="fullWeek ' + daysOfTheWeek[w].toLowerCase() + ' hidesaturday">' + daysOfTheWeek[w].substring(0, 3) + ' <span class="dateSat"></span></th>');
+                }
+                } else {
+                    $('#here_table thead tr').append('<th style="padding: 6px;" id="" class="fullWeek ' + daysOfTheWeek[w].toLowerCase() + '">' + daysOfTheWeek[w].substring(0, 3) + ' <span class="date' + daysOfTheWeek[w].substring(0, 3) + '"></span></th>');
                 }
 
+            }
                 $('#here_table').append('</tr ></thead >');
                 for (i = 0; i <= weekResults[0].dates.length; i++) {
                     days.push(moment(weekStart).add(i, 'days').format("YYYY-MM-DD"));
@@ -2091,7 +2125,8 @@ Template.appointments.onRendered(function () {
                 $(".dateThu").text(moment(weekStart).add(3, 'days').format("MM/DD"));
                 $(".dateFri").text(moment(weekStart).add(4, 'days').format("MM/DD"));
                 $(".dateSat").text(moment(weekStart).add(5, 'days').format("MM/DD"));
-                $(".dateSun").text(moment(weekStart).subtract(1, 'days').format("YYYY-MM-DD"));
+                $(".dateSun").text(moment(weekStart).subtract(1, 'days').format("MM-DD"));
+
 
                 if (currentDay == "Monday" && moment().format('DD') == moment($('thead tr th.monday').attr('id')).format('DD')) {
                     $(document).on('DOMNodeInserted', function (e) {
@@ -2252,6 +2287,8 @@ Template.appointments.onRendered(function () {
                     let fridayRow = '';
                     let saturdayRow = '';
                     let tableRow = '';
+                    let saturdayStatus = '';
+                    let sundayStatus = '';
                     for (let r = 0; r < resourceChat.length; r++) {
 
                         sundayRowData = [];
@@ -2326,30 +2363,44 @@ Template.appointments.onRendered(function () {
 
                                 fridayRowData.push(fridayRow);
                             }
-
+                            
                             if (resourceJob[j].day == 'Saturday' && resourceJob[j].employeeName == resourceChat[r].employeeName) {
-
                                 saturdayRow = '<div class="card draggable cardHiddenWeekend" draggable="true" id="' + resourceJob[j].id + '" style="margin:4px 0px; background-color: ' + resourceChat[r].color + '; border-radius: 5px; cursor: pointer;">' + '' +
                                     '<div class="card-body cardBodyInner d-xl-flex justify-content-xl-center align-items-xl-center" style="color: rgb(255,255,255); height: 30px; padding: 10px;">' + '' +
                                     '<p class="text-nowrap text-truncate" style="margin: 0px;">' + resourceJob[j].job + '</p>' + '' +
                                     '</div>' + '' +
                                     '</div>';
-
                                 saturdayRowData.push(saturdayRow);
                             }
 
                         }
 
+                        if($('#showSaturday').is(":checked")) {
+                           saturdayStatus =  '<td class="fullWeek saturday" style="padding: 0px;"><div class="droppable" style="min-height: 110px; overflow: hidden; margin: 6px;">' + saturdayRowData.join('') + '</div></td>'
+                        } else {
+                           saturdayStatus = '<td class="fullWeek saturday hidesaturday" style="padding: 0px;"><div class="droppable" style="min-height: 110px; overflow: hidden; margin: 6px;">' + saturdayRowData.join('') + '</div></td>'
+                        }
+
+                       
+                        if($('#showSunday').is(":checked")) {
+                               sundayStatus =  '<td class="fullWeek sunday" style="padding: 0px;"><div class="droppable" style="min-height: 110px; overflow: hidden; margin: 6px;">' + sundayRowData.join('') + '</div></td>'
+                         } else {
+                               sundayStatus = '<td class="fullWeek sunday hidesunday" style="padding: 0px;"><div class="droppable" style="min-height: 110px; overflow: hidden; margin: 6px;">' + sundayRowData.join('') + '</div></td>'
+                        }
+
+               
+
                         tableRow = '<tr id="' + resourceChat[r].employeeName + '">' + '' +
                             '<td class="tdEmployeeName" style="overflow: hidden; white-space: nowrap; height: 110px; max-height: 110px; font-weight: 700;padding: 6px;">' + resourceChat[r].employeeName + '</td>' + '' +
-                            '<td class="fullWeek sunday hidesunday" style="padding: 0px;"><div class="droppable" style="min-height: 110px; overflow: hidden; margin: 6px;">' + sundayRowData.join('') + '</div></td>' + '' +
+                            sundayStatus + '' +
                             '<td class="fullWeek monday" style="padding: 0px;"><div class="droppable" style="min-height: 110px; overflow: hidden; margin: 6px;">' + mondayRowData.join('') + '</div></td>' + '' +
                             '<td td class="fullWeek tuesday" style="padding: 0px;"><div class="droppable" style="min-height: 110px; overflow: hidden; margin: 6px;">' + tuesdayRowData.join('') + '</div></td>' + '' +
                             '<td class="fullWeek wednesday" style="padding: 0px;"><div class="droppable" style="min-height: 110px; overflow: hidden; margin: 6px;">' + wednesdayRowData.join('') + '</div></td>' + '' +
                             '<td class="fullWeek thursday" style="padding: 0px;"><div class="droppable" style="min-height: 110px; overflow: hidden; margin: 6px;">' + thursdayRowData.join('') + '</div></td>' + '' +
                             '<td td class="fullWeek friday" style="padding: 0px;"><div class="droppable" style="min-height: 110px; overflow: hidden; margin: 6px;">' + fridayRowData.join('') + '</div></td>' + '' +
-                            'td class="fullWeek saturday hidesaturday" style="padding: 0px;><div class="droppable" style="min-height: 110px; overflow: hidden; margin: 6px;">' + saturdayRowData.join('') + '</div></td>' + '' +
+                            saturdayStatus + '' +
                             '</tr>';
+
                         tableRowData.push(tableRow);
 
                     }
@@ -2534,12 +2585,21 @@ Template.appointments.onRendered(function () {
 
                 for (let w = 0; w < daysOfTheWeek.length; w++) {
                     if (daysOfTheWeek[w] === "Sunday") {
-                        $('#here_table thead tr').append('<th style="padding: 6px;" id="" class="fullWeek ' + daysOfTheWeek[w].toLowerCase() + ' ' + hideSun + '" >' + daysOfTheWeek[w].substring(0, 3) + ' <span class="dateSun"></span></th>');
-                    } else if (daysOfTheWeek[w] === "Saturday") {
-                        $('#here_table thead tr').append('<th style="padding: 6px;" id="" class="fullWeek ' + daysOfTheWeek[w].toLowerCase() + ' ' + hideSat + '" >' + daysOfTheWeek[w].substring(0, 3) + ' <span class="dateSat"></span></th>');
-                    } else {
-                        $('#here_table thead tr').append('<th style="padding: 6px;" id="" class="fullWeek ' + daysOfTheWeek[w].toLowerCase() + '">' + daysOfTheWeek[w].substring(0, 3) + ' <span class="date' + daysOfTheWeek[w].substring(0, 3) + '"></span></th>');
-                    }
+                             if($('#showSunday').is(":checked")){
+                                  $('#here_table thead tr').append('<th style="padding: 6px;" id="" class="fullWeek ' + daysOfTheWeek[w].toLowerCase() + '">' + daysOfTheWeek[w].substring(0, 3) + ' <span class="dateSun"></span></th>');
+                            } else {
+                            $('#here_table thead tr').append('<th style="padding: 6px;" id="" class="fullWeek ' + daysOfTheWeek[w].toLowerCase() + ' hidesunday">' + daysOfTheWeek[w].substring(0, 3) + ' <span class="dateSun"></span></th>');
+                        }
+                   
+                        } else if (daysOfTheWeek[w] === "Saturday") {
+                                if($('#showSaturday').is(":checked")){
+                                     $('#here_table thead tr').append('<th style="padding: 6px;" id="" class="fullWeek ' + daysOfTheWeek[w].toLowerCase() + '">' + daysOfTheWeek[w].substring(0, 3) + ' <span class="dateSat"></span></th>');
+                                } else {
+                                $('#here_table thead tr').append('<th style="padding: 6px;" id="" class="fullWeek ' + daysOfTheWeek[w].toLowerCase() + ' hidesaturday">' + daysOfTheWeek[w].substring(0, 3) + ' <span class="dateSat"></span></th>');
+                            }
+                        } else {
+                            $('#here_table thead tr').append('<th style="padding: 6px;" id="" class="fullWeek ' + daysOfTheWeek[w].toLowerCase() + '">' + daysOfTheWeek[w].substring(0, 3) + ' <span class="date' + daysOfTheWeek[w].substring(0, 3) + '"></span></th>');
+                        }
 
                 }
 
@@ -2723,6 +2783,8 @@ Template.appointments.onRendered(function () {
                     let fridayRow = '';
                     let saturdayRow = '';
                     let tableRow = '';
+                    let saturdayStatus = '';
+                    let sundayStatus = '';
                     for (let r = 0; r < resourceChat.length; r++) {
 
                         sundayRowData = [];
@@ -2811,16 +2873,32 @@ Template.appointments.onRendered(function () {
 
                         }
 
+                        if($('#showSaturday').is(":checked")) {
+                           saturdayStatus =  '<td class="fullWeek saturday" style="padding: 0px;"><div class="droppable" style="min-height: 110px; overflow: hidden; margin: 6px;">' + saturdayRowData.join('') + '</div></td>'
+                        } else {
+                           saturdayStatus = '<td class="fullWeek saturday hidesaturday" style="padding: 0px;"><div class="droppable" style="min-height: 110px; overflow: hidden; margin: 6px;">' + saturdayRowData.join('') + '</div></td>'
+                        }
+
+                       
+                        if($('#showSunday').is(":checked")) {
+                               sundayStatus =  '<td class="fullWeek sunday" style="padding: 0px;"><div class="droppable" style="min-height: 110px; overflow: hidden; margin: 6px;">' + sundayRowData.join('') + '</div></td>'
+                         } else {
+                               sundayStatus = '<td class="fullWeek sunday hidesunday" style="padding: 0px;"><div class="droppable" style="min-height: 110px; overflow: hidden; margin: 6px;">' + sundayRowData.join('') + '</div></td>'
+                        }
+
+
                         tableRow = '<tr id="' + resourceChat[r].employeeName + '">' + '' +
                             '<td class="tdEmployeeName" style="overflow: hidden; white-space: nowrap; height: 110px; max-height: 110px; font-weight: 700;padding: 6px;">' + resourceChat[r].employeeName + '</td>' + '' +
-                            '<td class="fullWeek sunday hidesunday" style="padding: 0px;"><div class="droppable" style="min-height: 110px; overflow: hidden; margin: 6px;">' + sundayRowData.join('') + '</div></td>' + '' +
+                            sundayStatus + '' +
                             '<td class="fullWeek monday" style="padding: 0px;"><div class="droppable" style="min-height: 110px; overflow: hidden; margin: 6px;">' + mondayRowData.join('') + '</div></td>' + '' +
                             '<td td class="fullWeek tuesday" style="padding: 0px;"><div class="droppable" style="min-height: 110px; overflow: hidden; margin: 6px;">' + tuesdayRowData.join('') + '</div></td>' + '' +
                             '<td class="fullWeek wednesday" style="padding: 0px;"><div class="droppable" style="min-height: 110px; overflow: hidden; margin: 6px;">' + wednesdayRowData.join('') + '</div></td>' + '' +
                             '<td class="fullWeek thursday" style="padding: 0px;"><div class="droppable" style="min-height: 110px; overflow: hidden; margin: 6px;">' + thursdayRowData.join('') + '</div></td>' + '' +
                             '<td td class="fullWeek friday" style="padding: 0px;"><div class="droppable" style="min-height: 110px; overflow: hidden; margin: 6px;">' + fridayRowData.join('') + '</div></td>' + '' +
-                            'td class="fullWeek saturday hidesaturday" style="padding: 0px;><div class="droppable" style="min-height: 110px; overflow: hidden; margin: 6px;">' + saturdayRowData.join('') + '</div></td>' + '' +
+                            saturdayStatus + '' +
                             '</tr>';
+
+                      
                         tableRowData.push(tableRow);
 
                     }
@@ -3490,6 +3568,7 @@ Template.appointments.onRendered(function () {
                                 $("#tActualEndTime").prop("disabled", true);
                                 $("#txtActualHoursSpent").prop("disabled", true);
                             }
+                            document.getElementById("aStartDate").value = result[0].aStartDate|| '';
                             document.getElementById("updateID").value = result[0].id || 0;
                             document.getElementById("appID").value = result[0].id;
                             document.getElementById("customer").value = result[0].accountname;
@@ -3729,6 +3808,7 @@ Template.appointments.onRendered(function () {
             $("#txtActualHoursSpent").prop("disabled", true);
         }
         templateObject.getAllProductData();
+        document.getElementById("aStartDate").value = result[0].aStartDate|| 0;
         document.getElementById("updateID").value = result[0].id || 0;
         document.getElementById("appID").value = result[0].id;
         document.getElementById("customer").value = result[0].accountname;
@@ -4694,9 +4774,18 @@ Template.appointments.events({
 
             for (let w = 0; w < daysOfTheWeek.length; w++) {
                 if (daysOfTheWeek[w] === "Sunday") {
+                    if($('#showSunday').is(":checked")){
+                          $('#here_table thead tr').append('<th style="padding: 6px;" id="" class="fullWeek ' + daysOfTheWeek[w].toLowerCase() + '">' + daysOfTheWeek[w].substring(0, 3) + ' <span class="dateSun"></span></th>');
+                    } else {
                     $('#here_table thead tr').append('<th style="padding: 6px;" id="" class="fullWeek ' + daysOfTheWeek[w].toLowerCase() + ' hidesunday">' + daysOfTheWeek[w].substring(0, 3) + ' <span class="dateSun"></span></th>');
+                }
+                   
                 } else if (daysOfTheWeek[w] === "Saturday") {
-                    $('#here_table thead tr').append('<th style="padding: 6px;" id="" class="fullWeek ' + daysOfTheWeek[w].toLowerCase() + ' hidesaturday">' + daysOfTheWeek[w].substring(0, 3) + '<span class="dateSat"></span></th>');
+                    if($('#showSaturday').is(":checked")){
+                         $('#here_table thead tr').append('<th style="padding: 6px;" id="" class="fullWeek ' + daysOfTheWeek[w].toLowerCase() + '">' + daysOfTheWeek[w].substring(0, 3) + ' <span class="dateSat"></span></th>');
+                    } else {
+                    $('#here_table thead tr').append('<th style="padding: 6px;" id="" class="fullWeek ' + daysOfTheWeek[w].toLowerCase() + ' hidesaturday">' + daysOfTheWeek[w].substring(0, 3) + ' <span class="dateSat"></span></th>');
+                }
                 } else {
                     $('#here_table thead tr').append('<th style="padding: 6px;" id="" class="fullWeek ' + daysOfTheWeek[w].toLowerCase() + '">' + daysOfTheWeek[w].substring(0, 3) + ' <span class="date' + daysOfTheWeek[w].substring(0, 3) + '"></span></th>');
                 }
@@ -4720,6 +4809,8 @@ Template.appointments.events({
             let fridayRow = '';
             let saturdayRow = '';
             let tableRow = '';
+            let saturdayStatus = '';
+            let sundayStatus = '';
             for (let r = 0; r < resourceChat.length; r++) {
 
                 sundayRowData = [];
@@ -4808,15 +4899,28 @@ Template.appointments.events({
 
                 }
 
+                 if($('#showSaturday').is(":checked")) {
+                       saturdayStatus =  '<td class="fullWeek saturday" style="padding: 0px;"><div class="droppable" style="min-height: 110px; overflow: hidden; margin: 6px;">' + saturdayRowData.join('') + '</div></td>'
+                 } else {
+                       saturdayStatus = '<td class="fullWeek saturday hidesaturday" style="padding: 0px;"><div class="droppable" style="min-height: 110px; overflow: hidden; margin: 6px;">' + saturdayRowData.join('') + '</div></td>'
+                }
+
+                if($('#showSunday').is(":checked")) {
+                       sundayStatus =  '<td class="fullWeek sunday" style="padding: 0px;"><div class="droppable" style="min-height: 110px; overflow: hidden; margin: 6px;">' + sundayRowData.join('') + '</div></td>'
+                 } else {
+                       sundayStatus = '<td class="fullWeek sunday hidesunday" style="padding: 0px;"><div class="droppable" style="min-height: 110px; overflow: hidden; margin: 6px;">' + sundayRowData.join('') + '</div></td>'
+                 }
+                
+
                 tableRow = '<tr id="' + resourceChat[r].employeeName + '">' + '' +
                     '<td class="tdEmployeeName" style="overflow: hidden; white-space: nowrap; height: 110px; max-height: 110px; font-weight: 700;padding: 6px;">' + resourceChat[r].employeeName + '</td>' + '' +
-                    '<td class="fullWeek sunday hidesunday" style="padding: 0px;"><div class="droppable" style="min-height: 110px; overflow: hidden; margin: 6px;">' + sundayRowData.join('') + '</div></td>' + '' +
+                   sundayStatus + '' +
                     '<td class="fullWeek monday" style="padding: 0px;"><div class="droppable" style="min-height: 110px; overflow: hidden; margin: 6px;">' + mondayRowData.join('') + '</div></td>' + '' +
                     '<td td class="fullWeek tuesday" style="padding: 0px;"><div class="droppable" style="min-height: 110px; overflow: hidden; margin: 6px;">' + tuesdayRowData.join('') + '</div></td>' + '' +
                     '<td class="fullWeek wednesday" style="padding: 0px;"><div class="droppable" style="min-height: 110px; overflow: hidden; margin: 6px;">' + wednesdayRowData.join('') + '</div></td>' + '' +
                     '<td class="fullWeek thursday" style="padding: 0px;"><div class="droppable" style="min-height: 110px; overflow: hidden; margin: 6px;">' + thursdayRowData.join('') + '</div></td>' + '' +
                     '<td td class="fullWeek friday" style="padding: 0px;"><div class="droppable" style="min-height: 110px; overflow: hidden; margin: 6px;">' + fridayRowData.join('') + '</div></td>' + '' +
-                    'td class="fullWeek saturday hidesaturday" style="padding: 0px;><div class="droppable" style="min-height: 110px; overflow: hidden; margin: 6px;">' + saturdayRowData.join('') + '</div></td>' + '' +
+                    saturdayStatus + '' +
                     '</tr>';
                 tableRowData.push(tableRow);
 
@@ -4989,9 +5093,18 @@ Template.appointments.events({
 
             for (let w = 0; w < daysOfTheWeek.length; w++) {
                 if (daysOfTheWeek[w] === "Sunday") {
+                     if($('#showSunday').is(":checked")){
+                          $('#here_table thead tr').append('<th style="padding: 6px;" id="" class="fullWeek ' + daysOfTheWeek[w].toLowerCase() + '">' + daysOfTheWeek[w].substring(0, 3) + ' <span class="dateSun"></span></th>');
+                    } else {
                     $('#here_table thead tr').append('<th style="padding: 6px;" id="" class="fullWeek ' + daysOfTheWeek[w].toLowerCase() + ' hidesunday">' + daysOfTheWeek[w].substring(0, 3) + ' <span class="dateSun"></span></th>');
+                }
+                   
                 } else if (daysOfTheWeek[w] === "Saturday") {
-                    $('#here_table thead tr').append('<th style="padding: 6px;" id="" class="fullWeek ' + daysOfTheWeek[w].toLowerCase() + ' hidesaturday">' + daysOfTheWeek[w].substring(0, 3) + '<span class="dateSun"></span></th>');
+                    if($('#showSaturday').is(":checked")){
+                         $('#here_table thead tr').append('<th style="padding: 6px;" id="" class="fullWeek ' + daysOfTheWeek[w].toLowerCase() + '">' + daysOfTheWeek[w].substring(0, 3) + ' <span class="dateSat"></span></th>');
+                    } else {
+                    $('#here_table thead tr').append('<th style="padding: 6px;" id="" class="fullWeek ' + daysOfTheWeek[w].toLowerCase() + ' hidesaturday">' + daysOfTheWeek[w].substring(0, 3) + ' <span class="dateSat"></span></th>');
+                }
                 } else {
                     $('#here_table thead tr').append('<th style="padding: 6px;" id="" class="fullWeek ' + daysOfTheWeek[w].toLowerCase() + '">' + daysOfTheWeek[w].substring(0, 3) + ' <span class="date' + daysOfTheWeek[w].substring(0, 3) + '"></span></th>');
                 }
@@ -5015,6 +5128,8 @@ Template.appointments.events({
             let fridayRow = '';
             let saturdayRow = '';
             let tableRow = '';
+            let saturdayStatus = '';
+            let sundayStatus = '';
             for (let r = 0; r < resourceChat.length; r++) {
 
                 sundayRowData = [];
@@ -5103,15 +5218,27 @@ Template.appointments.events({
 
                 }
 
+                if($('#showSaturday').is(":checked")) {
+                       saturdayStatus =  '<td class="fullWeek saturday" style="padding: 0px;"><div class="droppable" style="min-height: 110px; overflow: hidden; margin: 6px;">' + saturdayRowData.join('') + '</div></td>'
+                 } else {
+                       saturdayStatus = '<td class="fullWeek saturday hidesaturday" style="padding: 0px;"><div class="droppable" style="min-height: 110px; overflow: hidden; margin: 6px;">' + saturdayRowData.join('') + '</div></td>'
+                }
+
+                if($('#showSunday').is(":checked")) {
+                       sundayStatus =  '<td class="fullWeek sunday" style="padding: 0px;"><div class="droppable" style="min-height: 110px; overflow: hidden; margin: 6px;">' + sundayRowData.join('') + '</div></td>'
+                 } else {
+                       sundayStatus = '<td class="fullWeek sunday hidesunday" style="padding: 0px;"><div class="droppable" style="min-height: 110px; overflow: hidden; margin: 6px;">' + sundayRowData.join('') + '</div></td>'
+                 }
+
                 tableRow = '<tr id="' + resourceChat[r].employeeName + '">' + '' +
                     '<td class="tdEmployeeName" style="overflow: hidden; white-space: nowrap; height: 110px; max-height: 110px; font-weight: 700;padding: 6px;">' + resourceChat[r].employeeName + '</td>' + '' +
-                    '<td class="fullWeek sunday hidesunday" style="padding: 0px;"><div class="droppable" style="min-height: 110px; overflow: hidden; margin: 6px;">' + sundayRowData.join('') + '</div></td>' + '' +
+                    sundayStatus + '' +
                     '<td class="fullWeek monday" style="padding: 0px;"><div class="droppable" style="min-height: 110px; overflow: hidden; margin: 6px;">' + mondayRowData.join('') + '</div></td>' + '' +
                     '<td td class="fullWeek tuesday" style="padding: 0px;"><div class="droppable" style="min-height: 110px; overflow: hidden; margin: 6px;">' + tuesdayRowData.join('') + '</div></td>' + '' +
                     '<td class="fullWeek wednesday" style="padding: 0px;"><div class="droppable" style="min-height: 110px; overflow: hidden; margin: 6px;">' + wednesdayRowData.join('') + '</div></td>' + '' +
                     '<td class="fullWeek thursday" style="padding: 0px;"><div class="droppable" style="min-height: 110px; overflow: hidden; margin: 6px;">' + thursdayRowData.join('') + '</div></td>' + '' +
                     '<td td class="fullWeek friday" style="padding: 0px;"><div class="droppable" style="min-height: 110px; overflow: hidden; margin: 6px;">' + fridayRowData.join('') + '</div></td>' + '' +
-                    'td class="fullWeek saturday hidesaturday" style="padding: 0px;><div class="droppable" style="min-height: 110px; overflow: hidden; margin: 6px;">' + saturdayRowData.join('') + '</div></td>' + '' +
+                     saturdayStatus + '' +
                     '</tr>';
                 tableRowData.push(tableRow);
 
@@ -5602,10 +5729,23 @@ Template.appointments.events({
         $('#frmOptions').modal();
     },
     'click #btnRepeatApp': function (event) {
-        $('#frmOptions').modal('hide');
+    const templateObject = Template.instance();
+    let dayObj = {
+                saturday: 0,
+                sunday: 0,
+                monday: 0,
+                tuesday: 0,
+                wednesday: 0,
+                thursday: 0,
+                friday: 0
+            };
+    templateObject.repeatDays.set(dayObj)
+    $('.select-size').hide();
+    $('.repeatOn').hide();
+     $('#myModal2').modal();
     },
     'click #btnAppOptionsModal': function (event) {
-        $('#frmOptions').modal('hide');
+        $('#frmOptions').modal('show');
     },
     'change #showSaturday1': function () {
         var checkbox = document.querySelector("#showSaturday");
@@ -6156,6 +6296,7 @@ Template.appointments.events({
         var formData = new FormData(frmAppointment);
         let aStartDate = '';
         let aEndDate = '';
+        let savedStartDate = $('#aStartDate').val() || moment().format("YYYY-MM-DD");
         let clientname = formData.get('customer') || '';
         let clientmobile = formData.get('mobile') || '0';
         let contact = formData.get('phone') || '0';
@@ -6178,7 +6319,7 @@ Template.appointments.events({
         let selectedProduct = $('#product-list').children("option:selected").text() || '';
         let status = "Not Converted";
         if (aStartTime != '') {
-            aStartDate = moment().format("YYYY-MM-DD") + ' ' + aStartTime;
+            aStartDate = savedStartDate + ' ' + aStartTime;
         } else {
             aStartDate = ''
         }
