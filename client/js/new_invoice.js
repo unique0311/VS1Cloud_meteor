@@ -819,9 +819,10 @@ Template.new_invoice.onRendered(() => {
                                 notes: data.fields.Notes,
                                 LineItems: paymentItems,
                                 department: "Default",
-                                applied: paidAmount.toLocaleString(undefined, { minimumFractionDigits: 2 })
+                                applied: currency_symbol +''+paidAmount
 
                             };
+                            console.log(currency_symbol);
                             templateObject.record.set(record);
                             templateObject.selectedCurrency.set(invoicerecord.currency);
                             templateObject.inputSelectedCurrency.set(invoicerecord.currency);
@@ -1337,9 +1338,10 @@ Template.new_invoice.onRendered(() => {
                                 notes: $("txaComment").val() || '',
                                 LineItems: paymentItems,
                                 department: "Default",
-                                applied: paidAmount.toLocaleString(undefined, { minimumFractionDigits: 2 })
+                                applied: currency_symbol +''+paidAmount
 
                             };
+                            console.log(currency_symbol);
                             templateObject.record.set(record);
                         }, 1500)
 
