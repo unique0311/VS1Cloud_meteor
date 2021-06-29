@@ -5311,11 +5311,13 @@ Template.appointments.events({
 
         }
     },
-    'click .close': function () {
+    'click .checkclose': function () {
         const templateObject = Template.instance();
         if (templateObject.checkRefresh.get() == true ||  $('#updateID').val() == "") {
             window.open('/appointments', '_self');
-        }
+        } 
+       
+        
 
     },
     'click btnDeleteAppointment': function () {
