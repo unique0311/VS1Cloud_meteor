@@ -24,6 +24,10 @@ Template.customerlist.onRendered(function() {
     var splashArray = new Array();
     const dataTableList = [];
     const tableHeaderList = [];
+    
+    if(Router.current().params.query.success){
+        $('.btnRefresh').addClass('btnRefreshAlert');
+    }
 
     Meteor.call('readPrefMethod',Session.get('mycloudLogonID'),'tblCustomerlist', function(error, result){
         if(error){
