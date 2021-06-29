@@ -341,7 +341,7 @@ yearRange: "-90:+10",
               accountname: data.taccountvs1[i].AccountName || ' '
             };
             // $('#edtBankAccountName').editableSelect('add',data.taccount[i].AccountName);
-            if(data.taccountvs1[i].AccountTypeName ==  "BANK" || data.taccountvs1[i].AccountTypeName.toUpperCase() == "CCARD" || data.taccountvs1[i].AccountTypeName.toUpperCase() == "OCLIAB"){
+            if(data.taccountvs1[i].AccountTypeName ==  "BANK" || data.taccountvs1[i].AccountTypeName.toUpperCase() == "CCARD"){
               accountnamerecords.push(accountnamerecordObj);
             }
             templateObject.accountnamerecords.set(accountnamerecords);
@@ -370,7 +370,7 @@ yearRange: "-90:+10",
             accountname: useData[i].fields.AccountName || ' '
           };
           // $('#edtBankAccountName').editableSelect('add',data.taccount[i].AccountName);
-          if(useData[i].fields.AccountTypeName.replace(/\s/g, '') ==  "BANK" || useData[i].fields.AccountTypeName.toUpperCase() == "CCARD" || useData[i].fields.AccountTypeName.replace(/\s/g, '') == "OCLIAB"){
+          if(useData[i].fields.AccountTypeName.replace(/\s/g, '') ==  "BANK" || useData[i].fields.AccountTypeName.toUpperCase() == "CCARD"){
             accountnamerecords.push(accountnamerecordObj);
           }
           //accountnamerecords.push(accountnamerecordObj);
@@ -400,7 +400,7 @@ yearRange: "-90:+10",
               accountname: data.taccountvs1[i].AccountName || ' '
             };
             // $('#edtBankAccountName').editableSelect('add',data.taccount[i].AccountName);
-            if(data.taccountvs1[i].AccountTypeName ==  "BANK" || data.taccountvs1[i].AccountTypeName.toUpperCase() == "CCARD" || data.taccountvs1[i].AccountTypeName.toUpperCase() == "OCLIAB"){
+            if(data.taccountvs1[i].AccountTypeName ==  "BANK" || data.taccountvs1[i].AccountTypeName.toUpperCase() == "CCARD"){
               accountnamerecords.push(accountnamerecordObj);
             }
             templateObject.accountnamerecords.set(accountnamerecords);

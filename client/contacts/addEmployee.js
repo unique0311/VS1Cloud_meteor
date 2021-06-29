@@ -2244,7 +2244,7 @@ Template.employeescard.events({
                 var enteredPassword = $("#cloudEmpUserPassword").val();
 
                 if (($.trim(enteredEmail).length != 0) && ($.trim(enteredPassword).length != 0)) {
-
+                  if(cloudpassword.toUpperCase() != cloudcheckpassword.toUpperCase()){
                     var cloudHashPassword = CryptoJS.MD5(enteredPassword).toString().toUpperCase();
                     if ($.trim(checkifupdate).length != 0) {
                         let cloudpassword = $("#cloudEmpUserPassword").val().replace(/;/g, ",");
@@ -2496,6 +2496,10 @@ Template.employeescard.events({
                         $('#addvs1userModal').modal('toggle');
 
                     }
+
+                  }else{
+                    Router.go('/employeelist?success=true');
+                  }
 
                 } else {
                     if (employeeSaveID) {
@@ -3698,10 +3702,10 @@ Template.employeescard.events({
 
         var url = window.location.href;
         var getso_id = url.split('?id=');
-        
+
         let currentId = Router.current().params.query;
         var objDetails = '';
-        
+
         if (!isNaN(currentId.id)) {
             currentEmployee = parseInt(currentId.id);
             objDetails = {

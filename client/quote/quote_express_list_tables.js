@@ -864,131 +864,14 @@ Template.quoteslist.events({
         }
         let currenctTodayDate = currentDate.getFullYear() + "-" + month + "-" + days + " "+ hours+ ":"+ minutes+ ":"+ seconds;
         let templateObject = Template.instance();
-        getVS1Data('TQuote').then(function (dataObject) {
-            if(dataObject.length == 0){
-                sideBarService.getAllQuoteList().then(function(data) {
-                    addVS1Data('TQuote',JSON.stringify(data)).then(function (datareturn) {
-                        window.open('/quoteslist','_self');
-                    }).catch(function (err) {
-                        window.open('/quoteslist','_self');
-                    });
-                }).catch(function(err) {
-                    window.open('/quoteslist','_self');
-                });
-            }else{
-                let data = JSON.parse(dataObject[0].data);
-                let useData = data.tquoteex;
-                if(useData[0].Id){
-                    sideBarService.getAllQuoteList().then(function(data) {
-                        addVS1Data('TQuote',JSON.stringify(data)).then(function (datareturn) {
-                            window.open('/quoteslist','_self');
-                        }).catch(function (err) {
-                            window.open('/quoteslist','_self');
-                        });
-                    }).catch(function(err) {
-                        window.open('/quoteslist','_self');
-                    });
-                }else{
-                    let getTimeStamp = dataObject[0].timestamp;
-                    if(getTimeStamp){
-                        if(getTimeStamp[0] != currenctTodayDate){
-                            sideBarService.getAllQuoteList(getTimeStamp).then(function(dataUpdate) {
-                                let newDataObject = [];
-                                if(dataUpdate.tquoteex.length === 0){
-                                    sideBarService.getAllQuoteList().then(function(data) {
-                                        addVS1Data('TQuote',JSON.stringify(data)).then(function (datareturn) {
-                                            window.open('/quoteslist','_self');
-                                        }).catch(function (err) {
-                                            window.open('/quoteslist','_self');
-                                        });
-                                    }).catch(function(err) {
-                                        window.open('/quoteslist','_self');
-                                    });
-                                }else{
-                                    let dataOld = JSON.parse(dataObject[0].data);
-                                    let oldObjectData = dataOld.tquoteex;
-
-                                    let dataNew = dataUpdate;
-                                    let newObjectData = dataNew.tquoteex;
-                                    let index = '';
-                                    let index2 = '';
-
-                                    var resultArray = []
-
-                                    oldObjectData.forEach(function(destObj) {
-                                        var addedcheck=false;
-                                        newObjectData.some(function(origObj) {
-                                            if(origObj.fields.ID == destObj.fields.ID) {
-                                                addedcheck = true;
-                                                index = oldObjectData.map(function (e) { return e.fields.ID; }).indexOf(parseInt(origObj.fields.ID));
-                                                destObj = origObj;
-                                                resultArray.push(destObj);
-
-                                            }
-                                        });
-                                        if(!addedcheck) {
-                                            resultArray.push(destObj)
-                                        }
-
-                                    });
-                                    newObjectData.forEach(function(origObj) {
-                                        var addedcheck=false;
-                                        oldObjectData.some(function(destObj) {
-                                            if(origObj.fields.ID == destObj.fields.ID) {
-                                                addedcheck = true;
-                                                index = oldObjectData.map(function (e) { return e.fields.ID; }).indexOf(parseInt(origObj.fields.ID));
-                                                destObj = origObj;
-                                                resultArray.push(destObj);
-
-                                            }
-                                        });
-                                        if(!addedcheck) {
-                                            resultArray.push(origObj)
-                                        }
-
-                                    });
-                                    var resultGetData = [];
-                                    $.each(resultArray, function (i, e) {
-                                        var matchingItems = $.grep(resultGetData, function (item) {
-                                            return item.fields.ID === e.fields.ID;
-                                        });
-                                        if (matchingItems.length === 0){
-                                            resultGetData.push(e);
-                                        }
-                                    });
-
-                                    let dataToAdd = {
-                                        tquoteex: resultGetData
-                                    };
-                                    addVS1Data('TQuote',JSON.stringify(dataToAdd)).then(function (datareturn) {
-                                        window.open('/quoteslist','_self');
-                                    }).catch(function (err) {
-                                        window.open('/quoteslist','_self');
-                                    });
-                                }
-
-                            }).catch(function(err) {
-                                addVS1Data('TQuote',dataObject[0].data).then(function (datareturn) {
-                                    window.open('/quoteslist','_self');
-                                }).catch(function (err) {
-                                    window.open('/quoteslist','_self');
-                                });
-                            });
-                        }
-
-                    }
-                }
-            }
-        }).catch(function (err) {
-            sideBarService.getAllQuoteList().then(function(data) {
-                addVS1Data('TQuote',JSON.stringify(data)).then(function (datareturn) {
-                    window.open('/quoteslist','_self');
-                }).catch(function (err) {
-                    window.open('/quoteslist','_self');
-                });
-            }).catch(function(err) {
+        sideBarService.getAllQuoteList().then(function(data) {
+            addVS1Data('TQuote',JSON.stringify(data)).then(function (datareturn) {
+                window.open('/quoteslist','_self');
+            }).catch(function (err) {
                 window.open('/quoteslist','_self');
             });
+        }).catch(function(err) {
+            window.open('/quoteslist','_self');
         });
     }
 
