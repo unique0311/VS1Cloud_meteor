@@ -4024,6 +4024,18 @@ Template.appointments.onRendered(function () {
 });
 
 Template.appointments.events({
+    'click #deleteAll': function (){
+        swal({
+            title: 'Waiting for API',
+            text: "Functionality Comming Soon",
+            type: 'info',
+            showCancelButton: false,
+            confirmButtonText: 'Ok'
+        }).then((result) => {
+            if (result.value) {}
+            else if (result.dismiss === 'cancel') {}
+        });
+    },
     'click .calendar .days li': function (event) {
         Router.go('/newappointments');
     },
