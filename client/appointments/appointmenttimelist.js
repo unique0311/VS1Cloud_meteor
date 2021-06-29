@@ -607,17 +607,15 @@ Template.appointmenttimelist.onRendered(function () {
                     if (useData[i].fields.AppointmentsTimeLog[a].fields.EndDatetime != "") {
                       useData[i].fields.AppointmentsTimeLog[a].fields.EndDatetime = moment(useData[i].fields.AppointmentsTimeLog[a].fields.EndDatetime).format('h:mm a')
                     }
-
+                  
                     let time = new Date();
-                    let dt1 = new Date(time.getFullYear() +'-'+("0"+(time.getMonth()+1)).slice(-2)+'-'+("0"+(time.getDate()+1)).slice(-1) + ' '+ useData[i].fields.AppointmentsTimeLog[a].fields.StartDatetime.split(' ')[0]);
-                    let dt2 = new Date(time.getFullYear() +'-'+("0"+(time.getMonth()+1)).slice(-2)+'-'+("0"+(time.getDate()+1)).slice(-1) + ' '+  useData[i].fields.AppointmentsTimeLog[a].fields.EndDatetime.split(' ')[0]);
+                    let dt1 = new Date(time.getFullYear() +'-'+("0"+(time.getMonth()+1)).slice(-2)+'-'+("0"+(time.getDate()+1)).slice(-2) + ' '+ useData[i].fields.AppointmentsTimeLog[a].fields.StartDatetime.split(' ')[0]);
+                    let dt2 = new Date(time.getFullYear() +'-'+("0"+(time.getMonth()+1)).slice(-2)+'-'+("0"+(time.getDate()+1)).slice(-2) + ' '+  useData[i].fields.AppointmentsTimeLog[a].fields.EndDatetime.split(' ')[0]);
                     if(useData[i].fields.AppointmentsTimeLog[a].fields.StartDatetime != "" && useData[i].fields.AppointmentsTimeLog[a].fields.EndDatetime != "") {
                         Hours = templateObject.diff_hours1(dt2, dt1);
-
                     } else {
                         Hours = 0;
                     }
-
                     dataList = {
                       id: useData[i].fields.AppointmentsTimeLog[a].fields.AppointID || '',
                       appointmentdate: useData[i].fields.MsTimeStamp != '' ? moment(useData[i].fields.MsTimeStamp).format("DD/MM/YYYY") : useData[i].fields.MsTimeStamp,
@@ -668,8 +666,8 @@ Template.appointmenttimelist.onRendered(function () {
 
 
                   let time = new Date();
-                  let dt1 = new Date(time.getFullYear() +'-'+("0"+(time.getMonth()+1)).slice(-2)+'-'+("0"+(time.getDate()+1)).slice(-1) + ' '+ useData[i].fields.AppointmentsTimeLog[a].fields.StartDatetime.split(' ')[0]);
-                  let dt2 = new Date(time.getFullYear() +'-'+("0"+(time.getMonth()+1)).slice(-2)+'-'+("0"+(time.getDate()+1)).slice(-1) + ' '+  useData[i].fields.AppointmentsTimeLog[a].fields.EndDatetime.split(' ')[0]);
+                  let dt1 = new Date(time.getFullYear() +'-'+("0"+(time.getMonth()+1)).slice(-2)+'-'+("0"+(time.getDate()+1)).slice(-2) + ' '+ useData[i].fields.AppointmentsTimeLog[a].fields.StartDatetime.split(' ')[0]);
+                  let dt2 = new Date(time.getFullYear() +'-'+("0"+(time.getMonth()+1)).slice(-2)+'-'+("0"+(time.getDate()+1)).slice(-2) + ' '+  useData[i].fields.AppointmentsTimeLog[a].fields.EndDatetime.split(' ')[0]);
                   if(useData[i].fields.AppointmentsTimeLog[a].fields.StartDatetime != "" && useData[i].fields.AppointmentsTimeLog[a].fields.EndDatetime != "") {
                       Hours = templateObject.diff_hours1(dt2, dt1);
                   } else {
@@ -727,8 +725,8 @@ Template.appointmenttimelist.onRendered(function () {
                   }
 
                   let time = new Date();
-                  let dt1 = new Date(time.getFullYear() +'-'+("0"+(time.getMonth()+1)).slice(-2)+'-'+("0"+(time.getDate()+1)).slice(-1) + ' '+ useData[i].fields.AppointmentsTimeLog.fields.StartDatetime.split(' ')[0]);
-                  let dt2 = new Date(time.getFullYear() +'-'+("0"+(time.getMonth()+1)).slice(-2)+'-'+("0"+(time.getDate()+1)).slice(-1) + ' '+  useData[i].fields.AppointmentsTimeLog.fields.EndDatetime.split(' ')[0]);
+                  let dt1 = new Date(time.getFullYear() +'-'+("0"+(time.getMonth()+1)).slice(-2)+'-'+("0"+(time.getDate()+1)).slice(-2) + ' '+ useData[i].fields.AppointmentsTimeLog.fields.StartDatetime.split(' ')[0]);
+                  let dt2 = new Date(time.getFullYear() +'-'+("0"+(time.getMonth()+1)).slice(-2)+'-'+("0"+(time.getDate()+1)).slice(-2) + ' '+  useData[i].fields.AppointmentsTimeLog.fields.EndDatetime.split(' ')[0]);
                   if(useData[i].fields.AppointmentsTimeLog.fields.StartDatetime != "" && useData[i].fields.AppointmentsTimeLog.fields.EndDatetime != "") {
                       Hours = templateObject.diff_hours1(dt2, dt1);
                   } else {
@@ -784,8 +782,8 @@ Template.appointmenttimelist.onRendered(function () {
                 }
 
                 let time = new Date();
-                let dt1 = new Date(time.getFullYear() +'-'+("0"+(time.getMonth()+1)).slice(-2)+'-'+("0"+(time.getDate()+1)).slice(-1) + ' '+ useData[i].fields.AppointmentsTimeLog.fields.StartDatetime.split(' ')[0]);
-                let dt2 = new Date(time.getFullYear() +'-'+("0"+(time.getMonth()+1)).slice(-2)+'-'+("0"+(time.getDate()+1)).slice(-1) + ' '+  useData[i].fields.AppointmentsTimeLog.fields.EndDatetime.split(' ')[0]);
+                let dt1 = new Date(time.getFullYear() +'-'+("0"+(time.getMonth()+1)).slice(-2)+'-'+("0"+(time.getDate()+1)).slice(-2) + ' '+ useData[i].fields.AppointmentsTimeLog.fields.StartDatetime.split(' ')[0]);
+                let dt2 = new Date(time.getFullYear() +'-'+("0"+(time.getMonth()+1)).slice(-2)+'-'+("0"+(time.getDate()+1)).slice(-2) + ' '+  useData[i].fields.AppointmentsTimeLog.fields.EndDatetime.split(' ')[0]);
                 if(useData[i].fields.AppointmentsTimeLog.fields.StartDatetime != "" && useData[i].fields.AppointmentsTimeLog.fields.EndDatetime != "") {
                     Hours = templateObject.diff_hours1(dt2, dt1);
 
