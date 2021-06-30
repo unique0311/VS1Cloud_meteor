@@ -77,9 +77,220 @@ Template.appointments.onRendered(function () {
 
     }
 
+    console.log(Session.get('mySession'));
     $('.fullScreenSpin').css('display', 'inline-block');
-    //getEventData = function () {
+        templateObject.getEmployeesList = function () {
+        getVS1Data('TEmployee').then(function (dataObject) {
 
+            if (dataObject.length == 0) {
+                contactService.getAllEmployeeSideData().then(function (data) {
+                    let lineItems = [];
+                    let lineItemObj = {};
+                    let totalUser = 0;
+
+                    let totAmount = 0;
+                    let totAmountOverDue = 0;
+
+                    for (let i = 0; i < data.temployee.length; i++) {
+                        let randomColor = Math.floor(Math.random() * 16777215).toString(16);
+
+                        if (randomColor.length < 6) {
+                            randomColor = randomColor + '6';
+                        }
+                        let selectedColor = '#' + randomColor;
+
+                        var dataList = {
+                            id: data.temployee[i].fields.ID || '',
+                            employeeName: data.temployee[i].fields.EmployeeName || '',
+                            color: data.temployee[i].fields.CustFld6 || selectedColor,
+                            priority: data.temployee[i].fields.CustFld5 || "0",
+                            override: data.temployee[i].fields.CustFld14 || "false"
+                        };
+
+                        lineItems.push(dataList);
+                        allEmployees.push(dataList);
+                    }
+                    lineItems.sort(function (a, b) {
+                        if (a.employeeName == 'NA') {
+                            return 1;
+                        } else if (b.employeeName == 'NA') {
+                            return -1;
+                        }
+                        return (a.employeeName.toUpperCase() > b.employeeName.toUpperCase()) ? 1 : -1;
+                    });
+                    templateObject.employeerecords.set(lineItems);
+
+                    if (templateObject.employeerecords.get()) {
+
+                        setTimeout(function () {
+                            $('.counter').text(lineItems.length + ' items');
+                        }, 100);
+                    }
+
+                }).catch(function (err) {});
+            } else {
+                let data = JSON.parse(dataObject[0].data);
+                let useData = data.temployee;
+                let lineItems = [];
+                let lineItemObj = {};
+                let totalUser = 0;
+
+                let totAmount = 0;
+                let totAmountOverDue = 0;
+                for (let i = 0; i < useData.length; i++) {
+                    let randomColor = Math.floor(Math.random() * 16777215).toString(16);
+
+                    if (randomColor.length < 6) {
+                        randomColor = randomColor + '6';
+                    }
+                    let selectedColor = '#' + randomColor;
+                    if (useData[i].fields.CustFld6 == "") {
+                        objDetails = {
+                            type: "TEmployeeEx",
+                            fields: {
+                                ID: useData[i].fields.ID,
+                                CustFld6: selectedColor,
+                                Email: useData[i].fields.Email || useData[i].fields.FirstName.toLowerCase() + "@gmail.com",
+                                Sex: useData[i].fields.Sex || "M",
+                                DateStarted: useData[i].fields.DateStarted || moment().format('YYYY-MM-DD'),
+                                DOB: useData[i].fields.DOB || moment('2018-07-01').format('YYYY-MM-DD')
+                            }
+                        };
+
+                        contactService.saveEmployeeEx(objDetails).then(function (data) {});
+                    }
+
+                    var dataList = {
+                        id: useData[i].fields.ID || '',
+                        employeeName: useData[i].fields.EmployeeName || '',
+                        color: useData[i].fields.CustFld6 || selectedColor,
+                        priority: useData[i].fields.CustFld5 || "0",
+                        override: useData[i].fields.CustFld14 || "false"
+                    };
+
+                    lineItems.push(dataList);
+                }
+                lineItems.sort(function (a, b) {
+                    if (a.employeeName == 'NA') {
+                        return 1;
+                    } else if (b.employeeName == 'NA') {
+                        return -1;
+                    }
+                    return (a.employeeName.toUpperCase() > b.employeeName.toUpperCase()) ? 1 : -1;
+                });
+                templateObject.employeerecords.set(lineItems);
+
+                if (templateObject.employeerecords.get()) {
+
+                    setTimeout(function () {
+                        $('.counter').text(lineItems.length + ' items');
+                    }, 100);
+                }
+
+            }
+        }).catch(function (err) {
+            contactService.getAllEmployeeSideData().then(function (data) {
+                let lineItems = [];
+                let lineItemObj = {};
+                let totalUser = 0;
+
+                let totAmount = 0;
+                let totAmountOverDue = 0;
+                for (let i = 0; i < data.temployee.length; i++) {
+                    let randomColor = Math.floor(Math.random() * 16777215).toString(16);
+
+                    if (randomColor.length < 6) {
+                        randomColor = randomColor + '6';
+                    }
+                    let selectedColor = '#' + randomColor;
+                    var dataList = {
+                        id: data.temployee[i].fields.ID || '',
+                        employeeName: data.temployee[i].fields.EmployeeName || '',
+                        color: data.temployee[i].fields.CustFld6 || selectedColor
+                    };
+
+                    lineItems.push(dataList);
+                }
+                lineItems.sort(function (a, b) {
+                    if (a.employeeName == 'NA') {
+                        return 1;
+                    } else if (b.employeeName == 'NA') {
+                        return -1;
+                    }
+                    return (a.employeeName.toUpperCase() > b.employeeName.toUpperCase()) ? 1 : -1;
+                });
+                templateObject.employeerecords.set(lineItems);
+
+                if (templateObject.employeerecords.get()) {
+
+                    setTimeout(function () {
+                        $('.counter').text(lineItems.length + ' items');
+                    }, 100);
+                }
+
+            }).catch(function (err) {});
+        });
+    }
+    
+    templateObject.getAllProductData = function () {
+        productList = [];
+        getVS1Data('TProductVS1').then(function (dataObject) {
+            if (dataObject.length == 0) {
+                productService.getNewProductListVS1().then(function (data) {
+                    var dataList = {};
+                    for (let i = 0; i < data.tproductvs1.length; i++) {
+                        dataList = {
+                            id: data.tproductvs1[i].Id || '',
+                            productname: data.tproductvs1[i].ProductName || ''
+                        }
+                        if (data.tproductvs1[i].ProductType != 'INV') {
+                            productList.push(dataList);
+                        }
+
+                    }
+
+                    templateObject.datatablerecords.set(productList);
+
+                });
+            } else {
+                let data = JSON.parse(dataObject[0].data);
+                let useData = data.tproductvs1;
+                var dataList = {};
+                for (let i = 0; i < useData.length; i++) {
+                    dataList = {
+                        id: useData[i].fields.ID || '',
+                        productname: useData[i].fields.ProductName || ''
+                    }
+                    if (useData[i].fields.ProductType != 'INV') {
+                        productList.push(dataList);
+                    }
+                }
+                templateObject.datatablerecords.set(productList);
+
+            }
+        }).catch(function (err) {
+            productService.getNewProductListVS1().then(function (data) {
+
+                var dataList = {};
+                for (let i = 0; i < data.tproductvs1.length; i++) {
+                    dataList = {
+                        id: data.tproductvs1[i].Id || '',
+                        productname: data.tproductvs1[i].ProductName || ''
+                    }
+                    if (data.tproductvs1[i].ProductType != 'INV') {
+                        productList.push(dataList);
+                    }
+
+                }
+                templateObject.datatablerecords.set(productList);
+
+            });
+        });
+
+    }
+
+    templateObject.getEmployeesList();
+    templateObject.getAllProductData();
     appointmentService.getGlobalSettings().then(function (data) {
         templateObject.getAllAppointmentListData();
         appEndTimeDataToLoad = '19:00';
@@ -185,6 +396,9 @@ Template.appointments.onRendered(function () {
                 }
                 templateObject.globalSettings.set(globalSet);
             })
+        } else {
+            globalSet.defaultProduct = "";
+            globalSet.id = "";
         }
     }).catch(function (err) {
         console.log(err);
@@ -780,6 +994,7 @@ Template.appointments.onRendered(function () {
                     return calendarOpt.EmployeeID == parseInt(draggedEmployeeID)
                 });
 
+
                 document.getElementById("frmAppointment").reset();
                 $(".paused").hide();
                 $("#btnHold").prop("disabled", false);
@@ -808,7 +1023,7 @@ Template.appointments.onRendered(function () {
                         var hoursSpent = moment(appointmentHours, 'hours').format('HH');
                         document.getElementById("txtBookedHoursSpent").value = hoursSpent.replace(/^0+/, '');
                     }
-                    $('#product-list').prepend('<option value=' + calendarSet.id + ' selected>' + calendarSet.defaultProduct + '</option>');
+                    $('#product-list').prepend('<option value="' + calendarSet.id + '" selected>' + calendarSet.defaultProduct + '</option>');
                     $("#product-list")[0].options[0].selected = true;
                 } else if (overridesettings[0].override == "true") {
                     if (templateObject.empDuration.get() != "") {
@@ -1125,7 +1340,7 @@ Template.appointments.onRendered(function () {
             }).catch(function (err) {});
         });
     }
-    templateObject.getEmployeesList();
+    
     templateObject.getAllProductData = function () {
         productList = [];
         getVS1Data('TProductVS1').then(function (dataObject) {
@@ -1932,7 +2147,7 @@ Template.appointments.onRendered(function () {
                 let dataColor = '';
                 let allEmp = templateObject.employeerecords.get();
                 for (let i = 0; i < useData.length; i++) {
-
+                    console.log(allEmp);
                     var employeeColor = allEmp.filter(apmt => {
                         //appointmentList.employeename = employeeName;
                         return apmt.employeeName == useData[i].fields.TrainerName;
