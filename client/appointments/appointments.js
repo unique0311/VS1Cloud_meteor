@@ -79,218 +79,6 @@ Template.appointments.onRendered(function () {
 
 
     $('.fullScreenSpin').css('display', 'inline-block');
-        templateObject.getEmployeesList = function () {
-        getVS1Data('TEmployee').then(function (dataObject) {
-
-            if (dataObject.length == 0) {
-                contactService.getAllEmployeeSideData().then(function (data) {
-                    let lineItems = [];
-                    let lineItemObj = {};
-                    let totalUser = 0;
-
-                    let totAmount = 0;
-                    let totAmountOverDue = 0;
-
-                    for (let i = 0; i < data.temployee.length; i++) {
-                        let randomColor = Math.floor(Math.random() * 16777215).toString(16);
-
-                        if (randomColor.length < 6) {
-                            randomColor = randomColor + '6';
-                        }
-                        let selectedColor = '#' + randomColor;
-
-                        var dataList = {
-                            id: data.temployee[i].fields.ID || '',
-                            employeeName: data.temployee[i].fields.EmployeeName || '',
-                            color: data.temployee[i].fields.CustFld6 || selectedColor,
-                            priority: data.temployee[i].fields.CustFld5 || "0",
-                            override: data.temployee[i].fields.CustFld14 || "false"
-                        };
-
-                        lineItems.push(dataList);
-                        allEmployees.push(dataList);
-                    }
-                    lineItems.sort(function (a, b) {
-                        if (a.employeeName == 'NA') {
-                            return 1;
-                        } else if (b.employeeName == 'NA') {
-                            return -1;
-                        }
-                        return (a.employeeName.toUpperCase() > b.employeeName.toUpperCase()) ? 1 : -1;
-                    });
-                    templateObject.employeerecords.set(lineItems);
-
-                    if (templateObject.employeerecords.get()) {
-
-                        setTimeout(function () {
-                            $('.counter').text(lineItems.length + ' items');
-                        }, 100);
-                    }
-
-                }).catch(function (err) {});
-            } else {
-                let data = JSON.parse(dataObject[0].data);
-                let useData = data.temployee;
-                let lineItems = [];
-                let lineItemObj = {};
-                let totalUser = 0;
-
-                let totAmount = 0;
-                let totAmountOverDue = 0;
-                for (let i = 0; i < useData.length; i++) {
-                    let randomColor = Math.floor(Math.random() * 16777215).toString(16);
-
-                    if (randomColor.length < 6) {
-                        randomColor = randomColor + '6';
-                    }
-                    let selectedColor = '#' + randomColor;
-                    if (useData[i].fields.CustFld6 == "") {
-                        objDetails = {
-                            type: "TEmployeeEx",
-                            fields: {
-                                ID: useData[i].fields.ID,
-                                CustFld6: selectedColor,
-                                Email: useData[i].fields.Email || useData[i].fields.FirstName.toLowerCase() + "@gmail.com",
-                                Sex: useData[i].fields.Sex || "M",
-                                DateStarted: useData[i].fields.DateStarted || moment().format('YYYY-MM-DD'),
-                                DOB: useData[i].fields.DOB || moment('2018-07-01').format('YYYY-MM-DD')
-                            }
-                        };
-
-                        contactService.saveEmployeeEx(objDetails).then(function (data) {});
-                    }
-
-                    var dataList = {
-                        id: useData[i].fields.ID || '',
-                        employeeName: useData[i].fields.EmployeeName || '',
-                        color: useData[i].fields.CustFld6 || selectedColor,
-                        priority: useData[i].fields.CustFld5 || "0",
-                        override: useData[i].fields.CustFld14 || "false"
-                    };
-
-                    lineItems.push(dataList);
-                }
-                lineItems.sort(function (a, b) {
-                    if (a.employeeName == 'NA') {
-                        return 1;
-                    } else if (b.employeeName == 'NA') {
-                        return -1;
-                    }
-                    return (a.employeeName.toUpperCase() > b.employeeName.toUpperCase()) ? 1 : -1;
-                });
-                templateObject.employeerecords.set(lineItems);
-
-                if (templateObject.employeerecords.get()) {
-
-                    setTimeout(function () {
-                        $('.counter').text(lineItems.length + ' items');
-                    }, 100);
-                }
-
-            }
-        }).catch(function (err) {
-            contactService.getAllEmployeeSideData().then(function (data) {
-                let lineItems = [];
-                let lineItemObj = {};
-                let totalUser = 0;
-
-                let totAmount = 0;
-                let totAmountOverDue = 0;
-                for (let i = 0; i < data.temployee.length; i++) {
-                    let randomColor = Math.floor(Math.random() * 16777215).toString(16);
-
-                    if (randomColor.length < 6) {
-                        randomColor = randomColor + '6';
-                    }
-                    let selectedColor = '#' + randomColor;
-                    var dataList = {
-                        id: data.temployee[i].fields.ID || '',
-                        employeeName: data.temployee[i].fields.EmployeeName || '',
-                        color: data.temployee[i].fields.CustFld6 || selectedColor
-                    };
-
-                    lineItems.push(dataList);
-                }
-                lineItems.sort(function (a, b) {
-                    if (a.employeeName == 'NA') {
-                        return 1;
-                    } else if (b.employeeName == 'NA') {
-                        return -1;
-                    }
-                    return (a.employeeName.toUpperCase() > b.employeeName.toUpperCase()) ? 1 : -1;
-                });
-                templateObject.employeerecords.set(lineItems);
-
-                if (templateObject.employeerecords.get()) {
-
-                    setTimeout(function () {
-                        $('.counter').text(lineItems.length + ' items');
-                    }, 100);
-                }
-
-            }).catch(function (err) {});
-        });
-    }
-    
-    templateObject.getAllProductData = function () {
-        productList = [];
-        getVS1Data('TProductVS1').then(function (dataObject) {
-            if (dataObject.length == 0) {
-                productService.getNewProductListVS1().then(function (data) {
-                    var dataList = {};
-                    for (let i = 0; i < data.tproductvs1.length; i++) {
-                        dataList = {
-                            id: data.tproductvs1[i].Id || '',
-                            productname: data.tproductvs1[i].ProductName || ''
-                        }
-                        if (data.tproductvs1[i].ProductType != 'INV') {
-                            productList.push(dataList);
-                        }
-
-                    }
-
-                    templateObject.datatablerecords.set(productList);
-
-                });
-            } else {
-                let data = JSON.parse(dataObject[0].data);
-                let useData = data.tproductvs1;
-                var dataList = {};
-                for (let i = 0; i < useData.length; i++) {
-                    dataList = {
-                        id: useData[i].fields.ID || '',
-                        productname: useData[i].fields.ProductName || ''
-                    }
-                    if (useData[i].fields.ProductType != 'INV') {
-                        productList.push(dataList);
-                    }
-                }
-                templateObject.datatablerecords.set(productList);
-
-            }
-        }).catch(function (err) {
-            productService.getNewProductListVS1().then(function (data) {
-
-                var dataList = {};
-                for (let i = 0; i < data.tproductvs1.length; i++) {
-                    dataList = {
-                        id: data.tproductvs1[i].Id || '',
-                        productname: data.tproductvs1[i].ProductName || ''
-                    }
-                    if (data.tproductvs1[i].ProductType != 'INV') {
-                        productList.push(dataList);
-                    }
-
-                }
-                templateObject.datatablerecords.set(productList);
-
-            });
-        });
-
-    }
-
-    templateObject.getEmployeesList();
-    templateObject.getAllProductData();
     appointmentService.getGlobalSettings().then(function (data) {
         templateObject.getAllAppointmentListData();
         appEndTimeDataToLoad = '19:00';
@@ -1192,13 +980,11 @@ Template.appointments.onRendered(function () {
 
     templateObject.getEmployeesList = function () {
         getVS1Data('TEmployee').then(function (dataObject) {
-
             if (dataObject.length == 0) {
                 contactService.getAllEmployeeSideData().then(function (data) {
                     let lineItems = [];
                     let lineItemObj = {};
                     let totalUser = 0;
-
                     let totAmount = 0;
                     let totAmountOverDue = 0;
 
@@ -1232,13 +1018,14 @@ Template.appointments.onRendered(function () {
                     templateObject.employeerecords.set(lineItems);
 
                     if (templateObject.employeerecords.get()) {
-
                         setTimeout(function () {
                             $('.counter').text(lineItems.length + ' items');
                         }, 100);
                     }
 
-                }).catch(function (err) {});
+                }).catch(function (err) {
+                    console.log(err);
+                });
             } else {
                 let data = JSON.parse(dataObject[0].data);
                 let useData = data.temployee;
@@ -1399,9 +1186,11 @@ Template.appointments.onRendered(function () {
         });
 
     }
+
     let hideSun = '';
     let hideSat = '';
-
+    templateObject.getEmployeesList();
+    templateObject.getAllProductData();
     getVS1Data('TAppointmentPreferences').then(function (dataObject) {
         let employeeSettings = [];
         if (dataObject.length == 0) {
@@ -1436,7 +1225,8 @@ Template.appointments.onRendered(function () {
                             return apmt.employeeName == data.tappointment[i].TrainerName;
                         });
 
-                        appColor = employeeColor[0].color;
+
+                            appColor = employeeColor[0].color || '';
 
                         var appointment = {
                             id: data.tappointment[i].Id || '',
@@ -1584,6 +1374,8 @@ Template.appointments.onRendered(function () {
 
                     $("#allocationTable > tbody > tr> td > .card").removeClass("cardFullWeek");
                     $("#allocationTable > tbody > tr> td > .card").addClass("cardHiddenWeekend");
+                    templateObject.renderNormalCalendar();
+
                     var currentDate = moment();
                     var dateCurrent = new Date();
                     var weekStart = currentDate.clone().startOf('isoWeek').format("YYYY-MM-DD");
@@ -1713,7 +1505,10 @@ Template.appointments.onRendered(function () {
                                         return apmtColor.employeeName == data.tappointment[t].TrainerName
                                     });
 
-                                    let employeeColor = result[0].color;
+                                    let employeeColor = '';
+                                    if(result.length > 0){
+                                        let employeeColor = result[0].color;
+                                    }
                                     var dataList = {
                                         id: data.tappointment[t].Id,
                                         employeeName: data.tappointment[t].TrainerName,
@@ -1744,7 +1539,10 @@ Template.appointments.onRendered(function () {
                                     return apmtColor.employeeName == data.tappointment[t].TrainerName
                                 });
 
-                                let employeeColor = result[0].color;
+                                let employeeColor = '';
+                                if(result.length > 0){
+                                    let employeeColor = result[0].color;
+                                }
                                 var dataList = {
                                     id: data.tappointment[t].Id,
                                     employeeName: data.tappointment[t].TrainerName,
@@ -2154,7 +1952,9 @@ Template.appointments.onRendered(function () {
                         return apmt.employeeName == useData[i].fields.TrainerName;
                     });
 
-                    appColor = employeeColor[0].color;
+         
+                    appColor = employeeColor[0].color || '';
+
 
                     var appointment = {
                         id: useData[i].fields.ID || '',
@@ -2432,7 +2232,10 @@ Template.appointments.onRendered(function () {
                                     return apmtColor.employeeName == useData[t].fields.TrainerName
                                 });
 
-                                let employeeColor = result[0].color;
+                                let employeeColor = '';
+                                if(result.length > 0){
+                                    let employeeColor = result[0].color;
+                                }
                                 var dataList = {
                                     id: useData[t].fields.ID,
                                     employeeName: useData[t].fields.TrainerName,
@@ -2463,7 +2266,10 @@ Template.appointments.onRendered(function () {
                                 return apmtColor.employeeName == useData[t].fields.TrainerName
                             });
 
-                            let employeeColor = result[0].color;
+                            let employeeColor = '';
+                            if(result.length > 0){
+                                let employeeColor = result[0].color;
+                           }
                             var dataList = {
                                 id: useData[t].fields.ID,
                                 employeeName: useData[t].fields.TrainerName,
@@ -2661,7 +2467,10 @@ Template.appointments.onRendered(function () {
                         return apmt.employeeName == data.tappointment[i].TrainerName;
                     });
 
-                    appColor = employeeColor[0].color;
+                    if(employeeColor.length > 0){
+                        appColor = employeeColor[0].color;
+                    }
+                    
 
                     var appointment = {
                         id: data.tappointment[i].Id || '',
@@ -2800,6 +2609,7 @@ Template.appointments.onRendered(function () {
                         // this.$body.addClass('modal-open');
                     }
                 }
+                templateObject.renderNormalCalendar();
                 var currentDate = moment();
                 var dateCurrent = new Date();
                 var weekStart = currentDate.clone().startOf('isoWeek').format("YYYY-MM-DD");
@@ -2928,7 +2738,10 @@ Template.appointments.onRendered(function () {
                                     return apmtColor.employeeName == data.tappointment[t].TrainerName
                                 });
 
-                                let employeeColor = result[0].color;
+                                let employeeColor = '';
+                                if(result.length > 0){
+                                    let employeeColor = result[0].color;
+                                }
                                 var dataList = {
                                     id: data.tappointment[t].Id,
                                     employeeName: data.tappointment[t].TrainerName,
@@ -2959,7 +2772,10 @@ Template.appointments.onRendered(function () {
                                 return apmtColor.employeeName == data.tappointment[t].TrainerName
                             });
 
-                            let employeeColor = result[0].color;
+                            let employeeColor = '';
+                                if(result.length > 0){
+                                    let employeeColor = result[0].color;
+                                }
                             var dataList = {
                                 id: data.tappointment[t].Id,
                                 employeeName: data.tappointment[t].TrainerName,
@@ -4496,7 +4312,7 @@ Template.appointments.events({
         $("#startDate").val(("0" + date.getDate()).slice(-2) + "/" + ("0" + (date.getMonth() + 1)).slice(-2) + "/" + date.getFullYear());
         $("#endDate").val(("0" + date.getDate()).slice(-2) + "/" + ("0" + (date.getMonth() + 1)).slice(-2) + "/" + date.getFullYear())
         $('#frmNewDate').modal();
-        $('#event-frmOptions').modal('hide');
+        $('#frmOptions').modal('hide');
     },
     'click .radioLabel': function (event) {
         let templateObject = Template.instance();
@@ -5075,7 +4891,10 @@ Template.appointments.events({
                                 return apmtColor.employeeName == changeAppointmentView[a].employeename
                             });
 
-                            let employeeColor = result[0].color;
+                            let employeeColor = '';
+                                if(result.length > 0){
+                                    let employeeColor = result[0].color;
+                                }
                             var dataList = {
                                 id: changeAppointmentView[a].id,
                                 employeeName: changeAppointmentView[a].employeename,
@@ -5105,7 +4924,10 @@ Template.appointments.events({
                         var result = resourceColor.filter(apmtColor => {
                             return apmtColor.employeeName == changeAppointmentView[a].employeename
                         });
-                        let employeeColor = result[0].color;
+                        let employeeColor = '';
+                                if(result.length > 0){
+                                    let employeeColor = result[0].color;
+                        }
                         var dataList = {
                             id: changeAppointmentView[a].id,
                             employeeName: changeAppointmentView[a].employeename,
@@ -5394,7 +5216,10 @@ Template.appointments.events({
                                 return apmtColor.employeeName == changeAppointmentView[a].employeename
                             });
 
-                            let employeeColor = result[0].color;
+                            let employeeColor = '';
+                                if(result.length > 0){
+                                    let employeeColor = result[0].color;
+                            }
                             var dataList = {
                                 id: changeAppointmentView[a].id,
                                 employeeName: changeAppointmentView[a].employeename,
@@ -5424,7 +5249,10 @@ Template.appointments.events({
                             return apmtColor.employeeName == changeAppointmentView[a].employeename
                         });
 
-                        let employeeColor = result[0].color;
+                        let employeeColor = '';
+                                if(result.length > 0){
+                                    let employeeColor = result[0].color;
+                        }
                         var dataList = {
                             id: changeAppointmentView[a].id,
                             employeeName: changeAppointmentView[a].employeename,
@@ -6821,7 +6649,8 @@ Template.appointments.events({
                         addVS1Data('TAppointment', JSON.stringify(data)).then(function (datareturn) {
                           window.open('/appointments', '_self');
                         }).catch(function (err) {
-                          window.open('/appointments', '_self');
+                          
+
                         });
                     }).catch(function (err) {
                        window.open('/appointments', '_self');
