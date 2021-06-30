@@ -4056,16 +4056,130 @@ Template.appointments.onRendered(function () {
 
 Template.appointments.events({
     'click #deleteAll': function (){
-        swal({
-            title: 'Waiting for API',
-            text: "Functionality Comming Soon",
-            type: 'info',
+    var erpGet = erpDb();
+    if($("#updateID").val() != "") {
+        $('.fullScreenSpin').css('display', 'block');
+        let id = $("#updateID").val();
+        let data = {
+            Name: "VS1_DeleteAllAppts",
+            Params: {
+                AppointID: parseInt(id)
+            }
+        }
+        var myString = '"JsonIn"' + ':' + JSON.stringify(data);
+        var oPost = new XMLHttpRequest();
+        oPost.open("POST", URLRequest + erpGet.ERPIPAddress + ':' + erpGet.ERPPort + '/' + 'erpapi/VS1_Cloud_Task/Method?Name="VS1_DeleteAllAppts"', true);
+        oPost.setRequestHeader("database", erpGet.ERPDatabase);
+        oPost.setRequestHeader("username", erpGet.ERPUsername);
+        oPost.setRequestHeader("password", erpGet.ERPPassword);
+        oPost.setRequestHeader("Accept", "application/json");
+        oPost.setRequestHeader("Accept", "application/html");
+        oPost.setRequestHeader("Content-type", "application/json");
+        // let objDataSave = '"JsonIn"' + ':' + JSON.stringify(selectClient);
+        oPost.send(myString);
+
+        oPost.onreadystatechange = function () {
+
+            if (oPost.readyState == 4 && oPost.status == 200) {
+                var myArrResponse = JSON.parse(oPost.responseText);
+                console.log(myArrResponse.ProcessLog.ResponseStatus);
+                if (myArrResponse.ProcessLog.ResponseStatus.includes("OK")) {
+                    sideBarService.getAllAppointmentList().then(function (data) {
+                        addVS1Data('TAppointment', JSON.stringify(data)).then(function (datareturn) {
+                           window.open('/appointments', '_self');
+                        }).catch(function (err) {
+                           window.open('/appointments', '_self');
+                        });
+                    }).catch(function (err) {
+                        window.open('/appointments', '_self');
+                    });
+                } else {
+                    $('.modal-backdrop').css('display', 'none');
+                    $('.fullScreenSpin').css('display', 'none');
+                    swal({
+                        title: 'Oooops...',
+                        text: myArrResponse.ProcessLog.ResponseStatus,
+                        type: 'warning',
+                        showCancelButton: false,
+                        confirmButtonText: 'Try Again'
+                    }).then((result) => {
+                        if (result.value) {}
+                        else if (result.dismiss === 'cancel') {}
+                    });
+                }
+
+            } else if (oPost.readyState == 4 && oPost.status == 403) {
+                $('.fullScreenSpin').css('display', 'none');
+                swal({
+                    title: 'Oooops...',
+                    text: oPost.getResponseHeader('errormessage'),
+                    type: 'error',
+                    showCancelButton: false,
+                    confirmButtonText: 'Try Again'
+                }).then((result) => {
+                    if (result.value) {}
+                    else if (result.dismiss === 'cancel') {}
+                });
+            } else if (oPost.readyState == 4 && oPost.status == 406) {
+                $('.fullScreenSpin').css('display', 'none');
+                var ErrorResponse = oPost.getResponseHeader('errormessage');
+                var segError = ErrorResponse.split(':');
+
+                if ((segError[1]) == ' "Unable to lock object') {
+
+                    swal({
+                        title: 'Oooops...',
+                        text: oPost.getResponseHeader('errormessage'),
+                        type: 'error',
+                        showCancelButton: false,
+                        confirmButtonText: 'Try Again'
+                    }).then((result) => {
+                        if (result.value) {}
+                        else if (result.dismiss === 'cancel') {}
+                    });
+                } else {
+                    $('.fullScreenSpin').css('display', 'none');
+                    swal({
+                        title: 'Oooops...',
+                        text: oPost.getResponseHeader('errormessage'),
+                        type: 'error',
+                        showCancelButton: false,
+                        confirmButtonText: 'Try Again'
+                    }).then((result) => {
+                        if (result.value) {}
+                        else if (result.dismiss === 'cancel') {}
+                    });
+                }
+
+            } else if (oPost.readyState == '') {
+                $('.fullScreenSpin').css('display', 'none');
+                swal({
+                    title: 'Oooops...',
+                    text: oPost.getResponseHeader('errormessage'),
+                    type: 'error',
+                    showCancelButton: false,
+                    confirmButtonText: 'Try Again'
+                }).then((result) => {
+                    if (result.value) {}
+                    else if (result.dismiss === 'cancel') {}
+                });
+            }
+
+     } 
+ } else {
+         swal({
+            title: 'Oooops...',
+            text: "Appointment Does Not Exist",
+            type: 'warning',
             showCancelButton: false,
-            confirmButtonText: 'Ok'
+            confirmButtonText: 'Try Again'
         }).then((result) => {
             if (result.value) {}
             else if (result.dismiss === 'cancel') {}
         });
+     
+ }
+
     },
     'click .calendar .days li': function (event) {
         Router.go('/newappointments');
@@ -4093,19 +4207,21 @@ Template.appointments.events({
                 $('.radioLabel').addClass("normal-day");
                 $('.select-size').hide();
                 $('.repeatOn').hide();
-                let newDate = ("0" + (date.getDate() + frequency)).slice(-2) + "/" + ("0" + (date.getMonth() + 1)).slice(-2) + "/" + date.getFullYear();
+                date.setDate(date.getDate() + frequency);
+                let newDate = ("0" + date.getDate()).slice(-2) + "/" + ("0" + (date.getMonth() + 1)).slice(-2) + "/" + date.getFullYear();
                 $('#finalDate').val(newDate);
             } else if (period.toLowerCase() == "weeks") {
                 $('.select-size').show();
                 $('.repeatOn').show();
-                days = frequency * 7;
+                let days = frequency * 7;
                 date.setDate(date.getDate() + days);
                 let newDate = ("0" + (date.getDate())).slice(-2) + "/" + ("0" + (date.getMonth() + 1)).slice(-2) + "/" + date.getFullYear();
                 $('#finalDate').val(newDate);
             } else if (period.toLowerCase() == "months") {
                 $('.select-size').show();
                 $('.repeatOn').show();
-                let newDate = ("0" + (date.getDate() + frequency)).slice(-2) + "/" + ("0" + (date.getMonth() + 1) + frequency).slice(-2) + "/" + date.getFullYear();
+                date.setDate(date.getMonth() + frequency);
+                let newDate = ("0" + (date.getDate() + frequency)).slice(-2) + "/" + ("0" + (date.getMonth() + 1)).slice(-2) + "/" + date.getFullYear();
                 $('#finalDate').val(newDate);
             }
         }
@@ -6488,12 +6604,12 @@ Template.appointments.events({
                 appointmentService.saveTimeLog(obj).then(function (data1) {
                     sideBarService.getAllAppointmentList().then(function (data) {
                         addVS1Data('TAppointment', JSON.stringify(data)).then(function (datareturn) {
-                          // window.open('/appointments', '_self');
+                          window.open('/appointments', '_self');
                         }).catch(function (err) {
-                          // window.open('/appointments', '_self');
+                          window.open('/appointments', '_self');
                         });
                     }).catch(function (err) {
-                       // window.open('/appointments', '_self');
+                       window.open('/appointments', '_self');
                     });
                 }).catch(function () {})
             } else {
