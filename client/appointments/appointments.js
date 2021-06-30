@@ -4082,7 +4082,6 @@ Template.appointments.events({
 
             if (oPost.readyState == 4 && oPost.status == 200) {
                 var myArrResponse = JSON.parse(oPost.responseText);
-                console.log(myArrResponse.ProcessLog.ResponseStatus);
                 if (myArrResponse.ProcessLog.ResponseStatus.includes("OK")) {
                     sideBarService.getAllAppointmentList().then(function (data) {
                         addVS1Data('TAppointment', JSON.stringify(data)).then(function (datareturn) {
