@@ -112,7 +112,7 @@ Template.sidenav.onRendered(function() {
 
     templateObject.getAllCustomersData = function() {
         sideBarService.getAllCustomersDataVS1().then(function(data) {
-            localStorage.setItem('VS1CustomerList', JSON.stringify(data) || '');
+            //localStorage.setItem('VS1CustomerList', JSON.stringify(data) || '');
             addVS1Data('TCustomerVS1',JSON.stringify(data));
         }).catch(function(err) {
 
@@ -122,7 +122,7 @@ Template.sidenav.onRendered(function() {
 
     templateObject.getAllSuppliersData = function() {
         sideBarService.getAllSuppliersDataVS1().then(function(data) {
-            localStorage.setItem('VS1SupplierList', JSON.stringify(data) || '');
+            //localStorage.setItem('VS1SupplierList', JSON.stringify(data) || '');
             addVS1Data('TSupplierVS1',JSON.stringify(data));
         }).catch(function(err) {
 
@@ -132,7 +132,7 @@ Template.sidenav.onRendered(function() {
 
     templateObject.getAllAccountsData = function() {
         sideBarService.getAccountListVS1().then(function(data) {
-            localStorage.setItem('VS1AccountList', JSON.stringify(data) || '');
+            //localStorage.setItem('VS1AccountList', JSON.stringify(data) || '');
             addVS1Data('TAccountVS1',JSON.stringify(data));
         }).catch(function(err) {
 
@@ -141,7 +141,7 @@ Template.sidenav.onRendered(function() {
 
     templateObject.getAllTaxCodeData = function() {
         sideBarService.getTaxRateVS1().then(function(data) {
-            localStorage.setItem('VS1TaxCodeList', JSON.stringify(data) || '');
+            //localStorage.setItem('VS1TaxCodeList', JSON.stringify(data) || '');
             addVS1Data('TTaxcodeVS1',JSON.stringify(data));
         }).catch(function(err) {
 
@@ -151,7 +151,7 @@ Template.sidenav.onRendered(function() {
 
     templateObject.getAllTermsData = function() {
         sideBarService.getTermsVS1().then(function(data) {
-            localStorage.setItem('VS1TermsList', JSON.stringify(data) || '');
+            //localStorage.setItem('VS1TermsList', JSON.stringify(data) || '');
             addVS1Data('TTermsVS1',JSON.stringify(data));
         }).catch(function(err) {
 
@@ -160,7 +160,7 @@ Template.sidenav.onRendered(function() {
 
     templateObject.getAllDepartmentData = function() {
         sideBarService.getDepartment().then(function(data) {
-            localStorage.setItem('VS1DepartmentList', JSON.stringify(data) || '');
+            //localStorage.setItem('VS1DepartmentList', JSON.stringify(data) || '');
             addVS1Data('TDeptClass',JSON.stringify(data));
         }).catch(function(err) {
 
@@ -169,7 +169,7 @@ Template.sidenav.onRendered(function() {
 
     templateObject.getAllCurrencyData = function() {
         sideBarService.getCurrencies().then(function(data) {
-            localStorage.setItem('VS1CurrencyList', JSON.stringify(data) || '');
+            //localStorage.setItem('VS1CurrencyList', JSON.stringify(data) || '');
             addVS1Data('TCurrency',JSON.stringify(data));
         }).catch(function(err) {
 
@@ -202,7 +202,7 @@ Template.sidenav.onRendered(function() {
 
     templateObject.getAllLeadStatusData = function() {
         sideBarService.getAllLeadStatus().then(function(data) {
-            localStorage.setItem('VS1LeadStatusList', JSON.stringify(data) || '');
+            //localStorage.setItem('VS1LeadStatusList', JSON.stringify(data) || '');
             addVS1Data('TLeadStatusType',JSON.stringify(data));
         }).catch(function(err) {
 
@@ -211,7 +211,7 @@ Template.sidenav.onRendered(function() {
 
     templateObject.getAllShippingMethodData = function() {
         sideBarService.getShippingMethodData().then(function(data) {
-            localStorage.setItem('VS1ShippingMethodList', JSON.stringify(data) || '');
+            //localStorage.setItem('VS1ShippingMethodList', JSON.stringify(data) || '');
             addVS1Data('TShippingMethod',JSON.stringify(data));
         }).catch(function(err) {
 
@@ -220,7 +220,7 @@ Template.sidenav.onRendered(function() {
 
     templateObject.getAllAccountTypeData = function() {
         sideBarService.getAccountTypesToAddNew().then(function(data) {
-            localStorage.setItem('VS1AccountTypeList', JSON.stringify(data) || '');
+            //localStorage.setItem('VS1AccountTypeList', JSON.stringify(data) || '');
             addVS1Data('TAccountType',JSON.stringify(data));
         }).catch(function(err) {
 
@@ -229,7 +229,7 @@ Template.sidenav.onRendered(function() {
 
     templateObject.getAllERPCombinedContactsData = function() {
         sideBarService.getAllContactCombineVS1().then(function(data) {
-            localStorage.setItem('VS1ERPCombinedContactsList', JSON.stringify(data) || '');
+            //localStorage.setItem('VS1ERPCombinedContactsList', JSON.stringify(data) || '');
             addVS1Data('TERPCombinedContactsVS1',JSON.stringify(data));
         }).catch(function(err) {
 
@@ -238,7 +238,7 @@ Template.sidenav.onRendered(function() {
 
     templateObject.getAllEmployeeData = function() {
         sideBarService.getAllEmployees().then(function(data) {
-            localStorage.setItem('VS1EmployeeList', JSON.stringify(data) || '');
+            //localStorage.setItem('VS1EmployeeList', JSON.stringify(data) || '');
             addVS1Data('TEmployee',JSON.stringify(data));
         }).catch(function(err) {
 
@@ -247,7 +247,7 @@ Template.sidenav.onRendered(function() {
 
     templateObject.getAllJournalEntryLineData = function() {
         sideBarService.getAllJournalEnrtryLinesList().then(function(data) {
-            localStorage.setItem('VS1JournalEntryLineList', JSON.stringify(data) || '');
+            //localStorage.setItem('VS1JournalEntryLineList', JSON.stringify(data) || '');
             addVS1Data('TJournalEntryLines',JSON.stringify(data));
         }).catch(function(err) {
 
@@ -256,7 +256,7 @@ Template.sidenav.onRendered(function() {
 
     templateObject.getAllBankAccountReportData = function() {
         sideBarService.getAllBankAccountDetails().then(function(data) {
-            localStorage.setItem('VS1BankAccountReportList', JSON.stringify(data) || '');
+            //localStorage.setItem('VS1BankAccountReportList', JSON.stringify(data) || '');
             addVS1Data('TBankAccountReport',JSON.stringify(data));
         }).catch(function(err) {
 
@@ -273,7 +273,7 @@ Template.sidenav.onRendered(function() {
 
     templateObject.getAllInvoiceListData = function() {
         sideBarService.getAllInvoiceList().then(function(data) {
-            localStorage.setItem('VS1TInvoiceList', JSON.stringify(data) || '');
+            //localStorage.setItem('VS1TInvoiceList', JSON.stringify(data) || '');
             addVS1Data('TInvoiceEx',JSON.stringify(data));
         }).catch(function(err) {
 
@@ -289,8 +289,8 @@ Template.sidenav.onRendered(function() {
     }
 
     templateObject.getAllInvoiceListNonBOData = function() {
-        sideBarService.getAllInvoiceListNonBO().then(function(data) {
-            localStorage.setItem('VS1TInvoiceNonBackOrderList', JSON.stringify(data) || '');
+        sideBarService.getAllInvoiceListNonBO(25,1).then(function(data) {
+            //localStorage.setItem('VS1TInvoiceNonBackOrderList', JSON.stringify(data) || '');
             addVS1Data('TInvoiceNonBackOrder',JSON.stringify(data));
         }).catch(function(err) {
 
@@ -299,7 +299,7 @@ Template.sidenav.onRendered(function() {
 
     templateObject.getAllBOInvoiceListData = function() {
         sideBarService.getAllBOInvoiceList().then(function(data) {
-            localStorage.setItem('VS1BackOrderSalesListList', JSON.stringify(data) || '');
+            //localStorage.setItem('VS1BackOrderSalesListList', JSON.stringify(data) || '');
             addVS1Data('BackOrderSalesList',JSON.stringify(data));
         }).catch(function(err) {
 
@@ -308,7 +308,7 @@ Template.sidenav.onRendered(function() {
 
     templateObject.getAllTPurchaseOrderData = function() {
         sideBarService.getAllPurchaseOrderList('').then(function(data) {
-            localStorage.setItem('VS1TPurchaseOrderList', JSON.stringify(data) || '');
+            //localStorage.setItem('VS1TPurchaseOrderList', JSON.stringify(data) || '');
             addVS1Data('TPurchaseOrderEx',JSON.stringify(data));
         }).catch(function(err) {
 
@@ -317,7 +317,7 @@ Template.sidenav.onRendered(function() {
 
     templateObject.getAllTReconcilationData = function() {
         sideBarService.getAllReconcilationList().then(function(data) {
-            localStorage.setItem('VS1TReconcilationList', JSON.stringify(data) || '');
+            //localStorage.setItem('VS1TReconcilationList', JSON.stringify(data) || '');
             addVS1Data('TReconciliation',JSON.stringify(data));
         }).catch(function(err) {
 
@@ -326,7 +326,7 @@ Template.sidenav.onRendered(function() {
 
     templateObject.getAllTbillReportData = function() {
         sideBarService.getAllPurchaseOrderListAll().then(function(data) {
-            localStorage.setItem('VS1TbillReport', JSON.stringify(data) || '');
+            //localStorage.setItem('VS1TbillReport', JSON.stringify(data) || '');
             addVS1Data('TbillReport',JSON.stringify(data));
         }).catch(function(err) {
 
@@ -335,7 +335,7 @@ Template.sidenav.onRendered(function() {
 
     templateObject.getAllTChequeData = function() {
         sideBarService.getAllChequeList().then(function(data) {
-            localStorage.setItem('VS1TChequeList', JSON.stringify(data) || '');
+            //localStorage.setItem('VS1TChequeList', JSON.stringify(data) || '');
             addVS1Data('TCheque',JSON.stringify(data));
         }).catch(function(err) {
 
@@ -366,7 +366,7 @@ Template.sidenav.onRendered(function() {
 
     templateObject.getAllAppUserData = function() {
         sideBarService.getCurrentLoggedUser().then(function(data) {
-            localStorage.setItem('VS1TAppUserList', JSON.stringify(data) || '');
+            //localStorage.setItem('VS1TAppUserList', JSON.stringify(data) || '');
             addVS1Data('TAppUser',JSON.stringify(data));
         }).catch(function(err) {
 
@@ -375,7 +375,7 @@ Template.sidenav.onRendered(function() {
 
     templateObject.getAllTJobVS1Data = function() {
         sideBarService.getAllJobssDataVS1().then(function(data) {
-            localStorage.setItem('VS1TJobVS1List', JSON.stringify(data) || '');
+            //localStorage.setItem('VS1TJobVS1List', JSON.stringify(data) || '');
             addVS1Data('TJobVS1',JSON.stringify(data));
         }).catch(function(err) {
 
@@ -384,7 +384,7 @@ Template.sidenav.onRendered(function() {
 
     templateObject.getAllTStockAdjustEntryData = function() {
         sideBarService.getAllStockAdjustEntry().then(function(data) {
-            localStorage.setItem('VS1TStockAdjustEntryList', JSON.stringify(data) || '');
+            //localStorage.setItem('VS1TStockAdjustEntryList', JSON.stringify(data) || '');
             addVS1Data('TStockAdjustEntry',JSON.stringify(data));
         }).catch(function(err) {
 
@@ -393,7 +393,7 @@ Template.sidenav.onRendered(function() {
 
     templateObject.getAllTQuoteData = function() {
         sideBarService.getAllQuoteList('').then(function(data) {
-            localStorage.setItem('VS1TQuoteList', JSON.stringify(data) || '');
+            //localStorage.setItem('VS1TQuoteList', JSON.stringify(data) || '');
             addVS1Data('TQuote',JSON.stringify(data));
         }).catch(function(err) {
 
@@ -402,7 +402,7 @@ Template.sidenav.onRendered(function() {
 
     templateObject.getAllTsalesOrderNonBackOrderData = function() {
         sideBarService.getAllSalesOrderListNonBO().then(function(data) {
-            localStorage.setItem('VS1TsalesOrderNonBackOrderList', JSON.stringify(data) || '');
+            //localStorage.setItem('VS1TsalesOrderNonBackOrderList', JSON.stringify(data) || '');
             addVS1Data('TsalesOrderNonBackOrder',JSON.stringify(data));
         }).catch(function(err) {
 
@@ -411,7 +411,7 @@ Template.sidenav.onRendered(function() {
 
     templateObject.getAllTBillData = function() {
         sideBarService.getAllBillList().then(function(data) {
-            localStorage.setItem('VS1TBillList', JSON.stringify(data) || '');
+            //localStorage.setItem('VS1TBillList', JSON.stringify(data) || '');
             addVS1Data('TBill',JSON.stringify(data));
         }).catch(function(err) {
 
@@ -436,7 +436,7 @@ Template.sidenav.onRendered(function() {
 
     templateObject.getAllTpurchaseOrderNonBackOrderData = function() {
         sideBarService.getAllPurchaseOrderListNonBo().then(function(data) {
-            localStorage.setItem('VS1TpurchaseOrderNonBackOrderList', JSON.stringify(data) || '');
+            //localStorage.setItem('VS1TpurchaseOrderNonBackOrderList', JSON.stringify(data) || '');
             addVS1Data('TpurchaseOrderNonBackOrder',JSON.stringify(data));
         }).catch(function(err) {
 
@@ -445,7 +445,7 @@ Template.sidenav.onRendered(function() {
 
     templateObject.getAllTpurchaseOrderBackOrderData = function() {
         sideBarService.getAllPurchaseOrderListBO().then(function(data) {
-            localStorage.setItem('VS1TpurchaseOrderBackOrderList', JSON.stringify(data) || '');
+            //localStorage.setItem('VS1TpurchaseOrderBackOrderList', JSON.stringify(data) || '');
             addVS1Data('TpurchaseOrderBackOrder',JSON.stringify(data));
         }).catch(function(err) {
 
@@ -454,7 +454,7 @@ Template.sidenav.onRendered(function() {
 
     templateObject.getAllTSalesListData = function() {
         sideBarService.getSalesListData().then(function(data) {
-            localStorage.setItem('VS1TSalesList', JSON.stringify(data) || '');
+            //localStorage.setItem('VS1TSalesList', JSON.stringify(data) || '');
             addVS1Data('TSalesList',JSON.stringify(data));
         }).catch(function(err) {
 
@@ -721,6 +721,8 @@ getVS1Data('TInvoiceEx').then(function (dataObject) {
             if(useData[0].Id){
                 templateObject.getAllInvoiceListData();
             }else{
+              templateObject.getAllInvoiceListData();
+              /*
                 let getTimeStamp = dataObject[0].timestamp.split(' ');
                 if(getTimeStamp){
                     if(loggedUserEventFired){
@@ -803,6 +805,7 @@ getVS1Data('TInvoiceEx').then(function (dataObject) {
                         }
                     }
                 }
+                */
             }
         }
     }).catch(function (err) {
@@ -2028,7 +2031,7 @@ getVS1Data('TStatementList').then(function (dataObject) {
     }).catch(function (err) {
         templateObject.getTVS1BankDepositData();
     });
-}, 1000);
+}, 2000);
 /* End Quick Objects */
 setTimeout(function() {
   getVS1Data('TJournalEntryLines').then(function (dataObject) {
@@ -2649,7 +2652,7 @@ setTimeout(function() {
     }).catch(function (err) {
         templateObject.getAllTTransactionListReportData();
     });
-}, 4000);
+}, 5000);
     /*
   if (loggedUserEventFired) {
     templateObject.getAllTProductStocknSalePeriodReportData();

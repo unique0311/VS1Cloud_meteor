@@ -2242,13 +2242,13 @@ Template.employeescard.events({
                 var enteredEmail = $("#cloudEmpEmailAddress").val();
                 var checkifupdate = $("#cloudCheckEmpEmailAddress").val();
                 var enteredPassword = $("#cloudEmpUserPassword").val();
-
+                let cloudpassword = $("#cloudEmpUserPassword").val().replace(/;/g, ",");
+                let cloudcheckpassword = $("#cloudCheckEmpUserPassword").val();
                 if (($.trim(enteredEmail).length != 0) && ($.trim(enteredPassword).length != 0)) {
                   if(cloudpassword.toUpperCase() != cloudcheckpassword.toUpperCase()){
                     var cloudHashPassword = CryptoJS.MD5(enteredPassword).toString().toUpperCase();
                     if ($.trim(checkifupdate).length != 0) {
-                        let cloudpassword = $("#cloudEmpUserPassword").val().replace(/;/g, ",");
-                        let cloudcheckpassword = $("#cloudCheckEmpUserPassword").val();
+
                         if (cloudpassword.length < 8) {
                             if (cloudpassword.match(/^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{7,15}$/)) {
                                 $('#cloudEmpUserPassword').css('border-color', '#b5b8bb #e2e4e7 #e8eaec #bdbfc3');
