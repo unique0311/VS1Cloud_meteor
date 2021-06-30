@@ -77,7 +77,7 @@ Template.appointments.onRendered(function () {
 
     }
 
-    console.log(Session.get('mySession'));
+
     $('.fullScreenSpin').css('display', 'inline-block');
         templateObject.getEmployeesList = function () {
         getVS1Data('TEmployee').then(function (dataObject) {
@@ -294,6 +294,8 @@ Template.appointments.onRendered(function () {
     appointmentService.getGlobalSettings().then(function (data) {
         templateObject.getAllAppointmentListData();
         appEndTimeDataToLoad = '19:00';
+        globalSet.defaultProduct = "";
+        globalSet.id = "";
         for (let g = 0; g < data.terppreference.length; g++) {
             if (data.terppreference[g].PrefName == "ShowSundayinApptCalendar") {
                 if (data.terppreference[g].Fieldvalue == "F") {
@@ -2147,7 +2149,6 @@ Template.appointments.onRendered(function () {
                 let dataColor = '';
                 let allEmp = templateObject.employeerecords.get();
                 for (let i = 0; i < useData.length; i++) {
-                    console.log(allEmp);
                     var employeeColor = allEmp.filter(apmt => {
                         //appointmentList.employeename = employeeName;
                         return apmt.employeeName == useData[i].fields.TrainerName;
