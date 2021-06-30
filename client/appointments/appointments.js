@@ -1505,10 +1505,9 @@ Template.appointments.onRendered(function () {
                                         return apmtColor.employeeName == data.tappointment[t].TrainerName
                                     });
 
-                                    let employeeColor = '';
-                                    if(result.length > 0){
+
                                         let employeeColor = result[0].color;
-                                    }
+                    
                                     var dataList = {
                                         id: data.tappointment[t].Id,
                                         employeeName: data.tappointment[t].TrainerName,
@@ -1539,10 +1538,9 @@ Template.appointments.onRendered(function () {
                                     return apmtColor.employeeName == data.tappointment[t].TrainerName
                                 });
 
-                                let employeeColor = '';
-                                if(result.length > 0){
-                                    let employeeColor = result[0].color;
-                                }
+
+                                let employeeColor = result[0].color || '';
+
                                 var dataList = {
                                     id: data.tappointment[t].Id,
                                     employeeName: data.tappointment[t].TrainerName,
@@ -2232,10 +2230,8 @@ Template.appointments.onRendered(function () {
                                     return apmtColor.employeeName == useData[t].fields.TrainerName
                                 });
 
-                                let employeeColor = '';
-                                if(result.length > 0){
-                                    let employeeColor = result[0].color;
-                                }
+
+                                let employeeColor = result[0].color || '';
                                 var dataList = {
                                     id: useData[t].fields.ID,
                                     employeeName: useData[t].fields.TrainerName,
@@ -2266,10 +2262,8 @@ Template.appointments.onRendered(function () {
                                 return apmtColor.employeeName == useData[t].fields.TrainerName
                             });
 
-                            let employeeColor = '';
-                            if(result.length > 0){
-                                let employeeColor = result[0].color;
-                           }
+
+                            let employeeColor = result[0].color || '';
                             var dataList = {
                                 id: useData[t].fields.ID,
                                 employeeName: useData[t].fields.TrainerName,
@@ -2738,10 +2732,8 @@ Template.appointments.onRendered(function () {
                                     return apmtColor.employeeName == data.tappointment[t].TrainerName
                                 });
 
-                                let employeeColor = '';
-                                if(result.length > 0){
-                                    let employeeColor = result[0].color;
-                                }
+
+                                let employeeColor = result[0].color;
                                 var dataList = {
                                     id: data.tappointment[t].Id,
                                     employeeName: data.tappointment[t].TrainerName,
@@ -2772,10 +2764,8 @@ Template.appointments.onRendered(function () {
                                 return apmtColor.employeeName == data.tappointment[t].TrainerName
                             });
 
-                            let employeeColor = '';
-                                if(result.length > 0){
-                                    let employeeColor = result[0].color;
-                                }
+                            let employeeColor = result[0].color;
+
                             var dataList = {
                                 id: data.tappointment[t].Id,
                                 employeeName: data.tappointment[t].TrainerName,
@@ -4891,10 +4881,9 @@ Template.appointments.events({
                                 return apmtColor.employeeName == changeAppointmentView[a].employeename
                             });
 
-                            let employeeColor = '';
-                                if(result.length > 0){
-                                    let employeeColor = result[0].color;
-                                }
+
+                            let employeeColor = result[0].color || '';
+
                             var dataList = {
                                 id: changeAppointmentView[a].id,
                                 employeeName: changeAppointmentView[a].employeename,
@@ -4924,10 +4913,9 @@ Template.appointments.events({
                         var result = resourceColor.filter(apmtColor => {
                             return apmtColor.employeeName == changeAppointmentView[a].employeename
                         });
-                        let employeeColor = '';
-                                if(result.length > 0){
-                                    let employeeColor = result[0].color;
-                        }
+
+                         let employeeColor = result[0].color;
+
                         var dataList = {
                             id: changeAppointmentView[a].id,
                             employeeName: changeAppointmentView[a].employeename,
@@ -5216,10 +5204,7 @@ Template.appointments.events({
                                 return apmtColor.employeeName == changeAppointmentView[a].employeename
                             });
 
-                            let employeeColor = '';
-                                if(result.length > 0){
-                                    let employeeColor = result[0].color;
-                            }
+                            let employeeColor = result[0].color;
                             var dataList = {
                                 id: changeAppointmentView[a].id,
                                 employeeName: changeAppointmentView[a].employeename,
@@ -5249,10 +5234,8 @@ Template.appointments.events({
                             return apmtColor.employeeName == changeAppointmentView[a].employeename
                         });
 
-                        let employeeColor = '';
-                                if(result.length > 0){
-                                    let employeeColor = result[0].color;
-                        }
+                         let employeeColor = result[0].color;
+
                         var dataList = {
                             id: changeAppointmentView[a].id,
                             employeeName: changeAppointmentView[a].employeename,
