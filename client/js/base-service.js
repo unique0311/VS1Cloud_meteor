@@ -34,7 +34,7 @@ export class BaseService{
 
     responseHandler(url, response) {
       if(response === undefined){
-        let getResponse = "Connection has been lost. Please log out and log back in.";
+        let getResponse = "You have lost internet connection, please log out and log back in.";
         return getResponse;
       }else{
 
