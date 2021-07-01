@@ -404,6 +404,7 @@ Template.header.onRendered(function(){
            Session.setPersistent('vs1companyABN', companyABN);
            Session.setPersistent('vs1companyPhone', companyPhone);
            Session.setPersistent('vs1companyURL', companyURL);
+           Session.setPersistent('vs1companyStripeID', data.tcompanyinfo[0].Apcano);
 
       })
   };
@@ -437,6 +438,7 @@ var erpGet = erpDb();
 
 var LoggedDB = erpGet.ERPDatabase;
 if(loggedUserEventFired){
+  templateObject.getCompanyInfo();
     $(document).ready(function() {
         let checkGreenTrack = Session.get('isGreenTrack') || false;
       if(checkGreenTrack){
