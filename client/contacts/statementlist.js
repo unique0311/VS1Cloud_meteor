@@ -1363,6 +1363,7 @@ Template.statementlist.events({
             templateObject.customerToMultiplePdf(listIds);
 
         } else {
+            $('.fullScreenSpin').css('display', 'none');
             $('#printLineModal').modal('toggle');
         }
 
