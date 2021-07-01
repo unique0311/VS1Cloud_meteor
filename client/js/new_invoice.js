@@ -5688,7 +5688,7 @@ Template.new_invoice.events({
                     stringQuery = stringQuery + "tax=" + tax + "&total=" + total + "&customer=" + customer + "&name=" + name + "&surname=" + surname + "&quoteid=" + objDetails.fields.ID + "&transid="+stripe_id +"&company=" + company + "&vs1email=" + vs1User + "&customeremail=" + customerEmail + "&type=Invoice&url=" + window.location.href  + "&server=" + erpGet.ERPIPAddress + "&username=" + erpGet.ERPUsername + "&token=" + erpGet.ERPPassword + "&session=" + erpGet.ERPDatabase + "&port=" + erpGet.ERPPort + "&dept=" + departement;
                 $('#html-2-pdfwrapper').css('display', 'block');
                 $('.pdfCustomerName').html($('#edtCustomerName').val());
-                $('.pdfCustomerAddress').html($('#txabillingAddress').val());
+                $('.pdfCustomerAddress').html($('#txabillingAddress').val().replace(/[\r\n]/g, "<br />"));
 
                 function generatePdfForMail(invoiceId) {
                     return new Promise((resolve, reject) => {
