@@ -103,7 +103,7 @@ Template.sidenav.onRendered(function() {
     var splashArrayProd = new Array();
     templateObject.getAllProductData = function() {
         sideBarService.getNewProductListVS1().then(function(data) {
-            localStorage.setItem('VS1ProductList', JSON.stringify(data) || '');
+            //localStorage.setItem('VS1ProductList', JSON.stringify(data) || '');
             addVS1Data('TProductVS1',JSON.stringify(data));
         }).catch(function(err) {
 
@@ -464,6 +464,23 @@ Template.sidenav.onRendered(function() {
     templateObject.getAllAppointmentData = function() {
         sideBarService.getAllAppointmentList().then(function(data) {
             addVS1Data('TAppointment',JSON.stringify(data));
+        }).catch(function(err) {
+
+        });
+    }
+
+    templateObject.getAllTERPPreferenceData = function() {
+        sideBarService.getGlobalSettings().then(function(data) {
+            addVS1Data('TERPPreference',JSON.stringify(data));
+        }).catch(function(err) {
+
+        });
+    }
+
+
+    templateObject.getAllTERPPreferenceExtraData = function() {
+        sideBarService.getGlobalSettingsExtra().then(function(data) {
+            addVS1Data('TERPPreferenceExtra',JSON.stringify(data));
         }).catch(function(err) {
 
         });
@@ -1920,6 +1937,42 @@ getVS1Data('TAppointmentPreferences').then(function (dataObject) {
     }
 }).catch(function (err) {
 
+});
+
+getVS1Data('TERPPreference').then(function (dataObject) {
+  if(dataObject.length == 0){
+      templateObject.getAllTERPPreferenceData();
+  }else{
+    let getTimeStamp = dataObject[0].timestamp.split(' ');
+    if(getTimeStamp){
+        if(loggedUserEventFired){
+            if(getTimeStamp[0] != currenctTodayDate){
+                templateObject.getAllTERPPreferenceData();
+            }
+          }
+      }
+  }
+}).catch(function (err) {
+  templateObject.getAllTERPPreferenceData();
+});
+
+
+
+getVS1Data('TERPPreferenceExtra').then(function (dataObject) {
+  if(dataObject.length == 0){
+      templateObject.getAllTERPPreferenceExtraData();
+  }else{
+    let getTimeStamp = dataObject[0].timestamp.split(' ');
+    if(getTimeStamp){
+        if(loggedUserEventFired){
+            if(getTimeStamp[0] != currenctTodayDate){
+                templateObject.getAllTERPPreferenceExtraData();
+            }
+          }
+      }
+  }
+}).catch(function (err) {
+  templateObject.getAllTERPPreferenceExtraData();
 });
 
 getVS1Data('TStatementList').then(function (dataObject) {

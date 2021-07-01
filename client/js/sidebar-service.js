@@ -104,7 +104,7 @@ export class SideBarService extends BaseService {
          IgnoreDates: true,
          Listtype: 1,
          FilterIndex: 2
-         
+
        };
     }else{
       options = {
@@ -326,32 +326,39 @@ export class SideBarService extends BaseService {
 
   getAllInvoiceList() {
     let options = {
+      orderby:'"SaleID desc"',
       ListType: "Detail",
-      
-      select: "[Deleted]=false",
+      //select: "[Deleted]=false",
+      // LimitCount:'"50"',
+      // Limitfrom:'"1"'
     };
     return this.getList(this.ERPObjects.TInvoiceEx, options);
   }
 
   getAllInvoiceListUpdate(msTimeStamp) {
     let options = {
+      orderby:'"SaleID desc"',
       ListType: "Detail",
-      select: '[Deleted]=false and [MsTimeStamp]>"'+msTimeStamp+'"'
+      select: '[Deleted]=false and [MsTimeStamp]>"'+msTimeStamp+'"',
+      //LimitCount:'"50"'
     };
     return this.getList(this.ERPObjects.TInvoiceEx, options);
   }
 
-  getAllInvoiceListNonBO() {
+  getAllInvoiceListNonBO(limitcount, limitfrom) {
+
     let options = {
-      
+      orderby:'"SaleID desc"',
       PropertyList: "ID,EmployeeName,SaleClassName,SaleDate,CustomerName,TotalAmount,SalesStatus,ShipDate,SalesDescription,CustPONumber,TermsName,TotalTax,TotalAmountInc,TotalPaid,TotalBalance,Comments,Deleted",
+      //LimitCount:'"'+limitcount+'"',
+      //LimitFrom:'"'+limitfrom+'"'
     };
     return this.getList(this.ERPObjects.TInvoiceNonBackOrder, options);
   }
 
   getAllBOInvoiceList() {
     let options = {
-      
+
       FilterString: "SaleType='Invoice'",
       select: "[Deleted]=false",
     };
@@ -392,7 +399,7 @@ export class SideBarService extends BaseService {
 
   getAllPurchaseOrderListNonBo() {
     let options = {
-      
+
       PropertyList: "ID,EmployeeName,SaleClassName,OrderDate,SupplierName,TotalAmount,OrderStatus,ShipDate,SalesDescription,CustPONumber,TermsName,TotalTax,TotalAmountInc,TotalPaid,TotalBalance,Comments,Deleted",
     };
     return this.getList(this.ERPObjects.TpurchaseOrderNonBackOrder, options);
@@ -409,7 +416,7 @@ export class SideBarService extends BaseService {
 
   getAllPurchaseOrderListBO() {
     let options = {
-      
+
       PropertyList: "ID,EmployeeName,SaleClassName,OrderDate,SupplierName,TotalAmount,OrderStatus,ShipDate,SalesDescription,CustPONumber,TermsName,TotalTax,TotalAmountInc,TotalPaid,TotalBalance,Comments,Deleted",
     };
     return this.getList(this.ERPObjects.TpurchaseOrderBackOrder, options);
@@ -460,7 +467,7 @@ export class SideBarService extends BaseService {
   getCurrentLoggedUser() {
       let options = {
           PropertyList: "ID,DatabaseName,UserName,MultiLogon,EmployeeID,FirstName,LastName,LastTime",
-          
+
       };
       return this.getList(this.ERPObjects.TAppUser, options);
   }
@@ -534,9 +541,9 @@ export class SideBarService extends BaseService {
 
   getAllSalesOrderListNonBO() {
     let options = {
-      
+
       PropertyList: "ID,EmployeeName,SaleClassName,SaleDate,CustomerName,TotalAmount,SalesStatus,ShipDate,SalesDescription,CustPONumber,TermsName,SaleCustField1,SaleCustField2,TotalTax,TotalAmountInc,TotalPaid,TotalBalance,Comments,Deleted",
-      
+
     };
     return this.getList(this.ERPObjects.TsalesOrderNonBackOrder, options);
   }
@@ -585,5 +592,21 @@ export class SideBarService extends BaseService {
   getAllCustomerStatementData() {
       return this.getList(this.ERPObjects.TStatementList);
   }
+
+  getGlobalSettings(){
+        let options = {
+           PropertyList: "PrefName,Fieldvalue",
+           select: '[PrefName]="DefaultServiceProduct" or [PrefName]="DefaultServiceProductID" or [PrefName]="DefaultApptDuration" or [PrefName]="ApptStartTime" or [PrefName]="ApptEndtime" or [PrefName]="ShowSaturdayinApptCalendar" or [PrefName]="ShowSundayinApptCalendar" or [PrefName]="ShowApptDurationin" or [PrefName]="RoundApptDurationTo" or [PrefName]="MinimumChargeAppointmentTime"'
+        }
+       return this.getList(this.ERPObjects.TERPPreference,options);
+   }
+
+
+   getGlobalSettingsExtra(){
+        let options = {
+           PropertyList: "ID,Prefname,fieldValue",
+        }
+    return this.getList(this.ERPObjects.TERPPreferenceExtra,options);
+   }
 
 }
