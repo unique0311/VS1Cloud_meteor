@@ -4388,6 +4388,10 @@ Template.sidenav.onRendered(function() {
             templateObject.includeClockOnOff.set(true);
         }
 
+        if(!(isTimesheetEntry) && !(isClockOnOff)){
+          templateObject.includePayroll.set(false);
+        }
+
         if (isSidePanel) {
             templateObject.isCloudSidePanelMenu.set(true);
             $("html").addClass("hasSideBar");
