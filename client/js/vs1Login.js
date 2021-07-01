@@ -1644,6 +1644,10 @@ $("#erplogin-button").click(async function(e){
                                isBankingLicence = true;
                              }else if((option.ModuleName == 'Payroll Integration') ){
                                isPayrollLicence = true;
+                             }else if((option.ModuleName == 'Payroll Unlimited Employees') ){
+                               isPayrollLicence = true;
+                             }else if((option.ModuleName == 'Time Sheets') ){
+                               isPayrollLicence = true;
                              }else if((option.ModuleName == 'Manufacturing')){
                                isManufacturingLicence = true;
                              }else if((option.ModuleName == 'POS')){
@@ -2248,6 +2252,10 @@ $("#erplogin-button").click(async function(e){
                isBankingLicence = true;
              }else if((option.ModuleName == 'Payroll Integration') ){
                isPayrollLicence = true;
+             }else if((option.ModuleName == 'Payroll Unlimited Employees') ){
+               isPayrollLicence = true;
+             }else if((option.ModuleName == 'Time Sheets') ){
+               isPayrollLicence = true;
              }else if((option.ModuleName == 'Manufacturing')){
                isManufacturingLicence = true;
              }else if((option.ModuleName == 'POS')){
@@ -2732,6 +2740,10 @@ $("#erplogin-button").click(async function(e){
                              }else if(option.ModuleName == 'CloudBanking'){
                                isBankingLicence = true;
                              }else if((option.ModuleName == 'Payroll Integration') ){
+                               isPayrollLicence = true;
+                             }else if((option.ModuleName == 'Payroll Unlimited Employees') ){
+                               isPayrollLicence = true;
+                             }else if((option.ModuleName == 'Time Sheets') ){
                                isPayrollLicence = true;
                              }else if((option.ModuleName == 'Manufacturing')){
                                isManufacturingLicence = true;
@@ -3367,6 +3379,10 @@ $("#erplogin-button").click(async function(e){
                                    }else if(option.ModuleName == 'CloudBanking'){
                                      isBankingLicence = true;
                                    }else if((option.ModuleName == 'Payroll Integration') ){
+                                     isPayrollLicence = true;
+                                   }else if((option.ModuleName == 'Payroll Unlimited Employees') ){
+                                     isPayrollLicence = true;
+                                   }else if((option.ModuleName == 'Time Sheets') ){
                                      isPayrollLicence = true;
                                    }else if((option.ModuleName == 'Manufacturing')){
                                      isManufacturingLicence = true;
@@ -4011,6 +4027,10 @@ $("#erplogin-button").click(async function(e){
                                  }else if(option.ModuleName == 'CloudBanking'){
                                    isBankingLicence = true;
                                  }else if((option.ModuleName == 'Payroll Integration') ){
+                                   isPayrollLicence = true;
+                                 }else if((option.ModuleName == 'Payroll Unlimited Employees') ){
+                                   isPayrollLicence = true;
+                                 }else if((option.ModuleName == 'Time Sheets') ){
                                    isPayrollLicence = true;
                                  }else if((option.ModuleName == 'Manufacturing')){
                                    isManufacturingLicence = true;
