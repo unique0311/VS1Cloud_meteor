@@ -1679,7 +1679,7 @@ Template.billcard.onRendered(() => {
         pdf.setFontSize(18);
         var source = document.getElementById('html-2-pdfwrapper');
         pdf.addHTML(source, function() {
-            pdf.save('Bill '+id+'.pdf');
+            pdf.save('Bill-'+id+'.pdf');
             $('#html-2-pdfwrapper').css('display', 'none');
         });
     };

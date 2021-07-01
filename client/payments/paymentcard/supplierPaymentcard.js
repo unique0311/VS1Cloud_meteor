@@ -3476,7 +3476,7 @@ $('.fullScreenSpin').css('display', 'none');
     pdf.setFontSize(18);
     var source = document.getElementById('html-2-pdfwrapper');
     pdf.addHTML(source, function() {
-      pdf.save('Supplier Payment '+id+'.pdf');
+      pdf.save('Supplier Payment-'+id+'.pdf');
       $('#html-2-pdfwrapper').css('display', 'none');
     });
   };

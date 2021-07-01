@@ -163,7 +163,7 @@ Template.statementlist.onRendered(function () {
                             $('.link').show();
                             pdf.setFontSize(10);
                             pdf.setTextColor(255, 255, 255);
-                            pdf.textWithLink('Pay Now', 480, 90, {
+                            pdf.textWithLink('Pay Now', 480, 94, {
                                 url: 'https://www.depot.vs1cloud.com/stripe/' + stringQuery
                             });
                         } else {
@@ -292,7 +292,7 @@ Template.statementlist.onRendered(function () {
                                     $('.linklabel').css('display', 'block');
                                     pdf.setFontSize(10);
                                     pdf.setTextColor(255, 255, 255);
-                                    pdf.textWithLink('Pay Now', 480, 90, {
+                                    pdf.textWithLink('Pay Now', 480, 94, {
                                         url: 'https://www.depot.vs1cloud.com/stripe/' + stringQuery
                                     });
                                 }

@@ -933,14 +933,14 @@
         <!-- New A4 -->
         <div style="width: 210mm; background-color: #ffffff; padding: 8px; height: 297mm; font-size: 13.33px; display: none; color: #000000; overflow-x: visible;" id="html-2-pdfwrapper" name="html-2-pdfwrapper">
             <div style="display: flex; height: 70mm;">
-                <div style="margin: 0px; padding: 16px; width: 130mm; max-width: 130mm;">
+                <div style="margin: 0px; padding: 16px; width: 120mm; max-width: 120mm;">
                     <div style="display: flex;">
                         <div style="max-width: 60mm; max-height: 30mm;">
                             <img src="assets/img/VS1.png" class="uploadedImage" style="max-height: 30mm;max-width: 200px;margin-bottom: 8px;">
-                            <a href="{{organizationurl}}">{{organizationurl}}</a>
                         </div>
                         <div style="width: 70mm;">
                             <div style="padding-left: 16px;font-weight: bold;">
+                                <a href="{{organizationurl}}">{{organizationurl}}</a>
                                 <p style="margin-bottom: 0px; color: rgb(0 0 0);">{{organizationname}}</p>
                                 <p style="margin-bottom: 0px; color: rgb(0 0 0);">{{companyaddress1}}</p>
                                 <p style="margin-bottom: 8px; color: rgb(0 0 0);">{{companyaddress2}}</p>
@@ -952,27 +952,27 @@
                     <div style="font-size: 14px;">
                         <h5 style="margin-bottom: 0px; color: rgb(0 0 0);font-weight: bold;">Customer</h5>
                         <p style="margin-bottom: 0px; color: rgb(0 0 0); display:none;" class="pdfCustomerName"></p>
-                        <div style="min-height:50px; width:30%; margin-bottom: 0px; color: rgb(0 0 0);" class="pdfCustomerAddress"></div>
+                        <div style="min-height:50px; width: 50%; margin-bottom: 0px; color: rgb(0 0 0);" class="pdfCustomerAddress"></div>
                     </div>
                 </div>
-                <div style="margin: 0px; padding: 16px; border: none !important; width: 60mm; max-width: 60mm;">
+                <div style="margin: 0px; padding: 16px; border: none !important; width: 80mm; max-width: 80mm;">
                     <h4 style="font-weight: bold; font-size: 26.667px; color: rgb(0 0 0);">Purchase Order&nbsp;&nbsp; {{purchaseorderrecord.id}}</h4>
                     <div style="display: flex; width: 100%;">
                         <div style="width: 50%; padding-right: 16px;font-weight: bold;">
-                            <label style="margin-bottom: 0px; color: rgb(0 0 0);">Date:</label>
-                            <label class="pdfPONumber" style="margin-bottom: 0px; color: rgb(0 0 0);">P.O Number:</label>
+                            <label style="margin-bottom: 4px; color: rgb(0 0 0); width: 100%;">Date:</label>
+                            <label class="pdfPONumber" style="margin-bottom: 4px; color: rgb(0 0 0);">P.O Number:</label>
                             <label class="pdfTerms" style="margin-bottom: 0px; color: rgb(0 0 0);">Due Date:</label>
                         </div>
                         <div style="width: 50%; padding-left: 16px;">
-                            <p style="margin-bottom: 0px; color: rgb(0 0 0);">{{purchaseorderrecord.saledate}}</p>
-                            <p style="margin-bottom: 0px; color: rgb(0 0 0); white-space: nowrap;">{{purchaseorderrecord.custPONumber}}</p>
+                            <p style="margin-bottom: 4px; color: rgb(0 0 0);">{{purchaseorderrecord.saledate}}</p>
+                            <p style="margin-bottom: 4px; color: rgb(0 0 0); white-space: nowrap;">{{purchaseorderrecord.custPONumber}}.</p>
                             <p style="margin-bottom: 0px; color: rgb(0 0 0); white-space: nowrap;">{{purchaseorderrecord.termsName}}</p>
                         </div>
                     </div>
                 </div>
             </div>
             <hr>
-            <div style="height: 160mm;">
+            <div style="height: 180mm;">
                 <div style="margin: 8px; border: none !important; background-color: rgba(0,0,0,0);">
                     <table class="purchase_print" style="width: 200mm; max-width: 200mm; margin: auto;">
                         <thead style="color: rgb(251,251,251);">

@@ -1833,7 +1833,7 @@ Template.purchaseordercard.onRendered(() => {
         pdf.setFontSize(18);
         var source = document.getElementById('html-2-pdfwrapper');
         pdf.addHTML(source, function() {
-            pdf.save('Purchase Order '+id+'.pdf');
+            pdf.save('Purchase Order-'+id+'.pdf');
             $('#html-2-pdfwrapper').css('display', 'none');
         });
     };
