@@ -543,7 +543,7 @@ Template.new_quote.onRendered(() => {
                             }
                             setTimeout(function(){
                                 let getTotal = $('#totalBalanceDue').text();
-                                $('.pdfCustomerAddress').html($('#txabillingAddress').val());
+                                $('.pdfCustomerAddress').html($('#txabillingAddress').val().replace(/[\r\n]/g, "<br />"));
                                 $('.pdfCustomerName').html($('#edtCustomerName').val());
                                 let invoice_total = getTotal.replace(currency_symbol, '').replace(',', '');
                                 let paymentItems = [];
@@ -990,7 +990,7 @@ Template.new_quote.onRendered(() => {
                         }
                         setTimeout(function(){
                             let getTotal = $('#totalBalanceDue').text();
-                            $('.pdfCustomerAddress').html($('#txabillingAddress').val());
+                            $('.pdfCustomerAddress').html($('#txabillingAddress').val().replace(/[\r\n]/g, "<br />"));
                             $('.pdfCustomerName').html($('#edtCustomerName').val());
                             let invoice_total = getTotal.replace(currency_symbol, '').replace(',','');
                             let paymentItems = [];
@@ -4380,7 +4380,7 @@ Template.new_quote.events({
 
                 $('#html-2-pdfwrapper').css('display', 'block');
                 $('.pdfCustomerName').html($('#edtCustomerName').val());
-                $('.pdfCustomerAddress').html($('#txabillingAddress').val());
+                $('.pdfCustomerAddress').html($('#txabillingAddress').val().replace(/[\r\n]/g, "<br />"));
 
                 function generatePdfForMail(invoiceId) {
                     return new Promise((resolve, reject) => {
@@ -5300,7 +5300,7 @@ Template.new_quote.events({
 
                 $('#html-2-pdfwrapper').css('display', 'block');
                 $('.pdfCustomerName').html($('#edtCustomerName').val());
-                $('.pdfCustomerAddress').html($('#txabillingAddress').val());
+                $('.pdfCustomerAddress').html($('#txabillingAddress').val().replace(/[\r\n]/g, "<br />"));
 
                 function generatePdfForMail(invoiceId) {
                     return new Promise((resolve, reject) => {

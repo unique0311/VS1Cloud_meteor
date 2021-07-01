@@ -738,12 +738,14 @@ getVS1Data('TInvoiceEx').then(function (dataObject) {
             if(useData[0].Id){
                 templateObject.getAllInvoiceListData();
             }else{
-              templateObject.getAllInvoiceListData();
-              /*
+              //templateObject.getAllInvoiceListData();
+
                 let getTimeStamp = dataObject[0].timestamp.split(' ');
                 if(getTimeStamp){
                     if(loggedUserEventFired){
                         if(getTimeStamp[0] != currenctTodayDate){
+                          templateObject.getAllInvoiceListData();
+                          /*
                             sideBarService.getAllInvoiceListUpdate(getTimeStamp).then(function(dataUpdate) {
                                 let newDataObject = [];
                                 if(dataUpdate.tinvoiceex.length === 0){
@@ -819,10 +821,11 @@ getVS1Data('TInvoiceEx').then(function (dataObject) {
 
                                 });
                             });
+                            */
                         }
                     }
                 }
-                */
+
             }
         }
     }).catch(function (err) {

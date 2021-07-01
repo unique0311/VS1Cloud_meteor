@@ -1690,7 +1690,7 @@ Template.chequecard.onRendered(() => {
                     if (clientList[i].suppliername == selectedSupplier) {
                         $('#edtSupplierEmail').val(clientList[i].supplieremail);
                         $('#edtSupplierEmail').attr('supplierid', clientList[i].supplierid);
-                        let postalAddress = clientList[i].suppliername + '\n' + clientList[i].street + '\n' + clientList[i].street2 + '\n' + clientList[i].street3 + '\n' + clientList[i].suburb + '\n' + clientList[i].statecode + '\n' + clientList[i].country;
+                        let postalAddress = clientList[i].suppliername + '\n' + clientList[i].street + '\n' + clientList[i].street2 + '\n' + clientList[i].statecode + '\n' + clientList[i].country;
                         $('.pdfCustomerAddress').html(clientList[i].suppliername);
                         $('#txabillingAddress').val(postalAddress);
                         $('#txaShipingInfo').val(postalAddress);
@@ -2515,7 +2515,7 @@ Template.chequecard.events({
     'click .printConfirm': function(event) {
         $('#html-2-pdfwrapper').css('display', 'block');
         $('.pdfCustomerName').html($('#edtSupplierName').val());
-        $('.pdfCustomerAddress').html($('#txabillingAddress').val());
+        $('.pdfCustomerAddress').html($('#txabillingAddress').val().replace(/[\r\n]/g, "<br />"));
         exportSalesToPdf();
 
     },
@@ -2965,7 +2965,7 @@ Template.chequecard.events({
 
                 $('#html-2-pdfwrapper').css('display', 'block');
                 $('.pdfCustomerName').html($('#edtSupplierEmail').val());
-                $('.pdfCustomerAddress').html($('#txabillingAddress').val());
+                $('.pdfCustomerAddress').html($('#txabillingAddress').val().replace(/[\r\n]/g, "<br />"));
                 async function addAttachment() {
                     let attachment = [];
                     let templateObject = Template.instance();

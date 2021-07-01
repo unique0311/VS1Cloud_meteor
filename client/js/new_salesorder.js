@@ -523,7 +523,7 @@ Template.new_salesorder.onRendered(() => {
                             }
                             setTimeout(function() {
                                 let getTotal = $('#totalBalanceDue').text();
-                                $('.pdfCustomerAddress').html($('#txabillingAddress').val());
+                                $('.pdfCustomerAddress').html($('#txabillingAddress').val().replace(/[\r\n]/g, "<br />"));
                                 $('.pdfCustomerName').html($('#edtCustomerName').val());
                                 let invoice_total = getTotal.replace(currency_symbol, '').replace(',', '');
                                 let paymentItems = [];
@@ -1021,7 +1021,7 @@ Template.new_salesorder.onRendered(() => {
                         }
                         setTimeout(function() {
                             let getTotal = $('#totalBalanceDue').text();
-                            $('.pdfCustomerAddress').html($('#txabillingAddress').val());
+                            $('.pdfCustomerAddress').html($('#txabillingAddress').val().replace(/[\r\n]/g, "<br />"));
                             $('.pdfCustomerName').html($('#edtCustomerName').val());
                             let invoice_total = getTotal.replace(currency_symbol, '').replace(',', '');
                             let paymentItems = [];
@@ -4477,7 +4477,7 @@ Template.new_salesorder.events({
                 // Send Email
                 $('#html-2-pdfwrapper').css('display', 'block');
                 $('.pdfCustomerName').html($('#edtCustomerName').val());
-                $('.pdfCustomerAddress').html($('#txabillingAddress').val());
+                $('.pdfCustomerAddress').html($('#txabillingAddress').val().replace(/[\r\n]/g, "<br />"));
                 async function addAttachment() {
                     let attachment = [];
                     let templateObject = Template.instance();
@@ -5392,7 +5392,7 @@ Template.new_salesorder.events({
                     let url = "https://www.depot.vs1cloud.com/stripe/" + stringQuery;
                     $('#html-2-pdfwrapper').css('display', 'block');
                     $('.pdfCustomerName').html($('#edtCustomerName').val());
-                    $('.pdfCustomerAddress').html($('#txabillingAddress').val());
+                    $('.pdfCustomerAddress').html($('#txabillingAddress').val().replace(/[\r\n]/g, "<br />"));
                     async function addAttachment() {
                         let attachment = [];
                         let templateObject = Template.instance();

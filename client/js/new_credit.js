@@ -2951,7 +2951,7 @@ Template.creditcard.events({
 
                 $('#html-2-pdfwrapper').css('display', 'block');
                 $('.pdfCustomerName').html($('#edtSupplierEmail').val());
-                $('.pdfCustomerAddress').html($('#txabillingAddress').val());
+                $('.pdfCustomerAddress').html($('#txabillingAddress').val().replace(/[\r\n]/g, "<br />"));
                 async function addAttachment() {
                     let attachment = [];
                     let templateObject = Template.instance();

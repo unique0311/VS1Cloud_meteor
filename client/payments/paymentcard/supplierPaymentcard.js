@@ -3633,7 +3633,7 @@ Template.supplierpaymentcard.events({
         // Start End Send Email
         $('#html-2-pdfwrapper').css('display', 'block');
         $('.pdfCustomerName').html($('#edtSupplierEmail').val());
-        $('.pdfCustomerAddress').html($('#txabillingAddress').val());
+        $('.pdfCustomerAddress').html($('#txabillingAddress').val().replace(/[\r\n]/g, "<br />"));
         async function addAttachment() {
           let attachment = [];
           let templateObject = Template.instance();
@@ -3966,7 +3966,7 @@ Template.supplierpaymentcard.events({
         // Start End Send Email
         $('#html-2-pdfwrapper').css('display', 'block');
         $('.pdfCustomerName').html($('#edtSupplierEmail').val());
-        $('.pdfCustomerAddress').html($('#txabillingAddress').val());
+        $('.pdfCustomerAddress').html($('#txabillingAddress').val().replace(/[\r\n]/g, "<br />"));
         async function addAttachment() {
           let attachment = [];
           let templateObject = Template.instance();
@@ -4315,7 +4315,7 @@ Template.supplierpaymentcard.events({
         // Start End Send Email
         $('#html-2-pdfwrapper').css('display', 'block');
         $('.pdfCustomerName').html($('#edtSupplierEmail').val());
-        $('.pdfCustomerAddress').html($('#txabillingAddress').val());
+        $('.pdfCustomerAddress').html($('#txabillingAddress').val().replace(/[\r\n]/g, "<br />"));
         async function addAttachment() {
           let attachment = [];
           let templateObject = Template.instance();
@@ -4657,7 +4657,7 @@ Template.supplierpaymentcard.events({
         // Start End Send Email
         $('#html-2-pdfwrapper').css('display', 'block');
         $('.pdfCustomerName').html($('#edtSupplierEmail').val());
-        $('.pdfCustomerAddress').html($('#txabillingAddress').val());
+        $('.pdfCustomerAddress').html($('#txabillingAddress').val().replace(/[\r\n]/g, "<br />"));
         async function addAttachment() {
           let attachment = [];
           let templateObject = Template.instance();
@@ -5005,7 +5005,7 @@ Template.supplierpaymentcard.events({
         // Start End Send Email
         $('#html-2-pdfwrapper').css('display', 'block');
         $('.pdfCustomerName').html($('#edtSupplierEmail').val());
-        $('.pdfCustomerAddress').html($('#txabillingAddress').val());
+        $('.pdfCustomerAddress').html($('#txabillingAddress').val().replace(/[\r\n]/g, "<br />"));
         async function addAttachment() {
           let attachment = [];
           let templateObject = Template.instance();
@@ -5353,7 +5353,7 @@ Template.supplierpaymentcard.events({
         // Start End Send Email
         $('#html-2-pdfwrapper').css('display', 'block');
         $('.pdfCustomerName').html($('#edtSupplierEmail').val());
-        $('.pdfCustomerAddress').html($('#txabillingAddress').val());
+        $('.pdfCustomerAddress').html($('#txabillingAddress').val().replace(/[\r\n]/g, "<br />"));
         async function addAttachment() {
           let attachment = [];
           let templateObject = Template.instance();
@@ -5696,7 +5696,7 @@ Template.supplierpaymentcard.events({
         // Start End Send Email
         $('#html-2-pdfwrapper').css('display', 'block');
         $('.pdfCustomerName').html($('#edtSupplierEmail').val());
-        $('.pdfCustomerAddress').html($('#txabillingAddress').val());
+        $('.pdfCustomerAddress').html($('#txabillingAddress').val().replace(/[\r\n]/g, "<br />"));
         async function addAttachment() {
           let attachment = [];
           let templateObject = Template.instance();
@@ -6035,7 +6035,7 @@ Template.supplierpaymentcard.events({
         // Start End Send Email
         $('#html-2-pdfwrapper').css('display', 'block');
         $('.pdfCustomerName').html($('#edtSupplierEmail').val());
-        $('.pdfCustomerAddress').html($('#txabillingAddress').val());
+        $('.pdfCustomerAddress').html($('#txabillingAddress').val().replace(/[\r\n]/g, "<br />"));
         async function addAttachment() {
           let attachment = [];
           let templateObject = Template.instance();
@@ -6539,7 +6539,7 @@ Template.supplierpaymentcard.events({
   'click .printConfirm': function(event) {
     $('#html-2-pdfwrapper').css('display', 'block');
     $('.pdfCustomerName').html($('#edtSupplierName').val());
-    $('.pdfCustomerAddress').html($('#txabillingAddress').val());
+    $('.pdfCustomerAddress').html($('#txabillingAddress').val().replace(/[\r\n]/g, "<br />"));
     exportSalesToPdf();
   },
   'click .chkcolTransDate': function(event) {
