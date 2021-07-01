@@ -341,13 +341,12 @@ Template.new_invoice.onRendered(() => {
     };
 
 
-        templateObject.getOrganisationDetails = function () {
-        organisationService.getOrganisationDetail().then((dataListRet) => {
-            let account_id = dataListRet.tcompanyinfo[0].Apcano || '';
+    templateObject.getOrganisationDetails = function () {
+            let account_id = Session.get('vs1companyStripeID') || '';
             templateObject.accountID.set(account_id);
-        });
+        }
 
-    }
+
     templateObject.getOrganisationDetails();
 
     templateObject.getAllLeadStatuss = function () {
