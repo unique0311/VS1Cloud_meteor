@@ -68,7 +68,6 @@ Template.statementlist.onRendered(function () {
         let data = await contactService.getCustomerStatementPrintData(clientID);
         //contactService.getCustomerStatementPrintData(clientID).then(function (data) {
 
-
         $('.fullScreenSpin').css('display', 'none');
         let lineItems = [];
         let lineItemObj = {};
@@ -133,7 +132,7 @@ Template.statementlist.onRendered(function () {
                 for (let l = 0; l < lineItems.length; l++) {
                     stringQuery = stringQuery + "product" + l + "=" + lineItems[l].type + "&price" + l + "=" + lineItems[l].balance + "&qty" + l + "=" + 1 + "&"; ;
                 }
-                stringQuery = stringQuery + "tax=0" +  "&total=" + closingbalance + "&customer=" + customerName + "&quoteid=" + invoiceId + "&transid=" + stripe_id + "&company=" + company + "&vs1email=" + vs1User + "&customeremail=" + email + "&type=Statement&url=" + window.location.href + "&server=" + erpGet.ERPIPAddress + "&username=" + erpGet.ERPUsername + "&token=" + erpGet.ERPPassword + "&session=" + erpGet.ERPDatabase + "&port=" + erpGet.ERPPort + "&dept=" + dept;
+                stringQuery = stringQuery + "tax=0" +  "&total=" + closingbalance + "&customer=" + customerName + "&name=" + customerName + "&surname=" + customerName +"&quoteid=" + invoiceId + "&transid=" + stripe_id + "&company=" + company + "&vs1email=" + vs1User + "&customeremail=" + email + "&type=Statement&url=" + window.location.href + "&server=" + erpGet.ERPIPAddress + "&username=" + erpGet.ERPUsername + "&token=" + erpGet.ERPPassword + "&session=" + erpGet.ERPDatabase + "&port=" + erpGet.ERPPort + "&dept=" + dept;
             }
 
             var currentDate = new Date();
@@ -254,7 +253,7 @@ Template.statementlist.onRendered(function () {
                         for (let l = 0; l < lineItems.length; l++) {
                             stringQuery = stringQuery + "product" + l + "=" + lineItems[l].type + "&price" + l + "=" + lineItems[l].balance + "&qty" + l + "=" + 1 + "&";
                         }
-                        stringQuery = stringQuery + "tax=0" + "&total=" + closingbalance + "&customer=" + customerName + "&quoteid=" + invoiceId + "&transid=" + stripe_id + "&company=" + company + "&vs1email=" + vs1User + "&customeremail=" + email + "&type=Statement&url=" + window.location.href + "&server=" + erpGet.ERPIPAddress + "&username=" + erpGet.ERPUsername + "&token=" + erpGet.ERPPassword + "&session=" + erpGet.ERPDatabase + "&port=" + erpGet.ERPPort + "&dept=" + dept;
+                        stringQuery = stringQuery + "tax=0" + "&total=" + closingbalance + "&customer=" + customerName  + "&name=" + customerName + "&surname=" + customerName + "&quoteid=" + invoiceId + "&transid=" + stripe_id + "&company=" + company + "&vs1email=" + vs1User + "&customeremail=" + email + "&type=Statement&url=" + window.location.href + "&server=" + erpGet.ERPIPAddress + "&username=" + erpGet.ERPUsername + "&token=" + erpGet.ERPPassword + "&session=" + erpGet.ERPDatabase + "&port=" + erpGet.ERPPort + "&dept=" + dept;
                     }
 
                     var currentDate = new Date();
