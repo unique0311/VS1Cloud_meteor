@@ -979,22 +979,22 @@ style="margin: 16px;margin-top: 0px;width: 95px;"><i class="fa fa-remove" style=
                     <div style="font-size: 14px;">
                         <h5 style="margin-bottom: 0px; color: rgb(0 0 0);font-weight: bold;">Customer</h5>
                         <p style="margin-bottom: 0px; color: rgb(0 0 0); display:none;" class="pdfCustomerName"></p>
-                        <div style="min-height:50px; width:30%; margin-bottom: 0px; color: rgb(0 0 0);" class="pdfCustomerAddress"></div>
+                        <div style="min-height:50px; width: 50%; margin-bottom: 0px; color: rgb(0 0 0);" class="pdfCustomerAddress"></div>
                     </div>
                 </div>
                 <div style="margin: 0px; padding: 16px; border: none !important; width: 60mm; max-width: 60mm;">
                     <h4 class="print-header" style="font-weight: bold; font-size: 26.667px; color: rgb(0 0 0);">Quote&nbsp;&nbsp;&nbsp; {{quoterecord.id}}</h4>
                     <div style="display: flex; width: 100%;">
                         <div style="width: 50%; padding-right: 16px;font-weight: bold;">
-                            <label style="margin-bottom: 0px; color: rgb(0 0 0);">Date:</label>
-                            <label class="pdfPONumber" style="margin-bottom: 0px; color: rgb(0 0 0);">P.O Number:</label>
-                            <label class="pdfTerms" style="margin-bottom: 0px; color: rgb(0 0 0);">Due Date:</label>
+                            <label style="margin-bottom: 4px; color: rgb(0 0 0);">Date:</label>
+                            <label class="pdfPONumber" style="margin-bottom: 4px; color: rgb(0 0 0);">P.O Number:</label>
+                            <label class="pdfTerms" style="margin-bottom: 4px; color: rgb(0 0 0);">Due Date:</label>
                             <label class="link" style="color: rgb(0 0 0);" >Pay Link:</label>
                         </div>
                         <div style="width: 50%; padding-left: 16px;">
-                            <p style="margin-bottom: 0px; color: rgb(0 0 0);">{{quoterecord.saledate}}</p>
-                            <p class="po" style="margin-bottom: 0px; color: rgb(0 0 0); white-space: nowrap;">{{quoterecord.custPONumber}}.</p>
-                            <p class="due" style="margin-bottom: 0px; color: rgb(0 0 0); white-space: nowrap;">{{quoterecord.termsName}}.</p>
+                            <p style="margin-bottom: 4px; color: rgb(0 0 0);">{{quoterecord.saledate}}</p>
+                            <p class="po" style="margin-bottom: 4px; color: rgb(0 0 0); white-space: nowrap;">{{quoterecord.custPONumber}}.</p>
+                            <p class="due" style="margin-bottom: 4px; color: rgb(0 0 0); white-space: nowrap;">{{quoterecord.termsName}}.</p>
                             <p class="link" style="margin-bottom: 8px; color: rgb(0 0 0);color: #fff !important; background-color: #17a673; border-color: #169b6b; border-radius: 10px;     padding: 4px 8px;"><a href="" style="color: #fff !important; padding: 0px; margin-right: 8px;"></a></p>
                         </div>
                     </div>
@@ -1008,11 +1008,11 @@ style="margin: 16px;margin-top: 0px;width: 95px;"><i class="fa fa-remove" style=
                             <tr style="border-bottom: 1px solid rgba(0, 0, 0, 1);">
                                 <th style="width: 200px; background-color: white; color: rgb(0 0 0);">Product Name</th>
                                 <th style="width: 250px; background-color: white; color: rgb(0 0 0);">Description</th>
-                                <th style="text-align: left; width: 50px; background-color: white; color: rgb(0 0 0);">Qty</th>
-                                <th style="text-align: left; width: 90px; background-color: white; color: rgb(0 0 0);">Unit Price</th>
-                                <th style="text-align: left; width: 77px; background-color: white; color: rgb(0 0 0);">Tax</th>
-                                <th style="text-align: left; width: 77px; background-color: white; color: rgb(0 0 0);" class="hiddenColumn">Tax</th>
-                                <th style="text-align: left; width: 100px; background-color: white; color: rgb(0 0 0);">Amount</th>
+                                <th style="text-align: right; width: 50px; background-color: white; color: rgb(0 0 0);">Qty</th>
+                                <th style="text-align: right; width: 90px; background-color: white; color: rgb(0 0 0);">Unit Price</th>
+                                <th style="text-align: right; width: 77px; background-color: white; color: rgb(0 0 0);">Tax</th>
+                                <th style="text-align: right; width: 77px; background-color: white; color: rgb(0 0 0);" class="hiddenColumn">Tax</th>
+                                <th style="text-align: right; width: 100px; background-color: white; color: rgb(0 0 0);">Amount</th>
                             </tr>
                         </thead>
                         <tbody style="color: rgb(0 0 0);">
@@ -1020,11 +1020,11 @@ style="margin: 16px;margin-top: 0px;width: 95px;"><i class="fa fa-remove" style=
                             <tr id={{item.lineID}} style="border-bottom: 1px solid rgba(0, 0, 0, .1);">
                                 <td id="lineProductName">{{item.item}}</td>
                                 <td id="lineProductDesc">{{item.description}}</td>
-                                <td id="lineQty" style="text-align: left;">{{item.quantity}}</td>
-                                <td id="lineUnitPrice" style="text-align: left;">{{item.unitPrice}}</td>
-                                <td id="lineTaxAmount" style="text-align: left;">{{item.TaxTotal}}</td>
+                                <td id="lineQty" style="text-align: right;">{{item.quantity}}</td>
+                                <td id="lineUnitPrice" style="text-align: right;">{{item.unitPrice}}</td>
+                                <td id="lineTaxAmount" style="text-align: right;">{{item.TaxTotal}}</td>
                                 <td id="lineTaxCode" class="hiddenColumn" style="text-align: right;">{{item.taxCode}}</td>
-                                <td id="lineAmt" style="text-align: left;">{{item.TotalAmt}}</td>
+                                <td id="lineAmt" style="text-align: right;">{{item.TotalAmt}}</td>
                             </tr>
                             {{/each}}
                         </tbody>

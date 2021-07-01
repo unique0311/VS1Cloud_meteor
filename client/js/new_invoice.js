@@ -3833,7 +3833,7 @@ Template.new_invoice.onRendered(() => {
 
             pdf.setFontSize(10);
             pdf.setTextColor(255, 255, 255);
-             pdf.textWithLink('Pay Now', 480, 104, { url: 'https://www.depot.vs1cloud.com/stripe/' + stringQuery });
+             pdf.textWithLink('Pay Now', 482, 113, { url: 'https://www.depot.vs1cloud.com/stripe/' + stringQuery });
 
             if ($(".printID").val() == "") {
                 pdf.save('Invoice-' + id + '.pdf');
@@ -4631,7 +4631,7 @@ Template.new_invoice.events({
                             doc.addHTML(source, function () {
                                 doc.setFontSize(10);
                                 doc.setTextColor(255, 255, 255);
-                                doc.textWithLink('Pay Now', 480, 104, { url: 'https://www.depot.vs1cloud.com/stripe/' + stringQuery });
+                                doc.textWithLink('Pay Now', 482, 113, { url: 'https://www.depot.vs1cloud.com/stripe/' + stringQuery });
                                 resolve(doc.output('blob'));
                                 $('#html-2-pdfwrapper').css('display', 'none');
                             });
@@ -5699,7 +5699,7 @@ Template.new_invoice.events({
                         doc.addHTML(source, function () {
                             doc.setFontSize(10);
                             doc.setTextColor(255, 255, 255);
-                            doc.textWithLink('Pay Now', 480, 104, { url: 'https://www.depot.vs1cloud.com/stripe/' + stringQuery });
+                            doc.textWithLink('Pay Now', 482, 113, { url: 'https://www.depot.vs1cloud.com/stripe/' + stringQuery });
                             resolve(doc.output('blob'));
                             $('#html-2-pdfwrapper').css('display', 'none');
                         });

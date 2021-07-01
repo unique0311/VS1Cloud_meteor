@@ -995,10 +995,10 @@ style="margin: 16px;margin-top: 0px;width: 95px;"><i class="fa fa-remove" style=
                     <div style="display: flex;">
                         <div style="max-width: 60mm; max-height: 30mm;">
                             <img src="assets/img/VS1.png" class="uploadedImage" style="max-height: 30mm;max-width: 200px;margin-bottom: 8px;">
-                            <a href="{{organizationurl}}">{{organizationurl}}</a>
                         </div>
                         <div style="width: 70mm;">
                             <div style="padding-left: 16px;font-weight: bold;">
+                                <a href="{{organizationurl}}">{{organizationurl}}</a>
                                 <p style="margin-bottom: 0px; color: rgb(0 0 0);">{{organizationname}}</p>
                                 <p style="margin-bottom: 0px; color: rgb(0 0 0);">{{companyaddress1}}</p>
                                 <p style="margin-bottom: 8px; color: rgb(0 0 0);">{{companyaddress2}}</p>
@@ -1010,22 +1010,22 @@ style="margin: 16px;margin-top: 0px;width: 95px;"><i class="fa fa-remove" style=
                     <div style="font-size: 14px;">
                         <h5 style="margin-bottom: 0px; color: rgb(0 0 0);font-weight: bold;">Customer</h5>
                         <p style="margin-bottom: 0px; color: rgb(0 0 0); display:none;" class="pdfCustomerName"></p>
-                        <div style="min-height:50px; width:30%; margin-bottom: 0px; color: rgb(0 0 0);" class="pdfCustomerAddress"></div>
+                        <div style="min-height:50px; width: 50%; margin-bottom: 0px; color: rgb(0 0 0);" class="pdfCustomerAddress"></div>
                     </div>
                 </div>
-                <div style="margin: 0px; padding: 16px; border: none !important; width: 60mm; max-width: 60mm;">
+                <div style="margin: 0px; padding: 16px; border: none !important; width: 70mm; max-width: 70mm;">
                     <h4 style="font-weight: bold; font-size: 26.667px; color: rgb(0 0 0);">Sales Order {{salesorderrecord.id}}</h4>
                     <div style="display: flex; width: 100%;">
                         <div style="width: 50%; padding-right: 16px;font-weight: bold;">
-                            <label style="margin-bottom: 0px; color: rgb(0 0 0);">Date:</label>
-                            <label class="pdfPONumber" style="margin-bottom: 0px; color: rgb(0 0 0);">P.O Number:</label>
-                            <label class="pdfTerms" style="margin-bottom: 0px; color: rgb(0 0 0);">Due Date:</label>
+                            <label style="margin-bottom: 4px; color: rgb(0 0 0);">Date:</label>
+                            <label class="pdfPONumber" style="margin-bottom: 4px; color: rgb(0 0 0);">P.O Number:</label>
+                            <label class="pdfTerms" style="margin-bottom: 4px; color: rgb(0 0 0);">Due Date:</label>
                             <label class="link" style="color: rgb(0 0 0);" >Pay Link:</label>
                         </div>
                         <div style="width: 50%; padding-left: 16px;">
-                            <p style="margin-bottom: 0px; color: rgb(0 0 0);">{{salesorderrecord.saledate}}</p>
-                            <p style="margin-bottom: 0px; color: rgb(0 0 0); white-space: nowrap;">{{salesorderrecord.custPONumber}}.</p>
-                            <p style="margin-bottom: 0px; color: rgb(0 0 0); white-space: nowrap;">{{salesorderrecord.termsName}}.</p>
+                            <p style="margin-bottom: 4px; color: rgb(0 0 0);">{{salesorderrecord.saledate}}</p>
+                            <p style="margin-bottom: 4px; color: rgb(0 0 0); white-space: nowrap;">{{salesorderrecord.custPONumber}}.</p>
+                            <p style="margin-bottom: 4px; color: rgb(0 0 0); white-space: nowrap;">{{salesorderrecord.termsName}}.</p>
                             <p class="link" style="margin-bottom: 8px; color: rgb(0 0 0);color: #fff !important; background-color: #17a673; border-color: #169b6b; border-radius: 10px;     padding: 4px 8px;"><a href="" style="color: #fff !important; padding: 0px; margin-right: 8px;"></a></p>
                         </div>
                     </div>
