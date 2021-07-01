@@ -2756,9 +2756,9 @@ Template.new_quote.onRendered(() => {
                         $('#edtCustomerEmail').attr('customerid', clientList[i].customerid);
                         $('#edtCustomerEmail').attr('customerfirstname', clientList[i].firstname);
                         $('#edtCustomerEmail').attr('customerlastname', clientList[i].lastname);
-                        let postalAddress = clientList[i].customername + '\n' + clientList[i].street + '\n' + clientList[i].street2 + '\n' + clientList[i].street3 + '\n' + clientList[i].suburb + '\n' + clientList[i].statecode + '\n' + clientList[i].country;
+                        let postalAddress = clientList[i].customername + '\n' + clientList[i].street + '\n' + clientList[i].street2 + '\n' + clientList[i].statecode + '\n' + clientList[i].country;
                         $('#txabillingAddress').val(postalAddress);
-                        $('.pdfCustomerAddress').text(postalAddress);
+                        $('.pdfCustomerAddress').html(postalAddress);
                         $('#txaShipingInfo').val(postalAddress);
                     }
                 }
@@ -3921,7 +3921,7 @@ Template.new_quote.events({
         let quoteData = templateObject.quoterecord.get();
         $('#html-2-pdfwrapper').css('display', 'block');
         $('.pdfCustomerName').html($('#edtCustomerName').val());
-        $('.pdfCustomerAddress').html($('#txabillingAddress').val());
+        $('.pdfCustomerAddress').html($('#txabillingAddress').val().replace(/[\r\n]/g, "<br />"));
         exportSalesToPdf();
     },
     'keydown .lineQty, keydown .lineUnitPrice': function (event) {
