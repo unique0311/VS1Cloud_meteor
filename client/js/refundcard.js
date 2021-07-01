@@ -1022,7 +1022,7 @@ Template.refundcard.onRendered(()=>{
                 if(clientList[i].customername == selectedCustomer){
                     $('#edtCustomerEmail').val(clientList[i].customeremail);
                     $('#edtCustomerEmail').attr('customerid',clientList[i].customerid);
-                    let postalAddress = clientList[i].customername + '\n' + clientList[i].street + '\n' + clientList[i].street2 + '\n' + clientList[i].street3 + '\n' + clientList[i].suburb + '\n' + clientList[i].statecode + '\n' + clientList[i].country;
+                    let postalAddress = clientList[i].customername + '\n' + clientList[i].street + '\n' + clientList[i].street2 + '\n' + '\n' + clientList[i].statecode + '\n' + clientList[i].country;
                     $('#txabillingAddress').val(postalAddress);
                     $('#txaShipingInfo').val(postalAddress);
                     $('#sltTerms').val(clientList[i].termsName||'');
@@ -1871,7 +1871,7 @@ Template.refundcard.events({
     'click .printConfirm' : function(event){
         $('#html-2-pdfwrapper').css('display','block');
         $('.pdfCustomerName').html($('#edtCustomerName').val());
-        $('.pdfCustomerAddress').html($('#txabillingAddress').val());
+        $('.pdfCustomerAddress').html($('#txabillingAddress').val().replace(/[\r\n]/g, "<br />"));
         exportSalesToPdf();
     },
     'keydown .lineQty, keydown .lineUnitPrice': function(event){

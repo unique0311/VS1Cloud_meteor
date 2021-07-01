@@ -3654,7 +3654,7 @@ Template.new_invoice.onRendered(() => {
                             $('#edtCustomerEmail').attr('customerid', clientList[i].customerid);
                             $('#edtCustomerEmail').attr('customerfirstname', clientList[i].firstname);
                             $('#edtCustomerEmail').attr('customerlastname', clientList[i].lastname);
-                            let postalAddress = clientList[i].customername + '\n' + clientList[i].street + '\n' + clientList[i].street2 + '\n' + clientList[i].street3 + '\n' + clientList[i].suburb + '\n' + clientList[i].statecode + '\n' + clientList[i].country;
+                            let postalAddress = clientList[i].customername + '\n' + clientList[i].street + '\n' + clientList[i].street2 + '\n' + clientList[i].statecode + '\n' + clientList[i].country;
                             $('#txabillingAddress').val(postalAddress);
                             $('#pdfCustomerAddress').html(postalAddress);
                             $('.pdfCustomerAddress').text(postalAddress);
@@ -5204,7 +5204,7 @@ Template.new_invoice.events({
         $('#html-2-pdfwrapper').css('display', 'block');
         if ($('.edtCustomerEmail').val() != "") {
             $('.pdfCustomerName').html($('#edtCustomerName').val());
-            $('.pdfCustomerAddress').html($('#txabillingAddress').val());
+            $('.pdfCustomerAddress').html($('#txabillingAddress').val().replace(/[\r\n]/g, "<br />"));
             var rowCount = $('.tblInvoiceLine tbody tr').length;
             exportSalesToPdf();
         } else {
