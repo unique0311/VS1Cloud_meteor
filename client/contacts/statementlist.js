@@ -297,7 +297,7 @@ Template.statementlist.onRendered(function () {
                                     pdf.textWithLink('Pay Now', 480, 90, {
                                         url: 'https://www.depot.vs1cloud.com/stripe/' + stringQuery
                                     });
-                                } 
+                                }
                                 $('#printstatmentdesign').css('display', 'none');
                                 if (email != "") {
                                     object = {
@@ -1181,6 +1181,7 @@ Template.statementlist.events({
 
     },
     'click .btnRefresh': function () {
+      $('.fullScreenSpin').css('display', 'inline-block');
         sideBarService.getAllCustomerStatementData().then(function (data) {
             addVS1Data('TStatementList', JSON.stringify(data)).then(function (datareturn) {
                 window.open('/statementlist', '_self');
@@ -1218,7 +1219,7 @@ Template.statementlist.events({
                 let count = 0;
                 let email = [];
                 for (let x = 0; x < data.length; x++) {
-                    
+
                     if (data[x].pdfObj != undefined || data[x].pdfObj != null) {
                         let base64data = await templateObject.base64data(data[x].pdfObj);
                         // setTimeout(function() {
