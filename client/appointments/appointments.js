@@ -77,8 +77,8 @@ Template.appointments.onRendered(function () {
 
     }
 
-
-    $('.fullScreenSpin').css('display', 'inline-block');
+    getVS1Data('TERPPreference').then(function (dataObject) {
+   if (dataObject.length == 0) {
     appointmentService.getGlobalSettings().then(function (data) {
         templateObject.getAllAppointmentListData();
         appEndTimeDataToLoad = '19:00';
@@ -194,6 +194,270 @@ Template.appointments.onRendered(function () {
         console.log(err);
 
     });
+    } else{
+        let data = JSON.parse(dataObject[0].data);
+        templateObject.getAllAppointmentListData();
+        appEndTimeDataToLoad = '19:00';
+        globalSet.defaultProduct = "";
+        globalSet.id = "";
+        for (let g = 0; g < data.terppreference.length; g++) {
+            if (data.terppreference[g].PrefName == "ShowSundayinApptCalendar") {
+                if (data.terppreference[g].Fieldvalue == "F") {
+                    globalSet.showSun = false;
+                } else if (data.terppreference[g].Fieldvalue == "T") {
+                    globalSet.showSun = true;
+                } else {
+                    globalSet.showSun = false;
+                }
+            } else if (data.terppreference[g].PrefName == "ShowSaturdayinApptCalendar") {
+                if (data.terppreference[g].Fieldvalue == "F") {
+                    globalSet.showSat = false;
+                } else if (data.terppreference[g].Fieldvalue == "T") {
+                    globalSet.showSat = true;
+                } else {
+                    globalSet.showSat = false;
+                }
+
+            } else if (data.terppreference[g].PrefName == "ApptStartTime") {
+                globalSet.apptStartTime = data.terppreference[g].Fieldvalue.split(' ')[0] || "08:00";
+            } else if (data.terppreference[g].PrefName == "ApptEndtime") {
+                if (data.terppreference[g].Fieldvalue.split(' ')[0] == '05:30') {
+                    globalSet.apptEndTime = "17:00";
+                    let timeSplit = globalSet.apptEndTime.split(':');
+                    let appEndTimeDataHours = parseInt(timeSplit[0]) + 2;
+                    let appEndTimeDataToLoad = appEndTimeDataHours + ':' + timeSplit[1];
+                    globalSet.apptEndTimeCal = appEndTimeDataToLoad || '19:30';
+                } else {
+                    globalSet.apptEndTime = data.terppreference[g].Fieldvalue.split(' ')[0];
+                    let timeSplit = globalSet.apptEndTime.split(':');
+                    let appEndTimeDataHours = parseInt(timeSplit[0]) + 2;
+                    let appEndTimeDataToLoad = appEndTimeDataHours + ':' + timeSplit[1];
+                    globalSet.apptEndTimeCal = appEndTimeDataToLoad || '17:00';
+                    globalSet.apptEndTime = data.terppreference[g].Fieldvalue || "17:00";
+                }
+            } else if (data.terppreference[g].PrefName == "DefaultApptDuration") {
+                if (data.terppreference[g].Fieldvalue == "120") {
+                    globalSet.DefaultApptDuration = 2;
+                } else {
+                    globalSet.DefaultApptDuration = data.terppreference[g].Fieldvalue || 2;
+                }
+            } else if (data.terppreference[g].PrefName == "DefaultServiceProductID") {
+                globalSet.productID = data.terppreference[g].Fieldvalue;
+            } else if (data.terppreference[g].PrefName == "ShowApptDurationin") {
+                if (data.terppreference[g].Fieldvalue == "60") {
+                    globalSet.showApptDurationin = 1;
+                } else {
+                    globalSet.showApptDurationin = data.terppreference[g].Fieldvalue || 1;
+                }
+
+            } else if (data.terppreference[g].PrefName == "MinimumChargeAppointmentTime") {
+                globalSet.chargeTime = data.terppreference[g].Fieldvalue;
+            } else if (data.terppreference[g].PrefName == "RoundApptDurationTo") {
+                globalSet.RoundApptDurationTo = data.terppreference[g].Fieldvalue;
+            } else if (data.terppreference[g].PrefName == "RoundApptDurationTo") {
+                globalSet.RoundApptDurationTo = data.terppreference[g].Fieldvalue;
+            }
+        }
+
+        $("#showSaturday").prop('checked', globalSet.showSat);
+        $("#showSunday").prop('checked', globalSet.showSun);
+        if (globalSet.showSat === false) {
+            hideSat = "hidesaturday";
+        }
+
+        if (globalSet.showSun === false) {
+            hideSun = "hidesunday";
+        }
+
+        if (globalSet.chargeTime) {
+            $('#chargeTime').prepend('<option>' + globalSet.chargeTime + ' Hour</option>');
+        }
+
+        if (globalSet.showApptDurationin) {
+            $('#showTimeIn').prepend('<option selected>' + globalSet.showApptDurationin + ' Hour</option>');
+        }
+
+        if (globalSet.DefaultApptDuration) {
+            $('#defaultTime').prepend('<option selected>' + globalSet.DefaultApptDuration + ' Hour</option>');
+        }
+
+        if (globalSet.apptStartTime) {
+            $('#hoursFrom').val(globalSet.apptStartTime);
+        }
+
+        if (globalSet.apptEndTime) {
+            $('#hoursTo').val(globalSet.apptEndTime);
+        }
+        templateObject.globalSettings.set(globalSet);
+
+        if (globalSet.productID != "") {
+            getVS1Data('TERPPreferenceExtra').then(function (dataObjectExtra) {
+    if (dataObjectExtra.length == 0) {
+    appointmentService.getGlobalSettingsExtra().then(function (data) {
+                for (let p = 0; p < data.terppreferenceextra.length; p++) {
+                    if (data.terppreferenceextra[p].Prefname == "DefaultServiceProduct") {
+                        globalSet.defaultProduct = data.terppreferenceextra[p].fieldValue
+                    }
+
+                    $('#productlist').prepend('<option value=' + globalSet.id + '>' + globalSet.defaultProduct + '</option>');
+                    $("#productlist")[0].options[0].selected = true;
+                }
+                templateObject.globalSettings.set(globalSet);
+            })
+} else {
+let dataExtra = JSON.parse(dataObjectExtra[0].data);
+for (let p = 0; p < dataExtra.terppreferenceextra.length; p++) {
+                    if (dataExtra.terppreferenceextra[p].Prefname == "DefaultServiceProduct") {
+                        globalSet.defaultProduct = dataExtra.terppreferenceextra[p].fieldValue
+                    }
+
+                    $('#productlist').prepend('<option value=' + globalSet.id + '>' + globalSet.defaultProduct + '</option>');
+                    $("#productlist")[0].options[0].selected = true;
+                }
+                templateObject.globalSettings.set(globalSet);
+}
+
+
+}).catch(function (err) {
+        appointmentService.getGlobalSettingsExtra().then(function (data) {
+                for (let p = 0; p < data.terppreferenceextra.length; p++) {
+                    if (data.terppreferenceextra[p].Prefname == "DefaultServiceProduct") {
+                        globalSet.defaultProduct = data.terppreferenceextra[p].fieldValue
+                    }
+
+                    $('#productlist').prepend('<option value=' + globalSet.id + '>' + globalSet.defaultProduct + '</option>');
+                    $("#productlist")[0].options[0].selected = true;
+                }
+                templateObject.globalSettings.set(globalSet);
+            })
+
+    })
+        } else {
+            globalSet.defaultProduct = "";
+            globalSet.id = "";
+        }
+    }
+
+    }).catch(function (err) {
+           appointmentService.getGlobalSettings().then(function (data) {
+        templateObject.getAllAppointmentListData();
+        appEndTimeDataToLoad = '19:00';
+        globalSet.defaultProduct = "";
+        globalSet.id = "";
+        for (let g = 0; g < data.terppreference.length; g++) {
+            if (data.terppreference[g].PrefName == "ShowSundayinApptCalendar") {
+                if (data.terppreference[g].Fieldvalue == "F") {
+                    globalSet.showSun = false;
+                } else if (data.terppreference[g].Fieldvalue == "T") {
+                    globalSet.showSun = true;
+                } else {
+                    globalSet.showSun = false;
+                }
+            } else if (data.terppreference[g].PrefName == "ShowSaturdayinApptCalendar") {
+                if (data.terppreference[g].Fieldvalue == "F") {
+                    globalSet.showSat = false;
+                } else if (data.terppreference[g].Fieldvalue == "T") {
+                    globalSet.showSat = true;
+                } else {
+                    globalSet.showSat = false;
+                }
+
+            } else if (data.terppreference[g].PrefName == "ApptStartTime") {
+                globalSet.apptStartTime = data.terppreference[g].Fieldvalue.split(' ')[0] || "08:00";
+            } else if (data.terppreference[g].PrefName == "ApptEndtime") {
+                if (data.terppreference[g].Fieldvalue.split(' ')[0] == '05:30') {
+                    globalSet.apptEndTime = "17:00";
+                    let timeSplit = globalSet.apptEndTime.split(':');
+                    let appEndTimeDataHours = parseInt(timeSplit[0]) + 2;
+                    let appEndTimeDataToLoad = appEndTimeDataHours + ':' + timeSplit[1];
+                    globalSet.apptEndTimeCal = appEndTimeDataToLoad || '19:30';
+                } else {
+                    globalSet.apptEndTime = data.terppreference[g].Fieldvalue.split(' ')[0];
+                    let timeSplit = globalSet.apptEndTime.split(':');
+                    let appEndTimeDataHours = parseInt(timeSplit[0]) + 2;
+                    let appEndTimeDataToLoad = appEndTimeDataHours + ':' + timeSplit[1];
+                    globalSet.apptEndTimeCal = appEndTimeDataToLoad || '17:00';
+                    globalSet.apptEndTime = data.terppreference[g].Fieldvalue || "17:00";
+                }
+            } else if (data.terppreference[g].PrefName == "DefaultApptDuration") {
+                if (data.terppreference[g].Fieldvalue == "120") {
+                    globalSet.DefaultApptDuration = 2;
+                } else {
+                    globalSet.DefaultApptDuration = data.terppreference[g].Fieldvalue || 2;
+                }
+            } else if (data.terppreference[g].PrefName == "DefaultServiceProductID") {
+                globalSet.productID = data.terppreference[g].Fieldvalue;
+            } else if (data.terppreference[g].PrefName == "ShowApptDurationin") {
+                if (data.terppreference[g].Fieldvalue == "60") {
+                    globalSet.showApptDurationin = 1;
+                } else {
+                    globalSet.showApptDurationin = data.terppreference[g].Fieldvalue || 1;
+                }
+
+            } else if (data.terppreference[g].PrefName == "MinimumChargeAppointmentTime") {
+                globalSet.chargeTime = data.terppreference[g].Fieldvalue;
+            } else if (data.terppreference[g].PrefName == "RoundApptDurationTo") {
+                globalSet.RoundApptDurationTo = data.terppreference[g].Fieldvalue;
+            } else if (data.terppreference[g].PrefName == "RoundApptDurationTo") {
+                globalSet.RoundApptDurationTo = data.terppreference[g].Fieldvalue;
+            }
+        }
+
+        $("#showSaturday").prop('checked', globalSet.showSat);
+        $("#showSunday").prop('checked', globalSet.showSun);
+        if (globalSet.showSat === false) {
+            hideSat = "hidesaturday";
+        }
+
+        if (globalSet.showSun === false) {
+            hideSun = "hidesunday";
+        }
+
+        if (globalSet.chargeTime) {
+            $('#chargeTime').prepend('<option>' + globalSet.chargeTime + ' Hour</option>');
+        }
+
+        if (globalSet.showApptDurationin) {
+            $('#showTimeIn').prepend('<option selected>' + globalSet.showApptDurationin + ' Hour</option>');
+        }
+
+        if (globalSet.DefaultApptDuration) {
+            $('#defaultTime').prepend('<option selected>' + globalSet.DefaultApptDuration + ' Hour</option>');
+        }
+
+        if (globalSet.apptStartTime) {
+            $('#hoursFrom').val(globalSet.apptStartTime);
+        }
+
+        if (globalSet.apptEndTime) {
+            $('#hoursTo').val(globalSet.apptEndTime);
+        }
+        templateObject.globalSettings.set(globalSet);
+
+        if (globalSet.productID != "") {
+            appointmentService.getGlobalSettingsExtra().then(function (data) {
+                for (let p = 0; p < data.terppreferenceextra.length; p++) {
+                    if (data.terppreferenceextra[p].Prefname == "DefaultServiceProduct") {
+                        globalSet.defaultProduct = data.terppreferenceextra[p].fieldValue
+                    }
+
+                    $('#productlist').prepend('<option value=' + globalSet.id + '>' + globalSet.defaultProduct + '</option>');
+                    $("#productlist")[0].options[0].selected = true;
+                }
+                templateObject.globalSettings.set(globalSet);
+            })
+        } else {
+            globalSet.defaultProduct = "";
+            globalSet.id = "";
+        }
+    }).catch(function (err) {
+        console.log(err);
+
+    });
+
+    });
+    $('.fullScreenSpin').css('display', 'inline-block');
+
 
     templateObject.renderCalendar = function (slotMin, slotMax, hideDays) {
         let calendarSet = templateObject.globalSettings.get();
@@ -6126,16 +6390,27 @@ Template.appointments.events({
             if (oPost.readyState == 4 && oPost.status == 200) {
                 var myArrResponse = JSON.parse(oPost.responseText);
                 if (myArrResponse.ProcessLog.ResponseStatus.includes("OK")) {
-                    window.open('/appointments', '_self');
-                    //    sideBarService.getAllAppointmentList().then(function (data) {
-                    //     // addVS1Data('TAppointment', JSON.stringify(data)).then(function (datareturn) {
-                    //     //     window.open('/appointments', '_self');
-                    //     // }).catch(function (err) {
-                    //     //     window.open('/appointments', '_self');
-                    //     // });
-                    // }).catch(function (err) {
-                    //     //window.open('/appointments', '_self');
-                    // });
+                         sideBarService.getGlobalSettings().then(function (dataAppointmentExtra) {
+                        addVS1Data('TERPPreferenceExtra', JSON.stringify(dataAppointmentExtra)).then(function (datareturn) {
+                            //window.open('/appointments', '_self');
+                        }).catch(function (err) {
+                            //window.open('/appointments', '_self');
+                        });
+                    }).catch(function (err) {
+                        //window.open('/appointments', '_self');
+                    });
+
+                    
+                       sideBarService.getGlobalSettings().then(function (dataAppointment) {
+                        addVS1Data('TERPPreference', JSON.stringify(dataAppointment)).then(function (datareturn) {
+                            window.open('/appointments', '_self');
+                        }).catch(function (err) {
+                            window.open('/appointments', '_self');
+                        });
+                    }).catch(function (err) {
+                        window.open('/appointments', '_self');
+                    });
+
                 } else {
                     $('.modal-backdrop').css('display', 'none');
                     $('.fullScreenSpin').css('display', 'none');
