@@ -78,386 +78,385 @@ Template.appointments.onRendered(function () {
     }
 
     getVS1Data('TERPPreference').then(function (dataObject) {
-   if (dataObject.length == 0) {
-    appointmentService.getGlobalSettings().then(function (data) {
-        templateObject.getAllAppointmentListData();
-        appEndTimeDataToLoad = '19:00';
-        globalSet.defaultProduct = "";
-        globalSet.id = "";
-        for (let g = 0; g < data.terppreference.length; g++) {
-            if (data.terppreference[g].PrefName == "ShowSundayinApptCalendar") {
-                if (data.terppreference[g].Fieldvalue == "F") {
-                    globalSet.showSun = false;
-                } else if (data.terppreference[g].Fieldvalue == "T") {
-                    globalSet.showSun = true;
-                } else {
-                    globalSet.showSun = false;
-                }
-            } else if (data.terppreference[g].PrefName == "ShowSaturdayinApptCalendar") {
-                if (data.terppreference[g].Fieldvalue == "F") {
-                    globalSet.showSat = false;
-                } else if (data.terppreference[g].Fieldvalue == "T") {
-                    globalSet.showSat = true;
-                } else {
-                    globalSet.showSat = false;
+        if (dataObject.length == 0) {
+            appointmentService.getGlobalSettings().then(function (data) {
+                templateObject.getAllAppointmentListData();
+                appEndTimeDataToLoad = '19:00';
+                globalSet.defaultProduct = "";
+                globalSet.id = "";
+                for (let g = 0; g < data.terppreference.length; g++) {
+                    if (data.terppreference[g].PrefName == "ShowSundayinApptCalendar") {
+                        if (data.terppreference[g].Fieldvalue == "F") {
+                            globalSet.showSun = false;
+                        } else if (data.terppreference[g].Fieldvalue == "T") {
+                            globalSet.showSun = true;
+                        } else {
+                            globalSet.showSun = false;
+                        }
+                    } else if (data.terppreference[g].PrefName == "ShowSaturdayinApptCalendar") {
+                        if (data.terppreference[g].Fieldvalue == "F") {
+                            globalSet.showSat = false;
+                        } else if (data.terppreference[g].Fieldvalue == "T") {
+                            globalSet.showSat = true;
+                        } else {
+                            globalSet.showSat = false;
+                        }
+
+                    } else if (data.terppreference[g].PrefName == "ApptStartTime") {
+                        globalSet.apptStartTime = data.terppreference[g].Fieldvalue.split(' ')[0] || "08:00";
+                    } else if (data.terppreference[g].PrefName == "ApptEndtime") {
+                        if (data.terppreference[g].Fieldvalue.split(' ')[0] == '05:30') {
+                            globalSet.apptEndTime = "17:00";
+                            let timeSplit = globalSet.apptEndTime.split(':');
+                            let appEndTimeDataHours = parseInt(timeSplit[0]) + 2;
+                            let appEndTimeDataToLoad = appEndTimeDataHours + ':' + timeSplit[1];
+                            globalSet.apptEndTimeCal = appEndTimeDataToLoad || '19:30';
+                        } else {
+                            globalSet.apptEndTime = data.terppreference[g].Fieldvalue.split(' ')[0];
+                            let timeSplit = globalSet.apptEndTime.split(':');
+                            let appEndTimeDataHours = parseInt(timeSplit[0]) + 2;
+                            let appEndTimeDataToLoad = appEndTimeDataHours + ':' + timeSplit[1];
+                            globalSet.apptEndTimeCal = appEndTimeDataToLoad || '17:00';
+                            globalSet.apptEndTime = data.terppreference[g].Fieldvalue || "17:00";
+                        }
+                    } else if (data.terppreference[g].PrefName == "DefaultApptDuration") {
+                        if (data.terppreference[g].Fieldvalue == "120") {
+                            globalSet.DefaultApptDuration = 2;
+                        } else {
+                            globalSet.DefaultApptDuration = data.terppreference[g].Fieldvalue || 2;
+                        }
+                    } else if (data.terppreference[g].PrefName == "DefaultServiceProductID") {
+                        globalSet.productID = data.terppreference[g].Fieldvalue;
+                    } else if (data.terppreference[g].PrefName == "ShowApptDurationin") {
+                        if (data.terppreference[g].Fieldvalue == "60") {
+                            globalSet.showApptDurationin = 1;
+                        } else {
+                            globalSet.showApptDurationin = data.terppreference[g].Fieldvalue || 1;
+                        }
+
+                    } else if (data.terppreference[g].PrefName == "MinimumChargeAppointmentTime") {
+                        globalSet.chargeTime = data.terppreference[g].Fieldvalue;
+                    } else if (data.terppreference[g].PrefName == "RoundApptDurationTo") {
+                        globalSet.RoundApptDurationTo = data.terppreference[g].Fieldvalue;
+                    } else if (data.terppreference[g].PrefName == "RoundApptDurationTo") {
+                        globalSet.RoundApptDurationTo = data.terppreference[g].Fieldvalue;
+                    }
                 }
 
-            } else if (data.terppreference[g].PrefName == "ApptStartTime") {
-                globalSet.apptStartTime = data.terppreference[g].Fieldvalue.split(' ')[0] || "08:00";
-            } else if (data.terppreference[g].PrefName == "ApptEndtime") {
-                if (data.terppreference[g].Fieldvalue.split(' ')[0] == '05:30') {
-                    globalSet.apptEndTime = "17:00";
-                    let timeSplit = globalSet.apptEndTime.split(':');
-                    let appEndTimeDataHours = parseInt(timeSplit[0]) + 2;
-                    let appEndTimeDataToLoad = appEndTimeDataHours + ':' + timeSplit[1];
-                    globalSet.apptEndTimeCal = appEndTimeDataToLoad || '19:30';
-                } else {
-                    globalSet.apptEndTime = data.terppreference[g].Fieldvalue.split(' ')[0];
-                    let timeSplit = globalSet.apptEndTime.split(':');
-                    let appEndTimeDataHours = parseInt(timeSplit[0]) + 2;
-                    let appEndTimeDataToLoad = appEndTimeDataHours + ':' + timeSplit[1];
-                    globalSet.apptEndTimeCal = appEndTimeDataToLoad || '17:00';
-                    globalSet.apptEndTime = data.terppreference[g].Fieldvalue || "17:00";
-                }
-            } else if (data.terppreference[g].PrefName == "DefaultApptDuration") {
-                if (data.terppreference[g].Fieldvalue == "120") {
-                    globalSet.DefaultApptDuration = 2;
-                } else {
-                    globalSet.DefaultApptDuration = data.terppreference[g].Fieldvalue || 2;
-                }
-            } else if (data.terppreference[g].PrefName == "DefaultServiceProductID") {
-                globalSet.productID = data.terppreference[g].Fieldvalue;
-            } else if (data.terppreference[g].PrefName == "ShowApptDurationin") {
-                if (data.terppreference[g].Fieldvalue == "60") {
-                    globalSet.showApptDurationin = 1;
-                } else {
-                    globalSet.showApptDurationin = data.terppreference[g].Fieldvalue || 1;
+                $("#showSaturday").prop('checked', globalSet.showSat);
+                $("#showSunday").prop('checked', globalSet.showSun);
+                if (globalSet.showSat === false) {
+                    hideSat = "hidesaturday";
                 }
 
-            } else if (data.terppreference[g].PrefName == "MinimumChargeAppointmentTime") {
-                globalSet.chargeTime = data.terppreference[g].Fieldvalue;
-            } else if (data.terppreference[g].PrefName == "RoundApptDurationTo") {
-                globalSet.RoundApptDurationTo = data.terppreference[g].Fieldvalue;
-            } else if (data.terppreference[g].PrefName == "RoundApptDurationTo") {
-                globalSet.RoundApptDurationTo = data.terppreference[g].Fieldvalue;
+                if (globalSet.showSun === false) {
+                    hideSun = "hidesunday";
+                }
+
+                if (globalSet.chargeTime) {
+                    $('#chargeTime').prepend('<option>' + globalSet.chargeTime + ' Hour</option>');
+                }
+
+                if (globalSet.showApptDurationin) {
+                    $('#showTimeIn').prepend('<option selected>' + globalSet.showApptDurationin + ' Hour</option>');
+                }
+
+                if (globalSet.DefaultApptDuration) {
+                    $('#defaultTime').prepend('<option selected>' + globalSet.DefaultApptDuration + ' Hour</option>');
+                }
+
+                if (globalSet.apptStartTime) {
+                    $('#hoursFrom').val(globalSet.apptStartTime);
+                }
+
+                if (globalSet.apptEndTime) {
+                    $('#hoursTo').val(globalSet.apptEndTime);
+                }
+                templateObject.globalSettings.set(globalSet);
+
+                if (globalSet.productID != "") {
+                    appointmentService.getGlobalSettingsExtra().then(function (data) {
+                        for (let p = 0; p < data.terppreferenceextra.length; p++) {
+                            if (data.terppreferenceextra[p].Prefname == "DefaultServiceProduct") {
+                                globalSet.defaultProduct = data.terppreferenceextra[p].fieldValue
+                            }
+
+                            $('#productlist').prepend('<option value=' + globalSet.id + '>' + globalSet.defaultProduct + '</option>');
+                            $("#productlist")[0].options[0].selected = true;
+                        }
+                        templateObject.globalSettings.set(globalSet);
+                    })
+                } else {
+                    globalSet.defaultProduct = "";
+                    globalSet.id = "";
+                }
+            }).catch(function (err) {
+                console.log(err);
+
+            });
+        } else {
+            let data = JSON.parse(dataObject[0].data);
+            templateObject.getAllAppointmentListData();
+            appEndTimeDataToLoad = '19:00';
+            globalSet.defaultProduct = "";
+            globalSet.id = "";
+            for (let g = 0; g < data.terppreference.length; g++) {
+                if (data.terppreference[g].PrefName == "ShowSundayinApptCalendar") {
+                    if (data.terppreference[g].Fieldvalue == "F") {
+                        globalSet.showSun = false;
+                    } else if (data.terppreference[g].Fieldvalue == "T") {
+                        globalSet.showSun = true;
+                    } else {
+                        globalSet.showSun = false;
+                    }
+                } else if (data.terppreference[g].PrefName == "ShowSaturdayinApptCalendar") {
+                    if (data.terppreference[g].Fieldvalue == "F") {
+                        globalSet.showSat = false;
+                    } else if (data.terppreference[g].Fieldvalue == "T") {
+                        globalSet.showSat = true;
+                    } else {
+                        globalSet.showSat = false;
+                    }
+
+                } else if (data.terppreference[g].PrefName == "ApptStartTime") {
+                    globalSet.apptStartTime = data.terppreference[g].Fieldvalue.split(' ')[0] || "08:00";
+                } else if (data.terppreference[g].PrefName == "ApptEndtime") {
+                    if (data.terppreference[g].Fieldvalue.split(' ')[0] == '05:30') {
+                        globalSet.apptEndTime = "17:00";
+                        let timeSplit = globalSet.apptEndTime.split(':');
+                        let appEndTimeDataHours = parseInt(timeSplit[0]) + 2;
+                        let appEndTimeDataToLoad = appEndTimeDataHours + ':' + timeSplit[1];
+                        globalSet.apptEndTimeCal = appEndTimeDataToLoad || '19:30';
+                    } else {
+                        globalSet.apptEndTime = data.terppreference[g].Fieldvalue.split(' ')[0];
+                        let timeSplit = globalSet.apptEndTime.split(':');
+                        let appEndTimeDataHours = parseInt(timeSplit[0]) + 2;
+                        let appEndTimeDataToLoad = appEndTimeDataHours + ':' + timeSplit[1];
+                        globalSet.apptEndTimeCal = appEndTimeDataToLoad || '17:00';
+                        globalSet.apptEndTime = data.terppreference[g].Fieldvalue || "17:00";
+                    }
+                } else if (data.terppreference[g].PrefName == "DefaultApptDuration") {
+                    if (data.terppreference[g].Fieldvalue == "120") {
+                        globalSet.DefaultApptDuration = 2;
+                    } else {
+                        globalSet.DefaultApptDuration = data.terppreference[g].Fieldvalue || 2;
+                    }
+                } else if (data.terppreference[g].PrefName == "DefaultServiceProductID") {
+                    globalSet.productID = data.terppreference[g].Fieldvalue;
+                } else if (data.terppreference[g].PrefName == "ShowApptDurationin") {
+                    if (data.terppreference[g].Fieldvalue == "60") {
+                        globalSet.showApptDurationin = 1;
+                    } else {
+                        globalSet.showApptDurationin = data.terppreference[g].Fieldvalue || 1;
+                    }
+
+                } else if (data.terppreference[g].PrefName == "MinimumChargeAppointmentTime") {
+                    globalSet.chargeTime = data.terppreference[g].Fieldvalue;
+                } else if (data.terppreference[g].PrefName == "RoundApptDurationTo") {
+                    globalSet.RoundApptDurationTo = data.terppreference[g].Fieldvalue;
+                } else if (data.terppreference[g].PrefName == "RoundApptDurationTo") {
+                    globalSet.RoundApptDurationTo = data.terppreference[g].Fieldvalue;
+                }
+            }
+
+            $("#showSaturday").prop('checked', globalSet.showSat);
+            $("#showSunday").prop('checked', globalSet.showSun);
+            if (globalSet.showSat === false) {
+                hideSat = "hidesaturday";
+            }
+
+            if (globalSet.showSun === false) {
+                hideSun = "hidesunday";
+            }
+
+            if (globalSet.chargeTime) {
+                $('#chargeTime').prepend('<option>' + globalSet.chargeTime + ' Hour</option>');
+            }
+
+            if (globalSet.showApptDurationin) {
+                $('#showTimeIn').prepend('<option selected>' + globalSet.showApptDurationin + ' Hour</option>');
+            }
+
+            if (globalSet.DefaultApptDuration) {
+                $('#defaultTime').prepend('<option selected>' + globalSet.DefaultApptDuration + ' Hour</option>');
+            }
+
+            if (globalSet.apptStartTime) {
+                $('#hoursFrom').val(globalSet.apptStartTime);
+            }
+
+            if (globalSet.apptEndTime) {
+                $('#hoursTo').val(globalSet.apptEndTime);
+            }
+            templateObject.globalSettings.set(globalSet);
+
+            if (globalSet.productID != "") {
+                getVS1Data('TERPPreferenceExtra').then(function (dataObjectExtra) {
+                    if (dataObjectExtra.length == 0) {
+                        appointmentService.getGlobalSettingsExtra().then(function (data) {
+                            for (let p = 0; p < data.terppreferenceextra.length; p++) {
+                                if (data.terppreferenceextra[p].Prefname == "DefaultServiceProduct") {
+                                    globalSet.defaultProduct = data.terppreferenceextra[p].fieldValue
+                                }
+
+                                $('#productlist').prepend('<option value=' + globalSet.id + '>' + globalSet.defaultProduct + '</option>');
+                                $("#productlist")[0].options[0].selected = true;
+                            }
+                            templateObject.globalSettings.set(globalSet);
+                        })
+                    } else {
+                        let dataExtra = JSON.parse(dataObjectExtra[0].data);
+                        for (let p = 0; p < dataExtra.terppreferenceextra.length; p++) {
+                            if (dataExtra.terppreferenceextra[p].Prefname == "DefaultServiceProduct") {
+                                globalSet.defaultProduct = dataExtra.terppreferenceextra[p].fieldValue
+                            }
+
+                            $('#productlist').prepend('<option value=' + globalSet.id + '>' + globalSet.defaultProduct + '</option>');
+                            $("#productlist")[0].options[0].selected = true;
+                        }
+                        templateObject.globalSettings.set(globalSet);
+                    }
+
+                }).catch(function (err) {
+                    console.log(err);
+                    appointmentService.getGlobalSettingsExtra().then(function (data) {
+                        for (let p = 0; p < data.terppreferenceextra.length; p++) {
+                            if (data.terppreferenceextra[p].Prefname == "DefaultServiceProduct") {
+                                globalSet.defaultProduct = data.terppreferenceextra[p].fieldValue
+                            }
+
+                            $('#productlist').prepend('<option value=' + globalSet.id + '>' + globalSet.defaultProduct + '</option>');
+                            $("#productlist")[0].options[0].selected = true;
+                        }
+                        templateObject.globalSettings.set(globalSet);
+                    })
+
+                })
+            } else {
+                globalSet.defaultProduct = "";
+                globalSet.id = "";
             }
         }
 
-        $("#showSaturday").prop('checked', globalSet.showSat);
-        $("#showSunday").prop('checked', globalSet.showSun);
-        if (globalSet.showSat === false) {
-            hideSat = "hidesaturday";
-        }
-
-        if (globalSet.showSun === false) {
-            hideSun = "hidesunday";
-        }
-
-        if (globalSet.chargeTime) {
-            $('#chargeTime').prepend('<option>' + globalSet.chargeTime + ' Hour</option>');
-        }
-
-        if (globalSet.showApptDurationin) {
-            $('#showTimeIn').prepend('<option selected>' + globalSet.showApptDurationin + ' Hour</option>');
-        }
-
-        if (globalSet.DefaultApptDuration) {
-            $('#defaultTime').prepend('<option selected>' + globalSet.DefaultApptDuration + ' Hour</option>');
-        }
-
-        if (globalSet.apptStartTime) {
-            $('#hoursFrom').val(globalSet.apptStartTime);
-        }
-
-        if (globalSet.apptEndTime) {
-            $('#hoursTo').val(globalSet.apptEndTime);
-        }
-        templateObject.globalSettings.set(globalSet);
-
-        if (globalSet.productID != "") {
-            appointmentService.getGlobalSettingsExtra().then(function (data) {
-                for (let p = 0; p < data.terppreferenceextra.length; p++) {
-                    if (data.terppreferenceextra[p].Prefname == "DefaultServiceProduct") {
-                        globalSet.defaultProduct = data.terppreferenceextra[p].fieldValue
-                    }
-
-                    $('#productlist').prepend('<option value=' + globalSet.id + '>' + globalSet.defaultProduct + '</option>');
-                    $("#productlist")[0].options[0].selected = true;
-                }
-                templateObject.globalSettings.set(globalSet);
-            })
-        } else {
+    }).catch(function (err) {
+        appointmentService.getGlobalSettings().then(function (data) {
+            templateObject.getAllAppointmentListData();
+            appEndTimeDataToLoad = '19:00';
             globalSet.defaultProduct = "";
             globalSet.id = "";
-        }
-    }).catch(function (err) {
-        console.log(err);
+            for (let g = 0; g < data.terppreference.length; g++) {
+                if (data.terppreference[g].PrefName == "ShowSundayinApptCalendar") {
+                    if (data.terppreference[g].Fieldvalue == "F") {
+                        globalSet.showSun = false;
+                    } else if (data.terppreference[g].Fieldvalue == "T") {
+                        globalSet.showSun = true;
+                    } else {
+                        globalSet.showSun = false;
+                    }
+                } else if (data.terppreference[g].PrefName == "ShowSaturdayinApptCalendar") {
+                    if (data.terppreference[g].Fieldvalue == "F") {
+                        globalSet.showSat = false;
+                    } else if (data.terppreference[g].Fieldvalue == "T") {
+                        globalSet.showSat = true;
+                    } else {
+                        globalSet.showSat = false;
+                    }
 
-    });
-    } else{
-        let data = JSON.parse(dataObject[0].data);
-        templateObject.getAllAppointmentListData();
-        appEndTimeDataToLoad = '19:00';
-        globalSet.defaultProduct = "";
-        globalSet.id = "";
-        for (let g = 0; g < data.terppreference.length; g++) {
-            if (data.terppreference[g].PrefName == "ShowSundayinApptCalendar") {
-                if (data.terppreference[g].Fieldvalue == "F") {
-                    globalSet.showSun = false;
-                } else if (data.terppreference[g].Fieldvalue == "T") {
-                    globalSet.showSun = true;
-                } else {
-                    globalSet.showSun = false;
-                }
-            } else if (data.terppreference[g].PrefName == "ShowSaturdayinApptCalendar") {
-                if (data.terppreference[g].Fieldvalue == "F") {
-                    globalSet.showSat = false;
-                } else if (data.terppreference[g].Fieldvalue == "T") {
-                    globalSet.showSat = true;
-                } else {
-                    globalSet.showSat = false;
-                }
+                } else if (data.terppreference[g].PrefName == "ApptStartTime") {
+                    globalSet.apptStartTime = data.terppreference[g].Fieldvalue.split(' ')[0] || "08:00";
+                } else if (data.terppreference[g].PrefName == "ApptEndtime") {
+                    if (data.terppreference[g].Fieldvalue.split(' ')[0] == '05:30') {
+                        globalSet.apptEndTime = "17:00";
+                        let timeSplit = globalSet.apptEndTime.split(':');
+                        let appEndTimeDataHours = parseInt(timeSplit[0]) + 2;
+                        let appEndTimeDataToLoad = appEndTimeDataHours + ':' + timeSplit[1];
+                        globalSet.apptEndTimeCal = appEndTimeDataToLoad || '19:30';
+                    } else {
+                        globalSet.apptEndTime = data.terppreference[g].Fieldvalue.split(' ')[0];
+                        let timeSplit = globalSet.apptEndTime.split(':');
+                        let appEndTimeDataHours = parseInt(timeSplit[0]) + 2;
+                        let appEndTimeDataToLoad = appEndTimeDataHours + ':' + timeSplit[1];
+                        globalSet.apptEndTimeCal = appEndTimeDataToLoad || '17:00';
+                        globalSet.apptEndTime = data.terppreference[g].Fieldvalue || "17:00";
+                    }
+                } else if (data.terppreference[g].PrefName == "DefaultApptDuration") {
+                    if (data.terppreference[g].Fieldvalue == "120") {
+                        globalSet.DefaultApptDuration = 2;
+                    } else {
+                        globalSet.DefaultApptDuration = data.terppreference[g].Fieldvalue || 2;
+                    }
+                } else if (data.terppreference[g].PrefName == "DefaultServiceProductID") {
+                    globalSet.productID = data.terppreference[g].Fieldvalue;
+                } else if (data.terppreference[g].PrefName == "ShowApptDurationin") {
+                    if (data.terppreference[g].Fieldvalue == "60") {
+                        globalSet.showApptDurationin = 1;
+                    } else {
+                        globalSet.showApptDurationin = data.terppreference[g].Fieldvalue || 1;
+                    }
 
-            } else if (data.terppreference[g].PrefName == "ApptStartTime") {
-                globalSet.apptStartTime = data.terppreference[g].Fieldvalue.split(' ')[0] || "08:00";
-            } else if (data.terppreference[g].PrefName == "ApptEndtime") {
-                if (data.terppreference[g].Fieldvalue.split(' ')[0] == '05:30') {
-                    globalSet.apptEndTime = "17:00";
-                    let timeSplit = globalSet.apptEndTime.split(':');
-                    let appEndTimeDataHours = parseInt(timeSplit[0]) + 2;
-                    let appEndTimeDataToLoad = appEndTimeDataHours + ':' + timeSplit[1];
-                    globalSet.apptEndTimeCal = appEndTimeDataToLoad || '19:30';
-                } else {
-                    globalSet.apptEndTime = data.terppreference[g].Fieldvalue.split(' ')[0];
-                    let timeSplit = globalSet.apptEndTime.split(':');
-                    let appEndTimeDataHours = parseInt(timeSplit[0]) + 2;
-                    let appEndTimeDataToLoad = appEndTimeDataHours + ':' + timeSplit[1];
-                    globalSet.apptEndTimeCal = appEndTimeDataToLoad || '17:00';
-                    globalSet.apptEndTime = data.terppreference[g].Fieldvalue || "17:00";
+                } else if (data.terppreference[g].PrefName == "MinimumChargeAppointmentTime") {
+                    globalSet.chargeTime = data.terppreference[g].Fieldvalue;
+                } else if (data.terppreference[g].PrefName == "RoundApptDurationTo") {
+                    globalSet.RoundApptDurationTo = data.terppreference[g].Fieldvalue;
+                } else if (data.terppreference[g].PrefName == "RoundApptDurationTo") {
+                    globalSet.RoundApptDurationTo = data.terppreference[g].Fieldvalue;
                 }
-            } else if (data.terppreference[g].PrefName == "DefaultApptDuration") {
-                if (data.terppreference[g].Fieldvalue == "120") {
-                    globalSet.DefaultApptDuration = 2;
-                } else {
-                    globalSet.DefaultApptDuration = data.terppreference[g].Fieldvalue || 2;
-                }
-            } else if (data.terppreference[g].PrefName == "DefaultServiceProductID") {
-                globalSet.productID = data.terppreference[g].Fieldvalue;
-            } else if (data.terppreference[g].PrefName == "ShowApptDurationin") {
-                if (data.terppreference[g].Fieldvalue == "60") {
-                    globalSet.showApptDurationin = 1;
-                } else {
-                    globalSet.showApptDurationin = data.terppreference[g].Fieldvalue || 1;
-                }
-
-            } else if (data.terppreference[g].PrefName == "MinimumChargeAppointmentTime") {
-                globalSet.chargeTime = data.terppreference[g].Fieldvalue;
-            } else if (data.terppreference[g].PrefName == "RoundApptDurationTo") {
-                globalSet.RoundApptDurationTo = data.terppreference[g].Fieldvalue;
-            } else if (data.terppreference[g].PrefName == "RoundApptDurationTo") {
-                globalSet.RoundApptDurationTo = data.terppreference[g].Fieldvalue;
             }
-        }
 
-        $("#showSaturday").prop('checked', globalSet.showSat);
-        $("#showSunday").prop('checked', globalSet.showSun);
-        if (globalSet.showSat === false) {
-            hideSat = "hidesaturday";
-        }
-
-        if (globalSet.showSun === false) {
-            hideSun = "hidesunday";
-        }
-
-        if (globalSet.chargeTime) {
-            $('#chargeTime').prepend('<option>' + globalSet.chargeTime + ' Hour</option>');
-        }
-
-        if (globalSet.showApptDurationin) {
-            $('#showTimeIn').prepend('<option selected>' + globalSet.showApptDurationin + ' Hour</option>');
-        }
-
-        if (globalSet.DefaultApptDuration) {
-            $('#defaultTime').prepend('<option selected>' + globalSet.DefaultApptDuration + ' Hour</option>');
-        }
-
-        if (globalSet.apptStartTime) {
-            $('#hoursFrom').val(globalSet.apptStartTime);
-        }
-
-        if (globalSet.apptEndTime) {
-            $('#hoursTo').val(globalSet.apptEndTime);
-        }
-        templateObject.globalSettings.set(globalSet);
-
-        if (globalSet.productID != "") {
-            getVS1Data('TERPPreferenceExtra').then(function (dataObjectExtra) {
-    if (dataObjectExtra.length == 0) {
-    appointmentService.getGlobalSettingsExtra().then(function (data) {
-                for (let p = 0; p < data.terppreferenceextra.length; p++) {
-                    if (data.terppreferenceextra[p].Prefname == "DefaultServiceProduct") {
-                        globalSet.defaultProduct = data.terppreferenceextra[p].fieldValue
-                    }
-
-                    $('#productlist').prepend('<option value=' + globalSet.id + '>' + globalSet.defaultProduct + '</option>');
-                    $("#productlist")[0].options[0].selected = true;
-                }
-                templateObject.globalSettings.set(globalSet);
-            })
-} else {
-let dataExtra = JSON.parse(dataObjectExtra[0].data);
-for (let p = 0; p < dataExtra.terppreferenceextra.length; p++) {
-                    if (dataExtra.terppreferenceextra[p].Prefname == "DefaultServiceProduct") {
-                        globalSet.defaultProduct = dataExtra.terppreferenceextra[p].fieldValue
-                    }
-
-                    $('#productlist').prepend('<option value=' + globalSet.id + '>' + globalSet.defaultProduct + '</option>');
-                    $("#productlist")[0].options[0].selected = true;
-                }
-                templateObject.globalSettings.set(globalSet);
-}
-
-
-}).catch(function (err) {
-        appointmentService.getGlobalSettingsExtra().then(function (data) {
-                for (let p = 0; p < data.terppreferenceextra.length; p++) {
-                    if (data.terppreferenceextra[p].Prefname == "DefaultServiceProduct") {
-                        globalSet.defaultProduct = data.terppreferenceextra[p].fieldValue
-                    }
-
-                    $('#productlist').prepend('<option value=' + globalSet.id + '>' + globalSet.defaultProduct + '</option>');
-                    $("#productlist")[0].options[0].selected = true;
-                }
-                templateObject.globalSettings.set(globalSet);
-            })
-
-    })
-        } else {
-            globalSet.defaultProduct = "";
-            globalSet.id = "";
-        }
-    }
-
-    }).catch(function (err) {
-           appointmentService.getGlobalSettings().then(function (data) {
-        templateObject.getAllAppointmentListData();
-        appEndTimeDataToLoad = '19:00';
-        globalSet.defaultProduct = "";
-        globalSet.id = "";
-        for (let g = 0; g < data.terppreference.length; g++) {
-            if (data.terppreference[g].PrefName == "ShowSundayinApptCalendar") {
-                if (data.terppreference[g].Fieldvalue == "F") {
-                    globalSet.showSun = false;
-                } else if (data.terppreference[g].Fieldvalue == "T") {
-                    globalSet.showSun = true;
-                } else {
-                    globalSet.showSun = false;
-                }
-            } else if (data.terppreference[g].PrefName == "ShowSaturdayinApptCalendar") {
-                if (data.terppreference[g].Fieldvalue == "F") {
-                    globalSet.showSat = false;
-                } else if (data.terppreference[g].Fieldvalue == "T") {
-                    globalSet.showSat = true;
-                } else {
-                    globalSet.showSat = false;
-                }
-
-            } else if (data.terppreference[g].PrefName == "ApptStartTime") {
-                globalSet.apptStartTime = data.terppreference[g].Fieldvalue.split(' ')[0] || "08:00";
-            } else if (data.terppreference[g].PrefName == "ApptEndtime") {
-                if (data.terppreference[g].Fieldvalue.split(' ')[0] == '05:30') {
-                    globalSet.apptEndTime = "17:00";
-                    let timeSplit = globalSet.apptEndTime.split(':');
-                    let appEndTimeDataHours = parseInt(timeSplit[0]) + 2;
-                    let appEndTimeDataToLoad = appEndTimeDataHours + ':' + timeSplit[1];
-                    globalSet.apptEndTimeCal = appEndTimeDataToLoad || '19:30';
-                } else {
-                    globalSet.apptEndTime = data.terppreference[g].Fieldvalue.split(' ')[0];
-                    let timeSplit = globalSet.apptEndTime.split(':');
-                    let appEndTimeDataHours = parseInt(timeSplit[0]) + 2;
-                    let appEndTimeDataToLoad = appEndTimeDataHours + ':' + timeSplit[1];
-                    globalSet.apptEndTimeCal = appEndTimeDataToLoad || '17:00';
-                    globalSet.apptEndTime = data.terppreference[g].Fieldvalue || "17:00";
-                }
-            } else if (data.terppreference[g].PrefName == "DefaultApptDuration") {
-                if (data.terppreference[g].Fieldvalue == "120") {
-                    globalSet.DefaultApptDuration = 2;
-                } else {
-                    globalSet.DefaultApptDuration = data.terppreference[g].Fieldvalue || 2;
-                }
-            } else if (data.terppreference[g].PrefName == "DefaultServiceProductID") {
-                globalSet.productID = data.terppreference[g].Fieldvalue;
-            } else if (data.terppreference[g].PrefName == "ShowApptDurationin") {
-                if (data.terppreference[g].Fieldvalue == "60") {
-                    globalSet.showApptDurationin = 1;
-                } else {
-                    globalSet.showApptDurationin = data.terppreference[g].Fieldvalue || 1;
-                }
-
-            } else if (data.terppreference[g].PrefName == "MinimumChargeAppointmentTime") {
-                globalSet.chargeTime = data.terppreference[g].Fieldvalue;
-            } else if (data.terppreference[g].PrefName == "RoundApptDurationTo") {
-                globalSet.RoundApptDurationTo = data.terppreference[g].Fieldvalue;
-            } else if (data.terppreference[g].PrefName == "RoundApptDurationTo") {
-                globalSet.RoundApptDurationTo = data.terppreference[g].Fieldvalue;
+            $("#showSaturday").prop('checked', globalSet.showSat);
+            $("#showSunday").prop('checked', globalSet.showSun);
+            if (globalSet.showSat === false) {
+                hideSat = "hidesaturday";
             }
-        }
 
-        $("#showSaturday").prop('checked', globalSet.showSat);
-        $("#showSunday").prop('checked', globalSet.showSun);
-        if (globalSet.showSat === false) {
-            hideSat = "hidesaturday";
-        }
+            if (globalSet.showSun === false) {
+                hideSun = "hidesunday";
+            }
 
-        if (globalSet.showSun === false) {
-            hideSun = "hidesunday";
-        }
+            if (globalSet.chargeTime) {
+                $('#chargeTime').prepend('<option>' + globalSet.chargeTime + ' Hour</option>');
+            }
 
-        if (globalSet.chargeTime) {
-            $('#chargeTime').prepend('<option>' + globalSet.chargeTime + ' Hour</option>');
-        }
+            if (globalSet.showApptDurationin) {
+                $('#showTimeIn').prepend('<option selected>' + globalSet.showApptDurationin + ' Hour</option>');
+            }
 
-        if (globalSet.showApptDurationin) {
-            $('#showTimeIn').prepend('<option selected>' + globalSet.showApptDurationin + ' Hour</option>');
-        }
+            if (globalSet.DefaultApptDuration) {
+                $('#defaultTime').prepend('<option selected>' + globalSet.DefaultApptDuration + ' Hour</option>');
+            }
 
-        if (globalSet.DefaultApptDuration) {
-            $('#defaultTime').prepend('<option selected>' + globalSet.DefaultApptDuration + ' Hour</option>');
-        }
+            if (globalSet.apptStartTime) {
+                $('#hoursFrom').val(globalSet.apptStartTime);
+            }
 
-        if (globalSet.apptStartTime) {
-            $('#hoursFrom').val(globalSet.apptStartTime);
-        }
+            if (globalSet.apptEndTime) {
+                $('#hoursTo').val(globalSet.apptEndTime);
+            }
+            templateObject.globalSettings.set(globalSet);
 
-        if (globalSet.apptEndTime) {
-            $('#hoursTo').val(globalSet.apptEndTime);
-        }
-        templateObject.globalSettings.set(globalSet);
+            if (globalSet.productID != "") {
+                appointmentService.getGlobalSettingsExtra().then(function (data) {
+                    for (let p = 0; p < data.terppreferenceextra.length; p++) {
+                        if (data.terppreferenceextra[p].Prefname == "DefaultServiceProduct") {
+                            globalSet.defaultProduct = data.terppreferenceextra[p].fieldValue
+                        }
 
-        if (globalSet.productID != "") {
-            appointmentService.getGlobalSettingsExtra().then(function (data) {
-                for (let p = 0; p < data.terppreferenceextra.length; p++) {
-                    if (data.terppreferenceextra[p].Prefname == "DefaultServiceProduct") {
-                        globalSet.defaultProduct = data.terppreferenceextra[p].fieldValue
+                        $('#productlist').prepend('<option value=' + globalSet.id + '>' + globalSet.defaultProduct + '</option>');
+                        $("#productlist")[0].options[0].selected = true;
                     }
+                    templateObject.globalSettings.set(globalSet);
+                })
+            } else {
+                globalSet.defaultProduct = "";
+                globalSet.id = "";
+            }
+        }).catch(function (err) {
+            console.log(err);
 
-                    $('#productlist').prepend('<option value=' + globalSet.id + '>' + globalSet.defaultProduct + '</option>');
-                    $("#productlist")[0].options[0].selected = true;
-                }
-                templateObject.globalSettings.set(globalSet);
-            })
-        } else {
-            globalSet.defaultProduct = "";
-            globalSet.id = "";
-        }
-    }).catch(function (err) {
-        console.log(err);
-
-    });
+        });
 
     });
     $('.fullScreenSpin').css('display', 'inline-block');
-
 
     templateObject.renderCalendar = function (slotMin, slotMax, hideDays) {
         let calendarSet = templateObject.globalSettings.get();
@@ -574,7 +573,7 @@ for (let p = 0; p < dataExtra.terppreferenceextra.length; p++) {
                         var duration = moment.duration(moment(endTime).diff(moment(startTime)));
                         hours = duration.asHours();
                     }
-                    document.getElementById("aStartDate").value = result[0].aStartDate|| '';
+                    document.getElementById("aStartDate").value = result[0].aStartDate || '';
                     document.getElementById("updateID").value = result[0].id || 0;
                     document.getElementById("appID").value = result[0].id;
                     document.getElementById("customer").value = result[0].accountname;
@@ -721,7 +720,7 @@ for (let p = 0; p < dataExtra.terppreferenceextra.length; p++) {
                         document.getElementById("txtBookedHoursSpent").value = hoursSpent.replace(/^0+/, '');
                     }
                     $('#product-list').prepend('<option value=' + calendarSet.id + ' selected>' + calendarSet.defaultProduct + '</option>');
-                     $("#product-list")[0].options[0].selected = true;
+                    $("#product-list")[0].options[0].selected = true;
                 } else if (overridesettings[0].override == "true") {
                     if (templateObject.empDuration.get() != "") {
                         var endTime = moment(startTime, 'HH:mm').add(parseInt(templateObject.empDuration.get()), 'hours').format('HH:mm');
@@ -929,8 +928,8 @@ for (let p = 0; p < dataExtra.terppreferenceextra.length; p++) {
                         var duration = moment.duration(moment(endTime).diff(moment(startTime)));
                         hours = duration.asHours();
                     }
-        
-                    document.getElementById("aStartDate").value = result[0].aStartDate|| '';
+
+                    document.getElementById("aStartDate").value = result[0].aStartDate || '';
                     document.getElementById("updateID").value = result[0].id || 0;
                     document.getElementById("appID").value = result[0].id;
                     document.getElementById("customer").value = result[0].accountname;
@@ -1047,7 +1046,6 @@ for (let p = 0; p < dataExtra.terppreferenceextra.length; p++) {
                 let empData = calendarData.filter(calendarOpt => {
                     return calendarOpt.EmployeeID == parseInt(draggedEmployeeID)
                 });
-
 
                 document.getElementById("frmAppointment").reset();
                 $(".paused").hide();
@@ -1393,7 +1391,7 @@ for (let p = 0; p < dataExtra.terppreferenceextra.length; p++) {
             }).catch(function (err) {});
         });
     }
-    
+
     templateObject.getAllProductData = function () {
         productList = [];
         getVS1Data('TProductVS1').then(function (dataObject) {
@@ -1489,8 +1487,7 @@ for (let p = 0; p < dataExtra.terppreferenceextra.length; p++) {
                             return apmt.employeeName == data.tappointment[i].TrainerName;
                         });
 
-
-                            appColor = employeeColor[0].color || '';
+                        appColor = employeeColor[0].color || '';
 
                         var appointment = {
                             id: data.tappointment[i].Id || '',
@@ -1658,25 +1655,23 @@ for (let p = 0; p < dataExtra.terppreferenceextra.length; p++) {
                     $('#here_table thead tr').append('<th class="employeeName"></th>');
 
                     for (let w = 0; w < daysOfTheWeek.length; w++) {
-                       if (daysOfTheWeek[w] === "Sunday") {
-                             if($('#showSunday').is(":checked")){
-                                  $('#here_table thead tr').append('<th style="padding: 6px;" id="" class="fullWeek ' + daysOfTheWeek[w].toLowerCase() + '">' + daysOfTheWeek[w].substring(0, 3) + ' <span class="dateSun"></span></th>');
+                        if (daysOfTheWeek[w] === "Sunday") {
+                            if ($('#showSunday').is(":checked")) {
+                                $('#here_table thead tr').append('<th style="padding: 6px;" id="" class="fullWeek ' + daysOfTheWeek[w].toLowerCase() + '">' + daysOfTheWeek[w].substring(0, 3) + ' <span class="dateSun"></span></th>');
                             } else {
-                            $('#here_table thead tr').append('<th style="padding: 6px;" id="" class="fullWeek ' + daysOfTheWeek[w].toLowerCase() + ' hidesunday">' + daysOfTheWeek[w].substring(0, 3) + ' <span class="dateSun"></span></th>');
-                        }
-                   
+                                $('#here_table thead tr').append('<th style="padding: 6px;" id="" class="fullWeek ' + daysOfTheWeek[w].toLowerCase() + ' hidesunday">' + daysOfTheWeek[w].substring(0, 3) + ' <span class="dateSun"></span></th>');
+                            }
+
                         } else if (daysOfTheWeek[w] === "Saturday") {
-                                if($('#showSaturday').is(":checked")){
-                                     $('#here_table thead tr').append('<th style="padding: 6px;" id="" class="fullWeek ' + daysOfTheWeek[w].toLowerCase() + '">' + daysOfTheWeek[w].substring(0, 3) + ' <span class="dateSat"></span></th>');
-                                } else {
+                            if ($('#showSaturday').is(":checked")) {
+                                $('#here_table thead tr').append('<th style="padding: 6px;" id="" class="fullWeek ' + daysOfTheWeek[w].toLowerCase() + '">' + daysOfTheWeek[w].substring(0, 3) + ' <span class="dateSat"></span></th>');
+                            } else {
                                 $('#here_table thead tr').append('<th style="padding: 6px;" id="" class="fullWeek ' + daysOfTheWeek[w].toLowerCase() + ' hidesaturday">' + daysOfTheWeek[w].substring(0, 3) + ' <span class="dateSat"></span></th>');
                             }
                         } else {
                             $('#here_table thead tr').append('<th style="padding: 6px;" id="" class="fullWeek ' + daysOfTheWeek[w].toLowerCase() + '">' + daysOfTheWeek[w].substring(0, 3) + ' <span class="date' + daysOfTheWeek[w].substring(0, 3) + '"></span></th>');
                         }
                     }
-
-
 
                     $('#here_table').append('</tr ></thead >');
                     for (i = 0; i <= weekResults[0].dates.length; i++) {
@@ -1769,9 +1764,8 @@ for (let p = 0; p < dataExtra.terppreferenceextra.length; p++) {
                                         return apmtColor.employeeName == data.tappointment[t].TrainerName
                                     });
 
+                                    let employeeColor = result[0].color;
 
-                                        let employeeColor = result[0].color;
-                    
                                     var dataList = {
                                         id: data.tappointment[t].Id,
                                         employeeName: data.tappointment[t].TrainerName,
@@ -1801,7 +1795,6 @@ for (let p = 0; p < dataExtra.terppreferenceextra.length; p++) {
                                 var result = resourceColor.filter(apmtColor => {
                                     return apmtColor.employeeName == data.tappointment[t].TrainerName
                                 });
-
 
                                 let employeeColor = result[0].color || '';
 
@@ -1952,19 +1945,17 @@ for (let p = 0; p < dataExtra.terppreferenceextra.length; p++) {
 
                             }
 
-                            if($('#showSaturday').is(":checked")) {
-                               saturdayStatus =  '<td class="fullWeek saturday" style="padding: 0px;"><div class="droppable" style="min-height: 110px; overflow: hidden; margin: 6px;">' + saturdayRowData.join('') + '</div></td>'
+                            if ($('#showSaturday').is(":checked")) {
+                                saturdayStatus = '<td class="fullWeek saturday" style="padding: 0px;"><div class="droppable" style="min-height: 110px; overflow: hidden; margin: 6px;">' + saturdayRowData.join('') + '</div></td>'
                             } else {
-                               saturdayStatus = '<td class="fullWeek saturday hidesaturday" style="padding: 0px;"><div class="droppable" style="min-height: 110px; overflow: hidden; margin: 6px;">' + saturdayRowData.join('') + '</div></td>'
+                                saturdayStatus = '<td class="fullWeek saturday hidesaturday" style="padding: 0px;"><div class="droppable" style="min-height: 110px; overflow: hidden; margin: 6px;">' + saturdayRowData.join('') + '</div></td>'
                             }
 
-                           
-                            if($('#showSunday').is(":checked")) {
-                                   sundayStatus =  '<td class="fullWeek sunday" style="padding: 0px;"><div class="droppable" style="min-height: 110px; overflow: hidden; margin: 6px;">' + sundayRowData.join('') + '</div></td>'
-                             } else {
-                                   sundayStatus = '<td class="fullWeek sunday hidesunday" style="padding: 0px;"><div class="droppable" style="min-height: 110px; overflow: hidden; margin: 6px;">' + sundayRowData.join('') + '</div></td>'
+                            if ($('#showSunday').is(":checked")) {
+                                sundayStatus = '<td class="fullWeek sunday" style="padding: 0px;"><div class="droppable" style="min-height: 110px; overflow: hidden; margin: 6px;">' + sundayRowData.join('') + '</div></td>'
+                            } else {
+                                sundayStatus = '<td class="fullWeek sunday hidesunday" style="padding: 0px;"><div class="droppable" style="min-height: 110px; overflow: hidden; margin: 6px;">' + sundayRowData.join('') + '</div></td>'
                             }
-
 
                             tableRow = '<tr id="' + resourceChat[r].employeeName + '">' + '' +
                                 '<td class="tdEmployeeName" style="overflow: hidden; white-space: nowrap; height: 110px; max-height: 110px; font-weight: 700;padding: 6px;">' + resourceChat[r].employeeName + '</td>' + '' +
@@ -2214,9 +2205,7 @@ for (let p = 0; p < dataExtra.terppreferenceextra.length; p++) {
                         return apmt.employeeName == useData[i].fields.TrainerName;
                     });
 
-         
                     appColor = employeeColor[0].color || '';
-
 
                     var appointment = {
                         id: useData[i].fields.ID || '',
@@ -2384,24 +2373,24 @@ for (let p = 0; p < dataExtra.terppreferenceextra.length; p++) {
                 $('#here_table thead tr').append('<th class="employeeName"></th>');
 
                 for (let w = 0; w < daysOfTheWeek.length; w++) {
-                if (daysOfTheWeek[w] === "Sunday") {
-                     if($('#showSunday').is(":checked")){
-                          $('#here_table thead tr').append('<th style="padding: 6px;" id="" class="fullWeek ' + daysOfTheWeek[w].toLowerCase() + '">' + daysOfTheWeek[w].substring(0, 3) + ' <span class="dateSun"></span></th>');
-                    } else {
-                    $('#here_table thead tr').append('<th style="padding: 6px;" id="" class="fullWeek ' + daysOfTheWeek[w].toLowerCase() + ' hidesunday">' + daysOfTheWeek[w].substring(0, 3) + ' <span class="dateSun"></span></th>');
-                }
-                   
-                } else if (daysOfTheWeek[w] === "Saturday") {
-                    if($('#showSaturday').is(":checked")){
-                         $('#here_table thead tr').append('<th style="padding: 6px;" id="" class="fullWeek ' + daysOfTheWeek[w].toLowerCase() + '">' + daysOfTheWeek[w].substring(0, 3) + ' <span class="dateSat"></span></th>');
-                    } else {
-                    $('#here_table thead tr').append('<th style="padding: 6px;" id="" class="fullWeek ' + daysOfTheWeek[w].toLowerCase() + ' hidesaturday">' + daysOfTheWeek[w].substring(0, 3) + ' <span class="dateSat"></span></th>');
-                }
-                } else {
-                    $('#here_table thead tr').append('<th style="padding: 6px;" id="" class="fullWeek ' + daysOfTheWeek[w].toLowerCase() + '">' + daysOfTheWeek[w].substring(0, 3) + ' <span class="date' + daysOfTheWeek[w].substring(0, 3) + '"></span></th>');
-                }
+                    if (daysOfTheWeek[w] === "Sunday") {
+                        if ($('#showSunday').is(":checked")) {
+                            $('#here_table thead tr').append('<th style="padding: 6px;" id="" class="fullWeek ' + daysOfTheWeek[w].toLowerCase() + '">' + daysOfTheWeek[w].substring(0, 3) + ' <span class="dateSun"></span></th>');
+                        } else {
+                            $('#here_table thead tr').append('<th style="padding: 6px;" id="" class="fullWeek ' + daysOfTheWeek[w].toLowerCase() + ' hidesunday">' + daysOfTheWeek[w].substring(0, 3) + ' <span class="dateSun"></span></th>');
+                        }
 
-            }
+                    } else if (daysOfTheWeek[w] === "Saturday") {
+                        if ($('#showSaturday').is(":checked")) {
+                            $('#here_table thead tr').append('<th style="padding: 6px;" id="" class="fullWeek ' + daysOfTheWeek[w].toLowerCase() + '">' + daysOfTheWeek[w].substring(0, 3) + ' <span class="dateSat"></span></th>');
+                        } else {
+                            $('#here_table thead tr').append('<th style="padding: 6px;" id="" class="fullWeek ' + daysOfTheWeek[w].toLowerCase() + ' hidesaturday">' + daysOfTheWeek[w].substring(0, 3) + ' <span class="dateSat"></span></th>');
+                        }
+                    } else {
+                        $('#here_table thead tr').append('<th style="padding: 6px;" id="" class="fullWeek ' + daysOfTheWeek[w].toLowerCase() + '">' + daysOfTheWeek[w].substring(0, 3) + ' <span class="date' + daysOfTheWeek[w].substring(0, 3) + '"></span></th>');
+                    }
+
+                }
                 $('#here_table').append('</tr ></thead >');
                 for (i = 0; i <= weekResults[0].dates.length; i++) {
                     days.push(moment(weekStart).add(i, 'days').format("YYYY-MM-DD"));
@@ -2422,7 +2411,6 @@ for (let p = 0; p < dataExtra.terppreferenceextra.length; p++) {
                 $(".dateFri").text(moment(weekStart).add(4, 'days').format("MM/DD"));
                 $(".dateSat").text(moment(weekStart).add(5, 'days').format("MM/DD"));
                 $(".dateSun").text(moment(weekStart).subtract(1, 'days').format("MM-DD"));
-
 
                 if (currentDay == "Monday" && moment().format('DD') == moment($('thead tr th.monday').attr('id')).format('DD')) {
                     $(document).on('DOMNodeInserted', function (e) {
@@ -2494,7 +2482,6 @@ for (let p = 0; p < dataExtra.terppreferenceextra.length; p++) {
                                     return apmtColor.employeeName == useData[t].fields.TrainerName
                                 });
 
-
                                 let employeeColor = result[0].color || '';
                                 var dataList = {
                                     id: useData[t].fields.ID,
@@ -2525,7 +2512,6 @@ for (let p = 0; p < dataExtra.terppreferenceextra.length; p++) {
                             var result = resourceColor.filter(apmtColor => {
                                 return apmtColor.employeeName == useData[t].fields.TrainerName
                             });
-
 
                             let employeeColor = result[0].color || '';
                             var dataList = {
@@ -2661,7 +2647,7 @@ for (let p = 0; p < dataExtra.terppreferenceextra.length; p++) {
 
                                 fridayRowData.push(fridayRow);
                             }
-                            
+
                             if (resourceJob[j].day == 'Saturday' && resourceJob[j].employeeName == resourceChat[r].employeeName) {
                                 saturdayRow = '<div class="card draggable cardHiddenWeekend" draggable="true" id="' + resourceJob[j].id + '" style="margin:4px 0px; background-color: ' + resourceChat[r].color + '; border-radius: 5px; cursor: pointer;">' + '' +
                                     '<div class="card-body cardBodyInner d-xl-flex justify-content-xl-center align-items-xl-center" style="color: rgb(255,255,255); height: 30px; padding: 10px;">' + '' +
@@ -2673,20 +2659,17 @@ for (let p = 0; p < dataExtra.terppreferenceextra.length; p++) {
 
                         }
 
-                        if($('#showSaturday').is(":checked")) {
-                           saturdayStatus =  '<td class="fullWeek saturday" style="padding: 0px;"><div class="droppable" style="min-height: 110px; overflow: hidden; margin: 6px;">' + saturdayRowData.join('') + '</div></td>'
+                        if ($('#showSaturday').is(":checked")) {
+                            saturdayStatus = '<td class="fullWeek saturday" style="padding: 0px;"><div class="droppable" style="min-height: 110px; overflow: hidden; margin: 6px;">' + saturdayRowData.join('') + '</div></td>'
                         } else {
-                           saturdayStatus = '<td class="fullWeek saturday hidesaturday" style="padding: 0px;"><div class="droppable" style="min-height: 110px; overflow: hidden; margin: 6px;">' + saturdayRowData.join('') + '</div></td>'
+                            saturdayStatus = '<td class="fullWeek saturday hidesaturday" style="padding: 0px;"><div class="droppable" style="min-height: 110px; overflow: hidden; margin: 6px;">' + saturdayRowData.join('') + '</div></td>'
                         }
 
-                       
-                        if($('#showSunday').is(":checked")) {
-                               sundayStatus =  '<td class="fullWeek sunday" style="padding: 0px;"><div class="droppable" style="min-height: 110px; overflow: hidden; margin: 6px;">' + sundayRowData.join('') + '</div></td>'
-                         } else {
-                               sundayStatus = '<td class="fullWeek sunday hidesunday" style="padding: 0px;"><div class="droppable" style="min-height: 110px; overflow: hidden; margin: 6px;">' + sundayRowData.join('') + '</div></td>'
+                        if ($('#showSunday').is(":checked")) {
+                            sundayStatus = '<td class="fullWeek sunday" style="padding: 0px;"><div class="droppable" style="min-height: 110px; overflow: hidden; margin: 6px;">' + sundayRowData.join('') + '</div></td>'
+                        } else {
+                            sundayStatus = '<td class="fullWeek sunday hidesunday" style="padding: 0px;"><div class="droppable" style="min-height: 110px; overflow: hidden; margin: 6px;">' + sundayRowData.join('') + '</div></td>'
                         }
-
-               
 
                         tableRow = '<tr id="' + resourceChat[r].employeeName + '">' + '' +
                             '<td class="tdEmployeeName" style="overflow: hidden; white-space: nowrap; height: 110px; max-height: 110px; font-weight: 700;padding: 6px;">' + resourceChat[r].employeeName + '</td>' + '' +
@@ -2725,10 +2708,9 @@ for (let p = 0; p < dataExtra.terppreferenceextra.length; p++) {
                         return apmt.employeeName == data.tappointment[i].TrainerName;
                     });
 
-                    if(employeeColor.length > 0){
+                    if (employeeColor.length > 0) {
                         appColor = employeeColor[0].color;
                     }
-                    
 
                     var appointment = {
                         id: data.tappointment[i].Id || '',
@@ -2887,21 +2869,21 @@ for (let p = 0; p < dataExtra.terppreferenceextra.length; p++) {
 
                 for (let w = 0; w < daysOfTheWeek.length; w++) {
                     if (daysOfTheWeek[w] === "Sunday") {
-                             if($('#showSunday').is(":checked")){
-                                  $('#here_table thead tr').append('<th style="padding: 6px;" id="" class="fullWeek ' + daysOfTheWeek[w].toLowerCase() + '">' + daysOfTheWeek[w].substring(0, 3) + ' <span class="dateSun"></span></th>');
-                            } else {
+                        if ($('#showSunday').is(":checked")) {
+                            $('#here_table thead tr').append('<th style="padding: 6px;" id="" class="fullWeek ' + daysOfTheWeek[w].toLowerCase() + '">' + daysOfTheWeek[w].substring(0, 3) + ' <span class="dateSun"></span></th>');
+                        } else {
                             $('#here_table thead tr').append('<th style="padding: 6px;" id="" class="fullWeek ' + daysOfTheWeek[w].toLowerCase() + ' hidesunday">' + daysOfTheWeek[w].substring(0, 3) + ' <span class="dateSun"></span></th>');
                         }
-                   
-                        } else if (daysOfTheWeek[w] === "Saturday") {
-                                if($('#showSaturday').is(":checked")){
-                                     $('#here_table thead tr').append('<th style="padding: 6px;" id="" class="fullWeek ' + daysOfTheWeek[w].toLowerCase() + '">' + daysOfTheWeek[w].substring(0, 3) + ' <span class="dateSat"></span></th>');
-                                } else {
-                                $('#here_table thead tr').append('<th style="padding: 6px;" id="" class="fullWeek ' + daysOfTheWeek[w].toLowerCase() + ' hidesaturday">' + daysOfTheWeek[w].substring(0, 3) + ' <span class="dateSat"></span></th>');
-                            }
+
+                    } else if (daysOfTheWeek[w] === "Saturday") {
+                        if ($('#showSaturday').is(":checked")) {
+                            $('#here_table thead tr').append('<th style="padding: 6px;" id="" class="fullWeek ' + daysOfTheWeek[w].toLowerCase() + '">' + daysOfTheWeek[w].substring(0, 3) + ' <span class="dateSat"></span></th>');
                         } else {
-                            $('#here_table thead tr').append('<th style="padding: 6px;" id="" class="fullWeek ' + daysOfTheWeek[w].toLowerCase() + '">' + daysOfTheWeek[w].substring(0, 3) + ' <span class="date' + daysOfTheWeek[w].substring(0, 3) + '"></span></th>');
+                            $('#here_table thead tr').append('<th style="padding: 6px;" id="" class="fullWeek ' + daysOfTheWeek[w].toLowerCase() + ' hidesaturday">' + daysOfTheWeek[w].substring(0, 3) + ' <span class="dateSat"></span></th>');
                         }
+                    } else {
+                        $('#here_table thead tr').append('<th style="padding: 6px;" id="" class="fullWeek ' + daysOfTheWeek[w].toLowerCase() + '">' + daysOfTheWeek[w].substring(0, 3) + ' <span class="date' + daysOfTheWeek[w].substring(0, 3) + '"></span></th>');
+                    }
 
                 }
 
@@ -2995,7 +2977,6 @@ for (let p = 0; p < dataExtra.terppreferenceextra.length; p++) {
                                 var result = resourceColor.filter(apmtColor => {
                                     return apmtColor.employeeName == data.tappointment[t].TrainerName
                                 });
-
 
                                 let employeeColor = result[0].color;
                                 var dataList = {
@@ -3177,19 +3158,17 @@ for (let p = 0; p < dataExtra.terppreferenceextra.length; p++) {
 
                         }
 
-                        if($('#showSaturday').is(":checked")) {
-                           saturdayStatus =  '<td class="fullWeek saturday" style="padding: 0px;"><div class="droppable" style="min-height: 110px; overflow: hidden; margin: 6px;">' + saturdayRowData.join('') + '</div></td>'
+                        if ($('#showSaturday').is(":checked")) {
+                            saturdayStatus = '<td class="fullWeek saturday" style="padding: 0px;"><div class="droppable" style="min-height: 110px; overflow: hidden; margin: 6px;">' + saturdayRowData.join('') + '</div></td>'
                         } else {
-                           saturdayStatus = '<td class="fullWeek saturday hidesaturday" style="padding: 0px;"><div class="droppable" style="min-height: 110px; overflow: hidden; margin: 6px;">' + saturdayRowData.join('') + '</div></td>'
+                            saturdayStatus = '<td class="fullWeek saturday hidesaturday" style="padding: 0px;"><div class="droppable" style="min-height: 110px; overflow: hidden; margin: 6px;">' + saturdayRowData.join('') + '</div></td>'
                         }
 
-                       
-                        if($('#showSunday').is(":checked")) {
-                               sundayStatus =  '<td class="fullWeek sunday" style="padding: 0px;"><div class="droppable" style="min-height: 110px; overflow: hidden; margin: 6px;">' + sundayRowData.join('') + '</div></td>'
-                         } else {
-                               sundayStatus = '<td class="fullWeek sunday hidesunday" style="padding: 0px;"><div class="droppable" style="min-height: 110px; overflow: hidden; margin: 6px;">' + sundayRowData.join('') + '</div></td>'
+                        if ($('#showSunday').is(":checked")) {
+                            sundayStatus = '<td class="fullWeek sunday" style="padding: 0px;"><div class="droppable" style="min-height: 110px; overflow: hidden; margin: 6px;">' + sundayRowData.join('') + '</div></td>'
+                        } else {
+                            sundayStatus = '<td class="fullWeek sunday hidesunday" style="padding: 0px;"><div class="droppable" style="min-height: 110px; overflow: hidden; margin: 6px;">' + sundayRowData.join('') + '</div></td>'
                         }
-
 
                         tableRow = '<tr id="' + resourceChat[r].employeeName + '">' + '' +
                             '<td class="tdEmployeeName" style="overflow: hidden; white-space: nowrap; height: 110px; max-height: 110px; font-weight: 700;padding: 6px;">' + resourceChat[r].employeeName + '</td>' + '' +
@@ -3202,7 +3181,6 @@ for (let p = 0; p < dataExtra.terppreferenceextra.length; p++) {
                             saturdayStatus + '' +
                             '</tr>';
 
-                      
                         tableRowData.push(tableRow);
 
                     }
@@ -3879,7 +3857,7 @@ for (let p = 0; p < dataExtra.terppreferenceextra.length; p++) {
                                 $("#tActualEndTime").prop("disabled", true);
                                 $("#txtActualHoursSpent").prop("disabled", true);
                             }
-                            document.getElementById("aStartDate").value = result[0].aStartDate|| '';
+                            document.getElementById("aStartDate").value = result[0].aStartDate || '';
                             document.getElementById("updateID").value = result[0].id || 0;
                             document.getElementById("appID").value = result[0].id;
                             document.getElementById("customer").value = result[0].accountname;
@@ -4125,7 +4103,7 @@ for (let p = 0; p < dataExtra.terppreferenceextra.length; p++) {
             $("#txtActualHoursSpent").prop("disabled", true);
         }
         templateObject.getAllProductData();
-        document.getElementById("aStartDate").value = result[0].aStartDate|| 0;
+        document.getElementById("aStartDate").value = result[0].aStartDate || 0;
         document.getElementById("updateID").value = result[0].id || 0;
         document.getElementById("appID").value = result[0].id;
         document.getElementById("customer").value = result[0].accountname;
@@ -4341,88 +4319,59 @@ for (let p = 0; p < dataExtra.terppreferenceextra.length; p++) {
 });
 
 Template.appointments.events({
-    'click #deleteAll': function (){
-    var erpGet = erpDb();
-    if($("#updateID").val() != "") {
-        $('.fullScreenSpin').css('display', 'block');
-        let id = $("#updateID").val();
-        let data = {
-            Name: "VS1_DeleteAllAppts",
-            Params: {
-                AppointID: parseInt(id)
+    'click #deleteAll': function () {
+        var erpGet = erpDb();
+        if ($("#updateID").val() != "") {
+            $('.fullScreenSpin').css('display', 'block');
+            let id = $("#updateID").val();
+            let data = {
+                Name: "VS1_DeleteAllAppts",
+                Params: {
+                    AppointID: parseInt(id)
+                }
             }
-        }
-        var myString = '"JsonIn"' + ':' + JSON.stringify(data);
-        var oPost = new XMLHttpRequest();
-        oPost.open("POST", URLRequest + erpGet.ERPIPAddress + ':' + erpGet.ERPPort + '/' + 'erpapi/VS1_Cloud_Task/Method?Name="VS1_DeleteAllAppts"', true);
-        oPost.setRequestHeader("database", erpGet.ERPDatabase);
-        oPost.setRequestHeader("username", erpGet.ERPUsername);
-        oPost.setRequestHeader("password", erpGet.ERPPassword);
-        oPost.setRequestHeader("Accept", "application/json");
-        oPost.setRequestHeader("Accept", "application/html");
-        oPost.setRequestHeader("Content-type", "application/json");
-        // let objDataSave = '"JsonIn"' + ':' + JSON.stringify(selectClient);
-        oPost.send(myString);
+            var myString = '"JsonIn"' + ':' + JSON.stringify(data);
+            var oPost = new XMLHttpRequest();
+            oPost.open("POST", URLRequest + erpGet.ERPIPAddress + ':' + erpGet.ERPPort + '/' + 'erpapi/VS1_Cloud_Task/Method?Name="VS1_DeleteAllAppts"', true);
+            oPost.setRequestHeader("database", erpGet.ERPDatabase);
+            oPost.setRequestHeader("username", erpGet.ERPUsername);
+            oPost.setRequestHeader("password", erpGet.ERPPassword);
+            oPost.setRequestHeader("Accept", "application/json");
+            oPost.setRequestHeader("Accept", "application/html");
+            oPost.setRequestHeader("Content-type", "application/json");
+            // let objDataSave = '"JsonIn"' + ':' + JSON.stringify(selectClient);
+            oPost.send(myString);
 
-        oPost.onreadystatechange = function () {
+            oPost.onreadystatechange = function () {
 
-            if (oPost.readyState == 4 && oPost.status == 200) {
-                var myArrResponse = JSON.parse(oPost.responseText);
-                if (myArrResponse.ProcessLog.ResponseStatus.includes("OK")) {
-                    sideBarService.getAllAppointmentList().then(function (data) {
-                        addVS1Data('TAppointment', JSON.stringify(data)).then(function (datareturn) {
-                           window.open('/appointments', '_self');
+                if (oPost.readyState == 4 && oPost.status == 200) {
+                    var myArrResponse = JSON.parse(oPost.responseText);
+                    if (myArrResponse.ProcessLog.ResponseStatus.includes("OK")) {
+                        sideBarService.getAllAppointmentList().then(function (data) {
+                            addVS1Data('TAppointment', JSON.stringify(data)).then(function (datareturn) {
+                                window.open('/appointments', '_self');
+                            }).catch(function (err) {
+                                window.open('/appointments', '_self');
+                            });
                         }).catch(function (err) {
-                           window.open('/appointments', '_self');
+                            window.open('/appointments', '_self');
                         });
-                    }).catch(function (err) {
-                        window.open('/appointments', '_self');
-                    });
-                } else {
-                    $('.modal-backdrop').css('display', 'none');
-                    $('.fullScreenSpin').css('display', 'none');
-                    swal({
-                        title: 'Oooops...',
-                        text: myArrResponse.ProcessLog.ResponseStatus,
-                        type: 'warning',
-                        showCancelButton: false,
-                        confirmButtonText: 'Try Again'
-                    }).then((result) => {
-                        if (result.value) {}
-                        else if (result.dismiss === 'cancel') {}
-                    });
-                }
+                    } else {
+                        $('.modal-backdrop').css('display', 'none');
+                        $('.fullScreenSpin').css('display', 'none');
+                        swal({
+                            title: 'Oooops...',
+                            text: myArrResponse.ProcessLog.ResponseStatus,
+                            type: 'warning',
+                            showCancelButton: false,
+                            confirmButtonText: 'Try Again'
+                        }).then((result) => {
+                            if (result.value) {}
+                            else if (result.dismiss === 'cancel') {}
+                        });
+                    }
 
-            } else if (oPost.readyState == 4 && oPost.status == 403) {
-                $('.fullScreenSpin').css('display', 'none');
-                swal({
-                    title: 'Oooops...',
-                    text: oPost.getResponseHeader('errormessage'),
-                    type: 'error',
-                    showCancelButton: false,
-                    confirmButtonText: 'Try Again'
-                }).then((result) => {
-                    if (result.value) {}
-                    else if (result.dismiss === 'cancel') {}
-                });
-            } else if (oPost.readyState == 4 && oPost.status == 406) {
-                $('.fullScreenSpin').css('display', 'none');
-                var ErrorResponse = oPost.getResponseHeader('errormessage');
-                var segError = ErrorResponse.split(':');
-
-                if ((segError[1]) == ' "Unable to lock object') {
-
-                    swal({
-                        title: 'Oooops...',
-                        text: oPost.getResponseHeader('errormessage'),
-                        type: 'error',
-                        showCancelButton: false,
-                        confirmButtonText: 'Try Again'
-                    }).then((result) => {
-                        if (result.value) {}
-                        else if (result.dismiss === 'cancel') {}
-                    });
-                } else {
+                } else if (oPost.readyState == 4 && oPost.status == 403) {
                     $('.fullScreenSpin').css('display', 'none');
                     swal({
                         title: 'Oooops...',
@@ -4434,36 +4383,65 @@ Template.appointments.events({
                         if (result.value) {}
                         else if (result.dismiss === 'cancel') {}
                     });
+                } else if (oPost.readyState == 4 && oPost.status == 406) {
+                    $('.fullScreenSpin').css('display', 'none');
+                    var ErrorResponse = oPost.getResponseHeader('errormessage');
+                    var segError = ErrorResponse.split(':');
+
+                    if ((segError[1]) == ' "Unable to lock object') {
+
+                        swal({
+                            title: 'Oooops...',
+                            text: oPost.getResponseHeader('errormessage'),
+                            type: 'error',
+                            showCancelButton: false,
+                            confirmButtonText: 'Try Again'
+                        }).then((result) => {
+                            if (result.value) {}
+                            else if (result.dismiss === 'cancel') {}
+                        });
+                    } else {
+                        $('.fullScreenSpin').css('display', 'none');
+                        swal({
+                            title: 'Oooops...',
+                            text: oPost.getResponseHeader('errormessage'),
+                            type: 'error',
+                            showCancelButton: false,
+                            confirmButtonText: 'Try Again'
+                        }).then((result) => {
+                            if (result.value) {}
+                            else if (result.dismiss === 'cancel') {}
+                        });
+                    }
+
+                } else if (oPost.readyState == '') {
+                    $('.fullScreenSpin').css('display', 'none');
+                    swal({
+                        title: 'Oooops...',
+                        text: oPost.getResponseHeader('errormessage'),
+                        type: 'error',
+                        showCancelButton: false,
+                        confirmButtonText: 'Try Again'
+                    }).then((result) => {
+                        if (result.value) {}
+                        else if (result.dismiss === 'cancel') {}
+                    });
                 }
 
-            } else if (oPost.readyState == '') {
-                $('.fullScreenSpin').css('display', 'none');
-                swal({
-                    title: 'Oooops...',
-                    text: oPost.getResponseHeader('errormessage'),
-                    type: 'error',
-                    showCancelButton: false,
-                    confirmButtonText: 'Try Again'
-                }).then((result) => {
-                    if (result.value) {}
-                    else if (result.dismiss === 'cancel') {}
-                });
             }
+        } else {
+            swal({
+                title: 'Oooops...',
+                text: "Appointment Does Not Exist",
+                type: 'warning',
+                showCancelButton: false,
+                confirmButtonText: 'Try Again'
+            }).then((result) => {
+                if (result.value) {}
+                else if (result.dismiss === 'cancel') {}
+            });
 
-     } 
- } else {
-         swal({
-            title: 'Oooops...',
-            text: "Appointment Does Not Exist",
-            type: 'warning',
-            showCancelButton: false,
-            confirmButtonText: 'Try Again'
-        }).then((result) => {
-            if (result.value) {}
-            else if (result.dismiss === 'cancel') {}
-        });
-     
- }
+        }
 
     },
     'click .calendar .days li': function (event) {
@@ -4715,17 +4693,17 @@ Template.appointments.events({
                     if (oPost.readyState == 4 && oPost.status == 200) {
                         var myArrResponse = JSON.parse(oPost.responseText);
                         if (myArrResponse.ProcessLog.ResponseStatus.includes("OK")) {
-                            if(x == (days.length - 1)) {
-                            sideBarService.getAllAppointmentList().then(function (data) {
-                                addVS1Data('TAppointment', JSON.stringify(data)).then(function (datareturn) {
-                                    window.open('/appointments', '_self');
+                            if (x == (days.length - 1)) {
+                                sideBarService.getAllAppointmentList().then(function (data) {
+                                    addVS1Data('TAppointment', JSON.stringify(data)).then(function (datareturn) {
+                                        window.open('/appointments', '_self');
+                                    }).catch(function (err) {
+                                        window.open('/appointments', '_self');
+                                    });
                                 }).catch(function (err) {
                                     window.open('/appointments', '_self');
                                 });
-                            }).catch(function (err) {
-                                window.open('/appointments', '_self');
-                            });
-                        }
+                            }
                         } else {
                             $('.modal-backdrop').css('display', 'none');
                             $('.fullScreenSpin').css('display', 'none');
@@ -4822,7 +4800,6 @@ Template.appointments.events({
                     Repeat_Weekday: 0,
                     Repeat_MonthOffset: 0
 
-
                 }
             };
             var myString = '"JsonIn"' + ':' + JSON.stringify(dayObj);
@@ -4844,7 +4821,7 @@ Template.appointments.events({
                     if (myArrResponse.ProcessLog.ResponseStatus.includes("OK")) {
                         sideBarService.getAllAppointmentList().then(function (data) {
                             addVS1Data('TAppointment', JSON.stringify(data)).then(function (datareturn) {
-                               window.open('/appointments', '_self');
+                                window.open('/appointments', '_self');
                             }).catch(function (err) {
                                 window.open('/appointments', '_self');
                             });
@@ -5145,7 +5122,6 @@ Template.appointments.events({
                                 return apmtColor.employeeName == changeAppointmentView[a].employeename
                             });
 
-
                             let employeeColor = result[0].color || '';
 
                             var dataList = {
@@ -5178,7 +5154,7 @@ Template.appointments.events({
                             return apmtColor.employeeName == changeAppointmentView[a].employeename
                         });
 
-                         let employeeColor = result[0].color;
+                        let employeeColor = result[0].color;
 
                         var dataList = {
                             id: changeAppointmentView[a].id,
@@ -5222,18 +5198,18 @@ Template.appointments.events({
 
             for (let w = 0; w < daysOfTheWeek.length; w++) {
                 if (daysOfTheWeek[w] === "Sunday") {
-                    if($('#showSunday').is(":checked")){
-                          $('#here_table thead tr').append('<th style="padding: 6px;" id="" class="fullWeek ' + daysOfTheWeek[w].toLowerCase() + '">' + daysOfTheWeek[w].substring(0, 3) + ' <span class="dateSun"></span></th>');
+                    if ($('#showSunday').is(":checked")) {
+                        $('#here_table thead tr').append('<th style="padding: 6px;" id="" class="fullWeek ' + daysOfTheWeek[w].toLowerCase() + '">' + daysOfTheWeek[w].substring(0, 3) + ' <span class="dateSun"></span></th>');
                     } else {
-                    $('#here_table thead tr').append('<th style="padding: 6px;" id="" class="fullWeek ' + daysOfTheWeek[w].toLowerCase() + ' hidesunday">' + daysOfTheWeek[w].substring(0, 3) + ' <span class="dateSun"></span></th>');
-                }
-                   
+                        $('#here_table thead tr').append('<th style="padding: 6px;" id="" class="fullWeek ' + daysOfTheWeek[w].toLowerCase() + ' hidesunday">' + daysOfTheWeek[w].substring(0, 3) + ' <span class="dateSun"></span></th>');
+                    }
+
                 } else if (daysOfTheWeek[w] === "Saturday") {
-                    if($('#showSaturday').is(":checked")){
-                         $('#here_table thead tr').append('<th style="padding: 6px;" id="" class="fullWeek ' + daysOfTheWeek[w].toLowerCase() + '">' + daysOfTheWeek[w].substring(0, 3) + ' <span class="dateSat"></span></th>');
+                    if ($('#showSaturday').is(":checked")) {
+                        $('#here_table thead tr').append('<th style="padding: 6px;" id="" class="fullWeek ' + daysOfTheWeek[w].toLowerCase() + '">' + daysOfTheWeek[w].substring(0, 3) + ' <span class="dateSat"></span></th>');
                     } else {
-                    $('#here_table thead tr').append('<th style="padding: 6px;" id="" class="fullWeek ' + daysOfTheWeek[w].toLowerCase() + ' hidesaturday">' + daysOfTheWeek[w].substring(0, 3) + ' <span class="dateSat"></span></th>');
-                }
+                        $('#here_table thead tr').append('<th style="padding: 6px;" id="" class="fullWeek ' + daysOfTheWeek[w].toLowerCase() + ' hidesaturday">' + daysOfTheWeek[w].substring(0, 3) + ' <span class="dateSat"></span></th>');
+                    }
                 } else {
                     $('#here_table thead tr').append('<th style="padding: 6px;" id="" class="fullWeek ' + daysOfTheWeek[w].toLowerCase() + '">' + daysOfTheWeek[w].substring(0, 3) + ' <span class="date' + daysOfTheWeek[w].substring(0, 3) + '"></span></th>');
                 }
@@ -5347,22 +5323,21 @@ Template.appointments.events({
 
                 }
 
-                 if($('#showSaturday').is(":checked")) {
-                       saturdayStatus =  '<td class="fullWeek saturday" style="padding: 0px;"><div class="droppable" style="min-height: 110px; overflow: hidden; margin: 6px;">' + saturdayRowData.join('') + '</div></td>'
-                 } else {
-                       saturdayStatus = '<td class="fullWeek saturday hidesaturday" style="padding: 0px;"><div class="droppable" style="min-height: 110px; overflow: hidden; margin: 6px;">' + saturdayRowData.join('') + '</div></td>'
+                if ($('#showSaturday').is(":checked")) {
+                    saturdayStatus = '<td class="fullWeek saturday" style="padding: 0px;"><div class="droppable" style="min-height: 110px; overflow: hidden; margin: 6px;">' + saturdayRowData.join('') + '</div></td>'
+                } else {
+                    saturdayStatus = '<td class="fullWeek saturday hidesaturday" style="padding: 0px;"><div class="droppable" style="min-height: 110px; overflow: hidden; margin: 6px;">' + saturdayRowData.join('') + '</div></td>'
                 }
 
-                if($('#showSunday').is(":checked")) {
-                       sundayStatus =  '<td class="fullWeek sunday" style="padding: 0px;"><div class="droppable" style="min-height: 110px; overflow: hidden; margin: 6px;">' + sundayRowData.join('') + '</div></td>'
-                 } else {
-                       sundayStatus = '<td class="fullWeek sunday hidesunday" style="padding: 0px;"><div class="droppable" style="min-height: 110px; overflow: hidden; margin: 6px;">' + sundayRowData.join('') + '</div></td>'
-                 }
-                
+                if ($('#showSunday').is(":checked")) {
+                    sundayStatus = '<td class="fullWeek sunday" style="padding: 0px;"><div class="droppable" style="min-height: 110px; overflow: hidden; margin: 6px;">' + sundayRowData.join('') + '</div></td>'
+                } else {
+                    sundayStatus = '<td class="fullWeek sunday hidesunday" style="padding: 0px;"><div class="droppable" style="min-height: 110px; overflow: hidden; margin: 6px;">' + sundayRowData.join('') + '</div></td>'
+                }
 
                 tableRow = '<tr id="' + resourceChat[r].employeeName + '">' + '' +
                     '<td class="tdEmployeeName" style="overflow: hidden; white-space: nowrap; height: 110px; max-height: 110px; font-weight: 700;padding: 6px;">' + resourceChat[r].employeeName + '</td>' + '' +
-                   sundayStatus + '' +
+                    sundayStatus + '' +
                     '<td class="fullWeek monday" style="padding: 0px;"><div class="droppable" style="min-height: 110px; overflow: hidden; margin: 6px;">' + mondayRowData.join('') + '</div></td>' + '' +
                     '<td td class="fullWeek tuesday" style="padding: 0px;"><div class="droppable" style="min-height: 110px; overflow: hidden; margin: 6px;">' + tuesdayRowData.join('') + '</div></td>' + '' +
                     '<td class="fullWeek wednesday" style="padding: 0px;"><div class="droppable" style="min-height: 110px; overflow: hidden; margin: 6px;">' + wednesdayRowData.join('') + '</div></td>' + '' +
@@ -5498,7 +5473,7 @@ Template.appointments.events({
                             return apmtColor.employeeName == changeAppointmentView[a].employeename
                         });
 
-                         let employeeColor = result[0].color;
+                        let employeeColor = result[0].color;
 
                         var dataList = {
                             id: changeAppointmentView[a].id,
@@ -5542,18 +5517,18 @@ Template.appointments.events({
 
             for (let w = 0; w < daysOfTheWeek.length; w++) {
                 if (daysOfTheWeek[w] === "Sunday") {
-                     if($('#showSunday').is(":checked")){
-                          $('#here_table thead tr').append('<th style="padding: 6px;" id="" class="fullWeek ' + daysOfTheWeek[w].toLowerCase() + '">' + daysOfTheWeek[w].substring(0, 3) + ' <span class="dateSun"></span></th>');
+                    if ($('#showSunday').is(":checked")) {
+                        $('#here_table thead tr').append('<th style="padding: 6px;" id="" class="fullWeek ' + daysOfTheWeek[w].toLowerCase() + '">' + daysOfTheWeek[w].substring(0, 3) + ' <span class="dateSun"></span></th>');
                     } else {
-                    $('#here_table thead tr').append('<th style="padding: 6px;" id="" class="fullWeek ' + daysOfTheWeek[w].toLowerCase() + ' hidesunday">' + daysOfTheWeek[w].substring(0, 3) + ' <span class="dateSun"></span></th>');
-                }
-                   
+                        $('#here_table thead tr').append('<th style="padding: 6px;" id="" class="fullWeek ' + daysOfTheWeek[w].toLowerCase() + ' hidesunday">' + daysOfTheWeek[w].substring(0, 3) + ' <span class="dateSun"></span></th>');
+                    }
+
                 } else if (daysOfTheWeek[w] === "Saturday") {
-                    if($('#showSaturday').is(":checked")){
-                         $('#here_table thead tr').append('<th style="padding: 6px;" id="" class="fullWeek ' + daysOfTheWeek[w].toLowerCase() + '">' + daysOfTheWeek[w].substring(0, 3) + ' <span class="dateSat"></span></th>');
+                    if ($('#showSaturday').is(":checked")) {
+                        $('#here_table thead tr').append('<th style="padding: 6px;" id="" class="fullWeek ' + daysOfTheWeek[w].toLowerCase() + '">' + daysOfTheWeek[w].substring(0, 3) + ' <span class="dateSat"></span></th>');
                     } else {
-                    $('#here_table thead tr').append('<th style="padding: 6px;" id="" class="fullWeek ' + daysOfTheWeek[w].toLowerCase() + ' hidesaturday">' + daysOfTheWeek[w].substring(0, 3) + ' <span class="dateSat"></span></th>');
-                }
+                        $('#here_table thead tr').append('<th style="padding: 6px;" id="" class="fullWeek ' + daysOfTheWeek[w].toLowerCase() + ' hidesaturday">' + daysOfTheWeek[w].substring(0, 3) + ' <span class="dateSat"></span></th>');
+                    }
                 } else {
                     $('#here_table thead tr').append('<th style="padding: 6px;" id="" class="fullWeek ' + daysOfTheWeek[w].toLowerCase() + '">' + daysOfTheWeek[w].substring(0, 3) + ' <span class="date' + daysOfTheWeek[w].substring(0, 3) + '"></span></th>');
                 }
@@ -5667,17 +5642,17 @@ Template.appointments.events({
 
                 }
 
-                if($('#showSaturday').is(":checked")) {
-                       saturdayStatus =  '<td class="fullWeek saturday" style="padding: 0px;"><div class="droppable" style="min-height: 110px; overflow: hidden; margin: 6px;">' + saturdayRowData.join('') + '</div></td>'
-                 } else {
-                       saturdayStatus = '<td class="fullWeek saturday hidesaturday" style="padding: 0px;"><div class="droppable" style="min-height: 110px; overflow: hidden; margin: 6px;">' + saturdayRowData.join('') + '</div></td>'
+                if ($('#showSaturday').is(":checked")) {
+                    saturdayStatus = '<td class="fullWeek saturday" style="padding: 0px;"><div class="droppable" style="min-height: 110px; overflow: hidden; margin: 6px;">' + saturdayRowData.join('') + '</div></td>'
+                } else {
+                    saturdayStatus = '<td class="fullWeek saturday hidesaturday" style="padding: 0px;"><div class="droppable" style="min-height: 110px; overflow: hidden; margin: 6px;">' + saturdayRowData.join('') + '</div></td>'
                 }
 
-                if($('#showSunday').is(":checked")) {
-                       sundayStatus =  '<td class="fullWeek sunday" style="padding: 0px;"><div class="droppable" style="min-height: 110px; overflow: hidden; margin: 6px;">' + sundayRowData.join('') + '</div></td>'
-                 } else {
-                       sundayStatus = '<td class="fullWeek sunday hidesunday" style="padding: 0px;"><div class="droppable" style="min-height: 110px; overflow: hidden; margin: 6px;">' + sundayRowData.join('') + '</div></td>'
-                 }
+                if ($('#showSunday').is(":checked")) {
+                    sundayStatus = '<td class="fullWeek sunday" style="padding: 0px;"><div class="droppable" style="min-height: 110px; overflow: hidden; margin: 6px;">' + sundayRowData.join('') + '</div></td>'
+                } else {
+                    sundayStatus = '<td class="fullWeek sunday hidesunday" style="padding: 0px;"><div class="droppable" style="min-height: 110px; overflow: hidden; margin: 6px;">' + sundayRowData.join('') + '</div></td>'
+                }
 
                 tableRow = '<tr id="' + resourceChat[r].employeeName + '">' + '' +
                     '<td class="tdEmployeeName" style="overflow: hidden; white-space: nowrap; height: 110px; max-height: 110px; font-weight: 700;padding: 6px;">' + resourceChat[r].employeeName + '</td>' + '' +
@@ -5687,7 +5662,7 @@ Template.appointments.events({
                     '<td class="fullWeek wednesday" style="padding: 0px;"><div class="droppable" style="min-height: 110px; overflow: hidden; margin: 6px;">' + wednesdayRowData.join('') + '</div></td>' + '' +
                     '<td class="fullWeek thursday" style="padding: 0px;"><div class="droppable" style="min-height: 110px; overflow: hidden; margin: 6px;">' + thursdayRowData.join('') + '</div></td>' + '' +
                     '<td td class="fullWeek friday" style="padding: 0px;"><div class="droppable" style="min-height: 110px; overflow: hidden; margin: 6px;">' + fridayRowData.join('') + '</div></td>' + '' +
-                     saturdayStatus + '' +
+                    saturdayStatus + '' +
                     '</tr>';
                 tableRowData.push(tableRow);
 
@@ -5719,11 +5694,9 @@ Template.appointments.events({
     },
     'click .checkclose': function () {
         const templateObject = Template.instance();
-        if (templateObject.checkRefresh.get() == true ||  $('#updateID').val() == "") {
+        if (templateObject.checkRefresh.get() == true || $('#updateID').val() == "") {
             window.open('/appointments', '_self');
-        } 
-       
-        
+        }
 
     },
     'click btnDeleteAppointment': function () {
@@ -6174,26 +6147,37 @@ Template.appointments.events({
             }
     },
     'click #btnHold': function (event) {
-        $('#frmOnHoldModal').modal();
+        if($('#updateID').val() == "") {
+            swal({
+                title: 'Oooops...',
+                text: "This Appointment hasn't been started. Please Save and then Start your Appointment before continuing.",
+                type: 'warning',
+                showCancelButton: false,
+                confirmButtonText: 'Ok'
+            })
+        } else {
+            $('#frmOnHoldModal').modal();
+        }
+        
     },
     'click #btnOptions': function (event) {
         $('#frmOptions').modal();
     },
     'click #btnRepeatApp': function (event) {
-    const templateObject = Template.instance();
-    let dayObj = {
-                saturday: 0,
-                sunday: 0,
-                monday: 0,
-                tuesday: 0,
-                wednesday: 0,
-                thursday: 0,
-                friday: 0
-            };
-    templateObject.repeatDays.set(dayObj)
-    $('.select-size').hide();
-    $('.repeatOn').hide();
-     $('#myModal2').modal();
+        const templateObject = Template.instance();
+        let dayObj = {
+            saturday: 0,
+            sunday: 0,
+            monday: 0,
+            tuesday: 0,
+            wednesday: 0,
+            thursday: 0,
+            friday: 0
+        };
+        templateObject.repeatDays.set(dayObj)
+        $('.select-size').hide();
+        $('.repeatOn').hide();
+        $('#myModal2').modal();
     },
     'click #btnAppOptionsModal': function (event) {
         $('#frmOptions').modal('show');
@@ -6240,7 +6224,6 @@ Template.appointments.events({
                     }
 
                     appointmentService.saveAppointment(objectData).then(function (data) {
-                        $('.fullScreenSpin').css('display', 'none');
                         $('#event-modal').modal('hide');
                         sideBarService.getAllAppointmentList().then(function (data) {
                             addVS1Data('TAppointment', JSON.stringify(data)).then(function (datareturn) {
@@ -6390,7 +6373,7 @@ Template.appointments.events({
             if (oPost.readyState == 4 && oPost.status == 200) {
                 var myArrResponse = JSON.parse(oPost.responseText);
                 if (myArrResponse.ProcessLog.ResponseStatus.includes("OK")) {
-                         sideBarService.getGlobalSettings().then(function (dataAppointmentExtra) {
+                    sideBarService.getGlobalSettings().then(function (dataAppointmentExtra) {
                         addVS1Data('TERPPreferenceExtra', JSON.stringify(dataAppointmentExtra)).then(function (datareturn) {
                             //window.open('/appointments', '_self');
                         }).catch(function (err) {
@@ -6400,8 +6383,7 @@ Template.appointments.events({
                         //window.open('/appointments', '_self');
                     });
 
-                    
-                       sideBarService.getGlobalSettings().then(function (dataAppointment) {
+                    sideBarService.getGlobalSettings().then(function (dataAppointment) {
                         addVS1Data('TERPPreference', JSON.stringify(dataAppointment)).then(function (datareturn) {
                             window.open('/appointments', '_self');
                         }).catch(function (err) {
@@ -6503,6 +6485,7 @@ Template.appointments.events({
 
     },
     'click .btnPauseJob': function (event) {
+
         $('.fullScreenSpin').css('display', 'inline-block');
         templateObject = Template.instance();
         let appointmentService = new AppointmentService();
@@ -6639,6 +6622,15 @@ Template.appointments.events({
                     $('.fullScreenSpin').css('display', 'none');
                 });
             }
+        } else {
+          $('.fullScreenSpin').css('display', 'none');
+          swal({
+                title: 'Oooops...',
+                text: "This Appointment hasn't been started. Please Save and then Start your Appointment before continuing.",
+                type: 'warning',
+                showCancelButton: false,
+                confirmButtonText: 'Try Again'
+            })
         }
     },
     'change #lunch': function (event) {
@@ -6905,13 +6897,10 @@ Template.appointments.events({
                 appointmentService.saveTimeLog(obj).then(function (data1) {
                     sideBarService.getAllAppointmentList().then(function (data) {
                         addVS1Data('TAppointment', JSON.stringify(data)).then(function (datareturn) {
-                          window.open('/appointments', '_self');
-                        }).catch(function (err) {
-                          
-
-                        });
+                            window.open('/appointments', '_self');
+                        }).catch(function (err) {});
                     }).catch(function (err) {
-                       window.open('/appointments', '_self');
+                        window.open('/appointments', '_self');
                     });
                 }).catch(function () {})
             } else {
