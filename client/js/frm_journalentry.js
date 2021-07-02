@@ -968,7 +968,7 @@ Template.journalentrycard.onRendered(() => {
         }
     });
 
-    
+
     $(document).on("click", "#tblTaxRate tbody tr", function (e) {
         let selectLineID = $('#selectLineID').val();
         let taxcodeList = templateObject.taxraterecords.get();
@@ -1740,10 +1740,28 @@ Template.journalentrycard.events({
 
             let $tblrows = $("#tblJournalEntryLine tbody tr");
 
-            let lineAmount = 0;
             let subGrandTotal = 0;
             let taxGrandTotal = 0;
 
+        let lineAmount = 0;
+        let subGrandCreditTotal = 0;
+        let subGrandDebitTotal = 0;
+        $tblrows.each(function (index) {
+            var $tblrow = $(this);
+            var credit = $tblrow.find(".lineCreditEx").val() || Currency + '0';
+            var debit = $tblrow.find(".lineDebitEx").val() || Currency + '0';
+            var subTotalCredit = Number(credit.replace(/[^0-9.-]+/g, "")) || Currency + '0';
+            var subTotalDebit = Number(debit.replace(/[^0-9.-]+/g, "")) || Currency + '0';
+            if (!isNaN(subTotalCredit)) {
+                subGrandCreditTotal += isNaN(subTotalCredit) ? 0 : subTotalCredit;
+            };
+            if (!isNaN(subTotalDebit)) {
+                subGrandDebitTotal += isNaN(subTotalDebit) ? 0 : subTotalDebit;
+            };
+
+        });
+        templateObject.totalCredit.set(utilityService.modifynegativeCurrencyFormat(subGrandCreditTotal));
+        templateObject.totalDebit.set(utilityService.modifynegativeCurrencyFormat(subGrandDebitTotal));
 
 
         } else {
@@ -1753,12 +1771,13 @@ Template.journalentrycard.events({
             $('#' + selectLineID + " .lineAccountName").text('');
 
             $('#' + selectLineID + " .lineMemo").text('');
-            $('#' + selectLineID + " .lineCreditEx").text('');
-            $('#' + selectLineID + " .lineDebitEx").text('');
+            $('#' + selectLineID + " .lineCreditEx").val('');
+            $('#' + selectLineID + " .lineDebitEx").val('');
 
 
 
-
+            templateObject.totalCredit.set(utilityService.modifynegativeCurrencyFormat('0.00'));
+            templateObject.totalDebit.set(utilityService.modifynegativeCurrencyFormat('0.00'));
 
         }
 

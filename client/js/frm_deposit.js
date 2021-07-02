@@ -2104,7 +2104,7 @@ Template.depositcard.events({
 
 
 
-            $('#depositTotalLine').text(Currency + "0.00");
+            $('#depositTotalLine').text(utilityService.modifynegativeCurrencyFormat('0.00'));
 
         }
 
