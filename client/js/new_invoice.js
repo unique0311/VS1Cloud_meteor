@@ -821,7 +821,7 @@ Template.new_invoice.onRendered(() => {
                                 applied: currency_symbol +''+paidAmount
 
                             };
-                            console.log(currency_symbol);
+
                             templateObject.record.set(record);
                             templateObject.selectedCurrency.set(invoicerecord.currency);
                             templateObject.inputSelectedCurrency.set(invoicerecord.currency);
@@ -1340,7 +1340,6 @@ Template.new_invoice.onRendered(() => {
                                 applied: currency_symbol +''+paidAmount
 
                             };
-                            console.log(currency_symbol);
                             templateObject.record.set(record);
                         }, 1500)
 
@@ -3275,12 +3274,10 @@ Template.new_invoice.onRendered(() => {
     templateObject.getTerms();
 
     let table;
-    if ($('.printID').val() == "") {
+    if ($('.printID').attr('id') == undefined || $('.printID').attr('id') == undefined || $('.printID').attr('id') == "") {
         var duedate = new Date();
-        var ponumber = $('#ponumber').text() || '.';
         let dueDate = ("0" + duedate.getDate()).slice(-2) + "/" + ("0" + (duedate.getMonth() + 1)).slice(-2) + "/" + duedate.getFullYear();
         $('.due').text(dueDate);
-        $('.po').text(ponumber);
     }
 
     $(document).ready(function () {
@@ -3298,7 +3295,7 @@ Template.new_invoice.onRendered(() => {
             rowData.attr('id', tokenid);
             $("#tblInvoiceLine tbody").append(rowData);
 
-            if ($('#printID').val() != "") {
+            if ($('#printID').attr('id') != "") {
                 var rowData1 = $('.invoice_print tbody>tr:last').clone(true);
                 $("#lineProductName", rowData1).text("");
                 $("#lineProductDesc", rowData1).text("");
@@ -3311,31 +3308,6 @@ Template.new_invoice.onRendered(() => {
                 rowData1.attr('id', tokenid);
                 $(".invoice_print tbody").append(rowData1);
             }
-            /*
-    var dataListTable = $('#tblInvoiceLine').DataTable();
-    let tokenid = Random.id();
-    let counter = 0;
-    dataListTable.row.add( [
-            ' ',
-            ' ',
-            ' ',
-            ' ',
-            ' ',
-            ' ',
-            '<span class="table-remove"><button type="button" class="btn btn-danger btn-rounded btn-sm my-0 btnRemove"><i class="fa fa-remove"></i></button></span>'
-        ] ).node().id = tokenid;
-        dataListTable.draw( false );
-    var oTable = $('#tblInvoiceLine tbody tr');
-    oTable.prop('contenteditable', true);
-    $('#tblInvoiceLine tbody #'+tokenid).find('td').eq(0).addClass('lineProductName');
-    $('#tblInvoiceLine tbody #'+tokenid).find('td').eq(1).addClass('lineProductDesc');
-    $('#tblInvoiceLine tbody #'+tokenid).find('td').eq(2).addClass('lineQty');
-    $('#tblInvoiceLine tbody #'+tokenid).find('td').eq(3).addClass('lineUnitPrice text-right');
-    $('#tblInvoiceLine tbody #'+tokenid).find('td').eq(4).addClass('lineTaxRate text-right');
-    $('#tblInvoiceLine tbody #'+tokenid).find('td').eq(5).addClass('lineAmt text-right');
-    $('#tblInvoiceLine thead').find('th').eq(6).addClass('sorting_disabled');
-    $('#tblInvoiceLine thead').find('th').eq(6).removeClass('sorting');
-*/
         });
 
 
@@ -3348,6 +3320,7 @@ Template.new_invoice.onRendered(() => {
 
     /* On clik Inventory Line */
       $(document).on("click", "#tblInventory tbody tr", function (e) {
+
         let selectLineID = $('#selectLineID').val();
         let taxcodeList = templateObject.taxraterecords.get();
         let customers = templateObject.clientrecords.get();
@@ -3420,7 +3393,7 @@ Template.new_invoice.onRendered(() => {
             $('#' + selectLineID + " .lineQty").val(1);
             $('#' + selectLineID + " .lineUnitPrice").val(lineUnitPrice);
 
-            if ($('.printID').val() == "") {
+            if ($('.printID').attr('id') == undefined || $('.printID').attr('id') == undefined || $('.printID').attr('id') == "") {
                 $('#' + selectLineID + " #lineProductName").text(lineProductName);
                 $('#' + selectLineID + " #lineProductDesc").text(lineProductDesc);
                 $('#' + selectLineID + " #lineOrdered").text(1);
@@ -3434,20 +3407,20 @@ Template.new_invoice.onRendered(() => {
             if (lineTaxRate == "NT") {
                 lineTaxRate = "E";
                 $('#' + selectLineID + " .lineTaxCode").text(lineTaxRate);
-                if ($('.printID').val() == "") {
+                if ($('.printID').attr('id') == undefined || $('.printID').attr('id') == "") {
                     $('#' + selectLineID + " #lineTaxCode").text(lineTaxRate);
                 }
 
             } else {
                 $('#' + selectLineID + " .lineTaxCode").text(lineTaxRate);
-                if ($('.printID').val() == "") {
+                if ($('.printID').attr('id') == undefined || $('.printID').attr('id') == "") {
                     $('#' + selectLineID + " #lineTaxCode").text(lineTaxRate);
                 }
             }
 
             lineAmount = 1 * Number(lineUnitPrice.replace(/[^0-9.-]+/g, "")) || 0;
             $('#' + selectLineID + " .lineAmt").text(utilityService.modifynegativeCurrencyFormat(lineAmount));
-            if ($('.printID').val() == "") {
+            if ($('.printID').attr('id') == undefined || $('.printID').attr('id') == undefined || $('.printID').attr('id') == "") {
                 $('#' + selectLineID + " #lineAmt").text(utilityService.modifynegativeCurrencyFormat(lineAmount));
             }
             $('#productListModal').modal('toggle');
@@ -3490,7 +3463,7 @@ Template.new_invoice.onRendered(() => {
                 }
             });
 
-            if ($(".printID").val() == "") {
+            if ($('.printID').attr('id') == undefined || $('.printID').attr('id') == undefined || $('.printID').attr('id') == "") {
                 $printrows.each(function (index) {
                     var $printrows = $(this);
                     var qty = $printrows.find("#lineQty").text() || 0;
@@ -3549,7 +3522,7 @@ Template.new_invoice.onRendered(() => {
 
             $('#' + selectLineID + " .lineTaxRate").text(lineTaxRate || 0);
             $('#' + selectLineID + " .lineTaxCode").text(lineTaxCode);
-            if($(".printID").val() == "") {
+            if($('.printID').attr('id') == undefined || $('.printID').attr('id') == "") {
                 $('#' + selectLineID + " #lineTaxCode").text(lineTaxCode);
             }
 
@@ -3597,7 +3570,7 @@ Template.new_invoice.onRendered(() => {
                 }
             });
 
-            if ($(".printID").val() == "") {
+            if ($('.printID').attr('id') == undefined || $('.printID').attr('id') == "") {
                 $printrows.each(function (index) {
                     var $printrows = $(this);
                     var qty = $printrows.find("#lineQty").text() || 0;
@@ -3730,7 +3703,7 @@ Template.new_invoice.onRendered(() => {
                             }
                         });
 
-                        if ($(".printID").val() == "") {
+                        if ($('.printID').attr('id') == undefined || $('.printID').attr('id') == "") {
                             $printrows.each(function (index) {
                                 var $printrows = $(this);
                                 var qty = $printrows.find("#lineQty").text() || 0;
@@ -3819,7 +3792,7 @@ Template.new_invoice.onRendered(() => {
         let company = Session.get('vs1companyName');
         let vs1User = localStorage.getItem('mySession');
         let customerEmail = $('#edtCustomerEmail').val();
-        let id = $('.printID').attr("id");
+        let id = $('.printID').attr("id") || "new";
         stringQuery = "?";
         var customerID = $('#edtCustomerEmail').attr('customerid');
         for (let l = 0; l < lineItems.length; l++) {
@@ -3835,7 +3808,7 @@ Template.new_invoice.onRendered(() => {
             pdf.setTextColor(255, 255, 255);
              pdf.textWithLink('Pay Now', 482, 113, { url: 'https://www.depot.vs1cloud.com/stripe/' + stringQuery });
 
-            if ($(".printID").val() == "") {
+            if ($('.printID').attr('id') == undefined || $('.printID').attr('id') == "") {
                 pdf.save('Invoice-' + id + '.pdf');
             } else {
                 pdf.save('Invoice.pdf');
@@ -4898,7 +4871,7 @@ Template.new_invoice.events({
                 $('#' + targetID + " .lineBo").val(boValue);
             }
         }
-        if ($('.printID').val() == "") {
+        if ($('.printID').attr('id') == undefined || $('.printID').attr('id') == undefined || $('.printID').attr('id') == "") {
             $('#' + targetID + " #lineQty").text($('#' + targetID + " .lineQty").val());
         }
 
@@ -4946,7 +4919,7 @@ Template.new_invoice.events({
             }
         });
 
-        if ($(".printID").val() == "") {
+        if ($('.printID').attr('id') == undefined || $('.printID').attr('id') == "") {
             $printrows.each(function (index) {
                 var $printrows = $(this);
                 var qty = $printrows.find("#lineQty").text() || 0;
@@ -5076,7 +5049,7 @@ Template.new_invoice.events({
         let taxGrandTotal = 0;
         let taxGrandTotalPrint = 0;
 
-        if ($('.printID').val() == "") {
+        if ($('.printID').attr('id') == undefined || $('.printID').attr('id') == "") {
             $('#' + targetID + " #lineUnitPrice").text($('#' + targetID + " .lineUnitPrice").val());
         }
 
@@ -5119,7 +5092,7 @@ Template.new_invoice.events({
             }
         });
 
-        if ($(".printID").val() == "") {
+        if ($('.printID').attr('id') == undefined || $('.printID').attr('id') == "") {
             $printrows.each(function(index) {
                 var $printrows = $(this);
                 var qty = $printrows.find("#lineQty").text() || 0;
@@ -5205,6 +5178,8 @@ Template.new_invoice.events({
         if ($('.edtCustomerEmail').val() != "") {
             $('.pdfCustomerName').html($('#edtCustomerName').val());
             $('.pdfCustomerAddress').html($('#txabillingAddress').val().replace(/[\r\n]/g, "<br />"));
+            var ponumber = $('#ponumber').val() || '.';
+            $('.po').text(ponumber);
             var rowCount = $('.tblInvoiceLine tbody tr').length;
             exportSalesToPdf();
         } else {
@@ -5304,7 +5279,7 @@ Template.new_invoice.events({
                     }
                 });
 
-                if ($(".printID").val() == "") {
+                if ($('.printID').attr('id') == undefined || $('.printID').attr('id') == "") {
                 $printrows.each(function (index) {
                     var $printrows = $(this);
                     var qty = $printrows.find("#lineQty").text() || 0;
@@ -5689,7 +5664,8 @@ Template.new_invoice.events({
                 $('#html-2-pdfwrapper').css('display', 'block');
                 $('.pdfCustomerName').html($('#edtCustomerName').val());
                 $('.pdfCustomerAddress').html($('#txabillingAddress').val().replace(/[\r\n]/g, "<br />"));
-
+                var ponumber = $('#ponumber').val() || '.';
+                $('.po').text(ponumber);
                 function generatePdfForMail(invoiceId) {
                     return new Promise((resolve, reject) => {
                         let templateObject = Template.instance();
