@@ -7,7 +7,6 @@ import { CoreService } from '../../js/core-service';
 
 let vs1chartService = new VS1ChartService();
 let utilityService = new UtilityService();
-let _ = require('lodash');
 Template.accountrevenuestreams.onCreated(()=>{
 const templateObject = Template.instance();
 templateObject.records = new ReactiveVar([]);
@@ -37,7 +36,7 @@ Template.accountrevenuestreams.onRendered(()=>{
 
  if (!localStorage.getItem('VS1PNLPeriodReport_dash')) {
   getInvSales(function (data) {
-    
+
     let currentDate = new Date();
     let currentMonthDate = currentDate.getMonth() + 1;
     let currentYear = currentDate.getFullYear();
@@ -335,7 +334,7 @@ Template.accountrevenuestreams.onRendered(()=>{
           // var salesBoardService = new SalesBoardService();
 
                 callback('');
-                
+
 
 
       });
@@ -511,14 +510,14 @@ Template.accountrevenuestreams.onRendered(()=>{
          "borderColor":"#1cc88a",
         "backgroundColor":"rgba(28,200,138,0.16)",
           "data":[
-             month_1_diff,
-             month_2_diff,
-             month_3_diff,
-             month_4_diff,
-             month_5_diff,
-             month_6_diff,
-             month_7_diff,
-             month_8_diff
+            total_month_1_net,
+            total_month_2_net,
+            total_month_3_net,
+            total_month_4_net,
+            total_month_5_net,
+            total_month_6_net,
+            total_month_7_net
+             //month_8_diff
           ]
        }]
         },

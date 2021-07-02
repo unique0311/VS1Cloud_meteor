@@ -7,7 +7,6 @@ import { CoreService } from '../../js/core-service';
 
 let vs1chartService = new VS1ChartService();
 let utilityService = new UtilityService();
-let _ = require('lodash');
 Template.quotedsalesorderinvoicedamounts.onCreated(()=>{
 const templateObject = Template.instance();
 templateObject.records = new ReactiveVar([]);
@@ -30,7 +29,7 @@ Template.quotedsalesorderinvoicedamounts.onRendered(()=>{
   let topData = this;
 
   getInvSales(function (data) {
-    
+
     let currentDate = new Date();
     let currentMonthDate = currentDate.getMonth() + 1;
     let currentYear = currentDate.getFullYear();
@@ -80,7 +79,7 @@ Template.quotedsalesorderinvoicedamounts.onRendered(()=>{
               let graphData = _.orderBy(filterData, 'SaleDate');
             let initialData = _.filter(graphData, obj => (obj.SaleDate !== ''));
               for (let l = 0; l < initialData.length; l++) {
-                
+
                       let getMonth = new Date(initialData[l].SaleDate).getMonth() + 1;
                       if(initialData[l].Type === "Quote"){
                         if (getMonth === currentMonthDate && currentYear === new Date(initialData[l].SaleDate).getFullYear()) {
@@ -302,11 +301,11 @@ Template.quotedsalesorderinvoicedamounts.onRendered(()=>{
                 let getMonth = new Date(initialData[l].SaleDate).getMonth() + 1;
                 let getYear = new Date(initialData[l].SaleDate).getFullYear();
                 if(initialData[l].Type === "Quote"){
-                  
+
 
                   if ((parseFloat(getMonth) === parseFloat(currentMonthDate)) && (parseFloat(currentYear) === parseFloat(getYear))) {
                       totalQuotePayment += initialData[l].TotalAmountinc;
-                      
+
                   } else if (getMonth === (currentMonthDate - 1) && currentYear === new Date(initialData[l].SaleDate).getFullYear()) {
                       totalQuotePayment2 += initialData[l].TotalAmountinc;
 
@@ -516,7 +515,7 @@ Template.quotedsalesorderinvoicedamounts.onRendered(()=>{
               let graphData = _.orderBy(filterData, 'SaleDate');
             let initialData = _.filter(graphData, obj => (obj.SaleDate !== ''));
               for (let l = 0; l < initialData.length; l++) {
-                
+
                       let getMonth = new Date(initialData[l].SaleDate).getMonth() + 1;
                       if(initialData[l].Type === "Quote"){
                         if (getMonth === currentMonthDate && currentYear === new Date(initialData[l].SaleDate).getFullYear()) {
@@ -742,7 +741,7 @@ Template.quotedsalesorderinvoicedamounts.onRendered(()=>{
           // var salesBoardService = new SalesBoardService();
 
                 callback('');
-                
+
 
 
       });

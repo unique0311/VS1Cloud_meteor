@@ -7,7 +7,6 @@ import { CoreService } from '../../js/core-service';
 
 let vs1chartService = new VS1ChartService();
 let utilityService = new UtilityService();
-let _ = require('lodash');
 Template.monthlyprofitandloss.onCreated(()=>{
 const templateObject = Template.instance();
 templateObject.records = new ReactiveVar([]);
@@ -38,7 +37,7 @@ Template.monthlyprofitandloss.onRendered(()=>{
 
  if (!localStorage.getItem('VS1PNLPeriodReport_dash')) {
   getInvSales(function (data) {
-    
+
     let currentDate = new Date();
     let currentMonthDate = currentDate.getMonth() + 1;
     let currentYear = currentDate.getFullYear();
@@ -335,7 +334,7 @@ Template.monthlyprofitandloss.onRendered(()=>{
           // var salesBoardService = new SalesBoardService();
 
                 callback('');
-                
+
 
 
       });

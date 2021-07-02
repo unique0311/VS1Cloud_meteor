@@ -7,7 +7,6 @@ import { CoreService } from '../../js/core-service';
 
 let vs1chartService = new VS1ChartService();
 let utilityService = new UtilityService();
-let _ = require('lodash');
 Template.monthlyearnings.onCreated(()=>{
 const templateObject = Template.instance();
 templateObject.records = new ReactiveVar([]);
@@ -30,7 +29,7 @@ Template.monthlyearnings.onRendered(()=>{
   let topData = this;
 if (!localStorage.getItem('VS1SalesListReport_dash')) {
   getInvSales(function (data) {
-    
+
     let currentDate = new Date();
     let currentMonthDate = currentDate.getMonth() + 1;
     let currentYear = currentDate.getFullYear();

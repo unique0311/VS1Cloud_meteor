@@ -10,7 +10,6 @@ import {UtilityService} from "../../utility-service";
 import {AccountService} from "../../accounts/account-service";
 import {SalesBoardService} from "../../js/sales-service";
 import {Purchase} from "../../purchase/purchase-service";
-let _ = require('lodash');
 let salesService = new SalesBoardService();
 let purchaseService = new Purchase();
 let utilityService = new UtilityService();

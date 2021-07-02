@@ -9,7 +9,6 @@ import '../../lib/global/indexdbstorage.js';
 let vs1chartService = new VS1ChartService();
 let utilityService = new UtilityService();
 let sideBarService = new SideBarService();
-let _ = require('lodash');
 Template.invstockonhandanddemand.onCreated(()=>{
 const templateObject = Template.instance();
 templateObject.records = new ReactiveVar([]);
@@ -32,7 +31,7 @@ Template.invstockonhandanddemand.onRendered(()=>{
   let topData = this;
 
   getProductStock(function (data) {
-    
+
     let currentDate = new Date();
     let currentMonthDate = currentDate.getMonth() + 1;
     let currentYear = currentDate.getFullYear();
@@ -100,7 +99,7 @@ Template.invstockonhandanddemand.onRendered(()=>{
     let prevMonth11Date = (moment().subtract(11, 'months')).format("YYYY-MM-DD");
 
     getVS1Data('TProductStocknSalePeriodReport').then(function (dataObject) {
-      
+
       if(dataObject.length == 0){
         vs1chartService.getProductStocknSaleReportData(prevMonth11Date, fromDate).then((data) => {
           addVS1Data('TProductStocknSalePeriodReport',JSON.stringify(data));
@@ -501,7 +500,7 @@ function chartClickEvent(event, array){
           // var salesBoardService = new SalesBoardService();
 
                 callback('');
-                
+
 
 
       });

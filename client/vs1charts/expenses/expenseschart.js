@@ -7,7 +7,6 @@ import { CoreService } from '../../js/core-service';
 
 let vs1chartService = new VS1ChartService();
 let utilityService = new UtilityService();
-let _ = require('lodash');
 Template.expenseschart.onCreated(()=>{
 const templateObject = Template.instance();
 templateObject.records = new ReactiveVar([]);
@@ -30,7 +29,7 @@ Template.expenseschart.onRendered(()=>{
   let topData = this;
 if (!localStorage.getItem('VS1PNLPeriodReport_dash')) {
   getInvSales(function (data) {
-    
+
     let currentDate = new Date();
     let currentMonthDate = currentDate.getMonth() + 1;
     let currentYear = currentDate.getFullYear();
@@ -389,7 +388,7 @@ if (!localStorage.getItem('VS1PNLPeriodReport_dash')) {
           let initialData = _.filter(graphData, obj => (obj.OrderDate !== ''));
 
                 callback(initialData);
-                
+
           /*vs1chartService.getInvSaleByEmployee().then((data) => {
               // templateObject.getAllData(data);
               let filterData =  _.filter(data.tinvoiceex, function (data) {

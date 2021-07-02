@@ -7,7 +7,6 @@ import { CoreService } from '../../js/core-service';
 
 let vs1chartService = new VS1ChartService();
 let utilityService = new UtilityService();
-let _ = require('lodash');
 Template.quotedinvoicedamounts.onCreated(()=>{
 const templateObject = Template.instance();
 templateObject.records = new ReactiveVar([]);
@@ -77,7 +76,7 @@ Template.quotedinvoicedamounts.onRendered(()=>{
             let graphData = _.orderBy(filterData, 'SaleDate');
           let initialData = _.filter(graphData, obj => (obj.SaleDate !== ''));
             for (let l = 0; l < initialData.length; l++) {
-              
+
                     let getMonth = new Date(initialData[l].SaleDate).getMonth() + 1;
                     if(initialData[l].Type === "Quote"){
                       if (getMonth === currentMonthDate && currentYear === new Date(initialData[l].SaleDate).getFullYear()) {
@@ -283,11 +282,11 @@ Template.quotedinvoicedamounts.onRendered(()=>{
               let getMonth = new Date(initialData[l].SaleDate).getMonth() + 1;
               let getYear = new Date(initialData[l].SaleDate).getFullYear();
               if(initialData[l].Type === "Quote"){
-                
+
 
                 if ((parseFloat(getMonth) === parseFloat(currentMonthDate)) && (parseFloat(currentYear) === parseFloat(getYear))) {
                     totalQuotePayment += initialData[l].TotalAmountinc;
-                    
+
                 } else if (getMonth === (currentMonthDate - 1) && currentYear === new Date(initialData[l].SaleDate).getFullYear()) {
                     totalQuotePayment2 += initialData[l].TotalAmountinc;
 
@@ -481,7 +480,7 @@ Template.quotedinvoicedamounts.onRendered(()=>{
             let graphData = _.orderBy(filterData, 'SaleDate');
           let initialData = _.filter(graphData, obj => (obj.SaleDate !== ''));
             for (let l = 0; l < initialData.length; l++) {
-              
+
                     let getMonth = new Date(initialData[l].SaleDate).getMonth() + 1;
                     if(initialData[l].Type === "Quote"){
                       if (getMonth === currentMonthDate && currentYear === new Date(initialData[l].SaleDate).getFullYear()) {
