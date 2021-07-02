@@ -2081,6 +2081,15 @@ Template.depositcard.events({
             let subGrandTotal = 0;
             let taxGrandTotal = 0;
 
+      let lineAmountTotal = 0;
+      $tblrows.each(function(index) {
+          var $tblrow = $(this);
+          var lineAmount = Number($tblrow.find(".colAmount").val().replace(/[^0-9.-]+/g, "")) || 0;
+          lineAmountTotal +=lineAmount;
+      });
+
+      document.getElementById("depositTotalLine").innerHTML = utilityService.modifynegativeCurrencyFormat(lineAmountTotal)||0;
+
 
 
         }else{
@@ -2095,7 +2104,7 @@ Template.depositcard.events({
 
 
 
-
+            $('#depositTotalLine').text(Currency + "0.00");
 
         }
 
