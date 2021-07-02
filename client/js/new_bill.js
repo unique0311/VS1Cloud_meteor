@@ -2311,7 +2311,7 @@ Template.billcard.events({
     },
     'blur .lineMemo': function (event) {
         var targetID = $(event.target).closest('tr').attr('id');
-        $('#' + targetID + " #lineMemo").text($('#' + targetID + ".lineMemo").text());
+        $('#' + targetID + " #lineMemo").text($('#' + targetID + " .lineMemo").text());
     },
     'blur .colAmount': function(event) {
         let templateObject = Template.instance();
@@ -2465,6 +2465,8 @@ Template.billcard.events({
         $('#html-2-pdfwrapper').css('display', 'block');
         $('.pdfCustomerName').html($('#edtSupplierName').val());
         $('.pdfCustomerAddress').html($('#txabillingAddress').val().replace(/[\r\n]/g, "<br />"));
+        var ponumber = $('#ponumber').val() || '.';
+        $('.po').text(ponumber);
         exportSalesToPdf();
 
     },
@@ -2916,6 +2918,8 @@ Template.billcard.events({
                 $('#html-2-pdfwrapper').css('display', 'block');
                 $('.pdfCustomerName').html($('#edtSupplierEmail').val());
                 $('.pdfCustomerAddress').html($('#txabillingAddress').val().replace(/[\r\n]/g, "<br />"));
+                var ponumber = $('#ponumber').val() || '.';
+                $('.po').text(ponumber);
                 async function addAttachment() {
                     let attachment = [];
                     let templateObject = Template.instance();

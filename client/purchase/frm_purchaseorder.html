@@ -960,13 +960,11 @@
                     <div style="display: flex; width: 100%;">
                         <div style="width: 50%; padding-right: 16px;font-weight: bold;">
                             <label style="margin-bottom: 4px; color: rgb(0 0 0); width: 100%;">Date:</label>
-                            <label class="pdfPONumber" style="margin-bottom: 4px; color: rgb(0 0 0);">P.O Number:</label>
-                            <label class="pdfTerms" style="margin-bottom: 0px; color: rgb(0 0 0);">Due Date:</label>
+                            <label class="pdfPONumber" style="margin-bottom: 4px; color: rgb(0 0 0);">Invoice No.:</label>
                         </div>
                         <div style="width: 50%; padding-left: 16px;">
                             <p style="margin-bottom: 4px; color: rgb(0 0 0);">{{purchaseorderrecord.saledate}}</p>
-                            <p style="margin-bottom: 4px; color: rgb(0 0 0); white-space: nowrap;">{{purchaseorderrecord.custPONumber}}.</p>
-                            <p style="margin-bottom: 0px; color: rgb(0 0 0); white-space: nowrap;">{{purchaseorderrecord.termsName}}</p>
+                            <p class="po" style="margin-bottom: 4px; color: rgb(0 0 0); white-space: nowrap;">{{purchaseorderrecord.invoicenumber}}.</p>
                         </div>
                     </div>
                 </div>

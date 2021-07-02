@@ -1409,7 +1409,7 @@ Template.creditcard.onRendered(() => {
             rowData.attr('id', tokenid);
             $("#tblCreditLine tbody").append(rowData);
 
-            if ($('#printID').val() != "") {
+            if ($('#printID').attr('id') != "") {
                 var rowData1 = $('.credit_print tbody>tr:last').clone(true);
                 $("#lineAccountName", rowData1).text("");
                 $("#lineMemo", rowData1).text("");
@@ -1461,7 +1461,7 @@ Template.creditcard.onRendered(() => {
             $('#' + selectLineID + " .colAmount").val(lineUnitPrice);
             $('#' + selectLineID + " .lineTaxCode").text(lineTaxRate);
 
-            if ($('.printID').val() == "") {
+            if ($('.printID').attr('id') == undefined || $('.printID').attr('id') == "") {
                 $('#' + selectLineID + " #lineAccountName").text(lineProductName);
                 $('#' + selectLineID + " #lineMemo").text(lineProductDesc);
                 $('#' + selectLineID + " #colAmount").text(lineUnitPrice);
@@ -1509,7 +1509,7 @@ Template.creditcard.onRendered(() => {
                 }
             });
 
-            if ($(".printID").val() == "") {
+            if ($('.printID').attr('id') == undefined || $('.printID').attr('id') == "") {
                 $printrows.each(function(index) {
                 var $printrows = $(this);
                 var amount = $printrows.find("#lineAmount").text() || "0";
@@ -1570,7 +1570,7 @@ Template.creditcard.onRendered(() => {
             $('#' + selectLineID + " .lineTaxCode").text(lineTaxCode);
 
             let $printrows = $(".credit_print tbody tr");
-                if ($('.printID').val() == "") {
+                if ($('.printID').attr('id') == undefined || $('.printID').attr('id') == "") {
                     $('#' + selectLineID + " #lineAmount").text($('#' + selectLineID + " .colAmount").val());
                     $('#' + selectLineID + " #lineTaxCode").text(lineTaxCode);
 
@@ -1621,7 +1621,7 @@ Template.creditcard.onRendered(() => {
                 }
             });
 
-        if($(".printID").val() == "") {
+        if($('.printID').attr('id') == undefined || $('.printID').attr('id') == "") {
             $printrows.each(function(index) {
             var $printrow = $(this);
             var amount = $printrow.find("#lineAmount").text() || "0";
@@ -1687,7 +1687,7 @@ Template.creditcard.onRendered(() => {
             left: 0,
             width: 100
         };
-        let id = $('.printID').attr("id");
+        let id = $('.printID').attr("id") || "new";
         var pdf = new jsPDF('p', 'pt', 'a4');
 
 
@@ -2358,6 +2358,7 @@ Template.creditcard.events({
     },
      'blur .lineMemo': function (event) {
         var targetID = $(event.target).closest('tr').attr('id');
+        console.log(targetID);
         $('#' + targetID + " #lineMemo").text($('#' + targetID + " .lineMemo").text());
     },
     'blur .colAmount': function(event) {
@@ -2379,7 +2380,7 @@ Template.creditcard.events({
 
         let $printrows = $(".credit_print tbody tr");
 
-        if ($('.printID').val() == "") {
+        if ($('.printID').attr('id') == undefined || $('.printID').attr('id') == "") {
             $('#' + targetID + " #lineAmount").text($('#' + targetID + " .colAmount").val());
             $('#' + targetID + " #lineTaxCode").text($('#' + targetID + " .lineTaxCode").text());
         }
@@ -2426,7 +2427,7 @@ Template.creditcard.events({
             }
         });
 
-        if ($(".printID").val() == "") {
+        if ($('.printID').attr('id') == undefined || $('.printID').attr('id') == "") {
             $printrows.each(function(index) {
             var $printrows = $(this);
             var amount = $printrows.find("#lineAmount").text() || "0";
@@ -2508,6 +2509,8 @@ Template.creditcard.events({
         $('#html-2-pdfwrapper').css('display', 'block');
         $('.pdfCustomerName').html($('#edtSupplierName').val());
         $('.pdfCustomerAddress').html($('#txabillingAddress').val().replace(/[\r\n]/g, "<br />"));
+         var ponumber = $('#ponumber').val() || '.';
+         $('.po').text(ponumber);
         exportSalesToPdf();
 
     },
@@ -2596,7 +2599,7 @@ Template.creditcard.events({
                     }
                 });
 
-            if ($(".printID").val() == "") {
+            if ($('.printID').attr('id') == undefined || $('.printID').attr('id') == "") {
                 $printrows.each(function(index) {
                 var $printrows = $(this);
                 var amount = $printrows.find("#lineAmount").text() || "0";
@@ -2741,7 +2744,7 @@ Template.creditcard.events({
                 }
             });
 
-         if ($(".printID").val() == "") {
+         if ($('.printID').attr('id') == undefined || $('.printID').attr('id') == "") {
                 $printrows.each(function(index) {
                 var $printrows = $(this);
                 var amount = $printrows.find("#lineAmount").text() || "0";
@@ -2952,6 +2955,8 @@ Template.creditcard.events({
                 $('#html-2-pdfwrapper').css('display', 'block');
                 $('.pdfCustomerName').html($('#edtSupplierEmail').val());
                 $('.pdfCustomerAddress').html($('#txabillingAddress').val().replace(/[\r\n]/g, "<br />"));
+                var ponumber = $('#ponumber').val() || '.';
+                $('.po').text(ponumber);
                 async function addAttachment() {
                     let attachment = [];
                     let templateObject = Template.instance();

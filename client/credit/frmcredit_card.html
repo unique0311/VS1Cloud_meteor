@@ -862,7 +862,7 @@
 
         <!-- Start PDF -->
         <!-- New A4 -->
-        <div style="width: 210mm; background-color: #ffffff; padding: 8px; height: 297mm; font-size: 13.33px; display: none; color: #000000; overflow-x: visible;" id="html-2-pdfwrapper" name="html-2-pdfwrapper">
+        <div style="width: 210mm; background-color: #ffffff; padding: 8px; height: 297mm; font-size: 13.33px; display: block; color: #000000; overflow-x: visible;" id="html-2-pdfwrapper" name="html-2-pdfwrapper">
             <div style="display: flex; height: fit-content; min-height: 30mm;">
                 <div style="margin: 0px; padding: 16px; width: 130mm; max-width: 130mm;">
                     <div style="display: flex;">
@@ -889,16 +889,14 @@
                 </div>
                 <div style="margin: 0px; padding: 16px; border: none !important; width: 60mm; max-width: 60mm;">
                     <h4 style="font-weight: bold; font-size: 26.667px; color: rgb(0 0 0);">Credit&nbsp;&nbsp;&nbsp; {{creditrecord.id}}</h4>
-                    <div style="display: flex; width: 100%;">
+                    <div style="none: flex; width: 100%;">
                         <div style="width: 50%; padding-right: 16px;font-weight: bold;">
                             <label style="margin-bottom: 4px; color: rgb(0 0 0); width: 100%;">Date:</label>
-                            <label class="pdfPONumber" style="margin-bottom: 4px; color: rgb(0 0 0);">P.O Number:</label>
-                            <label class="pdfTerms" style="margin-bottom: 0px; color: rgb(0 0 0);">Due Date:</label>
+                            <label class="pdfPONumber" style="margin-bottom: 4px; color: rgb(0 0 0);">Invoice No.:</label>
                         </div>
                         <div style="width: 50%; padding-left: 16px;">
                             <p style="margin-bottom: 4px; color: rgb(0 0 0);">{{creditrecord.saledate}}</p>
-                            <p style="margin-bottom: 4px; color: rgb(0 0 0); white-space: nowrap;">{{creditrecord.custPONumber}}.</p>
-                            <p style="margin-bottom: 0px; color: rgb(0 0 0); white-space: nowrap;">{{creditrecord.termsName}}</p>
+                            <p class="po" style="margin-bottom: 4px; color: rgb(0 0 0); white-space: nowrap;">{{creditrecord.invoicenumber}}.</p>
                         </div>
                     </div>
                 </div>

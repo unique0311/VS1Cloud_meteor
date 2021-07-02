@@ -1514,7 +1514,7 @@ Template.purchaseordercard.onRendered(() => {
             rowData.attr('id', tokenid);
             $("#tblPurchaseOrderLine tbody").append(rowData);
 
-            if ($('#printID').val() != "") {
+            if ($('#printID').attr('id') != "") {
                 var rowData1 = $('.purchase_print tbody>tr:last').clone(true);
                 $("#lineProductName", rowData1).text("");
                 $("#lineProductDesc", rowData1).text("");
@@ -1565,7 +1565,7 @@ Template.purchaseordercard.onRendered(() => {
             $('#' + selectLineID + " .lineUnitPrice").val(lineUnitPrice);
             $('#' + selectLineID + " .lineTaxCode").text(lineTaxRate);
 
-            if ($('.printID').val() == "") {
+            if ($('.printID').attr('id') == undefined || $('.printID').attr('id') == "") {
                 $('#' + selectLineID + " #lineProductName").text(lineProductName);
                 $('#' + selectLineID + " #lineProductDesc").text(lineProductDesc);
                 $('#' + selectLineID + " #lineOrdered").text(1);
@@ -1577,13 +1577,13 @@ Template.purchaseordercard.onRendered(() => {
             if (lineTaxRate == "NT") {
                 lineTaxRate = "E";
                 $('#' + selectLineID + " .lineTaxCode").text(lineTaxRate);
-                if ($('.printID').val() == "") {
+                if ($('.printID').attr('id') == undefined || $('.printID').attr('id') == "") {
                     $('#' + selectLineID + " #lineTaxCode").text(lineTaxRate);
                 }
 
             } else {
                 $('#' + selectLineID + " .lineTaxCode").text(lineTaxRate);
-                if ($('.printID').val() == "") {
+                if ($('.printID').attr('id') == undefined || $('.printID').attr('id') == "") {
                     $('#' + selectLineID + " #lineTaxCode").text(lineTaxRate);
                 }
             }
@@ -1591,7 +1591,7 @@ Template.purchaseordercard.onRendered(() => {
 
             lineAmount = 1 * Number(lineUnitPrice.replace(/[^0-9.-]+/g, "")) || 0;
             $('#' + selectLineID + " .lineAmt").text(utilityService.modifynegativeCurrencyFormat(lineAmount));
-            if ($('.printID').val() == "") {
+            if ($('.printID').attr('id') == undefined || $('.printID').attr('id') == "") {
                 $('#' + selectLineID + " #lineAmt").text(utilityService.modifynegativeCurrencyFormat(lineAmount));
             }
 
@@ -1635,7 +1635,7 @@ Template.purchaseordercard.onRendered(() => {
                 }
             });
 
-            if ($(".printID").val() == "") {
+            if ($('.printID').attr('id') == undefined || $('.printID').attr('id') == "") {
                 $printrows.each(function (index) {
                     var $printrows = $(this);
                     var qty = $printrows.find("#lineQty").text() || 0;
@@ -1694,7 +1694,7 @@ Template.purchaseordercard.onRendered(() => {
             $('#' + selectLineID + " .lineTaxCode").text(lineTaxCode);
 
             let $printrows = $(".purchase_print tbody tr");
-            if ($('.printID').val() == "") {
+            if ($('.printID').attr('id') == undefined || $('.printID').attr('id') == "") {
                 $('#' + selectLineID + " #lineAmount").text($('#' + selectLineID + " .colAmount").val());
                 $('#' + selectLineID + " #lineTaxCode").text(lineTaxCode);
             }
@@ -1744,7 +1744,7 @@ Template.purchaseordercard.onRendered(() => {
                 }
             });
 
-        if($(".printID").val() == "") {
+        if($('.printID').attr('id') == undefined || $('.printID').attr('id') == "") {
             $printrows.each(function (index) {
             var $printrows = $(this);
             var qty = $printrows.find("#lineQty").text() || 0;
@@ -2497,7 +2497,7 @@ Template.purchaseordercard.events({
             }
         }
 
-        if ($('.printID').val() == "") {
+        if ($('.printID').attr('id') == undefined || $('.printID').attr('id') == "") {
             $('#' + targetID + " #lineQty").text($('#' + targetID + " .lineQty").val());
         }
 
@@ -2545,7 +2545,7 @@ Template.purchaseordercard.events({
             }
         });
 
-        if ($(".printID").val() == "") {
+        if ($('.printID').attr('id') == undefined || $('.printID').attr('id') == "") {
             $printrows.each(function (index) {
                 var $printrows = $(this);
                 var qty = $printrows.find("#lineQty").text() || 0;
@@ -2608,7 +2608,7 @@ Template.purchaseordercard.events({
         let taxGrandTotal = 0;
         let taxGrandTotalPrint = 0;
 
-         if ($('.printID').val() == "") {
+         if ($('.printID').attr('id') == undefined || $('.printID').attr('id') == "") {
             $('#' + targetID + " #lineUnitPrice").text($('#' + targetID + " .lineUnitPrice").val());
         }
 
@@ -2651,7 +2651,7 @@ Template.purchaseordercard.events({
             }
         });
 
-         if ($(".printID").val() == "") {
+         if ($('.printID').attr('id') == undefined || $('.printID').attr('id') == "") {
             $printrows.each(function(index) {
                 var $printrows = $(this);
                 var qty = $printrows.find("#lineQty").text() || 0;
@@ -2737,6 +2737,8 @@ Template.purchaseordercard.events({
         $('#html-2-pdfwrapper').css('display', 'block');
         $('.pdfCustomerName').html($('#edtSupplierName').val());
         $('.pdfCustomerAddress').html($('#txabillingAddress').val().replace(/[\r\n]/g, "<br />"));
+        var ponumber = $('#ponumber').val() || '.';
+        $('.po').text(ponumber);
         exportSalesToPdf();
 
     },
@@ -2830,7 +2832,7 @@ Template.purchaseordercard.events({
                     }
                 });
 
-            if ($(".printID").val() == "") {
+            if ($('.printID').attr('id') == undefined || $('.printID').attr('id') == "") {
                 $printrows.each(function(index) {
                 var $printrows = $(this);
                 var qty = $printrows.find("#lineQty").text() || 0;
@@ -2974,7 +2976,7 @@ Template.purchaseordercard.events({
                 }
             });
 
-            if ($(".printID").val() == "") {
+            if ($('.printID').attr('id') == undefined || $('.printID').attr('id') == "") {
                 $printrows.each(function(index) {
                 var $printrows = $(this);
                 var qty = $printrows.find("#lineQty").text() || 0;
@@ -3246,6 +3248,8 @@ Template.purchaseordercard.events({
                 $('#html-2-pdfwrapper').css('display', 'block');
                 $('.pdfCustomerName').html($('#edtSupplierEmail').val());
                 $('.pdfCustomerAddress').html($('#txabillingAddress').val().replace(/[\r\n]/g, "<br />"));
+                var ponumber = $('#ponumber').val() || '.';
+                $('.po').text(ponumber);
                 async function addAttachment() {
                     let attachment = [];
                     let templateObject = Template.instance();
