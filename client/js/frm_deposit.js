@@ -2087,11 +2087,11 @@ Template.depositcard.events({
             this.click;
 
             $('#'+selectLineID+" .lineAccountName").text('');
-            $('#'+selectLineID+" .lineAccountName").text('');
+            $('#'+selectLineID+" .colPaymentMethod").text('');
 
-            $('#'+selectLineID+" .lineMemo").text('');
-            $('#'+selectLineID+" .lineCreditEx").text('');
-            $('#'+selectLineID+" .lineDebitEx").text('');
+            $('#'+selectLineID+" .colReference").text('');
+            $('#'+selectLineID+" .colCompany").text('');
+            $('#'+selectLineID+" .colAmount").val('');
 
 
 

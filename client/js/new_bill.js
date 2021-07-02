@@ -1376,6 +1376,7 @@ Template.billcard.onRendered(() => {
             $(".lineAmount", rowData).val("");
             $(".lineTaxRate", rowData).text("");
             $(".lineTaxCode", rowData).text("");
+            $(".lineTaxAmount", rowData).text("");
             $(".lineAmt", rowData).text("");
             rowData.attr('id', tokenid);
             $("#tblBillLine tbody").append(rowData);
@@ -2754,6 +2755,7 @@ Template.billcard.events({
             $('#' + selectLineID + " .lineTaxRate").text('');
             $('#' + selectLineID + " .lineTaxCode").text('');
             $('#' + selectLineID + " .lineAmount").val('');
+            $('#' + selectLineID + " .lineTaxAmount").text('');
 
             document.getElementById("subtotal_tax").innerHTML = Currency + '0.00';
             document.getElementById("subtotal_total").innerHTML = Currency + '0.00';

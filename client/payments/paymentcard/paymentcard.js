@@ -501,7 +501,7 @@ Template.paymentcard.onRendered(() => {
                             paymentAmount: appliedAmt || 0,
                             notes: data.fields.Notes,
                             LineItems:lineItems,
-                            checkpayment: data.fields.Payment,
+                            checkpayment: data.fields.PaymentMethodName,
                             department: data.fields.DeptClassName,
                             applied:appliedAmt.toLocaleString(undefined, {minimumFractionDigits: 2})
 
@@ -662,7 +662,7 @@ Template.paymentcard.onRendered(() => {
                                 paymentAmount: appliedAmt || 0,
                                 notes: useData[d].fields.Notes,
                                 LineItems:lineItems,
-                                checkpayment: useData[d].fields.Payment,
+                                checkpayment: useData[d].fields.PaymentMethodName,
                                 department: useData[d].fields.DeptClassName,
                                 applied:appliedAmt.toLocaleString(undefined, {minimumFractionDigits: 2})
 
@@ -815,7 +815,7 @@ Template.paymentcard.onRendered(() => {
                                 paymentAmount: appliedAmt || 0,
                                 notes: data.fields.Notes,
                                 LineItems:lineItems,
-                                checkpayment: data.fields.Payment,
+                                checkpayment: data.fields.PaymentMethodName,
                                 department: data.fields.DeptClassName,
                                 applied:appliedAmt.toLocaleString(undefined, {minimumFractionDigits: 2})
 
@@ -968,7 +968,7 @@ Template.paymentcard.onRendered(() => {
                         paymentAmount: appliedAmt || 0,
                         notes: data.fields.Notes,
                         LineItems:lineItems,
-                        checkpayment: data.fields.Payment,
+                        checkpayment: data.fields.PaymentMethodName,
                         department: data.fields.DeptClassName,
                         applied:appliedAmt.toLocaleString(undefined, {minimumFractionDigits: 2})
 
@@ -1610,7 +1610,7 @@ Template.paymentcard.onRendered(() => {
                                 accountName = data.tcustomerpayment[i].fields.AccountName;
                                 notes = data.tcustomerpayment[i].fields.Notes;
                                 paymentdate = data.tcustomerpayment[i].fields.PaymentDate;
-                                checkpayment = data.tcustomerpayment[i].fields.Payment;
+                                checkpayment = data.tcustomerpayment[i].fields.PaymentMethodName;
                                 department = data.tcustomerpayment[i].fields.DeptClassName;
                                 appliedAmt = utilityService.modifynegativeCurrencyFormat(data.tcustomerpayment[i].fields.Applied).toLocaleString(undefined, {minimumFractionDigits: 2});
                                 templateObject.custpaymentid.set(data.tcustomerpayment[i].fields.ID);

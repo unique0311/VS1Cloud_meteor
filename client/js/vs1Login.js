@@ -3441,6 +3441,27 @@ $("#erplogin-button").click(async function(e){
                              Session.setPersistent('CloudUseForeignLicence', isFxCurrencyLicence);
                              Session.setPersistent('CloudWMSLicence', isWMSLicence);
                                /* End Remove licence */
+                               if(dataReturnRes.ProcessLog.ClientDetails == undefined){
+                                 myVS1Video.pause();
+                                 $('.myVS1Video').css('display','none');
+                                 $('.myVS1VideoLogin').css('display','none');
+                                 swal({
+                                   title: 'Ooops...',
+                                   text: 'It seems we are unable to connect you to VS1Cloud at the moment. Please try again in a few minutes.',
+                                   type: 'error',
+                                   showCancelButton: false,
+                                   confirmButtonText: 'Try Again'
+                                   }).then((result) => {
+                                   if (result.value) {
+                                     Meteor._reload.reload();
+                                   } else if (result.dismiss === 'cancel') {
+
+                                   }
+                                 });
+                                 $('.fullScreenSpin').css('display','none');
+                                 $('.loginSpinner').css('display','none');
+                                 return false;
+                               }
                                if(dataReturnRes.ProcessLog.ClientDetails.ProcessLog == undefined){
                                  myVS1Video.pause();
                                  $('.myVS1Video').css('display','none');

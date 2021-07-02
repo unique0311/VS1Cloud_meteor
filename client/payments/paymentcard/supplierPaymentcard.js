@@ -529,7 +529,7 @@ yearRange: "-90:+10",
               paymentAmount: appliedAmt || 0,
               notes: data.fields.Notes,
               LineItems: lineItems,
-              checkpayment: data.fields.Payment,
+              checkpayment: data.fields.PaymentMethodName,
               department: data.fields.DeptClassName,
               applied: appliedAmt.toLocaleString(undefined, {
                 minimumFractionDigits: 2
@@ -710,7 +710,7 @@ let record = {
   paymentAmount: appliedAmt || 0,
   notes: useData[d].fields.Notes,
   LineItems: lineItems,
-  checkpayment: useData[d].fields.Payment,
+  checkpayment: useData[d].fields.PaymentMethodName,
   department: useData[d].fields.DeptClassName,
   applied: appliedAmt.toLocaleString(undefined, {
     minimumFractionDigits: 2
@@ -884,7 +884,7 @@ $('.fullScreenSpin').css('display', 'none');
                 paymentAmount: appliedAmt || 0,
                 notes: data.fields.Notes,
                 LineItems: lineItems,
-                checkpayment: data.fields.Payment,
+                checkpayment: data.fields.PaymentMethodName,
                 department: data.fields.DeptClassName,
                 applied: appliedAmt.toLocaleString(undefined, {
                   minimumFractionDigits: 2
@@ -1058,7 +1058,7 @@ $('.fullScreenSpin').css('display', 'none');
             paymentAmount: appliedAmt || 0,
             notes: data.fields.Notes,
             LineItems: lineItems,
-            checkpayment: data.fields.Payment,
+            checkpayment: data.fields.PaymentMethodName,
             department: data.fields.DeptClassName,
             applied: appliedAmt.toLocaleString(undefined, {
               minimumFractionDigits: 2
@@ -2370,7 +2370,7 @@ $('.fullScreenSpin').css('display', 'none');
                 accountName = data.tsupplierpayment[i].fields.AccountName;
                 notes = data.tsupplierpayment[i].fields.Notes;
                 paymentdate = data.tsupplierpayment[i].fields.PaymentDate;
-                checkpayment = data.tsupplierpayment[i].fields.Payment;
+                checkpayment = data.tsupplierpayment[i].fields.PaymentMethodName;
                 department = data.tsupplierpayment[i].fields.DeptClassName;
                 appliedAmt = utilityService.modifynegativeCurrencyFormat(data.tsupplierpayment[i].fields.Applied).toLocaleString(undefined, {
                   minimumFractionDigits: 2
@@ -2519,7 +2519,7 @@ $('.fullScreenSpin').css('display', 'none');
                 accountName = data.tsupplierpayment[i].fields.AccountName;
                 notes = data.tsupplierpayment[i].fields.Notes;
                 paymentdate = data.tsupplierpayment[i].fields.PaymentDate;
-                checkpayment = data.tsupplierpayment[i].fields.Payment;
+                checkpayment = data.tsupplierpayment[i].fields.PaymentMethodName;
                 department = data.tsupplierpayment[i].fields.DeptClassName;
                 appliedAmt = utilityService.modifynegativeCurrencyFormat(data.tsupplierpayment[i].fields.Applied).toLocaleString(undefined, {
                   minimumFractionDigits: 2
@@ -2569,7 +2569,7 @@ $('.fullScreenSpin').css('display', 'none');
                 accountName = data.tsupplierpayment[i].fields.AccountName;
                 notes = data.tsupplierpayment[i].fields.Notes;
                 paymentdate = data.tsupplierpayment[i].fields.PaymentDate;
-                checkpayment = data.tsupplierpayment[i].fields.Payment;
+                checkpayment = data.tsupplierpayment[i].fields.PaymentMethodName;
                 department = data.tsupplierpayment[i].fields.DeptClassName;
                 appliedAmt = utilityService.modifynegativeCurrencyFormat(data.tsupplierpayment[i].fields.Applied).toLocaleString(undefined, {
                   minimumFractionDigits: 2

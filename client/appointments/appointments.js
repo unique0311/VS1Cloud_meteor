@@ -4610,33 +4610,35 @@ Template.appointments.events({
             period = 2;
         }
 
-        if (repeatDays.monday == 1) {
+        if (repeatDays.sunday == 1) {
             days.push(1);
         }
 
-        if (repeatDays.tuesday == 1) {
+        if (repeatDays.monday == 1) {
             days.push(2);
         }
 
-        if (repeatDays.wednesday == 1) {
+        if (repeatDays.tuesday == 1) {
             days.push(3);
         }
 
-        if (repeatDays.thursday == 1) {
+        if (repeatDays.wednesday == 1) {
             days.push(4);
         }
 
-        if (repeatDays.friday == 1) {
+        if (repeatDays.thursday == 1) {
             days.push(5);
         }
 
-        if (repeatDays.saturday == 1) {
+        if (repeatDays.friday == 1) {
             days.push(6);
         }
 
-        if (repeatDays.sunday == 1) {
+        if (repeatDays.saturday == 1) {
             days.push(7);
         }
+
+
 
         // if(days.length > 1){
         //     week_day = days;
@@ -4651,7 +4653,7 @@ Template.appointments.events({
         let startDate = startdateGet.getFullYear() + "-" + ("0" + (startdateGet.getMonth() + 1)).slice(-2) + "-" + ("0" + startdateGet.getDate()).slice(-2);
         let endDate = endDateGet.getFullYear() + "-" + ("0" + (endDateGet.getMonth() + 1)).slice(-2) + "-" + ("0" + endDateGet.getDate()).slice(-2);
         var erpGet = erpDb();
-        if (days.length > 1) {
+        if (days.length > 0) {
             for (let x = 0; x < days.length; x++) {
                 let dayObj = {
                     Name: "VS1_RepeatAppointment",
@@ -4686,6 +4688,7 @@ Template.appointments.events({
                 oPost.setRequestHeader("Accept", "application/html");
                 oPost.setRequestHeader("Content-type", "application/json");
                 // let objDataSave = '"JsonIn"' + ':' + JSON.stringify(selectClient);
+                //console.log(JSON.stringify(myString));
                 oPost.send(myString);
 
                 oPost.onreadystatechange = function () {
@@ -6158,7 +6161,7 @@ Template.appointments.events({
         } else {
             $('#frmOnHoldModal').modal();
         }
-        
+
     },
     'click #btnOptions': function (event) {
         $('#frmOptions').modal();
