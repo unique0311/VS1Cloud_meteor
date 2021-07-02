@@ -293,8 +293,13 @@ Template.quotedsalesorderinvoicedamounts.onRendered(()=>{
       let filterData = _.filter(useData, function (data) {
             return data.CustomerName
         });
+        let graphData = '';
+        if(filterData.length > 1){
+           graphData = _.orderBy(filterData, 'SaleDate');
+        }else{
+           graphData = filterData;
+        }
 
-        let graphData = _.orderBy(filterData, 'SaleDate');
       let initialData = _.filter(graphData, obj => (obj.SaleDate !== ''));
         for (let l = 0; l < initialData.length; l++) {
 
