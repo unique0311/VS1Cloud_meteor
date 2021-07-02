@@ -37,6 +37,11 @@ Template.purchasesoverview.onRendered(function() {
     let totAmountBill = 0;
     let totAmountCredit = 0;
 
+    let totCreditCount = 0;
+    let totBillCount = 0;
+    let totPOCount = 0;
+    var ctx = document.getElementById("myChartCustomer").getContext("2d");
+
     var date = new Date();
     var month = date.getMonth() + 1;
     date.setDate(1);
@@ -55,6 +60,10 @@ Template.purchasesoverview.onRendered(function() {
             if($(this).text().indexOf('-'+Currency) >= 0) $(this).addClass('text-danger')
         });
     };
+
+
+
+
     // paymentService.getOverviewAPDetails().then(function (data) {
     //   let itemsAwaitingPaymentcount = [];
     //   let itemsOverduePaymentcount = [];
@@ -112,18 +121,18 @@ Template.purchasesoverview.onRendered(function() {
                         let orderType = data.tbillreport[i].Type;
                         totalExpense += Number(data.tbillreport[i]['Total Amount (Inc)']);
                         if(data.tbillreport[i].Type == "Credit"){
-                            // totalCredit = Number(data.tbillreport.length);
+                            totCreditCount = Number(data.tbillreport.length);
                             totalCredit += Number(data.tbillreport[i]['Total Amount (Inc)']);
 
                         }
 
                         if(data.tbillreport[i].Type == "Bill"){
-                            //totalBill = Number(data.tbillreport.length);
+                            totBillCount = Number(data.tbillreport.length);
                             totalBill += Number(data.tbillreport[i]['Total Amount (Inc)']);
                         }
 
                         if(data.tbillreport[i].Type == "Purchase Order"){
-                            //totalPO = Number(data.tbillreport.length);
+                            totPOCount = Number(data.tbillreport.length);
                             orderType = "PO";
                             totalPO += Number(data.tbillreport[i]['Total Amount (Inc)']);
                         }
@@ -223,6 +232,50 @@ Template.purchasesoverview.onRendered(function() {
                                 if($(this).text().indexOf('-'+Currency) >= 0) $(this).addClass('text-danger')
                             });
                         };
+
+                        var myChart = new Chart(ctx, {
+                            type: 'pie',
+                            data: {
+                                labels: [
+                                    "Credit",
+                                    "Bill",
+                                    "Purchase Order"
+                                ],
+                                datasets: [
+                                    {
+                                        "label":"Credit",
+                                        "backgroundColor":[
+                                            "#e74a3b",
+                                            "#f6c23e",
+                                            "#1cc88a",
+                                            "#36b9cc"
+                                        ],
+                                        "borderColor":[
+                                            "#ffffff",
+                                            "#ffffff",
+                                            "#ffffff",
+                                            "#ffffff"
+                                        ],
+                                        "data":[
+                                            totCreditCount,
+                                            totBillCount,
+                                            totPOCount
+                                        ]
+                                    }
+                                ]
+                            },
+                            options: {
+                                "maintainAspectRatio":true,
+                                "legend":{
+                                    "display":true,
+                                    "position":"right",
+                                    "reverse":false
+                                },
+                                "title":{
+                                    "display":false
+                                }
+                            }
+                        });
                         setTimeout(function () {
                             MakeNegative();
                         }, 100);
@@ -368,7 +421,49 @@ Template.purchasesoverview.onRendered(function() {
 
 
                 }).catch(function (err) {
-                    // Bert.alert('<strong>' + err + '</strong>!', 'danger');
+                  var myChart = new Chart(ctx, {
+                      type: 'pie',
+                      data: {
+                          labels: [
+                              "Credit",
+                              "Bill",
+                              "Purchase Order"
+                          ],
+                          datasets: [
+                              {
+                                  "label":"Credit",
+                                  "backgroundColor":[
+                                      "#e74a3b",
+                                      "#f6c23e",
+                                      "#1cc88a",
+                                      "#36b9cc"
+                                  ],
+                                  "borderColor":[
+                                      "#ffffff",
+                                      "#ffffff",
+                                      "#ffffff",
+                                      "#ffffff"
+                                  ],
+                                  "data":[
+                                      "7",
+                                      "20",
+                                      "73"
+                                  ]
+                              }
+                          ]
+                      },
+                      options: {
+                          "maintainAspectRatio":true,
+                          "legend":{
+                              "display":true,
+                              "position":"right",
+                              "reverse":false
+                          },
+                          "title":{
+                              "display":false
+                          }
+                      }
+                  });
                     $('.fullScreenSpin').css('display','none');
                     // Meteor._reload.reload();
                 });
@@ -387,18 +482,18 @@ Template.purchasesoverview.onRendered(function() {
                     totalExpense += Number(useData[i]['Total Amount (Inc)']);
                     let orderType = useData[i].Type;
                     if(useData[i].Type == "Credit"){
-                        // totalCredit = Number(useData.length);
+                        totCreditCount = Number(useData.length);
                         totalCredit += Number(useData[i]['Total Amount (Inc)']);
 
                     }
 
                     if(useData[i].Type == "Bill"){
-                        //totalBill = Number(useData.length);
+                        totBillCount = Number(useData.length);
                         totalBill += Number(useData[i]['Total Amount (Inc)']);
                     }
 
                     if(useData[i].Type == "Purchase Order"){
-                        //totalPO = Number(useData.length);
+                        totPOCount = Number(useData.length);
                         orderType = "PO";
                         totalPO += Number(useData[i]['Total Amount (Inc)']);
                     }
@@ -500,8 +595,55 @@ Template.purchasesoverview.onRendered(function() {
                             if($(this).text().indexOf('-'+Currency) >= 0) $(this).addClass('text-danger')
                         });
                     };
+
+
+                    var myChart = new Chart(ctx, {
+                        type: 'pie',
+                        data: {
+                            labels: [
+                                "Credit",
+                                "Bill",
+                                "Purchase Order"
+                            ],
+                            datasets: [
+                                {
+                                    "label":"Credit",
+                                    "backgroundColor":[
+                                        "#e74a3b",
+                                        "#f6c23e",
+                                        "#1cc88a",
+                                        "#36b9cc"
+                                    ],
+                                    "borderColor":[
+                                        "#ffffff",
+                                        "#ffffff",
+                                        "#ffffff",
+                                        "#ffffff"
+                                    ],
+                                    "data":[
+                                        totCreditCount,
+                                        totBillCount,
+                                        totPOCount
+                                    ]
+                                }
+                            ]
+                        },
+                        options: {
+                            "maintainAspectRatio":true,
+                            "legend":{
+                                "display":true,
+                                "position":"right",
+                                "reverse":false
+                            },
+                            "title":{
+                                "display":false
+                            }
+                        }
+                    });
+
                     setTimeout(function () {
                         MakeNegative();
+
                     }, 100);
                 }
                 // $('#tblPurchaseOverview').DataTable().destroy();
@@ -659,18 +801,18 @@ Template.purchasesoverview.onRendered(function() {
                     let orderType = data.tbillreport[i].Type;
                     totalExpense += Number(data.tbillreport[i]['Total Amount (Inc)']);
                     if(data.tbillreport[i].Type == "Credit"){
-                        // totalCredit = Number(data.tbillreport.length);
+                        totCreditCount = Number(data.tbillreport.length);
                         totalCredit += Number(data.tbillreport[i]['Total Amount (Inc)']);
 
                     }
 
                     if(data.tbillreport[i].Type == "Bill"){
-                        //totalBill = Number(data.tbillreport.length);
+                        totBillCount = Number(data.tbillreport.length);
                         totalBill += Number(data.tbillreport[i]['Total Amount (Inc)']);
                     }
 
                     if(data.tbillreport[i].Type == "Purchase Order"){
-                        //totalPO = Number(data.tbillreport.length);
+                        totPOCount = Number(data.tbillreport.length);
                         orderType = "PO";
                         totalPO += Number(data.tbillreport[i]['Total Amount (Inc)']);
                     }
@@ -770,6 +912,50 @@ Template.purchasesoverview.onRendered(function() {
                             if($(this).text().indexOf('-'+Currency) >= 0) $(this).addClass('text-danger')
                         });
                     };
+
+                    var myChart = new Chart(ctx, {
+                        type: 'pie',
+                        data: {
+                            labels: [
+                                "Credit",
+                                "Bill",
+                                "Purchase Order"
+                            ],
+                            datasets: [
+                                {
+                                    "label":"Credit",
+                                    "backgroundColor":[
+                                        "#e74a3b",
+                                        "#f6c23e",
+                                        "#1cc88a",
+                                        "#36b9cc"
+                                    ],
+                                    "borderColor":[
+                                        "#ffffff",
+                                        "#ffffff",
+                                        "#ffffff",
+                                        "#ffffff"
+                                    ],
+                                    "data":[
+                                        totCreditCount,
+                                        totBillCount,
+                                        totPOCount
+                                    ]
+                                }
+                            ]
+                        },
+                        options: {
+                            "maintainAspectRatio":true,
+                            "legend":{
+                                "display":true,
+                                "position":"right",
+                                "reverse":false
+                            },
+                            "title":{
+                                "display":false
+                            }
+                        }
+                    });
                     setTimeout(function () {
                         MakeNegative();
                     }, 100);
@@ -925,52 +1111,6 @@ Template.purchasesoverview.onRendered(function() {
 
     templateObject.getAllPurchaseOrderAll();
 
-
-
-    var ctx = document.getElementById("myChartCustomer").getContext("2d");
-    var myChart = new Chart(ctx, {
-        type: 'pie',
-        data: {
-            labels: [
-                "Credit",
-                "Bill",
-                "Purchase Order"
-            ],
-            datasets: [
-                {
-                    "label":"Credit",
-                    "backgroundColor":[
-                        "#e74a3b",
-                        "#f6c23e",
-                        "#1cc88a",
-                        "#36b9cc"
-                    ],
-                    "borderColor":[
-                        "#ffffff",
-                        "#ffffff",
-                        "#ffffff",
-                        "#ffffff"
-                    ],
-                    "data":[
-                        "7",
-                        "20",
-                        "73"
-                    ]
-                }
-            ]
-        },
-        options: {
-            "maintainAspectRatio":true,
-            "legend":{
-                "display":true,
-                "position":"right",
-                "reverse":false
-            },
-            "title":{
-                "display":false
-            }
-        }
-    });
 });
 
 Template.purchasesoverview.events({
