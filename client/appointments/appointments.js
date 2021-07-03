@@ -4611,31 +4611,31 @@ Template.appointments.events({
         }
 
         if (repeatDays.sunday == 1) {
-            days.push(1);
+            days.push(0);
         }
 
         if (repeatDays.monday == 1) {
-            days.push(2);
+            days.push(1);
         }
 
         if (repeatDays.tuesday == 1) {
-            days.push(3);
+            days.push(2);
         }
 
         if (repeatDays.wednesday == 1) {
-            days.push(4);
+            days.push(3);
         }
 
         if (repeatDays.thursday == 1) {
-            days.push(5);
+            days.push(4);
         }
 
         if (repeatDays.friday == 1) {
-            days.push(6);
+            days.push(5);
         }
 
         if (repeatDays.saturday == 1) {
-            days.push(7);
+            days.push(6);
         }
 
 

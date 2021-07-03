@@ -3,9 +3,7 @@ import {ReactiveVar} from 'meteor/reactive-var';
 import 'jquery-ui-dist/external/jquery/jquery';
 import 'jquery-ui-dist/jquery-ui';
 import 'jquery-ui-dist/jquery-ui.css';
-
-
-
+let _ = require('lodash');
 import {UtilityService} from "../../utility-service";
 import {AccountService} from "../../accounts/account-service";
 import {SalesBoardService} from "../../js/sales-service";

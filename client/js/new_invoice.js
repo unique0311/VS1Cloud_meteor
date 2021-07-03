@@ -770,9 +770,10 @@ Template.new_invoice.onRendered(() => {
                                     $('#edtCustomerName').attr('readonly', true);
                                     $('#edtCustomerName').attr('disabled', 'disabled');
                                     $('.btn-primary').attr('disabled', 'disabled');
+                                    $('#btnCopyInvoice').attr('disabled', 'disabled');
                                     $('#edtCustomerName').css('background-color', '#eaecf4');
                                     $('#btnViewPayment').removeAttr('disabled', 'disabled');
-                                    $('#btnCopyInvoice').removeAttr('disabled', 'disabled');
+                                    $('.btnSave').attr('disabled', 'disabled');
                                     $('#btnBack').removeAttr('disabled', 'disabled');
                                     $('.printConfirm').removeAttr('disabled', 'disabled');
                                     $('.tblInvoiceLine tbody tr').each(function () {
@@ -1030,7 +1031,7 @@ Template.new_invoice.onRendered(() => {
                                         $('.btn-primary').attr('disabled', 'disabled');
                                         $('#edtCustomerName').css('background-color', '#eaecf4');
                                         $('#btnViewPayment').removeAttr('disabled', 'disabled');
-                                        $('#btnCopyInvoice').removeAttr('disabled', 'disabled');
+                                        $('.btnSave').attr('disabled', 'disabled');
                                         $('#btnBack').removeAttr('disabled', 'disabled');
                                         $('.printConfirm').removeAttr('disabled', 'disabled');
                                         $('.tblInvoiceLine tbody tr').each(function () {
@@ -1230,9 +1231,10 @@ Template.new_invoice.onRendered(() => {
                                         $('#edtCustomerName').attr('readonly', true);
                                         $('#edtCustomerName').attr('disabled', 'disabled');
                                         $('.btn-primary').attr('disabled', 'disabled');
+                                        $('#btnCopyInvoice').attr('disabled', 'disabled');
                                         $('#edtCustomerName').css('background-color', '#eaecf4');
                                         $('#btnViewPayment').removeAttr('disabled', 'disabled');
-                                        $('#btnCopyInvoice').removeAttr('disabled', 'disabled');
+                                        $('.btnSave').attr('disabled', 'disabled');
                                         $('#btnBack').removeAttr('disabled', 'disabled');
                                         $('.printConfirm').removeAttr('disabled', 'disabled');
                                         $('.tblInvoiceLine tbody tr').each(function () {
@@ -1488,9 +1490,10 @@ Template.new_invoice.onRendered(() => {
                                 $('#edtCustomerName').attr('readonly', true);
                                 $('#edtCustomerName').attr('disabled', 'disabled');
                                 $('.btn-primary').attr('disabled', 'disabled');
+                                $('#btnCopyInvoice').attr('disabled', 'disabled');
                                 $('#edtCustomerName').css('background-color', '#eaecf4');
                                 $('#btnViewPayment').removeAttr('disabled', 'disabled');
-                                $('#btnCopyInvoice').removeAttr('disabled', 'disabled');
+                                $('.btnSave').attr('disabled', 'disabled');
                                 $('#btnBack').removeAttr('disabled', 'disabled');
                                 $('.printConfirm').removeAttr('disabled', 'disabled');
                                 $('.tblInvoiceLine tbody tr').each(function () {
@@ -1867,10 +1870,12 @@ Template.new_invoice.onRendered(() => {
                                     $('#edtCustomerName').attr('readonly', true);
                                     $('#edtCustomerName').attr('disabled', 'disabled');
                                     $('.btn-primary').attr('disabled', 'disabled');
+
+                                    $('#btnCopyInvoice').attr('disabled', 'disabled');
                                     $('#edtCustomerName').css('background-color', '#eaecf4');
 
                                     $('#btnViewPayment').removeAttr('disabled', 'disabled');
-                                    $('#btnCopyInvoice').removeAttr('disabled', 'disabled');
+                                    $('.btnSave').attr('disabled', 'disabled');
                                     $('#btnBack').removeAttr('disabled', 'disabled');
                                     $('.printConfirm').removeAttr('disabled', 'disabled');
                                     $('.tblInvoiceLine tbody tr').each(function () {
@@ -2110,7 +2115,7 @@ Template.new_invoice.onRendered(() => {
                                         $('#edtCustomerName').css('background-color', '#eaecf4');
 
                                         $('#btnViewPayment').removeAttr('disabled', 'disabled');
-                                        $('#btnCopyInvoice').removeAttr('disabled', 'disabled');
+                                        $('.btnSave').attr('disabled', 'disabled');
                                         $('#btnBack').removeAttr('disabled', 'disabled');
                                         $('.printConfirm').removeAttr('disabled', 'disabled');
                                         $('.tblInvoiceLine tbody tr').each(function () {
@@ -2321,10 +2326,11 @@ Template.new_invoice.onRendered(() => {
                                         $('#edtCustomerName').attr('readonly', true);
                                         $('#edtCustomerName').attr('disabled', 'disabled');
                                         $('.btn-primary').attr('disabled', 'disabled');
+                                        $('#btnCopyInvoice').attr('disabled', 'disabled');
                                         $('#edtCustomerName').css('background-color', '#eaecf4');
 
                                         $('#btnViewPayment').removeAttr('disabled', 'disabled');
-                                        $('#btnCopyInvoice').removeAttr('disabled', 'disabled');
+                                        $('.btnSave').attr('disabled', 'disabled');
                                         $('#btnBack').removeAttr('disabled', 'disabled');
                                         $('.printConfirm').removeAttr('disabled', 'disabled');
                                         $('.tblInvoiceLine tbody tr').each(function () {
@@ -2560,10 +2566,11 @@ Template.new_invoice.onRendered(() => {
                                 $('#edtCustomerName').attr('readonly', true);
                                 $('#edtCustomerName').attr('disabled', 'disabled');
                                 $('.btn-primary').attr('disabled', 'disabled');
+                                $('#btnCopyInvoice').attr('disabled', 'disabled');
                                 $('#edtCustomerName').css('background-color', '#eaecf4');
 
                                 $('#btnViewPayment').removeAttr('disabled', 'disabled');
-                                $('#btnCopyInvoice').removeAttr('disabled', 'disabled');
+                                $('.btnSave').attr('disabled', 'disabled');
                                 $('#btnBack').removeAttr('disabled', 'disabled');
                                 $('.printConfirm').removeAttr('disabled', 'disabled');
                                 $('.tblInvoiceLine tbody tr').each(function () {

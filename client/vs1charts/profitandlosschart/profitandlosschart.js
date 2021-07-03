@@ -1,7 +1,7 @@
 import {VS1ChartService} from "../vs1charts-service";
 import 'jQuery.print/jQuery.print.js';
 import {UtilityService} from "../../utility-service";
-
+let _ = require('lodash');
 let vs1chartService = new VS1ChartService();
 let utilityService = new UtilityService();
 Template.profitandlosschart.onCreated(()=>{
@@ -42,7 +42,7 @@ Template.profitandlosschart.onRendered(()=>{
   templateObject.dateAsAt.set(begunDate);
  const dataTableList = [];
  const deptrecords = [];
- 
+
  if ((!localStorage.getItem('VS1ProfitandLoss_netIncomeEx_dash'))) {
     templateObject.getProfitandLossReports = function (dateFrom, dateTo, ignoreDate) {
         vs1chartService.getProfitandLoss(dateFrom, dateTo, ignoreDate).then(function (data) {
@@ -105,8 +105,8 @@ Template.profitandlosschart.onRendered(()=>{
 
         }
         if((!isNaN(totalExpense))&&(!isNaN(totalCOGS))){
-          
-          
+
+
              sumTotalExpense = (Number(totalExpense) + Number(totalCOGS));
             $('.spnTotalExpense').html(utilityService.modifynegativeCurrencyFormat(Math.abs(sumTotalExpense)));
         }

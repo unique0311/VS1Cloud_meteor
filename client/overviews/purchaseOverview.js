@@ -9,6 +9,7 @@ import { SideBarService } from '../js/sidebar-service';
 import '../lib/global/indexdbstorage.js';
 let sideBarService = new SideBarService();
 let utilityService = new UtilityService();
+let _ = require('lodash');
 Template.purchasesoverview.onCreated(function(){
     const templateObject = Template.instance();
     templateObject.datatablerecords = new ReactiveVar([]);
@@ -121,18 +122,18 @@ Template.purchasesoverview.onRendered(function() {
                         let orderType = data.tbillreport[i].Type;
                         totalExpense += Number(data.tbillreport[i]['Total Amount (Inc)']);
                         if(data.tbillreport[i].Type == "Credit"){
-                            totCreditCount = Number(data.tbillreport.length);
+                            totCreditCount ++;
                             totalCredit += Number(data.tbillreport[i]['Total Amount (Inc)']);
 
                         }
 
                         if(data.tbillreport[i].Type == "Bill"){
-                            totBillCount = Number(data.tbillreport.length);
+                            totBillCount ++;
                             totalBill += Number(data.tbillreport[i]['Total Amount (Inc)']);
                         }
 
                         if(data.tbillreport[i].Type == "Purchase Order"){
-                            totPOCount = Number(data.tbillreport.length);
+                            totPOCount ++;
                             orderType = "PO";
                             totalPO += Number(data.tbillreport[i]['Total Amount (Inc)']);
                         }
@@ -482,18 +483,18 @@ Template.purchasesoverview.onRendered(function() {
                     totalExpense += Number(useData[i]['Total Amount (Inc)']);
                     let orderType = useData[i].Type;
                     if(useData[i].Type == "Credit"){
-                        totCreditCount = Number(useData.length);
+                        totCreditCount ++;
                         totalCredit += Number(useData[i]['Total Amount (Inc)']);
 
                     }
 
                     if(useData[i].Type == "Bill"){
-                        totBillCount = Number(useData.length);
+                        totBillCount ++;
                         totalBill += Number(useData[i]['Total Amount (Inc)']);
                     }
 
                     if(useData[i].Type == "Purchase Order"){
-                        totPOCount = Number(useData.length);
+                        totPOCount ++;
                         orderType = "PO";
                         totalPO += Number(useData[i]['Total Amount (Inc)']);
                     }
@@ -801,18 +802,18 @@ Template.purchasesoverview.onRendered(function() {
                     let orderType = data.tbillreport[i].Type;
                     totalExpense += Number(data.tbillreport[i]['Total Amount (Inc)']);
                     if(data.tbillreport[i].Type == "Credit"){
-                        totCreditCount = Number(data.tbillreport.length);
+                        totCreditCount ++;
                         totalCredit += Number(data.tbillreport[i]['Total Amount (Inc)']);
 
                     }
 
                     if(data.tbillreport[i].Type == "Bill"){
-                        totBillCount = Number(data.tbillreport.length);
+                        totBillCount ++;
                         totalBill += Number(data.tbillreport[i]['Total Amount (Inc)']);
                     }
 
                     if(data.tbillreport[i].Type == "Purchase Order"){
-                        totPOCount = Number(data.tbillreport.length);
+                        totPOCount ++;
                         orderType = "PO";
                         totalPO += Number(data.tbillreport[i]['Total Amount (Inc)']);
                     }

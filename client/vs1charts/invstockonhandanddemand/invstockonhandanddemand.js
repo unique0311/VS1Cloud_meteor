@@ -3,7 +3,7 @@ import 'jQuery.print/jQuery.print.js';
 import {UtilityService} from "../../utility-service";
 import { ReactiveVar } from 'meteor/reactive-var';
 import { CoreService } from '../../js/core-service';
-
+let _ = require('lodash');
 import { SideBarService } from '../../js/sidebar-service';
 import '../../lib/global/indexdbstorage.js';
 let vs1chartService = new VS1ChartService();

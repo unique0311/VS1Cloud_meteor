@@ -1,10 +1,5 @@
-
 import { ReactiveVar } from 'meteor/reactive-var';
-
-
-
-
-
+let _ = require('lodash');
 // let utilityService = new UtilityService();
 Template.expensebreakdown.onCreated(function(){
   const templateObject = Template.instance();

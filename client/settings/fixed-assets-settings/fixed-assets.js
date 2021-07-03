@@ -4,7 +4,7 @@ import 'colresizable/colResizable-1.6.min';
 import 'jquery-ui-dist/external/jquery/jquery';
 import 'jquery-ui-dist/jquery-ui';
 import 'jquery-ui-dist/jquery-ui.css';
-
+let _ = require('lodash');
 Template.fixedAssetsSettings.onCreated(() => {
     const templateObject = Template.instance();
     templateObject.fixedAssetsList = new ReactiveVar([]);
