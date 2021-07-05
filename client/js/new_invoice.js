@@ -3281,7 +3281,7 @@ Template.new_invoice.onRendered(() => {
     templateObject.getTerms();
 
     let table;
-    if ($('.printID').attr('id') == undefined || $('.printID').attr('id') == undefined || $('.printID').attr('id') == "") {
+    if ($('.printID').attr('id') == undefined || $('.printID').attr('id') != undefined || $('.printID').attr('id') != "") {
         var duedate = new Date();
         let dueDate = ("0" + duedate.getDate()).slice(-2) + "/" + ("0" + (duedate.getMonth() + 1)).slice(-2) + "/" + duedate.getFullYear();
         $('.due').text(dueDate);
@@ -3400,7 +3400,7 @@ Template.new_invoice.onRendered(() => {
             $('#' + selectLineID + " .lineQty").val(1);
             $('#' + selectLineID + " .lineUnitPrice").val(lineUnitPrice);
 
-            if ($('.printID').attr('id') == undefined || $('.printID').attr('id') == undefined || $('.printID').attr('id') == "") {
+            if ($('.printID').attr('id') == undefined || $('.printID').attr('id') != undefined || $('.printID').attr('id') != "") {
                 $('#' + selectLineID + " #lineProductName").text(lineProductName);
                 $('#' + selectLineID + " #lineProductDesc").text(lineProductDesc);
                 $('#' + selectLineID + " #lineOrdered").text(1);
@@ -3414,20 +3414,20 @@ Template.new_invoice.onRendered(() => {
             if (lineTaxRate == "NT") {
                 lineTaxRate = "E";
                 $('#' + selectLineID + " .lineTaxCode").text(lineTaxRate);
-                if ($('.printID').attr('id') == undefined || $('.printID').attr('id') == "") {
+                if ($('.printID').attr('id') != undefined || $('.printID').attr('id') != "") {
                     $('#' + selectLineID + " #lineTaxCode").text(lineTaxRate);
                 }
 
             } else {
                 $('#' + selectLineID + " .lineTaxCode").text(lineTaxRate);
-                if ($('.printID').attr('id') == undefined || $('.printID').attr('id') == "") {
+                if ($('.printID').attr('id') != undefined || $('.printID').attr('id') != "") {
                     $('#' + selectLineID + " #lineTaxCode").text(lineTaxRate);
                 }
             }
 
             lineAmount = 1 * Number(lineUnitPrice.replace(/[^0-9.-]+/g, "")) || 0;
             $('#' + selectLineID + " .lineAmt").text(utilityService.modifynegativeCurrencyFormat(lineAmount));
-            if ($('.printID').attr('id') == undefined || $('.printID').attr('id') == undefined || $('.printID').attr('id') == "") {
+            if ($('.printID').attr('id') == undefined || $('.printID').attr('id') != undefined || $('.printID').attr('id') != "") {
                 $('#' + selectLineID + " #lineAmt").text(utilityService.modifynegativeCurrencyFormat(lineAmount));
             }
             $('#productListModal').modal('toggle');
@@ -3470,7 +3470,7 @@ Template.new_invoice.onRendered(() => {
                 }
             });
 
-            if ($('.printID').attr('id') == undefined || $('.printID').attr('id') == undefined || $('.printID').attr('id') == "") {
+            if ($('.printID').attr('id') == undefined || $('.printID').attr('id') != undefined || $('.printID').attr('id') != "") {
                 $printrows.each(function (index) {
                     var $printrows = $(this);
                     var qty = $printrows.find("#lineQty").text() || 0;
@@ -3529,7 +3529,7 @@ Template.new_invoice.onRendered(() => {
 
             $('#' + selectLineID + " .lineTaxRate").text(lineTaxRate || 0);
             $('#' + selectLineID + " .lineTaxCode").text(lineTaxCode);
-            if($('.printID').attr('id') == undefined || $('.printID').attr('id') == "") {
+            if($('.printID').attr('id') != undefined || $('.printID').attr('id') != "") {
                 $('#' + selectLineID + " #lineTaxCode").text(lineTaxCode);
             }
 
@@ -3577,7 +3577,7 @@ Template.new_invoice.onRendered(() => {
                 }
             });
 
-            if ($('.printID').attr('id') == undefined || $('.printID').attr('id') == "") {
+            if ($('.printID').attr('id') != undefined || $('.printID').attr('id') != "") {
                 $printrows.each(function (index) {
                     var $printrows = $(this);
                     var qty = $printrows.find("#lineQty").text() || 0;
@@ -3710,7 +3710,7 @@ Template.new_invoice.onRendered(() => {
                             }
                         });
 
-                        if ($('.printID').attr('id') == undefined || $('.printID').attr('id') == "") {
+                        if ($('.printID').attr('id') != undefined || $('.printID').attr('id') != "") {
                             $printrows.each(function (index) {
                                 var $printrows = $(this);
                                 var qty = $printrows.find("#lineQty").text() || 0;
@@ -3815,12 +3815,13 @@ Template.new_invoice.onRendered(() => {
             pdf.setTextColor(255, 255, 255);
              pdf.textWithLink('Pay Now', 482, 113, { url: 'https://www.depot.vs1cloud.com/stripe/' + stringQuery });
 
-            if ($('.printID').attr('id') == undefined || $('.printID').attr('id') == "") {
+            if ($('.printID').attr('id') != undefined || $('.printID').attr('id') == "") {
                 pdf.save('Invoice-' + id + '.pdf');
             } else {
                 pdf.save('Invoice.pdf');
             }
             $('#html-2-pdfwrapper').css('display', 'none');
+             $('.fullScreenSpin').css('display', 'none');
         });
 
     };
@@ -4878,7 +4879,7 @@ Template.new_invoice.events({
                 $('#' + targetID + " .lineBo").val(boValue);
             }
         }
-        if ($('.printID').attr('id') == undefined || $('.printID').attr('id') == undefined || $('.printID').attr('id') == "") {
+        if ($('.printID').attr('id') == undefined || $('.printID').attr('id') != undefined || $('.printID').attr('id') != "") {
             $('#' + targetID + " #lineQty").text($('#' + targetID + " .lineQty").val());
         }
 
@@ -4926,7 +4927,7 @@ Template.new_invoice.events({
             }
         });
 
-        if ($('.printID').attr('id') == undefined || $('.printID').attr('id') == "") {
+        if ($('.printID').attr('id') != undefined || $('.printID').attr('id') != "") {
             $printrows.each(function (index) {
                 var $printrows = $(this);
                 var qty = $printrows.find("#lineQty").text() || 0;
@@ -5056,7 +5057,7 @@ Template.new_invoice.events({
         let taxGrandTotal = 0;
         let taxGrandTotalPrint = 0;
 
-        if ($('.printID').attr('id') == undefined || $('.printID').attr('id') == "") {
+        if ($('.printID').attr('id') != undefined || $('.printID').attr('id') != "") {
             $('#' + targetID + " #lineUnitPrice").text($('#' + targetID + " .lineUnitPrice").val());
         }
 
@@ -5099,7 +5100,7 @@ Template.new_invoice.events({
             }
         });
 
-        if ($('.printID').attr('id') == undefined || $('.printID').attr('id') == "") {
+        if ($('.printID').attr('id') != undefined || $('.printID').attr('id') != "") {
             $printrows.each(function(index) {
                 var $printrows = $(this);
                 var qty = $printrows.find("#lineQty").text() || 0;
@@ -5181,6 +5182,7 @@ Template.new_invoice.events({
         $('#selectLineID').val(targetID);
     },
     'click .printConfirm': function (event) {
+        $('.fullScreenSpin').css('display', 'inline-block');
         $('#html-2-pdfwrapper').css('display', 'block');
         if ($('.edtCustomerEmail').val() != "") {
             $('.pdfCustomerName').html($('#edtCustomerName').val());
@@ -5286,7 +5288,7 @@ Template.new_invoice.events({
                     }
                 });
 
-                if ($('.printID').attr('id') == undefined || $('.printID').attr('id') == "") {
+                if ($('.printID').attr('id') != undefined || $('.printID').attr('id') != "") {
                 $printrows.each(function (index) {
                     var $printrows = $(this);
                     var qty = $printrows.find("#lineQty").text() || 0;

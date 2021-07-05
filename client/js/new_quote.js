@@ -2431,7 +2431,7 @@ Template.new_quote.onRendered(() => {
 
 
     let table;
-    if ($('.printID').attr('id') == undefined || $('.printID').attr('id') == undefined || $('.printID').attr('id') == "") {
+    if ($('.printID').attr('id') == undefined || $('.printID').attr('id') != undefined || $('.printID').attr('id') != "") {
         var duedate = new Date();
         let dueDate = ("0" + duedate.getDate()).slice(-2) + "/" + ("0" + (duedate.getMonth() + 1)).slice(-2) + "/" + duedate.getFullYear();
         $('.due').text(dueDate);
@@ -2538,7 +2538,7 @@ Template.new_quote.onRendered(() => {
             $('#' + selectLineID + " .lineQty").val(1);
             $('#' + selectLineID + " .lineUnitPrice").val(lineUnitPrice);
 
-            if ($('.printID').attr('id') == undefined || $('.printID').attr('id') == "") {
+            if ($('.printID').attr('id') != undefined || $('.printID').attr('id') != "") {
                 $('#' + selectLineID + " #lineProductName").text(lineProductName);
                 $('#' + selectLineID + " #lineProductDesc").text(lineProductDesc);
                 $('#' + selectLineID + " #lineOrdered").text(1);
@@ -2549,12 +2549,12 @@ Template.new_quote.onRendered(() => {
             if (lineTaxRate == "NT") {
                 lineTaxRate = "E";
                 $('#' + selectLineID + " .lineTaxCode").text(lineTaxRate);
-                if ($('.printID').attr('id') == undefined || $('.printID').attr('id') == "") {
+                if ($('.printID').attr('id') != undefined || $('.printID').attr('id') != "") {
                     $('#' + selectLineID + " #lineTaxCode").text(lineTaxRate);
                 }
             } else {
                 $('#' + selectLineID + " .lineTaxCode").text(lineTaxRate);
-                if ($('.printID').attr('id') == undefined || $('.printID').attr('id') == "") {
+                if ($('.printID').attr('id') != undefined || $('.printID').attr('id') != "") {
                     $('#' + selectLineID + " #lineTaxCode").text(lineTaxRate);
                 }
             }
@@ -2601,7 +2601,7 @@ Template.new_quote.onRendered(() => {
 
                 }
             });
-            if ($('.printID').attr('id') == undefined || $('.printID').attr('id') == "") {
+            if ($('.printID').attr('id') != undefined || $('.printID').attr('id') != "") {
                 $printrows.each(function (index) {
                     var $printrows = $(this);
                     var qty = $printrows.find("#lineQty").text() || 0;
@@ -2659,7 +2659,7 @@ Template.new_quote.onRendered(() => {
             $('#' + selectLineID + " .lineTaxRate").text(lineTaxRate || 0);
             $('#' + selectLineID + " .lineTaxCode").text(lineTaxCode);
 
-            if($('.printID').attr('id') == undefined || $('.printID').attr('id') == "") {
+            if($('.printID').attr('id') != undefined || $('.printID').attr('id') != "") {
                 $('#' + selectLineID + " #lineTaxCode").text(lineTaxCode);
             }
 
@@ -2710,7 +2710,7 @@ Template.new_quote.onRendered(() => {
                 }
             });
 
-            if ($('.printID').attr('id') == undefined || $('.printID').attr('id') == "") {
+            if ($('.printID').attr('id') != undefined || $('.printID').attr('id') != "") {
                 $printrows.each(function (index) {
                     var $printrows = $(this);
                     var qty = $printrows.find("#lineQty").text() || 0;
@@ -2834,7 +2834,7 @@ Template.new_quote.onRendered(() => {
 
                             }
                         });
-                         if ($('.printID').attr('id') == undefined || $('.printID').attr('id') == "") {
+                         if ($('.printID').attr('id') != undefined || $('.printID').attr('id') != "") {
                             $printrows.each(function (index) {
                                 var $printrows = $(this);
                                 var qty = $printrows.find("#lineQty").text() || 0;
@@ -2947,6 +2947,7 @@ Template.new_quote.onRendered(() => {
             pdf.textWithLink('Pay Now', 482, 113, { url: 'https://www.depot.vs1cloud.com/stripe/' + stringQuery });
             pdf.save('Quote-' + id + '.pdf');
             $('#html-2-pdfwrapper').css('display', 'none');
+             $('.fullScreenSpin').css('display', 'none');
         });
 
 
@@ -3688,7 +3689,7 @@ Template.new_quote.events({
         let taxGrandTotal = 0;
         let taxGrandTotalPrint = 0;
 
-        if ($('.printID').attr('id') == undefined || $('.printID').attr('id') == "") {
+        if ($('.printID').attr('id') != undefined || $('.printID').attr('id') != "") {
             $('#' + targetID + " #lineQty").text($('#' + targetID + " .lineQty").val());
         }
 
@@ -3731,7 +3732,7 @@ Template.new_quote.events({
             }
         });
 
-        if ($('.printID').attr('id') == undefined || $('.printID').attr('id') == "") {
+        if ($('.printID').attr('id') != undefined || $('.printID').attr('id') != "") {
             $printrows.each(function (index) {
                 var $printrows = $(this);
                 var qty = $printrows.find("#lineQty").text() || 0;
@@ -3797,7 +3798,7 @@ Template.new_quote.events({
         let taxGrandTotal = 0;
         let taxGrandTotalPrint = 0;
 
-        if ($('.printID').attr('id') == undefined || $('.printID').attr('id') == "") {
+        if ($('.printID').attr('id') != undefined || $('.printID').attr('id') != "") {
             $('#' + targetID + " #lineUnitPrice").text($('#' + targetID + " .lineUnitPrice").val());
         }
 
@@ -3840,7 +3841,7 @@ Template.new_quote.events({
             }
         });
 
-         if ($('.printID').attr('id') == undefined || $('.printID').attr('id') == "") {
+         if ($('.printID').attr('id') != undefined || $('.printID').attr('id') != "") {
             $printrows.each(function(index) {
                 var $printrows = $(this);
                 var qty = $printrows.find("#lineQty").text() || 0;
@@ -3923,6 +3924,7 @@ Template.new_quote.events({
         $('#selectLineID').val(targetID);
     },
     'click .printConfirm': function (event) {
+        $('.fullScreenSpin').css('display', 'inline-block');
         let templateObject = Template.instance();
         let quoteData = templateObject.quoterecord.get();
         $('#html-2-pdfwrapper').css('display', 'block');
@@ -4019,7 +4021,7 @@ Template.new_quote.events({
                     }
                 });
 
-                if ($('.printID').attr('id') == undefined || $('.printID').attr('id') == "") {
+                if ($('.printID').attr('id') != undefined || $('.printID').attr('id') != "") {
                 $printrows.each(function (index) {
                     var $printrows = $(this);
                     var qty = $printrows.find("#lineQty").text() || 0;

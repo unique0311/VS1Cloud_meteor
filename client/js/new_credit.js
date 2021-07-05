@@ -1461,7 +1461,7 @@ Template.creditcard.onRendered(() => {
             $('#' + selectLineID + " .colAmount").val(lineUnitPrice);
             $('#' + selectLineID + " .lineTaxCode").text(lineTaxRate);
 
-            if ($('.printID').attr('id') == undefined || $('.printID').attr('id') == "") {
+            if ($('.printID').attr('id') != undefined || $('.printID').attr('id') != "") {
                 $('#' + selectLineID + " #lineAccountName").text(lineProductName);
                 $('#' + selectLineID + " #lineMemo").text(lineProductDesc);
                 $('#' + selectLineID + " #colAmount").text(lineUnitPrice);
@@ -1509,7 +1509,7 @@ Template.creditcard.onRendered(() => {
                 }
             });
 
-            if ($('.printID').attr('id') == undefined || $('.printID').attr('id') == "") {
+            if ($('.printID').attr('id') != undefined || $('.printID').attr('id') != "") {
                 $printrows.each(function(index) {
                 var $printrows = $(this);
                 var amount = $printrows.find("#lineAmount").text() || "0";
@@ -1570,7 +1570,7 @@ Template.creditcard.onRendered(() => {
             $('#' + selectLineID + " .lineTaxCode").text(lineTaxCode);
 
             let $printrows = $(".credit_print tbody tr");
-                if ($('.printID').attr('id') == undefined || $('.printID').attr('id') == "") {
+                if ($('.printID').attr('id') != undefined || $('.printID').attr('id') != "") {
                     $('#' + selectLineID + " #lineAmount").text($('#' + selectLineID + " .colAmount").val());
                     $('#' + selectLineID + " #lineTaxCode").text(lineTaxCode);
 
@@ -1621,7 +1621,7 @@ Template.creditcard.onRendered(() => {
                 }
             });
 
-        if($('.printID').attr('id') == undefined || $('.printID').attr('id') == "") {
+        if($('.printID').attr('id') != undefined || $('.printID').attr('id') != "") {
             $printrows.each(function(index) {
             var $printrow = $(this);
             var amount = $printrow.find("#lineAmount").text() || "0";
@@ -1696,6 +1696,7 @@ Template.creditcard.onRendered(() => {
         pdf.addHTML(source, function() {
             pdf.save('Credit-'+id+'.pdf');
             $('#html-2-pdfwrapper').css('display', 'none');
+            $('.fullScreenSpin').css('display', 'none');
         });
     };
 });
@@ -2380,7 +2381,7 @@ Template.creditcard.events({
 
         let $printrows = $(".credit_print tbody tr");
 
-        if ($('.printID').attr('id') == undefined || $('.printID').attr('id') == "") {
+        if ($('.printID').attr('id') != undefined || $('.printID').attr('id') != "") {
             $('#' + targetID + " #lineAmount").text($('#' + targetID + " .colAmount").val());
             $('#' + targetID + " #lineTaxCode").text($('#' + targetID + " .lineTaxCode").text());
         }
@@ -2427,7 +2428,7 @@ Template.creditcard.events({
             }
         });
 
-        if ($('.printID').attr('id') == undefined || $('.printID').attr('id') == "") {
+        if ($('.printID').attr('id') != undefined || $('.printID').attr('id') != "") {
             $printrows.each(function(index) {
             var $printrows = $(this);
             var amount = $printrows.find("#lineAmount").text() || "0";
@@ -2506,6 +2507,7 @@ Template.creditcard.events({
         $('#selectLineID').val(targetID);
     },
     'click .printConfirm': function(event) {
+         $('.fullScreenSpin').css('display', 'inline-block');
         $('#html-2-pdfwrapper').css('display', 'block');
         $('.pdfCustomerName').html($('#edtSupplierName').val());
         $('.pdfCustomerAddress').html($('#txabillingAddress').val().replace(/[\r\n]/g, "<br />"));
@@ -2599,7 +2601,7 @@ Template.creditcard.events({
                     }
                 });
 
-            if ($('.printID').attr('id') == undefined || $('.printID').attr('id') == "") {
+            if ($('.printID').attr('id') != undefined || $('.printID').attr('id') != "") {
                 $printrows.each(function(index) {
                 var $printrows = $(this);
                 var amount = $printrows.find("#lineAmount").text() || "0";
@@ -2744,7 +2746,7 @@ Template.creditcard.events({
                 }
             });
 
-         if ($('.printID').attr('id') == undefined || $('.printID').attr('id') == "") {
+         if ($('.printID').attr('id') != undefined || $('.printID').attr('id') != "") {
                 $printrows.each(function(index) {
                 var $printrows = $(this);
                 var amount = $printrows.find("#lineAmount").text() || "0";

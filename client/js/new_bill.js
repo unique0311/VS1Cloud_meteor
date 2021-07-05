@@ -1682,7 +1682,9 @@ Template.billcard.onRendered(() => {
         pdf.addHTML(source, function() {
             pdf.save('Bill-'+id+'.pdf');
             $('#html-2-pdfwrapper').css('display', 'none');
+            $('.fullScreenSpin').css('display', 'none');
         });
+        
     };
 
 
@@ -2462,6 +2464,7 @@ Template.billcard.events({
         $('#customerSelectLineID').val(targetID);
     },
     'click .printConfirm': function(event) {
+        $('.fullScreenSpin').css('display', 'inline-block');
         $('#html-2-pdfwrapper').css('display', 'block');
         $('.pdfCustomerName').html($('#edtSupplierName').val());
         $('.pdfCustomerAddress').html($('#txabillingAddress').val().replace(/[\r\n]/g, "<br />"));
