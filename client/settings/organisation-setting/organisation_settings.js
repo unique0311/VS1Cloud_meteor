@@ -163,9 +163,11 @@ Template.organisationsettings.onRendered(function () {
 
                 }
             }
+            $('.fullScreenSpin').css('display','none');
+        }).catch(function (err) {
+          $('.fullScreenSpin').css('display','none');
+          });
 
-        });
-        $('.fullScreenSpin').css('display','none');
     }
 
     let imageData= (localStorage.getItem("Image"));
@@ -575,7 +577,7 @@ Template.organisationsettings.events({
         let reader = new FileReader();
         $(".Choose_file").text('');
         reader.onload = function(event) {
-          
+
             $( "#uploadImg" ).prop( "disabled", false );
             $("#uploadImg").addClass("on-upload-logo");
             $(".Choose_file").text(selectedFile.name);

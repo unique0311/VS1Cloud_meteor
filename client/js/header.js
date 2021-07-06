@@ -405,6 +405,7 @@ Template.header.onRendered(function(){
            Session.setPersistent('vs1companyPhone', companyPhone);
            Session.setPersistent('vs1companyURL', companyURL);
            Session.setPersistent('vs1companyStripeID', data.tcompanyinfo[0].Apcano);
+           Session.setPersistent('vs1companyStripeFeeMethod', data.tcompanyinfo[0].DvaABN);
 
       })
   };

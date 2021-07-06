@@ -3189,6 +3189,7 @@ Template.customerscard.events({
                     // Position: position,
                     Street: streetAddress,
                     Street2: city,
+                    Suburb: city,
                     State: state,
                     PostCode: postalcode,
                     Country: country,
@@ -3240,6 +3241,7 @@ Template.customerscard.events({
                         ClientTypeName: customerType,
                         Street: streetAddress,
                         Street2: city,
+                        Suburb: city,
                         State: state,
                         PostCode: postalcode,
                         Country: country,
@@ -3280,6 +3282,7 @@ Template.customerscard.events({
                         ClientTypeName: customerType,
                         Street: streetAddress,
                         Street2: city,
+                        Suburb: city,
                         State: state,
                         PostCode: postalcode,
                         Country: country,
@@ -4507,10 +4510,10 @@ Template.customerscard.events({
 
         let templateObject = Template.instance();
         let contactService2 = new ContactService();
-        
+
         let currentId = Router.current().params.query;
         var objDetails = '';
-        
+
         if (!isNaN(currentId.id)) {
             currentCustomer = parseInt(currentId.id);
             objDetails = {
