@@ -60,7 +60,18 @@ Template.paymentmethodSettings.onRendered(function() {
 
         templateObject.getOrganisationDetails = function () {
         organisationService.getOrganisationDetail().then((dataListRet) => {
-            let account_id = dataListRet.tcompanyinfo.Apcano || '';
+            let account_id = dataListRet.tcompanyinfo[0].Apcano || '';
+            let feeMethod = dataListRet.tcompanyinfo[0].DvaABN || ''
+            if(feeMethod == "apply") {
+              $("#feeOnTopInput").prop("checked", true);
+              $("#feeInPriceInput").prop("checked", false);
+            } else if(feeMethod == "include") {
+              $("#feeOnTopInput").prop("checked", false);
+              $("#feeInPriceInput").prop("checked", true);
+            } else {
+              $("#feeOnTopInput").prop("checked", true);
+              $("#feeInPriceInput").prop("checked", false);
+            }
             if(dataListRet.tcompanyinfo[0].Apcano == ''){
                 templateObject.includeAccountID.set(false);
             }else{
@@ -674,7 +685,27 @@ Template.paymentmethodSettings.onRendered(function() {
 
 
         $("#saveStripeID").click(function(){
+          $('.fullScreenSpin').css('display','inline-block');
+          let companyID = 1;
+          let feeMethod  = "apply";
 
+          if($('#feeInPriceInput').is(':checked')){
+            feeMethod = "include";
+          }
+
+          var objDetails = {
+          type: "TCompanyInfo",
+          fields: {
+              Id: companyID,
+              DvaABN:feeMethod,
+          }
+        };
+        organisationService.saveOrganisationSetting(objDetails).then(function (data){
+          Session.setPersistent('vs1companyStripeFeeMethod', feeMethod);
+          window.open('/paymentmethodSettings','_self');
+        }).catch(function (err) {
+          window.open('/paymentmethodSettings','_self');
+        });
         });
 
     })
@@ -753,6 +784,7 @@ Template.paymentmethodSettings.events({
         $('.feeOnTopInput').attr('checked', false);
       }
     },
+
     'click .chkDatatable' : function(event){
       var columns = $('#paymentmethodList th');
       let columnDataValue = $(event.target).closest("div").find(".divcolumn").text();

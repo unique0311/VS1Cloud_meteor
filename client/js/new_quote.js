@@ -50,7 +50,7 @@ Template.new_quote.onCreated(() => {
     templateObject.taxraterecords = new ReactiveVar([]);
     templateObject.record = new ReactiveVar({});
     templateObject.accountID = new ReactiveVar();
-
+    templateObject.stripe_fee_method = new ReactiveVar()
     templateObject.uploadedFile = new ReactiveVar();
     templateObject.uploadedFiles = new ReactiveVar([]);
     templateObject.attachmentCount = new ReactiveVar();
@@ -279,8 +279,11 @@ Template.new_quote.onRendered(() => {
 
     templateObject.getOrganisationDetails = function () {
             let account_id = Session.get('vs1companyStripeID') || '';
+            let stripe_fee = Session.get('vs1companyStripeFeeMethod') || 'apply';
             templateObject.accountID.set(account_id);
+            templateObject.stripe_fee_method.set(stripe_fee);
         }
+
     templateObject.getOrganisationDetails();
 
     templateObject.getAllLeadStatuss = function () {
@@ -2896,6 +2899,7 @@ Template.new_quote.onRendered(() => {
         };
         let quoteData = templateObject.quoterecord.get();
         let stripe_id = templateObject.accountID.get() || '';
+         let stripe_fee_method = templateObject.stripe_fee_method.get();
         let lineItems = [];
         let total = $('#grandTotal').html() || 0;
         let tax = $('#subtotal_tax').html() || 0;
@@ -2933,7 +2937,7 @@ Template.new_quote.onRendered(() => {
         for (let l = 0; l < lineItems.length; l++) {
             stringQuery = stringQuery + "product" + l + "=" + lineItems[l].description + "&price" + l + "=" + lineItems[l].unitPrice + "&qty" + l + "=" + lineItems[l].quantity + "&";
         }
-        stringQuery = stringQuery + "tax=" + tax + "&total=" + total + "&customer=" + customer + "&name=" + name + "&surname=" + surname + "&quoteid=" + quoteData.id +"&transid="+stripe_id+"&company=" + company + "&vs1email=" + vs1User + "&customeremail=" + customerEmail + "&type=Quote&url=" + window.location.href + "&server=" + erpGet.ERPIPAddress + "&username=" + erpGet.ERPUsername + "&token=" + erpGet.ERPPassword + "&session=" + erpGet.ERPDatabase + "&port=" + erpGet.ERPPort;;
+        stringQuery = stringQuery + "tax=" + tax + "&total=" + total + "&customer=" + customer + "&name=" + name + "&surname=" + surname + "&quoteid=" + quoteData.id +"&transid="+stripe_id+"&feemethod="+stripe_fee_method+"&company=" + company + "&vs1email=" + vs1User + "&customeremail=" + customerEmail + "&type=Quote&url=" + window.location.href + "&server=" + erpGet.ERPIPAddress + "&username=" + erpGet.ERPUsername + "&token=" + erpGet.ERPPassword + "&session=" + erpGet.ERPDatabase + "&port=" + erpGet.ERPPort;;
         var pdf = new jsPDF('p', 'pt', 'a4');
 
 
@@ -4234,7 +4238,7 @@ Template.new_quote.events({
 
         let templateObject = Template.instance();
         let quoteData = templateObject.quoterecord.get();
-        let stripe_id = templateObject.accountID.get();
+        let stripe_fee_method = templateObject.stripe_fee_method.get();
         let lineItems = [];
         let customername = $('#edtCustomerName');
         let name = $('#edtCustomerEmail').attr('customerfirstname');
@@ -4385,7 +4389,7 @@ Template.new_quote.events({
                     stringQuery = stringQuery + "product" + l + "=" + lineItemsForm[l].fields.ProductName + "&price" + l + "=" + lineItemsForm[l].fields.LinePrice + "&qty" + l + "=" + lineItemsForm[l].fields.UOMQtySold + "&";
                 }
 
-                stringQuery = stringQuery + "tax=" + tax + "&total=" + total + "&customer=" + customer + "&name=" + name + "&surname=" + surname + "&quoteid=" + quoteData.id + "&transid="+stripe_id +"&company=" + company + "&vs1email=" + vs1User + "&customeremail=" + customerEmail + "&type=Quote&url=" + window.location.href + "&server=" + erpGet.ERPIPAddress + "&username=" + erpGet.ERPUsername + "&token=" + erpGet.ERPPassword + "&session=" + erpGet.ERPDatabase + "&port=" + erpGet.ERPPort;
+                stringQuery = stringQuery + "tax=" + tax + "&total=" + total + "&customer=" + customer + "&name=" + name + "&surname=" + surname + "&quoteid=" + quoteData.id + "&transid="+stripe_id+"&feemethod="+stripe_fee_method+"&company=" + company + "&vs1email=" + vs1User + "&customeremail=" + customerEmail + "&type=Quote&url=" + window.location.href + "&server=" + erpGet.ERPIPAddress + "&username=" + erpGet.ERPUsername + "&token=" + erpGet.ERPPassword + "&session=" + erpGet.ERPDatabase + "&port=" + erpGet.ERPPort;
 
 
                 $('#html-2-pdfwrapper').css('display', 'block');
@@ -5108,6 +5112,7 @@ Template.new_quote.events({
     'click .payNow': function () {
         let templateObject = Template.instance();
         let stripe_id = templateObject.accountID.get() || '';
+        let stripe_fee_method = templateObject.stripe_fee_method.get();
         if(stripe_id != ""){
         var url = window.location.href;
         var id_available = url.includes("?id=");
@@ -5150,7 +5155,7 @@ Template.new_quote.events({
             for (let l = 0; l < lineItems.length; l++) {
                 stringQuery = stringQuery + "product" + l + "=" + lineItems[l].description + "&price" + l + "=" + lineItems[l].unitPrice + "&qty" + l + "=" + lineItems[l].quantity + "&";
             }
-            stringQuery = stringQuery + "tax=" + tax + "&total=" + total + "&customer=" + customer + "&name=" + name + "&surname=" + surname + "&quoteid=" + quoteData.id + "&transid="+stripe_id + "&company=" + company + "&vs1email=" + vs1User + "&customeremail=" + customerEmail + "&type=Quote&url=" + window.location.href + "&server=" + erpGet.ERPIPAddress + "&username=" + erpGet.ERPUsername + "&token=" + erpGet.ERPPassword + "&session=" + erpGet.ERPDatabase + "&port=" + erpGet.ERPPort;
+            stringQuery = stringQuery + "tax=" + tax + "&total=" + total + "&customer=" + customer + "&name=" + name + "&surname=" + surname + "&quoteid=" + quoteData.id + "&transid="+stripe_id+"&feemethod="+stripe_fee_method+"&company=" + company + "&vs1email=" + vs1User + "&customeremail=" + customerEmail + "&type=Quote&url=" + window.location.href + "&server=" + erpGet.ERPIPAddress + "&username=" + erpGet.ERPUsername + "&token=" + erpGet.ERPPassword + "&session=" + erpGet.ERPDatabase + "&port=" + erpGet.ERPPort;
             window.open("https://www.depot.vs1cloud.com/stripe/" + stringQuery, '_self');
 
         } else {
@@ -5306,7 +5311,7 @@ Template.new_quote.events({
                     stringQuery = stringQuery + "product" + l + "=" + lineItemsForm[l].fields.ProductName + "&price" + l + "=" + lineItemsForm[l].fields.LinePrice + "&qty" + l + "=" + lineItemsForm[l].fields.UOMQtySold + "&";
                 }
 
-                stringQuery = stringQuery + "tax=" + tax + "&total=" + total + "&customer=" + customer + "&name=" + name + "&surname=" + surname + "&quoteid=" + quoteData.id + "&transid="+stripe_id + "&company=" + company + "&vs1email=" + vs1User + "&customeremail=" + customerEmail + "&type=Quote&url=" + window.location.href + "&server=" + erpGet.ERPIPAddress + "&username=" + erpGet.ERPUsername + "&token=" + erpGet.ERPPassword + "&session=" + erpGet.ERPDatabase + "&port=" + erpGet.ERPPort;
+                stringQuery = stringQuery + "tax=" + tax + "&total=" + total + "&customer=" + customer + "&name=" + name + "&surname=" + surname + "&quoteid=" + quoteData.id + "&transid="+stripe_id+"&feemethod="+stripe_fee_method+"&company=" + company + "&vs1email=" + vs1User + "&customeremail=" + customerEmail + "&type=Quote&url=" + window.location.href + "&server=" + erpGet.ERPIPAddress + "&username=" + erpGet.ERPUsername + "&token=" + erpGet.ERPPassword + "&session=" + erpGet.ERPDatabase + "&port=" + erpGet.ERPPort;
 
 
                 $('#html-2-pdfwrapper').css('display', 'block');

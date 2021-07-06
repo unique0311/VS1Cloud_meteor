@@ -19,6 +19,7 @@ Template.statementlist.onCreated(function () {
     templateObject.statmentprintrecords = new ReactiveVar([]);
     templateObject.multiplepdfemail = new ReactiveVar([]);
     templateObject.accountID = new ReactiveVar();
+    templateObject.stripe_fee_method = new ReactiveVar()
 });
 
 Template.statementlist.onRendered(function () {
@@ -57,8 +58,10 @@ Template.statementlist.onRendered(function () {
     });
 
     templateObject.getOrganisationDetails = function () {
-            let account_id = Session.get('vs1companyStripeID') || '';
-            templateObject.accountID.set(account_id);
+        let account_id = Session.get('vs1companyStripeID') || '';
+        let stripe_fee = Session.get('vs1companyStripeFeeMethod') || 'apply';
+        templateObject.accountID.set(account_id);
+        templateObject.stripe_fee_method.set(stripe_fee);
         }
 
 
@@ -78,6 +81,7 @@ Template.statementlist.onRendered(function () {
             let lineItems = [];
             let balance = data.tstatementforcustomer[0].closingBalance;
             let stripe_id = templateObject.accountID.get();
+            let stripe_fee_method = templateObject.stripe_fee_method.get();
             var erpGet = erpDb();
             let company = Session.get('vs1companyName');
             let vs1User = localStorage.getItem('mySession');
@@ -132,7 +136,7 @@ Template.statementlist.onRendered(function () {
                 for (let l = 0; l < lineItems.length; l++) {
                     stringQuery = stringQuery + "product" + l + "=" + lineItems[l].type + "&price" + l + "=" + lineItems[l].balance + "&qty" + l + "=" + 1 + "&"; ;
                 }
-                stringQuery = stringQuery + "tax=0" +  "&total=" + closingbalance + "&customer=" + customerName + "&name=" + customerName + "&surname=" + customerName +"&quoteid=" + invoiceId + "&transid=" + stripe_id + "&company=" + company + "&vs1email=" + vs1User + "&customeremail=" + email + "&type=Statement&url=" + window.location.href + "&server=" + erpGet.ERPIPAddress + "&username=" + erpGet.ERPUsername + "&token=" + erpGet.ERPPassword + "&session=" + erpGet.ERPDatabase + "&port=" + erpGet.ERPPort + "&dept=" + dept;
+                stringQuery = stringQuery + "tax=0" +  "&total=" + closingbalance + "&customer=" + customerName + "&name=" + customerName + "&surname=" + customerName +"&quoteid=" + invoiceId + "&transid=" + stripe_id+"&feemethod="+stripe_fee_method+"&company=" + company + "&vs1email=" + vs1User + "&customeremail=" + email + "&type=Statement&url=" + window.location.href + "&server=" + erpGet.ERPIPAddress + "&username=" + erpGet.ERPUsername + "&token=" + erpGet.ERPPassword + "&session=" + erpGet.ERPDatabase + "&port=" + erpGet.ERPPort + "&dept=" + dept;
             }
 
             var currentDate = new Date();
@@ -199,6 +203,7 @@ Template.statementlist.onRendered(function () {
                 let object = {};
                 let balance = data.tstatementforcustomer[0].closingBalance;
                 let stripe_id = templateObject.accountID.get();
+                let stripe_fee_method = templateObject.stripe_fee_method.get();
                 var erpGet = erpDb();
                 let company = Session.get('vs1companyName');
                 let vs1User = localStorage.getItem('mySession');
@@ -253,7 +258,7 @@ Template.statementlist.onRendered(function () {
                         for (let l = 0; l < lineItems.length; l++) {
                             stringQuery = stringQuery + "product" + l + "=" + lineItems[l].type + "&price" + l + "=" + lineItems[l].balance + "&qty" + l + "=" + 1 + "&";
                         }
-                        stringQuery = stringQuery + "tax=0" + "&total=" + closingbalance + "&customer=" + customerName  + "&name=" + customerName + "&surname=" + customerName + "&quoteid=" + invoiceId + "&transid=" + stripe_id + "&company=" + company + "&vs1email=" + vs1User + "&customeremail=" + email + "&type=Statement&url=" + window.location.href + "&server=" + erpGet.ERPIPAddress + "&username=" + erpGet.ERPUsername + "&token=" + erpGet.ERPPassword + "&session=" + erpGet.ERPDatabase + "&port=" + erpGet.ERPPort + "&dept=" + dept;
+                        stringQuery = stringQuery + "tax=0" + "&total=" + closingbalance + "&customer=" + customerName  + "&name=" + customerName + "&surname=" + customerName + "&quoteid=" + invoiceId + "&transid=" + stripe_id+"&feemethod="+stripe_fee_method+"&company=" + company + "&vs1email=" + vs1User + "&customeremail=" + email + "&type=Statement&url=" + window.location.href + "&server=" + erpGet.ERPIPAddress + "&username=" + erpGet.ERPUsername + "&token=" + erpGet.ERPPassword + "&session=" + erpGet.ERPDatabase + "&port=" + erpGet.ERPPort + "&dept=" + dept;
                     }
 
                     var currentDate = new Date();
