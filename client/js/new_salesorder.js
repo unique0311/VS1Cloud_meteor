@@ -2844,7 +2844,7 @@ Template.new_salesorder.onRendered(() => {
                         $('#edtCustomerEmail').attr('customerid', clientList[i].customerid);
                         $('#edtCustomerEmail').attr('customerfirstname', clientList[i].firstname);
                         $('#edtCustomerEmail').attr('customerlastname', clientList[i].lastname);
-                        let postalAddress = clientList[i].customername + '\n' + clientList[i].street + '\n' + clientList[i].street2 + '\n' + clientList[i].statecode + '\n' + clientList[i].country;
+                        let postalAddress = clientList[i].customername + '\n' + clientList[i].street + '\n' + clientList[i].street2 + ' ' + clientList[i].statecode + '\n' + clientList[i].country;
                         $('#txabillingAddress').val(postalAddress);
                          $('.pdfCustomerAddress').text(postalAddress);
                         $('#txaShipingInfo').val(postalAddress);

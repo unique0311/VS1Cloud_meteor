@@ -1659,7 +1659,7 @@ Template.billcard.onRendered(() => {
                     if (clientList[i].suppliername == selectedSupplier) {
                         $('#edtSupplierEmail').val(clientList[i].supplieremail);
                         $('#edtSupplierEmail').attr('supplierid', clientList[i].supplierid);
-                        let postalAddress = clientList[i].suppliername + '\n' + clientList[i].street + '\n' + clientList[i].street2 + clientList[i].statecode + '\n' + clientList[i].country;
+                        let postalAddress = clientList[i].suppliername + '\n' + clientList[i].street + '\n' + clientList[i].street2 + ' ' + clientList[i].statecode + '\n' + clientList[i].country;
                         $('#txabillingAddress').val(postalAddress);
                         $('#txaShipingInfo').val(postalAddress);
                         $('#sltTerms').val(clientList[i].termsName || '');

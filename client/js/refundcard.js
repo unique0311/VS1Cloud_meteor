@@ -1022,7 +1022,7 @@ Template.refundcard.onRendered(()=>{
                 if(clientList[i].customername == selectedCustomer){
                     $('#edtCustomerEmail').val(clientList[i].customeremail);
                     $('#edtCustomerEmail').attr('customerid',clientList[i].customerid);
-                    let postalAddress = clientList[i].customername + '\n' + clientList[i].street + '\n' + clientList[i].street2 + '\n' + '\n' + clientList[i].statecode + '\n' + clientList[i].country;
+                    let postalAddress = clientList[i].customername + '\n' + clientList[i].street + '\n' + clientList[i].street2 + ' ' + clientList[i].statecode + '\n' + clientList[i].country;
                     $('#txabillingAddress').val(postalAddress);
                     $('#txaShipingInfo').val(postalAddress);
                     $('#sltTerms').val(clientList[i].termsName||'');

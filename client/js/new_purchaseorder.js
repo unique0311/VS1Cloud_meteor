@@ -1811,7 +1811,7 @@ Template.purchaseordercard.onRendered(() => {
                     if (clientList[i].suppliername == selectedSupplier) {
                         $('#edtSupplierEmail').val(clientList[i].supplieremail);
                         $('#edtSupplierEmail').attr('supplierid', clientList[i].supplierid);
-                        let postalAddress = clientList[i].suppliername + '\n' + clientList[i].street + '\n' + clientList[i].street2 + '\n' + clientList[i].statecode + '\n' + clientList[i].country;
+                        let postalAddress = clientList[i].suppliername + '\n' + clientList[i].street + '\n' + clientList[i].street2 + ' ' + clientList[i].statecode + '\n' + clientList[i].country;
                         $('#txabillingAddress').val(postalAddress);
                         $('.pdfCustomerAddress').html(clientList[i].suppliername);
                         $('#txaShipingInfo').val(postalAddress);
