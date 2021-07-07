@@ -5,43 +5,20 @@
         </div>
         <div style="margin-top: -24px;">
             <header style="padding: 16px;background-color: #ededed;">
-                <h2 style="margin: 16px;">Customers - Statement <a role="button" data-toggle="modal" href="#helpViewModal" style="font-size: 20px;">Help <i class="fa fa-question-circle-o"  style="font-size: 20px;"></i></a></h2>
+                <h2 style="margin: 16px; margin-bottom: 0px;">Customers - Statement <a role="button" data-toggle="modal" href="#helpViewModal" style="font-size: 20px;">Help <i class="fa fa-question-circle-o"  style="font-size: 20px;"></i></a>
+
+                    <style>
+                        @media screen and (max-width: 376px) {
+                            .btnOpenSettings {
+                                margin-right: 0px;
+                            }
+                        }
+                    </style>
+                    <a class="btn btnOpenSettings float-right" role="button" data-toggle="modal" href="#myModal2" style="margin-top: 8px;"><i class="icon ion-android-more-horizontal"></i></a>
+                </h2>
             </header>
-
-            <div class="modal fade" role="dialog" tabindex="-1" id="helpViewModal">
-                <div class="modal-dialog modal-sm" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header" style="padding-bottom: 8px;">
-                            <h4>Help</h4><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button></div>
-                        <div class="modal-body">
-                            <p class="text-center text-muted"><a role="button" data-toggle="modal" href="#helpModal" class="btn btn-primary helpModal">View Help Video</a></p>
-                            <p class="text-center text-muted"><a href="https://vs1forum.com/viewtopic.php?f=6&t=45" target="_blank" class="btn btn-primary">Download Help File</a></p>
-                            <p class="text-center text-muted"><button class="btn btn-primary" type="button">Employ Advisor</button></p>
-                            <p class="text-center text-muted" style="margin: 0px;"><a href="https://vs1forum.com/ucp.php?mode=register&cloudusername={{loggedCompany}}" target="_blank" class="btn btn-primary">Go To Forum</a></p>
-                        </div>
-                        <div class="modal-footer" style="padding: 6px;"><button class="btn btn-light" data-dismiss="modal" type="button">Close</button></div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="row no-gutters d-xl-flex justify-content-xl-center" style="background-color:#ededed;">
-                <div class="col d-flex d-xl-flex justify-content-center justify-content-xl-start align-items-xl-end" style="padding: 16px;">
-                    <button class="btn btn-primary btnRefresh" type="button" style="margin: 16px;"><i class="la la-lightbulb-o" style="padding-right: 5px;"></i>Refresh</button>
-                    <!-- <button class="btn btn-primary"  type="button" id="btnNewCustomer" name="btnNewCustomer"  style="margin: 16px;"><i class="icon ion-plus" style="padding-right: 5px;"></i>New Customer</button> -->
-                </div>
-                <div class="col d-flex d-xl-flex justify-content-center justify-content-xl-end align-items-xl-end" style="padding: 16px;">
-                    <button class="btn btn-primary export" type="button" style="margin: 16px;" id="emailbtn" name="emailbtn"><i class="far fa-envelope" style="padding-right: 5px;"></i>Email</button>
-                    <button class="btn btn-primary printConfirm" type="button" style="margin: 16px;"><i class="fa fa-print" style="padding-right: 5px; background-color: #00A3D3; border-color: #00A3D3;"></i>Print</button>
-                </div>
-            </div>
-
-            <div>
-                <div class="card-body p-3 rounded" style="margin: 0px 16px;">
-
-                    <!-- Start {{> optionNavSalesOverview}} -->
-                    <div class="d-xl-flex justify-content-xl-end">
-                        <div><a class="btn btnOpenSettings" role="button" data-toggle="modal" href="#myModal2"><i class="icon ion-android-more-horizontal"></i></a>
-                            <div class="modal fade" role="dialog" tabindex="-1" id="myModal2">
+            
+            <div class="modal fade" role="dialog" tabindex="-1" id="myModal2">
                                 <div class="modal-dialog modal-dialog-centered" role="document" style="float: right;">
                                     <div class="modal-content">
                                         <div class="modal-header">
@@ -130,9 +107,36 @@
                                     </div>
                                 </div>
                             </div>
+
+            <div class="modal fade" role="dialog" tabindex="-1" id="helpViewModal">
+                <div class="modal-dialog modal-sm" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header" style="padding-bottom: 8px;">
+                            <h4>Help</h4><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button></div>
+                        <div class="modal-body">
+                            <p class="text-center text-muted"><a role="button" data-toggle="modal" href="#helpModal" class="btn btn-primary helpModal">View Help Video</a></p>
+                            <p class="text-center text-muted"><a href="https://vs1forum.com/viewtopic.php?f=6&t=45" target="_blank" class="btn btn-primary">Download Help File</a></p>
+                            <p class="text-center text-muted"><button class="btn btn-primary" type="button">Employ Advisor</button></p>
+                            <p class="text-center text-muted" style="margin: 0px;"><a href="https://vs1forum.com/ucp.php?mode=register&cloudusername={{loggedCompany}}" target="_blank" class="btn btn-primary">Go To Forum</a></p>
                         </div>
+                        <div class="modal-footer" style="padding: 6px;"><button class="btn btn-light" data-dismiss="modal" type="button">Close</button></div>
                     </div>
-                    <!-- End -->
+                </div>
+            </div>
+
+            <div class="row no-gutters d-xl-flex justify-content-xl-center" style="background-color:#ededed;">
+                <div class="col d-flex d-xl-flex justify-content-center justify-content-xl-start align-items-xl-end" style="padding: 16px;">
+                    <button class="btn btn-primary btnRefresh" type="button" style="margin: 16px;"><i class="la la-lightbulb-o" style="padding-right: 5px;"></i>Refresh</button>
+                    <!-- <button class="btn btn-primary"  type="button" id="btnNewCustomer" name="btnNewCustomer"  style="margin: 16px;"><i class="icon ion-plus" style="padding-right: 5px;"></i>New Customer</button> -->
+                </div>
+                <div class="col d-flex d-xl-flex justify-content-center justify-content-xl-end align-items-xl-end" style="padding: 16px;">
+                    <button class="btn btn-primary export" type="button" style="margin: 16px;" id="emailbtn" name="emailbtn"><i class="far fa-envelope" style="padding-right: 5px;"></i>Email</button>
+                    <button class="btn btn-primary printConfirm" type="button" style="margin: 16px;"><i class="fa fa-print" style="padding-right: 5px; background-color: #00A3D3; border-color: #00A3D3;"></i>Print</button>
+                </div>
+            </div>
+
+            <div>
+                <div class="card-body p-3 rounded" style="margin: 0px 16px;">
 
                     <div class="modal fade" role="dialog" tabindex="-1" id="printLineModal">
                         <div class="modal-dialog" role="document">
