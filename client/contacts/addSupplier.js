@@ -61,12 +61,12 @@ Template.supplierscard.onRendered(function () {
     const tableHeaderList = [];
 
     let purchasetaxcode = '';
-
+    templateObject.defaultpurchasetaxcode.set(loggedTaxCodeSalesInc);
     setTimeout(function () {
         Meteor.call('readPrefMethod',Session.get('mycloudLogonID'),'defaulttax', function(error, result){
             if(error){
                 purchasetaxcode =  loggedTaxCodeSalesInc;
-                templateObject.defaultpurchasetaxcode.set(purchasetaxcode);
+                templateObject.defaultpurchasetaxcode.set(loggedTaxCodeSalesInc);
             }else{
                 if(result){
                     purchasetaxcode = result.customFields[0].taxvalue || loggedTaxCodePurchaseInc;
@@ -2365,10 +2365,10 @@ Template.supplierscard.events({
 
         let templateObject = Template.instance();
         let contactService2 = new ContactService();
-        
+
         let currentId = Router.current().params.query;
         var objDetails = '';
-        
+
         if (!isNaN(currentId.id)) {
             currentSupplier = parseInt(currentId.id);
             objDetails = {

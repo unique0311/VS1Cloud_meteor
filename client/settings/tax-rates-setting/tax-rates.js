@@ -21,14 +21,15 @@ Template.taxRatesSettings.onRendered(function() {
 
     let purchasetaxcode = '';
     let salestaxcode = '';
-
+    templateObject.defaultpurchasetaxcode.set(loggedTaxCodePurchaseInc);
+    templateObject.defaultsaletaxcode.set(loggedTaxCodeSalesInc);
   setTimeout(function () {
     Meteor.call('readPrefMethod',Session.get('mycloudLogonID'),'defaulttax', function(error, result){
     if(error){
       purchasetaxcode = loggedTaxCodePurchaseInc;
       salestaxcode =  loggedTaxCodeSalesInc;
-      templateObject.defaultpurchasetaxcode.set(purchasetaxcode);
-      templateObject.defaultsaletaxcode.set(salestaxcode);
+      templateObject.defaultpurchasetaxcode.set(loggedTaxCodePurchaseInc);
+      templateObject.defaultsaletaxcode.set(loggedTaxCodeSalesInc);
     }else{
       if(result){
         purchasetaxcode = result.customFields[0].taxvalue || loggedTaxCodePurchaseInc;
@@ -41,7 +42,7 @@ Template.taxRatesSettings.onRendered(function() {
     });
   }, 500);
 
-  
+
 
     Meteor.call('readPrefMethod',Session.get('mycloudLogonID'),'taxRatesList', function(error, result){
     if(error){
@@ -741,7 +742,7 @@ Template.taxRatesSettings.events({
       let columnDataValue = $(event.target).closest("div").prev().find(".divcolumn").text();
       var datable = $('#taxRatesList th');
       $.each(datable, function(i,v) {
-        
+
       if(v.innerText == columnDataValue){
           let className = v.className;
           let replaceClass = className.replace(/ /g, ".");
@@ -754,7 +755,7 @@ Template.taxRatesSettings.events({
     'click .btnOpenSettings' : function(event){
       let templateObject = Template.instance();
       var columns = $('#taxRatesList th');
-      
+
       const tableHeaderList = [];
       let sTible = "";
       let sWidth = "";
@@ -770,7 +771,7 @@ Template.taxRatesSettings.events({
           columVisible = false;
         }
         sWidth = v.style.width.replace('px', "");
-        
+
         let datatablerecordObj = {
           sTitle: v.innerText || '',
           sWidth: sWidth || '',
@@ -809,77 +810,96 @@ Template.taxRatesSettings.events({
 
   },
   'click .btnSaveDefaultTax': function () {
-    let purchasetaxcode = "";
-    let salestaxcode = "";
-    $('.taxRatesList > tbody > tr').each(function(){
-      var $tblrow = $(this);
-      var lineID = this.id;
-      if($("#"+lineID+" .optradioP").is(':checked')){
-        purchasetaxcode = $("#"+lineID+" .colName").text();
-      }
-      if($("#"+lineID+" .optradioS").is(':checked')){
-        salestaxcode = $("#"+lineID+" .colName").text();
-      }
-      // var radioValueCheck = $("input[name='"+lineID+"']:checked").val();
+    let purchasetaxcode = $('input[name=optradioP]:checked').val()|| '';
+    let salestaxcode = $('input[name=optradioS]:checked').val()|| '';
 
+    Session.setPersistent('ERPTaxCodePurchaseInc', purchasetaxcode||'');
+    Session.setPersistent('ERPTaxCodeSalesInc', salestaxcode||'');
+    getVS1Data('vscloudlogininfo').then(function (dataObject) {
+        if(dataObject.length == 0){
+            swal({
+                title: 'Default Tax Rate Successfully Changed',
+                text: '',
+                type: 'success',
+                showCancelButton: false,
+                confirmButtonText: 'OK'
+            }).then((result) => {
+                if (result.value) {
+                    Meteor._reload.reload();
+                } else {
+                  Meteor._reload.reload();
+                }
+            });
+        }else{
+            let loginDataArray = [];
+            if(dataObject[0].EmployeeEmail === localStorage.getItem('mySession')){
+                loginDataArray = dataObject[0].data;
+                console.log(loginDataArray);
+                loginDataArray.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.RegionalOptions_TaxCodePurchaseInc = purchasetaxcode;
+                loginDataArray.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.RegionalOptions_TaxCodeSalesInc = salestaxcode;
+                addLoginData(loginDataArray).then(function (datareturnCheck) {
+                    swal({
+                        title: 'Default Tax Rate Successfully Changed',
+                        text: '',
+                        type: 'success',
+                        showCancelButton: false,
+                        confirmButtonText: 'OK'
+                    }).then((result) => {
+                        if (result.value) {
+                            Meteor._reload.reload();
+                        } else {
+                            Meteor._reload.reload();
+                        }
+                    });
 
-    });
+                }).catch(function (err) {
+                  swal({
+                      title: 'Default Tax Rate Successfully Changed',
+                      text: '',
+                      type: 'success',
+                      showCancelButton: false,
+                      confirmButtonText: 'OK'
+                  }).then((result) => {
+                      if (result.value) {
+                          Meteor._reload.reload();
+                      } else {
+                        Meteor._reload.reload();
+                      }
+                  });
+                });
 
-    
-    var getcurrentCloudDetails = CloudUser.findOne({_id:Session.get('mycloudLogonID'),clouddatabaseID:Session.get('mycloudLogonDBID')});
-        if(getcurrentCloudDetails){
-        if (getcurrentCloudDetails._id.length > 0) {
-            var clientID = getcurrentCloudDetails._id;
-            var clientUsername = getcurrentCloudDetails.cloudUsername;
-            var clientEmail = getcurrentCloudDetails.cloudEmail;
-            var checkPrefDetails = CloudPreference.findOne({userid:clientID,PrefName:'defaulttax'});
-            if (checkPrefDetails) {
-            CloudPreference.update({ _id: checkPrefDetails._id},{ $set: {username:clientUsername,useremail:clientEmail,
-              PrefGroup:'settingsform',PrefName:'defaulttax',published:true,
-              customFields:[{
-                  index: '1',
-                  label: "Purchase Default",
-                  taxvalue: purchasetaxcode
-                  },{
-                  index: '2',
-                  label: "Sales Default",
-                  taxvalue: salestaxcode
-              }],
-              updatedAt: new Date() }}, function(err, idTag) {
-              if (err) {
-                //window.open('/taxratesettings','_self');
-                Meteor._reload.reload();
-              } else {
-              //window.open('/taxratesettings','_self');
+            }else{
+              console.log("Not same email");
+                swal({
+                    title: 'Default Tax Rate Successfully Changed',
+                    text: '',
+                    type: 'success',
+                    showCancelButton: false,
+                    confirmButtonText: 'OK'
+                }).then((result) => {
+                    if (result.value) {
+                        Meteor._reload.reload();
+                    } else {
+                      Meteor._reload.reload();
+                    }
+                });
+            }
+        }
+    }).catch(function (err) {
+      swal({
+          title: 'Default Tax Rate Successfully Changed',
+          text: '',
+          type: 'success',
+          showCancelButton: false,
+          confirmButtonText: 'OK'
+      }).then((result) => {
+          if (result.value) {
               Meteor._reload.reload();
-
-              }
-            });
-          }else{
-            CloudPreference.insert({ userid: clientID,username:clientUsername,useremail:clientEmail,
-              PrefGroup:'settingsform',PrefName:'defaulttax',published:true,
-              customFields:[{
-                  index: '1',
-                  label: "Purchase Default",
-                  taxvalue: purchasetaxcode
-                  },{
-                  index: '2',
-                  label: "Sales Default",
-                  taxvalue: salestaxcode
-              }],
-              createdAt: new Date() }, function(err, idTag) {
-              if (err) {
-                //window.open('/taxratesettings','_self');
-                Meteor._reload.reload();
-              } else {
-                //window.open('/taxratesettings','_self');
-                Meteor._reload.reload();
-
-              }
-            });
+          } else {
+            Meteor._reload.reload();
           }
-        }
-        }
+      });
+    });
 
   },
   'keydown #edtTaxRate': function(event){

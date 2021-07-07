@@ -17,7 +17,9 @@ function inActive(){
     $(document.body).attr('class', 'inactive');
     var loc = window.location.pathname;
 
-      if ((loc != '/') && (loc != '/register') && (loc != '/registerdb') && (loc != '/vs1greentracklogin')&& (loc != '/registersts')) {
+      if ((loc != '/') && (loc != '/register') && (loc != '/registerdb')
+      && (loc != '/vs1greentracklogin')&& (loc != '/registersts')
+    && (loc != '/paymentmethodSettings')) {
         CloudUser.update({_id: Session.get('mycloudLogonID')},{ $set: {userMultiLogon: false}});
         if(Session.get('isGreenTrack')){
           window.open('/vs1greentracklogin','_self');

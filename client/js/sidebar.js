@@ -617,6 +617,15 @@ Template.sidenav.onRendered(function() {
         Session.setPersistent('LoggedUserEventFired', false);
     }, 2500);
 /* Start Here */
+getVS1Data('TInvoiceNonBackOrder').then(function (dataObject) {
+    if(dataObject.length == 0){
+        templateObject.getAllInvoiceListNonBOData();
+    }else{
+    }
+}).catch(function (err) {
+    templateObject.getAllInvoiceListNonBOData();
+});
+
 getVS1Data('TProductVS1').then(function (dataObject) {
       if(dataObject.length == 0){
           templateObject.getAllProductData();
@@ -930,14 +939,7 @@ getVS1Data('TInvoiceEx').then(function (dataObject) {
         templateObject.getAllSalesOrderExListData();
     });
 
-    getVS1Data('TInvoiceNonBackOrder').then(function (dataObject) {
-        if(dataObject.length == 0){
-            templateObject.getAllInvoiceListNonBOData();
-        }else{
-        }
-    }).catch(function (err) {
-        templateObject.getAllInvoiceListNonBOData();
-    });
+
     getVS1Data('BackOrderSalesList').then(function (dataObject) {
         if(dataObject.length == 0){
             templateObject.getAllBOInvoiceListData();

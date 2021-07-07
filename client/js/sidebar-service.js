@@ -340,19 +340,29 @@ export class SideBarService extends BaseService {
       orderby:'"SaleID desc"',
       ListType: "Detail",
       select: '[Deleted]=false and [MsTimeStamp]>"'+msTimeStamp+'"',
-      //LimitCount:'"50"'
+      LimitCount:'"25"'
     };
     return this.getList(this.ERPObjects.TInvoiceEx, options);
   }
 
   getAllInvoiceListNonBO(limitcount, limitfrom) {
+    let options = '';
+    if(limitcount == 'All'){
+       options = {
+        orderby:'"SaleID desc"',
+        PropertyList: "ID,EmployeeName,SaleClassName,SaleDate,CustomerName,TotalAmount,SalesStatus,ShipDate,SalesDescription,CustPONumber,TermsName,TotalTax,TotalAmountInc,TotalPaid,TotalBalance,Comments,Deleted",
+        //LimitCount:'"'+limitcount+'"',
+        //LimitFrom:'"'+limitfrom+'"'
+      };
+    }else{
+       options = {
+        orderby:'"SaleID desc"',
+        PropertyList: "ID,EmployeeName,SaleClassName,SaleDate,CustomerName,TotalAmount,SalesStatus,ShipDate,SalesDescription,CustPONumber,TermsName,TotalTax,TotalAmountInc,TotalPaid,TotalBalance,Comments,Deleted",
+        LimitCount:'"'+limitcount+'"',
+        LimitFrom:'"'+limitfrom+'"'
+      };
+    }
 
-    let options = {
-      orderby:'"SaleID desc"',
-      PropertyList: "ID,EmployeeName,SaleClassName,SaleDate,CustomerName,TotalAmount,SalesStatus,ShipDate,SalesDescription,CustPONumber,TermsName,TotalTax,TotalAmountInc,TotalPaid,TotalBalance,Comments,Deleted",
-      //LimitCount:'"'+limitcount+'"',
-      //LimitFrom:'"'+limitfrom+'"'
-    };
     return this.getList(this.ERPObjects.TInvoiceNonBackOrder, options);
   }
 
