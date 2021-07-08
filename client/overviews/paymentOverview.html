@@ -3,7 +3,11 @@
         <div class="fullScreenSpin" style="display:none;">
             <div class="spinner"></div>
         </div>
-
+        <style>
+            .dataTables_filter, .dataTables_info { 
+                display: none; 
+            }
+        </style>
         <header style="padding: 16px;padding-bottom: 0px;">
             <h2 style="margin: 14px;margin-bottom: 0px;" class="pageHeader">Payment Overview
                 <a role="button" data-toggle="modal" href="#helpViewModal"  style="font-size: 20px;">Help <i class="fa fa-question-circle-o" style="font-size: 20px;"></i></a>
@@ -239,6 +243,12 @@
                 </div>
             </div>
         </div>
+        
+        <div class="row">
+            <div class="col">
+                <a class="btn btnOpenSettings float-right" role="button" data-toggle="modal" href="#myModal2" style="margin-right: 34px; margin-bottom: 16px;"><i class="icon ion-android-more-horizontal"></i></a>
+            </div>
+        </div>
 
         <div class="row d-xl-flex flex-row justify-content-xl-center" style="padding: 0px 30px;">
 
@@ -290,7 +300,7 @@
             <div class="card-body p-3 rounded">
                 <!-- Start {{> optionNavSalesOverview}} -->
                 <div class="d-xl-flex justify-content-xl-end">
-                    <div><a class="btn btnOpenSettings" role="button" data-toggle="modal" href="#myModal2"><i class="icon ion-android-more-horizontal"></i></a>
+                    <div>
                         <div class="modal fade" role="dialog" tabindex="-1" id="myModal2">
                             <div class="modal-dialog modal-dialog-centered" role="document" style="float: right;">
                                 <div class="modal-content">
