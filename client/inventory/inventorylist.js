@@ -33,6 +33,11 @@ Template.inventorylist.onCreated(function(){
 
 Template.inventorylist.onRendered(function() {
   $('.fullScreenSpin').css('display','inline-block');
+
+  if(Router.current().params.query.success){
+    $('.btnRefresh').addClass('btnRefreshAlert');
+  }
+
   let templateObject = Template.instance();
   let productService = new ProductService();
   const deptrecords = [];
@@ -391,7 +396,7 @@ if(templateObject.datatablerecords.get()){
 }
 
 $('.fullScreenSpin').css('display','none');
-//setTimeout(function () {
+setTimeout(function () {
      $('#tblInventory').DataTable({
           select: true,
           destroy: true,
@@ -490,7 +495,7 @@ $('.fullScreenSpin').css('display','none');
 
       $('.fullScreenSpin').css('display','none');
       $('div.dataTables_filter input').addClass('form-control form-control-sm');
-  //}, 0);
+  }, 0);
 
       }
     }).catch(function (err) {
@@ -1310,12 +1315,12 @@ Template.inventorylist.helpers({
           let templateObject = Template.instance();
           sideBarService.getNewProductListVS1().then(function(data) {
             addVS1Data('TProductVS1',JSON.stringify(data)).then(function (datareturn) {
-              Meteor._reload.reload();
+              window.open('/inventorylist','_self');
             }).catch(function (err) {
-              Meteor._reload.reload();
+              window.open('/inventorylist','_self');
             });
           }).catch(function(err) {
-            Meteor._reload.reload();
+            window.open('/inventorylist','_self');
           });
           // templateObject.getAllProductClassDeptData();
           //templateObject.getAllProductData("All");
@@ -1496,8 +1501,10 @@ $('.fullScreenSpin').css('display','none');
 let utilityService = new UtilityService();
 let rows =[];
 const filename = 'SampleProduct'+'.csv';
-rows[0]= ['Product Name','Sales Description','Sale Price', 'Sales Account', 'Tax Code','Barcode', 'Purchase Description', 'COGGS Account', 'Purchase Tax Code', 'Cost'];
-rows[1]= ['TSL - Black','T-Shirt Large Black', '600', 'Sales','NT', '','T-Shirt Large Black', 'Cost of Goods Sold', 'NT', '700'];
+rows[0]= ['Product Name','Sales Description','Sale Price', 'Sales Account', 'Tax Code','Barcode', 'Purchase Description', 'COGGS Account', 'Purchase Tax Code', 'Cost', 'Product Type'];
+rows[1]= ['TSL - Black','T-Shirt Large Black', '600', 'Sales','NT', '','T-Shirt Large Black', 'Cost of Goods Sold', 'NT', '700', 'NONINV'];
+rows[2]= ['TSL - Blue','T-Shirt Large Blue', '600', 'Sales','NT', '','T-Shirt Large Blue', 'Cost of Goods Sold', 'NT', '700', 'INV'];
+rows[3]= ['TSL - Yellow','T-Shirt Large Yellow', '600', 'Sales','NT', '','T-Shirt Large Yellow', 'Cost of Goods Sold', 'NT', '700', 'OTHER'];
 utilityService.exportToCsv(rows, filename, 'csv');
 },
 'click .btnUploadFile':function(event){
@@ -1590,21 +1597,22 @@ if((results.data[0][0] == "Product Name") && (results.data[0][1] == "Sales Descr
 && (results.data[0][2] == "Sale Price") && (results.data[0][3] == "Sales Account")
 && (results.data[0][4] == "Tax Code") && (results.data[0][5] == "Barcode")
 && (results.data[0][6] == "Purchase Description") && (results.data[0][7] == "COGGS Account")
-&& (results.data[0][8] == "Purchase Tax Code") && (results.data[0][9] == "Cost")) {
+&& (results.data[0][8] == "Purchase Tax Code") && (results.data[0][9] == "Cost")&& (results.data[0][10] == "Product Type")) {
 
 let dataLength = results.data.length * 3000;
 setTimeout(function(){
 // $('#importModal').modal('toggle');
-Meteor._reload.reload();
+window.open('/inventorylist?success=true','_self');
+$('.fullScreenSpin').css('display','none');
 },parseInt(dataLength));
 
 for (let i = 0; i < results.data.length -1; i++) {
 objDetails = {
- type: "TProduct",
+ type: "TProductVS1",
  fields:
      {
        Active:true,
-       ProductType:"INV",
+       ProductType:results.data[i+1][10]||"INV",
 
        ProductPrintName:results.data[i+1][0],
        ProductName:results.data[i+1][0],
@@ -1628,9 +1636,9 @@ objDetails = {
 };
 if(results.data[i+1][1]){
 if(results.data[i+1][1] !== "") {
-productService.saveProduct(objDetails).then(function (data) {
+productService.saveProductVS1(objDetails).then(function (data) {
 //$('.fullScreenSpin').css('display','none');
-//Meteor._reload.reload();
+Router.go('/inventorylist?success=true');
 }).catch(function (err) {
 //$('.fullScreenSpin').css('display','none');
 swal({
@@ -1641,9 +1649,9 @@ showCancelButton: false,
 confirmButtonText: 'Try Again'
 }).then((result) => {
 if (result.value) {
-  Meteor._reload.reload();
+  window.open('/inventorylist?success=true','_self');
 } else if (result.dismiss === 'cancel') {
-
+  window.open('/inventorylist?success=true','_self');
 }
 });
 });

@@ -425,6 +425,8 @@ setTimeout(function () {
           },
           "fnDrawCallback": function (oSettings) {
             $('.paginate_button.page-item').removeClass('disabled');
+            $('#tblInvoicelist_ellipsis').addClass('disabled');
+
             if(oSettings._iDisplayLength == -1){
               if(oSettings.fnRecordsDisplay() > 150){
                 $('.paginate_button.page-item.previous').addClass('disabled');
