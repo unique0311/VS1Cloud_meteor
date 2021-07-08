@@ -10,7 +10,7 @@ function resetActive(){
 }
 function closeSideBar(){
 if ($(".collapse.show")[0]){
-$('.collapse').removeClass('show');
+$('.nav-item .collapse').removeClass('show');
 }
 }
 function inActive(){

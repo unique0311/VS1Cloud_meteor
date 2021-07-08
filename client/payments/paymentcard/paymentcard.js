@@ -469,7 +469,8 @@ Template.paymentcard.onRendered(() => {
                                     amountdue: amountDue || 0,
                                     paymentamount: paymentAmt || 0,
                                     ouststandingamount:outstandingAmt,
-                                    orginalamount:originalAmt
+                                    orginalamount:originalAmt,
+                                    comments:''
                                 };
                                 lineItems.push(lineItemObj);
                             }
@@ -1098,7 +1099,8 @@ Template.paymentcard.onRendered(() => {
                     amountdue: amountDue || 0,
                     paymentamount: paymentAmt || 0,
                     ouststandingamount:outstandingAmt,
-                    orginalamount:originalAmt
+                    orginalamount:originalAmt,
+                    comments:data.fields.Comments||''
                 };
                 lineItems.push(lineItemObj);
                 let record = {
@@ -1200,7 +1202,8 @@ Template.paymentcard.onRendered(() => {
                     amountdue: amountDue || 0,
                     paymentamount: paymentAmt || 0,
                     ouststandingamount:outstandingAmt,
-                    orginalamount:originalAmt
+                    orginalamount:originalAmt,
+                    comments:data.fields.Comments||''
                 };
                 lineItems.push(lineItemObj);
                 let record = {
@@ -1306,7 +1309,8 @@ Template.paymentcard.onRendered(() => {
                             amountdue: amountDue || 0,
                             paymentamount: paymentAmt || 0,
                             ouststandingamount:outstandingAmt,
-                            orginalamount:originalAmt
+                            orginalamount:originalAmt,
+                            comments:data.fields.Comments||''
                         };
                         lineItems.push(lineItemObj);
                         let record = {
@@ -1404,7 +1408,8 @@ Template.paymentcard.onRendered(() => {
                                 amountdue: amountDue || 0,
                                 paymentamount: paymentAmt || 0,
                                 ouststandingamount:outstandingAmt,
-                                orginalamount:originalAmt
+                                orginalamount:originalAmt,
+                                comments:useData[d].fields.Comments||''
                             };
                             lineItems.push(lineItemObj);
                             let record = {
@@ -1501,7 +1506,8 @@ Template.paymentcard.onRendered(() => {
                         amountdue: amountDue || 0,
                         paymentamount: paymentAmt || 0,
                         ouststandingamount:outstandingAmt,
-                        orginalamount:originalAmt
+                        orginalamount:originalAmt,
+                        comments:data.fields.Comments||''
                     };
                     lineItems.push(lineItemObj);
                     let record = {
@@ -1632,7 +1638,8 @@ Template.paymentcard.onRendered(() => {
                                     amountdue: amountDue || 0,
                                     paymentamount: paymentAmt || 0,
                                     ouststandingamount:outstandingAmt,
-                                    orginalamount:originalAmt
+                                    orginalamount:originalAmt,
+                                    comments:notes||''
                                 };
                                 lineItems.push(lineItemObj);
                             }else{
@@ -1794,7 +1801,8 @@ Template.paymentcard.onRendered(() => {
                     amountdue: amountDue || 0,
                     paymentamount: paymentAmt || 0,
                     ouststandingamount:outstandingAmt,
-                    orginalamount:originalAmt
+                    orginalamount:originalAmt,
+                    comments:data.fields.Comments||''
                 };
                 lineItems.push(lineItemObj);
                 let record = {
@@ -1906,7 +1914,8 @@ Template.paymentcard.onRendered(() => {
                         amountdue: amountDue || 0,
                         paymentamount: paymentAmt || 0,
                         ouststandingamount:outstandingAmt,
-                        orginalamount:originalAmt
+                        orginalamount:originalAmt,
+                        comments:data.fields.Comments||''
                     };
                     lineItems.push(lineItemObj);
                     let record = {

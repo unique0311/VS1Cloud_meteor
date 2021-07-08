@@ -50,8 +50,8 @@ Template.body.onRendered(function(){
     //   });
 
       $("body").on("mouseenter", "#content-wrapper", function() {
-        if ($(".collapse.show")[0]){
-        $('.collapse').removeClass('show');
+        if ($(".nav-link .collapse.show")[0]){
+        $('.nav-item > .collapse').removeClass('show');
           // Do something if class exists
         }
         // $('.hoverSideNavAccounts .collapse').removeClass('show');

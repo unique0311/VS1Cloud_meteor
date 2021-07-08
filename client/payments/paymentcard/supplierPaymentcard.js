@@ -1330,7 +1330,8 @@ $('.fullScreenSpin').css('display', 'none');
           amountdue: amountDue || 0,
           paymentamount: paymentAmt || 0,
           ouststandingamount: outstandingAmt,
-          orginalamount: originalAmt
+          orginalamount: originalAmt,
+          comments:useData[d].fields.Comments||''
         };
         lineItems.push(lineItemObj);
 
@@ -1444,7 +1445,8 @@ $('.fullScreenSpin').css('display', 'none');
                   amountdue: amountDue || 0,
                   paymentamount: paymentAmt || 0,
                   ouststandingamount: outstandingAmt,
-                  orginalamount: originalAmt
+                  orginalamount: originalAmt,
+                  comments:data.fields.Comments||''
                 };
                 lineItems.push(lineItemObj);
 
@@ -1558,7 +1560,8 @@ $('.fullScreenSpin').css('display', 'none');
             amountdue: amountDue || 0,
             paymentamount: paymentAmt || 0,
             ouststandingamount: outstandingAmt,
-            orginalamount: originalAmt
+            orginalamount: originalAmt,
+            comments:data.fields.Comments||''
           };
           lineItems.push(lineItemObj);
 
@@ -1678,7 +1681,8 @@ $('.fullScreenSpin').css('display', 'none');
               amountdue: amountDue || 0,
               paymentamount: paymentAmt || 0,
               ouststandingamount: outstandingAmt,
-              orginalamount: originalAmt
+              orginalamount: originalAmt,
+              comments:data.fields.Comments||''
             };
             lineItems.push(lineItemObj);
 
@@ -1795,7 +1799,8 @@ $('.fullScreenSpin').css('display', 'none');
           amountdue: amountDue || 0,
           paymentamount: paymentAmt || 0,
           ouststandingamount: outstandingAmt,
-          orginalamount: originalAmt
+          orginalamount: originalAmt,
+          comments:useData[d].fields.Comments||''
         };
         lineItems.push(lineItemObj);
 
@@ -1912,7 +1917,8 @@ $('.fullScreenSpin').css('display', 'none');
             amountdue: amountDue || 0,
             paymentamount: paymentAmt || 0,
             ouststandingamount: outstandingAmt,
-            orginalamount: originalAmt
+            orginalamount: originalAmt,
+            comments:data.fields.Comments||''
           };
           lineItems.push(lineItemObj);
 
@@ -2032,7 +2038,8 @@ $('.fullScreenSpin').css('display', 'none');
               amountdue: amountDue || 0,
               paymentamount: paymentAmt || 0,
               ouststandingamount: outstandingAmt,
-              orginalamount: originalAmt
+              orginalamount: originalAmt,
+              comments:data.fields.Comments||''
             };
             lineItems.push(lineItemObj);
 
@@ -2148,7 +2155,8 @@ $('.fullScreenSpin').css('display', 'none');
           amountdue: amountDue || 0,
           paymentamount: paymentAmt || 0,
           ouststandingamount: outstandingAmt,
-          orginalamount: originalAmt
+          orginalamount: originalAmt,
+          comments:useData[d].fields.Comments||''
         };
         lineItems.push(lineItemObj);
 
@@ -2263,7 +2271,8 @@ $('.fullScreenSpin').css('display', 'none');
             amountdue: amountDue || 0,
             paymentamount: paymentAmt || 0,
             ouststandingamount: outstandingAmt,
-            orginalamount: originalAmt
+            orginalamount: originalAmt,
+            comments:data.fields.Comments||''
           };
           lineItems.push(lineItemObj);
 
@@ -2728,7 +2737,8 @@ $('.fullScreenSpin').css('display', 'none');
           amountdue: amountDue || 0,
           paymentamount: paymentAmt || 0,
           ouststandingamount: outstandingAmt,
-          orginalamount: originalAmt
+          orginalamount: originalAmt,
+          comments:data.fields.Comments||''
         };
         lineItems.push(lineItemObj);
 
@@ -3040,7 +3050,8 @@ $('.fullScreenSpin').css('display', 'none');
             amountdue: amountDue || 0,
             paymentamount: paymentAmt || 0,
             ouststandingamount: outstandingAmt,
-            orginalamount: originalAmt
+            orginalamount: originalAmt,
+            comments:data.fields.Comments||''
           };
           lineItems.push(lineItemObj);
 
@@ -3157,7 +3168,8 @@ $('.fullScreenSpin').css('display', 'none');
             amountdue: amountDue || 0,
             paymentamount: paymentAmt || 0,
             ouststandingamount: outstandingAmt,
-            orginalamount: originalAmt
+            orginalamount: originalAmt,
+            comments:data.fields.Comments||''
           };
           lineItems.push(lineItemObj);
 
@@ -3274,7 +3286,8 @@ $('.fullScreenSpin').css('display', 'none');
             amountdue: amountDue || 0,
             paymentamount: paymentAmt || 0,
             ouststandingamount: outstandingAmt,
-            orginalamount: originalAmt
+            orginalamount: originalAmt,
+            comments:data.fields.Comments||''
           };
           lineItems.push(lineItemObj);
 
@@ -3392,7 +3405,8 @@ $('.fullScreenSpin').css('display', 'none');
             amountdue: amountDue || 0,
             paymentamount: paymentAmt || 0,
             ouststandingamount: outstandingAmt,
-            orginalamount: originalAmt
+            orginalamount: originalAmt,
+            comments:data.fields.Comments||''
           };
           lineItems.push(lineItemObj);
 
