@@ -7033,17 +7033,64 @@ Template.appointments.events({
 
         appointmentService.saveAppointment(objectData).then(function (data) {
             let id = data.fields.ID;
+            let toUpdateID = "";
+            let updateData = "";
             if (Object.keys(obj).length > 0) {
                 obj.fields.appointID = id;
                 appointmentService.saveTimeLog(obj).then(function (data1) {
-                    sideBarService.getAllAppointmentList().then(function (data) {
-                        addVS1Data('TAppointment', JSON.stringify(data)).then(function (datareturn) {
-                            window.open('/appointments', '_self');
-                        }).catch(function (err) {});
-                    }).catch(function (err) {
-                        window.open('/appointments', '_self');
-                    });
-                }).catch(function () {})
+                            //window.open('/appointments', '_self');
+                            console.log(obj.fields.Description)
+                            if (obj.fields.Description == "Job Completed") {
+                                  let endTime1 = date.getFullYear() + "-" + ("0" + (date.getMonth() + 1)).slice(-2) + "-" + ("0" + (date.getDate())).slice(-2) + ' ' + ("0" + date.getHours()).slice(-2) + ":" + ("0" + date.getMinutes()).slice(-2);
+                                if (Array.isArray(result[0].timelog) && result[0].timelog != "") {
+                                    toUpdateID = result[0].timelog[result[0].timelog.length - 1].fields.ID;
+                                } else {
+                                    toUpdateID = result[0].timelog.fields.ID;
+                                }
+
+                                if (toUpdateID != "") {
+                                    updateData = {
+                                        type: "TAppointmentsTimeLog",
+                                        fields: {
+                                            ID: toUpdateID,
+                                            EndDatetime: endTime1,
+                                        }
+                                    }
+                                }
+
+
+
+
+                                appointmentService.saveTimeLog(updateData).then(function (data) {
+                                    sideBarService.getAllAppointmentList().then(function (data) {
+                                    addVS1Data('TAppointment', JSON.stringify(data)).then(function (datareturn) {
+                                        window.open('/appointments', '_self');
+                                    }).catch(function (err) {
+                                        window.open('/appointments', '_self');
+                                    })
+                                }).catch(function (err) {
+                                    window.open('/appointments', '_self');
+                                     console.log(err);
+                                })
+
+                                }).catch(function (err) {
+                                    window.open('/appointments', '_self');
+                                });
+
+                            } else {
+                                sideBarService.getAllAppointmentList().then(function (data) {
+                                    addVS1Data('TAppointment', JSON.stringify(data)).then(function (datareturn) {
+                                        window.open('/appointments', '_self');
+                                    }).catch(function (err) {
+                                        window.open('/appointments', '_self');
+                                    })
+                                }).catch(function (err) {
+                                    window.open('/appointments', '_self');
+                                })
+                            }
+                }).catch(function (err) {
+                    window.open('/appointments', '_self');
+                })
             } else {
                 sideBarService.getAllAppointmentList().then(function (data) {
                     addVS1Data('TAppointment', JSON.stringify(data)).then(function (datareturn) {
