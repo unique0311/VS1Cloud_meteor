@@ -16,6 +16,7 @@ import { autoTable } from 'jspdf-autotable';
 import 'jquery-editable-select';
 import { SideBarService } from '../js/sidebar-service';
 import '../lib/global/indexdbstorage.js';
+import '../lib/global/indexdbstorage.js';
 let sideBarService = new SideBarService();
 let utilityService = new UtilityService();
 var times = 0;
@@ -47,8 +48,8 @@ Template.new_invoice.onCreated(() => {
     templateObject.record = new ReactiveVar({});
     templateObject.accountID = new ReactiveVar();
     templateObject.stripe_fee_method = new ReactiveVar()
-    /* Attachments */
-    templateObject.uploadedFile = new ReactiveVar();
+        /* Attachments */
+        templateObject.uploadedFile = new ReactiveVar();
     templateObject.uploadedFiles = new ReactiveVar([]);
     templateObject.attachmentCount = new ReactiveVar();
 
@@ -131,7 +132,6 @@ Template.new_invoice.onCreated(() => {
             x.addListener(mediaQuery)
         }, 10);
 
-
     });
 });
 Template.new_invoice.onRendered(() => {
@@ -182,7 +182,6 @@ Template.new_invoice.onRendered(() => {
             }
         });
 
-
         $('#formCheck-two').click(function () {
             if ($(event.target).is(':checked')) {
                 $('.checkbox2div').css('display', 'block');
@@ -200,7 +199,6 @@ Template.new_invoice.onRendered(() => {
             var inputValue2 = $('.customField2Text').text();
             $('.lblCustomField2').text(inputValue2);
         });
-
 
     });
     $('.fullScreenSpin').css('display', 'inline-block');
@@ -224,27 +222,26 @@ Template.new_invoice.onRendered(() => {
                             country: data.tcustomervs1[i].Country || ' ',
                             termsName: data.tcustomervs1[i].TermsName || '',
                             taxCode: data.tcustomervs1[i].TaxCodeName || '',
-                            clienttypename: data.tcustomervs1[i].ClientTypeName||''
+                            clienttypename: data.tcustomervs1[i].ClientTypeName || ''
                         };
                         clientList.push(customerrecordObj);
 
                     }
                     templateObject.clientrecords.set(clientList.sort(function (a, b) {
-                        if (a.customername == 'NA') {
-                            return 1;
-                        } else if (b.customername == 'NA') {
-                            return -1;
-                        }
-                        return (a.customername.toUpperCase() > b.customername.toUpperCase()) ? 1 : -1;
-                    }));
+                            if (a.customername == 'NA') {
+                                return 1;
+                            } else if (b.customername == 'NA') {
+                                return -1;
+                            }
+                            return (a.customername.toUpperCase() > b.customername.toUpperCase()) ? 1 : -1;
+                        }));
 
                     for (var i = 0; i < clientList.length; i++) {
                         $('#edtCustomerName').editableSelect('add', clientList[i].customername);
                     }
 
-                    if (Router.current().params.query.id) {
-
-                    } else {
+                    if (Router.current().params.query.id) {}
+                    else {
                         setTimeout(function () {
                             $('#edtCustomerName').focus();
                         }, 200);
@@ -269,25 +266,24 @@ Template.new_invoice.onRendered(() => {
                         country: useData[i].fields.Country || ' ',
                         termsName: useData[i].fields.TermsName || '',
                         taxCode: useData[i].fields.TaxCodeName || '',
-                        clienttypename: useData[i].fields.ClientTypeName||''
+                        clienttypename: useData[i].fields.ClientTypeName || ''
                     };
                     clientList.push(customerrecordObj);
 
                 }
                 templateObject.clientrecords.set(clientList.sort(function (a, b) {
-                    if (a.customername == 'NA') {
-                        return 1;
-                    } else if (b.customername == 'NA') {
-                        return -1;
-                    }
-                    return (a.customername.toUpperCase() > b.customername.toUpperCase()) ? 1 : -1;
-                }));
+                        if (a.customername == 'NA') {
+                            return 1;
+                        } else if (b.customername == 'NA') {
+                            return -1;
+                        }
+                        return (a.customername.toUpperCase() > b.customername.toUpperCase()) ? 1 : -1;
+                    }));
                 for (var i = 0; i < clientList.length; i++) {
                     $('#edtCustomerName').editableSelect('add', clientList[i].customername);
                 }
-                if (Router.current().params.query.id) {
-
-                } else {
+                if (Router.current().params.query.id) {}
+                else {
                     setTimeout(function () {
                         $('#edtCustomerName').focus();
                     }, 100);
@@ -311,26 +307,25 @@ Template.new_invoice.onRendered(() => {
                         country: data.tcustomervs1[i].Country || ' ',
                         termsName: data.tcustomervs1[i].TermsName || '',
                         taxCode: datatcustomervs1[i].TaxCodeName || '',
-                        clienttypename: data.tcustomervs1[i].ClientTypeName||''
+                        clienttypename: data.tcustomervs1[i].ClientTypeName || ''
                     };
                     clientList.push(customerrecordObj);
 
                 }
                 templateObject.clientrecords.set(clientList.sort(function (a, b) {
-                    if (a.customername == 'NA') {
-                        return 1;
-                    } else if (b.customername == 'NA') {
-                        return -1;
-                    }
-                    return (a.customername.toUpperCase() > b.customername.toUpperCase()) ? 1 : -1;
-                }));
+                        if (a.customername == 'NA') {
+                            return 1;
+                        } else if (b.customername == 'NA') {
+                            return -1;
+                        }
+                        return (a.customername.toUpperCase() > b.customername.toUpperCase()) ? 1 : -1;
+                    }));
 
                 for (var i = 0; i < clientList.length; i++) {
                     $('#edtCustomerName').editableSelect('add', clientList[i].customername);
                 }
-                if (Router.current().params.query.id) {
-
-                } else {
+                if (Router.current().params.query.id) {}
+                else {
                     setTimeout(function () {
                         $('#edtCustomerName').focus();
                     }, 200);
@@ -340,14 +335,12 @@ Template.new_invoice.onRendered(() => {
         });
     };
 
-
     templateObject.getOrganisationDetails = function () {
-            let account_id = Session.get('vs1companyStripeID') || '';
-            let stripe_fee = Session.get('vs1companyStripeFeeMethod') || 'apply';
-            templateObject.accountID.set(account_id);
-            templateObject.stripe_fee_method.set(stripe_fee);
-        }
-
+        let account_id = Session.get('vs1companyStripeID') || '';
+        let stripe_fee = Session.get('vs1companyStripeFeeMethod') || 'apply';
+        templateObject.accountID.set(account_id);
+        templateObject.stripe_fee_method.set(stripe_fee);
+    }
 
     templateObject.getOrganisationDetails();
 
@@ -364,7 +357,6 @@ Template.new_invoice.onRendered(() => {
                         statusList.push(leadrecordObj);
                     }
                     templateObject.statusrecords.set(statusList);
-
 
                 });
             } else {
@@ -397,7 +389,6 @@ Template.new_invoice.onRendered(() => {
                 }
                 templateObject.statusrecords.set(statusList);
 
-
             });
         });
 
@@ -427,15 +418,29 @@ Template.new_invoice.onRendered(() => {
                     let lineItemTableObj = {};
                     let exchangeCode = data.fields.ForeignExchangeCode;
                     let currencySymbol = Currency;
-                    let total = utilityService.modifynegativeCurrencyFormat(data.fields.TotalAmount).toLocaleString(undefined, { minimumFractionDigits: 2 });
-                    let totalInc = utilityService.modifynegativeCurrencyFormat(data.fields.TotalAmountInc).toLocaleString(undefined, { minimumFractionDigits: 2 });
-                    let subTotal = utilityService.modifynegativeCurrencyFormat(data.fields.TotalAmount).toLocaleString(undefined, { minimumFractionDigits: 2 });
-                    let totalTax = utilityService.modifynegativeCurrencyFormat(data.fields.TotalTax).toLocaleString(undefined, { minimumFractionDigits: 2 });
-                    let totalBalance = utilityService.modifynegativeCurrencyFormat(data.fields.TotalBalance).toLocaleString(undefined, { minimumFractionDigits: 2 });
-                    let totalPaidAmount = utilityService.modifynegativeCurrencyFormat(data.fields.TotalPaid).toLocaleString(undefined, { minimumFractionDigits: 2 });
+                    let total = utilityService.modifynegativeCurrencyFormat(data.fields.TotalAmount).toLocaleString(undefined, {
+                        minimumFractionDigits: 2
+                    });
+                    let totalInc = utilityService.modifynegativeCurrencyFormat(data.fields.TotalAmountInc).toLocaleString(undefined, {
+                        minimumFractionDigits: 2
+                    });
+                    let subTotal = utilityService.modifynegativeCurrencyFormat(data.fields.TotalAmount).toLocaleString(undefined, {
+                        minimumFractionDigits: 2
+                    });
+                    let totalTax = utilityService.modifynegativeCurrencyFormat(data.fields.TotalTax).toLocaleString(undefined, {
+                        minimumFractionDigits: 2
+                    });
+                    let totalBalance = utilityService.modifynegativeCurrencyFormat(data.fields.TotalBalance).toLocaleString(undefined, {
+                        minimumFractionDigits: 2
+                    });
+                    let totalPaidAmount = utilityService.modifynegativeCurrencyFormat(data.fields.TotalPaid).toLocaleString(undefined, {
+                        minimumFractionDigits: 2
+                    });
                     if (data.fields.Lines.length) {
                         for (let i = 0; i < data.fields.Lines.length; i++) {
-                            let AmountGbp = currencySymbol + '' + data.fields.Lines[i].fields.TotalLineAmount.toLocaleString(undefined, { minimumFractionDigits: 2 });
+                            let AmountGbp = currencySymbol + '' + data.fields.Lines[i].fields.TotalLineAmount.toLocaleString(undefined, {
+                                minimumFractionDigits: 2
+                            });
                             let currencyAmountGbp = currencySymbol + '' + data.fields.Lines[i].fields.TotalLineAmount.toFixed(2);
                             let TaxTotalGbp = utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.LineTaxTotal);
                             let TaxRateGbp = (data.fields.Lines[i].fields.LineTaxRate * 100).toFixed(2);
@@ -448,8 +453,12 @@ Template.new_invoice.onRendered(() => {
                                 qtyordered: data.fields.Lines[i].fields.UOMOrderQty || 0,
                                 qtyshipped: data.fields.Lines[i].fields.UOMQtyShipped || 0,
                                 qtybo: data.fields.Lines[i].fields.UOMQtyBackOrder || 0,
-                                unitPrice: currencySymbol + '' + data.fields.Lines[i].fields.LinePrice.toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
-                                lineCost: currencySymbol + '' + data.fields.Lines[i].fields.LineCost.toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
+                                unitPrice: currencySymbol + '' + data.fields.Lines[i].fields.LinePrice.toLocaleString(undefined, {
+                                    minimumFractionDigits: 2
+                                }) || 0,
+                                lineCost: currencySymbol + '' + data.fields.Lines[i].fields.LineCost.toLocaleString(undefined, {
+                                    minimumFractionDigits: 2
+                                }) || 0,
                                 taxRate: (data.fields.Lines[i].fields.LineTaxRate * 100).toFixed(2) || 0,
                                 taxCode: data.fields.Lines[i].fields.LineTaxCode || '',
                                 TotalAmt: AmountGbp || 0,
@@ -471,7 +480,9 @@ Template.new_invoice.onRendered(() => {
                             lineItems.push(lineItemObj);
                         }
                     } else {
-                        let AmountGbp = data.fields.Lines.fields.TotalLineAmountInc.toLocaleString(undefined, { minimumFractionDigits: 2 });
+                        let AmountGbp = data.fields.Lines.fields.TotalLineAmountInc.toLocaleString(undefined, {
+                            minimumFractionDigits: 2
+                        });
                         let currencyAmountGbp = currencySymbol + '' + data.fields.Lines.fields.TotalLineAmount.toFixed(2);
                         let TaxTotalGbp = utilityService.modifynegativeCurrencyFormat(data.fields.Lines.fields.LineTaxTotal);
                         let TaxRateGbp = (data.fields.Lines.fields.LineTaxRate * 100).toFixed(2);
@@ -480,8 +491,12 @@ Template.new_invoice.onRendered(() => {
                             id: data.fields.Lines.fields.ID || '',
                             description: data.fields.Lines.fields.ProductDescription || '',
                             quantity: data.fields.Lines.fields.UOMOrderQty || 0,
-                            unitPrice: data.fields.Lines.fields.LinePrice.toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
-                            lineCost: data.fields.Lines.fields.LineCost.toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
+                            unitPrice: data.fields.Lines.fields.LinePrice.toLocaleString(undefined, {
+                                minimumFractionDigits: 2
+                            }) || 0,
+                            lineCost: data.fields.Lines.fields.LineCost.toLocaleString(undefined, {
+                                minimumFractionDigits: 2
+                            }) || 0,
                             taxRate: (data.fields.Lines.fields.LineTaxRate * 100).toFixed(2) || 0,
                             taxCode: data.fields.Lines.fields.LineTaxCode || '',
                             TotalAmt: AmountGbp || 0,
@@ -541,7 +556,6 @@ Template.new_invoice.onRendered(() => {
                     }
                     /* END  attachment */
 
-
                     setTimeout(function () {
                         if (clientList) {
                             for (var i = 0; i < clientList.length; i++) {
@@ -561,9 +575,8 @@ Template.new_invoice.onRendered(() => {
                     if (templateObject.invoicerecord.get()) {
 
                         Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblInvoiceLine', function (error, result) {
-                            if (error) {
-
-                            } else {
+                            if (error) {}
+                            else {
                                 if (result) {
                                     for (let i = 0; i < result.customFields.length; i++) {
                                         let customcolumn = result.customFields;
@@ -603,9 +616,7 @@ Template.new_invoice.onRendered(() => {
                     }).then((result) => {
                         if (result.value) {
                             Meteor._reload.reload();
-                        } else if (result.dismiss === 'cancel') {
-
-                        }
+                        } else if (result.dismiss === 'cancel') {}
                     });
                     $('.fullScreenSpin').css('display', 'none');
                 });
@@ -613,8 +624,7 @@ Template.new_invoice.onRendered(() => {
 
             templateObject.getInvoiceData();
         }
-    }
-    else if (url.includes("id") && url.includes("total")) {
+    } else if (url.includes("id") && url.includes("total")) {
         $('.fullScreenSpin').css('display', 'inline-block');
         url = new URL(url);
         let dateStart = new Date();
@@ -641,15 +651,29 @@ Template.new_invoice.onRendered(() => {
                             let lineItemTableObj = {};
                             let exchangeCode = data.fields.ForeignExchangeCode;
                             let currencySymbol = Currency;
-                            let total = currencySymbol + '' + data.fields.TotalAmount.toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0;
-                            let totalInc = currencySymbol + '' + data.fields.TotalAmountInc.toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0;
-                            let subTotal = currencySymbol + '' + data.fields.TotalAmount.toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0;
-                            let totalTax = currencySymbol + '' + data.fields.TotalTax.toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0;
-                            let totalBalance = utilityService.modifynegativeCurrencyFormat(data.fields.TotalBalance).toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0;
-                            let totalPaidAmount = currencySymbol + '' + data.fields.TotalPaid.toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0;
+                            let total = currencySymbol + '' + data.fields.TotalAmount.toLocaleString(undefined, {
+                                minimumFractionDigits: 2
+                            }) || 0;
+                            let totalInc = currencySymbol + '' + data.fields.TotalAmountInc.toLocaleString(undefined, {
+                                minimumFractionDigits: 2
+                            }) || 0;
+                            let subTotal = currencySymbol + '' + data.fields.TotalAmount.toLocaleString(undefined, {
+                                minimumFractionDigits: 2
+                            }) || 0;
+                            let totalTax = currencySymbol + '' + data.fields.TotalTax.toLocaleString(undefined, {
+                                minimumFractionDigits: 2
+                            }) || 0;
+                            let totalBalance = utilityService.modifynegativeCurrencyFormat(data.fields.TotalBalance).toLocaleString(undefined, {
+                                minimumFractionDigits: 2
+                            }) || 0;
+                            let totalPaidAmount = currencySymbol + '' + data.fields.TotalPaid.toLocaleString(undefined, {
+                                minimumFractionDigits: 2
+                            }) || 0;
                             if (data.fields.Lines.length) {
                                 for (let i = 0; i < data.fields.Lines.length; i++) {
-                                    let AmountGbp = currencySymbol + '' + data.fields.Lines[i].fields.TotalLineAmount.toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0;
+                                    let AmountGbp = currencySymbol + '' + data.fields.Lines[i].fields.TotalLineAmount.toLocaleString(undefined, {
+                                        minimumFractionDigits: 2
+                                    }) || 0;
                                     let currencyAmountGbp = currencySymbol + '' + data.fields.Lines[i].fields.TotalLineAmount.toFixed(2) || 0;
                                     let TaxTotalGbp = utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.LineTaxTotal) || 0;
                                     let TaxRateGbp = (data.fields.Lines[i].fields.LineTaxRate * 100).toFixed(2) || 0;
@@ -662,8 +686,12 @@ Template.new_invoice.onRendered(() => {
                                         qtyordered: data.fields.Lines[i].fields.UOMOrderQty || 0,
                                         qtyshipped: data.fields.Lines[i].fields.UOMQtyShipped || 0,
                                         qtybo: data.fields.Lines[i].fields.UOMQtyBackOrder || 0,
-                                        unitPrice: utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.LinePrice).toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
-                                        lineCost: utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.LineCost).toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
+                                        unitPrice: utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.LinePrice).toLocaleString(undefined, {
+                                            minimumFractionDigits: 2
+                                        }) || 0,
+                                        lineCost: utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.LineCost).toLocaleString(undefined, {
+                                            minimumFractionDigits: 2
+                                        }) || 0,
                                         taxRate: (data.fields.Lines[i].fields.LineTaxRate * 100).toFixed(2) || 0,
                                         taxCode: data.fields.Lines[i].fields.LineTaxCode || '',
                                         TotalAmt: AmountGbp || 0,
@@ -685,7 +713,9 @@ Template.new_invoice.onRendered(() => {
                                     lineItems.push(lineItemObj);
                                 }
                             } else {
-                                let AmountGbp = data.fields.Lines.fields.TotalLineAmountInc.toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0;
+                                let AmountGbp = data.fields.Lines.fields.TotalLineAmountInc.toLocaleString(undefined, {
+                                    minimumFractionDigits: 2
+                                }) || 0;
                                 let currencyAmountGbp = currencySymbol + '' + data.fields.Lines.fields.TotalLineAmount.toFixed(2);
                                 let TaxTotalGbp = utilityService.modifynegativeCurrencyFormat(data.fields.Lines.fields.LineTaxTotal);
                                 let TaxRateGbp = (data.fields.Lines.fields.LineTaxRate * 100).toFixed(2);
@@ -694,8 +724,12 @@ Template.new_invoice.onRendered(() => {
                                     id: data.fields.Lines.fields.ID || '',
                                     description: data.fields.Lines.fields.ProductDescription || '',
                                     quantity: data.fields.Lines.fields.UOMOrderQty || 0,
-                                    unitPrice: data.fields.Lines[i].fields.LinePrice.toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
-                                    lineCost: data.fields.Lines[i].fields.LineCost.toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
+                                    unitPrice: data.fields.Lines[i].fields.LinePrice.toLocaleString(undefined, {
+                                        minimumFractionDigits: 2
+                                    }) || 0,
+                                    lineCost: data.fields.Lines[i].fields.LineCost.toLocaleString(undefined, {
+                                        minimumFractionDigits: 2
+                                    }) || 0,
                                     taxRate: (data.fields.Lines.fields.LineTaxRate * 100).toFixed(2) || 0,
                                     taxCode: data.fields.Lines.fields.LineTaxCode || '',
                                     TotalAmt: AmountGbp || 0,
@@ -745,7 +779,6 @@ Template.new_invoice.onRendered(() => {
                             $('#edtCustomerName').val(data.fields.CustomerName);
                             templateObject.CleintName.set(data.fields.CustomerName);
                             $('#sltCurrency').val(data.fields.ForeignExchangeCode);
-
 
                             templateObject.attachmentCount.set(0);
                             if (data.fields.Attachments) {
@@ -798,7 +831,9 @@ Template.new_invoice.onRendered(() => {
                             let invoice_total = getTotal.replace(currency_symbol, '');
                             let paymentItems = [];
                             let paymentLineItems = {};
-                            let dueAmount = utilityService.modifynegativeCurrencyFormat(parseFloat(invoice_total) - parseFloat(paidAmount)).toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0;
+                            let dueAmount = utilityService.modifynegativeCurrencyFormat(parseFloat(invoice_total) - parseFloat(paidAmount)).toLocaleString(undefined, {
+                                minimumFractionDigits: 2
+                            }) || 0;
 
                             paymentLineItems = {
                                 id: '',
@@ -821,7 +856,7 @@ Template.new_invoice.onRendered(() => {
                                 notes: data.fields.Notes,
                                 LineItems: paymentItems,
                                 department: "Default",
-                                applied: currency_symbol +''+paidAmount
+                                applied: currency_symbol + '' + paidAmount
 
                             };
 
@@ -839,7 +874,6 @@ Template.new_invoice.onRendered(() => {
                                                 let hiddenColumn = customcolumn[i].hidden;
                                                 let columnClass = columHeaderUpdate.substring(columHeaderUpdate.indexOf(".") + 1);
                                                 let columnWidth = customcolumn[i].width;
-
 
                                                 $("" + columHeaderUpdate + "").html(columData);
                                                 if (columnWidth != 0) {
@@ -872,9 +906,7 @@ Template.new_invoice.onRendered(() => {
                             }).then((result) => {
                                 if (result.value) {
                                     Meteor._reload.reload();
-                                } else if (result.dismiss === 'cancel') {
-
-                                }
+                                } else if (result.dismiss === 'cancel') {}
                             });
                             $('.fullScreenSpin').css('display', 'none');
                         });
@@ -898,15 +930,29 @@ Template.new_invoice.onRendered(() => {
                                 let lineItemTableObj = {};
                                 let exchangeCode = useData[d].fields.ForeignExchangeCode;
                                 let currencySymbol = Currency;
-                                let total = currencySymbol + '' + useData[d].fields.TotalAmount.toLocaleString(undefined, { minimumFractionDigits: 2 });
-                                let totalInc = currencySymbol + '' + useData[d].fields.TotalAmountInc.toLocaleString(undefined, { minimumFractionDigits: 2 });
-                                let subTotal = currencySymbol + '' + useData[d].fields.TotalAmount.toLocaleString(undefined, { minimumFractionDigits: 2 });
-                                let totalTax = currencySymbol + '' + useData[d].fields.TotalTax.toLocaleString(undefined, { minimumFractionDigits: 2 });
-                                let totalBalance = utilityService.modifynegativeCurrencyFormat(useData[d].fields.TotalBalance).toLocaleString(undefined, { minimumFractionDigits: 2 });
-                                let totalPaidAmount = currencySymbol + '' + useData[d].fields.TotalPaid.toLocaleString(undefined, { minimumFractionDigits: 2 });
+                                let total = currencySymbol + '' + useData[d].fields.TotalAmount.toLocaleString(undefined, {
+                                    minimumFractionDigits: 2
+                                });
+                                let totalInc = currencySymbol + '' + useData[d].fields.TotalAmountInc.toLocaleString(undefined, {
+                                    minimumFractionDigits: 2
+                                });
+                                let subTotal = currencySymbol + '' + useData[d].fields.TotalAmount.toLocaleString(undefined, {
+                                    minimumFractionDigits: 2
+                                });
+                                let totalTax = currencySymbol + '' + useData[d].fields.TotalTax.toLocaleString(undefined, {
+                                    minimumFractionDigits: 2
+                                });
+                                let totalBalance = utilityService.modifynegativeCurrencyFormat(useData[d].fields.TotalBalance).toLocaleString(undefined, {
+                                    minimumFractionDigits: 2
+                                });
+                                let totalPaidAmount = currencySymbol + '' + useData[d].fields.TotalPaid.toLocaleString(undefined, {
+                                    minimumFractionDigits: 2
+                                });
                                 if (useData[d].fields.Lines.length) {
                                     for (let i = 0; i < useData[d].fields.Lines.length; i++) {
-                                        let AmountGbp = currencySymbol + '' + useData[d].fields.Lines[i].fields.TotalLineAmount.toLocaleString(undefined, { minimumFractionDigits: 2 });
+                                        let AmountGbp = currencySymbol + '' + useData[d].fields.Lines[i].fields.TotalLineAmount.toLocaleString(undefined, {
+                                            minimumFractionDigits: 2
+                                        });
                                         let currencyAmountGbp = currencySymbol + '' + useData[d].fields.Lines[i].fields.TotalLineAmount.toFixed(2);
                                         let TaxTotalGbp = utilityService.modifynegativeCurrencyFormat(useData[d].fields.Lines[i].fields.LineTaxTotal);
                                         let TaxRateGbp = (useData[d].fields.Lines[i].fields.LineTaxRate * 100).toFixed(2);
@@ -919,8 +965,12 @@ Template.new_invoice.onRendered(() => {
                                             qtyordered: useData[d].fields.Lines[i].fields.UOMOrderQty || 0,
                                             qtyshipped: useData[d].fields.Lines[i].fields.UOMQtyShipped || 0,
                                             qtybo: useData[d].fields.Lines[i].fields.UOMQtyBackOrder || 0,
-                                            unitPrice: utilityService.modifynegativeCurrencyFormat(useData[d].fields.Lines[i].fields.LinePrice).toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
-                                            lineCost: utilityService.modifynegativeCurrencyFormat(useData[d].fields.Lines[i].fields.LineCost).toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
+                                            unitPrice: utilityService.modifynegativeCurrencyFormat(useData[d].fields.Lines[i].fields.LinePrice).toLocaleString(undefined, {
+                                                minimumFractionDigits: 2
+                                            }) || 0,
+                                            lineCost: utilityService.modifynegativeCurrencyFormat(useData[d].fields.Lines[i].fields.LineCost).toLocaleString(undefined, {
+                                                minimumFractionDigits: 2
+                                            }) || 0,
                                             taxRate: (useData[d].fields.Lines[i].fields.LineTaxRate * 100).toFixed(2) || 0,
                                             taxCode: useData[d].fields.Lines[i].fields.LineTaxCode || '',
                                             TotalAmt: AmountGbp || 0,
@@ -942,7 +992,9 @@ Template.new_invoice.onRendered(() => {
                                         lineItems.push(lineItemObj);
                                     }
                                 } else {
-                                    let AmountGbp = useData[d].fields.Lines.fields.TotalLineAmountInc.toLocaleString(undefined, { minimumFractionDigits: 2 });
+                                    let AmountGbp = useData[d].fields.Lines.fields.TotalLineAmountInc.toLocaleString(undefined, {
+                                        minimumFractionDigits: 2
+                                    });
                                     let currencyAmountGbp = currencySymbol + '' + useData[d].fields.Lines.fields.TotalLineAmount.toFixed(2);
                                     let TaxTotalGbp = utilityService.modifynegativeCurrencyFormat(useData[d].fields.Lines.fields.LineTaxTotal);
                                     let TaxRateGbp = currencySymbol + '' + useData[d].fields.Lines.fields.LineTaxRate;
@@ -951,8 +1003,12 @@ Template.new_invoice.onRendered(() => {
                                         id: useData[d].fields.Lines.fields.ID || '',
                                         description: useData[d].fields.Lines.fields.ProductDescription || '',
                                         quantity: useData[d].fields.Lines.fields.UOMOrderQty || 0,
-                                        unitPrice: useData[d].fields.Lines.fields.LinePrice.toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
-                                        lineCost: useData[d].fields.Lines.fields.LineCost.toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
+                                        unitPrice: useData[d].fields.Lines.fields.LinePrice.toLocaleString(undefined, {
+                                            minimumFractionDigits: 2
+                                        }) || 0,
+                                        lineCost: useData[d].fields.Lines.fields.LineCost.toLocaleString(undefined, {
+                                            minimumFractionDigits: 2
+                                        }) || 0,
                                         taxRate: useData[d].fields.Lines.fields.LineTaxRate || 0,
                                         taxCode: useData[d].fields.Lines.fields.LineTaxCode || '',
                                         TotalAmt: AmountGbp || 0,
@@ -1002,7 +1058,6 @@ Template.new_invoice.onRendered(() => {
                                 $('#edtCustomerName').val(useData[d].fields.CustomerName);
                                 templateObject.CleintName.set(useData[d].fields.CustomerName);
                                 $('#sltCurrency').val(useData[d].fields.ForeignExchangeCode);
-
 
                                 /* START attachment */
                                 templateObject.attachmentCount.set(0);
@@ -1056,11 +1111,9 @@ Template.new_invoice.onRendered(() => {
                                 templateObject.inputSelectedCurrency.set(invoicerecord.currency);
                                 if (templateObject.invoicerecord.get()) {
 
-
-
                                     Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblInvoiceLine', function (error, result) {
-                                        if (error) {
-                                        } else {
+                                        if (error) {}
+                                        else {
                                             if (result) {
                                                 for (let i = 0; i < result.customFields.length; i++) {
                                                     let customcolumn = result.customFields;
@@ -1102,15 +1155,29 @@ Template.new_invoice.onRendered(() => {
                                 let lineItemTableObj = {};
                                 let exchangeCode = data.fields.ForeignExchangeCode;
                                 let currencySymbol = Currency;
-                                let total = currencySymbol + '' + data.fields.TotalAmount.toLocaleString(undefined, { minimumFractionDigits: 2 });
-                                let totalInc = currencySymbol + '' + data.fields.TotalAmountInc.toLocaleString(undefined, { minimumFractionDigits: 2 });
-                                let subTotal = currencySymbol + '' + data.fields.TotalAmount.toLocaleString(undefined, { minimumFractionDigits: 2 });
-                                let totalTax = currencySymbol + '' + data.fields.TotalTax.toLocaleString(undefined, { minimumFractionDigits: 2 });
-                                let totalBalance = utilityService.modifynegativeCurrencyFormat(data.fields.TotalBalance).toLocaleString(undefined, { minimumFractionDigits: 2 });
-                                let totalPaidAmount = currencySymbol + '' + data.fields.TotalPaid.toLocaleString(undefined, { minimumFractionDigits: 2 });
+                                let total = currencySymbol + '' + data.fields.TotalAmount.toLocaleString(undefined, {
+                                    minimumFractionDigits: 2
+                                });
+                                let totalInc = currencySymbol + '' + data.fields.TotalAmountInc.toLocaleString(undefined, {
+                                    minimumFractionDigits: 2
+                                });
+                                let subTotal = currencySymbol + '' + data.fields.TotalAmount.toLocaleString(undefined, {
+                                    minimumFractionDigits: 2
+                                });
+                                let totalTax = currencySymbol + '' + data.fields.TotalTax.toLocaleString(undefined, {
+                                    minimumFractionDigits: 2
+                                });
+                                let totalBalance = utilityService.modifynegativeCurrencyFormat(data.fields.TotalBalance).toLocaleString(undefined, {
+                                    minimumFractionDigits: 2
+                                });
+                                let totalPaidAmount = currencySymbol + '' + data.fields.TotalPaid.toLocaleString(undefined, {
+                                    minimumFractionDigits: 2
+                                });
                                 if (data.fields.Lines.length) {
                                     for (let i = 0; i < data.fields.Lines.length; i++) {
-                                        let AmountGbp = currencySymbol + '' + data.fields.Lines[i].fields.TotalLineAmount.toLocaleString(undefined, { minimumFractionDigits: 2 });
+                                        let AmountGbp = currencySymbol + '' + data.fields.Lines[i].fields.TotalLineAmount.toLocaleString(undefined, {
+                                            minimumFractionDigits: 2
+                                        });
                                         let currencyAmountGbp = currencySymbol + '' + data.fields.Lines[i].fields.TotalLineAmount.toFixed(2);
                                         let TaxTotalGbp = utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.LineTaxTotal);
                                         let TaxRateGbp = (data.fields.Lines[i].fields.LineTaxRate * 100).toFixed(2);
@@ -1123,8 +1190,12 @@ Template.new_invoice.onRendered(() => {
                                             qtyordered: data.fields.Lines[i].fields.UOMOrderQty || 0,
                                             qtyshipped: data.fields.Lines[i].fields.UOMQtyShipped || 0,
                                             qtybo: data.fields.Lines[i].fields.UOMQtyBackOrder || 0,
-                                            unitPrice: utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.LinePrice).toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
-                                            lineCost: utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.LineCost).toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
+                                            unitPrice: utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.LinePrice).toLocaleString(undefined, {
+                                                minimumFractionDigits: 2
+                                            }) || 0,
+                                            lineCost: utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.LineCost).toLocaleString(undefined, {
+                                                minimumFractionDigits: 2
+                                            }) || 0,
                                             taxRate: (data.fields.Lines[i].fields.LineTaxRate * 100).toFixed(2) || 0,
                                             taxCode: data.fields.Lines[i].fields.LineTaxCode || '',
                                             TotalAmt: AmountGbp || 0,
@@ -1146,7 +1217,9 @@ Template.new_invoice.onRendered(() => {
                                         lineItems.push(lineItemObj);
                                     }
                                 } else {
-                                    let AmountGbp = data.fields.Lines.fields.TotalLineAmountInc.toLocaleString(undefined, { minimumFractionDigits: 2 });
+                                    let AmountGbp = data.fields.Lines.fields.TotalLineAmountInc.toLocaleString(undefined, {
+                                        minimumFractionDigits: 2
+                                    });
                                     let currencyAmountGbp = currencySymbol + '' + data.fields.Lines.fields.TotalLineAmount.toFixed(2);
                                     let TaxTotalGbp = utilityService.modifynegativeCurrencyFormat(data.fields.Lines.fields.LineTaxTotal);
                                     let TaxRateGbp = (data.fields.Lines.fields.LineTaxRate * 100).toFixed(2);
@@ -1155,8 +1228,12 @@ Template.new_invoice.onRendered(() => {
                                         id: data.fields.Lines.fields.ID || '',
                                         description: data.fields.Lines.fields.ProductDescription || '',
                                         quantity: data.fields.Lines.fields.UOMOrderQty || 0,
-                                        unitPrice: data.fields.Lines[i].fields.LinePrice.toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
-                                        lineCost: data.fields.Lines[i].fields.LineCost.toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
+                                        unitPrice: data.fields.Lines[i].fields.LinePrice.toLocaleString(undefined, {
+                                            minimumFractionDigits: 2
+                                        }) || 0,
+                                        lineCost: data.fields.Lines[i].fields.LineCost.toLocaleString(undefined, {
+                                            minimumFractionDigits: 2
+                                        }) || 0,
                                         taxRate: (data.fields.Lines.fields.LineTaxRate * 100).toFixed(2) || 0,
                                         taxCode: data.fields.Lines.fields.LineTaxCode || '',
                                         TotalAmt: AmountGbp || 0,
@@ -1207,7 +1284,6 @@ Template.new_invoice.onRendered(() => {
                                 templateObject.CleintName.set(data.fields.CustomerName);
                                 $('#sltCurrency').val(data.fields.ForeignExchangeCode);
 
-
                                 /* START attachment */
                                 templateObject.attachmentCount.set(0);
                                 if (data.fields.Attachments) {
@@ -1254,7 +1330,6 @@ Template.new_invoice.onRendered(() => {
                                     }
                                 }, 100);
 
-
                                 templateObject.invoicerecord.set(invoicerecord);
 
                                 templateObject.selectedCurrency.set(invoicerecord.currency);
@@ -1262,8 +1337,8 @@ Template.new_invoice.onRendered(() => {
                                 if (templateObject.invoicerecord.get()) {
 
                                     Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblInvoiceLine', function (error, result) {
-                                        if (error) {
-                                        } else {
+                                        if (error) {}
+                                        else {
                                             if (result) {
                                                 for (let i = 0; i < result.customFields.length; i++) {
                                                     let customcolumn = result.customFields;
@@ -1303,9 +1378,7 @@ Template.new_invoice.onRendered(() => {
                                 }).then((result) => {
                                     if (result.value) {
                                         Meteor._reload.reload();
-                                    } else if (result.dismiss === 'cancel') {
-
-                                    }
+                                    } else if (result.dismiss === 'cancel') {}
                                 });
                                 $('.fullScreenSpin').css('display', 'none');
                             });
@@ -1318,8 +1391,12 @@ Template.new_invoice.onRendered(() => {
                             let invoice_total = getTotal.replace(currency_symbol, '').replace(',', '');
                             let paymentItems = [];
                             let paymentLineItems = {};
-                            let dueAmount = utilityService.modifynegativeCurrencyFormat(parseFloat(invoice_total) - parseFloat(paidAmount)).toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0;
-                            let amountPaid = Currency + '' + paidAmount.toLocaleString(undefined, { minimumFractionDigits: 2 });
+                            let dueAmount = utilityService.modifynegativeCurrencyFormat(parseFloat(invoice_total) - parseFloat(paidAmount)).toLocaleString(undefined, {
+                                minimumFractionDigits: 2
+                            }) || 0;
+                            let amountPaid = Currency + '' + paidAmount.toLocaleString(undefined, {
+                                minimumFractionDigits: 2
+                            });
                             paymentLineItems = {
                                 id: '',
                                 invoiceid: getso_id || '',
@@ -1341,12 +1418,11 @@ Template.new_invoice.onRendered(() => {
                                 notes: $("txaComment").val() || '',
                                 LineItems: paymentItems,
                                 department: "Default",
-                                applied: currency_symbol +''+paidAmount
+                                applied: currency_symbol + '' + paidAmount
 
                             };
                             templateObject.record.set(record);
                         }, 1500)
-
 
                     }
                 }).catch(function (err) {
@@ -1359,15 +1435,29 @@ Template.new_invoice.onRendered(() => {
                         let lineItemTableObj = {};
                         let exchangeCode = data.fields.ForeignExchangeCode;
                         let currencySymbol = Currency;
-                        let total = currencySymbol + '' + data.fields.TotalAmount.toLocaleString(undefined, { minimumFractionDigits: 2 });
-                        let totalInc = currencySymbol + '' + data.fields.TotalAmountInc.toLocaleString(undefined, { minimumFractionDigits: 2 });
-                        let subTotal = currencySymbol + '' + data.fields.TotalAmount.toLocaleString(undefined, { minimumFractionDigits: 2 });
-                        let totalTax = currencySymbol + '' + data.fields.TotalTax.toLocaleString(undefined, { minimumFractionDigits: 2 });
-                        let totalBalance = utilityService.modifynegativeCurrencyFormat(data.fields.TotalBalance).toLocaleString(undefined, { minimumFractionDigits: 2 });
-                        let totalPaidAmount = currencySymbol + '' + data.fields.TotalPaid.toLocaleString(undefined, { minimumFractionDigits: 2 });
+                        let total = currencySymbol + '' + data.fields.TotalAmount.toLocaleString(undefined, {
+                            minimumFractionDigits: 2
+                        });
+                        let totalInc = currencySymbol + '' + data.fields.TotalAmountInc.toLocaleString(undefined, {
+                            minimumFractionDigits: 2
+                        });
+                        let subTotal = currencySymbol + '' + data.fields.TotalAmount.toLocaleString(undefined, {
+                            minimumFractionDigits: 2
+                        });
+                        let totalTax = currencySymbol + '' + data.fields.TotalTax.toLocaleString(undefined, {
+                            minimumFractionDigits: 2
+                        });
+                        let totalBalance = utilityService.modifynegativeCurrencyFormat(data.fields.TotalBalance).toLocaleString(undefined, {
+                            minimumFractionDigits: 2
+                        });
+                        let totalPaidAmount = currencySymbol + '' + data.fields.TotalPaid.toLocaleString(undefined, {
+                            minimumFractionDigits: 2
+                        });
                         if (data.fields.Lines.length) {
                             for (let i = 0; i < data.fields.Lines.length; i++) {
-                                let AmountGbp = currencySymbol + '' + data.fields.Lines[i].fields.TotalLineAmount.toLocaleString(undefined, { minimumFractionDigits: 2 });
+                                let AmountGbp = currencySymbol + '' + data.fields.Lines[i].fields.TotalLineAmount.toLocaleString(undefined, {
+                                    minimumFractionDigits: 2
+                                });
                                 let currencyAmountGbp = currencySymbol + '' + data.fields.Lines[i].fields.TotalLineAmount.toFixed(2);
                                 let TaxTotalGbp = utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.LineTaxTotal);
                                 let TaxRateGbp = (data.fields.Lines[i].fields.LineTaxRate * 100).toFixed(2);
@@ -1380,8 +1470,12 @@ Template.new_invoice.onRendered(() => {
                                     qtyordered: data.fields.Lines[i].fields.UOMOrderQty || 0,
                                     qtyshipped: data.fields.Lines[i].fields.UOMQtyShipped || 0,
                                     qtybo: data.fields.Lines[i].fields.UOMQtyBackOrder || 0,
-                                    unitPrice: utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.LinePrice).toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
-                                    lineCost: utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.LineCost).toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
+                                    unitPrice: utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.LinePrice).toLocaleString(undefined, {
+                                        minimumFractionDigits: 2
+                                    }) || 0,
+                                    lineCost: utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.LineCost).toLocaleString(undefined, {
+                                        minimumFractionDigits: 2
+                                    }) || 0,
                                     taxRate: (data.fields.Lines[i].fields.LineTaxRate * 100).toFixed(2) || 0,
                                     taxCode: data.fields.Lines[i].fields.LineTaxCode || '',
                                     TotalAmt: AmountGbp || 0,
@@ -1403,7 +1497,9 @@ Template.new_invoice.onRendered(() => {
                                 lineItems.push(lineItemObj);
                             }
                         } else {
-                            let AmountGbp = data.fields.Lines.fields.TotalLineAmountInc.toLocaleString(undefined, { minimumFractionDigits: 2 });
+                            let AmountGbp = data.fields.Lines.fields.TotalLineAmountInc.toLocaleString(undefined, {
+                                minimumFractionDigits: 2
+                            });
                             let currencyAmountGbp = currencySymbol + '' + data.fields.Lines.fields.TotalLineAmount.toFixed(2);
                             let TaxTotalGbp = utilityService.modifynegativeCurrencyFormat(data.fields.Lines.fields.LineTaxTotal);
                             let TaxRateGbp = (data.fields.Lines.fields.LineTaxRate * 100).toFixed(2);
@@ -1412,8 +1508,12 @@ Template.new_invoice.onRendered(() => {
                                 id: data.fields.Lines.fields.ID || '',
                                 description: data.fields.Lines.fields.ProductDescription || '',
                                 quantity: data.fields.Lines.fields.UOMOrderQty || 0,
-                                unitPrice: data.fields.Lines[i].fields.LinePrice.toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
-                                lineCost: data.fields.Lines[i].fields.LineCost.toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
+                                unitPrice: data.fields.Lines[i].fields.LinePrice.toLocaleString(undefined, {
+                                    minimumFractionDigits: 2
+                                }) || 0,
+                                lineCost: data.fields.Lines[i].fields.LineCost.toLocaleString(undefined, {
+                                    minimumFractionDigits: 2
+                                }) || 0,
                                 taxRate: (data.fields.Lines.fields.LineTaxRate * 100).toFixed(2) || 0,
                                 taxCode: data.fields.Lines.fields.LineTaxCode || '',
                                 TotalAmt: AmountGbp || 0,
@@ -1464,7 +1564,6 @@ Template.new_invoice.onRendered(() => {
                         templateObject.CleintName.set(data.fields.CustomerName);
                         $('#sltCurrency').val(data.fields.ForeignExchangeCode);
 
-
                         /* START attachment */
                         templateObject.attachmentCount.set(0);
                         if (data.fields.Attachments) {
@@ -1513,17 +1612,14 @@ Template.new_invoice.onRendered(() => {
                             }
                         }, 100);
 
-
-
                         templateObject.invoicerecord.set(invoicerecord);
                         templateObject.selectedCurrency.set(invoicerecord.currency);
                         templateObject.inputSelectedCurrency.set(invoicerecord.currency);
                         if (templateObject.invoicerecord.get()) {
 
-
                             Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblInvoiceLine', function (error, result) {
-                                if (error) {
-                                } else {
+                                if (error) {}
+                                else {
                                     if (result) {
                                         for (let i = 0; i < result.customFields.length; i++) {
                                             let customcolumn = result.customFields;
@@ -1562,9 +1658,7 @@ Template.new_invoice.onRendered(() => {
                         }).then((result) => {
                             if (result.value) {
                                 Meteor._reload.reload();
-                            } else if (result.dismiss === 'cancel') {
-
-                            }
+                            } else if (result.dismiss === 'cancel') {}
                         });
                         $('.fullScreenSpin').css('display', 'none');
 
@@ -1595,7 +1689,6 @@ Template.new_invoice.onRendered(() => {
                         };
                         attachment.push(pdfObject);
                         let erpInvoiceId = getso_id;
-
 
                         let mailFromName = Session.get('vs1companyName');
                         let mailFrom = localStorage.getItem('mySession');
@@ -1653,7 +1746,6 @@ Template.new_invoice.onRendered(() => {
                             '    </tr>' +
                             '</table>';
 
-
                         Meteor.call('sendEmail', {
                             from: "" + mailFromName + " <" + mailFrom + ">",
                             to: checkEmailData,
@@ -1663,33 +1755,32 @@ Template.new_invoice.onRendered(() => {
                             attachments: attachment
                         }, function (error, result) {
 
-                                if (error && error.error === "error") {
-                                    Router.go('/invoicelist?success=true');
-                                    $('.fullScreenSpin').css('display', 'none');
-                                } else {
-                                    $('.fullScreenSpin').css('display', 'none');
-                                    swal({
-                                        title: 'SUCCESS',
-                                        text: "Email Sent To Customer: " + checkEmailData,
-                                        type: 'success',
-                                        showCancelButton: false,
-                                        confirmButtonText: 'OK'
-                                    }).then((result) => {
-                                        if (result.value) {
+                            if (error && error.error === "error") {
+                                Router.go('/invoicelist?success=true');
+                                $('.fullScreenSpin').css('display', 'none');
+                            } else {
+                                $('.fullScreenSpin').css('display', 'none');
+                                swal({
+                                    title: 'SUCCESS',
+                                    text: "Email Sent To Customer: " + checkEmailData,
+                                    type: 'success',
+                                    showCancelButton: false,
+                                    confirmButtonText: 'OK'
+                                }).then((result) => {
+                                    if (result.value) {
 
-                                            Router.go('/invoicelist?success=true');
-                                        } else if (result.dismiss === 'cancel') {
-                                            Router.go('/invoicelist?success=true');
-                                        } else {
-                                            Router.go('/invoicelist?success=true');
-                                        }
-                                    });
-                                }
+                                        Router.go('/invoicelist?success=true');
+                                    } else if (result.dismiss === 'cancel') {
+                                        Router.go('/invoicelist?success=true');
+                                    } else {
+                                        Router.go('/invoicelist?success=true');
+                                    }
+                                });
+                            }
 
                         });
 
                     }
-
 
                 }
                 setTimeout(function () {
@@ -1708,10 +1799,7 @@ Template.new_invoice.onRendered(() => {
                         });
                     });
                 }
-            }
-            catch (err) {
-
-            }
+            } catch (err) {}
 
         }
     } else if (url.indexOf('?id=') > 0) {
@@ -1737,16 +1825,30 @@ Template.new_invoice.onRendered(() => {
                             let lineItemTableObj = {};
                             let exchangeCode = data.fields.ForeignExchangeCode;
                             let currencySymbol = Currency;
-                            let total = currencySymbol + '' + data.fields.TotalAmount.toLocaleString(undefined, { minimumFractionDigits: 2 });
-                            let totalInc = currencySymbol + '' + data.fields.TotalAmountInc.toLocaleString(undefined, { minimumFractionDigits: 2 });
-                            let subTotal = currencySymbol + '' + data.fields.TotalAmount.toLocaleString(undefined, { minimumFractionDigits: 2 });
-                            let totalTax = currencySymbol + '' + data.fields.TotalTax.toLocaleString(undefined, { minimumFractionDigits: 2 });
-                            let totalBalance = utilityService.modifynegativeCurrencyFormat(data.fields.TotalBalance).toLocaleString(undefined, { minimumFractionDigits: 2 });
+                            let total = currencySymbol + '' + data.fields.TotalAmount.toLocaleString(undefined, {
+                                minimumFractionDigits: 2
+                            });
+                            let totalInc = currencySymbol + '' + data.fields.TotalAmountInc.toLocaleString(undefined, {
+                                minimumFractionDigits: 2
+                            });
+                            let subTotal = currencySymbol + '' + data.fields.TotalAmount.toLocaleString(undefined, {
+                                minimumFractionDigits: 2
+                            });
+                            let totalTax = currencySymbol + '' + data.fields.TotalTax.toLocaleString(undefined, {
+                                minimumFractionDigits: 2
+                            });
+                            let totalBalance = utilityService.modifynegativeCurrencyFormat(data.fields.TotalBalance).toLocaleString(undefined, {
+                                minimumFractionDigits: 2
+                            });
 
-                            let totalPaidAmount = currencySymbol + '' + data.fields.TotalPaid.toLocaleString(undefined, { minimumFractionDigits: 2 });
+                            let totalPaidAmount = currencySymbol + '' + data.fields.TotalPaid.toLocaleString(undefined, {
+                                minimumFractionDigits: 2
+                            });
                             if (data.fields.Lines.length) {
                                 for (let i = 0; i < data.fields.Lines.length; i++) {
-                                    let AmountGbp = currencySymbol + '' + data.fields.Lines[i].fields.TotalLineAmount.toLocaleString(undefined, { minimumFractionDigits: 2 });
+                                    let AmountGbp = currencySymbol + '' + data.fields.Lines[i].fields.TotalLineAmount.toLocaleString(undefined, {
+                                        minimumFractionDigits: 2
+                                    });
                                     let currencyAmountGbp = currencySymbol + '' + data.fields.Lines[i].fields.TotalLineAmount.toFixed(2);
                                     let TaxTotalGbp = utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.LineTaxTotal);
                                     let TaxRateGbp = (data.fields.Lines[i].fields.LineTaxRate * 100).toFixed(2);
@@ -1759,8 +1861,12 @@ Template.new_invoice.onRendered(() => {
                                         qtyordered: data.fields.Lines[i].fields.UOMOrderQty || 0,
                                         qtyshipped: data.fields.Lines[i].fields.UOMQtyShipped || 0,
                                         qtybo: data.fields.Lines[i].fields.UOMQtyBackOrder || 0,
-                                        unitPrice: utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.LinePrice).toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
-                                        lineCost: utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.LineCost).toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
+                                        unitPrice: utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.LinePrice).toLocaleString(undefined, {
+                                            minimumFractionDigits: 2
+                                        }) || 0,
+                                        lineCost: utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.LineCost).toLocaleString(undefined, {
+                                            minimumFractionDigits: 2
+                                        }) || 0,
                                         taxRate: (data.fields.Lines[i].fields.LineTaxRate * 100).toFixed(2) || 0,
                                         taxCode: data.fields.Lines[i].fields.LineTaxCode || '',
                                         TotalAmt: AmountGbp || 0,
@@ -1782,7 +1888,9 @@ Template.new_invoice.onRendered(() => {
                                     lineItems.push(lineItemObj);
                                 }
                             } else {
-                                let AmountGbp = data.fields.Lines.fields.TotalLineAmountInc.toLocaleString(undefined, { minimumFractionDigits: 2 });
+                                let AmountGbp = data.fields.Lines.fields.TotalLineAmountInc.toLocaleString(undefined, {
+                                    minimumFractionDigits: 2
+                                });
                                 let currencyAmountGbp = currencySymbol + '' + data.fields.Lines.fields.TotalLineAmount.toFixed(2);
                                 let TaxTotalGbp = utilityService.modifynegativeCurrencyFormat(data.fields.Lines.fields.LineTaxTotal);
                                 let TaxRateGbp = (data.fields.Lines.fields.LineTaxRate * 100).toFixed(2);
@@ -1791,8 +1899,12 @@ Template.new_invoice.onRendered(() => {
                                     id: data.fields.Lines.fields.ID || '',
                                     description: data.fields.Lines.fields.ProductDescription || '',
                                     quantity: data.fields.Lines.fields.UOMOrderQty || 0,
-                                    unitPrice: data.fields.Lines[i].fields.LinePrice.toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
-                                    lineCost: data.fields.Lines[i].fields.LineCost.toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
+                                    unitPrice: data.fields.Lines[i].fields.LinePrice.toLocaleString(undefined, {
+                                        minimumFractionDigits: 2
+                                    }) || 0,
+                                    lineCost: data.fields.Lines[i].fields.LineCost.toLocaleString(undefined, {
+                                        minimumFractionDigits: 2
+                                    }) || 0,
                                     taxRate: (data.fields.Lines.fields.LineTaxRate * 100).toFixed(2) || 0,
                                     taxCode: data.fields.Lines.fields.LineTaxCode || '',
                                     TotalAmt: AmountGbp || 0,
@@ -1842,7 +1954,6 @@ Template.new_invoice.onRendered(() => {
                             $('#edtCustomerName').val(data.fields.CustomerName);
                             templateObject.CleintName.set(data.fields.CustomerName);
                             $('#sltCurrency').val(data.fields.ForeignExchangeCode);
-
 
                             /* START attachment */
                             templateObject.attachmentCount.set(0);
@@ -1895,7 +2006,6 @@ Template.new_invoice.onRendered(() => {
                                 }
                             }, 100);
 
-
                             templateObject.invoicerecord.set(invoicerecord);
 
                             templateObject.selectedCurrency.set(invoicerecord.currency);
@@ -1903,9 +2013,8 @@ Template.new_invoice.onRendered(() => {
                             if (templateObject.invoicerecord.get()) {
 
                                 Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblInvoiceLine', function (error, result) {
-                                    if (error) {
-
-                                    } else {
+                                    if (error) {}
+                                    else {
                                         if (result) {
                                             for (let i = 0; i < result.customFields.length; i++) {
                                                 let customcolumn = result.customFields;
@@ -1915,7 +2024,6 @@ Template.new_invoice.onRendered(() => {
                                                 let columnClass = columHeaderUpdate.substring(columHeaderUpdate.indexOf(".") + 1);
                                                 let columnWidth = customcolumn[i].width;
 
-
                                                 $("" + columHeaderUpdate + "").html(columData);
                                                 if (columnWidth != 0) {
                                                     $("" + columHeaderUpdate + "").css('width', columnWidth + '%');
@@ -1923,14 +2031,11 @@ Template.new_invoice.onRendered(() => {
 
                                                 if (hiddenColumn == true) {
 
-
                                                     $("." + columnClass + "").addClass('hiddenColumn');
                                                     $("." + columnClass + "").removeClass('showColumn');
                                                 } else if (hiddenColumn == false) {
                                                     $("." + columnClass + "").removeClass('hiddenColumn');
                                                     $("." + columnClass + "").addClass('showColumn');
-
-
 
                                                 }
 
@@ -1950,9 +2055,7 @@ Template.new_invoice.onRendered(() => {
                             }).then((result) => {
                                 if (result.value) {
                                     Meteor._reload.reload();
-                                } else if (result.dismiss === 'cancel') {
-
-                                }
+                                } else if (result.dismiss === 'cancel') {}
                             });
                             $('.fullScreenSpin').css('display', 'none');
 
@@ -1961,8 +2064,6 @@ Template.new_invoice.onRendered(() => {
                         let data = JSON.parse(dataObject[0].data);
                         let useData = data.tinvoiceex;
                         let customerData = templateObject.clientrecords.get();
-
-
 
                         var added = false;
                         for (let d = 0; d < useData.length; d++) {
@@ -1979,16 +2080,30 @@ Template.new_invoice.onRendered(() => {
                                 let lineItemTableObj = {};
                                 let exchangeCode = useData[d].fields.ForeignExchangeCode;
                                 let currencySymbol = Currency;
-                                let total = currencySymbol + '' + useData[d].fields.TotalAmount.toLocaleString(undefined, { minimumFractionDigits: 2 });
-                                let totalInc = currencySymbol + '' + useData[d].fields.TotalAmountInc.toLocaleString(undefined, { minimumFractionDigits: 2 });
-                                let subTotal = currencySymbol + '' + useData[d].fields.TotalAmount.toLocaleString(undefined, { minimumFractionDigits: 2 });
-                                let totalTax = currencySymbol + '' + useData[d].fields.TotalTax.toLocaleString(undefined, { minimumFractionDigits: 2 });
-                                let totalBalance = utilityService.modifynegativeCurrencyFormat(useData[d].fields.TotalBalance).toLocaleString(undefined, { minimumFractionDigits: 2 });
+                                let total = currencySymbol + '' + useData[d].fields.TotalAmount.toLocaleString(undefined, {
+                                    minimumFractionDigits: 2
+                                });
+                                let totalInc = currencySymbol + '' + useData[d].fields.TotalAmountInc.toLocaleString(undefined, {
+                                    minimumFractionDigits: 2
+                                });
+                                let subTotal = currencySymbol + '' + useData[d].fields.TotalAmount.toLocaleString(undefined, {
+                                    minimumFractionDigits: 2
+                                });
+                                let totalTax = currencySymbol + '' + useData[d].fields.TotalTax.toLocaleString(undefined, {
+                                    minimumFractionDigits: 2
+                                });
+                                let totalBalance = utilityService.modifynegativeCurrencyFormat(useData[d].fields.TotalBalance).toLocaleString(undefined, {
+                                    minimumFractionDigits: 2
+                                });
 
-                                let totalPaidAmount = currencySymbol + '' + useData[d].fields.TotalPaid.toLocaleString(undefined, { minimumFractionDigits: 2 });
+                                let totalPaidAmount = currencySymbol + '' + useData[d].fields.TotalPaid.toLocaleString(undefined, {
+                                    minimumFractionDigits: 2
+                                });
                                 if (useData[d].fields.Lines.length) {
                                     for (let i = 0; i < useData[d].fields.Lines.length; i++) {
-                                        let AmountGbp = currencySymbol + '' + useData[d].fields.Lines[i].fields.TotalLineAmount.toLocaleString(undefined, { minimumFractionDigits: 2 });
+                                        let AmountGbp = currencySymbol + '' + useData[d].fields.Lines[i].fields.TotalLineAmount.toLocaleString(undefined, {
+                                            minimumFractionDigits: 2
+                                        });
                                         let currencyAmountGbp = currencySymbol + '' + useData[d].fields.Lines[i].fields.TotalLineAmount.toFixed(2);
                                         let TaxTotalGbp = utilityService.modifynegativeCurrencyFormat(useData[d].fields.Lines[i].fields.LineTaxTotal);
                                         let TaxRateGbp = (useData[d].fields.Lines[i].fields.LineTaxRate * 100).toFixed(2);
@@ -2001,8 +2116,12 @@ Template.new_invoice.onRendered(() => {
                                             qtyordered: useData[d].fields.Lines[i].fields.UOMOrderQty || 0,
                                             qtyshipped: useData[d].fields.Lines[i].fields.UOMQtyShipped || 0,
                                             qtybo: useData[d].fields.Lines[i].fields.UOMQtyBackOrder || 0,
-                                            unitPrice: utilityService.modifynegativeCurrencyFormat(useData[d].fields.Lines[i].fields.LinePrice).toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
-                                            lineCost: utilityService.modifynegativeCurrencyFormat(useData[d].fields.Lines[i].fields.LineCost).toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
+                                            unitPrice: utilityService.modifynegativeCurrencyFormat(useData[d].fields.Lines[i].fields.LinePrice).toLocaleString(undefined, {
+                                                minimumFractionDigits: 2
+                                            }) || 0,
+                                            lineCost: utilityService.modifynegativeCurrencyFormat(useData[d].fields.Lines[i].fields.LineCost).toLocaleString(undefined, {
+                                                minimumFractionDigits: 2
+                                            }) || 0,
                                             taxRate: (useData[d].fields.Lines[i].fields.LineTaxRate * 100).toFixed(2) || 0,
                                             taxCode: useData[d].fields.Lines[i].fields.LineTaxCode || '',
                                             TotalAmt: AmountGbp || 0,
@@ -2024,7 +2143,9 @@ Template.new_invoice.onRendered(() => {
                                         lineItems.push(lineItemObj);
                                     }
                                 } else {
-                                    let AmountGbp = useData[d].fields.Lines.fields.TotalLineAmountInc.toLocaleString(undefined, { minimumFractionDigits: 2 });
+                                    let AmountGbp = useData[d].fields.Lines.fields.TotalLineAmountInc.toLocaleString(undefined, {
+                                        minimumFractionDigits: 2
+                                    });
                                     let currencyAmountGbp = currencySymbol + '' + useData[d].fields.Lines.fields.TotalLineAmount.toFixed(2);
                                     let TaxTotalGbp = utilityService.modifynegativeCurrencyFormat(useData[d].fields.Lines.fields.LineTaxTotal);
                                     let TaxRateGbp = currencySymbol + '' + useData[d].fields.Lines.fields.LineTaxRate;
@@ -2033,8 +2154,12 @@ Template.new_invoice.onRendered(() => {
                                         id: useData[d].fields.Lines.fields.ID || '',
                                         description: useData[d].fields.Lines.fields.ProductDescription || '',
                                         quantity: useData[d].fields.Lines.fields.UOMOrderQty || 0,
-                                        unitPrice: useData[d].fields.Lines.fields.LinePrice.toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
-                                        lineCost: useData[d].fields.Lines.fields.LineCost.toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
+                                        unitPrice: useData[d].fields.Lines.fields.LinePrice.toLocaleString(undefined, {
+                                            minimumFractionDigits: 2
+                                        }) || 0,
+                                        lineCost: useData[d].fields.Lines.fields.LineCost.toLocaleString(undefined, {
+                                            minimumFractionDigits: 2
+                                        }) || 0,
                                         taxRate: useData[d].fields.Lines.fields.LineTaxRate || 0,
                                         taxCode: useData[d].fields.Lines.fields.LineTaxCode || '',
                                         TotalAmt: AmountGbp || 0,
@@ -2084,7 +2209,6 @@ Template.new_invoice.onRendered(() => {
                                 $('#edtCustomerName').val(useData[d].fields.CustomerName);
                                 templateObject.CleintName.set(useData[d].fields.CustomerName);
                                 $('#sltCurrency').val(useData[d].fields.ForeignExchangeCode);
-
 
                                 /* START attachment */
                                 templateObject.attachmentCount.set(0);
@@ -2142,14 +2266,9 @@ Template.new_invoice.onRendered(() => {
                                 templateObject.inputSelectedCurrency.set(invoicerecord.currency);
                                 if (templateObject.invoicerecord.get()) {
 
-
-
-
-
                                     Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblInvoiceLine', function (error, result) {
-                                        if (error) {
-
-                                        } else {
+                                        if (error) {}
+                                        else {
                                             if (result) {
                                                 for (let i = 0; i < result.customFields.length; i++) {
                                                     let customcolumn = result.customFields;
@@ -2159,7 +2278,6 @@ Template.new_invoice.onRendered(() => {
                                                     let columnClass = columHeaderUpdate.substring(columHeaderUpdate.indexOf(".") + 1);
                                                     let columnWidth = customcolumn[i].width;
 
-
                                                     $("" + columHeaderUpdate + "").html(columData);
                                                     if (columnWidth != 0) {
                                                         $("" + columHeaderUpdate + "").css('width', columnWidth + '%');
@@ -2167,14 +2285,11 @@ Template.new_invoice.onRendered(() => {
 
                                                     if (hiddenColumn == true) {
 
-
                                                         $("." + columnClass + "").addClass('hiddenColumn');
                                                         $("." + columnClass + "").removeClass('showColumn');
                                                     } else if (hiddenColumn == false) {
                                                         $("." + columnClass + "").removeClass('hiddenColumn');
                                                         $("." + columnClass + "").addClass('showColumn');
-
-
 
                                                     }
 
@@ -2196,16 +2311,30 @@ Template.new_invoice.onRendered(() => {
                                 let lineItemTableObj = {};
                                 let exchangeCode = data.fields.ForeignExchangeCode;
                                 let currencySymbol = Currency;
-                                let total = currencySymbol + '' + data.fields.TotalAmount.toLocaleString(undefined, { minimumFractionDigits: 2 });
-                                let totalInc = currencySymbol + '' + data.fields.TotalAmountInc.toLocaleString(undefined, { minimumFractionDigits: 2 });
-                                let subTotal = currencySymbol + '' + data.fields.TotalAmount.toLocaleString(undefined, { minimumFractionDigits: 2 });
-                                let totalTax = currencySymbol + '' + data.fields.TotalTax.toLocaleString(undefined, { minimumFractionDigits: 2 });
-                                let totalBalance = utilityService.modifynegativeCurrencyFormat(data.fields.TotalBalance).toLocaleString(undefined, { minimumFractionDigits: 2 });
+                                let total = currencySymbol + '' + data.fields.TotalAmount.toLocaleString(undefined, {
+                                    minimumFractionDigits: 2
+                                });
+                                let totalInc = currencySymbol + '' + data.fields.TotalAmountInc.toLocaleString(undefined, {
+                                    minimumFractionDigits: 2
+                                });
+                                let subTotal = currencySymbol + '' + data.fields.TotalAmount.toLocaleString(undefined, {
+                                    minimumFractionDigits: 2
+                                });
+                                let totalTax = currencySymbol + '' + data.fields.TotalTax.toLocaleString(undefined, {
+                                    minimumFractionDigits: 2
+                                });
+                                let totalBalance = utilityService.modifynegativeCurrencyFormat(data.fields.TotalBalance).toLocaleString(undefined, {
+                                    minimumFractionDigits: 2
+                                });
 
-                                let totalPaidAmount = currencySymbol + '' + data.fields.TotalPaid.toLocaleString(undefined, { minimumFractionDigits: 2 });
+                                let totalPaidAmount = currencySymbol + '' + data.fields.TotalPaid.toLocaleString(undefined, {
+                                    minimumFractionDigits: 2
+                                });
                                 if (data.fields.Lines.length) {
                                     for (let i = 0; i < data.fields.Lines.length; i++) {
-                                        let AmountGbp = currencySymbol + '' + data.fields.Lines[i].fields.TotalLineAmount.toLocaleString(undefined, { minimumFractionDigits: 2 });
+                                        let AmountGbp = currencySymbol + '' + data.fields.Lines[i].fields.TotalLineAmount.toLocaleString(undefined, {
+                                            minimumFractionDigits: 2
+                                        });
                                         let currencyAmountGbp = currencySymbol + '' + data.fields.Lines[i].fields.TotalLineAmount.toFixed(2);
                                         let TaxTotalGbp = utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.LineTaxTotal);
                                         let TaxRateGbp = (data.fields.Lines[i].fields.LineTaxRate * 100).toFixed(2);
@@ -2218,8 +2347,12 @@ Template.new_invoice.onRendered(() => {
                                             qtyordered: data.fields.Lines[i].fields.UOMOrderQty || 0,
                                             qtyshipped: data.fields.Lines[i].fields.UOMQtyShipped || 0,
                                             qtybo: data.fields.Lines[i].fields.UOMQtyBackOrder || 0,
-                                            unitPrice: utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.LinePrice).toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
-                                            lineCost: utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.LineCost).toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
+                                            unitPrice: utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.LinePrice).toLocaleString(undefined, {
+                                                minimumFractionDigits: 2
+                                            }) || 0,
+                                            lineCost: utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.LineCost).toLocaleString(undefined, {
+                                                minimumFractionDigits: 2
+                                            }) || 0,
                                             taxRate: (data.fields.Lines[i].fields.LineTaxRate * 100).toFixed(2) || 0,
                                             taxCode: data.fields.Lines[i].fields.LineTaxCode || '',
                                             TotalAmt: AmountGbp || 0,
@@ -2241,7 +2374,9 @@ Template.new_invoice.onRendered(() => {
                                         lineItems.push(lineItemObj);
                                     }
                                 } else {
-                                    let AmountGbp = data.fields.Lines.fields.TotalLineAmountInc.toLocaleString(undefined, { minimumFractionDigits: 2 });
+                                    let AmountGbp = data.fields.Lines.fields.TotalLineAmountInc.toLocaleString(undefined, {
+                                        minimumFractionDigits: 2
+                                    });
                                     let currencyAmountGbp = currencySymbol + '' + data.fields.Lines.fields.TotalLineAmount.toFixed(2);
                                     let TaxTotalGbp = utilityService.modifynegativeCurrencyFormat(data.fields.Lines.fields.LineTaxTotal);
                                     let TaxRateGbp = (data.fields.Lines.fields.LineTaxRate * 100).toFixed(2);
@@ -2250,8 +2385,12 @@ Template.new_invoice.onRendered(() => {
                                         id: data.fields.Lines.fields.ID || '',
                                         description: data.fields.Lines.fields.ProductDescription || '',
                                         quantity: data.fields.Lines.fields.UOMOrderQty || 0,
-                                        unitPrice: data.fields.Lines[i].fields.LinePrice.toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
-                                        lineCost: data.fields.Lines[i].fields.LineCost.toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
+                                        unitPrice: data.fields.Lines[i].fields.LinePrice.toLocaleString(undefined, {
+                                            minimumFractionDigits: 2
+                                        }) || 0,
+                                        lineCost: data.fields.Lines[i].fields.LineCost.toLocaleString(undefined, {
+                                            minimumFractionDigits: 2
+                                        }) || 0,
                                         taxRate: (data.fields.Lines.fields.LineTaxRate * 100).toFixed(2) || 0,
                                         taxCode: data.fields.Lines.fields.LineTaxCode || '',
                                         TotalAmt: AmountGbp || 0,
@@ -2301,7 +2440,6 @@ Template.new_invoice.onRendered(() => {
                                 $('#edtCustomerName').val(data.fields.CustomerName);
                                 templateObject.CleintName.set(data.fields.CustomerName);
                                 $('#sltCurrency').val(data.fields.ForeignExchangeCode);
-
 
                                 /* START attachment */
                                 templateObject.attachmentCount.set(0);
@@ -2356,15 +2494,9 @@ Template.new_invoice.onRendered(() => {
                                 templateObject.inputSelectedCurrency.set(invoicerecord.currency);
                                 if (templateObject.invoicerecord.get()) {
 
-
-
-
-
                                     Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblInvoiceLine', function (error, result) {
-                                        if (error) {
-
-
-                                        } else {
+                                        if (error) {}
+                                        else {
                                             if (result) {
                                                 for (let i = 0; i < result.customFields.length; i++) {
                                                     let customcolumn = result.customFields;
@@ -2374,7 +2506,6 @@ Template.new_invoice.onRendered(() => {
                                                     let columnClass = columHeaderUpdate.substring(columHeaderUpdate.indexOf(".") + 1);
                                                     let columnWidth = customcolumn[i].width;
 
-
                                                     $("" + columHeaderUpdate + "").html(columData);
                                                     if (columnWidth != 0) {
                                                         $("" + columHeaderUpdate + "").css('width', columnWidth + '%');
@@ -2382,14 +2513,11 @@ Template.new_invoice.onRendered(() => {
 
                                                     if (hiddenColumn == true) {
 
-
                                                         $("." + columnClass + "").addClass('hiddenColumn');
                                                         $("." + columnClass + "").removeClass('showColumn');
                                                     } else if (hiddenColumn == false) {
                                                         $("." + columnClass + "").removeClass('hiddenColumn');
                                                         $("." + columnClass + "").addClass('showColumn');
-
-
 
                                                     }
 
@@ -2410,9 +2538,7 @@ Template.new_invoice.onRendered(() => {
                                 }).then((result) => {
                                     if (result.value) {
                                         Meteor._reload.reload();
-                                    } else if (result.dismiss === 'cancel') {
-
-                                    }
+                                    } else if (result.dismiss === 'cancel') {}
                                 });
                                 $('.fullScreenSpin').css('display', 'none');
 
@@ -2434,16 +2560,30 @@ Template.new_invoice.onRendered(() => {
                         let lineItemTableObj = {};
                         let exchangeCode = data.fields.ForeignExchangeCode;
                         let currencySymbol = Currency;
-                        let total = currencySymbol + '' + data.fields.TotalAmount.toLocaleString(undefined, { minimumFractionDigits: 2 });
-                        let totalInc = currencySymbol + '' + data.fields.TotalAmountInc.toLocaleString(undefined, { minimumFractionDigits: 2 });
-                        let subTotal = currencySymbol + '' + data.fields.TotalAmount.toLocaleString(undefined, { minimumFractionDigits: 2 });
-                        let totalTax = currencySymbol + '' + data.fields.TotalTax.toLocaleString(undefined, { minimumFractionDigits: 2 });
-                        let totalBalance = utilityService.modifynegativeCurrencyFormat(data.fields.TotalBalance).toLocaleString(undefined, { minimumFractionDigits: 2 });
+                        let total = currencySymbol + '' + data.fields.TotalAmount.toLocaleString(undefined, {
+                            minimumFractionDigits: 2
+                        });
+                        let totalInc = currencySymbol + '' + data.fields.TotalAmountInc.toLocaleString(undefined, {
+                            minimumFractionDigits: 2
+                        });
+                        let subTotal = currencySymbol + '' + data.fields.TotalAmount.toLocaleString(undefined, {
+                            minimumFractionDigits: 2
+                        });
+                        let totalTax = currencySymbol + '' + data.fields.TotalTax.toLocaleString(undefined, {
+                            minimumFractionDigits: 2
+                        });
+                        let totalBalance = utilityService.modifynegativeCurrencyFormat(data.fields.TotalBalance).toLocaleString(undefined, {
+                            minimumFractionDigits: 2
+                        });
 
-                        let totalPaidAmount = currencySymbol + '' + data.fields.TotalPaid.toLocaleString(undefined, { minimumFractionDigits: 2 });
+                        let totalPaidAmount = currencySymbol + '' + data.fields.TotalPaid.toLocaleString(undefined, {
+                            minimumFractionDigits: 2
+                        });
                         if (data.fields.Lines.length) {
                             for (let i = 0; i < data.fields.Lines.length; i++) {
-                                let AmountGbp = currencySymbol + '' + data.fields.Lines[i].fields.TotalLineAmount.toLocaleString(undefined, { minimumFractionDigits: 2 });
+                                let AmountGbp = currencySymbol + '' + data.fields.Lines[i].fields.TotalLineAmount.toLocaleString(undefined, {
+                                    minimumFractionDigits: 2
+                                });
                                 let currencyAmountGbp = currencySymbol + '' + data.fields.Lines[i].fields.TotalLineAmount.toFixed(2);
                                 let TaxTotalGbp = utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.LineTaxTotal);
                                 let TaxRateGbp = (data.fields.Lines[i].fields.LineTaxRate * 100).toFixed(2);
@@ -2456,8 +2596,12 @@ Template.new_invoice.onRendered(() => {
                                     qtyordered: data.fields.Lines[i].fields.UOMOrderQty || 0,
                                     qtyshipped: data.fields.Lines[i].fields.UOMQtyShipped || 0,
                                     qtybo: data.fields.Lines[i].fields.UOMQtyBackOrder || 0,
-                                    unitPrice: utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.LinePrice).toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
-                                    lineCost: utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.LineCost).toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
+                                    unitPrice: utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.LinePrice).toLocaleString(undefined, {
+                                        minimumFractionDigits: 2
+                                    }) || 0,
+                                    lineCost: utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.LineCost).toLocaleString(undefined, {
+                                        minimumFractionDigits: 2
+                                    }) || 0,
                                     taxRate: (data.fields.Lines[i].fields.LineTaxRate * 100).toFixed(2) || 0,
                                     taxCode: data.fields.Lines[i].fields.LineTaxCode || '',
                                     TotalAmt: AmountGbp || 0,
@@ -2479,7 +2623,9 @@ Template.new_invoice.onRendered(() => {
                                 lineItems.push(lineItemObj);
                             }
                         } else {
-                            let AmountGbp = data.fields.Lines.fields.TotalLineAmountInc.toLocaleString(undefined, { minimumFractionDigits: 2 });
+                            let AmountGbp = data.fields.Lines.fields.TotalLineAmountInc.toLocaleString(undefined, {
+                                minimumFractionDigits: 2
+                            });
                             let currencyAmountGbp = currencySymbol + '' + data.fields.Lines.fields.TotalLineAmount.toFixed(2);
                             let TaxTotalGbp = utilityService.modifynegativeCurrencyFormat(data.fields.Lines.fields.LineTaxTotal);
                             let TaxRateGbp = (data.fields.Lines.fields.LineTaxRate * 100).toFixed(2);
@@ -2488,8 +2634,12 @@ Template.new_invoice.onRendered(() => {
                                 id: data.fields.Lines.fields.ID || '',
                                 description: data.fields.Lines.fields.ProductDescription || '',
                                 quantity: data.fields.Lines.fields.UOMOrderQty || 0,
-                                unitPrice: data.fields.Lines[i].fields.LinePrice.toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
-                                lineCost: data.fields.Lines[i].fields.LineCost.toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
+                                unitPrice: data.fields.Lines[i].fields.LinePrice.toLocaleString(undefined, {
+                                    minimumFractionDigits: 2
+                                }) || 0,
+                                lineCost: data.fields.Lines[i].fields.LineCost.toLocaleString(undefined, {
+                                    minimumFractionDigits: 2
+                                }) || 0,
                                 taxRate: (data.fields.Lines.fields.LineTaxRate * 100).toFixed(2) || 0,
                                 taxCode: data.fields.Lines.fields.LineTaxCode || '',
                                 TotalAmt: AmountGbp || 0,
@@ -2538,7 +2688,6 @@ Template.new_invoice.onRendered(() => {
                         $('#edtCustomerName').val(data.fields.CustomerName);
                         templateObject.CleintName.set(data.fields.CustomerName);
                         $('#sltCurrency').val(data.fields.ForeignExchangeCode);
-
 
                         /* START attachment */
                         templateObject.attachmentCount.set(0);
@@ -2590,23 +2739,15 @@ Template.new_invoice.onRendered(() => {
                             }
                         }, 100);
 
-
-
                         templateObject.invoicerecord.set(invoicerecord);
 
                         templateObject.selectedCurrency.set(invoicerecord.currency);
                         templateObject.inputSelectedCurrency.set(invoicerecord.currency);
                         if (templateObject.invoicerecord.get()) {
 
-
-
-
-
                             Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblInvoiceLine', function (error, result) {
-                                if (error) {
-
-
-                                } else {
+                                if (error) {}
+                                else {
                                     if (result) {
                                         for (let i = 0; i < result.customFields.length; i++) {
                                             let customcolumn = result.customFields;
@@ -2616,7 +2757,6 @@ Template.new_invoice.onRendered(() => {
                                             let columnClass = columHeaderUpdate.substring(columHeaderUpdate.indexOf(".") + 1);
                                             let columnWidth = customcolumn[i].width;
 
-
                                             $("" + columHeaderUpdate + "").html(columData);
                                             if (columnWidth != 0) {
                                                 $("" + columHeaderUpdate + "").css('width', columnWidth + '%');
@@ -2624,14 +2764,11 @@ Template.new_invoice.onRendered(() => {
 
                                             if (hiddenColumn == true) {
 
-
                                                 $("." + columnClass + "").addClass('hiddenColumn');
                                                 $("." + columnClass + "").removeClass('showColumn');
                                             } else if (hiddenColumn == false) {
                                                 $("." + columnClass + "").removeClass('hiddenColumn');
                                                 $("." + columnClass + "").addClass('showColumn');
-
-
 
                                             }
 
@@ -2652,9 +2789,7 @@ Template.new_invoice.onRendered(() => {
                         }).then((result) => {
                             if (result.value) {
                                 Meteor._reload.reload();
-                            } else if (result.dismiss === 'cancel') {
-
-                            }
+                            } else if (result.dismiss === 'cancel') {}
                         });
                         $('.fullScreenSpin').css('display', 'none');
 
@@ -2685,15 +2820,29 @@ Template.new_invoice.onRendered(() => {
                     let lineItemTableObj = {};
                     let exchangeCode = data.fields.ForeignExchangeCode;
                     let currencySymbol = Currency;
-                    let total = currencySymbol + '' + data.fields.TotalAmount.toLocaleString(undefined, { minimumFractionDigits: 2 });
-                    let totalInc = currencySymbol + '' + data.fields.TotalAmountInc.toLocaleString(undefined, { minimumFractionDigits: 2 });
-                    let subTotal = currencySymbol + '' + data.fields.TotalAmount.toLocaleString(undefined, { minimumFractionDigits: 2 });
-                    let totalTax = currencySymbol + '' + data.fields.TotalTax.toLocaleString(undefined, { minimumFractionDigits: 2 });
-                    let totalBalance = currencySymbol + '' + data.fields.TotalBalance.toLocaleString(undefined, { minimumFractionDigits: 2 });
-                    let totalPaidAmount = currencySymbol + '' + data.fields.TotalPaid.toLocaleString(undefined, { minimumFractionDigits: 2 });
+                    let total = currencySymbol + '' + data.fields.TotalAmount.toLocaleString(undefined, {
+                        minimumFractionDigits: 2
+                    });
+                    let totalInc = currencySymbol + '' + data.fields.TotalAmountInc.toLocaleString(undefined, {
+                        minimumFractionDigits: 2
+                    });
+                    let subTotal = currencySymbol + '' + data.fields.TotalAmount.toLocaleString(undefined, {
+                        minimumFractionDigits: 2
+                    });
+                    let totalTax = currencySymbol + '' + data.fields.TotalTax.toLocaleString(undefined, {
+                        minimumFractionDigits: 2
+                    });
+                    let totalBalance = currencySymbol + '' + data.fields.TotalBalance.toLocaleString(undefined, {
+                        minimumFractionDigits: 2
+                    });
+                    let totalPaidAmount = currencySymbol + '' + data.fields.TotalPaid.toLocaleString(undefined, {
+                        minimumFractionDigits: 2
+                    });
                     if (data.fields.Lines.length) {
                         for (let i = 0; i < data.fields.Lines.length; i++) {
-                            let AmountGbp = currencySymbol + '' + data.fields.Lines[i].fields.TotalLineAmount.toLocaleString(undefined, { minimumFractionDigits: 2 });
+                            let AmountGbp = currencySymbol + '' + data.fields.Lines[i].fields.TotalLineAmount.toLocaleString(undefined, {
+                                minimumFractionDigits: 2
+                            });
                             let currencyAmountGbp = currencySymbol + '' + data.fields.Lines[i].fields.TotalLineAmount.toFixed(2);
                             let TaxTotalGbp = utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.LineTaxTotal);
                             let TaxRateGbp = (data.fields.Lines[i].fields.LineTaxRate * 100).toFixed(2);
@@ -2706,8 +2855,12 @@ Template.new_invoice.onRendered(() => {
                                 qtyordered: data.fields.Lines[i].fields.UOMOrderQty || 0,
                                 qtyshipped: data.fields.Lines[i].fields.UOMQtyShipped || 0,
                                 qtybo: data.fields.Lines[i].fields.UOMQtyBackOrder || 0,
-                                unitPrice: currencySymbol + '' + data.fields.Lines[i].fields.LinePrice.toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
-                                lineCost: currencySymbol + '' + data.fields.Lines[i].fields.LineCost.toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
+                                unitPrice: currencySymbol + '' + data.fields.Lines[i].fields.LinePrice.toLocaleString(undefined, {
+                                    minimumFractionDigits: 2
+                                }) || 0,
+                                lineCost: currencySymbol + '' + data.fields.Lines[i].fields.LineCost.toLocaleString(undefined, {
+                                    minimumFractionDigits: 2
+                                }) || 0,
                                 taxRate: (data.fields.Lines[i].fields.LineTaxRate * 100).toFixed(2) || 0,
                                 taxCode: data.fields.Lines[i].fields.LineTaxCode || '',
                                 TotalAmt: AmountGbp || 0,
@@ -2729,7 +2882,9 @@ Template.new_invoice.onRendered(() => {
                             lineItems.push(lineItemObj);
                         }
                     } else {
-                        let AmountGbp = data.fields.Lines.fields.TotalLineAmountInc.toLocaleString(undefined, { minimumFractionDigits: 2 });
+                        let AmountGbp = data.fields.Lines.fields.TotalLineAmountInc.toLocaleString(undefined, {
+                            minimumFractionDigits: 2
+                        });
                         let currencyAmountGbp = currencySymbol + '' + data.fields.Lines.fields.TotalLineAmount.toFixed(2);
                         let TaxTotalGbp = utilityService.modifynegativeCurrencyFormat(data.fields.Lines.fields.LineTaxTotal);
                         let TaxRateGbp = (data.fields.Lines.fields.LineTaxRate * 100).toFixed(2);
@@ -2738,8 +2893,12 @@ Template.new_invoice.onRendered(() => {
                             id: data.fields.Lines.fields.ID || '',
                             description: data.fields.Lines.fields.ProductDescription || '',
                             quantity: data.fields.Lines.fields.UOMOrderQty || 0,
-                            unitPrice: data.fields.Lines[i].fields.LinePrice.toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
-                            lineCost: data.fields.Lines[i].fields.LineCost.toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
+                            unitPrice: data.fields.Lines[i].fields.LinePrice.toLocaleString(undefined, {
+                                minimumFractionDigits: 2
+                            }) || 0,
+                            lineCost: data.fields.Lines[i].fields.LineCost.toLocaleString(undefined, {
+                                minimumFractionDigits: 2
+                            }) || 0,
                             taxRate: (data.fields.Lines.fields.LineTaxRate * 100).toFixed(2) || 0,
                             taxCode: data.fields.Lines.fields.LineTaxCode || '',
                             TotalAmt: AmountGbp || 0,
@@ -2815,10 +2974,9 @@ Template.new_invoice.onRendered(() => {
                     templateObject.inputSelectedCurrency.set(invoicerecord.currency);
                     if (templateObject.invoicerecord.get()) {
 
-
                         Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblInvoiceLine', function (error, result) {
-                            if (error) {
-                            } else {
+                            if (error) {}
+                            else {
                                 if (result) {
                                     for (let i = 0; i < result.customFields.length; i++) {
                                         let customcolumn = result.customFields;
@@ -2857,9 +3015,7 @@ Template.new_invoice.onRendered(() => {
                     }).then((result) => {
                         if (result.value) {
                             Meteor._reload.reload();
-                        } else if (result.dismiss === 'cancel') {
-
-                        }
+                        } else if (result.dismiss === 'cancel') {}
                     });
                     $('.fullScreenSpin').css('display', 'none');
                 });
@@ -2883,15 +3039,29 @@ Template.new_invoice.onRendered(() => {
                     let lineItemTableObj = {};
                     let exchangeCode = data.fields.ForeignExchangeCode;
                     let currencySymbol = Currency;
-                    let total = currencySymbol + '' + data.fields.TotalAmount.toLocaleString(undefined, { minimumFractionDigits: 2 });
-                    let totalInc = currencySymbol + '' + data.fields.TotalAmountInc.toLocaleString(undefined, { minimumFractionDigits: 2 });
-                    let subTotal = currencySymbol + '' + data.fields.TotalAmount.toLocaleString(undefined, { minimumFractionDigits: 2 });
-                    let totalTax = currencySymbol + '' + data.fields.TotalTax.toLocaleString(undefined, { minimumFractionDigits: 2 });
-                    let totalBalance = currencySymbol + '' + data.fields.TotalBalance.toLocaleString(undefined, { minimumFractionDigits: 2 });
-                    let totalPaidAmount = currencySymbol + '' + data.fields.TotalPaid.toLocaleString(undefined, { minimumFractionDigits: 2 });
+                    let total = currencySymbol + '' + data.fields.TotalAmount.toLocaleString(undefined, {
+                        minimumFractionDigits: 2
+                    });
+                    let totalInc = currencySymbol + '' + data.fields.TotalAmountInc.toLocaleString(undefined, {
+                        minimumFractionDigits: 2
+                    });
+                    let subTotal = currencySymbol + '' + data.fields.TotalAmount.toLocaleString(undefined, {
+                        minimumFractionDigits: 2
+                    });
+                    let totalTax = currencySymbol + '' + data.fields.TotalTax.toLocaleString(undefined, {
+                        minimumFractionDigits: 2
+                    });
+                    let totalBalance = currencySymbol + '' + data.fields.TotalBalance.toLocaleString(undefined, {
+                        minimumFractionDigits: 2
+                    });
+                    let totalPaidAmount = currencySymbol + '' + data.fields.TotalPaid.toLocaleString(undefined, {
+                        minimumFractionDigits: 2
+                    });
                     if (data.fields.Lines.length) {
                         for (let i = 0; i < data.fields.Lines.length; i++) {
-                            let AmountGbp = currencySymbol + '' + data.fields.Lines[i].fields.TotalLineAmount.toLocaleString(undefined, { minimumFractionDigits: 2 });
+                            let AmountGbp = currencySymbol + '' + data.fields.Lines[i].fields.TotalLineAmount.toLocaleString(undefined, {
+                                minimumFractionDigits: 2
+                            });
                             let currencyAmountGbp = currencySymbol + '' + data.fields.Lines[i].fields.TotalLineAmount.toFixed(2);
                             let TaxTotalGbp = utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.LineTaxTotal);
                             let TaxRateGbp = (data.fields.Lines[i].fields.LineTaxRate * 100).toFixed(2);
@@ -2904,8 +3074,12 @@ Template.new_invoice.onRendered(() => {
                                 qtyordered: data.fields.Lines[i].fields.UOMOrderQty || 0,
                                 qtyshipped: data.fields.Lines[i].fields.UOMQtyShipped || 0,
                                 qtybo: data.fields.Lines[i].fields.UOMQtyBackOrder || 0,
-                                unitPrice: currencySymbol + '' + data.fields.Lines[i].fields.LinePrice.toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
-                                lineCost: currencySymbol + '' + data.fields.Lines[i].fields.LineCost.toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
+                                unitPrice: currencySymbol + '' + data.fields.Lines[i].fields.LinePrice.toLocaleString(undefined, {
+                                    minimumFractionDigits: 2
+                                }) || 0,
+                                lineCost: currencySymbol + '' + data.fields.Lines[i].fields.LineCost.toLocaleString(undefined, {
+                                    minimumFractionDigits: 2
+                                }) || 0,
                                 taxRate: (data.fields.Lines[i].fields.LineTaxRate * 100).toFixed(2) || 0,
                                 taxCode: data.fields.Lines[i].fields.LineTaxCode || '',
                                 TotalAmt: AmountGbp || 0,
@@ -2927,7 +3101,9 @@ Template.new_invoice.onRendered(() => {
                             lineItems.push(lineItemObj);
                         }
                     } else {
-                        let AmountGbp = data.fields.Lines.fields.TotalLineAmountInc.toLocaleString(undefined, { minimumFractionDigits: 2 });
+                        let AmountGbp = data.fields.Lines.fields.TotalLineAmountInc.toLocaleString(undefined, {
+                            minimumFractionDigits: 2
+                        });
                         let currencyAmountGbp = currencySymbol + '' + data.fields.Lines.fields.TotalLineAmount.toFixed(2);
                         let TaxTotalGbp = cutilityService.modifynegativeCurrencyFormat(data.fields.Lines.fields.LineTaxTotal);
                         let TaxRateGbp = (data.fields.Lines.fields.LineTaxRate * 100).toFixed(2);
@@ -2936,8 +3112,12 @@ Template.new_invoice.onRendered(() => {
                             id: data.fields.Lines.fields.ID || '',
                             description: data.fields.Lines.fields.ProductDescription || '',
                             quantity: data.fields.Lines.fields.UOMOrderQty || 0,
-                            unitPrice: data.fields.Lines[i].fields.LinePrice.toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
-                            lineCost: data.fields.Lines[i].fields.LineCost.toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
+                            unitPrice: data.fields.Lines[i].fields.LinePrice.toLocaleString(undefined, {
+                                minimumFractionDigits: 2
+                            }) || 0,
+                            lineCost: data.fields.Lines[i].fields.LineCost.toLocaleString(undefined, {
+                                minimumFractionDigits: 2
+                            }) || 0,
                             taxRate: (data.fields.Lines.fields.LineTaxRate * 100).toFixed(2) || 0,
                             taxCode: data.fields.Lines.fields.LineTaxCode || '',
                             TotalAmt: AmountGbp || 0,
@@ -3015,10 +3195,9 @@ Template.new_invoice.onRendered(() => {
                     templateObject.inputSelectedCurrency.set(invoicerecord.currency);
                     if (templateObject.invoicerecord.get()) {
 
-
                         Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblInvoiceLine', function (error, result) {
-                            if (error) {
-                            } else {
+                            if (error) {}
+                            else {
                                 if (result) {
                                     for (let i = 0; i < result.customFields.length; i++) {
                                         let customcolumn = result.customFields;
@@ -3057,9 +3236,7 @@ Template.new_invoice.onRendered(() => {
                     }).then((result) => {
                         if (result.value) {
                             Meteor._reload.reload();
-                        } else if (result.dismiss === 'cancel') {
-
-                        }
+                        } else if (result.dismiss === 'cancel') {}
                     });
                     $('.fullScreenSpin').css('display', 'none');
                 });
@@ -3067,8 +3244,7 @@ Template.new_invoice.onRendered(() => {
 
             templateObject.getInvoiceData();
         }
-    }
-    else {
+    } else {
         $('.fullScreenSpin').css('display', 'none');
 
         let lineItems = [];
@@ -3147,9 +3323,8 @@ Template.new_invoice.onRendered(() => {
         if (templateObject.invoicerecord.get()) {
 
             Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblInvoiceLine', function (error, result) {
-                if (error) {
-
-                } else {
+                if (error) {}
+                else {
                     if (result) {
                         for (let i = 0; i < result.customFields.length; i++) {
                             let customcolumn = result.customFields;
@@ -3179,8 +3354,6 @@ Template.new_invoice.onRendered(() => {
         }
 
     }
-
-
 
     templateObject.getDepartments = function () {
         getVS1Data('TDeptClass').then(function (dataObject) {
@@ -3226,7 +3399,6 @@ Template.new_invoice.onRendered(() => {
                 }
             });
         });
-
 
     }
 
@@ -3275,9 +3447,7 @@ Template.new_invoice.onRendered(() => {
             });
         });
 
-
     }
-
 
     templateObject.getDepartments();
     templateObject.getTerms();
@@ -3319,16 +3489,10 @@ Template.new_invoice.onRendered(() => {
             }
         });
 
-
-
-
-
-
-
     });
 
     /* On clik Inventory Line */
-      $(document).on("click", "#tblInventory tbody tr", function (e) {
+    $(document).on("click", "#tblInventory tbody tr", function (e) {
 
         let selectLineID = $('#selectLineID').val();
         let taxcodeList = templateObject.taxraterecords.get();
@@ -3344,7 +3508,7 @@ Template.new_invoice.onRendered(() => {
         let getCustDetails = "";
         let lineTaxRate = "";
         let taxRate = ""
-        getCustDetails = customers.filter(customer => {
+            getCustDetails = customers.filter(customer => {
             return customer.customername == selectedCust;
         });
 
@@ -3367,18 +3531,16 @@ Template.new_invoice.onRendered(() => {
             lineTaxRate = table.find(".taxrate").text()
         }
 
-
-
         if (selectLineID) {
             let lineProductName = table.find(".productName").text();
             let lineProductDesc = table.find(".productDesc").text();
             let lineUnitPrice = table.find(".salePrice").text();
 
             /*let filterProdExtraSellData =  _.filter(productExtraSell, function (dataProdExtra) {
-                return ((dataProdExtra.productname == lineProductName) && (dataProdExtra.clienttype == getCustDetails[0].clienttypename));
+            return ((dataProdExtra.productname == lineProductName) && (dataProdExtra.clienttype == getCustDetails[0].clienttypename));
             });
             if(filterProdExtraSellData.length > 0){
-              lineUnitPrice = filterProdExtraSellData[0].price || 0;
+            lineUnitPrice = filterProdExtraSellData[0].price || 0;
             }*/
 
             let lineTaxCode = 0;
@@ -3409,9 +3571,6 @@ Template.new_invoice.onRendered(() => {
                 $('#' + selectLineID + " #lineQty").text(1);
                 $('#' + selectLineID + " #lineUnitPrice").text(lineUnitPrice);
             }
-
-
-
 
             if (lineTaxRate == "NT") {
                 lineTaxRate = "E";
@@ -3446,7 +3605,6 @@ Template.new_invoice.onRendered(() => {
                         }
                     }
                 }
-
 
                 var subTotal = parseInt(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) || 0;
                 var taxTotal = parseInt(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) * parseFloat(taxrateamount);
@@ -3531,7 +3689,7 @@ Template.new_invoice.onRendered(() => {
 
             $('#' + selectLineID + " .lineTaxRate").text(lineTaxRate || 0);
             $('#' + selectLineID + " .lineTaxCode").text(lineTaxCode);
-            if($('.printID').attr('id') != undefined || $('.printID').attr('id') != "") {
+            if ($('.printID').attr('id') != undefined || $('.printID').attr('id') != "") {
                 $('#' + selectLineID + " #lineTaxCode").text(lineTaxCode);
             }
 
@@ -3546,11 +3704,10 @@ Template.new_invoice.onRendered(() => {
                 if (taxcodeList) {
                     for (var i = 0; i < taxcodeList.length; i++) {
                         if (taxcodeList[i].codename == taxcode) {
-                            taxrateamount = taxcodeList[i].coderate.replace('%', "") / 100;;
+                            taxrateamount = taxcodeList[i].coderate.replace('%', "") / 100; ;
                         }
                     }
                 }
-
 
                 var subTotal = parseInt(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) || 0;
                 if ((taxrateamount == '') || (taxrateamount == ' ')) {
@@ -3616,38 +3773,36 @@ Template.new_invoice.onRendered(() => {
                 });
             }
 
-
         }
     });
 
-
     $('#edtCustomerName').editableSelect()
-        .on('select.editable-select', function (e, li) {
-            let taxcodeList = templateObject.taxraterecords.get();
-            let customers = templateObject.clientrecords.get();
-            let $tblrows = $("#tblInvoiceLine tbody tr");
-            let $printrows = $(".invoice_print tbody tr");
-            if (li.text() != undefined) {
-                let selectedCustomer = li.text();
-                if (clientList) {
-                    for (var i = 0; i < clientList.length; i++) {
-                        if (clientList[i].customername == selectedCustomer) {
-                            $('#edtCustomerEmail').val(clientList[i].customeremail);
-                            $('#edtCustomerEmail').attr('customerid', clientList[i].customerid);
-                            $('#edtCustomerEmail').attr('customerfirstname', clientList[i].firstname);
-                            $('#edtCustomerEmail').attr('customerlastname', clientList[i].lastname);
-                            let postalAddress = clientList[i].customername + '\n' + clientList[i].street + '\n' + clientList[i].street2 + ' ' + clientList[i].statecode + '\n' + clientList[i].country;
-                            $('#txabillingAddress').val(postalAddress);
-                            $('#pdfCustomerAddress').html(postalAddress);
-                            $('.pdfCustomerAddress').text(postalAddress);
-                            $('#txaShipingInfo').val(postalAddress);
-                            $('#sltTerms').val(clientList[i].termsName || '');
-                        }
+    .on('select.editable-select', function (e, li) {
+        let taxcodeList = templateObject.taxraterecords.get();
+        let customers = templateObject.clientrecords.get();
+        let $tblrows = $("#tblInvoiceLine tbody tr");
+        let $printrows = $(".invoice_print tbody tr");
+        if (li.text() != undefined) {
+            let selectedCustomer = li.text();
+            if (clientList) {
+                for (var i = 0; i < clientList.length; i++) {
+                    if (clientList[i].customername == selectedCustomer) {
+                        $('#edtCustomerEmail').val(clientList[i].customeremail);
+                        $('#edtCustomerEmail').attr('customerid', clientList[i].customerid);
+                        $('#edtCustomerEmail').attr('customerfirstname', clientList[i].firstname);
+                        $('#edtCustomerEmail').attr('customerlastname', clientList[i].lastname);
+                        let postalAddress = clientList[i].customername + '\n' + clientList[i].street + '\n' + clientList[i].street2 + ' ' + clientList[i].statecode + '\n' + clientList[i].country;
+                        $('#txabillingAddress').val(postalAddress);
+                        $('#pdfCustomerAddress').html(postalAddress);
+                        $('.pdfCustomerAddress').text(postalAddress);
+                        $('#txaShipingInfo').val(postalAddress);
+                        $('#sltTerms').val(clientList[i].termsName || '');
                     }
                 }
+            }
 
-                let getCustDetails = "";
-                let taxRate = ""
+            let getCustDetails = "";
+            let taxRate = ""
                 if (selectedCustomer != "") {
                     getCustDetails = customers.filter(customer => {
                         return customer.customername == selectedCustomer
@@ -3657,7 +3812,6 @@ Template.new_invoice.onRendered(() => {
                         return taxrate.codename == getCustDetails[0].taxCode
                     });
 
-
                     if (taxRate.length > 0) {
                         let rate = taxRate[0].coderate;
                         let code = getCustDetails[0].taxCode;
@@ -3665,7 +3819,6 @@ Template.new_invoice.onRendered(() => {
                             code = "E";
                         }
                         let taxcodeList = templateObject.taxraterecords.get();
-
 
                         let lineAmount = 0;
                         let subGrandTotal = 0;
@@ -3679,12 +3832,11 @@ Template.new_invoice.onRendered(() => {
                             $tblrow.find(".lineTaxCode").text(code);
                             $tblrow.find(".lineTaxRate").text(rate);
 
-
                             var taxrateamount = 0;
                             if (taxcodeList) {
                                 for (var i = 0; i < taxcodeList.length; i++) {
                                     if (taxcodeList[i].codename == taxcode) {
-                                        taxrateamount = taxcodeList[i].coderate.replace('%', "") / 100;;
+                                        taxrateamount = taxcodeList[i].coderate.replace('%', "") / 100; ;
                                     }
                                 }
                             }
@@ -3730,7 +3882,6 @@ Template.new_invoice.onRendered(() => {
                                     }
                                 }
 
-
                                 var subTotal = parseInt(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) || 0;
                                 var taxTotal = parseInt(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) * parseFloat(taxrateamount);
                                 $printrows.find('#lineTaxAmount').text(utilityService.modifynegativeCurrencyFormat(taxTotal))
@@ -3755,15 +3906,11 @@ Template.new_invoice.onRendered(() => {
 
                     }
                 }
-            }
+        }
 
+    });
 
-
-
-
-        });
-
-   exportSalesToPdf = function () {
+    exportSalesToPdf = function () {
         let margins = {
             top: 0,
             bottom: 0,
@@ -3794,7 +3941,9 @@ Template.new_invoice.onRendered(() => {
             lineItemObj = {
                 description: tddescription || '',
                 quantity: tdQty || 0,
-                unitPrice: tdunitprice.toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0
+                unitPrice: tdunitprice.toLocaleString(undefined, {
+                    minimumFractionDigits: 2
+                }) || 0
             }
 
             lineItems.push(lineItemObj);
@@ -3808,24 +3957,47 @@ Template.new_invoice.onRendered(() => {
         for (let l = 0; l < lineItems.length; l++) {
             stringQuery = stringQuery + "product" + l + "=" + lineItems[l].description + "&price" + l + "=" + lineItems[l].unitPrice + "&qty" + l + "=" + lineItems[l].quantity + "&";
         }
-        stringQuery = stringQuery + "tax=" + tax + "&total=" + total + "&customer=" + customer + "&name=" + name + "&surname=" + surname + "&quoteid=" + invoiceData.id +"&transid="+stripe_id+"&feemethod="+stripe_fee_method+"&company=" + company + "&vs1email=" + vs1User + "&customeremail=" + customerEmail + "&type=Invoice&url=" + window.location.href + "&server=" + erpGet.ERPIPAddress + "&username=" + erpGet.ERPUsername + "&token=" + erpGet.ERPPassword + "&session=" + erpGet.ERPDatabase + "&port=" + erpGet.ERPPort + "&dept=" + dept;
-        var pdf = new jsPDF('p', 'pt', 'a4');
-        pdf.setFontSize(18);
+        stringQuery = stringQuery + "tax=" + tax + "&total=" + total + "&customer=" + customer + "&name=" + name + "&surname=" + surname + "&quoteid=" + invoiceData.id + "&transid=" + stripe_id + "&feemethod=" + stripe_fee_method + "&company=" + company + "&vs1email=" + vs1User + "&customeremail=" + customerEmail + "&type=Invoice&url=" + window.location.href + "&server=" + erpGet.ERPIPAddress + "&username=" + erpGet.ERPUsername + "&token=" + erpGet.ERPPassword + "&session=" + erpGet.ERPDatabase + "&port=" + erpGet.ERPPort + "&dept=" + dept;
+        // var pdf = new jsPDF('p', 'pt', 'a4');
+        // pdf.setFontSize(18);
+        $(".linkText").attr("href", "https://www.depot.vs1cloud.com/stripe/" + stringQuery);
         var source = document.getElementById('html-2-pdfwrapper');
-        pdf.addHTML(source, function () {
+        let file = "Invoice.pdf";
+        if ($('.printID').attr('id') != undefined || $('.printID').attr('id') == "") {
+            file = 'Invoice-' + id + '.pdf';
+        }
 
-            pdf.setFontSize(10);
-            pdf.setTextColor(255, 255, 255);
-             pdf.textWithLink('Pay Now', 482, 113, { url: 'https://www.depot.vs1cloud.com/stripe/' + stringQuery });
-
-            if ($('.printID').attr('id') != undefined || $('.printID').attr('id') == "") {
-                pdf.save('Invoice-' + id + '.pdf');
-            } else {
-                pdf.save('Invoice.pdf');
+        var opt = {
+            margin: 0,
+            filename: file,
+            image: {
+                type: 'jpeg',
+                quality: 0.98
+            },
+            html2canvas: {
+                scale: 2
+            },
+            jsPDF: {
+                unit: 'in',
+                format: 'a4',
+                orientation: 'portrait'
             }
-            $('#html-2-pdfwrapper').css('display', 'none');
-             $('.fullScreenSpin').css('display', 'none');
-        });
+        };
+        html2pdf().set(opt).from(source).save();
+        // pdf.addHTML(source, function () {
+
+        //     pdf.setFontSize(10);
+        //     pdf.setTextColor(255, 255, 255);
+        //      pdf.textWithLink('Pay Now', 482, 113, { url: 'https://www.depot.vs1cloud.com/stripe/' + stringQuery });
+
+        //     if ($('.printID').attr('id') != undefined || $('.printID').attr('id') == "") {
+        //         pdf.save('Invoice-' + id + '.pdf');
+        //     } else {
+        //         pdf.save('Invoice.pdf');
+        //     }
+        //     $('#html-2-pdfwrapper').css('display', 'none');
+        //      $('.fullScreenSpin').css('display', 'none');
+        // });
 
     };
 });
@@ -3838,7 +4010,7 @@ Template.new_invoice.onRendered(function () {
     var splashArrayProductList = new Array();
     var splashArrayTaxRateList = new Array();
     const taxCodesList = [];
-        const lineExtaSellItems = [];
+    const lineExtaSellItems = [];
 
     tempObj.getAllProducts = function () {
         getVS1Data('TProductVS1').then(function (dataObject) {
@@ -3870,13 +4042,25 @@ Template.new_invoice.onRendered(function () {
                             "aaSorting": [],
                             "orderMulti": true,
                             columnDefs: [
-
-                                { className: "productName", "targets": [0] },
-                                { className: "productDesc", "targets": [1] },
-                                { className: "costPrice text-right", "targets": [2] },
-                                { className: "salePrice text-right", "targets": [3] },
-                                { className: "prdqty", "targets": [4] },
-                                { className: "taxrate", "targets": [5] }
+                                {
+                                    className: "productName",
+                                    "targets": [0]
+                                }, {
+                                    className: "productDesc",
+                                    "targets": [1]
+                                }, {
+                                    className: "costPrice text-right",
+                                    "targets": [2]
+                                }, {
+                                    className: "salePrice text-right",
+                                    "targets": [3]
+                                }, {
+                                    className: "prdqty",
+                                    "targets": [4]
+                                }, {
+                                    className: "taxrate",
+                                    "targets": [5]
+                                }
                             ],
                             colReorder: true,
                             bStateSave: true,
@@ -3903,7 +4087,6 @@ Template.new_invoice.onRendered(function () {
                 for (let i = 0; i < useData.length; i++) {
                     var dataList = [
 
-
                         useData[i].fields.ProductName || '-',
                         useData[i].fields.SalesDescription || '',
                         utilityService.modifynegativeCurrencyFormat(Math.floor(useData[i].fields.BuyQty1Cost * 100) / 100),
@@ -3912,21 +4095,21 @@ Template.new_invoice.onRendered(function () {
                         useData[i].fields.TaxCodeSales || ''
                     ];
 
-                    if(useData[i].fields.ExtraSellPrice != null){
-                      for(let e=0; e<useData[i].fields.ExtraSellPrice.length; e++){
-                        let lineExtaSellObj = {
-                           clienttype: useData[i].fields.ExtraSellPrice[e].fields.ClientTypeName || '',
-                           productname: useData[i].fields.ExtraSellPrice[e].fields.ProductName || useData[i].fields.ProductName,
-                           price: utilityService.modifynegativeCurrencyFormat(useData[i].fields.ExtraSellPrice[e].fields.Price1) || 0
-                       };
-                       lineExtaSellItems.push(lineExtaSellObj);
+                    if (useData[i].fields.ExtraSellPrice != null) {
+                        for (let e = 0; e < useData[i].fields.ExtraSellPrice.length; e++) {
+                            let lineExtaSellObj = {
+                                clienttype: useData[i].fields.ExtraSellPrice[e].fields.ClientTypeName || '',
+                                productname: useData[i].fields.ExtraSellPrice[e].fields.ProductName || useData[i].fields.ProductName,
+                                price: utilityService.modifynegativeCurrencyFormat(useData[i].fields.ExtraSellPrice[e].fields.Price1) || 0
+                            };
+                            lineExtaSellItems.push(lineExtaSellObj);
 
-                      }
+                        }
                     }
                     splashArrayProductList.push(dataList);
                 }
 
-                                tempObj.productextrasellrecords.set(lineExtaSellItems);
+                tempObj.productextrasellrecords.set(lineExtaSellItems);
                 localStorage.setItem('VS1SalesProductList', JSON.stringify(splashArrayProductList));
 
                 if (splashArrayProductList) {
@@ -3939,20 +4122,29 @@ Template.new_invoice.onRendered(function () {
                         "aaSorting": [],
                         "orderMulti": true,
                         columnDefs: [
-
-                            { className: "productName", "targets": [0] },
-                            { className: "productDesc", "targets": [1] },
-                            { className: "costPrice text-right", "targets": [2] },
-                            { className: "salePrice text-right", "targets": [3] },
-                            { className: "prdqty", "targets": [4] },
-                            { className: "taxrate", "targets": [5] }
+                            {
+                                className: "productName",
+                                "targets": [0]
+                            }, {
+                                className: "productDesc",
+                                "targets": [1]
+                            }, {
+                                className: "costPrice text-right",
+                                "targets": [2]
+                            }, {
+                                className: "salePrice text-right",
+                                "targets": [3]
+                            }, {
+                                className: "prdqty",
+                                "targets": [4]
+                            }, {
+                                className: "taxrate",
+                                "targets": [5]
+                            }
                         ],
                         colReorder: true,
 
-
-
                         bStateSave: true,
-
 
                         pageLength: 25,
                         lengthMenu: [
@@ -3975,7 +4167,6 @@ Template.new_invoice.onRendered(function () {
                 for (let i = 0; i < data.tproductvs1.length; i++) {
 
                     var dataList = [
-
 
                         data.tproductvs1[i].ProductName || '-',
                         data.tproductvs1[i].SalesDescription || '',
@@ -4000,20 +4191,29 @@ Template.new_invoice.onRendered(function () {
                         "aaSorting": [],
                         "orderMulti": true,
                         columnDefs: [
-
-                            { className: "productName", "targets": [0] },
-                            { className: "productDesc", "targets": [1] },
-                            { className: "costPrice text-right", "targets": [2] },
-                            { className: "salePrice text-right", "targets": [3] },
-                            { className: "prdqty", "targets": [4] },
-                            { className: "taxrate", "targets": [5] }
+                            {
+                                className: "productName",
+                                "targets": [0]
+                            }, {
+                                className: "productDesc",
+                                "targets": [1]
+                            }, {
+                                className: "costPrice text-right",
+                                "targets": [2]
+                            }, {
+                                className: "salePrice text-right",
+                                "targets": [3]
+                            }, {
+                                className: "prdqty",
+                                "targets": [4]
+                            }, {
+                                className: "taxrate",
+                                "targets": [5]
+                            }
                         ],
                         colReorder: true,
 
-
-
                         bStateSave: true,
-
 
                         pageLength: 25,
                         lengthMenu: [
@@ -4026,11 +4226,6 @@ Template.new_invoice.onRendered(function () {
                     });
 
                     $('div.dataTables_filter input').addClass('form-control form-control-sm');
-
-
-
-
-
 
                 }
             })
@@ -4074,11 +4269,19 @@ Template.new_invoice.onRendered(function () {
                             paging: true,
                             "aaSorting": [],
                             "orderMulti": true,
-                            columnDefs: [
-                                { orderable: false, targets: 0 },
-                                { className: "taxName", "targets": [1] },
-                                { className: "taxDesc", "targets": [2] },
-                                { className: "taxRate text-right", "targets": [3] }
+                            columnDefs: [{
+                                    orderable: false,
+                                    targets: 0
+                                }, {
+                                    className: "taxName",
+                                    "targets": [1]
+                                }, {
+                                    className: "taxDesc",
+                                    "targets": [2]
+                                }, {
+                                    className: "taxRate text-right",
+                                    "targets": [3]
+                                }
                             ],
                             colReorder: true,
                             bStateSave: true,
@@ -4125,11 +4328,19 @@ Template.new_invoice.onRendered(function () {
                         paging: true,
                         "aaSorting": [],
                         "orderMulti": true,
-                        columnDefs: [
-                            { orderable: false, targets: 0 },
-                            { className: "taxName", "targets": [1] },
-                            { className: "taxDesc", "targets": [2] },
-                            { className: "taxRate text-right", "targets": [3] }
+                        columnDefs: [{
+                                orderable: false,
+                                targets: 0
+                            }, {
+                                className: "taxName",
+                                "targets": [1]
+                            }, {
+                                className: "taxDesc",
+                                "targets": [2]
+                            }, {
+                                className: "taxRate text-right",
+                                "targets": [3]
+                            }
                         ],
                         colReorder: true,
                         bStateSave: true,
@@ -4177,11 +4388,19 @@ Template.new_invoice.onRendered(function () {
                         paging: true,
                         "aaSorting": [],
                         "orderMulti": true,
-                        columnDefs: [
-                            { orderable: false, targets: 0 },
-                            { className: "taxName", "targets": [1] },
-                            { className: "taxDesc", "targets": [2] },
-                            { className: "taxRate text-right", "targets": [3] }
+                        columnDefs: [{
+                                orderable: false,
+                                targets: 0
+                            }, {
+                                className: "taxName",
+                                "targets": [1]
+                            }, {
+                                className: "taxDesc",
+                                "targets": [2]
+                            }, {
+                                className: "taxRate text-right",
+                                "targets": [3]
+                            }
                         ],
                         colReorder: true,
                         bStateSave: true,
@@ -4206,8 +4425,8 @@ Template.new_invoice.helpers({
         return Template.instance().invoicerecord.get();
     },
     accountID: () => {
-    return Template.instance().accountID.get();
- },
+        return Template.instance().accountID.get();
+    },
     currentDate: () => {
         var currentDate = new Date();
         var begunDate = moment(currentDate).format("DD/MM/YYYY");
@@ -4234,10 +4453,16 @@ Template.new_invoice.helpers({
         });
     },
     salesCloudPreferenceRec: () => {
-        return CloudPreference.findOne({ userid: Session.get('mycloudLogonID'), PrefName: 'new_invoice' });
+        return CloudPreference.findOne({
+            userid: Session.get('mycloudLogonID'),
+            PrefName: 'new_invoice'
+        });
     },
     salesCloudGridPreferenceRec: () => {
-        return CloudPreference.findOne({ userid: Session.get('mycloudLogonID'), PrefName: 'tblInvoiceLine' });
+        return CloudPreference.findOne({
+            userid: Session.get('mycloudLogonID'),
+            PrefName: 'tblInvoiceLine'
+        });
     },
     uploadedFiles: () => {
         return Template.instance().uploadedFiles.get();
@@ -4309,7 +4534,7 @@ Template.new_invoice.events({
     },
     'click .btnSaveStatus': function () {
         let clientService = new SalesBoardService()
-        let status = $('#status').val();
+            let status = $('#status').val();
         let leadData = {
             type: 'TLeadStatusType',
             fields: {
@@ -4329,9 +4554,7 @@ Template.new_invoice.events({
                         } else {
                             window.open("/invoicecard");
                         }
-                    }).catch(function (err) {
-
-                    });
+                    }).catch(function (err) {});
                 }).catch(function (err) {
                     window.open('/invoicecard', '_self');
                 });
@@ -4344,10 +4567,8 @@ Template.new_invoice.events({
                     showCancelButton: false,
                     confirmButtonText: 'Try Again'
                 }).then((result) => {
-                    if (result.value) {
-                    } else if (result.dismiss === 'cancel') {
-
-                    }
+                    if (result.value) {}
+                    else if (result.dismiss === 'cancel') {}
                 });
                 $('.fullScreenSpin').css('display', 'none');
             });
@@ -4360,22 +4581,20 @@ Template.new_invoice.events({
                 showCancelButton: false,
                 confirmButtonText: 'Try Again'
             }).then((result) => {
-                if (result.value) {
-                } else if (result.dismiss === 'cancel') {
-
-                }
+                if (result.value) {}
+                else if (result.dismiss === 'cancel') {}
             });
         }
     },
     'blur .lineProductDesc': function (event) {
-    var targetID = $(event.target).closest('tr').attr('id');
-    $('#' + targetID + " #lineProductDesc").text($('#' + targetID + " .lineProductDesc").text());
+        var targetID = $(event.target).closest('tr').attr('id');
+        $('#' + targetID + " #lineProductDesc").text($('#' + targetID + " .lineProductDesc").text());
     },
     'click .payNow': function () {
         let templateObject = Template.instance();
         let stripe_id = templateObject.accountID.get() || '';
         let stripe_fee_method = templateObject.stripe_fee_method.get();
-        if(stripe_id != ""){
+        if (stripe_id != "") {
             var url = window.location.href;
             var id_available = url.includes("?id=");
             if (id_available == true) {
@@ -4401,7 +4620,9 @@ Template.new_invoice.events({
                         lineItemObj = {
                             description: tddescription || '',
                             quantity: tdQty || 0,
-                            unitPrice: tdunitprice.toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0
+                            unitPrice: tdunitprice.toLocaleString(undefined, {
+                                minimumFractionDigits: 2
+                            }) || 0
                         }
 
                         lineItems.push(lineItemObj);
@@ -4415,7 +4636,7 @@ Template.new_invoice.events({
                     for (let l = 0; l < lineItems.length; l++) {
                         stringQuery = stringQuery + "product" + l + "=" + lineItems[l].description + "&price" + l + "=" + lineItems[l].unitPrice + "&qty" + l + "=" + lineItems[l].quantity + "&";
                     }
-                    stringQuery = stringQuery + "tax=" + tax + "&total=" + total + "&customer=" + customer + "&name=" + name + "&surname=" + surname + "&quoteid=" + quoteData.id + "&transid="+stripe_id+"&feemethod="+stripe_fee_method+"&company=" + company + "&vs1email=" + vs1User + "&customeremail=" + customerEmail + "&type=Invoice&url=" + window.location.href + "&server=" + erpGet.ERPIPAddress + "&username=" + erpGet.ERPUsername + "&token=" + erpGet.ERPPassword + "&session=" + erpGet.ERPDatabase + "&port=" + erpGet.ERPPort + "&dept=" + dept;
+                    stringQuery = stringQuery + "tax=" + tax + "&total=" + total + "&customer=" + customer + "&name=" + name + "&surname=" + surname + "&quoteid=" + quoteData.id + "&transid=" + stripe_id + "&feemethod=" + stripe_fee_method + "&company=" + company + "&vs1email=" + vs1User + "&customeremail=" + customerEmail + "&type=Invoice&url=" + window.location.href + "&server=" + erpGet.ERPIPAddress + "&username=" + erpGet.ERPUsername + "&token=" + erpGet.ERPPassword + "&session=" + erpGet.ERPDatabase + "&port=" + erpGet.ERPPort + "&dept=" + dept;
                     window.open("https://www.depot.vs1cloud.com/stripe/" + stringQuery, '_self');
                 } else {
                     swal({
@@ -4425,425 +4646,413 @@ Template.new_invoice.events({
                         showCancelButton: false,
                         confirmButtonText: 'OK'
                     }).then((result) => {
-                        if (result.value) {
-                        } else if (result.dismiss === 'cancel') {
-
-                        }
+                        if (result.value) {}
+                        else if (result.dismiss === 'cancel') {}
                     });
                 }
-        } else {
-            let templateObject = Template.instance();
-            let lineItems = [];
-            let imageData = (localStorage.getItem("Image"));
-            let customername = $('#edtCustomerName');
-            let name = $('#edtCustomerEmail').attr('customerfirstname');
-            let surname = $('#edtCustomerEmail').attr('customerlastname');
-            let salesService = new SalesBoardService();
-            if (customername.val() === '') {
-                swal('Customer has not been selected!', '', 'warning');
-                e.preventDefault();
             } else {
-                $('.fullScreenSpin').css('display', 'inline-block');
-                var splashLineArray = new Array();
-                let lineItemsForm = [];
+                let templateObject = Template.instance();
                 let lineItems = [];
-                let lineItemObjForm = {};
-                var erpGet = erpDb();
-                var saledateTime = new Date($("#dtSODate").datepicker("getDate"));
-
-                var duedateTime = new Date($("#dtDueDate").datepicker("getDate"));
-
-                let saleDate = saledateTime.getFullYear() + "-" + (saledateTime.getMonth() + 1) + "-" + saledateTime.getDate();
-                let dueDate = duedateTime.getFullYear() + "-" + (duedateTime.getMonth() + 1) + "-" + duedateTime.getDate();
-                let checkBackOrder = templateObject.includeBOnShippedQty.get();
-                $('#tblInvoiceLine > tbody > tr').each(function () {
-                    var lineID = this.id;
-                    let tdproduct = $('#' + lineID + " .lineProductName").text();
-                    let tddescription = $('#' + lineID + " .lineProductDesc").text();
-                    let tdQty = $('#' + lineID + " .lineQty").val();
-
-                    let tdOrderd = $('#' + lineID + " .lineOrdered").val();
-
-                    let tdunitprice = $('#' + lineID + " .lineUnitPrice").val();
-                    let tdtaxrate = $('#' + lineID + " .lineTaxRate").text();
-                    let tdtaxCode = $('#' + lineID + " .lineTaxCode").text();
-                    let tdlineamt = $('#' + lineID + " .lineAmt").text();
-
-                    lineItemObj = {
-                        description: tddescription || '',
-                        quantity: tdQty || 0,
-                        unitPrice: tdunitprice.toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0
-                    }
-
-                    lineItems.push(lineItemObj);
-
-                    if (tdproduct != "") {
-
-                        if (checkBackOrder == true) {
-                            lineItemObjForm = {
-                                type: "TInvoiceLine",
-                                fields: {
-                                    ProductName: tdproduct || '',
-                                    ProductDescription: tddescription || '',
-                                    UOMQtySold: parseFloat(tdOrderd) || 0,
-                                    UOMQtyShipped: parseFloat(tdQty) || 0,
-                                    LinePrice: Number(tdunitprice.replace(/[^0-9.-]+/g, "")) || 0,
-                                    Headershipdate: saleDate,
-                                    LineTaxCode: tdtaxCode || '',
-                                }
-                            };
-                        } else {
-                            lineItemObjForm = {
-                                type: "TInvoiceLine",
-                                fields: {
-                                    ProductName: tdproduct || '',
-                                    ProductDescription: tddescription || '',
-                                    UOMQtySold: parseFloat(tdQty) || 0,
-                                    UOMQtyShipped: parseFloat(tdQty) || 0,
-                                    LinePrice: Number(tdunitprice.replace(/[^0-9.-]+/g, "")) || 0,
-                                    Headershipdate: saleDate,
-                                    LineTaxCode: tdtaxCode || '',
-                                }
-                            };
-                        }
-
-
-                        lineItemsForm.push(lineItemObjForm);
-                        splashLineArray.push(lineItemObjForm);
-                    }
-                });
-                let getchkcustomField1 = true;
-                let getchkcustomField2 = true;
-                let getcustomField1 = $('.customField1Text').html();
-                let getcustomField2 = $('.customField2Text').html();
-                if ($('#formCheck-one').is(':checked')) {
-                    getchkcustomField1 = false;
-                }
-                if ($('#formCheck-two').is(':checked')) {
-                    getchkcustomField2 = false;
-                }
-
-                let customer = $('#edtCustomerName').val();
-                let customerEmail = $('#edtCustomerEmail').val();
-                let billingAddress = $('#txabillingAddress').val();
-
-
-                let poNumber = $('#ponumber').val();
-                let reference = $('#edtRef').val();
-                let termname = $('#sltTerms').val();
-                let departement = $('#sltDept').val();
-                let shippingAddress = $('#txaShipingInfo').val();
-                let comments = $('#txaComment').val();
-                let pickingInfrmation = $('#txapickmemo').val();
-                let total = $('#totalBalanceDue').html() || 0;
-                let tax = $('#subtotal_tax').html() || 0;
-                let saleCustField1 = $('#edtSaleCustField1').val();
-                let saleCustField2 = $('#edtSaleCustField2').val();
-                var url = window.location.href;
-                var getso_id = url.split('?id=');
-                var currentInvoice = getso_id[getso_id.length - 1];
-                let uploadedItems = templateObject.uploadedFiles.get();
-                var currencyCode = $("#sltCurrency").val() || CountryAbbr;
-                var objDetails = '';
-                if (getso_id[1]) {
-                    currentInvoice = parseInt(currentInvoice);
-                    objDetails = {
-                        type: "TInvoiceEx",
-                        fields: {
-                            ID: currentInvoice,
-                            CustomerName: customer,
-                            ForeignExchangeCode: currencyCode,
-                            Lines: splashLineArray,
-                            InvoiceToDesc: billingAddress,
-                            SaleDate: saleDate,
-                            CustPONumber: poNumber,
-                            ReferenceNo: reference,
-                            TermsName: termname,
-                            SaleClassName: departement,
-                            ShipToDesc: shippingAddress,
-                            Comments: comments,
-                            SaleCustField1: saleCustField1,
-                            SaleCustField2: saleCustField2,
-                            PickMemo: pickingInfrmation,
-                            Attachments: uploadedItems,
-                            SalesStatus: $('#sltStatus').val()
-                        }
-                    };
+                let imageData = (localStorage.getItem("Image"));
+                let customername = $('#edtCustomerName');
+                let name = $('#edtCustomerEmail').attr('customerfirstname');
+                let surname = $('#edtCustomerEmail').attr('customerlastname');
+                let salesService = new SalesBoardService();
+                if (customername.val() === '') {
+                    swal('Customer has not been selected!', '', 'warning');
+                    e.preventDefault();
                 } else {
-                    objDetails = {
-                        type: "TInvoiceEx",
-                        fields: {
-                            CustomerName: customer,
-                            ForeignExchangeCode: currencyCode,
-                            Lines: splashLineArray,
-                            InvoiceToDesc: billingAddress,
-                            SaleDate: saleDate,
-                            CustPONumber: poNumber,
-                            ReferenceNo: reference,
-                            TermsName: termname,
-                            SaleClassName: departement,
-                            ShipToDesc: shippingAddress,
-                            Comments: comments,
-                            SaleCustField1: saleCustField1,
-                            SaleCustField2: saleCustField2,
-                            PickMemo: pickingInfrmation,
-                            Attachments: uploadedItems,
-                            SalesStatus: $('#sltStatus').val()
+                    $('.fullScreenSpin').css('display', 'inline-block');
+                    var splashLineArray = new Array();
+                    let lineItemsForm = [];
+                    let lineItems = [];
+                    let lineItemObjForm = {};
+                    var erpGet = erpDb();
+                    var saledateTime = new Date($("#dtSODate").datepicker("getDate"));
+
+                    var duedateTime = new Date($("#dtDueDate").datepicker("getDate"));
+
+                    let saleDate = saledateTime.getFullYear() + "-" + (saledateTime.getMonth() + 1) + "-" + saledateTime.getDate();
+                    let dueDate = duedateTime.getFullYear() + "-" + (duedateTime.getMonth() + 1) + "-" + duedateTime.getDate();
+                    let checkBackOrder = templateObject.includeBOnShippedQty.get();
+                    $('#tblInvoiceLine > tbody > tr').each(function () {
+                        var lineID = this.id;
+                        let tdproduct = $('#' + lineID + " .lineProductName").text();
+                        let tddescription = $('#' + lineID + " .lineProductDesc").text();
+                        let tdQty = $('#' + lineID + " .lineQty").val();
+
+                        let tdOrderd = $('#' + lineID + " .lineOrdered").val();
+
+                        let tdunitprice = $('#' + lineID + " .lineUnitPrice").val();
+                        let tdtaxrate = $('#' + lineID + " .lineTaxRate").text();
+                        let tdtaxCode = $('#' + lineID + " .lineTaxCode").text();
+                        let tdlineamt = $('#' + lineID + " .lineAmt").text();
+
+                        lineItemObj = {
+                            description: tddescription || '',
+                            quantity: tdQty || 0,
+                            unitPrice: tdunitprice.toLocaleString(undefined, {
+                                minimumFractionDigits: 2
+                            }) || 0
                         }
-                    };
-                }
-                salesService.saveInvoiceEx(objDetails).then(function (objDetails) {
-                    let company = Session.get('vs1companyName');
-                    let vs1User = localStorage.getItem('mySession');
-                    let customerEmail = $('#edtCustomerEmail').val() || '';
-                    let stringQuery = "?";
-                    var customerID = $('#edtCustomerEmail').attr('customerid');
-                    for (let l = 0; l < lineItems.length; l++) {
-                        stringQuery = stringQuery + "product" + l + "=" + lineItems[l].description + "&price" + l + "=" + lineItems[l].unitPrice + "&qty" + l + "=" + lineItems[l].quantity + "&";
-                    }
-                    stringQuery = stringQuery + "tax=" + tax + "&total=" + total + "&customer=" + customer + "&name=" + name + "&surname=" + surname + "&quoteid=" + objDetails.fields.ID + "&transid="+stripe_id+"&feemethod="+stripe_fee_method+"&company=" + company + "&vs1email=" + vs1User + "&customeremail=" + customerEmail + "&type=Invoice&url=" + window.location.href  + "&server=" + erpGet.ERPIPAddress + "&username=" + erpGet.ERPUsername + "&token=" + erpGet.ERPPassword + "&session=" + erpGet.ERPDatabase + "&port=" + erpGet.ERPPort + "&dept=" + departement;
-                    let url = "https://www.depot.vs1cloud.com/stripe/" + stringQuery;
-                    $('#html-2-pdfwrapper').css('display', 'block');
-                    $('.pdfCustomerName').html($('#edtCustomerName').val());
-                    $('.pdfCustomerAddress').html($('#txabillingAddress').val().replace(/[\r\n]/g, "<br />"));
 
-                    function generatePdfForMail(invoiceId) {
-                        return new Promise((resolve, reject) => {
-                            let templateObject = Template.instance();
-                            let completeTabRecord;
-                            let doc = new jsPDF('p', 'pt', 'a4');
-                            var source = document.getElementById('html-2-pdfwrapper');
-                            doc.addHTML(source, function () {
-                                doc.setFontSize(10);
-                                doc.setTextColor(255, 255, 255);
-                                doc.textWithLink('Pay Now', 482, 113, { url: 'https://www.depot.vs1cloud.com/stripe/' + stringQuery });
-                                resolve(doc.output('blob'));
-                                $('#html-2-pdfwrapper').css('display', 'none');
-                            });
-                        });
-                    }
-                    async function addAttachment() {
-                        let attachment = [];
-                        let templateObject = Template.instance();
+                        lineItems.push(lineItemObj);
 
-                        let invoiceId = objDetails.fields.ID;
-                        let encodedPdf = await generatePdfForMail(invoiceId);
-                        let pdfObject = "";
-                        var reader = new FileReader();
-                        reader.readAsDataURL(encodedPdf);
-                        reader.onloadend = function () {
-                            var base64data = reader.result;
-                            base64data = base64data.split(',')[1];
-                            pdfObject = {
-                                filename: 'invoice-' + invoiceId + '.pdf',
-                                content: base64data,
-                                encoding: 'base64'
-                            };
-                            attachment.push(pdfObject);
-                            let erpInvoiceId = objDetails.fields.ID;
+                        if (tdproduct != "") {
 
-
-                            let mailFromName = Session.get('vs1companyName');
-                            let mailFrom = localStorage.getItem('mySession');
-                            let customerEmailName = $('#edtCustomerName').val();
-                            let checkEmailData = $('#edtCustomerEmail').val();
-                            let grandtotal = $('#grandTotal').html();
-                            let amountDueEmail = $('#totalBalanceDue').html();
-                            let emailDueDate = $("#dtDueDate").val();
-                            let mailSubject = 'Invoice ' + erpInvoiceId + ' from ' + mailFromName + ' for ' + customerEmailName;
-                            let mailBody = "Hi " + customerEmailName + ",\n\n Here's invoice " + erpInvoiceId + " for  " + grandtotal + "." +
-                                "\n\nThe amount outstanding of " + amountDueEmail + " is due on " + emailDueDate + "." +
-                                "\n\nIf you have any questions, please let us know : " + mailFrom + ".\n\nThanks,\n" + mailFromName;
-
-                            var htmlmailBody = '<table align="center" border="0" cellpadding="0" cellspacing="0" width="600">' +
-                                '    <tr>' +
-                                '        <td align="center" bgcolor="#54c7e2" style="padding: 40px 0 30px 0;">' +
-                                '            <img src="https://sandbox.vs1cloud.com/assets/VS1logo.png" class="uploadedImage" alt="VS1 Cloud" width="250px" style="display: block;" />' +
-                                '        </td>' +
-                                '    </tr>' +
-                                '    <tr>' +
-                                '        <td style="padding: 40px 30px 40px 30px;">' +
-                                '            <table border="0" cellpadding="0" cellspacing="0" width="100%">' +
-                                '                <tr>' +
-                                '                    <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0 20px 0;">' +
-                                '                        Hi <span>' + customerEmailName + '</span>.' +
-                                '                    </td>' +
-                                '                </tr>' +
-                                '                <tr>' +
-                                '                    <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0 10px 0;">' +
-                                '                        Please find attached Invoice <span>' + erpInvoiceId + '</span>' +
-                                '                    </td>' +
-                                '                </tr>' +
-                                '                <tr>' +
-                                '                    <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0 10px 0;">' +
-                               '                        Simply click on <a style="border: none; color: white; padding: 6px 12px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin: 4px 2px; cursor: pointer; background-color: #5cb85c; border-color: #4cae4c; border-radius: 10px;" href="https://www.depot.vs1cloud.com/stripe/' + stringQuery + '">Make Payment</a> to pay now.' +
-                               '                    </td>' +
-                                '                </tr>' +
-                                '                <tr>' +
-                                '                    <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0 30px 0;">' +
-                                '                        Kind regards,' +
-                                '                        <br>' +
-                                '                        ' + mailFromName + '' +
-                                '                    </td>' +
-                                '                </tr>' +
-                                '            </table>' +
-                                '        </td>' +
-                                '    </tr>' +
-                                '    <tr>' +
-                                '        <td bgcolor="#00a3d3" style="padding: 30px 30px 30px 30px;">' +
-                                '            <table border="0" cellpadding="0" cellspacing="0" width="100%">' +
-                                '                <tr>' +
-                                '                    <td width="50%" style="color: #ffffff; font-family: Arial, sans-serif; font-size: 14px;">' +
-                                '                        If you have any question, please do not hesitate to contact us.' +
-                                '                    </td>' +
-                                '                    <td align="right">' +
-                                '                        <a style="border: none; color: white; padding: 15px 32px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin: 4px 2px; cursor: pointer; background-color: #4CAF50;" href="mailto:' + mailFrom + '">Contact Us</a>' +
-                                '                    </td>' +
-                                '                </tr>' +
-                                '            </table>' +
-                                '        </td>' +
-                                '    </tr>' +
-                                '</table>';
-
-                            if (($('.chkEmailCopy').is(':checked')) && ($('.chkEmailRep').is(':checked'))) {
-                                Meteor.call('sendEmail', {
-                                    from: "" + mailFromName + " <" + mailFrom + ">",
-                                    to: checkEmailData,
-                                    subject: mailSubject,
-                                    text: '',
-                                    html: htmlmailBody,
-                                    attachments: attachment
-                                }, function (error, result) {
-                                    if (error && error.error === "error") {
-                                        Router.go('/invoicelist?success=true');
-
-                                    } else {
-
+                            if (checkBackOrder == true) {
+                                lineItemObjForm = {
+                                    type: "TInvoiceLine",
+                                    fields: {
+                                        ProductName: tdproduct || '',
+                                        ProductDescription: tddescription || '',
+                                        UOMQtySold: parseFloat(tdOrderd) || 0,
+                                        UOMQtyShipped: parseFloat(tdQty) || 0,
+                                        LinePrice: Number(tdunitprice.replace(/[^0-9.-]+/g, "")) || 0,
+                                        Headershipdate: saleDate,
+                                        LineTaxCode: tdtaxCode || '',
                                     }
-                                });
-
-                                Meteor.call('sendEmail', {
-                                    from: "" + mailFromName + " <" + mailFrom + ">",
-                                    to: mailFrom,
-                                    subject: mailSubject,
-                                    text: '',
-                                    html: htmlmailBody,
-                                    attachments: attachment
-                                }, function (error, result) {
-                                    if (error && error.error === "error") {
-                                        Router.go('/invoicelist?success=true');
-                                    } else {
-                                        $('#html-2-pdfwrapper').css('display', 'none');
-                                        swal({
-                                            title: 'SUCCESS',
-                                            text: "Email Sent To Customer: " + checkEmailData + " and User: " + mailFrom + "",
-                                            type: 'success',
-                                            showCancelButton: false,
-                                            confirmButtonText: 'OK'
-                                        }).then((result) => {
-                                            if (result.value) {
-                                                window.open(url,'_self');
-                                            } else if (result.dismiss === 'cancel') {
-
-                                            }
-                                        });
-
-                                        $('.fullScreenSpin').css('display', 'none');
-                                    }
-                                });
-
-                            } else if (($('.chkEmailCopy').is(':checked'))) {
-                                Meteor.call('sendEmail', {
-                                    from: "" + mailFromName + " <" + mailFrom + ">",
-                                    to: checkEmailData,
-                                    subject: mailSubject,
-                                    text: '',
-                                    html: htmlmailBody,
-                                    attachments: attachment
-                                }, function (error, result) {
-                                    if (error && error.error === "error") {
-                                        Router.go('/invoicelist?success=true');
-
-                                    } else {
-                                        $('#html-2-pdfwrapper').css('display', 'none');
-                                        swal({
-                                            title: 'SUCCESS',
-                                            text: "Email Sent To Customer: " + checkEmailData + " ",
-                                            type: 'success',
-                                            showCancelButton: false,
-                                            confirmButtonText: 'OK'
-                                        }).then((result) => {
-                                            if (result.value) {
-                                                window.open(url,'_self');
-                                            } else if (result.dismiss === 'cancel') {
-
-                                            }
-                                        });
-
-                                        $('.fullScreenSpin').css('display', 'none');
-                                    }
-                                });
-
-                            } else if (($('.chkEmailRep').is(':checked'))) {
-                                Meteor.call('sendEmail', {
-                                    from: "" + mailFromName + " <" + mailFrom + ">",
-                                    to: mailFrom,
-                                    subject: mailSubject,
-                                    text: '',
-                                    html: htmlmailBody,
-                                    attachments: attachment
-                                }, function (error, result) {
-                                    if (error && error.error === "error") {
-                                        Router.go('/invoicelist?success=true');
-                                    } else {
-                                        $('#html-2-pdfwrapper').css('display', 'none');
-                                        swal({
-                                            title: 'SUCCESS',
-                                            text: "Email Sent To User: " + mailFrom + " ",
-                                            type: 'success',
-                                            showCancelButton: false,
-                                            confirmButtonText: 'OK'
-                                        }).then((result) => {
-                                            if (result.value) {
-                                                window.open(url,'_self');
-                                            } else if (result.dismiss === 'cancel') {
-
-                                            }
-                                        });
-
-                                        $('.fullScreenSpin').css('display', 'none');
-                                    }
-                                });
-
+                                };
                             } else {
-                                window.open(url,'_self');
-                            };
+                                lineItemObjForm = {
+                                    type: "TInvoiceLine",
+                                    fields: {
+                                        ProductName: tdproduct || '',
+                                        ProductDescription: tddescription || '',
+                                        UOMQtySold: parseFloat(tdQty) || 0,
+                                        UOMQtyShipped: parseFloat(tdQty) || 0,
+                                        LinePrice: Number(tdunitprice.replace(/[^0-9.-]+/g, "")) || 0,
+                                        Headershipdate: saleDate,
+                                        LineTaxCode: tdtaxCode || '',
+                                    }
+                                };
+                            }
 
-                        };
-
-
-                    }
-                    addAttachment();
-                }).catch(function (err) {
-                    $('#html-2-pdfwrapper').css('display', 'none');
-                    swal({
-                        title: 'Oooops...',
-                        text: err,
-                        type: 'error',
-                        showCancelButton: false,
-                        confirmButtonText: 'Try Again'
-                    }).then((result) => {
-                        if (result.value) {
-                        } else if (result.dismiss === 'cancel') {
-
+                            lineItemsForm.push(lineItemObjForm);
+                            splashLineArray.push(lineItemObjForm);
                         }
                     });
-                    $('.fullScreenSpin').css('display', 'none');
-                });
+                    let getchkcustomField1 = true;
+                    let getchkcustomField2 = true;
+                    let getcustomField1 = $('.customField1Text').html();
+                    let getcustomField2 = $('.customField2Text').html();
+                    if ($('#formCheck-one').is(':checked')) {
+                        getchkcustomField1 = false;
+                    }
+                    if ($('#formCheck-two').is(':checked')) {
+                        getchkcustomField2 = false;
+                    }
+
+                    let customer = $('#edtCustomerName').val();
+                    let customerEmail = $('#edtCustomerEmail').val();
+                    let billingAddress = $('#txabillingAddress').val();
+
+                    let poNumber = $('#ponumber').val();
+                    let reference = $('#edtRef').val();
+                    let termname = $('#sltTerms').val();
+                    let departement = $('#sltDept').val();
+                    let shippingAddress = $('#txaShipingInfo').val();
+                    let comments = $('#txaComment').val();
+                    let pickingInfrmation = $('#txapickmemo').val();
+                    let total = $('#totalBalanceDue').html() || 0;
+                    let tax = $('#subtotal_tax').html() || 0;
+                    let saleCustField1 = $('#edtSaleCustField1').val();
+                    let saleCustField2 = $('#edtSaleCustField2').val();
+                    var url = window.location.href;
+                    var getso_id = url.split('?id=');
+                    var currentInvoice = getso_id[getso_id.length - 1];
+                    let uploadedItems = templateObject.uploadedFiles.get();
+                    var currencyCode = $("#sltCurrency").val() || CountryAbbr;
+                    var objDetails = '';
+                    if (getso_id[1]) {
+                        currentInvoice = parseInt(currentInvoice);
+                        objDetails = {
+                            type: "TInvoiceEx",
+                            fields: {
+                                ID: currentInvoice,
+                                CustomerName: customer,
+                                ForeignExchangeCode: currencyCode,
+                                Lines: splashLineArray,
+                                InvoiceToDesc: billingAddress,
+                                SaleDate: saleDate,
+                                CustPONumber: poNumber,
+                                ReferenceNo: reference,
+                                TermsName: termname,
+                                SaleClassName: departement,
+                                ShipToDesc: shippingAddress,
+                                Comments: comments,
+                                SaleCustField1: saleCustField1,
+                                SaleCustField2: saleCustField2,
+                                PickMemo: pickingInfrmation,
+                                Attachments: uploadedItems,
+                                SalesStatus: $('#sltStatus').val()
+                            }
+                        };
+                    } else {
+                        objDetails = {
+                            type: "TInvoiceEx",
+                            fields: {
+                                CustomerName: customer,
+                                ForeignExchangeCode: currencyCode,
+                                Lines: splashLineArray,
+                                InvoiceToDesc: billingAddress,
+                                SaleDate: saleDate,
+                                CustPONumber: poNumber,
+                                ReferenceNo: reference,
+                                TermsName: termname,
+                                SaleClassName: departement,
+                                ShipToDesc: shippingAddress,
+                                Comments: comments,
+                                SaleCustField1: saleCustField1,
+                                SaleCustField2: saleCustField2,
+                                PickMemo: pickingInfrmation,
+                                Attachments: uploadedItems,
+                                SalesStatus: $('#sltStatus').val()
+                            }
+                        };
+                    }
+                    salesService.saveInvoiceEx(objDetails).then(function (objDetails) {
+                        let company = Session.get('vs1companyName');
+                        let vs1User = localStorage.getItem('mySession');
+                        let customerEmail = $('#edtCustomerEmail').val() || '';
+                        let stringQuery = "?";
+                        var customerID = $('#edtCustomerEmail').attr('customerid');
+                        for (let l = 0; l < lineItems.length; l++) {
+                            stringQuery = stringQuery + "product" + l + "=" + lineItems[l].description + "&price" + l + "=" + lineItems[l].unitPrice + "&qty" + l + "=" + lineItems[l].quantity + "&";
+                        }
+                        stringQuery = stringQuery + "tax=" + tax + "&total=" + total + "&customer=" + customer + "&name=" + name + "&surname=" + surname + "&quoteid=" + objDetails.fields.ID + "&transid=" + stripe_id + "&feemethod=" + stripe_fee_method + "&company=" + company + "&vs1email=" + vs1User + "&customeremail=" + customerEmail + "&type=Invoice&url=" + window.location.href + "&server=" + erpGet.ERPIPAddress + "&username=" + erpGet.ERPUsername + "&token=" + erpGet.ERPPassword + "&session=" + erpGet.ERPDatabase + "&port=" + erpGet.ERPPort + "&dept=" + departement;
+                        let url = "https://www.depot.vs1cloud.com/stripe/" + stringQuery;
+                        $('#html-2-pdfwrapper').css('display', 'block');
+                        $('.pdfCustomerName').html($('#edtCustomerName').val());
+                        $('.pdfCustomerAddress').html($('#txabillingAddress').val().replace(/[\r\n]/g, "<br />"));
+
+                        function generatePdfForMail(invoiceId) {
+                            return new Promise((resolve, reject) => {
+                                let templateObject = Template.instance();
+                                let completeTabRecord;
+                                let doc = new jsPDF('p', 'pt', 'a4');
+                                var source = document.getElementById('html-2-pdfwrapper');
+                                doc.addHTML(source, function () {
+                                    doc.setFontSize(10);
+                                    doc.setTextColor(255, 255, 255);
+                                    doc.textWithLink('Pay Now', 482, 113, {
+                                        url: 'https://www.depot.vs1cloud.com/stripe/' + stringQuery
+                                    });
+                                    resolve(doc.output('blob'));
+                                    $('#html-2-pdfwrapper').css('display', 'none');
+                                });
+                            });
+                        }
+                        async function addAttachment() {
+                            let attachment = [];
+                            let templateObject = Template.instance();
+
+                            let invoiceId = objDetails.fields.ID;
+                            let encodedPdf = await generatePdfForMail(invoiceId);
+                            let pdfObject = "";
+                            var reader = new FileReader();
+                            reader.readAsDataURL(encodedPdf);
+                            reader.onloadend = function () {
+                                var base64data = reader.result;
+                                base64data = base64data.split(',')[1];
+                                pdfObject = {
+                                    filename: 'invoice-' + invoiceId + '.pdf',
+                                    content: base64data,
+                                    encoding: 'base64'
+                                };
+                                attachment.push(pdfObject);
+                                let erpInvoiceId = objDetails.fields.ID;
+
+                                let mailFromName = Session.get('vs1companyName');
+                                let mailFrom = localStorage.getItem('mySession');
+                                let customerEmailName = $('#edtCustomerName').val();
+                                let checkEmailData = $('#edtCustomerEmail').val();
+                                let grandtotal = $('#grandTotal').html();
+                                let amountDueEmail = $('#totalBalanceDue').html();
+                                let emailDueDate = $("#dtDueDate").val();
+                                let mailSubject = 'Invoice ' + erpInvoiceId + ' from ' + mailFromName + ' for ' + customerEmailName;
+                                let mailBody = "Hi " + customerEmailName + ",\n\n Here's invoice " + erpInvoiceId + " for  " + grandtotal + "." +
+                                    "\n\nThe amount outstanding of " + amountDueEmail + " is due on " + emailDueDate + "." +
+                                    "\n\nIf you have any questions, please let us know : " + mailFrom + ".\n\nThanks,\n" + mailFromName;
+
+                                var htmlmailBody = '<table align="center" border="0" cellpadding="0" cellspacing="0" width="600">' +
+                                    '    <tr>' +
+                                    '        <td align="center" bgcolor="#54c7e2" style="padding: 40px 0 30px 0;">' +
+                                    '            <img src="https://sandbox.vs1cloud.com/assets/VS1logo.png" class="uploadedImage" alt="VS1 Cloud" width="250px" style="display: block;" />' +
+                                    '        </td>' +
+                                    '    </tr>' +
+                                    '    <tr>' +
+                                    '        <td style="padding: 40px 30px 40px 30px;">' +
+                                    '            <table border="0" cellpadding="0" cellspacing="0" width="100%">' +
+                                    '                <tr>' +
+                                    '                    <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0 20px 0;">' +
+                                    '                        Hi <span>' + customerEmailName + '</span>.' +
+                                    '                    </td>' +
+                                    '                </tr>' +
+                                    '                <tr>' +
+                                    '                    <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0 10px 0;">' +
+                                    '                        Please find attached Invoice <span>' + erpInvoiceId + '</span>' +
+                                    '                    </td>' +
+                                    '                </tr>' +
+                                    '                <tr>' +
+                                    '                    <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0 10px 0;">' +
+                                    '                        Simply click on <a style="border: none; color: white; padding: 6px 12px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin: 4px 2px; cursor: pointer; background-color: #5cb85c; border-color: #4cae4c; border-radius: 10px;" href="https://www.depot.vs1cloud.com/stripe/' + stringQuery + '">Make Payment</a> to pay now.' +
+                                    '                    </td>' +
+                                    '                </tr>' +
+                                    '                <tr>' +
+                                    '                    <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0 30px 0;">' +
+                                    '                        Kind regards,' +
+                                    '                        <br>' +
+                                    '                        ' + mailFromName + '' +
+                                    '                    </td>' +
+                                    '                </tr>' +
+                                    '            </table>' +
+                                    '        </td>' +
+                                    '    </tr>' +
+                                    '    <tr>' +
+                                    '        <td bgcolor="#00a3d3" style="padding: 30px 30px 30px 30px;">' +
+                                    '            <table border="0" cellpadding="0" cellspacing="0" width="100%">' +
+                                    '                <tr>' +
+                                    '                    <td width="50%" style="color: #ffffff; font-family: Arial, sans-serif; font-size: 14px;">' +
+                                    '                        If you have any question, please do not hesitate to contact us.' +
+                                    '                    </td>' +
+                                    '                    <td align="right">' +
+                                    '                        <a style="border: none; color: white; padding: 15px 32px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin: 4px 2px; cursor: pointer; background-color: #4CAF50;" href="mailto:' + mailFrom + '">Contact Us</a>' +
+                                    '                    </td>' +
+                                    '                </tr>' +
+                                    '            </table>' +
+                                    '        </td>' +
+                                    '    </tr>' +
+                                    '</table>';
+
+                                if (($('.chkEmailCopy').is(':checked')) && ($('.chkEmailRep').is(':checked'))) {
+                                    Meteor.call('sendEmail', {
+                                        from: "" + mailFromName + " <" + mailFrom + ">",
+                                        to: checkEmailData,
+                                        subject: mailSubject,
+                                        text: '',
+                                        html: htmlmailBody,
+                                        attachments: attachment
+                                    }, function (error, result) {
+                                        if (error && error.error === "error") {
+                                            Router.go('/invoicelist?success=true');
+
+                                        } else {}
+                                    });
+
+                                    Meteor.call('sendEmail', {
+                                        from: "" + mailFromName + " <" + mailFrom + ">",
+                                        to: mailFrom,
+                                        subject: mailSubject,
+                                        text: '',
+                                        html: htmlmailBody,
+                                        attachments: attachment
+                                    }, function (error, result) {
+                                        if (error && error.error === "error") {
+                                            Router.go('/invoicelist?success=true');
+                                        } else {
+                                            $('#html-2-pdfwrapper').css('display', 'none');
+                                            swal({
+                                                title: 'SUCCESS',
+                                                text: "Email Sent To Customer: " + checkEmailData + " and User: " + mailFrom + "",
+                                                type: 'success',
+                                                showCancelButton: false,
+                                                confirmButtonText: 'OK'
+                                            }).then((result) => {
+                                                if (result.value) {
+                                                    window.open(url, '_self');
+                                                } else if (result.dismiss === 'cancel') {}
+                                            });
+
+                                            $('.fullScreenSpin').css('display', 'none');
+                                        }
+                                    });
+
+                                } else if (($('.chkEmailCopy').is(':checked'))) {
+                                    Meteor.call('sendEmail', {
+                                        from: "" + mailFromName + " <" + mailFrom + ">",
+                                        to: checkEmailData,
+                                        subject: mailSubject,
+                                        text: '',
+                                        html: htmlmailBody,
+                                        attachments: attachment
+                                    }, function (error, result) {
+                                        if (error && error.error === "error") {
+                                            Router.go('/invoicelist?success=true');
+
+                                        } else {
+                                            $('#html-2-pdfwrapper').css('display', 'none');
+                                            swal({
+                                                title: 'SUCCESS',
+                                                text: "Email Sent To Customer: " + checkEmailData + " ",
+                                                type: 'success',
+                                                showCancelButton: false,
+                                                confirmButtonText: 'OK'
+                                            }).then((result) => {
+                                                if (result.value) {
+                                                    window.open(url, '_self');
+                                                } else if (result.dismiss === 'cancel') {}
+                                            });
+
+                                            $('.fullScreenSpin').css('display', 'none');
+                                        }
+                                    });
+
+                                } else if (($('.chkEmailRep').is(':checked'))) {
+                                    Meteor.call('sendEmail', {
+                                        from: "" + mailFromName + " <" + mailFrom + ">",
+                                        to: mailFrom,
+                                        subject: mailSubject,
+                                        text: '',
+                                        html: htmlmailBody,
+                                        attachments: attachment
+                                    }, function (error, result) {
+                                        if (error && error.error === "error") {
+                                            Router.go('/invoicelist?success=true');
+                                        } else {
+                                            $('#html-2-pdfwrapper').css('display', 'none');
+                                            swal({
+                                                title: 'SUCCESS',
+                                                text: "Email Sent To User: " + mailFrom + " ",
+                                                type: 'success',
+                                                showCancelButton: false,
+                                                confirmButtonText: 'OK'
+                                            }).then((result) => {
+                                                if (result.value) {
+                                                    window.open(url, '_self');
+                                                } else if (result.dismiss === 'cancel') {}
+                                            });
+
+                                            $('.fullScreenSpin').css('display', 'none');
+                                        }
+                                    });
+
+                                } else {
+                                    window.open(url, '_self');
+                                };
+
+                            };
+
+                        }
+                        addAttachment();
+                    }).catch(function (err) {
+                        $('#html-2-pdfwrapper').css('display', 'none');
+                        swal({
+                            title: 'Oooops...',
+                            text: err,
+                            type: 'error',
+                            showCancelButton: false,
+                            confirmButtonText: 'Try Again'
+                        }).then((result) => {
+                            if (result.value) {}
+                            else if (result.dismiss === 'cancel') {}
+                        });
+                        $('.fullScreenSpin').css('display', 'none');
+                    });
+                }
             }
-         }
-    } else {
-           swal({
+        } else {
+            swal({
                 title: 'WARNING',
                 text: "Please Set Up Payment Method To Use This Option, Click Ok to be Redirected to Payment Method page.",
                 type: 'warning',
@@ -4851,13 +5060,11 @@ Template.new_invoice.events({
                 confirmButtonText: 'OK'
             }).then((result) => {
                 if (result.value) {
-                    window.open('paymentmethodSettings','_self');
-                } else if (result.dismiss === 'cancel') {
-
-                }
+                    window.open('paymentmethodSettings', '_self');
+                } else if (result.dismiss === 'cancel') {}
             });
         }
-},
+    },
     'blur .lineQty': function (event) {
         let templateObject = Template.instance();
         let taxcodeList = templateObject.taxraterecords.get();
@@ -4906,7 +5113,6 @@ Template.new_invoice.events({
                     }
                 }
             }
-
 
             var subTotal = parseInt(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) || 0;
             var taxTotal = parseInt(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) * parseFloat(taxrateamount);
@@ -5008,11 +5214,10 @@ Template.new_invoice.events({
             if (taxcodeList) {
                 for (var i = 0; i < taxcodeList.length; i++) {
                     if (taxcodeList[i].codename == taxcode) {
-                        taxrateamount = taxcodeList[i].coderate.replace('%', "") / 100;;
+                        taxrateamount = taxcodeList[i].coderate.replace('%', "") / 100; ;
                     }
                 }
             }
-
 
             var subTotal = parseInt(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) || 0;
             var taxTotal = parseInt(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) * parseFloat(taxrateamount);
@@ -5075,11 +5280,10 @@ Template.new_invoice.events({
             if (taxcodeList) {
                 for (var i = 0; i < taxcodeList.length; i++) {
                     if (taxcodeList[i].codename == taxcode) {
-                        taxrateamount = taxcodeList[i].coderate.replace('%', "") / 100;;
+                        taxrateamount = taxcodeList[i].coderate.replace('%', "") / 100; ;
                     }
                 }
             }
-
 
             var subTotal = parseInt(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) || 0;
             var taxTotal = parseInt(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) * parseFloat(taxrateamount);
@@ -5105,7 +5309,7 @@ Template.new_invoice.events({
         });
 
         if ($('.printID').attr('id') != undefined || $('.printID').attr('id') != "") {
-            $printrows.each(function(index) {
+            $printrows.each(function (index) {
                 var $printrows = $(this);
                 var qty = $printrows.find("#lineQty").text() || 0;
                 var price = $printrows.find("#lineUnitPrice").text() || "0";
@@ -5151,19 +5355,19 @@ Template.new_invoice.events({
         }
     },
     'click .lineProductName': function (event) {
-      let customername = $('#edtCustomerName').val();
-      if (customername === '') {
-          swal('Customer has not been selected!', '', 'warning');
-          event.preventDefault();
-      }else{
-        $('#tblInvoiceLine tbody tr .lineProductName').attr("data-toggle", "modal");
-        $('#tblInvoiceLine tbody tr .lineProductName').attr("data-target", "#productListModal");
-        var targetID = $(event.target).closest('tr').attr('id');
-        $('#selectLineID').val(targetID);
-        setTimeout(function () {
-            $('#tblInventory_filter .form-control-sm').focus();
-        }, 500);
-      }
+        let customername = $('#edtCustomerName').val();
+        if (customername === '') {
+            swal('Customer has not been selected!', '', 'warning');
+            event.preventDefault();
+        } else {
+            $('#tblInvoiceLine tbody tr .lineProductName').attr("data-toggle", "modal");
+            $('#tblInvoiceLine tbody tr .lineProductName').attr("data-target", "#productListModal");
+            var targetID = $(event.target).closest('tr').attr('id');
+            $('#selectLineID').val(targetID);
+            setTimeout(function () {
+                $('#tblInventory_filter .form-control-sm').focus();
+            }, 500);
+        }
     },
     'click #productListModal #refreshpagelist': function () {
         $('.fullScreenSpin').css('display', 'inline-block');
@@ -5203,10 +5407,8 @@ Template.new_invoice.events({
                 showCancelButton: false,
                 confirmButtonText: 'OK'
             }).then((result) => {
-                if (result.value) {
-                } else if (result.dismiss === 'cancel') {
-
-                }
+                if (result.value) {}
+                else if (result.dismiss === 'cancel') {}
             });
         }
     },
@@ -5225,7 +5427,8 @@ Template.new_invoice.events({
             (event.keyCode >= 96 && event.keyCode <= 105) ||
             event.keyCode == 8 || event.keyCode == 9 ||
             event.keyCode == 37 || event.keyCode == 39 ||
-            event.keyCode == 46 || event.keyCode == 190 || event.keyCode == 189 || event.keyCode == 109) { } else {
+            event.keyCode == 46 || event.keyCode == 190 || event.keyCode == 189 || event.keyCode == 109) {}
+        else {
             event.preventDefault();
         }
     },
@@ -5244,7 +5447,7 @@ Template.new_invoice.events({
             if ($('#tblInvoiceLine tbody>tr').length > 1) {
                 this.click;
                 $(event.target).closest('tr').remove();
-                $(".invoice_print #"+targetID).remove();
+                $(".invoice_print #" + targetID).remove();
                 event.preventDefault();
                 let $tblrows = $("#tblInvoiceLine tbody tr");
                 let $printrows = $(".invoice_print tbody tr");
@@ -5263,11 +5466,10 @@ Template.new_invoice.events({
                     if (taxcodeList) {
                         for (var i = 0; i < taxcodeList.length; i++) {
                             if (taxcodeList[i].codename == taxcode) {
-                                taxrateamount = taxcodeList[i].coderate.replace('%', "") / 100;;
+                                taxrateamount = taxcodeList[i].coderate.replace('%', "") / 100; ;
                             }
                         }
                     }
-
 
                     var subTotal = parseInt(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) || 0;
                     var taxTotal = parseInt(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) * parseFloat(taxrateamount);
@@ -5293,41 +5495,41 @@ Template.new_invoice.events({
                 });
 
                 if ($('.printID').attr('id') != undefined || $('.printID').attr('id') != "") {
-                $printrows.each(function (index) {
-                    var $printrows = $(this);
-                    var qty = $printrows.find("#lineQty").text() || 0;
-                    var price = $printrows.find("#lineUnitPrice").text() || "0";
-                    var taxrateamount = 0;
-                    var taxRate = $printrows.find("#lineTaxCode").text();
-                    if (taxcodeList) {
-                        for (var i = 0; i < taxcodeList.length; i++) {
-                            if (taxcodeList[i].codename == taxRate) {
-                                taxrateamount = taxcodeList[i].coderate.replace('%', "") / 100;
+                    $printrows.each(function (index) {
+                        var $printrows = $(this);
+                        var qty = $printrows.find("#lineQty").text() || 0;
+                        var price = $printrows.find("#lineUnitPrice").text() || "0";
+                        var taxrateamount = 0;
+                        var taxRate = $printrows.find("#lineTaxCode").text();
+                        if (taxcodeList) {
+                            for (var i = 0; i < taxcodeList.length; i++) {
+                                if (taxcodeList[i].codename == taxRate) {
+                                    taxrateamount = taxcodeList[i].coderate.replace('%', "") / 100;
+                                }
                             }
                         }
-                    }
-                    var subTotal = parseInt(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) || 0;
-                    var taxTotal = parseInt(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) * parseFloat(taxrateamount);
-                    $printrows.find('#lineTaxAmount').text(utilityService.modifynegativeCurrencyFormat(taxTotal))
-                    if (!isNaN(subTotal)) {
-                        $printrows.find('#lineAmt').text(utilityService.modifynegativeCurrencyFormat(subTotal));
-                        subGrandTotal += isNaN(subTotal) ? 0 : subTotal;
-                        document.getElementById("subtotal_totalPrint").innerHTML = $('#subtotal_total').text();
-                    }
+                        var subTotal = parseInt(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) || 0;
+                        var taxTotal = parseInt(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) * parseFloat(taxrateamount);
+                        $printrows.find('#lineTaxAmount').text(utilityService.modifynegativeCurrencyFormat(taxTotal))
+                        if (!isNaN(subTotal)) {
+                            $printrows.find('#lineAmt').text(utilityService.modifynegativeCurrencyFormat(subTotal));
+                            subGrandTotal += isNaN(subTotal) ? 0 : subTotal;
+                            document.getElementById("subtotal_totalPrint").innerHTML = $('#subtotal_total').text();
+                        }
 
-                    if (!isNaN(taxTotal)) {
-                        taxGrandTotalPrint += isNaN(taxTotal) ? 0 : taxTotal;
-                    }
-                    if (!isNaN(subGrandTotal) && (!isNaN(taxGrandTotal))) {
-                        let GrandTotal = (parseFloat(subGrandTotal)) + (parseFloat(taxGrandTotal));
-                        document.getElementById("grandTotalPrint").innerHTML = $('#grandTotal').text();
-                        document.getElementById("totalTax").innerHTML = $('#subtotal_tax').text();
-                        document.getElementById("balanceDue").innerHTML = utilityService.modifynegativeCurrencyFormat(GrandTotal);
-                        document.getElementById("totalBalanceDuePrint").innerHTML = $('#totalBalanceDue').text();
+                        if (!isNaN(taxTotal)) {
+                            taxGrandTotalPrint += isNaN(taxTotal) ? 0 : taxTotal;
+                        }
+                        if (!isNaN(subGrandTotal) && (!isNaN(taxGrandTotal))) {
+                            let GrandTotal = (parseFloat(subGrandTotal)) + (parseFloat(taxGrandTotal));
+                            document.getElementById("grandTotalPrint").innerHTML = $('#grandTotal').text();
+                            document.getElementById("totalTax").innerHTML = $('#subtotal_tax').text();
+                            document.getElementById("balanceDue").innerHTML = utilityService.modifynegativeCurrencyFormat(GrandTotal);
+                            document.getElementById("totalBalanceDuePrint").innerHTML = $('#totalBalanceDue').text();
 
-                    }
-                });
-            }
+                        }
+                    });
+                }
                 return false;
 
             } else {
@@ -5365,10 +5567,8 @@ Template.new_invoice.events({
                     showCancelButton: false,
                     confirmButtonText: 'Try Again'
                 }).then((result) => {
-                    if (result.value) {
-                    } else if (result.dismiss === 'cancel') {
-
-                    }
+                    if (result.value) {}
+                    else if (result.dismiss === 'cancel') {}
                 });
                 $('.fullScreenSpin').css('display', 'none');
             });
@@ -5388,7 +5588,7 @@ Template.new_invoice.events({
             $('#' + selectLineID).closest('tr').remove();
             let $tblrows = $("#tblInvoiceLine tbody tr");
             let $printrows = $(".invoice_print tbody tr");
-            $(".invoice_print #"+selectLineID).remove();
+            $(".invoice_print #" + selectLineID).remove();
             let lineAmount = 0;
             let subGrandTotal = 0;
             let taxGrandTotal = 0;
@@ -5404,11 +5604,10 @@ Template.new_invoice.events({
                 if (taxcodeList) {
                     for (var i = 0; i < taxcodeList.length; i++) {
                         if (taxcodeList[i].codename == taxcode) {
-                            taxrateamount = taxcodeList[i].coderate.replace('%', "") / 100;;
+                            taxrateamount = taxcodeList[i].coderate.replace('%', "") / 100; ;
                         }
                     }
                 }
-
 
                 var subTotal = parseInt(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) || 0;
                 var taxTotal = parseInt(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) * parseFloat(taxrateamount);
@@ -5433,40 +5632,40 @@ Template.new_invoice.events({
                 }
             });
 
-             $printrows.each(function (index) {
-                    var $printrows = $(this);
-                    var qty = $printrows.find("#lineQty").text() || 0;
-                    var price = $printrows.find("#lineUnitPrice").text() || "0";
-                    var taxrateamount = 0;
-                    var taxRate = $printrows.find("#lineTaxCode").text();
-                    if (taxcodeList) {
-                        for (var i = 0; i < taxcodeList.length; i++) {
-                            if (taxcodeList[i].codename == taxRate) {
-                                taxrateamount = taxcodeList[i].coderate.replace('%', "") / 100;
-                            }
+            $printrows.each(function (index) {
+                var $printrows = $(this);
+                var qty = $printrows.find("#lineQty").text() || 0;
+                var price = $printrows.find("#lineUnitPrice").text() || "0";
+                var taxrateamount = 0;
+                var taxRate = $printrows.find("#lineTaxCode").text();
+                if (taxcodeList) {
+                    for (var i = 0; i < taxcodeList.length; i++) {
+                        if (taxcodeList[i].codename == taxRate) {
+                            taxrateamount = taxcodeList[i].coderate.replace('%', "") / 100;
                         }
                     }
-                    var subTotal = parseInt(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) || 0;
-                    var taxTotal = parseInt(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) * parseFloat(taxrateamount);
-                    $printrows.find('#lineTaxAmount').text(utilityService.modifynegativeCurrencyFormat(taxTotal))
-                    if (!isNaN(subTotal)) {
-                        $printrows.find('#lineAmt').text(utilityService.modifynegativeCurrencyFormat(subTotal));
-                        subGrandTotal += isNaN(subTotal) ? 0 : subTotal;
-                        document.getElementById("subtotal_totalPrint").innerHTML = $('#subtotal_total').text();
-                    }
+                }
+                var subTotal = parseInt(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) || 0;
+                var taxTotal = parseInt(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) * parseFloat(taxrateamount);
+                $printrows.find('#lineTaxAmount').text(utilityService.modifynegativeCurrencyFormat(taxTotal))
+                if (!isNaN(subTotal)) {
+                    $printrows.find('#lineAmt').text(utilityService.modifynegativeCurrencyFormat(subTotal));
+                    subGrandTotal += isNaN(subTotal) ? 0 : subTotal;
+                    document.getElementById("subtotal_totalPrint").innerHTML = $('#subtotal_total').text();
+                }
 
-                    if (!isNaN(taxTotal)) {
-                        taxGrandTotalPrint += isNaN(taxTotal) ? 0 : taxTotal;
-                    }
-                    if (!isNaN(subGrandTotal) && (!isNaN(taxGrandTotal))) {
-                        let GrandTotal = (parseFloat(subGrandTotal)) + (parseFloat(taxGrandTotal));
-                        document.getElementById("grandTotalPrint").innerHTML = $('#grandTotal').text();
-                        document.getElementById("totalTax").innerHTML = $('#subtotal_tax').text();
-                        document.getElementById("balanceDue").innerHTML = utilityService.modifynegativeCurrencyFormat(GrandTotal);
-                        document.getElementById("totalBalanceDuePrint").innerHTML = $('#totalBalanceDue').text();
+                if (!isNaN(taxTotal)) {
+                    taxGrandTotalPrint += isNaN(taxTotal) ? 0 : taxTotal;
+                }
+                if (!isNaN(subGrandTotal) && (!isNaN(taxGrandTotal))) {
+                    let GrandTotal = (parseFloat(subGrandTotal)) + (parseFloat(taxGrandTotal));
+                    document.getElementById("grandTotalPrint").innerHTML = $('#grandTotal').text();
+                    document.getElementById("totalTax").innerHTML = $('#subtotal_tax').text();
+                    document.getElementById("balanceDue").innerHTML = utilityService.modifynegativeCurrencyFormat(GrandTotal);
+                    document.getElementById("totalBalanceDuePrint").innerHTML = $('#totalBalanceDue').text();
 
-                    }
-                });
+                }
+            });
             //return false;
         } else {
             this.click;
@@ -5495,7 +5694,7 @@ Template.new_invoice.events({
 
         $('#myModal4').modal('toggle');
     },
-'click .btnSave': function (event) {
+    'click .btnSave': function (event) {
         let templateObject = Template.instance();
         let stripe_id = templateObject.accountID.get();
         let stripe_fee_method = templateObject.stripe_fee_method.get();
@@ -5505,7 +5704,7 @@ Template.new_invoice.events({
         let name = $('#edtCustomerEmail').attr('customerfirstname');
         let surname = $('#edtCustomerEmail').attr('customerlastname');
         let salesService = new SalesBoardService();
-        let termname = $('#sltTerms').val()||'';
+        let termname = $('#sltTerms').val() || '';
         if (termname === '') {
             swal('Terms has not been selected!', '', 'warning');
             event.preventDefault();
@@ -5545,7 +5744,9 @@ Template.new_invoice.events({
                 lineItemObj = {
                     description: tddescription || '',
                     quantity: tdQty || 0,
-                    unitPrice: tdunitprice.toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0
+                    unitPrice: tdunitprice.toLocaleString(undefined, {
+                        minimumFractionDigits: 2
+                    }) || 0
                 }
 
                 lineItems.push(lineItemObj);
@@ -5579,7 +5780,6 @@ Template.new_invoice.events({
                             }
                         };
                     }
-
 
                     lineItemsForm.push(lineItemObjForm);
                     splashLineArray.push(lineItemObjForm);
@@ -5671,28 +5871,47 @@ Template.new_invoice.events({
                 let customerEmail = $('#edtCustomerEmail').val() || '';
                 let stringQuery = "?";
                 var customerID = $('#edtCustomerEmail').attr('customerid');
-                    for (let l = 0; l < lineItems.length; l++) {
-                        stringQuery = stringQuery + "product" + l + "=" + lineItems[l].description + "&price" + l + "=" + lineItems[l].unitPrice + "&qty" + l + "=" + lineItems[l].quantity + "&";
-                    }
-                    stringQuery = stringQuery + "tax=" + tax + "&total=" + total + "&customer=" + customer + "&name=" + name + "&surname=" + surname + "&quoteid=" + objDetails.fields.ID + "&transid="+stripe_id+"&feemethod="+stripe_fee_method+"&company=" + company + "&vs1email=" + vs1User + "&customeremail=" + customerEmail + "&type=Invoice&url=" + window.location.href  + "&server=" + erpGet.ERPIPAddress + "&username=" + erpGet.ERPUsername + "&token=" + erpGet.ERPPassword + "&session=" + erpGet.ERPDatabase + "&port=" + erpGet.ERPPort + "&dept=" + departement;
+                for (let l = 0; l < lineItems.length; l++) {
+                    stringQuery = stringQuery + "product" + l + "=" + lineItems[l].description + "&price" + l + "=" + lineItems[l].unitPrice + "&qty" + l + "=" + lineItems[l].quantity + "&";
+                }
+                stringQuery = stringQuery + "tax=" + tax + "&total=" + total + "&customer=" + customer + "&name=" + name + "&surname=" + surname + "&quoteid=" + objDetails.fields.ID + "&transid=" + stripe_id + "&feemethod=" + stripe_fee_method + "&company=" + company + "&vs1email=" + vs1User + "&customeremail=" + customerEmail + "&type=Invoice&url=" + window.location.href + "&server=" + erpGet.ERPIPAddress + "&username=" + erpGet.ERPUsername + "&token=" + erpGet.ERPPassword + "&session=" + erpGet.ERPDatabase + "&port=" + erpGet.ERPPort + "&dept=" + departement;
                 $('#html-2-pdfwrapper').css('display', 'block');
                 $('.pdfCustomerName').html($('#edtCustomerName').val());
                 $('.pdfCustomerAddress').html($('#txabillingAddress').val().replace(/[\r\n]/g, "<br />"));
                 var ponumber = $('#ponumber').val() || '.';
                 $('.po').text(ponumber);
                 function generatePdfForMail(invoiceId) {
-                    return new Promise((resolve, reject) => {
+                    let file = "Invoice-" + invoiceId + ".pdf"
+                        return new Promise((resolve, reject) => {
+                        $(".linkText").attr("href", "https://www.depot.vs1cloud.com/stripe/" + stringQuery);
                         let templateObject = Template.instance();
                         let completeTabRecord;
                         let doc = new jsPDF('p', 'pt', 'a4');
                         var source = document.getElementById('html-2-pdfwrapper');
-                        doc.addHTML(source, function () {
-                            doc.setFontSize(10);
-                            doc.setTextColor(255, 255, 255);
-                            doc.textWithLink('Pay Now', 482, 113, { url: 'https://www.depot.vs1cloud.com/stripe/' + stringQuery });
-                            resolve(doc.output('blob'));
-                            $('#html-2-pdfwrapper').css('display', 'none');
-                        });
+                        var opt = {
+                            margin: 0,
+                            filename: file,
+                            image: {
+                                type: 'jpeg',
+                                quality: 0.98
+                            },
+                            html2canvas: {
+                                scale: 2
+                            },
+                            jsPDF: {
+                                unit: 'in',
+                                format: 'a4',
+                                orientation: 'portrait'
+                            }
+                        }
+                        resolve(html2pdf().set(opt).from(source).toPdf().output('datauristring'));
+                        // doc.addHTML(source, function () {
+                        //     doc.setFontSize(10);
+                        //     doc.setTextColor(255, 255, 255);
+                        //     doc.textWithLink('Pay Now', 482, 113, { url: 'https://www.depot.vs1cloud.com/stripe/' + stringQuery });
+                        //     resolve(doc.output('blob'));
+                        //     $('#html-2-pdfwrapper').css('display', 'none');
+                        // });
                     });
                 }
                 async function addAttachment() {
@@ -5701,198 +5920,183 @@ Template.new_invoice.events({
 
                     let invoiceId = objDetails.fields.ID;
                     let encodedPdf = await generatePdfForMail(invoiceId);
-                    let pdfObject = "";
-                    var reader = new FileReader();
-                    reader.readAsDataURL(encodedPdf);
-                    reader.onloadend = function () {
-                        var base64data = reader.result;
-                        base64data = base64data.split(',')[1];
-                        pdfObject = {
-                            filename: 'invoice-' + invoiceId + '.pdf',
-                            content: base64data,
-                            encoding: 'base64'
-                        };
-                        attachment.push(pdfObject);
-                        let erpInvoiceId = objDetails.fields.ID;
 
-
-                        let mailFromName = Session.get('vs1companyName');
-                        let mailFrom = localStorage.getItem('mySession');
-                        let customerEmailName = $('#edtCustomerName').val();
-                        let checkEmailData = $('#edtCustomerEmail').val();
-                        let grandtotal = $('#grandTotal').html();
-                        let amountDueEmail = $('#totalBalanceDue').html();
-                        let emailDueDate = $("#dtDueDate").val();
-                        let mailSubject = 'Invoice ' + erpInvoiceId + ' from ' + mailFromName + ' for ' + customerEmailName;
-                        let mailBody = "Hi " + customerEmailName + ",\n\n Here's invoice " + erpInvoiceId + " for  " + grandtotal + "." +
-                            "\n\nThe amount outstanding of " + amountDueEmail + " is due on " + emailDueDate + "." +
-                            "\n\nIf you have any questions, please let us know : " + mailFrom + ".\n\nThanks,\n" + mailFromName;
-
-                        var htmlmailBody = '<table align="center" border="0" cellpadding="0" cellspacing="0" width="600">' +
-                            '    <tr>' +
-                            '        <td align="center" bgcolor="#54c7e2" style="padding: 40px 0 30px 0;">' +
-                            '            <img src="https://sandbox.vs1cloud.com/assets/VS1logo.png" class="uploadedImage" alt="VS1 Cloud" width="250px" style="display: block;" />' +
-                            '        </td>' +
-                            '    </tr>' +
-                            '    <tr>' +
-                            '        <td style="padding: 40px 30px 40px 30px;">' +
-                            '            <table border="0" cellpadding="0" cellspacing="0" width="100%">' +
-                            '                <tr>' +
-                            '                    <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0 20px 0;">' +
-                            '                        Hi <span>' + customerEmailName + '</span>.' +
-                            '                    </td>' +
-                            '                </tr>' +
-                            '                <tr>' +
-                            '                    <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0 10px 0;">' +
-                            '                        Please find attached Invoice <span>' + erpInvoiceId + '</span>' +
-                            '                    </td>' +
-                            '                </tr>' +
-                            '                <tr>' +
-                            '                    <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0 10px 0;">' +
-                           '                        Simply click on <a style="border: none; color: white; padding: 6px 12px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin: 4px 2px; cursor: pointer; background-color: #5cb85c; border-color: #4cae4c; border-radius: 10px;" href="https://www.depot.vs1cloud.com/stripe/' + stringQuery + '">Make Payment</a> to pay now.' +
-                           '                    </td>' +
-                            '                </tr>' +
-                            '                <tr>' +
-                            '                    <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0 30px 0;">' +
-                            '                        Kind regards,' +
-                            '                        <br>' +
-                            '                        ' + mailFromName + '' +
-                            '                    </td>' +
-                            '                </tr>' +
-                            '            </table>' +
-                            '        </td>' +
-                            '    </tr>' +
-                            '    <tr>' +
-                            '        <td bgcolor="#00a3d3" style="padding: 30px 30px 30px 30px;">' +
-                            '            <table border="0" cellpadding="0" cellspacing="0" width="100%">' +
-                            '                <tr>' +
-                            '                    <td width="50%" style="color: #ffffff; font-family: Arial, sans-serif; font-size: 14px;">' +
-                            '                        If you have any question, please do not hesitate to contact us.' +
-                            '                    </td>' +
-                            '                    <td align="right">' +
-                            '                        <a style="border: none; color: white; padding: 15px 32px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin: 4px 2px; cursor: pointer; background-color: #4CAF50;" href="mailto:' + mailFrom + '">Contact Us</a>' +
-                            '                    </td>' +
-                            '                </tr>' +
-                            '            </table>' +
-                            '        </td>' +
-                            '    </tr>' +
-                            '</table>';
-
-                        if (($('.chkEmailCopy').is(':checked')) && ($('.chkEmailRep').is(':checked'))) {
-                            Meteor.call('sendEmail', {
-                                from: "" + mailFromName + " <" + mailFrom + ">",
-                                to: checkEmailData,
-                                subject: mailSubject,
-                                text: '',
-                                html: htmlmailBody,
-                                attachments: attachment
-                            }, function (error, result) {
-                                if (error && error.error === "error") {
-                                    Router.go('/invoicelist?success=true');
-
-                                } else {
-
-                                }
-                            });
-
-                            Meteor.call('sendEmail', {
-                                from: "" + mailFromName + " <" + mailFrom + ">",
-                                to: mailFrom,
-                                subject: mailSubject,
-                                text: '',
-                                html: htmlmailBody,
-                                attachments: attachment
-                            }, function (error, result) {
-                                if (error && error.error === "error") {
-                                    Router.go('/invoicelist?success=true');
-                                } else {
-                                    $('#html-2-pdfwrapper').css('display', 'none');
-                                    swal({
-                                        title: 'SUCCESS',
-                                        text: "Email Sent To Customer: " + checkEmailData + " and User: " + mailFrom + "",
-                                        type: 'success',
-                                        showCancelButton: false,
-                                        confirmButtonText: 'OK'
-                                    }).then((result) => {
-                                        if (result.value) {
-                                        } else if (result.dismiss === 'cancel') {
-
-                                        }
-                                    });
-
-                                    $('.fullScreenSpin').css('display', 'none');
-                                }
-                            });
-
-                        } else if (($('.chkEmailCopy').is(':checked'))) {
-                            Meteor.call('sendEmail', {
-                                from: "" + mailFromName + " <" + mailFrom + ">",
-                                to: checkEmailData,
-                                subject: mailSubject,
-                                text: '',
-                                html: htmlmailBody,
-                                attachments: attachment
-                            }, function (error, result) {
-                                if (error && error.error === "error") {
-                                    Router.go('/invoicelist?success=true');
-
-                                } else {
-                                    $('#html-2-pdfwrapper').css('display', 'none');
-                                    swal({
-                                        title: 'SUCCESS',
-                                        text: "Email Sent To Customer: " + checkEmailData + " ",
-                                        type: 'success',
-                                        showCancelButton: false,
-                                        confirmButtonText: 'OK'
-                                    }).then((result) => {
-                                        if (result.value) {
-                                            Router.go('/invoicelist?success=true');
-                                        } else if (result.dismiss === 'cancel') {
-
-                                        }
-                                    });
-
-                                    $('.fullScreenSpin').css('display', 'none');
-                                }
-                            });
-
-                        } else if (($('.chkEmailRep').is(':checked'))) {
-                            Meteor.call('sendEmail', {
-                                from: "" + mailFromName + " <" + mailFrom + ">",
-                                to: mailFrom,
-                                subject: mailSubject,
-                                text: '',
-                                html: htmlmailBody,
-                                attachments: attachment
-                            }, function (error, result) {
-                                if (error && error.error === "error") {
-                                    Router.go('/invoicelist?success=true');
-                                } else {
-                                    $('#html-2-pdfwrapper').css('display', 'none');
-                                    swal({
-                                        title: 'SUCCESS',
-                                        text: "Email Sent To User: " + mailFrom + " ",
-                                        type: 'success',
-                                        showCancelButton: false,
-                                        confirmButtonText: 'OK'
-                                    }).then((result) => {
-                                        if (result.value) {
-                                            Router.go('/invoicelist?success=true');
-                                        } else if (result.dismiss === 'cancel') {
-
-                                        }
-                                    });
-
-                                    $('.fullScreenSpin').css('display', 'none');
-                                }
-                            });
-
-                        } else {
-                            Router.go('/invoicelist?success=true');
-                        };
-
+                    // var base64data = reader.result;
+                    base64data = encodedPdf.split(',')[1];
+                    pdfObject = {
+                        filename: 'invoice-' + invoiceId + '.pdf',
+                        content: base64data,
+                        encoding: 'base64'
                     };
+                    attachment.push(pdfObject);
+                    let erpInvoiceId = objDetails.fields.ID;
 
+                    let mailFromName = Session.get('vs1companyName');
+                    let mailFrom = localStorage.getItem('mySession');
+                    let customerEmailName = $('#edtCustomerName').val();
+                    let checkEmailData = $('#edtCustomerEmail').val();
+                    let grandtotal = $('#grandTotal').html();
+                    let amountDueEmail = $('#totalBalanceDue').html();
+                    let emailDueDate = $("#dtDueDate").val();
+                    let mailSubject = 'Invoice ' + erpInvoiceId + ' from ' + mailFromName + ' for ' + customerEmailName;
+                    let mailBody = "Hi " + customerEmailName + ",\n\n Here's invoice " + erpInvoiceId + " for  " + grandtotal + "." +
+                        "\n\nThe amount outstanding of " + amountDueEmail + " is due on " + emailDueDate + "." +
+                        "\n\nIf you have any questions, please let us know : " + mailFrom + ".\n\nThanks,\n" + mailFromName;
+
+                    var htmlmailBody = '<table align="center" border="0" cellpadding="0" cellspacing="0" width="600">' +
+                        '    <tr>' +
+                        '        <td align="center" bgcolor="#54c7e2" style="padding: 40px 0 30px 0;">' +
+                        '            <img src="https://sandbox.vs1cloud.com/assets/VS1logo.png" class="uploadedImage" alt="VS1 Cloud" width="250px" style="display: block;" />' +
+                        '        </td>' +
+                        '    </tr>' +
+                        '    <tr>' +
+                        '        <td style="padding: 40px 30px 40px 30px;">' +
+                        '            <table border="0" cellpadding="0" cellspacing="0" width="100%">' +
+                        '                <tr>' +
+                        '                    <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0 20px 0;">' +
+                        '                        Hi <span>' + customerEmailName + '</span>.' +
+                        '                    </td>' +
+                        '                </tr>' +
+                        '                <tr>' +
+                        '                    <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0 10px 0;">' +
+                        '                        Please find attached Invoice <span>' + erpInvoiceId + '</span>' +
+                        '                    </td>' +
+                        '                </tr>' +
+                        '                <tr>' +
+                        '                    <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0 10px 0;">' +
+                        '                        Simply click on <a style="border: none; color: white; padding: 6px 12px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin: 4px 2px; cursor: pointer; background-color: #5cb85c; border-color: #4cae4c; border-radius: 10px;" href="https://www.depot.vs1cloud.com/stripe/' + stringQuery + '">Make Payment</a> to pay now.' +
+                        '                    </td>' +
+                        '                </tr>' +
+                        '                <tr>' +
+                        '                    <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0 30px 0;">' +
+                        '                        Kind regards,' +
+                        '                        <br>' +
+                        '                        ' + mailFromName + '' +
+                        '                    </td>' +
+                        '                </tr>' +
+                        '            </table>' +
+                        '        </td>' +
+                        '    </tr>' +
+                        '    <tr>' +
+                        '        <td bgcolor="#00a3d3" style="padding: 30px 30px 30px 30px;">' +
+                        '            <table border="0" cellpadding="0" cellspacing="0" width="100%">' +
+                        '                <tr>' +
+                        '                    <td width="50%" style="color: #ffffff; font-family: Arial, sans-serif; font-size: 14px;">' +
+                        '                        If you have any question, please do not hesitate to contact us.' +
+                        '                    </td>' +
+                        '                    <td align="right">' +
+                        '                        <a style="border: none; color: white; padding: 15px 32px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin: 4px 2px; cursor: pointer; background-color: #4CAF50;" href="mailto:' + mailFrom + '">Contact Us</a>' +
+                        '                    </td>' +
+                        '                </tr>' +
+                        '            </table>' +
+                        '        </td>' +
+                        '    </tr>' +
+                        '</table>';
+
+                    if (($('.chkEmailCopy').is(':checked')) && ($('.chkEmailRep').is(':checked'))) {
+                        Meteor.call('sendEmail', {
+                            from: "" + mailFromName + " <" + mailFrom + ">",
+                            to: checkEmailData,
+                            subject: mailSubject,
+                            text: '',
+                            html: htmlmailBody,
+                            attachments: attachment
+                        }, function (error, result) {
+                            if (error && error.error === "error") {
+                                Router.go('/invoicelist?success=true');
+
+                            } else {}
+                        });
+
+                        Meteor.call('sendEmail', {
+                            from: "" + mailFromName + " <" + mailFrom + ">",
+                            to: mailFrom,
+                            subject: mailSubject,
+                            text: '',
+                            html: htmlmailBody,
+                            attachments: attachment
+                        }, function (error, result) {
+                            if (error && error.error === "error") {
+                                Router.go('/invoicelist?success=true');
+                            } else {
+                                $('#html-2-pdfwrapper').css('display', 'none');
+                                swal({
+                                    title: 'SUCCESS',
+                                    text: "Email Sent To Customer: " + checkEmailData + " and User: " + mailFrom + "",
+                                    type: 'success',
+                                    showCancelButton: false,
+                                    confirmButtonText: 'OK'
+                                }).then((result) => {
+                                    if (result.value) {}
+                                    else if (result.dismiss === 'cancel') {}
+                                });
+
+                                $('.fullScreenSpin').css('display', 'none');
+                            }
+                        });
+
+                    } else if (($('.chkEmailCopy').is(':checked'))) {
+                        Meteor.call('sendEmail', {
+                            from: "" + mailFromName + " <" + mailFrom + ">",
+                            to: checkEmailData,
+                            subject: mailSubject,
+                            text: '',
+                            html: htmlmailBody,
+                            attachments: attachment
+                        }, function (error, result) {
+                            if (error && error.error === "error") {
+                                Router.go('/invoicelist?success=true');
+
+                            } else {
+                                $('#html-2-pdfwrapper').css('display', 'none');
+                                swal({
+                                    title: 'SUCCESS',
+                                    text: "Email Sent To Customer: " + checkEmailData + " ",
+                                    type: 'success',
+                                    showCancelButton: false,
+                                    confirmButtonText: 'OK'
+                                }).then((result) => {
+                                    if (result.value) {
+                                        Router.go('/invoicelist?success=true');
+                                    } else if (result.dismiss === 'cancel') {}
+                                });
+
+                                $('.fullScreenSpin').css('display', 'none');
+                            }
+                        });
+
+                    } else if (($('.chkEmailRep').is(':checked'))) {
+                        Meteor.call('sendEmail', {
+                            from: "" + mailFromName + " <" + mailFrom + ">",
+                            to: mailFrom,
+                            subject: mailSubject,
+                            text: '',
+                            html: htmlmailBody,
+                            attachments: attachment
+                        }, function (error, result) {
+                            if (error && error.error === "error") {
+                                Router.go('/invoicelist?success=true');
+                            } else {
+                                $('#html-2-pdfwrapper').css('display', 'none');
+                                swal({
+                                    title: 'SUCCESS',
+                                    text: "Email Sent To User: " + mailFrom + " ",
+                                    type: 'success',
+                                    showCancelButton: false,
+                                    confirmButtonText: 'OK'
+                                }).then((result) => {
+                                    if (result.value) {
+                                        Router.go('/invoicelist?success=true');
+                                    } else if (result.dismiss === 'cancel') {}
+                                });
+
+                                $('.fullScreenSpin').css('display', 'none');
+                            }
+                        });
+
+                    } else {
+                        Router.go('/invoicelist?success=true');
+                    };
 
                 }
                 addAttachment();
@@ -5906,15 +6110,23 @@ Template.new_invoice.events({
                     }
 
                 };
-                var getcurrentCloudDetails = CloudUser.findOne({ _id: Session.get('mycloudLogonID'), clouddatabaseID: Session.get('mycloudLogonDBID') });
+                var getcurrentCloudDetails = CloudUser.findOne({
+                    _id: Session.get('mycloudLogonID'),
+                    clouddatabaseID: Session.get('mycloudLogonDBID')
+                });
                 if (getcurrentCloudDetails) {
                     if (getcurrentCloudDetails._id.length > 0) {
                         var clientID = getcurrentCloudDetails._id;
                         var clientUsername = getcurrentCloudDetails.cloudUsername;
                         var clientEmail = getcurrentCloudDetails.cloudEmail;
-                        var checkPrefDetails = CloudPreference.findOne({ userid: clientID, PrefName: 'new_invoice' });
+                        var checkPrefDetails = CloudPreference.findOne({
+                            userid: clientID,
+                            PrefName: 'new_invoice'
+                        });
                         if (checkPrefDetails) {
-                            CloudPreference.update({ _id: checkPrefDetails._id }, {
+                            CloudPreference.update({
+                                _id: checkPrefDetails._id
+                            }, {
                                 $set: {
                                     username: clientUsername,
                                     useremail: clientEmail,
@@ -5922,21 +6134,20 @@ Template.new_invoice.events({
                                     PrefName: 'new_invoice',
                                     published: true,
                                     customFields: [{
-                                        index: '1',
-                                        label: getcustomField1,
-                                        hidden: getchkcustomField1
-                                    }, {
-                                        index: '2',
-                                        label: getcustomField2,
-                                        hidden: getchkcustomField2
-                                    }],
+                                            index: '1',
+                                            label: getcustomField1,
+                                            hidden: getchkcustomField1
+                                        }, {
+                                            index: '2',
+                                            label: getcustomField2,
+                                            hidden: getchkcustomField2
+                                        }
+                                    ],
                                     updatedAt: new Date()
                                 }
                             }, function (err, idTag) {
-                                if (err) {
-                                } else {
-
-                                }
+                                if (err) {}
+                                else {}
                             });
                         } else {
                             CloudPreference.insert({
@@ -5947,27 +6158,23 @@ Template.new_invoice.events({
                                 PrefName: 'new_invoice',
                                 published: true,
                                 customFields: [{
-                                    index: '1',
-                                    label: getcustomField1,
-                                    hidden: getchkcustomField1
-                                }, {
-                                    index: '2',
-                                    label: getcustomField2,
-                                    hidden: getchkcustomField2
-                                }],
+                                        index: '1',
+                                        label: getcustomField1,
+                                        hidden: getchkcustomField1
+                                    }, {
+                                        index: '2',
+                                        label: getcustomField2,
+                                        hidden: getchkcustomField2
+                                    }
+                                ],
                                 createdAt: new Date()
                             }, function (err, idTag) {
-                                if (err) {
-                                } else {
-
-
-                                }
+                                if (err) {}
+                                else {}
                             });
                         }
                     }
-                } else {
-
-                };
+                } else {};
 
             }).catch(function (err) {
                 $('#html-2-pdfwrapper').css('display', 'none');
@@ -5978,10 +6185,8 @@ Template.new_invoice.events({
                     showCancelButton: false,
                     confirmButtonText: 'Try Again'
                 }).then((result) => {
-                    if (result.value) {
-                    } else if (result.dismiss === 'cancel') {
-
-                    }
+                    if (result.value) {}
+                    else if (result.dismiss === 'cancel') {}
                 });
                 $('.fullScreenSpin').css('display', 'none');
             });
@@ -6147,16 +6352,23 @@ Template.new_invoice.events({
             lineItems.push(lineItemObj);
         });
 
-
-        var getcurrentCloudDetails = CloudUser.findOne({ _id: Session.get('mycloudLogonID'), clouddatabaseID: Session.get('mycloudLogonDBID') });
+        var getcurrentCloudDetails = CloudUser.findOne({
+            _id: Session.get('mycloudLogonID'),
+            clouddatabaseID: Session.get('mycloudLogonDBID')
+        });
         if (getcurrentCloudDetails) {
             if (getcurrentCloudDetails._id.length > 0) {
                 var clientID = getcurrentCloudDetails._id;
                 var clientUsername = getcurrentCloudDetails.cloudUsername;
                 var clientEmail = getcurrentCloudDetails.cloudEmail;
-                var checkPrefDetails = CloudPreference.findOne({ userid: clientID, PrefName: 'tblInvoiceLine' });
+                var checkPrefDetails = CloudPreference.findOne({
+                    userid: clientID,
+                    PrefName: 'tblInvoiceLine'
+                });
                 if (checkPrefDetails) {
-                    CloudPreference.update({ _id: checkPrefDetails._id }, {
+                    CloudPreference.update({
+                        _id: checkPrefDetails._id
+                    }, {
                         $set: {
                             userid: clientID,
                             username: clientUsername,
@@ -6201,18 +6413,25 @@ Template.new_invoice.events({
 
     },
     'click .btnResetGridSettings': function (event) {
-        var getcurrentCloudDetails = CloudUser.findOne({ _id: Session.get('mycloudLogonID'), clouddatabaseID: Session.get('mycloudLogonDBID') });
+        var getcurrentCloudDetails = CloudUser.findOne({
+            _id: Session.get('mycloudLogonID'),
+            clouddatabaseID: Session.get('mycloudLogonDBID')
+        });
         if (getcurrentCloudDetails) {
             if (getcurrentCloudDetails._id.length > 0) {
                 var clientID = getcurrentCloudDetails._id;
                 var clientUsername = getcurrentCloudDetails.cloudUsername;
                 var clientEmail = getcurrentCloudDetails.cloudEmail;
-                var checkPrefDetails = CloudPreference.findOne({ userid: clientID, PrefName: 'tblInvoiceLine' });
+                var checkPrefDetails = CloudPreference.findOne({
+                    userid: clientID,
+                    PrefName: 'tblInvoiceLine'
+                });
                 if (checkPrefDetails) {
-                    CloudPreference.remove({ _id: checkPrefDetails._id }, function (err, idTag) {
-                        if (err) {
-
-                        } else {
+                    CloudPreference.remove({
+                        _id: checkPrefDetails._id
+                    }, function (err, idTag) {
+                        if (err) {}
+                        else {
                             Meteor._reload.reload();
                         }
                     });
@@ -6222,18 +6441,25 @@ Template.new_invoice.events({
         }
     },
     'click .btnResetSettings': function (event) {
-        var getcurrentCloudDetails = CloudUser.findOne({ _id: Session.get('mycloudLogonID'), clouddatabaseID: Session.get('mycloudLogonDBID') });
+        var getcurrentCloudDetails = CloudUser.findOne({
+            _id: Session.get('mycloudLogonID'),
+            clouddatabaseID: Session.get('mycloudLogonDBID')
+        });
         if (getcurrentCloudDetails) {
             if (getcurrentCloudDetails._id.length > 0) {
                 var clientID = getcurrentCloudDetails._id;
                 var clientUsername = getcurrentCloudDetails.cloudUsername;
                 var clientEmail = getcurrentCloudDetails.cloudEmail;
-                var checkPrefDetails = CloudPreference.findOne({ userid: clientID, PrefName: 'new_invoice' });
+                var checkPrefDetails = CloudPreference.findOne({
+                    userid: clientID,
+                    PrefName: 'new_invoice'
+                });
                 if (checkPrefDetails) {
-                    CloudPreference.remove({ _id: checkPrefDetails._id }, function (err, idTag) {
-                        if (err) {
-
-                        } else {
+                    CloudPreference.remove({
+                        _id: checkPrefDetails._id
+                    }, function (err, idTag) {
+                        if (err) {}
+                        else {
                             Meteor._reload.reload();
                         }
                     });
@@ -6396,7 +6622,9 @@ Template.new_invoice.events({
                 lineItemObj = {
                     description: tddescription || '',
                     quantity: tdQty || 0,
-                    unitPrice: tdunitprice.toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0
+                    unitPrice: tdunitprice.toLocaleString(undefined, {
+                        minimumFractionDigits: 2
+                    }) || 0
                 }
 
                 lineItems.push(lineItemObj);
@@ -6430,7 +6658,6 @@ Template.new_invoice.events({
                             }
                         };
                     }
-
 
                     lineItemsForm.push(lineItemObjForm);
                     splashLineArray.push(lineItemObjForm);
@@ -6540,7 +6767,6 @@ Template.new_invoice.events({
                         attachment.push(pdfObject);
                         let erpInvoiceId = objDetails.fields.ID;
 
-
                         let mailFromName = Session.get('vs1companyName');
                         let mailFrom = localStorage.getItem('mySession');
                         let customerEmailName = $('#edtCustomerName').val();
@@ -6612,12 +6838,8 @@ Template.new_invoice.events({
                                 html: htmlmailBody,
                                 attachments: attachment
                             }, function (error, result) {
-                                if (error && error.error === "error") {
-
-
-                                } else {
-
-                                }
+                                if (error && error.error === "error") {}
+                                else {}
                             });
 
                             Meteor.call('sendEmail', {
@@ -6628,9 +6850,8 @@ Template.new_invoice.events({
                                 html: htmlmailBody,
                                 attachments: attachment
                             }, function (error, result) {
-                                if (error && error.error === "error") {
-
-                                } else {
+                                if (error && error.error === "error") {}
+                                else {
                                     $('#html-2-pdfwrapper').css('display', 'none');
                                     swal({
                                         title: 'SUCCESS',
@@ -6639,13 +6860,9 @@ Template.new_invoice.events({
                                         showCancelButton: false,
                                         confirmButtonText: 'OK'
                                     }).then((result) => {
-                                        if (result.value) {
-
-                                        } else if (result.dismiss === 'cancel') {
-
-                                        }
+                                        if (result.value) {}
+                                        else if (result.dismiss === 'cancel') {}
                                     });
-
 
                                 }
                             });
@@ -6659,10 +6876,8 @@ Template.new_invoice.events({
                                 html: htmlmailBody,
                                 attachments: attachment
                             }, function (error, result) {
-                                if (error && error.error === "error") {
-
-
-                                } else {
+                                if (error && error.error === "error") {}
+                                else {
                                     $('#html-2-pdfwrapper').css('display', 'none');
                                     swal({
                                         title: 'SUCCESS',
@@ -6671,13 +6886,9 @@ Template.new_invoice.events({
                                         showCancelButton: false,
                                         confirmButtonText: 'OK'
                                     }).then((result) => {
-                                        if (result.value) {
-
-                                        } else if (result.dismiss === 'cancel') {
-
-                                        }
+                                        if (result.value) {}
+                                        else if (result.dismiss === 'cancel') {}
                                     });
-
 
                                 }
                             });
@@ -6691,9 +6902,8 @@ Template.new_invoice.events({
                                 html: htmlmailBody,
                                 attachments: attachment
                             }, function (error, result) {
-                                if (error && error.error === "error") {
-
-                                } else {
+                                if (error && error.error === "error") {}
+                                else {
                                     $('#html-2-pdfwrapper').css('display', 'none');
                                     swal({
                                         title: 'SUCCESS',
@@ -6702,22 +6912,15 @@ Template.new_invoice.events({
                                         showCancelButton: false,
                                         confirmButtonText: 'OK'
                                     }).then((result) => {
-                                        if (result.value) {
-
-                                        } else if (result.dismiss === 'cancel') {
-
-                                        }
+                                        if (result.value) {}
+                                        else if (result.dismiss === 'cancel') {}
                                     });
-
 
                                 }
                             });
 
-                        } else {
-
-                        };
+                        } else {};
                     };
-
 
                 }
                 addAttachment();
@@ -6735,19 +6938,25 @@ Template.new_invoice.events({
                         });
                     });
                 }
-                if (customerID !== " ") {
-
-                };
+                if (customerID !== " ") {};
                 let linesave = objDetails.fields.ID;
-                var getcurrentCloudDetails = CloudUser.findOne({ _id: Session.get('mycloudLogonID'), clouddatabaseID: Session.get('mycloudLogonDBID') });
+                var getcurrentCloudDetails = CloudUser.findOne({
+                    _id: Session.get('mycloudLogonID'),
+                    clouddatabaseID: Session.get('mycloudLogonDBID')
+                });
                 if (getcurrentCloudDetails) {
                     if (getcurrentCloudDetails._id.length > 0) {
                         var clientID = getcurrentCloudDetails._id;
                         var clientUsername = getcurrentCloudDetails.cloudUsername;
                         var clientEmail = getcurrentCloudDetails.cloudEmail;
-                        var checkPrefDetails = CloudPreference.findOne({ userid: clientID, PrefName: 'new_invoice' });
+                        var checkPrefDetails = CloudPreference.findOne({
+                            userid: clientID,
+                            PrefName: 'new_invoice'
+                        });
                         if (checkPrefDetails) {
-                            CloudPreference.update({ _id: checkPrefDetails._id }, {
+                            CloudPreference.update({
+                                _id: checkPrefDetails._id
+                            }, {
                                 $set: {
                                     username: clientUsername,
                                     useremail: clientEmail,
@@ -6755,21 +6964,20 @@ Template.new_invoice.events({
                                     PrefName: 'new_invoice',
                                     published: true,
                                     customFields: [{
-                                        index: '1',
-                                        label: getcustomField1,
-                                        hidden: getchkcustomField1
-                                    }, {
-                                        index: '2',
-                                        label: getcustomField2,
-                                        hidden: getchkcustomField2
-                                    }],
+                                            index: '1',
+                                            label: getcustomField1,
+                                            hidden: getchkcustomField1
+                                        }, {
+                                            index: '2',
+                                            label: getcustomField2,
+                                            hidden: getchkcustomField2
+                                        }
+                                    ],
                                     updatedAt: new Date()
                                 }
                             }, function (err, idTag) {
-                                if (err) {
-                                } else {
-
-                                }
+                                if (err) {}
+                                else {}
                             });
                         } else {
                             CloudPreference.insert({
@@ -6780,25 +6988,23 @@ Template.new_invoice.events({
                                 PrefName: 'new_invoice',
                                 published: true,
                                 customFields: [{
-                                    index: '1',
-                                    label: getcustomField1,
-                                    hidden: getchkcustomField1
-                                }, {
-                                    index: '2',
-                                    label: getcustomField2,
-                                    hidden: getchkcustomField2
-                                }],
+                                        index: '1',
+                                        label: getcustomField1,
+                                        hidden: getchkcustomField1
+                                    }, {
+                                        index: '2',
+                                        label: getcustomField2,
+                                        hidden: getchkcustomField2
+                                    }
+                                ],
                                 createdAt: new Date()
                             }, function (err, idTag) {
-                                if (err) {
-                                } else {
-
-                                }
+                                if (err) {}
+                                else {}
                             });
                         }
                     }
-                } else {
-                }
+                } else {}
 
                 sideBarService.getAllInvoiceList().then(function (data) {
                     addVS1Data('TInvoiceEx', JSON.stringify(data)).then(function (datareturn) {
@@ -6818,17 +7024,12 @@ Template.new_invoice.events({
                     showCancelButton: false,
                     confirmButtonText: 'Try Again'
                 }).then((result) => {
-                    if (result.value) {
-                    } else if (result.dismiss === 'cancel') {
-
-                    }
+                    if (result.value) {}
+                    else if (result.dismiss === 'cancel') {}
                 });
                 $('.fullScreenSpin').css('display', 'none');
             });
         }
-
-
-
 
     },
     'click #btnViewPayment': function () {
@@ -6884,7 +7085,9 @@ Template.new_invoice.events({
                     lineItemObj = {
                         description: tddescription || '',
                         quantity: tdQty || 0,
-                        unitPrice: tdunitprice.toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0
+                        unitPrice: tdunitprice.toLocaleString(undefined, {
+                            minimumFractionDigits: 2
+                        }) || 0
                     }
 
                     lineItems.push(lineItemObj);
@@ -6919,7 +7122,6 @@ Template.new_invoice.events({
                             };
                         }
 
-
                         lineItemsForm.push(lineItemObjForm);
                         splashLineArray.push(lineItemObjForm);
                     }
@@ -6938,8 +7140,6 @@ Template.new_invoice.events({
                 let customer = $('#edtCustomerName').val();
                 let customerEmail = $('#edtCustomerEmail').val();
                 let billingAddress = $('#txabillingAddress').val();
-
-
 
                 let poNumber = $('#ponumber').val();
                 let reference = $('#edtRef').val();
@@ -7004,7 +7204,6 @@ Template.new_invoice.events({
                     };
                 }
 
-
                 salesService.saveInvoiceEx(objDetails).then(function (objDetails) {
                     var customerID = $('#edtCustomerEmail').attr('customerid');
                     if (customerID !== " ") {
@@ -7015,20 +7214,26 @@ Template.new_invoice.events({
                                 Email: customerEmail
                             }
                         }
-                        salesService.saveCustomerEmail(customerEmailData).then(function (customerEmailData) {
-
-                        });
+                        salesService.saveCustomerEmail(customerEmailData).then(function (customerEmailData) {});
                     };
                     let linesave = objDetails.fields.ID;
-                    var getcurrentCloudDetails = CloudUser.findOne({ _id: Session.get('mycloudLogonID'), clouddatabaseID: Session.get('mycloudLogonDBID') });
+                    var getcurrentCloudDetails = CloudUser.findOne({
+                        _id: Session.get('mycloudLogonID'),
+                        clouddatabaseID: Session.get('mycloudLogonDBID')
+                    });
                     if (getcurrentCloudDetails) {
                         if (getcurrentCloudDetails._id.length > 0) {
                             var clientID = getcurrentCloudDetails._id;
                             var clientUsername = getcurrentCloudDetails.cloudUsername;
                             var clientEmail = getcurrentCloudDetails.cloudEmail;
-                            var checkPrefDetails = CloudPreference.findOne({ userid: clientID, PrefName: 'new_invoice' });
+                            var checkPrefDetails = CloudPreference.findOne({
+                                userid: clientID,
+                                PrefName: 'new_invoice'
+                            });
                             if (checkPrefDetails) {
-                                CloudPreference.update({ _id: checkPrefDetails._id }, {
+                                CloudPreference.update({
+                                    _id: checkPrefDetails._id
+                                }, {
                                     $set: {
                                         username: clientUsername,
                                         useremail: clientEmail,
@@ -7036,14 +7241,15 @@ Template.new_invoice.events({
                                         PrefName: 'new_invoice',
                                         published: true,
                                         customFields: [{
-                                            index: '1',
-                                            label: getcustomField1,
-                                            hidden: getchkcustomField1
-                                        }, {
-                                            index: '2',
-                                            label: getcustomField2,
-                                            hidden: getchkcustomField2
-                                        }],
+                                                index: '1',
+                                                label: getcustomField1,
+                                                hidden: getchkcustomField1
+                                            }, {
+                                                index: '2',
+                                                label: getcustomField2,
+                                                hidden: getchkcustomField2
+                                            }
+                                        ],
                                         updatedAt: new Date()
                                     }
                                 }, function (err, idTag) {
@@ -7063,14 +7269,15 @@ Template.new_invoice.events({
                                     PrefName: 'new_invoice',
                                     published: true,
                                     customFields: [{
-                                        index: '1',
-                                        label: getcustomField1,
-                                        hidden: getchkcustomField1
-                                    }, {
-                                        index: '2',
-                                        label: getcustomField2,
-                                        hidden: getchkcustomField2
-                                    }],
+                                            index: '1',
+                                            label: getcustomField1,
+                                            hidden: getchkcustomField1
+                                        }, {
+                                            index: '2',
+                                            label: getcustomField2,
+                                            hidden: getchkcustomField2
+                                        }
+                                    ],
                                     createdAt: new Date()
                                 }, function (err, idTag) {
                                     if (err) {
@@ -7094,15 +7301,12 @@ Template.new_invoice.events({
                         showCancelButton: false,
                         confirmButtonText: 'Try Again'
                     }).then((result) => {
-                        if (result.value) {
-                        } else if (result.dismiss === 'cancel') {
-
-                        }
+                        if (result.value) {}
+                        else if (result.dismiss === 'cancel') {}
                     });
 
                     $('.fullScreenSpin').css('display', 'none');
                 });
-
 
             }
         } else {
@@ -7128,14 +7332,9 @@ Template.new_invoice.events({
 
                     event.preventDefault();
                     return false;
-                } else {
-
-
-                }
+                } else {}
             }
-        } else {
-
-        }
+        } else {}
     }
 });
 
