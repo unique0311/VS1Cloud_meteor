@@ -11,13 +11,13 @@
             }
         }
 
-/*
+        /*
         @media (max-width: 420px) {
-            .navbar {
-                overflow-x: scroll;
-            }
+        .navbar {
+        overflow-x: scroll;
         }
-*/
+        }
+        */
 
         @media (max-width: 767px) {
             #upgrade {
@@ -39,6 +39,35 @@
         }
     </style>
 
+    <!-- Mobile Search Header BEGIN -->
+    <style>
+        @media (max-width: 420px) {
+            .vs1logodesktop {
+                display: none;
+            }
+            .trueERPConnection {
+                display: none;
+            }
+            .upgradeToVS1 {
+                display: none;
+            }
+            .upgradeToVS1mobile {
+                display: none;
+            }
+            .supportLi {
+                display: none;
+            }
+        }
+    </style>
+    <style>
+        @media (min-width: 421px) {
+            .mobileSearchBar {
+                display: none;
+            }
+        }
+    </style>
+    <!-- Mobile Search Header END -->
+
     <nav class="navbar navbar-light navbar-expand bg-white shadow mb-4 topbar static-top">
         <div class="container-fluid">
             <button class="btn btn-link d-md rounded-circle mr-3" id="sidebarToggleTop" type="button"><i class="fas fa-bars" style="color: #00A3D3;"></i></button>
@@ -58,37 +87,47 @@
             </div>
 
             <ul class="nav navbar-nav flex-nowrap ml-auto">
-                <li class="nav-item dropdown d-sm-none no-arrow">
-                    <a class="dropdown-toggle nav-link" data-toggle="dropdown" aria-expanded="false" href="#"><i class="fas fa-search"></i></a>
-                    <div class="dropdown-menu dropdown-menu-right p-3 animated--grow-in" role="menu"
-                         aria-labelledby="searchDropdown">
-                        <form class="form-inline mr-auto navbar-search w-100">
-                            <div class="input-group"><input class="bg-light form-control border-0 small txtGlobalSearch"
-                                                            type="text" placeholder="Search for ..." style="text-align: left !important;">
-                                <div class="input-group-append">
-                                    <button class="btn btn-primary py-0 btnGlobalSearch" type="button"
-                                            style="background-color: #00A3D3; border-color: #00A3D3;"><i
-                                                                                                         class="fas fa-search"></i></button>
-                                </div>
+
+                <li class="nav-item no-arrow mx-1 mobileSearchBar" role="presentation">
+                    <form class="form-inline mr-auto navbar-search w-100" style="margin-top: 3px;">
+                        <div class="input-group"><input class="bg-light form-control border-0 small txtGlobalSearch" type="text" placeholder="Search for ..." style="text-align: left !important;">
+                            <div class="input-group-append">
+                                <button class="btn btn-primary py-0 btnGlobalSearch" type="button" style="background-color: #00A3D3; border-color: #00A3D3;"><i class="fas fa-search"></i></button>
                             </div>
-                        </form>
+                        </div>
+                    </form>
+                </li>
+
+                <li class="nav-item dropdown d-sm-none no-arrow">
+                    <a class="dropdown-toggle nav-link" data-toggle="dropdown" aria-expanded="false" href="#"><i class="fas fa-plus"></i></a>
+                    <div class="dropdown-menu dropdown-menu-right p-3 animated--grow-in" role="menu" aria-labelledby="searchDropdown">
+                        {{#if isCloudTrueERP}}
+                        <a class="nav-link" href="linktrueerp" style="color:#00a3d3; border-style: solid; border-radius: 25px;border: 2px solid; width: 47%; float: left;">
+                            <i class="fas fa-link" style="margin-right: 5px;"></i> TrueERP
+                        </a>
+                        {{/if}}
+
+                        {{#if isGreenTrack}}
+                        {{else}}
+                        <a class="nav-link" href="https://sos.splashtop.com" target="_blank" style="color:#00a3d3; border-style: solid; border-radius: 25px;border: 2px solid;width: 47%; float: right;">Get <img class="img-support" src="images/phone-support.png"  style="width: 25px!important;padding: 2px;"> Support</a>
+                        {{/if}}
                     </div>
                 </li>
                 {{#if isCloudTrueERP}}
-                <li class="nav-item no-arrow mx-1" id="" role="presentation" style="padding-right: 10px;">
+                <li class="nav-item no-arrow mx-1 trueERPConnection" id="" role="presentation" style="padding-right: 10px;">
                     <a class="nav-link" href="linktrueerp" style="color:#00a3d3; border-style: solid; border-radius: 25px;border: 2px solid;">
                         <i class="fas fa-link" style="margin-right: 5px;"></i> TrueERP
                     </a>
                 </li>
                 {{/if}}
                 {{#if isGreenTrack}}
-                <li class="nav-item no-arrow mx-1" id="upgrade" role="presentation">
+                <li class="nav-item no-arrow mx-1 upgradeToVS1" id="upgrade" role="presentation">
                     <a class="nav-link"
                        href="https://www.payments.vs1cloud.com/mascartdirect/direct/add/product/12/bypass/1/?product=12&selected_configurable_option=&related_product=&item=12&form_key=fBHY2DVgwe0CQzLa&aw_sarp2_subscription_type=9&qty=1&bypass=1"
                        target="_blank" style="color:#00a3d3"><img class="img-skype" src="images/upgradetovs1.png"
                                                                   style="height: 25px!important;"></a>
                 </li>
-                <li class="nav-item no-arrow mx-1" id="upgradem" role="presentation">
+                <li class="nav-item no-arrow mx-1 upgradeToVS1mobile" id="upgradem" role="presentation">
                     <a class="nav-link"
                        href="https://www.payments.vs1cloud.com/mascartdirect/direct/add/product/12/bypass/1/?product=12&selected_configurable_option=&related_product=&item=12&form_key=fBHY2DVgwe0CQzLa&aw_sarp2_subscription_type=9&qty=1&bypass=1"
                        target="_blank" style="color:#00a3d3"><img class="img-skype" src="images/VS1CloudIcon.png"
@@ -97,7 +136,7 @@
                 {{/if}}
                 {{#if isGreenTrack}}
                 {{else}}
-                <li class="nav-item no-arrow mx-1">
+                <li class="nav-item no-arrow mx-1 supportLi">
                     <a class="nav-link" href="https://sos.splashtop.com" target="_blank" style="color:#00a3d3; border-style: solid; border-radius: 25px;border: 2px solid;">Get <img class="img-support" src="images/phone-support.png"  style="width: 25px!important;padding: 2px;"> Support</a>
                 </li>
                 {{/if}}
