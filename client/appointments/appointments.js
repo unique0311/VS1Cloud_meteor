@@ -7038,8 +7038,6 @@ Template.appointments.events({
             if (Object.keys(obj).length > 0) {
                 obj.fields.appointID = id;
                 appointmentService.saveTimeLog(obj).then(function (data1) {
-                            //window.open('/appointments', '_self');
-                            console.log(obj.fields.Description)
                             if (obj.fields.Description == "Job Completed") {
                                   let endTime1 = date.getFullYear() + "-" + ("0" + (date.getMonth() + 1)).slice(-2) + "-" + ("0" + (date.getDate())).slice(-2) + ' ' + ("0" + date.getHours()).slice(-2) + ":" + ("0" + date.getMinutes()).slice(-2);
                                 if (Array.isArray(result[0].timelog) && result[0].timelog != "") {
