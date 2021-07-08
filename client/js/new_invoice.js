@@ -3983,7 +3983,11 @@ Template.new_invoice.onRendered(() => {
                 orientation: 'portrait'
             }
         };
-        html2pdf().set(opt).from(source).save();
+        html2pdf().set(opt).from(source).save().then(function (dataObject){
+             $('#html-2-pdfwrapper').css('display', 'none');
+            $('.fullScreenSpin').css('display', 'none');
+        });
+       
         // pdf.addHTML(source, function () {
 
         //     pdf.setFontSize(10);
