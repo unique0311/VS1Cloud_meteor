@@ -398,6 +398,10 @@ Template.new_invoice.onRendered(() => {
     templateObject.getAllClients();
     templateObject.getAllLeadStatuss();
     var url = window.location.href;
+    let bankDetails = Session.get('vs1companyBankDetails') || '';
+    $('.bankDetails').html(bankDetails.replace(/[\r\n]/g, "<br />"));
+
+
     if (url.indexOf('?copyquid=') > 0) {
         var getso_id = url.split('?copyquid=');
         var currentInvoice = getso_id[getso_id.length - 1];

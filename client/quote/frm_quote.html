@@ -1001,7 +1001,7 @@ style="margin: 16px;margin-top: 0px;width: 95px;"><i class="fa fa-remove" style=
                 </div>
             </div>
             <hr>
-            <div style="height: 160mm;">
+            <div style="height: 140mm;">
                 <div style="margin: 8px; border: none !important; background-color: rgba(0,0,0,0);">
                     <table class="quote_print" style="width: 200mm; max-width: 200mm; margin: auto;">
                         <thead style="color: rgb(251,251,251);">
@@ -1033,42 +1033,76 @@ style="margin: 16px;margin-top: 0px;width: 95px;"><i class="fa fa-remove" style=
             </div>
             <hr>
             <div style="display: flex;">
-                <div style="margin: 8px;min-width: 100mm;max-width: 100mm;width: 100mm;">
-                    <h4 style="font-size: 20px;font-weight: bold; color: rgb(0 0 0);">Comments</h4>
-                    <p style="color: rgb(0 0 0);">{{quoterecord.comments}}</p>
+                <div style="margin: 8px;">
+                    <div class="row">
+                        <div class="col-12">
+                            <h4 style="font-size: 20px;font-weight: bold; color: rgb(0 0 0);">Comments</h4>
+                            <p style="color: rgb(0 0 0);  height: 3em; line-height: 1em; overflow: hidden;">{{quoterecord.comments}}</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="row">
+                                <div class="col-12">
+                                    <h4 style="font-size: 20px;font-weight: bold; color: rgb(0 0 0);">Payment Details</h4>
+                                </div>
+                                <div class="bankDetails" style="margin: 16px;">
+                                    
+                                </div>
+                                <!-- <div class="col-6">
+                                    <p style="text-align: left; margin-bottom: 8px; font-weight: 600; color: rgb(0 0 0);">Bank Name</p>
+                                    <p style="text-align: left; margin-bottom: 8px; font-weight: 600; color: rgb(0 0 0);">Account Name</p>
+                                    <p style="text-align: left; margin-bottom: 8px; font-weight: 600; color: rgb(0 0 0);">Bank Account No</p>
+                                    <p style="text-align: left; margin-bottom: 8px; font-weight: 600; color: rgb(0 0 0);">Swift Code</p>
+                                    <p style="text-align: left; margin-bottom: 8px; font-weight: 600; color: rgb(0 0 0);">Routing No</p>
+                                </div>
+                                <div class="col-6">
+                                    <p style="text-align: right; margin-bottom: 8px; font-weight: 600; color: rgb(0 0 0);">Bank Name</p>
+                                    <p style="text-align: right; margin-bottom: 8px; font-weight: 600; color: rgb(0 0 0);">Account Name</p>
+                                    <p style="text-align: right; margin-bottom: 8px; font-weight: 600; color: rgb(0 0 0);">Bank Account No</p>
+                                    <p style="text-align: right; margin-bottom: 8px; font-weight: 600; color: rgb(0 0 0);">Swift Code</p>
+                                    <p style="text-align: right; margin-bottom: 8px; font-weight: 600; color: rgb(0 0 0);">Routing No</p>
+                                </div> -->
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div style="margin: 8px; border: none !important;">
+                                <div style="width: 100%; display: flex;">
+                                    <div style="padding-right: 16px; width: 50%;">
+                                        <p id="subtotal_total" style="font-weight: 600; margin-bottom: 8px; color: rgb(0 0 0);">Sub Total</p>
+                                        <p id="grandTotal" style="font-weight: 600; margin-bottom: 8px; color: rgb(0 0 0);">Total GST</p>
+                                    </div>
+                                    <div style="padding-left: 16px; width: 50%;">
+                                        <p id="subtotal_totalPrint" style="text-align: right; margin-bottom: 8px; font-weight: 600; color: rgb(0 0 0);">{{quoterecord.SubTotal}}</p>
+                                        <p id="totalTax" style="text-align: right; margin-bottom: 8px; font-weight: 600; color: rgb(0 0 0);">{{quoterecord.TotalTax}}</p>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div style="width: 100%; display: flex;">
+                                    <div style="padding-right: 16px; width: 50%;">
+                                        <p  style="font-weight: 800; margin-bottom: 8px; color: rgb(0 0 0);">TOTAL</p>
+                                    </div>
+                                    <div style="padding-left: 16px; width: 50%;">
+                                        <p id="grandTotalPrint" style="text-align: right; margin-bottom: 8px; font-weight: 800;">{{quoterecord.Total}}<br></p>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div style="width: 100%; display: flex;">
+                                    <div style="padding-right: 16px; width: 50%;">
+                                        <p style="font-weight: 600; margin-bottom: 8px; color: rgb(0 0 0);">Paid Amount</p>
+                                        <p style="font-weight: 600; margin-bottom: 8px; color: rgb(0 0 0);">Balance Due</p>
+                                    </div>
+                                    <div style="padding-left: 16px; width: 50%;">
+                                        <p style="text-align: right; margin-bottom: 8px; font-weight: 600; color: rgb(0 0 0);">{{quoterecord.totalPaid}}</p>
+                                        <p id="totalBalanceDuePrint" style="text-align: right; margin-bottom: 8px; font-weight: 600; color: rgb(0 0 0);">{{quoterecord.balanceDue}}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div style="margin: 8px; border: none !important; min-width: 90mm;max-width: 90mm;width: 90mm;">
-                    <div style="width: 100%; display: flex;">
-                        <div style="padding-right: 16px; width: 50%;">
-                            <p id="subtotal_total" style="font-weight: 600; margin-bottom: 8px; color: rgb(0 0 0);">Sub Total</p>
-                            <p id="grandTotal" style="font-weight: 600; margin-bottom: 8px; color: rgb(0 0 0);">Total GST</p>
-                        </div>
-                        <div style="padding-left: 16px; width: 50%;">
-                            <p id="subtotal_totalPrint" style="text-align: right; margin-bottom: 8px; font-weight: 600; color: rgb(0 0 0);">{{quoterecord.SubTotal}}</p>
-                            <p id="totalTax" style="text-align: right; margin-bottom: 8px; font-weight: 600; color: rgb(0 0 0);">{{quoterecord.TotalTax}}</p>
-                        </div>
-                    </div>
-                    <hr>
-                    <div style="width: 100%; display: flex;">
-                        <div style="padding-right: 16px; width: 50%;">
-                            <p  style="font-weight: 800; margin-bottom: 8px; color: rgb(0 0 0);">TOTAL</p>
-                        </div>
-                        <div style="padding-left: 16px; width: 50%;">
-                            <p id="grandTotalPrint" style="text-align: right; margin-bottom: 8px; font-weight: 800;">{{quoterecord.Total}}<br></p>
-                        </div>
-                    </div>
-                    <hr>
-                    <div style="width: 100%; display: flex;">
-                        <div style="padding-right: 16px; width: 50%;">
-                            <p style="font-weight: 600; margin-bottom: 8px; color: rgb(0 0 0);">Paid Amount</p>
-                            <p style="font-weight: 600; margin-bottom: 8px; color: rgb(0 0 0);">Balance Due</p>
-                        </div>
-                        <div style="padding-left: 16px; width: 50%;">
-                            <p style="text-align: right; margin-bottom: 8px; font-weight: 600; color: rgb(0 0 0);">{{quoterecord.totalPaid}}</p>
-                            <p id="totalBalanceDuePrint" style="text-align: right; margin-bottom: 8px; font-weight: 600; color: rgb(0 0 0);">{{quoterecord.balanceDue}}</p>
-                        </div>
-                    </div>
-                </div>
+
+
             </div>
             <span style="font-size: 10px;margin-right: 8px; float: right;">Page 1 of 1</span>
         </div>

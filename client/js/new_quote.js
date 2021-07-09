@@ -341,6 +341,8 @@ Template.new_quote.onRendered(() => {
     var url = window.location.href;
     var getso_id = url.split('?id=');
     var invoiceId = getso_id[getso_id.length - 1];
+    let bankDetails = Session.get('vs1companyBankDetails') || '';
+    $('.bankDetails').html(bankDetails.replace(/[\r\n]/g, "<br />"));
     if (url.includes("id") && url.includes("total")) {
         url = new URL(url);
         let dateStart = new Date();

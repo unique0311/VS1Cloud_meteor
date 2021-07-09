@@ -398,6 +398,13 @@ Template.header.onRendered(function(){
            let companyABN = data.tcompanyinfo[0].abn;
            let companyPhone = data.tcompanyinfo[0].PhoneNumber;
            let companyURL = data.tcompanyinfo[0].Url
+           let accNo = data.tcompanyinfo[0].AccountNo || '';
+           let swiftCode = data.tcompanyinfo[0].BankBranch || '';
+           let bankName = data.tcompanyinfo[0].FileReference || '';
+           let accountName = data.tcompanyinfo[0].Firstname || '';
+           let bsb = data.tcompanyinfo[0].Bsb || '';
+           let routingNo = data.tcompanyinfo[0].SiteCode || '';
+           let bankDetails = "Bank Name: " +bankName +"\n"+ "Account Name: "+ accountName +"\n Bank Account: "+ accNo  +"\nBSB: " +bsb +"\n Swift Code: "+ swiftCode +"\n"+ "Routing No: "+ routingNo;
            Session.setPersistent('vs1companyName', companyName);
            Session.setPersistent('vs1companyaddress1', companyaddress1);
            Session.setPersistent('vs1companyaddress2', companyaddress2);
@@ -406,6 +413,10 @@ Template.header.onRendered(function(){
            Session.setPersistent('vs1companyURL', companyURL);
            Session.setPersistent('vs1companyStripeID', data.tcompanyinfo[0].Apcano);
            Session.setPersistent('vs1companyStripeFeeMethod', data.tcompanyinfo[0].DvaABN);
+           Session.setPersistent('vs1companyBankDetails', bankDetails);
+           // Session.setPersistent('vs1companyComment', comment);
+
+
 
       })
   };
