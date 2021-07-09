@@ -3443,7 +3443,8 @@ Template.sidenav.onCreated(function() {
     templateObject.isCloudTopPanelMenu = new ReactiveVar();
     templateObject.isCloudTopPanelMenu.set(false);
 
-
+    templateObject.includeAppointmentScheduling = new ReactiveVar();
+    templateObject.includeAppointmentScheduling.set(false);
 
     templateObject.isBalanceSheet = new ReactiveVar();
     templateObject.isBalanceSheet.set(false);
@@ -3521,7 +3522,7 @@ Template.sidenav.onRendered(function() {
     let isSidePanel = Session.get('CloudSidePanelMenu');
     let isTopPanel = Session.get('CloudTopPanelMenu');
 
-
+    let isAppointmentScheduling = Session.get('CloudAppointmentSchedulingModule');
 
     var erpGet = erpDb();
     var LoggedDB = erpGet.ERPDatabase;
@@ -3932,6 +3933,10 @@ Template.sidenav.onRendered(function() {
           templateObject.includePayroll.set(false);
         }
 
+        if (isAppointmentScheduling) {
+            templateObject.includeAppointmentScheduling.set(true);
+        }
+
         if (isSidePanel) {
             templateObject.isCloudSidePanelMenu.set(true);
             $("html").addClass("hasSideBar");
@@ -4160,6 +4165,9 @@ Template.sidenav.helpers({
     },
     includeSeedToSale: () => {
         return Template.instance().includeSeedToSale.get();
+    },
+    includeAppointmentScheduling: () => {
+        return Template.instance().includeAppointmentScheduling.get();
     },
     includeBanking: () => {
         return Template.instance().includeBanking.get();

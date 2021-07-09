@@ -451,6 +451,7 @@ overflow-y: scroll !important;
                 <!-- Appointments -->
                 {{#if isGreenTrack}}
                 {{else}}
+                {{#if includeAppointmentScheduling}}
                 <li class="nav-item hoverSideNavAppointment" role="presentation">
                     <a class="nav-link sidenavappointment" id="sidenavappointment" name="sidenavappointment" data-toggle="collapse" aria-expanded="false" aria-controls="collapse-app" href="#collapse-app" role="button"><i class="fa fa-calendar"></i><span>Appointments</span></a>
                     <div class="collapse" id="collapse-app" style="{{#if isGreenTrack}}background-color: #00A969;{{else}}{{#if isGreenTrack}}background-color: #00A969;{{else}}background-color: #00a3d3;{{/if}} {{/if}} width: max-content; padding: 5px; border-radius: 5px;">
@@ -460,6 +461,7 @@ overflow-y: scroll !important;
                         <div style="margin: 10px 20px;"><a class="text-white "  id="sidenavallocation" name="sidenavallocation" style="font-size: 16px;"><i class="fa fa-tasks"></i><span> Allocation</span></a></div>
                     </div>
                 </li>
+                {{/if}}
                 {{/if}}
 
                 <!-- Banking -->

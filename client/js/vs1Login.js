@@ -687,7 +687,7 @@ Template.vs1login.onRendered(function(){
     let isPayroll = true;
     let isTimesheetEntry = false;
     let isClockOnOff = false;
-
+    let isAppointmentScheduling = true;
 
 
     /* Lincence Check for Menu Options */
@@ -713,6 +713,8 @@ Template.vs1login.onRendered(function(){
     let isPaymentsLicence = Session.get('CloudPaymentsLicence');
     let isReportsLicence = Session.get('CloudReportsLicence');
     let isSettingsLicence = Session.get('CloudSettingsLicence');
+
+    let isAppointmentSchedulingLicence = Session.get('CloudAppointmentSchedulingLicence');
        /*End Licence Check Menu to add */
     /* End Licence Check for menu option */
     if(userAccessOptions.items){
@@ -902,6 +904,10 @@ Template.vs1login.onRendered(function(){
       isPayroll = false;
     }
 
+    if(!isAppointmentSchedulingLicence){
+      isAppointmentScheduling = false;
+    }
+
    Session.setPersistent('CloudPrintDeliveryDocket', isDocket);
    Session.setPersistent('CloudPrintInvoice', isInvoice);
    Session.setPersistent('CloudUserPass', isUserPassDetail);
@@ -944,6 +950,7 @@ Template.vs1login.onRendered(function(){
    Session.setPersistent('CloudBankingModule', isBanking);
    Session.setPersistent('CloudPayrollModule', isPayroll);
 
+   Session.setPersistent('CloudAppointmentSchedulingModule', isAppointmentScheduling);
     let userSerssion = {'loggedEmpID':userAccessOptions.items[0].fields.EmployeeId,
                         'loggedUserName':Session.get('EUserName'),
                         'loggedDatabase':Session.get('EDatabase'),
@@ -1303,6 +1310,7 @@ $("#erplogin-button").click(async function(e){
 
     let isFxCurrencyLicence = false;
     let isSeedToSaleLicence = false;
+    let isAppointmentSchedulingLicence = false;
     let isManufacturingLicence = false;
     let isWMSLicence = false;
     let isAddExtraUserLicence = false;
@@ -1668,6 +1676,8 @@ $("#erplogin-button").click(async function(e){
                                }else{
                                  isTrueERPConnection = true;
                                }
+                             }else if((option.ModuleName == 'Appointment Scheduling')){
+                               isAppointmentSchedulingLicence = true;
                              }
 
                    });
@@ -1704,6 +1714,7 @@ $("#erplogin-button").click(async function(e){
                        Session.setPersistent('CloudPOSLicence', isPOSLicence);
                        Session.setPersistent('CloudUseForeignLicence', isFxCurrencyLicence);
                        Session.setPersistent('CloudWMSLicence', isWMSLicence);
+                       Session.setPersistent('CloudAppointmentSchedulingLicence', isAppointmentSchedulingLicence);
                          /* End Remove licence */
 
                          if(dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.AccessLevels == undefined){
@@ -2276,6 +2287,8 @@ $("#erplogin-button").click(async function(e){
                }else{
                  isTrueERPConnection = true;
                }
+             }else if((option.ModuleName == 'Appointment Scheduling')){
+               isAppointmentSchedulingLicence = true;
              }
 
     });
@@ -2312,6 +2325,7 @@ $("#erplogin-button").click(async function(e){
        Session.setPersistent('CloudPOSLicence', isPOSLicence);
        Session.setPersistent('CloudUseForeignLicence', isFxCurrencyLicence);
        Session.setPersistent('CloudWMSLicence', isWMSLicence);
+       Session.setPersistent('CloudAppointmentSchedulingLicence', isAppointmentSchedulingLicence);
          /* End Remove licence */
 
          if(dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.AccessLevels == undefined){
@@ -2765,6 +2779,8 @@ $("#erplogin-button").click(async function(e){
                                }else{
                                  isTrueERPConnection = true;
                                }
+                             }else if((option.ModuleName == 'Appointment Scheduling')){
+                               isAppointmentSchedulingLicence = true;
                              }
 
                    });
@@ -2801,6 +2817,7 @@ $("#erplogin-button").click(async function(e){
                        Session.setPersistent('CloudPOSLicence', isPOSLicence);
                        Session.setPersistent('CloudUseForeignLicence', isFxCurrencyLicence);
                        Session.setPersistent('CloudWMSLicence', isWMSLicence);
+                       Session.setPersistent('CloudAppointmentSchedulingLicence', isAppointmentSchedulingLicence);
                          /* End Remove licence */
 
                          if(dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.AccessLevels == undefined){
@@ -3348,6 +3365,8 @@ $("#erplogin-button").click(async function(e){
                                      isContactsLicence = true;
                                    }else if((option.ModuleName == 'Expense Claims / Receipt Claiming')){
                                      isExpenseClaimsLicence = true;
+                                   }else if((option.ModuleName == 'Expense Claims')){
+                                     isExpenseClaimsLicence = true;
                                    }else if(option.ModuleName == 'CloudDashboard'){
                                      isDashboardLicence = true;
                                    }else if(option.ModuleName == 'CloudFixedAssets'){
@@ -3404,6 +3423,8 @@ $("#erplogin-button").click(async function(e){
                                      }else{
                                        isTrueERPConnection = true;
                                      }
+                                   }else if((option.ModuleName == 'Appointment Scheduling')){
+                                     isAppointmentSchedulingLicence = true;
                                    }
 
                          });
@@ -3440,6 +3461,7 @@ $("#erplogin-button").click(async function(e){
                              Session.setPersistent('CloudPOSLicence', isPOSLicence);
                              Session.setPersistent('CloudUseForeignLicence', isFxCurrencyLicence);
                              Session.setPersistent('CloudWMSLicence', isWMSLicence);
+                             Session.setPersistent('CloudAppointmentSchedulingLicence', isAppointmentSchedulingLicence);
                                /* End Remove licence */
                                if(dataReturnRes.ProcessLog.ClientDetails == undefined){
                                  myVS1Video.pause();
@@ -4073,6 +4095,8 @@ $("#erplogin-button").click(async function(e){
                                    }else{
                                      isTrueERPConnection = true;
                                    }
+                                 }else if((option.ModuleName == 'Appointment Scheduling')){
+                                   isAppointmentSchedulingLicence = true;
                                  }
 
                        });
@@ -4109,6 +4133,7 @@ $("#erplogin-button").click(async function(e){
                            Session.setPersistent('CloudPOSLicence', isPOSLicence);
                            Session.setPersistent('CloudUseForeignLicence', isFxCurrencyLicence);
                            Session.setPersistent('CloudWMSLicence', isWMSLicence);
+                           Session.setPersistent('CloudAppointmentSchedulingLicence', isAppointmentSchedulingLicence);
                              /* End Remove licence */
 
                              if(dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.AccessLevels == undefined){

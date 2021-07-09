@@ -4238,6 +4238,7 @@ Template.new_quote.events({
 
         let templateObject = Template.instance();
         let quoteData = templateObject.quoterecord.get();
+        let stripe_id = templateObject.accountID.get() || '';
         let stripe_fee_method = templateObject.stripe_fee_method.get();
         let lineItems = [];
         let customername = $('#edtCustomerName');

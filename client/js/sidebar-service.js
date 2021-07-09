@@ -565,8 +565,8 @@ export class SideBarService extends BaseService {
          orderby:'"SaleID desc"',
          ListType: "Detail",
          select: "[Deleted]=false",
-         //LimitCount:'"'+limitcount+'"',
-         //LimitFrom:'"'+limitfrom+'"'
+         LimitCount:'"'+limitcount+'"',
+         LimitFrom:'"'+limitfrom+'"'
      };
     }
     return this.getList(this.ERPObjects.TQuoteEx, options);
