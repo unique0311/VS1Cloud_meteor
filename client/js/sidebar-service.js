@@ -543,8 +543,8 @@ export class SideBarService extends BaseService {
          orderby:'"PurchaseOrderID desc"',
          ListType: "Detail",
          select: "[Deleted]=false and [Cancelled]=false",
-         //LimitCount:'"'+limitcount+'"',
-         //LimitFrom:'"'+limitfrom+'"'
+         LimitCount:'"'+limitcount+'"',
+         LimitFrom:'"'+limitfrom+'"'
      };
     }
 
@@ -582,17 +582,19 @@ export class SideBarService extends BaseService {
     return this.getList(this.ERPObjects.TsalesOrderNonBackOrder, options);
   }
 
-  getAllCreditList(msTimeStamp) {
+  getAllCreditList(limitcount, limitfrom) {
     let options = '';
-    if(msTimeStamp){
+    if(limitcount == 'All'){
        options = {
           ListType: "Detail",
-          select: '[Deleted]=false and [MsTimeStamp]>"'+msTimeStamp+'"'
+          select: '[Deleted]=false'
         };
     }else{
       options = {
          ListType: "Detail",
-         select: "[Deleted]=false"
+         select: "[Deleted]=false",
+         LimitCount:'"'+limitcount+'"',
+         LimitFrom:'"'+limitfrom+'"'
      };
     }
     return this.getList(this.ERPObjects.TCredit, options);
