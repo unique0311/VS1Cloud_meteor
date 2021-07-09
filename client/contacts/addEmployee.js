@@ -3749,6 +3749,9 @@ Template.employeescard.helpers({
     record: () => {
         return Template.instance().records.get();
     },
+    extraUserPrice: () => {
+        return addExtraUserPrice || '$35';
+    },
     countryList: () => {
         return Template.instance().countryData.get();
     },
