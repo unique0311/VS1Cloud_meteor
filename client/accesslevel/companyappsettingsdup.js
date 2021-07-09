@@ -70,7 +70,7 @@ Template.companyappsettingsdup.onRendered(function(){
     let isPayrollLicence = Session.get('CloudPayrollLicence');
     let isExpenseClaimsLicence = Session.get('CloudExpenseClaimsLicence');
     let isPOSLicence = Session.get('CloudPOSLicence');
-    let regionData = "United States of America";
+    let regionData = Session.get('ERPLoggedCountry');
     let recordObj = null;
     let essentailPrice = 0;
     let plusPrice = 0;
@@ -167,7 +167,8 @@ Template.companyappsettingsdup.onRendered(function(){
 
         });
     }else{
-        $.get("VS1Modules.json").success(function(data){
+        //$.get("VS1Modules.json").success(function(data){
+        $.get("MasterVS1Pricing.json").success(function(data){
             for(let i=0; i<data.tvs1licenselevelsnmodules.length; i++){
 
                 if(data.tvs1licenselevelsnmodules[i].Region == regionData){
