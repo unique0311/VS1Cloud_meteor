@@ -173,6 +173,7 @@ Template.billlist.onRendered(function() {
                             destroy: true,
                             colReorder: true,
                             pageLength: 25,
+                            searching: false,
                             lengthMenu: [ [10, 25, 50, -1], [10, 25, 50, "All"] ],
                             info: true,
                             responsive: true,
@@ -354,9 +355,8 @@ Template.billlist.onRendered(function() {
                         select: true,
                         destroy: true,
                         colReorder: true,
-
-
                         pageLength: 25,
+                        searching: false,
                         lengthMenu: [ [10, 25, 50, -1], [10, 25, 50, "All"] ],
                         info: true,
                         responsive: true,
@@ -533,9 +533,8 @@ Template.billlist.onRendered(function() {
                         select: true,
                         destroy: true,
                         colReorder: true,
-
-
                         pageLength: 25,
+                        searching: false,
                         lengthMenu: [ [10, 25, 50, -1], [10, 25, 50, "All"] ],
                         info: true,
                         responsive: true,

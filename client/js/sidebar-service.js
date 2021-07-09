@@ -18,50 +18,59 @@ export class SideBarService extends BaseService {
     return this.getList(this.ERPObjects.TProductVS1, options);
   }
 
-  getTPaymentList(msTimeStamp){
+  getTPaymentList(limitcount, limitfrom){
     let options = '';
-    if(msTimeStamp){
+    if(limitcount == 'All'){
        options = {
           ListType: "Detail",
-          select: '[Deleted]=false and [PaymentDate]>"'+msTimeStamp+'"'
+          select: '[Deleted]=false'
         };
     }else{
       options = {
+         orderby:'"PaymentID desc"',
          ListType: "Detail",
          IgnoreDates: true,
-         select: "[Deleted]=false"
+         select: "[Deleted]=false",
+         //LimitCount:'"'+limitcount+'"',
+         //LimitFrom:'"'+limitfrom+'"'
      };
     }
       return this.getList(this.ERPObjects.TPaymentList, options);
   }
 
-  getTCustomerPaymentList(msTimeStamp){
+  getTCustomerPaymentList(limitcount, limitfrom){
     let options = '';
-    if(msTimeStamp){
+    if(limitcount == 'All'){
        options = {
           ListType: "Detail",
-          select: '[Deleted]=false and [MsTimeStamp]>"'+msTimeStamp+'"'
+          select: '[Deleted]=false'
         };
     }else{
       options = {
+         orderby:'"PaymentID desc"',
          ListType: "Detail",
-         select: "[Deleted]=false"
+         select: "[Deleted]=false",
+         LimitCount:'"'+limitcount+'"',
+         LimitFrom:'"'+limitfrom+'"'
      };
     }
       return this.getList(this.ERPObjects.TCustomerPayment, options);
   }
 
-  getTSupplierPaymentList(msTimeStamp){
+  getTSupplierPaymentList(limitcount, limitfrom){
     let options = '';
-    if(msTimeStamp){
+    if(limitcount == 'All'){
        options = {
           ListType: "Detail",
-          select: '[Deleted]=false and [MsTimeStamp]>"'+msTimeStamp+'"'
+          select: '[Deleted]=false'
         };
     }else{
       options = {
+         orderby:'"PaymentID desc"',
          ListType: "Detail",
-         select: "[Deleted]=false"
+         select: "[Deleted]=false",
+         LimitCount:'"'+limitcount+'"',
+         LimitFrom:'"'+limitfrom+'"'
      };
     }
       return this.getList(this.ERPObjects.TSupplierPayment, options);
@@ -328,7 +337,8 @@ export class SideBarService extends BaseService {
     let options = {
       orderby:'"SaleID desc"',
       ListType: "Detail",
-      //select: "[Deleted]=false",
+      select: "[Deleted]=false",
+      //LimitCount:'"25"'
       // LimitCount:'"50"',
       // Limitfrom:'"1"'
     };
@@ -375,33 +385,40 @@ export class SideBarService extends BaseService {
     return this.getList(this.ERPObjects.BackOrderSalesList, options);
   }
 
-  getAllSalesOrderList(msTimeStamp) {
+  getAllSalesOrderList(limitcount, limitfrom) {
     let options = '';
-    if(msTimeStamp){
+    if(limitcount == 'All'){
        options = {
+          orderby:'"SaleID desc"',
           ListType: "Detail",
-          select: '[Deleted]=false and [MsTimeStamp]>"'+msTimeStamp+'"'
+          select: '[Deleted]=false'
         };
     }else{
       options = {
+         orderby:'"SaleID desc"',
          ListType: "Detail",
-         select: "[Deleted]=false"
+         select: "[Deleted]=false",
+         LimitCount:'"'+limitcount+'"',
+        LimitFrom:'"'+limitfrom+'"'
      };
     }
     return this.getList(this.ERPObjects.TSalesOrderEx, options);
   }
 
-  getAllPurchaseOrderList(msTimeStamp) {
+  getAllPurchaseOrderList(limitcount, limitfrom) {
     let options = '';
-    if(msTimeStamp){
+    if(limitcount == 'All'){
        options = {
           ListType: "Detail",
-          select: '[Deleted]=false and [MsTimeStamp]>"'+msTimeStamp+'"'
+          select: '[Deleted]=false'
         };
     }else{
       options = {
+         orderby:'"PurchaseOrderID desc"',
          ListType: "Detail",
-         select: "[Deleted]=false"
+         select: "[Deleted]=false",
+         //LimitCount:'"'+limitcount+'"',
+         //LimitFrom:'"'+limitfrom+'"'
      };
     }
     return this.getList(this.ERPObjects.TPurchaseOrderEx, options);
@@ -514,17 +531,20 @@ export class SideBarService extends BaseService {
     return this.getList(this.ERPObjects.TBill, options);
   }
 
-  getAllBillExList(msTimeStamp) {
+  getAllBillExList(limitcount, limitfrom) {
     let options = '';
-    if(msTimeStamp){
+    if(limitcount == 'All'){
        options = {
           ListType: "Detail",
-          select: '[Deleted]=false and [Cancelled]=false and [MsTimeStamp]>"'+msTimeStamp+'"'
+          select: '[Deleted]=false and [Cancelled]=false'
         };
     }else{
       options = {
+         orderby:'"PurchaseOrderID desc"',
          ListType: "Detail",
-         select: "[Deleted]=false and [Cancelled]=false"
+         select: "[Deleted]=false and [Cancelled]=false",
+         //LimitCount:'"'+limitcount+'"',
+         //LimitFrom:'"'+limitfrom+'"'
      };
     }
 
@@ -532,17 +552,21 @@ export class SideBarService extends BaseService {
   }
 
 
-  getAllQuoteList(msTimeStamp) {
+  getAllQuoteList(limitcount, limitfrom) {
     let options = '';
-    if(msTimeStamp){
+    if(limitcount == 'All'){
        options = {
+          orderby:'"SaleID desc"',
           ListType: "Detail",
-          select: '[Deleted]=false and [MsTimeStamp]>"'+msTimeStamp+'"'
+          select: '[Deleted]=false'
         };
     }else{
       options = {
+         orderby:'"SaleID desc"',
          ListType: "Detail",
-         select: "[Deleted]=false"
+         select: "[Deleted]=false",
+         //LimitCount:'"'+limitcount+'"',
+         //LimitFrom:'"'+limitfrom+'"'
      };
     }
     return this.getList(this.ERPObjects.TQuoteEx, options);
@@ -574,10 +598,22 @@ export class SideBarService extends BaseService {
     return this.getList(this.ERPObjects.TCredit, options);
   }
 
-  getSalesListData() {
-    let options = {
-         IgnoreDates:true
+  getSalesListData(limitcount, limitfrom) {
+
+    let options = '';
+    if(limitcount == 'All'){
+       options = {
+          orderby:'"SaleID desc"',
+          IgnoreDates:true
+        };
+    }else{
+      options = {
+         orderby:'"SaleID desc"',
+         IgnoreDates:true,
+         LimitCount:'"'+limitcount+'"',
+         LimitFrom:'"'+limitfrom+'"'
      };
+    }
 
   return this.getList(this.ERPObjects.TSalesList, options);
   }

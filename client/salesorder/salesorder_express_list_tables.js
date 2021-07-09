@@ -57,39 +57,88 @@ Template.salesorderslist.onRendered(function() {
         });
     };
 
+    templateObject.resetData = function (dataVal) {
+
+      let data = dataVal;
+let useData = data;
+let tableAll;
+let lineItems = [];
+let lineItemObj = {};
+for(let i=0; i<data.tsalesorderex.length; i++){
+    let totalAmountEx = utilityService.modifynegativeCurrencyFormat(data.tsalesorderex[i].fields.TotalAmount)|| 0.00;
+    let totalTax = utilityService.modifynegativeCurrencyFormat(data.tsalesorderex[i].fields.TotalTax) || 0.00;
+    // Currency+''+data.tinvoice[i].TotalTax.toLocaleString(undefined, {minimumFractionDigits: 2});
+    let totalAmount = utilityService.modifynegativeCurrencyFormat(data.tsalesorderex[i].fields.TotalAmountInc)|| 0.00;
+    let totalPaid = utilityService.modifynegativeCurrencyFormat(data.tsalesorderex[i].fields.TotalPaid)|| 0.00;
+    let totalOutstanding = utilityService.modifynegativeCurrencyFormat(data.tsalesorderex[i].fields.TotalBalance)|| 0.00;
+    var dataList = {
+        id: data.tsalesorderex[i].fields.ID || '',
+        employee:data.tsalesorderex[i].fields.EmployeeName || '',
+        sortdate: data.tsalesorderex[i].fields.SaleDate !=''? moment(data.tsalesorderex[i].fields.SaleDate).format("YYYY/MM/DD"): data.tsalesorderex[i].fields.SaleDate,
+        saledate: data.tsalesorderex[i].fields.SaleDate !=''? moment(data.tsalesorderex[i].fields.SaleDate).format("DD/MM/YYYY"): data.tsalesorderex[i].fields.SaleDate,
+        duedate: data.tsalesorderex[i].fields.DueDate !=''? moment(data.tsalesorderex[i].fields.DueDate).format("DD/MM/YYYY"): data.tsalesorderex[i].fields.DueDate,
+        customername: data.tsalesorderex[i].fields.CustomerName || '',
+        totalamountex: totalAmountEx || 0.00,
+        totaltax: totalTax || 0.00,
+        totalamount: totalAmount || 0.00,
+        totalpaid: totalPaid || 0.00,
+        totaloustanding: totalOutstanding || 0.00,
+        salestatus: data.tsalesorderex[i].fields.SalesStatus || '',
+        custfield1: data.tsalesorderex[i].fields.SaleCustField1 || '',
+        custfield2: data.tsalesorderex[i].fields.SaleCustField2 || '',
+        comments: data.tsalesorderex[i].fields.Comments || '',
+    };
+
+    if(data.tsalesorderex[i].fields.Deleted == false && data.tsalesorderex[i].fields.CustomerName.replace(/\s/g, '') != ''){
+        dataTableList.push(dataList);
+    }
+
+    //}
+}
+
+templateObject.datatablerecords.set(dataTableList);
+    if(templateObject.datatablerecords.get()){
+
+      setTimeout(function () {
+        location.reload();
+      }, data.tsalesorderex.length * 5);
+    }
+
+    }
+
     templateObject.getAllSalesOrderData = function () {
         getVS1Data('TSalesOrderEx').then(function (dataObject) {
             if(dataObject.length == 0){
-                salesService.getAllSalesOrderListNonBO().then(function (data) {
+                sideBarService.getAllSalesOrderList(25,0).then(function (data) {
                     let lineItems = [];
                     let lineItemObj = {};
-
-                    for(let i=0; i<data.tsalesordernonbackorder.length; i++){
-                        let totalAmountEx = utilityService.modifynegativeCurrencyFormat(data.tsalesordernonbackorder[i].TotalAmount)|| 0.00;
-                        let totalTax = utilityService.modifynegativeCurrencyFormat(data.tsalesordernonbackorder[i].TotalTax) || 0.00;
+                    addVS1Data('TSalesOrderEx',JSON.stringify(data));
+                    for(let i=0; i<data.tsalesorderex.length; i++){
+                        let totalAmountEx = utilityService.modifynegativeCurrencyFormat(data.tsalesorderex[i].fields.TotalAmount)|| 0.00;
+                        let totalTax = utilityService.modifynegativeCurrencyFormat(data.tsalesorderex[i].fields.TotalTax) || 0.00;
                         // Currency+''+data.tinvoice[i].TotalTax.toLocaleString(undefined, {minimumFractionDigits: 2});
-                        let totalAmount = utilityService.modifynegativeCurrencyFormat(data.tsalesordernonbackorder[i].TotalAmountInc)|| 0.00;
-                        let totalPaid = utilityService.modifynegativeCurrencyFormat(data.tsalesordernonbackorder[i].TotalPaid)|| 0.00;
-                        let totalOutstanding = utilityService.modifynegativeCurrencyFormat(data.tsalesordernonbackorder[i].TotalBalance)|| 0.00;
+                        let totalAmount = utilityService.modifynegativeCurrencyFormat(data.tsalesorderex[i].fields.TotalAmountInc)|| 0.00;
+                        let totalPaid = utilityService.modifynegativeCurrencyFormat(data.tsalesorderex[i].fields.TotalPaid)|| 0.00;
+                        let totalOutstanding = utilityService.modifynegativeCurrencyFormat(data.tsalesorderex[i].fields.TotalBalance)|| 0.00;
                         var dataList = {
-                            id: data.tsalesordernonbackorder[i].Id || '',
-                            employee:data.tsalesordernonbackorder[i].EmployeeName || '',
-                            sortdate: data.tsalesordernonbackorder[i].SaleDate !=''? moment(data.tsalesordernonbackorder[i].SaleDate).format("YYYY/MM/DD"): data.tsalesordernonbackorder[i].SaleDate,
-                            saledate: data.tsalesordernonbackorder[i].SaleDate !=''? moment(data.tsalesordernonbackorder[i].SaleDate).format("DD/MM/YYYY"): data.tsalesordernonbackorder[i].SaleDate,
-                            duedate: data.tsalesordernonbackorder[i].DueDate !=''? moment(data.tsalesordernonbackorder[i].DueDate).format("DD/MM/YYYY"): data.tsalesordernonbackorder[i].DueDate,
-                            customername: data.tsalesordernonbackorder[i].CustomerName || '',
+                            id: data.tsalesorderex[i].fields.ID || '',
+                            employee:data.tsalesorderex[i].fields.EmployeeName || '',
+                            sortdate: data.tsalesorderex[i].fields.SaleDate !=''? moment(data.tsalesorderex[i].fields.SaleDate).format("YYYY/MM/DD"): data.tsalesorderex[i].fields.SaleDate,
+                            saledate: data.tsalesorderex[i].fields.SaleDate !=''? moment(data.tsalesorderex[i].fields.SaleDate).format("DD/MM/YYYY"): data.tsalesorderex[i].fields.SaleDate,
+                            duedate: data.tsalesorderex[i].fields.DueDate !=''? moment(data.tsalesorderex[i].fields.DueDate).format("DD/MM/YYYY"): data.tsalesorderex[i].fields.DueDate,
+                            customername: data.tsalesorderex[i].fields.CustomerName || '',
                             totalamountex: totalAmountEx || 0.00,
                             totaltax: totalTax || 0.00,
                             totalamount: totalAmount || 0.00,
                             totalpaid: totalPaid || 0.00,
                             totaloustanding: totalOutstanding || 0.00,
-                            salestatus: data.tsalesordernonbackorder[i].SalesStatus || '',
-                            custfield1: data.tsalesordernonbackorder[i].SaleCustField1 || '',
-                            custfield2: data.tsalesordernonbackorder[i].SaleCustField2 || '',
-                            comments: data.tsalesordernonbackorder[i].Comments || '',
+                            salestatus: data.tsalesorderex[i].fields.SalesStatus || '',
+                            custfield1: data.tsalesorderex[i].fields.SaleCustField1 || '',
+                            custfield2: data.tsalesorderex[i].fields.SaleCustField2 || '',
+                            comments: data.tsalesorderex[i].fields.Comments || '',
                         };
 
-                        if(data.tsalesordernonbackorder[i].Deleted == false && data.tsalesordernonbackorder[i].CustomerName.replace(/\s/g, '') != ''){
+                        if(data.tsalesorderex[i].fields.Deleted == false && data.tsalesorderex[i].fields.CustomerName.replace(/\s/g, '') != ''){
                             dataTableList.push(dataList);
                         }
 
@@ -182,6 +231,7 @@ Template.salesorderslist.onRendered(function() {
                             //bStateSave: true,
                             //rowId: 0,
                             pageLength: 25,
+                            searching: false,
                             lengthMenu: [ [10, 25, 50, -1], [10, 25, 50, "All"] ],
                             info: true,
                             "order": [[ 0, "desc" ],[ 2, "desc" ]],
@@ -376,6 +426,7 @@ Template.salesorderslist.onRendered(function() {
                         //bStateSave: true,
                         //rowId: 0,
                         pageLength: 25,
+                        searching: false,
                         lengthMenu: [ [10, 25, 50, -1], [10, 25, 50, "All"] ],
                         info: true,
                         "order": [[ 0, "desc" ],[ 2, "desc" ]],
@@ -384,6 +435,53 @@ Template.salesorderslist.onRendered(function() {
                             $('#tblSalesOrderlist').DataTable().ajax.reload();
                         },
                         "fnDrawCallback": function (oSettings) {
+                          $('.paginate_button.page-item').removeClass('disabled');
+                          $('#tblSalesOrderlist_ellipsis').addClass('disabled');
+
+                          if(oSettings._iDisplayLength == -1){
+                            if(oSettings.fnRecordsDisplay() > 150){
+                              $('.paginate_button.page-item.previous').addClass('disabled');
+                              $('.paginate_button.page-item.next').addClass('disabled');
+                            }
+                          }else{
+
+                          }
+
+                          $('.paginate_button.next:not(.disabled)', this.api().table().container())
+                           .on('click', function(){
+                             $('.fullScreenSpin').css('display','inline-block');
+                             let dataLenght = oSettings._iDisplayLength;
+
+                             sideBarService.getAllSalesOrderList(25,oSettings.fnRecordsDisplay()).then(function(dataObjectnew) {
+                               getVS1Data('TSalesOrderEx').then(function (dataObjectold) {
+                                 if(dataObjectold.length == 0){
+
+                                 }else{
+                                   let dataOld = JSON.parse(dataObjectold[0].data);
+
+                                   var thirdaryData = $.merge($.merge([], dataObjectnew.tsalesorderex), dataOld.tsalesorderex);
+                                   let objCombineData = {
+                                     tsalesorderex:thirdaryData
+                                   }
+
+                                   templateObject.resetData(objCombineData);
+                                     addVS1Data('TSalesOrderEx',JSON.stringify(objCombineData)).then(function (datareturn) {
+
+                                     $('.fullScreenSpin').css('display','none');
+                                     }).catch(function (err) {
+                                     $('.fullScreenSpin').css('display','none');
+                                     });
+
+                                 }
+                                }).catch(function (err) {
+
+                                });
+
+                             }).catch(function(err) {
+                               $('.fullScreenSpin').css('display','none');
+                             });
+
+                           });
                             setTimeout(function () {
                                 MakeNegative();
                             }, 100);
@@ -398,6 +496,41 @@ Template.salesorderslist.onRendered(function() {
                     }).on('column-reorder', function () {
 
                     }).on( 'length.dt', function ( e, settings, len ) {
+                      $('.fullScreenSpin').css('display','inline-block');
+                      let dataLenght = settings._iDisplayLength;
+                      if(dataLenght == -1){
+                        if(settings.fnRecordsDisplay() > 150){
+                          $('.paginate_button.page-item.next').addClass('disabled');
+                          $('.fullScreenSpin').css('display','none');
+                        }else{
+                        sideBarService.getAllSalesOrderList('All',1).then(function(dataNonBo) {
+                        templateObject.resetData(dataNonBo);
+                          addVS1Data('TSalesOrderEx',JSON.stringify(dataNonBo)).then(function (datareturn) {
+
+                          $('.fullScreenSpin').css('display','none');
+                          }).catch(function (err) {
+                          $('.fullScreenSpin').css('display','none');
+                          });
+                        }).catch(function(err) {
+                          $('.fullScreenSpin').css('display','none');
+                        });
+                       }
+                      }else{
+                        if (settings.fnRecordsDisplay() >= settings._iDisplayLength) {
+                          $('.fullScreenSpin').css('display','none');
+                        }else{
+                          sideBarService.getAllSalesOrderList(dataLenght,1).then(function(dataNonBo) {
+                            templateObject.resetData(dataNonBo);
+                            addVS1Data('TSalesOrderEx',JSON.stringify(dataNonBo)).then(function (datareturn) {
+                            $('.fullScreenSpin').css('display','none');
+                            }).catch(function (err) {
+                            $('.fullScreenSpin').css('display','none');
+                            });
+                          }).catch(function(err) {
+                            $('.fullScreenSpin').css('display','none');
+                          });
+                        }
+                      }
                         setTimeout(function () {
                             MakeNegative();
                         }, 100);
@@ -444,198 +577,199 @@ Template.salesorderslist.onRendered(function() {
             }
         }).catch(function (err) {
 
-            salesService.getAllSalesOrderListNonBO().then(function (data) {
-                let lineItems = [];
-                let lineItemObj = {};
+          sideBarService.getAllSalesOrderList(25,0).then(function (data) {
+              let lineItems = [];
+              let lineItemObj = {};
+              addVS1Data('TSalesOrderEx',JSON.stringify(data));
+              for(let i=0; i<data.tsalesorderex.length; i++){
+                  let totalAmountEx = utilityService.modifynegativeCurrencyFormat(data.tsalesorderex[i].fields.TotalAmount)|| 0.00;
+                  let totalTax = utilityService.modifynegativeCurrencyFormat(data.tsalesorderex[i].fields.TotalTax) || 0.00;
+                  // Currency+''+data.tinvoice[i].TotalTax.toLocaleString(undefined, {minimumFractionDigits: 2});
+                  let totalAmount = utilityService.modifynegativeCurrencyFormat(data.tsalesorderex[i].fields.TotalAmountInc)|| 0.00;
+                  let totalPaid = utilityService.modifynegativeCurrencyFormat(data.tsalesorderex[i].fields.TotalPaid)|| 0.00;
+                  let totalOutstanding = utilityService.modifynegativeCurrencyFormat(data.tsalesorderex[i].fields.TotalBalance)|| 0.00;
+                  var dataList = {
+                      id: data.tsalesorderex[i].fields.ID || '',
+                      employee:data.tsalesorderex[i].fields.EmployeeName || '',
+                      sortdate: data.tsalesorderex[i].fields.SaleDate !=''? moment(data.tsalesorderex[i].fields.SaleDate).format("YYYY/MM/DD"): data.tsalesorderex[i].fields.SaleDate,
+                      saledate: data.tsalesorderex[i].fields.SaleDate !=''? moment(data.tsalesorderex[i].fields.SaleDate).format("DD/MM/YYYY"): data.tsalesorderex[i].fields.SaleDate,
+                      duedate: data.tsalesorderex[i].fields.DueDate !=''? moment(data.tsalesorderex[i].fields.DueDate).format("DD/MM/YYYY"): data.tsalesorderex[i].fields.DueDate,
+                      customername: data.tsalesorderex[i].fields.CustomerName || '',
+                      totalamountex: totalAmountEx || 0.00,
+                      totaltax: totalTax || 0.00,
+                      totalamount: totalAmount || 0.00,
+                      totalpaid: totalPaid || 0.00,
+                      totaloustanding: totalOutstanding || 0.00,
+                      salestatus: data.tsalesorderex[i].fields.SalesStatus || '',
+                      custfield1: data.tsalesorderex[i].fields.SaleCustField1 || '',
+                      custfield2: data.tsalesorderex[i].fields.SaleCustField2 || '',
+                      comments: data.tsalesorderex[i].fields.Comments || '',
+                  };
 
-                for(let i=0; i<data.tsalesordernonbackorder.length; i++){
-                    let totalAmountEx = utilityService.modifynegativeCurrencyFormat(data.tsalesordernonbackorder[i].TotalAmount)|| 0.00;
-                    let totalTax = utilityService.modifynegativeCurrencyFormat(data.tsalesordernonbackorder[i].TotalTax) || 0.00;
-                    // Currency+''+data.tinvoice[i].TotalTax.toLocaleString(undefined, {minimumFractionDigits: 2});
-                    let totalAmount = utilityService.modifynegativeCurrencyFormat(data.tsalesordernonbackorder[i].TotalAmountInc)|| 0.00;
-                    let totalPaid = utilityService.modifynegativeCurrencyFormat(data.tsalesordernonbackorder[i].TotalPaid)|| 0.00;
-                    let totalOutstanding = utilityService.modifynegativeCurrencyFormat(data.tsalesordernonbackorder[i].TotalBalance)|| 0.00;
-                    var dataList = {
-                        id: data.tsalesordernonbackorder[i].Id || '',
-                        employee:data.tsalesordernonbackorder[i].EmployeeName || '',
-                        sortdate: data.tsalesordernonbackorder[i].SaleDate !=''? moment(data.tsalesordernonbackorder[i].SaleDate).format("YYYY/MM/DD"): data.tsalesordernonbackorder[i].SaleDate,
-                        saledate: data.tsalesordernonbackorder[i].SaleDate !=''? moment(data.tsalesordernonbackorder[i].SaleDate).format("DD/MM/YYYY"): data.tsalesordernonbackorder[i].SaleDate,
-                        duedate: data.tsalesordernonbackorder[i].DueDate !=''? moment(data.tsalesordernonbackorder[i].DueDate).format("DD/MM/YYYY"): data.tsalesordernonbackorder[i].DueDate,
-                        customername: data.tsalesordernonbackorder[i].CustomerName || '',
-                        totalamountex: totalAmountEx || 0.00,
-                        totaltax: totalTax || 0.00,
-                        totalamount: totalAmount || 0.00,
-                        totalpaid: totalPaid || 0.00,
-                        totaloustanding: totalOutstanding || 0.00,
-                        salestatus: data.tsalesordernonbackorder[i].SalesStatus || '',
-                        custfield1: data.tsalesordernonbackorder[i].SaleCustField1 || '',
-                        custfield2: data.tsalesordernonbackorder[i].SaleCustField2 || '',
-                        comments: data.tsalesordernonbackorder[i].Comments || '',
-                    };
+                  if(data.tsalesorderex[i].fields.Deleted == false && data.tsalesorderex[i].fields.CustomerName.replace(/\s/g, '') != ''){
+                      dataTableList.push(dataList);
+                  }
 
-                    if(data.tsalesordernonbackorder[i].Deleted == false && data.tsalesordernonbackorder[i].CustomerName.replace(/\s/g, '') != ''){
-                        dataTableList.push(dataList);
-                    }
+                  //}
+              }
 
-                    //}
-                }
+              templateObject.datatablerecords.set(dataTableList);
 
-                templateObject.datatablerecords.set(dataTableList);
+              if(templateObject.datatablerecords.get()){
 
-                if(templateObject.datatablerecords.get()){
+                  Meteor.call('readPrefMethod',Session.get('mycloudLogonID'),'tblSalesOrderlist', function(error, result){
+                      if(error){
 
-                    Meteor.call('readPrefMethod',Session.get('mycloudLogonID'),'tblSalesOrderlist', function(error, result){
-                        if(error){
+                      }else{
+                          if(result){
+                              for (let i = 0; i < result.customFields.length; i++) {
+                                  let customcolumn = result.customFields;
+                                  let columData = customcolumn[i].label;
+                                  let columHeaderUpdate = customcolumn[i].thclass.replace(/ /g, ".");
+                                  let hiddenColumn = customcolumn[i].hidden;
+                                  let columnClass = columHeaderUpdate.split('.')[1];
+                                  let columnWidth = customcolumn[i].width;
+                                  let columnindex = customcolumn[i].index + 1;
 
-                        }else{
-                            if(result){
-                                for (let i = 0; i < result.customFields.length; i++) {
-                                    let customcolumn = result.customFields;
-                                    let columData = customcolumn[i].label;
-                                    let columHeaderUpdate = customcolumn[i].thclass.replace(/ /g, ".");
-                                    let hiddenColumn = customcolumn[i].hidden;
-                                    let columnClass = columHeaderUpdate.split('.')[1];
-                                    let columnWidth = customcolumn[i].width;
-                                    let columnindex = customcolumn[i].index + 1;
+                                  if(hiddenColumn == true){
 
-                                    if(hiddenColumn == true){
+                                      $("."+columnClass+"").addClass('hiddenColumn');
+                                      $("."+columnClass+"").removeClass('showColumn');
+                                  }else if(hiddenColumn == false){
+                                      $("."+columnClass+"").removeClass('hiddenColumn');
+                                      $("."+columnClass+"").addClass('showColumn');
+                                  }
 
-                                        $("."+columnClass+"").addClass('hiddenColumn');
-                                        $("."+columnClass+"").removeClass('showColumn');
-                                    }else if(hiddenColumn == false){
-                                        $("."+columnClass+"").removeClass('hiddenColumn');
-                                        $("."+columnClass+"").addClass('showColumn');
-                                    }
+                              }
+                          }
 
-                                }
-                            }
-
-                        }
-                    });
+                      }
+                  });
 
 
-                    setTimeout(function () {
-                        MakeNegative();
-                    }, 100);
-                }
+                  setTimeout(function () {
+                      MakeNegative();
+                  }, 100);
+              }
 
-                $('.fullScreenSpin').css('display','none');
-                setTimeout(function () {
-                    $('#tblSalesOrderlist').DataTable({
-                        columnDefs: [
-                            {type: 'date', targets: 0}
-                        ],
-                        select: true,
-                        destroy: true,
-                        colReorder: true,
-                        "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
-                        buttons: [
-                            {
-                                extend: 'excelHtml5',
-                                text: '',
-                                download: 'open',
-                                className: "btntabletocsv hiddenColumn",
-                                filename: "Sales Order List - "+ moment().format(),
-                                orientation:'portrait',
-                                exportOptions: {
-                                    columns: ':visible',
-                                    format: {
-                                        body: function ( data, row, column ) {
-                                            if(data.includes("</span>")){
-                                                var res = data.split("</span>");
-                                                data = res[1];
-                                            }
+              $('.fullScreenSpin').css('display','none');
+              setTimeout(function () {
+                  $('#tblSalesOrderlist').DataTable({
+                      columnDefs: [
+                          {type: 'date', targets: 0}
+                      ],
+                      select: true,
+                      destroy: true,
+                      colReorder: true,
+                      "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
+                      buttons: [
+                          {
+                              extend: 'excelHtml5',
+                              text: '',
+                              download: 'open',
+                              className: "btntabletocsv hiddenColumn",
+                              filename: "Sales Order List - "+ moment().format(),
+                              orientation:'portrait',
+                              exportOptions: {
+                                  columns: ':visible',
+                                  format: {
+                                      body: function ( data, row, column ) {
+                                          if(data.includes("</span>")){
+                                              var res = data.split("</span>");
+                                              data = res[1];
+                                          }
 
-                                            return column === 1 ? data.replace(/<.*?>/ig, ""): data;
+                                          return column === 1 ? data.replace(/<.*?>/ig, ""): data;
 
-                                        }
-                                    }
-                                }
-                            },{
-                                extend: 'print',
-                                download: 'open',
-                                className: "btntabletopdf hiddenColumn",
-                                text: '',
-                                title: 'Sales Order List',
-                                filename: "Sales Order List - "+ moment().format(),
-                                exportOptions: {
-                                    columns: ':visible',
-                                    stripHtml: false
-                                }
-                            }],
-                        //bStateSave: true,
-                        //rowId: 0,
-                        pageLength: 25,
-                        lengthMenu: [ [10, 25, 50, -1], [10, 25, 50, "All"] ],
-                        info: true,
-                        "order": [[ 0, "desc" ],[ 2, "desc" ]],
-                        responsive: true,
-                        action: function () {
-                            $('#tblSalesOrderlist').DataTable().ajax.reload();
-                        },
-                        "fnDrawCallback": function (oSettings) {
-                            setTimeout(function () {
-                                MakeNegative();
-                            }, 100);
-                        },
+                                      }
+                                  }
+                              }
+                          },{
+                              extend: 'print',
+                              download: 'open',
+                              className: "btntabletopdf hiddenColumn",
+                              text: '',
+                              title: 'Sales Order List',
+                              filename: "Sales Order List - "+ moment().format(),
+                              exportOptions: {
+                                  columns: ':visible',
+                                  stripHtml: false
+                              }
+                          }],
+                      //bStateSave: true,
+                      //rowId: 0,
+                      pageLength: 25,
+                      searching: false,
+                      lengthMenu: [ [10, 25, 50, -1], [10, 25, 50, "All"] ],
+                      info: true,
+                      "order": [[ 0, "desc" ],[ 2, "desc" ]],
+                      responsive: true,
+                      action: function () {
+                          $('#tblSalesOrderlist').DataTable().ajax.reload();
+                      },
+                      "fnDrawCallback": function (oSettings) {
+                          setTimeout(function () {
+                              MakeNegative();
+                          }, 100);
+                      },
 
-                    }).on('page', function () {
-                        setTimeout(function () {
-                            MakeNegative();
-                        }, 100);
-                        let draftRecord = templateObject.datatablerecords.get();
-                        templateObject.datatablerecords.set(draftRecord);
-                    }).on('column-reorder', function () {
+                  }).on('page', function () {
+                      setTimeout(function () {
+                          MakeNegative();
+                      }, 100);
+                      let draftRecord = templateObject.datatablerecords.get();
+                      templateObject.datatablerecords.set(draftRecord);
+                  }).on('column-reorder', function () {
 
-                    }).on( 'length.dt', function ( e, settings, len ) {
-                        setTimeout(function () {
-                            MakeNegative();
-                        }, 100);
-                    });
+                  }).on( 'length.dt', function ( e, settings, len ) {
+                      setTimeout(function () {
+                          MakeNegative();
+                      }, 100);
+                  });
 
-                    // $('#tblSalesOrderlist').DataTable().column( 0 ).visible( true );
-                    $('.fullScreenSpin').css('display','none');
-                }, 0);
+                  // $('#tblSalesOrderlist').DataTable().column( 0 ).visible( true );
+                  $('.fullScreenSpin').css('display','none');
+              }, 0);
 
-                var columns = $('#tblSalesOrderlist th');
-                let sTible = "";
-                let sWidth = "";
-                let sIndex = "";
-                let sVisible = "";
-                let columVisible = false;
-                let sClass = "";
-                $.each(columns, function(i,v) {
-                    if(v.hidden == false){
-                        columVisible =  true;
-                    }
-                    if((v.className.includes("hiddenColumn"))){
-                        columVisible = false;
-                    }
-                    sWidth = v.style.width.replace('px', "");
+              var columns = $('#tblSalesOrderlist th');
+              let sTible = "";
+              let sWidth = "";
+              let sIndex = "";
+              let sVisible = "";
+              let columVisible = false;
+              let sClass = "";
+              $.each(columns, function(i,v) {
+                  if(v.hidden == false){
+                      columVisible =  true;
+                  }
+                  if((v.className.includes("hiddenColumn"))){
+                      columVisible = false;
+                  }
+                  sWidth = v.style.width.replace('px', "");
 
-                    let datatablerecordObj = {
-                        sTitle: v.innerText || '',
-                        sWidth: sWidth || '',
-                        sIndex: v.cellIndex || '',
-                        sVisible: columVisible || false,
-                        sClass: v.className || ''
-                    };
-                    tableHeaderList.push(datatablerecordObj);
-                });
-                templateObject.tableheaderrecords.set(tableHeaderList);
-                $('div.dataTables_filter input').addClass('form-control form-control-sm');
-                $('#tblSalesOrderlist tbody').on( 'click', 'tr', function () {
-                    var listData = $(this).closest('tr').attr('id');
-                    if(listData){
-                        Router.go('/salesordercard?id=' + listData);
-                    }
-                });
+                  let datatablerecordObj = {
+                      sTitle: v.innerText || '',
+                      sWidth: sWidth || '',
+                      sIndex: v.cellIndex || '',
+                      sVisible: columVisible || false,
+                      sClass: v.className || ''
+                  };
+                  tableHeaderList.push(datatablerecordObj);
+              });
+              templateObject.tableheaderrecords.set(tableHeaderList);
+              $('div.dataTables_filter input').addClass('form-control form-control-sm');
+              $('#tblSalesOrderlist tbody').on( 'click', 'tr', function () {
+                  var listData = $(this).closest('tr').attr('id');
+                  if(listData){
+                      Router.go('/salesordercard?id=' + listData);
+                  }
+              });
 
-            }).catch(function (err) {
-                // Bert.alert('<strong>' + err + '</strong>!', 'danger');
-                $('.fullScreenSpin').css('display','none');
-                // Meteor._reload.reload();
-            });
+          }).catch(function (err) {
+              // Bert.alert('<strong>' + err + '</strong>!', 'danger');
+              $('.fullScreenSpin').css('display','none');
+              // Meteor._reload.reload();
+          });
         });
 
     }
@@ -860,131 +994,14 @@ Template.salesorderslist.events({
         }
         let currenctTodayDate = currentDate.getFullYear() + "-" + month + "-" + days + " "+ hours+ ":"+ minutes+ ":"+ seconds;
         let templateObject = Template.instance();
-        getVS1Data('TSalesOrderEx').then(function (dataObject) {
-            if(dataObject.length == 0){
-                sideBarService.getAllSalesOrderList().then(function(data) {
-                    addVS1Data('TSalesOrderEx',JSON.stringify(data)).then(function (datareturn) {
-                        window.open('/salesorderslist','_self');
-                    }).catch(function (err) {
-                        window.open('/salesorderslist','_self');
-                    });
-                }).catch(function(err) {
-                    window.open('/salesorderslist','_self');
-                });
-            }else{
-                let data = JSON.parse(dataObject[0].data);
-                let useData = data.tsalesorderex;
-                if(useData[0].Id){
-                    sideBarService.getAllSalesOrderList().then(function(data) {
-                        addVS1Data('TSalesOrderEx',JSON.stringify(data)).then(function (datareturn) {
-                            window.open('/salesorderslist','_self');
-                        }).catch(function (err) {
-                            window.open('/salesorderslist','_self');
-                        });
-                    }).catch(function(err) {
-                        window.open('/salesorderslist','_self');
-                    });
-                }else{
-                    let getTimeStamp = dataObject[0].timestamp;
-                    if(getTimeStamp){
-                        if(getTimeStamp[0] != currenctTodayDate){
-                            sideBarService.getAllSalesOrderList(getTimeStamp).then(function(dataUpdate) {
-                                let newDataObject = [];
-                                if(dataUpdate.tsalesorderex.length === 0){
-                                    sideBarService.getAllSalesOrderList().then(function(data) {
-                                        addVS1Data('TSalesOrderEx',JSON.stringify(data)).then(function (datareturn) {
-                                            window.open('/salesorderslist','_self');
-                                        }).catch(function (err) {
-                                            window.open('/salesorderslist','_self');
-                                        });
-                                    }).catch(function(err) {
-                                        window.open('/salesorderslist','_self');
-                                    });
-                                }else{
-                                    let dataOld = JSON.parse(dataObject[0].data);
-                                    let oldObjectData = dataOld.tsalesorderex;
-
-                                    let dataNew = dataUpdate;
-                                    let newObjectData = dataNew.tsalesorderex;
-                                    let index = '';
-                                    let index2 = '';
-
-                                    var resultArray = []
-
-                                    oldObjectData.forEach(function(destObj) {
-                                        var addedcheck=false;
-                                        newObjectData.some(function(origObj) {
-                                            if(origObj.fields.ID == destObj.fields.ID) {
-                                                addedcheck = true;
-                                                index = oldObjectData.map(function (e) { return e.fields.ID; }).indexOf(parseInt(origObj.fields.ID));
-                                                destObj = origObj;
-                                                resultArray.push(destObj);
-
-                                            }
-                                        });
-                                        if(!addedcheck) {
-                                            resultArray.push(destObj)
-                                        }
-
-                                    });
-                                    newObjectData.forEach(function(origObj) {
-                                        var addedcheck=false;
-                                        oldObjectData.some(function(destObj) {
-                                            if(origObj.fields.ID == destObj.fields.ID) {
-                                                addedcheck = true;
-                                                index = oldObjectData.map(function (e) { return e.fields.ID; }).indexOf(parseInt(origObj.fields.ID));
-                                                destObj = origObj;
-                                                resultArray.push(destObj);
-
-                                            }
-                                        });
-                                        if(!addedcheck) {
-                                            resultArray.push(origObj)
-                                        }
-
-                                    });
-                                    var resultGetData = [];
-                                    $.each(resultArray, function (i, e) {
-                                        var matchingItems = $.grep(resultGetData, function (item) {
-                                            return item.fields.ID === e.fields.ID;
-                                        });
-                                        if (matchingItems.length === 0){
-                                            resultGetData.push(e);
-                                        }
-                                    });
-
-                                    let dataToAdd = {
-                                        tsalesorderex: resultGetData
-                                    };
-                                    addVS1Data('TSalesOrderEx',JSON.stringify(dataToAdd)).then(function (datareturn) {
-                                        window.open('/salesorderslist','_self');
-                                    }).catch(function (err) {
-                                        window.open('/salesorderslist','_self');
-                                    });
-                                }
-
-                            }).catch(function(err) {
-                                addVS1Data('TSalesOrderEx',dataObject[0].data).then(function (datareturn) {
-                                    window.open('/salesorderslist','_self');
-                                }).catch(function (err) {
-                                    window.open('/salesorderslist','_self');
-                                });
-                            });
-                        }
-
-                    }
-                }
-            }
-        }).catch(function (err) {
-            sideBarService.getAllSalesOrderList().then(function(data) {
-                addVS1Data('TSalesOrderEx',JSON.stringify(data)).then(function (datareturn) {
-                    window.open('/salesorderslist','_self');
-                }).catch(function (err) {
-                    window.open('/salesorderslist','_self');
-                });
-            }).catch(function(err) {
+        sideBarService.getAllSalesOrderList(25,0).then(function(data) {
+            addVS1Data('TSalesOrderEx',JSON.stringify(data)).then(function (datareturn) {
+                window.open('/salesorderslist','_self');
+            }).catch(function (err) {
                 window.open('/salesorderslist','_self');
             });
+        }).catch(function(err) {
+            window.open('/salesorderslist','_self');
         });
     }
 

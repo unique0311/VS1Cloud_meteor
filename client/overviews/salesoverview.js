@@ -50,15 +50,6 @@ Template.salesoverview.onRendered(function() {
     });
 
     function MakeNegative() {
-        // TDs = document.getElementsByTagName('td');
-        // for (var i=0; i<TDs.length; i++) {
-        //         var temp = TDs[i];
-        //         if (temp.firstChild.nodeValue.indexOf('-'+Currency) == 0){
-        //           //temp.className = "text-danger";
-        //           TDs.addClass('text-danger');
-        //         }
-        //     }
-
         $('td').each(function(){
             if($(this).text().indexOf('-'+Currency) >= 0) $(this).addClass('text-danger')
         });
@@ -201,6 +192,7 @@ Template.salesoverview.onRendered(function() {
                             // bStateSave: true,
                             // rowId: 0,
                             pageLength: 25,
+                            searching: false,
                             lengthMenu: [ [10, 25, 50, -1], [10, 25, 50, "All"] ],
                             info: true,
                             responsive: true,
@@ -398,6 +390,7 @@ Template.salesoverview.onRendered(function() {
                         // bStateSave: true,
                         // rowId: 0,
                         pageLength: 25,
+                        searching: false,
                         lengthMenu: [ [10, 25, 50, -1], [10, 25, 50, "All"] ],
                         info: true,
                         responsive: true,
@@ -589,6 +582,7 @@ Template.salesoverview.onRendered(function() {
                         // bStateSave: true,
                         // rowId: 0,
                         pageLength: 25,
+                        searching: false,
                         lengthMenu: [ [10, 25, 50, -1], [10, 25, 50, "All"] ],
                         info: true,
                         responsive: true,

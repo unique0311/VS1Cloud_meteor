@@ -112,7 +112,7 @@ let tableAll;
 
       getVS1Data('TInvoiceNonBackOrder').then(function (dataObject) {
         if(dataObject.length == 0){
-          sideBarService.getAllInvoiceListNonBO(25,1).then(function (data) {
+          sideBarService.getAllInvoiceListNonBO(25,0).then(function (data) {
             let lineItems = [];
             let lineItemObj = {};
             addVS1Data('TInvoiceNonBackOrder',JSON.stringify(data)).then(function (datareturn) {
@@ -440,7 +440,7 @@ setTimeout(function () {
                $('.fullScreenSpin').css('display','inline-block');
                let dataLenght = oSettings._iDisplayLength;
 
-               sideBarService.getAllInvoiceListNonBO(25,oSettings.fnRecordsDisplay()+1).then(function(dataObjectnew) {
+               sideBarService.getAllInvoiceListNonBO(25,oSettings.fnRecordsDisplay()).then(function(dataObjectnew) {
                  getVS1Data('TInvoiceNonBackOrder').then(function (dataObjectold) {
                    if(dataObjectold.length == 0){
 
@@ -594,7 +594,7 @@ templateObject.tableheaderrecords.set(tableHeaderList);
 
         }
         }).catch(function (err) {
-          sideBarService.getAllInvoiceListNonBO(25,1).then(function (data) {
+          sideBarService.getAllInvoiceListNonBO(25,0).then(function (data) {
             let lineItems = [];
             let lineItemObj = {};
             addVS1Data('TInvoiceNonBackOrder',JSON.stringify(data)).then(function (datareturn) {
@@ -978,7 +978,7 @@ Template.invoicelist.events({
     let month = (currentDate.getMonth()+1);
     let days = currentDate.getDate();
 
-    sideBarService.getAllInvoiceListNonBO(25,1).then(function(dataNonBo) {
+    sideBarService.getAllInvoiceListNonBO(25,0).then(function(dataNonBo) {
       addVS1Data('TInvoiceNonBackOrder',JSON.stringify(dataNonBo)).then(function (datareturn) {
       window.open('/invoicelist','_self');
       }).catch(function (err) {

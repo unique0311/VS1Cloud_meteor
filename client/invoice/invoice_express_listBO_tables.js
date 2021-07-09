@@ -872,131 +872,14 @@ Template.invoicelistBO.events({
         }
         let currenctTodayDate = currentDate.getFullYear() + "-" + month + "-" + days + " "+ hours+ ":"+ minutes+ ":"+ seconds;
         let templateObject = Template.instance();
-        getVS1Data('TInvoiceEx').then(function (dataObject) {
-            if(dataObject.length == 0){
-                sideBarService.getAllInvoiceList().then(function(data) {
-                    addVS1Data('TInvoiceEx',JSON.stringify(data)).then(function (datareturn) {
-                        location.reload(true);
-                    }).catch(function (err) {
-                        location.reload(true);
-                    });
-                }).catch(function(err) {
-                    location.reload(true);
-                });
-            }else{
-                let data = JSON.parse(dataObject[0].data);
-                let useData = data.tinvoiceex;
-                if(useData[0].Id){
-                    sideBarService.getAllInvoiceList().then(function(data) {
-                        addVS1Data('TInvoiceEx',JSON.stringify(data)).then(function (datareturn) {
-                            location.reload(true);
-                        }).catch(function (err) {
-                            location.reload(true);
-                        });
-                    }).catch(function(err) {
-                        location.reload(true);
-                    });
-                }else{
-                    let getTimeStamp = dataObject[0].timestamp;
-                    if(getTimeStamp){
-                        if(getTimeStamp[0] != currenctTodayDate){
-                            sideBarService.getAllInvoiceListUpdate(currenctTodayDate).then(function(dataUpdate) {
-                                let newDataObject = [];
-                                if(dataUpdate.tinvoiceex.length === 0){
-                                    sideBarService.getAllInvoiceList().then(function(data) {
-                                        addVS1Data('TInvoiceEx',JSON.stringify(data)).then(function (datareturn) {
-                                            location.reload(true);
-                                        }).catch(function (err) {
-                                            location.reload(true);
-                                        });
-                                    }).catch(function(err) {
-                                        location.reload(true);
-                                    });
-                                }else{
-                                    let dataOld = JSON.parse(dataObject[0].data);
-                                    let oldObjectData = dataOld.tinvoiceex;
-
-                                    let dataNew = dataUpdate;
-                                    let newObjectData = dataNew.tinvoiceex;
-                                    let index = '';
-                                    let index2 = '';
-
-                                    var resultArray = []
-
-                                    oldObjectData.forEach(function(destObj) {
-                                        var addedcheck=false;
-                                        newObjectData.some(function(origObj) {
-                                            if(origObj.fields.ID == destObj.fields.ID) {
-                                                addedcheck = true;
-                                                index = oldObjectData.map(function (e) { return e.fields.ID; }).indexOf(parseInt(origObj.fields.ID));
-                                                destObj = origObj;
-                                                resultArray.push(destObj);
-
-                                            }
-                                        });
-                                        if(!addedcheck) {
-                                            resultArray.push(destObj)
-                                        }
-
-                                    });
-                                    newObjectData.forEach(function(origObj) {
-                                        var addedcheck=false;
-                                        oldObjectData.some(function(destObj) {
-                                            if(origObj.fields.ID == destObj.fields.ID) {
-                                                addedcheck = true;
-                                                index = oldObjectData.map(function (e) { return e.fields.ID; }).indexOf(parseInt(origObj.fields.ID));
-                                                destObj = origObj;
-                                                resultArray.push(destObj);
-
-                                            }
-                                        });
-                                        if(!addedcheck) {
-                                            resultArray.push(origObj)
-                                        }
-
-                                    });
-                                    var resultGetData = [];
-                                    $.each(resultArray, function (i, e) {
-                                        var matchingItems = $.grep(resultGetData, function (item) {
-                                            return item.fields.ID === e.fields.ID;
-                                        });
-                                        if (matchingItems.length === 0){
-                                            resultGetData.push(e);
-                                        }
-                                    });
-
-                                    let dataToAdd = {
-                                        tinvoiceex: resultGetData
-                                    };
-                                    addVS1Data('TInvoiceEx',JSON.stringify(dataToAdd)).then(function (datareturn) {
-                                        location.reload(true);
-                                    }).catch(function (err) {
-                                        location.reload(true);
-                                    });
-                                }
-
-                            }).catch(function(err) {
-                                addVS1Data('TInvoiceEx',dataObject[0].data).then(function (datareturn) {
-                                    location.reload(true);
-                                }).catch(function (err) {
-                                    location.reload(true);
-                                });
-                            });
-                        }
-
-                    }
-                }
-            }
-        }).catch(function (err) {
-            sideBarService.getAllInvoiceList().then(function(data) {
-                addVS1Data('TInvoiceEx',JSON.stringify(data)).then(function (datareturn) {
-                    location.reload(true);
-                }).catch(function (err) {
-                    location.reload(true);
-                });
-            }).catch(function(err) {
+        sideBarService.getAllInvoiceList().then(function(data) {
+            addVS1Data('TInvoiceEx',JSON.stringify(data)).then(function (datareturn) {
+                location.reload(true);
+            }).catch(function (err) {
                 location.reload(true);
             });
+        }).catch(function(err) {
+            location.reload(true);
         });
     },
     'click .printConfirm' : function(event){

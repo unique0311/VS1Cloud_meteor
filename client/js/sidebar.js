@@ -264,11 +264,11 @@ Template.sidenav.onRendered(function() {
     }
 
     templateObject.getAllTTransactionListReportData = function() {
-        sideBarService.getTTransactionListReport('').then(function(data) {
-            addVS1Data('TTransactionListReport',JSON.stringify(data));
-        }).catch(function(err) {
-
-        });
+        // sideBarService.getTTransactionListReport('').then(function(data) {
+        //     addVS1Data('TTransactionListReport',JSON.stringify(data));
+        // }).catch(function(err) {
+        //
+        // });
     }
 
     templateObject.getAllInvoiceListData = function() {
@@ -281,7 +281,7 @@ Template.sidenav.onRendered(function() {
     }
 
     templateObject.getAllSalesOrderExListData = function() {
-        sideBarService.getAllSalesOrderList('').then(function(data) {
+        sideBarService.getAllSalesOrderList(25,0).then(function(data) {
             addVS1Data('TSalesOrderEx',JSON.stringify(data));
         }).catch(function(err) {
 
@@ -289,7 +289,7 @@ Template.sidenav.onRendered(function() {
     }
 
     templateObject.getAllInvoiceListNonBOData = function() {
-        sideBarService.getAllInvoiceListNonBO(25,1).then(function(data) {
+        sideBarService.getAllInvoiceListNonBO(25,0).then(function(data) {
             //localStorage.setItem('VS1TInvoiceNonBackOrderList', JSON.stringify(data) || '');
             addVS1Data('TInvoiceNonBackOrder',JSON.stringify(data));
         }).catch(function(err) {
@@ -307,7 +307,7 @@ Template.sidenav.onRendered(function() {
     }
 
     templateObject.getAllTPurchaseOrderData = function() {
-        sideBarService.getAllPurchaseOrderList('').then(function(data) {
+        sideBarService.getAllPurchaseOrderList(25,0).then(function(data) {
             //localStorage.setItem('VS1TPurchaseOrderList', JSON.stringify(data) || '');
             addVS1Data('TPurchaseOrderEx',JSON.stringify(data));
         }).catch(function(err) {
@@ -316,12 +316,12 @@ Template.sidenav.onRendered(function() {
     }
 
     templateObject.getAllTReconcilationData = function() {
-        sideBarService.getAllReconcilationList().then(function(data) {
-            //localStorage.setItem('VS1TReconcilationList', JSON.stringify(data) || '');
-            addVS1Data('TReconciliation',JSON.stringify(data));
-        }).catch(function(err) {
-
-        });
+        // sideBarService.getAllReconcilationList().then(function(data) {
+        //     //localStorage.setItem('VS1TReconcilationList', JSON.stringify(data) || '');
+        //     addVS1Data('TReconciliation',JSON.stringify(data));
+        // }).catch(function(err) {
+        //
+        // });
     }
 
     templateObject.getAllTbillReportData = function() {
@@ -392,7 +392,7 @@ Template.sidenav.onRendered(function() {
     }
 
     templateObject.getAllTQuoteData = function() {
-        sideBarService.getAllQuoteList('').then(function(data) {
+        sideBarService.getAllQuoteList(25,0).then(function(data) {
             //localStorage.setItem('VS1TQuoteList', JSON.stringify(data) || '');
             addVS1Data('TQuote',JSON.stringify(data));
         }).catch(function(err) {
@@ -401,12 +401,12 @@ Template.sidenav.onRendered(function() {
     }
 
     templateObject.getAllTsalesOrderNonBackOrderData = function() {
-        sideBarService.getAllSalesOrderListNonBO().then(function(data) {
-            //localStorage.setItem('VS1TsalesOrderNonBackOrderList', JSON.stringify(data) || '');
-            addVS1Data('TsalesOrderNonBackOrder',JSON.stringify(data));
-        }).catch(function(err) {
-
-        });
+        // sideBarService.getAllSalesOrderListNonBO().then(function(data) {
+        //     //localStorage.setItem('VS1TsalesOrderNonBackOrderList', JSON.stringify(data) || '');
+        //     addVS1Data('TsalesOrderNonBackOrder',JSON.stringify(data));
+        // }).catch(function(err) {
+        //
+        // });
     }
 
     templateObject.getAllTBillData = function() {
@@ -419,7 +419,7 @@ Template.sidenav.onRendered(function() {
     }
 
     templateObject.getAllTBillExData = function() {
-        sideBarService.getAllBillExList('').then(function(data) {
+        sideBarService.getAllBillExList(25,0).then(function(data) {
             addVS1Data('TBillEx',JSON.stringify(data));
         }).catch(function(err) {
 
@@ -453,7 +453,7 @@ Template.sidenav.onRendered(function() {
     }
 
     templateObject.getAllTSalesListData = function() {
-        sideBarService.getSalesListData().then(function(data) {
+        sideBarService.getSalesListData(25,0).then(function(data) {
             //localStorage.setItem('VS1TSalesList', JSON.stringify(data) || '');
             addVS1Data('TSalesList',JSON.stringify(data));
         }).catch(function(err) {
@@ -495,11 +495,11 @@ Template.sidenav.onRendered(function() {
     }
 
     templateObject.getTPaymentListData = function() {
-        sideBarService.getTPaymentList('').then(function(data) {
-            addVS1Data('TPaymentList',JSON.stringify(data));
-        }).catch(function(err) {
-
-        });
+        // sideBarService.getTPaymentList(25,1).then(function(data) {
+        //     addVS1Data('TPaymentList',JSON.stringify(data));
+        // }).catch(function(err) {
+        //
+        // });
     }
 
     templateObject.getTARReportData = function() {
@@ -519,7 +519,7 @@ Template.sidenav.onRendered(function() {
     }
 
     templateObject.getTCustomerPaymentData = function() {
-        sideBarService.getTCustomerPaymentList().then(function(data) {
+        sideBarService.getTCustomerPaymentList(25,0).then(function(data) {
             addVS1Data('TCustomerPayment',JSON.stringify(data));
         }).catch(function(err) {
 
@@ -528,7 +528,7 @@ Template.sidenav.onRendered(function() {
 
 
     templateObject.getTSupplierPaymentData = function() {
-        sideBarService.getTSupplierPaymentList().then(function(data) {
+        sideBarService.getTSupplierPaymentList(25,0).then(function(data) {
             addVS1Data('TSupplierPayment',JSON.stringify(data));
         }).catch(function(err) {
 
@@ -544,15 +544,15 @@ Template.sidenav.onRendered(function() {
     }
 
     templateObject.getTVS1BankDepositData = function() {
-    sideBarService.getAllTVS1BankDepositData().then(function(data) {
-      addVS1Data('TVS1BankDeposit',JSON.stringify(data)).then(function (datareturn) {
-
-      }).catch(function (err) {
-
-      });
-    }).catch(function(err) {
-
-    });
+    // sideBarService.getAllTVS1BankDepositData().then(function(data) {
+    //   addVS1Data('TVS1BankDeposit',JSON.stringify(data)).then(function (datareturn) {
+    //
+    //   }).catch(function (err) {
+    //
+    //   });
+    // }).catch(function(err) {
+    //
+    // });
 
   }
 
@@ -854,82 +854,7 @@ getVS1Data('TInvoiceEx').then(function (dataObject) {
                 if(getTimeStamp){
                     if(loggedUserEventFired){
                         if(getTimeStamp[0] != currenctTodayDate){
-                            sideBarService.getAllSalesOrderList(getTimeStamp).then(function(dataUpdate) {
-                                let newDataObject = [];
-                                if(dataUpdate.tsalesorderex.length === 0){
-                                    addVS1Data('TSalesOrderEx',dataObject[0].data).then(function (datareturn) {
-                                    }).catch(function (err) {
-
-                                    });
-                                }else{
-                                    let dataOld = JSON.parse(dataObject[0].data);
-                                    let oldObjectData = dataOld.tsalesorderex;
-
-                                    let dataNew = dataUpdate;
-                                    let newObjectData = dataNew.tsalesorderex;
-                                    let index = '';
-                                    let index2 = '';
-                                    var resultArray = []
-
-                                    oldObjectData.forEach(function(destObj) {
-                                        var addedcheck=false;
-                                        newObjectData.some(function(origObj) {
-                                            if(origObj.fields.ID == destObj.fields.ID) {
-                                                addedcheck = true;
-                                                index = oldObjectData.map(function (e) { return e.fields.ID; }).indexOf(parseInt(origObj.fields.ID));
-                                                destObj = origObj;
-                                                resultArray.push(destObj);
-
-                                            }
-                                        });
-                                        if(!addedcheck) {
-                                            resultArray.push(destObj)
-                                        }
-
-                                    });
-                                    newObjectData.forEach(function(origObj) {
-                                        var addedcheck=false;
-                                        oldObjectData.some(function(destObj) {
-                                            if(origObj.fields.ID == destObj.fields.ID) {
-                                                addedcheck = true;
-                                                index = oldObjectData.map(function (e) { return e.fields.ID; }).indexOf(parseInt(origObj.fields.ID));
-                                                destObj = origObj;
-                                                resultArray.push(destObj);
-
-                                            }
-                                        });
-                                        if(!addedcheck) {
-                                            resultArray.push(origObj)
-                                        }
-
-                                    });
-
-
-                                    var resultGetData = [];
-                                    $.each(resultArray, function (i, e) {
-                                        var matchingItems = $.grep(resultGetData, function (item) {
-                                            return item.fields.ID === e.fields.ID;
-                                        });
-                                        if (matchingItems.length === 0){
-                                            resultGetData.push(e);
-                                        }
-                                    });
-
-                                    let dataToAdd = {
-                                        tsalesorderex: resultGetData
-                                    };
-                                    addVS1Data('TSalesOrderEx',JSON.stringify(dataToAdd)).then(function (datareturn) {
-                                    }).catch(function (err) {
-
-                                    });
-                                }
-
-                            }).catch(function(err) {
-                                addVS1Data('TSalesOrderEx',dataObject[0].data).then(function (datareturn) {
-                                }).catch(function (err) {
-
-                                });
-                            });
+                          templateObject.getAllSalesOrderExListData();
                         }
                     }
                 }
@@ -961,83 +886,7 @@ getVS1Data('TInvoiceEx').then(function (dataObject) {
                 if(getTimeStamp){
                     if(loggedUserEventFired){
                         if(getTimeStamp[0] != currenctTodayDate){
-                            sideBarService.getAllTPurchaseOrderData(getTimeStamp).then(function(dataUpdate) {
-                                let newDataObject = [];
-                                if(dataUpdate.tpurchaseorderex.length === 0){
-                                    addVS1Data('TPurchaseOrderEx',dataObject[0].data).then(function (datareturn) {
-                                    }).catch(function (err) {
-
-                                    });
-                                }else{
-                                    let dataOld = JSON.parse(dataObject[0].data);
-                                    let oldObjectData = dataOld.tpurchaseorderex;
-
-                                    let dataNew = dataUpdate;
-                                    let newObjectData = dataNew.tpurchaseorderex;
-                                    let index = '';
-                                    let index2 = '';
-
-                                    var resultArray = []
-
-                                    oldObjectData.forEach(function(destObj) {
-                                        var addedcheck=false;
-                                        newObjectData.some(function(origObj) {
-                                            if(origObj.fields.ID == destObj.fields.ID) {
-                                                addedcheck = true;
-                                                index = oldObjectData.map(function (e) { return e.fields.ID; }).indexOf(parseInt(origObj.fields.ID));
-                                                destObj = origObj;
-                                                resultArray.push(destObj);
-
-                                            }
-                                        });
-                                        if(!addedcheck) {
-                                            resultArray.push(destObj)
-                                        }
-
-                                    });
-                                    newObjectData.forEach(function(origObj) {
-                                        var addedcheck=false;
-                                        oldObjectData.some(function(destObj) {
-                                            if(origObj.fields.ID == destObj.fields.ID) {
-                                                addedcheck = true;
-                                                index = oldObjectData.map(function (e) { return e.fields.ID; }).indexOf(parseInt(origObj.fields.ID));
-                                                destObj = origObj;
-                                                resultArray.push(destObj);
-
-                                            }
-                                        });
-                                        if(!addedcheck) {
-                                            resultArray.push(origObj)
-                                        }
-
-                                    });
-
-
-                                    var resultGetData = [];
-                                    $.each(resultArray, function (i, e) {
-                                        var matchingItems = $.grep(resultGetData, function (item) {
-                                            return item.fields.ID === e.fields.ID;
-                                        });
-                                        if (matchingItems.length === 0){
-                                            resultGetData.push(e);
-                                        }
-                                    });
-
-                                    let dataToAdd = {
-                                        tpurchaseorderex: resultGetData
-                                    };
-                                    addVS1Data('TPurchaseOrderEx',JSON.stringify(dataToAdd)).then(function (datareturn) {
-                                    }).catch(function (err) {
-
-                                    });
-                                }
-
-                            }).catch(function(err) {
-                                addVS1Data('TPurchaseOrderEx',dataObject[0].data).then(function (datareturn) {
-                                }).catch(function (err) {
-
-                                });
-                            });
+                          templateObject.getAllTPurchaseOrderData();
                         }
                     }
                 }
@@ -1062,84 +911,7 @@ getVS1Data('TInvoiceEx').then(function (dataObject) {
                     if(getTimeStamp){
                         if(loggedUserEventFired){
                             if(getTimeStamp[0] != currenctTodayDate){
-                                sideBarService.getAllQuoteList(getTimeStamp).then(function(dataUpdate) {
-                                    let newDataObject = [];
-                                    if(dataUpdate.tquoteex.length === 0){
-                                        addVS1Data('TQuote',dataObject[0].data).then(function (datareturn) {
-                                        }).catch(function (err) {
-
-                                        });
-                                    }else{
-                                        let dataOld = JSON.parse(dataObject[0].data);
-                                        let oldObjectData = dataOld.tquoteex;
-
-                                        let dataNew = dataUpdate;
-                                        let newObjectData = dataNew.tquoteex;
-                                        let index = '';
-                                        let index2 = '';
-
-
-                                        var resultArray = []
-
-                                        oldObjectData.forEach(function(destObj) {
-                                            var addedcheck=false;
-                                            newObjectData.some(function(origObj) {
-                                                if(origObj.fields.ID == destObj.fields.ID) {
-                                                    addedcheck = true;
-                                                    index = oldObjectData.map(function (e) { return e.fields.ID; }).indexOf(parseInt(origObj.fields.ID));
-                                                    destObj = origObj;
-                                                    resultArray.push(destObj);
-
-                                                }
-                                            });
-                                            if(!addedcheck) {
-                                                resultArray.push(destObj)
-                                            }
-
-                                        });
-                                        newObjectData.forEach(function(origObj) {
-                                            var addedcheck=false;
-                                            oldObjectData.some(function(destObj) {
-                                                if(origObj.fields.ID == destObj.fields.ID) {
-                                                    addedcheck = true;
-                                                    index = oldObjectData.map(function (e) { return e.fields.ID; }).indexOf(parseInt(origObj.fields.ID));
-                                                    destObj = origObj;
-                                                    resultArray.push(destObj);
-
-                                                }
-                                            });
-                                            if(!addedcheck) {
-                                                resultArray.push(origObj)
-                                            }
-
-                                        });
-
-
-                                        var resultGetData = [];
-                                        $.each(resultArray, function (i, e) {
-                                            var matchingItems = $.grep(resultGetData, function (item) {
-                                                return item.fields.ID === e.fields.ID;
-                                            });
-                                            if (matchingItems.length === 0){
-                                                resultGetData.push(e);
-                                            }
-                                        });
-
-                                        let dataToAdd = {
-                                            tquoteex: resultGetData
-                                        };
-                                        addVS1Data('TQuote',JSON.stringify(dataToAdd)).then(function (datareturn) {
-                                        }).catch(function (err) {
-
-                                        });
-                                    }
-
-                                }).catch(function(err) {
-                                    addVS1Data('TQuote',dataObject[0].data).then(function (datareturn) {
-                                    }).catch(function (err) {
-
-                                    });
-                                });
+                                templateObject.getAllTQuoteData();
                             }
                         }
                     }
@@ -1174,84 +946,7 @@ getVS1Data('TInvoiceEx').then(function (dataObject) {
                     if(getTimeStamp){
                         if(loggedUserEventFired){
                             if(getTimeStamp[0] != currenctTodayDate){
-                                sideBarService.getAllBillExList(getTimeStamp).then(function(dataUpdate) {
-                                    let newDataObject = [];
-                                    if(dataUpdate.tbillex.length === 0){
-                                        addVS1Data('TBillEx',dataObject[0].data).then(function (datareturn) {
-                                        }).catch(function (err) {
-
-                                        });
-                                    }else{
-                                        let dataOld = JSON.parse(dataObject[0].data);
-                                        let oldObjectData = dataOld.tbillex;
-
-                                        let dataNew = dataUpdate;
-                                        let newObjectData = dataNew.tbillex;
-                                        let index = '';
-                                        let index2 = '';
-
-
-                                        var resultArray = []
-
-                                        oldObjectData.forEach(function(destObj) {
-                                            var addedcheck=false;
-                                            newObjectData.some(function(origObj) {
-                                                if(origObj.fields.ID == destObj.fields.ID) {
-                                                    addedcheck = true;
-                                                    index = oldObjectData.map(function (e) { return e.fields.ID; }).indexOf(parseInt(origObj.fields.ID));
-                                                    destObj = origObj;
-                                                    resultArray.push(destObj);
-
-                                                }
-                                            });
-                                            if(!addedcheck) {
-                                                resultArray.push(destObj)
-                                            }
-
-                                        });
-                                        newObjectData.forEach(function(origObj) {
-                                            var addedcheck=false;
-                                            oldObjectData.some(function(destObj) {
-                                                if(origObj.fields.ID == destObj.fields.ID) {
-                                                    addedcheck = true;
-                                                    index = oldObjectData.map(function (e) { return e.fields.ID; }).indexOf(parseInt(origObj.fields.ID));
-                                                    destObj = origObj;
-                                                    resultArray.push(destObj);
-
-                                                }
-                                            });
-                                            if(!addedcheck) {
-                                                resultArray.push(origObj)
-                                            }
-
-                                        });
-
-
-                                        var resultGetData = [];
-                                        $.each(resultArray, function (i, e) {
-                                            var matchingItems = $.grep(resultGetData, function (item) {
-                                                return item.fields.ID === e.fields.ID;
-                                            });
-                                            if (matchingItems.length === 0){
-                                                resultGetData.push(e);
-                                            }
-                                        });
-
-                                        let dataToAdd = {
-                                            tbillex: resultGetData
-                                        };
-                                        addVS1Data('TBillEx',JSON.stringify(dataToAdd)).then(function (datareturn) {
-                                        }).catch(function (err) {
-
-                                        });
-                                    }
-
-                                }).catch(function(err) {
-                                    addVS1Data('TBillEx',dataObject[0].data).then(function (datareturn) {
-                                    }).catch(function (err) {
-
-                                    });
-                                });
+                                templateObject.getAllTBillExData();
                             }
                         }
                     }
@@ -2431,76 +2126,7 @@ setTimeout(function() {
             if(getTimeStamp){
                 if(loggedUserEventFired){
                     if(getTimeStamp[0] != currenctTodayDate){
-                        sideBarService.getTPaymentList(getTimeStamp).then(function(dataUpdate) {
-                            let newDataObject = [];
-                            if(dataUpdate.tpaymentlist.length === 0){
-                            }else{
-                                let dataOld = JSON.parse(dataObject[0].data);
-                                let oldObjectData = dataOld.tpaymentlist;
-
-                                let dataNew = dataUpdate;
-                                let newObjectData = dataNew.tpaymentlist;
-                                let index = '';
-                                let index2 = '';
-                                var resultArray = []
-
-                                oldObjectData.forEach(function(destObj) {
-                                    var addedcheck=false;
-                                    newObjectData.some(function(origObj) {
-                                        if(origObj.PaymentID == destObj.PaymentID) {
-                                            addedcheck = true;
-                                            destObj = origObj;
-                                            resultArray.push(destObj);
-
-                                        }
-                                    })
-                                    if(!addedcheck) {
-                                        resultArray.push(destObj)
-                                    }
-                                });
-
-                                newObjectData.forEach(function(origObj) {
-                                    var addedcheck=false;
-                                    oldObjectData.some(function(destObj) {
-                                        if(origObj.PaymentID == destObj.PaymentID) {
-                                            addedcheck = true;
-                                            destObj = origObj;
-                                            resultArray.push(destObj);
-
-                                        }
-
-                                    })
-                                    if(!addedcheck) {
-                                        resultArray.push(origObj)
-                                    }
-                                });
-
-
-                                var resultGetData = [];
-                                $.each(resultArray, function (i, e) {
-                                    var matchingItems = $.grep(resultGetData, function (item) {
-                                        return item.PaymentID === e.PaymentID;
-                                    });
-                                    if (matchingItems.length === 0){
-                                        resultGetData.push(e);
-                                    }
-                                });
-
-                                let dataToAdd = {
-                                    tpaymentlist: resultGetData
-                                };
-                                addVS1Data('TPaymentList',JSON.stringify(dataToAdd)).then(function (datareturn) {
-                                }).catch(function (err) {
-
-                                });
-                            }
-
-                        }).catch(function(err) {
-                            addVS1Data('TPaymentList',dataObject[0].data).then(function (datareturn) {
-                            }).catch(function (err) {
-
-                            });
-                        });
+                      templateObject.getTPaymentListData();
                     }
                 }
             }
@@ -2517,79 +2143,7 @@ setTimeout(function() {
             if(getTimeStamp){
                 if(loggedUserEventFired){
                     if(getTimeStamp[0] != currenctTodayDate){
-                        sideBarService.getTSupplierPayment(getTimeStamp).then(function(dataUpdate) {
-                            let newDataObject = [];
-                            if(dataUpdate.tsupplierpayment.length === 0){
-                            }else{
-                                let dataOld = JSON.parse(dataObject[0].data);
-                                let oldObjectData = dataOld.tsupplierpayment;
-
-                                let dataNew = dataUpdate;
-                                let newObjectData = dataNew.tsupplierpayment;
-                                let index = '';
-                                let index2 = '';
-
-                                var resultArray = []
-
-                                oldObjectData.forEach(function(destObj) {
-                                    var addedcheck=false;
-                                    newObjectData.some(function(origObj) {
-                                        if(origObj.fields.ID == destObj.fields.ID) {
-                                            addedcheck = true;
-                                            index = oldObjectData.map(function (e) { return e.fields.ID; }).indexOf(parseInt(origObj.fields.ID));
-                                            destObj = origObj;
-                                            resultArray.push(destObj);
-
-                                        }
-                                    });
-                                    if(!addedcheck) {
-                                        resultArray.push(destObj)
-                                    }
-
-                                });
-                                newObjectData.forEach(function(origObj) {
-                                    var addedcheck=false;
-                                    oldObjectData.some(function(destObj) {
-                                        if(origObj.fields.ID == destObj.fields.ID) {
-                                            addedcheck = true;
-                                            index = oldObjectData.map(function (e) { return e.fields.ID; }).indexOf(parseInt(origObj.fields.ID));
-                                            destObj = origObj;
-                                            resultArray.push(destObj);
-
-                                        }
-                                    });
-                                    if(!addedcheck) {
-                                        resultArray.push(origObj)
-                                    }
-
-                                });
-
-
-                                var resultGetData = [];
-                                $.each(resultArray, function (i, e) {
-                                    var matchingItems = $.grep(resultGetData, function (item) {
-                                        return item.fields.ID === e.fields.ID;
-                                    });
-                                    if (matchingItems.length === 0){
-                                        resultGetData.push(e);
-                                    }
-                                });
-
-                                let dataToAdd = {
-                                    tsupplierpayment: resultGetData
-                                };
-                                addVS1Data('TSupplierPayment',JSON.stringify(dataToAdd)).then(function (datareturn) {
-                                }).catch(function (err) {
-
-                                });
-                            }
-
-                        }).catch(function(err) {
-                            addVS1Data('TSupplierPayment',dataObject[0].data).then(function (datareturn) {
-                            }).catch(function (err) {
-
-                            });
-                        });
+                        templateObject.getTSupplierPaymentData();
                     }
                 }
             }
@@ -2606,79 +2160,7 @@ setTimeout(function() {
             if(getTimeStamp){
                 if(loggedUserEventFired){
                     if(getTimeStamp[0] != currenctTodayDate){
-                        sideBarService.getTCustomerPayment(getTimeStamp).then(function(dataUpdate) {
-                            let newDataObject = [];
-                            if(dataUpdate.tcustomerpayment.length === 0){
-                            }else{
-                                let dataOld = JSON.parse(dataObject[0].data);
-                                let oldObjectData = dataOld.tcustomerpayment;
-
-                                let dataNew = dataUpdate;
-                                let newObjectData = dataNew.tcustomerpayment;
-                                let index = '';
-                                let index2 = '';
-
-                                var resultArray = []
-
-                                oldObjectData.forEach(function(destObj) {
-                                    var addedcheck=false;
-                                    newObjectData.some(function(origObj) {
-                                        if(origObj.fields.ID == destObj.fields.ID) {
-                                            addedcheck = true;
-                                            index = oldObjectData.map(function (e) { return e.fields.ID; }).indexOf(parseInt(origObj.fields.ID));
-                                            destObj = origObj;
-                                            resultArray.push(destObj);
-
-                                        }
-                                    });
-                                    if(!addedcheck) {
-                                        resultArray.push(destObj)
-                                    }
-
-                                });
-                                newObjectData.forEach(function(origObj) {
-                                    var addedcheck=false;
-                                    oldObjectData.some(function(destObj) {
-                                        if(origObj.fields.ID == destObj.fields.ID) {
-                                            addedcheck = true;
-                                            index = oldObjectData.map(function (e) { return e.fields.ID; }).indexOf(parseInt(origObj.fields.ID));
-                                            destObj = origObj;
-                                            resultArray.push(destObj);
-
-                                        }
-                                    });
-                                    if(!addedcheck) {
-                                        resultArray.push(origObj)
-                                    }
-
-                                });
-
-
-                                var resultGetData = [];
-                                $.each(resultArray, function (i, e) {
-                                    var matchingItems = $.grep(resultGetData, function (item) {
-                                        return item.fields.ID === e.fields.ID;
-                                    });
-                                    if (matchingItems.length === 0){
-                                        resultGetData.push(e);
-                                    }
-                                });
-
-                                let dataToAdd = {
-                                    tcustomerpayment: resultGetData
-                                };
-                                addVS1Data('TCustomerPayment',JSON.stringify(dataToAdd)).then(function (datareturn) {
-                                }).catch(function (err) {
-
-                                });
-                            }
-
-                        }).catch(function(err) {
-                            addVS1Data('TCustomerPayment',dataObject[0].data).then(function (datareturn) {
-                            }).catch(function (err) {
-
-                            });
-                        });
+                        templateObject.getTCustomerPaymentData();
                     }
                 }
             }

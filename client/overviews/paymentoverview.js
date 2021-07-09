@@ -322,9 +322,14 @@ Template.paymentoverview.onRendered(function() {
     templateObject.getAllSalesOrderData = function () {
         getVS1Data('TPaymentList').then(function (dataObject) {
             if(dataObject.length == 0){
-                paymentService.getAllCombinePaymentDetails().then(function (data) {
+                sideBarService.getTPaymentList(25,0).then(function (data) {
                     let lineItems = [];
                     let lineItemObj = {};
+                    sideBarService.getTPaymentList(25,0).then(function(data) {
+                        addVS1Data('TPaymentList',JSON.stringify(data));
+                    }).catch(function(err) {
+
+                    });
                     for(let i=0; i<data.tpaymentlist.length; i++){
                         let amount = utilityService.modifynegativeCurrencyFormat(data.tpaymentlist[i].PaymentAmount)|| 0.00;
                         let openningBalance = utilityService.modifynegativeCurrencyFormat(data.tpaymentlist[i].OpeningBalance) || 0.00;
@@ -444,6 +449,7 @@ Template.paymentoverview.onRendered(function() {
                             // bStateSave: true,
                             // rowId: 0,
                             pageLength: 25,
+                            searching: false,
                             lengthMenu: [ [10, 25, 50, -1], [10, 25, 50, "All"] ],
                             info: true,
                             responsive: true,
@@ -641,6 +647,7 @@ Template.paymentoverview.onRendered(function() {
                         // bStateSave: true,
                         // rowId: 0,
                         pageLength: 25,
+                        searching: false,
                         lengthMenu: [ [10, 25, 50, -1], [10, 25, 50, "All"] ],
                         info: true,
                         responsive: true,
@@ -650,6 +657,7 @@ Template.paymentoverview.onRendered(function() {
                             $('#tblPaymentOverview').DataTable().ajax.reload();
                         },
                         "fnDrawCallback": function (oSettings) {
+
                             setTimeout(function () {
                                 MakeNegative();
                             }, 100);
@@ -711,9 +719,14 @@ Template.paymentoverview.onRendered(function() {
                 });
             }
         }).catch(function (err) {
-            paymentService.getAllCombinePaymentDetails().then(function (data) {
+            sideBarService.getTPaymentList(25,0).then(function (data) {
                 let lineItems = [];
                 let lineItemObj = {};
+                sideBarService.getTPaymentList(25,0).then(function(data) {
+                    addVS1Data('TPaymentList',JSON.stringify(data));
+                }).catch(function(err) {
+
+                });
                 for(let i=0; i<data.tpaymentlist.length; i++){
                     let amount = utilityService.modifynegativeCurrencyFormat(data.tpaymentlist[i].PaymentAmount)|| 0.00;
                     let openningBalance = utilityService.modifynegativeCurrencyFormat(data.tpaymentlist[i].OpeningBalance) || 0.00;
@@ -836,6 +849,7 @@ Template.paymentoverview.onRendered(function() {
                         // bStateSave: true,
                         // rowId: 0,
                         pageLength: 25,
+                        searching: false,
                         lengthMenu: [ [10, 25, 50, -1], [10, 25, 50, "All"] ],
                         info: true,
                         responsive: true,
