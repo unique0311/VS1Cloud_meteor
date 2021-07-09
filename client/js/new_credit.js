@@ -2723,8 +2723,8 @@ Template.creditcard.events({
                 }
 
 
-                var subTotal = parseInt(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) || 0;
-                var taxTotal = parseInt(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) * parseFloat(taxrateamount);
+                var subTotal = parseFloat(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) || 0;
+                var taxTotal = parseFloat(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) * parseFloat(taxrateamount);
                 $tblrow.find('.lineTaxAmount').text(utilityService.modifynegativeCurrencyFormat(taxTotal));
                 if (!isNaN(subTotal)) {
                     $tblrow.find('.lineAmt').text(utilityService.modifynegativeCurrencyFormat(subTotal));

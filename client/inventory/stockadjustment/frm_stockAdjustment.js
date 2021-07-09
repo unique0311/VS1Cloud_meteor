@@ -28,13 +28,13 @@ Template.stockadjustmentcard.onCreated(() => {
 
     templateObject.productquantityrecord = new ReactiveVar([]);
 
-    
+
     setTimeout(function () {
 
         var x = window.matchMedia("(max-width: 1024px)")
 
         function mediaQuery(x) {
-            if (x.matches) { 
+            if (x.matches) {
 
                 $("#colToAccount").removeClass("col-2");
                 $("#colToAccount").addClass("col-4");
@@ -44,8 +44,8 @@ Template.stockadjustmentcard.onCreated(() => {
                 $("#colDate").addClass("col-4");
             }
         }
-        mediaQuery(x) 
-        x.addListener(mediaQuery) 
+        mediaQuery(x)
+        x.addListener(mediaQuery)
     }, 10);
 
     setTimeout(function () {
@@ -53,7 +53,7 @@ Template.stockadjustmentcard.onCreated(() => {
         var x = window.matchMedia("(max-width: 420px)")
 
         function mediaQuery(x) {
-            if (x.matches) { 
+            if (x.matches) {
 
                 $("#colToAccount").removeClass("col-2");
                 $("#colToAccount").addClass("col-12");
@@ -66,10 +66,10 @@ Template.stockadjustmentcard.onCreated(() => {
                 $("#colDate").addClass("marginright16");
             }
         }
-        mediaQuery(x) 
-        x.addListener(mediaQuery) 
+        mediaQuery(x)
+        x.addListener(mediaQuery)
     }, 10);
-    
+
 
 });
 Template.stockadjustmentcard.onRendered(() => {
@@ -332,14 +332,14 @@ Template.stockadjustmentcard.onRendered(() => {
                                             let columnClass = columHeaderUpdate.substring(columHeaderUpdate.indexOf(".") + 1);
                                             let columnWidth = customcolumn[i].width;
 
-                                            
+
                                             $("" + columHeaderUpdate + "").html(columData);
                                             if (columnWidth != 0) {
                                                 $("" + columHeaderUpdate + "").css('width', columnWidth + '%');
                                             }
 
                                             if (hiddenColumn == true) {
-                                                
+
                                                 //$("."+columnClass+"").css('display','none');
                                                 $("." + columnClass + "").addClass('hiddenColumn');
                                                 $("." + columnClass + "").removeClass('showColumn');
@@ -463,14 +463,14 @@ Template.stockadjustmentcard.onRendered(() => {
                                                 let columnClass = columHeaderUpdate.substring(columHeaderUpdate.indexOf(".") + 1);
                                                 let columnWidth = customcolumn[i].width;
 
-                                                
+
                                                 $("" + columHeaderUpdate + "").html(columData);
                                                 if (columnWidth != 0) {
                                                     $("" + columHeaderUpdate + "").css('width', columnWidth + '%');
                                                 }
 
                                                 if (hiddenColumn == true) {
-                                                    
+
                                                     //$("."+columnClass+"").css('display','none');
                                                     $("." + columnClass + "").addClass('hiddenColumn');
                                                     $("." + columnClass + "").removeClass('showColumn');
@@ -570,14 +570,14 @@ Template.stockadjustmentcard.onRendered(() => {
                                         let columnClass = columHeaderUpdate.substring(columHeaderUpdate.indexOf(".") + 1);
                                         let columnWidth = customcolumn[i].width;
 
-                                        
+
                                         $("" + columHeaderUpdate + "").html(columData);
                                         if (columnWidth != 0) {
                                             $("" + columHeaderUpdate + "").css('width', columnWidth + '%');
                                         }
 
                                         if (hiddenColumn == true) {
-                                            
+
                                             //$("."+columnClass+"").css('display','none');
                                             $("." + columnClass + "").addClass('hiddenColumn');
                                             $("." + columnClass + "").removeClass('showColumn');
@@ -674,7 +674,7 @@ Template.stockadjustmentcard.onRendered(() => {
                             let hiddenColumn = customcolumn[i].hidden;
                             let columnClass = columHeaderUpdate.substring(columHeaderUpdate.indexOf(".") + 1);
                             let columnWidth = customcolumn[i].width;
-                            
+
                             $("" + columHeaderUpdate + "").html(columData);
                             if (columnWidth != 0) {
                                 $("" + columHeaderUpdate + "").css('width', columnWidth + '%');
@@ -715,7 +715,7 @@ Template.stockadjustmentcard.onRendered(() => {
             let lineAmount = 0;
             let subGrandTotal = 0;
             let taxGrandTotal = 0;
-            
+
             $('#' + selectLineID + " .lineProductName").text(lineProductName);
             $('#' + selectLineID + " .lineProductName").attr('productid', lineProductID);
             $('#' + selectLineID + " .lineProductName").attr('productcost', lineProdCost);
@@ -1123,8 +1123,8 @@ Template.stockadjustmentcard.events({
             }
 
 
-            var subTotal = parseInt(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) || 0;
-            var taxTotal = parseInt(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) * parseFloat(taxrateamount);
+            var subTotal = parseFloat(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) || 0;
+            var taxTotal = parseFloat(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) * parseFloat(taxrateamount);
             if (!isNaN(subTotal)) {
                 $tblrow.find('.lineAmt').text(Currency + '' + subTotal.toLocaleString(undefined, { minimumFractionDigits: 2 }));
                 subGrandTotal += isNaN(subTotal) ? 0 : subTotal;
@@ -1184,8 +1184,8 @@ Template.stockadjustmentcard.events({
             }
 
 
-            var subTotal = parseInt(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) || 0;
-            var taxTotal = parseInt(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) * parseFloat(taxrateamount);
+            var subTotal = parseFloat(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) || 0;
+            var taxTotal = parseFloat(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) * parseFloat(taxrateamount);
             if (!isNaN(subTotal)) {
                 $tblrow.find('.lineAmt').text(Currency + '' + subTotal.toLocaleString(undefined, { minimumFractionDigits: 2 }));
                 subGrandTotal += isNaN(subTotal) ? 0 : subTotal;
@@ -1564,7 +1564,7 @@ Template.stockadjustmentcard.events({
                     }
                 };
             }
-            
+
             stockTransferService.saveStockAdjustment(objDetails).then(function (objDetails) {
                 Router.go('/stockadjustmentoverview?success=true');
                 $('.modal-backdrop').css('display', 'none');

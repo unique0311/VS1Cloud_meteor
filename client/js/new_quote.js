@@ -2582,8 +2582,8 @@ Template.new_quote.onRendered(() => {
                 }
 
 
-                var subTotal = parseInt(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) || 0;
-                var taxTotal = parseInt(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) * parseFloat(taxrateamount);
+                var subTotal = parseFloat(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) || 0;
+                var taxTotal = parseFloat(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) * parseFloat(taxrateamount);
                 $tblrow.find('.lineTaxAmount').text(utilityService.modifynegativeCurrencyFormat(taxTotal));
                 if (!isNaN(subTotal)) {
                     $tblrow.find('.lineAmt').text(utilityService.modifynegativeCurrencyFormat(subTotal));
@@ -2618,8 +2618,8 @@ Template.new_quote.onRendered(() => {
                             }
                         }
                     }
-                    var subTotal = parseInt(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) || 0;
-                    var taxTotal = parseInt(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) * parseFloat(taxrateamount);
+                    var subTotal = parseFloat(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) || 0;
+                    var taxTotal = parseFloat(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) * parseFloat(taxrateamount);
                     $printrows.find('#lineTaxAmount').text(utilityService.modifynegativeCurrencyFormat(taxTotal))
                     if (!isNaN(subTotal)) {
                         $printrows.find('#lineAmt').text(utilityService.modifynegativeCurrencyFormat(subTotal));
@@ -2686,11 +2686,11 @@ Template.new_quote.onRendered(() => {
                 }
 
 
-                var subTotal = parseInt(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) || 0;
+                var subTotal = parseFloat(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) || 0;
                 if ((taxrateamount == '') || (taxrateamount == ' ')) {
                     var taxTotal = 0;
                 } else {
-                    var taxTotal = parseInt(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) * parseFloat(taxrateamount);
+                    var taxTotal = parseFloat(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) * parseFloat(taxrateamount);
                 }
                 $tblrow.find('.lineTaxAmount').text(utilityService.modifynegativeCurrencyFormat(taxTotal));
                 if (!isNaN(subTotal)) {
@@ -2727,8 +2727,8 @@ Template.new_quote.onRendered(() => {
                             }
                         }
                     }
-                    var subTotal = parseInt(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) || 0;
-                    var taxTotal = parseInt(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) * parseFloat(taxrateamount);
+                    var subTotal = parseFloat(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) || 0;
+                    var taxTotal = parseFloat(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) * parseFloat(taxrateamount);
                     $printrows.find('#lineTaxAmount').text(utilityService.modifynegativeCurrencyFormat(taxTotal))
                     if (!isNaN(subTotal)) {
                         $printrows.find('#lineAmt').text(utilityService.modifynegativeCurrencyFormat(subTotal));
@@ -2815,8 +2815,8 @@ Template.new_quote.onRendered(() => {
                                 }
                             }
 
-                            var subTotal = parseInt(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) || 0;
-                            var taxTotal = parseInt(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) * parseFloat(taxrateamount);
+                            var subTotal = parseFloat(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) || 0;
+                            var taxTotal = parseFloat(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) * parseFloat(taxrateamount);
                             $tblrow.find('.lineTaxAmount').text(utilityService.modifynegativeCurrencyFormat(taxTotal));
                             if (!isNaN(subTotal)) {
                                 $tblrow.find('.lineAmt').text(utilityService.modifynegativeCurrencyFormat(subTotal));
@@ -2856,8 +2856,8 @@ Template.new_quote.onRendered(() => {
                                 }
 
 
-                                var subTotal = parseInt(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) || 0;
-                                var taxTotal = parseInt(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) * parseFloat(taxrateamount);
+                                var subTotal = parseFloat(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) || 0;
+                                var taxTotal = parseFloat(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) * parseFloat(taxrateamount);
                                 $printrows.find('#lineTaxAmount').text(utilityService.modifynegativeCurrencyFormat(taxTotal))
                                 if (!isNaN(subTotal)) {
                                     $printrows.find('#lineAmt').text(utilityService.modifynegativeCurrencyFormat(subTotal));
@@ -3713,8 +3713,8 @@ Template.new_quote.events({
             }
 
 
-            var subTotal = parseInt(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) || 0;
-            var taxTotal = parseInt(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) * parseFloat(taxrateamount);
+            var subTotal = parseFloat(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) || 0;
+            var taxTotal = parseFloat(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) * parseFloat(taxrateamount);
             $tblrow.find('.lineTaxAmount').text(utilityService.modifynegativeCurrencyFormat(taxTotal));
             if (!isNaN(subTotal)) {
                 $tblrow.find('.lineAmt').text(utilityService.modifynegativeCurrencyFormat(subTotal));
@@ -3751,8 +3751,8 @@ Template.new_quote.events({
                     }
                 }
 
-                var subTotal = parseInt(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) || 0;
-                var taxTotal = parseInt(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) * parseFloat(taxrateamount);
+                var subTotal = parseFloat(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) || 0;
+                var taxTotal = parseFloat(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) * parseFloat(taxrateamount);
                 $printrows.find('#lineTaxAmount').text(utilityService.modifynegativeCurrencyFormat(taxTotal))
                 if (!isNaN(subTotal)) {
                     $printrows.find('#lineAmt').text(utilityService.modifynegativeCurrencyFormat(subTotal));
@@ -3822,8 +3822,8 @@ Template.new_quote.events({
             }
 
 
-            var subTotal = parseInt(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) || 0;
-            var taxTotal = parseInt(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) * parseFloat(taxrateamount);
+            var subTotal = parseFloat(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) || 0;
+            var taxTotal = parseFloat(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) * parseFloat(taxrateamount);
             $tblrow.find('.lineTaxAmount').text(utilityService.modifynegativeCurrencyFormat(taxTotal));
             if (!isNaN(subTotal)) {
                 $tblrow.find('.lineAmt').text(utilityService.modifynegativeCurrencyFormat(subTotal));
@@ -3860,8 +3860,8 @@ Template.new_quote.events({
                     }
                 }
 
-                var subTotal = parseInt(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) || 0;
-                var taxTotal = parseInt(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) * parseFloat(taxrateamount);
+                var subTotal = parseFloat(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) || 0;
+                var taxTotal = parseFloat(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) * parseFloat(taxrateamount);
                 $printrows.find('#lineTaxAmount').text(utilityService.modifynegativeCurrencyFormat(taxTotal))
                 if (!isNaN(subTotal)) {
                     $printrows.find('#lineAmt').text(utilityService.modifynegativeCurrencyFormat(subTotal));
@@ -4002,8 +4002,8 @@ Template.new_quote.events({
                     }
 
 
-                    var subTotal = parseInt(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) || 0;
-                    var taxTotal = parseInt(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) * parseFloat(taxrateamount);
+                    var subTotal = parseFloat(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) || 0;
+                    var taxTotal = parseFloat(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) * parseFloat(taxrateamount);
                     $tblrow.find('.lineTaxAmount').text(utilityService.modifynegativeCurrencyFormat(taxTotal));
                     if (!isNaN(subTotal)) {
                         $tblrow.find('.lineAmt').text(utilityService.modifynegativeCurrencyFormat(subTotal));
@@ -4039,8 +4039,8 @@ Template.new_quote.events({
                             }
                         }
                     }
-                    var subTotal = parseInt(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) || 0;
-                    var taxTotal = parseInt(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) * parseFloat(taxrateamount);
+                    var subTotal = parseFloat(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) || 0;
+                    var taxTotal = parseFloat(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) * parseFloat(taxrateamount);
                     $printrows.find('#lineTaxAmount').text(utilityService.modifynegativeCurrencyFormat(taxTotal))
                     if (!isNaN(subTotal)) {
                         $printrows.find('#lineAmt').text(utilityService.modifynegativeCurrencyFormat(subTotal));
@@ -4144,8 +4144,8 @@ Template.new_quote.events({
                 }
 
 
-                var subTotal = parseInt(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) || 0;
-                var taxTotal = parseInt(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) * parseFloat(taxrateamount);
+                var subTotal = parseFloat(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) || 0;
+                var taxTotal = parseFloat(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) * parseFloat(taxrateamount);
                 $tblrow.find('.lineTaxAmount').text(utilityService.modifynegativeCurrencyFormat(taxTotal));
                 if (!isNaN(subTotal)) {
                     $tblrow.find('.lineAmt').text(utilityService.modifynegativeCurrencyFormat(subTotal));
@@ -4181,8 +4181,8 @@ Template.new_quote.events({
                             }
                         }
                     }
-                    var subTotal = parseInt(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) || 0;
-                    var taxTotal = parseInt(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) * parseFloat(taxrateamount);
+                    var subTotal = parseFloat(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) || 0;
+                    var taxTotal = parseFloat(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) * parseFloat(taxrateamount);
                     $printrows.find('#lineTaxAmount').text(utilityService.modifynegativeCurrencyFormat(taxTotal))
                     if (!isNaN(subTotal)) {
                         $printrows.find('#lineAmt').text(utilityService.modifynegativeCurrencyFormat(subTotal));
