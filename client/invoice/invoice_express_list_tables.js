@@ -534,7 +534,7 @@ setTimeout(function () {
           if (settings.fnRecordsDisplay() >= settings._iDisplayLength) {
             $('.fullScreenSpin').css('display','none');
           }else{
-            sideBarService.getAllInvoiceListNonBO(dataLenght,1).then(function(dataNonBo) {
+            sideBarService.getAllInvoiceListNonBO(dataLenght,0).then(function(dataNonBo) {
               templateObject.resetData(dataNonBo);
               addVS1Data('TInvoiceNonBackOrder',JSON.stringify(dataNonBo)).then(function (datareturn) {
               $('.fullScreenSpin').css('display','none');

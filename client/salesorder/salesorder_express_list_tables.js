@@ -519,7 +519,7 @@ templateObject.datatablerecords.set(dataTableList);
                         if (settings.fnRecordsDisplay() >= settings._iDisplayLength) {
                           $('.fullScreenSpin').css('display','none');
                         }else{
-                          sideBarService.getAllSalesOrderList(dataLenght,1).then(function(dataNonBo) {
+                          sideBarService.getAllSalesOrderList(dataLenght,0).then(function(dataNonBo) {
                             templateObject.resetData(dataNonBo);
                             addVS1Data('TSalesOrderEx',JSON.stringify(dataNonBo)).then(function (datareturn) {
                             $('.fullScreenSpin').css('display','none');

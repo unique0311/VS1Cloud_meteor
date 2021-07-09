@@ -591,6 +591,7 @@ export class SideBarService extends BaseService {
         };
     }else{
       options = {
+        orderby:'"PurchaseOrderID desc"',
          ListType: "Detail",
          select: "[Deleted]=false",
          LimitCount:'"'+limitcount+'"',

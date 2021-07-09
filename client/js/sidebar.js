@@ -410,12 +410,12 @@ Template.sidenav.onRendered(function() {
     }
 
     templateObject.getAllTBillData = function() {
-        sideBarService.getAllBillList().then(function(data) {
-            //localStorage.setItem('VS1TBillList', JSON.stringify(data) || '');
-            addVS1Data('TBill',JSON.stringify(data));
-        }).catch(function(err) {
-
-        });
+        // sideBarService.getAllBillList().then(function(data) {
+        //     //localStorage.setItem('VS1TBillList', JSON.stringify(data) || '');
+        //     addVS1Data('TBill',JSON.stringify(data));
+        // }).catch(function(err) {
+        //
+        // });
     }
 
     templateObject.getAllTBillExData = function() {
@@ -427,7 +427,7 @@ Template.sidenav.onRendered(function() {
     }
 
     templateObject.getAllTCreditData = function() {
-        sideBarService.getAllCreditList('').then(function(data) {
+        sideBarService.getAllCreditList(25,0).then(function(data) {
             addVS1Data('TCredit',JSON.stringify(data));
         }).catch(function(err) {
 
@@ -972,83 +972,7 @@ getVS1Data('TInvoiceEx').then(function (dataObject) {
                     if(getTimeStamp){
                         if(loggedUserEventFired){
                             if(getTimeStamp[0] != currenctTodayDate){
-                                sideBarService.getAllCreditList(getTimeStamp).then(function(dataUpdate) {
-                                    let newDataObject = [];
-                                    if(dataUpdate.tcredit.length === 0){
-                                        addVS1Data('TCredit',dataObject[0].data).then(function (datareturn) {
-                                        }).catch(function (err) {
-
-                                        });
-                                    }else{
-                                        let dataOld = JSON.parse(dataObject[0].data);
-                                        let oldObjectData = dataOld.tcredit;
-
-                                        let dataNew = dataUpdate;
-                                        let newObjectData = dataNew.tcredit;
-                                        let index = '';
-                                        let index2 = '';
-
-                                        var resultArray = []
-
-                                        oldObjectData.forEach(function(destObj) {
-                                            var addedcheck=false;
-                                            newObjectData.some(function(origObj) {
-                                                if(origObj.fields.ID == destObj.fields.ID) {
-                                                    addedcheck = true;
-                                                    index = oldObjectData.map(function (e) { return e.fields.ID; }).indexOf(parseInt(origObj.fields.ID));
-                                                    destObj = origObj;
-                                                    resultArray.push(destObj);
-
-                                                }
-                                            });
-                                            if(!addedcheck) {
-                                                resultArray.push(destObj)
-                                            }
-
-                                        });
-                                        newObjectData.forEach(function(origObj) {
-                                            var addedcheck=false;
-                                            oldObjectData.some(function(destObj) {
-                                                if(origObj.fields.ID == destObj.fields.ID) {
-                                                    addedcheck = true;
-                                                    index = oldObjectData.map(function (e) { return e.fields.ID; }).indexOf(parseInt(origObj.fields.ID));
-                                                    destObj = origObj;
-                                                    resultArray.push(destObj);
-
-                                                }
-                                            });
-                                            if(!addedcheck) {
-                                                resultArray.push(origObj)
-                                            }
-
-                                        });
-
-
-                                        var resultGetData = [];
-                                        $.each(resultArray, function (i, e) {
-                                            var matchingItems = $.grep(resultGetData, function (item) {
-                                                return item.fields.ID === e.fields.ID;
-                                            });
-                                            if (matchingItems.length === 0){
-                                                resultGetData.push(e);
-                                            }
-                                        });
-
-                                        let dataToAdd = {
-                                            tcredit: resultGetData
-                                        };
-                                        addVS1Data('TCredit',JSON.stringify(dataToAdd)).then(function (datareturn) {
-                                        }).catch(function (err) {
-
-                                        });
-                                    }
-
-                                }).catch(function(err) {
-                                    addVS1Data('TCredit',dataObject[0].data).then(function (datareturn) {
-                                    }).catch(function (err) {
-
-                                    });
-                                });
+                                templateObject.getAllTCreditData();
                             }
                         }
                     }

@@ -517,7 +517,7 @@ Template.quoteslist.onRendered(function() {
                   if (settings.fnRecordsDisplay() >= settings._iDisplayLength) {
                     $('.fullScreenSpin').css('display','none');
                   }else{
-                    sideBarService.getAllQuoteList(dataLenght,1).then(function(dataNonBo) {
+                    sideBarService.getAllQuoteList(dataLenght,0).then(function(dataNonBo) {
                       templateObject.resetData(dataNonBo);
                       addVS1Data('TQuote',JSON.stringify(dataNonBo)).then(function (datareturn) {
                       $('.fullScreenSpin').css('display','none');

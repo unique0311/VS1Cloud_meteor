@@ -56,35 +56,81 @@ Template.creditlist.onRendered(function() {
         });
     };
 
+    templateObject.resetData = function (dataVal) {
+
+      let data = dataVal;
+let useData = data;
+let tableAll;
+let lineItems = [];
+let lineItemObj = {};
+for(let i=0; i<data.tcredit.length; i++){
+    let totalAmountEx = utilityService.modifynegativeCurrencyFormat(data.tcredit[i].fields.TotalAmount)|| 0.00;
+    let totalTax = utilityService.modifynegativeCurrencyFormat(data.tcredit[i].fields.TotalTax) || 0.00;
+    let totalAmount = utilityService.modifynegativeCurrencyFormat(data.tcredit[i].fields.TotalAmountInc)|| 0.00;
+    let totalPaid = utilityService.modifynegativeCurrencyFormat(data.tcredit[i].fields.TotalPaid)|| 0.00;
+    let totalOutstanding = utilityService.modifynegativeCurrencyFormat(data.tcredit[i].fields.TotalBalance)|| 0.00;
+    var dataList = {
+        id: data.tcredit[i].fields.ID || '',
+        employee:data.tcredit[i].fields.EmployeeName || '',
+        sortdate: data.tcredit[i].fields.OrderDate !=''? moment(data.tcredit[i].fields.OrderDate).format("YYYY/MM/DD"): data.tcredit[i].fields.OrderDate,
+        orderdate: data.tcredit[i].fields.OrderDate !=''? moment(data.tcredit[i].fields.OrderDate).format("DD/MM/YYYY"): data.tcredit[i].fields.OrderDate,
+        suppliername: data.tcredit[i].fields.SupplierName || '',
+        totalamountex: totalAmountEx || 0.00,
+        totaltax: totalTax || 0.00,
+        totalamount: totalAmount || 0.00,
+        totalpaid: totalPaid || 0.00,
+        totaloustanding: totalOutstanding || 0.00,
+        orderstatus: data.tcredit[i].fields.OrderStatus || '',
+        custfield1: '' || '',
+        custfield2: '' || '',
+        comments: data.tcredit[i].fields.Comments || '',
+    };
+    if(data.tcredit[i].fields.SupplierName.replace(/\s/g, '') != ""){
+        dataTableList.push(dataList);
+    }
+
+
+}
+templateObject.datatablerecords.set(dataTableList);
+    if(templateObject.datatablerecords.get()){
+
+      setTimeout(function () {
+        location.reload();
+      }, data.tcredit.length * 5);
+    }
+
+    }
+
     templateObject.getAllCreditData = function () {
         getVS1Data('TCredit').then(function (dataObject) {
             if(dataObject.length == 0){
-                purchaseService.getAllCreditList().then(function (data) {
+                sideBarService.getAllCreditList(25,0).then(function (data) {
                     let lineItems = [];
                     let lineItemObj = {};
+                    addVS1Data('TCredit',JSON.stringify(data));
                     for(let i=0; i<data.tcredit.length; i++){
-                        let totalAmountEx = utilityService.modifynegativeCurrencyFormat(data.tcredit[i].TotalAmount)|| 0.00;
-                        let totalTax = utilityService.modifynegativeCurrencyFormat(data.tcredit[i].TotalTax) || 0.00;
-                        let totalAmount = utilityService.modifynegativeCurrencyFormat(data.tcredit[i].TotalAmountInc)|| 0.00;
-                        let totalPaid = utilityService.modifynegativeCurrencyFormat(data.tcredit[i].TotalPaid)|| 0.00;
-                        let totalOutstanding = utilityService.modifynegativeCurrencyFormat(data.tcredit[i].TotalBalance)|| 0.00;
+                        let totalAmountEx = utilityService.modifynegativeCurrencyFormat(data.tcredit[i].fields.TotalAmount)|| 0.00;
+                        let totalTax = utilityService.modifynegativeCurrencyFormat(data.tcredit[i].fields.TotalTax) || 0.00;
+                        let totalAmount = utilityService.modifynegativeCurrencyFormat(data.tcredit[i].fields.TotalAmountInc)|| 0.00;
+                        let totalPaid = utilityService.modifynegativeCurrencyFormat(data.tcredit[i].fields.TotalPaid)|| 0.00;
+                        let totalOutstanding = utilityService.modifynegativeCurrencyFormat(data.tcredit[i].fields.TotalBalance)|| 0.00;
                         var dataList = {
-                            id: data.tcredit[i].Id || '',
-                            employee:data.tcredit[i].EmployeeName || '',
-                            sortdate: data.tcredit[i].OrderDate !=''? moment(data.tcredit[i].OrderDate).format("YYYY/MM/DD"): data.tcredit[i].OrderDate,
-                            orderdate: data.tcredit[i].OrderDate !=''? moment(data.tcredit[i].OrderDate).format("DD/MM/YYYY"): data.tcredit[i].OrderDate,
-                            suppliername: data.tcredit[i].SupplierName || '',
+                            id: data.tcredit[i].fields.ID || '',
+                            employee:data.tcredit[i].fields.EmployeeName || '',
+                            sortdate: data.tcredit[i].fields.OrderDate !=''? moment(data.tcredit[i].fields.OrderDate).format("YYYY/MM/DD"): data.tcredit[i].fields.OrderDate,
+                            orderdate: data.tcredit[i].fields.OrderDate !=''? moment(data.tcredit[i].fields.OrderDate).format("DD/MM/YYYY"): data.tcredit[i].fields.OrderDate,
+                            suppliername: data.tcredit[i].fields.SupplierName || '',
                             totalamountex: totalAmountEx || 0.00,
                             totaltax: totalTax || 0.00,
                             totalamount: totalAmount || 0.00,
                             totalpaid: totalPaid || 0.00,
                             totaloustanding: totalOutstanding || 0.00,
-                            orderstatus: data.tcredit[i].OrderStatus || '',
+                            orderstatus: data.tcredit[i].fields.OrderStatus || '',
                             custfield1: '' || '',
                             custfield2: '' || '',
-                            comments: data.tcredit[i].Comments || '',
+                            comments: data.tcredit[i].fields.Comments || '',
                         };
-                        if(data.tcredit[i].SupplierName.replace(/\s/g, '') != ""){
+                        if(data.tcredit[i].fields.SupplierName.replace(/\s/g, '') != ""){
                             dataTableList.push(dataList);
                         }
 
@@ -372,6 +418,53 @@ Template.creditlist.onRendered(function() {
                             $('#tblcreditlist').DataTable().ajax.reload();
                         },
                         "fnDrawCallback": function (oSettings) {
+                          $('.paginate_button.page-item').removeClass('disabled');
+                        $('#tblcreditlist_ellipsis').addClass('disabled');
+
+                        if(oSettings._iDisplayLength == -1){
+                          if(oSettings.fnRecordsDisplay() > 150){
+                            $('.paginate_button.page-item.previous').addClass('disabled');
+                            $('.paginate_button.page-item.next').addClass('disabled');
+                          }
+                        }else{
+
+                        }
+
+                        $('.paginate_button.next:not(.disabled)', this.api().table().container())
+                           .on('click', function(){
+                             $('.fullScreenSpin').css('display','inline-block');
+                             let dataLenght = oSettings._iDisplayLength;
+
+                             sideBarService.getAllCreditList(25,oSettings.fnRecordsDisplay()).then(function(dataObjectnew) {
+                               getVS1Data('TCredit').then(function (dataObjectold) {
+                                 if(dataObjectold.length == 0){
+
+                                 }else{
+                                   let dataOld = JSON.parse(dataObjectold[0].data);
+
+                                   var thirdaryData = $.merge($.merge([], dataObjectnew.tcredit), dataOld.tcredit);
+                                   let objCombineData = {
+                                     tcredit:thirdaryData
+                                   }
+
+                                   templateObject.resetData(objCombineData);
+                                     addVS1Data('TCredit',JSON.stringify(objCombineData)).then(function (datareturn) {
+
+                                     $('.fullScreenSpin').css('display','none');
+                                     }).catch(function (err) {
+                                     $('.fullScreenSpin').css('display','none');
+                                     });
+
+                                 }
+                                }).catch(function (err) {
+
+                                });
+
+                             }).catch(function(err) {
+                               $('.fullScreenSpin').css('display','none');
+                             });
+
+                           });
                             setTimeout(function () {
                                 MakeNegative();
                             }, 100);
@@ -386,6 +479,43 @@ Template.creditlist.onRendered(function() {
                     }).on('column-reorder', function () {
 
                     }).on( 'length.dt', function ( e, settings, len ) {
+
+                      $('.fullScreenSpin').css('display','inline-block');
+                      let dataLenght = settings._iDisplayLength;
+                      if(dataLenght == -1){
+                        if(settings.fnRecordsDisplay() > 150){
+                          $('.paginate_button.page-item.next').addClass('disabled');
+                          $('.fullScreenSpin').css('display','none');
+                        }else{
+                        sideBarService.getAllCreditList('All',1).then(function(dataNonBo) {
+                        templateObject.resetData(dataNonBo);
+                          addVS1Data('TCredit',JSON.stringify(dataNonBo)).then(function (datareturn) {
+
+                          $('.fullScreenSpin').css('display','none');
+                          }).catch(function (err) {
+                          $('.fullScreenSpin').css('display','none');
+                          });
+                        }).catch(function(err) {
+                          $('.fullScreenSpin').css('display','none');
+                        });
+                       }
+                      }else{
+                        if (settings.fnRecordsDisplay() >= settings._iDisplayLength) {
+                          $('.fullScreenSpin').css('display','none');
+                        }else{
+                          sideBarService.getAllCreditList(dataLenght,0).then(function(dataNonBo) {
+                            templateObject.resetData(dataNonBo);
+                            addVS1Data('TCredit',JSON.stringify(dataNonBo)).then(function (datareturn) {
+                            $('.fullScreenSpin').css('display','none');
+                            }).catch(function (err) {
+                            $('.fullScreenSpin').css('display','none');
+                            });
+                          }).catch(function(err) {
+                            $('.fullScreenSpin').css('display','none');
+                          });
+                        }
+                      }
+
                         setTimeout(function () {
                             MakeNegative();
                         }, 100);
@@ -429,192 +559,192 @@ Template.creditlist.onRendered(function() {
 
             }
         }).catch(function (err) {
-            purchaseService.getAllCreditList().then(function (data) {
-
-                let lineItems = [];
-                let lineItemObj = {};
-                for(let i=0; i<data.tcredit.length; i++){
-                    let totalAmountEx = utilityService.modifynegativeCurrencyFormat(data.tcredit[i].TotalAmount)|| 0.00;
-                    let totalTax = utilityService.modifynegativeCurrencyFormat(data.tcredit[i].TotalTax) || 0.00;
-                    let totalAmount = utilityService.modifynegativeCurrencyFormat(data.tcredit[i].TotalAmountInc)|| 0.00;
-                    let totalPaid = utilityService.modifynegativeCurrencyFormat(data.tcredit[i].TotalPaid)|| 0.00;
-                    let totalOutstanding = utilityService.modifynegativeCurrencyFormat(data.tcredit[i].TotalBalance)|| 0.00;
-                    var dataList = {
-                        id: data.tcredit[i].Id || '',
-                        employee:data.tcredit[i].EmployeeName || '',
-                        sortdate: data.tcredit[i].OrderDate !=''? moment(data.tcredit[i].OrderDate).format("YYYY/MM/DD"): data.tcredit[i].OrderDate,
-                        orderdate: data.tcredit[i].OrderDate !=''? moment(data.tcredit[i].OrderDate).format("DD/MM/YYYY"): data.tcredit[i].OrderDate,
-                        suppliername: data.tcredit[i].SupplierName || '',
-                        totalamountex: totalAmountEx || 0.00,
-                        totaltax: totalTax || 0.00,
-                        totalamount: totalAmount || 0.00,
-                        totalpaid: totalPaid || 0.00,
-                        totaloustanding: totalOutstanding || 0.00,
-                        orderstatus: data.tcredit[i].OrderStatus || '',
-                        custfield1: '' || '',
-                        custfield2: '' || '',
-                        comments: data.tcredit[i].Comments || '',
-                    };
-                    if(data.tcredit[i].SupplierName.replace(/\s/g, '') != ""){
-                        dataTableList.push(dataList);
-                    }
-
-
-                }
-                templateObject.datatablerecords.set(dataTableList);
-
-                if(templateObject.datatablerecords.get()){
-
-                    Meteor.call('readPrefMethod',Session.get('mycloudLogonID'),'tblcreditlist', function(error, result){
-                        if(error){
-
-                        }else{
-                            if(result){
-                                for (let i = 0; i < result.customFields.length; i++) {
-                                    let customcolumn = result.customFields;
-                                    let columData = customcolumn[i].label;
-                                    let columHeaderUpdate = customcolumn[i].thclass.replace(/ /g, ".");
-                                    let hiddenColumn = customcolumn[i].hidden;
-                                    let columnClass = columHeaderUpdate.split('.')[1];
-                                    let columnWidth = customcolumn[i].width;
-                                    let columnindex = customcolumn[i].index + 1;
-
-                                    if(hiddenColumn == true){
-
-                                        $("."+columnClass+"").addClass('hiddenColumn');
-                                        $("."+columnClass+"").removeClass('showColumn');
-                                    }else if(hiddenColumn == false){
-                                        $("."+columnClass+"").removeClass('hiddenColumn');
-                                        $("."+columnClass+"").addClass('showColumn');
-                                    }
-
-                                }
-                            }
-
-                        }
-                    });
+          sideBarService.getAllCreditList(25,0).then(function (data) {
+              let lineItems = [];
+              let lineItemObj = {};
+              addVS1Data('TCredit',JSON.stringify(data));
+              for(let i=0; i<data.tcredit.length; i++){
+                  let totalAmountEx = utilityService.modifynegativeCurrencyFormat(data.tcredit[i].fields.TotalAmount)|| 0.00;
+                  let totalTax = utilityService.modifynegativeCurrencyFormat(data.tcredit[i].fields.TotalTax) || 0.00;
+                  let totalAmount = utilityService.modifynegativeCurrencyFormat(data.tcredit[i].fields.TotalAmountInc)|| 0.00;
+                  let totalPaid = utilityService.modifynegativeCurrencyFormat(data.tcredit[i].fields.TotalPaid)|| 0.00;
+                  let totalOutstanding = utilityService.modifynegativeCurrencyFormat(data.tcredit[i].fields.TotalBalance)|| 0.00;
+                  var dataList = {
+                      id: data.tcredit[i].fields.ID || '',
+                      employee:data.tcredit[i].fields.EmployeeName || '',
+                      sortdate: data.tcredit[i].fields.OrderDate !=''? moment(data.tcredit[i].fields.OrderDate).format("YYYY/MM/DD"): data.tcredit[i].fields.OrderDate,
+                      orderdate: data.tcredit[i].fields.OrderDate !=''? moment(data.tcredit[i].fields.OrderDate).format("DD/MM/YYYY"): data.tcredit[i].fields.OrderDate,
+                      suppliername: data.tcredit[i].fields.SupplierName || '',
+                      totalamountex: totalAmountEx || 0.00,
+                      totaltax: totalTax || 0.00,
+                      totalamount: totalAmount || 0.00,
+                      totalpaid: totalPaid || 0.00,
+                      totaloustanding: totalOutstanding || 0.00,
+                      orderstatus: data.tcredit[i].fields.OrderStatus || '',
+                      custfield1: '' || '',
+                      custfield2: '' || '',
+                      comments: data.tcredit[i].fields.Comments || '',
+                  };
+                  if(data.tcredit[i].fields.SupplierName.replace(/\s/g, '') != ""){
+                      dataTableList.push(dataList);
+                  }
 
 
-                    setTimeout(function () {
-                        MakeNegative();
-                    }, 100);
-                }
+              }
+              templateObject.datatablerecords.set(dataTableList);
 
-                setTimeout(function () {
-                    //$.fn.dataTable.moment('DD/MM/YY');
-                    $('#tblcreditlist').DataTable({
-                        columnDefs: [
-                            {type: 'date', targets: 0}
-                        ],
-                        "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
-                        buttons: [
-                            {
-                                extend: 'excelHtml5',
-                                text: '',
-                                download: 'open',
-                                className: "btntabletocsv hiddenColumn",
-                                filename: "Credit List - "+ moment().format(),
-                                orientation:'portrait',
-                                exportOptions: {
-                                    columns: ':visible',
-                                    format: {
-                                        body: function ( data, row, column ) {
-                                            if(data.includes("</span>")){
-                                                var res = data.split("</span>");
-                                                data = res[1];
-                                            }
+              if(templateObject.datatablerecords.get()){
 
-                                            return column === 1 ? data.replace(/<.*?>/ig, ""): data;
+                  Meteor.call('readPrefMethod',Session.get('mycloudLogonID'),'tblcreditlist', function(error, result){
+                      if(error){
 
-                                        }
-                                    }
-                                }
-                            },{
-                                extend: 'print',
-                                download: 'open',
-                                className: "btntabletopdf hiddenColumn",
-                                text: '',
-                                title: 'Credit List',
-                                filename: "Credit List - "+ moment().format(),
-                                exportOptions: {
-                                    columns: ':visible',
-                                    stripHtml: false
-                                }
-                            }],
-                        select: true,
-                        destroy: true,
-                        colReorder: true,
-                        // bStateSave: true,
-                        // rowId: 0,
-                        pageLength: 25,
-                        lengthMenu: [ [10, 25, 50, -1], [10, 25, 50, "All"] ],
-                        info: true,
-                        responsive: true,
-                        "order": [[ 0, "desc" ],[ 2, "desc" ]],
-                        action: function () {
-                            $('#tblcreditlist').DataTable().ajax.reload();
-                        },
-                        "fnDrawCallback": function (oSettings) {
-                            setTimeout(function () {
-                                MakeNegative();
-                            }, 100);
-                        },
+                      }else{
+                          if(result){
+                              for (let i = 0; i < result.customFields.length; i++) {
+                                  let customcolumn = result.customFields;
+                                  let columData = customcolumn[i].label;
+                                  let columHeaderUpdate = customcolumn[i].thclass.replace(/ /g, ".");
+                                  let hiddenColumn = customcolumn[i].hidden;
+                                  let columnClass = columHeaderUpdate.split('.')[1];
+                                  let columnWidth = customcolumn[i].width;
+                                  let columnindex = customcolumn[i].index + 1;
 
-                    }).on('page', function () {
-                        setTimeout(function () {
-                            MakeNegative();
-                        }, 100);
-                        let draftRecord = templateObject.datatablerecords.get();
-                        templateObject.datatablerecords.set(draftRecord);
-                    }).on('column-reorder', function () {
+                                  if(hiddenColumn == true){
 
-                    }).on( 'length.dt', function ( e, settings, len ) {
-                        setTimeout(function () {
-                            MakeNegative();
-                        }, 100);
-                    });
-                    $('.fullScreenSpin').css('display','none');
-                }, 0);
+                                      $("."+columnClass+"").addClass('hiddenColumn');
+                                      $("."+columnClass+"").removeClass('showColumn');
+                                  }else if(hiddenColumn == false){
+                                      $("."+columnClass+"").removeClass('hiddenColumn');
+                                      $("."+columnClass+"").addClass('showColumn');
+                                  }
 
-                var columns = $('#tblcreditlist th');
-                let sTible = "";
-                let sWidth = "";
-                let sIndex = "";
-                let sVisible = "";
-                let columVisible = false;
-                let sClass = "";
-                $.each(columns, function(i,v) {
-                    if(v.hidden == false){
-                        columVisible =  true;
-                    }
-                    if((v.className.includes("hiddenColumn"))){
-                        columVisible = false;
-                    }
-                    sWidth = v.style.width.replace('px', "");
+                              }
+                          }
 
-                    let datatablerecordObj = {
-                        sTitle: v.innerText || '',
-                        sWidth: sWidth || '',
-                        sIndex: v.cellIndex || '',
-                        sVisible: columVisible || false,
-                        sClass: v.className || ''
-                    };
-                    tableHeaderList.push(datatablerecordObj);
-                });
-                templateObject.tableheaderrecords.set(tableHeaderList);
-                $('div.dataTables_filter input').addClass('form-control form-control-sm');
-                $('#tblcreditlist tbody').on( 'click', 'tr', function () {
-                    var listData = $(this).closest('tr').attr('id');
-                    if(listData){
-                        Router.go('/creditcard?id=' + listData);
-                    }
-                });
+                      }
+                  });
 
-            }).catch(function (err) {
-                // Bert.alert('<strong>' + err + '</strong>!', 'danger');
-                $('.fullScreenSpin').css('display','none');
-                // Meteor._reload.reload();
-            });
+
+                  setTimeout(function () {
+                      MakeNegative();
+                  }, 100);
+              }
+
+              setTimeout(function () {
+                  //$.fn.dataTable.moment('DD/MM/YY');
+                  $('#tblcreditlist').DataTable({
+                      columnDefs: [
+                          {type: 'date', targets: 0}
+                      ],
+                      "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
+                      buttons: [
+                          {
+                              extend: 'excelHtml5',
+                              text: '',
+                              download: 'open',
+                              className: "btntabletocsv hiddenColumn",
+                              filename: "Credit List - "+ moment().format(),
+                              orientation:'portrait',
+                              exportOptions: {
+                                  columns: ':visible',
+                                  format: {
+                                      body: function ( data, row, column ) {
+                                          if(data.includes("</span>")){
+                                              var res = data.split("</span>");
+                                              data = res[1];
+                                          }
+
+                                          return column === 1 ? data.replace(/<.*?>/ig, ""): data;
+
+                                      }
+                                  }
+                              }
+                          },{
+                              extend: 'print',
+                              download: 'open',
+                              className: "btntabletopdf hiddenColumn",
+                              text: '',
+                              title: 'Credit List',
+                              filename: "Credit List - "+ moment().format(),
+                              exportOptions: {
+                                  columns: ':visible',
+                                  stripHtml: false
+                              }
+                          }],
+                      select: true,
+                      destroy: true,
+                      colReorder: true,
+                      // bStateSave: true,
+                      // rowId: 0,
+                      pageLength: 25,
+                      lengthMenu: [ [10, 25, 50, -1], [10, 25, 50, "All"] ],
+                      info: true,
+                      responsive: true,
+                      "order": [[ 0, "desc" ],[ 2, "desc" ]],
+                      action: function () {
+                          $('#tblcreditlist').DataTable().ajax.reload();
+                      },
+                      "fnDrawCallback": function (oSettings) {
+                          setTimeout(function () {
+                              MakeNegative();
+                          }, 100);
+                      },
+
+                  }).on('page', function () {
+                      setTimeout(function () {
+                          MakeNegative();
+                      }, 100);
+                      let draftRecord = templateObject.datatablerecords.get();
+                      templateObject.datatablerecords.set(draftRecord);
+                  }).on('column-reorder', function () {
+
+                  }).on( 'length.dt', function ( e, settings, len ) {
+                      setTimeout(function () {
+                          MakeNegative();
+                      }, 100);
+                  });
+                  $('.fullScreenSpin').css('display','none');
+              }, 0);
+
+              var columns = $('#tblcreditlist th');
+              let sTible = "";
+              let sWidth = "";
+              let sIndex = "";
+              let sVisible = "";
+              let columVisible = false;
+              let sClass = "";
+              $.each(columns, function(i,v) {
+                  if(v.hidden == false){
+                      columVisible =  true;
+                  }
+                  if((v.className.includes("hiddenColumn"))){
+                      columVisible = false;
+                  }
+                  sWidth = v.style.width.replace('px', "");
+
+                  let datatablerecordObj = {
+                      sTitle: v.innerText || '',
+                      sWidth: sWidth || '',
+                      sIndex: v.cellIndex || '',
+                      sVisible: columVisible || false,
+                      sClass: v.className || ''
+                  };
+                  tableHeaderList.push(datatablerecordObj);
+              });
+              templateObject.tableheaderrecords.set(tableHeaderList);
+              $('div.dataTables_filter input').addClass('form-control form-control-sm');
+              $('#tblcreditlist tbody').on( 'click', 'tr', function () {
+                  var listData = $(this).closest('tr').attr('id');
+                  if(listData){
+                      Router.go('/creditcard?id=' + listData);
+                  }
+              });
+
+          }).catch(function (err) {
+              // Bert.alert('<strong>' + err + '</strong>!', 'danger');
+              $('.fullScreenSpin').css('display','none');
+              // Meteor._reload.reload();
+          });
         });
 
     }
@@ -806,142 +936,15 @@ Template.creditlist.events({
         }
         let currenctTodayDate = currentDate.getFullYear() + "-" + month + "-" + days + " "+ hours+ ":"+ minutes+ ":"+ seconds;
         let templateObject = Template.instance();
-        getVS1Data('TCredit').then(function (dataObject) {
-            if(dataObject.length == 0){
-                sideBarService.getAllCreditList().then(function(data) {
-                    addVS1Data('TCredit',JSON.stringify(data)).then(function (datareturn) {
-                        window.open('/creditlist','_self');
-                    }).catch(function (err) {
-                        window.open('/creditlist','_self');
-                    });
-                }).catch(function(err) {
-                    window.open('/creditlist','_self');
-                });
-            }else{
-                let data = JSON.parse(dataObject[0].data);
-                let useData = data.tcredit;
-                if(useData[0].Id){
-                    sideBarService.getAllCreditList().then(function(data) {
-                        addVS1Data('TCredit',JSON.stringify(data)).then(function (datareturn) {
-                            window.open('/creditlist','_self');
-                        }).catch(function (err) {
-                            window.open('/creditlist','_self');
-                        });
-                    }).catch(function(err) {
-                        window.open('/creditlist','_self');
-                    });
-                }else{
-                    let getTimeStamp = dataObject[0].timestamp;
-                    if(getTimeStamp){
-                        if(getTimeStamp[0] != currenctTodayDate){
-                            sideBarService.getAllCreditList(getTimeStamp).then(function(dataUpdate) {
-                                let newDataObject = [];
-                                if(dataUpdate.tcredit.length === 0){
-                                    sideBarService.getAllCreditList().then(function(data) {
-                                        addVS1Data('TCredit',JSON.stringify(data)).then(function (datareturn) {
-                                            window.open('/creditlist','_self');
-                                        }).catch(function (err) {
-                                            window.open('/creditlist','_self');
-                                        });
-                                    }).catch(function(err) {
-                                        window.open('/creditlist','_self');
-                                    });
-                                }else{
-                                    let dataOld = JSON.parse(dataObject[0].data);
-                                    let oldObjectData = dataOld.tcredit;
-
-                                    let dataNew = dataUpdate;
-                                    let newObjectData = dataNew.tcredit;
-                                    let index = '';
-                                    let index2 = '';
-
-                                    var resultArray = []
-
-                                    oldObjectData.forEach(function(destObj) {
-                                        var addedcheck=false;
-                                        newObjectData.some(function(origObj) {
-                                            if(origObj.fields.ID == destObj.fields.ID) {
-                                                addedcheck = true;
-                                                index = oldObjectData.map(function (e) { return e.fields.ID; }).indexOf(parseInt(origObj.fields.ID));
-                                                destObj = origObj;
-                                                resultArray.push(destObj);
-
-                                            }
-                                        });
-                                        if(!addedcheck) {
-                                            resultArray.push(destObj)
-                                        }
-
-                                    });
-                                    newObjectData.forEach(function(origObj) {
-                                        var addedcheck=false;
-                                        oldObjectData.some(function(destObj) {
-                                            if(origObj.fields.ID == destObj.fields.ID) {
-                                                addedcheck = true;
-                                                index = oldObjectData.map(function (e) { return e.fields.ID; }).indexOf(parseInt(origObj.fields.ID));
-                                                destObj = origObj;
-                                                resultArray.push(destObj);
-
-                                            }
-                                        });
-                                        if(!addedcheck) {
-                                            resultArray.push(origObj)
-                                        }
-
-                                    });
-                                    var resultGetData = [];
-                                    $.each(resultArray, function (i, e) {
-                                        var matchingItems = $.grep(resultGetData, function (item) {
-                                            return item.fields.ID === e.fields.ID;
-                                        });
-                                        if (matchingItems.length === 0){
-                                            resultGetData.push(e);
-                                        }
-                                    });
-
-                                    let dataToAdd = {
-                                        tcredit: resultGetData
-                                    };
-                                    addVS1Data('TCredit',JSON.stringify(dataToAdd)).then(function (datareturn) {
-                                        window.open('/creditlist','_self');
-                                    }).catch(function (err) {
-                                        window.open('/creditlist','_self');
-                                    });
-                                }
-
-                            }).catch(function(err) {
-                                addVS1Data('TCredit',dataObject[0].data).then(function (datareturn) {
-                                    window.open('/creditlist','_self');
-                                }).catch(function (err) {
-                                    window.open('/creditlist','_self');
-                                });
-                            });
-                        }
-
-                    }
-                }
-            }
-        }).catch(function (err) {
-            sideBarService.getAllCreditList().then(function(data) {
-                addVS1Data('TCredit',JSON.stringify(data)).then(function (datareturn) {
-                    window.open('/creditlist','_self');
-                }).catch(function (err) {
-                    window.open('/creditlist','_self');
-                });
-            }).catch(function(err) {
+        sideBarService.getAllCreditList(25,0).then(function(data) {
+            addVS1Data('TCredit',JSON.stringify(data)).then(function (datareturn) {
+                window.open('/creditlist','_self');
+            }).catch(function (err) {
                 window.open('/creditlist','_self');
             });
+        }).catch(function(err) {
+            window.open('/creditlist','_self');
         });
-
-        // sideBarService.getAllPurchaseOrderListAll().then(function(data) {
-        //   addVS1Data('TbillReport',JSON.stringify(data)).then(function (datareturn) {
-        //
-        //   }).catch(function (err) {
-        //
-        //   });
-        // }).catch(function(err) {
-        //
-        // });
     },
     'click .printConfirm' : function(event){
 

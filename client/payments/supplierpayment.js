@@ -488,7 +488,7 @@ templateObject.datatablerecords.set(dataTableList);
                         if (settings.fnRecordsDisplay() >= settings._iDisplayLength) {
                           $('.fullScreenSpin').css('display','none');
                         }else{
-                          sideBarService.getTSupplierPaymentList(dataLenght,1).then(function(dataNonBo) {
+                          sideBarService.getTSupplierPaymentList(dataLenght,0).then(function(dataNonBo) {
                             templateObject.resetData(dataNonBo);
                             addVS1Data('TSupplierPayment',JSON.stringify(dataNonBo)).then(function (datareturn) {
                             $('.fullScreenSpin').css('display','none');

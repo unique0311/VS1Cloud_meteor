@@ -19,7 +19,7 @@
   URLRequest = 'https://'; //non ssl server
   checkSSLPorts = '4433'; //Non SSL Port
   vs1loggedDatatbase = 'vs1_sandbox_license'; //SandBox databaseName
-  //vs1loggedDatatbase = 'Vs1_license'; //Normal databaseName
+  //vs1loggedDatatbase = 'vs1_sandbox_license'; //Normal databaseName
 
   /* VS1 Production Details */
   //vs1loggedDatatbase = 'vs1_production_license'; //Production databaseName
@@ -30,24 +30,45 @@ loggedserverIP = localStorage.getItem('mainEIPAddress');
 loggedserverPort = localStorage.getItem('mainEPort');
 Currency = Session.get('ERPCurrency') || '$';
 CountryAbbr = Session.get('ERPCountryAbbr');
-LoggedCountry = Session.get('ERPLoggedCountry');
+
 // loggedCompany = Session.get('EDatabase');
 loggedCompany = Session.get('vs1companyName');
 defaultDept = Session.get('ERPDefaultDepartment');
 defaultUOM = Session.get('ERPDefaultUOM');
 isModuleGreenTrack = Session.get('CloudSeedToSaleLicence');
 if(Session.get('ERPLoggedCountry') == "Australia"){
-  loggedTaxCodePurchaseInc = "NCG";
-  loggedTaxCodeSalesInc = "GST";
+  // Session.setPersistent('ERPTaxCodePurchaseInc', "NCG");
+  // Session.setPersistent('ERPTaxCodeSalesInc', "GST");
+  loggedTaxCodePurchaseInc = Session.get('ERPTaxCodePurchaseInc') || "NCG";
+  loggedTaxCodeSalesInc = Session.get('ERPTaxCodeSalesInc') || "GST";
+  LoggedCountry = Session.get('ERPLoggedCountry');
   chequeSpelling = "Cheque";
+  addExtraUserPrice = Currency+45;
 }else if(Session.get('ERPLoggedCountry') == "United States of America"){
-  loggedTaxCodePurchaseInc = "NT";
-  loggedTaxCodeSalesInc = "NT";
+  // Session.setPersistent('ERPTaxCodePurchaseInc', "NT");
+  // Session.setPersistent('ERPTaxCodeSalesInc', "NT");
+  LoggedCountry = "United States";
+  loggedTaxCodePurchaseInc = Session.get('ERPTaxCodePurchaseInc') || "NT";
+  loggedTaxCodeSalesInc = Session.get('ERPTaxCodeSalesInc') || "NT";
   chequeSpelling = "Check";
+  addExtraUserPrice = Currency+35;
 }else{
-  loggedTaxCodePurchaseInc = "NT";
-  loggedTaxCodeSalesInc = "NT";
+  loggedTaxCodePurchaseInc = Session.get('ERPTaxCodePurchaseInc') || "NT";
+  loggedTaxCodeSalesInc = Session.get('ERPTaxCodeSalesInc') || "NT";
   chequeSpelling = "Cheque";
+  LoggedCountry = Session.get('ERPLoggedCountry');
+}
+
+if(Session.get('ERPLoggedCountry') == "South Africa"){
+  addExtraUserPrice = Currency+480;
+}else if((Session.get('ERPLoggedCountry') == "Canada")){
+  addExtraUserPrice = Currency+40;
+}else if((Session.get('ERPLoggedCountry') == "New Zealand")){
+  addExtraUserPrice = Currency+40;
+}else if(Session.get('ERPLoggedCountry') == "United Arab Emirates"){
+  addExtraUserPrice = '$'+35;
+}else if(Session.get('ERPLoggedCountry') == "United Kingdom"){
+  addExtraUserPrice = Currency+25;
 }
 
 
