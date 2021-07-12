@@ -325,11 +325,9 @@ Template.paymentoverview.onRendered(function() {
                 sideBarService.getTPaymentList(25,0).then(function (data) {
                     let lineItems = [];
                     let lineItemObj = {};
-                    sideBarService.getTPaymentList(25,0).then(function(data) {
-                        addVS1Data('TPaymentList',JSON.stringify(data));
-                    }).catch(function(err) {
 
-                    });
+                        addVS1Data('TPaymentList',JSON.stringify(data));
+
                     for(let i=0; i<data.tpaymentlist.length; i++){
                         let amount = utilityService.modifynegativeCurrencyFormat(data.tpaymentlist[i].PaymentAmount)|| 0.00;
                         let openningBalance = utilityService.modifynegativeCurrencyFormat(data.tpaymentlist[i].OpeningBalance) || 0.00;
@@ -722,11 +720,9 @@ Template.paymentoverview.onRendered(function() {
             sideBarService.getTPaymentList(25,0).then(function (data) {
                 let lineItems = [];
                 let lineItemObj = {};
-                sideBarService.getTPaymentList(25,0).then(function(data) {
+                
                     addVS1Data('TPaymentList',JSON.stringify(data));
-                }).catch(function(err) {
 
-                });
                 for(let i=0; i<data.tpaymentlist.length; i++){
                     let amount = utilityService.modifynegativeCurrencyFormat(data.tpaymentlist[i].PaymentAmount)|| 0.00;
                     let openningBalance = utilityService.modifynegativeCurrencyFormat(data.tpaymentlist[i].OpeningBalance) || 0.00;

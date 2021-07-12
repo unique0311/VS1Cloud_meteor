@@ -2821,7 +2821,7 @@ Template.employeescard.events({
                 Modulename: "Add Extra User",
                 // Paymentamount:35,
                 Paymentamount: 0,
-                Price: 35,
+                Price: Number(addExtraUserPrice.replace(/[^0-9.-]+/g, "")) || 35,
                 DiscountedPrice: 0,
                 DiscountDesc: "",
                 RenewPrice: 0,
@@ -2829,6 +2829,7 @@ Template.employeescard.events({
                 RenewDiscountDesc: "Free User Included in the license",
                 // PayMethod:"Cash",
                 EmployeeDetails: {
+                    ID: parseInt(employeeSaveID)||0,
                     FirstName: empFirstName,
                     LastName: empLastName,
                     Phone: empPhone,

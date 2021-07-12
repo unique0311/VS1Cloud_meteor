@@ -241,12 +241,13 @@ batchUpdateCall = function (url) {
                     }
 
                     addLoginData(dashboardArray).then(function (datareturnCheck) {
+                      setTimeout(function () {
                       if(url){
                         window.open(url,'_self');
                       }else{
                         location.reload(true);
                       }
-
+                    }, 500);
 
                       // setTimeout(function () {
                       //   if(url){

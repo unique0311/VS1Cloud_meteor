@@ -3,10 +3,10 @@
         <div class="fullScreenSpin" style="display:none;">
             <div class="spinner"></div>
         </div>
-        
+
         <style>
-            .dataTables_filter { 
-                display: none; 
+            .dataTables_filter {
+                display: none;
             }
         </style>
 
@@ -46,13 +46,13 @@
                 {{> profitandlosschart}}
             </div>
         </div>
- 
+
         <div class="row">
             <div class="col">
                 <a class="btn btnOpenSettings float-right" role="button" data-toggle="modal" href="#myModal2" style="margin-right: 32px;"><i class="icon ion-android-more-horizontal"></i></a>
             </div>
         </div>
-        
+
         <div class="row d-xl-flex flex-row justify-content-xl-center" style="padding: 16px; padding-bottom: 0px;">
             <div class="col-7 d-xl-flex flex-grow-1 align-items-xl-start">
                 <button class="btn btn-primary btnRefresh float-left" type="button" style="margin: 16px;"><i class="la la-lightbulb-o" style="padding-right: 5px;"></i>Refresh</button>
@@ -62,7 +62,7 @@
                         <div class="modal-dialog modal-lg modal-dialog-scrollable modal-dialog-centered" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h4 style="" ><div id="add-account-title" name="add-account-title" style="float: left;">New Account</div>  
+                                    <h4 style="" ><div id="add-account-title" name="add-account-title" style="float: left;">New Account</div>
 
                                         <a role="button" data-toggle="modal" href="#helpViewModalAdd" style="float: right; font-size: 20px; margin-top: 4px; margin-left: 8px;">Help <i class="fa fa-question-circle-o" style="font-size: 20px;"></i></a>
 
@@ -124,21 +124,28 @@
                                             <div class="flex-grow-1">
                                                 <label><b>Bank Account Details</b></label>
                                                 <div class="d-xl-flex align-items-xl-start">
+                                                  <div class="flex-grow-1">
+                                                      <div class="form-group" style="margin: 4px;"><label>Bank Name</label>
+                                                          <input type="text" class="form-control" id="edtBankName" name="edtBankName"></div>
+                                                  </div>
                                                     <div class="flex-grow-1">
                                                         <div class="form-group" style="margin: 4px;"><label>Bank Account Name</label>
                                                             <input type="text" class="form-control" id="edtBankAccountName" name="edtBankAccountName"></div>
                                                     </div>
+
+
+
                                                     <div class="flex-grow-1">
                                                         <div class="form-group" style="margin: 4px;"><label>BSB</label>
                                                             <input type="text" class="form-control" id="edtBSB" name="edtBSB"></div>
                                                     </div>
-                                                    <div class="flex-grow-0">
-                                                        <div class="form-group" style="margin: 4px;width: 150px;"><label>Bank Account No</label>
-                                                            <input type="text" class="form-control" id="edtBankAccountNo" name="edtBankAccountNo"></div>
-                                                    </div>
                                                 </div>
 
                                                  <div class="d-xl-flex align-items-xl-start">
+                                                   <div class="flex-grow-0">
+                                                       <div class="form-group" style="margin: 4px;width: 150px;"><label>Bank Account No</label>
+                                                           <input type="text" class="form-control" id="edtBankAccountNo" name="edtBankAccountNo"></div>
+                                                   </div>
                                                     <div class="flex-grow-1">
                                                         <div class="form-group" style="margin: 4px;"><label>Swift Code</label>
                                                             <input type="text" class="form-control" id="swiftCode" name="swiftCode"></div>
@@ -161,8 +168,8 @@
                                         </div> -->
                                         <div class="d-xl-flex align-items-xl-center">
                                           <div class="flex-grow-1">
-                                            <div class = "custom-control custom-switch" >  
-                                                <input type = "checkbox" class = "custom-control-input" id = "showOnTransactions"/>  
+                                            <div class = "custom-control custom-switch" >
+                                                <input type = "checkbox" class = "custom-control-input showOnTransactions" id="showOnTransactions"/>
                                                 <label class = "custom-control-label" for  = "showOnTransactions" >Show On Transactions</label>
                                             </div >
                                         </div>
@@ -426,8 +433,8 @@
                                 <th class="th colBankAccountName" style="width:120px;">Bank Acc Name</th>
                                 <th class="th colBSB" style="width:60px;">BSB</th>
                                 <th class="th colBankAccountNo" style="width:120px;">Bank Acc No</th>
-                                <th class="th colExtra hiddenColumn">Custom Field 1</th>
-                                <th class="th colAPCANumber hiddenColumn">Custom Field 2</th>
+                                <th class="th colExtra hiddenColumn">Swift Code</th>
+                                <th class="th colAPCANumber hiddenColumn">Routing Number</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -443,8 +450,8 @@
                                 <td contenteditable="false" class="colBankAccountName" >{{item.bankaccountname}}</td>
                                 <td contenteditable="false" class="colBSB" >{{item.bsb}}</td>
                                 <td contenteditable="false" class="colBankAccountNo" >{{item.bankaccountnumber}}</td>
-                                <td contenteditable="false" class="colExtra hiddenColumn">{{item.extra}}</td>
-                                <td contenteditable="false" class="colAPCANumber hiddenColumn">{{item.apcanumber}}</td>
+                                <td contenteditable="false" class="colExtra hiddenColumn">{{item.swiftcode}}</td>
+                                <td contenteditable="false" class="colAPCANumber hiddenColumn" checkheader="{{item.isheader}}">{{item.apcanumber}}</td>
 
                             </tr>
                             {{/each}}

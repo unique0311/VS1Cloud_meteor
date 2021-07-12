@@ -414,6 +414,12 @@ Template.header.onRendered(function(){
            Session.setPersistent('vs1companyStripeID', data.tcompanyinfo[0].Apcano);
            Session.setPersistent('vs1companyStripeFeeMethod', data.tcompanyinfo[0].DvaABN);
            Session.setPersistent('vs1companyBankDetails', bankDetails);
+           Session.setPersistent('vs1companyBankDetails1', bankName);
+           Session.setPersistent('vs1companyBankDetails2', accountName);
+           Session.setPersistent('vs1companyBankDetails3', accNo);
+           Session.setPersistent('vs1companyBankDetails4', bsb);
+           Session.setPersistent('vs1companyBankDetails5', swiftCode);
+           Session.setPersistent('vs1companyBankDetails6', routingNo);
            // Session.setPersistent('vs1companyComment', comment);
 
 

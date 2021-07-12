@@ -191,7 +191,7 @@ Template.accountsoverview.onRendered(function () {
         getVS1Data('TAccountVS1').then(function (dataObject) {
             if (dataObject.length == 0) {
                 accountService.getAccountListVS1().then(function (data) {
-                    addVS1Data('TAccountVS1', JSON.stringify(data));
+                    //addVS1Data('TAccountVS1', JSON.stringify(data));
                     let lineItems = [];
                     let lineItemObj = {};
                     let fullAccountTypeName = '';
@@ -229,8 +229,9 @@ Template.accountsoverview.onRendered(function () {
                             bankaccountnumber: data.taccountvs1[i].BankAccountNumber || '',
                             swiftcode: data.taccountvs1[i].Extra || '',
                             routingNo: data.taccountvs1[i].BankCode || '',
-                            apcanumber: data.taccountvs1[i].APCANumber || '',
-                            balance: accBalance || 0.00
+                            apcanumber: data.taccountvs1[i].BankNumber || '',
+                            balance: accBalance || 0.00,
+                            isheader: data.taccountvs1[i].IsHeader || false
 
                         };
                         dataTableList.push(dataList);
@@ -424,9 +425,10 @@ Template.accountsoverview.onRendered(function () {
                         bsb: useData[i].fields.BSB || '',
                         bankaccountnumber: useData[i].fields.BankAccountNumber || '',
                         swiftcode: useData[i].fields.Extra || '',
-                        routingNo: data.useData[i].BankCode || '',
-                        apcanumber: useData[i].fields.APCANumber || '',
-                        balance: accBalance || 0.00
+                        routingNo: useData[i].BankCode || '',
+                        apcanumber: useData[i].fields.BankNumber || '',
+                        balance: accBalance || 0.00,
+                        isheader: useData[i].fields.IsHeader || false
 
                     };
                     dataTableList.push(dataList);
@@ -576,12 +578,13 @@ Template.accountsoverview.onRendered(function () {
                 $('div.dataTables_filter input').addClass('form-control form-control-sm');
             }
         }).catch(function (err) {
+
             accountService.getAccountListVS1().then(function (data) {
                 let lineItems = [];
                 let lineItemObj = {};
                 let fullAccountTypeName = '';
                 let accBalance = '';
-                addVS1Data('TAccountVS1', JSON.stringify(data));
+                //addVS1Data('TAccountVS1', JSON.stringify(data));
                 for (let i = 0; i < data.taccountvs1.length; i++) {
 
                     if (accountTypeList) {
@@ -614,8 +617,9 @@ Template.accountsoverview.onRendered(function () {
                         bankaccountnumber: data.taccountvs1[i].BankAccountNumber || '',
                         swiftcode: data.taccountvs1[i].Extra || '',
                         routingNo: data.taccountvs1[i].BankCode || '',
-                        apcanumber: data.taccountvs1[i].APCANumber || '',
-                        balance: accBalance || 0.00
+                        apcanumber: data.taccountvs1[i].BankNumber || '',
+                        balance: accBalance || 0.00,
+                        isheader: data.taccountvs1[i].IsHeader || false
 
                     };
                     dataTableList.push(dataList);
@@ -805,6 +809,12 @@ Template.accountsoverview.onRendered(function () {
                 var bankaccountname = $(event.target).closest("tr").find(".colBankAccountName").text() || '';
                 var bankbsb = $(event.target).closest("tr").find(".colBSB").text() || '';
                 var bankacountno = $(event.target).closest("tr").find(".colBankAccountNo").text() || '';
+
+                var swiftCode = $(event.target).closest("tr").find(".colExtra").text() || '';
+                var routingNo = $(event.target).closest("tr").find(".colAPCANumber").text() || '';
+
+                var showTrans = $(event.target).closest("tr").find(".colAPCANumber").attr('checkheader') || false;
+
                 if (accounttype === "BANK") {
                     //templateObject.isBankAccount.set(true);
                     //$('.isBankAccount').css('display','block!important');
@@ -824,7 +834,14 @@ Template.accountsoverview.onRendered(function () {
                 $('#edtBankAccountName').val(bankaccountname);
                 $('#edtBSB').val(bankbsb);
                 $('#edtBankAccountNo').val(bankacountno);
+                $('#swiftCode').val(swiftCode);
+                $('#routingNo').val(routingNo);
 
+                if(showTrans == 'true'){
+                    $('.showOnTransactions').prop('checked', true);
+                }else{
+                  $('.showOnTransactions').prop('checked', false);
+                }
                 //});
 
                 $(this).closest('tr').attr('data-target', '#addNewAccount');
@@ -1180,7 +1197,7 @@ Template.accountsoverview.events({
                         });
                     }
                 }).catch(function (err) {
-                    console.log(err);
+
                     swal({
                         title: 'Oooops...',
                         text: err,
@@ -1264,7 +1281,7 @@ Template.accountsoverview.events({
                     }
 
                 }).catch(function (err) {
-                    console.log(err);
+
                     swal({
                         title: 'Oooops...',
                         text: err,
@@ -1296,8 +1313,8 @@ Template.accountsoverview.events({
                     TaxCode: taxcode || '',
                     Extra: swiftCode,
                     BankNumber: routingNo,
-                    PublishOnVS1: true
-
+                    PublishOnVS1: true,
+                    IsHeader: forTransaction
                 }
             };
 
@@ -1349,7 +1366,7 @@ Template.accountsoverview.events({
                 }
 
             }).catch(function (err) {
-                console.log(err);
+
                 swal({
                     title: 'Oooops...',
                     text: err,

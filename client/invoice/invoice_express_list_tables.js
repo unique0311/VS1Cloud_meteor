@@ -980,14 +980,14 @@ Template.invoicelist.events({
 
     sideBarService.getAllInvoiceListNonBO(25,0).then(function(dataNonBo) {
       addVS1Data('TInvoiceNonBackOrder',JSON.stringify(dataNonBo)).then(function (datareturn) {
-      window.open('/invoicelist','_self');
+      //window.open('/invoicelist','_self');
       }).catch(function (err) {
-      window.open('/invoicelist','_self');
+      //window.open('/invoicelist','_self');
       });
     }).catch(function(err) {
-      window.open('/invoicelist','_self');
+    //  window.open('/invoicelist','_self');
     });
-/*
+
     sideBarService.getAllInvoiceList().then(function(data) {
       addVS1Data('TInvoiceEx',JSON.stringify(data)).then(function (datareturn) {
       window.open('/invoicelist','_self');
@@ -997,7 +997,7 @@ Template.invoicelist.events({
     }).catch(function(err) {
       window.open('/invoicelist','_self');
     });
-*/
+
   },
   'click .printConfirm' : function(event){
 

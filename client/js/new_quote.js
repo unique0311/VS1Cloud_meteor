@@ -342,7 +342,7 @@ Template.new_quote.onRendered(() => {
     var getso_id = url.split('?id=');
     var invoiceId = getso_id[getso_id.length - 1];
     let bankDetails = Session.get('vs1companyBankDetails') || '';
-    $('.bankDetails').html(bankDetails.replace(/[\r\n]/g, "<br />"));
+    //$('.bankDetails').html(bankDetails.replace(/[\r\n]/g, "<br />"));
     if (url.includes("id") && url.includes("total")) {
         url = new URL(url);
         let dateStart = new Date();
@@ -3519,6 +3519,24 @@ Template.new_quote.onRendered(function () {
 });
 
 Template.new_quote.helpers({
+  vs1companyBankDetails1: () => {
+      return Session.get('vs1companyBankDetails1') || '';
+  },
+  vs1companyBankDetails2: () => {
+      return Session.get('vs1companyBankDetails2') || '';
+  },
+  vs1companyBankDetails3: () => {
+      return Session.get('vs1companyBankDetails3') || '';
+  },
+  vs1companyBankDetails4: () => {
+      return Session.get('vs1companyBankDetails4') || '';
+  },
+  vs1companyBankDetails5: () => {
+      return Session.get('vs1companyBankDetails5') || '';
+  },
+  vs1companyBankDetails6: () => {
+      return Session.get('vs1companyBankDetails6') || '';
+  },
     quoterecord: () => {
         return Template.instance().quoterecord.get();
     },

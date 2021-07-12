@@ -399,7 +399,7 @@ Template.new_invoice.onRendered(() => {
     templateObject.getAllLeadStatuss();
     var url = window.location.href;
     let bankDetails = Session.get('vs1companyBankDetails') || '';
-    $('.bankDetails').html(bankDetails.replace(/[\r\n]/g, "<br />"));
+    // $('.bankDetails').html(bankDetails.replace(/[\r\n]/g, "<br />"));
 
 
     if (url.indexOf('?copyquid=') > 0) {
@@ -4429,6 +4429,24 @@ Template.new_invoice.onRendered(function () {
     tempObj.getAllTaxCodes();
 });
 Template.new_invoice.helpers({
+    vs1companyBankDetails1: () => {
+        return Session.get('vs1companyBankDetails1') || '';
+    },
+    vs1companyBankDetails2: () => {
+        return Session.get('vs1companyBankDetails2') || '';
+    },
+    vs1companyBankDetails3: () => {
+        return Session.get('vs1companyBankDetails3') || '';
+    },
+    vs1companyBankDetails4: () => {
+        return Session.get('vs1companyBankDetails4') || '';
+    },
+    vs1companyBankDetails5: () => {
+        return Session.get('vs1companyBankDetails5') || '';
+    },
+    vs1companyBankDetails6: () => {
+        return Session.get('vs1companyBankDetails6') || '';
+    },
     invoicerecord: () => {
         return Template.instance().invoicerecord.get();
     },
