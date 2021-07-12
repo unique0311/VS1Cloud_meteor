@@ -3584,6 +3584,9 @@ Template.new_salesorder.helpers({
     vs1companyBankName: () => {
         return Session.get('vs1companyBankName') || '';
     },
+    bsbRegionName: () => {
+        return bsbCodeName;
+    },
     vs1companyBankAccountName: () => {
         return Session.get('vs1companyBankAccountName') || '';
     },
@@ -4547,7 +4550,7 @@ Template.new_salesorder.events({
                     let invoiceId = objDetails.fields.ID;
                     let encodedPdf = await generatePdfForMail(invoiceId);
                     let pdfObject = "";
-                    
+
                         let base64data = encodedPdf.split(',')[1];
                         pdfObject = {
                             filename: 'Sales Order-' + invoiceId + '.pdf',
@@ -4738,7 +4741,7 @@ Template.new_salesorder.events({
                         } else {
                             Router.go('/salesorderslist?success=true');
                         };
-                
+
 
 
                 }

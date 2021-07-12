@@ -4432,6 +4432,9 @@ Template.new_invoice.helpers({
     vs1companyBankName: () => {
         return Session.get('vs1companyBankName') || '';
     },
+    bsbRegionName: () => {
+        return bsbCodeName;
+    },
     vs1companyBankAccountName: () => {
         return Session.get('vs1companyBankAccountName') || '';
     },
@@ -5070,7 +5073,7 @@ Template.new_invoice.events({
                                     window.open(url, '_self');
                                 };
 
-                           
+
 
                         }
                         addAttachment();

@@ -36,6 +36,9 @@ loggedCompany = Session.get('vs1companyName');
 defaultDept = Session.get('ERPDefaultDepartment');
 defaultUOM = Session.get('ERPDefaultUOM');
 isModuleGreenTrack = Session.get('CloudSeedToSaleLicence');
+
+bsbCodeName = "Branch Code";
+
 if(Session.get('ERPLoggedCountry') == "Australia"){
   // Session.setPersistent('ERPTaxCodePurchaseInc', "NCG");
   // Session.setPersistent('ERPTaxCodeSalesInc', "GST");
@@ -44,6 +47,7 @@ if(Session.get('ERPLoggedCountry') == "Australia"){
   LoggedCountry = Session.get('ERPLoggedCountry');
   chequeSpelling = "Cheque";
   addExtraUserPrice = Currency+45;
+  bsbCodeName = "BSB (Branch Number)";
 }else if(Session.get('ERPLoggedCountry') == "United States of America"){
   // Session.setPersistent('ERPTaxCodePurchaseInc', "NT");
   // Session.setPersistent('ERPTaxCodeSalesInc', "NT");

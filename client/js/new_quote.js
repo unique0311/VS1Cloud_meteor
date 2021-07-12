@@ -3548,6 +3548,9 @@ Template.new_quote.helpers({
     vs1companyBankName: () => {
         return Session.get('vs1companyBankName') || '';
     },
+    bsbRegionName: () => {
+        return bsbCodeName;
+    },
     vs1companyBankAccountName: () => {
         return Session.get('vs1companyBankAccountName') || '';
     },
@@ -4682,7 +4685,7 @@ Template.new_quote.events({
                         } else {
                             Router.go('/quoteslist?success=true');
                         };
-                  
+
 
 
                 }
@@ -5612,7 +5615,7 @@ Template.new_quote.events({
                         } else {
                             Router.go('/quoteslist?success=true');
                         };
-                   
+
 
 
                 }

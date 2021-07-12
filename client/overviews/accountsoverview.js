@@ -1191,7 +1191,15 @@ Template.accountsoverview.events({
                             window.open('/accountsoverview', '_self');
                         });
                     }).catch(function (err) {
-                        window.open('/accountsoverview', '_self');
+                      sideBarService.getAccountListVS1().then(function (dataReload) {
+                          addVS1Data('TAccountVS1', JSON.stringify(dataReload)).then(function (datareturn) {
+                              window.open('/accountsoverview', '_self');
+                          }).catch(function (err) {
+                              window.open('/accountsoverview', '_self');
+                          });
+                      }).catch(function (err) {
+                          window.open('/accountsoverview', '_self');
+                      });
                     });
                     } else {
                         sideBarService.getAccountListVS1().then(function (dataReload) {
@@ -1274,7 +1282,15 @@ Template.accountsoverview.events({
                                 window.open('/accountsoverview', '_self');
                             });
                         }).catch(function (err) {
-                            window.open('/accountsoverview', '_self');
+                          sideBarService.getAccountListVS1().then(function (dataReload) {
+                              addVS1Data('TAccountVS1', JSON.stringify(dataReload)).then(function (datareturn) {
+                                  window.open('/accountsoverview', '_self');
+                              }).catch(function (err) {
+                                  window.open('/accountsoverview', '_self');
+                              });
+                          }).catch(function (err) {
+                              window.open('/accountsoverview', '_self');
+                          });
                         });
                     } else {
                         sideBarService.getAccountListVS1().then(function (dataReload) {
@@ -1367,7 +1383,15 @@ Template.accountsoverview.events({
                             window.open('/accountsoverview', '_self');
                         });
                     }).catch(function (err) {
-                        window.open('/accountsoverview', '_self');
+                      sideBarService.getAccountListVS1().then(function (dataReload) {
+                          addVS1Data('TAccountVS1', JSON.stringify(dataReload)).then(function (datareturn) {
+                              window.open('/accountsoverview', '_self');
+                          }).catch(function (err) {
+                              window.open('/accountsoverview', '_self');
+                          });
+                      }).catch(function (err) {
+                          window.open('/accountsoverview', '_self');
+                      });
                     });
                 } else {
                     sideBarService.getAccountListVS1().then(function (dataReload) {
@@ -1414,6 +1438,10 @@ Template.accountsoverview.events({
         $('#edtBankAccountName').val('');
         $('#edtBSB').val('');
         $('#edtBankAccountNo').val('');
+        $('#routingNo').val('');
+        $('#swiftCode').val('');
+        $('.showOnTransactions').prop('checked', false);
+        $('.isBankAccount').removeClass('isNotBankAccount');
     },
     'click .printConfirm': function (event) {
 
