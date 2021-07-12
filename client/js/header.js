@@ -398,12 +398,12 @@ Template.header.onRendered(function(){
            let companyABN = data.tcompanyinfo[0].abn;
            let companyPhone = data.tcompanyinfo[0].PhoneNumber;
            let companyURL = data.tcompanyinfo[0].Url
-           let accNo = data.tcompanyinfo[0].AccountNo || '';
-           let swiftCode = data.tcompanyinfo[0].BankBranch || '';
-           let bankName = data.tcompanyinfo[0].FileReference || '';
-           let accountName = data.tcompanyinfo[0].Firstname || '';
-           let bsb = data.tcompanyinfo[0].Bsb || '';
-           let routingNo = data.tcompanyinfo[0].SiteCode || '';
+           let accNo = data.tcompanyinfo[0].AccountNo || '.';
+           let swiftCode = data.tcompanyinfo[0].BankBranch || '.';
+           let bankName = data.tcompanyinfo[0].LastName || '.';
+           let accountName = data.tcompanyinfo[0].Firstname || '.';
+           let bsb = data.tcompanyinfo[0].Bsb || '.';
+           let routingNo = data.tcompanyinfo[0].SiteCode || '.';
            let bankDetails = "Bank Name: " +bankName +"\n"+ "Account Name: "+ accountName +"\n Bank Account: "+ accNo  +"\nBSB: " +bsb +"\n Swift Code: "+ swiftCode +"\n"+ "Routing No: "+ routingNo;
            Session.setPersistent('vs1companyName', companyName);
            Session.setPersistent('vs1companyaddress1', companyaddress1);
@@ -414,12 +414,13 @@ Template.header.onRendered(function(){
            Session.setPersistent('vs1companyStripeID', data.tcompanyinfo[0].Apcano);
            Session.setPersistent('vs1companyStripeFeeMethod', data.tcompanyinfo[0].DvaABN);
            Session.setPersistent('vs1companyBankDetails', bankDetails);
-           Session.setPersistent('vs1companyBankDetails1', bankName);
-           Session.setPersistent('vs1companyBankDetails2', accountName);
-           Session.setPersistent('vs1companyBankDetails3', accNo);
-           Session.setPersistent('vs1companyBankDetails4', bsb);
-           Session.setPersistent('vs1companyBankDetails5', swiftCode);
-           Session.setPersistent('vs1companyBankDetails6', routingNo);
+           Session.setPersistent('vs1companyBankName1', bankDetails);
+           Session.setPersistent('vs1companyBankName', bankName);
+           Session.setPersistent('vs1companyBankAccountName', accountName);
+           Session.setPersistent('vs1companyBankAccountNo', accNo);
+           Session.setPersistent('vs1companyBankBSB', bsb);
+           Session.setPersistent('vs1companyBankSwiftCode', swiftCode);
+           Session.setPersistent('vs1companyBankRoutingNo', routingNo);
            // Session.setPersistent('vs1companyComment', comment);
 
 

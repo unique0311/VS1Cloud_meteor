@@ -3017,23 +3017,49 @@ Template.new_salesorder.onRendered(() => {
             stringQuery = stringQuery + "product" + l + "=" + lineItems[l].description + "&price" + l + "=" + lineItems[l].unitPrice + "&qty" + l + "=" + lineItems[l].quantity + "&";
         }
         stringQuery = stringQuery + "tax=" + tax + "&total=" + total + "&customer=" + customer + "&name=" + name + "&surname=" + surname + "&quoteid=" + invoiceData.id +"&transid="+stripe_id+"&feemethod="+stripe_fee_method+"&company=" + company + "&vs1email=" + vs1User + "&customeremail=" + customerEmail + "&type=Sales Order&url=" + window.location.href + "&server=" + erpGet.ERPIPAddress + "&username=" + erpGet.ERPUsername + "&token=" + erpGet.ERPPassword + "&session=" + erpGet.ERPDatabase + "&port=" + erpGet.ERPPort + "&dept=" + dept;
-        var pdf = new jsPDF('p', 'pt', 'a4');
-        pdf.setFontSize(18);
+        // var pdf = new jsPDF('p', 'pt', 'a4');
+        // pdf.setFontSize(18);
+        $(".linkText").attr("href", "https://www.depot.vs1cloud.com/stripe/" + stringQuery);
         var source = document.getElementById('html-2-pdfwrapper');
-        pdf.addHTML(source, function () {
+        let file = "Sales Order.pdf";
+        if ($('.printID').attr('id') != undefined || $('.printID').attr('id') == "") {
+            file = 'Sales Order-' + id + '.pdf';
+        }
 
-            pdf.setFontSize(10);
-            pdf.setTextColor(255, 255, 255);
-             pdf.textWithLink('Pay Now', 505, 113, { url: 'https://www.depot.vs1cloud.com/stripe/' + stringQuery });
-
-            if ($('.printID').attr('id') != undefined || $('.printID').attr('id') != "") {
-                pdf.save('Sales Order-' + id + '.pdf');
-            } else {
-                pdf.save('Sales Order.pdf');
+        var opt = {
+            margin: 0,
+            filename: file,
+            image: {
+                type: 'jpeg',
+                quality: 0.98
+            },
+            html2canvas: {
+                scale: 2
+            },
+            jsPDF: {
+                unit: 'in',
+                format: 'a4',
+                orientation: 'portrait'
             }
-            $('#html-2-pdfwrapper').css('display', 'none');
+        };
+        html2pdf().set(opt).from(source).save().then(function (dataObject){
+             $('#html-2-pdfwrapper').css('display', 'none');
             $('.fullScreenSpin').css('display', 'none');
         });
+        // pdf.addHTML(source, function () {
+
+        //     pdf.setFontSize(10);
+        //     pdf.setTextColor(255, 255, 255);
+        //      pdf.textWithLink('Pay Now', 505, 113, { url: 'https://www.depot.vs1cloud.com/stripe/' + stringQuery });
+
+        //     if ($('.printID').attr('id') != undefined || $('.printID').attr('id') != "") {
+        //         pdf.save('Sales Order-' + id + '.pdf');
+        //     } else {
+        //         pdf.save('Sales Order.pdf');
+        //     }
+        //     $('#html-2-pdfwrapper').css('display', 'none');
+        //     $('.fullScreenSpin').css('display', 'none');
+        // });
 
     };
 
@@ -3555,24 +3581,24 @@ Template.new_salesorder.onRendered(function() {
     //$('#tblInventory').DataTable().column( 6 ).visible( false );
 });
 Template.new_salesorder.helpers({
-  vs1companyBankDetails1: () => {
-      return Session.get('vs1companyBankDetails1') || '';
-  },
-  vs1companyBankDetails2: () => {
-      return Session.get('vs1companyBankDetails2') || '';
-  },
-  vs1companyBankDetails3: () => {
-      return Session.get('vs1companyBankDetails3') || '';
-  },
-  vs1companyBankDetails4: () => {
-      return Session.get('vs1companyBankDetails4') || '';
-  },
-  vs1companyBankDetails5: () => {
-      return Session.get('vs1companyBankDetails5') || '';
-  },
-  vs1companyBankDetails6: () => {
-      return Session.get('vs1companyBankDetails6') || '';
-  },
+    vs1companyBankName: () => {
+        return Session.get('vs1companyBankName') || '';
+    },
+    vs1companyBankAccountName: () => {
+        return Session.get('vs1companyBankAccountName') || '';
+    },
+    vs1companyBankAccountNo: () => {
+        return Session.get('vs1companyBankAccountNo') || '';
+    },
+    vs1companyBankBSB: () => {
+        return Session.get('vs1companyBankBSB') || '';
+    },
+    vs1companyBankSwiftCode: () => {
+        return Session.get('vs1companyBankSwiftCode') || '';
+    },
+    vs1companyBankRoutingNo: () => {
+        return Session.get('vs1companyBankRoutingNo') || '';
+    },
     salesorderrecord: () => {
         return Template.instance().salesorderrecord.get();
     },
@@ -4521,11 +4547,8 @@ Template.new_salesorder.events({
                     let invoiceId = objDetails.fields.ID;
                     let encodedPdf = await generatePdfForMail(invoiceId);
                     let pdfObject = "";
-                    var reader = new FileReader();
-                    reader.readAsDataURL(encodedPdf);
-                    reader.onloadend = function() {
-                        var base64data = reader.result;
-                        base64data = base64data.split(',')[1];
+                    
+                        let base64data = encodedPdf.split(',')[1];
                         pdfObject = {
                             filename: 'Sales Order-' + invoiceId + '.pdf',
                             content: base64data,
@@ -4715,25 +4738,44 @@ Template.new_salesorder.events({
                         } else {
                             Router.go('/salesorderslist?success=true');
                         };
-                    };
+                
 
 
                 }
                 addAttachment();
 
                 function generatePdfForMail(invoiceId) {
-                    return new Promise((resolve, reject) => {
+                       let file = "Sales Order-" + invoiceId + ".pdf"
+                        return new Promise((resolve, reject) => {
+                        $(".linkText").attr("href", "https://www.depot.vs1cloud.com/stripe/" + stringQuery);
                         let templateObject = Template.instance();
                         let completeTabRecord;
                         let doc = new jsPDF('p', 'pt', 'a4');
                         var source = document.getElementById('html-2-pdfwrapper');
-                        doc.addHTML(source, function () {
-                            doc.setFontSize(10);
-                            doc.setTextColor(255, 255, 255);
-                            doc.textWithLink('Pay Now', 505, 113, { url: 'https://www.depot.vs1cloud.com/stripe/' + stringQuery });
-                            resolve(doc.output('blob'));
-                            $('#html-2-pdfwrapper').css('display', 'none');
-                        });
+                        var opt = {
+                            margin: 0,
+                            filename: file,
+                            image: {
+                                type: 'jpeg',
+                                quality: 0.98
+                            },
+                            html2canvas: {
+                                scale: 2
+                            },
+                            jsPDF: {
+                                unit: 'in',
+                                format: 'a4',
+                                orientation: 'portrait'
+                            }
+                        }
+                        resolve(html2pdf().set(opt).from(source).toPdf().output('datauristring'));
+                        // doc.addHTML(source, function () {
+                        //     doc.setFontSize(10);
+                        //     doc.setTextColor(255, 255, 255);
+                        //     doc.textWithLink('Pay Now', 482, 113, { url: 'https://www.depot.vs1cloud.com/stripe/' + stringQuery });
+                        //     resolve(doc.output('blob'));
+                        //     $('#html-2-pdfwrapper').css('display', 'none');
+                        // });
                     });
                 }
                 // End Send Email

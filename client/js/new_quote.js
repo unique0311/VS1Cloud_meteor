@@ -2940,21 +2940,47 @@ Template.new_quote.onRendered(() => {
             stringQuery = stringQuery + "product" + l + "=" + lineItems[l].description + "&price" + l + "=" + lineItems[l].unitPrice + "&qty" + l + "=" + lineItems[l].quantity + "&";
         }
         stringQuery = stringQuery + "tax=" + tax + "&total=" + total + "&customer=" + customer + "&name=" + name + "&surname=" + surname + "&quoteid=" + quoteData.id +"&transid="+stripe_id+"&feemethod="+stripe_fee_method+"&company=" + company + "&vs1email=" + vs1User + "&customeremail=" + customerEmail + "&type=Quote&url=" + window.location.href + "&server=" + erpGet.ERPIPAddress + "&username=" + erpGet.ERPUsername + "&token=" + erpGet.ERPPassword + "&session=" + erpGet.ERPDatabase + "&port=" + erpGet.ERPPort;;
-        var pdf = new jsPDF('p', 'pt', 'a4');
+        let file = "Quote.pdf";
+        if ($('.printID').attr('id') != undefined || $('.printID').attr('id') == "") {
+            file = 'Quote-' + id + '.pdf';
+        }
+
+        var opt = {
+            margin: 0,
+            filename: file,
+            image: {
+                type: 'jpeg',
+                quality: 0.98
+            },
+            html2canvas: {
+                scale: 2
+            },
+            jsPDF: {
+                unit: 'in',
+                format: 'a4',
+                orientation: 'portrait'
+            }
+        };
 
 
+        // var pdf = new jsPDF('p', 'pt', 'a4');
 
-
-        pdf.setFontSize(18);
+        $(".linkText").attr("href", "https://www.depot.vs1cloud.com/stripe/" + stringQuery);
+        // pdf.setFontSize(18);
         var source = document.getElementById('html-2-pdfwrapper');
-        pdf.addHTML(source, function () {
-            pdf.setFontSize(10);
-            pdf.setTextColor(255, 255, 255);
-            pdf.textWithLink('Pay Now', 482, 113, { url: 'https://www.depot.vs1cloud.com/stripe/' + stringQuery });
-            pdf.save('Quote-' + id + '.pdf');
-            $('#html-2-pdfwrapper').css('display', 'none');
-             $('.fullScreenSpin').css('display', 'none');
+         html2pdf().set(opt).from(source).save().then(function (dataObject){
+             $('#html-2-pdfwrapper').css('display', 'none');
+            $('.fullScreenSpin').css('display', 'none');
         });
+
+        // pdf.addHTML(source, function () {
+        //     pdf.setFontSize(10);
+        //     pdf.setTextColor(255, 255, 255);
+        //     pdf.textWithLink('Pay Now', 482, 113, { url: 'https://www.depot.vs1cloud.com/stripe/' + stringQuery });
+        //     pdf.save('Quote-' + id + '.pdf');
+        //     $('#html-2-pdfwrapper').css('display', 'none');
+        //      $('.fullScreenSpin').css('display', 'none');
+        // });
 
 
 
@@ -3519,24 +3545,24 @@ Template.new_quote.onRendered(function () {
 });
 
 Template.new_quote.helpers({
-  vs1companyBankDetails1: () => {
-      return Session.get('vs1companyBankDetails1') || '';
-  },
-  vs1companyBankDetails2: () => {
-      return Session.get('vs1companyBankDetails2') || '';
-  },
-  vs1companyBankDetails3: () => {
-      return Session.get('vs1companyBankDetails3') || '';
-  },
-  vs1companyBankDetails4: () => {
-      return Session.get('vs1companyBankDetails4') || '';
-  },
-  vs1companyBankDetails5: () => {
-      return Session.get('vs1companyBankDetails5') || '';
-  },
-  vs1companyBankDetails6: () => {
-      return Session.get('vs1companyBankDetails6') || '';
-  },
+    vs1companyBankName: () => {
+        return Session.get('vs1companyBankName') || '';
+    },
+    vs1companyBankAccountName: () => {
+        return Session.get('vs1companyBankAccountName') || '';
+    },
+    vs1companyBankAccountNo: () => {
+        return Session.get('vs1companyBankAccountNo') || '';
+    },
+    vs1companyBankBSB: () => {
+        return Session.get('vs1companyBankBSB') || '';
+    },
+    vs1companyBankSwiftCode: () => {
+        return Session.get('vs1companyBankSwiftCode') || '';
+    },
+    vs1companyBankRoutingNo: () => {
+        return Session.get('vs1companyBankRoutingNo') || '';
+    },
     quoterecord: () => {
         return Template.instance().quoterecord.get();
     },
@@ -4418,24 +4444,38 @@ Template.new_quote.events({
                 $('.pdfCustomerAddress').html($('#txabillingAddress').val().replace(/[\r\n]/g, "<br />"));
                 var ponumber = $('#ponumber').val() || '.';
                 $('.po').text(ponumber);
-                function generatePdfForMail(invoiceId) {
-                    return new Promise((resolve, reject) => {
+                    function generatePdfForMail(invoiceId) {
+                    let file = "Quote-" + objDetails.fields.ID + ".pdf"
+                        return new Promise((resolve, reject) => {
+                        $(".linkText").attr("href", "https://www.depot.vs1cloud.com/stripe/" + stringQuery);
                         let templateObject = Template.instance();
-
                         let completeTabRecord;
                         let doc = new jsPDF('p', 'pt', 'a4');
-                        doc.setFontSize(18);
-
                         var source = document.getElementById('html-2-pdfwrapper');
-                        source.style.display = "block";
-                        doc.addHTML(source, function () {
-                            doc.setFontSize(10);
-                            doc.setTextColor(89, 177, 253);
-                            doc.textWithLink('Pay Now', 482, 113, { url: 'https://www.depot.vs1cloud.com/stripe/' + stringQuery });
-
-                            resolve(doc.output('blob'));
-                            $('#html-2-pdfwrapper').css('display', 'none');
-                        });
+                        var opt = {
+                            margin: 0,
+                            filename: file,
+                            image: {
+                                type: 'jpeg',
+                                quality: 0.98
+                            },
+                            html2canvas: {
+                                scale: 2
+                            },
+                            jsPDF: {
+                                unit: 'in',
+                                format: 'a4',
+                                orientation: 'portrait'
+                            }
+                        }
+                        resolve(html2pdf().set(opt).from(source).toPdf().output('datauristring'));
+                        // doc.addHTML(source, function () {
+                        //     doc.setFontSize(10);
+                        //     doc.setTextColor(255, 255, 255);
+                        //     doc.textWithLink('Pay Now', 482, 113, { url: 'https://www.depot.vs1cloud.com/stripe/' + stringQuery });
+                        //     resolve(doc.output('blob'));
+                        //     $('#html-2-pdfwrapper').css('display', 'none');
+                        // });
                     });
                 }
                 async function addAttachment() {
@@ -4444,22 +4484,14 @@ Template.new_quote.events({
 
                     let invoiceId = objDetails.fields.ID;
                     let encodedPdf = await generatePdfForMail(invoiceId);
-                    let pdfObject = "";
-                    var reader = new FileReader();
-                    reader.readAsDataURL(encodedPdf);
-                    reader.onloadend = function () {
-                        var base64data = reader.result;
-                        base64data = base64data.split(',')[1];
-
-                        pdfObject = {
-                            filename: 'Quote ' + invoiceId + '.pdf',
-                            content: base64data,
-                            encoding: 'base64'
-                        };
-                        attachment.push(pdfObject);
-
-
-                        let erpInvoiceId = objDetails.fields.ID;
+                    base64data = encodedPdf.split(',')[1];
+                    pdfObject = {
+                        filename: 'Quote-' + invoiceId + '.pdf',
+                        content: base64data,
+                        encoding: 'base64'
+                    };
+                    attachment.push(pdfObject);
+                    let erpInvoiceId = objDetails.fields.ID;
 
 
                         let mailFromName = Session.get('vs1companyName');
@@ -4650,7 +4682,7 @@ Template.new_quote.events({
                         } else {
                             Router.go('/quoteslist?success=true');
                         };
-                    };
+                  
 
 
                 }
@@ -5339,24 +5371,38 @@ Template.new_quote.events({
                 $('.pdfCustomerName').html($('#edtCustomerName').val());
                 $('.pdfCustomerAddress').html($('#txabillingAddress').val().replace(/[\r\n]/g, "<br />"));
 
-                function generatePdfForMail(invoiceId) {
-                    return new Promise((resolve, reject) => {
+                        function generatePdfForMail(invoiceId) {
+                        let file = "Invoice-" + invoiceId + ".pdf"
+                        return new Promise((resolve, reject) => {
+                        $(".linkText").attr("href", "https://www.depot.vs1cloud.com/stripe/" + stringQuery);
                         let templateObject = Template.instance();
-
                         let completeTabRecord;
                         let doc = new jsPDF('p', 'pt', 'a4');
-                        doc.setFontSize(18);
-
                         var source = document.getElementById('html-2-pdfwrapper');
-                        source.style.display = "block";
-                        doc.addHTML(source, function () {
-                            doc.setFontSize(10);
-                            doc.setTextColor(89, 177, 253);
-                            doc.textWithLink('Pay Now', 482, 113, { url: 'https://www.depot.vs1cloud.com/stripe/' + stringQuery });
-
-                            resolve(doc.output('blob'));
-                            $('#html-2-pdfwrapper').css('display', 'none');
-                        });
+                        var opt = {
+                            margin: 0,
+                            filename: file,
+                            image: {
+                                type: 'jpeg',
+                                quality: 0.98
+                            },
+                            html2canvas: {
+                                scale: 2
+                            },
+                            jsPDF: {
+                                unit: 'in',
+                                format: 'a4',
+                                orientation: 'portrait'
+                            }
+                        }
+                        resolve(html2pdf().set(opt).from(source).toPdf().output('datauristring'));
+                        // doc.addHTML(source, function () {
+                        //     doc.setFontSize(10);
+                        //     doc.setTextColor(255, 255, 255);
+                        //     doc.textWithLink('Pay Now', 482, 113, { url: 'https://www.depot.vs1cloud.com/stripe/' + stringQuery });
+                        //     resolve(doc.output('blob'));
+                        //     $('#html-2-pdfwrapper').css('display', 'none');
+                        // });
                     });
                 }
                 async function addAttachment() {
@@ -5365,12 +5411,7 @@ Template.new_quote.events({
 
                     let invoiceId = objDetails.fields.ID;
                     let encodedPdf = await generatePdfForMail(invoiceId);
-                    let pdfObject = "";
-                    var reader = new FileReader();
-                    reader.readAsDataURL(encodedPdf);
-                    reader.onloadend = function () {
-                        var base64data = reader.result;
-                        base64data = base64data.split(',')[1];
+                        let base64data = encodedPdf.split(',')[1];
 
                         pdfObject = {
                             filename: 'Quote ' + invoiceId + '.pdf',
@@ -5571,7 +5612,7 @@ Template.new_quote.events({
                         } else {
                             Router.go('/quoteslist?success=true');
                         };
-                    };
+                   
 
 
                 }

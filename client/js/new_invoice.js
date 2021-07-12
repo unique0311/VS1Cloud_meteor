@@ -4429,23 +4429,23 @@ Template.new_invoice.onRendered(function () {
     tempObj.getAllTaxCodes();
 });
 Template.new_invoice.helpers({
-    vs1companyBankDetails1: () => {
-        return Session.get('vs1companyBankDetails1') || '';
+    vs1companyBankName: () => {
+        return Session.get('vs1companyBankName') || '';
     },
-    vs1companyBankDetails2: () => {
-        return Session.get('vs1companyBankDetails2') || '';
+    vs1companyBankAccountName: () => {
+        return Session.get('vs1companyBankAccountName') || '';
     },
-    vs1companyBankDetails3: () => {
-        return Session.get('vs1companyBankDetails3') || '';
+    vs1companyBankAccountNo: () => {
+        return Session.get('vs1companyBankAccountNo') || '';
     },
-    vs1companyBankDetails4: () => {
-        return Session.get('vs1companyBankDetails4') || '';
+    vs1companyBankBSB: () => {
+        return Session.get('vs1companyBankBSB') || '';
     },
-    vs1companyBankDetails5: () => {
-        return Session.get('vs1companyBankDetails5') || '';
+    vs1companyBankSwiftCode: () => {
+        return Session.get('vs1companyBankSwiftCode') || '';
     },
-    vs1companyBankDetails6: () => {
-        return Session.get('vs1companyBankDetails6') || '';
+    vs1companyBankRoutingNo: () => {
+        return Session.get('vs1companyBankRoutingNo') || '';
     },
     invoicerecord: () => {
         return Template.instance().invoicerecord.get();
@@ -4853,34 +4853,47 @@ Template.new_invoice.events({
                         $('.pdfCustomerAddress').html($('#txabillingAddress').val().replace(/[\r\n]/g, "<br />"));
 
                         function generatePdfForMail(invoiceId) {
-                            return new Promise((resolve, reject) => {
-                                let templateObject = Template.instance();
-                                let completeTabRecord;
-                                let doc = new jsPDF('p', 'pt', 'a4');
-                                var source = document.getElementById('html-2-pdfwrapper');
-                                doc.addHTML(source, function () {
-                                    doc.setFontSize(10);
-                                    doc.setTextColor(255, 255, 255);
-                                    doc.textWithLink('Pay Now', 482, 113, {
-                                        url: 'https://www.depot.vs1cloud.com/stripe/' + stringQuery
-                                    });
-                                    resolve(doc.output('blob'));
-                                    $('#html-2-pdfwrapper').css('display', 'none');
-                                });
-                            });
+                        let file = "Invoice-" + invoiceId + ".pdf"
+                        return new Promise((resolve, reject) => {
+                        $(".linkText").attr("href", "https://www.depot.vs1cloud.com/stripe/" + stringQuery);
+                        let templateObject = Template.instance();
+                        let completeTabRecord;
+                        let doc = new jsPDF('p', 'pt', 'a4');
+                        var source = document.getElementById('html-2-pdfwrapper');
+                        var opt = {
+                            margin: 0,
+                            filename: file,
+                            image: {
+                                type: 'jpeg',
+                                quality: 0.98
+                            },
+                            html2canvas: {
+                                scale: 2
+                            },
+                            jsPDF: {
+                                unit: 'in',
+                                format: 'a4',
+                                orientation: 'portrait'
+                            }
                         }
+                        resolve(html2pdf().set(opt).from(source).toPdf().output('datauristring'));
+                        // doc.addHTML(source, function () {
+                        //     doc.setFontSize(10);
+                        //     doc.setTextColor(255, 255, 255);
+                        //     doc.textWithLink('Pay Now', 482, 113, { url: 'https://www.depot.vs1cloud.com/stripe/' + stringQuery });
+                        //     resolve(doc.output('blob'));
+                        //     $('#html-2-pdfwrapper').css('display', 'none');
+                        // });
+                    });
+                }
                         async function addAttachment() {
-                            let attachment = [];
-                            let templateObject = Template.instance();
+                                let attachment = [];
+                                let templateObject = Template.instance();
 
-                            let invoiceId = objDetails.fields.ID;
-                            let encodedPdf = await generatePdfForMail(invoiceId);
-                            let pdfObject = "";
-                            var reader = new FileReader();
-                            reader.readAsDataURL(encodedPdf);
-                            reader.onloadend = function () {
-                                var base64data = reader.result;
-                                base64data = base64data.split(',')[1];
+                                let invoiceId = objDetails.fields.ID;
+                                let encodedPdf = await generatePdfForMail(invoiceId);
+                                let pdfObject = "";
+                                let base64data = encodedPdf.split(',')[1];
                                 pdfObject = {
                                     filename: 'invoice-' + invoiceId + '.pdf',
                                     content: base64data,
@@ -5057,7 +5070,7 @@ Template.new_invoice.events({
                                     window.open(url, '_self');
                                 };
 
-                            };
+                           
 
                         }
                         addAttachment();
@@ -5948,7 +5961,7 @@ Template.new_invoice.events({
                     let encodedPdf = await generatePdfForMail(invoiceId);
 
                     // var base64data = reader.result;
-                    base64data = encodedPdf.split(',')[1];
+                    let base64data = encodedPdf.split(',')[1];
                     pdfObject = {
                         filename: 'invoice-' + invoiceId + '.pdf',
                         content: base64data,

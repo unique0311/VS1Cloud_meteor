@@ -1121,6 +1121,7 @@ Template.accountsoverview.events({
         var swiftCode = $('#swiftCode').val();
         var routingNo = $('#routingNo').val();
         // var comments = $('#txaAccountComments').val();
+        var bankname = $('#edtBankName').val();
         var bankaccountname = $('#edtBankAccountName').val();
         var bankbsb = $('#edtBSB').val();
         var bankacountno = $('#edtBankAccountNo').val();
@@ -1152,48 +1153,55 @@ Template.accountsoverview.events({
 
                 accountService.saveAccount(data).then(function (data) {
                     if ($('#showOnTransactions').is(':checked')) {
-                        var objDetails = {
-                            type: "TCompanyInfo",
-                            fields: {
+                                            var objDetails = {
+                        type: "TCompanyInfo",
+                        fields: {
                             Id: companyID,
                             AccountNo: accountno,
                             BankBranch: swiftCode,
                             Firstname: bankaccountname,
+                            LastName: bankname,
                             Bsb: bankbsb,
                             SiteCode: routingNo,
                             FileReference: accountname
-                          }
                         }
-                        organisationService.saveOrganisationSetting(objDetails).then(function (data) {
-                           var accNo =  bankacountno || '';
-                           var swiftCode = swiftCode || '';
-                           var bankName = bankaccountname || '';
-                           var accountName = accountname || '';
-                           var bsb = bankbsb || '';
-                           var routingNo = routingNo || '';
+                    }
+                    organisationService.saveOrganisationSetting(objDetails).then(function (data) {
+                           var accNo =  bankacountno || '.';
+                           var swiftCode = swiftCode || '.';
+                           var bankAccName = bankaccountname || '.';
+                           var accountName = accountname || '.';
+                           var bsb = bankbsb || '.';
+                           var routingNo = routingNo || '.';
                            var bankDetails = "Bank Name: " +bankName +"\n"+ "Account Name: "+ accountName +"\n Bank Account: "+ accNo  +"\nBSB: " +bsb +"\n Swift Code: "+ swiftCode +"\n"+ "Routing No: "+ routingNo;
                            Session.setPersistent('vs1companyBankDetails', bankDetails);
-                            sideBarService.getAccountListVS1().then(function (dataReload) {
-                                addVS1Data('TAccountVS1', JSON.stringify(dataReload)).then(function (datareturn) {
-                                    window.open('/accountsoverview', '_self');
-                                }).catch(function (err) {
-                                    window.open('/accountsoverview', '_self');
-                                });
+                           Session.setPersistent('vs1companyBankName', bankname);
+                           Session.setPersistent('vs1companyBankAccountName', bankAccName);
+                           Session.setPersistent('vs1companyBankAccountNo', accNo);
+                           Session.setPersistent('vs1companyBankBSB', bsb);
+                           Session.setPersistent('vs1companyBankSwiftCode', swiftCode);
+                           Session.setPersistent('vs1companyBankRoutingNo', routingNo);
+                        sideBarService.getAccountListVS1().then(function (dataReload) {
+                            addVS1Data('TAccountVS1', JSON.stringify(dataReload)).then(function (datareturn) {
+                                window.open('/accountsoverview', '_self');
                             }).catch(function (err) {
                                 window.open('/accountsoverview', '_self');
                             });
                         }).catch(function (err) {
                             window.open('/accountsoverview', '_self');
                         });
+                    }).catch(function (err) {
+                        window.open('/accountsoverview', '_self');
+                    });
                     } else {
                         sideBarService.getAccountListVS1().then(function (dataReload) {
                             addVS1Data('TAccountVS1', JSON.stringify(dataReload)).then(function (datareturn) {
-                                // window.open('/accountsoverview', '_self');
+                                window.open('/accountsoverview', '_self');
                             }).catch(function (err) {
-                                // window.open('/accountsoverview', '_self');
+                                window.open('/accountsoverview', '_self');
                             });
                         }).catch(function (err) {
-                            // window.open('/accountsoverview', '_self');
+                            window.open('/accountsoverview', '_self');
                         });
                     }
                 }).catch(function (err) {
@@ -1313,6 +1321,7 @@ Template.accountsoverview.events({
                     TaxCode: taxcode || '',
                     Extra: swiftCode,
                     BankNumber: routingNo,
+                    //Level4: bankname,
                     PublishOnVS1: true,
                     IsHeader: forTransaction
                 }
@@ -1327,20 +1336,27 @@ Template.accountsoverview.events({
                             AccountNo: accountno,
                             BankBranch: swiftCode,
                             Firstname: bankaccountname,
+                            LastName: bankname,
                             Bsb: bankbsb,
                             SiteCode: routingNo,
                             FileReference: accountname
                         }
                     }
                     organisationService.saveOrganisationSetting(objDetails).then(function (data) {
-                         var accNo =  bankacountno || '';
-                           var swiftCode = swiftCode || '';
-                           var bankName = bankaccountname || '';
-                           var accountName = accountname || '';
-                           var bsb = bankbsb || '';
-                           var routingNo = routingNo || '';
+                           var accNo =  bankacountno || '.';
+                           var swiftCode = swiftCode || '.';
+                           var bankAccName = bankaccountname || '.';
+                           var accountName = accountname || '.';
+                           var bsb = bankbsb || '.';
+                           var routingNo = routingNo || '.';
                            var bankDetails = "Bank Name: " +bankName +"\n"+ "Account Name: "+ accountName +"\n Bank Account: "+ accNo  +"\nBSB: " +bsb +"\n Swift Code: "+ swiftCode +"\n"+ "Routing No: "+ routingNo;
                            Session.setPersistent('vs1companyBankDetails', bankDetails);
+                           Session.setPersistent('vs1companyBankName', bankname);
+                           Session.setPersistent('vs1companyBankAccountName', bankAccName);
+                           Session.setPersistent('vs1companyBankAccountNo', accNo);
+                           Session.setPersistent('vs1companyBankBSB', bsb);
+                           Session.setPersistent('vs1companyBankSwiftCode', swiftCode);
+                           Session.setPersistent('vs1companyBankRoutingNo', routingNo);
                         sideBarService.getAccountListVS1().then(function (dataReload) {
                             addVS1Data('TAccountVS1', JSON.stringify(dataReload)).then(function (datareturn) {
                                 window.open('/accountsoverview', '_self');
@@ -1673,6 +1689,13 @@ Template.accountsoverview.helpers({
             }
             return (a.accountname.toUpperCase() > b.accountname.toUpperCase()) ? 1 : -1;
         });
+    },
+    bsbRegionName: () => {
+      let bsbname = "Branch Code";
+      if(Session.get('ERPLoggedCountry') == "Australia"){
+        bsbname = "BSB";
+      }
+        return bsbname;
     },
     tableheaderrecords: () => {
         return Template.instance().tableheaderrecords.get();

@@ -8758,7 +8758,7 @@ Worker.prototype.toPdf = function toPdf() {
     // Initialize the PDF.
     this.prop.pdf = this.prop.pdf || new jspdf_min(opt.jsPDF);
 
-    for (var page = 0; page < nPages; page++) {
+    for (var page = 0; page < (nPages - 1); page++) {
       // Trim the final page to reduce file size.
       if (page === nPages - 1 && pxFullHeight % pxPageHeight !== 0) {
         pageCanvas.height = pxFullHeight % pxPageHeight;
