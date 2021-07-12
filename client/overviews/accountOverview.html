@@ -47,11 +47,13 @@
             </div>
         </div>
 
-        <div class="row">
+        <!-- <div class="row">
             <div class="col">
-                <a class="btn btnOpenSettings float-right" role="button" data-toggle="modal" href="#myModal2" style="margin-right: 32px;"><i class="icon ion-android-more-horizontal"></i></a>
+                <a class="btn btnOpenSettings float-right" role="button" data-toggle="modal" href="#myModal2" style="margin-right: 32px;">
+                  <i class="icon ion-android-more-horizontal"></i>
+                </a>
             </div>
-        </div>
+        </div> -->
 
         <div class="row d-xl-flex flex-row justify-content-xl-center" style="padding: 16px; padding-bottom: 0px;">
             <div class="col-7 d-xl-flex flex-grow-1 align-items-xl-start">
@@ -135,23 +137,23 @@
 
 
 
-                                                    <div class="flex-grow-1">
-                                                        <div class="form-group" style="margin: 4px;"><label>BSB</label>
+                                                    <div class="flex-grow-0">
+                                                        <div class="form-group" style="margin: 4px; width: 150px;"><label>{{bsbRegionName}}</label>
                                                             <input type="text" class="form-control" id="edtBSB" name="edtBSB"></div>
                                                     </div>
                                                 </div>
 
                                                  <div class="d-xl-flex align-items-xl-start">
-                                                   <div class="flex-grow-0">
-                                                       <div class="form-group" style="margin: 4px;width: 150px;"><label>Bank Account No</label>
+                                                   <div class="flex-grow-1">
+                                                       <div class="form-group" style="margin: 4px;"><label>Bank Account No</label>
                                                            <input type="text" class="form-control" id="edtBankAccountNo" name="edtBankAccountNo"></div>
                                                    </div>
                                                     <div class="flex-grow-1">
                                                         <div class="form-group" style="margin: 4px;"><label>Swift Code</label>
                                                             <input type="text" class="form-control" id="swiftCode" name="swiftCode"></div>
                                                     </div>
-                                                    <div class="flex-grow-1">
-                                                        <div class="form-group" style="margin: 4px;"><label>Routing Number</label>
+                                                    <div class="flex-grow-0">
+                                                        <div class="form-group" style="margin: 4px; width: 150px;"><label>Routing Number</label>
                                                             <input type="text" class="form-control" id="routingNo" name="routingNo"></div>
                                                     </div>
                                                 </div>
@@ -220,6 +222,7 @@
                     <div role="menu" class="dropdown-menu">
                         <a role="presentation" class="dropdown-item exportbtnExcel" id="exportbtnExcel" href="#">Export Excel</a>
                         <a role="presentation" class="dropdown-item exportbtn" id="exportbtn" href="#">Export CSV</a>
+
                     </div>
                 </div>
                 <div>
@@ -287,6 +290,9 @@
                     </div>
                 </div>
                 <button class="btn btn-primary printConfirm float-right" type="button" style="margin: 16px;"><i class="fa fa-print" style="padding-right: 5px;"></i>Print</button>
+                <a class="btn btnOpenSettings float-right" role="button" data-toggle="modal" href="#myModal2" style="margin: 16px;">
+                  <i class="icon ion-android-more-horizontal"></i>
+                </a>
             </div>
         </div>
 
@@ -431,7 +437,7 @@
                                 <th class="th colBalance" style="width:80px;">Balance</th>
                                 <th class="th colTaxCode" style="width:80px;">Tax Code</th>
                                 <th class="th colBankAccountName" style="width:120px;">Bank Acc Name</th>
-                                <th class="th colBSB" style="width:60px;">BSB</th>
+                                <th class="th colBSB" style="width:60px;">{{bsbRegionName}}</th>
                                 <th class="th colBankAccountNo" style="width:120px;">Bank Acc No</th>
                                 <th class="th colExtra hiddenColumn">Swift Code</th>
                                 <th class="th colAPCANumber hiddenColumn">Routing Number</th>
