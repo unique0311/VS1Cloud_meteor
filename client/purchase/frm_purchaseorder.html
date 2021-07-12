@@ -6,8 +6,8 @@
         {{#if purchaseorderrecord}}
         <form>
             <header style="padding: 16px; padding-right: 0px;background-color: #ededed;margin-top: -24px;padding-bottom: 0px;">
-                <h1 style="margin: 16px;margin-bottom: 0px;">{{purchaseorderrecord.lid}}   
-                    
+                <h1 style="margin: 16px;margin-bottom: 0px;">{{purchaseorderrecord.lid}}
+
                     <a role="button" data-toggle="modal" href="#helpViewModal"  style="font-size: 20px;">Help <i class="fa fa-question-circle-o" style="font-size: 20px;"></i></a>
 
                     <!-- Start Help View Modal -->
@@ -27,11 +27,11 @@
                         </div>
                     </div>
                     <!-- End Help View Modal -->
-                    
+
                     <a class="btn" role="button" data-toggle="modal" href="#myModal4" style="float: right;"><i class="icon ion-android-more-horizontal"></i></a><!--<button class="btn float-right" type="button" id="btnCustomFileds" name="btnCustomFileds"><i class="icon ion-android-more-horizontal"></i></button>--></h1>
                 <div class="printID" id="{{purchaseorderrecord.id}}" style="display: none;">{{purchaseorderrecord.id}}</div>
             </header>
-            
+
             <div class="modal fade" role="dialog" tabindex="-1" id="helpViewModal">
                 <div class="modal-dialog modal-sm" role="document">
                     <div class="modal-content">
@@ -47,7 +47,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <!-- Start {{> optionCustomFiled}} -->
             <div class="modal fade" role="dialog" tabindex="-1" id="myModal4">
                 <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
@@ -361,8 +361,8 @@
             </div>
             <div class="row" style="background-color: #ededed;padding: 0px 32px 8px 32px;">
                 <div class="col-auto">
-                    <a class="btn btn-link" data-toggle="collapse" aria-expanded="false" aria-controls="collapse-2" href="#collapse-2" role="button">+ Shipping Information</a>
-                    <div class="collapse" id="collapse-2">
+                    <a class="btn btn-link" data-toggle="collapse" aria-expanded="false" aria-controls="collapse-notes" href="#collapse-notes" role="button">+ Shipping Information</a>
+                    <div class="collapse" id="collapse-notes">
                         <div class="d-xl-flex align-items-xl-start">
                             <div class="flex-grow-0" style="margin: 16px;">
                                 <div class="form-group" style="width: 350px;"><label>Shipping Address</label>
