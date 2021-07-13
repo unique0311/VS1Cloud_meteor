@@ -1073,7 +1073,7 @@ style="margin: 16px;margin-top: 0px;width: 95px;"><i class="fa fa-remove" style=
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-6">
+                        <div class="col-6"  style="border: 1px solid;">
                             <div class="row">
                                 <div class="col-12">
                                     <h4 style="font-size: 20px;font-weight: bold; color: rgb(0 0 0);">Payment Details</h4>
@@ -1081,23 +1081,28 @@ style="margin: 16px;margin-top: 0px;width: 95px;"><i class="fa fa-remove" style=
                                 <!-- <div class="bankDetails" style="margin: 16px;">
 
                                 </div> -->
-                <div class="col-4">
-                    <p style="text-align: left; margin-bottom: 8px; font-weight: 800; color: rgb(0 0 0);">Bank Name</p>
-                    <!-- <p style="text-align: left; margin-bottom: 8px; font-weight: 600; color: rgb(0 0 0);">Account Name</p> -->
-                    <p style="text-align: left; margin-bottom: 8px; font-weight: 800; color: rgb(0 0 0);">{{bsbRegionName}}</p>
-                    <p style="text-align: left; margin-bottom: 8px; font-weight: 800; color: rgb(0 0 0);">Account Number</p>
-                    <p style="text-align: left; margin-bottom: 8px; font-weight: 800; color: rgb(0 0 0);">Swift Code</p>
-                    <!-- <p style="text-align: left; margin-bottom: 8px; font-weight: 600; color: rgb(0 0 0);">Routing No</p> -->
-                </div>
-                <div class="col-6">
-                    <p style="text-align: left; margin-bottom: 8px; font-weight: 600; color: rgb(0 0 0);">{{vs1companyBankName}}</p>
-                    <!-- <p style="text-align: right; margin-bottom: 8px; font-weight: 600; color: rgb(0 0 0);">{{vs1companyBankAccountName}}</p> -->
-                    <p style="text-align: left; margin-bottom: 8px; font-weight: 600; color: rgb(0 0 0);">{{vs1companyBankBSB}}</p>
-                    <p style="text-align: left; margin-bottom: 8px; font-weight: 600; color: rgb(0 0 0);">{{vs1companyBankAccountNo}}</p>
-                    <p style="text-align: left; margin-bottom: 8px; font-weight: 600; color: rgb(0 0 0);">{{vs1companyBankSwiftCode}}</p>
-                    <!--  <p style="text-align: right; margin-bottom: 8px; font-weight: 600; color: rgb(0 0 0);">{{vs1companyBankRoutingNo}}.</p> -->
-                </div>
-                    </div>
+                                <div class="col-12">
+                                    <h4 style="font-size: 20px;font-weight: 800; color: rgb(0 0 0);">{{vs1companyBankName}}</h4>
+                                </div>
+
+                                <div class="col-12">
+                                    <p style="text-align: left; margin-bottom: 8px; font-weight: 600; color: rgb(0 0 0);">Name: <span style="margin-bottom: 8px; font-weight: 800; color: rgb(0 0 0);">{{vs1companyBankAccountName}}</span></p>
+                                    <!-- <p style="text-align: left; margin-bottom: 8px; font-weight: 600; color: rgb(0 0 0);">Account Name</p> -->
+                                    <p style="text-align: left; margin-bottom: 8px; font-weight: 600; color: rgb(0 0 0);">{{bsbRegionName}}: <span style="margin-bottom: 8px; font-weight: 800; color: rgb(0 0 0);">{{vs1companyBankBSB}}</span></p>
+                                    <p style="text-align: left; margin-bottom: 8px; font-weight: 600; color: rgb(0 0 0);">Account Number: <span style="margin-bottom: 8px; font-weight: 800; color: rgb(0 0 0);">{{vs1companyBankAccountNo}}</span></p>
+                                    <p style="text-align: left; margin-bottom: 8px; font-weight: 600; color: rgb(0 0 0);">Swift Code: <span style="margin-bottom: 8px; font-weight: 800; color: rgb(0 0 0);">{{vs1companyBankSwiftCode}}</span></p>
+                                    {{#if vs1companyBankRoutingNo}}
+                                    <p style="text-align: left; margin-bottom: 8px; font-weight: 600; color: rgb(0 0 0);">Routing No: <span style="margin-bottom: 8px; font-weight: 800; color: rgb(0 0 0);">{{vs1companyBankRoutingNo}}</span></p>
+                                    {{/if}}
+                                </div>
+                                <!-- <div class="col-6">
+                                    <p style="text-align: right; margin-bottom: 8px; font-weight: 600; color: rgb(0 0 0);">{{vs1companyBankAccountName}}</p>
+                                    <p style="text-align: right; margin-bottom: 8px; font-weight: 600; color: rgb(0 0 0);">{{vs1companyBankBSB}}</p>
+                                    <p style="text-align: right; margin-bottom: 8px; font-weight: 600; color: rgb(0 0 0);">{{vs1companyBankAccountNo}}</p>
+                                    <p style="text-align: right; margin-bottom: 8px; font-weight: 600; color: rgb(0 0 0);">{{vs1companyBankSwiftCode}}</p>
+                                   <p style="text-align: right; margin-bottom: 8px; font-weight: 600; color: rgb(0 0 0);">{{vs1companyBankRoutingNo}}.</p>
+                                </div> -->
+                            </div>
                         </div>
                         <div class="col-6">
                             <div style="margin: 8px; border: none !important;">
