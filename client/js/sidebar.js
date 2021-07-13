@@ -435,12 +435,12 @@ Template.sidenav.onRendered(function() {
     }
 
     templateObject.getAllTpurchaseOrderNonBackOrderData = function() {
-        sideBarService.getAllPurchaseOrderListNonBo().then(function(data) {
-            //localStorage.setItem('VS1TpurchaseOrderNonBackOrderList', JSON.stringify(data) || '');
-            addVS1Data('TpurchaseOrderNonBackOrder',JSON.stringify(data));
-        }).catch(function(err) {
-
-        });
+        // sideBarService.getAllPurchaseOrderListNonBo().then(function(data) {
+        //     //localStorage.setItem('VS1TpurchaseOrderNonBackOrderList', JSON.stringify(data) || '');
+        //     addVS1Data('TpurchaseOrderNonBackOrder',JSON.stringify(data));
+        // }).catch(function(err) {
+        //
+        // });
     }
 
     templateObject.getAllTpurchaseOrderBackOrderData = function() {

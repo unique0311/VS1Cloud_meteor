@@ -836,6 +836,7 @@ Template.accountsoverview.onRendered(function () {
                 $('#edtBankAccountNo').val(bankacountno);
                 $('#swiftCode').val(swiftCode);
                 $('#routingNo').val(routingNo);
+                $('#edtBankName').val(Session.get('vs1companyBankName') || '');
 
                 if(showTrans == 'true'){
                     $('.showOnTransactions').prop('checked', true);
@@ -1167,12 +1168,12 @@ Template.accountsoverview.events({
                         }
                     }
                     organisationService.saveOrganisationSetting(objDetails).then(function (data) {
-                           var accNo =  bankacountno || '.';
-                           var swiftCode = swiftCode || '.';
-                           var bankAccName = bankaccountname || '.';
-                           var accountName = accountname || '.';
-                           var bsb = bankbsb || '.';
-                           var routingNo = routingNo || '.';
+                           var accNo =  bankacountno || '';
+                           var swiftCode = swiftCode || '';
+                           var bankAccName = bankaccountname || '';
+                           var accountName = accountname || '';
+                           var bsb = bankbsb || '';
+                           var routingNo = routingNo || '';
                            var bankDetails = "Bank Name: " +bankName +"\n"+ "Account Name: "+ accountName +"\n Bank Account: "+ accNo  +"\nBSB: " +bsb +"\n Swift Code: "+ swiftCode +"\n"+ "Routing No: "+ routingNo;
                            Session.setPersistent('vs1companyBankDetails', bankDetails);
                            Session.setPersistent('vs1companyBankName', bankname);
@@ -1272,6 +1273,12 @@ Template.accountsoverview.events({
                            var routingNo = routingNo || '';
                            var bankDetails = "Bank Name: " +bankName +"\n"+ "Account Name: "+ accountName +"\n Bank Account: "+ accNo  +"\nBSB: " +bsb +"\n Swift Code: "+ swiftCode +"\n"+ "Routing No: "+ routingNo;
                            Session.setPersistent('vs1companyBankDetails', bankDetails);
+                           Session.setPersistent('vs1companyBankName', bankname);
+                           Session.setPersistent('vs1companyBankAccountName', bankAccName);
+                           Session.setPersistent('vs1companyBankAccountNo', accNo);
+                           Session.setPersistent('vs1companyBankBSB', bsb);
+                           Session.setPersistent('vs1companyBankSwiftCode', swiftCode);
+                           Session.setPersistent('vs1companyBankRoutingNo', routingNo);
                             sideBarService.getAccountListVS1().then(function (dataReload) {
                                 addVS1Data('TAccountVS1', JSON.stringify(dataReload)).then(function (datareturn) {
                                     window.open('/accountsoverview', '_self');
@@ -1359,12 +1366,12 @@ Template.accountsoverview.events({
                         }
                     }
                     organisationService.saveOrganisationSetting(objDetails).then(function (data) {
-                           var accNo =  bankacountno || '.';
-                           var swiftCode = swiftCode || '.';
-                           var bankAccName = bankaccountname || '.';
-                           var accountName = accountname || '.';
-                           var bsb = bankbsb || '.';
-                           var routingNo = routingNo || '.';
+                           var accNo =  bankacountno || '';
+                           var swiftCode = swiftCode || '';
+                           var bankAccName = bankaccountname || '';
+                           var accountName = accountname || '';
+                           var bsb = bankbsb || '';
+                           var routingNo = routingNo || '';
                            var bankDetails = "Bank Name: " +bankName +"\n"+ "Account Name: "+ accountName +"\n Bank Account: "+ accNo  +"\nBSB: " +bsb +"\n Swift Code: "+ swiftCode +"\n"+ "Routing No: "+ routingNo;
                            Session.setPersistent('vs1companyBankDetails', bankDetails);
                            Session.setPersistent('vs1companyBankName', bankname);
@@ -1439,6 +1446,7 @@ Template.accountsoverview.events({
         $('#edtBSB').val('');
         $('#edtBankAccountNo').val('');
         $('#routingNo').val('');
+        $('#edtBankName').val('');
         $('#swiftCode').val('');
         $('.showOnTransactions').prop('checked', false);
         $('.isBankAccount').removeClass('isNotBankAccount');
