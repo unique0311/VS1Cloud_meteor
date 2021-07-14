@@ -3022,7 +3022,7 @@ Template.new_salesorder.onRendered(() => {
         $(".linkText").attr("href", "https://www.depot.vs1cloud.com/stripe/" + stringQuery);
         var source = document.getElementById('html-2-pdfwrapper');
         let file = "Sales Order.pdf";
-        if ($('.printID').attr('id') != undefined || $('.printID').attr('id') == "") {
+        if ($('.printID').attr('id') != undefined || $('.printID').attr('id') != "") {
             file = 'Sales Order-' + id + '.pdf';
         }
 
@@ -3043,8 +3043,12 @@ Template.new_salesorder.onRendered(() => {
             }
         };
         html2pdf().set(opt).from(source).save().then(function (dataObject){
+              if ($('.printID').attr('id') == undefined || $('.printID').attr('id') == "") {
+                $(".btnSave").trigger("click");
+            } else {
              $('#html-2-pdfwrapper').css('display', 'none');
             $('.fullScreenSpin').css('display', 'none');
+        }
         });
         // pdf.addHTML(source, function () {
 

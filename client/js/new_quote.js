@@ -2941,7 +2941,7 @@ Template.new_quote.onRendered(() => {
         }
         stringQuery = stringQuery + "tax=" + tax + "&total=" + total + "&customer=" + customer + "&name=" + name + "&surname=" + surname + "&quoteid=" + quoteData.id +"&transid="+stripe_id+"&feemethod="+stripe_fee_method+"&company=" + company + "&vs1email=" + vs1User + "&customeremail=" + customerEmail + "&type=Quote&url=" + window.location.href + "&server=" + erpGet.ERPIPAddress + "&username=" + erpGet.ERPUsername + "&token=" + erpGet.ERPPassword + "&session=" + erpGet.ERPDatabase + "&port=" + erpGet.ERPPort;;
         let file = "Quote.pdf";
-        if ($('.printID').attr('id') != undefined || $('.printID').attr('id') == "") {
+        if ($('.printID').attr('id') != undefined || $('.printID').attr('id') != "") {
             file = 'Quote-' + id + '.pdf';
         }
 
@@ -2969,8 +2969,12 @@ Template.new_quote.onRendered(() => {
         // pdf.setFontSize(18);
         var source = document.getElementById('html-2-pdfwrapper');
          html2pdf().set(opt).from(source).save().then(function (dataObject){
+             if ($('.printID').attr('id') == undefined || $('.printID').attr('id') == "") {
+                $(".btnSave").trigger("click");
+            } else {
              $('#html-2-pdfwrapper').css('display', 'none');
             $('.fullScreenSpin').css('display', 'none');
+        }
         });
 
         // pdf.addHTML(source, function () {
