@@ -132,8 +132,8 @@ Template.new_salesorder.onRendered(() => {
 
                         let customerrecordObj = {
                             customerid: data.tcustomervs1[i].Id || ' ',
-                            firstname: data.tcustomervs1[i].FirstName,
-                            lastname: data.tcustomervs1[i].LastName,
+                            firstname: data.tcustomervs1[i].FirstName || ' ',
+                            lastname: data.tcustomervs1[i].LastName || ' ',
                             customername: data.tcustomervs1[i].ClientName || ' ',
                             customeremail: data.tcustomervs1[i].Email || ' ',
                             street: data.tcustomervs1[i].Street || ' ',
@@ -172,8 +172,8 @@ Template.new_salesorder.onRendered(() => {
 
                     let customerrecordObj = {
                         customerid: useData[i].fields.ID || ' ',
-                        firstname: useData[i].fields.FirstName,
-                        lastname: useData[i].fields.LastName,
+                        firstname: useData[i].fields.FirstName || ' ',
+                        lastname: useData[i].fields.LastName || ' ',
                         customername: useData[i].fields.ClientName || ' ',
                         customeremail: useData[i].fields.Email || ' ',
                         street: useData[i].fields.Street || ' ',
@@ -208,8 +208,8 @@ Template.new_salesorder.onRendered(() => {
 
                     let customerrecordObj = {
                         customerid: data.tcustomervs1[i].Id || ' ',
-                       firstname: data.tcustomervs1[i].FirstName,
-                        lastname: data.tcustomervs1[i].LastName,
+                       firstname: data.tcustomervs1[i].FirstName || ' ',
+                        lastname: data.tcustomervs1[i].LastName || ' ',
                         customername: data.tcustomervs1[i].ClientName || ' ',
                         customeremail: data.tcustomervs1[i].Email || ' ',
                         street: data.tcustomervs1[i].Street || ' ',
