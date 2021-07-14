@@ -253,7 +253,7 @@ Template.new_invoice.onRendered(() => {
 
                     let customerrecordObj = {
                         customerid: useData[i].fields.ID || ' ',
-                        firstname: useData[i].fields.FirstName ' ',
+                        firstname: useData[i].fields.FirstName || ' ',
                         lastname: useData[i].fields.LastName || ' ',
                         customername: useData[i].fields.ClientName || ' ',
                         customeremail: useData[i].fields.Email || ' ',
