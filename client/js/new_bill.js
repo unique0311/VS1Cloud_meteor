@@ -1676,14 +1676,34 @@ Template.billcard.onRendered(() => {
             width: 100
         };
         let id = $('.printID').attr("id");
-        var pdf = new jsPDF('p', 'pt', 'a4');
-        pdf.setFontSize(18);
+
         var source = document.getElementById('html-2-pdfwrapper');
-        pdf.addHTML(source, function() {
-            pdf.save('Bill-'+id+'.pdf');
-            $('#html-2-pdfwrapper').css('display', 'none');
+        let file = "Bill.pdf";
+        if ($('.printID').attr('id') != undefined || $('.printID').attr('id') == "") {
+            file = 'Bill-' + id + '.pdf';
+        }
+        var opt = {
+            margin: 0,
+            filename: file,
+            image: {
+                type: 'jpeg',
+                quality: 0.98
+            },
+            html2canvas: {
+                scale: 2
+            },
+            jsPDF: {
+                unit: 'in',
+                format: 'a4',
+                orientation: 'portrait'
+            }
+        };
+
+        html2pdf().set(opt).from(source).save().then(function (dataObject){
+             $('#html-2-pdfwrapper').css('display', 'none');
             $('.fullScreenSpin').css('display', 'none');
         });
+
 
     };
 
@@ -2468,6 +2488,7 @@ Template.billcard.events({
         $('#html-2-pdfwrapper').css('display', 'block');
         $('.pdfCustomerName').html($('#edtSupplierName').val());
         $('.pdfCustomerAddress').html($('#txabillingAddress').val().replace(/[\r\n]/g, "<br />"));
+        $('#printcomment').html($('#txaComment').val().replace(/[\r\n]/g, "<br />"));
         var ponumber = $('#ponumber').val() || '.';
         $('.po').text(ponumber);
         exportSalesToPdf();
@@ -2930,16 +2951,13 @@ Template.billcard.events({
                     let invoiceId = objDetails.fields.ID;
                     let encodedPdf = await generatePdfForMail(invoiceId);
                     let pdfObject = "";
-                    var reader = new FileReader();
-                    reader.readAsDataURL(encodedPdf);
-                    reader.onloadend = function() {
-                        var base64data = reader.result;
-                        base64data = base64data.split(',')[1];
-                        pdfObject = {
-                            filename: 'Bill ' + invoiceId + '.pdf',
-                            content: base64data,
-                            encoding: 'base64'
-                        };
+
+                  let base64data = encodedPdf.split(',')[1];
+                    pdfObject = {
+                        filename: 'invoice-' + invoiceId + '.pdf',
+                        content: base64data,
+                        encoding: 'base64'
+                    };
                         attachment.push(pdfObject);
                         let erpInvoiceId = objDetails.fields.ID;
                         let mailFromName = Session.get('vs1companyName');
@@ -3115,23 +3133,41 @@ Template.billcard.events({
                         } else {
                            Router.go('/billlist?success=true');
                         };
-                    };
+
                 }
                 addAttachment();
 
                 function generatePdfForMail(invoiceId) {
-                    return new Promise((resolve, reject) => {
+                    let file = "Bill-" + invoiceId + ".pdf"
+                        return new Promise((resolve, reject) => {
                         let templateObject = Template.instance();
-
                         let completeTabRecord;
                         let doc = new jsPDF('p', 'pt', 'a4');
-                        doc.setFontSize(18);
                         var source = document.getElementById('html-2-pdfwrapper');
-                        doc.addHTML(source, function() {
-
-                            resolve(doc.output('blob'));
-
-                        });
+                        var opt = {
+                            margin: 0,
+                            filename: file,
+                            image: {
+                                type: 'jpeg',
+                                quality: 0.98
+                            },
+                            html2canvas: {
+                                scale: 2
+                            },
+                            jsPDF: {
+                                unit: 'in',
+                                format: 'a4',
+                                orientation: 'portrait'
+                            }
+                        }
+                        resolve(html2pdf().set(opt).from(source).toPdf().output('datauristring'));
+                        // doc.addHTML(source, function () {
+                        //     doc.setFontSize(10);
+                        //     doc.setTextColor(255, 255, 255);
+                        //     doc.textWithLink('Pay Now', 482, 113, { url: 'https://www.depot.vs1cloud.com/stripe/' + stringQuery });
+                        //     resolve(doc.output('blob'));
+                        //     $('#html-2-pdfwrapper').css('display', 'none');
+                        // });
                     });
                 }
 
