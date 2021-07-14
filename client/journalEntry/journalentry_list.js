@@ -629,7 +629,23 @@ Template.journalentrylist.events({
        window.open('/journalentrylist','_self');
      });
 
-     sideBarService.getAllPurchaseOrderListAll().then(function(data) {
+     var currentBeginDate = new Date();
+ var begunDate = moment(currentBeginDate).format("DD/MM/YYYY");
+ let fromDateMonth = currentBeginDate.getMonth();
+ let fromDateDay = currentBeginDate.getDate();
+ if(currentBeginDate.getMonth() < 10){
+     fromDateMonth = "0" + (currentBeginDate.getMonth()+1);
+ }else{
+   fromDateMonth = (currentBeginDate.getMonth()+1);
+ }
+
+ if(currentBeginDate.getDate() < 10){
+     fromDateDay = "0" + currentBeginDate.getDate();
+ }
+ var toDate = currentBeginDate.getFullYear()+ "-" +(fromDateMonth) + "-"+(fromDateDay+1);
+ let prevMonth11Date = (moment().subtract(6, 'months')).format("YYYY-MM-DD");
+
+     sideBarService.getAllPurchaseOrderListAll(prevMonth11Date,toDate, false).then(function(data) {
        addVS1Data('TbillReport',JSON.stringify(data)).then(function (datareturn) {
 
        }).catch(function (err) {
@@ -738,7 +754,7 @@ Template.journalentrylist.events({
 
             }
           });
-           
+
         }
       }
     }
@@ -749,7 +765,7 @@ Template.journalentrylist.events({
     let columData = $(event.target).text();
 
     let columnDatanIndex = $(event.target).closest("div.columnSettings").attr('id');
-    
+
     var datable = $('#tblJournalList').DataTable();
     var title = datable.column( columnDatanIndex ).header();
     $(title).html(columData);
@@ -806,7 +822,7 @@ Template.journalentrylist.events({
     templateObject.tableheaderrecords.set(tableHeaderList);
   },
 'click #exportbtn': function () {
-  
+
   $('.fullScreenSpin').css('display','inline-block');
   jQuery('#tblJournalList_wrapper .dt-buttons .btntabletocsv').click();
    $('.fullScreenSpin').css('display','none');

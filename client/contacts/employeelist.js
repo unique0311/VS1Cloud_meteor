@@ -789,8 +789,9 @@ Template.employeelist.events({
         let utilityService = new UtilityService();
         let rows =[];
         const filename = 'SampleEmployee'+'.csv';
-        rows[0]= ['First Name', 'Last Name', 'Phone','Mobile', 'Email','Skype', 'Street', 'Street2', 'State', 'Post Code', 'Country'];
-        rows[1]= ['John', 'Smith', '9995551213','9995551213', 'johnsmith@email.com','johnsmith', '123 Main Street', 'Main Street', 'New York', '1234', 'United States'];
+        rows[0]= ['First Name', 'Last Name', 'Phone','Mobile', 'Email','Skype', 'Street', 'City/Suburb', 'State', 'Post Code', 'Country', 'Gender'];
+        rows[1]= ['John', 'Smith', '9995551213','9995551213', 'johnsmith@email.com','johnsmith', '123 Main Street', 'Brooklyn', 'New York', '1234', 'United States', 'M'];
+        rows[1]= ['Jane', 'Smith', '9995551213','9995551213', 'janesmith@email.com','janesmith', '123 Main Street', 'Brooklyn', 'New York', '1234', 'United States', 'F'];
         utilityService.exportToCsv(rows, filename, 'csv');
     },
     'click .templateDownloadXLSX': function (e) {
@@ -871,6 +872,9 @@ Template.employeelist.events({
         let templateObject = Template.instance();
         let contactService = new ContactService();
         let objDetails;
+        var saledateTime = new Date();
+        //let empStartDate = new Date().format("YYYY-MM-DD");
+        var empStartDate = moment(saledateTime).format("YYYY-MM-DD");
         Papa.parse(templateObject.selectedFile.get(), {
             complete: function(results) {
 
@@ -879,13 +883,15 @@ Template.employeelist.events({
                        && (results.data[0][1] == "Last Name") && (results.data[0][2] == "Phone")
                        && (results.data[0][3] == "Mobile") && (results.data[0][4] == "Email")
                        && (results.data[0][5] == "Skype") && (results.data[0][6] == "Street")
-                       && (results.data[0][7] == "Street2") && (results.data[0][8] == "State")
-                       && (results.data[0][9] == "Post Code") && (results.data[0][10] == "Country")) {
+                       && ((results.data[0][7] == "Street2")|| (results.data[0][7] == "City/Suburb")) && (results.data[0][8] == "State")
+                       && (results.data[0][9] == "Post Code") && (results.data[0][10] == "Country")
+                       && (results.data[0][11] == "Gender")) {
 
                         let dataLength = results.data.length * 500;
                         setTimeout(function(){
                             // $('#importModal').modal('toggle');
-                            Meteor._reload.reload();
+                            //Meteor._reload.reload();
+                            window.open('/employeelist?success=true','_self');
                         },parseInt(dataLength));
 
                         for (let i = 0; i < results.data.length -1; i++) {
@@ -897,10 +903,14 @@ Template.employeelist.events({
                                     LastName: results.data[i+1][1],
                                     Phone: results.data[i+1][2],
                                     Mobile: results.data[i+1][3],
+                                    DateStarted: empStartDate,
+                                    DOB: empStartDate,
+                                    Sex: results.data[i+1][11]||"F",
                                     Email: results.data[i+1][4],
                                     SkypeName: results.data[i+1][5],
                                     Street: results.data[i+1][6],
                                     Street2: results.data[i+1][7],
+                                    Suburb: results.data[i+1][7],
                                     State: results.data[i+1][8],
                                     PostCode:results.data[i+1][9],
                                     Country:results.data[i+1][10]

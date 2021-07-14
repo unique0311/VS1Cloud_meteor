@@ -415,12 +415,12 @@ Template.header.onRendered(function(){
            Session.setPersistent('vs1companyStripeFeeMethod', data.tcompanyinfo[0].DvaABN);
            Session.setPersistent('vs1companyBankDetails', bankDetails);
            Session.setPersistent('vs1companyBankName1', bankDetails);
-           Session.setPersistent('vs1companyBankName', bankName);
-           Session.setPersistent('vs1companyBankAccountName', accountName);
-           Session.setPersistent('vs1companyBankAccountNo', accNo);
-           Session.setPersistent('vs1companyBankBSB', bsb);
-           Session.setPersistent('vs1companyBankSwiftCode', swiftCode);
-           Session.setPersistent('vs1companyBankRoutingNo', routingNo);
+           localStorage.setItem('vs1companyBankName', bankName);
+           localStorage.setItem('vs1companyBankAccountName', accountName);
+           localStorage.setItem('vs1companyBankAccountNo', accNo);
+           localStorage.setItem('vs1companyBankBSB', bsb);
+           localStorage.setItem('vs1companyBankSwiftCode', swiftCode);
+           localStorage.setItem('vs1companyBankRoutingNo', routingNo);
            // Session.setPersistent('vs1companyComment', comment);
 
 

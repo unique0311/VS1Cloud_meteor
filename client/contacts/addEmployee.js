@@ -2206,7 +2206,7 @@ Template.employeescard.events({
 
             let defaultTime = parseInt($('#defaultTime').val().split(' ')[0]) || 2;
             let defaultProduct = $('#product-list').children("option:selected").text().trim() || '';
-            let defaultProductID = $('#product-list').children("option:selected").val() || '';
+            let defaultProductID = $('#product-list').children("option:selected").val() || 0;
 
 
             let objectData = "";
@@ -2609,6 +2609,7 @@ Template.employeescard.events({
                     ID: parseInt(employeeSaveID)||0,
                     FirstName: empFirstName,
                     LastName: empLastName,
+                    MiddleName: $('#edtMiddleName').val()||'',
                     Phone: empPhone,
                     DateStarted: empStartDate,
                     DOB: empDOB,
@@ -2832,6 +2833,7 @@ Template.employeescard.events({
                     ID: parseInt(employeeSaveID)||0,
                     FirstName: empFirstName,
                     LastName: empLastName,
+                    MiddleName: $('#edtMiddleName').val()||'',
                     Phone: empPhone,
                     DateStarted: empStartDate,
                     DOB: empDOB,

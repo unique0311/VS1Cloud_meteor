@@ -817,150 +817,34 @@ Template.chequelist.events({
     },
     'click .btnRefresh': function() {
         $('.fullScreenSpin').css('display', 'inline-block');
-        let currentDate = new Date();
-        let hours = currentDate.getHours(); //returns 0-23
-        let minutes = currentDate.getMinutes(); //returns 0-59
-        let seconds = currentDate.getSeconds(); //returns 0-59
-        let month = (currentDate.getMonth() + 1);
-        let days = currentDate.getDate();
 
-        if (currentDate.getMonth() < 10) {
-            month = "0" + (currentDate.getMonth() + 1);
-        }
-
-        if (currentDate.getDate() < 10) {
-            days = "0" + currentDate.getDate();
-        }
-        let currenctTodayDate = currentDate.getFullYear() + "-" + month + "-" + days + " " + hours + ":" + minutes + ":" + seconds;
-        let templateObject = Template.instance();
-        getVS1Data('TCheque').then(function(dataObject) {
-            if (dataObject.length == 0) {
-                sideBarService.getAllChequeList().then(function(data) {
-                    addVS1Data('TCheque', JSON.stringify(data)).then(function(datareturn) {
-                        window.open('/chequelist', '_self');
-                    }).catch(function(err) {
-                        window.open('/chequelist', '_self');
-                    });
-                }).catch(function(err) {
-                    window.open('/chequelist', '_self');
-                });
-            } else {
-                let data = JSON.parse(dataObject[0].data);
-                let useData = data.tcheque;
-                if (useData[0].Id) {
-                    sideBarService.getAllChequeList().then(function(data) {
-                        addVS1Data('TCheque', JSON.stringify(data)).then(function(datareturn) {
-                            window.open('/chequelist', '_self');
-                        }).catch(function(err) {
-                            window.open('/chequelist', '_self');
-                        });
-                    }).catch(function(err) {
-                        window.open('/chequelist', '_self');
-                    });
-                } else {
-                    let getTimeStamp = dataObject[0].timestamp;
-                    if (getTimeStamp) {
-                        if (getTimeStamp[0] != currenctTodayDate) {
-                            sideBarService.getAllChequeList(getTimeStamp).then(function(dataUpdate) {
-                                let newDataObject = [];
-                                if (dataUpdate.tcheque.length === 0) {
-                                    sideBarService.getAllChequeList().then(function(data) {
-                                        addVS1Data('TCheque', JSON.stringify(data)).then(function(datareturn) {
-                                            window.open('/chequelist', '_self');
-                                        }).catch(function(err) {
-                                            window.open('/chequelist', '_self');
-                                        });
-                                    }).catch(function(err) {
-                                        window.open('/chequelist', '_self');
-                                    });
-                                } else {
-                                    let dataOld = JSON.parse(dataObject[0].data);
-                                    let oldObjectData = dataOld.tcheque;
-
-                                    let dataNew = dataUpdate;
-                                    let newObjectData = dataNew.tcheque;
-                                    let index = '';
-                                    let index2 = '';
-
-                                    var resultArray = []
-
-                                    oldObjectData.forEach(function(destObj) {
-                                        var addedcheck = false;
-                                        newObjectData.some(function(origObj) {
-                                            if (origObj.fields.ID == destObj.fields.ID) {
-                                                addedcheck = true;
-                                                index = oldObjectData.map(function(e) { return e.fields.ID; }).indexOf(parseInt(origObj.fields.ID));
-                                                destObj = origObj;
-                                                resultArray.push(destObj);
-
-                                            }
-                                        });
-                                        if (!addedcheck) {
-                                            resultArray.push(destObj)
-                                        }
-
-                                    });
-                                    newObjectData.forEach(function(origObj) {
-                                        var addedcheck = false;
-                                        oldObjectData.some(function(destObj) {
-                                            if (origObj.fields.ID == destObj.fields.ID) {
-                                                addedcheck = true;
-                                                index = oldObjectData.map(function(e) { return e.fields.ID; }).indexOf(parseInt(origObj.fields.ID));
-                                                destObj = origObj;
-                                                resultArray.push(destObj);
-
-                                            }
-                                        });
-                                        if (!addedcheck) {
-                                            resultArray.push(origObj)
-                                        }
-
-                                    });
-                                    var resultGetData = [];
-                                    $.each(resultArray, function(i, e) {
-                                        var matchingItems = $.grep(resultGetData, function(item) {
-                                            return item.fields.ID === e.fields.ID;
-                                        });
-                                        if (matchingItems.length === 0) {
-                                            resultGetData.push(e);
-                                        }
-                                    });
-
-                                    let dataToAdd = {
-                                        tcheque: resultGetData
-                                    };
-                                    addVS1Data('TCheque', JSON.stringify(dataToAdd)).then(function(datareturn) {
-                                        window.open('/chequelist', '_self');
-                                    }).catch(function(err) {
-                                        window.open('/chequelist', '_self');
-                                    });
-                                }
-
-                            }).catch(function(err) {
-                                addVS1Data('TCheque', dataObject[0].data).then(function(datareturn) {
-                                    window.open('/chequelist', '_self');
-                                }).catch(function(err) {
-                                    window.open('/chequelist', '_self');
-                                });
-                            });
-                        }
-
-                    }
-                }
-            }
-        }).catch(function(err) {
-            sideBarService.getAllChequeList().then(function(data) {
-                addVS1Data('TCheque', JSON.stringify(data)).then(function(datareturn) {
-                    window.open('/chequelist', '_self');
-                }).catch(function(err) {
-                    window.open('/chequelist', '_self');
-                });
-            }).catch(function(err) {
+        sideBarService.getAllChequeList().then(function(data) {
+            addVS1Data('TCheque', JSON.stringify(data)).then(function(datareturn) {
                 window.open('/chequelist', '_self');
+            }).catch(function(err) {
+               window.open('/chequelist', '_self');
             });
+        }).catch(function(err) {
+            window.open('/chequelist', '_self');
         });
 
-        sideBarService.getAllPurchaseOrderListAll().then(function(data) {
+        var currentBeginDate = new Date();
+    var begunDate = moment(currentBeginDate).format("DD/MM/YYYY");
+    let fromDateMonth = currentBeginDate.getMonth();
+    let fromDateDay = currentBeginDate.getDate();
+    if(currentBeginDate.getMonth() < 10){
+        fromDateMonth = "0" + (currentBeginDate.getMonth()+1);
+    }else{
+      fromDateMonth = (currentBeginDate.getMonth()+1);
+    }
+
+    if(currentBeginDate.getDate() < 10){
+        fromDateDay = "0" + currentBeginDate.getDate();
+    }
+    var toDate = currentBeginDate.getFullYear()+ "-" +(fromDateMonth) + "-"+(fromDateDay+1);
+    let prevMonth11Date = (moment().subtract(6, 'months')).format("YYYY-MM-DD");
+
+        sideBarService.getAllPurchaseOrderListAll(prevMonth11Date,toDate, false).then(function(data) {
             addVS1Data('TbillReport',JSON.stringify(data)).then(function (datareturn) {
 
             }).catch(function (err) {

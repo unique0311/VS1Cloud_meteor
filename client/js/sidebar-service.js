@@ -337,9 +337,9 @@ export class SideBarService extends BaseService {
     let options = {
       orderby:'"SaleID desc"',
       ListType: "Detail",
-      select: "[Deleted]=false",
+      select: "[Deleted]=false"
       //LimitCount:'"25"'
-      // LimitCount:'"50"',
+      //LimitCount:'"50"',
       // Limitfrom:'"1"'
     };
     return this.getList(this.ERPObjects.TInvoiceEx, options);
@@ -350,7 +350,7 @@ export class SideBarService extends BaseService {
       orderby:'"SaleID desc"',
       ListType: "Detail",
       select: '[Deleted]=false and [MsTimeStamp]>"'+msTimeStamp+'"',
-      LimitCount:'"25"'
+      //LimitCount:'"50"'
     };
     return this.getList(this.ERPObjects.TInvoiceEx, options);
   }
@@ -432,12 +432,23 @@ export class SideBarService extends BaseService {
     return this.getList(this.ERPObjects.TpurchaseOrderNonBackOrder, options);
   }
 
-  getAllPurchaseOrderListAll() {
-    let options = {
-      IgnoreDates:true,
-      IncludePOs:true,
-      IncludeBills:true
-    };
+  getAllPurchaseOrderListAll(dateFrom, dateTo, ignoreDate) {
+    let options = '';
+    if(ignoreDate == true){
+      options = {
+        IgnoreDates:true,
+        IncludePOs:true,
+        IncludeBills:true
+     };
+   }else{
+     options = {
+       IgnoreDates:false,
+       IncludePOs:true,
+       IncludeBills:true,
+       DateFrom:'"'+dateFrom+'"',
+       DateTo:'"'+dateTo+'"'
+   };
+  }
     return this.getList(this.ERPObjects.TbillReport, options);
   }
 
@@ -601,22 +612,20 @@ export class SideBarService extends BaseService {
     return this.getList(this.ERPObjects.TCredit, options);
   }
 
-  getSalesListData(limitcount, limitfrom) {
+  getSalesListData(dateFrom, dateTo, ignoreDate) {
 
     let options = '';
-    if(limitcount == 'All'){
-       options = {
-          orderby:'"SaleID desc"',
-          IgnoreDates:true
-        };
-    }else{
+    if(ignoreDate == true){
       options = {
-         orderby:'"SaleID desc"',
-         IgnoreDates:true,
-         LimitCount:'"'+limitcount+'"',
-         LimitFrom:'"'+limitfrom+'"'
+         IgnoreDates:true
      };
-    }
+   }else{
+     options = {
+        IgnoreDates:false,
+        DateFrom:'"'+dateFrom+'"',
+        DateTo:'"'+dateTo+'"'
+    };
+   }
 
   return this.getList(this.ERPObjects.TSalesList, options);
   }

@@ -836,7 +836,7 @@ Template.accountsoverview.onRendered(function () {
                 $('#edtBankAccountNo').val(bankacountno);
                 $('#swiftCode').val(swiftCode);
                 $('#routingNo').val(routingNo);
-                $('#edtBankName').val(Session.get('vs1companyBankName') || '');
+                $('#edtBankName').val(localStorage.getItem('vs1companyBankName') || '');
 
                 if(showTrans == 'true'){
                     $('.showOnTransactions').prop('checked', true);
@@ -1175,13 +1175,13 @@ Template.accountsoverview.events({
                            var bsb = bankbsb || '';
                            var routingNo = routingNo || '';
                            var bankDetails = "Bank Name: " +bankName +"\n"+ "Account Name: "+ accountName +"\n Bank Account: "+ accNo  +"\nBSB: " +bsb +"\n Swift Code: "+ swiftCode +"\n"+ "Routing No: "+ routingNo;
-                           Session.setPersistent('vs1companyBankDetails', bankDetails);
-                           Session.setPersistent('vs1companyBankName', bankname);
-                           Session.setPersistent('vs1companyBankAccountName', bankAccName);
-                           Session.setPersistent('vs1companyBankAccountNo', accNo);
-                           Session.setPersistent('vs1companyBankBSB', bsb);
-                           Session.setPersistent('vs1companyBankSwiftCode', swiftCode);
-                           Session.setPersistent('vs1companyBankRoutingNo', routingNo);
+                           localStorage.setItem('vs1companyBankDetails', bankDetails);
+                           localStorage.setItem('vs1companyBankName', bankname);
+                           localStorage.setItem('vs1companyBankAccountName', bankAccName);
+                           localStorage.setItem('vs1companyBankAccountNo', accNo);
+                           localStorage.setItem('vs1companyBankBSB', bsb);
+                           localStorage.setItem('vs1companyBankSwiftCode', swiftCode);
+                           localStorage.setItem('vs1companyBankRoutingNo', routingNo);
                         sideBarService.getAccountListVS1().then(function (dataReload) {
                             addVS1Data('TAccountVS1', JSON.stringify(dataReload)).then(function (datareturn) {
                                 window.open('/accountsoverview', '_self');
@@ -1272,13 +1272,13 @@ Template.accountsoverview.events({
                            var bsb = bankbsb || '';
                            var routingNo = routingNo || '';
                            var bankDetails = "Bank Name: " +bankName +"\n"+ "Account Name: "+ accountName +"\n Bank Account: "+ accNo  +"\nBSB: " +bsb +"\n Swift Code: "+ swiftCode +"\n"+ "Routing No: "+ routingNo;
-                           Session.setPersistent('vs1companyBankDetails', bankDetails);
-                           Session.setPersistent('vs1companyBankName', bankname);
-                           Session.setPersistent('vs1companyBankAccountName', bankAccName);
-                           Session.setPersistent('vs1companyBankAccountNo', accNo);
-                           Session.setPersistent('vs1companyBankBSB', bsb);
-                           Session.setPersistent('vs1companyBankSwiftCode', swiftCode);
-                           Session.setPersistent('vs1companyBankRoutingNo', routingNo);
+                           localStorage.setItem('vs1companyBankDetails', bankDetails);
+                           localStorage.setItem('vs1companyBankName', bankname);
+                           localStorage.setItem('vs1companyBankAccountName', bankAccName);
+                           localStorage.setItem('vs1companyBankAccountNo', accNo);
+                           localStorage.setItem('vs1companyBankBSB', bsb);
+                           localStorage.setItem('vs1companyBankSwiftCode', swiftCode);
+                           localStorage.setItem('vs1companyBankRoutingNo', routingNo);
                             sideBarService.getAccountListVS1().then(function (dataReload) {
                                 addVS1Data('TAccountVS1', JSON.stringify(dataReload)).then(function (datareturn) {
                                     window.open('/accountsoverview', '_self');
@@ -1373,13 +1373,13 @@ Template.accountsoverview.events({
                            var bsb = bankbsb || '';
                            var routingNo = routingNo || '';
                            var bankDetails = "Bank Name: " +bankName +"\n"+ "Account Name: "+ accountName +"\n Bank Account: "+ accNo  +"\nBSB: " +bsb +"\n Swift Code: "+ swiftCode +"\n"+ "Routing No: "+ routingNo;
-                           Session.setPersistent('vs1companyBankDetails', bankDetails);
-                           Session.setPersistent('vs1companyBankName', bankname);
-                           Session.setPersistent('vs1companyBankAccountName', bankAccName);
-                           Session.setPersistent('vs1companyBankAccountNo', accNo);
-                           Session.setPersistent('vs1companyBankBSB', bsb);
-                           Session.setPersistent('vs1companyBankSwiftCode', swiftCode);
-                           Session.setPersistent('vs1companyBankRoutingNo', routingNo);
+                           localStorage.setItem('vs1companyBankDetails', bankDetails);
+                           localStorage.setItem('vs1companyBankName', bankname);
+                           localStorage.setItem('vs1companyBankAccountName', bankAccName);
+                           localStorage.setItem('vs1companyBankAccountNo', accNo);
+                           localStorage.setItem('vs1companyBankBSB', bsb);
+                           localStorage.setItem('vs1companyBankSwiftCode', swiftCode);
+                           localStorage.setItem('vs1companyBankRoutingNo', routingNo);
                         sideBarService.getAccountListVS1().then(function (dataReload) {
                             addVS1Data('TAccountVS1', JSON.stringify(dataReload)).then(function (datareturn) {
                                 window.open('/accountsoverview', '_self');

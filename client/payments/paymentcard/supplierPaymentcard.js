@@ -3605,6 +3605,23 @@ Template.supplierpaymentcard.events({
     Session.setPersistent('paymentmethod', payMethod);
     Session.setPersistent('bankaccount', bankAccount);
     Session.setPersistent('department', department);
+    var currentBeginDate = new Date();
+    var begunDate = moment(currentBeginDate).format("DD/MM/YYYY");
+    let fromDateMonth = currentBeginDate.getMonth();
+    let fromDateDay = currentBeginDate.getDate();
+    if(currentBeginDate.getMonth() < 10){
+        fromDateMonth = "0" + (currentBeginDate.getMonth()+1);
+    }else{
+      fromDateMonth = (currentBeginDate.getMonth()+1);
+    }
+
+    if(currentBeginDate.getDate() < 10){
+        fromDateDay = "0" + currentBeginDate.getDate();
+    }
+    var toDate = currentBeginDate.getFullYear()+ "-" +(fromDateMonth) + "-"+(fromDateDay+1);
+    let prevMonth11Date = (moment().subtract(6, 'months')).format("YYYY-MM-DD");
+
+
     var url = window.location.href;
     if ((url.indexOf('?id=') > 0)) {
       var getsale_id = url.split('?id=');
@@ -4226,7 +4243,7 @@ Template.supplierpaymentcard.events({
 
           });
 
-        sideBarService.getAllPurchaseOrderListAll().then(function (dataUpdate) {
+        sideBarService.getAllPurchaseOrderListAll(prevMonth11Date,toDate, false).then(function (dataUpdate) {
        addVS1Data('TbillReport', JSON.stringify(dataUpdate)).then(function (datareturn) {
          window.open('/supplierawaitingpurchaseorder','_self');
        }).catch(function (err) {
@@ -4575,7 +4592,7 @@ Template.supplierpaymentcard.events({
 
           });
 
-        sideBarService.getAllPurchaseOrderListAll().then(function (dataUpdate) {
+        sideBarService.getAllPurchaseOrderListAll(prevMonth11Date,toDate, false).then(function (dataUpdate) {
            addVS1Data('TbillReport', JSON.stringify(dataUpdate)).then(function (datareturn) {
              window.open('/supplierawaitingpurchaseorder','_self');
            }).catch(function (err) {
@@ -4917,7 +4934,7 @@ Template.supplierpaymentcard.events({
 
           });
 
-        sideBarService.getAllPurchaseOrderListAll().then(function (dataUpdate) {
+        sideBarService.getAllPurchaseOrderListAll(prevMonth11Date,toDate, false).then(function (dataUpdate) {
            addVS1Data('TbillReport', JSON.stringify(dataUpdate)).then(function (datareturn) {
              window.open('/supplierawaitingpurchaseorder','_self');
            }).catch(function (err) {
@@ -5265,7 +5282,7 @@ Template.supplierpaymentcard.events({
 
           });
 
-        sideBarService.getAllPurchaseOrderListAll().then(function (dataUpdate) {
+        sideBarService.getAllPurchaseOrderListAll(prevMonth11Date,toDate, false).then(function (dataUpdate) {
            addVS1Data('TbillReport', JSON.stringify(dataUpdate)).then(function (datareturn) {
              window.open('/supplierawaitingpurchaseorder','_self');
            }).catch(function (err) {
@@ -5604,7 +5621,7 @@ Template.supplierpaymentcard.events({
             });
 
             addVS1Data('TPurchaseOrderEx', JSON.stringify(dataUpdate)).then(function (datareturn) {
-              sideBarService.getAllPurchaseOrderListAll().then(function (dataUpdate) {
+              sideBarService.getAllPurchaseOrderListAll(prevMonth11Date,toDate, false).then(function (dataUpdate) {
                  addVS1Data('TbillReport', JSON.stringify(dataUpdate)).then(function (datareturn) {
                    window.open('/supplierpayment','_self');
                  }).catch(function (err) {
@@ -5944,7 +5961,7 @@ Template.supplierpaymentcard.events({
           });
           sideBarService.getAllPurchaseOrderList().then(function (dataUpdate) {
           addVS1Data('TPurchaseOrderEx', JSON.stringify(dataUpdate)).then(function (datareturn) {
-            sideBarService.getAllPurchaseOrderListAll().then(function (dataUpdate2) {
+            sideBarService.getAllPurchaseOrderListAll(prevMonth11Date,toDate, false).then(function (dataUpdate2) {
                addVS1Data('TbillReport', JSON.stringify(dataUpdate2)).then(function (datareturn) {
                  window.open('/supplierpayment','_self');
                }).catch(function (err) {
@@ -6408,6 +6425,21 @@ Template.supplierpaymentcard.events({
     let templateObject = Template.instance();
     let paymentService = new PaymentsService();
     var url = window.location.href;
+    var currentBeginDate = new Date();
+      var begunDate = moment(currentBeginDate).format("DD/MM/YYYY");
+      let fromDateMonth = currentBeginDate.getMonth();
+      let fromDateDay = currentBeginDate.getDate();
+      if(currentBeginDate.getMonth() < 10){
+          fromDateMonth = "0" + (currentBeginDate.getMonth()+1);
+      }else{
+        fromDateMonth = (currentBeginDate.getMonth()+1);
+      }
+
+      if(currentBeginDate.getDate() < 10){
+          fromDateDay = "0" + currentBeginDate.getDate();
+      }
+      var toDate = currentBeginDate.getFullYear()+ "-" +(fromDateMonth) + "-"+(fromDateDay+1);
+      let prevMonth11Date = (moment().subtract(6, 'months')).format("YYYY-MM-DD");
     var getso_id = url.split('?id=');
     var currentInvoice = getso_id[getso_id.length - 1];
     var objDetails = '';
@@ -6435,7 +6467,7 @@ Template.supplierpaymentcard.events({
 
         });
 
-        sideBarService.getAllPurchaseOrderListAll().then(function(data) {
+        sideBarService.getAllPurchaseOrderListAll(prevMonth11Date,toDate, false).then(function(data) {
           addVS1Data('TbillReport',JSON.stringify(data)).then(function (datareturn) {
 
           }).catch(function (err) {
@@ -6488,7 +6520,7 @@ Template.supplierpaymentcard.events({
 
           });
 
-          sideBarService.getAllPurchaseOrderListAll().then(function(data) {
+          sideBarService.getAllPurchaseOrderListAll(prevMonth11Date,toDate, false).then(function(data) {
             addVS1Data('TbillReport',JSON.stringify(data)).then(function (datareturn) {
 
             }).catch(function (err) {

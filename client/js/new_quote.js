@@ -3545,27 +3545,27 @@ Template.new_quote.onRendered(function () {
 });
 
 Template.new_quote.helpers({
-    vs1companyBankName: () => {
-        return Session.get('vs1companyBankName') || '';
-    },
-    bsbRegionName: () => {
-        return bsbCodeName;
-    },
-    vs1companyBankAccountName: () => {
-        return Session.get('vs1companyBankAccountName') || '';
-    },
-    vs1companyBankAccountNo: () => {
-        return Session.get('vs1companyBankAccountNo') || '';
-    },
-    vs1companyBankBSB: () => {
-        return Session.get('vs1companyBankBSB') || '';
-    },
-    vs1companyBankSwiftCode: () => {
-        return Session.get('vs1companyBankSwiftCode') || '';
-    },
-    vs1companyBankRoutingNo: () => {
-        return Session.get('vs1companyBankRoutingNo') || '';
-    },
+  vs1companyBankName: () => {
+      return localStorage.getItem('vs1companyBankName') || '';
+  },
+  bsbRegionName: () => {
+      return bsbCodeName;
+  },
+  vs1companyBankAccountName: () => {
+      return localStorage.getItem('vs1companyBankAccountName') || '';
+  },
+  vs1companyBankAccountNo: () => {
+      return localStorage.getItem('vs1companyBankAccountNo') || '';
+  },
+  vs1companyBankBSB: () => {
+      return localStorage.getItem('vs1companyBankBSB') || '';
+  },
+  vs1companyBankSwiftCode: () => {
+      return localStorage.getItem('vs1companyBankSwiftCode') || '';
+  },
+  vs1companyBankRoutingNo: () => {
+      return localStorage.getItem('vs1companyBankRoutingNo') || '';
+  },
     quoterecord: () => {
         return Template.instance().quoterecord.get();
     },

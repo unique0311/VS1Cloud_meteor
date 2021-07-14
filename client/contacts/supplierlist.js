@@ -805,12 +805,12 @@ Template.supplierlist.events({
         let templateObject = Template.instance();
         sideBarService.getAllSuppliersDataVS1().then(function(data) {
             addVS1Data('TSupplierVS1',JSON.stringify(data)).then(function (datareturn) {
-                Meteor._reload.reload();
+                window.open('/supplierlist','_self');
             }).catch(function (err) {
-                Meteor._reload.reload();
+                window.open('/supplierlist','_self');
             });
         }).catch(function(err) {
-            Meteor._reload.reload();
+            window.open('/supplierlist','_self');
         });
     },
     'click .printConfirm' : function(event){

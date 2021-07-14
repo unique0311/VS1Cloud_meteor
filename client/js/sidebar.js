@@ -325,7 +325,22 @@ Template.sidenav.onRendered(function() {
     }
 
     templateObject.getAllTbillReportData = function() {
-        sideBarService.getAllPurchaseOrderListAll().then(function(data) {
+      var currentBeginDate = new Date();
+      var begunDate = moment(currentBeginDate).format("DD/MM/YYYY");
+      let fromDateMonth = currentBeginDate.getMonth();
+      let fromDateDay = currentBeginDate.getDate();
+      if(currentBeginDate.getMonth() < 10){
+          fromDateMonth = "0" + (currentBeginDate.getMonth()+1);
+      }else{
+        fromDateMonth = (currentBeginDate.getMonth()+1);
+      }
+
+      if(currentBeginDate.getDate() < 10){
+          fromDateDay = "0" + currentBeginDate.getDate();
+      }
+      var toDate = currentBeginDate.getFullYear()+ "-" +(fromDateMonth) + "-"+(fromDateDay+1);
+      let prevMonth11Date = (moment().subtract(6, 'months')).format("YYYY-MM-DD");
+        sideBarService.getAllPurchaseOrderListAll(prevMonth11Date,toDate, false).then(function(data) {
             //localStorage.setItem('VS1TbillReport', JSON.stringify(data) || '');
             addVS1Data('TbillReport',JSON.stringify(data));
         }).catch(function(err) {
@@ -348,13 +363,15 @@ Template.sidenav.onRendered(function() {
         let fromDateMonth = currentBeginDate.getMonth();
         let fromDateDay = currentBeginDate.getDate();
         if(currentBeginDate.getMonth() < 10){
-            fromDateMonth = "0" + currentBeginDate.getMonth();
+            fromDateMonth = "0" + (currentBeginDate.getMonth()+1);
+        }else{
+          fromDateMonth = (currentBeginDate.getMonth()+1);
         }
 
         if(currentBeginDate.getDate() < 10){
             fromDateDay = "0" + currentBeginDate.getDate();
         }
-        var fromDate = currentBeginDate.getFullYear()+ "-" +(fromDateMonth) + "-01";
+        var fromDate = currentBeginDate.getFullYear()+ "-" +(fromDateMonth) + "-"+(fromDateDay+1);
         let prevMonth11Date = (moment().subtract(11, 'months')).format("YYYY-MM-DD");
         sideBarService.getProductStocknSaleReportData(prevMonth11Date,fromDate).then(function(data) {
             localStorage.setItem('VS1TProductStocknSalePeriodReport', JSON.stringify(data) || '');
@@ -453,7 +470,23 @@ Template.sidenav.onRendered(function() {
     }
 
     templateObject.getAllTSalesListData = function() {
-        sideBarService.getSalesListData(25,0).then(function(data) {
+      var currentBeginDate = new Date();
+      var begunDate = moment(currentBeginDate).format("DD/MM/YYYY");
+      let fromDateMonth = currentBeginDate.getMonth();
+      let fromDateDay = currentBeginDate.getDate();
+      if(currentBeginDate.getMonth() < 10){
+          fromDateMonth = "0" + (currentBeginDate.getMonth()+1);
+      }else{
+        fromDateMonth = (currentBeginDate.getMonth()+1);
+      }
+
+      if(currentBeginDate.getDate() < 10){
+          fromDateDay = "0" + currentBeginDate.getDate();
+      }
+      var toDate = currentBeginDate.getFullYear()+ "-" +(fromDateMonth) + "-"+(fromDateDay+1);
+      let prevMonth11Date = (moment().subtract(6, 'months')).format("YYYY-MM-DD");
+
+      sideBarService.getSalesListData(prevMonth11Date,toDate, false).then(function(data) {
             //localStorage.setItem('VS1TSalesList', JSON.stringify(data) || '');
             addVS1Data('TSalesList',JSON.stringify(data));
         }).catch(function(err) {

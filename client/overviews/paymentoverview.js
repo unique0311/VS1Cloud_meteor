@@ -720,7 +720,7 @@ Template.paymentoverview.onRendered(function() {
             sideBarService.getTPaymentList(25,0).then(function (data) {
                 let lineItems = [];
                 let lineItemObj = {};
-                
+
                     addVS1Data('TPaymentList',JSON.stringify(data));
 
                 for(let i=0; i<data.tpaymentlist.length; i++){
@@ -1208,7 +1208,23 @@ Template.paymentoverview.events({
 
         });
 
-        sideBarService.getAllPurchaseOrderListAll().then(function (data) {
+        var currentBeginDate = new Date();
+    var begunDate = moment(currentBeginDate).format("DD/MM/YYYY");
+    let fromDateMonth = currentBeginDate.getMonth();
+    let fromDateDay = currentBeginDate.getDate();
+    if(currentBeginDate.getMonth() < 10){
+        fromDateMonth = "0" + (currentBeginDate.getMonth()+1);
+    }else{
+      fromDateMonth = (currentBeginDate.getMonth()+1);
+    }
+
+    if(currentBeginDate.getDate() < 10){
+        fromDateDay = "0" + currentBeginDate.getDate();
+    }
+    var toDate = currentBeginDate.getFullYear()+ "-" +(fromDateMonth) + "-"+(fromDateDay+1);
+    let prevMonth11Date = (moment().subtract(6, 'months')).format("YYYY-MM-DD");
+
+        sideBarService.getAllPurchaseOrderListAll(prevMonth11Date,toDate, false).then(function(data) {
             addVS1Data('TbillReport', JSON.stringify(data)).then(function (datareturn) {
                 sideBarService.getTPaymentList().then(function(data) {
                     addVS1Data('TPaymentList',JSON.stringify(data)).then(function (datareturn) {
@@ -1226,7 +1242,9 @@ Template.paymentoverview.events({
             window.open('/paymentoverview','_self');
         });
 
-        sideBarService.getSalesListData().then(function(data) {
+
+
+        sideBarService.getSalesListData(prevMonth11Date,toDate, false).then(function(data) {
             addVS1Data('TSalesList',JSON.stringify(data)).then(function (datareturn) {
 
             }).catch(function (err) {

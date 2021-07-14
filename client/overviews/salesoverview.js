@@ -56,9 +56,26 @@ Template.salesoverview.onRendered(function() {
     };
     // $('#tblSalesOverview').DataTable();
     templateObject.getAllSalesOrderData = function () {
+      var currentBeginDate = new Date();
+      var begunDate = moment(currentBeginDate).format("DD/MM/YYYY");
+      let fromDateMonth = currentBeginDate.getMonth();
+      let fromDateDay = currentBeginDate.getDate();
+      if(currentBeginDate.getMonth() < 10){
+          fromDateMonth = "0" + (currentBeginDate.getMonth()+1);
+      }else{
+        fromDateMonth = (currentBeginDate.getMonth()+1);
+      }
+
+      if(currentBeginDate.getDate() < 10){
+          fromDateDay = "0" + currentBeginDate.getDate();
+      }
+      var toDate = currentBeginDate.getFullYear()+ "-" +(fromDateMonth) + "-"+(fromDateDay+1);
+      let prevMonth11Date = (moment().subtract(6, 'months')).format("YYYY-MM-DD");
+
+
         getVS1Data('TSalesList').then(function (dataObject) {
             if(dataObject.length == 0){
-                sideBarService.getSalesListData().then(function (data) {
+                sideBarService.getSalesListData(prevMonth11Date,toDate, false).then(function(data) {
                     let lineItems = [];
                     let lineItemObj = {};
                     for(let i=0; i<data.tsaleslist.length; i++){
@@ -448,7 +465,7 @@ Template.salesoverview.onRendered(function() {
 
             }
         }).catch(function (err) {
-            sideBarService.getSalesListData().then(function (data) {
+            sideBarService.getSalesListData(prevMonth11Date,toDate, false).then(function(data) {
                 let lineItems = [];
                 let lineItemObj = {};
                 for(let i=0; i<data.tsaleslist.length; i++){
@@ -673,25 +690,40 @@ Template.salesoverview.events({
     'click .btnRefresh': function () {
         $('.fullScreenSpin').css('display','inline-block');
         let templateObject = Template.instance();
+        var currentBeginDate = new Date();
+        var begunDate = moment(currentBeginDate).format("DD/MM/YYYY");
+        let fromDateMonth = currentBeginDate.getMonth();
+        let fromDateDay = currentBeginDate.getDate();
+        if(currentBeginDate.getMonth() < 10){
+            fromDateMonth = "0" + (currentBeginDate.getMonth()+1);
+        }else{
+          fromDateMonth = (currentBeginDate.getMonth()+1);
+        }
 
-        sideBarService.getSalesListData().then(function(data) {
+        if(currentBeginDate.getDate() < 10){
+            fromDateDay = "0" + currentBeginDate.getDate();
+        }
+        var toDate = currentBeginDate.getFullYear()+ "-" +(fromDateMonth) + "-"+(fromDateDay+1);
+        let prevMonth11Date = (moment().subtract(6, 'months')).format("YYYY-MM-DD");
+
+        sideBarService.getSalesListData(prevMonth11Date,toDate, false).then(function(data) {
             addVS1Data('TSalesList',JSON.stringify(data)).then(function (datareturn) {
-
+              Meteor._reload.reload();
             }).catch(function (err) {
-
+              Meteor._reload.reload();
             });
         }).catch(function(err) {
-
+          Meteor._reload.reload();
         });
 
         sideBarService.getAllInvoiceList().then(function(data) {
             addVS1Data('TInvoiceEx',JSON.stringify(data)).then(function (datareturn) {
-                Meteor._reload.reload();
+                //Meteor._reload.reload();
             }).catch(function (err) {
-                Meteor._reload.reload();
+                //Meteor._reload.reload();
             });
         }).catch(function(err) {
-            Meteor._reload.reload();
+            //Meteor._reload.reload();
         });
     },
     'click .feeOnTopInput':function(event){
