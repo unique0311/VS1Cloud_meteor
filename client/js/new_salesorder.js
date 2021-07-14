@@ -4021,6 +4021,7 @@ Template.new_salesorder.events({
         $('#html-2-pdfwrapper').css('display', 'block');
         $('.pdfCustomerName').html($('#edtCustomerName').val());
         $('.pdfCustomerAddress').html($('#txabillingAddress').val().replace(/[\r\n]/g, "<br />"));
+        $('#printcomment').html($('#txaComment').val().replace(/[\r\n]/g, "<br />"));
         var ponumber = $('#ponumber').val() || '.';
         $('.po').text(ponumber);
         exportSalesToPdf();

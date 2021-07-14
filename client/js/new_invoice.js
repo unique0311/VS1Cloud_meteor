@@ -153,7 +153,6 @@ Template.new_invoice.onRendered(() => {
     const deptrecords = [];
     const termrecords = [];
     const statusList = [];
-
     let isBOnShippedQty = Session.get('CloudSalesQtyOnly');
     if (isBOnShippedQty) {
         templateObject.includeBOnShippedQty.set(false);
@@ -5437,6 +5436,7 @@ Template.new_invoice.events({
         if ($('.edtCustomerEmail').val() != "") {
             $('.pdfCustomerName').html($('#edtCustomerName').val());
             $('.pdfCustomerAddress').html($('#txabillingAddress').val().replace(/[\r\n]/g, "<br />"));
+            $('#printcomment').html($('#txaComment').val().replace(/[\r\n]/g, "<br />"));
             var ponumber = $('#ponumber').val() || '.';
             $('.po').text(ponumber);
             var rowCount = $('.tblInvoiceLine tbody tr').length;

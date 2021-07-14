@@ -1158,7 +1158,7 @@ Template.accountsoverview.events({
                         type: "TCompanyInfo",
                         fields: {
                             Id: companyID,
-                            AccountNo: accountno,
+                            AccountNo: bankacountno,
                             BankBranch: swiftCode,
                             Firstname: bankaccountname,
                             LastName: bankname,
@@ -1169,22 +1169,21 @@ Template.accountsoverview.events({
                     }
                     organisationService.saveOrganisationSetting(objDetails).then(function (data) {
                            var accNo =  bankacountno || '';
-                           var swiftCode = swiftCode || '';
+                           var swiftCode1 = swiftCode || '';
                            var bankAccName = bankaccountname || '';
                            var accountName = accountname || '';
                            var bsb = bankbsb || '';
                            var routingNo = routingNo || '';
-                           var bankDetails = "Bank Name: " +bankName +"\n"+ "Account Name: "+ accountName +"\n Bank Account: "+ accNo  +"\nBSB: " +bsb +"\n Swift Code: "+ swiftCode +"\n"+ "Routing No: "+ routingNo;
-                           localStorage.setItem('vs1companyBankDetails', bankDetails);
+                           console.log(accNo);
                            localStorage.setItem('vs1companyBankName', bankname);
                            localStorage.setItem('vs1companyBankAccountName', bankAccName);
                            localStorage.setItem('vs1companyBankAccountNo', accNo);
                            localStorage.setItem('vs1companyBankBSB', bsb);
-                           localStorage.setItem('vs1companyBankSwiftCode', swiftCode);
+                           localStorage.setItem('vs1companyBankSwiftCode', swiftCode1);
                            localStorage.setItem('vs1companyBankRoutingNo', routingNo);
                         sideBarService.getAccountListVS1().then(function (dataReload) {
                             addVS1Data('TAccountVS1', JSON.stringify(dataReload)).then(function (datareturn) {
-                                window.open('/accountsoverview', '_self');
+                                    window.open('/accountsoverview', '_self');
                             }).catch(function (err) {
                                 window.open('/accountsoverview', '_self');
                             });
@@ -1256,7 +1255,7 @@ Template.accountsoverview.events({
                             type: "TCompanyInfo",
                             fields: {
                             Id: companyID,
-                            AccountNo: accountno,
+                            AccountNo: bankacountno,
                             BankBranch: swiftCode,
                             Firstname: bankaccountname,
                             Bsb: bankbsb,
@@ -1266,34 +1265,32 @@ Template.accountsoverview.events({
                         }
                         organisationService.saveOrganisationSetting(objDetails).then(function (data) {
                            var accNo =  bankacountno || '';
-                           var swiftCode = swiftCode || '';
+                           var swiftCode1 = swiftCode || '';
                            var bankName = bankaccountname || '';
                            var accountName = accountname || '';
                            var bsb = bankbsb || '';
                            var routingNo = routingNo || '';
-                           var bankDetails = "Bank Name: " +bankName +"\n"+ "Account Name: "+ accountName +"\n Bank Account: "+ accNo  +"\nBSB: " +bsb +"\n Swift Code: "+ swiftCode +"\n"+ "Routing No: "+ routingNo;
-                           localStorage.setItem('vs1companyBankDetails', bankDetails);
                            localStorage.setItem('vs1companyBankName', bankname);
                            localStorage.setItem('vs1companyBankAccountName', bankAccName);
                            localStorage.setItem('vs1companyBankAccountNo', accNo);
                            localStorage.setItem('vs1companyBankBSB', bsb);
-                           localStorage.setItem('vs1companyBankSwiftCode', swiftCode);
+                           localStorage.setItem('vs1companyBankSwiftCode', swiftCode1);
                            localStorage.setItem('vs1companyBankRoutingNo', routingNo);
                             sideBarService.getAccountListVS1().then(function (dataReload) {
                                 addVS1Data('TAccountVS1', JSON.stringify(dataReload)).then(function (datareturn) {
-                                    window.open('/accountsoverview', '_self');
+                                   window.open('/accountsoverview', '_self');
                                 }).catch(function (err) {
                                     window.open('/accountsoverview', '_self');
                                 });
                             }).catch(function (err) {
-                                window.open('/accountsoverview', '_self');
+                               window.open('/accountsoverview', '_self');
                             });
                         }).catch(function (err) {
                           sideBarService.getAccountListVS1().then(function (dataReload) {
                               addVS1Data('TAccountVS1', JSON.stringify(dataReload)).then(function (datareturn) {
-                                  window.open('/accountsoverview', '_self');
+                                  //window.open('/accountsoverview', '_self');
                               }).catch(function (err) {
-                                  window.open('/accountsoverview', '_self');
+                                 window.open('/accountsoverview', '_self');
                               });
                           }).catch(function (err) {
                               window.open('/accountsoverview', '_self');
@@ -1356,7 +1353,7 @@ Template.accountsoverview.events({
                         type: "TCompanyInfo",
                         fields: {
                             Id: companyID,
-                            AccountNo: accountno,
+                            AccountNo: bankacountno,
                             BankBranch: swiftCode,
                             Firstname: bankaccountname,
                             LastName: bankname,
@@ -1367,22 +1364,21 @@ Template.accountsoverview.events({
                     }
                     organisationService.saveOrganisationSetting(objDetails).then(function (data) {
                            var accNo =  bankacountno || '';
-                           var swiftCode = swiftCode || '';
+                           var swiftCode1 = swiftCode || '';
                            var bankAccName = bankaccountname || '';
                            var accountName = accountname || '';
                            var bsb = bankbsb || '';
                            var routingNo = routingNo || '';
-                           var bankDetails = "Bank Name: " +bankName +"\n"+ "Account Name: "+ accountName +"\n Bank Account: "+ accNo  +"\nBSB: " +bsb +"\n Swift Code: "+ swiftCode +"\n"+ "Routing No: "+ routingNo;
-                           localStorage.setItem('vs1companyBankDetails', bankDetails);
                            localStorage.setItem('vs1companyBankName', bankname);
                            localStorage.setItem('vs1companyBankAccountName', bankAccName);
                            localStorage.setItem('vs1companyBankAccountNo', accNo);
                            localStorage.setItem('vs1companyBankBSB', bsb);
-                           localStorage.setItem('vs1companyBankSwiftCode', swiftCode);
+                           localStorage.setItem('vs1companyBankSwiftCode', swiftCode1);
                            localStorage.setItem('vs1companyBankRoutingNo', routingNo);
                         sideBarService.getAccountListVS1().then(function (dataReload) {
                             addVS1Data('TAccountVS1', JSON.stringify(dataReload)).then(function (datareturn) {
-                                window.open('/accountsoverview', '_self');
+                                console.log(localStorage.getItem('vs1companyBankSwiftCode'));
+                               window.open('/accountsoverview', '_self');
                             }).catch(function (err) {
                                 window.open('/accountsoverview', '_self');
                             });
@@ -1401,6 +1397,7 @@ Template.accountsoverview.events({
                       });
                     });
                 } else {
+                    console.log(localStorage.getItem('vs1companyBankAccountNo'));
                     sideBarService.getAccountListVS1().then(function (dataReload) {
                         addVS1Data('TAccountVS1', JSON.stringify(dataReload)).then(function (datareturn) {
                             window.open('/accountsoverview', '_self');
