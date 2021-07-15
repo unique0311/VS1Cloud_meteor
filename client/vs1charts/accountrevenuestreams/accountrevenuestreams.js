@@ -87,6 +87,15 @@ Template.accountrevenuestreams.onRendered(()=>{
       fromDateDay = "0" + currentBeginDate.getDate();
     }
     var fromDate = currentBeginDate.getFullYear()+ "-" +(fromDateMonth) + "-01";
+
+
+  var currentDate2 = new Date();
+  var dateFrom = new Date();
+  var getLoadDate = moment(currentDate2).format("YYYY-MM-DD");
+  let getDateFrom = Math.floor(currentDate2.getFullYear() -1) + "-" + Math.floor(currentDate2.getMonth() +1) + "-" + currentDate2.getDate();
+  dateFrom.setMonth(dateFrom.getMonth()-6);
+  dateFrom = dateFrom.getFullYear() +'-'+ ("0"+ (dateFrom.getMonth()+1)).slice(-2) + '-' + ("0"+ (dateFrom.getDate())).slice(-2);
+  $("#profitloss2").attr("href", "/profitlossreport?dateFrom="+dateFrom+"&dateTo="+getLoadDate);
     let currentMonth = moment().format("MMMM").substring(0, 3);
     let prevMonth = (moment().subtract(1, 'months')).format("MMMM").substring(0, 3);// Current date (date month and year)
     let prevMonth2 = (moment().subtract(2, 'months')).format("MMMM").substring(0, 3);
@@ -341,6 +350,13 @@ Template.accountrevenuestreams.onRendered(()=>{
   }
 }else{
   let data = JSON.parse(localStorage.getItem('VS1PNLPeriodReport_dash'));
+  var currentDate2 = new Date();
+  var dateFrom = new Date();
+  var getLoadDate = moment(currentDate2).format("YYYY-MM-DD");
+  let getDateFrom = Math.floor(currentDate2.getFullYear() -1) + "-" + Math.floor(currentDate2.getMonth() +1) + "-" + currentDate2.getDate();
+  dateFrom.setMonth(dateFrom.getMonth()-6);
+  dateFrom = dateFrom.getFullYear() +'-'+ ("0"+ (dateFrom.getMonth()+1)).slice(-2) + '-' + ("0"+ (dateFrom.getDate())).slice(-2);
+  $("#profitloss2").attr("href", "/profitlossreport?dateFrom="+dateFrom+"&dateTo="+getLoadDate);
   let month_1 = data[0].fields.DateDesc_1||'';
   let month_2 = data[0].fields.DateDesc_2||'';
   let month_3 = data[0].fields.DateDesc_3||'';

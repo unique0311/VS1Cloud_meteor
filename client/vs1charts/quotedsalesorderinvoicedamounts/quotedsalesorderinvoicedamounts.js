@@ -77,6 +77,12 @@ Template.quotedsalesorderinvoicedamounts.onRendered(()=>{
 
               let graphData = _.orderBy(filterData, 'SaleDate');
             let initialData = _.filter(graphData, obj => (obj.SaleDate !== ''));
+            var currentDate2 = new Date();
+           var getLoadDate = moment(currentDate2).format("YYYY-MM-DD");
+           var dateFrom = new Date();
+           dateFrom.setMonth(dateFrom.getMonth()-6);
+           dateFrom = dateFrom.getFullYear() +'-'+ ("0"+ (dateFrom.getMonth()+1)).slice(-2) + '-' + ("0"+ (dateFrom.getDate())).slice(-2);
+          $("#sales").attr("href", "/salesreport?dateFrom="+dateFrom+"&dateTo="+getLoadDate);
               for (let l = 0; l < initialData.length; l++) {
 
                       let getMonth = new Date(initialData[l].SaleDate).getMonth() + 1;
@@ -300,6 +306,12 @@ Template.quotedsalesorderinvoicedamounts.onRendered(()=>{
         }
 
       let initialData = _.filter(graphData, obj => (obj.SaleDate !== ''));
+       var currentDate2 = new Date();
+       var getLoadDate = moment(currentDate2).format("YYYY-MM-DD");
+       var dateFrom = new Date();
+       dateFrom.setMonth(dateFrom.getMonth()-6);
+       dateFrom = dateFrom.getFullYear() +'-'+ ("0"+ (dateFrom.getMonth()+1)).slice(-2) + '-' + ("0"+ (dateFrom.getDate())).slice(-2);
+      $("#sales").attr("href", "/salesreport?dateFrom="+dateFrom+"&dateTo="+getLoadDate);
         for (let l = 0; l < initialData.length; l++) {
 
                 let getMonth = new Date(initialData[l].SaleDate).getMonth() + 1;
