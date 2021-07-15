@@ -43,7 +43,7 @@
                     <label style="width:100%!important; visibility:hidden!important;">Search:</label>
                     <button class="btn btn-primary btnRefresh" type="button" style="margin-right: 16px;"><i class="la la-lightbulb-o" style="padding-right: 5px;"></i>Refresh</button>
                     <button id="btnNewTimeSheet" name="btnNewTimeSheet" class="btn btn-primary" type="button" role="button" data-toggle="modal" href="#addNewTimeSheet" style="margin-left: 16px;"><i class="icon ion-plus" style="padding-right: 5px;"></i>New Timesheet</button>
-
+                    <button id="" name="" class="btn btn-primary" type="button" role="button" data-toggle="modal" href="#addNewTimeSheet" style="margin-left: 16px;"><i class="fa fa-refresh" style="padding-right: 5px;"></i>Process Timesheet</button>
                     <div class="modal fade" role="dialog" tabindex="-1" id="addNewTimeSheet">
                         <div class="modal-dialog modal-lg modal-dialog-scrollable" role="document" style="max-width: 500px;">
                             <div class="modal-content">
@@ -401,16 +401,18 @@
                         <table id="tblTimeSheet" style="width:100%" class="dataTable table table-hover table-striped table-bordered tblTimeSheet">
                             <thead>
                                 <tr class="dnd-moved">
-                                    <th class="th colName" style="width:150px;">Employee</th>
+                                    <th class="th colFlag">Flag</th>
+                                    <th class="th colName" style="width:100px;">Employee</th>
+                                    <th class="th colDate" style="width:50px;">Date</th>
                                     <th class="th colJob" style="width:200px;">Job</th>
-                                    <th  class="th colRate" style="width:80px;">Rate</th>
-                                    <th  class="th colRegHours" style="width:80px;">Reg Hours</th>
-                                    <th  class="th colOvertime " style="width:80px;">Overtime</th>
-                                    <th class="th colDouble " style="width:80px;">Double</th>
-                                    <th class="th colAdditional " style="width:80px;">Additional</th>
-                                    <th class="th colPaycheckTips " style="width:80px;">Paycheck Tips</th>
-                                    <th class="th colCashTips" style="width:80px;">Cash Tips</th>
-                                    <th class="th colGrossPay" style="width:100px;">Gross Pay</th>
+                                    <th  class="th colRate" style="width:50px;">Rate</th>
+                                    <th  class="th colRegHours" style="width:50px;">Reg Hours</th>
+                                    <th  class="th colOvertime " style="width:50px;">Overtime</th>
+                                    <th class="th colDouble " style="width:50px;">Double</th>
+                                    <th class="th colAdditional " style="width:50px;">Additional</th>
+                                    <th class="th colPaycheckTips " style="width:50px;">Tips</th>
+                                    <!-- <th class="th colCashTips" style="width:50px;">Cash Tips</th> -->
+                                    <th class="th colGrossPay" style="width:50px;">Gross Pay</th>
                                     <th class="th colNotes">Technical Notes</th>
                                     <th class="" style="max-width: 50px;">Edit</th>
                                 </tr>
@@ -419,7 +421,14 @@
                                 {{#if datatablerecords}}
                                 {{#each item in datatablerecords}}
                                 <tr class="dnd-moved" id="{{item.id}}" name="{{item.id}}">
+                                    <td>
+                                        <div class="custom-control custom-checkbox pointer" style="width:15px;">
+                                            <input class="custom-control-input chkBox notevent pointer" type="checkbox" id="f-{{item.id}}" name="{{item.id}}">
+                                            <label class="custom-control-label" for="f-{{item.id}}"></label>
+                                        </div>
+                                    </td>
                                     <td class="colName" contenteditable="false" empname="{{item.employee}}"><a href="#">{{item.employee}}</a></td>
+                                    <td class="colDate" contenteditable="false">{{item.timesheetdate}}</td>
                                     <td class="colJob" contenteditable="false">{{item.job}}</td>
                                     <td style="text-align: right!important;"><input class="colRate highlightInput cashamount" type="text" value="{{item.labourcost}}"><span class="colRateSpan" style="display: none;">{{item.labourcost}}</span></td>
                                     <td style="text-align: right!important;"><input class="colRegHours highlightInput" type="number" value="{{item.hours}}"><span class="colRegHours" style="display: none;">{{item.hours}}</span></td>
@@ -427,7 +436,7 @@
                                     <td style="text-align: right!important;"><input class="colDouble highlightInput" type="number" value="{{item.double}}"><span class="colDouble" style="display: none;">{{item.double}}</span></td>
                                     <td style="text-align: right!important;"><input class="colAdditional highlightInput cashamount" type="text" value="{{item.additional}}"><span class="colAdditional" style="display: none;">{{item.additional}}</span></td>
                                     <td style="text-align: right!important;"><input class="colPaycheckTips highlightInput cashamount" type="text" value="{{item.paychecktips}}"><span class="colPaycheckTips" style="display: none;">{{item.paychecktips}}</span></td>
-                                    <td style="text-align: right!important;"><input class="colCashTips highlightInput cashamount" type="text" value="{{item.cashtips}}"><span class="colCashTips" style="display: none;">{{item.cashtips}}</span></td>
+                                   <!--  <td style="text-align: right!important;"><input class="colCashTips highlightInput cashamount" type="text" value="{{item.cashtips}}"><span class="colCashTips" style="display: none;">{{item.cashtips}}</span></td> -->
                                     <td style="text-align: right!important;"><input class="colGrossPay highlightInput cashamount" type="text" value="{{item.totalamountex}}"><span class="colGrossPay" style="display: none;">{{item.totalamountex}}</span></td>
                                     <td class="colNotes" >{{item.notes}}</td>
                                     <!-- <td style="max-width: 50px;"><button class="btn float-left btnAddShift" type="button" style="margin: 0px;margin-left: 0px;padding: 0px;" role="button" data-toggle="modal" href="#addNewShift"><i class="la la-ellipsis-h" style="color: #00a3d3;font-size: 20px;"></i></button></td> -->
@@ -442,12 +451,13 @@
                                 <tr class="dnd-moved" style="font-weight: 700;">
                                     <td contenteditable="false">Subtotal</td>
                                     <td contenteditable="false"></td>
+                                    <td contenteditable="false"></td>
+                                    <td contenteditable="false"></td>
                                     <td contenteditable="false" class="cashamount lblSumHourlyRate">0.00</td>
                                     <td contenteditable="false" class="cashamount lblSumHour">0.00</td>
                                     <td contenteditable="false" class="cashamount lblSumOvertime">0</td>
                                     <td contenteditable="false" class="cashamount lblSumDouble">0</td>
                                     <td class="cashamount lblSumAdditions">$<span contenteditable="false">0.00</span></td>
-                                    <td class="cashamount lblSumPaytips">$<span contenteditable="false">0.00</span></td>
                                     <td class="cashamount lblSumCashtips">$<span contenteditable="false">0.00</span></td>
                                     <td contenteditable="false" class="cashamount lblSumTotalCharge">0.00</td>
                                     <td contenteditable="false"></td>

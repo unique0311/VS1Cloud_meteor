@@ -44,6 +44,7 @@ Template.profitandlosschart.onRendered(()=>{
  const deptrecords = [];
 
  if ((!localStorage.getItem('VS1ProfitandLoss_netIncomeEx_dash'))) {
+
     templateObject.getProfitandLossReports = function (dateFrom, dateTo, ignoreDate) {
         vs1chartService.getProfitandLoss(dateFrom, dateTo, ignoreDate).then(function (data) {
           let records = [];
@@ -144,12 +145,23 @@ Template.profitandlosschart.onRendered(()=>{
     };
 
     var currentDate2 = new Date();
+    var dateFrom = new Date();
     var getLoadDate = moment(currentDate2).format("YYYY-MM-DD");
     let getDateFrom = Math.floor(currentDate2.getFullYear() -1) + "-" + Math.floor(currentDate2.getMonth() +1) + "-" + currentDate2.getDate();
-    // var getDateFromLastYear =Math.floor(currentDate2.getFullYear() -1) + "-" +(fromDateMonth) + "/" + Math.floor(currentDate.getFullYear() -1);
+    dateFrom.setMonth(dateFrom.getMonth()-6);
+    dateFrom = dateFrom.getFullYear() +'-'+ ("0"+ (dateFrom.getMonth()+1)).slice(-2) + '-' + ("0"+ (dateFrom.getDate())).slice(-2);
+    $("#profitloss1").attr("href", "/profitlossreport?dateFrom="+dateFrom+"&dateTo="+getLoadDate);
+   
 
        templateObject.getProfitandLossReports(getDateFrom,getLoadDate,false);
      }else{
+      var currentDate2 = new Date();
+      var dateFrom = new Date();
+      var getLoadDate = moment(currentDate2).format("YYYY-MM-DD");
+      let getDateFrom = Math.floor(currentDate2.getFullYear() -1) + "-" + Math.floor(currentDate2.getMonth() +1) + "-" + currentDate2.getDate();
+      dateFrom.setMonth(dateFrom.getMonth()-6);
+      dateFrom = dateFrom.getFullYear() +'-'+ ("0"+ (dateFrom.getMonth()+1)).slice(-2) + '-' + ("0"+ (dateFrom.getDate())).slice(-2);
+      $("#profitloss1").attr("href", "/profitlossreport?dateFrom="+dateFrom+"&dateTo="+getLoadDate);
        let totalExpense = localStorage.getItem('VS1ProfitandLoss_ExpEx_dash') || 0;
        let totalCOGS = localStorage.getItem('VS1ProfitandLoss_COGSEx_dash') || 0;
        let totalSales = localStorage.getItem('VS1ProfitandLoss_IncomeEx_dash') || 0;

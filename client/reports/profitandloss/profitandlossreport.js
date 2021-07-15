@@ -33,6 +33,9 @@ Template.profitlossreport.onRendered(()=>{
     fromDateDay = "0" + currentDate.getDate();
   }
   var fromDate =fromDateDay + "/" +(fromDateMonth) + "/" + currentDate.getFullYear();
+   var url = window.location.href;
+  
+
 
   templateObject.dateAsAt.set(begunDate);
  const dataTableList = [];
@@ -52,6 +55,7 @@ yearRange: "-90:+10",
    $("#dateFrom").val(fromDate);
    $("#dateTo").val(begunDate);
 
+   
     templateObject.getProfitandLossReports = function (dateFrom, dateTo, ignoreDate) {
       if(!localStorage.getItem('VS1ProfitandLoss_Report')){
         reportService.getProfitandLoss(dateFrom, dateTo, ignoreDate).then(function (data) {
@@ -188,10 +192,20 @@ yearRange: "-90:+10",
       }
     };
 
+    if(url.indexOf('?dateFrom') > 0){
+    localStorage.setItem('VS1ProfitandLoss_Report','');
+    url = new URL(url);
+    $("#dateFrom").val(moment(url.searchParams.get("dateFrom")).format("DD/MM/YYYY"));
+    $("#dateTo").val(moment(url.searchParams.get("dateTo")).format("DD/MM/YYYY"));
+    var getDateFrom = url.searchParams.get("dateFrom");
+    var getLoadDate = url.searchParams.get("dateTo");
+    templateObject.getProfitandLossReports(getDateFrom,getLoadDate,false);
+    } else {
     var currentDate2 = new Date();
     var getLoadDate = moment(currentDate2).format("YYYY-MM-DD");
     let getDateFrom = currentDate2.getFullYear() + "-" + (currentDate2.getMonth()) + "-" + currentDate2.getDate();
     templateObject.getProfitandLossReports(getDateFrom,getLoadDate,false);
+  }
 
     templateObject.getDepartments = function(){
       reportService.getDepartment().then(function(data){
@@ -239,6 +253,7 @@ yearRange: "-90:+10",
         //templateObject.getProfitandLossReports(formatDateFrom,formatDateTo,false);
         var formatDate = dateTo.getDate() + "/" + (dateTo.getMonth()+1) + "/" + dateTo.getFullYear();
         //templateObject.dateAsAt.set(formatDate);
+        localStorage.setItem('VS1ProfitandLoss_Report','');
         if(($("#dateFrom").val().replace(/\s/g, '') == "") && ($("#dateFrom").val().replace(/\s/g, '') == "")){
           templateObject.getProfitandLossReports('','',true);
           templateObject.dateAsAt.set('Current Date');
@@ -263,6 +278,7 @@ yearRange: "-90:+10",
         //templateObject.getProfitandLossReports(formatDateFrom,formatDateTo,false);
         var formatDate = dateTo.getDate() + "/" + (dateTo.getMonth()+1) + "/" + dateTo.getFullYear();
         //templateObject.dateAsAt.set(formatDate);
+        localStorage.setItem('VS1ProfitandLoss_Report','');
         if(($("#dateFrom").val().replace(/\s/g, '') == "") && ($("#dateFrom").val().replace(/\s/g, '') == "")){
           templateObject.getProfitandLossReports('','',true);
           templateObject.dateAsAt.set('Current Date');

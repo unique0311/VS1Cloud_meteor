@@ -40,6 +40,7 @@ Template.monthlyprofitandloss.onRendered(()=>{
     let currentDate = new Date();
     let currentMonthDate = currentDate.getMonth() + 1;
     let currentYear = currentDate.getFullYear();
+
     let currentMonthData = [];
     let prevMonthData = [];
     let prevMonth2Data = [];
@@ -90,8 +91,18 @@ Template.monthlyprofitandloss.onRendered(()=>{
 
     var currentDate2 = new Date();
     var getLoadDate = moment(currentDate2).format("YYYY-MM-DD");
-    var fromDate = currentBeginDate.getFullYear()+ "-" +(fromDateMonth) + "-01";
-    let currentMonth = moment().format("MMMM").substring(0, 3);
+    var dateFrom = new Date();
+    let lastMonthEndDate = new Date(currentDate2.getFullYear(),currentDate2.getMonth(),0)
+    let currentMonthEndDate = new Date(currentDate2.getFullYear(),currentDate2.getMonth()+1,0);
+    let currentMonthStartDate =  currentDate2.getFullYear() +'-'+ ("0"+ (currentDate2.getMonth()+1)).slice(-2) + '-' + ("0"+ 1).slice(-2);
+    let lastMonthStartDate =  lastMonthEndDate.getFullYear() +'-'+ ("0"+ (lastMonthEndDate.getMonth()+1)).slice(-2) + '-' + ("0"+ 1).slice(-2);
+    currentMonthEndDate = currentMonthEndDate.getFullYear() +'-'+ ("0"+ (currentMonthEndDate.getMonth()+1)).slice(-2) + '-' + ("0"+ (currentMonthEndDate.getDate())).slice(-2);
+    lastMonthEndDate = lastMonthEndDate.getFullYear() +'-'+ ("0"+ (lastMonthEndDate.getMonth()+1)).slice(-2) + '-' + ("0"+ (lastMonthEndDate.getDate())).slice(-2);
+    dateFrom.setMonth(dateFrom.getMonth()-6);
+    dateFrom = dateFrom.getFullYear() +'-'+ ("0"+ (dateFrom.getMonth()+1)).slice(-2) + '-' + ("0"+ (dateFrom.getDate())).slice(-2);
+    $("#profitloss").attr("href", "/profitlossreport?dateFrom="+dateFrom+"&dateTo="+getLoadDate);
+    $("#lastmonth").attr("href", "/profitlossreport?dateFrom="+lastMonthStartDate+"&dateTo="+lastMonthEndDate);
+    $("#currentmonth").attr("href", "/profitlossreport?dateFrom="+currentMonthStartDate+"&dateTo="+currentMonthEndDate);
     let prevMonth = (moment().subtract(1, 'months')).format("MMMM").substring(0, 3);// Current date (date month and year)
     let prevMonth2 = (moment().subtract(2, 'months')).format("MMMM").substring(0, 3);
     let prevMonth3 = (moment().subtract(3, 'months')).format("MMMM").substring(0, 3);
@@ -342,6 +353,20 @@ Template.monthlyprofitandloss.onRendered(()=>{
 
 }else{
     let data = JSON.parse(localStorage.getItem('VS1PNLPeriodReport_dash'));
+    var currentDate2 = new Date();
+    var getLoadDate = moment(currentDate2).format("YYYY-MM-DD");
+    var dateFrom = new Date();
+    lastMonthEndDate = new Date(currentDate2.getFullYear(),currentDate2.getMonth(),0)
+    let currentMonthEndDate = new Date(currentDate2.getFullYear(),currentDate2.getMonth()+1,0);
+    let currentMonthStartDate =  currentDate2.getFullYear() +'-'+ ("0"+ (currentDate2.getMonth()+1)).slice(-2) + '-' + ("0"+ 1).slice(-2);
+    let lastMonthStartDate =  lastMonthEndDate.getFullYear() +'-'+ ("0"+ (lastMonthEndDate.getMonth()+1)).slice(-2) + '-' + ("0"+ 1).slice(-2);
+    currentMonthEndDate = currentMonthEndDate.getFullYear() +'-'+ ("0"+ (currentMonthEndDate.getMonth()+1)).slice(-2) + '-' + ("0"+ (currentMonthEndDate.getDate())).slice(-2);
+    lastMonthEndDate = lastMonthEndDate.getFullYear() +'-'+ ("0"+ (lastMonthEndDate.getMonth()+1)).slice(-2) + '-' + ("0"+ (lastMonthEndDate.getDate())).slice(-2);
+    dateFrom.setMonth(dateFrom.getMonth()-6);
+    dateFrom = dateFrom.getFullYear() +'-'+ ("0"+ (dateFrom.getMonth()+1)).slice(-2) + '-' + ("0"+ (dateFrom.getDate())).slice(-2);
+    $("#profitloss").attr("href", "/profitlossreport?dateFrom="+dateFrom+"&dateTo="+getLoadDate);
+    $("#lastmonth").attr("href", "/profitlossreport?dateFrom="+lastMonthStartDate+"&dateTo="+lastMonthEndDate);
+    $("#currentmonth").attr("href", "/profitlossreport?dateFrom="+currentMonthStartDate+"&dateTo="+currentMonthEndDate);
     let month_1 = data[0].fields.DateDesc_1||'';
     let month_2 = data[0].fields.DateDesc_2||'';
     let month_3 = data[0].fields.DateDesc_3||'';

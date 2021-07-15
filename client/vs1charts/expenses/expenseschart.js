@@ -27,6 +27,12 @@ Template.expenseschart.onRendered(()=>{
   let topTenSuppData1 = [];
   let topData = this;
 if (!localStorage.getItem('VS1PNLPeriodReport_dash')) {
+  var currentDate2 = new Date();
+  var getLoadDate = moment(currentDate2).format("YYYY-MM-DD");
+  var dateFrom = new Date();
+  dateFrom.setMonth(dateFrom.getMonth()-6);
+  dateFrom = dateFrom.getFullYear() +'-'+ ("0"+ (dateFrom.getMonth()+1)).slice(-2) + '-' + ("0"+ (dateFrom.getDate())).slice(-2);
+  $("#expenses").attr("href", "/agedpayables?dateFrom="+dateFrom+"&dateTo="+getLoadDate);
   getInvSales(function (data) {
 
     let currentDate = new Date();
@@ -428,6 +434,12 @@ if (!localStorage.getItem('VS1PNLPeriodReport_dash')) {
 
 }else{
   let data = JSON.parse(localStorage.getItem('VS1PNLPeriodReport_dash'));
+  var currentDate2 = new Date();
+  var getLoadDate = moment(currentDate2).format("YYYY-MM-DD");
+  var dateFrom = new Date();
+  dateFrom.setMonth(dateFrom.getMonth()-6);
+  dateFrom = dateFrom.getFullYear() +'-'+ ("0"+ (dateFrom.getMonth()+1)).slice(-2) + '-' + ("0"+ (dateFrom.getDate())).slice(-2);
+  $("#expenses").attr("href", "/agedpayables?dateFrom="+dateFrom+"&dateTo="+getLoadDate);
   let month_1 = data[0].fields.DateDesc_1||'';
   let month_2 = data[0].fields.DateDesc_2||'';
   let month_3 = data[0].fields.DateDesc_3||'';
