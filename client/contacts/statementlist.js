@@ -56,7 +56,25 @@ Template.statementlist.onRendered(function () {
 
         }
     });
+   var today = moment().format('DD/MM/YYYY');
+   var currentDate = new Date();
+   var begunDate = moment(currentDate).format("DD/MM/YYYY");
 
+   $("#date-input,#dateTo,#dateFrom").datepicker({
+       showOn: 'button',
+       buttonText: 'Show Date',
+       buttonImageOnly: true,
+       buttonImage: '/img/imgCal2.png',
+       dateFormat: 'dd/mm/yy',
+       showOtherMonths: true,
+       selectOtherMonths: true,
+       changeMonth: true,
+       changeYear: true,
+       yearRange: "-90:+10",
+   });
+
+   $("#dateFrom").val(today);
+   $("#dateTo").val(begunDate);
     templateObject.getOrganisationDetails = function () {
         let account_id = Session.get('vs1companyStripeID') || '';
         let stripe_fee = Session.get('vs1companyStripeFeeMethod') || 'apply';
