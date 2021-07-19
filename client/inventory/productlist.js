@@ -126,7 +126,8 @@ Template.productlist.onRendered(function() {
   templateObject.getAllProductData = function (deptname) {
     getVS1Data('TProductVS1').then(function (dataObject) {
       if(dataObject.length == 0){
-        productService.getNewProductListVS1().then(function (data) {
+        sideBarService.getNewProductListVS1(25,0).then(function (data) {
+          addVS1Data('TProductVS1',JSON.stringify(data));
           let lineItems = [];
           let lineItemObj = {};
           let departmentData = '';
@@ -136,19 +137,19 @@ Template.productlist.onRendered(function() {
             departmentData = 'All';
             for(let i=0; i<data.tproductvs1.length; i++){
               dataList = {
-               id: data.tproductvs1[i].Id || '',
-               productname: data.tproductvs1[i].ProductName || '',
-               salesdescription: data.tproductvs1[i].SalesDescription || '',
+               id: data.tproductvs1[i].fields.ID || '',
+               productname: data.tproductvs1[i].fields.ProductName || '',
+               salesdescription: data.tproductvs1[i].fields.SalesDescription || '',
                department: departmentData || '',
-               costprice: utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductvs1[i].BuyQty1Cost * 100) / 100) || 0,
-               saleprice: utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductvs1[i].SellQty1Price * 100) / 100) || 0,
-               quantity: data.tproductvs1[i].TotalQtyInStock || 0,
-               purchasedescription: data.tproductvs1[i].PurchaseDescription || '',
-               productgroup1: data.tproductvs1[i].ProductGroup1 || '',
-               productgroup2: data.tproductvs1[i].ProductGroup2 || '',
-               customfield1: data.tproductvs1[i].CUSTFLD1 || '',
-               customfield2: data.tproductvs1[i].CUSTFLD2 || '',
-               prodbarcode: data.tproductvs1[i].BARCODE || '',
+               costprice: utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductvs1[i].fields.BuyQty1Cost * 100) / 100) || 0,
+               saleprice: utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductvs1[i].fields.SellQty1Price * 100) / 100) || 0,
+               quantity: data.tproductvs1[i].fields.TotalQtyInStock || 0,
+               purchasedescription: data.tproductvs1[i].fields.PurchaseDescription || '',
+               productgroup1: data.tproductvs1[i].fields.ProductGroup1 || '',
+               productgroup2: data.tproductvs1[i].fields.ProductGroup2 || '',
+               customfield1: data.tproductvs1[i].fields.CUSTFLD1 || '',
+               customfield2: data.tproductvs1[i].fields.CUSTFLD2 || '',
+               prodbarcode: data.tproductvs1[i].fields.BARCODE || '',
              };
              dataTableList.push(dataList);
             }
@@ -415,7 +416,8 @@ Template.productlist.onRendered(function() {
 
       }
       }).catch(function (err) {
-        productService.getNewProductListVS1().then(function (data) {
+        sideBarService.getNewProductListVS1(25,0).then(function (data) {
+          addVS1Data('TProductVS1',JSON.stringify(data));
           let lineItems = [];
           let lineItemObj = {};
           let departmentData = '';
@@ -425,19 +427,19 @@ Template.productlist.onRendered(function() {
             departmentData = 'All';
             for(let i=0; i<data.tproductvs1.length; i++){
               dataList = {
-               id: data.tproductvs1[i].Id || '',
-               productname: data.tproductvs1[i].ProductName || '',
-               salesdescription: data.tproductvs1[i].SalesDescription || '',
+               id: data.tproductvs1[i].fields.ID || '',
+               productname: data.tproductvs1[i].fields.ProductName || '',
+               salesdescription: data.tproductvs1[i].fields.SalesDescription || '',
                department: departmentData || '',
-               costprice: utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductvs1[i].BuyQty1Cost * 100) / 100) || 0,
-               saleprice: utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductvs1[i].SellQty1Price * 100) / 100) || 0,
-               quantity: data.tproductvs1[i].TotalQtyInStock || 0,
-               purchasedescription: data.tproductvs1[i].PurchaseDescription || '',
-               productgroup1: data.tproductvs1[i].ProductGroup1 || '',
-               productgroup2: data.tproductvs1[i].ProductGroup2 || '',
-               customfield1: data.tproductvs1[i].CUSTFLD1 || '',
-               customfield2: data.tproductvs1[i].CUSTFLD2 || '',
-               prodbarcode: data.tproductvs1[i].BARCODE || '',
+               costprice: utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductvs1[i].fields.BuyQty1Cost * 100) / 100) || 0,
+               saleprice: utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductvs1[i].fields.SellQty1Price * 100) / 100) || 0,
+               quantity: data.tproductvs1[i].fields.TotalQtyInStock || 0,
+               purchasedescription: data.tproductvs1[i].fields.PurchaseDescription || '',
+               productgroup1: data.tproductvs1[i].fields.ProductGroup1 || '',
+               productgroup2: data.tproductvs1[i].fields.ProductGroup2 || '',
+               customfield1: data.tproductvs1[i].fields.CUSTFLD1 || '',
+               customfield2: data.tproductvs1[i].fields.CUSTFLD2 || '',
+               prodbarcode: data.tproductvs1[i].fields.BARCODE || '',
              };
              dataTableList.push(dataList);
             }
@@ -749,18 +751,18 @@ Template.productlist.onRendered(function() {
       let inventoryData = [];
       for (let i = 0; i < data.tproductvs1.length; i++) {
           var recentTranObject = {
-                      productId: data.tproductvs1[i].Id,
-                      productName: data.tproductvs1[i].ProductName,
-                      productDescription: data.tproductvs1[i].SalesDescription,
-                      purchasesPrice:  utilityService.modifynegativeCurrencyFormat(data.tproductvs1[i].BuyQty1CostInc) || 0,
-                      purchaseAccount: data.tproductvs1[i].AssetAccount,
-                      costOfGoodsSoldAccount: data.tproductvs1[i].CogsAccount,
-                      unitOfMeasure: data.tproductvs1[i].UOMPurchases || ' ',
-                      salesDescription: data.tproductvs1[i].SalesDescription,
-                      itemName: data.tproductvs1[i].ProductName,
-                      salesPrice:utilityService.modifynegativeCurrencyFormat(data.tproductvs1[i].SellQty1PriceInc) || 0,
-                      salesAccount: data.tproductvs1[i].IncomeAccount,
-                      taxCodeSales: data.tproductvs1[i].TaxCodeSales,
+                      productId: data.tproductvs1[i].fields.ID,
+                      productName: data.tproductvs1[i].fields.ProductName,
+                      productDescription: data.tproductvs1[i].fields.SalesDescription,
+                      purchasesPrice:  utilityService.modifynegativeCurrencyFormat(data.tproductvs1[i].fields.BuyQty1CostInc) || 0,
+                      purchaseAccount: data.tproductvs1[i].fields.AssetAccount,
+                      costOfGoodsSoldAccount: data.tproductvs1[i].fields.CogsAccount,
+                      unitOfMeasure: data.tproductvs1[i].fields.UOMPurchases || ' ',
+                      salesDescription: data.tproductvs1[i].fields.SalesDescription,
+                      itemName: data.tproductvs1[i].fields.ProductName,
+                      salesPrice:utilityService.modifynegativeCurrencyFormat(data.tproductvs1[i].fields.SellQty1PriceInc) || 0,
+                      salesAccount: data.tproductvs1[i].fields.IncomeAccount,
+                      taxCodeSales: data.tproductvs1[i].fields.TaxCodeSales,
                   };
                   inventoryData.push(recentTranObject);
 
@@ -1154,7 +1156,7 @@ Template.productlist.helpers({
       'click .btnRefresh': function () {
         $('.fullScreenSpin').css('display','inline-block');
         let templateObject = Template.instance();
-        sideBarService.getNewProductListVS1().then(function(data) {
+        sideBarService.getNewProductListVS1(25,0).then(function(data) {
           addVS1Data('TProductVS1',JSON.stringify(data)).then(function (datareturn) {
             Meteor._reload.reload();
           }).catch(function (err) {
@@ -1184,9 +1186,9 @@ Template.productlist.helpers({
         //       rows[0] = ['ProductName', 'Sales Description', 'Department', 'Cost Price', 'Sales Price' , 'Quantity' , 'Barcode'];
         //       data.tproductvs1.forEach(function (e, i) {
         //
-        //         let costprice = utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductvs1[i].BuyQty1CostInc * 100) / 100) || 0;
-        //         let saleprice = utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductvs1[i].SellQty1PriceInc * 100) / 100) || 0;
-        //           rows.push([ data.tproductvs1[i].ProductName, data.tproductvs1[i].SalesDescription, '', costprice, saleprice, data.tproductvs1[i].TotalStockQty, data.tproductvs1[i].BARCODE]);
+        //         let costprice = utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductvs1[i].fields.BuyQty1CostInc * 100) / 100) || 0;
+        //         let saleprice = utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductvs1[i].fields.SellQty1PriceInc * 100) / 100) || 0;
+        //           rows.push([ data.tproductvs1[i].fields.ProductName, data.tproductvs1[i].fields.SalesDescription, '', costprice, saleprice, data.tproductvs1[i].fields.TotalStockQty, data.tproductvs1[i].fields.BARCODE]);
         //       });
         //       utilityService.exportToCsv(rows, filename, 'csv');
         //       $('.fullScreenSpin').css('display','none');
@@ -1285,14 +1287,14 @@ Template.productlist.helpers({
 
       // if(favorite){
       //   for (var j = 0; j < favorite.length; j++) {
-      //     
-      //     // if(deptprodlineItems[d].productid == data.tproductvs1[i].Id){
+      //
+      //     // if(deptprodlineItems[d].productid == data.tproductvs1[i].fields.Id){
       //     //   departmentDataLoad = deptprodlineItems[d].department;
       //     //   favoriteDept.push(deptprodlineItems[d].department);
       //     // }
       //   }
       // };
-        
+
 
          for(let i=0; i<productValue.length; i++){
            let deptString = productValue[i].departmentcheck;
@@ -1353,7 +1355,7 @@ Template.productlist.helpers({
          }
 
 
-         
+
          templateObject.datatablerecords.set(dataTableList.filter(function(item) {
            if (!~dataTableList.indexOf(item.id)) {
              dataTableList.push(item.id);
@@ -1409,7 +1411,7 @@ Template.productlist.helpers({
         // if($(event.target).is(':checked')){
         //
         //
-        //   
+        //
         // }else{
         //   // templateObject.getProductClassDeptData(dataValue);
         // }
@@ -1447,7 +1449,7 @@ $('#attachment-upload').trigger('click');
 
 },
 'click .templateDownloadXLSX': function (e) {
-  
+
   e.preventDefault();  //stop the browser from following
   window.location.href = 'sample_imports/SampleProduct.xlsx';
 },
@@ -1465,7 +1467,7 @@ $('#attachment-upload').trigger('click');
         $('.file-name').text('');
         $(".btnImport").Attr("disabled");
     }else if(validCSVExtensions.indexOf(fileExtension) != -1){
-      
+
       $('.file-name').text(filename);
       let selectedFile = event.target.files[0];
       templateObj.selectedFile.set(selectedFile);

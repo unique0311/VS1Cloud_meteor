@@ -55,32 +55,33 @@ Template.customerlist.onRendered(function() {
     templateObject.getCustomers = function () {
         getVS1Data('TCustomerVS1').then(function (dataObject) {
             if(dataObject.length == 0){
-                contactService.getAllCustomersDataVS1().then(function (data) {
+                sideBarService.getAllCustomersDataVS1(25,0).then(function (data) {
+                  addVS1Data('TCustomerVS1',JSON.stringify(data));
                     let lineItems = [];
                     let lineItemObj = {};
                     for(let i=0; i<data.tcustomervs1.length; i++){
-                        let arBalance = utilityService.modifynegativeCurrencyFormat(data.tcustomervs1[i].ARBalance)|| 0.00;
-                        let creditBalance = utilityService.modifynegativeCurrencyFormat(data.tcustomervs1[i].CreditBalance) || 0.00;
-                        let balance = utilityService.modifynegativeCurrencyFormat(data.tcustomervs1[i].Balance)|| 0.00;
-                        let creditLimit = utilityService.modifynegativeCurrencyFormat(data.tcustomervs1[i].CreditLimit)|| 0.00;
-                        let salesOrderBalance = utilityService.modifynegativeCurrencyFormat(data.tcustomervs1[i].SalesOrderBalance)|| 0.00;
+                        let arBalance = utilityService.modifynegativeCurrencyFormat(data.tcustomervs1[i].fields.ARBalance)|| 0.00;
+                        let creditBalance = utilityService.modifynegativeCurrencyFormat(data.tcustomervs1[i].fields.CreditBalance) || 0.00;
+                        let balance = utilityService.modifynegativeCurrencyFormat(data.tcustomervs1[i].fields.Balance)|| 0.00;
+                        let creditLimit = utilityService.modifynegativeCurrencyFormat(data.tcustomervs1[i].fields.CreditLimit)|| 0.00;
+                        let salesOrderBalance = utilityService.modifynegativeCurrencyFormat(data.tcustomervs1[i].fields.SalesOrderBalance)|| 0.00;
                         var dataList = {
-                            id: data.tcustomervs1[i].Id || '',
-                            company: data.tcustomervs1[i].Companyname || '',
-                            contactname:data.tcustomervs1[i].ContactName || '',
-                            phone: data.tcustomervs1[i].Phone || '',
+                            id: data.tcustomervs1[i].fields.ID || '',
+                            company: data.tcustomervs1[i].fields.Companyname || '',
+                            contactname:data.tcustomervs1[i].fields.ContactName || '',
+                            phone: data.tcustomervs1[i].fields.Phone || '',
                             arbalance: arBalance || 0.00,
                             creditbalance: creditBalance || 0.00,
                             balance: balance || 0.00,
                             creditlimit: creditLimit || 0.00,
                             salesorderbalance: salesOrderBalance || 0.00,
-                            email: data.tcustomervs1[i].Email || '',
-                            job: data.tcustomervs1[i].JobName || '',
-                            accountno: data.tcustomervs1[i].AccountNo || '',
-                            clientno: data.tcustomervs1[i].ClientNo || '',
-                            jobtitle: data.tcustomervs1[i].JobTitle || '',
-                            notes: data.tcustomervs1[i].Notes || '',
-                            country: data.tcustomervs1[i].Country || ''
+                            email: data.tcustomervs1[i].fields.Email || '',
+                            job: data.tcustomervs1[i].fields.JobName || '',
+                            accountno: data.tcustomervs1[i].fields.AccountNo || '',
+                            clientno: data.tcustomervs1[i].fields.ClientNo || '',
+                            jobtitle: data.tcustomervs1[i].fields.JobTitle || '',
+                            notes: data.tcustomervs1[i].fields.Notes || '',
+                            country: data.tcustomervs1[i].fields.Country || ''
                         };
 
                         dataTableList.push(dataList);
@@ -485,32 +486,33 @@ Template.customerlist.onRendered(function() {
                 });
             }
         }).catch(function (err) {
-            contactService.getAllCustomersDataVS1().then(function (data) {
+            sideBarService.getAllCustomersDataVS1(25,0).then(function (data) {
+              addVS1Data('TCustomerVS1',JSON.stringify(data));
                 let lineItems = [];
                 let lineItemObj = {};
                 for(let i=0; i<data.tcustomervs1.length; i++){
-                    let arBalance = utilityService.modifynegativeCurrencyFormat(data.tcustomervs1[i].ARBalance)|| 0.00;
-                    let creditBalance = utilityService.modifynegativeCurrencyFormat(data.tcustomervs1[i].CreditBalance) || 0.00;
-                    let balance = utilityService.modifynegativeCurrencyFormat(data.tcustomervs1[i].Balance)|| 0.00;
-                    let creditLimit = utilityService.modifynegativeCurrencyFormat(data.tcustomervs1[i].CreditLimit)|| 0.00;
-                    let salesOrderBalance = utilityService.modifynegativeCurrencyFormat(data.tcustomervs1[i].SalesOrderBalance)|| 0.00;
+                    let arBalance = utilityService.modifynegativeCurrencyFormat(data.tcustomervs1[i].fields.ARBalance)|| 0.00;
+                    let creditBalance = utilityService.modifynegativeCurrencyFormat(data.tcustomervs1[i].fields.CreditBalance) || 0.00;
+                    let balance = utilityService.modifynegativeCurrencyFormat(data.tcustomervs1[i].fields.Balance)|| 0.00;
+                    let creditLimit = utilityService.modifynegativeCurrencyFormat(data.tcustomervs1[i].fields.CreditLimit)|| 0.00;
+                    let salesOrderBalance = utilityService.modifynegativeCurrencyFormat(data.tcustomervs1[i].fields.SalesOrderBalance)|| 0.00;
                     var dataList = {
-                        id: data.tcustomervs1[i].Id || '',
-                        company: data.tcustomervs1[i].Companyname || '',
-                        contactname:data.tcustomervs1[i].ContactName || '',
-                        phone: data.tcustomervs1[i].Phone || '',
+                        id: data.tcustomervs1[i].fields.ID || '',
+                        company: data.tcustomervs1[i].fields.Companyname || '',
+                        contactname:data.tcustomervs1[i].fields.ContactName || '',
+                        phone: data.tcustomervs1[i].fields.Phone || '',
                         arbalance: arBalance || 0.00,
                         creditbalance: creditBalance || 0.00,
                         balance: balance || 0.00,
                         creditlimit: creditLimit || 0.00,
                         salesorderbalance: salesOrderBalance || 0.00,
-                        email: data.tcustomervs1[i].Email || '',
-                        job: data.tcustomervs1[i].JobName || '',
-                        accountno: data.tcustomervs1[i].AccountNo || '',
-                        clientno: data.tcustomervs1[i].ClientNo || '',
-                        jobtitle: data.tcustomervs1[i].JobTitle || '',
-                        notes: data.tcustomervs1[i].Notes || '',
-                        country: data.tcustomervs1[i].Country || ''
+                        email: data.tcustomervs1[i].fields.Email || '',
+                        job: data.tcustomervs1[i].fields.JobName || '',
+                        accountno: data.tcustomervs1[i].fields.AccountNo || '',
+                        clientno: data.tcustomervs1[i].fields.ClientNo || '',
+                        jobtitle: data.tcustomervs1[i].fields.JobTitle || '',
+                        notes: data.tcustomervs1[i].fields.Notes || '',
+                        country: data.tcustomervs1[i].fields.Country || ''
                     };
 
                     dataTableList.push(dataList);
@@ -893,7 +895,7 @@ Template.customerlist.events({
     'click .btnRefresh': function () {
         $('.fullScreenSpin').css('display','inline-block');
         let templateObject = Template.instance();
-        sideBarService.getAllCustomersDataVS1().then(function(data) {
+        sideBarService.getAllCustomersDataVS1(25,0).then(function(data) {
             addVS1Data('TCustomerVS1',JSON.stringify(data)).then(function (datareturn) {
                 setTimeout(function () {
                     window.open('/customerlist','_self');
@@ -909,7 +911,7 @@ Template.customerlist.events({
             }, 2000);
         });
 
-        sideBarService.getAllJobssDataVS1().then(function(data) {
+        sideBarService.getAllJobssDataVS1(25,0).then(function(data) {
             addVS1Data('TJobVS1',JSON.stringify(data)).then(function (datareturn) {
 
             }).catch(function (err) {

@@ -158,7 +158,8 @@ Template.inventorylist.onRendered(function() {
   templateObject.getAllProductData = function (deptname) {
     var dataRes = getVS1Data('TProductVS1').then(function (dataObject) {
       if(dataObject.length == 0){
-        productService.getNewProductListVS1().then(function (data) {
+        sideBarService.getNewProductListVS1(25,0).then(function (data) {
+          addVS1Data('TProductVS1',JSON.stringify(data));
           // addVS1Data('TProductVS1',JSON.stringify(data));
         //localStorage.setItem('VS1ProductList', JSON.stringify(data)||'');
           let lineItems = [];
@@ -174,22 +175,22 @@ Template.inventorylist.onRendered(function() {
            departmentData = 'All';
             for(let i=0; i<data.tproductvs1.length; i++){
               dataList = {
-               id: data.tproductvs1[i].Id || '',
-               productname: data.tproductvs1[i].ProductName || '',
-               salesdescription: data.tproductvs1[i].SalesDescription || '',
+               id: data.tproductvs1[i].fields.ID || '',
+               productname: data.tproductvs1[i].fields.ProductName || '',
+               salesdescription: data.tproductvs1[i].fields.SalesDescription || '',
                department: departmentData || '',
                //deptstatus: deptStatus || '',
                //departmentcheck: departmentDataLoad || '',
-               costprice: utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductvs1[i].BuyQty1Cost * 100) / 100) || 0,
-               saleprice: utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductvs1[i].SellQty1Price * 100) / 100) || 0,
-               quantity: data.tproductvs1[i].TotalQtyInStock || 0,
+               costprice: utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductvs1[i].fields.BuyQty1Cost * 100) / 100) || 0,
+               saleprice: utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductvs1[i].fields.SellQty1Price * 100) / 100) || 0,
+               quantity: data.tproductvs1[i].fields.TotalQtyInStock || 0,
                //quantitycheck: JSON.stringify(favoriteProdQty) || 0,
-               purchasedescription: data.tproductvs1[i].PurchaseDescription || '',
-               productgroup1: data.tproductvs1[i].ProductGroup1 || '',
-               productgroup2: data.tproductvs1[i].ProductGroup2 || '',
-               customfield1: data.tproductvs1[i].CUSTFLD1 || '',
-               customfield2: data.tproductvs1[i].CUSTFLD2 || '',
-               prodbarcode: data.tproductvs1[i].BARCODE || '',
+               purchasedescription: data.tproductvs1[i].fields.PurchaseDescription || '',
+               productgroup1: data.tproductvs1[i].fields.ProductGroup1 || '',
+               productgroup2: data.tproductvs1[i].fields.ProductGroup2 || '',
+               customfield1: data.tproductvs1[i].fields.CUSTFLD1 || '',
+               customfield2: data.tproductvs1[i].fields.CUSTFLD2 || '',
+               prodbarcode: data.tproductvs1[i].fields.BARCODE || '',
              };
              dataTableList.push(dataList);
             }
@@ -500,8 +501,8 @@ setTimeout(function () {
       }
     }).catch(function (err) {
 
-      productService.getNewProductListVS1().then(function (data) {
-      //localStorage.setItem('VS1ProductList', JSON.stringify(data)||'');
+      sideBarService.getNewProductListVS1(25,0).then(function (data) {
+      addVS1Data('TProductVS1',JSON.stringify(data));
         let lineItems = [];
         let lineItemObj = {};
         let departmentData = '';
@@ -515,22 +516,22 @@ setTimeout(function () {
          departmentData = 'All';
           for(let i=0; i<data.tproductvs1.length; i++){
             dataList = {
-             id: data.tproductvs1[i].Id || '',
-             productname: data.tproductvs1[i].ProductName || '',
-             salesdescription: data.tproductvs1[i].SalesDescription || '',
+             id: data.tproductvs1[i].fields.ID || '',
+             productname: data.tproductvs1[i].fields.ProductName || '',
+             salesdescription: data.tproductvs1[i].fields.SalesDescription || '',
              department: departmentData || '',
              //deptstatus: deptStatus || '',
              //departmentcheck: departmentDataLoad || '',
-             costprice: utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductvs1[i].BuyQty1Cost * 100) / 100) || 0,
-             saleprice: utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductvs1[i].SellQty1Price * 100) / 100) || 0,
-             quantity: data.tproductvs1[i].TotalQtyInStock || 0,
+             costprice: utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductvs1[i].fields.BuyQty1Cost * 100) / 100) || 0,
+             saleprice: utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductvs1[i].fields.SellQty1Price * 100) / 100) || 0,
+             quantity: data.tproductvs1[i].fields.TotalQtyInStock || 0,
              //quantitycheck: JSON.stringify(favoriteProdQty) || 0,
-             purchasedescription: data.tproductvs1[i].PurchaseDescription || '',
-             productgroup1: data.tproductvs1[i].ProductGroup1 || '',
-             productgroup2: data.tproductvs1[i].ProductGroup2 || '',
-             customfield1: data.tproductvs1[i].CUSTFLD1 || '',
-             customfield2: data.tproductvs1[i].CUSTFLD2 || '',
-             prodbarcode: data.tproductvs1[i].BARCODE || '',
+             purchasedescription: data.tproductvs1[i].fields.PurchaseDescription || '',
+             productgroup1: data.tproductvs1[i].fields.ProductGroup1 || '',
+             productgroup2: data.tproductvs1[i].fields.ProductGroup2 || '',
+             customfield1: data.tproductvs1[i].fields.CUSTFLD1 || '',
+             customfield2: data.tproductvs1[i].fields.CUSTFLD2 || '',
+             prodbarcode: data.tproductvs1[i].fields.BARCODE || '',
            };
            dataTableList.push(dataList);
           }
@@ -880,18 +881,18 @@ setTimeout(function () {
       let inventoryData = [];
       for (let i = 0; i < data.tproductvs1.length; i++) {
           var recentTranObject = {
-                      productId: data.tproductvs1[i].Id,
-                      productName: data.tproductvs1[i].ProductName,
-                      productDescription: data.tproductvs1[i].SalesDescription,
-                      purchasesPrice:  utilityService.modifynegativeCurrencyFormat(data.tproductvs1[i].BuyQty1CostInc) || 0,
-                      purchaseAccount: data.tproductvs1[i].AssetAccount,
-                      costOfGoodsSoldAccount: data.tproductvs1[i].CogsAccount,
-                      unitOfMeasure: data.tproductvs1[i].UOMPurchases || ' ',
-                      salesDescription: data.tproductvs1[i].SalesDescription,
-                      itemName: data.tproductvs1[i].ProductName,
-                      salesPrice:utilityService.modifynegativeCurrencyFormat(data.tproductvs1[i].SellQty1PriceInc) || 0,
-                      salesAccount: data.tproductvs1[i].IncomeAccount,
-                      taxCodeSales: data.tproductvs1[i].TaxCodeSales,
+                      productId: data.tproductvs1[i].fields.Id,
+                      productName: data.tproductvs1[i].fields.ProductName,
+                      productDescription: data.tproductvs1[i].fields.SalesDescription,
+                      purchasesPrice:  utilityService.modifynegativeCurrencyFormat(data.tproductvs1[i].fields.BuyQty1CostInc) || 0,
+                      purchaseAccount: data.tproductvs1[i].fields.AssetAccount,
+                      costOfGoodsSoldAccount: data.tproductvs1[i].fields.CogsAccount,
+                      unitOfMeasure: data.tproductvs1[i].fields.UOMPurchases || ' ',
+                      salesDescription: data.tproductvs1[i].fields.SalesDescription,
+                      itemName: data.tproductvs1[i].fields.ProductName,
+                      salesPrice:utilityService.modifynegativeCurrencyFormat(data.tproductvs1[i].fields.SellQty1PriceInc) || 0,
+                      salesAccount: data.tproductvs1[i].fields.IncomeAccount,
+                      taxCodeSales: data.tproductvs1[i].fields.TaxCodeSales,
                   };
                   inventoryData.push(recentTranObject);
 
@@ -1313,7 +1314,7 @@ Template.inventorylist.helpers({
         //   Meteor._reload.reload();
           $('.fullScreenSpin').css('display','inline-block');
           let templateObject = Template.instance();
-          sideBarService.getNewProductListVS1().then(function(data) {
+          sideBarService.getNewProductListVS1(25,0).then(function(data) {
             addVS1Data('TProductVS1',JSON.stringify(data)).then(function (datareturn) {
               window.open('/inventorylist','_self');
             }).catch(function (err) {

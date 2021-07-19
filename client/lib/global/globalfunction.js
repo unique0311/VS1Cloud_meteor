@@ -128,6 +128,22 @@ batchUpdateCall = function (url) {
     let dashboardArray = [];
     var oReq = new XMLHttpRequest();
     var oReq2 = new XMLHttpRequest();
+    var currentBeginDate = new Date();
+    var begunDate = moment(currentBeginDate).format("DD/MM/YYYY");
+    let fromDateMonth = currentBeginDate.getMonth();
+    let fromDateDay = currentBeginDate.getDate();
+    if(currentBeginDate.getMonth() < 10){
+        fromDateMonth = "0" + (currentBeginDate.getMonth()+1);
+    }else{
+      fromDateMonth = (currentBeginDate.getMonth()+1);
+    }
+
+    if(currentBeginDate.getDate() < 10){
+        fromDateDay = "0" + currentBeginDate.getDate();
+    }
+    var toDate = currentBeginDate.getFullYear()+ "-" +(fromDateMonth) + "-"+(fromDateDay+1);
+    let prevMonth11Date = (moment().subtract(reportsloadMonths, 'months')).format("YYYY-MM-DD");
+
     oReq.open("GET",URLRequest + erpGet.ERPIPAddress + ':' + erpGet.ERPPort + '/' + 'erpapi/VS1_Cloud_Task/VS1_BatchUpdate', true);
     oReq.setRequestHeader("database",erpGet.ERPDatabase);
     oReq.setRequestHeader("username",erpGet.ERPUsername);
@@ -145,11 +161,11 @@ batchUpdateCall = function (url) {
             }).catch(function(err) {
 
             });
-            sideBarService.getTAPReport().then(function(data) {
+            sideBarService.getTAPReport(prevMonth11Date,toDate, false).then(function(data) {
               addVS1Data('TAPReport',JSON.stringify(data));
             }).catch(function(err) {
             });
-            sideBarService.getTARReport().then(function(data) {
+            sideBarService.getTARReport(prevMonth11Date,toDate, false).then(function(data) {
               addVS1Data('TARReport',JSON.stringify(data));
 
             }).catch(function(err) {

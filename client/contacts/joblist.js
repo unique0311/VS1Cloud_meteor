@@ -52,32 +52,32 @@ Template.joblist.onRendered(function () {
 
         getVS1Data('TJobVS1').then(function (dataObject) {
             if (dataObject.length == 0) {
-                contactService.getAllJobssDataVS1().then(function (data) {
+                sideBarService.getAllJobssDataVS1(25,0).then(function (data) {
                     let lineItems = [];
                     let lineItemObj = {};
                     for (let i = 0; i < data.tjobvs1.length; i++) {
-                        let arBalance = utilityService.modifynegativeCurrencyFormat(data.tjobvs1[i].ARBalance) || 0.00;
-                        let creditBalance = utilityService.modifynegativeCurrencyFormat(data.tjobvs1[i].CreditBalance) || 0.00;
-                        let balance = utilityService.modifynegativeCurrencyFormat(data.tjobvs1[i].Balance) || 0.00;
-                        let creditLimit = utilityService.modifynegativeCurrencyFormat(data.tjobvs1[i].CreditLimit) || 0.00;
-                        let salesOrderBalance = utilityService.modifynegativeCurrencyFormat(data.tjobvs1[i].Balance) || 0.00;
+                        let arBalance = utilityService.modifynegativeCurrencyFormat(data.tjobvs1[i].fields.ARBalance) || 0.00;
+                        let creditBalance = utilityService.modifynegativeCurrencyFormat(data.tjobvs1[i].fields.CreditBalance) || 0.00;
+                        let balance = utilityService.modifynegativeCurrencyFormat(data.tjobvs1[i].fields.Balance) || 0.00;
+                        let creditLimit = utilityService.modifynegativeCurrencyFormat(data.tjobvs1[i].fields.CreditLimit) || 0.00;
+                        let salesOrderBalance = utilityService.modifynegativeCurrencyFormat(data.tjobvs1[i].fields.Balance) || 0.00;
                         var dataList = {
-                            id: data.tjobvs1[i].Id || '',
-                            company: data.tjobvs1[i].ParentClientName || '',
-                            contactname: data.tjobvs1[i].ContactName || '',
-                            phone: data.tjobvs1[i].Phone || '',
+                            id: data.tjobvs1[i].fields.ID || '',
+                            company: data.tjobvs1[i].fields.ParentClientName || '',
+                            contactname: data.tjobvs1[i].fields.ContactName || '',
+                            phone: data.tjobvs1[i].fields.Phone || '',
                             arbalance: arBalance || 0.00,
                             creditbalance: creditBalance || 0.00,
                             balance: balance || 0.00,
                             creditlimit: creditLimit || 0.00,
                             salesorderbalance: salesOrderBalance || 0.00,
-                            email: data.tjobvs1[i].Email || '',
-                            job: data.tjobvs1[i].JobName || '',
-                            accountno: data.tjobvs1[i].AccountNo || '',
-                            clientno: data.tjobvs1[i].ClientNo || '',
-                            jobtitle: data.tjobvs1[i].JobTitle || '',
-                            notes: data.tjobvs1[i].Notes || '',
-                            country: data.tjobvs1[i].Country || ''
+                            email: data.tjobvs1[i].fields.Email || '',
+                            job: data.tjobvs1[i].fields.JobName || '',
+                            accountno: data.tjobvs1[i].fields.AccountNo || '',
+                            clientno: data.tjobvs1[i].fields.ClientNo || '',
+                            jobtitle: data.tjobvs1[i].fields.JobTitle || '',
+                            notes: data.tjobvs1[i].fields.Notes || '',
+                            country: data.tjobvs1[i].fields.Country || ''
                         };
 
                         dataTableList.push(dataList);
@@ -452,32 +452,32 @@ Template.joblist.onRendered(function () {
 
             }
         }).catch(function (err) {
-            contactService.getAllJobssDataVS1().then(function (data) {
+            sideBarService.getAllJobssDataVS1(25,0).then(function (data) {
                 let lineItems = [];
                 let lineItemObj = {};
                 for (let i = 0; i < data.tjobvs1.length; i++) {
-                    let arBalance = utilityService.modifynegativeCurrencyFormat(data.tjobvs1[i].ARBalance) || 0.00;
-                    let creditBalance = utilityService.modifynegativeCurrencyFormat(data.tjobvs1[i].CreditBalance) || 0.00;
-                    let balance = utilityService.modifynegativeCurrencyFormat(data.tjobvs1[i].Balance) || 0.00;
-                    let creditLimit = utilityService.modifynegativeCurrencyFormat(data.tjobvs1[i].CreditLimit) || 0.00;
-                    let salesOrderBalance = utilityService.modifynegativeCurrencyFormat(data.tjobvs1[i].Balance) || 0.00;
+                    let arBalance = utilityService.modifynegativeCurrencyFormat(data.tjobvs1[i].fields.ARBalance) || 0.00;
+                    let creditBalance = utilityService.modifynegativeCurrencyFormat(data.tjobvs1[i].fields.CreditBalance) || 0.00;
+                    let balance = utilityService.modifynegativeCurrencyFormat(data.tjobvs1[i].fields.Balance) || 0.00;
+                    let creditLimit = utilityService.modifynegativeCurrencyFormat(data.tjobvs1[i].fields.CreditLimit) || 0.00;
+                    let salesOrderBalance = utilityService.modifynegativeCurrencyFormat(data.tjobvs1[i].fields.Balance) || 0.00;
                     var dataList = {
-                        id: data.tjobvs1[i].Id || '',
-                        company: data.tjobvs1[i].ParentClientName || '',
-                        contactname: data.tjobvs1[i].ContactName || '',
-                        phone: data.tjobvs1[i].Phone || '',
+                        id: data.tjobvs1[i].fields.ID || '',
+                        company: data.tjobvs1[i].fields.ParentClientName || '',
+                        contactname: data.tjobvs1[i].fields.ContactName || '',
+                        phone: data.tjobvs1[i].fields.Phone || '',
                         arbalance: arBalance || 0.00,
                         creditbalance: creditBalance || 0.00,
                         balance: balance || 0.00,
                         creditlimit: creditLimit || 0.00,
                         salesorderbalance: salesOrderBalance || 0.00,
-                        email: data.tjobvs1[i].Email || '',
-                        job: data.tjobvs1[i].JobName || '',
-                        accountno: data.tjobvs1[i].AccountNo || '',
-                        clientno: data.tjobvs1[i].ClientNo || '',
-                        jobtitle: data.tjobvs1[i].JobTitle || '',
-                        notes: data.tjobvs1[i].Notes || '',
-                        country: data.tjobvs1[i].Country || ''
+                        email: data.tjobvs1[i].fields.Email || '',
+                        job: data.tjobvs1[i].fields.JobName || '',
+                        accountno: data.tjobvs1[i].fields.AccountNo || '',
+                        clientno: data.tjobvs1[i].fields.ClientNo || '',
+                        jobtitle: data.tjobvs1[i].fields.JobTitle || '',
+                        notes: data.tjobvs1[i].fields.Notes || '',
+                        country: data.tjobvs1[i].fields.Country || ''
                     };
 
                     dataTableList.push(dataList);
@@ -856,7 +856,7 @@ Template.joblist.events({
     'click .btnRefresh': function () {
         $('.fullScreenSpin').css('display', 'inline-block');
         let templateObject = Template.instance();
-        sideBarService.getAllJobssDataVS1().then(function (data) {
+        sideBarService.getAllJobssDataVS1(25,0).then(function (data) {
             addVS1Data('TJobVS1', JSON.stringify(data)).then(function (datareturn) {
 
             }).catch(function (err) {
@@ -866,7 +866,7 @@ Template.joblist.events({
 
         });
 
-        sideBarService.getAllCustomersDataVS1().then(function (data) {
+        sideBarService.getAllCustomersDataVS1(25,0).then(function (data) {
             addVS1Data('TCustomerVS1', JSON.stringify(data)).then(function (datareturn) {
                 setTimeout(function () {
                     location.reload(true);

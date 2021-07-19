@@ -59,32 +59,32 @@ Template.purchaseorderlist.onRendered(function() {
     templateObject.getAllPurchaseOrderData = function () {
         getVS1Data('TPurchaseOrderEx').then(function (dataObject) {
             if(dataObject.length == 0){
-                purchaseService.getAllPurchaseOrderListNonBo().then(function (data) {
+                sideBarService.getAllPurchaseOrderList(25,0).then(function (data) {
                     let lineItems = [];
                     let lineItemObj = {};
-                    for(let i=0; i<data.tpurchaseordernonbackorder.length; i++){
-                        let totalAmountEx = utilityService.modifynegativeCurrencyFormat(data.tpurchaseordernonbackorder[i].TotalAmount)|| 0.00;
-                        let totalTax = utilityService.modifynegativeCurrencyFormat(data.tpurchaseordernonbackorder[i].TotalTax) || 0.00;
-                        let totalAmount = utilityService.modifynegativeCurrencyFormat(data.tpurchaseordernonbackorder[i].TotalAmountInc)|| 0.00;
-                        let totalPaid = utilityService.modifynegativeCurrencyFormat(data.tpurchaseordernonbackorder[i].TotalPaid)|| 0.00;
-                        let totalOutstanding = utilityService.modifynegativeCurrencyFormat(data.tpurchaseordernonbackorder[i].TotalBalance)|| 0.00;
+                    for(let i=0; i<data.tpurchaseorderex.length; i++){
+                        let totalAmountEx = utilityService.modifynegativeCurrencyFormat(data.tpurchaseorderex[i].fields.TotalAmount)|| 0.00;
+                        let totalTax = utilityService.modifynegativeCurrencyFormat(data.tpurchaseorderex[i].fields.TotalTax) || 0.00;
+                        let totalAmount = utilityService.modifynegativeCurrencyFormat(data.tpurchaseorderex[i].fields.TotalAmountInc)|| 0.00;
+                        let totalPaid = utilityService.modifynegativeCurrencyFormat(data.tpurchaseorderex[i].fields.TotalPaid)|| 0.00;
+                        let totalOutstanding = utilityService.modifynegativeCurrencyFormat(data.tpurchaseorderex[i].fields.TotalBalance)|| 0.00;
                         var dataList = {
-                            id: data.tpurchaseordernonbackorder[i].Id || '',
-                            employee:data.tpurchaseordernonbackorder[i].EmployeeName || '',
-                            sortdate: data.tpurchaseordernonbackorder[i].OrderDate !=''? moment(data.tpurchaseordernonbackorder[i].OrderDate).format("YYYY/MM/DD"): data.tpurchaseordernonbackorder[i].OrderDate,
-                            orderdate: data.tpurchaseordernonbackorder[i].OrderDate !=''? moment(data.tpurchaseordernonbackorder[i].OrderDate).format("DD/MM/YYYY"): data.tpurchaseordernonbackorder[i].OrderDate,
-                            suppliername: data.tpurchaseordernonbackorder[i].SupplierName || '',
+                            id: data.tpurchaseorderex[i].fields.ID || '',
+                            employee:data.tpurchaseorderex[i].fields.EmployeeName || '',
+                            sortdate: data.tpurchaseorderex[i].fields.OrderDate !=''? moment(data.tpurchaseorderex[i].fields.OrderDate).format("YYYY/MM/DD"): data.tpurchaseorderex[i].fields.OrderDate,
+                            orderdate: data.tpurchaseorderex[i].fields.OrderDate !=''? moment(data.tpurchaseorderex[i].fields.OrderDate).format("DD/MM/YYYY"): data.tpurchaseorderex[i].fields.OrderDate,
+                            suppliername: data.tpurchaseorderex[i].fields.SupplierName || '',
                             totalamountex: totalAmountEx || 0.00,
                             totaltax: totalTax || 0.00,
                             totalamount: totalAmount || 0.00,
                             totalpaid: totalPaid || 0.00,
                             totaloustanding: totalOutstanding || 0.00,
-                            orderstatus: data.tpurchaseordernonbackorder[i].OrderStatus || '',
+                            orderstatus: data.tpurchaseorderex[i].fields.OrderStatus || '',
                             custfield1: '' || '',
                             custfield2: '' || '',
-                            comments: data.tpurchaseordernonbackorder[i].Comments || '',
+                            comments: data.tpurchaseorderex[i].fields.Comments || '',
                         };
-                        if(data.tpurchaseordernonbackorder[i].Deleted === false && data.tpurchaseordernonbackorder[i].SupplierName.replace(/\s/g, '') != ''){
+                        if(data.tpurchaseorderex[i].fields.Deleted === false && data.tpurchaseorderex[i].fields.SupplierName.replace(/\s/g, '') != ''){
                             dataTableList.push(dataList);
                         }
                         // dataTableList.push(dataList);
@@ -248,29 +248,29 @@ Template.purchaseorderlist.onRendered(function() {
                 let useData = data.tpurchaseorderex;
                 let lineItems = [];
                 let lineItemObj = {};
-                for(let i=0; i<useData.length; i++){
-                    let totalAmountEx = utilityService.modifynegativeCurrencyFormat(useData[i].fields.TotalAmount)|| 0.00;
-                    let totalTax = utilityService.modifynegativeCurrencyFormat(useData[i].fields.TotalTax) || 0.00;
-                    let totalAmount = utilityService.modifynegativeCurrencyFormat(useData[i].fields.TotalAmountInc)|| 0.00;
-                    let totalPaid = utilityService.modifynegativeCurrencyFormat(useData[i].fields.TotalPaid)|| 0.00;
-                    let totalOutstanding = utilityService.modifynegativeCurrencyFormat(useData[i].fields.TotalBalance)|| 0.00;
+                for(let i=0; i<data.tpurchaseorderex.length; i++){
+                    let totalAmountEx = utilityService.modifynegativeCurrencyFormat(data.tpurchaseorderex[i].fields.TotalAmount)|| 0.00;
+                    let totalTax = utilityService.modifynegativeCurrencyFormat(data.tpurchaseorderex[i].fields.TotalTax) || 0.00;
+                    let totalAmount = utilityService.modifynegativeCurrencyFormat(data.tpurchaseorderex[i].fields.TotalAmountInc)|| 0.00;
+                    let totalPaid = utilityService.modifynegativeCurrencyFormat(data.tpurchaseorderex[i].fields.TotalPaid)|| 0.00;
+                    let totalOutstanding = utilityService.modifynegativeCurrencyFormat(data.tpurchaseorderex[i].fields.TotalBalance)|| 0.00;
                     var dataList = {
-                        id: useData[i].fields.ID || '',
-                        employee:useData[i].fields.EmployeeName || '',
-                        sortdate: useData[i].fields.OrderDate !=''? moment(useData[i].fields.OrderDate).format("YYYY/MM/DD"): useData[i].fields.OrderDate,
-                        orderdate: useData[i].fields.OrderDate !=''? moment(useData[i].fields.OrderDate).format("DD/MM/YYYY"): useData[i].fields.OrderDate,
-                        suppliername: useData[i].fields.SupplierName || '',
+                        id: data.tpurchaseorderex[i].fields.ID || '',
+                        employee:data.tpurchaseorderex[i].fields.EmployeeName || '',
+                        sortdate: data.tpurchaseorderex[i].fields.OrderDate !=''? moment(data.tpurchaseorderex[i].fields.OrderDate).format("YYYY/MM/DD"): data.tpurchaseorderex[i].fields.OrderDate,
+                        orderdate: data.tpurchaseorderex[i].fields.OrderDate !=''? moment(data.tpurchaseorderex[i].fields.OrderDate).format("DD/MM/YYYY"): data.tpurchaseorderex[i].fields.OrderDate,
+                        suppliername: data.tpurchaseorderex[i].fields.SupplierName || '',
                         totalamountex: totalAmountEx || 0.00,
                         totaltax: totalTax || 0.00,
                         totalamount: totalAmount || 0.00,
                         totalpaid: totalPaid || 0.00,
                         totaloustanding: totalOutstanding || 0.00,
-                        orderstatus: useData[i].fields.OrderStatus || '',
+                        orderstatus: data.tpurchaseorderex[i].fields.OrderStatus || '',
                         custfield1: '' || '',
                         custfield2: '' || '',
-                        comments: useData[i].fields.Comments || '',
+                        comments: data.tpurchaseorderex[i].fields.Comments || '',
                     };
-                    if(useData[i].fields.Deleted === false && useData[i].fields.SupplierName.replace(/\s/g, '') != ''){
+                    if(data.tpurchaseorderex[i].fields.Deleted === false && data.tpurchaseorderex[i].fields.SupplierName.replace(/\s/g, '') != ''){
                         dataTableList.push(dataList);
                     }
                     // dataTableList.push(dataList);
@@ -426,32 +426,32 @@ Template.purchaseorderlist.onRendered(function() {
 
             }
         }).catch(function (err) {
-            purchaseService.getAllPurchaseOrderListNonBo().then(function (data) {
+            sideBarService.getAllPurchaseOrderList(25,0).then(function (data) {
                 let lineItems = [];
                 let lineItemObj = {};
-                for(let i=0; i<data.tpurchaseordernonbackorder.length; i++){
-                    let totalAmountEx = utilityService.modifynegativeCurrencyFormat(data.tpurchaseordernonbackorder[i].TotalAmount)|| 0.00;
-                    let totalTax = utilityService.modifynegativeCurrencyFormat(data.tpurchaseordernonbackorder[i].TotalTax) || 0.00;
-                    let totalAmount = utilityService.modifynegativeCurrencyFormat(data.tpurchaseordernonbackorder[i].TotalAmountInc)|| 0.00;
-                    let totalPaid = utilityService.modifynegativeCurrencyFormat(data.tpurchaseordernonbackorder[i].TotalPaid)|| 0.00;
-                    let totalOutstanding = utilityService.modifynegativeCurrencyFormat(data.tpurchaseordernonbackorder[i].TotalBalance)|| 0.00;
+                for(let i=0; i<data.tpurchaseorderex.length; i++){
+                    let totalAmountEx = utilityService.modifynegativeCurrencyFormat(data.tpurchaseorderex[i].fields.TotalAmount)|| 0.00;
+                    let totalTax = utilityService.modifynegativeCurrencyFormat(data.tpurchaseorderex[i].fields.TotalTax) || 0.00;
+                    let totalAmount = utilityService.modifynegativeCurrencyFormat(data.tpurchaseorderex[i].fields.TotalAmountInc)|| 0.00;
+                    let totalPaid = utilityService.modifynegativeCurrencyFormat(data.tpurchaseorderex[i].fields.TotalPaid)|| 0.00;
+                    let totalOutstanding = utilityService.modifynegativeCurrencyFormat(data.tpurchaseorderex[i].fields.TotalBalance)|| 0.00;
                     var dataList = {
-                        id: data.tpurchaseordernonbackorder[i].Id || '',
-                        employee:data.tpurchaseordernonbackorder[i].EmployeeName || '',
-                        sortdate: data.tpurchaseordernonbackorder[i].OrderDate !=''? moment(data.tpurchaseordernonbackorder[i].OrderDate).format("YYYY/MM/DD"): data.tpurchaseordernonbackorder[i].OrderDate,
-                        orderdate: data.tpurchaseordernonbackorder[i].OrderDate !=''? moment(data.tpurchaseordernonbackorder[i].OrderDate).format("DD/MM/YYYY"): data.tpurchaseordernonbackorder[i].OrderDate,
-                        suppliername: data.tpurchaseordernonbackorder[i].SupplierName || '',
+                        id: data.tpurchaseorderex[i].fields.ID || '',
+                        employee:data.tpurchaseorderex[i].fields.EmployeeName || '',
+                        sortdate: data.tpurchaseorderex[i].fields.OrderDate !=''? moment(data.tpurchaseorderex[i].fields.OrderDate).format("YYYY/MM/DD"): data.tpurchaseorderex[i].fields.OrderDate,
+                        orderdate: data.tpurchaseorderex[i].fields.OrderDate !=''? moment(data.tpurchaseorderex[i].fields.OrderDate).format("DD/MM/YYYY"): data.tpurchaseorderex[i].fields.OrderDate,
+                        suppliername: data.tpurchaseorderex[i].fields.SupplierName || '',
                         totalamountex: totalAmountEx || 0.00,
                         totaltax: totalTax || 0.00,
                         totalamount: totalAmount || 0.00,
                         totalpaid: totalPaid || 0.00,
                         totaloustanding: totalOutstanding || 0.00,
-                        orderstatus: data.tpurchaseordernonbackorder[i].OrderStatus || '',
+                        orderstatus: data.tpurchaseorderex[i].fields.OrderStatus || '',
                         custfield1: '' || '',
                         custfield2: '' || '',
-                        comments: data.tpurchaseordernonbackorder[i].Comments || '',
+                        comments: data.tpurchaseorderex[i].fields.Comments || '',
                     };
-                    if(data.tpurchaseordernonbackorder[i].Deleted === false && data.tpurchaseordernonbackorder[i].SupplierName.replace(/\s/g, '') != ''){
+                    if(data.tpurchaseorderex[i].fields.Deleted === false && data.tpurchaseorderex[i].fields.SupplierName.replace(/\s/g, '') != ''){
                         dataTableList.push(dataList);
                     }
                     // dataTableList.push(dataList);
@@ -810,131 +810,14 @@ Template.purchaseorderlist.events({
         }
         let currenctTodayDate = currentDate.getFullYear() + "-" + month + "-" + days + " "+ hours+ ":"+ minutes+ ":"+ seconds;
         let templateObject = Template.instance();
-        getVS1Data('TPurchaseOrderEx').then(function (dataObject) {
-            if(dataObject.length == 0){
-                sideBarService.getAllPurchaseOrderList().then(function(data) {
-                    addVS1Data('TPurchaseOrderEx',JSON.stringify(data)).then(function (datareturn) {
-                        window.open('/purchaseorderlist','_self');
-                    }).catch(function (err) {
-                        window.open('/purchaseorderlist','_self');
-                    });
-                }).catch(function(err) {
-                    window.open('/purchaseorderlist','_self');
-                });
-            }else{
-                let data = JSON.parse(dataObject[0].data);
-                let useData = data.tpurchaseorderex;
-                if(useData[0].Id){
-                    sideBarService.getAllPurchaseOrderList().then(function(data) {
-                        addVS1Data('TPurchaseOrderEx',JSON.stringify(data)).then(function (datareturn) {
-                            window.open('/purchaseorderlist','_self');
-                        }).catch(function (err) {
-                            window.open('/purchaseorderlist','_self');
-                        });
-                    }).catch(function(err) {
-                        window.open('/purchaseorderlist','_self');
-                    });
-                }else{
-                    let getTimeStamp = dataObject[0].timestamp;
-                    if(getTimeStamp){
-                        if(getTimeStamp[0] != currenctTodayDate){
-                            sideBarService.getAllPurchaseOrderList(getTimeStamp).then(function(dataUpdate) {
-                                let newDataObject = [];
-                                if(dataUpdate.tpurchaseorderex.length === 0){
-                                    sideBarService.getAllPurchaseOrderList().then(function(data) {
-                                        addVS1Data('TPurchaseOrderEx',JSON.stringify(data)).then(function (datareturn) {
-                                            window.open('/purchaseorderlist','_self');
-                                        }).catch(function (err) {
-                                            window.open('/purchaseorderlist','_self');
-                                        });
-                                    }).catch(function(err) {
-                                        window.open('/purchaseorderlist','_self');
-                                    });
-                                }else{
-                                    let dataOld = JSON.parse(dataObject[0].data);
-                                    let oldObjectData = dataOld.tpurchaseorderex;
-
-                                    let dataNew = dataUpdate;
-                                    let newObjectData = dataNew.tpurchaseorderex;
-                                    let index = '';
-                                    let index2 = '';
-
-                                    var resultArray = []
-
-                                    oldObjectData.forEach(function(destObj) {
-                                        var addedcheck=false;
-                                        newObjectData.some(function(origObj) {
-                                            if(origObj.fields.ID == destObj.fields.ID) {
-                                                addedcheck = true;
-                                                index = oldObjectData.map(function (e) { return e.fields.ID; }).indexOf(parseInt(origObj.fields.ID));
-                                                destObj = origObj;
-                                                resultArray.push(destObj);
-
-                                            }
-                                        });
-                                        if(!addedcheck) {
-                                            resultArray.push(destObj)
-                                        }
-
-                                    });
-                                    newObjectData.forEach(function(origObj) {
-                                        var addedcheck=false;
-                                        oldObjectData.some(function(destObj) {
-                                            if(origObj.fields.ID == destObj.fields.ID) {
-                                                addedcheck = true;
-                                                index = oldObjectData.map(function (e) { return e.fields.ID; }).indexOf(parseInt(origObj.fields.ID));
-                                                destObj = origObj;
-                                                resultArray.push(destObj);
-
-                                            }
-                                        });
-                                        if(!addedcheck) {
-                                            resultArray.push(origObj)
-                                        }
-
-                                    });
-                                    var resultGetData = [];
-                                    $.each(resultArray, function (i, e) {
-                                        var matchingItems = $.grep(resultGetData, function (item) {
-                                            return item.fields.ID === e.fields.ID;
-                                        });
-                                        if (matchingItems.length === 0){
-                                            resultGetData.push(e);
-                                        }
-                                    });
-
-                                    let dataToAdd = {
-                                        tpurchaseorderex: resultGetData
-                                    };
-                                    addVS1Data('TPurchaseOrderEx',JSON.stringify(dataToAdd)).then(function (datareturn) {
-                                        window.open('/purchaseorderlist','_self');
-                                    }).catch(function (err) {
-                                        window.open('/purchaseorderlist','_self');
-                                    });
-                                }
-
-                            }).catch(function(err) {
-                                addVS1Data('TPurchaseOrderEx',dataObject[0].data).then(function (datareturn) {
-                                    window.open('/purchaseorderlist','_self');
-                                }).catch(function (err) {
-                                    window.open('/purchaseorderlist','_self');
-                                });
-                            });
-                        }
-
-                    }
-                }
-            }
-        }).catch(function (err) {
-            sideBarService.getAllPurchaseOrderList().then(function(data) {
-                addVS1Data('TPurchaseOrderEx',JSON.stringify(data)).then(function (datareturn) {
-                    window.open('/purchaseorderlist','_self');
-                }).catch(function (err) {
-                    window.open('/purchaseorderlist','_self');
-                });
-            }).catch(function(err) {
+        sideBarService.getAllPurchaseOrderList(25,0).then(function(data) {
+            addVS1Data('TPurchaseOrderEx',JSON.stringify(data)).then(function (datareturn) {
+                window.open('/purchaseorderlist','_self');
+            }).catch(function (err) {
                 window.open('/purchaseorderlist','_self');
             });
+        }).catch(function(err) {
+            window.open('/purchaseorderlist','_self');
         });
 
         var currentBeginDate = new Date();
@@ -951,7 +834,7 @@ Template.purchaseorderlist.events({
           fromDateDay = "0" + currentBeginDate.getDate();
       }
       var toDate = currentBeginDate.getFullYear()+ "-" +(fromDateMonth) + "-"+(fromDateDay+1);
-      let prevMonth11Date = (moment().subtract(6, 'months')).format("YYYY-MM-DD");
+      let prevMonth11Date = (moment().subtract(reportsloadMonths, 'months')).format("YYYY-MM-DD");
 
         sideBarService.getAllPurchaseOrderListAll(prevMonth11Date,toDate, false).then(function(data) {
             addVS1Data('TbillReport',JSON.stringify(data)).then(function (datareturn) {

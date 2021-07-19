@@ -57,7 +57,7 @@ Template.purchaseorderlistBO.onRendered(function() {
     templateObject.getAllPurchaseOrderData = function () {
         getVS1Data('TpurchaseOrderBackOrder').then(function (dataObject) {
             if(dataObject.length == 0){
-                purchaseService.getAllPurchaseOrderListBO().then(function (data) {
+                sideBarService.getAllPurchaseOrderListBO(25,0).then(function (data) {
                     addVS1Data('TpurchaseOrderBackOrder',JSON.stringify(data));
                     let lineItems = [];
                     let lineItemObj = {};
@@ -425,7 +425,7 @@ Template.purchaseorderlistBO.onRendered(function() {
 
             }
         }).catch(function (err) {
-            purchaseService.getAllPurchaseOrderListBO().then(function (data) {
+            sideBarService.getAllPurchaseOrderListBO(25,0).then(function (data) {
                 addVS1Data('TpurchaseOrderBackOrder',JSON.stringify(data));
                 let lineItems = [];
                 let lineItemObj = {};
@@ -809,9 +809,9 @@ Template.purchaseorderlistBO.events({
           fromDateDay = "0" + currentBeginDate.getDate();
       }
       var toDate = currentBeginDate.getFullYear()+ "-" +(fromDateMonth) + "-"+(fromDateDay+1);
-      let prevMonth11Date = (moment().subtract(6, 'months')).format("YYYY-MM-DD");
+      let prevMonth11Date = (moment().subtract(reportsloadMonths, 'months')).format("YYYY-MM-DD");
 
-        sideBarService.getAllPurchaseOrderListBO().then(function(data) {
+        sideBarService.getAllPurchaseOrderListBO(25,0).then(function(data) {
             addVS1Data('TpurchaseOrderBackOrder',JSON.stringify(data)).then(function (datareturn) {
                 Meteor._reload.reload();
             }).catch(function (err) {

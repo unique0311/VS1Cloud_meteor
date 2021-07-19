@@ -2,37 +2,58 @@ import {
   BaseService
 } from '../js/base-service.js';
 export class SideBarService extends BaseService {
-  getNewProductListVS1() {
-    let options = {
-      ListType: "Detail",
-      select: "[Active]=true"
-    };
-    return this.getList(this.ERPObjects.TProductVS1, options);
-  }
-
-  getNewProductListVS1Update(msTimeStamp) {
-    let options = {
-        ListType: "Detail",
-        select: '[Active]=true and [MsTimeStamp]>"'+msTimeStamp+'"'
-      };
-    return this.getList(this.ERPObjects.TProductVS1, options);
-  }
-
-  getTPaymentList(limitcount, limitfrom){
+  getNewProductListVS1(limitcount, limitfrom) {
     let options = '';
     if(limitcount == 'All'){
        options = {
-          ListType: "Detail",
+         ListType: "Detail",
+         select: "[Active]=true"
+        };
+    }else{
+      options = {
+         orderby:'"PARTSID desc"',
+         ListType: "Detail",
+         select: "[Active]=true",
+         LimitCount:'"'+limitcount+'"',
+        LimitFrom:'"'+limitfrom+'"'
+     };
+    }
+    return this.getList(this.ERPObjects.TProductVS1, options);
+  }
+
+  getAllJobssDataVS1(limitcount, limitfrom) {
+    let options = '';
+    if(limitcount == 'All'){
+       options = {
+        ListType: "Detail",
+        select: '[Active]=true'
+       };
+    }else{
+      options = {
+       orderby:'"ClientID desc"',
+       ListType: "Detail",
+       select: '[Active]=true',
+       LimitCount:'"'+limitcount+'"',
+       LimitFrom:'"'+limitfrom+'"'
+      };
+    }
+      return this.getList(this.ERPObjects.TJobVS1, options);
+  }
+
+  getTPaymentList(dateFrom, dateTo, ignoreDate){
+    let options = '';
+    if(ignoreDate == true){
+       options = {
+          IgnoreDates:true,
           select: '[Deleted]=false'
         };
     }else{
       options = {
          orderby:'"PaymentID desc"',
          ListType: "Detail",
-         IgnoreDates: true,
-         select: "[Deleted]=false",
-         //LimitCount:'"'+limitcount+'"',
-         //LimitFrom:'"'+limitfrom+'"'
+         IgnoreDates: false,
+         DateFrom:'"'+dateFrom+'"',
+         DateTo:'"'+dateTo+'"'
      };
     }
       return this.getList(this.ERPObjects.TPaymentList, options);
@@ -76,32 +97,384 @@ export class SideBarService extends BaseService {
       return this.getList(this.ERPObjects.TSupplierPayment, options);
   }
 
-  getTARReport(msTimeStamp){
+  getAllCustomersDataVS1(limitcount, limitfrom) {
     let options = '';
-    if(msTimeStamp){
+    if(limitcount == 'All'){
        options = {
-          IgnoreDates: true,
-          select: '[MsTimeStamp]>"'+msTimeStamp+'"'
+        ListType: "Detail",
+        select: '[Active]=true'
+       };
+    }else{
+      options = {
+       orderby:'"ClientID desc"',
+       ListType: "Detail",
+       select: '[Active]=true',
+       LimitCount:'"'+limitcount+'"',
+       LimitFrom:'"'+limitfrom+'"'
+      };
+    }
+    return this.getList(this.ERPObjects.TCustomerVS1, options);
+  }
+  getAllSuppliersDataVS1(limitcount, limitfrom) {
+    let options = '';
+    if(limitcount == 'All'){
+       options = {
+        ListType: "Detail",
+        select: '[Active]=true'
+       };
+    }else{
+      options = {
+       orderby:'"ClientID desc"',
+       ListType: "Detail",
+       select: '[Active]=true',
+       LimitCount:'"'+limitcount+'"',
+       LimitFrom:'"'+limitfrom+'"'
+      };
+    }
+    return this.getList(this.ERPObjects.TSupplierVS1, options);
+  }
+  getAccountListVS1() {
+    let options = '';
+
+      options = {
+        ListType: "Detail",
+        select: "[Active]=true",
+      };
+    return this.getList(this.ERPObjects.TAccountVS1, options);
+  }
+
+  getAllContactCombineVS1(limitcount, limitfrom) {
+    let options = '';
+    if(limitcount == 'All'){
+      options = {
+        PropertyList: "ID,EmployeeNo,ClientName,Phone,Mobile,Email,ARBalance,CreditBalance,Balance,CreditLimit,SalesOrderBalance,Street,Country,CUSTFLD1,CUSTFLD2,IsCustomer,IsOtherContact,IsSupplier,",
+        select: "[Active]=true",
+      };
+    }else{
+      options = {
+        PropertyList: "ID,EmployeeNo,ClientName,Phone,Mobile,Email,ARBalance,CreditBalance,Balance,CreditLimit,SalesOrderBalance,Street,Country,CUSTFLD1,CUSTFLD2,IsCustomer,IsOtherContact,IsSupplier,",
+        select: "[Active]=true",
+        LimitCount:'"'+limitcount+'"',
+        LimitFrom:'"'+limitfrom+'"'
+      };
+    }
+    return this.getList(this.ERPObjects.TERPCombinedContactsVS1, options);
+  }
+
+
+  getClientVS1(limitcount, limitfrom) {
+    let options = '';
+    if(limitcount == 'All'){
+       options = {
+         PropertyList: "ClientName,Email,Abn,Street,Street2,Street3,Suburb,State,Postcode,Country,TermsName",
+         select: "[Active]=true"
+       };
+    }else{
+      options = {
+       orderby:'"ClientID desc"',
+       PropertyList: "ClientName,Email,Abn,Street,Street2,Street3,Suburb,State,Postcode,Country,TermsName",
+       select: "[Active]=true",
+       LimitCount:'"'+limitcount+'"',
+       LimitFrom:'"'+limitfrom+'"'
+      };
+    }
+    return this.getList(this.ERPObjects.TCustomerVS1, options);
+  }
+  getAllEmployees(limitcount, limitfrom) {
+    let options = '';
+    if(limitcount == 'All'){
+       options = {
+        ListType: "Detail",
+        select: '[Active]=true'
+       };
+    }else{
+      options = {
+       orderby:'"ClientID desc"',
+       ListType: "Detail",
+       select: '[Active]=true',
+       //LimitCount:'"'+limitcount+'"',
+       //LimitFrom:'"'+limitfrom+'"'
+      };
+    }
+    return this.getList(this.ERPObjects.TEmployee, options);
+  }
+
+  getAllInvoiceListNonBO(limitcount, limitfrom) {
+    let options = '';
+    if(limitcount == 'All'){
+       options = {
+        orderby:'"SaleID desc"',
+        PropertyList: "ID,EmployeeName,SaleClassName,SaleDate,CustomerName,TotalAmount,SalesStatus,ShipDate,SalesDescription,CustPONumber,TermsName,TotalTax,TotalAmountInc,TotalPaid,TotalBalance,Comments,Deleted",
+
+      };
+    }else{
+       options = {
+        orderby:'"SaleID desc"',
+        PropertyList: "ID,EmployeeName,SaleClassName,SaleDate,CustomerName,TotalAmount,SalesStatus,ShipDate,SalesDescription,CustPONumber,TermsName,TotalTax,TotalAmountInc,TotalPaid,TotalBalance,Comments,Deleted",
+        LimitCount:'"'+limitcount+'"',
+        LimitFrom:'"'+limitfrom+'"'
+      };
+    }
+
+    return this.getList(this.ERPObjects.TInvoiceNonBackOrder, options);
+  }
+
+  getAllSalesOrderList(limitcount, limitfrom) {
+    let options = '';
+    if(limitcount == 'All'){
+       options = {
+          orderby:'"SaleID desc"',
+          ListType: "Detail",
+          select: '[Deleted]=false'
         };
     }else{
       options = {
-         IgnoreDates: true
+         orderby:'"SaleID desc"',
+         ListType: "Detail",
+         select: "[Deleted]=false",
+         LimitCount:'"'+limitcount+'"',
+        LimitFrom:'"'+limitfrom+'"'
      };
+    }
+    return this.getList(this.ERPObjects.TSalesOrderEx, options);
+  }
+
+  getAllPurchaseOrderList(limitcount, limitfrom) {
+    let options = '';
+    if(limitcount == 'All'){
+       options = {
+          ListType: "Detail",
+          select: '[Deleted]=false'
+        };
+    }else{
+      options = {
+         orderby:'"PurchaseOrderID desc"',
+         ListType: "Detail",
+         select: "[Deleted]=false",
+         LimitCount:'"'+limitcount+'"',
+         LimitFrom:'"'+limitfrom+'"'
+     };
+    }
+    return this.getList(this.ERPObjects.TPurchaseOrderEx, options);
+  }
+
+  getAllChequeList(limitcount, limitfrom) {
+    let options = '';
+    if(limitcount == 'All'){
+       options = {
+          ListType: "Detail",
+          select: '[Deleted]=false'
+        };
+    }else{
+      options = {
+        orderby:'"PurchaseOrderID desc"',
+         ListType: "Detail",
+         select: "[Deleted]=false",
+         LimitCount:'"'+limitcount+'"',
+        LimitFrom:'"'+limitfrom+'"'
+     };
+    }
+
+    return this.getList(this.ERPObjects.TCheque, options);
+  }
+  getAllPurchaseOrderListAll(dateFrom, dateTo, ignoreDate) {
+    let options = '';
+    if(ignoreDate == true){
+      options = {
+        IgnoreDates:true,
+        IncludePOs:true,
+        IncludeBills:true
+     };
+   }else{
+     options = {
+       IgnoreDates:false,
+       IncludePOs:true,
+       IncludeBills:true,
+       DateFrom:'"'+dateFrom+'"',
+       DateTo:'"'+dateTo+'"'
+   };
+  }
+    return this.getList(this.ERPObjects.TbillReport, options);
+  }
+
+  getAllBillExList(limitcount, limitfrom) {
+    let options = '';
+    if(limitcount == 'All'){
+       options = {
+          ListType: "Detail",
+          select: '[Deleted]=false and [Cancelled]=false'
+        };
+    }else{
+      options = {
+         orderby:'"PurchaseOrderID desc"',
+         ListType: "Detail",
+         select: "[Deleted]=false and [Cancelled]=false",
+         LimitCount:'"'+limitcount+'"',
+         LimitFrom:'"'+limitfrom+'"'
+     };
+    }
+
+    return this.getList(this.ERPObjects.TBillEx, options);
+  }
+
+
+  getAllQuoteList(limitcount, limitfrom) {
+    let options = '';
+    if(limitcount == 'All'){
+       options = {
+          orderby:'"SaleID desc"',
+          ListType: "Detail",
+          select: '[Deleted]=false'
+        };
+    }else{
+      options = {
+         orderby:'"SaleID desc"',
+         ListType: "Detail",
+         select: "[Deleted]=false",
+         LimitCount:'"'+limitcount+'"',
+         LimitFrom:'"'+limitfrom+'"'
+     };
+    }
+    return this.getList(this.ERPObjects.TQuoteEx, options);
+  }
+
+  getAllCreditList(limitcount, limitfrom) {
+    let options = '';
+    if(limitcount == 'All'){
+       options = {
+          ListType: "Detail",
+          select: '[Deleted]=false'
+        };
+    }else{
+      options = {
+        orderby:'"PurchaseOrderID desc"',
+         ListType: "Detail",
+         select: "[Deleted]=false",
+         LimitCount:'"'+limitcount+'"',
+         LimitFrom:'"'+limitfrom+'"'
+     };
+    }
+    return this.getList(this.ERPObjects.TCredit, options);
+  }
+
+  getSalesListData(dateFrom, dateTo, ignoreDate) {
+
+    let options = '';
+    if(ignoreDate == true){
+      options = {
+         IgnoreDates:true
+     };
+   }else{
+     options = {
+        IgnoreDates:false,
+        DateFrom:'"'+dateFrom+'"',
+        DateTo:'"'+dateTo+'"'
+    };
+   }
+
+  return this.getList(this.ERPObjects.TSalesList, options);
+  }
+
+  getAllJournalEnrtryLinesList(limitcount, limitfrom) {
+    let options = '';
+    if(limitcount == 'All'){
+     options = {
+      ListType: "Detail",
+      select: "[Deleted]=false",
+    };
+    }else{
+      options = {
+         orderby:'"GJID desc"',
+         ListType: "Detail",
+         select: "[Deleted]=false",
+         LimitCount:'"'+limitcount+'"',
+        LimitFrom:'"'+limitfrom+'"'
+     };
+    }
+    return this.getList(this.ERPObjects.TJournalEntry, options);
+  }
+
+  getAllStockAdjustEntry(limitcount, limitfrom) {
+    let options = '';
+    if(limitcount == 'All'){
+       options = {
+          ListType: "Detail",
+          select: '[Deleted]=false'
+        };
+    }else{
+      options = {
+         orderby:'"StockAdjustEntryID desc"',
+         ListType: "Detail",
+         select: "[Deleted]=false",
+         LimitCount:'"'+limitcount+'"',
+        LimitFrom:'"'+limitfrom+'"'
+     };
+    }
+      return this.getList(this.ERPObjects.TStockAdjustEntry, options);
+  }
+
+  getAllInvoiceList(limitcount, limitfrom) {
+    let options = '';
+ if(limitcount == 'All'){
+    options = {
+       orderby:'"SaleID desc"',
+       ListType: "Detail",
+       select: '[Deleted]=false'
+     };
+ }else{
+   options = {
+      orderby:'"SaleID desc"',
+      ListType: "Detail",
+      select: "[Deleted]=false",
+      LimitCount:'"'+limitcount+'"',
+     LimitFrom:'"'+limitfrom+'"'
+  };
+ }
+    return this.getList(this.ERPObjects.TInvoiceEx, options);
+  }
+  // Rasheed Speed Here
+  getNewProductListVS1Update(msTimeStamp) {
+    let options = {
+        ListType: "Detail",
+        select: '[Active]=true and [MsTimeStamp]>"'+msTimeStamp+'"'
+      };
+    return this.getList(this.ERPObjects.TProductVS1, options);
+  }
+
+
+
+  getTARReport(dateFrom, dateTo, ignoreDate){
+    let options = '';
+    if(ignoreDate == true){
+      options = {
+        IgnoreDates: true,
+        select: "[deleted]=false"
+     };
+    }else{
+     options = {
+       IgnoreDates: false,
+       select: "[deleted]=false",
+       DateFrom:'"'+dateFrom+'"',
+       DateTo:'"'+dateTo+'"'
+    };
     }
       return this.getList(this.ERPObjects.TARReport, options);
   }
 
-  getTAPReport(msTimeStamp){
+  getTAPReport(dateFrom, dateTo, ignoreDate){
     let options = '';
-    if(msTimeStamp){
-       options = {
-          IgnoreDates: true,
-          select: '[MsTimeStamp]>"'+msTimeStamp+'"'
-        };
-    }else{
+    if(ignoreDate == true){
       options = {
-         IgnoreDates: true
+        IgnoreDates: true,
+        select: "[deleted]=false"
      };
+    }else{
+     options = {
+       IgnoreDates: false,
+       select: "[deleted]=false",
+       DateFrom:'"'+dateFrom+'"',
+       DateTo:'"'+dateTo+'"'
+    };
     }
       return this.getList(this.ERPObjects.TAPReport, options);
   }
@@ -127,17 +500,17 @@ export class SideBarService extends BaseService {
 
   getAllAppointmentList(msTimeStamp){
     let options = '';
-    if(msTimeStamp){
-       options = {
-          ListType: "Detail",
-          select: '[Active]=true and [MsTimeStamp]>"'+msTimeStamp+'"'
-        };
-    }else{
+    // if(msTimeStamp){
+    //    options = {
+    //       ListType: "Detail",
+    //       select: '[Active]=true and [MsTimeStamp]>"'+msTimeStamp+'"'
+    //     };
+    // }else{
       options = {
          ListType: "Detail",
          select: "[Active]=true"
      };
-    }
+    //}
 
       return this.getList(this.ERPObjects.TAppointment, options);
   }
@@ -149,13 +522,7 @@ export class SideBarService extends BaseService {
       return this.getList(this.ERPObjects.TAppointmentPreferences, options);
   }
 
-  getAllCustomersDataVS1() {
-    let options = {
-      ListType: "Detail",
-      select: '[Active]=true'
-    };
-    return this.getList(this.ERPObjects.TCustomerVS1, options);
-  }
+
 
   getAllCustomersDataVS1Update(msTimeStamp) {
     let options = {
@@ -165,13 +532,6 @@ export class SideBarService extends BaseService {
     return this.getList(this.ERPObjects.TCustomerVS1, options);
   }
 
-  getAllSuppliersDataVS1() {
-    let options = {
-      ListType: "Detail",
-      select: "[Active]=true"
-    };
-    return this.getList(this.ERPObjects.TSupplierVS1, options);
-  }
 
   getAllSuppliersDataVS1Update(msTimeStamp) {
     let options = {
@@ -181,13 +541,7 @@ export class SideBarService extends BaseService {
     return this.getList(this.ERPObjects.TSupplierVS1, options);
   }
 
-  getAccountListVS1() {
-    let options = {
-      ListType: "Detail",
-      select: "[Active]=true",
-    };
-    return this.getList(this.ERPObjects.TAccountVS1, options);
-  }
+
 
   getAccountListVS1Update(msTimeStamp) {
     let options = {
@@ -251,13 +605,7 @@ export class SideBarService extends BaseService {
     return this.getList(this.ERPObjects.TAccountType, options);
   }
 
-  getAllEmployees() {
-    let options = {
-      ListType: "Detail",
-      select: "[Active]=true"
-    };
-    return this.getList(this.ERPObjects.TEmployee, options);
-  }
+
 
   getAllEmployeesUpdate(msTimeStamp) {
     let options = {
@@ -266,22 +614,7 @@ export class SideBarService extends BaseService {
     };
     return this.getList(this.ERPObjects.TEmployee, options);
   }
-  getAllContactCombineVS1() {
-    let options = {
-      PropertyList: "ID,EmployeeNo,ClientName,Phone,Mobile,Email,ARBalance,CreditBalance,Balance,CreditLimit,SalesOrderBalance,Street,Country,CUSTFLD1,CUSTFLD2,IsCustomer,IsOtherContact,IsSupplier,",
-      select: "[Active]=true",
-    };
-    return this.getList(this.ERPObjects.TERPCombinedContactsVS1, options);
-  }
 
-
-  getClientVS1() {
-    let options = {
-      PropertyList: "ClientName,Email,Abn,Street,Street2,Street3,Suburb,State,Postcode,Country,TermsName",
-      select: "[Active]=true"
-    };
-    return this.getList(this.ERPObjects.TCustomerVS1, options);
-  }
 
 
   getAccountTypes() {
@@ -293,13 +626,7 @@ export class SideBarService extends BaseService {
   }
 
 
-  getAllJournalEnrtryLinesList() {
-    let options = {
-      ListType: "Detail",
-      select: "[Deleted]=false",
-    };
-    return this.getList(this.ERPObjects.TJournalEntry, options);
-  }
+
 
   getAllJournalEnrtryLinesListUpdate() {
     let options = {
@@ -309,41 +636,44 @@ export class SideBarService extends BaseService {
     return this.getList(this.ERPObjects.TJournalEntry, options);
   }
 
-  getAllTVS1BankDepositData(msTimeStamp) {
+  getAllTVS1BankDepositData(limitcount, limitfrom) {
     let options = '';
-    if(msTimeStamp){
-       options = {
-          ListType: "Detail",
-          select: '[Deleted]=false and [MsTimeStamp]>"'+msTimeStamp+'"'
-        };
-    }else{
-      options = {
-         ListType: "Detail",
-         select: "[Deleted]=false"
-     };
-    }
+  if(limitcount == 'All'){
+     options = {
+        ListType: "Detail",
+        select: '[Deleted]=false'
+      };
+  }else{
+    options = {
+       orderby:'"DepositID desc"',
+       ListType: "Detail",
+       select: "[Deleted]=false",
+       LimitCount:'"'+limitcount+'"',
+      LimitFrom:'"'+limitfrom+'"'
+   };
+  }
     return this.getList(this.ERPObjects.TVS1BankDeposit, options);
   }
 
-  getAllBankAccountDetails() {
-    let options = {
+  getAllBankAccountDetails(dateFrom, dateTo, ignoreDate) {
+    let options = '';
+    if(ignoreDate == true){
+      options = {
         IgnoreDates: true,
         select: "[deleted]=false"
+     };
+    }else{
+     options = {
+       IgnoreDates: false,
+       select: "[deleted]=false",
+       DateFrom:'"'+dateFrom+'"',
+       DateTo:'"'+dateTo+'"'
     };
+    }
     return this.getList(this.ERPObjects.TBankAccountReport, options);
   }
 
-  getAllInvoiceList() {
-    let options = {
-      orderby:'"SaleID desc"',
-      ListType: "Detail",
-      select: "[Deleted]=false"
-      //LimitCount:'"25"'
-      //LimitCount:'"50"',
-      // Limitfrom:'"1"'
-    };
-    return this.getList(this.ERPObjects.TInvoiceEx, options);
-  }
+
 
   getAllInvoiceListUpdate(msTimeStamp) {
     let options = {
@@ -355,74 +685,25 @@ export class SideBarService extends BaseService {
     return this.getList(this.ERPObjects.TInvoiceEx, options);
   }
 
-  getAllInvoiceListNonBO(limitcount, limitfrom) {
+  getAllBOInvoiceList(limitcount, limitfrom) {
     let options = '';
     if(limitcount == 'All'){
-       options = {
-        orderby:'"SaleID desc"',
-        PropertyList: "ID,EmployeeName,SaleClassName,SaleDate,CustomerName,TotalAmount,SalesStatus,ShipDate,SalesDescription,CustPONumber,TermsName,TotalTax,TotalAmountInc,TotalPaid,TotalBalance,Comments,Deleted",
-        //LimitCount:'"'+limitcount+'"',
-        //LimitFrom:'"'+limitfrom+'"'
-      };
-    }else{
-       options = {
-        orderby:'"SaleID desc"',
-        PropertyList: "ID,EmployeeName,SaleClassName,SaleDate,CustomerName,TotalAmount,SalesStatus,ShipDate,SalesDescription,CustPONumber,TermsName,TotalTax,TotalAmountInc,TotalPaid,TotalBalance,Comments,Deleted",
-        LimitCount:'"'+limitcount+'"',
-        LimitFrom:'"'+limitfrom+'"'
-      };
-    }
-
-    return this.getList(this.ERPObjects.TInvoiceNonBackOrder, options);
-  }
-
-  getAllBOInvoiceList() {
-    let options = {
-
+     options = {
       FilterString: "SaleType='Invoice'",
       select: "[Deleted]=false",
     };
+  }else{
+    options = {
+     orderby:'"SaleID desc"',
+     FilterString: "SaleType='Invoice'",
+     select: "[Deleted]=false",
+     LimitCount:'"'+limitcount+'"',
+     LimitFrom:'"'+limitfrom+'"'
+   };
+  }
     return this.getList(this.ERPObjects.BackOrderSalesList, options);
   }
 
-  getAllSalesOrderList(limitcount, limitfrom) {
-    let options = '';
-    if(limitcount == 'All'){
-       options = {
-          orderby:'"SaleID desc"',
-          ListType: "Detail",
-          select: '[Deleted]=false'
-        };
-    }else{
-      options = {
-         orderby:'"SaleID desc"',
-         ListType: "Detail",
-         select: "[Deleted]=false",
-         LimitCount:'"'+limitcount+'"',
-        LimitFrom:'"'+limitfrom+'"'
-     };
-    }
-    return this.getList(this.ERPObjects.TSalesOrderEx, options);
-  }
-
-  getAllPurchaseOrderList(limitcount, limitfrom) {
-    let options = '';
-    if(limitcount == 'All'){
-       options = {
-          ListType: "Detail",
-          select: '[Deleted]=false'
-        };
-    }else{
-      options = {
-         orderby:'"PurchaseOrderID desc"',
-         ListType: "Detail",
-         select: "[Deleted]=false",
-         //LimitCount:'"'+limitcount+'"',
-         //LimitFrom:'"'+limitfrom+'"'
-     };
-    }
-    return this.getList(this.ERPObjects.TPurchaseOrderEx, options);
-  }
 
   getAllPurchaseOrderListNonBo() {
     let options = {
@@ -432,31 +713,24 @@ export class SideBarService extends BaseService {
     return this.getList(this.ERPObjects.TpurchaseOrderNonBackOrder, options);
   }
 
-  getAllPurchaseOrderListAll(dateFrom, dateTo, ignoreDate) {
+
+
+  getAllPurchaseOrderListBO(limitcount, limitfrom) {
     let options = '';
-    if(ignoreDate == true){
-      options = {
-        IgnoreDates:true,
-        IncludePOs:true,
-        IncludeBills:true
-     };
-   }else{
+    if(limitcount == 'All'){
      options = {
-       IgnoreDates:false,
-       IncludePOs:true,
-       IncludeBills:true,
-       DateFrom:'"'+dateFrom+'"',
-       DateTo:'"'+dateTo+'"'
-   };
-  }
-    return this.getList(this.ERPObjects.TbillReport, options);
-  }
-
-  getAllPurchaseOrderListBO() {
-    let options = {
-
       PropertyList: "ID,EmployeeName,SaleClassName,OrderDate,SupplierName,TotalAmount,OrderStatus,ShipDate,SalesDescription,CustPONumber,TermsName,TotalTax,TotalAmountInc,TotalPaid,TotalBalance,Comments,Deleted",
+      select: '[Deleted]=false'
     };
+    }else{
+      options = {
+        orderby:'"PurchaseOrderID desc"',
+       PropertyList: "ID,EmployeeName,SaleClassName,OrderDate,SupplierName,TotalAmount,OrderStatus,ShipDate,SalesDescription,CustPONumber,TermsName,TotalTax,TotalAmountInc,TotalPaid,TotalBalance,Comments,Deleted",
+       select: '[Deleted]=false',
+       LimitCount:'"'+limitcount+'"',
+        LimitFrom:'"'+limitfrom+'"'
+     };
+    }
     return this.getList(this.ERPObjects.TpurchaseOrderBackOrder, options);
   }
 
@@ -476,22 +750,7 @@ export class SideBarService extends BaseService {
     return this.getList(this.ERPObjects.TReconciliation, options);
   }
 
-  getAllChequeList(msTimeStamp) {
-    let options = '';
-    if(msTimeStamp){
-       options = {
-          ListType: "Detail",
-          select: '[Deleted]=false and [MsTimeStamp]>"'+msTimeStamp+'"'
-        };
-    }else{
-      options = {
-         ListType: "Detail",
-         select: "[Deleted]=false"
-     };
-    }
 
-    return this.getList(this.ERPObjects.TCheque, options);
-  }
 
   getProductStocknSaleReportData(dateFrom, dateTo) {
    let options = {
@@ -510,30 +769,6 @@ export class SideBarService extends BaseService {
       return this.getList(this.ERPObjects.TAppUser, options);
   }
 
-  getAllJobssDataVS1() {
-      let options = {
-          ListType: "Detail",
-          select: "[Active]=true"
-      };
-      return this.getList(this.ERPObjects.TJobVS1, options);
-  }
-
-  getAllStockAdjustEntry(msTimeStamp) {
-    let options = '';
-    if(msTimeStamp){
-       options = {
-          ListType: "Detail",
-          select: '[Deleted]=false and [MsTimeStamp]>"'+msTimeStamp+'"'
-        };
-    }else{
-      options = {
-         ListType: "Detail",
-         select: "[Deleted]=false"
-     };
-    }
-      return this.getList(this.ERPObjects.TStockAdjustEntry, options);
-  }
-
   getAllBillList() {
     let options = {
       PropertyList: "ID,EmployeeName,AccountName,SaleClassName,OrderDate,SupplierName,TotalAmount,OrderStatus,ShipDate,SalesDescription,CustPONumber,TermsName,TotalTax,TotalAmountInc,TotalPaid,TotalBalance,Comments",
@@ -541,48 +776,6 @@ export class SideBarService extends BaseService {
     };
     return this.getList(this.ERPObjects.TBill, options);
   }
-
-  getAllBillExList(limitcount, limitfrom) {
-    let options = '';
-    if(limitcount == 'All'){
-       options = {
-          ListType: "Detail",
-          select: '[Deleted]=false and [Cancelled]=false'
-        };
-    }else{
-      options = {
-         orderby:'"PurchaseOrderID desc"',
-         ListType: "Detail",
-         select: "[Deleted]=false and [Cancelled]=false",
-         LimitCount:'"'+limitcount+'"',
-         LimitFrom:'"'+limitfrom+'"'
-     };
-    }
-
-    return this.getList(this.ERPObjects.TBillEx, options);
-  }
-
-
-  getAllQuoteList(limitcount, limitfrom) {
-    let options = '';
-    if(limitcount == 'All'){
-       options = {
-          orderby:'"SaleID desc"',
-          ListType: "Detail",
-          select: '[Deleted]=false'
-        };
-    }else{
-      options = {
-         orderby:'"SaleID desc"',
-         ListType: "Detail",
-         select: "[Deleted]=false",
-         LimitCount:'"'+limitcount+'"',
-         LimitFrom:'"'+limitfrom+'"'
-     };
-    }
-    return this.getList(this.ERPObjects.TQuoteEx, options);
-  }
-
 
   getAllSalesOrderListNonBO() {
     let options = {
@@ -593,42 +786,6 @@ export class SideBarService extends BaseService {
     return this.getList(this.ERPObjects.TsalesOrderNonBackOrder, options);
   }
 
-  getAllCreditList(limitcount, limitfrom) {
-    let options = '';
-    if(limitcount == 'All'){
-       options = {
-          ListType: "Detail",
-          select: '[Deleted]=false'
-        };
-    }else{
-      options = {
-        orderby:'"PurchaseOrderID desc"',
-         ListType: "Detail",
-         select: "[Deleted]=false",
-         LimitCount:'"'+limitcount+'"',
-         LimitFrom:'"'+limitfrom+'"'
-     };
-    }
-    return this.getList(this.ERPObjects.TCredit, options);
-  }
-
-  getSalesListData(dateFrom, dateTo, ignoreDate) {
-
-    let options = '';
-    if(ignoreDate == true){
-      options = {
-         IgnoreDates:true
-     };
-   }else{
-     options = {
-        IgnoreDates:false,
-        DateFrom:'"'+dateFrom+'"',
-        DateTo:'"'+dateTo+'"'
-    };
-   }
-
-  return this.getList(this.ERPObjects.TSalesList, options);
-  }
   getCountry() {
       return this.GET(this.erpGet.ERPCountries);
   }

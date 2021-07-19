@@ -56,7 +56,7 @@ Template.depositlist.onRendered(function() {
     templateObject.getAllBankDepositData = function () {
         getVS1Data('TVS1BankDeposit').then(function (dataObject) {
             if(dataObject.length == 0){
-                sideBarService.getAllTVS1BankDepositData().then(function (data) {
+                sideBarService.getAllTVS1BankDepositData(25,0).then(function (data) {
                     addVS1Data('TVS1BankDeposit',JSON.stringify(data)).then(function (datareturn) {
 
                     }).catch(function (err) {
@@ -457,7 +457,7 @@ Template.depositlist.onRendered(function() {
 
             }
         }).catch(function (err) {
-            sideBarService.getAllTVS1BankDepositData().then(function (data) {
+            sideBarService.getAllTVS1BankDepositData(25,0).then(function (data) {
                 addVS1Data('TVS1BankDeposit',JSON.stringify(data)).then(function (datareturn) {
 
                 }).catch(function (err) {
@@ -660,7 +660,7 @@ Template.depositlist.events({
     'click .btnRefresh': function () {
         $('.fullScreenSpin').css('display','inline-block');
         let templateObject = Template.instance();
-        sideBarService.getAllTVS1BankDepositData().then(function(data) {
+        sideBarService.getAllTVS1BankDepositData(25,0).then(function(data) {
             addVS1Data('TVS1BankDeposit',JSON.stringify(data)).then(function (datareturn) {
                 window.open('/depositlist','_self');
             }).catch(function (err) {

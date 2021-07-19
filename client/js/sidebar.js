@@ -101,34 +101,6 @@ Template.sidenav.onRendered(function() {
         }
     }
     var splashArrayProd = new Array();
-    templateObject.getAllProductData = function() {
-        sideBarService.getNewProductListVS1().then(function(data) {
-            //localStorage.setItem('VS1ProductList', JSON.stringify(data) || '');
-            addVS1Data('TProductVS1',JSON.stringify(data));
-        }).catch(function(err) {
-
-        });
-    }
-
-    templateObject.getAllCustomersData = function() {
-        sideBarService.getAllCustomersDataVS1().then(function(data) {
-            //localStorage.setItem('VS1CustomerList', JSON.stringify(data) || '');
-            addVS1Data('TCustomerVS1',JSON.stringify(data));
-        }).catch(function(err) {
-
-        });
-    }
-
-
-    templateObject.getAllSuppliersData = function() {
-        sideBarService.getAllSuppliersDataVS1().then(function(data) {
-            //localStorage.setItem('VS1SupplierList', JSON.stringify(data) || '');
-            addVS1Data('TSupplierVS1',JSON.stringify(data));
-        }).catch(function(err) {
-
-        });
-    }
-
 
     templateObject.getAllAccountsData = function() {
         sideBarService.getAccountListVS1().then(function(data) {
@@ -138,6 +110,37 @@ Template.sidenav.onRendered(function() {
 
         });
     }
+
+    templateObject.getAllProductData = function() {
+        sideBarService.getNewProductListVS1(25,0).then(function(data) {
+            //localStorage.setItem('VS1ProductList', JSON.stringify(data) || '');
+            addVS1Data('TProductVS1',JSON.stringify(data));
+        }).catch(function(err) {
+
+        });
+    }
+
+    templateObject.getAllCustomersData = function() {
+        sideBarService.getAllCustomersDataVS1(25,0).then(function(data) {
+            //localStorage.setItem('VS1CustomerList', JSON.stringify(data) || '');
+            addVS1Data('TCustomerVS1',JSON.stringify(data));
+        }).catch(function(err) {
+
+        });
+    }
+
+
+    templateObject.getAllSuppliersData = function() {
+        sideBarService.getAllSuppliersDataVS1(25,0).then(function(data) {
+            //localStorage.setItem('VS1SupplierList', JSON.stringify(data) || '');
+            addVS1Data('TSupplierVS1',JSON.stringify(data));
+        }).catch(function(err) {
+
+        });
+    }
+
+
+
 
     templateObject.getAllTaxCodeData = function() {
         sideBarService.getTaxRateVS1().then(function(data) {
@@ -228,7 +231,7 @@ Template.sidenav.onRendered(function() {
     }
 
     templateObject.getAllERPCombinedContactsData = function() {
-        sideBarService.getAllContactCombineVS1().then(function(data) {
+        sideBarService.getAllContactCombineVS1(25,0).then(function(data) {
             //localStorage.setItem('VS1ERPCombinedContactsList', JSON.stringify(data) || '');
             addVS1Data('TERPCombinedContactsVS1',JSON.stringify(data));
         }).catch(function(err) {
@@ -237,7 +240,7 @@ Template.sidenav.onRendered(function() {
     }
 
     templateObject.getAllEmployeeData = function() {
-        sideBarService.getAllEmployees().then(function(data) {
+        sideBarService.getAllEmployees(25,0).then(function(data) {
             //localStorage.setItem('VS1EmployeeList', JSON.stringify(data) || '');
             addVS1Data('TEmployee',JSON.stringify(data));
         }).catch(function(err) {
@@ -246,7 +249,7 @@ Template.sidenav.onRendered(function() {
     }
 
     templateObject.getAllJournalEntryLineData = function() {
-        sideBarService.getAllJournalEnrtryLinesList().then(function(data) {
+        sideBarService.getAllJournalEnrtryLinesList(25,0).then(function(data) {
             //localStorage.setItem('VS1JournalEntryLineList', JSON.stringify(data) || '');
             addVS1Data('TJournalEntryLines',JSON.stringify(data));
         }).catch(function(err) {
@@ -255,7 +258,22 @@ Template.sidenav.onRendered(function() {
     }
 
     templateObject.getAllBankAccountReportData = function() {
-        sideBarService.getAllBankAccountDetails().then(function(data) {
+      var currentBeginDate = new Date();
+      var begunDate = moment(currentBeginDate).format("DD/MM/YYYY");
+      let fromDateMonth = currentBeginDate.getMonth();
+      let fromDateDay = currentBeginDate.getDate();
+      if(currentBeginDate.getMonth() < 10){
+          fromDateMonth = "0" + (currentBeginDate.getMonth()+1);
+      }else{
+        fromDateMonth = (currentBeginDate.getMonth()+1);
+      }
+
+      if(currentBeginDate.getDate() < 10){
+          fromDateDay = "0" + currentBeginDate.getDate();
+      }
+      var toDate = currentBeginDate.getFullYear()+ "-" +(fromDateMonth) + "-"+(fromDateDay+1);
+      let prevMonth11Date = (moment().subtract(reportsloadMonths, 'months')).format("YYYY-MM-DD");
+        sideBarService.getAllBankAccountDetails(prevMonth11Date,toDate, false).then(function(data) {
             //localStorage.setItem('VS1BankAccountReportList', JSON.stringify(data) || '');
             addVS1Data('TBankAccountReport',JSON.stringify(data));
         }).catch(function(err) {
@@ -272,7 +290,7 @@ Template.sidenav.onRendered(function() {
     }
 
     templateObject.getAllInvoiceListData = function() {
-        sideBarService.getAllInvoiceList().then(function(data) {
+        sideBarService.getAllInvoiceList(25,0).then(function(data) {
             //localStorage.setItem('VS1TInvoiceList', JSON.stringify(data) || '');
             addVS1Data('TInvoiceEx',JSON.stringify(data));
         }).catch(function(err) {
@@ -288,22 +306,22 @@ Template.sidenav.onRendered(function() {
         });
     }
 
-    templateObject.getAllInvoiceListNonBOData = function() {
-        sideBarService.getAllInvoiceListNonBO(25,0).then(function(data) {
-            //localStorage.setItem('VS1TInvoiceNonBackOrderList', JSON.stringify(data) || '');
-            addVS1Data('TInvoiceNonBackOrder',JSON.stringify(data));
-        }).catch(function(err) {
-
-        });
-    }
+    // templateObject.getAllInvoiceListNonBOData = function() {
+    //     sideBarService.getAllInvoiceListNonBO(25,0).then(function(data) {
+    //         //localStorage.setItem('VS1TInvoiceNonBackOrderList', JSON.stringify(data) || '');
+    //         addVS1Data('TInvoiceNonBackOrder',JSON.stringify(data));
+    //     }).catch(function(err) {
+    //
+    //     });
+    // }
 
     templateObject.getAllBOInvoiceListData = function() {
-        sideBarService.getAllBOInvoiceList().then(function(data) {
-            //localStorage.setItem('VS1BackOrderSalesListList', JSON.stringify(data) || '');
-            addVS1Data('BackOrderSalesList',JSON.stringify(data));
-        }).catch(function(err) {
-
-        });
+        // sideBarService.getAllBOInvoiceList(25,0).then(function(data) {
+        //     //localStorage.setItem('VS1BackOrderSalesListList', JSON.stringify(data) || '');
+        //     addVS1Data('BackOrderSalesList',JSON.stringify(data));
+        // }).catch(function(err) {
+        //
+        // });
     }
 
     templateObject.getAllTPurchaseOrderData = function() {
@@ -339,7 +357,7 @@ Template.sidenav.onRendered(function() {
           fromDateDay = "0" + currentBeginDate.getDate();
       }
       var toDate = currentBeginDate.getFullYear()+ "-" +(fromDateMonth) + "-"+(fromDateDay+1);
-      let prevMonth11Date = (moment().subtract(6, 'months')).format("YYYY-MM-DD");
+      let prevMonth11Date = (moment().subtract(reportsloadMonths, 'months')).format("YYYY-MM-DD");
         sideBarService.getAllPurchaseOrderListAll(prevMonth11Date,toDate, false).then(function(data) {
             //localStorage.setItem('VS1TbillReport', JSON.stringify(data) || '');
             addVS1Data('TbillReport',JSON.stringify(data));
@@ -349,7 +367,7 @@ Template.sidenav.onRendered(function() {
     }
 
     templateObject.getAllTChequeData = function() {
-        sideBarService.getAllChequeList().then(function(data) {
+        sideBarService.getAllChequeList(25,0).then(function(data) {
             //localStorage.setItem('VS1TChequeList', JSON.stringify(data) || '');
             addVS1Data('TCheque',JSON.stringify(data));
         }).catch(function(err) {
@@ -372,7 +390,7 @@ Template.sidenav.onRendered(function() {
             fromDateDay = "0" + currentBeginDate.getDate();
         }
         var fromDate = currentBeginDate.getFullYear()+ "-" +(fromDateMonth) + "-"+(fromDateDay+1);
-        let prevMonth11Date = (moment().subtract(11, 'months')).format("YYYY-MM-DD");
+        let prevMonth11Date = (moment().subtract(reportsloadMonths, 'months')).format("YYYY-MM-DD");
         sideBarService.getProductStocknSaleReportData(prevMonth11Date,fromDate).then(function(data) {
             localStorage.setItem('VS1TProductStocknSalePeriodReport', JSON.stringify(data) || '');
             addVS1Data('TProductStocknSalePeriodReport',JSON.stringify(data));
@@ -391,7 +409,7 @@ Template.sidenav.onRendered(function() {
     }
 
     templateObject.getAllTJobVS1Data = function() {
-        sideBarService.getAllJobssDataVS1().then(function(data) {
+        sideBarService.getAllJobssDataVS1(25,0).then(function(data) {
             //localStorage.setItem('VS1TJobVS1List', JSON.stringify(data) || '');
             addVS1Data('TJobVS1',JSON.stringify(data));
         }).catch(function(err) {
@@ -400,7 +418,7 @@ Template.sidenav.onRendered(function() {
     }
 
     templateObject.getAllTStockAdjustEntryData = function() {
-        sideBarService.getAllStockAdjustEntry().then(function(data) {
+        sideBarService.getAllStockAdjustEntry(25,0).then(function(data) {
             //localStorage.setItem('VS1TStockAdjustEntryList', JSON.stringify(data) || '');
             addVS1Data('TStockAdjustEntry',JSON.stringify(data));
         }).catch(function(err) {
@@ -461,12 +479,11 @@ Template.sidenav.onRendered(function() {
     }
 
     templateObject.getAllTpurchaseOrderBackOrderData = function() {
-        sideBarService.getAllPurchaseOrderListBO().then(function(data) {
-            //localStorage.setItem('VS1TpurchaseOrderBackOrderList', JSON.stringify(data) || '');
-            addVS1Data('TpurchaseOrderBackOrder',JSON.stringify(data));
-        }).catch(function(err) {
-
-        });
+        // sideBarService.getAllPurchaseOrderListBO(25,0).then(function(data) {
+        //     addVS1Data('TpurchaseOrderBackOrder',JSON.stringify(data));
+        // }).catch(function(err) {
+        //
+        // });
     }
 
     templateObject.getAllTSalesListData = function() {
@@ -484,7 +501,7 @@ Template.sidenav.onRendered(function() {
           fromDateDay = "0" + currentBeginDate.getDate();
       }
       var toDate = currentBeginDate.getFullYear()+ "-" +(fromDateMonth) + "-"+(fromDateDay+1);
-      let prevMonth11Date = (moment().subtract(6, 'months')).format("YYYY-MM-DD");
+      let prevMonth11Date = (moment().subtract(reportsloadMonths, 'months')).format("YYYY-MM-DD");
 
       sideBarService.getSalesListData(prevMonth11Date,toDate, false).then(function(data) {
             //localStorage.setItem('VS1TSalesList', JSON.stringify(data) || '');
@@ -536,7 +553,23 @@ Template.sidenav.onRendered(function() {
     }
 
     templateObject.getTARReportData = function() {
-        sideBarService.getTARReport().then(function(data) {
+      var currentBeginDate = new Date();
+      var begunDate = moment(currentBeginDate).format("DD/MM/YYYY");
+      let fromDateMonth = currentBeginDate.getMonth();
+      let fromDateDay = currentBeginDate.getDate();
+      if(currentBeginDate.getMonth() < 10){
+          fromDateMonth = "0" + (currentBeginDate.getMonth()+1);
+      }else{
+        fromDateMonth = (currentBeginDate.getMonth()+1);
+      }
+
+      if(currentBeginDate.getDate() < 10){
+          fromDateDay = "0" + currentBeginDate.getDate();
+      }
+      var toDate = currentBeginDate.getFullYear()+ "-" +(fromDateMonth) + "-"+(fromDateDay+1);
+      let prevMonth11Date = (moment().subtract(reportsloadMonths, 'months')).format("YYYY-MM-DD");
+
+        sideBarService.getTARReport(prevMonth11Date,toDate, false).then(function(data) {
             addVS1Data('TARReport',JSON.stringify(data));
         }).catch(function(err) {
 
@@ -544,7 +577,22 @@ Template.sidenav.onRendered(function() {
     }
 
     templateObject.getTAPReportData = function() {
-        sideBarService.getTAPReport().then(function(data) {
+      var currentBeginDate = new Date();
+      var begunDate = moment(currentBeginDate).format("DD/MM/YYYY");
+      let fromDateMonth = currentBeginDate.getMonth();
+      let fromDateDay = currentBeginDate.getDate();
+      if(currentBeginDate.getMonth() < 10){
+          fromDateMonth = "0" + (currentBeginDate.getMonth()+1);
+      }else{
+        fromDateMonth = (currentBeginDate.getMonth()+1);
+      }
+
+      if(currentBeginDate.getDate() < 10){
+          fromDateDay = "0" + currentBeginDate.getDate();
+      }
+      var toDate = currentBeginDate.getFullYear()+ "-" +(fromDateMonth) + "-"+(fromDateDay+1);
+      let prevMonth11Date = (moment().subtract(reportsloadMonths, 'months')).format("YYYY-MM-DD");
+        sideBarService.getTAPReport(prevMonth11Date,toDate, false).then(function(data) {
             addVS1Data('TAPReport',JSON.stringify(data));
         }).catch(function(err) {
 
@@ -577,72 +625,20 @@ Template.sidenav.onRendered(function() {
     }
 
     templateObject.getTVS1BankDepositData = function() {
-    // sideBarService.getAllTVS1BankDepositData().then(function(data) {
-    //   addVS1Data('TVS1BankDeposit',JSON.stringify(data)).then(function (datareturn) {
-    //
-    //   }).catch(function (err) {
-    //
-    //   });
-    // }).catch(function(err) {
-    //
-    // });
+    sideBarService.getAllTVS1BankDepositData(25,0).then(function(data) {
+      addVS1Data('TVS1BankDeposit',JSON.stringify(data)).then(function (datareturn) {
+
+      }).catch(function (err) {
+
+      });
+    }).catch(function(err) {
+
+    });
 
   }
 
     var job = new CronJob('00 00 00 * * *', function() {
-        if (loggedUserEventFired) {
 
-            templateObject.getAllTProductStocknSalePeriodReportData();
-            templateObject.getAllProductData();
-            templateObject.getAllTSalesListData();
-            templateObject.getAllERPCombinedContactsData();
-            templateObject.getAllTpurchaseOrderNonBackOrderData();
-            templateObject.getAllTpurchaseOrderBackOrderData();
-            templateObject.getAllTsalesOrderNonBackOrderData();
-            templateObject.getAllTbillReportData();
-            templateObject.getAllInvoiceListData();
-            templateObject.getAllInvoiceListNonBOData();
-            templateObject.getAllBOInvoiceListData();
-            templateObject.getAllTPurchaseOrderData();
-            templateObject.getAllTQuoteData();
-            templateObject.getAllTChequeData();
-            templateObject.getAllCustomersData();
-            templateObject.getAllSuppliersData();
-            templateObject.getAllEmployeeData();
-            templateObject.getAllTBillData();
-            templateObject.getAllTCreditData();
-            templateObject.getTPaymentListData();
-            templateObject.getTARReportData();
-            templateObject.getTAPReportData();
-            setTimeout(function() {
-                templateObject.getAllAccountsData();
-                templateObject.getAllAccountTypeData();
-
-                templateObject.getAllTaxCodeData();
-                templateObject.getAllAppointmentData();
-
-
-                templateObject.getAllBankAccountReportData();
-                templateObject.getAllTTransactionListReportData();
-
-                templateObject.getAllTReconcilationData();
-                templateObject.getAllTermsData();
-                templateObject.getAllDepartmentData();
-                templateObject.getAllCurrencyData();
-                templateObject.getTCountriesData();
-                templateObject.getTPaymentMethodData();
-                templateObject.getTClientTypeData();
-                templateObject.getAllLeadStatusData();
-                templateObject.getAllShippingMethodData();
-                templateObject.getAllJournalEntryLineData();
-                templateObject.getAllAppUserData();
-                templateObject.getAllTJobVS1Data();
-                templateObject.getAllTStockAdjustEntryData();
-                templateObject.getTStatementListData();
-                templateObject.getTVS1BankDepositData();
-            }, 2500);
-            Session.setPersistent('LoggedUserEventFired', false);
-        }
     });
     job.start();
 
@@ -650,109 +646,56 @@ Template.sidenav.onRendered(function() {
         Session.setPersistent('LoggedUserEventFired', false);
     }, 2500);
 /* Start Here */
-getVS1Data('TInvoiceNonBackOrder').then(function (dataObject) {
+getVS1Data('TAccountVS1').then(function (dataObject) {
     if(dataObject.length == 0){
-        templateObject.getAllInvoiceListNonBOData();
+        templateObject.getAllAccountsData();
     }else{
+        let getTimeStamp = dataObject[0].timestamp.split(' ');
+        if(getTimeStamp){
+            if(loggedUserEventFired){
+                if(getTimeStamp[0] != currenctTodayDate){
+                    templateObject.getAllAccountsData();
+                }
+            }
+        }
     }
 }).catch(function (err) {
-    templateObject.getAllInvoiceListNonBOData();
+    templateObject.getAllAccountsData();
 });
 
 getVS1Data('TProductVS1').then(function (dataObject) {
       if(dataObject.length == 0){
-          templateObject.getAllProductData();
+        sideBarService.getNewProductListVS1(25,0).then(function(data) {
+            addVS1Data('TProductVS1',JSON.stringify(data));
+            templateObject.getFollowedContactDetailsPull();
+        }).catch(function(err) {
+          templateObject.getFollowedContactDetailsPull();
+        });
       }else{
           let getTimeStamp = dataObject[0].timestamp.split(' ');
           if(getTimeStamp){
               if(loggedUserEventFired){
                   if(getTimeStamp[0] != currenctTodayDate){
-                      sideBarService.getNewProductListVS1Update(getTimeStamp).then(function(dataUpdate) {
-                          let newDataObject = [];
-                          if(dataUpdate.tproductvs1.length === 0){
-                              addVS1Data('TProductVS1',dataObject[0].data).then(function (datareturn) {
-                              }).catch(function (err) {
-
-                              });
-                          }else{
-                              let dataOld = JSON.parse(dataObject[0].data);
-                              let oldObjectData = dataOld.tproductvs1;
-
-                              let dataNew = dataUpdate;
-                              let newObjectData = dataNew.tproductvs1;
-                              let index = '';
-                              let index2 = '';
-
-                              var resultArray = []
-
-                              oldObjectData.forEach(function(destObj) {
-                                  var addedcheck=false;
-                                  newObjectData.some(function(origObj) {
-                                      if(origObj.fields.ID == destObj.fields.ID) {
-                                          addedcheck = true;
-                                          index = oldObjectData.map(function (e) { return e.fields.ID; }).indexOf(parseInt(origObj.fields.ID));
-                                          destObj = origObj;
-                                          resultArray.push(destObj);
-
-                                      }
-                                  });
-                                  if(!addedcheck) {
-                                      resultArray.push(destObj)
-                                  }
-
-                              });
-                              newObjectData.forEach(function(origObj) {
-                                  var addedcheck=false;
-                                  oldObjectData.some(function(destObj) {
-                                      if(origObj.fields.ID == destObj.fields.ID) {
-                                          addedcheck = true;
-                                          index = oldObjectData.map(function (e) { return e.fields.ID; }).indexOf(parseInt(origObj.fields.ID));
-                                          destObj = origObj;
-                                          resultArray.push(destObj);
-
-                                      }
-                                  });
-                                  if(!addedcheck) {
-                                      resultArray.push(origObj)
-                                  }
-
-                              });
-
-
-                              var resultGetData = [];
-                              $.each(resultArray, function (i, e) {
-                                  var matchingItems = $.grep(resultGetData, function (item) {
-                                      return item.fields.ID === e.fields.ID;
-                                  });
-                                  if (matchingItems.length === 0){
-                                      resultGetData.push(e);
-                                  }
-                              });
-
-                              let dataToAdd = {
-                                  tproductvs1: resultGetData
-                              };
-                              addVS1Data('TProductVS1',JSON.stringify(dataToAdd)).then(function (datareturn) {
-                              }).catch(function (err) {
-
-                              });
-                          }
-
-                      }).catch(function(err) {
-                          addVS1Data('TProductVS1',dataObject[0].data).then(function (datareturn) {
-                          }).catch(function (err) {
-
-                          });
-                      });
+                    sideBarService.getNewProductListVS1(25,0).then(function(data) {
+                        addVS1Data('TProductVS1',JSON.stringify(data));
+                        templateObject.getFollowedContactDetailsPull();
+                    }).catch(function(err) {
+                      templateObject.getFollowedContactDetailsPull();
+                    });
                   }
               }
           }
       }
-  }).catch(function (err) {
-      templateObject.getAllProductData();
+}).catch(function (err) {
+  sideBarService.getNewProductListVS1(25,0).then(function(data) {
+      addVS1Data('TProductVS1',JSON.stringify(data));
+      templateObject.getFollowedContactDetailsPull();
+  }).catch(function(err) {
+    templateObject.getFollowedContactDetailsPull();
   });
+});
 
-  getVS1Data('TProductStocknSalePeriodReport').then(function (dataObject) {
+getVS1Data('TProductStocknSalePeriodReport').then(function (dataObject) {
     if(dataObject.length == 0){
         templateObject.getAllTProductStocknSalePeriodReportData();
     }else{
@@ -769,101 +712,167 @@ getVS1Data('TProductVS1').then(function (dataObject) {
 }).catch(function (err) {
     templateObject.getAllTProductStocknSalePeriodReportData();
 });
-
-
-getVS1Data('TInvoiceEx').then(function (dataObject) {
+//Followed By Contact Details
+templateObject.getFollowedContactDetailsPull = function () {
+setTimeout(function() {
+  getVS1Data('TERPCombinedContactsVS1').then(function (dataObject) {
+      if(dataObject.length == 0){
+        sideBarService.getAllContactCombineVS1(25,0).then(function(data) {
+            addVS1Data('TERPCombinedContactsVS1',JSON.stringify(data));
+            templateObject.getFollowedSalesDetailsPull();
+        }).catch(function(err) {
+          templateObject.getFollowedSalesDetailsPull();
+        });
+      }else{
+        templateObject.getFollowedSalesDetailsPull();
+      }
+  }).catch(function (err) {
+    sideBarService.getAllContactCombineVS1(25,0).then(function(data) {
+        addVS1Data('TERPCombinedContactsVS1',JSON.stringify(data));
+        templateObject.getFollowedSalesDetailsPull();
+    }).catch(function(err) {
+      templateObject.getFollowedSalesDetailsPull();
+    });
+  });
+    getVS1Data('TCustomerVS1').then(function (dataObject) {
         if(dataObject.length == 0){
-            templateObject.getAllInvoiceListData();
+            templateObject.getAllCustomersData();
+        }else{
+            let getTimeStamp = dataObject[0].timestamp.split(' ');
+            if(getTimeStamp){
+                if(loggedUserEventFired){
+                    if(getTimeStamp[0] != currenctTodayDate){
+                    templateObject.getAllCustomersData();
+                    }
+                }
+            }
+        }
+    }).catch(function (err) {
+        templateObject.getAllCustomersData();
+    });
+
+    getVS1Data('TJobVS1').then(function (dataObject) {
+        if(dataObject.length == 0){
+            templateObject.getAllTJobVS1Data();
+        }else{
+          let getTimeStamp = dataObject[0].timestamp.split(' ');
+          if(getTimeStamp){
+              if(loggedUserEventFired){
+                  if(getTimeStamp[0] != currenctTodayDate){
+                      templateObject.getAllTJobVS1Data();
+                  }
+                }
+            }
+        }
+    }).catch(function (err) {
+        templateObject.getAllTJobVS1Data();
+    });
+
+    getVS1Data('TSupplierVS1').then(function (dataObject) {
+            if(dataObject.length == 0){
+                templateObject.getAllSuppliersData();
+            }else{
+                let getTimeStamp = dataObject[0].timestamp.split(' ');
+                if(getTimeStamp){
+                    if(loggedUserEventFired){
+                        if(getTimeStamp[0] != currenctTodayDate){
+                            templateObject.getAllSuppliersData();
+                        }
+                    }
+                }
+            }
+        }).catch(function (err) {
+            templateObject.getAllSuppliersData();
+        });
+
+
+        getVS1Data('TEmployee').then(function (dataObject) {
+            if(dataObject.length == 0){
+                templateObject.getAllEmployeeData();
+            }else{
+                let getTimeStamp = dataObject[0].timestamp.split(' ');
+                if(getTimeStamp){
+                    if(loggedUserEventFired){
+                        if(getTimeStamp[0] != currenctTodayDate){
+                            templateObject.getAllEmployeeData();
+                        }
+                    }
+                }
+            }
+        }).catch(function (err) {
+
+            templateObject.getAllEmployeeData();
+        });
+}, 2500);
+}
+
+//Followed By Sales Details
+templateObject.getFollowedSalesDetailsPull = function () {
+  setTimeout(function() {
+    getVS1Data('TSalesList').then(function (dataObject) {
+        if(dataObject.length == 0){
+            templateObject.getAllTSalesListData();
+        }else{
+          let getTimeStamp = dataObject[0].timestamp.split(' ');
+          if(getTimeStamp){
+              if(loggedUserEventFired){
+                  if(getTimeStamp[0] != currenctTodayDate){
+                      templateObject.getAllTSalesListData();
+                  }
+                }
+            }
+        }
+    }).catch(function (err) {
+        templateObject.getAllTSalesListData();
+    });
+
+    getVS1Data('TInvoiceNonBackOrder').then(function (dataObject) {
+        if(dataObject.length == 0){
+            templateObject.getAllInvoiceListNonBOData();
+        }else{
+        }
+    }).catch(function (err) {
+        templateObject.getAllInvoiceListNonBOData();
+    });
+
+    getVS1Data('TInvoiceEx').then(function (dataObject) {
+        if(dataObject.length == 0){
+          sideBarService.getAllInvoiceList(25,0).then(function(data) {
+              addVS1Data('TInvoiceEx',JSON.stringify(data));
+              templateObject.getFollowedQuickDataDetailsPull();
+          }).catch(function(err) {
+            templateObject.getFollowedQuickDataDetailsPull();
+          });
         }else{
             let data = JSON.parse(dataObject[0].data);
             let useData = data.tinvoiceex;
             if(useData[0].Id){
-                templateObject.getAllInvoiceListData();
+              sideBarService.getAllInvoiceList(25,0).then(function(data) {
+                  addVS1Data('TInvoiceEx',JSON.stringify(data));
+                  //setTimeout(function() {
+                  templateObject.getFollowedQuickDataDetailsPull();
+                  //}, 3000);
+              }).catch(function(err) {
+                //setTimeout(function() {
+                templateObject.getFollowedQuickDataDetailsPull();
+                //}, 3000);
+              });
             }else{
-              //templateObject.getAllInvoiceListData();
 
                 let getTimeStamp = dataObject[0].timestamp.split(' ');
                 if(getTimeStamp){
                     if(loggedUserEventFired){
                         if(getTimeStamp[0] != currenctTodayDate){
-                          templateObject.getAllInvoiceListData();
-                          /*
-                            sideBarService.getAllInvoiceListUpdate(getTimeStamp).then(function(dataUpdate) {
-                                let newDataObject = [];
-                                if(dataUpdate.tinvoiceex.length === 0){
-                                    addVS1Data('TInvoiceEx',dataObject[0].data).then(function (datareturn) {
-                                    }).catch(function (err) {
-
-                                    });
-                                }else{
-                                    let dataOld = JSON.parse(dataObject[0].data);
-                                    let oldObjectData = dataOld.tinvoiceex;
-
-                                    let dataNew = dataUpdate;
-                                    let newObjectData = dataNew.tinvoiceex;
-                                    let index = '';
-                                    let index2 = '';
-
-                                    var resultArray = []
-
-                                    oldObjectData.forEach(function(destObj) {
-                                        var addedcheck=false;
-                                        newObjectData.some(function(origObj) {
-                                            if(origObj.fields.ID == destObj.fields.ID) {
-                                                addedcheck = true;
-                                                index = oldObjectData.map(function (e) { return e.fields.ID; }).indexOf(parseInt(origObj.fields.ID));
-                                                destObj = origObj;
-                                                resultArray.push(destObj);
-
-                                            }
-                                        });
-                                        if(!addedcheck) {
-                                            resultArray.push(destObj)
-                                        }
-
-                                    });
-                                    newObjectData.forEach(function(origObj) {
-                                        var addedcheck=false;
-                                        oldObjectData.some(function(destObj) {
-                                            if(origObj.fields.ID == destObj.fields.ID) {
-                                                addedcheck = true;
-                                                index = oldObjectData.map(function (e) { return e.fields.ID; }).indexOf(parseInt(origObj.fields.ID));
-                                                destObj = origObj;
-                                                resultArray.push(destObj);
-
-                                            }
-                                        });
-                                        if(!addedcheck) {
-                                            resultArray.push(origObj)
-                                        }
-
-                                    });
-                                    var resultGetData = [];
-                                    $.each(resultArray, function (i, e) {
-                                        var matchingItems = $.grep(resultGetData, function (item) {
-                                            return item.fields.ID === e.fields.ID;
-                                        });
-                                        if (matchingItems.length === 0){
-                                            resultGetData.push(e);
-                                        }
-                                    });
-
-                                    let dataToAdd = {
-                                        tinvoiceex: resultGetData
-                                    };
-                                    addVS1Data('TInvoiceEx',JSON.stringify(dataToAdd)).then(function (datareturn) {
-                                    }).catch(function (err) {
-
-                                    });
-                                }
-
-                            }).catch(function(err) {
-                                addVS1Data('TInvoiceEx',dataObject[0].data).then(function (datareturn) {
-                                }).catch(function (err) {
-
-                                });
-                            });
-                            */
+                          sideBarService.getAllInvoiceList(25,0).then(function(data) {
+                              addVS1Data('TInvoiceEx',JSON.stringify(data));
+                              //setTimeout(function() {
+                              templateObject.getFollowedQuickDataDetailsPull();
+                            //  }, 3000);
+                          }).catch(function(err) {
+                            //setTimeout(function() {
+                            templateObject.getFollowedQuickDataDetailsPull();
+                            //}, 3000);
+                          });
                         }
                     }
                 }
@@ -871,7 +880,16 @@ getVS1Data('TInvoiceEx').then(function (dataObject) {
             }
         }
     }).catch(function (err) {
-        templateObject.getAllInvoiceListData();
+      sideBarService.getAllInvoiceList(25,0).then(function(data) {
+          addVS1Data('TInvoiceEx',JSON.stringify(data));
+          //setTimeout(function() {
+          templateObject.getFollowedQuickDataDetailsPull();
+          //}, 3000);
+      }).catch(function(err) {
+        //setTimeout(function() {
+        templateObject.getFollowedQuickDataDetailsPull();
+        //}, 3000);
+      });
     });
 
     getVS1Data('TSalesOrderEx').then(function (dataObject) {
@@ -906,29 +924,6 @@ getVS1Data('TInvoiceEx').then(function (dataObject) {
     }).catch(function (err) {
         templateObject.getAllBOInvoiceListData();
     });
-    getVS1Data('TPurchaseOrderEx').then(function (dataObject) {
-        if(dataObject.length == 0){
-            templateObject.getAllTPurchaseOrderData();
-        }else{
-            let data = JSON.parse(dataObject[0].data);
-            let useData = data.tpurchaseorderex;
-            if(useData[0].Id){
-                templateObject.getAllTPurchaseOrderData();
-            }else{
-                let getTimeStamp = dataObject[0].timestamp.split(' ');
-                if(getTimeStamp){
-                    if(loggedUserEventFired){
-                        if(getTimeStamp[0] != currenctTodayDate){
-                          templateObject.getAllTPurchaseOrderData();
-                        }
-                    }
-                }
-            }
-        }
-    }).catch(function (err) {
-        templateObject.getAllTPurchaseOrderData();
-    });
-
 
     getVS1Data('TQuote').then(function (dataObject) {
         if(dataObject.length == 0){
@@ -965,387 +960,13 @@ getVS1Data('TInvoiceEx').then(function (dataObject) {
         templateObject.getAllTsalesOrderNonBackOrderData();
     });
 
-    getVS1Data('TBillEx').then(function (dataObject) {
-        if(dataObject.length == 0){
-            templateObject.getAllTBillExData();
-        }else{
-            let data = JSON.parse(dataObject[0].data);
-            let useData = data.tbillex;
-            if(useData.length > 0){
-                if(useData[0].Id){
-                    templateObject.getAllTBillExData();
-                }else{
-                    let getTimeStamp = dataObject[0].timestamp.split(' ');
-                    if(getTimeStamp){
-                        if(loggedUserEventFired){
-                            if(getTimeStamp[0] != currenctTodayDate){
-                                templateObject.getAllTBillExData();
-                            }
-                        }
-                    }
-                }
-            }
+  }, 3000);
+}
 
-
-        }
-    }).catch(function (err) {
-        templateObject.getAllTBillExData();
-    });
-    getVS1Data('TCredit').then(function (dataObject) {
-        if(dataObject.length == 0){
-            templateObject.getAllTCreditData();
-        }else{
-            let data = JSON.parse(dataObject[0].data);
-            let useData = data.tcredit;
-            if(useData.length > 0){
-                if(useData[0].Id){
-                    templateObject.getAllTCreditData();
-                }else{
-                    let getTimeStamp = dataObject[0].timestamp.split(' ');
-                    if(getTimeStamp){
-                        if(loggedUserEventFired){
-                            if(getTimeStamp[0] != currenctTodayDate){
-                                templateObject.getAllTCreditData();
-                            }
-                        }
-                    }
-                }
-            }
-
-
-        }
-    }).catch(function (err) {
-        templateObject.getAllTCreditData();
-    });
-    getVS1Data('TpurchaseOrderNonBackOrder').then(function (dataObject) {
-        if(dataObject.length == 0){
-            templateObject.getAllTpurchaseOrderNonBackOrderData();
-        }else{
-          let getTimeStamp = dataObject[0].timestamp.split(' ');
-          if(getTimeStamp){
-              if(loggedUserEventFired){
-                  if(getTimeStamp[0] != currenctTodayDate){
-                      templateObject.getAllTpurchaseOrderNonBackOrderData();
-                  }
-                }
-            }
-        }
-    }).catch(function (err) {
-        templateObject.getAllTpurchaseOrderNonBackOrderData();
-    });
-    getVS1Data('TpurchaseOrderBackOrder').then(function (dataObject) {
-        if(dataObject.length == 0){
-            templateObject.getAllTpurchaseOrderBackOrderData();
-        }else{
-        }
-    }).catch(function (err) {
-        templateObject.getAllTpurchaseOrderBackOrderData();
-    });
-
-    getVS1Data('TSalesList').then(function (dataObject) {
-        if(dataObject.length == 0){
-            templateObject.getAllTSalesListData();
-        }else{
-          let getTimeStamp = dataObject[0].timestamp.split(' ');
-          if(getTimeStamp){
-              if(loggedUserEventFired){
-                  if(getTimeStamp[0] != currenctTodayDate){
-                      templateObject.getAllTSalesListData();
-                  }
-                }
-            }
-        }
-    }).catch(function (err) {
-        templateObject.getAllTSalesListData();
-    });
-
-    getVS1Data('TbillReport').then(function (dataObject) {
-        if(dataObject.length == 0){
-            templateObject.getAllTbillReportData();
-        }else{
-        }
-    }).catch(function (err) {
-        templateObject.getAllTbillReportData();
-    });
 /* Quick Objects*/
+templateObject.getFollowedQuickDataDetailsPull = function () {
 setTimeout(function() {
-getVS1Data('TCustomerVS1').then(function (dataObject) {
-    if(dataObject.length == 0){
-        templateObject.getAllCustomersData();
-    }else{
-        let getTimeStamp = dataObject[0].timestamp.split(' ');
-        if(getTimeStamp){
-            if(loggedUserEventFired){
-                if(getTimeStamp[0] != currenctTodayDate){
-                    sideBarService.getAllCustomersDataVS1Update(getTimeStamp).then(function(dataUpdate) {
-                        let newDataObject = [];
-                        if(dataUpdate.tcustomervs1.length === 0){
-                            addVS1Data('TCustomerVS1',dataObject[0].data).then(function (datareturn) {
-                            }).catch(function (err) {
 
-                            });
-                        }else{
-                            let dataOld = JSON.parse(dataObject[0].data);
-                            let oldObjectData = dataOld.tcustomervs1;
-
-                            let dataNew = dataUpdate;
-                            let newObjectData = dataNew.tcustomervs1;
-                            let index = '';
-                            let index2 = '';
-
-                            var resultArray = []
-
-                            oldObjectData.forEach(function(destObj) {
-                                var addedcheck=false;
-                                newObjectData.some(function(origObj) {
-                                    if(origObj.fields.ID == destObj.fields.ID) {
-                                        addedcheck = true;
-                                        index = oldObjectData.map(function (e) { return e.fields.ID; }).indexOf(parseInt(origObj.fields.ID));
-                                        destObj = origObj;
-                                        resultArray.push(destObj);
-
-                                    }
-                                });
-                                if(!addedcheck) {
-                                    resultArray.push(destObj)
-                                }
-
-                            });
-                            newObjectData.forEach(function(origObj) {
-                                var addedcheck=false;
-                                oldObjectData.some(function(destObj) {
-                                    if(origObj.fields.ID == destObj.fields.ID) {
-                                        addedcheck = true;
-                                        index = oldObjectData.map(function (e) { return e.fields.ID; }).indexOf(parseInt(origObj.fields.ID));
-                                        destObj = origObj;
-                                        resultArray.push(destObj);
-
-                                    }
-                                });
-                                if(!addedcheck) {
-                                    resultArray.push(origObj)
-                                }
-
-                            });
-
-
-                            var resultGetData = [];
-                            $.each(resultArray, function (i, e) {
-                                var matchingItems = $.grep(resultGetData, function (item) {
-                                    return item.fields.ID === e.fields.ID;
-                                });
-                                if (matchingItems.length === 0){
-                                    resultGetData.push(e);
-                                }
-                            });
-
-                            let dataToAdd = {
-                                tcustomervs1: resultGetData
-                            };
-                            addVS1Data('TCustomerVS1',JSON.stringify(dataToAdd)).then(function (datareturn) {
-                            }).catch(function (err) {
-
-                            });
-                        }
-
-                    }).catch(function(err) {
-                        addVS1Data('TCustomerVS1',dataObject[0].data).then(function (datareturn) {
-                        }).catch(function (err) {
-
-                        });
-                    });
-                }
-            }
-        }
-    }
-}).catch(function (err) {
-    templateObject.getAllCustomersData();
-});
-
-getVS1Data('TSupplierVS1').then(function (dataObject) {
-        if(dataObject.length == 0){
-            templateObject.getAllSuppliersData();
-        }else{
-            let getTimeStamp = dataObject[0].timestamp.split(' ');
-            if(getTimeStamp){
-                if(loggedUserEventFired){
-                    if(getTimeStamp[0] != currenctTodayDate){
-                        sideBarService.getAllSuppliersDataVS1Update(getTimeStamp).then(function(dataUpdate) {
-                            let newDataObject = [];
-                            if(dataUpdate.tsuppliervs1.length === 0){
-                                addVS1Data('TSupplierVS1',dataObject[0].data).then(function (datareturn) {
-                                }).catch(function (err) {
-
-                                });
-                            }else{
-                                let dataOld = JSON.parse(dataObject[0].data);
-                                let oldObjectData = dataOld.tsuppliervs1;
-
-                                let dataNew = dataUpdate;
-                                let newObjectData = dataNew.tsuppliervs1;
-                                let index = '';
-                                let index2 = '';
-
-                                var resultArray = []
-
-                                oldObjectData.forEach(function(destObj) {
-                                    var addedcheck=false;
-                                    newObjectData.some(function(origObj) {
-                                        if(origObj.fields.ID == destObj.fields.ID) {
-                                            addedcheck = true;
-                                            index = oldObjectData.map(function (e) { return e.fields.ID; }).indexOf(parseInt(origObj.fields.ID));
-                                            destObj = origObj;
-                                            resultArray.push(destObj);
-
-                                        }
-                                    });
-                                    if(!addedcheck) {
-                                        resultArray.push(destObj)
-                                    }
-
-                                });
-                                newObjectData.forEach(function(origObj) {
-                                    var addedcheck=false;
-                                    oldObjectData.some(function(destObj) {
-                                        if(origObj.fields.ID == destObj.fields.ID) {
-                                            addedcheck = true;
-                                            index = oldObjectData.map(function (e) { return e.fields.ID; }).indexOf(parseInt(origObj.fields.ID));
-                                            destObj = origObj;
-                                            resultArray.push(destObj);
-
-                                        }
-                                    });
-                                    if(!addedcheck) {
-                                        resultArray.push(origObj)
-                                    }
-
-                                });
-
-
-                                var resultGetData = [];
-                                $.each(resultArray, function (i, e) {
-                                    var matchingItems = $.grep(resultGetData, function (item) {
-                                        return item.fields.ID === e.fields.ID;
-                                    });
-                                    if (matchingItems.length === 0){
-                                        resultGetData.push(e);
-                                    }
-                                });
-
-                                let dataToAdd = {
-                                    tsuppliervs1: resultGetData
-                                };
-                                addVS1Data('TSupplierVS1',JSON.stringify(dataToAdd)).then(function (datareturn) {
-                                }).catch(function (err) {
-
-                                });
-                            }
-
-                        }).catch(function(err) {
-                            addVS1Data('TSupplierVS1',dataObject[0].data).then(function (datareturn) {
-                            }).catch(function (err) {
-
-                            });
-                        });
-                    }
-                }
-            }
-        }
-    }).catch(function (err) {
-        templateObject.getAllSuppliersData();
-    });
-    getVS1Data('TAccountVS1').then(function (dataObject) {
-        if(dataObject.length == 0){
-            templateObject.getAllAccountsData();
-        }else{
-            let getTimeStamp = dataObject[0].timestamp.split(' ');
-            if(getTimeStamp){
-                if(loggedUserEventFired){
-                    if(getTimeStamp[0] != currenctTodayDate){
-                        sideBarService.getAccountListVS1Update(getTimeStamp).then(function(dataUpdate) {
-                            let newDataObject = [];
-                            if(dataUpdate.taccountvs1.length === 0){
-                                addVS1Data('TAccountVS1',dataObject[0].data).then(function (datareturn) {
-                                }).catch(function (err) {
-
-                                });
-                            }else{
-                                let dataOld = JSON.parse(dataObject[0].data);
-                                let oldObjectData = dataOld.taccountvs1;
-
-                                let dataNew = dataUpdate;
-                                let newObjectData = dataNew.taccountvs1;
-                                let index = '';
-                                let index2 = '';
-
-                                var resultArray = []
-
-                                oldObjectData.forEach(function(destObj) {
-                                    var addedcheck=false;
-                                    newObjectData.some(function(origObj) {
-                                        if(origObj.fields.ID == destObj.fields.ID) {
-                                            addedcheck = true;
-                                            index = oldObjectData.map(function (e) { return e.fields.ID; }).indexOf(parseInt(origObj.fields.ID));
-                                            destObj = origObj;
-                                            resultArray.push(destObj);
-
-                                        }
-                                    });
-                                    if(!addedcheck) {
-                                        resultArray.push(destObj)
-                                    }
-
-                                });
-                                newObjectData.forEach(function(origObj) {
-                                    var addedcheck=false;
-                                    oldObjectData.some(function(destObj) {
-                                        if(origObj.fields.ID == destObj.fields.ID) {
-                                            addedcheck = true;
-                                            index = oldObjectData.map(function (e) { return e.fields.ID; }).indexOf(parseInt(origObj.fields.ID));
-                                            destObj = origObj;
-                                            resultArray.push(destObj);
-
-                                        }
-                                    });
-                                    if(!addedcheck) {
-                                        resultArray.push(origObj)
-                                    }
-
-                                });
-
-
-                                var resultGetData = [];
-                                $.each(resultArray, function (i, e) {
-                                    var matchingItems = $.grep(resultGetData, function (item) {
-                                        return item.fields.ID === e.fields.ID;
-                                    });
-                                    if (matchingItems.length === 0){
-                                        resultGetData.push(e);
-                                    }
-                                });
-
-                                let dataToAdd = {
-                                    taccountvs1: resultGetData
-                                };
-                                addVS1Data('TAccountVS1',JSON.stringify(dataToAdd)).then(function (datareturn) {
-                                }).catch(function (err) {
-
-                                });
-                            }
-
-                        }).catch(function(err) {
-                            addVS1Data('TAccountVS1',dataObject[0].data).then(function (datareturn) {
-                            }).catch(function (err) {
-
-                            });
-                        });
-                    }
-                }
-            }
-        }
-    }).catch(function (err) {
-        templateObject.getAllAccountsData();
-    });
     getVS1Data('TTaxcodeVS1').then(function (dataObject) {
         if(dataObject.length == 0){
             templateObject.getAllTaxCodeData();
@@ -1430,104 +1051,6 @@ getVS1Data('TSupplierVS1').then(function (dataObject) {
     }).catch(function (err) {
         templateObject.getAllAccountTypeData();
     });
-    getVS1Data('TERPCombinedContactsVS1').then(function (dataObject) {
-        if(dataObject.length == 0){
-            templateObject.getAllERPCombinedContactsData();
-        }else{
-        }
-    }).catch(function (err) {
-        templateObject.getAllERPCombinedContactsData();
-    });
-    getVS1Data('TEmployee').then(function (dataObject) {
-        if(dataObject.length == 0){
-            templateObject.getAllEmployeeData();
-        }else{
-            let getTimeStamp = dataObject[0].timestamp.split(' ');
-            if(getTimeStamp){
-                if(loggedUserEventFired){
-                    if(getTimeStamp[0] != currenctTodayDate){
-                        sideBarService.getAllEmployeesUpdate(getTimeStamp).then(function(dataUpdate) {
-                            let newDataObject = [];
-                            if(dataUpdate.temployee.length === 0){
-                                addVS1Data('TEmployee',dataObject[0].data).then(function (datareturn) {
-                                }).catch(function (err) {
-
-                                });
-                            }else{
-                                let dataOld = JSON.parse(dataObject[0].data);
-                                let oldObjectData = dataOld.temployee;
-
-                                let dataNew = dataUpdate;
-                                let newObjectData = dataNew.temployee;
-                                let index = '';
-                                let index2 = '';
-                                var resultArray = []
-                                oldObjectData.forEach(function(destObj) {
-                                    var addedcheck=false;
-                                    newObjectData.some(function(origObj) {
-                                        if(origObj.fields.ID == destObj.fields.ID) {
-                                            addedcheck = true;
-                                            index = oldObjectData.map(function (e) { return e.fields.ID; }).indexOf(parseInt(origObj.fields.ID));
-                                            destObj = origObj;
-                                            resultArray.push(destObj);
-
-                                        }
-                                    });
-                                    if(!addedcheck) {
-                                        resultArray.push(destObj)
-                                    }
-
-                                });
-                                newObjectData.forEach(function(origObj) {
-                                    var addedcheck=false;
-                                    oldObjectData.some(function(destObj) {
-                                        if(origObj.fields.ID == destObj.fields.ID) {
-                                            addedcheck = true;
-                                            index = oldObjectData.map(function (e) { return e.fields.ID; }).indexOf(parseInt(origObj.fields.ID));
-                                            destObj = origObj;
-                                            resultArray.push(destObj);
-
-                                        }
-                                    });
-                                    if(!addedcheck) {
-                                        resultArray.push(origObj)
-                                    }
-
-                                });
-
-                                var resultGetData = [];
-                                $.each(resultArray, function (i, e) {
-                                    var matchingItems = $.grep(resultGetData, function (item) {
-                                        return item.fields.ID === e.fields.ID;
-                                    });
-                                    if (matchingItems.length === 0){
-                                        resultGetData.push(e);
-                                    }
-                                });
-
-                                let dataToAdd = {
-                                    temployee: resultGetData
-                                };
-                                addVS1Data('TEmployee',JSON.stringify(dataToAdd)).then(function (datareturn) {
-                                }).catch(function (err) {
-
-                                });
-                            }
-
-                        }).catch(function(err) {
-                            addVS1Data('TEmployee',dataObject[0].data).then(function (datareturn) {
-                            }).catch(function (err) {
-
-                            });
-                        });
-                    }
-                }
-            }
-        }
-    }).catch(function (err) {
-
-        templateObject.getAllEmployeeData();
-    });
 
     getVS1Data('TAppUser').then(function (dataObject) {
       if(dataObject.length == 0){
@@ -1545,38 +1068,51 @@ getVS1Data('TSupplierVS1').then(function (dataObject) {
   }).catch(function (err) {
       templateObject.getAllAppUserData();
   });
-  getVS1Data('TJobVS1').then(function (dataObject) {
-      if(dataObject.length == 0){
-          templateObject.getAllTJobVS1Data();
-      }else{
-        let getTimeStamp = dataObject[0].timestamp.split(' ');
-        if(getTimeStamp){
-            if(loggedUserEventFired){
-                if(getTimeStamp[0] != currenctTodayDate){
-                    templateObject.getAllTJobVS1Data();
-                }
-              }
-          }
-      }
-  }).catch(function (err) {
-      templateObject.getAllTJobVS1Data();
-  });
+
 
   getVS1Data('TAppointment').then(function (dataObject) {
     if(dataObject.length == 0){
-        templateObject.getAllAppointmentData();
+      sideBarService.getAllAppointmentList().then(function(data) {
+          addVS1Data('TAppointment',JSON.stringify(data));
+          //setTimeout(function() {
+          templateObject.getFollowedPurchaseDetailsPull();
+          //}, 3000);
+      }).catch(function(err) {
+        //setTimeout(function() {
+          templateObject.getFollowedPurchaseDetailsPull();
+          //}, 3000);
+      });
+
     }else{
       let getTimeStamp = dataObject[0].timestamp.split(' ');
       if(getTimeStamp){
           if(loggedUserEventFired){
               if(getTimeStamp[0] != currenctTodayDate){
-                  templateObject.getAllAppointmentData();
+                sideBarService.getAllAppointmentList().then(function(data) {
+                    addVS1Data('TAppointment',JSON.stringify(data));
+                    //setTimeout(function() {
+                      templateObject.getFollowedPurchaseDetailsPull();
+                    //}, 3000);
+                }).catch(function(err) {
+                  //setTimeout(function() {
+                    templateObject.getFollowedPurchaseDetailsPull();
+                  //}, 3000);
+                });
               }
             }
         }
     }
 }).catch(function (err) {
-    templateObject.getAllAppointmentData();
+  sideBarService.getAllAppointmentList().then(function(data) {
+      addVS1Data('TAppointment',JSON.stringify(data));
+      //setTimeout(function() {
+        templateObject.getFollowedPurchaseDetailsPull();
+    //  }, 3000);
+  }).catch(function(err) {
+    //setTimeout(function() {
+      templateObject.getFollowedPurchaseDetailsPull();
+    //}, 3000);
+  });
 });
 
 getVS1Data('TAppointmentPreferences').then(function (dataObject) {
@@ -1613,8 +1149,6 @@ getVS1Data('TERPPreference').then(function (dataObject) {
   templateObject.getAllTERPPreferenceData();
 });
 
-
-
 getVS1Data('TERPPreferenceExtra').then(function (dataObject) {
   if(dataObject.length == 0){
       templateObject.getAllTERPPreferenceExtraData();
@@ -1632,118 +1166,198 @@ getVS1Data('TERPPreferenceExtra').then(function (dataObject) {
   templateObject.getAllTERPPreferenceExtraData();
 });
 
-getVS1Data('TStatementList').then(function (dataObject) {
-      if(dataObject.length == 0){
-          templateObject.getTStatementListData();
-      }else{
-          let getTimeStamp = dataObject[0].timestamp.split(' ');
-          if(getTimeStamp){
-              if(loggedUserEventFired){
-                  if(getTimeStamp[0] != currenctTodayDate){
-                      templateObject.getTStatementListData();
-                  }
-              }
-          }
-      }
-  }).catch(function (err) {
-      templateObject.getTStatementListData();
-  });
+}, 3000);
+}
+/* End Quick Objects */
 
-  getVS1Data('TVS1BankDeposit').then(function (dataObject) {
+  //Followed by Purchase Details
+templateObject.getFollowedPurchaseDetailsPull = function () {
+  setTimeout(function() {
+    getVS1Data('TbillReport').then(function (dataObject) {
         if(dataObject.length == 0){
-            templateObject.getTVS1BankDepositData();
+            templateObject.getAllTbillReportData();
         }else{
-            let getTimeStamp = dataObject[0].timestamp.split(' ');
-            if(getTimeStamp){
-                if(loggedUserEventFired){
-                    if(getTimeStamp[0] != currenctTodayDate){
-                        sideBarService.getAllTVS1BankDepositData(getTimeStamp).then(function(dataUpdate) {
-                            let newDataObject = [];
-                            if(dataUpdate.tvs1bankdeposit.length === 0){
-                                addVS1Data('TVS1BankDeposit',dataObject[0].data).then(function (datareturn) {
-                                }).catch(function (err) {
+        }
+    }).catch(function (err) {
+        templateObject.getAllTbillReportData();
+    });
 
-                                });
-                            }else{
-                                let dataOld = JSON.parse(dataObject[0].data);
-                                let oldObjectData = dataOld.tvs1bankdeposit;
-
-                                let dataNew = dataUpdate;
-                                let newObjectData = dataNew.tvs1bankdeposit;
-                                let index = '';
-                                let index2 = '';
-
-                                var resultArray = []
-
-                                oldObjectData.forEach(function(destObj) {
-                                    var addedcheck=false;
-                                    newObjectData.some(function(origObj) {
-                                        if(origObj.fields.ID == destObj.fields.ID) {
-                                            addedcheck = true;
-                                            index = oldObjectData.map(function (e) { return e.fields.ID; }).indexOf(parseInt(origObj.fields.ID));
-                                            destObj = origObj;
-                                            resultArray.push(destObj);
-
-                                        }
-                                    });
-                                    if(!addedcheck) {
-                                        resultArray.push(destObj)
-                                    }
-
-                                });
-                                newObjectData.forEach(function(origObj) {
-                                    var addedcheck=false;
-                                    oldObjectData.some(function(destObj) {
-                                        if(origObj.fields.ID == destObj.fields.ID) {
-                                            addedcheck = true;
-                                            index = oldObjectData.map(function (e) { return e.fields.ID; }).indexOf(parseInt(origObj.fields.ID));
-                                            destObj = origObj;
-                                            resultArray.push(destObj);
-
-                                        }
-                                    });
-                                    if(!addedcheck) {
-                                        resultArray.push(origObj)
-                                    }
-
-                                });
-
-
-                                var resultGetData = [];
-                                $.each(resultArray, function (i, e) {
-                                    var matchingItems = $.grep(resultGetData, function (item) {
-                                        return item.fields.ID === e.fields.ID;
-                                    });
-                                    if (matchingItems.length === 0){
-                                        resultGetData.push(e);
-                                    }
-                                });
-
-                                let dataToAdd = {
-                                    tvs1bankdeposit: resultGetData
-                                };
-                                addVS1Data('TVS1BankDeposit',JSON.stringify(dataToAdd)).then(function (datareturn) {
-                                }).catch(function (err) {
-
-                                });
-                            }
-
-                        }).catch(function(err) {
-                            addVS1Data('TVS1BankDeposit',dataObject[0].data).then(function (datareturn) {
-                            }).catch(function (err) {
-
-                            });
-                        });
+    getVS1Data('TPurchaseOrderEx').then(function (dataObject) {
+        if(dataObject.length == 0){
+          sideBarService.getAllPurchaseOrderList(25,0).then(function(data) {
+              addVS1Data('TPurchaseOrderEx',JSON.stringify(data));
+              templateObject.getFollowedAllObjectPull();
+          }).catch(function(err) {
+            templateObject.getFollowedAllObjectPull();
+          });
+        }else{
+            let data = JSON.parse(dataObject[0].data);
+            let useData = data.tpurchaseorderex;
+            if(useData[0].Id){
+              sideBarService.getAllPurchaseOrderList(25,0).then(function(data) {
+                  addVS1Data('TPurchaseOrderEx',JSON.stringify(data));
+                  templateObject.getFollowedAllObjectPull();
+              }).catch(function(err) {
+                templateObject.getFollowedAllObjectPull();
+              });
+            }else{
+                let getTimeStamp = dataObject[0].timestamp.split(' ');
+                if(getTimeStamp){
+                    if(loggedUserEventFired){
+                        if(getTimeStamp[0] != currenctTodayDate){
+                          sideBarService.getAllPurchaseOrderList(25,0).then(function(data) {
+                              addVS1Data('TPurchaseOrderEx',JSON.stringify(data));
+                              templateObject.getFollowedAllObjectPull();
+                          }).catch(function(err) {
+                            templateObject.getFollowedAllObjectPull();
+                          });
+                        }
                     }
                 }
             }
         }
     }).catch(function (err) {
-        templateObject.getTVS1BankDepositData();
+      sideBarService.getAllPurchaseOrderList(25,0).then(function(data) {
+          addVS1Data('TPurchaseOrderEx',JSON.stringify(data));
+          templateObject.getFollowedAllObjectPull();
+      }).catch(function(err) {
+        templateObject.getFollowedAllObjectPull();
+
+      });
     });
-}, 2000);
-/* End Quick Objects */
+
+    getVS1Data('TBillEx').then(function (dataObject) {
+        if(dataObject.length == 0){
+            templateObject.getAllTBillExData();
+        }else{
+            let data = JSON.parse(dataObject[0].data);
+            let useData = data.tbillex;
+            if(useData.length > 0){
+                if(useData[0].Id){
+                    templateObject.getAllTBillExData();
+                }else{
+                    let getTimeStamp = dataObject[0].timestamp.split(' ');
+                    if(getTimeStamp){
+                        if(loggedUserEventFired){
+                            if(getTimeStamp[0] != currenctTodayDate){
+                                templateObject.getAllTBillExData();
+                            }
+                        }
+                    }
+                }
+            }
+
+
+        }
+    }).catch(function (err) {
+        templateObject.getAllTBillExData();
+    });
+    getVS1Data('TCredit').then(function (dataObject) {
+        if(dataObject.length == 0){
+            templateObject.getAllTCreditData();
+        }else{
+            let data = JSON.parse(dataObject[0].data);
+            let useData = data.tcredit;
+            if(useData.length > 0){
+                if(useData[0].Id){
+                    templateObject.getAllTCreditData();
+                }else{
+                    let getTimeStamp = dataObject[0].timestamp.split(' ');
+                    if(getTimeStamp){
+                        if(loggedUserEventFired){
+                            if(getTimeStamp[0] != currenctTodayDate){
+                                templateObject.getAllTCreditData();
+                            }
+                        }
+                    }
+                }
+            }
+
+
+        }
+    }).catch(function (err) {
+        templateObject.getAllTCreditData();
+    });
+    getVS1Data('TpurchaseOrderNonBackOrder').then(function (dataObject) {
+        if(dataObject.length == 0){
+            templateObject.getAllTpurchaseOrderNonBackOrderData();
+        }else{
+          let getTimeStamp = dataObject[0].timestamp.split(' ');
+          if(getTimeStamp){
+              if(loggedUserEventFired){
+                  if(getTimeStamp[0] != currenctTodayDate){
+                      templateObject.getAllTpurchaseOrderNonBackOrderData();
+                  }
+                }
+            }
+        }
+    }).catch(function (err) {
+        templateObject.getAllTpurchaseOrderNonBackOrderData();
+    });
+    getVS1Data('TCheque').then(function (dataObject) {
+        if(dataObject.length == 0){
+            templateObject.getAllTChequeData();
+        }else{
+            let data = JSON.parse(dataObject[0].data);
+            let useData = data.tcheque;
+            if(useData.length > 0){
+                if(useData[0].Id){
+                    templateObject.getAllTChequeData();
+                }
+            }
+        }
+    }).catch(function (err) {
+        templateObject.getAllTChequeData();
+    });
+    getVS1Data('TpurchaseOrderBackOrder').then(function (dataObject) {
+        if(dataObject.length == 0){
+            templateObject.getAllTpurchaseOrderBackOrderData();
+        }else{
+        }
+    }).catch(function (err) {
+        templateObject.getAllTpurchaseOrderBackOrderData();
+    });
+  }, 3000);
+
+}
+
+
+templateObject.getFollowedAllObjectPull = function () {
 setTimeout(function() {
+  getVS1Data('TStatementList').then(function (dataObject) {
+        if(dataObject.length == 0){
+            templateObject.getTStatementListData();
+        }else{
+            let getTimeStamp = dataObject[0].timestamp.split(' ');
+            if(getTimeStamp){
+                if(loggedUserEventFired){
+                    if(getTimeStamp[0] != currenctTodayDate){
+                        templateObject.getTStatementListData();
+                    }
+                }
+            }
+        }
+    }).catch(function (err) {
+        templateObject.getTStatementListData();
+    });
+
+    getVS1Data('TVS1BankDeposit').then(function (dataObject) {
+          if(dataObject.length == 0){
+              templateObject.getTVS1BankDepositData();
+          }else{
+              let getTimeStamp = dataObject[0].timestamp.split(' ');
+              if(getTimeStamp){
+                  if(loggedUserEventFired){
+                      if(getTimeStamp[0] != currenctTodayDate){
+                      templateObject.getTVS1BankDepositData();
+                      }
+                  }
+              }
+          }
+      }).catch(function (err) {
+          templateObject.getTVS1BankDepositData();
+      });
+
   getVS1Data('TJournalEntryLines').then(function (dataObject) {
 
         if(dataObject.length == 0){
@@ -1761,78 +1375,7 @@ setTimeout(function() {
             if(getTimeStamp){
                 if(loggedUserEventFired){
                     if(getTimeStamp[0] != currenctTodayDate){
-                        sideBarService.getAllJournalEnrtryLinesListUpdate(getTimeStamp).then(function(dataUpdate) {
-                            let newDataObject = [];
-                            if(dataUpdate.tjournalentry.length === 0){
-                            }else{
-                                let dataOld = JSON.parse(dataObject[0].data);
-                                let oldObjectData = dataOld.tjournalentry;
-
-                                let dataNew = dataUpdate;
-                                let newObjectData = dataNew.tjournalentry;
-                                let index = '';
-                                let index2 = '';
-
-                                var resultArray = []
-
-                                oldObjectData.forEach(function(destObj) {
-                                    var addedcheck=false;
-                                    newObjectData.some(function(origObj) {
-                                        if(origObj.fields.ID == destObj.fields.ID) {
-                                            addedcheck = true;
-                                            index = oldObjectData.map(function (e) { return e.fields.ID; }).indexOf(parseInt(origObj.fields.ID));
-                                            destObj = origObj;
-                                            resultArray.push(destObj);
-
-                                        }
-                                    })
-                                    if(!addedcheck) {
-                                        resultArray.push(destObj)
-                                    }
-                                });
-
-                                newObjectData.forEach(function(origObj) {
-                                    var addedcheck=false;
-                                    oldObjectData.some(function(destObj) {
-                                        if(origObj.fields.ID == destObj.fields.ID) {
-                                            addedcheck = true;
-                                            index2 = oldObjectData.map(function (e) { return e.fields.ID; }).indexOf(parseInt(origObj.fields.ID));
-                                            destObj = origObj;
-                                            resultArray.push(destObj);
-                                        }
-
-                                    })
-                                    if(!addedcheck) {
-                                        resultArray.push(origObj)
-                                    }
-                                });
-
-
-                                var resultGetData = [];
-                                $.each(resultArray, function (i, e) {
-                                    var matchingItems = $.grep(resultGetData, function (item) {
-                                        return item.fields.ID === e.fields.ID;
-                                    });
-                                    if (matchingItems.length === 0){
-                                        resultGetData.push(e);
-                                    }
-                                });
-
-                                let dataToAdd = {
-                                    tjournalentry: resultGetData
-                                };
-                                addVS1Data('TJournalEntryLines',JSON.stringify(dataToAdd)).then(function (datareturn) {
-                                }).catch(function (err) {
-
-                                });
-                            }
-
-                        }).catch(function(err) {
-                            addVS1Data('TJournalEntryLines',dataObject[0].data).then(function (datareturn) {
-                            }).catch(function (err) {
-
-                            });
-                        });
+                        templateObject.getAllJournalEntryLineData();
                     }
                 }
             }
@@ -1857,38 +1400,6 @@ setTimeout(function() {
         templateObject.getAllTReconcilationData();
     });
 
-    getVS1Data('TCheque').then(function (dataObject) {
-        if(dataObject.length == 0){
-            templateObject.getAllTChequeData();
-        }else{
-            let data = JSON.parse(dataObject[0].data);
-            let useData = data.tcheque;
-            if(useData.length > 0){
-                if(useData[0].Id){
-                    templateObject.getAllTChequeData();
-                }
-            }
-        }
-    }).catch(function (err) {
-        templateObject.getAllTChequeData();
-    });
-    getVS1Data('TProductStocknSalePeriodReport').then(function (dataObject) {
-        if(dataObject.length == 0){
-            templateObject.getAllTProductStocknSalePeriodReportData();
-        }else{
-          let getTimeStamp = dataObject[0].timestamp.split(' ');
-          if(getTimeStamp){
-              if(loggedUserEventFired){
-                  if(getTimeStamp[0] != currenctTodayDate){
-                      templateObject.getAllTProductStocknSalePeriodReportData();
-                  }
-                }
-            }
-        }
-    }).catch(function (err) {
-        templateObject.getAllTProductStocknSalePeriodReportData();
-    });
-
     getVS1Data('TStockAdjustEntry').then(function (dataObject) {
         if(dataObject.length == 0){
             templateObject.getAllTStockAdjustEntryData();
@@ -1903,84 +1414,7 @@ setTimeout(function() {
                     if(getTimeStamp){
                         if(loggedUserEventFired){
                             if(getTimeStamp[0] != currenctTodayDate){
-                                sideBarService.getAllStockAdjustEntry(getTimeStamp).then(function(dataUpdate) {
-                                    let newDataObject = [];
-                                    if(dataUpdate.tstockadjustentry.length === 0){
-                                        addVS1Data('TStockAdjustEntry',dataObject[0].data).then(function (datareturn) {
-                                        }).catch(function (err) {
-
-                                        });
-                                    }else{
-                                        let dataOld = JSON.parse(dataObject[0].data);
-                                        let oldObjectData = dataOld.tstockadjustentry;
-
-                                        let dataNew = dataUpdate;
-                                        let newObjectData = dataNew.tstockadjustentry;
-                                        let index = '';
-                                        let index2 = '';
-
-
-                                        var resultArray = []
-
-                                        oldObjectData.forEach(function(destObj) {
-                                            var addedcheck=false;
-                                            newObjectData.some(function(origObj) {
-                                                if(origObj.fields.ID == destObj.fields.ID) {
-                                                    addedcheck = true;
-                                                    index = oldObjectData.map(function (e) { return e.fields.ID; }).indexOf(parseInt(origObj.fields.ID));
-                                                    destObj = origObj;
-                                                    resultArray.push(destObj);
-
-                                                }
-                                            });
-                                            if(!addedcheck) {
-                                                resultArray.push(destObj)
-                                            }
-
-                                        });
-                                        newObjectData.forEach(function(origObj) {
-                                            var addedcheck=false;
-                                            oldObjectData.some(function(destObj) {
-                                                if(origObj.fields.ID == destObj.fields.ID) {
-                                                    addedcheck = true;
-                                                    index = oldObjectData.map(function (e) { return e.fields.ID; }).indexOf(parseInt(origObj.fields.ID));
-                                                    destObj = origObj;
-                                                    resultArray.push(destObj);
-
-                                                }
-                                            });
-                                            if(!addedcheck) {
-                                                resultArray.push(origObj)
-                                            }
-
-                                        });
-
-
-                                        var resultGetData = [];
-                                        $.each(resultArray, function (i, e) {
-                                            var matchingItems = $.grep(resultGetData, function (item) {
-                                                return item.fields.ID === e.fields.ID;
-                                            });
-                                            if (matchingItems.length === 0){
-                                                resultGetData.push(e);
-                                            }
-                                        });
-
-                                        let dataToAdd = {
-                                            tstockadjustentry: resultGetData
-                                        };
-                                        addVS1Data('TStockAdjustEntry',JSON.stringify(dataToAdd)).then(function (datareturn) {
-                                        }).catch(function (err) {
-
-                                        });
-                                    }
-
-                                }).catch(function(err) {
-                                    addVS1Data('TStockAdjustEntry',dataObject[0].data).then(function (datareturn) {
-                                    }).catch(function (err) {
-
-                                    });
-                                });
+                            templateObject.getAllTStockAdjustEntryData();
                             }
                         }
                     }
@@ -2149,7 +1583,8 @@ setTimeout(function() {
     }).catch(function (err) {
         templateObject.getAllTTransactionListReportData();
     });
-}, 5000);
+}, 3000);
+}
     /*
   if (loggedUserEventFired) {
     templateObject.getAllTProductStocknSalePeriodReportData();

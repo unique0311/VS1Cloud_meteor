@@ -65,32 +65,32 @@ Template.chequelist.onRendered(function() {
     templateObject.getAllChequeData = function() {
         getVS1Data('TCheque').then(function(dataObject) {
             if (dataObject.length == 0) {
-                purchaseService.getAllChequeList().then(function(data) {
+                sideBarService.getAllChequeList(25,0).then(function(data) {
                     let lineItems = [];
                     let lineItemObj = {};
                     for (let i = 0; i < data.tcheque.length; i++) {
-                        let totalAmountEx = utilityService.modifynegativeCurrencyFormat(data.tcheque[i].TotalAmount) || 0.00;
-                        let totalTax = utilityService.modifynegativeCurrencyFormat(data.tcheque[i].TotalTax) || 0.00;
-                        let totalAmount = utilityService.modifynegativeCurrencyFormat(data.tcheque[i].TotalAmountInc) || 0.00;
-                        let totalPaid = utilityService.modifynegativeCurrencyFormat(data.tcheque[i].TotalPaid) || 0.00;
-                        let totalOutstanding = utilityService.modifynegativeCurrencyFormat(data.tcheque[i].TotalBalance) || 0.00;
+                        let totalAmountEx = utilityService.modifynegativeCurrencyFormat(data.tcheque[i].fields.TotalAmount) || 0.00;
+                        let totalTax = utilityService.modifynegativeCurrencyFormat(data.tcheque[i].fields.TotalTax) || 0.00;
+                        let totalAmount = utilityService.modifynegativeCurrencyFormat(data.tcheque[i].fields.TotalAmountInc) || 0.00;
+                        let totalPaid = utilityService.modifynegativeCurrencyFormat(data.tcheque[i].fields.TotalPaid) || 0.00;
+                        let totalOutstanding = utilityService.modifynegativeCurrencyFormat(data.tcheque[i].fields.TotalBalance) || 0.00;
                         var dataList = {
-                            id: data.tcheque[i].Id || '',
-                            employee: data.tcheque[i].EmployeeName || '',
-                            accountname: data.tcheque[i].GLAccountName || '',
-                            sortdate: data.tcheque[i].OrderDate != '' ? moment(data.tcheque[i].OrderDate).format("YYYY/MM/DD") : data.tcheque[i].OrderDate,
-                            orderdate: data.tcheque[i].OrderDate != '' ? moment(data.tcheque[i].OrderDate).format("DD/MM/YYYY") : data.tcheque[i].OrderDate,
-                            suppliername: data.tcheque[i].SupplierName || '',
-                            chequeNumber: data.tcheque[i].SupplierInvoiceNumber || '',
+                            id: data.tcheque[i].fields.ID || '',
+                            employee: data.tcheque[i].fields.EmployeeName || '',
+                            accountname: data.tcheque[i].fields.GLAccountName || '',
+                            sortdate: data.tcheque[i].fields.OrderDate != '' ? moment(data.tcheque[i].fields.OrderDate).format("YYYY/MM/DD") : data.tcheque[i].fields.OrderDate,
+                            orderdate: data.tcheque[i].fields.OrderDate != '' ? moment(data.tcheque[i].fields.OrderDate).format("DD/MM/YYYY") : data.tcheque[i].fields.OrderDate,
+                            suppliername: data.tcheque[i].fields.SupplierName || '',
+                            chequeNumber: data.tcheque[i].fields.SupplierInvoiceNumber || '',
                             totalamountex: totalAmountEx || 0.00,
                             totaltax: totalTax || 0.00,
                             totalamount: totalAmount || 0.00,
                             totalpaid: totalPaid || 0.00,
                             totaloustanding: totalOutstanding || 0.00,
-                            orderstatus: data.tcheque[i].OrderStatus || '',
+                            orderstatus: data.tcheque[i].fields.OrderStatus || '',
                             custfield1: '' || '',
                             custfield2: '' || '',
-                            comments: data.tcheque[i].Comments || '',
+                            comments: data.tcheque[i].fields.Comments || '',
                         };
                         dataTableList.push(dataList);
 
@@ -441,32 +441,32 @@ Template.chequelist.onRendered(function() {
                 });
             }
         }).catch(function(err) {
-            purchaseService.getAllChequeList().then(function(data) {
+            sideBarService.getAllChequeList(25,0).then(function(data) {
                 let lineItems = [];
                 let lineItemObj = {};
                 for (let i = 0; i < data.tcheque.length; i++) {
-                    let totalAmountEx = utilityService.modifynegativeCurrencyFormat(data.tcheque[i].TotalAmount) || 0.00;
-                    let totalTax = utilityService.modifynegativeCurrencyFormat(data.tcheque[i].TotalTax) || 0.00;
-                    let totalAmount = utilityService.modifynegativeCurrencyFormat(data.tcheque[i].TotalAmountInc) || 0.00;
-                    let totalPaid = utilityService.modifynegativeCurrencyFormat(data.tcheque[i].TotalPaid) || 0.00;
-                    let totalOutstanding = utilityService.modifynegativeCurrencyFormat(data.tcheque[i].TotalBalance) || 0.00;
+                    let totalAmountEx = utilityService.modifynegativeCurrencyFormat(data.tcheque[i].fields.TotalAmount) || 0.00;
+                    let totalTax = utilityService.modifynegativeCurrencyFormat(data.tcheque[i].fields.TotalTax) || 0.00;
+                    let totalAmount = utilityService.modifynegativeCurrencyFormat(data.tcheque[i].fields.TotalAmountInc) || 0.00;
+                    let totalPaid = utilityService.modifynegativeCurrencyFormat(data.tcheque[i].fields.TotalPaid) || 0.00;
+                    let totalOutstanding = utilityService.modifynegativeCurrencyFormat(data.tcheque[i].fields.TotalBalance) || 0.00;
                     var dataList = {
-                        id: data.tcheque[i].Id || '',
-                        employee: data.tcheque[i].EmployeeName || '',
-                        accountname: data.tcheque[i].GLAccountName || '',
-                        sortdate: data.tcheque[i].OrderDate != '' ? moment(data.tcheque[i].OrderDate).format("YYYY/MM/DD") : data.tcheque[i].OrderDate,
-                        orderdate: data.tcheque[i].OrderDate != '' ? moment(data.tcheque[i].OrderDate).format("DD/MM/YYYY") : data.tcheque[i].OrderDate,
-                        suppliername: data.tcheque[i].SupplierName || '',
-                        chequeNumber: data.tcheque[i].SupplierInvoiceNumber || '',
+                        id: data.tcheque[i].fields.ID || '',
+                        employee: data.tcheque[i].fields.EmployeeName || '',
+                        accountname: data.tcheque[i].fields.GLAccountName || '',
+                        sortdate: data.tcheque[i].fields.OrderDate != '' ? moment(data.tcheque[i].fields.OrderDate).format("YYYY/MM/DD") : data.tcheque[i].fields.OrderDate,
+                        orderdate: data.tcheque[i].fields.OrderDate != '' ? moment(data.tcheque[i].fields.OrderDate).format("DD/MM/YYYY") : data.tcheque[i].fields.OrderDate,
+                        suppliername: data.tcheque[i].fields.SupplierName || '',
+                        chequeNumber: data.tcheque[i].fields.SupplierInvoiceNumber || '',
                         totalamountex: totalAmountEx || 0.00,
                         totaltax: totalTax || 0.00,
                         totalamount: totalAmount || 0.00,
                         totalpaid: totalPaid || 0.00,
                         totaloustanding: totalOutstanding || 0.00,
-                        orderstatus: data.tcheque[i].OrderStatus || '',
+                        orderstatus: data.tcheque[i].fields.OrderStatus || '',
                         custfield1: '' || '',
                         custfield2: '' || '',
-                        comments: data.tcheque[i].Comments || '',
+                        comments: data.tcheque[i].fields.Comments || '',
                     };
                     dataTableList.push(dataList);
 
@@ -818,7 +818,7 @@ Template.chequelist.events({
     'click .btnRefresh': function() {
         $('.fullScreenSpin').css('display', 'inline-block');
 
-        sideBarService.getAllChequeList().then(function(data) {
+        sideBarService.getAllChequeList(25,0).then(function(data) {
             addVS1Data('TCheque', JSON.stringify(data)).then(function(datareturn) {
                 window.open('/chequelist', '_self');
             }).catch(function(err) {
@@ -842,7 +842,7 @@ Template.chequelist.events({
         fromDateDay = "0" + currentBeginDate.getDate();
     }
     var toDate = currentBeginDate.getFullYear()+ "-" +(fromDateMonth) + "-"+(fromDateDay+1);
-    let prevMonth11Date = (moment().subtract(6, 'months')).format("YYYY-MM-DD");
+    let prevMonth11Date = (moment().subtract(reportsloadMonths, 'months')).format("YYYY-MM-DD");
 
         sideBarService.getAllPurchaseOrderListAll(prevMonth11Date,toDate, false).then(function(data) {
             addVS1Data('TbillReport',JSON.stringify(data)).then(function (datareturn) {

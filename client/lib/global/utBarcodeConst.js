@@ -38,7 +38,7 @@ defaultUOM = Session.get('ERPDefaultUOM');
 isModuleGreenTrack = Session.get('CloudSeedToSaleLicence');
 
 bsbCodeName = "Branch Code";
-
+reportsloadMonths = 1; //This load for 1 months
 if(Session.get('ERPLoggedCountry') == "Australia"){
   // Session.setPersistent('ERPTaxCodePurchaseInc', "NCG");
   // Session.setPersistent('ERPTaxCodeSalesInc', "GST");

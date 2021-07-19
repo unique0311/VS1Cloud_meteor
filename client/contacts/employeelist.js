@@ -53,29 +53,30 @@ Template.employeelist.onRendered(function() {
         getVS1Data('TEmployee').then(function (dataObject) {
 
             if(dataObject.length == 0){
-                contactService.getAllEmployeesData().then(function (data) {
+                sideBarService.getAllEmployees(25,0).then(function (data) {
+                  addVS1Data('TEmployee',JSON.stringify(data));
                     let lineItems = [];
                     let lineItemObj = {};
                     for(let i=0; i<data.temployee.length; i++){
                         var dataList = {
-                            id: data.temployee[i].Id || '',
-                            employeeno: data.temployee[i].EmployeeNo || '',
-                            employeename:data.temployee[i].EmployeeName || '',
-                            firstname: data.temployee[i].FirstName || '',
-                            lastname: data.temployee[i].LastName || '',
-                            phone: data.temployee[i].Phone || '',
-                            mobile: data.temployee[i].Mobile || '',
-                            email: data.temployee[i].Email || '',
-                            address: data.temployee[i].Street || '',
-                            country: data.temployee[i].Country || '',
-                            department: data.temployee[i].DefaultClassName || '',
-                            custFld1: data.temployee[i].CustFld1 || '',
-                            custFld2: data.temployee[i].CustFld2 || '',
-                            custFld3: data.temployee[i].CustFld3 || '',
-                            custFld4: data.temployee[i].CustFld4 || ''
+                            id: data.temployee[i].fields.ID || '',
+                            employeeno: data.temployee[i].fields.EmployeeNo || '',
+                            employeename:data.temployee[i].fields.EmployeeName || '',
+                            firstname: data.temployee[i].fields.FirstName || '',
+                            lastname: data.temployee[i].fields.LastName || '',
+                            phone: data.temployee[i].fields.Phone || '',
+                            mobile: data.temployee[i].fields.Mobile || '',
+                            email: data.temployee[i].fields.Email || '',
+                            address: data.temployee[i].fields.Street || '',
+                            country: data.temployee[i].fields.Country || '',
+                            department: data.temployee[i].fields.DefaultClassName || '',
+                            custFld1: data.temployee[i].fields.CustFld1 || '',
+                            custFld2: data.temployee[i].fields.CustFld2 || '',
+                            custFld3: data.temployee[i].fields.CustFld3 || '',
+                            custFld4: data.temployee[i].fields.CustFld4 || ''
                         };
 
-                        if(data.temployee[i].EmployeeName.replace(/\s/g, '') != ''){
+                        if(data.temployee[i].fields.EmployeeName.replace(/\s/g, '') != ''){
                             dataTableList.push(dataList);
                         }
                         //}
@@ -384,29 +385,30 @@ Template.employeelist.onRendered(function() {
                 });
             }
         }).catch(function (err) {
-            contactService.getAllEmployeesData().then(function (data) {
+            sideBarService.getAllEmployees(25,0).then(function (data) {
+              addVS1Data('TEmployee',JSON.stringify(data));
                 let lineItems = [];
                 let lineItemObj = {};
                 for(let i=0; i<data.temployee.length; i++){
                     var dataList = {
-                        id: data.temployee[i].Id || '',
-                        employeeno: data.temployee[i].EmployeeNo || '',
-                        employeename:data.temployee[i].EmployeeName || '',
-                        firstname: data.temployee[i].FirstName || '',
-                        lastname: data.temployee[i].LastName || '',
-                        phone: data.temployee[i].Phone || '',
-                        mobile: data.temployee[i].Mobile || '',
-                        email: data.temployee[i].Email || '',
-                        address: data.temployee[i].Street || '',
-                        country: data.temployee[i].Country || '',
-                        department: data.temployee[i].DefaultClassName || '',
-                        custFld1: data.temployee[i].CustFld1 || '',
-                        custFld2: data.temployee[i].CustFld2 || '',
-                        custFld3: data.temployee[i].CustFld3 || '',
-                        custFld4: data.temployee[i].CustFld4 || ''
+                        id: data.temployee[i].fields.ID || '',
+                        employeeno: data.temployee[i].fields.EmployeeNo || '',
+                        employeename:data.temployee[i].fields.EmployeeName || '',
+                        firstname: data.temployee[i].fields.FirstName || '',
+                        lastname: data.temployee[i].fields.LastName || '',
+                        phone: data.temployee[i].fields.Phone || '',
+                        mobile: data.temployee[i].fields.Mobile || '',
+                        email: data.temployee[i].fields.Email || '',
+                        address: data.temployee[i].fields.Street || '',
+                        country: data.temployee[i].fields.Country || '',
+                        department: data.temployee[i].fields.DefaultClassName || '',
+                        custFld1: data.temployee[i].fields.CustFld1 || '',
+                        custFld2: data.temployee[i].fields.CustFld2 || '',
+                        custFld3: data.temployee[i].fields.CustFld3 || '',
+                        custFld4: data.temployee[i].fields.CustFld4 || ''
                     };
 
-                    if(data.temployee[i].EmployeeName.replace(/\s/g, '') != ''){
+                    if(data.temployee[i].fields.EmployeeName.replace(/\s/g, '') != ''){
                         dataTableList.push(dataList);
                     }
                     //}
@@ -769,7 +771,7 @@ Template.employeelist.events({
         }).catch(function (err) {
 
         });
-        sideBarService.getAllEmployees().then(function(data) {
+        sideBarService.getAllEmployees(25,0).then(function(data) {
             addVS1Data('TEmployee',JSON.stringify(data)).then(function (datareturn) {
                 window.open('/employeelist','_self');
             }).catch(function (err) {

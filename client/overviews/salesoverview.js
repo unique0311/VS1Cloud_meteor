@@ -70,7 +70,7 @@ Template.salesoverview.onRendered(function() {
           fromDateDay = "0" + currentBeginDate.getDate();
       }
       var toDate = currentBeginDate.getFullYear()+ "-" +(fromDateMonth) + "-"+(fromDateDay+1);
-      let prevMonth11Date = (moment().subtract(6, 'months')).format("YYYY-MM-DD");
+      let prevMonth11Date = (moment().subtract(reportsloadMonths, 'months')).format("YYYY-MM-DD");
 
 
         getVS1Data('TSalesList').then(function (dataObject) {
@@ -704,7 +704,7 @@ Template.salesoverview.events({
             fromDateDay = "0" + currentBeginDate.getDate();
         }
         var toDate = currentBeginDate.getFullYear()+ "-" +(fromDateMonth) + "-"+(fromDateDay+1);
-        let prevMonth11Date = (moment().subtract(6, 'months')).format("YYYY-MM-DD");
+        let prevMonth11Date = (moment().subtract(reportsloadMonths, 'months')).format("YYYY-MM-DD");
 
         sideBarService.getSalesListData(prevMonth11Date,toDate, false).then(function(data) {
             addVS1Data('TSalesList',JSON.stringify(data)).then(function (datareturn) {
@@ -716,7 +716,7 @@ Template.salesoverview.events({
           Meteor._reload.reload();
         });
 
-        sideBarService.getAllInvoiceList().then(function(data) {
+        sideBarService.getAllInvoiceList(25,0).then(function(data) {
             addVS1Data('TInvoiceEx',JSON.stringify(data)).then(function (datareturn) {
                 //Meteor._reload.reload();
             }).catch(function (err) {

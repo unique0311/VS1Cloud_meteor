@@ -2266,9 +2266,9 @@ Template.employeescard.events({
                                 //JsonIn:{
                                 Name: "VS1_ChangePassword",
                                 Params: {
-                                    FirstName: firstname,
-                                    LastName: lastname,
-                                    EmployeeName: $('#edtCustomerCompany').val(),
+                                    // FirstName: firstname,
+                                    // LastName: lastname,
+                                    // EmployeeName: $('#edtCustomerCompany').val(),
                                     ERPLoginDetails:{
                                         ERPUserName: $('#cloudCheckEmpEmailAddress').val(),
                                         // VS1Password: $('#cloudCheckEmpUserPassword').val(),
@@ -2297,7 +2297,7 @@ Template.employeescard.events({
                                     if (oPost.readyState == 4 && oPost.status == 200) {
 
                                         if (employeeSaveID) {
-                                            sideBarService.getAllEmployees().then(function(dataReload) {
+                                            sideBarService.getAllEmployees(25,0).then(function(dataReload) {
                                                 addVS1Data('TEmployee',JSON.stringify(dataReload)).then(function (datareturn) {
 
                                                 }).catch(function (err) {
@@ -2469,7 +2469,7 @@ Template.employeescard.events({
                             }else{
                                 if (employeeSaveID) {
                                     //window.open('/employeescard?id=' + employeeSaveID,'_self');
-                                    sideBarService.getAllEmployees().then(function(dataReload) {
+                                    sideBarService.getAllEmployees(25,0).then(function(dataReload) {
                                         addVS1Data('TEmployee',JSON.stringify(dataReload)).then(function (datareturn) {
                                             //Router.go('/employeelist?success=true');
                                             sideBarService.getAllAppointmentPredList().then(function (data) {
@@ -2504,7 +2504,7 @@ Template.employeescard.events({
                 } else {
                     if (employeeSaveID) {
                         //window.open('/employeescard?id=' + employeeSaveID,'_self');
-                        sideBarService.getAllEmployees().then(function(dataReload) {
+                        sideBarService.getAllEmployees(25,0).then(function(dataReload) {
                             addVS1Data('TEmployee',JSON.stringify(dataReload)).then(function (datareturn) {
                                 sideBarService.getAllAppointmentPredList().then(function (data) {
                                     addVS1Data('TAppointmentPreferences', JSON.stringify(data)).then(function (datareturn) {
@@ -2674,7 +2674,7 @@ Template.employeescard.events({
                     Meteor.call('braintreeChargeCard', Session.get('VS1AdminUserName'), 35);
                     Meteor.call('StripeChargeCard', Session.get('VS1AdminUserName'), 3500);
                     // swal('User details successfully added', '', 'success');
-                    sideBarService.getAllEmployees().then(function(dataReload) {
+                    sideBarService.getAllEmployees(25,0).then(function(dataReload) {
                         addVS1Data('TEmployee',JSON.stringify(dataReload)).then(function (datareturn) {
 
                         }).catch(function (err) {
@@ -2901,7 +2901,7 @@ Template.employeescard.events({
                             window.open('/accesslevel?empuser=' + employeeName, '_self');
 
                         } else {
-                            sideBarService.getAllEmployees().then(function(dataReload) {
+                            sideBarService.getAllEmployees(25,0).then(function(dataReload) {
                                 addVS1Data('TEmployee',JSON.stringify(dataReload)).then(function (datareturn) {
                                     Router.go('/employeelist?success=true');
                                 }).catch(function (err) {

@@ -59,25 +59,25 @@ Template.stockadjustmentoverview.onRendered(function() {
     templateObject.getAllStockAdjustEntryData = function () {
         getVS1Data('TStockAdjustEntry').then(function (dataObject) {
             if(dataObject.length == 0){
-                stockTransferService.getAllStockAdjustEntry().then(function (data) {
+                sideBarService.getAllStockAdjustEntry(25,0).then(function (data) {
                     let lineItems = [];
                     let lineItemObj = {};
                     for(let i=0; i<data.tstockadjustentry.length; i++){
 
-                        let totalCostEx = utilityService.modifynegativeCurrencyFormat(data.tstockadjustentry[i].TotalCostEx)|| 0.00;
+                        let totalCostEx = utilityService.modifynegativeCurrencyFormat(data.tstockadjustentry[i].fields.TotalCostEx)|| 0.00;
                         var dataList = {
-                            id: data.tstockadjustentry[i].Id || '',
-                            employee:data.tstockadjustentry[i].Employee || '',
-                            sortdate: data.tstockadjustentry[i].CreationDate !=''? moment(data.tstockadjustentry[i].CreationDate).format("YYYY/MM/DD"): data.tstockadjustentry[i].CreationDate,
-                            creationdate: data.tstockadjustentry[i].CreationDate !=''? moment(data.tstockadjustentry[i].CreationDate).format("DD/MM/YYYY"): data.tstockadjustentry[i].CreationDate,
-                            adjustmentdate: data.tstockadjustentry[i].AdjustmentDate !=''? moment(data.tstockadjustentry[i].AdjustmentDate).format("DD/MM/YYYY"): data.tstockadjustentry[i].AdjustmentDate,
-                            accountname: data.tstockadjustentry[i].AccountName || '',
+                            id: data.tstockadjustentry[i].fields.ID || '',
+                            employee:data.tstockadjustentry[i].fields.Employee || '',
+                            sortdate: data.tstockadjustentry[i].fields.CreationDate !=''? moment(data.tstockadjustentry[i].fields.CreationDate).format("YYYY/MM/DD"): data.tstockadjustentry[i].fields.CreationDate,
+                            creationdate: data.tstockadjustentry[i].fields.CreationDate !=''? moment(data.tstockadjustentry[i].fields.CreationDate).format("DD/MM/YYYY"): data.tstockadjustentry[i].fields.CreationDate,
+                            adjustmentdate: data.tstockadjustentry[i].fields.AdjustmentDate !=''? moment(data.tstockadjustentry[i].fields.AdjustmentDate).format("DD/MM/YYYY"): data.tstockadjustentry[i].fields.AdjustmentDate,
+                            accountname: data.tstockadjustentry[i].fields.AccountName || '',
                             totalcostex: totalCostEx || 0.00,
                             custfield1: '',
                             custfield2: '',
-                            notes: data.tstockadjustentry[i].Notes || '',
-                            processed: data.tstockadjustentry[i].Processed,
-                            isstocktake: data.tstockadjustentry[i].IsStockTake,
+                            notes: data.tstockadjustentry[i].fields.Notes || '',
+                            processed: data.tstockadjustentry[i].fields.Processed,
+                            isstocktake: data.tstockadjustentry[i].fields.IsStockTake,
                         };
                         dataTableList.push(dataList);
                     }
@@ -437,25 +437,25 @@ Template.stockadjustmentoverview.onRendered(function() {
 
             }
         }).catch(function (err) {
-            stockTransferService.getAllStockAdjustEntry().then(function (data) {
+            sideBarService.getAllStockAdjustEntry(25,0).then(function (data) {
                 let lineItems = [];
                 let lineItemObj = {};
                 for(let i=0; i<data.tstockadjustentry.length; i++){
 
-                    let totalCostEx = utilityService.modifynegativeCurrencyFormat(data.tstockadjustentry[i].TotalCostEx)|| 0.00;
+                    let totalCostEx = utilityService.modifynegativeCurrencyFormat(data.tstockadjustentry[i].fields.TotalCostEx)|| 0.00;
                     var dataList = {
-                        id: data.tstockadjustentry[i].Id || '',
-                        employee:data.tstockadjustentry[i].Employee || '',
-                        sortdate: data.tstockadjustentry[i].CreationDate !=''? moment(data.tstockadjustentry[i].CreationDate).format("YYYY/MM/DD"): data.tstockadjustentry[i].CreationDate,
-                        creationdate: data.tstockadjustentry[i].CreationDate !=''? moment(data.tstockadjustentry[i].CreationDate).format("DD/MM/YYYY"): data.tstockadjustentry[i].CreationDate,
-                        adjustmentdate: data.tstockadjustentry[i].AdjustmentDate !=''? moment(data.tstockadjustentry[i].AdjustmentDate).format("DD/MM/YYYY"): data.tstockadjustentry[i].AdjustmentDate,
-                        accountname: data.tstockadjustentry[i].AccountName || '',
+                        id: data.tstockadjustentry[i].fields.ID || '',
+                        employee:data.tstockadjustentry[i].fields.Employee || '',
+                        sortdate: data.tstockadjustentry[i].fields.CreationDate !=''? moment(data.tstockadjustentry[i].fields.CreationDate).format("YYYY/MM/DD"): data.tstockadjustentry[i].fields.CreationDate,
+                        creationdate: data.tstockadjustentry[i].fields.CreationDate !=''? moment(data.tstockadjustentry[i].fields.CreationDate).format("DD/MM/YYYY"): data.tstockadjustentry[i].fields.CreationDate,
+                        adjustmentdate: data.tstockadjustentry[i].fields.AdjustmentDate !=''? moment(data.tstockadjustentry[i].fields.AdjustmentDate).format("DD/MM/YYYY"): data.tstockadjustentry[i].fields.AdjustmentDate,
+                        accountname: data.tstockadjustentry[i].fields.AccountName || '',
                         totalcostex: totalCostEx || 0.00,
                         custfield1: '',
                         custfield2: '',
-                        notes: data.tstockadjustentry[i].Notes || '',
-                        processed: data.tstockadjustentry[i].Processed,
-                        isstocktake: data.tstockadjustentry[i].IsStockTake,
+                        notes: data.tstockadjustentry[i].fields.Notes || '',
+                        processed: data.tstockadjustentry[i].fields.Processed,
+                        isstocktake: data.tstockadjustentry[i].fields.IsStockTake,
                     };
                     dataTableList.push(dataList);
                 }
@@ -637,7 +637,7 @@ Template.stockadjustmentoverview.onRendered(function() {
 Template.stockadjustmentoverview.events({
     'click .btnRefresh': function () {
         $('.fullScreenSpin').css('display','inline-block');
-        sideBarService.getAllStockAdjustEntry().then(function(data) {
+        sideBarService.getAllStockAdjustEntry(25,0).then(function(data) {
             addVS1Data('TStockAdjustEntry',JSON.stringify(data)).then(function (datareturn) {
                 window.open('/stockadjustmentoverview','_self');
             }).catch(function (err) {

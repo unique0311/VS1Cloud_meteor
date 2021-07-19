@@ -749,7 +749,7 @@ Template.balancesheetreport.events({
         $('.fullScreenSpin').css('display','inline-block');
         let balanceDate=templateObject.$("#balancedate").val();
         let formatBalDate = moment(balanceDate).format("YYYY-MM-DD");
-
+        localStorage.setItem('VS1BalanceSheet_Report', '');
         templateObject.getBalanceSheetReports(formatBalDate);
         var formatDate = moment(balanceDate).format("DD MMM YYYY");
         templateObject.dateAsAt.set(formatDate);
@@ -759,7 +759,7 @@ Template.balancesheetreport.events({
         $('.fullScreenSpin').css('display','inline-block');
         var dateTo = new Date($("#balancedate").datepicker("getDate"));
         //if(dateTo.getMonth()+1)
-
+        localStorage.setItem('VS1BalanceSheet_Report', '');
         let formatDateTo = dateTo.getFullYear() + "-" + (dateTo.getMonth()) + "-" + dateTo.getDate();
         templateObject.getBalanceSheetReports(formatDateTo);
 
@@ -776,6 +776,78 @@ Template.balancesheetreport.events({
         var formatDate = fromDateDay + "/" + (fromDateMonth) + "/" + dateTo.getFullYear();
         templateObject.dateAsAt.set(formatDate);
         $("#balancedate").val(formatDate);
+
+    },
+    'click #lastQuarter':function(){
+        let templateObject = Template.instance();
+        $('.fullScreenSpin').css('display','inline-block');
+        localStorage.setItem('VS1BalanceSheet_Report', '');
+        $('#balancedate').attr('readonly', false);
+        var currentDate = new Date();
+        var begunDate = moment(currentDate).format("DD/MM/YYYY");
+
+        var begunDate = moment(currentDate).format("DD/MM/YYYY");
+        function getQuarter(d) {
+          d = d || new Date();
+          var m = Math.floor(d.getMonth()/3) + 2;
+          return m > 4? m - 4 : m;
+        }
+
+        var quarterAdjustment= (moment().month() % 3) + 1;
+        var lastQuarterEndDate = moment().subtract({ months: quarterAdjustment }).endOf('month');
+        var lastQuarterStartDate = lastQuarterEndDate.clone().subtract({ months: 2 }).startOf('month');
+
+        var lastQuarterStartDateFormat = moment(lastQuarterStartDate).format("DD/MM/YYYY");
+        var lastQuarterEndDateFormat = moment(lastQuarterEndDate).format("DD/MM/YYYY");
+
+        templateObject.dateAsAt.set(lastQuarterStartDateFormat);
+        $("#balancedate").val(lastQuarterStartDateFormat);
+
+
+        let fromDateMonth = getQuarter(currentDate);
+        var quarterMonth = getQuarter(currentDate);
+        let fromDateDay = currentDate.getDate();
+
+        var getLoadDate = moment(lastQuarterEndDate).format("YYYY-MM-DD");
+        let getDateFrom = moment(lastQuarterStartDateFormat).format("YYYY-MM-DD");
+        templateObject.getBalanceSheetReports(getDateFrom);
+
+    },
+    'click #last12Months':function(){
+      let templateObject = Template.instance();
+      $('.fullScreenSpin').css('display','inline-block');
+      localStorage.setItem('VS1BalanceSheet_Report', '');
+      $('#balancedate').attr('readonly', false);
+      var currentDate = new Date();
+      var begunDate = moment(currentDate).format("DD/MM/YYYY");
+
+      let fromDateMonth = Math.floor(currentDate.getMonth()+1);
+      let fromDateDay = currentDate.getDate();
+      if(currentDate.getMonth() < 10){
+        fromDateMonth = "0" + currentDate.getMonth();
+      }
+      if(currentDate.getDate() < 10){
+      fromDateDay = "0" + currentDate.getDate();
+      }
+
+      var fromDate =fromDateDay + "/" +(fromDateMonth) + "/" + Math.floor(currentDate.getFullYear() -1);
+      templateObject.dateAsAt.set(begunDate);
+      $("#balancedate").val(lastQuarterStartDateFormat);
+
+      var currentDate2 = new Date();
+      var getLoadDate = moment(currentDate2).format("YYYY-MM-DD");
+      let getDateFrom = Math.floor(currentDate2.getFullYear()-1) + "-" + Math.floor(currentDate2.getMonth() +1) + "-" + currentDate2.getDate() ;
+      templateObject.getBalanceSheetReports(getDateFrom);
+
+
+    },
+    'click #ignoreDate':function(){
+      let templateObject = Template.instance();
+      $('.fullScreenSpin').css('display','inline-block');
+      localStorage.setItem('VS1BalanceSheet_Report', '');
+        $('#balancedate').attr('readonly', true);
+      templateObject.dateAsAt.set('Current Date');
+      templateObject.getBalanceSheetReports('','',true);
 
     },
     'click .sales-tab-item':function (event) {

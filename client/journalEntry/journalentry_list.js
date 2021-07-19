@@ -56,35 +56,42 @@ Template.journalentrylist.onRendered(function() {
   templateObject.getAllJournalEntryData = function () {
     getVS1Data('TJournalEntryLines').then(function (dataObject) {
         if(dataObject.length == 0){
-          accountService.getAllJournalEnrtryLinesList().then(function (data) {
+          sideBarService.getAllJournalEnrtryLinesList(25,0).then(function (data) {
             let lineItems = [];
             let lineItemObj = {};
-            for(let i=0; i<data.tjournalentrylines.length; i++){
-              let totalDebitAmount = utilityService.modifynegativeCurrencyFormat(data.tjournalentrylines[i].DebitAmount)|| 0.00;
-              let totalCreditAmount = utilityService.modifynegativeCurrencyFormat(data.tjournalentrylines[i].CreditAmount) || 0.00;
-              // Currency+''+data.tjournalentrylines[i].TotalTax.toLocaleString(undefined, {minimumFractionDigits: 2});
-              let totalTaxAmount = utilityService.modifynegativeCurrencyFormat(data.tjournalentrylines[i].TaxAmount)|| 0.00;
+            addVS1Data('TJournalEntryLines',JSON.stringify(data));
+            for(let i=0; i<data.tjournalentry.length; i++){
 
-                 var dataList = {
-                 id: data.tjournalentrylines[i].GJID || '',
-                 employee:data.tjournalentrylines[i].EmployeeName || '',
-                 sortdate: data.tjournalentrylines[i].MsTimeStamp !=''? moment(data.tjournalentrylines[i].MsTimeStamp).format("YYYY/MM/DD"): data.tjournalentrylines[i].MsTimeStamp,
-                 transactiondate: data.tjournalentrylines[i].MsTimeStamp !=''? moment(data.tjournalentrylines[i].MsTimeStamp).format("DD/MM/YYYY"): data.tjournalentrylines[i].MsTimeStamp,
-                 accountname: data.tjournalentrylines[i].AccountName || '',
-                 department: data.tjournalentrylines[i].DeptName || '',
-                 entryno: data.tjournalentrylines[i].GJID || '',
-                 debitamount: totalDebitAmount || 0.00,
-                 creditamount: totalCreditAmount || 0.00,
-                 taxamount: totalTaxAmount || 0.00,
+              if(data.tjournalentry[i].fields.Lines.length){
+                  for(let d=0; d<data.tjournalentry[i].fields.Lines.length; d++){
+                    let totalDebitAmount = utilityService.modifynegativeCurrencyFormat(data.tjournalentry[i].fields.Lines[d].fields.DebitAmount)|| 0.00;
+                    let totalCreditAmount = utilityService.modifynegativeCurrencyFormat(data.tjournalentry[i].fields.Lines[d].fields.CreditAmount) || 0.00;
+                    // Currency+''+data.tjournalentry[i].TotalTax.toLocaleString(undefined, {minimumFractionDigits: 2});
+                    let totalTaxAmount = utilityService.modifynegativeCurrencyFormat(data.tjournalentry[i].fields.Lines[d].fields.TaxAmount)|| 0.00;
 
-                 accountno: data.tjournalentrylines[i].AccountNumber || '',
-                 employeename: data.tjournalentrylines[i].EmployeeName || '',
+                       var dataList = {
+                       id: data.tjournalentry[i].fields.Lines[d].fields.GJID || '',
+                       employee:data.tjournalentry[i].fields.Lines[d].fields.EmployeeName || '',
+                       sortdate: data.tjournalentry[i].fields.TransactionDate !=''? moment(data.tjournalentry[i].fields.TransactionDate).format("YYYY/MM/DD"): data.tjournalentry[i].fields.TransactionDate,
+                       transactiondate: data.tjournalentry[i].fields.TransactionDate !=''? moment(data.tjournalentry[i].fields.TransactionDate).format("DD/MM/YYYY"): data.tjournalentry[i].fields.TransactionDate,
+                       accountname: data.tjournalentry[i].fields.Lines[d].fields.AccountName || '',
+                       department: data.tjournalentry[i].fields.Lines[d].fields.DeptName || '',
+                       entryno: data.tjournalentry[i].fields.Lines[d].fields.GJID || '',
+                       debitamount: totalDebitAmount || 0.00,
+                       creditamount: totalCreditAmount || 0.00,
+                       taxamount: totalTaxAmount || 0.00,
 
-                 memo: data.tjournalentrylines[i].Memo || '',
-               };
-                  dataTableList.push(dataList);
-            }
-            templateObject.datatablerecords.set(dataTableList);
+                       accountno: data.tjournalentry[i].fields.Lines[d].fields.AccountNumber || '',
+                       employeename: data.tjournalentry[i].fields.Lines[d].fields.EmployeeName || '',
+
+                       memo: data.tjournalentry[i].fields.Lines[d].fields.Memo || '',
+                     };
+                        dataTableList.push(dataList);
+                  }
+                  templateObject.datatablerecords.set(dataTableList);
+                  }
+
+                }
             if(templateObject.datatablerecords.get()){
 
               Meteor.call('readPrefMethod',Session.get('mycloudLogonID'),'tblJournalList', function(error, result){
@@ -243,31 +250,31 @@ Template.journalentrylist.onRendered(function() {
           let useData = data.tjournalentry;
           let lineItems = [];
           let lineItemObj = {};
-          for(let i=0; i<useData.length; i++){
+          for(let i=0; i<data.tjournalentry.length; i++){
 
-            if(useData[i].fields.Lines.length){
-                for(let d=0; d<useData[i].fields.Lines.length; d++){
-                  let totalDebitAmount = utilityService.modifynegativeCurrencyFormat(useData[i].fields.Lines[d].fields.DebitAmount)|| 0.00;
-                  let totalCreditAmount = utilityService.modifynegativeCurrencyFormat(useData[i].fields.Lines[d].fields.CreditAmount) || 0.00;
-                  // Currency+''+data.tjournalentrylines[i].TotalTax.toLocaleString(undefined, {minimumFractionDigits: 2});
-                  let totalTaxAmount = utilityService.modifynegativeCurrencyFormat(useData[i].fields.Lines[d].fields.TaxAmount)|| 0.00;
+            if(data.tjournalentry[i].fields.Lines.length){
+                for(let d=0; d<data.tjournalentry[i].fields.Lines.length; d++){
+                  let totalDebitAmount = utilityService.modifynegativeCurrencyFormat(data.tjournalentry[i].fields.Lines[d].fields.DebitAmount)|| 0.00;
+                  let totalCreditAmount = utilityService.modifynegativeCurrencyFormat(data.tjournalentry[i].fields.Lines[d].fields.CreditAmount) || 0.00;
+                  // Currency+''+data.tjournalentry[i].TotalTax.toLocaleString(undefined, {minimumFractionDigits: 2});
+                  let totalTaxAmount = utilityService.modifynegativeCurrencyFormat(data.tjournalentry[i].fields.Lines[d].fields.TaxAmount)|| 0.00;
 
                      var dataList = {
-                     id: useData[i].fields.Lines[d].fields.GJID || '',
-                     employee:useData[i].fields.Lines[d].fields.EmployeeName || '',
-                     sortdate: useData[i].fields.TransactionDate !=''? moment(useData[i].fields.TransactionDate).format("YYYY/MM/DD"): useData[i].fields.TransactionDate,
-                     transactiondate: useData[i].fields.TransactionDate !=''? moment(useData[i].fields.TransactionDate).format("DD/MM/YYYY"): useData[i].fields.TransactionDate,
-                     accountname: useData[i].fields.Lines[d].fields.AccountName || '',
-                     department: useData[i].fields.Lines[d].fields.DeptName || '',
-                     entryno: useData[i].fields.Lines[d].fields.GJID || '',
+                     id: data.tjournalentry[i].fields.Lines[d].fields.GJID || '',
+                     employee:data.tjournalentry[i].fields.Lines[d].fields.EmployeeName || '',
+                     sortdate: data.tjournalentry[i].fields.TransactionDate !=''? moment(data.tjournalentry[i].fields.TransactionDate).format("YYYY/MM/DD"): data.tjournalentry[i].fields.TransactionDate,
+                     transactiondate: data.tjournalentry[i].fields.TransactionDate !=''? moment(data.tjournalentry[i].fields.TransactionDate).format("DD/MM/YYYY"): data.tjournalentry[i].fields.TransactionDate,
+                     accountname: data.tjournalentry[i].fields.Lines[d].fields.AccountName || '',
+                     department: data.tjournalentry[i].fields.Lines[d].fields.DeptName || '',
+                     entryno: data.tjournalentry[i].fields.Lines[d].fields.GJID || '',
                      debitamount: totalDebitAmount || 0.00,
                      creditamount: totalCreditAmount || 0.00,
                      taxamount: totalTaxAmount || 0.00,
 
-                     accountno: useData[i].fields.Lines[d].fields.AccountNumber || '',
-                     employeename: useData[i].fields.Lines[d].fields.EmployeeName || '',
+                     accountno: data.tjournalentry[i].fields.Lines[d].fields.AccountNumber || '',
+                     employeename: data.tjournalentry[i].fields.Lines[d].fields.EmployeeName || '',
 
-                     memo: useData[i].fields.Lines[d].fields.Memo || '',
+                     memo: data.tjournalentry[i].fields.Lines[d].fields.Memo || '',
                    };
                       dataTableList.push(dataList);
                 }
@@ -426,35 +433,42 @@ Template.journalentrylist.onRendered(function() {
 
         }
       }).catch(function (err) {
-        accountService.getAllJournalEnrtryLinesList().then(function (data) {
+        sideBarService.getAllJournalEnrtryLinesList(25,0).then(function (data) {
           let lineItems = [];
           let lineItemObj = {};
-          for(let i=0; i<data.tjournalentrylines.length; i++){
-            let totalDebitAmount = utilityService.modifynegativeCurrencyFormat(data.tjournalentrylines[i].DebitAmount)|| 0.00;
-            let totalCreditAmount = utilityService.modifynegativeCurrencyFormat(data.tjournalentrylines[i].CreditAmount) || 0.00;
-            // Currency+''+data.tjournalentrylines[i].TotalTax.toLocaleString(undefined, {minimumFractionDigits: 2});
-            let totalTaxAmount = utilityService.modifynegativeCurrencyFormat(data.tjournalentrylines[i].TaxAmount)|| 0.00;
+          addVS1Data('TJournalEntryLines',JSON.stringify(data));
+          for(let i=0; i<data.tjournalentry.length; i++){
 
-               var dataList = {
-               id: data.tjournalentrylines[i].GJID || '',
-               employee:data.tjournalentrylines[i].EmployeeName || '',
-               sortdate: data.tjournalentrylines[i].MsTimeStamp !=''? moment(data.tjournalentrylines[i].MsTimeStamp).format("YYYY/MM/DD"): data.tjournalentrylines[i].MsTimeStamp,
-               transactiondate: data.tjournalentrylines[i].MsTimeStamp !=''? moment(data.tjournalentrylines[i].MsTimeStamp).format("DD/MM/YYYY"): data.tjournalentrylines[i].MsTimeStamp,
-               accountname: data.tjournalentrylines[i].AccountName || '',
-               department: data.tjournalentrylines[i].DeptName || '',
-               entryno: data.tjournalentrylines[i].GJID || '',
-               debitamount: totalDebitAmount || 0.00,
-               creditamount: totalCreditAmount || 0.00,
-               taxamount: totalTaxAmount || 0.00,
+            if(data.tjournalentry[i].fields.Lines.length){
+                for(let d=0; d<data.tjournalentry[i].fields.Lines.length; d++){
+                  let totalDebitAmount = utilityService.modifynegativeCurrencyFormat(data.tjournalentry[i].fields.Lines[d].fields.DebitAmount)|| 0.00;
+                  let totalCreditAmount = utilityService.modifynegativeCurrencyFormat(data.tjournalentry[i].fields.Lines[d].fields.CreditAmount) || 0.00;
+                  // Currency+''+data.tjournalentry[i].TotalTax.toLocaleString(undefined, {minimumFractionDigits: 2});
+                  let totalTaxAmount = utilityService.modifynegativeCurrencyFormat(data.tjournalentry[i].fields.Lines[d].fields.TaxAmount)|| 0.00;
 
-               accountno: data.tjournalentrylines[i].AccountNumber || '',
-               employeename: data.tjournalentrylines[i].EmployeeName || '',
+                     var dataList = {
+                     id: data.tjournalentry[i].fields.Lines[d].fields.GJID || '',
+                     employee:data.tjournalentry[i].fields.Lines[d].fields.EmployeeName || '',
+                     sortdate: data.tjournalentry[i].fields.TransactionDate !=''? moment(data.tjournalentry[i].fields.TransactionDate).format("YYYY/MM/DD"): data.tjournalentry[i].fields.TransactionDate,
+                     transactiondate: data.tjournalentry[i].fields.TransactionDate !=''? moment(data.tjournalentry[i].fields.TransactionDate).format("DD/MM/YYYY"): data.tjournalentry[i].fields.TransactionDate,
+                     accountname: data.tjournalentry[i].fields.Lines[d].fields.AccountName || '',
+                     department: data.tjournalentry[i].fields.Lines[d].fields.DeptName || '',
+                     entryno: data.tjournalentry[i].fields.Lines[d].fields.GJID || '',
+                     debitamount: totalDebitAmount || 0.00,
+                     creditamount: totalCreditAmount || 0.00,
+                     taxamount: totalTaxAmount || 0.00,
 
-               memo: data.tjournalentrylines[i].Memo || '',
-             };
-                dataTableList.push(dataList);
-          }
-          templateObject.datatablerecords.set(dataTableList);
+                     accountno: data.tjournalentry[i].fields.Lines[d].fields.AccountNumber || '',
+                     employeename: data.tjournalentry[i].fields.Lines[d].fields.EmployeeName || '',
+
+                     memo: data.tjournalentry[i].fields.Lines[d].fields.Memo || '',
+                   };
+                      dataTableList.push(dataList);
+                }
+                templateObject.datatablerecords.set(dataTableList);
+                }
+
+              }
           if(templateObject.datatablerecords.get()){
 
             Meteor.call('readPrefMethod',Session.get('mycloudLogonID'),'tblJournalList', function(error, result){
@@ -619,7 +633,7 @@ Template.journalentrylist.events({
    'click .btnRefresh': function () {
      $('.fullScreenSpin').css('display','inline-block');
      let templateObject = Template.instance();
-     sideBarService.getAllJournalEnrtryLinesList().then(function(data) {
+     sideBarService.getAllJournalEnrtryLinesList(25,0).then(function(data) {
        addVS1Data('TJournalEntryLines',JSON.stringify(data)).then(function (datareturn) {
          window.open('/journalentrylist','_self');
        }).catch(function (err) {
@@ -643,7 +657,7 @@ Template.journalentrylist.events({
      fromDateDay = "0" + currentBeginDate.getDate();
  }
  var toDate = currentBeginDate.getFullYear()+ "-" +(fromDateMonth) + "-"+(fromDateDay+1);
- let prevMonth11Date = (moment().subtract(6, 'months')).format("YYYY-MM-DD");
+ let prevMonth11Date = (moment().subtract(reportsloadMonths, 'months')).format("YYYY-MM-DD");
 
      sideBarService.getAllPurchaseOrderListAll(prevMonth11Date,toDate, false).then(function(data) {
        addVS1Data('TbillReport',JSON.stringify(data)).then(function (datareturn) {

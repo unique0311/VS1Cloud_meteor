@@ -1790,7 +1790,7 @@ Template.supplierscard.events({
             if(supplierSaveID){
                 //window.open('/supplierscard?id=' + supplierSaveID,'_self');
                 //window.open('/supplierlist','_self');
-                sideBarService.getAllSuppliersDataVS1().then(function(dataReload) {
+                sideBarService.getAllSuppliersDataVS1(25,0).then(function(dataReload) {
                     addVS1Data('TSupplierVS1',JSON.stringify(dataReload)).then(function (datareturn) {
                         window.open('/supplierlist','_self');
                     }).catch(function (err) {

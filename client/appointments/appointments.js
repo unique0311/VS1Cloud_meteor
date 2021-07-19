@@ -190,7 +190,7 @@ Template.appointments.onRendered(function () {
                     globalSet.id = "";
                 }
             }).catch(function (err) {
-                console.log(err);
+
 
             });
         } else {
@@ -317,7 +317,7 @@ Template.appointments.onRendered(function () {
                     }
 
                 }).catch(function (err) {
-                    console.log(err);
+
                     appointmentService.getGlobalSettingsExtra().then(function (data) {
                         for (let p = 0; p < data.terppreferenceextra.length; p++) {
                             if (data.terppreferenceextra[p].Prefname == "DefaultServiceProduct") {
@@ -450,7 +450,7 @@ Template.appointments.onRendered(function () {
                 globalSet.id = "";
             }
         }).catch(function (err) {
-            console.log(err);
+
 
         });
 
@@ -1285,7 +1285,7 @@ Template.appointments.onRendered(function () {
                     }
 
                 }).catch(function (err) {
-                    console.log(err);
+
                 });
             } else {
                 let data = JSON.parse(dataObject[0].data);
@@ -1795,8 +1795,10 @@ Template.appointments.onRendered(function () {
                                 var result = resourceColor.filter(apmtColor => {
                                     return apmtColor.employeeName == data.tappointment[t].TrainerName
                                 });
-
-                                let employeeColor = result[0].color || '';
+                                let employeeColor = '';
+                                if(result.length > 0){
+                                  employeeColor = result[0].color || '';
+                                }
 
                                 var dataList = {
                                     id: data.tappointment[t].Id,
@@ -2195,6 +2197,7 @@ Template.appointments.onRendered(function () {
             } else {
                 let data = JSON.parse(dataObject[0].data);
                 let useData = data.tappointment;
+                //console.log(useData);
                 $('.fullScreenSpin').css('display', 'none');
                 let appColor = '';
                 let dataColor = '';
@@ -2204,9 +2207,10 @@ Template.appointments.onRendered(function () {
                         //appointmentList.employeename = employeeName;
                         return apmt.employeeName == useData[i].fields.TrainerName;
                     });
-
-                    appColor = employeeColor[0].color || '';
-
+                    //console.log(employeeColor.length);
+                    if(employeeColor.length > 0){
+                      appColor = employeeColor[0].color || '';
+                    }
                     var appointment = {
                         id: useData[i].fields.ID || '',
                         sortdate: useData[i].fields.CreationDate ? moment(useData[i].fields.CreationDate).format("YYYY/MM/DD") : "",
@@ -2469,6 +2473,7 @@ Template.appointments.onRendered(function () {
 
                 //$('.fullScreenSpin').css('display', 'none');
                 //if (allEmployees.length > 0) {
+
                 for (let t = 0; t < useData.length; t++) {
                     let date = new Date(useData[t].fields.StartTime.split(' ')[0]);
                     weekDay = moment(useData[t].fields.StartTime.split(' ')[0]).format('dddd');
@@ -2482,8 +2487,11 @@ Template.appointments.onRendered(function () {
                                 var result = resourceColor.filter(apmtColor => {
                                     return apmtColor.employeeName == useData[t].fields.TrainerName
                                 });
+                                let employeeColor = '';
+                                if(result.lenght > 0){
+                                   employeeColor = result[0].color || '';
+                                }
 
-                                let employeeColor = result[0].color || '';
                                 var dataList = {
                                     id: useData[t].fields.ID,
                                     employeeName: useData[t].fields.TrainerName,
@@ -2507,14 +2515,17 @@ Template.appointments.onRendered(function () {
                         }
 
                     } else {
+
                         if (date >= startWeek && date <= endWeek) {
                             resourceColor = resourceColor = templateObject.employeerecords.get();
-
+                            let employeeColor = '';
                             var result = resourceColor.filter(apmtColor => {
                                 return apmtColor.employeeName == useData[t].fields.TrainerName
                             });
 
-                            let employeeColor = result[0].color || '';
+                            if(result.lenght > 0){
+                               employeeColor = result[0].color || '';
+                            }
                             var dataList = {
                                 id: useData[t].fields.ID,
                                 employeeName: useData[t].fields.TrainerName,
@@ -2696,7 +2707,7 @@ Template.appointments.onRendered(function () {
 
             }
         }).catch(function (err) {
-            console.log(err);
+
             appointmentService.getAllAppointmentList().then(function (data) {
                 $('.fullScreenSpin').css('display', 'inline-block');
                 let appColor = '';
@@ -5134,8 +5145,10 @@ Template.appointments.events({
                             var result = resourceColor.filter(apmtColor => {
                                 return apmtColor.employeeName == changeAppointmentView[a].employeename
                             });
-
-                            let employeeColor = result[0].color || '';
+                            let employeeColor = '';
+                            if(result.lenght > 0){
+                               employeeColor = result[0].color || '';
+                            }
 
                             var dataList = {
                                 id: changeAppointmentView[a].id,

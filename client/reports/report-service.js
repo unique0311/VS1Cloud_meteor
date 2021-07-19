@@ -50,6 +50,18 @@ export class ReportService extends BaseService {
         return this.getList(this.ERPObjects.TAccountRunningBalanceReport,options);
     }
 
+    getBalanceSheetRedirectRangeData(datefrom, dateto) {
+      let options = {
+          ReportType: "Detail",
+          IgnoreSummarised:false,
+          IgnoreDates:false,
+          DateTo: '"'+dateto+'"',
+          DateFrom: '"'+datefrom+'"'
+      };
+      // return this.getList(this.ERPObjects.TAccount,options);
+        return this.getList(this.ERPObjects.TAccountRunningBalanceReport,options);
+    }
+
     getGSTReconciliationData(dateFrom,dateTo){
         let options = {
             ReportType:"Detail",

@@ -825,7 +825,7 @@ Template.customerawaitingpayments.events({
 
         $('.fullScreenSpin').css('display','inline-block');
         let templateObject = Template.instance();
-        sideBarService.getAllInvoiceList().then(function(data) {
+        sideBarService.getAllInvoiceList(25,0).then(function(data) {
             addVS1Data('TInvoiceEx',JSON.stringify(data)).then(function (datareturn) {
                 location.reload(true);
             }).catch(function (err) {

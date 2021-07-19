@@ -7052,7 +7052,7 @@ Template.new_invoice.events({
                     }
                 } else {}
 
-                sideBarService.getAllInvoiceList().then(function (data) {
+                sideBarService.getAllInvoiceList(25,0).then(function (data) {
                     addVS1Data('TInvoiceEx', JSON.stringify(data)).then(function (datareturn) {
                         window.open('/paymentcard?invid=' + linesave, '_self');
                     }).catch(function (err) {

@@ -3619,7 +3619,7 @@ Template.supplierpaymentcard.events({
         fromDateDay = "0" + currentBeginDate.getDate();
     }
     var toDate = currentBeginDate.getFullYear()+ "-" +(fromDateMonth) + "-"+(fromDateDay+1);
-    let prevMonth11Date = (moment().subtract(6, 'months')).format("YYYY-MM-DD");
+    let prevMonth11Date = (moment().subtract(reportsloadMonths, 'months')).format("YYYY-MM-DD");
 
 
     var url = window.location.href;
@@ -6439,7 +6439,7 @@ Template.supplierpaymentcard.events({
           fromDateDay = "0" + currentBeginDate.getDate();
       }
       var toDate = currentBeginDate.getFullYear()+ "-" +(fromDateMonth) + "-"+(fromDateDay+1);
-      let prevMonth11Date = (moment().subtract(6, 'months')).format("YYYY-MM-DD");
+      let prevMonth11Date = (moment().subtract(reportsloadMonths, 'months')).format("YYYY-MM-DD");
     var getso_id = url.split('?id=');
     var currentInvoice = getso_id[getso_id.length - 1];
     var objDetails = '';

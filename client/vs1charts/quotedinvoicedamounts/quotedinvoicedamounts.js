@@ -70,9 +70,24 @@ Template.quotedinvoicedamounts.onRendered(() => {
         let totalInvPayment6 = 0;
         let totalInvPayment7 = 0;
         let totalInvPayment8 = 0
+        var currentBeginDate = new Date();
+   var begunDate = moment(currentBeginDate).format("DD/MM/YYYY");
+   let fromDateMonth = currentBeginDate.getMonth();
+   let fromDateDay = currentBeginDate.getDate();
+   if(currentBeginDate.getMonth() < 10){
+       fromDateMonth = "0" + (currentBeginDate.getMonth()+1);
+   }else{
+     fromDateMonth = (currentBeginDate.getMonth()+1);
+   }
+
+   if(currentBeginDate.getDate() < 10){
+       fromDateDay = "0" + currentBeginDate.getDate();
+   }
+   var toDate = currentBeginDate.getFullYear()+ "-" +(fromDateMonth) + "-"+(fromDateDay+1);
+   let prevMonth11Date = (moment().subtract(reportsloadMonths, 'months')).format("YYYY-MM-DD");
             getVS1Data('TSalesList').then(function (dataObject) {
             if (dataObject.length == 0) {
-                vs1chartService.getSalesListData().then((data) => {
+               sideBarService.getSalesListData(prevMonth11Date,toDate, false).then((data) => {
 
                     let filterData = _.filter(data.tsaleslist, function (data) {
                         return data.CustomerName
@@ -482,7 +497,7 @@ Template.quotedinvoicedamounts.onRendered(() => {
 
             }
         }).catch(function (err) {
-            vs1chartService.getSalesListData().then((data) => {
+           sideBarService.getSalesListData(prevMonth11Date,toDate, false).then((data) => {
 
                 let filterData = _.filter(data.tsaleslist, function (data) {
                     return data.CustomerName

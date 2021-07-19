@@ -699,7 +699,7 @@ Template.popemployeelist.events({
     'click .btnOpenSettings' : function(event){
       let templateObject = Template.instance();
       var columns = $('#tblEmployeelistpop th');
-      
+
       const tableHeaderList = [];
       let sTible = "";
       let sWidth = "";
@@ -740,7 +740,7 @@ Template.popemployeelist.events({
   'click .btnRefresh': function () {
     $('.fullScreenSpin').css('display','inline-block');
     let templateObject = Template.instance();
-    sideBarService.getAllEmployees().then(function(data) {
+    sideBarService.getAllEmployees(25,0).then(function(data) {
       addVS1Data('TEmployee',JSON.stringify(data)).then(function (datareturn) {
         location.reload(true);
       }).catch(function (err) {
@@ -765,7 +765,7 @@ Template.popemployeelist.events({
                utilityService.exportToCsv(rows, filename, 'csv');
    },
    'click .templateDownloadXLSX': function (e) {
-     
+
      e.preventDefault();  //stop the browser from following
      window.location.href = 'sample_imports/SampleEmployee.xlsx';
    },
@@ -789,7 +789,7 @@ Template.popemployeelist.events({
            $('.file-name').text('');
            $(".btnImport").Attr("disabled");
        }else if(validCSVExtensions.indexOf(fileExtension) != -1){
-         
+
          $('.file-name').text(filename);
          let selectedFile = event.target.files[0];
 
@@ -813,17 +813,17 @@ Template.popemployeelist.events({
                    var data = e.target.result;
                    data = new Uint8Array(data);
                    var workbook = XLSX.read(data, {type: 'array'});
-                   
+
                    var result = {};
                    workbook.SheetNames.forEach(function (sheetName) {
                        var roa = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName], {header: 1});
                        var sCSV = XLSX.utils.make_csv(workbook.Sheets[sheetName]);
                        templateObj.selectedFile.set(sCSV);
-                       
+
                        if (roa.length) result[sheetName] = roa;
                    });
                    // see the result, caution: it works after reader event is done.
-                   
+
                };
                reader.readAsArrayBuffer(oFile);
 
