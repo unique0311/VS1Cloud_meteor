@@ -2488,7 +2488,7 @@ Template.appointments.onRendered(function () {
                                     return apmtColor.employeeName == useData[t].fields.TrainerName
                                 });
                                 let employeeColor = '';
-                                if(result.lenght > 0){
+                                if(result.length > 0){
                                    employeeColor = result[0].color || '';
                                 }
 
@@ -2497,6 +2497,7 @@ Template.appointments.onRendered(function () {
                                     employeeName: useData[t].fields.TrainerName,
                                     color: employeeColor
                                 };
+                                // console.log(dataList);
                                 resourceChat.push(dataList);
                                 allEmp.push(dataList);
                             }
@@ -2522,8 +2523,7 @@ Template.appointments.onRendered(function () {
                             var result = resourceColor.filter(apmtColor => {
                                 return apmtColor.employeeName == useData[t].fields.TrainerName
                             });
-
-                            if(result.lenght > 0){
+                            if(result.length > 0){
                                employeeColor = result[0].color || '';
                             }
                             var dataList = {
@@ -2560,7 +2560,6 @@ Template.appointments.onRendered(function () {
                                 employeeName: allEmployeesData[e].employeeName,
                                 color: allEmployeesData[e].color
                             };
-
                             resourceChat.push(dataList);
                             //allEmp.push(dataList);
                         }
@@ -2707,7 +2706,6 @@ Template.appointments.onRendered(function () {
 
             }
         }).catch(function (err) {
-
             appointmentService.getAllAppointmentList().then(function (data) {
                 $('.fullScreenSpin').css('display', 'inline-block');
                 let appColor = '';
@@ -5146,7 +5144,7 @@ Template.appointments.events({
                                 return apmtColor.employeeName == changeAppointmentView[a].employeename
                             });
                             let employeeColor = '';
-                            if(result.lenght > 0){
+                            if(result.length > 0){
                                employeeColor = result[0].color || '';
                             }
 
