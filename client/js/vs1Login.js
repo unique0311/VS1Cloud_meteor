@@ -179,6 +179,24 @@ Template.vs1login.onRendered(function(){
   }
 
 
+function needsToSeePrompt() {
+  if (navigator.standalone) {
+    return false;
+  }
+
+  let date = new Date();
+  let now = date.getDate();
+  let isApple = ['iPhone', 'iPad', 'iPod', 'iPad Simulator', 'iPhone Simulator','iPod Simulator'].includes(navigator.platform);
+  let result = false;
+  if(isApple === true) {
+   $('#install-prompt').modal();
+   localStorage.setItem('promptDate',now);
+  }
+}
+
+setTimeout(function(){
+needsToSeePrompt();
+},500);
   const templateObject = Template.instance();
   const arrayformid =[];
   const arrayformdet =[];
