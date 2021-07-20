@@ -189,10 +189,7 @@ Template.appointments.onRendered(function () {
                     globalSet.defaultProduct = "";
                     globalSet.id = "";
                 }
-            }).catch(function (err) {
-
-
-            });
+            }).catch(function (err) {});
         } else {
             let data = JSON.parse(dataObject[0].data);
             templateObject.getAllAppointmentListData();
@@ -449,10 +446,7 @@ Template.appointments.onRendered(function () {
                 globalSet.defaultProduct = "";
                 globalSet.id = "";
             }
-        }).catch(function (err) {
-
-
-        });
+        }).catch(function (err) {});
 
     });
     $('.fullScreenSpin').css('display', 'inline-block');
@@ -1284,9 +1278,7 @@ Template.appointments.onRendered(function () {
                         }, 100);
                     }
 
-                }).catch(function (err) {
-
-                });
+                }).catch(function (err) {});
             } else {
                 let data = JSON.parse(dataObject[0].data);
                 let useData = data.temployee;
@@ -1796,8 +1788,8 @@ Template.appointments.onRendered(function () {
                                     return apmtColor.employeeName == data.tappointment[t].TrainerName
                                 });
                                 let employeeColor = '';
-                                if(result.length > 0){
-                                  employeeColor = result[0].color || '';
+                                if (result.length > 0) {
+                                    employeeColor = result[0].color || '';
                                 }
 
                                 var dataList = {
@@ -2207,9 +2199,9 @@ Template.appointments.onRendered(function () {
                         //appointmentList.employeename = employeeName;
                         return apmt.employeeName == useData[i].fields.TrainerName;
                     });
-                    //console.log(employeeColor.length);
-                    if(employeeColor.length > 0){
-                      appColor = employeeColor[0].color || '';
+
+                    if (employeeColor.length > 0) {
+                        appColor = employeeColor[0].color || '';
                     }
                     var appointment = {
                         id: useData[i].fields.ID || '',
@@ -2488,8 +2480,8 @@ Template.appointments.onRendered(function () {
                                     return apmtColor.employeeName == useData[t].fields.TrainerName
                                 });
                                 let employeeColor = '';
-                                if(result.length > 0){
-                                   employeeColor = result[0].color || '';
+                                if (result.length > 0) {
+                                    employeeColor = result[0].color || '';
                                 }
 
                                 var dataList = {
@@ -2523,8 +2515,8 @@ Template.appointments.onRendered(function () {
                             var result = resourceColor.filter(apmtColor => {
                                 return apmtColor.employeeName == useData[t].fields.TrainerName
                             });
-                            if(result.length > 0){
-                               employeeColor = result[0].color || '';
+                            if (result.length > 0) {
+                                employeeColor = result[0].color || '';
                             }
                             var dataList = {
                                 id: useData[t].fields.ID,
@@ -4107,7 +4099,7 @@ Template.appointments.onRendered(function () {
             $("#btnHold").prop("disabled", true);
             $("#btnStartActualTime").prop("disabled", true);
             $("#btnEndActualTime").prop("disabled", true);
-            $("#startTime").prop("disabled", true);
+            $("#startTime").prop("disabled", true)
             $("#endTime").prop("disabled", true);
             $("#tActualStartTime").prop("disabled", true);
             $("#tActualEndTime").prop("disabled", true);
@@ -4463,6 +4455,44 @@ Template.appointments.events({
                 }
             }
         })
+    },
+    'click .droppable': function (event) {
+        let templateObject = Template.instance();
+        let calOptions = templateObject.globalSettings.get();
+        $('#frmAppointment')[0].reset();
+        let bookingDate = new Date();
+        let startTime = ("0" + bookingDate.getHours()).slice(-2) + ":" + ("0" + bookingDate.getMinutes()).slice(-2);
+        let defaultDuration = parseInt(calOptions.DefaultApptDuration) || 2;
+        bookingDate.setHours(bookingDate.getHours() + defaultDuration);
+        let endTime = ("0" + bookingDate.getHours()).slice(-2) + ":" + ("0" + bookingDate.getMinutes()).slice(-2);
+        let name = $(event.target).closest('tr').attr('id');
+        var date = $(event.target).closest('#allocationTable').find('th').eq($(event.target).closest('td').index()).attr('id');
+        $("#dtSODate").val(moment(date).format('DD/MM/YYYY'))
+        $("#dtSODate2").val(moment(date).format('DD/MM/YYYY'))
+        $("#txtBookedHoursSpent").val(defaultDuration);
+        $("#startTime").val(startTime);
+        $("#endTime").val(endTime);
+        $("#employee_name").val(name);
+        if (calOptions.defaultProduct != "") {
+            $('#product-list').prepend('<option value="' + calOptions.productID + '" selected>' + calOptions.defaultProduct + '</option>');
+
+        } else {
+            $('#product-list').prop('selectedIndex', -1);
+        }
+        let element = $(event.target);
+        if (element.is("p")) {}
+        else {
+            $(".paused").hide();
+            $("#btnHold").prop("disabled", false);
+            $("#btnStartActualTime").prop("disabled", false)
+            $("#btnEndActualTime").prop("disabled", false);
+            $("#startTime").prop("disabled", false);
+            $("#endTime").prop("disabled", false);
+            $("#tActualStartTime").prop("disabled", false);
+            $("#tActualEndTime").prop("disabled", false);
+            $("#txtActualHoursSpent").prop("disabled", false);
+            $('#customerListModal').modal();
+        }
 
     },
     'click .calendar .days li': function (event) {
@@ -5144,8 +5174,8 @@ Template.appointments.events({
                                 return apmtColor.employeeName == changeAppointmentView[a].employeename
                             });
                             let employeeColor = '';
-                            if(result.length > 0){
-                               employeeColor = result[0].color || '';
+                            if (result.length > 0) {
+                                employeeColor = result[0].color || '';
                             }
 
                             var dataList = {
@@ -5939,7 +5969,7 @@ Template.appointments.events({
                 });
             } else if (result[0].aStartTime == "") {
                 $('.fullScreenSpin').css('display', 'inline-block');
-                 document.getElementById("tActualStartTime").value = moment().startOf('hour').format('HH') + ":" + moment().startOf('minute').format('mm');
+                document.getElementById("tActualStartTime").value = moment().startOf('hour').format('HH') + ":" + moment().startOf('minute').format('mm');
                 $(".paused").hide();
                 $("#btnHold").prop("disabled", false);
                 let startTime = date.getFullYear() + "-" + ("0" + (date.getMonth() + 1)).slice(-2) + "-" + ("0" + (date.getDate())).slice(-2) + ' ' + ("0" + date.getHours()).slice(-2) + ":" + ("0" + date.getMinutes()).slice(-2);
