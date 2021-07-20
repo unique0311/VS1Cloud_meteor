@@ -64,7 +64,7 @@
             }
             .fc-view-harness.fc-view-harness-active {
                 max-height: 100vh !important;
-                
+
             }
             .fc-toolbar-chunk:nth-child(1) {
                 display: none;
@@ -78,6 +78,17 @@
             .headerDiv {
                 margin-bottom: 0px !important;
             }
+            .allocationOuterModal {
+                margin-bottom: 0px;
+                margin-top: 4px;
+            }
+            .allocationFooter {
+                padding: 0px;
+            }
+            .allocationHeaderParent {
+                padding: 0.75rem !important;
+            }
+
         }
     </style>
 
@@ -141,7 +152,7 @@
     </style>
 
     <div class="modal fade" role="dialog" tabindex="-1" id="allocationModal">
-        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable allocationOuterModal" role="document">
             <div class="modal-content allocationInnerModal" id="allocationInnerModal">
                 <div class="modal-header allocationHeaderParent">
                     <h4 style="margin: 0px;" class="allocationHeader">Allocation</h4>
@@ -288,7 +299,7 @@
                         <div id="here_table" style="width:100%"></div>
                     </div>
                 </div>
-                <div class="modal-footer"><button class="btn btn-light" data-dismiss="modal" type="button">Close</button>
+                <div class="modal-footer allocationFooter"><button class="btn btn-light" data-dismiss="modal" type="button">Close</button>
                 </div>
             </div>
         </div>
@@ -1124,6 +1135,12 @@ var getInputRadio = goToParent.find("input[id = " + getValue + "]");
 
             .refreshpagelist {
                 margin-bottom: 0px !important;
+            }
+        }
+
+        @media screen and (max-width: 850px) {
+            .allocationInnerModal {
+                width: 99vw;
             }
         }
 
