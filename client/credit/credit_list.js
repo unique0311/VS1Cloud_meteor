@@ -57,48 +57,7 @@ Template.creditlist.onRendered(function() {
     };
 
     templateObject.resetData = function (dataVal) {
-
-      let data = dataVal;
-let useData = data;
-let tableAll;
-let lineItems = [];
-let lineItemObj = {};
-for(let i=0; i<data.tcredit.length; i++){
-    let totalAmountEx = utilityService.modifynegativeCurrencyFormat(data.tcredit[i].fields.TotalAmount)|| 0.00;
-    let totalTax = utilityService.modifynegativeCurrencyFormat(data.tcredit[i].fields.TotalTax) || 0.00;
-    let totalAmount = utilityService.modifynegativeCurrencyFormat(data.tcredit[i].fields.TotalAmountInc)|| 0.00;
-    let totalPaid = utilityService.modifynegativeCurrencyFormat(data.tcredit[i].fields.TotalPaid)|| 0.00;
-    let totalOutstanding = utilityService.modifynegativeCurrencyFormat(data.tcredit[i].fields.TotalBalance)|| 0.00;
-    var dataList = {
-        id: data.tcredit[i].fields.ID || '',
-        employee:data.tcredit[i].fields.EmployeeName || '',
-        sortdate: data.tcredit[i].fields.OrderDate !=''? moment(data.tcredit[i].fields.OrderDate).format("YYYY/MM/DD"): data.tcredit[i].fields.OrderDate,
-        orderdate: data.tcredit[i].fields.OrderDate !=''? moment(data.tcredit[i].fields.OrderDate).format("DD/MM/YYYY"): data.tcredit[i].fields.OrderDate,
-        suppliername: data.tcredit[i].fields.SupplierName || '',
-        totalamountex: totalAmountEx || 0.00,
-        totaltax: totalTax || 0.00,
-        totalamount: totalAmount || 0.00,
-        totalpaid: totalPaid || 0.00,
-        totaloustanding: totalOutstanding || 0.00,
-        orderstatus: data.tcredit[i].fields.OrderStatus || '',
-        custfield1: '' || '',
-        custfield2: '' || '',
-        comments: data.tcredit[i].fields.Comments || '',
-    };
-    if(data.tcredit[i].fields.SupplierName.replace(/\s/g, '') != ""){
-        dataTableList.push(dataList);
-    }
-
-
-}
-templateObject.datatablerecords.set(dataTableList);
-    if(templateObject.datatablerecords.get()){
-
-      setTimeout(function () {
-        location.reload();
-      }, data.tcredit.length * 5);
-    }
-
+      window.open('/creditlist?page=last','_self');
     }
 
     templateObject.getAllCreditData = function () {
@@ -429,7 +388,9 @@ templateObject.datatablerecords.set(dataTableList);
                         }else{
 
                         }
-
+                        if(oSettings.fnRecordsDisplay() < 25){
+                            $('.paginate_button.page-item.next').addClass('disabled');
+                        }
                         $('.paginate_button.next:not(.disabled)', this.api().table().container())
                            .on('click', function(){
                              $('.fullScreenSpin').css('display','inline-block');
@@ -447,9 +408,9 @@ templateObject.datatablerecords.set(dataTableList);
                                      tcredit:thirdaryData
                                    }
 
-                                   templateObject.resetData(objCombineData);
-                                     addVS1Data('TCredit',JSON.stringify(objCombineData)).then(function (datareturn) {
 
+                                     addVS1Data('TCredit',JSON.stringify(objCombineData)).then(function (datareturn) {
+                                       templateObject.resetData(objCombineData);
                                      $('.fullScreenSpin').css('display','none');
                                      }).catch(function (err) {
                                      $('.fullScreenSpin').css('display','none');
@@ -469,6 +430,13 @@ templateObject.datatablerecords.set(dataTableList);
                                 MakeNegative();
                             }, 100);
                         },
+                        "fnInitComplete": function () {
+                          let urlParametersPage = Router.current().params.query.page;
+                          if(urlParametersPage){
+                            this.fnPageChange('last');
+                          }
+
+                         }
 
                     }).on('page', function () {
                         setTimeout(function () {
@@ -488,9 +456,9 @@ templateObject.datatablerecords.set(dataTableList);
                           $('.fullScreenSpin').css('display','none');
                         }else{
                         sideBarService.getAllCreditList('All',1).then(function(dataNonBo) {
-                        templateObject.resetData(dataNonBo);
-                          addVS1Data('TCredit',JSON.stringify(dataNonBo)).then(function (datareturn) {
 
+                          addVS1Data('TCredit',JSON.stringify(dataNonBo)).then(function (datareturn) {
+                            templateObject.resetData(dataNonBo);
                           $('.fullScreenSpin').css('display','none');
                           }).catch(function (err) {
                           $('.fullScreenSpin').css('display','none');
@@ -504,8 +472,9 @@ templateObject.datatablerecords.set(dataTableList);
                           $('.fullScreenSpin').css('display','none');
                         }else{
                           sideBarService.getAllCreditList(dataLenght,0).then(function(dataNonBo) {
-                            templateObject.resetData(dataNonBo);
+
                             addVS1Data('TCredit',JSON.stringify(dataNonBo)).then(function (datareturn) {
+                              templateObject.resetData(dataNonBo);
                             $('.fullScreenSpin').css('display','none');
                             }).catch(function (err) {
                             $('.fullScreenSpin').css('display','none');

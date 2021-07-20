@@ -58,52 +58,7 @@ Template.salesorderslist.onRendered(function() {
     };
 
     templateObject.resetData = function (dataVal) {
-
-      let data = dataVal;
-let useData = data;
-let tableAll;
-let lineItems = [];
-let lineItemObj = {};
-for(let i=0; i<data.tsalesorderex.length; i++){
-    let totalAmountEx = utilityService.modifynegativeCurrencyFormat(data.tsalesorderex[i].fields.TotalAmount)|| 0.00;
-    let totalTax = utilityService.modifynegativeCurrencyFormat(data.tsalesorderex[i].fields.TotalTax) || 0.00;
-    // Currency+''+data.tinvoice[i].TotalTax.toLocaleString(undefined, {minimumFractionDigits: 2});
-    let totalAmount = utilityService.modifynegativeCurrencyFormat(data.tsalesorderex[i].fields.TotalAmountInc)|| 0.00;
-    let totalPaid = utilityService.modifynegativeCurrencyFormat(data.tsalesorderex[i].fields.TotalPaid)|| 0.00;
-    let totalOutstanding = utilityService.modifynegativeCurrencyFormat(data.tsalesorderex[i].fields.TotalBalance)|| 0.00;
-    var dataList = {
-        id: data.tsalesorderex[i].fields.ID || '',
-        employee:data.tsalesorderex[i].fields.EmployeeName || '',
-        sortdate: data.tsalesorderex[i].fields.SaleDate !=''? moment(data.tsalesorderex[i].fields.SaleDate).format("YYYY/MM/DD"): data.tsalesorderex[i].fields.SaleDate,
-        saledate: data.tsalesorderex[i].fields.SaleDate !=''? moment(data.tsalesorderex[i].fields.SaleDate).format("DD/MM/YYYY"): data.tsalesorderex[i].fields.SaleDate,
-        duedate: data.tsalesorderex[i].fields.DueDate !=''? moment(data.tsalesorderex[i].fields.DueDate).format("DD/MM/YYYY"): data.tsalesorderex[i].fields.DueDate,
-        customername: data.tsalesorderex[i].fields.CustomerName || '',
-        totalamountex: totalAmountEx || 0.00,
-        totaltax: totalTax || 0.00,
-        totalamount: totalAmount || 0.00,
-        totalpaid: totalPaid || 0.00,
-        totaloustanding: totalOutstanding || 0.00,
-        salestatus: data.tsalesorderex[i].fields.SalesStatus || '',
-        custfield1: data.tsalesorderex[i].fields.SaleCustField1 || '',
-        custfield2: data.tsalesorderex[i].fields.SaleCustField2 || '',
-        comments: data.tsalesorderex[i].fields.Comments || '',
-    };
-
-    if(data.tsalesorderex[i].fields.Deleted == false && data.tsalesorderex[i].fields.CustomerName.replace(/\s/g, '') != ''){
-        dataTableList.push(dataList);
-    }
-
-    //}
-}
-
-templateObject.datatablerecords.set(dataTableList);
-    if(templateObject.datatablerecords.get()){
-
-      setTimeout(function () {
-        location.reload();
-      }, data.tsalesorderex.length * 5);
-    }
-
+        window.open('/salesorderslist?page=last','_self');
     }
 
     templateObject.getAllSalesOrderData = function () {
@@ -446,6 +401,9 @@ templateObject.datatablerecords.set(dataTableList);
                           }else{
 
                           }
+                          if(oSettings.fnRecordsDisplay() < 25){
+                              $('.paginate_button.page-item.next').addClass('disabled');
+                          }
 
                           $('.paginate_button.next:not(.disabled)', this.api().table().container())
                            .on('click', function(){
@@ -464,9 +422,9 @@ templateObject.datatablerecords.set(dataTableList);
                                      tsalesorderex:thirdaryData
                                    }
 
-                                   templateObject.resetData(objCombineData);
-                                     addVS1Data('TSalesOrderEx',JSON.stringify(objCombineData)).then(function (datareturn) {
 
+                                     addVS1Data('TSalesOrderEx',JSON.stringify(objCombineData)).then(function (datareturn) {
+                                       templateObject.resetData(objCombineData);
                                      $('.fullScreenSpin').css('display','none');
                                      }).catch(function (err) {
                                      $('.fullScreenSpin').css('display','none');
@@ -486,6 +444,13 @@ templateObject.datatablerecords.set(dataTableList);
                                 MakeNegative();
                             }, 100);
                         },
+                        "fnInitComplete": function () {
+                          let urlParametersPage = Router.current().params.query.page;
+                          if(urlParametersPage){
+                            this.fnPageChange('last');
+                          }
+
+                         }
 
                     }).on('page', function () {
                         setTimeout(function () {
@@ -504,9 +469,9 @@ templateObject.datatablerecords.set(dataTableList);
                           $('.fullScreenSpin').css('display','none');
                         }else{
                         sideBarService.getAllSalesOrderList('All',1).then(function(dataNonBo) {
-                        templateObject.resetData(dataNonBo);
-                          addVS1Data('TSalesOrderEx',JSON.stringify(dataNonBo)).then(function (datareturn) {
 
+                          addVS1Data('TSalesOrderEx',JSON.stringify(dataNonBo)).then(function (datareturn) {
+                            templateObject.resetData(dataNonBo);
                           $('.fullScreenSpin').css('display','none');
                           }).catch(function (err) {
                           $('.fullScreenSpin').css('display','none');
@@ -520,8 +485,9 @@ templateObject.datatablerecords.set(dataTableList);
                           $('.fullScreenSpin').css('display','none');
                         }else{
                           sideBarService.getAllSalesOrderList(dataLenght,0).then(function(dataNonBo) {
-                            templateObject.resetData(dataNonBo);
+
                             addVS1Data('TSalesOrderEx',JSON.stringify(dataNonBo)).then(function (datareturn) {
+                              templateObject.resetData(dataNonBo);
                             $('.fullScreenSpin').css('display','none');
                             }).catch(function (err) {
                             $('.fullScreenSpin').css('display','none');

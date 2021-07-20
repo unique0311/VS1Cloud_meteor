@@ -47,7 +47,9 @@ Template.joblist.onRendered(function () {
 
         }
     });
-
+    templateObject.resetData = function (dataVal) {
+        window.open('/joblist?page=last','_self');
+    }
     templateObject.getCustomers = function () {
 
         getVS1Data('TJobVS1').then(function (dataObject) {
@@ -55,6 +57,7 @@ Template.joblist.onRendered(function () {
                 sideBarService.getAllJobssDataVS1(25,0).then(function (data) {
                     let lineItems = [];
                     let lineItemObj = {};
+                    addVS1Data('TJobVS1',JSON.stringify(data));
                     for (let i = 0; i < data.tjobvs1.length; i++) {
                         let arBalance = utilityService.modifynegativeCurrencyFormat(data.tjobvs1[i].fields.ARBalance) || 0.00;
                         let creditBalance = utilityService.modifynegativeCurrencyFormat(data.tjobvs1[i].fields.CreditBalance) || 0.00;
@@ -393,10 +396,67 @@ Template.joblist.onRendered(function () {
                             $('#tblJoblist').DataTable().ajax.reload();
                         },
                         "fnDrawCallback": function (oSettings) {
+                          $('.paginate_button.page-item').removeClass('disabled');
+                          $('#tblJoblist_ellipsis').addClass('disabled');
+
+                          if(oSettings._iDisplayLength == -1){
+                            if(oSettings.fnRecordsDisplay() > 150){
+                              $('.paginate_button.page-item.previous').addClass('disabled');
+                              $('.paginate_button.page-item.next').addClass('disabled');
+                            }
+                          }else{
+
+                          }
+                          if(oSettings.fnRecordsDisplay() < 25){
+                              $('.paginate_button.page-item.next').addClass('disabled');
+                          }
+
+                          $('.paginate_button.next:not(.disabled)', this.api().table().container())
+                           .on('click', function(){
+                             $('.fullScreenSpin').css('display','inline-block');
+                             let dataLenght = oSettings._iDisplayLength;
+
+                             sideBarService.getAllJobssDataVS1(25,oSettings.fnRecordsDisplay()).then(function(dataObjectnew) {
+                               getVS1Data('TJobVS1').then(function (dataObjectold) {
+                                 if(dataObjectold.length == 0){
+
+                                 }else{
+                                   let dataOld = JSON.parse(dataObjectold[0].data);
+
+                                   var thirdaryData = $.merge($.merge([], dataObjectnew.tjobvs1), dataOld.tjobvs1);
+                                   let objCombineData = {
+                                     tjobvs1:thirdaryData
+                                   }
+
+
+                                     addVS1Data('TJobVS1',JSON.stringify(objCombineData)).then(function (datareturn) {
+                                       templateObject.resetData(objCombineData);
+                                     $('.fullScreenSpin').css('display','none');
+                                     }).catch(function (err) {
+                                     $('.fullScreenSpin').css('display','none');
+                                     });
+
+                                 }
+                                }).catch(function (err) {
+
+                                });
+
+                             }).catch(function(err) {
+                               $('.fullScreenSpin').css('display','none');
+                             });
+
+                           });
                             setTimeout(function () {
                                 MakeNegative();
                             }, 100);
                         },
+                        "fnInitComplete": function () {
+                          let urlParametersPage = Router.current().params.query.page;
+                          if(urlParametersPage){
+                            this.fnPageChange('last');
+                          }
+
+                         }
 
                     }).on('page', function () {
                         setTimeout(function () {
@@ -407,6 +467,42 @@ Template.joblist.onRendered(function () {
                     }).on('column-reorder', function () {
 
                     }).on('length.dt', function (e, settings, len) {
+                      $('.fullScreenSpin').css('display','inline-block');
+                      let dataLenght = settings._iDisplayLength;
+                      if(dataLenght == -1){
+                        if(settings.fnRecordsDisplay() > 150){
+                          $('.paginate_button.page-item.next').addClass('disabled');
+                          $('.fullScreenSpin').css('display','none');
+                        }else{
+                        sideBarService.getAllJobssDataVS1('All',1).then(function(dataNonBo) {
+
+                          addVS1Data('TJobVS1',JSON.stringify(dataNonBo)).then(function (datareturn) {
+                            templateObject.resetData(dataNonBo);
+                          $('.fullScreenSpin').css('display','none');
+                          }).catch(function (err) {
+                          $('.fullScreenSpin').css('display','none');
+                          });
+                        }).catch(function(err) {
+                          $('.fullScreenSpin').css('display','none');
+                        });
+                       }
+                      }else{
+                        if (settings.fnRecordsDisplay() >= settings._iDisplayLength) {
+                          $('.fullScreenSpin').css('display','none');
+                        }else{
+                          sideBarService.getAllJobssDataVS1(dataLenght,0).then(function(dataNonBo) {
+
+                            addVS1Data('TJobVS1',JSON.stringify(dataNonBo)).then(function (datareturn) {
+                              templateObject.resetData(dataNonBo);
+                            $('.fullScreenSpin').css('display','none');
+                            }).catch(function (err) {
+                            $('.fullScreenSpin').css('display','none');
+                            });
+                          }).catch(function(err) {
+                            $('.fullScreenSpin').css('display','none');
+                          });
+                        }
+                      }
                         setTimeout(function () {
                             MakeNegative();
                         }, 100);
@@ -455,6 +551,7 @@ Template.joblist.onRendered(function () {
             sideBarService.getAllJobssDataVS1(25,0).then(function (data) {
                 let lineItems = [];
                 let lineItemObj = {};
+                addVS1Data('TJobVS1',JSON.stringify(data));
                 for (let i = 0; i < data.tjobvs1.length; i++) {
                     let arBalance = utilityService.modifynegativeCurrencyFormat(data.tjobvs1[i].fields.ARBalance) || 0.00;
                     let creditBalance = utilityService.modifynegativeCurrencyFormat(data.tjobvs1[i].fields.CreditBalance) || 0.00;

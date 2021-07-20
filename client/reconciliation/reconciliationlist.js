@@ -56,206 +56,213 @@ Template.reconciliationlist.onRendered(function() {
         });
     };
 
+    templateObject.resetData = function (dataVal) {
+        window.open('/reconciliationlist?page=last','_self');
+    }
+
     templateObject.getAllReconData = function () {
         getVS1Data('TReconciliation').then(function (dataObject) {
             if(dataObject.length == 0){
-                purchaseService.getAllReconcilationList().then(function (data) {
-                    let lineItems = [];
-                    let lineItemObj = {};
-                    for(let i=0; i<data.treconciliation.length; i++){
-                        let openBalance = utilityService.modifynegativeCurrencyFormat(data.treconciliation[i].OpenBalance)|| 0.00;
-                        let closeBalance = utilityService.modifynegativeCurrencyFormat(data.treconciliation[i].CloseBalance)|| 0.00;
-                        var dataList = {
-                            id: data.treconciliation[i].Id || '',
-                            sortdate: data.treconciliation[i].ReconciliationDate !=''? moment(data.treconciliation[i].ReconciliationDate).format("YYYY/MM/DD"): data.treconciliation[i].ReconciliationDate,
-                            recondate: data.treconciliation[i].ReconciliationDate !=''? moment(data.treconciliation[i].ReconciliationDate).format("DD/MM/YYYY"): data.treconciliation[i].ReconciliationDate,
-                            accountname:data.treconciliation[i].AccountName || '',
-                            statementno: data.treconciliation[i].StatementNo || '',
-                            department: data.treconciliation[i].DeptName|| '',
-                            openbalance: openBalance || 0.00,
-                            closebalance: closeBalance || 0.00,
-                            employee: data.treconciliation[i].EmployeeName || '',
-                            notes: data.treconciliation[i].Notes || '',
-                        };
-                        dataTableList.push(dataList);
+              sideBarService.getAllReconcilationList(25,0).then(function (data) {
+                addVS1Data('TReconciliation',JSON.stringify(data));
+                  let lineItems = [];
+                  let lineItemObj = {};
+                  for(let i=0; i<data.treconciliation.length; i++){
+                      let openBalance = utilityService.modifynegativeCurrencyFormat(data.treconciliation[i].fields.OpenBalance)|| 0.00;
+                      let closeBalance = utilityService.modifynegativeCurrencyFormat(data.treconciliation[i].fields.CloseBalance)|| 0.00;
+                      var dataList = {
+                          id: data.treconciliation[i].fields.ID || '',
+                          sortdate: data.treconciliation[i].fields.ReconciliationDate !=''? moment(data.treconciliation[i].fields.ReconciliationDate).format("YYYY/MM/DD"): data.treconciliation[i].fields.ReconciliationDate,
+                          recondate: data.treconciliation[i].fields.ReconciliationDate !=''? moment(data.treconciliation[i].fields.ReconciliationDate).format("DD/MM/YYYY"): data.treconciliation[i].fields.ReconciliationDate,
+                          accountname:data.treconciliation[i].fields.AccountName || '',
+                          statementno: data.treconciliation[i].fields.StatementNo || '',
+                          department: data.treconciliation[i].fields.DeptName|| '',
+                          openbalance: openBalance || 0.00,
+                          closebalance: closeBalance || 0.00,
+                          employee: data.treconciliation[i].fields.EmployeeName || '',
+                          notes: data.treconciliation[i].fields.Notes || '',
+                      };
+                      if(data.treconciliation[i].fields.ReconciliationDate != ''){
+                          dataTableList.push(dataList);
+                      }
 
-                    }
-                    templateObject.datatablerecords.set(dataTableList);
+                  }
+                  templateObject.datatablerecords.set(dataTableList);
 
-                    if(templateObject.datatablerecords.get()){
+                  if(templateObject.datatablerecords.get()){
 
-                        Meteor.call('readPrefMethod',Session.get('mycloudLogonID'),'tblreconciliationlist', function(error, result){
-                            if(error){
+                      Meteor.call('readPrefMethod',Session.get('mycloudLogonID'),'tblreconciliationlist', function(error, result){
+                          if(error){
 
-                            }else{
-                                if(result){
-                                    for (let i = 0; i < result.customFields.length; i++) {
-                                        let customcolumn = result.customFields;
-                                        let columData = customcolumn[i].label;
-                                        let columHeaderUpdate = customcolumn[i].thclass.replace(/ /g, ".");
-                                        let hiddenColumn = customcolumn[i].hidden;
-                                        let columnClass = columHeaderUpdate.split('.')[1];
-                                        let columnWidth = customcolumn[i].width;
-                                        let columnindex = customcolumn[i].index + 1;
+                          }else{
+                              if(result){
+                                  for (let i = 0; i < result.customFields.length; i++) {
+                                      let customcolumn = result.customFields;
+                                      let columData = customcolumn[i].label;
+                                      let columHeaderUpdate = customcolumn[i].thclass.replace(/ /g, ".");
+                                      let hiddenColumn = customcolumn[i].hidden;
+                                      let columnClass = columHeaderUpdate.split('.')[1];
+                                      let columnWidth = customcolumn[i].width;
+                                      let columnindex = customcolumn[i].index + 1;
 
-                                        if(hiddenColumn == true){
+                                      if(hiddenColumn == true){
 
-                                            $("."+columnClass+"").addClass('hiddenColumn');
-                                            $("."+columnClass+"").removeClass('showColumn');
-                                        }else if(hiddenColumn == false){
-                                            $("."+columnClass+"").removeClass('hiddenColumn');
-                                            $("."+columnClass+"").addClass('showColumn');
-                                        }
+                                          $("."+columnClass+"").addClass('hiddenColumn');
+                                          $("."+columnClass+"").removeClass('showColumn');
+                                      }else if(hiddenColumn == false){
+                                          $("."+columnClass+"").removeClass('hiddenColumn');
+                                          $("."+columnClass+"").addClass('showColumn');
+                                      }
 
-                                    }
-                                }
+                                  }
+                              }
 
-                            }
-                        });
+                          }
+                      });
 
 
-                        setTimeout(function () {
-                            MakeNegative();
-                        }, 100);
-                    }
+                      setTimeout(function () {
+                          MakeNegative();
+                      }, 100);
+                  }
 
-                    setTimeout(function () {
-                        $('.fullScreenSpin').css('display','none');
-                        //$.fn.dataTable.moment('DD/MM/YY');
-                        $('#tblreconciliationlist').DataTable({
-                            // columnDefs: [
-                            //     {type: 'date', targets: 0}
-                            // ],
-                            "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
-                            buttons: [
-                                {
-                                    extend: 'excelHtml5',
-                                    text: '',
-                                    download: 'open',
-                                    className: "btntabletocsv hiddenColumn",
-                                    filename: "Reconciliation List - "+ moment().format(),
-                                    orientation:'portrait',
-                                    exportOptions: {
-                                        columns: ':visible',
-                                        format: {
-                                            body: function ( data, row, column ) {
-                                                if(data.includes("</span>")){
-                                                    var res = data.split("</span>");
-                                                    data = res[1];
-                                                }
+                  setTimeout(function () {
+                      $('.fullScreenSpin').css('display','none');
+                      //$.fn.dataTable.moment('DD/MM/YY');
+                      $('#tblreconciliationlist').DataTable({
+                          // columnDefs: [
+                          //     {type: 'date', targets: 0}
+                          // ],
+                          "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
+                          buttons: [
+                              {
+                                  extend: 'excelHtml5',
+                                  text: '',
+                                  download: 'open',
+                                  className: "btntabletocsv hiddenColumn",
+                                  filename: "Reconciliation List - "+ moment().format(),
+                                  orientation:'portrait',
+                                  exportOptions: {
+                                      columns: ':visible',
+                                      format: {
+                                          body: function ( data, row, column ) {
+                                              if(data.includes("</span>")){
+                                                  var res = data.split("</span>");
+                                                  data = res[1];
+                                              }
 
-                                                return column === 1 ? data.replace(/<.*?>/ig, ""): data;
+                                              return column === 1 ? data.replace(/<.*?>/ig, ""): data;
 
-                                            }
-                                        }
-                                    }
-                                },{
-                                    extend: 'print',
-                                    download: 'open',
-                                    className: "btntabletopdf hiddenColumn",
-                                    text: '',
-                                    title: 'Reconciliation',
-                                    filename: "Reconciliation List - "+ moment().format(),
-                                    exportOptions: {
-                                        columns: ':visible',
-                                        stripHtml: false
-                                    }
-                                }],
-                            select: true,
-                            destroy: true,
-                            colReorder: true,
-                            // bStateSave: true,
-                            // rowId: 0,
-                            pageLength: 25,
-                            lengthMenu: [ [10, 25, 50, -1], [10, 25, 50, "All"] ],
-                            info: true,
-                            responsive: true,
-                            "order": [[ 0, "desc" ],[ 4, "desc" ]],
-                            action: function () {
-                                $('#tblreconciliationlist').DataTable().ajax.reload();
-                            },
-                            "fnDrawCallback": function (oSettings) {
-                                setTimeout(function () {
-                                    MakeNegative();
-                                }, 100);
-                            },
+                                          }
+                                      }
+                                  }
+                              },{
+                                  extend: 'print',
+                                  download: 'open',
+                                  className: "btntabletopdf hiddenColumn",
+                                  text: '',
+                                  title: 'Reconciliation',
+                                  filename: "Reconciliation List - "+ moment().format(),
+                                  exportOptions: {
+                                      columns: ':visible',
+                                      stripHtml: false
+                                  }
+                              }],
+                          select: true,
+                          destroy: true,
+                          colReorder: true,
+                          // bStateSave: true,
+                          // rowId: 0,
+                          pageLength: 25,
+                          lengthMenu: [ [10, 25, 50, -1], [10, 25, 50, "All"] ],
+                          info: true,
+                          responsive: true,
+                          "order": [[ 0, "desc" ],[ 4, "desc" ]],
+                          action: function () {
+                              $('#tblreconciliationlist').DataTable().ajax.reload();
+                          },
+                          "fnDrawCallback": function (oSettings) {
+                              setTimeout(function () {
+                                  MakeNegative();
+                              }, 100);
+                          },
 
-                        }).on('page', function () {
-                            setTimeout(function () {
-                                MakeNegative();
-                            }, 100);
-                            let draftRecord = templateObject.datatablerecords.get();
-                            templateObject.datatablerecords.set(draftRecord);
-                        }).on('column-reorder', function () {
+                      }).on('page', function () {
+                          setTimeout(function () {
+                              MakeNegative();
+                          }, 100);
+                          let draftRecord = templateObject.datatablerecords.get();
+                          templateObject.datatablerecords.set(draftRecord);
+                      }).on('column-reorder', function () {
 
-                        }).on( 'length.dt', function ( e, settings, len ) {
-                            setTimeout(function () {
-                                MakeNegative();
-                            }, 100);
-                        });
-                        $('.fullScreenSpin').css('display','none');
-                    }, 0);
+                      }).on( 'length.dt', function ( e, settings, len ) {
+                          setTimeout(function () {
+                              MakeNegative();
+                          }, 100);
+                      });
+                      $('.fullScreenSpin').css('display','none');
+                  }, 0);
 
-                    var columns = $('#tblreconciliationlist th');
-                    let sTible = "";
-                    let sWidth = "";
-                    let sIndex = "";
-                    let sVisible = "";
-                    let columVisible = false;
-                    let sClass = "";
-                    $.each(columns, function(i,v) {
-                        if(v.hidden == false){
-                            columVisible =  true;
-                        }
-                        if((v.className.includes("hiddenColumn"))){
-                            columVisible = false;
-                        }
-                        sWidth = v.style.width.replace('px', "");
+                  var columns = $('#tblreconciliationlist th');
+                  let sTible = "";
+                  let sWidth = "";
+                  let sIndex = "";
+                  let sVisible = "";
+                  let columVisible = false;
+                  let sClass = "";
+                  $.each(columns, function(i,v) {
+                      if(v.hidden == false){
+                          columVisible =  true;
+                      }
+                      if((v.className.includes("hiddenColumn"))){
+                          columVisible = false;
+                      }
+                      sWidth = v.style.width.replace('px', "");
 
-                        let datatablerecordObj = {
-                            sTitle: v.innerText || '',
-                            sWidth: sWidth || '',
-                            sIndex: v.cellIndex || '',
-                            sVisible: columVisible || false,
-                            sClass: v.className || ''
-                        };
-                        tableHeaderList.push(datatablerecordObj);
-                    });
-                    templateObject.tableheaderrecords.set(tableHeaderList);
-                    $('div.dataTables_filter input').addClass('form-control form-control-sm');
-                    $('#tblreconciliationlist tbody').on( 'click', 'tr', function () {
-                        var listData = $(this).closest('tr').attr('id');
-                        if(listData){
-                            window.open('/bankrecon?id=' + listData,'_self');
-                        }
-                    });
+                      let datatablerecordObj = {
+                          sTitle: v.innerText || '',
+                          sWidth: sWidth || '',
+                          sIndex: v.cellIndex || '',
+                          sVisible: columVisible || false,
+                          sClass: v.className || ''
+                      };
+                      tableHeaderList.push(datatablerecordObj);
+                  });
+                  templateObject.tableheaderrecords.set(tableHeaderList);
+                  $('div.dataTables_filter input').addClass('form-control form-control-sm');
+                  $('#tblreconciliationlist tbody').on( 'click', 'tr', function () {
+                      var listData = $(this).closest('tr').attr('id');
+                      if(listData){
+                          window.open('/bankrecon?id=' + listData,'_self');
+                      }
+                  });
 
-                }).catch(function (err) {
-                    // Bert.alert('<strong>' + err + '</strong>!', 'danger');
-                    $('.fullScreenSpin').css('display','none');
-                    // Meteor._reload.reload();
-                });
+              }).catch(function (err) {
+                  // Bert.alert('<strong>' + err + '</strong>!', 'danger');
+                  $('.fullScreenSpin').css('display','none');
+                  // Meteor._reload.reload();
+              });
             }else{
                 let data = JSON.parse(dataObject[0].data);
                 let useData = data.treconciliation;
                 let lineItems = [];
                 let lineItemObj = {};
-                for(let i=0; i<useData.length; i++){
-                    let openBalance = utilityService.modifynegativeCurrencyFormat(useData[i].fields.OpenBalance)|| 0.00;
-                    let closeBalance = utilityService.modifynegativeCurrencyFormat(useData[i].fields.CloseBalance)|| 0.00;
+                for(let i=0; i<data.treconciliation.length; i++){
+                    let openBalance = utilityService.modifynegativeCurrencyFormat(data.treconciliation[i].fields.OpenBalance)|| 0.00;
+                    let closeBalance = utilityService.modifynegativeCurrencyFormat(data.treconciliation[i].fields.CloseBalance)|| 0.00;
                     var dataList = {
-                        id: useData[i].fields.ID || '',
-                        sortdate: useData[i].fields.ReconciliationDate !=''? moment(useData[i].fields.ReconciliationDate).format("YYYY/MM/DD"): useData[i].fields.ReconciliationDate,
-                        recondate: useData[i].fields.ReconciliationDate !=''? moment(useData[i].fields.ReconciliationDate).format("DD/MM/YYYY"): useData[i].fields.ReconciliationDate,
-                        accountname:useData[i].fields.AccountName || '',
-                        statementno: useData[i].fields.StatementNo || '',
-                        department: useData[i].fields.DeptName|| '',
+                        id: data.treconciliation[i].fields.ID || '',
+                        sortdate: data.treconciliation[i].fields.ReconciliationDate !=''? moment(data.treconciliation[i].fields.ReconciliationDate).format("YYYY/MM/DD"): data.treconciliation[i].fields.ReconciliationDate,
+                        recondate: data.treconciliation[i].fields.ReconciliationDate !=''? moment(data.treconciliation[i].fields.ReconciliationDate).format("DD/MM/YYYY"): data.treconciliation[i].fields.ReconciliationDate,
+                        accountname:data.treconciliation[i].fields.AccountName || '',
+                        statementno: data.treconciliation[i].fields.StatementNo || '',
+                        department: data.treconciliation[i].fields.DeptName|| '',
                         openbalance: openBalance || 0.00,
                         closebalance: closeBalance || 0.00,
-                        employee: useData[i].fields.EmployeeName || '',
-                        notes: useData[i].fields.Notes || '',
+                        employee: data.treconciliation[i].fields.EmployeeName || '',
+                        notes: data.treconciliation[i].fields.Notes || '',
                     };
-                    if(useData[i].fields.ReconciliationDate != ''){
+                    if(data.treconciliation[i].fields.ReconciliationDate != ''){
                         dataTableList.push(dataList);
                     }
 
@@ -355,10 +362,67 @@ Template.reconciliationlist.onRendered(function() {
                             $('#tblreconciliationlist').DataTable().ajax.reload();
                         },
                         "fnDrawCallback": function (oSettings) {
+                          $('.paginate_button.page-item').removeClass('disabled');
+                          $('#tblreconciliationlist_ellipsis').addClass('disabled');
+
+                          if(oSettings._iDisplayLength == -1){
+                            if(oSettings.fnRecordsDisplay() > 150){
+                              $('.paginate_button.page-item.previous').addClass('disabled');
+                              $('.paginate_button.page-item.next').addClass('disabled');
+                            }
+                          }else{
+
+                          }
+                          if(oSettings.fnRecordsDisplay() < 25){
+                              $('.paginate_button.page-item.next').addClass('disabled');
+                          }
+
+                          $('.paginate_button.next:not(.disabled)', this.api().table().container())
+                           .on('click', function(){
+                             $('.fullScreenSpin').css('display','inline-block');
+                             let dataLenght = oSettings._iDisplayLength;
+
+                             sideBarService.getAllReconcilationList(25,oSettings.fnRecordsDisplay()).then(function(dataObjectnew) {
+                               getVS1Data('TReconciliation').then(function (dataObjectold) {
+                                 if(dataObjectold.length == 0){
+
+                                 }else{
+                                   let dataOld = JSON.parse(dataObjectold[0].data);
+
+                                   var thirdaryData = $.merge($.merge([], dataObjectnew.treconciliation), dataOld.treconciliation);
+                                   let objCombineData = {
+                                     treconciliation:thirdaryData
+                                   }
+
+
+                                     addVS1Data('TReconciliation',JSON.stringify(objCombineData)).then(function (datareturn) {
+                                       templateObject.resetData(objCombineData);
+                                     $('.fullScreenSpin').css('display','none');
+                                     }).catch(function (err) {
+                                     $('.fullScreenSpin').css('display','none');
+                                     });
+
+                                 }
+                                }).catch(function (err) {
+
+                                });
+
+                             }).catch(function(err) {
+                               $('.fullScreenSpin').css('display','none');
+                             });
+
+                           });
                             setTimeout(function () {
                                 MakeNegative();
                             }, 100);
                         },
+                        "fnInitComplete": function () {
+                          let urlParametersPage = Router.current().params.query.page;
+                          if(urlParametersPage){
+                            this.fnPageChange('last');
+                          }
+
+                         }
 
                     }).on('page', function () {
                         setTimeout(function () {
@@ -369,6 +433,42 @@ Template.reconciliationlist.onRendered(function() {
                     }).on('column-reorder', function () {
 
                     }).on( 'length.dt', function ( e, settings, len ) {
+                      $('.fullScreenSpin').css('display','inline-block');
+                      let dataLenght = settings._iDisplayLength;
+                      if(dataLenght == -1){
+                        if(settings.fnRecordsDisplay() > 150){
+                          $('.paginate_button.page-item.next').addClass('disabled');
+                          $('.fullScreenSpin').css('display','none');
+                        }else{
+                        sideBarService.getAllReconcilationList('All',1).then(function(dataNonBo) {
+
+                          addVS1Data('TReconciliation',JSON.stringify(dataNonBo)).then(function (datareturn) {
+                            templateObject.resetData(dataNonBo);
+                          $('.fullScreenSpin').css('display','none');
+                          }).catch(function (err) {
+                          $('.fullScreenSpin').css('display','none');
+                          });
+                        }).catch(function(err) {
+                          $('.fullScreenSpin').css('display','none');
+                        });
+                       }
+                      }else{
+                        if (settings.fnRecordsDisplay() >= settings._iDisplayLength) {
+                          $('.fullScreenSpin').css('display','none');
+                        }else{
+                          sideBarService.getAllReconcilationList(dataLenght,0).then(function(dataNonBo) {
+
+                            addVS1Data('TReconciliation',JSON.stringify(dataNonBo)).then(function (datareturn) {
+                              templateObject.resetData(dataNonBo);
+                            $('.fullScreenSpin').css('display','none');
+                            }).catch(function (err) {
+                            $('.fullScreenSpin').css('display','none');
+                            });
+                          }).catch(function(err) {
+                            $('.fullScreenSpin').css('display','none');
+                          });
+                        }
+                      }
                         setTimeout(function () {
                             MakeNegative();
                         }, 100);
@@ -413,26 +513,28 @@ Template.reconciliationlist.onRendered(function() {
 
             }
         }).catch(function (err) {
-            purchaseService.getAllReconcilationList().then(function (data) {
-
+            sideBarService.getAllReconcilationList(25,0).then(function (data) {
+              addVS1Data('TReconciliation',JSON.stringify(data));
                 let lineItems = [];
                 let lineItemObj = {};
                 for(let i=0; i<data.treconciliation.length; i++){
-                    let openBalance = utilityService.modifynegativeCurrencyFormat(data.treconciliation[i].OpenBalance)|| 0.00;
-                    let closeBalance = utilityService.modifynegativeCurrencyFormat(data.treconciliation[i].CloseBalance)|| 0.00;
+                    let openBalance = utilityService.modifynegativeCurrencyFormat(data.treconciliation[i].fields.OpenBalance)|| 0.00;
+                    let closeBalance = utilityService.modifynegativeCurrencyFormat(data.treconciliation[i].fields.CloseBalance)|| 0.00;
                     var dataList = {
-                        id: data.treconciliation[i].Id || '',
-                        sortdate: data.treconciliation[i].ReconciliationDate !=''? moment(data.treconciliation[i].ReconciliationDate).format("YYYY/MM/DD"): data.treconciliation[i].ReconciliationDate,
-                        recondate: data.treconciliation[i].ReconciliationDate !=''? moment(data.treconciliation[i].ReconciliationDate).format("DD/MM/YYYY"): data.treconciliation[i].ReconciliationDate,
-                        accountname:data.treconciliation[i].AccountName || '',
-                        statementno: data.treconciliation[i].StatementNo || '',
-                        department: data.treconciliation[i].DeptName|| '',
+                        id: data.treconciliation[i].fields.ID || '',
+                        sortdate: data.treconciliation[i].fields.ReconciliationDate !=''? moment(data.treconciliation[i].fields.ReconciliationDate).format("YYYY/MM/DD"): data.treconciliation[i].fields.ReconciliationDate,
+                        recondate: data.treconciliation[i].fields.ReconciliationDate !=''? moment(data.treconciliation[i].fields.ReconciliationDate).format("DD/MM/YYYY"): data.treconciliation[i].fields.ReconciliationDate,
+                        accountname:data.treconciliation[i].fields.AccountName || '',
+                        statementno: data.treconciliation[i].fields.StatementNo || '',
+                        department: data.treconciliation[i].fields.DeptName|| '',
                         openbalance: openBalance || 0.00,
                         closebalance: closeBalance || 0.00,
-                        employee: data.treconciliation[i].EmployeeName || '',
-                        notes: data.treconciliation[i].Notes || '',
+                        employee: data.treconciliation[i].fields.EmployeeName || '',
+                        notes: data.treconciliation[i].fields.Notes || '',
                     };
-                    dataTableList.push(dataList);
+                    if(data.treconciliation[i].fields.ReconciliationDate != ''){
+                        dataTableList.push(dataList);
+                    }
 
                 }
                 templateObject.datatablerecords.set(dataTableList);
@@ -774,7 +876,7 @@ Template.reconciliationlist.events({
         }).catch(function(err) {
 
         });
-        sideBarService.getAllReconcilationList().then(function(data) {
+        sideBarService.getAllReconcilationList(25,0).then(function(data) {
             addVS1Data('TReconciliation',JSON.stringify(data)).then(function (datareturn) {
                 window.open('/reconciliationlist','_self');
             }).catch(function (err) {

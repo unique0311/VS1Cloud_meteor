@@ -58,46 +58,7 @@ Template.billlist.onRendered(function() {
     };
 
     templateObject.resetData = function (dataVal) {
-
-      let data = dataVal;
-let useData = data;
-let tableAll;
-let lineItems = [];
-let lineItemObj = {};
-for(let i=0; i<data.tbillex.length; i++){
-    let totalAmountEx = utilityService.modifynegativeCurrencyFormat(data.tbillex[i].fields.TotalAmount)|| 0.00;
-    let totalTax = utilityService.modifynegativeCurrencyFormat(data.tbillex[i].fields.TotalTax) || 0.00;
-    let totalAmount = utilityService.modifynegativeCurrencyFormat(data.tbillex[i].fields.TotalAmountInc)|| 0.00;
-    let totalPaid = utilityService.modifynegativeCurrencyFormat(data.tbillex[i].fields.TotalPaid)|| 0.00;
-    let totalOutstanding = utilityService.modifynegativeCurrencyFormat(data.tbillex[i].fields.TotalBalance)|| 0.00;
-    var dataList = {
-        id: data.tbillex[i].fields.ID || '',
-        employee:data.tbillex[i].fields.EmployeeName || '',
-        accountname:data.tbillex[i].fields.AccountName || '',
-        sortdate: data.tbillex[i].fields.OrderDate !=''? moment(data.tbillex[i].fields.OrderDate).format("YYYY/MM/DD"): data.tbillex[i].fields.OrderDate,
-        orderdate: data.tbillex[i].fields.OrderDate !=''? moment(data.tbillex[i].fields.OrderDate).format("DD/MM/YYYY"): data.tbillex[i].fields.OrderDate,
-        suppliername: data.tbillex[i].fields.SupplierName || '',
-        totalamountex: totalAmountEx || 0.00,
-        totaltax: totalTax || 0.00,
-        totalamount: totalAmount || 0.00,
-        totalpaid: totalPaid || 0.00,
-        totaloustanding: totalOutstanding || 0.00,
-        orderstatus: data.tbillex[i].fields.OrderStatus || '',
-        custfield1: '' || '',
-        custfield2: '' || '',
-        comments: data.tbillex[i].fields.Comments || '',
-    };
-    dataTableList.push(dataList);
-
-}
-templateObject.datatablerecords.set(dataTableList);
-    if(templateObject.datatablerecords.get()){
-
-      setTimeout(function () {
-        location.reload();
-      }, data.tbillex.length * 5);
-    }
-
+      window.open('/billlist?page=last','_self');
     }
 
     templateObject.getAllBillData = function () {
@@ -420,6 +381,9 @@ templateObject.datatablerecords.set(dataTableList);
                           }else{
 
                           }
+                          if(oSettings.fnRecordsDisplay() < 25){
+                              $('.paginate_button.page-item.next').addClass('disabled');
+                          }
 
                           $('.paginate_button.next:not(.disabled)', this.api().table().container())
                            .on('click', function(){
@@ -438,9 +402,9 @@ templateObject.datatablerecords.set(dataTableList);
                                      tbillex:thirdaryData
                                    }
 
-                                   templateObject.resetData(objCombineData);
-                                     addVS1Data('TBillEx',JSON.stringify(objCombineData)).then(function (datareturn) {
 
+                                     addVS1Data('TBillEx',JSON.stringify(objCombineData)).then(function (datareturn) {
+                                       templateObject.resetData(objCombineData);
                                      $('.fullScreenSpin').css('display','none');
                                      }).catch(function (err) {
                                      $('.fullScreenSpin').css('display','none');
@@ -460,7 +424,13 @@ templateObject.datatablerecords.set(dataTableList);
                                 MakeNegative();
                             }, 100);
                         },
+                        "fnInitComplete": function () {
+                          let urlParametersPage = Router.current().params.query.page;
+                          if(urlParametersPage){
+                            this.fnPageChange('last');
+                          }
 
+                         }
                     }).on('page', function () {
                         setTimeout(function () {
                             MakeNegative();
@@ -478,9 +448,9 @@ templateObject.datatablerecords.set(dataTableList);
                           $('.fullScreenSpin').css('display','none');
                         }else{
                         sideBarService.getAllBillExList('All',1).then(function(dataNonBo) {
-                        templateObject.resetData(dataNonBo);
-                          addVS1Data('TBillEx',JSON.stringify(dataNonBo)).then(function (datareturn) {
 
+                          addVS1Data('TBillEx',JSON.stringify(dataNonBo)).then(function (datareturn) {
+                            templateObject.resetData(dataNonBo);
                           $('.fullScreenSpin').css('display','none');
                           }).catch(function (err) {
                           $('.fullScreenSpin').css('display','none');
@@ -494,8 +464,9 @@ templateObject.datatablerecords.set(dataTableList);
                           $('.fullScreenSpin').css('display','none');
                         }else{
                           sideBarService.getAllBillExList(dataLenght,0).then(function(dataNonBo) {
-                            templateObject.resetData(dataNonBo);
+
                             addVS1Data('TBillEx',JSON.stringify(dataNonBo)).then(function (datareturn) {
+                              templateObject.resetData(dataNonBo);
                             $('.fullScreenSpin').css('display','none');
                             }).catch(function (err) {
                             $('.fullScreenSpin').css('display','none');

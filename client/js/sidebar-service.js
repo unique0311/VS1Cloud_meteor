@@ -734,17 +734,20 @@ export class SideBarService extends BaseService {
     return this.getList(this.ERPObjects.TpurchaseOrderBackOrder, options);
   }
 
-  getAllReconcilationList(msTimeStamp) {
+  getAllReconcilationList(limitcount, limitfrom) {
     let options = '';
-    if(msTimeStamp){
+    if(limitcount == 'All'){
        options = {
           ListType: "Detail",
-          select: '[Deleted]=false and [MsTimeStamp]>"'+msTimeStamp+'"'
+          select: '[Deleted]=false'
         };
     }else{
       options = {
+         orderby:'"ReconciliationID desc"',
          ListType: "Detail",
-         select: "[Deleted]=false"
+         select: "[Deleted]=false",
+         LimitCount:'"'+limitcount+'"',
+         LimitFrom:'"'+limitfrom+'"'
      };
     }
     return this.getList(this.ERPObjects.TReconciliation, options);

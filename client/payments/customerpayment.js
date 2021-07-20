@@ -54,44 +54,7 @@ Template.customerpayment.onRendered(function() {
     };
 
     templateObject.resetData = function (dataVal) {
-
-      let data = dataVal;
-let useData = data;
-let tableAll;
-let lineItems = [];
-let lineItemObj = {};
-for(let i=0; i<data.tcustomerpayment.length; i++){
-
-    let amount = utilityService.modifynegativeCurrencyFormat(data.tcustomerpayment[i].fields.Amount)|| 0.00;
-    let applied = utilityService.modifynegativeCurrencyFormat(data.tcustomerpayment[i].fields.Applied) || 0.00;
-    // Currency+''+data.tcustomerpayment[i].TotalTax.toLocaleString(undefined, {minimumFractionDigits: 2});
-    let balance = utilityService.modifynegativeCurrencyFormat(data.tcustomerpayment[i].fields.Balance)|| 0.00;
-    let totalPaid = utilityService.modifynegativeCurrencyFormat(data.tcustomerpayment[i].fields.TotalPaid)|| 0.00;
-    let totalOutstanding = utilityService.modifynegativeCurrencyFormat(data.tcustomerpayment[i].fields.TotalBalance)|| 0.00;
-    var dataList = {
-        id: data.tcustomerpayment[i].fields.ID || '',
-        sortdate: data.tcustomerpayment[i].fields.PaymentDate !=''? moment(data.tcustomerpayment[i].fields.PaymentDate).format("YYYY/MM/DD"): data.tcustomerpayment[i].fields.PaymentDate,
-        paymentdate: data.tcustomerpayment[i].fields.PaymentDate !=''? moment(data.tcustomerpayment[i].fields.PaymentDate).format("DD/MM/YYYY"): data.tcustomerpayment[i].fields.PaymentDate,
-        customername: data.tcustomerpayment[i].fields.CompanyName || '',
-        paymentamount: amount || 0.00,
-        applied: applied || 0.00,
-        balance: balance || 0.00,
-        bankaccount: data.tcustomerpayment[i].fields.AccountName || '',
-        department: data.tcustomerpayment[i].fields.DeptClassName || '',
-        refno: data.tcustomerpayment[i].fields.ReferenceNo || '',
-        paymentmethod: data.tcustomerpayment[i].fields.PaymentMethodName || '',
-        notes: data.tcustomerpayment[i].fields.Notes || ''
-    };
-    dataTableList.push(dataList);
-}
-templateObject.datatablerecords.set(dataTableList);
-    if(templateObject.datatablerecords.get()){
-
-      setTimeout(function () {
-        location.reload();
-      }, data.tcustomerpayment.length * 5);
-    }
-
+      window.open('/customerpayment?page=last','_self');
     }
     // $('#tblCustomerPayment').DataTable();
     templateObject.getAllSalesOrderData = function () {
@@ -426,6 +389,10 @@ templateObject.datatablerecords.set(dataTableList);
                           }else{
 
                           }
+
+                          if(oSettings.fnRecordsDisplay() < 25){
+                              $('.paginate_button.page-item.next').addClass('disabled');
+                          }
                           $('.paginate_button.next:not(.disabled)', this.api().table().container())
                            .on('click', function(){
                              $('.fullScreenSpin').css('display','inline-block');
@@ -443,9 +410,9 @@ templateObject.datatablerecords.set(dataTableList);
                                      tcustomerpayment:thirdaryData
                                    }
 
-                                   templateObject.resetData(objCombineData);
-                                     addVS1Data('TCustomerPayment',JSON.stringify(objCombineData)).then(function (datareturn) {
 
+                                     addVS1Data('TCustomerPayment',JSON.stringify(objCombineData)).then(function (datareturn) {
+                                       templateObject.resetData(objCombineData);
                                      $('.fullScreenSpin').css('display','none');
                                      }).catch(function (err) {
                                      $('.fullScreenSpin').css('display','none');
@@ -465,6 +432,13 @@ templateObject.datatablerecords.set(dataTableList);
                                 MakeNegative();
                             }, 100);
                         },
+                        "fnInitComplete": function () {
+                          let urlParametersPage = Router.current().params.query.page;
+                          if(urlParametersPage){
+                            this.fnPageChange('last');
+                          }
+
+                         }
 
                     }).on('page', function () {
                         setTimeout(function () {
@@ -483,9 +457,9 @@ templateObject.datatablerecords.set(dataTableList);
                           $('.fullScreenSpin').css('display','none');
                         }else{
                         sideBarService.getTCustomerPaymentList('All',1).then(function(dataNonBo) {
-                        templateObject.resetData(dataNonBo);
-                          addVS1Data('TCustomerPayment',JSON.stringify(dataNonBo)).then(function (datareturn) {
 
+                          addVS1Data('TCustomerPayment',JSON.stringify(dataNonBo)).then(function (datareturn) {
+                            templateObject.resetData(dataNonBo);
                           $('.fullScreenSpin').css('display','none');
                           }).catch(function (err) {
                           $('.fullScreenSpin').css('display','none');
@@ -499,8 +473,9 @@ templateObject.datatablerecords.set(dataTableList);
                           $('.fullScreenSpin').css('display','none');
                         }else{
                           sideBarService.getTCustomerPaymentList(dataLenght,0).then(function(dataNonBo) {
-                            templateObject.resetData(dataNonBo);
+
                             addVS1Data('TCustomerPayment',JSON.stringify(dataNonBo)).then(function (datareturn) {
+                              templateObject.resetData(dataNonBo);
                             $('.fullScreenSpin').css('display','none');
                             }).catch(function (err) {
                             $('.fullScreenSpin').css('display','none');

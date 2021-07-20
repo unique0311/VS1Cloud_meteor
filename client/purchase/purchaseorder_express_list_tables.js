@@ -56,12 +56,17 @@ Template.purchaseorderlist.onRendered(function() {
         });
     };
 
+    templateObject.resetData = function (dataVal) {
+        window.open('/purchaseorderlist?page=last','_self');
+    }
+
     templateObject.getAllPurchaseOrderData = function () {
         getVS1Data('TPurchaseOrderEx').then(function (dataObject) {
             if(dataObject.length == 0){
                 sideBarService.getAllPurchaseOrderList(25,0).then(function (data) {
                     let lineItems = [];
                     let lineItemObj = {};
+                    addVS1Data('TPurchaseOrderEx',JSON.stringify(data));
                     for(let i=0; i<data.tpurchaseorderex.length; i++){
                         let totalAmountEx = utilityService.modifynegativeCurrencyFormat(data.tpurchaseorderex[i].fields.TotalAmount)|| 0.00;
                         let totalTax = utilityService.modifynegativeCurrencyFormat(data.tpurchaseorderex[i].fields.TotalTax) || 0.00;
@@ -369,10 +374,67 @@ Template.purchaseorderlist.onRendered(function() {
                             $('#tblpurchaseorderlist').DataTable().ajax.reload();
                         },
                         "fnDrawCallback": function (oSettings) {
+                          $('.paginate_button.page-item').removeClass('disabled');
+                          $('#tblpurchaseorderlist_ellipsis').addClass('disabled');
+
+                          if(oSettings._iDisplayLength == -1){
+                            if(oSettings.fnRecordsDisplay() > 150){
+                              $('.paginate_button.page-item.previous').addClass('disabled');
+                              $('.paginate_button.page-item.next').addClass('disabled');
+                            }
+                          }else{
+
+                          }
+                          if(oSettings.fnRecordsDisplay() < 25){
+                              $('.paginate_button.page-item.next').addClass('disabled');
+                          }
+
+                          $('.paginate_button.next:not(.disabled)', this.api().table().container())
+                           .on('click', function(){
+                             $('.fullScreenSpin').css('display','inline-block');
+                             let dataLenght = oSettings._iDisplayLength;
+
+                             sideBarService.getAllPurchaseOrderList(25,oSettings.fnRecordsDisplay()).then(function(dataObjectnew) {
+                               getVS1Data('TPurchaseOrderEx').then(function (dataObjectold) {
+                                 if(dataObjectold.length == 0){
+
+                                 }else{
+                                   let dataOld = JSON.parse(dataObjectold[0].data);
+
+                                   var thirdaryData = $.merge($.merge([], dataObjectnew.tpurchaseorderex), dataOld.tpurchaseorderex);
+                                   let objCombineData = {
+                                     tpurchaseorderex:thirdaryData
+                                   }
+
+
+                                     addVS1Data('TPurchaseOrderEx',JSON.stringify(objCombineData)).then(function (datareturn) {
+                                       templateObject.resetData(objCombineData);
+                                     $('.fullScreenSpin').css('display','none');
+                                     }).catch(function (err) {
+                                     $('.fullScreenSpin').css('display','none');
+                                     });
+
+                                 }
+                                }).catch(function (err) {
+
+                                });
+
+                             }).catch(function(err) {
+                               $('.fullScreenSpin').css('display','none');
+                             });
+
+                           });
                             setTimeout(function () {
                                 MakeNegative();
                             }, 100);
                         },
+                        "fnInitComplete": function () {
+                          let urlParametersPage = Router.current().params.query.page;
+                          if(urlParametersPage){
+                            this.fnPageChange('last');
+                          }
+
+                         }
 
                     }).on('page', function () {
                         setTimeout(function () {
@@ -383,6 +445,42 @@ Template.purchaseorderlist.onRendered(function() {
                     }).on('column-reorder', function () {
 
                     }).on( 'length.dt', function ( e, settings, len ) {
+                      $('.fullScreenSpin').css('display','inline-block');
+                      let dataLenght = settings._iDisplayLength;
+                      if(dataLenght == -1){
+                        if(settings.fnRecordsDisplay() > 150){
+                          $('.paginate_button.page-item.next').addClass('disabled');
+                          $('.fullScreenSpin').css('display','none');
+                        }else{
+                        sideBarService.getAllPurchaseOrderList('All',1).then(function(dataNonBo) {
+
+                          addVS1Data('TPurchaseOrderEx',JSON.stringify(dataNonBo)).then(function (datareturn) {
+                            templateObject.resetData(dataNonBo);
+                          $('.fullScreenSpin').css('display','none');
+                          }).catch(function (err) {
+                          $('.fullScreenSpin').css('display','none');
+                          });
+                        }).catch(function(err) {
+                          $('.fullScreenSpin').css('display','none');
+                        });
+                       }
+                      }else{
+                        if (settings.fnRecordsDisplay() >= settings._iDisplayLength) {
+                          $('.fullScreenSpin').css('display','none');
+                        }else{
+                          sideBarService.getAllPurchaseOrderList(dataLenght,0).then(function(dataNonBo) {
+
+                            addVS1Data('TPurchaseOrderEx',JSON.stringify(dataNonBo)).then(function (datareturn) {
+                              templateObject.resetData(dataNonBo);
+                            $('.fullScreenSpin').css('display','none');
+                            }).catch(function (err) {
+                            $('.fullScreenSpin').css('display','none');
+                            });
+                          }).catch(function(err) {
+                            $('.fullScreenSpin').css('display','none');
+                          });
+                        }
+                      }
                         setTimeout(function () {
                             MakeNegative();
                         }, 100);
@@ -429,6 +527,7 @@ Template.purchaseorderlist.onRendered(function() {
             sideBarService.getAllPurchaseOrderList(25,0).then(function (data) {
                 let lineItems = [];
                 let lineItemObj = {};
+                addVS1Data('TPurchaseOrderEx',JSON.stringify(data));
                 for(let i=0; i<data.tpurchaseorderex.length; i++){
                     let totalAmountEx = utilityService.modifynegativeCurrencyFormat(data.tpurchaseorderex[i].fields.TotalAmount)|| 0.00;
                     let totalTax = utilityService.modifynegativeCurrencyFormat(data.tpurchaseorderex[i].fields.TotalTax) || 0.00;

@@ -56,12 +56,17 @@ Template.stockadjustmentoverview.onRendered(function() {
         });
     };
     // $('#tblStockAdjustOverview').DataTable();
+    templateObject.resetData = function (dataVal) {
+        window.open('/stockadjustmentoverview?page=last','_self');
+    }
+
     templateObject.getAllStockAdjustEntryData = function () {
         getVS1Data('TStockAdjustEntry').then(function (dataObject) {
             if(dataObject.length == 0){
                 sideBarService.getAllStockAdjustEntry(25,0).then(function (data) {
                     let lineItems = [];
                     let lineItemObj = {};
+                    addVS1Data('TStockAdjustEntry',JSON.stringify(data));
                     for(let i=0; i<data.tstockadjustentry.length; i++){
 
                         let totalCostEx = utilityService.modifynegativeCurrencyFormat(data.tstockadjustentry[i].fields.TotalCostEx)|| 0.00;
@@ -383,10 +388,67 @@ Template.stockadjustmentoverview.onRendered(function() {
                             $('#tblStockAdjustOverview').DataTable().ajax.reload();
                         },
                         "fnDrawCallback": function (oSettings) {
+                          $('.paginate_button.page-item').removeClass('disabled');
+                          $('#tblStockAdjustOverview_ellipsis').addClass('disabled');
+
+                          if(oSettings._iDisplayLength == -1){
+                            if(oSettings.fnRecordsDisplay() > 150){
+                              $('.paginate_button.page-item.previous').addClass('disabled');
+                              $('.paginate_button.page-item.next').addClass('disabled');
+                            }
+                          }else{
+
+                          }
+                          if(oSettings.fnRecordsDisplay() < 25){
+                              $('.paginate_button.page-item.next').addClass('disabled');
+                          }
+
+                          $('.paginate_button.next:not(.disabled)', this.api().table().container())
+                           .on('click', function(){
+                             $('.fullScreenSpin').css('display','inline-block');
+                             let dataLenght = oSettings._iDisplayLength;
+
+                             sideBarService.getAllStockAdjustEntry(25,oSettings.fnRecordsDisplay()).then(function(dataObjectnew) {
+                               getVS1Data('TStockAdjustEntry').then(function (dataObjectold) {
+                                 if(dataObjectold.length == 0){
+
+                                 }else{
+                                   let dataOld = JSON.parse(dataObjectold[0].data);
+
+                                   var thirdaryData = $.merge($.merge([], dataObjectnew.tstockadjustentry), dataOld.tstockadjustentry);
+                                   let objCombineData = {
+                                     tstockadjustentry:thirdaryData
+                                   }
+
+
+                                     addVS1Data('TStockAdjustEntry',JSON.stringify(objCombineData)).then(function (datareturn) {
+                                       templateObject.resetData(objCombineData);
+                                     $('.fullScreenSpin').css('display','none');
+                                     }).catch(function (err) {
+                                     $('.fullScreenSpin').css('display','none');
+                                     });
+
+                                 }
+                                }).catch(function (err) {
+
+                                });
+
+                             }).catch(function(err) {
+                               $('.fullScreenSpin').css('display','none');
+                             });
+
+                           });
                             setTimeout(function () {
                                 MakeNegative();
                             }, 100);
                         },
+                        "fnInitComplete": function () {
+                          let urlParametersPage = Router.current().params.query.page;
+                          if(urlParametersPage){
+                            this.fnPageChange('last');
+                          }
+
+                         }
 
                     }).on('page', function () {
                         setTimeout(function () {
@@ -396,6 +458,46 @@ Template.stockadjustmentoverview.onRendered(function() {
                         templateObject.datatablerecords.set(draftRecord);
                     }).on('column-reorder', function () {
 
+                    }).on( 'length.dt', function ( e, settings, len ) {
+                      $('.fullScreenSpin').css('display','inline-block');
+                      let dataLenght = settings._iDisplayLength;
+                      if(dataLenght == -1){
+                        if(settings.fnRecordsDisplay() > 150){
+                          $('.paginate_button.page-item.next').addClass('disabled');
+                          $('.fullScreenSpin').css('display','none');
+                        }else{
+                        sideBarService.getAllStockAdjustEntry('All',1).then(function(dataNonBo) {
+
+                          addVS1Data('TStockAdjustEntry',JSON.stringify(dataNonBo)).then(function (datareturn) {
+                            templateObject.resetData(dataNonBo);
+                          $('.fullScreenSpin').css('display','none');
+                          }).catch(function (err) {
+                          $('.fullScreenSpin').css('display','none');
+                          });
+                        }).catch(function(err) {
+                          $('.fullScreenSpin').css('display','none');
+                        });
+                       }
+                      }else{
+                        if (settings.fnRecordsDisplay() >= settings._iDisplayLength) {
+                          $('.fullScreenSpin').css('display','none');
+                        }else{
+                          sideBarService.getAllStockAdjustEntry(dataLenght,0).then(function(dataNonBo) {
+
+                            addVS1Data('TStockAdjustEntry',JSON.stringify(dataNonBo)).then(function (datareturn) {
+                              templateObject.resetData(dataNonBo);
+                            $('.fullScreenSpin').css('display','none');
+                            }).catch(function (err) {
+                            $('.fullScreenSpin').css('display','none');
+                            });
+                          }).catch(function(err) {
+                            $('.fullScreenSpin').css('display','none');
+                          });
+                        }
+                      }
+                        setTimeout(function () {
+                            MakeNegative();
+                        }, 100);
                     });
                     $('.fullScreenSpin').css('display','none');
                 }, 0);
@@ -440,6 +542,7 @@ Template.stockadjustmentoverview.onRendered(function() {
             sideBarService.getAllStockAdjustEntry(25,0).then(function (data) {
                 let lineItems = [];
                 let lineItemObj = {};
+                addVS1Data('TStockAdjustEntry',JSON.stringify(data));
                 for(let i=0; i<data.tstockadjustentry.length; i++){
 
                     let totalCostEx = utilityService.modifynegativeCurrencyFormat(data.tstockadjustentry[i].fields.TotalCostEx)|| 0.00;

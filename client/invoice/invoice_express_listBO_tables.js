@@ -57,6 +57,10 @@ Template.invoicelistBO.onRendered(function() {
         });
     };
 
+    templateObject.resetData = function (dataVal) {
+        window.open('/invoicelistBO?page=last','_self');
+    }
+
     templateObject.getAllSalesOrderData = function () {
         getVS1Data('BackOrderSalesList').then(function (dataObject) {
             if(dataObject.length == 0){
@@ -391,10 +395,67 @@ Template.invoicelistBO.onRendered(function() {
                             $('#tblInvoicelistBO').DataTable().ajax.reload();
                         },
                         "fnDrawCallback": function (oSettings) {
+                          $('.paginate_button.page-item').removeClass('disabled');
+                          $('#tblInvoicelistBO_ellipsis').addClass('disabled');
+
+                          if(oSettings._iDisplayLength == -1){
+                            if(oSettings.fnRecordsDisplay() > 150){
+                              $('.paginate_button.page-item.previous').addClass('disabled');
+                              $('.paginate_button.page-item.next').addClass('disabled');
+                            }
+                          }else{
+
+                          }
+                          if(oSettings.fnRecordsDisplay() < 25){
+                              $('.paginate_button.page-item.next').addClass('disabled');
+                          }
+
+                          $('.paginate_button.next:not(.disabled)', this.api().table().container())
+                           .on('click', function(){
+                             $('.fullScreenSpin').css('display','inline-block');
+                             let dataLenght = oSettings._iDisplayLength;
+
+                             sideBarService.getAllBOInvoiceList(25,oSettings.fnRecordsDisplay()).then(function(dataObjectnew) {
+                               getVS1Data('BackOrderSalesList').then(function (dataObjectold) {
+                                 if(dataObjectold.length == 0){
+
+                                 }else{
+                                   let dataOld = JSON.parse(dataObjectold[0].data);
+
+                                   var thirdaryData = $.merge($.merge([], dataObjectnew.BackOrderSalesList), dataOld.BackOrderSalesList);
+                                   let objCombineData = {
+                                     BackOrderSalesList:thirdaryData
+                                   }
+
+
+                                     addVS1Data('BackOrderSalesList',JSON.stringify(objCombineData)).then(function (datareturn) {
+                                       templateObject.resetData(objCombineData);
+                                     $('.fullScreenSpin').css('display','none');
+                                     }).catch(function (err) {
+                                     $('.fullScreenSpin').css('display','none');
+                                     });
+
+                                 }
+                                }).catch(function (err) {
+
+                                });
+
+                             }).catch(function(err) {
+                               $('.fullScreenSpin').css('display','none');
+                             });
+
+                           });
                             setTimeout(function () {
                                 MakeNegative();
                             }, 100);
                         },
+                        "fnInitComplete": function () {
+                          let urlParametersPage = Router.current().params.query.page;
+                          if(urlParametersPage){
+                            this.fnPageChange('last');
+                          }
+
+                         }
 
                     }).on('page', function () {
                         setTimeout(function () {
@@ -405,6 +466,42 @@ Template.invoicelistBO.onRendered(function() {
                     }).on('column-reorder', function () {
 
                     }).on( 'length.dt', function ( e, settings, len ) {
+                      $('.fullScreenSpin').css('display','inline-block');
+                      let dataLenght = settings._iDisplayLength;
+                      if(dataLenght == -1){
+                        if(settings.fnRecordsDisplay() > 150){
+                          $('.paginate_button.page-item.next').addClass('disabled');
+                          $('.fullScreenSpin').css('display','none');
+                        }else{
+                        sideBarService.getAllBOInvoiceList('All',1).then(function(dataNonBo) {
+
+                          addVS1Data('BackOrderSalesList',JSON.stringify(dataNonBo)).then(function (datareturn) {
+                            templateObject.resetData(dataNonBo);
+                          $('.fullScreenSpin').css('display','none');
+                          }).catch(function (err) {
+                          $('.fullScreenSpin').css('display','none');
+                          });
+                        }).catch(function(err) {
+                          $('.fullScreenSpin').css('display','none');
+                        });
+                       }
+                      }else{
+                        if (settings.fnRecordsDisplay() >= settings._iDisplayLength) {
+                          $('.fullScreenSpin').css('display','none');
+                        }else{
+                          sideBarService.getAllBOInvoiceList(dataLenght,0).then(function(dataNonBo) {
+
+                            addVS1Data('BackOrderSalesList',JSON.stringify(dataNonBo)).then(function (datareturn) {
+                              templateObject.resetData(dataNonBo);
+                            $('.fullScreenSpin').css('display','none');
+                            }).catch(function (err) {
+                            $('.fullScreenSpin').css('display','none');
+                            });
+                          }).catch(function(err) {
+                            $('.fullScreenSpin').css('display','none');
+                          });
+                        }
+                      }
                         setTimeout(function () {
                             MakeNegative();
                         }, 100);
@@ -853,15 +950,16 @@ Template.invoicelistBO.events({
         }
         let currenctTodayDate = currentDate.getFullYear() + "-" + month + "-" + days + " "+ hours+ ":"+ minutes+ ":"+ seconds;
         let templateObject = Template.instance();
-        sideBarService.getAllInvoiceList(25,0).then(function(data) {
-            addVS1Data('TInvoiceEx',JSON.stringify(data)).then(function (datareturn) {
-                location.reload(true);
-            }).catch(function (err) {
-                location.reload(true);
-            });
+        sideBarService.getAllBOInvoiceList(25,0).then(function (dataBO) {
+          addVS1Data('BackOrderSalesList',JSON.stringify(dataBO)).then(function (datareturn) {
+              window.open('/invoicelistBO','_self');
+          }).catch(function (err) {
+              window.open('/invoicelistBO','_self');
+          });
         }).catch(function(err) {
-            location.reload(true);
+            window.open('/invoicelistBO','_self');
         });
+
     },
     'click .printConfirm' : function(event){
 

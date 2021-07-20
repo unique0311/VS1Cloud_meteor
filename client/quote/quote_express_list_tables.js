@@ -57,52 +57,8 @@ Template.quoteslist.onRendered(function() {
     };
 
     templateObject.resetData = function (dataVal) {
-
-          let data = dataVal;
-    let useData = data;
-    let tableAll;
-    let lineItems = [];
-    let lineItemObj = {};
-    for(let i=0; i<data.tquoteex.length; i++){
-        let totalAmountEx = utilityService.modifynegativeCurrencyFormat(data.tquoteex[i].fields.TotalAmount)|| 0.00;
-        let totalTax = utilityService.modifynegativeCurrencyFormat(data.tquoteex[i].fields.TotalTax) || 0.00;
-        // Currency+''+data.tinvoice[i].TotalTax.toLocaleString(undefined, {minimumFractionDigits: 2});
-        let totalAmount = utilityService.modifynegativeCurrencyFormat(data.tquoteex[i].fields.TotalAmountInc)|| 0.00;
-        let totalPaid = utilityService.modifynegativeCurrencyFormat(data.tquoteex[i].fields.TotalPaid)|| 0.00;
-        let totalOutstanding = utilityService.modifynegativeCurrencyFormat(data.tquoteex[i].fields.TotalBalance)|| 0.00;
-        var dataList = {
-            id: data.tquoteex[i].fields.ID || '',
-            employee:data.tquoteex[i].fields.EmployeeName || '',
-            sortdate: data.tquoteex[i].fields.SaleDate !=''? moment(data.tquoteex[i].fields.SaleDate).format("YYYY/MM/DD"): data.tquoteex[i].fields.SaleDate,
-            saledate: data.tquoteex[i].fields.SaleDate !=''? moment(data.tquoteex[i].fields.SaleDate).format("DD/MM/YYYY"): data.tquoteex[i].fields.SaleDate,
-            duedate: data.tquoteex[i].fields.DueDate !=''? moment(data.tquoteex[i].fields.DueDate).format("DD/MM/YYYY"): data.tquoteex[i].fields.DueDate,
-            customername: data.tquoteex[i].fields.CustomerName || '',
-            totalamountex: totalAmountEx || 0.00,
-            totaltax: totalTax || 0.00,
-            totalamount: totalAmount || 0.00,
-            totalpaid: totalPaid || 0.00,
-            totaloustanding: totalOutstanding || 0.00,
-            salestatus: data.tquoteex[i].fields.SalesStatus || '',
-            custfield1: data.tquoteex[i].fields.SaleCustField1 || '',
-            custfield2: data.tquoteex[i].fields.SaleCustField2 || '',
-            comments: data.tquoteex[i].fields.Comments || '',
-        };
-        if(data.tquoteex[i].fields.CustomerName != ''){
-            dataTableList.push(dataList);
-        }
-
-        // splashArray.push(dataList);
-        //}
+        window.open('/quoteslist?page=last','_self');
     }
-    templateObject.datatablerecords.set(dataTableList);
-        if(templateObject.datatablerecords.get()){
-
-          setTimeout(function () {
-            location.reload();
-          }, data.tquoteex.length * 5);
-        }
-
-        }
 
     templateObject.getAllQuoteData = function () {
         getVS1Data('TQuote').then(function (dataObject) {
@@ -443,7 +399,9 @@ Template.quoteslist.onRendered(function() {
                           }else{
 
                           }
-
+                          if(oSettings.fnRecordsDisplay() < 25){
+                              $('.paginate_button.page-item.next').addClass('disabled');
+                          }
                           $('.paginate_button.next:not(.disabled)', this.api().table().container())
                            .on('click', function(){
                              $('.fullScreenSpin').css('display','inline-block');
@@ -461,9 +419,9 @@ Template.quoteslist.onRendered(function() {
                                      tquoteex:thirdaryData
                                    }
 
-                                   templateObject.resetData(objCombineData);
-                                     addVS1Data('TQuote',JSON.stringify(objCombineData)).then(function (datareturn) {
 
+                                     addVS1Data('TQuote',JSON.stringify(objCombineData)).then(function (datareturn) {
+                                       templateObject.resetData(objCombineData);
                                      $('.fullScreenSpin').css('display','none');
                                      }).catch(function (err) {
                                      $('.fullScreenSpin').css('display','none');
@@ -484,6 +442,13 @@ Template.quoteslist.onRendered(function() {
                                 MakeNegative();
                             }, 100);
                         },
+                        "fnInitComplete": function () {
+                          let urlParametersPage = Router.current().params.query.page;
+                          if(urlParametersPage){
+                            this.fnPageChange('last');
+                          }
+
+                         }
 
                     }).on('page', function () {
                         setTimeout(function () {
@@ -502,9 +467,9 @@ Template.quoteslist.onRendered(function() {
                     $('.fullScreenSpin').css('display','none');
                   }else{
                   sideBarService.getAllQuoteList('All',1).then(function(dataNonBo) {
-                  templateObject.resetData(dataNonBo);
-                    addVS1Data('TQuote',JSON.stringify(dataNonBo)).then(function (datareturn) {
 
+                    addVS1Data('TQuote',JSON.stringify(dataNonBo)).then(function (datareturn) {
+                      templateObject.resetData(dataNonBo);
                     $('.fullScreenSpin').css('display','none');
                     }).catch(function (err) {
                     $('.fullScreenSpin').css('display','none');
@@ -518,8 +483,9 @@ Template.quoteslist.onRendered(function() {
                     $('.fullScreenSpin').css('display','none');
                   }else{
                     sideBarService.getAllQuoteList(dataLenght,0).then(function(dataNonBo) {
-                      templateObject.resetData(dataNonBo);
+
                       addVS1Data('TQuote',JSON.stringify(dataNonBo)).then(function (datareturn) {
+                        templateObject.resetData(dataNonBo);
                       $('.fullScreenSpin').css('display','none');
                       }).catch(function (err) {
                       $('.fullScreenSpin').css('display','none');

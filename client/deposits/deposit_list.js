@@ -53,6 +53,10 @@ Template.depositlist.onRendered(function() {
             if($(this).text().indexOf('-'+Currency) >= 0) $(this).addClass('text-danger')
         });
     };
+
+    templateObject.resetData = function (dataVal) {
+        window.open('/depositlist?page=last','_self');
+    }
     templateObject.getAllBankDepositData = function () {
         getVS1Data('TVS1BankDeposit').then(function (dataObject) {
             if(dataObject.length == 0){
@@ -404,10 +408,66 @@ Template.depositlist.onRendered(function() {
                             $('#tblDepositList').DataTable().ajax.reload();
                         },
                         "fnDrawCallback": function (oSettings) {
+                          $('.paginate_button.page-item').removeClass('disabled');
+                          $('#tblDepositList_ellipsis').addClass('disabled');
+
+                          if(oSettings._iDisplayLength == -1){
+                            if(oSettings.fnRecordsDisplay() > 150){
+                              $('.paginate_button.page-item.previous').addClass('disabled');
+                              $('.paginate_button.page-item.next').addClass('disabled');
+                            }
+                          }else{
+
+                          }
+                          if(oSettings.fnRecordsDisplay() < 25){
+                              $('.paginate_button.page-item.next').addClass('disabled');
+                          }
+                          $('.paginate_button.next:not(.disabled)', this.api().table().container())
+                           .on('click', function(){
+                             $('.fullScreenSpin').css('display','inline-block');
+                             let dataLenght = oSettings._iDisplayLength;
+
+                             sideBarService.getAllTVS1BankDepositData(25,oSettings.fnRecordsDisplay()).then(function(dataObjectnew) {
+                               getVS1Data('TVS1BankDeposit').then(function (dataObjectold) {
+                                 if(dataObjectold.length == 0){
+
+                                 }else{
+                                   let dataOld = JSON.parse(dataObjectold[0].data);
+
+                                   var thirdaryData = $.merge($.merge([], dataObjectnew.tvs1bankdeposit), dataOld.tvs1bankdeposit);
+                                   let objCombineData = {
+                                     tvs1bankdeposit:thirdaryData
+                                   }
+
+
+                                     addVS1Data('TVS1BankDeposit',JSON.stringify(objCombineData)).then(function (datareturn) {
+                                       templateObject.resetData(objCombineData);
+                                     $('.fullScreenSpin').css('display','none');
+                                     }).catch(function (err) {
+                                     $('.fullScreenSpin').css('display','none');
+                                     });
+
+                                 }
+                                }).catch(function (err) {
+
+                                });
+
+                             }).catch(function(err) {
+                               $('.fullScreenSpin').css('display','none');
+                             });
+
+                           });
                             setTimeout(function () {
                                 MakeNegative();
                             }, 100);
                         },
+                        "fnInitComplete": function () {
+                          let urlParametersPage = Router.current().params.query.page;
+                          if(urlParametersPage){
+                            this.fnPageChange('last');
+                          }
+
+                         }
 
                     }).on('page', function () {
                         setTimeout(function () {
@@ -417,6 +477,46 @@ Template.depositlist.onRendered(function() {
                         templateObject.datatablerecords.set(draftRecord);
                     }).on('column-reorder', function () {
 
+                    }).on( 'length.dt', function ( e, settings, len ) {
+                      $('.fullScreenSpin').css('display','inline-block');
+                      let dataLenght = settings._iDisplayLength;
+                      if(dataLenght == -1){
+                        if(settings.fnRecordsDisplay() > 150){
+                          $('.paginate_button.page-item.next').addClass('disabled');
+                          $('.fullScreenSpin').css('display','none');
+                        }else{
+                        sideBarService.getAllTVS1BankDepositData('All',1).then(function(dataNonBo) {
+
+                          addVS1Data('TVS1BankDeposit',JSON.stringify(dataNonBo)).then(function (datareturn) {
+                            templateObject.resetData(dataNonBo);
+                          $('.fullScreenSpin').css('display','none');
+                          }).catch(function (err) {
+                          $('.fullScreenSpin').css('display','none');
+                          });
+                        }).catch(function(err) {
+                          $('.fullScreenSpin').css('display','none');
+                        });
+                       }
+                      }else{
+                        if (settings.fnRecordsDisplay() >= settings._iDisplayLength) {
+                          $('.fullScreenSpin').css('display','none');
+                        }else{
+                          sideBarService.getAllTVS1BankDepositData(dataLenght,0).then(function(dataNonBo) {
+
+                            addVS1Data('TVS1BankDeposit',JSON.stringify(dataNonBo)).then(function (datareturn) {
+                              templateObject.resetData(dataNonBo);
+                            $('.fullScreenSpin').css('display','none');
+                            }).catch(function (err) {
+                            $('.fullScreenSpin').css('display','none');
+                            });
+                          }).catch(function(err) {
+                            $('.fullScreenSpin').css('display','none');
+                          });
+                        }
+                      }
+                        setTimeout(function () {
+                            MakeNegative();
+                        }, 100);
                     });
                     $('.fullScreenSpin').css('display','none');
                 }, 0);

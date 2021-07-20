@@ -48,6 +48,10 @@ $("th."+columnClass+"").css('width',""+columnWidth+"px");
 }
 });
 
+templateObject.resetData = function (dataVal) {
+    location.reload();
+}
+
 templateObject.getCustomers = function () {
   getVS1Data('TCustomerVS1').then(function (dataObject) {
     if(dataObject.length == 0){
@@ -400,10 +404,67 @@ action: function () {
 $('#tblCustomerlist').DataTable().ajax.reload();
 },
 "fnDrawCallback": function (oSettings) {
-setTimeout(function () {
-MakeNegative();
-}, 100);
+  $('.paginate_button.page-item').removeClass('disabled');
+  $('#tblCustomerlist_ellipsis').addClass('disabled');
+
+  if(oSettings._iDisplayLength == -1){
+    if(oSettings.fnRecordsDisplay() > 150){
+      $('.paginate_button.page-item.previous').addClass('disabled');
+      $('.paginate_button.page-item.next').addClass('disabled');
+    }
+  }else{
+
+  }
+  if(oSettings.fnRecordsDisplay() < 25){
+      $('.paginate_button.page-item.next').addClass('disabled');
+  }
+
+  $('.paginate_button.next:not(.disabled)', this.api().table().container())
+   .on('click', function(){
+     $('.fullScreenSpin').css('display','inline-block');
+     let dataLenght = oSettings._iDisplayLength;
+
+     sideBarService.getAllCustomersDataVS1(25,oSettings.fnRecordsDisplay()).then(function(dataObjectnew) {
+       getVS1Data('TCustomerVS1').then(function (dataObjectold) {
+         if(dataObjectold.length == 0){
+
+         }else{
+           let dataOld = JSON.parse(dataObjectold[0].data);
+
+           var thirdaryData = $.merge($.merge([], dataObjectnew.tcustomervs1), dataOld.tcustomervs1);
+           let objCombineData = {
+             tcustomervs1:thirdaryData
+           }
+
+
+             addVS1Data('TCustomerVS1',JSON.stringify(objCombineData)).then(function (datareturn) {
+               templateObject.resetData(objCombineData);
+             $('.fullScreenSpin').css('display','none');
+             }).catch(function (err) {
+             $('.fullScreenSpin').css('display','none');
+             });
+
+         }
+        }).catch(function (err) {
+
+        });
+
+     }).catch(function(err) {
+       $('.fullScreenSpin').css('display','none');
+     });
+
+   });
+    setTimeout(function () {
+        MakeNegative();
+    }, 100);
 },
+"fnInitComplete": function () {
+  let urlParametersPage = Router.current().params.query.page;
+  if(urlParametersPage){
+    this.fnPageChange('last');
+  }
+
+ }
 
 }).on('page', function () {
 setTimeout(function () {
@@ -414,6 +475,42 @@ templateObject.datatablerecords.set(draftRecord);
 }).on('column-reorder', function () {
 
 }).on( 'length.dt', function ( e, settings, len ) {
+  $('.fullScreenSpin').css('display','inline-block');
+  let dataLenght = settings._iDisplayLength;
+  if(dataLenght == -1){
+    if(settings.fnRecordsDisplay() > 150){
+      $('.paginate_button.page-item.next').addClass('disabled');
+      $('.fullScreenSpin').css('display','none');
+    }else{
+    sideBarService.getAllCustomersDataVS1('All',1).then(function(dataNonBo) {
+
+      addVS1Data('TCustomerVS1',JSON.stringify(dataNonBo)).then(function (datareturn) {
+        templateObject.resetData(dataNonBo);
+      $('.fullScreenSpin').css('display','none');
+      }).catch(function (err) {
+      $('.fullScreenSpin').css('display','none');
+      });
+    }).catch(function(err) {
+      $('.fullScreenSpin').css('display','none');
+    });
+   }
+  }else{
+    if (settings.fnRecordsDisplay() >= settings._iDisplayLength) {
+      $('.fullScreenSpin').css('display','none');
+    }else{
+      sideBarService.getAllCustomersDataVS1(dataLenght,0).then(function(dataNonBo) {
+
+        addVS1Data('TCustomerVS1',JSON.stringify(dataNonBo)).then(function (datareturn) {
+          templateObject.resetData(dataNonBo);
+        $('.fullScreenSpin').css('display','none');
+        }).catch(function (err) {
+        $('.fullScreenSpin').css('display','none');
+        });
+      }).catch(function(err) {
+        $('.fullScreenSpin').css('display','none');
+      });
+    }
+  }
 setTimeout(function () {
 MakeNegative();
 }, 100);

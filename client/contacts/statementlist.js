@@ -56,25 +56,35 @@ Template.statementlist.onRendered(function () {
 
         }
     });
-   var today = moment().format('DD/MM/YYYY');
-   var currentDate = new Date();
-   var begunDate = moment(currentDate).format("DD/MM/YYYY");
+    var today = moment().format('DD/MM/YYYY');
+    var currentDate = new Date();
+    var begunDate = moment(currentDate).format("DD/MM/YYYY");
+    let fromDateMonth = currentDate.getMonth();
+    let fromDateDay = currentDate.getDate();
+    if (currentDate.getMonth() < 10) {
+        fromDateMonth = "0" + currentDate.getMonth();
+    }
 
-   $("#date-input,#dateTo,#dateFrom").datepicker({
-       showOn: 'button',
-       buttonText: 'Show Date',
-       buttonImageOnly: true,
-       buttonImage: '/img/imgCal2.png',
-       dateFormat: 'dd/mm/yy',
-       showOtherMonths: true,
-       selectOtherMonths: true,
-       changeMonth: true,
-       changeYear: true,
-       yearRange: "-90:+10",
-   });
+    if (currentDate.getDate() < 10) {
+        fromDateDay = "0" + currentDate.getDate();
+    }
+    var fromDate = fromDateDay + "/" + (fromDateMonth) + "/" + currentDate.getFullYear();
 
-   $("#dateFrom").val(today);
-   $("#dateTo").val(begunDate);
+    $("#date-input,#dateTo,#dateFrom").datepicker({
+        showOn: 'button',
+        buttonText: 'Show Date',
+        buttonImageOnly: true,
+        buttonImage: '/img/imgCal2.png',
+        dateFormat: 'dd/mm/yy',
+        showOtherMonths: true,
+        selectOtherMonths: true,
+        changeMonth: true,
+        changeYear: true,
+        yearRange: "-90:+10",
+    });
+
+    $("#dateFrom").val(fromDate);
+    $("#dateTo").val(begunDate);
     templateObject.getOrganisationDetails = function () {
         let account_id = Session.get('vs1companyStripeID') || '';
         let stripe_fee = Session.get('vs1companyStripeFeeMethod') || 'apply';
@@ -340,7 +350,7 @@ Template.statementlist.onRendered(function () {
             });
         })
     }
-    templateObject.getCustomers = function () {
+    templateObject.getStatements = function () {
         getVS1Data('TStatementList').then(function (dataObject) {
             if (dataObject.length == 0) {
                 contactService.getAllCustomerStatementData().then(function (data) {
@@ -468,6 +478,7 @@ Template.statementlist.onRendered(function () {
                             // bStateSave: true,
                             // rowId: 0,
                             pageLength: 25,
+                            "bLengthChange": false,
                             lengthMenu: [
                                 [10, 25, 50, -1],
                                 [10, 25, 50, "All"]
@@ -669,6 +680,7 @@ Template.statementlist.onRendered(function () {
                         // bStateSave: true,
                         // rowId: 0,
                         pageLength: 25,
+                        "bLengthChange": false,
                         lengthMenu: [
                             [10, 25, 50, -1],
                             [10, 25, 50, "All"]
@@ -864,6 +876,7 @@ Template.statementlist.onRendered(function () {
                         // bStateSave: true,
                         // rowId: 0,
                         pageLength: 25,
+                        "bLengthChange": false,
                         lengthMenu: [
                             [10, 25, 50, -1],
                             [10, 25, 50, "All"]
@@ -941,7 +954,7 @@ Template.statementlist.onRendered(function () {
 
     }
 
-    templateObject.getCustomers();
+    templateObject.getStatements();
 
     $('#tblCustomerlist tbody').on('click', 'tr', function () {
         var listData = $(this).closest('tr').attr('id');

@@ -306,14 +306,14 @@ Template.sidenav.onRendered(function() {
         });
     }
 
-    // templateObject.getAllInvoiceListNonBOData = function() {
-    //     sideBarService.getAllInvoiceListNonBO(25,0).then(function(data) {
-    //         //localStorage.setItem('VS1TInvoiceNonBackOrderList', JSON.stringify(data) || '');
-    //         addVS1Data('TInvoiceNonBackOrder',JSON.stringify(data));
-    //     }).catch(function(err) {
-    //
-    //     });
-    // }
+    templateObject.getAllInvoiceListNonBOData = function() {
+        // sideBarService.getAllInvoiceListNonBO(25,0).then(function(data) {
+        //     //localStorage.setItem('VS1TInvoiceNonBackOrderList', JSON.stringify(data) || '');
+        //     addVS1Data('TInvoiceNonBackOrder',JSON.stringify(data));
+        // }).catch(function(err) {
+        //
+        // });
+    }
 
     templateObject.getAllBOInvoiceListData = function() {
         // sideBarService.getAllBOInvoiceList(25,0).then(function(data) {

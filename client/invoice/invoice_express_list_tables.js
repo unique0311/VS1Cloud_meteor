@@ -57,54 +57,7 @@ Template.invoicelist.onRendered(function() {
     };
 
     templateObject.resetData = function (dataVal) {
-
-      let data = dataVal;
-let useData = data;
-let lineItems = [];
-let lineItemObj = {};
-let tableAll;
-    for(let i=0; i<data.tinvoiceex.length; i++){
-    let totalAmountEx = utilityService.modifynegativeCurrencyFormat(data.tinvoiceex[i].fields.TotalAmount)|| 0.00;
-    let totalTax = utilityService.modifynegativeCurrencyFormat(data.tinvoiceex[i].fields.TotalTax) || 0.00;
-    // Currency+''+data.tinvoiceex[i].fields.TotalTax.toLocaleString(undefined, {minimumFractionDigits: 2});
-    let totalAmount = utilityService.modifynegativeCurrencyFormat(data.tinvoiceex[i].fields.TotalAmountInc)|| 0.00;
-    let totalPaid = utilityService.modifynegativeCurrencyFormat(data.tinvoiceex[i].fields.TotalPaid)|| 0.00;
-    let totalOutstanding = utilityService.modifynegativeCurrencyFormat(data.tinvoiceex[i].fields.TotalBalance)|| 0.00;
-       var dataList = {
-         id: data.tinvoiceex[i].fields.ID || '',
-         employee:data.tinvoiceex[i].fields.EmployeeName || '',
-         sortdate: data.tinvoiceex[i].fields.SaleDate !=''? moment(data.tinvoiceex[i].fields.SaleDate).format("YYYY/MM/DD"): data.tinvoiceex[i].fields.SaleDate,
-         saledate: data.tinvoiceex[i].fields.SaleDate !=''? moment(data.tinvoiceex[i].fields.SaleDate).format("DD/MM/YYYY"): data.tinvoiceex[i].fields.SaleDate,
-         duedate: data.tinvoiceex[i].fields.DueDate !=''? moment(data.tinvoiceex[i].fields.DueDate).format("DD/MM/YYYY"): data.tinvoiceex[i].fields.DueDate,
-         customername: data.tinvoiceex[i].fields.CustomerName || '',
-         totalamountex: totalAmountEx || 0.00,
-         totaltax: totalTax || 0.00,
-         totalamount: totalAmount || 0.00,
-         totalpaid: totalPaid || 0.00,
-         totaloustanding: totalOutstanding || 0.00,
-         salestatus: data.tinvoiceex[i].fields.SalesStatus || '',
-         custfield1: data.tinvoiceex[i].fields.SaleCustField1 || '',
-         custfield2: data.tinvoiceex[i].fields.SaleCustField2 || '',
-         comments: data.tinvoiceex[i].fields.Comments || '',
-         // shipdate:data.tinvoiceex[i].fields.ShipDate !=''? moment(data.tinvoiceex[i].fields.ShipDate).format("DD/MM/YYYY"): data.tinvoiceex[i].fields.ShipDate,
-
-     };
-
-     if(data.tinvoiceex[i].fields.Deleted == false && data.tinvoiceex[i].fields.CustomerName.replace(/\s/g, '') != ''){
-       dataTableList.push(dataList);
-     }
-
-      //}
-  }
-
-    templateObject.datatablerecords.set(dataTableList);
-    if(templateObject.datatablerecords.get()){
-
-      setTimeout(function () {
-        location.reload();
-      }, data.tinvoiceex.length * 5);
-    }
-
+      window.open('/invoicelist?page=last','_self');
     }
 
 
@@ -435,6 +388,9 @@ setTimeout(function () {
             }else{
 
             }
+            if(oSettings.fnRecordsDisplay() < 25){
+                $('.paginate_button.page-item.next').addClass('disabled');
+            }
             $('.paginate_button.next:not(.disabled)', this.api().table().container())
              .on('click', function(){
                $('.fullScreenSpin').css('display','inline-block');
@@ -452,9 +408,9 @@ setTimeout(function () {
                        tinvoiceex:thirdaryData
                      }
                      //console.log(objCombineData);
-                     templateObject.resetData(objCombineData);
-                       addVS1Data('TInvoiceEx',JSON.stringify(objCombineData)).then(function (datareturn) {
 
+                       addVS1Data('TInvoiceEx',JSON.stringify(objCombineData)).then(function (datareturn) {
+                         templateObject.resetData(objCombineData);
                        $('.fullScreenSpin').css('display','none');
                        }).catch(function (err) {
                        $('.fullScreenSpin').css('display','none');
@@ -480,7 +436,13 @@ setTimeout(function () {
               MakeNegative();
             }, 100);
           },
+          "fnInitComplete": function () {
+            let urlParametersPage = Router.current().params.query.page;
+            if(urlParametersPage){
+              this.fnPageChange('last');
+            }
 
+           }
       }).on('page', function () {
         setTimeout(function () {
           MakeNegative();
@@ -519,9 +481,9 @@ setTimeout(function () {
             $('.fullScreenSpin').css('display','none');
           }else{
           sideBarService.getAllInvoiceList('All',1).then(function(dataNonBo) {
-          templateObject.resetData(dataNonBo);
-            addVS1Data('TInvoiceEx',JSON.stringify(dataNonBo)).then(function (datareturn) {
 
+            addVS1Data('TInvoiceEx',JSON.stringify(dataNonBo)).then(function (datareturn) {
+              templateObject.resetData(dataNonBo);
             $('.fullScreenSpin').css('display','none');
             }).catch(function (err) {
             $('.fullScreenSpin').css('display','none');
@@ -535,9 +497,9 @@ setTimeout(function () {
             $('.fullScreenSpin').css('display','none');
           }else{
             sideBarService.getAllInvoiceList(dataLenght,0).then(function(dataNonBo) {
-              templateObject.resetData(dataNonBo);
+
               addVS1Data('TInvoiceEx',JSON.stringify(dataNonBo)).then(function (datareturn) {
-              $('.fullScreenSpin').css('display','none');
+              templateObject.resetData(dataNonBo);
               }).catch(function (err) {
               $('.fullScreenSpin').css('display','none');
               });

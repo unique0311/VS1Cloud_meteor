@@ -62,10 +62,15 @@ Template.chequelist.onRendered(function() {
         });
     };
 
+    templateObject.resetData = function (dataVal) {
+        window.open('/chequelist?page=last','_self');
+    }
+
     templateObject.getAllChequeData = function() {
         getVS1Data('TCheque').then(function(dataObject) {
             if (dataObject.length == 0) {
                 sideBarService.getAllChequeList(25,0).then(function(data) {
+                  addVS1Data('TCheque',JSON.stringify(data));
                     let lineItems = [];
                     let lineItemObj = {};
                     for (let i = 0; i < data.tcheque.length; i++) {
@@ -147,7 +152,7 @@ Template.chequelist.onRendered(function() {
                                 text: '',
                                 download: 'open',
                                 className: "btntabletocsv hiddenColumn",
-                                filename: "Cheque List - " + moment().format(),
+                                filename: chequeSpelling+" "+"List - " + moment().format(),
                                 orientation: 'portrait',
                                 exportOptions: {
                                     columns: ':visible',
@@ -168,8 +173,8 @@ Template.chequelist.onRendered(function() {
                                 download: 'open',
                                 className: "btntabletopdf hiddenColumn",
                                 text: '',
-                                title: 'Cheque',
-                                filename: "Cheque List - " + moment().format(),
+                                title: chequeSpelling,
+                                filename: chequeSpelling+" "+"List - " + moment().format(),
                                 exportOptions: {
                                     columns: ':visible',
                                     stripHtml: false
@@ -338,7 +343,7 @@ Template.chequelist.onRendered(function() {
                             text: '',
                             download: 'open',
                             className: "btntabletocsv hiddenColumn",
-                            filename: "Cheque List - " + moment().format(),
+                            filename: chequeSpelling+" "+"List - " + moment().format(),
                             orientation: 'portrait',
                             exportOptions: {
                                 columns: ':visible',
@@ -359,8 +364,8 @@ Template.chequelist.onRendered(function() {
                             download: 'open',
                             className: "btntabletopdf hiddenColumn",
                             text: '',
-                            title: 'Cheque',
-                            filename: "Cheque List - " + moment().format(),
+                            title: chequeSpelling,
+                            filename: chequeSpelling+" "+"List - " + moment().format(),
                             exportOptions: {
                                 columns: ':visible',
                                 stripHtml: false
@@ -384,11 +389,68 @@ Template.chequelist.onRendered(function() {
                         action: function() {
                             $('#tblchequelist').DataTable().ajax.reload();
                         },
-                        "fnDrawCallback": function(oSettings) {
-                            setTimeout(function() {
+                        "fnDrawCallback": function (oSettings) {
+                          $('.paginate_button.page-item').removeClass('disabled');
+                          $('#tblchequelist_ellipsis').addClass('disabled');
+
+                          if(oSettings._iDisplayLength == -1){
+                            if(oSettings.fnRecordsDisplay() > 150){
+                              $('.paginate_button.page-item.previous').addClass('disabled');
+                              $('.paginate_button.page-item.next').addClass('disabled');
+                            }
+                          }else{
+
+                          }
+                          if(oSettings.fnRecordsDisplay() < 25){
+                              $('.paginate_button.page-item.next').addClass('disabled');
+                          }
+
+                          $('.paginate_button.next:not(.disabled)', this.api().table().container())
+                           .on('click', function(){
+                             $('.fullScreenSpin').css('display','inline-block');
+                             let dataLenght = oSettings._iDisplayLength;
+
+                             sideBarService.getAllChequeList(25,oSettings.fnRecordsDisplay()).then(function(dataObjectnew) {
+                               getVS1Data('TCheque').then(function (dataObjectold) {
+                                 if(dataObjectold.length == 0){
+
+                                 }else{
+                                   let dataOld = JSON.parse(dataObjectold[0].data);
+
+                                   var thirdaryData = $.merge($.merge([], dataObjectnew.tcheque), dataOld.tcheque);
+                                   let objCombineData = {
+                                     tcheque:thirdaryData
+                                   }
+
+
+                                     addVS1Data('TCheque',JSON.stringify(objCombineData)).then(function (datareturn) {
+                                       templateObject.resetData(objCombineData);
+                                     $('.fullScreenSpin').css('display','none');
+                                     }).catch(function (err) {
+                                     $('.fullScreenSpin').css('display','none');
+                                     });
+
+                                 }
+                                }).catch(function (err) {
+
+                                });
+
+                             }).catch(function(err) {
+                               $('.fullScreenSpin').css('display','none');
+                             });
+
+                           });
+                            setTimeout(function () {
                                 MakeNegative();
                             }, 100);
                         },
+                        "fnInitComplete": function () {
+                          let urlParametersPage = Router.current().params.query.page;
+                          if(urlParametersPage){
+                            this.fnPageChange('last');
+                          }
+
+                         }
 
                     }).on('page', function() {
                         setTimeout(function() {
@@ -399,6 +461,42 @@ Template.chequelist.onRendered(function() {
                     }).on('column-reorder', function() {
 
                     }).on('length.dt', function(e, settings, len) {
+                      $('.fullScreenSpin').css('display','inline-block');
+                      let dataLenght = settings._iDisplayLength;
+                      if(dataLenght == -1){
+                        if(settings.fnRecordsDisplay() > 150){
+                          $('.paginate_button.page-item.next').addClass('disabled');
+                          $('.fullScreenSpin').css('display','none');
+                        }else{
+                        sideBarService.getAllChequeList('All',1).then(function(dataNonBo) {
+
+                          addVS1Data('TCheque',JSON.stringify(dataNonBo)).then(function (datareturn) {
+                            templateObject.resetData(dataNonBo);
+                          $('.fullScreenSpin').css('display','none');
+                          }).catch(function (err) {
+                          $('.fullScreenSpin').css('display','none');
+                          });
+                        }).catch(function(err) {
+                          $('.fullScreenSpin').css('display','none');
+                        });
+                       }
+                      }else{
+                        if (settings.fnRecordsDisplay() >= settings._iDisplayLength) {
+                          $('.fullScreenSpin').css('display','none');
+                        }else{
+                          sideBarService.getAllChequeList(dataLenght,0).then(function(dataNonBo) {
+
+                            addVS1Data('TCheque',JSON.stringify(dataNonBo)).then(function (datareturn) {
+                              templateObject.resetData(dataNonBo);
+                            $('.fullScreenSpin').css('display','none');
+                            }).catch(function (err) {
+                            $('.fullScreenSpin').css('display','none');
+                            });
+                          }).catch(function(err) {
+                            $('.fullScreenSpin').css('display','none');
+                          });
+                        }
+                      }
                         setTimeout(function() {
                             MakeNegative();
                         }, 100);
@@ -442,6 +540,7 @@ Template.chequelist.onRendered(function() {
             }
         }).catch(function(err) {
             sideBarService.getAllChequeList(25,0).then(function(data) {
+              addVS1Data('TCheque',JSON.stringify(data));
                 let lineItems = [];
                 let lineItemObj = {};
                 for (let i = 0; i < data.tcheque.length; i++) {
@@ -523,7 +622,7 @@ Template.chequelist.onRendered(function() {
                             text: '',
                             download: 'open',
                             className: "btntabletocsv hiddenColumn",
-                            filename: "Cheque List - " + moment().format(),
+                            filename: chequeSpelling+" "+"List - " + moment().format(),
                             orientation: 'portrait',
                             exportOptions: {
                                 columns: ':visible',
@@ -544,8 +643,8 @@ Template.chequelist.onRendered(function() {
                             download: 'open',
                             className: "btntabletopdf hiddenColumn",
                             text: '',
-                            title: 'Cheque',
-                            filename: "Cheque List - " + moment().format(),
+                            title: chequeSpelling,
+                            filename: chequeSpelling+" "+"List - " + moment().format(),
                             exportOptions: {
                                 columns: ':visible',
                                 stripHtml: false
