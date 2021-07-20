@@ -1912,7 +1912,12 @@ Template.employeescard.onRendered(function () {
 
 
                     if (prefObject.defaultApptDuration) {
-                        $('#defaultTime').prepend('<option selected>' + prefObject.defaultApptDuration + ' Hour</option>');
+                        if(prefObject.defaultApptDuration == "120"){
+                            $('#defaultTime').prepend('<option selected>' + 2 + ' Hour</option>');
+                        } else {
+                            $('#defaultTime').prepend('<option selected>' + prefObject.defaultApptDuration + ' Hour</option>');
+                        }
+                        
                     }
                 }
 
