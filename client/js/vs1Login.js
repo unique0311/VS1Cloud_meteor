@@ -183,14 +183,10 @@ function needsToSeePrompt() {
   if (navigator.standalone) {
     return false;
   }
-
-  let date = new Date();
-  let now = date.getDate();
-  let isApple = ['iPhone', 'iPad', 'iPod', 'iPad Simulator', 'iPhone Simulator','iPod Simulator'].includes(navigator.platform);
-  let result = false;
+  let userAgent = window.navigator.userAgent.toLowerCase();
+  let isApple = /iphone|ipad|ipod/.test(userAgent);
   if(isApple === true) {
    $('#install-prompt').modal();
-   localStorage.setItem('promptDate',now);
   }
 }
 
