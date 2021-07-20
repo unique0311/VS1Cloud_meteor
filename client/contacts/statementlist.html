@@ -4,8 +4,8 @@
             <div class="spinner"></div>
         </div>
         <style>
-            .dataTables_filter { 
-                display: none; 
+            .dataTables_filter {
+                display: none;
             }
         </style>
         <div style="margin-top: -24px;">
@@ -19,10 +19,10 @@
                             }
                         }
                     </style>
-                    
+
                 </h2>
             </header>
-            
+
             <div class="modal fade" role="dialog" tabindex="-1" id="myModal2">
                                 <div class="modal-dialog modal-dialog-centered" role="document" style="float: right;">
                                     <div class="modal-content">
@@ -139,10 +139,11 @@
                     <button class="btn btn-primary printConfirm" type="button" style="margin: 16px;"><i class="fa fa-print" style="padding-right: 5px; background-color: #00A3D3; border-color: #00A3D3;"></i>Print</button>
                     <a class="btn btnOpenSettings float-right" role="button" data-toggle="modal" href="#myModal2" style="margin: 16px;"><i class="icon ion-android-more-horizontal"></i></a>
                 </div>
-                    <div class="d-xl-flex flex-row justify-content-xl-start">
+
+                <!-- <div class="d-xl-flex flex-row justify-content-xl-start">
                     <div class="form-group d-xl-flex flex-column justify-content-xl-start" style="margin-right: 4px;">
                         <label>From</label>
-                        <!-- <input type="date" style="width: 240px;background-color: #ffffff;"> -->
+
                         <div class="input-group date" style="width: 160px;">
                             <input type="text" class="form-control" id="dateFrom" name="dateFrom" >
                             <div class="input-group-addon">
@@ -154,7 +155,7 @@
                 <div class="d-xl-flex flex-row justify-content-xl-start">
                     <div class="form-group d-xl-flex flex-column justify-content-xl-start" style="margin-right: 4px;">
                         <label>To</label>
-                        <!-- <input type="date" style="width: 240px;background-color: #ffffff;"> -->
+
                         <div class="input-group date" style="width: 160px;">
                             <input type="text" class="form-control" id="dateTo" name="dateTo" >
                             <div class="input-group-addon">
@@ -162,7 +163,8 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> -->
+
             </div>
 
             <div>
@@ -221,6 +223,46 @@
                             }
 
                         </style>
+                        <div class="row no-gutters d-xl-flex align-items-xl-end">
+                            <div class="col d-sm-flex justify-content-sm-start align-items-sm-center">
+
+                            </div>
+                            <div class="col float-right d-sm-flex d-xl-flex justify-content-sm-end align-items-sm-center justify-content-xl-end align-items-xl-end">
+                                <div class="dropdown" style="margin: 16px;">
+                                    <style>
+                                        .dropdown-toggle::after {
+                                            display: none;
+                                        }
+                                    </style>
+                                    <button class="btn dropdown-toggle" data-toggle="dropdown" aria-expanded="true" type="button"><i class="fas fa-ellipsis-v"></i></button>
+                                    <div class="dropdown-menu" role="menu">
+                                        <h6 class="dropdown-header" role="presentation">Date ranges</h6>
+                                        <a class="dropdown-item lastMonth"  id="lastMonth" role="presentation" href="#">Last Month</a>
+                                        <a class="dropdown-item lastQuarter"  id="lastQuarter" role="presentation" href="#">Last Quarter</a>
+                                        <a class="dropdown-item last12Months"  id="last12Months" role="presentation" href="#">Last 12 Months</a>
+                                        <a class="dropdown-item ignoreDate"  id="ignoreDate" role="presentation" href="#">Ignore Date</a>
+                                    </div>
+                                </div>
+                                <div class="form-group" style="margin: 16px;">
+                                    <label>From</label>
+                                    <div class="input-group date" style="width: 160px;">
+                                        <input type="text" class="form-control" id="dateFrom" name="dateFrom" >
+                                        <div class="input-group-addon">
+                                            <span class="glyphicon glyphicon-th"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group" style="margin: 16px; margin-right: 0px;"><label>To</label>
+                                    <div class="input-group date" style="width: 160px;">
+                                        <input type="text" class="form-control" id="dateTo" name="dateTo" >
+                                        <div class="input-group-addon">
+                                            <span class="glyphicon glyphicon-th"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                         <table id="tblCustomerlist" name="tblCustomerlist" style="width:100%" class="dataTable table table-hover table-striped table-bordered tblCustomerlist">
                             <thead>
                                 <tr class="dnd-moved">
