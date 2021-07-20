@@ -9,23 +9,23 @@
                 height: 100vh;
             }
 
-        #myVS1Video {
-          position: fixed;
-          right: 0;
-          bottom: 0;
-          min-width: 100%;
-          min-height: 100%;
-          z-index: 1;
-        }
+            #myVS1Video {
+                position: fixed;
+                right: 0;
+                bottom: 0;
+                min-width: 100%;
+                min-height: 100%;
+                z-index: 1;
+            }
 
-        #myVS1VideoLogin {
-          position: fixed;
-          right: 0;
-          bottom: 0;
-          min-width: 100%;
-          min-height: 100%;
-          z-index: 1;
-        }
+            #myVS1VideoLogin {
+                position: fixed;
+                right: 0;
+                bottom: 0;
+                min-width: 100%;
+                min-height: 100%;
+                z-index: 1;
+            }
         </style>
         <div class="fullScreenSpin" style="display:none;">
             <div class="spinner"></div>
@@ -59,18 +59,18 @@
             });
         </script>
         <video id="myVS1Video" class="myVS1Video" style="display:none">
-          <source src="vs1cloudsoftware.mp4" type="video/mp4">
+            <source src="vs1cloudsoftware.mp4" type="video/mp4">
         </video>
 
         <video id="myVS1VideoLogin" class="myVS1VideoLogin" style="display:none">
-          <source src="vs1cloudsoftwarelogin.mp4" type="video/mp4">
+            <source src="vs1cloudsoftwarelogin.mp4" type="video/mp4">
         </video>
 
         <form data-form-type="request" accept-charset="UTF-8" action="" id="formlogin" method="POST" style="background-color: rgba(255,255,255,0.78);width: 360px;max-width: 360px;filter: saturate(100%);">
             <h1 class="text-center" style="color: #00a3d3;font-size: 25px;line-height: 30px;">VS1 Cloud Sandbox</h1>
-           <img src="assets/img/vs1sandbox.png" style="width: 100%;" />
-          <!-- <h1 class="text-center" style="color: #00a3d3;font-size: 25px;line-height: 30px;">Welcome to VS1 Cloud</h1>
-            <img src="assets/img/vs1logo.png" style="width: 100%;" /> -->
+            <img src="assets/img/vs1sandbox.png" style="width: 100%;" />
+            <!-- <h1 class="text-center" style="color: #00a3d3;font-size: 25px;line-height: 30px;">Welcome to VS1 Cloud</h1>
+<img src="assets/img/vs1logo.png" style="width: 100%;" /> -->
 
 
             <div class="form-group"><input class="form-control" type="email" name="email" id="email" placeholder="Email" style="color: #404040;"></div>
@@ -121,92 +121,91 @@
             <small style="color: rgb(128,137,154); font-size: 12px;">
                 Don&#39;t have an account? <a href="http://www.vs1cloud.com/purchase.php" target="_blank"><span style="color: #00a3d3;">Try VS1Cloud today!</span></a>
             </small>
-          <!--  <button id="install" name="install" class="btn btn-primary btn-block install" type="button" style="background-color: #00a3d3;">
-                <i class="fas fa-cloud-download-alt" style="color:#fff; margin-right: 8px;"></i> Install VS1 Cloud
-            </button> -->
+            <!--  <button id="install" name="install" class="btn btn-primary btn-block install" type="button" style="background-color: #00a3d3;">
+<i class="fas fa-cloud-download-alt" style="color:#fff; margin-right: 8px;"></i> Install VS1 Cloud
+</button> -->
         </form>
 
         <div class="modal fade" role="dialog" tabindex="-1" id="install-prompt">
-            <div class="modal-dialog modal-xl modal-dialog-scrollable" role="document">
+            <div class="modal-dialog modal-dialog-centered modal-xl modal-dialog-scrollable" role="document" style="margin-left: 32px; margin-right: 32px;">
                 <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal"
-                            aria-label="Close"><span aria-hidden="true">×</span></button>
-                    </div>
+                    
                     <div class="modal-body">
-                        <img src="assets/img/vs1logo.png" style="width: 50%; display: block; margin: 0 auto" />
-                        <h5 style="padding:8px; text-align: center;">Install VS1 Cloud</h5>
-                        <p>Install this application on your home screen for quick and easy access when you're on the go</p>
-                    </div>
-                    <div class="modal-footer">
-                         <p><small>Just tap <img src="assets/img/share.jpg" style="width: 4%;"/> and then 'Add to homescreen'</small></p>
-                      </div>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="margin-bottom: 32px;"><span aria-hidden="true">×</span></button>
+                        
+                        <img src="assets/img/vs1logo.png" style="width: 50%; display: block; margin: 0 auto; margin-bottom: 16px;" />
+                        
+                        <h3 style="padding: 8px; text-align: center;">Install VS1 Cloud</h3>
+                        <p style="margin: 16px; text-align: center;">Install this application on your device for quick and easy access when you're out on the go</p>
+                        
+                        <p><small>Just tap <img src="assets/img/share.jpg" style="width: 4%; margin: 0px 4px;"/> and then 'Add to Home Screen'</small></p>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
 
-        <div style="display: none;" class="emailBody" id="capture2" name="capture2">
+    <div style="display: none;" class="emailBody" id="capture2" name="capture2">
 
-            <table align="center" border="0" cellpadding="0" cellspacing="0" width="600">
-                <tr>
-                    <td align="center" bgcolor="#54c7e2" style="padding: 40px 0 30px 0;">
-                        <img src="https://vs1cloud.com/images/VS1logo.png" alt="VS1 Cloud Partner Program" width="250px" style="display: block;" />
-                    </td>
-                </tr>
-                <tr>
-                    <td style="padding: 40px 30px 40px 30px;">
-                        <table border="0" cellpadding="0" cellspacing="0" width="100%">
-                            <tr>
-                                <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0 20px 0;" class="emCompanyName">
-                                </td>
-                            </tr>
-                            <tr>
-                                <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0 10px 0;">
-                                    Thank you for completing the registration process.
-                                </td>
-                            </tr>
-                            <tr>
-                                <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0;">
-                                    Below you'll find your Account / Log In credentials for VS1 Cloud as well as the link to the login page.
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <table border="0" cellpadding="0" cellspacing="0" width="100%">
-                                        <tr style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 18px;">
-                                            <td style="width: 50%; font-weight: 600;">Username:</td>
-                                            <td style="width: 50%;" id="emEmail" name="emEmail"></td>
-                                        </tr>
-                                        <tr style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 18px;">
-                                            <td style="width: 50%; font-weight: 600;">Password:</td>
-                                            <td style="width: 50%;" id="emPassword" name="emPassword"></td>
-                                        </tr>
-                                    </table>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 0px;">
-                                    <a class="addloginActive" href="#" style="color: #00a3d3;">Activate your account before loging in</a>
-                                </td>
-                            </tr>
-                        </table>
-                    </td>
-                </tr>
-                <tr>
-                    <td bgcolor="#00a3d3" style="padding: 30px 30px 30px 30px;">
-                        <table border="0" cellpadding="0" cellspacing="0" width="100%">
-                            <tr>
-                                <td width="50%" style="color: #ffffff; font-family: Arial, sans-serif; font-size: 14px;">
-                                    You can now visit the Login page and enter your details to log into your account.
-                                </td>
-                                <td align="right">
-                                    <a class="addloginActive" style="border: none; color: white; padding: 15px 32px; text-align: center; text-decoration: none; display: inline-block; font-family: Arial, sans-serif; font-size: 16px; font-weight: 600; margin: 4px 2px; cursor: pointer; background-color: #4CAF50;" href="#">Log In</a>
-                                </td>
-                            </tr>
-                        </table>
-                    </td>
-                </tr>
-            </table>
-        </div>
+        <table align="center" border="0" cellpadding="0" cellspacing="0" width="600">
+            <tr>
+                <td align="center" bgcolor="#54c7e2" style="padding: 40px 0 30px 0;">
+                    <img src="https://vs1cloud.com/images/VS1logo.png" alt="VS1 Cloud Partner Program" width="250px" style="display: block;" />
+                </td>
+            </tr>
+            <tr>
+                <td style="padding: 40px 30px 40px 30px;">
+                    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                        <tr>
+                            <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0 20px 0;" class="emCompanyName">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0 10px 0;">
+                                Thank you for completing the registration process.
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0;">
+                                Below you'll find your Account / Log In credentials for VS1 Cloud as well as the link to the login page.
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                                    <tr style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 18px;">
+                                        <td style="width: 50%; font-weight: 600;">Username:</td>
+                                        <td style="width: 50%;" id="emEmail" name="emEmail"></td>
+                                    </tr>
+                                    <tr style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 18px;">
+                                        <td style="width: 50%; font-weight: 600;">Password:</td>
+                                        <td style="width: 50%;" id="emPassword" name="emPassword"></td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 0px;">
+                                <a class="addloginActive" href="#" style="color: #00a3d3;">Activate your account before loging in</a>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td bgcolor="#00a3d3" style="padding: 30px 30px 30px 30px;">
+                    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                        <tr>
+                            <td width="50%" style="color: #ffffff; font-family: Arial, sans-serif; font-size: 14px;">
+                                You can now visit the Login page and enter your details to log into your account.
+                            </td>
+                            <td align="right">
+                                <a class="addloginActive" style="border: none; color: white; padding: 15px 32px; text-align: center; text-decoration: none; display: inline-block; font-family: Arial, sans-serif; font-size: 16px; font-weight: 600; margin: 4px 2px; cursor: pointer; background-color: #4CAF50;" href="#">Log In</a>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+    </div>
 </template>
