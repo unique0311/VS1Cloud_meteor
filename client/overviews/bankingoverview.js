@@ -32,7 +32,35 @@ Template.bankingoverview.onRendered(function() {
     const dataTableList = [];
     const tableHeaderList = [];
 
+    var today = moment().format('DD/MM/YYYY');
+    var currentDate = new Date();
+    var begunDate = moment(currentDate).format("DD/MM/YYYY");
+    let fromDateMonth = currentDate.getMonth();
+    let fromDateDay = currentDate.getDate();
+    if (currentDate.getMonth() < 10) {
+        fromDateMonth = "0" + currentDate.getMonth();
+    }
 
+    if (currentDate.getDate() < 10) {
+        fromDateDay = "0" + currentDate.getDate();
+    }
+    var fromDate = fromDateDay + "/" + (fromDateMonth) + "/" + currentDate.getFullYear();
+
+    $("#date-input,#dateTo,#dateFrom").datepicker({
+        showOn: 'button',
+        buttonText: 'Show Date',
+        buttonImageOnly: true,
+        buttonImage: '/img/imgCal2.png',
+        dateFormat: 'dd/mm/yy',
+        showOtherMonths: true,
+        selectOtherMonths: true,
+        changeMonth: true,
+        changeYear: true,
+        yearRange: "-90:+10",
+    });
+
+    $("#dateFrom").val(fromDate);
+    $("#dateTo").val(begunDate);
     Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblBankingOverview', function(error, result) {
         if (error) {
 
@@ -313,10 +341,26 @@ Template.bankingoverview.onRendered(function() {
 
     // $('#tblBankingOverview').DataTable();
     templateObject.getAllBankAccountData = function() {
+      var currentBeginDate = new Date();
+      var begunDate = moment(currentBeginDate).format("DD/MM/YYYY");
+      let fromDateMonth = currentBeginDate.getMonth();
+      let fromDateDay = currentBeginDate.getDate();
+      if(currentBeginDate.getMonth() < 10){
+          fromDateMonth = "0" + (currentBeginDate.getMonth()+1);
+      }else{
+        fromDateMonth = (currentBeginDate.getMonth()+1);
+      }
+
+      if(currentBeginDate.getDate() < 10){
+          fromDateDay = "0" + currentBeginDate.getDate();
+      }
+      var toDate = currentBeginDate.getFullYear()+ "-" +(fromDateMonth) + "-"+(fromDateDay+1);
+      let prevMonth11Date = (moment().subtract(reportsloadMonths, 'months')).format("YYYY-MM-DD");
+
         getVS1Data('TBankAccountReport').then(function(dataObject) {
 
             if (dataObject.length == 0) {
-                paymentService.getAllBankAccountDetails().then(function(data) {
+                sideBarService.getAllBankAccountDetails(prevMonth11Date,toDate, false).then(function(data) {
                     addVS1Data('TBankAccountReport', JSON.stringify(data));
                     let lineItems = [];
                     let lineItemObj = {};
@@ -486,6 +530,7 @@ Template.bankingoverview.onRendered(function() {
                             // bStateSave: true,
                             // rowId: 0,
                             pageLength: 25,
+                            "bLengthChange": false,
                             lengthMenu: [
                                 [10, 25, 50, -1],
                                 [10, 25, 50, "All"]
@@ -586,6 +631,14 @@ Template.bankingoverview.onRendered(function() {
             } else {
                 let data = JSON.parse(dataObject[0].data);
                 let useData = data.tbankaccountreport;
+                if(data.Params.IgnoreDates == true){
+                  $('#dateFrom').attr('readonly', true);
+                  $('#dateTo').attr('readonly', true);
+                }else{
+
+                  $("#dateFrom").val(data.Params.DateFrom !=''? moment(data.Params.DateFrom).format("DD/MM/YYYY"): data.Params.DateFrom);
+                  $("#dateTo").val(data.Params.DateTo !=''? moment(data.Params.DateTo).format("DD/MM/YYYY"): data.Params.DateTo);
+                }
                 let lineItems = [];
                 let lineItemObj = {};
                 let lineID = "";
@@ -777,6 +830,7 @@ Template.bankingoverview.onRendered(function() {
                         // bStateSave: true,
                         // rowId: 0,
                         pageLength: 25,
+                        "bLengthChange": false,
                         lengthMenu: [
                             [10, 25, 50, -1],
                             [10, 25, 50, "All"]
@@ -871,7 +925,7 @@ Template.bankingoverview.onRendered(function() {
 
             }
         }).catch(function(err) {
-            paymentService.getAllBankAccountDetails().then(function(data) {
+            sideBarService.getAllBankAccountDetails(prevMonth11Date,toDate, false).then(function(data) {
                 addVS1Data('TBankAccountReport', JSON.stringify(data));
                 let lineItems = [];
                 let lineItemObj = {};
@@ -1041,6 +1095,7 @@ Template.bankingoverview.onRendered(function() {
                         // bStateSave: true,
                         // rowId: 0,
                         pageLength: 25,
+                        "bLengthChange": false,
                         lengthMenu: [
                             [10, 25, 50, -1],
                             [10, 25, 50, "All"]
@@ -1143,24 +1198,215 @@ Template.bankingoverview.onRendered(function() {
     }
     templateObject.getAllBankAccountData();
 
+    templateObject.getAllFilterbankingData = function (fromDate,toDate, ignoreDate) {
+      sideBarService.getAllBankAccountDetails(fromDate,toDate, ignoreDate).then(function(data) {
+
+        addVS1Data('TBankAccountReport',JSON.stringify(data)).then(function (datareturn) {
+            window.open('/bankingoverview?toDate=' + toDate + '&fromDate=' + fromDate + '&ignoredate='+ignoreDate,'_self');
+        }).catch(function (err) {
+          location.reload();
+        });
+
+            }).catch(function (err) {
+                // Bert.alert('<strong>' + err + '</strong>!', 'danger');
+                templateObject.datatablerecords.set('');
+                $('.fullScreenSpin').css('display','none');
+                // Meteor._reload.reload();
+            });
+    }
+
+    let urlParametersDateFrom = Router.current().params.query.fromDate;
+    let urlParametersDateTo = Router.current().params.query.toDate;
+    let urlParametersIgnoreDate = Router.current().params.query.ignoredate;
+    if(urlParametersDateFrom){
+      if(urlParametersIgnoreDate == true){
+        $('#dateFrom').attr('readonly', true);
+        $('#dateTo').attr('readonly', true);
+      }else{
+
+        $("#dateFrom").val(urlParametersDateFrom !=''? moment(urlParametersDateFrom).format("DD/MM/YYYY"): urlParametersDateFrom);
+        $("#dateTo").val(urlParametersDateTo !=''? moment(urlParametersDateTo).format("DD/MM/YYYY"): urlParametersDateTo);
+      }
+    }
 });
 
 Template.bankingoverview.events({
     'click .btnRefresh': function() {
+      var currentBeginDate = new Date();
+      var begunDate = moment(currentBeginDate).format("DD/MM/YYYY");
+      let fromDateMonth = currentBeginDate.getMonth();
+      let fromDateDay = currentBeginDate.getDate();
+      if(currentBeginDate.getMonth() < 10){
+          fromDateMonth = "0" + (currentBeginDate.getMonth()+1);
+      }else{
+        fromDateMonth = (currentBeginDate.getMonth()+1);
+      }
 
+      if(currentBeginDate.getDate() < 10){
+          fromDateDay = "0" + currentBeginDate.getDate();
+      }
+      var toDate = currentBeginDate.getFullYear()+ "-" +(fromDateMonth) + "-"+(fromDateDay+1);
+      let prevMonth11Date = (moment().subtract(reportsloadMonths, 'months')).format("YYYY-MM-DD");
         $('.fullScreenSpin').css('display', 'inline-block');
         let templateObject = Template.instance();
 
-        sideBarService.getAllBankAccountDetails().then(function(data) {
+        sideBarService.getAllBankAccountDetails(prevMonth11Date,toDate, false).then(function(data) {
             addVS1Data('TBankAccountReport', JSON.stringify(data)).then(function(datareturn) {
-                location.reload();
+                window.open('/bankingoverview','_self');
             }).catch(function(err) {
-                location.reload();
+                window.open('/bankingoverview','_self');
             });
         }).catch(function(err) {
-            location.reload();
+            window.open('/bankingoverview','_self');
         });
         //templateObject.getAllBankAccountData();
+    },
+    'change #dateTo': function () {
+        let templateObject = Template.instance();
+        $('.fullScreenSpin').css('display', 'inline-block');
+        $('#dateFrom').attr('readonly', false);
+        $('#dateTo').attr('readonly', false);
+        var dateFrom = new Date($("#dateFrom").datepicker("getDate"));
+        var dateTo = new Date($("#dateTo").datepicker("getDate"));
+
+        let formatDateFrom = dateFrom.getFullYear() + "-" + (dateFrom.getMonth() + 1) + "-" + dateFrom.getDate();
+        let formatDateTo = dateTo.getFullYear() + "-" + (dateTo.getMonth() + 1) + "-" + dateTo.getDate();
+
+        //  templateObject.getAgedPayableReports(formatDateFrom,formatDateTo,false);
+        var formatDate = dateTo.getDate() + "/" + (dateTo.getMonth() + 1) + "/" + dateTo.getFullYear();
+        //templateObject.dateAsAt.set(formatDate);
+        if (($("#dateFrom").val().replace(/\s/g, '') == "") && ($("#dateFrom").val().replace(/\s/g, '') == "")) {
+
+        } else {
+          templateObject.getAllFilterbankingData(formatDateFrom,formatDateTo, false);
+        }
+
+    },
+    'change #dateFrom': function () {
+        let templateObject = Template.instance();
+        $('.fullScreenSpin').css('display', 'inline-block');
+        $('#dateFrom').attr('readonly', false);
+        $('#dateTo').attr('readonly', false);
+        var dateFrom = new Date($("#dateFrom").datepicker("getDate"));
+        var dateTo = new Date($("#dateTo").datepicker("getDate"));
+
+        let formatDateFrom = dateFrom.getFullYear() + "-" + (dateFrom.getMonth() + 1) + "-" + dateFrom.getDate();
+        let formatDateTo = dateTo.getFullYear() + "-" + (dateTo.getMonth() + 1) + "-" + dateTo.getDate();
+
+        //  templateObject.getAgedPayableReports(formatDateFrom,formatDateTo,false);
+        var formatDate = dateTo.getDate() + "/" + (dateTo.getMonth() + 1) + "/" + dateTo.getFullYear();
+        //templateObject.dateAsAt.set(formatDate);
+        if (($("#dateFrom").val().replace(/\s/g, '') == "") && ($("#dateFrom").val().replace(/\s/g, '') == "")) {
+
+        } else {
+            templateObject.getAllFilterbankingData(formatDateFrom,formatDateTo, false);
+        }
+
+    },
+    'click #lastMonth': function () {
+        let templateObject = Template.instance();
+        $('.fullScreenSpin').css('display', 'inline-block');
+        $('#dateFrom').attr('readonly', false);
+        $('#dateTo').attr('readonly', false);
+        var currentDate = new Date();
+        var begunDate = moment(currentDate).format("DD/MM/YYYY");
+
+        let fromDateMonth = currentDate.getMonth();
+        let fromDateDay = currentDate.getDate();
+        if (currentDate.getMonth() < 10) {
+            fromDateMonth = "0" + currentDate.getMonth();
+        }
+        if (currentDate.getDate() < 10) {
+            fromDateDay = "0" + currentDate.getDate();
+        }
+
+        var fromDate = fromDateDay + "/" + (fromDateMonth) + "/" + currentDate.getFullYear();
+
+        $("#dateFrom").val(fromDate);
+        $("#dateTo").val(begunDate);
+
+        var currentDate2 = new Date();
+        var getLoadDate = moment(currentDate2).format("YYYY-MM-DD");
+        let getDateFrom = currentDate2.getFullYear() + "-" + (fromDateMonth) + "-" + fromDateDay;
+        templateObject.getAllFilterbankingData(getDateFrom,getLoadDate, false);
+    },
+    'click #lastQuarter': function () {
+        let templateObject = Template.instance();
+        $('.fullScreenSpin').css('display', 'inline-block');
+        $('#dateFrom').attr('readonly', false);
+        $('#dateTo').attr('readonly', false);
+        var currentDate = new Date();
+        var begunDate = moment(currentDate).format("DD/MM/YYYY");
+
+        var begunDate = moment(currentDate).format("DD/MM/YYYY");
+        function getQuarter(d) {
+            d = d || new Date();
+            var m = Math.floor(d.getMonth() / 3) + 2;
+            return m > 4 ? m - 4 : m;
+        }
+
+        var quarterAdjustment = (moment().month() % 3) + 1;
+        var lastQuarterEndDate = moment().subtract({
+            months: quarterAdjustment
+        }).endOf('month');
+        var lastQuarterStartDate = lastQuarterEndDate.clone().subtract({
+            months: 2
+        }).startOf('month');
+
+        var lastQuarterStartDateFormat = moment(lastQuarterStartDate).format("DD/MM/YYYY");
+        var lastQuarterEndDateFormat = moment(lastQuarterEndDate).format("DD/MM/YYYY");
+
+
+        $("#dateFrom").val(lastQuarterStartDateFormat);
+        $("#dateTo").val(lastQuarterEndDateFormat);
+
+        let fromDateMonth = getQuarter(currentDate);
+        var quarterMonth = getQuarter(currentDate);
+        let fromDateDay = currentDate.getDate();
+
+        var getLoadDate = moment(lastQuarterEndDate).format("YYYY-MM-DD");
+        let getDateFrom = moment(lastQuarterStartDateFormat).format("YYYY-MM-DD");
+        templateObject.getAllFilterbankingData(getDateFrom,getLoadDate, false);
+    },
+    'click #last12Months': function () {
+        let templateObject = Template.instance();
+        $('.fullScreenSpin').css('display', 'inline-block');
+        $('#dateFrom').attr('readonly', false);
+        $('#dateTo').attr('readonly', false);
+        var currentDate = new Date();
+        var begunDate = moment(currentDate).format("DD/MM/YYYY");
+
+        let fromDateMonth = Math.floor(currentDate.getMonth() + 1);
+        let fromDateDay = currentDate.getDate();
+        if (currentDate.getMonth() < 10) {
+            fromDateMonth = "0" + currentDate.getMonth();
+        }
+        if (currentDate.getDate() < 10) {
+            fromDateDay = "0" + currentDate.getDate();
+        }
+
+        var fromDate = fromDateDay + "/" + (fromDateMonth) + "/" + Math.floor(currentDate.getFullYear() - 1);
+        $("#dateFrom").val(fromDate);
+        $("#dateTo").val(begunDate);
+
+        var currentDate2 = new Date();
+        if (currentDate2.getMonth() < 10) {
+            fromDateMonth2 = "0" + Math.floor(currentDate2.getMonth() + 1);
+        }
+        if (currentDate2.getDate() < 10) {
+            fromDateDay2 = "0" + currentDate2.getDate();
+        }
+        var getLoadDate = moment(currentDate2).format("YYYY-MM-DD");
+        let getDateFrom = Math.floor(currentDate2.getFullYear() - 1) + "-" + fromDateMonth2 + "-" + currentDate2.getDate();
+        templateObject.getAllFilterbankingData(getDateFrom,getLoadDate, false);
+
+    },
+    'click #ignoreDate': function () {
+        let templateObject = Template.instance();
+        $('.fullScreenSpin').css('display', 'inline-block');
+        $('#dateFrom').attr('readonly', true);
+        $('#dateTo').attr('readonly', true);
+        templateObject.getAllFilterbankingData('', '', true);
     },
     'click #newSalesOrder': function(event) {
         Router.go('/salesordercard');

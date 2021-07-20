@@ -59,59 +59,9 @@
             </div>
             {{/each}}
             {{/if}}
-            <!--
-            <div class="col-md-6 col-xl-3 mb-4 openaccountreceivable">
-                <div class="card shadow border-left-primary py-2">
-                    <div class="card-body" style="cursor: pointer;">
-                        <div class="row align-items-center no-gutters">
-                            <div class="col mr-2">
-                                <div class="text-uppercase text-primary font-weight-bold text-xs mb-1"><span style="font-size: 14px;">Capital One Business Card</span></div>
-                                <div class="text-dark font-weight-bold h5 mb-0 mr-3"><span class="text-nowrap banklink" style="font-size: 28px;color: rgb(221,223,235);margin-left: 8px;"><span class="custOverdueAmt" id="custOverdueAmt" name="custOverdueAmt">0</span></span></div>
-                                <div class="text-dark font-weight-bold h5 mb-0"><span style="font-size: 16px;color: rgb(221,223,235);">Bank Balance</span></div>
-                            </div>
-                            <div class="col-auto"><i class="fas fa-credit-card fa-2x text-gray-300"></i></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-6 col-xl-3 mb-4 openaccountpayable">
-                <div class="card shadow border-left-danger py-2">
-                    <div class="card-body" style="cursor: pointer;">
-                        <div class="row text-nowrap d-xl-flex align-items-center align-items-xl-center no-gutters">
-                            <div class="col mr-2">
-                                <div class="text-uppercase text-danger font-weight-bold text-xs mb-1"><span style="font-size: 14px;">Chase Business Credit Card</span></div>
-                                <div class="text-dark font-weight-bold h5 mb-0 mr-3"><span class="text-nowrap banklink" style="font-size: 28px;color: rgb(221,223,235);margin-left: 8px;"><span class="suppAwaitingAmt" id="suppAwaitingAmt" name="suppAwaitingAmt">  0</span></span></div>
-                                <div class="text-dark font-weight-bold h5 mb-0"><span style="font-size: 16px;color: rgb(221,223,235);">Bank Balance</span></div>
-                            </div>
-                            <div class="col-auto"><i class="far fa-credit-card fa-2x text-gray-300"></i></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-6 col-xl-3 mb-4 openaccountpayable">
-                <div class="card shadow border-left-warning py-2">
-                    <div class="card-body" style="cursor: pointer;">
-                        <div class="row align-items-center no-gutters">
-                            <div class="col mr-2">
-                                <div class="text-uppercase text-warning font-weight-bold text-xs mb-1"><span style="font-size: 14px;">MAstercard credit Card</span></div>
-                                <div class="text-dark font-weight-bold h5 mb-0 mr-3"><span class="text-nowrap banklink" style="font-size: 28px;color: rgb(221,223,235);margin-left: 8px;"><span class="suppOverdueAmt" id="suppOverdueAmt" name="suppOverdueAmt">  0</span></span></div>
-                                <div class="text-dark font-weight-bold h5 mb-0"><span style="font-size: 16px;color: rgb(221,223,235);">Bank Balance</span></div>
-                            </div>
-                            <div class="col-auto"><i class="fab fa-cc-mastercard fa-2x text-gray-300"></i></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            -->
 
         </div>
-        <!-- <div class="row">
-            <div class="col">
-                <a class="btn btnOpenSettings float-right" role="button" data-toggle="modal" href="#myModal2" style="margin-right: 32px;"><i class="icon ion-android-more-horizontal"></i></a>
-            </div>
-        </div> -->
+
         <div class="row d-xl-flex flex-row justify-content-xl-center" style="padding: 16px; padding-bottom: 0px;">
             <div class="col-7 d-xl-flex flex-grow-1 align-items-xl-start">
                 <button id="btnRefresh" class="btn btn-primary btnRefresh" type="button" style="margin: 16px;"><i class="la la-lightbulb-o" style="margin-right: 5px;"></i>Refresh</button>
@@ -275,6 +225,45 @@
                             opacity: 1;
                         }
                     </style>
+                    <div class="row no-gutters d-xl-flex align-items-xl-end">
+                        <div class="col d-sm-flex justify-content-sm-start align-items-sm-center">
+
+                        </div>
+                        <div class="col float-right d-sm-flex d-xl-flex justify-content-sm-end align-items-sm-center justify-content-xl-end align-items-xl-end">
+                            <div class="dropdown" style="margin: 16px;">
+                                <style>
+                                    .dropdown-toggle::after {
+                                        display: none;
+                                    }
+                                </style>
+                                <button class="btn dropdown-toggle" data-toggle="dropdown" aria-expanded="true" type="button"><i class="fas fa-ellipsis-v"></i></button>
+                                <div class="dropdown-menu" role="menu">
+                                    <h6 class="dropdown-header" role="presentation">Date ranges</h6>
+                                    <a class="dropdown-item lastMonth"  id="lastMonth" role="presentation" href="#">Last Month</a>
+                                    <a class="dropdown-item lastQuarter"  id="lastQuarter" role="presentation" href="#">Last Quarter</a>
+                                    <a class="dropdown-item last12Months"  id="last12Months" role="presentation" href="#">Last 12 Months</a>
+                                    <a class="dropdown-item ignoreDate"  id="ignoreDate" role="presentation" href="#">Ignore Date</a>
+                                </div>
+                            </div>
+                            <div class="form-group" style="margin: 16px;">
+                                <label>From</label>
+                                <div class="input-group date" style="width: 160px;">
+                                    <input type="text" class="form-control" id="dateFrom" name="dateFrom" >
+                                    <div class="input-group-addon">
+                                        <span class="glyphicon glyphicon-th"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group" style="margin: 16px; margin-right: 0px;"><label>To</label>
+                                <div class="input-group date" style="width: 160px;">
+                                    <input type="text" class="form-control" id="dateTo" name="dateTo" >
+                                    <div class="input-group-addon">
+                                        <span class="glyphicon glyphicon-th"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <table id="tblBankingOverview" style="width:100%" class="dataTable table table-striped table-bordered tblBankingOverview">
                         <thead>
                             <tr class="dnd-moved">

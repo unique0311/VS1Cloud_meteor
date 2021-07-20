@@ -958,7 +958,7 @@ Template.employeescard.onRendered(function () {
                                 // swal("Please ensure the employee has a email and password.", "", "info");
                                 if (useData[i].fields.User != null) {
                                     swal({
-                                        title: 'User currently as an Existing Login.',
+                                        title: 'User currently has an Existing Login.',
                                         text: '',
                                         type: 'info',
                                         showCancelButton: false,
@@ -1150,7 +1150,7 @@ Template.employeescard.onRendered(function () {
 
                                     if (useData[i].fields.User != null) {
                                         swal({
-                                            title: 'User currently as an Existing Login.',
+                                            title: 'User currently has an Existing Login.',
                                             text: '',
                                             type: 'info',
                                             showCancelButton: false,
@@ -1327,7 +1327,7 @@ Template.employeescard.onRendered(function () {
                                     // swal("Please ensure the employee has a email and password.", "", "info");
                                     if (useData[i].fields.User != null) {
                                         swal({
-                                            title: 'User currently as an Existing Login.',
+                                            title: 'User currently has an Existing Login.',
                                             text: '',
                                             type: 'info',
                                             showCancelButton: false,
@@ -1501,7 +1501,7 @@ Template.employeescard.onRendered(function () {
                             // swal("Please ensure the employee has a email and password.", "", "info");
                             if (useData[i].fields.User != null) {
                                 swal({
-                                    title: 'User currently as an Existing Login.',
+                                    title: 'User currently has an Existing Login.',
                                     text: '',
                                     type: 'info',
                                     showCancelButton: false,
@@ -3509,7 +3509,7 @@ Template.employeescard.events({
 
 
         // swal({
-        //     title: 'User currently as an Existing Login.',
+        //     title: 'User currently has an Existing Login.',
         //     text: '',
         //     type: 'info',
         //     showCancelButton: false,

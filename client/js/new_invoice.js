@@ -776,7 +776,7 @@ Template.new_invoice.onRendered(() => {
                                 saleCustField1: data.fields.SaleCustField1 || '',
                                 saleCustField2: data.fields.SaleCustField2 || '',
                                 totalPaid: totalPaidAmount || 0,
-                                ispaid: true
+                                ispaid: data.fields.IsPaid
                             };
 
                             $('#edtCustomerName').val(data.fields.CustomerName);

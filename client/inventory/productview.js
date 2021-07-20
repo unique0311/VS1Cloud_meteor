@@ -384,6 +384,11 @@ Template.productview.onRendered(function() {
                   }else{
                       templateObject.isTrackChecked.set(false);
                   }
+                  if(data.fields.ProductType=="INV"){
+                    templateObject.isTrackChecked.set(true);
+                  }else{
+                    templateObject.isTrackChecked.set(false);
+                  }
                   $('#sltsalesacount').val(data.fields.IncomeAccount);
                   $('#sltcogsaccount').val(data.fields.CogsAccount);
 
@@ -465,6 +470,12 @@ Template.productview.onRendered(function() {
                   }else{
                       templateObject.isTrackChecked.set(false);
                   }
+
+                  if(useData[i].fields.ProductType=="INV"){
+                    templateObject.isTrackChecked.set(true);
+                  }else{
+                    templateObject.isTrackChecked.set(false);
+                  }
                   $('#sltsalesacount').val(useData[i].fields.IncomeAccount);
                   $('#sltcogsaccount').val(useData[i].fields.CogsAccount);
 
@@ -537,6 +548,11 @@ Template.productview.onRendered(function() {
                         templateObject.isTrackChecked.set(true);
                     }else{
                         templateObject.isTrackChecked.set(false);
+                    }
+                    if(data.fields.ProductType=="INV"){
+                      templateObject.isTrackChecked.set(true);
+                    }else{
+                      templateObject.isTrackChecked.set(false);
                     }
                     $('#sltsalesacount').val(data.fields.IncomeAccount);
                     $('#sltcogsaccount').val(data.fields.CogsAccount);
@@ -615,6 +631,11 @@ Template.productview.onRendered(function() {
                     templateObject.isTrackChecked.set(true);
                 }else{
                     templateObject.isTrackChecked.set(false);
+                }
+                if(data.fields.ProductType=="INV"){
+                  templateObject.isTrackChecked.set(true);
+                }else{
+                  templateObject.isTrackChecked.set(false);
                 }
                 $('#sltsalesacount').val(data.fields.IncomeAccount);
                 $('#sltcogsaccount').val(data.fields.CogsAccount);
