@@ -3,12 +3,12 @@
         <div class="spinner"></div>
     </div>
 
-    <div class="d-sm-flex justify-content-between align-items-center mb-4" style="margin-left: 24px;">
+    <div class="d-sm-flex justify-content-between align-items-center mb-4 headerDiv" style="margin-left: 24px;">
         <h3 class="text-dark mb-0" style="width: 100%; margin-right: 1em;">
             Appointments Overview
-            
+
             <a role="button" data-toggle="modal" href="#helpViewModal" class=""><label class="lblplay">Help</label><i class="fa fa-question-circle-o" style="font-size: 20px;"></i></a>
-            
+
             <a style="margin-right: 8px;" class="btn float-right btnoptionsmodal" role="button" href="#settingsModal"><i class="icon ion-android-more-horizontal"></i></a>
         </h3>
 
@@ -47,6 +47,39 @@
             </div>
         </div>
     </div>
+
+    <style>
+        @media (max-height: 420px) and (max-width: 850px) {
+            .colEmployeeList {
+                display: none;
+            }
+            .colCalendar {
+                padding: 0px !important;
+            }
+            .fc-header-toolbar.fc-toolbar.fc-toolbar-ltr {
+                padding-top: 0px;
+            }
+            #allocationModal {
+                padding-left: 0px;
+            }
+            .fc-view-harness.fc-view-harness-active {
+                max-height: 100vh !important;
+                
+            }
+            .fc-toolbar-chunk:nth-child(1) {
+                display: none;
+            }
+            .fc-toolbar-chunk:nth-child(3) {
+                display: none;
+            }
+            .fc-toolbar-chunk {
+                width: 100% !important;
+            }
+            .headerDiv {
+                margin-bottom: 0px !important;
+            }
+        }
+    </style>
 
     <style>
         .modal {
@@ -605,20 +638,20 @@
                                     </div>
                                     <div class="modal-body" style="padding: 10px; overflow-x: hidden;">
                                         <div class="row">
-                                        <div class="col-8 colStartDate" id="colStartDate" >
-                                        <div class="form-group" style="margin: 8px 0px;">
-                                            <label>Start Date</label>
-                                            <div class="input-group date" style="cursor: pointer;">
-                                                <input type="text" class="form-control formClassDate statementDate" id="startDate" name="startDate" value="{{invoicerecord.saledate}}">
-                                                <div class="input-group-addon" style="">
-                                                    <span class="glyphicon glyphicon-th" style="cursor: pointer;"></span>
+                                            <div class="col-8 colStartDate" id="colStartDate" >
+                                                <div class="form-group" style="margin: 8px 0px;">
+                                                    <label>Start Date</label>
+                                                    <div class="input-group date" style="cursor: pointer;">
+                                                        <input type="text" class="form-control formClassDate statementDate" id="startDate" name="startDate" value="{{invoicerecord.saledate}}">
+                                                        <div class="input-group-addon" style="">
+                                                            <span class="glyphicon glyphicon-th" style="cursor: pointer;"></span>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                        </div>
                                         <div class="modal-footer">
-                                             <button class="btn btn-success btnSaveAppointment"  style="margin: 8px;" id="btnCopyAppointment" name="btnCopyAppointment"><i class="fa fa-save" style="margin-right: 5px;"></i>Save</button>
+                                            <button class="btn btn-success btnSaveAppointment"  style="margin: 8px;" id="btnCopyAppointment" name="btnCopyAppointment"><i class="fa fa-save" style="margin-right: 5px;"></i>Save</button>
                                             <button class="btn btn-secondary btnAppOptionsModal" id="btnAppOptionsModal" type="button"><i class="fa fa-remove" style="margin-right: 5px;"></i>Close</button>
                                         </div>
                                     </div>
@@ -663,20 +696,20 @@
                             </div>
                         </div>
                     </div>
-                   <!--  <div class="form-group">
-                            <div class="row no-gutters">
-                            <div class="col" style="margin-right: 4px;">
-                                <select id="offset" class="float-right form-control">
-                                    <option value="Begin of Month Plus">Begin of Month Plus</option>
-                                    <option value="End of Month Minus">End of Month Minus</option>
-                                </select>
-                            </div>
-                            <div class="col" style="margin-left: 4px;">
-                                   <input type="number" min="0" step="1" oninput="validity.valid||(value='');" class="float-left form-control" style="margin-right: 4px;" placeholder="days" autocomplete="off">
-                            </div>
-                        </div>
-                    </div> -->
-                <div class="form-group">
+                    <!--  <div class="form-group">
+<div class="row no-gutters">
+<div class="col" style="margin-right: 4px;">
+<select id="offset" class="float-right form-control">
+<option value="Begin of Month Plus">Begin of Month Plus</option>
+<option value="End of Month Minus">End of Month Minus</option>
+</select>
+</div>
+<div class="col" style="margin-left: 4px;">
+<input type="number" min="0" step="1" oninput="validity.valid||(value='');" class="float-left form-control" style="margin-right: 4px;" placeholder="days" autocomplete="off">
+</div>
+</div>
+</div> -->
+                    <div class="form-group">
                         <div class="row">
                             <div class="col repeatOn"><label class="col-form-label" style="width: 100%;">Repeat On</label></div>
                         </div>
@@ -1240,7 +1273,7 @@ var getInputRadio = goToParent.find("input[id = " + getValue + "]");
     <script>
         setTimeout(function () {
 
-            var x = window.matchMedia("(max-width: 1024px)")
+            var x = window.matchMedia("(max-width: 1024px)");
 
             function mediaQuery(x) {
                 if (x.matches) { 
@@ -1248,12 +1281,12 @@ var getInputRadio = goToParent.find("input[id = " + getValue + "]");
                     $("#newcardb").addClass("alignColCenter");
                 }
             }
-            mediaQuery(x) 
-            x.addListener(mediaQuery) 
+            mediaQuery(x); 
+            x.addListener(mediaQuery); 
         }, 10);
         setTimeout(function () {
 
-            var x = window.matchMedia("(max-width: 812px)")
+            var x = window.matchMedia("(max-width: 812px)");
 
             function mediaQuery(x) {
                 if (x.matches) { 
@@ -1308,12 +1341,12 @@ var getInputRadio = goToParent.find("input[id = " + getValue + "]");
                     $("#colAppointmentList").addClass("col-2");
                 }
             }
-            mediaQuery(x) 
-            x.addListener(mediaQuery) 
+            mediaQuery(x); 
+            x.addListener(mediaQuery); 
         }, 10);
         setTimeout(function() {
 
-            var x = window.matchMedia("(max-width: 1024px)")
+            var x = window.matchMedia("(max-width: 1024px)");
 
             function mediaQuery(x) {
                 if (x.matches) {
@@ -1326,12 +1359,12 @@ var getInputRadio = goToParent.find("input[id = " + getValue + "]");
 
                 }
             }
-            mediaQuery(x)
-            x.addListener(mediaQuery)
+            mediaQuery(x);
+            x.addListener(mediaQuery);
         }, 10);
         setTimeout(function() {
 
-            var x = window.matchMedia("(max-width: 420px)")
+            var x = window.matchMedia("(max-width: 420px)");
 
             function mediaQuery(x) {
                 if (x.matches) {
@@ -1391,8 +1424,8 @@ var getInputRadio = goToParent.find("input[id = " + getValue + "]");
 
                 }
             }
-            mediaQuery(x)
-            x.addListener(mediaQuery)
+            mediaQuery(x);
+            x.addListener(mediaQuery);
         }, 10);
 
     </script>
@@ -1494,7 +1527,7 @@ var getInputRadio = goToParent.find("input[id = " + getValue + "]");
             <style>
                 @media screen and (max-width: 2000px) {
                     .fc-view-harness.fc-view-harness-active {
-                        height: 70vh !important;
+                        max-height: 70vh;
                     }
                 }
 
