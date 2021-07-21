@@ -1708,15 +1708,42 @@ Template.chequecard.onRendered(() => {
             width: 100
         };
         let id = $('.printID').attr("id");
-        var pdf = new jsPDF('p', 'pt', 'a4');
-
-
-        pdf.setFontSize(18);
+        
         var source = document.getElementById('html-2-pdfwrapper');
-        pdf.addHTML(source, function() {
-            pdf.save('Cheque '+id+'.pdf');
-            $('#html-2-pdfwrapper').css('display', 'none');
+
+        let file = "Cheque.pdf";
+        if ($('.printID').attr('id') != undefined || $('.printID').attr('id') != "") {
+            file = 'Cheque-' + id + '.pdf';
+        }
+
+        var opt = {
+            margin: 0,
+            filename: file,
+            image: {
+                type: 'jpeg',
+                quality: 0.98
+            },
+            html2canvas: {
+                scale: 2
+            },
+            jsPDF: {
+                unit: 'in',
+                format: 'a4',
+                orientation: 'portrait'
+            }
+        };
+        html2pdf().set(opt).from(source).save().then(function (dataObject){
+            if ($('.printID').attr('id') == undefined || $('.printID').attr('id') == "") {
+                $(".btnSave").trigger("click");
+            } else {
+             $('#html-2-pdfwrapper').css('display', 'none');
+            $('.fullScreenSpin').css('display', 'none');
+        }
         });
+        // pdf.addHTML(source, function() {
+        //     pdf.save('Cheque '+id+'.pdf');
+        //     $('#html-2-pdfwrapper').css('display', 'none');
+        // });
     };
 });
 Template.chequecard.onRendered(function() {
@@ -2516,6 +2543,7 @@ Template.chequecard.events({
         $('#html-2-pdfwrapper').css('display', 'block');
         $('.pdfCustomerName').html($('#edtSupplierName').val());
         $('.pdfCustomerAddress').html($('#txabillingAddress').val().replace(/[\r\n]/g, "<br />"));
+        $('#printcomment').html($('#txaComment').val().replace(/[\r\n]/g, "<br />"));
         exportSalesToPdf();
 
     },

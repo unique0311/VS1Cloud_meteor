@@ -1041,15 +1041,37 @@ Template.journalentrycard.onRendered(() => {
             left: 0,
             width: 100
         };
-        var pdf = new jsPDF('p', 'pt', 'a4');
-
-
-        pdf.setFontSize(18);
+        let file = "Journal.pdf";
+        let id = $('#edtEnrtyNo').val();
+        if(id != "") {
+            file = "Journal-"+id+".pdf"
+        }
         var source = document.getElementById('html-2-pdfwrapper');
-        pdf.addHTML(source, function () {
-            pdf.save('journal.pdf');
+         var opt = {
+            margin: 0,
+            filename: file,
+            image: {
+                type: 'jpeg',
+                quality: 0.98
+            },
+            html2canvas: {
+                scale: 2
+            },
+            jsPDF: {
+                unit: 'in',
+                format: 'a4',
+                orientation: 'portrait'
+            }
+        };
+        html2pdf().set(opt).from(source).save().then(function (dataObject){
             $('#html-2-pdfwrapper').css('display', 'none');
+            $('.fullScreenSpin').css('display', 'none');
         });
+
+        // pdf.addHTML(source, function () {
+        //     pdf.save('journal.pdf');
+        //     $('#html-2-pdfwrapper').css('display', 'none');
+        // });
     };
 });
 Template.journalentrycard.onRendered(function () {
