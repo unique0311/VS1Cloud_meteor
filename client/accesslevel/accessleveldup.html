@@ -48,6 +48,12 @@
                         {{/each}}
                     </select>
                 </div>
+                <div class="form-group d-xl-flex flex-column justify-content-xl-start align-items-xl-start" style="margin: 8px;">
+                    <div class="custom-control custom-switch" style="cursor: pointer; white-space: nowrap; margin-bottom: 8px;">
+                        <input class="custom-control-input " type="checkbox" value="Simple Start" id="formCheck-{{name}}" name="settingOptions" checked="" style="cursor: pointer;">
+                        <label class="custom-control-label" for="formCheck-{{name}}" style="cursor: pointer;">Enable All Modules</label>
+                    </div>
+                </div>
             </div>
             <div class="col d-xl-flex justify-content-xl-end align-items-xl-start"  style="padding: 0px !important;">
                 <button class="btn btn-success btnGlobalSave float-right" type="button" style="margin: 8px;margin-left: 8px;"><i class="fa fa-save" style="margin-right: 8px;"></i>Save</button>
@@ -80,7 +86,9 @@
                                 <table class="table tblAccessLevel">
                                     <thead>
                                         <tr>
-                                            <th style="min-width: 332px;">Settings Options</th>
+                                            <th style="min-width: 332px;">
+                                                Settings Options
+                                            </th>
                                         </tr>
                                     </thead>
                                     <tbody>
