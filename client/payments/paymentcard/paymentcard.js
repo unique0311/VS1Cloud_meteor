@@ -2005,15 +2005,37 @@ Template.paymentcard.onRendered(() => {
             width: 100
         };
         let id = $('.printID').attr("id");
-        var pdf =  new jsPDF('p', 'pt', 'a4');
-        //new jsPDF('p', 'pt', 'letter');
-        // new jsPDF('p', 'mm', 'a4');
-        pdf.setFontSize(18);
         var source = document.getElementById('html-2-pdfwrapper');
-        pdf.addHTML(source, function () {
-            pdf.save('Customer Payment-'+id+'.pdf');
-            $('#html-2-pdfwrapper').css('display','none');
+        let file = "Customer Payment.pdf";
+        if ($('.printID').attr('id') != undefined || $('.printID').attr('id') != "") {
+            file = 'Customer Payment-' + id + '.pdf';
+        }
+
+        var opt = {
+            margin: 0,
+            filename: file,
+            image: {
+                type: 'jpeg',
+                quality: 0.98
+            },
+            html2canvas: {
+                scale: 2
+            },
+            jsPDF: {
+                unit: 'in',
+                format: 'a4',
+                orientation: 'portrait'
+            }
+        };
+        html2pdf().set(opt).from(source).save().then(function (dataObject){
+            $('#html-2-pdfwrapper').css('display', 'none');
+            $('.fullScreenSpin').css('display', 'none');
+        
         });
+        // pdf.addHTML(source, function () {
+        //     pdf.save('Customer Payment-'+id+'.pdf');
+        //     $('#html-2-pdfwrapper').css('display','none');
+        // });
     };
 
 });

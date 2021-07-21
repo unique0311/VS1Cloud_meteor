@@ -1687,15 +1687,32 @@ Template.creditcard.onRendered(() => {
             left: 0,
             width: 100
         };
-        let id = $('.printID').attr("id") || "new";
-        var pdf = new jsPDF('p', 'pt', 'a4');
+        let id = $('.printID').attr("id");
 
-
-        pdf.setFontSize(18);
         var source = document.getElementById('html-2-pdfwrapper');
-        pdf.addHTML(source, function() {
-            pdf.save('Credit-'+id+'.pdf');
-            $('#html-2-pdfwrapper').css('display', 'none');
+        let file = "Credit.pdf";
+        if ($('.printID').attr('id') != undefined || $('.printID').attr('id') != "") {
+            file = 'Credit-' + id + '.pdf';
+        }
+        var opt = {
+            margin: 0,
+            filename: file,
+            image: {
+                type: 'jpeg',
+                quality: 0.98
+            },
+            html2canvas: {
+                scale: 2
+            },
+            jsPDF: {
+                unit: 'in',
+                format: 'a4',
+                orientation: 'portrait'
+            }
+        };
+
+        html2pdf().set(opt).from(source).save().then(function (dataObject){
+             $('#html-2-pdfwrapper').css('display', 'none');
             $('.fullScreenSpin').css('display', 'none');
         });
     };
