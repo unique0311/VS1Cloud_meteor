@@ -193,7 +193,7 @@ Template.companyappsettingsdup.onRendered(function(){
                     if(data.tvs1licenselevelsnmodules[i].ModuleName != "" && data.tvs1licenselevelsnmodules[i].IsExtra == true && data.tvs1licenselevelsnmodules[i].IsMonthly == false){
                         extraArr.push(recordObj);
                     }
-                    if(data.tvs1licenselevelsnmodules[i].ModuleName != "" && data.tvs1licenselevelsnmodules[i].IsExtra == true && data.tvs1licenselevelsnmodules[i].IsMonthly == true){
+                    if((data.tvs1licenselevelsnmodules[i].ModuleName != "") && (data.tvs1licenselevelsnmodules[i].IsExtra == true) && (data.tvs1licenselevelsnmodules[i].IsMonthly == true)){
                         monthArr.push(recordObj);
                     }
 
@@ -231,6 +231,7 @@ Template.companyappsettingsdup.onRendered(function(){
             templateObject.essentailsArr.set(essentailsArr);
             templateObject.plusArr.set(plusArr);
 
+
             var result = [];
             $.each(extraArr, function (i, e) {
                 var matchingItems = $.grep(result, function (item) {
@@ -241,6 +242,16 @@ Template.companyappsettingsdup.onRendered(function(){
                 }
             });
             templateObject.extraArr.set(result);
+            var monthResult = [];
+            $.each(monthArr, function (i, e) {
+                var matchingItemsMonth = $.grep(monthResult, function (itemMonth) {
+                    return itemMonth.moduleName === e.moduleName;
+                });
+                if (matchingItemsMonth.length === 0){
+                    monthResult.push(e);
+                }
+            });
+            templateObject.monthArr.set(monthResult);
             setTimeout(function () {
                 /*
     if(isFxCurrencyLicence == true){
