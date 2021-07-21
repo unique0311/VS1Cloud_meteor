@@ -4079,13 +4079,12 @@ Template.appointments.onRendered(function () {
         var result = appointmentData.filter(apmt => {
             return apmt.id == id
         });
-
+        let hours = 0;
         if (result[0].aStartTime != '' && result[0].aEndTime != '') {
             var startTime = moment(result[0].startDate.split(' ')[0] + ' ' + result[0].aStartTime);
             var endTime = moment(result[0].endDate.split(' ')[0] + ' ' + result[0].aEndTime);
             var duration = moment.duration(moment(endTime).diff(moment(startTime)));
             hours = duration.asHours();
-        }
 
         if (result[0].isPaused == "Paused") {
             $(".paused").show();
@@ -4120,16 +4119,17 @@ Template.appointments.onRendered(function () {
         document.getElementById("country").value = result[0].country;
         $('#product-list').prepend('<option value="' + result[0].product + '">' + result[0].product + '</option>');
         document.getElementById("employee_name").value = result[0].employeename;
-        document.getElementById("dtSODate").value = result[0].startDate.split(' ')[0];
-        document.getElementById("dtSODate2").value = result[0].endDate.split(' ')[0];
+        document.getElementById("dtSODate").value = moment(result[0].startDate.split(' ')[0]).format('DD/MM/YYYY');
+        document.getElementById("dtSODate2").value = moment(result[0].endDate.split(' ')[0]).format('DD/MM/YYYY');
         document.getElementById("startTime").value = result[0].startTime;
         document.getElementById("endTime").value = result[0].endTime;
         document.getElementById("txtBookedHoursSpent").value = result[0].totalHours;
         document.getElementById("tActualStartTime").value = result[0].aStartTime;
-        document.getElementById("tActualEndTime").value = result.aEndTime;
-        document.getElementById("txtActualHoursSpent").value = result[0].actualHours;
+        document.getElementById("tActualEndTime").value = result[0].aEndTime;
+        document.getElementById("txtActualHoursSpent").value = parseFloat(hours).toFixed(2) || '';
         $('#event-modal').modal();
-    });
+    }
+});
 
     $(document).ready(function () {
         $("#showSaturday").change(function () {
