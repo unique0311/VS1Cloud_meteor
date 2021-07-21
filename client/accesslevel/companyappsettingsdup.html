@@ -310,11 +310,49 @@ font-weight: 500 !important;
                                                     <input class="custom-control-input additionalModule" type="checkbox" value="{{itemExtra.pricenocurrency}}" id="formCheck-Additional{{itemExtra.moduleId}}" name="Additional"  style="cursor: pointer;" additionalqty="1" readonly>
                                                     <label class="custom-control-label" for="formCheck-Additional{{itemExtra.moduleId}}" style="cursor: pointer; max-width: 200px;">{{itemExtra.moduleName}}</label>
                                                     <div class="lblPricing" style="float: right; color:#1cc88a;"><b>+ {{itemExtra.price}}</b></div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        {{/each}}
 
-                                                    <!-- <button class="accordion2"></button>
-<div class="panel2 panelfeatured" id="panel2-Additional{{itemExtra.moduleId}}" style="display:none; max-height:100%;">
-<p class="detailp">{{itemExtra.moduledescription}}</p>
-</div> -->
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 5 -->
+            <div class="col-3 settingsCard5" id="settingsCard5">
+                <div class="card shadow mb-3 additionalNotGreenTrack">
+                    <div class="card-header py-3">
+                        <p class="text-primary m-0 font-weight-bold">Additional Features</p>
+                        <input type="hidden" id="sumAdditionalAmount" name="sumAdditionalAmount"  style="display: none;" readonly>
+                    </div>
+                    <div class="card-body">
+                        <div>
+                            <div class="table-responsive">
+                                <table class="table tblAdditionalModule">
+                                    <thead>
+                                        <tr>
+                                            <th style="min-width: 332px;">
+                                                <!-- Setting Options - Price Per User per Month -->
+                                                Ex Tax Price per Connection per Month
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {{#each itemMonth in monthArr}}
+                                        <tr id="Additional{{itemMonth.moduleId}}" name="Additional{{itemMonth.moduleId}}" class="Additional{{itemMonth.moduleId}}">
+                                            <td style="min-width: 332px;">
+
+                                                <div class="custom-control custom-switch" style="cursor: pointer;">
+                                                    <input class="custom-control-input additionalModule" type="checkbox" value="{{itemMonth.pricenocurrency}}" id="formCheck-Additional{{itemMonth.moduleId}}" name="Additional"  style="cursor: pointer;" additionalqty="1" readonly>
+                                                    <label class="custom-control-label" for="formCheck-Additional{{itemMonth.moduleId}}" style="cursor: pointer; max-width: 200px;">{{itemMonth.moduleName}}</label>
+                                                    <div class="lblPricing" style="float: right; color:#1cc88a;"><b>+ {{itemMonth.price}}</b></div>
                                                 </div>
                                             </td>
                                         </tr>
@@ -330,7 +368,6 @@ font-weight: 500 !important;
                 </div>
             </div>
 
-            <!--            </div>-->
 
         </div>
         <!-- Upgrade POP ACCESS -->

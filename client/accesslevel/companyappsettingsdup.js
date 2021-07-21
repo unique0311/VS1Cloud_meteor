@@ -10,6 +10,7 @@ Template.companyappsettingsdup.onCreated(()=>{
     templateObject.essentailsArr = new ReactiveVar();
     templateObject.plusArr = new ReactiveVar();
     templateObject.extraArr = new ReactiveVar();
+    templateObject.monthArr = new ReactiveVar();
 
     templateObject.recordpackType = new ReactiveVar();
 
@@ -26,6 +27,7 @@ Template.companyappsettingsdup.onRendered(function(){
     const essentailsArr =[];
     const plusArr =[];
     const extraArr = [];
+    const monthArr = [];
     let getPackType = "";
 
     var erpGet = erpDb();
@@ -188,9 +190,13 @@ Template.companyappsettingsdup.onRendered(function(){
                         discount:data.tvs1licenselevelsnmodules[i].discount,
                     };
 
-                    if(data.tvs1licenselevelsnmodules[i].ModuleName != "" && data.tvs1licenselevelsnmodules[i].IsExtra == true){
+                    if(data.tvs1licenselevelsnmodules[i].ModuleName != "" && data.tvs1licenselevelsnmodules[i].IsExtra == true && data.tvs1licenselevelsnmodules[i].IsMonthly == false){
                         extraArr.push(recordObj);
                     }
+                    if(data.tvs1licenselevelsnmodules[i].ModuleName != "" && data.tvs1licenselevelsnmodules[i].IsExtra == true && data.tvs1licenselevelsnmodules[i].IsMonthly == true){
+                        monthArr.push(recordObj);
+                    }
+
                     if(data.tvs1licenselevelsnmodules[i].LicenseLevelDescprion == "Simple Start"){
                         if(data.tvs1licenselevelsnmodules[i].ModuleName != "" && data.tvs1licenselevelsnmodules[i].IsExtra == false){
                             simplestartArr.push(recordObj);
@@ -509,26 +515,26 @@ Template.companyappsettingsdup.events({
             totalAdditions += isNaN(parseFloat(sumPriceUser)) ? 0 : parseFloat(sumPriceUser);
             var mytext =  $(this).next('label').text();
             if(mytext === "Link To TrueERP" || mytext === "Connect to Live ERP DB"){
-              lineItemObjForm = {
-                  ModuleName: 'Link To TrueERP' || '',
-                  Price:sumPriceUser,
-                  DiscountedPrice:sumPriceUser,
-                  RenewPrice:sumPriceUser,
-                  RenewDiscountedPrice:sumPriceUser,
-                  RenewDiscountDesc:userQuantity
+                lineItemObjForm = {
+                    ModuleName: 'Link To TrueERP' || '',
+                    Price:sumPriceUser,
+                    DiscountedPrice:sumPriceUser,
+                    RenewPrice:sumPriceUser,
+                    RenewDiscountedPrice:sumPriceUser,
+                    RenewDiscountDesc:userQuantity
 
-              };
-              checkLinkTrueERP = true;
+                };
+                checkLinkTrueERP = true;
             }else{
-              lineItemObjForm = {
-                  ModuleName: mytext || '',
-                  Price:sumPriceUser,
-                  DiscountedPrice:sumPriceUser,
-                  RenewPrice:sumPriceUser,
-                  RenewDiscountedPrice:sumPriceUser,
-                  RenewDiscountDesc:userQuantity
+                lineItemObjForm = {
+                    ModuleName: mytext || '',
+                    Price:sumPriceUser,
+                    DiscountedPrice:sumPriceUser,
+                    RenewPrice:sumPriceUser,
+                    RenewDiscountedPrice:sumPriceUser,
+                    RenewDiscountDesc:userQuantity
 
-              };
+                };
             }
 
             lineItemsForm.push(lineItemObjForm);
@@ -619,16 +625,16 @@ Template.companyappsettingsdup.events({
                             confirmButtonText: 'OK'
                         }).then((result) => {
                             if (result.value) {
-                              let getLasTDatabase = erpGet.ERPDatabase;
-                              if(getLasTDatabase){
-                                deleteStoreDatabase(getLasTDatabase).then(function(data) {
-                                  window.open('/','_self');
-                                  }).catch(function (err) {
+                                let getLasTDatabase = erpGet.ERPDatabase;
+                                if(getLasTDatabase){
+                                    deleteStoreDatabase(getLasTDatabase).then(function(data) {
+                                        window.open('/','_self');
+                                    }).catch(function (err) {
+                                        window.open('/','_self');
+                                    });
+                                }else{
                                     window.open('/','_self');
-                                  });
-                              }else{
-                                window.open('/','_self');
-                              }
+                                }
 
                             } else if (result.dismiss === 'cancel') {
 
@@ -638,45 +644,45 @@ Template.companyappsettingsdup.events({
                         swal('Oooops...', myArrResponse.ProcessLog.ResponseStatus||'Oooops...', 'error');
                     }
                 }else{
-                  if(checkLinkTrueERP == true){
-                    swal({
-                        title: 'Module Successfully Added',
-                        text: "Please Click TrueERP Connection to Add ERP Details.",
-                        type: 'success',
-                        showCancelButton: false,
-                        confirmButtonText: 'OK'
-                    }).then((result) => {
-                        //if (result.value) {
-                        Session.setPersistent('CloudTrueERPModule', true);
-                          window.open('/linktrueerp','_self');
-                        //} else if (result.dismiss === 'cancel') {
+                    if(checkLinkTrueERP == true){
+                        swal({
+                            title: 'Module Successfully Added',
+                            text: "Please Click TrueERP Connection to Add ERP Details.",
+                            type: 'success',
+                            showCancelButton: false,
+                            confirmButtonText: 'OK'
+                        }).then((result) => {
+                            //if (result.value) {
+                            Session.setPersistent('CloudTrueERPModule', true);
+                            window.open('/linktrueerp','_self');
+                            //} else if (result.dismiss === 'cancel') {
 
-                        //}
-                    });
-                  }else{
-                    swal({
-                        title: 'License Successfully Changed',
-                        text: "Please log out to activate your changes.",
-                        type: 'success',
-                        showCancelButton: false,
-                        confirmButtonText: 'OK'
-                    }).then((result) => {
-                        if (result.value) {
-                          let getLasTDatabase = erpGet.ERPDatabase;
-                          if(getLasTDatabase){
-                            deleteStoreDatabase(getLasTDatabase).then(function(data) {
-                              window.open('/','_self');
-                              }).catch(function (err) {
-                                window.open('/','_self');
-                              });
-                          }else{
-                            window.open('/','_self');
-                          }
-                        } else if (result.dismiss === 'cancel') {
+                            //}
+                        });
+                    }else{
+                        swal({
+                            title: 'License Successfully Changed',
+                            text: "Please log out to activate your changes.",
+                            type: 'success',
+                            showCancelButton: false,
+                            confirmButtonText: 'OK'
+                        }).then((result) => {
+                            if (result.value) {
+                                let getLasTDatabase = erpGet.ERPDatabase;
+                                if(getLasTDatabase){
+                                    deleteStoreDatabase(getLasTDatabase).then(function(data) {
+                                        window.open('/','_self');
+                                    }).catch(function (err) {
+                                        window.open('/','_self');
+                                    });
+                                }else{
+                                    window.open('/','_self');
+                                }
+                            } else if (result.dismiss === 'cancel') {
 
-                        }
-                    });
-                  }
+                            }
+                        });
+                    }
 
                     // swal('Licence Successfully Changed', '', 'success');
                 }
@@ -1027,6 +1033,17 @@ Template.companyappsettingsdup.helpers({
     },
     extraArr : () => {
         return Template.instance().extraArr.get().sort(function(a, b){
+            if (a.moduleName == 'NA') {
+                return 1;
+            }
+            else if (b.moduleName == 'NA') {
+                return -1;
+            }
+            return (a.moduleName.toUpperCase() > b.moduleName.toUpperCase()) ? 1 : -1;
+        });
+    },
+    monthArr : () => {
+        return Template.instance().monthArr.get().sort(function(a, b){
             if (a.moduleName == 'NA') {
                 return 1;
             }
