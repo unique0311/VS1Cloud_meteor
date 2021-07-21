@@ -4073,63 +4073,65 @@ Template.appointments.onRendered(function () {
     })
 
     $(document).on("click", ".card", function () {
-        document.getElementById("frmAppointment").reset();
-        var id = $(this).attr('id');
-        var appointmentData = templateObject.appointmentrecords.get();
-        var result = appointmentData.filter(apmt => {
-            return apmt.id == id
-        });
-        let hours = 0;
-        if (result[0].aStartTime != '' && result[0].aEndTime != '') {
-            var startTime = moment(result[0].startDate.split(' ')[0] + ' ' + result[0].aStartTime);
-            var endTime = moment(result[0].endDate.split(' ')[0] + ' ' + result[0].aEndTime);
-            var duration = moment.duration(moment(endTime).diff(moment(startTime)));
-            hours = duration.asHours();
+        //     document.getElementById("frmAppointment").reset();
+        //     var id = $(this).attr('id');
+        //     var appointmentData = templateObject.appointmentrecords.get();
+        //     var result = appointmentData.filter(apmt => {
+        //         return apmt.id == id
+        //     });
+        //     let hours = 0;
+        //     if (result[0].aStartTime != '' && result[0].aEndTime != '') {
+        //         var startTime = moment(result[0].startDate.split(' ')[0] + ' ' + result[0].aStartTime);
+        //         var endTime = moment(result[0].endDate.split(' ')[0] + ' ' + result[0].aEndTime);
+        //         var duration = moment.duration(moment(endTime).diff(moment(startTime)));
+        //         hours = duration.asHours();
 
-        if (result[0].isPaused == "Paused") {
-            $(".paused").show();
-            $("#btnHold").prop("disabled", true);
-        } else {
-            $(".paused").hide();
-            $("#btnHold").prop("disabled", false);
-        }
+        //     if (result[0].isPaused == "Paused") {
+        //         $(".paused").show();
+        //         $("#btnHold").prop("disabled", true);
+        //     } else {
+        //         $(".paused").hide();
+        //         $("#btnHold").prop("disabled", false);
+        //     }
 
-        if (result[0].aEndTime != "") {
-            $("#btnHold").prop("disabled", true);
-            $("#btnStartActualTime").prop("disabled", true);
-            $("#btnEndActualTime").prop("disabled", true);
-            $("#startTime").prop("disabled", true)
-            $("#endTime").prop("disabled", true);
-            $("#tActualStartTime").prop("disabled", true);
-            $("#tActualEndTime").prop("disabled", true);
-            $("#txtActualHoursSpent").prop("disabled", true);
-        }
-        templateObject.getAllProductData();
-        document.getElementById("aStartDate").value = result[0].aStartDate || 0;
-        document.getElementById("updateID").value = result[0].id || 0;
-        document.getElementById("appID").value = result[0].id;
-        document.getElementById("customer").value = result[0].accountname;
-        document.getElementById("phone").value = result[0].phone;
-        document.getElementById("mobile").value = result[0].mobile || result[0].phone || '';
-        document.getElementById("state").value = result[0].state;
-        document.getElementById("address").value = result[0].street;
-        document.getElementById("txtNotes").value = result[0].notes;
-        document.getElementById("suburb").value = result[0].suburb;
-        document.getElementById("zip").value = result[0].zip;
-        document.getElementById("country").value = result[0].country;
-        $('#product-list').prepend('<option value="' + result[0].product + '">' + result[0].product + '</option>');
-        document.getElementById("employee_name").value = result[0].employeename;
-        document.getElementById("dtSODate").value = moment(result[0].startDate.split(' ')[0]).format('DD/MM/YYYY');
-        document.getElementById("dtSODate2").value = moment(result[0].endDate.split(' ')[0]).format('DD/MM/YYYY');
-        document.getElementById("startTime").value = result[0].startTime;
-        document.getElementById("endTime").value = result[0].endTime;
-        document.getElementById("txtBookedHoursSpent").value = result[0].totalHours;
-        document.getElementById("tActualStartTime").value = result[0].aStartTime;
-        document.getElementById("tActualEndTime").value = result[0].aEndTime;
-        document.getElementById("txtActualHoursSpent").value = parseFloat(hours).toFixed(2) || '';
-        $('#event-modal').modal();
-    }
-});
+        //     console.log($(this));
+
+        //     if (result[0].aEndTime != "") {
+        //         $("#btnHold").prop("disabled", true);
+        //         $("#btnStartActualTime").prop("disabled", true);
+        //         $("#btnEndActualTime").prop("disabled", true);
+        //         $("#startTime").prop("disabled", true)
+        //         $("#endTime").prop("disabled", true);
+        //         $("#tActualStartTime").prop("disabled", true);
+        //         $("#tActualEndTime").prop("disabled", true);
+        //         $("#txtActualHoursSpent").prop("disabled", true);
+        //     }
+        //     templateObject.getAllProductData();
+        //     document.getElementById("aStartDate").value = result[0].aStartDate || 0;
+        //     document.getElementById("updateID").value = result[0].id || 0;
+        //     document.getElementById("appID").value = result[0].id;
+        //     document.getElementById("customer").value = result[0].accountname;
+        //     document.getElementById("phone").value = result[0].phone;
+        //     document.getElementById("mobile").value = result[0].mobile || result[0].phone || '';
+        //     document.getElementById("state").value = result[0].state;
+        //     document.getElementById("address").value = result[0].street;
+        //     document.getElementById("txtNotes").value = result[0].notes;
+        //     document.getElementById("suburb").value = result[0].suburb;
+        //     document.getElementById("zip").value = result[0].zip;
+        //     document.getElementById("country").value = result[0].country;
+        //     $('#product-list').prepend('<option value="' + result[0].product + '">' + result[0].product + '</option>');
+        //     document.getElementById("employee_name").value = result[0].employeename;
+        //     document.getElementById("dtSODate").value = moment(result[0].startDate.split(' ')[0]).format('DD/MM/YYYY');
+        //     document.getElementById("dtSODate2").value = moment(result[0].endDate.split(' ')[0]).format('DD/MM/YYYY');
+        //     document.getElementById("startTime").value = result[0].startTime;
+        //     document.getElementById("endTime").value = result[0].endTime;
+        //     document.getElementById("txtBookedHoursSpent").value = result[0].totalHours;
+        //     document.getElementById("tActualStartTime").value = result[0].aStartTime;
+        //     document.getElementById("tActualEndTime").value = result[0].aEndTime;
+        //     document.getElementById("txtActualHoursSpent").value = parseFloat(hours).toFixed(2) || '';
+        //     $('#event-modal').modal();
+        // }
+    });
 
     $(document).ready(function () {
         $("#showSaturday").change(function () {
@@ -4460,28 +4462,91 @@ Template.appointments.events({
         let templateObject = Template.instance();
         let calOptions = templateObject.globalSettings.get();
         $('#frmAppointment')[0].reset();
-        let bookingDate = new Date();
-        let startTime = ("0" + bookingDate.getHours()).slice(-2) + ":" + ("0" + bookingDate.getMinutes()).slice(-2);
-        let defaultDuration = parseInt(calOptions.DefaultApptDuration) || 2;
-        bookingDate.setHours(bookingDate.getHours() + defaultDuration);
-        let endTime = ("0" + bookingDate.getHours()).slice(-2) + ":" + ("0" + bookingDate.getMinutes()).slice(-2);
-        let name = $(event.target).closest('tr').attr('id');
-        var date = $(event.target).closest('#allocationTable').find('th').eq($(event.target).closest('td').index()).attr('id');
-        $("#dtSODate").val(moment(date).format('DD/MM/YYYY'))
-        $("#dtSODate2").val(moment(date).format('DD/MM/YYYY'))
-        $("#txtBookedHoursSpent").val(defaultDuration);
-        $("#startTime").val(startTime);
-        $("#endTime").val(endTime);
-        $("#employee_name").val(name);
-        if (calOptions.defaultProduct != "") {
-            $('#product-list').prepend('<option value="' + calOptions.productID + '" selected>' + calOptions.defaultProduct + '</option>');
-
-        } else {
-            $('#product-list').prop('selectedIndex', -1);
-        }
         let element = $(event.target);
-        if (element.is("p")) {}
-        else {
+        if(element.is("p") || element.is(".card-body")){
+            var id = parseInt($(event.target).closest('.card').attr('id'));
+            var appointmentData = templateObject.appointmentrecords.get();
+            var result = appointmentData.filter(apmt => {
+                return apmt.id == id
+            });
+            let hours = 0;
+            if (result[0].aStartTime != '' && result[0].aEndTime != '') {
+                var startTime = moment(result[0].startDate.split(' ')[0] + ' ' + result[0].aStartTime);
+                var endTime = moment(result[0].endDate.split(' ')[0] + ' ' + result[0].aEndTime);
+                var duration = moment.duration(moment(endTime).diff(moment(startTime)));
+                hours = duration.asHours();
+            }
+
+            if (result[0].isPaused == "Paused") {
+                $(".paused").show();
+                $("#btnHold").prop("disabled", true);
+            } else {
+                $(".paused").hide();
+                $("#btnHold").prop("disabled", false);
+            }
+            $(".paused").hide();
+            $("#btnHold").prop("disabled", false);
+            $("#btnStartActualTime").prop("disabled", false)
+            $("#btnEndActualTime").prop("disabled", false);
+            $("#startTime").prop("disabled", false);
+            $("#endTime").prop("disabled", false);
+            $("#tActualStartTime").prop("disabled", false);
+            $("#tActualEndTime").prop("disabled", false);
+            $("#txtActualHoursSpent").prop("disabled", false);
+            if (result[0].aEndTime != "") {
+                $("#btnHold").prop("disabled", true);
+                $("#btnStartActualTime").prop("disabled", true);
+                $("#btnEndActualTime").prop("disabled", true);
+                $("#startTime").prop("disabled", true)
+                $("#endTime").prop("disabled", true);
+                $("#tActualStartTime").prop("disabled", true);
+                $("#tActualEndTime").prop("disabled", true);
+                $("#txtActualHoursSpent").prop("disabled", true);
+            }
+            templateObject.getAllProductData();
+            document.getElementById("aStartDate").value = result[0].aStartDate || 0;
+            document.getElementById("updateID").value = result[0].id || 0;
+            document.getElementById("appID").value = result[0].id;
+            document.getElementById("customer").value = result[0].accountname;
+            document.getElementById("phone").value = result[0].phone;
+            document.getElementById("mobile").value = result[0].mobile || result[0].phone || '';
+            document.getElementById("state").value = result[0].state;
+            document.getElementById("address").value = result[0].street;
+            document.getElementById("txtNotes").value = result[0].notes;
+            document.getElementById("suburb").value = result[0].suburb;
+            document.getElementById("zip").value = result[0].zip;
+            document.getElementById("country").value = result[0].country;
+            $('#product-list').prepend('<option value="' + result[0].product + '">' + result[0].product + '</option>');
+            document.getElementById("employee_name").value = result[0].employeename;
+            document.getElementById("dtSODate").value = moment(result[0].startDate.split(' ')[0]).format('DD/MM/YYYY');
+            document.getElementById("dtSODate2").value = moment(result[0].endDate.split(' ')[0]).format('DD/MM/YYYY');
+            document.getElementById("startTime").value = result[0].startTime;
+            document.getElementById("endTime").value = result[0].endTime;
+            document.getElementById("txtBookedHoursSpent").value = result[0].totalHours;
+            document.getElementById("tActualStartTime").value = result[0].aStartTime;
+            document.getElementById("tActualEndTime").value = result[0].aEndTime;
+            document.getElementById("txtActualHoursSpent").value = parseFloat(hours).toFixed(2) || '';
+            $('#event-modal').modal();
+        } else {
+            let bookingDate = new Date();
+            let startTime = ("0" + bookingDate.getHours()).slice(-2) + ":" + ("0" + bookingDate.getMinutes()).slice(-2);
+            let defaultDuration = parseInt(calOptions.DefaultApptDuration) || 2;
+            bookingDate.setHours(bookingDate.getHours() + defaultDuration);
+            let endTime = ("0" + bookingDate.getHours()).slice(-2) + ":" + ("0" + bookingDate.getMinutes()).slice(-2);
+            let name = $(event.target).closest('tr').attr('id');
+            var date = $(event.target).closest('#allocationTable').find('th').eq($(event.target).closest('td').index()).attr('id');
+            $("#dtSODate").val(moment(date).format('DD/MM/YYYY'))
+            $("#dtSODate2").val(moment(date).format('DD/MM/YYYY'))
+            $("#txtBookedHoursSpent").val(defaultDuration);
+            $("#startTime").val(startTime);
+            $("#endTime").val(endTime);
+            $("#employee_name").val(name);
+            if (calOptions.defaultProduct != "") {
+                $('#product-list').prepend('<option value="' + calOptions.productID + '" selected>' + calOptions.defaultProduct + '</option>');
+
+            } else {
+                $('#product-list').prop('selectedIndex', -1);
+            }
             $(".paused").hide();
             $("#btnHold").prop("disabled", false);
             $("#btnStartActualTime").prop("disabled", false)
