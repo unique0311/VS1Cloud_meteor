@@ -1,5 +1,17 @@
 /**/
 
+.ui-datepicker-prev span {
+    background-image: url(images/left-squared.png) !important;
+    background-position: 0px 0px !important;
+    background-size: contain !important;
+}
+
+.ui-datepicker-next span {
+    background-image: url(images/right-squared.png) !important;
+    background-position: 0px 0px !important;
+    background-size: contain !important;
+}
+
 /* width */
 ::-webkit-scrollbar {
     width: 10px !important;
