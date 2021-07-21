@@ -525,7 +525,7 @@ style="font-size: 22px;"><label class="custom-control-label" for="formCheck-2" s
                                 {{#each item in record.LineItems}}
                                 <tr class="dnd-moved" id="{{item.poid}}" name="{{item.poid}}">
                                     <td contenteditable="false" class="colTransDate">{{item.invoicedate}}</td>
-                                    <td contenteditable="false" class="colType" style="color:#00a3d3; cursor: pointer;">{{item.transtype}}</td>
+                                    <td contenteditable="false" class="colType" style="color:#00a3d3; cursor: pointer; white-space: nowrap;">{{item.transtype}}</td>
                                     <td contenteditable="false" class="colTransNo">{{item.transid}}</td>
                                     <td contenteditable="false" class="lineOrginalamount" style="text-align: right!important;">{{item.orginalamount}}</td>
                                     <td contenteditable="false" class="lineAmountdue" style="text-align: right!important;">{{item.amountdue}}</td>
