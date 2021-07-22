@@ -25,6 +25,9 @@ Template.joblist.onRendered(function () {
     const dataTableList = [];
     const tableHeaderList = [];
 
+    if(Router.current().params.query.success){
+        $('.btnRefresh').addClass('btnRefreshAlert');
+    }
     Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblJoblist', function (error, result) {
         if (error) {
 

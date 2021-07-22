@@ -3544,12 +3544,12 @@ Template.customerscard.events({
         contactService.saveJobEx(objDetails).then(function (objDetails) {
             sideBarService.getAllJobssDataVS1(25,0).then(function (dataReload) {
                 addVS1Data('TJobVS1', JSON.stringify(dataReload)).then(function (datareturn) {
-                    window.open('/joblist', '_self');
+                    Router.go('/joblist?success=true');
                 }).catch(function (err) {
-                    window.open('/joblist', '_self');
+                    Router.go('/joblist?success=true');
                 });
             }).catch(function (err) {
-                window.open('/joblist', '_self');
+                Router.go('/joblist?success=true');
             });
 
             sideBarService.getAllCustomersDataVS1(25,0).then(function (dataReload) {
