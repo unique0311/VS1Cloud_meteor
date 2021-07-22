@@ -596,7 +596,14 @@ Template.companyappsettingsdup.events({
                 }
             };
         }
-
+        let stringQuery = "?";
+        let name = Session.get('mySessionEmployee').split(' ')[0];
+        let surname = Session.get('mySessionEmployee').split(' ')[1];
+        console.log(Currency);
+        for (let l = 0; l < lineItemsForm.length; l++) {
+             stringQuery = stringQuery + "product" + l + "=" + lineItemsForm[l].ModuleName + "&price" + l + "=" +Currency+ lineItemsForm[l].Price + "&qty" + l + "=" + lineItemsForm[l].RenewDiscountDesc + "&";
+        }
+        stringQuery = stringQuery + "tax=0" + "&total=" + Currency + grandTotal + "&customer=" + Session.get('vs1companyName')  + "&name=" + name + "&surname=" + surname +"&company=" + Session.get('vs1companyName') + "&customeremail=" + localStorage.getItem('mySession') + "&type=VS1 Modules Purchase&url=" + window.location.href + "&server=" + erpGet.ERPIPAddress + "&username=" + erpGet.ERPUsername + "&token=" + erpGet.ERPPassword + "&session=" + erpGet.ERPDatabase + "&port=" + erpGet.ERPPort;
 
 
         var oPost = new XMLHttpRequest();
@@ -616,14 +623,15 @@ Template.companyappsettingsdup.events({
 
         oPost.onreadystatechange = function() {
             if(oPost.readyState == 4 && oPost.status == 200) {
-                Meteor.call('braintreeChargeCard', Session.get('VS1AdminUserName'), parseFloat(grandTotal));
-                Meteor.call('StripeChargeCard', Session.get('VS1AdminUserName'), newStripePrice.replace('.', ''), function(error, result){
-                    if(error){
+                //Meteor.call('braintreeChargeCard', Session.get('VS1AdminUserName'), parseFloat(grandTotal));
+                // Meteor.call('StripeChargeCard', Session.get('VS1AdminUserName'), newStripePrice.replace('.', ''), function(error, result){
+                //     if(error){
 
-                    }else{
+                //     }else{
 
-                    }
-                });
+                //     }
+                // });
+                //window.open('https://www.depot.vs1cloud.com/stripe/'+stringQuery);
                 $('.fullScreenSpin').css('display','none');
                 var myArrResponse = JSON.parse(oPost.responseText);
                 if(myArrResponse.ProcessLog.ResponseStatus != "OK"){
