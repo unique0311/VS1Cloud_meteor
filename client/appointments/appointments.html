@@ -49,6 +49,16 @@
     </div>
 
     <style>
+        @media screen and (max-width: 420px) {
+            .colCalendar {
+                padding: 0px !important;
+            }
+            .fc-view-harness.fc-view-harness-active {
+                max-height: 100vh !important;
+                height: 85vh !important;
+            }
+        }
+        
         @media (max-height: 420px) and (max-width: 850px) {
             .colEmployeeList {
                 display: none;
@@ -1213,8 +1223,8 @@ var getInputRadio = goToParent.find("input[id = " + getValue + "]");
 
             .colCalendar {
                 margin-right: 0px !important;
-                padding: .75em !important;
-                min-width: 600px !important;
+                padding: 0px !important;
+                min-width: 1000px !important;
                 overflow-x: auto;
             }
 
