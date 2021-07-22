@@ -488,6 +488,14 @@ Template.appointments.onRendered(function () {
             navLinks: true, // can click day/week names to navigate views
             selectable: true,
             selectMirror: true,
+            dayHeaderFormat: function (date) {
+                if (LoggedCountry == "United States") {
+                    return moment(date.date.marker).format('ddd') + ' ' + moment(date.date.marker).format('MM/DD');
+                } else {
+                    return moment(date.date.marker).format('ddd') + ' ' + moment(date.date.marker).format('DD/MM');
+                }
+
+            },
             select: function (info) {
                 $('#frmAppointment')[0].reset();
                 templateObject.getAllProductData();
@@ -843,6 +851,14 @@ Template.appointments.onRendered(function () {
             navLinks: true, // can click day/week names to navigate views
             selectable: true,
             selectMirror: true,
+            dayHeaderFormat: function (date) {
+                if (LoggedCountry == "United States") {
+                    return moment(date.date.marker).format('ddd') + ' ' + moment(date.date.marker).format('MM/DD');
+                } else {
+                    return moment(date.date.marker).format('ddd') + ' ' + moment(date.date.marker).format('DD/MM');
+                }
+
+            },
             select: function (info) {
                 $('#frmAppointment')[0].reset();
                 $(".paused").hide();
@@ -1116,7 +1132,20 @@ Template.appointments.onRendered(function () {
             },
 
             events: templateObject.eventdata.get(),
-            eventDidMount: function (info) {},
+            eventDidMount: function (info) {
+                if (/Android|webOS|iPhone|iPad|Mac|Macintosh|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+                    $(".fc-event-main p").css({
+                        'font-size': '8px'
+                    });
+                    //     $(info.el).tooltip({
+                    //         title: info.event.title.replaceAll('<br>', "\n"),
+                    //         placement: "top",
+                    //         trigger: "hover",
+                    //         container: "body"
+
+                    //     });
+                }
+            },
             eventContent: function (event) {
                 let title = document.createElement('p');
                 if (event.event.title) {
@@ -1242,7 +1271,7 @@ Template.appointments.onRendered(function () {
                     let totalUser = 0;
                     let totAmount = 0;
                     let totAmountOverDue = 0;
-                    addVS1Data('TEmployee',JSON.stringify(data));
+
                     for (let i = 0; i < data.temployee.length; i++) {
                         let randomColor = Math.floor(Math.random() * 16777215).toString(16);
 
@@ -1478,7 +1507,12 @@ Template.appointments.onRendered(function () {
                             return apmt.employeeName == data.tappointment[i].TrainerName;
                         });
 
-                        appColor = employeeColor[0].color || '';
+                        if (employeeColor.length > 0) {
+                        appColor = employeeColor[0].color || '#00a3d3';
+                    } else{
+                        appColor = employeeColor[0].color || '#00a3d3';
+                    }
+
 
                         var appointment = {
                             id: data.tappointment[i].Id || '',
@@ -1678,13 +1712,23 @@ Template.appointments.onRendered(function () {
                     $('.friday').attr('id', moment(weekStart).add(4, 'days').format("YYYY-MM-DD"));
                     $('.saturday').attr('id', moment(weekStart).add(5, 'days').format("YYYY-MM-DD"));
 
-                    $(".dateMon").text(moment(weekStart).add(0, 'days').format("MM/DD"));
-                    $(".dateTue").text(moment(weekStart).add(1, 'days').format("MM/DD"));
-                    $(".dateWed").text(moment(weekStart).add(2, 'days').format("MM/DD"));
-                    $(".dateThu").text(moment(weekStart).add(3, 'days').format("MM/DD"));
-                    $(".dateFri").text(moment(weekStart).add(4, 'days').format("MM/DD"));
-                    $(".dateSat").text(moment(weekStart).add(5, 'days').format("MM/DD"));
-                    $(".dateSun").text(moment(weekStart).subtract(1, 'days').format("YYYY-MM-DD"));
+                    if (LoggedCountry == "United States") {
+                        $(".dateMon").text(moment(weekStart).add(0, 'days').format("MM/DD"));
+                        $(".dateTue").text(moment(weekStart).add(1, 'days').format("MM/DD"));
+                        $(".dateWed").text(moment(weekStart).add(2, 'days').format("MM/DD"));
+                        $(".dateThu").text(moment(weekStart).add(3, 'days').format("MM/DD"));
+                        $(".dateFri").text(moment(weekStart).add(4, 'days').format("MM/DD"));
+                        $(".dateSat").text(moment(weekStart).add(5, 'days').format("MM/DD"));
+                        $(".dateSun").text(moment(weekStart).subtract(1, 'days').format("MM-DD"));
+                    } else {
+                        $(".dateMon").text(moment(weekStart).add(0, 'days').format("DD/MM"));
+                        $(".dateTue").text(moment(weekStart).add(1, 'days').format("DD/MM"));
+                        $(".dateWed").text(moment(weekStart).add(2, 'days').format("DD/MM"));
+                        $(".dateThu").text(moment(weekStart).add(3, 'days').format("DD/MM"));
+                        $(".dateFri").text(moment(weekStart).add(4, 'days').format("DD/MM"));
+                        $(".dateSat").text(moment(weekStart).add(5, 'days').format("DD/MM"));
+                        $(".dateSun").text(moment(weekStart).subtract(1, 'days').format("DD/MM"));
+                    }
 
                     if (currentDay == "Monday" && moment().format('DD') == moment($('thead tr th.monday').attr('id')).format('DD')) {
                         $(document).on('DOMNodeInserted', function (e) {
@@ -1755,8 +1799,11 @@ Template.appointments.onRendered(function () {
                                     var result = resourceColor.filter(apmtColor => {
                                         return apmtColor.employeeName == data.tappointment[t].TrainerName
                                     });
+                                    let employeeColo = "'#00a3d3'";
 
-                                    let employeeColor = result[0].color;
+                                    if(result.length > 0) {
+                                        employeeColor = result[0].color;
+                                    } 
 
                                     var dataList = {
                                         id: data.tappointment[t].Id,
@@ -1787,7 +1834,7 @@ Template.appointments.onRendered(function () {
                                 var result = resourceColor.filter(apmtColor => {
                                     return apmtColor.employeeName == data.tappointment[t].TrainerName
                                 });
-                                let employeeColor = '';
+                                let employeeColor = '#00a3d3';
                                 if (result.length > 0) {
                                     employeeColor = result[0].color || '';
                                 }
@@ -1995,6 +2042,13 @@ Template.appointments.onRendered(function () {
                         initialView: 'timeGridWeek',
                         hiddenDays: [0, 6], // hide Sunday and Saturday
                         customButtons: {
+                            appointments: {
+                                text: 'Appointment List',
+                                click: function () {
+                                    //window.open('/appointmentlist', '_self');
+                                    Router.go('/appointmentlist');
+                                }
+                            },
                             allocation: {
                                 text: 'Allocations',
                                 click: function () {
@@ -2020,6 +2074,37 @@ Template.appointments.onRendered(function () {
                         droppable: true, // this allows things to be dropped onto the calendar
                         dayMaxEvents: true, // allow "more" link when too many events
                         //Triggers modal once event is moved to another date within the calendar.
+                        dayHeaderFormat: function (date) {
+                            if (LoggedCountry == "United States") {
+                                return moment(date.date.marker).format('ddd') + ' ' + moment(date.date.marker).format('MM/DD');
+                            } else {
+                                return moment(date.date.marker).format('ddd') + ' ' + moment(date.date.marker).format('DD/MM');
+                            }
+
+                        },
+                        select: function (info) {
+                            $('#frmAppointment')[0].reset();
+                            $(".paused").hide();
+                            templateObject.getAllProductData();
+                            let dateStart = new Date(info.start);
+                            let dateEnd = new Date(info.end);
+                            let startDate = ("0" + dateStart.getDate()).toString().slice(-2) + "/" + ("0" + (dateStart.getMonth() + 1)).toString().slice(-2) + "/" + dateStart.getFullYear();
+                            let endDate = ("0" + dateEnd.getDate()).toString().slice(-2) + "/" + ("0" + (dateEnd.getMonth() + 1)).toString().slice(-2) + "/" + dateEnd.getFullYear();
+                            dateEnd.setHours(dateEnd.getHours() + calendarSet.DefaultApptDuration || "02:00");
+                            let startTime = ("0" + dateStart.getHours()).toString().slice(-2) + ':' + ("0" + dateStart.getMinutes()).toString().slice(-2);
+                            let endTime = ("0" + dateEnd.getHours()).toString().slice(-2) + ':' + ("0" + dateEnd.getMinutes()).toString().slice(-2);
+                            document.getElementById("dtSODate").value = startDate;
+                            document.getElementById("dtSODate2").value = endDate;
+                            document.getElementById("startTime").value = startTime;
+                            document.getElementById("endTime").value = endTime;
+                            document.getElementById("employee_name").value = Session.get('mySessionEmployee');
+                            if (calendarSet.DefaultApptDuration) {
+                                document.getElementById("txtBookedHoursSpent").value = calendarSet.DefaultApptDuration;
+                            } else {
+                                document.getElementById("txtBookedHoursSpent").value = templateObject.diff_hours(dateStart, dateEnd);
+                            }
+                            $('#customerListModal').modal();
+                        },
                         eventDrop: function (info) {
                             if (info.event._def.publicId != "") {
                                 let appointmentData = templateObject.appointmentrecords.get();
@@ -2189,9 +2274,8 @@ Template.appointments.onRendered(function () {
             } else {
                 let data = JSON.parse(dataObject[0].data);
                 let useData = data.tappointment;
-                //console.log(useData);
                 $('.fullScreenSpin').css('display', 'none');
-                let appColor = '';
+                let appColor = '#00a3d3';
                 let dataColor = '';
                 let allEmp = templateObject.employeerecords.get();
                 for (let i = 0; i < useData.length; i++) {
@@ -2202,7 +2286,7 @@ Template.appointments.onRendered(function () {
 
                     if (employeeColor.length > 0) {
                         appColor = employeeColor[0].color || '';
-                    }
+                    } 
                     var appointment = {
                         id: useData[i].fields.ID || '',
                         sortdate: useData[i].fields.CreationDate ? moment(useData[i].fields.CreationDate).format("YYYY/MM/DD") : "",
@@ -2401,13 +2485,23 @@ Template.appointments.onRendered(function () {
                 $('.friday').attr('id', moment(weekStart).add(4, 'days').format("YYYY-MM-DD"));
                 $('.saturday').attr('id', moment(weekStart).add(5, 'days').format("YYYY-MM-DD"));
 
-                $(".dateMon").text(moment(weekStart).add(0, 'days').format("MM/DD"));
-                $(".dateTue").text(moment(weekStart).add(1, 'days').format("MM/DD"));
-                $(".dateWed").text(moment(weekStart).add(2, 'days').format("MM/DD"));
-                $(".dateThu").text(moment(weekStart).add(3, 'days').format("MM/DD"));
-                $(".dateFri").text(moment(weekStart).add(4, 'days').format("MM/DD"));
-                $(".dateSat").text(moment(weekStart).add(5, 'days').format("MM/DD"));
-                $(".dateSun").text(moment(weekStart).subtract(1, 'days').format("MM-DD"));
+                if (LoggedCountry == "United States") {
+                    $(".dateMon").text(moment(weekStart).add(0, 'days').format("MM/DD"));
+                    $(".dateTue").text(moment(weekStart).add(1, 'days').format("MM/DD"));
+                    $(".dateWed").text(moment(weekStart).add(2, 'days').format("MM/DD"));
+                    $(".dateThu").text(moment(weekStart).add(3, 'days').format("MM/DD"));
+                    $(".dateFri").text(moment(weekStart).add(4, 'days').format("MM/DD"));
+                    $(".dateSat").text(moment(weekStart).add(5, 'days').format("MM/DD"));
+                    $(".dateSun").text(moment(weekStart).subtract(1, 'days').format("MM-DD"));
+                } else {
+                    $(".dateMon").text(moment(weekStart).add(0, 'days').format("DD/MM"));
+                    $(".dateTue").text(moment(weekStart).add(1, 'days').format("DD/MM"));
+                    $(".dateWed").text(moment(weekStart).add(2, 'days').format("DD/MM"));
+                    $(".dateThu").text(moment(weekStart).add(3, 'days').format("DD/MM"));
+                    $(".dateFri").text(moment(weekStart).add(4, 'days').format("DD/MM"));
+                    $(".dateSat").text(moment(weekStart).add(5, 'days').format("DD/MM"));
+                    $(".dateSun").text(moment(weekStart).subtract(1, 'days').format("DD/MM"));
+                }
 
                 if (currentDay == "Monday" && moment().format('DD') == moment($('thead tr th.monday').attr('id')).format('DD')) {
                     $(document).on('DOMNodeInserted', function (e) {
@@ -2479,7 +2573,7 @@ Template.appointments.onRendered(function () {
                                 var result = resourceColor.filter(apmtColor => {
                                     return apmtColor.employeeName == useData[t].fields.TrainerName
                                 });
-                                let employeeColor = '';
+                                let employeeColor = '#00a3d3';
                                 if (result.length > 0) {
                                     employeeColor = result[0].color || '';
                                 }
@@ -2489,7 +2583,7 @@ Template.appointments.onRendered(function () {
                                     employeeName: useData[t].fields.TrainerName,
                                     color: employeeColor
                                 };
-                                // console.log(dataList);
+
                                 resourceChat.push(dataList);
                                 allEmp.push(dataList);
                             }
@@ -2511,7 +2605,7 @@ Template.appointments.onRendered(function () {
 
                         if (date >= startWeek && date <= endWeek) {
                             resourceColor = resourceColor = templateObject.employeerecords.get();
-                            let employeeColor = '';
+                            let employeeColor = '#00a3d3';
                             var result = resourceColor.filter(apmtColor => {
                                 return apmtColor.employeeName == useData[t].fields.TrainerName
                             });
@@ -2700,7 +2794,7 @@ Template.appointments.onRendered(function () {
         }).catch(function (err) {
             appointmentService.getAllAppointmentList().then(function (data) {
                 $('.fullScreenSpin').css('display', 'inline-block');
-                let appColor = '';
+                let appColor = '#00a3d3';
                 let dataColor = '';
                 let allEmp = templateObject.employeerecords.get();
                 for (let i = 0; i < data.tappointment.length; i++) {
@@ -2711,8 +2805,8 @@ Template.appointments.onRendered(function () {
                     });
 
                     if (employeeColor.length > 0) {
-                        appColor = employeeColor[0].color;
-                    }
+                        appColor = employeeColor[0].color || '#00a3d3';
+                    } 
 
                     var appointment = {
                         id: data.tappointment[i].Id || '',
@@ -2903,13 +2997,23 @@ Template.appointments.onRendered(function () {
                 $('.friday').attr('id', moment(weekStart).add(4, 'days').format("YYYY-MM-DD"));
                 $('.saturday').attr('id', moment(weekStart).add(5, 'days').format("YYYY-MM-DD"));
 
-                $(".dateMon").text(moment(weekStart).add(0, 'days').format("MM/DD"));
-                $(".dateTue").text(moment(weekStart).add(1, 'days').format("MM/DD"));
-                $(".dateWed").text(moment(weekStart).add(2, 'days').format("MM/DD"));
-                $(".dateThu").text(moment(weekStart).add(3, 'days').format("MM/DD"));
-                $(".dateFri").text(moment(weekStart).add(4, 'days').format("MM/DD"));
-                $(".dateSat").text(moment(weekStart).add(5, 'days').format("MM/DD"));
-                $(".dateSun").text(moment(weekStart).subtract(1, 'days').format("YYYY-MM-DD"));
+                if (LoggedCountry == "United States") {
+                    $(".dateMon").text(moment(weekStart).add(0, 'days').format("MM/DD"));
+                    $(".dateTue").text(moment(weekStart).add(1, 'days').format("MM/DD"));
+                    $(".dateWed").text(moment(weekStart).add(2, 'days').format("MM/DD"));
+                    $(".dateThu").text(moment(weekStart).add(3, 'days').format("MM/DD"));
+                    $(".dateFri").text(moment(weekStart).add(4, 'days').format("MM/DD"));
+                    $(".dateSat").text(moment(weekStart).add(5, 'days').format("MM/DD"));
+                    $(".dateSun").text(moment(weekStart).subtract(1, 'days').format("MM-DD"));
+                } else {
+                    $(".dateMon").text(moment(weekStart).add(0, 'days').format("DD/MM"));
+                    $(".dateTue").text(moment(weekStart).add(1, 'days').format("DD/MM"));
+                    $(".dateWed").text(moment(weekStart).add(2, 'days').format("DD/MM"));
+                    $(".dateThu").text(moment(weekStart).add(3, 'days').format("DD/MM"));
+                    $(".dateFri").text(moment(weekStart).add(4, 'days').format("DD/MM"));
+                    $(".dateSat").text(moment(weekStart).add(5, 'days').format("DD/MM"));
+                    $(".dateSun").text(moment(weekStart).subtract(1, 'days').format("DD/MM"));
+                }
 
                 if (currentDay == "Monday" && moment().format('DD') == moment($('thead tr th.monday').attr('id')).format('DD')) {
                     $(document).on('DOMNodeInserted', function (e) {
@@ -2981,7 +3085,11 @@ Template.appointments.onRendered(function () {
                                     return apmtColor.employeeName == data.tappointment[t].TrainerName
                                 });
 
-                                let employeeColor = result[0].color;
+                                let employeeColor = '#00a3d3';
+                                if(result.length > 0) {
+                                    employeeColor = result[0].color || '#00a3d3';
+                                }
+
                                 var dataList = {
                                     id: data.tappointment[t].Id,
                                     employeeName: data.tappointment[t].TrainerName,
@@ -3012,7 +3120,10 @@ Template.appointments.onRendered(function () {
                                 return apmtColor.employeeName == data.tappointment[t].TrainerName
                             });
 
-                            let employeeColor = result[0].color;
+                             let employeeColor = '#00a3d3';
+                                if(result.length > 0) {
+                                    employeeColor = result[0].color || '#00a3d3';
+                                }
 
                             var dataList = {
                                 id: data.tappointment[t].Id,
@@ -3218,6 +3329,13 @@ Template.appointments.onRendered(function () {
                     initialView: 'timeGridWeek',
                     hiddenDays: [0, 6], // hide Sunday and Saturday
                     customButtons: {
+                        appointments: {
+                            text: 'Appointment List',
+                            click: function () {
+                                //window.open('/appointmentlist', '_self');
+                                Router.go('/appointmentlist');
+                            }
+                        },
                         allocation: {
                             text: 'Allocations',
                             click: function () {
@@ -3234,6 +3352,37 @@ Template.appointments.onRendered(function () {
                     navLinks: true, // can click day/week names to navigate views
                     selectable: true,
                     selectMirror: true,
+                    dayHeaderFormat: function (date) {
+                        if (LoggedCountry == "United States") {
+                            return moment(date.date.marker).format('ddd') + ' ' + moment(date.date.marker).format('MM/DD');
+                        } else {
+                            return moment(date.date.marker).format('ddd') + ' ' + moment(date.date.marker).format('DD/MM');
+                        }
+
+                    },
+                    select: function (info) {
+                        $('#frmAppointment')[0].reset();
+                        $(".paused").hide();
+                        templateObject.getAllProductData();
+                        let dateStart = new Date(info.start);
+                        let dateEnd = new Date(info.end);
+                        let startDate = ("0" + dateStart.getDate()).toString().slice(-2) + "/" + ("0" + (dateStart.getMonth() + 1)).toString().slice(-2) + "/" + dateStart.getFullYear();
+                        let endDate = ("0" + dateEnd.getDate()).toString().slice(-2) + "/" + ("0" + (dateEnd.getMonth() + 1)).toString().slice(-2) + "/" + dateEnd.getFullYear();
+                        dateEnd.setHours(dateEnd.getHours() + calendarSet.DefaultApptDuration || "02:00");
+                        let startTime = ("0" + dateStart.getHours()).toString().slice(-2) + ':' + ("0" + dateStart.getMinutes()).toString().slice(-2);
+                        let endTime = ("0" + dateEnd.getHours()).toString().slice(-2) + ':' + ("0" + dateEnd.getMinutes()).toString().slice(-2);
+                        document.getElementById("dtSODate").value = startDate;
+                        document.getElementById("dtSODate2").value = endDate;
+                        document.getElementById("startTime").value = startTime;
+                        document.getElementById("endTime").value = endTime;
+                        document.getElementById("employee_name").value = Session.get('mySessionEmployee');
+                        if (calendarSet.DefaultApptDuration) {
+                            document.getElementById("txtBookedHoursSpent").value = calendarSet.DefaultApptDuration;
+                        } else {
+                            document.getElementById("txtBookedHoursSpent").value = templateObject.diff_hours(dateStart, dateEnd);
+                        }
+                        $('#customerListModal').modal();
+                    },
                     eventClick: function (arg) {
                         employeeName = arg.event._def.title;
                         populateEmployDetails(employeeName);
@@ -3818,6 +3967,36 @@ Template.appointments.onRendered(function () {
                     navLinks: true, // can click day/week names to navigate views
                     selectable: true,
                     selectMirror: true,
+                    dayHeaderFormat: function (date) {
+                        if (LoggedCountry == "United States") {
+                            return moment(date.date.marker).format('ddd') + ' ' + moment(date.date.marker).format('MM/DD');
+                        } else {
+                            return moment(date.date.marker).format('ddd') + ' ' + moment(date.date.marker).format('DD/MM');
+                        }
+                    },
+                    select: function (info) {
+                        $('#frmAppointment')[0].reset();
+                        $(".paused").hide();
+                        templateObject.getAllProductData();
+                        let dateStart = new Date(info.start);
+                        let dateEnd = new Date(info.end);
+                        let startDate = ("0" + dateStart.getDate()).toString().slice(-2) + "/" + ("0" + (dateStart.getMonth() + 1)).toString().slice(-2) + "/" + dateStart.getFullYear();
+                        let endDate = ("0" + dateEnd.getDate()).toString().slice(-2) + "/" + ("0" + (dateEnd.getMonth() + 1)).toString().slice(-2) + "/" + dateEnd.getFullYear();
+                        dateEnd.setHours(dateEnd.getHours() + calendarSet.DefaultApptDuration || "02:00");
+                        let startTime = ("0" + dateStart.getHours()).toString().slice(-2) + ':' + ("0" + dateStart.getMinutes()).toString().slice(-2);
+                        let endTime = ("0" + dateEnd.getHours()).toString().slice(-2) + ':' + ("0" + dateEnd.getMinutes()).toString().slice(-2);
+                        document.getElementById("dtSODate").value = startDate;
+                        document.getElementById("dtSODate2").value = endDate;
+                        document.getElementById("startTime").value = startTime;
+                        document.getElementById("endTime").value = endTime;
+                        document.getElementById("employee_name").value = Session.get('mySessionEmployee');
+                        if (calendarSet.DefaultApptDuration) {
+                            document.getElementById("txtBookedHoursSpent").value = calendarSet.DefaultApptDuration;
+                        } else {
+                            document.getElementById("txtBookedHoursSpent").value = templateObject.diff_hours(dateStart, dateEnd);
+                        }
+                        $('#customerListModal').modal();
+                    },
                     eventClick: function (info) {
                         document.getElementById("frmAppointment").reset();
                         $("#btnHold").prop("disabled", false);
@@ -4072,66 +4251,6 @@ Template.appointments.onRendered(function () {
         }
     })
 
-    $(document).on("click", ".card", function () {
-        //     document.getElementById("frmAppointment").reset();
-        //     var id = $(this).attr('id');
-        //     var appointmentData = templateObject.appointmentrecords.get();
-        //     var result = appointmentData.filter(apmt => {
-        //         return apmt.id == id
-        //     });
-        //     let hours = 0;
-        //     if (result[0].aStartTime != '' && result[0].aEndTime != '') {
-        //         var startTime = moment(result[0].startDate.split(' ')[0] + ' ' + result[0].aStartTime);
-        //         var endTime = moment(result[0].endDate.split(' ')[0] + ' ' + result[0].aEndTime);
-        //         var duration = moment.duration(moment(endTime).diff(moment(startTime)));
-        //         hours = duration.asHours();
-
-        //     if (result[0].isPaused == "Paused") {
-        //         $(".paused").show();
-        //         $("#btnHold").prop("disabled", true);
-        //     } else {
-        //         $(".paused").hide();
-        //         $("#btnHold").prop("disabled", false);
-        //     }
-
-        //     console.log($(this));
-
-        //     if (result[0].aEndTime != "") {
-        //         $("#btnHold").prop("disabled", true);
-        //         $("#btnStartActualTime").prop("disabled", true);
-        //         $("#btnEndActualTime").prop("disabled", true);
-        //         $("#startTime").prop("disabled", true)
-        //         $("#endTime").prop("disabled", true);
-        //         $("#tActualStartTime").prop("disabled", true);
-        //         $("#tActualEndTime").prop("disabled", true);
-        //         $("#txtActualHoursSpent").prop("disabled", true);
-        //     }
-        //     templateObject.getAllProductData();
-        //     document.getElementById("aStartDate").value = result[0].aStartDate || 0;
-        //     document.getElementById("updateID").value = result[0].id || 0;
-        //     document.getElementById("appID").value = result[0].id;
-        //     document.getElementById("customer").value = result[0].accountname;
-        //     document.getElementById("phone").value = result[0].phone;
-        //     document.getElementById("mobile").value = result[0].mobile || result[0].phone || '';
-        //     document.getElementById("state").value = result[0].state;
-        //     document.getElementById("address").value = result[0].street;
-        //     document.getElementById("txtNotes").value = result[0].notes;
-        //     document.getElementById("suburb").value = result[0].suburb;
-        //     document.getElementById("zip").value = result[0].zip;
-        //     document.getElementById("country").value = result[0].country;
-        //     $('#product-list').prepend('<option value="' + result[0].product + '">' + result[0].product + '</option>');
-        //     document.getElementById("employee_name").value = result[0].employeename;
-        //     document.getElementById("dtSODate").value = moment(result[0].startDate.split(' ')[0]).format('DD/MM/YYYY');
-        //     document.getElementById("dtSODate2").value = moment(result[0].endDate.split(' ')[0]).format('DD/MM/YYYY');
-        //     document.getElementById("startTime").value = result[0].startTime;
-        //     document.getElementById("endTime").value = result[0].endTime;
-        //     document.getElementById("txtBookedHoursSpent").value = result[0].totalHours;
-        //     document.getElementById("tActualStartTime").value = result[0].aStartTime;
-        //     document.getElementById("tActualEndTime").value = result[0].aEndTime;
-        //     document.getElementById("txtActualHoursSpent").value = parseFloat(hours).toFixed(2) || '';
-        //     $('#event-modal').modal();
-        // }
-    });
 
     $(document).ready(function () {
         $("#showSaturday").change(function () {
@@ -4463,7 +4582,7 @@ Template.appointments.events({
         let calOptions = templateObject.globalSettings.get();
         $('#frmAppointment')[0].reset();
         let element = $(event.target);
-        if(element.is("p") || element.is(".card-body")){
+        if (element.is("p") || element.is(".card-body")) {
             var id = parseInt($(event.target).closest('.card').attr('id'));
             var appointmentData = templateObject.appointmentrecords.get();
             var result = appointmentData.filter(apmt => {
@@ -4801,8 +4920,6 @@ Template.appointments.events({
                 oPost.setRequestHeader("Accept", "application/json");
                 oPost.setRequestHeader("Accept", "application/html");
                 oPost.setRequestHeader("Content-type", "application/json");
-                // let objDataSave = '"JsonIn"' + ':' + JSON.stringify(selectClient);
-                //console.log(JSON.stringify(myString));
                 oPost.send(myString);
 
                 oPost.onreadystatechange = function () {
@@ -5238,10 +5355,10 @@ Template.appointments.events({
                             var result = resourceColor.filter(apmtColor => {
                                 return apmtColor.employeeName == changeAppointmentView[a].employeename
                             });
-                            let employeeColor = '';
-                            if (result.length > 0) {
-                                employeeColor = result[0].color || '';
-                            }
+                            let employeeColor = '#00a3d3';
+                                if(result.length > 0) {
+                                    employeeColor = result[0].color || '#00a3d3';
+                                }
 
                             var dataList = {
                                 id: changeAppointmentView[a].id,
@@ -5273,7 +5390,10 @@ Template.appointments.events({
                             return apmtColor.employeeName == changeAppointmentView[a].employeename
                         });
 
-                        let employeeColor = result[0].color;
+                         let employeeColor = '#00a3d3';
+                                if(result.length > 0) {
+                                    employeeColor = result[0].color || '#00a3d3';
+                         }
 
                         var dataList = {
                             id: changeAppointmentView[a].id,
@@ -5562,7 +5682,10 @@ Template.appointments.events({
                                 return apmtColor.employeeName == changeAppointmentView[a].employeename
                             });
 
-                            let employeeColor = result[0].color;
+                             let employeeColor = '#00a3d3';
+                                if(result.length > 0) {
+                                    employeeColor = result[0].color || '#00a3d3';
+                                }
                             var dataList = {
                                 id: changeAppointmentView[a].id,
                                 employeeName: changeAppointmentView[a].employeename,
@@ -5592,7 +5715,10 @@ Template.appointments.events({
                             return apmtColor.employeeName == changeAppointmentView[a].employeename
                         });
 
-                        let employeeColor = result[0].color;
+                         let employeeColor = '#00a3d3';
+                                if(result.length > 0) {
+                                    employeeColor = result[0].color || '#00a3d3';
+                                }
 
                         var dataList = {
                             id: changeAppointmentView[a].id,
