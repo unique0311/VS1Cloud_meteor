@@ -204,7 +204,13 @@
                 <div class="col-auto flex-grow-1">
                     <div class="text-right" style="font-size: 14px;min-width: 175px;margin: 16px ;">
                         <p style="font-size: 20px; font-weight: 700;color: rgb(84,94,103);">BALANCE DUE</p>
+                        {{#if equals invoicerecord.ispaid true}}
+                        <p style="font-size: 25px;font-weight: 705;color: #e74a3b;">Paid</p>
+                        <input class="form-control form-control ispaidInv" type="hidden"   value="true">
+                        {{else}}
+                        <input class="form-control form-control ispaidInv" type="hidden"   value="false">
                         <p style="font-size: 25px;font-weight: 705;color: rgb(56,63,69);" id="balanceDue" name="balanceDue">{{invoicerecord.balanceDue}}</p>
+                        {{/if}}
                     </div>
                 </div>
             </div>

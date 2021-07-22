@@ -1692,7 +1692,7 @@ $("#erplogin-button").click(async function(e){
                                if(option.ModuleActive){
                                  isTrueERPConnection = option.ModuleActive || true;
                                }else{
-                                 isTrueERPConnection = true;
+                                 isTrueERPConnection = false;
                                }
                              }else if((option.ModuleName == 'Appointment Scheduling')){
                                isAppointmentSchedulingLicence = true;
@@ -2303,7 +2303,7 @@ $("#erplogin-button").click(async function(e){
                if(option.ModuleActive){
                  isTrueERPConnection = option.ModuleActive || true;
                }else{
-                 isTrueERPConnection = true;
+                 isTrueERPConnection = false;
                }
              }else if((option.ModuleName == 'Appointment Scheduling')){
                isAppointmentSchedulingLicence = true;
@@ -2795,7 +2795,7 @@ $("#erplogin-button").click(async function(e){
                                if(option.ModuleActive){
                                  isTrueERPConnection = option.ModuleActive || true;
                                }else{
-                                 isTrueERPConnection = true;
+                                 isTrueERPConnection = false;
                                }
                              }else if((option.ModuleName == 'Appointment Scheduling')){
                                isAppointmentSchedulingLicence = true;
@@ -3439,7 +3439,7 @@ $("#erplogin-button").click(async function(e){
                                      if(option.ModuleActive){
                                        isTrueERPConnection = option.ModuleActive || true;
                                      }else{
-                                       isTrueERPConnection = true;
+                                       isTrueERPConnection = false;
                                      }
                                    }else if((option.ModuleName == 'Appointment Scheduling')){
                                      isAppointmentSchedulingLicence = true;
@@ -3511,6 +3511,16 @@ $("#erplogin-button").click(async function(e){
                                  $('.loginSpinner').css('display','none');
                                  return false;
                                }
+                               if(dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser == undefined){
+                                 myVS1Video.pause();
+                                 $('.myVS1Video').css('display','none');
+                                 $('.myVS1VideoLogin').css('display','none');
+                                 swal('Sorry, You do not have access to any VS1 Modules!', '', 'error');
+                                 $('.fullScreenSpin').css('display','none');
+                                 $('.loginSpinner').css('display','none');
+                                 return false;
+
+                               };
                                if(dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.AccessLevels == undefined){
                                  myVS1Video.pause();
                                  $('.myVS1Video').css('display','none');
@@ -3521,6 +3531,8 @@ $("#erplogin-button").click(async function(e){
                                  return false;
 
                                };
+
+
 
                                if(dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.AccessLevels.ResponseNo == 401){
                                  swal('Sorry, You do not have access to any VS1 Modules!', '', 'error');
@@ -4111,7 +4123,7 @@ $("#erplogin-button").click(async function(e){
                                    if(option.ModuleActive){
                                      isTrueERPConnection = option.ModuleActive || true;
                                    }else{
-                                     isTrueERPConnection = true;
+                                     isTrueERPConnection = false;
                                    }
                                  }else if((option.ModuleName == 'Appointment Scheduling')){
                                    isAppointmentSchedulingLicence = true;

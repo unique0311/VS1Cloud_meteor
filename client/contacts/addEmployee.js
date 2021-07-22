@@ -1917,7 +1917,7 @@ Template.employeescard.onRendered(function () {
                         } else {
                             $('#defaultTime').prepend('<option selected>' + prefObject.defaultApptDuration + ' Hour</option>');
                         }
-                        
+
                     }
                 }
 
@@ -2275,7 +2275,7 @@ Template.employeescard.events({
                                     // LastName: lastname,
                                     // EmployeeName: $('#edtCustomerCompany').val(),
                                     ERPLoginDetails:{
-                                        ERPUserName: $('#cloudCheckEmpEmailAddress').val(),
+                                        erpusername: $('#cloudCheckEmpEmailAddress').val(),
                                         // VS1Password: $('#cloudCheckEmpUserPassword').val(),
                                         NewPassword: cloudpassword
                                     }
@@ -2294,13 +2294,29 @@ Template.employeescard.events({
                                 oPost.setRequestHeader("Content-type", "application/json");
 
                                 //var myString = '"JsonIn"' + ':' + JSON.stringify(objDetailsUser);
-                                var myStringUserPassword = JSON.stringify(objDetailsUserPassword);
+                                var myStringUserPassword = '"JsonIn"' + ':' + JSON.stringify(objDetailsUserPassword);
                                 //
                                 oPost.send(myStringUserPassword);
 
                                 oPost.onreadystatechange = function () {
                                     if (oPost.readyState == 4 && oPost.status == 200) {
+                                      var myArrResponsData = JSON.parse(oPost.responseText);
 
+                                      if(myArrResponsData.ProcessLog.ResponseNo == 401){
+                                        swal({
+                                            title: 'VS1 Change User Password Failed',
+                                            text: myArrResponsData.ProcessLog.ResponseStatus,
+                                            type: 'error',
+                                            showCancelButton: false,
+                                            confirmButtonText: 'OK'
+                                        }).then((result) => {
+                                            if (result.value) {
+                                                Router.go('/employeelist?success=true');
+                                            } else {
+                                                Router.go('/employeelist?success=true');
+                                            }
+                                        });
+                                      }else{
                                         if (employeeSaveID) {
                                             sideBarService.getAllEmployees(25,0).then(function(dataReload) {
                                                 addVS1Data('TEmployee',JSON.stringify(dataReload)).then(function (datareturn) {
@@ -2397,6 +2413,8 @@ Template.employeescard.events({
 
 
                                         }
+
+                                      }
 
 
                                     } else if (oPost.readyState == 4 && oPost.status == 403) {
@@ -2676,8 +2694,8 @@ Template.employeescard.events({
                         }
                     });
                 } else {
-                    Meteor.call('braintreeChargeCard', Session.get('VS1AdminUserName'), 35);
-                    Meteor.call('StripeChargeCard', Session.get('VS1AdminUserName'), 3500);
+                    // Meteor.call('braintreeChargeCard', Session.get('VS1AdminUserName'), 35);
+                    // Meteor.call('StripeChargeCard', Session.get('VS1AdminUserName'), 3500);
                     // swal('User details successfully added', '', 'success');
                     sideBarService.getAllEmployees(25,0).then(function(dataReload) {
                         addVS1Data('TEmployee',JSON.stringify(dataReload)).then(function (datareturn) {

@@ -856,6 +856,16 @@ Template.accessleveldup.events({
             $(event.target).val(6);
         }
     },
+    'click .formCheckEnableAll': function (event) {
+
+        if($(event.target).is(':checked')){
+            $('.tbl_access .chkSettings').prop("checked", true);
+            $('.tbl_access .chkSettings').val(1);
+        }else{
+            $('.tbl_access .chkSettings').prop("checked", false);
+            $('.tbl_access .chkSettings').val(6);
+        }
+    },
     'click .chkSettings.chkInventory': function (event) {
 
         if($(event.target).is(':checked')){

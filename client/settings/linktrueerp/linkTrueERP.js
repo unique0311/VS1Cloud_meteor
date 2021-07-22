@@ -52,6 +52,7 @@ Template.linktrueerp.onRendered(function(){
 Template.linktrueerp.events({
 'click .btnSave': function () {
   var erpGet = erpDb();
+  $('.fullScreenSpin').css('display','inline-block');
   let firstName = $('.edtFirstName').val();
   let lastName = $('.edtLastName').val();
   let phoneNumber = $('.edtPhone').val();
@@ -64,32 +65,40 @@ Template.linktrueerp.events({
 
   var currentDate = new Date();
   var begunDate = moment(currentDate).format("YYYY-MM-DD");
-
+  let isHttpsConnect = true;
+  if($('input[name="formCheck-https"]').is(":checked")){
+      isHttpsConnect = true;
+  }else{
+      isHttpsConnect = false;
+  }
   let objDetailsUser = {
       Name: "VS1_ChangeDatabase",
       Params: {
         ServerName: serverName,
         Databasename:databaseName,
         DatabasenameToChange: erpGet.ERPDatabase,
-        VS1UserName: erpGet.ERPUsername,
-        VS1Password: erpGet.ERPPassword,
+        VS1UserName: "VS1_Temp_User", //erpGet.ERPUsername
+        VS1Password: "Dpjhge8rnvl1j&9",
         APIPort:parseFloat(portNo)||0,
-        IsHttps:false,
+        IsHttps:isHttpsConnect,
         EmployeeDetails:{
          FirstName:firstName,
          LastName:lastName,
          Phone:phoneNumber,
          DateStarted:begunDate|| '',
          DOB:begunDate|| '',
-         Sex:"M"
-         // Email:erpGet.ERPUsername,
-         // EmailsFromEmployeeAddress:true,
-
-       },
+         Sex:"F",
+         Email:erpUsername,
+         EmailsFromEmployeeAddress:false,
+         ERPUserName : erpUsername,
+         ERPPassword : erpPassword
+       }
+       /*,
        ERPLoginDetails:{
          ERPUserName : erpUsername,
          NewPassword : erpPassword
        }
+       */
     }
   };
     var oPost = new XMLHttpRequest();
@@ -101,7 +110,7 @@ Template.linktrueerp.events({
     oPost.setRequestHeader("Accept", "application/html");
     oPost.setRequestHeader("Content-type", "application/json");
     //var myString = '"JsonIn"'+':'+JSON.stringify(objDetailsUser);
-    var myString = JSON.stringify(objDetailsUser);
+    var myString = '"JsonIn"'+':'+JSON.stringify(objDetailsUser);
 
      oPost.send(myString);
 

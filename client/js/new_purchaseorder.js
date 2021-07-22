@@ -1790,7 +1790,7 @@ Template.purchaseordercard.onRendered(() => {
         let $tblrows = $("#tblPurchaseOrderLine tbody tr");
         if (selectLineID) {
             let companyName = table.find(".colCompany").text();
-            let jobName = table.find(".colJob").text();
+            let jobName = table.find(".colCompany").text();
             if (jobName.replace(/\s/g, '') != '') {
                 $('#' + selectLineID + " .colCustomerJob").text(jobName || '');
             } else {
@@ -1850,7 +1850,7 @@ Template.purchaseordercard.onRendered(() => {
              $('#html-2-pdfwrapper').css('display', 'none');
             $('.fullScreenSpin').css('display', 'none');
         });
-        
+
     };
 
     setTimeout(function() {

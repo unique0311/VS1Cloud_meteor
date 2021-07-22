@@ -631,17 +631,20 @@ Template.companyappsettingsdup.events({
 
                 //     }
                 // });
-                       let getLasTDatabase = erpGet.ERPDatabase;
-                                if(getLasTDatabase){
-                                    deleteStoreDatabase(getLasTDatabase).then(function(data) {
-                                        window.open('https://www.depot.vs1cloud.com/stripe/'+stringQuery);
-                                    }).catch(function (err) {
-                                        window.open('https://www.depot.vs1cloud.com/stripe/'+stringQuery);
-                                    });
-                                }else{
-                                   window.open('https://www.depot.vs1cloud.com/stripe/'+stringQuery);
-                                }
-                
+                if(newStripePrice > 0){
+                  let getLasTDatabase = erpGet.ERPDatabase;
+                           if(getLasTDatabase){
+                               deleteStoreDatabase(getLasTDatabase).then(function(data) {
+                                   window.open('https://www.depot.vs1cloud.com/stripe/'+stringQuery,'_self');
+                               }).catch(function (err) {
+                                   window.open('https://www.depot.vs1cloud.com/stripe/'+stringQuery,'_self');
+                               });
+                           }else{
+                              window.open('https://www.depot.vs1cloud.com/stripe/'+stringQuery,'_self');
+                           }
+                }
+
+
                 $('.fullScreenSpin').css('display','none');
                 var myArrResponse = JSON.parse(oPost.responseText);
                 if(myArrResponse.ProcessLog.ResponseStatus != "OK"){
@@ -762,8 +765,101 @@ Template.companyappsettingsdup.events({
         if($(event.target).is(':checked')){
             var myModuleText =  $(event.target).next('label').text();
             var myModalId = $(event.target).closest('tr').attr('id');
-            if((myModuleText == "Website Integration")){
-
+            if((myModuleText == "ADP Payroll Integration")){
+              swal({
+                  title: 'Price per Connection',
+                  text: "Please click OK to enable.",
+                  showCancelButton: true,
+                  confirmButtonText: 'OK',
+                  showLoaderOnConfirm: true
+              }).then((inputValue) => {
+                  if (inputValue.value) {
+                      $('#formCheck-'+myModalId+'').attr('additionalqty',1);
+                  }else {
+                      $('#formCheck-'+myModalId+'').attr('additionalqty',1);
+                      $('#formCheck-'+myModalId+'').prop( "checked", false );
+                  }
+                  $([document.documentElement, document.body]).animate({
+                   scrollTop: $(".vs1Modules").offset().top
+                  }, 2000);
+                  $('.btnTopGlobalSave').addClass('btnSaveAlert');
+              });
+            }else if((myModuleText == "Link To TrueERP")){
+              swal({
+                  title: 'Price per Connection',
+                  text: "Please click OK to enable.",
+                  showCancelButton: true,
+                  confirmButtonText: 'OK',
+                  showLoaderOnConfirm: true
+              }).then((inputValue) => {
+                  if (inputValue.value) {
+                      $('#formCheck-'+myModalId+'').attr('additionalqty',1);
+                      $([document.documentElement, document.body]).animate({
+                       scrollTop: $(".vs1Modules").offset().top
+                      }, 2000);
+                      $('.btnTopGlobalSave').addClass('btnSaveAlert');
+                  }else {
+                      $('#formCheck-'+myModalId+'').attr('additionalqty',1);
+                      $('#formCheck-'+myModalId+'').prop( "checked", false );
+                  }
+              });
+            }else if((myModuleText == "Paychex Payroll Integration")){
+              swal({
+                  title: 'Price per Connection',
+                  text: "Please click OK to enable.",
+                  showCancelButton: true,
+                  confirmButtonText: 'OK',
+                  showLoaderOnConfirm: true
+              }).then((inputValue) => {
+                  if (inputValue.value) {
+                      $('#formCheck-'+myModalId+'').attr('additionalqty',1);
+                      $([document.documentElement, document.body]).animate({
+                       scrollTop: $(".vs1Modules").offset().top
+                      }, 2000);
+                      $('.btnTopGlobalSave').addClass('btnSaveAlert');
+                  }else {
+                      $('#formCheck-'+myModalId+'').attr('additionalqty',1);
+                      $('#formCheck-'+myModalId+'').prop( "checked", false );
+                  }
+              });
+            }else if((myModuleText == "Website Integration")){
+              swal({
+                  title: 'Price per Connection',
+                  text: "Please click OK to enable.",
+                  showCancelButton: true,
+                  confirmButtonText: 'OK',
+                  showLoaderOnConfirm: true
+              }).then((inputValue) => {
+                  if (inputValue.value) {
+                      $('#formCheck-'+myModalId+'').attr('additionalqty',1);
+                      $([document.documentElement, document.body]).animate({
+                       scrollTop: $(".vs1Modules").offset().top
+                      }, 2000);
+                      $('.btnTopGlobalSave').addClass('btnSaveAlert');
+                  }else {
+                      $('#formCheck-'+myModalId+'').attr('additionalqty',1);
+                      $('#formCheck-'+myModalId+'').prop( "checked", false );
+                  }
+              });
+            }else if((myModuleText == "ADP Payroll Integration")){
+              swal({
+                  title: 'Price per Connection',
+                  text: "Please click OK to enable.",
+                  showCancelButton: true,
+                  confirmButtonText: 'OK',
+                  showLoaderOnConfirm: true
+              }).then((inputValue) => {
+                  if (inputValue.value) {
+                      $('#formCheck-'+myModalId+'').attr('additionalqty',1);
+                      $([document.documentElement, document.body]).animate({
+                       scrollTop: $(".vs1Modules").offset().top
+                      }, 2000);
+                      $('.btnTopGlobalSave').addClass('btnSaveAlert');
+                  }else {
+                      $('#formCheck-'+myModalId+'').attr('additionalqty',1);
+                      $('#formCheck-'+myModalId+'').prop( "checked", false );
+                  }
+              });
             }else if((myModuleText == "Use Foreign Currency")){
                 if(cloudPackageCheck == "PLUS"){
                     swal({
@@ -776,6 +872,10 @@ Template.companyappsettingsdup.events({
                         if (result.value) {
                             // $('#formCheck-'+myModalId+'').attr('additionalqty',0);
                             $('#formCheck-'+myModalId+'').prop( "checked", false );
+                            $([document.documentElement, document.body]).animate({
+                             scrollTop: $(".vs1Modules").offset().top
+                            }, 2000);
+                            $('.btnTopGlobalSave').addClass('btnSaveAlert');
                         } else if (result.dismiss === 'cancel') {
                             // $('#formCheck-'+myModalId+'').attr('additionalqty',0);
                             $('#formCheck-'+myModalId+'').prop( "checked", false );
@@ -783,7 +883,7 @@ Template.companyappsettingsdup.events({
                     });
                 }else{
                     swal({
-                        title: 'Price Per User',
+                        title: 'Price per User',
                         text: "How many users would you like to enable for this feature ?",
                         input: 'number',
                         inputValue:1,
@@ -798,6 +898,10 @@ Template.companyappsettingsdup.events({
                     }).then((inputValue) => {
                         if (inputValue.value) {
                             $('#formCheck-'+myModalId+'').attr('additionalqty',inputValue.value);
+                            $([document.documentElement, document.body]).animate({
+                             scrollTop: $(".vs1Modules").offset().top
+                            }, 2000);
+                            $('.btnTopGlobalSave').addClass('btnSaveAlert');
                         }else {
                             $('#formCheck-'+myModalId+'').attr('additionalqty',1);
                             $('#formCheck-'+myModalId+'').prop( "checked", false );
@@ -819,6 +923,10 @@ Template.companyappsettingsdup.events({
                     }).then((result) => {
                         if (result.value) {
                             $('.essentialsdiv .custom-control-input').prop( "checked", true );
+                            $([document.documentElement, document.body]).animate({
+                             scrollTop: $(".vs1Modules").offset().top
+                            }, 2000);
+                            $('.btnTopGlobalSave').addClass('btnSaveAlert');
                         } else if (result.dismiss === 'cancel') {
                             $('.essentialsdiv .custom-control-input').prop( "checked", false );
                             $(event.target).prop("checked", false);
@@ -829,7 +937,7 @@ Template.companyappsettingsdup.events({
             }else if((myModuleText == "Shipping")){
                 if($('#formCheck-Essentials').is(':checked') || $('#formCheck-Plus').is(':checked')){
                     swal({
-                        title: 'Price Per User',
+                        title: 'Price per User',
                         text: "How many users would you like to enable for this feature ?",
                         input: 'number',
                         inputValue:1,
@@ -844,6 +952,10 @@ Template.companyappsettingsdup.events({
                     }).then((inputValue) => {
                         if (inputValue.value) {
                             $('#formCheck-'+myModalId+'').attr('additionalqty',inputValue.value);
+                            $([document.documentElement, document.body]).animate({
+                             scrollTop: $(".vs1Modules").offset().top
+                            }, 2000);
+                            $('.btnTopGlobalSave').addClass('btnSaveAlert');
                         }else {
                             $('#formCheck-'+myModalId+'').attr('additionalqty',1);
                             $('#formCheck-'+myModalId+'').prop( "checked", false );
@@ -862,7 +974,7 @@ Template.companyappsettingsdup.events({
                         if (result.value) {
                             $('.essentialsdiv .custom-control-input').prop( "checked", true );
                             swal({
-                                title: 'Price Per User',
+                                title: 'Price per User',
                                 text: "How many users would you like to enable for this feature ?",
                                 input: 'number',
                                 inputValue:1,
@@ -877,6 +989,10 @@ Template.companyappsettingsdup.events({
                             }).then((inputValue) => {
                                 if (inputValue.value) {
                                     $('#formCheck-'+myModalId+'').attr('additionalqty',inputValue.value);
+                                    $([document.documentElement, document.body]).animate({
+                                     scrollTop: $(".vs1Modules").offset().top
+                                    }, 2000);
+                                    $('.btnTopGlobalSave').addClass('btnSaveAlert');
                                 }else {
                                     $('#formCheck-'+myModalId+'').attr('additionalqty',1);
                                     $('#formCheck-'+myModalId+'').prop( "checked", false );
@@ -893,7 +1009,7 @@ Template.companyappsettingsdup.events({
                      || (myModuleText == "WMS") || (myModuleText == "Matrix")){
                 if($('#formCheck-Plus').is(':checked')){
                     swal({
-                        title: 'Price Per User',
+                        title: 'Price per User',
                         text: "How many users would you like to enable for this feature ?",
                         input: 'number',
                         inputValue:1,
@@ -908,6 +1024,10 @@ Template.companyappsettingsdup.events({
                     }).then((inputValue) => {
                         if (inputValue.value) {
                             $('#formCheck-'+myModalId+'').attr('additionalqty',inputValue.value);
+                            $([document.documentElement, document.body]).animate({
+                             scrollTop: $(".vs1Modules").offset().top
+                            }, 2000);
+                            $('.btnTopGlobalSave').addClass('btnSaveAlert');
                         }else {
                             $('#formCheck-'+myModalId+'').attr('additionalqty',1);
                             $('#formCheck-'+myModalId+'').prop( "checked", false );
@@ -926,7 +1046,7 @@ Template.companyappsettingsdup.events({
                         if (result.value) {
                             $('.plusdiv .custom-control-input').prop( "checked", true );
                             swal({
-                                title: 'Price Per User',
+                                title: 'Price per User',
                                 text: "How many users would you like to enable for this feature ?",
                                 input: 'number',
                                 inputValue:1,
@@ -955,7 +1075,7 @@ Template.companyappsettingsdup.events({
                 }
             }else{
                 swal({
-                    title: 'Price Per User',
+                    title: 'Price per User',
                     text: "How many users would you like to enable for this feature ?",
                     input: 'number',
                     inputValue:1,
@@ -970,6 +1090,10 @@ Template.companyappsettingsdup.events({
                 }).then((inputValue) => {
                     if (inputValue.value) {
                         $('#formCheck-'+myModalId+'').attr('additionalqty',inputValue.value);
+                        $([document.documentElement, document.body]).animate({
+                         scrollTop: $(".vs1Modules").offset().top
+                        }, 2000);
+                        $('.btnTopGlobalSave').addClass('btnSaveAlert');
                     }else {
                         $('#formCheck-'+myModalId+'').attr('additionalqty',1);
                         $('#formCheck-'+myModalId+'').prop( "checked", false );
@@ -999,6 +1123,10 @@ Template.companyappsettingsdup.events({
                 }).then((result) => {
                     if (result.value) {
                         $('.essentialsdiv .custom-control-input').prop( "checked", true );
+                        $([document.documentElement, document.body]).animate({
+                         scrollTop: $(".vs1Modules").offset().top
+                        }, 2000);
+                        $('.btnTopGlobalSave').addClass('btnSaveAlert');
                     } else if (result.dismiss === 'cancel') {
                         $('.essentialsdiv .custom-control-input').prop( "checked", false );
                         $(event.target).prop("checked", false);
@@ -1026,6 +1154,10 @@ Template.companyappsettingsdup.events({
                 }).then((result) => {
                     if (result.value) {
                         $('.plusdiv .custom-control-input').prop( "checked", true );
+                        $([document.documentElement, document.body]).animate({
+                         scrollTop: $(".vs1Modules").offset().top
+                        }, 2000);
+                        $('.btnTopGlobalSave').addClass('btnSaveAlert');
                     } else if (result.dismiss === 'cancel') {
                         $('.plusdiv .custom-control-input').prop( "checked", false );
                         $(event.target).prop("checked", false);

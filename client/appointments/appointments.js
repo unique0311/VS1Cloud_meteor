@@ -1242,7 +1242,7 @@ Template.appointments.onRendered(function () {
                     let totalUser = 0;
                     let totAmount = 0;
                     let totAmountOverDue = 0;
-
+                    addVS1Data('TEmployee',JSON.stringify(data));
                     for (let i = 0; i < data.temployee.length; i++) {
                         let randomColor = Math.floor(Math.random() * 16777215).toString(16);
 

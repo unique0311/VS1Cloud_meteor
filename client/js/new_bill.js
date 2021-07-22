@@ -1636,7 +1636,7 @@ Template.billcard.onRendered(() => {
         let $tblrows = $("#tblBillLine tbody tr");
         if (selectLineID) {
             let companyName = table.find(".colCompany").text();
-            let jobName = table.find(".colJob").text();
+            let jobName = table.find(".colCompany").text();
             if (jobName.replace(/\s/g, '') != '') {
                 $('#' + selectLineID + " .colCustomerJob").text(jobName || '');
             } else {
