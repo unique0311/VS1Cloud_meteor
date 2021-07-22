@@ -631,7 +631,17 @@ Template.companyappsettingsdup.events({
 
                 //     }
                 // });
-                //window.open('https://www.depot.vs1cloud.com/stripe/'+stringQuery);
+                       let getLasTDatabase = erpGet.ERPDatabase;
+                                if(getLasTDatabase){
+                                    deleteStoreDatabase(getLasTDatabase).then(function(data) {
+                                        window.open('https://www.depot.vs1cloud.com/stripe/'+stringQuery);
+                                    }).catch(function (err) {
+                                        window.open('https://www.depot.vs1cloud.com/stripe/'+stringQuery);
+                                    });
+                                }else{
+                                   window.open('https://www.depot.vs1cloud.com/stripe/'+stringQuery);
+                                }
+                
                 $('.fullScreenSpin').css('display','none');
                 var myArrResponse = JSON.parse(oPost.responseText);
                 if(myArrResponse.ProcessLog.ResponseStatus != "OK"){
