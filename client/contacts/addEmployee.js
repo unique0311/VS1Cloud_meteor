@@ -2648,7 +2648,6 @@ Template.employeescard.events({
             //}
         };
 
-
         var oPost = new XMLHttpRequest();
         oPost.open("POST", URLRequest + loggedserverIP + ':' + loggedserverPort + '/' + 'erpapi/VS1_Cloud_Task/Method?Name="VS1_NewUser"', true);
         oPost.setRequestHeader("database", vs1loggedDatatbase);
@@ -2697,31 +2696,36 @@ Template.employeescard.events({
                     // Meteor.call('braintreeChargeCard', Session.get('VS1AdminUserName'), 35);
                     // Meteor.call('StripeChargeCard', Session.get('VS1AdminUserName'), 3500);
                     // swal('User details successfully added', '', 'success');
+                    let stringQuery = "?";
+                    let name = Session.get('mySessionEmployee').split(' ')[0];
+                    let surname = Session.get('mySessionEmployee').split(' ')[1];
+                    stringQuery = stringQuery + "product" + 1 + "= New User" + "&price" + 1 + "=" + Currency + objDetailsUser.Params.Price + "&qty" + 1 + "=" + 1 + "&";
+                    stringQuery = stringQuery + "tax=0" + "&total=" + Currency + objDetailsUser.Params.Price + "&customer=" + Session.get('vs1companyName')  + "&name=" + name + "&surname=" + surname +"&company=" + Session.get('vs1companyName') + "&customeremail=" + localStorage.getItem('mySession') + "&type=VS1 Modules Purchase&url=" + window.location.href + "&server=" + erpGet.ERPIPAddress + "&username=" + erpGet.ERPUsername + "&token=" + erpGet.ERPPassword + "&session=" + erpGet.ERPDatabase + "&port=" + erpGet.ERPPort;
                     sideBarService.getAllEmployees(25,0).then(function(dataReload) {
                         addVS1Data('TEmployee',JSON.stringify(dataReload)).then(function (datareturn) {
-
+                                window.open('https://www.depot.vs1cloud.com/stripe/'+stringQuery,'_self');
                         }).catch(function (err) {
-
+                                window.open('https://www.depot.vs1cloud.com/stripe/'+stringQuery,'_self');
                         });
                     }).catch(function(err) {
-
+                            window.open('https://www.depot.vs1cloud.com/stripe/'+stringQuery,'_self');
                     });
 
-                    swal({
-                        title: 'User details successfully added',
-                        text: '',
-                        type: 'success',
-                        showCancelButton: false,
-                        confirmButtonText: 'OK'
-                    }).then((result) => {
-                        if (result.value) {
-                            let employeeName = $('#edtCustomerCompany').val() || '';
-                            window.open('/accesslevel?empuser=' + employeeName, '_self');
+                    // swal({
+                    //     title: 'User details successfully added',
+                    //     text: '',
+                    //     type: 'success',
+                    //     showCancelButton: false,
+                    //     confirmButtonText: 'OK'
+                    // }).then((result) => {
+                    //     if (result.value) {
+                    //         let employeeName = $('#edtCustomerCompany').val() || '';
+                    //         window.open('/accesslevel?empuser=' + employeeName, '_self');
 
-                        } else {
-                            Router.go('/employeelist?success=true');
-                        }
-                    });
+                    //     } else {
+                    //         Router.go('/employeelist?success=true');
+                    //     }
+                    // });
 
                 }
 
