@@ -596,15 +596,14 @@ Template.companyappsettingsdup.events({
                 }
             };
         }
+        let currencyname = (CountryAbbr).toLowerCase();
         let stringQuery = "?";
         let name = Session.get('mySessionEmployee').split(' ')[0];
         let surname = Session.get('mySessionEmployee').split(' ')[1];
-        console.log(Currency);
         for (let l = 0; l < lineItemsForm.length; l++) {
              stringQuery = stringQuery + "product" + l + "=" + lineItemsForm[l].ModuleName + "&price" + l + "=" +Currency+ lineItemsForm[l].Price + "&qty" + l + "=" + lineItemsForm[l].RenewDiscountDesc + "&";
         }
-        stringQuery = stringQuery + "tax=0" + "&total=" + Currency + grandTotal + "&customer=" + Session.get('vs1companyName')  + "&name=" + name + "&surname=" + surname +"&company=" + Session.get('vs1companyName') + "&customeremail=" + localStorage.getItem('mySession') + "&type=VS1 Modules Purchase&url=" + window.location.href + "&server=" + erpGet.ERPIPAddress + "&username=" + erpGet.ERPUsername + "&token=" + erpGet.ERPPassword + "&session=" + erpGet.ERPDatabase + "&port=" + erpGet.ERPPort;
-
+        stringQuery = stringQuery + "tax=0" + "&total=" + Currency + grandTotal + "&customer=" + Session.get('vs1companyName')  + "&name=" + name + "&surname=" + surname +"&company=" + Session.get('vs1companyName') + "&customeremail=" + localStorage.getItem('mySession') + "&type=VS1 Modules Purchase&url=" + window.location.href + "&server=" + erpGet.ERPIPAddress + "&username=" + erpGet.ERPUsername + "&token=" + erpGet.ERPPassword + "&session=" + erpGet.ERPDatabase + "&port=" + erpGet.ERPPort+"&currency="+currencyname;
 
         var oPost = new XMLHttpRequest();
         oPost.open("POST",URLRequest + loggedserverIP + ':' + loggedserverPort + '/' + 'erpapi/VS1_Cloud_Task/Method?Name="VS1_AddModules"', true);

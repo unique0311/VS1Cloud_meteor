@@ -3011,12 +3011,13 @@ Template.new_salesorder.onRendered(() => {
         let vs1User = localStorage.getItem('mySession');
         let customerEmail = $('#edtCustomerEmail').val();
         let id = $('.printID').attr("id");
+        let currencyname = (CountryAbbr).toLowerCase();
         stringQuery = "?";
         var customerID = $('#edtCustomerEmail').attr('customerid');
         for (let l = 0; l < lineItems.length; l++) {
             stringQuery = stringQuery + "product" + l + "=" + lineItems[l].description + "&price" + l + "=" + lineItems[l].unitPrice + "&qty" + l + "=" + lineItems[l].quantity + "&";
         }
-        stringQuery = stringQuery + "tax=" + tax + "&total=" + total + "&customer=" + customer + "&name=" + name + "&surname=" + surname + "&quoteid=" + invoiceData.id +"&transid="+stripe_id+"&feemethod="+stripe_fee_method+"&company=" + company + "&vs1email=" + vs1User + "&customeremail=" + customerEmail + "&type=Sales Order&url=" + window.location.href + "&server=" + erpGet.ERPIPAddress + "&username=" + erpGet.ERPUsername + "&token=" + erpGet.ERPPassword + "&session=" + erpGet.ERPDatabase + "&port=" + erpGet.ERPPort + "&dept=" + dept;
+        stringQuery = stringQuery + "tax=" + tax + "&total=" + total + "&customer=" + customer + "&name=" + name + "&surname=" + surname + "&quoteid=" + invoiceData.id +"&transid="+stripe_id+"&feemethod="+stripe_fee_method+"&company=" + company + "&vs1email=" + vs1User + "&customeremail=" + customerEmail + "&type=Sales Order&url=" + window.location.href + "&server=" + erpGet.ERPIPAddress + "&username=" + erpGet.ERPUsername + "&token=" + erpGet.ERPPassword + "&session=" + erpGet.ERPDatabase + "&port=" + erpGet.ERPPort + "&dept=" + dept+"&currency="+currencyname;
         // var pdf = new jsPDF('p', 'pt', 'a4');
         // pdf.setFontSize(18);
         $(".linkText").attr("href", "https://www.depot.vs1cloud.com/stripe/" + stringQuery);
@@ -4536,12 +4537,13 @@ Template.new_salesorder.events({
                 let company = Session.get('vs1companyName');
                 let vs1User = localStorage.getItem('mySession');
                 var customerID = $('#edtCustomerEmail').attr('customerid');
-                 let stringQuery = "?";
+                let currencyname = (CountryAbbr).toLowerCase();
+                let stringQuery = "?";
                 var customerID = $('#edtCustomerEmail').attr('customerid');
                 for (let l = 0; l < lineItemsForm.length; l++) {
                     stringQuery = stringQuery + "product" + l + "=" + lineItemsForm[l].fields.ProductName + "&price" + l + "=" + lineItemsForm[l].fields.LinePrice + "&qty" + l + "=" + lineItemsForm[l].fields.UOMQtySold + "&";
                 }
-                stringQuery = stringQuery + "tax=" + tax + "&total=" + total + "&customer=" + customer + "&name=" + name + "&surname=" + surname + "&quoteid=" + objDetails.fields.ID + "&transid="+stripe_id + "&feemethod="+stripe_fee_method+"&company=" + company + "&vs1email=" + vs1User + "&customeremail=" + customerEmail + "&type=Sales Order&url=" + window.location.href  + "&server=" + erpGet.ERPIPAddress + "&username=" + erpGet.ERPUsername + "&token=" + erpGet.ERPPassword + "&session=" + erpGet.ERPDatabase + "&port=" + erpGet.ERPPort + "&dept=" + departement;
+                stringQuery = stringQuery + "tax=" + tax + "&total=" + total + "&customer=" + customer + "&name=" + name + "&surname=" + surname + "&quoteid=" + objDetails.fields.ID + "&transid="+stripe_id + "&feemethod="+stripe_fee_method+"&company=" + company + "&vs1email=" + vs1User + "&customeremail=" + customerEmail + "&type=Sales Order&url=" + window.location.href  + "&server=" + erpGet.ERPIPAddress + "&username=" + erpGet.ERPUsername + "&token=" + erpGet.ERPPassword + "&session=" + erpGet.ERPDatabase + "&port=" + erpGet.ERPPort + "&dept=" + departement+"&currency="+currencyname;
                 // Send Email
                 $('#html-2-pdfwrapper').css('display', 'block');
                 $('.pdfCustomerName').html($('#edtCustomerName').val());
@@ -5326,11 +5328,12 @@ Template.new_salesorder.events({
             let company = Session.get('vs1companyName');
             let vs1User = localStorage.getItem('mySession');
             let customerEmail = $('#edtCustomerEmail').val();
+            let currencyname = (CountryAbbr).toLowerCase();
             let stringQuery = "?";
             for (let l = 0; l < lineItems.length; l++) {
                 stringQuery = stringQuery + "product" + l + "=" + lineItems[l].description + "&price" + l + "=" + lineItems[l].unitPrice + "&qty" + l + "=" + lineItems[l].quantity + "&";
             }
-            stringQuery = stringQuery + "tax=" + tax + "&total=" + total + "&customer=" + customer + "&name=" + name + "&surname=" + surname + "&quoteid=" + invoiceData.id + "&transid="+stripe_id+"&feemethod="+stripe_fee_method+ "&company=" + company + "&vs1email=" + vs1User + "&customeremail=" + customerEmail + "&type=Sales Order&url=" + window.location.href + "&server=" + erpGet.ERPIPAddress + "&username=" + erpGet.ERPUsername + "&token=" + erpGet.ERPPassword + "&session=" + erpGet.ERPDatabase + "&port=" + erpGet.ERPPort;
+            stringQuery = stringQuery + "tax=" + tax + "&total=" + total + "&customer=" + customer + "&name=" + name + "&surname=" + surname + "&quoteid=" + invoiceData.id + "&transid="+stripe_id+"&feemethod="+stripe_fee_method+ "&company=" + company + "&vs1email=" + vs1User + "&customeremail=" + customerEmail + "&type=Sales Order&url=" + window.location.href + "&server=" + erpGet.ERPIPAddress + "&username=" + erpGet.ERPUsername + "&token=" + erpGet.ERPPassword + "&session=" + erpGet.ERPDatabase + "&port=" + erpGet.ERPPort+"&currency="+currencyname;
             window.open("https://www.depot.vs1cloud.com/stripe/" + stringQuery, '_self');
 
         } else{
@@ -5468,12 +5471,13 @@ Template.new_salesorder.events({
                     let company = Session.get('vs1companyName');
                     let vs1User = localStorage.getItem('mySession');
                     var customerID = $('#edtCustomerEmail').attr('customerid');
+                    let currencyname = (CountryAbbr).toLowerCase();
                      let stringQuery = "?";
                     var customerID = $('#edtCustomerEmail').attr('customerid');
                     for (let l = 0; l < lineItemsForm.length; l++) {
                         stringQuery = stringQuery + "product" + l + "=" + lineItemsForm[l].fields.ProductName + "&price" + l + "=" + lineItemsForm[l].fields.LinePrice + "&qty" + l + "=" + lineItemsForm[l].fields.UOMQtySold + "&";
                     }
-                    stringQuery = stringQuery + "tax=" + tax + "&total=" + total + "&customer=" + customer + "&name=" + name + "&surname=" + surname + "&quoteid=" + objDetails.fields.ID + "&transid="+stripe_id+"&company=" + company + "&vs1email=" + vs1User + "&customeremail=" + customerEmail + "&type=Sales Order&url=" + window.location.href  + "&server=" + erpGet.ERPIPAddress + "&username=" + erpGet.ERPUsername + "&token=" + erpGet.ERPPassword + "&session=" + erpGet.ERPDatabase + "&port=" + erpGet.ERPPort + "&dept=" + departement;
+                    stringQuery = stringQuery + "tax=" + tax + "&total=" + total + "&customer=" + customer + "&name=" + name + "&surname=" + surname + "&quoteid=" + objDetails.fields.ID + "&transid="+stripe_id+"&company=" + company + "&vs1email=" + vs1User + "&customeremail=" + customerEmail + "&type=Sales Order&url=" + window.location.href  + "&server=" + erpGet.ERPIPAddress + "&username=" + erpGet.ERPUsername + "&token=" + erpGet.ERPPassword + "&session=" + erpGet.ERPDatabase + "&port=" + erpGet.ERPPort + "&dept=" + departement+"&currency="+currencyname;
                     // Send Email
 
                     let url = "https://www.depot.vs1cloud.com/stripe/" + stringQuery;

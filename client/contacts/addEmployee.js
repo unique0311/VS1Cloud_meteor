@@ -2696,11 +2696,12 @@ Template.employeescard.events({
                     // Meteor.call('braintreeChargeCard', Session.get('VS1AdminUserName'), 35);
                     // Meteor.call('StripeChargeCard', Session.get('VS1AdminUserName'), 3500);
                     // swal('User details successfully added', '', 'success');
+                    let currencyname = (CountryAbbr).toLowerCase();
                     let stringQuery = "?";
                     let name = Session.get('mySessionEmployee').split(' ')[0];
                     let surname = Session.get('mySessionEmployee').split(' ')[1];
                     stringQuery = stringQuery + "product" + 1 + "= New User" + "&price" + 1 + "=" + Currency + objDetailsUser.Params.Price + "&qty" + 1 + "=" + 1 + "&";
-                    stringQuery = stringQuery + "tax=0" + "&total=" + Currency + objDetailsUser.Params.Price + "&customer=" + Session.get('vs1companyName')  + "&name=" + name + "&surname=" + surname +"&company=" + Session.get('vs1companyName') + "&customeremail=" + localStorage.getItem('mySession') + "&type=VS1 Modules Purchase&url=" + window.location.href + "&server=" + erpGet.ERPIPAddress + "&username=" + erpGet.ERPUsername + "&token=" + erpGet.ERPPassword + "&session=" + erpGet.ERPDatabase + "&port=" + erpGet.ERPPort;
+                    stringQuery = stringQuery + "tax=0" + "&total=" + Currency + objDetailsUser.Params.Price + "&customer=" + Session.get('vs1companyName')  + "&name=" + name + "&surname=" + surname +"&company=" + Session.get('vs1companyName') + "&customeremail=" + localStorage.getItem('mySession') + "&type=VS1 Modules Purchase&url=" + window.location.href + "&server=" + erpGet.ERPIPAddress + "&username=" + erpGet.ERPUsername + "&token=" + erpGet.ERPPassword + "&session=" + erpGet.ERPDatabase + "&port=" + erpGet.ERPPort+"&currency="+currencyname;
                     sideBarService.getAllEmployees(25,0).then(function(dataReload) {
                         addVS1Data('TEmployee',JSON.stringify(dataReload)).then(function (datareturn) {
                                 window.open('https://www.depot.vs1cloud.com/stripe/'+stringQuery,'_self');

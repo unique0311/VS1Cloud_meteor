@@ -3955,12 +3955,13 @@ Template.new_invoice.onRendered(() => {
         let vs1User = localStorage.getItem('mySession');
         let customerEmail = $('#edtCustomerEmail').val();
         let id = $('.printID').attr("id") || "new";
+        let currencyname = (CountryAbbr).toLowerCase();
         stringQuery = "?";
         var customerID = $('#edtCustomerEmail').attr('customerid');
         for (let l = 0; l < lineItems.length; l++) {
             stringQuery = stringQuery + "product" + l + "=" + lineItems[l].description + "&price" + l + "=" + lineItems[l].unitPrice + "&qty" + l + "=" + lineItems[l].quantity + "&";
         }
-        stringQuery = stringQuery + "tax=" + tax + "&total=" + total + "&customer=" + customer + "&name=" + name + "&surname=" + surname + "&quoteid=" + invoiceData.id + "&transid=" + stripe_id + "&feemethod=" + stripe_fee_method + "&company=" + company + "&vs1email=" + vs1User + "&customeremail=" + customerEmail + "&type=Invoice&url=" + window.location.href + "&server=" + erpGet.ERPIPAddress + "&username=" + erpGet.ERPUsername + "&token=" + erpGet.ERPPassword + "&session=" + erpGet.ERPDatabase + "&port=" + erpGet.ERPPort + "&dept=" + dept;
+        stringQuery = stringQuery + "tax=" + tax + "&total=" + total + "&customer=" + customer + "&name=" + name + "&surname=" + surname + "&quoteid=" + invoiceData.id + "&transid=" + stripe_id + "&feemethod=" + stripe_fee_method + "&company=" + company + "&vs1email=" + vs1User + "&customeremail=" + customerEmail + "&type=Invoice&url=" + window.location.href + "&server=" + erpGet.ERPIPAddress + "&username=" + erpGet.ERPUsername + "&token=" + erpGet.ERPPassword + "&session=" + erpGet.ERPDatabase + "&port=" + erpGet.ERPPort + "&dept=" + dept+"&currency="+currencyname;
         // var pdf = new jsPDF('p', 'pt', 'a4');
         // pdf.setFontSize(18);
         $(".linkText").attr("href", "https://www.depot.vs1cloud.com/stripe/" + stringQuery);
@@ -4662,13 +4663,14 @@ Template.new_invoice.events({
                     var erpGet = erpDb();
                     let vs1User = localStorage.getItem('mySession');
                     let customerEmail = $('#edtCustomerEmail').val();
+                    let currencyname = (CountryAbbr).toLowerCase();
                     let stringQuery = "?";
                     let dept = $('#sltDept').val();
                     var customerID = $('#edtCustomerEmail').attr('customerid');
                     for (let l = 0; l < lineItems.length; l++) {
                         stringQuery = stringQuery + "product" + l + "=" + lineItems[l].description + "&price" + l + "=" + lineItems[l].unitPrice + "&qty" + l + "=" + lineItems[l].quantity + "&";
                     }
-                    stringQuery = stringQuery + "tax=" + tax + "&total=" + total + "&customer=" + customer + "&name=" + name + "&surname=" + surname + "&quoteid=" + quoteData.id + "&transid=" + stripe_id + "&feemethod=" + stripe_fee_method + "&company=" + company + "&vs1email=" + vs1User + "&customeremail=" + customerEmail + "&type=Invoice&url=" + window.location.href + "&server=" + erpGet.ERPIPAddress + "&username=" + erpGet.ERPUsername + "&token=" + erpGet.ERPPassword + "&session=" + erpGet.ERPDatabase + "&port=" + erpGet.ERPPort + "&dept=" + dept;
+                    stringQuery = stringQuery + "tax=" + tax + "&total=" + total + "&customer=" + customer + "&name=" + name + "&surname=" + surname + "&quoteid=" + quoteData.id + "&transid=" + stripe_id + "&feemethod=" + stripe_fee_method + "&company=" + company + "&vs1email=" + vs1User + "&customeremail=" + customerEmail + "&type=Invoice&url=" + window.location.href + "&server=" + erpGet.ERPIPAddress + "&username=" + erpGet.ERPUsername + "&token=" + erpGet.ERPPassword + "&session=" + erpGet.ERPDatabase + "&port=" + erpGet.ERPPort + "&dept=" + dept+"&currency="+currencyname;
                     window.open("https://www.depot.vs1cloud.com/stripe/" + stringQuery, '_self');
                 } else {
                     swal({
@@ -4847,12 +4849,13 @@ Template.new_invoice.events({
                         let company = Session.get('vs1companyName');
                         let vs1User = localStorage.getItem('mySession');
                         let customerEmail = $('#edtCustomerEmail').val() || '';
+                        let currencyname = (CountryAbbr).toLowerCase();
                         let stringQuery = "?";
                         var customerID = $('#edtCustomerEmail').attr('customerid');
                         for (let l = 0; l < lineItems.length; l++) {
                             stringQuery = stringQuery + "product" + l + "=" + lineItems[l].description + "&price" + l + "=" + lineItems[l].unitPrice + "&qty" + l + "=" + lineItems[l].quantity + "&";
                         }
-                        stringQuery = stringQuery + "tax=" + tax + "&total=" + total + "&customer=" + customer + "&name=" + name + "&surname=" + surname + "&quoteid=" + objDetails.fields.ID + "&transid=" + stripe_id + "&feemethod=" + stripe_fee_method + "&company=" + company + "&vs1email=" + vs1User + "&customeremail=" + customerEmail + "&type=Invoice&url=" + window.location.href + "&server=" + erpGet.ERPIPAddress + "&username=" + erpGet.ERPUsername + "&token=" + erpGet.ERPPassword + "&session=" + erpGet.ERPDatabase + "&port=" + erpGet.ERPPort + "&dept=" + departement;
+                        stringQuery = stringQuery + "tax=" + tax + "&total=" + total + "&customer=" + customer + "&name=" + name + "&surname=" + surname + "&quoteid=" + objDetails.fields.ID + "&transid=" + stripe_id + "&feemethod=" + stripe_fee_method + "&company=" + company + "&vs1email=" + vs1User + "&customeremail=" + customerEmail + "&type=Invoice&url=" + window.location.href + "&server=" + erpGet.ERPIPAddress + "&username=" + erpGet.ERPUsername + "&token=" + erpGet.ERPPassword + "&session=" + erpGet.ERPDatabase + "&port=" + erpGet.ERPPort + "&dept=" + departement+"&currency="+currencyname;
                         let url = "https://www.depot.vs1cloud.com/stripe/" + stringQuery;
                         $('#html-2-pdfwrapper').css('display', 'block');
                         $('.pdfCustomerName').html($('#edtCustomerName').val());
@@ -5915,12 +5918,13 @@ Template.new_invoice.events({
                 let company = Session.get('vs1companyName');
                 let vs1User = localStorage.getItem('mySession');
                 let customerEmail = $('#edtCustomerEmail').val() || '';
+                let currencyname = (CountryAbbr).toLowerCase();
                 let stringQuery = "?";
                 var customerID = $('#edtCustomerEmail').attr('customerid');
                 for (let l = 0; l < lineItems.length; l++) {
                     stringQuery = stringQuery + "product" + l + "=" + lineItems[l].description + "&price" + l + "=" + lineItems[l].unitPrice + "&qty" + l + "=" + lineItems[l].quantity + "&";
                 }
-                stringQuery = stringQuery + "tax=" + tax + "&total=" + total + "&customer=" + customer + "&name=" + name + "&surname=" + surname + "&quoteid=" + objDetails.fields.ID + "&transid=" + stripe_id + "&feemethod=" + stripe_fee_method + "&company=" + company + "&vs1email=" + vs1User + "&customeremail=" + customerEmail + "&type=Invoice&url=" + window.location.href + "&server=" + erpGet.ERPIPAddress + "&username=" + erpGet.ERPUsername + "&token=" + erpGet.ERPPassword + "&session=" + erpGet.ERPDatabase + "&port=" + erpGet.ERPPort + "&dept=" + departement;
+                stringQuery = stringQuery + "tax=" + tax + "&total=" + total + "&customer=" + customer + "&name=" + name + "&surname=" + surname + "&quoteid=" + objDetails.fields.ID + "&transid=" + stripe_id + "&feemethod=" + stripe_fee_method + "&company=" + company + "&vs1email=" + vs1User + "&customeremail=" + customerEmail + "&type=Invoice&url=" + window.location.href + "&server=" + erpGet.ERPIPAddress + "&username=" + erpGet.ERPUsername + "&token=" + erpGet.ERPPassword + "&session=" + erpGet.ERPDatabase + "&port=" + erpGet.ERPPort + "&dept=" + departement+"&currency="+currency;
                 $('#html-2-pdfwrapper').css('display', 'block');
                 $('.pdfCustomerName').html($('#edtCustomerName').val());
                 $('.pdfCustomerAddress').html($('#txabillingAddress').val().replace(/[\r\n]/g, "<br />"));
