@@ -885,6 +885,9 @@ Template.supplierpayment.events({
     'click .btnNewPayment': function () {
         Router.go('/supplierawaitingpurchaseorder');
     },
+    'click .btnAwaitingPayment': function () {
+        Router.go('/supplierawaitingpurchaseorder');
+    },
     'click .btnRefresh': function () {
         $('.fullScreenSpin').css('display','inline-block');
         let templateObject = Template.instance();

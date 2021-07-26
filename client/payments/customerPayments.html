@@ -131,7 +131,9 @@
 
                 <div class="col float-left flex-grow-1 mb-4">
                     <button class="btn btn-primary btnRefresh" type="button" style="margin: 16px;"><i class="la la-lightbulb-o" style="padding-right: 5px;"></i>Refresh</button>
+                    <button class="btn btn-primary btnAwaitingPayment" id="btnAwaitingPayment" type="button" style="margin: 16px;"><i class="fas fa-user-clock" style="padding-right: 5px;"></i>Awaiting Payments</button>
                     <button id="btnNewPayment" name="btnNewPayment" class="btn btn-primary btnNewPayment" type="button" style="margin: 16px;" autocomplete="off"><i class="icon ion-plus" style="padding-right: 5px; "></i>New Payment</button>
+                    
                 </div>
 
                 <div class="col">
@@ -180,14 +182,14 @@
                             <thead>
                                 <tr class="dnd-moved">
                                     <th class="th colSortDate hiddenColumn">id</th>
-                                    <th class="th colPaymentDate" style="width:80px;">Payment Date</th>
+                                    <th class="th colPaymentDate" style="width:80px;">Date</th>
                                     <th class="th colPaymentNo" style="width:80px;">Payment#</th>
-                                    <th class="th colReceiptNo" style="width:80px;">Receipt No.</th>
-                                    <th class="th colPaymentAmount" style="width:80px;">Payment Amount</th>
+                                    <th class="th colReceiptNo" style="width:80px;">Ref No.</th>
+                                    <th class="th colPaymentAmount" style="width:80px;">Amount</th>
                                     <!-- <th class="th colApplied" style="width:80px;">Applied</th>
 <th class="th colBalance" style="width:80px;">Balance</th> -->
                                     <th class="th colCustomerName" style="width:200px;">Customer Name</th>
-                                    <th class="th colBankAccount" style="width:200px;">Bank Account</th>
+                                    <th class="th colBankAccount" style="width:200px;">Bank</th>
                                     <th class="th colDepartment" style="width:80px;">Department</th>
                                     <th class="th colRefNo hiddenColumn">Custom Field 1</th>
                                     <th class="th colPaymentMethod hiddenColumn">Custom Field 2</th>
