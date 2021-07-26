@@ -917,6 +917,9 @@ Template.customerpayment.events({
     'click .btnNewPayment': function () {
         Router.go('/customerawaitingpayments');
     },
+    'click .btnAwaitingPayment': function () {
+        Router.go('/customerawaitingpayments');
+    },
     'click .btnRefresh': function () {
         $('.fullScreenSpin').css('display','inline-block');
         let templateObject = Template.instance();
