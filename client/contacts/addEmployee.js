@@ -25,7 +25,6 @@ Template.employeescard.onCreated(function () {
     templateObject.isCloudUserPass = new ReactiveVar();
     templateObject.isCloudUserPass.set(false);
 
-
     templateObject.preferedPaymentList = new ReactiveVar();
     templateObject.termsList = new ReactiveVar();
     templateObject.deliveryMethodList = new ReactiveVar();
@@ -90,9 +89,6 @@ Template.employeescard.onRendered(function () {
 
     }, 500);
 
-
-
-
     setTimeout(function () {
         MakeNegative();
         $("#dtStartingDate,#dtDOB,#dtTermninationDate,#dtAsOf").datepicker({
@@ -115,9 +111,8 @@ Template.employeescard.onRendered(function () {
     }
 
     Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblTransactionlist', function (error, result) {
-        if (error) {
-
-        } else {
+        if (error) {}
+        else {
             if (result) {
 
                 for (let i = 0; i < result.customFields.length; i++) {
@@ -139,7 +134,8 @@ Template.employeescard.onRendered(function () {
 
     function MakeNegative() {
         $('td').each(function () {
-            if ($(this).text().indexOf('-' + Currency) >= 0) $(this).addClass('text-danger')
+            if ($(this).text().indexOf('-' + Currency) >= 0)
+                $(this).addClass('text-danger')
         });
     };
 
@@ -203,9 +199,9 @@ Template.employeescard.onRendered(function () {
 
     contactService.getAllEmployeesPriority().then(function (data) {
 
-        if(data.temployee.length > 0){
-            for(let x = 0; x < data.temployee.length; x++) {
-                if(data.temployee[x].CustFld5 != "" && data.temployee[x].CustFld5 != "0") {
+        if (data.temployee.length > 0) {
+            for (let x = 0; x < data.temployee.length; x++) {
+                if (data.temployee[x].CustFld5 != "" && data.temployee[x].CustFld5 != "0") {
                     employeePriority.push(data.temployee[x].CustFld5);
                 }
             }
@@ -215,8 +211,6 @@ Template.employeescard.onRendered(function () {
             templateObject.empPriorities.set(result);
         }
     });
-
-
 
     templateObject.getAllProductRecentTransactions = function (employeeName) {
         getVS1Data('TInvoiceEx').then(function (dataObject) {
@@ -254,9 +248,8 @@ Template.employeescard.onRendered(function () {
                     if (templateObject.datatablerecords.get()) {
 
                         Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblTransactionlist', function (error, result) {
-                            if (error) {
-
-                            } else {
+                            if (error) {}
+                            else {
                                 if (result) {
                                     for (let i = 0; i < result.customFields.length; i++) {
                                         let customcolumn = result.customFields;
@@ -282,7 +275,6 @@ Template.employeescard.onRendered(function () {
                             }
                         });
 
-
                         setTimeout(function () {
                             MakeNegative();
                         }, 100);
@@ -293,12 +285,13 @@ Template.employeescard.onRendered(function () {
                         //$.fn.dataTable.moment('DD/MM/YY');
                         $('#tblTransactionlist').DataTable({
                             // dom: 'lBfrtip',
-                            columnDefs: [
-                                { type: 'date', targets: 0 }
+                            columnDefs: [{
+                                    type: 'date',
+                                    targets: 0
+                                }
                             ],
                             "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
-                            buttons: [
-                                {
+                            buttons: [{
                                     extend: 'excelHtml5',
                                     text: '',
                                     download: 'open',
@@ -319,7 +312,8 @@ Template.employeescard.onRendered(function () {
                                         columns: ':visible',
                                         stripHtml: false
                                     }
-                                }],
+                                }
+                            ],
                             select: true,
                             destroy: true,
                             colReorder: true,
@@ -343,9 +337,7 @@ Template.employeescard.onRendered(function () {
                             }, 100);
                             let draftRecord = templateObject.datatablerecords.get();
                             templateObject.datatablerecords.set(draftRecord);
-                        }).on('column-reorder', function () {
-
-                        });
+                        }).on('column-reorder', function () {});
                         $('.fullScreenSpin').css('display', 'none');
                     }, 0);
 
@@ -424,9 +416,8 @@ Template.employeescard.onRendered(function () {
                 if (templateObject.datatablerecords.get()) {
 
                     Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblTransactionlist', function (error, result) {
-                        if (error) {
-
-                        } else {
+                        if (error) {}
+                        else {
                             if (result) {
                                 for (let i = 0; i < result.customFields.length; i++) {
                                     let customcolumn = result.customFields;
@@ -452,7 +443,6 @@ Template.employeescard.onRendered(function () {
                         }
                     });
 
-
                     setTimeout(function () {
                         MakeNegative();
                     }, 100);
@@ -463,12 +453,13 @@ Template.employeescard.onRendered(function () {
                     //$.fn.dataTable.moment('DD/MM/YY');
                     $('#tblTransactionlist').DataTable({
                         // dom: 'lBfrtip',
-                        columnDefs: [
-                            { type: 'date', targets: 0 }
+                        columnDefs: [{
+                                type: 'date',
+                                targets: 0
+                            }
                         ],
                         "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
-                        buttons: [
-                            {
+                        buttons: [{
                                 extend: 'excelHtml5',
                                 text: '',
                                 download: 'open',
@@ -489,7 +480,8 @@ Template.employeescard.onRendered(function () {
                                     columns: ':visible',
                                     stripHtml: false
                                 }
-                            }],
+                            }
+                        ],
                         select: true,
                         destroy: true,
                         colReorder: true,
@@ -513,9 +505,7 @@ Template.employeescard.onRendered(function () {
                         }, 100);
                         let draftRecord = templateObject.datatablerecords.get();
                         templateObject.datatablerecords.set(draftRecord);
-                    }).on('column-reorder', function () {
-
-                    });
+                    }).on('column-reorder', function () {});
                     $('.fullScreenSpin').css('display', 'none');
                 }, 0);
 
@@ -588,9 +578,8 @@ Template.employeescard.onRendered(function () {
                 if (templateObject.datatablerecords.get()) {
 
                     Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblTransactionlist', function (error, result) {
-                        if (error) {
-
-                        } else {
+                        if (error) {}
+                        else {
                             if (result) {
                                 for (let i = 0; i < result.customFields.length; i++) {
                                     let customcolumn = result.customFields;
@@ -616,7 +605,6 @@ Template.employeescard.onRendered(function () {
                         }
                     });
 
-
                     setTimeout(function () {
                         MakeNegative();
                     }, 100);
@@ -627,12 +615,13 @@ Template.employeescard.onRendered(function () {
                     //$.fn.dataTable.moment('DD/MM/YY');
                     $('#tblTransactionlist').DataTable({
                         // dom: 'lBfrtip',
-                        columnDefs: [
-                            { type: 'date', targets: 0 }
+                        columnDefs: [{
+                                type: 'date',
+                                targets: 0
+                            }
                         ],
                         "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
-                        buttons: [
-                            {
+                        buttons: [{
                                 extend: 'excelHtml5',
                                 text: '',
                                 download: 'open',
@@ -653,7 +642,8 @@ Template.employeescard.onRendered(function () {
                                     columns: ':visible',
                                     stripHtml: false
                                 }
-                            }],
+                            }
+                        ],
                         select: true,
                         destroy: true,
                         colReorder: true,
@@ -677,9 +667,7 @@ Template.employeescard.onRendered(function () {
                         }, 100);
                         let draftRecord = templateObject.datatablerecords.get();
                         templateObject.datatablerecords.set(draftRecord);
-                    }).on('column-reorder', function () {
-
-                    });
+                    }).on('column-reorder', function () {});
                     $('.fullScreenSpin').css('display', 'none');
                 }, 0);
 
@@ -723,7 +711,6 @@ Template.employeescard.onRendered(function () {
                 // Meteor._reload.reload();
             });
         });
-
 
     }
 
@@ -842,17 +829,16 @@ Template.employeescard.onRendered(function () {
                             let lineItems = [];
                             let empEmail = '';
                             let overideset = data.fields.User.fields.CustFld14;
-                            if(overideset != "") {
-                                if(overideset="true") {
+                            if (overideset != "") {
+                                if (overideset = "true") {
                                     overideset = true;
-                                }else{
+                                } else {
                                     overideset = false;
                                 }
                                 $("#overridesettings").prop('checked', overideset);
                             } else {
                                 $("#overridesettings").prop('checked', false);
                             }
-
 
                             if (data.fields.Email.replace(/\s/g, '') == '') {
                                 if (data.fields.User != null) {
@@ -864,7 +850,7 @@ Template.employeescard.onRendered(function () {
                                         empID: data.fields.User.fields.EmployeeId || '',
                                         EmployeeName: data.fields.User.fields.EmployeeName || '',
                                         LogonName: data.fields.User.fields.LogonName || '',
-                                        PasswordHash: data.fields.User.fields.LogonPassword|| ''
+                                        PasswordHash: data.fields.User.fields.LogonPassword || ''
                                     };
                                     emplineItems.push(emplineItemObj);
                                     templateObject.empuserrecord.set(emplineItems);
@@ -890,7 +876,7 @@ Template.employeescard.onRendered(function () {
                                         empID: data.fields.User.fields.EmployeeId || '',
                                         EmployeeName: data.fields.User.fields.EmployeeName || '',
                                         LogonName: data.fields.User.fields.LogonName || '',
-                                        PasswordHash: data.fields.User.fields.LogonPassword|| ''
+                                        PasswordHash: data.fields.User.fields.LogonPassword || ''
                                     };
                                     emplineItems.push(emplineItemObj);
                                     templateObject.empuserrecord.set(emplineItems);
@@ -944,7 +930,6 @@ Template.employeescard.onRendered(function () {
                             };
                             templateObject.getEmployeeProfileImageData(data.fields.EmployeeName);
 
-
                             templateObject.records.set(lineItemObj);
                             if (currentId.addvs1user == "true") {
                                 setTimeout(function () {
@@ -966,9 +951,9 @@ Template.employeescard.onRendered(function () {
                                     }).then((result) => {
                                         if (result.value) {
                                             $('#cloudEmpEmailAddress').focus();
-                                            $('.modal-backdrop').css('display','none');
+                                            $('.modal-backdrop').css('display', 'none');
                                         } else if (result.dismiss === 'cancel') {
-                                            $('.modal-backdrop').css('display','none');
+                                            $('.modal-backdrop').css('display', 'none');
                                         }
                                     });
                                 } else {
@@ -981,9 +966,9 @@ Template.employeescard.onRendered(function () {
                                     }).then((result) => {
                                         if (result.value) {
                                             $('#cloudEmpEmailAddress').focus();
-                                            $('.modal-backdrop').css('display','none');
+                                            $('.modal-backdrop').css('display', 'none');
                                         } else if (result.dismiss === 'cancel') {
-                                            $('.modal-backdrop').css('display','none');
+                                            $('.modal-backdrop').css('display', 'none');
                                         }
                                     });
                                 }
@@ -1033,8 +1018,6 @@ Template.employeescard.onRendered(function () {
                                 let empEmail = '';
                                 let overideset = useData[i].fields.CustFld14;
 
-
-
                                 if (useData[i].fields.Email.replace(/\s/g, '') == '') {
                                     if (useData[i].fields.User != null) {
                                         let emplineItems = [];
@@ -1045,7 +1028,7 @@ Template.employeescard.onRendered(function () {
                                             empID: useData[i].fields.User.fields.EmployeeId || '',
                                             EmployeeName: useData[i].fields.User.fields.EmployeeName || '',
                                             LogonName: useData[i].fields.User.fields.LogonName || '',
-                                            PasswordHash: useData[i].fields.User.fields.LogonPassword|| ''
+                                            PasswordHash: useData[i].fields.User.fields.LogonPassword || ''
                                         };
                                         emplineItems.push(emplineItemObj);
                                         templateObject.empuserrecord.set(emplineItems);
@@ -1071,7 +1054,7 @@ Template.employeescard.onRendered(function () {
                                             empID: useData[i].fields.User.fields.EmployeeId || '',
                                             EmployeeName: useData[i].fields.User.fields.EmployeeName || '',
                                             LogonName: useData[i].fields.User.fields.LogonName || '',
-                                            PasswordHash: useData[i].fields.User.fields.LogonPassword|| ''
+                                            PasswordHash: useData[i].fields.User.fields.LogonPassword || ''
                                         };
                                         emplineItems.push(emplineItemObj);
                                         templateObject.empuserrecord.set(emplineItems);
@@ -1125,7 +1108,6 @@ Template.employeescard.onRendered(function () {
                                 };
                                 templateObject.getEmployeeProfileImageData(useData[i].fields.EmployeeName);
 
-
                                 templateObject.records.set(lineItemObj);
                                 if (currentId.addvs1user == "true") {
                                     setTimeout(function () {
@@ -1135,10 +1117,10 @@ Template.employeescard.onRendered(function () {
                                     }, 100);
                                 }
                                 setTimeout(function () {
-                                    if(overideset != "") {
-                                        if(overideset=="true") {
+                                    if (overideset != "") {
+                                        if (overideset == "true") {
                                             $("#overridesettings").prop('checked', true);
-                                        }else{
+                                        } else {
                                             $("#overridesettings").prop('checked', false);
                                         }
                                     } else {
@@ -1158,9 +1140,9 @@ Template.employeescard.onRendered(function () {
                                         }).then((result) => {
                                             if (result.value) {
                                                 $('#cloudEmpEmailAddress').focus();
-                                                $('.modal-backdrop').css('display','none');
+                                                $('.modal-backdrop').css('display', 'none');
                                             } else if (result.dismiss === 'cancel') {
-                                                $('.modal-backdrop').css('display','none');
+                                                $('.modal-backdrop').css('display', 'none');
                                             }
                                         });
                                     } else {
@@ -1173,13 +1155,12 @@ Template.employeescard.onRendered(function () {
                                         }).then((result) => {
                                             if (result.value) {
                                                 $('#cloudEmpEmailAddress').focus();
-                                                $('.modal-backdrop').css('display','none');
+                                                $('.modal-backdrop').css('display', 'none');
                                             } else if (result.dismiss === 'cancel') {
-                                                $('.modal-backdrop').css('display','none');
+                                                $('.modal-backdrop').css('display', 'none');
                                             }
                                         });
                                     }
-
 
                                 }
                                 /* START attachment */
@@ -1233,7 +1214,7 @@ Template.employeescard.onRendered(function () {
                                             empID: data.fields.User.fields.EmployeeId || '',
                                             EmployeeName: data.fields.User.fields.EmployeeName || '',
                                             LogonName: data.fields.User.fields.LogonName || '',
-                                            PasswordHash: data.fields.User.fields.LogonPassword|| ''
+                                            PasswordHash: data.fields.User.fields.LogonPassword || ''
                                         };
                                         emplineItems.push(emplineItemObj);
                                         templateObject.empuserrecord.set(emplineItems);
@@ -1259,7 +1240,7 @@ Template.employeescard.onRendered(function () {
                                             empID: data.fields.User.fields.EmployeeId || '',
                                             EmployeeName: data.fields.User.fields.EmployeeName || '',
                                             LogonName: data.fields.User.fields.LogonName || '',
-                                            PasswordHash: data.fields.User.fields.LogonPassword|| ''
+                                            PasswordHash: data.fields.User.fields.LogonPassword || ''
                                         };
                                         emplineItems.push(emplineItemObj);
                                         templateObject.empuserrecord.set(emplineItems);
@@ -1313,7 +1294,6 @@ Template.employeescard.onRendered(function () {
                                 };
                                 templateObject.getEmployeeProfileImageData(data.fields.EmployeeName);
 
-
                                 templateObject.records.set(lineItemObj);
                                 if (currentId.addvs1user == "true") {
                                     setTimeout(function () {
@@ -1335,9 +1315,9 @@ Template.employeescard.onRendered(function () {
                                         }).then((result) => {
                                             if (result.value) {
                                                 $('#cloudEmpEmailAddress').focus();
-                                                $('.modal-backdrop').css('display','none');
+                                                $('.modal-backdrop').css('display', 'none');
                                             } else if (result.dismiss === 'cancel') {
-                                                $('.modal-backdrop').css('display','none');
+                                                $('.modal-backdrop').css('display', 'none');
                                             }
                                         });
                                     } else {
@@ -1350,9 +1330,9 @@ Template.employeescard.onRendered(function () {
                                         }).then((result) => {
                                             if (result.value) {
                                                 $('#cloudEmpEmailAddress').focus();
-                                                $('.modal-backdrop').css('display','none');
+                                                $('.modal-backdrop').css('display', 'none');
                                             } else if (result.dismiss === 'cancel') {
-                                                $('.modal-backdrop').css('display','none');
+                                                $('.modal-backdrop').css('display', 'none');
                                             }
                                         });
                                     }
@@ -1408,7 +1388,7 @@ Template.employeescard.onRendered(function () {
                                     empID: data.fields.User.fields.EmployeeId || '',
                                     EmployeeName: data.fields.User.fields.EmployeeName || '',
                                     LogonName: data.fields.User.fields.LogonName || '',
-                                    PasswordHash: data.fields.User.fields.LogonPassword|| ''
+                                    PasswordHash: data.fields.User.fields.LogonPassword || ''
                                 };
                                 emplineItems.push(emplineItemObj);
                                 templateObject.empuserrecord.set(emplineItems);
@@ -1434,7 +1414,7 @@ Template.employeescard.onRendered(function () {
                                     empID: data.fields.User.fields.EmployeeId || '',
                                     EmployeeName: data.fields.User.fields.EmployeeName || '',
                                     LogonName: data.fields.User.fields.LogonName || '',
-                                    PasswordHash: data.fields.User.fields.LogonPassword|| ''
+                                    PasswordHash: data.fields.User.fields.LogonPassword || ''
                                 };
                                 emplineItems.push(emplineItemObj);
                                 templateObject.empuserrecord.set(emplineItems);
@@ -1487,7 +1467,6 @@ Template.employeescard.onRendered(function () {
                         };
                         templateObject.getEmployeeProfileImageData(data.fields.EmployeeName);
 
-
                         templateObject.records.set(lineItemObj);
                         if (currentId.addvs1user == "true") {
                             setTimeout(function () {
@@ -1509,9 +1488,9 @@ Template.employeescard.onRendered(function () {
                                 }).then((result) => {
                                     if (result.value) {
                                         $('#cloudEmpEmailAddress').focus();
-                                        $('.modal-backdrop').css('display','none');
+                                        $('.modal-backdrop').css('display', 'none');
                                     } else if (result.dismiss === 'cancel') {
-                                        $('.modal-backdrop').css('display','none');
+                                        $('.modal-backdrop').css('display', 'none');
                                     }
                                 });
                             } else {
@@ -1524,9 +1503,9 @@ Template.employeescard.onRendered(function () {
                                 }).then((result) => {
                                     if (result.value) {
                                         $('#cloudEmpEmailAddress').focus();
-                                        $('.modal-backdrop').css('display','none');
+                                        $('.modal-backdrop').css('display', 'none');
                                     } else if (result.dismiss === 'cancel') {
-                                        $('.modal-backdrop').css('display','none');
+                                        $('.modal-backdrop').css('display', 'none');
                                     }
                                 });
                             }
@@ -1625,9 +1604,7 @@ Template.employeescard.onRendered(function () {
                 }).then((result) => {
                     if (result.value) {
                         $('#cloudEmpEmailAddress').focus();
-                    } else if (result.dismiss === 'cancel') {
-
-                    }
+                    } else if (result.dismiss === 'cancel') {}
                 });
                 setTimeout(function () {
                     $('.employeeTab').trigger('click');
@@ -1647,7 +1624,6 @@ Template.employeescard.onRendered(function () {
                     $('.employeeTab').trigger('click');
                 }, 100);
             }
-
 
             setTimeout(function () {
                 $('#cloudEmpName').val('');
@@ -1729,7 +1705,6 @@ Template.employeescard.onRendered(function () {
         });
     };
 
-
     templateObject.getEmployeesList = function () {
         getVS1Data('TEmployee').then(function (dataObject) {
             if (dataObject.length == 0) {
@@ -1754,7 +1729,7 @@ Template.employeescard.onRendered(function () {
                         if (data.temployee[i].fields.User != null) {
                             totalUser = i + 1;
                         }
-                        if(data.temployee[i].fields.EmployeeName.replace(/\s/g, '') !== ""){
+                        if (data.temployee[i].fields.EmployeeName.replace(/\s/g, '') !== "") {
                             lineItems.push(dataList);
                         }
                     }
@@ -1771,7 +1746,6 @@ Template.employeescard.onRendered(function () {
                     templateObject.countUserCreated.set(totalUser);
                     templateObject.employeerecords.set(lineItems);
 
-
                     if (templateObject.employeerecords.get()) {
 
                         setTimeout(function () {
@@ -1780,8 +1754,7 @@ Template.employeescard.onRendered(function () {
                         }, 100);
                     }
 
-                }).catch(function (err) {
-                });
+                }).catch(function (err) {});
             } else {
                 let data = JSON.parse(dataObject[0].data);
                 let useData = data.temployee;
@@ -1805,7 +1778,7 @@ Template.employeescard.onRendered(function () {
                     if (useData[i].fields.User != null) {
                         totalUser = i + 1;
                     }
-                    if(useData[i].fields.EmployeeName.replace(/\s/g, '') !== ""){
+                    if (useData[i].fields.EmployeeName.replace(/\s/g, '') !== "") {
                         lineItems.push(dataList);
                     }
                 }
@@ -1819,10 +1792,8 @@ Template.employeescard.onRendered(function () {
                     templateObject.isUserAddition.set(false);
                 }
 
-
                 templateObject.countUserCreated.set(totalUser);
                 templateObject.employeerecords.set(lineItems);
-
 
                 if (templateObject.employeerecords.get()) {
 
@@ -1856,7 +1827,7 @@ Template.employeescard.onRendered(function () {
                     if (data.temployee[i].fields.User != null) {
                         totalUser = i + 1;
                     }
-                    if(data.temployee[i].fields.EmployeeName.replace(/\s/g, '') !== ""){
+                    if (data.temployee[i].fields.EmployeeName.replace(/\s/g, '') !== "") {
                         lineItems.push(dataList);
                     }
                 }
@@ -1873,7 +1844,6 @@ Template.employeescard.onRendered(function () {
                 templateObject.countUserCreated.set(totalUser);
                 templateObject.employeerecords.set(lineItems);
 
-
                 if (templateObject.employeerecords.get()) {
 
                     setTimeout(function () {
@@ -1882,15 +1852,13 @@ Template.employeescard.onRendered(function () {
                     }, 100);
                 }
 
-            }).catch(function (err) {
-
-            });
+            }).catch(function (err) {});
         });
 
     }
     templateObject.getEmployeesList();
     var prefObject = "";
-    if(currentId.id != undefined){
+    if (currentId.id != undefined) {
         setTimeout(function () {
             appointmentService.getEmployeeCalendarSettings(currentId.id).then(function (data) {
                 if (data.tappointmentpreferences.length > 0) {
@@ -1907,12 +1875,11 @@ Template.employeescard.onRendered(function () {
                     $("#showSunday").prop('checked', prefObject.showSun);
 
                     if (prefObject.defaultProduct) {
-                        $('#product-list').prepend('<option selected value=' + prefObject.id +'>' + prefObject.defaultProduct + '</option>');
+                        $('#product-list').prepend('<option selected value=' + prefObject.id + '>' + prefObject.defaultProduct + '</option>');
                     }
 
-
                     if (prefObject.defaultApptDuration) {
-                        if(prefObject.defaultApptDuration == "120"){
+                        if (prefObject.defaultApptDuration == "120") {
                             $('#defaultTime').prepend('<option selected>' + 2 + ' Hour</option>');
                         } else {
                             $('#defaultTime').prepend('<option selected>' + prefObject.defaultApptDuration + ' Hour</option>');
@@ -1921,14 +1888,10 @@ Template.employeescard.onRendered(function () {
                     }
                 }
 
-
                 templateObject.calendarOptions.set(prefObject);
-            }).catch(function (err) {
-
-            });
-        },1000);
+            }).catch(function (err) {});
+        }, 1000);
     }
-
 
     setTimeout(function () {
 
@@ -1982,8 +1945,6 @@ Template.employeescard.onRendered(function () {
         x.addListener(mediaQuery)
     }, 500);
 
-
-
 });
 Template.employeescard.events({
     'click #customerShipping-1': function (event) {
@@ -2008,15 +1969,15 @@ Template.employeescard.events({
             e.preventDefault();
             $('#edtFirstName').focus();
         }
-        let middlename = $('#edtMiddleName').val()||'';
-        let lastname = $('#edtLastName').val()||'';
-        let suffix = $('#edtSuffix').val()||'';
-        let email = $('#edtEmailAddress').val()||'';
-        let phone = $('#edtPhone').val()||'';
-        let mobile = $('#edtMobile').val()||'';
-        let fax = $('#edtFax').val()||'';
-        let skype = $('#edtSkype').val()||'';
-        let gender = $('#edtGender').val()||'';
+        let middlename = $('#edtMiddleName').val() || '';
+        let lastname = $('#edtLastName').val() || '';
+        let suffix = $('#edtSuffix').val() || '';
+        let email = $('#edtEmailAddress').val() || '';
+        let phone = $('#edtPhone').val() || '';
+        let mobile = $('#edtMobile').val() || '';
+        let fax = $('#edtFax').val() || '';
+        let skype = $('#edtSkype').val() || '';
+        let gender = $('#edtGender').val() || '';
         let employeeName = $('#edtCustomerCompany').val() || '';
 
         var dateofbirthTime = new Date($("#dtDOB").datepicker("getDate"));
@@ -2060,9 +2021,8 @@ Template.employeescard.events({
         if ((priorityData.replace(/\s/g, '') != '') && (priorityData.replace(/\s/g, '') != 0)) {
             let checkEmpPriorityData = await contactService.getCheckCustomersPriority(priorityData);
             if (checkEmpPriorityData.temployee.length) {
-                if (checkEmpPriorityData.temployee[0].Id === parseInt(currentId.id)) {
-
-                } else {
+                if (checkEmpPriorityData.temployee[0].Id === parseInt(currentId.id)) {}
+                else {
                     $('.fullScreenSpin').css('display', 'none');
                     swal({
                         title: 'Sort Order already in use',
@@ -2070,9 +2030,7 @@ Template.employeescard.events({
                         type: 'warning',
                         showCancelButton: false,
                         confirmButtonText: 'OK'
-                    }).then((result) => {
-
-                    });
+                    }).then((result) => {});
                     return false;
                 }
             }
@@ -2083,7 +2041,6 @@ Template.employeescard.events({
         if (templateObject.imageFileData.get()) {
             imageData = templateObject.imageFileData.get().split(',')[1] || '';
         }
-
 
         if (!isNaN(currentId.id)) {
 
@@ -2182,11 +2139,7 @@ Template.employeescard.events({
                 }
             }
 
-
-            contactService.saveEmployeePicture(employeePicObj).then(function (employeePicObj) {
-
-            });
-
+            contactService.saveEmployeePicture(employeePicObj).then(function (employeePicObj) {});
 
             let showSat = false;
             let showSun = false;
@@ -2213,9 +2166,8 @@ Template.employeescard.events({
             let defaultProduct = $('#product-list').children("option:selected").text().trim() || '';
             let defaultProductID = $('#product-list').children("option:selected").val() || 0;
 
-
             let objectData = "";
-            if(settingID == ""){
+            if (settingID == "") {
                 objectData = {
                     type: "TAppointmentPreferences",
                     fields: {
@@ -2227,7 +2179,7 @@ Template.employeescard.events({
                         ShowSundayinApptCalendar: showSun
                     }
                 };
-            }else{
+            } else {
                 objectData = {
                     type: "TAppointmentPreferences",
                     fields: {
@@ -2250,136 +2202,146 @@ Template.employeescard.events({
                 let cloudpassword = $("#cloudEmpUserPassword").val().replace(/;/g, ",");
                 let cloudcheckpassword = $("#cloudCheckEmpUserPassword").val();
                 if (($.trim(enteredEmail).length != 0) && ($.trim(enteredPassword).length != 0)) {
-                  if(cloudpassword.toUpperCase() != cloudcheckpassword.toUpperCase()){
-                    var cloudHashPassword = CryptoJS.MD5(enteredPassword).toString().toUpperCase();
-                    if ($.trim(checkifupdate).length != 0) {
+                    if (cloudpassword.toUpperCase() != cloudcheckpassword.toUpperCase()) {
+                        var cloudHashPassword = CryptoJS.MD5(enteredPassword).toString().toUpperCase();
+                        if ($.trim(checkifupdate).length != 0) {
 
-                        if (cloudpassword.length < 8) {
-                            if (cloudpassword.match(/^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{7,15}$/)) {
-                                $('#cloudEmpUserPassword').css('border-color', '#b5b8bb #e2e4e7 #e8eaec #bdbfc3');
-                            } else {
-                                swal('Invalid VS1 Password', 'Password must be at least eight characters including one capital letter, one number and one special characters [! @ # $ % ^ & *] !', 'error');
-                                $('#cloudEmpUserPassword').css('border-color', 'red');
-                                $('#cloudEmpUserPassword').focus();
-                            }
-                            $('.fullScreenSpin').css('display', 'none');
-                            return false;
-                        } else {
-                            var erpGet = erpDb();
-
-                            let objDetailsUserPassword = {
-                                //JsonIn:{
-                                Name: "VS1_ChangePassword",
-                                Params: {
-                                    // FirstName: firstname,
-                                    // LastName: lastname,
-                                    // EmployeeName: $('#edtCustomerCompany').val(),
-                                    ERPLoginDetails:{
-                                        erpusername: $('#cloudCheckEmpEmailAddress').val(),
-                                        // VS1Password: $('#cloudCheckEmpUserPassword').val(),
-                                        NewPassword: cloudpassword
-                                    }
+                            if (cloudpassword.length < 8) {
+                                if (cloudpassword.match(/^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{7,15}$/)) {
+                                    $('#cloudEmpUserPassword').css('border-color', '#b5b8bb #e2e4e7 #e8eaec #bdbfc3');
+                                } else {
+                                    swal('Invalid VS1 Password', 'Password must be at least eight characters including one capital letter, one number and one special characters [! @ # $ % ^ & *] !', 'error');
+                                    $('#cloudEmpUserPassword').css('border-color', 'red');
+                                    $('#cloudEmpUserPassword').focus();
                                 }
-                                //}
-                            };
-                            if(cloudpassword.toUpperCase() != cloudcheckpassword.toUpperCase()){
+                                $('.fullScreenSpin').css('display', 'none');
+                                return false;
+                            } else {
+                                var erpGet = erpDb();
 
-                                var oPost = new XMLHttpRequest();
-                                oPost.open("POST", URLRequest + loggedserverIP + ':' + loggedserverPort + '/' + 'erpapi/VS1_Cloud_Task/Method?Name="VS1_ChangePassword"', true);
-                                oPost.setRequestHeader("database", vs1loggedDatatbase);
-                                oPost.setRequestHeader("username", 'VS1_Cloud_Admin');
-                                oPost.setRequestHeader("password", 'DptfGw83mFl1j&9');
-                                oPost.setRequestHeader("Accept", "application/json");
-                                oPost.setRequestHeader("Accept", "application/html");
-                                oPost.setRequestHeader("Content-type", "application/json");
+                                let objDetailsUserPassword = {
+                                    //JsonIn:{
+                                    Name: "VS1_ChangePassword",
+                                    Params: {
+                                        // FirstName: firstname,
+                                        // LastName: lastname,
+                                        // EmployeeName: $('#edtCustomerCompany').val(),
+                                        ERPLoginDetails: {
+                                            erpusername: $('#cloudCheckEmpEmailAddress').val(),
+                                            // VS1Password: $('#cloudCheckEmpUserPassword').val(),
+                                            NewPassword: cloudpassword
+                                        }
+                                    }
+                                    //}
+                                };
+                                if (cloudpassword.toUpperCase() != cloudcheckpassword.toUpperCase()) {
 
-                                //var myString = '"JsonIn"' + ':' + JSON.stringify(objDetailsUser);
-                                var myStringUserPassword = '"JsonIn"' + ':' + JSON.stringify(objDetailsUserPassword);
-                                //
-                                oPost.send(myStringUserPassword);
+                                    var oPost = new XMLHttpRequest();
+                                    oPost.open("POST", URLRequest + loggedserverIP + ':' + loggedserverPort + '/' + 'erpapi/VS1_Cloud_Task/Method?Name="VS1_ChangePassword"', true);
+                                    oPost.setRequestHeader("database", vs1loggedDatatbase);
+                                    oPost.setRequestHeader("username", 'VS1_Cloud_Admin');
+                                    oPost.setRequestHeader("password", 'DptfGw83mFl1j&9');
+                                    oPost.setRequestHeader("Accept", "application/json");
+                                    oPost.setRequestHeader("Accept", "application/html");
+                                    oPost.setRequestHeader("Content-type", "application/json");
 
-                                oPost.onreadystatechange = function () {
-                                    if (oPost.readyState == 4 && oPost.status == 200) {
-                                      var myArrResponsData = JSON.parse(oPost.responseText);
+                                    //var myString = '"JsonIn"' + ':' + JSON.stringify(objDetailsUser);
+                                    var myStringUserPassword = '"JsonIn"' + ':' + JSON.stringify(objDetailsUserPassword);
+                                    //
+                                    oPost.send(myStringUserPassword);
 
-                                      if(myArrResponsData.ProcessLog.ResponseNo == 401){
-                                        swal({
-                                            title: 'VS1 Change User Password Failed',
-                                            text: myArrResponsData.ProcessLog.ResponseStatus,
-                                            type: 'error',
-                                            showCancelButton: false,
-                                            confirmButtonText: 'OK'
-                                        }).then((result) => {
-                                            if (result.value) {
-                                                Router.go('/employeelist?success=true');
-                                            } else {
-                                                Router.go('/employeelist?success=true');
-                                            }
-                                        });
-                                      }else{
-                                        if (employeeSaveID) {
-                                            sideBarService.getAllEmployees(25,0).then(function(dataReload) {
-                                                addVS1Data('TEmployee',JSON.stringify(dataReload)).then(function (datareturn) {
+                                    oPost.onreadystatechange = function () {
+                                        if (oPost.readyState == 4 && oPost.status == 200) {
+                                            var myArrResponsData = JSON.parse(oPost.responseText);
 
-                                                }).catch(function (err) {
-
+                                            if (myArrResponsData.ProcessLog.ResponseNo == 401) {
+                                                swal({
+                                                    title: 'VS1 Change User Password Failed',
+                                                    text: myArrResponsData.ProcessLog.ResponseStatus,
+                                                    type: 'error',
+                                                    showCancelButton: false,
+                                                    confirmButtonText: 'OK'
+                                                }).then((result) => {
+                                                    if (result.value) {
+                                                        Router.go('/employeelist?success=true');
+                                                    } else {
+                                                        Router.go('/employeelist?success=true');
+                                                    }
                                                 });
-                                            }).catch(function(err) {
+                                            } else {
+                                                if (employeeSaveID) {
+                                                    sideBarService.getAllEmployees(25, 0).then(function (dataReload) {
+                                                        addVS1Data('TEmployee', JSON.stringify(dataReload)).then(function (datareturn) {}).catch(function (err) {});
+                                                    }).catch(function (err) {});
 
-                                            });
-
-                                            getVS1Data('vscloudlogininfo').then(function (dataObject) {
-                                                if(dataObject.length == 0){
-                                                    swal({
-                                                        title: 'Password successfully changed',
-                                                        text: '',
-                                                        type: 'success',
-                                                        showCancelButton: false,
-                                                        confirmButtonText: 'OK'
-                                                    }).then((result) => {
-                                                        if (result.value) {
-                                                            Router.go('/employeelist?success=true');
+                                                    getVS1Data('vscloudlogininfo').then(function (dataObject) {
+                                                        if (dataObject.length == 0) {
+                                                            swal({
+                                                                title: 'Password successfully changed',
+                                                                text: '',
+                                                                type: 'success',
+                                                                showCancelButton: false,
+                                                                confirmButtonText: 'OK'
+                                                            }).then((result) => {
+                                                                if (result.value) {
+                                                                    Router.go('/employeelist?success=true');
+                                                                } else {
+                                                                    Router.go('/employeelist?success=true');
+                                                                }
+                                                            });
                                                         } else {
-                                                            Router.go('/employeelist?success=true');
+                                                            let loginDataArray = [];
+                                                            if (dataObject[0].EmployeeEmail === $('#cloudCheckEmpEmailAddress').val()) {
+                                                                loginDataArray = dataObject[0].data;
+                                                                loginDataArray.ProcessLog.VS1AdminPassword = cloudpassword;
+                                                                addLoginData(loginDataArray).then(function (datareturnCheck) {
+                                                                    swal({
+                                                                        title: 'Password successfully changed',
+                                                                        text: '',
+                                                                        type: 'success',
+                                                                        showCancelButton: false,
+                                                                        confirmButtonText: 'OK'
+                                                                    }).then((result) => {
+                                                                        if (result.value) {
+                                                                            window.open('/', '_self');
+                                                                        } else {
+                                                                            window.open('/', '_self');
+                                                                        }
+                                                                    });
+
+                                                                }).catch(function (err) {
+                                                                    swal({
+                                                                        title: 'Password successfully changed',
+                                                                        text: '',
+                                                                        type: 'success',
+                                                                        showCancelButton: false,
+                                                                        confirmButtonText: 'OK'
+                                                                    }).then((result) => {
+                                                                        if (result.value) {
+                                                                            window.open('/', '_self');
+                                                                        } else {
+                                                                            window.open('/', '_self');
+                                                                        }
+                                                                    });
+                                                                });
+
+                                                            } else {
+                                                                swal({
+                                                                    title: 'Password successfully changed',
+                                                                    text: '',
+                                                                    type: 'success',
+                                                                    showCancelButton: false,
+                                                                    confirmButtonText: 'OK'
+                                                                }).then((result) => {
+                                                                    if (result.value) {
+                                                                        Router.go('/employeelist?success=true');
+                                                                    } else {
+                                                                        Router.go('/employeelist?success=true');
+                                                                    }
+                                                                });
+                                                            }
                                                         }
-                                                    });
-                                                }else{
-                                                    let loginDataArray = [];
-                                                    if(dataObject[0].EmployeeEmail === $('#cloudCheckEmpEmailAddress').val()){
-                                                        loginDataArray = dataObject[0].data;
-                                                        loginDataArray.ProcessLog.VS1AdminPassword = cloudpassword;
-                                                        addLoginData(loginDataArray).then(function (datareturnCheck) {
-                                                            swal({
-                                                                title: 'Password successfully changed',
-                                                                text: '',
-                                                                type: 'success',
-                                                                showCancelButton: false,
-                                                                confirmButtonText: 'OK'
-                                                            }).then((result) => {
-                                                                if (result.value) {
-                                                                    window.open('/','_self');
-                                                                } else {
-                                                                    window.open('/','_self');
-                                                                }
-                                                            });
-
-                                                        }).catch(function (err) {
-                                                            swal({
-                                                                title: 'Password successfully changed',
-                                                                text: '',
-                                                                type: 'success',
-                                                                showCancelButton: false,
-                                                                confirmButtonText: 'OK'
-                                                            }).then((result) => {
-                                                                if (result.value) {
-                                                                    window.open('/','_self');
-                                                                } else {
-                                                                    window.open('/','_self');
-                                                                }
-                                                            });
-                                                        });
-
-                                                    }else{
+                                                    }).catch(function (err) {
                                                         swal({
                                                             title: 'Password successfully changed',
                                                             text: '',
@@ -2393,51 +2355,64 @@ Template.employeescard.events({
                                                                 Router.go('/employeelist?success=true');
                                                             }
                                                         });
-                                                    }
+                                                    });
+
                                                 }
-                                            }).catch(function (err) {
+
+                                            }
+
+                                        } else if (oPost.readyState == 4 && oPost.status == 403) {
+                                            $('.fullScreenSpin').css('display', 'none');
+                                            swal({
+                                                title: 'Oooops...',
+                                                text: oPost.getResponseHeader('errormessage'),
+                                                type: 'error',
+                                                showCancelButton: false,
+                                                confirmButtonText: 'Try Again'
+                                            }).then((result) => {
+                                                if (result.value) {
+                                                    window.open('/employeescard', '_self');
+                                                } else if (result.dismiss === 'cancel') {
+                                                    window.open('/employeescard', '_self');
+                                                }
+                                            });
+                                        } else if (oPost.readyState == 4 && oPost.status == 406) {
+                                            $('.fullScreenSpin').css('display', 'none');
+                                            var ErrorResponse = oPost.getResponseHeader('errormessage');
+                                            var segError = ErrorResponse.split(':');
+
+                                            if ((segError[1]) == ' "Unable to lock object') {
+
                                                 swal({
-                                                    title: 'Password successfully changed',
-                                                    text: '',
-                                                    type: 'success',
+                                                    title: 'Oooops...',
+                                                    text: oPost.getResponseHeader('errormessage'),
+                                                    type: 'error',
                                                     showCancelButton: false,
-                                                    confirmButtonText: 'OK'
+                                                    confirmButtonText: 'Try Again'
                                                 }).then((result) => {
                                                     if (result.value) {
-                                                        Router.go('/employeelist?success=true');
-                                                    } else {
-                                                        Router.go('/employeelist?success=true');
+                                                        window.open('/employeescard', '_self');
+                                                    } else if (result.dismiss === 'cancel') {
+                                                        window.open('/employeescard', '_self');
                                                     }
                                                 });
-                                            });
-
-
-                                        }
-
-                                      }
-
-
-                                    } else if (oPost.readyState == 4 && oPost.status == 403) {
-                                        $('.fullScreenSpin').css('display', 'none');
-                                        swal({
-                                            title: 'Oooops...',
-                                            text: oPost.getResponseHeader('errormessage'),
-                                            type: 'error',
-                                            showCancelButton: false,
-                                            confirmButtonText: 'Try Again'
-                                        }).then((result) => {
-                                            if (result.value) {
-                                                window.open('/employeescard', '_self');
-                                            } else if (result.dismiss === 'cancel') {
-                                                window.open('/employeescard', '_self');
+                                            } else {
+                                                swal({
+                                                    title: 'Oooops...',
+                                                    text: oPost.getResponseHeader('errormessage'),
+                                                    type: 'error',
+                                                    showCancelButton: false,
+                                                    confirmButtonText: 'Try Again'
+                                                }).then((result) => {
+                                                    if (result.value) {
+                                                        window.open('/employeescard', '_self');
+                                                    } else if (result.dismiss === 'cancel') {
+                                                        window.open('/employeescard', '_self');
+                                                    }
+                                                });
                                             }
-                                        });
-                                    } else if (oPost.readyState == 4 && oPost.status == 406) {
-                                        $('.fullScreenSpin').css('display', 'none');
-                                        var ErrorResponse = oPost.getResponseHeader('errormessage');
-                                        var segError = ErrorResponse.split(':');
 
-                                        if ((segError[1]) == ' "Unable to lock object') {
+                                        } else if (oPost.readyState == '') {
 
                                             swal({
                                                 title: 'Oooops...',
@@ -2453,51 +2428,22 @@ Template.employeescard.events({
                                                 }
                                             });
                                         } else {
-                                            swal({
-                                                title: 'Oooops...',
-                                                text: oPost.getResponseHeader('errormessage'),
-                                                type: 'error',
-                                                showCancelButton: false,
-                                                confirmButtonText: 'Try Again'
-                                            }).then((result) => {
-                                                if (result.value) {
-                                                    window.open('/employeescard', '_self');
-                                                } else if (result.dismiss === 'cancel') {
-                                                    window.open('/employeescard', '_self');
-                                                }
-                                            });
+                                            $('.fullScreenSpin').css('display', 'none');
                                         }
-
-                                    } else if (oPost.readyState == '') {
-
-                                        swal({
-                                            title: 'Oooops...',
-                                            text: oPost.getResponseHeader('errormessage'),
-                                            type: 'error',
-                                            showCancelButton: false,
-                                            confirmButtonText: 'Try Again'
-                                        }).then((result) => {
-                                            if (result.value) {
-                                                window.open('/employeescard', '_self');
-                                            } else if (result.dismiss === 'cancel') {
-                                                window.open('/employeescard', '_self');
-                                            }
-                                        });
-                                    }else{
-                                        $('.fullScreenSpin').css('display', 'none');
                                     }
-                                }
 
-
-                            }else{
-                                if (employeeSaveID) {
-                                    //window.open('/employeescard?id=' + employeeSaveID,'_self');
-                                    sideBarService.getAllEmployees(25,0).then(function(dataReload) {
-                                        addVS1Data('TEmployee',JSON.stringify(dataReload)).then(function (datareturn) {
-                                            //Router.go('/employeelist?success=true');
-                                            sideBarService.getAllAppointmentPredList().then(function (data) {
-                                                addVS1Data('TAppointmentPreferences', JSON.stringify(data)).then(function (datareturn) {
-                                                    Router.go('/employeelist?success=true');
+                                } else {
+                                    if (employeeSaveID) {
+                                        //window.open('/employeescard?id=' + employeeSaveID,'_self');
+                                        sideBarService.getAllEmployees(25, 0).then(function (dataReload) {
+                                            addVS1Data('TEmployee', JSON.stringify(dataReload)).then(function (datareturn) {
+                                                //Router.go('/employeelist?success=true');
+                                                sideBarService.getAllAppointmentPredList().then(function (data) {
+                                                    addVS1Data('TAppointmentPreferences', JSON.stringify(data)).then(function (datareturn) {
+                                                        Router.go('/employeelist?success=true');
+                                                    }).catch(function (err) {
+                                                        Router.go('/employeelist?success=true');
+                                                    });
                                                 }).catch(function (err) {
                                                     Router.go('/employeelist?success=true');
                                                 });
@@ -2507,28 +2453,25 @@ Template.employeescard.events({
                                         }).catch(function (err) {
                                             Router.go('/employeelist?success=true');
                                         });
-                                    }).catch(function(err) {
-                                        Router.go('/employeelist?success=true');
-                                    });
+                                    }
                                 }
+
                             }
+                        } else {
+                            $('.fullScreenSpin').css('display', 'none');
+                            $('#addvs1userModal').modal('toggle');
 
                         }
+
                     } else {
-                        $('.fullScreenSpin').css('display', 'none');
-                        $('#addvs1userModal').modal('toggle');
-
+                        Router.go('/employeelist?success=true');
                     }
-
-                  }else{
-                    Router.go('/employeelist?success=true');
-                  }
 
                 } else {
                     if (employeeSaveID) {
                         //window.open('/employeescard?id=' + employeeSaveID,'_self');
-                        sideBarService.getAllEmployees(25,0).then(function(dataReload) {
-                            addVS1Data('TEmployee',JSON.stringify(dataReload)).then(function (datareturn) {
+                        sideBarService.getAllEmployees(25, 0).then(function (dataReload) {
+                            addVS1Data('TEmployee', JSON.stringify(dataReload)).then(function (datareturn) {
                                 sideBarService.getAllAppointmentPredList().then(function (data) {
                                     addVS1Data('TAppointmentPreferences', JSON.stringify(data)).then(function (datareturn) {
                                         Router.go('/employeelist?success=true');
@@ -2541,7 +2484,7 @@ Template.employeescard.events({
                             }).catch(function (err) {
                                 Router.go('/employeelist?success=true');
                             });
-                        }).catch(function(err) {
+                        }).catch(function (err) {
                             Router.go('/employeelist?success=true');
                         });
                     }
@@ -2558,9 +2501,7 @@ Template.employeescard.events({
             }).then((result) => {
                 if (result.value) {
                     //Meteor._reload.reload();
-                } else if (result.dismiss === 'cancel') {
-
-                }
+                } else if (result.dismiss === 'cancel') {}
             });
             $('.fullScreenSpin').css('display', 'none');
         });
@@ -2629,10 +2570,10 @@ Template.employeescard.events({
                 RenewDiscountedPrice: Number(addExtraUserPrice.replace(/[^0-9.-]+/g, "")) || 35,
                 RenewDiscountDesc: "",
                 EmployeeDetails: {
-                    ID: parseInt(employeeSaveID)||0,
+                    ID: parseInt(employeeSaveID) || 0,
                     FirstName: empFirstName,
                     LastName: empLastName,
-                    MiddleName: $('#edtMiddleName').val()||'',
+                    MiddleName: $('#edtMiddleName').val() || '',
                     Phone: empPhone,
                     DateStarted: empStartDate,
                     DOB: empDOB,
@@ -2693,40 +2634,57 @@ Template.employeescard.events({
                         }
                     });
                 } else {
+                    let newStripePrice = objDetailsUser.Params.Price.toFixed(2);
                     // Meteor.call('braintreeChargeCard', Session.get('VS1AdminUserName'), 35);
                     // Meteor.call('StripeChargeCard', Session.get('VS1AdminUserName'), 3500);
                     // swal('User details successfully added', '', 'success');
-                    let currencyname = (CountryAbbr).toLowerCase();
+                    let to2Decimal = objDetailsUser.Params.Price.toFixed(2)
+                        let amount = to2Decimal.toString().replace(/\./g, '')
+                        let currencyname = (CountryAbbr).toLowerCase();
                     let stringQuery = "?";
                     let name = Session.get('mySessionEmployee').split(' ')[0];
                     let surname = Session.get('mySessionEmployee').split(' ')[1];
                     stringQuery = stringQuery + "product" + 1 + "= New User" + "&price" + 1 + "=" + Currency + objDetailsUser.Params.Price + "&qty" + 1 + "=" + 1 + "&";
-                    stringQuery = stringQuery + "tax=0" + "&total=" + Currency + objDetailsUser.Params.Price + "&customer=" + Session.get('vs1companyName')  + "&name=" + name + "&surname=" + surname +"&company=" + Session.get('vs1companyName') + "&customeremail=" + localStorage.getItem('mySession') + "&type=VS1 Modules Purchase&url=" + window.location.href + "&server=" + erpGet.ERPIPAddress + "&username=" + erpGet.ERPUsername + "&token=" + erpGet.ERPPassword + "&session=" + erpGet.ERPDatabase + "&port=" + erpGet.ERPPort+"&currency="+currencyname;
-                    sideBarService.getAllEmployees(25,0).then(function(dataReload) {
-                        addVS1Data('TEmployee',JSON.stringify(dataReload)).then(function (datareturn) {
-                                window.open('https://www.depot.vs1cloud.com/stripe/'+stringQuery,'_self');
+                    stringQuery = stringQuery + "tax=0" + "&total=" + Currency + objDetailsUser.Params.Price + "&customer=" + Session.get('vs1companyName') + "&name=" + name + "&surname=" + surname + "&company=" + Session.get('vs1companyName') + "&customeremail=" + localStorage.getItem('mySession') + "&type=VS1 Modules Purchase&url=" + window.location.href + "&server=" + erpGet.ERPIPAddress + "&username=" + erpGet.ERPUsername + "&token=" + erpGet.ERPPassword + "&session=" + erpGet.ERPDatabase + "&port=" + erpGet.ERPPort + "&currency=" + currencyname;
+                    sideBarService.getAllEmployees(25, 0).then(function (dataReload) {
+                        addVS1Data('TEmployee', JSON.stringify(dataReload)).then(function (datareturn) {
+                            $.ajax({
+                                url: 'https://depot.vs1cloud.com/stripe/vs1_module_purchase.php',
+                                data: {
+                                    'email': Session.get('VS1AdminUserName'),
+                                    'price': newStripePrice.replace('.', ''),
+                                    'currency': currencyname
+                                },
+                                method: 'post',
+                                success: function (response) {
+                                    let response2 = JSON.parse(response);
+                                    if (response2.id) {
+                                        swal({
+                                            title: 'User details successfully added',
+                                            text: '',
+                                            type: 'success',
+                                            showCancelButton: false,
+                                            confirmButtonText: 'OK'
+                                        }).then((result) => {
+                                            if (result.value) {
+                                                let employeeName = $('#edtCustomerCompany').val() || '';
+                                                window.open('/accesslevel?empuser=' + employeeName, '_self');
+
+                                            } else {
+                                                Router.go('/employeelist?success=true');
+                                            }
+                                        });
+                                    } else {
+                                        window.open('https://www.depot.vs1cloud.com/stripe/' + stringQuery, '_self');
+                                    }
+                                }
+                            });
                         }).catch(function (err) {
-                                window.open('https://www.depot.vs1cloud.com/stripe/'+stringQuery,'_self');
+                            window.open('https://www.depot.vs1cloud.com/stripe/' + stringQuery, '_self');
                         });
-                    }).catch(function(err) {
-                            window.open('https://www.depot.vs1cloud.com/stripe/'+stringQuery,'_self');
+                    }).catch(function (err) {
+                        window.open('https://www.depot.vs1cloud.com/stripe/' + stringQuery, '_self');
                     });
-
-                    // swal({
-                    //     title: 'User details successfully added',
-                    //     text: '',
-                    //     type: 'success',
-                    //     showCancelButton: false,
-                    //     confirmButtonText: 'OK'
-                    // }).then((result) => {
-                    //     if (result.value) {
-                    //         let employeeName = $('#edtCustomerCompany').val() || '';
-                    //         window.open('/accesslevel?empuser=' + employeeName, '_self');
-
-                    //     } else {
-                    //         Router.go('/employeelist?success=true');
-                    //     }
-                    // });
 
                 }
 
@@ -2799,7 +2757,7 @@ Template.employeescard.events({
                         window.open('/employeescard', '_self');
                     }
                 });
-            }else{
+            } else {
                 $('.fullScreenSpin').css('display', 'none');
             }
         }
@@ -2858,10 +2816,10 @@ Template.employeescard.events({
                 RenewDiscountDesc: "Free User Included in the license",
                 // PayMethod:"Cash",
                 EmployeeDetails: {
-                    ID: parseInt(employeeSaveID)||0,
+                    ID: parseInt(employeeSaveID) || 0,
                     FirstName: empFirstName,
                     LastName: empLastName,
-                    MiddleName: $('#edtMiddleName').val()||'',
+                    MiddleName: $('#edtMiddleName').val() || '',
                     Phone: empPhone,
                     DateStarted: empStartDate,
                     DOB: empDOB,
@@ -2929,13 +2887,13 @@ Template.employeescard.events({
                             window.open('/accesslevel?empuser=' + employeeName, '_self');
 
                         } else {
-                            sideBarService.getAllEmployees(25,0).then(function(dataReload) {
-                                addVS1Data('TEmployee',JSON.stringify(dataReload)).then(function (datareturn) {
+                            sideBarService.getAllEmployees(25, 0).then(function (dataReload) {
+                                addVS1Data('TEmployee', JSON.stringify(dataReload)).then(function (datareturn) {
                                     Router.go('/employeelist?success=true');
                                 }).catch(function (err) {
                                     Router.go('/employeelist?success=true');
                                 });
-                            }).catch(function(err) {
+                            }).catch(function (err) {
                                 Router.go('/employeelist?success=true');
                             });
                         }
@@ -3074,8 +3032,9 @@ Template.employeescard.events({
         var jobCount = $('.results tbody tr[visible="true"]').length;
         $('.counter').text(jobCount + ' items');
 
-        if (jobCount == '0') { $('.no-result').show(); }
-        else {
+        if (jobCount == '0') {
+            $('.no-result').show();
+        } else {
             $('.no-result').hide();
         }
         if (searchTerm === "") {
@@ -3118,18 +3077,25 @@ Template.employeescard.events({
         });
     },
     'click .resetTable': function (event) {
-        var getcurrentCloudDetails = CloudUser.findOne({ _id: Session.get('mycloudLogonID'), clouddatabaseID: Session.get('mycloudLogonDBID') });
+        var getcurrentCloudDetails = CloudUser.findOne({
+            _id: Session.get('mycloudLogonID'),
+            clouddatabaseID: Session.get('mycloudLogonDBID')
+        });
         if (getcurrentCloudDetails) {
             if (getcurrentCloudDetails._id.length > 0) {
                 var clientID = getcurrentCloudDetails._id;
                 var clientUsername = getcurrentCloudDetails.cloudUsername;
                 var clientEmail = getcurrentCloudDetails.cloudEmail;
-                var checkPrefDetails = CloudPreference.findOne({ userid: clientID, PrefName: 'tblTransactionlist' });
+                var checkPrefDetails = CloudPreference.findOne({
+                    userid: clientID,
+                    PrefName: 'tblTransactionlist'
+                });
                 if (checkPrefDetails) {
-                    CloudPreference.remove({ _id: checkPrefDetails._id }, function (err, idTag) {
-                        if (err) {
-
-                        } else {
+                    CloudPreference.remove({
+                        _id: checkPrefDetails._id
+                    }, function (err, idTag) {
+                        if (err) {}
+                        else {
                             Meteor._reload.reload();
                         }
                     });
@@ -3164,18 +3130,30 @@ Template.employeescard.events({
         });
         //datatable.state.save();
 
-        var getcurrentCloudDetails = CloudUser.findOne({ _id: Session.get('mycloudLogonID'), clouddatabaseID: Session.get('mycloudLogonDBID') });
+        var getcurrentCloudDetails = CloudUser.findOne({
+            _id: Session.get('mycloudLogonID'),
+            clouddatabaseID: Session.get('mycloudLogonDBID')
+        });
         if (getcurrentCloudDetails) {
             if (getcurrentCloudDetails._id.length > 0) {
                 var clientID = getcurrentCloudDetails._id;
                 var clientUsername = getcurrentCloudDetails.cloudUsername;
                 var clientEmail = getcurrentCloudDetails.cloudEmail;
-                var checkPrefDetails = CloudPreference.findOne({ userid: clientID, PrefName: 'tblTransactionlist' });
+                var checkPrefDetails = CloudPreference.findOne({
+                    userid: clientID,
+                    PrefName: 'tblTransactionlist'
+                });
                 if (checkPrefDetails) {
-                    CloudPreference.update({ _id: checkPrefDetails._id }, {
+                    CloudPreference.update({
+                        _id: checkPrefDetails._id
+                    }, {
                         $set: {
-                            userid: clientID, username: clientUsername, useremail: clientEmail,
-                            PrefGroup: 'salesform', PrefName: 'tblTransactionlist', published: true,
+                            userid: clientID,
+                            username: clientUsername,
+                            useremail: clientEmail,
+                            PrefGroup: 'salesform',
+                            PrefName: 'tblTransactionlist',
+                            published: true,
                             customFields: lineItems,
                             updatedAt: new Date()
                         }
@@ -3189,8 +3167,12 @@ Template.employeescard.events({
 
                 } else {
                     CloudPreference.insert({
-                        userid: clientID, username: clientUsername, useremail: clientEmail,
-                        PrefGroup: 'salesform', PrefName: 'tblTransactionlist', published: true,
+                        userid: clientID,
+                        username: clientUsername,
+                        useremail: clientEmail,
+                        PrefGroup: 'salesform',
+                        PrefName: 'tblTransactionlist',
+                        published: true,
                         customFields: lineItems,
                         createdAt: new Date()
                     }, function (err, idTag) {
@@ -3389,7 +3371,6 @@ Template.employeescard.events({
     'click .btnSaveSettings': function (event) {
         let templateObject = Template.instance();
 
-
         $('.lblCustomField1').html('');
         $('.lblCustomField2').html('');
         $('.lblCustomField3').html('');
@@ -3415,20 +3396,67 @@ Template.employeescard.events({
             getchkcustomField4 = false;
         }
 
-        var getcurrentCloudDetails = CloudUser.findOne({ _id: Session.get('mycloudLogonID'), clouddatabaseID: Session.get('mycloudLogonDBID') });
+        var getcurrentCloudDetails = CloudUser.findOne({
+            _id: Session.get('mycloudLogonID'),
+            clouddatabaseID: Session.get('mycloudLogonDBID')
+        });
 
         if (getcurrentCloudDetails) {
             if (getcurrentCloudDetails._id.length > 0) {
                 var clientID = getcurrentCloudDetails._id;
                 var clientUsername = getcurrentCloudDetails.cloudUsername;
                 var clientEmail = getcurrentCloudDetails.cloudEmail;
-                var checkPrefDetails = CloudPreference.findOne({ userid: clientID, PrefName: 'employeescard' });
+                var checkPrefDetails = CloudPreference.findOne({
+                    userid: clientID,
+                    PrefName: 'employeescard'
+                });
                 if (checkPrefDetails) {
-                    CloudPreference.update({ _id: checkPrefDetails._id }, {
+                    CloudPreference.update({
+                        _id: checkPrefDetails._id
+                    }, {
                         $set: {
-                            username: clientUsername, useremail: clientEmail,
-                            PrefGroup: 'contactform', PrefName: 'employeescard', published: true,
+                            username: clientUsername,
+                            useremail: clientEmail,
+                            PrefGroup: 'contactform',
+                            PrefName: 'employeescard',
+                            published: true,
                             customFields: [{
+                                    index: '1',
+                                    label: getcustomField1,
+                                    hidden: getchkcustomField1
+                                }, {
+                                    index: '2',
+                                    label: getcustomField2,
+                                    hidden: getchkcustomField2
+                                }, {
+                                    index: '3',
+                                    label: getcustomField3,
+                                    hidden: getchkcustomField3
+                                }, {
+                                    index: '4',
+                                    label: getcustomField4,
+                                    hidden: getchkcustomField4
+                                }
+                            ],
+                            updatedAt: new Date()
+                        }
+                    }, function (err, idTag) {
+                        if (err) {
+                            $('#customfieldModal').modal('toggle');
+                        } else {
+                            $('#customfieldModal').modal('toggle');
+
+                        }
+                    });
+                } else {
+                    CloudPreference.insert({
+                        userid: clientID,
+                        username: clientUsername,
+                        useremail: clientEmail,
+                        PrefGroup: 'contactform',
+                        PrefName: 'employeescard',
+                        published: true,
+                        customFields: [{
                                 index: '1',
                                 label: getcustomField1,
                                 hidden: getchkcustomField1
@@ -3445,39 +3473,7 @@ Template.employeescard.events({
                                 label: getcustomField4,
                                 hidden: getchkcustomField4
                             }
-                                          ],
-                            updatedAt: new Date()
-                        }
-                    }, function (err, idTag) {
-                        if (err) {
-                            $('#customfieldModal').modal('toggle');
-                        } else {
-                            $('#customfieldModal').modal('toggle');
-
-                        }
-                    });
-                } else {
-                    CloudPreference.insert({
-                        userid: clientID, username: clientUsername, useremail: clientEmail,
-                        PrefGroup: 'contactform', PrefName: 'employeescard', published: true,
-                        customFields: [{
-                            index: '1',
-                            label: getcustomField1,
-                            hidden: getchkcustomField1
-                        }, {
-                            index: '2',
-                            label: getcustomField2,
-                            hidden: getchkcustomField2
-                        }, {
-                            index: '3',
-                            label: getcustomField3,
-                            hidden: getchkcustomField3
-                        }, {
-                            index: '4',
-                            label: getcustomField4,
-                            hidden: getchkcustomField4
-                        }
-                                      ],
+                        ],
                         createdAt: new Date()
                     }, function (err, idTag) {
                         if (err) {
@@ -3493,18 +3489,25 @@ Template.employeescard.events({
 
     },
     'click .btnResetSettings': function (event) {
-        var getcurrentCloudDetails = CloudUser.findOne({ _id: Session.get('mycloudLogonID'), clouddatabaseID: Session.get('mycloudLogonDBID') });
+        var getcurrentCloudDetails = CloudUser.findOne({
+            _id: Session.get('mycloudLogonID'),
+            clouddatabaseID: Session.get('mycloudLogonDBID')
+        });
         if (getcurrentCloudDetails) {
             if (getcurrentCloudDetails._id.length > 0) {
                 var clientID = getcurrentCloudDetails._id;
                 var clientUsername = getcurrentCloudDetails.cloudUsername;
                 var clientEmail = getcurrentCloudDetails.cloudEmail;
-                var checkPrefDetails = CloudPreference.findOne({ userid: clientID, PrefName: 'employeescard' });
+                var checkPrefDetails = CloudPreference.findOne({
+                    userid: clientID,
+                    PrefName: 'employeescard'
+                });
                 if (checkPrefDetails) {
-                    CloudPreference.remove({ _id: checkPrefDetails._id }, function (err, idTag) {
-                        if (err) {
-
-                        } else {
+                    CloudPreference.remove({
+                        _id: checkPrefDetails._id
+                    }, function (err, idTag) {
+                        if (err) {}
+                        else {
                             Meteor._reload.reload();
                         }
                     });
@@ -3530,11 +3533,8 @@ Template.employeescard.events({
             if (result.value) {
                 $('#edtPriority').focus();
                 $('#edtPriority').val(result.value);
-            } else if (result.dismiss === 'cancel') {
-
-            }
+            } else if (result.dismiss === 'cancel') {}
         })
-
 
         // swal({
         //     title: 'User currently has an Existing Login.',
@@ -3584,7 +3584,7 @@ Template.employeescard.events({
             tempObj.$("#confirm-action-" + attachmentID).remove();
         } else {
             let actionElement = '<div class="confirm-action" id="confirm-action-' + attachmentID + '"><a class="confirm-delete-attachment btn btn-default" id="delete-attachment-' + attachmentID + '">'
-            + 'Delete</a><button class="save-to-library btn btn-default">Remove & save to File Library</button></div>';
+                 + 'Delete</a><button class="save-to-library btn btn-default">Remove & save to File Library</button></div>';
             tempObj.$('#attachment-name-' + attachmentID).append(actionElement);
         }
         tempObj.$("#new-attachment2-tooltip").show();
@@ -3605,20 +3605,15 @@ Template.employeescard.events({
             previewFile.class = 'pdf-class';
         } else if (type === 'application/msword' || type === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document') {
             previewFile.class = 'docx-class';
-        }
-        else if (type === 'application/vnd.ms-excel' || type === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet') {
+        } else if (type === 'application/vnd.ms-excel' || type === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet') {
             previewFile.class = 'excel-class';
-        }
-        else if (type === 'application/vnd.ms-powerpoint' || type === 'application/vnd.openxmlformats-officedocument.presentationml.presentation') {
+        } else if (type === 'application/vnd.ms-powerpoint' || type === 'application/vnd.openxmlformats-officedocument.presentationml.presentation') {
             previewFile.class = 'ppt-class';
-        }
-        else if (type === 'application/vnd.oasis.opendocument.formula' || type === 'text/csv' || type === 'text/plain' || type === 'text/rtf') {
+        } else if (type === 'application/vnd.oasis.opendocument.formula' || type === 'text/csv' || type === 'text/plain' || type === 'text/rtf') {
             previewFile.class = 'txt-class';
-        }
-        else if (type === 'application/zip' || type === 'application/rar' || type === 'application/x-zip-compressed' || type === 'application/x-zip,application/x-7z-compressed') {
+        } else if (type === 'application/zip' || type === 'application/rar' || type === 'application/x-zip-compressed' || type === 'application/x-zip,application/x-7z-compressed') {
             previewFile.class = 'zip-class';
-        }
-        else {
+        } else {
             previewFile.class = 'default-class';
         }
 
@@ -3758,10 +3753,8 @@ Template.employeescard.events({
                     showCancelButton: false,
                     confirmButtonText: 'Try Again'
                 }).then((result) => {
-                    if (result.value) {
-                    } else if (result.dismiss === 'cancel') {
-
-                    }
+                    if (result.value) {}
+                    else if (result.dismiss === 'cancel') {}
                 });
                 $('.fullScreenSpin').css('display', 'none');
             });
@@ -3770,7 +3763,6 @@ Template.employeescard.events({
         }
         $('#deleteEmployeeModal').modal('toggle');
     }
-
 
 });
 
@@ -3791,8 +3783,7 @@ Template.employeescard.helpers({
         return Template.instance().employeerecords.get().sort(function (a, b) {
             if (a.company == 'NA') {
                 return 1;
-            }
-            else if (b.company == 'NA') {
+            } else if (b.company == 'NA') {
                 return -1;
             }
             return (a.company.toUpperCase() > b.company.toUpperCase()) ? 1 : -1;
@@ -3812,8 +3803,7 @@ Template.employeescard.helpers({
         return Template.instance().datatablerecords.get().sort(function (a, b) {
             if (a.saledate == 'NA') {
                 return 1;
-            }
-            else if (b.saledate == 'NA') {
+            } else if (b.saledate == 'NA') {
                 return -1;
             }
             return (a.saledate.toUpperCase() > b.saledate.toUpperCase()) ? 1 : -1;
@@ -3823,7 +3813,10 @@ Template.employeescard.helpers({
         return Template.instance().tableheaderrecords.get();
     },
     salesCloudPreferenceRec: () => {
-        return CloudPreference.findOne({ userid: Session.get('mycloudLogonID'), PrefName: 'tblSalesOverview' });
+        return CloudPreference.findOne({
+            userid: Session.get('mycloudLogonID'),
+            PrefName: 'tblSalesOverview'
+        });
     },
     currentdate: () => {
         var currentDate = new Date();
@@ -3836,12 +3829,16 @@ Template.employeescard.helpers({
     cloudUserDetails: function () {
         if ((Session.get('cloudCurrentLogonName')) && (Session.get('cloudCurrentLogonName') != '')) {
             let userID = '';
-            var usertoLoad = CloudUser.find({ clouddatabaseID: Session.get('mycloudLogonDBID') }).forEach(function (doc) {
+            var usertoLoad = CloudUser.find({
+                clouddatabaseID: Session.get('mycloudLogonDBID')
+            }).forEach(function (doc) {
                 if ((doc.cloudUsername == Session.get('cloudCurrentLogonName')) || (doc.cloudUsername == Session.get('cloudCurrentLogonName').toLowerCase())) {
                     userID = doc._id;
                 }
             });
-            return CloudUser.find({ _id: userID }).fetch();
+            return CloudUser.find({
+                _id: userID
+            }).fetch();
         }
     },
     preferedPaymentList: () => {
@@ -3866,7 +3863,10 @@ Template.employeescard.helpers({
         return Template.instance().uploadedFile.get();
     },
     contactCloudPreferenceRec: () => {
-        return CloudPreference.findOne({ userid: Session.get('mycloudLogonID'), PrefName: 'employeescard' });
+        return CloudPreference.findOne({
+            userid: Session.get('mycloudLogonID'),
+            PrefName: 'employeescard'
+        });
     },
     isUserAddition: () => {
         return Template.instance().isUserAddition.get();
@@ -3875,7 +3875,7 @@ Template.employeescard.helpers({
         var isMobile = false; //initiate as false
         // device detection
         if (/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|ipad|iris|kindle|Android|Silk|lge |maemo|midp|mmp|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows (ce|phone)|xda|xiino/i.test(navigator.userAgent)
-            || /1207|6310|6590|3gso|4thp|50[1-6]i|770s|802s|a wa|abac|ac(er|oo|s\-)|ai(ko|rn)|al(av|ca|co)|amoi|an(ex|ny|yw)|aptu|ar(ch|go)|as(te|us)|attw|au(di|\-m|r |s )|avan|be(ck|ll|nq)|bi(lb|rd)|bl(ac|az)|br(e|v)w|bumb|bw\-(n|u)|c55\/|capi|ccwa|cdm\-|cell|chtm|cldc|cmd\-|co(mp|nd)|craw|da(it|ll|ng)|dbte|dc\-s|devi|dica|dmob|do(c|p)o|ds(12|\-d)|el(49|ai)|em(l2|ul)|er(ic|k0)|esl8|ez([4-7]0|os|wa|ze)|fetc|fly(\-|_)|g1 u|g560|gene|gf\-5|g\-mo|go(\.w|od)|gr(ad|un)|haie|hcit|hd\-(m|p|t)|hei\-|hi(pt|ta)|hp( i|ip)|hs\-c|ht(c(\-| |_|a|g|p|s|t)|tp)|hu(aw|tc)|i\-(20|go|ma)|i230|iac( |\-|\/)|ibro|idea|ig01|ikom|im1k|inno|ipaq|iris|ja(t|v)a|jbro|jemu|jigs|kddi|keji|kgt( |\/)|klon|kpt |kwc\-|kyo(c|k)|le(no|xi)|lg( g|\/(k|l|u)|50|54|\-[a-w])|libw|lynx|m1\-w|m3ga|m50\/|ma(te|ui|xo)|mc(01|21|ca)|m\-cr|me(rc|ri)|mi(o8|oa|ts)|mmef|mo(01|02|bi|de|do|t(\-| |o|v)|zz)|mt(50|p1|v )|mwbp|mywa|n10[0-2]|n20[2-3]|n30(0|2)|n50(0|2|5)|n7(0(0|1)|10)|ne((c|m)\-|on|tf|wf|wg|wt)|nok(6|i)|nzph|o2im|op(ti|wv)|oran|owg1|p800|pan(a|d|t)|pdxg|pg(13|\-([1-8]|c))|phil|pire|pl(ay|uc)|pn\-2|po(ck|rt|se)|prox|psio|pt\-g|qa\-a|qc(07|12|21|32|60|\-[2-7]|i\-)|qtek|r380|r600|raks|rim9|ro(ve|zo)|s55\/|sa(ge|ma|mm|ms|ny|va)|sc(01|h\-|oo|p\-)|sdk\/|se(c(\-|0|1)|47|mc|nd|ri)|sgh\-|shar|sie(\-|m)|sk\-0|sl(45|id)|sm(al|ar|b3|it|t5)|so(ft|ny)|sp(01|h\-|v\-|v )|sy(01|mb)|t2(18|50)|t6(00|10|18)|ta(gt|lk)|tcl\-|tdg\-|tel(i|m)|tim\-|t\-mo|to(pl|sh)|ts(70|m\-|m3|m5)|tx\-9|up(\.b|g1|si)|utst|v400|v750|veri|vi(rg|te)|vk(40|5[0-3]|\-v)|vm40|voda|vulc|vx(52|53|60|61|70|80|81|83|85|98)|w3c(\-| )|webc|whit|wi(g |nc|nw)|wmlb|wonu|x700|yas\-|your|zeto|zte\-/i.test(navigator.userAgent.substr(0, 4))) {
+             || /1207|6310|6590|3gso|4thp|50[1-6]i|770s|802s|a wa|abac|ac(er|oo|s\-)|ai(ko|rn)|al(av|ca|co)|amoi|an(ex|ny|yw)|aptu|ar(ch|go)|as(te|us)|attw|au(di|\-m|r |s )|avan|be(ck|ll|nq)|bi(lb|rd)|bl(ac|az)|br(e|v)w|bumb|bw\-(n|u)|c55\/|capi|ccwa|cdm\-|cell|chtm|cldc|cmd\-|co(mp|nd)|craw|da(it|ll|ng)|dbte|dc\-s|devi|dica|dmob|do(c|p)o|ds(12|\-d)|el(49|ai)|em(l2|ul)|er(ic|k0)|esl8|ez([4-7]0|os|wa|ze)|fetc|fly(\-|_)|g1 u|g560|gene|gf\-5|g\-mo|go(\.w|od)|gr(ad|un)|haie|hcit|hd\-(m|p|t)|hei\-|hi(pt|ta)|hp( i|ip)|hs\-c|ht(c(\-| |_|a|g|p|s|t)|tp)|hu(aw|tc)|i\-(20|go|ma)|i230|iac( |\-|\/)|ibro|idea|ig01|ikom|im1k|inno|ipaq|iris|ja(t|v)a|jbro|jemu|jigs|kddi|keji|kgt( |\/)|klon|kpt |kwc\-|kyo(c|k)|le(no|xi)|lg( g|\/(k|l|u)|50|54|\-[a-w])|libw|lynx|m1\-w|m3ga|m50\/|ma(te|ui|xo)|mc(01|21|ca)|m\-cr|me(rc|ri)|mi(o8|oa|ts)|mmef|mo(01|02|bi|de|do|t(\-| |o|v)|zz)|mt(50|p1|v )|mwbp|mywa|n10[0-2]|n20[2-3]|n30(0|2)|n50(0|2|5)|n7(0(0|1)|10)|ne((c|m)\-|on|tf|wf|wg|wt)|nok(6|i)|nzph|o2im|op(ti|wv)|oran|owg1|p800|pan(a|d|t)|pdxg|pg(13|\-([1-8]|c))|phil|pire|pl(ay|uc)|pn\-2|po(ck|rt|se)|prox|psio|pt\-g|qa\-a|qc(07|12|21|32|60|\-[2-7]|i\-)|qtek|r380|r600|raks|rim9|ro(ve|zo)|s55\/|sa(ge|ma|mm|ms|ny|va)|sc(01|h\-|oo|p\-)|sdk\/|se(c(\-|0|1)|47|mc|nd|ri)|sgh\-|shar|sie(\-|m)|sk\-0|sl(45|id)|sm(al|ar|b3|it|t5)|so(ft|ny)|sp(01|h\-|v\-|v )|sy(01|mb)|t2(18|50)|t6(00|10|18)|ta(gt|lk)|tcl\-|tdg\-|tel(i|m)|tim\-|t\-mo|to(pl|sh)|ts(70|m\-|m3|m5)|tx\-9|up(\.b|g1|si)|utst|v400|v750|veri|vi(rg|te)|vk(40|5[0-3]|\-v)|vm40|voda|vulc|vx(52|53|60|61|70|80|81|83|85|98)|w3c(\-| )|webc|whit|wi(g |nc|nw)|wmlb|wonu|x700|yas\-|your|zeto|zte\-/i.test(navigator.userAgent.substr(0, 4))) {
             isMobile = true;
         }
 
