@@ -2741,6 +2741,19 @@ Template.employeescard.events({
                     });
                 }
 
+            }  else if (oPost.readyState == 4 && oPost.status == 401) {
+                $('.fullScreenSpin').css('display', 'none');
+                swal({
+                    title: 'Oooops...',
+                    text: oPost.getResponseHeader('errormessage'),
+                    type: 'error',
+                    showCancelButton: false,
+                    confirmButtonText: 'Try Again'
+                }).then((result) => {
+                    if (result.value) {
+                        // Meteor._reload.reload();
+                    } else if (result.dismiss === 'cancel') {}
+                });
             } else if (oPost.readyState == '') {
                 $('.fullScreenSpin').css('display', 'none');
                 //Bert.alert('<strong>'+ oPost.getResponseHeader('errormessage')+'</strong>!', 'danger');
@@ -2950,6 +2963,19 @@ Template.employeescard.events({
                     });
                 }
 
+            }  else if (oPost.readyState == 4 && oPost.status == 401) {
+                $('.fullScreenSpin').css('display', 'none');
+                swal({
+                    title: 'Oooops...',
+                    text: oPost.getResponseHeader('errormessage'),
+                    type: 'error',
+                    showCancelButton: false,
+                    confirmButtonText: 'Try Again'
+                }).then((result) => {
+                    if (result.value) {
+                        // Meteor._reload.reload();
+                    } else if (result.dismiss === 'cancel') {}
+                });
             } else if (oPost.readyState == '') {
                 $('.fullScreenSpin').css('display', 'none');
                 //Bert.alert('<strong>'+ oPost.getResponseHeader('errormessage')+'</strong>!', 'danger');
