@@ -36,7 +36,7 @@ loggedCompany = Session.get('vs1companyName');
 defaultDept = Session.get('ERPDefaultDepartment');
 defaultUOM = Session.get('ERPDefaultUOM');
 isModuleGreenTrack = Session.get('CloudSeedToSaleLicence');
-
+isPurchasedTrueERPModule = localStorage.getItem('isPurchasedTrueERPModule') || false;
 bsbCodeName = "Branch Code";
 reportsloadMonths = 1; //This load for 1 months
 if(Session.get('ERPLoggedCountry') == "Australia"){
@@ -46,7 +46,12 @@ if(Session.get('ERPLoggedCountry') == "Australia"){
   loggedTaxCodeSalesInc = Session.get('ERPTaxCodeSalesInc') || "GST";
   LoggedCountry = Session.get('ERPLoggedCountry');
   chequeSpelling = "Cheque";
-  addExtraUserPrice = Currency+45;
+  if(isPurchasedTrueERPModule === 'true'){
+    addExtraUserPrice = Currency+152;
+  }else{
+    addExtraUserPrice = Currency+45;
+  }
+
   bsbCodeName = "BSB (Branch Number)";
 }else if(Session.get('ERPLoggedCountry') == "United States of America"){
   // Session.setPersistent('ERPTaxCodePurchaseInc', "NT");
@@ -55,7 +60,11 @@ if(Session.get('ERPLoggedCountry') == "Australia"){
   loggedTaxCodePurchaseInc = Session.get('ERPTaxCodePurchaseInc') || "NT";
   loggedTaxCodeSalesInc = Session.get('ERPTaxCodeSalesInc') || "NT";
   chequeSpelling = "Check";
+  if(isPurchasedTrueERPModule === 'true'){
+    addExtraUserPrice = Currency+110;
+  }else{
   addExtraUserPrice = Currency+35;
+   }
 }else{
   loggedTaxCodePurchaseInc = Session.get('ERPTaxCodePurchaseInc') || "NT";
   loggedTaxCodeSalesInc = Session.get('ERPTaxCodeSalesInc') || "NT";
@@ -64,17 +73,37 @@ if(Session.get('ERPLoggedCountry') == "Australia"){
 }
 
 if(Session.get('ERPLoggedCountry') == "South Africa"){
+  if(isPurchasedTrueERPModule === 'true'){
+    addExtraUserPrice = Currency+1660;
+  }else{
   addExtraUserPrice = Currency+480;
+  }
 }else if((Session.get('ERPLoggedCountry') == "Canada")){
+  if(isPurchasedTrueERPModule === 'true'){
+    addExtraUserPrice = Currency+140;
+  }else{
   addExtraUserPrice = Currency+40;
+  }
 }else if((Session.get('ERPLoggedCountry') == "New Zealand")){
+  if(isPurchasedTrueERPModule === 'true'){
+    addExtraUserPrice = Currency+160;
+  }else{
   addExtraUserPrice = Currency+40;
+   }
 }else if(Session.get('ERPLoggedCountry') == "United Arab Emirates"){
+  if(isPurchasedTrueERPModule === 'true'){
+    addExtraUserPrice = '$'+110;
+  }else{
   addExtraUserPrice = '$'+35;
+    }
 }else if(Session.get('ERPLoggedCountry') == "United Kingdom"){
+  if(isPurchasedTrueERPModule === 'true'){
+    addExtraUserPrice = Currency+80;
+  }else{
   addExtraUserPrice = Currency+25;
+   }
 }
-
+console.log(addExtraUserPrice);
 
 //loggedTaxCodePurchaseInc = Session.get('ERPTaxCodePurchaseInc');
 //loggedTaxCodeSalesInc = Session.get('ERPTaxCodeSalesInc');

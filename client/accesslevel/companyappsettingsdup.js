@@ -171,6 +171,12 @@ Template.companyappsettingsdup.onRendered(function () {
             for (let i = 0; i < data.tvs1licenselevelsnmodules.length; i++) {
 
                 if (data.tvs1licenselevelsnmodules[i].Region == regionData) {
+                  let tvs1ModulePrice = utilityService.modifynegativeCurrencyFormat(data.tvs1licenselevelsnmodules[i].Price) || 0;
+                  if(data.tvs1licenselevelsnmodules[i].ModuleName == "Add Extra User"){
+                    if(isPurchasedTrueERPModule == 'true'){
+                       tvs1ModulePrice = utilityService.modifynegativeCurrencyFormat(data.tvs1licenselevelsnmodules[i].isPurchasedTrueERPPrice) || 0;
+                    }
+                  }
                     recordObj = {
                         type: data.tvs1licenselevelsnmodules[i].TYPE,
                         region: data.tvs1licenselevelsnmodules[i].Region,
@@ -183,7 +189,7 @@ Template.companyappsettingsdup.onRendered(function () {
                         discountfrom: data.tvs1licenselevelsnmodules[i].Discountfrom,
                         discountto: data.tvs1licenselevelsnmodules[i].Discountto,
                         pricenocurrency: data.tvs1licenselevelsnmodules[i].Price || 0,
-                        price: utilityService.modifynegativeCurrencyFormat(data.tvs1licenselevelsnmodules[i].Price) || 0,
+                        price: tvs1ModulePrice || 0,
                         discount: data.tvs1licenselevelsnmodules[i].discount,
                     };
 
@@ -223,6 +229,10 @@ Template.companyappsettingsdup.onRendered(function () {
 
             $(".essentailAmt").html(essentailPrice);
             $(".plusAmt").html(plusPrice);
+
+            $(".essentialsTextVal").html(essentailPrice.replace(/[^0-9.-]+/g, ""));
+            $(".plusTextVal").html(plusPrice.replace(/[^0-9.-]+/g, ""));
+
             templateObject.simplestartArr.set(simplestartArr);
             templateObject.essentailsArr.set(essentailsArr);
             templateObject.plusArr.set(plusArr);

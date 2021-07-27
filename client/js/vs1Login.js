@@ -111,6 +111,8 @@ Template.vs1login.onRendered(function(){
    localStorage.setItem('VS1TpurchaseOrderBackOrderList', '[]');
    localStorage.setItem('VS1TSalesList', '[]');
 
+   localStorage.setItem('isPurchasedTrueERPModule', false);
+
   Session.setPersistent('VS1ProductList', '');
   localStorage.setItem('VS1SalesProductList', '');
   localStorage.setItem('VS1PurchaseAccountList', '');
@@ -1691,6 +1693,7 @@ $("#erplogin-button").click(async function(e){
                              }else if((option.ModuleName == 'Use Foreign Currency')){
                                isFxCurrencyLicence = true;
                              }else if((option.ModuleName == 'Link To TrueERP') || (option.ModuleName == 'Connect to Live ERP DB')){
+                               localStorage.setItem('isPurchasedTrueERPModule', true);
                                if(option.ModuleActive){
                                  isTrueERPConnection = option.ModuleActive || true;
                                }else{
@@ -2304,6 +2307,7 @@ $("#erplogin-button").click(async function(e){
              }else if((option.ModuleName == 'Use Foreign Currency')){
                isFxCurrencyLicence = true;
              }else if((option.ModuleName == 'Link To TrueERP') || (option.ModuleName == 'Connect to Live ERP DB')){
+               localStorage.setItem('isPurchasedTrueERPModule', true);
                if(option.ModuleActive){
                  isTrueERPConnection = option.ModuleActive || true;
                }else{
@@ -2798,6 +2802,7 @@ $("#erplogin-button").click(async function(e){
                              }else if((option.ModuleName == 'Use Foreign Currency')){
                                isFxCurrencyLicence = true;
                              }else if((option.ModuleName == 'Link To TrueERP') || (option.ModuleName == 'Connect to Live ERP DB')){
+                               localStorage.setItem('isPurchasedTrueERPModule', true);
                                if(option.ModuleActive){
                                  isTrueERPConnection = option.ModuleActive || true;
                                }else{
@@ -3444,6 +3449,7 @@ $("#erplogin-button").click(async function(e){
                                    }else if((option.ModuleName == 'Use Foreign Currency')){
                                      isFxCurrencyLicence = true;
                                    }else if((option.ModuleName == 'Link To TrueERP') || (option.ModuleName == 'Connect to Live ERP DB')){
+                                     localStorage.setItem('isPurchasedTrueERPModule', true);
                                      if(option.ModuleActive){
                                        isTrueERPConnection = option.ModuleActive || true;
                                      }else{
@@ -4130,6 +4136,7 @@ $("#erplogin-button").click(async function(e){
                                  }else if((option.ModuleName == 'Use Foreign Currency')){
                                    isFxCurrencyLicence = true;
                                  }else if((option.ModuleName == 'Link To TrueERP') || (option.ModuleName == 'Connect to Live ERP DB')){
+                                   localStorage.setItem('isPurchasedTrueERPModule', true);
                                    if(option.ModuleActive){
                                      isTrueERPConnection = option.ModuleActive || true;
                                    }else{
