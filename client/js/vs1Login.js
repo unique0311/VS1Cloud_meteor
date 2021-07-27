@@ -2024,6 +2024,42 @@ $("#erplogin-button").click(async function(e){
                   $('.myVS1VideoLogin').css('display','none');
                   $('.loginSpinner').css('display','none');
                   $('.fullScreenSpin').css('display','none');
+                }else if(oReq.readyState == 4 && oReq.status == 401){
+                  var ErrorResponse = oReq.getResponseHeader('errormessage');
+                  if (ErrorResponse.indexOf("Could not connect to ERP") >= 0){
+                    swal({
+                      title: 'Oooops...',
+                      text: "Could not connect to Database. Unable to start Database. Licence on hold ",
+                      type: 'error',
+                      showCancelButton: false,
+                      confirmButtonText: 'Try Again'
+                      }).then((result) => {
+                      if (result.value) {
+                        Meteor._reload.reload();
+                      } else if (result.dismiss === 'cancel') {
+
+                      }
+                    });
+                  }else{
+                    swal({
+                      title: 'Oooops...',
+                      text: oReq.getResponseHeader('errormessage'),
+                      type: 'error',
+                      showCancelButton: false,
+                      confirmButtonText: 'Try Again'
+                      }).then((result) => {
+                      if (result.value) {
+                        Meteor._reload.reload();
+                      } else if (result.dismiss === 'cancel') {
+
+                      }
+                    });
+                  }
+                  myVS1Video.pause();
+                  $('.myVS1Video').css('display','none');
+                  $('.myVS1VideoLogin').css('display','none');
+                  $('.loginSpinner').css('display','none');
+                  $('.fullScreenSpin').css('display','none');
                 }else{
 
                 }
@@ -3133,6 +3169,42 @@ $("#erplogin-button").click(async function(e){
                 $('.myVS1VideoLogin').css('display','none');
                 $('.loginSpinner').css('display','none');
                 $('.fullScreenSpin').css('display','none');
+              }else if(oReq.readyState == 4 && oReq.status == 401){
+                var ErrorResponse = oReq.getResponseHeader('errormessage');
+                if (ErrorResponse.indexOf("Could not connect to ERP") >= 0){
+                  swal({
+                    title: 'Oooops...',
+                    text: "Could not connect to Database. Unable to start Database. Licence on hold ",
+                    type: 'error',
+                    showCancelButton: false,
+                    confirmButtonText: 'Try Again'
+                    }).then((result) => {
+                    if (result.value) {
+                      Meteor._reload.reload();
+                    } else if (result.dismiss === 'cancel') {
+
+                    }
+                  });
+                }else{
+                  swal({
+                    title: 'Oooops...',
+                    text: oReq.getResponseHeader('errormessage'),
+                    type: 'error',
+                    showCancelButton: false,
+                    confirmButtonText: 'Try Again'
+                    }).then((result) => {
+                    if (result.value) {
+                      Meteor._reload.reload();
+                    } else if (result.dismiss === 'cancel') {
+
+                    }
+                  });
+                }
+                myVS1Video.pause();
+                $('.myVS1Video').css('display','none');
+                $('.myVS1VideoLogin').css('display','none');
+                $('.loginSpinner').css('display','none');
+                $('.fullScreenSpin').css('display','none');
               }else{
 
               }
@@ -3823,6 +3895,42 @@ $("#erplogin-button").click(async function(e){
             $('.myVS1VideoLogin').css('display','none');
             $('.loginSpinner').css('display','none');
             $('.fullScreenSpin').css('display','none');
+          }else if(oReq.readyState == 4 && oReq.status == 401){
+            var ErrorResponse = oReq.getResponseHeader('errormessage');
+            if (ErrorResponse.indexOf("Could not connect to ERP") >= 0){
+              swal({
+                title: 'Oooops...',
+                text: "Could not connect to Database. Unable to start Database. Licence on hold ",
+                type: 'error',
+                showCancelButton: false,
+                confirmButtonText: 'Try Again'
+                }).then((result) => {
+                if (result.value) {
+                  Meteor._reload.reload();
+                } else if (result.dismiss === 'cancel') {
+
+                }
+              });
+            }else{
+              swal({
+                title: 'Oooops...',
+                text: oReq.getResponseHeader('errormessage'),
+                type: 'error',
+                showCancelButton: false,
+                confirmButtonText: 'Try Again'
+                }).then((result) => {
+                if (result.value) {
+                  Meteor._reload.reload();
+                } else if (result.dismiss === 'cancel') {
+
+                }
+              });
+            }
+            myVS1Video.pause();
+            $('.myVS1Video').css('display','none');
+            $('.myVS1VideoLogin').css('display','none');
+            $('.loginSpinner').css('display','none');
+            $('.fullScreenSpin').css('display','none');
           }else{
 
           }
@@ -4438,6 +4546,42 @@ $("#erplogin-button").click(async function(e){
                     title: 'Your database is being created. ',
                     text: "Please try again in 10 minutes",
                     type: 'info',
+                    showCancelButton: false,
+                    confirmButtonText: 'Try Again'
+                    }).then((result) => {
+                    if (result.value) {
+                      Meteor._reload.reload();
+                    } else if (result.dismiss === 'cancel') {
+
+                    }
+                  });
+                }else{
+                  swal({
+                    title: 'Oooops...',
+                    text: oReq.getResponseHeader('errormessage'),
+                    type: 'error',
+                    showCancelButton: false,
+                    confirmButtonText: 'Try Again'
+                    }).then((result) => {
+                    if (result.value) {
+                      Meteor._reload.reload();
+                    } else if (result.dismiss === 'cancel') {
+
+                    }
+                  });
+                }
+                myVS1Video.pause();
+                $('.myVS1Video').css('display','none');
+                $('.myVS1VideoLogin').css('display','none');
+                $('.loginSpinner').css('display','none');
+                $('.fullScreenSpin').css('display','none');
+              }else if(oReq.readyState == 4 && oReq.status == 401){
+                var ErrorResponse = oReq.getResponseHeader('errormessage');
+                if (ErrorResponse.indexOf("Could not connect to ERP") >= 0){
+                  swal({
+                    title: 'Oooops...',
+                    text: "Could not connect to Database. Unable to start Database. Licence on hold ",
+                    type: 'error',
                     showCancelButton: false,
                     confirmButtonText: 'Try Again'
                     }).then((result) => {

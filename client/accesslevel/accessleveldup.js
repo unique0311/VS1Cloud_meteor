@@ -659,7 +659,7 @@ Template.accessleveldup.onRendered(function(){
         }else{
             getTableData('All');
         }
-        
+
         $('.employeeNameHead span').text(employeeName);
     });
 
@@ -1248,7 +1248,7 @@ Template.accessleveldup.events({
 
         }
     },
-    'click .btnTopGlobalSave': function () {
+    'click .btnTopGlobalSaveUpdate-Ras': function () {
         swal({
             title: 'Do you want to save both VS1 and Employee Modules?',
             text: 'Yes to Save Both and No to Save only the VS1 Modules.',

@@ -2743,6 +2743,22 @@ Template.employeescard.events({
 
             }  else if (oPost.readyState == 4 && oPost.status == 401) {
                 $('.fullScreenSpin').css('display', 'none');
+                var ErrorResponse = oPost.getResponseHeader('errormessage');
+                if (ErrorResponse.indexOf("Could not connect to ERP") >= 0){
+                  swal({
+                    title: 'Oooops...',
+                    text: "Could not connect to Database. Unable to start Database. Licence on hold ",
+                    type: 'error',
+                    showCancelButton: false,
+                    confirmButtonText: 'Try Again'
+                    }).then((result) => {
+                    if (result.value) {
+                      Meteor._reload.reload();
+                    } else if (result.dismiss === 'cancel') {
+
+                    }
+                  });
+                }else{
                 swal({
                     title: 'Oooops...',
                     text: oPost.getResponseHeader('errormessage'),
@@ -2754,6 +2770,7 @@ Template.employeescard.events({
                         // Meteor._reload.reload();
                     } else if (result.dismiss === 'cancel') {}
                 });
+              }
             } else if (oPost.readyState == '') {
                 $('.fullScreenSpin').css('display', 'none');
                 //Bert.alert('<strong>'+ oPost.getResponseHeader('errormessage')+'</strong>!', 'danger');
@@ -2965,6 +2982,22 @@ Template.employeescard.events({
 
             }  else if (oPost.readyState == 4 && oPost.status == 401) {
                 $('.fullScreenSpin').css('display', 'none');
+                var ErrorResponse = oPost.getResponseHeader('errormessage');
+                if (ErrorResponse.indexOf("Could not connect to ERP") >= 0){
+                  swal({
+                    title: 'Oooops...',
+                    text: "Could not connect to Database. Unable to start Database. Licence on hold ",
+                    type: 'error',
+                    showCancelButton: false,
+                    confirmButtonText: 'Try Again'
+                    }).then((result) => {
+                    if (result.value) {
+                      Meteor._reload.reload();
+                    } else if (result.dismiss === 'cancel') {
+
+                    }
+                  });
+                }else{
                 swal({
                     title: 'Oooops...',
                     text: oPost.getResponseHeader('errormessage'),
@@ -2976,6 +3009,7 @@ Template.employeescard.events({
                         // Meteor._reload.reload();
                     } else if (result.dismiss === 'cancel') {}
                 });
+              }
             } else if (oPost.readyState == '') {
                 $('.fullScreenSpin').css('display', 'none');
                 //Bert.alert('<strong>'+ oPost.getResponseHeader('errormessage')+'</strong>!', 'danger');
