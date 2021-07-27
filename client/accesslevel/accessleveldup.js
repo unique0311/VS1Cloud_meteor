@@ -63,18 +63,18 @@ Template.accessleveldup.onRendered(function(){
     templateObject.employeename.set(empName);
     if(Router.current().params.query.empuser){
 
-      $([document.documentElement, document.body]).animate({
-       scrollTop: $(".employeeModules").offset().top
-      }, 2000);
-      swal({
-          title: 'Please Select the Employee Modules for the Newly Created User',
-          text: '',
-          type: 'success',
-          showCancelButton: false,
-          confirmButtonText: 'OK'
-      }).then((result) => {
+        $([document.documentElement, document.body]).animate({
+            scrollTop: $(".employeeModules").offset().top
+        }, 2000);
+        swal({
+            title: 'Please Select the Employee Modules for the Newly Created User',
+            text: '',
+            type: 'success',
+            showCancelButton: false,
+            confirmButtonText: 'OK'
+        }).then((result) => {
 
-      });
+        });
     }
 
     accesslevelService.getCloudTERPForm().then(function(data){
@@ -143,9 +143,9 @@ Template.accessleveldup.onRendered(function(){
             templateObject.employeerecords.set(employeeList);
             if(templateObject.employeerecords.get()){
                 if(Router.current().params.query.empuser){
-                  $([document.documentElement, document.body]).animate({
-                   scrollTop: $(".employeeModules").offset().top
-                  }, 2000);
+                    $([document.documentElement, document.body]).animate({
+                        scrollTop: $(".employeeModules").offset().top
+                    }, 2000);
                     let empToSelect = Router.current().params.query.empuser;
                     setTimeout(function () {
                         $('select[name="sltEmployeeName"] option[value="'+empToSelect+'"]').prop('selected', true);
@@ -659,6 +659,8 @@ Template.accessleveldup.onRendered(function(){
         }else{
             getTableData('All');
         }
+        
+        $('.employeeNameHead span').text(employeeName);
     });
 
 });
@@ -911,8 +913,8 @@ Template.accessleveldup.events({
         let empInputValue = templateObject.$("#sltEmployeeName").val();
         var erpGet = erpDb();
         if(empInputValue === "All"){
-          let lineItemsFormAccess = [];
-          let lineItemObjFormAccess = {};
+            let lineItemsFormAccess = [];
+            let lineItemObjFormAccess = {};
             $('.fullScreenSpin').css('display','inline-block');
             $('.tblAccessLevel > tbody > tr').each(function(){
                 var $tblrow = $(this);
@@ -937,7 +939,7 @@ Template.accessleveldup.events({
                     Access : accessNumber,
                 };
 
-                    lineItemsFormAccess.push(lineItemObjFormAccess);
+                lineItemsFormAccess.push(lineItemObjFormAccess);
 
 
             });
@@ -945,7 +947,7 @@ Template.accessleveldup.events({
             let objDetailsAccess = {
                 Name: "VS1_EmployeeAccess",
                 Params: {
-                  VS1EmployeeAccessList:lineItemsFormAccess
+                    VS1EmployeeAccessList:lineItemsFormAccess
                     // VS1EmployeeAccessList:
                     // [
                     //     {
@@ -980,16 +982,16 @@ Template.accessleveldup.events({
                         confirmButtonText: 'OK'
                     }).then((result) => {
                         if (result.value) {
-                          let getLasTDatabase = erpGet.ERPDatabase;
-                          if(getLasTDatabase){
-                            deleteStoreDatabase(getLasTDatabase).then(function(data) {
-                              window.open('/','_self');
-                              }).catch(function (err) {
+                            let getLasTDatabase = erpGet.ERPDatabase;
+                            if(getLasTDatabase){
+                                deleteStoreDatabase(getLasTDatabase).then(function(data) {
+                                    window.open('/','_self');
+                                }).catch(function (err) {
+                                    window.open('/','_self');
+                                });
+                            }else{
                                 window.open('/','_self');
-                              });
-                          }else{
-                            window.open('/','_self');
-                          }
+                            }
                         } else if (result.dismiss === 'cancel') {
 
                         }
@@ -1119,7 +1121,7 @@ Template.accessleveldup.events({
                         Access : accessNumber,
                     };
 
-                        lineItemsFormAccess.push(lineItemObjFormAccess);
+                    lineItemsFormAccess.push(lineItemObjFormAccess);
 
 
                 });
@@ -1154,16 +1156,16 @@ Template.accessleveldup.events({
                                 confirmButtonText: 'OK'
                             }).then((result) => {
                                 if (result.value) {
-                                  let getLasTDatabase = erpGet.ERPDatabase;
-                                  if(getLasTDatabase){
-                                    deleteStoreDatabase(getLasTDatabase).then(function(data) {
-                                      window.open('/','_self');
-                                      }).catch(function (err) {
+                                    let getLasTDatabase = erpGet.ERPDatabase;
+                                    if(getLasTDatabase){
+                                        deleteStoreDatabase(getLasTDatabase).then(function(data) {
+                                            window.open('/','_self');
+                                        }).catch(function (err) {
+                                            window.open('/','_self');
+                                        });
+                                    }else{
                                         window.open('/','_self');
-                                      });
-                                  }else{
-                                    window.open('/','_self');
-                                  }
+                                    }
                                 } else if (result.dismiss === 'cancel') {
 
                                 }
