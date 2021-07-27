@@ -695,6 +695,7 @@
             "Discountfrom": "1899-12-30 00:00:00",
             "Discountto": "1899-12-30 00:00:00",
             "Price": 35,
+            "isPurchasedTrueERPPrice": 110,
             "discount": 0
         },
         {
@@ -712,6 +713,7 @@
             "Discountfrom": "1899-12-30 00:00:00",
             "Discountto": "1899-12-30 00:00:00",
             "Price": 35,
+            "isPurchasedTrueERPPrice": 110,
             "discount": 0
         },
         {
@@ -729,6 +731,7 @@
             "Discountfrom": "1899-12-30 00:00:00",
             "Discountto": "1899-12-30 00:00:00",
             "Price": 35,
+            "isPurchasedTrueERPPrice": 110,
             "discount": 0
         },
         {
@@ -1562,6 +1565,7 @@
             "Discountfrom": "1899-12-30 00:00:00",
             "Discountto": "1899-12-30 00:00:00",
             "Price": 45,
+            "isPurchasedTrueERPPrice": 152,
             "discount": 0
         },
         {
@@ -1579,6 +1583,7 @@
             "Discountfrom": "1899-12-30 00:00:00",
             "Discountto": "1899-12-30 00:00:00",
             "Price": 45,
+            "isPurchasedTrueERPPrice": 152,
             "discount": 0
         },
         {
@@ -1596,6 +1601,7 @@
             "Discountfrom": "1899-12-30 00:00:00",
             "Discountto": "1899-12-30 00:00:00",
             "Price": 45,
+            "isPurchasedTrueERPPrice": 152,
             "discount": 0
         },
         {
@@ -2429,6 +2435,7 @@
             "Discountfrom": "1899-12-30 00:00:00",
             "Discountto": "1899-12-30 00:00:00",
             "Price": 480,
+            "isPurchasedTrueERPPrice": 1660,
             "discount": 0
         },
         {
@@ -2446,6 +2453,7 @@
             "Discountfrom": "1899-12-30 00:00:00",
             "Discountto": "1899-12-30 00:00:00",
             "Price": 480,
+            "isPurchasedTrueERPPrice": 1660,
             "discount": 0
         },
         {
@@ -2463,6 +2471,7 @@
             "Discountfrom": "1899-12-30 00:00:00",
             "Discountto": "1899-12-30 00:00:00",
             "Price": 480,
+            "isPurchasedTrueERPPrice": 1660,
             "discount": 0
         },
         {
@@ -3381,6 +3390,7 @@
             "Discountfrom": "1899-12-30 00:00:00",
             "Discountto": "1899-12-30 00:00:00",
             "Price": 35,
+            "isPurchasedTrueERPPrice": 110,
             "discount": 0
         },
         {
@@ -3398,6 +3408,7 @@
             "Discountfrom": "1899-12-30 00:00:00",
             "Discountto": "1899-12-30 00:00:00",
             "Price": 35,
+            "isPurchasedTrueERPPrice": 110,
             "discount": 0
         },
         {
@@ -3415,6 +3426,7 @@
             "Discountfrom": "1899-12-30 00:00:00",
             "Discountto": "1899-12-30 00:00:00",
             "Price": 35,
+            "isPurchasedTrueERPPrice": 110,
             "discount": 0
         },
         {
@@ -4333,6 +4345,7 @@
             "Discountfrom": "1899-12-30 00:00:00",
             "Discountto": "1899-12-30 00:00:00",
             "Price": 40,
+            "isPurchasedTrueERPPrice": 160,
             "discount": 0
         },
         {
@@ -4350,6 +4363,7 @@
             "Discountfrom": "1899-12-30 00:00:00",
             "Discountto": "1899-12-30 00:00:00",
             "Price": 40,
+            "isPurchasedTrueERPPrice": 160,
             "discount": 0
         },
         {
@@ -4367,6 +4381,7 @@
             "Discountfrom": "1899-12-30 00:00:00",
             "Discountto": "1899-12-30 00:00:00",
             "Price": 40,
+            "isPurchasedTrueERPPrice": 160,
             "discount": 0
         },
         {
@@ -5285,6 +5300,7 @@
             "Discountfrom": "1899-12-30 00:00:00",
             "Discountto": "1899-12-30 00:00:00",
             "Price": 40,
+            "isPurchasedTrueERPPrice": 140,
             "discount": 0
         },
         {
@@ -5302,6 +5318,7 @@
             "Discountfrom": "1899-12-30 00:00:00",
             "Discountto": "1899-12-30 00:00:00",
             "Price": 40,
+            "isPurchasedTrueERPPrice": 140,
             "discount": 0
         },
         {
@@ -5319,6 +5336,7 @@
             "Discountfrom": "1899-12-30 00:00:00",
             "Discountto": "1899-12-30 00:00:00",
             "Price": 40,
+            "isPurchasedTrueERPPrice": 140,
             "discount": 0
         },
         {
@@ -6237,6 +6255,7 @@
             "Discountfrom": "1899-12-30 00:00:00",
             "Discountto": "1899-12-30 00:00:00",
             "Price": 25,
+            "isPurchasedTrueERPPrice": 80,
             "discount": 0
         },
         {
@@ -6254,6 +6273,7 @@
             "Discountfrom": "1899-12-30 00:00:00",
             "Discountto": "1899-12-30 00:00:00",
             "Price": 25,
+            "isPurchasedTrueERPPrice": 80,
             "discount": 0
         },
         {
@@ -6271,6 +6291,7 @@
             "Discountfrom": "1899-12-30 00:00:00",
             "Discountto": "1899-12-30 00:00:00",
             "Price": 25,
+            "isPurchasedTrueERPPrice": 80,
             "discount": 0
         },
         {
