@@ -631,6 +631,7 @@ Template.organisationsettings.events({
     },
     'click .btnCancelSub': function (event) {
       let loggeduserEmail = localStorage.getItem('mySession');
+      let currentURL = Router.current().params.query;
       swal({
         title: 'Are you sure you want to cancel this subscription?',
         text: '',
@@ -666,7 +667,7 @@ Template.organisationsettings.events({
               confirmButtonText: 'OK'
               }).then((result) => {
               if (result.value) {
-               window.open('http://vs1cloud.com/cancelsubscription.php?email='+loggeduserEmail+'','_self');
+               window.open('https://depot.vs1cloud.com/vs1subscription/cancelsubscription.php?email='+loggeduserEmail+'&urlfrom='+currentURL.url+'','_self');
               } else if (result.dismiss === 'cancel') {
 
               }
@@ -690,7 +691,7 @@ Template.organisationsettings.events({
               confirmButtonText: 'OK'
               }).then((result) => {
               if (result.value) {
-               window.open('http://vs1cloud.com/cancelsubscription.php?email='+loggeduserEmail+'','_self');
+               window.open('https://depot.vs1cloud.com/vs1subscription/cancelsubscription.php?email='+loggeduserEmail+'&urlfrom='+currentURL.url+'','_self');
               } else if (result.dismiss === 'cancel') {
 
               }

@@ -55,6 +55,7 @@ Template.subscriptionSettings.events({
   },
   'click .btnCancelSub': function (event) {
     let loggeduserEmail = localStorage.getItem('mySession');
+    let currentURL = Router.current().params.query;
     swal({
       title: 'Are you sure you want to cancel this subscription?',
       text: '',
