@@ -1493,10 +1493,10 @@ Template.paymentoverview.events({
     }
     ,
     'click .openaccountpayable': function () {
-        Router.go('/agedpayables');
+        Router.go('/supplierawaitingpurchaseorder');
     },
     'click .openaccountreceivable': function () {
-        Router.go('/agedreceivables');
+        Router.go('/customerawaitingpayments');
     },
     'click .btnPrinStatment': function () {
         Router.go('/statementlist');
