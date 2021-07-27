@@ -893,6 +893,20 @@ Template.customerawaitingpayments.events({
             Router.go('/paymentcard?selectcust='+ result);
         }
 
+    },
+    'click .chkBox': function () {
+        var totalAmount     = 0,
+            selectedvalues = [];
+        $('.chkBox:checkbox:checked').each(function(){
+            if($(this).prop("checked") == true){
+                selectedAmount = $(this).val().replace(/[^0-9.-]+/g, "");
+                selectedvalues.push(selectedAmount);
+                totalAmount += parseFloat(selectedAmount);
+            }
+            else if($(this).prop("checked") == false){
+            }
+        });
+        $("#selectedTot").val(utilityService.modifynegativeCurrencyFormat(totalAmount)); 
     }
 
 

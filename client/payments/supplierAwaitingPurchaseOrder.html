@@ -226,7 +226,7 @@
                                 {{#if datatablerecords}}
                                 {{#each item in datatablerecords}}
                                 <tr class="dnd-moved" id="{{item.id}}" style="cursor: pointer;">
-                                    <td contenteditable="false" class="chkBox" style="width:15px;"><div class="custom-control custom-checkbox chkBox pointer" style="width:15px;"><input class="custom-control-input chkBox chkPaymentCard pointer" type="checkbox" id="formCheck-{{item.id}}"><label class="custom-control-label chkBox pointer" for="formCheck-{{item.id}}"></label></div></td>
+                                    <td contenteditable="false" class="chkBox" style="width:15px;"><div class="custom-control custom-checkbox chkBox pointer" style="width:15px;"><input class="custom-control-input chkBox chkPaymentCard pointer" type="checkbox" id="formCheck-{{item.id}}" value="{{item.outsandingamount}}"><label class="custom-control-label chkBox pointer" for="formCheck-{{item.id}}"></label></div></td>
                                     <td contenteditable="false" class="colSortDate hiddenColumn">{{item.sortdate}}</td>
                                     <td contenteditable="false" class="colPaymentDate"><span style="display:none;">{{item.sortdate}}</span>{{item.paymentdate}}</td>
                                     <td contenteditable="false" class="colReceiptNo">{{item.refno}}</td>

@@ -3083,10 +3083,24 @@ Template.sidenav.events({
         let templateObject = Template.instance();
         templateObject.getSetSideNavFocus();
     },
+    'click #sidenavnewcustomerP': function(event) {
+
+        event.preventDefault();
+        Router.go('/customerawaitingpayments');
+        let templateObject = Template.instance();
+        templateObject.getSetSideNavFocus();
+    },
     'click #sidenavsupplierP': function(event) {
 
         event.preventDefault();
         Router.go('/supplierpayment');
+        let templateObject = Template.instance();
+        templateObject.getSetSideNavFocus();
+    },
+    'click #sidenavnewsupplierP': function(event) {
+
+        event.preventDefault();
+        Router.go('/supplierawaitingpurchaseorder');
         let templateObject = Template.instance();
         templateObject.getSetSideNavFocus();
     },

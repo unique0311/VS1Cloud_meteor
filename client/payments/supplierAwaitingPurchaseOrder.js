@@ -919,20 +919,20 @@ Template.supplierawaitingpurchaseorder.events({
         $('.fullScreenSpin').css('display', 'inline-block');
         let templateObject = Template.instance();
         var currentBeginDate = new Date();
-      var begunDate = moment(currentBeginDate).format("DD/MM/YYYY");
-      let fromDateMonth = currentBeginDate.getMonth();
-      let fromDateDay = currentBeginDate.getDate();
-      if(currentBeginDate.getMonth() < 10){
-          fromDateMonth = "0" + (currentBeginDate.getMonth()+1);
-      }else{
-        fromDateMonth = (currentBeginDate.getMonth()+1);
-      }
+        var begunDate = moment(currentBeginDate).format("DD/MM/YYYY");
+        let fromDateMonth = currentBeginDate.getMonth();
+        let fromDateDay = currentBeginDate.getDate();
+        if(currentBeginDate.getMonth() < 10){
+            fromDateMonth = "0" + (currentBeginDate.getMonth()+1);
+        }else{
+            fromDateMonth = (currentBeginDate.getMonth()+1);
+        }
 
-      if(currentBeginDate.getDate() < 10){
-          fromDateDay = "0" + currentBeginDate.getDate();
-      }
-      var toDate = currentBeginDate.getFullYear()+ "-" +(fromDateMonth) + "-"+(fromDateDay+1);
-      let prevMonth11Date = (moment().subtract(reportsloadMonths, 'months')).format("YYYY-MM-DD");
+        if(currentBeginDate.getDate() < 10){
+            fromDateDay = "0" + currentBeginDate.getDate();
+        }
+        var toDate = currentBeginDate.getFullYear()+ "-" +(fromDateMonth) + "-"+(fromDateDay+1);
+        let prevMonth11Date = (moment().subtract(reportsloadMonths, 'months')).format("YYYY-MM-DD");
 
         sideBarService.getAllPurchaseOrderListAll(prevMonth11Date,toDate, false).then(function (data) {
             addVS1Data('TbillReport', JSON.stringify(data)).then(function (datareturn) {
@@ -1013,8 +1013,21 @@ Template.supplierawaitingpurchaseorder.events({
             Router.go('/supplierpaymentcard?selectsupppo=' + resultPO + '&selectsuppbill=' + resultBill + '&selectsuppcredit=' + resultCredit);
         }
 
+    },
+    'click .chkBox': function () {
+        var totalAmount     = 0,
+            selectedvalues = [];
+        $('.chkBox:checkbox:checked').each(function(){
+            if($(this).prop("checked") == true){
+                selectedAmount = $(this).val().replace(/[^0-9.-]+/g, "");
+                selectedvalues.push(selectedAmount);
+                totalAmount += parseFloat(selectedAmount);
+            }
+            else if($(this).prop("checked") == false){
+            }
+        });
+        $("#selectedTot").val(utilityService.modifynegativeCurrencyFormat(totalAmount)); 
     }
-
 
 });
 Template.supplierawaitingpurchaseorder.helpers({
