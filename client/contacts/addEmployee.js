@@ -2658,7 +2658,7 @@ Template.employeescard.events({
                                 method: 'post',
                                 success: function (response) {
                                     let response2 = JSON.parse(response);
-                                    if (response2.id) {
+                                    if (response2 != null) {
                                         swal({
                                             title: 'User details successfully added',
                                             text: '',

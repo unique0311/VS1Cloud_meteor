@@ -640,7 +640,7 @@ Template.companyappsettingsdup.events({
                                 method: 'post',
                                 success: function (response) {
                                     let response2 = JSON.parse(response);
-                                    if (response2.id) {
+                                    if (response2 != null) {
                                         swal({
                                             title: 'Payment Successful',
                                             text: "Please log out to activate your changes.",
@@ -655,12 +655,12 @@ Template.companyappsettingsdup.events({
                                             //}
                                         });
                                     } else {
-                                        window.open('https://www.depot.vs1cloud.com/stripe/' + stringQuery, '_self');
+                                       window.open('https://www.depot.vs1cloud.com/stripe/' + stringQuery, '_self');
                                     }
                                 }
                             });
                         }).catch(function (err) {
-                            window.open('https://www.depot.vs1cloud.com/stripe/' + stringQuery, '_self');
+                           window.open('https://www.depot.vs1cloud.com/stripe/' + stringQuery, '_self');
                         });
                     } else {
                         $.ajax({
@@ -673,7 +673,7 @@ Template.companyappsettingsdup.events({
                             method: 'post',
                             success: function (response) {
                                 let response1 = JSON.parse(response);
-                                if (response1.id) {
+                                if (response1 != null) {
                                     swal({
                                         title: 'Payment Successful',
                                         text: "Please log out to activate your changes.",
