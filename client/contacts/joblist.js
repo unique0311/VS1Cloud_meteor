@@ -57,7 +57,7 @@ Template.joblist.onRendered(function () {
 
         getVS1Data('TJobVS1').then(function (dataObject) {
             if (dataObject.length == 0) {
-                sideBarService.getAllJobssDataVS1(25,0).then(function (data) {
+                sideBarService.getAllJobssDataVS1(initialBaseDataLoad,0).then(function (data) {
                     let lineItems = [];
                     let lineItemObj = {};
                     addVS1Data('TJobVS1',JSON.stringify(data));
@@ -551,7 +551,7 @@ Template.joblist.onRendered(function () {
 
             }
         }).catch(function (err) {
-            sideBarService.getAllJobssDataVS1(25,0).then(function (data) {
+            sideBarService.getAllJobssDataVS1(initialBaseDataLoad,0).then(function (data) {
                 let lineItems = [];
                 let lineItemObj = {};
                 addVS1Data('TJobVS1',JSON.stringify(data));
@@ -956,7 +956,7 @@ Template.joblist.events({
     'click .btnRefresh': function () {
         $('.fullScreenSpin').css('display', 'inline-block');
         let templateObject = Template.instance();
-        sideBarService.getAllJobssDataVS1(25,0).then(function (data) {
+        sideBarService.getAllJobssDataVS1(initialBaseDataLoad,0).then(function (data) {
             addVS1Data('TJobVS1', JSON.stringify(data)).then(function (datareturn) {
 
             }).catch(function (err) {
@@ -966,7 +966,7 @@ Template.joblist.events({
 
         });
 
-        sideBarService.getAllCustomersDataVS1(25,0).then(function (data) {
+        sideBarService.getAllCustomersDataVS1(initialBaseDataLoad,0).then(function (data) {
             addVS1Data('TCustomerVS1', JSON.stringify(data)).then(function (datareturn) {
                 setTimeout(function () {
                     location.reload(true);

@@ -3313,7 +3313,7 @@ Template.customerscard.events({
         contactService.saveCustomerEx(objDetails).then(function (objDetails) {
             let customerSaveID = objDetails.fields.ID;
             if (customerSaveID) {
-                sideBarService.getAllCustomersDataVS1(25,0).then(function (dataReload) {
+                sideBarService.getAllCustomersDataVS1(initialBaseDataLoad,0).then(function (dataReload) {
                     addVS1Data('TCustomerVS1', JSON.stringify(dataReload)).then(function (datareturn) {
                         window.open('/customerlist', '_self');
                     }).catch(function (err) {
@@ -3542,7 +3542,7 @@ Template.customerscard.events({
         }
 
         contactService.saveJobEx(objDetails).then(function (objDetails) {
-            sideBarService.getAllJobssDataVS1(25,0).then(function (dataReload) {
+            sideBarService.getAllJobssDataVS1(initialBaseDataLoad,0).then(function (dataReload) {
                 addVS1Data('TJobVS1', JSON.stringify(dataReload)).then(function (datareturn) {
                     Router.go('/joblist?success=true');
                 }).catch(function (err) {
@@ -3552,7 +3552,7 @@ Template.customerscard.events({
                 Router.go('/joblist?success=true');
             });
 
-            sideBarService.getAllCustomersDataVS1(25,0).then(function (dataReload) {
+            sideBarService.getAllCustomersDataVS1(initialBaseDataLoad,0).then(function (dataReload) {
                 addVS1Data('TCustomerVS1', JSON.stringify(dataReload)).then(function (datareturn) {
 
                 }).catch(function (err) {
@@ -3870,7 +3870,7 @@ Template.customerscard.events({
     'click .btnRefreshJobDetails': function () {
         let currentId = Router.current().params.query;
         $('.fullScreenSpin').css('display', 'inline-block');
-        sideBarService.getAllJobssDataVS1(25,0).then(function (data) {
+        sideBarService.getAllJobssDataVS1(initialBaseDataLoad,0).then(function (data) {
             addVS1Data('TJobVS1', JSON.stringify(data)).then(function (datareturn) {
                 if (!isNaN(currentId.jobid)) {
                     window.open('/customerscard?jobid=' + currentId.jobid +'&transTab=job', '_self');

@@ -63,7 +63,7 @@ Template.quoteslist.onRendered(function() {
     templateObject.getAllQuoteData = function () {
         getVS1Data('TQuote').then(function (dataObject) {
             if(dataObject.length == 0){
-                sideBarService.getAllQuoteList(25,0).then(function (data) {
+                sideBarService.getAllQuoteList(initialDataLoad,0).then(function (data) {
                     let lineItems = [];
                     let lineItemObj = {};
                     addVS1Data('TQuote',JSON.stringify(data));
@@ -539,7 +539,7 @@ Template.quoteslist.onRendered(function() {
                 });
             }
         }).catch(function (err) {
-          sideBarService.getAllQuoteList(25,0).then(function (data) {
+          sideBarService.getAllQuoteList(initialDataLoad,0).then(function (data) {
               let lineItems = [];
               let lineItemObj = {};
               addVS1Data('TQuote',JSON.stringify(data));
@@ -964,7 +964,7 @@ Template.quoteslist.events({
         }
         let currenctTodayDate = currentDate.getFullYear() + "-" + month + "-" + days + " "+ hours+ ":"+ minutes+ ":"+ seconds;
         let templateObject = Template.instance();
-        sideBarService.getAllQuoteList(25,0).then(function(data) {
+        sideBarService.getAllQuoteList(initialDataLoad,0).then(function(data) {
             addVS1Data('TQuote',JSON.stringify(data)).then(function (datareturn) {
                 window.open('/quoteslist','_self');
             }).catch(function (err) {

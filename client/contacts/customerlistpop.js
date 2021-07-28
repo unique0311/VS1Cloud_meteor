@@ -55,7 +55,7 @@ templateObject.resetData = function (dataVal) {
 templateObject.getCustomers = function () {
   getVS1Data('TCustomerVS1').then(function (dataObject) {
     if(dataObject.length == 0){
-      sideBarService.getAllCustomersDataVS1(25,0).then(function (data) {
+      sideBarService.getAllCustomersDataVS1(initialBaseDataLoad,0).then(function (data) {
         addVS1Data('TCustomerVS1',JSON.stringify(data));
       let lineItems = [];
       let lineItemObj = {};
@@ -548,7 +548,7 @@ templateObject.tableheaderrecords.set(tableHeaderList);
 $('div.dataTables_filter input').addClass('form-control form-control-sm');
     }
     }).catch(function (err) {
-      sideBarService.getAllCustomersDataVS1(25,0).then(function (data) {
+      sideBarService.getAllCustomersDataVS1(initialBaseDataLoad,0).then(function (data) {
         addVS1Data('TCustomerVS1',JSON.stringify(data));
       let lineItems = [];
       let lineItemObj = {};
@@ -940,7 +940,7 @@ jQuery('#tblCustomerlist_wrapper .dt-buttons .btntabletopdf').click();
 'click .btnRefresh': function () {
   //$('.fullScreenSpin').css('display','inline-block');
   let templateObject = Template.instance();
-  sideBarService.getAllCustomersDataVS1(25,0).then(function(data) {
+  sideBarService.getAllCustomersDataVS1(initialBaseDataLoad,0).then(function(data) {
     addVS1Data('TCustomerVS1',JSON.stringify(data)).then(function (datareturn) {
       location.reload(true);
     }).catch(function (err) {

@@ -1238,7 +1238,7 @@ Template.productview.events({
                 }else{
                     //window.open('/inventorylist','_self');
                 }
-                sideBarService.getNewProductListVS1(25,0).then(function(dataReload) {
+                sideBarService.getNewProductListVS1(initialBaseDataLoad,0).then(function(dataReload) {
                    addVS1Data('TProductVS1',JSON.stringify(dataReload)).then(function (datareturn) {
                      window.open('/inventorylist','_self');
                    }).catch(function (err) {
@@ -1386,7 +1386,7 @@ Template.productview.events({
                         }else{
                           //  window.open('/inventorylist','_self');
                         }
-                          sideBarService.getNewProductListVS1(25,0).then(function(dataReload) {
+                          sideBarService.getNewProductListVS1(initialBaseDataLoad,0).then(function(dataReload) {
                              addVS1Data('TProductVS1',JSON.stringify(dataReload)).then(function (datareturn) {
                                window.open('/inventorylist','_self');
                              }).catch(function (err) {
@@ -1530,7 +1530,7 @@ Template.productview.events({
                         }else{
                             //window.open('/inventorylist','_self');
                         }
-                        sideBarService.getNewProductListVS1(25,0).then(function(dataReload) {
+                        sideBarService.getNewProductListVS1(initialBaseDataLoad,0).then(function(dataReload) {
                            addVS1Data('TProductVS1',JSON.stringify(dataReload)).then(function (datareturn) {
                              window.open('/inventorylist','_self');
                            }).catch(function (err) {
@@ -1677,7 +1677,7 @@ Template.productview.events({
                     }else{
                         //window.open('/inventorylist','_self');
                     }
-                    sideBarService.getNewProductListVS1(25,0).then(function(dataReload) {
+                    sideBarService.getNewProductListVS1(initialBaseDataLoad,0).then(function(dataReload) {
                        addVS1Data('TProductVS1',JSON.stringify(dataReload)).then(function (datareturn) {
                          window.open('/inventorylist','_self');
                        }).catch(function (err) {

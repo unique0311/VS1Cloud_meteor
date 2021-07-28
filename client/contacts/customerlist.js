@@ -57,7 +57,7 @@ Template.customerlist.onRendered(function() {
     templateObject.getCustomers = function () {
         getVS1Data('TCustomerVS1').then(function (dataObject) {
             if(dataObject.length == 0){
-                sideBarService.getAllCustomersDataVS1(25,0).then(function (data) {
+                sideBarService.getAllCustomersDataVS1(initialBaseDataLoad,0).then(function (data) {
                   addVS1Data('TCustomerVS1',JSON.stringify(data));
                     let lineItems = [];
                     let lineItemObj = {};
@@ -581,7 +581,7 @@ Template.customerlist.onRendered(function() {
                 });
             }
         }).catch(function (err) {
-            sideBarService.getAllCustomersDataVS1(25,0).then(function (data) {
+            sideBarService.getAllCustomersDataVS1(initialBaseDataLoad,0).then(function (data) {
               addVS1Data('TCustomerVS1',JSON.stringify(data));
                 let lineItems = [];
                 let lineItemObj = {};
@@ -990,7 +990,7 @@ Template.customerlist.events({
     'click .btnRefresh': function () {
         $('.fullScreenSpin').css('display','inline-block');
         let templateObject = Template.instance();
-        sideBarService.getAllCustomersDataVS1(25,0).then(function(data) {
+        sideBarService.getAllCustomersDataVS1(initialBaseDataLoad,0).then(function(data) {
             addVS1Data('TCustomerVS1',JSON.stringify(data)).then(function (datareturn) {
                 setTimeout(function () {
                     window.open('/customerlist','_self');
@@ -1006,7 +1006,7 @@ Template.customerlist.events({
             }, 2000);
         });
 
-        sideBarService.getAllJobssDataVS1(25,0).then(function(data) {
+        sideBarService.getAllJobssDataVS1(initialBaseDataLoad,0).then(function(data) {
             addVS1Data('TJobVS1',JSON.stringify(data)).then(function (datareturn) {
 
             }).catch(function (err) {

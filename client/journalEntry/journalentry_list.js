@@ -56,7 +56,7 @@ Template.journalentrylist.onRendered(function() {
   templateObject.getAllJournalEntryData = function () {
     getVS1Data('TJournalEntryLines').then(function (dataObject) {
         if(dataObject.length == 0){
-          sideBarService.getAllJournalEnrtryLinesList(25,0).then(function (data) {
+          sideBarService.getAllJournalEnrtryLinesList(initialDataLoad,0).then(function (data) {
             let lineItems = [];
             let lineItemObj = {};
             addVS1Data('TJournalEntryLines',JSON.stringify(data));
@@ -433,7 +433,7 @@ Template.journalentrylist.onRendered(function() {
 
         }
       }).catch(function (err) {
-        sideBarService.getAllJournalEnrtryLinesList(25,0).then(function (data) {
+        sideBarService.getAllJournalEnrtryLinesList(initialDataLoad,0).then(function (data) {
           let lineItems = [];
           let lineItemObj = {};
           addVS1Data('TJournalEntryLines',JSON.stringify(data));
@@ -633,7 +633,7 @@ Template.journalentrylist.events({
    'click .btnRefresh': function () {
      $('.fullScreenSpin').css('display','inline-block');
      let templateObject = Template.instance();
-     sideBarService.getAllJournalEnrtryLinesList(25,0).then(function(data) {
+     sideBarService.getAllJournalEnrtryLinesList(initialDataLoad,0).then(function(data) {
        addVS1Data('TJournalEntryLines',JSON.stringify(data)).then(function (datareturn) {
          window.open('/journalentrylist','_self');
        }).catch(function (err) {

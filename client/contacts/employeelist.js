@@ -53,7 +53,7 @@ Template.employeelist.onRendered(function() {
         getVS1Data('TEmployee').then(function (dataObject) {
 
             if(dataObject.length == 0){
-                sideBarService.getAllEmployees(25,0).then(function (data) {
+                sideBarService.getAllEmployees(initialBaseDataLoad,0).then(function (data) {
                   addVS1Data('TEmployee',JSON.stringify(data));
                     let lineItems = [];
                     let lineItemObj = {};
@@ -385,7 +385,7 @@ Template.employeelist.onRendered(function() {
                 });
             }
         }).catch(function (err) {
-            sideBarService.getAllEmployees(25,0).then(function (data) {
+            sideBarService.getAllEmployees(initialBaseDataLoad,0).then(function (data) {
               addVS1Data('TEmployee',JSON.stringify(data));
                 let lineItems = [];
                 let lineItemObj = {};
@@ -771,7 +771,7 @@ Template.employeelist.events({
         }).catch(function (err) {
 
         });
-        sideBarService.getAllEmployees(25,0).then(function(data) {
+        sideBarService.getAllEmployees(initialBaseDataLoad,0).then(function(data) {
             addVS1Data('TEmployee',JSON.stringify(data)).then(function (datareturn) {
                 window.open('/employeelist','_self');
             }).catch(function (err) {

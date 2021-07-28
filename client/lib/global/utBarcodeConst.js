@@ -39,6 +39,8 @@ isModuleGreenTrack = Session.get('CloudSeedToSaleLicence');
 isPurchasedTrueERPModule = localStorage.getItem('isPurchasedTrueERPModule') || false;
 bsbCodeName = "Branch Code";
 reportsloadMonths = 1; //This load for 1 months
+initialDataLoad = 25; //This load 25 for transaction list data
+initialBaseDataLoad = 100; //This load for 100 data base lists
 if(Session.get('ERPLoggedCountry') == "Australia"){
   // Session.setPersistent('ERPTaxCodePurchaseInc', "NCG");
   // Session.setPersistent('ERPTaxCodeSalesInc', "GST");

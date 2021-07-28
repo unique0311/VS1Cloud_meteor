@@ -688,7 +688,7 @@ Template.sidenav.onRendered(function() {
     }
 
     templateObject.getAllProductData = function() {
-        sideBarService.getNewProductListVS1(25,0).then(function(data) {
+        sideBarService.getNewProductListVS1(initialBaseDataLoad,0).then(function(data) {
             //localStorage.setItem('VS1ProductList', JSON.stringify(data) || '');
             addVS1Data('TProductVS1',JSON.stringify(data));
         }).catch(function(err) {
@@ -697,7 +697,7 @@ Template.sidenav.onRendered(function() {
     }
 
     templateObject.getAllCustomersData = function() {
-        sideBarService.getAllCustomersDataVS1(25,0).then(function(data) {
+        sideBarService.getAllCustomersDataVS1(initialBaseDataLoad,0).then(function(data) {
             //localStorage.setItem('VS1CustomerList', JSON.stringify(data) || '');
             addVS1Data('TCustomerVS1',JSON.stringify(data));
         }).catch(function(err) {
@@ -707,7 +707,7 @@ Template.sidenav.onRendered(function() {
 
 
     templateObject.getAllSuppliersData = function() {
-        sideBarService.getAllSuppliersDataVS1(25,0).then(function(data) {
+        sideBarService.getAllSuppliersDataVS1(initialBaseDataLoad,0).then(function(data) {
             //localStorage.setItem('VS1SupplierList', JSON.stringify(data) || '');
             addVS1Data('TSupplierVS1',JSON.stringify(data));
         }).catch(function(err) {
@@ -804,7 +804,22 @@ Template.sidenav.onRendered(function() {
     }
 
     templateObject.getAllERPCombinedContactsData = function() {
-        sideBarService.getAllContactCombineVS1(25,0).then(function(data) {
+      var currentBeginDate = new Date();
+      var begunDate = moment(currentBeginDate).format("DD/MM/YYYY");
+      let fromDateMonth = currentBeginDate.getMonth();
+      let fromDateDay = currentBeginDate.getDate();
+      if(currentBeginDate.getMonth() < 10){
+          fromDateMonth = "0" + (currentBeginDate.getMonth()+1);
+      }else{
+        fromDateMonth = (currentBeginDate.getMonth()+1);
+      }
+
+      if(currentBeginDate.getDate() < 10){
+          fromDateDay = "0" + currentBeginDate.getDate();
+      }
+      var toDate = currentBeginDate.getFullYear()+ "-" +(fromDateMonth) + "-"+(fromDateDay+1);
+      let prevMonth11Date = (moment().subtract(reportsloadMonths, 'months')).format("YYYY-MM-DD");
+        sideBarService.getAllContactCombineVS1(prevMonth11Date,toDate, false).then(function(data) {
             //localStorage.setItem('VS1ERPCombinedContactsList', JSON.stringify(data) || '');
             addVS1Data('TERPCombinedContactsVS1',JSON.stringify(data));
         }).catch(function(err) {
@@ -813,7 +828,7 @@ Template.sidenav.onRendered(function() {
     }
 
     templateObject.getAllEmployeeData = function() {
-        sideBarService.getAllEmployees(25,0).then(function(data) {
+        sideBarService.getAllEmployees(initialBaseDataLoad,0).then(function(data) {
             //localStorage.setItem('VS1EmployeeList', JSON.stringify(data) || '');
             addVS1Data('TEmployee',JSON.stringify(data));
         }).catch(function(err) {
@@ -822,7 +837,7 @@ Template.sidenav.onRendered(function() {
     }
 
     templateObject.getAllJournalEntryLineData = function() {
-        sideBarService.getAllJournalEnrtryLinesList(25,0).then(function(data) {
+        sideBarService.getAllJournalEnrtryLinesList(initialDataLoad,0).then(function(data) {
             //localStorage.setItem('VS1JournalEntryLineList', JSON.stringify(data) || '');
             addVS1Data('TJournalEntryLines',JSON.stringify(data));
         }).catch(function(err) {
@@ -863,7 +878,7 @@ Template.sidenav.onRendered(function() {
     }
 
     templateObject.getAllInvoiceListData = function() {
-        sideBarService.getAllInvoiceList(25,0).then(function(data) {
+        sideBarService.getAllInvoiceList(initialDataLoad,0).then(function(data) {
             //localStorage.setItem('VS1TInvoiceList', JSON.stringify(data) || '');
             addVS1Data('TInvoiceEx',JSON.stringify(data));
         }).catch(function(err) {
@@ -872,7 +887,7 @@ Template.sidenav.onRendered(function() {
     }
 
     templateObject.getAllSalesOrderExListData = function() {
-        sideBarService.getAllSalesOrderList(25,0).then(function(data) {
+        sideBarService.getAllSalesOrderList(initialDataLoad,0).then(function(data) {
             addVS1Data('TSalesOrderEx',JSON.stringify(data));
         }).catch(function(err) {
 
@@ -880,7 +895,7 @@ Template.sidenav.onRendered(function() {
     }
 
     templateObject.getAllInvoiceListNonBOData = function() {
-        // sideBarService.getAllInvoiceListNonBO(25,0).then(function(data) {
+        // sideBarService.getAllInvoiceListNonBO(initialDataLoad,0).then(function(data) {
         //     //localStorage.setItem('VS1TInvoiceNonBackOrderList', JSON.stringify(data) || '');
         //     addVS1Data('TInvoiceNonBackOrder',JSON.stringify(data));
         // }).catch(function(err) {
@@ -889,7 +904,7 @@ Template.sidenav.onRendered(function() {
     }
 
     templateObject.getAllBOInvoiceListData = function() {
-        // sideBarService.getAllBOInvoiceList(25,0).then(function(data) {
+        // sideBarService.getAllBOInvoiceList(initialDataLoad,0).then(function(data) {
         //     //localStorage.setItem('VS1BackOrderSalesListList', JSON.stringify(data) || '');
         //     addVS1Data('BackOrderSalesList',JSON.stringify(data));
         // }).catch(function(err) {
@@ -898,7 +913,7 @@ Template.sidenav.onRendered(function() {
     }
 
     templateObject.getAllTPurchaseOrderData = function() {
-        sideBarService.getAllPurchaseOrderList(25,0).then(function(data) {
+        sideBarService.getAllPurchaseOrderList(initialDataLoad,0).then(function(data) {
             //localStorage.setItem('VS1TPurchaseOrderList', JSON.stringify(data) || '');
             addVS1Data('TPurchaseOrderEx',JSON.stringify(data));
         }).catch(function(err) {
@@ -940,7 +955,7 @@ Template.sidenav.onRendered(function() {
     }
 
     templateObject.getAllTChequeData = function() {
-        sideBarService.getAllChequeList(25,0).then(function(data) {
+        sideBarService.getAllChequeList(initialDataLoad,0).then(function(data) {
             //localStorage.setItem('VS1TChequeList', JSON.stringify(data) || '');
             addVS1Data('TCheque',JSON.stringify(data));
         }).catch(function(err) {
@@ -982,7 +997,7 @@ Template.sidenav.onRendered(function() {
     }
 
     templateObject.getAllTJobVS1Data = function() {
-        sideBarService.getAllJobssDataVS1(25,0).then(function(data) {
+        sideBarService.getAllJobssDataVS1(initialBaseDataLoad,0).then(function(data) {
             //localStorage.setItem('VS1TJobVS1List', JSON.stringify(data) || '');
             addVS1Data('TJobVS1',JSON.stringify(data));
         }).catch(function(err) {
@@ -991,7 +1006,7 @@ Template.sidenav.onRendered(function() {
     }
 
     templateObject.getAllTStockAdjustEntryData = function() {
-        sideBarService.getAllStockAdjustEntry(25,0).then(function(data) {
+        sideBarService.getAllStockAdjustEntry(initialDataLoad,0).then(function(data) {
             //localStorage.setItem('VS1TStockAdjustEntryList', JSON.stringify(data) || '');
             addVS1Data('TStockAdjustEntry',JSON.stringify(data));
         }).catch(function(err) {
@@ -1000,7 +1015,7 @@ Template.sidenav.onRendered(function() {
     }
 
     templateObject.getAllTQuoteData = function() {
-        sideBarService.getAllQuoteList(25,0).then(function(data) {
+        sideBarService.getAllQuoteList(initialDataLoad,0).then(function(data) {
             //localStorage.setItem('VS1TQuoteList', JSON.stringify(data) || '');
             addVS1Data('TQuote',JSON.stringify(data));
         }).catch(function(err) {
@@ -1027,7 +1042,7 @@ Template.sidenav.onRendered(function() {
     }
 
     templateObject.getAllTBillExData = function() {
-        sideBarService.getAllBillExList(25,0).then(function(data) {
+        sideBarService.getAllBillExList(initialDataLoad,0).then(function(data) {
             addVS1Data('TBillEx',JSON.stringify(data));
         }).catch(function(err) {
 
@@ -1035,7 +1050,7 @@ Template.sidenav.onRendered(function() {
     }
 
     templateObject.getAllTCreditData = function() {
-        sideBarService.getAllCreditList(25,0).then(function(data) {
+        sideBarService.getAllCreditList(initialDataLoad,0).then(function(data) {
             addVS1Data('TCredit',JSON.stringify(data));
         }).catch(function(err) {
 
@@ -1052,7 +1067,7 @@ Template.sidenav.onRendered(function() {
     }
 
     templateObject.getAllTpurchaseOrderBackOrderData = function() {
-        // sideBarService.getAllPurchaseOrderListBO(25,0).then(function(data) {
+        // sideBarService.getAllPurchaseOrderListBO(initialDataLoad,0).then(function(data) {
         //     addVS1Data('TpurchaseOrderBackOrder',JSON.stringify(data));
         // }).catch(function(err) {
         //
@@ -1189,7 +1204,7 @@ Template.sidenav.onRendered(function() {
     }
 
     templateObject.getTCustomerPaymentData = function() {
-        sideBarService.getTCustomerPaymentList(25,0).then(function(data) {
+        sideBarService.getTCustomerPaymentList(initialDataLoad,0).then(function(data) {
             addVS1Data('TCustomerPayment',JSON.stringify(data));
         }).catch(function(err) {
 
@@ -1198,7 +1213,7 @@ Template.sidenav.onRendered(function() {
 
 
     templateObject.getTSupplierPaymentData = function() {
-        sideBarService.getTSupplierPaymentList(25,0).then(function(data) {
+        sideBarService.getTSupplierPaymentList(initialDataLoad,0).then(function(data) {
             addVS1Data('TSupplierPayment',JSON.stringify(data));
         }).catch(function(err) {
 
@@ -1214,7 +1229,7 @@ Template.sidenav.onRendered(function() {
     }
 
     templateObject.getTVS1BankDepositData = function() {
-    sideBarService.getAllTVS1BankDepositData(25,0).then(function(data) {
+    sideBarService.getAllTVS1BankDepositData(initialDataLoad,0).then(function(data) {
       addVS1Data('TVS1BankDeposit',JSON.stringify(data)).then(function (datareturn) {
 
       }).catch(function (err) {
@@ -1474,7 +1489,7 @@ setTimeout(function() {
 
   getVS1Data('TPurchaseOrderEx').then(function (dataObject) {
       if(dataObject.length == 0){
-        sideBarService.getAllPurchaseOrderList(25,0).then(function(data) {
+        sideBarService.getAllPurchaseOrderList(initialDataLoad,0).then(function(data) {
             addVS1Data('TPurchaseOrderEx',JSON.stringify(data));
             templateObject.getFollowedAllObjectPull();
         }).catch(function(err) {
@@ -1484,7 +1499,7 @@ setTimeout(function() {
           let data = JSON.parse(dataObject[0].data);
           let useData = data.tpurchaseorderex;
           if(useData[0].Id){
-            sideBarService.getAllPurchaseOrderList(25,0).then(function(data) {
+            sideBarService.getAllPurchaseOrderList(initialDataLoad,0).then(function(data) {
                 addVS1Data('TPurchaseOrderEx',JSON.stringify(data));
                 templateObject.getFollowedAllObjectPull();
             }).catch(function(err) {
@@ -1495,7 +1510,7 @@ setTimeout(function() {
               if(getTimeStamp){
                   if(loggedUserEventFired){
                       if(getTimeStamp[0] != currenctTodayDate){
-                        sideBarService.getAllPurchaseOrderList(25,0).then(function(data) {
+                        sideBarService.getAllPurchaseOrderList(initialDataLoad,0).then(function(data) {
                             addVS1Data('TPurchaseOrderEx',JSON.stringify(data));
                             templateObject.getFollowedAllObjectPull();
                         }).catch(function(err) {
@@ -1507,7 +1522,7 @@ setTimeout(function() {
           }
       }
   }).catch(function (err) {
-    sideBarService.getAllPurchaseOrderList(25,0).then(function(data) {
+    sideBarService.getAllPurchaseOrderList(initialDataLoad,0).then(function(data) {
         addVS1Data('TPurchaseOrderEx',JSON.stringify(data));
         templateObject.getFollowedAllObjectPull();
     }).catch(function(err) {
@@ -1887,7 +1902,7 @@ templateObject.getFollowedSalesDetailsPull = function () {
 
     getVS1Data('TInvoiceEx').then(function (dataObject) {
         if(dataObject.length == 0){
-          sideBarService.getAllInvoiceList(25,0).then(function(data) {
+          sideBarService.getAllInvoiceList(initialDataLoad,0).then(function(data) {
               addVS1Data('TInvoiceEx',JSON.stringify(data));
               templateObject.getFollowedQuickDataDetailsPull();
           }).catch(function(err) {
@@ -1897,7 +1912,7 @@ templateObject.getFollowedSalesDetailsPull = function () {
             let data = JSON.parse(dataObject[0].data);
             let useData = data.tinvoiceex;
             if(useData[0].Id){
-              sideBarService.getAllInvoiceList(25,0).then(function(data) {
+              sideBarService.getAllInvoiceList(initialDataLoad,0).then(function(data) {
                   addVS1Data('TInvoiceEx',JSON.stringify(data));
                   //setTimeout(function() {
                   templateObject.getFollowedQuickDataDetailsPull();
@@ -1913,7 +1928,7 @@ templateObject.getFollowedSalesDetailsPull = function () {
                 if(getTimeStamp){
                     if(loggedUserEventFired){
                         if(getTimeStamp[0] != currenctTodayDate){
-                          sideBarService.getAllInvoiceList(25,0).then(function(data) {
+                          sideBarService.getAllInvoiceList(initialDataLoad,0).then(function(data) {
                               addVS1Data('TInvoiceEx',JSON.stringify(data));
                               //setTimeout(function() {
                               templateObject.getFollowedQuickDataDetailsPull();
@@ -1930,7 +1945,7 @@ templateObject.getFollowedSalesDetailsPull = function () {
             }
         }
     }).catch(function (err) {
-      sideBarService.getAllInvoiceList(25,0).then(function(data) {
+      sideBarService.getAllInvoiceList(initialDataLoad,0).then(function(data) {
           addVS1Data('TInvoiceEx',JSON.stringify(data));
           //setTimeout(function() {
           templateObject.getFollowedQuickDataDetailsPull();
@@ -2022,9 +2037,24 @@ templateObject.getFollowedSalesDetailsPull = function () {
 templateObject.getFollowedContactDetailsPull = function () {
 setTimeout(function() {
   if(isContacts){
+    var currentBeginDate = new Date();
+    var begunDate = moment(currentBeginDate).format("DD/MM/YYYY");
+    let fromDateMonth = currentBeginDate.getMonth();
+    let fromDateDay = currentBeginDate.getDate();
+    if(currentBeginDate.getMonth() < 10){
+        fromDateMonth = "0" + (currentBeginDate.getMonth()+1);
+    }else{
+      fromDateMonth = (currentBeginDate.getMonth()+1);
+    }
+
+    if(currentBeginDate.getDate() < 10){
+        fromDateDay = "0" + currentBeginDate.getDate();
+    }
+    var toDate = currentBeginDate.getFullYear()+ "-" +(fromDateMonth) + "-"+(fromDateDay+1);
+    let prevMonth11Date = (moment().subtract(reportsloadMonths, 'months')).format("YYYY-MM-DD");
   getVS1Data('TERPCombinedContactsVS1').then(function (dataObject) {
       if(dataObject.length == 0){
-        sideBarService.getAllContactCombineVS1(25,0).then(function(data) {
+        sideBarService.getAllContactCombineVS1(prevMonth11Date,toDate, false).then(function(data) {
             addVS1Data('TERPCombinedContactsVS1',JSON.stringify(data));
             templateObject.getFollowedSalesDetailsPull();
         }).catch(function(err) {
@@ -2034,7 +2064,7 @@ setTimeout(function() {
         templateObject.getFollowedSalesDetailsPull();
       }
   }).catch(function (err) {
-    sideBarService.getAllContactCombineVS1(25,0).then(function(data) {
+    sideBarService.getAllContactCombineVS1(prevMonth11Date,toDate, false).then(function(data) {
         addVS1Data('TERPCombinedContactsVS1',JSON.stringify(data));
         templateObject.getFollowedSalesDetailsPull();
     }).catch(function(err) {
@@ -2138,7 +2168,7 @@ getVS1Data('TAccountVS1').then(function (dataObject) {
 if(isInventory){
 getVS1Data('TProductVS1').then(function (dataObject) {
       if(dataObject.length == 0){
-        sideBarService.getNewProductListVS1(25,0).then(function(data) {
+        sideBarService.getNewProductListVS1(initialBaseDataLoad,0).then(function(data) {
             addVS1Data('TProductVS1',JSON.stringify(data));
             templateObject.getFollowedContactDetailsPull();
         }).catch(function(err) {
@@ -2149,7 +2179,7 @@ getVS1Data('TProductVS1').then(function (dataObject) {
           if(getTimeStamp){
               if(loggedUserEventFired){
                   if(getTimeStamp[0] != currenctTodayDate){
-                    sideBarService.getNewProductListVS1(25,0).then(function(data) {
+                    sideBarService.getNewProductListVS1(initialBaseDataLoad,0).then(function(data) {
                         addVS1Data('TProductVS1',JSON.stringify(data));
                         templateObject.getFollowedContactDetailsPull();
                     }).catch(function(err) {
@@ -2160,7 +2190,7 @@ getVS1Data('TProductVS1').then(function (dataObject) {
           }
       }
 }).catch(function (err) {
-  sideBarService.getNewProductListVS1(25,0).then(function(data) {
+  sideBarService.getNewProductListVS1(initialBaseDataLoad,0).then(function(data) {
       addVS1Data('TProductVS1',JSON.stringify(data));
       templateObject.getFollowedContactDetailsPull();
   }).catch(function(err) {

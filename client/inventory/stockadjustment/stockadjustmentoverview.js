@@ -63,7 +63,7 @@ Template.stockadjustmentoverview.onRendered(function() {
     templateObject.getAllStockAdjustEntryData = function () {
         getVS1Data('TStockAdjustEntry').then(function (dataObject) {
             if(dataObject.length == 0){
-                sideBarService.getAllStockAdjustEntry(25,0).then(function (data) {
+                sideBarService.getAllStockAdjustEntry(initialDataLoad,0).then(function (data) {
                     let lineItems = [];
                     let lineItemObj = {};
                     addVS1Data('TStockAdjustEntry',JSON.stringify(data));
@@ -539,7 +539,7 @@ Template.stockadjustmentoverview.onRendered(function() {
 
             }
         }).catch(function (err) {
-            sideBarService.getAllStockAdjustEntry(25,0).then(function (data) {
+            sideBarService.getAllStockAdjustEntry(initialDataLoad,0).then(function (data) {
                 let lineItems = [];
                 let lineItemObj = {};
                 addVS1Data('TStockAdjustEntry',JSON.stringify(data));
@@ -740,7 +740,7 @@ Template.stockadjustmentoverview.onRendered(function() {
 Template.stockadjustmentoverview.events({
     'click .btnRefresh': function () {
         $('.fullScreenSpin').css('display','inline-block');
-        sideBarService.getAllStockAdjustEntry(25,0).then(function(data) {
+        sideBarService.getAllStockAdjustEntry(initialDataLoad,0).then(function(data) {
             addVS1Data('TStockAdjustEntry',JSON.stringify(data)).then(function (datareturn) {
                 window.open('/stockadjustmentoverview','_self');
             }).catch(function (err) {

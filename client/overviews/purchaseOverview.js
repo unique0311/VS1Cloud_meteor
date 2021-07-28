@@ -1358,7 +1358,6 @@ Template.purchasesoverview.events({
         templateObject.getAllFilterPurchasesData(getDateFrom,getLoadDate, false);
     },
     'click #last12Months': function () {
-        localStorage.setItem('VS1AgedPayables_Report', '');
         let templateObject = Template.instance();
         $('.fullScreenSpin').css('display', 'inline-block');
         $('#dateFrom').attr('readonly', false);
@@ -1392,7 +1391,6 @@ Template.purchasesoverview.events({
 
     },
     'click #ignoreDate': function () {
-        //localStorage.setItem('VS1AgedPayables_Report', '');
         let templateObject = Template.instance();
         $('.fullScreenSpin').css('display', 'inline-block');
         $('#dateFrom').attr('readonly', true);

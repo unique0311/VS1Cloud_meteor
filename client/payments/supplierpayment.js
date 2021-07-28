@@ -61,7 +61,7 @@ Template.supplierpayment.onRendered(function() {
     templateObject.getAllSupplierPaymentData = function () {
         getVS1Data('TSupplierPayment').then(function (dataObject) {
             if(dataObject.length == 0){
-                sideBarService.getTSupplierPaymentList(25,0).then(function (data) {
+                sideBarService.getTSupplierPaymentList(initialDataLoad,0).then(function (data) {
                     let lineItems = [];
                     let lineItemObj = {};
                     addVS1Data('TSupplierPayment',JSON.stringify(data));
@@ -518,7 +518,7 @@ Template.supplierpayment.onRendered(function() {
 
             }
         }).catch(function (err) {
-          sideBarService.getTSupplierPaymentList(25,0).then(function (data) {
+          sideBarService.getTSupplierPaymentList(initialDataLoad,0).then(function (data) {
               let lineItems = [];
               let lineItemObj = {};
               addVS1Data('TSupplierPayment',JSON.stringify(data));
@@ -891,7 +891,7 @@ Template.supplierpayment.events({
     'click .btnRefresh': function () {
         $('.fullScreenSpin').css('display','inline-block');
         let templateObject = Template.instance();
-        sideBarService.getTSupplierPaymentList(25,0).then(function(data) {
+        sideBarService.getTSupplierPaymentList(initialDataLoad,0).then(function(data) {
             addVS1Data('TSupplierPayment',JSON.stringify(data)).then(function (datareturn) {
                 location.reload(true);
             }).catch(function (err) {

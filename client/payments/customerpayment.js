@@ -60,7 +60,7 @@ Template.customerpayment.onRendered(function() {
     templateObject.getAllSalesOrderData = function () {
         getVS1Data('TCustomerPayment').then(function (dataObject) {
             if(dataObject.length == 0){
-                sideBarService.getTCustomerPaymentList(25,0).then(function (data) {
+                sideBarService.getTCustomerPaymentList(initialDataLoad,0).then(function (data) {
                     let lineItems = [];
                     let lineItemObj = {};
 
@@ -527,7 +527,7 @@ Template.customerpayment.onRendered(function() {
                 });
             }
         }).catch(function (err) {
-          sideBarService.getTCustomerPaymentList(25,0).then(function (data) {
+          sideBarService.getTCustomerPaymentList(initialDataLoad,0).then(function (data) {
               let lineItems = [];
               let lineItemObj = {};
 
@@ -923,7 +923,7 @@ Template.customerpayment.events({
     'click .btnRefresh': function () {
         $('.fullScreenSpin').css('display','inline-block');
         let templateObject = Template.instance();
-        sideBarService.getTCustomerPaymentList(25,0).then(function(data) {
+        sideBarService.getTCustomerPaymentList(initialDataLoad,0).then(function(data) {
             addVS1Data('TCustomerPayment',JSON.stringify(data)).then(function (datareturn) {
                 location.reload(true);
             }).catch(function (err) {

@@ -64,7 +64,7 @@ Template.invoicelistBO.onRendered(function() {
     templateObject.getAllSalesOrderData = function () {
         getVS1Data('BackOrderSalesList').then(function (dataObject) {
             if(dataObject.length == 0){
-                sideBarService.getAllBOInvoiceList(25,0).then(function (data) {
+                sideBarService.getAllBOInvoiceList(initialDataLoad,0).then(function (data) {
                   addVS1Data('BackOrderSalesList',JSON.stringify(data));
                     let lineItems = [];
                     let lineItemObj = {};
@@ -547,7 +547,7 @@ Template.invoicelistBO.onRendered(function() {
 
             }
         }).catch(function (err) {
-              sideBarService.getAllBOInvoiceList(25,0).then(function (data) {
+              sideBarService.getAllBOInvoiceList(initialDataLoad,0).then(function (data) {
                 addVS1Data('BackOrderSalesList',JSON.stringify(data));
                 let lineItems = [];
                 let lineItemObj = {};
@@ -950,7 +950,7 @@ Template.invoicelistBO.events({
         }
         let currenctTodayDate = currentDate.getFullYear() + "-" + month + "-" + days + " "+ hours+ ":"+ minutes+ ":"+ seconds;
         let templateObject = Template.instance();
-        sideBarService.getAllBOInvoiceList(25,0).then(function (dataBO) {
+        sideBarService.getAllBOInvoiceList(initialDataLoad,0).then(function (dataBO) {
           addVS1Data('BackOrderSalesList',JSON.stringify(dataBO)).then(function (datareturn) {
               window.open('/invoicelistBO','_self');
           }).catch(function (err) {

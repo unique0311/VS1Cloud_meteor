@@ -65,7 +65,7 @@ Template.supplierlist.onRendered(function() {
 
         getVS1Data('TSupplierVS1').then(function (dataObject) {
             if(dataObject.length == 0){
-                sideBarService.getAllSuppliersDataVS1(25,0).then(function (data) {
+                sideBarService.getAllSuppliersDataVS1(initialBaseDataLoad,0).then(function (data) {
                     let lineItems = [];
                     let lineItemObj = {};
                     addVS1Data('TSupplierVS1',JSON.stringify(data));
@@ -524,7 +524,7 @@ Template.supplierlist.onRendered(function() {
 
             }
         }).catch(function (err) {
-            sideBarService.getAllSuppliersDataVS1(25,0).then(function (data) {
+            sideBarService.getAllSuppliersDataVS1(initialBaseDataLoad,0).then(function (data) {
                 let lineItems = [];
                 let lineItemObj = {};
                 addVS1Data('TSupplierVS1',JSON.stringify(data));
@@ -902,7 +902,7 @@ Template.supplierlist.events({
     'click .btnRefresh': function () {
         $('.fullScreenSpin').css('display','inline-block');
         let templateObject = Template.instance();
-        sideBarService.getAllSuppliersDataVS1(25,0).then(function(data) {
+        sideBarService.getAllSuppliersDataVS1(initialBaseDataLoad,0).then(function(data) {
             addVS1Data('TSupplierVS1',JSON.stringify(data)).then(function (datareturn) {
                 window.open('/supplierlist','_self');
             }).catch(function (err) {

@@ -143,19 +143,18 @@ export class SideBarService extends BaseService {
     return this.getList(this.ERPObjects.TAccountVS1, options);
   }
 
-  getAllContactCombineVS1(limitcount, limitfrom) {
+  getAllContactCombineVS1(dateFrom, dateTo, ignoreDate) {
     let options = '';
-    if(limitcount == 'All'){
+    if(ignoreDate == true){
       options = {
-        PropertyList: "ID,EmployeeNo,ClientName,Phone,Mobile,Email,ARBalance,CreditBalance,Balance,CreditLimit,SalesOrderBalance,Street,Country,CUSTFLD1,CUSTFLD2,IsCustomer,IsOtherContact,IsSupplier,",
+        IgnoreDates:true,
         select: "[Active]=true",
       };
     }else{
       options = {
-        PropertyList: "ID,EmployeeNo,ClientName,Phone,Mobile,Email,ARBalance,CreditBalance,Balance,CreditLimit,SalesOrderBalance,Street,Country,CUSTFLD1,CUSTFLD2,IsCustomer,IsOtherContact,IsSupplier,",
-        select: "[Active]=true",
-        LimitCount:'"'+limitcount+'"',
-        LimitFrom:'"'+limitfrom+'"'
+         IgnoreDates: false,
+         DateFrom:'"'+dateFrom+'"',
+         DateTo:'"'+dateTo+'"'
       };
     }
     return this.getList(this.ERPObjects.TERPCombinedContactsVS1, options);

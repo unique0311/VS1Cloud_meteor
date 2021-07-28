@@ -69,7 +69,7 @@ Template.chequelist.onRendered(function() {
     templateObject.getAllChequeData = function() {
         getVS1Data('TCheque').then(function(dataObject) {
             if (dataObject.length == 0) {
-                sideBarService.getAllChequeList(25,0).then(function(data) {
+                sideBarService.getAllChequeList(initialDataLoad,0).then(function(data) {
                   addVS1Data('TCheque',JSON.stringify(data));
                     let lineItems = [];
                     let lineItemObj = {};
@@ -539,7 +539,7 @@ Template.chequelist.onRendered(function() {
                 });
             }
         }).catch(function(err) {
-            sideBarService.getAllChequeList(25,0).then(function(data) {
+            sideBarService.getAllChequeList(initialDataLoad,0).then(function(data) {
               addVS1Data('TCheque',JSON.stringify(data));
                 let lineItems = [];
                 let lineItemObj = {};
@@ -917,7 +917,7 @@ Template.chequelist.events({
     'click .btnRefresh': function() {
         $('.fullScreenSpin').css('display', 'inline-block');
 
-        sideBarService.getAllChequeList(25,0).then(function(data) {
+        sideBarService.getAllChequeList(initialDataLoad,0).then(function(data) {
             addVS1Data('TCheque', JSON.stringify(data)).then(function(datareturn) {
                 window.open('/chequelist', '_self');
             }).catch(function(err) {

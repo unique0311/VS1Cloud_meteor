@@ -64,7 +64,7 @@ Template.salesorderslist.onRendered(function() {
     templateObject.getAllSalesOrderData = function () {
         getVS1Data('TSalesOrderEx').then(function (dataObject) {
             if(dataObject.length == 0){
-                sideBarService.getAllSalesOrderList(25,0).then(function (data) {
+                sideBarService.getAllSalesOrderList(initialDataLoad,0).then(function (data) {
                     let lineItems = [];
                     let lineItemObj = {};
                     addVS1Data('TSalesOrderEx',JSON.stringify(data));
@@ -543,7 +543,7 @@ Template.salesorderslist.onRendered(function() {
             }
         }).catch(function (err) {
 
-          sideBarService.getAllSalesOrderList(25,0).then(function (data) {
+          sideBarService.getAllSalesOrderList(initialDataLoad,0).then(function (data) {
               let lineItems = [];
               let lineItemObj = {};
               addVS1Data('TSalesOrderEx',JSON.stringify(data));
@@ -960,7 +960,7 @@ Template.salesorderslist.events({
         }
         let currenctTodayDate = currentDate.getFullYear() + "-" + month + "-" + days + " "+ hours+ ":"+ minutes+ ":"+ seconds;
         let templateObject = Template.instance();
-        sideBarService.getAllSalesOrderList(25,0).then(function(data) {
+        sideBarService.getAllSalesOrderList(initialDataLoad,0).then(function(data) {
             addVS1Data('TSalesOrderEx',JSON.stringify(data)).then(function (datareturn) {
                 window.open('/salesorderslist','_self');
             }).catch(function (err) {

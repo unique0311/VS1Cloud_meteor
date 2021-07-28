@@ -795,7 +795,7 @@ Template.invoicelist.events({
   },
   'click .btnRefresh': function () {
     $('.fullScreenSpin').css('display','inline-block');
-    sideBarService.getAllInvoiceList(25,0).then(function(data) {
+    sideBarService.getAllInvoiceList(initialDataLoad,0).then(function(data) {
       addVS1Data('TInvoiceEx',JSON.stringify(data)).then(function (datareturn) {
       window.open('/invoicelist','_self');
       }).catch(function (err) {

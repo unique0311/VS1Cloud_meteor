@@ -1162,7 +1162,7 @@ Template.appointmentlist.events({
             }
         });
 
-        sideBarService.getAllInvoiceList(25,0).then(function (data) {
+        sideBarService.getAllInvoiceList(initialDataLoad,0).then(function (data) {
             addVS1Data('TInvoiceEx', JSON.stringify(data)).then(function (datareturn) {
                 isDoneInvoice = true;
                 if((isDoneAppointment == true) && (isDoneInvoice == true)){

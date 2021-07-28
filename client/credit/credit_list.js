@@ -63,7 +63,7 @@ Template.creditlist.onRendered(function() {
     templateObject.getAllCreditData = function () {
         getVS1Data('TCredit').then(function (dataObject) {
             if(dataObject.length == 0){
-                sideBarService.getAllCreditList(25,0).then(function (data) {
+                sideBarService.getAllCreditList(initialDataLoad,0).then(function (data) {
                     let lineItems = [];
                     let lineItemObj = {};
                     addVS1Data('TCredit',JSON.stringify(data));
@@ -528,7 +528,7 @@ Template.creditlist.onRendered(function() {
 
             }
         }).catch(function (err) {
-          sideBarService.getAllCreditList(25,0).then(function (data) {
+          sideBarService.getAllCreditList(initialDataLoad,0).then(function (data) {
               let lineItems = [];
               let lineItemObj = {};
               addVS1Data('TCredit',JSON.stringify(data));
@@ -905,7 +905,7 @@ Template.creditlist.events({
         }
         let currenctTodayDate = currentDate.getFullYear() + "-" + month + "-" + days + " "+ hours+ ":"+ minutes+ ":"+ seconds;
         let templateObject = Template.instance();
-        sideBarService.getAllCreditList(25,0).then(function(data) {
+        sideBarService.getAllCreditList(initialDataLoad,0).then(function(data) {
             addVS1Data('TCredit',JSON.stringify(data)).then(function (datareturn) {
                 window.open('/creditlist','_self');
             }).catch(function (err) {

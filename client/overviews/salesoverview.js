@@ -790,7 +790,7 @@ Template.salesoverview.events({
           window.open('/salesoverview','_self');
         });
 
-        sideBarService.getAllInvoiceList(25,0).then(function(data) {
+        sideBarService.getAllInvoiceList(initialDataLoad,0).then(function(data) {
             addVS1Data('TInvoiceEx',JSON.stringify(data)).then(function (datareturn) {
                 //Meteor._reload.reload();
             }).catch(function (err) {

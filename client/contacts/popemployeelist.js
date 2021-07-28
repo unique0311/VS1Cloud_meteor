@@ -740,7 +740,7 @@ Template.popemployeelist.events({
   'click .btnRefresh': function () {
     $('.fullScreenSpin').css('display','inline-block');
     let templateObject = Template.instance();
-    sideBarService.getAllEmployees(25,0).then(function(data) {
+    sideBarService.getAllEmployees(initialBaseDataLoad,0).then(function(data) {
       addVS1Data('TEmployee',JSON.stringify(data)).then(function (datareturn) {
         location.reload(true);
       }).catch(function (err) {

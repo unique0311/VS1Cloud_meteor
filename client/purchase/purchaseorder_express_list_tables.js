@@ -63,7 +63,7 @@ Template.purchaseorderlist.onRendered(function() {
     templateObject.getAllPurchaseOrderData = function () {
         getVS1Data('TPurchaseOrderEx').then(function (dataObject) {
             if(dataObject.length == 0){
-                sideBarService.getAllPurchaseOrderList(25,0).then(function (data) {
+                sideBarService.getAllPurchaseOrderList(initialDataLoad,0).then(function (data) {
                     let lineItems = [];
                     let lineItemObj = {};
                     addVS1Data('TPurchaseOrderEx',JSON.stringify(data));
@@ -524,7 +524,7 @@ Template.purchaseorderlist.onRendered(function() {
 
             }
         }).catch(function (err) {
-            sideBarService.getAllPurchaseOrderList(25,0).then(function (data) {
+            sideBarService.getAllPurchaseOrderList(initialDataLoad,0).then(function (data) {
                 let lineItems = [];
                 let lineItemObj = {};
                 addVS1Data('TPurchaseOrderEx',JSON.stringify(data));
@@ -909,7 +909,7 @@ Template.purchaseorderlist.events({
         }
         let currenctTodayDate = currentDate.getFullYear() + "-" + month + "-" + days + " "+ hours+ ":"+ minutes+ ":"+ seconds;
         let templateObject = Template.instance();
-        sideBarService.getAllPurchaseOrderList(25,0).then(function(data) {
+        sideBarService.getAllPurchaseOrderList(initialDataLoad,0).then(function(data) {
             addVS1Data('TPurchaseOrderEx',JSON.stringify(data)).then(function (datareturn) {
                 window.open('/purchaseorderlist','_self');
             }).catch(function (err) {

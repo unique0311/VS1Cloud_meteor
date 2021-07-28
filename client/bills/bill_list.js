@@ -65,7 +65,7 @@ Template.billlist.onRendered(function() {
 
         getVS1Data('TBillEx').then(function (dataObject) {
             if(dataObject.length == 0){
-                sideBarService.getAllBillExList(25,0).then(function (data) {
+                sideBarService.getAllBillExList(initialDataLoad,0).then(function (data) {
                     let lineItems = [];
                     let lineItemObj = {};
                     addVS1Data('TBillEx',JSON.stringify(data));
@@ -519,7 +519,7 @@ Template.billlist.onRendered(function() {
 
             }
         }).catch(function (err) {
-          sideBarService.getAllBillExList(25,0).then(function (data) {
+          sideBarService.getAllBillExList(initialDataLoad,0).then(function (data) {
               let lineItems = [];
               let lineItemObj = {};
               addVS1Data('TBillEx',JSON.stringify(data));
@@ -892,7 +892,7 @@ Template.billlist.events({
         let templateObject = Template.instance();
 
 
-        sideBarService.getAllBillExList(25,0).then(function(dataBill) {
+        sideBarService.getAllBillExList(initialDataLoad,0).then(function(dataBill) {
             addVS1Data('TBillEx',JSON.stringify(dataBill)).then(function (datareturn) {
                 window.open('/billlist','_self');
             }).catch(function (err) {

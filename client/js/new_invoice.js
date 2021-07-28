@@ -3918,7 +3918,10 @@ Template.new_invoice.onRendered(() => {
     $('#edtCustomerName').editableSelect()
     .on('select.editable-select', function (e, li) {
       $('#customerListModal').modal();
-      $('#tblCustomerlist_filter .form-control-sm').focus();
+      setTimeout(function () {
+          $('#tblCustomerlist_filter .form-control-sm').focus();
+      }, 500);
+
       /*
         let taxcodeList = templateObject.taxraterecords.get();
         let customers = templateObject.clientrecords.get();
@@ -4167,23 +4170,35 @@ Template.new_invoice.onRendered(function () {
     tempObj.getAllProducts = function () {
         getVS1Data('TProductVS1').then(function (dataObject) {
             if (dataObject.length == 0) {
-                productService.getNewProductListVS1().then(function (data) {
-
+                sideBarService.getNewProductListVS1(initialBaseDataLoad,0).then(function (data) {
+                  addVS1Data('TProductVS1',JSON.stringify(data));
                     let records = [];
                     let inventoryData = [];
                     for (let i = 0; i < data.tproductvs1.length; i++) {
                         var dataList = [
-                            data.tproductvs1[i].ProductName || '-',
-                            data.tproductvs1[i].SalesDescription || '',
-                            utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductvs1[i].BuyQty1Cost * 100) / 100),
-                            utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductvs1[i].SellQty1Price * 100) / 100),
-                            data.tproductvs1[i].TotalQtyInStock,
-                            data.tproductvs1[i].TaxCodeSales || ''
+
+                            data.tproductvs1[i].fields.ProductName || '-',
+                            data.tproductvs1[i].fields.SalesDescription || '',
+                            utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductvs1[i].fields.BuyQty1Cost * 100) / 100),
+                            utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductvs1[i].fields.SellQty1Price * 100) / 100),
+                            data.tproductvs1[i].fields.TotalQtyInStock,
+                            data.tproductvs1[i].fields.TaxCodeSales || ''
                         ];
 
+                        if (data.tproductvs1[i].fields.ExtraSellPrice != null) {
+                            for (let e = 0; e < data.tproductvs1[i].fields.ExtraSellPrice.length; e++) {
+                                let lineExtaSellObj = {
+                                    clienttype: data.tproductvs1[i].fields.ExtraSellPrice[e].fields.ClientTypeName || '',
+                                    productname: data.tproductvs1[i].fields.ExtraSellPrice[e].fields.ProductName || data.tproductvs1[i].fields.ProductName,
+                                    price: utilityService.modifynegativeCurrencyFormat(data.tproductvs1[i].fields.ExtraSellPrice[e].fields.Price1) || 0
+                                };
+                                lineExtaSellItems.push(lineExtaSellObj);
+
+                            }
+                        }
                         splashArrayProductList.push(dataList);
                     }
-                    localStorage.setItem('VS1SalesProductList', JSON.stringify(splashArrayProductList));
+                    //localStorage.setItem('VS1SalesProductList', JSON.stringify(splashArrayProductList));
 
                     if (splashArrayProductList) {
 
@@ -4236,23 +4251,23 @@ Template.new_invoice.onRendered(function () {
 
                 let records = [];
                 let inventoryData = [];
-                for (let i = 0; i < useData.length; i++) {
+                for (let i = 0; i < data.tproductvs1.length; i++) {
                     var dataList = [
 
-                        useData[i].fields.ProductName || '-',
-                        useData[i].fields.SalesDescription || '',
-                        utilityService.modifynegativeCurrencyFormat(Math.floor(useData[i].fields.BuyQty1Cost * 100) / 100),
-                        utilityService.modifynegativeCurrencyFormat(Math.floor(useData[i].fields.SellQty1Price * 100) / 100),
-                        useData[i].fields.TotalQtyInStock,
-                        useData[i].fields.TaxCodeSales || ''
+                        data.tproductvs1[i].fields.ProductName || '-',
+                        data.tproductvs1[i].fields.SalesDescription || '',
+                        utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductvs1[i].fields.BuyQty1Cost * 100) / 100),
+                        utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductvs1[i].fields.SellQty1Price * 100) / 100),
+                        data.tproductvs1[i].fields.TotalQtyInStock,
+                        data.tproductvs1[i].fields.TaxCodeSales || ''
                     ];
 
-                    if (useData[i].fields.ExtraSellPrice != null) {
-                        for (let e = 0; e < useData[i].fields.ExtraSellPrice.length; e++) {
+                    if (data.tproductvs1[i].fields.ExtraSellPrice != null) {
+                        for (let e = 0; e < data.tproductvs1[i].fields.ExtraSellPrice.length; e++) {
                             let lineExtaSellObj = {
-                                clienttype: useData[i].fields.ExtraSellPrice[e].fields.ClientTypeName || '',
-                                productname: useData[i].fields.ExtraSellPrice[e].fields.ProductName || useData[i].fields.ProductName,
-                                price: utilityService.modifynegativeCurrencyFormat(useData[i].fields.ExtraSellPrice[e].fields.Price1) || 0
+                                clienttype: data.tproductvs1[i].fields.ExtraSellPrice[e].fields.ClientTypeName || '',
+                                productname: data.tproductvs1[i].fields.ExtraSellPrice[e].fields.ProductName || data.tproductvs1[i].fields.ProductName,
+                                price: utilityService.modifynegativeCurrencyFormat(data.tproductvs1[i].fields.ExtraSellPrice[e].fields.Price1) || 0
                             };
                             lineExtaSellItems.push(lineExtaSellObj);
 
@@ -4262,7 +4277,7 @@ Template.new_invoice.onRendered(function () {
                 }
 
                 tempObj.productextrasellrecords.set(lineExtaSellItems);
-                localStorage.setItem('VS1SalesProductList', JSON.stringify(splashArrayProductList));
+                //localStorage.setItem('VS1SalesProductList', JSON.stringify(splashArrayProductList));
 
                 if (splashArrayProductList) {
 
@@ -4312,26 +4327,35 @@ Template.new_invoice.onRendered(function () {
                 }
             }
         }).catch(function (err) {
-            productService.getNewProductListVS1().then(function (data) {
-
+            sideBarService.getNewProductListVS1(initialBaseDataLoad,0).then(function (data) {
+              addVS1Data('TProductVS1',JSON.stringify(data));
                 let records = [];
                 let inventoryData = [];
                 for (let i = 0; i < data.tproductvs1.length; i++) {
-
                     var dataList = [
 
-                        data.tproductvs1[i].ProductName || '-',
-                        data.tproductvs1[i].SalesDescription || '',
-                        utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductvs1[i].BuyQty1Cost * 100) / 100),
-                        utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductvs1[i].SellQty1Price * 100) / 100),
-                        data.tproductvs1[i].TotalQtyInStock,
-                        data.tproductvs1[i].TaxCodeSales || ''
+                        data.tproductvs1[i].fields.ProductName || '-',
+                        data.tproductvs1[i].fields.SalesDescription || '',
+                        utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductvs1[i].fields.BuyQty1Cost * 100) / 100),
+                        utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductvs1[i].fields.SellQty1Price * 100) / 100),
+                        data.tproductvs1[i].fields.TotalQtyInStock,
+                        data.tproductvs1[i].fields.TaxCodeSales || ''
                     ];
 
-                    splashArrayProductList.push(dataList);
+                    if (data.tproductvs1[i].fields.ExtraSellPrice != null) {
+                        for (let e = 0; e < data.tproductvs1[i].fields.ExtraSellPrice.length; e++) {
+                            let lineExtaSellObj = {
+                                clienttype: data.tproductvs1[i].fields.ExtraSellPrice[e].fields.ClientTypeName || '',
+                                productname: data.tproductvs1[i].fields.ExtraSellPrice[e].fields.ProductName || data.tproductvs1[i].fields.ProductName,
+                                price: utilityService.modifynegativeCurrencyFormat(data.tproductvs1[i].fields.ExtraSellPrice[e].fields.Price1) || 0
+                            };
+                            lineExtaSellItems.push(lineExtaSellObj);
 
+                        }
+                    }
+                    splashArrayProductList.push(dataList);
                 }
-                localStorage.setItem('VS1SalesProductList', JSON.stringify(splashArrayProductList));
+                //localStorage.setItem('VS1SalesProductList', JSON.stringify(splashArrayProductList));
 
                 if (splashArrayProductList) {
 
@@ -6064,7 +6088,7 @@ Template.new_invoice.events({
                 for (let l = 0; l < lineItems.length; l++) {
                     stringQuery = stringQuery + "product" + l + "=" + lineItems[l].description + "&price" + l + "=" + lineItems[l].unitPrice + "&qty" + l + "=" + lineItems[l].quantity + "&";
                 }
-                stringQuery = stringQuery + "tax=" + tax + "&total=" + total + "&customer=" + customer + "&name=" + name + "&surname=" + surname + "&quoteid=" + objDetails.fields.ID + "&transid=" + stripe_id + "&feemethod=" + stripe_fee_method + "&company=" + company + "&vs1email=" + vs1User + "&customeremail=" + customerEmail + "&type=Invoice&url=" + window.location.href + "&server=" + erpGet.ERPIPAddress + "&username=" + erpGet.ERPUsername + "&token=" + erpGet.ERPPassword + "&session=" + erpGet.ERPDatabase + "&port=" + erpGet.ERPPort + "&dept=" + departement+"&currency="+currency;
+                stringQuery = stringQuery + "tax=" + tax + "&total=" + total + "&customer=" + customer + "&name=" + name + "&surname=" + surname + "&quoteid=" + objDetails.fields.ID + "&transid=" + stripe_id + "&feemethod=" + stripe_fee_method + "&company=" + company + "&vs1email=" + vs1User + "&customeremail=" + customerEmail + "&type=Invoice&url=" + window.location.href + "&server=" + erpGet.ERPIPAddress + "&username=" + erpGet.ERPUsername + "&token=" + erpGet.ERPPassword + "&session=" + erpGet.ERPDatabase + "&port=" + erpGet.ERPPort + "&dept=" + departement+"&currency="+currencyname;
                 $('#html-2-pdfwrapper').css('display', 'block');
                 $('.pdfCustomerName').html($('#edtCustomerName').val());
                 $('.pdfCustomerAddress').html($('#txabillingAddress').val().replace(/[\r\n]/g, "<br />"));
@@ -7196,7 +7220,7 @@ Template.new_invoice.events({
                     }
                 } else {}
 
-                sideBarService.getAllInvoiceList(25,0).then(function (data) {
+                sideBarService.getAllInvoiceList(initialDataLoad,0).then(function (data) {
                     addVS1Data('TInvoiceEx', JSON.stringify(data)).then(function (datareturn) {
                         window.open('/paymentcard?invid=' + linesave, '_self');
                     }).catch(function (err) {

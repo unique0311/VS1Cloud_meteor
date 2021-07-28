@@ -126,7 +126,7 @@ Template.paymentoverview.onRendered(function() {
 
     $("#dateFrom").val(fromDate);
     $("#dateTo").val(begunDate);
-    
+
     Meteor.call('readPrefMethod',Session.get('mycloudLogonID'),'tblPaymentOverview', function(error, result){
         if(error){
 
@@ -1273,7 +1273,7 @@ Template.paymentoverview.events({
         let templateObject = Template.instance();
 
 
-        sideBarService.getAllInvoiceList(25,0).then(function(data) {
+        sideBarService.getAllInvoiceList(initialDataLoad,0).then(function(data) {
             addVS1Data('TInvoiceEx',JSON.stringify(data)).then(function (datareturn) {
             }).catch(function (err) {
 
@@ -1281,7 +1281,7 @@ Template.paymentoverview.events({
         }).catch(function(err) {
 
         });
-        sideBarService.getTCustomerPaymentList(25,0).then(function(data) {
+        sideBarService.getTCustomerPaymentList(initialDataLoad,0).then(function(data) {
             addVS1Data('TCustomerPayment',JSON.stringify(data)).then(function (datareturn) {
             }).catch(function (err) {
 
@@ -1444,7 +1444,6 @@ Template.paymentoverview.events({
         templateObject.getAllFilterPaymentsData(getDateFrom,getLoadDate, false);
     },
     'click #last12Months': function () {
-        localStorage.setItem('VS1AgedPayables_Report', '');
         let templateObject = Template.instance();
         $('.fullScreenSpin').css('display', 'inline-block');
         $('#dateFrom').attr('readonly', false);
@@ -1478,7 +1477,6 @@ Template.paymentoverview.events({
 
     },
     'click #ignoreDate': function () {
-        //localStorage.setItem('VS1AgedPayables_Report', '');
         let templateObject = Template.instance();
         $('.fullScreenSpin').css('display', 'inline-block');
         $('#dateFrom').attr('readonly', true);

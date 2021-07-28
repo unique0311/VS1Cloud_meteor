@@ -2999,7 +2999,9 @@ Template.new_salesorder.onRendered(() => {
     $('#edtCustomerName').editableSelect()
         .on('select.editable-select', function(e, li) {
           $('#customerListModal').modal();
-          $('#tblCustomerlist_filter .form-control-sm').focus();
+          setTimeout(function () {
+              $('#tblCustomerlist_filter .form-control-sm').focus();
+          }, 500);
           /*
             let taxcodeList = templateObject.taxraterecords.get();
             let customers = templateObject.clientrecords.get();

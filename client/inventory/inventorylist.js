@@ -158,7 +158,7 @@ Template.inventorylist.onRendered(function() {
   templateObject.getAllProductData = function (deptname) {
     var dataRes = getVS1Data('TProductVS1').then(function (dataObject) {
       if(dataObject.length == 0){
-        sideBarService.getNewProductListVS1(25,0).then(function (data) {
+        sideBarService.getNewProductListVS1(initialBaseDataLoad,0).then(function (data) {
           addVS1Data('TProductVS1',JSON.stringify(data));
           // addVS1Data('TProductVS1',JSON.stringify(data));
         //localStorage.setItem('VS1ProductList', JSON.stringify(data)||'');
@@ -501,7 +501,7 @@ setTimeout(function () {
       }
     }).catch(function (err) {
 
-      sideBarService.getNewProductListVS1(25,0).then(function (data) {
+      sideBarService.getNewProductListVS1(initialBaseDataLoad,0).then(function (data) {
       addVS1Data('TProductVS1',JSON.stringify(data));
         let lineItems = [];
         let lineItemObj = {};
@@ -1314,7 +1314,7 @@ Template.inventorylist.helpers({
         //   Meteor._reload.reload();
           $('.fullScreenSpin').css('display','inline-block');
           let templateObject = Template.instance();
-          sideBarService.getNewProductListVS1(25,0).then(function(data) {
+          sideBarService.getNewProductListVS1(initialBaseDataLoad,0).then(function(data) {
             addVS1Data('TProductVS1',JSON.stringify(data)).then(function (datareturn) {
               window.open('/inventorylist','_self');
             }).catch(function (err) {

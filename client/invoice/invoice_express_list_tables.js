@@ -65,7 +65,7 @@ Template.invoicelist.onRendered(function() {
 
       getVS1Data('TInvoiceEx').then(function (dataObject) {
         if(dataObject.length == 0){
-          sideBarService.getAllInvoiceList(25,0).then(function (data) {
+          sideBarService.getAllInvoiceList(initialDataLoad,0).then(function (data) {
             let lineItems = [];
             let lineItemObj = {};
             addVS1Data('TInvoiceEx',JSON.stringify(data)).then(function (datareturn) {
@@ -556,7 +556,7 @@ templateObject.tableheaderrecords.set(tableHeaderList);
 
         }
         }).catch(function (err) {
-          sideBarService.getAllInvoiceList(25,0).then(function (data) {
+          sideBarService.getAllInvoiceList(initialDataLoad,0).then(function (data) {
             let lineItems = [];
             let lineItemObj = {};
             addVS1Data('TInvoiceEx',JSON.stringify(data)).then(function (datareturn) {
@@ -940,7 +940,7 @@ Template.invoicelist.events({
     let month = (currentDate.getMonth()+1);
     let days = currentDate.getDate();
 
-    sideBarService.getAllInvoiceList(25,0).then(function(data) {
+    sideBarService.getAllInvoiceList(initialDataLoad,0).then(function(data) {
       addVS1Data('TInvoiceEx',JSON.stringify(data)).then(function (datareturn) {
       window.open('/invoicelist','_self');
       }).catch(function (err) {
