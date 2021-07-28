@@ -1507,10 +1507,10 @@ Template.appointments.onRendered(function () {
                             return apmt.employeeName == data.tappointment[i].TrainerName;
                         });
 
-                        if (employeeColor.length > 0) {
+                    if (employeeColor.length > 0) {
                         appColor = employeeColor[0].color || '#00a3d3';
                     } else{
-                        appColor = employeeColor[0].color || '#00a3d3';
+                        appColor = '#00a3d3';
                     }
 
 
@@ -2020,6 +2020,7 @@ Template.appointments.onRendered(function () {
                     }, 500);
 
                 }).catch(function (err) {
+                    console.log(err);
                     $('.fullScreenSpin').css('display', 'none');
                     var calendarEl = document.getElementById('calendar');
                     var currentDate = new Date();
@@ -2285,8 +2286,10 @@ Template.appointments.onRendered(function () {
                     });
 
                     if (employeeColor.length > 0) {
-                        appColor = employeeColor[0].color || '';
-                    } 
+                        appColor = employeeColor[0].color || '#00a3d3';
+                    } else{
+                        appColor = '#00a3d3';
+                    }
                     var appointment = {
                         id: useData[i].fields.ID || '',
                         sortdate: useData[i].fields.CreationDate ? moment(useData[i].fields.CreationDate).format("YYYY/MM/DD") : "",
@@ -2806,7 +2809,9 @@ Template.appointments.onRendered(function () {
 
                     if (employeeColor.length > 0) {
                         appColor = employeeColor[0].color || '#00a3d3';
-                    } 
+                    } else{
+                        appColor = '#00a3d3';
+                    }
 
                     var appointment = {
                         id: data.tappointment[i].Id || '',
