@@ -4321,6 +4321,19 @@ Template.new_invoice.onRendered(function () {
                         info: true,
                         responsive: true
 
+                    }).on('search.dt', function (eventSearch, searchdata) {
+                      //console.log(eventSearch);
+                      //console.log(searchdata);
+
+                      if(searchdata.fnRecordsDisplay() > 0){
+
+                      }else{
+                        let searchData =  $('.dataTables_filter input').val().toLowerCase();;
+                        //console.log(searchData);
+                        //$('.fullScreenSpin').css('display', 'inline-block');
+
+                      }
+                      //alert("search");
                     });
 
                     $('div.dataTables_filter input').addClass('form-control form-control-sm');
