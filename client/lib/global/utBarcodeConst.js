@@ -30,7 +30,7 @@ loggedserverIP = localStorage.getItem('mainEIPAddress');
 loggedserverPort = localStorage.getItem('mainEPort');
 Currency = Session.get('ERPCurrency') || '$';
 CountryAbbr = Session.get('ERPCountryAbbr');
-
+addExtraUserPrice = 0;
 // loggedCompany = Session.get('EDatabase');
 loggedCompany = Session.get('vs1companyName');
 defaultDept = Session.get('ERPDefaultDepartment');
@@ -103,7 +103,6 @@ if(Session.get('ERPLoggedCountry') == "South Africa"){
   addExtraUserPrice = Currency+25;
    }
 }
-console.log(addExtraUserPrice);
 
 //loggedTaxCodePurchaseInc = Session.get('ERPTaxCodePurchaseInc');
 //loggedTaxCodeSalesInc = Session.get('ERPTaxCodeSalesInc');
