@@ -181,8 +181,8 @@ Template.invoicelist.onRendered(function() {
                       // bStateSave: true,
                       // rowId: 0,
                       pageLength: 25,
-                      lengthMenu: [ [10, 25, 50, -1], [10, 25, 50, "All"] ],
-                      info: true,
+                      lengthMenu: [ [25, -1], [25, "All"] ],
+                      info: false,
                       responsive: true,
                       searching: false,
                       "order": [[ 0, "desc" ],[ 2, "desc" ]],
@@ -364,13 +364,15 @@ setTimeout(function () {
           select: true,
           destroy: true,
           colReorder: true,
-          // bStateSave: true,
-          // rowId: 0,
-          pageLength: 25,
-          lengthMenu: [ [10, 25, 50, -1], [10, 25, 50, "All"] ],
+          paging: true,
+          "lengthChange": true,
+          "scrollY": "800px",
+          "scrollCollapse": true,
           info: true,
-          responsive: true,
           searching: false,
+          responsive: true,
+          lengthMenu: [ [25,-1], [25,"All"] ],
+          "bPaginate": false, //hide pagination
           "order": [[ 0, "desc" ],[ 2, "desc" ]],
           action: function () {
             tableDraft.ajax.reload();
@@ -379,7 +381,7 @@ setTimeout(function () {
           "fnDrawCallback": function (oSettings) {
             $('.paginate_button.page-item').removeClass('disabled');
             $('#tblInvoicelist_ellipsis').addClass('disabled');
-
+            $('.dataTables_paginate').css('display','none');
             if(oSettings._iDisplayLength == -1){
               if(oSettings.fnRecordsDisplay() > 150){
                 $('.paginate_button.page-item.previous').addClass('disabled');
@@ -420,13 +422,7 @@ setTimeout(function () {
                   }).catch(function (err) {
 
                   });
-               //templateObject.resetData(dataNonBo);
-                 // addVS1Data('TInvoiceEx',JSON.stringify(dataNonBo)).then(function (datareturn) {
-                 //
-                 // $('.fullScreenSpin').css('display','none');
-                 // }).catch(function (err) {
-                 // $('.fullScreenSpin').css('display','none');
-                 // });
+
                }).catch(function(err) {
                  $('.fullScreenSpin').css('display','none');
                });
@@ -476,22 +472,57 @@ setTimeout(function () {
         $('.fullScreenSpin').css('display','inline-block');
         let dataLenght = settings._iDisplayLength;
         if(dataLenght == -1){
-          if(settings.fnRecordsDisplay() > 150){
-            $('.paginate_button.page-item.next').addClass('disabled');
-            $('.fullScreenSpin').css('display','none');
-          }else{
-          sideBarService.getAllInvoiceList('All',1).then(function(dataNonBo) {
+          sideBarService.getAllInvoiceList('All',1).then(function(data) {
+            let lineItems = [];
+             let lineItemObj = {};
 
-            addVS1Data('TInvoiceEx',JSON.stringify(dataNonBo)).then(function (datareturn) {
-              templateObject.resetData(dataNonBo);
-            $('.fullScreenSpin').css('display','none');
-            }).catch(function (err) {
-            $('.fullScreenSpin').css('display','none');
-            });
+            for(let i=0; i<data.tinvoiceex.length; i++){
+                let totalAmountEx = utilityService.modifynegativeCurrencyFormat(data.tinvoiceex[i].fields.TotalAmount)|| 0.00;
+                let totalTax = utilityService.modifynegativeCurrencyFormat(data.tinvoiceex[i].fields.TotalTax) || 0.00;
+                // Currency+''+data.tinvoiceex[i].fields.TotalTax.toLocaleString(undefined, {minimumFractionDigits: 2});
+                let totalAmount = utilityService.modifynegativeCurrencyFormat(data.tinvoiceex[i].fields.TotalAmountInc)|| 0.00;
+                let totalPaid = utilityService.modifynegativeCurrencyFormat(data.tinvoiceex[i].fields.TotalPaid)|| 0.00;
+                let totalOutstanding = utilityService.modifynegativeCurrencyFormat(data.tinvoiceex[i].fields.TotalBalance)|| 0.00;
+                   var dataList = {
+                     id: data.tinvoiceex[i].fields.ID || '',
+                     employee:data.tinvoiceex[i].fields.EmployeeName || '',
+                     sortdate: data.tinvoiceex[i].fields.SaleDate !=''? moment(data.tinvoiceex[i].fields.SaleDate).format("YYYY/MM/DD"): data.tinvoiceex[i].fields.SaleDate,
+                     saledate: data.tinvoiceex[i].fields.SaleDate !=''? moment(data.tinvoiceex[i].fields.SaleDate).format("DD/MM/YYYY"): data.tinvoiceex[i].fields.SaleDate,
+                     duedate: data.tinvoiceex[i].fields.DueDate !=''? moment(data.tinvoiceex[i].fields.DueDate).format("DD/MM/YYYY"): data.tinvoiceex[i].fields.DueDate,
+                     customername: data.tinvoiceex[i].fields.CustomerName || '',
+                     totalamountex: totalAmountEx || 0.00,
+                     totaltax: totalTax || 0.00,
+                     totalamount: totalAmount || 0.00,
+                     totalpaid: totalPaid || 0.00,
+                     totaloustanding: totalOutstanding || 0.00,
+                     salestatus: data.tinvoiceex[i].fields.SalesStatus || '',
+                     custfield1: data.tinvoiceex[i].fields.SaleCustField1 || '',
+                     custfield2: data.tinvoiceex[i].fields.SaleCustField2 || '',
+                     comments: data.tinvoiceex[i].fields.Comments || '',
+                     // shipdate:data.tinvoiceex[i].fields.ShipDate !=''? moment(data.tinvoiceex[i].fields.ShipDate).format("DD/MM/YYYY"): data.tinvoiceex[i].fields.ShipDate,
+
+                 };
+
+                 if(data.tinvoiceex[i].fields.Deleted == false && data.tinvoiceex[i].fields.CustomerName.replace(/\s/g, '') != ''){
+                   dataTableList.push(dataList);
+                 }
+
+                  //}
+              }
+
+                templateObject.datatablerecords.set(dataTableList);
+                $('.dataTables_info').html('Showing 1 to '+data.tinvoiceex.length+ ' of ' +data.tinvoiceex.length+ ' entries');
+                $('.fullScreenSpin').css('display','none');
+            // addVS1Data('TInvoiceEx',JSON.stringify(dataNonBo)).then(function (datareturn) {
+            //   templateObject.resetData(dataNonBo);
+            // $('.fullScreenSpin').css('display','none');
+            // }).catch(function (err) {
+            // $('.fullScreenSpin').css('display','none');
+            // });
           }).catch(function(err) {
             $('.fullScreenSpin').css('display','none');
           });
-         }
+         //}
         }else{
           if (settings.fnRecordsDisplay() >= settings._iDisplayLength) {
             $('.fullScreenSpin').css('display','none');
@@ -672,8 +703,8 @@ templateObject.tableheaderrecords.set(tableHeaderList);
                       // bStateSave: true,
                       // rowId: 0,
                       pageLength: 25,
-                      lengthMenu: [ [10, 25, 50, -1], [10, 25, 50, "All"] ],
-                      info: true,
+                      lengthMenu: [ [25,-1], [25, "All"] ],
+                      info: false,
                       responsive: true,
                       searching: false,
                       "order": [[ 0, "desc" ],[ 2, "desc" ]],

@@ -171,10 +171,10 @@ Template.companyappsettingsdup.onRendered(function () {
             for (let i = 0; i < data.tvs1licenselevelsnmodules.length; i++) {
 
                 if (data.tvs1licenselevelsnmodules[i].Region == regionData) {
-                  let tvs1ModulePrice = utilityService.modifynegativeCurrencyFormat(data.tvs1licenselevelsnmodules[i].Price) || 0;
+                  let tvs1ModulePrice = data.tvs1licenselevelsnmodules[i].Price || 0;
                   if(data.tvs1licenselevelsnmodules[i].ModuleName == "Add Extra User"){
                     if(isPurchasedTrueERPModule == 'true'){
-                       tvs1ModulePrice = utilityService.modifynegativeCurrencyFormat(data.tvs1licenselevelsnmodules[i].isPurchasedTrueERPPrice) || 0;
+                       tvs1ModulePrice = data.tvs1licenselevelsnmodules[i].isPurchasedTrueERPPrice || 0;
                     }
                   }
                     recordObj = {
@@ -188,8 +188,8 @@ Template.companyappsettingsdup.onRendered(function () {
                         isExtra: data.tvs1licenselevelsnmodules[i].IsExtra,
                         discountfrom: data.tvs1licenselevelsnmodules[i].Discountfrom,
                         discountto: data.tvs1licenselevelsnmodules[i].Discountto,
-                        pricenocurrency: data.tvs1licenselevelsnmodules[i].Price || 0,
-                        price: tvs1ModulePrice || 0,
+                        pricenocurrency: tvs1ModulePrice || 0,
+                        price: utilityService.modifynegativeCurrencyFormat(tvs1ModulePrice) || 0,
                         discount: data.tvs1licenselevelsnmodules[i].discount,
                     };
 

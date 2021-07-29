@@ -969,18 +969,17 @@ Template.sidenav.onRendered(function() {
         let fromDateMonth = currentBeginDate.getMonth();
         let fromDateDay = currentBeginDate.getDate();
         if(currentBeginDate.getMonth() < 10){
-            fromDateMonth = "0" + (currentBeginDate.getMonth()+1);
+            fromDateMonth = "0" + (currentBeginDate.getMonth()+2);
         }else{
-          fromDateMonth = (currentBeginDate.getMonth()+1);
+          fromDateMonth = (currentBeginDate.getMonth()+2);
         }
 
         if(currentBeginDate.getDate() < 10){
             fromDateDay = "0" + currentBeginDate.getDate();
         }
         var fromDate = currentBeginDate.getFullYear()+ "-" +(fromDateMonth) + "-"+(fromDateDay+1);
-        let prevMonth11Date = (moment().subtract(reportsloadMonths, 'months')).format("YYYY-MM-DD");
+        let prevMonth11Date = (moment().subtract(6, 'months')).format("YYYY-MM-DD");
         sideBarService.getProductStocknSaleReportData(prevMonth11Date,fromDate).then(function(data) {
-            localStorage.setItem('VS1TProductStocknSalePeriodReport', JSON.stringify(data) || '');
             addVS1Data('TProductStocknSalePeriodReport',JSON.stringify(data));
         }).catch(function(err) {
 

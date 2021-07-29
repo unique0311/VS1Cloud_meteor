@@ -1611,7 +1611,7 @@ $("#erplogin-button").click(async function(e){
                          Session.setPersistent('ERPDefaultDepartment', 'Default');
                          Session.setPersistent('ERPDefaultUOM', '');
                          Session.setPersistent('VS1AdminUserName', dataReturnRes.ProcessLog.VS1AdminUserName);
-                         dataReturnRes.ProcessLog.VS1AdminPassword = userLoginPassword;
+                         dataReturnRes.ProcessLog.VS1AdminPassword = hashUserLoginPassword;
                          dataReturnRes.ProcessLog.VS1UserName = userLoginEmail;
                          var ERPIPAdderess= "";
                          if(dataReturnRes.ProcessLog.ServerName == "110.142.175.245"){
@@ -1763,7 +1763,7 @@ $("#erplogin-button").click(async function(e){
                          };
 
 
-                         dataReturnRes.ProcessLog.VS1AdminPassword = userLoginPassword;
+                         dataReturnRes.ProcessLog.VS1AdminPassword = hashUserLoginPassword;
                          dataReturnRes.ProcessLog.VS1UserName = userLoginEmail;
                  Session.setPersistent('mycloudLogonUsername', ERPuserName);
                  Session.setPersistent('mycloudLogonUserEmail', ERPuserName);
@@ -2070,7 +2070,7 @@ $("#erplogin-button").click(async function(e){
               myVS1VideoLogin.play();
               let dataReturnRes = dataObject[0].data;
               if(dataReturnRes.ProcessLog.VS1AdminPassword){
-              if ($("#erppassword").val() != dataReturnRes.ProcessLog.VS1AdminPassword) {
+              if (($("#erppassword").val() != dataReturnRes.ProcessLog.VS1AdminPassword) && (hashUserLoginPassword != dataReturnRes.ProcessLog.VS1AdminPassword)) {
                 myVS1Video.pause();
                 $('.myVS1Video').css('display','none');
                 $('.myVS1VideoLogin').css('display','none');
@@ -2756,7 +2756,7 @@ $("#erplogin-button").click(async function(e){
                          Session.setPersistent('ERPDefaultDepartment', 'Default');
                          Session.setPersistent('ERPDefaultUOM', '');
                          Session.setPersistent('VS1AdminUserName', dataReturnRes.ProcessLog.VS1AdminUserName);
-                         dataReturnRes.ProcessLog.VS1AdminPassword = userLoginPassword;
+                         dataReturnRes.ProcessLog.VS1AdminPassword = hashUserLoginPassword;
                          dataReturnRes.ProcessLog.VS1UserName = userLoginEmail;
                          var ERPIPAdderess= "";
                          if(dataReturnRes.ProcessLog.ServerName == "110.142.175.245"){
@@ -2908,7 +2908,7 @@ $("#erplogin-button").click(async function(e){
                          };
 
 
-                         dataReturnRes.ProcessLog.VS1AdminPassword = userLoginPassword;
+                         dataReturnRes.ProcessLog.VS1AdminPassword = hashUserLoginPassword;
                          dataReturnRes.ProcessLog.VS1UserName = userLoginEmail;
                  Session.setPersistent('mycloudLogonUsername', ERPuserName);
                  Session.setPersistent('mycloudLogonUserEmail', ERPuserName);
@@ -3437,7 +3437,7 @@ $("#erplogin-button").click(async function(e){
                                Session.setPersistent('ERPDefaultDepartment', 'Default');
                                Session.setPersistent('ERPDefaultUOM', '');
                                Session.setPersistent('VS1AdminUserName', dataReturnRes.ProcessLog.VS1AdminUserName);
-                               dataReturnRes.ProcessLog.VS1AdminPassword = userLoginPassword;
+                               dataReturnRes.ProcessLog.VS1AdminPassword = hashUserLoginPassword;
                                dataReturnRes.ProcessLog.VS1UserName = userLoginEmail;
                                var ERPIPAdderess= "";
                                if(dataReturnRes.ProcessLog.ServerName == "110.142.175.245"){
@@ -3632,7 +3632,7 @@ $("#erplogin-button").click(async function(e){
                                };
 
 
-                               dataReturnRes.ProcessLog.VS1AdminPassword = userLoginPassword;
+                               dataReturnRes.ProcessLog.VS1AdminPassword = hashUserLoginPassword;
                                dataReturnRes.ProcessLog.VS1UserName = userLoginEmail;
                        Session.setPersistent('mycloudLogonUsername', ERPuserName);
                        Session.setPersistent('mycloudLogonUserEmail', ERPuserName);
@@ -4162,7 +4162,7 @@ $("#erplogin-button").click(async function(e){
                              Session.setPersistent('ERPDefaultDepartment', 'Default');
                              Session.setPersistent('ERPDefaultUOM', '');
                              Session.setPersistent('VS1AdminUserName', dataReturnRes.ProcessLog.VS1AdminUserName);
-                             dataReturnRes.ProcessLog.VS1AdminPassword = userLoginPassword;
+                             dataReturnRes.ProcessLog.VS1AdminPassword = hashUserLoginPassword;
                              dataReturnRes.ProcessLog.VS1UserName = userLoginEmail;
                              var ERPIPAdderess= "";
                              if(dataReturnRes.ProcessLog.ServerName == "110.142.175.245"){
@@ -4314,7 +4314,7 @@ $("#erplogin-button").click(async function(e){
                              };
 
 
-                             dataReturnRes.ProcessLog.VS1AdminPassword = userLoginPassword;
+                             dataReturnRes.ProcessLog.VS1AdminPassword = hashUserLoginPassword;
                              dataReturnRes.ProcessLog.VS1UserName = userLoginEmail;
                      Session.setPersistent('mycloudLogonUsername', ERPuserName);
                      Session.setPersistent('mycloudLogonUserEmail', ERPuserName);

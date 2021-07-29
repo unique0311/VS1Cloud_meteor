@@ -937,7 +937,7 @@ jQuery('#tblCustomerlist_wrapper .dt-buttons .btntabletocsv').click();
 jQuery('#tblCustomerlist_wrapper .dt-buttons .btntabletopdf').click();
 //$('.fullScreenSpin').css('display','none');
 },
-'click .btnRefresh': function () {
+'click .refreshpagelist': function () {
   //$('.fullScreenSpin').css('display','inline-block');
   let templateObject = Template.instance();
   sideBarService.getAllCustomersDataVS1(initialBaseDataLoad,0).then(function(data) {
