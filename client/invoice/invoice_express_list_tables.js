@@ -372,7 +372,6 @@ setTimeout(function () {
           searching: false,
           responsive: true,
           lengthMenu: [ [25,-1], [25,"All"] ],
-          "bPaginate": false, //hide pagination
           "order": [[ 0, "desc" ],[ 2, "desc" ]],
           action: function () {
             tableDraft.ajax.reload();
