@@ -468,6 +468,7 @@ Template.companyappsettingsdup.events({
         var totalAdditions = 0;
         let grandTotal = 0;
         let lineItemsForm = [];
+        let lineItemsForm1 = [];
         let lineItemObjForm = {};
         let userQuantity = 1;
         let sumPriceUser = 0;
@@ -485,6 +486,17 @@ Template.companyappsettingsdup.events({
                 } else {
                     paymentAmount = 32.5;
                 }
+
+             lineItemObjForm = {
+                    ModuleName: "Essentials" || '',
+                    Price: paymentAmount.toFixed(2),
+                    DiscountedPrice: paymentAmount.toFixed(2),
+                    RenewPrice: paymentAmount.toFixed(2),
+                    RenewDiscountedPrice: paymentAmount.toFixed(2),
+                    RenewDiscountDesc: 1
+
+                };
+                lineItemsForm1.push(lineItemObjForm);
             }
 
             accessLevel = 2;
@@ -500,6 +512,17 @@ Template.companyappsettingsdup.events({
                 } else {
                     paymentAmount = 50;
                 }
+                lineItemObjForm = {
+                    ModuleName: "PLUS" || '',
+                    Price: paymentAmount.toFixed(2),
+                    DiscountedPrice: paymentAmount.toFixed(2),
+                    RenewPrice: paymentAmount.toFixed(2),
+                    RenewDiscountedPrice: paymentAmount.toFixed(2),
+                    RenewDiscountDesc: 1
+
+                };
+                lineItemsForm1.push(lineItemObjForm);
+            }
                 //paymentAmount = 25;
             } else if (cloudPackageCheck == "Simple Start") {
                 if (getCurrenUserPack == "trialPack") {
@@ -509,10 +532,23 @@ Template.companyappsettingsdup.events({
                 } else {
                     paymentAmount = 57.5;
                 }
+                lineItemObjForm = {
+                    ModuleName: "Simple Start" || '',
+                    Price: paymentAmount.toFixed(2),
+                    DiscountedPrice: paymentAmount.toFixed(2),
+                    RenewPrice: paymentAmount.toFixed(2),
+                    RenewDiscountedPrice: paymentAmount.toFixed(2),
+                    RenewDiscountDesc: 1
+
+                };
+                lineItemsForm1.push(lineItemObjForm);
                 //paymentAmount = 50;
+
             }
             accessLevel = 3;
-        }
+
+
+    
 
         $('.additionalModule:checkbox:checked').each(function () {
             userQuantity = $(this).attr('additionalqty');
@@ -546,7 +582,9 @@ Template.companyappsettingsdup.events({
             lineItemsForm.push(lineItemObjForm);
 
         });
+
         grandTotal = paymentAmount + totalAdditions;
+
 
         var erpGet = erpDb();
         let objDetailsUser = "";
@@ -595,8 +633,24 @@ Template.companyappsettingsdup.events({
         let stringQuery = "?";
         let name = Session.get('mySessionEmployee').split(' ')[0];
         let surname = Session.get('mySessionEmployee').split(' ')[1];
-        for (let l = 0; l < lineItemsForm.length; l++) {
-            stringQuery = stringQuery + "product" + l + "=" + lineItemsForm[l].ModuleName + "&price" + l + "=" + Currency + lineItemsForm[l].Price + "&qty" + l + "=" + lineItemsForm[l].RenewDiscountDesc + "&";
+
+        if(lineItemsForm.length > 0) {
+            for (let i = 0; i < lineItemsForm.length; i++) {
+            lineItemObjForm = {
+                    ModuleName: lineItemsForm[i].ModuleName || '',
+                    Price: lineItemsForm[i].Price,
+                    DiscountedPrice: lineItemsForm[i].DiscountedPrice,
+                    RenewPrice: lineItemsForm[i].RenewPrice,
+                    RenewDiscountedPrice: lineItemsForm[i].RenewDiscountedPrice,
+                    RenewDiscountDesc: lineItemsForm[i].RenewDiscountDesc
+
+                };
+                lineItemsForm1.push(lineItemObjForm)
+        } 
+    } 
+        
+        for (let l = 0; l < lineItemsForm1.length; l++) {
+            stringQuery = stringQuery + "product" + l + "=" + lineItemsForm1[l].ModuleName + "&price" + l + "=" + Currency + lineItemsForm1[l].Price + "&qty" + l + "=" + lineItemsForm1[l].RenewDiscountDesc + "&";
         }
         stringQuery = stringQuery + "tax=0" + "&total=" + Currency + grandTotal + "&customer=" + Session.get('vs1companyName') + "&name=" + name + "&surname=" + surname + "&company=" + Session.get('vs1companyName') + "&customeremail=" + localStorage.getItem('mySession') + "&type=VS1 Modules Purchase&url=" + window.location.href + "&server=" + erpGet.ERPIPAddress + "&username=" + erpGet.ERPUsername + "&token=" + erpGet.ERPPassword + "&session=" + erpGet.ERPDatabase + "&port=" + erpGet.ERPPort + "&currency=" + currencyname;
 
