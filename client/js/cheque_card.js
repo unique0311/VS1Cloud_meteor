@@ -1448,7 +1448,7 @@ Template.chequecard.onRendered(() => {
     });
 
 
-    $(document).on("click", "#tblInventory tbody tr", function(e) {
+    $(document).on("click", "#tblAccount tbody tr", function(e) {
         let selectLineID = $('#selectLineID').val();
         let taxcodeList = templateObject.taxraterecords.get();
         var table = $(this);
@@ -1708,7 +1708,7 @@ Template.chequecard.onRendered(() => {
             width: 100
         };
         let id = $('.printID').attr("id");
-        
+
         var source = document.getElementById('html-2-pdfwrapper');
 
         let file = "Cheque.pdf";
@@ -1795,7 +1795,7 @@ Template.chequecard.onRendered(function() {
 
                     if (splashArrayProductList) {
 
-                        $('#tblInventory').dataTable({
+                        $('#tblAccount').dataTable({
                             data: splashArrayProductList.sort(),
 
                             "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
@@ -1883,7 +1883,7 @@ Template.chequecard.onRendered(function() {
                 localStorage.setItem('VS1PurchaseAccountList', JSON.stringify(splashArrayProductList));
                 if (splashArrayProductList) {
 
-                    $('#tblInventory').dataTable({
+                    $('#tblAccount').dataTable({
                         data: splashArrayProductList.sort(),
 
                         "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
@@ -1964,7 +1964,7 @@ Template.chequecard.onRendered(function() {
 
                 if (splashArrayProductList) {
 
-                    $('#tblInventory').dataTable({
+                    $('#tblAccount').dataTable({
                         data: splashArrayProductList.sort(),
 
                         "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
@@ -2516,7 +2516,7 @@ Template.chequecard.events({
         $('#selectLineID').val(targetID);
 
         setTimeout(function() {
-            $('#tblInventory_filter .form-control-sm').focus();
+            $('#tblAccount_filter .form-control-sm').focus();
         }, 500);
     },
     'click #productListModal #refreshpagelist': function() {

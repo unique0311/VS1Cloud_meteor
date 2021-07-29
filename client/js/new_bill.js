@@ -1401,7 +1401,7 @@ Template.billcard.onRendered(() => {
     });
 
 
-    $(document).on("click", "#tblInventory tbody tr", function(e) {
+    $(document).on("click", "#tblAccount tbody tr", function(e) {
         let selectLineID = $('#selectLineID').val();
         let taxcodeList = templateObject.taxraterecords.get();
         var table = $(this);
@@ -1811,7 +1811,7 @@ Template.billcard.onRendered(function() {
 
                     if (splashArrayProductList) {
 
-                        $('#tblInventory').dataTable({
+                        $('#tblAccount').dataTable({
                             data: splashArrayProductList.sort(),
 
                             "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
@@ -1877,7 +1877,7 @@ Template.billcard.onRendered(function() {
 
                 if (splashArrayProductList) {
 
-                    $('#tblInventory').dataTable({
+                    $('#tblAccount').dataTable({
                         data: splashArrayProductList.sort(),
 
                         "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
@@ -1933,7 +1933,7 @@ Template.billcard.onRendered(function() {
 
                 if (splashArrayProductList) {
 
-                    $('#tblInventory').dataTable({
+                    $('#tblAccount').dataTable({
                         data: splashArrayProductList.sort(),
 
                         "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
@@ -2455,7 +2455,7 @@ Template.billcard.events({
         $('#selectLineID').val(targetID);
 
         setTimeout(function() {
-            $('#tblInventory_filter .form-control-sm').focus();
+            $('#tblAccount_filter .form-control-sm').focus();
         }, 500);
     },
     'click #productListModal #refreshpagelist': function() {
