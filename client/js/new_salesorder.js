@@ -3355,7 +3355,7 @@ Template.new_salesorder.onRendered(function() {
                                 className: "salePrice text-right",
                                 "targets": [3]
                             }, {
-                                className: "prdqty",
+                                className: "prdqty text-right",
                                 "targets": [4]
                             }, {
                                 className: "taxrate",
@@ -3435,7 +3435,7 @@ Template.new_salesorder.onRendered(function() {
                                 className: "salePrice text-right",
                                 "targets": [3]
                             }, {
-                                className: "prdqty",
+                                className: "prdqty text-right",
                                 "targets": [4]
                             }, {
                                 className: "taxrate",
@@ -3500,7 +3500,7 @@ Template.new_salesorder.onRendered(function() {
                             className: "salePrice text-right",
                             "targets": [3]
                         }, {
-                            className: "prdqty",
+                            className: "prdqty text-right",
                             "targets": [4]
                         }, {
                             className: "taxrate",

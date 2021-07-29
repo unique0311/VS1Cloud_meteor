@@ -1965,7 +1965,7 @@ Template.purchaseordercard.onRendered(function() {
                                 { className: "productDesc", "targets": [1] },
                                 { className: "costPrice text-right", "targets": [2] },
                                 { className: "salePrice text-right", "targets": [3] },
-                                { className: "prdqty", "targets": [4] },
+                                { className: "prdqty text-right", "targets": [4] },
                                 { className: "taxrate", "targets": [5] }
                             ],
                             colReorder: true,
@@ -2019,7 +2019,7 @@ Template.purchaseordercard.onRendered(function() {
                             { className: "productDesc", "targets": [1] },
                             { className: "costPrice text-right", "targets": [2] },
                             { className: "salePrice text-right", "targets": [3] },
-                            { className: "prdqty", "targets": [4] },
+                            { className: "prdqty text-right", "targets": [4] },
                             { className: "taxrate", "targets": [5] }
                         ],
                         colReorder: true,
@@ -2076,7 +2076,7 @@ Template.purchaseordercard.onRendered(function() {
                             { className: "productDesc", "targets": [1] },
                             { className: "costPrice text-right", "targets": [2] },
                             { className: "salePrice text-right", "targets": [3] },
-                            { className: "prdqty", "targets": [4] },
+                            { className: "prdqty text-right", "targets": [4] },
                             { className: "taxrate", "targets": [5] }
                         ],
                         colReorder: true,
