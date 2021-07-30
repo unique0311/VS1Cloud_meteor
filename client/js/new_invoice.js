@@ -4233,8 +4233,8 @@ Template.new_invoice.onRendered(function () {
                             bStateSave: true,
                             pageLength: 25,
                             lengthMenu: [
-                                [10, 25, 50, -1],
-                                [10, 25, 50, "All"]
+                                [25, -1],
+                                [25, "All"]
                             ],
                             info: true,
                             responsive: true,
@@ -4318,8 +4318,8 @@ Template.new_invoice.onRendered(function () {
 
                         pageLength: 25,
                         lengthMenu: [
-                            [10, 25, 50, -1],
-                            [10, 25, 50, "All"]
+                            [25, -1],
+                            [25, "All"]
                         ],
                         info: true,
                         responsive: true,
@@ -4329,18 +4329,11 @@ Template.new_invoice.onRendered(function () {
 
 
                     }).on('search.dt', function (eventSearch, searchdata) {
-                        //console.log(eventSearch);
-                        //console.log(searchdata);
-
                         if(searchdata.fnRecordsDisplay() > 0){
 
                         }else{
-                            let searchData =  $('.dataTables_filter input').val().toLowerCase();;
-                            //console.log(searchData);
-                            //$('.fullScreenSpin').css('display', 'inline-block');
-
+                            let searchData =  $('.dataTables_filter input').val().toLowerCase();
                         }
-                        //alert("search");
                     });
 
                     $('div.dataTables_filter input').addClass('form-control form-control-sm');
@@ -4413,8 +4406,8 @@ Template.new_invoice.onRendered(function () {
 
                         pageLength: 25,
                         lengthMenu: [
-                            [10, 25, 50, -1],
-                            [10, 25, 50, "All"]
+                            [25,-1],
+                            [25, "All"]
                         ],
                         info: true,
                         responsive: true,
@@ -4756,6 +4749,121 @@ Template.new_invoice.events({
     'click #edtCustomerName': function (event) {
         $('#edtCustomerName').select();
         $('#edtCustomerName').editableSelect();
+    },
+    'click .btnRefreshProduct':function(event){
+      let templateObject = Template.instance();
+      let utilityService = new UtilityService();
+    let productService = new ProductService();
+    let salesService = new SalesBoardService();
+    let tableProductList;
+    var splashArrayProductList = new Array();
+    var splashArrayTaxRateList = new Array();
+    const taxCodesList = [];
+    const lineExtaSellItems = [];
+      $('.fullScreenSpin').css('display', 'inline-block');
+      let dataSearchName = $('#tblInventory_filter input').val();
+      if(dataSearchName.replace(/\s/g, '') != ''){
+      sideBarService.getNewProductListVS1ByName(dataSearchName).then(function (data) {
+          let records = [];
+          //console.log(data.tproductvs1.length);
+          let inventoryData = [];
+          if(data.tproductvs1.length > 0){
+          for (let i = 0; i < data.tproductvs1.length; i++) {
+              var dataList = [
+
+                  data.tproductvs1[i].fields.ProductName || '-',
+                  data.tproductvs1[i].fields.SalesDescription || '',
+                  utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductvs1[i].fields.BuyQty1Cost * 100) / 100),
+                  utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductvs1[i].fields.SellQty1Price * 100) / 100),
+                  data.tproductvs1[i].fields.TotalQtyInStock,
+                  data.tproductvs1[i].fields.TaxCodeSales || ''
+              ];
+
+              if (data.tproductvs1[i].fields.ExtraSellPrice != null) {
+                  for (let e = 0; e < data.tproductvs1[i].fields.ExtraSellPrice.length; e++) {
+                      let lineExtaSellObj = {
+                          clienttype: data.tproductvs1[i].fields.ExtraSellPrice[e].fields.ClientTypeName || '',
+                          productname: data.tproductvs1[i].fields.ExtraSellPrice[e].fields.ProductName || data.tproductvs1[i].fields.ProductName,
+                          price: utilityService.modifynegativeCurrencyFormat(data.tproductvs1[i].fields.ExtraSellPrice[e].fields.Price1) || 0
+                      };
+                      lineExtaSellItems.push(lineExtaSellObj);
+
+                  }
+              }
+              splashArrayProductList.push(dataList);
+          }
+          //localStorage.setItem('VS1SalesProductList', JSON.stringify(splashArrayProductList));
+          $('.fullScreenSpin').css('display', 'none');
+          if (splashArrayProductList) {
+            var datatable = $('#tblInventory').DataTable();
+            datatable.clear();
+            datatable.rows.add(splashArrayProductList);
+            datatable.draw(false);
+
+          }
+          }else{
+            $('.fullScreenSpin').css('display', 'none');
+            $('#productListModal').modal('toggle');
+            swal({
+            title: 'Question',
+            text: "Selection NOT in list, Create New?",
+            type: 'question',
+            showCancelButton: true,
+            confirmButtonText: 'Yes',
+            cancelButtonText: 'No'
+            }).then((result) => {
+            if (result.value) {
+              $('#newProductModal').modal('toggle');
+            } else if (result.dismiss === 'cancel') {
+              $('#productListModal').modal('toggle');
+            }
+            });
+          }
+      }).catch(function (err) {
+        $('.fullScreenSpin').css('display', 'none');
+      });
+    }else{
+      sideBarService.getNewProductListVS1(initialBaseDataLoad,0).then(function (data) {
+            let records = [];
+            let inventoryData = [];
+            for (let i = 0; i < data.tproductvs1.length; i++) {
+                var dataList = [
+
+                    data.tproductvs1[i].fields.ProductName || '-',
+                    data.tproductvs1[i].fields.SalesDescription || '',
+                    utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductvs1[i].fields.BuyQty1Cost * 100) / 100),
+                    utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductvs1[i].fields.SellQty1Price * 100) / 100),
+                    data.tproductvs1[i].fields.TotalQtyInStock,
+                    data.tproductvs1[i].fields.TaxCodeSales || ''
+                ];
+
+                if (data.tproductvs1[i].fields.ExtraSellPrice != null) {
+                    for (let e = 0; e < data.tproductvs1[i].fields.ExtraSellPrice.length; e++) {
+                        let lineExtaSellObj = {
+                            clienttype: data.tproductvs1[i].fields.ExtraSellPrice[e].fields.ClientTypeName || '',
+                            productname: data.tproductvs1[i].fields.ExtraSellPrice[e].fields.ProductName || data.tproductvs1[i].fields.ProductName,
+                            price: utilityService.modifynegativeCurrencyFormat(data.tproductvs1[i].fields.ExtraSellPrice[e].fields.Price1) || 0
+                        };
+                        lineExtaSellItems.push(lineExtaSellObj);
+
+                    }
+                }
+                splashArrayProductList.push(dataList);
+            }
+            //localStorage.setItem('VS1SalesProductList', JSON.stringify(splashArrayProductList));
+            $('.fullScreenSpin').css('display', 'none');
+            if (splashArrayProductList) {
+              var datatable = $('#tblInventory').DataTable();
+              datatable.clear();
+              datatable.rows.add(splashArrayProductList);
+              datatable.draw(false);
+
+
+            }
+        }).catch(function (err) {
+          $('.fullScreenSpin').css('display', 'none');
+        });
+    }
     },
     'change #sltStatus': function () {
         let status = $('#sltStatus').find(":selected").val();

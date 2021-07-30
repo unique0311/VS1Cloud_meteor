@@ -165,8 +165,9 @@
                         </tr>
                     </thead>
                     <tbody>
-                        {{#if datatablerecords}}
-                        {{#each item in datatablerecords}}
+                      <!--
+                        {{#if custdatatablerecords}}
+                        {{#each item in custdatatablerecords}}
                         <tr class="dnd-moved" id="{{item.id}}" isjob="{{item.job}}" style="cursor: pointer;">
                             <td contenteditable="false" class="colCompany" style="width: 200px;">{{item.clientName}}</td>
                             <td contenteditable="false" class="colJob">{{item.job}}</td>
@@ -190,7 +191,7 @@
                         </tr>
                         {{/each}}
                         {{/if}}
-
+                        -->
                     </tbody>
                 </table>
             </div>

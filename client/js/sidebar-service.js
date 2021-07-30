@@ -21,6 +21,15 @@ export class SideBarService extends BaseService {
     return this.getList(this.ERPObjects.TProductVS1, options);
   }
 
+  getNewProductListVS1ByName(dataSearchName) {
+    let options = '';
+       options = {
+        ListType: "Detail",
+        select: '[ProductName] f7like "'+dataSearchName+'"'
+       };
+    return this.getList(this.ERPObjects.TProductVS1, options);
+  }
+
   getAllJobssDataVS1(limitcount, limitfrom) {
     let options = '';
     if(limitcount == 'All'){
@@ -113,6 +122,14 @@ export class SideBarService extends BaseService {
        LimitFrom:'"'+limitfrom+'"'
       };
     }
+    return this.getList(this.ERPObjects.TCustomerVS1, options);
+  }
+  getAllCustomersDataVS1ByName(dataSearchName) {
+    let options = '';
+       options = {
+        ListType: "Detail",
+        select: '[ClientName] f7like "'+dataSearchName+'"'
+       };
     return this.getList(this.ERPObjects.TCustomerVS1, options);
   }
   getAllSuppliersDataVS1(limitcount, limitfrom) {
@@ -646,9 +663,9 @@ export class SideBarService extends BaseService {
     options = {
        orderby:'"DepositID desc"',
        ListType: "Detail",
-       select: "[Deleted]=false",
-       LimitCount:'"'+limitcount+'"',
-      LimitFrom:'"'+limitfrom+'"'
+       select: "[Deleted]=false"
+       //LimitCount:'"'+limitcount+'"',
+      //LimitFrom:'"'+limitfrom+'"'
    };
   }
     return this.getList(this.ERPObjects.TVS1BankDeposit, options);
