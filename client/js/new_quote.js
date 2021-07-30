@@ -278,11 +278,11 @@ Template.new_quote.onRendered(() => {
     };
 
     templateObject.getOrganisationDetails = function () {
-            let account_id = Session.get('vs1companyStripeID') || '';
-            let stripe_fee = Session.get('vs1companyStripeFeeMethod') || 'apply';
-            templateObject.accountID.set(account_id);
-            templateObject.stripe_fee_method.set(stripe_fee);
-        }
+        let account_id = Session.get('vs1companyStripeID') || '';
+        let stripe_fee = Session.get('vs1companyStripeFeeMethod') || 'apply';
+        templateObject.accountID.set(account_id);
+        templateObject.stripe_fee_method.set(stripe_fee);
+    }
 
     templateObject.getOrganisationDetails();
 
@@ -1237,151 +1237,151 @@ Template.new_quote.onRendered(() => {
 
             };
             templateObject.getQuoteData();
-                $('#html-2-pdfwrapper1').css('display', 'block');
-                async function addAttachment() {
-                    let attachment = [];
-                    let templateObject = Template.instance();
+            $('#html-2-pdfwrapper1').css('display', 'block');
+            async function addAttachment() {
+                let attachment = [];
+                let templateObject = Template.instance();
 
-                    let invoiceId = getso_id;
-                    let encodedPdf = await generatePdfForMail(invoiceId);
-                    let pdfObject = "";
-                    var reader = new FileReader();
-                    reader.readAsDataURL(encodedPdf);
-                    reader.onloadend = function () {
-                        var base64data = reader.result;
-                        base64data = base64data.split(',')[1];
+                let invoiceId = getso_id;
+                let encodedPdf = await generatePdfForMail(invoiceId);
+                let pdfObject = "";
+                var reader = new FileReader();
+                reader.readAsDataURL(encodedPdf);
+                reader.onloadend = function () {
+                    var base64data = reader.result;
+                    base64data = base64data.split(',')[1];
 
-                        pdfObject = {
-                            filename: 'Customer Payment-' + invoiceId + '.pdf',
-                            content: base64data,
-                            encoding: 'base64'
-                        };
-                        attachment.push(pdfObject);
+                    pdfObject = {
+                        filename: 'Customer Payment-' + invoiceId + '.pdf',
+                        content: base64data,
+                        encoding: 'base64'
+                    };
+                    attachment.push(pdfObject);
 
-                        let erpInvoiceId = getso_id;
-
-
-                        let mailFromName = Session.get('vs1companyName');
-                        let mailFrom = localStorage.getItem('mySession');
-                        let customerEmailName = $('#edtCustomerName').val();
-                        let checkEmailData = url.searchParams.get("email");
-
-                        let grandtotal = $('#grandTotal').html();
-                        let amountDueEmail = $('#totalBalanceDue').html();
-                        let emailDueDate = $("#dtDueDate").val();
-                        let mailSubject = 'Payment for Quote' + erpInvoiceId + ' from ' + mailFromName + ' for ' + customerEmailName;
-                        let mailBody = "Hi " + customerEmailName + ",\n\n Here's payment " + erpInvoiceId + " for  " + grandtotal + "." +
-
-                            "\n\nIf you have any questions, please let us know : " + mailFrom + ".\n\nThanks,\n" + mailFromName;
-
-                        var htmlmailBody = '<table align="center" border="0" cellpadding="0" cellspacing="0" width="600">' +
-                            '    <tr>' +
-                            '        <td align="center" bgcolor="#54c7e2" style="padding: 40px 0 30px 0;">' +
-                            '            <img src="https://sandbox.vs1cloud.com/assets/VS1logo.png" class="uploadedImage" alt="VS1 Cloud" width="250px" style="display: block;" />' +
-                            '        </td>' +
-                            '    </tr>' +
-                            '    <tr>' +
-                            '        <td style="padding: 40px 30px 40px 30px;">' +
-                            '            <table border="0" cellpadding="0" cellspacing="0" width="100%">' +
-                            '                <tr>' +
-                            '                    <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0 20px 0;">' +
-                            '                        Hello there <span>' + customerEmailName + '</span>,' +
-                            '                    </td>' +
-                            '                </tr>' +
-                            '                <tr>' +
-                            '                    <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0 10px 0;">' +
-                            '                        Please find payment for Quote <span>' + erpInvoiceId + '</span> attached below.' +
-                            '                    </td>' +
-                            '                </tr>' +
-                            '                <tr>' +
-                            '                    <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0 30px 0;">' +
-                            '                        Kind regards,' +
-                            '                        <br>' +
-                            '                        ' + mailFromName + '' +
-                            '                    </td>' +
-                            '                </tr>' +
-                            '            </table>' +
-                            '        </td>' +
-                            '    </tr>' +
-                            '    <tr>' +
-                            '        <td bgcolor="#00a3d3" style="padding: 30px 30px 30px 30px;">' +
-                            '            <table border="0" cellpadding="0" cellspacing="0" width="100%">' +
-                            '                <tr>' +
-                            '                    <td width="50%" style="color: #ffffff; font-family: Arial, sans-serif; font-size: 14px;">' +
-                            '                        If you have any question, please do not hesitate to contact us.' +
-                            '                    </td>' +
-                            '                    <td align="right">' +
-                            '                        <a style="border: none; color: white; padding: 15px 32px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin: 4px 2px; cursor: pointer; background-color: #4CAF50;" href="mailto:' + mailFrom + '">Contact Us</a>' +
-                            '                    </td>' +
-                            '                </tr>' +
-                            '            </table>' +
-                            '        </td>' +
-                            '    </tr>' +
-                            '</table>';
-
-                        Meteor.call('sendEmail', {
-                            from: "" + mailFromName + " <" + mailFrom + ">",
-                            to: checkEmailData,
-                            subject: mailSubject,
-                            text: '',
-                            html: htmlmailBody,
-                            attachments: attachment
-                        }, function (error, result) {
-                            if (error && error.error === "error") {
+                    let erpInvoiceId = getso_id;
 
 
-                            } else {
+                    let mailFromName = Session.get('vs1companyName');
+                    let mailFrom = localStorage.getItem('mySession');
+                    let customerEmailName = $('#edtCustomerName').val();
+                    let checkEmailData = url.searchParams.get("email");
 
-                            }
-                        });
+                    let grandtotal = $('#grandTotal').html();
+                    let amountDueEmail = $('#totalBalanceDue').html();
+                    let emailDueDate = $("#dtDueDate").val();
+                    let mailSubject = 'Payment for Quote' + erpInvoiceId + ' from ' + mailFromName + ' for ' + customerEmailName;
+                    let mailBody = "Hi " + customerEmailName + ",\n\n Here's payment " + erpInvoiceId + " for  " + grandtotal + "." +
 
-                        Meteor.call('sendEmail', {
-                            from: "" + mailFromName + " <" + mailFrom + ">",
-                            to: mailFrom,
-                            subject: mailSubject,
-                            text: '',
-                            html: htmlmailBody,
-                            attachments: attachment
-                        }, function (error, result) {
-                            if (error && error.error === "error") {
-                                swal({
-                                    title: 'Oooops...',
-                                    text: err,
-                                    type: 'error',
-                                    showCancelButton: false,
-                                    confirmButtonText: 'OK'
-                                });
-                            } else {
-                                $('#html-2-pdfwrapper').css('display', 'none');
-                                swal({
-                                    title: 'SUCCESS',
-                                    text: "Email Sent To Customer: " + checkEmailData,
-                                    type: 'success',
-                                    showCancelButton: false,
-                                    confirmButtonText: 'OK'
-                                }).then((result) => {
-                                    if (result.value) {
-                                        Router.go('/quoteslist?success=true');
-                                    } else if (result.dismiss === 'cancel') {
-                                        Router.go('/quoteslist?success=true');
-                                    } else {
-                                        Router.go('/quoteslist?success=true');
-                                    }
-                                });
-                                $('.fullScreenSpin').css('display', 'none');
-                            }
-                        });
+                        "\n\nIf you have any questions, please let us know : " + mailFrom + ".\n\nThanks,\n" + mailFromName;
+
+                    var htmlmailBody = '<table align="center" border="0" cellpadding="0" cellspacing="0" width="600">' +
+                        '    <tr>' +
+                        '        <td align="center" bgcolor="#54c7e2" style="padding: 40px 0 30px 0;">' +
+                        '            <img src="https://sandbox.vs1cloud.com/assets/VS1logo.png" class="uploadedImage" alt="VS1 Cloud" width="250px" style="display: block;" />' +
+                        '        </td>' +
+                        '    </tr>' +
+                        '    <tr>' +
+                        '        <td style="padding: 40px 30px 40px 30px;">' +
+                        '            <table border="0" cellpadding="0" cellspacing="0" width="100%">' +
+                        '                <tr>' +
+                        '                    <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0 20px 0;">' +
+                        '                        Hello there <span>' + customerEmailName + '</span>,' +
+                        '                    </td>' +
+                        '                </tr>' +
+                        '                <tr>' +
+                        '                    <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0 10px 0;">' +
+                        '                        Please find payment for Quote <span>' + erpInvoiceId + '</span> attached below.' +
+                        '                    </td>' +
+                        '                </tr>' +
+                        '                <tr>' +
+                        '                    <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0 30px 0;">' +
+                        '                        Kind regards,' +
+                        '                        <br>' +
+                        '                        ' + mailFromName + '' +
+                        '                    </td>' +
+                        '                </tr>' +
+                        '            </table>' +
+                        '        </td>' +
+                        '    </tr>' +
+                        '    <tr>' +
+                        '        <td bgcolor="#00a3d3" style="padding: 30px 30px 30px 30px;">' +
+                        '            <table border="0" cellpadding="0" cellspacing="0" width="100%">' +
+                        '                <tr>' +
+                        '                    <td width="50%" style="color: #ffffff; font-family: Arial, sans-serif; font-size: 14px;">' +
+                        '                        If you have any question, please do not hesitate to contact us.' +
+                        '                    </td>' +
+                        '                    <td align="right">' +
+                        '                        <a style="border: none; color: white; padding: 15px 32px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin: 4px 2px; cursor: pointer; background-color: #4CAF50;" href="mailto:' + mailFrom + '">Contact Us</a>' +
+                        '                    </td>' +
+                        '                </tr>' +
+                        '            </table>' +
+                        '        </td>' +
+                        '    </tr>' +
+                        '</table>';
+
+                    Meteor.call('sendEmail', {
+                        from: "" + mailFromName + " <" + mailFrom + ">",
+                        to: checkEmailData,
+                        subject: mailSubject,
+                        text: '',
+                        html: htmlmailBody,
+                        attachments: attachment
+                    }, function (error, result) {
+                        if (error && error.error === "error") {
 
 
+                        } else {
+
+                        }
+                    });
+
+                    Meteor.call('sendEmail', {
+                        from: "" + mailFromName + " <" + mailFrom + ">",
+                        to: mailFrom,
+                        subject: mailSubject,
+                        text: '',
+                        html: htmlmailBody,
+                        attachments: attachment
+                    }, function (error, result) {
+                        if (error && error.error === "error") {
+                            swal({
+                                title: 'Oooops...',
+                                text: err,
+                                type: 'error',
+                                showCancelButton: false,
+                                confirmButtonText: 'OK'
+                            });
+                        } else {
+                            $('#html-2-pdfwrapper').css('display', 'none');
+                            swal({
+                                title: 'SUCCESS',
+                                text: "Email Sent To Customer: " + checkEmailData,
+                                type: 'success',
+                                showCancelButton: false,
+                                confirmButtonText: 'OK'
+                            }).then((result) => {
+                                if (result.value) {
+                                    Router.go('/quoteslist?success=true');
+                                } else if (result.dismiss === 'cancel') {
+                                    Router.go('/quoteslist?success=true');
+                                } else {
+                                    Router.go('/quoteslist?success=true');
+                                }
+                            });
+                            $('.fullScreenSpin').css('display', 'none');
+                        }
+                    });
 
 
 
-                    }
+
 
                 }
-                setTimeout(function () {
-                   addAttachment();
-                }, 2500);
+
+            }
+            setTimeout(function () {
+                addAttachment();
+            }, 2500);
 
 
             function generatePdfForMail(invoiceId) {
@@ -2756,151 +2756,151 @@ Template.new_quote.onRendered(() => {
 
     /* On click Customer List */
     $(document).on("click", "#tblCustomerlist tbody tr", function (e) {
-       let taxcodeList = templateObject.taxraterecords.get();
+        let taxcodeList = templateObject.taxraterecords.get();
         let customers = templateObject.clientrecords.get();
         let $tblrows = $("#tblInvoiceLine tbody tr");
         let $printrows = $(".invoice_print tbody tr");
-    var tableCustomer = $(this);
-    $('#edtCustomerName').val(tableCustomer.find(".colCompany").text())
-    $('#customerListModal').modal('toggle');
+        var tableCustomer = $(this);
+        $('#edtCustomerName').val(tableCustomer.find(".colCompany").text())
+        $('#customerListModal').modal('toggle');
         //if (li.text() != undefined) {
-            let selectedCustomer = $('#edtCustomerName').val();
-            if (clientList) {
-                for (var i = 0; i < clientList.length; i++) {
-                    if (clientList[i].customername == selectedCustomer) {
-                        $('#edtCustomerEmail').val(clientList[i].customeremail);
-                        $('#edtCustomerEmail').attr('customerid', clientList[i].customerid);
-                        $('#edtCustomerEmail').attr('customerfirstname', clientList[i].firstname);
-                        $('#edtCustomerEmail').attr('customerlastname', clientList[i].lastname);
-                        let postalAddress = clientList[i].customername + '\n' + clientList[i].street + '\n' + clientList[i].street2 + ' ' + clientList[i].statecode + '\n' + clientList[i].country;
-                        $('#txabillingAddress').val(postalAddress);
-                        $('.pdfCustomerAddress').html(postalAddress);
-                        $('#txaShipingInfo').val(postalAddress);
-                    }
+        let selectedCustomer = $('#edtCustomerName').val();
+        if (clientList) {
+            for (var i = 0; i < clientList.length; i++) {
+                if (clientList[i].customername == selectedCustomer) {
+                    $('#edtCustomerEmail').val(clientList[i].customeremail);
+                    $('#edtCustomerEmail').attr('customerid', clientList[i].customerid);
+                    $('#edtCustomerEmail').attr('customerfirstname', clientList[i].firstname);
+                    $('#edtCustomerEmail').attr('customerlastname', clientList[i].lastname);
+                    let postalAddress = clientList[i].customername + '\n' + clientList[i].street + '\n' + clientList[i].street2 + ' ' + clientList[i].statecode + '\n' + clientList[i].country;
+                    $('#txabillingAddress').val(postalAddress);
+                    $('.pdfCustomerAddress').html(postalAddress);
+                    $('#txaShipingInfo').val(postalAddress);
                 }
-                let getCustDetails = "";
-                let taxRate = ""
-                if (selectedCustomer != "") {
-                    getCustDetails = customers.filter(customer => {
-                        return customer.customername == selectedCustomer
-                    });
+            }
+            let getCustDetails = "";
+            let taxRate = ""
+            if (selectedCustomer != "") {
+                getCustDetails = customers.filter(customer => {
+                    return customer.customername == selectedCustomer
+                });
 
-                    taxRate = taxcodeList.filter(taxrate => {
-                        return taxrate.codename == getCustDetails[0].taxCode
-                    });
+                taxRate = taxcodeList.filter(taxrate => {
+                    return taxrate.codename == getCustDetails[0].taxCode
+                });
 
-                    if (taxRate.length > 0) {
-                        let rate = taxRate[0].coderate;
-                        let code = getCustDetails[0].taxCode;
-                        if (code == "NT") {
-                            code = "E";
+                if (taxRate.length > 0) {
+                    let rate = taxRate[0].coderate;
+                    let code = getCustDetails[0].taxCode;
+                    if (code == "NT") {
+                        code = "E";
+                    }
+                    let taxcodeList = templateObject.taxraterecords.get();
+
+                    let $tblrows = $("#tblQuoteLine tbody tr");
+                    let $printrows = $(".quote_print tbody tr");
+
+                    let lineAmount = 0;
+                    let subGrandTotal = 0;
+                    let taxGrandTotal = 0;
+                    let taxGrandTotalPrint = 0;
+                    $tblrows.each(function (index) {
+                        var $tblrow = $(this);
+                        var qty = $tblrow.find(".lineQty").val() || 0;
+                        var price = $tblrow.find(".lineUnitPrice").val() || "0";
+                        var taxcode = code;
+                        $tblrow.find(".lineTaxCode").text(code);
+                        $tblrow.find(".lineTaxRate").text(rate);
+
+
+                        var taxrateamount = 0;
+                        if (taxcodeList) {
+                            for (var i = 0; i < taxcodeList.length; i++) {
+                                if (taxcodeList[i].codename == taxcode) {
+                                    taxrateamount = taxcodeList[i].coderate.replace('%', "") / 100;;
+                                }
+                            }
                         }
-                        let taxcodeList = templateObject.taxraterecords.get();
 
-                        let $tblrows = $("#tblQuoteLine tbody tr");
-                        let $printrows = $(".quote_print tbody tr");
+                        var subTotal = parseFloat(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) || 0;
+                        var taxTotal = parseFloat(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) * parseFloat(taxrateamount);
+                        $tblrow.find('.lineTaxAmount').text(utilityService.modifynegativeCurrencyFormat(taxTotal));
+                        if (!isNaN(subTotal)) {
+                            $tblrow.find('.lineAmt').text(utilityService.modifynegativeCurrencyFormat(subTotal));
+                            subGrandTotal += isNaN(subTotal) ? 0 : subTotal;
+                            document.getElementById("subtotal_total").innerHTML = utilityService.modifynegativeCurrencyFormat(subGrandTotal);
+                        }
 
-                        let lineAmount = 0;
-                        let subGrandTotal = 0;
-                        let taxGrandTotal = 0;
-                        let taxGrandTotalPrint = 0;
-                        $tblrows.each(function (index) {
-                            var $tblrow = $(this);
-                            var qty = $tblrow.find(".lineQty").val() || 0;
-                            var price = $tblrow.find(".lineUnitPrice").val() || "0";
+                        if (!isNaN(taxTotal)) {
+                            taxGrandTotal += isNaN(taxTotal) ? 0 : taxTotal;
+                            document.getElementById("subtotal_tax").innerHTML = utilityService.modifynegativeCurrencyFormat(taxGrandTotal);
+                        }
+
+                        if (!isNaN(subGrandTotal) && (!isNaN(taxGrandTotal))) {
+                            let GrandTotal = (parseFloat(subGrandTotal)) + (parseFloat(taxGrandTotal));
+                            document.getElementById("grandTotal").innerHTML = utilityService.modifynegativeCurrencyFormat(GrandTotal);
+                            document.getElementById("balanceDue").innerHTML = utilityService.modifynegativeCurrencyFormat(GrandTotal);
+                            document.getElementById("totalBalanceDue").innerHTML = utilityService.modifynegativeCurrencyFormat(GrandTotal);
+
+                        }
+                    });
+                    if ($('.printID').attr('id') != undefined || $('.printID').attr('id') != "") {
+                        $printrows.each(function (index) {
+                            var $printrows = $(this);
+                            var qty = $printrows.find("#lineQty").text() || 0;
+                            var price = $printrows.find("#lineUnitPrice").text() || "0";
                             var taxcode = code;
-                            $tblrow.find(".lineTaxCode").text(code);
-                            $tblrow.find(".lineTaxRate").text(rate);
-
-
+                            $printrows.find("#lineTaxCode").text(code);
+                            $printrows.find("#lineTaxRate").text(rate);
                             var taxrateamount = 0;
+
                             if (taxcodeList) {
                                 for (var i = 0; i < taxcodeList.length; i++) {
                                     if (taxcodeList[i].codename == taxcode) {
-                                        taxrateamount = taxcodeList[i].coderate.replace('%', "") / 100;;
+                                        taxrateamount = taxcodeList[i].coderate.replace('%', "") / 100;
                                     }
                                 }
                             }
+
 
                             var subTotal = parseFloat(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) || 0;
                             var taxTotal = parseFloat(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) * parseFloat(taxrateamount);
-                            $tblrow.find('.lineTaxAmount').text(utilityService.modifynegativeCurrencyFormat(taxTotal));
+                            $printrows.find('#lineTaxAmount').text(utilityService.modifynegativeCurrencyFormat(taxTotal))
                             if (!isNaN(subTotal)) {
-                                $tblrow.find('.lineAmt').text(utilityService.modifynegativeCurrencyFormat(subTotal));
+                                $printrows.find('#lineAmt').text(utilityService.modifynegativeCurrencyFormat(subTotal));
                                 subGrandTotal += isNaN(subTotal) ? 0 : subTotal;
-                                document.getElementById("subtotal_total").innerHTML = utilityService.modifynegativeCurrencyFormat(subGrandTotal);
+                                document.getElementById("subtotal_totalPrint").innerHTML = $('#subtotal_total').text();
                             }
 
                             if (!isNaN(taxTotal)) {
-                                taxGrandTotal += isNaN(taxTotal) ? 0 : taxTotal;
-                                document.getElementById("subtotal_tax").innerHTML = utilityService.modifynegativeCurrencyFormat(taxGrandTotal);
+                                taxGrandTotalPrint += isNaN(taxTotal) ? 0 : taxTotal;
                             }
-
                             if (!isNaN(subGrandTotal) && (!isNaN(taxGrandTotal))) {
                                 let GrandTotal = (parseFloat(subGrandTotal)) + (parseFloat(taxGrandTotal));
-                                document.getElementById("grandTotal").innerHTML = utilityService.modifynegativeCurrencyFormat(GrandTotal);
+                                document.getElementById("grandTotalPrint").innerHTML = $('#grandTotal').text();
+                                document.getElementById("totalTax").innerHTML = $('#subtotal_tax').text();
                                 document.getElementById("balanceDue").innerHTML = utilityService.modifynegativeCurrencyFormat(GrandTotal);
-                                document.getElementById("totalBalanceDue").innerHTML = utilityService.modifynegativeCurrencyFormat(GrandTotal);
+                                document.getElementById("totalBalanceDuePrint").innerHTML = $('#totalBalanceDue').text();
 
                             }
                         });
-                         if ($('.printID').attr('id') != undefined || $('.printID').attr('id') != "") {
-                            $printrows.each(function (index) {
-                                var $printrows = $(this);
-                                var qty = $printrows.find("#lineQty").text() || 0;
-                                var price = $printrows.find("#lineUnitPrice").text() || "0";
-                                var taxcode = code;
-                                $printrows.find("#lineTaxCode").text(code);
-                                $printrows.find("#lineTaxRate").text(rate);
-                                var taxrateamount = 0;
-
-                                if (taxcodeList) {
-                                    for (var i = 0; i < taxcodeList.length; i++) {
-                                        if (taxcodeList[i].codename == taxcode) {
-                                            taxrateamount = taxcodeList[i].coderate.replace('%', "") / 100;
-                                        }
-                                    }
-                                }
-
-
-                                var subTotal = parseFloat(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) || 0;
-                                var taxTotal = parseFloat(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) * parseFloat(taxrateamount);
-                                $printrows.find('#lineTaxAmount').text(utilityService.modifynegativeCurrencyFormat(taxTotal))
-                                if (!isNaN(subTotal)) {
-                                    $printrows.find('#lineAmt').text(utilityService.modifynegativeCurrencyFormat(subTotal));
-                                    subGrandTotal += isNaN(subTotal) ? 0 : subTotal;
-                                    document.getElementById("subtotal_totalPrint").innerHTML = $('#subtotal_total').text();
-                                }
-
-                                if (!isNaN(taxTotal)) {
-                                    taxGrandTotalPrint += isNaN(taxTotal) ? 0 : taxTotal;
-                                }
-                                if (!isNaN(subGrandTotal) && (!isNaN(taxGrandTotal))) {
-                                    let GrandTotal = (parseFloat(subGrandTotal)) + (parseFloat(taxGrandTotal));
-                                    document.getElementById("grandTotalPrint").innerHTML = $('#grandTotal').text();
-                                    document.getElementById("totalTax").innerHTML = $('#subtotal_tax').text();
-                                    document.getElementById("balanceDue").innerHTML = utilityService.modifynegativeCurrencyFormat(GrandTotal);
-                                    document.getElementById("totalBalanceDuePrint").innerHTML = $('#totalBalanceDue').text();
-
-                                }
-                            });
-
-                        }
-
 
                     }
+
+
                 }
             }
-       // }
+        }
+        // }
     });
 
     $('#edtCustomerName').editableSelect()
         .on('select.editable-select', function (e, li) {
-          $('#customerListModal').modal();
-          setTimeout(function () {
-              $('#tblCustomerlist_filter .form-control-sm').focus();
-          }, 500);
-          /*
+        $('#customerListModal').modal();
+        setTimeout(function () {
+            $('#tblCustomerlist_filter .form-control-sm').focus();
+        }, 500);
+        /*
             let taxcodeList = templateObject.taxraterecords.get();
             let customers = templateObject.clientrecords.get();
             if (li.text() != undefined) {
@@ -3034,7 +3034,7 @@ Template.new_quote.onRendered(() => {
           }
 
           */
-        });
+    });
 
 
     exportSalesToPdf = function () {
@@ -3046,7 +3046,7 @@ Template.new_quote.onRendered(() => {
         };
         let quoteData = templateObject.quoterecord.get();
         let stripe_id = templateObject.accountID.get() || '';
-         let stripe_fee_method = templateObject.stripe_fee_method.get();
+        let stripe_fee_method = templateObject.stripe_fee_method.get();
         let lineItems = [];
         let total = $('#grandTotal').html() || 0;
         let tax = $('#subtotal_tax').html() || 0;
@@ -3114,13 +3114,13 @@ Template.new_quote.onRendered(() => {
         $(".linkText").attr("href", "https://www.depot.vs1cloud.com/stripe/" + stringQuery);
         // pdf.setFontSize(18);
         var source = document.getElementById('html-2-pdfwrapper');
-         html2pdf().set(opt).from(source).save().then(function (dataObject){
-             if ($('.printID').attr('id') == undefined || $('.printID').attr('id') == "") {
+        html2pdf().set(opt).from(source).save().then(function (dataObject){
+            if ($('.printID').attr('id') == undefined || $('.printID').attr('id') == "") {
                 $(".btnSave").trigger("click");
             } else {
-             $('#html-2-pdfwrapper').css('display', 'none');
-            $('.fullScreenSpin').css('display', 'none');
-        }
+                $('#html-2-pdfwrapper').css('display', 'none');
+                $('.fullScreenSpin').css('display', 'none');
+            }
         });
 
         // pdf.addHTML(source, function () {
@@ -3215,7 +3215,7 @@ Template.new_quote.onRendered(function () {
     var splashArrayProductList = new Array();
     var splashArrayTaxRateList = new Array();
     const taxCodesList = [];
-        const lineExtaSellItems = [];
+    const lineExtaSellItems = [];
     tempObj.getAllProducts = function () {
         getVS1Data('TProductVS1').then(function (dataObject) {
             if (dataObject.length == 0) {
@@ -3254,7 +3254,7 @@ Template.new_quote.onRendered(function () {
                                 { className: "productDesc", "targets": [1] },
                                 { className: "costPrice text-right", "targets": [2] },
                                 { className: "salePrice text-right", "targets": [3] },
-                                { className: "prdqty", "targets": [4] },
+                                { className: "prdqty text-right", "targets": [4] },
                                 { className: "taxrate", "targets": [5] }
                             ],
                             colReorder: true,
@@ -3266,11 +3266,14 @@ Template.new_quote.onRendered(function () {
 
                             pageLength: 25,
                             lengthMenu: [
-                                [10, 25, 50, -1],
-                                [10, 25, 50, "All"]
+                                [25, -1],
+                            [25, "All"]
                             ],
                             info: true,
-                            responsive: true
+                            responsive: true,
+                            "fnInitComplete": function () {
+                                $("<button class='btn btn-primary btnRefreshProduct' type='button' id='btnRefreshProduct' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblInventory_filter");
+                            }
 
                         });
 
@@ -3302,20 +3305,20 @@ Template.new_quote.onRendered(function () {
                     ];
 
                     if(useData[i].fields.ExtraSellPrice != null){
-                      for(let e=0; e<useData[i].fields.ExtraSellPrice.length; e++){
-                        let lineExtaSellObj = {
-                           clienttype: useData[i].fields.ExtraSellPrice[e].fields.ClientTypeName || '',
-                           productname: useData[i].fields.ExtraSellPrice[e].fields.ProductName || useData[i].fields.ProductName,
-                           price: utilityService.modifynegativeCurrencyFormat(useData[i].fields.ExtraSellPrice[e].fields.Price1) || 0
-                       };
-                       lineExtaSellItems.push(lineExtaSellObj);
+                        for(let e=0; e<useData[i].fields.ExtraSellPrice.length; e++){
+                            let lineExtaSellObj = {
+                                clienttype: useData[i].fields.ExtraSellPrice[e].fields.ClientTypeName || '',
+                                productname: useData[i].fields.ExtraSellPrice[e].fields.ProductName || useData[i].fields.ProductName,
+                                price: utilityService.modifynegativeCurrencyFormat(useData[i].fields.ExtraSellPrice[e].fields.Price1) || 0
+                            };
+                            lineExtaSellItems.push(lineExtaSellObj);
 
-                      }
+                        }
                     }
 
                     splashArrayProductList.push(dataList);
                 }
-                                tempObj.productextrasellrecords.set(lineExtaSellItems);
+                tempObj.productextrasellrecords.set(lineExtaSellItems);
                 localStorage.setItem('VS1SalesProductList', JSON.stringify(splashArrayProductList));
 
                 if (splashArrayProductList) {
@@ -3333,23 +3336,21 @@ Template.new_quote.onRendered(function () {
                             { className: "productDesc", "targets": [1] },
                             { className: "costPrice text-right", "targets": [2] },
                             { className: "salePrice text-right", "targets": [3] },
-                            { className: "prdqty", "targets": [4] },
+                            { className: "prdqty text-right", "targets": [4] },
                             { className: "taxrate", "targets": [5] }
                         ],
                         colReorder: true,
-
-
-
                         bStateSave: true,
-
-
                         pageLength: 25,
                         lengthMenu: [
-                            [10, 25, 50, -1],
-                            [10, 25, 50, "All"]
+                            [25, -1],
+                            [25, "All"]
                         ],
                         info: true,
-                        responsive: true
+                        responsive: true,
+                        "fnInitComplete": function () {
+                            $("<button class='btn btn-primary btnRefreshProduct' type='button' id='btnRefreshProduct' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblInventory_filter");
+                        }
 
                     });
 
@@ -3400,7 +3401,7 @@ Template.new_quote.onRendered(function () {
                             { className: "productDesc", "targets": [1] },
                             { className: "costPrice text-right", "targets": [2] },
                             { className: "salePrice text-right", "targets": [3] },
-                            { className: "prdqty", "targets": [4] },
+                            { className: "prdqty text-right", "targets": [4] },
                             { className: "taxrate", "targets": [5] }
                         ],
                         colReorder: true,
@@ -3412,11 +3413,14 @@ Template.new_quote.onRendered(function () {
 
                         pageLength: 25,
                         lengthMenu: [
-                            [10, 25, 50, -1],
-                            [10, 25, 50, "All"]
+                            [25, -1],
+                            [25, "All"]
                         ],
                         info: true,
-                        responsive: true
+                        responsive: true,
+                        "fnInitComplete": function () {
+                            $("<button class='btn btn-primary btnRefreshProduct' type='button' id='btnRefreshProduct' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblInventory_filter");
+                        }
 
                     });
 
@@ -3543,11 +3547,14 @@ Template.new_quote.onRendered(function () {
 
                             pageLength: 25,
                             lengthMenu: [
-                                [10, 25, 50, -1],
-                                [10, 25, 50, "All"]
+                                [25, -1],
+                            [25, "All"]
                             ],
                             info: true,
-                            responsive: true
+                            responsive: true,
+                            "fnInitComplete": function () {
+                                $("<button class='btn btn-primary btnRefreshTax' type='button' id='btnRefreshTax' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblTaxRate_filter");
+                            }
 
                         });
 
@@ -3608,11 +3615,14 @@ Template.new_quote.onRendered(function () {
 
                         pageLength: 25,
                         lengthMenu: [
-                            [10, 25, 50, -1],
-                            [10, 25, 50, "All"]
+                            [25, -1],
+                            [25, "All"]
                         ],
                         info: true,
-                        responsive: true
+                        responsive: true,
+                        "fnInitComplete": function () {
+                            $("<button class='btn btn-primary btnRefreshTax' type='button' id='btnRefreshTax' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblTaxRate_filter");
+                        }
 
                     });
 
@@ -3673,11 +3683,14 @@ Template.new_quote.onRendered(function () {
 
                         pageLength: 25,
                         lengthMenu: [
-                            [10, 25, 50, -1],
-                            [10, 25, 50, "All"]
+                            [25, -1],
+                            [25, "All"]
                         ],
                         info: true,
-                        responsive: true
+                        responsive: true,
+                        "fnInitComplete": function () {
+                            $("<button class='btn btn-primary btnRefreshTax' type='button' id='btnRefreshTax' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblTaxRate_filter");
+                        }
 
                     });
 
@@ -3695,27 +3708,27 @@ Template.new_quote.onRendered(function () {
 });
 
 Template.new_quote.helpers({
-  vs1companyBankName: () => {
-      return localStorage.getItem('vs1companyBankName') || '';
-  },
-  bsbRegionName: () => {
-      return bsbCodeName;
-  },
-  vs1companyBankAccountName: () => {
-      return localStorage.getItem('vs1companyBankAccountName') || '';
-  },
-  vs1companyBankAccountNo: () => {
-      return localStorage.getItem('vs1companyBankAccountNo') || '';
-  },
-  vs1companyBankBSB: () => {
-      return localStorage.getItem('vs1companyBankBSB') || '';
-  },
-  vs1companyBankSwiftCode: () => {
-      return localStorage.getItem('vs1companyBankSwiftCode') || '';
-  },
-  vs1companyBankRoutingNo: () => {
-      return localStorage.getItem('vs1companyBankRoutingNo') || '';
-  },
+    vs1companyBankName: () => {
+        return localStorage.getItem('vs1companyBankName') || '';
+    },
+    bsbRegionName: () => {
+        return bsbCodeName;
+    },
+    vs1companyBankAccountName: () => {
+        return localStorage.getItem('vs1companyBankAccountName') || '';
+    },
+    vs1companyBankAccountNo: () => {
+        return localStorage.getItem('vs1companyBankAccountNo') || '';
+    },
+    vs1companyBankBSB: () => {
+        return localStorage.getItem('vs1companyBankBSB') || '';
+    },
+    vs1companyBankSwiftCode: () => {
+        return localStorage.getItem('vs1companyBankSwiftCode') || '';
+    },
+    vs1companyBankRoutingNo: () => {
+        return localStorage.getItem('vs1companyBankRoutingNo') || '';
+    },
     quoterecord: () => {
         return Template.instance().quoterecord.get();
     },
@@ -4044,7 +4057,7 @@ Template.new_quote.events({
             }
         });
 
-         if ($('.printID').attr('id') != undefined || $('.printID').attr('id') != "") {
+        if ($('.printID').attr('id') != undefined || $('.printID').attr('id') != "") {
             $printrows.each(function(index) {
                 var $printrows = $(this);
                 var qty = $printrows.find("#lineQty").text() || 0;
@@ -4091,20 +4104,20 @@ Template.new_quote.events({
         }
     },
     'click .lineProductName': function (event) {
-      let customername = $('#edtCustomerName').val();
-      if (customername === '') {
-          swal('Customer has not been selected!', '', 'warning');
-          event.preventDefault();
-      }else{
-        $('#tblQuoteLine tbody tr .lineProductName').attr("data-toggle", "modal");
-        $('#tblQuoteLine tbody tr .lineProductName').attr("data-target", "#productListModal");
-        var targetID = $(event.target).closest('tr').attr('id');
-        $('#selectLineID').val(targetID);
+        let customername = $('#edtCustomerName').val();
+        if (customername === '') {
+            swal('Customer has not been selected!', '', 'warning');
+            event.preventDefault();
+        }else{
+            $('#tblQuoteLine tbody tr .lineProductName').attr("data-toggle", "modal");
+            $('#tblQuoteLine tbody tr .lineProductName').attr("data-target", "#productListModal");
+            var targetID = $(event.target).closest('tr').attr('id');
+            $('#selectLineID').val(targetID);
 
-        setTimeout(function () {
-            $('#tblInventory_filter .form-control-sm').focus();
-        }, 500);
-      }
+            setTimeout(function () {
+                $('#tblInventory_filter .form-control-sm').focus();
+            }, 500);
+        }
     },
     'click #productListModal #refreshpagelist': function () {
         $('.fullScreenSpin').css('display', 'inline-block');
@@ -4134,8 +4147,8 @@ Template.new_quote.events({
         $('.pdfCustomerName').html($('#edtCustomerName').val());
         $('.pdfCustomerAddress').html($('#txabillingAddress').val().replace(/[\r\n]/g, "<br />"));
         $('#printcomment').html($('#txaComment').val().replace(/[\r\n]/g, "<br />"));
-         var ponumber = $('#ponumber').val() || '.';
-         $('.po').text(ponumber);
+        var ponumber = $('#ponumber').val() || '.';
+        $('.po').text(ponumber);
         exportSalesToPdf();
     },
     'keydown .lineQty, keydown .lineUnitPrice': function (event) {
@@ -4226,41 +4239,41 @@ Template.new_quote.events({
                 });
 
                 if ($('.printID').attr('id') != undefined || $('.printID').attr('id') != "") {
-                $printrows.each(function (index) {
-                    var $printrows = $(this);
-                    var qty = $printrows.find("#lineQty").text() || 0;
-                    var price = $printrows.find("#lineUnitPrice").text() || "0";
-                    var taxrateamount = 0;
-                    var taxRate = $printrows.find("#lineTaxCode").text();
-                    if (taxcodeList) {
-                        for (var i = 0; i < taxcodeList.length; i++) {
-                            if (taxcodeList[i].codename == taxRate) {
-                                taxrateamount = taxcodeList[i].coderate.replace('%', "") / 100;
+                    $printrows.each(function (index) {
+                        var $printrows = $(this);
+                        var qty = $printrows.find("#lineQty").text() || 0;
+                        var price = $printrows.find("#lineUnitPrice").text() || "0";
+                        var taxrateamount = 0;
+                        var taxRate = $printrows.find("#lineTaxCode").text();
+                        if (taxcodeList) {
+                            for (var i = 0; i < taxcodeList.length; i++) {
+                                if (taxcodeList[i].codename == taxRate) {
+                                    taxrateamount = taxcodeList[i].coderate.replace('%', "") / 100;
+                                }
                             }
                         }
-                    }
-                    var subTotal = parseFloat(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) || 0;
-                    var taxTotal = parseFloat(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) * parseFloat(taxrateamount);
-                    $printrows.find('#lineTaxAmount').text(utilityService.modifynegativeCurrencyFormat(taxTotal))
-                    if (!isNaN(subTotal)) {
-                        $printrows.find('#lineAmt').text(utilityService.modifynegativeCurrencyFormat(subTotal));
-                        subGrandTotal += isNaN(subTotal) ? 0 : subTotal;
-                        document.getElementById("subtotal_totalPrint").innerHTML = $('#subtotal_total').text();
-                    }
+                        var subTotal = parseFloat(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) || 0;
+                        var taxTotal = parseFloat(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) * parseFloat(taxrateamount);
+                        $printrows.find('#lineTaxAmount').text(utilityService.modifynegativeCurrencyFormat(taxTotal))
+                        if (!isNaN(subTotal)) {
+                            $printrows.find('#lineAmt').text(utilityService.modifynegativeCurrencyFormat(subTotal));
+                            subGrandTotal += isNaN(subTotal) ? 0 : subTotal;
+                            document.getElementById("subtotal_totalPrint").innerHTML = $('#subtotal_total').text();
+                        }
 
-                    if (!isNaN(taxTotal)) {
-                        taxGrandTotalPrint += isNaN(taxTotal) ? 0 : taxTotal;
-                    }
-                    if (!isNaN(subGrandTotal) && (!isNaN(taxGrandTotal))) {
-                        let GrandTotal = (parseFloat(subGrandTotal)) + (parseFloat(taxGrandTotal));
-                        document.getElementById("grandTotalPrint").innerHTML = $('#grandTotal').text();
-                        document.getElementById("totalTax").innerHTML = $('#subtotal_tax').text();
-                        document.getElementById("balanceDue").innerHTML = utilityService.modifynegativeCurrencyFormat(GrandTotal);
-                        document.getElementById("totalBalanceDuePrint").innerHTML = $('#totalBalanceDue').text();
+                        if (!isNaN(taxTotal)) {
+                            taxGrandTotalPrint += isNaN(taxTotal) ? 0 : taxTotal;
+                        }
+                        if (!isNaN(subGrandTotal) && (!isNaN(taxGrandTotal))) {
+                            let GrandTotal = (parseFloat(subGrandTotal)) + (parseFloat(taxGrandTotal));
+                            document.getElementById("grandTotalPrint").innerHTML = $('#grandTotal').text();
+                            document.getElementById("totalTax").innerHTML = $('#subtotal_tax').text();
+                            document.getElementById("balanceDue").innerHTML = utilityService.modifynegativeCurrencyFormat(GrandTotal);
+                            document.getElementById("totalBalanceDuePrint").innerHTML = $('#totalBalanceDue').text();
 
-                    }
-                });
-            }
+                        }
+                    });
+                }
                 return false;
 
             } else {
@@ -4369,39 +4382,39 @@ Template.new_quote.events({
 
 
             $printrows.each(function (index) {
-                    var $printrows = $(this);
-                    var qty = $printrows.find("#lineQty").text() || 0;
-                    var price = $printrows.find("#lineUnitPrice").text() || "0";
-                    var taxrateamount = 0;
-                    var taxRate = $printrows.find("#lineTaxCode").text();
-                    if (taxcodeList) {
-                        for (var i = 0; i < taxcodeList.length; i++) {
-                            if (taxcodeList[i].codename == taxRate) {
-                                taxrateamount = taxcodeList[i].coderate.replace('%', "") / 100;
-                            }
+                var $printrows = $(this);
+                var qty = $printrows.find("#lineQty").text() || 0;
+                var price = $printrows.find("#lineUnitPrice").text() || "0";
+                var taxrateamount = 0;
+                var taxRate = $printrows.find("#lineTaxCode").text();
+                if (taxcodeList) {
+                    for (var i = 0; i < taxcodeList.length; i++) {
+                        if (taxcodeList[i].codename == taxRate) {
+                            taxrateamount = taxcodeList[i].coderate.replace('%', "") / 100;
                         }
                     }
-                    var subTotal = parseFloat(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) || 0;
-                    var taxTotal = parseFloat(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) * parseFloat(taxrateamount);
-                    $printrows.find('#lineTaxAmount').text(utilityService.modifynegativeCurrencyFormat(taxTotal))
-                    if (!isNaN(subTotal)) {
-                        $printrows.find('#lineAmt').text(utilityService.modifynegativeCurrencyFormat(subTotal));
-                        subGrandTotal += isNaN(subTotal) ? 0 : subTotal;
-                        document.getElementById("subtotal_totalPrint").innerHTML = $('#subtotal_total').text();
-                    }
+                }
+                var subTotal = parseFloat(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) || 0;
+                var taxTotal = parseFloat(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) * parseFloat(taxrateamount);
+                $printrows.find('#lineTaxAmount').text(utilityService.modifynegativeCurrencyFormat(taxTotal))
+                if (!isNaN(subTotal)) {
+                    $printrows.find('#lineAmt').text(utilityService.modifynegativeCurrencyFormat(subTotal));
+                    subGrandTotal += isNaN(subTotal) ? 0 : subTotal;
+                    document.getElementById("subtotal_totalPrint").innerHTML = $('#subtotal_total').text();
+                }
 
-                    if (!isNaN(taxTotal)) {
-                        taxGrandTotalPrint += isNaN(taxTotal) ? 0 : taxTotal;
-                    }
-                    if (!isNaN(subGrandTotal) && (!isNaN(taxGrandTotal))) {
-                        let GrandTotal = (parseFloat(subGrandTotal)) + (parseFloat(taxGrandTotal));
-                        document.getElementById("grandTotalPrint").innerHTML = $('#grandTotal').text();
-                        document.getElementById("totalTax").innerHTML = $('#subtotal_tax').text();
-                        document.getElementById("balanceDue").innerHTML = utilityService.modifynegativeCurrencyFormat(GrandTotal);
-                        document.getElementById("totalBalanceDuePrint").innerHTML = $('#totalBalanceDue').text();
+                if (!isNaN(taxTotal)) {
+                    taxGrandTotalPrint += isNaN(taxTotal) ? 0 : taxTotal;
+                }
+                if (!isNaN(subGrandTotal) && (!isNaN(taxGrandTotal))) {
+                    let GrandTotal = (parseFloat(subGrandTotal)) + (parseFloat(taxGrandTotal));
+                    document.getElementById("grandTotalPrint").innerHTML = $('#grandTotal').text();
+                    document.getElementById("totalTax").innerHTML = $('#subtotal_tax').text();
+                    document.getElementById("balanceDue").innerHTML = utilityService.modifynegativeCurrencyFormat(GrandTotal);
+                    document.getElementById("totalBalanceDuePrint").innerHTML = $('#totalBalanceDue').text();
 
-                    }
-                });
+                }
+            });
 
 
         } else {
@@ -4599,9 +4612,9 @@ Template.new_quote.events({
                 $('.pdfCustomerAddress').html($('#txabillingAddress').val().replace(/[\r\n]/g, "<br />"));
                 var ponumber = $('#ponumber').val() || '.';
                 $('.po').text(ponumber);
-                    function generatePdfForMail(invoiceId) {
+                function generatePdfForMail(invoiceId) {
                     let file = "Quote-" + objDetails.fields.ID + ".pdf"
-                        return new Promise((resolve, reject) => {
+                    return new Promise((resolve, reject) => {
                         $(".linkText").attr("href", "https://www.depot.vs1cloud.com/stripe/" + stringQuery);
                         let templateObject = Template.instance();
                         let completeTabRecord;
@@ -4649,194 +4662,194 @@ Template.new_quote.events({
                     let erpInvoiceId = objDetails.fields.ID;
 
 
-                        let mailFromName = Session.get('vs1companyName');
-                        let mailFrom = localStorage.getItem('mySession');
-                        let customerEmailName = $('#edtCustomerName').val();
-                        let checkEmailData = $('#edtCustomerEmail').val();
+                    let mailFromName = Session.get('vs1companyName');
+                    let mailFrom = localStorage.getItem('mySession');
+                    let customerEmailName = $('#edtCustomerName').val();
+                    let checkEmailData = $('#edtCustomerEmail').val();
 
-                        let grandtotal = $('#grandTotal').html();
-                        let amountDueEmail = $('#totalBalanceDue').html();
-                        let emailDueDate = $("#dtDueDate").val();
-                        let mailSubject = 'Quote ' + erpInvoiceId + ' from ' + mailFromName + ' for ' + customerEmailName;
-                        let mailBody = "Hi " + customerEmailName + ",\n\n Here's invoice " + erpInvoiceId + " for  " + grandtotal + "." +
-                            "\n\nThe amount outstanding of " + amountDueEmail + " is due on " + emailDueDate + "." +
-                            "\n\nIf you have any questions, please let us know : " + mailFrom + ".\n\nThanks,\n" + mailFromName;
-                        var htmlmailBody = '<table align="center" border="0" cellpadding="0" cellspacing="0" width="600">' +
-                            '    <tr>' +
-                            '        <td align="center" bgcolor="#54c7e2" style="padding: 40px 0 30px 0;">' +
-                            '            <img src="https://sandbox.vs1cloud.com/assets/VS1logo.png" class="uploadedImage" alt="VS1 Cloud" width="250px" style="display: block;" />' +
-                            '        </td>' +
-                            '    </tr>' +
-                            '    <tr>' +
-                            '        <td style="padding: 40px 30px 40px 30px;">' +
-                            '            <table border="0" cellpadding="0" cellspacing="0" width="100%">' +
-                            '                <tr>' +
-                            '                    <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0 20px 0;">' +
-                            '                        Hi <span>' + customerEmailName + '</span>.' +
-                            '                    </td>' +
-                            '                </tr>' +
-                            '                <tr>' +
-                            '                    <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0 10px 0;">' +
-                            '                        Please find attached Quote <span>' + erpInvoiceId + '</span>' +
-                            '                    </td>' +
-                            '                </tr>' +
-                            '                <tr>' +
-                            '                    <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0 10px 0;">' +
-                           '                        Simply click on <a style="border: none; color: white; padding: 6px 12px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin: 4px 2px; cursor: pointer; background-color: #5cb85c; border-color: #4cae4c; border-radius: 10px;" href="https://www.depot.vs1cloud.com/stripe/' + stringQuery + '">Make Payment</a> to pay now.' +
-                           '                    </td>' +
-                            '                </tr>' +
-                            '                 <tr>' +
-                            '                    <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0 10px 0;">' +
-                            '                        The invoice is due by the ' + emailDueDate +
-                            '                    </td>' +
-                            '                </tr>' +
-                            '                <tr>' +
-                            '                     <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0 10px 0;">' +
-                            '                        Thank you again for business' +
-                            '                    </td>' +
-                            '                <tr>' +
-                            '                    <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0 30px 0;">' +
-                            '                        Kind regards,' +
-                            '                        <br>' +
-                            '                        ' + mailFromName + '' +
-                            '                    </td>' +
-                            '                </tr>' +
-                            '            </table>' +
-                            '        </td>' +
-                            '    </tr>' +
-                            '    <tr>' +
-                            '        <td bgcolor="#00a3d3" style="padding: 30px 30px 30px 30px;">' +
-                            '            <table border="0" cellpadding="0" cellspacing="0" width="100%">' +
-                            '                <tr>' +
-                            '                    <td width="50%" style="color: #ffffff; font-family: Arial, sans-serif; font-size: 14px;">' +
-                            '                        If you have any question, please do not hesitate to contact us.' +
-                            '                    </td>' +
-                            '                    <td align="right">' +
-                            '                        <a style="border: none; color: white; padding: 15px 32px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin: 4px 2px; cursor: pointer; background-color: #4CAF50;" href="mailto:' + mailFrom + '">Contact Us</a>' +
-                            '                    </td>' +
-                            '                </tr>' +
-                            '            </table>' +
-                            '        </td>' +
-                            '    </tr>' +
-                            '</table>';
-
-
-                        if (($('.chkEmailCopy').is(':checked')) && ($('.chkEmailRep').is(':checked'))) {
-                            Meteor.call('sendEmail', {
-                                from: "" + mailFromName + " <" + mailFrom + ">",
-                                to: checkEmailData,
-                                subject: mailSubject,
-                                text: '',
-                                html: htmlmailBody,
-                                attachments: attachment
-                            }, function (error, result) {
-                                if (error && error.error === "error") {
-                                    Router.go('/quoteslist?success=true');
-
-                                } else {
-
-                                }
-                            });
-
-                            Meteor.call('sendEmail', {
-                                from: "" + mailFromName + " <" + mailFrom + ">",
-                                to: mailFrom,
-                                subject: mailSubject,
-                                text: '',
-                                html: htmlmailBody,
-                                attachments: attachment
-                            }, function (error, result) {
-                                if (error && error.error === "error") {
-                                    Router.go('/quoteslist?success=true');
-                                } else {
-                                    $('#html-2-pdfwrapper').css('display', 'none');
-                                    swal({
-                                        title: 'SUCCESS',
-                                        text: "Email Sent To Customer: " + checkEmailData + " and User: " + mailFrom + "",
-                                        type: 'success',
-                                        showCancelButton: false,
-                                        confirmButtonText: 'OK'
-                                    }).then((result) => {
-                                        if (result.value) {
-                                            Router.go('/quoteslist?success=true');
-                                        } else if (result.dismiss === 'cancel') {
-
-                                        }
-                                    });
-
-                                    $('.fullScreenSpin').css('display', 'none');
-                                }
-                            });
-
-                        } else if (($('.chkEmailCopy').is(':checked'))) {
-                            Meteor.call('sendEmail', {
-                                from: "" + mailFromName + " <" + mailFrom + ">",
-                                to: checkEmailData,
-                                subject: mailSubject,
-                                text: '',
-                                html: htmlmailBody,
-                                attachments: attachment
-                            }, function (error, result) {
-
-                                if (error && error.error === "error") {
+                    let grandtotal = $('#grandTotal').html();
+                    let amountDueEmail = $('#totalBalanceDue').html();
+                    let emailDueDate = $("#dtDueDate").val();
+                    let mailSubject = 'Quote ' + erpInvoiceId + ' from ' + mailFromName + ' for ' + customerEmailName;
+                    let mailBody = "Hi " + customerEmailName + ",\n\n Here's invoice " + erpInvoiceId + " for  " + grandtotal + "." +
+                        "\n\nThe amount outstanding of " + amountDueEmail + " is due on " + emailDueDate + "." +
+                        "\n\nIf you have any questions, please let us know : " + mailFrom + ".\n\nThanks,\n" + mailFromName;
+                    var htmlmailBody = '<table align="center" border="0" cellpadding="0" cellspacing="0" width="600">' +
+                        '    <tr>' +
+                        '        <td align="center" bgcolor="#54c7e2" style="padding: 40px 0 30px 0;">' +
+                        '            <img src="https://sandbox.vs1cloud.com/assets/VS1logo.png" class="uploadedImage" alt="VS1 Cloud" width="250px" style="display: block;" />' +
+                        '        </td>' +
+                        '    </tr>' +
+                        '    <tr>' +
+                        '        <td style="padding: 40px 30px 40px 30px;">' +
+                        '            <table border="0" cellpadding="0" cellspacing="0" width="100%">' +
+                        '                <tr>' +
+                        '                    <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0 20px 0;">' +
+                        '                        Hi <span>' + customerEmailName + '</span>.' +
+                        '                    </td>' +
+                        '                </tr>' +
+                        '                <tr>' +
+                        '                    <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0 10px 0;">' +
+                        '                        Please find attached Quote <span>' + erpInvoiceId + '</span>' +
+                        '                    </td>' +
+                        '                </tr>' +
+                        '                <tr>' +
+                        '                    <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0 10px 0;">' +
+                        '                        Simply click on <a style="border: none; color: white; padding: 6px 12px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin: 4px 2px; cursor: pointer; background-color: #5cb85c; border-color: #4cae4c; border-radius: 10px;" href="https://www.depot.vs1cloud.com/stripe/' + stringQuery + '">Make Payment</a> to pay now.' +
+                        '                    </td>' +
+                        '                </tr>' +
+                        '                 <tr>' +
+                        '                    <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0 10px 0;">' +
+                        '                        The invoice is due by the ' + emailDueDate +
+                        '                    </td>' +
+                        '                </tr>' +
+                        '                <tr>' +
+                        '                     <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0 10px 0;">' +
+                        '                        Thank you again for business' +
+                        '                    </td>' +
+                        '                <tr>' +
+                        '                    <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0 30px 0;">' +
+                        '                        Kind regards,' +
+                        '                        <br>' +
+                        '                        ' + mailFromName + '' +
+                        '                    </td>' +
+                        '                </tr>' +
+                        '            </table>' +
+                        '        </td>' +
+                        '    </tr>' +
+                        '    <tr>' +
+                        '        <td bgcolor="#00a3d3" style="padding: 30px 30px 30px 30px;">' +
+                        '            <table border="0" cellpadding="0" cellspacing="0" width="100%">' +
+                        '                <tr>' +
+                        '                    <td width="50%" style="color: #ffffff; font-family: Arial, sans-serif; font-size: 14px;">' +
+                        '                        If you have any question, please do not hesitate to contact us.' +
+                        '                    </td>' +
+                        '                    <td align="right">' +
+                        '                        <a style="border: none; color: white; padding: 15px 32px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin: 4px 2px; cursor: pointer; background-color: #4CAF50;" href="mailto:' + mailFrom + '">Contact Us</a>' +
+                        '                    </td>' +
+                        '                </tr>' +
+                        '            </table>' +
+                        '        </td>' +
+                        '    </tr>' +
+                        '</table>';
 
 
+                    if (($('.chkEmailCopy').is(':checked')) && ($('.chkEmailRep').is(':checked'))) {
+                        Meteor.call('sendEmail', {
+                            from: "" + mailFromName + " <" + mailFrom + ">",
+                            to: checkEmailData,
+                            subject: mailSubject,
+                            text: '',
+                            html: htmlmailBody,
+                            attachments: attachment
+                        }, function (error, result) {
+                            if (error && error.error === "error") {
+                                Router.go('/quoteslist?success=true');
 
-                                } else {
-                                    $('#html-2-pdfwrapper').css('display', 'none');
-                                    swal({
-                                        title: 'SUCCESS',
-                                        text: "Email Sent To Customer: " + checkEmailData + " ",
-                                        type: 'success',
-                                        showCancelButton: false,
-                                        confirmButtonText: 'OK'
-                                    }).then((result) => {
-                                        if (result.value) {
-                                            Router.go('/quoteslist?success=true');
-                                        } else if (result.dismiss === 'cancel') {
+                            } else {
 
-                                        }
-                                    });
+                            }
+                        });
 
-                                    $('.fullScreenSpin').css('display', 'none');
-                                }
-                            });
+                        Meteor.call('sendEmail', {
+                            from: "" + mailFromName + " <" + mailFrom + ">",
+                            to: mailFrom,
+                            subject: mailSubject,
+                            text: '',
+                            html: htmlmailBody,
+                            attachments: attachment
+                        }, function (error, result) {
+                            if (error && error.error === "error") {
+                                Router.go('/quoteslist?success=true');
+                            } else {
+                                $('#html-2-pdfwrapper').css('display', 'none');
+                                swal({
+                                    title: 'SUCCESS',
+                                    text: "Email Sent To Customer: " + checkEmailData + " and User: " + mailFrom + "",
+                                    type: 'success',
+                                    showCancelButton: false,
+                                    confirmButtonText: 'OK'
+                                }).then((result) => {
+                                    if (result.value) {
+                                        Router.go('/quoteslist?success=true');
+                                    } else if (result.dismiss === 'cancel') {
 
-                        } else if (($('.chkEmailRep').is(':checked'))) {
-                            Meteor.call('sendEmail', {
-                                from: "" + mailFromName + " <" + mailFrom + ">",
-                                to: mailFrom,
-                                subject: mailSubject,
-                                text: '',
-                                html: htmlmailBody,
-                                attachments: attachment
-                            }, function (error, result) {
+                                    }
+                                });
 
-                                if (error && error.error === "error") {
-                                    Router.go('/quoteslist?success=true');
-                                } else {
-                                    $('#html-2-pdfwrapper').css('display', 'none');
-                                    swal({
-                                        title: 'SUCCESS',
-                                        text: "Email Sent To User: " + mailFrom + " ",
-                                        type: 'success',
-                                        showCancelButton: false,
-                                        confirmButtonText: 'OK'
-                                    }).then((result) => {
-                                        if (result.value) {
-                                            Router.go('/quoteslist?success=true');
-                                        } else if (result.dismiss === 'cancel') {
+                                $('.fullScreenSpin').css('display', 'none');
+                            }
+                        });
 
-                                        }
-                                    });
+                    } else if (($('.chkEmailCopy').is(':checked'))) {
+                        Meteor.call('sendEmail', {
+                            from: "" + mailFromName + " <" + mailFrom + ">",
+                            to: checkEmailData,
+                            subject: mailSubject,
+                            text: '',
+                            html: htmlmailBody,
+                            attachments: attachment
+                        }, function (error, result) {
 
-                                    $('.fullScreenSpin').css('display', 'none');
-                                }
-                            });
+                            if (error && error.error === "error") {
 
-                        } else {
-                            Router.go('/quoteslist?success=true');
-                        };
+
+
+                            } else {
+                                $('#html-2-pdfwrapper').css('display', 'none');
+                                swal({
+                                    title: 'SUCCESS',
+                                    text: "Email Sent To Customer: " + checkEmailData + " ",
+                                    type: 'success',
+                                    showCancelButton: false,
+                                    confirmButtonText: 'OK'
+                                }).then((result) => {
+                                    if (result.value) {
+                                        Router.go('/quoteslist?success=true');
+                                    } else if (result.dismiss === 'cancel') {
+
+                                    }
+                                });
+
+                                $('.fullScreenSpin').css('display', 'none');
+                            }
+                        });
+
+                    } else if (($('.chkEmailRep').is(':checked'))) {
+                        Meteor.call('sendEmail', {
+                            from: "" + mailFromName + " <" + mailFrom + ">",
+                            to: mailFrom,
+                            subject: mailSubject,
+                            text: '',
+                            html: htmlmailBody,
+                            attachments: attachment
+                        }, function (error, result) {
+
+                            if (error && error.error === "error") {
+                                Router.go('/quoteslist?success=true');
+                            } else {
+                                $('#html-2-pdfwrapper').css('display', 'none');
+                                swal({
+                                    title: 'SUCCESS',
+                                    text: "Email Sent To User: " + mailFrom + " ",
+                                    type: 'success',
+                                    showCancelButton: false,
+                                    confirmButtonText: 'OK'
+                                }).then((result) => {
+                                    if (result.value) {
+                                        Router.go('/quoteslist?success=true');
+                                    } else if (result.dismiss === 'cancel') {
+
+                                    }
+                                });
+
+                                $('.fullScreenSpin').css('display', 'none');
+                            }
+                        });
+
+                    } else {
+                        Router.go('/quoteslist?success=true');
+                    };
 
 
 
@@ -4856,7 +4869,7 @@ Template.new_quote.events({
 
 
 
-                };
+                    };
                 var getcurrentCloudDetails = CloudUser.findOne({ _id: Session.get('mycloudLogonID'), clouddatabaseID: Session.get('mycloudLogonDBID') });
                 if (getcurrentCloudDetails) {
                     if (getcurrentCloudDetails._id.length > 0) {
@@ -5322,483 +5335,483 @@ Template.new_quote.events({
         let stripe_id = templateObject.accountID.get() || '';
         let stripe_fee_method = templateObject.stripe_fee_method.get();
         if(stripe_id != ""){
-        var url = window.location.href;
-        var id_available = url.includes("?id=");
-        if (id_available == true) {
-            let templateObject = Template.instance();
-            let quoteData = templateObject.quoterecord.get();
-            let lineItems = [];
-            let total = $('#grandTotal').html() || 0;
-            let tax = $('#subtotal_tax').html() || 0;
-            let customer = $('#edtCustomerName').val();
-            let name = $('#firstname').val();
-            let surname = $('#lastname').val();
-            $('#tblQuoteLine > tbody > tr').each(function () {
-                var lineID = this.id;
-
-
-
-                let tdproduct = $('#' + lineID + " .lineProductName").text();
-                let tddescription = $('#' + lineID + " .lineProductDesc").text();
-                let tdQty = $('#' + lineID + " .lineQty").val();
-                let tdunitprice = $('#' + lineID + " .lineUnitPrice").val();
-                let tdtaxrate = $('#' + lineID + " .lineTaxRate").text();
-                let tdtaxCode = $('#' + lineID + " .lineTaxCode").text();
-                let tdlineamt = $('#' + lineID + " .lineAmt").text();
-
-                lineItemObj = {
-                    description: tddescription || '',
-                    quantity: tdQty || 0,
-                    unitPrice: tdunitprice.toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0
-                }
-
-                lineItems.push(lineItemObj);
-            });
-            var erpGet = erpDb();
-            let company = Session.get('vs1companyName');
-            let vs1User = localStorage.getItem('mySession');
-            let customerEmail = $('#edtCustomerEmail').val();
-            let currencyname = (CountryAbbr).toLowerCase();
-            let stringQuery = "?";
-            var customerID = $('#edtCustomerEmail').attr('customerid');
-            for (let l = 0; l < lineItems.length; l++) {
-                stringQuery = stringQuery + "product" + l + "=" + lineItems[l].description + "&price" + l + "=" + lineItems[l].unitPrice + "&qty" + l + "=" + lineItems[l].quantity + "&";
-            }
-            stringQuery = stringQuery + "tax=" + tax + "&total=" + total + "&customer=" + customer + "&name=" + name + "&surname=" + surname + "&quoteid=" + quoteData.id + "&transid="+stripe_id+"&feemethod="+stripe_fee_method+"&company=" + company + "&vs1email=" + vs1User + "&customeremail=" + customerEmail + "&type=Quote&url=" + window.location.href + "&server=" + erpGet.ERPIPAddress + "&username=" + erpGet.ERPUsername + "&token=" + erpGet.ERPPassword + "&session=" + erpGet.ERPDatabase + "&port=" + erpGet.ERPPort+"&currency="+currencyname;
-            window.open("https://www.depot.vs1cloud.com/stripe/" + stringQuery, '_self');
-
-        } else {
-            let templateObject = Template.instance();
-            let quoteData = templateObject.quoterecord.get();
-            let lineItems = [];
-            let customername = $('#edtCustomerName');
-            let name = $('#edtCustomerEmail').attr('customerfirstname');
-            let surname = $('#edtCustomerEmail').attr('customerlastname');
-            let salesService = new SalesBoardService();
-        if (customername.val() === '') {
-            swal('Customer has not been selected!', '', 'warning');
-            e.preventDefault();
-        } else {
-
-            $('.fullScreenSpin').css('display', 'inline-block');
-            var splashLineArray = new Array();
-            let lineItemsForm = [];
-            let lineItemObjForm = {};
-            $('#tblQuoteLine > tbody > tr').each(function () {
-                var lineID = this.id;
-                let tdproduct = $('#' + lineID + " .lineProductName").text();
-                let tddescription = $('#' + lineID + " .lineProductDesc").text();
-                let tdQty = $('#' + lineID + " .lineQty").val();
-                let tdunitprice = $('#' + lineID + " .lineUnitPrice").val();
-                let tdtaxrate = $('#' + lineID + " .lineTaxRate").text();
-                let tdtaxCode = $('#' + lineID + " .lineTaxCode").text();
-                let tdlineamt = $('#' + lineID + " .lineAmt").text();
-
-                lineItemObj = {
-                    description: tddescription || '',
-                    quantity: tdQty || 0,
-                    unitPrice: tdunitprice.toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0
-                }
-
-                lineItems.push(lineItemObj);
-
-                if (tdproduct != "") {
-
-                    lineItemObjForm = {
-                        type: "TQuoteLine",
-                        fields: {
-                            ProductName: tdproduct || '',
-                            ProductDescription: tddescription || '',
-                            UOMQtySold: parseFloat(tdQty) || 0,
-                            UOMQtyShipped: parseFloat(tdQty) || 0,
-                            LinePrice: Number(tdunitprice.replace(/[^0-9.-]+/g, "")) || 0,
-                            LineTaxCode: tdtaxCode || '',
-                        }
-                    };
-                    lineItemsForm.push(lineItemObjForm);
-                    splashLineArray.push(lineItemObjForm);
-                }
-            });
-            let getchkcustomField1 = true;
-            let getchkcustomField2 = true;
-            let getcustomField1 = $('.customField1Text').html();
-            let getcustomField2 = $('.customField2Text').html();
-            if ($('#formCheck-one').is(':checked')) {
-                getchkcustomField1 = false;
-            }
-            if ($('#formCheck-two').is(':checked')) {
-                getchkcustomField2 = false;
-            }
-
-            let customer = $('#edtCustomerName').val();
-            let customerEmail = $('#edtCustomerEmail').val();
-            let billingAddress = $('#txabillingAddress').val();
-
-            var saledateTime = new Date($("#dtSODate").datepicker("getDate"));
-            var duedateTime = new Date($("#dtDueDate").datepicker("getDate"));
-
-            let saleDate = saledateTime.getFullYear() + "-" + (saledateTime.getMonth() + 1) + "-" + saledateTime.getDate();
-            let dueDate = duedateTime.getFullYear() + "-" + (duedateTime.getMonth() + 1) + "-" + duedateTime.getDate();
-            let poNumber = $('#ponumber').val();
-            let reference = $('#edtRef').val();
-            let termname = $('#sltTerms').val();
-            let departement = $('#sltDept').val();
-            let shippingAddress = $('#txaShipingInfo').val();
-            let comments = $('#txaComment').val();
-            let pickingInfrmation = $('#txapickmemo').val();
-            let total = $('#grandTotal').html() || 0;
-            let tax = $('#subtotal_tax').html() || 0;
-            let saleCustField1 = $('#edtSaleCustField1').val();
-            let saleCustField2 = $('#edtSaleCustField2').val();
             var url = window.location.href;
-            var getso_id = url.split('?id=');
-            var currentQuote = getso_id[getso_id.length - 1];
-            let uploadedItems = templateObject.uploadedFiles.get();
-            var currencyCode = $("#sltCurrency").val() || CountryAbbr;
-            var objDetails = '';
-            if (getso_id[1]) {
-                currentQuote = parseInt(currentQuote);
-                objDetails = {
-                    type: "TQuoteEx",
-                    fields: {
-                        ID: currentQuote,
-                        CustomerName: customer,
-                        ForeignExchangeCode: currencyCode,
-                        Lines: splashLineArray,
-                        InvoiceToDesc: billingAddress,
-                        SaleDate: saleDate,
-                        DueDate: dueDate,
-                        CustPONumber: poNumber,
-                        ReferenceNo: reference,
-                        Reference: reference,
-                        TermsName: termname,
-                        SaleClassName: departement,
-                        ShipToDesc: shippingAddress,
-                        Comments: comments,
-                        SaleCustField1: saleCustField1,
-                        SaleCustField2: saleCustField2,
-                        PickMemo: pickingInfrmation,
-                        Attachments: uploadedItems,
-                        SalesStatus: $('#sltStatus').val()
-                    }
-                };
-            } else {
-                objDetails = {
-                    type: "TQuoteEx",
-                    fields: {
-                        CustomerName: customer,
-                        ForeignExchangeCode: currencyCode,
-                        Lines: splashLineArray,
-                        InvoiceToDesc: billingAddress,
-                        SaleDate: saleDate,
-                        DueDate: dueDate,
-                        CustPONumber: poNumber,
-                        ReferenceNo: reference,
-                        Reference: reference,
-                        TermsName: termname,
-                        SaleClassName: departement,
-                        ShipToDesc: shippingAddress,
-                        Comments: comments,
-                        SaleCustField1: saleCustField1,
-                        SaleCustField2: saleCustField2,
-                        PickMemo: pickingInfrmation,
-                        Attachments: uploadedItems,
-                        SalesStatus: $('#sltStatus').val()
-                    }
-                };
-            }
+            var id_available = url.includes("?id=");
+            if (id_available == true) {
+                let templateObject = Template.instance();
+                let quoteData = templateObject.quoterecord.get();
+                let lineItems = [];
+                let total = $('#grandTotal').html() || 0;
+                let tax = $('#subtotal_tax').html() || 0;
+                let customer = $('#edtCustomerName').val();
+                let name = $('#firstname').val();
+                let surname = $('#lastname').val();
+                $('#tblQuoteLine > tbody > tr').each(function () {
+                    var lineID = this.id;
 
-            salesService.saveQuoteEx(objDetails).then(function (objDetails) {
+
+
+                    let tdproduct = $('#' + lineID + " .lineProductName").text();
+                    let tddescription = $('#' + lineID + " .lineProductDesc").text();
+                    let tdQty = $('#' + lineID + " .lineQty").val();
+                    let tdunitprice = $('#' + lineID + " .lineUnitPrice").val();
+                    let tdtaxrate = $('#' + lineID + " .lineTaxRate").text();
+                    let tdtaxCode = $('#' + lineID + " .lineTaxCode").text();
+                    let tdlineamt = $('#' + lineID + " .lineAmt").text();
+
+                    lineItemObj = {
+                        description: tddescription || '',
+                        quantity: tdQty || 0,
+                        unitPrice: tdunitprice.toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0
+                    }
+
+                    lineItems.push(lineItemObj);
+                });
                 var erpGet = erpDb();
                 let company = Session.get('vs1companyName');
                 let vs1User = localStorage.getItem('mySession');
                 let customerEmail = $('#edtCustomerEmail').val();
-                let customer = $('#edtCustomerName').val();
                 let currencyname = (CountryAbbr).toLowerCase();
                 let stringQuery = "?";
                 var customerID = $('#edtCustomerEmail').attr('customerid');
                 for (let l = 0; l < lineItems.length; l++) {
-                    stringQuery = stringQuery + "product" + l + "=" + lineItemsForm[l].fields.ProductName + "&price" + l + "=" + lineItemsForm[l].fields.LinePrice + "&qty" + l + "=" + lineItemsForm[l].fields.UOMQtySold + "&";
+                    stringQuery = stringQuery + "product" + l + "=" + lineItems[l].description + "&price" + l + "=" + lineItems[l].unitPrice + "&qty" + l + "=" + lineItems[l].quantity + "&";
                 }
-
                 stringQuery = stringQuery + "tax=" + tax + "&total=" + total + "&customer=" + customer + "&name=" + name + "&surname=" + surname + "&quoteid=" + quoteData.id + "&transid="+stripe_id+"&feemethod="+stripe_fee_method+"&company=" + company + "&vs1email=" + vs1User + "&customeremail=" + customerEmail + "&type=Quote&url=" + window.location.href + "&server=" + erpGet.ERPIPAddress + "&username=" + erpGet.ERPUsername + "&token=" + erpGet.ERPPassword + "&session=" + erpGet.ERPDatabase + "&port=" + erpGet.ERPPort+"&currency="+currencyname;
+                window.open("https://www.depot.vs1cloud.com/stripe/" + stringQuery, '_self');
+
+            } else {
+                let templateObject = Template.instance();
+                let quoteData = templateObject.quoterecord.get();
+                let lineItems = [];
+                let customername = $('#edtCustomerName');
+                let name = $('#edtCustomerEmail').attr('customerfirstname');
+                let surname = $('#edtCustomerEmail').attr('customerlastname');
+                let salesService = new SalesBoardService();
+                if (customername.val() === '') {
+                    swal('Customer has not been selected!', '', 'warning');
+                    e.preventDefault();
+                } else {
+
+                    $('.fullScreenSpin').css('display', 'inline-block');
+                    var splashLineArray = new Array();
+                    let lineItemsForm = [];
+                    let lineItemObjForm = {};
+                    $('#tblQuoteLine > tbody > tr').each(function () {
+                        var lineID = this.id;
+                        let tdproduct = $('#' + lineID + " .lineProductName").text();
+                        let tddescription = $('#' + lineID + " .lineProductDesc").text();
+                        let tdQty = $('#' + lineID + " .lineQty").val();
+                        let tdunitprice = $('#' + lineID + " .lineUnitPrice").val();
+                        let tdtaxrate = $('#' + lineID + " .lineTaxRate").text();
+                        let tdtaxCode = $('#' + lineID + " .lineTaxCode").text();
+                        let tdlineamt = $('#' + lineID + " .lineAmt").text();
+
+                        lineItemObj = {
+                            description: tddescription || '',
+                            quantity: tdQty || 0,
+                            unitPrice: tdunitprice.toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0
+                        }
+
+                        lineItems.push(lineItemObj);
+
+                        if (tdproduct != "") {
+
+                            lineItemObjForm = {
+                                type: "TQuoteLine",
+                                fields: {
+                                    ProductName: tdproduct || '',
+                                    ProductDescription: tddescription || '',
+                                    UOMQtySold: parseFloat(tdQty) || 0,
+                                    UOMQtyShipped: parseFloat(tdQty) || 0,
+                                    LinePrice: Number(tdunitprice.replace(/[^0-9.-]+/g, "")) || 0,
+                                    LineTaxCode: tdtaxCode || '',
+                                }
+                            };
+                            lineItemsForm.push(lineItemObjForm);
+                            splashLineArray.push(lineItemObjForm);
+                        }
+                    });
+                    let getchkcustomField1 = true;
+                    let getchkcustomField2 = true;
+                    let getcustomField1 = $('.customField1Text').html();
+                    let getcustomField2 = $('.customField2Text').html();
+                    if ($('#formCheck-one').is(':checked')) {
+                        getchkcustomField1 = false;
+                    }
+                    if ($('#formCheck-two').is(':checked')) {
+                        getchkcustomField2 = false;
+                    }
+
+                    let customer = $('#edtCustomerName').val();
+                    let customerEmail = $('#edtCustomerEmail').val();
+                    let billingAddress = $('#txabillingAddress').val();
+
+                    var saledateTime = new Date($("#dtSODate").datepicker("getDate"));
+                    var duedateTime = new Date($("#dtDueDate").datepicker("getDate"));
+
+                    let saleDate = saledateTime.getFullYear() + "-" + (saledateTime.getMonth() + 1) + "-" + saledateTime.getDate();
+                    let dueDate = duedateTime.getFullYear() + "-" + (duedateTime.getMonth() + 1) + "-" + duedateTime.getDate();
+                    let poNumber = $('#ponumber').val();
+                    let reference = $('#edtRef').val();
+                    let termname = $('#sltTerms').val();
+                    let departement = $('#sltDept').val();
+                    let shippingAddress = $('#txaShipingInfo').val();
+                    let comments = $('#txaComment').val();
+                    let pickingInfrmation = $('#txapickmemo').val();
+                    let total = $('#grandTotal').html() || 0;
+                    let tax = $('#subtotal_tax').html() || 0;
+                    let saleCustField1 = $('#edtSaleCustField1').val();
+                    let saleCustField2 = $('#edtSaleCustField2').val();
+                    var url = window.location.href;
+                    var getso_id = url.split('?id=');
+                    var currentQuote = getso_id[getso_id.length - 1];
+                    let uploadedItems = templateObject.uploadedFiles.get();
+                    var currencyCode = $("#sltCurrency").val() || CountryAbbr;
+                    var objDetails = '';
+                    if (getso_id[1]) {
+                        currentQuote = parseInt(currentQuote);
+                        objDetails = {
+                            type: "TQuoteEx",
+                            fields: {
+                                ID: currentQuote,
+                                CustomerName: customer,
+                                ForeignExchangeCode: currencyCode,
+                                Lines: splashLineArray,
+                                InvoiceToDesc: billingAddress,
+                                SaleDate: saleDate,
+                                DueDate: dueDate,
+                                CustPONumber: poNumber,
+                                ReferenceNo: reference,
+                                Reference: reference,
+                                TermsName: termname,
+                                SaleClassName: departement,
+                                ShipToDesc: shippingAddress,
+                                Comments: comments,
+                                SaleCustField1: saleCustField1,
+                                SaleCustField2: saleCustField2,
+                                PickMemo: pickingInfrmation,
+                                Attachments: uploadedItems,
+                                SalesStatus: $('#sltStatus').val()
+                            }
+                        };
+                    } else {
+                        objDetails = {
+                            type: "TQuoteEx",
+                            fields: {
+                                CustomerName: customer,
+                                ForeignExchangeCode: currencyCode,
+                                Lines: splashLineArray,
+                                InvoiceToDesc: billingAddress,
+                                SaleDate: saleDate,
+                                DueDate: dueDate,
+                                CustPONumber: poNumber,
+                                ReferenceNo: reference,
+                                Reference: reference,
+                                TermsName: termname,
+                                SaleClassName: departement,
+                                ShipToDesc: shippingAddress,
+                                Comments: comments,
+                                SaleCustField1: saleCustField1,
+                                SaleCustField2: saleCustField2,
+                                PickMemo: pickingInfrmation,
+                                Attachments: uploadedItems,
+                                SalesStatus: $('#sltStatus').val()
+                            }
+                        };
+                    }
+
+                    salesService.saveQuoteEx(objDetails).then(function (objDetails) {
+                        var erpGet = erpDb();
+                        let company = Session.get('vs1companyName');
+                        let vs1User = localStorage.getItem('mySession');
+                        let customerEmail = $('#edtCustomerEmail').val();
+                        let customer = $('#edtCustomerName').val();
+                        let currencyname = (CountryAbbr).toLowerCase();
+                        let stringQuery = "?";
+                        var customerID = $('#edtCustomerEmail').attr('customerid');
+                        for (let l = 0; l < lineItems.length; l++) {
+                            stringQuery = stringQuery + "product" + l + "=" + lineItemsForm[l].fields.ProductName + "&price" + l + "=" + lineItemsForm[l].fields.LinePrice + "&qty" + l + "=" + lineItemsForm[l].fields.UOMQtySold + "&";
+                        }
+
+                        stringQuery = stringQuery + "tax=" + tax + "&total=" + total + "&customer=" + customer + "&name=" + name + "&surname=" + surname + "&quoteid=" + quoteData.id + "&transid="+stripe_id+"&feemethod="+stripe_fee_method+"&company=" + company + "&vs1email=" + vs1User + "&customeremail=" + customerEmail + "&type=Quote&url=" + window.location.href + "&server=" + erpGet.ERPIPAddress + "&username=" + erpGet.ERPUsername + "&token=" + erpGet.ERPPassword + "&session=" + erpGet.ERPDatabase + "&port=" + erpGet.ERPPort+"&currency="+currencyname;
 
 
-                $('#html-2-pdfwrapper').css('display', 'block');
-                $('.pdfCustomerName').html($('#edtCustomerName').val());
-                $('.pdfCustomerAddress').html($('#txabillingAddress').val().replace(/[\r\n]/g, "<br />"));
+                        $('#html-2-pdfwrapper').css('display', 'block');
+                        $('.pdfCustomerName').html($('#edtCustomerName').val());
+                        $('.pdfCustomerAddress').html($('#txabillingAddress').val().replace(/[\r\n]/g, "<br />"));
 
                         function generatePdfForMail(invoiceId) {
-                        let file = "Invoice-" + invoiceId + ".pdf"
-                        return new Promise((resolve, reject) => {
-                        $(".linkText").attr("href", "https://www.depot.vs1cloud.com/stripe/" + stringQuery);
-                        let templateObject = Template.instance();
-                        let completeTabRecord;
-                        let doc = new jsPDF('p', 'pt', 'a4');
-                        var source = document.getElementById('html-2-pdfwrapper');
-                        var opt = {
-                            margin: 0,
-                            filename: file,
-                            image: {
-                                type: 'jpeg',
-                                quality: 0.98
-                            },
-                            html2canvas: {
-                                scale: 2
-                            },
-                            jsPDF: {
-                                unit: 'in',
-                                format: 'a4',
-                                orientation: 'portrait'
-                            }
+                            let file = "Invoice-" + invoiceId + ".pdf"
+                            return new Promise((resolve, reject) => {
+                                $(".linkText").attr("href", "https://www.depot.vs1cloud.com/stripe/" + stringQuery);
+                                let templateObject = Template.instance();
+                                let completeTabRecord;
+                                let doc = new jsPDF('p', 'pt', 'a4');
+                                var source = document.getElementById('html-2-pdfwrapper');
+                                var opt = {
+                                    margin: 0,
+                                    filename: file,
+                                    image: {
+                                        type: 'jpeg',
+                                        quality: 0.98
+                                    },
+                                    html2canvas: {
+                                        scale: 2
+                                    },
+                                    jsPDF: {
+                                        unit: 'in',
+                                        format: 'a4',
+                                        orientation: 'portrait'
+                                    }
+                                }
+                                resolve(html2pdf().set(opt).from(source).toPdf().output('datauristring'));
+                                // doc.addHTML(source, function () {
+                                //     doc.setFontSize(10);
+                                //     doc.setTextColor(255, 255, 255);
+                                //     doc.textWithLink('Pay Now', 482, 113, { url: 'https://www.depot.vs1cloud.com/stripe/' + stringQuery });
+                                //     resolve(doc.output('blob'));
+                                //     $('#html-2-pdfwrapper').css('display', 'none');
+                                // });
+                            });
                         }
-                        resolve(html2pdf().set(opt).from(source).toPdf().output('datauristring'));
-                        // doc.addHTML(source, function () {
-                        //     doc.setFontSize(10);
-                        //     doc.setTextColor(255, 255, 255);
-                        //     doc.textWithLink('Pay Now', 482, 113, { url: 'https://www.depot.vs1cloud.com/stripe/' + stringQuery });
-                        //     resolve(doc.output('blob'));
-                        //     $('#html-2-pdfwrapper').css('display', 'none');
-                        // });
+                        async function addAttachment() {
+                            let attachment = [];
+                            let templateObject = Template.instance();
+
+                            let invoiceId = objDetails.fields.ID;
+                            let encodedPdf = await generatePdfForMail(invoiceId);
+                            let base64data = encodedPdf.split(',')[1];
+
+                            pdfObject = {
+                                filename: 'Quote ' + invoiceId + '.pdf',
+                                content: base64data,
+                                encoding: 'base64'
+                            };
+                            attachment.push(pdfObject);
+
+
+                            let erpInvoiceId = objDetails.fields.ID;
+
+
+                            let mailFromName = Session.get('vs1companyName');
+                            let mailFrom = localStorage.getItem('mySession');
+                            let customerEmailName = $('#edtCustomerName').val();
+                            let checkEmailData = $('#edtCustomerEmail').val();
+
+                            let grandtotal = $('#grandTotal').html();
+                            let amountDueEmail = $('#totalBalanceDue').html();
+                            let emailDueDate = $("#dtDueDate").val();
+                            let mailSubject = 'Quote ' + erpInvoiceId + ' from ' + mailFromName + ' for ' + customerEmailName;
+                            let mailBody = "Hi " + customerEmailName + ",\n\n Here's invoice " + erpInvoiceId + " for  " + grandtotal + "." +
+                                "\n\nThe amount outstanding of " + amountDueEmail + " is due on " + emailDueDate + "." +
+                                "\n\nIf you have any questions, please let us know : " + mailFrom + ".\n\nThanks,\n" + mailFromName;
+                            var htmlmailBody = '<table align="center" border="0" cellpadding="0" cellspacing="0" width="600">' +
+                                '    <tr>' +
+                                '        <td align="center" bgcolor="#54c7e2" style="padding: 40px 0 30px 0;">' +
+                                '            <img src="https://sandbox.vs1cloud.com/assets/VS1logo.png" class="uploadedImage" alt="VS1 Cloud" width="250px" style="display: block;" />' +
+                                '        </td>' +
+                                '    </tr>' +
+                                '    <tr>' +
+                                '        <td style="padding: 40px 30px 40px 30px;">' +
+                                '            <table border="0" cellpadding="0" cellspacing="0" width="100%">' +
+                                '                <tr>' +
+                                '                    <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0 20px 0;">' +
+                                '                        Hi <span>' + customerEmailName + '</span>.' +
+                                '                    </td>' +
+                                '                </tr>' +
+                                '                <tr>' +
+                                '                    <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0 10px 0;">' +
+                                '                        Please find attached Quote <span>' + erpInvoiceId + '</span>' +
+                                '                    </td>' +
+                                '                </tr>' +
+                                '                <tr>' +
+                                '                    <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0 10px 0;">' +
+                                '                        Simply click on <a style="border: none; color: white; padding: 6px 12px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin: 4px 2px; cursor: pointer; background-color: #5cb85c; border-color: #4cae4c; border-radius: 10px;" href="https://www.depot.vs1cloud.com/stripe/' + stringQuery + '">Make Payment</a> to pay now.' +
+                                '                    </td>' +
+                                '                </tr>' +
+                                '                 <tr>' +
+                                '                    <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0 10px 0;">' +
+                                '                        The invoice is due by the ' + emailDueDate +
+                                '                    </td>' +
+                                '                </tr>' +
+                                '                <tr>' +
+                                '                     <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0 10px 0;">' +
+                                '                        Thank you again for business' +
+                                '                    </td>' +
+                                '                <tr>' +
+                                '                    <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0 30px 0;">' +
+                                '                        Kind regards,' +
+                                '                        <br>' +
+                                '                        ' + mailFromName + '' +
+                                '                    </td>' +
+                                '                </tr>' +
+                                '            </table>' +
+                                '        </td>' +
+                                '    </tr>' +
+                                '    <tr>' +
+                                '        <td bgcolor="#00a3d3" style="padding: 30px 30px 30px 30px;">' +
+                                '            <table border="0" cellpadding="0" cellspacing="0" width="100%">' +
+                                '                <tr>' +
+                                '                    <td width="50%" style="color: #ffffff; font-family: Arial, sans-serif; font-size: 14px;">' +
+                                '                        If you have any question, please do not hesitate to contact us.' +
+                                '                    </td>' +
+                                '                    <td align="right">' +
+                                '                        <a style="border: none; color: white; padding: 15px 32px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin: 4px 2px; cursor: pointer; background-color: #4CAF50;" href="mailto:' + mailFrom + '">Contact Us</a>' +
+                                '                    </td>' +
+                                '                </tr>' +
+                                '            </table>' +
+                                '        </td>' +
+                                '    </tr>' +
+                                '</table>';
+
+
+                            if (($('.chkEmailCopy').is(':checked')) && ($('.chkEmailRep').is(':checked'))) {
+                                Meteor.call('sendEmail', {
+                                    from: "" + mailFromName + " <" + mailFrom + ">",
+                                    to: checkEmailData,
+                                    subject: mailSubject,
+                                    text: '',
+                                    html: htmlmailBody,
+                                    attachments: attachment
+                                }, function (error, result) {
+                                    if (error && error.error === "error") {
+                                        Router.go('/quoteslist?success=true');
+
+                                    } else {
+
+                                    }
+                                });
+
+                                Meteor.call('sendEmail', {
+                                    from: "" + mailFromName + " <" + mailFrom + ">",
+                                    to: mailFrom,
+                                    subject: mailSubject,
+                                    text: '',
+                                    html: htmlmailBody,
+                                    attachments: attachment
+                                }, function (error, result) {
+                                    if (error && error.error === "error") {
+                                        Router.go('/quoteslist?success=true');
+                                    } else {
+                                        $('#html-2-pdfwrapper').css('display', 'none');
+                                        swal({
+                                            title: 'SUCCESS',
+                                            text: "Email Sent To Customer: " + checkEmailData + " and User: " + mailFrom + "",
+                                            type: 'success',
+                                            showCancelButton: false,
+                                            confirmButtonText: 'OK'
+                                        }).then((result) => {
+                                            if (result.value) {
+                                                Router.go('/quoteslist?success=true');
+                                            } else if (result.dismiss === 'cancel') {
+
+                                            }
+                                        });
+
+                                        $('.fullScreenSpin').css('display', 'none');
+                                    }
+                                });
+
+                            } else if (($('.chkEmailCopy').is(':checked'))) {
+                                Meteor.call('sendEmail', {
+                                    from: "" + mailFromName + " <" + mailFrom + ">",
+                                    to: checkEmailData,
+                                    subject: mailSubject,
+                                    text: '',
+                                    html: htmlmailBody,
+                                    attachments: attachment
+                                }, function (error, result) {
+
+                                    if (error && error.error === "error") {
+
+
+
+                                    } else {
+                                        $('#html-2-pdfwrapper').css('display', 'none');
+                                        swal({
+                                            title: 'SUCCESS',
+                                            text: "Email Sent To Customer: " + checkEmailData + " ",
+                                            type: 'success',
+                                            showCancelButton: false,
+                                            confirmButtonText: 'OK'
+                                        }).then((result) => {
+                                            if (result.value) {
+                                                Router.go('/quoteslist?success=true');
+                                            } else if (result.dismiss === 'cancel') {
+
+                                            }
+                                        });
+
+                                        $('.fullScreenSpin').css('display', 'none');
+                                    }
+                                });
+
+                            } else if (($('.chkEmailRep').is(':checked'))) {
+                                Meteor.call('sendEmail', {
+                                    from: "" + mailFromName + " <" + mailFrom + ">",
+                                    to: mailFrom,
+                                    subject: mailSubject,
+                                    text: '',
+                                    html: htmlmailBody,
+                                    attachments: attachment
+                                }, function (error, result) {
+
+                                    if (error && error.error === "error") {
+                                        Router.go('/quoteslist?success=true');
+                                    } else {
+                                        $('#html-2-pdfwrapper').css('display', 'none');
+                                        swal({
+                                            title: 'SUCCESS',
+                                            text: "Email Sent To User: " + mailFrom + " ",
+                                            type: 'success',
+                                            showCancelButton: false,
+                                            confirmButtonText: 'OK'
+                                        }).then((result) => {
+                                            if (result.value) {
+                                                Router.go('/quoteslist?success=true');
+                                            } else if (result.dismiss === 'cancel') {
+
+                                            }
+                                        });
+
+                                        $('.fullScreenSpin').css('display', 'none');
+                                    }
+                                });
+
+                            } else {
+                                Router.go('/quoteslist?success=true');
+                            };
+
+
+
+                        }
+                        addAttachment();
+
+
+                    }).catch(function (err) {
+
+                        swal({
+                            title: 'Oooops...',
+                            text: err,
+                            type: 'error',
+                            showCancelButton: false,
+                            confirmButtonText: 'Try Again'
+                        }).then((result) => {
+                            if (result.value) {
+
+                            } else if (result.dismiss === 'cancel') {
+
+                            }
+                        });
+
+                        $('.fullScreenSpin').css('display', 'none');
                     });
                 }
-                async function addAttachment() {
-                    let attachment = [];
-                    let templateObject = Template.instance();
 
-                    let invoiceId = objDetails.fields.ID;
-                    let encodedPdf = await generatePdfForMail(invoiceId);
-                        let base64data = encodedPdf.split(',')[1];
-
-                        pdfObject = {
-                            filename: 'Quote ' + invoiceId + '.pdf',
-                            content: base64data,
-                            encoding: 'base64'
-                        };
-                        attachment.push(pdfObject);
-
-
-                        let erpInvoiceId = objDetails.fields.ID;
-
-
-                        let mailFromName = Session.get('vs1companyName');
-                        let mailFrom = localStorage.getItem('mySession');
-                        let customerEmailName = $('#edtCustomerName').val();
-                        let checkEmailData = $('#edtCustomerEmail').val();
-
-                        let grandtotal = $('#grandTotal').html();
-                        let amountDueEmail = $('#totalBalanceDue').html();
-                        let emailDueDate = $("#dtDueDate").val();
-                        let mailSubject = 'Quote ' + erpInvoiceId + ' from ' + mailFromName + ' for ' + customerEmailName;
-                        let mailBody = "Hi " + customerEmailName + ",\n\n Here's invoice " + erpInvoiceId + " for  " + grandtotal + "." +
-                            "\n\nThe amount outstanding of " + amountDueEmail + " is due on " + emailDueDate + "." +
-                            "\n\nIf you have any questions, please let us know : " + mailFrom + ".\n\nThanks,\n" + mailFromName;
-                        var htmlmailBody = '<table align="center" border="0" cellpadding="0" cellspacing="0" width="600">' +
-                            '    <tr>' +
-                            '        <td align="center" bgcolor="#54c7e2" style="padding: 40px 0 30px 0;">' +
-                            '            <img src="https://sandbox.vs1cloud.com/assets/VS1logo.png" class="uploadedImage" alt="VS1 Cloud" width="250px" style="display: block;" />' +
-                            '        </td>' +
-                            '    </tr>' +
-                            '    <tr>' +
-                            '        <td style="padding: 40px 30px 40px 30px;">' +
-                            '            <table border="0" cellpadding="0" cellspacing="0" width="100%">' +
-                            '                <tr>' +
-                            '                    <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0 20px 0;">' +
-                            '                        Hi <span>' + customerEmailName + '</span>.' +
-                            '                    </td>' +
-                            '                </tr>' +
-                            '                <tr>' +
-                            '                    <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0 10px 0;">' +
-                            '                        Please find attached Quote <span>' + erpInvoiceId + '</span>' +
-                            '                    </td>' +
-                            '                </tr>' +
-                            '                <tr>' +
-                            '                    <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0 10px 0;">' +
-                           '                        Simply click on <a style="border: none; color: white; padding: 6px 12px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin: 4px 2px; cursor: pointer; background-color: #5cb85c; border-color: #4cae4c; border-radius: 10px;" href="https://www.depot.vs1cloud.com/stripe/' + stringQuery + '">Make Payment</a> to pay now.' +
-                           '                    </td>' +
-                            '                </tr>' +
-                            '                 <tr>' +
-                            '                    <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0 10px 0;">' +
-                            '                        The invoice is due by the ' + emailDueDate +
-                            '                    </td>' +
-                            '                </tr>' +
-                            '                <tr>' +
-                            '                     <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0 10px 0;">' +
-                            '                        Thank you again for business' +
-                            '                    </td>' +
-                            '                <tr>' +
-                            '                    <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0 30px 0;">' +
-                            '                        Kind regards,' +
-                            '                        <br>' +
-                            '                        ' + mailFromName + '' +
-                            '                    </td>' +
-                            '                </tr>' +
-                            '            </table>' +
-                            '        </td>' +
-                            '    </tr>' +
-                            '    <tr>' +
-                            '        <td bgcolor="#00a3d3" style="padding: 30px 30px 30px 30px;">' +
-                            '            <table border="0" cellpadding="0" cellspacing="0" width="100%">' +
-                            '                <tr>' +
-                            '                    <td width="50%" style="color: #ffffff; font-family: Arial, sans-serif; font-size: 14px;">' +
-                            '                        If you have any question, please do not hesitate to contact us.' +
-                            '                    </td>' +
-                            '                    <td align="right">' +
-                            '                        <a style="border: none; color: white; padding: 15px 32px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin: 4px 2px; cursor: pointer; background-color: #4CAF50;" href="mailto:' + mailFrom + '">Contact Us</a>' +
-                            '                    </td>' +
-                            '                </tr>' +
-                            '            </table>' +
-                            '        </td>' +
-                            '    </tr>' +
-                            '</table>';
-
-
-                        if (($('.chkEmailCopy').is(':checked')) && ($('.chkEmailRep').is(':checked'))) {
-                            Meteor.call('sendEmail', {
-                                from: "" + mailFromName + " <" + mailFrom + ">",
-                                to: checkEmailData,
-                                subject: mailSubject,
-                                text: '',
-                                html: htmlmailBody,
-                                attachments: attachment
-                            }, function (error, result) {
-                                if (error && error.error === "error") {
-                                    Router.go('/quoteslist?success=true');
-
-                                } else {
-
-                                }
-                            });
-
-                            Meteor.call('sendEmail', {
-                                from: "" + mailFromName + " <" + mailFrom + ">",
-                                to: mailFrom,
-                                subject: mailSubject,
-                                text: '',
-                                html: htmlmailBody,
-                                attachments: attachment
-                            }, function (error, result) {
-                                if (error && error.error === "error") {
-                                    Router.go('/quoteslist?success=true');
-                                } else {
-                                    $('#html-2-pdfwrapper').css('display', 'none');
-                                    swal({
-                                        title: 'SUCCESS',
-                                        text: "Email Sent To Customer: " + checkEmailData + " and User: " + mailFrom + "",
-                                        type: 'success',
-                                        showCancelButton: false,
-                                        confirmButtonText: 'OK'
-                                    }).then((result) => {
-                                        if (result.value) {
-                                            Router.go('/quoteslist?success=true');
-                                        } else if (result.dismiss === 'cancel') {
-
-                                        }
-                                    });
-
-                                    $('.fullScreenSpin').css('display', 'none');
-                                }
-                            });
-
-                        } else if (($('.chkEmailCopy').is(':checked'))) {
-                            Meteor.call('sendEmail', {
-                                from: "" + mailFromName + " <" + mailFrom + ">",
-                                to: checkEmailData,
-                                subject: mailSubject,
-                                text: '',
-                                html: htmlmailBody,
-                                attachments: attachment
-                            }, function (error, result) {
-
-                                if (error && error.error === "error") {
-
-
-
-                                } else {
-                                    $('#html-2-pdfwrapper').css('display', 'none');
-                                    swal({
-                                        title: 'SUCCESS',
-                                        text: "Email Sent To Customer: " + checkEmailData + " ",
-                                        type: 'success',
-                                        showCancelButton: false,
-                                        confirmButtonText: 'OK'
-                                    }).then((result) => {
-                                        if (result.value) {
-                                            Router.go('/quoteslist?success=true');
-                                        } else if (result.dismiss === 'cancel') {
-
-                                        }
-                                    });
-
-                                    $('.fullScreenSpin').css('display', 'none');
-                                }
-                            });
-
-                        } else if (($('.chkEmailRep').is(':checked'))) {
-                            Meteor.call('sendEmail', {
-                                from: "" + mailFromName + " <" + mailFrom + ">",
-                                to: mailFrom,
-                                subject: mailSubject,
-                                text: '',
-                                html: htmlmailBody,
-                                attachments: attachment
-                            }, function (error, result) {
-
-                                if (error && error.error === "error") {
-                                    Router.go('/quoteslist?success=true');
-                                } else {
-                                    $('#html-2-pdfwrapper').css('display', 'none');
-                                    swal({
-                                        title: 'SUCCESS',
-                                        text: "Email Sent To User: " + mailFrom + " ",
-                                        type: 'success',
-                                        showCancelButton: false,
-                                        confirmButtonText: 'OK'
-                                    }).then((result) => {
-                                        if (result.value) {
-                                            Router.go('/quoteslist?success=true');
-                                        } else if (result.dismiss === 'cancel') {
-
-                                        }
-                                    });
-
-                                    $('.fullScreenSpin').css('display', 'none');
-                                }
-                            });
-
-                        } else {
-                            Router.go('/quoteslist?success=true');
-                        };
-
-
-
-                }
-                addAttachment();
-
-
-            }).catch(function (err) {
-
-                swal({
-                    title: 'Oooops...',
-                    text: err,
-                    type: 'error',
-                    showCancelButton: false,
-                    confirmButtonText: 'Try Again'
-                }).then((result) => {
-                    if (result.value) {
-
-                    } else if (result.dismiss === 'cancel') {
-
-                    }
-                });
-
-                $('.fullScreenSpin').css('display', 'none');
-            });
-        }
-
-        }
-    } else{
-        swal({
+            }
+        } else{
+            swal({
                 title: 'WARNING',
                 text: "Don't have a Stripe account yet, Please click Ok to set up Stripe.",
                 type: 'warning',
@@ -5811,7 +5824,7 @@ Template.new_quote.events({
 
                 }
             });
-    }
+        }
     },
     'click #btnPayment': function () {
 
@@ -6198,7 +6211,7 @@ Template.new_quote.events({
 
 
 
-                    };
+                        };
 
                     let linesave = objDetails.fields.ID;
 
@@ -6439,7 +6452,7 @@ Template.new_quote.events({
 
 
 
-                    };
+                        };
 
                     let linesave = objDetails.fields.ID;
 

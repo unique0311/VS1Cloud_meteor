@@ -890,7 +890,7 @@ Template.refundcard.onRendered(()=>{
             $('#'+selectLineID+" .lineProductDesc").text(lineProductDesc);
             $('#'+selectLineID+" .lineQty").val(1);
             $('#'+selectLineID+" .lineUnitPrice").val(lineUnitPrice);
-              if(lineTaxRate == "NT"){
+            if(lineTaxRate == "NT"){
                 lineTaxRate = "E";
                 $('#' + selectLineID + " .lineTaxCode").text(lineTaxRate);
             } else {
@@ -1127,7 +1127,7 @@ Template.refundcard.onRendered(function(){
     var splashArrayProductList = new Array();
     var splashArrayTaxRateList = new Array();
     const taxCodesList = [];
-        const lineExtaSellItems = [];
+    const lineExtaSellItems = [];
     tempObj.getAllProducts = function () {
         getVS1Data('TProductVS1').then(function (dataObject) {
             if(dataObject.length == 0){
@@ -1176,9 +1176,12 @@ Template.refundcard.onRendered(function(){
 
 
                             pageLength: 25,
-                            lengthMenu: [ [10, 25, 50, -1], [10, 25, 50, "All"] ],
+                            lengthMenu: [ [25, -1], [25, "All"] ],
                             info: true,
-                            responsive: true
+                            responsive: true,
+                            "fnInitComplete": function () {
+                                $("<button class='btn btn-primary btnRefreshProduct' type='button' id='btnRefreshProduct' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblInventory_filter");
+                            }
 
                         });
 
@@ -1208,17 +1211,17 @@ Template.refundcard.onRendered(function(){
                         useData[i].fields.TotalQtyInStock,
                         useData[i].fields.TaxCodeSales || ''];
 
-                        if(useData[i].fields.ExtraSellPrice != null){
-                          for(let e=0; e<useData[i].fields.ExtraSellPrice.length; e++){
+                    if(useData[i].fields.ExtraSellPrice != null){
+                        for(let e=0; e<useData[i].fields.ExtraSellPrice.length; e++){
                             let lineExtaSellObj = {
-                               clienttype: useData[i].fields.ExtraSellPrice[e].fields.ClientTypeName || '',
-                               productname: useData[i].fields.ExtraSellPrice[e].fields.ProductName || useData[i].fields.ProductName,
-                               price: utilityService.modifynegativeCurrencyFormat(useData[i].fields.ExtraSellPrice[e].fields.Price1) || 0
-                           };
-                           lineExtaSellItems.push(lineExtaSellObj);
+                                clienttype: useData[i].fields.ExtraSellPrice[e].fields.ClientTypeName || '',
+                                productname: useData[i].fields.ExtraSellPrice[e].fields.ProductName || useData[i].fields.ProductName,
+                                price: utilityService.modifynegativeCurrencyFormat(useData[i].fields.ExtraSellPrice[e].fields.Price1) || 0
+                            };
+                            lineExtaSellItems.push(lineExtaSellObj);
 
-                          }
                         }
+                    }
 
                     splashArrayProductList.push(dataList);
                 }
@@ -1250,9 +1253,12 @@ Template.refundcard.onRendered(function(){
 
 
                         pageLength: 25,
-                        lengthMenu: [ [10, 25, 50, -1], [10, 25, 50, "All"] ],
+                        lengthMenu: [ [25, -1], [25, "All"] ],
                         info: true,
-                        responsive: true
+                        responsive: true,
+                        "fnInitComplete": function () {
+                            $("<button class='btn btn-primary btnRefreshProduct' type='button' id='btnRefreshProduct' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblInventory_filter");
+                        }
 
                     });
 
@@ -1311,9 +1317,12 @@ Template.refundcard.onRendered(function(){
 
 
                         pageLength: 25,
-                        lengthMenu: [ [10, 25, 50, -1], [10, 25, 50, "All"] ],
+                        lengthMenu: [ [25, -1], [25, "All"] ],
                         info: true,
-                        responsive: true
+                        responsive: true,
+                        "fnInitComplete": function () {
+                            $("<button class='btn btn-primary btnRefreshProduct' type='button' id='btnRefreshProduct' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblInventory_filter");
+                        }
 
                     });
 
@@ -1419,9 +1428,12 @@ Template.refundcard.onRendered(function(){
 
 
                             pageLength: 25,
-                            lengthMenu: [ [10, 25, 50, -1], [10, 25, 50, "All"] ],
+                            lengthMenu: [ [25, -1], [25, "All"] ],
                             info: true,
-                            responsive: true
+                            responsive: true,
+                            "fnInitComplete": function () {
+                                $("<button class='btn btn-primary btnRefreshTax' type='button' id='btnRefreshTax' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblTaxRate_filter");
+                            }
 
                         });
 
@@ -1481,9 +1493,12 @@ Template.refundcard.onRendered(function(){
 
 
                         pageLength: 25,
-                        lengthMenu: [ [10, 25, 50, -1], [10, 25, 50, "All"] ],
+                        lengthMenu: [ [25, -1], [25, "All"] ],
                         info: true,
-                        responsive: true
+                        responsive: true,
+                        "fnInitComplete": function () {
+                            $("<button class='btn btn-primary btnRefreshTax' type='button' id='btnRefreshTax' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblTaxRate_filter");
+                        }
 
                     });
 
@@ -1542,9 +1557,12 @@ Template.refundcard.onRendered(function(){
 
 
                         pageLength: 25,
-                        lengthMenu: [ [10, 25, 50, -1], [10, 25, 50, "All"] ],
+                        lengthMenu: [ [25, -1], [25, "All"] ],
                         info: true,
-                        responsive: true
+                        responsive: true,
+                        "fnInitComplete": function () {
+                            $("<button class='btn btn-primary btnRefreshTax' type='button' id='btnRefreshTax' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblTaxRate_filter");
+                        }
 
                     });
 
@@ -1660,8 +1678,8 @@ Template.refundcard.events({
         let leadData = {
             type:'TLeadStatusType',
             fields:{
-            TypeName:status,
-            KeyValue:status
+                TypeName:status,
+                KeyValue:status
             }
         }
 
@@ -1672,12 +1690,12 @@ Template.refundcard.events({
                         $('.fullScreenSpin').css('display', 'none');
                         let id = $('.printID').attr("id");
                         window.open("/refundcard");
-                     }).catch(function (err) {
+                    }).catch(function (err) {
 
                     });
                 }).catch(function (err) {
 
-                   window.open('/refundcard', '_self');
+                    window.open('/refundcard', '_self');
                 });
             }).catch(function (err) {
                 $('.fullScreenSpin').css('display', 'none');
@@ -1834,19 +1852,19 @@ Template.refundcard.events({
         }
     },
     'click .lineProductName' : function(event){
-      let customername = $('#edtCustomerName').val();
-      if (customername === '') {
-          swal('Customer has not been selected!', '', 'warning');
-          event.preventDefault();
-      }else{
-        $('#tblInvoiceLine tbody tr .lineProductName').attr("data-toggle","modal");
-        $('#tblInvoiceLine tbody tr .lineProductName').attr("data-target","#productListModal");
-        var targetID = $(event.target).closest('tr').attr('id');
-        $('#selectLineID').val(targetID);
-        setTimeout(function () {
-            $('#tblInventory_filter .form-control-sm').focus();
-        }, 500);
-      }
+        let customername = $('#edtCustomerName').val();
+        if (customername === '') {
+            swal('Customer has not been selected!', '', 'warning');
+            event.preventDefault();
+        }else{
+            $('#tblInvoiceLine tbody tr .lineProductName').attr("data-toggle","modal");
+            $('#tblInvoiceLine tbody tr .lineProductName').attr("data-target","#productListModal");
+            var targetID = $(event.target).closest('tr').attr('id');
+            $('#selectLineID').val(targetID);
+            setTimeout(function () {
+                $('#tblInventory_filter .form-control-sm').focus();
+            }, 500);
+        }
     },
     'click #productListModal #refreshpagelist':function(){
         $('.fullScreenSpin').css('display','inline-block');
