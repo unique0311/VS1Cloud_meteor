@@ -323,209 +323,209 @@ Template.creditcard.onRendered(() => {
 
                 getVS1Data('TCredit').then(function(dataObject) {
                     if (dataObject.length == 0) {
-                      purchaseService.getOneCreditData(currentCredit).then(function(data) {
-                          $('.fullScreenSpin').css('display', 'none');
-                          let lineItems = [];
-                          let lineItemObj = {};
-                          let lineItemsTable = [];
-                          let lineItemTableObj = {};
-                          let exchangeCode = data.fields.ForeignExchangeCode;
-                          let currencySymbol = Currency;
-                          let total = currencySymbol + '' + data.fields.TotalAmount.toLocaleString(undefined, { minimumFractionDigits: 2 });
-                          let totalInc = currencySymbol + '' + data.fields.TotalAmountInc.toLocaleString(undefined, { minimumFractionDigits: 2 });
-                          let subTotal = currencySymbol + '' + data.fields.TotalAmount.toLocaleString(undefined, { minimumFractionDigits: 2 });
-                          let totalTax = currencySymbol + '' + data.fields.TotalTax.toLocaleString(undefined, { minimumFractionDigits: 2 });
-                          let totalBalance = currencySymbol + '' + data.fields.TotalBalance.toLocaleString(undefined, { minimumFractionDigits: 2 });
-                          let totalPaidAmount = currencySymbol + '' + data.fields.TotalPaid.toLocaleString(undefined, { minimumFractionDigits: 2 });
-                          let department = '';
-                          if(data.fields.Lines != null){
-                            department = data.fields.Lines[0].fields.LineClassName;
-                            if (data.fields.Lines.length) {
-                                for (let i = 0; i < data.fields.Lines.length; i++) {
-                                    let AmountGbp = currencySymbol + '' + data.fields.Lines[i].fields.TotalLineAmount.toLocaleString(undefined, { minimumFractionDigits: 2 });
-                                    let currencyAmountGbp = currencySymbol + '' + data.fields.Lines[i].fields.TotalLineAmount.toFixed(2);
-                                    let TaxTotalGbp = utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.LineTaxTotal);
-                                    let TaxRateGbp = (data.fields.Lines[i].fields.LineTaxRate * 100).toFixed(2);
+                        purchaseService.getOneCreditData(currentCredit).then(function(data) {
+                            $('.fullScreenSpin').css('display', 'none');
+                            let lineItems = [];
+                            let lineItemObj = {};
+                            let lineItemsTable = [];
+                            let lineItemTableObj = {};
+                            let exchangeCode = data.fields.ForeignExchangeCode;
+                            let currencySymbol = Currency;
+                            let total = currencySymbol + '' + data.fields.TotalAmount.toLocaleString(undefined, { minimumFractionDigits: 2 });
+                            let totalInc = currencySymbol + '' + data.fields.TotalAmountInc.toLocaleString(undefined, { minimumFractionDigits: 2 });
+                            let subTotal = currencySymbol + '' + data.fields.TotalAmount.toLocaleString(undefined, { minimumFractionDigits: 2 });
+                            let totalTax = currencySymbol + '' + data.fields.TotalTax.toLocaleString(undefined, { minimumFractionDigits: 2 });
+                            let totalBalance = currencySymbol + '' + data.fields.TotalBalance.toLocaleString(undefined, { minimumFractionDigits: 2 });
+                            let totalPaidAmount = currencySymbol + '' + data.fields.TotalPaid.toLocaleString(undefined, { minimumFractionDigits: 2 });
+                            let department = '';
+                            if(data.fields.Lines != null){
+                                department = data.fields.Lines[0].fields.LineClassName;
+                                if (data.fields.Lines.length) {
+                                    for (let i = 0; i < data.fields.Lines.length; i++) {
+                                        let AmountGbp = currencySymbol + '' + data.fields.Lines[i].fields.TotalLineAmount.toLocaleString(undefined, { minimumFractionDigits: 2 });
+                                        let currencyAmountGbp = currencySymbol + '' + data.fields.Lines[i].fields.TotalLineAmount.toFixed(2);
+                                        let TaxTotalGbp = utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.LineTaxTotal);
+                                        let TaxRateGbp = (data.fields.Lines[i].fields.LineTaxRate * 100).toFixed(2);
+                                        lineItemObj = {
+                                            lineID: Random.id(),
+                                            id: data.fields.Lines[i].fields.ID || '',
+                                            accountname: data.fields.Lines[i].fields.AccountName || '',
+                                            memo: data.fields.Lines[i].fields.ProductDescription || '',
+                                            item: data.fields.Lines[i].fields.ProductName || '',
+                                            description: data.fields.Lines[i].fields.ProductDescription || '',
+                                            quantity: data.fields.Lines[i].fields.UOMOrderQty || 0,
+                                            unitPrice: currencySymbol + '' + data.fields.Lines[i].fields.LineCost.toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
+                                            lineCost: currencySymbol + '' + data.fields.Lines[i].fields.LineCost.toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
+                                            taxRate: (data.fields.Lines[i].fields.LineTaxRate * 100).toFixed(2) || 0,
+                                            taxCode: data.fields.Lines[i].fields.LineTaxCode || '',
+                                            TotalAmt: AmountGbp || 0,
+                                            curTotalAmt: currencyAmountGbp || currencySymbol + '0',
+                                            TaxTotal: TaxTotalGbp || 0,
+                                            TaxRate: TaxRateGbp || 0,
+
+                                        };
+
+                                        lineItemsTable.push(dataListTable);
+                                        lineItems.push(lineItemObj);
+                                    }
+                                } else {
+                                    let AmountGbp = data.fields.Lines.fields.TotalLineAmountInc.toLocaleString(undefined, { minimumFractionDigits: 2 });
+                                    let currencyAmountGbp = currencySymbol + '' + data.fields.Lines.fields.TotalLineAmount.toFixed(2);
+                                    let TaxTotalGbp = currencySymbol + '' + data.fields.Lines.fields.LineTaxTotal;
+                                    let TaxRateGbp = currencySymbol + '' + (data.fields.Lines.fields.LineTaxRate * 100).toFixed(2);
                                     lineItemObj = {
                                         lineID: Random.id(),
-                                        id: data.fields.Lines[i].fields.ID || '',
-                                        accountname: data.fields.Lines[i].fields.AccountName || '',
-                                        memo: data.fields.Lines[i].fields.ProductDescription || '',
-                                        item: data.fields.Lines[i].fields.ProductName || '',
-                                        description: data.fields.Lines[i].fields.ProductDescription || '',
-                                        quantity: data.fields.Lines[i].fields.UOMOrderQty || 0,
-                                        unitPrice: currencySymbol + '' + data.fields.Lines[i].fields.LineCost.toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
-                                        lineCost: currencySymbol + '' + data.fields.Lines[i].fields.LineCost.toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
+                                        id: data.fields.Lines.fields.ID || '',
+                                        accountname: data.fields.Lines.fields.AccountName || '',
+                                        memo: data.fields.Lines.fields.ProductDescription || '',
+                                        description: data.fields.Lines.fields.ProductDescription || '',
+                                        quantity: data.fields.Lines.fields.UOMOrderQty || 0,
+                                        unitPrice: data.fields.Lines[i].fields.LineCost.toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
+                                        lineCost: data.fields.Lines[i].fields.LineCost.toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
                                         taxRate: (data.fields.Lines[i].fields.LineTaxRate * 100).toFixed(2) || 0,
                                         taxCode: data.fields.Lines[i].fields.LineTaxCode || '',
                                         TotalAmt: AmountGbp || 0,
                                         curTotalAmt: currencyAmountGbp || currencySymbol + '0',
                                         TaxTotal: TaxTotalGbp || 0,
-                                        TaxRate: TaxRateGbp || 0,
-
+                                        TaxRate: TaxRateGbp || 0
                                     };
-
-                                    lineItemsTable.push(dataListTable);
                                     lineItems.push(lineItemObj);
                                 }
-                            } else {
-                                let AmountGbp = data.fields.Lines.fields.TotalLineAmountInc.toLocaleString(undefined, { minimumFractionDigits: 2 });
-                                let currencyAmountGbp = currencySymbol + '' + data.fields.Lines.fields.TotalLineAmount.toFixed(2);
-                                let TaxTotalGbp = currencySymbol + '' + data.fields.Lines.fields.LineTaxTotal;
-                                let TaxRateGbp = currencySymbol + '' + (data.fields.Lines.fields.LineTaxRate * 100).toFixed(2);
-                                lineItemObj = {
-                                    lineID: Random.id(),
-                                    id: data.fields.Lines.fields.ID || '',
-                                    accountname: data.fields.Lines.fields.AccountName || '',
-                                    memo: data.fields.Lines.fields.ProductDescription || '',
-                                    description: data.fields.Lines.fields.ProductDescription || '',
-                                    quantity: data.fields.Lines.fields.UOMOrderQty || 0,
-                                    unitPrice: data.fields.Lines[i].fields.LineCost.toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
-                                    lineCost: data.fields.Lines[i].fields.LineCost.toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
-                                    taxRate: (data.fields.Lines[i].fields.LineTaxRate * 100).toFixed(2) || 0,
-                                    taxCode: data.fields.Lines[i].fields.LineTaxCode || '',
-                                    TotalAmt: AmountGbp || 0,
-                                    curTotalAmt: currencyAmountGbp || currencySymbol + '0',
-                                    TaxTotal: TaxTotalGbp || 0,
-                                    TaxRate: TaxRateGbp || 0
-                                };
+                            }else{
+                                var dataListTable = [
+                                    ' ' || '',
+                                    ' ' || '',
+                                    0 || 0,
+                                    0.00 || 0.00,
+                                    ' ' || '',
+                                    0.00 || 0.00,
+                                    '<span class="table-remove"><button type="button" class="btn btn-danger btn-rounded btn-sm my-0 btnRemove"><i class="fa fa-remove"></i></button></span>'
+                                ];
+                                lineItemsTable.push(dataListTable);
                                 lineItems.push(lineItemObj);
                             }
-                          }else{
-                            var dataListTable = [
-                              ' ' || '',
-                              ' ' || '',
-                              0 || 0,
-                              0.00 || 0.00,
-                              ' ' || '',
-                              0.00 || 0.00,
-                              '<span class="table-remove"><button type="button" class="btn btn-danger btn-rounded btn-sm my-0 btnRemove"><i class="fa fa-remove"></i></button></span>'
-                          ];
-                          lineItemsTable.push(dataListTable);
-                          lineItems.push(lineItemObj);
-                          }
 
-                          let creditrecord = {
-                              id: data.fields.ID,
-                              lid: 'Edit Credit' + ' ' + data.fields.ID,
-                              sosupplier: data.fields.SupplierName,
-                              creditto: data.fields.OrderTo,
-                              shipto: data.fields.ShipTo,
-                              shipping: data.fields.Shipping,
-                              docnumber: data.fields.DocNumber,
-                              custPONumber: data.fields.CustPONumber,
-                              saledate: data.fields.OrderDate ? moment(data.fields.OrderDate).format('DD/MM/YYYY') : "",
-                              duedate: data.fields.DueDate ? moment(data.fields.DueDate).format('DD/MM/YYYY') : "",
-                              employeename: data.fields.EmployeeName,
-                              status: data.fields.OrderStatus,
-                              invoicenumber: data.fields.SupplierInvoiceNumber,
-                              comments: data.fields.Comments,
-                              pickmemo: data.fields.SalesComments,
-                              ponumber: data.fields.CustPONumber,
-                              via: data.fields.Shipping,
-                              connote: data.fields.ConNote,
-                              reference: data.fields.CustPONumber,
-                              currency: data.fields.ForeignExchangeCode,
-                              branding: data.fields.MedType,
-                              invoiceToDesc: data.fields.OrderTo,
-                              shipToDesc: data.fields.ShipTo,
-                              termsName: data.fields.TermsName,
-                              Total: totalInc,
-                              LineItems: lineItems,
-                              TotalTax: totalTax,
-                              SubTotal: subTotal,
-                              balanceDue: totalBalance,
-                              saleCustField1: data.fields.SaleLineRef,
-                              saleCustField2: data.fields.SalesComments,
-                              totalPaid: totalPaidAmount,
-                              department: department || defaultDept
-                          };
+                            let creditrecord = {
+                                id: data.fields.ID,
+                                lid: 'Edit Credit' + ' ' + data.fields.ID,
+                                sosupplier: data.fields.SupplierName,
+                                creditto: data.fields.OrderTo,
+                                shipto: data.fields.ShipTo,
+                                shipping: data.fields.Shipping,
+                                docnumber: data.fields.DocNumber,
+                                custPONumber: data.fields.CustPONumber,
+                                saledate: data.fields.OrderDate ? moment(data.fields.OrderDate).format('DD/MM/YYYY') : "",
+                                duedate: data.fields.DueDate ? moment(data.fields.DueDate).format('DD/MM/YYYY') : "",
+                                employeename: data.fields.EmployeeName,
+                                status: data.fields.OrderStatus,
+                                invoicenumber: data.fields.SupplierInvoiceNumber,
+                                comments: data.fields.Comments,
+                                pickmemo: data.fields.SalesComments,
+                                ponumber: data.fields.CustPONumber,
+                                via: data.fields.Shipping,
+                                connote: data.fields.ConNote,
+                                reference: data.fields.CustPONumber,
+                                currency: data.fields.ForeignExchangeCode,
+                                branding: data.fields.MedType,
+                                invoiceToDesc: data.fields.OrderTo,
+                                shipToDesc: data.fields.ShipTo,
+                                termsName: data.fields.TermsName,
+                                Total: totalInc,
+                                LineItems: lineItems,
+                                TotalTax: totalTax,
+                                SubTotal: subTotal,
+                                balanceDue: totalBalance,
+                                saleCustField1: data.fields.SaleLineRef,
+                                saleCustField2: data.fields.SalesComments,
+                                totalPaid: totalPaidAmount,
+                                department: department || defaultDept
+                            };
 
-                          $('#edtSupplierName').val(data.fields.SupplierName);
-                          templateObject.CleintName.set(data.fields.SupplierName);
-                          $('#sltCurrency').val(data.fields.ForeignExchangeCode);
+                            $('#edtSupplierName').val(data.fields.SupplierName);
+                            templateObject.CleintName.set(data.fields.SupplierName);
+                            $('#sltCurrency').val(data.fields.ForeignExchangeCode);
 
-                          templateObject.attachmentCount.set(0);
-                          if (data.fields.Attachments) {
-                              if (data.fields.Attachments.length) {
-                                  templateObject.attachmentCount.set(data.fields.Attachments.length);
-                                  templateObject.uploadedFiles.set(data.fields.Attachments);
-                              }
-                          }
+                            templateObject.attachmentCount.set(0);
+                            if (data.fields.Attachments) {
+                                if (data.fields.Attachments.length) {
+                                    templateObject.attachmentCount.set(data.fields.Attachments.length);
+                                    templateObject.uploadedFiles.set(data.fields.Attachments);
+                                }
+                            }
 
-                          setTimeout(function() {
-                              if (clientList) {
-                                  for (var i = 0; i < clientList.length; i++) {
-                                      if (clientList[i].suppliername == data.fields.SupplierName) {
-                                          $('#edtSupplierEmail').val(clientList[i].supplieremail);
-                                          $('#edtSupplierEmail').attr('supplierid', clientList[i].supplierid);
-                                      }
-                                  }
-                              }
-                          }, 100);
-                          templateObject.creditrecord.set(creditrecord);
+                            setTimeout(function() {
+                                if (clientList) {
+                                    for (var i = 0; i < clientList.length; i++) {
+                                        if (clientList[i].suppliername == data.fields.SupplierName) {
+                                            $('#edtSupplierEmail').val(clientList[i].supplieremail);
+                                            $('#edtSupplierEmail').attr('supplierid', clientList[i].supplierid);
+                                        }
+                                    }
+                                }
+                            }, 100);
+                            templateObject.creditrecord.set(creditrecord);
 
-                          templateObject.selectedCurrency.set(creditrecord.currency);
-                          templateObject.inputSelectedCurrency.set(creditrecord.currency);
-                          if (templateObject.creditrecord.get()) {
+                            templateObject.selectedCurrency.set(creditrecord.currency);
+                            templateObject.inputSelectedCurrency.set(creditrecord.currency);
+                            if (templateObject.creditrecord.get()) {
 
 
-                              Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblCreditLine', function(error, result) {
-                                  if (error) {
+                                Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblCreditLine', function(error, result) {
+                                    if (error) {
 
 
-                                  } else {
-                                      if (result) {
-                                          for (let i = 0; i < result.customFields.length; i++) {
-                                              let customcolumn = result.customFields;
-                                              let columData = customcolumn[i].label;
-                                              let columHeaderUpdate = customcolumn[i].thclass;
-                                              let hiddenColumn = customcolumn[i].hidden;
-                                              let columnClass = columHeaderUpdate.substring(columHeaderUpdate.indexOf(".") + 1);
-                                              let columnWidth = customcolumn[i].width;
+                                    } else {
+                                        if (result) {
+                                            for (let i = 0; i < result.customFields.length; i++) {
+                                                let customcolumn = result.customFields;
+                                                let columData = customcolumn[i].label;
+                                                let columHeaderUpdate = customcolumn[i].thclass;
+                                                let hiddenColumn = customcolumn[i].hidden;
+                                                let columnClass = columHeaderUpdate.substring(columHeaderUpdate.indexOf(".") + 1);
+                                                let columnWidth = customcolumn[i].width;
 
 
-                                              $("" + columHeaderUpdate + "").html(columData);
-                                              if (columnWidth != 0) {
-                                                  $("" + columHeaderUpdate + "").css('width', columnWidth + '%');
-                                              }
+                                                $("" + columHeaderUpdate + "").html(columData);
+                                                if (columnWidth != 0) {
+                                                    $("" + columHeaderUpdate + "").css('width', columnWidth + '%');
+                                                }
 
-                                              if (hiddenColumn == true) {
+                                                if (hiddenColumn == true) {
 
 
-                                                  $("." + columnClass + "").addClass('hiddenColumn');
-                                                  $("." + columnClass + "").removeClass('showColumn');
-                                              } else if (hiddenColumn == false) {
-                                                  $("." + columnClass + "").removeClass('hiddenColumn');
-                                                  $("." + columnClass + "").addClass('showColumn');
+                                                    $("." + columnClass + "").addClass('hiddenColumn');
+                                                    $("." + columnClass + "").removeClass('showColumn');
+                                                } else if (hiddenColumn == false) {
+                                                    $("." + columnClass + "").removeClass('hiddenColumn');
+                                                    $("." + columnClass + "").addClass('showColumn');
 
 
 
-                                              }
+                                                }
 
-                                          }
-                                      }
+                                            }
+                                        }
 
-                                  }
-                              });
-                          }
-                      }).catch(function(err) {
-                          swal({
-                              title: 'Oooops...',
-                              text: err,
-                              type: 'error',
-                              showCancelButton: false,
-                              confirmButtonText: 'Try Again'
-                          }).then((result) => {
-                              if (result.value) {
-                                  Meteor._reload.reload();
-                              } else if (result.dismiss === 'cancel') {
+                                    }
+                                });
+                            }
+                        }).catch(function(err) {
+                            swal({
+                                title: 'Oooops...',
+                                text: err,
+                                type: 'error',
+                                showCancelButton: false,
+                                confirmButtonText: 'Try Again'
+                            }).then((result) => {
+                                if (result.value) {
+                                    Meteor._reload.reload();
+                                } else if (result.dismiss === 'cancel') {
 
-                              }
-                          });
-                          $('.fullScreenSpin').css('display', 'none');
+                                }
+                            });
+                            $('.fullScreenSpin').css('display', 'none');
 
-                      });
+                        });
                     } else {
                         let data = JSON.parse(dataObject[0].data);
                         let useData = data.tcredit;
@@ -725,70 +725,70 @@ Template.creditcard.onRendered(() => {
                                 let totalPaidAmount = currencySymbol + '' + data.fields.TotalPaid.toLocaleString(undefined, { minimumFractionDigits: 2 });
                                 let department = '';
                                 if(data.fields.Lines != null){
-                                  department = data.fields.Lines[0].fields.LineClassName;
-                                  if (data.fields.Lines.length) {
-                                      for (let i = 0; i < data.fields.Lines.length; i++) {
-                                          let AmountGbp = currencySymbol + '' + data.fields.Lines[i].fields.TotalLineAmount.toLocaleString(undefined, { minimumFractionDigits: 2 });
-                                          let currencyAmountGbp = currencySymbol + '' + data.fields.Lines[i].fields.TotalLineAmount.toFixed(2);
-                                          let TaxTotalGbp = utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.LineTaxTotal);
-                                          let TaxRateGbp = (data.fields.Lines[i].fields.LineTaxRate * 100).toFixed(2);
-                                          lineItemObj = {
-                                              lineID: Random.id(),
-                                              id: data.fields.Lines[i].fields.ID || '',
-                                              accountname: data.fields.Lines[i].fields.AccountName || '',
-                                              memo: data.fields.Lines[i].fields.ProductDescription || '',
-                                              item: data.fields.Lines[i].fields.ProductName || '',
-                                              description: data.fields.Lines[i].fields.ProductDescription || '',
-                                              quantity: data.fields.Lines[i].fields.UOMOrderQty || 0,
-                                              unitPrice: currencySymbol + '' + data.fields.Lines[i].fields.LineCost.toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
-                                              lineCost: currencySymbol + '' + data.fields.Lines[i].fields.LineCost.toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
-                                              taxRate: (data.fields.Lines[i].fields.LineTaxRate * 100).toFixed(2) || 0,
-                                              taxCode: data.fields.Lines[i].fields.LineTaxCode || '',
-                                              TotalAmt: AmountGbp || 0,
-                                              curTotalAmt: currencyAmountGbp || currencySymbol + '0',
-                                              TaxTotal: TaxTotalGbp || 0,
-                                              TaxRate: TaxRateGbp || 0,
+                                    department = data.fields.Lines[0].fields.LineClassName;
+                                    if (data.fields.Lines.length) {
+                                        for (let i = 0; i < data.fields.Lines.length; i++) {
+                                            let AmountGbp = currencySymbol + '' + data.fields.Lines[i].fields.TotalLineAmount.toLocaleString(undefined, { minimumFractionDigits: 2 });
+                                            let currencyAmountGbp = currencySymbol + '' + data.fields.Lines[i].fields.TotalLineAmount.toFixed(2);
+                                            let TaxTotalGbp = utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.LineTaxTotal);
+                                            let TaxRateGbp = (data.fields.Lines[i].fields.LineTaxRate * 100).toFixed(2);
+                                            lineItemObj = {
+                                                lineID: Random.id(),
+                                                id: data.fields.Lines[i].fields.ID || '',
+                                                accountname: data.fields.Lines[i].fields.AccountName || '',
+                                                memo: data.fields.Lines[i].fields.ProductDescription || '',
+                                                item: data.fields.Lines[i].fields.ProductName || '',
+                                                description: data.fields.Lines[i].fields.ProductDescription || '',
+                                                quantity: data.fields.Lines[i].fields.UOMOrderQty || 0,
+                                                unitPrice: currencySymbol + '' + data.fields.Lines[i].fields.LineCost.toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
+                                                lineCost: currencySymbol + '' + data.fields.Lines[i].fields.LineCost.toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
+                                                taxRate: (data.fields.Lines[i].fields.LineTaxRate * 100).toFixed(2) || 0,
+                                                taxCode: data.fields.Lines[i].fields.LineTaxCode || '',
+                                                TotalAmt: AmountGbp || 0,
+                                                curTotalAmt: currencyAmountGbp || currencySymbol + '0',
+                                                TaxTotal: TaxTotalGbp || 0,
+                                                TaxRate: TaxRateGbp || 0,
 
-                                          };
+                                            };
 
-                                          lineItemsTable.push(dataListTable);
-                                          lineItems.push(lineItemObj);
-                                      }
-                                  } else {
-                                      let AmountGbp = data.fields.Lines.fields.TotalLineAmountInc.toLocaleString(undefined, { minimumFractionDigits: 2 });
-                                      let currencyAmountGbp = currencySymbol + '' + data.fields.Lines.fields.TotalLineAmount.toFixed(2);
-                                      let TaxTotalGbp = currencySymbol + '' + data.fields.Lines.fields.LineTaxTotal;
-                                      let TaxRateGbp = currencySymbol + '' + (data.fields.Lines.fields.LineTaxRate * 100).toFixed(2);
-                                      lineItemObj = {
-                                          lineID: Random.id(),
-                                          id: data.fields.Lines.fields.ID || '',
-                                          accountname: data.fields.Lines.fields.AccountName || '',
-                                          memo: data.fields.Lines.fields.ProductDescription || '',
-                                          description: data.fields.Lines.fields.ProductDescription || '',
-                                          quantity: data.fields.Lines.fields.UOMOrderQty || 0,
-                                          unitPrice: data.fields.Lines[i].fields.LineCost.toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
-                                          lineCost: data.fields.Lines[i].fields.LineCost.toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
-                                          taxRate: (data.fields.Lines[i].fields.LineTaxRate * 100).toFixed(2) || 0,
-                                          taxCode: data.fields.Lines[i].fields.LineTaxCode || '',
-                                          TotalAmt: AmountGbp || 0,
-                                          curTotalAmt: currencyAmountGbp || currencySymbol + '0',
-                                          TaxTotal: TaxTotalGbp || 0,
-                                          TaxRate: TaxRateGbp || 0
-                                      };
-                                      lineItems.push(lineItemObj);
-                                  }
+                                            lineItemsTable.push(dataListTable);
+                                            lineItems.push(lineItemObj);
+                                        }
+                                    } else {
+                                        let AmountGbp = data.fields.Lines.fields.TotalLineAmountInc.toLocaleString(undefined, { minimumFractionDigits: 2 });
+                                        let currencyAmountGbp = currencySymbol + '' + data.fields.Lines.fields.TotalLineAmount.toFixed(2);
+                                        let TaxTotalGbp = currencySymbol + '' + data.fields.Lines.fields.LineTaxTotal;
+                                        let TaxRateGbp = currencySymbol + '' + (data.fields.Lines.fields.LineTaxRate * 100).toFixed(2);
+                                        lineItemObj = {
+                                            lineID: Random.id(),
+                                            id: data.fields.Lines.fields.ID || '',
+                                            accountname: data.fields.Lines.fields.AccountName || '',
+                                            memo: data.fields.Lines.fields.ProductDescription || '',
+                                            description: data.fields.Lines.fields.ProductDescription || '',
+                                            quantity: data.fields.Lines.fields.UOMOrderQty || 0,
+                                            unitPrice: data.fields.Lines[i].fields.LineCost.toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
+                                            lineCost: data.fields.Lines[i].fields.LineCost.toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
+                                            taxRate: (data.fields.Lines[i].fields.LineTaxRate * 100).toFixed(2) || 0,
+                                            taxCode: data.fields.Lines[i].fields.LineTaxCode || '',
+                                            TotalAmt: AmountGbp || 0,
+                                            curTotalAmt: currencyAmountGbp || currencySymbol + '0',
+                                            TaxTotal: TaxTotalGbp || 0,
+                                            TaxRate: TaxRateGbp || 0
+                                        };
+                                        lineItems.push(lineItemObj);
+                                    }
                                 }else{
-                                  var dataListTable = [
-                                    ' ' || '',
-                                    ' ' || '',
-                                    0 || 0,
-                                    0.00 || 0.00,
-                                    ' ' || '',
-                                    0.00 || 0.00,
-                                    '<span class="table-remove"><button type="button" class="btn btn-danger btn-rounded btn-sm my-0 btnRemove"><i class="fa fa-remove"></i></button></span>'
-                                ];
-                                lineItemsTable.push(dataListTable);
-                                lineItems.push(lineItemObj);
+                                    var dataListTable = [
+                                        ' ' || '',
+                                        ' ' || '',
+                                        0 || 0,
+                                        0.00 || 0.00,
+                                        ' ' || '',
+                                        0.00 || 0.00,
+                                        '<span class="table-remove"><button type="button" class="btn btn-danger btn-rounded btn-sm my-0 btnRemove"><i class="fa fa-remove"></i></button></span>'
+                                    ];
+                                    lineItemsTable.push(dataListTable);
+                                    lineItems.push(lineItemObj);
                                 }
 
                                 let creditrecord = {
@@ -918,212 +918,212 @@ Template.creditcard.onRendered(() => {
                         }
                     }
                 }).catch(function(err) {
-                  purchaseService.getOneCreditData(currentCredit).then(function(data) {
-                      $('.fullScreenSpin').css('display', 'none');
-                      let lineItems = [];
-                      let lineItemObj = {};
-                      let lineItemsTable = [];
-                      let lineItemTableObj = {};
-                      let exchangeCode = data.fields.ForeignExchangeCode;
-                      let currencySymbol = Currency;
-                      let total = currencySymbol + '' + data.fields.TotalAmount.toLocaleString(undefined, { minimumFractionDigits: 2 });
-                      let totalInc = currencySymbol + '' + data.fields.TotalAmountInc.toLocaleString(undefined, { minimumFractionDigits: 2 });
-                      let subTotal = currencySymbol + '' + data.fields.TotalAmount.toLocaleString(undefined, { minimumFractionDigits: 2 });
-                      let totalTax = currencySymbol + '' + data.fields.TotalTax.toLocaleString(undefined, { minimumFractionDigits: 2 });
-                      let totalBalance = currencySymbol + '' + data.fields.TotalBalance.toLocaleString(undefined, { minimumFractionDigits: 2 });
-                      let totalPaidAmount = currencySymbol + '' + data.fields.TotalPaid.toLocaleString(undefined, { minimumFractionDigits: 2 });
-                      let department = '';
-                      if(data.fields.Lines != null){
-                        department = data.fields.Lines[0].fields.LineClassName;
-                        if (data.fields.Lines.length) {
-                            for (let i = 0; i < data.fields.Lines.length; i++) {
-                                let AmountGbp = currencySymbol + '' + data.fields.Lines[i].fields.TotalLineAmount.toLocaleString(undefined, { minimumFractionDigits: 2 });
-                                let currencyAmountGbp = currencySymbol + '' + data.fields.Lines[i].fields.TotalLineAmount.toFixed(2);
-                                let TaxTotalGbp = utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.LineTaxTotal);
-                                let TaxRateGbp = (data.fields.Lines[i].fields.LineTaxRate * 100).toFixed(2);
+                    purchaseService.getOneCreditData(currentCredit).then(function(data) {
+                        $('.fullScreenSpin').css('display', 'none');
+                        let lineItems = [];
+                        let lineItemObj = {};
+                        let lineItemsTable = [];
+                        let lineItemTableObj = {};
+                        let exchangeCode = data.fields.ForeignExchangeCode;
+                        let currencySymbol = Currency;
+                        let total = currencySymbol + '' + data.fields.TotalAmount.toLocaleString(undefined, { minimumFractionDigits: 2 });
+                        let totalInc = currencySymbol + '' + data.fields.TotalAmountInc.toLocaleString(undefined, { minimumFractionDigits: 2 });
+                        let subTotal = currencySymbol + '' + data.fields.TotalAmount.toLocaleString(undefined, { minimumFractionDigits: 2 });
+                        let totalTax = currencySymbol + '' + data.fields.TotalTax.toLocaleString(undefined, { minimumFractionDigits: 2 });
+                        let totalBalance = currencySymbol + '' + data.fields.TotalBalance.toLocaleString(undefined, { minimumFractionDigits: 2 });
+                        let totalPaidAmount = currencySymbol + '' + data.fields.TotalPaid.toLocaleString(undefined, { minimumFractionDigits: 2 });
+                        let department = '';
+                        if(data.fields.Lines != null){
+                            department = data.fields.Lines[0].fields.LineClassName;
+                            if (data.fields.Lines.length) {
+                                for (let i = 0; i < data.fields.Lines.length; i++) {
+                                    let AmountGbp = currencySymbol + '' + data.fields.Lines[i].fields.TotalLineAmount.toLocaleString(undefined, { minimumFractionDigits: 2 });
+                                    let currencyAmountGbp = currencySymbol + '' + data.fields.Lines[i].fields.TotalLineAmount.toFixed(2);
+                                    let TaxTotalGbp = utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.LineTaxTotal);
+                                    let TaxRateGbp = (data.fields.Lines[i].fields.LineTaxRate * 100).toFixed(2);
+                                    lineItemObj = {
+                                        lineID: Random.id(),
+                                        id: data.fields.Lines[i].fields.ID || '',
+                                        accountname: data.fields.Lines[i].fields.AccountName || '',
+                                        memo: data.fields.Lines[i].fields.ProductDescription || '',
+                                        item: data.fields.Lines[i].fields.ProductName || '',
+                                        description: data.fields.Lines[i].fields.ProductDescription || '',
+                                        quantity: data.fields.Lines[i].fields.UOMOrderQty || 0,
+                                        unitPrice: currencySymbol + '' + data.fields.Lines[i].fields.LineCost.toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
+                                        lineCost: currencySymbol + '' + data.fields.Lines[i].fields.LineCost.toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
+                                        taxRate: (data.fields.Lines[i].fields.LineTaxRate * 100).toFixed(2) || 0,
+                                        taxCode: data.fields.Lines[i].fields.LineTaxCode || '',
+                                        TotalAmt: AmountGbp || 0,
+                                        curTotalAmt: currencyAmountGbp || currencySymbol + '0',
+                                        TaxTotal: TaxTotalGbp || 0,
+                                        TaxRate: TaxRateGbp || 0,
+
+                                    };
+
+                                    lineItemsTable.push(dataListTable);
+                                    lineItems.push(lineItemObj);
+                                }
+                            } else {
+                                let AmountGbp = data.fields.Lines.fields.TotalLineAmountInc.toLocaleString(undefined, { minimumFractionDigits: 2 });
+                                let currencyAmountGbp = currencySymbol + '' + data.fields.Lines.fields.TotalLineAmount.toFixed(2);
+                                let TaxTotalGbp = currencySymbol + '' + data.fields.Lines.fields.LineTaxTotal;
+                                let TaxRateGbp = currencySymbol + '' + (data.fields.Lines.fields.LineTaxRate * 100).toFixed(2);
                                 lineItemObj = {
                                     lineID: Random.id(),
-                                    id: data.fields.Lines[i].fields.ID || '',
-                                    accountname: data.fields.Lines[i].fields.AccountName || '',
-                                    memo: data.fields.Lines[i].fields.ProductDescription || '',
-                                    item: data.fields.Lines[i].fields.ProductName || '',
-                                    description: data.fields.Lines[i].fields.ProductDescription || '',
-                                    quantity: data.fields.Lines[i].fields.UOMOrderQty || 0,
-                                    unitPrice: currencySymbol + '' + data.fields.Lines[i].fields.LineCost.toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
-                                    lineCost: currencySymbol + '' + data.fields.Lines[i].fields.LineCost.toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
+                                    id: data.fields.Lines.fields.ID || '',
+                                    accountname: data.fields.Lines.fields.AccountName || '',
+                                    memo: data.fields.Lines.fields.ProductDescription || '',
+                                    description: data.fields.Lines.fields.ProductDescription || '',
+                                    quantity: data.fields.Lines.fields.UOMOrderQty || 0,
+                                    unitPrice: data.fields.Lines[i].fields.LineCost.toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
+                                    lineCost: data.fields.Lines[i].fields.LineCost.toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
                                     taxRate: (data.fields.Lines[i].fields.LineTaxRate * 100).toFixed(2) || 0,
                                     taxCode: data.fields.Lines[i].fields.LineTaxCode || '',
                                     TotalAmt: AmountGbp || 0,
                                     curTotalAmt: currencyAmountGbp || currencySymbol + '0',
                                     TaxTotal: TaxTotalGbp || 0,
-                                    TaxRate: TaxRateGbp || 0,
-
+                                    TaxRate: TaxRateGbp || 0
                                 };
-
-                                lineItemsTable.push(dataListTable);
                                 lineItems.push(lineItemObj);
                             }
-                        } else {
-                            let AmountGbp = data.fields.Lines.fields.TotalLineAmountInc.toLocaleString(undefined, { minimumFractionDigits: 2 });
-                            let currencyAmountGbp = currencySymbol + '' + data.fields.Lines.fields.TotalLineAmount.toFixed(2);
-                            let TaxTotalGbp = currencySymbol + '' + data.fields.Lines.fields.LineTaxTotal;
-                            let TaxRateGbp = currencySymbol + '' + (data.fields.Lines.fields.LineTaxRate * 100).toFixed(2);
-                            lineItemObj = {
-                                lineID: Random.id(),
-                                id: data.fields.Lines.fields.ID || '',
-                                accountname: data.fields.Lines.fields.AccountName || '',
-                                memo: data.fields.Lines.fields.ProductDescription || '',
-                                description: data.fields.Lines.fields.ProductDescription || '',
-                                quantity: data.fields.Lines.fields.UOMOrderQty || 0,
-                                unitPrice: data.fields.Lines[i].fields.LineCost.toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
-                                lineCost: data.fields.Lines[i].fields.LineCost.toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
-                                taxRate: (data.fields.Lines[i].fields.LineTaxRate * 100).toFixed(2) || 0,
-                                taxCode: data.fields.Lines[i].fields.LineTaxCode || '',
-                                TotalAmt: AmountGbp || 0,
-                                curTotalAmt: currencyAmountGbp || currencySymbol + '0',
-                                TaxTotal: TaxTotalGbp || 0,
-                                TaxRate: TaxRateGbp || 0
-                            };
+                        }else{
+                            var dataListTable = [
+                                ' ' || '',
+                                ' ' || '',
+                                0 || 0,
+                                0.00 || 0.00,
+                                ' ' || '',
+                                0.00 || 0.00,
+                                '<span class="table-remove"><button type="button" class="btn btn-danger btn-rounded btn-sm my-0 btnRemove"><i class="fa fa-remove"></i></button></span>'
+                            ];
+                            lineItemsTable.push(dataListTable);
                             lineItems.push(lineItemObj);
                         }
-                      }else{
-                        var dataListTable = [
-                          ' ' || '',
-                          ' ' || '',
-                          0 || 0,
-                          0.00 || 0.00,
-                          ' ' || '',
-                          0.00 || 0.00,
-                          '<span class="table-remove"><button type="button" class="btn btn-danger btn-rounded btn-sm my-0 btnRemove"><i class="fa fa-remove"></i></button></span>'
-                      ];
-                      lineItemsTable.push(dataListTable);
-                      lineItems.push(lineItemObj);
-                      }
 
-                      let creditrecord = {
-                          id: data.fields.ID,
-                          lid: 'Edit Credit' + ' ' + data.fields.ID,
-                          sosupplier: data.fields.SupplierName,
-                          creditto: data.fields.OrderTo,
-                          shipto: data.fields.ShipTo,
-                          shipping: data.fields.Shipping,
-                          docnumber: data.fields.DocNumber,
-                          custPONumber: data.fields.CustPONumber,
-                          saledate: data.fields.OrderDate ? moment(data.fields.OrderDate).format('DD/MM/YYYY') : "",
-                          duedate: data.fields.DueDate ? moment(data.fields.DueDate).format('DD/MM/YYYY') : "",
-                          employeename: data.fields.EmployeeName,
-                          status: data.fields.OrderStatus,
-                          invoicenumber: data.fields.SupplierInvoiceNumber,
-                          comments: data.fields.Comments,
-                          pickmemo: data.fields.SalesComments,
-                          ponumber: data.fields.CustPONumber,
-                          via: data.fields.Shipping,
-                          connote: data.fields.ConNote,
-                          reference: data.fields.CustPONumber,
-                          currency: data.fields.ForeignExchangeCode,
-                          branding: data.fields.MedType,
-                          invoiceToDesc: data.fields.OrderTo,
-                          shipToDesc: data.fields.ShipTo,
-                          termsName: data.fields.TermsName,
-                          Total: totalInc,
-                          LineItems: lineItems,
-                          TotalTax: totalTax,
-                          SubTotal: subTotal,
-                          balanceDue: totalBalance,
-                          saleCustField1: data.fields.SaleLineRef,
-                          saleCustField2: data.fields.SalesComments,
-                          totalPaid: totalPaidAmount,
-                          department: department || defaultDept
-                      };
+                        let creditrecord = {
+                            id: data.fields.ID,
+                            lid: 'Edit Credit' + ' ' + data.fields.ID,
+                            sosupplier: data.fields.SupplierName,
+                            creditto: data.fields.OrderTo,
+                            shipto: data.fields.ShipTo,
+                            shipping: data.fields.Shipping,
+                            docnumber: data.fields.DocNumber,
+                            custPONumber: data.fields.CustPONumber,
+                            saledate: data.fields.OrderDate ? moment(data.fields.OrderDate).format('DD/MM/YYYY') : "",
+                            duedate: data.fields.DueDate ? moment(data.fields.DueDate).format('DD/MM/YYYY') : "",
+                            employeename: data.fields.EmployeeName,
+                            status: data.fields.OrderStatus,
+                            invoicenumber: data.fields.SupplierInvoiceNumber,
+                            comments: data.fields.Comments,
+                            pickmemo: data.fields.SalesComments,
+                            ponumber: data.fields.CustPONumber,
+                            via: data.fields.Shipping,
+                            connote: data.fields.ConNote,
+                            reference: data.fields.CustPONumber,
+                            currency: data.fields.ForeignExchangeCode,
+                            branding: data.fields.MedType,
+                            invoiceToDesc: data.fields.OrderTo,
+                            shipToDesc: data.fields.ShipTo,
+                            termsName: data.fields.TermsName,
+                            Total: totalInc,
+                            LineItems: lineItems,
+                            TotalTax: totalTax,
+                            SubTotal: subTotal,
+                            balanceDue: totalBalance,
+                            saleCustField1: data.fields.SaleLineRef,
+                            saleCustField2: data.fields.SalesComments,
+                            totalPaid: totalPaidAmount,
+                            department: department || defaultDept
+                        };
 
-                      $('#edtSupplierName').val(data.fields.SupplierName);
-                      templateObject.CleintName.set(data.fields.SupplierName);
-                      $('#sltCurrency').val(data.fields.ForeignExchangeCode);
+                        $('#edtSupplierName').val(data.fields.SupplierName);
+                        templateObject.CleintName.set(data.fields.SupplierName);
+                        $('#sltCurrency').val(data.fields.ForeignExchangeCode);
 
-                      templateObject.attachmentCount.set(0);
-                      if (data.fields.Attachments) {
-                          if (data.fields.Attachments.length) {
-                              templateObject.attachmentCount.set(data.fields.Attachments.length);
-                              templateObject.uploadedFiles.set(data.fields.Attachments);
-                          }
-                      }
+                        templateObject.attachmentCount.set(0);
+                        if (data.fields.Attachments) {
+                            if (data.fields.Attachments.length) {
+                                templateObject.attachmentCount.set(data.fields.Attachments.length);
+                                templateObject.uploadedFiles.set(data.fields.Attachments);
+                            }
+                        }
 
-                      setTimeout(function() {
-                          if (clientList) {
-                              for (var i = 0; i < clientList.length; i++) {
-                                  if (clientList[i].suppliername == data.fields.SupplierName) {
-                                      $('#edtSupplierEmail').val(clientList[i].supplieremail);
-                                      $('#edtSupplierEmail').attr('supplierid', clientList[i].supplierid);
-                                  }
-                              }
-                          }
-                      }, 100);
-                      templateObject.creditrecord.set(creditrecord);
+                        setTimeout(function() {
+                            if (clientList) {
+                                for (var i = 0; i < clientList.length; i++) {
+                                    if (clientList[i].suppliername == data.fields.SupplierName) {
+                                        $('#edtSupplierEmail').val(clientList[i].supplieremail);
+                                        $('#edtSupplierEmail').attr('supplierid', clientList[i].supplierid);
+                                    }
+                                }
+                            }
+                        }, 100);
+                        templateObject.creditrecord.set(creditrecord);
 
-                      templateObject.selectedCurrency.set(creditrecord.currency);
-                      templateObject.inputSelectedCurrency.set(creditrecord.currency);
-                      if (templateObject.creditrecord.get()) {
+                        templateObject.selectedCurrency.set(creditrecord.currency);
+                        templateObject.inputSelectedCurrency.set(creditrecord.currency);
+                        if (templateObject.creditrecord.get()) {
 
 
 
 
 
-                          Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblCreditLine', function(error, result) {
-                              if (error) {
+                            Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblCreditLine', function(error, result) {
+                                if (error) {
 
 
-                              } else {
-                                  if (result) {
-                                      for (let i = 0; i < result.customFields.length; i++) {
-                                          let customcolumn = result.customFields;
-                                          let columData = customcolumn[i].label;
-                                          let columHeaderUpdate = customcolumn[i].thclass;
-                                          let hiddenColumn = customcolumn[i].hidden;
-                                          let columnClass = columHeaderUpdate.substring(columHeaderUpdate.indexOf(".") + 1);
-                                          let columnWidth = customcolumn[i].width;
+                                } else {
+                                    if (result) {
+                                        for (let i = 0; i < result.customFields.length; i++) {
+                                            let customcolumn = result.customFields;
+                                            let columData = customcolumn[i].label;
+                                            let columHeaderUpdate = customcolumn[i].thclass;
+                                            let hiddenColumn = customcolumn[i].hidden;
+                                            let columnClass = columHeaderUpdate.substring(columHeaderUpdate.indexOf(".") + 1);
+                                            let columnWidth = customcolumn[i].width;
 
 
-                                          $("" + columHeaderUpdate + "").html(columData);
-                                          if (columnWidth != 0) {
-                                              $("" + columHeaderUpdate + "").css('width', columnWidth + '%');
-                                          }
+                                            $("" + columHeaderUpdate + "").html(columData);
+                                            if (columnWidth != 0) {
+                                                $("" + columHeaderUpdate + "").css('width', columnWidth + '%');
+                                            }
 
-                                          if (hiddenColumn == true) {
-
-
-                                              $("." + columnClass + "").addClass('hiddenColumn');
-                                              $("." + columnClass + "").removeClass('showColumn');
-                                          } else if (hiddenColumn == false) {
-                                              $("." + columnClass + "").removeClass('hiddenColumn');
-                                              $("." + columnClass + "").addClass('showColumn');
+                                            if (hiddenColumn == true) {
 
 
+                                                $("." + columnClass + "").addClass('hiddenColumn');
+                                                $("." + columnClass + "").removeClass('showColumn');
+                                            } else if (hiddenColumn == false) {
+                                                $("." + columnClass + "").removeClass('hiddenColumn');
+                                                $("." + columnClass + "").addClass('showColumn');
 
-                                          }
 
-                                      }
-                                  }
 
-                              }
-                          });
-                      }
-                  }).catch(function(err) {
-                      swal({
-                          title: 'Oooops...',
-                          text: err,
-                          type: 'error',
-                          showCancelButton: false,
-                          confirmButtonText: 'Try Again'
-                      }).then((result) => {
-                          if (result.value) {
-                              Meteor._reload.reload();
-                          } else if (result.dismiss === 'cancel') {
+                                            }
 
-                          }
-                      });
-                      $('.fullScreenSpin').css('display', 'none');
+                                        }
+                                    }
 
-                  });
+                                }
+                            });
+                        }
+                    }).catch(function(err) {
+                        swal({
+                            title: 'Oooops...',
+                            text: err,
+                            type: 'error',
+                            showCancelButton: false,
+                            confirmButtonText: 'Try Again'
+                        }).then((result) => {
+                            if (result.value) {
+                                Meteor._reload.reload();
+                            } else if (result.dismiss === 'cancel') {
+
+                            }
+                        });
+                        $('.fullScreenSpin').css('display', 'none');
+
+                    });
                 });
 
             };
@@ -1511,18 +1511,18 @@ Template.creditcard.onRendered(() => {
 
             if ($('.printID').attr('id') != undefined || $('.printID').attr('id') != "") {
                 $printrows.each(function(index) {
-                var $printrows = $(this);
-                var amount = $printrows.find("#lineAmount").text() || "0";
-                var taxcode = $printrows.find("#lineTaxCode").text() || 0;
+                    var $printrows = $(this);
+                    var amount = $printrows.find("#lineAmount").text() || "0";
+                    var taxcode = $printrows.find("#lineTaxCode").text() || 0;
 
-                var taxrateamount = 0;
-                if (taxcodeList) {
-                    for (var i = 0; i < taxcodeList.length; i++) {
-                        if (taxcodeList[i].codename == taxcode) {
-                            taxrateamount = taxcodeList[i].coderate.replace('%', "") / 100 || 0;
+                    var taxrateamount = 0;
+                    if (taxcodeList) {
+                        for (var i = 0; i < taxcodeList.length; i++) {
+                            if (taxcodeList[i].codename == taxcode) {
+                                taxrateamount = taxcodeList[i].coderate.replace('%', "") / 100 || 0;
+                            }
                         }
                     }
-                }
 
 
                     var subTotal = parseFloat(amount.replace(/[^0-9.-]+/g, "")) || 0;
@@ -1570,11 +1570,11 @@ Template.creditcard.onRendered(() => {
             $('#' + selectLineID + " .lineTaxCode").text(lineTaxCode);
 
             let $printrows = $(".credit_print tbody tr");
-                if ($('.printID').attr('id') != undefined || $('.printID').attr('id') != "") {
-                    $('#' + selectLineID + " #lineAmount").text($('#' + selectLineID + " .colAmount").val());
-                    $('#' + selectLineID + " #lineTaxCode").text(lineTaxCode);
+            if ($('.printID').attr('id') != undefined || $('.printID').attr('id') != "") {
+                $('#' + selectLineID + " #lineAmount").text($('#' + selectLineID + " .colAmount").val());
+                $('#' + selectLineID + " #lineTaxCode").text(lineTaxCode);
 
-                }
+            }
 
             $('#taxRateListModal').modal('toggle');
             $tblrows.each(function(index) {
@@ -1621,64 +1621,64 @@ Template.creditcard.onRendered(() => {
                 }
             });
 
-        if($('.printID').attr('id') != undefined || $('.printID').attr('id') != "") {
-            $printrows.each(function(index) {
-            var $printrow = $(this);
-            var amount = $printrow.find("#lineAmount").text() || "0";
-            var taxcode = $printrow.find("#lineTaxCode").text() || "E";
+            if($('.printID').attr('id') != undefined || $('.printID').attr('id') != "") {
+                $printrows.each(function(index) {
+                    var $printrow = $(this);
+                    var amount = $printrow.find("#lineAmount").text() || "0";
+                    var taxcode = $printrow.find("#lineTaxCode").text() || "E";
 
-            var taxrateamount = 0;
-            if (taxcodeList) {
-                for (var i = 0; i < taxcodeList.length; i++) {
-                    if (taxcodeList[i].codename == taxcode) {
-                        taxrateamount = taxcodeList[i].coderate.replace('%', "") / 100 || 0;
+                    var taxrateamount = 0;
+                    if (taxcodeList) {
+                        for (var i = 0; i < taxcodeList.length; i++) {
+                            if (taxcodeList[i].codename == taxcode) {
+                                taxrateamount = taxcodeList[i].coderate.replace('%', "") / 100 || 0;
+                            }
+                        }
                     }
-                }
+
+                    var subTotal = parseFloat(amount.replace(/[^0-9.-]+/g, "")) || 0;
+                    var taxTotal = parseFloat(amount.replace(/[^0-9.-]+/g, "")) * parseFloat(taxrateamount);
+                    $printrow.find('#lineTaxAmount').text(utilityService.modifynegativeCurrencyFormat(taxTotal));
+                    if (!isNaN(subTotal)) {
+                        $printrow.find('#lineAmt').text(utilityService.modifynegativeCurrencyFormat(subTotal));
+                        subGrandTotal += isNaN(subTotal) ? 0 : subTotal;
+                        document.getElementById("subtotal_totalPrint").innerHTML = $('#subtotal_total').text();
+                    }
+
+                    if (!isNaN(taxTotal)) {
+                        taxGrandTotalPrint += isNaN(taxTotal) ? 0 : taxTotal;
+                    }
+                    if (!isNaN(subGrandTotal) && (!isNaN(taxGrandTotal))) {
+                        let GrandTotal = (parseFloat(subGrandTotal)) + (parseFloat(taxGrandTotal));
+                        document.getElementById("grandTotalPrint").innerHTML = $('#grandTotal').text();
+                        document.getElementById("balanceDue").innerHTML = utilityService.modifynegativeCurrencyFormat(GrandTotal);
+                        document.getElementById("totalBalanceDuePrint").innerHTML = $('#totalBalanceDue').text();
+
+                    }
+                });
             }
-
-                var subTotal = parseFloat(amount.replace(/[^0-9.-]+/g, "")) || 0;
-                var taxTotal = parseFloat(amount.replace(/[^0-9.-]+/g, "")) * parseFloat(taxrateamount);
-                 $printrow.find('#lineTaxAmount').text(utilityService.modifynegativeCurrencyFormat(taxTotal));
-                if (!isNaN(subTotal)) {
-                    $printrow.find('#lineAmt').text(utilityService.modifynegativeCurrencyFormat(subTotal));
-                    subGrandTotal += isNaN(subTotal) ? 0 : subTotal;
-                    document.getElementById("subtotal_totalPrint").innerHTML = $('#subtotal_total').text();
-                }
-
-                if (!isNaN(taxTotal)) {
-                    taxGrandTotalPrint += isNaN(taxTotal) ? 0 : taxTotal;
-                }
-                if (!isNaN(subGrandTotal) && (!isNaN(taxGrandTotal))) {
-                    let GrandTotal = (parseFloat(subGrandTotal)) + (parseFloat(taxGrandTotal));
-                    document.getElementById("grandTotalPrint").innerHTML = $('#grandTotal').text();
-                    document.getElementById("balanceDue").innerHTML = utilityService.modifynegativeCurrencyFormat(GrandTotal);
-                    document.getElementById("totalBalanceDuePrint").innerHTML = $('#totalBalanceDue').text();
-
-                }
-            });
-        }
         }
     });
 
 
     $('#edtSupplierName').editableSelect()
         .on('select.editable-select', function(e, li) {
-            let selectedSupplier = li.text();
-            if (clientList) {
-                $('#txabillingAddress').val('');
-                $('#txaShipingInfo').val('');
-                for (var i = 0; i < clientList.length; i++) {
-                    if (clientList[i].suppliername == selectedSupplier) {
-                        $('#edtSupplierEmail').val(clientList[i].supplieremail);
-                        $('#edtSupplierEmail').attr('supplierid', clientList[i].supplierid);
-                        let postalAddress = clientList[i].suppliername + '\n' + clientList[i].street + '\n' + clientList[i].street2 + ' ' + clientList[i].statecode + '\n' + clientList[i].country;
-                        $('#txabillingAddress').val(postalAddress);
-                        $('#txaShipingInfo').val(postalAddress);
-                        $('#sltTerms').val(clientList[i].termsName || '');
-                    }
+        let selectedSupplier = li.text();
+        if (clientList) {
+            $('#txabillingAddress').val('');
+            $('#txaShipingInfo').val('');
+            for (var i = 0; i < clientList.length; i++) {
+                if (clientList[i].suppliername == selectedSupplier) {
+                    $('#edtSupplierEmail').val(clientList[i].supplieremail);
+                    $('#edtSupplierEmail').attr('supplierid', clientList[i].supplierid);
+                    let postalAddress = clientList[i].suppliername + '\n' + clientList[i].street + '\n' + clientList[i].street2 + ' ' + clientList[i].statecode + '\n' + clientList[i].country;
+                    $('#txabillingAddress').val(postalAddress);
+                    $('#txaShipingInfo').val(postalAddress);
+                    $('#sltTerms').val(clientList[i].termsName || '');
                 }
             }
-        });
+        }
+    });
 
     exportSalesToPdf = function() {
         let margins = {
@@ -1712,7 +1712,7 @@ Template.creditcard.onRendered(() => {
         };
 
         html2pdf().set(opt).from(source).save().then(function (dataObject){
-             $('#html-2-pdfwrapper').css('display', 'none');
+            $('#html-2-pdfwrapper').css('display', 'none');
             $('.fullScreenSpin').css('display', 'none');
         });
     };
@@ -1777,11 +1777,14 @@ Template.creditcard.onRendered(function() {
 
                             pageLength: 25,
                             lengthMenu: [
-                                [10, 25, 50, -1],
-                                [10, 25, 50, "All"]
+                                [25, -1],
+                                [25, "All"]
                             ],
                             info: true,
-                            responsive: true
+                            responsive: true,
+                            "fnInitComplete": function () {
+                                $("<button class='btn btn-primary btnRefreshAccount' type='button' id='btnRefreshAccount' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblAccount_filter");
+                            }
 
                         });
 
@@ -1848,11 +1851,14 @@ Template.creditcard.onRendered(function() {
 
                         pageLength: 25,
                         lengthMenu: [
-                            [10, 25, 50, -1],
-                            [10, 25, 50, "All"]
+                            [25, -1],
+                            [25, "All"]
                         ],
                         info: true,
-                        responsive: true
+                        responsive: true,
+                        "fnInitComplete": function () {
+                            $("<button class='btn btn-primary btnRefreshAccount' type='button' id='btnRefreshAccount' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblAccount_filter");
+                        }
 
                     });
 
@@ -1913,11 +1919,14 @@ Template.creditcard.onRendered(function() {
 
                         pageLength: 25,
                         lengthMenu: [
-                            [10, 25, 50, -1],
-                            [10, 25, 50, "All"]
+                            [25, -1],
+                            [25, "All"]
                         ],
                         info: true,
-                        responsive: true
+                        responsive: true,
+                        "fnInitComplete": function () {
+                            $("<button class='btn btn-primary btnRefreshAccount' type='button' id='btnRefreshAccount' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblAccount_filter");
+                        }
 
                     });
 
@@ -1987,11 +1996,14 @@ Template.creditcard.onRendered(function() {
 
                             pageLength: 25,
                             lengthMenu: [
-                                [10, 25, 50, -1],
-                                [10, 25, 50, "All"]
+                                [25, -1],
+                                [25, "All"]
                             ],
                             info: true,
-                            responsive: true
+                            responsive: true,
+                            "fnInitComplete": function () {
+                                $("<button class='btn btn-primary btnRefreshTax' type='button' id='btnRefreshTax' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblTaxRate_filter");
+                            }
 
                         });
 
@@ -2051,11 +2063,14 @@ Template.creditcard.onRendered(function() {
 
                         pageLength: 25,
                         lengthMenu: [
-                            [10, 25, 50, -1],
-                            [10, 25, 50, "All"]
+                            [25, -1],
+                            [25, "All"]
                         ],
                         info: true,
-                        responsive: true
+                        responsive: true,
+                        "fnInitComplete": function () {
+                            $("<button class='btn btn-primary btnRefreshTax' type='button' id='btnRefreshTax' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblTaxRate_filter");
+                        }
 
                     });
 
@@ -2116,11 +2131,14 @@ Template.creditcard.onRendered(function() {
 
                         pageLength: 25,
                         lengthMenu: [
-                            [10, 25, 50, -1],
-                            [10, 25, 50, "All"]
+                            [25, -1],
+                            [25, "All"]
                         ],
                         info: true,
-                        responsive: true
+                        responsive: true,
+                        "fnInitComplete": function () {
+                            $("<button class='btn btn-primary btnRefreshTax' type='button' id='btnRefreshTax' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblTaxRate_filter");
+                        }
 
                     });
 
@@ -2330,14 +2348,14 @@ Template.creditcard.events({
                         if (id != "") {
                             window.open("/creditcard?id=" + id);
                         } else {
-                           window.open("/creditcard");
+                            window.open("/creditcard");
                         }
-                     }).catch(function (err) {
+                    }).catch(function (err) {
 
                     });
                 }).catch(function (err) {
 
-                   window.open('/creditcard', '_self');
+                    window.open('/creditcard', '_self');
                 });
             }).catch(function (err) {
                 $('.fullScreenSpin').css('display', 'none');
@@ -2374,7 +2392,7 @@ Template.creditcard.events({
             });
         }
     },
-     'blur .lineMemo': function (event) {
+    'blur .lineMemo': function (event) {
         var targetID = $(event.target).closest('tr').attr('id');
         console.log(targetID);
         $('#' + targetID + " #lineMemo").text($('#' + targetID + " .lineMemo").text());
@@ -2447,18 +2465,18 @@ Template.creditcard.events({
 
         if ($('.printID').attr('id') != undefined || $('.printID').attr('id') != "") {
             $printrows.each(function(index) {
-            var $printrows = $(this);
-            var amount = $printrows.find("#lineAmount").text() || "0";
-            var taxcode = $printrows.find("#lineTaxCode").text() || 0;
+                var $printrows = $(this);
+                var amount = $printrows.find("#lineAmount").text() || "0";
+                var taxcode = $printrows.find("#lineTaxCode").text() || 0;
 
-            var taxrateamount = 0;
-            if (taxcodeList) {
-                for (var i = 0; i < taxcodeList.length; i++) {
-                    if (taxcodeList[i].codename == taxcode) {
-                        taxrateamount = taxcodeList[i].coderate.replace('%', "") / 100 || 0;
+                var taxrateamount = 0;
+                if (taxcodeList) {
+                    for (var i = 0; i < taxcodeList.length; i++) {
+                        if (taxcodeList[i].codename == taxcode) {
+                            taxrateamount = taxcodeList[i].coderate.replace('%', "") / 100 || 0;
+                        }
                     }
                 }
-            }
 
 
                 var subTotal = parseFloat(amount.replace(/[^0-9.-]+/g, "")) || 0;
@@ -2524,13 +2542,13 @@ Template.creditcard.events({
         $('#selectLineID').val(targetID);
     },
     'click .printConfirm': function(event) {
-         $('.fullScreenSpin').css('display', 'inline-block');
+        $('.fullScreenSpin').css('display', 'inline-block');
         $('#html-2-pdfwrapper').css('display', 'block');
         $('.pdfCustomerName').html($('#edtSupplierName').val());
         $('.pdfCustomerAddress').html($('#txabillingAddress').val().replace(/[\r\n]/g, "<br />"));
         $('#printcomment').html($('#txaComment').val().replace(/[\r\n]/g, "<br />"));
-         var ponumber = $('#ponumber').val() || '.';
-         $('.po').text(ponumber);
+        var ponumber = $('#ponumber').val() || '.';
+        $('.po').text(ponumber);
         exportSalesToPdf();
 
     },
@@ -2619,44 +2637,44 @@ Template.creditcard.events({
                     }
                 });
 
-            if ($('.printID').attr('id') != undefined || $('.printID').attr('id') != "") {
-                $printrows.each(function(index) {
-                var $printrows = $(this);
-                var amount = $printrows.find("#lineAmount").text() || "0";
-                var taxcode = $printrows.find("#lineTaxCode").text() || 0;
+                if ($('.printID').attr('id') != undefined || $('.printID').attr('id') != "") {
+                    $printrows.each(function(index) {
+                        var $printrows = $(this);
+                        var amount = $printrows.find("#lineAmount").text() || "0";
+                        var taxcode = $printrows.find("#lineTaxCode").text() || 0;
 
-                var taxrateamount = 0;
-                if (taxcodeList) {
-                    for (var i = 0; i < taxcodeList.length; i++) {
-                        if (taxcodeList[i].codename == taxcode) {
-                            taxrateamount = taxcodeList[i].coderate.replace('%', "") / 100 || 0;
+                        var taxrateamount = 0;
+                        if (taxcodeList) {
+                            for (var i = 0; i < taxcodeList.length; i++) {
+                                if (taxcodeList[i].codename == taxcode) {
+                                    taxrateamount = taxcodeList[i].coderate.replace('%', "") / 100 || 0;
+                                }
+                            }
                         }
-                    }
+
+
+                        var subTotal = parseFloat(amount.replace(/[^0-9.-]+/g, "")) || 0;
+                        var taxTotal = parseFloat(amount.replace(/[^0-9.-]+/g, "")) * parseFloat(taxrateamount);
+                        $printrows.find('#lineTaxAmount').text(utilityService.modifynegativeCurrencyFormat(taxTotal))
+
+                        if (!isNaN(subTotal)) {
+                            $printrows.find('#lineAmt').text(utilityService.modifynegativeCurrencyFormat(subTotal));
+                            subGrandTotal += isNaN(subTotal) ? 0 : subTotal;
+                            document.getElementById("subtotal_totalPrint").innerHTML = $('#subtotal_total').text();
+                        }
+
+                        if (!isNaN(taxTotal)) {
+                            taxGrandTotalPrint += isNaN(taxTotal) ? 0 : taxTotal;
+                        }
+                        if (!isNaN(subGrandTotal) && (!isNaN(taxGrandTotal))) {
+                            let GrandTotal = (parseFloat(subGrandTotal)) + (parseFloat(taxGrandTotal));
+                            document.getElementById("grandTotalPrint").innerHTML = $('#grandTotal').text();
+                            document.getElementById("balanceDue").innerHTML = utilityService.modifynegativeCurrencyFormat(GrandTotal);
+                            document.getElementById("totalBalanceDuePrint").innerHTML = $('#totalBalanceDue').text();
+
+                        }
+                    });
                 }
-
-
-                    var subTotal = parseFloat(amount.replace(/[^0-9.-]+/g, "")) || 0;
-                    var taxTotal = parseFloat(amount.replace(/[^0-9.-]+/g, "")) * parseFloat(taxrateamount);
-                    $printrows.find('#lineTaxAmount').text(utilityService.modifynegativeCurrencyFormat(taxTotal))
-
-                    if (!isNaN(subTotal)) {
-                        $printrows.find('#lineAmt').text(utilityService.modifynegativeCurrencyFormat(subTotal));
-                        subGrandTotal += isNaN(subTotal) ? 0 : subTotal;
-                        document.getElementById("subtotal_totalPrint").innerHTML = $('#subtotal_total').text();
-                    }
-
-                    if (!isNaN(taxTotal)) {
-                        taxGrandTotalPrint += isNaN(taxTotal) ? 0 : taxTotal;
-                    }
-                    if (!isNaN(subGrandTotal) && (!isNaN(taxGrandTotal))) {
-                        let GrandTotal = (parseFloat(subGrandTotal)) + (parseFloat(taxGrandTotal));
-                        document.getElementById("grandTotalPrint").innerHTML = $('#grandTotal').text();
-                        document.getElementById("balanceDue").innerHTML = utilityService.modifynegativeCurrencyFormat(GrandTotal);
-                        document.getElementById("totalBalanceDuePrint").innerHTML = $('#totalBalanceDue').text();
-
-                    }
-                });
-            }
                 return false;
 
             } else {
@@ -2764,20 +2782,20 @@ Template.creditcard.events({
                 }
             });
 
-         if ($('.printID').attr('id') != undefined || $('.printID').attr('id') != "") {
+            if ($('.printID').attr('id') != undefined || $('.printID').attr('id') != "") {
                 $printrows.each(function(index) {
-                var $printrows = $(this);
-                var amount = $printrows.find("#lineAmount").text() || "0";
-                var taxcode = $printrows.find("#lineTaxCode").text() || 0;
+                    var $printrows = $(this);
+                    var amount = $printrows.find("#lineAmount").text() || "0";
+                    var taxcode = $printrows.find("#lineTaxCode").text() || 0;
 
-                var taxrateamount = 0;
-                if (taxcodeList) {
-                    for (var i = 0; i < taxcodeList.length; i++) {
-                        if (taxcodeList[i].codename == taxcode) {
-                            taxrateamount = taxcodeList[i].coderate.replace('%', "") / 100 || 0;
+                    var taxrateamount = 0;
+                    if (taxcodeList) {
+                        for (var i = 0; i < taxcodeList.length; i++) {
+                            if (taxcodeList[i].codename == taxcode) {
+                                taxrateamount = taxcodeList[i].coderate.replace('%', "") / 100 || 0;
+                            }
                         }
                     }
-                }
 
 
                     var subTotal = parseFloat(amount.replace(/[^0-9.-]+/g, "")) || 0;
@@ -3198,16 +3216,16 @@ Template.creditcard.events({
 
                 if (supplierID !== " ") {
                     let supplierEmailData = {
-                            type: "TSupplier",
-                            fields: {
-                                ID: supplierID,
-                                Email: supplierEmail
-                            }
+                        type: "TSupplier",
+                        fields: {
+                            ID: supplierID,
+                            Email: supplierEmail
                         }
+                    }
 
 
 
-                };
+                    };
                 var getcurrentCloudDetails = CloudUser.findOne({ _id: Session.get('mycloudLogonID'), clouddatabaseID: Session.get('mycloudLogonDBID') });
                 if (getcurrentCloudDetails) {
                     if (getcurrentCloudDetails._id.length > 0) {
