@@ -58,7 +58,7 @@
                 height: 85vh !important;
             }
         }
-        
+
         @media (max-height: 420px) and (max-width: 850px) {
             .colEmployeeList {
                 display: none;
@@ -785,7 +785,7 @@
                                 border-radius: 25px;
                             }
 
-                        </style> 
+                        </style>
                         <div class="row">
                             <div class="col">
                                 <div class="select-size">
@@ -883,14 +883,14 @@ var getInputRadio = goToParent.find("input[id = " + getValue + "]");
             </div>
         </div>
     </div>
+
     <div class="modal fade customerListModal" role="dialog" tabindex="-1" id="customerListModal">
-        <div class="modal-dialog modal-xl modal-dialog-scrollable customerListModalInner" role="document">
+        <div class="modal-dialog modal-xl modal-dialog-scrollable customerListModalInner" role="document" style="max-width: 90vw;">
             <div class="modal-content customerListContent">
                 <div class="modal-header">
                     <h4>Customer List</h4><button type="button" class="close checkclose" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
                 </div>
                 <div class="modal-body mainCustomerModalBody" style="padding: 0px; overflow-x: hidden;">
-                    {{> refreshbutton}}
                     <input type="hidden" style="width: 100%; display:none;" id="customerSelectLineID" name="customerSelectLineID" readonly>
                     {{> customerlistpop}}
 
@@ -1328,20 +1328,20 @@ var getInputRadio = goToParent.find("input[id = " + getValue + "]");
             var x = window.matchMedia("(max-width: 1024px)");
 
             function mediaQuery(x) {
-                if (x.matches) { 
+                if (x.matches) {
 
                     $("#newcardb").addClass("alignColCenter");
                 }
             }
-            mediaQuery(x); 
-            x.addListener(mediaQuery); 
+            mediaQuery(x);
+            x.addListener(mediaQuery);
         }, 10);
         setTimeout(function () {
 
             var x = window.matchMedia("(max-width: 812px)");
 
             function mediaQuery(x) {
-                if (x.matches) { 
+                if (x.matches) {
 
                     $("#newcardb").addClass("alignColCenter");
 
@@ -1393,8 +1393,8 @@ var getInputRadio = goToParent.find("input[id = " + getValue + "]");
                     $("#colAppointmentList").addClass("col-2");
                 }
             }
-            mediaQuery(x); 
-            x.addListener(mediaQuery); 
+            mediaQuery(x);
+            x.addListener(mediaQuery);
         }, 10);
         setTimeout(function() {
 
