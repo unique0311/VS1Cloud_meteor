@@ -1019,13 +1019,15 @@ postcode : data.tcustomervs1[i].fields.Postcode || ' '
     $('#customerListModal').modal('toggle');
     swal({
     title: 'Question',
-    text: "Selection NOT in list, Create New?",
+    text: "Customer does not exist, would you like to create it?",
     type: 'question',
     showCancelButton: true,
     confirmButtonText: 'Yes',
     cancelButtonText: 'No'
     }).then((result) => {
     if (result.value) {
+      $('#addCustomerModal').modal('toggle');
+      $('#edtCustomerCompany').val(dataSearchName);
     } else if (result.dismiss === 'cancel') {
       $('#customerListModal').modal('toggle');
     }
@@ -1040,7 +1042,6 @@ postcode : data.tcustomervs1[i].fields.Postcode || ' '
   sideBarService.getAllCustomersDataVS1(initialBaseDataLoad,0).then(function(data) {
   let lineItems = [];
   let lineItemObj = {};
-  if(data.tcustomervs1.length > 0){
   for(let i=0; i<data.tcustomervs1.length; i++){
   let arBalance = utilityService.modifynegativeCurrencyFormat(data.tcustomervs1[i].fields.ARBalance)|| 0.00;
   let creditBalance = utilityService.modifynegativeCurrencyFormat(data.tcustomervs1[i].fields.CreditBalance) || 0.00;
@@ -1104,25 +1105,7 @@ postcode : data.tcustomervs1[i].fields.Postcode || ' '
   datatable.draw(false);
 
   $('.fullScreenSpin').css('display', 'none');
-  }else{
 
-    $('.fullScreenSpin').css('display', 'none');
-    $('#customerListModal').modal('toggle');
-    swal({
-    title: 'Question',
-    text: "Selection NOT in list, Create New?",
-    type: 'question',
-    showCancelButton: true,
-    confirmButtonText: 'Yes',
-    cancelButtonText: 'No'
-    }).then((result) => {
-    if (result.value) {
-    } else if (result.dismiss === 'cancel') {
-      $('#customerListModal').modal('toggle');
-    }
-    });
-
-  }
 
   }).catch(function (err) {
     $('.fullScreenSpin').css('display', 'none');

@@ -629,18 +629,18 @@
                                 <div class="tab-pane border rounded-0" role="tabpanel" id="tab-10" style="border-color: #ededed #00a3d3 #00a3d3 #00a3d3 !important;">
                                     <div class="row no-gutters d-xl-flex flex-column justify-content-xl-start" style="margin: 12px;">
                                         <div class="col">
-                                            <div class="custom-control custom-switch" style="margin: 4px;"><input class="custom-control-input chkTaxExempt" type="checkbox" id="formCheck-2" style=" cursor: pointer;" checked><label class="custom-control-label" for="formCheck-2" style=" cursor: pointer;">Customer is tax exempt</label></div>
+                                            <div class="custom-control custom-switch" style="margin: 4px;"><input class="custom-control-input chkTaxExempt" type="checkbox" id="formCheck-TaxCode" style=" cursor: pointer;" checked><label class="custom-control-label" for="formCheck-TaxCode" style=" cursor: pointer;">Customer is tax exempt</label></div>
                                         </div>
 
                                         {{#if equals record.taxcode "NT"}}
                                         <script>
-                                            $('#formCheck-2').attr("checked", "checked");
+                                            $('#formCheck-TaxCode').attr("checked", "checked");
                                             $('#autoUpdate').css('display', 'none');
 
                                         </script>
                                         {{else}}
                                         <script>
-                                            $('#formCheck-2').removeAttr("checked");
+                                            $('#formCheck-TaxCode').removeAttr("checked");
                                             $('#autoUpdate').css('display', 'block');
 
                                         </script>

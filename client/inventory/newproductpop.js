@@ -305,12 +305,11 @@ Template.newproductpop.onRendered(function() {
         templateObject.includeInventory.set(true);
     }
 
-    var url = window.location.href;
-    var getprod_id = url.split('?id=');
+    var getprod_id = $('#selectProductID').val();
     var currentProductID = getprod_id[getprod_id.length-1];
     let lineExtaSellItems = [];
     let lineExtaSellObj = {};
-    if(getprod_id[1]){
+    if(getprod_id != ''){
         currentProductID = parseInt(currentProductID);
 
         templateObject.getProductData = function () {
@@ -1050,7 +1049,7 @@ Template.newproductpop.events({
         let templateObject = Template.instance();
         templateObject.getAllProductRecentTransactions();
     },
-    'click #btnSave': async function () {
+    'click #btnSaveProdPOP': async function () {
         let productService = new ProductService();
         let productCode = $("#edtproductcode").val();
         let productName = $("#edtproductname").val();
@@ -1096,9 +1095,8 @@ Template.newproductpop.events({
         let customField1 = $("#txtCustomField1").val();
         let customField2 = $("#txtCustomField2").val();
 
-        var url = window.location.href;
-        var getso_id = url.split('?id=');
-        var currentID = getso_id[getso_id.length-1].split('#')[0];
+        var getprod_id = $('#selectProductID').val();
+        var currentID = getprod_id;
 
         if($('#chkSellPrice').is(':checked')){
         $('.itemExtraSellRow').each(function () {
@@ -1121,7 +1119,7 @@ Template.newproductpop.events({
         });
         }
 
-        if(getso_id[1]){
+        if(getprod_id != ''){
             if((itrackThisItem == true) && ($("#sltinventoryacount").val() != '')){
                 objDetails = {
                     type:"TProductVS1",
@@ -1185,67 +1183,14 @@ Template.newproductpop.events({
             }
 
             productService.saveProductVS1(objDetails).then(function (objDetails) {
-
-                var getcurrentCloudDetails = CloudUser.findOne({_id:Session.get('mycloudLogonID'),clouddatabaseID:Session.get('mycloudLogonDBID')});
-                if(getcurrentCloudDetails){
-                    if (getcurrentCloudDetails._id.length > 0) {
-                        var clientID = getcurrentCloudDetails._id;
-                        var clientUsername = getcurrentCloudDetails.cloudUsername;
-                        var clientEmail = getcurrentCloudDetails.cloudEmail;
-                        var checkPrefDetails = CloudPreference.findOne({userid:clientID,PrefName:'productview'});
-                        if (checkPrefDetails) {
-                            CloudPreference.update({ _id: checkPrefDetails._id},{ $set: {username:clientUsername,useremail:clientEmail,
-                                                                                         PrefGroup:'inventoryform',PrefName:'productview',published:true,
-                                                                                         customFields:[{
-                                                                                             index: '1',
-                                                                                             label: getcustomField1,
-                                                                                             hidden: getchkcustomField1
-                                                                                         },{
-                                                                                             index: '2',
-                                                                                             label: getcustomField2,
-                                                                                             hidden: getchkcustomField2
-                                                                                         }],
-                                                                                         updatedAt: new Date() }}, function(err, idTag) {
-                                if (err) {
-                                    //window.open('/inventorylist','_self');
-                                } else {
-                                  //window.open('/inventorylist','_self');
-
-                                }
-                            });
-                        }else{
-                            CloudPreference.insert({ userid: clientID,username:clientUsername,useremail:clientEmail,
-                                                    PrefGroup:'inventoryform',PrefName:'productview',published:true,
-                                                    customFields:[{
-                                                        index: '1',
-                                                        label: getcustomField1,
-                                                        hidden: getchkcustomField1
-                                                    },{
-                                                        index: '2',
-                                                        label: getcustomField2,
-                                                        hidden: getchkcustomField2
-                                                    }],
-                                                    createdAt: new Date() }, function(err, idTag) {
-                                if (err) {
-                                    window.open('/inventorylist','_self');
-                                } else {
-                                    window.open('/inventorylist','_self');
-
-                                }
-                            });
-                        }
-                    }
-                }else{
-                    //window.open('/inventorylist','_self');
-                }
                 sideBarService.getNewProductListVS1(initialBaseDataLoad,0).then(function(dataReload) {
                    addVS1Data('TProductVS1',JSON.stringify(dataReload)).then(function (datareturn) {
-                     window.open('/inventorylist','_self');
+                     location.reload();
                    }).catch(function (err) {
-                     window.open('/inventorylist','_self');
+                     location.reload();
                    });
                  }).catch(function(err) {
-                   window.open('/inventorylist','_self');
+                   location.reload();
                  });
             }).catch(function (err) {
                 swal({
@@ -1333,67 +1278,14 @@ Template.newproductpop.events({
                     }
 
                     productService.saveProductVS1(objDetails).then(function (objDetails) {
-
-                        var getcurrentCloudDetails = CloudUser.findOne({_id:Session.get('mycloudLogonID'),clouddatabaseID:Session.get('mycloudLogonDBID')});
-                        if(getcurrentCloudDetails){
-                            if (getcurrentCloudDetails._id.length > 0) {
-                                var clientID = getcurrentCloudDetails._id;
-                                var clientUsername = getcurrentCloudDetails.cloudUsername;
-                                var clientEmail = getcurrentCloudDetails.cloudEmail;
-                                var checkPrefDetails = CloudPreference.findOne({userid:clientID,PrefName:'productview'});
-                                if (checkPrefDetails) {
-                                    CloudPreference.update({ _id: checkPrefDetails._id},{ $set: {username:clientUsername,useremail:clientEmail,
-                                                                                                 PrefGroup:'inventoryform',PrefName:'productview',published:true,
-                                                                                                 customFields:[{
-                                                                                                     index: '1',
-                                                                                                     label: getcustomField1,
-                                                                                                     hidden: getchkcustomField1
-                                                                                                 },{
-                                                                                                     index: '2',
-                                                                                                     label: getcustomField2,
-                                                                                                     hidden: getchkcustomField2
-                                                                                                 }],
-                                                                                                 updatedAt: new Date() }}, function(err, idTag) {
-                                        if (err) {
-                                            //window.open('/inventorylist','_self');
-                                        } else {
-                                            //window.open('/inventorylist','_self');
-
-                                        }
-                                    });
-                                }else{
-                                    CloudPreference.insert({ userid: clientID,username:clientUsername,useremail:clientEmail,
-                                                            PrefGroup:'inventoryform',PrefName:'productview',published:true,
-                                                            customFields:[{
-                                                                index: '1',
-                                                                label: getcustomField1,
-                                                                hidden: getchkcustomField1
-                                                            },{
-                                                                index: '2',
-                                                                label: getcustomField2,
-                                                                hidden: getchkcustomField2
-                                                            }],
-                                                            createdAt: new Date() }, function(err, idTag) {
-                                        if (err) {
-                                            //window.open('/inventorylist','_self');
-                                        } else {
-                                            //window.open('/inventorylist','_self');
-
-                                        }
-                                    });
-                                }
-                            }
-                        }else{
-                          //  window.open('/inventorylist','_self');
-                        }
                           sideBarService.getNewProductListVS1(initialBaseDataLoad,0).then(function(dataReload) {
                              addVS1Data('TProductVS1',JSON.stringify(dataReload)).then(function (datareturn) {
-                               window.open('/inventorylist','_self');
+                               location.reload();
                              }).catch(function (err) {
-                               window.open('/inventorylist','_self');
+                               location.reload();
                              });
                            }).catch(function(err) {
-                             window.open('/inventorylist','_self');
+                             location.reload();
                            });
                     }).catch(function (err) {
                         swal({
@@ -1477,67 +1369,14 @@ Template.newproductpop.events({
                         };
                     }
                     productService.saveProductVS1(objDetails).then(function (objDetails) {
-
-                        var getcurrentCloudDetails = CloudUser.findOne({_id:Session.get('mycloudLogonID'),clouddatabaseID:Session.get('mycloudLogonDBID')});
-                        if(getcurrentCloudDetails){
-                            if (getcurrentCloudDetails._id.length > 0) {
-                                var clientID = getcurrentCloudDetails._id;
-                                var clientUsername = getcurrentCloudDetails.cloudUsername;
-                                var clientEmail = getcurrentCloudDetails.cloudEmail;
-                                var checkPrefDetails = CloudPreference.findOne({userid:clientID,PrefName:'productview'});
-                                if (checkPrefDetails) {
-                                    CloudPreference.update({ _id: checkPrefDetails._id},{ $set: {username:clientUsername,useremail:clientEmail,
-                                                                                                 PrefGroup:'inventoryform',PrefName:'productview',published:true,
-                                                                                                 customFields:[{
-                                                                                                     index: '1',
-                                                                                                     label: getcustomField1,
-                                                                                                     hidden: getchkcustomField1
-                                                                                                 },{
-                                                                                                     index: '2',
-                                                                                                     label: getcustomField2,
-                                                                                                     hidden: getchkcustomField2
-                                                                                                 }],
-                                                                                                 updatedAt: new Date() }}, function(err, idTag) {
-                                        if (err) {
-                                            //window.open('/inventorylist','_self');
-                                        } else {
-                                            //window.open('/inventorylist','_self');
-
-                                        }
-                                    });
-                                }else{
-                                    CloudPreference.insert({ userid: clientID,username:clientUsername,useremail:clientEmail,
-                                                            PrefGroup:'inventoryform',PrefName:'productview',published:true,
-                                                            customFields:[{
-                                                                index: '1',
-                                                                label: getcustomField1,
-                                                                hidden: getchkcustomField1
-                                                            },{
-                                                                index: '2',
-                                                                label: getcustomField2,
-                                                                hidden: getchkcustomField2
-                                                            }],
-                                                            createdAt: new Date() }, function(err, idTag) {
-                                        if (err) {
-                                            //window.open('/inventorylist','_self');
-                                        } else {
-                                            //window.open('/inventorylist','_self');
-
-                                        }
-                                    });
-                                }
-                            }
-                        }else{
-                            //window.open('/inventorylist','_self');
-                        }
                         sideBarService.getNewProductListVS1(initialBaseDataLoad,0).then(function(dataReload) {
                            addVS1Data('TProductVS1',JSON.stringify(dataReload)).then(function (datareturn) {
-                             window.open('/inventorylist','_self');
+                             location.reload();
                            }).catch(function (err) {
-                             window.open('/inventorylist','_self');
+                             location.reload();
                            });
                          }).catch(function(err) {
-                           window.open('/inventorylist','_self');
+                           location.reload();
                          });
                     }).catch(function (err) {
                         swal({
@@ -1625,66 +1464,15 @@ Template.newproductpop.events({
 
                 productService.saveProductVS1(objDetails).then(function (objDetails) {
 
-                    var getcurrentCloudDetails = CloudUser.findOne({_id:Session.get('mycloudLogonID'),clouddatabaseID:Session.get('mycloudLogonDBID')});
-                    if(getcurrentCloudDetails){
-                        if (getcurrentCloudDetails._id.length > 0) {
-                            var clientID = getcurrentCloudDetails._id;
-                            var clientUsername = getcurrentCloudDetails.cloudUsername;
-                            var clientEmail = getcurrentCloudDetails.cloudEmail;
-                            var checkPrefDetails = CloudPreference.findOne({userid:clientID,PrefName:'productview'});
-                            if (checkPrefDetails) {
-                                CloudPreference.update({ _id: checkPrefDetails._id},{ $set: {username:clientUsername,useremail:clientEmail,
-                                                                                             PrefGroup:'inventoryform',PrefName:'productview',published:true,
-                                                                                             customFields:[{
-                                                                                                 index: '1',
-                                                                                                 label: getcustomField1,
-                                                                                                 hidden: getchkcustomField1
-                                                                                             },{
-                                                                                                 index: '2',
-                                                                                                 label: getcustomField2,
-                                                                                                 hidden: getchkcustomField2
-                                                                                             }],
-                                                                                             updatedAt: new Date() }}, function(err, idTag) {
-                                    if (err) {
-                                        //window.open('/inventorylist','_self');
-                                    } else {
-                                        //window.open('/inventorylist','_self');
 
-                                    }
-                                });
-                            }else{
-                                CloudPreference.insert({ userid: clientID,username:clientUsername,useremail:clientEmail,
-                                                        PrefGroup:'inventoryform',PrefName:'productview',published:true,
-                                                        customFields:[{
-                                                            index: '1',
-                                                            label: getcustomField1,
-                                                            hidden: getchkcustomField1
-                                                        },{
-                                                            index: '2',
-                                                            label: getcustomField2,
-                                                            hidden: getchkcustomField2
-                                                        }],
-                                                        createdAt: new Date() }, function(err, idTag) {
-                                    if (err) {
-                                        //window.open('/inventorylist','_self');
-                                    } else {
-                                        //window.open('/inventorylist','_self');
-
-                                    }
-                                });
-                            }
-                        }
-                    }else{
-                        //window.open('/inventorylist','_self');
-                    }
                     sideBarService.getNewProductListVS1(initialBaseDataLoad,0).then(function(dataReload) {
                        addVS1Data('TProductVS1',JSON.stringify(dataReload)).then(function (datareturn) {
-                         window.open('/inventorylist','_self');
+                         location.reload();
                        }).catch(function (err) {
-                         window.open('/inventorylist','_self');
+                         location.reload();
                        });
                      }).catch(function(err) {
-                       window.open('/inventorylist','_self');
+                       location.reload();
                      });
                 }).catch(function (err) {
                     swal({
@@ -1877,11 +1665,11 @@ Template.newproductpop.events({
         }).then((result) => {
             if (result.value) {
                 $('.fullScreenSpin').css('display','inline-block');
-                var url = window.location.href;
-                var getso_id = url.split('?id=');
-                var currentProduct = getso_id[getso_id.length-1];
+
+                var getprod_id = $('#selectProductID').val();
+                var currentProduct = getprod_id;
                 var objDetails = '';
-                if(getso_id[1]){
+                if(getprod_id != ''){
                     currentProduct = parseInt(currentProduct);
                     var objDetails = {
                         type: "TProduct",
@@ -1893,7 +1681,7 @@ Template.newproductpop.events({
                     };
 
                     productService.saveProduct(objDetails).then(function (objDetails) {
-                        window.open('/inventorylist','_self');
+                        location.reload();
                     }).catch(function (err) {
                         swal({
                             title: 'Oooops...',
@@ -1911,7 +1699,7 @@ Template.newproductpop.events({
                         $('.fullScreenSpin').css('display','none');
                     });
                 }else{
-                    window.open('/inventorylist','_self');
+                    location.reload();
                 }
 
             } else if (result.dismiss === 'cancel') {

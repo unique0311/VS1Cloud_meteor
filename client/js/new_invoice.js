@@ -4806,7 +4806,7 @@ Template.new_invoice.events({
             $('#productListModal').modal('toggle');
             swal({
             title: 'Question',
-            text: "Selection NOT in list, Create New?",
+            text: "Product does not exist, would you like to create it?",
             type: 'question',
             showCancelButton: true,
             confirmButtonText: 'Yes',
@@ -4814,6 +4814,7 @@ Template.new_invoice.events({
             }).then((result) => {
             if (result.value) {
               $('#newProductModal').modal('toggle');
+              $('#edtproductname').val(dataSearchName);
             } else if (result.dismiss === 'cancel') {
               $('#productListModal').modal('toggle');
             }
