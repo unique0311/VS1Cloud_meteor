@@ -43,7 +43,7 @@
                     <label style="width:100%!important; visibility:hidden!important;">Search:</label>
                     <button class="btn btn-primary btnRefresh" type="button" style="margin-right: 16px;"><i class="la la-lightbulb-o" style="padding-right: 5px;"></i>Refresh</button>
                     <button id="btnNewTimeSheet" name="btnNewTimeSheet" class="btn btn-primary" type="button" role="button" data-toggle="modal" href="#addNewTimeSheet" style="margin-left: 16px;"><i class="icon ion-plus" style="padding-right: 5px;"></i>New Timesheet</button>
-                    <button id="" name="" class="btn btn-primary" type="button" role="button" data-toggle="modal" href="#addNewTimeSheet" style="margin-left: 16px;"><i class="fa fa-refresh" style="padding-right: 5px;"></i>Process Timesheet</button>
+                    <button id="processTimesheet" name="processTimesheet" class="btn btn-primary" type="button" role="button"  style="margin-left: 16px;"><i class="fa fa-refresh" style="padding-right: 5px;"></i>Process Timesheet</button>
                     <div class="modal fade" role="dialog" tabindex="-1" id="addNewTimeSheet">
                         <div class="modal-dialog modal-lg modal-dialog-scrollable" role="document" style="max-width: 500px;">
                             <div class="modal-content">
@@ -307,7 +307,8 @@
                                             {{#each item in tableheaderrecords}}
                                             {{#if equals item.sTitle "Edit"}}
                                             {{else}}
-
+                                            {{#if equals item.sTitle ""}}
+                                            {{else}}
                                             <div id="{{item.sIndex}}" class="columnSettings">
                                                 <div class="custom-control custom-switch" style="margin: 8px; float:left;">
                                                     <input class="custom-control-input chkDatatable" type="checkbox" id="chkSalesNo-{{item.sIndex}}" name="chkSalesNo-{{item.sIndex}}" checked="{{#if item.sVisible}}checked{{else}}{{/if}}" value="{{item.sTitle}}">
@@ -320,7 +321,7 @@
                                                     <!-- <div contenteditable="true" class="groove rngRange" type="text" value="{{item.sWidth}}" min="0" max="1000">{{item.sWidth}}px</div> -->
                                                 </div>
                                             </div>
-
+                                            
                                             {{#if equals item.sVisible true}}
                                             <script>
                                                 $("#"+{{item.sIndex}}+".chkDatatable").attr("checked","checked");
@@ -330,7 +331,7 @@
                                                 $("#"+{{item.sIndex}}+".chkDatatable").removeAttr("checked");
                                             </script>
                                             {{/if}}
-
+                                            {{/if}}
                                             {{/if}}
                                             {{/each}}
                                         </div>
@@ -402,12 +403,17 @@
                         <table id="tblTimeSheet" style="width:100%" class="dataTable table table-hover table-striped table-bordered tblTimeSheet">
                             <thead>
                                 <tr class="dnd-moved">
-                                    <th class="th colFlag">Flag</th>
+                                    <th class="th colFlag">
+                                        <div class="custom-control custom-checkbox" style="width:15px;">
+                                            <input class="custom-control-input n" type="checkbox" id="check-all">
+                                            <label class="custom-control-label" for="check-all"></label>
+                                        </div>
+                                    </th>
                                     <th class="th colName" style="width:100px;">Employee</th>
                                     <th class="th colDate" style="width:50px;">Date</th>
                                     <th class="th colJob" style="width:200px;">Job</th>
-                                    <th  class="th colRate" style="width:50px;">Rate</th>
-                                    <th  class="th colRegHours" style="width:50px;">Reg Hours</th>
+                                    <th  class="th colRate" style="width:50px;">Pay Rate</th>
+                                    <th  class="th colRegHours" style="width:50px;">Hours</th>
                                     <th  class="th colOvertime " style="width:50px;">Overtime</th>
                                     <th class="th colDouble " style="width:50px;">Double</th>
                                     <th class="th colAdditional " style="width:50px;">Additional</th>
@@ -415,6 +421,7 @@
                                     <!-- <th class="th colCashTips" style="width:50px;">Cash Tips</th> -->
                                     <th class="th colGrossPay" style="width:50px;">Gross Pay</th>
                                     <th class="th colNotes">Technical Notes</th>
+                                    <th class="th colStatus">Status</th>
                                     <th class="" style="max-width: 50px;">Edit</th>
                                 </tr>
                             </thead>
@@ -422,7 +429,7 @@
                                 {{#if datatablerecords}}
                                 {{#each item in datatablerecords}}
                                 <tr class="dnd-moved" id="{{item.id}}" name="{{item.id}}">
-                                    <td>
+                                    <td class="colFlag">
                                         <div class="custom-control custom-checkbox pointer" style="width:15px;">
                                             <input class="custom-control-input chkBox notevent pointer" type="checkbox" id="f-{{item.id}}" name="{{item.id}}">
                                             <label class="custom-control-label" for="f-{{item.id}}"></label>
@@ -440,6 +447,7 @@
                                    <!--  <td style="text-align: right!important;"><input class="colCashTips highlightInput cashamount" type="text" value="{{item.cashtips}}"><span class="colCashTips" style="display: none;">{{item.cashtips}}</span></td> -->
                                     <td style="text-align: right!important;"><input class="colGrossPay highlightInput cashamount" type="text" value="{{item.totalamountex}}"><span class="colGrossPay" style="display: none;">{{item.totalamountex}}</span></td>
                                     <td class="colNotes" >{{item.notes}}</td>
+                                     <td class="colStatus" style="background-color: {{item.color}} !important; color:#fff">Not Processed</td>
                                     <!-- <td style="max-width: 50px;"><button class="btn float-left btnAddShift" type="button" style="margin: 0px;margin-left: 0px;padding: 0px;" role="button" data-toggle="modal" href="#addNewShift"><i class="la la-ellipsis-h" style="color: #00a3d3;font-size: 20px;"></i></button></td> -->
                                     <td ><button class="btn float-left btnEditTimeSheet" type="button" style="margin: 0px;margin-left: 0px;padding: 0px;" role="button" data-toggle="modal" href="#addNewTimeSheet"><i class="la la-ellipsis-h" style="color: #00a3d3;font-size: 20px;"></i></button></td>
                                 </tr>
@@ -461,6 +469,7 @@
                                     <td class="cashamount lblSumAdditions">$<span contenteditable="false">0.00</span></td>
                                     <td class="cashamount lblSumCashtips">$<span contenteditable="false">0.00</span></td>
                                     <td contenteditable="false" class="cashamount lblSumTotalCharge">0.00</td>
+                                    <td contenteditable="false"></td>
                                     <td contenteditable="false"></td>
                                     <td style="max-width: 50px;"></td>
                                 </tr>

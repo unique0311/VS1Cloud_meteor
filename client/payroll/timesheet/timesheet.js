@@ -6,10 +6,12 @@ let utilityService = new UtilityService();
 Template.timesheet.onCreated(function(){
   const templateObject = Template.instance();
   templateObject.datatablerecords = new ReactiveVar([]);
+  templateObject.datatablerecords1 = new ReactiveVar([]);
   templateObject.employeerecords = new ReactiveVar([]);
   templateObject.jobsrecords = new ReactiveVar([]);
   templateObject.tableheaderrecords = new ReactiveVar([]);
-
+  templateObject.selectedTimesheet = new ReactiveVar([]);
+  templateObject.selectedTimesheetID = new ReactiveVar();
   templateObject.selectedFile = new ReactiveVar();
 });
 
@@ -94,7 +96,6 @@ yearRange: "-90:+10",
         let sumSumHour = 0;
         let sumSumHourlyRate = 0;
         for(let t=0; t<data.ttimesheet.length; t++){
-
           let hourlyRate = utilityService.modifynegativeCurrencyFormat(data.ttimesheet[t].HourlyRate)|| 0.00;
           let labourCost = utilityService.modifynegativeCurrencyFormat(data.ttimesheet[t].LabourCost) || 0.00;
           let totalAmount = utilityService.modifynegativeCurrencyFormat(data.ttimesheet[t].Total)|| 0.00;
@@ -116,6 +117,7 @@ yearRange: "-90:+10",
           sortdate: data.ttimesheet[t].TimeSheetDate !=''? moment(data.ttimesheet[t].TimeSheetDate).format("YYYY/MM/DD"): data.ttimesheet[t].TimeSheetDate,
           timesheetdate: data.ttimesheet[t].TimeSheetDate !=''? moment(data.ttimesheet[t].TimeSheetDate).format("DD/MM/YYYY"): data.ttimesheet[t].TimeSheetDate,
           // suppliername: data.ttimesheet[t].SupplierName || '',
+          timesheetdate1: data.ttimesheet[t].TimeSheetDate || '',
           totalamountex: totalAmount || 0.00,
           totaladjusted: totalAdjusted || 0.00,
           totalamountinc: totalAmountInc || 0.00,
@@ -130,6 +132,8 @@ yearRange: "-90:+10",
           // custfield2: '' || '',
           // invoicenotes: data.ttimesheet[t].InvoiceNotes || '',
           notes: data.ttimesheet[t].Notes || '',
+          finished: 'Not Processed',
+          color: '#f6c23e'
         };
           dataTableList.push(dataList);
 
@@ -138,6 +142,7 @@ yearRange: "-90:+10",
         $('.lblSumHourlyRate').text(utilityService.modifynegativeCurrencyFormat(sumSumHourlyRate));
         $('.lblSumHour').text(sumSumHour);
         templateObject.datatablerecords.set(dataTableList);
+        templateObject.datatablerecords1.set(dataTableList);
 
         if(templateObject.datatablerecords.get()){
 
@@ -579,6 +584,41 @@ Template.timesheet.events({
     });
 
   },
+   'click #check-all': function (event) {
+        if ($(event.target).is(':checked')) {
+            $(".chkBox").prop("checked", true);
+        } else {
+            $(".chkBox").prop("checked", false);
+        }
+    },
+    'click .chkBox': function () {
+        var listData = $(this).closest('tr').attr('id');
+        const templateObject = Template.instance();
+        const selectedTimesheetList = [];
+        const selectedTimesheetCheck = [];
+        let ids = [];
+        let JsonIn = {};
+        let JsonIn1 = {};
+        let myStringJSON = '';
+        $('.chkBox:checkbox:checked').each(function () {
+            var chkIdLine = $(this).closest('tr').attr('id');
+            let obj = {
+                AppointID: parseInt(chkIdLine)
+            }
+
+            selectedTimesheetList.push(obj);
+
+            templateObject.selectedTimesheetID.set(chkIdLine);
+            // selectedAppointmentCheck.push(JsonIn1);
+            // }
+        });
+        JsonIn = {
+            Params: {
+                AppointIDs: selectedTimesheetList
+            }
+        };
+        templateObject.selectedTimesheet.set(JsonIn);
+    },
   'click .btnOpenSettings' : function(event){
     let templateObject = Template.instance();
     var columns = $('#tblTimeSheet th');
@@ -740,6 +780,55 @@ Template.timesheet.events({
 
 
 
+    },
+     'click #processTimesheet': function () {
+        $('.fullScreenSpin').css('display', 'inline-block');
+        const templateObject = Template.instance();
+        let selectClient = templateObject.selectedTimesheet.get();
+        let selectAppointmentID = templateObject.selectedTimesheetID.get();
+        if (selectClient.length === 0) {
+            swal('Please select Timesheet to process', '', 'info');
+            $('.fullScreenSpin').css('display', 'none');
+        } else {
+          swal('Functionality awaiting API', '', 'info');
+          $('.fullScreenSpin').css('display', 'none');
+        }
+      },
+       'change #dateTo':function(){
+        let templateObject = Template.instance();
+        $('.fullScreenSpin').css('display','inline-block');
+        let timesheetData = templateObject.datatablerecords1.get();
+        let timesheetList = [];
+        //templateObject.datatablerecords.set('');
+        let startDate = new Date($("#dateFrom").datepicker("getDate"));
+        let endDate = new Date($("#dateTo").datepicker("getDate"));
+        for(let x = 0; x < timesheetData.length; x++) {
+          let date = new Date(timesheetData[x].timesheetdate1);
+          if(date >= startDate && date <=endDate) {
+            timesheetList.push(timesheetData[x]);
+          }
+        }
+        templateObject.datatablerecords.set(timesheetList);
+        $('.fullScreenSpin').css('display', 'none');
+
+    },
+    'change #dateFrom':function(){
+        let templateObject = Template.instance();
+        $('.fullScreenSpin').css('display','inline-block');
+        let timesheetData = templateObject.datatablerecords1.get();
+        let timesheetList = [];
+        //templateObject.datatablerecords.set('');
+        let startDate = new Date($("#dateFrom").datepicker("getDate"));
+        let endDate = new Date($("#dateTo").datepicker("getDate"));
+        for(let x = 0; x < timesheetData.length; x++) {
+          let date = new Date(timesheetData[x].timesheetdate1);
+          if(date >= startDate && date <=endDate) {
+            timesheetList.push(timesheetData[x]);
+          }
+        }
+        templateObject.datatablerecords.set(timesheetList);
+       $('.fullScreenSpin').css('display', 'none');
+        
     },
     'click .btnAddNewAccounts': function () {
       

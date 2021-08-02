@@ -18,6 +18,7 @@ Template.statementlist.onCreated(function () {
 
     templateObject.statmentprintrecords = new ReactiveVar([]);
     templateObject.multiplepdfemail = new ReactiveVar([]);
+    templateObject.pdfData = new ReactiveVar([]);
     templateObject.accountID = new ReactiveVar();
     templateObject.stripe_fee_method = new ReactiveVar()
 });
@@ -86,6 +87,7 @@ Template.statementlist.onRendered(function () {
     $("#dateFrom").val(fromDate);
     $("#dateTo").val(begunDate);
     templateObject.getOrganisationDetails = function () {
+
         let account_id = Session.get('vs1companyStripeID') || '';
         let stripe_fee = Session.get('vs1companyStripeFeeMethod') || 'apply';
         templateObject.accountID.set(account_id);
@@ -98,8 +100,8 @@ Template.statementlist.onRendered(function () {
         //getOneInvoicedata
         let data = await contactService.getCustomerStatementPrintData(clientID);
         //contactService.getCustomerStatementPrintData(clientID).then(function (data) {
-
-        $('.fullScreenSpin').css('display', 'none');
+        $('.fullScreenSpin').css('display', 'inline-block');
+        $('#printstatmentdesign').css('display', 'block');
         let lineItems = [];
         let lineItemObj = {};
         let lineItemsTable = [];
@@ -185,31 +187,38 @@ Template.statementlist.onRendered(function () {
             };
 
             templateObject.statmentprintrecords.set(statmentrecord);
-            if (templateObject.statmentprintrecords.get()) {
-                var pdf = new jsPDF('p', 'pt', 'a4');
-                setTimeout(function () {
-                    pdf.setFontSize(18);
+           
+                    $(".linkText").text('Pay Now');
+                    $(".linkText").attr("href", "https://www.depot.vs1cloud.com/stripe/" + stringQuery);
                     var source = document.getElementById('printstatmentdesign');
-                    pdf.addHTML(source, function () {
-                        if (balance > 0) {
-                            $('.link').show();
-                            pdf.setFontSize(10);
-                            pdf.setTextColor(255, 255, 255);
-                            pdf.textWithLink('Pay Now', 480, 94, {
-                                url: 'https://www.depot.vs1cloud.com/stripe/' + stringQuery
-                            });
-                        } else {
 
-                            $('.link').hide();
+
+                    let file = "Customer Statement.pdf";
+                    var opt = {
+                        margin: 0,
+                        filename: file,
+                        image: {
+                            type: 'jpeg',
+                            quality: 0.98
+                        },
+                        html2canvas: {
+                            scale: 2
+                        },
+                        jsPDF: {
+                            unit: 'in',
+                            format: 'a4',
+                            orientation: 'portrait'
                         }
-                        pdf.save('Customer Statement.pdf');
+                    };
+                    setTimeout(function () {
+                    html2pdf().set(opt).from(source).save().then(function (dataObject){
+                        $('.fullScreenSpin').css('display', 'none');
                         $('#printstatmentdesign').css('display', 'none');
                     });
-                    $('.fullScreenSpin').css('display', 'none');
 
                 }, 100);
 
-            }
+            
         }
 
         //});
@@ -221,7 +230,7 @@ Template.statementlist.onRendered(function () {
         //contactService.getCustomerStatementPrintData(clientID).then(function (data) {
 
 
-        return new Promise((resolve, reject) => {
+               return new Promise((resolve, reject) => {
             contactService.getCustomerStatementPrintData(clientID).then(function (data) {
                 let lineItems = [];
                 let lineItemObj = {};
@@ -325,7 +334,7 @@ Template.statementlist.onRendered(function () {
                                     $('.linklabel').css('display', 'block');
                                     pdf.setFontSize(10);
                                     pdf.setTextColor(255, 255, 255);
-                                    pdf.textWithLink('Pay Now', 480, 94, {
+                                    pdf.textWithLink('Pay Now', 480, 96, {
                                         url: 'https://www.depot.vs1cloud.com/stripe/' + stringQuery
                                     });
                                 }
@@ -976,11 +985,12 @@ Template.statementlist.onRendered(function () {
 
         let doc = new jsPDF();
         for (let j = 0; j < listIds.length; j++) {
-            $('#printstatmentdesign').css('display', 'block');
+           // $('#printstatmentdesign').css('display', 'block');
             // $('#printstatmentdesign').css('visibility','hidden');
 
             //setTimeout(function () {
             await templateObject.getStatePrintData(listIds[j]);
+            // $('#printstatmentdesign').css('display', 'none');
             // let data = await contactService.getOneCustomerData(listIds[j]);
 
             //}, 100);
@@ -992,13 +1002,10 @@ Template.statementlist.onRendered(function () {
         let doc = new jsPDF();
         for (let j = 0; j < listIds.length; j++) {
             $('#printstatmentdesign').css('display', 'block');
+            $('.linkText').text('');
             $('.link').show();
-            // $('#printstatmentdesign').css('visibility','hidden');
-
-            //setTimeout(function () {
             let data = await templateObject.getStatementPdfData(listIds[j])
                 multiPDF.push(data);
-            // let data = await contactService.getOneCustomerData(listIds[j]);
 
             //}, 100);
         }
@@ -1244,7 +1251,7 @@ Template.statementlist.events({
             } else {}
         });
 
-        if (listIds != '') {
+                if (listIds != '') {
             data = await templateObject.emailMultipleStatementPdf(listIds);
             customerData = templateObject.statmentprintrecords.get();
             async function addAttachment() {
@@ -1382,7 +1389,7 @@ Template.statementlist.events({
             $('.fullScreenSpin').css('display', 'none');
         }
     },
-    'click .printConfirm ': function (event) {
+    'click .printConfirm ': async function (event) {
         $('.fullScreenSpin').css('display', 'block');
         let templateObject = Template.instance();
 
@@ -1396,7 +1403,7 @@ Template.statementlist.events({
         });
 
         if (listIds != '') {
-            templateObject.customerToMultiplePdf(listIds);
+            await templateObject.customerToMultiplePdf(listIds);
 
         } else {
             $('.fullScreenSpin').css('display', 'none');
