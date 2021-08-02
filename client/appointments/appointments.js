@@ -1803,7 +1803,7 @@ Template.appointments.onRendered(function () {
 
                                     if(result.length > 0) {
                                         employeeColor = result[0].color;
-                                    } 
+                                    }
 
                                     var dataList = {
                                         id: data.tappointment[t].Id,
@@ -2275,6 +2275,7 @@ Template.appointments.onRendered(function () {
             } else {
                 let data = JSON.parse(dataObject[0].data);
                 let useData = data.tappointment;
+                console.log(useData);
                 $('.fullScreenSpin').css('display', 'none');
                 let appColor = '#00a3d3';
                 let dataColor = '';
@@ -3772,7 +3773,7 @@ Template.appointments.onRendered(function () {
         }
     });
 
-    $(document).on("click", "#tblCustomerlist tbody tr", function (e) {
+    $(document).on("click", ".appointmentCustomer #tblCustomerlist tbody tr", function (e) {
         document.getElementById("customer").value = $(this).find(".colCompany").text();
         document.getElementById("phone").value = $(this).find(".colPhone").text();
         document.getElementById("mobile").value = $(this).find(".colPhone").text();

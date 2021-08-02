@@ -3786,7 +3786,8 @@ Template.new_invoice.onRendered(() => {
         let $tblrows = $("#tblInvoiceLine tbody tr");
         let $printrows = $(".invoice_print tbody tr");
         var tableCustomer = $(this);
-        $('#edtCustomerName').val(tableCustomer.find(".colCompany").text())
+        $('#edtCustomerName').val(tableCustomer.find(".colCompany").text());
+        $('#edtCustomerName').attr("custid", tableCustomer.find(".colID").text());
         $('#customerListModal').modal('toggle');
         //if (li.text() != undefined) {
         let selectedCustomer = $('#edtCustomerName').val();
@@ -3917,144 +3918,31 @@ Template.new_invoice.onRendered(() => {
 
     $('#edtCustomerName').editableSelect()
         .on('select.editable-select', function (e, li) {
+          var customerDataName = e.target.value.replace(/\s/g, '') ||'';
+          var customerDataID = $('#edtCustomerName').attr('custid').replace(/\s/g, '') ||'';
+          if(customerDataName != '' && customerDataID != ''){
+            Router.go('/customerscard?id=' + customerDataID);
+          }else{
+            $('#customerListModal').modal();
+            setTimeout(function () {
+                $('#tblCustomerlist_filter .form-control-sm').focus();
+            }, 500);
+          }
+
+    }).on('change.editable-select', function (e, li) {
+      var customerDataName = e.target.value.replace(/\s/g, '') ||'';
+      var customerDataID = $('#edtCustomerName').attr('custid').replace(/\s/g, '') ||'';
+
+      //if(customerDataName != '' && customerDataID != ''){
+
+      //}else{
         $('#customerListModal').modal();
         setTimeout(function () {
             $('#tblCustomerlist_filter .form-control-sm').focus();
         }, 500);
+      //}
 
-        /*
-        let taxcodeList = templateObject.taxraterecords.get();
-        let customers = templateObject.clientrecords.get();
-        let $tblrows = $("#tblInvoiceLine tbody tr");
-        let $printrows = $(".invoice_print tbody tr");
-        if (li.text() != undefined) {
-            let selectedCustomer = li.text();
-            if (clientList) {
-                for (var i = 0; i < clientList.length; i++) {
-                    if (clientList[i].customername == selectedCustomer) {
-                        $('#edtCustomerEmail').val(clientList[i].customeremail);
-                        $('#edtCustomerEmail').attr('customerid', clientList[i].customerid);
-                        $('#edtCustomerEmail').attr('customerfirstname', clientList[i].firstname);
-                        $('#edtCustomerEmail').attr('customerlastname', clientList[i].lastname);
-                        let postalAddress = clientList[i].customername + '\n' + clientList[i].street + '\n' + clientList[i].street2 + ' ' + clientList[i].statecode + '\n' + clientList[i].country;
-                        $('#txabillingAddress').val(postalAddress);
-                        $('#pdfCustomerAddress').html(postalAddress);
-                        $('.pdfCustomerAddress').text(postalAddress);
-                        $('#txaShipingInfo').val(postalAddress);
-                        $('#sltTerms').val(clientList[i].termsName || '');
-                    }
-                }
-            }
-
-            let getCustDetails = "";
-            let taxRate = ""
-                if (selectedCustomer != "") {
-                    getCustDetails = customers.filter(customer => {
-                        return customer.customername == selectedCustomer
-                    });
-
-                    taxRate = taxcodeList.filter(taxrate => {
-                        return taxrate.codename == getCustDetails[0].taxCode
-                    });
-
-                    if (taxRate.length > 0) {
-                        let rate = taxRate[0].coderate;
-                        let code = getCustDetails[0].taxCode;
-                        if (code == "NT") {
-                            code = "E";
-                        }
-                        let taxcodeList = templateObject.taxraterecords.get();
-
-                        let lineAmount = 0;
-                        let subGrandTotal = 0;
-                        let taxGrandTotal = 0;
-                        let taxGrandTotalPrint = 0;
-                        $tblrows.each(function (index) {
-                            var $tblrow = $(this);
-                            var qty = $tblrow.find(".lineQty").val() || 0;
-                            var price = $tblrow.find(".lineUnitPrice").val() || 0;
-                            var taxcode = code;
-                            $tblrow.find(".lineTaxCode").text(code);
-                            $tblrow.find(".lineTaxRate").text(rate);
-
-                            var taxrateamount = 0;
-                            if (taxcodeList) {
-                                for (var i = 0; i < taxcodeList.length; i++) {
-                                    if (taxcodeList[i].codename == taxcode) {
-                                        taxrateamount = taxcodeList[i].coderate.replace('%', "") / 100; ;
-                                    }
-                                }
-                            }
-
-                            var subTotal = parseFloat(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) || 0;
-                            var taxTotal = parseFloat(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) * parseFloat(taxrateamount);
-                            $tblrow.find('.lineTaxAmount').text(utilityService.modifynegativeCurrencyFormat(taxTotal));
-                            if (!isNaN(subTotal)) {
-                                $tblrow.find('.lineAmt').text(utilityService.modifynegativeCurrencyFormat(subTotal));
-                                subGrandTotal += isNaN(subTotal) ? 0 : subTotal;
-                                document.getElementById("subtotal_total").innerHTML = utilityService.modifynegativeCurrencyFormat(subGrandTotal);
-                            }
-
-                            if (!isNaN(taxTotal)) {
-                                taxGrandTotal += isNaN(taxTotal) ? 0 : taxTotal;
-                                document.getElementById("subtotal_tax").innerHTML = utilityService.modifynegativeCurrencyFormat(taxGrandTotal);
-                            }
-
-                            if (!isNaN(subGrandTotal) && (!isNaN(taxGrandTotal))) {
-                                let GrandTotal = (parseFloat(subGrandTotal)) + (parseFloat(taxGrandTotal));
-                                document.getElementById("grandTotal").innerHTML = utilityService.modifynegativeCurrencyFormat(GrandTotal);
-                                document.getElementById("balanceDue").innerHTML = utilityService.modifynegativeCurrencyFormat(GrandTotal);
-                                document.getElementById("totalBalanceDue").innerHTML = utilityService.modifynegativeCurrencyFormat(GrandTotal);
-
-                            }
-                        });
-
-                        if ($('.printID').attr('id') != undefined || $('.printID').attr('id') != "") {
-                            $printrows.each(function (index) {
-                                var $printrows = $(this);
-                                var qty = $printrows.find("#lineQty").text() || 0;
-                                var price = $printrows.find("#lineUnitPrice").text() || "0";
-                                var taxcode = code;
-                                $printrows.find("#lineTaxCode").text(code);
-                                $printrows.find("#lineTaxRate").text(rate);
-                                var taxrateamount = 0;
-
-                                if (taxcodeList) {
-                                    for (var i = 0; i < taxcodeList.length; i++) {
-                                        if (taxcodeList[i].codename == taxcode) {
-                                            taxrateamount = taxcodeList[i].coderate.replace('%', "") / 100;
-                                        }
-                                    }
-                                }
-
-                                var subTotal = parseFloat(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) || 0;
-                                var taxTotal = parseFloat(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) * parseFloat(taxrateamount);
-                                $printrows.find('#lineTaxAmount').text(utilityService.modifynegativeCurrencyFormat(taxTotal))
-                                if (!isNaN(subTotal)) {
-                                    $printrows.find('#lineAmt').text(utilityService.modifynegativeCurrencyFormat(subTotal));
-                                    subGrandTotal += isNaN(subTotal) ? 0 : subTotal;
-                                    document.getElementById("subtotal_totalPrint").innerHTML = $('#subtotal_total').text();
-                                }
-
-                                if (!isNaN(taxTotal)) {
-                                    taxGrandTotalPrint += isNaN(taxTotal) ? 0 : taxTotal;
-                                }
-                                if (!isNaN(subGrandTotal) && (!isNaN(taxGrandTotal))) {
-                                    let GrandTotal = (parseFloat(subGrandTotal)) + (parseFloat(taxGrandTotal));
-                                    document.getElementById("grandTotalPrint").innerHTML = $('#grandTotal').text();
-                                    document.getElementById("balanceDue").innerHTML = utilityService.modifynegativeCurrencyFormat(GrandTotal);
-                                    document.getElementById("totalBalanceDuePrint").innerHTML = $('#totalBalanceDue').text();
-
-                                }
-                            });
-                        }
-
-                    }
-                }
-        }
-        */
-
-    });
+});
 
     exportSalesToPdf = function () {
         let margins = {

@@ -112,7 +112,8 @@ templateObject.getCustomers = function () {
           data.tcustomervs1[i].fields.AccountNo || '',
           data.tcustomervs1[i].fields.ClientNo || '',
           data.tcustomervs1[i].fields.JobTitle || '',
-          data.tcustomervs1[i].fields.Notes || ''
+          data.tcustomervs1[i].fields.Notes || '',
+          data.tcustomervs1[i].fields.ID || '',
       ];
 
       splashArrayCustomerList.push(dataListCustomer);
@@ -224,6 +225,9 @@ templateObject.getCustomers = function () {
           }, {
               className: "colNotes",
               "targets": [17]
+          }, {
+              className: "colID hiddenColumn",
+              "targets": [18]
           }
         ],
         select: true,
@@ -353,7 +357,8 @@ var dataListCustomer = [
     data.tcustomervs1[i].fields.AccountNo || '',
     data.tcustomervs1[i].fields.ClientNo || '',
     data.tcustomervs1[i].fields.JobTitle || '',
-    data.tcustomervs1[i].fields.Notes || ''
+    data.tcustomervs1[i].fields.Notes || '',
+    data.tcustomervs1[i].fields.ID || '',
 ];
 
 splashArrayCustomerList.push(dataListCustomer);
@@ -465,6 +470,9 @@ columnDefs: [
     }, {
         className: "colNotes",
         "targets": [17]
+    }, {
+        className: "colID hiddenColumn",
+        "targets": [18]
     }
 ],
 select: true,
@@ -725,7 +733,8 @@ $('div.dataTables_filter input').addClass('form-control form-control-sm');
           data.tcustomervs1[i].fields.AccountNo || '',
           data.tcustomervs1[i].fields.ClientNo || '',
           data.tcustomervs1[i].fields.JobTitle || '',
-          data.tcustomervs1[i].fields.Notes || ''
+          data.tcustomervs1[i].fields.Notes || '',
+          data.tcustomervs1[i].fields.ID || '',
       ];
 
       splashArrayCustomerList.push(dataListCustomer);
@@ -845,6 +854,9 @@ $('div.dataTables_filter input').addClass('form-control form-control-sm');
           }, {
               className: "colNotes",
               "targets": [17]
+          }, {
+              className: "colID hiddenColumn",
+              "targets": [18]
           }
         ],
         select: true,
@@ -1001,7 +1013,8 @@ postcode : data.tcustomervs1[i].fields.Postcode || ' '
       data.tcustomervs1[i].fields.AccountNo || '',
       data.tcustomervs1[i].fields.ClientNo || '',
       data.tcustomervs1[i].fields.JobTitle || '',
-      data.tcustomervs1[i].fields.Notes || ''
+      data.tcustomervs1[i].fields.Notes || '',
+      data.tcustomervs1[i].fields.ID || '',
   ];
 
   splashArrayCustomerList.push(dataListCustomer);
@@ -1093,7 +1106,8 @@ postcode : data.tcustomervs1[i].fields.Postcode || ' '
       data.tcustomervs1[i].fields.AccountNo || '',
       data.tcustomervs1[i].fields.ClientNo || '',
       data.tcustomervs1[i].fields.JobTitle || '',
-      data.tcustomervs1[i].fields.Notes || ''
+      data.tcustomervs1[i].fields.Notes || '',
+      data.tcustomervs1[i].fields.ID || '',
   ];
 
   splashArrayCustomerList.push(dataListCustomer);
