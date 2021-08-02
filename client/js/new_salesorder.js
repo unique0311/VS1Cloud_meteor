@@ -3368,11 +3368,12 @@ Template.new_salesorder.onRendered(function() {
                             pageLength: 25,
                             lengthMenu: [
                                 [25, -1],
-                            [25, "All"]
+                                [25, "All"]
                             ],
                             info: true,
                             responsive: true,
                             "fnInitComplete": function () {
+                                $("<button class='btn btn-primary' data-dismiss='modal' data-toggle='modal' data-target='#newProductModal' type='button' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-plus'></i></button>").insertAfter("#tblInventory_filter");
                                 $("<button class='btn btn-primary btnRefreshProduct' type='button' id='btnRefreshProduct' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblInventory_filter");
                             }
 
@@ -3457,6 +3458,7 @@ Template.new_salesorder.onRendered(function() {
                         info: true,
                         responsive: true,
                         "fnInitComplete": function () {
+                            $("<button class='btn btn-primary' data-dismiss='modal' data-toggle='modal' data-target='#newProductModal' type='button' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-plus'></i></button>").insertAfter("#tblInventory_filter");
                             $("<button class='btn btn-primary btnRefreshProduct' type='button' id='btnRefreshProduct' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblInventory_filter");
                         }
 
@@ -3524,6 +3526,7 @@ Template.new_salesorder.onRendered(function() {
                         info: true,
                         responsive: true,
                         "fnInitComplete": function () {
+                            $("<button class='btn btn-primary' data-dismiss='modal' data-toggle='modal' data-target='#newProductModal' type='button' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-plus'></i></button>").insertAfter("#tblInventory_filter");
                             $("<button class='btn btn-primary btnRefreshProduct' type='button' id='btnRefreshProduct' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblInventory_filter");
                         }
 
@@ -3597,7 +3600,7 @@ Template.new_salesorder.onRendered(function() {
                             pageLength: 25,
                             lengthMenu: [
                                 [25, -1],
-                            [25, "All"]
+                                [25, "All"]
                             ],
                             info: true,
                             responsive: true,
