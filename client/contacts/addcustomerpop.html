@@ -666,37 +666,13 @@
                             </div>
                         </div>
                     </div>
-                    <div class="d-xl-flex justify-content-between align-items-xl-center" style="margin: 16px 0px 0px 0px;">
-                        <button class="btn btn-success btnSave" type="button" style="min-width: 90px;"><i class="fa fa-save" style="margin: 4px;"></i>Save</button>
-                        <div>
-                            <a class="btn btn-danger" role="button" data-toggle="modal" href="#deleteCustomerModal"><i class="fas fa-trash-alt" style="margin: 4px;"></i> Delete</a>
-                            <button class="btn btn-secondary btnBack" type="button" style="min-width: 90px;"><i class="fa fa-close" style="margin: 4px;"></i>Cancel</button>
-                        </div>
-
-                    </div>
-                    <div class="modal fade" role="dialog" tabindex="-1" id="deleteCustomerModal">
-                        <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                                <input type="hidden" style="width: 100%; display:none;" id="selectDeleteLineID" name="selectDeleteLineID" readonly>
-                                <div class="modal-header">
-                                    <h4>Delete</h4>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">×</span>
-                                    </button>
-                                </div>
-                                <div class="modal-body">
-                                    <p>Please confirm that you want to delete this Customer.</p>
-                                    <button class="btn btn-danger float-right btnDeleteCustomer" id="btnDeleteCustomer" type="button">
-                                        <i class="fas fa-trash-alt" style="margin-right: 5px;"></i>Delete Customer
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                 </div>
 
             </div>
-            <div class="modal-footer"><button class="btn btn-light" data-dismiss="modal" type="button">Close</button></div>
+            <div class="modal-footer">
+                <button class="btn btn-success btnSave" type="button" style="min-width: 90px;"><i class="fa fa-save" style="margin: 4px;"></i>Save</button>
+                <button class="btn btn-light" data-dismiss="modal" type="button">Close</button>
+            </div>
         </div>
     </div>
 </template>
