@@ -283,6 +283,12 @@ Router.route('/accountsoverview', {
     layoutTemplate: 'layout'
 });
 
+Router.route('/payrolloverview', {
+    name: 'payrolloverview',
+    template: 'payrolloverview',
+    layoutTemplate: 'layout'
+});
+
 Router.route('/purchasesoverview', {
     name: 'purchasesoverview',
     template: 'purchasesoverview',
@@ -445,6 +451,11 @@ Router.route('/resetpassword', {
     template: 'resetpassword'
 });
 
+// Router.route('/viewpayment', {
+//     name: 'viewpayment',
+//     template: 'viewpayment',
+//     layoutTemplate: 'layout'
+// });
 
 /* Payments */
 Router.route('/paymentcard', {
