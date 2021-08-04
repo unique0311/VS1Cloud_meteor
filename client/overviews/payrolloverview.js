@@ -959,6 +959,21 @@ Template.payrolloverview.events({
         });
         templateObject.tableheaderrecords.set(tableHeaderList);
     },
+    'click #btnHold': function (event) {
+        $('#frmOnHoldModal').modal();
+    },
+   'change #lunch': function (event) {
+        $('#break').prop('checked', false);
+        $('#purchase').prop('checked', false);
+    },
+    'change #break': function (event) {
+        $('#lunch').prop('checked', false);
+        $('#purchase').prop('checked', false);
+    },
+    'change #purchase': function (event) {
+        $('#break').prop('checked', false);
+        $('#lunch').prop('checked', false);
+    },
     'click .exportbtn': function () {
         $('.fullScreenSpin').css('display','inline-block');
         jQuery('#tblEmployeelist_wrapper .dt-buttons .btntabletocsv').click();
