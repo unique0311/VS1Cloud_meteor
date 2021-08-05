@@ -2217,11 +2217,10 @@ if(isAppointmentLaunch){
     sideBarService.getAllAppointmentList().then(function(data) {
         addVS1Data('TAppointment',JSON.stringify(data));
         //setTimeout(function() {
-          templateObject.getFollowedPurchaseDetailsPull();
+
       //  }, 3000);
     }).catch(function(err) {
       //setTimeout(function() {
-        templateObject.getFollowedPurchaseDetailsPull();
       //}, 3000);
     });
   });
