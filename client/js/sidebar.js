@@ -161,6 +161,7 @@ Template.sidenav.onRendered(function() {
 
     let isAppointmentScheduling = Session.get('CloudAppointmentSchedulingModule');
     let isCurrencyEnable = Session.get('CloudUseForeignLicence');
+    let isAppointmentLaunch = Session.get('CloudAppointmentAppointmentLaunch');
     var erpGet = erpDb();
     var LoggedDB = erpGet.ERPDatabase;
     var LoggedUser = localStorage.getItem('mySession');
@@ -1270,7 +1271,7 @@ setTimeout(function() {
     });
 
   }
-
+if(isBanking) {
     getVS1Data('TVS1BankDeposit').then(function (dataObject) {
           if(dataObject.length == 0){
               templateObject.getTVS1BankDepositData();
@@ -1287,6 +1288,8 @@ setTimeout(function() {
       }).catch(function (err) {
           templateObject.getTVS1BankDepositData();
       });
+
+    }
 
 if(isAccounts) {
   getVS1Data('TJournalEntryLines').then(function (dataObject) {
@@ -1315,6 +1318,7 @@ if(isAccounts) {
         templateObject.getAllJournalEntryLineData();
     });
 }
+if(isBanking) {
     getVS1Data('TReconciliation').then(function (dataObject) {
         if(dataObject.length == 0){
             templateObject.getAllTReconcilationData();
@@ -1330,6 +1334,7 @@ if(isAccounts) {
     }).catch(function (err) {
         templateObject.getAllTReconcilationData();
     });
+  }
 
 if (isInventory) {
     getVS1Data('TStockAdjustEntry').then(function (dataObject) {
@@ -1446,6 +1451,7 @@ if (isReports) {
         templateObject.getTCustomerPaymentData();
     });
   }
+  if(isBanking){
     getVS1Data('TBankAccountReport').then(function (dataObject) {
       if(dataObject.length == 0){
           templateObject.getAllBankAccountReportData();
@@ -1454,6 +1460,8 @@ if (isReports) {
   }).catch(function (err) {
       templateObject.getAllBankAccountReportData();
   });
+}
+if(isContacts) {
   getVS1Data('TTransactionListReport').then(function (dataObject) {
         if(dataObject.length == 0){
             templateObject.getAllTTransactionListReportData();
@@ -1470,6 +1478,7 @@ if (isReports) {
     }).catch(function (err) {
         templateObject.getAllTTransactionListReportData();
     });
+  }
 }, 3000);
 }
 
@@ -1610,6 +1619,7 @@ setTimeout(function() {
 }else{
   templateObject.getFollowedAllObjectPull();
 }
+if (isBanking) {
   getVS1Data('TCheque').then(function (dataObject) {
       if(dataObject.length == 0){
           templateObject.getAllTChequeData();
@@ -1625,6 +1635,8 @@ setTimeout(function() {
   }).catch(function (err) {
       templateObject.getAllTChequeData();
   });
+
+}
 
 }, 3000);
 
@@ -1663,14 +1675,18 @@ setTimeout(function() {
     });
   }
     if(isCurrencyEnable){
-    getVS1Data('TCurrency').then(function (dataObject) {
-        if(dataObject.length == 0){
-            templateObject.getAllCurrencyData();
-        }else{
-        }
-    }).catch(function (err) {
-        templateObject.getAllCurrencyData();
-    });
+      if((!isSettings) && (!isSales)){
+
+   }else{
+     getVS1Data('TCurrency').then(function (dataObject) {
+         if(dataObject.length == 0){
+             templateObject.getAllCurrencyData();
+         }else{
+         }
+     }).catch(function (err) {
+         templateObject.getAllCurrencyData();
+     });
+   }
    }
 
    if(isSettings){
@@ -1706,6 +1722,9 @@ setTimeout(function() {
     });
   }
 
+      if((!isContacts) || (!isInventory)){
+
+      }else{
     getVS1Data('TClientType').then(function (dataObject) {
         if(dataObject.length == 0){
             templateObject.getTClientTypeData();
@@ -1715,6 +1734,9 @@ setTimeout(function() {
         templateObject.getTClientTypeData();
     });
 
+  }
+
+  if(isSales){
     getVS1Data('TLeadStatusType').then(function (dataObject) {
         if(dataObject.length == 0){
             templateObject.getAllLeadStatusData();
@@ -1723,6 +1745,8 @@ setTimeout(function() {
     }).catch(function (err) {
         templateObject.getAllLeadStatusData();
     });
+  }
+    if(isContacts){
     getVS1Data('TShippingMethod').then(function (dataObject) {
         if(dataObject.length == 0){
             templateObject.getAllShippingMethodData();
@@ -1731,6 +1755,7 @@ setTimeout(function() {
     }).catch(function (err) {
         templateObject.getAllShippingMethodData();
     });
+  }
     if(isAccounts){
     getVS1Data('TAccountType').then(function (dataObject) {
         if(dataObject.length == 0){
@@ -1741,7 +1766,7 @@ setTimeout(function() {
         templateObject.getAllAccountTypeData();
     });
   }
-
+  if(isContacts){
     getVS1Data('TAppUser').then(function (dataObject) {
       if(dataObject.length == 0){
           templateObject.getAllAppUserData();
@@ -1758,6 +1783,7 @@ setTimeout(function() {
   }).catch(function (err) {
       templateObject.getAllAppUserData();
   });
+}
 
 if(isAppointmentScheduling){
   if(isContacts){
@@ -2146,6 +2172,118 @@ setTimeout(function() {
 }, 2500);
 }
 
+//If launching Appoing. Don't worry about the rest
+if(isAppointmentLaunch){
+  if(isAppointmentScheduling){
+    if(isContacts){
+
+    }else{
+      templateObject.getAllEmployeeData();
+    }
+
+    getVS1Data('TAppointment').then(function (dataObject) {
+      if(dataObject.length == 0){
+        sideBarService.getAllAppointmentList().then(function(data) {
+            addVS1Data('TAppointment',JSON.stringify(data));
+            //setTimeout(function() {
+            templateObject.getFollowedPurchaseDetailsPull();
+            //}, 3000);
+        }).catch(function(err) {
+          //setTimeout(function() {
+            templateObject.getFollowedPurchaseDetailsPull();
+            //}, 3000);
+        });
+
+      }else{
+        let getTimeStamp = dataObject[0].timestamp.split(' ');
+        if(getTimeStamp){
+            if(loggedUserEventFired){
+                if(getTimeStamp[0] != currenctTodayDate){
+                  sideBarService.getAllAppointmentList().then(function(data) {
+                      addVS1Data('TAppointment',JSON.stringify(data));
+                      //setTimeout(function() {
+                        templateObject.getFollowedPurchaseDetailsPull();
+                      //}, 3000);
+                  }).catch(function(err) {
+                    //setTimeout(function() {
+                      templateObject.getFollowedPurchaseDetailsPull();
+                    //}, 3000);
+                  });
+                }
+              }
+          }
+      }
+  }).catch(function (err) {
+    sideBarService.getAllAppointmentList().then(function(data) {
+        addVS1Data('TAppointment',JSON.stringify(data));
+        //setTimeout(function() {
+          templateObject.getFollowedPurchaseDetailsPull();
+      //  }, 3000);
+    }).catch(function(err) {
+      //setTimeout(function() {
+        templateObject.getFollowedPurchaseDetailsPull();
+      //}, 3000);
+    });
+  });
+
+  getVS1Data('TAppointmentPreferences').then(function (dataObject) {
+      if(dataObject.length == 0){
+          templateObject.getAllAppointmentPrefData();
+      }else{
+        let getTimeStamp = dataObject[0].timestamp.split(' ');
+        if(getTimeStamp){
+            if(loggedUserEventFired){
+                if(getTimeStamp[0] != currenctTodayDate){
+                    templateObject.getAllAppointmentPrefData();
+                }
+              }
+          }
+      }
+  }).catch(function (err) {
+
+  });
+
+  getVS1Data('TERPPreference').then(function (dataObject) {
+    if(dataObject.length == 0){
+        templateObject.getAllTERPPreferenceData();
+    }else{
+      let getTimeStamp = dataObject[0].timestamp.split(' ');
+      if(getTimeStamp){
+          if(loggedUserEventFired){
+              if(getTimeStamp[0] != currenctTodayDate){
+                  templateObject.getAllTERPPreferenceData();
+              }
+            }
+        }
+    }
+  }).catch(function (err) {
+    templateObject.getAllTERPPreferenceData();
+  });
+
+  getVS1Data('TERPPreferenceExtra').then(function (dataObject) {
+    if(dataObject.length == 0){
+        templateObject.getAllTERPPreferenceExtraData();
+    }else{
+      let getTimeStamp = dataObject[0].timestamp.split(' ');
+      if(getTimeStamp){
+          if(loggedUserEventFired){
+              if(getTimeStamp[0] != currenctTodayDate){
+                  templateObject.getAllTERPPreferenceExtraData();
+              }
+            }
+        }
+    }
+  }).catch(function (err) {
+    templateObject.getAllTERPPreferenceExtraData();
+  });
+  }
+  setTimeout(function() {
+  sideBarService.getNewProductListVS1(initialBaseDataLoad,0).then(function(data) {
+      addVS1Data('TProductVS1',JSON.stringify(data));
+  }).catch(function(err) {
+  });
+}, 1000);
+}else{
 if(isAccounts){
 getVS1Data('TAccountVS1').then(function (dataObject) {
     if(dataObject.length == 0){
@@ -2217,14 +2355,7 @@ getVS1Data('TProductStocknSalePeriodReport').then(function (dataObject) {
 }else{
   templateObject.getFollowedContactDetailsPull();
 }
-
-
-
-
-
-
-
-
+}
 
 
 

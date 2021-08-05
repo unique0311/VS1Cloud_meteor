@@ -700,8 +700,8 @@ needsToSeePrompt();
     let isTopPanelFormID = '';
 
     let isSeedToSale = true;
-    let isBanking = true;
-    let isPayroll = true;
+    let isBanking = false;
+    let isPayroll = false;
     let isTimesheetEntry = false;
     let isClockOnOff = false;
     let isAppointmentScheduling = false;
@@ -844,14 +844,20 @@ needsToSeePrompt();
 
         if(optionaccess.fields.Description === "Timesheet Entry"){
           isTimesheetEntry = true;
+          isPayroll = true;
         }
 
         if(optionaccess.fields.Description === "Clock On/Off"){
           isClockOnOff = true;
+          isPayroll = true;
         }
 
         if(optionaccess.fields.Description === "Appointments"){
           isAppointmentScheduling = true;
+        }
+
+        if(optionaccess.fields.Description === "Banking"){
+          isBanking = true;
         }
 
         lineItemAccessObjlevel = {
@@ -982,6 +988,7 @@ needsToSeePrompt();
 
    Session.setPersistent('CloudAppointmentSchedulingModule', isAppointmentScheduling);
    Session.setPersistent('CloudAppointmentStartStopAccessLevel', isAppointmentStartStop);
+   Session.setPersistent('CloudAppointmentAppointmentLaunch', isAppointmentLaunch);
     let userSerssion = {'loggedEmpID':userAccessOptions.items[0].fields.EmployeeId,
                         'loggedUserName':Session.get('EUserName'),
                         'loggedDatabase':Session.get('EDatabase'),
@@ -1008,7 +1015,7 @@ needsToSeePrompt();
     } else {
       window.open('/dashboard','_self');
     }
-    
+
 
 
 
