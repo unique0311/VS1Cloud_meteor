@@ -1695,13 +1695,13 @@ Template.addcustomerpop.events({
     }
     */
     },
-    'click .btnSave': async function (event) {
+    'click .btnSaveCustPOP': async function (event) {
         let templateObject = Template.instance();
         let contactService = new ContactService();
         $('.fullScreenSpin').css('display', 'inline-block');
 
         let company = $('#edtCustomerCompany').val();
-        let email = $('#edtCustomerEmail').val();
+        let email = $('#edtCustomerPOPEmail').val();
         let title = $('#edtTitle').val();
         let firstname = $('#edtFirstName').val();
         let middlename = $('#edtMiddleName').val();
@@ -1747,7 +1747,7 @@ Template.addcustomerpop.events({
         }
 
         let sltPaymentMethodName = $('#sltPreferedPayment').val();
-        let sltTermsName = $('#sltTerms').val();
+        let sltTermsName = $('#sltTermsPOP').val();
         let sltShippingMethodName = '';
         let rewardPointsOpeningBalance = $('#custOpeningBalance').val();
         // let sltRewardPointsOpeningDate =  $('#dtAsOf').val();
@@ -1925,16 +1925,41 @@ Template.addcustomerpop.events({
         contactService.saveCustomerEx(objDetails).then(function (objDetails) {
             let customerSaveID = objDetails.fields.ID;
             if (customerSaveID) {
-                sideBarService.getAllCustomersDataVS1(initialBaseDataLoad,0).then(function (dataReload) {
-                    addVS1Data('TCustomerVS1', JSON.stringify(dataReload)).then(function (datareturn) {
-                        window.open('/customerlist', '_self');
+                var currentLoc = window.location.pathname;
+
+                if (currentLoc == "/invoicecard" || currentLoc == "/quotecard" || currentLoc == "/salesordercard") {
+                    $('.salesmodule #edtCustomerName').val(company);
+                    $('.salesmodule #edtCustomerEmail').val(email);
+                    $('.salesmodule #edtCustomerEmail').attr('customerid', customerSaveID);
+                    $('.salesmodule #edtCustomerEmail').attr('customerfirstname', firstname);
+                    $('.salesmodule #edtCustomerEmail').attr('customerlastname', lastname);
+                    $('.salesmodule #edtCustomerName').attr("custid", customerSaveID);
+                    var postalAddress = company + '\n' + streetAddress + '\n' + city + ' ' + state + '\n' + country;
+                    $('.salesmodule #txabillingAddress').val(postalAddress);
+                    $('.salesmodule #pdfCustomerAddress').html(postalAddress);
+                    $('.salesmodule .pdfCustomerAddress').text(postalAddress);
+                    $('.salesmodule #txaShipingInfo').val(postalAddress);
+                    $('.salesmodule #sltTerms').val(sltTermsName);
+                } else {
+                    sideBarService.getAllCustomersDataVS1(initialBaseDataLoad, 0).then(function (dataReload) {
+                        addVS1Data('TCustomerVS1', JSON.stringify(dataReload)).then(function (datareturn) {
+                            location.reload();
+                        }).catch(function (err) {
+                            location.reload();
+                        });
                     }).catch(function (err) {
-                        window.open('/customerlist', '_self');
+                        location.reload();
+                    });
+                }
+
+                $('#addCustomerModal').modal('toggle');
+                sideBarService.getAllCustomersDataVS1(initialBaseDataLoad, 0).then(function (dataReload) {
+                    addVS1Data('TCustomerVS1', JSON.stringify(dataReload)).then(function (datareturn) {
+
+                    }).catch(function (err) {
                     });
                 }).catch(function (err) {
-                    window.open('/customerlist', '_self');
                 });
-
             }
 
 

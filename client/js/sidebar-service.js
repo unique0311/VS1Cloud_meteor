@@ -132,6 +132,17 @@ export class SideBarService extends BaseService {
        };
     return this.getList(this.ERPObjects.TCustomerVS1, options);
   }
+
+
+getCustomersDataByName(dataSearchName) {                                                                  //
+    var options = '';                                                                                                // 137
+    options = {                                                                                                      // 138
+      PropertyList: "ClientName,Email,Abn,Street,Street2,Street3,Suburb,State,Postcode,Country,TermsName,FirstName,LastName,TaxCodeName,ClientTypeName",
+      select: '[ClientName] = "' + dataSearchName + '"'                                                              // 140
+    };                                                                                                               // 138
+    return this.getList(this.ERPObjects.TCustomerVS1, options);                                                      // 142
+  }
+
   getAllSuppliersDataVS1(limitcount, limitfrom) {
     let options = '';
     if(limitcount == 'All'){

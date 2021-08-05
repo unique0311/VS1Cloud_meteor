@@ -2900,8 +2900,8 @@ Template.customerscard.events({
     },
     'click .btnBack': function (event) {
         // event.preventDefault();
-        // history.back(1);
-        Router.go('/customerlist');
+        history.back(1);
+      //  Router.go('/customerlist');
     },
     'click .btnSaveDept': function () {
         $('.fullScreenSpin').css('display', 'inline-block');

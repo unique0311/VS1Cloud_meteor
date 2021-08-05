@@ -1278,15 +1278,75 @@ Template.newproductpop.events({
                     }
 
                     productService.saveProductVS1(objDetails).then(function (objDetails) {
-                          sideBarService.getNewProductListVS1(initialBaseDataLoad,0).then(function(dataReload) {
-                             addVS1Data('TProductVS1',JSON.stringify(dataReload)).then(function (datareturn) {
-                               location.reload();
-                             }).catch(function (err) {
-                               location.reload();
-                             });
-                           }).catch(function(err) {
-                             location.reload();
-                           });
+                      var productSaveID = objDetails.fields.ID;
+                      $('.fullScreenSpin').css('display', 'none');
+                      var currentLoc = window.location.pathname;
+
+                      if (currentLoc == "/invoicecard") {
+                          var selectLineID = $('#selectLineID').val();
+
+                          if (selectLineID) {
+                              var lineProductName = productName;
+                              var lineProductDesc = $("#txasalesdescription").val();
+                              var lineUnitPrice = parseFloat($("#edtsellqty1price").val().replace(/[^0-9.-]+/g, "")) || 0;
+                              var $tblrows = $("#tblInvoiceLine tbody tr");
+                              var lineTaxCode = 0;
+                              var lineAmount = 0;
+                              var lineTaxAmount = 0;
+                              var subGrandTotal = 0;
+                              var taxGrandTotal = 0;
+                              var taxGrandTotalPrint = 0;
+                              var lineTaxRate = $("#slttaxcodesales").val() || "";
+                              var taxRate = "";
+                              $('#' + selectLineID + " .lineTaxCode").text($("#slttaxcodesales").val());
+                              $('#' + selectLineID + " .lineProductName").text(lineProductName);
+                              $('#' + selectLineID + " .lineProductName").attr("prodid", productSaveID);
+                              $('#' + selectLineID + " .lineProductDesc").text(lineProductDesc);
+                              $('#' + selectLineID + " .lineOrdered").val(1);
+                              $('#' + selectLineID + " .lineQty").val(1);
+                              $('#' + selectLineID + " .lineUnitPrice").val(lineUnitPrice);
+
+                              if ($('.printID').attr('id') == undefined || $('.printID').attr('id') != undefined || $('.printID').attr('id') != "") {
+                                  $('#' + selectLineID + " #lineProductName").text(lineProductName);
+                                  $('#' + selectLineID + " #lineProductDesc").text(lineProductDesc);
+                                  $('#' + selectLineID + " #lineOrdered").text(1);
+                                  $('#' + selectLineID + " #lineQty").text(1);
+                                  $('#' + selectLineID + " #lineUnitPrice").text(lineUnitPrice);
+                              }
+
+                              if (lineTaxRate == "NT") {
+                                  lineTaxRate = "E";
+                                  $('#' + selectLineID + " .lineTaxCode").text(lineTaxRate);
+
+                                  if ($('.printID').attr('id') != undefined || $('.printID').attr('id') != "") {
+                                      $('#' + selectLineID + " #lineTaxCode").text(lineTaxRate);
+                                  }
+                              } else {
+                                  $('#' + selectLineID + " .lineTaxCode").text(lineTaxRate);
+
+                                  if ($('.printID').attr('id') != undefined || $('.printID').attr('id') != "") {
+                                      $('#' + selectLineID + " #lineTaxCode").text(lineTaxRate);
+                                  }
+                              }
+
+                              $('#' + selectLineID + " .colUnitPrice").trigger("change");
+                              $('#newProductModal').modal('toggle');
+                          }
+                      } else {
+                          sideBarService.getNewProductListVS1(initialBaseDataLoad, 0).then(function (dataReload) {
+                              addVS1Data('TProductVS1', JSON.stringify(dataReload)).then(function (datareturn) {
+                                  location.reload();
+                              }).catch(function (err) {
+                                  location.reload();                                       
+                              });
+                          }).catch(function (err) {
+                              location.reload();
+                          });
+                      }
+
+                      sideBarService.getNewProductListVS1(initialBaseDataLoad, 0).then(function (dataReload) {
+                          addVS1Data('TProductVS1', JSON.stringify(dataReload)).then(function (datareturn) {}).catch(function (err) {});
+                      }).catch(function (err) {});
                     }).catch(function (err) {
                         swal({
                             title: 'Oooops...',
@@ -1369,15 +1429,76 @@ Template.newproductpop.events({
                         };
                     }
                     productService.saveProductVS1(objDetails).then(function (objDetails) {
-                        sideBarService.getNewProductListVS1(initialBaseDataLoad,0).then(function(dataReload) {
-                           addVS1Data('TProductVS1',JSON.stringify(dataReload)).then(function (datareturn) {
-                             location.reload();
-                           }).catch(function (err) {
-                             location.reload();
-                           });
-                         }).catch(function(err) {
-                           location.reload();
-                         });
+                      var productSaveID = objDetails.fields.ID;
+                      $('.fullScreenSpin').css('display', 'none');
+                      var currentLoc = window.location.pathname;
+
+                      if (currentLoc == "/invoicecard") {
+                          var selectLineID = $('#selectLineID').val();
+
+                          if (selectLineID) {
+                              var lineProductName = productName;
+                              var lineProductDesc = $("#txasalesdescription").val();
+                              var lineUnitPrice = parseFloat($("#edtsellqty1price").val().replace(/[^0-9.-]+/g, "")) || 0;
+                              var $tblrows = $("#tblInvoiceLine tbody tr");
+                              var lineTaxCode = 0;
+                              var lineAmount = 0;
+                              var lineTaxAmount = 0;
+                              var subGrandTotal = 0;
+                              var taxGrandTotal = 0;
+                              var taxGrandTotalPrint = 0;
+                              var lineTaxRate = $("#slttaxcodesales").val() || "";
+                              var taxRate = "";
+                              $('#' + selectLineID + " .lineTaxCode").text($("#slttaxcodesales").val());
+                              $('#' + selectLineID + " .lineProductName").text(lineProductName);
+                              $('#' + selectLineID + " .lineProductName").attr("prodid", productSaveID);
+                              $('#' + selectLineID + " .lineProductDesc").text(lineProductDesc);
+                              $('#' + selectLineID + " .lineOrdered").val(1);
+                              $('#' + selectLineID + " .lineQty").val(1);
+                              $('#' + selectLineID + " .lineUnitPrice").val(lineUnitPrice);
+
+                              if ($('.printID').attr('id') == undefined || $('.printID').attr('id') != undefined || $('.printID').attr('id') != "") {
+                                  $('#' + selectLineID + " #lineProductName").text(lineProductName);
+                                  $('#' + selectLineID + " #lineProductDesc").text(lineProductDesc);
+                                  $('#' + selectLineID + " #lineOrdered").text(1);
+                                  $('#' + selectLineID + " #lineQty").text(1);
+                                  $('#' + selectLineID + " #lineUnitPrice").text(lineUnitPrice);
+                              }
+
+                              if (lineTaxRate == "NT") {
+                                  lineTaxRate = "E";
+                                  $('#' + selectLineID + " .lineTaxCode").text(lineTaxRate);
+
+                                  if ($('.printID').attr('id') != undefined || $('.printID').attr('id') != "") {
+                                      $('#' + selectLineID + " #lineTaxCode").text(lineTaxRate);
+                                  }
+                              } else {
+                                  $('#' + selectLineID + " .lineTaxCode").text(lineTaxRate);
+
+                                  if ($('.printID').attr('id') != undefined || $('.printID').attr('id') != "") {
+                                      $('#' + selectLineID + " #lineTaxCode").text(lineTaxRate);
+                                  }
+                              }
+
+                              $('#' + selectLineID + " .colUnitPrice").trigger("change");
+                              $('#newProductModal').modal('toggle');
+                          }
+                      } else {
+                          sideBarService.getNewProductListVS1(initialBaseDataLoad, 0).then(function (dataReload) {
+                              addVS1Data('TProductVS1', JSON.stringify(dataReload)).then(function (datareturn) {
+                                  location.reload();
+                              }).catch(function (err) {
+                                  location.reload();
+                              });
+                          }).catch(function (err) {
+                              location.reload();
+                          });
+                      }
+
+                      sideBarService.getNewProductListVS1(initialBaseDataLoad, 0).then(function (dataReload) {
+                          addVS1Data('TProductVS1', JSON.stringify(dataReload)).then(function (datareturn) {}).catch(function (err) {});
+                      }).catch(function (err) {});
+
                     }).catch(function (err) {
                         swal({
                             title: 'Oooops...',

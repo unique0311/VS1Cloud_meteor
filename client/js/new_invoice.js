@@ -1071,10 +1071,12 @@ Template.new_invoice.onRendered(() => {
                                     }
                                 }
                                 /* END  attachment */
+                                var checkISCustLoad = false;
                                 setTimeout(function () {
                                     if (clientList) {
                                         for (var i = 0; i < clientList.length; i++) {
                                             if (clientList[i].customername == useData[d].fields.CustomerName) {
+                                              checkISCustLoad = true;
                                                 invoicerecord.firstname = clientList[i].firstname || '';
                                                 invoicerecord.lastname = clientList[i].lastname || '';
                                                 $('#edtCustomerEmail').val(clientList[i].customeremail);
@@ -1105,6 +1107,46 @@ Template.new_invoice.onRendered(() => {
                                             $tblrow.find("td").attr('disabled', 'disabled');
                                             $tblrow.find("td").css('background-color', '#eaecf4');
                                             $tblrow.find("td .table-remove").removeClass("btnRemove");
+                                        });
+                                    }
+
+                                    if (!checkISCustLoad) {
+                                        sideBarService.getCustomersDataByName(useData[d].fields.CustomerName).then(function (dataClient) {
+                                              for (var c = 0; c < dataClient.length; c++) {
+                                                var customerrecordObj = {
+                                                    customerid: dataClient.tcustomervs1[c].Id || ' ',
+                                                    firstname: dataClient.tcustomervs1[c].FirstName || ' ',
+                                                    lastname: dataClient.tcustomervs1[c].LastName || ' ',
+                                                    customername: dataClient.tcustomervs1[c].ClientName || ' ',
+                                                    customeremail: dataClient.tcustomervs1[c].Email || ' ',
+                                                    street: dataClient.tcustomervs1[c].Street || ' ',
+                                                    street2: dataClient.tcustomervs1[c].Street2 || ' ',
+                                                    street3: dataClient.tcustomervs1[c].Street3 || ' ',
+                                                    suburb: dataClient.tcustomervs1[c].Suburb || ' ',
+                                                    statecode: dataClient.tcustomervs1[c].State + ' ' + dataClient.tcustomervs1[c].Postcode || ' ',
+                                                    country: dataClient.tcustomervs1[c].Country || ' ',
+                                                    termsName: dataClient.tcustomervs1[c].TermsName || '',
+                                                    taxCode: dataClient.tcustomervs1[c].TaxCodeName || '',
+                                                    clienttypename: dataClient.tcustomervs1[c].ClientTypeName || ''
+                                                };
+                                                clientList.push(customerrecordObj);
+                                                invoicerecord.firstname = dataClient.tcustomervs1[c].FirstName || '';
+                                                invoicerecord.lastname = dataClient.tcustomervs1[c].LastName || '';
+                                                $('#edtCustomerEmail').val(dataClient.tcustomervs1[c].Email);
+                                                $('#edtCustomerEmail').attr('customerid', clientList[c].customerid);
+                                                $('#edtCustomerName').attr('custid', dataClient.tcustomervs1[c].Id);
+                                                $('#edtCustomerEmail').attr('customerfirstname', dataClient.tcustomervs1[c].FirstName);
+                                                $('#edtCustomerEmail').attr('customerlastname', dataClient.tcustomervs1[c].LastName);
+                                            }
+
+                                            templateObject.clientrecords.set(clientList.sort(function (a, b) {
+                                                if (a.customername == 'NA') {
+                                                    return 1;
+                                                } else if (b.customername == 'NA') {
+                                                    return -1;
+                                                }
+                                                return (a.customername.toUpperCase() > b.customername.toUpperCase()) ? 1 : -1;
+                                            }));
                                         });
                                     }
                                 }, 100);
@@ -2222,10 +2264,12 @@ Template.new_invoice.onRendered(() => {
                                     }
                                 }
                                 /* END  attachment */
+                                var checkISCustLoad = false;
                                 setTimeout(function () {
                                     if (clientList) {
                                         for (var i = 0; i < clientList.length; i++) {
                                             if (clientList[i].customername == useData[d].fields.CustomerName) {
+                                              checkISCustLoad = true;
                                                 invoicerecord.firstname = clientList[i].firstname || '';
                                                 invoicerecord.lastname = clientList[i].lastname || '';
                                                 templateObject.invoicerecord.set(invoicerecord);
@@ -2258,6 +2302,46 @@ Template.new_invoice.onRendered(() => {
                                             $tblrow.find("td").attr('disabled', 'disabled');
                                             $tblrow.find("td").css('background-color', '#eaecf4');
                                             $tblrow.find("td .table-remove").removeClass("btnRemove");
+                                        });
+                                    }
+
+                                    if (!checkISCustLoad) {
+                                        sideBarService.getCustomersDataByName(useData[d].fields.CustomerName).then(function (dataClient) {
+                                              for (var c = 0; c < dataClient.length; c++) {
+                                                var customerrecordObj = {
+                                                    customerid: dataClient.tcustomervs1[c].Id || ' ',
+                                                    firstname: dataClient.tcustomervs1[c].FirstName || ' ',
+                                                    lastname: dataClient.tcustomervs1[c].LastName || ' ',
+                                                    customername: dataClient.tcustomervs1[c].ClientName || ' ',
+                                                    customeremail: dataClient.tcustomervs1[c].Email || ' ',
+                                                    street: dataClient.tcustomervs1[c].Street || ' ',
+                                                    street2: dataClient.tcustomervs1[c].Street2 || ' ',
+                                                    street3: dataClient.tcustomervs1[c].Street3 || ' ',
+                                                    suburb: dataClient.tcustomervs1[c].Suburb || ' ',
+                                                    statecode: dataClient.tcustomervs1[c].State + ' ' + dataClient.tcustomervs1[c].Postcode || ' ',
+                                                    country: dataClient.tcustomervs1[c].Country || ' ',
+                                                    termsName: dataClient.tcustomervs1[c].TermsName || '',
+                                                    taxCode: dataClient.tcustomervs1[c].TaxCodeName || '',
+                                                    clienttypename: dataClient.tcustomervs1[c].ClientTypeName || ''
+                                                };
+                                                clientList.push(customerrecordObj);
+                                                invoicerecord.firstname = dataClient.tcustomervs1[c].FirstName || '';
+                                                invoicerecord.lastname = dataClient.tcustomervs1[c].LastName || '';
+                                                $('#edtCustomerEmail').val(dataClient.tcustomervs1[c].Email);
+                                                $('#edtCustomerEmail').attr('customerid', clientList[c].customerid);
+                                                $('#edtCustomerName').attr('custid', dataClient.tcustomervs1[c].Id);
+                                                $('#edtCustomerEmail').attr('customerfirstname', dataClient.tcustomervs1[c].FirstName);
+                                                $('#edtCustomerEmail').attr('customerlastname', dataClient.tcustomervs1[c].LastName);
+                                            }
+
+                                            templateObject.clientrecords.set(clientList.sort(function (a, b) {
+                                                if (a.customername == 'NA') {
+                                                    return 1;
+                                                } else if (b.customername == 'NA') {
+                                                    return -1;
+                                                }
+                                                return (a.customername.toUpperCase() > b.customername.toUpperCase()) ? 1 : -1;
+                                            }));
                                         });
                                     }
 
@@ -3926,6 +4010,7 @@ Template.new_invoice.onRendered(() => {
             $('#customerListModal').modal();
             setTimeout(function () {
                 $('#tblCustomerlist_filter .form-control-sm').focus();
+                $('#tblCustomerlist_filter .form-control-sm').val('');
             }, 500);
           }
 
@@ -4093,9 +4178,7 @@ Template.new_invoice.onRendered(function () {
                         $('#tblInventory').dataTable({
                             data: splashArrayProductList,
                             "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
-                            paging: true,
-                            "aaSorting": [],
-                            "orderMulti": true,
+
                             columnDefs: [
                                 {
                                     className: "productName",
@@ -4118,14 +4201,15 @@ Template.new_invoice.onRendered(function () {
                                 }
                             ],
                             colReorder: true,
-                            bStateSave: true,
-                            pageLength: 25,
                             lengthMenu: [
                                 [25, -1],
                                 [25, "All"]
                             ],
                             info: true,
                             responsive: true,
+                            "fnDrawCallback": function (oSettings) {
+                                $('.dataTables_paginate').css('display', 'none');
+                            },
                             "fnInitComplete": function () {
                                 $("<button class='btn btn-primary' data-dismiss='modal' data-toggle='modal' data-target='#newProductModal' type='button' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-plus'></i></button>").insertAfter("#tblInventory_filter");
                                 $("<button class='btn btn-primary btnRefreshProduct' type='button' id='btnRefreshProduct' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblInventory_filter");
@@ -4177,9 +4261,7 @@ Template.new_invoice.onRendered(function () {
                         data: splashArrayProductList,
 
                         "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
-                        paging: true,
-                        "aaSorting": [],
-                        "orderMulti": true,
+
                         columnDefs: [
                             {
                                 className: "productName",
@@ -4201,29 +4283,74 @@ Template.new_invoice.onRendered(function () {
                                 "targets": [5]
                             }
                         ],
+                        select: true,
+                        destroy: true,
                         colReorder: true,
-
-                        bStateSave: true,
-
                         pageLength: 25,
-                        lengthMenu: [
-                            [25, -1],
-                            [25, "All"]
-                        ],
+                        lengthMenu: [[25, -1], [25, "All"]],
                         info: true,
                         responsive: true,
+                        "fnDrawCallback": function (oSettings) {
+                            $('.dataTables_paginate').css('display', 'none');
+                        },
                         "fnInitComplete": function () {
                             $("<button class='btn btn-primary' data-dismiss='modal' data-toggle='modal' data-target='#newProductModal' type='button' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-plus'></i></button>").insertAfter("#tblInventory_filter");
                             $("<button class='btn btn-primary btnRefreshProduct' type='button' id='btnRefreshProduct' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblInventory_filter");
                         }
 
 
-                    }).on('search.dt', function (eventSearch, searchdata) {
-                        if(searchdata.fnRecordsDisplay() > 0){
+                    }).on('length.dt', function (e, settings, len) {
+                      $('.fullScreenSpin').css('display', 'inline-block');
+                      let dataLenght = settings._iDisplayLength;
+                      splashArrayProductList = [];
+                      if (dataLenght == -1) {
+                        sideBarService.getNewProductListVS1('All', 1).then(function (data) {
+                          let records = [];
+                          let inventoryData = [];
+                          for (let i = 0; i < data.tproductvs1.length; i++) {
+                              var dataList = [
 
-                        }else{
-                            let searchData =  $('.dataTables_filter input').val().toLowerCase();
+                                  data.tproductvs1[i].fields.ProductName || '-',
+                                  data.tproductvs1[i].fields.SalesDescription || '',
+                                  utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductvs1[i].fields.BuyQty1Cost * 100) / 100),
+                                  utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductvs1[i].fields.SellQty1Price * 100) / 100),
+                                  data.tproductvs1[i].fields.TotalQtyInStock,
+                                  data.tproductvs1[i].fields.TaxCodeSales || ''
+                              ];
+
+                              if (data.tproductvs1[i].fields.ExtraSellPrice != null) {
+                                  for (let e = 0; e < data.tproductvs1[i].fields.ExtraSellPrice.length; e++) {
+                                      let lineExtaSellObj = {
+                                          clienttype: data.tproductvs1[i].fields.ExtraSellPrice[e].fields.ClientTypeName || '',
+                                          productname: data.tproductvs1[i].fields.ExtraSellPrice[e].fields.ProductName || data.tproductvs1[i].fields.ProductName,
+                                          price: utilityService.modifynegativeCurrencyFormat(data.tproductvs1[i].fields.ExtraSellPrice[e].fields.Price1) || 0
+                                      };
+                                      lineExtaSellItems.push(lineExtaSellObj);
+
+                                  }
+                              }
+                              splashArrayProductList.push(dataList);
+                          }
+
+                          var datatable = $('#tblInventory').DataTable();
+                          datatable.clear();
+                          datatable.rows.add(splashArrayProductList);
+                          datatable.draw(false);
+
+                          $('.fullScreenSpin').css('display', 'none');
+                          $('.dataTables_info').html('Showing 1 to ' + data.tcustomervs1.length + ' of ' + data.tcustomervs1.length + ' entries');
+                          $('.fullScreenSpin').css('display', 'none');
+                        });
+                      }else{
+                        if (settings.fnRecordsDisplay() >= settings._iDisplayLength) {
+                            $('.fullScreenSpin').css('display', 'none');
+                        } else {
+
+                            $('.fullScreenSpin').css('display', 'none');
                         }
+
+                      }
+
                     });
 
                     $('div.dataTables_filter input').addClass('form-control form-control-sm');
@@ -4264,11 +4391,7 @@ Template.new_invoice.onRendered(function () {
 
                     $('#tblInventory').dataTable({
                         data: splashArrayProductList,
-
                         "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
-                        paging: true,
-                        "aaSorting": [],
-                        "orderMulti": true,
                         columnDefs: [
                             {
                                 className: "productName",
@@ -4292,15 +4415,17 @@ Template.new_invoice.onRendered(function () {
                         ],
                         colReorder: true,
 
-                        bStateSave: true,
 
-                        pageLength: 25,
                         lengthMenu: [
                             [25,-1],
                             [25, "All"]
                         ],
                         info: true,
                         responsive: true,
+                        "order": [[0, "asc"]],
+                        "fnDrawCallback": function (oSettings) {
+                            $('.dataTables_paginate').css('display', 'none');
+                        },
                         "fnInitComplete": function () {
                             $("<button class='btn btn-primary' data-dismiss='modal' data-toggle='modal' data-target='#newProductModal' type='button' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-plus'></i></button>").insertAfter("#tblInventory_filter");
                             $("<button class='btn btn-primary btnRefreshProduct' type='button' id='btnRefreshProduct' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblInventory_filter");
@@ -4351,9 +4476,6 @@ Template.new_invoice.onRendered(function () {
                         $('#tblTaxRate').DataTable({
                             data: splashArrayTaxRateList,
                             "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
-                            paging: true,
-                            "aaSorting": [],
-                            "orderMulti": true,
                             columnDefs: [{
                                 orderable: false,
                                 targets: 0
@@ -4369,14 +4491,16 @@ Template.new_invoice.onRendered(function () {
                             }
                                         ],
                             colReorder: true,
-                            bStateSave: true,
-                            pageLength: 25,
+
                             lengthMenu: [
-                                [10, 25, 50, -1],
-                                [10, 25, 50, "All"]
+                              [25, -1],
+                          [25, "All"]
                             ],
                             info: true,
                             responsive: true,
+                            "fnDrawCallback": function (oSettings) {
+                                $('.dataTables_paginate').css('display', 'none');
+                            },
                             "fnInitComplete": function () {
                                 $("<button class='btn btn-primary btnRefreshTax' type='button' id='btnRefreshTax' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblTaxRate_filter");
                             }
@@ -4413,9 +4537,7 @@ Template.new_invoice.onRendered(function () {
                     $('#tblTaxRate').DataTable({
                         data: splashArrayTaxRateList,
                         "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
-                        paging: true,
-                        "aaSorting": [],
-                        "orderMulti": true,
+
                         columnDefs: [{
                             orderable: false,
                             targets: 0
@@ -4431,14 +4553,17 @@ Template.new_invoice.onRendered(function () {
                         }
                                     ],
                         colReorder: true,
-                        bStateSave: true,
-                        pageLength: 25,
+
+
                         lengthMenu: [
-                            [10, 25, 50, -1],
-                            [10, 25, 50, "All"]
+                          [25, -1],
+                          [25, "All"]
                         ],
                         info: true,
                         responsive: true,
+                        "fnDrawCallback": function (oSettings) {
+                            $('.dataTables_paginate').css('display', 'none');
+                        },
                         "fnInitComplete": function () {
                             $("<button class='btn btn-primary btnRefreshTax' type='button' id='btnRefreshTax' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblTaxRate_filter");
                         }
@@ -4476,9 +4601,7 @@ Template.new_invoice.onRendered(function () {
                     $('#tblTaxRate').DataTable({
                         data: splashArrayTaxRateList,
                         "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
-                        paging: true,
-                        "aaSorting": [],
-                        "orderMulti": true,
+
                         columnDefs: [{
                             orderable: false,
                             targets: 0
@@ -4494,14 +4617,17 @@ Template.new_invoice.onRendered(function () {
                         }
                                     ],
                         colReorder: true,
-                        bStateSave: true,
-                        pageLength: 25,
+
+
                         lengthMenu: [
-                            [10, 25, 50, -1],
-                            [10, 25, 50, "All"]
+                          [25, -1],
+                          [25, "All"]
                         ],
                         info: true,
                         responsive: true,
+                        "fnDrawCallback": function (oSettings) {
+                            $('.dataTables_paginate').css('display', 'none');
+                        },
                         "fnInitComplete": function () {
                             $("<button class='btn btn-primary btnRefreshTax' type='button' id='btnRefreshTax' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblTaxRate_filter");
                         }

@@ -257,7 +257,7 @@ Template.customerlistpop.onRendered(function () {
                                 }, 100);
                             },
                             "fnInitComplete": function () {
-                                $("<button class='btn btn-primary' data-dismiss='modal' data-toggle='modal' data-target='#addCustomerModal' type='button' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-plus'></i></button>").insertAfter("#tblCustomerlist_filter");
+                                $("<button class='btn btn-primary btnAddNewCustomer' data-dismiss='modal' data-toggle='modal' data-target='#addCustomerModal' type='button' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-plus'></i></button>").insertAfter("#tblCustomerlist_filter");
                                 $("<button class='btn btn-primary btnRefreshCustomer' type='button' id='btnRefreshCustomer' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblCustomerlist_filter");
 
                             }
@@ -271,6 +271,117 @@ Template.customerlistpop.onRendered(function () {
                         }).on('column-reorder', function () {
 
                         }).on('length.dt', function (e, settings, len) {
+                          $('.fullScreenSpin').css('display', 'inline-block');
+                          let dataLenght = settings._iDisplayLength;
+                          splashArrayCustomerList = [];
+                          if (dataLenght == -1) {
+                              //if(settings.fnRecordsDisplay() > 150){
+                              //  $('.paginate_button.page-item.next').addClass('disabled');
+                              //  $('.fullScreenSpin').css('display','none');
+                              //}else{
+                              sideBarService.getAllCustomersDataVS1('All', 1).then(function (data) {
+                                  for (let i = 0; i < data.tcustomervs1.length; i++) {
+                                      let arBalance = utilityService.modifynegativeCurrencyFormat(data.tcustomervs1[i].fields.ARBalance) || 0.00;
+                                      let creditBalance = utilityService.modifynegativeCurrencyFormat(data.tcustomervs1[i].fields.CreditBalance) || 0.00;
+                                      let balance = utilityService.modifynegativeCurrencyFormat(data.tcustomervs1[i].fields.Balance) || 0.00;
+                                      let creditLimit = utilityService.modifynegativeCurrencyFormat(data.tcustomervs1[i].fields.CreditLimit) || 0.00;
+                                      let salesOrderBalance = utilityService.modifynegativeCurrencyFormat(data.tcustomervs1[i].fields.SalesOrderBalance) || 0.00;
+                                      var dataList = {
+                                          id: data.tcustomervs1[i].fields.ID || '',
+                                          clientName: data.tcustomervs1[i].fields.ClientName || '',
+                                          company: data.tcustomervs1[i].fields.Companyname || '',
+                                          contactname: data.tcustomervs1[i].fields.ContactName || '',
+                                          phone: data.tcustomervs1[i].fields.Phone || '',
+                                          arbalance: arBalance || 0.00,
+                                          creditbalance: creditBalance || 0.00,
+                                          balance: balance || 0.00,
+                                          creditlimit: creditLimit || 0.00,
+                                          salesorderbalance: salesOrderBalance || 0.00,
+                                          email: data.tcustomervs1[i].fields.Email || '',
+                                          job: data.tcustomervs1[i].fields.JobName || '',
+                                          accountno: data.tcustomervs1[i].fields.AccountNo || '',
+                                          clientno: data.tcustomervs1[i].fields.ClientNo || '',
+                                          jobtitle: data.tcustomervs1[i].fields.JobTitle || '',
+                                          notes: data.tcustomervs1[i].fields.Notes || '',
+                                          state: data.tcustomervs1[i].fields.State || '',
+                                          country: data.tcustomervs1[i].fields.Country || '',
+                                          street: data.tcustomervs1[i].fields.Street || ' ',
+                                          street2: data.tcustomervs1[i].fields.Street2 || ' ',
+                                          street3: data.tcustomervs1[i].fields.Street3 || ' ',
+                                          suburb: data.tcustomervs1[i].fields.Suburb || ' ',
+                                          postcode: data.tcustomervs1[i].fields.Postcode || ' '
+                                      };
+
+                                      dataTableList.push(dataList);
+                                      var dataListCustomer = [
+                                          data.tcustomervs1[i].fields.ClientName || '-',
+                                          data.tcustomervs1[i].fields.JobName || '',
+                                          data.tcustomervs1[i].fields.Phone || '',
+                                          arBalance || 0.00,
+                                          creditBalance || 0.00,
+                                          balance || 0.00,
+                                          creditLimit || 0.00,
+                                          salesOrderBalance || 0.00,
+                                          data.tcustomervs1[i].fields.Country || '',
+                                          data.tcustomervs1[i].fields.State || '',
+                                          data.tcustomervs1[i].fields.Postcode || '',
+                                          data.tcustomervs1[i].fields.Street || '',
+                                          data.tcustomervs1[i].fields.Street2 || '',
+                                          data.tcustomervs1[i].fields.Email || '',
+                                          data.tcustomervs1[i].fields.AccountNo || '',
+                                          data.tcustomervs1[i].fields.ClientNo || '',
+                                          data.tcustomervs1[i].fields.JobTitle || '',
+                                          data.tcustomervs1[i].fields.Notes || '',
+                                          data.tcustomervs1[i].fields.ID || '',
+                                      ];
+
+                                      splashArrayCustomerList.push(dataListCustomer);
+
+                                      //}
+                                  }
+
+                                  function MakeNegative() {
+                                      $('td').each(function () {
+                                          if ($(this).text().indexOf('-' + Currency) >= 0) $(this).addClass('text-danger')
+                                      });
+                                  };
+
+                                  templateObject.custdatatablerecords.set(dataTableList);
+                                  var datatable = $('#tblCustomerlist').DataTable();
+                                  datatable.clear();
+                                  datatable.rows.add(splashArrayCustomerList);
+                                  datatable.draw(false);
+
+                                  $('.fullScreenSpin').css('display', 'none');
+                                  $('.dataTables_info').html('Showing 1 to ' + data.tcustomervs1.length + ' of ' + data.tcustomervs1.length + ' entries');
+                                  $('.fullScreenSpin').css('display', 'none');
+                                  // addVS1Data('TCustomerVS1',JSON.stringify(dataNonBo)).then(function (datareturn) {
+                                  //   templateObject.resetData(dataNonBo);
+                                  // $('.fullScreenSpin').css('display','none');
+                                  // }).catch(function (err) {
+                                  // $('.fullScreenSpin').css('display','none');
+                                  // });
+                              }).catch(function (err) {
+                                  $('.fullScreenSpin').css('display', 'none');
+                              });
+                              //}
+                          } else {
+                              if (settings.fnRecordsDisplay() >= settings._iDisplayLength) {
+                                  $('.fullScreenSpin').css('display', 'none');
+                              } else {
+                                  sideBarService.getAllCustomersDataVS1(dataLenght, 0).then(function (dataNonBo) {
+
+                                      addVS1Data('TCustomerVS1', JSON.stringify(dataNonBo)).then(function (datareturn) {
+                                          templateObject.resetData(dataNonBo);
+                                          $('.fullScreenSpin').css('display', 'none');
+                                      }).catch(function (err) {
+                                          $('.fullScreenSpin').css('display', 'none');
+                                      });
+                                  }).catch(function (err) {
+                                      $('.fullScreenSpin').css('display', 'none');
+                                  });
+                              }
+                          }
                             setTimeout(function () {
                                 MakeNegative();
                             }, 100);
@@ -553,7 +664,7 @@ Template.customerlistpop.onRendered(function () {
                             }, 100);
                         },
                         "fnInitComplete": function () {
-                            $("<button class='btn btn-primary' data-dismiss='modal' data-toggle='modal' data-target='#addCustomerModal' type='button' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-plus'></i></button>").insertAfter("#tblCustomerlist_filter");
+                            $("<button class='btn btn-primary btnAddNewCustomer' data-dismiss='modal' data-toggle='modal' data-target='#addCustomerModal' type='button' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-plus'></i></button>").insertAfter("#tblCustomerlist_filter");
                             $("<button class='btn btn-primary btnRefreshCustomer' type='button' id='btnRefreshCustomer' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblCustomerlist_filter");
 
                             let urlParametersPage = Router.current().params.query.page;
@@ -574,6 +685,7 @@ Template.customerlistpop.onRendered(function () {
                     }).on('length.dt', function (e, settings, len) {
                         $('.fullScreenSpin').css('display', 'inline-block');
                         let dataLenght = settings._iDisplayLength;
+                        splashArrayCustomerList = [];
                         if (dataLenght == -1) {
                             //if(settings.fnRecordsDisplay() > 150){
                             //  $('.paginate_button.page-item.next').addClass('disabled');
@@ -613,6 +725,29 @@ Template.customerlistpop.onRendered(function () {
                                     };
 
                                     dataTableList.push(dataList);
+                                    var dataListCustomer = [
+                                        data.tcustomervs1[i].fields.ClientName || '-',
+                                        data.tcustomervs1[i].fields.JobName || '',
+                                        data.tcustomervs1[i].fields.Phone || '',
+                                        arBalance || 0.00,
+                                        creditBalance || 0.00,
+                                        balance || 0.00,
+                                        creditLimit || 0.00,
+                                        salesOrderBalance || 0.00,
+                                        data.tcustomervs1[i].fields.Country || '',
+                                        data.tcustomervs1[i].fields.State || '',
+                                        data.tcustomervs1[i].fields.Postcode || '',
+                                        data.tcustomervs1[i].fields.Street || '',
+                                        data.tcustomervs1[i].fields.Street2 || '',
+                                        data.tcustomervs1[i].fields.Email || '',
+                                        data.tcustomervs1[i].fields.AccountNo || '',
+                                        data.tcustomervs1[i].fields.ClientNo || '',
+                                        data.tcustomervs1[i].fields.JobTitle || '',
+                                        data.tcustomervs1[i].fields.Notes || '',
+                                        data.tcustomervs1[i].fields.ID || '',
+                                    ];
+
+                                    splashArrayCustomerList.push(dataListCustomer);
 
                                     //}
                                 }
@@ -624,6 +759,12 @@ Template.customerlistpop.onRendered(function () {
                                 };
 
                                 templateObject.custdatatablerecords.set(dataTableList);
+                                var datatable = $('#tblCustomerlist').DataTable();
+                                datatable.clear();
+                                datatable.rows.add(splashArrayCustomerList);
+                                datatable.draw(false);
+
+                                $('.fullScreenSpin').css('display', 'none');
                                 $('.dataTables_info').html('Showing 1 to ' + data.tcustomervs1.length + ' of ' + data.tcustomervs1.length + ' entries');
                                 $('.fullScreenSpin').css('display', 'none');
                                 // addVS1Data('TCustomerVS1',JSON.stringify(dataNonBo)).then(function (datareturn) {
@@ -889,7 +1030,7 @@ Template.customerlistpop.onRendered(function () {
                         },
                         "fnInitComplete": function () {
 
-                            $("<button class='btn btn-primary' data-dismiss='modal' data-toggle='modal' data-target='#addCustomerModal' type='button' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-plus'></i></button>").insertAfter("#tblCustomerlist_filter");
+                            $("<button class='btn btn-primary btnAddNewCustomer' data-dismiss='modal' data-toggle='modal' data-target='#addCustomerModal' type='button' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-plus'></i></button>").insertAfter("#tblCustomerlist_filter");
                             $("<button class='btn btn-primary btnRefreshCustomer' type='button' id='btnRefreshCustomer' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblCustomerlist_filter");
 
                         }
@@ -903,6 +1044,117 @@ Template.customerlistpop.onRendered(function () {
                     }).on('column-reorder', function () {
 
                     }).on('length.dt', function (e, settings, len) {
+                      $('.fullScreenSpin').css('display', 'inline-block');
+                      let dataLenght = settings._iDisplayLength;
+                      splashArrayCustomerList = [];
+                      if (dataLenght == -1) {
+                          //if(settings.fnRecordsDisplay() > 150){
+                          //  $('.paginate_button.page-item.next').addClass('disabled');
+                          //  $('.fullScreenSpin').css('display','none');
+                          //}else{
+                          sideBarService.getAllCustomersDataVS1('All', 1).then(function (data) {
+                              for (let i = 0; i < data.tcustomervs1.length; i++) {
+                                  let arBalance = utilityService.modifynegativeCurrencyFormat(data.tcustomervs1[i].fields.ARBalance) || 0.00;
+                                  let creditBalance = utilityService.modifynegativeCurrencyFormat(data.tcustomervs1[i].fields.CreditBalance) || 0.00;
+                                  let balance = utilityService.modifynegativeCurrencyFormat(data.tcustomervs1[i].fields.Balance) || 0.00;
+                                  let creditLimit = utilityService.modifynegativeCurrencyFormat(data.tcustomervs1[i].fields.CreditLimit) || 0.00;
+                                  let salesOrderBalance = utilityService.modifynegativeCurrencyFormat(data.tcustomervs1[i].fields.SalesOrderBalance) || 0.00;
+                                  var dataList = {
+                                      id: data.tcustomervs1[i].fields.ID || '',
+                                      clientName: data.tcustomervs1[i].fields.ClientName || '',
+                                      company: data.tcustomervs1[i].fields.Companyname || '',
+                                      contactname: data.tcustomervs1[i].fields.ContactName || '',
+                                      phone: data.tcustomervs1[i].fields.Phone || '',
+                                      arbalance: arBalance || 0.00,
+                                      creditbalance: creditBalance || 0.00,
+                                      balance: balance || 0.00,
+                                      creditlimit: creditLimit || 0.00,
+                                      salesorderbalance: salesOrderBalance || 0.00,
+                                      email: data.tcustomervs1[i].fields.Email || '',
+                                      job: data.tcustomervs1[i].fields.JobName || '',
+                                      accountno: data.tcustomervs1[i].fields.AccountNo || '',
+                                      clientno: data.tcustomervs1[i].fields.ClientNo || '',
+                                      jobtitle: data.tcustomervs1[i].fields.JobTitle || '',
+                                      notes: data.tcustomervs1[i].fields.Notes || '',
+                                      state: data.tcustomervs1[i].fields.State || '',
+                                      country: data.tcustomervs1[i].fields.Country || '',
+                                      street: data.tcustomervs1[i].fields.Street || ' ',
+                                      street2: data.tcustomervs1[i].fields.Street2 || ' ',
+                                      street3: data.tcustomervs1[i].fields.Street3 || ' ',
+                                      suburb: data.tcustomervs1[i].fields.Suburb || ' ',
+                                      postcode: data.tcustomervs1[i].fields.Postcode || ' '
+                                  };
+
+                                  dataTableList.push(dataList);
+                                  var dataListCustomer = [
+                                      data.tcustomervs1[i].fields.ClientName || '-',
+                                      data.tcustomervs1[i].fields.JobName || '',
+                                      data.tcustomervs1[i].fields.Phone || '',
+                                      arBalance || 0.00,
+                                      creditBalance || 0.00,
+                                      balance || 0.00,
+                                      creditLimit || 0.00,
+                                      salesOrderBalance || 0.00,
+                                      data.tcustomervs1[i].fields.Country || '',
+                                      data.tcustomervs1[i].fields.State || '',
+                                      data.tcustomervs1[i].fields.Postcode || '',
+                                      data.tcustomervs1[i].fields.Street || '',
+                                      data.tcustomervs1[i].fields.Street2 || '',
+                                      data.tcustomervs1[i].fields.Email || '',
+                                      data.tcustomervs1[i].fields.AccountNo || '',
+                                      data.tcustomervs1[i].fields.ClientNo || '',
+                                      data.tcustomervs1[i].fields.JobTitle || '',
+                                      data.tcustomervs1[i].fields.Notes || '',
+                                      data.tcustomervs1[i].fields.ID || '',
+                                  ];
+
+                                  splashArrayCustomerList.push(dataListCustomer);
+
+                                  //}
+                              }
+
+                              function MakeNegative() {
+                                  $('td').each(function () {
+                                      if ($(this).text().indexOf('-' + Currency) >= 0) $(this).addClass('text-danger')
+                                  });
+                              };
+
+                              templateObject.custdatatablerecords.set(dataTableList);
+                              var datatable = $('#tblCustomerlist').DataTable();
+                              datatable.clear();
+                              datatable.rows.add(splashArrayCustomerList);
+                              datatable.draw(false);
+
+                              $('.fullScreenSpin').css('display', 'none');
+                              $('.dataTables_info').html('Showing 1 to ' + data.tcustomervs1.length + ' of ' + data.tcustomervs1.length + ' entries');
+                              $('.fullScreenSpin').css('display', 'none');
+                              // addVS1Data('TCustomerVS1',JSON.stringify(dataNonBo)).then(function (datareturn) {
+                              //   templateObject.resetData(dataNonBo);
+                              // $('.fullScreenSpin').css('display','none');
+                              // }).catch(function (err) {
+                              // $('.fullScreenSpin').css('display','none');
+                              // });
+                          }).catch(function (err) {
+                              $('.fullScreenSpin').css('display', 'none');
+                          });
+                          //}
+                      } else {
+                          if (settings.fnRecordsDisplay() >= settings._iDisplayLength) {
+                              $('.fullScreenSpin').css('display', 'none');
+                          } else {
+                              sideBarService.getAllCustomersDataVS1(dataLenght, 0).then(function (dataNonBo) {
+
+                                  addVS1Data('TCustomerVS1', JSON.stringify(dataNonBo)).then(function (datareturn) {
+                                      templateObject.resetData(dataNonBo);
+                                      $('.fullScreenSpin').css('display', 'none');
+                                  }).catch(function (err) {
+                                      $('.fullScreenSpin').css('display', 'none');
+                                  });
+                              }).catch(function (err) {
+                                  $('.fullScreenSpin').css('display', 'none');
+                              });
+                          }
+                      }
                         setTimeout(function () {
                             MakeNegative();
                         }, 100);
@@ -959,6 +1211,16 @@ Template.customerlistpop.onRendered(function () {
 Template.customerlistpop.events({
     'click #btnNewCustomer': function (event) {
         Router.go('/customerscard');
+    },
+    'click .btnAddNewCustomer': function (event) {
+        setTimeout(function () {
+          $('#edtCustomerCompany').focus();
+        }, 1000);
+    },
+    'click .btnCloseCustomerPOPList': function (event) {
+        setTimeout(function () {
+          $('#tblCustomerlist_filter .form-control-sm').val('');
+        }, 1000);
     },
     'click .btnRefreshCustomer': function (event) {
         let templateObject = Template.instance();
@@ -1139,6 +1401,11 @@ Template.customerlistpop.events({
                 $('.fullScreenSpin').css('display', 'none');
             });
         }
+    },
+    'keyup #tblCustomerlist_filter input': function (event) {
+      if (event.keyCode == 13) {
+         $(".btnRefreshCustomer").trigger("click");
+      }
     },
     'click .chkDatatable': function (event) {
         var columns = $('#tblCustomerlist th');
