@@ -685,6 +685,7 @@ needsToSeePrompt();
     let isFixedAssets = false;
 
 
+
     let isPayments = false;
     let isContacts = false;
     let isAccounts = false;
@@ -704,6 +705,8 @@ needsToSeePrompt();
     let isTimesheetEntry = false;
     let isClockOnOff = false;
     let isAppointmentScheduling = false;
+    let isAppointmentStartStop = false;
+    let isAppointmentLaunch = false;
 
 
     /* Lincence Check for Menu Options */
@@ -754,6 +757,14 @@ needsToSeePrompt();
 
         if(optionaccess.fields.Description === "User Password Details"){
           isUserPassDetail = true;
+        }
+
+         if(optionaccess.fields.Description === "Appointment - Start and Stop Only"){
+          isAppointmentStartStop = true;
+        }
+
+        if(optionaccess.fields.Description === "Launch Appointment Or Allocation"){
+          isAppointmentLaunch = true;
         }
 
         if(optionaccess.fields.Description === "Dashboard"){
@@ -843,8 +854,6 @@ needsToSeePrompt();
           isAppointmentScheduling = true;
         }
 
-
-
         lineItemAccessObjlevel = {
            formID: optionaccess.fields.FormId || '',
            accessLevel: optionaccess.fields.AccessLevel || '',
@@ -859,13 +868,14 @@ needsToSeePrompt();
       lineItemslevel.push(lineItemObjlevel);
 
     });
-
     if(!isDashboardLicence){
       isDashboard = false;
     }
-
     if(!isFixedAssetsLicence){
       isFixedAssets = false;
+    }
+    if(!isAppointmentSchedulingLicence){
+      isAppointmentStartStop = false;
     }
     if(!isInventoryLicence){
       isInventory = false;
@@ -971,6 +981,7 @@ needsToSeePrompt();
    Session.setPersistent('CloudPayrollModule', isPayroll);
 
    Session.setPersistent('CloudAppointmentSchedulingModule', isAppointmentScheduling);
+   Session.setPersistent('CloudAppointmentStartStopAccessLevel', isAppointmentStartStop);
     let userSerssion = {'loggedEmpID':userAccessOptions.items[0].fields.EmployeeId,
                         'loggedUserName':Session.get('EUserName'),
                         'loggedDatabase':Session.get('EDatabase'),
@@ -992,8 +1003,12 @@ needsToSeePrompt();
 
 
 
-
-    window.open('/dashboard','_self');
+    if(isAppointmentLaunch == true) {
+      window.open('/appointments#allocationModal','_self');
+    } else {
+      window.open('/dashboard','_self');
+    }
+    
 
 
 

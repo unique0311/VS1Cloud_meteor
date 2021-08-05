@@ -75,7 +75,6 @@ Template.appointments.onRendered(function () {
         }, 500);
 
     }
-
     getVS1Data('TERPPreference').then(function (dataObject) {
         if (dataObject.length == 0) {
             appointmentService.getGlobalSettings().then(function (data) {
@@ -2275,7 +2274,6 @@ Template.appointments.onRendered(function () {
             } else {
                 let data = JSON.parse(dataObject[0].data);
                 let useData = data.tappointment;
-                console.log(useData);
                 $('.fullScreenSpin').css('display', 'none');
                 let appColor = '#00a3d3';
                 let dataColor = '';
@@ -7476,7 +7474,10 @@ Template.appointments.helpers({
     },
     appointmentrecords: () => {
         return Template.instance().appointmentrecords.get();
-    }
+    },
+    accessOnHold: () => {
+        return Session.get('CloudAppointmentStartStopAccessLevel') || false;
+    },
 });
 Template.registerHelper('equals', function (a, b) {
     return a === b;
@@ -7485,3 +7486,4 @@ Template.registerHelper('equals', function (a, b) {
 Template.registerHelper('and', (a, b) => {
     return a && b;
 });
+
