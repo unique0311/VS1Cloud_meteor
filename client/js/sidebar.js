@@ -2175,55 +2175,15 @@ setTimeout(function() {
 //If launching Appoing. Don't worry about the rest
 if(isAppointmentLaunch){
   if(isAppointmentScheduling){
-    if(isContacts){
 
-    }else{
       templateObject.getAllEmployeeData();
-    }
 
-    getVS1Data('TAppointment').then(function (dataObject) {
-      if(dataObject.length == 0){
-        sideBarService.getAllAppointmentList().then(function(data) {
-            addVS1Data('TAppointment',JSON.stringify(data));
-            //setTimeout(function() {
-            templateObject.getFollowedPurchaseDetailsPull();
-            //}, 3000);
-        }).catch(function(err) {
-          //setTimeout(function() {
-            templateObject.getFollowedPurchaseDetailsPull();
-            //}, 3000);
-        });
-
-      }else{
-        let getTimeStamp = dataObject[0].timestamp.split(' ');
-        if(getTimeStamp){
-            if(loggedUserEventFired){
-                if(getTimeStamp[0] != currenctTodayDate){
-                  sideBarService.getAllAppointmentList().then(function(data) {
-                      addVS1Data('TAppointment',JSON.stringify(data));
-                      //setTimeout(function() {
-                        templateObject.getFollowedPurchaseDetailsPull();
-                      //}, 3000);
-                  }).catch(function(err) {
-                    //setTimeout(function() {
-                      templateObject.getFollowedPurchaseDetailsPull();
-                    //}, 3000);
-                  });
-                }
-              }
-          }
-      }
-  }).catch(function (err) {
     sideBarService.getAllAppointmentList().then(function(data) {
         addVS1Data('TAppointment',JSON.stringify(data));
-        //setTimeout(function() {
 
-      //  }, 3000);
     }).catch(function(err) {
-      //setTimeout(function() {
-      //}, 3000);
+
     });
-  });
 
   getVS1Data('TAppointmentPreferences').then(function (dataObject) {
       if(dataObject.length == 0){
