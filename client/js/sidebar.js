@@ -2684,6 +2684,10 @@ Template.sidenav.events({
 
         }
     },
+    'click #sidenavpayroll' : function(event){
+        event.preventDefault();
+        Router.go('/payrolloverview');
+    },
     'click #sidenavjournalentry': function(event) {
 
         event.preventDefault();
@@ -3310,8 +3314,11 @@ Template.sidenav.events({
     },
     'click #sidenavtimeclock': function(event) {
 
-        event.preventDefault();
-        Router.go('/employeetimeclock');
+         if (window.location.pathname == "/payrolloverview") {
+            $('#settingsModal').modal('show');
+        } else {
+            window.open('/payrolloverview#clockOnOff', '_self');
+        }
         let templateObject = Template.instance();
         templateObject.getSetSideNavFocus();
     },
