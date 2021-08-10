@@ -869,7 +869,7 @@ Template.customerawaitingpayments.events({
                 if (checkClient.length > 0) {
                     selectedAwaitingPayment.push(paymentTransObj);
                 } else {
-                    swal('WARNING','You have selected multiple Customers,  a separate payment will be created for each', 'error');
+                    swal('','You have selected multiple Customers,  a separate payment will be created for each', 'info');
                     $(this).prop("checked", false);
                 }
             } else {
@@ -906,7 +906,7 @@ Template.customerawaitingpayments.events({
             else if($(this).prop("checked") == false){
             }
         });
-        $("#selectedTot").val(utilityService.modifynegativeCurrencyFormat(totalAmount)); 
+        $("#selectedTot").val(utilityService.modifynegativeCurrencyFormat(totalAmount));
     }
 
 
