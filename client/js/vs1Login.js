@@ -707,6 +707,7 @@ needsToSeePrompt();
     let isAppointmentScheduling = false;
     let isAppointmentStartStop = false;
     let isAppointmentLaunch = false;
+    let isAddAttachment = false;
 
 
     /* Lincence Check for Menu Options */
@@ -732,13 +733,11 @@ needsToSeePrompt();
     let isPaymentsLicence = Session.get('CloudPaymentsLicence');
     let isReportsLicence = Session.get('CloudReportsLicence');
     let isSettingsLicence = Session.get('CloudSettingsLicence');
-
     let isAppointmentSchedulingLicence = Session.get('CloudAppointmentSchedulingLicence');
        /*End Licence Check Menu to add */
     /* End Licence Check for menu option */
     if(userAccessOptions.items){
     $.each(userAccessOptions.items, function (itemaccess, optionaccess) {
-
           lineItemObjlevel = {
           formID: optionaccess.fields.FormId || '',
           accessLevel: optionaccess.fields.AccessLevel || '',
@@ -761,6 +760,10 @@ needsToSeePrompt();
 
          if(optionaccess.fields.Description === "Appointment - Start and Stop Only"){
           isAppointmentStartStop = true;
+        }
+
+        if(optionaccess.fields.Description === "Appointment - Add Attachments"){
+          isAddAttachment = true;
         }
 
         if(optionaccess.fields.Description === "Launch Appointment Or Allocation"){
@@ -989,6 +992,7 @@ needsToSeePrompt();
    Session.setPersistent('CloudAppointmentSchedulingModule', isAppointmentScheduling);
    Session.setPersistent('CloudAppointmentStartStopAccessLevel', isAppointmentStartStop);
    Session.setPersistent('CloudAppointmentAppointmentLaunch', isAppointmentLaunch);
+   Session.setPersistent('CloudAppointmentAddAttachment', isAddAttachment);
     let userSerssion = {'loggedEmpID':userAccessOptions.items[0].fields.EmployeeId,
                         'loggedUserName':Session.get('EUserName'),
                         'loggedDatabase':Session.get('EDatabase'),
@@ -1004,7 +1008,6 @@ needsToSeePrompt();
     }
     return (a.description.toLowerCase() > b.description.toLowerCase()) ? 1 : -1;
   });
-
 
 
 
