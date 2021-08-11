@@ -1756,8 +1756,10 @@ Template.customerscard.onRendered(function () {
             bcountry: LoggedCountry || '',
             custFld1: '',
             custFld2: '',
+            discount:0,
             jobbcountry: LoggedCountry || '',
-            jobscountry: LoggedCountry || ''
+            jobscountry: LoggedCountry || '',
+            discount:0
         }
         setTimeout(function () {
             $('.customerTypeSelect').append('<option value="newCust">Add Customer Type</option>');
@@ -1864,7 +1866,9 @@ Template.customerscard.onRendered(function () {
                                 job_Title: '',
                                 jobName: '',
                                 jobNumber: '',
-                                jobRegistration: ''
+                                jobRegistration: '',
+                                discount:data.fields.Discount || 0,
+                                jobclienttype:data.fields.ClientTypeName || ''
 
                             }
 
@@ -1872,6 +1876,7 @@ Template.customerscard.onRendered(function () {
                                 && (data.fields.State == data.fields.BillState) && (data.fields.Postcode == data.fields.Postcode)
                                 && (data.fields.Country == data.fields.Billcountry)) {
                                 templateObject.isSameAddress.set(true);
+                                templateObject.isJobSameAddress.set(true);
                             }
                             //let attachmentData =  contactService.getCustomerAttachmentList(data.fields.ID);
                             templateObject.getOverviewARData(data.fields.ClientName);
@@ -1994,14 +1999,17 @@ Template.customerscard.onRendered(function () {
                                     job_Title: '',
                                     jobName: '',
                                     jobNumber: '',
-                                    jobRegistration: ''
+                                    jobRegistration: '',
+                                    discount:useData[i].fields.Discount || 0,
+                                    jobclienttype:useData[i].fields.ClientTypeName || ''
 
                                 }
 
                                 if ((useData[i].fields.Street == useData[i].fields.BillStreet) && (useData[i].fields.Street2 == useData[i].fields.BillStreet2)
-                                    && (useData[i].fields.State == useData[i].fields.BillState) && (useData[i].fields.Postcode == useData[i].fields.Postcode)
+                                    && (useData[i].fields.State == useData[i].fields.BillState) && (useData[i].fields.Postcode == useData[i].fields.BillPostcode)
                                     && (useData[i].fields.Country == useData[i].fields.Billcountry)) {
                                     templateObject.isSameAddress.set(true);
+                                    templateObject.isJobSameAddress.set(true);
                                 }
                                 setTimeout(function () {
                                     $('.customerTypeSelect').append('<option value="newCust">Add Customer Type</option>');
@@ -2123,7 +2131,9 @@ Template.customerscard.onRendered(function () {
                                     job_Title: '',
                                     jobName: '',
                                     jobNumber: '',
-                                    jobRegistration: ''
+                                    jobRegistration: '',
+                                    discount:data.fields.Discount || 0,
+                                    jobclienttype:data.fields.ClientTypeName || ''
 
                                 }
 
@@ -2251,7 +2261,9 @@ Template.customerscard.onRendered(function () {
                             job_Title: '',
                             jobName: '',
                             jobNumber: '',
-                            jobRegistration: ''
+                            jobRegistration: '',
+                            discount:data.fields.Discount || 0,
+                            jobclienttype:data.fields.ClientTypeName || ''
 
                         }
 
@@ -2350,7 +2362,9 @@ Template.customerscard.onRendered(function () {
                                 job_Title: data.fields.JobTitle || '',
                                 jobName: data.fields.JobName || '',
                                 jobNumber: data.fields.JobNumber || '',
-                                jobRegistration: data.fields.JobRegistration || ''
+                                jobRegistration: data.fields.JobRegistration || '',
+                                discount:0,
+                                jobclienttype:data.fields.ClientTypeName || '',
 
                             }
 
@@ -2397,7 +2411,7 @@ Template.customerscard.onRendered(function () {
                             if (parseInt(useData[i].fields.ID) === parseInt(customerID)) {
                                 $('.fullScreenSpin').css('display', 'none');
                                 let lineItems = [];
-
+                                added = true;
                                 let lineItemObj = {
                                     jobid: useData[i].fields.Id || '',
                                     joblid: 'Edit Job',
@@ -2437,7 +2451,9 @@ Template.customerscard.onRendered(function () {
                                     job_Title: useData[i].fields.JobTitle || '',
                                     jobName: useData[i].fields.JobName || '',
                                     jobNumber: useData[i].fields.JobNumber || '',
-                                    jobRegistration: useData[i].fields.JobRegistration || ''
+                                    jobRegistration: useData[i].fields.JobRegistration || '',
+                                    discount: 0,
+                                    jobclienttype:useData[i].fields.ClientTypeName || ''
 
                                 }
 
@@ -2524,7 +2540,9 @@ Template.customerscard.onRendered(function () {
                                     job_Title: data.fields.JobTitle || '',
                                     jobName: data.fields.JobName || '',
                                     jobNumber: data.fields.JobNumber || '',
-                                    jobRegistration: data.fields.JobRegistration || ''
+                                    jobRegistration: data.fields.JobRegistration || '',
+                                    discount: 0,
+                                    jobclienttype:data.fields.ClientTypeName || ''
 
                                 }
 
@@ -2609,7 +2627,9 @@ Template.customerscard.onRendered(function () {
                             job_Title: data.fields.JobTitle || '',
                             jobName: data.fields.JobName || '',
                             jobNumber: data.fields.JobNumber || '',
-                            jobRegistration: data.fields.JobRegistration || ''
+                            jobRegistration: data.fields.JobRegistration || '',
+                            discount: 0,
+                            jobclienttype:data.fields.ClientTypeName || ''
 
                         }
 
@@ -2684,7 +2704,8 @@ Template.customerscard.onRendered(function () {
                 custFld1: '',
                 custFld2: '',
                 jobbcountry: LoggedCountry || '',
-                jobscountry: LoggedCountry || ''
+                jobscountry: LoggedCountry || '',
+                discount:0
             }
             templateObject.isSameAddress.set(true);
             templateObject.records.set(lineItemObj);
@@ -3134,6 +3155,8 @@ Template.customerscard.events({
             bcountry = $('#bedtCountry').val();
         }
 
+        let permanentDiscount = $('#edtCustomerCardDiscount').val()||0;
+
         let sltPaymentMethodName = $('#sltPreferedPayment').val();
         let sltTermsName = $('#sltTerms').val();
         let sltShippingMethodName = '';
@@ -3214,7 +3237,8 @@ Template.customerscard.events({
                     CUSTFLD1: custField1,
                     CUSTFLD2: custField2,
                     CUSTFLD3: custField3,
-                    CUSTFLD4: custField4
+                    CUSTFLD4: custField4,
+                    Discount:parseFloat(permanentDiscount)||0
                 }
             };
 
@@ -3261,7 +3285,8 @@ Template.customerscard.events({
                         CUSTFLD1: custField1,
                         CUSTFLD2: custField2,
                         CUSTFLD3: custField3,
-                        CUSTFLD4: custField4
+                        CUSTFLD4: custField4,
+                        Discount:parseFloat(permanentDiscount)||0
                     }
                 };
             } else {
@@ -3302,7 +3327,8 @@ Template.customerscard.events({
                         CUSTFLD1: custField1,
                         CUSTFLD2: custField2,
                         CUSTFLD3: custField3,
-                        CUSTFLD4: custField4
+                        CUSTFLD4: custField4,
+                        Discount:parseFloat(permanentDiscount)||0
                     }
                 };
             };
@@ -3424,7 +3450,7 @@ Template.customerscard.events({
 
         let sltPaymentMethodNameJob = $('#sltJobPreferedPayment').val() || 'Cash';
         let sltTermsNameJob = $('#sltJobTerms').val();
-        let sltShippingMethodNameJob = $('#sltJobDeliveryMethod').val();
+        let sltShippingMethodNameJob = '';//$('#sltJobDeliveryMethod').val();
         let rewardPointsOpeningBalanceJob = $('#custJobOpeningBalance').val();
 
         var sltRewardPointsOpeningDateJob = new Date($("#dtJobAsOf").datepicker("getDate"));
@@ -3447,7 +3473,7 @@ Template.customerscard.events({
 
 
         let notesJob = $('#txaJobNotes').val();
-
+        let customerTypeJob = $('#sltJobCustomerType').val();
         var objDetails = '';
         var url = window.location.href;
         var getemp_id = url.split('?jobid=');
@@ -3484,6 +3510,7 @@ Template.customerscard.events({
                     CUSTFLD9: $('.jobTabEdit #edtJobCustomerWebsite').val() || '',
                     PaymentMethodName: sltPaymentMethodNameJob,
                     TermsName: sltTermsNameJob,
+                    ClientTypeName: customerTypeJob,
                     ShippingMethodName: sltShippingMethodNameJob,
                     // RewardPointsOpeningBalance:parseInt(rewardPointsOpeningBalanceJob),
                     // RewardPointsOpeningDate:openingDateJob,
@@ -3526,6 +3553,7 @@ Template.customerscard.events({
                     CUSTFLD9: websiteJob,
                     PaymentMethodName: sltPaymentMethodNameJob,
                     TermsName: sltTermsNameJob,
+                    ClientTypeName: customerTypeJob,
                     ShippingMethodName: sltShippingMethodNameJob,
                     // RewardPointsOpeningBalance:parseInt(rewardPointsOpeningBalanceJob),
                     // RewardPointsOpeningDate:openingDateJob,
@@ -3931,7 +3959,7 @@ Template.customerscard.events({
             x2.style.display = "none";
         }
     },
-    'keydown #custOpeningBalance, keydown #edtJobNumber': function (event) {
+    'keydown #custOpeningBalance, keydown #edtJobNumber, keydown #edtCustomerCardDiscount': function (event) {
         if ($.inArray(event.keyCode, [46, 8, 9, 27, 13, 110]) !== -1 ||
             // Allow: Ctrl+A, Command+A
             (event.keyCode === 65 && (event.ctrlKey === true || event.metaKey === true)) ||

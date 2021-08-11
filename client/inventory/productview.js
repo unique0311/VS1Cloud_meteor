@@ -1864,6 +1864,17 @@ Template.productview.events({
             $('#edtsellqty1price').val(utilityService.modifynegativeCurrencyFormat(sellPrice));
         }
 
+        $('.itemExtraSellRow').each(function () {
+            var lineID = this.id;
+            let tdclientType = $('#' + lineID + " .customerTypeSelect").val();
+            //let tdDiscount = $('#' + lineID + " .edtDiscount").val();
+            if(tdclientType == "Default"){
+              $('#' + lineID + " .edtDiscount").val(0);
+              $('#' + lineID + " .edtPriceEx").val(utilityService.modifynegativeCurrencyFormat(sellPrice));
+            }
+
+        });
+
     },
     'click .btnDeleteInv': function(event){
         let templateObject = Template.instance();
@@ -2005,6 +2016,7 @@ Template.productview.events({
         var targetID = $(event.target).closest('.itemExtraSellRow').attr('id');
         let itemSellPrice = parseFloat($('#edtsellqty1price').val().replace(/[^0-9.-]+/g, "")) || 0;
         let discountPrice= parseFloat($(event.target).val()) || 0;
+        $(event.target).val(discountPrice);
         let getDiscountPrice = (itemSellPrice - ( itemSellPrice * discountPrice / 100 ));
         $("#"+targetID+ ' .edtPriceEx').val(utilityService.modifynegativeCurrencyFormat(getDiscountPrice)||0);
 

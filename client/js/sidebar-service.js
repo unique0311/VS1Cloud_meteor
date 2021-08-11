@@ -134,13 +134,21 @@ export class SideBarService extends BaseService {
   }
 
 
-getCustomersDataByName(dataSearchName) {                                                                  //
-    var options = '';                                                                                                // 137
-    options = {                                                                                                      // 138
-      PropertyList: "ClientName,Email,Abn,Street,Street2,Street3,Suburb,State,Postcode,Country,TermsName,FirstName,LastName,TaxCodeName,ClientTypeName",
-      select: '[ClientName] = "' + dataSearchName + '"'                                                              // 140
-    };                                                                                                               // 138
-    return this.getList(this.ERPObjects.TCustomerVS1, options);                                                      // 142
+getCustomersDataByName(dataSearchName) {
+    var options = '';
+    options = {
+      PropertyList: "ClientName,Email,Abn,Street,Street2,Street3,Suburb,State,Postcode,Country,TermsName,FirstName,LastName,TaxCodeName,ClientTypeName,Discount",
+      select: '[ClientName] = "' + dataSearchName + '"'
+    };
+    return this.getList(this.ERPObjects.TCustomerVS1, options);
+  }
+
+  getClientVS1() {
+      let options = {
+          PropertyList: "ClientName,Email,Abn,Street,Street2,Street3,Suburb,State,Postcode,Country,TermsName,FirstName,LastName,TaxCodeName,ClientTypeName,Discount",
+          select: "[Active]=true"
+      };
+      return this.getList(this.ERPObjects.TCustomerVS1, options);
   }
 
   getAllSuppliersDataVS1(limitcount, limitfrom) {

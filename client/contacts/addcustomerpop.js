@@ -387,7 +387,8 @@ Template.addcustomerpop.onRendered(function () {
             custFld1: '',
             custFld2: '',
             jobbcountry: LoggedCountry || '',
-            jobscountry: LoggedCountry || ''
+            jobscountry: LoggedCountry || '',
+            discount:0
         }
         setTimeout(function () {
             $('.customerTypeSelect').append('<option value="newCust">Add Customer Type</option>');
@@ -1296,7 +1297,8 @@ Template.addcustomerpop.onRendered(function () {
                 custFld1: '',
                 custFld2: '',
                 jobbcountry: LoggedCountry || '',
-                jobscountry: LoggedCountry || ''
+                jobscountry: LoggedCountry || '',
+                discount:0
             }
             templateObject.isSameAddress.set(true);
             templateObject.records.set(lineItemObj);
@@ -1765,7 +1767,7 @@ Template.addcustomerpop.events({
             sltTaxCodeName = $('#sltTaxCode').val();
         }
 
-
+        let permanentDiscount = $('#edtCustomerCardDiscount').val()||0;
         let notes = $('#txaNotes').val();
         let custField1 = $('#edtCustomeField1').val();
         let custField2 = $('#edtCustomeField2').val();
@@ -1826,7 +1828,8 @@ Template.addcustomerpop.events({
                     CUSTFLD1: custField1,
                     CUSTFLD2: custField2,
                     CUSTFLD3: custField3,
-                    CUSTFLD4: custField4
+                    CUSTFLD4: custField4,
+                    Discount:parseFloat(permanentDiscount)||0
                 }
             };
 
@@ -1873,7 +1876,8 @@ Template.addcustomerpop.events({
                         CUSTFLD1: custField1,
                         CUSTFLD2: custField2,
                         CUSTFLD3: custField3,
-                        CUSTFLD4: custField4
+                        CUSTFLD4: custField4,
+                        Discount:parseFloat(permanentDiscount)||0
                     }
                 };
             } else {
@@ -1914,7 +1918,8 @@ Template.addcustomerpop.events({
                         CUSTFLD1: custField1,
                         CUSTFLD2: custField2,
                         CUSTFLD3: custField3,
-                        CUSTFLD4: custField4
+                        CUSTFLD4: custField4,
+                        Discount:parseFloat(permanentDiscount)||0
                     }
                 };
             };
@@ -2568,8 +2573,8 @@ Template.addcustomerpop.events({
             x2.style.display = "none";
         }
     },
-    'keydown #custOpeningBalance, keydown #edtJobNumber': function (event) {
-        if ($.inArray(event.keyCode, [46, 8, 9, 27, 13, 110]) !== -1 ||
+    'keydown #custOpeningBalance, keydown #edtJobNumber, keydown #edtCustomerCardDiscount': function (event) {
+        if ($.inArray(event.keyCode, [46, 8, 9, 27, 13, 110]) !== -1 ||333
             // Allow: Ctrl+A, Command+A
             (event.keyCode === 65 && (event.ctrlKey === true || event.metaKey === true)) ||
             // Allow: home, end, left, right, down, up

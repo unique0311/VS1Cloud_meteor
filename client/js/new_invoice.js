@@ -204,7 +204,7 @@ Template.new_invoice.onRendered(() => {
     templateObject.getAllClients = function () {
         getVS1Data('TCustomerVS1').then(function (dataObject) {
             if (dataObject.length == 0) {
-                clientsService.getClientVS1().then(function (data) {
+                sideBarService.getClientVS1().then(function (data) {
                     for (let i in data.tcustomervs1) {
 
                         let customerrecordObj = {
@@ -221,7 +221,8 @@ Template.new_invoice.onRendered(() => {
                             country: data.tcustomervs1[i].Country || ' ',
                             termsName: data.tcustomervs1[i].TermsName || '',
                             taxCode: data.tcustomervs1[i].TaxCodeName || '',
-                            clienttypename: data.tcustomervs1[i].ClientTypeName || ''
+                            clienttypename: data.tcustomervs1[i].ClientTypeName || 'Default',
+                            discount: data.tcustomervs1[i].Discount || 0,
                         };
                         clientList.push(customerrecordObj);
 
@@ -265,7 +266,8 @@ Template.new_invoice.onRendered(() => {
                         country: useData[i].fields.Country || ' ',
                         termsName: useData[i].fields.TermsName || '',
                         taxCode: useData[i].fields.TaxCodeName || '',
-                        clienttypename: useData[i].fields.ClientTypeName || ''
+                        clienttypename: useData[i].fields.ClientTypeName || 'Default',
+                        discount: useData[i].fields.Discount || 0,
                     };
                     clientList.push(customerrecordObj);
 
@@ -289,7 +291,7 @@ Template.new_invoice.onRendered(() => {
                 }
             }
         }).catch(function (err) {
-            clientsService.getClientVS1().then(function (data) {
+            sideBarService.getClientVS1().then(function (data) {
                 for (let i in data.tcustomervs1) {
 
                     let customerrecordObj = {
@@ -306,7 +308,8 @@ Template.new_invoice.onRendered(() => {
                         country: data.tcustomervs1[i].Country || ' ',
                         termsName: data.tcustomervs1[i].TermsName || '',
                         taxCode: datatcustomervs1[i].TaxCodeName || '',
-                        clienttypename: data.tcustomervs1[i].ClientTypeName || ''
+                        clienttypename: data.tcustomervs1[i].ClientTypeName || 'Default',
+                        discount: data.tcustomervs1[i].Discount || 0,
                     };
                     clientList.push(customerrecordObj);
 
@@ -800,6 +803,10 @@ Template.new_invoice.onRendered(() => {
                                             $('#edtCustomerEmail').attr('customerid', clientList[i].customerid);
                                             $('#edtCustomerEmail').attr('customerfirstname', clientList[i].firstname);
                                             $('#edtCustomerEmail').attr('customerlastname', clientList[i].lastname);
+                                            $('#customerType').text(clientList[i].clienttypename);
+                                            $('#customerDiscount').text(clientList[i].discount);
+                                            $('#edtCustomerUseType').val(clientList[i].clienttypename);
+                                            $('#edtCustomerUseDiscount').val(clientList[i].discount);
                                         }
                                     }
                                 };
@@ -1083,6 +1090,10 @@ Template.new_invoice.onRendered(() => {
                                                 $('#edtCustomerEmail').attr('customerid', clientList[i].customerid);
                                                 $('#edtCustomerEmail').attr('customerfirstname', clientList[i].firstname);
                                                 $('#edtCustomerEmail').attr('customerlastname', clientList[i].lastname);
+                                                $('#customerType').text(clientList[i].clienttypename);
+                                                $('#customerDiscount').text(clientList[i].discount);
+                                                $('#edtCustomerUseType').val(clientList[i].clienttypename);
+                                                $('#edtCustomerUseDiscount').val(clientList[i].discount);
                                             }
                                         }
                                     };
@@ -1127,7 +1138,7 @@ Template.new_invoice.onRendered(() => {
                                                     country: dataClient.tcustomervs1[c].Country || ' ',
                                                     termsName: dataClient.tcustomervs1[c].TermsName || '',
                                                     taxCode: dataClient.tcustomervs1[c].TaxCodeName || '',
-                                                    clienttypename: dataClient.tcustomervs1[c].ClientTypeName || ''
+                                                    clienttypename: dataClient.tcustomervs1[c].ClientTypeName || 'Default'
                                                 };
                                                 clientList.push(customerrecordObj);
                                                 invoicerecord.firstname = dataClient.tcustomervs1[c].FirstName || '';
@@ -1137,6 +1148,10 @@ Template.new_invoice.onRendered(() => {
                                                 $('#edtCustomerName').attr('custid', dataClient.tcustomervs1[c].Id);
                                                 $('#edtCustomerEmail').attr('customerfirstname', dataClient.tcustomervs1[c].FirstName);
                                                 $('#edtCustomerEmail').attr('customerlastname', dataClient.tcustomervs1[c].LastName);
+                                                $('#customerType').text(dataClient.tcustomervs1[c].ClientTypeName);
+                                                $('#customerDiscount').text(dataClient.tcustomervs1[c].Discount);
+                                                $('#edtCustomerUseType').val(dataClient.tcustomervs1[c].ClientTypeName);
+                                                $('#edtCustomerUseDiscount').val(dataClient.tcustomervs1[c].Discount);
                                             }
 
                                             templateObject.clientrecords.set(clientList.sort(function (a, b) {
@@ -1628,6 +1643,10 @@ Template.new_invoice.onRendered(() => {
                                         $('#edtCustomerEmail').attr('customerid', clientList[i].customerid);
                                         $('#edtCustomerEmail').attr('customerfirstname', clientList[i].firstname);
                                         $('#edtCustomerEmail').attr('customerlastname', clientList[i].lastname);
+                                        $('#customerType').text(clientList[i].clienttypename);
+                                        $('#customerDiscount').text(clientList[i].discount);
+                                        $('#edtCustomerUseType').val(clientList[i].clienttypename);
+                                        $('#edtCustomerUseDiscount').val(clientList[i].discount);
                                     }
                                 }
                             };
@@ -2020,6 +2039,10 @@ Template.new_invoice.onRendered(() => {
                                             $('#edtCustomerEmail').attr('customerid', clientList[i].customerid);
                                             $('#edtCustomerEmail').attr('customerfirstname', clientList[i].firstname);
                                             $('#edtCustomerEmail').attr('customerlastname', clientList[i].lastname);
+                                            $('#customerType').text(clientList[i].clienttypename);
+                                            $('#customerDiscount').text(clientList[i].discount);
+                                            $('#edtCustomerUseType').val(clientList[i].clienttypename);
+                                            $('#edtCustomerUseDiscount').val(clientList[i].discount);
                                         }
                                     }
                                 };
@@ -2277,6 +2300,10 @@ Template.new_invoice.onRendered(() => {
                                                 $('#edtCustomerEmail').attr('customerid', clientList[i].customerid);
                                                 $('#edtCustomerEmail').attr('customerfirstname', clientList[i].firstname);
                                                 $('#edtCustomerEmail').attr('customerlastname', clientList[i].lastname);
+                                                $('#customerType').text(clientList[i].clienttypename);
+                                                $('#customerDiscount').text(clientList[i].discount);
+                                                $('#edtCustomerUseType').val(clientList[i].clienttypename);
+                                                $('#edtCustomerUseDiscount').val(clientList[i].discount);
                                             }
                                         }
                                     };
@@ -2322,7 +2349,7 @@ Template.new_invoice.onRendered(() => {
                                                     country: dataClient.tcustomervs1[c].Country || ' ',
                                                     termsName: dataClient.tcustomervs1[c].TermsName || '',
                                                     taxCode: dataClient.tcustomervs1[c].TaxCodeName || '',
-                                                    clienttypename: dataClient.tcustomervs1[c].ClientTypeName || ''
+                                                    clienttypename: dataClient.tcustomervs1[c].ClientTypeName || 'Default'
                                                 };
                                                 clientList.push(customerrecordObj);
                                                 invoicerecord.firstname = dataClient.tcustomervs1[c].FirstName || '';
@@ -2545,6 +2572,10 @@ Template.new_invoice.onRendered(() => {
                                                 $('#edtCustomerEmail').attr('customerid', clientList[i].customerid);
                                                 $('#edtCustomerEmail').attr('customerfirstname', clientList[i].firstname);
                                                 $('#edtCustomerEmail').attr('customerlastname', clientList[i].lastname);
+                                                $('#customerType').text(clientList[i].clienttypename);
+                                                $('#customerDiscount').text(clientList[i].discount);
+                                                $('#edtCustomerUseType').val(clientList[i].clienttypename);
+                                                $('#edtCustomerUseDiscount').val(clientList[i].discount);
                                             }
                                         }
                                     };
@@ -2796,6 +2827,10 @@ Template.new_invoice.onRendered(() => {
                                         $('#edtCustomerEmail').attr('customerid', clientList[i].customerid);
                                         $('#edtCustomerEmail').attr('customerfirstname', clientList[i].firstname);
                                         $('#edtCustomerEmail').attr('customerlastname', clientList[i].lastname);
+                                        $('#customerType').text(clientList[i].clienttypename);
+                                        $('#customerDiscount').text(clientList[i].discount);
+                                        $('#edtCustomerUseType').val(clientList[i].clienttypename);
+                                        $('#edtCustomerUseDiscount').val(clientList[i].discount);
                                     }
                                 }
                             };
@@ -3882,6 +3917,10 @@ Template.new_invoice.onRendered(() => {
                     $('#edtCustomerEmail').attr('customerid', clientList[i].customerid);
                     $('#edtCustomerEmail').attr('customerfirstname', clientList[i].firstname);
                     $('#edtCustomerEmail').attr('customerlastname', clientList[i].lastname);
+                    $('#customerType').text(clientList[i].clienttypename);
+                    $('#customerDiscount').text(clientList[i].discount);
+                    $('#edtCustomerUseType').val(clientList[i].clienttypename);
+                    $('#edtCustomerUseDiscount').val(clientList[i].discount);
                     let postalAddress = clientList[i].customername + '\n' + clientList[i].street + '\n' + clientList[i].street2 + ' ' + clientList[i].statecode + '\n' + clientList[i].country;
                     $('#txabillingAddress').val(postalAddress);
                     $('#pdfCustomerAddress').html(postalAddress);
@@ -4005,7 +4044,7 @@ Template.new_invoice.onRendered(() => {
           var customerDataName = e.target.value.replace(/\s/g, '') ||'';
           var customerDataID = $('#edtCustomerName').attr('custid').replace(/\s/g, '') ||'';
           if(customerDataName != '' && customerDataID != ''){
-            Router.go('/customerscard?id=' + customerDataID);
+          //  Router.go('/customerscard?id=' + customerDataID);
           }else{
             $('#customerListModal').modal();
             setTimeout(function () {
@@ -4027,6 +4066,15 @@ Template.new_invoice.onRendered(() => {
         }, 500);
       //}
 
+});
+
+$("#edtCustomerName").dblclick(function () {
+    var customerDataName = $('#edtCustomerName').val().replace(/\s/g, '') || '';
+    var customerDataID = $('#edtCustomerName').attr('custid').replace(/\s/g, '') || '';                       
+
+    if (customerDataName != '' && customerDataID != '') {
+        Router.go('/customerscard?id=' + customerDataID);
+    }
 });
 
     exportSalesToPdf = function () {

@@ -100,7 +100,9 @@ Template.customerlistpop.onRendered(function () {
                             street2: data.tcustomervs1[i].fields.Street2 || ' ',
                             street3: data.tcustomervs1[i].fields.Street3 || ' ',
                             suburb: data.tcustomervs1[i].fields.Suburb || ' ',
-                            postcode: data.tcustomervs1[i].fields.Postcode || ' '
+                            postcode: data.tcustomervs1[i].fields.Postcode || ' ',
+                            clienttype: data.tcustomervs1[i].fields.ClientTypeName || '',
+                            discount: data.tcustomervs1[i].fields.Discount || 0
                         };
 
                         dataTableList.push(dataList);
@@ -124,6 +126,8 @@ Template.customerlistpop.onRendered(function () {
                             data.tcustomervs1[i].fields.JobTitle || '',
                             data.tcustomervs1[i].fields.Notes || '',
                             data.tcustomervs1[i].fields.ID || '',
+                            data.tcustomervs1[i].fields.ClientTypeName || '',
+                            data.tcustomervs1[i].fields.Discount || 0
                         ];
 
                         splashArrayCustomerList.push(dataListCustomer);
@@ -238,6 +242,12 @@ Template.customerlistpop.onRendered(function () {
                                 }, {
                                     className: "colID hiddenColumn",
                                     "targets": [18]
+                                }, {
+                                    className: "colCustomerType hiddenColumn",
+                                    "targets": [19]
+                                }, {
+                                    className: "colCustomerDiscount hiddenColumn",
+                                    "targets": [20]
                                 }
                             ],
                             select: true,
@@ -456,7 +466,9 @@ Template.customerlistpop.onRendered(function () {
                         street2: useData[i].fields.Street2 || ' ',
                         street3: useData[i].fields.Street3 || ' ',
                         suburb: useData[i].fields.Suburb || ' ',
-                        postcode: useData[i].fields.Postcode || ' '
+                        postcode: useData[i].fields.Postcode || ' ',
+                        clienttype: data.tcustomervs1[i].fields.ClientTypeName || '',
+                        discount: data.tcustomervs1[i].fields.Discount || 0
                     };
 
                     dataTableList.push(dataList);
@@ -481,6 +493,8 @@ Template.customerlistpop.onRendered(function () {
                         data.tcustomervs1[i].fields.JobTitle || '',
                         data.tcustomervs1[i].fields.Notes || '',
                         data.tcustomervs1[i].fields.ID || '',
+                        data.tcustomervs1[i].fields.ClientTypeName || '',
+                        data.tcustomervs1[i].fields.Discount || 0
                     ];
 
                     splashArrayCustomerList.push(dataListCustomer);
@@ -595,6 +609,12 @@ Template.customerlistpop.onRendered(function () {
                             }, {
                                 className: "colID hiddenColumn",
                                 "targets": [18]
+                            }, {
+                                className: "colCustomerType hiddenColumn",
+                                "targets": [19]
+                            }, {
+                                className: "colCustomerDiscount hiddenColumn",
+                                "targets": [20]
                             }
                         ],
                         select: true,
@@ -864,7 +884,9 @@ Template.customerlistpop.onRendered(function () {
                         street2: data.tcustomervs1[i].fields.Street2 || ' ',
                         street3: data.tcustomervs1[i].fields.Street3 || ' ',
                         suburb: data.tcustomervs1[i].fields.Suburb || ' ',
-                        postcode: data.tcustomervs1[i].fields.Postcode || ' '
+                        postcode: data.tcustomervs1[i].fields.Postcode || ' ',
+                        clienttype: data.tcustomervs1[i].fields.ClientTypeName || '',
+                        discount: data.tcustomervs1[i].fields.Discount || 0
                     };
 
                     dataTableList.push(dataList);
@@ -888,6 +910,8 @@ Template.customerlistpop.onRendered(function () {
                         data.tcustomervs1[i].fields.JobTitle || '',
                         data.tcustomervs1[i].fields.Notes || '',
                         data.tcustomervs1[i].fields.ID || '',
+                        data.tcustomervs1[i].fields.ClientTypeName || '',
+                        data.tcustomervs1[i].fields.Discount || 0
                     ];
 
                     splashArrayCustomerList.push(dataListCustomer);
@@ -1010,6 +1034,12 @@ Template.customerlistpop.onRendered(function () {
                             }, {
                                 className: "colID hiddenColumn",
                                 "targets": [18]
+                            }, {
+                                className: "colCustomerType hiddenColumn",
+                                "targets": [19]
+                            }, {
+                                className: "colCustomerDiscount hiddenColumn",
+                                "targets": [20]
                             }
                         ],
                         select: true,
