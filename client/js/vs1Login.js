@@ -708,6 +708,9 @@ needsToSeePrompt();
     let isAppointmentStartStop = false;
     let isAppointmentLaunch = false;
     let isAddAttachment = false;
+    let isCanOnlySeeOwnAppointment = false;
+    let isCanOnlySeeOwnAllocations = false;
+    let isEditTimesheetHours = false;
 
 
     /* Lincence Check for Menu Options */
@@ -758,7 +761,7 @@ needsToSeePrompt();
           isUserPassDetail = true;
         }
 
-         if(optionaccess.fields.Description === "Appointment - Start and Stop Only"){
+        if(optionaccess.fields.Description === "Appointment - Start and Stop Only"){
           isAppointmentStartStop = true;
         }
 
@@ -766,8 +769,20 @@ needsToSeePrompt();
           isAddAttachment = true;
         }
 
+         if(optionaccess.fields.Description === "Can Only See Own Appointments"){
+          isCanOnlySeeOwnAppointment = true;
+        }
+
+        if(optionaccess.fields.Description === "Can Only See Own Allocation"){
+          isCanOnlySeeOwnAllocations = true;
+        }
+
         if(optionaccess.fields.Description === "Launch Appointment Or Allocation"){
           isAppointmentLaunch = true;
+        }
+
+        if(optionaccess.fields.Description === "Allow Editing timesheet Hours"){
+          isEditTimesheetHours = true;
         }
 
         if(optionaccess.fields.Description === "Dashboard"){
@@ -877,6 +892,7 @@ needsToSeePrompt();
       lineItemslevel.push(lineItemObjlevel);
 
     });
+
     if(!isDashboardLicence){
       isDashboard = false;
     }
@@ -993,6 +1009,9 @@ needsToSeePrompt();
    Session.setPersistent('CloudAppointmentStartStopAccessLevel', isAppointmentStartStop);
    Session.setPersistent('CloudAppointmentAppointmentLaunch', isAppointmentLaunch);
    Session.setPersistent('CloudAppointmentAddAttachment', isAddAttachment);
+   Session.setPersistent('CloudAppointmentSeeOwnAllocationsOnly', isCanOnlySeeOwnAllocations);
+   Session.setPersistent('CloudAppointmentSeeOwnAppointmentsOnly', isCanOnlySeeOwnAppointment);
+   Session.setPersistent('CloudEditTimesheetHours', isEditTimesheetHours);
     let userSerssion = {'loggedEmpID':userAccessOptions.items[0].fields.EmployeeId,
                         'loggedUserName':Session.get('EUserName'),
                         'loggedDatabase':Session.get('EDatabase'),

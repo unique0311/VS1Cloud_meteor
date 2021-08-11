@@ -1202,6 +1202,9 @@ Template.payrolloverview.helpers({
             return (a.employeename.toUpperCase() > b.employeename.toUpperCase()) ? 1 : -1;
         });
     },
+     edithours: () => {
+        return Session.get('CloudEditTimesheetHours') || false;
+    },
     tableheaderrecords: () => {
         return Template.instance().tableheaderrecords.get();
     },

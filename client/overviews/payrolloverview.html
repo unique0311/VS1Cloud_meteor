@@ -394,7 +394,7 @@
                                         <div class="row">
                                             <div class="col-2 colBookedTime" id="colBookedTime">
                                                 <h6 class="float-right bookedTimeHeader" id="bookedTimeHeader" style="margin: 8px 0px; margin-top: 2.5em;">
-                                                    Working Time</h6>
+                                                    Time</h6>
                                             </div>
                                             <div class="col-3 colBookedStartTime" id="colBookedStartTime" style="padding-left: .5rem;">
                                                 <div class="form-group flex-grow-1" style="margin: 8px 0px;">
@@ -407,15 +407,21 @@
                                              <button class="btn btn-warning" type="button" style="width: 100%;" id="btnHold">On Hold</button>
                                             </div>
                                             <div class="col-3 colBookedHours" id="colBookedHours" style="padding-right: .3rem;">
+                                                {{#if equals edithours true}}
+                                                <div class="form-group flex-grow-1" style="margin: 8px 0px;">
+                                                    <label>Hours</label><input type="text" id="txtBookedHoursSpent" name="txtBookedHoursSpent" required class="form-control">
+                                                </div> 
+                                                {{else}}
                                                 <div class="form-group flex-grow-1" style="margin: 8px 0px;">
                                                     <label>Hours</label><input type="text" id="txtBookedHoursSpent" name="txtBookedHoursSpent" required class="form-control" readonly>
                                                 </div> 
+                                                {{/if}}
                                                 <button class="btn btn-danger btnClockOff" type="submit" style="width: 100%;" id="btnClockOff" name="btnClockOff"><i class="fas fa-clock" style="margin-right: 5px;"></i>Clock Off</button>                                                
                                         </div>
                                              <div class="col-1 colAppointmentList" id="colAppointmentList"
                                                  style="padding-right: .3rem;">
                                                 <label></label>
-                                                <button class="btn btn-success btnAppointmentList" type="button" style="margin: 15px 0px; width: 48px;" id="btnAppointmentList"><i class="far fa-clock"></i></button>
+                                                <button class="btn btn-success btnTimesheetList" type="button" style="margin: 15px 0px; width: 48px;" id="btnTimesheetList"><i class="far fa-clock"></i></button>
                                             </div>
                                         </div>
                                     </div>
