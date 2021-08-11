@@ -591,7 +591,9 @@ Template.appointments.onRendered(function () {
                     document.getElementById("mobile").value = result[0].mobile || result[0].phone || '';
                     document.getElementById("state").value = result[0].state;
                     document.getElementById("address").value = result[0].street;
-                    document.getElementById("txtNotes").value = result[0].notes;
+                    if(Session.get('CloudAppointmentAddAttachment') == true){
+                       document.getElementById("txtNotes").value = result[0].notes; 
+                    }
                     document.getElementById("suburb").value = result[0].suburb;
                     document.getElementById("zip").value = result[0].zip;
                     document.getElementById("country").value = result[0].country;
@@ -955,7 +957,9 @@ Template.appointments.onRendered(function () {
                     document.getElementById("mobile").value = result[0].mobile || result[0].phone || '';
                     document.getElementById("state").value = result[0].state;
                     document.getElementById("address").value = result[0].street;
-                    document.getElementById("txtNotes").value = result[0].notes;
+                     if(Session.get('CloudAppointmentAddAttachment') == true){
+                       document.getElementById("txtNotes").value = result[0].notes; 
+                    }
                     document.getElementById("suburb").value = result[0].suburb;
                     document.getElementById("zip").value = result[0].zip;
                     document.getElementById("country").value = result[0].country;
@@ -1681,7 +1685,9 @@ Template.appointments.onRendered(function () {
                             document.getElementById("mobile").value = result[0].mobile || result[0].phone || '';
                             document.getElementById("state").value = result[0].state;
                             document.getElementById("address").value = result[0].street;
-                            document.getElementById("txtNotes").value = result[0].notes;
+                             if(Session.get('CloudAppointmentAddAttachment') == true){
+                       document.getElementById("txtNotes").value = result[0].notes; 
+                    }
                             document.getElementById("suburb").value = result[0].suburb;
                             document.getElementById("zip").value = result[0].zip;
                             document.getElementById("country").value = result[0].country;
@@ -2535,7 +2541,9 @@ Template.appointments.onRendered(function () {
                         document.getElementById("mobile").value = result[0].mobile || result[0].phone || '';
                         document.getElementById("state").value = result[0].state;
                         document.getElementById("address").value = result[0].street;
-                        document.getElementById("txtNotes").value = result[0].notes;
+                         if(Session.get('CloudAppointmentAddAttachment') == true){
+                       document.getElementById("txtNotes").value = result[0].notes; 
+                    }
                         document.getElementById("suburb").value = result[0].suburb;
                         document.getElementById("zip").value = result[0].zip;
                         document.getElementById("country").value = result[0].country;
@@ -3134,7 +3142,9 @@ Template.appointments.onRendered(function () {
                         document.getElementById("mobile").value = result[0].mobile || result[0].phone || '';
                         document.getElementById("state").value = result[0].state;
                         document.getElementById("address").value = result[0].street;
-                        document.getElementById("txtNotes").value = result[0].notes;
+                         if(Session.get('CloudAppointmentAddAttachment') == true){
+                       document.getElementById("txtNotes").value = result[0].notes; 
+                    }
                         document.getElementById("suburb").value = result[0].suburb;
                         document.getElementById("zip").value = result[0].zip;
                         document.getElementById("country").value = result[0].country;
@@ -4061,7 +4071,9 @@ Template.appointments.onRendered(function () {
         document.getElementById("state").value = $(this).find(".colState").text();
         document.getElementById("country").value = $(this).find(".colCountry").text();
         document.getElementById("address").value = $(this).find(".colStreetAddress").text().replace(/(?:\r\n|\r|\n)/g, ', ');
-        document.getElementById("txtNotes").value = $(this).find(".colNotes").text();
+         if(Session.get('CloudAppointmentAddAttachment') == true){
+                               document.getElementById("txtNotes").value = $(this).find(".colNotes").text();
+                    }
         document.getElementById("suburb").value = $(this).find(".colCity").text();
         document.getElementById("zip").value = $(this).find(".colZipCode").text();
         let appointmentService = new AppointmentService();
@@ -4334,7 +4346,9 @@ Template.appointments.onRendered(function () {
                             document.getElementById("mobile").value = result[0].mobile || result[0].phone || '';
                             document.getElementById("state").value = result[0].state;
                             document.getElementById("address").value = result[0].street;
-                            document.getElementById("txtNotes").value = result[0].notes;
+                              if(Session.get('CloudAppointmentAddAttachment') == true){
+                       document.getElementById("txtNotes").value = result[0].notes; 
+                    }
                             document.getElementById("suburb").value = result[0].suburb;
                             document.getElementById("zip").value = result[0].zip;
                             document.getElementById("country").value = result[0].country;
@@ -4917,7 +4931,9 @@ Template.appointments.events({
             document.getElementById("mobile").value = result[0].mobile || result[0].phone || '';
             document.getElementById("state").value = result[0].state;
             document.getElementById("address").value = result[0].street;
-            document.getElementById("txtNotes").value = result[0].notes;
+             if(Session.get('CloudAppointmentAddAttachment') == true){
+                       document.getElementById("txtNotes").value = result[0].notes; 
+                    }
             document.getElementById("suburb").value = result[0].suburb;
             document.getElementById("zip").value = result[0].zip;
             document.getElementById("country").value = result[0].country;
