@@ -2213,7 +2213,7 @@ Template.new_invoice.onRendered(() => {
                         let data = JSON.parse(dataObject[0].data);
                         let useData = data.tinvoiceex;
                         let customerData = templateObject.clientrecords.get();
-                        console.log(useData);
+
                         var added = false;
                         for (let d = 0; d < useData.length; d++) {
                             if (parseInt(useData[d].fields.ID) === currentInvoice) {
@@ -3546,6 +3546,7 @@ Template.new_invoice.onRendered(() => {
             shipToDesc: '',
             termsName: '',
             Total: Currency + '' + 0.00,
+            TotalDiscount: Currency + '' + 0.00,
             LineItems: lineItems,
             TotalTax: Currency + '' + 0.00,
             SubTotal: Currency + '' + 0.00,
@@ -3792,7 +3793,7 @@ Template.new_invoice.onRendered(() => {
             }else{
               discountAmount = getCustomerDiscount;
             }
-            //console.log(discountAmount);
+          
             $('#' + selectLineID + " .lineDiscount").text(discountAmount);
 
             /*let filterProdExt raSellData =  _.filter(productExtraSell, function (dataProdExtra) {
@@ -3807,6 +3808,7 @@ Template.new_invoice.onRendered(() => {
             let lineTaxAmount = 0;
             let subGrandTotal = 0;
             let taxGrandTotal = 0;
+            let subDiscountTotal = 0; // New Discount
             let taxGrandTotalPrint = 0;
             if (taxcodeList) {
                 for (var i = 0; i < taxcodeList.length; i++) {
@@ -3857,6 +3859,7 @@ Template.new_invoice.onRendered(() => {
                 var qty = $tblrow.find(".lineQty").val() || 0;
                 var price = $tblrow.find(".lineUnitPrice").val() || 0;
                 var taxRate = $tblrow.find(".lineTaxCode").text();
+
                 var taxrateamount = 0;
                 if (taxcodeList) {
                     for (var i = 0; i < taxcodeList.length; i++) {
@@ -3868,8 +3871,19 @@ Template.new_invoice.onRendered(() => {
 
                 var subTotal = parseFloat(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) || 0;
                 var taxTotal = parseFloat(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) * parseFloat(taxrateamount);
+                var lineDiscountPerc = parseFloat($tblrow.find(".lineDiscount").text())||0; // New Discount
+                var discountTotal = (subTotal + taxTotal) * (lineDiscountPerc/100) ;
+                if (!isNaN(discountTotal)) {
+                     subDiscountTotal += isNaN(discountTotal) ? 0 : discountTotal;
+                    document.getElementById("subtotal_discount").innerHTML = utilityService.modifynegativeCurrencyFormat(subDiscountTotal);
+                }
                 $tblrow.find('.lineTaxAmount').text(utilityService.modifynegativeCurrencyFormat(taxTotal));
-
+                var lineDiscountPerc = parseFloat($tblrow.find(".lineDiscount").text())||0; // New Discount
+                var discountTotal = (subTotal + taxTotal) * (lineDiscountPerc/100) ;
+                if (!isNaN(discountTotal)) {
+                     subDiscountTotal += isNaN(discountTotal) ? 0 : discountTotal;
+                    document.getElementById("subtotal_discount").innerHTML = utilityService.modifynegativeCurrencyFormat(subDiscountTotal);
+                }
                 if (!isNaN(subTotal)) {
                     $tblrow.find('.lineAmt').text(utilityService.modifynegativeCurrencyFormat(subTotal));
                     subGrandTotal += isNaN(subTotal) ? 0 : subTotal;
@@ -3880,6 +3894,8 @@ Template.new_invoice.onRendered(() => {
                     taxGrandTotal += isNaN(taxTotal) ? 0 : taxTotal;
                     document.getElementById("subtotal_tax").innerHTML = utilityService.modifynegativeCurrencyFormat(taxGrandTotal);
                 }
+
+
 
                 if (!isNaN(subGrandTotal) && (!isNaN(taxGrandTotal))) {
                     let GrandTotal = (parseFloat(subGrandTotal)) + (parseFloat(taxGrandTotal));
@@ -3945,6 +3961,7 @@ Template.new_invoice.onRendered(() => {
             let lineAmount = 0;
             let subGrandTotal = 0;
             let taxGrandTotal = 0;
+            let subDiscountTotal = 0; // New Discount
             let taxGrandTotalPrint = 0;
 
             $('#' + selectLineID + " .lineTaxRate").text(lineTaxRate || 0);
@@ -3974,6 +3991,12 @@ Template.new_invoice.onRendered(() => {
                     var taxTotal = 0;
                 } else {
                     var taxTotal = parseFloat(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) * parseFloat(taxrateamount);
+                }
+                var lineDiscountPerc = parseFloat($tblrow.find(".lineDiscount").text())||0; // New Discount
+                var discountTotal = (subTotal + taxTotal) * (lineDiscountPerc/100) ;
+                if (!isNaN(discountTotal)) {
+                     subDiscountTotal += isNaN(discountTotal) ? 0 : discountTotal;
+                    document.getElementById("subtotal_discount").innerHTML = utilityService.modifynegativeCurrencyFormat(subDiscountTotal);
                 }
                 $tblrow.find('.lineTaxAmount').text(utilityService.modifynegativeCurrencyFormat(taxTotal));
                 if (!isNaN(subTotal)) {
@@ -4091,6 +4114,7 @@ Template.new_invoice.onRendered(() => {
                 let lineAmount = 0;
                 let subGrandTotal = 0;
                 let taxGrandTotal = 0;
+                let subDiscountTotal = 0; // New Discount
                 let taxGrandTotalPrint = 0;
                 $tblrows.each(function (index) {
                     var $tblrow = $(this);
@@ -4111,6 +4135,18 @@ Template.new_invoice.onRendered(() => {
 
                     var subTotal = parseFloat(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) || 0;
                     var taxTotal = parseFloat(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) * parseFloat(taxrateamount);
+                    var lineDiscountPerc = parseFloat($tblrow.find(".lineDiscount").text())||0; // New Discount
+                    var discountTotal = (subTotal + taxTotal) * (lineDiscountPerc/100) ;
+                    if (!isNaN(discountTotal)) {
+                         subDiscountTotal += isNaN(discountTotal) ? 0 : discountTotal;
+                        document.getElementById("subtotal_discount").innerHTML = utilityService.modifynegativeCurrencyFormat(subDiscountTotal);
+                    }
+                    var lineDiscountPerc = parseFloat($tblrow.find(".lineDiscount").text())||0; // New Discount
+                    var discountTotal = (subTotal + taxTotal) * (lineDiscountPerc/100) ;
+                    if (!isNaN(discountTotal)) {
+                         subDiscountTotal += isNaN(discountTotal) ? 0 : discountTotal;
+                        document.getElementById("subtotal_discount").innerHTML = utilityService.modifynegativeCurrencyFormat(subDiscountTotal);
+                    }
                     $tblrow.find('.lineTaxAmount').text(utilityService.modifynegativeCurrencyFormat(taxTotal));
                     if (!isNaN(subTotal)) {
                         $tblrow.find('.lineAmt').text(utilityService.modifynegativeCurrencyFormat(subTotal));
@@ -5550,6 +5586,7 @@ Template.new_invoice.events({
         let lineAmount = 0;
         let subGrandTotal = 0;
         let taxGrandTotal = 0;
+        let subDiscountTotal = 0; // New Discount
         let taxGrandTotalPrint = 0;
 
         $tblrows.each(function (index) {
@@ -5569,6 +5606,12 @@ Template.new_invoice.events({
 
             var subTotal = parseFloat(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) || 0;
             var taxTotal = parseFloat(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) * parseFloat(taxrateamount);
+            var lineDiscountPerc = parseFloat($tblrow.find(".lineDiscount").text())||0; // New Discount
+            var discountTotal = (subTotal + taxTotal) * (lineDiscountPerc/100) ;
+            if (!isNaN(discountTotal)) {
+                 subDiscountTotal += isNaN(discountTotal) ? 0 : discountTotal;
+                document.getElementById("subtotal_discount").innerHTML = utilityService.modifynegativeCurrencyFormat(subDiscountTotal);
+            }
             $tblrow.find('.lineTaxAmount').text(utilityService.modifynegativeCurrencyFormat(taxTotal));
             if (!isNaN(subTotal)) {
                 $tblrow.find('.lineAmt').text(utilityService.modifynegativeCurrencyFormat(subTotal));
@@ -5656,6 +5699,7 @@ Template.new_invoice.events({
         let lineAmount = 0;
         let subGrandTotal = 0;
         let taxGrandTotal = 0;
+        let subDiscountTotal = 0; // New Discount
 
         $tblrows.each(function (index) {
             var $tblrow = $(this);
@@ -5675,6 +5719,12 @@ Template.new_invoice.events({
             var subTotal = parseFloat(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) || 0;
             var taxTotal = parseFloat(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) * parseFloat(taxrateamount);
             $tblrow.find('.lineTaxAmount').text(utilityService.modifynegativeCurrencyFormat(taxTotal));
+            var lineDiscountPerc = parseFloat($tblrow.find(".lineDiscount").text())||0; // New Discount
+            var discountTotal = (subTotal + taxTotal) * (lineDiscountPerc/100) ;
+            if (!isNaN(discountTotal)) {
+                 subDiscountTotal += isNaN(discountTotal) ? 0 : discountTotal;
+                document.getElementById("subtotal_discount").innerHTML = utilityService.modifynegativeCurrencyFormat(subDiscountTotal);
+            }
             if (!isNaN(subTotal)) {
                 $tblrow.find('.lineAmt').text(utilityService.modifynegativeCurrencyFormat(subTotal));
                 subGrandTotal += isNaN(subTotal) ? 0 : subTotal;
@@ -5717,6 +5767,7 @@ Template.new_invoice.events({
         let lineAmount = 0;
         let subGrandTotal = 0;
         let taxGrandTotal = 0;
+        let subDiscountTotal = 0; // New Discount
         let taxGrandTotalPrint = 0;
 
         if ($('.printID').attr('id') != undefined || $('.printID').attr('id') != "") {
@@ -5741,6 +5792,12 @@ Template.new_invoice.events({
             var subTotal = parseFloat(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) || 0;
             var taxTotal = parseFloat(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) * parseFloat(taxrateamount);
             $tblrow.find('.lineTaxAmount').text(utilityService.modifynegativeCurrencyFormat(taxTotal));
+            var lineDiscountPerc = parseFloat($tblrow.find(".lineDiscount").text())||0; // New Discount
+            var discountTotal = (subTotal + taxTotal) * (lineDiscountPerc/100) ;
+            if (!isNaN(discountTotal)) {
+                 subDiscountTotal += isNaN(discountTotal) ? 0 : discountTotal;
+                document.getElementById("subtotal_discount").innerHTML = utilityService.modifynegativeCurrencyFormat(subDiscountTotal);
+            }
             if (!isNaN(subTotal)) {
                 $tblrow.find('.lineAmt').text(utilityService.modifynegativeCurrencyFormat(subTotal));
                 subGrandTotal += isNaN(subTotal) ? 0 : subTotal;
@@ -5921,6 +5978,7 @@ Template.new_invoice.events({
                 let lineAmount = 0;
                 let subGrandTotal = 0;
                 let taxGrandTotal = 0;
+                let subDiscountTotal = 0; // New Discount
                 let taxGrandTotalPrint = 0;
 
                 $tblrows.each(function (index) {
@@ -5941,6 +5999,12 @@ Template.new_invoice.events({
                     var subTotal = parseFloat(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) || 0;
                     var taxTotal = parseFloat(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) * parseFloat(taxrateamount);
                     $tblrow.find('.lineTaxAmount').text(utilityService.modifynegativeCurrencyFormat(taxTotal));
+                    var lineDiscountPerc = parseFloat($tblrow.find(".lineDiscount").text())||0; // New Discount
+                    var discountTotal = (subTotal + taxTotal) * (lineDiscountPerc/100) ;
+                    if (!isNaN(discountTotal)) {
+                         subDiscountTotal += isNaN(discountTotal) ? 0 : discountTotal;
+                        document.getElementById("subtotal_discount").innerHTML = utilityService.modifynegativeCurrencyFormat(subDiscountTotal);
+                    }
                     if (!isNaN(subTotal)) {
                         $tblrow.find('.lineAmt').text(utilityService.modifynegativeCurrencyFormat(subTotal));
                         subGrandTotal += isNaN(subTotal) ? 0 : subTotal;
@@ -6059,6 +6123,7 @@ Template.new_invoice.events({
             let lineAmount = 0;
             let subGrandTotal = 0;
             let taxGrandTotal = 0;
+            let subDiscountTotal = 0; // New Discount
             let taxGrandTotalPrint = 0;
 
             $tblrows.each(function (index) {
@@ -6079,6 +6144,12 @@ Template.new_invoice.events({
                 var subTotal = parseFloat(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) || 0;
                 var taxTotal = parseFloat(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) * parseFloat(taxrateamount);
                 $tblrow.find('.lineTaxAmount').text(utilityService.modifynegativeCurrencyFormat(taxTotal));
+                var lineDiscountPerc = parseFloat($tblrow.find(".lineDiscount").text())||0; // New Discount
+                var discountTotal = (subTotal + taxTotal) * (lineDiscountPerc/100) ;
+                if (!isNaN(discountTotal)) {
+                     subDiscountTotal += isNaN(discountTotal) ? 0 : discountTotal;
+                    document.getElementById("subtotal_discount").innerHTML = utilityService.modifynegativeCurrencyFormat(subDiscountTotal);
+                }
                 if (!isNaN(subTotal)) {
                     $tblrow.find('.lineAmt').text(utilityService.modifynegativeCurrencyFormat(subTotal));
                     subGrandTotal += isNaN(subTotal) ? 0 : subTotal;

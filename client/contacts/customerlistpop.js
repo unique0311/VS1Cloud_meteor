@@ -1262,7 +1262,7 @@ Template.customerlistpop.events({
         const dataTableList = [];
         const tableHeaderList = [];
         let dataSearchName = $('#tblCustomerlist_filter input').val();
-        //console.log(dataSearchName);
+        
         if (dataSearchName.replace(/\s/g, '') != '') {
             sideBarService.getAllCustomersDataVS1ByName(dataSearchName).then(function (data) {
                 let lineItems = [];

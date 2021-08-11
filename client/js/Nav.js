@@ -209,41 +209,14 @@ $('#navsettings').addClass('nav_activestate');
 }
 
 });
-   
-    
-     
-     
-    
-     
-    
-    
-   
-   
-   
- 
- /*
- $(function() {
- $( '.nav li' ).on( 'click', function() {
- $( this ).parent().find( 'li.nav_activestate' ).removeClass( 'nav_activestate' );
- $( this ).addClass( 'nav_activestate' );
- });
-});*/
+
+
+
 });
 
 Template.nav.onRendered(function(){
 
-/*
-  window.open('/shipquickInv?id='+salesID,'_self');
-  $('#navhome, #navaccounts').click(function () {
-if (this.id == 'navhome') {
- $('#navhome').addClass('nav_activestate');
- 
-}
-else if (this.id == 'navaccounts') {
-   $('#navaccounts').addClass('nav_activestate');
-}
-});
-*/
+
 var erpGet = erpDb();
 
 var LoggedDB = erpGet.ERPDatabase;

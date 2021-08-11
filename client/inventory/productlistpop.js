@@ -436,7 +436,7 @@ Template.productlistpop.events({
     if(dataSearchName.replace(/\s/g, '') != ''){
     sideBarService.getNewProductListVS1ByName(dataSearchName).then(function (data) {
         let records = [];
-        //console.log(data.tproductvs1.length);
+        
         let inventoryData = [];
         if(data.tproductvs1.length > 0){
         for (let i = 0; i < data.tproductvs1.length; i++) {

@@ -2119,7 +2119,7 @@ Template.purchaseordercard.onRendered(function() {
         });
     };
 
-    tempObj.getAllProducts();
+    //tempObj.getAllProducts();
 
 
 

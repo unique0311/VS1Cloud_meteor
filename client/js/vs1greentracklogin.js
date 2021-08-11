@@ -468,102 +468,7 @@ window.open('/dashboard','_self');
       Session.setPersistent('CloudStockTransferLicence', isStockTransferLicence);
       /* End Remove licence */
 
-      /*
-    var ERPDetails = erpdbname;
-    var SegsDatabase = ERPDetails.split(',');
-    var ERPLicenceInfoObject = "TErpSysInfo";
-    var oReqERPLicenceInfoObject = new XMLHttpRequest();
-    oReqERPLicenceInfoObject.open("GET",URLRequest + SegsDatabase[0] + ':' + SegsDatabase[4] + '/' + "erpapi" + '/' + ERPLicenceInfoObject, true);
-    oReqERPLicenceInfoObject.setRequestHeader("database",SegsDatabase[1]);
-    oReqERPLicenceInfoObject.setRequestHeader("username",SegsDatabase[2]);
-    oReqERPLicenceInfoObject.setRequestHeader("password",SegsDatabase[3]);
-    oReqERPLicenceInfoObject.send();
-    oReqERPLicenceInfoObject.timeout = 30000;
-    oReqERPLicenceInfoObject.onreadystatechange = function() {
-    if (oReqERPLicenceInfoObject.readyState == 4 && oReqERPLicenceInfoObject.status == 200) {
 
-         var data = JSON.parse(oReqERPLicenceInfoObject.responseText)
-
-          let companyName = data.fields.CompanyName;
-          let databaseName = data.fields.DatabaseName;
-          let licenceConcurrentUsers = data.fields.LicenceConcurrentUsers;
-          let licenceExpireDate = data.fields.LicenceExpireDate;
-          let licenceStatus = data.fields.LicenceStatus;
-          let licenceOptions = data.fields.LicenceOptions;
-          if(licenceStatus === 'lsLicenced'){
-            $.each(JSON.parse(licenceOptions), function (item, option) {
-              if(item == 'CloudAccounts'){
-                isAccountsLicence = option;
-              }else if(item == 'CloudContacts'){
-                isContactsLicence = option;
-              }else if(item == 'CloudExpenseClaims'){
-                isExpenseClaimsLicence = option;
-              }else if(item == 'CloudDashboard'){
-                isDashboardLicence = option;
-              }else if(item == 'CloudFixedAssets'){
-                isFixedAssetsLicence = option;
-              }else if(item == 'CloudInventory'){
-                isInventoryLicence = option;
-              }else if(item == 'CloudMain'){
-                isMainLicence = option;
-              }else if(item == 'CloudManufacturing'){
-                isManufacturingLicence = option;
-              }else if(item == 'CloudPayments'){
-                isPaymentsLicence = option;
-              }else if(item == 'CloudPurchases'){
-                isPurchasesLicence = option;
-              }else if(item == 'CloudReports'){
-                 isReportsLicence = option;
-              }else if(item == 'CloudSales'){
-                isSalesLicence = option;
-              }else if(item == 'CloudSettings'){
-                isSettingsLicence = option;
-              }else if(item == 'CloudShipping'){
-                isShippingLicence = option;
-              }else if(item == 'CloudStockTake'){
-                isStockTakeLicence = option;
-              }else if(item == 'CloudStockTransfer'){
-                isStockTransferLicence = option;
-              }
-
-
-            });
-
-
-          Session.setPersistent('CloudAccountsLicence', isAccountsLicence);
-          Session.setPersistent('CloudContactsLicence', isContactsLicence);
-          Session.setPersistent('CloudExpenseClaimsLicence', isExpenseClaimsLicence);
-          Session.setPersistent('CloudPaymentsLicence', isPaymentsLicence);
-          Session.setPersistent('CloudReportsLicence', isReportsLicence);
-          Session.setPersistent('CloudSettingsLicence', isSettingsLicence);
-
-          Session.setPersistent('CloudMainLicence', isMainLicence);
-          Session.setPersistent('CloudDashboardLicence', isDashboardLicence);
-
-
-
-            Session.setPersistent('CloudFixedAssetsLicence', isFixedAssetsLicence);
-            Session.setPersistent('CloudInventoryLicence', isInventoryLicence);
-            Session.setPersistent('CloudManufacturingLicence', isManufacturingLicence);
-            Session.setPersistent('CloudPurchasesLicence', isPurchasesLicence);
-            Session.setPersistent('CloudSalesLicence', isSalesLicence);
-            Session.setPersistent('CloudShippingLicence', isShippingLicence);
-            Session.setPersistent('CloudStockTakeLicence', isStockTakeLicence);
-            Session.setPersistent('CloudStockTransferLicence', isStockTransferLicence);
-          }else{
-            Bert.alert('Your licence has expired. <strong> :'+ data.fields.LicenceStatusReason+'!</strong>', 'now-error');
-
-            setTimeout(function () {
-                Meteor._reload.reload();
-                window.open('/','_self');
-                CloudUser.update({_id: Session.get('mycloudLogonID')},{ $set: {userMultiLogon: false}});
-            }, 3500);
-          }
-
-    }
-
-    }
-*/
   }
 
   function getAccessLevelData(userAccessOptions){
@@ -2563,56 +2468,6 @@ $("#erplogin-button").click(function(e){
                 });
               }
 
-        /*
-              var ERPCheackAppUserObject = "TAppUser?PropertyList==ID,DatabaseName,UserName,MultiLogon&Select=[DatabaseName]='"+ERPdbName+"' and [UserName]='"+ERPLoggeduserName+"'";
-              var oReqCheackAppUserObject = new XMLHttpRequest();
-              oReqCheackAppUserObject.open("GET",URLRequest + ERPIPAdderess + ':' + ERPport + '/' + "erpapi" + '/' + ERPCheackAppUserObject, true);
-              oReqCheackAppUserObject.setRequestHeader("database",ERPdbName);
-              oReqCheackAppUserObject.setRequestHeader("username",ERPuserName);
-              oReqCheackAppUserObject.setRequestHeader("password",ERPpassword);
-              oReqCheackAppUserObject.send();
-
-
-              oReqCheackAppUserObject.onreadystatechange = function() {
-              if (oReqCheackAppUserObject.readyState == 4 && oReqCheackAppUserObject.status == 200) {
-                var dataListCheackAppUser = JSON.parse(oReqCheackAppUserObject.responseText)
-                for (var eventCheackAppUser in dataListCheackAppUser) {
-                  var dataCheackAppUserCopy = dataListCheackAppUser[eventCheackAppUser];
-                  if(dataCheackAppUserCopy.length === 0){
-                    counterUserRec = true;
-                  }else if(dataCheackAppUserCopy.length === 1){
-                    if(ERPuserName.toString().toUpperCase() == ERPLoggeduserName.toString().toUpperCase()){
-                      counterUserRec = true;
-                    }else{
-                      counterUserRec = false;
-                    }
-
-                  }else{
-                    counterUserRec = false;
-                  };
-
-                  for (var dataCheackAppUser in dataCheackAppUserCopy) {
-                    var mainCheackAppUserData = dataCheackAppUserCopy[dataCheackAppUser];
-                    var erpUsername = mainCheackAppUserData.UserName;
-
-                  }
-              if(counterUserRec === true){
-
-
-
-
-              }else{
-
-                  swal('Oops...', 'VS1 User Name is already logged in. Select "Sign me out of all devices" to login', 'info');
-                $('.loginSpinner').css('display','none');
-                $('.fullScreenSpin').css('display','none');
-
-              }
-              }
-              }
-
-              }
-        */
               /*END APPUSER*/
 
            }
@@ -3162,56 +3017,7 @@ $("#erplogin-button").click(function(e){
 
           }
 
-    /*
-          var ERPCheackAppUserObject = "TAppUser?PropertyList==ID,DatabaseName,UserName,MultiLogon&Select=[DatabaseName]='"+ERPdbName+"' and [UserName]='"+ERPLoggeduserName+"'";
-          var oReqCheackAppUserObject = new XMLHttpRequest();
-          oReqCheackAppUserObject.open("GET",URLRequest + ERPIPAdderess + ':' + ERPport + '/' + "erpapi" + '/' + ERPCheackAppUserObject, true);
-          oReqCheackAppUserObject.setRequestHeader("database",ERPdbName);
-          oReqCheackAppUserObject.setRequestHeader("username",ERPuserName);
-          oReqCheackAppUserObject.setRequestHeader("password",ERPpassword);
-          oReqCheackAppUserObject.send();
 
-
-          oReqCheackAppUserObject.onreadystatechange = function() {
-          if (oReqCheackAppUserObject.readyState == 4 && oReqCheackAppUserObject.status == 200) {
-            var dataListCheackAppUser = JSON.parse(oReqCheackAppUserObject.responseText)
-            for (var eventCheackAppUser in dataListCheackAppUser) {
-              var dataCheackAppUserCopy = dataListCheackAppUser[eventCheackAppUser];
-              if(dataCheackAppUserCopy.length === 0){
-                counterUserRec = true;
-              }else if(dataCheackAppUserCopy.length === 1){
-                if(ERPuserName.toString().toUpperCase() == ERPLoggeduserName.toString().toUpperCase()){
-                  counterUserRec = true;
-                }else{
-                  counterUserRec = false;
-                }
-
-              }else{
-                counterUserRec = false;
-              };
-
-              for (var dataCheackAppUser in dataCheackAppUserCopy) {
-                var mainCheackAppUserData = dataCheackAppUserCopy[dataCheackAppUser];
-                var erpUsername = mainCheackAppUserData.UserName;
-
-              }
-          if(counterUserRec === true){
-
-
-
-
-          }else{
-
-              swal('Oops...', 'VS1 User Name is already logged in. Select "Sign me out of all devices" to login', 'info');
-            $('.loginSpinner').css('display','none');
-            $('.fullScreenSpin').css('display','none');
-
-          }
-          }
-          }
-
-          }
-    */
           /*END APPUSER*/
 
        }

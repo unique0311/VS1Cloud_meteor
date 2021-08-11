@@ -466,102 +466,7 @@ window.open('/dashboard','_self');
       Session.setPersistent('CloudStockTransferLicence', isStockTransferLicence);
       /* End Remove licence */
 
-      /*
-    var ERPDetails = erpdbname;
-    var SegsDatabase = ERPDetails.split(',');
-    var ERPLicenceInfoObject = "TErpSysInfo";
-    var oReqERPLicenceInfoObject = new XMLHttpRequest();
-    oReqERPLicenceInfoObject.open("GET",URLRequest + SegsDatabase[0] + ':' + SegsDatabase[4] + '/' + "erpapi" + '/' + ERPLicenceInfoObject, true);
-    oReqERPLicenceInfoObject.setRequestHeader("database",SegsDatabase[1]);
-    oReqERPLicenceInfoObject.setRequestHeader("username",SegsDatabase[2]);
-    oReqERPLicenceInfoObject.setRequestHeader("password",SegsDatabase[3]);
-    oReqERPLicenceInfoObject.send();
-    oReqERPLicenceInfoObject.timeout = 30000;
-    oReqERPLicenceInfoObject.onreadystatechange = function() {
-    if (oReqERPLicenceInfoObject.readyState == 4 && oReqERPLicenceInfoObject.status == 200) {
 
-         var data = JSON.parse(oReqERPLicenceInfoObject.responseText)
-
-          let companyName = data.fields.CompanyName;
-          let databaseName = data.fields.DatabaseName;
-          let licenceConcurrentUsers = data.fields.LicenceConcurrentUsers;
-          let licenceExpireDate = data.fields.LicenceExpireDate;
-          let licenceStatus = data.fields.LicenceStatus;
-          let licenceOptions = data.fields.LicenceOptions;
-          if(licenceStatus === 'lsLicenced'){
-            $.each(JSON.parse(licenceOptions), function (item, option) {
-              if(item == 'CloudAccounts'){
-                isAccountsLicence = option;
-              }else if(item == 'CloudContacts'){
-                isContactsLicence = option;
-              }else if(item == 'CloudExpenseClaims'){
-                isExpenseClaimsLicence = option;
-              }else if(item == 'CloudDashboard'){
-                isDashboardLicence = option;
-              }else if(item == 'CloudFixedAssets'){
-                isFixedAssetsLicence = option;
-              }else if(item == 'CloudInventory'){
-                isInventoryLicence = option;
-              }else if(item == 'CloudMain'){
-                isMainLicence = option;
-              }else if(item == 'CloudManufacturing'){
-                isManufacturingLicence = option;
-              }else if(item == 'CloudPayments'){
-                isPaymentsLicence = option;
-              }else if(item == 'CloudPurchases'){
-                isPurchasesLicence = option;
-              }else if(item == 'CloudReports'){
-                 isReportsLicence = option;
-              }else if(item == 'CloudSales'){
-                isSalesLicence = option;
-              }else if(item == 'CloudSettings'){
-                isSettingsLicence = option;
-              }else if(item == 'CloudShipping'){
-                isShippingLicence = option;
-              }else if(item == 'CloudStockTake'){
-                isStockTakeLicence = option;
-              }else if(item == 'CloudStockTransfer'){
-                isStockTransferLicence = option;
-              }
-
-
-            });
-
-
-          Session.setPersistent('CloudAccountsLicence', isAccountsLicence);
-          Session.setPersistent('CloudContactsLicence', isContactsLicence);
-          Session.setPersistent('CloudExpenseClaimsLicence', isExpenseClaimsLicence);
-          Session.setPersistent('CloudPaymentsLicence', isPaymentsLicence);
-          Session.setPersistent('CloudReportsLicence', isReportsLicence);
-          Session.setPersistent('CloudSettingsLicence', isSettingsLicence);
-
-          Session.setPersistent('CloudMainLicence', isMainLicence);
-          Session.setPersistent('CloudDashboardLicence', isDashboardLicence);
-
-
-
-            Session.setPersistent('CloudFixedAssetsLicence', isFixedAssetsLicence);
-            Session.setPersistent('CloudInventoryLicence', isInventoryLicence);
-            Session.setPersistent('CloudManufacturingLicence', isManufacturingLicence);
-            Session.setPersistent('CloudPurchasesLicence', isPurchasesLicence);
-            Session.setPersistent('CloudSalesLicence', isSalesLicence);
-            Session.setPersistent('CloudShippingLicence', isShippingLicence);
-            Session.setPersistent('CloudStockTakeLicence', isStockTakeLicence);
-            Session.setPersistent('CloudStockTransferLicence', isStockTransferLicence);
-          }else{
-            Bert.alert('Your licence has expired. <strong> :'+ data.fields.LicenceStatusReason+'!</strong>', 'now-error');
-
-            setTimeout(function () {
-                Meteor._reload.reload();
-                window.open('/','_self');
-                CloudUser.update({_id: Session.get('mycloudLogonID')},{ $set: {userMultiLogon: false}});
-            }, 3500);
-          }
-
-    }
-
-    }
-*/
   }
 
   function getAccessLevelData(userAccessOptions, isSameUserLogin){
@@ -2220,35 +2125,7 @@ $("#signmeout").click(function(e){
        e.preventDefault();
    }else{
      $('.fullScreenSpin').css('display','none');
-     /*
-     Meteor.call('readMethod',userLoginEmail,hashUserLoginPassword, function(error, result){
-     if(error){
-
-       swal('user-not-found', 'no user found please try again!', 'warning');
-       $('.fullScreenSpin').css('display','none');
-     }else{
-       let regUserDetails = result;
-      if(regUserDetails){
-        if(regUserDetails.length > 0){
-          for (let i = 0; i < regUserDetails.length; i++) {
-           var logonID = regUserDetails[i]._id;
-           CloudUser.update({_id: logonID},{ $set: {userMultiLogon: false}});
-         }
-
-         $('.fullScreenSpin').css('display','none');
-       }
-
-      }else{
-        swal('Oops...', 'Your email or password is incorrect, please try again!', 'error');
-
-        $('.fullScreenSpin').css('display','none');
-        e.preventDefault();
-      }
-
-     }
-
-     });
-     */
+    
    }
 });
 

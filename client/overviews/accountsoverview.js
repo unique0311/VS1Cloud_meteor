@@ -1174,7 +1174,7 @@ Template.accountsoverview.events({
                            var accountName = accountname || '';
                            var bsb = bankbsb || '';
                            var routingNo = routingNo || '';
-                           console.log(accNo);
+
                            localStorage.setItem('vs1companyBankName', bankname);
                            localStorage.setItem('vs1companyBankAccountName', bankAccName);
                            localStorage.setItem('vs1companyBankAccountNo', accNo);
@@ -1377,7 +1377,7 @@ Template.accountsoverview.events({
                            localStorage.setItem('vs1companyBankRoutingNo', routingNo);
                         sideBarService.getAccountListVS1().then(function (dataReload) {
                             addVS1Data('TAccountVS1', JSON.stringify(dataReload)).then(function (datareturn) {
-                                console.log(localStorage.getItem('vs1companyBankSwiftCode'));
+
                                window.open('/accountsoverview', '_self');
                             }).catch(function (err) {
                                 window.open('/accountsoverview', '_self');
@@ -1397,7 +1397,7 @@ Template.accountsoverview.events({
                       });
                     });
                 } else {
-                    console.log(localStorage.getItem('vs1companyBankAccountNo'));
+                    
                     sideBarService.getAccountListVS1().then(function (dataReload) {
                         addVS1Data('TAccountVS1', JSON.stringify(dataReload)).then(function (datareturn) {
                             window.open('/accountsoverview', '_self');

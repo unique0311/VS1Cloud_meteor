@@ -76,70 +76,7 @@ var loc = window.location.pathname;
 Template.header.onRendered(function(){
   const templateObject = Template.instance();
   let sidePanelToggle = Session.get('sidePanelToggle');
-  /*
-  setTimeout(function () {
 
-    $('#tblSearchOverview').DataTable({
-          select: true,
-          destroy: true,
-          colReorder: true,
-          "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
-          buttons: [
-                {
-             extend: 'csvHtml5',
-             text: '',
-             download: 'open',
-             className: "btntabletocsv hiddenColumn",
-             filename: "globalsearch_"+ moment().format(),
-             orientation:'portrait',
-              exportOptions: {
-              columns: ':visible'
-            }
-          },{
-              extend: 'print',
-              download: 'open',
-              className: "btntabletopdf hiddenColumn",
-              text: '',
-              title: 'Global Search',
-              filename: "globalsearch_"+ moment().format(),
-              exportOptions: {
-              columns: ':visible'
-            }
-          },
-          {
-           extend: 'excelHtml5',
-           title: '',
-           download: 'open',
-           className: "btntabletoexcel hiddenColumn",
-           filename: "accountoverview_"+ moment().format(),
-           orientation:'portrait',
-            exportOptions: {
-            columns: ':visible'
-          }
-          }],
-          pageLength: 25,
-          lengthMenu: [ [10, 25, 50, -1], [10, 25, 50, "All"] ],
-          info: true,
-          responsive: true,
-          "order": [[ 0, "asc" ]],
-
-          action: function () {
-              $('#tblSearchOverview').DataTable().ajax.reload();
-          },
-          "fnDrawCallback": function (oSettings) {
-
-          },
-
-      }).on('page', function () {
-
-      }).on('column-reorder', function () {
-
-      }).on( 'length.dt', function ( e, settings, len ) {
-
-      });
-
-  }, 10);
-  */
   templateObject.getAllGlobalSearch = function (searchName) {
     $('.fullScreenSpin').css('display','inline-block');
       productService.getGlobalSearchReport(searchName).then(function (data) {
@@ -438,21 +375,7 @@ Template.header.onRendered(function(){
     }
 
   }
-  /*
-  organizationService.getEmployeeProfileImageByName(sessionDataToLog).then((data) => {
-    Session.setPersistent('vs1EmployeeImages', data);
-          let employeeProfile = '';
-          for (let i = 0; i < data.temployeepicture.length; i++) {
 
-              if (data.temployeepicture[i].EmployeeName === sessionDataToLog) {
-                  employeeProfile = data.temployeepicture[i].EncodedPic;
-
-
-                  $('.img-profile').attr('src', 'data:image/jpeg;base64,'+employeeProfile);
-              }
-          }
-    });
-    */
 var erpGet = erpDb();
 
 var LoggedDB = erpGet.ERPDatabase;

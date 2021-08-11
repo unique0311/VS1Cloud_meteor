@@ -82,24 +82,31 @@ Template.accessleveldup.onRendered(function(){
         let lineItemObjForm = {};
         let isSidePanelFormID = '';
         let isTopPanelFormID = '';
+        let itemData = data.terpform.sort(function (a, b) {
 
-        for(let i=0; i<data.terpform.length; i++){
+          if (a.Description.toLowerCase() == 'NA') {
+            return 1;
+          }
+          else if (b.Description.toLowerCase() == 'NA') {
+            return -1;
+          }
+          return (a.Description.toLowerCase() > b.Description.toLowerCase()) ? 1 : -1;
+        });
+    
+        for(let i=0; i<itemData.length; i++){
             lineItemObjForm = {
-                lineID: data.terpform[i].Id || '',
-                description: data.terpform[i].Description || '',
-                skingroup: data.terpform[i].SkinsGroup || ''
+                lineID: itemData[i].Id || '',
+                description: itemData[i].Description || '',
+                skingroup: itemData[i].SkinsGroup || ''
 
             };
 
-
-
-
-            if(data.terpform[i].Description === "Side Panel Menu"){
-                isSidePanelFormID = data.terpform[i].Id;
+            if(itemData[i].Description === "Side Panel Menu"){
+                isSidePanelFormID = itemData[i].Id;
                 Session.setPersistent('CloudSidePanelMenuFormID', isSidePanelFormID);
             }
-            if(data.terpform[i].Description === "Top Panel Menu"){
-                isTopPanelFormID = data.terpform[i].Id;
+            if(itemData[i].Description === "Top Panel Menu"){
+                isTopPanelFormID = itemData[i].Id;
                 Session.setPersistent('CloudTopPanelMenuFormID', isTopPanelFormID);
             }
             lineItemsForm.push(lineItemObjForm);
