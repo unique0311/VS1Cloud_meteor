@@ -16,7 +16,6 @@ import { autoTable } from 'jspdf-autotable';
 import 'jquery-editable-select';
 import { SideBarService } from '../js/sidebar-service';
 import '../lib/global/indexdbstorage.js';
-import '../lib/global/indexdbstorage.js';
 let sideBarService = new SideBarService();
 let utilityService = new UtilityService();
 var times = 0;
@@ -430,6 +429,9 @@ Template.new_invoice.onRendered(() => {
                     let totalInc = utilityService.modifynegativeCurrencyFormat(data.fields.TotalAmountInc).toLocaleString(undefined, {
                         minimumFractionDigits: 2
                     });
+                    let totalDiscount = utilityService.modifynegativeCurrencyFormat(data.fields.TotalDiscount).toLocaleString(undefined, {
+                        minimumFractionDigits: 2
+                    });
                     let subTotal = utilityService.modifynegativeCurrencyFormat(data.fields.TotalAmount).toLocaleString(undefined, {
                         minimumFractionDigits: 2
                     });
@@ -459,7 +461,7 @@ Template.new_invoice.onRendered(() => {
                                 qtyordered: data.fields.Lines[i].fields.UOMOrderQty || 0,
                                 qtyshipped: data.fields.Lines[i].fields.UOMQtyShipped || 0,
                                 qtybo: data.fields.Lines[i].fields.UOMQtyBackOrder || 0,
-                                unitPrice: currencySymbol + '' + data.fields.Lines[i].fields.LinePrice.toLocaleString(undefined, {
+                                unitPrice: currencySymbol + '' + data.fields.Lines[i].fields.OriginalLinePrice.toLocaleString(undefined, {
                                     minimumFractionDigits: 2
                                 }) || 0,
                                 lineCost: currencySymbol + '' + data.fields.Lines[i].fields.LineCost.toLocaleString(undefined, {
@@ -471,6 +473,7 @@ Template.new_invoice.onRendered(() => {
                                 curTotalAmt: currencyAmountGbp || currencySymbol + '0',
                                 TaxTotal: TaxTotalGbp || 0,
                                 TaxRate: TaxRateGbp || 0,
+                                DiscountPercent:data.fields.Lines[i].fields.DiscountPercent || 0
 
                             };
                             var dataListTable = [
@@ -497,7 +500,7 @@ Template.new_invoice.onRendered(() => {
                             id: data.fields.Lines.fields.ID || '',
                             description: data.fields.Lines.fields.ProductDescription || '',
                             quantity: data.fields.Lines.fields.UOMOrderQty || 0,
-                            unitPrice: data.fields.Lines.fields.LinePrice.toLocaleString(undefined, {
+                            unitPrice: data.fields.Lines.fields.OriginalLinePrice.toLocaleString(undefined, {
                                 minimumFractionDigits: 2
                             }) || 0,
                             lineCost: data.fields.Lines.fields.LineCost.toLocaleString(undefined, {
@@ -539,6 +542,7 @@ Template.new_invoice.onRendered(() => {
                         shipToDesc: data.fields.ShipToDesc,
                         termsName: data.fields.TermsName,
                         Total: totalInc,
+                        TotalDiscount: totalDiscount,
                         LineItems: lineItems,
                         TotalTax: totalTax,
                         SubTotal: subTotal,
@@ -663,6 +667,9 @@ Template.new_invoice.onRendered(() => {
                             let totalInc = currencySymbol + '' + data.fields.TotalAmountInc.toLocaleString(undefined, {
                                 minimumFractionDigits: 2
                             }) || 0;
+                            let totalDiscount = utilityService.modifynegativeCurrencyFormat(data.fields.TotalDiscount).toLocaleString(undefined, {
+                                minimumFractionDigits: 2
+                            });
                             let subTotal = currencySymbol + '' + data.fields.TotalAmount.toLocaleString(undefined, {
                                 minimumFractionDigits: 2
                             }) || 0;
@@ -692,7 +699,7 @@ Template.new_invoice.onRendered(() => {
                                         qtyordered: data.fields.Lines[i].fields.UOMOrderQty || 0,
                                         qtyshipped: data.fields.Lines[i].fields.UOMQtyShipped || 0,
                                         qtybo: data.fields.Lines[i].fields.UOMQtyBackOrder || 0,
-                                        unitPrice: utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.LinePrice).toLocaleString(undefined, {
+                                        unitPrice: utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.OriginalLinePrice).toLocaleString(undefined, {
                                             minimumFractionDigits: 2
                                         }) || 0,
                                         lineCost: utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.LineCost).toLocaleString(undefined, {
@@ -704,6 +711,7 @@ Template.new_invoice.onRendered(() => {
                                         curTotalAmt: currencyAmountGbp || currencySymbol + '0',
                                         TaxTotal: TaxTotalGbp || 0,
                                         TaxRate: TaxRateGbp || 0,
+                                        DiscountPercent:data.fields.Lines[i].fields.DiscountPercent || 0
 
                                     };
                                     var dataListTable = [
@@ -730,7 +738,7 @@ Template.new_invoice.onRendered(() => {
                                     id: data.fields.Lines.fields.ID || '',
                                     description: data.fields.Lines.fields.ProductDescription || '',
                                     quantity: data.fields.Lines.fields.UOMOrderQty || 0,
-                                    unitPrice: data.fields.Lines[i].fields.LinePrice.toLocaleString(undefined, {
+                                    unitPrice: data.fields.Lines[i].fields.OriginalLinePrice.toLocaleString(undefined, {
                                         minimumFractionDigits: 2
                                     }) || 0,
                                     lineCost: data.fields.Lines[i].fields.LineCost.toLocaleString(undefined, {
@@ -803,10 +811,10 @@ Template.new_invoice.onRendered(() => {
                                             $('#edtCustomerEmail').attr('customerid', clientList[i].customerid);
                                             $('#edtCustomerEmail').attr('customerfirstname', clientList[i].firstname);
                                             $('#edtCustomerEmail').attr('customerlastname', clientList[i].lastname);
-                                            $('#customerType').text(clientList[i].clienttypename);
-                                            $('#customerDiscount').text(clientList[i].discount);
-                                            $('#edtCustomerUseType').val(clientList[i].clienttypename);
-                                            $('#edtCustomerUseDiscount').val(clientList[i].discount);
+                                            $('#customerType').text(clientList[i].clienttypename||'Default');
+                                            $('#customerDiscount').text(clientList[i].discount+'%');
+                                            $('#edtCustomerUseType').val(clientList[i].clienttypename||'Default');
+                                            $('#edtCustomerUseDiscount').val(clientList[i].discount||0);
                                         }
                                     }
                                 };
@@ -946,6 +954,10 @@ Template.new_invoice.onRendered(() => {
                                 let totalInc = currencySymbol + '' + useData[d].fields.TotalAmountInc.toLocaleString(undefined, {
                                     minimumFractionDigits: 2
                                 });
+                                let totalDiscount = currencySymbol + '' + useData[d].fields.TotalDiscount.toLocaleString(undefined, {
+                                    minimumFractionDigits: 2
+                                });
+
                                 let subTotal = currencySymbol + '' + useData[d].fields.TotalAmount.toLocaleString(undefined, {
                                     minimumFractionDigits: 2
                                 });
@@ -975,7 +987,7 @@ Template.new_invoice.onRendered(() => {
                                             qtyordered: useData[d].fields.Lines[i].fields.UOMOrderQty || 0,
                                             qtyshipped: useData[d].fields.Lines[i].fields.UOMQtyShipped || 0,
                                             qtybo: useData[d].fields.Lines[i].fields.UOMQtyBackOrder || 0,
-                                            unitPrice: utilityService.modifynegativeCurrencyFormat(useData[d].fields.Lines[i].fields.LinePrice).toLocaleString(undefined, {
+                                            unitPrice: utilityService.modifynegativeCurrencyFormat(useData[d].fields.Lines[i].fields.OriginalLinePrice).toLocaleString(undefined, {
                                                 minimumFractionDigits: 2
                                             }) || 0,
                                             lineCost: utilityService.modifynegativeCurrencyFormat(useData[d].fields.Lines[i].fields.LineCost).toLocaleString(undefined, {
@@ -987,6 +999,7 @@ Template.new_invoice.onRendered(() => {
                                             curTotalAmt: currencyAmountGbp || currencySymbol + '0',
                                             TaxTotal: TaxTotalGbp || 0,
                                             TaxRate: TaxRateGbp || 0,
+                                            DiscountPercent:useData[d].fields.Lines[i].fields.DiscountPercent || 0
 
                                         };
                                         var dataListTable = [
@@ -1013,7 +1026,7 @@ Template.new_invoice.onRendered(() => {
                                         id: useData[d].fields.Lines.fields.ID || '',
                                         description: useData[d].fields.Lines.fields.ProductDescription || '',
                                         quantity: useData[d].fields.Lines.fields.UOMOrderQty || 0,
-                                        unitPrice: useData[d].fields.Lines.fields.LinePrice.toLocaleString(undefined, {
+                                        unitPrice: useData[d].fields.Lines.fields.OriginalLinePrice.toLocaleString(undefined, {
                                             minimumFractionDigits: 2
                                         }) || 0,
                                         lineCost: useData[d].fields.Lines.fields.LineCost.toLocaleString(undefined, {
@@ -1055,6 +1068,7 @@ Template.new_invoice.onRendered(() => {
                                     shipToDesc: useData[d].fields.ShipToDesc,
                                     termsName: useData[d].fields.TermsName,
                                     Total: totalInc,
+                                    TotalDiscount: totalDiscount,
                                     LineItems: lineItems,
                                     TotalTax: totalTax,
                                     SubTotal: subTotal,
@@ -1090,10 +1104,10 @@ Template.new_invoice.onRendered(() => {
                                                 $('#edtCustomerEmail').attr('customerid', clientList[i].customerid);
                                                 $('#edtCustomerEmail').attr('customerfirstname', clientList[i].firstname);
                                                 $('#edtCustomerEmail').attr('customerlastname', clientList[i].lastname);
-                                                $('#customerType').text(clientList[i].clienttypename);
-                                                $('#customerDiscount').text(clientList[i].discount);
-                                                $('#edtCustomerUseType').val(clientList[i].clienttypename);
-                                                $('#edtCustomerUseDiscount').val(clientList[i].discount);
+                                                $('#customerType').text(clientList[i].clienttypename||'Default');
+                                                $('#customerDiscount').text(clientList[i].discount||0+'%');
+                                                $('#edtCustomerUseType').val(clientList[i].clienttypename||'Default');
+                                                $('#edtCustomerUseDiscount').val(clientList[i].discount||0);
                                             }
                                         }
                                     };
@@ -1123,7 +1137,7 @@ Template.new_invoice.onRendered(() => {
 
                                     if (!checkISCustLoad) {
                                         sideBarService.getCustomersDataByName(useData[d].fields.CustomerName).then(function (dataClient) {
-                                              for (var c = 0; c < dataClient.length; c++) {
+                                              for (var c = 0; c < dataClient.tcustomervs1.length; c++) {
                                                 var customerrecordObj = {
                                                     customerid: dataClient.tcustomervs1[c].Id || ' ',
                                                     firstname: dataClient.tcustomervs1[c].FirstName || ' ',
@@ -1141,6 +1155,7 @@ Template.new_invoice.onRendered(() => {
                                                     clienttypename: dataClient.tcustomervs1[c].ClientTypeName || 'Default'
                                                 };
                                                 clientList.push(customerrecordObj);
+
                                                 invoicerecord.firstname = dataClient.tcustomervs1[c].FirstName || '';
                                                 invoicerecord.lastname = dataClient.tcustomervs1[c].LastName || '';
                                                 $('#edtCustomerEmail').val(dataClient.tcustomervs1[c].Email);
@@ -1148,10 +1163,10 @@ Template.new_invoice.onRendered(() => {
                                                 $('#edtCustomerName').attr('custid', dataClient.tcustomervs1[c].Id);
                                                 $('#edtCustomerEmail').attr('customerfirstname', dataClient.tcustomervs1[c].FirstName);
                                                 $('#edtCustomerEmail').attr('customerlastname', dataClient.tcustomervs1[c].LastName);
-                                                $('#customerType').text(dataClient.tcustomervs1[c].ClientTypeName);
-                                                $('#customerDiscount').text(dataClient.tcustomervs1[c].Discount);
-                                                $('#edtCustomerUseType').val(dataClient.tcustomervs1[c].ClientTypeName);
-                                                $('#edtCustomerUseDiscount').val(dataClient.tcustomervs1[c].Discount);
+                                                $('#customerType').text(dataClient.tcustomervs1[c].ClientTypeName||'Default');
+                                                $('#customerDiscount').text(dataClient.tcustomervs1[c].Discount||0+'%');
+                                                $('#edtCustomerUseType').val(dataClient.tcustomervs1[c].ClientTypeName||'Default');
+                                                $('#edtCustomerUseDiscount').val(dataClient.tcustomervs1[c].Discount||0);
                                             }
 
                                             templateObject.clientrecords.set(clientList.sort(function (a, b) {
@@ -1221,6 +1236,10 @@ Template.new_invoice.onRendered(() => {
                                 let totalInc = currencySymbol + '' + data.fields.TotalAmountInc.toLocaleString(undefined, {
                                     minimumFractionDigits: 2
                                 });
+
+                                let totalDiscount = utilityService.modifynegativeCurrencyFormat(data.fields.TotalDiscount).toLocaleString(undefined, {
+                                    minimumFractionDigits: 2
+                                });
                                 let subTotal = currencySymbol + '' + data.fields.TotalAmount.toLocaleString(undefined, {
                                     minimumFractionDigits: 2
                                 });
@@ -1250,7 +1269,7 @@ Template.new_invoice.onRendered(() => {
                                             qtyordered: data.fields.Lines[i].fields.UOMOrderQty || 0,
                                             qtyshipped: data.fields.Lines[i].fields.UOMQtyShipped || 0,
                                             qtybo: data.fields.Lines[i].fields.UOMQtyBackOrder || 0,
-                                            unitPrice: utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.LinePrice).toLocaleString(undefined, {
+                                            unitPrice: utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.OriginalLinePrice).toLocaleString(undefined, {
                                                 minimumFractionDigits: 2
                                             }) || 0,
                                             lineCost: utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.LineCost).toLocaleString(undefined, {
@@ -1262,6 +1281,7 @@ Template.new_invoice.onRendered(() => {
                                             curTotalAmt: currencyAmountGbp || currencySymbol + '0',
                                             TaxTotal: TaxTotalGbp || 0,
                                             TaxRate: TaxRateGbp || 0,
+                                            DiscountPercent:data.fields.Lines[i].fields.DiscountPercent || 0
 
                                         };
                                         var dataListTable = [
@@ -1288,7 +1308,7 @@ Template.new_invoice.onRendered(() => {
                                         id: data.fields.Lines.fields.ID || '',
                                         description: data.fields.Lines.fields.ProductDescription || '',
                                         quantity: data.fields.Lines.fields.UOMOrderQty || 0,
-                                        unitPrice: data.fields.Lines[i].fields.LinePrice.toLocaleString(undefined, {
+                                        unitPrice: data.fields.Lines[i].fields.OriginalLinePrice.toLocaleString(undefined, {
                                             minimumFractionDigits: 2
                                         }) || 0,
                                         lineCost: data.fields.Lines[i].fields.LineCost.toLocaleString(undefined, {
@@ -1330,6 +1350,7 @@ Template.new_invoice.onRendered(() => {
                                     shipToDesc: data.fields.ShipToDesc,
                                     termsName: data.fields.TermsName,
                                     Total: totalInc,
+                                    TotalDiscount: totalDiscount,
                                     LineItems: lineItems,
                                     TotalTax: totalTax,
                                     SubTotal: subTotal,
@@ -1501,6 +1522,10 @@ Template.new_invoice.onRendered(() => {
                         let totalInc = currencySymbol + '' + data.fields.TotalAmountInc.toLocaleString(undefined, {
                             minimumFractionDigits: 2
                         });
+
+                        let totalDiscount = utilityService.modifynegativeCurrencyFormat(data.fields.TotalDiscount).toLocaleString(undefined, {
+                            minimumFractionDigits: 2
+                        });
                         let subTotal = currencySymbol + '' + data.fields.TotalAmount.toLocaleString(undefined, {
                             minimumFractionDigits: 2
                         });
@@ -1530,7 +1555,7 @@ Template.new_invoice.onRendered(() => {
                                     qtyordered: data.fields.Lines[i].fields.UOMOrderQty || 0,
                                     qtyshipped: data.fields.Lines[i].fields.UOMQtyShipped || 0,
                                     qtybo: data.fields.Lines[i].fields.UOMQtyBackOrder || 0,
-                                    unitPrice: utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.LinePrice).toLocaleString(undefined, {
+                                    unitPrice: utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.OriginalLinePrice).toLocaleString(undefined, {
                                         minimumFractionDigits: 2
                                     }) || 0,
                                     lineCost: utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.LineCost).toLocaleString(undefined, {
@@ -1542,6 +1567,7 @@ Template.new_invoice.onRendered(() => {
                                     curTotalAmt: currencyAmountGbp || currencySymbol + '0',
                                     TaxTotal: TaxTotalGbp || 0,
                                     TaxRate: TaxRateGbp || 0,
+                                    DiscountPercent:data.fields.Lines[i].fields.DiscountPercent || 0
 
                                 };
                                 var dataListTable = [
@@ -1568,7 +1594,7 @@ Template.new_invoice.onRendered(() => {
                                 id: data.fields.Lines.fields.ID || '',
                                 description: data.fields.Lines.fields.ProductDescription || '',
                                 quantity: data.fields.Lines.fields.UOMOrderQty || 0,
-                                unitPrice: data.fields.Lines[i].fields.LinePrice.toLocaleString(undefined, {
+                                unitPrice: data.fields.Lines[i].fields.OriginalLinePrice.toLocaleString(undefined, {
                                     minimumFractionDigits: 2
                                 }) || 0,
                                 lineCost: data.fields.Lines[i].fields.LineCost.toLocaleString(undefined, {
@@ -1610,6 +1636,7 @@ Template.new_invoice.onRendered(() => {
                             shipToDesc: data.fields.ShipToDesc,
                             termsName: data.fields.TermsName,
                             Total: totalInc,
+                            TotalDiscount: totalDiscount,
                             LineItems: lineItems,
                             TotalTax: totalTax,
                             SubTotal: subTotal,
@@ -1643,10 +1670,10 @@ Template.new_invoice.onRendered(() => {
                                         $('#edtCustomerEmail').attr('customerid', clientList[i].customerid);
                                         $('#edtCustomerEmail').attr('customerfirstname', clientList[i].firstname);
                                         $('#edtCustomerEmail').attr('customerlastname', clientList[i].lastname);
-                                        $('#customerType').text(clientList[i].clienttypename);
-                                        $('#customerDiscount').text(clientList[i].discount);
-                                        $('#edtCustomerUseType').val(clientList[i].clienttypename);
-                                        $('#edtCustomerUseDiscount').val(clientList[i].discount);
+                                        $('#customerType').text(clientList[i].clienttypename||'Default');
+                                        $('#customerDiscount').text(clientList[i].discount||0+'%');
+                                        $('#edtCustomerUseType').val(clientList[i].clienttypename||'Default');
+                                        $('#edtCustomerUseDiscount').val(clientList[i].discount||0);
                                     }
                                 }
                             };
@@ -1895,6 +1922,10 @@ Template.new_invoice.onRendered(() => {
                             let totalInc = currencySymbol + '' + data.fields.TotalAmountInc.toLocaleString(undefined, {
                                 minimumFractionDigits: 2
                             });
+
+                            let totalDiscount = utilityService.modifynegativeCurrencyFormat(data.fields.TotalDiscount).toLocaleString(undefined, {
+                                minimumFractionDigits: 2
+                            });
                             let subTotal = currencySymbol + '' + data.fields.TotalAmount.toLocaleString(undefined, {
                                 minimumFractionDigits: 2
                             });
@@ -1925,7 +1956,7 @@ Template.new_invoice.onRendered(() => {
                                         qtyordered: data.fields.Lines[i].fields.UOMOrderQty || 0,
                                         qtyshipped: data.fields.Lines[i].fields.UOMQtyShipped || 0,
                                         qtybo: data.fields.Lines[i].fields.UOMQtyBackOrder || 0,
-                                        unitPrice: utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.LinePrice).toLocaleString(undefined, {
+                                        unitPrice: utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.OriginalLinePrice).toLocaleString(undefined, {
                                             minimumFractionDigits: 2
                                         }) || 0,
                                         lineCost: utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.LineCost).toLocaleString(undefined, {
@@ -1937,6 +1968,7 @@ Template.new_invoice.onRendered(() => {
                                         curTotalAmt: currencyAmountGbp || currencySymbol + '0',
                                         TaxTotal: TaxTotalGbp || 0,
                                         TaxRate: TaxRateGbp || 0,
+                                        DiscountPercent:data.fields.Lines[i].fields.DiscountPercent || 0
 
                                     };
                                     var dataListTable = [
@@ -1963,7 +1995,7 @@ Template.new_invoice.onRendered(() => {
                                     id: data.fields.Lines.fields.ID || '',
                                     description: data.fields.Lines.fields.ProductDescription || '',
                                     quantity: data.fields.Lines.fields.UOMOrderQty || 0,
-                                    unitPrice: data.fields.Lines[i].fields.LinePrice.toLocaleString(undefined, {
+                                    unitPrice: data.fields.Lines[i].fields.OriginalLinePrice.toLocaleString(undefined, {
                                         minimumFractionDigits: 2
                                     }) || 0,
                                     lineCost: data.fields.Lines[i].fields.LineCost.toLocaleString(undefined, {
@@ -1974,7 +2006,8 @@ Template.new_invoice.onRendered(() => {
                                     TotalAmt: AmountGbp || 0,
                                     curTotalAmt: currencyAmountGbp || currencySymbol + '0',
                                     TaxTotal: TaxTotalGbp || 0,
-                                    TaxRate: TaxRateGbp || 0
+                                    TaxRate: TaxRateGbp || 0,
+                                    DiscountPercent:data.fields.Lines.fields.DiscountPercent || 0
                                 };
                                 lineItems.push(lineItemObj);
                             }
@@ -2005,6 +2038,7 @@ Template.new_invoice.onRendered(() => {
                                 shipToDesc: data.fields.ShipToDesc,
                                 termsName: data.fields.TermsName,
                                 Total: totalInc,
+                                TotalDiscount: totalDiscount,
                                 LineItems: lineItems,
                                 TotalTax: totalTax,
                                 SubTotal: subTotal,
@@ -2028,10 +2062,12 @@ Template.new_invoice.onRendered(() => {
                                 }
                             }
                             /* END  attachment */
+                            var checkISCustLoad = false;
                             setTimeout(function () {
                                 if (clientList) {
                                     for (var i = 0; i < clientList.length; i++) {
                                         if (clientList[i].customername == data.fields.CustomerName) {
+                                          checkISCustLoad = true;
                                             invoicerecord.firstname = clientList[i].firstname || '';
                                             invoicerecord.lastname = clientList[i].lastname || '';
                                             templateObject.invoicerecord.set(invoicerecord);
@@ -2039,10 +2075,10 @@ Template.new_invoice.onRendered(() => {
                                             $('#edtCustomerEmail').attr('customerid', clientList[i].customerid);
                                             $('#edtCustomerEmail').attr('customerfirstname', clientList[i].firstname);
                                             $('#edtCustomerEmail').attr('customerlastname', clientList[i].lastname);
-                                            $('#customerType').text(clientList[i].clienttypename);
-                                            $('#customerDiscount').text(clientList[i].discount);
-                                            $('#edtCustomerUseType').val(clientList[i].clienttypename);
-                                            $('#edtCustomerUseDiscount').val(clientList[i].discount);
+                                            $('#customerType').text(clientList[i].clienttypename||'Default');
+                                            $('#customerDiscount').text(clientList[i].discount||0+'%');
+                                            $('#edtCustomerUseType').val(clientList[i].clienttypename||'Default');
+                                            $('#edtCustomerUseDiscount').val(clientList[i].discount||0);
                                         }
                                     }
                                 };
@@ -2070,6 +2106,51 @@ Template.new_invoice.onRendered(() => {
                                         $tblrow.find("td").attr('disabled', 'disabled');
                                         $tblrow.find("td").css('background-color', '#eaecf4');
                                         $tblrow.find("td .table-remove").removeClass("btnRemove");
+                                    });
+                                }
+
+                                if (!checkISCustLoad) {
+                                    sideBarService.getCustomersDataByName(useData[d].fields.CustomerName).then(function (dataClient) {
+                                          for (var c = 0; c < dataClient.tcustomervs1.length; c++) {
+                                            var customerrecordObj = {
+                                                customerid: dataClient.tcustomervs1[c].Id || ' ',
+                                                firstname: dataClient.tcustomervs1[c].FirstName || ' ',
+                                                lastname: dataClient.tcustomervs1[c].LastName || ' ',
+                                                customername: dataClient.tcustomervs1[c].ClientName || ' ',
+                                                customeremail: dataClient.tcustomervs1[c].Email || ' ',
+                                                street: dataClient.tcustomervs1[c].Street || ' ',
+                                                street2: dataClient.tcustomervs1[c].Street2 || ' ',
+                                                street3: dataClient.tcustomervs1[c].Street3 || ' ',
+                                                suburb: dataClient.tcustomervs1[c].Suburb || ' ',
+                                                statecode: dataClient.tcustomervs1[c].State + ' ' + dataClient.tcustomervs1[c].Postcode || ' ',
+                                                country: dataClient.tcustomervs1[c].Country || ' ',
+                                                termsName: dataClient.tcustomervs1[c].TermsName || '',
+                                                taxCode: dataClient.tcustomervs1[c].TaxCodeName || '',
+                                                clienttypename: dataClient.tcustomervs1[c].ClientTypeName || 'Default'
+                                            };
+                                            clientList.push(customerrecordObj);
+
+                                            invoicerecord.firstname = dataClient.tcustomervs1[c].FirstName || '';
+                                            invoicerecord.lastname = dataClient.tcustomervs1[c].LastName || '';
+                                            $('#edtCustomerEmail').val(dataClient.tcustomervs1[c].Email);
+                                            $('#edtCustomerEmail').attr('customerid', clientList[c].customerid);
+                                            $('#edtCustomerName').attr('custid', dataClient.tcustomervs1[c].Id);
+                                            $('#edtCustomerEmail').attr('customerfirstname', dataClient.tcustomervs1[c].FirstName);
+                                            $('#edtCustomerEmail').attr('customerlastname', dataClient.tcustomervs1[c].LastName);
+                                            $('#customerType').text(dataClient.tcustomervs1[c].ClientTypeName||'Default');
+                                            $('#customerDiscount').text(dataClient.tcustomervs1[c].Discount||0+'%');
+                                            $('#edtCustomerUseType').val(dataClient.tcustomervs1[c].ClientTypeName||'Default');
+                                            $('#edtCustomerUseDiscount').val(dataClient.tcustomervs1[c].Discount||0);
+                                        }
+
+                                        templateObject.clientrecords.set(clientList.sort(function (a, b) {
+                                            if (a.customername == 'NA') {
+                                                return 1;
+                                            } else if (b.customername == 'NA') {
+                                                return -1;
+                                            }
+                                            return (a.customername.toUpperCase() > b.customername.toUpperCase()) ? 1 : -1;
+                                        }));
                                     });
                                 }
                             }, 100);
@@ -2132,7 +2213,7 @@ Template.new_invoice.onRendered(() => {
                         let data = JSON.parse(dataObject[0].data);
                         let useData = data.tinvoiceex;
                         let customerData = templateObject.clientrecords.get();
-
+                        console.log(useData);
                         var added = false;
                         for (let d = 0; d < useData.length; d++) {
                             if (parseInt(useData[d].fields.ID) === currentInvoice) {
@@ -2154,6 +2235,10 @@ Template.new_invoice.onRendered(() => {
                                 let totalInc = currencySymbol + '' + useData[d].fields.TotalAmountInc.toLocaleString(undefined, {
                                     minimumFractionDigits: 2
                                 });
+                                let totalDiscount = currencySymbol + '' + useData[d].fields.TotalDiscount.toLocaleString(undefined, {
+                                    minimumFractionDigits: 2
+                                });
+
                                 let subTotal = currencySymbol + '' + useData[d].fields.TotalAmount.toLocaleString(undefined, {
                                     minimumFractionDigits: 2
                                 });
@@ -2167,6 +2252,8 @@ Template.new_invoice.onRendered(() => {
                                 let totalPaidAmount = currencySymbol + '' + useData[d].fields.TotalPaid.toLocaleString(undefined, {
                                     minimumFractionDigits: 2
                                 });
+
+
                                 if (useData[d].fields.Lines.length) {
                                     for (let i = 0; i < useData[d].fields.Lines.length; i++) {
                                         let AmountGbp = currencySymbol + '' + useData[d].fields.Lines[i].fields.TotalLineAmount.toLocaleString(undefined, {
@@ -2184,7 +2271,7 @@ Template.new_invoice.onRendered(() => {
                                             qtyordered: useData[d].fields.Lines[i].fields.UOMOrderQty || 0,
                                             qtyshipped: useData[d].fields.Lines[i].fields.UOMQtyShipped || 0,
                                             qtybo: useData[d].fields.Lines[i].fields.UOMQtyBackOrder || 0,
-                                            unitPrice: utilityService.modifynegativeCurrencyFormat(useData[d].fields.Lines[i].fields.LinePrice).toLocaleString(undefined, {
+                                            unitPrice: utilityService.modifynegativeCurrencyFormat(useData[d].fields.Lines[i].fields.OriginalLinePrice).toLocaleString(undefined, {
                                                 minimumFractionDigits: 2
                                             }) || 0,
                                             lineCost: utilityService.modifynegativeCurrencyFormat(useData[d].fields.Lines[i].fields.LineCost).toLocaleString(undefined, {
@@ -2196,6 +2283,7 @@ Template.new_invoice.onRendered(() => {
                                             curTotalAmt: currencyAmountGbp || currencySymbol + '0',
                                             TaxTotal: TaxTotalGbp || 0,
                                             TaxRate: TaxRateGbp || 0,
+                                            DiscountPercent:useData[d].fields.Lines[i].fields.DiscountPercent || 0,
 
                                         };
                                         var dataListTable = [
@@ -2222,7 +2310,7 @@ Template.new_invoice.onRendered(() => {
                                         id: useData[d].fields.Lines.fields.ID || '',
                                         description: useData[d].fields.Lines.fields.ProductDescription || '',
                                         quantity: useData[d].fields.Lines.fields.UOMOrderQty || 0,
-                                        unitPrice: useData[d].fields.Lines.fields.LinePrice.toLocaleString(undefined, {
+                                        unitPrice: useData[d].fields.Lines.fields.OriginalLinePrice.toLocaleString(undefined, {
                                             minimumFractionDigits: 2
                                         }) || 0,
                                         lineCost: useData[d].fields.Lines.fields.LineCost.toLocaleString(undefined, {
@@ -2233,7 +2321,8 @@ Template.new_invoice.onRendered(() => {
                                         TotalAmt: AmountGbp || 0,
                                         curTotalAmt: currencyAmountGbp || currencySymbol + '0',
                                         TaxTotal: TaxTotalGbp || 0,
-                                        TaxRate: TaxRateGbp || 0
+                                        TaxRate: TaxRateGbp || 0,
+                                        DiscountPercent:useData[d].fields.Lines.fields.DiscountPercent || 0,
                                     };
                                     lineItems.push(lineItemObj);
                                 }
@@ -2264,6 +2353,7 @@ Template.new_invoice.onRendered(() => {
                                     shipToDesc: useData[d].fields.ShipToDesc,
                                     termsName: useData[d].fields.TermsName,
                                     Total: totalInc,
+                                    TotalDiscount: totalDiscount,
                                     LineItems: lineItems,
                                     TotalTax: totalTax,
                                     SubTotal: subTotal,
@@ -2300,10 +2390,10 @@ Template.new_invoice.onRendered(() => {
                                                 $('#edtCustomerEmail').attr('customerid', clientList[i].customerid);
                                                 $('#edtCustomerEmail').attr('customerfirstname', clientList[i].firstname);
                                                 $('#edtCustomerEmail').attr('customerlastname', clientList[i].lastname);
-                                                $('#customerType').text(clientList[i].clienttypename);
-                                                $('#customerDiscount').text(clientList[i].discount);
-                                                $('#edtCustomerUseType').val(clientList[i].clienttypename);
-                                                $('#edtCustomerUseDiscount').val(clientList[i].discount);
+                                                $('#customerType').text(clientList[i].clienttypename||'Default');
+                                                $('#customerDiscount').text(clientList[i].discount||0+'%');
+                                                $('#edtCustomerUseType').val(clientList[i].clienttypename||'Default');
+                                                $('#edtCustomerUseDiscount').val(clientList[i].discount||0);
                                             }
                                         }
                                     };
@@ -2334,7 +2424,9 @@ Template.new_invoice.onRendered(() => {
 
                                     if (!checkISCustLoad) {
                                         sideBarService.getCustomersDataByName(useData[d].fields.CustomerName).then(function (dataClient) {
-                                              for (var c = 0; c < dataClient.length; c++) {
+
+                                              for (var c = 0; c < dataClient.tcustomervs1.length; c++) {
+
                                                 var customerrecordObj = {
                                                     customerid: dataClient.tcustomervs1[c].Id || ' ',
                                                     firstname: dataClient.tcustomervs1[c].FirstName || ' ',
@@ -2352,6 +2444,7 @@ Template.new_invoice.onRendered(() => {
                                                     clienttypename: dataClient.tcustomervs1[c].ClientTypeName || 'Default'
                                                 };
                                                 clientList.push(customerrecordObj);
+
                                                 invoicerecord.firstname = dataClient.tcustomervs1[c].FirstName || '';
                                                 invoicerecord.lastname = dataClient.tcustomervs1[c].LastName || '';
                                                 $('#edtCustomerEmail').val(dataClient.tcustomervs1[c].Email);
@@ -2359,6 +2452,10 @@ Template.new_invoice.onRendered(() => {
                                                 $('#edtCustomerName').attr('custid', dataClient.tcustomervs1[c].Id);
                                                 $('#edtCustomerEmail').attr('customerfirstname', dataClient.tcustomervs1[c].FirstName);
                                                 $('#edtCustomerEmail').attr('customerlastname', dataClient.tcustomervs1[c].LastName);
+                                                $('#customerType').text(dataClient.tcustomervs1[c].ClientTypeName||'Default');
+                                                $('#customerDiscount').text(dataClient.tcustomervs1[c].Discount||0+'%');
+                                                $('#edtCustomerUseType').val(dataClient.tcustomervs1[c].ClientTypeName||'Default');
+                                                $('#edtCustomerUseDiscount').val(dataClient.tcustomervs1[c].Discount||0);
                                             }
 
                                             templateObject.clientrecords.set(clientList.sort(function (a, b) {
@@ -2431,6 +2528,9 @@ Template.new_invoice.onRendered(() => {
                                 let totalInc = currencySymbol + '' + data.fields.TotalAmountInc.toLocaleString(undefined, {
                                     minimumFractionDigits: 2
                                 });
+                                let totalDiscount = currencySymbol + '' + data.fields.TotalDiscount.toLocaleString(undefined, {
+                                    minimumFractionDigits: 2
+                                });
                                 let subTotal = currencySymbol + '' + data.fields.TotalAmount.toLocaleString(undefined, {
                                     minimumFractionDigits: 2
                                 });
@@ -2461,7 +2561,7 @@ Template.new_invoice.onRendered(() => {
                                             qtyordered: data.fields.Lines[i].fields.UOMOrderQty || 0,
                                             qtyshipped: data.fields.Lines[i].fields.UOMQtyShipped || 0,
                                             qtybo: data.fields.Lines[i].fields.UOMQtyBackOrder || 0,
-                                            unitPrice: utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.LinePrice).toLocaleString(undefined, {
+                                            unitPrice: utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.OriginalLinePrice).toLocaleString(undefined, {
                                                 minimumFractionDigits: 2
                                             }) || 0,
                                             lineCost: utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.LineCost).toLocaleString(undefined, {
@@ -2473,6 +2573,7 @@ Template.new_invoice.onRendered(() => {
                                             curTotalAmt: currencyAmountGbp || currencySymbol + '0',
                                             TaxTotal: TaxTotalGbp || 0,
                                             TaxRate: TaxRateGbp || 0,
+                                            DiscountPercent:data.fields.Lines[i].fields.DiscountPercent || 0
 
                                         };
                                         var dataListTable = [
@@ -2499,7 +2600,7 @@ Template.new_invoice.onRendered(() => {
                                         id: data.fields.Lines.fields.ID || '',
                                         description: data.fields.Lines.fields.ProductDescription || '',
                                         quantity: data.fields.Lines.fields.UOMOrderQty || 0,
-                                        unitPrice: data.fields.Lines[i].fields.LinePrice.toLocaleString(undefined, {
+                                        unitPrice: data.fields.Lines[i].fields.OriginalLinePrice.toLocaleString(undefined, {
                                             minimumFractionDigits: 2
                                         }) || 0,
                                         lineCost: data.fields.Lines[i].fields.LineCost.toLocaleString(undefined, {
@@ -2541,6 +2642,7 @@ Template.new_invoice.onRendered(() => {
                                     shipToDesc: data.fields.ShipToDesc,
                                     termsName: data.fields.TermsName,
                                     Total: totalInc,
+                                    TotalDiscount: totalDiscount,
                                     LineItems: lineItems,
                                     TotalTax: totalTax,
                                     SubTotal: subTotal,
@@ -2572,10 +2674,10 @@ Template.new_invoice.onRendered(() => {
                                                 $('#edtCustomerEmail').attr('customerid', clientList[i].customerid);
                                                 $('#edtCustomerEmail').attr('customerfirstname', clientList[i].firstname);
                                                 $('#edtCustomerEmail').attr('customerlastname', clientList[i].lastname);
-                                                $('#customerType').text(clientList[i].clienttypename);
-                                                $('#customerDiscount').text(clientList[i].discount);
-                                                $('#edtCustomerUseType').val(clientList[i].clienttypename);
-                                                $('#edtCustomerUseDiscount').val(clientList[i].discount);
+                                                $('#customerType').text(clientList[i].clienttypename||'Default');
+                                                $('#customerDiscount').text(clientList[i].discount||0+'%');
+                                                $('#edtCustomerUseType').val(clientList[i].clienttypename||'Default');
+                                                $('#edtCustomerUseDiscount').val(clientList[i].discount||0);
                                             }
                                         }
                                     };
@@ -2684,6 +2786,9 @@ Template.new_invoice.onRendered(() => {
                         let totalInc = currencySymbol + '' + data.fields.TotalAmountInc.toLocaleString(undefined, {
                             minimumFractionDigits: 2
                         });
+                        let totalDiscount = currencySymbol + '' + data.fields.TotalDiscount.toLocaleString(undefined, {
+                            minimumFractionDigits: 2
+                        });
                         let subTotal = currencySymbol + '' + data.fields.TotalAmount.toLocaleString(undefined, {
                             minimumFractionDigits: 2
                         });
@@ -2714,7 +2819,7 @@ Template.new_invoice.onRendered(() => {
                                     qtyordered: data.fields.Lines[i].fields.UOMOrderQty || 0,
                                     qtyshipped: data.fields.Lines[i].fields.UOMQtyShipped || 0,
                                     qtybo: data.fields.Lines[i].fields.UOMQtyBackOrder || 0,
-                                    unitPrice: utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.LinePrice).toLocaleString(undefined, {
+                                    unitPrice: utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.OriginalLinePrice).toLocaleString(undefined, {
                                         minimumFractionDigits: 2
                                     }) || 0,
                                     lineCost: utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.LineCost).toLocaleString(undefined, {
@@ -2726,6 +2831,7 @@ Template.new_invoice.onRendered(() => {
                                     curTotalAmt: currencyAmountGbp || currencySymbol + '0',
                                     TaxTotal: TaxTotalGbp || 0,
                                     TaxRate: TaxRateGbp || 0,
+                                    DiscountPercent:data.fields.Lines[i].fields.DiscountPercent || 0
 
                                 };
                                 var dataListTable = [
@@ -2752,7 +2858,7 @@ Template.new_invoice.onRendered(() => {
                                 id: data.fields.Lines.fields.ID || '',
                                 description: data.fields.Lines.fields.ProductDescription || '',
                                 quantity: data.fields.Lines.fields.UOMOrderQty || 0,
-                                unitPrice: data.fields.Lines[i].fields.LinePrice.toLocaleString(undefined, {
+                                unitPrice: data.fields.Lines[i].fields.OriginalLinePrice.toLocaleString(undefined, {
                                     minimumFractionDigits: 2
                                 }) || 0,
                                 lineCost: data.fields.Lines[i].fields.LineCost.toLocaleString(undefined, {
@@ -2793,6 +2899,7 @@ Template.new_invoice.onRendered(() => {
                             shipToDesc: data.fields.ShipToDesc,
                             termsName: data.fields.TermsName,
                             Total: totalInc,
+                            TotalDiscount: totalDiscount,
                             LineItems: lineItems,
                             TotalTax: totalTax,
                             SubTotal: subTotal,
@@ -2827,10 +2934,10 @@ Template.new_invoice.onRendered(() => {
                                         $('#edtCustomerEmail').attr('customerid', clientList[i].customerid);
                                         $('#edtCustomerEmail').attr('customerfirstname', clientList[i].firstname);
                                         $('#edtCustomerEmail').attr('customerlastname', clientList[i].lastname);
-                                        $('#customerType').text(clientList[i].clienttypename);
-                                        $('#customerDiscount').text(clientList[i].discount);
-                                        $('#edtCustomerUseType').val(clientList[i].clienttypename);
-                                        $('#edtCustomerUseDiscount').val(clientList[i].discount);
+                                        $('#customerType').text(clientList[i].clienttypename||'Default');
+                                        $('#customerDiscount').text(clientList[i].discount||0+'%');
+                                        $('#edtCustomerUseType').val(clientList[i].clienttypename||'Default');
+                                        $('#edtCustomerUseDiscount').val(clientList[i].discount||0);
                                     }
                                 }
                             };
@@ -2948,6 +3055,9 @@ Template.new_invoice.onRendered(() => {
                     let totalInc = currencySymbol + '' + data.fields.TotalAmountInc.toLocaleString(undefined, {
                         minimumFractionDigits: 2
                     });
+                    let totalDiscount = currencySymbol + '' + data.fields.TotalDiscount.toLocaleString(undefined, {
+                        minimumFractionDigits: 2
+                    });
                     let subTotal = currencySymbol + '' + data.fields.TotalAmount.toLocaleString(undefined, {
                         minimumFractionDigits: 2
                     });
@@ -2977,7 +3087,7 @@ Template.new_invoice.onRendered(() => {
                                 qtyordered: data.fields.Lines[i].fields.UOMOrderQty || 0,
                                 qtyshipped: data.fields.Lines[i].fields.UOMQtyShipped || 0,
                                 qtybo: data.fields.Lines[i].fields.UOMQtyBackOrder || 0,
-                                unitPrice: currencySymbol + '' + data.fields.Lines[i].fields.LinePrice.toLocaleString(undefined, {
+                                unitPrice: currencySymbol + '' + data.fields.Lines[i].fields.OriginalLinePrice.toLocaleString(undefined, {
                                     minimumFractionDigits: 2
                                 }) || 0,
                                 lineCost: currencySymbol + '' + data.fields.Lines[i].fields.LineCost.toLocaleString(undefined, {
@@ -2989,6 +3099,7 @@ Template.new_invoice.onRendered(() => {
                                 curTotalAmt: currencyAmountGbp || currencySymbol + '0',
                                 TaxTotal: TaxTotalGbp || 0,
                                 TaxRate: TaxRateGbp || 0,
+                                DiscountPercent:data.fields.Lines[i].fields.DiscountPercent || 0
 
                             };
                             var dataListTable = [
@@ -3015,7 +3126,7 @@ Template.new_invoice.onRendered(() => {
                             id: data.fields.Lines.fields.ID || '',
                             description: data.fields.Lines.fields.ProductDescription || '',
                             quantity: data.fields.Lines.fields.UOMOrderQty || 0,
-                            unitPrice: data.fields.Lines[i].fields.LinePrice.toLocaleString(undefined, {
+                            unitPrice: data.fields.Lines[i].fields.OriginalLinePrice.toLocaleString(undefined, {
                                 minimumFractionDigits: 2
                             }) || 0,
                             lineCost: data.fields.Lines[i].fields.LineCost.toLocaleString(undefined, {
@@ -3057,6 +3168,7 @@ Template.new_invoice.onRendered(() => {
                         shipToDesc: data.fields.ShipToDesc,
                         termsName: data.fields.TermsName,
                         Total: totalInc,
+                        TotalDiscount: totalDiscount,
                         LineItems: lineItems,
                         TotalTax: totalTax,
                         SubTotal: subTotal,
@@ -3167,6 +3279,9 @@ Template.new_invoice.onRendered(() => {
                     let totalInc = currencySymbol + '' + data.fields.TotalAmountInc.toLocaleString(undefined, {
                         minimumFractionDigits: 2
                     });
+                    let totalDiscount = currencySymbol + '' + data.fields.TotalDiscount.toLocaleString(undefined, {
+                        minimumFractionDigits: 2
+                    });
                     let subTotal = currencySymbol + '' + data.fields.TotalAmount.toLocaleString(undefined, {
                         minimumFractionDigits: 2
                     });
@@ -3196,7 +3311,7 @@ Template.new_invoice.onRendered(() => {
                                 qtyordered: data.fields.Lines[i].fields.UOMOrderQty || 0,
                                 qtyshipped: data.fields.Lines[i].fields.UOMQtyShipped || 0,
                                 qtybo: data.fields.Lines[i].fields.UOMQtyBackOrder || 0,
-                                unitPrice: currencySymbol + '' + data.fields.Lines[i].fields.LinePrice.toLocaleString(undefined, {
+                                unitPrice: currencySymbol + '' + data.fields.Lines[i].fields.OriginalLinePrice.toLocaleString(undefined, {
                                     minimumFractionDigits: 2
                                 }) || 0,
                                 lineCost: currencySymbol + '' + data.fields.Lines[i].fields.LineCost.toLocaleString(undefined, {
@@ -3208,6 +3323,7 @@ Template.new_invoice.onRendered(() => {
                                 curTotalAmt: currencyAmountGbp || currencySymbol + '0',
                                 TaxTotal: TaxTotalGbp || 0,
                                 TaxRate: TaxRateGbp || 0,
+                                DiscountPercent:data.fields.Lines[i].fields.DiscountPercent || 0
 
                             };
                             var dataListTable = [
@@ -3234,7 +3350,7 @@ Template.new_invoice.onRendered(() => {
                             id: data.fields.Lines.fields.ID || '',
                             description: data.fields.Lines.fields.ProductDescription || '',
                             quantity: data.fields.Lines.fields.UOMOrderQty || 0,
-                            unitPrice: data.fields.Lines[i].fields.LinePrice.toLocaleString(undefined, {
+                            unitPrice: data.fields.Lines[i].fields.OriginalLinePrice.toLocaleString(undefined, {
                                 minimumFractionDigits: 2
                             }) || 0,
                             lineCost: data.fields.Lines[i].fields.LineCost.toLocaleString(undefined, {
@@ -3276,6 +3392,7 @@ Template.new_invoice.onRendered(() => {
                         shipToDesc: data.fields.ShipToDesc,
                         termsName: data.fields.TermsName,
                         Total: totalInc,
+                        TotalDiscount: totalDiscount,
                         LineItems: lineItems,
                         TotalTax: totalTax,
                         SubTotal: subTotal,
@@ -3657,8 +3774,28 @@ Template.new_invoice.onRendered(() => {
             let lineProductName = table.find(".productName").text();
             let lineProductDesc = table.find(".productDesc").text();
             let lineUnitPrice = table.find(".salePrice").text();
+            let lineExtraSellPrice = JSON.parse(table.find(".colExtraSellPrice").text())||null;
+            let getCustomerClientTypeName = $('#edtCustomerUseType').val()||'Default';
+            let getCustomerDiscount = parseFloat($('#edtCustomerUseDiscount').val())||0;
+            let getCustomerProductDiscount = 0;
+            let discountAmount = getCustomerDiscount;
+            if (lineExtraSellPrice != null) {
+                for (let e = 0; e < lineExtraSellPrice.length; e++) {
+                  if(lineExtraSellPrice[e].fields.ClientTypeName === getCustomerClientTypeName){
+                    getCustomerProductDiscount = parseFloat(lineExtraSellPrice[e].fields.QtyPercent1) ||0;
+                    if(getCustomerProductDiscount > getCustomerDiscount){
+                      discountAmount = getCustomerProductDiscount;
+                    }
+                  }
 
-            /*let filterProdExtraSellData =  _.filter(productExtraSell, function (dataProdExtra) {
+                }
+            }else{
+              discountAmount = getCustomerDiscount;
+            }
+            //console.log(discountAmount);
+            $('#' + selectLineID + " .lineDiscount").text(discountAmount);
+
+            /*let filterProdExt raSellData =  _.filter(productExtraSell, function (dataProdExtra) {
             return ((dataProdExtra.productname == lineProductName) && (dataProdExtra.clienttype == getCustDetails[0].clienttypename));
             });
             if(filterProdExtraSellData.length > 0){
@@ -3681,6 +3818,7 @@ Template.new_invoice.onRendered(() => {
             }
 
             $('#' + selectLineID + " .lineProductName").text(lineProductName);
+            $('#' + selectLineID + " .lineProductName").attr("prodid", table.find(".colProuctPOPID").text());
             $('#' + selectLineID + " .lineProductDesc").text(lineProductDesc);
             $('#' + selectLineID + " .lineOrdered").val(1);
             $('#' + selectLineID + " .lineQty").val(1);
@@ -3782,7 +3920,7 @@ Template.new_invoice.onRendered(() => {
                     if (!isNaN(subGrandTotal) && (!isNaN(taxGrandTotal))) {
                         let GrandTotal = (parseFloat(subGrandTotal)) + (parseFloat(taxGrandTotal));
                         document.getElementById("grandTotalPrint").innerHTML = $('#grandTotal').text();
-                        document.getElementById("balanceDue").innerHTML = utilityService.modifynegativeCurrencyFormat(GrandTotal);
+                        //document.getElementById("balanceDue").innerHTML = utilityService.modifynegativeCurrencyFormat(GrandTotal);
                         document.getElementById("totalBalanceDuePrint").innerHTML = $('#totalBalanceDue').text();
 
                     }
@@ -3888,7 +4026,7 @@ Template.new_invoice.onRendered(() => {
                         let GrandTotal = (parseFloat(subGrandTotal)) + (parseFloat(taxGrandTotal));
                         document.getElementById("grandTotalPrint").innerHTML = $('#grandTotal').text();
                         document.getElementById("totalTax").innerHTML = $('#subtotal_tax').text();
-                        document.getElementById("balanceDue").innerHTML = utilityService.modifynegativeCurrencyFormat(GrandTotal);
+                        //document.getElementById("balanceDue").innerHTML = utilityService.modifynegativeCurrencyFormat(GrandTotal);
                         document.getElementById("totalBalanceDuePrint").innerHTML = $('#totalBalanceDue').text();
 
                     }
@@ -3917,10 +4055,10 @@ Template.new_invoice.onRendered(() => {
                     $('#edtCustomerEmail').attr('customerid', clientList[i].customerid);
                     $('#edtCustomerEmail').attr('customerfirstname', clientList[i].firstname);
                     $('#edtCustomerEmail').attr('customerlastname', clientList[i].lastname);
-                    $('#customerType').text(clientList[i].clienttypename);
-                    $('#customerDiscount').text(clientList[i].discount);
-                    $('#edtCustomerUseType').val(clientList[i].clienttypename);
-                    $('#edtCustomerUseDiscount').val(clientList[i].discount);
+                    $('#customerType').text(clientList[i].clienttypename||'Default');
+                    $('#customerDiscount').text(clientList[i].discount||0+'%');
+                    $('#edtCustomerUseType').val(clientList[i].clienttypename||'Default');
+                    $('#edtCustomerUseDiscount').val(clientList[i].discount||0);
                     let postalAddress = clientList[i].customername + '\n' + clientList[i].street + '\n' + clientList[i].street2 + ' ' + clientList[i].statecode + '\n' + clientList[i].country;
                     $('#txabillingAddress').val(postalAddress);
                     $('#pdfCustomerAddress').html(postalAddress);
@@ -3961,7 +4099,7 @@ Template.new_invoice.onRendered(() => {
                     var taxcode = code;
                     $tblrow.find(".lineTaxCode").text(code);
                     $tblrow.find(".lineTaxRate").text(rate);
-
+                    $tblrow.find('.lineDiscount').text(parseFloat($('#edtCustomerUseDiscount').val())||0);
                     var taxrateamount = 0;
                     if (taxcodeList) {
                         for (var i = 0; i < taxcodeList.length; i++) {
@@ -4027,7 +4165,7 @@ Template.new_invoice.onRendered(() => {
                         if (!isNaN(subGrandTotal) && (!isNaN(taxGrandTotal))) {
                             let GrandTotal = (parseFloat(subGrandTotal)) + (parseFloat(taxGrandTotal));
                             document.getElementById("grandTotalPrint").innerHTML = $('#grandTotal').text();
-                            document.getElementById("balanceDue").innerHTML = utilityService.modifynegativeCurrencyFormat(GrandTotal);
+                            //document.getElementById("balanceDue").innerHTML = utilityService.modifynegativeCurrencyFormat(GrandTotal);
                             document.getElementById("totalBalanceDuePrint").innerHTML = $('#totalBalanceDue').text();
 
                         }
@@ -4070,12 +4208,21 @@ Template.new_invoice.onRendered(() => {
 
 $("#edtCustomerName").dblclick(function () {
     var customerDataName = $('#edtCustomerName').val().replace(/\s/g, '') || '';
-    var customerDataID = $('#edtCustomerName').attr('custid').replace(/\s/g, '') || '';                       
+    var customerDataID = $('#edtCustomerName').attr('custid').replace(/\s/g, '') || '';
 
     if (customerDataName != '' && customerDataID != '') {
         Router.go('/customerscard?id=' + customerDataID);
     }
 });
+
+// $(".lineProductName").dblclick(function (event) {
+//   var productDataName = $(event.target).text().replace(/\s/g, '') || '';
+//   var productDataID = $(event.target).attr('prodid').replace(/\s/g, '') || '';
+//
+//     if (productDataName != '' && productDataID != '') {
+//         Router.go('/productview?id=' + productDataID);
+//     }
+// });
 
     exportSalesToPdf = function () {
         let margins = {
@@ -4491,7 +4638,7 @@ Template.new_invoice.onRendered(function () {
 
     };
 
-    tempObj.getAllProducts();
+    //tempObj.getAllProducts();
     tempObj.getAllTaxCodes = function () {
         getVS1Data('TTaxcodeVS1').then(function (dataObject) {
             if (dataObject.length == 0) {
@@ -4815,122 +4962,6 @@ Template.new_invoice.events({
         $('#edtCustomerName').select();
         $('#edtCustomerName').editableSelect();
     },
-    'click .btnRefreshProduct':function(event){
-      let templateObject = Template.instance();
-      let utilityService = new UtilityService();
-    let productService = new ProductService();
-    let salesService = new SalesBoardService();
-    let tableProductList;
-    var splashArrayProductList = new Array();
-    var splashArrayTaxRateList = new Array();
-    const taxCodesList = [];
-    const lineExtaSellItems = [];
-      $('.fullScreenSpin').css('display', 'inline-block');
-      let dataSearchName = $('#tblInventory_filter input').val();
-      if(dataSearchName.replace(/\s/g, '') != ''){
-      sideBarService.getNewProductListVS1ByName(dataSearchName).then(function (data) {
-          let records = [];
-          //console.log(data.tproductvs1.length);
-          let inventoryData = [];
-          if(data.tproductvs1.length > 0){
-          for (let i = 0; i < data.tproductvs1.length; i++) {
-              var dataList = [
-
-                  data.tproductvs1[i].fields.ProductName || '-',
-                  data.tproductvs1[i].fields.SalesDescription || '',
-                  utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductvs1[i].fields.BuyQty1Cost * 100) / 100),
-                  utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductvs1[i].fields.SellQty1Price * 100) / 100),
-                  data.tproductvs1[i].fields.TotalQtyInStock,
-                  data.tproductvs1[i].fields.TaxCodeSales || ''
-              ];
-
-              if (data.tproductvs1[i].fields.ExtraSellPrice != null) {
-                  for (let e = 0; e < data.tproductvs1[i].fields.ExtraSellPrice.length; e++) {
-                      let lineExtaSellObj = {
-                          clienttype: data.tproductvs1[i].fields.ExtraSellPrice[e].fields.ClientTypeName || '',
-                          productname: data.tproductvs1[i].fields.ExtraSellPrice[e].fields.ProductName || data.tproductvs1[i].fields.ProductName,
-                          price: utilityService.modifynegativeCurrencyFormat(data.tproductvs1[i].fields.ExtraSellPrice[e].fields.Price1) || 0
-                      };
-                      lineExtaSellItems.push(lineExtaSellObj);
-
-                  }
-              }
-              splashArrayProductList.push(dataList);
-          }
-          //localStorage.setItem('VS1SalesProductList', JSON.stringify(splashArrayProductList));
-          $('.fullScreenSpin').css('display', 'none');
-          if (splashArrayProductList) {
-            var datatable = $('#tblInventory').DataTable();
-            datatable.clear();
-            datatable.rows.add(splashArrayProductList);
-            datatable.draw(false);
-
-          }
-          }else{
-            $('.fullScreenSpin').css('display', 'none');
-            $('#productListModal').modal('toggle');
-            swal({
-            title: 'Question',
-            text: "Product does not exist, would you like to create it?",
-            type: 'question',
-            showCancelButton: true,
-            confirmButtonText: 'Yes',
-            cancelButtonText: 'No'
-            }).then((result) => {
-            if (result.value) {
-              $('#newProductModal').modal('toggle');
-              $('#edtproductname').val(dataSearchName);
-            } else if (result.dismiss === 'cancel') {
-              $('#productListModal').modal('toggle');
-            }
-            });
-          }
-      }).catch(function (err) {
-        $('.fullScreenSpin').css('display', 'none');
-      });
-    }else{
-      sideBarService.getNewProductListVS1(initialBaseDataLoad,0).then(function (data) {
-            let records = [];
-            let inventoryData = [];
-            for (let i = 0; i < data.tproductvs1.length; i++) {
-                var dataList = [
-
-                    data.tproductvs1[i].fields.ProductName || '-',
-                    data.tproductvs1[i].fields.SalesDescription || '',
-                    utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductvs1[i].fields.BuyQty1Cost * 100) / 100),
-                    utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductvs1[i].fields.SellQty1Price * 100) / 100),
-                    data.tproductvs1[i].fields.TotalQtyInStock,
-                    data.tproductvs1[i].fields.TaxCodeSales || ''
-                ];
-
-                if (data.tproductvs1[i].fields.ExtraSellPrice != null) {
-                    for (let e = 0; e < data.tproductvs1[i].fields.ExtraSellPrice.length; e++) {
-                        let lineExtaSellObj = {
-                            clienttype: data.tproductvs1[i].fields.ExtraSellPrice[e].fields.ClientTypeName || '',
-                            productname: data.tproductvs1[i].fields.ExtraSellPrice[e].fields.ProductName || data.tproductvs1[i].fields.ProductName,
-                            price: utilityService.modifynegativeCurrencyFormat(data.tproductvs1[i].fields.ExtraSellPrice[e].fields.Price1) || 0
-                        };
-                        lineExtaSellItems.push(lineExtaSellObj);
-
-                    }
-                }
-                splashArrayProductList.push(dataList);
-            }
-            //localStorage.setItem('VS1SalesProductList', JSON.stringify(splashArrayProductList));
-            $('.fullScreenSpin').css('display', 'none');
-            if (splashArrayProductList) {
-              var datatable = $('#tblInventory').DataTable();
-              datatable.clear();
-              datatable.rows.add(splashArrayProductList);
-              datatable.draw(false);
-
-
-            }
-        }).catch(function (err) {
-          $('.fullScreenSpin').css('display', 'none');
-        });
-    }
-    },
     'change #sltStatus': function () {
         let status = $('#sltStatus').find(":selected").val();
         if (status == "newstatus") {
@@ -5117,6 +5148,7 @@ Template.new_invoice.events({
                                         LinePrice: Number(tdunitprice.replace(/[^0-9.-]+/g, "")) || 0,
                                         Headershipdate: saleDate,
                                         LineTaxCode: tdtaxCode || '',
+                                        DiscountPercent:parseFloat($('#' + lineID + " .lineDiscount").text())||0
                                     }
                                 };
                             } else {
@@ -5130,6 +5162,7 @@ Template.new_invoice.events({
                                         LinePrice: Number(tdunitprice.replace(/[^0-9.-]+/g, "")) || 0,
                                         Headershipdate: saleDate,
                                         LineTaxCode: tdtaxCode || '',
+                                        DiscountPercent:parseFloat($('#' + lineID + " .lineDiscount").text())||0
                                     }
                                 };
                             }
@@ -5587,7 +5620,7 @@ Template.new_invoice.events({
                 if (!isNaN(subGrandTotal) && (!isNaN(taxGrandTotal))) {
                     let GrandTotal = (parseFloat(subGrandTotal)) + (parseFloat(taxGrandTotal));
                     document.getElementById("grandTotalPrint").innerHTML = $('#grandTotal').text();
-                    document.getElementById("balanceDue").innerHTML = utilityService.modifynegativeCurrencyFormat(GrandTotal);
+                    //document.getElementById("balanceDue").innerHTML = utilityService.modifynegativeCurrencyFormat(GrandTotal);
                     document.getElementById("totalBalanceDuePrint").innerHTML = $('#totalBalanceDue').text();
 
                 }
@@ -5759,7 +5792,7 @@ Template.new_invoice.events({
                     let GrandTotal = (parseFloat(subGrandTotal)) + (parseFloat(taxGrandTotal));
                     document.getElementById("grandTotalPrint").innerHTML = $('#grandTotal').text();
                     document.getElementById("totalTax").innerHTML = $('#subtotal_tax').text();
-                    document.getElementById("balanceDue").innerHTML = utilityService.modifynegativeCurrencyFormat(GrandTotal);
+                    //document.getElementById("balanceDue").innerHTML = utilityService.modifynegativeCurrencyFormat(GrandTotal);
                     document.getElementById("totalBalanceDuePrint").innerHTML = $('#totalBalanceDue').text();
 
                 }
@@ -5780,21 +5813,34 @@ Template.new_invoice.events({
             swal('Customer has not been selected!', '', 'warning');
             event.preventDefault();
         } else {
-            $('#tblInvoiceLine tbody tr .lineProductName').attr("data-toggle", "modal");
-            $('#tblInvoiceLine tbody tr .lineProductName').attr("data-target", "#productListModal");
+          var productDataName = $(event.target).text().replace(/\s/g, '') || '';
+          var productDataID = $(event.target).attr('prodid').replace(/\s/g, '') || '';
+          if (productDataName != '' && productDataID != '') {
+            Router.go('/productview?id=' + productDataID);
+          }else{
+            $('#productListModal').modal('toggle');
             var targetID = $(event.target).closest('tr').attr('id');
             $('#selectLineID').val(targetID);
             setTimeout(function () {
                 $('#tblInventory_filter .form-control-sm').focus();
             }, 500);
+          }
         }
     },
-    'click #productListModal #refreshpagelist': function () {
-        $('.fullScreenSpin').css('display', 'inline-block');
-        localStorage.setItem('VS1SalesProductList', '');
-        let templateObject = Template.instance();
-        Meteor._reload.reload();
-        templateObject.getAllProducts();
+    'dblclick .lineProductName': function (event) {
+
+          var productDataName = $(event.target).text().replace(/\s/g, '') || '';
+          var productDataID = $(event.target).attr('prodid').replace(/\s/g, '') || '';
+          if (productDataName != '' && productDataID != '') {
+            Router.go('/productview?id=' + productDataID);
+          }else{
+            $('#productListModal').modal('toggle');
+            var targetID = $(event.target).closest('tr').attr('id');
+            $('#selectLineID').val(targetID);
+            setTimeout(function () {
+                $('#tblInventory_filter .form-control-sm').focus();
+            }, 500);
+          }
 
     },
     'click .lineTaxRate': function (event) {
@@ -5909,7 +5955,7 @@ Template.new_invoice.events({
                     if (!isNaN(subGrandTotal) && (!isNaN(taxGrandTotal))) {
                         let GrandTotal = (parseFloat(subGrandTotal)) + (parseFloat(taxGrandTotal));
                         document.getElementById("grandTotal").innerHTML = utilityService.modifynegativeCurrencyFormat(GrandTotal);
-                        document.getElementById("balanceDue").innerHTML = utilityService.modifynegativeCurrencyFormat(GrandTotal);
+                        //document.getElementById("balanceDue").innerHTML = utilityService.modifynegativeCurrencyFormat(GrandTotal);
                         document.getElementById("totalBalanceDue").innerHTML = utilityService.modifynegativeCurrencyFormat(GrandTotal);
 
                     }
@@ -5945,7 +5991,7 @@ Template.new_invoice.events({
                             let GrandTotal = (parseFloat(subGrandTotal)) + (parseFloat(taxGrandTotal));
                             document.getElementById("grandTotalPrint").innerHTML = $('#grandTotal').text();
                             document.getElementById("totalTax").innerHTML = $('#subtotal_tax').text();
-                            document.getElementById("balanceDue").innerHTML = utilityService.modifynegativeCurrencyFormat(GrandTotal);
+                            //document.getElementById("balanceDue").innerHTML = utilityService.modifynegativeCurrencyFormat(GrandTotal);
                             document.getElementById("totalBalanceDuePrint").innerHTML = $('#totalBalanceDue').text();
 
                         }
@@ -6082,7 +6128,7 @@ Template.new_invoice.events({
                     let GrandTotal = (parseFloat(subGrandTotal)) + (parseFloat(taxGrandTotal));
                     document.getElementById("grandTotalPrint").innerHTML = $('#grandTotal').text();
                     document.getElementById("totalTax").innerHTML = $('#subtotal_tax').text();
-                    document.getElementById("balanceDue").innerHTML = utilityService.modifynegativeCurrencyFormat(GrandTotal);
+                    //document.getElementById("balanceDue").innerHTML = utilityService.modifynegativeCurrencyFormat(GrandTotal);
                     document.getElementById("totalBalanceDuePrint").innerHTML = $('#totalBalanceDue').text();
 
                 }
@@ -6101,6 +6147,8 @@ Template.new_invoice.events({
             $('#' + selectLineID + " .lineTaxRate").text('');
             $('#' + selectLineID + " .lineTaxCode").text('');
             $('#' + selectLineID + " .lineAmt").text('');
+            $('#' + selectLineID + " .lineTaxAmount").text('');
+            $('#' + selectLineID + " .lineDiscount").text('');
 
             document.getElementById("subtotal_tax").innerHTML = Currency + '0.00';
             document.getElementById("subtotal_total").innerHTML = Currency + '0.00';
@@ -6185,6 +6233,7 @@ Template.new_invoice.events({
                                 LinePrice: Number(tdunitprice.replace(/[^0-9.-]+/g, "")) || 0,
                                 Headershipdate: saleDate,
                                 LineTaxCode: tdtaxCode || '',
+                                DiscountPercent:parseFloat($('#' + lineID + " .lineDiscount").text())||0
                             }
                         };
                     } else {
@@ -6198,6 +6247,7 @@ Template.new_invoice.events({
                                 LinePrice: Number(tdunitprice.replace(/[^0-9.-]+/g, "")) || 0,
                                 Headershipdate: saleDate,
                                 LineTaxCode: tdtaxCode || '',
+                                DiscountPercent:parseFloat($('#' + lineID + " .lineDiscount").text())||0
                             }
                         };
                     }
@@ -7064,6 +7114,7 @@ Template.new_invoice.events({
                                 LinePrice: Number(tdunitprice.replace(/[^0-9.-]+/g, "")) || 0,
                                 Headershipdate: saleDate,
                                 LineTaxCode: tdtaxCode || '',
+                                DiscountPercent:parseFloat($('#' + lineID + " .lineDiscount").text())||0
                             }
                         };
                     } else {
@@ -7077,6 +7128,7 @@ Template.new_invoice.events({
                                 LinePrice: Number(tdunitprice.replace(/[^0-9.-]+/g, "")) || 0,
                                 Headershipdate: saleDate,
                                 LineTaxCode: tdtaxCode || '',
+                                DiscountPercent:parseFloat($('#' + lineID + " .lineDiscount").text())||0
                             }
                         };
                     }
@@ -7527,6 +7579,7 @@ Template.new_invoice.events({
                                     LinePrice: Number(tdunitprice.replace(/[^0-9.-]+/g, "")) || 0,
                                     Headershipdate: saleDate,
                                     LineTaxCode: tdtaxCode || '',
+                                    DiscountPercent:parseFloat($('#' + lineID + " .lineDiscount").text())||0
                                 }
                             };
                         } else {
@@ -7540,6 +7593,7 @@ Template.new_invoice.events({
                                     LinePrice: Number(tdunitprice.replace(/[^0-9.-]+/g, "")) || 0,
                                     Headershipdate: saleDate,
                                     LineTaxCode: tdtaxCode || '',
+                                    DiscountPercent:parseFloat($('#' + lineID + " .lineDiscount").text())||0
                                 }
                             };
                         }
