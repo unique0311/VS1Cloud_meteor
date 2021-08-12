@@ -101,7 +101,7 @@ Template.customerlistpop.onRendered(function () {
                             street3: data.tcustomervs1[i].fields.Street3 || ' ',
                             suburb: data.tcustomervs1[i].fields.Suburb || ' ',
                             postcode: data.tcustomervs1[i].fields.Postcode || ' ',
-                            clienttype: data.tcustomervs1[i].fields.ClientTypeName || '',
+                            clienttype: data.tcustomervs1[i].fields.ClientTypeName || 'Default',
                             discount: data.tcustomervs1[i].fields.Discount || 0
                         };
 
@@ -126,7 +126,7 @@ Template.customerlistpop.onRendered(function () {
                             data.tcustomervs1[i].fields.JobTitle || '',
                             data.tcustomervs1[i].fields.Notes || '',
                             data.tcustomervs1[i].fields.ID || '',
-                            data.tcustomervs1[i].fields.ClientTypeName || '',
+                            data.tcustomervs1[i].fields.ClientTypeName || 'Default',
                             data.tcustomervs1[i].fields.Discount || 0
                         ];
 
@@ -343,7 +343,7 @@ Template.customerlistpop.onRendered(function () {
                                           data.tcustomervs1[i].fields.JobTitle || '',
                                           data.tcustomervs1[i].fields.Notes || '',
                                           data.tcustomervs1[i].fields.ID || '',
-                                          data.tcustomervs1[i].fields.ClientTypeName || '',
+                                          data.tcustomervs1[i].fields.ClientTypeName || 'Default',
                                           data.tcustomervs1[i].fields.Discount || 0
                                       ];
 
@@ -469,7 +469,7 @@ Template.customerlistpop.onRendered(function () {
                         street3: useData[i].fields.Street3 || ' ',
                         suburb: useData[i].fields.Suburb || ' ',
                         postcode: useData[i].fields.Postcode || ' ',
-                        clienttype: data.tcustomervs1[i].fields.ClientTypeName || '',
+                        clienttype: data.tcustomervs1[i].fields.ClientTypeName || 'Default',
                         discount: data.tcustomervs1[i].fields.Discount || 0
                     };
 
@@ -495,7 +495,7 @@ Template.customerlistpop.onRendered(function () {
                         data.tcustomervs1[i].fields.JobTitle || '',
                         data.tcustomervs1[i].fields.Notes || '',
                         data.tcustomervs1[i].fields.ID || '',
-                        data.tcustomervs1[i].fields.ClientTypeName || '',
+                        data.tcustomervs1[i].fields.ClientTypeName || 'Default',
                         data.tcustomervs1[i].fields.Discount || 0
                     ];
 
@@ -767,7 +767,7 @@ Template.customerlistpop.onRendered(function () {
                                         data.tcustomervs1[i].fields.JobTitle || '',
                                         data.tcustomervs1[i].fields.Notes || '',
                                         data.tcustomervs1[i].fields.ID || '',
-                                        data.tcustomervs1[i].fields.ClientTypeName || '',
+                                        data.tcustomervs1[i].fields.ClientTypeName || 'Default',
                                         data.tcustomervs1[i].fields.Discount || 0
                                     ];
 
@@ -889,7 +889,7 @@ Template.customerlistpop.onRendered(function () {
                         street3: data.tcustomervs1[i].fields.Street3 || ' ',
                         suburb: data.tcustomervs1[i].fields.Suburb || ' ',
                         postcode: data.tcustomervs1[i].fields.Postcode || ' ',
-                        clienttype: data.tcustomervs1[i].fields.ClientTypeName || '',
+                        clienttype: data.tcustomervs1[i].fields.ClientTypeName || 'Default',
                         discount: data.tcustomervs1[i].fields.Discount || 0
                     };
 
@@ -914,7 +914,7 @@ Template.customerlistpop.onRendered(function () {
                         data.tcustomervs1[i].fields.JobTitle || '',
                         data.tcustomervs1[i].fields.Notes || '',
                         data.tcustomervs1[i].fields.ID || '',
-                        data.tcustomervs1[i].fields.ClientTypeName || '',
+                        data.tcustomervs1[i].fields.ClientTypeName || 'Default',
                         data.tcustomervs1[i].fields.Discount || 0
                     ];
 
@@ -1140,7 +1140,7 @@ Template.customerlistpop.onRendered(function () {
                                       data.tcustomervs1[i].fields.JobTitle || '',
                                       data.tcustomervs1[i].fields.Notes || '',
                                       data.tcustomervs1[i].fields.ID || '',
-                                      data.tcustomervs1[i].fields.ClientTypeName || '',
+                                      data.tcustomervs1[i].fields.ClientTypeName || 'Default',
                                       data.tcustomervs1[i].fields.Discount || 0
                                   ];
 
@@ -1262,6 +1262,7 @@ Template.customerlistpop.events({
         let templateObject = Template.instance();
         $('.fullScreenSpin').css('display', 'inline-block');
         const customerList = [];
+        const clientList = [];
         let salesOrderTable;
         var splashArray = new Array();
         var splashArrayCustomerList = new Array();
@@ -1327,7 +1328,7 @@ Template.customerlistpop.events({
                             data.tcustomervs1[i].fields.JobTitle || '',
                             data.tcustomervs1[i].fields.Notes || '',
                             data.tcustomervs1[i].fields.ID || '',
-                            data.tcustomervs1[i].fields.ClientTypeName || '',
+                            data.tcustomervs1[i].fields.ClientTypeName || 'Default',
                             data.tcustomervs1[i].fields.Discount || 0
                         ];
 
@@ -1422,11 +1423,29 @@ Template.customerlistpop.events({
                         data.tcustomervs1[i].fields.JobTitle || '',
                         data.tcustomervs1[i].fields.Notes || '',
                         data.tcustomervs1[i].fields.ID || '',
-                        data.tcustomervs1[i].fields.ClientTypeName || '',
+                        data.tcustomervs1[i].fields.ClientTypeName || 'Default',
                         data.tcustomervs1[i].fields.Discount || 0
                     ];
 
                     splashArrayCustomerList.push(dataListCustomer);
+
+                    // var customerrecordObj = {
+                    //     customerid: data.tcustomervs1[i].fields.ID || ' ',
+                    //     firstname: data.tcustomervs1[i].fields.FirstName || ' ',
+                    //     lastname: data.tcustomervs1[i].fields.LastName || ' ',
+                    //     customername: data.tcustomervs1[i].fields.ClientName || ' ',
+                    //     customeremail: data.tcustomervs1[i].fields.Email || ' ',
+                    //     street: data.tcustomervs1[i].fields.Street || ' ',
+                    //     street2: data.tcustomervs1[i].fields.Street2 || ' ',
+                    //     street3: data.tcustomervs1[i].fields.Street3 || ' ',
+                    //     suburb: data.tcustomervs1[i].fields.Suburb || ' ',
+                    //     statecode: data.tcustomervs1[i].fields.State + ' ' + data.tcustomervs1[i].fields.Postcode || ' ',
+                    //     country: data.tcustomervs1[i].fields.Country || ' ',
+                    //     termsName: datadata.tcustomervs1[i].fields.TermsName || '',
+                    //     taxCode: data.tcustomervs1[i].fields.TaxCodeName || '',
+                    //     clienttypename: data.tcustomervs1[i].fields.ClientTypeName || 'Default'
+                    // };
+                    // clientList.push(customerrecordObj);
                     //}
                 }
                 var datatable = $('#tblCustomerlist').DataTable();
