@@ -2394,7 +2394,7 @@ Template.creditcard.events({
     },
     'blur .lineMemo': function (event) {
         var targetID = $(event.target).closest('tr').attr('id');
-        console.log(targetID);
+      
         $('#' + targetID + " #lineMemo").text($('#' + targetID + " .lineMemo").text());
     },
     'blur .colAmount': function(event) {

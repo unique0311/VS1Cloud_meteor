@@ -415,14 +415,7 @@ oReq.setRequestHeader("database",databaseName);
 oReq.setRequestHeader("username",userName);
 oReq.setRequestHeader("password",password);
 
-/*
-oReq.onload = function(){
-  alert('here');
 
-  var ErrorMessage = oReq.getResponseHeader('content-type');
-  alert(ErrorMessage);
-};
-*/
 oReq.send();
 
 
@@ -564,46 +557,7 @@ $(document).ready(function() {
   });
 });
 
-/*
-var getRegionOptions = URLRequest + "192.168.1.100" + ':' + "88" + '/erpapi/TRegionalOptions?PropertyList="CountryName, Region, CurrencySymbol, RegionAbbreviation"';
-let regionOptions = [];
-var oReq = new XMLHttpRequest();
-oReq.open("GET",getRegionOptions, true);
-oReq.setRequestHeader("database","vs1_cloud");
-oReq.setRequestHeader("username","VS1_Cloud_Admin");
-oReq.setRequestHeader("password","DptfGw83mFl1j&9");
 
-oReq.send();
-
-
-
-oReq.onreadystatechange = function() {
-
-  if (oReq.readyState == 4 && oReq.status == 200) {
-    var data = JSON.parse(oReq.responseText);
-    for (let i = 0; i < data.tregionaloptions.length; i++) {
-        regionOptions.push(data.tregionaloptions[i].Region)
-    }
-    regionOptions = _.sortBy(regionOptions);
-    templateObject.countryRegion.set(regionOptions);
-
-  } else if(oReq.statusText == '') {
-
-
-  }else if(oReq.readyState == 4 && oReq.status == 403){
-
-
-  }else if(oReq.readyState == 4 && oReq.status == 406){
-
-
-  }else if(oReq.readyState == 4 && oReq.status == 500){
-
-
-  }else{
-
-  }
-}
-*/
 });
 
 Template.simonpurchasedb.helpers({

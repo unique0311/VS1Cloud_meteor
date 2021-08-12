@@ -834,7 +834,7 @@ Template.taxRatesSettings.events({
             let loginDataArray = [];
             if(dataObject[0].EmployeeEmail === localStorage.getItem('mySession')){
                 loginDataArray = dataObject[0].data;
-                console.log(loginDataArray);
+                
                 loginDataArray.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.RegionalOptions_TaxCodePurchaseInc = purchasetaxcode;
                 loginDataArray.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.RegionalOptions_TaxCodeSalesInc = salestaxcode;
                 addLoginData(loginDataArray).then(function (datareturnCheck) {
@@ -869,7 +869,7 @@ Template.taxRatesSettings.events({
                 });
 
             }else{
-              console.log("Not same email");
+
                 swal({
                     title: 'Default Tax Rate Successfully Changed',
                     text: '',

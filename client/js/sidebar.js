@@ -413,7 +413,7 @@ Template.sidenav.onRendered(function() {
                 $('#sidenavpayroll').removeClass('active');
                 $('#sidenavpayroll .nav-link').removeClass('active');
             } else if ((currentLoc == "/timesheet") || (currentLoc == "/adpapi") ||
-              (currentLoc == "/squareapi") || (currentLoc == "/employeetimeclock")) {
+              (currentLoc == "/squareapi") || (currentLoc == "/employeetimeclock") || (currentLoc == "/payrolloverview")) {
                 $('#sidenavaccounts').removeClass('active');
                 $('#sidenavbanking').removeClass('active');
                 $('#sidenavdashbaord .nav-link').removeClass('active');

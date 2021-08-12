@@ -356,7 +356,7 @@ Template.invstockonhandanddemand.onRendered(()=>{
            });
       }
     }).catch(function (err) {
-      console.log(err);
+      
       vs1chartService.getProductStocknSaleReportData(prevMonth11Date, fromDate).then((data) => {
         addVS1Data('TProductStocknSalePeriodReport',JSON.stringify(data));
         let month_1 = data.tproductstocknsaleperiodreport[0].TypeDesc_1||'';

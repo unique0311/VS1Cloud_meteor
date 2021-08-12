@@ -408,7 +408,7 @@ setTimeout(function () {
                      let objCombineData = {
                        tinvoiceex:thirdaryData
                      }
-                     //console.log(objCombineData);
+
 
                        addVS1Data('TInvoiceEx',JSON.stringify(objCombineData)).then(function (datareturn) {
                          templateObject.resetData(objCombineData);
@@ -445,8 +445,7 @@ setTimeout(function () {
           let draftRecord = templateObject.datatablerecords.get();
           templateObject.datatablerecords.set(draftRecord);
       }).on('search.dt', function (eventSearch, searchdata) {
-        //console.log(eventSearch);
-        //console.log(searchdata.fnRecordsDisplay());
+      
 
         if(searchdata.fnRecordsDisplay() > 0){
 
