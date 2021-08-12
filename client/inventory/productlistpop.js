@@ -268,7 +268,9 @@ Template.productlistpop.onRendered(function () {
                                   utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductvs1[i].fields.BuyQty1Cost * 100) / 100),
                                   utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductvs1[i].fields.SellQty1Price * 100) / 100),
                                   data.tproductvs1[i].fields.TotalQtyInStock,
-                                  data.tproductvs1[i].fields.TaxCodeSales || ''
+                                  data.tproductvs1[i].fields.TaxCodeSales || '',
+                                  data.tproductvs1[i].fields.ID || '',
+                                  JSON.stringify(data.tproductvs1[i].fields.ExtraSellPrice)||null
                               ];
 
                               if (data.tproductvs1[i].fields.ExtraSellPrice != null) {
@@ -425,7 +427,7 @@ Template.productlistpop.events({
     let templateObject = Template.instance();
     let utilityService = new UtilityService();
   let productService = new ProductService();
-  let salesService = new SalesBoardService();
+  //let salesService = new SalesBoardService();
   let tableProductList;
   var splashArrayProductList = new Array();
   var splashArrayTaxRateList = new Array();
@@ -436,7 +438,7 @@ Template.productlistpop.events({
     if(dataSearchName.replace(/\s/g, '') != ''){
     sideBarService.getNewProductListVS1ByName(dataSearchName).then(function (data) {
         let records = [];
-        
+
         let inventoryData = [];
         if(data.tproductvs1.length > 0){
         for (let i = 0; i < data.tproductvs1.length; i++) {
@@ -447,7 +449,9 @@ Template.productlistpop.events({
                 utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductvs1[i].fields.BuyQty1Cost * 100) / 100),
                 utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductvs1[i].fields.SellQty1Price * 100) / 100),
                 data.tproductvs1[i].fields.TotalQtyInStock,
-                data.tproductvs1[i].fields.TaxCodeSales || ''
+                data.tproductvs1[i].fields.TaxCodeSales || '',
+                data.tproductvs1[i].fields.ID || '',
+                JSON.stringify(data.tproductvs1[i].fields.ExtraSellPrice)||null
             ];
 
             if (data.tproductvs1[i].fields.ExtraSellPrice != null) {
@@ -506,7 +510,9 @@ Template.productlistpop.events({
                   utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductvs1[i].fields.BuyQty1Cost * 100) / 100),
                   utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductvs1[i].fields.SellQty1Price * 100) / 100),
                   data.tproductvs1[i].fields.TotalQtyInStock,
-                  data.tproductvs1[i].fields.TaxCodeSales || ''
+                  data.tproductvs1[i].fields.TaxCodeSales || '',
+                  data.tproductvs1[i].fields.ID || '',
+                  JSON.stringify(data.tproductvs1[i].fields.ExtraSellPrice)||null
               ];
 
               if (data.tproductvs1[i].fields.ExtraSellPrice != null) {

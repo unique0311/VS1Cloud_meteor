@@ -343,6 +343,8 @@ Template.customerlistpop.onRendered(function () {
                                           data.tcustomervs1[i].fields.JobTitle || '',
                                           data.tcustomervs1[i].fields.Notes || '',
                                           data.tcustomervs1[i].fields.ID || '',
+                                          data.tcustomervs1[i].fields.ClientTypeName || '',
+                                          data.tcustomervs1[i].fields.Discount || 0
                                       ];
 
                                       splashArrayCustomerList.push(dataListCustomer);
@@ -765,6 +767,8 @@ Template.customerlistpop.onRendered(function () {
                                         data.tcustomervs1[i].fields.JobTitle || '',
                                         data.tcustomervs1[i].fields.Notes || '',
                                         data.tcustomervs1[i].fields.ID || '',
+                                        data.tcustomervs1[i].fields.ClientTypeName || '',
+                                        data.tcustomervs1[i].fields.Discount || 0
                                     ];
 
                                     splashArrayCustomerList.push(dataListCustomer);
@@ -1136,6 +1140,8 @@ Template.customerlistpop.onRendered(function () {
                                       data.tcustomervs1[i].fields.JobTitle || '',
                                       data.tcustomervs1[i].fields.Notes || '',
                                       data.tcustomervs1[i].fields.ID || '',
+                                      data.tcustomervs1[i].fields.ClientTypeName || '',
+                                      data.tcustomervs1[i].fields.Discount || 0
                                   ];
 
                                   splashArrayCustomerList.push(dataListCustomer);
@@ -1262,7 +1268,7 @@ Template.customerlistpop.events({
         const dataTableList = [];
         const tableHeaderList = [];
         let dataSearchName = $('#tblCustomerlist_filter input').val();
-        
+
         if (dataSearchName.replace(/\s/g, '') != '') {
             sideBarService.getAllCustomersDataVS1ByName(dataSearchName).then(function (data) {
                 let lineItems = [];
@@ -1321,6 +1327,8 @@ Template.customerlistpop.events({
                             data.tcustomervs1[i].fields.JobTitle || '',
                             data.tcustomervs1[i].fields.Notes || '',
                             data.tcustomervs1[i].fields.ID || '',
+                            data.tcustomervs1[i].fields.ClientTypeName || '',
+                            data.tcustomervs1[i].fields.Discount || 0
                         ];
 
                         splashArrayCustomerList.push(dataListCustomer);
@@ -1414,6 +1422,8 @@ Template.customerlistpop.events({
                         data.tcustomervs1[i].fields.JobTitle || '',
                         data.tcustomervs1[i].fields.Notes || '',
                         data.tcustomervs1[i].fields.ID || '',
+                        data.tcustomervs1[i].fields.ClientTypeName || '',
+                        data.tcustomervs1[i].fields.Discount || 0
                     ];
 
                     splashArrayCustomerList.push(dataListCustomer);
