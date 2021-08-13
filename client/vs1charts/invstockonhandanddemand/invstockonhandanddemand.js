@@ -152,12 +152,7 @@ Template.invstockonhandanddemand.onRendered(()=>{
                  month_4,
                  month_5,
                  month_6,
-                 month_7,
-                 month_8,
-                 month_9,
-                 month_10,
-                 month_11,
-                 month_12
+                 month_7
                ],
                 datasets: [
                   {
@@ -174,12 +169,7 @@ Template.invstockonhandanddemand.onRendered(()=>{
                     month_4_onhand,
                     month_5_onhand,
                     month_6_onhand,
-                    month_7_onhand,
-                    month_8_onhand,
-                    month_9_onhand,
-                    month_10_onhand,
-                    month_11_onhand,
-                    month_12_onhand
+                    month_7_onhand
                   ],
                   order: 1
                },
@@ -192,12 +182,7 @@ Template.invstockonhandanddemand.onRendered(()=>{
                    month_4_shipped,
                    month_5_shipped,
                    month_6_shipped,
-                   month_7_shipped,
-                   month_8_shipped,
-                   month_9_shipped,
-                   month_10_shipped,
-                   month_11_shipped,
-                   month_12_shipped
+                   month_7_shipped
                   ],
                   type: 'line',
                   order: 2
@@ -279,12 +264,7 @@ Template.invstockonhandanddemand.onRendered(()=>{
                month_4,
                month_5,
                month_6,
-               month_7,
-               month_8,
-               month_9,
-               month_10,
-               month_11,
-               month_12
+               month_7
              ],
               datasets: [
                 {
@@ -301,12 +281,7 @@ Template.invstockonhandanddemand.onRendered(()=>{
                   month_4_onhand,
                   month_5_onhand,
                   month_6_onhand,
-                  month_7_onhand,
-                  month_8_onhand,
-                  month_9_onhand,
-                  month_10_onhand,
-                  month_11_onhand,
-                  month_12_onhand
+                  month_7_onhand
                 ],
                 order: 1
              },
@@ -319,12 +294,7 @@ Template.invstockonhandanddemand.onRendered(()=>{
                  month_4_shipped,
                  month_5_shipped,
                  month_6_shipped,
-                 month_7_shipped,
-                 month_8_shipped,
-                 month_9_shipped,
-                 month_10_shipped,
-                 month_11_shipped,
-                 month_12_shipped
+                 month_7_shipped
                 ],
                 type: 'line',
                 order: 2
@@ -356,7 +326,7 @@ Template.invstockonhandanddemand.onRendered(()=>{
            });
       }
     }).catch(function (err) {
-      
+
       vs1chartService.getProductStocknSaleReportData(prevMonth11Date, fromDate).then((data) => {
         addVS1Data('TProductStocknSalePeriodReport',JSON.stringify(data));
         let month_1 = data.tproductstocknsaleperiodreport[0].TypeDesc_1||'';
@@ -405,13 +375,7 @@ Template.invstockonhandanddemand.onRendered(()=>{
                month_3,
                month_4,
                month_5,
-               month_6,
-               month_7,
-               month_8,
-               month_9,
-               month_10,
-               month_11,
-               month_12
+               month_6
              ],
               datasets: [
                 {
@@ -428,12 +392,7 @@ Template.invstockonhandanddemand.onRendered(()=>{
                   month_4_onhand,
                   month_5_onhand,
                   month_6_onhand,
-                  month_7_onhand,
-                  month_8_onhand,
-                  month_9_onhand,
-                  month_10_onhand,
-                  month_11_onhand,
-                  month_12_onhand
+                  month_7_onhand
                 ],
                 order: 1
              },
@@ -446,12 +405,7 @@ Template.invstockonhandanddemand.onRendered(()=>{
                  month_4_shipped,
                  month_5_shipped,
                  month_6_shipped,
-                 month_7_shipped,
-                 month_8_shipped,
-                 month_9_shipped,
-                 month_10_shipped,
-                 month_11_shipped,
-                 month_12_shipped
+                 month_7_shipped
                 ],
                 type: 'line',
                 order: 2
