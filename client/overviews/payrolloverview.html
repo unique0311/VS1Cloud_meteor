@@ -4,22 +4,28 @@
             <div class="spinner"></div>
         </div>
         <style>
-            .dataTables_filter { 
-                display: none; 
+            .dataTables_filter {
+                display: none;
+            }
+
+            @media screen and (max-width: 376px) {
+                .btnOpenSettings {
+                    margin-right: 0px;
+                }
             }
         </style>
         <div style="margin-top: -24px;">
-            <header style="padding: 16px; padding-bottom: 0px;">
-                <h1 style="margin: 16px; margin-bottom: 0px;">Payroll Overview
-                    <!-- <a role="button" data-toggle="modal" href="#helpModal" class="helpModal"><label class="lblplay">PLAY</label><i class="far fa-play-circle"  style="font-size: 20px;"></i></a> -->
-                    <a role="button" data-toggle="modal" href="#helpViewModal"  style="font-size: 20px;">Help <i class="fa fa-question-circle-o" style="font-size: 20px;"></i></a>
+            <header style="padding: 16px; padding-bottom: 14px;">
+                <h2 style="margin: 16px; margin-bottom: 0px;">Payroll Overview
+                    <a role="button" data-toggle="modal" href="#helpViewModal" style="font-size: 20px;">Help <i class="fa fa-question-circle-o" style="font-size: 20px;"></i></a>
 
                     <!-- Start Help View Modal -->
                     <div class="modal fade" role="dialog" tabindex="-1" id="helpViewModal">
                         <div class="modal-dialog modal-sm" role="document">
                             <div class="modal-content">
                                 <div class="modal-header" style="padding-bottom: 8px;">
-                                    <h4>Help</h4><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button></div>
+                                    <h4>Help</h4><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                                </div>
                                 <div class="modal-body">
                                     <p class="text-center text-muted"><a role="button" data-toggle="modal" href="#helpModal" class="btn btn-primary helpModal">View Help Video</a></p>
                                     <p class="text-center text-muted"><a href="https://vs1forum.com/viewtopic.php?f=6&t=16&p=20#p20" target="_blank" class="btn btn-primary">Download Help File</a></p>
@@ -31,95 +37,101 @@
                         </div>
                     </div>
                     <!-- End Help View Modal -->
-
-                    <style>
-                        @media screen and (max-width: 376px) {
-                            .btnOpenSettings {
-                                margin-right: 0px;
-                            }
-                        }
-                    </style>
-
-                </h1>
+                </h2>
 
                 <div class="modal fade" role="dialog" tabindex="-1" id="myModal2">
                     <div class="modal-dialog modal-dialog-centered" role="document" style="float: right;">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h4>Display Settings</h4><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button></div>
+                                <h4>Display Settings</h4><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                            </div>
                             <div class="modal-body">
                                 <div>
                                     {{#if tableheaderrecords}}
-                                    <form class="d-xl-flex align-items-xl-center">
-                                        <div class="flex-grow-1">
-                                            <style>
-                                                .groove {
-                                                    border-style: solid;
-                                                    border-width: 1px;
-                                                    width: 200px;
-                                                    padding: 2px;
-                                                    border-radius: .35rem;
-                                                }
-                                                .custom-control-label{
-                                                    position: absolute;
-                                                }
-                                                .rngRange {
-                                                    position: relative;
-                                                    display: flex;
-                                                    flex-direction: column;
-                                                    width: 100%;
-                                                    pointer-events: auto;
-                                                    background-color: rgb(255, 255, 255);
-                                                    background-clip: padding-box;
-                                                    border: 1px solid rgb(133, 135, 150);
-                                                    border-radius: .3rem;
-                                                    border-style: solid;
-                                                    border-width: 1px;
-                                                    padding: 2px;
-                                                    border-radius: .35rem;
-                                                    color: rgb(128, 128, 128);
-                                                    height:inherit!important;
-                                                }
-                                                @media only screen and (max-width: 480px) {
-                                                    .modal.show .modal-dialog{
-                                                        float: inherit!important;
-                                                        left: inherit!important;
-                                                        top: auto!important;
-
+                                        <form class="d-xl-flex align-items-xl-center">
+                                            <div class="flex-grow-1">
+                                                <style>
+                                                    .groove {
+                                                        border-style: solid;
+                                                        border-width: 1px;
+                                                        width: 200px;
+                                                        padding: 2px;
+                                                        border-radius: .35rem;
                                                     }
-                                                }
-                                            </style>
-                                            {{#each item in tableheaderrecords}}
-                                            {{#if equals item.sTitle "id"}}
-                                            {{else}}
 
-                                            <div id="{{item.sIndex}}" class="columnSettings">
-                                                <div class="custom-control custom-switch" style="margin: 8px; float:left;">
-                                                    <input class="custom-control-input chkDatatable" type="checkbox" id="chkSalesNo-{{item.sIndex}}" name="chkSalesNo-{{item.sIndex}}" checked="{{#if item.sVisible}}checked{{else}}{{/if}}" value="{{item.sTitle}}">
-                                                    <label class="custom-control-label" for="chkSalesNo-{{item.sIndex}}"></label>
-                                                    <div contenteditable="true" class="groove divcolumn" type="text" value="{{item.sTitle}}" valueupdate="{{item.sClass}}">{{item.sTitle}}</div>
-                                                </div>
-                                                <div class="d-xl-flex align-items-xl-center divColWidth" style="margin: 8px;">
-                                                    <label class="text-nowrap" style="padding-left: 0px;margin-top: 8px;">Width: <!--<span class="spWidth" value="{{item.sTitle}}">{{item.sWidth}}px</span>--></label>
-                                                    <input class="custom-range rngRange" type="number" style="margin: 8px;" value="{{item.sWidth}}" min="0" max="1000">
-                                                    <!-- <input class="custom-range rngRange" type="range" style="margin: 8px;" value="{{item.sWidth}}" min="0" max="1000"> -->
-                                                </div>
+                                                    .custom-control-label {
+                                                        position: absolute;
+                                                    }
+
+                                                    .rngRange {
+                                                        position: relative;
+                                                        display: flex;
+                                                        flex-direction: column;
+                                                        width: 100%;
+                                                        pointer-events: auto;
+                                                        background-color: rgb(255, 255, 255);
+                                                        background-clip: padding-box;
+                                                        border: 1px solid rgb(133, 135, 150);
+                                                        border-radius: .3rem;
+                                                        border-style: solid;
+                                                        border-width: 1px;
+                                                        padding: 2px;
+                                                        border-radius: .35rem;
+                                                        color: rgb(128, 128, 128);
+                                                        height: inherit !important;
+                                                    }
+
+                                                    @media only screen and (max-width: 480px) {
+                                                        .modal.show .modal-dialog {
+                                                            float: inherit !important;
+                                                            left: inherit !important;
+                                                            top: auto !important;
+
+                                                        }
+                                                    }
+                                                </style>
+                                                {{#each item in tableheaderrecords}}
+                                                    {{#if equals item.sTitle "id"}}
+                                                    {{else}}
+
+                                                        <div id="{{item.sIndex}}" class="columnSettings">
+                                                            <div class="custom-control custom-switch" style="margin: 8px; float:left;">
+                                                                <input class="custom-control-input chkDatatable" type="checkbox" id="chkSalesNo-{{item.sIndex}}" name="chkSalesNo-{{item.sIndex}}" checked="{{#if item.sVisible}}checked{{else}}{{/if}}"
+                                                                    value="{{item.sTitle}}">
+                                                                <label class="custom-control-label" for="chkSalesNo-{{item.sIndex}}"></label>
+                                                                <div contenteditable="true" class="groove divcolumn" type="text" value="{{item.sTitle}}" valueupdate="{{item.sClass}}">{{item.sTitle}}</div>
+                                                            </div>
+                                                            <div class="d-xl-flex align-items-xl-center divColWidth" style="margin: 8px;">
+                                                                <label class="text-nowrap" style="padding-left: 0px;margin-top: 8px;">Width:
+                                                                    <!--<span class="spWidth" value="{{item.sTitle}}">{{item.sWidth}}px</span>-->
+                                                                </label>
+                                                                <input class="custom-range rngRange" type="number" style="margin: 8px;" value="{{item.sWidth}}" min="0" max="1000">
+                                                                <!-- <input class="custom-range rngRange" type="range" style="margin: 8px;" value="{{item.sWidth}}" min="0" max="1000"> -->
+                                                            </div>
+                                                        </div>
+
+                                                        {{#if equals item.sVisible true}}
+                                                            <script>
+                                                                $("#" + {
+                                                                    {
+                                                                        item.sIndex
+                                                                    }
+                                                                } + ".chkDatatable").attr("checked", "checked");
+                                                            </script>
+                                                        {{else}}
+                                                            <script>
+                                                                $("#" + {
+                                                                    {
+                                                                        item.sIndex
+                                                                    }
+                                                                } + ".chkDatatable").removeAttr("checked");
+                                                            </script>
+                                                        {{/if}}
+
+                                                    {{/if}}
+                                                {{/each}}
                                             </div>
-
-                                            {{#if equals item.sVisible true}}
-                                            <script>
-                                                $("#"+{{item.sIndex}}+".chkDatatable").attr("checked","checked");
-                                            </script>
-                                            {{else}}
-                                            <script>
-                                                $("#"+{{item.sIndex}}+".chkDatatable").removeAttr("checked");
-                                            </script>
-                                            {{/if}}
-
-                                            {{/if}}
-                                            {{/each}}
-                                        </div>
-                                    </form>
+                                        </form>
                                     {{/if}}
                                 </div>
                             </div>
@@ -132,29 +144,58 @@
                     </div>
                 </div>
             </header>
-        <div class="row" style="padding: 0px 30px;">
+            <div class="row" style="padding: 0px 30px;">
 
-            {{> resalescomparision}}
-                                    <div class="col-4 absentChart" id="absentChart">
-                            <div class="card cardChart" style="margin: 8px;">
-                                <div class="card-body">
-                                    <h4 class="card-title">Absentee Rate Over The Last 12 months</h4>
-                                    <div>
-                                        <!-- <canvas id="myChartEmployee" name="myChartEmployee"></canvas> -->
-                                        <canvas data-bs-chart="{&quot;type&quot;:&quot;line&quot;,&quot;data&quot;:{&quot;labels&quot;:[&quot;2015&quot;,&quot;2016&quot;,&quot;2017&quot;,&quot;2018&quot;,&quot;2019&quot;,&quot;2020&quot;],&quot;datasets&quot;:[{&quot;label&quot;:&quot;Absenteeism Rate (Percentage)&quot;,&quot;backgroundColor&quot;:&quot;rgba(223,78,78,0.43)&quot;,&quot;borderColor&quot;:&quot;#df4e4e&quot;,&quot;data&quot;:[&quot;4.1&quot;,&quot;3.8&quot;,&quot;3.4&quot;,&quot;3.6&quot;,&quot;3&quot;,&quot;2.7&quot;],&quot;fill&quot;:true},{&quot;label&quot;:&quot;Absenteeism in Days&quot;,&quot;backgroundColor&quot;:&quot;rgba(223,78,78,0)&quot;,&quot;borderColor&quot;:&quot;#df4e4e&quot;,&quot;data&quot;:[&quot;8.6&quot;,&quot;8.0&quot;,&quot;7.8&quot;,&quot;6.6&quot;,&quot;5.4&quot;,&quot;4.2&quot;],&quot;fill&quot;:true}]},&quot;options&quot;:{&quot;maintainAspectRatio&quot;:true,&quot;legend&quot;:{&quot;display&quot;:true,&quot;position&quot;:&quot;bottom&quot;,&quot;reverse&quot;:false},&quot;title&quot;:{&quot;display&quot;:false},&quot;scales&quot;:{&quot;xAxes&quot;:[{&quot;gridLines&quot;:{&quot;drawBorder&quot;:true,&quot;drawTicks&quot;:true,&quot;drawOnChartArea&quot;:true},&quot;ticks&quot;:{&quot;beginAtZero&quot;:true}}],&quot;yAxes&quot;:[{&quot;gridLines&quot;:{&quot;drawBorder&quot;:true,&quot;drawTicks&quot;:true,&quot;drawOnChartArea&quot;:true},&quot;ticks&quot;:{&quot;beginAtZero&quot;:true}}]}}}"></canvas>
-                                    </div>
-                                </div>
+                {{> resalescomparision}}
+
+                <div class="col-lg-5 col-xl-4 col-lg-6 col-xl-4">
+                    <div class="card shadow mb-4">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <h6 class="text-primary font-weight-bold m-0">Absentee Rate Over The Last 12 Months</h6>
+                            <div class="dropdown no-arrow"><button class="btn btn-link btn-sm dropdown-toggle" data-toggle="dropdown" aria-expanded="false" type="button"><i class="fas fa-ellipsis-v text-gray-400"></i></button>
+                                <div class="dropdown-menu shadow dropdown-menu-right animated--fade-in" role="menu">
+                                    <p class="text-center dropdown-header">dropdown header:</p><a class="dropdown-item" role="presentation" href="#">&nbsp;More Details</a>
+                                    <!-- <a class="dropdown-item" role="presentation" href="#">&nbsp;Current Month</a> -->
+                                    <!-- <div class="dropdown-divider"></div> -->
+                                    <!-- <a class="dropdown-item" role="presentation" href="#">&nbsp;Something else here</a> -->
+                                  </div>
                             </div>
                         </div>
+                        <div class="card-body">
+                            <div class="chart-area">
+                                <style>
+                                    .chartjs-render-monitor {
+                                        height: 100% !important;
+                                    }
+                                </style>
+                                <canvas
+                                    data-bs-chart="{&quot;type&quot;:&quot;line&quot;,&quot;data&quot;:{&quot;labels&quot;:[&quot;2015&quot;,&quot;2016&quot;,&quot;2017&quot;,&quot;2018&quot;,&quot;2019&quot;,&quot;2020&quot;],&quot;datasets&quot;:[{&quot;label&quot;:&quot;Absenteeism Rate (Percentage)&quot;,&quot;backgroundColor&quot;:&quot;rgba(223,78,78,0.43)&quot;,&quot;borderColor&quot;:&quot;#df4e4e&quot;,&quot;data&quot;:[&quot;4.1&quot;,&quot;3.8&quot;,&quot;3.4&quot;,&quot;3.6&quot;,&quot;3&quot;,&quot;2.7&quot;],&quot;fill&quot;:true},{&quot;label&quot;:&quot;Absenteeism in Days&quot;,&quot;backgroundColor&quot;:&quot;rgba(223,78,78,0)&quot;,&quot;borderColor&quot;:&quot;#df4e4e&quot;,&quot;data&quot;:[&quot;8.6&quot;,&quot;8.0&quot;,&quot;7.8&quot;,&quot;6.6&quot;,&quot;5.4&quot;,&quot;4.2&quot;],&quot;fill&quot;:true}]},&quot;options&quot;:{&quot;maintainAspectRatio&quot;:true,&quot;legend&quot;:{&quot;display&quot;:true,&quot;position&quot;:&quot;bottom&quot;,&quot;reverse&quot;:false},&quot;title&quot;:{&quot;display&quot;:false},&quot;scales&quot;:{&quot;xAxes&quot;:[{&quot;gridLines&quot;:{&quot;drawBorder&quot;:true,&quot;drawTicks&quot;:true,&quot;drawOnChartArea&quot;:true},&quot;ticks&quot;:{&quot;beginAtZero&quot;:true}}],&quot;yAxes&quot;:[{&quot;gridLines&quot;:{&quot;drawBorder&quot;:true,&quot;drawTicks&quot;:true,&quot;drawOnChartArea&quot;:true},&quot;ticks&quot;:{&quot;beginAtZero&quot;:true}}]}}}" style="height: 100% !important;"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- <div class="col-4 absentChart" id="absentChart">
+    <div class="card cardChart" style="margin: 8px;">
+        <div class="card-body">
+            <h4 class="card-title">Absentee Rate Over The Last 12 months</h4>
+            <div>
+                <canvas
+                    data-bs-chart="{&quot;type&quot;:&quot;line&quot;,&quot;data&quot;:{&quot;labels&quot;:[&quot;2015&quot;,&quot;2016&quot;,&quot;2017&quot;,&quot;2018&quot;,&quot;2019&quot;,&quot;2020&quot;],&quot;datasets&quot;:[{&quot;label&quot;:&quot;Absenteeism Rate (Percentage)&quot;,&quot;backgroundColor&quot;:&quot;rgba(223,78,78,0.43)&quot;,&quot;borderColor&quot;:&quot;#df4e4e&quot;,&quot;data&quot;:[&quot;4.1&quot;,&quot;3.8&quot;,&quot;3.4&quot;,&quot;3.6&quot;,&quot;3&quot;,&quot;2.7&quot;],&quot;fill&quot;:true},{&quot;label&quot;:&quot;Absenteeism in Days&quot;,&quot;backgroundColor&quot;:&quot;rgba(223,78,78,0)&quot;,&quot;borderColor&quot;:&quot;#df4e4e&quot;,&quot;data&quot;:[&quot;8.6&quot;,&quot;8.0&quot;,&quot;7.8&quot;,&quot;6.6&quot;,&quot;5.4&quot;,&quot;4.2&quot;],&quot;fill&quot;:true}]},&quot;options&quot;:{&quot;maintainAspectRatio&quot;:true,&quot;legend&quot;:{&quot;display&quot;:true,&quot;position&quot;:&quot;bottom&quot;,&quot;reverse&quot;:false},&quot;title&quot;:{&quot;display&quot;:false},&quot;scales&quot;:{&quot;xAxes&quot;:[{&quot;gridLines&quot;:{&quot;drawBorder&quot;:true,&quot;drawTicks&quot;:true,&quot;drawOnChartArea&quot;:true},&quot;ticks&quot;:{&quot;beginAtZero&quot;:true}}],&quot;yAxes&quot;:[{&quot;gridLines&quot;:{&quot;drawBorder&quot;:true,&quot;drawTicks&quot;:true,&quot;drawOnChartArea&quot;:true},&quot;ticks&quot;:{&quot;beginAtZero&quot;:true}}]}}}"></canvas>
+            </div>
         </div>
-            <div class="row d-xl-flex flex-row justify-content-xl-center" style="padding: 0px 20px 20px 20px; background-color: #ededed;">
+    </div>
+</div> -->
+            </div>
+            <div class="row d-xl-flex flex-row justify-content-xl-center" style="padding: 0px 20px;">
 
                 <div class="col-8 float-left flex-grow-1">
                     <button class="btn btn-primary btnRefresh" type="button" style="margin: 16px;"><i class="la la-lightbulb-o" style="padding-right: 5px;"></i>Refresh</button>
                     <button id="btnNewEmployee" name="btnNewEmployee" class="btn btn-primary" type="button" style="margin: 16px;"><i class="icon ion-plus" style="padding-right: 5px;"></i>New Employee</button>
                     <button class="btn btn-success btnAddVS1User" type="button" style="margin: 16px;"><i class="fa fa-plus" style="padding-right: 5px"></i>Add VS1 User</button>
                     <button class="btn btn-primary" id="btnTimesheet" name="btnTimesheet" type="button" style="margin: 16px;"><i class="fas fa-clock" style="padding-right: 5px;"></i>Timesheet</button>
-                     <button id="btnClockOnOff" name="btnClockOnOff" class="btn btn-primary" type="button" role="button" data-toggle="modal" href="#settingsModal" style="margin-left: 16px;"><i class="fas fa-user-clock" style="padding-right: 5px;"></i>Clock On/Off</button>
+                    <button id="btnClockOnOff" name="btnClockOnOff" class="btn btn-primary" type="button" role="button" data-toggle="modal" href="#settingsModal" style="margin-left: 16px;"><i class="fas fa-user-clock"
+                            style="padding-right: 5px;"></i>Clock On/Off</button>
                 </div>
 
                 <div class="col d-xl-flex justify-content-xl-end align-items-xl-start">
@@ -173,7 +214,8 @@
                             <div class="modal-dialog" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h4>Import Items</h4><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button></div>
+                                        <h4>Import Items</h4><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                                    </div>
                                     <div class="modal-body">
                                         <div class="row no-gutters d-xl-flex flex-row justify-content-xl-start align-items-xl-start">
                                             <p style="margin-bottom: 0px;font-weight: bold;">1. Download the &lt;&lt;form&gt;&gt; template</p>
@@ -183,7 +225,9 @@
                                                 <button class="btn btn-primary templateDownloadXLSX" type="button" style="margin: 16px;margin-bottom: 0px;"><i class="fas fa-file-csv" style="margin-right: 5px;"></i>Download Excel Template</button>
                                             </div>
                                             <div class="col d-xl-flex align-items-xl-center" style="width: 50px;max-width: 50px;">
-                                                <a href="#" download><i class="fa fa-question-circle-o" data-toggle="tooltip" data-bs-tooltip="" title="Having issues? Navigate to your Region Settings in your Control Panel and check that you have a comma selected as your 'List Seperator' and a period as your 'Decimal Symbol'." style="margin: 16px;"></i></a>
+                                                <a href="#" download><i class="fa fa-question-circle-o" data-toggle="tooltip" data-bs-tooltip=""
+                                                        title="Having issues? Navigate to your Region Settings in your Control Panel and check that you have a comma selected as your 'List Seperator' and a period as your 'Decimal Symbol'."
+                                                        style="margin: 16px;"></i></a>
                                             </div>
                                         </div>
                                         <hr>
@@ -201,32 +245,33 @@
                                             </div>
                                             <input type="file" id="attachment-upload" style="display:none" accept=".csv,.txt,.xlsx">
                                             <style>
-                                                #row1{
-                                                    display:flex;
-                                                    flex-direction:row;
+                                                #row1 {
+                                                    display: flex;
+                                                    flex-direction: row;
                                                     justify-content: space-around;
                                                 }
 
-                                                #column1{
-                                                    display:flex;
+                                                #column1 {
+                                                    display: flex;
                                                 }
 
 
-                                                #column2{
-                                                    display:flex;
-                                                    flex-direction:column;
+                                                #column2 {
+                                                    display: flex;
+                                                    flex-direction: column;
                                                     margin: 16px;
                                                     padding: .375rem .75rem;
                                                 }
                                             </style>
                                             <div id="row1">
-                                                <div id="column1"></div><button class="btn btn-primary btnUploadFile new_attachment_btn" type="button" style="margin: 16px;" ><i class="fa fa-cloud-upload" style="margin-right: 5px;"></i>Browse</button>
+                                                <div id="column1"></div><button class="btn btn-primary btnUploadFile new_attachment_btn" type="button" style="margin: 16px;"><i class="fa fa-cloud-upload" style="margin-right: 5px;"></i>Browse</button>
                                                 <div class="file-name" id="column2"></div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="modal-footer"><button class="btn btn-primary btnImport" type="button" disabled><i class="fas fa-file-import" style="margin-right: 5px;" ></i>Import</button>
-                                        <button class="btn btn-secondary" data-dismiss="modal" type="button"><i class="fa fa-close" style="margin-right: 5px;"></i>Close</button></div>
+                                    <div class="modal-footer"><button class="btn btn-primary btnImport" type="button" disabled><i class="fas fa-file-import" style="margin-right: 5px;"></i>Import</button>
+                                        <button class="btn btn-secondary" data-dismiss="modal" type="button"><i class="fa fa-close" style="margin-right: 5px;"></i>Close</button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -252,6 +297,7 @@
                             th {
                                 background-color: #ededed;
                             }
+
                             .table-striped tbody tr:nth-of-type(odd) {
                                 background-color: white !important;
                             }
@@ -260,16 +306,19 @@
                                 background-color: #0000000d !important;
                             }
 
-                            .JColResizer > tbody > tr > td, .JColResizer > tbody > tr > th {
-                                padding: .75rem!important;
+                            .JColResizer>tbody>tr>td,
+                            .JColResizer>tbody>tr>th {
+                                padding: .75rem !important;
                             }
-                            .hiddenColumn{
-                                display:none;
+
+                            .hiddenColumn {
+                                display: none;
                             }
+
                             .showColumn {
-                                display:table-cell;
-                                padding:.75rem;
-                                vertical-align:top;
+                                display: table-cell;
+                                padding: .75rem;
+                                vertical-align: top;
                             }
 
                             input[type=number]::-webkit-inner-spin-button,
@@ -299,24 +348,24 @@
                             </thead>
                             <tbody>
                                 {{#if datatablerecords}}
-                                {{#each item in datatablerecords}}
-                                <tr class="dnd-moved" id="{{item.id}}" style="cursor: pointer;">
-                                    <!-- <td contenteditable="false" class="colEmployeeNo" >{{item.id}}</td> -->
-                                    <td contenteditable="false" class="colEmployeeName" >{{item.employeename}}</td>
-                                    <td contenteditable="false" class="colFirstName">{{item.firstname}}</td>
-                                    <td contenteditable="false" class="colLastName">{{item.lastname}}</td>
-                                    <td contenteditable="false" class="colPhone">{{item.phone}}</td>
-                                    <td contenteditable="false" class="colMobile">{{item.mobile}}</td>
-                                    <td contenteditable="false" class="colEmail">{{item.email}}</td>
-                                    <td contenteditable="false" class="colDepartment">{{item.department}}</td>
-                                    <td contenteditable="false" class="colCountry hiddenColumn">{{item.country}}</td>
-                                    <td contenteditable="false" class="colCustFld1 hiddenColumn">{{item.custFld1}}</td>
-                                    <td contenteditable="false" class="colCustFld2 hiddenColumn">{{item.custFld2}}</td>
-                                    <td contenteditable="false" class="colAddress">{{item.address}}</td>
-                                    <!-- <td contenteditable="false" class="colCustFld3 hiddenColumn">{{item.custFld3}}</td>
+                                    {{#each item in datatablerecords}}
+                                        <tr class="dnd-moved" id="{{item.id}}" style="cursor: pointer;">
+                                            <!-- <td contenteditable="false" class="colEmployeeNo" >{{item.id}}</td> -->
+                                            <td contenteditable="false" class="colEmployeeName">{{item.employeename}}</td>
+                                            <td contenteditable="false" class="colFirstName">{{item.firstname}}</td>
+                                            <td contenteditable="false" class="colLastName">{{item.lastname}}</td>
+                                            <td contenteditable="false" class="colPhone">{{item.phone}}</td>
+                                            <td contenteditable="false" class="colMobile">{{item.mobile}}</td>
+                                            <td contenteditable="false" class="colEmail">{{item.email}}</td>
+                                            <td contenteditable="false" class="colDepartment">{{item.department}}</td>
+                                            <td contenteditable="false" class="colCountry hiddenColumn">{{item.country}}</td>
+                                            <td contenteditable="false" class="colCustFld1 hiddenColumn">{{item.custFld1}}</td>
+                                            <td contenteditable="false" class="colCustFld2 hiddenColumn">{{item.custFld2}}</td>
+                                            <td contenteditable="false" class="colAddress">{{item.address}}</td>
+                                            <!-- <td contenteditable="false" class="colCustFld3 hiddenColumn">{{item.custFld3}}</td>
 <td contenteditable="false" class="colCustFld4 hiddenColumn" >{{item.custFld4}}</td> -->
-                                </tr>
-                                {{/each}}
+                                        </tr>
+                                    {{/each}}
                                 {{/if}}
 
                             </tbody>
@@ -329,10 +378,10 @@
     <!-- Start Help Video Modal -->
     <div class="modal fade" role="dialog" tabindex="-1" id="helpModal">
         <div class="modal-dialog" role="document" style="max-width: 670px!important;">
-            <div class="modal-content" >
-                <div class="modal-header" >
+            <div class="modal-content">
+                <div class="modal-header">
 
-                    <h4 class="title-header" >Employee</h4>
+                    <h4 class="title-header">Employee</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
                 </div>
                 <div class="modal-body">
@@ -347,106 +396,105 @@
     </div>
 
     <!-- End Help Video Modal -->
-     <div class="modal fade" role="dialog" tabindex="-1" id="settingsModal">
-            <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h4 style="margin-bottom: 0px;">Clock On/Off</h4>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-                    </div>
-                    <div class="modal-body" style="padding: 0px;">
+    <div class="modal fade" role="dialog" tabindex="-1" id="settingsModal">
+        <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 style="margin-bottom: 0px;">Clock On/Off</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                </div>
+                <div class="modal-body" style="padding: 0px;">
 
-                        <div class="row d-xl-flex flex-column justify-content-xl-center" style="margin: 12px;">
-                            <div class="col" style="padding: 0px;">
-                                <div class="row" style="padding: 0px 8px;">
-                                    <div class="col-6 colEmpName" id="colEmpName">
-                                        <div class="form-group flex-grow-1" style="margin: 8px 0px;"><label>Employee Name</label><input id="employee_name" name="employee_name" type="text" required class="form-control employee_name" readonly></div>
-                                    </div>
-                                    <div class="col-3 colRate" id="colRate">
-                                        <div class="form-group flex-grow-1" style="margin: 8px 0px;"><label>Rate</label><input id="hourly_rate" name="hourly_rate" type="text" class="form-control hourly_rate" required ></div>
-                                    </div>
-                                    <div class="col-3 colStartDate" id="colStartDate">
-                                        <div class="form-group" style="margin: 8px 0px;">
-                                            <label>Date</label>
-                                            <div class="input-group date" style="cursor: pointer;">
-                                                <input type="text" class="form-control formClassDate statementDate" id="dtSODate" name="dtSODate" value="{{invoicerecord.saledate}}">
-                                                <div class="input-group-addon" style="">
-                                                    <span class="glyphicon glyphicon-th" style="cursor: pointer;"></span>
-                                                </div>
+                    <div class="row d-xl-flex flex-column justify-content-xl-center" style="margin: 12px;">
+                        <div class="col" style="padding: 0px;">
+                            <div class="row" style="padding: 0px 8px;">
+                                <div class="col-6 colEmpName" id="colEmpName">
+                                    <div class="form-group flex-grow-1" style="margin: 8px 0px;"><label>Employee Name</label><input id="employee_name" name="employee_name" type="text" required class="form-control employee_name" readonly></div>
+                                </div>
+                                <div class="col-3 colRate" id="colRate">
+                                    <div class="form-group flex-grow-1" style="margin: 8px 0px;"><label>Rate</label><input id="hourly_rate" name="hourly_rate" type="text" class="form-control hourly_rate" required></div>
+                                </div>
+                                <div class="col-3 colStartDate" id="colStartDate">
+                                    <div class="form-group" style="margin: 8px 0px;">
+                                        <label>Date</label>
+                                        <div class="input-group date" style="cursor: pointer;">
+                                            <input type="text" class="form-control formClassDate statementDate" id="dtSODate" name="dtSODate" value="{{invoicerecord.saledate}}">
+                                            <div class="input-group-addon" style="">
+                                                <span class="glyphicon glyphicon-th" style="cursor: pointer;"></span>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row" style="padding: 0px 8px;">
-                                    <div class="col-6 colEmpName" id="colEmpName">
-                                        <select class="form-control sltJob" id="sltJob" name="sltJob">
-                                            {{#if jobsrecords}}
+                            </div>
+                            <div class="row" style="padding: 0px 8px;">
+                                <div class="col-6 colEmpName" id="colEmpName">
+                                    <select class="form-control sltJob" id="sltJob" name="sltJob">
+                                        {{#if jobsrecords}}
                                             <option value=""></option>
                                             {{#each itemjob in jobsrecords}}
-                                            <option value="{{itemjob.jobname}}">{{itemjob.jobname}}</option>
+                                                <option value="{{itemjob.jobname}}">{{itemjob.jobname}}</option>
                                             {{/each}}
-                                            {{/if}}
-                                        </select>
-                                    </div>
+                                        {{/if}}
+                                    </select>
                                 </div>
-                                <div class="row" style="padding: 0px 8px;">
-                                    <div class="col-12" id="colBookedTimeParent">
-                                        <div class="row">
-                                            <div class="col-2 colBookedTime" id="colBookedTime">
-                                                <h6 class="float-right bookedTimeHeader" id="bookedTimeHeader" style="margin: 8px 0px; margin-top: 2.5em;">
-                                                    Time</h6>
+                            </div>
+                            <div class="row" style="padding: 0px 8px;">
+                                <div class="col-12" id="colBookedTimeParent">
+                                    <div class="row">
+                                        <div class="col-2 colBookedTime" id="colBookedTime">
+                                            <h6 class="float-right bookedTimeHeader" id="bookedTimeHeader" style="margin: 8px 0px; margin-top: 2.5em;">
+                                                Time</h6>
+                                        </div>
+                                        <div class="col-3 colBookedStartTime" id="colBookedStartTime" style="padding-left: .5rem;">
+                                            <div class="form-group flex-grow-1" style="margin: 8px 0px;">
+                                                <label>Start Time</label><input class="form-control" id="startTime" required name="startTime" type="time">
                                             </div>
-                                            <div class="col-3 colBookedStartTime" id="colBookedStartTime" style="padding-left: .5rem;">
-                                                <div class="form-group flex-grow-1" style="margin: 8px 0px;">
-                                                    <label>Start Time</label><input class="form-control" id="startTime" required  name="startTime" type="time">
-                                                </div>
-                                                <button class="btn btn-success btnClockOn" type="submit" style="width: 100%;" id="btnClockOn" name="btnClockOn"><i class="far fa-clock" style="margin-right: 5px;"></i>Clock On</button>
-                                            </div>
-                                            <div class="col-3 colBookedEndTime" id="colBookedEndTime">
-                                                <div class="form-group flex-grow-1" style="margin: 8px 0px;"><label>End Time</label><input required  class="form-control" id="endTime" name="endTime" type="time"></div>
-                                             <button class="btn btn-warning" type="button" style="width: 100%;" id="btnHold">On Hold</button>
-                                            </div>
-                                            <div class="col-3 colBookedHours" id="colBookedHours" style="padding-right: .3rem;">
-                                                {{#if equals edithours true}}
+                                            <button class="btn btn-success btnClockOn" type="submit" style="width: 100%;" id="btnClockOn" name="btnClockOn"><i class="far fa-clock" style="margin-right: 5px;"></i>Clock On</button>
+                                        </div>
+                                        <div class="col-3 colBookedEndTime" id="colBookedEndTime">
+                                            <div class="form-group flex-grow-1" style="margin: 8px 0px;"><label>End Time</label><input required class="form-control" id="endTime" name="endTime" type="time"></div>
+                                            <button class="btn btn-warning" type="button" style="width: 100%;" id="btnHold">On Hold</button>
+                                        </div>
+                                        <div class="col-3 colBookedHours" id="colBookedHours" style="padding-right: .3rem;">
+                                            {{#if equals edithours true}}
                                                 <div class="form-group flex-grow-1" style="margin: 8px 0px;">
                                                     <label>Hours</label><input type="text" id="txtBookedHoursSpent" name="txtBookedHoursSpent" required class="form-control">
-                                                </div> 
-                                                {{else}}
+                                                </div>
+                                            {{else}}
                                                 <div class="form-group flex-grow-1" style="margin: 8px 0px;">
                                                     <label>Hours</label><input type="text" id="txtBookedHoursSpent" name="txtBookedHoursSpent" required class="form-control" readonly>
-                                                </div> 
-                                                {{/if}}
-                                                <button class="btn btn-danger btnClockOff" type="submit" style="width: 100%;" id="btnClockOff" name="btnClockOff"><i class="fas fa-clock" style="margin-right: 5px;"></i>Clock Off</button>                                                
+                                                </div>
+                                            {{/if}}
+                                            <button class="btn btn-danger btnClockOff" type="submit" style="width: 100%;" id="btnClockOff" name="btnClockOff"><i class="fas fa-clock" style="margin-right: 5px;"></i>Clock Off</button>
                                         </div>
-                                             <div class="col-1 colAppointmentList" id="colAppointmentList"
-                                                 style="padding-right: .3rem;">
-                                                <label></label>
-                                                <button class="btn btn-success btnTimesheetList" type="button" style="margin: 15px 0px; width: 48px;" id="btnTimesheetList"><i class="far fa-clock"></i></button>
-                                            </div>
+                                        <div class="col-1 colAppointmentList" id="colAppointmentList" style="padding-right: .3rem;">
+                                            <label></label>
+                                            <button class="btn btn-success btnTimesheetList" type="button" style="margin: 15px 0px; width: 48px;" id="btnTimesheetList"><i class="far fa-clock"></i></button>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row" style="padding: 0px 8px;">
-                                    <div class="col-12 colNotesParent" id="colNotesParent">
-                                        <div class="form-group flex-grow-1" style="margin: 8px 0px;">
-                                            <label>Notes</label>
-                                            <textarea class="border rounded form-control" rows="2" id="txtNotes" name="txtNotes" style="width: 100%; border: 1px solid #d1d3e2 !important;"></textarea>
-                                        </div>
+                            </div>
+                            <div class="row" style="padding: 0px 8px;">
+                                <div class="col-12 colNotesParent" id="colNotesParent">
+                                    <div class="form-group flex-grow-1" style="margin: 8px 0px;">
+                                        <label>Notes</label>
+                                        <textarea class="border rounded form-control" rows="2" id="txtNotes" name="txtNotes" style="width: 100%; border: 1px solid #d1d3e2 !important;"></textarea>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="modal-footer">
-                        <button class="btn btn-success btnSaveTimeSheet" type="submit" style="margin: 8px;" id="btnSaveTimeSheet" name="btnSaveTimeSheet"><i class="fa fa-save" style="margin-right: 5px;"></i>Save</button>
-                        <button class="btn btn-secondary" id="btnDeleteAppointment" name="btnDeleteAppointment" data-dismiss="modal" type="button" style="margin: 8px;"><i class="fa fa-close" style="margin-right: 5px;"></i>Close</button>
-                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-success btnSaveTimeSheet" type="submit" style="margin: 8px;" id="btnSaveTimeSheet" name="btnSaveTimeSheet"><i class="fa fa-save" style="margin-right: 5px;"></i>Save</button>
+                    <button class="btn btn-secondary" id="btnDeleteAppointment" name="btnDeleteAppointment" data-dismiss="modal" type="button" style="margin: 8px;"><i class="fa fa-close" style="margin-right: 5px;"></i>Close</button>
                 </div>
             </div>
         </div>
+    </div>
 
 
-            <div class="modal fade" role="dialog" id="frmOnHoldModal">
+    <div class="modal fade" role="dialog" id="frmOnHoldModal">
         <div class="modal-dialog modal-sm modal-dialog-centered" role="document" style="max-width: 400px;">
             <div class="modal-content">
                 <div class="modal-header">
@@ -455,23 +503,23 @@
                 <div class="modal-body" style="padding: 24px;">
                     <div class="row">
                         <div class="col-12">
-                            <div class="custom-control custom-switch"><input type="checkbox" class="custom-control-input"  id="break" value="Break" /><label class="custom-control-label" for="break">Break</label></div>
+                            <div class="custom-control custom-switch"><input type="checkbox" class="custom-control-input" id="break" value="Break" /><label class="custom-control-label" for="break">Break</label></div>
                         </div>
                     </div>
                     <div class="row" style="margin-top: 1em;">
                         <div class="col-12">
-                            <div class="custom-control custom-switch"><input type="checkbox" class="custom-control-input" id="lunch" value="Lunch"/><label class="custom-control-label" for="lunch">Lunch</label></div>
+                            <div class="custom-control custom-switch"><input type="checkbox" class="custom-control-input" id="lunch" value="Lunch" /><label class="custom-control-label" for="lunch">Lunch</label></div>
                         </div>
                     </div>
                     <div class="row" style="margin-top: 1em;">
                         <div class="col-12">
-                            <div class="custom-control custom-switch"><input type="checkbox" class="custom-control-input" id="purchase" value="Purchase"/><label class="custom-control-label" for="purchase">Purchase</label></div>
+                            <div class="custom-control custom-switch"><input type="checkbox" class="custom-control-input" id="purchase" value="Purchase" /><label class="custom-control-label" for="purchase">Purchase</label></div>
                         </div>
                     </div>
                     <div class="row" style="margin-top: 1em;">
                         <div class="col-12">
                             <div class="form-group flex-grow-1" style="margin: 8px 0px 0px 0px;">
-                                <label>Notes</label><textarea  class="form-control" id="txtpause-notes">
+                                <label>Notes</label><textarea class="form-control" id="txtpause-notes">
                                 </textarea>
                             </div>
                         </div>
@@ -498,7 +546,8 @@
 
                 </div>
                 <div class="modal-footer"><button class="btn btn-light" data-dismiss="modal" type="button">Close</button>
-                    <button class="btn btn-primary btnProdSelect" type="button" style="background-color: #00A3D3; border-color: #00A3D3;">Select</button></div>
+                    <button class="btn btn-primary btnProdSelect" type="button" style="background-color: #00A3D3; border-color: #00A3D3;">Select</button>
+                </div>
             </div>
         </div>
     </div>
