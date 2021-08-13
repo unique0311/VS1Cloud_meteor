@@ -4,7 +4,7 @@
     </div>
 
     <div class="d-sm-flex justify-content-between align-items-center mb-4 headerDiv" style="margin-left: 24px;">
-        <h3 class="text-dark mb-0" style="width: 100%; margin-right: 1em;">
+        <h3 class="text-dark mb-0 appointmentHeader" style="width: 100%; margin-right: 1em;">
             Appointments Overview
 
             <a role="button" data-toggle="modal" href="#helpViewModal" class=""><label class="lblplay">Help</label><i class="fa fa-question-circle-o" style="font-size: 20px;"></i></a>
@@ -16,7 +16,8 @@
             <div class="modal-dialog modal-sm" role="document">
                 <div class="modal-content">
                     <div class="modal-header" style="padding-bottom: 8px;">
-                        <h4>Help</h4><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button></div>
+                        <h4>Help</h4><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                    </div>
                     <div class="modal-body">
                         <p class="text-center text-muted"><a role="button" data-toggle="modal" href="#helpModal" class="btn btn-primary helpModal">View Help Video</a></p>
                         <p class="text-center text-muted"><a href="https://vs1forum.com/viewtopic.php?f=6&t=56" target="_blank" class="btn btn-primary">Download Help File</a></p>
@@ -34,12 +35,10 @@
                     <div class="modal-header">
 
                         <h4 class="title-header">Appointment List</h4>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                                                                                                          aria-hidden="true">×</span></button>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
                     </div>
                     <div class="modal-body">
-                        <video id="myVideo" width="640" height="360" controls="" name="media"
-                               style="border: solid 5px #999999f0; height: auto; outline: none;">
+                        <video id="myVideo" width="640" height="360" controls="" name="media" style="border: solid 5px #999999f0; height: auto; outline: none;">
                             <source src="https://erphelpes.com/vs1videos/comingsoon.mp4" type="video/mp4">
                         </video>
                     </div>
@@ -53,6 +52,7 @@
             .colCalendar {
                 padding: 0px !important;
             }
+
             .fc-view-harness.fc-view-harness-active {
                 max-height: 100vh !important;
                 height: 85vh !important;
@@ -60,67 +60,97 @@
         }
 
         @media (max-height: 420px) and (max-width: 850px) {
+            .topbar {
+                display: none;
+            }
+
+            .appointmentHeader {
+                display: none;
+            }
+
+            .fc-toolbar-title {
+                margin-top: 8px !important;
+            }
+
             .colEmployeeList {
                 display: none;
             }
+
             .colCalendar {
                 padding: 0px !important;
             }
+
             .fc-header-toolbar.fc-toolbar.fc-toolbar-ltr {
                 padding-top: 0px;
             }
+
             #allocationModal {
                 padding-left: 0px;
             }
+
             .fc-view-harness.fc-view-harness-active {
                 max-height: 600px !important;
                 height: 600px !important;
             }
+
             .fc-toolbar-chunk:nth-child(1) {
                 display: none;
             }
+
             .fc-toolbar-chunk:nth-child(3) {
                 display: none;
             }
+
             .fc-toolbar-chunk {
                 width: 100% !important;
             }
+
             .headerDiv {
                 margin-bottom: 0px !important;
             }
+
             .allocationOuterModal {
                 margin-bottom: 0px;
                 margin-top: 0px;
                 max-height: 100vh;
                 height: 100vh;
             }
+
             .allocationFooter {
                 display: none;
             }
+
             .allocationHeaderParent {
                 padding: 0.75rem !important;
             }
+
             .customerListModalInner {
                 margin: 0px !important;
                 max-width: 100vw !important;
             }
+
             .customerListContent {
                 max-height: 100vh !important;
                 height: 100vh !important;
             }
+
             .colCompany {
                 width: 400px !important;
             }
+
             .modalCreateOuter {
                 margin: 0px !important;
                 max-width: 100vw !important;
             }
+
             .modalCreateAppointments {
                 width: 100vw !important;
             }
+
             .cardBodyInner {
                 padding: 3px !important;
             }
+
             .cardBodyInner {
                 font-size: 11px !important;
             }
@@ -252,9 +282,11 @@
                             .colEmployeeList {
                                 display: none;
                             }
+
                             .fc-header-toolbar {
                                 display: none !important;
                             }
+
                             .allocationHeaderParent {
                                 display: none;
                             }
@@ -317,9 +349,9 @@
                             }
 
                             .cardHiddenWeekend {
-                                width: 12vw ;
-                                min-width: 12vw ;
-                                max-width: 12vw ;
+                                width: 12vw;
+                                min-width: 12vw;
+                                max-width: 12vw;
                             }
 
                             .allocationInnerModal {
@@ -328,7 +360,6 @@
                             }
 
                         }
-
                     </style>
                     <div class="row no-gutters">
                         <div id="here_table" style="width:100%"></div>
@@ -349,7 +380,7 @@
                     <div class="modal-body" style="padding: 24px;">
                         <div class="row">
                             <div class="col-12">
-                                <div class="custom-control custom-switch"><input type="checkbox" class="custom-control-input"  id="showSaturday" /><label class="custom-control-label" for="showSaturday">Show Saturday</label></div>
+                                <div class="custom-control custom-switch"><input type="checkbox" class="custom-control-input" id="showSaturday" /><label class="custom-control-label" for="showSaturday">Show Saturday</label></div>
                             </div>
                         </div>
                         <div class="row" style="margin-top: 1em;">
@@ -419,12 +450,12 @@
                         <div class="row">
                             <div class="col-12 colProductService" id="colProductService">
                                 <div class="form-group flex-grow-1" style="margin: 8px 0px;"><label>Default Product /
-                                    Service</label>
+                                        Service</label>
                                     <select id="productlist" name="productlist" class="form-control">
                                         {{#if datatablerecords}}
-                                        {{#each item in datatablerecords}}
-                                        <option value="{{item.id}}">{{item.productname}}</option>
-                                        {{/each}}
+                                            {{#each item in datatablerecords}}
+                                                <option value="{{item.id}}">{{item.productname}}</option>
+                                            {{/each}}
                                         {{/if}}
                                     </select>
                                 </div>
@@ -441,7 +472,7 @@
             </div>
         </div>
     </div>
-    <div class="modal fade" role="dialog"  id="event-modal">
+    <div class="modal fade" role="dialog" id="event-modal">
         <form id="frmAppointment">
             <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable modalCreateOuter" role="document">
                 <div class="modal-content modalCreateAppointments" id="modalCreateAppointments">
@@ -455,22 +486,22 @@
                                 <div class="row" style="padding: 0px 8px;">
                                     <div class="col-6 colCustJobName" id="colCustJobName">
                                         <div class="form-group flex-grow-1" style="margin: 8px 0px;"><label>Customer /
-                                            Job
-                                            Name</label>
+                                                Job
+                                                Name</label>
                                             <select type="search" class="form-control" id="customer" name="customer" style="background-color:rgb(255, 255, 255); cursor: pointer;"></select>
                                         </div>
                                     </div>
                                     <div class="col-2 colMobno" id="colMobno">
                                         <div class="form-group flex-grow-1" style="margin: 8px 0px;"><label>Mobile
-                                            No.</label><input type="text" id="mobile" name="mobile" class="form-control"></div>
+                                                No.</label><input type="text" id="mobile" name="mobile" class="form-control"></div>
                                     </div>
                                     <div class="col-2 colPhoneno" id="colPhoneno">
                                         <div class="form-group flex-grow-1" style="margin: 8px 0px;"><label>Phone
-                                            No.</label><input type="text" id="phone" name="phone" class="form-control"></div>
+                                                No.</label><input type="text" id="phone" name="phone" class="form-control"></div>
                                     </div>
                                     <div class="col-2 colAppID" id="colAppID">
                                         <div class="form-group flex-grow-1" style="margin: 8px 0px;"><label>App
-                                            ID</label><input type="text" id="appID" name="appID" class="form-control" readonly>
+                                                ID</label><input type="text" id="appID" name="appID" class="form-control" readonly>
                                             <input type="hidden" id="updateID" name="updateID" class="form-control">
                                         </div>
                                     </div>
@@ -478,7 +509,7 @@
                                 <div class="row" style="padding: 0px 8px;">
                                     <div class="col-4 colStreetAddress" id="colStreetAddress">
                                         <div class="form-group flex-grow-1" style="margin: 8px 0px;"><label>Street
-                                            Address</label><input type="text" id="address" name="address" class="form-control"></div>
+                                                Address</label><input type="text" id="address" name="address" class="form-control"></div>
                                     </div>
                                     <div class="col-2 colCityTown" id="colCityTown">
                                         <div class="form-group flex-grow-1" style="margin: 8px 0px;">
@@ -497,7 +528,7 @@
                                     </div>
                                     <div class="col-2 colZip" id="colZip">
                                         <div class="form-group flex-grow-1" style="margin: 8px 0px;"><label>Zip
-                                            Code</label><input type="text" id="zip" name="zip" class="form-control">
+                                                Code</label><input type="text" id="zip" name="zip" class="form-control">
                                         </div>
                                     </div>
                                 </div>
@@ -511,7 +542,7 @@
                                 <div class="row" style="padding: 0px 8px;">
                                     <div class="col-6 colEmpName" id="colEmpName">
                                         <div class="form-group flex-grow-1" style="margin: 8px 0px;"><label>Employee
-                                            Name</label><input id="employee_name" name="employee_name" type="text" class="form-control employee_name" readonly>
+                                                Name</label><input id="employee_name" name="employee_name" type="text" class="form-control employee_name" readonly>
 
                                         </div>
                                     </div>
@@ -542,12 +573,12 @@
                                     <div class="col-4 colNotesParent" id="colNotesParent">
                                         <div class="row" style="padding: 0px 8px;">
                                             {{#if equals addAttachment true}}
-                                            <div class="col-12 colNotes" id="colNotes" style="padding-left: 2px; padding-right: 0px;">
-                                                <div class="form-group flex-grow-1" style="margin: 8px 0px;">
-                                                    <label>Notes</label>
-                                                    <textarea class="border rounded form-control" rows="5" id="txtNotes" name="txtNotes" style="width: 100%; border: 1px solid #d1d3e2 !important;"></textarea>
+                                                <div class="col-12 colNotes" id="colNotes" style="padding-left: 2px; padding-right: 0px;">
+                                                    <div class="form-group flex-grow-1" style="margin: 8px 0px;">
+                                                        <label>Notes</label>
+                                                        <textarea class="border rounded form-control" rows="5" id="txtNotes" name="txtNotes" style="width: 100%; border: 1px solid #d1d3e2 !important;"></textarea>
+                                                    </div>
                                                 </div>
-                                            </div>
                                             {{/if}}
                                         </div>
                                     </div>
@@ -565,7 +596,7 @@
                                             </div>
                                             <div class="col-3 colBookedEndTime" id="colBookedEndTime">
                                                 <div class="form-group flex-grow-1" style="margin: 8px 0px;"><label>End
-                                                    Time</label><input class="form-control" id="endTime" name="endTime" type="time"></div>
+                                                        Time</label><input class="form-control" id="endTime" name="endTime" type="time"></div>
                                             </div>
                                             <div class="col-2 colBookedHours" id="colBookedHours" style="padding-right: .3rem;">
                                                 <div class="form-group flex-grow-1" style="margin: 8px 0px;">
@@ -580,33 +611,27 @@
                                                 <h5 class="float-right timeHeader" id="timeHeader" style="margin: 8px 0px; margin-top: 2.5em;">
                                                     Actual Time</h5>
                                             </div>
-                                            <div class="col-3 colActualStartTime" id="colActualStartTime"
-                                                 style="padding-left: .5rem;">
+                                            <div class="col-3 colActualStartTime" id="colActualStartTime" style="padding-left: .5rem;">
                                                 <div class="form-group flex-grow-1" style="margin: 8px 0px;">
                                                     <label>Start
-                                                        Time</label><input class="form-control" type="time"
-                                                                           id="tActualStartTime" name="tActualStartTime">
+                                                        Time</label><input class="form-control" type="time" id="tActualStartTime" name="tActualStartTime">
                                                 </div>
                                             </div>
                                             <div class="col-3 colActualEndTime" id="colActualEndTime">
                                                 <div class="form-group flex-grow-1" style="margin: 8px 0px;"><label>End
-                                                    Time</label><input class="form-control" type="time"
-                                                                       id="tActualEndTime" name="tActualEndTime">
+                                                        Time</label><input class="form-control" type="time" id="tActualEndTime" name="tActualEndTime">
 
                                                     <span class="btn btn-warning paused" style="margin: 8px 0px; width: 100%; margin-top: -56px; background-color: rgba(246, 194, 62, 0.4); cursor: default;">Paused</span>
                                                 </div>
                                             </div>
-                                            <div class="col-2 colActualHours" id="colActualHours"
-                                                 style="padding-right: .3rem;">
+                                            <div class="col-2 colActualHours" id="colActualHours" style="padding-right: .3rem;">
                                                 <div class="form-group flex-grow-1" style="margin: 8px 0px;">
-                                                    <label>Hours</label><input type="text" id="txtActualHoursSpent"
-                                                                               name="txtActualHoursSpent" class="form-control">
+                                                    <label>Hours</label><input type="text" id="txtActualHoursSpent" name="txtActualHoursSpent" class="form-control">
                                                     <input id="aStartDate" name="aStartDate" type="hidden" class="form-control employee_name">
 
                                                 </div>
                                             </div>
-                                            <div class="col-1 colAppointmentList" id="colAppointmentList"
-                                                 style="padding-right: .3rem;">
+                                            <div class="col-1 colAppointmentList" id="colAppointmentList" style="padding-right: .3rem;">
                                                 <label></label>
                                                 <button class="btn btn-success btnAppointmentList" type="button" style="margin: 15px 0px; width: 48px;" id="btnAppointmentList"><i class="far fa-clock"></i></button>
                                             </div>
@@ -622,28 +647,29 @@
                                 <div class="row" style="padding: 0px 8px;">
                                     <div class="col-5 colProductService2" id="colProductService2">
                                         <div class="form-group flex-grow-1" style="margin: 8px 0px;"><label>Product /
-                                            Service</label><select id="product-list" name="product-list" class="form-control">
-                                            {{#if datatablerecords}}
-                                            {{#each item in datatablerecords}}
-                                            <option value="{{item.id}}">{{item.productname}}</option>
-                                            {{/each}}
-                                            {{/if}}
+                                                Service</label><select id="product-list" name="product-list" class="form-control">
+                                                {{#if datatablerecords}}
+                                                    {{#each item in datatablerecords}}
+                                                        <option value="{{item.id}}">{{item.productname}}</option>
+                                                    {{/each}}
+                                                {{/if}}
                                             </select></div>
                                     </div>
-                                {{#if equals addAttachment true}}
-                                <div class="col-1 colProductService1" id="colProductService1">
-                                <div class="form-group flex-grow-1" style="margin: 8px 0px;">
-                                     <label></label><button class="btn btn-success btn_Attachment" type="button" style="margin: 30px 0px; width: 48px;" data-toggle="modal" href="#myModalAttachment"  id="btn_Attachment" autocomplete="off"><i class="fa fa-paperclip" style="padding-right: 8px;"></i></button>
-                                </div>
-                              </div>
-                              {{/if}}
+                                    {{#if equals addAttachment true}}
+                                        <div class="col-1 colProductService1" id="colProductService1">
+                                            <div class="form-group flex-grow-1" style="margin: 8px 0px;">
+                                                <label></label><button class="btn btn-success btn_Attachment" type="button" style="margin: 30px 0px; width: 48px;" data-toggle="modal" href="#myModalAttachment" id="btn_Attachment" autocomplete="off"><i
+                                                        class="fa fa-paperclip" style="padding-right: 8px;"></i></button>
+                                            </div>
+                                        </div>
+                                    {{/if}}
                                     <div class="col-2 colStart" id="colStart" style="padding-top: 2em;">
                                         <button class="btn btn-success" type="button" style="margin: 8px 0px; width: 100%;" id="btnStartActualTime">Start</button>
                                     </div>
                                     {{#if equals accessOnHold false}}
-                                    <div class="col-2 colOnHold" id="colOnHold" style="padding-top: 2em;">
-                                        <button class="btn btn-warning" type="button" style="margin: 8px 0px; width: 100%;" id="btnHold">On Hold</button>
-                                    </div>
+                                        <div class="col-2 colOnHold" id="colOnHold" style="padding-top: 2em;">
+                                            <button class="btn btn-warning" type="button" style="margin: 8px 0px; width: 100%;" id="btnHold">On Hold</button>
+                                        </div>
                                     {{/if}}
                                     <div class="col-2 colStop" id="colStop" style="padding-top: 2em;">
                                         <button class="btn btn-danger" type="button" style="margin: 8px 0px; width: 100%;" id="btnEndActualTime">Stop</button>
@@ -685,39 +711,39 @@
                                 </div>
                             </div>
                         </div>
-                                    <!-- Start Attachemt -->
-            <div class="modal fade" role="dialog" tabindex="-1" id="myModalAttachment">
-                <div class="modal-dialog modal-dialog-centered" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h4>Upload Attachments</h4><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-                        </div>
-                        <div class="modal-body" style="padding: 0px;">
-                            <div class="divTable" id="file-display">
-                                <!-- <div class="uploaded-element-header">
+                        <!-- Start Attachemt -->
+                        <div class="modal fade" role="dialog" tabindex="-1" id="myModalAttachment">
+                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h4>Upload Attachments</h4><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                                    </div>
+                                    <div class="modal-body" style="padding: 0px;">
+                                        <div class="divTable" id="file-display">
+                                            <!-- <div class="uploaded-element-header">
 <span class="uploaded-on uploaded-header">Upload a file</span>
 </div> -->
-                                <div class="col inboxcol1">
-                                    <img src="/icons/nofiles_icon.jpg" class="" style="width:100%;">
-                                </div> <div class="col inboxcol2" style="text-align: center;">
-                                <div>Upload  files or add files from the file library.</div>
-                                {{#if isMobileDevices}}
-                                <div>Capture copies of receipt's or take photo's of completed jobs.</div>
-                                {{/if}}
-                                <p style="color: #ababab;">Only users with access to your company can view these files</p></div>
-                            </div>
-                        </div>
-                        <div class="modal-footer">
+                                            <div class="col inboxcol1">
+                                                <img src="/icons/nofiles_icon.jpg" class="" style="width:100%;">
+                                            </div>
+                                            <div class="col inboxcol2" style="text-align: center;">
+                                                <div>Upload files or add files from the file library.</div>
+                                                {{#if isMobileDevices}}
+                                                    <div>Capture copies of receipt's or take photo's of completed jobs.</div>
+                                                {{/if}}
+                                                <p style="color: #ababab;">Only users with access to your company can view these files</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
 
-                            {{#if isMobileDevices}}
-                            <input type="file" id="img-attachment-upload" style="display:none" accept="image/*" capture="camera">
-                            <button class="btn btn-primary btnUploadFile img_new_attachment_btn" type="button"><i class="fas fa-camera" style="margin-right: 5px;"></i>Capture</button>
+                                        {{#if isMobileDevices}}
+                                            <input type="file" id="img-attachment-upload" style="display:none" accept="image/*" capture="camera">
+                                            <button class="btn btn-primary btnUploadFile img_new_attachment_btn" type="button"><i class="fas fa-camera" style="margin-right: 5px;"></i>Capture</button>
 
-                            <input type="file" id="attachment-upload" style="display:none" multiple
-                                   accept=".jpg,.gif,.png">
-                            {{else}}
-                            <input type="file" id="attachment-upload" style="display:none" multiple
-                                   accept=".jpg,.gif,.png,.bmp,.tiff,.pdf,.doc,.docx,.xls,.xlsx,.ppt,
+                                            <input type="file" id="attachment-upload" style="display:none" multiple accept=".jpg,.gif,.png">
+                                        {{else}}
+                                            <input type="file" id="attachment-upload" style="display:none" multiple accept=".jpg,.gif,.png,.bmp,.tiff,.pdf,.doc,.docx,.xls,.xlsx,.ppt,
                                            .pptx,.odf,.csv,.txt,.rtf,.eml,.msg,.ods,.odt,.keynote,.key,.pages-tef,
                                            .pages,.numbers-tef,.numbers,.zip,.rar,.zipx,.xzip,.7z,image/jpeg,
                                            image/gif,image/png,image/bmp,image/tiff,application/pdf,
@@ -731,15 +757,15 @@
                                            application/vnd.apple.pages,application/x-iwork-numbers-sffnumbers,
                                            application/vnd.apple.numbers,application/zip,application/rar,
                                            application/x-zip-compressed,application/x-zip,application/x-7z-compressed">
-                            {{/if}}
-                            <button class="btn btn-primary btnUploadFile new_attachment_btn" type="button"><i class="fa fa-cloud-upload" style="margin-right: 5px;"></i>Upload</button>
-                            <!-- <button class="btn btn-warning btnResetSettings" data-dismiss="modal" type="reset"><i class="fa fa-repeat" style="margin-right: 5px;"></i>Reset</button> -->
-                            <button class="btn btn-secondary" data-dismiss="modal" type="button"><i class="fa fa-remove" style="margin-right: 5px;"></i>Close</button>
+                                        {{/if}}
+                                        <button class="btn btn-primary btnUploadFile new_attachment_btn" type="button"><i class="fa fa-cloud-upload" style="margin-right: 5px;"></i>Upload</button>
+                                        <!-- <button class="btn btn-warning btnResetSettings" data-dismiss="modal" type="reset"><i class="fa fa-repeat" style="margin-right: 5px;"></i>Reset</button> -->
+                                        <button class="btn btn-secondary" data-dismiss="modal" type="button"><i class="fa fa-remove" style="margin-right: 5px;"></i>Close</button>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </div>
-            </div>
-            <!-- END Attachments -->
+                        <!-- END Attachments -->
 
                         <div class="modal fade" role="dialog" id="frmNewDate">
                             <div class="modal-dialog modal-dialog-centered" role="document">
@@ -749,7 +775,7 @@
                                     </div>
                                     <div class="modal-body" style="padding: 10px; overflow-x: hidden;">
                                         <div class="row">
-                                            <div class="col-8 colStartDate" id="colStartDate" >
+                                            <div class="col-8 colStartDate" id="colStartDate">
                                                 <div class="form-group" style="margin: 8px 0px;">
                                                     <label>Start Date</label>
                                                     <div class="input-group date" style="cursor: pointer;">
@@ -762,14 +788,14 @@
                                             </div>
                                         </div>
                                         <div class="modal-footer">
-                                            <button class="btn btn-success btnSaveAppointment"  style="margin: 8px;" id="btnCopyAppointment" name="btnCopyAppointment"><i class="fa fa-save" style="margin-right: 5px;"></i>Save</button>
+                                            <button class="btn btn-success btnSaveAppointment" style="margin: 8px;" id="btnCopyAppointment" name="btnCopyAppointment"><i class="fa fa-save" style="margin-right: 5px;"></i>Save</button>
                                             <button class="btn btn-secondary btnAppOptionsModal" id="btnAppOptionsModal" type="button"><i class="fa fa-remove" style="margin-right: 5px;"></i>Close</button>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <button class="btn btn-secondary checkclose"  data-dismiss="modal" type="button" style="margin: 8px;"><i class="fa fa-close" style="margin-right: 5px;"></i>Close</button>
+                        <button class="btn btn-secondary checkclose" data-dismiss="modal" type="button" style="margin: 8px;"><i class="fa fa-close" style="margin-right: 5px;"></i>Close</button>
                     </div>
 
                 </div>
@@ -780,7 +806,8 @@
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 style="margin: 0px;">Repeat Appointments</h4><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button></div>
+                    <h4 style="margin: 0px;">Repeat Appointments</h4><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                </div>
                 <div class="modal-body">
                     <div class="form-group">
                         <div class="row">
@@ -825,16 +852,16 @@
                             <div class="col repeatOn"><label class="col-form-label" style="width: 100%;">Repeat On</label></div>
                         </div>
                         <style>
-                            .select-size  input{
+                            .select-size input {
                                 display: none;
                             }
 
-                            .day-active{
+                            .day-active {
                                 background: #00a3d3 !important;
                                 color: #fff !important;
                             }
 
-                            .normal-day{
+                            .normal-day {
                                 background: #fff;
                                 color: #858796;
                             }
@@ -851,143 +878,159 @@
                             }
 
                             .file-name span {
-                                                                width: 100%;
-                                                                float: left;
-                                                            }
-                                                            #file-display .fileIocns i.fa.fa-file {
-                                                                color: rgb(252, 181, 38);
-                                                                font-size: 24px;
-                                                            }
-                                                            #file-display {
-                                                                padding: 0;
-                                                                margin: 0;
-                                                            }
-                                                            .uploaded-element {
-                                                                display: inherit;
-                                                            }
-                                                            .uploaded-element {
+                                width: 100%;
+                                float: left;
+                            }
 
-                                                                border: 1px solid rgb(237, 237, 237);
-                                                                border-top: none;
+                            #file-display .fileIocns i.fa.fa-file {
+                                color: rgb(252, 181, 38);
+                                font-size: 24px;
+                            }
 
-                                                                float: left;
-                                                                width: 100%;
-                                                                display: flex;
-                                                                align-items: center;
-                                                                padding: 1rem;
-                                                            }
-                                                            #file-display .fileIocns {
-                                                                background-image: url(img/file_icons-samall.png);
-                                                                background-repeat: no-repeat;
-                                                                background-position: 0 -105px;
-                                                            }
-                                                            #file-display .fileIocns {
-                                                                float: left;
-                                                                margin-right: 10px;
-                                                            }
-                                                            .file-name {
-                                                                float: left;
-                                                                width: 87%;
-                                                            }
-                                                            .uploaded-element-header {
-                                                                border: 1px solid rgb(237, 237, 237);
-                                                                border-top: none;
-                                                                float: left;
-                                                                width: 100%;
-                                                                display: flex;
-                                                                align-items: center;
-                                                                padding: 10px;
-                                                                background: #e3e6f0;
-                                                            }
+                            #file-display {
+                                padding: 0;
+                                margin: 0;
+                            }
 
-                                                            .uploaded-header{
-                                                                width:100%;
-                                                                text-align:center;
-                                                            }
-                                                            .uploaded-element .confirm-action a.confirm-delete-attachment{
-                                                                padding: 6px 13px 5px;
-                                                                background-color: rgb(216, 68, 68) !important;
-                                                                border-color: rgb(197, 112, 119) rgb(169, 29, 29) rgb(169, 29, 29) rgb(197, 112, 119);
-                                                                color: rgb(255, 255, 255) !important;
-                                                                text-shadow: 1px 1px 1px rgba(30, 30, 30, 0.15);
-                                                                line-height: initial;
-                                                                font-size: 12px;
-                                                                float: left;
-                                                            }
-                                                            button.save-to-library {
-                                                                padding: 6px 13px 5px;
-                                                                border-radius: 4px;
-                                                                background: linear-gradient(rgb(255, 255, 255), rgb(230, 234, 236));
-                                                                border: 1px solid rgb(230, 230, 230);
-                                                                border-color: rgb(230, 230, 230) rgb(179, 179, 179) rgb(179, 179, 179) rgb(230, 230, 230) !important;
-                                                                color: rgb(204, 0, 0) !important;
-                                                                font-weight: bold;
-                                                                margin-left: 10px !important;
-                                                                font-size: 12px;
-                                                            }
-                                                            .uploaded-element {
-                                                                display: inherit;
-                                                            }
-                                                            /* HERE */
-                                                            #files_view .modal-title {
-                                                                white-space: nowrap;
-                                                                overflow: hidden;
-                                                                text-overflow: ellipsis;
-                                                                width: 70%;
-                                                            }
-                                                            #files_view .modal-title {
-                                                                color: #333;
-                                                                font-size: 18px;
-                                                                font-weight: 700;
-                                                                text-rendering: optimizelegibility;
-                                                                padding: 9px 0;
-                                                                padding-left: 15px;
-                                                                padding-top: 11px;
-                                                            }
+                            .uploaded-element {
+                                display: inherit;
+                            }
 
-                                                            #files_view .modal-dialog {
-                                                                /* width: 750px; */
-                                                                margin: 30px auto;
-                                                            }
-                                                            #files_view .modal-header .close {
-                                                                margin-top: 0;
-                                                                width: 46px;
-                                                                height: 46px;
-                                                                padding: 6px 0 0;
-                                                                border-left: 1px solid #ddd;
-                                                                opacity: 1;
-                                                                margin: 0;
-                                                            }
-                                                            #files_view .modal-header{
-                                                                padding: 0;
-                                                                display: block;
-                                                            }
-                                                            #files_view .modal-body {
-                                                                background-color: rgb(250, 251, 251);
-                                                            }
-                                                            #files_view .image-previewer img {
-                                                                border: 3px solid #fff;
-                                                                box-shadow: 2px 2px 8px rgba(0,0,0,.2);
-                                                                width: 100%;
-                                                            }
+                            .uploaded-element {
 
-                                                            .download_button {
-                                                                width: 100%;
-                                                                text-align: center;
-                                                                margin-top: 20px;
-                                                            }
+                                border: 1px solid rgb(237, 237, 237);
+                                border-top: none;
 
+                                float: left;
+                                width: 100%;
+                                display: flex;
+                                align-items: center;
+                                padding: 1rem;
+                            }
+
+                            #file-display .fileIocns {
+                                background-image: url(img/file_icons-samall.png);
+                                background-repeat: no-repeat;
+                                background-position: 0 -105px;
+                            }
+
+                            #file-display .fileIocns {
+                                float: left;
+                                margin-right: 10px;
+                            }
+
+                            .file-name {
+                                float: left;
+                                width: 87%;
+                            }
+
+                            .uploaded-element-header {
+                                border: 1px solid rgb(237, 237, 237);
+                                border-top: none;
+                                float: left;
+                                width: 100%;
+                                display: flex;
+                                align-items: center;
+                                padding: 10px;
+                                background: #e3e6f0;
+                            }
+
+                            .uploaded-header {
+                                width: 100%;
+                                text-align: center;
+                            }
+
+                            .uploaded-element .confirm-action a.confirm-delete-attachment {
+                                padding: 6px 13px 5px;
+                                background-color: rgb(216, 68, 68) !important;
+                                border-color: rgb(197, 112, 119) rgb(169, 29, 29) rgb(169, 29, 29) rgb(197, 112, 119);
+                                color: rgb(255, 255, 255) !important;
+                                text-shadow: 1px 1px 1px rgba(30, 30, 30, 0.15);
+                                line-height: initial;
+                                font-size: 12px;
+                                float: left;
+                            }
+
+                            button.save-to-library {
+                                padding: 6px 13px 5px;
+                                border-radius: 4px;
+                                background: linear-gradient(rgb(255, 255, 255), rgb(230, 234, 236));
+                                border: 1px solid rgb(230, 230, 230);
+                                border-color: rgb(230, 230, 230) rgb(179, 179, 179) rgb(179, 179, 179) rgb(230, 230, 230) !important;
+                                color: rgb(204, 0, 0) !important;
+                                font-weight: bold;
+                                margin-left: 10px !important;
+                                font-size: 12px;
+                            }
+
+                            .uploaded-element {
+                                display: inherit;
+                            }
+
+                            /* HERE */
+                            #files_view .modal-title {
+                                white-space: nowrap;
+                                overflow: hidden;
+                                text-overflow: ellipsis;
+                                width: 70%;
+                            }
+
+                            #files_view .modal-title {
+                                color: #333;
+                                font-size: 18px;
+                                font-weight: 700;
+                                text-rendering: optimizelegibility;
+                                padding: 9px 0;
+                                padding-left: 15px;
+                                padding-top: 11px;
+                            }
+
+                            #files_view .modal-dialog {
+                                /* width: 750px; */
+                                margin: 30px auto;
+                            }
+
+                            #files_view .modal-header .close {
+                                margin-top: 0;
+                                width: 46px;
+                                height: 46px;
+                                padding: 6px 0 0;
+                                border-left: 1px solid #ddd;
+                                opacity: 1;
+                                margin: 0;
+                            }
+
+                            #files_view .modal-header {
+                                padding: 0;
+                                display: block;
+                            }
+
+                            #files_view .modal-body {
+                                background-color: rgb(250, 251, 251);
+                            }
+
+                            #files_view .image-previewer img {
+                                border: 3px solid #fff;
+                                box-shadow: 2px 2px 8px rgba(0, 0, 0, .2);
+                                width: 100%;
+                            }
+
+                            .download_button {
+                                width: 100%;
+                                text-align: center;
+                                margin-top: 20px;
+                            }
                         </style>
                         <div class="row">
                             <div class="col">
                                 <div class="select-size">
-                                    <input class="radioInput" type="radio" name="monday" id="monday"/>
-                                    <input class="radioInput" type="radio" name="tuesday" id="tuesday"/>
-                                    <input class="radioInput" type="radio" name="wednesday" id="wednesday"/>
-                                    <input class="radioInput" type="radio" name="thursday" id="thursday"/>
-                                    <input class="radioInput" type="radio" name="friday" id="friday"/>
-                                    <input class="radioInput" type="radio" name="saturday" id="saturday"/>
-                                    <input class="radioInput" type="radio" name="sunday" id="sunday"/>
+                                    <input class="radioInput" type="radio" name="monday" id="monday" />
+                                    <input class="radioInput" type="radio" name="tuesday" id="tuesday" />
+                                    <input class="radioInput" type="radio" name="wednesday" id="wednesday" />
+                                    <input class="radioInput" type="radio" name="thursday" id="thursday" />
+                                    <input class="radioInput" type="radio" name="friday" id="friday" />
+                                    <input class="radioInput" type="radio" name="saturday" id="saturday" />
+                                    <input class="radioInput" type="radio" name="sunday" id="sunday" />
 
                                     <label class="radioLabel normal-day" for="monday">M</label>
                                     <label class="radioLabel normal-day" for="tuesday">T</label>
@@ -1032,7 +1075,8 @@ var getInputRadio = goToParent.find("input[id = " + getValue + "]");
                         </div>
                     </div>
                 </div>
-                <div class="modal-footer"><button class="btn btn-success" id="btnSaveRepeat" type="button"><i class="fa fa-save" style="margin-right: 5px;"></i>Save</button><button class="btn btn-secondary" data-dismiss="modal" type="button"><i class="fa fa-close" style="margin-right: 5px;"></i>Close</button></div>
+                <div class="modal-footer"><button class="btn btn-success" id="btnSaveRepeat" type="button"><i class="fa fa-save" style="margin-right: 5px;"></i>Save</button><button class="btn btn-secondary" data-dismiss="modal" type="button"><i
+                            class="fa fa-close" style="margin-right: 5px;"></i>Close</button></div>
             </div>
         </div>
     </div>
@@ -1045,23 +1089,23 @@ var getInputRadio = goToParent.find("input[id = " + getValue + "]");
                 <div class="modal-body" style="padding: 24px;">
                     <div class="row">
                         <div class="col-12">
-                            <div class="custom-control custom-switch"><input type="checkbox" class="custom-control-input"  id="break" value="Break" /><label class="custom-control-label" for="break">Break</label></div>
+                            <div class="custom-control custom-switch"><input type="checkbox" class="custom-control-input" id="break" value="Break" /><label class="custom-control-label" for="break">Break</label></div>
                         </div>
                     </div>
                     <div class="row" style="margin-top: 1em;">
                         <div class="col-12">
-                            <div class="custom-control custom-switch"><input type="checkbox" class="custom-control-input" id="lunch" value="Lunch"/><label class="custom-control-label" for="lunch">Lunch</label></div>
+                            <div class="custom-control custom-switch"><input type="checkbox" class="custom-control-input" id="lunch" value="Lunch" /><label class="custom-control-label" for="lunch">Lunch</label></div>
                         </div>
                     </div>
                     <div class="row" style="margin-top: 1em;">
                         <div class="col-12">
-                            <div class="custom-control custom-switch"><input type="checkbox" class="custom-control-input" id="purchase" value="Purchase"/><label class="custom-control-label" for="purchase">Purchase</label></div>
+                            <div class="custom-control custom-switch"><input type="checkbox" class="custom-control-input" id="purchase" value="Purchase" /><label class="custom-control-label" for="purchase">Purchase</label></div>
                         </div>
                     </div>
                     <div class="row" style="margin-top: 1em;">
                         <div class="col-12">
                             <div class="form-group flex-grow-1" style="margin: 8px 0px 0px 0px;">
-                                <label>Notes</label><textarea  class="form-control" id="txtpause-notes">
+                                <label>Notes</label><textarea class="form-control" id="txtpause-notes">
                                 </textarea>
                             </div>
                         </div>
@@ -1226,7 +1270,6 @@ var getInputRadio = goToParent.find("input[id = " + getValue + "]");
         .fc-event.fc-daygrid-event.fc-daygrid-block-event {
             cursor: pointer !important;
         }
-
     </style>
 
     <style>
@@ -1476,46 +1519,55 @@ var getInputRadio = goToParent.find("input[id = " + getValue + "]");
             .fc-toolbar-chunk {
                 width: 260px;
             }
+
             .dataTables_length {
                 float: left !important;
             }
+
             #tblCustomerlist_filter {
                 margin-left: 0.75rem !important;
             }
+
             .refreshpagelist {
                 margin-bottom: 0px !important;
             }
+
             .mainCustomerModalBody {
                 overflow-x: hidden !important;
                 overflow-x: hidden;
             }
+
             .btnRefreshGlobal {
                 padding: 0px !important;
                 padding-left: 4px !important;
             }
+
             .btnOpenSettings {
                 margin-bottom: 4px !important;
             }
+
             .bookedTimeHeader {
                 margin-top: 8px !important;
                 padding-left: 0px !important;
             }
+
             .actualTimeHeader {
                 margin-top: 8px !important;
                 padding-left: 0px !important;
             }
+
             .colBookedTime {
                 padding-left: 0px !important;
             }
+
             .colActualTime {
                 padding-left: 0px !important;
             }
         }
-
     </style>
 
     <script>
-        setTimeout(function () {
+        setTimeout(function() {
 
             var x = window.matchMedia("(max-width: 1024px)");
 
@@ -1528,7 +1580,7 @@ var getInputRadio = goToParent.find("input[id = " + getValue + "]");
             mediaQuery(x);
             x.addListener(mediaQuery);
         }, 10);
-        setTimeout(function () {
+        setTimeout(function() {
 
             var x = window.matchMedia("(max-width: 812px)");
 
@@ -1671,7 +1723,6 @@ var getInputRadio = goToParent.find("input[id = " + getValue + "]");
             mediaQuery(x);
             x.addListener(mediaQuery);
         }, 10);
-
     </script>
 
     <div class="row rowB" id="rowB">
@@ -1698,7 +1749,6 @@ var getInputRadio = goToParent.find("input[id = " + getValue + "]");
                     -ms-user-select: none;
                     user-select: none;
                 }
-
             </style>
             <div class="card shadow mb-4 newcardb" id="newcardb" style="margin: 8px;">
                 <div class="card-header d-flex justify-content-between align-items-center">
@@ -1720,6 +1770,7 @@ var getInputRadio = goToParent.find("input[id = " + getValue + "]");
                                 text-align: center;
                                 font-size: 12px;
                             }
+
                             .empPriority {
                                 color: #ffffff;
                             }
@@ -1737,28 +1788,28 @@ var getInputRadio = goToParent.find("input[id = " + getValue + "]");
                                 <!-- <div id='external-events'>
 <div > -->
                                 {{#if employeerecords}}
-                                {{#each item in employeerecords}}
-                                <tr id="{{item.id}}">
-                                    <td>
-                                        <div class='fc-event fc-daygrid-event fc-daygrid-block-event'>
-                                            {{#if item.color}}
-                                            <div class='fc-event-main'>
-                                                <span class="empColor" style="background: {{item.color}};">
-                                                    <span class="empPriority">{{item.priority}}</span>
-                                                </span>
-                                                {{item.employeeName}}
-                                                <span id="employeeID" class="employeeID" style="display: none;">{{item.id}}</span>
-                                                <span id="employeeName" class="employeeName" style="display: none;">{{item.employeeName}}</span>
-                                            </div>
-                                            {{else}}
-                                            <div class='fc-event-main'>
-                                                {{item.employeeName}} <span id="employeeID" style="display: none;">{{item.id}}</span>
-                                            </div>
-                                            {{/if}}
-                                        </div>
-                                    </td>
-                                </tr>
-                                {{/each}}
+                                    {{#each item in employeerecords}}
+                                        <tr id="{{item.id}}">
+                                            <td>
+                                                <div class='fc-event fc-daygrid-event fc-daygrid-block-event'>
+                                                    {{#if item.color}}
+                                                        <div class='fc-event-main'>
+                                                            <span class="empColor" style="background: {{item.color}};">
+                                                                <span class="empPriority">{{item.priority}}</span>
+                                                            </span>
+                                                            {{item.employeeName}}
+                                                            <span id="employeeID" class="employeeID" style="display: none;">{{item.id}}</span>
+                                                            <span id="employeeName" class="employeeName" style="display: none;">{{item.employeeName}}</span>
+                                                        </div>
+                                                    {{else}}
+                                                        <div class='fc-event-main'>
+                                                            {{item.employeeName}} <span id="employeeID" style="display: none;">{{item.id}}</span>
+                                                        </div>
+                                                    {{/if}}
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    {{/each}}
                                 {{/if}}
 
                             </tbody>
@@ -3637,7 +3688,6 @@ var getInputRadio = goToParent.find("input[id = " + getValue + "]");
                     /* natural color for navlinks */
 
                 }
-
             </style>
 
             <div id='calendar'></div>
