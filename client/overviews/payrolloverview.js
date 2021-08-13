@@ -677,10 +677,10 @@ Template.payrolloverview.events({
     // let isBankAccount = templateObject.isBankAccount.get();
     let data = '';
       data = {
-        //type: "TTimeSheetEntry",
-       // fields: {
+        type: "TTimeSheetEntry",
+        fields: {
           // "EntryDate":"2020-10-12 12:39:14",
-         // TimeSheet: [{
+          TimeSheet: [{
             type: "TTimeSheet",
             fields: {
               EmployeeName: employeeName || '',
@@ -696,34 +696,13 @@ Template.payrolloverview.events({
               Notes: techNotes || ''
               // EntryDate: accountdesc|| ''
             }
-         // }],
-          // "TypeName": "Payroll",
-          // "WhoEntered": Session.get('mySessionEmployee') || ""
-        //}
+          }],
+          "TypeName": "Payroll",
+          "WhoEntered": Session.get('mySessionEmployee') || ""
+        }
       };
-      // contactService.saveTimeSheet(data).then(function (data) {
-      //   //window.open('/timesheet', '_self');
-      // }).catch(function (err) {
-      //   swal({
-      //     title: 'Oooops...',
-      //     text: err,
-      //     type: 'error',
-      //     showCancelButton: false,
-      //     confirmButtonText: 'Try Again'
-      //   }).then((result) => {
-      //     if (result.value) {
-      //       // Meteor._reload.reload();
-      //     } else if (result.dismiss === 'cancel') {
-
-      //     }
-      //   });
-      //   $('.fullScreenSpin').css('display', 'none');
-      // });
-
-
-
-      contactService.saveTimeSheetUpdate(data).then(function (data) {
-        window.open('/timesheet', '_self');
+      contactService.saveTimeSheet(data).then(function (data) {
+       window.open('/timesheet', '_self');
       }).catch(function (err) {
         swal({
           title: 'Oooops...',
