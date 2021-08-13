@@ -1105,7 +1105,7 @@ Template.new_invoice.onRendered(() => {
                                                 $('#edtCustomerEmail').attr('customerfirstname', clientList[i].firstname);
                                                 $('#edtCustomerEmail').attr('customerlastname', clientList[i].lastname);
                                                 $('#customerType').text(clientList[i].clienttypename||'Default');
-                                                $('#customerDiscount').text(clientList[i].discount||0+'%');
+                                                $('#customerDiscount').text(clientList[i].discount+'%'|| 0+'%');
                                                 $('#edtCustomerUseType').val(clientList[i].clienttypename||'Default');
                                                 $('#edtCustomerUseDiscount').val(clientList[i].discount||0);
                                             }
@@ -1164,7 +1164,7 @@ Template.new_invoice.onRendered(() => {
                                                 $('#edtCustomerEmail').attr('customerfirstname', dataClient.tcustomervs1[c].FirstName);
                                                 $('#edtCustomerEmail').attr('customerlastname', dataClient.tcustomervs1[c].LastName);
                                                 $('#customerType').text(dataClient.tcustomervs1[c].ClientTypeName||'Default');
-                                                $('#customerDiscount').text(dataClient.tcustomervs1[c].Discount||0+'%');
+                                                $('#customerDiscount').text(dataClient.tcustomervs1[c].Discount+'%'|| 0+'%');
                                                 $('#edtCustomerUseType').val(dataClient.tcustomervs1[c].ClientTypeName||'Default');
                                                 $('#edtCustomerUseDiscount').val(dataClient.tcustomervs1[c].Discount||0);
                                             }
@@ -1671,7 +1671,7 @@ Template.new_invoice.onRendered(() => {
                                         $('#edtCustomerEmail').attr('customerfirstname', clientList[i].firstname);
                                         $('#edtCustomerEmail').attr('customerlastname', clientList[i].lastname);
                                         $('#customerType').text(clientList[i].clienttypename||'Default');
-                                        $('#customerDiscount').text(clientList[i].discount||0+'%');
+                                        $('#customerDiscount').text(clientList[i].discount+'%'|| 0+'%');
                                         $('#edtCustomerUseType').val(clientList[i].clienttypename||'Default');
                                         $('#edtCustomerUseDiscount').val(clientList[i].discount||0);
                                     }
@@ -2076,7 +2076,7 @@ Template.new_invoice.onRendered(() => {
                                             $('#edtCustomerEmail').attr('customerfirstname', clientList[i].firstname);
                                             $('#edtCustomerEmail').attr('customerlastname', clientList[i].lastname);
                                             $('#customerType').text(clientList[i].clienttypename||'Default');
-                                            $('#customerDiscount').text(clientList[i].discount||0+'%');
+                                            $('#customerDiscount').text(clientList[i].discount+'%'|| 0+'%');
                                             $('#edtCustomerUseType').val(clientList[i].clienttypename||'Default');
                                             $('#edtCustomerUseDiscount').val(clientList[i].discount||0);
                                         }
@@ -2138,7 +2138,7 @@ Template.new_invoice.onRendered(() => {
                                             $('#edtCustomerEmail').attr('customerfirstname', dataClient.tcustomervs1[c].FirstName);
                                             $('#edtCustomerEmail').attr('customerlastname', dataClient.tcustomervs1[c].LastName);
                                             $('#customerType').text(dataClient.tcustomervs1[c].ClientTypeName||'Default');
-                                            $('#customerDiscount').text(dataClient.tcustomervs1[c].Discount||0+'%');
+                                            $('#customerDiscount').text(dataClient.tcustomervs1[c].Discount+'%'|| 0+'%');
                                             $('#edtCustomerUseType').val(dataClient.tcustomervs1[c].ClientTypeName||'Default');
                                             $('#edtCustomerUseDiscount').val(dataClient.tcustomervs1[c].Discount||0);
                                         }
@@ -2391,7 +2391,7 @@ Template.new_invoice.onRendered(() => {
                                                 $('#edtCustomerEmail').attr('customerfirstname', clientList[i].firstname);
                                                 $('#edtCustomerEmail').attr('customerlastname', clientList[i].lastname);
                                                 $('#customerType').text(clientList[i].clienttypename||'Default');
-                                                $('#customerDiscount').text(clientList[i].discount||0+'%');
+                                                $('#customerDiscount').text(clientList[i].discount+'%'|| 0+'%');
                                                 $('#edtCustomerUseType').val(clientList[i].clienttypename||'Default');
                                                 $('#edtCustomerUseDiscount').val(clientList[i].discount||0);
                                             }
@@ -2453,7 +2453,7 @@ Template.new_invoice.onRendered(() => {
                                                 $('#edtCustomerEmail').attr('customerfirstname', dataClient.tcustomervs1[c].FirstName);
                                                 $('#edtCustomerEmail').attr('customerlastname', dataClient.tcustomervs1[c].LastName);
                                                 $('#customerType').text(dataClient.tcustomervs1[c].ClientTypeName||'Default');
-                                                $('#customerDiscount').text(dataClient.tcustomervs1[c].Discount||0+'%');
+                                                $('#customerDiscount').text(dataClient.tcustomervs1[c].Discount+'%'|| 0+'%');
                                                 $('#edtCustomerUseType').val(dataClient.tcustomervs1[c].ClientTypeName||'Default');
                                                 $('#edtCustomerUseDiscount').val(dataClient.tcustomervs1[c].Discount||0);
                                             }
@@ -2675,7 +2675,7 @@ Template.new_invoice.onRendered(() => {
                                                 $('#edtCustomerEmail').attr('customerfirstname', clientList[i].firstname);
                                                 $('#edtCustomerEmail').attr('customerlastname', clientList[i].lastname);
                                                 $('#customerType').text(clientList[i].clienttypename||'Default');
-                                                $('#customerDiscount').text(clientList[i].discount||0+'%');
+                                                $('#customerDiscount').text(clientList[i].discount+'%'|| 0+'%');
                                                 $('#edtCustomerUseType').val(clientList[i].clienttypename||'Default');
                                                 $('#edtCustomerUseDiscount').val(clientList[i].discount||0);
                                             }
@@ -2935,7 +2935,7 @@ Template.new_invoice.onRendered(() => {
                                         $('#edtCustomerEmail').attr('customerfirstname', clientList[i].firstname);
                                         $('#edtCustomerEmail').attr('customerlastname', clientList[i].lastname);
                                         $('#customerType').text(clientList[i].clienttypename||'Default');
-                                        $('#customerDiscount').text(clientList[i].discount||0+'%');
+                                        $('#customerDiscount').text(clientList[i].discount+'%'|| 0+'%');
                                         $('#edtCustomerUseType').val(clientList[i].clienttypename||'Default');
                                         $('#edtCustomerUseDiscount').val(clientList[i].discount||0);
                                     }
@@ -3711,6 +3711,11 @@ Template.new_invoice.onRendered(() => {
             $(".lineBo", rowData).val("");
             $(".lineUnitPrice", rowData).val("");
             $(".lineAmt", rowData).text("");
+            $(".lineTaxCode", rowData).text("");
+            $(".lineTaxAmount", rowData).text("");
+            $(".lineDiscount", rowData).text("");
+            $(".lineProductName", rowData).attr("prodid", '');
+
             rowData.attr('id', tokenid);
             $("#tblInvoiceLine tbody").append(rowData);
 
@@ -3727,6 +3732,9 @@ Template.new_invoice.onRendered(() => {
                 rowData1.attr('id', tokenid);
                 $(".invoice_print tbody").append(rowData1);
             }
+            setTimeout(function () {
+            $('#' + tokenid + " .lineProductName").trigger('click');
+          }, 200);
         });
 
     });
@@ -3793,7 +3801,7 @@ Template.new_invoice.onRendered(() => {
             }else{
               discountAmount = getCustomerDiscount;
             }
-          
+
             $('#' + selectLineID + " .lineDiscount").text(discountAmount);
 
             /*let filterProdExt raSellData =  _.filter(productExtraSell, function (dataProdExtra) {
@@ -3872,18 +3880,19 @@ Template.new_invoice.onRendered(() => {
                 var subTotal = parseFloat(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) || 0;
                 var taxTotal = parseFloat(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) * parseFloat(taxrateamount);
                 var lineDiscountPerc = parseFloat($tblrow.find(".lineDiscount").text())||0; // New Discount
-                var discountTotal = (subTotal + taxTotal) * (lineDiscountPerc/100) ;
+                let lineTotalAmount = subTotal + taxTotal;
+
+                let lineDiscountTotal = lineDiscountPerc/100;
+
+                var discountTotal = lineTotalAmount * lineDiscountTotal;
+
                 if (!isNaN(discountTotal)) {
-                     subDiscountTotal += isNaN(discountTotal) ? 0 : discountTotal;
+                      subDiscountTotal += isNaN(discountTotal) ? 0 : discountTotal;
+
                     document.getElementById("subtotal_discount").innerHTML = utilityService.modifynegativeCurrencyFormat(subDiscountTotal);
                 }
                 $tblrow.find('.lineTaxAmount').text(utilityService.modifynegativeCurrencyFormat(taxTotal));
-                var lineDiscountPerc = parseFloat($tblrow.find(".lineDiscount").text())||0; // New Discount
-                var discountTotal = (subTotal + taxTotal) * (lineDiscountPerc/100) ;
-                if (!isNaN(discountTotal)) {
-                     subDiscountTotal += isNaN(discountTotal) ? 0 : discountTotal;
-                    document.getElementById("subtotal_discount").innerHTML = utilityService.modifynegativeCurrencyFormat(subDiscountTotal);
-                }
+
                 if (!isNaN(subTotal)) {
                     $tblrow.find('.lineAmt').text(utilityService.modifynegativeCurrencyFormat(subTotal));
                     subGrandTotal += isNaN(subTotal) ? 0 : subTotal;
@@ -3944,6 +3953,13 @@ Template.new_invoice.onRendered(() => {
             }
 
         }
+
+        $('#tblInventory_filter .form-control-sm').val('');
+        setTimeout(function () {
+            //$('#tblCustomerlist_filter .form-control-sm').focus();
+            $('.btnRefreshProduct').trigger('click');
+            $('.fullScreenSpin').css('display', 'none');
+        }, 1000);
     });
 
     /* On Click TaxCode List */
@@ -3993,7 +4009,9 @@ Template.new_invoice.onRendered(() => {
                     var taxTotal = parseFloat(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) * parseFloat(taxrateamount);
                 }
                 var lineDiscountPerc = parseFloat($tblrow.find(".lineDiscount").text())||0; // New Discount
-                var discountTotal = (subTotal + taxTotal) * (lineDiscountPerc/100) ;
+                let lineTotalAmount = subTotal + taxTotal;
+                let lineDiscountTotal = lineDiscountPerc/100;
+                var discountTotal = lineTotalAmount * lineDiscountTotal;
                 if (!isNaN(discountTotal)) {
                      subDiscountTotal += isNaN(discountTotal) ? 0 : discountTotal;
                     document.getElementById("subtotal_discount").innerHTML = utilityService.modifynegativeCurrencyFormat(subDiscountTotal);
@@ -4069,6 +4087,11 @@ Template.new_invoice.onRendered(() => {
         $('#edtCustomerName').val(tableCustomer.find(".colCompany").text());
         $('#edtCustomerName').attr("custid", tableCustomer.find(".colID").text());
         $('#customerListModal').modal('toggle');
+
+        $('#customerType').text(tableCustomer.find(".colCustomerType").text()||'Default');
+        $('#customerDiscount').text(tableCustomer.find(".colCustomerDiscount").text()+'%'|| 0+'%');
+        $('#edtCustomerUseType').val(tableCustomer.find(".colCustomerType").text()||'Default');
+        $('#edtCustomerUseDiscount').val(tableCustomer.find(".colCustomerDiscount").text()||0);
         //if (li.text() != undefined) {
         let selectedCustomer = $('#edtCustomerName').val();
         if (clientList) {
@@ -4079,7 +4102,7 @@ Template.new_invoice.onRendered(() => {
                     $('#edtCustomerEmail').attr('customerfirstname', clientList[i].firstname);
                     $('#edtCustomerEmail').attr('customerlastname', clientList[i].lastname);
                     $('#customerType').text(clientList[i].clienttypename||'Default');
-                    $('#customerDiscount').text(clientList[i].discount||0+'%');
+                    $('#customerDiscount').text(clientList[i].discount+'%'|| 0+'%');
                     $('#edtCustomerUseType').val(clientList[i].clienttypename||'Default');
                     $('#edtCustomerUseDiscount').val(clientList[i].discount||0);
                     let postalAddress = clientList[i].customername + '\n' + clientList[i].street + '\n' + clientList[i].street2 + ' ' + clientList[i].statecode + '\n' + clientList[i].country;
@@ -4093,12 +4116,12 @@ Template.new_invoice.onRendered(() => {
         }
 
         let getCustDetails = "";
-        let taxRate = ""
+        let taxRate = "";
         if (selectedCustomer != "") {
             getCustDetails = customers.filter(customer => {
                 return customer.customername == selectedCustomer
             });
-
+            if(getCustDetails.length > 0){
             taxRate = taxcodeList.filter(taxrate => {
                 return taxrate.codename == getCustDetails[0].taxCode
             });
@@ -4136,17 +4159,14 @@ Template.new_invoice.onRendered(() => {
                     var subTotal = parseFloat(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) || 0;
                     var taxTotal = parseFloat(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) * parseFloat(taxrateamount);
                     var lineDiscountPerc = parseFloat($tblrow.find(".lineDiscount").text())||0; // New Discount
-                    var discountTotal = (subTotal + taxTotal) * (lineDiscountPerc/100) ;
+                    let lineTotalAmount = subTotal + taxTotal;
+                    let lineDiscountTotal = lineDiscountPerc/100;
+                    var discountTotal = lineTotalAmount * lineDiscountTotal;
                     if (!isNaN(discountTotal)) {
                          subDiscountTotal += isNaN(discountTotal) ? 0 : discountTotal;
                         document.getElementById("subtotal_discount").innerHTML = utilityService.modifynegativeCurrencyFormat(subDiscountTotal);
                     }
-                    var lineDiscountPerc = parseFloat($tblrow.find(".lineDiscount").text())||0; // New Discount
-                    var discountTotal = (subTotal + taxTotal) * (lineDiscountPerc/100) ;
-                    if (!isNaN(discountTotal)) {
-                         subDiscountTotal += isNaN(discountTotal) ? 0 : discountTotal;
-                        document.getElementById("subtotal_discount").innerHTML = utilityService.modifynegativeCurrencyFormat(subDiscountTotal);
-                    }
+
                     $tblrow.find('.lineTaxAmount').text(utilityService.modifynegativeCurrencyFormat(taxTotal));
                     if (!isNaN(subTotal)) {
                         $tblrow.find('.lineAmt').text(utilityService.modifynegativeCurrencyFormat(subTotal));
@@ -4209,7 +4229,14 @@ Template.new_invoice.onRendered(() => {
                 }
 
             }
+          }
         }
+        $('#tblCustomerlist_filter .form-control-sm').val('');
+        setTimeout(function () {
+            //$('#tblCustomerlist_filter .form-control-sm').focus();
+            $('.btnRefreshCustomer').trigger('click');
+            $('.fullScreenSpin').css('display', 'none');
+        }, 1000);
         // }
     });
 
@@ -4224,6 +4251,13 @@ Template.new_invoice.onRendered(() => {
             setTimeout(function () {
                 $('#tblCustomerlist_filter .form-control-sm').focus();
                 $('#tblCustomerlist_filter .form-control-sm').val('');
+                $('#tblCustomerlist_filter .form-control-sm').trigger("input");
+                var datatable = $('#tblCustomerlist').DataTable();
+                //datatable.clear();
+              //datatable.rows.add(splashArrayCustomerList);
+                datatable.draw();
+                $('#tblCustomerlist_filter .form-control-sm').trigger("input");
+                //$('#tblCustomerlist').dataTable().fnFilter(' ').draw(false);
             }, 500);
           }
 
@@ -4237,6 +4271,15 @@ Template.new_invoice.onRendered(() => {
         $('#customerListModal').modal();
         setTimeout(function () {
             $('#tblCustomerlist_filter .form-control-sm').focus();
+            $('#tblCustomerlist_filter .form-control-sm').val('');
+            $('#tblCustomerlist_filter .form-control-sm').trigger("input");
+            var datatable = $('#tblCustomerlist').DataTable();
+            //datatable.clear();
+            //datatable.rows.add(splashArrayCustomerList);
+            datatable.draw();
+            $('#tblCustomerlist_filter .form-control-sm').trigger("input");
+          //  $('#tblCustomerlist').dataTable().fnFilter(' ').draw(false);
+          //  $('#tblCustomerlist').dataTable().fnFilter(' ').draw();
         }, 500);
       //}
 
@@ -5607,7 +5650,9 @@ Template.new_invoice.events({
             var subTotal = parseFloat(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) || 0;
             var taxTotal = parseFloat(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) * parseFloat(taxrateamount);
             var lineDiscountPerc = parseFloat($tblrow.find(".lineDiscount").text())||0; // New Discount
-            var discountTotal = (subTotal + taxTotal) * (lineDiscountPerc/100) ;
+            let lineTotalAmount = subTotal + taxTotal;
+            let lineDiscountTotal = lineDiscountPerc/100;
+            var discountTotal = lineTotalAmount * lineDiscountTotal;
             if (!isNaN(discountTotal)) {
                  subDiscountTotal += isNaN(discountTotal) ? 0 : discountTotal;
                 document.getElementById("subtotal_discount").innerHTML = utilityService.modifynegativeCurrencyFormat(subDiscountTotal);
@@ -5720,7 +5765,9 @@ Template.new_invoice.events({
             var taxTotal = parseFloat(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) * parseFloat(taxrateamount);
             $tblrow.find('.lineTaxAmount').text(utilityService.modifynegativeCurrencyFormat(taxTotal));
             var lineDiscountPerc = parseFloat($tblrow.find(".lineDiscount").text())||0; // New Discount
-            var discountTotal = (subTotal + taxTotal) * (lineDiscountPerc/100) ;
+            let lineTotalAmount = subTotal + taxTotal;
+            let lineDiscountTotal = lineDiscountPerc/100;
+            var discountTotal = lineTotalAmount * lineDiscountTotal;
             if (!isNaN(discountTotal)) {
                  subDiscountTotal += isNaN(discountTotal) ? 0 : discountTotal;
                 document.getElementById("subtotal_discount").innerHTML = utilityService.modifynegativeCurrencyFormat(subDiscountTotal);
@@ -5793,7 +5840,9 @@ Template.new_invoice.events({
             var taxTotal = parseFloat(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) * parseFloat(taxrateamount);
             $tblrow.find('.lineTaxAmount').text(utilityService.modifynegativeCurrencyFormat(taxTotal));
             var lineDiscountPerc = parseFloat($tblrow.find(".lineDiscount").text())||0; // New Discount
-            var discountTotal = (subTotal + taxTotal) * (lineDiscountPerc/100) ;
+            let lineTotalAmount = subTotal + taxTotal;
+            let lineDiscountTotal = lineDiscountPerc/100;
+            var discountTotal = lineTotalAmount * lineDiscountTotal;
             if (!isNaN(discountTotal)) {
                  subDiscountTotal += isNaN(discountTotal) ? 0 : discountTotal;
                 document.getElementById("subtotal_discount").innerHTML = utilityService.modifynegativeCurrencyFormat(subDiscountTotal);
@@ -5880,6 +5929,13 @@ Template.new_invoice.events({
             $('#selectLineID').val(targetID);
             setTimeout(function () {
                 $('#tblInventory_filter .form-control-sm').focus();
+                $('#tblInventory_filter .form-control-sm').val('');
+                $('#tblInventory_filter .form-control-sm').trigger("input");
+
+                var datatable = $('#tblInventory').DataTable();
+                datatable.draw();
+                $('#tblInventory_filter .form-control-sm').trigger("input");
+
             }, 500);
           }
         }
@@ -6000,7 +6056,9 @@ Template.new_invoice.events({
                     var taxTotal = parseFloat(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) * parseFloat(taxrateamount);
                     $tblrow.find('.lineTaxAmount').text(utilityService.modifynegativeCurrencyFormat(taxTotal));
                     var lineDiscountPerc = parseFloat($tblrow.find(".lineDiscount").text())||0; // New Discount
-                    var discountTotal = (subTotal + taxTotal) * (lineDiscountPerc/100) ;
+                    let lineTotalAmount = subTotal + taxTotal;
+                    let lineDiscountTotal = lineDiscountPerc/100;
+                    var discountTotal = lineTotalAmount * lineDiscountTotal;
                     if (!isNaN(discountTotal)) {
                          subDiscountTotal += isNaN(discountTotal) ? 0 : discountTotal;
                         document.getElementById("subtotal_discount").innerHTML = utilityService.modifynegativeCurrencyFormat(subDiscountTotal);
@@ -6145,7 +6203,9 @@ Template.new_invoice.events({
                 var taxTotal = parseFloat(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) * parseFloat(taxrateamount);
                 $tblrow.find('.lineTaxAmount').text(utilityService.modifynegativeCurrencyFormat(taxTotal));
                 var lineDiscountPerc = parseFloat($tblrow.find(".lineDiscount").text())||0; // New Discount
-                var discountTotal = (subTotal + taxTotal) * (lineDiscountPerc/100) ;
+                let lineTotalAmount = subTotal + taxTotal;
+                let lineDiscountTotal = lineDiscountPerc/100;
+                var discountTotal = lineTotalAmount * lineDiscountTotal;
                 if (!isNaN(discountTotal)) {
                      subDiscountTotal += isNaN(discountTotal) ? 0 : discountTotal;
                     document.getElementById("subtotal_discount").innerHTML = utilityService.modifynegativeCurrencyFormat(subDiscountTotal);
