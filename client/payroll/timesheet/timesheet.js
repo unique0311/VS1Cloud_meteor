@@ -187,7 +187,8 @@ yearRange: "-90:+10",
             $('#tblTimeSheet').DataTable({
               columnDefs: [
                   // {type: 'date', targets: 0},
-                  { "orderable": false, "targets": -1 }
+                 { "orderable": false, "targets": -1 },
+                  { targets: 'sorting_disabled', orderable: false }
               ],
                   "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
                   buttons: [
@@ -215,7 +216,8 @@ yearRange: "-90:+10",
                   select: true,
                   destroy: true,
                   colReorder: {
-                      fixedColumnsRight: 1
+                      fixedColumnsRight: 1,
+                      fixedColumnsLeft: 1
                   },
                   // colReorder: true,
                   // bStateSave: true,
@@ -225,7 +227,7 @@ yearRange: "-90:+10",
                   "scrollCollapse": true,
                   info: true,
                   responsive: true,
-                  "order": [[ 0, "asc" ]],
+                  "order": [[ 1, "asc" ]],
                   action: function () {
                       $('#tblTimeSheet').DataTable().ajax.reload();
                   },
@@ -560,7 +562,7 @@ Template.timesheet.events({
     let columData = $(event.target).text();
 
     let columnDatanIndex = $(event.target).closest("div.columnSettings").attr('id');
-    
+
     var datable = $('#tblTimeSheet').DataTable();
     var title = datable.column( columnDatanIndex ).header();
     $(title).html(columData);
@@ -828,10 +830,10 @@ Template.timesheet.events({
         }
         templateObject.datatablerecords.set(timesheetList);
        $('.fullScreenSpin').css('display', 'none');
-        
+
     },
     'click .btnAddNewAccounts': function () {
-      
+
       $('#add-account-title').text('Add New Account');
       $('#edtAccountID').val('');
       $('#sltAccountType').val('');
