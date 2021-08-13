@@ -117,9 +117,9 @@ Template.customerlistpop.onRendered(function () {
                             salesOrderBalance || 0.00,
                             data.tcustomervs1[i].fields.Country || '',
                             data.tcustomervs1[i].fields.State || '',
-                            data.tcustomervs1[i].fields.Postcode || '',
-                            data.tcustomervs1[i].fields.Street || '',
                             data.tcustomervs1[i].fields.Street2 || '',
+                            data.tcustomervs1[i].fields.Street || '',
+                            data.tcustomervs1[i].fields.Postcode || '',
                             data.tcustomervs1[i].fields.Email || '',
                             data.tcustomervs1[i].fields.AccountNo || '',
                             data.tcustomervs1[i].fields.ClientNo || '',
@@ -127,7 +127,10 @@ Template.customerlistpop.onRendered(function () {
                             data.tcustomervs1[i].fields.Notes || '',
                             data.tcustomervs1[i].fields.ID || '',
                             data.tcustomervs1[i].fields.ClientTypeName || 'Default',
-                            data.tcustomervs1[i].fields.Discount || 0
+                            data.tcustomervs1[i].fields.Discount || 0,
+                            data.tcustomervs1[i].fields.TermsName || '',
+                            data.tcustomervs1[i].fields.FirstName || '',
+                            data.tcustomervs1[i].fields.LastName || ''
                         ];
 
                         splashArrayCustomerList.push(dataListCustomer);
@@ -248,6 +251,15 @@ Template.customerlistpop.onRendered(function () {
                                 }, {
                                     className: "colCustomerDiscount hiddenColumn",
                                     "targets": [20]
+                                }, {
+                                    className: "colCustomerTermName hiddenColumn",
+                                    "targets": [21]
+                                }, {
+                                    className: "colCustomerFirstName hiddenColumn",
+                                    "targets": [22]
+                                }, {
+                                    className: "colCustomerLastName hiddenColumn",
+                                    "targets": [23]
                                 }
                             ],
                             select: true,
@@ -334,9 +346,9 @@ Template.customerlistpop.onRendered(function () {
                                           salesOrderBalance || 0.00,
                                           data.tcustomervs1[i].fields.Country || '',
                                           data.tcustomervs1[i].fields.State || '',
-                                          data.tcustomervs1[i].fields.Postcode || '',
-                                          data.tcustomervs1[i].fields.Street || '',
                                           data.tcustomervs1[i].fields.Street2 || '',
+                                          data.tcustomervs1[i].fields.Street || '',
+                                          data.tcustomervs1[i].fields.Postcode || '',
                                           data.tcustomervs1[i].fields.Email || '',
                                           data.tcustomervs1[i].fields.AccountNo || '',
                                           data.tcustomervs1[i].fields.ClientNo || '',
@@ -344,7 +356,10 @@ Template.customerlistpop.onRendered(function () {
                                           data.tcustomervs1[i].fields.Notes || '',
                                           data.tcustomervs1[i].fields.ID || '',
                                           data.tcustomervs1[i].fields.ClientTypeName || 'Default',
-                                          data.tcustomervs1[i].fields.Discount || 0
+                                          data.tcustomervs1[i].fields.Discount || 0,
+                                          data.tcustomervs1[i].fields.TermsName || '',
+                                          data.tcustomervs1[i].fields.FirstName || '',
+                                          data.tcustomervs1[i].fields.LastName || ''
                                       ];
 
                                       splashArrayCustomerList.push(dataListCustomer);
@@ -486,9 +501,9 @@ Template.customerlistpop.onRendered(function () {
                         salesOrderBalance || 0.00,
                         data.tcustomervs1[i].fields.Country || '',
                         data.tcustomervs1[i].fields.State || '',
-                        data.tcustomervs1[i].fields.Postcode || '',
-                        data.tcustomervs1[i].fields.Street || '',
                         data.tcustomervs1[i].fields.Street2 || '',
+                        data.tcustomervs1[i].fields.Street || '',
+                        data.tcustomervs1[i].fields.Postcode || '',
                         data.tcustomervs1[i].fields.Email || '',
                         data.tcustomervs1[i].fields.AccountNo || '',
                         data.tcustomervs1[i].fields.ClientNo || '',
@@ -496,7 +511,10 @@ Template.customerlistpop.onRendered(function () {
                         data.tcustomervs1[i].fields.Notes || '',
                         data.tcustomervs1[i].fields.ID || '',
                         data.tcustomervs1[i].fields.ClientTypeName || 'Default',
-                        data.tcustomervs1[i].fields.Discount || 0
+                        data.tcustomervs1[i].fields.Discount || 0,
+                        data.tcustomervs1[i].fields.TermsName || '',
+                        data.tcustomervs1[i].fields.FirstName || '',
+                        data.tcustomervs1[i].fields.LastName || ''
                     ];
 
                     splashArrayCustomerList.push(dataListCustomer);
@@ -617,6 +635,15 @@ Template.customerlistpop.onRendered(function () {
                             }, {
                                 className: "colCustomerDiscount hiddenColumn",
                                 "targets": [20]
+                            }, {
+                                className: "colCustomerTermName hiddenColumn",
+                                "targets": [21]
+                            }, {
+                                className: "colCustomerFirstName hiddenColumn",
+                                "targets": [22]
+                            }, {
+                                className: "colCustomerLastName hiddenColumn",
+                                "targets": [23]
                             }
                         ],
                         select: true,
@@ -758,9 +785,9 @@ Template.customerlistpop.onRendered(function () {
                                         salesOrderBalance || 0.00,
                                         data.tcustomervs1[i].fields.Country || '',
                                         data.tcustomervs1[i].fields.State || '',
-                                        data.tcustomervs1[i].fields.Postcode || '',
-                                        data.tcustomervs1[i].fields.Street || '',
                                         data.tcustomervs1[i].fields.Street2 || '',
+                                        data.tcustomervs1[i].fields.Street || '',
+                                        data.tcustomervs1[i].fields.Postcode || '',
                                         data.tcustomervs1[i].fields.Email || '',
                                         data.tcustomervs1[i].fields.AccountNo || '',
                                         data.tcustomervs1[i].fields.ClientNo || '',
@@ -768,7 +795,10 @@ Template.customerlistpop.onRendered(function () {
                                         data.tcustomervs1[i].fields.Notes || '',
                                         data.tcustomervs1[i].fields.ID || '',
                                         data.tcustomervs1[i].fields.ClientTypeName || 'Default',
-                                        data.tcustomervs1[i].fields.Discount || 0
+                                        data.tcustomervs1[i].fields.Discount || 0,
+                                        data.tcustomervs1[i].fields.TermsName || '',
+                                        data.tcustomervs1[i].fields.FirstName || '',
+                                        data.tcustomervs1[i].fields.LastName || ''
                                     ];
 
                                     splashArrayCustomerList.push(dataListCustomer);
@@ -905,9 +935,9 @@ Template.customerlistpop.onRendered(function () {
                         salesOrderBalance || 0.00,
                         data.tcustomervs1[i].fields.Country || '',
                         data.tcustomervs1[i].fields.State || '',
-                        data.tcustomervs1[i].fields.Postcode || '',
-                        data.tcustomervs1[i].fields.Street || '',
                         data.tcustomervs1[i].fields.Street2 || '',
+                        data.tcustomervs1[i].fields.Street || '',
+                        data.tcustomervs1[i].fields.Postcode || '',
                         data.tcustomervs1[i].fields.Email || '',
                         data.tcustomervs1[i].fields.AccountNo || '',
                         data.tcustomervs1[i].fields.ClientNo || '',
@@ -915,7 +945,10 @@ Template.customerlistpop.onRendered(function () {
                         data.tcustomervs1[i].fields.Notes || '',
                         data.tcustomervs1[i].fields.ID || '',
                         data.tcustomervs1[i].fields.ClientTypeName || 'Default',
-                        data.tcustomervs1[i].fields.Discount || 0
+                        data.tcustomervs1[i].fields.Discount || 0,
+                        data.tcustomervs1[i].fields.TermsName || '',
+                        data.tcustomervs1[i].fields.FirstName || '',
+                        data.tcustomervs1[i].fields.LastName || ''
                     ];
 
                     splashArrayCustomerList.push(dataListCustomer);
@@ -1044,6 +1077,15 @@ Template.customerlistpop.onRendered(function () {
                             }, {
                                 className: "colCustomerDiscount hiddenColumn",
                                 "targets": [20]
+                            }, {
+                                className: "colCustomerTermName hiddenColumn",
+                                "targets": [21]
+                            }, {
+                                className: "colCustomerFirstName hiddenColumn",
+                                "targets": [22]
+                            }, {
+                                className: "colCustomerLastName hiddenColumn",
+                                "targets": [23]
                             }
                         ],
                         select: true,
@@ -1131,9 +1173,9 @@ Template.customerlistpop.onRendered(function () {
                                       salesOrderBalance || 0.00,
                                       data.tcustomervs1[i].fields.Country || '',
                                       data.tcustomervs1[i].fields.State || '',
-                                      data.tcustomervs1[i].fields.Postcode || '',
-                                      data.tcustomervs1[i].fields.Street || '',
                                       data.tcustomervs1[i].fields.Street2 || '',
+                                      data.tcustomervs1[i].fields.Street || '',
+                                      data.tcustomervs1[i].fields.Postcode || '',
                                       data.tcustomervs1[i].fields.Email || '',
                                       data.tcustomervs1[i].fields.AccountNo || '',
                                       data.tcustomervs1[i].fields.ClientNo || '',
@@ -1141,7 +1183,10 @@ Template.customerlistpop.onRendered(function () {
                                       data.tcustomervs1[i].fields.Notes || '',
                                       data.tcustomervs1[i].fields.ID || '',
                                       data.tcustomervs1[i].fields.ClientTypeName || 'Default',
-                                      data.tcustomervs1[i].fields.Discount || 0
+                                      data.tcustomervs1[i].fields.Discount || 0,
+                                      data.tcustomervs1[i].fields.TermsName || '',
+                                      data.tcustomervs1[i].fields.FirstName || '',
+                                      data.tcustomervs1[i].fields.LastName || ''
                                   ];
 
                                   splashArrayCustomerList.push(dataListCustomer);
@@ -1319,9 +1364,9 @@ Template.customerlistpop.events({
                             salesOrderBalance || 0.00,
                             data.tcustomervs1[i].fields.Country || '',
                             data.tcustomervs1[i].fields.State || '',
-                            data.tcustomervs1[i].fields.Postcode || '',
-                            data.tcustomervs1[i].fields.Street || '',
                             data.tcustomervs1[i].fields.Street2 || '',
+                            data.tcustomervs1[i].fields.Street || '',
+                            data.tcustomervs1[i].fields.Postcode || '',
                             data.tcustomervs1[i].fields.Email || '',
                             data.tcustomervs1[i].fields.AccountNo || '',
                             data.tcustomervs1[i].fields.ClientNo || '',
@@ -1329,7 +1374,10 @@ Template.customerlistpop.events({
                             data.tcustomervs1[i].fields.Notes || '',
                             data.tcustomervs1[i].fields.ID || '',
                             data.tcustomervs1[i].fields.ClientTypeName || 'Default',
-                            data.tcustomervs1[i].fields.Discount || 0
+                            data.tcustomervs1[i].fields.Discount || 0,
+                            data.tcustomervs1[i].fields.TermsName || '',
+                            data.tcustomervs1[i].fields.FirstName || '',
+                            data.tcustomervs1[i].fields.LastName || ''
                         ];
 
                         splashArrayCustomerList.push(dataListCustomer);
@@ -1414,9 +1462,9 @@ Template.customerlistpop.events({
                         salesOrderBalance || 0.00,
                         data.tcustomervs1[i].fields.Country || '',
                         data.tcustomervs1[i].fields.State || '',
-                        data.tcustomervs1[i].fields.Postcode || '',
-                        data.tcustomervs1[i].fields.Street || '',
                         data.tcustomervs1[i].fields.Street2 || '',
+                        data.tcustomervs1[i].fields.Street || '',
+                        data.tcustomervs1[i].fields.Postcode || '',
                         data.tcustomervs1[i].fields.Email || '',
                         data.tcustomervs1[i].fields.AccountNo || '',
                         data.tcustomervs1[i].fields.ClientNo || '',
@@ -1424,7 +1472,10 @@ Template.customerlistpop.events({
                         data.tcustomervs1[i].fields.Notes || '',
                         data.tcustomervs1[i].fields.ID || '',
                         data.tcustomervs1[i].fields.ClientTypeName || 'Default',
-                        data.tcustomervs1[i].fields.Discount || 0
+                        data.tcustomervs1[i].fields.Discount || 0,
+                        data.tcustomervs1[i].fields.TermsName || '',
+                        data.tcustomervs1[i].fields.FirstName || '',
+                        data.tcustomervs1[i].fields.LastName || ''
                     ];
 
                     splashArrayCustomerList.push(dataListCustomer);
