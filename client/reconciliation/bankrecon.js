@@ -88,6 +88,7 @@ Template.bankrecon.onRendered(function() {
                 for(let i in data.ttobereconcileddeposit){
                     let depositamount = utilityService.modifynegativeCurrencyFormat(data.ttobereconcileddeposit[i].Amount)|| 0.00;
                     let reconciledepositObj = {
+                        sortdate: data.ttobereconcileddeposit[i].DepositDate !=''? moment(data.ttobereconcileddeposit[i].DepositDate).format("YYYY-MM-DD"): data.ttobereconcileddeposit[i].DepositDate,
                         recondepdate: data.ttobereconcileddeposit[i].DepositDate !=''? moment(data.ttobereconcileddeposit[i].DepositDate).format("DD/MM/YYYY"): data.ttobereconcileddeposit[i].DepositDate,
                         recondepname: data.ttobereconcileddeposit[i].CompanyName || ' ',
                         recondeppaymenttype: data.ttobereconcileddeposit[i].Notes || ' ',

@@ -382,6 +382,7 @@
                                                         <label class="custom-control-label" for="checkallrecondep"></label>
                                                     </div>
                                                 </th>
+                                                <th class="th colSortDate hiddenColumn">id</th>
                                                 <th style="width:80px;">Date</th>
                                                 <th style="width:200px;">Ref</th>
                                                 <th style="width:200px;">Name</th>
@@ -400,6 +401,7 @@
                                                         <label class="custom-control-label" for="formCheck_{{depitem.recondepid}}"></label>
                                                     </div>
                                                 </td>
+                                                <td contenteditable="false" class="colSortDate hiddenColumn">{{depitem.sortdate}}</td>
                                                 <td id="vs1recondate_{{depitem.recondepid}}">{{depitem.recondepdate}}</td>
                                                 <td id="vs1reconref_{{depitem.recondepid}}">{{depitem.recondepref}}</td>
                                                 <td id="vs1reconname_{{depitem.recondepid}}">{{depitem.recondepname}}</td>
