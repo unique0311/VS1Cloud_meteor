@@ -1017,12 +1017,12 @@ var myVS1Video = document.getElementById("myVS1Video");
     }
   for (let i = 0; i < regUserDetails.length; i++) {
     if(regUserDetails.length == 1){
-      if(regUserDetails[i].userMultiLogon == true){
+      //f(regUserDetails[i].userMultiLogon == true){
 
-        swal('Oops...', 'VS1 User Name is already logged in. Select "Sign me out of all devices" to login', 'info');
-        $('.signmeout').css('display','block');
+      //  swal('Oops...', 'VS1 User Name is already logged in. Select "Sign me out of all devices" to login', 'info');
+        //$('.signmeout').css('display','block');
 
-      }else{
+      //}else{
         times = 0;
       var ERPIPAdderess= regUserDetails[i].server;
       var ERPdbName = regUserDetails[i].database;
@@ -1217,7 +1217,7 @@ var myVS1Video = document.getElementById("myVS1Video");
         $("#erppassword").focus();
       }
 
-    }
+    //}
     }else{
 
     }

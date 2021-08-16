@@ -242,6 +242,7 @@ Template.bankrecon.onRendered(function() {
                 for(let j in data.ttobereconciledwithdrawal){
                     let withdrawalamount = utilityService.modifynegativeCurrencyFormat(data.ttobereconciledwithdrawal[j].Amount)|| 0.00;
                     let reconcilewithdrawalObj = {
+                        sortdate: data.ttobereconciledwithdrawal[j].DepositDate !=''? moment(data.ttobereconciledwithdrawal[j].DepositDate).format("YYYY-MM-DD"): data.ttobereconciledwithdrawal[i].DepositDate,
                         reconwithdate: data.ttobereconciledwithdrawal[j].DepositDate !=''? moment(data.ttobereconciledwithdrawal[j].DepositDate).format("DD/MM/YYYY"): data.ttobereconciledwithdrawal[j].DepositDate,
                         reconwithname: data.ttobereconciledwithdrawal[j].CompanyName || ' ',
                         reconwithpaymenttype: data.ttobereconciledwithdrawal[j].Notes || ' ',
@@ -632,6 +633,7 @@ Template.bankrecon.onRendered(function() {
                         for(let j in data.fields.WithdrawalLines){
                             let withdrawalamount = utilityService.modifynegativeCurrencyFormat(data.fields.WithdrawalLines[j].fields.Amount)|| 0.00;
                             let reconcilewithdrawalObj = {
+                                sortdate: data.fields.WithdrawalLines[j].fields.DepositDate !=''? moment(data.fields.WithdrawalLines[j].fields.DepositDate).format("YYYY-MM-DD"): data.fields.WithdrawalLines[j].fields.DepositDate,
                                 reconwithdate: data.fields.WithdrawalLines[j].fields.DepositDate !=''? moment(data.fields.WithdrawalLines[j].fields.DepositDate).format("DD/MM/YYYY"): data.fields.WithdrawalLines[j].fields.DepositDate,
                                 reconwithname: data.fields.WithdrawalLines[j].fields.ClientName || ' ',
                                 reconwithpaymenttype: data.fields.WithdrawalLines[j].fields.Notes || ' ',
@@ -959,6 +961,7 @@ if(useData[d].fields.WithdrawalLines.length > 0){
     for(let j in useData[d].fields.WithdrawalLines){
         let withdrawalamount = utilityService.modifynegativeCurrencyFormat(useData[d].fields.WithdrawalLines[j].fields.Amount)|| 0.00;
         let reconcilewithdrawalObj = {
+            sortdate: useData[d].fields.WithdrawalLines[j].fields.DepositDate !=''? moment(useData[d].fields.WithdrawalLines[j].fields.DepositDate).format("YYYY-MM-DD"): useData[d].fields.WithdrawalLines[j].fields.DepositDate,
             reconwithdate: useData[d].fields.WithdrawalLines[j].fields.DepositDate !=''? moment(useData[d].fields.WithdrawalLines[j].fields.DepositDate).format("DD/MM/YYYY"): useData[d].fields.WithdrawalLines[j].fields.DepositDate,
             reconwithname: useData[d].fields.WithdrawalLines[j].fields.ClientName || ' ',
             reconwithpaymenttype: useData[d].fields.WithdrawalLines[j].fields.Notes || ' ',
@@ -1275,6 +1278,7 @@ if(useData[d].fields.WithdrawalLines.length > 0){
                           for(let j in data.fields.WithdrawalLines){
                               let withdrawalamount = utilityService.modifynegativeCurrencyFormat(data.fields.WithdrawalLines[j].fields.Amount)|| 0.00;
                               let reconcilewithdrawalObj = {
+                                  sortdate: data.fields.WithdrawalLines[j].fields.DepositDate !=''? moment(data.fields.WithdrawalLines[j].fields.DepositDate).format("YYYY-MM-DD"): data.fields.WithdrawalLines[j].fields.DepositDate,
                                   reconwithdate: data.fields.WithdrawalLines[j].fields.DepositDate !=''? moment(data.fields.WithdrawalLines[j].fields.DepositDate).format("DD/MM/YYYY"): data.fields.WithdrawalLines[j].fields.DepositDate,
                                   reconwithname: data.fields.WithdrawalLines[j].fields.ClientName || ' ',
                                   reconwithpaymenttype: data.fields.WithdrawalLines[j].fields.Notes || ' ',
@@ -1599,6 +1603,7 @@ if(useData[d].fields.WithdrawalLines.length > 0){
                       for(let j in data.fields.WithdrawalLines){
                           let withdrawalamount = utilityService.modifynegativeCurrencyFormat(data.fields.WithdrawalLines[j].fields.Amount)|| 0.00;
                           let reconcilewithdrawalObj = {
+                              sortdate: data.fields.WithdrawalLines[j].fields.DepositDate !=''? moment(data.fields.WithdrawalLines[j].fields.DepositDate).format("YYYY-MM-DD"): data.fields.WithdrawalLines[j].fields.DepositDate,
                               reconwithdate: data.fields.WithdrawalLines[j].fields.DepositDate !=''? moment(data.fields.WithdrawalLines[j].fields.DepositDate).format("DD/MM/YYYY"): data.fields.WithdrawalLines[j].fields.DepositDate,
                               reconwithname: data.fields.WithdrawalLines[j].fields.ClientName || ' ',
                               reconwithpaymenttype: data.fields.WithdrawalLines[j].fields.Notes || ' ',
@@ -1875,7 +1880,7 @@ Template.bankrecon.events({
             var depositLineIDDep = $(this).closest('tr').attr('depositLineID');
             let transactionObj = {
                 reconid : checkboxIDdepLine,
-                recondate : $('#vs1recondate_'+checkboxIDdepLine).text(),
+                recondate : $('#vs1recondate_'+checkboxIDdepLine).attr('recondate'),
                 reconname : $('#vs1reconname_'+checkboxIDdepLine).text(),
                 recondesc : $('#vs1recondesc_'+checkboxIDdepLine).text(),
                 reconamount : $('#vs1reconamount_'+checkboxIDdepLine).text(),
@@ -1916,7 +1921,7 @@ Template.bankrecon.events({
             let depositLineIDWith = $(this).closest('tr').attr('depositLineID');
             let transactionObj = {
                 reconid : checkboxIDwithLine,
-                recondate : $('#vs1recondatewith_'+checkboxIDwithLine).text(),
+                recondate : $('#vs1recondatewith_'+checkboxIDwithLine).attr('recondate'),
                 reconname : $('#vs1reconnamewith_'+checkboxIDwithLine).text(),
                 recondesc : $('#vs1recondescwith_'+checkboxIDwithLine).text(),
                 reconamount : $('#vs1reconamountwith_'+checkboxIDwithLine).text(),
@@ -1956,7 +1961,7 @@ Template.bankrecon.events({
                 let depositLineIDDepAll = $(this).closest('tr').attr('depositLineID');
                 let transactionObj = {
                     reconid : checkboxIDdepLine,
-                    recondate : $('#vs1recondate_'+checkboxIDdepLine).text(),
+                    recondate : $('#vs1recondate_'+checkboxIDdepLine).attr('recondate'),
                     reconname : $('#vs1reconname_'+checkboxIDdepLine).text(),
                     recondesc : $('#vs1recondesc_'+checkboxIDdepLine).text(),
                     reconamount : $('#vs1reconamount_'+checkboxIDdepLine).text(),
@@ -1996,7 +2001,7 @@ Template.bankrecon.events({
                 let depositLineIDDepAll = $(this).closest('tr').attr('depositLineID');
                 let transactionObj = {
                     reconid : checkboxIDdepLine,
-                    recondate : $('#vs1recondate_'+checkboxIDdepLine).text(),
+                    recondate : $('#vs1recondate_'+checkboxIDdepLine).attr('recondate'),
                     reconname : $('#vs1reconname_'+checkboxIDdepLine).text(),
                     recondesc : $('#vs1recondesc_'+checkboxIDdepLine).text(),
                     reconamount : $('#vs1reconamount_'+checkboxIDdepLine).text(),
@@ -2039,7 +2044,7 @@ Template.bankrecon.events({
                 let depositLineIDAll = $(this).closest('tr').attr('depositLineID');
                 let transactionObj = {
                     reconid : checkboxIDwithLine,
-                    recondate : $('#vs1recondatewith_'+checkboxIDwithLine).text(),
+                    recondate : $('#vs1recondatewith_'+checkboxIDwithLine).attr('recondate'),
                     reconname : $('#vs1reconnamewith_'+checkboxIDwithLine).text(),
                     recondesc : $('#vs1recondescwith_'+checkboxIDwithLine).text(),
                     reconamount : $('#vs1reconamountwith_'+checkboxIDwithLine).text(),
@@ -2083,7 +2088,7 @@ Template.bankrecon.events({
                 let depositLineIDwith= $(this).closest('tr').attr('depositLineID');
                 let transactionObj = {
                     reconid : checkboxIDwithLine,
-                    recondate : $('#vs1recondatewith_'+checkboxIDwithLine).text(),
+                    recondate : $('#vs1recondatewith_'+checkboxIDwithLine).attr('recondate'),
                     reconname : $('#vs1reconnamewith_'+checkboxIDwithLine).text(),
                     recondesc : $('#vs1recondescwith_'+checkboxIDwithLine).text(),
                     reconamount : $('#vs1reconamountwith_'+checkboxIDwithLine).text(),
