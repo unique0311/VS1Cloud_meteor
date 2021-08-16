@@ -402,7 +402,7 @@
                                                     </div>
                                                 </td>
                                                 <td contenteditable="false" class="colSortDate hiddenColumn">{{depitem.sortdate}}</td>
-                                                <td id="vs1recondate_{{depitem.recondepid}}">{{depitem.recondepdate}}</td>
+                                                <td id="vs1recondate_{{depitem.recondepid}}" recondate="{{depitem.recondepdate}}"><span style="display:none;">{{depitem.sortdate}}</span>{{depitem.recondepdate}}</td>
                                                 <td id="vs1reconref_{{depitem.recondepid}}">{{depitem.recondepref}}</td>
                                                 <td id="vs1reconname_{{depitem.recondepid}}">{{depitem.recondepname}}</td>
                                                 <td id="vs1recondesc_{{depitem.recondepid}}">{{depitem.recondeppaymenttype}}</td>
@@ -456,7 +456,7 @@
                                                         <label class="custom-control-label" for="formCheck_{{withitem.reconwithid}}"></label>
                                                     </div>
                                                 </td>
-                                                <td id="vs1recondatewith_{{withitem.reconwithid}}">{{withitem.reconwithdate}}</td>
+                                                <td id="vs1recondatewith_{{withitem.reconwithid}}" recondate="{{withitem.reconwithdate}}"><span style="display:none;">{{withitem.sortdate}}</span>{{withitem.reconwithdate}}</td>
                                                 <td id="vs1reconrefwith_{{withitem.reconwithid}}">{{withitem.reconwithref}}</td>
                                                 <td id="vs1reconnamewith_{{withitem.reconwithid}}">{{withitem.reconwithname}}</td>
                                                 <td id="vs1recondescwith_{{withitem.reconwithid}}">{{withitem.reconwithpaymenttype}}</td>

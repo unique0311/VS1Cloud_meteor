@@ -37,6 +37,7 @@ Template.accountsoverview.onRendered(function () {
 
     if ((currentId === "addNewAccount") || (currentId === 'newaccount')) {
         setTimeout(function () {
+          $('.isBankAccount').addClass('isNotBankAccount');
             $('#addNewAccount').modal('show');
             //$('#btnAddNewAccounts').click();
         }, 500);
@@ -815,7 +816,7 @@ Template.accountsoverview.onRendered(function () {
 
                 var showTrans = $(event.target).closest("tr").find(".colAPCANumber").attr('checkheader') || false;
 
-                if (accounttype === "BANK") {
+                if ((accounttype === "BANK")||(accounttype === "CCARD")) {
                     //templateObject.isBankAccount.set(true);
                     //$('.isBankAccount').css('display','block!important');
                     $('.isBankAccount').removeClass('isNotBankAccount');
@@ -1397,7 +1398,7 @@ Template.accountsoverview.events({
                       });
                     });
                 } else {
-                    
+
                     sideBarService.getAccountListVS1().then(function (dataReload) {
                         addVS1Data('TAccountVS1', JSON.stringify(dataReload)).then(function (datareturn) {
                             window.open('/accountsoverview', '_self');
@@ -1446,7 +1447,7 @@ Template.accountsoverview.events({
         $('#edtBankName').val('');
         $('#swiftCode').val('');
         $('.showOnTransactions').prop('checked', false);
-        $('.isBankAccount').removeClass('isNotBankAccount');
+        $('.isBankAccount').addClass('isNotBankAccount');
     },
     'click .printConfirm': function (event) {
 
@@ -1639,7 +1640,7 @@ Template.accountsoverview.events({
     'change #sltAccountType': function (e) {
         let templateObject = Template.instance();
         var accountTypeName = $('#sltAccountType').val();
-        if (accountTypeName === "BANK") {
+        if ((accountTypeName === "BANK")||(accountTypeName === "CCARD")) {
             //templateObject.isBankAccount.set(true);
             $('.isBankAccount').removeClass('isNotBankAccount');
         } else {

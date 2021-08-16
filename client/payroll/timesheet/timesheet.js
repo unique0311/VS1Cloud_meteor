@@ -928,12 +928,12 @@ $(event.target).closest("tr").find("span.colRateSpan").text($(event.target).val(
      var doubleeValue = Number($(this).find(".colDouble").val())||0;
      var additionalValue = Number($(this).find(".colAdditional").val().replace(/[^0-9.-]+/g,""))||0;
      var paytipsValue = Number($(this).find(".colPaycheckTips").val().replace(/[^0-9.-]+/g,""))||0;
-     var cashtipsValue = Number($(this).find(".colCashTips").val().replace(/[^0-9.-]+/g,""))||0;
+    // var cashtipsValue = Number($(this).find(".colCashTips").val().replace(/[^0-9.-]+/g,""))||0;
 
      totalRegular =  (rateValue * regHourValue) || 0;
      totalOvertime =  ((rateValue * 1.5) * overtimeValue) ||0 ;
      totalDouble =  ((rateValue * 2) * doubleeValue) ||0 ;
-     totalGrossPay = (totalRegular + totalRegular +totalDouble + additionalValue +paytipsValue + cashtipsValue) || 0;
+     totalGrossPay = (totalRegular + totalRegular +totalDouble + additionalValue +paytipsValue) || 0;
      $(this).find(".colGrossPay").val(utilityService.modifynegativeCurrencyFormat(totalGrossPay) ||0);
  });
  $('.lblSumHourlyRate').text(utilityService.modifynegativeCurrencyFormat(totalvalue) ||0);
@@ -957,12 +957,12 @@ $(event.target).closest("tr").find("span.colRateSpan").text($(event.target).val(
      var doubleeValue = Number($(this).find(".colDouble").val())||0;
      var additionalValue = Number($(this).find(".colAdditional").val().replace(/[^0-9.-]+/g,""))||0;
      var paytipsValue = Number($(this).find(".colPaycheckTips").val().replace(/[^0-9.-]+/g,""))||0;
-     var cashtipsValue = Number($(this).find(".colCashTips").val().replace(/[^0-9.-]+/g,""))||0;
+     //var cashtipsValue = Number($(this).find(".colCashTips").val().replace(/[^0-9.-]+/g,""))||0;
 
      totalRegular =  (rateValue * regHourValue) || 0;
      totalOvertime =  ((rateValue * 1.5) * overtimeValue) ||0 ;
      totalDouble =  ((rateValue * 2) * doubleeValue) ||0 ;
-     totalGrossPay = (totalRegular + totalRegular +totalDouble + additionalValue +paytipsValue + cashtipsValue) || 0;
+     totalGrossPay = (totalRegular + totalRegular +totalDouble + additionalValue +paytipsValue) || 0;
      $(this).find(".colGrossPay").val(utilityService.modifynegativeCurrencyFormat(totalGrossPay) ||0);
  });
  $('.lblSumHour').text(totalvalue||0);
@@ -986,12 +986,12 @@ $(event.target).closest("tr").find("span.colRateSpan").text($(event.target).val(
      var doubleeValue = Number($(this).find(".colDouble").val())||0;
      var additionalValue = Number($(this).find(".colAdditional").val().replace(/[^0-9.-]+/g,""))||0;
      var paytipsValue = Number($(this).find(".colPaycheckTips").val().replace(/[^0-9.-]+/g,""))||0;
-     var cashtipsValue = Number($(this).find(".colCashTips").val().replace(/[^0-9.-]+/g,""))||0;
+     //var cashtipsValue = Number($(this).find(".colCashTips").val().replace(/[^0-9.-]+/g,""))||0;
 
      totalRegular =  (rateValue * regHourValue) || 0;
      totalOvertime =  ((rateValue * 1.5) * overtimeValue) ||0 ;
      totalDouble =  ((rateValue * 2) * doubleeValue) ||0 ;
-     totalGrossPay = (totalRegular + totalRegular +totalDouble + additionalValue +paytipsValue + cashtipsValue) || 0;
+     totalGrossPay = (totalRegular + totalRegular +totalDouble + additionalValue +paytipsValue) || 0;
      $(this).find(".colGrossPay").val(utilityService.modifynegativeCurrencyFormat(totalGrossPay) ||0);
  });
  $('.lblSumOvertime').text(totalvalue||0);
@@ -1015,12 +1015,12 @@ $(event.target).closest("tr").find("span.colRateSpan").text($(event.target).val(
      var doubleeValue = Number($(this).find(".colDouble").val())||0;
      var additionalValue = Number($(this).find(".colAdditional").val().replace(/[^0-9.-]+/g,""))||0;
      var paytipsValue = Number($(this).find(".colPaycheckTips").val().replace(/[^0-9.-]+/g,""))||0;
-     var cashtipsValue = Number($(this).find(".colCashTips").val().replace(/[^0-9.-]+/g,""))||0;
+     //var cashtipsValue = Number($(this).find(".colCashTips").val().replace(/[^0-9.-]+/g,""))||0;
 
      totalRegular =  (rateValue * regHourValue) || 0;
      totalOvertime =  ((rateValue * 1.5) * overtimeValue) ||0 ;
      totalDouble =  ((rateValue * 2) * doubleeValue) ||0 ;
-     totalGrossPay = (totalRegular + totalRegular +totalDouble + additionalValue +paytipsValue + cashtipsValue) || 0;
+     totalGrossPay = (totalRegular + totalRegular +totalDouble + additionalValue +paytipsValue) || 0;
      $(this).find(".colGrossPay").val(utilityService.modifynegativeCurrencyFormat(totalGrossPay) ||0);
  });
  $('.lblSumDouble').text(totalvalue||0);
@@ -1044,12 +1044,12 @@ $(event.target).closest("tr").find("span.colRateSpan").text($(event.target).val(
      var doubleeValue = Number($(this).find(".colDouble").val())||0;
      var additionalValue = Number($(this).find(".colAdditional").val().replace(/[^0-9.-]+/g,""))||0;
      var paytipsValue = Number($(this).find(".colPaycheckTips").val().replace(/[^0-9.-]+/g,""))||0;
-     var cashtipsValue = Number($(this).find(".colCashTips").val().replace(/[^0-9.-]+/g,""))||0;
+     //var cashtipsValue = Number($(this).find(".colCashTips").val().replace(/[^0-9.-]+/g,""))||0;
 
      totalRegular =  (rateValue * regHourValue) || 0;
      totalOvertime =  ((rateValue * 1.5) * overtimeValue) ||0 ;
      totalDouble =  ((rateValue * 2) * doubleeValue) ||0 ;
-     totalGrossPay = (totalRegular + totalRegular +totalDouble + additionalValue +paytipsValue + cashtipsValue) || 0;
+     totalGrossPay = (totalRegular + totalRegular +totalDouble + additionalValue +paytipsValue) || 0;
      $(this).find(".colGrossPay").val(utilityService.modifynegativeCurrencyFormat(totalGrossPay) ||0);
  });
  $('.lblSumAdditions').text(utilityService.modifynegativeCurrencyFormat(totalvalue) ||0);
@@ -1073,12 +1073,12 @@ $(event.target).closest("tr").find("span.colRateSpan").text($(event.target).val(
      var doubleeValue = Number($(this).find(".colDouble").val())||0;
      var additionalValue = Number($(this).find(".colAdditional").val().replace(/[^0-9.-]+/g,""))||0;
      var paytipsValue = Number($(this).find(".colPaycheckTips").val().replace(/[^0-9.-]+/g,""))||0;
-     var cashtipsValue = Number($(this).find(".colCashTips").val().replace(/[^0-9.-]+/g,""))||0;
+     //var cashtipsValue = Number($(this).find(".colCashTips").val().replace(/[^0-9.-]+/g,""))||0;
 
      totalRegular =  (rateValue * regHourValue) || 0;
      totalOvertime =  ((rateValue * 1.5) * overtimeValue) ||0 ;
      totalDouble =  ((rateValue * 2) * doubleeValue) ||0 ;
-     totalGrossPay = (totalRegular + totalRegular +totalDouble + additionalValue +paytipsValue + cashtipsValue) || 0;
+     totalGrossPay = (totalRegular + totalRegular +totalDouble + additionalValue +paytipsValue) || 0;
      $(this).find(".colGrossPay").val(utilityService.modifynegativeCurrencyFormat(totalGrossPay) ||0);
  });
  $('.lblSumPaytips').text(utilityService.modifynegativeCurrencyFormat(totalvalue) ||0);
@@ -1102,12 +1102,12 @@ $(event.target).closest("tr").find("span.colRateSpan").text($(event.target).val(
      var doubleeValue = Number($(this).find(".colDouble").val())||0;
      var additionalValue = Number($(this).find(".colAdditional").val().replace(/[^0-9.-]+/g,""))||0;
      var paytipsValue = Number($(this).find(".colPaycheckTips").val().replace(/[^0-9.-]+/g,""))||0;
-     var cashtipsValue = Number($(this).find(".colCashTips").val().replace(/[^0-9.-]+/g,""))||0;
+     //var cashtipsValue = Number($(this).find(".colCashTips").val().replace(/[^0-9.-]+/g,""))||0;
 
      totalRegular =  (rateValue * regHourValue) || 0;
      totalOvertime =  ((rateValue * 1.5) * overtimeValue) ||0 ;
      totalDouble =  ((rateValue * 2) * doubleeValue) ||0 ;
-     totalGrossPay = (totalRegular + totalRegular +totalDouble + additionalValue +paytipsValue + cashtipsValue) || 0;
+     totalGrossPay = (totalRegular + totalRegular +totalDouble + additionalValue +paytipsValue) || 0;
      $(this).find(".colGrossPay").val(utilityService.modifynegativeCurrencyFormat(totalGrossPay) ||0);
  });
  $('.lblSumCashtips').text(utilityService.modifynegativeCurrencyFormat(totalvalue) ||0);
@@ -1131,12 +1131,12 @@ $(event.target).closest("tr").find("span.colRateSpan").text($(event.target).val(
      var doubleeValue = Number($(this).find(".colDouble").val())||0;
      var additionalValue = Number($(this).find(".colAdditional").val().replace(/[^0-9.-]+/g,""))||0;
      var paytipsValue = Number($(this).find(".colPaycheckTips").val().replace(/[^0-9.-]+/g,""))||0;
-     var cashtipsValue = Number($(this).find(".colCashTips").val().replace(/[^0-9.-]+/g,""))||0;
+     //var cashtipsValue = Number($(this).find(".colCashTips").val().replace(/[^0-9.-]+/g,""))||0;
 
      totalRegular =  (rateValue * regHourValue) || 0;
      totalOvertime =  ((rateValue * 1.5) * overtimeValue) ||0 ;
      totalDouble =  ((rateValue * 2) * doubleeValue) ||0 ;
-     totalGrossPay = (totalRegular + totalRegular +totalDouble + additionalValue +paytipsValue + cashtipsValue) || 0;
+     totalGrossPay = (totalRegular + totalRegular +totalDouble + additionalValue +paytipsValue) || 0;
      $(this).find(".colGrossPay").val(utilityService.modifynegativeCurrencyFormat(totalGrossPay) ||0);
  });
  $('.lblSumTotalCharge').text(utilityService.modifynegativeCurrencyFormat(totalvalue) ||0);
