@@ -949,28 +949,45 @@ style="margin: 16px;margin-top: 0px;width: 95px;"><i class="fa fa-remove" style=
                             .leadTotal {
                                 font-weight: 800 !important;
                             }
+                            .leadHidden {
+                                visibility: hidden;
+                                height: 0px !important;
+                            }
                         </style>
-                        <div class="row">
-                            <div class="col-6"><p class="lead">Subtotal</p></div>
-                            <div class="col-6"><p class="lead" id="subtotal_total" name="subtotal_total">{{invoicerecord.SubTotal}}</p></div>
-                        </div>
-                        <div class="row">
-                            <div class="col-6"><p class="lead">Tax</p></div>
-                            <div class="col-6"><p class="lead" id="subtotal_tax" name="subtotal_tax">{{invoicerecord.TotalTax}}</p></div>
-                        </div>
-                        <div class="row">
-                            <div class="col-6"><p class="lead">Nett</p></div>
-                            <div class="col-6"><p class="lead" id="subtotal_nett" name="subtotal_nett">{{invoicerecord.Total}}</p></div>
-                        </div>
-                        <div class="row"><hr style="border-top: 3px solid #696969; width: 100%;" /></div>
-                        <div class="row">
-                            <div class="col-6"><p class="lead">Discount</p></div>
-                            <div class="col-6"><p class="lead" id="subtotal_nett" name="subtotal_nett">{{invoicerecord.TotalDiscount}}</p></div>
-                        </div>
-                        <div class="row"><hr style="border-top: 3px solid #696969; width: 100%;" /></div>
-                        <div class="row">
-                            <div class="col-6"><p class="lead leadTotal">TOTAL</p></div>
-                            <div class="col-6"><p class="lead leadTotal" id="grandTotal" name="grandTotal">{{invoicerecord.Total}}</p></div>
+
+                        <div style="float: right;">
+                            <div class="d-flex d-xl-flex flex-row justify-content-xl-end align-items-xl-center">
+                                <div class="d-xl-flex flex-column justify-content-xl-end align-items-xl-end">
+                                    <p class="lead">Subtotal</p>
+                                    <p class="lead">Tax</p>
+                                    <p class="lead">Nett</p>
+                                </div>
+                                <div class="d-xl-flex flex-column justify-content-xl-end align-items-xl-end" style="padding-left: 20px;">
+                                    <p class="lead" id="subtotal_total" name="subtotal_total">{{invoicerecord.SubTotal}}</p>
+                                    <p class="lead" id="subtotal_tax" name="subtotal_tax">{{invoicerecord.TotalTax}}</p>
+                                    <p class="lead" id="subtotal_nett" name="subtotal_nett">{{invoicerecord.Total}}</p>
+                                </div>
+                            </div>
+                            <hr style=" border-top: 3px solid #696969;" />
+                            <div class="d-flex d-xl-flex flex-row justify-content-xl-end align-items-xl-center">
+                                <div class="d-xl-flex flex-column justify-content-xl-end align-items-xl-end">
+                                    <p class="lead">Discount</p>
+                                    <p class="lead leadHidden">Nett</p>
+                                </div>
+                                <div class="d-xl-flex flex-column justify-content-xl-end align-items-xl-end" style="padding-left: 20px;">
+                                    <p class="lead" id="subtotal_discount" name="subtotal_discount">{{invoicerecord.TotalDiscount}}</p>
+                                    <p class="lead leadHidden" id="grandTotalHidden" name="grandTotalHidden">{{invoicerecord.Total}}</p>
+                                </div>
+                            </div>
+                            <hr style=" border-top: 3px solid #696969;" />
+                            <div class="d-flex d-xl-flex flex-row justify-content-xl-end align-items-xl-center">
+                                <div class="d-xl-flex flex-column justify-content-xl-end align-items-xl-end">
+                                    <p class="lead leadTotal">TOTAL</p>
+                                </div>
+                                <div class="d-xl-flex flex-column justify-content-xl-end align-items-xl-end" style="padding-left: 20px;">
+                                    <p class="lead leadTotal" id="grandTotal" name="grandTotal">{{invoicerecord.Total}}</p>
+                                </div>
+                            </div>
                         </div>
 
                         <!-- <div style="float: right;">
