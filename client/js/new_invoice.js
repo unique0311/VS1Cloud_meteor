@@ -3966,6 +3966,7 @@ Template.new_invoice.onRendered(() => {
         getVS1Data('TTermsVS1').then(function (dataObject) {
             if (dataObject.length == 0) {
                 salesService.getTermVS1().then(function (data) {
+                  console.log(data);
                     for (let i in data.ttermsvs1) {
 
                         let termrecordObj = {
@@ -3993,6 +3994,7 @@ Template.new_invoice.onRendered(() => {
 
             }
         }).catch(function (err) {
+          console.log(err);
             salesService.getTermVS1().then(function (data) {
                 for (let i in data.ttermsvs1) {
 

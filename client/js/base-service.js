@@ -57,26 +57,28 @@ export class BaseService{
         var promise = new Promise(function(resolve, reject) {
             HTTP.get(that.getBaseUrl() + url, { headers : that.getHeaders()}, function(err, response){
                 var data = that.responseHandler(url, response);
-                if(err || !data){
+                if(err){
                   this.erpGet = erpDb();
                   if(this.erpGet.ERPIPAddress === ERPDatabaseIPAdderess){
-                    HTTP.get(URLRequest + ReplicaERPDatabaseIPAdderess + url, { headers : that.getHeaders()}, function(err, response){
-                        var data = that.responseHandler(url, response);
-                        if(err || !data){
-                            reject(err);
+                    HTTP.get(URLRequest + ReplicaERPDatabaseIPAdderess + url, { headers : that.getHeaders()}, function(errreplica, responsereplica){
+                        var dataReplica = that.responseHandler(url, responsereplica);
+                        if(errreplica){
+                            reject(errreplica);
                         }
-                        if(data){
-                            resolve(data);
+                        if(dataReplica){
+                            resolve(dataReplica);
                         }
                     });
                   }else{
                     reject(err);
                   }
 
+                }else{
+                  if(data){
+                      resolve(data);
+                  }
                 }
-                if(data){
-                    resolve(data);
-                }
+
             });
         });
         return promise;
@@ -101,20 +103,20 @@ export class BaseService{
         return this.GET(url);
     }
 
-    POST(url, data) {
+    POST(url, savedata) {
         let that = this;
         let promise = new Promise(function (resolve, reject) {
-            HTTP.post(that.getBaseUrl() + url, {headers: that.getPostHeaders(), data: data}, function (err, response) {
+            HTTP.post(that.getBaseUrl() + url, {headers: that.getPostHeaders(), data: savedata}, function (err, response) {
                 let data = that.responseHandler(url, response);
                 if(err){
                   this.erpGet = erpDb();
                     if(this.erpGet.ERPIPAddress === ERPDatabaseIPAdderess){
-                    HTTP.post(URLRequest + ReplicaERPDatabaseIPAdderess + url, {headers: that.getPostHeaders(), data: data}, function (err, response) {
-                        let data = that.responseHandler(url, response);
-                        if(err){
-                            reject(data);
+                    HTTP.post(URLRequest + ReplicaERPDatabaseIPAdderess + url, {headers: that.getPostHeaders(), data: savedata}, function (errreplica, responsereplica) {
+                        let dataReplica = that.responseHandler(url, responsereplica);
+                        if(errreplica){
+                            reject(dataReplica);
                         } else{
-                            resolve(data);
+                            resolve(dataReplica);
                         }
                     });
                    }else{
