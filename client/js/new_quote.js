@@ -372,6 +372,9 @@ Template.new_quote.onRendered(() => {
                             let currencySymbol = Currency;
                             let total = currencySymbol + '' + data.fields.TotalAmount.toLocaleString(undefined, { minimumFractionDigits: 2 });
                             let totalInc = currencySymbol + '' + data.fields.TotalAmountInc.toLocaleString(undefined, { minimumFractionDigits: 2 });
+                            let totalDiscount = utilityService.modifynegativeCurrencyFormat(data.fields.TotalDiscount).toLocaleString(undefined, {
+                                minimumFractionDigits: 2
+                            });
                             let subTotal = currencySymbol + '' + data.fields.TotalAmount.toLocaleString(undefined, { minimumFractionDigits: 2 });
                             let totalTax = currencySymbol + '' + data.fields.TotalTax.toLocaleString(undefined, { minimumFractionDigits: 2 });
                             let totalBalance = currencySymbol + '' + data.fields.TotalBalance.toLocaleString(undefined, { minimumFractionDigits: 2 });
@@ -396,7 +399,7 @@ Template.new_quote.onRendered(() => {
                                         curTotalAmt: currencyAmountGbp || currencySymbol + '0',
                                         TaxTotal: TaxTotalGbp || 0,
                                         TaxRate: TaxRateGbp || 0,
-
+                                        DiscountPercent:data.fields.Lines[i].fields.DiscountPercent || 0
                                     };
                                     var dataListTable = [
                                         data.fields.Lines[i].fields.ProductName || '',
@@ -427,7 +430,8 @@ Template.new_quote.onRendered(() => {
                                     TotalAmt: AmountGbp || 0,
                                     curTotalAmt: currencyAmountGbp || currencySymbol + '0',
                                     TaxTotal: TaxTotalGbp || 0,
-                                    TaxRate: TaxRateGbp || 0
+                                    TaxRate: TaxRateGbp || 0,
+                                    DiscountPercent:data.fields.Lines.fields.DiscountPercent || 0
                                 };
                                 lineItems.push(lineItemObj);
                             }
@@ -458,6 +462,7 @@ Template.new_quote.onRendered(() => {
                                 shipToDesc: data.fields.ShipToDesc,
                                 termsName: data.fields.TermsName,
                                 Total: totalInc,
+                                TotalDiscount: totalDiscount,
                                 LineItems: lineItems,
                                 TotalTax: totalTax,
                                 SubTotal: subTotal,
@@ -479,10 +484,12 @@ Template.new_quote.onRendered(() => {
                                 }
                             }
 
+                            var checkISCustLoad = false;
                             setTimeout(function () {
                                 if (clientList) {
                                     for (var i = 0; i < clientList.length; i++) {
                                         if (clientList[i].customername == data.fields.CustomerName) {
+                                            checkISCustLoad = true;
                                             quoterecord.firstname = clientList[i].firstname || '';
                                             quoterecord.lastname = clientList[i].lastname || '';
                                             templateObject.quoterecord.set(quoterecord);
@@ -490,9 +497,58 @@ Template.new_quote.onRendered(() => {
                                             $('#edtCustomerEmail').attr('customerid', clientList[i].customerid);
                                             $('#edtCustomerEmail').attr('customerfirstname', clientList[i].firstname);
                                             $('#edtCustomerEmail').attr('customerlastname', clientList[i].lastname);
+                                            $('#customerType').text(clientList[i].clienttypename||'Default');
+                                            $('#customerDiscount').text(clientList[i].discount+'%'|| 0+'%');
+                                            $('#edtCustomerUseType').val(clientList[i].clienttypename||'Default');
+                                            $('#edtCustomerUseDiscount').val(clientList[i].discount||0);
                                         }
                                     }
                                 };
+
+                                if (!checkISCustLoad) {
+                                    sideBarService.getCustomersDataByName(useData[d].fields.CustomerName).then(function (dataClient) {
+                                          for (var c = 0; c < dataClient.tcustomervs1.length; c++) {
+                                            var customerrecordObj = {
+                                                customerid: dataClient.tcustomervs1[c].Id || ' ',
+                                                firstname: dataClient.tcustomervs1[c].FirstName || ' ',
+                                                lastname: dataClient.tcustomervs1[c].LastName || ' ',
+                                                customername: dataClient.tcustomervs1[c].ClientName || ' ',
+                                                customeremail: dataClient.tcustomervs1[c].Email || ' ',
+                                                street: dataClient.tcustomervs1[c].Street || ' ',
+                                                street2: dataClient.tcustomervs1[c].Street2 || ' ',
+                                                street3: dataClient.tcustomervs1[c].Street3 || ' ',
+                                                suburb: dataClient.tcustomervs1[c].Suburb || ' ',
+                                                statecode: dataClient.tcustomervs1[c].State + ' ' + dataClient.tcustomervs1[c].Postcode || ' ',
+                                                country: dataClient.tcustomervs1[c].Country || ' ',
+                                                termsName: dataClient.tcustomervs1[c].TermsName || '',
+                                                taxCode: dataClient.tcustomervs1[c].TaxCodeName || '',
+                                                clienttypename: dataClient.tcustomervs1[c].ClientTypeName || 'Default'
+                                            };
+                                            clientList.push(customerrecordObj);
+
+                                            quoterecord.firstname = dataClient.tcustomervs1[c].FirstName || '';
+                                            quoterecord.lastname = dataClient.tcustomervs1[c].LastName || '';
+                                            $('#edtCustomerEmail').val(dataClient.tcustomervs1[c].Email);
+                                            $('#edtCustomerEmail').attr('customerid', clientList[c].customerid);
+                                            $('#edtCustomerName').attr('custid', dataClient.tcustomervs1[c].Id);
+                                            $('#edtCustomerEmail').attr('customerfirstname', dataClient.tcustomervs1[c].FirstName);
+                                            $('#edtCustomerEmail').attr('customerlastname', dataClient.tcustomervs1[c].LastName);
+                                            $('#customerType').text(dataClient.tcustomervs1[c].ClientTypeName||'Default');
+                                            $('#customerDiscount').text(dataClient.tcustomervs1[c].Discount+'%'|| 0+'%');
+                                            $('#edtCustomerUseType').val(dataClient.tcustomervs1[c].ClientTypeName||'Default');
+                                            $('#edtCustomerUseDiscount').val(dataClient.tcustomervs1[c].Discount||0);
+                                        }
+
+                                        templateObject.clientrecords.set(clientList.sort(function (a, b) {
+                                            if (a.customername == 'NA') {
+                                                return 1;
+                                            } else if (b.customername == 'NA') {
+                                                return -1;
+                                            }
+                                            return (a.customername.toUpperCase() > b.customername.toUpperCase()) ? 1 : -1;
+                                        }));
+                                    });
+                                }
                             }, 100);
                             templateObject.quoterecord.set(quoterecord);
 
@@ -643,6 +699,7 @@ Template.new_quote.onRendered(() => {
                                             curTotalAmt: currencyAmountGbp || currencySymbol + '0',
                                             TaxTotal: TaxTotalGbp || 0,
                                             TaxRate: TaxRateGbp || 0,
+                                            DiscountPercent:useData[d].fields.Lines[i].fields.DiscountPercent || 0
 
                                         };
 
@@ -707,6 +764,7 @@ Template.new_quote.onRendered(() => {
                                     shipToDesc: useData[d].fields.ShipToDesc,
                                     termsName: useData[d].fields.TermsName,
                                     Total: totalInc,
+                                    TotalDiscount: totalDiscount,
                                     LineItems: lineItems,
                                     TotalTax: totalTax,
                                     SubTotal: subTotal,
@@ -728,10 +786,12 @@ Template.new_quote.onRendered(() => {
                                     }
                                 }
 
+                                var checkISCustLoad = false;
                                 setTimeout(function () {
                                     if (clientList) {
                                         for (var i = 0; i < clientList.length; i++) {
-                                            if (clientList[i].customername == useData[d].fields.CustomerName) {
+                                            if (clientList[i].customername == data.fields.CustomerName) {
+                                                checkISCustLoad = true;
                                                 quoterecord.firstname = clientList[i].firstname || '';
                                                 quoterecord.lastname = clientList[i].lastname || '';
                                                 templateObject.quoterecord.set(quoterecord);
@@ -739,9 +799,57 @@ Template.new_quote.onRendered(() => {
                                                 $('#edtCustomerEmail').attr('customerid', clientList[i].customerid);
                                                 $('#edtCustomerEmail').attr('customerfirstname', clientList[i].firstname);
                                                 $('#edtCustomerEmail').attr('customerlastname', clientList[i].lastname);
+                                                $('#customerType').text(clientList[i].clienttypename||'Default');
+                                                $('#customerDiscount').text(clientList[i].discount+'%'|| 0+'%');
+                                                $('#edtCustomerUseType').val(clientList[i].clienttypename||'Default');
+                                                $('#edtCustomerUseDiscount').val(clientList[i].discount||0);
                                             }
                                         }
                                     };
+                                    if (!checkISCustLoad) {
+                                        sideBarService.getCustomersDataByName(useData[d].fields.CustomerName).then(function (dataClient) {
+                                              for (var c = 0; c < dataClient.tcustomervs1.length; c++) {
+                                                var customerrecordObj = {
+                                                    customerid: dataClient.tcustomervs1[c].Id || ' ',
+                                                    firstname: dataClient.tcustomervs1[c].FirstName || ' ',
+                                                    lastname: dataClient.tcustomervs1[c].LastName || ' ',
+                                                    customername: dataClient.tcustomervs1[c].ClientName || ' ',
+                                                    customeremail: dataClient.tcustomervs1[c].Email || ' ',
+                                                    street: dataClient.tcustomervs1[c].Street || ' ',
+                                                    street2: dataClient.tcustomervs1[c].Street2 || ' ',
+                                                    street3: dataClient.tcustomervs1[c].Street3 || ' ',
+                                                    suburb: dataClient.tcustomervs1[c].Suburb || ' ',
+                                                    statecode: dataClient.tcustomervs1[c].State + ' ' + dataClient.tcustomervs1[c].Postcode || ' ',
+                                                    country: dataClient.tcustomervs1[c].Country || ' ',
+                                                    termsName: dataClient.tcustomervs1[c].TermsName || '',
+                                                    taxCode: dataClient.tcustomervs1[c].TaxCodeName || '',
+                                                    clienttypename: dataClient.tcustomervs1[c].ClientTypeName || 'Default'
+                                                };
+                                                clientList.push(customerrecordObj);
+
+                                                quoterecord.firstname = dataClient.tcustomervs1[c].FirstName || '';
+                                                quoterecord.lastname = dataClient.tcustomervs1[c].LastName || '';
+                                                $('#edtCustomerEmail').val(dataClient.tcustomervs1[c].Email);
+                                                $('#edtCustomerEmail').attr('customerid', clientList[c].customerid);
+                                                $('#edtCustomerName').attr('custid', dataClient.tcustomervs1[c].Id);
+                                                $('#edtCustomerEmail').attr('customerfirstname', dataClient.tcustomervs1[c].FirstName);
+                                                $('#edtCustomerEmail').attr('customerlastname', dataClient.tcustomervs1[c].LastName);
+                                                $('#customerType').text(dataClient.tcustomervs1[c].ClientTypeName||'Default');
+                                                $('#customerDiscount').text(dataClient.tcustomervs1[c].Discount+'%'|| 0+'%');
+                                                $('#edtCustomerUseType').val(dataClient.tcustomervs1[c].ClientTypeName||'Default');
+                                                $('#edtCustomerUseDiscount').val(dataClient.tcustomervs1[c].Discount||0);
+                                            }
+
+                                            templateObject.clientrecords.set(clientList.sort(function (a, b) {
+                                                if (a.customername == 'NA') {
+                                                    return 1;
+                                                } else if (b.customername == 'NA') {
+                                                    return -1;
+                                                }
+                                                return (a.customername.toUpperCase() > b.customername.toUpperCase()) ? 1 : -1;
+                                            }));
+                                        });
+                                    }
                                 }, 100);
 
                                 templateObject.quoterecord.set(quoterecord);
@@ -830,6 +938,7 @@ Template.new_quote.onRendered(() => {
                                             curTotalAmt: currencyAmountGbp || currencySymbol + '0',
                                             TaxTotal: TaxTotalGbp || 0,
                                             TaxRate: TaxRateGbp || 0,
+                                            DiscountPercent:data.fields.Lines[i].fields.DiscountPercent || 0
 
                                         };
                                         var dataListTable = [
@@ -892,6 +1001,7 @@ Template.new_quote.onRendered(() => {
                                     shipToDesc: data.fields.ShipToDesc,
                                     termsName: data.fields.TermsName,
                                     Total: totalInc,
+                                    TotalDiscount: totalDiscount,
                                     LineItems: lineItems,
                                     TotalTax: totalTax,
                                     SubTotal: subTotal,
@@ -1068,6 +1178,7 @@ Template.new_quote.onRendered(() => {
                                     curTotalAmt: currencyAmountGbp || currencySymbol + '0',
                                     TaxTotal: TaxTotalGbp || 0,
                                     TaxRate: TaxRateGbp || 0,
+                                    DiscountPercent:data.fields.Lines[i].fields.DiscountPercent || 0
 
                                 };
                                 var dataListTable = [
@@ -1130,6 +1241,7 @@ Template.new_quote.onRendered(() => {
                             shipToDesc: data.fields.ShipToDesc,
                             termsName: data.fields.TermsName,
                             Total: totalInc,
+                            TotalDiscount: totalDiscount,
                             LineItems: lineItems,
                             TotalTax: totalTax,
                             SubTotal: subTotal,
@@ -1152,18 +1264,69 @@ Template.new_quote.onRendered(() => {
                             }
                         }
 
+                        var checkISCustLoad = false;
                         setTimeout(function () {
                             if (clientList) {
                                 for (var i = 0; i < clientList.length; i++) {
                                     if (clientList[i].customername == data.fields.CustomerName) {
+                                        checkISCustLoad = true;
                                         quoterecord.firstname = clientList[i].firstname || '';
                                         quoterecord.lastname = clientList[i].lastname || '';
                                         $('#edtCustomerEmail').val(clientList[i].customeremail);
                                         $('#edtCustomerEmail').attr('customerid', clientList[i].customerid);
                                         $('#edtCustomerEmail').attr('customerfirstname', clientList[i].firstname);
                                         $('#edtCustomerEmail').attr('customerlastname', clientList[i].lastname);
+                                        $('#customerType').text(clientList[i].clienttypename||'Default');
+                                        $('#customerDiscount').text(clientList[i].discount+'%'|| 0+'%');
+                                        $('#edtCustomerUseType').val(clientList[i].clienttypename||'Default');
+                                        $('#edtCustomerUseDiscount').val(clientList[i].discount||0);
                                     }
                                 }
+                            }
+
+                            if (!checkISCustLoad) {
+                                sideBarService.getCustomersDataByName(useData[d].fields.CustomerName).then(function (dataClient) {
+                                      for (var c = 0; c < dataClient.tcustomervs1.length; c++) {
+                                        var customerrecordObj = {
+                                            customerid: dataClient.tcustomervs1[c].Id || ' ',
+                                            firstname: dataClient.tcustomervs1[c].FirstName || ' ',
+                                            lastname: dataClient.tcustomervs1[c].LastName || ' ',
+                                            customername: dataClient.tcustomervs1[c].ClientName || ' ',
+                                            customeremail: dataClient.tcustomervs1[c].Email || ' ',
+                                            street: dataClient.tcustomervs1[c].Street || ' ',
+                                            street2: dataClient.tcustomervs1[c].Street2 || ' ',
+                                            street3: dataClient.tcustomervs1[c].Street3 || ' ',
+                                            suburb: dataClient.tcustomervs1[c].Suburb || ' ',
+                                            statecode: dataClient.tcustomervs1[c].State + ' ' + dataClient.tcustomervs1[c].Postcode || ' ',
+                                            country: dataClient.tcustomervs1[c].Country || ' ',
+                                            termsName: dataClient.tcustomervs1[c].TermsName || '',
+                                            taxCode: dataClient.tcustomervs1[c].TaxCodeName || '',
+                                            clienttypename: dataClient.tcustomervs1[c].ClientTypeName || 'Default'
+                                        };
+                                        clientList.push(customerrecordObj);
+
+                                        quoterecord.firstname = dataClient.tcustomervs1[c].FirstName || '';
+                                        quoterecord.lastname = dataClient.tcustomervs1[c].LastName || '';
+                                        $('#edtCustomerEmail').val(dataClient.tcustomervs1[c].Email);
+                                        $('#edtCustomerEmail').attr('customerid', clientList[c].customerid);
+                                        $('#edtCustomerName').attr('custid', dataClient.tcustomervs1[c].Id);
+                                        $('#edtCustomerEmail').attr('customerfirstname', dataClient.tcustomervs1[c].FirstName);
+                                        $('#edtCustomerEmail').attr('customerlastname', dataClient.tcustomervs1[c].LastName);
+                                        $('#customerType').text(dataClient.tcustomervs1[c].ClientTypeName||'Default');
+                                        $('#customerDiscount').text(dataClient.tcustomervs1[c].Discount+'%'|| 0+'%');
+                                        $('#edtCustomerUseType').val(dataClient.tcustomervs1[c].ClientTypeName||'Default');
+                                        $('#edtCustomerUseDiscount').val(dataClient.tcustomervs1[c].Discount||0);
+                                    }
+
+                                    templateObject.clientrecords.set(clientList.sort(function (a, b) {
+                                        if (a.customername == 'NA') {
+                                            return 1;
+                                        } else if (b.customername == 'NA') {
+                                            return -1;
+                                        }
+                                        return (a.customername.toUpperCase() > b.customername.toUpperCase()) ? 1 : -1;
+                                    }));
+                                });
                             }
                         }, 100);
 
@@ -1447,6 +1610,8 @@ Template.new_quote.onRendered(() => {
                                     curTotalAmt: currencyAmountGbp || currencySymbol + '0',
                                     TaxTotal: TaxTotalGbp || 0,
                                     TaxRate: TaxRateGbp || 0,
+                                    DiscountPercent:data.fields.Lines[i].fields.DiscountPercent || 0
+
 
                                 };
                                 var dataListTable = [
@@ -1509,6 +1674,7 @@ Template.new_quote.onRendered(() => {
                             shipToDesc: data.fields.ShipToDesc,
                             termsName: data.fields.TermsName,
                             Total: totalInc,
+                            TotalDiscount: totalDiscount,
                             LineItems: lineItems,
                             TotalTax: totalTax,
                             SubTotal: subTotal,
@@ -1530,10 +1696,12 @@ Template.new_quote.onRendered(() => {
                             }
                         }
 
+                        var checkISCustLoad = false;
                         setTimeout(function () {
                             if (clientList) {
                                 for (var i = 0; i < clientList.length; i++) {
                                     if (clientList[i].customername == data.fields.CustomerName) {
+                                        checkISCustLoad = true;
                                         quoterecord.firstname = clientList[i].firstname || '';
                                         quoterecord.lastname = clientList[i].lastname || '';
                                         templateObject.quoterecord.set(quoterecord);
@@ -1541,9 +1709,58 @@ Template.new_quote.onRendered(() => {
                                         $('#edtCustomerEmail').attr('customerid', clientList[i].customerid);
                                         $('#edtCustomerEmail').attr('customerfirstname', clientList[i].firstname);
                                         $('#edtCustomerEmail').attr('customerlastname', clientList[i].lastname);
+                                        $('#customerType').text(clientList[i].clienttypename||'Default');
+                                        $('#customerDiscount').text(clientList[i].discount+'%'|| 0+'%');
+                                        $('#edtCustomerUseType').val(clientList[i].clienttypename||'Default');
+                                        $('#edtCustomerUseDiscount').val(clientList[i].discount||0);
                                     }
                                 }
                             };
+
+                            if (!checkISCustLoad) {
+                                sideBarService.getCustomersDataByName(useData[d].fields.CustomerName).then(function (dataClient) {
+                                      for (var c = 0; c < dataClient.tcustomervs1.length; c++) {
+                                        var customerrecordObj = {
+                                            customerid: dataClient.tcustomervs1[c].Id || ' ',
+                                            firstname: dataClient.tcustomervs1[c].FirstName || ' ',
+                                            lastname: dataClient.tcustomervs1[c].LastName || ' ',
+                                            customername: dataClient.tcustomervs1[c].ClientName || ' ',
+                                            customeremail: dataClient.tcustomervs1[c].Email || ' ',
+                                            street: dataClient.tcustomervs1[c].Street || ' ',
+                                            street2: dataClient.tcustomervs1[c].Street2 || ' ',
+                                            street3: dataClient.tcustomervs1[c].Street3 || ' ',
+                                            suburb: dataClient.tcustomervs1[c].Suburb || ' ',
+                                            statecode: dataClient.tcustomervs1[c].State + ' ' + dataClient.tcustomervs1[c].Postcode || ' ',
+                                            country: dataClient.tcustomervs1[c].Country || ' ',
+                                            termsName: dataClient.tcustomervs1[c].TermsName || '',
+                                            taxCode: dataClient.tcustomervs1[c].TaxCodeName || '',
+                                            clienttypename: dataClient.tcustomervs1[c].ClientTypeName || 'Default'
+                                        };
+                                        clientList.push(customerrecordObj);
+
+                                        quoterecord.firstname = dataClient.tcustomervs1[c].FirstName || '';
+                                        quoterecord.lastname = dataClient.tcustomervs1[c].LastName || '';
+                                        $('#edtCustomerEmail').val(dataClient.tcustomervs1[c].Email);
+                                        $('#edtCustomerEmail').attr('customerid', clientList[c].customerid);
+                                        $('#edtCustomerName').attr('custid', dataClient.tcustomervs1[c].Id);
+                                        $('#edtCustomerEmail').attr('customerfirstname', dataClient.tcustomervs1[c].FirstName);
+                                        $('#edtCustomerEmail').attr('customerlastname', dataClient.tcustomervs1[c].LastName);
+                                        $('#customerType').text(dataClient.tcustomervs1[c].ClientTypeName||'Default');
+                                        $('#customerDiscount').text(dataClient.tcustomervs1[c].Discount+'%'|| 0+'%');
+                                        $('#edtCustomerUseType').val(dataClient.tcustomervs1[c].ClientTypeName||'Default');
+                                        $('#edtCustomerUseDiscount').val(dataClient.tcustomervs1[c].Discount||0);
+                                    }
+
+                                    templateObject.clientrecords.set(clientList.sort(function (a, b) {
+                                        if (a.customername == 'NA') {
+                                            return 1;
+                                        } else if (b.customername == 'NA') {
+                                            return -1;
+                                        }
+                                        return (a.customername.toUpperCase() > b.customername.toUpperCase()) ? 1 : -1;
+                                    }));
+                                });
+                            }
                         }, 100);
 
                         templateObject.quoterecord.set(quoterecord);
@@ -1658,6 +1875,7 @@ Template.new_quote.onRendered(() => {
                                         curTotalAmt: currencyAmountGbp || currencySymbol + '0',
                                         TaxTotal: TaxTotalGbp || 0,
                                         TaxRate: TaxRateGbp || 0,
+                                        DiscountPercent:useData[d].fields.Lines[i].fields.DiscountPercent || 0
 
                                     };
 
@@ -1722,6 +1940,7 @@ Template.new_quote.onRendered(() => {
                                 shipToDesc: useData[d].fields.ShipToDesc,
                                 termsName: useData[d].fields.TermsName,
                                 Total: totalInc,
+                                TotalDiscount: totalDiscount,
                                 LineItems: lineItems,
                                 TotalTax: totalTax,
                                 SubTotal: subTotal,
@@ -1743,10 +1962,12 @@ Template.new_quote.onRendered(() => {
                                 }
                             }
 
+                            var checkISCustLoad = false;
                             setTimeout(function () {
                                 if (clientList) {
                                     for (var i = 0; i < clientList.length; i++) {
-                                        if (clientList[i].customername == useData[d].fields.CustomerName) {
+                                        if (clientList[i].customername == data.fields.CustomerName) {
+                                            checkISCustLoad = true;
                                             quoterecord.firstname = clientList[i].firstname || '';
                                             quoterecord.lastname = clientList[i].lastname || '';
                                             templateObject.quoterecord.set(quoterecord);
@@ -1754,9 +1975,58 @@ Template.new_quote.onRendered(() => {
                                             $('#edtCustomerEmail').attr('customerid', clientList[i].customerid);
                                             $('#edtCustomerEmail').attr('customerfirstname', clientList[i].firstname);
                                             $('#edtCustomerEmail').attr('customerlastname', clientList[i].lastname);
+                                            $('#customerType').text(clientList[i].clienttypename||'Default');
+                                            $('#customerDiscount').text(clientList[i].discount+'%'|| 0+'%');
+                                            $('#edtCustomerUseType').val(clientList[i].clienttypename||'Default');
+                                            $('#edtCustomerUseDiscount').val(clientList[i].discount||0);
                                         }
                                     }
                                 };
+
+                                if (!checkISCustLoad) {
+                                    sideBarService.getCustomersDataByName(useData[d].fields.CustomerName).then(function (dataClient) {
+                                          for (var c = 0; c < dataClient.tcustomervs1.length; c++) {
+                                            var customerrecordObj = {
+                                                customerid: dataClient.tcustomervs1[c].Id || ' ',
+                                                firstname: dataClient.tcustomervs1[c].FirstName || ' ',
+                                                lastname: dataClient.tcustomervs1[c].LastName || ' ',
+                                                customername: dataClient.tcustomervs1[c].ClientName || ' ',
+                                                customeremail: dataClient.tcustomervs1[c].Email || ' ',
+                                                street: dataClient.tcustomervs1[c].Street || ' ',
+                                                street2: dataClient.tcustomervs1[c].Street2 || ' ',
+                                                street3: dataClient.tcustomervs1[c].Street3 || ' ',
+                                                suburb: dataClient.tcustomervs1[c].Suburb || ' ',
+                                                statecode: dataClient.tcustomervs1[c].State + ' ' + dataClient.tcustomervs1[c].Postcode || ' ',
+                                                country: dataClient.tcustomervs1[c].Country || ' ',
+                                                termsName: dataClient.tcustomervs1[c].TermsName || '',
+                                                taxCode: dataClient.tcustomervs1[c].TaxCodeName || '',
+                                                clienttypename: dataClient.tcustomervs1[c].ClientTypeName || 'Default'
+                                            };
+                                            clientList.push(customerrecordObj);
+
+                                            quoterecord.firstname = dataClient.tcustomervs1[c].FirstName || '';
+                                            quoterecord.lastname = dataClient.tcustomervs1[c].LastName || '';
+                                            $('#edtCustomerEmail').val(dataClient.tcustomervs1[c].Email);
+                                            $('#edtCustomerEmail').attr('customerid', clientList[c].customerid);
+                                            $('#edtCustomerName').attr('custid', dataClient.tcustomervs1[c].Id);
+                                            $('#edtCustomerEmail').attr('customerfirstname', dataClient.tcustomervs1[c].FirstName);
+                                            $('#edtCustomerEmail').attr('customerlastname', dataClient.tcustomervs1[c].LastName);
+                                            $('#customerType').text(dataClient.tcustomervs1[c].ClientTypeName||'Default');
+                                            $('#customerDiscount').text(dataClient.tcustomervs1[c].Discount+'%'|| 0+'%');
+                                            $('#edtCustomerUseType').val(dataClient.tcustomervs1[c].ClientTypeName||'Default');
+                                            $('#edtCustomerUseDiscount').val(dataClient.tcustomervs1[c].Discount||0);
+                                        }
+
+                                        templateObject.clientrecords.set(clientList.sort(function (a, b) {
+                                            if (a.customername == 'NA') {
+                                                return 1;
+                                            } else if (b.customername == 'NA') {
+                                                return -1;
+                                            }
+                                            return (a.customername.toUpperCase() > b.customername.toUpperCase()) ? 1 : -1;
+                                        }));
+                                    });
+                                }
                             }, 100);
 
                             templateObject.quoterecord.set(quoterecord);
@@ -1846,6 +2116,7 @@ Template.new_quote.onRendered(() => {
                                         curTotalAmt: currencyAmountGbp || currencySymbol + '0',
                                         TaxTotal: TaxTotalGbp || 0,
                                         TaxRate: TaxRateGbp || 0,
+                                        DiscountPercent:data.fields.Lines[i].fields.DiscountPercent || 0
 
                                     };
                                     var dataListTable = [
@@ -1908,6 +2179,7 @@ Template.new_quote.onRendered(() => {
                                 shipToDesc: data.fields.ShipToDesc,
                                 termsName: data.fields.TermsName,
                                 Total: totalInc,
+                                TotalDiscount: totalDiscount,
                                 LineItems: lineItems,
                                 TotalTax: totalTax,
                                 SubTotal: subTotal,
@@ -1929,10 +2201,12 @@ Template.new_quote.onRendered(() => {
                                 }
                             }
 
+                            var checkISCustLoad = false;
                             setTimeout(function () {
                                 if (clientList) {
                                     for (var i = 0; i < clientList.length; i++) {
                                         if (clientList[i].customername == data.fields.CustomerName) {
+                                            checkISCustLoad = true;
                                             quoterecord.firstname = clientList[i].firstname || '';
                                             quoterecord.lastname = clientList[i].lastname || '';
                                             templateObject.quoterecord.set(quoterecord);
@@ -1940,9 +2214,58 @@ Template.new_quote.onRendered(() => {
                                             $('#edtCustomerEmail').attr('customerid', clientList[i].customerid);
                                             $('#edtCustomerEmail').attr('customerfirstname', clientList[i].firstname);
                                             $('#edtCustomerEmail').attr('customerlastname', clientList[i].lastname);
+                                            $('#customerType').text(clientList[i].clienttypename||'Default');
+                                            $('#customerDiscount').text(clientList[i].discount+'%'|| 0+'%');
+                                            $('#edtCustomerUseType').val(clientList[i].clienttypename||'Default');
+                                            $('#edtCustomerUseDiscount').val(clientList[i].discount||0);
                                         }
                                     }
                                 };
+
+                                if (!checkISCustLoad) {
+                                    sideBarService.getCustomersDataByName(useData[d].fields.CustomerName).then(function (dataClient) {
+                                          for (var c = 0; c < dataClient.tcustomervs1.length; c++) {
+                                            var customerrecordObj = {
+                                                customerid: dataClient.tcustomervs1[c].Id || ' ',
+                                                firstname: dataClient.tcustomervs1[c].FirstName || ' ',
+                                                lastname: dataClient.tcustomervs1[c].LastName || ' ',
+                                                customername: dataClient.tcustomervs1[c].ClientName || ' ',
+                                                customeremail: dataClient.tcustomervs1[c].Email || ' ',
+                                                street: dataClient.tcustomervs1[c].Street || ' ',
+                                                street2: dataClient.tcustomervs1[c].Street2 || ' ',
+                                                street3: dataClient.tcustomervs1[c].Street3 || ' ',
+                                                suburb: dataClient.tcustomervs1[c].Suburb || ' ',
+                                                statecode: dataClient.tcustomervs1[c].State + ' ' + dataClient.tcustomervs1[c].Postcode || ' ',
+                                                country: dataClient.tcustomervs1[c].Country || ' ',
+                                                termsName: dataClient.tcustomervs1[c].TermsName || '',
+                                                taxCode: dataClient.tcustomervs1[c].TaxCodeName || '',
+                                                clienttypename: dataClient.tcustomervs1[c].ClientTypeName || 'Default'
+                                            };
+                                            clientList.push(customerrecordObj);
+
+                                            quoterecord.firstname = dataClient.tcustomervs1[c].FirstName || '';
+                                            quoterecord.lastname = dataClient.tcustomervs1[c].LastName || '';
+                                            $('#edtCustomerEmail').val(dataClient.tcustomervs1[c].Email);
+                                            $('#edtCustomerEmail').attr('customerid', clientList[c].customerid);
+                                            $('#edtCustomerName').attr('custid', dataClient.tcustomervs1[c].Id);
+                                            $('#edtCustomerEmail').attr('customerfirstname', dataClient.tcustomervs1[c].FirstName);
+                                            $('#edtCustomerEmail').attr('customerlastname', dataClient.tcustomervs1[c].LastName);
+                                            $('#customerType').text(dataClient.tcustomervs1[c].ClientTypeName||'Default');
+                                            $('#customerDiscount').text(dataClient.tcustomervs1[c].Discount+'%'|| 0+'%');
+                                            $('#edtCustomerUseType').val(dataClient.tcustomervs1[c].ClientTypeName||'Default');
+                                            $('#edtCustomerUseDiscount').val(dataClient.tcustomervs1[c].Discount||0);
+                                        }
+
+                                        templateObject.clientrecords.set(clientList.sort(function (a, b) {
+                                            if (a.customername == 'NA') {
+                                                return 1;
+                                            } else if (b.customername == 'NA') {
+                                                return -1;
+                                            }
+                                            return (a.customername.toUpperCase() > b.customername.toUpperCase()) ? 1 : -1;
+                                        }));
+                                    });
+                                }
                             }, 100);
 
                             templateObject.quoterecord.set(quoterecord);
@@ -2054,6 +2377,7 @@ Template.new_quote.onRendered(() => {
                                 curTotalAmt: currencyAmountGbp || currencySymbol + '0',
                                 TaxTotal: TaxTotalGbp || 0,
                                 TaxRate: TaxRateGbp || 0,
+                                DiscountPercent:data.fields.Lines[i].fields.DiscountPercent || 0
 
                             };
                             var dataListTable = [
@@ -2116,6 +2440,7 @@ Template.new_quote.onRendered(() => {
                         shipToDesc: data.fields.ShipToDesc,
                         termsName: data.fields.TermsName,
                         Total: totalInc,
+                        TotalDiscount: totalDiscount,
                         LineItems: lineItems,
                         TotalTax: totalTax,
                         SubTotal: subTotal,
@@ -2138,10 +2463,12 @@ Template.new_quote.onRendered(() => {
                         }
                     }
 
+                    var checkISCustLoad = false;
                     setTimeout(function () {
                         if (clientList) {
                             for (var i = 0; i < clientList.length; i++) {
                                 if (clientList[i].customername == data.fields.CustomerName) {
+                                    checkISCustLoad = true;
                                     quoterecord.firstname = clientList[i].firstname || '';
                                     quoterecord.lastname = clientList[i].lastname || '';
                                     templateObject.quoterecord.set(quoterecord);
@@ -2149,10 +2476,59 @@ Template.new_quote.onRendered(() => {
                                     $('#edtCustomerEmail').attr('customerid', clientList[i].customerid);
                                     $('#edtCustomerEmail').attr('customerfirstname', clientList[i].firstname);
                                     $('#edtCustomerEmail').attr('customerlastname', clientList[i].lastname);
+                                    $('#customerType').text(clientList[i].clienttypename||'Default');
+                                    $('#customerDiscount').text(clientList[i].discount+'%'|| 0+'%');
+                                    $('#edtCustomerUseType').val(clientList[i].clienttypename||'Default');
+                                    $('#edtCustomerUseDiscount').val(clientList[i].discount||0);
 
                                 }
                             }
                         };
+
+                        if (!checkISCustLoad) {
+                            sideBarService.getCustomersDataByName(useData[d].fields.CustomerName).then(function (dataClient) {
+                                  for (var c = 0; c < dataClient.tcustomervs1.length; c++) {
+                                    var customerrecordObj = {
+                                        customerid: dataClient.tcustomervs1[c].Id || ' ',
+                                        firstname: dataClient.tcustomervs1[c].FirstName || ' ',
+                                        lastname: dataClient.tcustomervs1[c].LastName || ' ',
+                                        customername: dataClient.tcustomervs1[c].ClientName || ' ',
+                                        customeremail: dataClient.tcustomervs1[c].Email || ' ',
+                                        street: dataClient.tcustomervs1[c].Street || ' ',
+                                        street2: dataClient.tcustomervs1[c].Street2 || ' ',
+                                        street3: dataClient.tcustomervs1[c].Street3 || ' ',
+                                        suburb: dataClient.tcustomervs1[c].Suburb || ' ',
+                                        statecode: dataClient.tcustomervs1[c].State + ' ' + dataClient.tcustomervs1[c].Postcode || ' ',
+                                        country: dataClient.tcustomervs1[c].Country || ' ',
+                                        termsName: dataClient.tcustomervs1[c].TermsName || '',
+                                        taxCode: dataClient.tcustomervs1[c].TaxCodeName || '',
+                                        clienttypename: dataClient.tcustomervs1[c].ClientTypeName || 'Default'
+                                    };
+                                    clientList.push(customerrecordObj);
+
+                                    quoterecord.firstname = dataClient.tcustomervs1[c].FirstName || '';
+                                    quoterecord.lastname = dataClient.tcustomervs1[c].LastName || '';
+                                    $('#edtCustomerEmail').val(dataClient.tcustomervs1[c].Email);
+                                    $('#edtCustomerEmail').attr('customerid', clientList[c].customerid);
+                                    $('#edtCustomerName').attr('custid', dataClient.tcustomervs1[c].Id);
+                                    $('#edtCustomerEmail').attr('customerfirstname', dataClient.tcustomervs1[c].FirstName);
+                                    $('#edtCustomerEmail').attr('customerlastname', dataClient.tcustomervs1[c].LastName);
+                                    $('#customerType').text(dataClient.tcustomervs1[c].ClientTypeName||'Default');
+                                    $('#customerDiscount').text(dataClient.tcustomervs1[c].Discount+'%'|| 0+'%');
+                                    $('#edtCustomerUseType').val(dataClient.tcustomervs1[c].ClientTypeName||'Default');
+                                    $('#edtCustomerUseDiscount').val(dataClient.tcustomervs1[c].Discount||0);
+                                }
+
+                                templateObject.clientrecords.set(clientList.sort(function (a, b) {
+                                    if (a.customername == 'NA') {
+                                        return 1;
+                                    } else if (b.customername == 'NA') {
+                                        return -1;
+                                    }
+                                    return (a.customername.toUpperCase() > b.customername.toUpperCase()) ? 1 : -1;
+                                }));
+                            });
+                        }
                     }, 100);
 
                     templateObject.quoterecord.set(quoterecord);
@@ -2286,6 +2662,7 @@ Template.new_quote.onRendered(() => {
             shipToDesc: '',
             termsName: '',
             Total: Currency + '' + 0.00,
+            TotalDiscount: Currency + '' + 0.00,
             LineItems: lineItems,
             TotalTax: Currency + '' + 0.00,
             SubTotal: Currency + '' + 0.00,
@@ -2454,6 +2831,9 @@ Template.new_quote.onRendered(() => {
             $(".lineTaxRate", rowData).text("");
             $(".lineTaxCode", rowData).text("");
             $(".lineAmt", rowData).text("");
+            $(".lineTaxAmount", rowData).text("");
+            $(".lineDiscount", rowData).text("");
+            $(".lineProductName", rowData).attr("prodid", '');
             rowData.attr('id', tokenid);
             $("#tblQuoteLine tbody").append(rowData);
 
@@ -2469,6 +2849,9 @@ Template.new_quote.onRendered(() => {
                 rowData1.attr('id', tokenid);
                 $(".quote_print tbody").append(rowData1);
             }
+            setTimeout(function () {
+            $('#' + tokenid + " .lineProductName").trigger('click');
+          }, 200);
 
         });
 

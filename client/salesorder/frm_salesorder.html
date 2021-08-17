@@ -174,13 +174,11 @@
                             <select type="search" class="form-control" id="edtCustomerName" name="edtCustomerName" style="background-color:rgb(255, 255, 255); cursor: pointer;">
                             </select>
                         </div>
-                        <div class="custom-control custom-control-inline custom-switch d-xl-flex align-items-xl-center" style="padding: -2px;padding-left: 1px;width: 100%;">
-                            <div class="form-group" style="width:50%;">
-                                <label id="customerType" class="customerType"></label>
-                            </div>
-                            <div class="form-group" style="width:50%;">
-                                <label id="customerDiscount" class="customerDiscount"></label>
-                            </div>
+                        <div>
+                            <span id="customerType" name="customerType" class="customerType" style="margin-left: 2px;color: #17a673;"></span>
+                            <input type="hidden" class="form-control pointer" id="edtCustomerUseType" name="edtCustomerUseType" value="">
+                            <span id="customerDiscount" name="customerDiscount" class="customerDiscount" style="color: #17a673;"></span>
+                            <input type="hidden" class="form-control pointer" id="edtCustomerUseDiscount" name="edtCustomerUseDiscount" value="0">
                         </div>
                     </div>
                 </div>
@@ -749,30 +747,29 @@
                                     <th class="th colTaxCode " style="width: 95px; text-align: left!important;">Tax Code</th>
                                     <th class="th colTaxAmount " style="width: 95px; text-align: left!important;">Tax Amt</th>
                                     <th class="th colAmount " style="width: 110px; text-align: left!important;">Amount</th>
+                                    <th class="th colDiscount hiddenColumn" style="width: 110px; text-align: left!important;">Discount %</th>
                                     <!-- <th class="th">Tax Price</th> -->
                                     <th class="th" style="width: 25px;"></th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {{#each item in salesorderrecord.LineItems}}
+
                                 <tr class="dnd-moved" id={{item.lineID}}>
-                                    <td contenteditable="false" class="lineProductName colProductName pointer">{{item.item}}</td>
+                                    <td contenteditable="false" class="lineProductName colProductName pointer" prodid=' '>{{item.item}}</td>
                                     <td contenteditable="true" class="lineProductDesc colDescription">{{item.description}}</td>
-
+                                    <!--                                    <td contenteditable="true" class="lineQty colQty" style="text-align: right!important;" type="number">{{item.quantity}}</td>-->
                                     <td><input class="lineQty colQty highlightInput" type="number" value="{{item.quantity}}"></td>
+                                    <!--                                    <td contenteditable="true" class="lineUnitPrice colUnitPrice" style="text-align: right!important;">{{item.unitPrice}}</td>-->
                                     <td><input class="lineUnitPrice colUnitPrice highlightInput" type="text" value="{{item.unitPrice}}"></td>
+                                    <!--                                    <td contenteditable="true" class="lineCostPrice colCostPrice hiddenColumn" style="text-align: right!important;">{{item.lineCost}}</td>-->
                                     <td class="hiddenColumn"><input class="lineCostPrice colCostPrice highlightInput" type="text" value="{{item.lineCost}}"></td>
-
-                                    <!--
-<td contenteditable="true" class="lineQty colQty" style="text-align: right!important;" type="number">{{item.quantity}}</td>
-<td contenteditable="true" class="lineUnitPrice colUnitPrice" style="text-align: right!important;">{{item.unitPrice}}</td>
-<td contenteditable="true" class="lineCostPrice colCostPrice hiddenColumn" style="text-align: right!important;">{{item.lineCost}}</td>
--->
                                     <td contenteditable="true" class="lineSalesLinesCustField1 colSalesLinesCustField1 hiddenColumn">{{item.SalesLinesCustField1}}</td>
                                     <td contenteditable="false" class="lineTaxRate colTaxRate pointer hiddenColumn" style="text-align: right!important;">{{item.taxRate}}</td>
                                     <td contenteditable="false" class="lineTaxCode colTaxCode pointer" style=" ">{{item.taxCode}}</td>
                                     <td contenteditable="false" class="lineTaxAmount colTaxAmount pointer" style="text-align: right!important;cursor: pointer;">{{item.TaxTotal}}</td>
                                     <td contenteditable="false" class="lineAmt colAmount" style="text-align: right!important;">{{item.TotalAmt}}</td>
+                                    <td contenteditable="false" class="lineDiscount colDiscount hiddenColumn" style="text-align: right!important;">{{item.DiscountPercent}}</td>
                                     <td><span class="table-remove btnRemove"><button type="button" class="btn btn-danger btn-rounded btn-sm my-0 "><i class="fa fa-remove"></i></button></span></td>
                                 </tr>
                                 {{/each}}
@@ -836,12 +833,12 @@ style="margin: 16px;margin-top: 0px;width: 95px;"><i class="fa fa-remove" style=
                     <div style="float: right;">
                         <div class="d-flex d-xl-flex flex-row justify-content-xl-end align-items-xl-center">
                             <div class="d-xl-flex flex-column justify-content-xl-end align-items-xl-end">
-                                <!-- <p class="lead" style="font-size: 25px; font-weight: 500; margin: 0px; color: #696969;">Discount</p> -->
+                                <p class="lead" style="font-size: 25px; font-weight: 500; margin: 0px; color: #696969;">Discount</p>
                                 <p class="lead" style="font-size: 25px; font-weight: 500; margin: 0px; color: #696969;">Subtotal</p>
                                 <p class="lead" style="font-size: 25px; margin: 0px; font-weight: 500; color: #696969;">Tax</p>
                             </div>
                             <div class="d-xl-flex flex-column justify-content-xl-end align-items-xl-end" style="padding-left: 20px;">
-                                <!-- <p class="lead" style="font-size: 25px; font-weight: 500; margin: 0px; color: #696969;" id="subtotal_discount" name="subtotal_discount">%</p> -->
+                                <p class="lead" style="font-size: 25px; font-weight: 500; margin: 0px; color: #696969;" id="subtotal_discount" name="subtotal_discount">{{salesorderrecord.TotalDiscount}}</p>
                                 <p class="lead" style="font-size: 25px; font-weight: 500; margin: 0px; color: #696969;" id="subtotal_total" name="subtotal_total">{{salesorderrecord.SubTotal}}</p>
                                 <p class="lead" style="font-size: 25px; margin: 0px; font-weight: 500; color: #696969;" id="subtotal_tax" name="subtotal_tax">{{salesorderrecord.TotalTax}}</p>
                             </div>
@@ -1316,11 +1313,11 @@ style="margin: 16px;margin-top: 0px;width: 95px;"><i class="fa fa-remove" style=
             {{> taxratelistpop}}
         </div>
         <!-- End Modal Tax Rate -->
-        
+
         <div class="modal fade" role="dialog" tabindex="-1" id="newProductModal">
             {{> newproductpop}}
         </div>
-        
+
         <div class="modal fade" role="dialog" tabindex="-1" id="addCustomerModal">
             {{> addcustomerpop}}
         </div>

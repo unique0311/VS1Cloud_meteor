@@ -1564,7 +1564,7 @@ $("#erplogin-button").click(async function(e){
                          dataReturnRes.ProcessLog.VS1UserName = userLoginEmail;
                          var ERPIPAdderess= "";
                          if(dataReturnRes.ProcessLog.ServerName == "110.142.175.245"){
-                           ERPIPAdderess= "www.login.vs1cloud.com";
+                           ERPIPAdderess= ERPDatabaseIPAdderess;
                          }else if(dataReturnRes.ProcessLog.ServerName == "59.154.69.210"){
                            ERPIPAdderess= "gardenscapes.vs1cloud.com";
                          }else{
@@ -2214,7 +2214,7 @@ $("#erplogin-button").click(async function(e){
 
          var ERPIPAdderess= "";
          if(dataReturnRes.ProcessLog.ServerName == "110.142.175.245"){
-           ERPIPAdderess= "www.login.vs1cloud.com";
+           ERPIPAdderess= ERPDatabaseIPAdderess;
          }else if(dataReturnRes.ProcessLog.ServerName == "59.154.69.210"){
            ERPIPAdderess= "gardenscapes.vs1cloud.com";
          }else{
@@ -2709,7 +2709,7 @@ $("#erplogin-button").click(async function(e){
                          dataReturnRes.ProcessLog.VS1UserName = userLoginEmail;
                          var ERPIPAdderess= "";
                          if(dataReturnRes.ProcessLog.ServerName == "110.142.175.245"){
-                           ERPIPAdderess= "www.login.vs1cloud.com";
+                           ERPIPAdderess= ERPDatabaseIPAdderess;
                          }else if(dataReturnRes.ProcessLog.ServerName == "59.154.69.210"){
                            ERPIPAdderess= "gardenscapes.vs1cloud.com";
                          }else{
@@ -3390,7 +3390,7 @@ $("#erplogin-button").click(async function(e){
                                dataReturnRes.ProcessLog.VS1UserName = userLoginEmail;
                                var ERPIPAdderess= "";
                                if(dataReturnRes.ProcessLog.ServerName == "110.142.175.245"){
-                                 ERPIPAdderess= "www.login.vs1cloud.com";
+                                 ERPIPAdderess= ERPDatabaseIPAdderess;
                                }else if(dataReturnRes.ProcessLog.ServerName == "59.154.69.210"){
                                  ERPIPAdderess= "gardenscapes.vs1cloud.com";
                                }else{
@@ -4115,7 +4115,7 @@ $("#erplogin-button").click(async function(e){
                              dataReturnRes.ProcessLog.VS1UserName = userLoginEmail;
                              var ERPIPAdderess= "";
                              if(dataReturnRes.ProcessLog.ServerName == "110.142.175.245"){
-                               ERPIPAdderess= "www.login.vs1cloud.com";
+                               ERPIPAdderess= ERPDatabaseIPAdderess;
                              }else if(dataReturnRes.ProcessLog.ServerName == "59.154.69.210"){
                                ERPIPAdderess= "gardenscapes.vs1cloud.com";
                              }else{

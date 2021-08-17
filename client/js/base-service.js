@@ -37,20 +37,13 @@ export class BaseService{
         let getResponse = "You have lost internet connection, please log out and log back in.";
         return getResponse;
       }else{
-
         if (response.statusCode === 200) {
             try {
 
-
-
-
             var content = JSON.parse(response.content);
-
-
                 return content;
             }
             catch (e) {
-
             }
         } else {
             return response.headers.errormessage;
@@ -65,7 +58,21 @@ export class BaseService{
             HTTP.get(that.getBaseUrl() + url, { headers : that.getHeaders()}, function(err, response){
                 var data = that.responseHandler(url, response);
                 if(err || !data){
+                  this.erpGet = erpDb();
+                  if(this.erpGet.ERPIPAddress === ERPDatabaseIPAdderess){
+                    HTTP.get(URLRequest + ReplicaERPDatabaseIPAdderess + url, { headers : that.getHeaders()}, function(err, response){
+                        var data = that.responseHandler(url, response);
+                        if(err || !data){
+                            reject(err);
+                        }
+                        if(data){
+                            resolve(data);
+                        }
+                    });
+                  }else{
                     reject(err);
+                  }
+
                 }
                 if(data){
                     resolve(data);
@@ -100,7 +107,20 @@ export class BaseService{
             HTTP.post(that.getBaseUrl() + url, {headers: that.getPostHeaders(), data: data}, function (err, response) {
                 let data = that.responseHandler(url, response);
                 if(err){
+                  this.erpGet = erpDb();
+                    if(this.erpGet.ERPIPAddress === ERPDatabaseIPAdderess){
+                    HTTP.post(URLRequest + ReplicaERPDatabaseIPAdderess + url, {headers: that.getPostHeaders(), data: data}, function (err, response) {
+                        let data = that.responseHandler(url, response);
+                        if(err){
+                            reject(data);
+                        } else{
+                            resolve(data);
+                        }
+                    });
+                   }else{
                     reject(data);
+                   }
+                    //reject(data);
                 } else{
                     resolve(data);
                 }
