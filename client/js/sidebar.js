@@ -3445,6 +3445,12 @@ Template.sidenav.events({
         let templateObject = Template.instance();
         templateObject.getSetSideNavFocus();
     },
+    'click #sidenavshipping': function(event) {
+        event.preventDefault();
+        Router.go('/vs1shipping');
+        let templateObject = Template.instance();
+        templateObject.getSetSideNavFocus();
+    },
     'click #closeCloudSidePanelMenu': function(event) {
         let templateObject = Template.instance();
         let empLoggedID = Session.get('mySessionEmployeeLoggedID');

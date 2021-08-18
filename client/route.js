@@ -998,6 +998,18 @@ Router.route('/employeetimeclock', {
     layoutTemplate: 'layout'
 });
 
+Router.route('/vs1shipping', {
+    name: 'vs1shipping',
+    template: 'vs1shipping',
+    layoutTemplate: 'layout'
+});
+
+Router.route('/shippingdocket', {
+    name: 'shippingdocket',
+    template: 'shippingdocket',
+    layoutTemplate: 'layout'
+});
+
 // Router.route('/settings/accesslevel', function(){
 //     this.render('accesslevel');
 // });

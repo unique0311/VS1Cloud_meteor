@@ -163,7 +163,8 @@
                 #collapse-10:after, #collapse-10::after,
                 #collapse-11:after, #collapse-11::after,
                 #collapse-12:after, #collapse-12::after,
-                #collapse-13:after, #collapse-13::after {
+                #collapse-13:after, #collapse-13::after,
+                #collapse-14:after, #collapse-14::after {
                     position: absolute;
                     top: 18px;
                     left: -10px;
@@ -542,10 +543,10 @@ overflow-y: scroll !important;
                         <!-- <div style="margin: 10px 20px;"><a class="text-white" href="/supplierawaitingbills" id="sidenavawaitingSPBill" name="sidenavawaitingSPBill" style="font-size: 16px;"><i class="fas fa-clock"></i><span> Awaiting Supplier Payments (Bill)</span></a></div> -->
                         <div style="margin: 10px 20px;"><a class="text-white"  id="sidenavcustomerP" name="sidenavcustomerP" style="font-size: 16px;"><i class="fas fa-hand-holding-usd"></i><span> Customer Payments</span></a></div>
                         <div style="margin: 10px 20px;"><a class="text-white"  id="sidenavsupplierP" name="sidenavsupplierP" style="font-size: 16px;"><i class="fas fa-comment-dollar"></i><span> Supplier Payments</span></a></div>
-                        
+
                         <div style="margin: 10px 20px;"><a class="text-white"  id="sidenavnewcustomerP" name="sidenavnewcustomerP" style="font-size: 16px;"><i class="fas fa-plus"></i><span> New Customer Payment</span></a></div>
                         <div style="margin: 10px 20px;"><a class="text-white"  id="sidenavnewsupplierP" name="sidenavnewsupplierP" style="font-size: 16px;"><i class="fas fa-plus"></i><span> New Supplier Payment</span></a></div>
-                        
+
                         <div style="margin: 10px 20px;"><a class="text-white"  id="sidenavstatementlist2" name="sidenavstatementlist2" style="font-size: 16px;"><i class="fa fa-print"></i><span> Statements</span></a></div>
                     </div>
                 </li>
@@ -694,6 +695,12 @@ overflow-y: scroll !important;
                     </div>
                 </li>
                 {{/if}}
+
+                <!-- <li class="nav-item hoverSideNavShipping" role="presentation">
+                    <a class="nav-link sidenavshipping" id="sidenavshipping" name="sidenavshipping" data-toggle="collapse" aria-expanded="false" aria-controls="collapse-14" href="#collapse-14" role="button">
+                        <i class="fas fa-shipping-fast"></i><span>Shipping</span>
+                    </a>
+                </li> -->
 
                 <!-- Settings -->
                 {{#if includeSettings}}
