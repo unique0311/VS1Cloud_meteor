@@ -11,6 +11,8 @@ import 'jQuery.print/jQuery.print.js';
 import { autoTable } from 'jspdf-autotable';
 let sideBarService = new SideBarService();
 let utilityService = new UtilityService();
+
+let statementMailObj = {};
 Template.statementlist.onCreated(function () {
     const templateObject = Template.instance();
     templateObject.datatablerecords = new ReactiveVar([]);
@@ -20,7 +22,8 @@ Template.statementlist.onCreated(function () {
     templateObject.multiplepdfemail = new ReactiveVar([]);
     templateObject.pdfData = new ReactiveVar([]);
     templateObject.accountID = new ReactiveVar();
-    templateObject.stripe_fee_method = new ReactiveVar()
+    templateObject.stripe_fee_method = new ReactiveVar();
+
 });
 
 Template.statementlist.onRendered(function () {
@@ -92,8 +95,7 @@ Template.statementlist.onRendered(function () {
         let stripe_fee = Session.get('vs1companyStripeFeeMethod') || 'apply';
         templateObject.accountID.set(account_id);
         templateObject.stripe_fee_method.set(stripe_fee);
-        }
-
+    }
 
     templateObject.getOrganisationDetails();
     templateObject.getStatePrintData = async function (clientID) {
@@ -166,7 +168,7 @@ Template.statementlist.onRendered(function () {
                 for (let l = 0; l < lineItems.length; l++) {
                     stringQuery = stringQuery + "product" + l + "=" + lineItems[l].type + "&price" + l + "=" + lineItems[l].balance + "&qty" + l + "=" + 1 + "&"; ;
                 }
-                stringQuery = stringQuery + "tax=0" +  "&total=" + closingbalance + "&customer=" + customerName + "&name=" + customerName + "&surname=" + customerName +"&quoteid=" + invoiceId + "&transid=" + stripe_id+"&feemethod="+stripe_fee_method+"&company=" + company + "&vs1email=" + vs1User + "&customeremail=" + email + "&type=Statement&url=" + window.location.href + "&server=" + erpGet.ERPIPAddress + "&username=" + erpGet.ERPUsername + "&token=" + erpGet.ERPPassword + "&session=" + erpGet.ERPDatabase + "&port=" + erpGet.ERPPort + "&dept=" + dept;
+                stringQuery = stringQuery + "tax=0" + "&total=" + closingbalance + "&customer=" + customerName + "&name=" + customerName + "&surname=" + customerName + "&quoteid=" + invoiceId + "&transid=" + stripe_id + "&feemethod=" + stripe_fee_method + "&company=" + company + "&vs1email=" + vs1User + "&customeremail=" + email + "&type=Statement&url=" + window.location.href + "&server=" + erpGet.ERPIPAddress + "&username=" + erpGet.ERPUsername + "&token=" + erpGet.ERPPassword + "&session=" + erpGet.ERPDatabase + "&port=" + erpGet.ERPPort + "&dept=" + dept;
             }
 
             var currentDate = new Date();
@@ -187,38 +189,36 @@ Template.statementlist.onRendered(function () {
             };
 
             templateObject.statmentprintrecords.set(statmentrecord);
-           
-                    $(".linkText").text('Pay Now');
-                    $(".linkText").attr("href", "https://www.depot.vs1cloud.com/stripe/" + stringQuery);
-                    var source = document.getElementById('printstatmentdesign');
 
+            $(".linkText").text('Pay Now');
+            $(".linkText").attr("href", "https://www.depot.vs1cloud.com/stripe/" + stringQuery);
+            var source = document.getElementById('printstatmentdesign');
 
-                    let file = "Customer Statement.pdf";
-                    var opt = {
-                        margin: 0,
-                        filename: file,
-                        image: {
-                            type: 'jpeg',
-                            quality: 0.98
-                        },
-                        html2canvas: {
-                            scale: 2
-                        },
-                        jsPDF: {
-                            unit: 'in',
-                            format: 'a4',
-                            orientation: 'portrait'
-                        }
-                    };
-                    setTimeout(function () {
-                    html2pdf().set(opt).from(source).save().then(function (dataObject){
-                        $('.fullScreenSpin').css('display', 'none');
-                        $('#printstatmentdesign').css('display', 'none');
-                    });
+            let file = "Customer Statement.pdf";
+            var opt = {
+                margin: 0,
+                filename: file,
+                image: {
+                    type: 'jpeg',
+                    quality: 0.98
+                },
+                html2canvas: {
+                    scale: 2
+                },
+                jsPDF: {
+                    unit: 'in',
+                    format: 'a4',
+                    orientation: 'portrait'
+                }
+            };
+            setTimeout(function () {
+                html2pdf().set(opt).from(source).save().then(function (dataObject) {
+                    $('.fullScreenSpin').css('display', 'none');
+                    $('#printstatmentdesign').css('display', 'none');
+                });
 
-                }, 100);
+            }, 100);
 
-            
         }
 
         //});
@@ -226,11 +226,11 @@ Template.statementlist.onRendered(function () {
 
     templateObject.getStatementPdfData = function (clientID) {
         //getOneInvoicedata
-
+        let objectData = {};
+        let objectDataArray = []
         //contactService.getCustomerStatementPrintData(clientID).then(function (data) {
 
-
-               return new Promise((resolve, reject) => {
+        return new Promise((resolve, reject) => {
             contactService.getCustomerStatementPrintData(clientID).then(function (data) {
                 let lineItems = [];
                 let lineItemObj = {};
@@ -295,7 +295,8 @@ Template.statementlist.onRendered(function () {
                         for (let l = 0; l < lineItems.length; l++) {
                             stringQuery = stringQuery + "product" + l + "=" + lineItems[l].type + "&price" + l + "=" + lineItems[l].balance + "&qty" + l + "=" + 1 + "&";
                         }
-                        stringQuery = stringQuery + "tax=0" + "&total=" + closingbalance + "&customer=" + customerName  + "&name=" + customerName + "&surname=" + customerName + "&quoteid=" + invoiceId + "&transid=" + stripe_id+"&feemethod="+stripe_fee_method+"&company=" + company + "&vs1email=" + vs1User + "&customeremail=" + email + "&type=Statement&url=" + window.location.href + "&server=" + erpGet.ERPIPAddress + "&username=" + erpGet.ERPUsername + "&token=" + erpGet.ERPPassword + "&session=" + erpGet.ERPDatabase + "&port=" + erpGet.ERPPort + "&dept=" + dept;
+                        stringQuery = stringQuery + "tax=0" + "&total=" + closingbalance + "&customer=" + customerName + "&name=" + customerName + "&surname=" + customerName + "&quoteid=" + invoiceId + "&transid=" + stripe_id + "&feemethod=" + stripe_fee_method + "&company=" + company + "&vs1email=" + vs1User + "&customeremail=" + email + "&type=Statement&url=" + window.location.href + "&server=" + erpGet.ERPIPAddress + "&username=" + erpGet.ERPUsername + "&token=" + erpGet.ERPPassword + "&session=" + erpGet.ERPDatabase + "&port=" + erpGet.ERPPort + "&dept=" + dept;
+                        $(".linkText").attr("href", "https://www.depot.vs1cloud.com/stripe/" + stringQuery);
                     }
 
                     var currentDate = new Date();
@@ -316,44 +317,47 @@ Template.statementlist.onRendered(function () {
                     };
                     templateObject.statmentprintrecords.set(statmentrecord);
                     if (templateObject.statmentprintrecords.get()) {
-                         if (balance > 0) {
+                        if (balance > 0) {
                             $('.link').css('display', 'block');
                             $('.linklabel').css('display', 'block');
-                         }  else {
+                        } else {
                             $('.link').css('display', 'none');
                             $('.linklabel').css('display', 'none');
                         }
-                        $('#printstatmentdesign').css('display', 'inline-block');
-                        var pdf = new jsPDF('p', 'pt', 'a4');
-                        setTimeout(function () {
-                            pdf.setFontSize(18);
-                            var source = document.getElementById('printstatmentdesign');
-                            pdf.addHTML(source, function () {
-                                if (balance > 0) {
-                                    $('.link').css('display', 'block');
-                                    $('.linklabel').css('display', 'block');
-                                    pdf.setFontSize(10);
-                                    pdf.setTextColor(255, 255, 255);
-                                    pdf.textWithLink('Pay Now', 480, 96, {
-                                        url: 'https://www.depot.vs1cloud.com/stripe/' + stringQuery
-                                    });
-                                }
-                                $('#printstatmentdesign').css('display', 'none');
-                                if (email != "") {
-                                    object = {
-                                        Id: statementId,
-                                        customer_name: customerName,
-                                        pdfObj: pdf.output('blob'),
-                                        openingBalance: openingbalance,
-                                        email: email,
-                                        link: stringQuery
-                                    }
-                                }
-                                resolve(object);
-                            });
-                        }, 2500);
-                    }
+                        let file = "Invoice-" + invoiceId + ".pdf"
+                            let templateObject = Template.instance();
+                        let completeTabRecord;
 
+                        setTimeout(function () {
+                            var source = document.getElementById('printstatmentdesign');
+                            var opt1 = {
+                                margin: 0,
+                                filename: file,
+                                image: {
+                                    type: 'jpeg',
+                                    quality: 0.98
+                                },
+                                html2canvas: {
+                                    scale: 2
+                                },
+                                jsPDF: {
+                                    unit: 'in',
+                                    format: 'a4',
+                                    orientation: 'portrait'
+                                }
+                            };
+                            statementMailObj = {
+                                Id: statementId,
+                                customer_name: customerName,
+                                openingBalance: openingbalance,
+                                email: email,
+                                link: stringQuery
+                            };
+                            //$('#printstatmentdesign').css('display', 'none');
+                            resolve(html2pdf().set(opt1).from(source).toPdf().output('datauristring'))
+                        }, 2000);
+
+                    }
                 }
 
             });
@@ -985,15 +989,7 @@ Template.statementlist.onRendered(function () {
 
         let doc = new jsPDF();
         for (let j = 0; j < listIds.length; j++) {
-           // $('#printstatmentdesign').css('display', 'block');
-            // $('#printstatmentdesign').css('visibility','hidden');
-
-            //setTimeout(function () {
             await templateObject.getStatePrintData(listIds[j]);
-            // $('#printstatmentdesign').css('display', 'none');
-            // let data = await contactService.getOneCustomerData(listIds[j]);
-
-            //}, 100);
         }
     }
 
@@ -1001,13 +997,16 @@ Template.statementlist.onRendered(function () {
         let multiPDF = [];
         let doc = new jsPDF();
         for (let j = 0; j < listIds.length; j++) {
-            $('#printstatmentdesign').css('display', 'block');
-            $('.linkText').text('');
-            $('.link').show();
-            let data = await templateObject.getStatementPdfData(listIds[j])
-                multiPDF.push(data);
-
-            //}, 100);
+            let data = await templateObject.getStatementPdfData(listIds[j]);
+            let object = {
+                Id: statementMailObj.Id,
+                customer_name: statementMailObj.customer_name,
+                pdfObj: data,
+                openingBalance: statementMailObj.openingBalance,
+                email: statementMailObj.email,
+                link: statementMailObj.link
+            }
+            multiPDF.push(object);
         }
         return multiPDF;
     }
@@ -1222,7 +1221,7 @@ Template.statementlist.events({
 
     },
     'click .btnRefresh': function () {
-      $('.fullScreenSpin').css('display', 'inline-block');
+        $('.fullScreenSpin').css('display', 'inline-block');
         sideBarService.getAllCustomerStatementData().then(function (data) {
             addVS1Data('TStatementList', JSON.stringify(data)).then(function (datareturn) {
                 window.open('/statementlist', '_self');
@@ -1242,6 +1241,7 @@ Template.statementlist.events({
     },
     'click #emailbtn': async function () {
         $('.fullScreenSpin').css('display', 'inline-block');
+        $('#printstatmentdesign').css('display', 'block');
         let templateObject = Template.instance();
         let listIds = [];
         $('.chkBox').each(function () {
@@ -1251,7 +1251,7 @@ Template.statementlist.events({
             } else {}
         });
 
-                if (listIds != '') {
+        if (listIds != '') {
             data = await templateObject.emailMultipleStatementPdf(listIds);
             customerData = templateObject.statmentprintrecords.get();
             async function addAttachment() {
@@ -1262,7 +1262,7 @@ Template.statementlist.events({
                 for (let x = 0; x < data.length; x++) {
 
                     if (data[x].pdfObj != undefined || data[x].pdfObj != null) {
-                        let base64data = await templateObject.base64data(data[x].pdfObj);
+                        let base64data = data[x].pdfObj;
                         // setTimeout(function() {
                         base64data = base64data.split(',')[1];
                         pdfObject = {
@@ -1346,10 +1346,12 @@ Template.statementlist.events({
                                 attachments: attachmentIndex
                             }, function (error, result) {
                                 $('.fullScreenSpin').css('display', 'none');
+                                $('#printstatmentdesign').css('display', 'none');
                                 if (error && error.error === "error") {
                                     // window.open('/statementlist', '_self');
                                 } else {
                                     $('.fullScreenSpin').css('display', 'none');
+                                    $('#printstatmentdesign').css('display', 'none');
                                     swal({
                                         title: 'SUCCESS',
                                         text: "Email Sent To User " + data[x].email,
@@ -1366,6 +1368,7 @@ Template.statementlist.events({
                             });
                         } else {
                             $('.fullScreenSpin').css('display', 'none');
+                            $('#printstatmentdesign').css('display', 'none');
                             swal({
                                 title: 'WARNING',
                                 text: "Customer Does Not Have a Email Address, Please Add One for This Customer ",
@@ -1442,6 +1445,9 @@ Template.statementlist.helpers({
     },
     statmentprintrecords: () => {
         return Template.instance().statmentprintrecords.get();
+    },
+    statmentemailrecords: () => {
+        return Template.instance().statmentemailrecords.get();
     },
     companyname: () => {
         return loggedCompany;
