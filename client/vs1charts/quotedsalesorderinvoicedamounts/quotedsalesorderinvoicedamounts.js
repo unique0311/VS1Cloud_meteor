@@ -198,7 +198,7 @@ Template.quotedsalesorderinvoicedamounts.onRendered(()=>{
                 type: 'line',
                 data: {
                 labels: [
-                 prevMonth7,
+                 //prevMonth7,
                  prevMonth6,
                  prevMonth5,
                  prevMonth4,
@@ -212,7 +212,7 @@ Template.quotedsalesorderinvoicedamounts.onRendered(()=>{
                   "label":"Quotes",
                   "fill":true,
                   "data":[
-                     totalQuotePayment8,
+                     //totalQuotePayment8,
                      totalQuotePayment7,
                      totalQuotePayment6,
                      totalQuotePayment5,
@@ -228,7 +228,7 @@ Template.quotedsalesorderinvoicedamounts.onRendered(()=>{
                   "label":"Sales Orders",
                   "fill":true,
                   "data":[
-                     totalSOPayment8,
+                     //totalSOPayment8,
                      totalSOPayment7,
                      totalSOPayment6,
                      totalSOPayment5,
@@ -244,7 +244,7 @@ Template.quotedsalesorderinvoicedamounts.onRendered(()=>{
                   "label":"Invoices",
                   "fill":true,
                   "data":[
-                     totalInvPayment8,
+                     //totalInvPayment8,
                      totalInvPayment7,
                      totalInvPayment6,
                      totalInvPayment5,
@@ -430,7 +430,7 @@ Template.quotedsalesorderinvoicedamounts.onRendered(()=>{
           type: 'line',
           data: {
           labels: [
-           prevMonth7,
+           //prevMonth7,
            prevMonth6,
            prevMonth5,
            prevMonth4,
@@ -444,7 +444,7 @@ Template.quotedsalesorderinvoicedamounts.onRendered(()=>{
             "label":"Quotes",
             "fill":true,
             "data":[
-               totalQuotePayment8,
+               //totalQuotePayment8,
                totalQuotePayment7,
                totalQuotePayment6,
                totalQuotePayment5,
@@ -460,7 +460,7 @@ Template.quotedsalesorderinvoicedamounts.onRendered(()=>{
             "label":"Sales Orders",
             "fill":true,
             "data":[
-               totalSOPayment8,
+               //totalSOPayment8,
                totalSOPayment7,
                totalSOPayment6,
                totalSOPayment5,
@@ -476,7 +476,7 @@ Template.quotedsalesorderinvoicedamounts.onRendered(()=>{
             "label":"Invoices",
             "fill":true,
             "data":[
-               totalInvPayment8,
+               //totalInvPayment8,
                totalInvPayment7,
                totalInvPayment6,
                totalInvPayment5,
@@ -645,7 +645,7 @@ Template.quotedsalesorderinvoicedamounts.onRendered(()=>{
                 type: 'line',
                 data: {
                 labels: [
-                 prevMonth7,
+                 //prevMonth7,
                  prevMonth6,
                  prevMonth5,
                  prevMonth4,
@@ -659,7 +659,7 @@ Template.quotedsalesorderinvoicedamounts.onRendered(()=>{
                   "label":"Quotes",
                   "fill":true,
                   "data":[
-                     totalQuotePayment8,
+                     //totalQuotePayment8,
                      totalQuotePayment7,
                      totalQuotePayment6,
                      totalQuotePayment5,
@@ -675,7 +675,7 @@ Template.quotedsalesorderinvoicedamounts.onRendered(()=>{
                   "label":"Sales Orders",
                   "fill":true,
                   "data":[
-                     totalSOPayment8,
+                     //totalSOPayment8,
                      totalSOPayment7,
                      totalSOPayment6,
                      totalSOPayment5,
@@ -691,7 +691,7 @@ Template.quotedsalesorderinvoicedamounts.onRendered(()=>{
                   "label":"Invoices",
                   "fill":true,
                   "data":[
-                     totalInvPayment8,
+                     //totalInvPayment8,
                      totalInvPayment7,
                      totalInvPayment6,
                      totalInvPayment5,
