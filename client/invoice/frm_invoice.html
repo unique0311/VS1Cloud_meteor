@@ -835,13 +835,14 @@
                                             <th class="th colQty" style="width: 75px;">Qty</th>
                                         {{/if}}
                                         <th class="th colUnitPrice" style="width: 110px; text-align: left!important;">Unit Price</th>
+                                        <th class="th colDiscount" style="width: 110px; text-align: left!important;">Disc %</th>
                                         <th class="th colCostPrice thLinceCostPrice hiddenColumn" style="width: 110px; text-align: left!important;">Cost Price</th>
                                         <th class="th colSalesLinesCustField1 thSalesLinesCustField1 hiddenColumn" style="width: 110px;">SalesLinesCustField1</th>
                                         <th class="th colTaxRate hiddenColumn" style="width: 91px; text-align: left!important;">Tax Rate</th>
                                         <th class="th colTaxCode " style="width: 95px; text-align: left!important;">Tax Code</th>
                                         <th class="th colTaxAmount " style="width: 95px; text-align: left!important;">Tax Amt</th>
                                         <th class="th colAmount " style="width: 110px; text-align: left!important;">Amount</th>
-                                        <th class="th colDiscount hiddenColumn" style="width: 110px; text-align: left!important;">Discount %</th>
+
                                         <!-- <th class="th">Tax Price</th> -->
                                         <th class="th" style="width: 25px;"></th>
                                     </tr>
@@ -864,6 +865,7 @@
                                             {{/if}}
                                             <!--                                    <td contenteditable="true" class="lineUnitPrice colUnitPrice" style="text-align: right!important;">{{item.unitPrice}}</td>-->
                                             <td><input class="lineUnitPrice colUnitPrice highlightInput" type="text" value="{{item.unitPrice}}"></td>
+                                            <td contenteditable="false" class="lineDiscount colDiscount" style="text-align: right!important;">{{item.DiscountPercent}}</td>
                                             <!--                                    <td contenteditable="true" class="lineCostPrice colCostPrice hiddenColumn" style="text-align: right!important;">{{item.lineCost}}</td>-->
                                             <td class="hiddenColumn"><input class="lineCostPrice colCostPrice highlightInput" type="text" value="{{item.lineCost}}"></td>
                                             <td contenteditable="true" class="lineSalesLinesCustField1 colSalesLinesCustField1 hiddenColumn">{{item.SalesLinesCustField1}}</td>
@@ -871,7 +873,7 @@
                                             <td contenteditable="false" class="lineTaxCode colTaxCode pointer" style=" ">{{item.taxCode}}</td>
                                             <td contenteditable="false" class="lineTaxAmount colTaxAmount pointer" style="text-align: right!important;cursor: pointer;">{{item.TaxTotal}}</td>
                                             <td contenteditable="false" class="lineAmt colAmount" style="text-align: right!important;">{{item.TotalAmt}}</td>
-                                            <td contenteditable="false" class="lineDiscount colDiscount hiddenColumn" style="text-align: right!important;">{{item.DiscountPercent}}</td>
+
                                             <td><span class="table-remove btnRemove"><button type="button" class="btn btn-danger btn-rounded btn-sm my-0 "><i class="fa fa-remove"></i></button></span></td>
                                         </tr>
                                     {{/each}}

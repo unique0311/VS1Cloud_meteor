@@ -4447,7 +4447,7 @@ Template.new_invoice.onRendered(() => {
                     $('#customerDiscount').text(clientList[i].discount+'%'|| 0+'%');
                     $('#edtCustomerUseType').val(clientList[i].clienttypename||'Default');
                     $('#edtCustomerUseDiscount').val(clientList[i].discount||0);
-                    let postalAddress = clientList[i].customername + '\n' + clientList[i].street + '\n' + clientList[i].street2 + ' ' + clientList[i].statecode+ ' ' + clientList[i].statecode + '\n' + clientList[i].country;
+                    let postalAddress = clientList[i].customername + '\n' + clientList[i].street + '\n' + clientList[i].street2 + ' ' + clientList[i].statecode + '\n' + clientList[i].country;
                     $('#txabillingAddress').val(postalAddress);
                     $('#pdfCustomerAddress').html(postalAddress);
                     $('.pdfCustomerAddress').text(postalAddress);
