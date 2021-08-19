@@ -367,7 +367,7 @@ export class ContactService extends BaseService {
 
     getClientTypeData() {
         let options = {
-            PropertyList: "ID,TypeName,Description",
+            PropertyList: "ID,TypeName,TypeDescription",
             select: "[Active]=true"
         };
         return this.getList(this.ERPObjects.TClientType, options);
