@@ -212,6 +212,14 @@ export class ContactService extends BaseService {
       return this.getList(this.ERPObjects.TCustomer, options);
   }
 
+   getClientType() {
+        let options = {
+            PropertyList: "ID,TypeDescription,TypeName,Active",
+            select: "[Active]=true",
+        };
+        return this.getList(this.ERPObjects.TClientType, options);
+    }
+
   getAllCustomerSideDataVS1() {
       let options = {
           PropertyList: "ID,ClientName,IsJob,Active",
@@ -359,7 +367,8 @@ export class ContactService extends BaseService {
 
     getClientTypeData() {
         let options = {
-            PropertyList: "ID,TypeName,",
+            PropertyList: "ID,TypeName,Description",
+            select: "[Active]=true"
         };
         return this.getList(this.ERPObjects.TClientType, options);
     }

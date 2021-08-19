@@ -42,6 +42,9 @@ Template.settings.events({
 'click .btnCompanyAppSettings' : function(event){
  Router.go('/companyappsettings');
 },
+'click .btnCustomerType': function(event) {
+        Router.go('/clienttypesettings');
+},
 'click .btncurrenciesSettings' : function(event){
  Router.go('/currenciesSettings');
 },

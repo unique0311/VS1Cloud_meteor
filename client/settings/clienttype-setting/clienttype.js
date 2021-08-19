@@ -1,31 +1,36 @@
+import { ContactService } from "../../contacts/contact-service";
+import { SideBarService } from '../../js/sidebar-service';
 import {TaxRateService} from "../settings-service";
 import { ReactiveVar } from 'meteor/reactive-var';
 
-Template.clienttypesettings.onCreated(function(){
+let sideBarService = new SideBarService();
+Template.clienttypesettings.onCreated(function () {
     const templateObject = Template.instance();
     templateObject.datatablerecords = new ReactiveVar([]);
     templateObject.tableheaderrecords = new ReactiveVar([]);
     templateObject.employeerecords = new ReactiveVar([]);
     templateObject.deptrecords = new ReactiveVar();
     templateObject.roomrecords = new ReactiveVar([]);
+    templateObject.clienttypeList = new ReactiveVar();
 
     templateObject.departlist = new ReactiveVar([]);
 });
 
-Template.clienttypesettings.onRendered(function() {
-    $('.fullScreenSpin').css('display','inline-block');
+Template.clienttypesettings.onRendered(function () {
+    $('.fullScreenSpin').css('display', 'inline-block');
     let templateObject = Template.instance();
     let taxRateService = new TaxRateService();
+    let contactService = new ContactService();
+    let clientType = [];
     const dataTableList = [];
     const tableHeaderList = [];
     const deptrecords = [];
     let deptprodlineItems = [];
 
-    Meteor.call('readPrefMethod',Session.get('mycloudLogonID'),'clienttypeList', function(error, result){
-        if(error){
-
-        }else{
-            if(result){
+    Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'clienttypeList', function (error, result) {
+        if (error) {}
+        else {
+            if (result) {
                 for (let i = 0; i < result.customFields.length; i++) {
                     let customcolumn = result.customFields;
                     let columData = customcolumn[i].label;
@@ -34,8 +39,8 @@ Template.clienttypesettings.onRendered(function() {
                     let columnClass = columHeaderUpdate.split('.')[1];
                     let columnWidth = customcolumn[i].width;
 
-                    $("th."+columnClass+"").html(columData);
-                    $("th."+columnClass+"").css('width',""+columnWidth+"px");
+                    $("th." + columnClass + "").html(columData);
+                    $("th." + columnClass + "").css('width', "" + columnWidth + "px");
 
                 }
             }
@@ -44,8 +49,9 @@ Template.clienttypesettings.onRendered(function() {
     });
 
     function MakeNegative() {
-        $('td').each(function(){
-            if($(this).text().indexOf('-'+Currency) >= 0) $(this).addClass('text-danger')
+        $('td').each(function () {
+            if ($(this).text().indexOf('-' + Currency) >= 0)
+                $(this).addClass('text-danger')
         });
     };
 
@@ -59,7 +65,7 @@ Template.clienttypesettings.onRendered(function() {
                     empID: data.temployee[i].Id || ' ',
                     employeename: data.temployee[i].EmployeeName || ' '
                 };
-                if(data.temployee[i].EmployeeName.replace(/\s/g, '') != ''){
+                if (data.temployee[i].EmployeeName.replace(/\s/g, '') != '') {
                     employeeList.push(dataObj);
                 }
             }
@@ -68,186 +74,331 @@ Template.clienttypesettings.onRendered(function() {
     };
     templateObject.getAllEmployees();
 
-    templateObject.getTaxRates = function () {
-        taxRateService.getClientType().then(function (data) {
-            let lineItems = [];
-            let lineItemObj = {};
-            for(let i=0; i<data.tclienttype.length; i++){
-                // let taxRate = (data.tdeptclass[i].fields.Rate * 100).toFixed(2) + '%';
-                var dataList = {
-                    id: data.tclienttype[i].Id || '',
-                    typeName: data.tclienttype[i].TypeName || '-',
-                    description: data.tclienttype[i].TypeDescription || '-',
-                    status:data.tclienttype[i].Active || 'false',
+    templateObject.getClientTypeData = function () {
+        getVS1Data('TClientType').then(function (dataObject) {
+            if (dataObject.length == 0) {
+                contactService.getClientType().then(function (data) {
+                    let lineItems = [];
+                    let lineItemObj = {};
+                    for (let i = 0; i < data.tclienttype.length; i++) {
+                        // let taxRate = (data.tdeptclass[i].fields.Rate * 100).toFixed(2) + '%';
+                        var dataList = {
+                            id: data.tclienttype[i].Id || '',
+                            typeName: data.tclienttype[i].TypeName || '-',
+                            description: data.tclienttype[i].TypeDescription || '-',
+                            status: data.tclienttype[i].Active || 'false',
 
+                        };
 
-                };
+                        dataTableList.push(dataList);
+                        //}
+                    }
 
-                dataTableList.push(dataList);
-                //}
-            }
+                    templateObject.datatablerecords.set(dataTableList);
 
-            templateObject.datatablerecords.set(dataTableList);
+                    if (templateObject.datatablerecords.get()) {
 
-            if(templateObject.datatablerecords.get()){
+                        Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'clienttypeList', function (error, result) {
+                            if (error) {}
+                            else {
+                                if (result) {
+                                    for (let i = 0; i < result.customFields.length; i++) {
+                                        let customcolumn = result.customFields;
+                                        let columData = customcolumn[i].label;
+                                        let columHeaderUpdate = customcolumn[i].thclass.replace(/ /g, ".");
+                                        let hiddenColumn = customcolumn[i].hidden;
+                                        let columnClass = columHeaderUpdate.split('.')[1];
+                                        let columnWidth = customcolumn[i].width;
+                                        let columnindex = customcolumn[i].index + 1;
 
-                Meteor.call('readPrefMethod',Session.get('mycloudLogonID'),'clienttypeList', function(error, result){
-                    if(error){
+                                        if (hiddenColumn == true) {
 
-                    }else{
-                        if(result){
-                            for (let i = 0; i < result.customFields.length; i++) {
-                                let customcolumn = result.customFields;
-                                let columData = customcolumn[i].label;
-                                let columHeaderUpdate = customcolumn[i].thclass.replace(/ /g, ".");
-                                let hiddenColumn = customcolumn[i].hidden;
-                                let columnClass = columHeaderUpdate.split('.')[1];
-                                let columnWidth = customcolumn[i].width;
-                                let columnindex = customcolumn[i].index + 1;
+                                            $("." + columnClass + "").addClass('hiddenColumn');
+                                            $("." + columnClass + "").removeClass('showColumn');
+                                        } else if (hiddenColumn == false) {
+                                            $("." + columnClass + "").removeClass('hiddenColumn');
+                                            $("." + columnClass + "").addClass('showColumn');
+                                        }
 
-                                if(hiddenColumn == true){
-
-                                    $("."+columnClass+"").addClass('hiddenColumn');
-                                    $("."+columnClass+"").removeClass('showColumn');
-                                }else if(hiddenColumn == false){
-                                    $("."+columnClass+"").removeClass('hiddenColumn');
-                                    $("."+columnClass+"").addClass('showColumn');
+                                    }
                                 }
 
                             }
-                        }
+                        });
 
-                    }
-                });
-
-
-                setTimeout(function () {
-                    MakeNegative();
-                }, 100);
-            } else{
-
-            }
-
-            $('.fullScreenSpin').css('display','none');
-            setTimeout(function () {
-                $('#clienttypeList').DataTable({
-                    columnDefs: [
-                        {type: 'date', targets: 0},
-                        { "orderable": false, "targets": -1 }
-                    ],
-                    "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
-                    buttons: [
-                        {
-                            extend: 'excelHtml5',
-                            text: '',
-                            download: 'open',
-                            className: "btntabletocsv hiddenColumn",
-                            filename: "departmentlist_"+ moment().format(),
-                            orientation:'portrait',
-                            exportOptions: {
-                                columns: ':visible'
-                            }
-                        },{
-                            extend: 'print',
-                            download: 'open',
-                            className: "btntabletopdf hiddenColumn",
-                            text: '',
-                            title: 'Client Type List',
-                            filename: "departmentlist_"+ moment().format(),
-                            exportOptions: {
-                                columns: ':visible'
-                            }
-                        }],
-                    select: true,
-                    destroy: true,
-                    colReorder: true,
-                    colReorder: {
-                        fixedColumnsRight: 1
-                    },
-                    // bStateSave: true,
-                    // rowId: 0,
-                    pageLength: 25,
-                    lengthMenu: [ [10, 25, 50, -1], [10, 25, 50, "All"] ],
-                    info: true,
-                    responsive: true,
-                    "order": [[ 0, "asc" ]],
-                    action: function () {
-                        $('#clienttypeList').DataTable().ajax.reload();
-                    },
-                    "fnDrawCallback": function (oSettings) {
                         setTimeout(function () {
                             MakeNegative();
                         }, 100);
-                    },
+                    } else {}
 
-                }).on('page', function () {
+                    $('.fullScreenSpin').css('display', 'none');
+                    setTimeout(function () {
+                        $('#clienttypeList').DataTable({
+                            columnDefs: [{
+                                    type: 'date',
+                                    targets: 0
+                                }, {
+                                    "orderable": false,
+                                    "targets": -1
+                                }
+                            ],
+                            "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
+                            buttons: [{
+                                    extend: 'excelHtml5',
+                                    text: '',
+                                    download: 'open',
+                                    className: "btntabletocsv hiddenColumn",
+                                    filename: "departmentlist_" + moment().format(),
+                                    orientation: 'portrait',
+                                    exportOptions: {
+                                        columns: ':visible'
+                                    }
+                                }, {
+                                    extend: 'print',
+                                    download: 'open',
+                                    className: "btntabletopdf hiddenColumn",
+                                    text: '',
+                                    title: 'Client Type List',
+                                    filename: "departmentlist_" + moment().format(),
+                                    exportOptions: {
+                                        columns: ':visible'
+                                    }
+                                }
+                            ],
+                            select: true,
+                            destroy: true,
+                            colReorder: true,
+                            colReorder: {
+                                fixedColumnsRight: 1
+                            },
+                            // bStateSave: true,
+                            // rowId: 0,
+                            pageLength: 25,
+                            lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "All"]],
+                            info: true,
+                            responsive: true,
+                            "order": [[0, "asc"]],
+                            action: function () {
+                                $('#clienttypeList').DataTable().ajax.reload();
+                            },
+                            "fnDrawCallback": function (oSettings) {
+                                setTimeout(function () {
+                                    MakeNegative();
+                                }, 100);
+                            },
+
+                        }).on('page', function () {
+                            setTimeout(function () {
+                                MakeNegative();
+                            }, 100);
+                            let draftRecord = templateObject.datatablerecords.get();
+                            templateObject.datatablerecords.set(draftRecord);
+                        }).on('column-reorder', function () {}).on('length.dt', function (e, settings, len) {
+                            setTimeout(function () {
+                                MakeNegative();
+                            }, 100);
+                        });
+
+                        // $('#clienttypeList').DataTable().column( 0 ).visible( true );
+                        $('.fullScreenSpin').css('display', 'none');
+                    }, 0);
+
+                    var columns = $('#clienttypeList th');
+                    let sTible = "";
+                    let sWidth = "";
+                    let sIndex = "";
+                    let sVisible = "";
+                    let columVisible = false;
+                    let sClass = "";
+                    $.each(columns, function (i, v) {
+                        if (v.hidden == false) {
+                            columVisible = true;
+                        }
+                        if ((v.className.includes("hiddenColumn"))) {
+                            columVisible = false;
+                        }
+                        sWidth = v.style.width.replace('px', "");
+
+                        let datatablerecordObj = {
+                            sTitle: v.innerText || '',
+                            sWidth: sWidth || '',
+                            sIndex: v.cellIndex || '',
+                            sVisible: columVisible || false,
+                            sClass: v.className || ''
+                        };
+                        tableHeaderList.push(datatablerecordObj);
+                    });
+                    templateObject.tableheaderrecords.set(tableHeaderList);
+                    $('div.dataTables_filter input').addClass('form-control form-control-sm');
+
+                })
+            } else {
+                let data = JSON.parse(dataObject[0].data);
+                let useData = data.tclienttype;
+                let lineItems = [];
+                let lineItemObj = {};
+                for (let i = 0; i < useData.length; i++) {
+                    var dataList = {
+                        id: useData[i].Id || '',
+                        typeName: useData[i].TypeName || '-',
+                        description: useData[i].TypeDescription || '-',
+                        status: useData[i].Active || 'false',
+                    };
+
+                    dataTableList.push(dataList);
+                    //}
+                }
+
+                templateObject.datatablerecords.set(dataTableList);
+
+                if (templateObject.datatablerecords.get()) {
+
+                    Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'clienttypeList', function (error, result) {
+                        if (error) {}
+                        else {
+                            if (result) {
+                                for (let i = 0; i < result.customFields.length; i++) {
+                                    let customcolumn = result.customFields;
+                                    let columData = customcolumn[i].label;
+                                    let columHeaderUpdate = customcolumn[i].thclass.replace(/ /g, ".");
+                                    let hiddenColumn = customcolumn[i].hidden;
+                                    let columnClass = columHeaderUpdate.split('.')[1];
+                                    let columnWidth = customcolumn[i].width;
+                                    let columnindex = customcolumn[i].index + 1;
+
+                                    if (hiddenColumn == true) {
+
+                                        $("." + columnClass + "").addClass('hiddenColumn');
+                                        $("." + columnClass + "").removeClass('showColumn');
+                                    } else if (hiddenColumn == false) {
+                                        $("." + columnClass + "").removeClass('hiddenColumn');
+                                        $("." + columnClass + "").addClass('showColumn');
+                                    }
+
+                                }
+                            }
+
+                        }
+                    });
+
                     setTimeout(function () {
                         MakeNegative();
                     }, 100);
-                    let draftRecord = templateObject.datatablerecords.get();
-                    templateObject.datatablerecords.set(draftRecord);
-                }).on('column-reorder', function () {
+                } else {}
 
-                }).on( 'length.dt', function ( e, settings, len ) {
-                    setTimeout(function () {
-                        MakeNegative();
-                    }, 100);
+                $('.fullScreenSpin').css('display', 'none');
+                setTimeout(function () {
+                    $('#clienttypeList').DataTable({
+                        columnDefs: [{
+                                type: 'date',
+                                targets: 0
+                            }, {
+                                "orderable": false,
+                                "targets": -1
+                            }
+                        ],
+                        "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
+                        buttons: [{
+                                extend: 'excelHtml5',
+                                text: '',
+                                download: 'open',
+                                className: "btntabletocsv hiddenColumn",
+                                filename: "departmentlist_" + moment().format(),
+                                orientation: 'portrait',
+                                exportOptions: {
+                                    columns: ':visible'
+                                }
+                            }, {
+                                extend: 'print',
+                                download: 'open',
+                                className: "btntabletopdf hiddenColumn",
+                                text: '',
+                                title: 'Client Type List',
+                                filename: "departmentlist_" + moment().format(),
+                                exportOptions: {
+                                    columns: ':visible'
+                                }
+                            }
+                        ],
+                        select: true,
+                        destroy: true,
+                        colReorder: true,
+                        colReorder: {
+                            fixedColumnsRight: 1
+                        },
+                        // bStateSave: true,
+                        // rowId: 0,
+                        pageLength: 25,
+                        lengthMenu: [[25, -1], [25, "All"]],
+                        info: true,
+                        responsive: true,
+                        "order": [[0, "asc"]],
+                        action: function () {
+                            $('#clienttypeList').DataTable().ajax.reload();
+                        },
+                        "fnDrawCallback": function (oSettings) {
+                            setTimeout(function () {
+                                MakeNegative();
+                            }, 100);
+                        },
+
+                    }).on('page', function () {
+                        setTimeout(function () {
+                            MakeNegative();
+                        }, 100);
+                        let draftRecord = templateObject.datatablerecords.get();
+                        templateObject.datatablerecords.set(draftRecord);
+                    }).on('column-reorder', function () {}).on('length.dt', function (e, settings, len) {
+                        setTimeout(function () {
+                            MakeNegative();
+                        }, 100);
+                    });
+
+                    // $('#clienttypeList').DataTable().column( 0 ).visible( true );
+                    $('.fullScreenSpin').css('display', 'none');
+                }, 0);
+
+                var columns = $('#clienttypeList th');
+                let sTible = "";
+                let sWidth = "";
+                let sIndex = "";
+                let sVisible = "";
+                let columVisible = false;
+                let sClass = "";
+                $.each(columns, function (i, v) {
+                    if (v.hidden == false) {
+                        columVisible = true;
+                    }
+                    if ((v.className.includes("hiddenColumn"))) {
+                        columVisible = false;
+                    }
+                    sWidth = v.style.width.replace('px', "");
+
+                    let datatablerecordObj = {
+                        sTitle: v.innerText || '',
+                        sWidth: sWidth || '',
+                        sIndex: v.cellIndex || '',
+                        sVisible: columVisible || false,
+                        sClass: v.className || ''
+                    };
+                    tableHeaderList.push(datatablerecordObj);
                 });
-
-                // $('#clienttypeList').DataTable().column( 0 ).visible( true );
-                $('.fullScreenSpin').css('display','none');
-            }, 0);
-
-            var columns = $('#clienttypeList th');
-            let sTible = "";
-            let sWidth = "";
-            let sIndex = "";
-            let sVisible = "";
-            let columVisible = false;
-            let sClass = "";
-            $.each(columns, function(i,v) {
-                if(v.hidden == false){
-                    columVisible =  true;
-                }
-                if((v.className.includes("hiddenColumn"))){
-                    columVisible = false;
-                }
-                sWidth = v.style.width.replace('px', "");
-
-                let datatablerecordObj = {
-                    sTitle: v.innerText || '',
-                    sWidth: sWidth || '',
-                    sIndex: v.cellIndex || '',
-                    sVisible: columVisible || false,
-                    sClass: v.className || ''
-                };
-                tableHeaderList.push(datatablerecordObj);
-            });
-            templateObject.tableheaderrecords.set(tableHeaderList);
-            $('div.dataTables_filter input').addClass('form-control form-control-sm');
-
+                templateObject.tableheaderrecords.set(tableHeaderList);
+                $('div.dataTables_filter input').addClass('form-control form-control-sm');
+            }
         }).catch(function (err) {
-            swal({
-                title: 'Oooops...',
-                text: err,
-                type: 'error',
-                showCancelButton: false,
-                confirmButtonText: 'Try Again'
-            }).then((result) => {
-                if (result.value) {
-                    Meteor._reload.reload();
-                } else if (result.dismiss === 'cancel') {
-
-                }
-            });
-            $('.fullScreenSpin').css('display','none');
-            // Meteor._reload.reload();
+            console.log(err);
+            //  contactService.getClientType().then((data) => {
+            //     for (let i = 0; i < data.tclienttype.length; i++) {
+            //         dataTableList.push(data.tclienttype[i].fields.TypeName)
+            //     }
+            //     templateObject.datatablerecords.set(clientType);
+            // });
         });
     }
-    templateObject.getTaxRates();
+    templateObject.getClientTypeData();
 
-
-    $(document).on('click', '.table-remove', function() {
+    $(document).on('click', '.table-remove', function () {
         event.stopPropagation();
         event.stopPropagation();
         var targetID = $(event.target).closest('tr').attr('id'); // table row ID
@@ -263,9 +414,9 @@ Template.clienttypesettings.onRendered(function() {
         // }
     });
 
-    $('#clienttypeList tbody').on( 'click', 'tr .colDeptID, tr .colHeadDept, tr .colDeptName, tr .colStatus, tr .colDescription, tr .colSiteCode', function () {
+    $('#clienttypeList tbody').on('click', 'tr .colDeptID, tr .colHeadDept, tr .colDeptName, tr .colStatus, tr .colDescription, tr .colSiteCode', function () {
         var listData = $(this).closest('tr').attr('id');
-        if(listData){
+        if (listData) {
             $('#add-dept-title').text('Edit Client Type');
             if (listData !== '') {
                 listData = Number(listData);
@@ -311,43 +462,49 @@ Template.clienttypesettings.onRendered(function() {
     });
 });
 
-
 Template.clienttypesettings.events({
-    'click #btnNewInvoice':function(event){
+    'click #btnNewInvoice': function (event) {
         // Router.go('/invoicecard');
     },
-    'click .chkDatatable' : function(event){
+    'click .chkDatatable': function (event) {
         var columns = $('#clienttypeList th');
         let columnDataValue = $(event.target).closest("div").find(".divcolumn").text();
 
-        $.each(columns, function(i,v) {
+        $.each(columns, function (i, v) {
             let className = v.classList;
             let replaceClass = className[1];
 
-            if(v.innerText == columnDataValue){
-                if($(event.target).is(':checked')){
-                    $("."+replaceClass+"").css('display','table-cell');
-                    $("."+replaceClass+"").css('padding','.75rem');
-                    $("."+replaceClass+"").css('vertical-align','top');
-                }else{
-                    $("."+replaceClass+"").css('display','none');
+            if (v.innerText == columnDataValue) {
+                if ($(event.target).is(':checked')) {
+                    $("." + replaceClass + "").css('display', 'table-cell');
+                    $("." + replaceClass + "").css('padding', '.75rem');
+                    $("." + replaceClass + "").css('vertical-align', 'top');
+                } else {
+                    $("." + replaceClass + "").css('display', 'none');
                 }
             }
         });
     },
-    'click .resetTable' : function(event){
-        var getcurrentCloudDetails = CloudUser.findOne({_id:Session.get('mycloudLogonID'),clouddatabaseID:Session.get('mycloudLogonDBID')});
-        if(getcurrentCloudDetails){
+    'click .resetTable': function (event) {
+        var getcurrentCloudDetails = CloudUser.findOne({
+            _id: Session.get('mycloudLogonID'),
+            clouddatabaseID: Session.get('mycloudLogonDBID')
+        });
+        if (getcurrentCloudDetails) {
             if (getcurrentCloudDetails._id.length > 0) {
                 var clientID = getcurrentCloudDetails._id;
                 var clientUsername = getcurrentCloudDetails.cloudUsername;
                 var clientEmail = getcurrentCloudDetails.cloudEmail;
-                var checkPrefDetails = CloudPreference.findOne({userid:clientID,PrefName:'clienttypeList'});
+                var checkPrefDetails = CloudPreference.findOne({
+                    userid: clientID,
+                    PrefName: 'clienttypeList'
+                });
                 if (checkPrefDetails) {
-                    CloudPreference.remove({_id:checkPrefDetails._id}, function(err, idTag) {
-                        if (err) {
-
-                        }else{
+                    CloudPreference.remove({
+                        _id: checkPrefDetails._id
+                    }, function (err, idTag) {
+                        if (err) {}
+                        else {
                             Meteor._reload.reload();
                         }
                     });
@@ -356,17 +513,17 @@ Template.clienttypesettings.events({
             }
         }
     },
-    'click .saveTable' : function(event){
+    'click .saveTable': function (event) {
         let lineItems = [];
         $('.columnSettings').each(function (index) {
             var $tblrow = $(this);
-            var colTitle = $tblrow.find(".divcolumn").text()||'';
-            var colWidth = $tblrow.find(".custom-range").val()||0;
-            var colthClass = $tblrow.find(".divcolumn").attr("valueupdate")||'';
+            var colTitle = $tblrow.find(".divcolumn").text() || '';
+            var colWidth = $tblrow.find(".custom-range").val() || 0;
+            var colthClass = $tblrow.find(".divcolumn").attr("valueupdate") || '';
             var colHidden = false;
-            if($tblrow.find(".custom-control-input").is(':checked')){
+            if ($tblrow.find(".custom-control-input").is(':checked')) {
                 colHidden = false;
-            }else{
+            } else {
                 colHidden = true;
             }
             let lineItemObj = {
@@ -380,18 +537,34 @@ Template.clienttypesettings.events({
             lineItems.push(lineItemObj);
         });
 
-        var getcurrentCloudDetails = CloudUser.findOne({_id:Session.get('mycloudLogonID'),clouddatabaseID:Session.get('mycloudLogonDBID')});
-        if(getcurrentCloudDetails){
+        var getcurrentCloudDetails = CloudUser.findOne({
+            _id: Session.get('mycloudLogonID'),
+            clouddatabaseID: Session.get('mycloudLogonDBID')
+        });
+        if (getcurrentCloudDetails) {
             if (getcurrentCloudDetails._id.length > 0) {
                 var clientID = getcurrentCloudDetails._id;
                 var clientUsername = getcurrentCloudDetails.cloudUsername;
                 var clientEmail = getcurrentCloudDetails.cloudEmail;
-                var checkPrefDetails = CloudPreference.findOne({userid:clientID,PrefName:'clienttypeList'});
+                var checkPrefDetails = CloudPreference.findOne({
+                    userid: clientID,
+                    PrefName: 'clienttypeList'
+                });
                 if (checkPrefDetails) {
-                    CloudPreference.update({_id: checkPrefDetails._id},{$set: { userid: clientID,username:clientUsername,useremail:clientEmail,
-                                                                               PrefGroup:'salesform',PrefName:'clienttypeList',published:true,
-                                                                               customFields:lineItems,
-                                                                               updatedAt: new Date() }}, function(err, idTag) {
+                    CloudPreference.update({
+                        _id: checkPrefDetails._id
+                    }, {
+                        $set: {
+                            userid: clientID,
+                            username: clientUsername,
+                            useremail: clientEmail,
+                            PrefGroup: 'salesform',
+                            PrefName: 'clienttypeList',
+                            published: true,
+                            customFields: lineItems,
+                            updatedAt: new Date()
+                        }
+                    }, function (err, idTag) {
                         if (err) {
                             $('#myModal2').modal('toggle');
                         } else {
@@ -399,11 +572,17 @@ Template.clienttypesettings.events({
                         }
                     });
 
-                }else{
-                    CloudPreference.insert({ userid: clientID,username:clientUsername,useremail:clientEmail,
-                                            PrefGroup:'salesform',PrefName:'clienttypeList',published:true,
-                                            customFields:lineItems,
-                                            createdAt: new Date() }, function(err, idTag) {
+                } else {
+                    CloudPreference.insert({
+                        userid: clientID,
+                        username: clientUsername,
+                        useremail: clientEmail,
+                        PrefGroup: 'salesform',
+                        PrefName: 'clienttypeList',
+                        published: true,
+                        customFields: lineItems,
+                        createdAt: new Date()
+                    }, function (err, idTag) {
                         if (err) {
                             $('#myModal2').modal('toggle');
                         } else {
@@ -416,34 +595,34 @@ Template.clienttypesettings.events({
         }
 
     },
-    'blur .divcolumn' : function(event){
+    'blur .divcolumn': function (event) {
         let columData = $(event.target).text();
 
         let columnDatanIndex = $(event.target).closest("div.columnSettings").attr('id');
         var datable = $('#clienttypeList').DataTable();
-        var title = datable.column( columnDatanIndex ).header();
+        var title = datable.column(columnDatanIndex).header();
         $(title).html(columData);
 
     },
-    'change .rngRange' : function(event){
+    'change .rngRange': function (event) {
         let range = $(event.target).val();
-        $(event.target).closest("div.divColWidth").find(".spWidth").html(range+'px');
+        $(event.target).closest("div.divColWidth").find(".spWidth").html(range + 'px');
 
         let columData = $(event.target).closest("div.divColWidth").find(".spWidth").attr("value");
         let columnDataValue = $(event.target).closest("div").prev().find(".divcolumn").text();
         var datable = $('#clienttypeList th');
-        $.each(datable, function(i,v) {
+        $.each(datable, function (i, v) {
 
-            if(v.innerText == columnDataValue){
+            if (v.innerText == columnDataValue) {
                 let className = v.className;
                 let replaceClass = className.replace(/ /g, ".");
-                $("."+replaceClass+"").css('width',range+'px');
+                $("." + replaceClass + "").css('width', range + 'px');
 
             }
         });
 
     },
-    'click .btnOpenSettings' : function(event){
+    'click .btnOpenSettings': function (event) {
         let templateObject = Template.instance();
         var columns = $('#clienttypeList th');
 
@@ -454,11 +633,11 @@ Template.clienttypesettings.events({
         let sVisible = "";
         let columVisible = false;
         let sClass = "";
-        $.each(columns, function(i,v) {
-            if(v.hidden == false){
-                columVisible =  true;
+        $.each(columns, function (i, v) {
+            if (v.hidden == false) {
+                columVisible = true;
             }
-            if((v.className.includes("hiddenColumn"))){
+            if ((v.className.includes("hiddenColumn"))) {
                 columVisible = false;
             }
             sWidth = v.style.width.replace('px', "");
@@ -475,38 +654,54 @@ Template.clienttypesettings.events({
         templateObject.tableheaderrecords.set(tableHeaderList);
     },
     'click #exportbtn': function () {
-        $('.fullScreenSpin').css('display','inline-block');
+        $('.fullScreenSpin').css('display', 'inline-block');
         jQuery('#clienttypeList_wrapper .dt-buttons .btntabletocsv').click();
-        $('.fullScreenSpin').css('display','none');
+        $('.fullScreenSpin').css('display', 'none');
 
     },
     'click .btnRefresh': function () {
-        Meteor._reload.reload();
+        let contactService = new ContactService();
+        contactService.getClientTypeData().then(function (dataReload) {
+            addVS1Data('TClientType', JSON.stringify(dataReload)).then(function (datareturn) {
+                Meteor._reload.reload();
+            }).catch(function (err) {
+                Meteor._reload.reload();
+            });
+        }).catch(function (err) {
+            Meteor._reload.reload();
+        });
+        // Meteor._reload.reload();
     },
     'click .btnAddNewDepart': function () {
-        $('#newTaxRate').css('display','block');
+        $('#newTaxRate').css('display', 'block');
 
     },
     'click .btnCloseAddNewDept': function () {
-        $('#newTaxRate').css('display','none');
+        $('#newTaxRate').css('display', 'none');
 
     },
     'click .btnDeleteDepartment': function () {
-        $('.fullScreenSpin').css('display','inline-block');
-        let taxRateService = new TaxRateService();
+        $('.fullScreenSpin').css('display', 'inline-block');
+        let contactService = new ContactService();
         let deptId = $('#selectDeleteLineID').val();
 
-
         let objDetails = {
-            type: "TDeptClass",
+            type: "TClientType",
             fields: {
                 Id: deptId,
                 Active: false
             }
         };
 
-        taxRateService.saveDepartment(objDetails).then(function (objDetails) {
-            Meteor._reload.reload();
+        contactService.saveClientTypeData(objDetails).then(function (objDetails) {
+            contactService.getClientTypeData().then(function (dataReload) {
+                    addVS1Data('TClientType', JSON.stringify(dataReload)).then(function (datareturn) {
+                       Meteor._reload.reload();
+                    }).catch(function (err) {
+                       Meteor._reload.reload();
+                    });
+        });
+
         }).catch(function (err) {
             swal({
                 title: 'Oooops...',
@@ -517,141 +712,45 @@ Template.clienttypesettings.events({
             }).then((result) => {
                 if (result.value) {
                     Meteor._reload.reload();
-                } else if (result.dismiss === 'cancel') {
-
-                }
+                } else if (result.dismiss === 'cancel') {}
             });
-            $('.fullScreenSpin').css('display','none');
+            $('.fullScreenSpin').css('display', 'none');
         });
 
     },
     'click .btnSaveDept': function () {
-        $('.fullScreenSpin').css('display','inline-block');
-        let taxRateService = new TaxRateService();
-        let deptID = $('#edtDepartmentID').val();
+        $('.fullScreenSpin').css('display', 'inline-block');
+        let contactService = new ContactService();
+
         //let headerDept = $('#sltDepartment').val();
-        let deptName = $('#edtDeptName').val();
-        if (deptName === ''){
-        swal('Client Type name cannot be blank!', '', 'warning');
-        $('.fullScreenSpin').css('display','none');
-        e.preventDefault();
-        }
-
-        let deptDesc = $('#edtDeptDesc').val();
-        let siteCode = $('#edtSiteCode').val();
-        let checkDeptID ='';
-        let objDetails = '';
-        let objStSDetails = null;
-
-        if (isModuleGreenTrack) {
-
-            let sltMainContact = $('#sltMainContact').val();
-            let stsMainContactNo = $('#stsMainContactNo').val();
-            let stsLicenseNo = $('#stsLicenseNo').val();
-            let sltDefaultRoomName = $('#sltDefaultRoom').val();
-            var newbinnum = $("#sltDefaultRoom").find('option:selected').attr('mytagroom');
-            objStSDetails = {
-                type: "TStSClass",
+        let custType = $('#edtDeptName').val();
+        let typeDesc = $('#txaDescription').val() || '';
+        if (custType === '') {
+            swal('Client Type name cannot be blank!', '', 'warning');
+            $('.fullScreenSpin').css('display', 'none');
+            e.preventDefault();
+        } else {
+            let objDetails = {
+                type: "TClientType",
                 fields: {
-                    DefaultBinLocation: sltDefaultRoomName || '',
-                    DefaultBinNumber: newbinnum || '',
-                    LicenseNumber: stsLicenseNo || '',
-                    PrincipleContactName: sltMainContact || '',
-                    PrincipleContactPhone: stsMainContactNo || ''
+                    TypeName: custType,
+                    TypeDescription: typeDesc,
+                    Active: true
                 }
             }
-        }
-
-        if (deptName === ''){
-            Bert.alert('<strong>WARNING:</strong> Client Type Name cannot be blank!', 'warning');
-            e.preventDefault();
-        }
-
-        if(deptID == ""){
-
-            taxRateService.checkDepartmentByName(deptName).then(function (data) {
-                deptID = data.tdeptclass[0].Id;
-                objDetails = {
-                    type: "TDeptClass",
-                    fields: {
-                        ID: deptID||0,
-                        Active: true,
-                        //DeptClassGroup: headerDept,
-                        //DeptClassName: deptName,
-                        Description: deptDesc,
-                        SiteCode: siteCode,
-                        StSClass: objStSDetails
-                    }
-                };
-
-                taxRateService.saveDepartment(objDetails).then(function (objDetails) {
-                    Meteor._reload.reload();
-                }).catch(function (err) {
-                    swal({
-                        title: 'Oooops...',
-                        text: err,
-                        type: 'error',
-                        showCancelButton: false,
-                        confirmButtonText: 'Try Again'
-                    }).then((result) => {
-                        if (result.value) {
-                            // Meteor._reload.reload();
-                        } else if (result.dismiss === 'cancel') {
-
-                        }
+            contactService.saveClientTypeData(objDetails).then(function (objDetails) {
+                contactService.getClientTypeData().then(function (dataReload) {
+                    addVS1Data('TClientType', JSON.stringify(dataReload)).then(function (datareturn) {
+                        Meteor._reload.reload();
+                    }).catch(function (err) {
+                        Meteor._reload.reload();
                     });
-                    $('.fullScreenSpin').css('display','none');
-                });
-
-            }).catch(function (err) {
-                objDetails = {
-                    type: "TDeptClass",
-                    fields: {
-                        Active: true,
-                        DeptClassName: deptName,
-                        Description: deptDesc,
-                        SiteCode: siteCode,
-                        StSClass: objStSDetails
-                    }
-                };
-
-                taxRateService.saveDepartment(objDetails).then(function (objDetails) {
-                    Meteor._reload.reload();
                 }).catch(function (err) {
-                    swal({
-                        title: 'Oooops...',
-                        text: err,
-                        type: 'error',
-                        showCancelButton: false,
-                        confirmButtonText: 'Try Again'
-                    }).then((result) => {
-                        if (result.value) {
-                            // Meteor._reload.reload();
-                        } else if (result.dismiss === 'cancel') {
-
-                        }
-                    });
-                    $('.fullScreenSpin').css('display','none');
+                    Meteor._reload.reload();
                 });
-            });
-
-        }else{
-            objDetails = {
-                type: "TDeptClass",
-                fields: {
-                    ID: deptID,
-                    Active: true,
-                    //  DeptClassGroup: headerDept,
-                    DeptClassName: deptName,
-                    Description: deptDesc,
-                    SiteCode: siteCode,
-                    StSClass: objStSDetails
-                }
-            };
-
-            taxRateService.saveDepartment(objDetails).then(function (objDetails) {
-                Meteor._reload.reload();
+                // Meteor._reload.reload();
             }).catch(function (err) {
+
                 swal({
                     title: 'Oooops...',
                     text: err,
@@ -661,32 +760,18 @@ Template.clienttypesettings.events({
                 }).then((result) => {
                     if (result.value) {
                         // Meteor._reload.reload();
-                    } else if (result.dismiss === 'cancel') {
-
-                    }
+                    } else if (result.dismiss === 'cancel') {}
                 });
-                $('.fullScreenSpin').css('display','none');
+                $('.fullScreenSpin').css('display', 'none');
             });
         }
-
-
-
-
     },
-    'click .btnAddDept': function () {
-        $('#add-dept-title').text('Add New Client Type');
-        $('#edtDepartmentID').val('');
-        $('#edtSiteCode').val('');
 
-        $('#edtDeptName').val('');
-        $('#edtDeptName').prop('readonly', false);
-        $('#edtDeptDesc').val('');
-    },
-    'click .btnBack':function(event){
+    'click .btnBack': function (event) {
         event.preventDefault();
         history.back(1);
     },
-    'keydown #edtSiteCode, keyup #edtSiteCode': function(event){
+    'keydown #edtSiteCode, keyup #edtSiteCode': function (event) {
         if ($.inArray(event.keyCode, [46, 8, 9, 27, 13, 110]) !== -1 ||
             // Allow: Ctrl+A, Command+A
             (event.keyCode === 65 && (event.ctrlKey === true || event.metaKey === true)) ||
@@ -696,9 +781,7 @@ Template.clienttypesettings.events({
             return;
         }
 
-        if (event.shiftKey == true) {
-
-        }
+        if (event.shiftKey == true) {}
 
         if ((event.keyCode >= 48 && event.keyCode <= 57) ||
             (event.keyCode >= 96 && event.keyCode <= 105) ||
@@ -711,50 +794,47 @@ Template.clienttypesettings.events({
         }
 
     },
-    'blur #edtSiteCode': function(event){
+    'blur #edtSiteCode': function (event) {
         $(event.target).val($(event.target).val().toUpperCase());
 
     },
     'click .btnSaveRoom': function () {
-        $('.fullScreenSpin').css('display','inline-block');
+        $('.fullScreenSpin').css('display', 'inline-block');
         let taxRateService = new TaxRateService();
 
         var parentdept = $('#sltDepartmentList').val();
         var newroomname = $('#newRoomName').val();
         var newroomnum = $('#newRoomNum').val();
 
-
         let data = '';
 
         data = {
             type: "TProductBin",
             fields: {
-                BinClassName: parentdept|| '',
-                BinLocation: newroomname|| '',
-                BinNumber: newroomnum|| ''
+                BinClassName: parentdept || '',
+                BinLocation: newroomname || '',
+                BinNumber: newroomnum || ''
             }
         };
 
-        
         taxRateService.saveRoom(data).then(function (data) {
-            window.open('/clienttypesettings','_self');
+            window.open('/clienttypesettings', '_self');
         }).catch(function (err) {
 
-            $('.fullScreenSpin').css('display','none');
+            $('.fullScreenSpin').css('display', 'none');
         });
     },
 });
 
 Template.clienttypesettings.helpers({
-    datatablerecords : () => {
-        return Template.instance().datatablerecords.get().sort(function(a, b){
-            if (a.headDept == 'NA') {
+    datatablerecords: () => {
+        return Template.instance().datatablerecords.get().sort(function (a, b) {
+            if (a.typeName == 'NA') {
                 return 1;
-            }
-            else if (b.headDept == 'NA') {
+            } else if (b.typeName == 'NA') {
                 return -1;
             }
-            return (a.headDept.toUpperCase() > b.headDept.toUpperCase()) ? 1 : -1;
+            return (a.typeName.toUpperCase() > b.typeName.toUpperCase()) ? 1 : -1;
             // return (a.saledate.toUpperCase() < b.saledate.toUpperCase()) ? 1 : -1;
         });
     },
@@ -762,14 +842,16 @@ Template.clienttypesettings.helpers({
         return Template.instance().tableheaderrecords.get();
     },
     salesCloudPreferenceRec: () => {
-        return CloudPreference.findOne({userid:Session.get('mycloudLogonID'),PrefName:'clienttypeList'});
+        return CloudPreference.findOne({
+            userid: Session.get('mycloudLogonID'),
+            PrefName: 'clienttypeList'
+        });
     },
     deptrecords: () => {
-        return Template.instance().deptrecords.get().sort(function(a, b){
+        return Template.instance().deptrecords.get().sort(function (a, b) {
             if (a.department == 'NA') {
                 return 1;
-            }
-            else if (b.department == 'NA') {
+            } else if (b.department == 'NA') {
                 return -1;
             }
             return (a.department.toUpperCase() > b.department.toUpperCase()) ? 1 : -1;
@@ -779,33 +861,30 @@ Template.clienttypesettings.helpers({
         return isModuleGreenTrack;
     },
     listEmployees: () => {
-        return Template.instance().employeerecords.get().sort(function(a, b){
+        return Template.instance().employeerecords.get().sort(function (a, b) {
             if (a.employeename == 'NA') {
                 return 1;
-            }
-            else if (b.employeename == 'NA') {
+            } else if (b.employeename == 'NA') {
                 return -1;
             }
             return (a.employeename.toUpperCase() > b.employeename.toUpperCase()) ? 1 : -1;
         });
     },
     listBins: () => {
-        return Template.instance().roomrecords.get().sort(function(a, b){
+        return Template.instance().roomrecords.get().sort(function (a, b) {
             if (a.roomname == 'NA') {
                 return 1;
-            }
-            else if (b.roomname == 'NA') {
+            } else if (b.roomname == 'NA') {
                 return -1;
             }
             return (a.roomname.toUpperCase() > b.roomname.toUpperCase()) ? 1 : -1;
         });
     },
     listDept: () => {
-        return Template.instance().departlist.get().sort(function(a, b){
+        return Template.instance().departlist.get().sort(function (a, b) {
             if (a.deptname == 'NA') {
                 return 1;
-            }
-            else if (b.deptname == 'NA') {
+            } else if (b.deptname == 'NA') {
                 return -1;
             }
             return (a.deptname.toUpperCase() > b.deptname.toUpperCase()) ? 1 : -1;
