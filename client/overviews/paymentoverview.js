@@ -1083,19 +1083,19 @@ Template.paymentoverview.events({
 
     'click .customerAwaitingPayment' : function(event){
         $('.modal-backdrop').css('display','none');
-        Router.go('/agedreceivables');
+        Router.go('/customerawaitingpayments');
     },
     'click .customerOverdue' : function(event){
         $('.modal-backdrop').css('display','none');
-        Router.go('/agedreceivables');
+        Router.go('/customerawaitingpayments');
     },
     'click .supplierAwaitingPayment' : function(event){
         $('.modal-backdrop').css('display','none');
-        Router.go('/agedpayables');
+        Router.go('/supplierawaitingpurchaseorder');
     },
     'click .supplierOverdue' : function(event){
         $('.modal-backdrop').css('display','none');
-        Router.go('/agedpayables');
+        Router.go('/supplierawaitingpurchaseorder');
     },
 
     'click .chkDatatable' : function(event){
