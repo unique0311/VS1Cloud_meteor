@@ -868,6 +868,10 @@ needsToSeePrompt();
       isAppointmentScheduling = false;
     }
 
+    if(!isAppointmentSchedulingLicence){
+      isAppointmentLaunch = false;
+    }
+
    Session.setPersistent('CloudPrintDeliveryDocket', isDocket);
    Session.setPersistent('CloudPrintInvoice', isInvoice);
    Session.setPersistent('CloudUserPass', isUserPassDetail);

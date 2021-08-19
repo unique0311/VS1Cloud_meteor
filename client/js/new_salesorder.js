@@ -499,6 +499,7 @@ Template.new_salesorder.onRendered(() => {
                                             templateObject.salesorderrecord.set(salesorderrecord);
                                             $('#edtCustomerEmail').val(clientList[i].customeremail);
                                             $('#edtCustomerEmail').attr('customerid', clientList[i].customerid);
+                                            $('#edtCustomerName').attr('custid', clientList[i].customerid);
                                             $('#edtCustomerEmail').attr('customerfirstname', clientList[i].firstname);
                                             $('#edtCustomerEmail').attr('customerlastname', clientList[i].lastname);
                                             $('#customerType').text(clientList[i].clienttypename||'Default');
@@ -826,6 +827,7 @@ Template.new_salesorder.onRendered(() => {
                                                 templateObject.salesorderrecord.set(salesorderrecord);
                                                 $('#edtCustomerEmail').val(clientList[i].customeremail);
                                                 $('#edtCustomerEmail').attr('customerid', clientList[i].customerid);
+                                                $('#edtCustomerName').attr('custid', clientList[i].customerid);
                                                 $('#edtCustomerEmail').attr('customerfirstname', clientList[i].firstname);
                                                 $('#edtCustomerEmail').attr('customerlastname', clientList[i].lastname);
                                                 $('#customerType').text(clientList[i].clienttypename||'Default');
@@ -1082,6 +1084,7 @@ Template.new_salesorder.onRendered(() => {
                                                 if (clientList[i].customername == data.fields.CustomerName) {
                                                     $('#edtCustomerEmail').val(clientList[i].customeremail);
                                                     $('#edtCustomerEmail').attr('customerid', clientList[i].customerid);
+                                                    $('#edtCustomerName').attr('custid', clientList[i].customerid);
                                                     $('#edtCustomerEmail').attr('customerfirstname', clientList[i].firstname);
                                                     $('#edtCustomerEmail').attr('customerlastname', clientList[i].lastname);
                                                 }
@@ -1356,6 +1359,7 @@ Template.new_salesorder.onRendered(() => {
                                         templateObject.salesorderrecord.set(salesorderrecord);
                                         $('#edtCustomerEmail').val(clientList[i].customeremail);
                                         $('#edtCustomerEmail').attr('customerid', clientList[i].customerid);
+                                        $('#edtCustomerName').attr('custid', clientList[i].customerid);
                                         $('#edtCustomerEmail').attr('customerfirstname', clientList[i].firstname);
                                         $('#edtCustomerEmail').attr('customerlastname', clientList[i].lastname);
                                         $('#customerType').text(clientList[i].clienttypename||'Default');
@@ -1785,6 +1789,7 @@ Template.new_salesorder.onRendered(() => {
                                     templateObject.salesorderrecord.set(salesorderrecord);
                                     $('#edtCustomerEmail').val(clientList[i].customeremail);
                                     $('#edtCustomerEmail').attr('customerid', clientList[i].customerid);
+                                    $('#edtCustomerName').attr('custid', clientList[i].customerid);
                                     $('#edtCustomerEmail').attr('customerfirstname', clientList[i].firstname);
                                     $('#edtCustomerEmail').attr('customerlastname', clientList[i].lastname);
                                     $('#customerType').text(clientList[i].clienttypename||'Default');
@@ -2067,6 +2072,7 @@ Template.new_salesorder.onRendered(() => {
                                             templateObject.salesorderrecord.set(salesorderrecord);
                                             $('#edtCustomerEmail').val(clientList[i].customeremail);
                                             $('#edtCustomerEmail').attr('customerid', clientList[i].customerid);
+                                            $('#edtCustomerName').attr('custid', clientList[i].customerid);
                                             $('#edtCustomerEmail').attr('customerfirstname', clientList[i].firstname);
                                             $('#edtCustomerEmail').attr('customerlastname', clientList[i].lastname);
                                             $('#customerType').text(clientList[i].clienttypename||'Default');
@@ -2339,6 +2345,7 @@ Template.new_salesorder.onRendered(() => {
                                                 templateObject.salesorderrecord.set(salesorderrecord);
                                                 $('#edtCustomerEmail').val(clientList[i].customeremail);
                                                 $('#edtCustomerEmail').attr('customerid', clientList[i].customerid);
+                                                $('#edtCustomerName').attr('custid', clientList[i].customerid);
                                                 $('#edtCustomerEmail').attr('customerfirstname', clientList[i].firstname);
                                                 $('#edtCustomerEmail').attr('customerlastname', clientList[i].lastname);
                                                 $('#customerType').text(clientList[i].clienttypename||'Default');
@@ -2588,6 +2595,7 @@ Template.new_salesorder.onRendered(() => {
                                     if (clientList[i].customername == data.fields.CustomerName) {
                                         $('#edtCustomerEmail').val(clientList[i].customeremail);
                                         $('#edtCustomerEmail').attr('customerid', clientList[i].customerid);
+                                        $('#edtCustomerName').attr('custid', clientList[i].customerid);
                                         $('#edtCustomerEmail').attr('customerfirstname', clientList[i].firstname);
                                         $('#edtCustomerEmail').attr('customerlastname', clientList[i].lastname);
                                     }
@@ -3278,6 +3286,7 @@ Template.new_salesorder.onRendered(() => {
 
         $('#edtCustomerEmail').val(tableCustomer.find(".colEmail").text());
         $('#edtCustomerEmail').attr('customerid', tableCustomer.find(".colID").text());
+        $('#edtCustomerName').attr('custid', tableCustomer.find(".colID").text());
         $('#edtCustomerEmail').attr('customerfirstname', tableCustomer.find(".colCustomerFirstName").text());
         $('#edtCustomerEmail').attr('customerlastname', tableCustomer.find(".colCustomerLastName").text());
         $('#customerType').text(tableCustomer.find(".colCustomerType").text()||'Default');
@@ -3298,6 +3307,7 @@ Template.new_salesorder.onRendered(() => {
                 if (clientList[i].customername == selectedCustomer) {
                     $('#edtCustomerEmail').val(clientList[i].customeremail);
                     $('#edtCustomerEmail').attr('customerid', clientList[i].customerid);
+                    $('#edtCustomerName').attr('custid', clientList[i].customerid);
                     $('#edtCustomerEmail').attr('customerfirstname', clientList[i].firstname);
                     $('#edtCustomerEmail').attr('customerlastname', clientList[i].lastname);
                     $('#customerType').text(clientList[i].clienttypename||'Default');
