@@ -1018,7 +1018,7 @@ Template.addcustomerpop.events({
             if (customerSaveID) {
                 var currentLoc = window.location.pathname;
 
-                if (currentLoc == "/invoicecard" || currentLoc == "/quotecard" || currentLoc == "/salesordercard") {
+                if (currentLoc == "/invoicecard" || currentLoc == "/quotecard" || currentLoc == "/salesordercard"|| currentLoc == "/refundcard") {
                     $('.salesmodule #edtCustomerName').val(company);
                     $('.salesmodule #edtCustomerEmail').val(email);
                     $('.salesmodule #edtCustomerEmail').attr('customerid', customerSaveID);

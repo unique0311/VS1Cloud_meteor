@@ -1282,7 +1282,7 @@ Template.newproductpop.events({
                       $('.fullScreenSpin').css('display', 'none');
                       var currentLoc = window.location.pathname;
 
-                      if (currentLoc == "/invoicecard") {
+                      if (currentLoc == "/invoicecard" || currentLoc == "/quotecard" || currentLoc == "/salesordercard"|| currentLoc == "/refundcard") {
                           var selectLineID = $('#selectLineID').val();
 
                           if (selectLineID) {
@@ -1337,7 +1337,7 @@ Template.newproductpop.events({
                               addVS1Data('TProductVS1', JSON.stringify(dataReload)).then(function (datareturn) {
                                   location.reload();
                               }).catch(function (err) {
-                                  location.reload();                                       
+                                  location.reload();
                               });
                           }).catch(function (err) {
                               location.reload();
@@ -1433,7 +1433,7 @@ Template.newproductpop.events({
                       $('.fullScreenSpin').css('display', 'none');
                       var currentLoc = window.location.pathname;
 
-                      if (currentLoc == "/invoicecard") {
+                      if (currentLoc == "/invoicecard" || currentLoc == "/quotecard" || currentLoc == "/salesordercard"|| currentLoc == "/refundcard") {
                           var selectLineID = $('#selectLineID').val();
 
                           if (selectLineID) {

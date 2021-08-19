@@ -170,7 +170,7 @@
                 <div class="col-auto colSupplierName" id="colSupplierName">
                     <div style="margin: 16px 0px;width: 350px;" class="formgoup">
                         <div class="form-group"><label>Customer</label>
-                            <select type="search" class="form-control" id="edtCustomerName" name="edtCustomerName" style="background-color:rgb(255, 255, 255); cursor: pointer;">
+                            <select type="search" class="form-control" id="edtCustomerName" name="edtCustomerName" custid=" " style="background-color:rgb(255, 255, 255); cursor: pointer;">
                             </select>
                         </div>
                         <div>
@@ -720,13 +720,14 @@
                                     <th class="th colDescription">Description</th>
                                     <th class="th colQty" style="width: 75px;">Qty</th>
                                     <th class="th colUnitPrice" style="width: 110px; text-align: left!important;">Unit Price</th>
+                                    <th class="th colDiscount" style="width: 95px; text-align: left!important;">Disc %</th>
                                     <th class="th colCostPrice thLinceCostPrice hiddenColumn" style="width: 110px; text-align: left!important;">Cost Price</th>
                                     <th class="th colSalesLinesCustField1 thSalesLinesCustField1 hiddenColumn" style="width: 110px;">SalesLinesCustField1</th>
                                     <th class="th colTaxRate hiddenColumn" style="width: 91px; text-align: left!important;">Tax Rate</th>
                                     <th class="th colTaxCode " style="width: 95px; text-align: left!important;">Tax Code</th>
                                     <th class="th colTaxAmount " style="width: 95px; text-align: left!important;">Tax Amt</th>
                                     <th class="th colAmount " style="width: 110px; text-align: left!important;">Amount</th>
-                                    <th class="th colDiscount hiddenColumn" style="width: 110px; text-align: left!important;">Discount %</th>
+
                                     <!-- <th class="th">Tax Price</th> -->
                                     <th class="th" style="width: 25px;"></th>
                                 </tr>
@@ -740,6 +741,7 @@
                                     <td><input class="lineQty colQty highlightInput" type="number" value="{{item.quantity}}"></td>
                                     <!--                                    <td contenteditable="true" class="lineUnitPrice colUnitPrice" style="text-align: right!important;">{{item.unitPrice}}</td>-->
                                     <td><input class="lineUnitPrice colUnitPrice highlightInput" type="text" value="{{item.unitPrice}}"></td>
+                                    <td contenteditable="false" class="lineDiscount colDiscount" style="text-align: right!important;">{{item.DiscountPercent}}</td>
                                     <!--                                    <td contenteditable="true" class="lineCostPrice colCostPrice hiddenColumn" style="text-align: right!important;">{{item.lineCost}}</td>-->
                                     <td class="hiddenColumn"><input class="lineCostPrice colCostPrice highlightInput" type="text" value="{{item.lineCost}}"></td>
                                     <td contenteditable="true" class="lineSalesLinesCustField1 colSalesLinesCustField1 hiddenColumn">{{item.SalesLinesCustField1}}</td>
@@ -747,7 +749,7 @@
                                     <td contenteditable="false" class="lineTaxCode colTaxCode pointer" style=" ">{{item.taxCode}}</td>
                                     <td contenteditable="false" class="lineTaxAmount colTaxAmount pointer" style="text-align: right!important;cursor: pointer;">{{item.TaxTotal}}</td>
                                     <td contenteditable="false" class="lineAmt colAmount" style="text-align: right!important;">{{item.TotalAmt}}</td>
-                                    <td contenteditable="false" class="lineDiscount colDiscount hiddenColumn" style="text-align: right!important;">{{item.DiscountPercent}}</td>
+
                                     <td><span class="table-remove btnRemove"><button type="button" class="btn btn-danger btn-rounded btn-sm my-0 "><i class="fa fa-remove"></i></button></span></td>
                                 </tr>
                                 {{/each}}
@@ -807,44 +809,60 @@ style="margin: 16px;margin-top: 0px;width: 95px;"><i class="fa fa-remove" style=
 </div> -->
                 </div>
                 <div style="margin: 16px;">
+
+                    <style>
+                        .lead {
+                            font-size: 25px;
+                            font-weight: 500;
+                            margin: 0px;
+                            color: #696969;
+                            float: right;
+                        }
+                        .leadTotal {
+                            font-weight: 800 !important;
+                        }
+                        .leadHidden {
+                            visibility: hidden;
+                            height: 0px !important;
+                        }
+                    </style>
+
                     <div style="float: right;">
                         <div class="d-flex d-xl-flex flex-row justify-content-xl-end align-items-xl-center">
                             <div class="d-xl-flex flex-column justify-content-xl-end align-items-xl-end">
-                                <p class="lead" style="font-size: 25px; font-weight: 500; margin: 0px; color: #696969;">Discount</p>
-                                <p class="lead" style="font-size: 25px; font-weight: 500; margin: 0px; color: #696969;">Subtotal</p>
-                                <p class="lead" style="font-size: 25px; margin: 0px; font-weight: 500; color: #696969;">Tax</p>
+                                <p class="lead">Subtotal</p>
+                                <p class="lead">Tax</p>
+                                <p class="lead">Nett</p>
                             </div>
                             <div class="d-xl-flex flex-column justify-content-xl-end align-items-xl-end" style="padding-left: 20px;">
-                                <p class="lead" style="font-size: 25px; font-weight: 500; margin: 0px; color: #696969;" id="subtotal_discount" name="subtotal_discount">{{quoterecord.TotalDiscount}}</p>
-                                <p class="lead" style="font-size: 25px; font-weight: 500; margin: 0px; color: #696969;" id="subtotal_total" name="subtotal_total">{{quoterecord.SubTotal}}</p>
-                                <p class="lead" style="font-size: 25px; margin: 0px; font-weight: 500; color: #696969;" id="subtotal_tax" name="subtotal_tax">{{quoterecord.TotalTax}}</p>
+                                <p class="lead" id="subtotal_total" name="subtotal_total">{{quoterecord.SubTotal}}</p>
+                                <p class="lead" id="subtotal_tax" name="subtotal_tax">{{quoterecord.TotalTax}}</p>
+                                <p class="lead" id="subtotal_nett" name="subtotal_nett">{{quoterecord.Total}}</p>
                             </div>
-                        </div>
-                        <hr style=" border-top: 3px solid #696969;" />
-                        <div class="d-flex d-xl-flex flex-row justify-content-xl-end align-items-xl-center">
-                            <p class="lead" style="font-size: 25px; color: #696969; font-weight: 800; margin: 0px;">TOTAL</p>
-                            <p class="lead" style="font-size: 25px; color: #696969; font-weight: 800; padding-left: 20px; margin: 0px;" id="grandTotal" name="grandTotal">{{quoterecord.Total}}</p>
                         </div>
                         <hr style=" border-top: 3px solid #696969;" />
                         <div class="d-flex d-xl-flex flex-row justify-content-xl-end align-items-xl-center">
                             <div class="d-xl-flex flex-column justify-content-xl-end align-items-xl-end">
-                                <div>
-                                    <p class="lead" style="font-size: 25px; margin: 0px; font-weight: 500; color: #696969;">Paid Amount</p>
-                                </div>
-                                <div>
-                                    <p class="lead" style="font-size: 25px; margin: 0px; font-weight: 500; color: #696969;">Balance Due</p>
-                                </div>
+                                <p class="lead">Discount</p>
+                                <p class="lead leadHidden">Nett</p>
                             </div>
-                            <div class="d-xl-flex flex-column justify-content-xl-end align-items-xl-end" style="  padding-left: 20px;">
-                                <div>
-                                    <p class="lead" style="font-size: 25px; font-weight: 500; margin: 0px; color: #696969;" id="totalPaidAmt" name="totalPaidAmt">{{quoterecord.totalPaid}}</p>
-                                </div>
-                                <div>
-                                    <p class="lead" style="font-size: 25px; font-weight: 500; margin: 0px; color: #696969;" id="totalBalanceDue" name="totalBalanceDue">{{quoterecord.balanceDue}}</p>
-                                </div>
+                            <div class="d-xl-flex flex-column justify-content-xl-end align-items-xl-end" style="padding-left: 20px;">
+                                <p class="lead" id="subtotal_discount" name="subtotal_discount">{{quoterecord.TotalDiscount}}</p>
+                                <p class="lead leadHidden" id="grandTotalHidden" name="grandTotalHidden">{{quoterecord.Total}}</p>
                             </div>
                         </div>
+                        <hr style=" border-top: 3px solid #696969;" />
+                        <div class="d-flex d-xl-flex flex-row justify-content-xl-end align-items-xl-center">
+                            <div class="d-xl-flex flex-column justify-content-xl-end align-items-xl-end">
+                                <p class="lead leadTotal">TOTAL</p>
+                            </div>
+                            <div class="d-xl-flex flex-column justify-content-xl-end align-items-xl-end" style="padding-left: 20px;">
+                                <p class="lead leadTotal" id="grandTotal" name="grandTotal">{{quoterecord.Total}}</p>
+                            </div>
+                        </div>
+                        <p class="lead" style="font-size: 25px; font-weight: 500; margin: 0px; color: #696969; display:none;" id="totalBalanceDue" name="totalBalanceDue">{{quoterecord.balanceDue}}</p>
                     </div>
+
                 </div>
             </div>
             <div class="d-xl-flex justify-content-xl-center"><button class="btn btn-success btnSave" type="button" style="margin: 16px;margin-top: 0px;width: 100px;">
