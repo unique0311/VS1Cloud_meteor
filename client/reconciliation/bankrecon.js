@@ -817,6 +817,7 @@ $('.statementDate').attr('readonly', true);
 $('.statementDate').css('pointer-events', 'none');
 $('#hideSelectionToggle').attr('disabled', 'disabled');
 $('#hideSelectionToggle').attr('readonly', true);
+if(useData[d].fields.DepositLines != null){
 if(useData[d].fields.DepositLines.length > 0){
 
     for(let i in useData[d].fields.DepositLines){
@@ -956,7 +957,8 @@ if(useData[d].fields.DepositLines.length > 0){
 
     }, 0);
 }
-
+}
+if(useData[d].fields.WithdrawalLines != null){
 if(useData[d].fields.WithdrawalLines.length > 0){
     for(let j in useData[d].fields.WithdrawalLines){
         let withdrawalamount = utilityService.modifynegativeCurrencyFormat(useData[d].fields.WithdrawalLines[j].fields.Amount)|| 0.00;
@@ -1096,6 +1098,8 @@ if(useData[d].fields.WithdrawalLines.length > 0){
         $('.fullScreenSpin').css('display','none');
     }, 0);
 }
+
+}
                   }
                 }
 
@@ -1134,6 +1138,7 @@ if(useData[d].fields.WithdrawalLines.length > 0){
                       $('.statementDate').css('pointer-events', 'none');
                       $('#hideSelectionToggle').attr('disabled', 'disabled');
                       $('#hideSelectionToggle').attr('readonly', true);
+                      if(data.fields.DepositLines != null){
                       if(data.fields.DepositLines.length > 0){
 
                           for(let i in data.fields.DepositLines){
@@ -1273,7 +1278,8 @@ if(useData[d].fields.WithdrawalLines.length > 0){
 
                           }, 0);
                       }
-
+                      }
+                      if(data.fields.WithdrawalLines != null){
                       if(data.fields.WithdrawalLines.length > 0){
                           for(let j in data.fields.WithdrawalLines){
                               let withdrawalamount = utilityService.modifynegativeCurrencyFormat(data.fields.WithdrawalLines[j].fields.Amount)|| 0.00;
@@ -1412,6 +1418,7 @@ if(useData[d].fields.WithdrawalLines.length > 0){
                               });
                               $('.fullScreenSpin').css('display','none');
                           }, 0);
+                      }
                       }
                       //$('#hideSelectionToggle').css('pointer-events', 'none');
 
@@ -1910,7 +1917,7 @@ Template.bankrecon.events({
     'change .reconchkboxwith': function (e) {
         var chkbidwith = event.target.id;
         var checkboxID = chkbidwith.split("_").pop();
-        var selectedTransAmountwith = 0;
+        var selectedTransAmountwidth = 0;
         const templateObject = Template.instance();
         const selectedTranswith = [];
         const selectedtransactionswith = [];
@@ -1930,14 +1937,14 @@ Template.bankrecon.events({
                 depositLineID: depositLineIDWith||0
             }
             var reconamounttrim = (($('#vs1reconamountwith_'+checkboxIDwithLine).text()).substring(1)).replace(',','');
-            selectedTransAmountwith = selectedTransAmountwith+parseFloat(reconamounttrim);
+            selectedTransAmountwidth = selectedTransAmountwidth+parseFloat(reconamounttrim);
             selectedtransactionswith.push(transactionObj);
         });
         templateObject.selectedTranswith.set(selectedtransactionswith);
         setTimeout(function () {
             $("#divtblSelectedWithdrawals").height(300);
         },0);
-        $('.withdrawalAmount').text(utilityService.modifynegativeCurrencyFormat(selectedTransAmountwith) || Currency+"0.00");
+        $('.withdrawalAmount').text(utilityService.modifynegativeCurrencyFormat(selectedTransAmountwidth) || Currency+"0.00");
         // var totaldepamount = (($('.depositAmount').html()).substring(1)).replace(',','');
         // var totalwithamount = (($('.withdrawalAmount').html()).substring(1)).replace(',','');
         // var openbalamount = (($('#openingbalance').val()).substring(1)).replace(',','');
@@ -2033,7 +2040,7 @@ Template.bankrecon.events({
     'change #checkallreconwith': function (e) {
         if($(event.target).is(':checked')){
             $(".reconchkboxwith"). prop("checked", true);
-            var selectedTransAmountwith = 0;
+            var selectedTransAmountwidth = 0;
             const templateObject = Template.instance();
             const selectedTranswith = [];
             const selectedtransactionswith = [];
@@ -2053,7 +2060,7 @@ Template.bankrecon.events({
                     depositLineID: depositLineIDAll||0
                 }
                 var reconamounttrim = (($('#vs1reconamountwith_'+checkboxIDwithLine).text()).substring(1)).replace(',','');
-                selectedTransAmountwith = selectedTransAmountwith+parseFloat(reconamounttrim);
+                selectedTransAmountwidth = selectedTransAmountwidth+parseFloat(reconamounttrim);
                 selectedtransactionswith.push(transactionObj);
 
 
@@ -2066,7 +2073,7 @@ Template.bankrecon.events({
 
             //$("#tblSelectedWithdrawals").height(300);
 
-            $('.withdrawalAmount').text(utilityService.modifynegativeCurrencyFormat(selectedTransAmountwith) || Currency+"0.00");
+            $('.withdrawalAmount').text(utilityService.modifynegativeCurrencyFormat(selectedTransAmountwidth) || Currency+"0.00");
             // var totaldepamount = (($('.depositAmount').html()).substring(1)).replace(',','');
             // var totalwithamount = (($('.withdrawalAmount').html()).substring(1)).replace(',','');
             // var openbalamount = (($('#openingbalance').val()).substring(1)).replace(',','');
@@ -2077,7 +2084,7 @@ Template.bankrecon.events({
             $('.clearedBalance').text(utilityService.modifynegativeCurrencyFormat(clearedBal) || Currency+"0.00");
         } else {
             $(".reconchkboxwith"). prop("checked", false);
-            var selectedTransAmountwith = 0;
+            var selectedTransAmountwidth = 0;
             const templateObject = Template.instance();
             const selectedTranswith = [];
             const selectedtransactionswith = [];
@@ -2097,7 +2104,7 @@ Template.bankrecon.events({
                     depositLineID: depositLineIDwith||0
                 }
                 var reconamounttrim = (($('#vs1reconamountwith_'+checkboxIDwithLine).text()).substring(1)).replace(',','');
-                selectedTransAmountwith = selectedTransAmountwith+parseFloat(reconamounttrim);
+                selectedTransAmountwidth = selectedTransAmountwidth+parseFloat(reconamounttrim);
                 selectedtransactionswith.push(transactionObj);
             });
             templateObject.selectedTranswith.set(selectedtransactionswith);
@@ -2106,7 +2113,7 @@ Template.bankrecon.events({
                 $("#divtblSelectedWithdrawals").height(120);
             },0);
 
-            $('.withdrawalAmount').text(utilityService.modifynegativeCurrencyFormat(selectedTransAmountwith) || Currency+"0.00");
+            $('.withdrawalAmount').text(utilityService.modifynegativeCurrencyFormat(selectedTransAmountwidth) || Currency+"0.00");
             // var totaldepamount = (($('.depositAmount').html()).substring(1)).replace(',','');
             // var totalwithamount = (($('.withdrawalAmount').html()).substring(1)).replace(',','');
             // var openbalamount = (($('#openingbalance').val()).substring(1)).replace(',','');

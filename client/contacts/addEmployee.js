@@ -2644,11 +2644,11 @@ Template.employeescard.events({
                     let stringQuery = "?";
                     let name = Session.get('mySessionEmployee').split(' ')[0];
                     let surname = Session.get('mySessionEmployee').split(' ')[1];
-                    stringQuery = stringQuery + "product" + 1 + "= New User" + "&price" + 1 + "=" + Currency + objDetailsUser.Params.Price + "&qty" + 1 + "=" + 1 + "&";
+                    stringQuery = stringQuery + "product" + 0 + "= New User" + "&price" + 0 + "=" + Currency + objDetailsUser.Params.Price + "&qty" + 0 + "=" + 1 + "&";
                     stringQuery = stringQuery + "tax=0" + "&total=" + Currency + objDetailsUser.Params.Price + "&customer=" + Session.get('vs1companyName') + "&name=" + name + "&surname=" + surname + "&company=" + Session.get('vs1companyName') + "&customeremail=" + localStorage.getItem('mySession') + "&type=VS1 Modules Purchase&url=" + window.location.href + "&server=" + erpGet.ERPIPAddress + "&username=" + erpGet.ERPUsername + "&token=" + erpGet.ERPPassword + "&session=" + erpGet.ERPDatabase + "&port=" + erpGet.ERPPort + "&currency=" + currencyname;
                     sideBarService.getAllEmployees(25, 0).then(function (dataReload) {
                         addVS1Data('TEmployee', JSON.stringify(dataReload)).then(function (datareturn) {
-                            /*$.ajax({
+                            $.ajax({
                                 url: 'https://depot.vs1cloud.com/stripe/vs1_module_purchase.php',
                                 data: {
                                     'email': Session.get('VS1AdminUserName'),
@@ -2678,8 +2678,8 @@ Template.employeescard.events({
                                         window.open('https://www.depot.vs1cloud.com/stripe/' + stringQuery, '_self');
                                     }
                                 }
-                            });*/
-                            Router.go('/employeelist?success=true');
+                            });
+                            //Router.go('/employeelist?success=true');
                         }).catch(function (err) {
                           Router.go('/employeelist?success=true');
                             //window.open('https://www.depot.vs1cloud.com/stripe/' + stringQuery, '_self');
