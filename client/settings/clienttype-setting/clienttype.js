@@ -780,6 +780,8 @@ Template.clienttypesettings.events({
     },
     'click .btnAddDept': function () {
         $('#add-dept-title').text('Add New Client Type');
+        $('#edtDeptName').val("");
+        $('#txaDescription').val("");
 
     },
      'click .btnAddNewDepart': function () {
