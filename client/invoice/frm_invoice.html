@@ -190,9 +190,9 @@
                             </div>
                         </div> -->
                             <div>
-                                <span id="customerType" name="customerType" class="customerType" style="margin-left: 2px;color: #17a673;"></span>
+                                <span data-toggle="tooltip" data-placement="top" title="Only the highest discount is applied" id="customerType" name="customerType" class="customerType" style="margin-left: 2px;color: #17a673;"></span>
                                 <input type="hidden" class="form-control pointer" id="edtCustomerUseType" name="edtCustomerUseType" value="">
-                                <span id="customerDiscount" name="customerDiscount" class="customerDiscount" style="color: #17a673;"></span>
+                                <span data-toggle="tooltip" data-placement="top" title="Only the highest discount is applied" id="customerDiscount" name="customerDiscount" class="customerDiscount" style="color: #17a673;"></span>
                                 <input type="hidden" class="form-control pointer" id="edtCustomerUseDiscount" name="edtCustomerUseDiscount" value="0">
                             </div>
                         </div>
@@ -970,14 +970,14 @@ style="margin: 16px;margin-top: 0px;width: 95px;"><i class="fa fa-remove" style=
                                     <p class="lead" id="subtotal_nett" name="subtotal_nett">{{invoicerecord.Total}}</p>
                                 </div>
                             </div>
-                            <hr style=" border-top: 3px solid #696969;" />
+                            <hr style=" border-top: 1px solid #696969;" />
                             <div class="d-flex d-xl-flex flex-row justify-content-xl-end align-items-xl-center">
                                 <div class="d-xl-flex flex-column justify-content-xl-end align-items-xl-end">
-                                    <p class="lead">Discount</p>
+                                    <p data-toggle="tooltip" data-placement="top" title="Only the highest discount is applied" class="lead">Discount</p>
                                     <p class="lead leadHidden">Nett</p>
                                 </div>
                                 <div class="d-xl-flex flex-column justify-content-xl-end align-items-xl-end" style="padding-left: 20px;">
-                                    <p class="lead" id="subtotal_discount" name="subtotal_discount">{{invoicerecord.TotalDiscount}}</p>
+                                    <p data-toggle="tooltip" data-placement="top" title="Only the highest discount is applied" class="lead" id="subtotal_discount" name="subtotal_discount">{{invoicerecord.TotalDiscount}}</p>
                                     <p class="lead leadHidden" id="grandTotalHidden" name="grandTotalHidden">{{invoicerecord.Total}}</p>
                                 </div>
                             </div>
