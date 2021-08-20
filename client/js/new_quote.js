@@ -150,7 +150,7 @@ Template.new_quote.onRendered(() => {
                             statecode: data.tcustomervs1[i].State + ' ' + data.tcustomervs1[i].Postcode || ' ',
                             country: data.tcustomervs1[i].Country || ' ',
                             termsName: data.tcustomervs1[i].TermsName || '',
-                            taxCode: data.tcustomervs1[i].TaxCodeName || '',
+                            taxCode: data.tcustomervs1[i].TaxCodeName || 'E',
                             clienttypename: data.tcustomervs1[i].ClientTypeName||'Default',
                             discount: data.tcustomervs1[i].Discount || 0
                         };
@@ -200,7 +200,7 @@ Template.new_quote.onRendered(() => {
                         statecode: useData[i].fields.State + ' ' + useData[i].fields.Postcode || ' ',
                         country: useData[i].fields.Country || ' ',
                         termsName: useData[i].fields.TermsName || '',
-                        taxCode: useData[i].fields.TaxCodeName || '',
+                        taxCode: useData[i].fields.TaxCodeName || 'E',
                         clienttypename: useData[i].fields.ClientTypeName||'Default',
                         discount: useData[i].fields.Discount || 0
                     };
@@ -246,7 +246,7 @@ Template.new_quote.onRendered(() => {
                         statecode: data.tcustomervs1[i].State + ' ' + data.tcustomervs1[i].Postcode || ' ',
                         country: data.tcustomervs1[i].Country || ' ',
                         termsName: data.tcustomervs1[i].TermsName || '',
-                        taxCode: data.tcustomervs1[i].TaxCodeName || '',
+                        taxCode: data.tcustomervs1[i].TaxCodeName || 'E',
                         clienttypename: data.tcustomervs1[i].ClientTypeName||'Default',
                         discount: data.tcustomervs1[i].Discount || 0
                     };
@@ -525,7 +525,7 @@ Template.new_quote.onRendered(() => {
                                                 statecode: dataClient.tcustomervs1[c].State + ' ' + dataClient.tcustomervs1[c].Postcode || ' ',
                                                 country: dataClient.tcustomervs1[c].Country || ' ',
                                                 termsName: dataClient.tcustomervs1[c].TermsName || '',
-                                                taxCode: dataClient.tcustomervs1[c].TaxCodeName || '',
+                                                taxCode: dataClient.tcustomervs1[c].TaxCodeName || 'E',
                                                 clienttypename: dataClient.tcustomervs1[c].ClientTypeName || 'Default',
                                                 discount: dataClient.tcustomervs1[c].Discount || 0
                                             };
@@ -680,6 +680,9 @@ Template.new_quote.onRendered(() => {
                                 let currencySymbol = Currency;
                                 let total = currencySymbol + '' + useData[d].fields.TotalAmount.toLocaleString(undefined, { minimumFractionDigits: 2 });
                                 let totalInc = currencySymbol + '' + useData[d].fields.TotalAmountInc.toLocaleString(undefined, { minimumFractionDigits: 2 });
+                                let totalDiscount = utilityService.modifynegativeCurrencyFormat(useData[d].fields.TotalDiscount).toLocaleString(undefined, {
+                                    minimumFractionDigits: 2
+                                });
                                 let subTotal = currencySymbol + '' + useData[d].fields.TotalAmount.toLocaleString(undefined, { minimumFractionDigits: 2 });
                                 let totalTax = currencySymbol + '' + useData[d].fields.TotalTax.toLocaleString(undefined, { minimumFractionDigits: 2 });
                                 let totalBalance = currencySymbol + '' + useData[d].fields.TotalBalance.toLocaleString(undefined, { minimumFractionDigits: 2 });
@@ -828,7 +831,7 @@ Template.new_quote.onRendered(() => {
                                                     statecode: dataClient.tcustomervs1[c].State + ' ' + dataClient.tcustomervs1[c].Postcode || ' ',
                                                     country: dataClient.tcustomervs1[c].Country || ' ',
                                                     termsName: dataClient.tcustomervs1[c].TermsName || '',
-                                                    taxCode: dataClient.tcustomervs1[c].TaxCodeName || '',
+                                                    taxCode: dataClient.tcustomervs1[c].TaxCodeName || 'E',
                                                     clienttypename: dataClient.tcustomervs1[c].ClientTypeName || 'Default',
                                                     discount: dataClient.tcustomervs1[c].Discount || 0
                                                 };
@@ -921,6 +924,9 @@ Template.new_quote.onRendered(() => {
                                 let currencySymbol = Currency;
                                 let total = currencySymbol + '' + data.fields.TotalAmount.toLocaleString(undefined, { minimumFractionDigits: 2 });
                                 let totalInc = currencySymbol + '' + data.fields.TotalAmountInc.toLocaleString(undefined, { minimumFractionDigits: 2 });
+                                let totalDiscount = utilityService.modifynegativeCurrencyFormat(data.fields.TotalDiscount).toLocaleString(undefined, {
+                                    minimumFractionDigits: 2
+                                });
                                 let subTotal = currencySymbol + '' + data.fields.TotalAmount.toLocaleString(undefined, { minimumFractionDigits: 2 });
                                 let totalTax = currencySymbol + '' + data.fields.TotalTax.toLocaleString(undefined, { minimumFractionDigits: 2 });
                                 let totalBalance = currencySymbol + '' + data.fields.TotalBalance.toLocaleString(undefined, { minimumFractionDigits: 2 });
@@ -1162,6 +1168,9 @@ Template.new_quote.onRendered(() => {
                         let currencySymbol = Currency;
                         let total = currencySymbol + '' + data.fields.TotalAmount.toLocaleString(undefined, { minimumFractionDigits: 2 });
                         let totalInc = currencySymbol + '' + data.fields.TotalAmountInc.toLocaleString(undefined, { minimumFractionDigits: 2 });
+                        let totalDiscount = utilityService.modifynegativeCurrencyFormat(data.fields.TotalDiscount).toLocaleString(undefined, {
+                            minimumFractionDigits: 2
+                        });
                         let subTotal = currencySymbol + '' + data.fields.TotalAmount.toLocaleString(undefined, { minimumFractionDigits: 2 });
                         let totalTax = currencySymbol + '' + data.fields.TotalTax.toLocaleString(undefined, { minimumFractionDigits: 2 });
                         let totalBalance = currencySymbol + '' + data.fields.TotalBalance.toLocaleString(undefined, { minimumFractionDigits: 2 });
@@ -1309,7 +1318,7 @@ Template.new_quote.onRendered(() => {
                                             statecode: dataClient.tcustomervs1[c].State + ' ' + dataClient.tcustomervs1[c].Postcode || ' ',
                                             country: dataClient.tcustomervs1[c].Country || ' ',
                                             termsName: dataClient.tcustomervs1[c].TermsName || '',
-                                            taxCode: dataClient.tcustomervs1[c].TaxCodeName || '',
+                                            taxCode: dataClient.tcustomervs1[c].TaxCodeName || 'E',
                                             clienttypename: dataClient.tcustomervs1[c].ClientTypeName || 'Default',
                                             discount: dataClient.tcustomervs1[c].Discount || 0
                                         };
@@ -1596,6 +1605,9 @@ Template.new_quote.onRendered(() => {
                         let currencySymbol = Currency;
                         let total = currencySymbol + '' + data.fields.TotalAmount.toLocaleString(undefined, { minimumFractionDigits: 2 });
                         let totalInc = currencySymbol + '' + data.fields.TotalAmountInc.toLocaleString(undefined, { minimumFractionDigits: 2 });
+                        let totalDiscount = utilityService.modifynegativeCurrencyFormat(data.fields.TotalDiscount).toLocaleString(undefined, {
+                            minimumFractionDigits: 2
+                        });
                         let subTotal = currencySymbol + '' + data.fields.TotalAmount.toLocaleString(undefined, { minimumFractionDigits: 2 });
                         let totalTax = currencySymbol + '' + data.fields.TotalTax.toLocaleString(undefined, { minimumFractionDigits: 2 });
                         let totalBalance = currencySymbol + '' + data.fields.TotalBalance.toLocaleString(undefined, { minimumFractionDigits: 2 });
@@ -1744,7 +1756,7 @@ Template.new_quote.onRendered(() => {
                                             statecode: dataClient.tcustomervs1[c].State + ' ' + dataClient.tcustomervs1[c].Postcode || ' ',
                                             country: dataClient.tcustomervs1[c].Country || ' ',
                                             termsName: dataClient.tcustomervs1[c].TermsName || '',
-                                            taxCode: dataClient.tcustomervs1[c].TaxCodeName || '',
+                                            taxCode: dataClient.tcustomervs1[c].TaxCodeName || 'E',
                                             clienttypename: dataClient.tcustomervs1[c].ClientTypeName || 'Default',
                                             discount: dataClient.tcustomervs1[c].Discount || 0
                                         };
@@ -1863,6 +1875,9 @@ Template.new_quote.onRendered(() => {
                             let currencySymbol = Currency;
                             let total = currencySymbol + '' + useData[d].fields.TotalAmount.toLocaleString(undefined, { minimumFractionDigits: 2 });
                             let totalInc = currencySymbol + '' + useData[d].fields.TotalAmountInc.toLocaleString(undefined, { minimumFractionDigits: 2 });
+                            let totalDiscount = utilityService.modifynegativeCurrencyFormat(useData[d].fields.TotalDiscount).toLocaleString(undefined, {
+                                minimumFractionDigits: 2
+                            });
                             let subTotal = currencySymbol + '' + useData[d].fields.TotalAmount.toLocaleString(undefined, { minimumFractionDigits: 2 });
                             let totalTax = currencySymbol + '' + useData[d].fields.TotalTax.toLocaleString(undefined, { minimumFractionDigits: 2 });
                             let totalBalance = currencySymbol + '' + useData[d].fields.TotalBalance.toLocaleString(undefined, { minimumFractionDigits: 2 });
@@ -2012,7 +2027,7 @@ Template.new_quote.onRendered(() => {
                                                 statecode: dataClient.tcustomervs1[c].State + ' ' + dataClient.tcustomervs1[c].Postcode || ' ',
                                                 country: dataClient.tcustomervs1[c].Country || ' ',
                                                 termsName: dataClient.tcustomervs1[c].TermsName || '',
-                                                taxCode: dataClient.tcustomervs1[c].TaxCodeName || '',
+                                                taxCode: dataClient.tcustomervs1[c].TaxCodeName || 'E',
                                                 clienttypename: dataClient.tcustomervs1[c].ClientTypeName || 'Default',
                                                 discount: dataClient.tcustomervs1[c].Discount || 0
                                             };
@@ -2106,6 +2121,9 @@ Template.new_quote.onRendered(() => {
                             let currencySymbol = Currency;
                             let total = currencySymbol + '' + data.fields.TotalAmount.toLocaleString(undefined, { minimumFractionDigits: 2 });
                             let totalInc = currencySymbol + '' + data.fields.TotalAmountInc.toLocaleString(undefined, { minimumFractionDigits: 2 });
+                            let totalDiscount = utilityService.modifynegativeCurrencyFormat(data.fields.TotalDiscount).toLocaleString(undefined, {
+                                minimumFractionDigits: 2
+                            });
                             let subTotal = currencySymbol + '' + data.fields.TotalAmount.toLocaleString(undefined, { minimumFractionDigits: 2 });
                             let totalTax = currencySymbol + '' + data.fields.TotalTax.toLocaleString(undefined, { minimumFractionDigits: 2 });
                             let totalBalance = currencySymbol + '' + data.fields.TotalBalance.toLocaleString(undefined, { minimumFractionDigits: 2 });
@@ -2253,7 +2271,7 @@ Template.new_quote.onRendered(() => {
                                                 statecode: dataClient.tcustomervs1[c].State + ' ' + dataClient.tcustomervs1[c].Postcode || ' ',
                                                 country: dataClient.tcustomervs1[c].Country || ' ',
                                                 termsName: dataClient.tcustomervs1[c].TermsName || '',
-                                                taxCode: dataClient.tcustomervs1[c].TaxCodeName || '',
+                                                taxCode: dataClient.tcustomervs1[c].TaxCodeName || 'E',
                                                 clienttypename: dataClient.tcustomervs1[c].ClientTypeName || 'Default',
                                                 discount: dataClient.tcustomervs1[c].Discount || 0
                                             };
@@ -2369,6 +2387,9 @@ Template.new_quote.onRendered(() => {
                     let currencySymbol = Currency;
                     let total = currencySymbol + '' + data.fields.TotalAmount.toLocaleString(undefined, { minimumFractionDigits: 2 });
                     let totalInc = currencySymbol + '' + data.fields.TotalAmountInc.toLocaleString(undefined, { minimumFractionDigits: 2 });
+                    let totalDiscount = utilityService.modifynegativeCurrencyFormat(data.fields.TotalDiscount).toLocaleString(undefined, {
+                        minimumFractionDigits: 2
+                    });
                     let subTotal = currencySymbol + '' + data.fields.TotalAmount.toLocaleString(undefined, { minimumFractionDigits: 2 });
                     let totalTax = currencySymbol + '' + data.fields.TotalTax.toLocaleString(undefined, { minimumFractionDigits: 2 });
                     let totalBalance = currencySymbol + '' + data.fields.TotalBalance.toLocaleString(undefined, { minimumFractionDigits: 2 });
@@ -2518,7 +2539,7 @@ Template.new_quote.onRendered(() => {
                                         statecode: dataClient.tcustomervs1[c].State + ' ' + dataClient.tcustomervs1[c].Postcode || ' ',
                                         country: dataClient.tcustomervs1[c].Country || ' ',
                                         termsName: dataClient.tcustomervs1[c].TermsName || '',
-                                        taxCode: dataClient.tcustomervs1[c].TaxCodeName || '',
+                                        taxCode: dataClient.tcustomervs1[c].TaxCodeName || 'E',
                                         clienttypename: dataClient.tcustomervs1[c].ClientTypeName || 'Default',
                                         discount: dataClient.tcustomervs1[c].Discount || 0
                                     };
@@ -3250,7 +3271,7 @@ Template.new_quote.onRendered(() => {
         $('#pdfCustomerAddress').html(postalAddress);
         $('.pdfCustomerAddress').text(postalAddress);
         $('#txaShipingInfo').val(postalAddress);
-        $('#sltTerms').val(tableCustomer.find(".colCustomerType").text() || '');
+        $('#sltTerms').val(tableCustomer.find(".colCustomerTermName").text() || '');
 
         //if (li.text() != undefined) {
         let selectedCustomer = $('#edtCustomerName').val();

@@ -214,7 +214,7 @@ Template.refundcard.onRendered(()=>{
                             statecode : data.tcustomervs1[i].State +' '+data.tcustomervs1[i].Postcode || ' ',
                             country : data.tcustomervs1[i].Country || ' ',
                             termsName : data.tcustomervs1[i].TermsName || '',
-                            taxCode: data.tcustomervs1[i].TaxCodeName || '',
+                            taxCode: data.tcustomervs1[i].TaxCodeName || 'E',
                             clienttypename: data.tcustomervs1[i].ClientTypeName||'Default',
                             discount: data.tcustomervs1[i].Discount || 0
                         };
@@ -263,7 +263,7 @@ Template.refundcard.onRendered(()=>{
                         statecode : useData[i].fields.State +' '+useData[i].fields.Postcode || ' ',
                         country : useData[i].fields.Country || ' ',
                         termsName :  useData[i].fields.TermsName || '',
-                        taxCode: useData[i].fields.TaxCodeName || '',
+                        taxCode: useData[i].fields.TaxCodeName || 'E',
                         clienttypename: useData[i].fields.ClientTypeName||'Default',
                         discount: useData[i].fields.Discount || 0
                     };
@@ -590,7 +590,7 @@ Template.refundcard.onRendered(()=>{
                                         statecode: dataClient.tcustomervs1[c].State + ' ' + dataClient.tcustomervs1[c].Postcode || ' ',
                                         country: dataClient.tcustomervs1[c].Country || ' ',
                                         termsName: dataClient.tcustomervs1[c].TermsName || '',
-                                        taxCode: dataClient.tcustomervs1[c].TaxCodeName || '',
+                                        taxCode: dataClient.tcustomervs1[c].TaxCodeName || 'E',
                                         clienttypename: dataClient.tcustomervs1[c].ClientTypeName || 'Default'
                                     };
                                     clientList.push(customerrecordObj);
@@ -1304,7 +1304,7 @@ Template.refundcard.onRendered(()=>{
         $('#pdfCustomerAddress').html(postalAddress);
         $('.pdfCustomerAddress').text(postalAddress);
         $('#txaShipingInfo').val(postalAddress);
-        $('#sltTerms').val(tableCustomer.find(".colCustomerType").text() || '');
+        $('#sltTerms').val(tableCustomer.find(".colCustomerTermName").text() || '');
 
         //if (li.text() != undefined) {
         let selectedCustomer = $('#edtCustomerName').val();
