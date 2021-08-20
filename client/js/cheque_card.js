@@ -488,6 +488,7 @@ Template.chequecard.onRendered(() => {
                                 termsName: data.fields.TermsName,
                                 Total: totalInc,
                                 LineItems: lineItems,
+                                isReconciled:data.fields.Isreconciled,
                                 TotalTax: totalTax,
                                 SubTotal: subTotal,
                                 balanceDue: totalBalance,
@@ -500,6 +501,17 @@ Template.chequecard.onRendered(() => {
                             $('#edtSupplierName').val(data.fields.SupplierName);
                             templateObject.CleintName.set(data.fields.SupplierName);
                             $('#sltCurrency').val(data.fields.ForeignExchangeCode);
+
+                            if(data.fields.Isreconciled){
+                              $(".btnDeleteCheque").prop("disabled", true);
+                              $(".btnRemove").prop("disabled", true);
+                              $(".btnSave").prop("disabled", true);
+                              $("#form :input").prop("disabled", true);
+                            }
+
+
+                            $(".printConfirm").prop("disabled", false);
+                            $(".btnBack").prop("disabled", false);
 
                             templateObject.attachmentCount.set(0);
                             if (data.fields.Attachments) {
@@ -706,6 +718,7 @@ Template.chequecard.onRendered(() => {
                                     termsName: useData[d].fields.TermsName,
                                     Total: totalInc,
                                     LineItems: lineItems,
+                                    isReconciled:useData[d].fields.Isreconciled,
                                     TotalTax: totalTax,
                                     SubTotal: subTotal,
                                     balanceDue: totalBalance,
@@ -718,6 +731,17 @@ Template.chequecard.onRendered(() => {
                                 $('#edtSupplierName').val(useData[d].fields.SupplierName);
                                 templateObject.CleintName.set(useData[d].fields.SupplierName);
                                 $('#sltCurrency').val(useData[d].fields.ForeignExchangeCode);
+
+                                if(useData[d].fields.Isreconciled){
+                                  $(".btnDeleteCheque").prop("disabled", true);
+                                  $(".btnRemove").prop("disabled", true);
+                                  $(".btnSave").prop("disabled", true);
+                                  $("#form :input").prop("disabled", true);
+                                }
+
+
+                                $(".printConfirm").prop("disabled", false);
+                                $(".btnBack").prop("disabled", false);
 
                                 templateObject.attachmentCount.set(0);
                                 if (useData[d].fields.Attachments) {
@@ -905,6 +929,7 @@ Template.chequecard.onRendered(() => {
                                     termsName: data.fields.TermsName,
                                     Total: totalInc,
                                     LineItems: lineItems,
+                                    isReconciled:data.fields.Isreconciled,
                                     TotalTax: totalTax,
                                     SubTotal: subTotal,
                                     balanceDue: totalBalance,
@@ -917,6 +942,17 @@ Template.chequecard.onRendered(() => {
                                 $('#edtSupplierName').val(data.fields.SupplierName);
                                 templateObject.CleintName.set(data.fields.SupplierName);
                                 $('#sltCurrency').val(data.fields.ForeignExchangeCode);
+
+                                if(data.fields.Isreconciled){
+                                  $(".btnDeleteCheque").prop("disabled", true);
+                                  $(".btnRemove").prop("disabled", true);
+                                  $(".btnSave").prop("disabled", true);
+                                  $("#form :input").prop("disabled", true);
+                                }
+
+
+                                $(".printConfirm").prop("disabled", false);
+                                $(".btnBack").prop("disabled", false);
 
                                 templateObject.attachmentCount.set(0);
                                 if (data.fields.Attachments) {
@@ -1120,6 +1156,7 @@ Template.chequecard.onRendered(() => {
                             termsName: data.fields.TermsName,
                             Total: totalInc,
                             LineItems: lineItems,
+                            isReconciled:data.fields.Isreconciled,
                             TotalTax: totalTax,
                             SubTotal: subTotal,
                             balanceDue: totalBalance,
@@ -1132,6 +1169,17 @@ Template.chequecard.onRendered(() => {
                         $('#edtSupplierName').val(data.fields.SupplierName);
                         templateObject.CleintName.set(data.fields.SupplierName);
                         $('#sltCurrency').val(data.fields.ForeignExchangeCode);
+
+                        if(data.fields.Isreconciled){
+                          $(".btnDeleteCheque").prop("disabled", true);
+                          $(".btnRemove").prop("disabled", true);
+                          $(".btnSave").prop("disabled", true);
+                          $("#form :input").prop("disabled", true);
+                        }
+
+
+                        $(".printConfirm").prop("disabled", false);
+                        $(".btnBack").prop("disabled", false);
 
                         templateObject.attachmentCount.set(0);
                         if (data.fields.Attachments) {
@@ -1292,6 +1340,7 @@ Template.chequecard.onRendered(() => {
             termsName: '',
             Total: Currency + '' + 0.00,
             LineItems: lineItems,
+            isReconciled:false,
             TotalTax: Currency + '' + 0.00,
             SubTotal: Currency + '' + 0.00,
             balanceDue: Currency + '' + 0.00,
@@ -1302,7 +1351,7 @@ Template.chequecard.onRendered(() => {
         };
 
         $('#edtSupplierName').val('');
-
+        $("#form :input").prop("disabled", false);
         templateObject.chequerecord.set(chequerecord);
 
         if (templateObject.chequerecord.get()) {

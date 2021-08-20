@@ -175,9 +175,9 @@
                             </select>
                         </div>
                         <div>
-                            <span id="customerType" name="customerType" class="customerType" style="margin-left: 2px;color: #17a673;"></span>
+                            <span data-toggle="tooltip" data-placement="top" title="Only the highest discount is applied" id="customerType" name="customerType" class="customerType" style="margin-left: 2px;color: #17a673;"></span>
                             <input type="hidden" class="form-control pointer" id="edtCustomerUseType" name="edtCustomerUseType" value="">
-                            <span id="customerDiscount" name="customerDiscount" class="customerDiscount" style="color: #17a673;"></span>
+                            <span data-toggle="tooltip" data-placement="top" title="Only the highest discount is applied" id="customerDiscount" name="customerDiscount" class="customerDiscount" style="color: #17a673;"></span>
                             <input type="hidden" class="form-control pointer" id="edtCustomerUseDiscount" name="edtCustomerUseDiscount" value="0">
                         </div>
                     </div>
@@ -741,7 +741,7 @@
                                     <th class="th colDescription">Description</th>
                                     <th class="th colQty" style="width: 75px;">Qty</th>
                                     <th class="th colUnitPrice" style="width: 110px; text-align: left!important;">Unit Price</th>
-                                    <th class="th colDiscount" style="width: 95px; text-align: left!important;">Disc %</th>
+                                    <th data-toggle="tooltip" data-placement="top" title="Only the highest discount is applied" class="th colDiscount" style="width: 95px; text-align: left!important;">Disc %</th>
                                     <th class="th colCostPrice thLinceCostPrice hiddenColumn" style="width: 110px; text-align: left!important;">Cost Price</th>
                                     <th class="th colSalesLinesCustField1 thSalesLinesCustField1 hiddenColumn" style="width: 110px;">SalesLinesCustField1</th>
                                     <th class="th colTaxRate hiddenColumn" style="width: 91px; text-align: left!important;">Tax Rate</th>
@@ -866,11 +866,11 @@ style="margin: 16px;margin-top: 0px;width: 95px;"><i class="fa fa-remove" style=
                         <hr style=" border-top: 3px solid #696969;" />
                         <div class="d-flex d-xl-flex flex-row justify-content-xl-end align-items-xl-center">
                             <div class="d-xl-flex flex-column justify-content-xl-end align-items-xl-end">
-                                <p class="lead">Discount</p>
+                                <p data-toggle="tooltip" data-placement="top" title="Only the highest discount is applied" class="lead">Discount</p>
                                 <p class="lead leadHidden">Nett</p>
                             </div>
                             <div class="d-xl-flex flex-column justify-content-xl-end align-items-xl-end" style="padding-left: 20px;">
-                                <p class="lead" id="subtotal_discount" name="subtotal_discount">{{salesorderrecord.TotalDiscount}}</p>
+                                <p data-toggle="tooltip" data-placement="top" title="Only the highest discount is applied" class="lead" id="subtotal_discount" name="subtotal_discount">{{salesorderrecord.TotalDiscount}}</p>
                                 <p class="lead leadHidden" id="grandTotalHidden" name="grandTotalHidden">{{salesorderrecord.Total}}</p>
                             </div>
                         </div>
@@ -883,6 +883,7 @@ style="margin: 16px;margin-top: 0px;width: 95px;"><i class="fa fa-remove" style=
                                 <p class="lead leadTotal" id="grandTotal" name="grandTotal">{{salesorderrecord.Total}}</p>
                             </div>
                         </div>
+                        <hr style=" border-top: 3px solid #696969;" />
                         <p class="lead" style="font-size: 25px; font-weight: 500; margin: 0px; color: #696969; display:none;" id="totalBalanceDue" name="totalBalanceDue">{{salesorderrecord.balanceDue}}</p>
                     </div>
 
