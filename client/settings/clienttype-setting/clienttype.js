@@ -55,6 +55,9 @@ Template.clienttypesettings.onRendered(function () {
         });
     };
 
+
+
+
     templateObject.getAllEmployees = function () {
 
         taxRateService.getEmployees().then(function (data) {
@@ -387,7 +390,6 @@ Template.clienttypesettings.onRendered(function () {
                 $('div.dataTables_filter input').addClass('form-control form-control-sm');
             }
         }).catch(function (err) {
-            console.log(err);
             contactService.getClientType().then(function (data) {
                 let lineItems = [];
                 let lineItemObj = {};
@@ -547,66 +549,21 @@ Template.clienttypesettings.onRendered(function () {
     }
     templateObject.getClientTypeData();
 
-    $(document).on('click', '.table-remove', function () {
-        event.stopPropagation();
-        event.stopPropagation();
+    $(document).on('click', '.table-remove', function (event) {
         var targetID = $(event.target).closest('tr').attr('id'); // table row ID
         $('#selectDeleteLineID').val(targetID);
         $('#deleteLineModal').modal('toggle');
-        // if ($('.clienttypeList tbody>tr').length > 1) {
-        // // if(confirm("Are you sure you want to delete this row?")) {
-        // this.click;
-        // $(this).closest('tr').remove();
-        // //} else { }
-        // event.preventDefault();
-        // return false;
-        // }
     });
 
-    $('#clienttypeList tbody').on('click', 'tr .colDeptID, tr .colHeadDept, tr .colDeptName, tr .colStatus, tr .colDescription, tr .colSiteCode', function () {
-        var listData = $(this).closest('tr').attr('id');
-        if (listData) {
-            $('#add-dept-title').text('Edit Client Type');
-            if (listData !== '') {
-                listData = Number(listData);
-                taxRateService.getOneDepartment(listData).then(function (data) {
-
-                    var deptID = data.fields.ID || '';
-                    var headerDept = data.fields.DeptClassGroup || '';
-                    var deptName = data.fields.DeptClassName || '';
-                    var deptDesc = data.fields.Description || '';
-                    var siteCode = data.fields.SiteCode || '';
-                    //data.fields.Rate || '';
-
-
-                    $('#edtDepartmentID').val(deptID);
-                    //$('#sltDepartment').val(headerDept);
-                    $('#edtDeptName').val(deptName);
-                    $('#edtDeptName').prop('readonly', true);
-                    $('#edtDeptDesc').val(deptDesc);
-                    $('#edtSiteCode').val(siteCode);
-
-                    if (data.fields.StSClass != null) {
-
-                        var stsmaincontactno = data.fields.StSClass.fields.PrincipleContactPhone || '';
-                        var licensenumber = data.fields.StSClass.fields.LicenseNumber || '';
-                        var principlecontactname = data.fields.StSClass.fields.PrincipleContactName || '';
-                        var defaultroomname = data.fields.StSClass.fields.DefaultBinLocation || '';
-
-                        $('#stsMainContactNo').val(stsmaincontactno);
-                        $('#stsLicenseNo').val(licensenumber);
-                        $('#sltMainContact').val(principlecontactname);
-                        $('#sltDefaultRoom').val(defaultroomname);
-                    }
-
-                });
-
-                $(this).closest('tr').attr('data-target', '#myModal');
-                $(this).closest('tr').attr('data-toggle', 'modal');
-
-            }
-
-        }
+    $('#clienttypeList tbody').on('click', 'tr .colDeptName, tr .colDescription', function () {
+        $('#add-dept-title').text('Edit Client Type');
+        let targetID = $(event.target).closest('tr').attr('id');
+        let typeDescription = $(event.target).closest('tr').find('.colDescription').text();
+        let typeName = $(event.target).closest('tr').find('.colDeptName').text();
+        $('#typeID').val(targetID);
+        $('#edtDeptName').val(typeName);
+        $('#txaDescription').val(typeDescription);
+        $('#myModalClientType').modal('show');
 
     });
 });
@@ -821,7 +778,11 @@ Template.clienttypesettings.events({
         });
         // Meteor._reload.reload();
     },
-    'click .btnAddNewDepart': function () {
+    'click .btnAddDept': function () {
+        $('#add-dept-title').text('Add New Client Type');
+
+    },
+     'click .btnAddNewDepart': function () {
         $('#newTaxRate').css('display', 'block');
 
     },
@@ -843,7 +804,7 @@ Template.clienttypesettings.events({
         };
 
         contactService.saveClientTypeData(objDetails).then(function (objDetails) {
-            contactService.getClientTypeData().then(function (dataReload) {
+            sideBarService.getClientTypeData().then(function (dataReload) {
                     addVS1Data('TClientType', JSON.stringify(dataReload)).then(function (datareturn) {
                        Meteor._reload.reload();
                     }).catch(function (err) {
@@ -870,16 +831,38 @@ Template.clienttypesettings.events({
     'click .btnSaveDept': function () {
         $('.fullScreenSpin').css('display', 'inline-block');
         let contactService = new ContactService();
-
+        let objDetails ={};
         //let headerDept = $('#sltDepartment').val();
         let custType = $('#edtDeptName').val();
         let typeDesc = $('#txaDescription').val() || '';
+        let id = $('#typeID').val() || '';
         if (custType === '') {
             swal('Client Type name cannot be blank!', '', 'warning');
             $('.fullScreenSpin').css('display', 'none');
             e.preventDefault();
         } else {
-            let objDetails = {
+            if(id == "") {
+            objDetails = {
+                type: "TClientType",
+                fields: {
+                    TypeName: custType,
+                    TypeDescription: typeDesc,
+                    Active: true
+                }
+            } 
+        } else {
+                objDetails = {
+                type: "TClientType",
+                fields: {
+                    Id: id,
+                    TypeName: custType,
+                    TypeDescription: typeDesc,
+                    Active: true
+                }
+
+            }
+            }
+            objDetails = {
                 type: "TClientType",
                 fields: {
                     TypeName: custType,
@@ -888,7 +871,7 @@ Template.clienttypesettings.events({
                 }
             }
             contactService.saveClientTypeData(objDetails).then(function (objDetails) {
-                contactService.getClientTypeData().then(function (dataReload) {
+                sideBarService.getClientTypeData().then(function (dataReload) {
                     addVS1Data('TClientType', JSON.stringify(dataReload)).then(function (datareturn) {
                         Meteor._reload.reload();
                     }).catch(function (err) {
