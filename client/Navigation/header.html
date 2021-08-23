@@ -45,15 +45,19 @@
             .vs1logodesktop {
                 display: none;
             }
+
             .trueERPConnection {
                 display: none;
             }
+
             .upgradeToVS1 {
                 display: none;
             }
+
             .upgradeToVS1mobile {
                 display: none;
             }
+
             .supportLi {
                 display: none;
             }
@@ -72,10 +76,25 @@
         <div class="container-fluid">
             <button class="btn btn-link d-md rounded-circle mr-3" id="sidebarToggleTop" type="button"><i class="fas fa-bars" style="color: #00A3D3;"></i></button>
 
+            <style>
+                .alerts-border {
+                    border: 1px solid;
+                    border-color: #00a3d3;
+
+                    animation: blink 7s;
+                    animation-iteration-count: 30;
+                }
+
+                @keyframes blink {
+                    50% {
+                        border-color: #ededed;
+                    }
+                }
+            </style>
+
             <form class="form-inline d-none d-sm-inline-block mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search" action=" ">
                 <div class="input-group">
-                    <input class="bg-light form-control border-0 small txtGlobalSearch" type="text"
-                           placeholder="Search all ...">
+                    <input class="bg-light form-control border-2 small txtGlobalSearch alerts-border" type="text" placeholder="Search all ...">
                     <div class="input-group-append">
                         <button class="btn btn-primary py-0 btnGlobalSearch" type="button" style="background-color: rgb(0,163,211); border-color: rgb(0,163,211);"><i class="fas fa-search"></i></button>
                     </div>
@@ -90,7 +109,7 @@
 
                 <li class="nav-item no-arrow mx-1 mobileSearchBar" role="presentation">
                     <form class="form-inline mr-auto navbar-search w-100" style="margin-top: 3px;">
-                        <div class="input-group"><input class="bg-light form-control border-0 small txtGlobalSearch" type="text" placeholder="Search all ..." style="text-align: left !important;">
+                        <div class="input-group"><input class="bg-light form-control border-0 small txtGlobalSearch alerts-border" type="text" placeholder="Search all ..." style="text-align: left !important;">
                             <div class="input-group-append">
                                 <button class="btn btn-primary py-0 btnGlobalSearch" type="button" style="background-color: #00A3D3; border-color: #00A3D3;"><i class="fas fa-search"></i></button>
                             </div>
@@ -102,64 +121,62 @@
                     <a class="dropdown-toggle nav-link" data-toggle="dropdown" aria-expanded="false" href="#"><i class="fas fa-plus"></i></a>
                     <div class="dropdown-menu dropdown-menu-right p-3 animated--grow-in" role="menu" aria-labelledby="searchDropdown">
                         {{#if isCloudTrueERP}}
-                        <a class="nav-link" href="linktrueerp" style="color:#00a3d3; border-style: solid; border-radius: 25px;border: 2px solid; width: 47%; float: left;">
-                            <i class="fas fa-link" style="margin-right: 5px;"></i> TrueERP
-                        </a>
+                            <a class="nav-link" href="linktrueerp" style="color:#00a3d3; border-style: solid; border-radius: 25px;border: 2px solid; width: 47%; float: left;">
+                                <i class="fas fa-link" style="margin-right: 5px;"></i> TrueERP
+                            </a>
                         {{/if}}
 
                         {{#if isGreenTrack}}
                         {{else}}
-                        <a class="nav-link" href="https://sos.splashtop.com" target="_blank" style="color:#00a3d3; border-style: solid; border-radius: 25px;border: 2px solid;width: 47%; float: right;">Get <img class="img-support" src="images/phone-support.png"  style="width: 25px!important;padding: 2px;"> Support</a>
+                            <a class="nav-link" href="https://sos.splashtop.com" target="_blank" style="color:#00a3d3; border-style: solid; border-radius: 25px;border: 2px solid;width: 47%; float: right;">Get <img class="img-support"
+                                    src="images/phone-support.png" style="width: 25px!important;padding: 2px;"> Support</a>
                         {{/if}}
                     </div>
                 </li>
                 {{#if isCloudTrueERP}}
-                <li class="nav-item no-arrow mx-1 trueERPConnection" id="" role="presentation" style="padding-right: 10px;">
-                    <a class="nav-link" href="linktrueerp" style="color:#00a3d3; border-style: solid; border-radius: 25px;border: 2px solid;">
-                        <i class="fas fa-link" style="margin-right: 5px;"></i> TrueERP
-                    </a>
-                </li>
+                    <li class="nav-item no-arrow mx-1 trueERPConnection" id="" role="presentation" style="padding-right: 10px;">
+                        <a class="nav-link" href="linktrueerp" style="color:#00a3d3; border-style: solid; border-radius: 25px;border: 2px solid;">
+                            <i class="fas fa-link" style="margin-right: 5px;"></i> TrueERP
+                        </a>
+                    </li>
                 {{/if}}
                 {{#if isGreenTrack}}
-                <li class="nav-item no-arrow mx-1 upgradeToVS1" id="upgrade" role="presentation">
-                    <a class="nav-link"
-                       href="https://www.payments.vs1cloud.com/mascartdirect/direct/add/product/12/bypass/1/?product=12&selected_configurable_option=&related_product=&item=12&form_key=fBHY2DVgwe0CQzLa&aw_sarp2_subscription_type=9&qty=1&bypass=1"
-                       target="_blank" style="color:#00a3d3"><img class="img-skype" src="images/upgradetovs1.png"
-                                                                  style="height: 25px!important;"></a>
-                </li>
-                <li class="nav-item no-arrow mx-1 upgradeToVS1mobile" id="upgradem" role="presentation">
-                    <a class="nav-link"
-                       href="https://www.payments.vs1cloud.com/mascartdirect/direct/add/product/12/bypass/1/?product=12&selected_configurable_option=&related_product=&item=12&form_key=fBHY2DVgwe0CQzLa&aw_sarp2_subscription_type=9&qty=1&bypass=1"
-                       target="_blank" style="color:#00a3d3"><img class="img-skype" src="images/VS1CloudIcon.png"
-                                                                  style="height: 25px!important;"></a>
-                </li>
+                    <li class="nav-item no-arrow mx-1 upgradeToVS1" id="upgrade" role="presentation">
+                        <a class="nav-link"
+                            href="https://www.payments.vs1cloud.com/mascartdirect/direct/add/product/12/bypass/1/?product=12&selected_configurable_option=&related_product=&item=12&form_key=fBHY2DVgwe0CQzLa&aw_sarp2_subscription_type=9&qty=1&bypass=1"
+                            target="_blank" style="color:#00a3d3"><img class="img-skype" src="images/upgradetovs1.png" style="height: 25px!important;"></a>
+                    </li>
+                    <li class="nav-item no-arrow mx-1 upgradeToVS1mobile" id="upgradem" role="presentation">
+                        <a class="nav-link"
+                            href="https://www.payments.vs1cloud.com/mascartdirect/direct/add/product/12/bypass/1/?product=12&selected_configurable_option=&related_product=&item=12&form_key=fBHY2DVgwe0CQzLa&aw_sarp2_subscription_type=9&qty=1&bypass=1"
+                            target="_blank" style="color:#00a3d3"><img class="img-skype" src="images/VS1CloudIcon.png" style="height: 25px!important;"></a>
+                    </li>
                 {{/if}}
                 {{#if isGreenTrack}}
                 {{else}}
-                <li class="nav-item no-arrow mx-1 supportLi">
-                    <a class="nav-link" href="https://sos.splashtop.com" target="_blank" style="color:#00a3d3; border-style: solid; border-radius: 25px;border: 2px solid;">Get <img class="img-support" src="images/phone-support.png"  style="width: 25px!important;padding: 2px;"> Support</a>
-                </li>
+                    <li class="nav-item no-arrow mx-1 supportLi">
+                        <a class="nav-link" href="https://sos.splashtop.com" target="_blank" style="color:#00a3d3; border-style: solid; border-radius: 25px;border: 2px solid;">Get <img class="img-support" src="images/phone-support.png"
+                                style="width: 25px!important;padding: 2px;"> Support</a>
+                    </li>
                 {{/if}}
 
                 <div class="d-none d-sm-block topbar-divider"></div>
                 <li class="nav-item dropdown no-arrow" role="presentation">
-                    <div class="nav-item dropdown no-arrow"><a class="dropdown-toggle nav-link" data-toggle="dropdown"
-                                                               aria-expanded="false" href="#"><span class="d-none d-lg-inline mr-2 text-gray-600 small"
-                                                                                                    id="logged_user"></span><img class="border rounded-circle img-profile"
-                                                                                                                                 src="img/avatar.png"></a>
+                    <div class="nav-item dropdown no-arrow"><a class="dropdown-toggle nav-link" data-toggle="dropdown" aria-expanded="false" href="#"><span class="d-none d-lg-inline mr-2 text-gray-600 small" id="logged_user"></span><img
+                                class="border rounded-circle img-profile" src="img/avatar.png"></a>
                         <div class="dropdown-menu shadow dropdown-menu-right animated--grow-in" role="menu">
-                          {{#if isCloudUserPass}}
-                          <a class="dropdown-item userprofileclick" role="presentation" href="#" id="userprofileclick" name="userprofileclick">
-                          <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>&nbsp;Profile</a>
-                          {{/if}}
-                          {{#if isSettings}}
-                          <a class="dropdown-item" role="presentation" href="#" id="navOrganisationSettings" name="navOrganisationSettings">
-                          <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>&nbsp;Settings</a>
-                          {{/if}}
+                            {{#if isCloudUserPass}}
+                                <a class="dropdown-item userprofileclick" role="presentation" href="#" id="userprofileclick" name="userprofileclick">
+                                    <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>&nbsp;Profile</a>
+                            {{/if}}
+                            {{#if isSettings}}
+                                <a class="dropdown-item" role="presentation" href="#" id="navOrganisationSettings" name="navOrganisationSettings">
+                                    <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>&nbsp;Settings</a>
+                            {{/if}}
                             <!-- <a class="dropdown-item" role="presentation" href="#"><i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>&nbsp;Activity log</a> -->
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" role="presentation" href="#" onclick="logOutFunc()">
-                              <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>&nbsp;Logout</a>
+                                <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>&nbsp;Logout</a>
                         </div>
                     </div>
                 </li>
@@ -169,19 +186,31 @@
 
 
     {{#if isGreenTrack}}
-    <script>
-        function logOutFunc() {
-            window.open('/vs1greentracklogin', '_self');
-            CloudUser.update({ _id: Session.get('mycloudLogonID') }, { $set: { userMultiLogon: false } });
-        };
-    </script>
+        <script>
+            function logOutFunc() {
+                window.open('/vs1greentracklogin', '_self');
+                CloudUser.update({
+                    _id: Session.get('mycloudLogonID')
+                }, {
+                    $set: {
+                        userMultiLogon: false
+                    }
+                });
+            };
+        </script>
     {{else}}
-    <script>
-        function logOutFunc() {
-            window.open('/', '_self');
-            CloudUser.update({ _id: Session.get('mycloudLogonID') }, { $set: { userMultiLogon: false } });
-        };
-    </script>
+        <script>
+            function logOutFunc() {
+                window.open('/', '_self');
+                CloudUser.update({
+                    _id: Session.get('mycloudLogonID')
+                }, {
+                    $set: {
+                        userMultiLogon: false
+                    }
+                });
+            };
+        </script>
     {{/if}}
 
     <div class="modal fade" role="dialog" tabindex="-1" id="searchPOP">
@@ -189,27 +218,18 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h4 style="">
-                        <div style="float: left;">Global Search List</div> <a role="button" data-toggle="modal"
-                                                                              href="#helpModalAdd" class="helpModalAdd" style="float: right;"><label
-                                                                                                                                                     class="lblplay">PLAY</label><i class="far fa-play-circle"
+                        <div style="float: left;">Global Search List</div> <a role="button" data-toggle="modal" href="#helpModalAdd" class="helpModalAdd" style="float: right;"><label class="lblplay">PLAY</label><i class="far fa-play-circle"
                                 style="font-size: 20px;"></i></a>
-                    </h4><button type="button" class="close btnCloseModal" data-dismiss="modal" aria-label="Close"><span
-                                                                                                                         aria-hidden="true">×</span></button>
+                    </h4><button type="button" class="close btnCloseModal" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
                 </div>
                 <div class="modal-body" style="background-color: #ededed;">
                     <div class="row d-xl-flex flex-row justify-content-xl-center">
                         <div class="col d-xl-flex flex-grow-1 align-items-xl-start">
-                            <button id="btnRefresh" class="btn btn-primary btnRefreshSearch float-left" type="button"
-                                    style="margin: 16px;min-width: 117.016px;"><i class="la la-lightbulb-o"
-                                                                                  style="margin-right: 5px;"></i>Refresh</button>
+                            <button id="btnRefresh" class="btn btn-primary btnRefreshSearch float-left" type="button" style="margin: 16px;min-width: 117.016px;"><i class="la la-lightbulb-o" style="margin-right: 5px;"></i>Refresh</button>
                         </div>
                         <div class="col">
-                            <button class="btn btn-primary printConfirm float-right" type="button"
-                                    style="margin: 16px;"><i class="fa fa-print"
-                                                             style="padding-right: 5px;"></i>Print</button>
-                            <button class="btn btn-primary export float-right" type="button" style="margin: 16px;"
-                                    id="exportbtn" name="exportbtn"><i class="fas fa-file-export"
-                                                                       style="padding-right: 5px;"></i>Export</button>
+                            <button class="btn btn-primary printConfirm float-right" type="button" style="margin: 16px;"><i class="fa fa-print" style="padding-right: 5px;"></i>Print</button>
+                            <button class="btn btn-primary export float-right" type="button" style="margin: 16px;" id="exportbtn" name="exportbtn"><i class="fas fa-file-export" style="padding-right: 5px;"></i>Export</button>
                         </div>
                     </div>
                     <div class="table-responsive">
@@ -250,8 +270,7 @@
                                 cursor: pointer;
                             }
                         </style>
-                        <table id="tblSearchOverview" style="width:100%"
-                               class="table table-striped table-bordered tblSearchOverview">
+                        <table id="tblSearchOverview" style="width:100%" class="table table-striped table-bordered tblSearchOverview">
                             <thead>
                                 <tr class="dnd-moved">
                                     <th>ID</th>
@@ -280,8 +299,7 @@
                 <div class="modal-footer" style="background-color: #ededed;">
                     <!-- <button class="btn btn-primary btnSaveAccount" type="button" style="margin: 8px;" id="btnSaveAccount" name="btnSaveAccount"><i class="fa fa-save" style="margin-right: 5px;"></i>Save</button>
 <button class="btn btn-danger btnDeleteAccount" type="button" style="margin: 16px; width: 95px;"><i class="fa fa-trash" style="padding-right: 8px;"></i>Delete</button> -->
-                    <button class="btn btn-secondary btnCloseModal" data-dismiss="modal" type="button"
-                            style="margin: 8px;"><i class="fa fa-close" style="margin-right: 5px;"></i>Close</button>
+                    <button class="btn btn-secondary btnCloseModal" data-dismiss="modal" type="button" style="margin: 8px;"><i class="fa fa-close" style="margin-right: 5px;"></i>Close</button>
                 </div>
             </div>
         </div>
