@@ -326,7 +326,6 @@ Template.productview.onRendered(function() {
                   let lineItemObj = {};
                   let currencySymbol = Currency;
                   let totalquantity = 0;
-
                   let productrecord = {
                       id : data.fields.ID,
                       productname : data.fields.ProductName,
@@ -825,35 +824,35 @@ Template.productview.onRendered(function() {
                   let lineItemObj = {};
                   let currencySymbol = Currency;
                   let totalquantity = 0;
-                  currentProductID = data.fields.ID;
+                  currentProductID = data.tproductvs1[0].fields.ID;
                   templateObject.getProductClassQtyData();
                   let productrecord = {
-                      id : data.fields.ID,
-                      productname : data.fields.ProductName,
-                      lib: data.fields.ProductName,
-                      productcode : data.fields.PRODUCTCODE,
-                      productprintName : data.fields.ProductPrintName,
-                      assetaccount : data.fields.AssetAccount,
-                      buyqty1cost : utilityService.modifynegativeCurrencyFormat(data.fields.BuyQty1Cost),
-                      cogsaccount: data.fields.CogsAccount,
-                      taxcodepurchase : data.fields.TaxCodePurchase,
-                      purchasedescription : data.fields.PurchaseDescription,
-                      sellqty1price : utilityService.modifynegativeCurrencyFormat(data.fields.SellQty1Price),
-                      incomeaccount : data.fields.IncomeAccount,
-                      taxcodesales : data.fields.TaxCodeSales,
-                      salesdescription : data.fields.SalesDescription,
-                      active : data.fields.Active,
-                      lockextrasell : data.fields.LockExtraSell,
-                      customfield1 : data.fields.CUSTFLD1,
-                      customfield2 : data.fields.CUSTFLD2,
+                      id : data.tproductvs1[0].fields.ID,
+                      productname : data.tproductvs1[0].fields.ProductName,
+                      lib: data.tproductvs1[0].fields.ProductName,
+                      productcode : data.tproductvs1[0].fields.PRODUCTCODE,
+                      productprintName : data.tproductvs1[0].fields.ProductPrintName,
+                      assetaccount : data.tproductvs1[0].fields.AssetAccount,
+                      buyqty1cost : utilityService.modifynegativeCurrencyFormat(data.tproductvs1[0].fields.BuyQty1Cost),
+                      cogsaccount: data.tproductvs1[0].fields.CogsAccount,
+                      taxcodepurchase : data.tproductvs1[0].fields.TaxCodePurchase,
+                      purchasedescription : data.tproductvs1[0].fields.PurchaseDescription,
+                      sellqty1price : utilityService.modifynegativeCurrencyFormat(data.tproductvs1[0].fields.SellQty1Price),
+                      incomeaccount : data.tproductvs1[0].fields.IncomeAccount,
+                      taxcodesales : data.tproductvs1[0].fields.TaxCodeSales,
+                      salesdescription : data.tproductvs1[0].fields.SalesDescription,
+                      active : data.tproductvs1[0].fields.Active,
+                      lockextrasell : data.tproductvs1[0].fields.LockExtraSell,
+                      customfield1 : data.tproductvs1[0].fields.CUSTFLD1,
+                      customfield2 : data.tproductvs1[0].fields.CUSTFLD2,
                       //totalqtyinstock : totalquantity,
-                      barcode:data.fields.BARCODE,
+                      barcode:data.tproductvs1[0].fields.BARCODE,
                       // data.fields.TotalQtyInStock,
-                      totalqtyonorder : data.fields.TotalQtyOnOrder,
+                      totalqtyonorder : data.tproductvs1[0].fields.TotalQtyOnOrder,
                       //productclass :lineItems
                   };
 
-                  if(data.fields.ExtraSellPrice == null){
+                  if(data.tproductvs1[0].fields.ExtraSellPrice == null){
                      lineExtaSellObj = {
                         lineID: Random.id(),
                         clienttype: '',
@@ -866,34 +865,33 @@ Template.productview.onRendered(function() {
                     templateObject.productExtraSell.set(lineExtaSellItems);
                   }else{
                     templateObject.isExtraSellChecked.set(true);
-                    for(let e=0; e<data.fields.ExtraSellPrice.length; e++){
+                    for(let e=0; e<data.tproductvs1[0].fields.ExtraSellPrice.length; e++){
                       lineExtaSellObj = {
                          lineID: Random.id(),
-                         clienttype: data.fields.ExtraSellPrice[e].fields.ClientTypeName || '',
-                         discount: data.fields.ExtraSellPrice[e].fields.QtyPercent1 || 0,
-                         datefrom: data.fields.ExtraSellPrice[e].fields.DateFrom || '',
-                         dateto: data.fields.ExtraSellPrice[e].fields.DateTo || '',
-                         price: utilityService.modifynegativeCurrencyFormat(data.fields.ExtraSellPrice[e].fields.Price1) || 0
+                         clienttype: data.tproductvs1[0].fields.ExtraSellPrice[e].fields.ClientTypeName || '',
+                         discount: data.tproductvs1[0].fields.ExtraSellPrice[e].fields.QtyPercent1 || 0,
+                         datefrom: data.tproductvs1[0].fields.ExtraSellPrice[e].fields.DateFrom || '',
+                         dateto: data.tproductvs1[0].fields.ExtraSellPrice[e].fields.DateTo || '',
+                         price: utilityService.modifynegativeCurrencyFormat(data.tproductvs1[0].fields.ExtraSellPrice[e].fields.Price1) || 0
                      };
                      lineExtaSellItems.push(lineExtaSellObj);
 
                     }
                     templateObject.productExtraSell.set(lineExtaSellItems);
                   }
-
-                  let itrackItem = data.fields.LockExtraSell;
+                  let itrackItem = data.tproductvs1[0].fields.LockExtraSell;
                   if(itrackItem ==  true){
                       templateObject.isTrackChecked.set(true);
                   }else{
                       templateObject.isTrackChecked.set(false);
                   }
-                  if(data.fields.ProductType=="INV"){
+                  if(data.tproductvs1[0].fields.ProductType=="INV"){
                     templateObject.isTrackChecked.set(true);
                   }else{
                     templateObject.isTrackChecked.set(false);
                   }
-                  $('#sltsalesacount').val(data.fields.IncomeAccount);
-                  $('#sltcogsaccount').val(data.fields.CogsAccount);
+                  $('#sltsalesacount').val(data.tproductvs1[0].fields.IncomeAccount);
+                  $('#sltcogsaccount').val(data.tproductvs1[0].fields.CogsAccount);
 
                   templateObject.records.set(productrecord);
               }).catch(function (err) {
@@ -992,34 +990,35 @@ Template.productview.onRendered(function() {
                     let lineItemObj = {};
                     let currencySymbol = Currency;
                     let totalquantity = 0;
-                    currentProductID = data.fields.ID;
+                    currentProductID = data.tproductvs1[0].fields.ID;
+                    templateObject.getProductClassQtyData();
                     let productrecord = {
-                        id : data.fields.ID,
-                        productname : data.fields.ProductName,
-                        lib: data.fields.ProductName,
-                        productcode : data.fields.PRODUCTCODE,
-                        productprintName : data.fields.ProductPrintName,
-                        assetaccount : data.fields.AssetAccount,
-                        buyqty1cost : utilityService.modifynegativeCurrencyFormat(data.fields.BuyQty1Cost),
-                        cogsaccount: data.fields.CogsAccount,
-                        taxcodepurchase : data.fields.TaxCodePurchase,
-                        purchasedescription : data.fields.PurchaseDescription,
-                        sellqty1price : utilityService.modifynegativeCurrencyFormat(data.fields.SellQty1Price),
-                        incomeaccount : data.fields.IncomeAccount,
-                        taxcodesales : data.fields.TaxCodeSales,
-                        salesdescription : data.fields.SalesDescription,
-                        active : data.fields.Active,
-                        lockextrasell : data.fields.LockExtraSell,
-                        customfield1 : data.fields.CUSTFLD1,
-                        customfield2 : data.fields.CUSTFLD2,
+                        id : data.tproductvs1[0].fields.ID,
+                        productname : data.tproductvs1[0].fields.ProductName,
+                        lib: data.tproductvs1[0].fields.ProductName,
+                        productcode : data.tproductvs1[0].fields.PRODUCTCODE,
+                        productprintName : data.tproductvs1[0].fields.ProductPrintName,
+                        assetaccount : data.tproductvs1[0].fields.AssetAccount,
+                        buyqty1cost : utilityService.modifynegativeCurrencyFormat(data.tproductvs1[0].fields.BuyQty1Cost),
+                        cogsaccount: data.tproductvs1[0].fields.CogsAccount,
+                        taxcodepurchase : data.tproductvs1[0].fields.TaxCodePurchase,
+                        purchasedescription : data.tproductvs1[0].fields.PurchaseDescription,
+                        sellqty1price : utilityService.modifynegativeCurrencyFormat(data.tproductvs1[0].fields.SellQty1Price),
+                        incomeaccount : data.tproductvs1[0].fields.IncomeAccount,
+                        taxcodesales : data.tproductvs1[0].fields.TaxCodeSales,
+                        salesdescription : data.tproductvs1[0].fields.SalesDescription,
+                        active : data.tproductvs1[0].fields.Active,
+                        lockextrasell : data.tproductvs1[0].fields.LockExtraSell,
+                        customfield1 : data.tproductvs1[0].fields.CUSTFLD1,
+                        customfield2 : data.tproductvs1[0].fields.CUSTFLD2,
                         //totalqtyinstock : totalquantity,
-                        barcode:data.fields.BARCODE,
+                        barcode:data.tproductvs1[0].fields.BARCODE,
                         // data.fields.TotalQtyInStock,
-                        totalqtyonorder : data.fields.TotalQtyOnOrder,
+                        totalqtyonorder : data.tproductvs1[0].fields.TotalQtyOnOrder,
                         //productclass :lineItems
                     };
 
-                    if(data.fields.ExtraSellPrice == null){
+                    if(data.tproductvs1[0].fields.ExtraSellPrice == null){
                        lineExtaSellObj = {
                           lineID: Random.id(),
                           clienttype: '',
@@ -1032,33 +1031,33 @@ Template.productview.onRendered(function() {
                       templateObject.productExtraSell.set(lineExtaSellItems);
                     }else{
                       templateObject.isExtraSellChecked.set(true);
-                      for(let e=0; e<data.fields.ExtraSellPrice.length; e++){
+                      for(let e=0; e<data.tproductvs1[0].fields.ExtraSellPrice.length; e++){
                         lineExtaSellObj = {
                            lineID: Random.id(),
-                           clienttype: data.fields.ExtraSellPrice[e].fields.ClientTypeName || '',
-                           discount: data.fields.ExtraSellPrice[e].fields.QtyPercent1 || 0,
-                           datefrom: data.fields.ExtraSellPrice[e].fields.DateFrom || '',
-                           dateto: data.fields.ExtraSellPrice[e].fields.DateTo || '',
-                           price: utilityService.modifynegativeCurrencyFormat(data.fields.ExtraSellPrice[e].fields.Price1) || 0
+                           clienttype: data.tproductvs1[0].fields.ExtraSellPrice[e].fields.ClientTypeName || '',
+                           discount: data.tproductvs1[0].fields.ExtraSellPrice[e].fields.QtyPercent1 || 0,
+                           datefrom: data.tproductvs1[0].fields.ExtraSellPrice[e].fields.DateFrom || '',
+                           dateto: data.tproductvs1[0].fields.ExtraSellPrice[e].fields.DateTo || '',
+                           price: utilityService.modifynegativeCurrencyFormat(data.tproductvs1[0].fields.ExtraSellPrice[e].fields.Price1) || 0
                        };
                        lineExtaSellItems.push(lineExtaSellObj);
 
                       }
                       templateObject.productExtraSell.set(lineExtaSellItems);
                     }
-                    let itrackItem = data.fields.LockExtraSell;
+                    let itrackItem = data.tproductvs1[0].fields.LockExtraSell;
                     if(itrackItem ==  true){
                         templateObject.isTrackChecked.set(true);
                     }else{
                         templateObject.isTrackChecked.set(false);
                     }
-                    if(data.fields.ProductType=="INV"){
+                    if(data.tproductvs1[0].fields.ProductType=="INV"){
                       templateObject.isTrackChecked.set(true);
                     }else{
                       templateObject.isTrackChecked.set(false);
                     }
-                    $('#sltsalesacount').val(data.fields.IncomeAccount);
-                    $('#sltcogsaccount').val(data.fields.CogsAccount);
+                    $('#sltsalesacount').val(data.tproductvs1[0].fields.IncomeAccount);
+                    $('#sltcogsaccount').val(data.tproductvs1[0].fields.CogsAccount);
 
                     templateObject.records.set(productrecord);
                 }).catch(function (err) {
@@ -1075,35 +1074,35 @@ Template.productview.onRendered(function() {
                 let lineItemObj = {};
                 let currencySymbol = Currency;
                 let totalquantity = 0;
-                currentProductID = data.fields.ID;
+                currentProductID = data.tproductvs1[0].fields.ID;
                 templateObject.getProductClassQtyData();
                 let productrecord = {
-                    id : data.fields.ID,
-                    productname : data.fields.ProductName,
-                    lib: data.fields.ProductName,
-                    productcode : data.fields.PRODUCTCODE,
-                    productprintName : data.fields.ProductPrintName,
-                    assetaccount : data.fields.AssetAccount,
-                    buyqty1cost : utilityService.modifynegativeCurrencyFormat(data.fields.BuyQty1Cost),
-                    cogsaccount: data.fields.CogsAccount,
-                    taxcodepurchase : data.fields.TaxCodePurchase,
-                    purchasedescription : data.fields.PurchaseDescription,
-                    sellqty1price : utilityService.modifynegativeCurrencyFormat(data.fields.SellQty1Price),
-                    incomeaccount : data.fields.IncomeAccount,
-                    taxcodesales : data.fields.TaxCodeSales,
-                    salesdescription : data.fields.SalesDescription,
-                    active : data.fields.Active,
-                    lockextrasell : data.fields.LockExtraSell,
-                    customfield1 : data.fields.CUSTFLD1,
-                    customfield2 : data.fields.CUSTFLD2,
+                    id : data.tproductvs1[0].fields.ID,
+                    productname : data.tproductvs1[0].fields.ProductName,
+                    lib: data.tproductvs1[0].fields.ProductName,
+                    productcode : data.tproductvs1[0].fields.PRODUCTCODE,
+                    productprintName : data.tproductvs1[0].fields.ProductPrintName,
+                    assetaccount : data.tproductvs1[0].fields.AssetAccount,
+                    buyqty1cost : utilityService.modifynegativeCurrencyFormat(data.tproductvs1[0].fields.BuyQty1Cost),
+                    cogsaccount: data.tproductvs1[0].fields.CogsAccount,
+                    taxcodepurchase : data.tproductvs1[0].fields.TaxCodePurchase,
+                    purchasedescription : data.tproductvs1[0].fields.PurchaseDescription,
+                    sellqty1price : utilityService.modifynegativeCurrencyFormat(data.tproductvs1[0].fields.SellQty1Price),
+                    incomeaccount : data.tproductvs1[0].fields.IncomeAccount,
+                    taxcodesales : data.tproductvs1[0].fields.TaxCodeSales,
+                    salesdescription : data.tproductvs1[0].fields.SalesDescription,
+                    active : data.tproductvs1[0].fields.Active,
+                    lockextrasell : data.tproductvs1[0].fields.LockExtraSell,
+                    customfield1 : data.tproductvs1[0].fields.CUSTFLD1,
+                    customfield2 : data.tproductvs1[0].fields.CUSTFLD2,
                     //totalqtyinstock : totalquantity,
-                    barcode:data.fields.BARCODE,
+                    barcode:data.tproductvs1[0].fields.BARCODE,
                     // data.fields.TotalQtyInStock,
-                    totalqtyonorder : data.fields.TotalQtyOnOrder,
+                    totalqtyonorder : data.tproductvs1[0].fields.TotalQtyOnOrder,
                     //productclass :lineItems
                 };
 
-                if(data.fields.ExtraSellPrice == null){
+                if(data.tproductvs1[0].fields.ExtraSellPrice == null){
                    lineExtaSellObj = {
                       lineID: Random.id(),
                       clienttype: '',
@@ -1116,34 +1115,33 @@ Template.productview.onRendered(function() {
                   templateObject.productExtraSell.set(lineExtaSellItems);
                 }else{
                   templateObject.isExtraSellChecked.set(true);
-                  for(let e=0; e<data.fields.ExtraSellPrice.length; e++){
+                  for(let e=0; e<data.tproductvs1[0].fields.ExtraSellPrice.length; e++){
                     lineExtaSellObj = {
                        lineID: Random.id(),
-                       clienttype: data.fields.ExtraSellPrice[e].fields.ClientTypeName || '',
-                       discount: data.fields.ExtraSellPrice[e].fields.QtyPercent1 || 0,
-                       datefrom: data.fields.ExtraSellPrice[e].fields.DateFrom || '',
-                       dateto: data.fields.ExtraSellPrice[e].fields.DateTo || '',
-                       price: utilityService.modifynegativeCurrencyFormat(data.fields.ExtraSellPrice[e].fields.Price1) || 0
+                       clienttype: data.tproductvs1[0].fields.ExtraSellPrice[e].fields.ClientTypeName || '',
+                       discount: data.tproductvs1[0].fields.ExtraSellPrice[e].fields.QtyPercent1 || 0,
+                       datefrom: data.tproductvs1[0].fields.ExtraSellPrice[e].fields.DateFrom || '',
+                       dateto: data.tproductvs1[0].fields.ExtraSellPrice[e].fields.DateTo || '',
+                       price: utilityService.modifynegativeCurrencyFormat(data.tproductvs1[0].fields.ExtraSellPrice[e].fields.Price1) || 0
                    };
                    lineExtaSellItems.push(lineExtaSellObj);
 
                   }
                   templateObject.productExtraSell.set(lineExtaSellItems);
                 }
-
-                let itrackItem = data.fields.LockExtraSell;
+                let itrackItem = data.tproductvs1[0].fields.LockExtraSell;
                 if(itrackItem ==  true){
                     templateObject.isTrackChecked.set(true);
                 }else{
                     templateObject.isTrackChecked.set(false);
                 }
-                if(data.fields.ProductType=="INV"){
+                if(data.tproductvs1[0].fields.ProductType=="INV"){
                   templateObject.isTrackChecked.set(true);
                 }else{
                   templateObject.isTrackChecked.set(false);
                 }
-                $('#sltsalesacount').val(data.fields.IncomeAccount);
-                $('#sltcogsaccount').val(data.fields.CogsAccount);
+                $('#sltsalesacount').val(data.tproductvs1[0].fields.IncomeAccount);
+                $('#sltcogsaccount').val(data.tproductvs1[0].fields.CogsAccount);
 
                 templateObject.records.set(productrecord);
             }).catch(function (err) {
@@ -2323,7 +2321,7 @@ Template.productview.events({
             }
         }
     },
-    'keydown #edtbuyqty1cost, keydown #edtsellqty1price, keydown #edttotalqtyinstock, keydown .edtPriceEx, keydown .edtDiscount': function(event){
+    'keydown #edtbuyqty1cost, keydown #edtsellqty1price, keydown #edttotalqtyinstock, keydown .edtPriceEx, keydown .edtDiscount, keydown .edtDiscountModal': function(event){
         if ($.inArray(event.keyCode, [46, 8, 9, 27, 13, 110]) !== -1 ||
             // Allow: Ctrl+A, Command+A
             (event.keyCode === 65 && (event.ctrlKey === true || event.metaKey === true)) ||
@@ -2526,6 +2524,17 @@ Template.productview.events({
         $("#"+targetID+ ' .edtPriceEx').val(utilityService.modifynegativeCurrencyFormat(getDiscountPrice)||0);
 
     },
+    'blur .edtDiscountModal':function (event) {
+        let utilityService = new UtilityService();
+        let templateObject = Template.instance();
+        //var targetID = $(event.target).closest('.itemExtraSellRow').attr('id');
+        let itemSellPrice = parseFloat($('#edtsellqty1price').val().replace(/[^0-9.-]+/g, "")) || 0;
+        let discountPrice= parseFloat($(event.target).val()) || 0;
+        $(event.target).val(discountPrice);
+        let getDiscountPrice = (itemSellPrice - ( itemSellPrice * discountPrice / 100 ));
+        $('.edtPriceExModal').val(utilityService.modifynegativeCurrencyFormat(getDiscountPrice)||0);
+
+    },
     'blur .edtPriceEx':function (event) {
         let utilityService = new UtilityService();
         if (!isNaN($(event.target).val())) {
@@ -2542,6 +2551,86 @@ Template.productview.events({
         let getDiscountRate = 100 - (discountPrice * 100 / itemSellPrice);
         $("#"+targetID+ ' .edtDiscount').val(getDiscountRate||0);
 
+    },
+    'click .btnSaveClientType': function () {
+        $('.fullScreenSpin').css('display', 'inline-block');
+        let contactService = new ProductService();
+        let objDetails ={};
+        //let headerDept = $('#sltDepartment').val();
+        let custType = $('#edtTypeName').val()||'';
+        let typeDesc = $('#txaDescription').val() || '';
+        let clientDiscount = $('.edtDiscountModal').val() || '';
+        let clientDiscPrice = $('.edtPriceExModal').val() || '';
+        let id = $('#typeID').val() || '';
+        console.log(custType);
+        if (custType === '') {
+            swal('Client Type name cannot be blank!', '', 'warning');
+            $('.fullScreenSpin').css('display', 'none');
+            e.preventDefault();
+        } else {
+            if(id == "") {
+            objDetails = {
+                type: "TClientType",
+                fields: {
+                    TypeName: custType,
+                    TypeDescription: typeDesc,
+                    Active: true
+                }
+            }
+        } else {
+                objDetails = {
+                type: "TClientType",
+                fields: {
+                    Id: id,
+                    TypeName: custType,
+                    TypeDescription: typeDesc,
+                    Active: true
+                }
+
+            }
+            }
+
+            contactService.saveClientTypeData(objDetails).then(function (objDetails) {
+              $('#myModalClientType').modal('toggle');
+                sideBarService.getClientTypeData().then(function (dataReload) {
+                    addVS1Data('TClientType', JSON.stringify(dataReload)).then(function (datareturn) {
+                        $('.fullScreenSpin').css('display', 'none');
+                    }).catch(function (err) {
+                        $('.fullScreenSpin').css('display', 'none');
+                    });
+                }).catch(function (err) {
+                    $('.fullScreenSpin').css('display', 'none');
+                });
+
+                var itemDataClone = $('.itemExtraSellRow:first');
+                var itemDataCloneLast = $('.itemExtraSellRow:last');
+                let tokenid = Random.id();
+                var itemClineID = itemDataClone.clone().prop('id', tokenid );
+                itemClineID.find('.edtDiscount').val(clientDiscount);
+                itemClineID.find('.edtPriceEx').val(clientDiscPrice);
+                itemClineID.find('.customerTypeSelect').append('<option value="' + custType + '" selected="selected">' + custType + '</option>');;
+
+                //').val(custType);
+                //$('select[name^="sltCustomerType"] option[value='+AccTaxCode+']').prop('selected', true);
+                itemClineID.insertAfter(".itemExtraSellRow:last");
+
+                // Meteor._reload.reload();
+            }).catch(function (err) {
+
+                swal({
+                    title: 'Oooops...',
+                    text: err,
+                    type: 'error',
+                    showCancelButton: false,
+                    confirmButtonText: 'Try Again'
+                }).then((result) => {
+                    if (result.value) {
+                        // Meteor._reload.reload();
+                    } else if (result.dismiss === 'cancel') {}
+                });
+                $('.fullScreenSpin').css('display', 'none');
+            });
+        }
     }
 
 });

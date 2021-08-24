@@ -293,7 +293,7 @@ Template.productlistpop.onRendered(function () {
                           datatable.draw(false);
 
                           $('.fullScreenSpin').css('display', 'none');
-                          $('.dataTables_info').html('Showing 1 to ' + data.tcustomervs1.length + ' of ' + data.tcustomervs1.length + ' entries');
+                          $('.dataTables_info').html('Showing 1 to ' + data.tproductvs1.length + ' of ' + data.tproductvs1.length + ' entries');
                           $('.fullScreenSpin').css('display', 'none');
                         });
                       }else{
