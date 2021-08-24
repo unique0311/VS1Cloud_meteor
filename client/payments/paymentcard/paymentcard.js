@@ -2030,7 +2030,7 @@ Template.paymentcard.onRendered(() => {
         html2pdf().set(opt).from(source).save().then(function (dataObject){
             $('#html-2-pdfwrapper').css('display', 'none');
             $('.fullScreenSpin').css('display', 'none');
-        
+
         });
         // pdf.addHTML(source, function () {
         //     pdf.save('Customer Payment-'+id+'.pdf');
@@ -2210,7 +2210,7 @@ Template.paymentcard.events({
 
 
                             let mailFromName = Session.get('vs1companyName');
-                            let mailFrom = localStorage.getItem('mySession');
+                            let mailFrom = localStorage.getItem('VS1OrgEmail')||localStorage.getItem('VS1AdminUserName');
                             let customerEmailName = $('#edtCustomerName').val();
                             let checkEmailData = $('#edtCustomerEmail').val();
                             // let mailCC = templateObject.mailCopyToUsr.get();
@@ -2511,7 +2511,7 @@ Template.paymentcard.events({
 
 
                                 let mailFromName = Session.get('vs1companyName');
-                                let mailFrom = localStorage.getItem('mySession');
+                                let mailFrom = localStorage.getItem('VS1OrgEmail')||localStorage.getItem('VS1AdminUserName');
                                 let customerEmailName = $('#edtCustomerName').val();
                                 let checkEmailData = $('#edtCustomerEmail').val();
                                 // let mailCC = templateObject.mailCopyToUsr.get();
@@ -2788,7 +2788,7 @@ Template.paymentcard.events({
 
 
                                 let mailFromName = Session.get('vs1companyName');
-                                let mailFrom = localStorage.getItem('mySession');
+                                let mailFrom = localStorage.getItem('VS1OrgEmail')||localStorage.getItem('VS1AdminUserName');
                                 let customerEmailName = $('#edtCustomerName').val();
                                 let checkEmailData = $('#edtCustomerEmail').val();
                                 // let mailCC = templateObject.mailCopyToUsr.get();
@@ -3089,7 +3089,7 @@ Template.paymentcard.events({
 
 
                             let mailFromName = Session.get('vs1companyName');
-                            let mailFrom = localStorage.getItem('mySession');
+                            let mailFrom = localStorage.getItem('VS1OrgEmail')||localStorage.getItem('VS1AdminUserName');
                             let customerEmailName = $('#edtCustomerName').val();
                             let checkEmailData = $('#edtCustomerEmail').val();
                             // let mailCC = templateObject.mailCopyToUsr.get();
@@ -3386,7 +3386,7 @@ Template.paymentcard.events({
 
 
                         let mailFromName = Session.get('vs1companyName');
-                        let mailFrom = localStorage.getItem('mySession');
+                        let mailFrom = localStorage.getItem('VS1OrgEmail')||localStorage.getItem('VS1AdminUserName');
                         let customerEmailName = $('#edtCustomerName').val();
                         let checkEmailData = $('#edtCustomerEmail').val();
                         // let mailCC = templateObject.mailCopyToUsr.get();
@@ -3642,7 +3642,7 @@ Template.paymentcard.events({
 
 
                     let mailFromName = Session.get('vs1companyName');
-                    let mailFrom = localStorage.getItem('mySession');
+                    let mailFrom = localStorage.getItem('VS1OrgEmail')||localStorage.getItem('VS1AdminUserName');
                     let customerEmailName = $('#edtCustomerName').val();
                     let checkEmailData = $('#edtCustomerEmail').val();
                     // let mailCC = templateObject.mailCopyToUsr.get();
@@ -3982,7 +3982,7 @@ Template.paymentcard.events({
 
 
                                 let mailFromName = Session.get('vs1companyName');
-                                let mailFrom = localStorage.getItem('mySession');
+                                let mailFrom = localStorage.getItem('VS1OrgEmail')||localStorage.getItem('VS1AdminUserName');
                                 let customerEmailName = $('#edtCustomerName').val();
                                 let checkEmailData = $('#edtCustomerEmail').val();
                                 // let mailCC = templateObject.mailCopyToUsr.get();
@@ -4256,7 +4256,7 @@ Template.paymentcard.events({
 
 
                                 let mailFromName = Session.get('vs1companyName');
-                                let mailFrom = localStorage.getItem('mySession');
+                                let mailFrom = localStorage.getItem('VS1OrgEmail')||localStorage.getItem('VS1AdminUserName');
                                 let customerEmailName = $('#edtCustomerName').val();
                                 let checkEmailData = $('#edtCustomerEmail').val();
                                 // let mailCC = templateObject.mailCopyToUsr.get();

@@ -1519,7 +1519,7 @@ Template.new_salesorder.onRendered(() => {
 
 
                     let mailFromName = Session.get('vs1companyName');
-                    let mailFrom = localStorage.getItem('mySession');
+                    let mailFrom = localStorage.getItem('VS1OrgEmail')||localStorage.getItem('VS1AdminUserName');
                     let customerEmailName = $('#edtCustomerName').val();
                     let checkEmailData = url.searchParams.get("email");
 
@@ -5194,7 +5194,7 @@ Template.new_salesorder.events({
 
 
                     let mailFromName = Session.get('vs1companyName');
-                    let mailFrom = localStorage.getItem('mySession');
+                    let mailFrom = localStorage.getItem('VS1OrgEmail')||localStorage.getItem('VS1AdminUserName');
                     let customerEmailName = $('#edtCustomerName').val();
                     let checkEmailData = $('#edtCustomerEmail').val();
                     let grandtotal = $('#grandTotal').html();
@@ -6134,7 +6134,7 @@ Template.new_salesorder.events({
 
 
                                     let mailFromName = Session.get('vs1companyName');
-                                    let mailFrom = localStorage.getItem('mySession');
+                                    let mailFrom = localStorage.getItem('VS1OrgEmail')||localStorage.getItem('VS1AdminUserName');
                                     let customerEmailName = $('#edtCustomerName').val();
                                     let checkEmailData = $('#edtCustomerEmail').val();
                                     let grandtotal = $('#grandTotal').html();

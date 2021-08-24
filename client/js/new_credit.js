@@ -2394,7 +2394,7 @@ Template.creditcard.events({
     },
     'blur .lineMemo': function (event) {
         var targetID = $(event.target).closest('tr').attr('id');
-      
+
         $('#' + targetID + " #lineMemo").text($('#' + targetID + " .lineMemo").text());
     },
     'blur .colAmount': function(event) {
@@ -3018,7 +3018,7 @@ Template.creditcard.events({
                         let erpInvoiceId = objDetails.fields.ID;
 
                         let mailFromName = Session.get('vs1companyName');
-                        let mailFrom = localStorage.getItem('mySession');
+                        let mailFrom = localStorage.getItem('VS1OrgEmail')||localStorage.getItem('VS1AdminUserName');
                         let customerEmailName = $('#edtSupplierName').val();
                         let checkEmailData = $('#edtSupplierEmail').val();
 

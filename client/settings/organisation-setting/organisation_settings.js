@@ -436,6 +436,7 @@ Template.organisationsettings.events({
         organisationService.saveOrganisationSetting(objDetails).then(function (data){
             // Bert.alert('<strong>'+ 'Organisation details successfully updated!'+'</strong>!', 'success');
             // swal('Organisation details successfully updated!', '', 'success');
+            localStorage.setItem('VS1OrgEmail', emailAddress);
             swal({
               title: 'Organisation details successfully updated!',
               text: '',

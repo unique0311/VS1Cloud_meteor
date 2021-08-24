@@ -2759,7 +2759,7 @@ Template.refundcard.events({
 
 
                         let mailFromName = Session.get('vs1companyName');
-                        let mailFrom = localStorage.getItem('mySession');
+                        let mailFrom = localStorage.getItem('VS1OrgEmail')||localStorage.getItem('VS1AdminUserName');
                         let customerEmailName = $('#edtCustomerName').val();
                         let checkEmailData = $('#edtCustomerEmail').val();
 

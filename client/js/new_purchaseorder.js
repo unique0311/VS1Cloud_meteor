@@ -3310,7 +3310,7 @@ Template.purchaseordercard.events({
                         let erpInvoiceId = objDetails.fields.ID;
 
                         let mailFromName = Session.get('vs1companyName');
-                        let mailFrom = localStorage.getItem('mySession');
+                        let mailFrom = localStorage.getItem('VS1OrgEmail')||localStorage.getItem('VS1AdminUserName');
                         let customerEmailName = $('#edtSupplierName').val();
                         let checkEmailData = $('#edtSupplierEmail').val();
 

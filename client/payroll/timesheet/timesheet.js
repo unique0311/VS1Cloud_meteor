@@ -88,7 +88,6 @@ yearRange: "-90:+10",
     $("#dateTo").val(begunDate);
     templateObject.getAllTimeSheetData = function () {
       contactService.getAllTimeSheetList().then(function (data) {
-        console.log(data);
         $('.fullScreenSpin').css('display','none');
         let lineItems = [];
         let lineItemObj = {};
@@ -302,7 +301,7 @@ yearRange: "-90:+10",
        });
 
       }).catch(function (err) {
-        console.log(err);
+
           // Bert.alert('<strong>' + err + '</strong>!', 'danger');
           $('.fullScreenSpin').css('display','none');
           // Meteor._reload.reload();

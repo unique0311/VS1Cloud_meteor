@@ -81,7 +81,7 @@ Template.stockadjustmentoverview.onRendered(function() {
                             custfield1: '',
                             custfield2: '',
                             notes: data.tstockadjustentry[i].fields.Notes || '',
-                            processed: data.tstockadjustentry[i].fields.Processed,
+                            processed: data.tstockadjustentry[i].fields.IsProcessed,
                             isstocktake: data.tstockadjustentry[i].fields.IsStockTake,
                         };
                         dataTableList.push(dataList);
@@ -256,6 +256,7 @@ Template.stockadjustmentoverview.onRendered(function() {
             }else{
                 let data = JSON.parse(dataObject[0].data);
                 let useData = data.tstockadjustentry;
+                console.log(useData);
                 let lineItems = [];
                 let lineItemObj = {};
                 for(let i=0; i<useData.length; i++){
@@ -272,7 +273,7 @@ Template.stockadjustmentoverview.onRendered(function() {
                         custfield1: '',
                         custfield2: '',
                         notes: useData[i].fields.Notes || '',
-                        processed: useData[i].fields.Processed,
+                        processed: useData[i].fields.IsProcessed,
                         isstocktake: useData[i].fields.IsStockTake,
                     };
                     dataTableList.push(dataList);
@@ -557,7 +558,7 @@ Template.stockadjustmentoverview.onRendered(function() {
                         custfield1: '',
                         custfield2: '',
                         notes: data.tstockadjustentry[i].fields.Notes || '',
-                        processed: data.tstockadjustentry[i].fields.Processed,
+                        processed: data.tstockadjustentry[i].fields.IsProcessed,
                         isstocktake: data.tstockadjustentry[i].fields.IsStockTake,
                     };
                     dataTableList.push(dataList);

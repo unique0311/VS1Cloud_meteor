@@ -969,16 +969,16 @@ Template.joblist.events({
         sideBarService.getAllCustomersDataVS1(initialBaseDataLoad,0).then(function (data) {
             addVS1Data('TCustomerVS1', JSON.stringify(data)).then(function (datareturn) {
                 setTimeout(function () {
-                    location.reload(true);
+                    window.open('/joblist','_self');
                 }, 2000);
             }).catch(function (err) {
                 setTimeout(function () {
-                    location.reload(true);
+                    window.open('/joblist','_self');
                 }, 2000);
             });
         }).catch(function (err) {
             setTimeout(function () {
-                location.reload(true);
+                window.open('/joblist','_self');
             }, 2000);
         });
     },

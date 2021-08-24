@@ -261,7 +261,7 @@ Template.stockadjustmentcard.onRendered(() => {
         currentStockAdjust = parseInt(currentStockAdjust);
         templateObject.getStockAdjustData = function () {
             //getOneQuotedata
-            $('.colProcessed').css('display','block');
+
             getVS1Data('TStockAdjustEntry').then(function (dataObject) {
                 if (dataObject.length == 0) {
                     stockTransferService.getOneStockAdjustData(currentStockAdjust).then(function (data) {
@@ -303,12 +303,17 @@ Template.stockadjustmentcard.onRendered(() => {
                         };
 
 
-                        $("#form :input").prop("disabled", true);
-                        $(".btnDeleteStock").prop("disabled", false);
-                        $(".btnDeleteStockAdjust").prop("disabled", false);
-                        $(".printConfirm").prop("disabled", false);
-                        $(".btnBack").prop("disabled", false);
-                        $(".btnDeleteProduct").prop("disabled", false);
+                        if(data.fields.IsProcessed == true){
+                          $('.colProcessed').css('display','block');
+                          $("#form :input").prop("disabled", true);
+                          $(".btnDeleteStock").prop("disabled", false);
+                          $(".btnDeleteStockAdjust").prop("disabled", false);
+                          $(".printConfirm").prop("disabled", false);
+                          $(".btnBack").prop("disabled", false);
+                          $(".btnDeleteProduct").prop("disabled", false);
+                        }
+
+
 
                         templateObject.record.set(record);
 
@@ -437,12 +442,22 @@ Template.stockadjustmentcard.onRendered(() => {
                                 balancedate: useData[d].fields.AdjustmentDate ? moment(useData[d].fields.AdjustmentDate).format('DD/MM/YYYY') : ""
                             };
 
+                        //
+                        // $("#form :input").prop("disabled", true);
+                        // $(".btnDeleteStock").prop("disabled", false);
+                        // $(".btnDeleteStockAdjust").prop("disabled", false);
+                        // $(".printConfirm").prop("disabled", false);
+                        // $(".btnBack").prop("disabled", false);
 
-                        $("#form :input").prop("disabled", true);
-                        $(".btnDeleteStock").prop("disabled", false);
-                        $(".btnDeleteStockAdjust").prop("disabled", false);
-                        $(".printConfirm").prop("disabled", false);
-                        $(".btnBack").prop("disabled", false);
+                        if(useData[d].fields.IsProcessed == true){
+                          $('.colProcessed').css('display','block');
+                          $("#form :input").prop("disabled", true);
+                          $(".btnDeleteStock").prop("disabled", false);
+                          $(".btnDeleteStockAdjust").prop("disabled", false);
+                          $(".printConfirm").prop("disabled", false);
+                          $(".btnBack").prop("disabled", false);
+                          $(".btnDeleteProduct").prop("disabled", false);
+                        }
 
 
                             templateObject.record.set(record);
@@ -541,11 +556,15 @@ Template.stockadjustmentcard.onRendered(() => {
                     };
 
 
-                    $("#form :input").prop("disabled", true);
-                    $(".btnDeleteStock").prop("disabled", false);
-                    $(".btnDeleteStockAdjust").prop("disabled", false);
-                    $(".printConfirm").prop("disabled", false);
-                    $(".btnBack").prop("disabled", false);
+                    if(data.fields.IsProcessed == true){
+                      $('.colProcessed').css('display','block');
+                      $("#form :input").prop("disabled", true);
+                      $(".btnDeleteStock").prop("disabled", false);
+                      $(".btnDeleteStockAdjust").prop("disabled", false);
+                      $(".printConfirm").prop("disabled", false);
+                      $(".btnBack").prop("disabled", false);
+                      $(".btnDeleteProduct").prop("disabled", false);
+                    }
 
 
                     templateObject.record.set(record);
@@ -1579,6 +1598,149 @@ Template.stockadjustmentcard.events({
                         //IsStockTake:false,
                         Lines: splashLineArray,
                         DoProcessonSave: true,
+                        Notes: notes
+                    }
+                };
+            }
+
+            stockTransferService.saveStockAdjustment(objDetails).then(function (objDetails) {
+                Router.go('/stockadjustmentoverview?success=true');
+                $('.modal-backdrop').css('display', 'none');
+
+
+            }).catch(function (err) {
+                swal({
+                    title: 'Oooops...',
+                    text: err,
+                    type: 'error',
+                    showCancelButton: false,
+                    confirmButtonText: 'Try Again'
+                }).then((result) => {
+                    if (result.value) {
+                        Meteor._reload.reload();
+                    } else if (result.dismiss === 'cancel') {
+
+                    }
+                });
+                //$('.loginSpinner').css('display','none');
+                $('.fullScreenSpin').css('display', 'none');
+            });
+        }
+
+    },
+    'click .btnHold': function (event) {
+        //let testDate = $("#dtSODate").datepicker({dateFormat: 'dd-mm-yy' });
+
+        let templateObject = Template.instance();
+        let accountname = $('#edtAccountName');
+        let department = $('#sltDepartment').val();
+        let stockTransferService = new StockTransferService();
+        if (accountname.val() === '') {
+            swal('Account has not been selected!', '', 'warning');
+            e.preventDefault();
+        } else if (department === '') {
+            // Bert.alert('<strong>WARNING:</strong> Department has not been selected!', 'warning');
+            swal('Department has not been selected!', '', 'warning');
+            e.preventDefault();
+            return false;
+        } else {
+            //$('.loginSpinner').css('display','inline-block');
+            $('.fullScreenSpin').css('display', 'inline-block');
+            var splashLineArray = new Array();
+            let lineItemsForm = [];
+            let lineItemObjForm = {};
+            $('#tblStockAdjustmentLine > tbody > tr').each(function () {
+                var lineID = this.id;
+                let tdproduct = $('#' + lineID + " .lineProductName").text();
+                let tdproductID = $('#' + lineID + " .lineProductName").attr('productid');
+                let tdproductCost = $('#' + lineID + " .lineProductName").attr('productcost');
+                let tdbarcode = $('#' + lineID + " .lineProductBarCode").text();
+                let tddescription = $('#' + lineID + " .lineDescription").text();
+                let tdinstockqty = $('#' + lineID + " .lineInStockQty").text();
+                let tdfinalqty = $('#' + lineID + " .lineFinalQty").val();
+                let tdadjustqty = $('#' + lineID + " .lineAdjustQty").val();
+
+                if (tdproduct != "") {
+
+                    lineItemObjForm = {
+                        type: "TSAELinesFlat",
+                        fields:
+                        {
+                            ProductName: tdproduct || '',
+                            //AccountName: accountname.val() || '',
+                            //ProductID: tdproductID || '',
+                            Cost: parseFloat(tdproductCost.replace(/[^0-9.-]+/g, "")) || 0,
+                            AdjustQty: parseFloat(tdadjustqty) || 0,
+                            AdjustUOMQty: parseFloat(tdadjustqty) || 0,
+                            Qty: parseFloat(tdadjustqty) || 0,
+                            UOMQty: parseFloat(tdadjustqty) || 0,
+                            FinalQty: parseFloat(tdfinalqty) || 0,
+                            FinalUOMQty: parseFloat(tdfinalqty) || 0,
+                            InStockUOMQty:parseFloat(tdinstockqty) || 0,
+                            DeptName: department || '',
+                            ProductPrintName: tdproduct || '',
+                            PartBarcode: tdbarcode || '',
+                            Description: tddescription || ''
+
+                        }
+                    };
+                    lineItemsForm.push(lineItemObjForm);
+                    splashLineArray.push(lineItemObjForm);
+                }
+            });
+
+
+            let selectAccount = $('#edtAccountName').val();
+
+            let notes = $('#txaNotes').val();
+            var creationdateTime = new Date($("#dtCreationDate").datepicker("getDate"));
+            let creationDate = creationdateTime.getFullYear() + "-" + (creationdateTime.getMonth() + 1) + "-" + creationdateTime.getDate();
+
+            var url = window.location.href;
+            var getso_id = url.split('?id=');
+            var currentStock = getso_id[getso_id.length - 1];
+            let uploadedItems = templateObject.uploadedFiles.get();
+            var objDetails = '';
+            if (getso_id[1]) {
+                currentStock = parseInt(currentStock);
+                objDetails = {
+                    type: "TStockadjustentry",
+                    fields: {
+                        ID: currentStock,
+                        AccountName: selectAccount,
+                        AdjustmentDate: creationDate,
+                        AdjustmentOnInStock: true,
+                        AdjustType: "Gen",
+                        Approved: false,
+                        CreationDate: creationDate,
+                        Deleted: false,
+                        Employee: Session.get('mySessionEmployee'),
+                        EnforceUOM: false,
+                        //ISEmpty:false,
+                        //IsStockTake:false,
+                        Lines: splashLineArray,
+                        DoProcessonSave: false,
+                        Notes: notes
+
+                    }
+                };
+            } else {
+                objDetails = {
+                    type: "TStockadjustentry",
+                    fields: {
+                        AccountName: selectAccount,
+                        AdjustmentDate: creationDate,
+                        AdjustmentOnInStock: true,
+                        AdjustType: "Gen",
+                        Approved: false,
+                        CreationDate: creationDate,
+                        Deleted: false,
+                        Employee: Session.get('mySessionEmployee'),
+                        EnforceUOM: false,
+                        //ISEmpty:false,
+                        //IsStockTake:false,
+                        Lines: splashLineArray,
+                        DoProcessonSave: false,
                         Notes: notes
                     }
                 };

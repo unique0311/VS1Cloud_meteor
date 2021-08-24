@@ -33,19 +33,19 @@ Template.subscriptionSettings.onRendered(function () {
             }
         }
     });
-    var erpGet = erpDb();
-    var oReq = new XMLHttpRequest();
-    oReq.open("GET", URLRequest + loggedserverIP + ':' + loggedserverPort + '/' + 'erpapi/TVS1_Clients_Simple?ListType="Detail"&select=[Databasename]="' + erpGet.ERPDatabase + '"', true);
-    oReq.setRequestHeader("database", vs1loggedDatatbase);
-    oReq.setRequestHeader("username", 'VS1_Cloud_Admin');
-    oReq.setRequestHeader("password", 'DptfGw83mFl1j&9');
-    oReq.send();
-    oReq.onreadystatechange = function () {
-        if (oReq.readyState == 4 && oReq.status == 200) {
-            var data = JSON.parse(oReq.responseText);
-            $('#txtCardID').val(data.tvs1_clients_simple[0].fields.ID || '');
-        }
-    }
+    // var erpGet = erpDb();
+    // var oReq = new XMLHttpRequest();
+    // oReq.open("GET", URLRequest + loggedserverIP + ':' + loggedserverPort + '/' + 'erpapi/TVS1_Clients_Simple?ListType="Detail"&select=[Databasename]="' + erpGet.ERPDatabase + '"', true);
+    // oReq.setRequestHeader("database", vs1loggedDatatbase);
+    // oReq.setRequestHeader("username", 'VS1_Cloud_Admin');
+    // oReq.setRequestHeader("password", 'DptfGw83mFl1j&9');
+    // oReq.send();
+    // oReq.onreadystatechange = function () {
+    //     if (oReq.readyState == 4 && oReq.status == 200) {
+    //         var data = JSON.parse(oReq.responseText);
+    //         $('#txtCardID').val(data.tvs1_clients_simple[0].fields.ID || '');
+    //     }
+    // }
 });
 
 Template.subscriptionSettings.events({

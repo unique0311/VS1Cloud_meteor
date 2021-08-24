@@ -1954,7 +1954,7 @@ Template.new_invoice.onRendered(() => {
                         let erpInvoiceId = getso_id;
 
                         let mailFromName = Session.get('vs1companyName');
-                        let mailFrom = localStorage.getItem('mySession');
+                        let mailFrom = localStorage.getItem('VS1OrgEmail')||localStorage.getItem('VS1AdminUserName');
                         let customerEmailName = $('#edtCustomerName').val();
                         let checkEmailData = url.searchParams.get("email");
                         let grandtotal = $('#grandTotal').html();
@@ -5809,7 +5809,7 @@ Template.new_invoice.events({
                             let erpInvoiceId = objDetails.fields.ID;
 
                             let mailFromName = Session.get('vs1companyName');
-                            let mailFrom = localStorage.getItem('mySession');
+                            let mailFrom = localStorage.getItem('VS1OrgEmail')||localStorage.getItem('VS1AdminUserName');
                             let customerEmailName = $('#edtCustomerName').val();
                             let checkEmailData = $('#edtCustomerEmail').val();
                             let grandtotal = $('#grandTotal').html();
@@ -7015,7 +7015,7 @@ Template.new_invoice.events({
                     let erpInvoiceId = objDetails.fields.ID;
 
                     let mailFromName = Session.get('vs1companyName');
-                    let mailFrom = localStorage.getItem('mySession');
+                    let mailFrom = localStorage.getItem('VS1OrgEmail')||localStorage.getItem('VS1AdminUserName');
                     let customerEmailName = $('#edtCustomerName').val();
                     let checkEmailData = $('#edtCustomerEmail').val();
                     let grandtotal = $('#grandTotal').html();
@@ -7853,7 +7853,7 @@ Template.new_invoice.events({
                         let erpInvoiceId = objDetails.fields.ID;
 
                         let mailFromName = Session.get('vs1companyName');
-                        let mailFrom = localStorage.getItem('mySession');
+                        let mailFrom = localStorage.getItem('VS1OrgEmail')||localStorage.getItem('VS1AdminUserName');
                         let customerEmailName = $('#edtCustomerName').val();
                         let checkEmailData = $('#edtCustomerEmail').val();
                         let grandtotal = $('#grandTotal').html();
