@@ -283,87 +283,87 @@ Template.appointmenttimelist.onRendered(function () {
           let lineItems = [];
           let lineItemObj = {};
           var dataList = "";
-          for (let i = 0; i < data.tappointment.length; i++) {
-            if (data.tappointment[i].fields.AppointmentsTimeLog != null) {
+          for (let i = 0; i < data.tappointmentex.length; i++) {
+            if (data.tappointmentex[i].fields.AppointmentsTimeLog != null) {
               let url = new URL(window.location.href);
               let searchID = parseInt(url.searchParams.get("id")) || 0;
 
-              // let openBalance = utilityService.modifynegativeCurrencyFormat(data.tappointment[i].fields.OpenBalance)|| 0.00;
-              // let closeBalance = utilityService.modifynegativeCurrencyFormat(data.tappointment[i].fields.CloseBalance)|| 0.00;
-              if (data.tappointment[i].fields.AppointmentsTimeLog.length) {
-                for (let a = 0; a < data.tappointment[i].fields.AppointmentsTimeLog.length; a++) {
-                  if (searchID == data.tappointment[i].fields.AppointmentsTimeLog[a].fields.AppointID) {
+              // let openBalance = utilityService.modifynegativeCurrencyFormat(data.tappointmentex[i].fields.OpenBalance)|| 0.00;
+              // let closeBalance = utilityService.modifynegativeCurrencyFormat(data.tappointmentex[i].fields.CloseBalance)|| 0.00;
+              if (data.tappointmentex[i].fields.AppointmentsTimeLog.length) {
+                for (let a = 0; a < data.tappointmentex[i].fields.AppointmentsTimeLog.length; a++) {
+                  if (searchID == data.tappointmentex[i].fields.AppointmentsTimeLog[a].fields.AppointID) {
                     dataList = {
-                      id: data.tappointment[i].fields.AppointmentsTimeLog[a].fields.AppointID || '',
-                      appointmentdate: data.tappointment[i].fields.MsTimeStamp != '' ? moment(data.tappointment[i].fields.MsTimeStamp).format("DD/MM/YYYY") : data.tappointment[i].fields.MsTimeStamp,
-                      accountname: data.tappointment[i].fields.ClientName || '',
-                      statementno: data.tappointment[i].fields.TrainerName || '',
-                      employeename: data.tappointment[i].fields.TrainerName || '',
-                      department: data.tappointment[i].fields.DeptClassName || '',
-                      phone: data.tappointment[i].fields.Phone || '',
-                      mobile: data.tappointment[i].fields.ClientMobile || '',
-                      suburb: data.tappointment[i].fields.Suburb || '',
-                      street: data.tappointment[i].fields.Street || '',
-                      state: data.tappointment[i].fields.State || '',
-                      country: data.tappointment[i].fields.Country || '',
-                      zip: data.tappointment[i].fields.Postcode || '',
-                      timelog: new Array(data.tappointment[i].fields.AppointmentsTimeLog) || '',
-                      startTime: data.tappointment[i].fields.StartTime.split(' ')[1] || '',
-                      timeStart: moment(data.tappointment[i].fields.AppointmentsTimeLog[a].fields.StartDatetime).format('h:mm a'),
-                      timeEnd: moment(data.tappointment[i].fields.AppointmentsTimeLog[a].fields.EndDatetime).format('h:mm a'),
-                      totalHours: data.tappointment[i].fields.TotalHours || 0,
-                      endTime: data.tappointment[i].fields.EndTime.split(' ')[1] || '',
-                      startDate: data.tappointment[i].fields.StartTime || '',
-                      endDate: data.tappointment[i].fields.EndTime || '',
-                      frmDate: moment(data.tappointment[i].fields.StartTime).format('dddd') + ', ' + moment(data.tappointment[i].fields.StartTime).format('DD'),
-                      toDate: moment(data.tappointment[i].fields.endTime).format('dddd') + ', ' + moment(data.tappointment[i].fields.endTime).format('DD'),
-                      fromDate: data.tappointment[i].fields.Actual_EndTime != '' ? moment(data.tappointment[i].fields.Actual_EndTime).format("DD/MM/YYYY") : data.tappointment[i].fields.Actual_EndTime,
-                      openbalance: data.tappointment[i].fields.Actual_EndTime || '',
-                      aStartTime: data.tappointment[i].fields.Actual_StartTime.split(' ')[1] || '',
-                      aEndTime: data.tappointment[i].fields.Actual_EndTime.split(' ')[1] || '',
+                      id: data.tappointmentex[i].fields.AppointmentsTimeLog[a].fields.AppointID || '',
+                      appointmentdate: data.tappointmentex[i].fields.MsTimeStamp != '' ? moment(data.tappointmentex[i].fields.MsTimeStamp).format("DD/MM/YYYY") : data.tappointmentex[i].fields.MsTimeStamp,
+                      accountname: data.tappointmentex[i].fields.ClientName || '',
+                      statementno: data.tappointmentex[i].fields.TrainerName || '',
+                      employeename: data.tappointmentex[i].fields.TrainerName || '',
+                      department: data.tappointmentex[i].fields.DeptClassName || '',
+                      phone: data.tappointmentex[i].fields.Phone || '',
+                      mobile: data.tappointmentex[i].fields.ClientMobile || '',
+                      suburb: data.tappointmentex[i].fields.Suburb || '',
+                      street: data.tappointmentex[i].fields.Street || '',
+                      state: data.tappointmentex[i].fields.State || '',
+                      country: data.tappointmentex[i].fields.Country || '',
+                      zip: data.tappointmentex[i].fields.Postcode || '',
+                      timelog: new Array(data.tappointmentex[i].fields.AppointmentsTimeLog) || '',
+                      startTime: data.tappointmentex[i].fields.StartTime.split(' ')[1] || '',
+                      timeStart: moment(data.tappointmentex[i].fields.AppointmentsTimeLog[a].fields.StartDatetime).format('h:mm a'),
+                      timeEnd: moment(data.tappointmentex[i].fields.AppointmentsTimeLog[a].fields.EndDatetime).format('h:mm a'),
+                      totalHours: data.tappointmentex[i].fields.TotalHours || 0,
+                      endTime: data.tappointmentex[i].fields.EndTime.split(' ')[1] || '',
+                      startDate: data.tappointmentex[i].fields.StartTime || '',
+                      endDate: data.tappointmentex[i].fields.EndTime || '',
+                      frmDate: moment(data.tappointmentex[i].fields.StartTime).format('dddd') + ', ' + moment(data.tappointmentex[i].fields.StartTime).format('DD'),
+                      toDate: moment(data.tappointmentex[i].fields.endTime).format('dddd') + ', ' + moment(data.tappointmentex[i].fields.endTime).format('DD'),
+                      fromDate: data.tappointmentex[i].fields.Actual_EndTime != '' ? moment(data.tappointmentex[i].fields.Actual_EndTime).format("DD/MM/YYYY") : data.tappointmentex[i].fields.Actual_EndTime,
+                      openbalance: data.tappointmentex[i].fields.Actual_EndTime || '',
+                      aStartTime: data.tappointmentex[i].fields.Actual_StartTime.split(' ')[1] || '',
+                      aEndTime: data.tappointmentex[i].fields.Actual_EndTime.split(' ')[1] || '',
                       actualHours: '',
                       closebalance: '',
-                      product: data.tappointment[i].fields.ProductDesc || '',
-                      finished: data.tappointment[i].fields.Status || '',
-                      employee: data.tappointment[i].fields.EndTime != '' ? moment(data.tappointment[i].fields.EndTime).format("DD/MM/YYYY") : data.tappointment[i].fields.EndTime,
-                      notes: data.tappointment[i].fields.Notes || ''
+                      product: data.tappointmentex[i].fields.ProductDesc || '',
+                      finished: data.tappointmentex[i].fields.Status || '',
+                      employee: data.tappointmentex[i].fields.EndTime != '' ? moment(data.tappointmentex[i].fields.EndTime).format("DD/MM/YYYY") : data.tappointmentex[i].fields.EndTime,
+                      notes: data.tappointmentex[i].fields.Notes || ''
                     };
                     dataTableList.push(dataList);
                   } else {
                     dataList = {
-                      id: data.tappointment[i].fields.AppointmentsTimeLog[a].fields.AppointID || '',
-                      appointmentdate: data.tappointment[i].fields.MsTimeStamp != '' ? moment(data.tappointment[i].fields.MsTimeStamp).format("DD/MM/YYYY") : data.tappointment[i].fields.MsTimeStamp,
-                      accountname: data.tappointment[i].fields.ClientName || '',
-                      statementno: data.tappointment[i].fields.TrainerName || '',
-                      employeename: data.tappointment[i].fields.TrainerName || '',
-                      department: data.tappointment[i].fields.DeptClassName || '',
-                      phone: data.tappointment[i].fields.Phone || '',
-                      mobile: data.tappointment[i].fields.ClientMobile || '',
-                      suburb: data.tappointment[i].fields.Suburb || '',
-                      street: data.tappointment[i].fields.Street || '',
-                      state: data.tappointment[i].fields.State || '',
-                      country: data.tappointment[i].fields.Country || '',
-                      zip: data.tappointment[i].fields.Postcode || '',
-                      timelog: new Array(data.tappointment[i].fields.AppointmentsTimeLog) || '',
-                      startTime: data.tappointment[i].fields.StartTime.split(' ')[1] || '',
-                      timeStart: moment(data.tappointment[i].fields.AppointmentsTimeLog[a].fields.StartDatetime).format('h:mm a'),
-                      timeEnd: moment(data.tappointment[i].fields.AppointmentsTimeLog[a].fields.EndDatetime).format('h:mm a'),
-                      totalHours: data.tappointment[i].fields.TotalHours || 0,
-                      endTime: data.tappointment[i].fields.EndTime.split(' ')[1] || '',
-                      startDate: data.tappointment[i].fields.StartTime || '',
-                      endDate: data.tappointment[i].fields.EndTime || '',
-                      frmDate: moment(data.tappointment[i].fields.StartTime).format('dddd') + ', ' + moment(data.tappointment[i].fields.StartTime).format('DD'),
-                      toDate: moment(data.tappointment[i].fields.endTime).format('dddd') + ', ' + moment(data.tappointment[i].fields.endTime).format('DD'),
-                      fromDate: data.tappointment[i].fields.Actual_EndTime != '' ? moment(data.tappointment[i].fields.Actual_EndTime).format("DD/MM/YYYY") : data.tappointment[i].fields.Actual_EndTime,
-                      openbalance: data.tappointment[i].fields.Actual_EndTime || '',
-                      aStartTime: data.tappointment[i].fields.Actual_StartTime.split(' ')[1] || '',
-                      aEndTime: data.tappointment[i].fields.Actual_EndTime.split(' ')[1] || '',
+                      id: data.tappointmentex[i].fields.AppointmentsTimeLog[a].fields.AppointID || '',
+                      appointmentdate: data.tappointmentex[i].fields.MsTimeStamp != '' ? moment(data.tappointmentex[i].fields.MsTimeStamp).format("DD/MM/YYYY") : data.tappointmentex[i].fields.MsTimeStamp,
+                      accountname: data.tappointmentex[i].fields.ClientName || '',
+                      statementno: data.tappointmentex[i].fields.TrainerName || '',
+                      employeename: data.tappointmentex[i].fields.TrainerName || '',
+                      department: data.tappointmentex[i].fields.DeptClassName || '',
+                      phone: data.tappointmentex[i].fields.Phone || '',
+                      mobile: data.tappointmentex[i].fields.ClientMobile || '',
+                      suburb: data.tappointmentex[i].fields.Suburb || '',
+                      street: data.tappointmentex[i].fields.Street || '',
+                      state: data.tappointmentex[i].fields.State || '',
+                      country: data.tappointmentex[i].fields.Country || '',
+                      zip: data.tappointmentex[i].fields.Postcode || '',
+                      timelog: new Array(data.tappointmentex[i].fields.AppointmentsTimeLog) || '',
+                      startTime: data.tappointmentex[i].fields.StartTime.split(' ')[1] || '',
+                      timeStart: moment(data.tappointmentex[i].fields.AppointmentsTimeLog[a].fields.StartDatetime).format('h:mm a'),
+                      timeEnd: moment(data.tappointmentex[i].fields.AppointmentsTimeLog[a].fields.EndDatetime).format('h:mm a'),
+                      totalHours: data.tappointmentex[i].fields.TotalHours || 0,
+                      endTime: data.tappointmentex[i].fields.EndTime.split(' ')[1] || '',
+                      startDate: data.tappointmentex[i].fields.StartTime || '',
+                      endDate: data.tappointmentex[i].fields.EndTime || '',
+                      frmDate: moment(data.tappointmentex[i].fields.StartTime).format('dddd') + ', ' + moment(data.tappointmentex[i].fields.StartTime).format('DD'),
+                      toDate: moment(data.tappointmentex[i].fields.endTime).format('dddd') + ', ' + moment(data.tappointmentex[i].fields.endTime).format('DD'),
+                      fromDate: data.tappointmentex[i].fields.Actual_EndTime != '' ? moment(data.tappointmentex[i].fields.Actual_EndTime).format("DD/MM/YYYY") : data.tappointmentex[i].fields.Actual_EndTime,
+                      openbalance: data.tappointmentex[i].fields.Actual_EndTime || '',
+                      aStartTime: data.tappointmentex[i].fields.Actual_StartTime.split(' ')[1] || '',
+                      aEndTime: data.tappointmentex[i].fields.Actual_EndTime.split(' ')[1] || '',
                       actualHours: '',
                       closebalance: '',
-                      product: data.tappointment[i].fields.ProductDesc || '',
-                      finished: data.tappointment[i].fields.Status || '',
-                      employee: data.tappointment[i].fields.EndTime != '' ? moment(data.tappointment[i].fields.EndTime).format("DD/MM/YYYY") : data.tappointment[i].fields.EndTime,
-                      notes: data.tappointment[i].fields.Notes || ''
+                      product: data.tappointmentex[i].fields.ProductDesc || '',
+                      finished: data.tappointmentex[i].fields.Status || '',
+                      employee: data.tappointmentex[i].fields.EndTime != '' ? moment(data.tappointmentex[i].fields.EndTime).format("DD/MM/YYYY") : data.tappointmentex[i].fields.EndTime,
+                      notes: data.tappointmentex[i].fields.Notes || ''
                     };
                     dataTableList.push(dataList);
                   }
@@ -371,39 +371,39 @@ Template.appointmenttimelist.onRendered(function () {
 
               } else {
                 dataList = {
-                  id: data.tappointment[i].fields.AppointmentsTimeLog.fields.AppointID || '',
-                  appointmentdate: data.tappointment[i].fields.MsTimeStamp != '' ? moment(data.tappointment[i].fields.MsTimeStamp).format("DD/MM/YYYY") : data.tappointment[i].fields.MsTimeStamp,
-                  accountname: data.tappointment[i].fields.ClientName || '',
-                  statementno: data.tappointment[i].fields.TrainerName || '',
-                  employeename: data.tappointment[i].fields.TrainerName || '',
-                  department: data.tappointment[i].fields.DeptClassName || '',
-                  phone: data.tappointment[i].fields.Phone || '',
-                  mobile: data.tappointment[i].fields.ClientMobile || '',
-                  suburb: data.tappointment[i].fields.Suburb || '',
-                  street: data.tappointment[i].fields.Street || '',
-                  state: data.tappointment[i].fields.State || '',
-                  country: data.tappointment[i].fields.Country || '',
-                  zip: data.tappointment[i].fields.Postcode || '',
-                  timelog: new Array(data.tappointment[i].fields.AppointmentsTimeLog) || '',
-                  startTime: data.tappointment[i].fields.StartTime.split(' ')[1] || '',
-                  timeStart: moment(data.tappointment[i].fields.AppointmentsTimeLog.fields.StartDatetime).format('h:mm a'),
-                  timeEnd: moment(data.tappointment[i].fields.AppointmentsTimeLog.fields.EndDatetime).format('h:mm a'),
-                  totalHours: data.tappointment[i].fields.TotalHours || 0,
-                  endTime: data.tappointment[i].fields.EndTime.split(' ')[1] || '',
-                  startDate: data.tappointment[i].fields.StartTime || '',
-                  endDate: data.tappointment[i].fields.EndTime || '',
-                  frmDate: moment(data.tappointment[i].fields.StartTime).format('dddd') + ', ' + moment(data.tappointment[i].fields.StartTime).format('DD'),
-                  toDate: moment(data.tappointment[i].fields.endTime).format('dddd') + ', ' + moment(data.tappointment[i].fields.endTime).format('DD'),
-                  fromDate: data.tappointment[i].fields.Actual_EndTime != '' ? moment(data.tappointment[i].fields.Actual_EndTime).format("DD/MM/YYYY") : data.tappointment[i].fields.Actual_EndTime,
-                  openbalance: data.tappointment[i].fields.Actual_EndTime || '',
-                  aStartTime: data.tappointment[i].fields.Actual_StartTime.split(' ')[1] || '',
-                  aEndTime: data.tappointment[i].fields.Actual_EndTime.split(' ')[1] || '',
+                  id: data.tappointmentex[i].fields.AppointmentsTimeLog.fields.AppointID || '',
+                  appointmentdate: data.tappointmentex[i].fields.MsTimeStamp != '' ? moment(data.tappointmentex[i].fields.MsTimeStamp).format("DD/MM/YYYY") : data.tappointmentex[i].fields.MsTimeStamp,
+                  accountname: data.tappointmentex[i].fields.ClientName || '',
+                  statementno: data.tappointmentex[i].fields.TrainerName || '',
+                  employeename: data.tappointmentex[i].fields.TrainerName || '',
+                  department: data.tappointmentex[i].fields.DeptClassName || '',
+                  phone: data.tappointmentex[i].fields.Phone || '',
+                  mobile: data.tappointmentex[i].fields.ClientMobile || '',
+                  suburb: data.tappointmentex[i].fields.Suburb || '',
+                  street: data.tappointmentex[i].fields.Street || '',
+                  state: data.tappointmentex[i].fields.State || '',
+                  country: data.tappointmentex[i].fields.Country || '',
+                  zip: data.tappointmentex[i].fields.Postcode || '',
+                  timelog: new Array(data.tappointmentex[i].fields.AppointmentsTimeLog) || '',
+                  startTime: data.tappointmentex[i].fields.StartTime.split(' ')[1] || '',
+                  timeStart: moment(data.tappointmentex[i].fields.AppointmentsTimeLog.fields.StartDatetime).format('h:mm a'),
+                  timeEnd: moment(data.tappointmentex[i].fields.AppointmentsTimeLog.fields.EndDatetime).format('h:mm a'),
+                  totalHours: data.tappointmentex[i].fields.TotalHours || 0,
+                  endTime: data.tappointmentex[i].fields.EndTime.split(' ')[1] || '',
+                  startDate: data.tappointmentex[i].fields.StartTime || '',
+                  endDate: data.tappointmentex[i].fields.EndTime || '',
+                  frmDate: moment(data.tappointmentex[i].fields.StartTime).format('dddd') + ', ' + moment(data.tappointmentex[i].fields.StartTime).format('DD'),
+                  toDate: moment(data.tappointmentex[i].fields.endTime).format('dddd') + ', ' + moment(data.tappointmentex[i].fields.endTime).format('DD'),
+                  fromDate: data.tappointmentex[i].fields.Actual_EndTime != '' ? moment(data.tappointmentex[i].fields.Actual_EndTime).format("DD/MM/YYYY") : data.tappointmentex[i].fields.Actual_EndTime,
+                  openbalance: data.tappointmentex[i].fields.Actual_EndTime || '',
+                  aStartTime: data.tappointmentex[i].fields.Actual_StartTime.split(' ')[1] || '',
+                  aEndTime: data.tappointmentex[i].fields.Actual_EndTime.split(' ')[1] || '',
                   actualHours: '',
                   closebalance: '',
-                  product: data.tappointment[i].fields.ProductDesc || '',
-                  finished: data.tappointment[i].fields.Status || '',
-                  employee: data.tappointment[i].fields.EndTime != '' ? moment(data.tappointment[i].fields.EndTime).format("DD/MM/YYYY") : data.tappointment[i].fields.EndTime,
-                  notes: data.tappointment[i].fields.Notes || ''
+                  product: data.tappointmentex[i].fields.ProductDesc || '',
+                  finished: data.tappointmentex[i].fields.Status || '',
+                  employee: data.tappointmentex[i].fields.EndTime != '' ? moment(data.tappointmentex[i].fields.EndTime).format("DD/MM/YYYY") : data.tappointmentex[i].fields.EndTime,
+                  notes: data.tappointmentex[i].fields.Notes || ''
                 };
                 dataTableList.push(dataList);
               }
@@ -552,7 +552,7 @@ Template.appointmenttimelist.onRendered(function () {
         });
       } else {
         let data = JSON.parse(dataObject[0].data);
-        let useData = data.tappointment;
+        let useData = data.tappointmentex;
         let lineItems = [];
         let lineItemObj = {};
         appointmentTable = [];
@@ -597,6 +597,7 @@ Template.appointmenttimelist.onRendered(function () {
             let url = new URL(window.location.href);
             let searchID = parseInt(url.searchParams.get("id")) || 0;
             if (Array.isArray(useData[i].fields.AppointmentsTimeLog)) {
+              console.log(useData[i].fields.AppointmentsTimeLog);
               for (let a = 0; a < useData[i].fields.AppointmentsTimeLog.length; a++) {
                 if (searchID != 0) {
                   if (searchID == useData[i].fields.AppointmentsTimeLog[a].fields.AppointID) {
@@ -973,85 +974,85 @@ Template.appointmenttimelist.onRendered(function () {
         let lineItems = [];
         let lineItemObj = {};
         var dataList = "";
-        for (let i = 0; i < data.tappointment.length; i++) {
-          if (data.tappointment[i].fields.AppointmentsTimeLog != null) {
-            // let openBalance = utilityService.modifynegativeCurrencyFormat(data.tappointment[i].fields.OpenBalance)|| 0.00;
-            // let closeBalance = utilityService.modifynegativeCurrencyFormat(data.tappointment[i].fields.CloseBalance)|| 0.00;
-            if (data.tappointment[i].fields.AppointmentsTimeLog.length) {
-              for (let a = 0; a < data.tappointment[i].fields.AppointmentsTimeLog.length; a++) {
+        for (let i = 0; i < data.tappointmentex.length; i++) {
+          if (data.tappointmentex[i].fields.AppointmentsTimeLog != null) {
+            // let openBalance = utilityService.modifynegativeCurrencyFormat(data.tappointmentex[i].fields.OpenBalance)|| 0.00;
+            // let closeBalance = utilityService.modifynegativeCurrencyFormat(data.tappointmentex[i].fields.CloseBalance)|| 0.00;
+            if (data.tappointmentex[i].fields.AppointmentsTimeLog.length) {
+              for (let a = 0; a < data.tappointmentex[i].fields.AppointmentsTimeLog.length; a++) {
                 dataList = {
-                  id: data.tappointment[i].fields.AppointmentsTimeLog[a].fields.AppointID || '',
-                  appointmentdate: data.tappointment[i].fields.MsTimeStamp != '' ? moment(data.tappointment[i].fields.MsTimeStamp).format("DD/MM/YYYY") : data.tappointment[i].fields.MsTimeStamp,
-                  accountname: data.tappointment[i].fields.ClientName || '',
-                  statementno: data.tappointment[i].fields.TrainerName || '',
-                  employeename: data.tappointment[i].fields.TrainerName || '',
-                  department: data.tappointment[i].fields.DeptClassName || '',
-                  phone: data.tappointment[i].fields.Phone || '',
-                  mobile: data.tappointment[i].fields.ClientMobile || '',
-                  suburb: data.tappointment[i].fields.Suburb || '',
-                  street: data.tappointment[i].fields.Street || '',
-                  state: data.tappointment[i].fields.State || '',
-                  country: data.tappointment[i].fields.Country || '',
-                  zip: data.tappointment[i].fields.Postcode || '',
-                  timelog: new Array(data.tappointment[i].fields.AppointmentsTimeLog) || '',
-                  startTime: data.tappointment[i].fields.StartTime.split(' ')[1] || '',
-                  timeStart: moment(data.tappointment[i].fields.AppointmentsTimeLog[a].fields.StartDatetime).format('h:mm a'),
-                  timeEnd: moment(data.tappointment[i].fields.AppointmentsTimeLog[a].fields.EndDatetime).format('h:mm a'),
-                  totalHours: data.tappointment[i].fields.TotalHours || 0,
-                  endTime: data.tappointment[i].fields.EndTime.split(' ')[1] || '',
-                  startDate: data.tappointment[i].fields.StartTime || '',
-                  endDate: data.tappointment[i].fields.EndTime || '',
-                  frmDate: moment(data.tappointment[i].fields.StartTime).format('dddd') + ', ' + moment(data.tappointment[i].fields.StartTime).format('DD'),
-                  toDate: moment(data.tappointment[i].fields.endTime).format('dddd') + ', ' + moment(data.tappointment[i].fields.endTime).format('DD'),
-                  fromDate: data.tappointment[i].fields.Actual_EndTime != '' ? moment(data.tappointment[i].fields.Actual_EndTime).format("DD/MM/YYYY") : data.tappointment[i].fields.Actual_EndTime,
-                  openbalance: data.tappointment[i].fields.Actual_EndTime || '',
-                  aStartTime: data.tappointment[i].fields.Actual_StartTime.split(' ')[1] || '',
-                  aEndTime: data.tappointment[i].fields.Actual_EndTime.split(' ')[1] || '',
+                  id: data.tappointmentex[i].fields.AppointmentsTimeLog[a].fields.AppointID || '',
+                  appointmentdate: data.tappointmentex[i].fields.MsTimeStamp != '' ? moment(data.tappointmentex[i].fields.MsTimeStamp).format("DD/MM/YYYY") : data.tappointmentex[i].fields.MsTimeStamp,
+                  accountname: data.tappointmentex[i].fields.ClientName || '',
+                  statementno: data.tappointmentex[i].fields.TrainerName || '',
+                  employeename: data.tappointmentex[i].fields.TrainerName || '',
+                  department: data.tappointmentex[i].fields.DeptClassName || '',
+                  phone: data.tappointmentex[i].fields.Phone || '',
+                  mobile: data.tappointmentex[i].fields.ClientMobile || '',
+                  suburb: data.tappointmentex[i].fields.Suburb || '',
+                  street: data.tappointmentex[i].fields.Street || '',
+                  state: data.tappointmentex[i].fields.State || '',
+                  country: data.tappointmentex[i].fields.Country || '',
+                  zip: data.tappointmentex[i].fields.Postcode || '',
+                  timelog: new Array(data.tappointmentex[i].fields.AppointmentsTimeLog) || '',
+                  startTime: data.tappointmentex[i].fields.StartTime.split(' ')[1] || '',
+                  timeStart: moment(data.tappointmentex[i].fields.AppointmentsTimeLog[a].fields.StartDatetime).format('h:mm a'),
+                  timeEnd: moment(data.tappointmentex[i].fields.AppointmentsTimeLog[a].fields.EndDatetime).format('h:mm a'),
+                  totalHours: data.tappointmentex[i].fields.TotalHours || 0,
+                  endTime: data.tappointmentex[i].fields.EndTime.split(' ')[1] || '',
+                  startDate: data.tappointmentex[i].fields.StartTime || '',
+                  endDate: data.tappointmentex[i].fields.EndTime || '',
+                  frmDate: moment(data.tappointmentex[i].fields.StartTime).format('dddd') + ', ' + moment(data.tappointmentex[i].fields.StartTime).format('DD'),
+                  toDate: moment(data.tappointmentex[i].fields.endTime).format('dddd') + ', ' + moment(data.tappointmentex[i].fields.endTime).format('DD'),
+                  fromDate: data.tappointmentex[i].fields.Actual_EndTime != '' ? moment(data.tappointmentex[i].fields.Actual_EndTime).format("DD/MM/YYYY") : data.tappointmentex[i].fields.Actual_EndTime,
+                  openbalance: data.tappointmentex[i].fields.Actual_EndTime || '',
+                  aStartTime: data.tappointmentex[i].fields.Actual_StartTime.split(' ')[1] || '',
+                  aEndTime: data.tappointmentex[i].fields.Actual_EndTime.split(' ')[1] || '',
                   actualHours: '',
                   closebalance: '',
-                  product: data.tappointment[i].fields.ProductDesc || '',
-                  finished: data.tappointment[i].fields.Status || '',
-                  employee: data.tappointment[i].fields.EndTime != '' ? moment(data.tappointment[i].fields.EndTime).format("DD/MM/YYYY") : data.tappointment[i].fields.EndTime,
-                  notes: data.tappointment[i].fields.Notes || ''
+                  product: data.tappointmentex[i].fields.ProductDesc || '',
+                  finished: data.tappointmentex[i].fields.Status || '',
+                  employee: data.tappointmentex[i].fields.EndTime != '' ? moment(data.tappointmentex[i].fields.EndTime).format("DD/MM/YYYY") : data.tappointmentex[i].fields.EndTime,
+                  notes: data.tappointmentex[i].fields.Notes || ''
                 };
                 dataTableList.push(dataList);
               }
 
             } else {
               dataList = {
-                id: data.tappointment[i].fields.AppointmentsTimeLog.fields.AppointID || '',
-                appointmentdate: data.tappointment[i].fields.MsTimeStamp != '' ? moment(data.tappointment[i].fields.MsTimeStamp).format("DD/MM/YYYY") : data.tappointment[i].fields.MsTimeStamp,
-                accountname: data.tappointment[i].fields.ClientName || '',
-                statementno: data.tappointment[i].fields.TrainerName || '',
-                employeename: data.tappointment[i].fields.TrainerName || '',
-                department: data.tappointment[i].fields.DeptClassName || '',
-                phone: data.tappointment[i].fields.Phone || '',
-                mobile: data.tappointment[i].fields.ClientMobile || '',
-                suburb: data.tappointment[i].fields.Suburb || '',
-                street: data.tappointment[i].fields.Street || '',
-                state: data.tappointment[i].fields.State || '',
-                country: data.tappointment[i].fields.Country || '',
-                zip: data.tappointment[i].fields.Postcode || '',
-                timelog: new Array(data.tappointment[i].fields.AppointmentsTimeLog) || '',
-                startTime: data.tappointment[i].fields.StartTime.split(' ')[1] || '',
-                timeStart: moment(data.tappointment[i].fields.AppointmentsTimeLog.fields.StartDatetime).format('h:mm a'),
-                timeEnd: moment(data.tappointment[i].fields.AppointmentsTimeLog.fields.EndDatetime).format('h:mm a'),
-                totalHours: data.tappointment[i].fields.TotalHours || 0,
-                endTime: data.tappointment[i].fields.EndTime.split(' ')[1] || '',
-                startDate: data.tappointment[i].fields.StartTime || '',
-                endDate: data.tappointment[i].fields.EndTime || '',
-                frmDate: moment(data.tappointment[i].fields.StartTime).format('dddd') + ', ' + moment(data.tappointment[i].fields.StartTime).format('DD'),
-                toDate: moment(data.tappointment[i].fields.endTime).format('dddd') + ', ' + moment(data.tappointment[i].fields.endTime).format('DD'),
-                fromDate: data.tappointment[i].fields.Actual_EndTime != '' ? moment(data.tappointment[i].fields.Actual_EndTime).format("DD/MM/YYYY") : data.tappointment[i].fields.Actual_EndTime,
-                openbalance: data.tappointment[i].fields.Actual_EndTime || '',
-                aStartTime: data.tappointment[i].fields.Actual_StartTime.split(' ')[1] || '',
-                aEndTime: data.tappointment[i].fields.Actual_EndTime.split(' ')[1] || '',
+                id: data.tappointmentex[i].fields.AppointmentsTimeLog.fields.AppointID || '',
+                appointmentdate: data.tappointmentex[i].fields.MsTimeStamp != '' ? moment(data.tappointmentex[i].fields.MsTimeStamp).format("DD/MM/YYYY") : data.tappointmentex[i].fields.MsTimeStamp,
+                accountname: data.tappointmentex[i].fields.ClientName || '',
+                statementno: data.tappointmentex[i].fields.TrainerName || '',
+                employeename: data.tappointmentex[i].fields.TrainerName || '',
+                department: data.tappointmentex[i].fields.DeptClassName || '',
+                phone: data.tappointmentex[i].fields.Phone || '',
+                mobile: data.tappointmentex[i].fields.ClientMobile || '',
+                suburb: data.tappointmentex[i].fields.Suburb || '',
+                street: data.tappointmentex[i].fields.Street || '',
+                state: data.tappointmentex[i].fields.State || '',
+                country: data.tappointmentex[i].fields.Country || '',
+                zip: data.tappointmentex[i].fields.Postcode || '',
+                timelog: new Array(data.tappointmentex[i].fields.AppointmentsTimeLog) || '',
+                startTime: data.tappointmentex[i].fields.StartTime.split(' ')[1] || '',
+                timeStart: moment(data.tappointmentex[i].fields.AppointmentsTimeLog.fields.StartDatetime).format('h:mm a'),
+                timeEnd: moment(data.tappointmentex[i].fields.AppointmentsTimeLog.fields.EndDatetime).format('h:mm a'),
+                totalHours: data.tappointmentex[i].fields.TotalHours || 0,
+                endTime: data.tappointmentex[i].fields.EndTime.split(' ')[1] || '',
+                startDate: data.tappointmentex[i].fields.StartTime || '',
+                endDate: data.tappointmentex[i].fields.EndTime || '',
+                frmDate: moment(data.tappointmentex[i].fields.StartTime).format('dddd') + ', ' + moment(data.tappointmentex[i].fields.StartTime).format('DD'),
+                toDate: moment(data.tappointmentex[i].fields.endTime).format('dddd') + ', ' + moment(data.tappointmentex[i].fields.endTime).format('DD'),
+                fromDate: data.tappointmentex[i].fields.Actual_EndTime != '' ? moment(data.tappointmentex[i].fields.Actual_EndTime).format("DD/MM/YYYY") : data.tappointmentex[i].fields.Actual_EndTime,
+                openbalance: data.tappointmentex[i].fields.Actual_EndTime || '',
+                aStartTime: data.tappointmentex[i].fields.Actual_StartTime.split(' ')[1] || '',
+                aEndTime: data.tappointmentex[i].fields.Actual_EndTime.split(' ')[1] || '',
                 actualHours: '',
                 closebalance: '',
-                product: data.tappointment[i].fields.ProductDesc || '',
-                finished: data.tappointment[i].fields.Status || '',
-                employee: data.tappointment[i].fields.EndTime != '' ? moment(data.tappointment[i].fields.EndTime).format("DD/MM/YYYY") : data.tappointment[i].fields.EndTime,
-                notes: data.tappointment[i].fields.Notes || ''
+                product: data.tappointmentex[i].fields.ProductDesc || '',
+                finished: data.tappointmentex[i].fields.Status || '',
+                employee: data.tappointmentex[i].fields.EndTime != '' ? moment(data.tappointmentex[i].fields.EndTime).format("DD/MM/YYYY") : data.tappointmentex[i].fields.EndTime,
+                notes: data.tappointmentex[i].fields.Notes || ''
               };
               dataTableList.push(dataList);
             }

@@ -145,7 +145,7 @@ Template.appointmentlist.onRendered(function () {
                 });
             } else {
                 let data = JSON.parse(dataObject[0].data);
-                let useData = data.tappointment;
+                let useData = data.tappointmentex;
                 if (useData[0].Id) {
                     sideBarService.getAllAppointmentList().then(function (data) {
                         addVS1Data('TAppointment', JSON.stringify(data)).then(function (datareturn) {
@@ -402,47 +402,47 @@ Template.appointmentlist.onRendered(function () {
                     let lineItems = [];
                     let lineItemObj = {};
                     let color = "";
-                    for (let i = 0; i < data.tappointment.length; i++) {
-                        // let openBalance = utilityService.modifynegativeCurrencyFormat(data.tappointment[i].OpenBalance)|| 0.00;
-                        // let closeBalance = utilityService.modifynegativeCurrencyFormat(data.tappointment[i].CloseBalance)|| 0.00;
-                        if (data.tappointment[i].Status == "Converted" || data.tappointment[i].Status == "Completed") {
+                    for (let i = 0; i < data.tappointmentex.length; i++) {
+                        // let openBalance = utilityService.modifynegativeCurrencyFormat(data.tappointmentex[i].OpenBalance)|| 0.00;
+                        // let closeBalance = utilityService.modifynegativeCurrencyFormat(data.tappointmentex[i].CloseBalance)|| 0.00;
+                        if (data.tappointmentex[i].Status == "Converted" || data.tappointmentex[i].Status == "Completed") {
                             color = "#1cc88a";
                         } else {
                             color = "#f6c23e";
                         }
                         var dataList = {
-                            id: data.tappointment[i].Id || '',
-                            sortdate: data.tappointment[i].CreationDate != '' ? moment(data.tappointment[i].CreationDate).format("YYYY/MM/DD") : data.tappointment[i].CreationDate,
-                            appointmentdate: data.tappointment[i].CreationDate != '' ? moment(data.tappointment[i].CreationDate).format("DD/MM/YYYY") : data.tappointment[i].CreationDate,
-                            accountname: data.tappointment[i].ClientName || '',
-                            statementno: data.tappointment[i].TrainerName || '',
-                            employeename: data.tappointment[i].TrainerName || '',
-                            department: data.tappointment[i].DeptClassName || '',
-                            phone: data.tappointment[i].Phone || '',
-                            mobile: data.tappointment[i].Mobile || '',
-                            suburb: data.tappointment[i].Suburb || '',
-                            street: data.tappointment[i].Street || '',
-                            state: data.tappointment[i].State || '',
-                            country: data.tappointment[i].Country || '',
-                            zip: data.tappointment[i].Postcode || '',
-                            startTime: data.tappointment[i].StartTime.split(' ')[1] || '',
-                            timeStart: moment(data.tappointment[i].StartTime).format('h:mm a'),
-                            timeEnd: moment(data.tappointment[i].EndTime).format('h:mm a'),
-                            totalHours: data.tappointment[i].TotalHours || 0,
-                            endTime: data.tappointment[i].EndTime.split(' ')[1] || '',
-                            startDate: data.tappointment[i].StartTime || '',
-                            endDate: data.tappointment[i].EndTime || '',
-                            frmDate: moment(data.tappointment[i].StartTime).format('dddd') + ', ' + moment(data.tappointment[i].StartTime).format('DD'),
-                            toDate: moment(data.tappointment[i].endTime).format('dddd') + ', ' + moment(data.tappointment[i].endTime).format('DD'),
-                            fromDate: data.tappointment[i].Actual_EndTime != '' ? moment(data.tappointment[i].Actual_EndTime).format("DD/MM/YYYY") : data.tappointment[i].Actual_EndTime,
-                            openbalance: data.tappointment[i].Actual_EndTime || '',
-                            aStartTime: data.tappointment[i].Actual_StartTime.split(' ')[1] || '',
-                            aEndTime: data.tappointment[i].Actual_EndTime.split(' ')[1] || '',
+                            id: data.tappointmentex[i].Id || '',
+                            sortdate: data.tappointmentex[i].CreationDate != '' ? moment(data.tappointmentex[i].CreationDate).format("YYYY/MM/DD") : data.tappointmentex[i].CreationDate,
+                            appointmentdate: data.tappointmentex[i].CreationDate != '' ? moment(data.tappointmentex[i].CreationDate).format("DD/MM/YYYY") : data.tappointmentex[i].CreationDate,
+                            accountname: data.tappointmentex[i].ClientName || '',
+                            statementno: data.tappointmentex[i].TrainerName || '',
+                            employeename: data.tappointmentex[i].TrainerName || '',
+                            department: data.tappointmentex[i].DeptClassName || '',
+                            phone: data.tappointmentex[i].Phone || '',
+                            mobile: data.tappointmentex[i].Mobile || '',
+                            suburb: data.tappointmentex[i].Suburb || '',
+                            street: data.tappointmentex[i].Street || '',
+                            state: data.tappointmentex[i].State || '',
+                            country: data.tappointmentex[i].Country || '',
+                            zip: data.tappointmentex[i].Postcode || '',
+                            startTime: data.tappointmentex[i].StartTime.split(' ')[1] || '',
+                            timeStart: moment(data.tappointmentex[i].StartTime).format('h:mm a'),
+                            timeEnd: moment(data.tappointmentex[i].EndTime).format('h:mm a'),
+                            totalHours: data.tappointmentex[i].TotalHours || 0,
+                            endTime: data.tappointmentex[i].EndTime.split(' ')[1] || '',
+                            startDate: data.tappointmentex[i].StartTime || '',
+                            endDate: data.tappointmentex[i].EndTime || '',
+                            frmDate: moment(data.tappointmentex[i].StartTime).format('dddd') + ', ' + moment(data.tappointmentex[i].StartTime).format('DD'),
+                            toDate: moment(data.tappointmentex[i].endTime).format('dddd') + ', ' + moment(data.tappointmentex[i].endTime).format('DD'),
+                            fromDate: data.tappointmentex[i].Actual_EndTime != '' ? moment(data.tappointmentex[i].Actual_EndTime).format("DD/MM/YYYY") : data.tappointmentex[i].Actual_EndTime,
+                            openbalance: data.tappointmentex[i].Actual_EndTime || '',
+                            aStartTime: data.tappointmentex[i].Actual_StartTime.split(' ')[1] || '',
+                            aEndTime: data.tappointmentex[i].Actual_EndTime.split(' ')[1] || '',
                             actualHours: '',
                             closebalance: '',
-                            product: data.tappointment[i].ProductDesc || '',
-                            finished: data.tappointment[i].Status || '',
-                            notes: data.tappointment[i].Notes || '',
+                            product: data.tappointmentex[i].ProductDesc || '',
+                            finished: data.tappointmentex[i].Status || '',
+                            notes: data.tappointmentex[i].Notes || '',
                             color: color
                         };
                         dataTableList.push(dataList);
@@ -593,7 +593,7 @@ Template.appointmentlist.onRendered(function () {
                 });
             } else {
                 let data = JSON.parse(dataObject[0].data);
-                let useData = data.tappointment;
+                let useData = data.tappointmentex;
                 let lineItems = [];
                 let lineItemObj = {};
                 let color = "";
@@ -788,47 +788,47 @@ Template.appointmentlist.onRendered(function () {
                 let lineItems = [];
                 let lineItemObj = {};
                 let color = "";
-                for (let i = 0; i < data.tappointment.length; i++) {
-                    // let openBalance = utilityService.modifynegativeCurrencyFormat(data.tappointment[i].OpenBalance)|| 0.00;
-                    // let closeBalance = utilityService.modifynegativeCurrencyFormat(data.tappointment[i].CloseBalance)|| 0.00;
-                    if (data.tappointment[i].Status == "Converted" || data.tappointment[i].Status == "Completed") {
+                for (let i = 0; i < data.tappointmentex.length; i++) {
+                    // let openBalance = utilityService.modifynegativeCurrencyFormat(data.tappointmentex[i].OpenBalance)|| 0.00;
+                    // let closeBalance = utilityService.modifynegativeCurrencyFormat(data.tappointmentex[i].CloseBalance)|| 0.00;
+                    if (data.tappointmentex[i].Status == "Converted" || data.tappointmentex[i].Status == "Completed") {
                         color = "#1cc88a";
                     } else {
                         color = "#f6c23e";
                     }
                     var dataList = {
-                        id: data.tappointment[i].Id || '',
-                        sortdate: data.tappointment[i].CreationDate != '' ? moment(data.tappointment[i].CreationDate).format("YYYY/MM/DD") : data.tappointment[i].CreationDate,
-                        appointmentdate: data.tappointment[i].CreationDate != '' ? moment(data.tappointment[i].CreationDate).format("DD/MM/YYYY") : data.tappointment[i].CreationDate,
-                        accountname: data.tappointment[i].ClientName || '',
-                        statementno: data.tappointment[i].TrainerName || '',
-                        employeename: data.tappointment[i].TrainerName || '',
-                        department: data.tappointment[i].DeptClassName || '',
-                        phone: data.tappointment[i].Phone || '',
-                        mobile: data.tappointment[i].ClientMobile || '',
-                        suburb: data.tappointment[i].Suburb || '',
-                        street: data.tappointment[i].Street || '',
-                        state: data.tappointment[i].State || '',
-                        country: data.tappointment[i].Country || '',
-                        zip: data.tappointment[i].Postcode || '',
-                        startTime: data.tappointment[i].StartTime.split(' ')[1] || '',
-                        timeStart: moment(data.tappointment[i].StartTime).format('h:mm a'),
-                        timeEnd: moment(data.tappointment[i].EndTime).format('h:mm a'),
-                        totalHours: data.tappointment[i].TotalHours || 0,
-                        endTime: data.tappointment[i].EndTime.split(' ')[1] || '',
-                        startDate: data.tappointment[i].StartTime || '',
-                        endDate: data.tappointment[i].EndTime || '',
-                        frmDate: moment(data.tappointment[i].StartTime).format('dddd') + ', ' + moment(data.tappointment[i].StartTime).format('DD'),
-                        toDate: moment(data.tappointment[i].endTime).format('dddd') + ', ' + moment(data.tappointment[i].endTime).format('DD'),
-                        fromDate: data.tappointment[i].Actual_EndTime != '' ? moment(data.tappointment[i].Actual_EndTime).format("DD/MM/YYYY") : data.tappointment[i].Actual_EndTime,
-                        openbalance: data.tappointment[i].Actual_EndTime || '',
-                        aStartTime: data.tappointment[i].Actual_StartTime.split(' ')[1] || '',
-                        aEndTime: data.tappointment[i].Actual_EndTime.split(' ')[1] || '',
+                        id: data.tappointmentex[i].Id || '',
+                        sortdate: data.tappointmentex[i].CreationDate != '' ? moment(data.tappointmentex[i].CreationDate).format("YYYY/MM/DD") : data.tappointmentex[i].CreationDate,
+                        appointmentdate: data.tappointmentex[i].CreationDate != '' ? moment(data.tappointmentex[i].CreationDate).format("DD/MM/YYYY") : data.tappointmentex[i].CreationDate,
+                        accountname: data.tappointmentex[i].ClientName || '',
+                        statementno: data.tappointmentex[i].TrainerName || '',
+                        employeename: data.tappointmentex[i].TrainerName || '',
+                        department: data.tappointmentex[i].DeptClassName || '',
+                        phone: data.tappointmentex[i].Phone || '',
+                        mobile: data.tappointmentex[i].ClientMobile || '',
+                        suburb: data.tappointmentex[i].Suburb || '',
+                        street: data.tappointmentex[i].Street || '',
+                        state: data.tappointmentex[i].State || '',
+                        country: data.tappointmentex[i].Country || '',
+                        zip: data.tappointmentex[i].Postcode || '',
+                        startTime: data.tappointmentex[i].StartTime.split(' ')[1] || '',
+                        timeStart: moment(data.tappointmentex[i].StartTime).format('h:mm a'),
+                        timeEnd: moment(data.tappointmentex[i].EndTime).format('h:mm a'),
+                        totalHours: data.tappointmentex[i].TotalHours || 0,
+                        endTime: data.tappointmentex[i].EndTime.split(' ')[1] || '',
+                        startDate: data.tappointmentex[i].StartTime || '',
+                        endDate: data.tappointmentex[i].EndTime || '',
+                        frmDate: moment(data.tappointmentex[i].StartTime).format('dddd') + ', ' + moment(data.tappointmentex[i].StartTime).format('DD'),
+                        toDate: moment(data.tappointmentex[i].endTime).format('dddd') + ', ' + moment(data.tappointmentex[i].endTime).format('DD'),
+                        fromDate: data.tappointmentex[i].Actual_EndTime != '' ? moment(data.tappointmentex[i].Actual_EndTime).format("DD/MM/YYYY") : data.tappointmentex[i].Actual_EndTime,
+                        openbalance: data.tappointmentex[i].Actual_EndTime || '',
+                        aStartTime: data.tappointmentex[i].Actual_StartTime.split(' ')[1] || '',
+                        aEndTime: data.tappointmentex[i].Actual_EndTime.split(' ')[1] || '',
                         actualHours: '',
                         closebalance: '',
-                        product: data.tappointment[i].ProductDesc || '',
-                        finished: data.tappointment[i].Status || '',
-                        notes: data.tappointment[i].Notes || '',
+                        product: data.tappointmentex[i].ProductDesc || '',
+                        finished: data.tappointmentex[i].Status || '',
+                        notes: data.tappointmentex[i].Notes || '',
                         color: color
                     };
                     dataTableList.push(dataList);
@@ -1079,7 +1079,7 @@ Template.appointmentlist.events({
             let color = "";
             getVS1Data('TAppointment').then(function (dataObject) {
                 let data = JSON.parse(dataObject[0].data);
-                let useData = data.tappointment;
+                let useData = data.tappointmentex;
                 if (useData.length > 0) {
                     for (let i = 0; i < useData.length; i++) {
                         if (useData[i].fields.Status == "Converted" || useData[i].fields.Status == "Completed") {
