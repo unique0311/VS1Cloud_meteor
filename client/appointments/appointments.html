@@ -770,7 +770,33 @@
                             </div>
                         </div>
                         <!-- END Attachments -->
+                        <!-- View File Attachemt -->
+                <div id="files_view" class="modal fade" role="dialog">
+                    <div class="modal-dialog">
+                        <!-- Modal content-->
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal">x</button>
+                                <h4 class="modal-title">{{uploadedFile.name}}</h4>
+                            </div>
+                            <div class="modal-body">
+                                {{#if uploadedFile.image}}
+                                    <div class="image-previewer">
+                                        <img src="{{uploadedFile.link}}">
+                                    </div>
+                                {{else}}
+                                    <div class=" default-file {{uploadedFile.class}}">
 
+                                    </div>
+                                {{/if}}
+                                <div class="download_button">
+                                    <a class="new_create_btn btn btn-primary" id="downloadButton" download="{{uploadedFile.name}}" href="{{uploadedFile.link}}">Download</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- End View File attachment -->
                         <div class="modal fade" role="dialog" id="frmNewDate">
                             <div class="modal-dialog modal-dialog-centered" role="document">
                                 <div class="modal-content">

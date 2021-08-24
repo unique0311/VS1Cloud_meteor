@@ -617,6 +617,14 @@ Template.appointments.onRendered(function () {
                     document.getElementById("tActualStartTime").value = result[0].aStartTime;
                     document.getElementById("tActualEndTime").value = result[0].aEndTime;
                     document.getElementById("txtActualHoursSpent").value = parseFloat(hours).toFixed(2) || '';
+
+                     templateObject.attachmentCount.set(0);
+                    if (result[0].attachments) {
+                        if (result.length) {
+                            templateObject.attachmentCount.set(result[0].attachments.length);
+                            templateObject.uploadedFiles.set(result[0].attachments);
+                        }
+                    }
                     $('#event-modal').modal();
                     // this.$body.addClass('modal-open');
                 }
@@ -983,6 +991,13 @@ Template.appointments.onRendered(function () {
                     document.getElementById("tActualStartTime").value = result[0].aStartTime;
                     document.getElementById("tActualEndTime").value = result[0].aEndTime;
                     document.getElementById("txtActualHoursSpent").value = parseFloat(hours).toFixed(2) || '';
+                    templateObject.attachmentCount.set(0);
+                    if (result[0].attachments) {
+                        if (result.length) {
+                            templateObject.attachmentCount.set(result[0].attachments.length);
+                            templateObject.uploadedFiles.set(result[0].attachments);
+                        }
+                    }
                     $('#event-modal').modal();
                     // this.$body.addClass('modal-open');
                 }
@@ -1556,9 +1571,9 @@ Template.appointments.onRendered(function () {
                     let appColor = '';
                     let dataColor = '';
                     let allEmp = templateObject.employeerecords.get();
-                    for (let i = 0; i < data.tappointment.length; i++) {
+                    for (let i = 0; i < data.tappointmentex.length; i++) {
                         var employeeColor = allEmp.filter(apmt => {
-                            return apmt.employeeName == data.tappointment[i].TrainerName;
+                            return apmt.employeeName == data.tappointmentex[i].TrainerName;
                         });
 
                         if (employeeColor.length > 0) {
@@ -1568,56 +1583,57 @@ Template.appointments.onRendered(function () {
                         }
 
                         var appointment = {
-                            id: data.tappointment[i].Id || '',
-                            sortdate: data.tappointment[i].CreationDate ? moment(data.tappointment[i].CreationDate).format("YYYY/MM/DD") : "",
-                            appointmentdate: data.tappointment[i].CreationDate ? moment(data.tappointment[i].CreationDate).format("DD/MM/YYYY") : "",
-                            accountname: data.tappointment[i].ClientName || '',
-                            statementno: data.tappointment[i].TrainerName || '',
-                            employeename: data.tappointment[i].TrainerName || '',
-                            department: data.tappointment[i].DeptClassName || '',
-                            phone: data.tappointment[i].Phone || '',
-                            mobile: data.tappointment[i].Mobile || '',
-                            suburb: data.tappointment[i].Suburb || '',
-                            street: data.tappointment[i].Street || '',
-                            state: data.tappointment[i].State || '',
-                            country: data.tappointment[i].Country || '',
-                            zip: data.tappointment[i].Postcode || '',
-                            startTime: data.tappointment[i].StartTime.split(' ')[1] || '',
-                            totalHours: data.tappointment[i].TotalHours || 0,
-                            endTime: data.tappointment[i].EndTime.split(' ')[1] || '',
-                            startDate: data.tappointment[i].StartTime || '',
-                            endDate: data.tappointment[i].EndTime || '',
-                            fromDate: data.tappointment[i].Actual_EndTime ? moment(data.tappointment[i].Actual_EndTime).format("DD/MM/YYYY") : "",
-                            openbalance: data.tappointment[i].Actual_EndTime || '',
-                            aStartTime: data.tappointment[i].Actual_StartTime.split(' ')[1] || '',
-                            aEndTime: data.tappointment[i].Actual_EndTime.split(' ')[1] || '',
-                            aStartDate: data.tappointment[i].Actual_StartTime.split(' ')[0] || '',
-                            aEndTDate: data.tappointment[i].Actual_EndTime.split(' ')[0] || '',
+                            id: data.tappointmentex[i].Id || '',
+                            sortdate: data.tappointmentex[i].CreationDate ? moment(data.tappointmentex[i].CreationDate).format("YYYY/MM/DD") : "",
+                            appointmentdate: data.tappointmentex[i].CreationDate ? moment(data.tappointmentex[i].CreationDate).format("DD/MM/YYYY") : "",
+                            accountname: data.tappointmentex[i].ClientName || '',
+                            statementno: data.tappointmentex[i].TrainerName || '',
+                            employeename: data.tappointmentex[i].TrainerName || '',
+                            department: data.tappointmentex[i].DeptClassName || '',
+                            phone: data.tappointmentex[i].Phone || '',
+                            mobile: data.tappointmentex[i].Mobile || '',
+                            suburb: data.tappointmentex[i].Suburb || '',
+                            street: data.tappointmentex[i].Street || '',
+                            state: data.tappointmentex[i].State || '',
+                            country: data.tappointmentex[i].Country || '',
+                            zip: data.tappointmentex[i].Postcode || '',
+                            startTime: data.tappointmentex[i].StartTime.split(' ')[1] || '',
+                            totalHours: data.tappointmentex[i].TotalHours || 0,
+                            endTime: data.tappointmentex[i].EndTime.split(' ')[1] || '',
+                            startDate: data.tappointmentex[i].StartTime || '',
+                            endDate: data.tappointmentex[i].EndTime || '',
+                            fromDate: data.tappointmentex[i].Actual_EndTime ? moment(data.tappointmentex[i].Actual_EndTime).format("DD/MM/YYYY") : "",
+                            openbalance: data.tappointmentex[i].Actual_EndTime || '',
+                            aStartTime: data.tappointmentex[i].Actual_StartTime.split(' ')[1] || '',
+                            aEndTime: data.tappointmentex[i].Actual_EndTime.split(' ')[1] || '',
+                            aStartDate: data.tappointmentex[i].Actual_StartTime.split(' ')[0] || '',
+                            aEndTDate: data.tappointmentex[i].Actual_EndTime.split(' ')[0] || '',
                             actualHours: '',
                             closebalance: '',
-                            rate: data.tappointment[i].Rate || 1,
-                            product: data.tappointment[i].ProductDesc || '',
-                            finished: data.tappointment[i].Status || '',
-                            //employee: data.tappointment[i].EndTime != '' ? moment(data.tappointment[i].EndTime).format("DD/MM/YYYY") : data.tappointment[i].EndTime,
-                            notes: data.tappointment[i].Notes || '',
-                            isPaused: data.tappointment[i].Othertxt || ''
+                            rate: data.tappointmentex[i].Rate || 1,
+                            product: data.tappointmentex[i].ProductDesc || '',
+                            finished: data.tappointmentex[i].Status || '',
+                            //employee: data.tappointmentex[i].EndTime != '' ? moment(data.tappointmentex[i].EndTime).format("DD/MM/YYYY") : data.tappointmentex[i].EndTime,
+                            notes: data.tappointmentex[i].Notes || '',
+                            attachments: data.tappointmentex[i].Attachments || '',
+                            isPaused: data.tappointmentex[i].Othertxt || ''
                         };
 
-                        let surbub = data.tappointment[i].Suburb || '';
-                        let zip = data.tappointment[i].Postcode || '';
-                        let street = data.tappointment[i].Street || '';
-                        let state = data.tappointment[i].State || '';
-                        let getAddress = data.tappointment[i].ClientName + ',' + street + ',' + state + ',' + surbub + ' ' + zip;
+                        let surbub = data.tappointmentex[i].Suburb || '';
+                        let zip = data.tappointmentex[i].Postcode || '';
+                        let street = data.tappointmentex[i].Street || '';
+                        let state = data.tappointmentex[i].State || '';
+                        let getAddress = data.tappointmentex[i].ClientName + ',' + street + ',' + state + ',' + surbub + ' ' + zip;
                         var dataList = {
-                            id: data.tappointment[i].Id.toString() || '',
-                            title: data.tappointment[i].TrainerName + '<br>' + data.tappointment[i].ClientName + '<br>' + street + '<br>' + surbub + '<br>' + state + ' ' + zip,
-                            start: data.tappointment[i].StartTime || '',
-                            end: data.tappointment[i].EndTime || '',
-                            description: data.tappointment[i].Notes || '',
+                            id: data.tappointmentex[i].Id.toString() || '',
+                            title: data.tappointmentex[i].TrainerName + '<br>' + data.tappointmentex[i].ClientName + '<br>' + street + '<br>' + surbub + '<br>' + state + ' ' + zip,
+                            start: data.tappointmentex[i].StartTime || '',
+                            end: data.tappointmentex[i].EndTime || '',
+                            description: data.tappointmentex[i].Notes || '',
                             color: appColor
                         };
                         if (seeOwnAllocations == true || seeOwnAppointments == true) {
-                            if (data.tappointment[i].TrainerName == Session.get('mySessionEmployee')) {
+                            if (data.tappointmentex[i].TrainerName == Session.get('mySessionEmployee')) {
                                 eventData.push(dataList);
                                 appointmentList.push(appointment)
                             }
@@ -1848,20 +1864,20 @@ Template.appointments.onRendered(function () {
 
                     //$('.fullScreenSpin').css('display', 'none');
                     //if (allEmployees.length > 0) {
-                    for (let t = 0; t < data.tappointment.length; t++) {
-                        let date = new Date(data.tappointment[t].StartTime.split(' ')[0]);
-                        weekDay = moment(data.tappointment[t].StartTime.split(' ')[0]).format('dddd');
+                    for (let t = 0; t < data.tappointmentex.length; t++) {
+                        let date = new Date(data.tappointmentex[t].StartTime.split(' ')[0]);
+                        weekDay = moment(data.tappointmentex[t].StartTime.split(' ')[0]).format('dddd');
 
                         if (resourceChat.length > 0) {
                             if (date >= startWeek && date <= endWeek) {
                                 if (seeOwnAllocations == true || seeOwnAppointments == true) {
                                     if (useData[t].fields.TrainerName == Session.get('mySessionEmployee')) {
-                                        let found = resourceChat.some(emp => emp.employeeName == data.tappointment[t].TrainerName);
+                                        let found = resourceChat.some(emp => emp.employeeName == data.tappointmentex[t].TrainerName);
                                         if (!found) {
                                             resourceColor = templateObject.employeerecords.get();
 
                                             var result = resourceColor.filter(apmtColor => {
-                                                return apmtColor.employeeName == data.tappointment[t].TrainerName
+                                                return apmtColor.employeeName == data.tappointmentex[t].TrainerName
                                             });
                                             let employeeColo = "'#00a3d3'";
 
@@ -1870,33 +1886,33 @@ Template.appointments.onRendered(function () {
                                             }
 
                                             var dataList = {
-                                                id: data.tappointment[t].Id,
-                                                employeeName: data.tappointment[t].TrainerName,
+                                                id: data.tappointmentex[t].Id,
+                                                employeeName: data.tappointmentex[t].TrainerName,
                                                 color: employeeColor
                                             };
                                             resourceChat.push(dataList);
                                             allEmp.push(dataList);
                                         }
                                         var jobs = {
-                                            id: data.tappointment[t].Id,
-                                            employeeName: data.tappointment[t].TrainerName,
-                                            job: data.tappointment[t].ClientName,
-                                            street: data.tappointment[t].Street,
-                                            city: data.tappointment[t].Surbub,
-                                            zip: data.tappointment[t].Postcode,
+                                            id: data.tappointmentex[t].Id,
+                                            employeeName: data.tappointmentex[t].TrainerName,
+                                            job: data.tappointmentex[t].ClientName,
+                                            street: data.tappointmentex[t].Street,
+                                            city: data.tappointmentex[t].Surbub,
+                                            zip: data.tappointmentex[t].Postcode,
                                             day: weekDay,
-                                            date: data.tappointment[t].StartTime.split(' ')[0],
+                                            date: data.tappointmentex[t].StartTime.split(' ')[0],
                                         }
 
                                         resourceJob.push(jobs)
                                     }
                                 } else {
-                                    let found = resourceChat.some(emp => emp.employeeName == data.tappointment[t].TrainerName);
+                                    let found = resourceChat.some(emp => emp.employeeName == data.tappointmentex[t].TrainerName);
                                     if (!found) {
                                         resourceColor = templateObject.employeerecords.get();
 
                                         var result = resourceColor.filter(apmtColor => {
-                                            return apmtColor.employeeName == data.tappointment[t].TrainerName
+                                            return apmtColor.employeeName == data.tappointmentex[t].TrainerName
                                         });
                                         let employeeColo = "'#00a3d3'";
 
@@ -1905,22 +1921,22 @@ Template.appointments.onRendered(function () {
                                         }
 
                                         var dataList = {
-                                            id: data.tappointment[t].Id,
-                                            employeeName: data.tappointment[t].TrainerName,
+                                            id: data.tappointmentex[t].Id,
+                                            employeeName: data.tappointmentex[t].TrainerName,
                                             color: employeeColor
                                         };
                                         resourceChat.push(dataList);
                                         allEmp.push(dataList);
                                     }
                                     var jobs = {
-                                        id: data.tappointment[t].Id,
-                                        employeeName: data.tappointment[t].TrainerName,
-                                        job: data.tappointment[t].ClientName,
-                                        street: data.tappointment[t].Street,
-                                        city: data.tappointment[t].Surbub,
-                                        zip: data.tappointment[t].Postcode,
+                                        id: data.tappointmentex[t].Id,
+                                        employeeName: data.tappointmentex[t].TrainerName,
+                                        job: data.tappointmentex[t].ClientName,
+                                        street: data.tappointmentex[t].Street,
+                                        city: data.tappointmentex[t].Surbub,
+                                        zip: data.tappointmentex[t].Postcode,
                                         day: weekDay,
-                                        date: data.tappointment[t].StartTime.split(' ')[0],
+                                        date: data.tappointmentex[t].StartTime.split(' ')[0],
                                     }
 
                                     resourceJob.push(jobs)
@@ -1934,7 +1950,7 @@ Template.appointments.onRendered(function () {
                                         resourceColor = resourceColor = templateObject.employeerecords.get();
 
                                         var result = resourceColor.filter(apmtColor => {
-                                            return apmtColor.employeeName == data.tappointment[t].TrainerName
+                                            return apmtColor.employeeName == data.tappointmentex[t].TrainerName
                                         });
                                         let employeeColor = '#00a3d3';
                                         if (result.length > 0) {
@@ -1942,20 +1958,20 @@ Template.appointments.onRendered(function () {
                                         }
 
                                         var dataList = {
-                                            id: data.tappointment[t].Id,
-                                            employeeName: data.tappointment[t].TrainerName,
+                                            id: data.tappointmentex[t].Id,
+                                            employeeName: data.tappointmentex[t].TrainerName,
                                             color: employeeColor
                                         };
 
                                         var jobs = {
-                                            id: data.tappointment[t].Id,
-                                            employeeName: data.tappointment[t].TrainerName,
-                                            job: data.tappointment[t].ClientName,
-                                            street: data.tappointment[t].Street,
-                                            city: data.tappointment[t].Surbub,
-                                            zip: data.tappointment[t].Postcode,
+                                            id: data.tappointmentex[t].Id,
+                                            employeeName: data.tappointmentex[t].TrainerName,
+                                            job: data.tappointmentex[t].ClientName,
+                                            street: data.tappointmentex[t].Street,
+                                            city: data.tappointmentex[t].Surbub,
+                                            zip: data.tappointmentex[t].Postcode,
                                             day: weekDay,
-                                            date: data.tappointment[t].StartTime.split(' ')[0],
+                                            date: data.tappointmentex[t].StartTime.split(' ')[0],
                                         }
                                         resourceJob.push(jobs)
                                         resourceChat.push(dataList);
@@ -1965,7 +1981,7 @@ Template.appointments.onRendered(function () {
                                     resourceColor = resourceColor = templateObject.employeerecords.get();
 
                                     var result = resourceColor.filter(apmtColor => {
-                                        return apmtColor.employeeName == data.tappointment[t].TrainerName
+                                        return apmtColor.employeeName == data.tappointmentex[t].TrainerName
                                     });
                                     let employeeColor = '#00a3d3';
                                     if (result.length > 0) {
@@ -1973,20 +1989,20 @@ Template.appointments.onRendered(function () {
                                     }
 
                                     var dataList = {
-                                        id: data.tappointment[t].Id,
-                                        employeeName: data.tappointment[t].TrainerName,
+                                        id: data.tappointmentex[t].Id,
+                                        employeeName: data.tappointmentex[t].TrainerName,
                                         color: employeeColor
                                     };
 
                                     var jobs = {
-                                        id: data.tappointment[t].Id,
-                                        employeeName: data.tappointment[t].TrainerName,
-                                        job: data.tappointment[t].ClientName,
-                                        street: data.tappointment[t].Street,
-                                        city: data.tappointment[t].Surbub,
-                                        zip: data.tappointment[t].Postcode,
+                                        id: data.tappointmentex[t].Id,
+                                        employeeName: data.tappointmentex[t].TrainerName,
+                                        job: data.tappointmentex[t].ClientName,
+                                        street: data.tappointmentex[t].Street,
+                                        city: data.tappointmentex[t].Surbub,
+                                        zip: data.tappointmentex[t].Postcode,
                                         day: weekDay,
-                                        date: data.tappointment[t].StartTime.split(' ')[0],
+                                        date: data.tappointmentex[t].StartTime.split(' ')[0],
                                     }
                                     resourceJob.push(jobs)
                                     resourceChat.push(dataList);
@@ -2407,7 +2423,7 @@ Template.appointments.onRendered(function () {
                 });
             } else {
                 let data = JSON.parse(dataObject[0].data);
-                let useData = data.tappointment;
+                let useData = data.tappointmentex;
                 $('.fullScreenSpin').css('display', 'none');
                 let appColor = '#00a3d3';
                 let dataColor = '';
@@ -2456,6 +2472,7 @@ Template.appointments.onRendered(function () {
                         product: useData[i].fields.ProductDesc || '',
                         finished: useData[i].fields.Status || '',
                         //employee: useData[i].fields.EndTime != '' ? moment(useData[i].fields.EndTime).format("DD/MM/YYYY") : useData[i].fields.EndTime,
+                        attachments: useData[i].fields.Attachments || '',
                         notes: useData[i].fields.Notes || '',
                         isPaused: useData[i].fields.Othertxt || ''
                     };
@@ -3012,11 +3029,11 @@ Template.appointments.onRendered(function () {
                 let appColor = '#00a3d3';
                 let dataColor = '';
                 let allEmp = templateObject.employeerecords.get();
-                for (let i = 0; i < data.tappointment.length; i++) {
+                for (let i = 0; i < data.tappointmentex.length; i++) {
 
                     var employeeColor = allEmp.filter(apmt => {
                         //appointmentList.employeename = employeeName;
-                        return apmt.employeeName == data.tappointment[i].TrainerName;
+                        return apmt.employeeName == data.tappointmentex[i].TrainerName;
                     });
 
                     if (employeeColor.length > 0) {
@@ -3026,56 +3043,56 @@ Template.appointments.onRendered(function () {
                     }
 
                     var appointment = {
-                        id: data.tappointment[i].Id || '',
-                        sortdate: data.tappointment[i].CreationDate ? moment(data.tappointment[i].CreationDate).format("YYYY/MM/DD") : "",
-                        appointmentdate: data.tappointment[i].CreationDate ? moment(data.tappointment[i].CreationDate).format("DD/MM/YYYY") : "",
-                        accountname: data.tappointment[i].ClientName || '',
-                        statementno: data.tappointment[i].TrainerName || '',
-                        employeename: data.tappointment[i].TrainerName || '',
-                        department: data.tappointment[i].DeptClassName || '',
-                        phone: data.tappointment[i].Phone || '',
-                        mobile: data.tappointment[i].Mobile || '',
-                        suburb: data.tappointment[i].Suburb || '',
-                        street: data.tappointment[i].Street || '',
-                        state: data.tappointment[i].State || '',
-                        country: data.tappointment[i].Country || '',
-                        zip: data.tappointment[i].Postcode || '',
-                        startTime: data.tappointment[i].StartTime.split(' ')[1] || '',
-                        totalHours: data.tappointment[i].TotalHours || 0,
-                        endTime: data.tappointment[i].EndTime.split(' ')[1] || '',
-                        startDate: data.tappointment[i].StartTime || '',
-                        endDate: data.tappointment[i].EndTime || '',
-                        fromDate: data.tappointment[i].Actual_EndTime ? moment(data.tappointment[i].Actual_EndTime).format("DD/MM/YYYY") : "",
-                        openbalance: data.tappointment[i].Actual_EndTime || '',
-                        aStartTime: data.tappointment[i].Actual_StartTime.split(' ')[1] || '',
-                        aEndTime: data.tappointment[i].Actual_EndTime.split(' ')[1] || '',
-                        aStartDate: data.tappointment[i].Actual_StartTime.split(' ')[0] || '',
-                        aEndTDate: data.tappointment[i].Actual_EndTime.split(' ')[0] || '',
+                        id: data.tappointmentex[i].Id || '',
+                        sortdate: data.tappointmentex[i].CreationDate ? moment(data.tappointmentex[i].CreationDate).format("YYYY/MM/DD") : "",
+                        appointmentdate: data.tappointmentex[i].CreationDate ? moment(data.tappointmentex[i].CreationDate).format("DD/MM/YYYY") : "",
+                        accountname: data.tappointmentex[i].ClientName || '',
+                        statementno: data.tappointmentex[i].TrainerName || '',
+                        employeename: data.tappointmentex[i].TrainerName || '',
+                        department: data.tappointmentex[i].DeptClassName || '',
+                        phone: data.tappointmentex[i].Phone || '',
+                        mobile: data.tappointmentex[i].Mobile || '',
+                        suburb: data.tappointmentex[i].Suburb || '',
+                        street: data.tappointmentex[i].Street || '',
+                        state: data.tappointmentex[i].State || '',
+                        country: data.tappointmentex[i].Country || '',
+                        zip: data.tappointmentex[i].Postcode || '',
+                        startTime: data.tappointmentex[i].StartTime.split(' ')[1] || '',
+                        totalHours: data.tappointmentex[i].TotalHours || 0,
+                        endTime: data.tappointmentex[i].EndTime.split(' ')[1] || '',
+                        startDate: data.tappointmentex[i].StartTime || '',
+                        endDate: data.tappointmentex[i].EndTime || '',
+                        fromDate: data.tappointmentex[i].Actual_EndTime ? moment(data.tappointmentex[i].Actual_EndTime).format("DD/MM/YYYY") : "",
+                        openbalance: data.tappointmentex[i].Actual_EndTime || '',
+                        aStartTime: data.tappointmentex[i].Actual_StartTime.split(' ')[1] || '',
+                        aEndTime: data.tappointmentex[i].Actual_EndTime.split(' ')[1] || '',
+                        aStartDate: data.tappointmentex[i].Actual_StartTime.split(' ')[0] || '',
+                        aEndTDate: data.tappointmentex[i].Actual_EndTime.split(' ')[0] || '',
                         actualHours: '',
                         closebalance: '',
-                        rate: data.tappointment[i].Rate || 1,
-                        product: data.tappointment[i].ProductDesc || '',
-                        finished: data.tappointment[i].Status || '',
-                        //employee: data.tappointment[i].EndTime != '' ? moment(data.tappointment[i].EndTime).format("DD/MM/YYYY") : data.tappointment[i].EndTime,
-                        notes: data.tappointment[i].Notes || ''
+                        rate: data.tappointmentex[i].Rate || 1,
+                        product: data.tappointmentex[i].ProductDesc || '',
+                        finished: data.tappointmentex[i].Status || '',
+                        //employee: data.tappointmentex[i].EndTime != '' ? moment(data.tappointmentex[i].EndTime).format("DD/MM/YYYY") : data.tappointmentex[i].EndTime,
+                        notes: data.tappointmentex[i].Notes || ''
                     };
 
-                    let surbub = data.tappointment[i].Suburb || '';
-                    let zip = data.tappointment[i].Postcode || '';
-                    let street = data.tappointment[i].Street || '';
-                    let state = data.tappointment[i].State || '';
-                    let getAddress = data.tappointment[i].ClientName + ',' + street + ',' + state + ',' + surbub + ' ' + zip;
+                    let surbub = data.tappointmentex[i].Suburb || '';
+                    let zip = data.tappointmentex[i].Postcode || '';
+                    let street = data.tappointmentex[i].Street || '';
+                    let state = data.tappointmentex[i].State || '';
+                    let getAddress = data.tappointmentex[i].ClientName + ',' + street + ',' + state + ',' + surbub + ' ' + zip;
                     var dataList = {
-                        id: data.tappointment[i].Id.toString() || '',
-                        title: data.tappointment[i].TrainerName + '<br>' + data.tappointment[i].ClientName + '<br>' + street + '<br>' + surbub + '<br>' + state + ' ' + zip,
-                        start: data.tappointment[i].StartTime || '',
-                        end: data.tappointment[i].EndTime || '',
-                        description: data.tappointment[i].Notes || '',
+                        id: data.tappointmentex[i].Id.toString() || '',
+                        title: data.tappointmentex[i].TrainerName + '<br>' + data.tappointmentex[i].ClientName + '<br>' + street + '<br>' + surbub + '<br>' + state + ' ' + zip,
+                        start: data.tappointmentex[i].StartTime || '',
+                        end: data.tappointmentex[i].EndTime || '',
+                        description: data.tappointmentex[i].Notes || '',
                         color: appColor
                     };
 
                     if (seeOwnAllocations == true || seeOwnAppointments == true) {
-                        if (data.tappointment[i].TrainerName == Session.get('mySessionEmployee')) {
+                        if (data.tappointmentex[i].TrainerName == Session.get('mySessionEmployee')) {
                             eventData.push(dataList);
                             appointmentList.push(appointment)
                         }
@@ -3297,20 +3314,20 @@ Template.appointments.onRendered(function () {
 
                 //$('.fullScreenSpin').css('display', 'none');
                 //if (allEmployees.length > 0) {
-                for (let t = 0; t < data.tappointment.length; t++) {
-                    let date = new Date(data.tappointment[t].StartTime.split(' ')[0]);
-                    weekDay = moment(data.tappointment[t].StartTime.split(' ')[0]).format('dddd');
+                for (let t = 0; t < data.tappointmentex.length; t++) {
+                    let date = new Date(data.tappointmentex[t].StartTime.split(' ')[0]);
+                    weekDay = moment(data.tappointmentex[t].StartTime.split(' ')[0]).format('dddd');
 
                     if (resourceChat.length > 0) {
                         if (date >= startWeek && date <= endWeek) {
                             if (seeOwnAllocations == true || seeOwnAppointments == true) {
                                 if (useData[t].fields.TrainerName == Session.get('mySessionEmployee')) {
-                                    let found = resourceChat.some(emp => emp.employeeName == data.tappointment[t].TrainerName);
+                                    let found = resourceChat.some(emp => emp.employeeName == data.tappointmentex[t].TrainerName);
                                     if (!found) {
                                         resourceColor = templateObject.employeerecords.get();
 
                                         var result = resourceColor.filter(apmtColor => {
-                                            return apmtColor.employeeName == data.tappointment[t].TrainerName
+                                            return apmtColor.employeeName == data.tappointmentex[t].TrainerName
                                         });
                                         let employeeColo = "'#00a3d3'";
 
@@ -3319,33 +3336,33 @@ Template.appointments.onRendered(function () {
                                         }
 
                                         var dataList = {
-                                            id: data.tappointment[t].Id,
-                                            employeeName: data.tappointment[t].TrainerName,
+                                            id: data.tappointmentex[t].Id,
+                                            employeeName: data.tappointmentex[t].TrainerName,
                                             color: employeeColor
                                         };
                                         resourceChat.push(dataList);
                                         allEmp.push(dataList);
                                     }
                                     var jobs = {
-                                        id: data.tappointment[t].Id,
-                                        employeeName: data.tappointment[t].TrainerName,
-                                        job: data.tappointment[t].ClientName,
-                                        street: data.tappointment[t].Street,
-                                        city: data.tappointment[t].Surbub,
-                                        zip: data.tappointment[t].Postcode,
+                                        id: data.tappointmentex[t].Id,
+                                        employeeName: data.tappointmentex[t].TrainerName,
+                                        job: data.tappointmentex[t].ClientName,
+                                        street: data.tappointmentex[t].Street,
+                                        city: data.tappointmentex[t].Surbub,
+                                        zip: data.tappointmentex[t].Postcode,
                                         day: weekDay,
-                                        date: data.tappointment[t].StartTime.split(' ')[0],
+                                        date: data.tappointmentex[t].StartTime.split(' ')[0],
                                     }
 
                                     resourceJob.push(jobs)
                                 }
                             } else {
-                                let found = resourceChat.some(emp => emp.employeeName == data.tappointment[t].TrainerName);
+                                let found = resourceChat.some(emp => emp.employeeName == data.tappointmentex[t].TrainerName);
                                 if (!found) {
                                     resourceColor = templateObject.employeerecords.get();
 
                                     var result = resourceColor.filter(apmtColor => {
-                                        return apmtColor.employeeName == data.tappointment[t].TrainerName
+                                        return apmtColor.employeeName == data.tappointmentex[t].TrainerName
                                     });
                                     let employeeColo = "'#00a3d3'";
 
@@ -3354,22 +3371,22 @@ Template.appointments.onRendered(function () {
                                     }
 
                                     var dataList = {
-                                        id: data.tappointment[t].Id,
-                                        employeeName: data.tappointment[t].TrainerName,
+                                        id: data.tappointmentex[t].Id,
+                                        employeeName: data.tappointmentex[t].TrainerName,
                                         color: employeeColor
                                     };
                                     resourceChat.push(dataList);
                                     allEmp.push(dataList);
                                 }
                                 var jobs = {
-                                    id: data.tappointment[t].Id,
-                                    employeeName: data.tappointment[t].TrainerName,
-                                    job: data.tappointment[t].ClientName,
-                                    street: data.tappointment[t].Street,
-                                    city: data.tappointment[t].Surbub,
-                                    zip: data.tappointment[t].Postcode,
+                                    id: data.tappointmentex[t].Id,
+                                    employeeName: data.tappointmentex[t].TrainerName,
+                                    job: data.tappointmentex[t].ClientName,
+                                    street: data.tappointmentex[t].Street,
+                                    city: data.tappointmentex[t].Surbub,
+                                    zip: data.tappointmentex[t].Postcode,
                                     day: weekDay,
-                                    date: data.tappointment[t].StartTime.split(' ')[0],
+                                    date: data.tappointmentex[t].StartTime.split(' ')[0],
                                 }
 
                                 resourceJob.push(jobs)
@@ -3383,7 +3400,7 @@ Template.appointments.onRendered(function () {
                                     resourceColor = resourceColor = templateObject.employeerecords.get();
 
                                     var result = resourceColor.filter(apmtColor => {
-                                        return apmtColor.employeeName == data.tappointment[t].TrainerName
+                                        return apmtColor.employeeName == data.tappointmentex[t].TrainerName
                                     });
                                     let employeeColor = '#00a3d3';
                                     if (result.length > 0) {
@@ -3391,20 +3408,20 @@ Template.appointments.onRendered(function () {
                                     }
 
                                     var dataList = {
-                                        id: data.tappointment[t].Id,
-                                        employeeName: data.tappointment[t].TrainerName,
+                                        id: data.tappointmentex[t].Id,
+                                        employeeName: data.tappointmentex[t].TrainerName,
                                         color: employeeColor
                                     };
 
                                     var jobs = {
-                                        id: data.tappointment[t].Id,
-                                        employeeName: data.tappointment[t].TrainerName,
-                                        job: data.tappointment[t].ClientName,
-                                        street: data.tappointment[t].Street,
-                                        city: data.tappointment[t].Surbub,
-                                        zip: data.tappointment[t].Postcode,
+                                        id: data.tappointmentex[t].Id,
+                                        employeeName: data.tappointmentex[t].TrainerName,
+                                        job: data.tappointmentex[t].ClientName,
+                                        street: data.tappointmentex[t].Street,
+                                        city: data.tappointmentex[t].Surbub,
+                                        zip: data.tappointmentex[t].Postcode,
                                         day: weekDay,
-                                        date: data.tappointment[t].StartTime.split(' ')[0],
+                                        date: data.tappointmentex[t].StartTime.split(' ')[0],
                                     }
                                     resourceJob.push(jobs)
                                     resourceChat.push(dataList);
@@ -3414,7 +3431,7 @@ Template.appointments.onRendered(function () {
                                 resourceColor = resourceColor = templateObject.employeerecords.get();
 
                                 var result = resourceColor.filter(apmtColor => {
-                                    return apmtColor.employeeName == data.tappointment[t].TrainerName
+                                    return apmtColor.employeeName == data.tappointmentex[t].TrainerName
                                 });
                                 let employeeColor = '#00a3d3';
                                 if (result.length > 0) {
@@ -3422,20 +3439,20 @@ Template.appointments.onRendered(function () {
                                 }
 
                                 var dataList = {
-                                    id: data.tappointment[t].Id,
-                                    employeeName: data.tappointment[t].TrainerName,
+                                    id: data.tappointmentex[t].Id,
+                                    employeeName: data.tappointmentex[t].TrainerName,
                                     color: employeeColor
                                 };
 
                                 var jobs = {
-                                    id: data.tappointment[t].Id,
-                                    employeeName: data.tappointment[t].TrainerName,
-                                    job: data.tappointment[t].ClientName,
-                                    street: data.tappointment[t].Street,
-                                    city: data.tappointment[t].Surbub,
-                                    zip: data.tappointment[t].Postcode,
+                                    id: data.tappointmentex[t].Id,
+                                    employeeName: data.tappointmentex[t].TrainerName,
+                                    job: data.tappointmentex[t].ClientName,
+                                    street: data.tappointmentex[t].Street,
+                                    city: data.tappointmentex[t].Surbub,
+                                    zip: data.tappointmentex[t].Postcode,
                                     day: weekDay,
-                                    date: data.tappointment[t].StartTime.split(' ')[0],
+                                    date: data.tappointmentex[t].StartTime.split(' ')[0],
                                 }
                                 resourceJob.push(jobs)
                                 resourceChat.push(dataList);
@@ -4078,11 +4095,11 @@ Template.appointments.onRendered(function () {
         document.getElementById("zip").value = $(this).find(".colZipCode").text();
         let appointmentService = new AppointmentService();
         appointmentService.getAllAppointmentListCount().then(function (data) {
-            if (data.tappointment.length > 0) {
+            if (data.tappointmentex.length > 0) {
                 let max = 1;
-                for (let i = 0; i < data.tappointment.length; i++) {
-                    if (data.tappointment[i].Id > max) {
-                        max = data.tappointment[i].Id;
+                for (let i = 0; i < data.tappointmentex.length; i++) {
+                    if (data.tappointmentex[i].Id > max) {
+                        max = data.tappointmentex[i].Id;
                     }
                 }
                 document.getElementById("appID").value = max + 1;
@@ -4362,6 +4379,14 @@ Template.appointments.onRendered(function () {
                             document.getElementById("tActualStartTime").value = result[0].aStartTime;
                             document.getElementById("tActualEndTime").value = result[0].aEndTime;
                             document.getElementById("txtActualHoursSpent").value = parseFloat(hours).toFixed(2) || '';
+
+                    templateObject.attachmentCount.set(0);
+                    if (result[0].attachments) {
+                        if (result.length) {
+                            templateObject.attachmentCount.set(result[0].attachments.length);
+                            templateObject.uploadedFiles.set(result[0].attachments);
+                        }
+                    }
                             $('#event-modal').modal();
                             // this.$body.addClass('modal-open');
                         }
@@ -4980,6 +5005,46 @@ Template.appointments.events({
             $('#customerListModal').modal();
         }
 
+    },
+    'click .file-name': function (event) {
+        let attachmentID = parseInt(event.currentTarget.parentNode.id.split('attachment-name-')[1]);
+        let templateObj = Template.instance();
+        let uploadedFiles = templateObj.uploadedFiles.get();
+        $('#myModalAttachment').modal('hide');
+        let previewFile = {};
+        let input = uploadedFiles[attachmentID].fields.Description;
+        previewFile.link = 'data:' + input + ';base64,' + uploadedFiles[attachmentID].fields.Attachment;
+        previewFile.name = uploadedFiles[attachmentID].fields.AttachmentName;
+        let type = uploadedFiles[attachmentID].fields.Description;
+        if (type === 'application/pdf') {
+            previewFile.class = 'pdf-class';
+        } else if (type === 'application/msword' || type === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document') {
+            previewFile.class = 'docx-class';
+        } else if (type === 'application/vnd.ms-excel' || type === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet') {
+            previewFile.class = 'excel-class';
+        } else if (type === 'application/vnd.ms-powerpoint' || type === 'application/vnd.openxmlformats-officedocument.presentationml.presentation') {
+            previewFile.class = 'ppt-class';
+        } else if (type === 'application/vnd.oasis.opendocument.formula' || type === 'text/csv' || type === 'text/plain' || type === 'text/rtf') {
+            previewFile.class = 'txt-class';
+        } else if (type === 'application/zip' || type === 'application/rar' || type === 'application/x-zip-compressed' || type === 'application/x-zip,application/x-7z-compressed') {
+            previewFile.class = 'zip-class';
+        } else {
+            previewFile.class = 'default-class';
+        }
+
+        if (type.split('/')[0] === 'image') {
+            previewFile.image = true
+        } else {
+            previewFile.image = false
+        }
+        templateObj.uploadedFile.set(previewFile);
+
+        $('#files_view').modal('show');
+
+        return;
+    },
+    'click .closeModal': function (event) {
+         $('#myModalAttachment').modal('show');
     },
     'click .calendar .days li': function (event) {
         Router.go('/newappointments');
@@ -7655,6 +7720,7 @@ Template.appointments.events({
         let selectedProduct = $('#product-list').children("option:selected").text() || '';
         let hourlyRate = '';
         let status = "Not Converted";
+        let uploadedItems = templateObject.uploadedFiles.get();
         if (aStartTime != '') {
             aStartDate = savedStartDate + ' ' + aStartTime;
         } else {
@@ -7729,7 +7795,7 @@ Template.appointments.events({
         let objectData = "";
         if (id == '0') {
             objectData = {
-                type: "TAppointment",
+                type: "TAppointmentEx",
                 fields: {
                     ClientName: clientname,
                     Mobile: clientmobile,
@@ -7746,12 +7812,13 @@ Template.appointments.events({
                     TrainerName: employeeName,
                     Notes: notes,
                     ProductDesc: selectedProduct,
+                    Attachments: uploadedItems,
                     Status: status
                 }
             };
         } else {
             objectData = {
-                type: "TAppointment",
+                type: "TAppointmentEx",
                 fields: {
                     Id: parseInt(id),
                     ClientName: clientname,
@@ -7770,6 +7837,7 @@ Template.appointments.events({
                     TrainerName: employeeName,
                     Notes: notes,
                     ProductDesc: selectedProduct,
+                    Attachments: uploadedItems,
                     Status: status
                 }
             };
@@ -7831,44 +7899,44 @@ Template.appointments.events({
                                         }
                                     };
                                     contactService.saveTimeSheet(data).then(function (dataObj) {
-                                        window.open('/appointments', '_self');
+                                       window.open('/appointments', '_self');
                                     }).catch(function (err) {
-                                        window.open('/appointments', '_self');
+                                       window.open('/appointments', '_self');
                                     })
                                 }).catch(function (err) {
-                                    window.open('/appointments', '_self');
+                                   window.open('/appointments', '_self');
                                 })
 
                             }).catch(function (err) {
-                                window.open('/appointments', '_self');
+                               window.open('/appointments', '_self');
                             });
                         }).catch(function (err) {
-                            window.open('/appointments', '_self');
+                           window.open('/appointments', '_self');
                         });
 
                     } else {
                         sideBarService.getAllAppointmentList().then(function (data) {
                             addVS1Data('TAppointment', JSON.stringify(data)).then(function (datareturn) {
-                                window.open('/appointments', '_self');
+                               window.open('/appointments', '_self');
                             }).catch(function (err) {
-                                window.open('/appointments', '_self');
+                               window.open('/appointments', '_self');
                             })
                         }).catch(function (err) {
                             window.open('/appointments', '_self');
                         })
                     }
                 }).catch(function (err) {
-                    window.open('/appointments', '_self');
+                   window.open('/appointments', '_self');
                 })
             } else {
                 sideBarService.getAllAppointmentList().then(function (data) {
                     addVS1Data('TAppointment', JSON.stringify(data)).then(function (datareturn) {
-                        window.open('/appointments', '_self');
+                       window.open('/appointments', '_self');
                     }).catch(function (err) {
-                        window.open('/appointments', '_self');
+                       window.open('/appointments', '_self');
                     });
                 }).catch(function (err) {
-                    window.open('/appointments', '_self');
+                   window.open('/appointments', '_self');
                 });
             }
         }).catch(function (err) {
@@ -7979,9 +8047,17 @@ Template.appointments.helpers({
     accessOnHold: () => {
         return Session.get('CloudAppointmentStartStopAccessLevel') || false;
     },
-
     addAttachment: () => {
         return Session.get('CloudAppointmentAddAttachment') || false;
+    },
+    uploadedFiles: () => {
+        return Template.instance().uploadedFiles.get();
+    },
+    attachmentCount: () => {
+        return Template.instance().attachmentCount.get();
+    },
+    uploadedFile: () => {
+        return Template.instance().uploadedFile.get();
     },
     isMobileDevices: () => {
         var isMobile = false;

@@ -3,7 +3,7 @@ ERPObjects = function () {
     var objects = {
         TAccount: "TAccount",
         TAccountType: "TAccountType",
-        TAppointment: "TAppointment",
+        TAppointment: "TAppointmentEx",
         TAPIFunction: "TAPIFunction",
         ARList: "ARList",
         TBankCode: "TBankCode",
