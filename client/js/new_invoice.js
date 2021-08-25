@@ -7560,8 +7560,9 @@ Template.new_invoice.events({
         let saveToTAttachment = false;
         let lineIDForAttachment = false;
         let uploadedFilesArray = templateObj.uploadedFiles.get();
-
+        console.log(uploadedFilesArray);
         let myFiles = $('#attachment-upload')[0].files;
+        console.log(myFiles);
         let uploadData = utilityService.attachmentUpload(uploadedFilesArray, myFiles, saveToTAttachment, lineIDForAttachment);
         templateObj.uploadedFiles.set(uploadData.uploadedFilesArray);
         templateObj.attachmentCount.set(uploadData.totalAttachments);

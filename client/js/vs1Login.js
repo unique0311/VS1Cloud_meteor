@@ -163,7 +163,8 @@ Template.vs1login.onRendered(function(){
   Session.setPersistent('isGreenTrack', false);
 
   Session.setPersistent('VS1AdminUserName', '');
-
+  localStorage.setItem('VS1AdminUserName', '');
+  localStorage.setItem('VS1OrgEmail', '');
    Session.setPersistent('myExpenses', '');
    Session.setPersistent('myMonthlyErnings', '');
 
@@ -1053,7 +1054,7 @@ var myVS1Video = document.getElementById("myVS1Video");
       var cloudPassword = regUserDetails[i].password;
       if (hashPassword == cloudUserpassword){
         $('.loginSpinner').css('display','inline-block');
-        $('.fullScreenSpin').css('display','inline-block');
+        //$('.fullScreenSpin').css('display','inline-block');
         // $('.myVS1Video').css('display','inline-block');
         cloudLoggedID = regUserDetails[i]._id;
         cloudLoggedDBID = regUserDetails[i].clouddatabaseID;
@@ -1341,6 +1342,7 @@ $("#erplogin-button").click(async function(e){
           var dataRes = getLoginData(userLoginEmail).then(function (dataObject) {
             if(dataObject.length == 0){
               $('.myVS1Video').css('display','inline-block');
+              //$('.fullScreenSpin').css('display','inline-block');
               myVS1Video.currentTime = 0;
               myVS1Video.play();
               var serverTest = URLRequest + licenceIPAddress + ':' + checkSSLPorts + '/erpapi/Vs1_Logon?Vs1UserName="'+userLoginEmail+'"&vs1Password="'+userLoginPassword+'"';
@@ -1382,7 +1384,9 @@ $("#erplogin-button").click(async function(e){
 	 cancelButtonText: 'Cancel'
    }).then((result) => {
 	 if (result.value) {
-	   window.open('https://www.payments.vs1cloud.com/customer/account/login/referer/aHR0cHM6Ly93d3cucGF5bWVudHMudnMxY2xvdWQuY29tLw%2C%2C?urppassname='+dataReturnRes.ProcessLog.VS1AdminUserName+'&urlpasstoken='+userLoginPassword+'', '_blank');
+	   //window.open('https://www.payments.vs1cloud.com/customer/account/login/referer/aHR0cHM6Ly93d3cucGF5bWVudHMudnMxY2xvdWQuY29tLw%2C%2C?urppassname='+dataReturnRes.ProcessLog.VS1AdminUserName+'&urlpasstoken='+userLoginPassword+'', '_blank');
+     window.open('/subscriptionSettings?urppassname='+dataReturnRes.ProcessLog.VS1AdminUserName, '_blank');
+     Session.setPersistent('VS1AdminUserName', dataReturnRes.ProcessLog.VS1AdminUserName);
 	 } else if (result.dismiss === 'cancel') {
 
 	 }
@@ -1564,6 +1568,7 @@ $("#erplogin-button").click(async function(e){
                          Session.setPersistent('ERPDefaultDepartment', 'Default');
                          Session.setPersistent('ERPDefaultUOM', '');
                          Session.setPersistent('VS1AdminUserName', dataReturnRes.ProcessLog.VS1AdminUserName);
+                         localStorage.setItem('VS1AdminUserName', dataReturnRes.ProcessLog.VS1AdminUserName);
                          dataReturnRes.ProcessLog.VS1AdminPassword = hashUserLoginPassword;
                          dataReturnRes.ProcessLog.VS1UserName = userLoginEmail;
                          var ERPIPAdderess= "";
@@ -2052,7 +2057,9 @@ $("#erplogin-button").click(async function(e){
              cancelButtonText: 'Cancel'
            }).then((result) => {
              if (result.value) {
-               window.open('https://www.payments.vs1cloud.com/customer/account/login/referer/aHR0cHM6Ly93d3cucGF5bWVudHMudnMxY2xvdWQuY29tLw%2C%2C?urppassname='+dataReturnRes.ProcessLog.VS1AdminUserName+'&urlpasstoken='+userLoginPassword+'', '_blank');
+               //window.open('https://www.payments.vs1cloud.com/customer/account/login/referer/aHR0cHM6Ly93d3cucGF5bWVudHMudnMxY2xvdWQuY29tLw%2C%2C?urppassname='+dataReturnRes.ProcessLog.VS1AdminUserName+'&urlpasstoken='+userLoginPassword+'', '_blank');
+               window.open('/subscriptionSettings?urppassname='+dataReturnRes.ProcessLog.VS1AdminUserName, '_blank');
+               Session.setPersistent('VS1AdminUserName', dataReturnRes.ProcessLog.VS1AdminUserName);
              } else if (result.dismiss === 'cancel') {
 
              }
@@ -2215,7 +2222,7 @@ $("#erplogin-button").click(async function(e){
          Session.setPersistent('ERPDefaultDepartment', 'Default');
          Session.setPersistent('ERPDefaultUOM', '');
          Session.setPersistent('VS1AdminUserName', dataReturnRes.ProcessLog.VS1AdminUserName);
-
+         localStorage.setItem('VS1AdminUserName', dataReturnRes.ProcessLog.VS1AdminUserName);
          var ERPIPAdderess= "";
          if(dataReturnRes.ProcessLog.ServerName == "110.142.175.245"){
            ERPIPAdderess= ERPDatabaseIPAdderess;
@@ -2527,7 +2534,9 @@ $("#erplogin-button").click(async function(e){
 	 cancelButtonText: 'Cancel'
    }).then((result) => {
 	 if (result.value) {
-	   window.open('https://www.payments.vs1cloud.com/customer/account/login/referer/aHR0cHM6Ly93d3cucGF5bWVudHMudnMxY2xvdWQuY29tLw%2C%2C?urppassname='+dataReturnRes.ProcessLog.VS1AdminUserName+'&urlpasstoken='+userLoginPassword+'', '_blank');
+	   //window.open('https://www.payments.vs1cloud.com/customer/account/login/referer/aHR0cHM6Ly93d3cucGF5bWVudHMudnMxY2xvdWQuY29tLw%2C%2C?urppassname='+dataReturnRes.ProcessLog.VS1AdminUserName+'&urlpasstoken='+userLoginPassword+'', '_blank');
+     window.open('/subscriptionSettings?urppassname='+dataReturnRes.ProcessLog.VS1AdminUserName, '_blank');
+     Session.setPersistent('VS1AdminUserName', dataReturnRes.ProcessLog.VS1AdminUserName);
 	 } else if (result.dismiss === 'cancel') {
 
 	 }
@@ -2709,6 +2718,7 @@ $("#erplogin-button").click(async function(e){
                          Session.setPersistent('ERPDefaultDepartment', 'Default');
                          Session.setPersistent('ERPDefaultUOM', '');
                          Session.setPersistent('VS1AdminUserName', dataReturnRes.ProcessLog.VS1AdminUserName);
+                         localStorage.setItem('VS1AdminUserName', dataReturnRes.ProcessLog.VS1AdminUserName);
                          dataReturnRes.ProcessLog.VS1AdminPassword = hashUserLoginPassword;
                          dataReturnRes.ProcessLog.VS1UserName = userLoginEmail;
                          var ERPIPAdderess= "";
@@ -3168,6 +3178,7 @@ $("#erplogin-button").click(async function(e){
         }
         else{
           $('.myVS1Video').css('display','inline-block');
+          //$('.fullScreenSpin').css('display','inline-block');
           myVS1Video.currentTime = 0;
           myVS1Video.play();
         var serverTest = URLRequest + licenceIPAddress + ':' + checkSSLPorts + '/erpapi/Vs1_Logon?Vs1UserName="'+userLoginEmail+'"&vs1Password="'+userLoginPassword+'"';
@@ -3208,7 +3219,9 @@ $("#erplogin-button").click(async function(e){
       	 cancelButtonText: 'Cancel'
          }).then((result) => {
       	 if (result.value) {
-      	   window.open('https://www.payments.vs1cloud.com/customer/account/login/referer/aHR0cHM6Ly93d3cucGF5bWVudHMudnMxY2xvdWQuY29tLw%2C%2C?urppassname='+dataReturnRes.ProcessLog.VS1AdminUserName+'&urlpasstoken='+userLoginPassword+'', '_blank');
+      	   //window.open('https://www.payments.vs1cloud.com/customer/account/login/referer/aHR0cHM6Ly93d3cucGF5bWVudHMudnMxY2xvdWQuY29tLw%2C%2C?urppassname='+dataReturnRes.ProcessLog.VS1AdminUserName+'&urlpasstoken='+userLoginPassword+'', '_blank');
+           window.open('/subscriptionSettings?urppassname='+dataReturnRes.ProcessLog.VS1AdminUserName, '_blank');
+           Session.setPersistent('VS1AdminUserName', dataReturnRes.ProcessLog.VS1AdminUserName);
       	 } else if (result.dismiss === 'cancel') {
 
       	 }
@@ -3390,6 +3403,7 @@ $("#erplogin-button").click(async function(e){
                                Session.setPersistent('ERPDefaultDepartment', 'Default');
                                Session.setPersistent('ERPDefaultUOM', '');
                                Session.setPersistent('VS1AdminUserName', dataReturnRes.ProcessLog.VS1AdminUserName);
+                               localStorage.setItem('VS1AdminUserName', dataReturnRes.ProcessLog.VS1AdminUserName);
                                dataReturnRes.ProcessLog.VS1AdminPassword = hashUserLoginPassword;
                                dataReturnRes.ProcessLog.VS1UserName = userLoginEmail;
                                var ERPIPAdderess= "";
@@ -3892,6 +3906,7 @@ $("#erplogin-button").click(async function(e){
 
           }).catch(function (err) {
             $('.myVS1Video').css('display','inline-block');
+            //$('.fullScreenSpin').css('display','inline-block');
             myVS1Video.currentTime = 0;
             myVS1Video.play();
             var serverTest = URLRequest + licenceIPAddress + ':' + checkSSLPorts + '/erpapi/Vs1_Logon?Vs1UserName="'+userLoginEmail+'"&vs1Password="'+userLoginPassword+'"';
@@ -3933,7 +3948,9 @@ $("#erplogin-button").click(async function(e){
     	 cancelButtonText: 'Cancel'
        }).then((result) => {
     	 if (result.value) {
-    	   window.open('https://www.payments.vs1cloud.com/customer/account/login/referer/aHR0cHM6Ly93d3cucGF5bWVudHMudnMxY2xvdWQuY29tLw%2C%2C?urppassname='+dataReturnRes.ProcessLog.VS1AdminUserName+'&urlpasstoken='+userLoginPassword+'', '_blank');
+    	   //window.open('https://www.payments.vs1cloud.com/customer/account/login/referer/aHR0cHM6Ly93d3cucGF5bWVudHMudnMxY2xvdWQuY29tLw%2C%2C?urppassname='+dataReturnRes.ProcessLog.VS1AdminUserName+'&urlpasstoken='+userLoginPassword+'', '_blank');
+         window.open('/subscriptionSettings?urppassname='+dataReturnRes.ProcessLog.VS1AdminUserName, '_blank');
+         Session.setPersistent('VS1AdminUserName', dataReturnRes.ProcessLog.VS1AdminUserName);
     	 } else if (result.dismiss === 'cancel') {
 
     	 }
@@ -4115,6 +4132,7 @@ $("#erplogin-button").click(async function(e){
                              Session.setPersistent('ERPDefaultDepartment', 'Default');
                              Session.setPersistent('ERPDefaultUOM', '');
                              Session.setPersistent('VS1AdminUserName', dataReturnRes.ProcessLog.VS1AdminUserName);
+                             localStorage.setItem('VS1AdminUserName', dataReturnRes.ProcessLog.VS1AdminUserName);
                              dataReturnRes.ProcessLog.VS1AdminPassword = hashUserLoginPassword;
                              dataReturnRes.ProcessLog.VS1UserName = userLoginEmail;
                              var ERPIPAdderess= "";
