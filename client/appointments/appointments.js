@@ -627,6 +627,7 @@ Template.appointments.onRendered(function () {
                     } else {
                             templateObject.attachmentCount.set('');
                             templateObject.uploadedFiles.set('');
+                             templateObject.uploadedFile.set('')
                     }
                     $('#event-modal').modal();
                     // this.$body.addClass('modal-open');
@@ -787,6 +788,7 @@ Template.appointments.onRendered(function () {
                 }
                  templateObject.attachmentCount.set('');
                 templateObject.uploadedFiles.set('')
+                templateObject.uploadedFile.set('')
 
                 var endTime = moment(document.getElementById("dtSODate2").value + ' ' + document.getElementById("endTime").value).format('DD/MM/YYYY HH:mm');
                 var startTime = moment(document.getElementById("dtSODate2").value + ' ' + document.getElementById("startTime").value).format('DD/MM/YYYY HH:mm');
@@ -1005,6 +1007,7 @@ Template.appointments.onRendered(function () {
                     } else {
                             templateObject.attachmentCount.set('');
                             templateObject.uploadedFiles.set('');
+                            templateObject.uploadedFile.set('')
                     }
                     $('#event-modal').modal();
                     // this.$body.addClass('modal-open');
@@ -1166,6 +1169,7 @@ Template.appointments.onRendered(function () {
                 var startTime = moment(document.getElementById("dtSODate2").value + ' ' + document.getElementById("startTime").value).format('DD/MM/YYYY HH:mm');
                  templateObject.attachmentCount.set('');
                 templateObject.uploadedFiles.set('')
+                templateObject.uploadedFile.set('')
                 $('#customerListModal').modal();
             },
 
