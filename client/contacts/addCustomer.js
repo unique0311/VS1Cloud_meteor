@@ -3570,6 +3570,7 @@ Template.customerscard.events({
         }
 
         contactService.saveJobEx(objDetails).then(function (objDetails) {
+          $('.modal-backdrop').css('display','none');
             sideBarService.getAllJobssDataVS1(initialBaseDataLoad,0).then(function (dataReload) {
                 addVS1Data('TJobVS1', JSON.stringify(dataReload)).then(function (datareturn) {
                     Router.go('/joblist?success=true');

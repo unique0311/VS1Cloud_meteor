@@ -507,12 +507,14 @@ Template.chequecard.onRendered(() => {
                               $(".btnRemove").prop("disabled", true);
                               $(".btnSave").prop("disabled", true);
                               $("#form :input").prop("disabled", true);
+                              $(".btn_Attachment").prop("disabled", true);
                             }
 
 
                             $(".printConfirm").prop("disabled", false);
                             $(".btnBack").prop("disabled", false);
-
+                            $(".close").prop("disabled", false);
+                            $(".closeModal").prop("disabled", false);
                             templateObject.attachmentCount.set(0);
                             if (data.fields.Attachments) {
                                 if (data.fields.Attachments.length) {
@@ -737,12 +739,14 @@ Template.chequecard.onRendered(() => {
                                   $(".btnRemove").prop("disabled", true);
                                   $(".btnSave").prop("disabled", true);
                                   $("#form :input").prop("disabled", true);
+                                  $(".btn_Attachment").prop("disabled", true);
                                 }
 
 
                                 $(".printConfirm").prop("disabled", false);
                                 $(".btnBack").prop("disabled", false);
-
+                                $(".close").prop("disabled", false);
+                                $(".closeModal").prop("disabled", false);
                                 templateObject.attachmentCount.set(0);
                                 if (useData[d].fields.Attachments) {
                                     if (useData[d].fields.Attachments.length) {
@@ -948,12 +952,14 @@ Template.chequecard.onRendered(() => {
                                   $(".btnRemove").prop("disabled", true);
                                   $(".btnSave").prop("disabled", true);
                                   $("#form :input").prop("disabled", true);
+                                  $(".btn_Attachment").prop("disabled", true);
                                 }
 
 
                                 $(".printConfirm").prop("disabled", false);
                                 $(".btnBack").prop("disabled", false);
-
+                                $(".close").prop("disabled", false);
+                                $(".closeModal").prop("disabled", false);
                                 templateObject.attachmentCount.set(0);
                                 if (data.fields.Attachments) {
                                     if (data.fields.Attachments.length) {
@@ -1175,11 +1181,14 @@ Template.chequecard.onRendered(() => {
                           $(".btnRemove").prop("disabled", true);
                           $(".btnSave").prop("disabled", true);
                           $("#form :input").prop("disabled", true);
+                          $(".btn_Attachment").prop("disabled", true);
                         }
 
 
                         $(".printConfirm").prop("disabled", false);
                         $(".btnBack").prop("disabled", false);
+                        $(".close").prop("disabled", false);
+                        $(".closeModal").prop("disabled", false);
 
                         templateObject.attachmentCount.set(0);
                         if (data.fields.Attachments) {
