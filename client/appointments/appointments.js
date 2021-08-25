@@ -5090,6 +5090,9 @@ Template.appointments.events({
     'click .closeModal': function (event) {
         $('#myModalAttachment').modal('hide');
     },
+     'click .closeView': function (event) {
+        $('#files_view').modal('hide');
+    },
     'click .calendar .days li': function (event) {
         Router.go('/newappointments');
     },
