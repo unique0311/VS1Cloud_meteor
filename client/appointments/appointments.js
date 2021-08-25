@@ -5224,8 +5224,7 @@ Template.appointments.events({
         let templateObj = Template.instance();
         let saveToTAttachment = false;
         let lineIDForAttachment = false;
-        let uploadedFilesArray = templateObj.uploadedFiles.get();
-
+        let uploadedFilesArray = templateObj.uploadedFiles.get() || [];
         let myFiles = $('#attachment-upload')[0].files;
         let uploadData = utilityService.attachmentUpload(uploadedFilesArray, myFiles, saveToTAttachment, lineIDForAttachment);
         templateObj.uploadedFiles.set(uploadData.uploadedFilesArray);
