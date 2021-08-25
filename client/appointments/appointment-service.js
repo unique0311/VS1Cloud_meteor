@@ -64,11 +64,14 @@ export class AppointmentService extends BaseService {
     }
 
     getAllAppointmentList(){
-        let options = {
-            PropertyList: "ClientName,DeptClassName,TrainerName,ProductDesc,Actual_AppDate,StartTime,EndTime,Actual_EndTime,Actual_End_Time,Actual_StartTime,Actual_Start_Time,CreationDate,EndTime,End_Time,Notes,Phone,StartTime,Start_Time,Status,Mobile,Contact,Rate,Street,Street2,Street3,Suburb,City,State,Country,Postcode,CUSTFLD1,CUSTFLD2,TotalHours,Attachments,Active",
-            select: "[Active]=true"
-        };
-        return this.getList(this.ERPObjects.TAppointment, options);
+    let options = '';
+      options = {
+         ListType: "Detail",
+         select: "[Active]=true"
+     };
+    //}
+
+      return this.getList(this.ERPObjects.TAppointment, options);
     }
 
     getAllAppointmentListCount(){

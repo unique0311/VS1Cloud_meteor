@@ -649,7 +649,7 @@
                                 </div>
                                 <hr style="margin: 8px">
                                 <div class="row" style="padding: 0px 8px;">
-                                    <div class="col-5 colProductService2" id="colProductService2">
+                                    <div class="col-4 colProductService2" id="colProductService2">
                                         <div class="form-group flex-grow-1" style="margin: 8px 0px;"><label>Product /
                                                 Service</label><select id="product-list" name="product-list" class="form-control">
                                                 {{#if datatablerecords}}
@@ -660,9 +660,9 @@
                                             </select></div>
                                     </div>
                                     {{#if equals addAttachment true}}
-                                        <div class="col-1 colProductService1" id="colProductService1">
+                                        <div class="col-2 colProductService1" id="colProductService1">
                                             <div class="form-group flex-grow-1" style="margin: 8px 0px;">
-                                                <label></label><button class="btn btn-success btn_Attachment" type="button" style="margin: 30px 0px; width: 48px;" data-toggle="modal" href="#myModalAttachment" id="btn_Attachment" autocomplete="off"><i
+                                                <button class="btn btn-success btn_Attachment" type="button" style="margin: 30px 0px; width: 40%" data-toggle="modal" href="#myModalAttachment" id="btn_Attachment" autocomplete="off"> {{attachmentCount}} <i
                                                         class="fa fa-paperclip" style="padding-right: 8px;"></i></button>
                                             </div>
                                         </div>
@@ -720,7 +720,7 @@
                             <div class="modal-dialog modal-dialog-centered" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h4>Upload Attachments</h4><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                                        <h4>Upload Attachments</h4><button type="button" class="close closeModal"  aria-label="Close"><span aria-hidden="true">×</span></button>
                                     </div>
                                     <div class="modal-body" style="padding: 0px;">
                                         <div class="divTable" id="file-display">
@@ -764,7 +764,7 @@
                                         {{/if}}
                                         <button class="btn btn-primary btnUploadFile new_attachment_btn" type="button"><i class="fa fa-cloud-upload" style="margin-right: 5px;"></i>Upload</button>
                                         <!-- <button class="btn btn-warning btnResetSettings" data-dismiss="modal" type="reset"><i class="fa fa-repeat" style="margin-right: 5px;"></i>Reset</button> -->
-                                        <button class="btn btn-secondary" data-dismiss="modal" type="button"><i class="fa fa-remove" style="margin-right: 5px;"></i>Close</button>
+                                        <button class="btn btn-secondary closeModal" type="button"><i class="fa fa-remove" style="margin-right: 5px;"></i>Close</button>
                                     </div>
                                 </div>
                             </div>
