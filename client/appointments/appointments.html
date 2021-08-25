@@ -660,11 +660,9 @@
                                             </select></div>
                                     </div>
                                     {{#if equals addAttachment true}}
-                                        <div class="col-2 colProductService1" id="colProductService1">
-                                            <div class="form-group flex-grow-1" style="margin: 8px 0px;">
-                                                <button class="btn btn-success btn_Attachment" type="button" style="margin: 30px 0px; width: 40%" data-toggle="modal" href="#myModalAttachment" id="btn_Attachment" autocomplete="off"> {{attachmentCount}} <i
-                                                        class="fa fa-paperclip" style="padding-right: 8px;"></i></button>
-                                            </div>
+                                        <div class="col-2 colProductService1" id="colProductService1" style="padding-top: 2em;">
+                                            <button class="btn btn-primary btn_Attachment float-right" type="button" style="margin: 8px 0px; " data-toggle="modal" href="#myModalAttachment" id="btn_Attachment" autocomplete="off"> {{attachmentCount}} <i
+                                                    class="fa fa-paperclip"></i></button>
                                         </div>
                                     {{/if}}
                                     <div class="col-2 colStart" id="colStart" style="padding-top: 2em;">
@@ -720,7 +718,7 @@
                             <div class="modal-dialog modal-dialog-centered" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h4>Upload Attachments</h4><button type="button" class="close closeModal"  aria-label="Close"><span aria-hidden="true">×</span></button>
+                                        <h4>Upload Attachments</h4><button type="button" class="close closeModal" aria-label="Close"><span aria-hidden="true">×</span></button>
                                     </div>
                                     <div class="modal-body" style="padding: 0px;">
                                         <div class="divTable" id="file-display">
@@ -771,32 +769,32 @@
                         </div>
                         <!-- END Attachments -->
                         <!-- View File Attachemt -->
-                <div id="files_view" class="modal fade" role="dialog">
-                    <div class="modal-dialog">
-                        <!-- Modal content-->
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <button type="button" class="close closeView">x</button>
-                                <h4 class="modal-title">{{uploadedFile.name}}</h4>
-                            </div>
-                            <div class="modal-body">
-                                {{#if uploadedFile.image}}
-                                    <div class="image-previewer">
-                                        <img src="{{uploadedFile.link}}">
+                        <div id="files_view" class="modal fade" role="dialog">
+                            <div class="modal-dialog">
+                                <!-- Modal content-->
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close closeView">x</button>
+                                        <h4 class="modal-title">{{uploadedFile.name}}</h4>
                                     </div>
-                                {{else}}
-                                    <div class=" default-file {{uploadedFile.class}}">
+                                    <div class="modal-body">
+                                        {{#if uploadedFile.image}}
+                                            <div class="image-previewer">
+                                                <img src="{{uploadedFile.link}}">
+                                            </div>
+                                        {{else}}
+                                            <div class=" default-file {{uploadedFile.class}}">
 
+                                            </div>
+                                        {{/if}}
+                                        <div class="download_button">
+                                            <a class="new_create_btn btn btn-primary" id="downloadButton" download="{{uploadedFile.name}}" href="{{uploadedFile.link}}">Download</a>
+                                        </div>
                                     </div>
-                                {{/if}}
-                                <div class="download_button">
-                                    <a class="new_create_btn btn btn-primary" id="downloadButton" download="{{uploadedFile.name}}" href="{{uploadedFile.link}}">Download</a>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </div>
-                <!-- End View File attachment -->
+                        <!-- End View File attachment -->
                         <div class="modal fade" role="dialog" id="frmNewDate">
                             <div class="modal-dialog modal-dialog-centered" role="document">
                                 <div class="modal-content">
