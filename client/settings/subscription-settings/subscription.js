@@ -218,8 +218,8 @@ Template.subscriptionSettings.events({
         let cvc = $('#txtCVC').val();
 
         $.ajax({
-            url: 'https://depot.vs1cloud.com/stripe-sandbox/vs1_update-payment_method.php',
-            // url: 'https://depot.vs1cloud.com/stripe/vs1_update-payment_method.php',
+            //url: 'https://depot.vs1cloud.com/stripe-sandbox/vs1_update-payment_method.php',
+            url: 'https://depot.vs1cloud.com/stripe/vs1_update-payment_method.php',
             data: {
                 'email': Session.get('VS1AdminUserName'),
                 'cardnumber': cardnumber,
