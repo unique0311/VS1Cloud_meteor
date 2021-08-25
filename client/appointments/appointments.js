@@ -623,7 +623,10 @@ Template.appointments.onRendered(function () {
                         if (result.length) {
                             templateObject.attachmentCount.set(result[0].attachments.length);
                             templateObject.uploadedFiles.set(result[0].attachments);
-                        }
+                        } 
+                    } else {
+                            templateObject.attachmentCount.set('');
+                            templateObject.uploadedFiles.set('');
                     }
                     $('#event-modal').modal();
                     // this.$body.addClass('modal-open');
@@ -782,6 +785,8 @@ Template.appointments.onRendered(function () {
                     }
 
                 }
+                 templateObject.attachmentCount.set('');
+                templateObject.uploadedFiles.set('')
 
                 var endTime = moment(document.getElementById("dtSODate2").value + ' ' + document.getElementById("endTime").value).format('DD/MM/YYYY HH:mm');
                 var startTime = moment(document.getElementById("dtSODate2").value + ' ' + document.getElementById("startTime").value).format('DD/MM/YYYY HH:mm');
@@ -996,7 +1001,10 @@ Template.appointments.onRendered(function () {
                         if (result.length) {
                             templateObject.attachmentCount.set(result[0].attachments.length);
                             templateObject.uploadedFiles.set(result[0].attachments);
-                        }
+                        } 
+                    } else {
+                            templateObject.attachmentCount.set('');
+                            templateObject.uploadedFiles.set('');
                     }
                     $('#event-modal').modal();
                     // this.$body.addClass('modal-open');
@@ -1156,6 +1164,8 @@ Template.appointments.onRendered(function () {
 
                 var endTime = moment(document.getElementById("dtSODate2").value + ' ' + document.getElementById("endTime").value).format('DD/MM/YYYY HH:mm');
                 var startTime = moment(document.getElementById("dtSODate2").value + ' ' + document.getElementById("startTime").value).format('DD/MM/YYYY HH:mm');
+                 templateObject.attachmentCount.set('');
+                templateObject.uploadedFiles.set('')
                 $('#customerListModal').modal();
             },
 
