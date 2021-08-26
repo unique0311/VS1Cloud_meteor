@@ -5076,6 +5076,21 @@ Template.appointments.events({
         }
 
     },
+    'click .img_new_attachment_btn': function (event) {
+        $('#img-attachment-upload').trigger('click');
+
+    },
+    'change #img-attachment-upload': function (e) {
+        let templateObj = Template.instance();
+        let saveToTAttachment = false;
+        let lineIDForAttachment = false;
+        let uploadedFilesArray = templateObj.uploadedFiles.get();
+
+        let myFiles = $('#img-attachment-upload')[0].files;
+        let uploadData = utilityService.attachmentUpload(uploadedFilesArray, myFiles, saveToTAttachment, lineIDForAttachment);
+        templateObj.uploadedFiles.set(uploadData.uploadedFilesArray);
+        templateObj.attachmentCount.set(uploadData.totalAttachments);
+    },
     'click .file-name': function (event) {
         let attachmentID = parseInt(event.currentTarget.parentNode.id.split('attachment-name-')[1]);
         let templateObj = Template.instance();
@@ -7239,7 +7254,7 @@ Template.appointments.events({
                     });
                 } else {
                     objectData = {
-                        type: "TAppointment",
+                        type: "TAppointmentEx",
                         fields: {
                             Id: parseInt(id),
                             Active: false
