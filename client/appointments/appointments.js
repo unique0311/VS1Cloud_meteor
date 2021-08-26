@@ -662,7 +662,7 @@ Template.appointments.onRendered(function () {
                     });
                     if (result.length > 0) {
                         objectData = {
-                            type: "TAppointment",
+                            type: "TAppointmentEx",
                             fields: {
                                 Id: parseInt(eventDropID) || 0,
                                 StartTime: startDate + ' ' + startTime + ":00" || '',
@@ -1045,7 +1045,7 @@ Template.appointments.onRendered(function () {
                     });
                     if (result.length > 0) {
                         objectData = {
-                            type: "TAppointment",
+                            type: "TAppointmentEx",
                             fields: {
                                 Id: parseInt(eventDropID) || 0,
                                 StartTime: startDate + ' ' + startTime + ":00" || '',
@@ -2310,7 +2310,7 @@ Template.appointments.onRendered(function () {
                                 }).indexOf(appointmentData[index].employeename);
                                 if (result.length > 0) {
                                     objectData = {
-                                        type: "TAppointment",
+                                        type: "TAppointmentEx",
                                         fields: {
                                             Id: parseInt(eventDropID) || 0,
                                             StartTime: startDate + ' ' + startTime + ":00" || '',
@@ -3792,7 +3792,7 @@ Template.appointments.onRendered(function () {
                             }).indexOf(appointmentData[index].employeename);
                             if (result.length > 0) {
                                 objectData = {
-                                    type: "TAppointment",
+                                    type: "TAppointmentEx",
                                     fields: {
                                         Id: parseInt(eventDropID) || 0,
                                         StartTime: startDate + ' ' + startTime + ":00" || '',
@@ -4294,7 +4294,7 @@ Template.appointments.onRendered(function () {
         if (updateData.length > 0) {
 
             objectData = {
-                type: "TAppointment",
+                type: "TAppointmentEx",
                 fields: {
                     Id: parseInt(id) || 0,
                     StartTime: allocDate + ' ' + updateData[0].startDate.split(' ')[1] || '',
@@ -4484,7 +4484,7 @@ Template.appointments.onRendered(function () {
                             }).indexOf(appointmentData[index].employeename);
                             if (result.length > 0) {
                                 objectData = {
-                                    type: "TAppointment",
+                                    type: "TAppointmentEx",
                                     fields: {
                                         Id: parseInt(eventDropID) || 0,
                                         StartTime: startDate + ' ' + startTime + ":00" || '',
@@ -5689,7 +5689,7 @@ Template.appointments.events({
                     var myArrResponse = JSON.parse(oPost.responseText);
                     if (myArrResponse.ProcessLog.ResponseStatus.includes("OK")) {
                         let objectDataConverted = {
-                            type: "TAppointment",
+                            type: "TAppointmentEx",
                             fields: {
                                 Id: parseInt(id),
                                 Status: "Converted"
@@ -6666,7 +6666,7 @@ Template.appointments.events({
                 appointmentService.saveTimeLog(objectData).then(function (data) {
                     let endTime1 = date.getFullYear() + "-" + ("0" + (date.getMonth() + 1)).slice(-2) + "-" + ("0" + (date.getDate())).slice(-2) + ' ' + ("0" + date.getHours()).slice(-2) + ":" + ("0" + date.getMinutes()).slice(-2);
                     objectData1 = {
-                        type: "TAppointment",
+                        type: "TAppointmentEx",
                         fields: {
                             Id: parseInt(result[0].id),
                             Othertxt: ""
@@ -6851,7 +6851,7 @@ Template.appointments.events({
                 appointmentService.saveTimeLog(objectData).then(function (data) {
                     let endTime1 = date.getFullYear() + "-" + ("0" + (date.getMonth() + 1)).slice(-2) + "-" + ("0" + (date.getDate())).slice(-2) + ' ' + ("0" + date.getHours()).slice(-2) + ":" + ("0" + date.getMinutes()).slice(-2);
                     objectData1 = {
-                        type: "TAppointment",
+                        type: "TAppointmentEx",
                         fields: {
                             Id: parseInt(result[0].id),
                             Actual_StartTime: startTime,
@@ -6968,6 +6968,7 @@ Template.appointments.events({
             let notes = formData.get('txtNotes') || ' ';
             let selectedProduct = $('#product-list').children("option:selected").text() || '';
             let status = "Not Converted";
+            let uploadedItems = templateObject.uploadedFiles.get();
             if (aStartTime != '') {
                 aStartDate = savedStartDate + ' ' + aStartTime;
             } else {
@@ -7040,7 +7041,7 @@ Template.appointments.events({
             let objectData = "";
             if (id == '0') {
                 objectData = {
-                    type: "TAppointment",
+                    type: "TAppointmentEx",
                     fields: {
                         ClientName: clientname,
                         Mobile: clientmobile,
@@ -7057,12 +7058,13 @@ Template.appointments.events({
                         TrainerName: employeeName,
                         Notes: notes,
                         ProductDesc: selectedProduct,
+                        Attachments: uploadedItems,
                         Status: status
                     }
                 };
             } else {
                 objectData = {
-                    type: "TAppointment",
+                    type: "TAppointmentEx",
                     fields: {
                         Id: parseInt(id),
                         ClientName: clientname,
@@ -7081,6 +7083,7 @@ Template.appointments.events({
                         TrainerName: employeeName,
                         Notes: notes,
                         ProductDesc: selectedProduct,
+                        Attachments: uploadedItems,
                         Status: status
                     }
                 };
@@ -7094,21 +7097,23 @@ Template.appointments.events({
                         sideBarService.getAllAppointmentList().then(function (data) {
                             addVS1Data('TAppointment', JSON.stringify(data)).then(function (datareturn) {
                                 window.open('/appointments', '_self');
-                            }).catch(function (err) {});
+                            }).catch(function (err) {
+                                window.open('/appointments', '_self');
+                            })
                         }).catch(function (err) {
                             window.open('/appointments', '_self');
-                        });
+                        })
                     }).catch(function () {})
                 } else {
-                    sideBarService.getAllAppointmentList().then(function (data) {
-                        addVS1Data('TAppointment', JSON.stringify(data)).then(function (datareturn) {
-                            window.open('/appointments', '_self');
+                            sideBarService.getAllAppointmentList().then(function (data) {
+                            addVS1Data('TAppointment', JSON.stringify(data)).then(function (datareturn) {
+                                window.open('/appointments', '_self');
+                            }).catch(function (err) {
+                                window.open('/appointments', '_self');
+                            })
                         }).catch(function (err) {
                             window.open('/appointments', '_self');
-                        });
-                    }).catch(function (err) {
-                        window.open('/appointments', '_self');
-                    });
+                        })
                 }
             }).catch(function (err) {
                 $('.fullScreenSpin').css('display', 'none');
@@ -7263,15 +7268,15 @@ Template.appointments.events({
 
                     appointmentService.saveAppointment(objectData).then(function (data) {
                         $('#event-modal').modal('hide');
-                        sideBarService.getAllAppointmentList().then(function (data) {
-                            addVS1Data('TAppointment', JSON.stringify(data)).then(function (datareturn) {
+                        sideBarService.getAllAppointmentList().then(function (dataList) {
+                            addVS1Data('TAppointment', JSON.stringify(dataList)).then(function (datareturn) {
                                 window.open('/appointments', '_self');
                             }).catch(function (err) {
                                 window.open('/appointments', '_self');
-                            });
+                            })
                         }).catch(function (err) {
                             window.open('/appointments', '_self');
-                        });
+                        })
 
                     }).catch(function (err) {
                         $('.fullScreenSpin').css('display', 'none');
@@ -7603,7 +7608,7 @@ Template.appointments.events({
                         }
 
                         objectData1 = {
-                            type: "TAppointment",
+                            type: "TAppointmentEx",
                             fields: {
                                 Id: parseInt(result[0].id),
                                 Othertxt: "Paused"
@@ -7612,15 +7617,15 @@ Template.appointments.events({
 
                         appointmentService.saveTimeLog(objectData).then(function (data) {
                             appointmentService.saveAppointment(objectData1).then(function (data1) {
-                                sideBarService.getAllAppointmentList().then(function (data) {
-                                    addVS1Data('TAppointment', JSON.stringify(data)).then(function (datareturn) {
-                                        window.open('/appointments', '_self');
-                                    }).catch(function (err) {
-                                        window.open('/appointments', '_self');
-                                    });
-                                }).catch(function (err) {
-                                    window.open('/appointments', '_self');
-                                });
+                               sideBarService.getAllAppointmentList().then(function (data) {
+                            addVS1Data('TAppointment', JSON.stringify(data)).then(function (datareturn) {
+                                window.open('/appointments', '_self');
+                            }).catch(function (err) {
+                                window.open('/appointments', '_self');
+                            })
+                        }).catch(function (err) {
+                            window.open('/appointments', '_self');
+                        })
                             }).catch(function (err) {
                                 $('.fullScreenSpin').css('display', 'none');
                             });
@@ -7719,7 +7724,7 @@ Template.appointments.events({
             let objectData = "";
             if (id == '0') {
                 objectData = {
-                    type: "TAppointment",
+                    type: "TAppointmentEx",
                     fields: {
                         ClientName: clientname,
                         Mobile: clientmobile,
