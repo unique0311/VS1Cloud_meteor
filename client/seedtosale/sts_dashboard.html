@@ -33,6 +33,29 @@
                     <div class="card-body" style="padding: 0px;">
                         <div class="row d-xl-flex justify-content-center align-items-center justify-content-xl-center" style="margin: auto;padding: 20px;">
                             <div class="col" style="padding: 0 !important;">
+
+                                <div id="reader" style="width: 100%"></div>
+
+                                <script>
+                                    function onScanSuccess(decodedText, decodedResult) {
+                                        // handle the scanned code as you like, for example:
+                                        console.log(`Code matched = ${decodedText}`, decodedResult);
+                                    }
+
+                                    function onScanFailure(error) {
+                                        // handle scan failure, usually better to ignore and keep scanning.
+                                        // for example:
+                                        console.warn(`Code scan error = ${error}`);
+                                    }
+
+                                    let html5QrcodeScanner = new Html5QrcodeScanner(
+                                        "reader", {
+                                            fps: 10,
+                                            qrbox: 250
+                                        }, /* verbose= */ false);
+                                    html5QrcodeScanner.render(onScanSuccess, onScanFailure);
+                                </script>
+
                                 <div class="form-group flex-grow-1" style="margin: 4px;"><label>Quick Scan<br></label>
                                     <div class="input-group"><input class="form-control" type="text">
                                         <div class="input-group-append"><a class="btn btn-primary border-success" role="button" style="background-color: #3dd79c;" href="#identifyPlant" data-toggle="modal">Scan</a></div>
