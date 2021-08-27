@@ -103,7 +103,16 @@ class="d-xl-flex flex-column flex-grow-1 align-items-xl-start"><label>Organizati
                                         </div>
                                     </div>
                                 </div>
-
+                                <style>
+                                    @media screen and (max-width: 700px) {
+                                        .customTooltipSpan {
+                                            display:none;
+                                        }
+                                        .customTooltipIcon {
+                                            display: inline-block !important;
+                                        }
+                                    }
+                                </style>
                                 <div>
                                     <div align="left">
                                         <h4 class="text-left" style="margin-top: 20px;">Contacts</h4>
@@ -113,7 +122,11 @@ class="d-xl-flex flex-column flex-grow-1 align-items-xl-start"><label>Organizati
                                                     <input class="form-control" type="text" id="edtphonenumber" name="edtphonenumber"></div></div>
                                             </div>
                                             <div class="col">
-                                                <div align="left"><div class="form-group d-xl-flex flex-column justify-content-xl-start align-items-xl-start"><label>Email <i class="far fa-question-circle" data-toggle="tooltip" data-placement="top" title="This is the default company email address"></i></label>
+                                                <div align="left"><div class="form-group d-xl-flex flex-column justify-content-xl-start align-items-xl-start">
+                                                    <label>Email
+                                                        <span class="customTooltipSpan" style="color:lightgray;">This is the default company email address</span>
+                                                        <i class="far fa-question-circle customTooltipIcon" data-toggle="tooltip" data-placement="top" title="This is the default company email address" style="display:none;"></i>
+                                                    </label>
                                                     <input class="form-control" type="text" id="edtemailaddress" name="edtemailaddress"></div></div>
                                             </div>
                                         </div>
