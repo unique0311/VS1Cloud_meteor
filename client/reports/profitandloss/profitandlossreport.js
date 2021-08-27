@@ -33,8 +33,8 @@ Template.profitlossreport.onRendered(()=>{
     fromDateDay = "0" + currentDate.getDate();
   }
   var fromDate =fromDateDay + "/" +(fromDateMonth) + "/" + currentDate.getFullYear();
-   var url = window.location.href;
-  
+   var url = FlowRouter.current().path;
+
 
 
   templateObject.dateAsAt.set(begunDate);
@@ -55,7 +55,7 @@ yearRange: "-90:+10",
    $("#dateFrom").val(fromDate);
    $("#dateTo").val(begunDate);
 
-   
+
     templateObject.getProfitandLossReports = function (dateFrom, dateTo, ignoreDate) {
       if(!localStorage.getItem('VS1ProfitandLoss_Report')){
         reportService.getProfitandLoss(dateFrom, dateTo, ignoreDate).then(function (data) {
@@ -194,7 +194,7 @@ yearRange: "-90:+10",
 
     if(url.indexOf('?dateFrom') > 0){
     localStorage.setItem('VS1ProfitandLoss_Report','');
-    url = new URL(url);
+    url = new URL(window.location.href);
     $("#dateFrom").val(moment(url.searchParams.get("dateFrom")).format("DD/MM/YYYY"));
     $("#dateTo").val(moment(url.searchParams.get("dateTo")).format("DD/MM/YYYY"));
     var getDateFrom = url.searchParams.get("dateFrom");

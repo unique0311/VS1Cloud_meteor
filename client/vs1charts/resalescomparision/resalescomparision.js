@@ -80,7 +80,7 @@ if (!localStorage.getItem('VS1SalesEmpReport_dash')) {
           'onClick' : function (evt, item) {
             if(item[0]['_model'].label){
               var activePoints = item[0]['_model'].label;
-              Router.go('/salesreport?contact=' + activePoints);
+              FlowRouter.go('/salesreport?contact=' + activePoints);
             }
 
           },
@@ -230,7 +230,7 @@ if (!localStorage.getItem('VS1SalesEmpReport_dash')) {
       'onClick' : function (evt, item) {
         if(item[0]['_model'].label){
           var activePoints = item[0]['_model'].label;
-          Router.go('/salesreport?contact=' + activePoints);
+          FlowRouter.go('/salesreport?contact=' + activePoints);
         }
 
       },

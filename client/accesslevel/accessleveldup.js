@@ -61,7 +61,7 @@ Template.accessleveldup.onRendered(function(){
     $('.fullScreenSpin').css('display','inline-block');
 
     templateObject.employeename.set(empName);
-    if(Router.current().params.query.empuser){
+    if(FlowRouter.current().queryParams.empuser){
 
         $([document.documentElement, document.body]).animate({
             scrollTop: $(".employeeModules").offset().top
@@ -149,11 +149,11 @@ Template.accessleveldup.onRendered(function(){
 
             templateObject.employeerecords.set(employeeList);
             if(templateObject.employeerecords.get()){
-                if(Router.current().params.query.empuser){
+                if(FlowRouter.current().queryParams.empuser){
                     $([document.documentElement, document.body]).animate({
                         scrollTop: $(".employeeModules").offset().top
                     }, 2000);
-                    let empToSelect = Router.current().params.query.empuser;
+                    let empToSelect = FlowRouter.current().queryParams.empuser;
                     setTimeout(function () {
                         $('select[name="sltEmployeeName"] option[value="'+empToSelect+'"]').prop('selected', true);
                     }, 100);
@@ -1757,7 +1757,7 @@ Template.accessleveldup.events({
                 $('#employeeListModal').modal('toggle');
 
             } else if (result.dismiss === 'cancel') {
-                Router.go('/employeescard?addvs1user=true');
+                FlowRouter.go('/employeescard?addvs1user=true');
             }
         })
     },

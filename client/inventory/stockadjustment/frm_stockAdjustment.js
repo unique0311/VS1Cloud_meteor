@@ -254,7 +254,7 @@ Template.stockadjustmentcard.onRendered(() => {
 
     };
 
-    var url = window.location.href;
+    var url = FlowRouter.current().path;
     var getso_id = url.split('?id=');
     var currentStockAdjust = getso_id[getso_id.length - 1];
     if (getso_id[1]) {
@@ -811,7 +811,7 @@ Template.stockadjustmentcard.onRendered(() => {
     });
 
     // $(document).ready(function () {
-    //      var url = window.location.href;
+    //      var url = FlowRouter.current().path;
     //     var id_available = url.includes("?id=");
     //     history.pushState(null, document.title, location.href);
     //     window.addEventListener('popstate', function (event) {
@@ -1252,7 +1252,7 @@ Template.stockadjustmentcard.events({
         }
     },
     'click .lineProductName': function (event) {
-        var url = window.location.href;
+        var url = FlowRouter.current().path;
         var getso_id = url.split('?id=');
         if (!getso_id[1]) {
             $('#tblStockAdjustmentLine tbody tr .lineProductName').attr("data-toggle", "modal");
@@ -1349,7 +1349,7 @@ Template.stockadjustmentcard.events({
         $('.fullScreenSpin').css('display', 'inline-block');
         let templateObject = Template.instance();
         let stockTransferService = new StockTransferService();
-        var url = window.location.href;
+        var url = FlowRouter.current().path;
         var getso_id = url.split('?id=');
         var currentInvoice = getso_id[getso_id.length - 1];
         var objDetails = '';
@@ -1364,7 +1364,7 @@ Template.stockadjustmentcard.events({
             };
 
             stockTransferService.saveStockAdjustment(objDetails).then(function (objDetails) {
-                Router.go('/stockadjustmentoverview?success=true');
+                FlowRouter.go('/stockadjustmentoverview?success=true');
                 $('.modal-backdrop').css('display', 'none');
             }).catch(function (err) {
                 swal({
@@ -1383,7 +1383,7 @@ Template.stockadjustmentcard.events({
                 $('.fullScreenSpin').css('display', 'none');
             });
         } else {
-            Router.go('/stockadjustmentoverview?success=true');
+            FlowRouter.go('/stockadjustmentoverview?success=true');
             $('.modal-backdrop').css('display', 'none');
         }
         $('#deleteLineModal').modal('toggle');
@@ -1400,7 +1400,7 @@ Template.stockadjustmentcard.events({
         }).then((result) => {
             if (result.value) {
                 $('.fullScreenSpin').css('display', 'inline-block');
-                var url = window.location.href;
+                var url = FlowRouter.current().path;
                 var getso_id = url.split('?id=');
                 var currentInvoice = getso_id[getso_id.length - 1];
                 var objDetails = '';
@@ -1415,7 +1415,7 @@ Template.stockadjustmentcard.events({
                     };
 
                     stockTransferService.saveStockAdjustment(objDetails).then(function (objDetails) {
-                        Router.go('/stockadjustmentoverview?success=true');
+                        FlowRouter.go('/stockadjustmentoverview?success=true');
                         $('.modal-backdrop').css('display', 'none');
 
                     }).catch(function (err) {
@@ -1435,7 +1435,7 @@ Template.stockadjustmentcard.events({
                         $('.fullScreenSpin').css('display', 'none');
                     });
                 } else {
-                    Router.go('/stockadjustmentoverview?success=true');
+                    FlowRouter.go('/stockadjustmentoverview?success=true');
                     $('.modal-backdrop').css('display', 'none');
                 }
                 //$('#deleteLineModal').modal('toggle');
@@ -1553,7 +1553,7 @@ Template.stockadjustmentcard.events({
             var creationdateTime = new Date($("#dtCreationDate").datepicker("getDate"));
             let creationDate = creationdateTime.getFullYear() + "-" + (creationdateTime.getMonth() + 1) + "-" + creationdateTime.getDate();
 
-            var url = window.location.href;
+            var url = FlowRouter.current().path;
             var getso_id = url.split('?id=');
             var currentStock = getso_id[getso_id.length - 1];
             let uploadedItems = templateObject.uploadedFiles.get();
@@ -1604,7 +1604,7 @@ Template.stockadjustmentcard.events({
             }
 
             stockTransferService.saveStockAdjustment(objDetails).then(function (objDetails) {
-                Router.go('/stockadjustmentoverview?success=true');
+                FlowRouter.go('/stockadjustmentoverview?success=true');
                 $('.modal-backdrop').css('display', 'none');
 
 
@@ -1696,7 +1696,7 @@ Template.stockadjustmentcard.events({
             var creationdateTime = new Date($("#dtCreationDate").datepicker("getDate"));
             let creationDate = creationdateTime.getFullYear() + "-" + (creationdateTime.getMonth() + 1) + "-" + creationdateTime.getDate();
 
-            var url = window.location.href;
+            var url = FlowRouter.current().path;
             var getso_id = url.split('?id=');
             var currentStock = getso_id[getso_id.length - 1];
             let uploadedItems = templateObject.uploadedFiles.get();
@@ -1747,7 +1747,7 @@ Template.stockadjustmentcard.events({
             }
 
             stockTransferService.saveStockAdjustment(objDetails).then(function (objDetails) {
-                Router.go('/stockadjustmentoverview?success=true');
+                FlowRouter.go('/stockadjustmentoverview?success=true');
                 $('.modal-backdrop').css('display', 'none');
 
 

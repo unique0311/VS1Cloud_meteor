@@ -160,7 +160,7 @@ Template.purchaseordercard.onRendered(() => {
                     for (var i = 0; i < clientList.length; i++) {
                         $('#edtSupplierName').editableSelect('add', clientList[i].suppliername);
                     }
-                    if (Router.current().params.query.id) {
+                    if (FlowRouter.current().queryParams.id) {
 
                     } else {
                         setTimeout(function() {
@@ -200,7 +200,7 @@ Template.purchaseordercard.onRendered(() => {
                 for (var i = 0; i < clientList.length; i++) {
                     $('#edtSupplierName').editableSelect('add', clientList[i].suppliername);
                 }
-                if (Router.current().params.query.id) {
+                if (FlowRouter.current().queryParams.id) {
 
                 } else {
                     setTimeout(function() {
@@ -240,7 +240,7 @@ Template.purchaseordercard.onRendered(() => {
                 for (var i = 0; i < clientList.length; i++) {
                     $('#edtSupplierName').editableSelect('add', clientList[i].suppliername);
                 }
-                if (Router.current().params.query.id) {
+                if (FlowRouter.current().queryParams.id) {
 
                 } else {
                     setTimeout(function() {
@@ -307,7 +307,7 @@ Template.purchaseordercard.onRendered(() => {
 
     templateObject.getAllClients();
     templateObject.getAllLeadStatuss();
-    var url = window.location.href;
+    var url = FlowRouter.current().path;
     if (url.indexOf('?id=') > 0) {
         var getso_id = url.split('?id=');
         var currentPurchaseOrder = getso_id[getso_id.length - 1];
@@ -2917,7 +2917,7 @@ Template.purchaseordercard.events({
         $('.fullScreenSpin').css('display', 'inline-block');
         let templateObject = Template.instance();
         let purchaseService = new PurchaseBoardService();
-        var url = window.location.href;
+        var url = FlowRouter.current().path;
         var getso_id = url.split('?id=');
         var currentInvoice = getso_id[getso_id.length - 1];
         var objDetails = '';
@@ -2933,7 +2933,7 @@ Template.purchaseordercard.events({
             };
 
             purchaseService.savePurchaseOrderEx(objDetails).then(function(objDetails) {
-                Router.go('/purchaseorderlist?success=true');
+                FlowRouter.go('/purchaseorderlist?success=true');
             }).catch(function(err) {
                 swal({
                     title: 'Oooops...',
@@ -2951,7 +2951,7 @@ Template.purchaseordercard.events({
                 $('.fullScreenSpin').css('display', 'none');
             });
         } else {
-            Router.go('/purchaseorderlist?success=true');
+            FlowRouter.go('/purchaseorderlist?success=true');
         }
         $('#deleteLineModal').modal('toggle');
     },
@@ -3195,7 +3195,7 @@ Template.purchaseordercard.events({
             let saleCustField2 = $('#edtSaleCustField2').val();
             let orderStatus = $('#edtStatus').val();
 
-            var url = window.location.href;
+            var url = FlowRouter.current().path;
             var getso_id = url.split('?id=');
             var currentPurchaseOrder = getso_id[getso_id.length - 1];
             let uploadedItems = templateObject.uploadedFiles.get();
@@ -3382,7 +3382,7 @@ Template.purchaseordercard.events({
                                 attachments: attachment
                             }, function(error, result) {
                                 if (error && error.error === "error") {
-                                    Router.go('/purchaseorderlist?success=true');
+                                    FlowRouter.go('/purchaseorderlist?success=true');
 
                                 } else {
 
@@ -3398,7 +3398,7 @@ Template.purchaseordercard.events({
                                 attachments: attachment
                             }, function(error, result) {
                                 if (error && error.error === "error") {
-                                    Router.go('/purchaseorderlist?success=true');
+                                    FlowRouter.go('/purchaseorderlist?success=true');
                                 } else {
                                     $('#html-2-pdfwrapper').css('display', 'none');
                                     swal({
@@ -3409,7 +3409,7 @@ Template.purchaseordercard.events({
                                         confirmButtonText: 'OK'
                                     }).then((result) => {
                                         if (result.value) {
-                                            Router.go('/purchaseorderlist?success=true');
+                                            FlowRouter.go('/purchaseorderlist?success=true');
                                         } else if (result.dismiss === 'cancel') {
 
                                         }
@@ -3429,7 +3429,7 @@ Template.purchaseordercard.events({
                                 attachments: attachment
                             }, function(error, result) {
                                 if (error && error.error === "error") {
-                                    Router.go('/purchaseorderlist?success=true');
+                                    FlowRouter.go('/purchaseorderlist?success=true');
 
                                 } else {
                                     $('#html-2-pdfwrapper').css('display', 'none');
@@ -3441,7 +3441,7 @@ Template.purchaseordercard.events({
                                         confirmButtonText: 'OK'
                                     }).then((result) => {
                                         if (result.value) {
-                                            Router.go('/purchaseorderlist?success=true');
+                                            FlowRouter.go('/purchaseorderlist?success=true');
                                         } else if (result.dismiss === 'cancel') {
 
                                         }
@@ -3461,7 +3461,7 @@ Template.purchaseordercard.events({
                                 attachments: attachment
                             }, function(error, result) {
                                 if (error && error.error === "error") {
-                                    Router.go('/purchaseorderlist?success=true');
+                                    FlowRouter.go('/purchaseorderlist?success=true');
                                 } else {
                                     $('#html-2-pdfwrapper').css('display', 'none');
                                     swal({
@@ -3472,7 +3472,7 @@ Template.purchaseordercard.events({
                                         confirmButtonText: 'OK'
                                     }).then((result) => {
                                         if (result.value) {
-                                            Router.go('/purchaseorderlist?success=true');
+                                            FlowRouter.go('/purchaseorderlist?success=true');
                                         } else if (result.dismiss === 'cancel') {
 
                                         }
@@ -3483,7 +3483,7 @@ Template.purchaseordercard.events({
                             });
 
                         } else {
-                            Router.go('/purchaseorderlist?success=true');
+                            FlowRouter.go('/purchaseorderlist?success=true');
                         };
                     };
                 }
@@ -4086,7 +4086,7 @@ Template.purchaseordercard.events({
 
             let saleCustField1 = $('#edtSaleCustField1').val();
             let saleCustField2 = $('#edtSaleCustField2').val();
-            var url = window.location.href;
+            var url = FlowRouter.current().path;
             var getso_id = url.split('?id=');
             var currentPurchaseOrder = getso_id[getso_id.length - 1];
             let uploadedItems = templateObject.uploadedFiles.get();
@@ -4251,7 +4251,7 @@ Template.purchaseordercard.events({
 
 
         $('.fullScreenSpin').css('display', 'inline-block');
-        var url = window.location.href;
+        var url = FlowRouter.current().path;
         if ((url.indexOf('?id=') > 0) || (url.indexOf('?copyquid=') > 0)) {
             let templateObject = Template.instance();
             let suppliername = $('#edtSupplierName');
@@ -4347,7 +4347,7 @@ Template.purchaseordercard.events({
 
                 let saleCustField1 = $('#edtSaleCustField1').val();
                 let saleCustField2 = $('#edtSaleCustField2').val();
-                var url = window.location.href;
+                var url = FlowRouter.current().path;
                 var getso_id = url.split('?id=');
                 var currentPurchaseOrder = getso_id[getso_id.length - 1];
                 let uploadedItems = templateObject.uploadedFiles.get();
@@ -4503,14 +4503,14 @@ Template.purchaseordercard.events({
                 });
             }
         } else {
-            Router.go('/invoicecard');
+            FlowRouter.go('/invoicecard');
         }
     },
     'click #btnCopyPO': function() {
 
 
         $('.fullScreenSpin').css('display', 'inline-block');
-        var url = window.location.href;
+        var url = FlowRouter.current().path;
 
         let templateObject = Template.instance();
         let suppliername = $('#edtSupplierName');
@@ -4623,7 +4623,7 @@ Template.purchaseordercard.events({
             let saleCustField2 = $('#edtSaleCustField2').val();
             let orderStatus = $('#edtStatus').val();
 
-            var url = window.location.href;
+            var url = FlowRouter.current().path;
             var getso_id = url.split('?id=');
             var currentPurchaseOrder = getso_id[getso_id.length - 1];
             let uploadedItems = templateObject.uploadedFiles.get();
@@ -5051,7 +5051,7 @@ Template.purchaseordercard.events({
 
                         let orderStatus = $('#edtStatus').val();
 
-                        var url = window.location.href;
+                        var url = FlowRouter.current().path;
                         var getso_id = url.split('?id=');
                         var currentPurchaseOrder = getso_id[getso_id.length - 1];
                         let uploadedItems = tpobtnpayment.uploadedFiles.get();
@@ -5349,7 +5349,7 @@ Template.purchaseordercard.events({
 
                                 let orderStatus = $('#edtStatus').val();
 
-                                var url = window.location.href;
+                                var url = FlowRouter.current().path;
                                 var getso_id = url.split('?id=');
                                 var currentPurchaseOrder = getso_id[getso_id.length - 1];
                                 let uploadedItems = tpobtnpayment.uploadedFiles.get();
@@ -5654,7 +5654,7 @@ Template.purchaseordercard.events({
 
                         let orderStatus = $('#edtStatus').val();
 
-                        var url = window.location.href;
+                        var url = FlowRouter.current().path;
                         var getso_id = url.split('?id=');
                         var currentPurchaseOrder = getso_id[getso_id.length - 1];
                         let uploadedItems = tpobtnpayment.uploadedFiles.get();
@@ -5956,7 +5956,7 @@ Template.purchaseordercard.events({
 
                     let orderStatus = $('#edtStatus').val();
 
-                    var url = window.location.href;
+                    var url = FlowRouter.current().path;
                     var getso_id = url.split('?id=');
                     var currentPurchaseOrder = getso_id[getso_id.length - 1];
                     let uploadedItems = tpobtnpayment.uploadedFiles.get();
@@ -6146,7 +6146,7 @@ Template.purchaseordercard.events({
 
     },
     'click #btnViewPayment': function() {
-        var url = window.location.href;
+        var url = FlowRouter.current().path;
         var getso_id = url.split('?id=');
         var currentInvoice = getso_id[getso_id.length - 1];
 

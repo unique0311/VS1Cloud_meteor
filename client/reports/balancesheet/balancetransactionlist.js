@@ -43,7 +43,7 @@ Template.balancetransactionlist.onRendered(function() {
     }
     });
 
-    let urlParameters = Router.current().params.query.accountName;
+    let urlParameters = FlowRouter.current().queryParams.accountName;
     templateObject.getAllBalanceSheetRedirectData = function () {
       if(!localStorage.getItem('VS1BalanceTrans_Report')){
       reportService.getBalanceSheetRedirectData().then(function (data) {
@@ -443,8 +443,8 @@ Template.balancetransactionlist.onRendered(function() {
        $('div.dataTables_filter input').addClass('form-control form-control-sm');
     }
     }
-    let urlParametersDateFrom = Router.current().params.query.fromDate;
-    let urlParametersDateTo = Router.current().params.query.toDate;
+    let urlParametersDateFrom = FlowRouter.current().queryParams.fromDate;
+    let urlParametersDateTo = FlowRouter.current().queryParams.toDate;
     if(urlParametersDateFrom){
       reportService.getBalanceSheetRedirectRangeData(urlParametersDateFrom,urlParametersDateTo).then(function (data) {
         //localStorage.setItem('VS1BalanceTrans_Report', JSON.stringify(data)||'');

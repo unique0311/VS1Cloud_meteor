@@ -442,7 +442,7 @@ yearRange: "-90:+10",
       }
     });
 
-  var url = window.location.href;
+  var url = FlowRouter.current().path;
   if (url.indexOf('?id=') > 0) {
     var getsale_id = url.split('?id=');
     var currentSalesID = getsale_id[getsale_id.length - 1];
@@ -3622,7 +3622,7 @@ Template.supplierpaymentcard.events({
     let prevMonth11Date = (moment().subtract(reportsloadMonths, 'months')).format("YYYY-MM-DD");
 
 
-    var url = window.location.href;
+    var url = FlowRouter.current().path;
     if ((url.indexOf('?id=') > 0)) {
       var getsale_id = url.split('?id=');
       var currentSalesID = getsale_id[getsale_id.length - 1];
@@ -3754,7 +3754,7 @@ Template.supplierpaymentcard.events({
                 attachments: attachment
               }, function(error, result) {
                 if (error && error.error === "error") {
-                  //Router.go('/paymentoverview?success=true');
+                  //FlowRouter.go('/paymentoverview?success=true');
 
                 } else {
 
@@ -3770,7 +3770,7 @@ Template.supplierpaymentcard.events({
                 attachments: attachment
               }, function(error, result) {
                 if (error && error.error === "error") {
-                  //Router.go('/paymentoverview?success=true');
+                  //FlowRouter.go('/paymentoverview?success=true');
                 } else {
                   $('#html-2-pdfwrapper').css('display', 'none');
                   swal({
@@ -3781,7 +3781,7 @@ Template.supplierpaymentcard.events({
                     confirmButtonText: 'OK'
                   }).then((result) => {
                     if (result.value) {
-                      //Router.go('/paymentoverview?success=true');
+                      //FlowRouter.go('/paymentoverview?success=true');
                     } else if (result.dismiss === 'cancel') {
 
                     }
@@ -3801,7 +3801,7 @@ Template.supplierpaymentcard.events({
                 attachments: attachment
               }, function(error, result) {
                 if (error && error.error === "error") {
-                  //Router.go('/paymentoverview?success=true');
+                  //FlowRouter.go('/paymentoverview?success=true');
 
                 } else {
                   $('#html-2-pdfwrapper').css('display', 'none');
@@ -3813,7 +3813,7 @@ Template.supplierpaymentcard.events({
                     confirmButtonText: 'OK'
                   }).then((result) => {
                     if (result.value) {
-                      //Router.go('/paymentoverview?success=true');
+                      //FlowRouter.go('/paymentoverview?success=true');
                     } else if (result.dismiss === 'cancel') {
 
                     }
@@ -3833,7 +3833,7 @@ Template.supplierpaymentcard.events({
                 attachments: attachment
               }, function(error, result) {
                 if (error && error.error === "error") {
-                  //Router.go('/paymentoverview?success=true');
+                  //FlowRouter.go('/paymentoverview?success=true');
                 } else {
                   $('#html-2-pdfwrapper').css('display', 'none');
                   swal({
@@ -3844,7 +3844,7 @@ Template.supplierpaymentcard.events({
                     confirmButtonText: 'OK'
                   }).then((result) => {
                     if (result.value) {
-                      //Router.go('/paymentoverview?success=true');
+                      //FlowRouter.go('/paymentoverview?success=true');
                     } else if (result.dismiss === 'cancel') {
 
                     }
@@ -3855,7 +3855,7 @@ Template.supplierpaymentcard.events({
               });
 
             } else {
-              //Router.go('/paymentoverview?success=true');
+              //FlowRouter.go('/paymentoverview?success=true');
             };
           };
         }
@@ -6424,7 +6424,7 @@ Template.supplierpaymentcard.events({
     $('.fullScreenSpin').css('display', 'inline-block');
     let templateObject = Template.instance();
     let paymentService = new PaymentsService();
-    var url = window.location.href;
+    var url = FlowRouter.current().path;
     var currentBeginDate = new Date();
       var begunDate = moment(currentBeginDate).format("DD/MM/YYYY");
       let fromDateMonth = currentBeginDate.getMonth();
@@ -6456,7 +6456,7 @@ Template.supplierpaymentcard.events({
 
       paymentService.deleteSuppDepositData(objDetails).then(function(objDetails) {
         $('.modal-backdrop').css('display','none');
-        Router.go('/paymentoverview?success=true');
+        FlowRouter.go('/paymentoverview?success=true');
         sideBarService.getAllBillExList().then(function(dataBill) {
           addVS1Data('TBillEx',JSON.stringify(dataBill)).then(function (datareturn) {
 
@@ -6509,7 +6509,7 @@ Template.supplierpaymentcard.events({
 
         paymentService.deleteSuppDepositData(objDetails).then(function(objDetails) {
           $('.modal-backdrop').css('display','none');
-          Router.go('/paymentoverview?success=true');
+          FlowRouter.go('/paymentoverview?success=true');
           sideBarService.getAllBillExList().then(function(dataBill) {
             addVS1Data('TBillEx',JSON.stringify(dataBill)).then(function (datareturn) {
 
@@ -6548,7 +6548,7 @@ Template.supplierpaymentcard.events({
           $('.modal-backdrop').css('display','none');
         });
       }else{
-        Router.go('/paymentoverview?success=true');
+        FlowRouter.go('/paymentoverview?success=true');
         $('.modal-backdrop').css('display','none');
       }
 

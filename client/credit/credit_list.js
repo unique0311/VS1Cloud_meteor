@@ -24,7 +24,7 @@ Template.creditlist.onRendered(function() {
     var splashArray = new Array();
     const dataTableList = [];
     const tableHeaderList = [];
-    if(Router.current().params.query.success){
+    if(FlowRouter.current().queryParams.success){
         $('.btnRefresh').addClass('btnRefreshAlert');
     }
     Meteor.call('readPrefMethod',Session.get('mycloudLogonID'),'tblcreditlist', function(error, result){
@@ -240,7 +240,7 @@ Template.creditlist.onRendered(function() {
                     $('#tblcreditlist tbody').on( 'click', 'tr', function () {
                         var listData = $(this).closest('tr').attr('id');
                         if(listData){
-                            Router.go('/creditcard?id=' + listData);
+                            FlowRouter.go('/creditcard?id=' + listData);
                         }
                     });
 
@@ -431,7 +431,7 @@ Template.creditlist.onRendered(function() {
                             }, 100);
                         },
                         "fnInitComplete": function () {
-                          let urlParametersPage = Router.current().params.query.page;
+                          let urlParametersPage = FlowRouter.current().queryParams.page;
                           if(urlParametersPage){
                             this.fnPageChange('last');
                           }
@@ -522,7 +522,7 @@ Template.creditlist.onRendered(function() {
                 $('#tblcreditlist tbody').on( 'click', 'tr', function () {
                     var listData = $(this).closest('tr').attr('id');
                     if(listData){
-                        Router.go('/creditcard?id=' + listData);
+                        FlowRouter.go('/creditcard?id=' + listData);
                     }
                 });
 
@@ -705,7 +705,7 @@ Template.creditlist.onRendered(function() {
               $('#tblcreditlist tbody').on( 'click', 'tr', function () {
                   var listData = $(this).closest('tr').attr('id');
                   if(listData){
-                      Router.go('/creditcard?id=' + listData);
+                      FlowRouter.go('/creditcard?id=' + listData);
                   }
               });
 
@@ -725,7 +725,7 @@ Template.creditlist.onRendered(function() {
 
 Template.creditlist.events({
     'click #btnNewCredit':function(event){
-        Router.go('/creditcard');
+        FlowRouter.go('/creditcard');
     },
     'click .chkDatatable' : function(event){
         var columns = $('#tblcreditlist th');

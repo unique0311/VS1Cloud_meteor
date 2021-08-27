@@ -235,7 +235,7 @@ Template.purchaseorderlistBO.onRendered(function() {
                     $('#tblpurchaseorderlistBO tbody').on( 'click', 'tr', function () {
                         var listData = $(this).closest('tr').attr('id');
                         if(listData){
-                            Router.go('/purchaseordercard?id=' + listData);
+                            FlowRouter.go('/purchaseordercard?id=' + listData);
                         }
                     });
 
@@ -425,7 +425,7 @@ Template.purchaseorderlistBO.onRendered(function() {
                             }, 100);
                         },
                         "fnInitComplete": function () {
-                          let urlParametersPage = Router.current().params.query.page;
+                          let urlParametersPage = FlowRouter.current().queryParams.page;
                           if(urlParametersPage){
                             this.fnPageChange('last');
                           }
@@ -514,7 +514,7 @@ Template.purchaseorderlistBO.onRendered(function() {
                 $('#tblpurchaseorderlistBO tbody').on( 'click', 'tr', function () {
                     var listData = $(this).closest('tr').attr('id');
                     if(listData){
-                        Router.go('/purchaseordercard?id=' + listData);
+                        FlowRouter.go('/purchaseordercard?id=' + listData);
                     }
                 });
 
@@ -696,7 +696,7 @@ Template.purchaseorderlistBO.onRendered(function() {
                 $('#tblpurchaseorderlistBO tbody').on( 'click', 'tr', function () {
                     var listData = $(this).closest('tr').attr('id');
                     if(listData){
-                        Router.go('/purchaseordercard?id=' + listData);
+                        FlowRouter.go('/purchaseordercard?id=' + listData);
                     }
                 });
 
@@ -716,10 +716,10 @@ Template.purchaseorderlistBO.onRendered(function() {
 
 Template.purchaseorderlistBO.events({
     'click #btnNewPurchaseOrder':function(event){
-        Router.go('/purchaseordercard');
+        FlowRouter.go('/purchaseordercard');
     },
     'click #btnPurchaseOrderList':function(event){
-        Router.go('/purchaseorderlist');
+        FlowRouter.go('/purchaseorderlist');
     },
     'click .chkDatatable' : function(event){
         var columns = $('#tblpurchaseorderlistBO th');

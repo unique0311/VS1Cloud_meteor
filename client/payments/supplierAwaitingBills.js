@@ -224,7 +224,7 @@ Template.supplierawaitingbills.onRendered(function() {
        $('#tblSupplierAwaitingBills tbody').on( 'click', 'tr .colPaymentDate, tr .colReceiptNo, tr .colPaymentAmount, tr .colApplied, tr .colBalance, tr .colCustomerName, tr .colDepartment, tr .colRefNo, tr .colPaymentMethod', function () {
        var listData = $(this).closest('tr').attr('id');
        if(listData){
-         Router.go('/supplierpaymentcard?billid='+ listData);
+         FlowRouter.go('/supplierpaymentcard?billid='+ listData);
        }
      });
 
@@ -458,7 +458,7 @@ Template.supplierawaitingbills.events({
          $.each(selectClient, function( k, v ) {
             result.push(v.awaitingId);
           });
-        Router.go('/supplierpaymentcard?selectsuppb='+ result);
+        FlowRouter.go('/supplierpaymentcard?selectsuppb='+ result);
      }
 
    }

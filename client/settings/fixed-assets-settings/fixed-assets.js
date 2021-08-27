@@ -19,7 +19,7 @@ Template.fixedAssetsSettings.onRendered(function () {
     let settingsService = new TaxRateService();
     const templateObject = Template.instance();
     let accountsList = [];
-    let tab = Router.current().params.tab;
+    let tab = FlowRouter.current().queryParams.tab;
     $('html').click(function () {
         $('.Fixed-notify').hide();
     })
@@ -210,18 +210,18 @@ Template.fixedAssetsSettings.events({
         switch (event.currentTarget.hash) {
             case '#assetType' :
                 templateObject.loaderOnAccount.set(false);
-                Router.go('/settings/fixedAssets/asset-type');
+                FlowRouter.go('/settings/fixedAssets/asset-type');
                 addColResizable('assetTypes');
                 break;
             case '#accounts' :
                 templateObject.loaderOnAccount.set(true);
-                Router.go('/settings/fixedAssets/accounts');
+                FlowRouter.go('/settings/fixedAssets/accounts');
                 break;
             case '#taxReporting' :
-                Router.go('/settings/fixedAssets/tax-reporting');
+                FlowRouter.go('/settings/fixedAssets/tax-reporting');
                 break;
             case '#pools' :
-                Router.go('/settings/fixedAssets/pools');
+                FlowRouter.go('/settings/fixedAssets/pools');
                 addColResizable('poolsTable');
                 break;
         }

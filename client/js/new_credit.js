@@ -162,7 +162,7 @@ Template.creditcard.onRendered(() => {
                     for (var i = 0; i < clientList.length; i++) {
                         $('#edtSupplierName').editableSelect('add', clientList[i].suppliername);
                     }
-                    if (Router.current().params.query.id) {
+                    if (FlowRouter.current().queryParams.id) {
 
                     } else {
                         setTimeout(function() {
@@ -206,7 +206,7 @@ Template.creditcard.onRendered(() => {
                 for (var i = 0; i < clientList.length; i++) {
                     $('#edtSupplierName').editableSelect('add', clientList[i].suppliername);
                 }
-                if (Router.current().params.query.id) {
+                if (FlowRouter.current().queryParams.id) {
 
                 } else {
                     setTimeout(function() {
@@ -248,7 +248,7 @@ Template.creditcard.onRendered(() => {
                 for (var i = 0; i < clientList.length; i++) {
                     $('#edtSupplierName').editableSelect('add', clientList[i].suppliername);
                 }
-                if (Router.current().params.query.id) {
+                if (FlowRouter.current().queryParams.id) {
 
                 } else {
                     setTimeout(function() {
@@ -312,7 +312,7 @@ Template.creditcard.onRendered(() => {
 
     templateObject.getAllClients();
     templateObject.getAllLeadStatuss();
-    var url = window.location.href;
+    var url = FlowRouter.current().path;
     if (url.indexOf('?id=') > 0) {
         var getso_id = url.split('?id=');
         var currentCredit = getso_id[getso_id.length - 1];
@@ -2686,7 +2686,7 @@ Template.creditcard.events({
         $('.fullScreenSpin').css('display', 'inline-block');
         let templateObject = Template.instance();
         let purchaseService = new PurchaseBoardService();
-        var url = window.location.href;
+        var url = FlowRouter.current().path;
         var getso_id = url.split('?id=');
         var currentInvoice = getso_id[getso_id.length - 1];
         var objDetails = '';
@@ -2703,7 +2703,7 @@ Template.creditcard.events({
             };
 
             purchaseService.saveCredit(objDetails).then(function(objDetails) {
-                Router.go('/creditlist?success=true');
+                FlowRouter.go('/creditlist?success=true');
             }).catch(function(err) {
                 swal({
                     title: 'Oooops...',
@@ -2721,7 +2721,7 @@ Template.creditcard.events({
                 $('.fullScreenSpin').css('display', 'none');
             });
         } else {
-            Router.go('/creditlist?success=true');
+            FlowRouter.go('/creditlist?success=true');
         }
         $('#deleteLineModal').modal('toggle');
     },
@@ -2927,7 +2927,7 @@ Template.creditcard.events({
             let saleCustField2 = $('#edtSaleCustField2').val();
             let orderStatus = $('#edtStatus').val();
 
-            var url = window.location.href;
+            var url = FlowRouter.current().path;
             var getso_id = url.split('?id=');
             var currentCredit = getso_id[getso_id.length - 1];
             let uploadedItems = templateObject.uploadedFiles.get();
@@ -3090,7 +3090,7 @@ Template.creditcard.events({
                                 attachments: attachment
                             }, function(error, result) {
                                 if (error && error.error === "error") {
-                                    Router.go('/creditlist?success=true');
+                                    FlowRouter.go('/creditlist?success=true');
 
                                 } else {
 
@@ -3106,7 +3106,7 @@ Template.creditcard.events({
                                 attachments: attachment
                             }, function(error, result) {
                                 if (error && error.error === "error") {
-                                    Router.go('/creditlist?success=true');
+                                    FlowRouter.go('/creditlist?success=true');
                                 } else {
                                     $('#html-2-pdfwrapper').css('display', 'none');
                                     swal({
@@ -3117,7 +3117,7 @@ Template.creditcard.events({
                                         confirmButtonText: 'OK'
                                     }).then((result) => {
                                         if (result.value) {
-                                            Router.go('/creditlist?success=true');
+                                            FlowRouter.go('/creditlist?success=true');
                                         } else if (result.dismiss === 'cancel') {
 
                                         }
@@ -3137,7 +3137,7 @@ Template.creditcard.events({
                                 attachments: attachment
                             }, function(error, result) {
                                 if (error && error.error === "error") {
-                                    Router.go('/creditlist?success=true');
+                                    FlowRouter.go('/creditlist?success=true');
 
                                 } else {
                                     $('#html-2-pdfwrapper').css('display', 'none');
@@ -3149,7 +3149,7 @@ Template.creditcard.events({
                                         confirmButtonText: 'OK'
                                     }).then((result) => {
                                         if (result.value) {
-                                            Router.go('/creditlist?success=true');
+                                            FlowRouter.go('/creditlist?success=true');
                                         } else if (result.dismiss === 'cancel') {
 
                                         }
@@ -3169,7 +3169,7 @@ Template.creditcard.events({
                                 attachments: attachment
                             }, function(error, result) {
                                 if (error && error.error === "error") {
-                                    Router.go('/creditlist?success=true');
+                                    FlowRouter.go('/creditlist?success=true');
                                 } else {
                                     $('#html-2-pdfwrapper').css('display', 'none');
                                     swal({
@@ -3180,7 +3180,7 @@ Template.creditcard.events({
                                         confirmButtonText: 'OK'
                                     }).then((result) => {
                                         if (result.value) {
-                                            Router.go('/creditlist?success=true');
+                                            FlowRouter.go('/creditlist?success=true');
                                         } else if (result.dismiss === 'cancel') {
 
                                         }
@@ -3191,7 +3191,7 @@ Template.creditcard.events({
                             });
 
                         } else {
-                            Router.go('/creditlist?success=true');
+                            FlowRouter.go('/creditlist?success=true');
                         };
                     };
                 }
@@ -3744,7 +3744,7 @@ Template.creditcard.events({
 
             let saleCustField1 = $('#edtSaleCustField1').val();
             let saleCustField2 = $('#edtSaleCustField2').val();
-            var url = window.location.href;
+            var url = FlowRouter.current().path;
             var getso_id = url.split('?id=');
             var currentCredit = getso_id[getso_id.length - 1];
             let uploadedItems = templateObject.uploadedFiles.get();

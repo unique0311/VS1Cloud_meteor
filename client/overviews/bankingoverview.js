@@ -595,29 +595,29 @@ Template.bankingoverview.onRendered(function() {
                         var transactiontype = $(event.target).closest("tr").find(".colType").text();
                         if ((listData) && (transactiontype)) {
                             if (transactiontype == "Un-Invoiced PO") {
-                                Router.go('/purchaseordercard?id=' + listData);
+                                FlowRouter.go('/purchaseordercard?id=' + listData);
                             } else if (transactiontype == "PO") {
-                                Router.go('/purchaseordercard?id=' + listData);
+                                FlowRouter.go('/purchaseordercard?id=' + listData);
                             } else if (transactiontype == "Invoice") {
-                                Router.go('/invoicecard?id=' + listData);
+                                FlowRouter.go('/invoicecard?id=' + listData);
                             } else if (transactiontype == "Credit") {
-                                Router.go('/creditcard?id=' + listData);
+                                FlowRouter.go('/creditcard?id=' + listData);
                             } else if (transactiontype == "Supplier Payment") {
-                                Router.go('/supplierpaymentcard?id=' + listData);
+                                FlowRouter.go('/supplierpaymentcard?id=' + listData);
                             } else if (transactiontype == "Bill") {
-                                Router.go('/billcard?id=' + listData);
+                                FlowRouter.go('/billcard?id=' + listData);
                             } else if (transactiontype == "Customer Payment") {
-                                Router.go('/paymentcard?id=' + listData);
+                                FlowRouter.go('/paymentcard?id=' + listData);
                             } else if (transactiontype == "Journal Entry") {
-                                Router.go('/journalentrycard?id=' + listData);
+                                FlowRouter.go('/journalentrycard?id=' + listData);
                             } else if (transactiontype == "UnInvoiced SO") {
-                                Router.go('/salesordercard?id=' + listData);
+                                FlowRouter.go('/salesordercard?id=' + listData);
                             } else if (transactiontype == "Cheque") {
-                                Router.go('/chequecard?id=' + listData);
+                                FlowRouter.go('/chequecard?id=' + listData);
                             } else if (transactiontype == "Check") {
-                                Router.go('/chequecard?id=' + listData);
+                                FlowRouter.go('/chequecard?id=' + listData);
                             } else {
-                                Router.go('/chequelist');
+                                FlowRouter.go('/chequelist');
                             }
 
                         }
@@ -895,29 +895,29 @@ Template.bankingoverview.onRendered(function() {
                     var transactiontype = $(event.target).closest("tr").find(".colType").text();
                     if ((listData) && (transactiontype)) {
                         if (transactiontype == "Un-Invoiced PO") {
-                            Router.go('/purchaseordercard?id=' + listData);
+                            FlowRouter.go('/purchaseordercard?id=' + listData);
                         } else if (transactiontype == "PO") {
-                            Router.go('/purchaseordercard?id=' + listData);
+                            FlowRouter.go('/purchaseordercard?id=' + listData);
                         } else if (transactiontype == "Invoice") {
-                            Router.go('/invoicecard?id=' + listData);
+                            FlowRouter.go('/invoicecard?id=' + listData);
                         } else if (transactiontype == "Credit") {
-                            Router.go('/creditcard?id=' + listData);
+                            FlowRouter.go('/creditcard?id=' + listData);
                         } else if (transactiontype == "Supplier Payment") {
-                            Router.go('/supplierpaymentcard?id=' + listData);
+                            FlowRouter.go('/supplierpaymentcard?id=' + listData);
                         } else if (transactiontype == "Bill") {
-                            Router.go('/billcard?id=' + listData);
+                            FlowRouter.go('/billcard?id=' + listData);
                         } else if (transactiontype == "Customer Payment") {
-                            Router.go('/paymentcard?id=' + listData);
+                            FlowRouter.go('/paymentcard?id=' + listData);
                         } else if (transactiontype == "Journal Entry") {
-                            Router.go('/journalentrycard?id=' + listData);
+                            FlowRouter.go('/journalentrycard?id=' + listData);
                         } else if (transactiontype == "UnInvoiced SO") {
-                            Router.go('/salesordercard?id=' + listData);
+                            FlowRouter.go('/salesordercard?id=' + listData);
                         } else if (transactiontype == "Cheque") {
-                            Router.go('/chequecard?id=' + listData);
+                            FlowRouter.go('/chequecard?id=' + listData);
                         } else if (transactiontype == "Check") {
-                            Router.go('/chequecard?id=' + listData);
+                            FlowRouter.go('/chequecard?id=' + listData);
                         } else {
-                            Router.go('/chequelist');
+                            FlowRouter.go('/chequelist');
                         }
 
                     }
@@ -1160,29 +1160,29 @@ Template.bankingoverview.onRendered(function() {
                     var transactiontype = $(event.target).closest("tr").find(".colType").text();
                     if ((listData) && (transactiontype)) {
                         if (transactiontype == "Un-Invoiced PO") {
-                            Router.go('/purchaseordercard?id=' + listData);
+                            FlowRouter.go('/purchaseordercard?id=' + listData);
                         } else if (transactiontype == "PO") {
-                            Router.go('/purchaseordercard?id=' + listData);
+                            FlowRouter.go('/purchaseordercard?id=' + listData);
                         } else if (transactiontype == "Invoice") {
-                            Router.go('/invoicecard?id=' + listData);
+                            FlowRouter.go('/invoicecard?id=' + listData);
                         } else if (transactiontype == "Credit") {
-                            Router.go('/creditcard?id=' + listData);
+                            FlowRouter.go('/creditcard?id=' + listData);
                         } else if (transactiontype == "Supplier Payment") {
-                            Router.go('/supplierpaymentcard?id=' + listData);
+                            FlowRouter.go('/supplierpaymentcard?id=' + listData);
                         } else if (transactiontype == "Bill") {
-                            Router.go('/billcard?id=' + listData);
+                            FlowRouter.go('/billcard?id=' + listData);
                         } else if (transactiontype == "Customer Payment") {
-                            Router.go('/paymentcard?id=' + listData);
+                            FlowRouter.go('/paymentcard?id=' + listData);
                         } else if (transactiontype == "Journal Entry") {
-                            Router.go('/journalentrycard?id=' + listData);
+                            FlowRouter.go('/journalentrycard?id=' + listData);
                         } else if (transactiontype == "UnInvoiced SO") {
-                            Router.go('/salesordercard?id=' + listData);
+                            FlowRouter.go('/salesordercard?id=' + listData);
                         } else if (transactiontype == "Cheque") {
-                            Router.go('/chequecard?id=' + listData);
+                            FlowRouter.go('/chequecard?id=' + listData);
                         } else if (transactiontype == "Check") {
-                            Router.go('/chequecard?id=' + listData);
+                            FlowRouter.go('/chequecard?id=' + listData);
                         } else {
-                            Router.go('/chequelist');
+                            FlowRouter.go('/chequelist');
                         }
 
                     }
@@ -1215,9 +1215,9 @@ Template.bankingoverview.onRendered(function() {
             });
     }
 
-    let urlParametersDateFrom = Router.current().params.query.fromDate;
-    let urlParametersDateTo = Router.current().params.query.toDate;
-    let urlParametersIgnoreDate = Router.current().params.query.ignoredate;
+    let urlParametersDateFrom = FlowRouter.current().queryParams.fromDate;
+    let urlParametersDateTo = FlowRouter.current().queryParams.toDate;
+    let urlParametersIgnoreDate = FlowRouter.current().queryParams.ignoredate;
     if(urlParametersDateFrom){
       if(urlParametersIgnoreDate == true){
         $('#dateFrom').attr('readonly', true);
@@ -1409,28 +1409,28 @@ Template.bankingoverview.events({
         templateObject.getAllFilterbankingData('', '', true);
     },
     'click #newSalesOrder': function(event) {
-        Router.go('/salesordercard');
+        FlowRouter.go('/salesordercard');
     },
     'click .btnNewDepositEnrty': function(event) {
-        Router.go('/depositcard');
+        FlowRouter.go('/depositcard');
     },
     'click .btnDepositList': function(event) {
-        Router.go('/depositlist');
+        FlowRouter.go('/depositlist');
     },
     'click .btnCustomerlist': function(event) {
-        Router.go('/customerpayment');
+        FlowRouter.go('/customerpayment');
     },
     'click #newInvoice': function(event) {
-        Router.go('/invoicecard');
+        FlowRouter.go('/invoicecard');
     },
     'click .btnSupplierPaymentList': function(event) {
-        Router.go('/supplierpayment');
+        FlowRouter.go('/supplierpayment');
     },
     'click #newQuote': function(event) {
-        Router.go('/quotecard');
+        FlowRouter.go('/quotecard');
     },
     'click .QuoteList': function(event) {
-        Router.go('/quoteslist');
+        FlowRouter.go('/quoteslist');
     },
     'click .chkDatatable': function(event) {
         var columns = $('#tblBankingOverview th');
@@ -1623,24 +1623,24 @@ Template.bankingoverview.events({
         $('.fullScreenSpin').css('display', 'none');
     },
     'click .openaccountpayable': function() {
-        Router.go('/chequelist');
+        FlowRouter.go('/chequelist');
     },
     'click .openaccountreceivable': function(event) {
         let id = $(event.target).closest('.openaccountreceivable').attr('id');
-        Router.go('/accounttransactions?id=' + id);
+        FlowRouter.go('/accounttransactions?id=' + id);
     },
     'click .btnPrinStatment': function() {
-        Router.go('/statementlist');
+        FlowRouter.go('/statementlist');
     },
     'click .btnStockAdjustment': function() {
-        Router.go('/chequelist');
+        FlowRouter.go('/chequelist');
     },
     'click .btnReconcile': function() {
-        //Router.go('/bankrecon');
+        //FlowRouter.go('/bankrecon');
         window.open('/bankrecon', '_self');
     },
     'click .btnReconList': function() {
-        Router.go('/reconciliationlist');
+        FlowRouter.go('/reconciliationlist');
     }
 });
 Template.bankingoverview.helpers({

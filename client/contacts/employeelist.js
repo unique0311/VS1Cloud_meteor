@@ -24,7 +24,7 @@ Template.employeelist.onRendered(function() {
     var splashArray = new Array();
     const dataTableList = [];
     const tableHeaderList = [];
-    if(Router.current().params.query.success){
+    if(FlowRouter.current().queryParams.success){
         $('.btnRefresh').addClass('btnRefreshAlert');
     }
     Meteor.call('readPrefMethod',Session.get('mycloudLogonID'),'tblEmployeelist', function(error, result){
@@ -211,7 +211,7 @@ Template.employeelist.onRendered(function() {
                     $('#tblEmployeelist tbody').on( 'click', 'tr', function () {
                         var listData = $(this).closest('tr').attr('id');
                         if(listData){
-                            Router.go('/employeescard?id=' + listData);
+                            FlowRouter.go('/employeescard?id=' + listData);
                         }
                     });
 
@@ -380,7 +380,7 @@ Template.employeelist.onRendered(function() {
                 $('#tblEmployeelist tbody').on( 'click', 'tr', function () {
                     var listData = $(this).closest('tr').attr('id');
                     if(listData){
-                        Router.go('/employeescard?id=' + listData);
+                        FlowRouter.go('/employeescard?id=' + listData);
                     }
                 });
             }
@@ -543,7 +543,7 @@ Template.employeelist.onRendered(function() {
                 $('#tblEmployeelist tbody').on( 'click', 'tr', function () {
                     var listData = $(this).closest('tr').attr('id');
                     if(listData){
-                        Router.go('/employeescard?id=' + listData);
+                        FlowRouter.go('/employeescard?id=' + listData);
                     }
                 });
 
@@ -560,7 +560,7 @@ Template.employeelist.onRendered(function() {
     $('#tblEmployeelist tbody').on( 'click', 'tr', function () {
         var listData = $(this).closest('tr').attr('id');
         if(listData){
-            Router.go('/employeescard?id=' + listData);
+            FlowRouter.go('/employeescard?id=' + listData);
         }
 
     });
@@ -571,7 +571,7 @@ Template.employeelist.onRendered(function() {
 
 Template.employeelist.events({
     'click #btnNewEmployee':function(event){
-        Router.go('/employeescard');
+        FlowRouter.go('/employeescard');
     },
     'click .btnAddVS1User':function(event){
         swal({
@@ -587,7 +587,7 @@ Template.employeelist.events({
                 $('#employeeListModal').modal('toggle');
                 // result.dismiss can be 'overlay', 'cancel', 'close', 'esc', 'timer'
             } else if (result.dismiss === 'cancel') {
-                Router.go('/employeescard?addvs1user=true');
+                FlowRouter.go('/employeescard?addvs1user=true');
             }
         })
     },

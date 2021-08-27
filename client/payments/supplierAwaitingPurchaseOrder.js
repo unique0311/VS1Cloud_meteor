@@ -256,17 +256,17 @@ Template.supplierawaitingpurchaseorder.onRendered(function () {
                         var transactiontype = $(event.target).closest("tr").find(".colType").text();
                         if ((listData) && (transactiontype)) {
                             if (transactiontype === 'Purchase Order') {
-                                Router.go('/supplierpaymentcard?poid=' + listData);
+                                FlowRouter.go('/supplierpaymentcard?poid=' + listData);
                             } else if (transactiontype === 'Bill') {
-                                Router.go('/supplierpaymentcard?billid=' + listData);
+                                FlowRouter.go('/supplierpaymentcard?billid=' + listData);
                             } else if (transactiontype === 'Credit') {
-                                Router.go('/supplierpaymentcard?creditid=' + listData);
+                                FlowRouter.go('/supplierpaymentcard?creditid=' + listData);
                             }
 
                         }
 
                         // if(listData){
-                        //  Router.go('/supplierpaymentcard?poid='+ listData);
+                        //  FlowRouter.go('/supplierpaymentcard?poid='+ listData);
                         // }
                     });
 
@@ -475,17 +475,17 @@ Template.supplierawaitingpurchaseorder.onRendered(function () {
                     var transactiontype = $(event.target).closest("tr").find(".colType").text();
                     if ((listData) && (transactiontype)) {
                         if (transactiontype === 'Purchase Order') {
-                            Router.go('/supplierpaymentcard?poid=' + listData);
+                            FlowRouter.go('/supplierpaymentcard?poid=' + listData);
                         } else if (transactiontype === 'Bill') {
-                            Router.go('/supplierpaymentcard?billid=' + listData);
+                            FlowRouter.go('/supplierpaymentcard?billid=' + listData);
                         } else if (transactiontype === 'Credit') {
-                            Router.go('/supplierpaymentcard?creditid=' + listData);
+                            FlowRouter.go('/supplierpaymentcard?creditid=' + listData);
                         }
 
                     }
 
                     // if(listData){
-                    //  Router.go('/supplierpaymentcard?poid='+ listData);
+                    //  FlowRouter.go('/supplierpaymentcard?poid='+ listData);
                     // }
                 });
             }
@@ -688,17 +688,17 @@ Template.supplierawaitingpurchaseorder.onRendered(function () {
                     var transactiontype = $(event.target).closest("tr").find(".colType").text();
                     if ((listData) && (transactiontype)) {
                         if (transactiontype === 'Purchase Order') {
-                            Router.go('/supplierpaymentcard?poid=' + listData);
+                            FlowRouter.go('/supplierpaymentcard?poid=' + listData);
                         } else if (transactiontype === 'Bill') {
-                            Router.go('/supplierpaymentcard?billid=' + listData);
+                            FlowRouter.go('/supplierpaymentcard?billid=' + listData);
                         } else if (transactiontype === 'Credit') {
-                            Router.go('/supplierpaymentcard?creditid=' + listData);
+                            FlowRouter.go('/supplierpaymentcard?creditid=' + listData);
                         }
 
                     }
 
                     // if(listData){
-                    //  Router.go('/supplierpaymentcard?poid='+ listData);
+                    //  FlowRouter.go('/supplierpaymentcard?poid='+ listData);
                     // }
                 });
 
@@ -718,17 +718,17 @@ Template.supplierawaitingpurchaseorder.onRendered(function () {
         var transactiontype = $(event.target).closest("tr").find(".colType").text();
         if ((listData) && (transactiontype)) {
             if (transactiontype === 'Purchase Order') {
-                Router.go('/supplierpaymentcard?poid=' + listData);
+                FlowRouter.go('/supplierpaymentcard?poid=' + listData);
             } else if (transactiontype === 'Bill') {
-                Router.go('/supplierpaymentcard?billid=' + listData);
+                FlowRouter.go('/supplierpaymentcard?billid=' + listData);
             } else if (transactiontype === 'Credit') {
-                Router.go('/supplierpaymentcard?creditid=' + listData);
+                FlowRouter.go('/supplierpaymentcard?creditid=' + listData);
             }
 
         }
 
         // if(listData){
-        //  Router.go('/supplierpaymentcard?poid='+ listData);
+        //  FlowRouter.go('/supplierpaymentcard?poid='+ listData);
         // }
     });
 });
@@ -755,7 +755,7 @@ Template.supplierawaitingpurchaseorder.events({
         });
     },
     'click .btnPaymentList': function() {
-        Router.go('/supplierpayment');
+        FlowRouter.go('/supplierpayment');
     },
     'click .resetTable': function (event) {
         var getcurrentCloudDetails = CloudUser.findOne({ _id: Session.get('mycloudLogonID'), clouddatabaseID: Session.get('mycloudLogonDBID') });
@@ -1010,7 +1010,7 @@ Template.supplierawaitingpurchaseorder.events({
                 }
 
             });
-            Router.go('/supplierpaymentcard?selectsupppo=' + resultPO + '&selectsuppbill=' + resultBill + '&selectsuppcredit=' + resultCredit);
+            FlowRouter.go('/supplierpaymentcard?selectsupppo=' + resultPO + '&selectsuppbill=' + resultBill + '&selectsuppcredit=' + resultCredit);
         }
 
     },

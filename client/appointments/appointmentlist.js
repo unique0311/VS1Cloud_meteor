@@ -132,131 +132,14 @@ Template.appointmentlist.onRendered(function () {
         }
         let currenctTodayDate = currentDate.getFullYear() + "-" + month + "-" + days + " " + hours + ":" + minutes + ":" + seconds;
         let templateObject = Template.instance();
-        getVS1Data('TAppointment').then(function (dataObject) {
-            if (dataObject.length == 0) {
-                sideBarService.getAllAppointmentList().then(function (data) {
-                    addVS1Data('TAppointment', JSON.stringify(data)).then(function (datareturn) {
+        sideBarService.getAllAppointmentList().then(function (data) {
+            addVS1Data('TAppointment', JSON.stringify(data)).then(function (datareturn) {
 
-                    }).catch(function (err) {
-
-                    });
-                }).catch(function (err) {
-
-                });
-            } else {
-                let data = JSON.parse(dataObject[0].data);
-                let useData = data.tappointmentex;
-                if (useData[0].Id) {
-                    sideBarService.getAllAppointmentList().then(function (data) {
-                        addVS1Data('TAppointment', JSON.stringify(data)).then(function (datareturn) {
-
-                        }).catch(function (err) {
-
-                        });
-                    }).catch(function (err) {
-
-                    });
-                } else {
-                    let getTimeStamp = dataObject[0].timestamp;
-                    if (getTimeStamp) {
-                        if (getTimeStamp[0] != currenctTodayDate) {
-                            sideBarService.getAllAppointmentList(getTimeStamp).then(function (dataUpdate) {
-                                let newDataObject = [];
-                                if (dataUpdate.tappointment.length === 0) {
-                                    sideBarService.getAllAppointmentList().then(function (data) {
-                                        addVS1Data('TAppointment', JSON.stringify(data)).then(function (datareturn) {
-
-                                        }).catch(function (err) {
-
-                                        });
-                                    }).catch(function (err) {
-
-                                    });
-                                } else {
-                                    let dataOld = JSON.parse(dataObject[0].data);
-                                    let oldObjectData = dataOld.tappointment;
-
-                                    let dataNew = dataUpdate;
-                                    let newObjectData = dataNew.tappointment;
-                                    let index = '';
-                                    let index2 = '';
-
-                                    var resultArray = []
-
-                                    oldObjectData.forEach(function (destObj) {
-                                        var addedcheck = false;
-                                        newObjectData.some(function (origObj) {
-                                            if (origObj.fields.ID == destObj.fields.ID) {
-                                                addedcheck = true;
-                                                index = oldObjectData.map(function (e) { return e.fields.ID; }).indexOf(parseInt(origObj.fields.ID));
-                                                destObj = origObj;
-                                                resultArray.push(destObj);
-
-                                            }
-                                        });
-                                        if (!addedcheck) {
-                                            resultArray.push(destObj)
-                                        }
-
-                                    });
-                                    newObjectData.forEach(function (origObj) {
-                                        var addedcheck = false;
-                                        oldObjectData.some(function (destObj) {
-                                            if (origObj.fields.ID == destObj.fields.ID) {
-                                                addedcheck = true;
-                                                index = oldObjectData.map(function (e) { return e.fields.ID; }).indexOf(parseInt(origObj.fields.ID));
-                                                destObj = origObj;
-                                                resultArray.push(destObj);
-
-                                            }
-                                        });
-                                        if (!addedcheck) {
-                                            resultArray.push(origObj)
-                                        }
-
-                                    });
-                                    var resultGetData = [];
-                                    $.each(resultArray, function (i, e) {
-                                        var matchingItems = $.grep(resultGetData, function (item) {
-                                            return item.fields.ID === e.fields.ID;
-                                        });
-                                        if (matchingItems.length === 0) {
-                                            resultGetData.push(e);
-                                        }
-                                    });
-
-                                    let dataToAdd = {
-                                        tappointment: resultGetData
-                                    };
-                                    addVS1Data('TAppointment', JSON.stringify(dataToAdd)).then(function (datareturn) {
-
-                                    }).catch(function (err) {
-
-                                    });
-                                }
-
-                            }).catch(function (err) {
-                                addVS1Data('TAppointment', dataObject[0].data).then(function (datareturn) {
-
-                                }).catch(function (err) {
-
-                                });
-                            });
-                        }
-
-                    }
-                }
-            }
-        }).catch(function (err) {
-            sideBarService.getAllAppointmentList().then(function (data) {
-                addVS1Data('TAppointment', JSON.stringify(data)).then(function (datareturn) {
-
-                }).catch(function (err) {
-
-                });
             }).catch(function (err) {
 
             });
+        }).catch(function (err) {
+
         });
     }
     $(".formClassDate").datepicker({
@@ -1016,7 +899,7 @@ Template.appointmentlist.onRendered(function () {
 
 Template.appointmentlist.events({
     'click #btnAppointment': function (event) {
-        Router.go('/appointments');
+        FlowRouter.go('/appointments');
     },
     'change #hideConverted': function () {
         let templateObject = Template.instance();
@@ -1339,7 +1222,7 @@ Template.appointmentlist.events({
             };
         }
         appointmentService.saveAppointment(objectData).then(function (data) {
-            //Router.go('/appointmentlist');
+            //FlowRouter.go('/appointmentlist');
             window.open('/appointmentlist', '_self');
         }).catch(function (err) {
             $('.fullScreenSpin').css('display', 'none');
@@ -1635,7 +1518,7 @@ Template.appointmentlist.events({
                             }
                         };
                         appointmentService.saveAppointment(objectDataConverted).then(function (data) {
-                            Router.go('/invoicelist?success=true');
+                            FlowRouter.go('/invoicelist?success=true');
                         }).catch(function (err) {
                             $('.fullScreenSpin').css('display', 'none');
                         });
@@ -1726,7 +1609,7 @@ Template.appointmentlist.events({
 
             }
             // appointmentService.appointmentCreateInv(selectClient).then(function (data) {
-            //   //Router.go('/appointmentlist');
+            //   //FlowRouter.go('/appointmentlist');
             //   //window.open('/appointments', '_self');
             // }).catch(function (err) {
             //   $('.fullScreenSpin').css('display', 'none');

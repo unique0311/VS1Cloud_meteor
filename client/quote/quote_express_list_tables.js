@@ -25,7 +25,7 @@ Template.quoteslist.onRendered(function() {
     var splashArray = new Array();
     const dataTableList = [];
     const tableHeaderList = [];
-    if(Router.current().params.query.success){
+    if(FlowRouter.current().queryParams.success){
         $('.btnRefresh').addClass('btnRefreshAlert');
     }
     Meteor.call('readPrefMethod',Session.get('mycloudLogonID'),'tblquotelist', function(error, result){
@@ -246,7 +246,7 @@ Template.quoteslist.onRendered(function() {
                     $('#tblquotelist tbody').on( 'click', 'tr', function () {
                         var listData = $(this).closest('tr').attr('id');
                         if(listData){
-                            Router.go('/quotecard?id=' + listData);
+                            FlowRouter.go('/quotecard?id=' + listData);
                         }
                     });
 
@@ -443,7 +443,7 @@ Template.quoteslist.onRendered(function() {
                             }, 100);
                         },
                         "fnInitComplete": function () {
-                          let urlParametersPage = Router.current().params.query.page;
+                          let urlParametersPage = FlowRouter.current().queryParams.page;
                           if(urlParametersPage){
                             this.fnPageChange('last');
                           }
@@ -534,7 +534,7 @@ Template.quoteslist.onRendered(function() {
                 $('#tblquotelist tbody').on( 'click', 'tr', function () {
                     var listData = $(this).closest('tr').attr('id');
                     if(listData){
-                        Router.go('/quotecard?id=' + listData);
+                        FlowRouter.go('/quotecard?id=' + listData);
                     }
                 });
             }
@@ -722,7 +722,7 @@ Template.quoteslist.onRendered(function() {
               $('#tblquotelist tbody').on( 'click', 'tr', function () {
                   var listData = $(this).closest('tr').attr('id');
                   if(listData){
-                      Router.go('/quotecard?id=' + listData);
+                      FlowRouter.go('/quotecard?id=' + listData);
                   }
               });
 
@@ -742,7 +742,7 @@ Template.quoteslist.onRendered(function() {
 
         //for(let i=0 ; i<splashArray.length ;i++){
         if(listData){
-            Router.go('/quotecard?id=' + listData);
+            FlowRouter.go('/quotecard?id=' + listData);
         }
         //}
     });
@@ -775,7 +775,7 @@ Template.quoteslist.helpers({
 
 Template.quoteslist.events({
     'click #btnNewQuote':function(event){
-        Router.go('/quotecard');
+        FlowRouter.go('/quotecard');
     },
     'click .chkDatatable' : function(event){
         var columns = $('#tblquotelist th');

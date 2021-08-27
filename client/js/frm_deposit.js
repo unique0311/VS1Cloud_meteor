@@ -722,7 +722,7 @@ Template.depositcard.onRendered(()=>{
     setTimeout(function () {
 
     }, 500);
-    var url = window.location.href;
+    var url = FlowRouter.current().path;
     if(url.indexOf('?id=') > 0){
         var getso_id = url.split('?id=');
         var currentDeposit = getso_id[getso_id.length-1];
@@ -1834,7 +1834,7 @@ Template.depositcard.events({
         }
     },
     'click .lineAccountName' : function(event){
-        var url = window.location.href;
+        var url = FlowRouter.current().path;
         var getso_id = url.split('?id=');
         if (!getso_id[1]) {
         $('#tblDepositEntryLine tbody tr .lineAccountName').attr("data-toggle","modal");
@@ -1974,7 +1974,7 @@ Template.depositcard.events({
         }).then((result) => {
             if (result.value) {
                 $('.fullScreenSpin').css('display','inline-block');
-                var url = window.location.href;
+                var url = FlowRouter.current().path;
                 var getso_id = url.split('?id=');
                 var currentInvoice = getso_id[getso_id.length-1];
                 var objDetails = '';
@@ -1991,7 +1991,7 @@ Template.depositcard.events({
                     };
 
                     purchaseService.saveBankDeposit(objDetails).then(function (objDetails) {
-                    Router.go('/depositlist?success=true');
+                    FlowRouter.go('/depositlist?success=true');
                     $('.modal-backdrop').css('display','none');
                     }).catch(function (err) {
                         swal({
@@ -2025,7 +2025,7 @@ Template.depositcard.events({
         $('.fullScreenSpin').css('display','inline-block');
         let templateObject = Template.instance();
         let purchaseService = new PurchaseBoardService();
-        var url = window.location.href;
+        var url = FlowRouter.current().path;
         var getso_id = url.split('?id=');
         var currentInvoice = getso_id[getso_id.length-1];
         var objDetails = '';
@@ -2041,7 +2041,7 @@ Template.depositcard.events({
             };
 
             purchaseService.saveBankDeposit(objDetails).then(function (objDetails) {
-            Router.go('/depositlist?success=true');
+            FlowRouter.go('/depositlist?success=true');
             $('.modal-backdrop').css('display','none');
             }).catch(function (err) {
                 swal({
@@ -2060,7 +2060,7 @@ Template.depositcard.events({
                 $('.fullScreenSpin').css('display','none');
             });
         }else{
-            Router.go('/depositlist?success=true');
+            FlowRouter.go('/depositlist?success=true');
             $('.modal-backdrop').css('display','none');
         }
 
@@ -2148,7 +2148,7 @@ Template.depositcard.events({
                     let transDate = transdateTime.getFullYear() + "-" + (transdateTime.getMonth()+1) + "-" + transdateTime.getDate();
                     let entryNo = $('#edtEnrtyNo').val();
 
-                    var url = window.location.href;
+                    var url = FlowRouter.current().path;
                     var getso_id = url.split('?id=');
                     var currentDeposit = getso_id[getso_id.length-1];
                     let uploadedItems = templateObject.uploadedFiles.get();
@@ -2249,7 +2249,7 @@ Template.depositcard.events({
                       };
                     }
                     purchaseService.saveBankDeposit(objDetails).then(function (objDetails) {
-                    Router.go('/depositlist?success=true');
+                    FlowRouter.go('/depositlist?success=true');
                     $('.modal-backdrop').css('display','none');
 
 
@@ -2286,7 +2286,7 @@ Template.depositcard.events({
             let transDate = transdateTime.getFullYear() + "-" + (transdateTime.getMonth()+1) + "-" + transdateTime.getDate();
             let entryNo = $('#edtEnrtyNo').val();
 
-            var url = window.location.href;
+            var url = FlowRouter.current().path;
             var getso_id = url.split('?id=');
             var currentDeposit = getso_id[getso_id.length-1];
             let uploadedItems = templateObject.uploadedFiles.get();
@@ -2387,7 +2387,7 @@ Template.depositcard.events({
               };
             }
             purchaseService.saveBankDeposit(objDetails).then(function (objDetails) {
-            Router.go('/depositlist?success=true');
+            FlowRouter.go('/depositlist?success=true');
             $('.modal-backdrop').css('display','none');
 
 

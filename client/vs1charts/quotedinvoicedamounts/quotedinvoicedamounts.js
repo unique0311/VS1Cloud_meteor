@@ -839,7 +839,7 @@ Template.quotedinvoicedamounts.onRendered(() => {
     function chartClickEvent(event, array) {
         if (array[0] != undefined) {
             var activePoints = item[0]['_model'].label;
-            Router.go('/agedpayables?month=' + activePoints);
+            FlowRouter.go('/agedpayables?month=' + activePoints);
         }
     }
 });

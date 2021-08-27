@@ -19,8 +19,8 @@ Template.registerdb.events({
    var country = event.target.country.value;
 
    let currentURLQuoteID = '';
-   if(Router.current().params.query.quoteid){
-     currentURLQuoteID = Router.current().params.query.quoteid;
+   if(FlowRouter.current().queryParams.quoteid){
+     currentURLQuoteID = FlowRouter.current().queryParams.quoteid;
    }
 
 
@@ -45,7 +45,7 @@ Template.registerdb.events({
    let renewalDiscountPrice = 0;
    let discountDesc = "";
 
-   var url = window.location.href;
+   var url = FlowRouter.current().path;
    let lineItemsForm = [];
    let lineItemObjForm = {};
    let extraModuleArr = [];
@@ -486,7 +486,7 @@ let last_name = $('#lname').val();
 let useremail = $('#email').val();
 let userpassword = $('#confirmpassword').val();
 
-let currentURL = Router.current().params.query;
+let currentURL = FlowRouter.current().queryParams;
 // if(currentURL.url){
 setTimeout(function () { window.open('https://www.depot.vs1cloud.com/vs1subscription/purchaseaddcustomer.php?firstname='+first_name+'&lastname='+last_name+'&email='+useremail+'&password='+userpassword+'&urlfrom='+currentURL.url+'','_self'); }, 1000);
 // }
@@ -652,7 +652,7 @@ Template.registerdb.onRendered( function() {
 
 
 
-  let currentURL = Router.current().params.query;
+  let currentURL = FlowRouter.current().queryParams;
 
   if(currentURL.company){
     $('#cname').val(currentURL.company);

@@ -236,7 +236,7 @@ Template.journalentrycard.onRendered(() => {
     setTimeout(function () {
         templateObject.getDepartments();
     }, 500);
-    var url = window.location.href;
+    var url = FlowRouter.current().path;
     if (url.indexOf('?id=') > 0) {
         var getso_id = url.split('?id=');
         var currentBill = getso_id[getso_id.length - 1];
@@ -1489,7 +1489,7 @@ Template.journalentrycard.events({
         }
     },
     'click .lineAccountName': function (event) {
-        var url = window.location.href;
+        var url = FlowRouter.current().path;
         var getso_id = url.split('?id=');
 
             $('#tblJournalEntryLine tbody tr .lineAccountName').attr("data-toggle", "modal");
@@ -1620,7 +1620,7 @@ Template.journalentrycard.events({
         $('.fullScreenSpin').css('display', 'inline-block');
         let templateObject = Template.instance();
         let purchaseService = new PurchaseBoardService();
-        var url = window.location.href;
+        var url = FlowRouter.current().path;
         var getso_id = url.split('?id=');
         var currentInvoice = getso_id[getso_id.length - 1];
         var objDetails = '';
@@ -1636,7 +1636,7 @@ Template.journalentrycard.events({
             };
 
             purchaseService.saveJournalEnrtry(objDetails).then(function (objDetails) {
-                Router.go('/journalentrylist?success=true');
+                FlowRouter.go('/journalentrylist?success=true');
                 $('.modal-backdrop').css('display', 'none');
             }).catch(function (err) {
               if(err === 'Error: "Unable to lock object: "'){
@@ -1648,7 +1648,7 @@ Template.journalentrycard.events({
                     confirmButtonText: 'Try Again'
                 }).then((result) => {
                     if (result.value) {
-                        Router.go('/journalentrylist');
+                        FlowRouter.go('/journalentrylist');
                     } else if (result.dismiss === 'cancel') {
 
                     }
@@ -1689,7 +1689,7 @@ Template.journalentrycard.events({
         }).then((result) => {
             if (result.value) {
                 $('.fullScreenSpin').css('display', 'inline-block');
-                var url = window.location.href;
+                var url = FlowRouter.current().path;
                 var getso_id = url.split('?id=');
                 var currentInvoice = getso_id[getso_id.length - 1];
                 var objDetails = '';
@@ -1705,7 +1705,7 @@ Template.journalentrycard.events({
                     };
 
                     purchaseService.saveJournalEnrtry(objDetails).then(function (objDetails) {
-                        Router.go('/journalentrylist?success=true');
+                        FlowRouter.go('/journalentrylist?success=true');
                         $('.modal-backdrop').css('display', 'none');
                     }).catch(function (err) {
                       if(err === 'Error: "Unable to lock object: "'){
@@ -1717,7 +1717,7 @@ Template.journalentrycard.events({
                             confirmButtonText: 'Try Again'
                         }).then((result) => {
                             if (result.value) {
-                                Router.go('/journalentrylist');
+                                FlowRouter.go('/journalentrylist');
                             } else if (result.dismiss === 'cancel') {
 
                             }
@@ -1740,7 +1740,7 @@ Template.journalentrycard.events({
                         $('.fullScreenSpin').css('display', 'none');
                     });
                 } else {
-                    Router.go('/journalentrylist?success=true');
+                    FlowRouter.go('/journalentrylist?success=true');
                     $('.modal-backdrop').css('display', 'none');
                 }
             } else {
@@ -1831,7 +1831,7 @@ Template.journalentrycard.events({
             let transDate = transdateTime.getFullYear() + "-" + (transdateTime.getMonth() + 1) + "-" + transdateTime.getDate();
             let entryNo = $('#edtEnrtyNo').val();
 
-            var url = window.location.href;
+            var url = FlowRouter.current().path;
             var getso_id = url.split('?id=');
             var currentBill = getso_id[getso_id.length - 1];
             let uploadedItems = templateObject.uploadedFiles.get();
@@ -1937,7 +1937,7 @@ Template.journalentrycard.events({
                 };
             }
             purchaseService.saveJournalEnrtry(objDetails).then(function (objDetails) {
-                Router.go('/journalentrylist?success=true');
+                FlowRouter.go('/journalentrylist?success=true');
                 $('.modal-backdrop').css('display', 'none');
 
 
@@ -1951,7 +1951,7 @@ Template.journalentrycard.events({
                     confirmButtonText: 'Try Again'
                 }).then((result) => {
                     if (result.value) {
-                      Router.go('/journalentrylist');
+                      FlowRouter.go('/journalentrylist');
 
                     } else if (result.dismiss === 'cancel') {
 

@@ -235,7 +235,7 @@ Template.supplierpayment.onRendered(function() {
                     $('#tblSupplierPayment tbody').on( 'click', 'tr', function () {
                         var listData = $(this).closest('tr').attr('id');
                         if(listData){
-                            Router.go('/supplierpaymentcard?id=' + listData);
+                            FlowRouter.go('/supplierpaymentcard?id=' + listData);
                         }
                     });
 
@@ -423,7 +423,7 @@ Template.supplierpayment.onRendered(function() {
                             }, 100);
                         },
                         "fnInitComplete": function () {
-                          let urlParametersPage = Router.current().params.query.page;
+                          let urlParametersPage = FlowRouter.current().queryParams.page;
                           if(urlParametersPage){
                             this.fnPageChange('last');
                           }
@@ -512,7 +512,7 @@ Template.supplierpayment.onRendered(function() {
                 $('#tblSupplierPayment tbody').on( 'click', 'tr', function () {
                     var listData = $(this).closest('tr').attr('id');
                     if(listData){
-                        Router.go('/supplierpaymentcard?id=' + listData);
+                        FlowRouter.go('/supplierpaymentcard?id=' + listData);
                     }
                 });
 
@@ -692,7 +692,7 @@ Template.supplierpayment.onRendered(function() {
               $('#tblSupplierPayment tbody').on( 'click', 'tr', function () {
                   var listData = $(this).closest('tr').attr('id');
                   if(listData){
-                      Router.go('/supplierpaymentcard?id=' + listData);
+                      FlowRouter.go('/supplierpaymentcard?id=' + listData);
                   }
               });
 
@@ -883,10 +883,10 @@ Template.supplierpayment.events({
 
     },
     'click .btnNewPayment': function () {
-        Router.go('/supplierawaitingpurchaseorder');
+        FlowRouter.go('/supplierawaitingpurchaseorder');
     },
     'click .btnAwaitingPayment': function () {
-        Router.go('/supplierawaitingpurchaseorder');
+        FlowRouter.go('/supplierawaitingpurchaseorder');
     },
     'click .btnRefresh': function () {
         $('.fullScreenSpin').css('display','inline-block');

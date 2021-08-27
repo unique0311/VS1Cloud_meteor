@@ -25,7 +25,7 @@ Template.salesorderslist.onRendered(function() {
     var splashArray = new Array();
     const dataTableList = [];
     const tableHeaderList = [];
-    if(Router.current().params.query.success){
+    if(FlowRouter.current().queryParams.success){
         $('.btnRefresh').addClass('btnRefreshAlert');
     }
     Meteor.call('readPrefMethod',Session.get('mycloudLogonID'),'tblSalesOrderlist', function(error, result){
@@ -248,7 +248,7 @@ Template.salesorderslist.onRendered(function() {
                     $('#tblSalesOrderlist tbody').on( 'click', 'tr', function () {
                         var listData = $(this).closest('tr').attr('id');
                         if(listData){
-                            Router.go('/salesordercard?id=' + listData);
+                            FlowRouter.go('/salesordercard?id=' + listData);
                         }
                     });
 
@@ -445,7 +445,7 @@ Template.salesorderslist.onRendered(function() {
                             }, 100);
                         },
                         "fnInitComplete": function () {
-                          let urlParametersPage = Router.current().params.query.page;
+                          let urlParametersPage = FlowRouter.current().queryParams.page;
                           if(urlParametersPage){
                             this.fnPageChange('last');
                           }
@@ -536,7 +536,7 @@ Template.salesorderslist.onRendered(function() {
                 $('#tblSalesOrderlist tbody').on( 'click', 'tr', function () {
                     var listData = $(this).closest('tr').attr('id');
                     if(listData){
-                        Router.go('/salesordercard?id=' + listData);
+                        FlowRouter.go('/salesordercard?id=' + listData);
                     }
                 });
 
@@ -727,7 +727,7 @@ Template.salesorderslist.onRendered(function() {
               $('#tblSalesOrderlist tbody').on( 'click', 'tr', function () {
                   var listData = $(this).closest('tr').attr('id');
                   if(listData){
-                      Router.go('/salesordercard?id=' + listData);
+                      FlowRouter.go('/salesordercard?id=' + listData);
                   }
               });
 
@@ -748,7 +748,7 @@ Template.salesorderslist.onRendered(function() {
 
         //for(let i=0 ; i<splashArray.length ;i++){
         if(listData){
-            Router.go('/salesordercard?id=' + listData);
+            FlowRouter.go('/salesordercard?id=' + listData);
         }
         //}
     });
@@ -770,7 +770,7 @@ Template.salesorderslist.helpers({
 
 Template.salesorderslist.events({
     'click #btnNewSalesOrder':function(event){
-        Router.go('/salesordercard');
+        FlowRouter.go('/salesordercard');
     },
     'click .chkDatatable' : function(event){
         var columns = $('#tblSalesOrderlist th');

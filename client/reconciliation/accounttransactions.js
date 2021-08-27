@@ -24,7 +24,7 @@ Template.accounttransactions.onRendered(function() {
     var splashArray = new Array();
     const dataTableList = [];
     const tableHeaderList = [];
-    if (Router.current().params.query.success) {
+    if (FlowRouter.current().queryParams.success) {
         $('.btnRefresh').addClass('btnRefreshAlert');
     }
     Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblchequelist', function(error, result) {
@@ -234,7 +234,7 @@ Template.accounttransactions.onRendered(function() {
                     $('#tblchequelist tbody').on('click', 'tr', function() {
                         var listData = $(this).closest('tr').attr('id');
                         if (listData) {
-                            Router.go('/chequecard?id=' + listData);
+                            FlowRouter.go('/chequecard?id=' + listData);
                         }
                     });
 
@@ -447,7 +447,7 @@ Template.accounttransactions.onRendered(function() {
             $('#tblchequelist tbody').on('click', 'tr', function() {
                 var listData = $(this).closest('tr').attr('id');
                 if (listData) {
-                    Router.go('/chequecard?id=' + listData);
+                    FlowRouter.go('/chequecard?id=' + listData);
                 }
             });
 
@@ -620,7 +620,7 @@ Template.accounttransactions.onRendered(function() {
                 $('#tblchequelist tbody').on('click', 'tr', function() {
                     var listData = $(this).closest('tr').attr('id');
                     if (listData) {
-                        Router.go('/chequecard?id=' + listData);
+                        FlowRouter.go('/chequecard?id=' + listData);
                     }
                 });
 
@@ -639,7 +639,7 @@ Template.accounttransactions.onRendered(function() {
 
 Template.accounttransactions.events({
     'click #btnNewCheque': function(event) {
-        Router.go('/chequecard');
+        FlowRouter.go('/chequecard');
     },
     'click .chkDatatable': function(event) {
         var columns = $('#tblchequelist th');

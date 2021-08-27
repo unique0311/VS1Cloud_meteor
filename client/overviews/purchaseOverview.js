@@ -418,21 +418,21 @@ Template.purchasesoverview.onRendered(function() {
                         var transactiontype = $(event.target).closest("tr").find(".colType").text();
                         if((listData) && (transactiontype)){
                             if(transactiontype === 'Purchase Order' ){
-                                Router.go('/purchaseordercard?id=' + listData);
+                                FlowRouter.go('/purchaseordercard?id=' + listData);
                             }else if(transactiontype === 'Bill'){
-                                Router.go('/billcard?id=' + listData);
+                                FlowRouter.go('/billcard?id=' + listData);
                             }else if(transactiontype === 'Credit'){
-                                Router.go('/creditcard?id=' + listData);
+                                FlowRouter.go('/creditcard?id=' + listData);
                             }else if(transactiontype === 'PO'){
-                                Router.go('/purchaseordercard?id=' + listData);
+                                FlowRouter.go('/purchaseordercard?id=' + listData);
                             }else{
-                                //Router.go('/purchaseordercard?id=' + listData);
+                                //FlowRouter.go('/purchaseordercard?id=' + listData);
                             }
 
                         }
 
                         // if(listData){
-                        //   Router.go('/purchaseordercard?id=' + listData);
+                        //   FlowRouter.go('/purchaseordercard?id=' + listData);
                         // }
                     });
 
@@ -792,21 +792,21 @@ Template.purchasesoverview.onRendered(function() {
                     var transactiontype = $(event.target).closest("tr").find(".colType").text();
                     if((listData) && (transactiontype)){
                         if(transactiontype === 'Purchase Order' ){
-                            Router.go('/purchaseordercard?id=' + listData);
+                            FlowRouter.go('/purchaseordercard?id=' + listData);
                         }else if(transactiontype === 'Bill'){
-                            Router.go('/billcard?id=' + listData);
+                            FlowRouter.go('/billcard?id=' + listData);
                         }else if(transactiontype === 'Credit'){
-                            Router.go('/creditcard?id=' + listData);
+                            FlowRouter.go('/creditcard?id=' + listData);
                         }else if(transactiontype === 'PO'){
-                            Router.go('/purchaseordercard?id=' + listData);
+                            FlowRouter.go('/purchaseordercard?id=' + listData);
                         }else{
-                            //Router.go('/purchaseordercard?id=' + listData);
+                            //FlowRouter.go('/purchaseordercard?id=' + listData);
                         }
 
                     }
 
                     // if(listData){
-                    //   Router.go('/purchaseordercard?id=' + listData);
+                    //   FlowRouter.go('/purchaseordercard?id=' + listData);
                     // }
                 });
 
@@ -1107,21 +1107,21 @@ Template.purchasesoverview.onRendered(function() {
                     var transactiontype = $(event.target).closest("tr").find(".colType").text();
                     if((listData) && (transactiontype)){
                         if(transactiontype === 'Purchase Order' ){
-                            Router.go('/purchaseordercard?id=' + listData);
+                            FlowRouter.go('/purchaseordercard?id=' + listData);
                         }else if(transactiontype === 'Bill'){
-                            Router.go('/billcard?id=' + listData);
+                            FlowRouter.go('/billcard?id=' + listData);
                         }else if(transactiontype === 'Credit'){
-                            Router.go('/creditcard?id=' + listData);
+                            FlowRouter.go('/creditcard?id=' + listData);
                         }else if(transactiontype === 'PO'){
-                            Router.go('/purchaseordercard?id=' + listData);
+                            FlowRouter.go('/purchaseordercard?id=' + listData);
                         }else{
-                            //Router.go('/purchaseordercard?id=' + listData);
+                            //FlowRouter.go('/purchaseordercard?id=' + listData);
                         }
 
                     }
 
                     // if(listData){
-                    //   Router.go('/purchaseordercard?id=' + listData);
+                    //   FlowRouter.go('/purchaseordercard?id=' + listData);
                     // }
                 });
 
@@ -1205,9 +1205,9 @@ Template.purchasesoverview.onRendered(function() {
       });
     }
 
-    let urlParametersDateFrom = Router.current().params.query.fromDate;
-    let urlParametersDateTo = Router.current().params.query.toDate;
-    let urlParametersIgnoreDate = Router.current().params.query.ignoredate;
+    let urlParametersDateFrom = FlowRouter.current().queryParams.fromDate;
+    let urlParametersDateTo = FlowRouter.current().queryParams.toDate;
+    let urlParametersIgnoreDate = FlowRouter.current().queryParams.ignoredate;
     if(urlParametersDateFrom){
       if(urlParametersIgnoreDate == true){
         $('#dateFrom').attr('readonly', true);
@@ -1398,46 +1398,46 @@ Template.purchasesoverview.events({
         templateObject.getAllFilterPurchasesData('', '', true);
     },
     'click #newPurchaseorder' : function(event){
-        Router.go('/purchaseordercard');
+        FlowRouter.go('/purchaseordercard');
     },
     'click .purchaseorderList' : function(event){
-        Router.go('/purchaseorderlist');
+        FlowRouter.go('/purchaseorderlist');
     },
     'click .purchaseorderListBO' : function(event){
-        Router.go('/purchaseorderlistBO');
+        FlowRouter.go('/purchaseorderlistBO');
     },
     'click #newBill' : function(event){
-        Router.go('/billcard');
+        FlowRouter.go('/billcard');
     },
     'click .billList' : function(event){
-        Router.go('/billlist');
+        FlowRouter.go('/billlist');
     },
     'click #newCredit' : function(event){
-        Router.go('/creditcard');
+        FlowRouter.go('/creditcard');
     },
     'click .creditList' : function(event){
-        Router.go('/creditlist');
+        FlowRouter.go('/creditlist');
     },
     'click .newpo' : function(event){
-        Router.go('/purchaseordercard');
+        FlowRouter.go('/purchaseordercard');
     },
     'click .cardBills' : function(event){
-        Router.go('/billlist');
+        FlowRouter.go('/billlist');
     },
     'click .cardCredit' : function(event){
-        Router.go('/creditlist');
+        FlowRouter.go('/creditlist');
     },
     'click .cardOutPO' : function(event){
-        Router.go('/agedpayables');
+        FlowRouter.go('/agedpayables');
     },
     'click .newBill' : function(event){
-        //Router.go('/creditcard');
+        //FlowRouter.go('/creditcard');
     },
     'click .newCredit' : function(event){
-        //Router.go('/creditcard');
+        //FlowRouter.go('/creditcard');
     },
     'click .allList' : function(event){
-        Router.go('/purchasesoverview?id=all');
+        FlowRouter.go('/purchasesoverview?id=all');
     },
     'click .chkDatatable' : function(event){
         var columns = $('#tblPurchaseOverview th');

@@ -241,7 +241,7 @@ Template.customerpayment.onRendered(function() {
                     $('#tblCustomerPayment tbody').on( 'click', 'tr', function () {
                         var listData = $(this).closest('tr').attr('id');
                         if(listData){
-                            Router.go('/paymentcard?id=' + listData);
+                            FlowRouter.go('/paymentcard?id=' + listData);
                         }
                     });
 
@@ -433,7 +433,7 @@ Template.customerpayment.onRendered(function() {
                             }, 100);
                         },
                         "fnInitComplete": function () {
-                          let urlParametersPage = Router.current().params.query.page;
+                          let urlParametersPage = FlowRouter.current().queryParams.page;
                           if(urlParametersPage){
                             this.fnPageChange('last');
                           }
@@ -522,7 +522,7 @@ Template.customerpayment.onRendered(function() {
                 $('#tblCustomerPayment tbody').on( 'click', 'tr', function () {
                     var listData = $(this).closest('tr').attr('id');
                     if(listData){
-                        Router.go('/paymentcard?id=' + listData);
+                        FlowRouter.go('/paymentcard?id=' + listData);
                     }
                 });
             }
@@ -708,7 +708,7 @@ Template.customerpayment.onRendered(function() {
               $('#tblCustomerPayment tbody').on( 'click', 'tr', function () {
                   var listData = $(this).closest('tr').attr('id');
                   if(listData){
-                      Router.go('/paymentcard?id=' + listData);
+                      FlowRouter.go('/paymentcard?id=' + listData);
                   }
               });
 
@@ -727,22 +727,22 @@ Template.customerpayment.onRendered(function() {
 
 Template.customerpayment.events({
     'click #newSalesOrder' : function(event){
-        Router.go('/salesordercard');
+        FlowRouter.go('/salesordercard');
     },
     'click .salesOrderList' : function(event){
-        Router.go('/salesorderslist');
+        FlowRouter.go('/salesorderslist');
     },
     'click #newInvoice' : function(event){
-        Router.go('/invoicecard');
+        FlowRouter.go('/invoicecard');
     },
     'click .invoiceList' : function(event){
-        Router.go('/invoicelist');
+        FlowRouter.go('/invoicelist');
     },
     'click #newQuote' : function(event){
-        Router.go('/quotecard');
+        FlowRouter.go('/quotecard');
     },
     'click .QuoteList' : function(event){
-        Router.go('/quoteslist');
+        FlowRouter.go('/quoteslist');
     },
     'click .chkDatatable' : function(event){
         var columns = $('#tblCustomerPayment th');
@@ -915,10 +915,10 @@ Template.customerpayment.events({
 
     },
     'click .btnNewPayment': function () {
-        Router.go('/customerawaitingpayments');
+        FlowRouter.go('/customerawaitingpayments');
     },
     'click .btnAwaitingPayment': function () {
-        Router.go('/customerawaitingpayments');
+        FlowRouter.go('/customerawaitingpayments');
     },
     'click .btnRefresh': function () {
         $('.fullScreenSpin').css('display','inline-block');

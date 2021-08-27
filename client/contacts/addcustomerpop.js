@@ -74,7 +74,7 @@ Template.addcustomerpop.onRendered(function () {
     let taxCodes = [];
 
 
-    let currentId = Router.current().params.query;
+    let currentId = FlowRouter.current().queryParams;
     let customerID = '';
     let totAmount = 0;
     let totAmountOverDue = 0;
@@ -601,7 +601,7 @@ Template.addcustomerpop.events({
     'click .btnBack': function (event) {
         // event.preventDefault();
         history.back(1);
-        //Router.go('/customerlist');
+        //FlowRouter.go('/customerlist');
     },
     'click .btnSaveDept': function () {
         $('.fullScreenSpin').css('display', 'inline-block');
@@ -862,7 +862,7 @@ Template.addcustomerpop.events({
         let customerType = $('#sltCustomerType').children("option:selected").val();
         let uploadedItems = templateObject.uploadedFiles.get();
 
-        var url = window.location.href;
+        var url = FlowRouter.current().path;
         var getemp_id = url.split('?id=');
         var currentEmployee = getemp_id[getemp_id.length - 1];
         var objDetails = '';
@@ -1177,7 +1177,7 @@ Template.addcustomerpop.events({
         let notesJob = $('#txaJobNotes').val();
 
         var objDetails = '';
-        var url = window.location.href;
+        var url = FlowRouter.current().path;
         var getemp_id = url.split('?jobid=');
         var currentEmployeeJob = getemp_id[getemp_id.length - 1];
         var objDetails = '';
@@ -1272,12 +1272,12 @@ Template.addcustomerpop.events({
         contactService.saveJobEx(objDetails).then(function (objDetails) {
             sideBarService.getAllJobssDataVS1(initialBaseDataLoad,0).then(function (dataReload) {
                 addVS1Data('TJobVS1', JSON.stringify(dataReload)).then(function (datareturn) {
-                    Router.go('/joblist?success=true');
+                    FlowRouter.go('/joblist?success=true');
                 }).catch(function (err) {
-                    Router.go('/joblist?success=true');
+                    FlowRouter.go('/joblist?success=true');
                 });
             }).catch(function (err) {
-                Router.go('/joblist?success=true');
+                FlowRouter.go('/joblist?success=true');
             });
 
             sideBarService.getAllCustomersDataVS1(initialBaseDataLoad,0).then(function (dataReload) {
@@ -1289,7 +1289,7 @@ Template.addcustomerpop.events({
             }).catch(function (err) {
 
             });
-            // let customerSaveID = Router.current().params.query;
+            // let customerSaveID = FlowRouter.current().queryParams;
             //   if(!isNaN(customerSaveID.id)){
             //         window.open('/customerscard?id=' + customerSaveID,'_self');
             //    }else if(!isNaN(customerSaveID.jobid)){
@@ -1564,7 +1564,7 @@ Template.addcustomerpop.events({
         Meteor._reload.reload();
     },
     'click .btnRefreshTransaction': function () {
-        let currentId = Router.current().params.query;
+        let currentId = FlowRouter.current().queryParams;
         $('.fullScreenSpin').css('display', 'inline-block');
         sideBarService.getTTransactionListReport().then(function (data) {
             addVS1Data('TTransactionListReport', JSON.stringify(data)).then(function (datareturn) {
@@ -1596,7 +1596,7 @@ Template.addcustomerpop.events({
         });
     },
     'click .btnRefreshJobDetails': function () {
-        let currentId = Router.current().params.query;
+        let currentId = FlowRouter.current().queryParams;
         $('.fullScreenSpin').css('display', 'inline-block');
         sideBarService.getAllJobssDataVS1(initialBaseDataLoad,0).then(function (data) {
             addVS1Data('TJobVS1', JSON.stringify(data)).then(function (datareturn) {
@@ -1852,7 +1852,7 @@ Template.addcustomerpop.events({
                         if (err) {
 
                         } else {
-                            let customerSaveID = Router.current().params.query;
+                            let customerSaveID = FlowRouter.current().queryParams;
                             if (!isNaN(customerSaveID.id)) {
                                 window.open('/customerscard?id=' + customerSaveID, '_self');
                             } else if (!isNaN(customerSaveID.jobid)) {
@@ -2238,7 +2238,7 @@ Template.addcustomerpop.events({
         let templateObject = Template.instance();
         let contactService2 = new ContactService();
 
-        let currentId = Router.current().params.query;
+        let currentId = FlowRouter.current().queryParams;
         var objDetails = '';
 
         if (!isNaN(currentId.id)) {
@@ -2252,7 +2252,7 @@ Template.addcustomerpop.events({
             };
 
             contactService2.saveCustomerEx(objDetails).then(function (objDetails) {
-                Router.go('/customerlist?success=true');
+                FlowRouter.go('/customerlist?success=true');
             }).catch(function (err) {
                 swal({
                     title: 'Oooops...',
@@ -2269,7 +2269,7 @@ Template.addcustomerpop.events({
                 $('.fullScreenSpin').css('display', 'none');
             });
         } else {
-            Router.go('/customerlist?success=true');
+            FlowRouter.go('/customerlist?success=true');
         }
         $('#deleteCustomerModal').modal('toggle');
     }

@@ -51,7 +51,7 @@ yearRange: "-90:+10",
 
   $("#dateFrom").val(fromDate);
    $("#dateTo").val(begunDate);
-let currenctURL = Router.current().params.query;
+let currenctURL = FlowRouter.current().queryParams;
     templateObject.getPurchasesReports = function (dateFrom, dateTo, ignoreDate) {
       templateObject.records.set('');
       templateObject.grandrecords.set('');

@@ -748,7 +748,7 @@ if(listData){
 
 Template.termsettings.events({
     'click #btnNewInvoice':function(event){
-        // Router.go('/invoicecard');
+        // FlowRouter.go('/invoicecard');
     },
     'click .chkDatatable' : function(event){
       var columns = $('#termsList th');

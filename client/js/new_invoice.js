@@ -239,7 +239,7 @@ Template.new_invoice.onRendered(() => {
                         //$('#edtCustomerName').editableSelect('add', clientList[i].customername);
                     }
 
-                    if (Router.current().params.query.id) {}
+                    if (FlowRouter.current().queryParams.id) {}
                     else {
                         setTimeout(function () {
                             $('#edtCustomerName').trigger( "click" );
@@ -282,7 +282,7 @@ Template.new_invoice.onRendered(() => {
                 for (var i = 0; i < clientList.length; i++) {
                     //$('#edtCustomerName').editableSelect('add', clientList[i].customername);
                 }
-                if (Router.current().params.query.id) {}
+                if (FlowRouter.current().queryParams.id) {}
                 else {
                     setTimeout(function () {
                         $('#edtCustomerName').trigger( "click" );
@@ -325,7 +325,7 @@ Template.new_invoice.onRendered(() => {
                 for (var i = 0; i < clientList.length; i++) {
                     //$('#edtCustomerName').editableSelect('add', clientList[i].customername);
                 }
-                if (Router.current().params.query.id) {}
+                if (FlowRouter.current().queryParams.id) {}
                 else {
                     setTimeout(function () {
                         $('#edtCustomerName').trigger( "click" );
@@ -394,15 +394,13 @@ Template.new_invoice.onRendered(() => {
         });
 
     };
-    let url2 = window.location.href;
+    let url2 = FlowRouter.current().path;
 
     templateObject.getAllClients();
     templateObject.getAllLeadStatuss();
-    var url = window.location.href;
+    var url = FlowRouter.current().path;
     let bankDetails = Session.get('vs1companyBankDetails') || '';
     // $('.bankDetails').html(bankDetails.replace(/[\r\n]/g, "<br />"));
-
-
     if (url.indexOf('?copyquid=') > 0) {
         var getso_id = url.split('?copyquid=');
         var currentInvoice = getso_id[getso_id.length - 1];
@@ -694,7 +692,7 @@ Template.new_invoice.onRendered(() => {
         }
     } else if (url.includes("id") && url.includes("total")) {
         $('.fullScreenSpin').css('display', 'inline-block');
-        url = new URL(url);
+        url = new URL(window.location.href);
         let dateStart = new Date();
         let transDate = ("0" + dateStart.getDate()).toString().slice(-2) + "/" + ("0" + (dateStart.getMonth() + 1)).toString().slice(-2) + "/" + dateStart.getFullYear();
         var getso_id = url.searchParams.get("id");
@@ -2019,7 +2017,7 @@ Template.new_invoice.onRendered(() => {
                         }, function (error, result) {
 
                             if (error && error.error === "error") {
-                                Router.go('/invoicelist?success=true');
+                                FlowRouter.go('/invoicelist?success=true');
                                 $('.fullScreenSpin').css('display', 'none');
                             } else {
                                 $('.fullScreenSpin').css('display', 'none');
@@ -2032,11 +2030,11 @@ Template.new_invoice.onRendered(() => {
                                 }).then((result) => {
                                     if (result.value) {
 
-                                        Router.go('/invoicelist?success=true');
+                                        FlowRouter.go('/invoicelist?success=true');
                                     } else if (result.dismiss === 'cancel') {
-                                        Router.go('/invoicelist?success=true');
+                                        FlowRouter.go('/invoicelist?success=true');
                                     } else {
-                                        Router.go('/invoicelist?success=true');
+                                        FlowRouter.go('/invoicelist?success=true');
                                     }
                                 });
                             }
@@ -4654,7 +4652,7 @@ Template.new_invoice.onRendered(() => {
             }, 500);
            }else{
              if(customerDataName != '' && customerDataID != ''){
-              Router.go('/customerscard?id=' + customerDataID);
+              FlowRouter.go('/customerscard?id=' + customerDataID);
              }else{
                $('#customerListModal').modal();
                setTimeout(function () {
@@ -4679,7 +4677,7 @@ Template.new_invoice.onRendered(() => {
       var customerDataID = $('#edtCustomerName').attr('custid').replace(/\s/g, '') ||'';
 
       if(customerDataName != '' && customerDataID != ''){
-        Router.go('/customerscard?id=' + customerDataID);
+        FlowRouter.go('/customerscard?id=' + customerDataID);
       }else{
         $('#customerListModal').modal();
         setTimeout(function () {
@@ -4703,7 +4701,7 @@ Template.new_invoice.onRendered(() => {
 //     var customerDataID = $('#edtCustomerName').attr('custid').replace(/\s/g, '') || '';
 //
 //     if (customerDataName != '' && customerDataID != '') {
-//         Router.go('/customerscard?id=' + customerDataID);
+//         FlowRouter.go('/customerscard?id=' + customerDataID);
 //     }
 // });
 
@@ -4712,7 +4710,7 @@ Template.new_invoice.onRendered(() => {
 //   var productDataID = $(event.target).attr('prodid').replace(/\s/g, '') || '';
 //
 //     if (productDataName != '' && productDataID != '') {
-//         Router.go('/productview?id=' + productDataID);
+//         FlowRouter.go('/productview?id=' + productDataID);
 //     }
 // });
 
@@ -4767,7 +4765,7 @@ Template.new_invoice.onRendered(() => {
         stringQuery = stringQuery + "tax=" + tax + "&total=" + total + "&customer=" + customer + "&name=" + name + "&surname=" + surname + "&quoteid=" + invoiceData.id + "&transid=" + stripe_id + "&feemethod=" + stripe_fee_method + "&company=" + company + "&vs1email=" + vs1User + "&customeremail=" + customerEmail + "&type=Invoice&url=" + window.location.href + "&server=" + erpGet.ERPIPAddress + "&username=" + erpGet.ERPUsername + "&token=" + erpGet.ERPPassword + "&session=" + erpGet.ERPDatabase + "&port=" + erpGet.ERPPort + "&dept=" + dept+"&currency="+currencyname;
         // var pdf = new jsPDF('p', 'pt', 'a4');
         // pdf.setFontSize(18);
-        $(".linkText").attr("href", "https://www.depot.vs1cloud.com/stripe/" + stringQuery);
+        $(".linkText").attr("href", stripeGlobalURL + stringQuery);
         var source = document.getElementById('html-2-pdfwrapper');
         let file = "Invoice.pdf";
         if ($('.printID').attr('id') != undefined || $('.printID').attr('id') != "") {
@@ -5523,7 +5521,7 @@ Template.new_invoice.events({
         let stripe_id = templateObject.accountID.get() || '';
         let stripe_fee_method = templateObject.stripe_fee_method.get();
         if (stripe_id != "") {
-            var url = window.location.href;
+            var url = FlowRouter.current().path;
             var id_available = url.includes("?id=");
             if (id_available == true) {
                 if ($('.edtCustomerEmail').val() != "") {
@@ -5566,7 +5564,7 @@ Template.new_invoice.events({
                         stringQuery = stringQuery + "product" + l + "=" + lineItems[l].description + "&price" + l + "=" + lineItems[l].unitPrice + "&qty" + l + "=" + lineItems[l].quantity + "&";
                     }
                     stringQuery = stringQuery + "tax=" + tax + "&total=" + total + "&customer=" + customer + "&name=" + name + "&surname=" + surname + "&quoteid=" + quoteData.id + "&transid=" + stripe_id + "&feemethod=" + stripe_fee_method + "&company=" + company + "&vs1email=" + vs1User + "&customeremail=" + customerEmail + "&type=Invoice&url=" + window.location.href + "&server=" + erpGet.ERPIPAddress + "&username=" + erpGet.ERPUsername + "&token=" + erpGet.ERPPassword + "&session=" + erpGet.ERPDatabase + "&port=" + erpGet.ERPPort + "&dept=" + dept+"&currency="+currencyname;
-                    window.open("https://www.depot.vs1cloud.com/stripe/" + stringQuery, '_self');
+                    window.open(stripeGlobalURL + stringQuery, '_self');
                 } else {
                     swal({
                         title: 'Customer Email Required',
@@ -5689,7 +5687,7 @@ Template.new_invoice.events({
                     let tax = $('#subtotal_tax').html() || 0;
                     let saleCustField1 = $('#edtSaleCustField1').val();
                     let saleCustField2 = $('#edtSaleCustField2').val();
-                    var url = window.location.href;
+                    var url = FlowRouter.current().path;
                     var getso_id = url.split('?id=');
                     var currentInvoice = getso_id[getso_id.length - 1];
                     let uploadedItems = templateObject.uploadedFiles.get();
@@ -5753,7 +5751,7 @@ Template.new_invoice.events({
                             stringQuery = stringQuery + "product" + l + "=" + lineItems[l].description + "&price" + l + "=" + lineItems[l].unitPrice + "&qty" + l + "=" + lineItems[l].quantity + "&";
                         }
                         stringQuery = stringQuery + "tax=" + tax + "&total=" + total + "&customer=" + customer + "&name=" + name + "&surname=" + surname + "&quoteid=" + objDetails.fields.ID + "&transid=" + stripe_id + "&feemethod=" + stripe_fee_method + "&company=" + company + "&vs1email=" + vs1User + "&customeremail=" + customerEmail + "&type=Invoice&url=" + window.location.href + "&server=" + erpGet.ERPIPAddress + "&username=" + erpGet.ERPUsername + "&token=" + erpGet.ERPPassword + "&session=" + erpGet.ERPDatabase + "&port=" + erpGet.ERPPort + "&dept=" + departement+"&currency="+currencyname;
-                        let url = "https://www.depot.vs1cloud.com/stripe/" + stringQuery;
+                        let url = stripeGlobalURL + stringQuery;
                         $('#html-2-pdfwrapper').css('display', 'block');
                         $('.pdfCustomerName').html($('#edtCustomerName').val());
                         $('.pdfCustomerAddress').html($('#txabillingAddress').val().replace(/[\r\n]/g, "<br />"));
@@ -5761,7 +5759,7 @@ Template.new_invoice.events({
                         function generatePdfForMail(invoiceId) {
                             let file = "Invoice-" + invoiceId + ".pdf"
                             return new Promise((resolve, reject) => {
-                                $(".linkText").attr("href", "https://www.depot.vs1cloud.com/stripe/" + stringQuery);
+                                $(".linkText").attr("href", stripeGlobalURL + stringQuery);
                                 let templateObject = Template.instance();
                                 let completeTabRecord;
                                 let doc = new jsPDF('p', 'pt', 'a4');
@@ -5841,7 +5839,7 @@ Template.new_invoice.events({
                                 '                </tr>' +
                                 '                <tr>' +
                                 '                    <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0 10px 0;">' +
-                                '                        Simply click on <a style="border: none; color: white; padding: 6px 12px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin: 4px 2px; cursor: pointer; background-color: #5cb85c; border-color: #4cae4c; border-radius: 10px;" href="https://www.depot.vs1cloud.com/stripe/' + stringQuery + '">Make Payment</a> to pay now.' +
+                                '                        Simply click on <a style="border: none; color: white; padding: 6px 12px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin: 4px 2px; cursor: pointer; background-color: #5cb85c; border-color: #4cae4c; border-radius: 10px;" href="'+stripeGlobalURL+ ''+ stringQuery + '">Make Payment</a> to pay now.' +
                                 '                    </td>' +
                                 '                </tr>' +
                                 '                <tr>' +
@@ -5880,7 +5878,7 @@ Template.new_invoice.events({
                                     attachments: attachment
                                 }, function (error, result) {
                                     if (error && error.error === "error") {
-                                        Router.go('/invoicelist?success=true');
+                                        FlowRouter.go('/invoicelist?success=true');
 
                                     } else {}
                                 });
@@ -5894,7 +5892,7 @@ Template.new_invoice.events({
                                     attachments: attachment
                                 }, function (error, result) {
                                     if (error && error.error === "error") {
-                                        Router.go('/invoicelist?success=true');
+                                        FlowRouter.go('/invoicelist?success=true');
                                     } else {
                                         $('#html-2-pdfwrapper').css('display', 'none');
                                         swal({
@@ -5923,7 +5921,7 @@ Template.new_invoice.events({
                                     attachments: attachment
                                 }, function (error, result) {
                                     if (error && error.error === "error") {
-                                        Router.go('/invoicelist?success=true');
+                                        FlowRouter.go('/invoicelist?success=true');
 
                                     } else {
                                         $('#html-2-pdfwrapper').css('display', 'none');
@@ -5953,7 +5951,7 @@ Template.new_invoice.events({
                                     attachments: attachment
                                 }, function (error, result) {
                                     if (error && error.error === "error") {
-                                        Router.go('/invoicelist?success=true');
+                                        FlowRouter.go('/invoicelist?success=true');
                                     } else {
                                         $('#html-2-pdfwrapper').css('display', 'none');
                                         swal({
@@ -6384,7 +6382,7 @@ Template.new_invoice.events({
           var productDataName = $(event.target).text().replace(/\s/g, '') || '';
           var productDataID = $(event.target).attr('prodid').replace(/\s/g, '') || '';
           if (productDataName != '') {
-            Router.go('/productview?prodname=' +  $(event.target).text());
+            FlowRouter.go('/productview?prodname=' +  $(event.target).text());
           }else{
             $('#productListModal').modal('toggle');
             var targetID = $(event.target).closest('tr').attr('id');
@@ -6594,7 +6592,7 @@ Template.new_invoice.events({
         $('.fullScreenSpin').css('display', 'inline-block');
         let templateObject = Template.instance();
         let salesService = new SalesBoardService();
-        var url = window.location.href;
+        var url = FlowRouter.current().path;
         var getso_id = url.split('?id=');
         var currentInvoice = getso_id[getso_id.length - 1];
         var objDetails = '';
@@ -6610,7 +6608,7 @@ Template.new_invoice.events({
             };
 
             salesService.saveInvoiceEx(objDetails).then(function (objDetails) {
-                Router.go('/invoicelist?success=true');
+                FlowRouter.go('/invoicelist?success=true');
             }).catch(function (err) {
                 swal({
                     title: 'Oooops...',
@@ -6625,7 +6623,7 @@ Template.new_invoice.events({
                 $('.fullScreenSpin').css('display', 'none');
             });
         } else {
-            Router.go('/invoicelist?success=true');
+            FlowRouter.go('/invoicelist?success=true');
         }
         $('#deleteLineModal').modal('toggle');
     },
@@ -6893,7 +6891,7 @@ Template.new_invoice.events({
             let tax = $('#subtotal_tax').html() || 0;
             let saleCustField1 = $('#edtSaleCustField1').val();
             let saleCustField2 = $('#edtSaleCustField2').val();
-            var url = window.location.href;
+            var url = FlowRouter.current().path;
             var getso_id = url.split('?id=');
             var currentInvoice = getso_id[getso_id.length - 1];
             let uploadedItems = templateObject.uploadedFiles.get();
@@ -6966,7 +6964,7 @@ Template.new_invoice.events({
                 function generatePdfForMail(invoiceId) {
                     let file = "Invoice-" + invoiceId + ".pdf"
                     return new Promise((resolve, reject) => {
-                        $(".linkText").attr("href", "https://www.depot.vs1cloud.com/stripe/" + stringQuery);
+                        $(".linkText").attr("href", stripeGlobalURL + stringQuery);
                         let templateObject = Template.instance();
                         let completeTabRecord;
                         let doc = new jsPDF('p', 'pt', 'a4');
@@ -7047,7 +7045,7 @@ Template.new_invoice.events({
                         '                </tr>' +
                         '                <tr>' +
                         '                    <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0 10px 0;">' +
-                        '                        Simply click on <a style="border: none; color: white; padding: 6px 12px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin: 4px 2px; cursor: pointer; background-color: #5cb85c; border-color: #4cae4c; border-radius: 10px;" href="https://www.depot.vs1cloud.com/stripe/' + stringQuery + '">Make Payment</a> to pay now.' +
+                        '                        Simply click on <a style="border: none; color: white; padding: 6px 12px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin: 4px 2px; cursor: pointer; background-color: #5cb85c; border-color: #4cae4c; border-radius: 10px;" href="'+stripeGlobalURL+'' + stringQuery + '">Make Payment</a> to pay now.' +
                         '                    </td>' +
                         '                </tr>' +
                         '                <tr>' +
@@ -7086,7 +7084,7 @@ Template.new_invoice.events({
                             attachments: attachment
                         }, function (error, result) {
                             if (error && error.error === "error") {
-                                Router.go('/invoicelist?success=true');
+                                FlowRouter.go('/invoicelist?success=true');
 
                             } else {}
                         });
@@ -7100,7 +7098,7 @@ Template.new_invoice.events({
                             attachments: attachment
                         }, function (error, result) {
                             if (error && error.error === "error") {
-                                Router.go('/invoicelist?success=true');
+                                FlowRouter.go('/invoicelist?success=true');
                             } else {
                                 $('#html-2-pdfwrapper').css('display', 'none');
                                 swal({
@@ -7128,7 +7126,7 @@ Template.new_invoice.events({
                             attachments: attachment
                         }, function (error, result) {
                             if (error && error.error === "error") {
-                                Router.go('/invoicelist?success=true');
+                                FlowRouter.go('/invoicelist?success=true');
 
                             } else {
                                 $('#html-2-pdfwrapper').css('display', 'none');
@@ -7140,7 +7138,7 @@ Template.new_invoice.events({
                                     confirmButtonText: 'OK'
                                 }).then((result) => {
                                     if (result.value) {
-                                        Router.go('/invoicelist?success=true');
+                                        FlowRouter.go('/invoicelist?success=true');
                                     } else if (result.dismiss === 'cancel') {}
                                 });
 
@@ -7158,7 +7156,7 @@ Template.new_invoice.events({
                             attachments: attachment
                         }, function (error, result) {
                             if (error && error.error === "error") {
-                                Router.go('/invoicelist?success=true');
+                                FlowRouter.go('/invoicelist?success=true');
                             } else {
                                 $('#html-2-pdfwrapper').css('display', 'none');
                                 swal({
@@ -7169,7 +7167,7 @@ Template.new_invoice.events({
                                     confirmButtonText: 'OK'
                                 }).then((result) => {
                                     if (result.value) {
-                                        Router.go('/invoicelist?success=true');
+                                        FlowRouter.go('/invoicelist?success=true');
                                     } else if (result.dismiss === 'cancel') {}
                                 });
 
@@ -7178,7 +7176,7 @@ Template.new_invoice.events({
                         });
 
                     } else {
-                        Router.go('/invoicelist?success=true');
+                        FlowRouter.go('/invoicelist?success=true');
                     };
 
                 }
@@ -7666,7 +7664,7 @@ Template.new_invoice.events({
     },
     'click #btnPayment': function () {
 
-        var currenturl = window.location.href;
+        var currenturl = FlowRouter.current().path;
         var getcurrent_id = currenturl.split('?id=');
         var currentId = getcurrent_id[getcurrent_id.length - 1];
         let templateObject = Template.instance();
@@ -7775,7 +7773,7 @@ Template.new_invoice.events({
 
             let saleCustField1 = $('#edtSaleCustField1').val();
             let saleCustField2 = $('#edtSaleCustField2').val();
-            var url = window.location.href;
+            var url = FlowRouter.current().path;
             var getso_id = url.split('?id=');
             var currentInvoice = getso_id[getso_id.length - 1];
             let uploadedItems = templateObject.uploadedFiles.get();
@@ -8119,7 +8117,7 @@ Template.new_invoice.events({
 
     },
     'click #btnViewPayment': function () {
-        var url = window.location.href;
+        var url = FlowRouter.current().path;
         var getso_id = url.split('?id=');
         var currentInvoice = getso_id[getso_id.length - 1];
 
@@ -8133,7 +8131,7 @@ Template.new_invoice.events({
     },
     'click #btnCopyInvoice': function () {
         $('.fullScreenSpin').css('display', 'inline-block');
-        var url = window.location.href;
+        var url = FlowRouter.current().path;
         if ((url.indexOf('?id=') > 0) || (url.indexOf('?copyquid=') > 0) || (url.indexOf('?copyinvid='))) {
             let templateObject = Template.instance();
             let customername = $('#edtCustomerName');
@@ -8239,7 +8237,7 @@ Template.new_invoice.events({
 
                 let saleCustField1 = $('#edtSaleCustField1').val();
                 let saleCustField2 = $('#edtSaleCustField2').val();
-                var url = window.location.href;
+                var url = FlowRouter.current().path;
                 var getso_id = url.split('?id=');
                 var currentInvoice = getso_id[getso_id.length - 1];
                 let uploadedItems = templateObject.uploadedFiles.get();

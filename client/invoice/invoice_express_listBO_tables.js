@@ -25,7 +25,7 @@ Template.invoicelistBO.onRendered(function() {
     var splashArray = new Array();
     const dataTableList = [];
     const tableHeaderList = [];
-    if(Router.current().params.query.success){
+    if(FlowRouter.current().queryParams.success){
         $('.btnRefresh').addClass('btnRefreshAlert');
     }
 
@@ -251,7 +251,7 @@ Template.invoicelistBO.onRendered(function() {
                     $('#tblInvoicelistBO tbody').on( 'click', 'tr', function () {
                         var listData = $(this).closest('tr').attr('id');
                         if(listData){
-                            Router.go('/invoicecard?id=' + listData);
+                            FlowRouter.go('/invoicecard?id=' + listData);
                         }
                     });
 
@@ -450,7 +450,7 @@ Template.invoicelistBO.onRendered(function() {
                             }, 100);
                         },
                         "fnInitComplete": function () {
-                          let urlParametersPage = Router.current().params.query.page;
+                          let urlParametersPage = FlowRouter.current().queryParams.page;
                           if(urlParametersPage){
                             this.fnPageChange('last');
                           }
@@ -541,7 +541,7 @@ Template.invoicelistBO.onRendered(function() {
                 $('#tblInvoicelistBO tbody').on( 'click', 'tr', function () {
                     var listData = $(this).closest('tr').attr('id');
                     if(listData){
-                        Router.go('/invoicecard?id=' + listData);
+                        FlowRouter.go('/invoicecard?id=' + listData);
                     }
                 });
 
@@ -734,7 +734,7 @@ Template.invoicelistBO.onRendered(function() {
                 $('#tblInvoicelistBO tbody').on( 'click', 'tr', function () {
                     var listData = $(this).closest('tr').attr('id');
                     if(listData){
-                        Router.go('/invoicecard?id=' + listData);
+                        FlowRouter.go('/invoicecard?id=' + listData);
                     }
                 });
 
@@ -752,7 +752,7 @@ Template.invoicelistBO.onRendered(function() {
     $('#tblInvoicelistBO tbody').on( 'click', 'tr', function () {
         var listData = $(this).closest('tr').attr('id');
         if(listData){
-            Router.go('/invoicecard?id=' + listData);
+            FlowRouter.go('/invoicecard?id=' + listData);
         }
 
     });
@@ -763,10 +763,10 @@ Template.invoicelistBO.onRendered(function() {
 
 Template.invoicelistBO.events({
     'click #btnNewInvoice':function(event){
-        Router.go('/invoicecard');
+        FlowRouter.go('/invoicecard');
     },
     'click #btnInvoiceList':function(event){
-        Router.go('/invoicelist');
+        FlowRouter.go('/invoicelist');
     },
     'click .chkDatatable' : function(event){
         var columns = $('#tblInvoicelistBO th');

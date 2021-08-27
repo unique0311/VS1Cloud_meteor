@@ -711,15 +711,15 @@ Template.salesoverview.onRendered(function() {
             var transactiontype = $(event.target).closest("tr").find(".colType").text();
             if((listData) && (transactiontype)){
                 if(transactiontype === 'Invoice' ){
-                    Router.go('/invoicecard?id=' + listData);
+                    FlowRouter.go('/invoicecard?id=' + listData);
                 }else if(transactiontype === 'Quote'){
-                    Router.go('/quotecard?id=' + listData);
+                    FlowRouter.go('/quotecard?id=' + listData);
                 }else if(transactiontype === 'Sales Order'){
-                    Router.go('/salesordercard?id=' + listData);
+                    FlowRouter.go('/salesordercard?id=' + listData);
                 }else if(transactiontype === 'Refund'){
-                    Router.go('/refundcard?id=' + listData);
+                    FlowRouter.go('/refundcard?id=' + listData);
                 }else{
-                    //Router.go('/purchaseordercard?id=' + listData);
+                    //FlowRouter.go('/purchaseordercard?id=' + listData);
                 }
 
             }
@@ -745,9 +745,9 @@ Template.salesoverview.onRendered(function() {
             });
     }
 
-    let urlParametersDateFrom = Router.current().params.query.fromDate;
-    let urlParametersDateTo = Router.current().params.query.toDate;
-    let urlParametersIgnoreDate = Router.current().params.query.ignoredate;
+    let urlParametersDateFrom = FlowRouter.current().queryParams.fromDate;
+    let urlParametersDateTo = FlowRouter.current().queryParams.toDate;
+    let urlParametersIgnoreDate = FlowRouter.current().queryParams.ignoredate;
     if(urlParametersDateFrom){
       if(urlParametersIgnoreDate == true){
         $('#dateFrom').attr('readonly', true);
@@ -958,40 +958,40 @@ Template.salesoverview.events({
         }
     },
     'click #newSalesOrder' : function(event){
-        Router.go('/salesordercard');
+        FlowRouter.go('/salesordercard');
     },
     'click .salesOrderList' : function(event){
-        Router.go('/salesorderslist');
+        FlowRouter.go('/salesorderslist');
     },
     'click #newInvoice' : function(event){
-        Router.go('/invoicecard');
+        FlowRouter.go('/invoicecard');
     },
     'click #newRefund' : function(event){
-        Router.go('/refundcard');
+        FlowRouter.go('/refundcard');
     },
     'click .invoiceList' : function(event){
-        Router.go('/invoicelist');
+        FlowRouter.go('/invoicelist');
     },
     'click .invoiceListBO' : function(event){
-        Router.go('/invoicelistBO');
+        FlowRouter.go('/invoicelistBO');
     },
     'click #newQuote' : function(event){
-        Router.go('/quotecard');
+        FlowRouter.go('/quotecard');
     },
     'click .QuoteList' : function(event){
-        Router.go('/quoteslist');
+        FlowRouter.go('/quoteslist');
     },
     'click .btnTaxRateSettings' : function(event){
         $('.modal-backdrop').css('display','none');
-        Router.go('/taxratesettings');
+        FlowRouter.go('/taxratesettings');
     },
     'click .btnTermsSettings' : function(event){
         $('.modal-backdrop').css('display','none');
-        Router.go('/termsettings');
+        FlowRouter.go('/termsettings');
     },
     'click .btnCurrencySettings' : function(event){
         $('.modal-backdrop').css('display','none');
-        Router.go('/currenciesSettings');
+        FlowRouter.go('/currenciesSettings');
     },
     'click .chkDatatable' : function(event){
         var columns = $('#tblSalesOverview th');

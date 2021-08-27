@@ -175,16 +175,16 @@ Template.purchasesaleschart.helpers({
 
 Template.purchasesaleschart.events({
     'click .overdueInvoiceAmt':function(event){
-        Router.go('/agedreceivables');
+        FlowRouter.go('/agedreceivables');
     },
     'click .overdueInvoiceQty':function(event){
-        Router.go('/agedreceivablessummary');
+        FlowRouter.go('/agedreceivablessummary');
     },
     'click .outstaningPayablesAmt':function(event){
-        Router.go('/agedpayables');
+        FlowRouter.go('/agedpayables');
     },
     'click .outstaningPayablesQty':function(event){
-        Router.go('/agedpayablessummary');
+        FlowRouter.go('/agedpayablessummary');
     }
 });
 

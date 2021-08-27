@@ -826,7 +826,7 @@ Template.departmentSettings.onRendered(function() {
 
 Template.departmentSettings.events({
     'click #btnNewInvoice':function(event){
-        // Router.go('/invoicecard');
+        // FlowRouter.go('/invoicecard');
     },
     'click .chkDatatable' : function(event){
         var columns = $('#departmentList th');

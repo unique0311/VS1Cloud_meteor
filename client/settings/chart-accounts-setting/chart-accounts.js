@@ -148,8 +148,8 @@ Template.chartOfAccountSettings.onRendered(() => {
     tempInstance.getAllTaxCodes();
     /*End of Tax Drop Down*/
 
-    let tab = Router.current().params.tab;
-    let filterParam = Router.current().params.query;
+    let tab = FlowRouter.current().queryParams.tab;
+    let filterParam = FlowRouter.current().queryParams;
     if (!$.isEmptyObject(filterParam)) {
         switch (tab) {
             case 'all-accounts':
@@ -306,7 +306,7 @@ Template.chartOfAccountSettings.events({
         let templateObject = Template.instance();
         let utilityService = new UtilityService();
         let tableRecords= templateObject.records.get();
-        let tab = Router.current().params.tab;
+        let tab = FlowRouter.current().queryParams.tab;
         let currentTab=[];
         switch (tab) {
             case 'all-accounts':
@@ -381,7 +381,7 @@ Template.chartOfAccountSettings.events({
           let  templateObject = Template.instance();
             let recordsCopy  =  templateObject.records.get();
 
-            let tab = Router.current().params.tab;
+            let tab = FlowRouter.current().queryParams.tab;
             switch (tab) {
                 case 'all-accounts':
                     $('#SearchTermsText-allaccountlist').val('');
@@ -435,42 +435,42 @@ Template.chartOfAccountSettings.events({
 
             switch (event.currentTarget.id) {
                 case 'all-accounts' :
-                    Router.go('/settings/accounts/all-accounts');
+                    FlowRouter.go('/settings/accounts/all-accounts');
                     templateObject.currentTableId.set('allaccountlist');
                     recordsCopy  = recordsCopy.allaccountlist;
                     break;
                 case 'assets-accounts' :
-                    Router.go('/settings/accounts/assets-accounts');
+                    FlowRouter.go('/settings/accounts/assets-accounts');
                     templateObject.currentTableId.set('accountassetslist');
                     recordsCopy  = recordsCopy.accountassetslist;
                     templateObject.unchecked(event);
                     break;
                 case 'liabilities-accounts' :
-                    Router.go('/settings/accounts/liabilities-accounts');
+                    FlowRouter.go('/settings/accounts/liabilities-accounts');
                     templateObject.currentTableId.set('accountliabilitylist');
                     recordsCopy  = recordsCopy.accountliabilitylist;
                     templateObject.unchecked(event);
                     break;
                 case 'equity-accounts' :
-                    Router.go('/settings/accounts/equity-accounts');
+                    FlowRouter.go('/settings/accounts/equity-accounts');
                     templateObject.currentTableId.set('accountequitylist');
                     recordsCopy  = recordsCopy.accountequitylist;
                     templateObject.unchecked(event);
                     break;
                 case 'expenses-accounts' :
-                    Router.go('/settings/accounts/expenses-accounts');
+                    FlowRouter.go('/settings/accounts/expenses-accounts');
                     templateObject.currentTableId.set('accountexpenselist');
                     recordsCopy  = recordsCopy.accountexpenselist;
                     templateObject.unchecked(event);
                     break;
                 case 'revenue-accounts' :
-                    Router.go('/settings/accounts/revenue-accounts');
+                    FlowRouter.go('/settings/accounts/revenue-accounts');
                     templateObject.currentTableId.set('accountrevenuelist');
                     recordsCopy  = recordsCopy.accountrevenuelist;
                     templateObject.unchecked(event);
                     break;
                 case 'archive-accounts' :
-                    Router.go('/settings/accounts/archive-accounts');
+                    FlowRouter.go('/settings/accounts/archive-accounts');
                     templateObject.currentTableId.set('accountarchivelist');
                     recordsCopy  = recordsCopy.accountarchivelist;
                     templateObject.unchecked(event);
@@ -732,7 +732,7 @@ Template.chartOfAccountSettings.events({
             }
         };
 
-        let tab = Router.current().params.tab;
+        let tab = FlowRouter.current().queryParams.tab;
         switch (tab) {
             case 'all-accounts':
                 recordsCopy  = recordsCopy.allaccountlist;
@@ -1015,7 +1015,7 @@ Template.chartOfAccountSettings.onRendered(function () {
 
 
     let accountListService = new TaxRateService();
-    let tab = Router.current().params.tab;
+    let tab = FlowRouter.current().queryParams.tab;
     switch (tab) {
         case 'all-accounts':
             $('.chart-accounts-tab-li a[href="#Accounts"]').trigger('click');

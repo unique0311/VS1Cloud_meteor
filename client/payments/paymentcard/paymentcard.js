@@ -523,7 +523,7 @@ Template.paymentcard.onRendered(() => {
                     $('#tblcustomerAwaitingPayment tbody').on( 'click', 'tr .colPaymentDate, tr .colReceiptNo, tr .colPaymentAmount, tr .colApplied, tr .colBalance, tr .colCustomerName, tr .colDepartment, tr .colRefNo, tr .colPaymentMethod, tr .colNotes', function () {
                         var listData = $(this).closest('tr').attr('id');
                         if(listData){
-                            Router.go('/paymentcard?invid='+ listData);
+                            FlowRouter.go('/paymentcard?invid='+ listData);
                         }
                     });
 
@@ -720,7 +720,7 @@ Template.paymentcard.onRendered(() => {
                 $('#tblcustomerAwaitingPayment tbody').on( 'click', 'tr .colPaymentDate, tr .colReceiptNo, tr .colPaymentAmount, tr .colApplied, tr .colBalance, tr .colCustomerName, tr .colDepartment, tr .colRefNo, tr .colPaymentMethod, tr .colNotes', function () {
                     var listData = $(this).closest('tr').attr('id');
                     if(listData){
-                        Router.go('/paymentcard?invid='+ listData);
+                        FlowRouter.go('/paymentcard?invid='+ listData);
                     }
                 });
 
@@ -911,7 +911,7 @@ Template.paymentcard.onRendered(() => {
                 $('#tblcustomerAwaitingPayment tbody').on( 'click', 'tr .colPaymentDate, tr .colReceiptNo, tr .colPaymentAmount, tr .colApplied, tr .colBalance, tr .colCustomerName, tr .colDepartment, tr .colRefNo, tr .colPaymentMethod, tr .colNotes', function () {
                     var listData = $(this).closest('tr').attr('id');
                     if(listData){
-                        Router.go('/paymentcard?invid='+ listData);
+                        FlowRouter.go('/paymentcard?invid='+ listData);
                     }
                 });
 
@@ -1035,7 +1035,7 @@ Template.paymentcard.onRendered(() => {
         }
     });
 
-    var url = window.location.href;
+    var url = FlowRouter.current().path;
     if(url.indexOf('?id=') > 0){
         var getsale_id = url.split('?id=');
         var currentSalesID = getsale_id[getsale_id.length-1];
@@ -2747,7 +2747,7 @@ Template.paymentcard.events({
         Session.setPersistent('paymentmethod', payMethod);
         Session.setPersistent('banaccount', bankAccount);
         Session.setPersistent('department', department);
-        var url = window.location.href;
+        var url = FlowRouter.current().path;
         if(url.indexOf('?soid=') > 0){
             var getsale_id = url.split('?soid=');
             var currentSalesID = getsale_id[getsale_id.length-1];
@@ -3191,7 +3191,7 @@ Template.paymentcard.events({
                                         attachments : attachment
                                     }, function (error, result) {
                                         if (error && error.error === "error") {
-                                            Router.go('/paymentoverview?success=true');
+                                            FlowRouter.go('/paymentoverview?success=true');
 
                                         } else {
 
@@ -3207,7 +3207,7 @@ Template.paymentcard.events({
                                         attachments : attachment
                                     }, function (error, result) {
                                         if (error && error.error === "error") {
-                                            Router.go('/paymentoverview?success=true');
+                                            FlowRouter.go('/paymentoverview?success=true');
                                         } else {
                                             $('#html-2-pdfwrapper').css('display','none');
                                             swal({
@@ -3218,7 +3218,7 @@ Template.paymentcard.events({
                                                 confirmButtonText: 'OK'
                                             }).then((result) => {
                                                 if (result.value) {
-                                                    Router.go('/paymentoverview?success=true');
+                                                    FlowRouter.go('/paymentoverview?success=true');
                                                 } else if (result.dismiss === 'cancel') {
 
                                                 }
@@ -3238,7 +3238,7 @@ Template.paymentcard.events({
                                         attachments : attachment
                                     }, function (error, result) {
                                         if (error && error.error === "error") {
-                                            Router.go('/paymentoverview?success=true');
+                                            FlowRouter.go('/paymentoverview?success=true');
 
                                         } else {
                                             $('#html-2-pdfwrapper').css('display','none');
@@ -3250,7 +3250,7 @@ Template.paymentcard.events({
                                                 confirmButtonText: 'OK'
                                             }).then((result) => {
                                                 if (result.value) {
-                                                    Router.go('/paymentoverview?success=true');
+                                                    FlowRouter.go('/paymentoverview?success=true');
                                                 } else if (result.dismiss === 'cancel') {
 
                                                 }
@@ -3270,7 +3270,7 @@ Template.paymentcard.events({
                                         attachments : attachment
                                     }, function (error, result) {
                                         if (error && error.error === "error") {
-                                            Router.go('/paymentoverview?success=true');
+                                            FlowRouter.go('/paymentoverview?success=true');
                                         } else {
                                             $('#html-2-pdfwrapper').css('display','none');
                                             swal({
@@ -3281,7 +3281,7 @@ Template.paymentcard.events({
                                                 confirmButtonText: 'OK'
                                             }).then((result) => {
                                                 if (result.value) {
-                                                    Router.go('/paymentoverview?success=true');
+                                                    FlowRouter.go('/paymentoverview?success=true');
                                                 } else if (result.dismiss === 'cancel') {
 
                                                 }
@@ -3292,7 +3292,7 @@ Template.paymentcard.events({
                                     });
 
                                 }else{
-                                    Router.go('/paymentoverview?success=true');
+                                    FlowRouter.go('/paymentoverview?success=true');
                                 };
                             };
 
@@ -3328,12 +3328,12 @@ Template.paymentcard.events({
                             // });
                             };
                         $('.fullScreenSpin').css('display','none');
-                        //Router.go('/paymentoverview?success=true');
+                        //FlowRouter.go('/paymentoverview?success=true');
 
 
 
                     }).catch(function (err) {
-                        // Router.go('/paymentoverview?success=true');
+                        // FlowRouter.go('/paymentoverview?success=true');
                         swal({
                             title: 'Oooops...',
                             text: err,
@@ -3468,7 +3468,7 @@ Template.paymentcard.events({
                                         attachments : attachment
                                     }, function (error, result) {
                                         if (error && error.error === "error") {
-                                            Router.go('/paymentoverview?success=true');
+                                            FlowRouter.go('/paymentoverview?success=true');
 
                                         } else {
 
@@ -3484,7 +3484,7 @@ Template.paymentcard.events({
                                         attachments : attachment
                                     }, function (error, result) {
                                         if (error && error.error === "error") {
-                                            Router.go('/paymentoverview?success=true');
+                                            FlowRouter.go('/paymentoverview?success=true');
                                         } else {
                                             $('#html-2-pdfwrapper').css('display','none');
                                             swal({
@@ -3495,7 +3495,7 @@ Template.paymentcard.events({
                                                 confirmButtonText: 'OK'
                                             }).then((result) => {
                                                 if (result.value) {
-                                                    Router.go('/paymentoverview?success=true');
+                                                    FlowRouter.go('/paymentoverview?success=true');
                                                 } else if (result.dismiss === 'cancel') {
 
                                                 }
@@ -3515,7 +3515,7 @@ Template.paymentcard.events({
                                         attachments : attachment
                                     }, function (error, result) {
                                         if (error && error.error === "error") {
-                                            Router.go('/paymentoverview?success=true');
+                                            FlowRouter.go('/paymentoverview?success=true');
 
                                         } else {
                                             $('#html-2-pdfwrapper').css('display','none');
@@ -3527,7 +3527,7 @@ Template.paymentcard.events({
                                                 confirmButtonText: 'OK'
                                             }).then((result) => {
                                                 if (result.value) {
-                                                    Router.go('/paymentoverview?success=true');
+                                                    FlowRouter.go('/paymentoverview?success=true');
                                                 } else if (result.dismiss === 'cancel') {
 
                                                 }
@@ -3547,7 +3547,7 @@ Template.paymentcard.events({
                                         attachments : attachment
                                     }, function (error, result) {
                                         if (error && error.error === "error") {
-                                            Router.go('/paymentoverview?success=true');
+                                            FlowRouter.go('/paymentoverview?success=true');
                                         } else {
                                             $('#html-2-pdfwrapper').css('display','none');
                                             swal({
@@ -3558,7 +3558,7 @@ Template.paymentcard.events({
                                                 confirmButtonText: 'OK'
                                             }).then((result) => {
                                                 if (result.value) {
-                                                    Router.go('/paymentoverview?success=true');
+                                                    FlowRouter.go('/paymentoverview?success=true');
                                                 } else if (result.dismiss === 'cancel') {
 
                                                 }
@@ -3569,7 +3569,7 @@ Template.paymentcard.events({
                                     });
 
                                 }else{
-                                    Router.go('/paymentoverview?success=true');
+                                    FlowRouter.go('/paymentoverview?success=true');
                                 };
                             };
 
@@ -3605,9 +3605,9 @@ Template.paymentcard.events({
                             // });
                             };
                         $('.fullScreenSpin').css('display','none');
-                        // Router.go('/paymentoverview?success=true');
+                        // FlowRouter.go('/paymentoverview?success=true');
                     }).catch(function (err) {
-                        // Router.go('/paymentoverview?success=true');
+                        // FlowRouter.go('/paymentoverview?success=true');
                         swal({
                             title: 'Oooops...',
                             text: err,
@@ -4066,7 +4066,7 @@ Template.paymentcard.events({
                                 attachments : attachment
                             }, function (error, result) {
                                 if (error && error.error === "error") {
-                                    Router.go('/paymentoverview?success=true');
+                                    FlowRouter.go('/paymentoverview?success=true');
 
                                 } else {
 
@@ -4082,7 +4082,7 @@ Template.paymentcard.events({
                                 attachments : attachment
                             }, function (error, result) {
                                 if (error && error.error === "error") {
-                                    Router.go('/paymentoverview?success=true');
+                                    FlowRouter.go('/paymentoverview?success=true');
                                 } else {
                                     $('#html-2-pdfwrapper').css('display','none');
                                     swal({
@@ -4093,7 +4093,7 @@ Template.paymentcard.events({
                                         confirmButtonText: 'OK'
                                     }).then((result) => {
                                         if (result.value) {
-                                            Router.go('/paymentoverview?success=true');
+                                            FlowRouter.go('/paymentoverview?success=true');
                                         } else if (result.dismiss === 'cancel') {
 
                                         }
@@ -4113,7 +4113,7 @@ Template.paymentcard.events({
                                 attachments : attachment
                             }, function (error, result) {
                                 if (error && error.error === "error") {
-                                    Router.go('/paymentoverview?success=true');
+                                    FlowRouter.go('/paymentoverview?success=true');
 
                                 } else {
                                     $('#html-2-pdfwrapper').css('display','none');
@@ -4125,7 +4125,7 @@ Template.paymentcard.events({
                                         confirmButtonText: 'OK'
                                     }).then((result) => {
                                         if (result.value) {
-                                            Router.go('/paymentoverview?success=true');
+                                            FlowRouter.go('/paymentoverview?success=true');
                                         } else if (result.dismiss === 'cancel') {
 
                                         }
@@ -4145,7 +4145,7 @@ Template.paymentcard.events({
                                 attachments : attachment
                             }, function (error, result) {
                                 if (error && error.error === "error") {
-                                    Router.go('/paymentoverview?success=true');
+                                    FlowRouter.go('/paymentoverview?success=true');
                                 } else {
                                     $('#html-2-pdfwrapper').css('display','none');
                                     swal({
@@ -4156,7 +4156,7 @@ Template.paymentcard.events({
                                         confirmButtonText: 'OK'
                                     }).then((result) => {
                                         if (result.value) {
-                                            Router.go('/paymentoverview?success=true');
+                                            FlowRouter.go('/paymentoverview?success=true');
                                         } else if (result.dismiss === 'cancel') {
 
                                         }
@@ -4167,7 +4167,7 @@ Template.paymentcard.events({
                             });
 
                         }else{
-                            Router.go('/paymentoverview?success=true');
+                            FlowRouter.go('/paymentoverview?success=true');
                         };
                     };
 
@@ -4203,9 +4203,9 @@ Template.paymentcard.events({
                     // });
                     };
                 $('.fullScreenSpin').css('display','none');
-                // Router.go('/paymentoverview?success=true');
+                // FlowRouter.go('/paymentoverview?success=true');
             }).catch(function (err) {
-                //Router.go('/paymentoverview?success=true');
+                //FlowRouter.go('/paymentoverview?success=true');
                 swal({
                     title: 'Oooops...',
                     text: err,
@@ -4322,7 +4322,7 @@ Template.paymentcard.events({
                             attachments : attachment
                         }, function (error, result) {
                             if (error && error.error === "error") {
-                                Router.go('/paymentoverview?success=true');
+                                FlowRouter.go('/paymentoverview?success=true');
 
                             } else {
 
@@ -4338,7 +4338,7 @@ Template.paymentcard.events({
                             attachments : attachment
                         }, function (error, result) {
                             if (error && error.error === "error") {
-                                Router.go('/paymentoverview?success=true');
+                                FlowRouter.go('/paymentoverview?success=true');
                             } else {
                                 $('#html-2-pdfwrapper').css('display','none');
                                 swal({
@@ -4349,7 +4349,7 @@ Template.paymentcard.events({
                                     confirmButtonText: 'OK'
                                 }).then((result) => {
                                     if (result.value) {
-                                        Router.go('/paymentoverview?success=true');
+                                        FlowRouter.go('/paymentoverview?success=true');
                                     } else if (result.dismiss === 'cancel') {
 
                                     }
@@ -4369,7 +4369,7 @@ Template.paymentcard.events({
                             attachments : attachment
                         }, function (error, result) {
                             if (error && error.error === "error") {
-                                Router.go('/paymentoverview?success=true');
+                                FlowRouter.go('/paymentoverview?success=true');
 
                             } else {
                                 $('#html-2-pdfwrapper').css('display','none');
@@ -4381,7 +4381,7 @@ Template.paymentcard.events({
                                     confirmButtonText: 'OK'
                                 }).then((result) => {
                                     if (result.value) {
-                                        Router.go('/paymentoverview?success=true');
+                                        FlowRouter.go('/paymentoverview?success=true');
                                     } else if (result.dismiss === 'cancel') {
 
                                     }
@@ -4401,7 +4401,7 @@ Template.paymentcard.events({
                             attachments : attachment
                         }, function (error, result) {
                             if (error && error.error === "error") {
-                                Router.go('/paymentoverview?success=true');
+                                FlowRouter.go('/paymentoverview?success=true');
                             } else {
                                 $('#html-2-pdfwrapper').css('display','none');
                                 swal({
@@ -4412,7 +4412,7 @@ Template.paymentcard.events({
                                     confirmButtonText: 'OK'
                                 }).then((result) => {
                                     if (result.value) {
-                                        Router.go('/paymentoverview?success=true');
+                                        FlowRouter.go('/paymentoverview?success=true');
                                     } else if (result.dismiss === 'cancel') {
 
                                     }
@@ -4423,7 +4423,7 @@ Template.paymentcard.events({
                         });
 
                     }else{
-                        Router.go('/paymentoverview?success=true');
+                        FlowRouter.go('/paymentoverview?success=true');
                     };
                 };
 
@@ -4501,7 +4501,7 @@ Template.paymentcard.events({
                 $('.fullScreenSpin').css('display','none');
 
             }).catch(function (err) {
-                // Router.go('/paymentoverview?success=true');
+                // FlowRouter.go('/paymentoverview?success=true');
                 // swal({
                 // title: 'Oooops...',
                 // text: err,
@@ -4662,7 +4662,7 @@ Template.paymentcard.events({
                                         attachments : attachment
                                     }, function (error, result) {
                                         if (error && error.error === "error") {
-                                            Router.go('/paymentoverview?success=true');
+                                            FlowRouter.go('/paymentoverview?success=true');
 
                                         } else {
 
@@ -4678,7 +4678,7 @@ Template.paymentcard.events({
                                         attachments : attachment
                                     }, function (error, result) {
                                         if (error && error.error === "error") {
-                                            Router.go('/paymentoverview?success=true');
+                                            FlowRouter.go('/paymentoverview?success=true');
                                         } else {
                                             $('#html-2-pdfwrapper').css('display','none');
                                             swal({
@@ -4689,7 +4689,7 @@ Template.paymentcard.events({
                                                 confirmButtonText: 'OK'
                                             }).then((result) => {
                                                 if (result.value) {
-                                                    Router.go('/paymentoverview?success=true');
+                                                    FlowRouter.go('/paymentoverview?success=true');
                                                 } else if (result.dismiss === 'cancel') {
 
                                                 }
@@ -4709,7 +4709,7 @@ Template.paymentcard.events({
                                         attachments : attachment
                                     }, function (error, result) {
                                         if (error && error.error === "error") {
-                                            Router.go('/paymentoverview?success=true');
+                                            FlowRouter.go('/paymentoverview?success=true');
 
                                         } else {
                                             $('#html-2-pdfwrapper').css('display','none');
@@ -4721,7 +4721,7 @@ Template.paymentcard.events({
                                                 confirmButtonText: 'OK'
                                             }).then((result) => {
                                                 if (result.value) {
-                                                    Router.go('/paymentoverview?success=true');
+                                                    FlowRouter.go('/paymentoverview?success=true');
                                                 } else if (result.dismiss === 'cancel') {
 
                                                 }
@@ -4741,7 +4741,7 @@ Template.paymentcard.events({
                                         attachments : attachment
                                     }, function (error, result) {
                                         if (error && error.error === "error") {
-                                            Router.go('/paymentoverview?success=true');
+                                            FlowRouter.go('/paymentoverview?success=true');
                                         } else {
                                             $('#html-2-pdfwrapper').css('display','none');
                                             swal({
@@ -4752,7 +4752,7 @@ Template.paymentcard.events({
                                                 confirmButtonText: 'OK'
                                             }).then((result) => {
                                                 if (result.value) {
-                                                    Router.go('/paymentoverview?success=true');
+                                                    FlowRouter.go('/paymentoverview?success=true');
                                                 } else if (result.dismiss === 'cancel') {
 
                                                 }
@@ -4763,7 +4763,7 @@ Template.paymentcard.events({
                                     });
 
                                 }else{
-                                    Router.go('/paymentoverview?success=true');
+                                    FlowRouter.go('/paymentoverview?success=true');
                                 };
                             };
 
@@ -4799,9 +4799,9 @@ Template.paymentcard.events({
                             // });
                             };
                         $('.fullScreenSpin').css('display','none');
-                        // Router.go('/paymentoverview?success=true');
+                        // FlowRouter.go('/paymentoverview?success=true');
                     }).catch(function (err) {
-                        // Router.go('/paymentoverview?success=true');
+                        // FlowRouter.go('/paymentoverview?success=true');
                         swal({
                             title: 'Oooops...',
                             text: err,
@@ -4936,7 +4936,7 @@ Template.paymentcard.events({
                                         attachments : attachment
                                     }, function (error, result) {
                                         if (error && error.error === "error") {
-                                            Router.go('/paymentoverview?success=true');
+                                            FlowRouter.go('/paymentoverview?success=true');
 
                                         } else {
 
@@ -4952,7 +4952,7 @@ Template.paymentcard.events({
                                         attachments : attachment
                                     }, function (error, result) {
                                         if (error && error.error === "error") {
-                                            Router.go('/paymentoverview?success=true');
+                                            FlowRouter.go('/paymentoverview?success=true');
                                         } else {
                                             $('#html-2-pdfwrapper').css('display','none');
                                             swal({
@@ -4963,7 +4963,7 @@ Template.paymentcard.events({
                                                 confirmButtonText: 'OK'
                                             }).then((result) => {
                                                 if (result.value) {
-                                                    Router.go('/paymentoverview?success=true');
+                                                    FlowRouter.go('/paymentoverview?success=true');
                                                 } else if (result.dismiss === 'cancel') {
 
                                                 }
@@ -4983,7 +4983,7 @@ Template.paymentcard.events({
                                         attachments : attachment
                                     }, function (error, result) {
                                         if (error && error.error === "error") {
-                                            Router.go('/paymentoverview?success=true');
+                                            FlowRouter.go('/paymentoverview?success=true');
 
                                         } else {
                                             $('#html-2-pdfwrapper').css('display','none');
@@ -4995,7 +4995,7 @@ Template.paymentcard.events({
                                                 confirmButtonText: 'OK'
                                             }).then((result) => {
                                                 if (result.value) {
-                                                    Router.go('/paymentoverview?success=true');
+                                                    FlowRouter.go('/paymentoverview?success=true');
                                                 } else if (result.dismiss === 'cancel') {
 
                                                 }
@@ -5015,7 +5015,7 @@ Template.paymentcard.events({
                                         attachments : attachment
                                     }, function (error, result) {
                                         if (error && error.error === "error") {
-                                            Router.go('/paymentoverview?success=true');
+                                            FlowRouter.go('/paymentoverview?success=true');
                                         } else {
                                             $('#html-2-pdfwrapper').css('display','none');
                                             swal({
@@ -5026,7 +5026,7 @@ Template.paymentcard.events({
                                                 confirmButtonText: 'OK'
                                             }).then((result) => {
                                                 if (result.value) {
-                                                    Router.go('/paymentoverview?success=true');
+                                                    FlowRouter.go('/paymentoverview?success=true');
                                                 } else if (result.dismiss === 'cancel') {
 
                                                 }
@@ -5037,7 +5037,7 @@ Template.paymentcard.events({
                                     });
 
                                 }else{
-                                    Router.go('/paymentoverview?success=true');
+                                    FlowRouter.go('/paymentoverview?success=true');
                                 };
                             };
 
@@ -5073,9 +5073,9 @@ Template.paymentcard.events({
                             // });
                             };
                         $('.fullScreenSpin').css('display','none');
-                        // Router.go('/paymentoverview?success=true');
+                        // FlowRouter.go('/paymentoverview?success=true');
                     }).catch(function (err) {
-                        // Router.go('/paymentoverview?success=true');
+                        // FlowRouter.go('/paymentoverview?success=true');
                         swal({
                             title: 'Oooops...',
                             text: err,
@@ -5105,7 +5105,7 @@ Template.paymentcard.events({
         // }
     },
          'click #tblPaymentcard tr .colTransNo': function(event) {
-        let $tblrows = $("#tblPaymentcard tbody tr"); 
+        let $tblrows = $("#tblPaymentcard tbody tr");
         let id = $(event.target).closest('tr').attr('id');
         $('#rowID').val(id);
         let templateObject = Template.instance();
@@ -5118,7 +5118,7 @@ Template.paymentcard.events({
               paymentDataList.push(paymentData[x]);
           }
         }
-  
+
         templateObject.datatablerecords.set(paymentDataList);
         $('#customerPaymentListModal').modal();
         $('.fullScreenSpin').css('display', 'none');
@@ -5140,7 +5140,7 @@ Template.paymentcard.events({
             var outstandingAmount = $(this).closest("tr").find('.colBalance').text();
             var supplierName = $(this).closest("tr").find('.colSupplierName').text();
             var comments = $(this).closest("tr").find('.colNotes').text();
-            var type = $(this).closest("tr").find('.colTypePayment').text(); 
+            var type = $(this).closest("tr").find('.colTypePayment').text();
             let paymentTransObj = {
                 awaitingId: chkIdLine,
                 date: date,
@@ -5212,13 +5212,13 @@ Template.paymentcard.events({
             rowData.attr('id', selectedSupplierPayments[x].awaitingId);
             rowData.attr('name', selectedSupplierPayments[x].awaitingId);
             $("#tblSupplierPaymentcard tbody").append(rowData);
-            total = total + parseFloat(selectedSupplierPayments[x].paymentAmount.replace('$','').replace(',','')); 
+            total = total + parseFloat(selectedSupplierPayments[x].paymentAmount.replace('$','').replace(',',''));
      }
         $('.appliedAmount').text(Currency+total);
         $('#supplierPaymentListModal').modal('hide');
 
        }
-    
+
   },
     'keydown #edtPaymentAmount,keydown #lineOrginalamount,keydown #lineAmountdue,keydown #linePaymentamount, keydown #lineOutstandingAmount': function(event){
         if ($.inArray(event.keyCode, [46, 8, 9, 27, 13, 110]) !== -1 ||
@@ -5309,7 +5309,7 @@ Template.paymentcard.events({
         $('.fullScreenSpin').css('display','inline-block');
         let templateObject = Template.instance();
         let paymentService = new PaymentsService();
-        var url = window.location.href;
+        var url = FlowRouter.current().path;
         var getso_id = url.split('?id=');
         var currentInvoice = getso_id[getso_id.length-1];
         var objDetails = '';
@@ -5325,7 +5325,7 @@ Template.paymentcard.events({
 
             paymentService.deleteDepositData(objDetails).then(function (objDetails) {
                 $('.modal-backdrop').css('display','none');
-                Router.go('/paymentoverview?success=true');
+                FlowRouter.go('/paymentoverview?success=true');
             }).catch(function (err) {
                 swal({
                     title: 'Oooops...',
@@ -5343,7 +5343,7 @@ Template.paymentcard.events({
                 $('.fullScreenSpin').css('display','none');
             });
         }else{
-            Router.go('/paymentoverview?success=true');
+            FlowRouter.go('/paymentoverview?success=true');
         }
 
         // $('#deleteLineModal').modal('toggle');

@@ -716,7 +716,7 @@ Template.customerlistpop.onRendered(function () {
                             $("<button class='btn btn-primary btnAddNewCustomer' data-dismiss='modal' data-toggle='modal' data-target='#addCustomerModal' type='button' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-plus'></i></button>").insertAfter("#tblCustomerlist_filter");
                             $("<button class='btn btn-primary btnRefreshCustomer' type='button' id='btnRefreshCustomer' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblCustomerlist_filter");
 
-                            let urlParametersPage = Router.current().params.query.page;
+                            let urlParametersPage = FlowRouter.current().queryParams.page;
                             if (urlParametersPage) {
                                 this.fnPageChange('last');
                             }
@@ -1291,7 +1291,7 @@ Template.customerlistpop.onRendered(function () {
 
 Template.customerlistpop.events({
     'click #btnNewCustomer': function (event) {
-        Router.go('/customerscard');
+        FlowRouter.go('/customerscard');
     },
     'click .btnAddNewCustomer': function (event) {
         setTimeout(function () {

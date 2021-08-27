@@ -22,7 +22,7 @@ Template.depositlist.onRendered(function() {
     var splashArray = new Array();
     const dataTableList = [];
     const tableHeaderList = [];
-    if(Router.current().params.query.success){
+    if(FlowRouter.current().queryParams.success){
         $('.btnRefresh').addClass('btnRefreshAlert');
     }
 
@@ -253,7 +253,7 @@ Template.depositlist.onRendered(function() {
                     $('#tblDepositList tbody').on( 'click', 'tr', function () {
                         var listData = $(this).closest('tr').attr('id');
                         if(listData){
-                            Router.go('/depositcard?id=' + listData);
+                            FlowRouter.go('/depositcard?id=' + listData);
                         }
                     });
 
@@ -462,7 +462,7 @@ Template.depositlist.onRendered(function() {
                             }, 100);
                         },
                         "fnInitComplete": function () {
-                          let urlParametersPage = Router.current().params.query.page;
+                          let urlParametersPage = FlowRouter.current().queryParams.page;
                           if(urlParametersPage){
                             this.fnPageChange('last');
                           }
@@ -551,7 +551,7 @@ Template.depositlist.onRendered(function() {
                 $('#tblDepositList tbody').on( 'click', 'tr', function () {
                     var listData = $(this).closest('tr').attr('id');
                     if(listData){
-                        Router.go('/depositcard?id=' + listData);
+                        FlowRouter.go('/depositcard?id=' + listData);
                     }
                 });
 
@@ -740,7 +740,7 @@ Template.depositlist.onRendered(function() {
                 $('#tblDepositList tbody').on( 'click', 'tr', function () {
                     var listData = $(this).closest('tr').attr('id');
                     if(listData){
-                        Router.go('/depositcard?id=' + listData);
+                        FlowRouter.go('/depositcard?id=' + listData);
                     }
                 });
 
@@ -771,7 +771,7 @@ Template.depositlist.events({
         });
     },
     'click .btnNewDepositEnrty' : function(event){
-        Router.go('/depositcard');
+        FlowRouter.go('/depositcard');
     },
     'click .chkDatatable' : function(event){
         var columns = $('#tblDepositList th');

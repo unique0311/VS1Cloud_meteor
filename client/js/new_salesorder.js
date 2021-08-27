@@ -163,7 +163,7 @@ Template.new_salesorder.onRendered(() => {
                         //$('#edtCustomerName').editableSelect('add', clientList[i].customername);
                     }
 
-                    if (Router.current().params.query.id) {
+                    if (FlowRouter.current().queryParams.id) {
 
                     } else {
                         setTimeout(function () {
@@ -209,7 +209,7 @@ Template.new_salesorder.onRendered(() => {
                 for (var i = 0; i < clientList.length; i++) {
                     //$('#edtCustomerName').editableSelect('add', clientList[i].customername);
                 }
-                if (Router.current().params.query.id) {
+                if (FlowRouter.current().queryParams.id) {
 
                 } else {
                     setTimeout(function () {
@@ -254,7 +254,7 @@ Template.new_salesorder.onRendered(() => {
                     //$('#edtCustomerName').editableSelect('add', clientList[i].customername);
                 }
 
-                if (Router.current().params.query.id) {
+                if (FlowRouter.current().queryParams.id) {
 
                 } else {
                     setTimeout(function () {
@@ -329,11 +329,11 @@ Template.new_salesorder.onRendered(() => {
 
     templateObject.getAllClients();
     templateObject.getAllLeadStatuss();
-    var url = window.location.href;
+    var url = FlowRouter.current().path;
     let bankDetails = Session.get('vs1companyBankDetails') || '';
     //$('.bankDetails').html(bankDetails.replace(/[\r\n]/g, "<br />"));
     if (url.includes("id") && url.includes("total")) {
-        url = new URL(url);
+        url = new URL(window.location.href);
         let dateStart = new Date();
         let transDate = ("0" + dateStart.getDate()).toString().slice(-2) + "/" + ("0" + (dateStart.getMonth() + 1)).toString().slice(-2) + "/" + dateStart.getFullYear();
         var getso_id = url.searchParams.get("id");
@@ -1603,11 +1603,11 @@ Template.new_salesorder.onRendered(() => {
                                 confirmButtonText: 'OK'
                             }).then((result) => {
                                 if (result.value) {
-                                    Router.go('/salesorderslist?success=true');
+                                    FlowRouter.go('/salesorderslist?success=true');
                                 } else if (result.dismiss === 'cancel') {
-                                    Router.go('/salesorderslist?success=true');
+                                    FlowRouter.go('/salesorderslist?success=true');
                                 } else {
-                                    Router.go('/salesorderslist?success=true');
+                                    FlowRouter.go('/salesorderslist?success=true');
                                 }
                             });
                             $('.fullScreenSpin').css('display', 'none');
@@ -3516,7 +3516,7 @@ Template.new_salesorder.onRendered(() => {
             }, 500);
            }else{
              if(customerDataName != '' && customerDataID != ''){
-              Router.go('/customerscard?id=' + customerDataID);
+              FlowRouter.go('/customerscard?id=' + customerDataID);
              }else{
                $('#customerListModal').modal();
                setTimeout(function () {
@@ -3585,7 +3585,7 @@ Template.new_salesorder.onRendered(() => {
         stringQuery = stringQuery + "tax=" + tax + "&total=" + total + "&customer=" + customer + "&name=" + name + "&surname=" + surname + "&quoteid=" + invoiceData.id +"&transid="+stripe_id+"&feemethod="+stripe_fee_method+"&company=" + company + "&vs1email=" + vs1User + "&customeremail=" + customerEmail + "&type=Sales Order&url=" + window.location.href + "&server=" + erpGet.ERPIPAddress + "&username=" + erpGet.ERPUsername + "&token=" + erpGet.ERPPassword + "&session=" + erpGet.ERPDatabase + "&port=" + erpGet.ERPPort + "&dept=" + dept+"&currency="+currencyname;
         // var pdf = new jsPDF('p', 'pt', 'a4');
         // pdf.setFontSize(18);
-        $(".linkText").attr("href", "https://www.depot.vs1cloud.com/stripe/" + stringQuery);
+        $(".linkText").attr("href", stripeGlobalURL + stringQuery);
         var source = document.getElementById('html-2-pdfwrapper');
         let file = "Sales Order.pdf";
         if ($('.printID').attr('id') != undefined || $('.printID').attr('id') != "") {
@@ -4628,7 +4628,7 @@ Template.new_salesorder.events({
           var productDataName = $(event.target).text().replace(/\s/g, '') || '';
           var productDataID = $(event.target).attr('prodid').replace(/\s/g, '') || '';
           if (productDataName != '') {
-            Router.go('/productview?prodname=' +  $(event.target).text());
+            FlowRouter.go('/productview?prodname=' +  $(event.target).text());
           }else{
             $('#productListModal').modal('toggle');
             var targetID = $(event.target).closest('tr').attr('id');
@@ -4836,7 +4836,7 @@ Template.new_salesorder.events({
         $('.fullScreenSpin').css('display', 'inline-block');
         let templateObject = Template.instance();
         let salesService = new SalesBoardService();
-        var url = window.location.href;
+        var url = FlowRouter.current().path;
         var getso_id = url.split('?id=');
         var currentInvoice = getso_id[getso_id.length - 1];
         var objDetails = '';
@@ -4852,7 +4852,7 @@ Template.new_salesorder.events({
             };
 
             salesService.saveSalesOrderEx(objDetails).then(function(objDetails) {
-                Router.go('/salesorderslist?success=true');
+                FlowRouter.go('/salesorderslist?success=true');
             }).catch(function(err) {
                 swal({
                     title: 'Oooops...',
@@ -4870,7 +4870,7 @@ Template.new_salesorder.events({
                 $('.fullScreenSpin').css('display', 'none');
             });
         } else {
-            Router.go('/salesorderslist?success=true');
+            FlowRouter.go('/salesorderslist?success=true');
         }
         $('#deleteLineModal').modal('toggle');
     },
@@ -5102,7 +5102,7 @@ Template.new_salesorder.events({
             let tax = $('#subtotal_tax').html() || 0;
             let saleCustField1 = $('#edtSaleCustField1').val();
             let saleCustField2 = $('#edtSaleCustField2').val();
-            var url = window.location.href;
+            var url = FlowRouter.current().path;
             var getso_id = url.split('?id=');
             var currentSalesOrder = getso_id[getso_id.length - 1];
             let uploadedItems = templateObject.uploadedFiles.get();
@@ -5270,7 +5270,7 @@ Template.new_salesorder.events({
                             attachments: attachment
                         }, function(error, result) {
                             if (error && error.error === "error") {
-                                Router.go('/salesorderslist?success=true');
+                                FlowRouter.go('/salesorderslist?success=true');
 
                             } else {
 
@@ -5286,7 +5286,7 @@ Template.new_salesorder.events({
                             attachments: attachment
                         }, function(error, result) {
                             if (error && error.error === "error") {
-                                Router.go('/salesorderslist?success=true');
+                                FlowRouter.go('/salesorderslist?success=true');
                             } else {
                                 $('#html-2-pdfwrapper').css('display', 'none');
                                 swal({
@@ -5297,7 +5297,7 @@ Template.new_salesorder.events({
                                     confirmButtonText: 'OK'
                                 }).then((result) => {
                                     if (result.value) {
-                                        Router.go('/salesorderslist?success=true');
+                                        FlowRouter.go('/salesorderslist?success=true');
                                     } else if (result.dismiss === 'cancel') {
 
                                     }
@@ -5317,7 +5317,7 @@ Template.new_salesorder.events({
                             attachments: attachment
                         }, function(error, result) {
                             if (error && error.error === "error") {
-                                Router.go('/salesorderslist?success=true');
+                                FlowRouter.go('/salesorderslist?success=true');
 
                             } else {
                                 $('#html-2-pdfwrapper').css('display', 'none');
@@ -5329,7 +5329,7 @@ Template.new_salesorder.events({
                                     confirmButtonText: 'OK'
                                 }).then((result) => {
                                     if (result.value) {
-                                        Router.go('/salesorderslist?success=true');
+                                        FlowRouter.go('/salesorderslist?success=true');
                                     } else if (result.dismiss === 'cancel') {
 
                                     }
@@ -5349,7 +5349,7 @@ Template.new_salesorder.events({
                             attachments: attachment
                         }, function(error, result) {
                             if (error && error.error === "error") {
-                                Router.go('/salesorderslist?success=true');
+                                FlowRouter.go('/salesorderslist?success=true');
                             } else {
                                 $('#html-2-pdfwrapper').css('display', 'none');
                                 swal({
@@ -5360,7 +5360,7 @@ Template.new_salesorder.events({
                                     confirmButtonText: 'OK'
                                 }).then((result) => {
                                     if (result.value) {
-                                        Router.go('/salesorderslist?success=true');
+                                        FlowRouter.go('/salesorderslist?success=true');
                                     } else if (result.dismiss === 'cancel') {
 
                                     }
@@ -5371,7 +5371,7 @@ Template.new_salesorder.events({
                         });
 
                     } else {
-                        Router.go('/salesorderslist?success=true');
+                        FlowRouter.go('/salesorderslist?success=true');
                     };
 
 
@@ -5382,7 +5382,7 @@ Template.new_salesorder.events({
                 function generatePdfForMail(invoiceId) {
                     let file = "Sales Order-" + invoiceId + ".pdf"
                     return new Promise((resolve, reject) => {
-                        $(".linkText").attr("href", "https://www.depot.vs1cloud.com/stripe/" + stringQuery);
+                        $(".linkText").attr("href", stripeGlobalURL + stringQuery);
                         let templateObject = Template.instance();
                         let completeTabRecord;
                         let doc = new jsPDF('p', 'pt', 'a4');
@@ -5463,9 +5463,9 @@ Template.new_salesorder.events({
                                 }
                             }, function(err, idTag) {
                                 if (err) {
-                                    //Router.go('/salesorderslist?success=true');
+                                    //FlowRouter.go('/salesorderslist?success=true');
                                 } else {
-                                    //Router.go('/salesorderslist?success=true');
+                                    //FlowRouter.go('/salesorderslist?success=true');
 
                                 }
                             });
@@ -5489,9 +5489,9 @@ Template.new_salesorder.events({
                                 createdAt: new Date()
                             }, function(err, idTag) {
                                 if (err) {
-                                    //Router.go('/salesorderslist?success=true');
+                                    //FlowRouter.go('/salesorderslist?success=true');
                                 } else {
-                                    //Router.go('/salesorderslist?success=true');
+                                    //FlowRouter.go('/salesorderslist?success=true');
 
                                 }
                             });
@@ -5713,10 +5713,10 @@ Template.new_salesorder.events({
                     }, function(err, idTag) {
                         if (err) {
                             $('#myModal2').modal('toggle');
-                            //Router.go('/salesorderslist?success=true');
+                            //FlowRouter.go('/salesorderslist?success=true');
                         } else {
                             $('#myModal2').modal('toggle');
-                            //Router.go('/salesorderslist?success=true');
+                            //FlowRouter.go('/salesorderslist?success=true');
 
                         }
                     });
@@ -5919,7 +5919,7 @@ Template.new_salesorder.events({
         let stripe_id = templateObject.accountID.get() || '';
         let stripe_fee_method = templateObject.stripe_fee_method.get();
         if(stripe_id != ""){
-            var url = window.location.href;
+            var url = FlowRouter.current().path;
             let invoiceData = templateObject.salesorderrecord.get();
             var id_available = url.includes("?id=");
             if(id_available == true) {
@@ -5959,7 +5959,7 @@ Template.new_salesorder.events({
                     stringQuery = stringQuery + "product" + l + "=" + lineItems[l].description + "&price" + l + "=" + lineItems[l].unitPrice + "&qty" + l + "=" + lineItems[l].quantity + "&";
                 }
                 stringQuery = stringQuery + "tax=" + tax + "&total=" + total + "&customer=" + customer + "&name=" + name + "&surname=" + surname + "&quoteid=" + invoiceData.id + "&transid="+stripe_id+"&feemethod="+stripe_fee_method+ "&company=" + company + "&vs1email=" + vs1User + "&customeremail=" + customerEmail + "&type=Sales Order&url=" + window.location.href + "&server=" + erpGet.ERPIPAddress + "&username=" + erpGet.ERPUsername + "&token=" + erpGet.ERPPassword + "&session=" + erpGet.ERPDatabase + "&port=" + erpGet.ERPPort+"&currency="+currencyname;
-                window.open("https://www.depot.vs1cloud.com/stripe/" + stringQuery, '_self');
+                window.open(stripeGlobalURL + stringQuery, '_self');
 
             } else{
                 let customername = $('#edtCustomerName');
@@ -6038,7 +6038,7 @@ Template.new_salesorder.events({
                     let tax = $('#subtotal_tax').html() || 0;
                     let saleCustField1 = $('#edtSaleCustField1').val();
                     let saleCustField2 = $('#edtSaleCustField2').val();
-                    var url = window.location.href;
+                    var url = FlowRouter.current().path;
                     var getso_id = url.split('?id=');
                     var currentSalesOrder = getso_id[getso_id.length - 1];
                     let uploadedItems = templateObject.uploadedFiles.get();
@@ -6108,7 +6108,7 @@ Template.new_salesorder.events({
                             stringQuery = stringQuery + "tax=" + tax + "&total=" + total + "&customer=" + customer + "&name=" + name + "&surname=" + surname + "&quoteid=" + objDetails.fields.ID + "&transid="+stripe_id+"&company=" + company + "&vs1email=" + vs1User + "&customeremail=" + customerEmail + "&type=Sales Order&url=" + window.location.href  + "&server=" + erpGet.ERPIPAddress + "&username=" + erpGet.ERPUsername + "&token=" + erpGet.ERPPassword + "&session=" + erpGet.ERPDatabase + "&port=" + erpGet.ERPPort + "&dept=" + departement+"&currency="+currencyname;
                             // Send Email
 
-                            let url = "https://www.depot.vs1cloud.com/stripe/" + stringQuery;
+                            let url = stripeGlobalURL + stringQuery;
                             $('#html-2-pdfwrapper').css('display', 'block');
                             $('.pdfCustomerName').html($('#edtCustomerName').val());
                             $('.pdfCustomerAddress').html($('#txabillingAddress').val().replace(/[\r\n]/g, "<br />"));
@@ -6210,7 +6210,7 @@ Template.new_salesorder.events({
                                             attachments: attachment
                                         }, function(error, result) {
                                             if (error && error.error === "error") {
-                                                Router.go('/salesorderslist?success=true');
+                                                FlowRouter.go('/salesorderslist?success=true');
                                             } else {
 
                                             }
@@ -6225,7 +6225,7 @@ Template.new_salesorder.events({
                                             attachments: attachment
                                         }, function(error, result) {
                                             if (error && error.error === "error") {
-                                                Router.go('/salesorderslist?success=true');
+                                                FlowRouter.go('/salesorderslist?success=true');
                                             } else {
                                                 $('#html-2-pdfwrapper').css('display', 'none');
                                                 swal({
@@ -6256,7 +6256,7 @@ Template.new_salesorder.events({
                                             attachments: attachment
                                         }, function(error, result) {
                                             if (error && error.error === "error") {
-                                                Router.go('/salesorderslist?success=true');
+                                                FlowRouter.go('/salesorderslist?success=true');
 
                                             } else {
                                                 $('#html-2-pdfwrapper').css('display', 'none');
@@ -6288,7 +6288,7 @@ Template.new_salesorder.events({
                                             attachments: attachment
                                         }, function(error, result) {
                                             if (error && error.error === "error") {
-                                                Router.go('/salesorderslist?success=true');
+                                                FlowRouter.go('/salesorderslist?success=true');
                                             } else {
                                                 $('#html-2-pdfwrapper').css('display', 'none');
                                                 swal({
@@ -6327,7 +6327,7 @@ Template.new_salesorder.events({
                                     doc.addHTML(source, function () {
                                         doc.setFontSize(10);
                                         doc.setTextColor(255, 255, 255);
-                                        doc.textWithLink('Pay Now', 505, 113, { url: 'https://www.depot.vs1cloud.com/stripe/' + stringQuery });
+                                        doc.textWithLink('Pay Now', 505, 113, { url: stripeGlobalURL + stringQuery });
                                         resolve(doc.output('blob'));
                                         $('#html-2-pdfwrapper').css('display', 'none');
                                     });
@@ -6383,9 +6383,9 @@ Template.new_salesorder.events({
                                             }
                                         }, function(err, idTag) {
                                             if (err) {
-                                                Router.go('/salesorderslist?success=true');
+                                                FlowRouter.go('/salesorderslist?success=true');
                                             } else {
-                                                Router.go('/salesorderslist?success=true');
+                                                FlowRouter.go('/salesorderslist?success=true');
 
                                             }
                                         });
@@ -6409,9 +6409,9 @@ Template.new_salesorder.events({
                                             createdAt: new Date()
                                         }, function(err, idTag) {
                                             if (err) {
-                                                Router.go('/salesorderslist?success=true');
+                                                FlowRouter.go('/salesorderslist?success=true');
                                             } else {
-                                                Router.go('/salesorderslist?success=true');
+                                                FlowRouter.go('/salesorderslist?success=true');
 
                                             }
                                         });
@@ -6533,7 +6533,7 @@ Template.new_salesorder.events({
 
             let saleCustField1 = $('#edtSaleCustField1').val();
             let saleCustField2 = $('#edtSaleCustField2').val();
-            var url = window.location.href;
+            var url = FlowRouter.current().path;
             var getso_id = url.split('?id=');
             var currentSalesOrder = getso_id[getso_id.length - 1];
             let uploadedItems = templateObject.uploadedFiles.get();
@@ -6699,14 +6699,14 @@ Template.new_salesorder.events({
     'click .btnBack': function(event) {
         event.preventDefault();
         history.back(1);
-        //Router.go('/salesorderslist');
+        //FlowRouter.go('/salesorderslist');
         //window.open('/invoicelist','_self');
     },
     'click #btnCopyToInvoice': function() {
-        //Router.go('/salesorderslist');
+        //FlowRouter.go('/salesorderslist');
         //window.open('/invoicelist','_self');
         $('.fullScreenSpin').css('display', 'inline-block');
-        var url = window.location.href;
+        var url = FlowRouter.current().path;
         //if ((url.indexOf('?id=') > 0) || (url.indexOf('?copyquid=') > 0)) {
         let templateObject = Template.instance();
         let customername = $('#edtCustomerName');
@@ -6781,7 +6781,7 @@ Template.new_salesorder.events({
 
             let saleCustField1 = $('#edtSaleCustField1').val();
             let saleCustField2 = $('#edtSaleCustField2').val();
-            var url = window.location.href;
+            var url = FlowRouter.current().path;
             var getso_id = url.split('?id=');
             var currentSalesOrder = getso_id[getso_id.length - 1];
             let uploadedItems = templateObject.uploadedFiles.get();
@@ -6943,7 +6943,7 @@ Template.new_salesorder.events({
             });
         }
         // } else {
-        //     Router.go('/invoicecard');
+        //     FlowRouter.go('/invoicecard');
         // }
     },
     'click .chkEmailCopy': function(event) {

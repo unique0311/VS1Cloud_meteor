@@ -25,7 +25,7 @@ Template.reconciliationlist.onRendered(function() {
     const dataTableList = [];
     const tableHeaderList = [];
 
-    if(Router.current().params.query.success){
+    if(FlowRouter.current().queryParams.success){
         $('.btnRefresh').addClass('btnRefreshAlert');
     }
     Meteor.call('readPrefMethod',Session.get('mycloudLogonID'),'tblreconciliationlist', function(error, result){
@@ -417,7 +417,7 @@ Template.reconciliationlist.onRendered(function() {
                             }, 100);
                         },
                         "fnInitComplete": function () {
-                          let urlParametersPage = Router.current().params.query.page;
+                          let urlParametersPage = FlowRouter.current().queryParams.page;
                           if(urlParametersPage){
                             this.fnPageChange('last');
                           }
@@ -506,7 +506,7 @@ Template.reconciliationlist.onRendered(function() {
                 $('#tblreconciliationlist tbody').on( 'click', 'tr', function () {
                     var listData = $(this).closest('tr').attr('id');
                     if(listData){
-                        Router.go('/bankrecon?id=' + listData);
+                        FlowRouter.go('/bankrecon?id=' + listData);
                         //window.open('/bankrecon?id=' + listData,'_self');
                     }
                 });

@@ -52,7 +52,7 @@ Template.agedpayables.onRendered(() => {
 
     $("#dateFrom").val(fromDate);
     $("#dateTo").val(begunDate);
-    let currenctURL = Router.current().params.query;
+    let currenctURL = FlowRouter.current().queryParams;
     templateObject.getAgedPayableReports = function (dateFrom, dateTo, ignoreDate) {
         templateObject.records.set('');
         templateObject.grandrecords.set('');
@@ -709,7 +709,7 @@ Template.agedpayables.onRendered(() => {
     let getDateFrom = currentDate2.getFullYear() + "-" + (currentDate2.getMonth()) + "-" + currentDate2.getDate();
     //templateObject.getAgedPayableReports(getDateFrom,getLoadDate,false);
     if (url.indexOf('?dateFrom') > 0) {
-        url = new URL(url);
+        url = new URL(window.location.href);
         $("#dateFrom").val(moment(url.searchParams.get("dateFrom")).format("DD/MM/YYYY"));
         $("#dateTo").val(moment(url.searchParams.get("dateTo")).format("DD/MM/YYYY"));
         getDateFrom = url.searchParams.get("dateFrom");

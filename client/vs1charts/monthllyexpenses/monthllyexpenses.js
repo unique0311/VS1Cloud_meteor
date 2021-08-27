@@ -157,7 +157,7 @@ if (!localStorage.getItem('VS1PNLPeriodReport_dash')) {
             'onClick' : function (evt, item) {
               if(item[0]['_model'].label){
                 var activePoints = item[0]['_model'].label;
-                Router.go('/agedpayables?month=' + activePoints);
+                FlowRouter.go('/agedpayables?month=' + activePoints);
               }
 
             },
@@ -308,7 +308,7 @@ if (!localStorage.getItem('VS1PNLPeriodReport_dash')) {
               'onClick' : function (evt, item) {
                 if(item[0]['_model'].label){
                   var activePoints = item[0]['_model'].label;
-                  Router.go('/agedpayables?month=' + activePoints);
+                  FlowRouter.go('/agedpayables?month=' + activePoints);
                 }
 
               },
@@ -560,7 +560,7 @@ var myChart = new Chart(ctx, {
     'onClick' : function (evt, item) {
       if(item[0]['_model'].label){
         var activePoints = item[0]['_model'].label;
-        Router.go('/agedpayables?month=' + activePoints);
+        FlowRouter.go('/agedpayables?month=' + activePoints);
       }
 
     },

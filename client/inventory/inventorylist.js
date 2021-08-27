@@ -34,7 +34,7 @@ Template.inventorylist.onCreated(function(){
 Template.inventorylist.onRendered(function() {
   $('.fullScreenSpin').css('display','inline-block');
 
-  if(Router.current().params.query.success){
+  if(FlowRouter.current().queryParams.success){
     $('.btnRefresh').addClass('btnRefreshAlert');
   }
 
@@ -661,8 +661,8 @@ setTimeout(function () {
   $('#tblInventory tbody').on( 'click', 'tr', function () {
     var listData = $(this).closest('tr').attr('id');
     if(listData){
-      //Router.go('/productview?id=' + listData);
-      Router.go('/productview?id=' + listData);
+      //FlowRouter.go('/productview?id=' + listData);
+      FlowRouter.go('/productview?id=' + listData);
     }
   });
 
@@ -1416,7 +1416,7 @@ Template.inventorylist.helpers({
             };
 
           productService.saveProduct(objDetails).then(function (objDetails) {
-            Router.go('/inventorylist');
+            FlowRouter.go('/inventorylist');
           }).catch(function (err) {
             swal({
             title: 'Oooops...',
@@ -1508,7 +1508,7 @@ Template.inventorylist.helpers({
         $('.modal-backdrop').css('display','none');
       },
       'click .btnNewProduct':function () {
-        Router.go('/productview');
+        FlowRouter.go('/productview');
       },
 'click .printConfirm' : function(event){
 
@@ -1517,7 +1517,7 @@ jQuery('#tblInventory_wrapper .dt-buttons .btntabletopdf').click();
 $('.fullScreenSpin').css('display','none');
 },
 'click .btnStockAdjustment' : function(event){
-  Router.go('/stockadjustmentoverview');
+  FlowRouter.go('/stockadjustmentoverview');
 },
 'click .templateDownload': function () {
 let utilityService = new UtilityService();
@@ -1660,7 +1660,7 @@ if(results.data[i+1][1]){
 if(results.data[i+1][1] !== "") {
 productService.saveProductVS1(objDetails).then(function (data) {
 //$('.fullScreenSpin').css('display','none');
-Router.go('/inventorylist?success=true');
+FlowRouter.go('/inventorylist?success=true');
 }).catch(function (err) {
 //$('.fullScreenSpin').css('display','none');
 swal({

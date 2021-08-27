@@ -244,7 +244,7 @@ Template.customerawaitingpayments.onRendered(function() {
                     $('#tblcustomerAwaitingPayment tbody').on( 'click', 'tr .colPaymentDate, tr .colReceiptNo, tr .colPaymentAmount, tr .colApplied, tr .colBalance, tr .colCustomerName, tr .colDepartment, tr .colRefNo, tr .colPaymentMethod, tr .colNotes', function () {
                         var listData = $(this).closest('tr').attr('id');
                         if(listData){
-                            Router.go('/paymentcard?invid='+ listData);
+                            FlowRouter.go('/paymentcard?invid='+ listData);
                         }
                     });
 
@@ -440,7 +440,7 @@ Template.customerawaitingpayments.onRendered(function() {
                 $('#tblcustomerAwaitingPayment tbody').on( 'click', 'tr .colPaymentDate, tr .colReceiptNo, tr .colPaymentAmount, tr .colApplied, tr .colBalance, tr .colCustomerName, tr .colDepartment, tr .colRefNo, tr .colPaymentMethod, tr .colNotes', function () {
                     var listData = $(this).closest('tr').attr('id');
                     if(listData){
-                        Router.go('/paymentcard?invid='+ listData);
+                        FlowRouter.go('/paymentcard?invid='+ listData);
                     }
                 });
 
@@ -631,7 +631,7 @@ Template.customerawaitingpayments.onRendered(function() {
                 $('#tblcustomerAwaitingPayment tbody').on( 'click', 'tr .colPaymentDate, tr .colReceiptNo, tr .colPaymentAmount, tr .colApplied, tr .colBalance, tr .colCustomerName, tr .colDepartment, tr .colRefNo, tr .colPaymentMethod, tr .colNotes', function () {
                     var listData = $(this).closest('tr').attr('id');
                     if(listData){
-                        Router.go('/paymentcard?invid='+ listData);
+                        FlowRouter.go('/paymentcard?invid='+ listData);
                     }
                 });
 
@@ -669,7 +669,7 @@ Template.customerawaitingpayments.events({
         });
     },
     'click .btnPaymentList': function() {
-        Router.go('/customerpayment');
+        FlowRouter.go('/customerpayment');
     },
     'click .resetTable' : function(event){
         var getcurrentCloudDetails = CloudUser.findOne({_id:Session.get('mycloudLogonID'),clouddatabaseID:Session.get('mycloudLogonDBID')});
@@ -890,7 +890,7 @@ Template.customerawaitingpayments.events({
             $.each(selectClient, function( k, v ) {
                 result.push(v.awaitingId);
             });
-            Router.go('/paymentcard?selectcust='+ result);
+            FlowRouter.go('/paymentcard?selectcust='+ result);
         }
 
     },

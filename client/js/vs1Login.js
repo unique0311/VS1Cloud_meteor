@@ -173,12 +173,12 @@ Template.vs1login.onRendered(function(){
 
 
 
-  if(Router.current().params.query.emailakey){
-    $('#email').val(Router.current().params.query.emailakey);
+  if(FlowRouter.current().queryParams.emailakey){
+    $('#email').val(FlowRouter.current().queryParams.emailakey);
 
   }
-  if(Router.current().params.query.passkey){
-    $('#erppassword').val(Router.current().params.query.passkey);
+  if(FlowRouter.current().queryParams.passkey){
+    $('#erppassword').val(FlowRouter.current().queryParams.passkey);
   }
 
 
@@ -1871,7 +1871,7 @@ $("#erplogin-button").click(async function(e){
                              location.reload(true);
                            });
                          } else if (result.dismiss === 'cancel') {
-                           // Router.go('/employeescard?addvs1user=true');
+                           // FlowRouter.go('/employeescard?addvs1user=true');
                          }
                        });
                        myVS1Video.pause();
@@ -3021,7 +3021,7 @@ $("#erplogin-button").click(async function(e){
                              location.reload(true);
                            });
                          } else if (result.dismiss === 'cancel') {
-                           // Router.go('/employeescard?addvs1user=true');
+                           // FlowRouter.go('/employeescard?addvs1user=true');
                          }
                        });
                        myVS1Video.pause();
@@ -3749,7 +3749,7 @@ $("#erplogin-button").click(async function(e){
                                    location.reload(true);
                                  });
                                } else if (result.dismiss === 'cancel') {
-                                 // Router.go('/employeescard?addvs1user=true');
+                                 // FlowRouter.go('/employeescard?addvs1user=true');
                                }
                              });
                              myVS1Video.pause();
@@ -4435,7 +4435,7 @@ $("#erplogin-button").click(async function(e){
                                  location.reload(true);
                                });
                              } else if (result.dismiss === 'cancel') {
-                               // Router.go('/employeescard?addvs1user=true');
+                               // FlowRouter.go('/employeescard?addvs1user=true');
                              }
                            });
                            myVS1Video.pause();

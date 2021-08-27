@@ -25,7 +25,7 @@ Template.joblist.onRendered(function () {
     const dataTableList = [];
     const tableHeaderList = [];
 
-    if(Router.current().params.query.success){
+    if(FlowRouter.current().queryParams.success){
         $('.btnRefresh').addClass('btnRefreshAlert');
     }
     Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblJoblist', function (error, result) {
@@ -249,7 +249,7 @@ Template.joblist.onRendered(function () {
                     $('#tblJoblist tbody').on('click', 'tr', function () {
                         var listData = $(this).closest('tr').attr('id');
                         if (listData) {
-                            Router.go('/customerscard?jobid=' + listData+"&transTab=job");
+                            FlowRouter.go('/customerscard?jobid=' + listData+"&transTab=job");
                         }
                     });
 
@@ -454,7 +454,7 @@ Template.joblist.onRendered(function () {
                             }, 100);
                         },
                         "fnInitComplete": function () {
-                          let urlParametersPage = Router.current().params.query.page;
+                          let urlParametersPage = FlowRouter.current().queryParams.page;
                           if(urlParametersPage){
                             this.fnPageChange('last');
                           }
@@ -544,7 +544,7 @@ Template.joblist.onRendered(function () {
                 $('#tblJoblist tbody').on('click', 'tr', function () {
                     var listData = $(this).closest('tr').attr('id');
                     if (listData) {
-                        Router.go('/customerscard?jobid=' + listData+"&transTab=job"
+                        FlowRouter.go('/customerscard?jobid=' + listData+"&transTab=job"
                                  );
                     }
                 });
@@ -743,7 +743,7 @@ Template.joblist.onRendered(function () {
                 $('#tblJoblist tbody').on('click', 'tr', function () {
                     var listData = $(this).closest('tr').attr('id');
                     if (listData) {
-                        Router.go('/customerscard?jobid=' + listData+"&transTab=job");
+                        FlowRouter.go('/customerscard?jobid=' + listData+"&transTab=job");
                     }
                 });
 
@@ -760,7 +760,7 @@ Template.joblist.onRendered(function () {
     $('#tblJoblist tbody').on('click', 'tr', function () {
         var listData = $(this).closest('tr').attr('id');
         if (listData) {
-            Router.go('/customerscard?jobid=' + listData+"&transTab=job");
+            FlowRouter.go('/customerscard?jobid=' + listData+"&transTab=job");
         }
 
     });
@@ -771,7 +771,7 @@ Template.joblist.onRendered(function () {
 
 Template.joblist.events({
     'click #btnNewCustomer': function (event) {
-        Router.go('/customerlist?type=job');
+        FlowRouter.go('/customerlist?type=job');
     },
     'click .chkDatatable': function (event) {
         var columns = $('#tblJoblist th');

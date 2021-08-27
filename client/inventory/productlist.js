@@ -569,8 +569,8 @@ Template.productlist.onRendered(function() {
   $('.tblInventory tbody').on( 'click', 'tr', function () {
     var listData = $(this).closest('tr').attr('id');
     if(listData){
-      //Router.go('/productview?id=' + listData);
-      Router.go('/productview?id=' + listData);
+      //FlowRouter.go('/productview?id=' + listData);
+      FlowRouter.go('/productview?id=' + listData);
     }
   });
 
@@ -1253,7 +1253,7 @@ Template.productlist.helpers({
             };
 
           productService.saveProduct(objDetails).then(function (objDetails) {
-            Router.go('/productlist');
+            FlowRouter.go('/productlist');
           }).catch(function (err) {
             swal({
             title: 'Oooops...',
@@ -1422,7 +1422,7 @@ Template.productlist.helpers({
         // templateObject.getAllProductData('All');
       },
       'click .btnNewProduct':function () {
-        Router.go('/productview');
+        FlowRouter.go('/productview');
       },
 'click .printConfirm' : function(event){
 
@@ -1431,7 +1431,7 @@ jQuery('#tblInventory_wrapper .dt-buttons .btntabletopdf').click();
 $('.fullScreenSpin').css('display','none');
 },
 'click .btnStockAdjustment' : function(event){
-  Router.go('/stockadjustmentoverview');
+  FlowRouter.go('/stockadjustmentoverview');
 },
 'click .templateDownload': function () {
 let utilityService = new UtilityService();

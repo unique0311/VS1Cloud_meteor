@@ -19,8 +19,8 @@ Template.binnypurchasedb.events({
    var country = event.target.country.value;
 
    let currentURLQuoteID = '';
-   if(Router.current().params.quoteid){
-     currentURLQuoteID = Router.current().params.quoteid;
+   if(FlowRouter.current().queryParams.quoteid){
+     currentURLQuoteID = FlowRouter.current().queryParams.quoteid;
    }
 
     var expiredate = "11/30";
@@ -40,7 +40,7 @@ Template.binnypurchasedb.events({
    let renewalPrice = 35;
    let renewalDiscountPrice = 35;
    let discountDesc = "100% - 1 Month";
-   var url = window.location.href;
+   var url = FlowRouter.current().path;
    if((url.indexOf('?package=') > 0) && (url.indexOf('itemtotal=') > 0)){
 
      var getpackagename = url.split('?package=');
@@ -168,7 +168,7 @@ Template.binnypurchasedb.events({
       var erpGet = erpDb();
   var oPost = new XMLHttpRequest();
   var serverIP = '165.228.147.127';
-  var port = '4420';
+  var port = '4430';
   oPost.open("POST",URLRequest + serverIP + ':' + port + '/' + 'erpapi' + '/' + 'VS1_Cloud_Task/Method?Name="VS1_NewRego"', true);
   oPost.setRequestHeader("database",vs1loggedDatatbase);
   oPost.setRequestHeader("username","VS1_Cloud_Admin");
@@ -532,7 +532,7 @@ Bert.alert('<strong>'+ oPost.getResponseHeader('errormessage')+'</strong>. Pleas
 Template.binnypurchasedb.onRendered( function() {
   const templateObject = Template.instance();
 
-  let currentURL = Router.current().params.query;
+  let currentURL = FlowRouter.current().queryParams;
 
   if(currentURL.company){
     $('#cname').val(currentURL.company);

@@ -25,7 +25,7 @@ Template.invoicelist.onRendered(function() {
     var splashArray = new Array();
     const dataTableList = [];
     const tableHeaderList = [];
-    if(Router.current().params.query.success){
+    if(FlowRouter.current().queryParams.success){
       $('.btnRefresh').addClass('btnRefreshAlert');
     }
     Meteor.call('readPrefMethod',Session.get('mycloudLogonID'),'tblInvoicelist', function(error, result){
@@ -243,7 +243,7 @@ Template.invoicelist.onRendered(function() {
              $('#tblInvoicelist tbody').on( 'click', 'tr', function () {
              var listData = $(this).closest('tr').attr('id');
              if(listData){
-               Router.go('/invoicecard?id=' + listData);
+               FlowRouter.go('/invoicecard?id=' + listData);
              }
            });
 
@@ -432,7 +432,7 @@ setTimeout(function () {
             }, 100);
           },
           "fnInitComplete": function () {
-            let urlParametersPage = Router.current().params.query.page;
+            let urlParametersPage = FlowRouter.current().queryParams.page;
             if(urlParametersPage){
               this.fnPageChange('last');
             }
@@ -579,7 +579,7 @@ templateObject.tableheaderrecords.set(tableHeaderList);
  $('#tblInvoicelist tbody').on( 'click', 'tr', function () {
  var listData = $(this).closest('tr').attr('id');
  if(listData){
-   Router.go('/invoicecard?id=' + listData);
+   FlowRouter.go('/invoicecard?id=' + listData);
  }
 });
 
@@ -763,7 +763,7 @@ templateObject.tableheaderrecords.set(tableHeaderList);
              $('#tblInvoicelist tbody').on( 'click', 'tr', function () {
              var listData = $(this).closest('tr').attr('id');
              if(listData){
-               Router.go('/invoicecard?id=' + listData);
+               FlowRouter.go('/invoicecard?id=' + listData);
              }
            });
 
@@ -780,7 +780,7 @@ templateObject.tableheaderrecords.set(tableHeaderList);
     $('#tblInvoicelist tbody').on( 'click', 'tr', function () {
     var listData = $(this).closest('tr').attr('id');
     if(listData){
-      Router.go('/invoicecard?id=' + listData);
+      FlowRouter.go('/invoicecard?id=' + listData);
     }
 
   });
@@ -791,10 +791,10 @@ templateObject.tableheaderrecords.set(tableHeaderList);
 
 Template.invoicelist.events({
     'click #btnNewInvoice':function(event){
-        Router.go('/invoicecard');
+        FlowRouter.go('/invoicecard');
     },
     'click #btnInvoiceBOList':function(event){
-        Router.go('/invoicelistBO');
+        FlowRouter.go('/invoicelistBO');
     },
     'click .chkDatatable' : function(event){
       var columns = $('#tblInvoicelist th');

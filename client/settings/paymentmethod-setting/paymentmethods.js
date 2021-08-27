@@ -772,7 +772,7 @@ if(listData){
 
 Template.paymentmethodSettings.events({
     'click #btnNewInvoice':function(event){
-        // Router.go('/invoicecard');
+        // FlowRouter.go('/invoicecard');
     },
     'click .feeOnTopInput':function(event){
       if($(event.target).is(':checked')){

@@ -237,7 +237,7 @@ Template.refundcard.onRendered(()=>{
                     for (var i = 0; i < clientList.length; i++) {
                         //$('#edtCustomerName').editableSelect('add',clientList[i].customername);
                     }
-                    if(Router.current().params.query.id){
+                    if(FlowRouter.current().queryParams.id){
 
                     }else{
                         setTimeout(function () {
@@ -286,7 +286,7 @@ Template.refundcard.onRendered(()=>{
                 for (var i = 0; i < clientList.length; i++) {
                     //$('#edtCustomerName').editableSelect('add',clientList[i].customername);
                 }
-                if(Router.current().params.query.id){
+                if(FlowRouter.current().queryParams.id){
 
                 }else{
                     setTimeout(function () {
@@ -331,7 +331,7 @@ Template.refundcard.onRendered(()=>{
                 for (var i = 0; i < clientList.length; i++) {
                     //$('#edtCustomerName').editableSelect('add',clientList[i].customername);
                 }
-                if(Router.current().params.query.id){
+                if(FlowRouter.current().queryParams.id){
 
                 }else{
                     setTimeout(function () {
@@ -395,7 +395,7 @@ Template.refundcard.onRendered(()=>{
 
     templateObject.getAllClients();
     templateObject.getAllLeadStatuss();
-    var url = window.location.href;
+    var url = FlowRouter.current().path;
     if(url.indexOf('?id=') > 0){
         var getso_id = url.split('?id=');
         var currentInvoice = getso_id[getso_id.length-1];
@@ -1491,7 +1491,7 @@ Template.refundcard.onRendered(()=>{
             }, 500);
            }else{
              if(customerDataName != '' && customerDataID != ''){
-              Router.go('/customerscard?id=' + customerDataID);
+              FlowRouter.go('/customerscard?id=' + customerDataID);
              }else{
                $('#customerListModal').modal();
                setTimeout(function () {
@@ -2286,7 +2286,7 @@ Template.refundcard.events({
           var productDataName = $(event.target).text().replace(/\s/g, '') || '';
           var productDataID = $(event.target).attr('prodid').replace(/\s/g, '') || '';
           if (productDataName != '') {
-            Router.go('/productview?prodname=' +  $(event.target).text());
+            FlowRouter.go('/productview?prodname=' +  $(event.target).text());
           }else{
             $('#productListModal').modal('toggle');
             var targetID = $(event.target).closest('tr').attr('id');
@@ -2449,7 +2449,7 @@ Template.refundcard.events({
         $('.fullScreenSpin').css('display','inline-block');
         let templateObject = Template.instance();
         let salesService = new SalesBoardService();
-        var url = window.location.href;
+        var url = FlowRouter.current().path;
         var getso_id = url.split('?id=');
         var currentInvoice = getso_id[getso_id.length-1];
         var objDetails = '';
@@ -2674,7 +2674,7 @@ Template.refundcard.events({
 
             let saleCustField1 = $('#edtSaleCustField1').val();
             let saleCustField2 = $('#edtSaleCustField2').val();
-            var url = window.location.href;
+            var url = FlowRouter.current().path;
             var getso_id = url.split('?id=');
             var currentInvoice = getso_id[getso_id.length-1];
             let uploadedItems = templateObject.uploadedFiles.get();
@@ -2831,7 +2831,7 @@ Template.refundcard.events({
                                 attachments : attachment
                             }, function (error, result) {
                                 if (error && error.error === "error") {
-                                    Router.go('/invoicelist?success=true');
+                                    FlowRouter.go('/invoicelist?success=true');
 
                                 } else {
 
@@ -2847,7 +2847,7 @@ Template.refundcard.events({
                                 attachments : attachment
                             }, function (error, result) {
                                 if (error && error.error === "error") {
-                                    Router.go('/invoicelist?success=true');
+                                    FlowRouter.go('/invoicelist?success=true');
                                 } else {
                                     $('#html-2-pdfwrapper').css('display','none');
                                     swal({
@@ -2858,7 +2858,7 @@ Template.refundcard.events({
                                         confirmButtonText: 'OK'
                                     }).then((result) => {
                                         if (result.value) {
-                                            Router.go('/invoicelist?success=true');
+                                            FlowRouter.go('/invoicelist?success=true');
                                         } else if (result.dismiss === 'cancel') {
 
                                         }
@@ -2878,7 +2878,7 @@ Template.refundcard.events({
                                 attachments : attachment
                             }, function (error, result) {
                                 if (error && error.error === "error") {
-                                    Router.go('/invoicelist?success=true');
+                                    FlowRouter.go('/invoicelist?success=true');
 
                                 } else {
                                     $('#html-2-pdfwrapper').css('display','none');
@@ -2890,7 +2890,7 @@ Template.refundcard.events({
                                         confirmButtonText: 'OK'
                                     }).then((result) => {
                                         if (result.value) {
-                                            Router.go('/invoicelist?success=true');
+                                            FlowRouter.go('/invoicelist?success=true');
                                         } else if (result.dismiss === 'cancel') {
 
                                         }
@@ -2910,7 +2910,7 @@ Template.refundcard.events({
                                 attachments : attachment
                             }, function (error, result) {
                                 if (error && error.error === "error") {
-                                    Router.go('/invoicelist?success=true');
+                                    FlowRouter.go('/invoicelist?success=true');
                                 } else {
                                     $('#html-2-pdfwrapper').css('display','none');
                                     swal({
@@ -2921,7 +2921,7 @@ Template.refundcard.events({
                                         confirmButtonText: 'OK'
                                     }).then((result) => {
                                         if (result.value) {
-                                            Router.go('/invoicelist?success=true');
+                                            FlowRouter.go('/invoicelist?success=true');
                                         } else if (result.dismiss === 'cancel') {
 
                                         }
@@ -2932,7 +2932,7 @@ Template.refundcard.events({
                             });
 
                         }else{
-                            Router.go('/invoicelist?success=true');
+                            FlowRouter.go('/invoicelist?success=true');
                         };
                     };
 
@@ -3480,7 +3480,7 @@ Template.refundcard.events({
 
             let saleCustField1 = $('#edtSaleCustField1').val();
             let saleCustField2 = $('#edtSaleCustField2').val();
-            var url = window.location.href;
+            var url = FlowRouter.current().path;
             var getso_id = url.split('?id=');
             var currentInvoice = getso_id[getso_id.length-1];
             let uploadedItems = templateObject.uploadedFiles.get();
@@ -3626,7 +3626,7 @@ Template.refundcard.events({
 
     },
     'click #btnViewPayment':function(){
-        var url = window.location.href;
+        var url = FlowRouter.current().path;
         var getso_id = url.split('?id=');
         var currentInvoice = getso_id[getso_id.length-1];
 
@@ -3641,7 +3641,7 @@ Template.refundcard.events({
     },
     'click #btnCopyInvoice':function(){
         $('.fullScreenSpin').css('display','inline-block');
-        var url = window.location.href;
+        var url = FlowRouter.current().path;
         if((url.indexOf('?id=') > 0) ||(url.indexOf('?copyquid=') > 0) || (url.indexOf('?copyinvid='))){
             let templateObject = Template.instance();
             let customername = $('#edtCustomerName');
@@ -3717,7 +3717,7 @@ Template.refundcard.events({
 
                 let saleCustField1 = $('#edtSaleCustField1').val();
                 let saleCustField2 = $('#edtSaleCustField2').val();
-                var url = window.location.href;
+                var url = FlowRouter.current().path;
                 var getso_id = url.split('?id=');
                 var currentInvoice = getso_id[getso_id.length-1];
                 let uploadedItems = templateObject.uploadedFiles.get();

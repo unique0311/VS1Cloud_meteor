@@ -30,7 +30,7 @@ Template.salesreport.onRendered(() => {
         fromDateDay = "0" + currentDate.getDate();
     }
     var fromDate = fromDateDay + "/" + (fromDateMonth) + "/" + currentDate.getFullYear();
-    var url = window.location.href;
+    var url = FlowRouter.current().path;
     templateObject.dateAsAt.set(begunDate);
     const dataTableList = [];
     const deptrecords = [];
@@ -49,7 +49,7 @@ Template.salesreport.onRendered(() => {
 
     $("#dateFrom").val(fromDate);
     $("#dateTo").val(begunDate);
-    let currenctURL = Router.current().params.query;
+    let currenctURL = FlowRouter.current().queryParams;
     templateObject.getSalesReports = function (dateFrom, dateTo, ignoreDate) {
         templateObject.records.set('');
         templateObject.grandrecords.set('');
@@ -452,7 +452,7 @@ Template.salesreport.onRendered(() => {
     };
     if (url.indexOf('?dateFrom') > 0) {
         localStorage.setItem('VS1Sales_Report', '');
-        url = new URL(url);
+        url = new URL(window.location.href);
         $("#dateFrom").val(moment(url.searchParams.get("dateFrom")).format("DD/MM/YYYY"));
         $("#dateTo").val(moment(url.searchParams.get("dateTo")).format("DD/MM/YYYY"));
         var getDateFrom = url.searchParams.get("dateFrom");

@@ -16,7 +16,7 @@ Template.vs1shipping.onRendered(function() {
 
 Template.vs1shipping.events({
     'click .btnScan': function (e) {
-        Router.go('/shippingdocket');
+        FlowRouter.go('/shippingdocket');
     }
 });
 

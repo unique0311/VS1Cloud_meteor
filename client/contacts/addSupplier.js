@@ -51,7 +51,7 @@ Template.supplierscard.onRendered(function () {
     let deliveryMethods = [];
     let taxCodes = [];
 
-    let currentId = Router.current().params.query;
+    let currentId = FlowRouter.current().queryParams;
     let supplierID = '';
 
     let totAmount = 0;
@@ -1628,7 +1628,7 @@ Template.supplierscard.events({
         let custField3 = $('#edtCustomeField3').val()||'';
         let custField4 = $('#edtCustomeField4').val()||'';
 
-        var url = window.location.href;
+        var url = FlowRouter.current().path;
         var getemp_id = url.split('?id=');
         var currentEmployee = getemp_id[getemp_id.length-1];
         var objDetails = '';
@@ -2366,7 +2366,7 @@ Template.supplierscard.events({
         let templateObject = Template.instance();
         let contactService2 = new ContactService();
 
-        let currentId = Router.current().params.query;
+        let currentId = FlowRouter.current().queryParams;
         var objDetails = '';
 
         if (!isNaN(currentId.id)) {
@@ -2380,7 +2380,7 @@ Template.supplierscard.events({
             };
 
             contactService2.saveSupplierEx(objDetails).then(function (objDetails) {
-                Router.go('/supplierlist?success=true');
+                FlowRouter.go('/supplierlist?success=true');
             }).catch(function (err) {
                 swal({
                     title: 'Oooops...',
@@ -2397,7 +2397,7 @@ Template.supplierscard.events({
                 $('.fullScreenSpin').css('display', 'none');
             });
         } else {
-            Router.go('/supplierlist?success=true');
+            FlowRouter.go('/supplierlist?success=true');
         }
         $('#deleteSupplierModal').modal('toggle');
     }

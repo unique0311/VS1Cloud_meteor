@@ -22,22 +22,22 @@ Template.stsdashboard.events({
 
     //Dashboard buttons
     'click #btnPlants':function(event){
-        Router.go('/stsplants');
+        FlowRouter.go('/stsplants');
     },
     'click #btnHarvests':function(event){
-        Router.go('/stsharvests');
+        FlowRouter.go('/stsharvests');
     },
     'click #btnPackages':function(event){
-        Router.go('/stspackages');
+        FlowRouter.go('/stspackages');
     },
     'click #btnTransfers':function(event){
-        Router.go('/ststransfers');
+        FlowRouter.go('/ststransfers');
     },
     'click #btnOverviews':function(event){
-        Router.go('/stsoverviews');
+        FlowRouter.go('/stsoverviews');
     },
     'click #btnSettings':function(event){
-        Router.go('/stssettings');
+        FlowRouter.go('/stssettings');
     },
 
     //Buttons inside Scan Modal

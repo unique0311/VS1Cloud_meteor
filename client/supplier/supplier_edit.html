@@ -3,7 +3,7 @@
 <div class="active_page_content">
 <p><a href="/allcontacts">Contacts</a> &nbsp;›&nbsp; <a href="#" onclick="redirectToPage()" id="suppliereditpage">View Contact</a> </p><br>
 <script>
-var url = window.location.href;
+var url = FlowRouter.current().path;
 var getsupplieredt_id = url.split('?id=');
 var supplieredt_id = getsupplieredt_id[getsupplieredt_id.length-1];
 // onclick event is assigned to the #button element.

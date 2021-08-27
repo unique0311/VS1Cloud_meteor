@@ -570,7 +570,7 @@ Template.clienttypesettings.onRendered(function () {
 
 Template.clienttypesettings.events({
     'click #btnNewInvoice': function (event) {
-        // Router.go('/invoicecard');
+        // FlowRouter.go('/invoicecard');
     },
     'click .chkDatatable': function (event) {
         var columns = $('#clienttypeList th');

@@ -25,7 +25,7 @@ Template.customerlist.onRendered(function() {
     const dataTableList = [];
     const tableHeaderList = [];
 
-    if(Router.current().params.query.success){
+    if(FlowRouter.current().queryParams.success){
         $('.btnRefresh').addClass('btnRefreshAlert');
     }
 
@@ -249,19 +249,19 @@ Template.customerlist.onRendered(function() {
                     $('#tblCustomerlist tbody').on( 'click', 'tr', function () {
                         var listData = $(this).closest('tr').attr('id');
                         var transactiontype = $(this).closest('tr').attr('isjob');
-                        var url = window.location.href;
+                        var url = FlowRouter.current().path;
                         if(listData){
                             if(url.indexOf('?type') > 0) {
                                 if(transactiontype != ""){
-                                    Router.go('/customerscard?jobid=' + listData+"&transTab=job");
+                                    FlowRouter.go('/customerscard?jobid=' + listData+"&transTab=job");
                                 }else{
-                                    Router.go('/customerscard?id=' + listData+"&transTab=job");
+                                    FlowRouter.go('/customerscard?id=' + listData+"&transTab=job");
                                 }
                             } else {
                                 if(transactiontype != ""){
-                                    Router.go('/customerscard?jobid=' + listData);
+                                    FlowRouter.go('/customerscard?jobid=' + listData);
                                 }else{
-                                    Router.go('/customerscard?id=' + listData);
+                                    FlowRouter.go('/customerscard?id=' + listData);
                                 }
                             }
 
@@ -470,7 +470,7 @@ Template.customerlist.onRendered(function() {
                             }, 100);
                         },
                         "fnInitComplete": function () {
-                          let urlParametersPage = Router.current().params.query.page;
+                          let urlParametersPage = FlowRouter.current().queryParams.page;
                           if(urlParametersPage){
                             this.fnPageChange('last');
                           }
@@ -561,18 +561,18 @@ Template.customerlist.onRendered(function() {
                     var listData = $(this).closest('tr').attr('id');
                     var transactiontype = $(this).closest('tr').attr('isjob');
                     if(listData){
-                        var url = window.location.href;
+                        var url = FlowRouter.current().path;
                         if(url.indexOf('?type') > 0) {
                             if(transactiontype != ""){
-                                Router.go('/customerscard?jobid=' + listData+"&transTab=job");
+                                FlowRouter.go('/customerscard?jobid=' + listData+"&transTab=job");
                             }else{
-                                Router.go('/customerscard?id=' + listData+"&transTab=job");
+                                FlowRouter.go('/customerscard?id=' + listData+"&transTab=job");
                             }
                         } else {
                             if(transactiontype != ""){
-                                Router.go('/customerscard?jobid=' + listData);
+                                FlowRouter.go('/customerscard?jobid=' + listData);
                             }else{
-                                Router.go('/customerscard?id=' + listData);
+                                FlowRouter.go('/customerscard?id=' + listData);
                             }
                         }
 
@@ -775,9 +775,9 @@ Template.customerlist.onRendered(function() {
                     var transactiontype = $(this).closest('tr').attr('isjob');
                     if(listData){
                         if(transactiontype != ""){
-                            Router.go('/customerscard?jobid=' + listData);
+                            FlowRouter.go('/customerscard?jobid=' + listData);
                         }else{
-                            Router.go('/customerscard?id=' + listData);
+                            FlowRouter.go('/customerscard?id=' + listData);
                         }
 
                     }
@@ -798,9 +798,9 @@ Template.customerlist.onRendered(function() {
         var transactiontype = $(this).closest('tr').attr('isjob');
         if(listData){
             if(transactiontype != ""){
-                Router.go('/customerscard?jobid=' + listData);
+                FlowRouter.go('/customerscard?jobid=' + listData);
             }else{
-                Router.go('/customerscard?id=' + listData);
+                FlowRouter.go('/customerscard?id=' + listData);
             }
 
         }
@@ -813,7 +813,7 @@ Template.customerlist.onRendered(function() {
 
 Template.customerlist.events({
     'click #btnNewCustomer':function(event){
-        Router.go('/customerscard');
+        FlowRouter.go('/customerscard');
     },
     'click .chkDatatable' : function(event){
         var columns = $('#tblCustomerlist th');

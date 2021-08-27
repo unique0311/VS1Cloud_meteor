@@ -172,7 +172,7 @@ Template.new_quote.onRendered(() => {
                     for (var i = 0; i < clientList.length; i++) {
                         //$('#edtCustomerName').editableSelect('add', clientList[i].customername);
                     }
-                    if (Router.current().params.query.id) {
+                    if (FlowRouter.current().queryParams.id) {
 
                     } else {
                         setTimeout(function () {
@@ -221,7 +221,7 @@ Template.new_quote.onRendered(() => {
                 for (var i = 0; i < clientList.length; i++) {
                     //$('#edtCustomerName').editableSelect('add', clientList[i].customername);
                 }
-                if (Router.current().params.query.id) {
+                if (FlowRouter.current().queryParams.id) {
 
                 } else {
                     setTimeout(function () {
@@ -268,7 +268,7 @@ Template.new_quote.onRendered(() => {
                 for (var i = 0; i < clientList.length; i++) {
                     //$('#edtCustomerName').editableSelect('add', clientList[i].customername);
                 }
-                if (Router.current().params.query.id) {
+                if (FlowRouter.current().queryParams.id) {
 
                 } else {
                     setTimeout(function () {
@@ -341,13 +341,13 @@ Template.new_quote.onRendered(() => {
 
     templateObject.getAllClients();
     templateObject.getAllLeadStatuss();
-    var url = window.location.href;
+    var url = FlowRouter.current().path;
     var getso_id = url.split('?id=');
     var invoiceId = getso_id[getso_id.length - 1];
     let bankDetails = Session.get('vs1companyBankDetails') || '';
     //$('.bankDetails').html(bankDetails.replace(/[\r\n]/g, "<br />"));
     if (url.includes("id") && url.includes("total")) {
-        url = new URL(url);
+        url = new URL(window.location.href);
         let dateStart = new Date();
         let transDate = ("0" + dateStart.getDate()).toString().slice(-2) + "/" + ("0" + (dateStart.getMonth() + 1)).toString().slice(-2) + "/" + dateStart.getFullYear();
         var getso_id = url.searchParams.get("id");
@@ -1543,11 +1543,11 @@ Template.new_quote.onRendered(() => {
                                 confirmButtonText: 'OK'
                             }).then((result) => {
                                 if (result.value) {
-                                    Router.go('/quoteslist?success=true');
+                                    FlowRouter.go('/quoteslist?success=true');
                                 } else if (result.dismiss === 'cancel') {
-                                    Router.go('/quoteslist?success=true');
+                                    FlowRouter.go('/quoteslist?success=true');
                                 } else {
-                                    Router.go('/quoteslist?success=true');
+                                    FlowRouter.go('/quoteslist?success=true');
                                 }
                             });
                             $('.fullScreenSpin').css('display', 'none');
@@ -3458,7 +3458,7 @@ Template.new_quote.onRendered(() => {
             }, 500);
            }else{
              if(customerDataName != '' && customerDataID != ''){
-              Router.go('/customerscard?id=' + customerDataID);
+              FlowRouter.go('/customerscard?id=' + customerDataID);
              }else{
                $('#customerListModal').modal();
                setTimeout(function () {
@@ -3553,7 +3553,7 @@ Template.new_quote.onRendered(() => {
 
         // var pdf = new jsPDF('p', 'pt', 'a4');
 
-        $(".linkText").attr("href", "https://www.depot.vs1cloud.com/stripe/" + stringQuery);
+        $(".linkText").attr("href", stripeGlobalURL + stringQuery);
         // pdf.setFontSize(18);
         var source = document.getElementById('html-2-pdfwrapper');
         html2pdf().set(opt).from(source).save().then(function (dataObject){
@@ -4547,7 +4547,7 @@ Template.new_quote.events({
           var productDataName = $(event.target).text().replace(/\s/g, '') || '';
           var productDataID = $(event.target).attr('prodid').replace(/\s/g, '') || '';
           if (productDataName != '') {
-            Router.go('/productview?prodname=' +  $(event.target).text());
+            FlowRouter.go('/productview?prodname=' +  $(event.target).text());
           }else{
             $('#productListModal').modal('toggle');
             var targetID = $(event.target).closest('tr').attr('id');
@@ -4756,7 +4756,7 @@ Template.new_quote.events({
         $('.fullScreenSpin').css('display', 'inline-block');
         let templateObject = Template.instance();
         let salesService = new SalesBoardService();
-        var url = window.location.href;
+        var url = FlowRouter.current().path;
         var getso_id = url.split('?id=');
         var currentInvoice = getso_id[getso_id.length - 1];
         var objDetails = '';
@@ -4772,7 +4772,7 @@ Template.new_quote.events({
             };
 
             salesService.saveQuoteEx(objDetails).then(function (objDetails) {
-                Router.go('/quoteslist?success=true');
+                FlowRouter.go('/quoteslist?success=true');
             }).catch(function (err) {
                 swal({
                     title: 'Oooops...',
@@ -4790,7 +4790,7 @@ Template.new_quote.events({
                 $('.fullScreenSpin').css('display', 'none');
             });
         } else {
-            Router.go('/quoteslist?success=true');
+            FlowRouter.go('/quoteslist?success=true');
         }
         $('#deleteLineModal').modal('toggle');
     },
@@ -5033,7 +5033,7 @@ Template.new_quote.events({
             let tax = $('#subtotal_tax').html() || 0;
             let saleCustField1 = $('#edtSaleCustField1').val();
             let saleCustField2 = $('#edtSaleCustField2').val();
-            var url = window.location.href;
+            var url = FlowRouter.current().path;
             var getso_id = url.split('?id=');
             var currentQuote = getso_id[getso_id.length - 1];
             let uploadedItems = templateObject.uploadedFiles.get();
@@ -5115,7 +5115,7 @@ Template.new_quote.events({
                 function generatePdfForMail(invoiceId) {
                     let file = "Quote-" + objDetails.fields.ID + ".pdf"
                     return new Promise((resolve, reject) => {
-                        $(".linkText").attr("href", "https://www.depot.vs1cloud.com/stripe/" + stringQuery);
+                        $(".linkText").attr("href", stripeGlobalURL + stringQuery);
                         let templateObject = Template.instance();
                         let completeTabRecord;
                         let doc = new jsPDF('p', 'pt', 'a4');
@@ -5195,7 +5195,7 @@ Template.new_quote.events({
                         '                </tr>' +
                         '                <tr>' +
                         '                    <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0 10px 0;">' +
-                        '                        Simply click on <a style="border: none; color: white; padding: 6px 12px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin: 4px 2px; cursor: pointer; background-color: #5cb85c; border-color: #4cae4c; border-radius: 10px;" href="https://www.depot.vs1cloud.com/stripe/' + stringQuery + '">Make Payment</a> to pay now.' +
+                        '                        Simply click on <a style="border: none; color: white; padding: 6px 12px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin: 4px 2px; cursor: pointer; background-color: #5cb85c; border-color: #4cae4c; border-radius: 10px;" href="' +stripeGlobalURL+''+ stringQuery + '">Make Payment</a> to pay now.' +
                         '                    </td>' +
                         '                </tr>' +
                         '                 <tr>' +
@@ -5244,7 +5244,7 @@ Template.new_quote.events({
                             attachments: attachment
                         }, function (error, result) {
                             if (error && error.error === "error") {
-                                Router.go('/quoteslist?success=true');
+                                FlowRouter.go('/quoteslist?success=true');
 
                             } else {
 
@@ -5260,7 +5260,7 @@ Template.new_quote.events({
                             attachments: attachment
                         }, function (error, result) {
                             if (error && error.error === "error") {
-                                Router.go('/quoteslist?success=true');
+                                FlowRouter.go('/quoteslist?success=true');
                             } else {
                                 $('#html-2-pdfwrapper').css('display', 'none');
                                 swal({
@@ -5271,7 +5271,7 @@ Template.new_quote.events({
                                     confirmButtonText: 'OK'
                                 }).then((result) => {
                                     if (result.value) {
-                                        Router.go('/quoteslist?success=true');
+                                        FlowRouter.go('/quoteslist?success=true');
                                     } else if (result.dismiss === 'cancel') {
 
                                     }
@@ -5305,7 +5305,7 @@ Template.new_quote.events({
                                     confirmButtonText: 'OK'
                                 }).then((result) => {
                                     if (result.value) {
-                                        Router.go('/quoteslist?success=true');
+                                        FlowRouter.go('/quoteslist?success=true');
                                     } else if (result.dismiss === 'cancel') {
 
                                     }
@@ -5326,7 +5326,7 @@ Template.new_quote.events({
                         }, function (error, result) {
 
                             if (error && error.error === "error") {
-                                Router.go('/quoteslist?success=true');
+                                FlowRouter.go('/quoteslist?success=true');
                             } else {
                                 $('#html-2-pdfwrapper').css('display', 'none');
                                 swal({
@@ -5337,7 +5337,7 @@ Template.new_quote.events({
                                     confirmButtonText: 'OK'
                                 }).then((result) => {
                                     if (result.value) {
-                                        Router.go('/quoteslist?success=true');
+                                        FlowRouter.go('/quoteslist?success=true');
                                     } else if (result.dismiss === 'cancel') {
 
                                     }
@@ -5348,7 +5348,7 @@ Template.new_quote.events({
                         });
 
                     } else {
-                        Router.go('/quoteslist?success=true');
+                        FlowRouter.go('/quoteslist?success=true');
                     };
 
 
@@ -5835,7 +5835,7 @@ Template.new_quote.events({
         let stripe_id = templateObject.accountID.get() || '';
         let stripe_fee_method = templateObject.stripe_fee_method.get();
         if(stripe_id != ""){
-            var url = window.location.href;
+            var url = FlowRouter.current().path;
             var id_available = url.includes("?id=");
             if (id_available == true) {
                 let templateObject = Template.instance();
@@ -5878,7 +5878,7 @@ Template.new_quote.events({
                     stringQuery = stringQuery + "product" + l + "=" + lineItems[l].description + "&price" + l + "=" + lineItems[l].unitPrice + "&qty" + l + "=" + lineItems[l].quantity + "&";
                 }
                 stringQuery = stringQuery + "tax=" + tax + "&total=" + total + "&customer=" + customer + "&name=" + name + "&surname=" + surname + "&quoteid=" + quoteData.id + "&transid="+stripe_id+"&feemethod="+stripe_fee_method+"&company=" + company + "&vs1email=" + vs1User + "&customeremail=" + customerEmail + "&type=Quote&url=" + window.location.href + "&server=" + erpGet.ERPIPAddress + "&username=" + erpGet.ERPUsername + "&token=" + erpGet.ERPPassword + "&session=" + erpGet.ERPDatabase + "&port=" + erpGet.ERPPort+"&currency="+currencyname;
-                window.open("https://www.depot.vs1cloud.com/stripe/" + stringQuery, '_self');
+                window.open(stripeGlobalURL + stringQuery, '_self');
 
             } else {
                 let templateObject = Template.instance();
@@ -5967,7 +5967,7 @@ Template.new_quote.events({
                     let tax = $('#subtotal_tax').html() || 0;
                     let saleCustField1 = $('#edtSaleCustField1').val();
                     let saleCustField2 = $('#edtSaleCustField2').val();
-                    var url = window.location.href;
+                    var url = FlowRouter.current().path;
                     var getso_id = url.split('?id=');
                     var currentQuote = getso_id[getso_id.length - 1];
                     let uploadedItems = templateObject.uploadedFiles.get();
@@ -6048,7 +6048,7 @@ Template.new_quote.events({
                         function generatePdfForMail(invoiceId) {
                             let file = "Invoice-" + invoiceId + ".pdf"
                             return new Promise((resolve, reject) => {
-                                $(".linkText").attr("href", "https://www.depot.vs1cloud.com/stripe/" + stringQuery);
+                                $(".linkText").attr("href", stripeGlobalURL + stringQuery);
                                 let templateObject = Template.instance();
                                 let completeTabRecord;
                                 let doc = new jsPDF('p', 'pt', 'a4');
@@ -6131,7 +6131,7 @@ Template.new_quote.events({
                                 '                </tr>' +
                                 '                <tr>' +
                                 '                    <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0 10px 0;">' +
-                                '                        Simply click on <a style="border: none; color: white; padding: 6px 12px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin: 4px 2px; cursor: pointer; background-color: #5cb85c; border-color: #4cae4c; border-radius: 10px;" href="https://www.depot.vs1cloud.com/stripe/' + stringQuery + '">Make Payment</a> to pay now.' +
+                                '                        Simply click on <a style="border: none; color: white; padding: 6px 12px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin: 4px 2px; cursor: pointer; background-color: #5cb85c; border-color: #4cae4c; border-radius: 10px;" href="'+stripeGlobalURL+'' + stringQuery + '">Make Payment</a> to pay now.' +
                                 '                    </td>' +
                                 '                </tr>' +
                                 '                 <tr>' +
@@ -6180,7 +6180,7 @@ Template.new_quote.events({
                                     attachments: attachment
                                 }, function (error, result) {
                                     if (error && error.error === "error") {
-                                        Router.go('/quoteslist?success=true');
+                                        FlowRouter.go('/quoteslist?success=true');
 
                                     } else {
 
@@ -6196,7 +6196,7 @@ Template.new_quote.events({
                                     attachments: attachment
                                 }, function (error, result) {
                                     if (error && error.error === "error") {
-                                        Router.go('/quoteslist?success=true');
+                                        FlowRouter.go('/quoteslist?success=true');
                                     } else {
                                         $('#html-2-pdfwrapper').css('display', 'none');
                                         swal({
@@ -6207,7 +6207,7 @@ Template.new_quote.events({
                                             confirmButtonText: 'OK'
                                         }).then((result) => {
                                             if (result.value) {
-                                                Router.go('/quoteslist?success=true');
+                                                FlowRouter.go('/quoteslist?success=true');
                                             } else if (result.dismiss === 'cancel') {
 
                                             }
@@ -6241,7 +6241,7 @@ Template.new_quote.events({
                                             confirmButtonText: 'OK'
                                         }).then((result) => {
                                             if (result.value) {
-                                                Router.go('/quoteslist?success=true');
+                                                FlowRouter.go('/quoteslist?success=true');
                                             } else if (result.dismiss === 'cancel') {
 
                                             }
@@ -6262,7 +6262,7 @@ Template.new_quote.events({
                                 }, function (error, result) {
 
                                     if (error && error.error === "error") {
-                                        Router.go('/quoteslist?success=true');
+                                        FlowRouter.go('/quoteslist?success=true');
                                     } else {
                                         $('#html-2-pdfwrapper').css('display', 'none');
                                         swal({
@@ -6273,7 +6273,7 @@ Template.new_quote.events({
                                             confirmButtonText: 'OK'
                                         }).then((result) => {
                                             if (result.value) {
-                                                Router.go('/quoteslist?success=true');
+                                                FlowRouter.go('/quoteslist?success=true');
                                             } else if (result.dismiss === 'cancel') {
 
                                             }
@@ -6284,7 +6284,7 @@ Template.new_quote.events({
                                 });
 
                             } else {
-                                Router.go('/quoteslist?success=true');
+                                FlowRouter.go('/quoteslist?success=true');
                             };
 
 
@@ -6406,7 +6406,7 @@ Template.new_quote.events({
 
             let saleCustField1 = $('#edtSaleCustField1').val();
             let saleCustField2 = $('#edtSaleCustField2').val();
-            var url = window.location.href;
+            var url = FlowRouter.current().path;
             var getso_id = url.split('?id=');
             var currentQuote = getso_id[getso_id.length - 1];
             let uploadedItems = templateObject.uploadedFiles.get();
@@ -6575,7 +6575,7 @@ Template.new_quote.events({
     },
     'click #btnCopyToOrder': function () {
         $('.fullScreenSpin').css('display', 'inline-block');
-        var url = window.location.href;
+        var url = FlowRouter.current().path;
         if (url.indexOf('?id=') > 0) {
             let templateObject = Template.instance();
             let customername = $('#edtCustomerName');
@@ -6650,7 +6650,7 @@ Template.new_quote.events({
 
                 let saleCustField1 = $('#edtSaleCustField1').val();
                 let saleCustField2 = $('#edtSaleCustField2').val();
-                var url = window.location.href;
+                var url = FlowRouter.current().path;
                 var getso_id = url.split('?id=');
                 var currentQuote = getso_id[getso_id.length - 1];
                 let uploadedItems = templateObject.uploadedFiles.get();
@@ -6812,12 +6812,12 @@ Template.new_quote.events({
                 });
             }
         } else {
-            Router.go('/salesordercard');
+            FlowRouter.go('/salesordercard');
         }
     },
     'click #btnCopyToInvoice': function () {
         $('.fullScreenSpin').css('display', 'inline-block');
-        var url = window.location.href;
+        var url = FlowRouter.current().path;
         if (url.indexOf('?id=') > 0) {
             let templateObject = Template.instance();
             let customername = $('#edtCustomerName');
@@ -6894,7 +6894,7 @@ Template.new_quote.events({
 
                 let saleCustField1 = $('#edtSaleCustField1').val();
                 let saleCustField2 = $('#edtSaleCustField2').val();
-                var url = window.location.href;
+                var url = FlowRouter.current().path;
                 var getso_id = url.split('?id=');
                 var currentQuote = getso_id[getso_id.length - 1];
                 let uploadedItems = templateObject.uploadedFiles.get();
@@ -7056,7 +7056,7 @@ Template.new_quote.events({
                 });
             }
         } else {
-            Router.go('/invoicecard');
+            FlowRouter.go('/invoicecard');
         }
     },
     'click .chkEmailCopy': function (event) {

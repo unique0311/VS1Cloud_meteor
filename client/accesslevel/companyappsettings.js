@@ -56,7 +56,7 @@ Template.companyappsettings.events({
      history.back(1);
    },
    'click .btnAddVS1User':function(event){
-    //Router.go('/employeescard');
+    //FlowRouter.go('/employeescard');
     swal({
       title: 'Is this an existing Employee?',
       text: '',
@@ -70,7 +70,7 @@ Template.companyappsettings.events({
         $('#employeeListModal').modal('toggle');
       // result.dismiss can be 'overlay', 'cancel', 'close', 'esc', 'timer'
       } else if (result.dismiss === 'cancel') {
-        Router.go('/employeescard?addvs1user=true');
+        FlowRouter.go('/employeescard?addvs1user=true');
       }
     })
    },

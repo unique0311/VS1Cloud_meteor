@@ -180,7 +180,7 @@ Template.contactoverview.onRendered(function() {
                 'onClick' : function (evt, item) {
                     if(item[0]['_model'].label){
                         var activePoints = item[0]['_model'].label;
-                        Router.go('/salesreport?contact=' + activePoints);
+                        FlowRouter.go('/salesreport?contact=' + activePoints);
                     }
 
                 },
@@ -407,7 +407,7 @@ Template.contactoverview.onRendered(function() {
                 'onClick' : function (evt, item) {
                     if(item[0]['_model'].label){
                         var activePoints = item[0]['_model'].label;
-                        Router.go('/purchasesreport?contact=' + activePoints);
+                        FlowRouter.go('/purchasesreport?contact=' + activePoints);
                     }
 
                 },
@@ -854,27 +854,27 @@ Template.contactoverview.onRendered(function() {
                         var transactiontype = $(event.target).closest("tr").find(".colType").text();
                         if((listData) && (transactiontype)){
                             if(transactiontype === 'Customer / Employee / Prospect / Supplier' ){
-                                Router.go('/customerscard?id=' + listData);
+                                FlowRouter.go('/customerscard?id=' + listData);
                             }else if(transactiontype === 'Customer / Prospect / Supplier'){
-                                Router.go('/customerscard?id=' + listData);
+                                FlowRouter.go('/customerscard?id=' + listData);
                             }else if(transactiontype === 'Customer / Supplier'){
-                                Router.go('/customerscard?id=' + listData);
+                                FlowRouter.go('/customerscard?id=' + listData);
                             }else if(transactiontype === 'Customer'){
-                                Router.go('/customerscard?id=' + listData);
+                                FlowRouter.go('/customerscard?id=' + listData);
                             }
                             else if(transactiontype === 'Supplier'){
-                                Router.go('/supplierscard?id=' + listData);
+                                FlowRouter.go('/supplierscard?id=' + listData);
                             }else if(transactiontype === 'Employee'){
-                                Router.go('/employeescard?id=' + listData);
+                                FlowRouter.go('/employeescard?id=' + listData);
                             }else if(transactiontype === 'Prospect'){
-                                Router.go('/customerscard?id=' + listData);
+                                FlowRouter.go('/customerscard?id=' + listData);
                             }else if(transactiontype === 'Job'){
-                                Router.go('/customerscard?jobid=' + listData);
+                                FlowRouter.go('/customerscard?jobid=' + listData);
                             }
 
                         }
                         //if(listData){
-                        // Router.go('/employeescard?id=' + listData);
+                        // FlowRouter.go('/employeescard?id=' + listData);
                         //}
                     });
 
@@ -1117,27 +1117,27 @@ Template.contactoverview.onRendered(function() {
                     var transactiontype = $(event.target).closest("tr").find(".colType").text();
                     if((listData) && (transactiontype)){
                         if(transactiontype === 'Customer / Employee / Prospect / Supplier' ){
-                            Router.go('/customerscard?id=' + listData);
+                            FlowRouter.go('/customerscard?id=' + listData);
                         }else if(transactiontype === 'Customer / Prospect / Supplier'){
-                            Router.go('/customerscard?id=' + listData);
+                            FlowRouter.go('/customerscard?id=' + listData);
                         }else if(transactiontype === 'Customer / Supplier'){
-                            Router.go('/customerscard?id=' + listData);
+                            FlowRouter.go('/customerscard?id=' + listData);
                         }else if(transactiontype === 'Customer'){
-                            Router.go('/customerscard?id=' + listData);
+                            FlowRouter.go('/customerscard?id=' + listData);
                         }
                         else if(transactiontype === 'Supplier'){
-                            Router.go('/supplierscard?id=' + listData);
+                            FlowRouter.go('/supplierscard?id=' + listData);
                         }else if(transactiontype === 'Employee'){
-                            Router.go('/employeescard?id=' + listData);
+                            FlowRouter.go('/employeescard?id=' + listData);
                         }else if(transactiontype === 'Prospect'){
-                            Router.go('/customerscard?id=' + listData);
+                            FlowRouter.go('/customerscard?id=' + listData);
                         }else if(transactiontype === 'Job'){
-                            Router.go('/customerscard?jobid=' + listData);
+                            FlowRouter.go('/customerscard?jobid=' + listData);
                         }
 
                     }
                     //if(listData){
-                    // Router.go('/employeescard?id=' + listData);
+                    // FlowRouter.go('/employeescard?id=' + listData);
                     //}
                 });
 
@@ -1376,27 +1376,27 @@ Template.contactoverview.onRendered(function() {
                     var transactiontype = $(event.target).closest("tr").find(".colType").text();
                     if((listData) && (transactiontype)){
                         if(transactiontype === 'Customer / Employee / Prospect / Supplier' ){
-                            Router.go('/customerscard?id=' + listData);
+                            FlowRouter.go('/customerscard?id=' + listData);
                         }else if(transactiontype === 'Customer / Prospect / Supplier'){
-                            Router.go('/customerscard?id=' + listData);
+                            FlowRouter.go('/customerscard?id=' + listData);
                         }else if(transactiontype === 'Customer / Supplier'){
-                            Router.go('/customerscard?id=' + listData);
+                            FlowRouter.go('/customerscard?id=' + listData);
                         }else if(transactiontype === 'Customer'){
-                            Router.go('/customerscard?id=' + listData);
+                            FlowRouter.go('/customerscard?id=' + listData);
                         }
                         else if(transactiontype === 'Supplier'){
-                            Router.go('/supplierscard?id=' + listData);
+                            FlowRouter.go('/supplierscard?id=' + listData);
                         }else if(transactiontype === 'Employee'){
-                            Router.go('/employeescard?id=' + listData);
+                            FlowRouter.go('/employeescard?id=' + listData);
                         }else if(transactiontype === 'Prospect'){
-                            Router.go('/customerscard?id=' + listData);
+                            FlowRouter.go('/customerscard?id=' + listData);
                         }else if(transactiontype === 'Job'){
-                            Router.go('/customerscard?jobid=' + listData);
+                            FlowRouter.go('/customerscard?jobid=' + listData);
                         }
 
                     }
                     //if(listData){
-                    // Router.go('/employeescard?id=' + listData);
+                    // FlowRouter.go('/employeescard?id=' + listData);
                     //}
                 });
 
@@ -1424,9 +1424,9 @@ Template.contactoverview.onRendered(function() {
       });
     }
 
-    let urlParametersDateFrom = Router.current().params.query.fromDate;
-    let urlParametersDateTo = Router.current().params.query.toDate;
-    let urlParametersIgnoreDate = Router.current().params.query.ignoredate;
+    let urlParametersDateFrom = FlowRouter.current().queryParams.fromDate;
+    let urlParametersDateTo = FlowRouter.current().queryParams.toDate;
+    let urlParametersIgnoreDate = FlowRouter.current().queryParams.ignoredate;
     if(urlParametersDateFrom){
       if(urlParametersIgnoreDate == true){
         $('#dateFrom').attr('readonly', true);
@@ -1617,22 +1617,22 @@ Template.contactoverview.events({
         templateObject.getAllFilterCombinedContactsData('', '', true);
     },
     'click #newSalesOrder' : function(event){
-        Router.go('/salesordercard');
+        FlowRouter.go('/salesordercard');
     },
     'click .salesOrderList' : function(event){
-        Router.go('/salesorderslist');
+        FlowRouter.go('/salesorderslist');
     },
     'click #newInvoice' : function(event){
-        Router.go('/invoicecard');
+        FlowRouter.go('/invoicecard');
     },
     'click .invoiceList' : function(event){
-        Router.go('/invoicelist');
+        FlowRouter.go('/invoicelist');
     },
     'click #newQuote' : function(event){
-        Router.go('/quotecard');
+        FlowRouter.go('/quotecard');
     },
     'click .QuoteList' : function(event){
-        Router.go('/quoteslist');
+        FlowRouter.go('/quoteslist');
     },
     'click .chkDatatable' : function(event){
         var columns = $('#tblcontactoverview th');

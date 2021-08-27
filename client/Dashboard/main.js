@@ -206,58 +206,58 @@ Template.home.helpers({
 // Listen to event to update reactive variable
 Template.home.events({
   'click .includeAccessLevels': function (event) {
-    Router.go('/accesslevel');
+    FlowRouter.go('/accesslevel');
   },
   'click .includeAccounts': function (event) {
-    Router.go('/bankaccounts');
+    FlowRouter.go('/bankaccounts');
   },
   'click .includeContacts': function (event) {
-    Router.go('/allcontacts');
+    FlowRouter.go('/allcontacts');
   },
   'click .includeDashboard': function (event) {
-    Router.go('/dashboard');
+    FlowRouter.go('/dashboard');
   },
   'click .includeExpenseClaims': function (event) {
-    Router.go('/expenseclaims/current-claims');
+    FlowRouter.go('/expenseclaims/current-claims');
   },
   'click .includeFixedAssets': function (event) {
-    Router.go('/fixedassets/draft');
+    FlowRouter.go('/fixedassets/draft');
   },
   'click .includeInventory': function (event) {
-    Router.go('/productexpresslist');
+    FlowRouter.go('/productexpresslist');
   },
   'click .includeMain': function (event) {
-    Router.go('/home');
+    FlowRouter.go('/home');
   },
   'click .includeManufacturing': function (event) {
-    Router.go('/manufacturing');
+    FlowRouter.go('/manufacturing');
   },
   'click .includePayments': function (event) {
-    Router.go('/customerpaymentlist');
+    FlowRouter.go('/customerpaymentlist');
   },
   'click .includePurchases': function (event) {
-    Router.go('/purchases');
+    FlowRouter.go('/purchases');
   },
   'click .includeReports': function (event) {
-    Router.go('/allreports');
+    FlowRouter.go('/allreports');
   },
   'click .includeSales': function (event) {
-    Router.go('/allsales');
+    FlowRouter.go('/allsales');
   },
   'click .includeSettings': function (event) {
-    Router.go('/settings');
+    FlowRouter.go('/settings');
   },
   'click .includeShipping': function (event) {
-    Router.go('/shipping');
+    FlowRouter.go('/shipping');
   },
   'click .includeStockTake': function (event) {
-    Router.go('/stocktake');
+    FlowRouter.go('/stocktake');
   },
   'click .includeStockTransfer': function (event) {
-    Router.go('/stocktransfer');
+    FlowRouter.go('/stocktransfer');
   },
   'click .includeLogOut': function (event) {
-    Router.go('/');
+    FlowRouter.go('/');
     CloudUser.update({_id: Session.get('mycloudLogonID')},{ $set: {userMultiLogon: false}});
   },
   'mouseenter .portfolio .includeLogOut': function (event) {

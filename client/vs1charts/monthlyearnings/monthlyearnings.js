@@ -218,7 +218,7 @@ Template.monthlyearnings.onRendered(() => {
                     'onClick': function (evt, item) {
                         //if(item[0]['_model'].label){
                         //  var activePoints = item[0]['_model'].label;
-                        Router.go('/agedreceivables');
+                        FlowRouter.go('/agedreceivables');
                         //}
 
                     },
@@ -398,7 +398,7 @@ Template.monthlyearnings.onRendered(() => {
                 'onClick': function (evt, item) {
                     //if(item[0]['_model'].label){
                     //  var activePoints = item[0]['_model'].label;
-                    Router.go('/agedreceivables');
+                    FlowRouter.go('/agedreceivables');
                     //}
 
                 },

@@ -484,12 +484,12 @@ Template.balancesheetreport.onRendered(() => {
     templateObject.getBalanceSheetReports(getLoadDate);
     $('#balancedate').val(moment(currentDate2).format("DD/MM/YYYY"));
 
-    if (Object.keys(Router.current().params.query).length) {
-        templateObject.$('#balanceDate').val(moment(Router.current().params.query.balanceDate).format('MMMM YYYY'));
-        templateObject.$('#compareTo').val(Router.current().params.query.compareTo);
-        templateObject.$('#comparePeriod').val(Router.current().params.query.comparePeriod);
-        templateObject.$('#sort').val(Router.current().params.query.sort);
-        templateObject.currentMonth.set(moment(Router.current().params.query.balanceDate).format('MMMM'));
+    if (Object.keys(FlowRouter.current().queryParams).length) {
+        templateObject.$('#balanceDate').val(moment(FlowRouter.current().queryParams.balanceDate).format('MMMM YYYY'));
+        templateObject.$('#compareTo').val(FlowRouter.current().queryParams.compareTo);
+        templateObject.$('#comparePeriod').val(FlowRouter.current().queryParams.comparePeriod);
+        templateObject.$('#sort').val(FlowRouter.current().queryParams.sort);
+        templateObject.currentMonth.set(moment(FlowRouter.current().queryParams.balanceDate).format('MMMM'));
         templateObject.$('.update_search').click();
     } else {
 
@@ -741,7 +741,7 @@ Template.balancesheetreport.events({
         templateObject.getBalanceSheetReports(Date);
         let url = '/reports/balance-sheet?balanceDate=' + moment(balanceDate).clone().endOf('month').format('YYYY-MM-DD')+ '&compareTo=' + compareTo + '&comparePeriod=' + comparePeriod + '&sort=' + sort;
         if(!(Session.get('AgedReceivablesTemplate'))){
-            Router.go(url);
+            FlowRouter.go(url);
         }
     },
     'change .balancedate':function(){

@@ -5,7 +5,7 @@ import "jquery-validation/dist/jquery.validate.min";
 import '../lib/global/indexdbstorage.js';
 Template.resetpassword.helpers({
     getUserEmail: function(){
-      var url = window.location.href;
+      var url = FlowRouter.current().path;
       var getcustomer_email = url.split('?token=');
       var customer_email = getcustomer_email[getcustomer_email.length-1];
       if(customer_email){

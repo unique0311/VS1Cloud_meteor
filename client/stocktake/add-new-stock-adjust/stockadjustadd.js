@@ -1036,7 +1036,7 @@ oPost.onreadystatechange = function() {
 
 if (oPost.readyState == 4 && oPost.status == 200) {
 
-Router.go('/stockadjlist');
+FlowRouter.go('/stockadjlist');
 /*
     let dataReturn = JSON.parse(oPost.responseText);
     let stockadjustId = dataReturn.fields.ID;
@@ -1049,7 +1049,7 @@ Router.go('/stockadjlist');
       notificationMessagerAfterSave = "Stock Adjust Saved - "+stockadjustId+ "Hold";
         Session.set('recordSavedID',stockadjustId);
         Session.set('isShowSaveNotification', notificationMessagerAfterSave);
-        Router.go('/stockadjlist');
+        FlowRouter.go('/stockadjlist');
         //Session.set('showApproveNotificationOnNewInvoice', true);
     }
     */

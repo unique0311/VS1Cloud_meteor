@@ -17,7 +17,6 @@ ecmascript@0.9.0              # Enable ECMAScript2015+ syntax in app code
 shell-server@0.3.0            # Server-side component of the `meteor shell` command
 
 insecure@1.0.7                # Allow all DB writes from clients (for prototyping)
-iron:router
 
 
 accounts-password@1.5.0
@@ -53,3 +52,5 @@ cleandersonlobo:sweetalert2
 meteorhacks:inject-initial
 meteorhacks:picker
 force-ssl
+kadira:flow-router
+kadira:blaze-layout

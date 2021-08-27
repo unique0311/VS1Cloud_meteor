@@ -25,7 +25,7 @@ Template.supplierlist.onRendered(function() {
     const dataTableList = [];
     const tableHeaderList = [];
 
-    if(Router.current().params.query.success){
+    if(FlowRouter.current().queryParams.success){
         $('.btnRefresh').addClass('btnRefreshAlert');
     }
 
@@ -240,7 +240,7 @@ Template.supplierlist.onRendered(function() {
                     $('#tblSupplierlist tbody').on( 'click', 'tr', function () {
                         var listData = $(this).closest('tr').attr('id');
                         if(listData){
-                            Router.go('/supplierscard?id=' + listData);
+                            FlowRouter.go('/supplierscard?id=' + listData);
                         }
                     });
 
@@ -430,7 +430,7 @@ Template.supplierlist.onRendered(function() {
                             }, 100);
                         },
                         "fnInitComplete": function () {
-                          let urlParametersPage = Router.current().params.query.page;
+                          let urlParametersPage = FlowRouter.current().queryParams.page;
                           if(urlParametersPage){
                             this.fnPageChange('last');
                           }
@@ -518,7 +518,7 @@ Template.supplierlist.onRendered(function() {
                 $('#tblSupplierlist tbody').on( 'click', 'tr', function () {
                     var listData = $(this).closest('tr').attr('id');
                     if(listData){
-                        Router.go('/supplierscard?id=' + listData);
+                        FlowRouter.go('/supplierscard?id=' + listData);
                     }
                 });
 
@@ -699,7 +699,7 @@ Template.supplierlist.onRendered(function() {
                 $('#tblSupplierlist tbody').on( 'click', 'tr', function () {
                     var listData = $(this).closest('tr').attr('id');
                     if(listData){
-                        Router.go('/supplierscard?id=' + listData);
+                        FlowRouter.go('/supplierscard?id=' + listData);
                     }
                 });
 
@@ -717,7 +717,7 @@ Template.supplierlist.onRendered(function() {
     $('#tblSupplierlist tbody').on( 'click', 'tr', function () {
         var listData = $(this).closest('tr').attr('id');
         if(listData){
-            Router.go('/supplierscard?id=' + listData);
+            FlowRouter.go('/supplierscard?id=' + listData);
         }
 
     });
@@ -728,7 +728,7 @@ Template.supplierlist.onRendered(function() {
 
 Template.supplierlist.events({
     'click #btnNewSupplier':function(event){
-        Router.go('/supplierscard');
+        FlowRouter.go('/supplierscard');
     },
     'click .chkDatatable' : function(event){
         var columns = $('#tblSupplierlist th');

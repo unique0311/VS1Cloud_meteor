@@ -1,1589 +1,1021 @@
-Router.configure({
-    layout: 'layout',
-    loadingTemplate: '',
-    notFoundTemplate: 'not_found',
-    onBeforeAction: function(r) {
-        if (Session.get('CloudSidePanelMenu')) {
-            $("html").addClass("hasSideBar");
-            $("body").addClass("hasSideBar");
-            // $("html").toggleClass("hasSideBar");
-            // $("body").toggleClass("hasSideBar");
-        }
+FlowRouter.notFound = {
+  action() {
+    BlazeLayout.render( 'layoutlogin', { yield: 'notFound' } );
+  }
+};
 
-        if (Session.get('sidePanelSettings') === "openNav") {
-            $(".active_page_content").css("text-align", "right");
-        } else {
-            $(".active_page_content").css("text-align", "inherit");
-        }
-        if (Session.get('lastUrl') == undefined) {
-            Session.setPersistent('lastUrl', window.location.pathname);
-        } else {
-            let lastUrl = Session.get('lastUrl');
-            if (lastUrl != '/reports/aged-payables' && lastUrl !== '/apinfo') {
-                localStorage.removeItem("adddedPayableItemStore");
-            }
-            if (lastUrl != '/reports/aged-receivables' && lastUrl !== '/arinfo') {
-                localStorage.removeItem("addToReceivableReport");
-            }
-            if (lastUrl != '/reports/sales-by-item' && lastUrl !== '/item-transaction') {
-                localStorage.removeItem("adddedItemStore");
-            }
-            if (lastUrl != '/reports/balance-sheet' && lastUrl !== '/balance-sheet-detail') {
-                localStorage.removeItem("balanceSheetItemStore");
-            }
 
-            if (lastUrl != '/reports/generalLedgerReport/generalLedgerSummary' &&
-                lastUrl !== '/reports/generalLedgerReport/generalLedgerExceptions' &&
-                lastUrl !== '/generalLedgerDetail') {
-                localStorage.removeItem("generalLedgerReport");
-            }
-
-            if (lastUrl != '/reports/income-by-contact' && lastUrl !== '/reports/income-transaction') {
-                localStorage.removeItem("incomeTransactionItemStore");
-            }
-            if (lastUrl != '/reports/expense-by-contact' && lastUrl !== '/reports/expense-transaction') {
-                localStorage.removeItem("expenseTransactionItemStore");
-            }
-
-            if (lastUrl != '/reports/aged-receivables-detail') {
-                localStorage.removeItem("contactSelectedFields");
-                localStorage.removeItem('allRecordData');
-                localStorage.removeItem('contactGroupField');
-                localStorage.removeItem('emailFilterField');
-                localStorage.removeItem('invoiceNumberField');
-                localStorage.removeItem('invoiceReferenceField');
-                localStorage.removeItem('mobileFilterField');
-                localStorage.removeItem('phoneFilterField');
-                localStorage.removeItem('expectedDateFrom');
-                localStorage.removeItem('expectedDateTo');
-                localStorage.removeItem('dueDateFrom');
-                localStorage.removeItem('dueDateTo');
-                localStorage.removeItem('invoiceDateFrom');
-                localStorage.removeItem('invoiceDateTo');
-                localStorage.removeItem('layoutSecondValue');
-            }
-
-            if (lastUrl !== '/reports/receivable-invoice-detail') {
-                localStorage.removeItem("invoiceContactField");
-                localStorage.removeItem('contactGrpField');
-                localStorage.removeItem('invoiceNumberData');
-                localStorage.removeItem('invoiceReferenceData');
-                localStorage.removeItem('fromExpectedDate');
-                localStorage.removeItem('toExpectedDate');
-                localStorage.removeItem('createdDateFrom');
-                localStorage.removeItem('createdDateTo');
-                localStorage.removeItem('fromDueDate');
-                localStorage.removeItem('toDueDate');
-                localStorage.removeItem('fromInvoiceDate');
-                localStorage.removeItem('invoiceDateTo');
-                localStorage.removeItem('dateSearch');
-                localStorage.removeItem('invoiceDetailLayoutSecond');
-            }
-
-            if (lastUrl !== '/reports/receivable-invoice-summary') {
-                localStorage.removeItem("summaryContactField");
-                localStorage.removeItem('contactGrpSummary');
-                localStorage.removeItem('summaryNumberData');
-                localStorage.removeItem('summaryReferenceData');
-                localStorage.removeItem('summaryExpectedFrom');
-                localStorage.removeItem('summaryExpectedTo');
-                localStorage.removeItem('summaryDuedateFrom');
-                localStorage.removeItem('summaryDuedateTo');
-                localStorage.removeItem('fromInvoiceDate');
-                localStorage.removeItem('summaryInvoiceDateTo');
-                localStorage.removeItem('summaryInvoiceDateFrom');
-                localStorage.removeItem('dateSearchSumm');
-                localStorage.removeItem('summarylayoutSecond');
-            }
-
-            if (lastUrl != '/reports/payable-invoice-detail') {
-                localStorage.removeItem("payableContactField");
-                localStorage.removeItem('payableSourceField');
-                localStorage.removeItem('payableAcountsField');
-                localStorage.removeItem('contactGroup');
-                localStorage.removeItem('payableTotalTo');
-                localStorage.removeItem('payableTotalFrom');
-                localStorage.removeItem('payableGstFrom');
-                localStorage.removeItem('payableGstTo');
-                localStorage.removeItem('payableInvoiceReference');
-                localStorage.removeItem('phoneFilterField');
-                localStorage.removeItem('fromPlannedDate');
-                localStorage.removeItem('toPlannedDate');
-                localStorage.removeItem('payableDueFrom');
-                localStorage.removeItem('payableDueTo');
-                localStorage.removeItem('payFromInvDate');
-                localStorage.removeItem('payToInvDate');
-                localStorage.removeItem('payablelayoutSecond');
-            }
-
-            if (lastUrl != '/reports/payable-invoice-summary') {
-                localStorage.removeItem("payInvContactField");
-                localStorage.removeItem('payInvSourceField');
-                localStorage.removeItem('payInvAcountsField');
-                localStorage.removeItem('payInvcontactGroup');
-                localStorage.removeItem('payInvTotalTo');
-                localStorage.removeItem('payInvTotalFrom');
-                localStorage.removeItem('payInvGstFrom');
-                localStorage.removeItem('payInvGstTo');
-                localStorage.removeItem('payInvReference');
-                localStorage.removeItem('payInvfromPlanned');
-                localStorage.removeItem('payInvToPlanned');
-                localStorage.removeItem('payInvDueFrom');
-                localStorage.removeItem('payInvDueTo');
-                localStorage.removeItem('payInvFromInvDate');
-                localStorage.removeItem('payInvToInvDate');
-                localStorage.removeItem('payInvLayoutSecond');
-            }
-        }
-        Session.setPersistent('lastUrl', window.location.pathname);
-        this.next();
-    }
-
-});
-
-Router.route('/', {
+FlowRouter.route('/', {
     name: 'vs1login',
-    template: 'vs1login'
+    action() {
+      BlazeLayout.render( 'layoutlogin', { yield: 'vs1login' } );
+    }
 });
 
-
-Router.route('/vs1greentracklogin', {
-    name: 'vs1greentracklogin',
-    template: 'vs1greentracklogin'
+FlowRouter.route('/vs1greentracklogin', {
+  name: 'vs1greentracklogin',
+  action() {
+    BlazeLayout.render( 'layoutlogin', { yield: 'vs1greentracklogin' } );
+  }
 });
 
-Router.route('/vs1check', {
-    name: 'vs1check',
-    template: 'vs1check'
+FlowRouter.route('/vs1check', {
+  name: 'vs1check',
+  action() {
+    BlazeLayout.render( 'layoutlogin', { yield: 'vs1check' } );
+  }
 });
 
-Router.route('/accounttransactions', {
+FlowRouter.route('/accounttransactions', {
     name: 'accounttransactions',
-    template: 'accounttransactions',
-    layoutTemplate: 'layout'
+    action() {
+      BlazeLayout.render( 'layout', { yield: 'accounttransactions' } );
+    }
 });
 
-Router.route('/testlogin', {
+FlowRouter.route('/testlogin', {
     name: 'testlogin',
-    template: 'testlogin'
+    action() {
+      BlazeLayout.render( 'layoutlogin', { yield: 'testlogin' } );
+    }
 });
 
-Router.route('/forgot', {
+FlowRouter.route('/forgot', {
     name: 'forgotforgot',
-    template: 'forgot'
+    action() {
+      BlazeLayout.render( 'layoutlogin', { yield: 'forgotforgot' } );
+    }
 });
-Router.route('/register', {
+FlowRouter.route('/register', {
     name: 'register',
-    template: 'register'
+    action() {
+      BlazeLayout.render( 'layoutlogin', { yield: 'register' } );
+    }
 });
 
-Router.route('/registerdb', {
+FlowRouter.route('/registerdb', {
     name: 'registerdb',
-    template: 'registerdb'
+    action() {
+      BlazeLayout.render( 'layoutlogin', { yield: 'registerdb' } );
+    }
 });
 
-Router.route('/binnypurchasedb', {
+FlowRouter.route('/binnypurchasedb', {
     name: 'binnypurchasedb',
-    template: 'binnypurchasedb'
+    action() {
+      BlazeLayout.render( 'layoutlogin', { yield: 'binnypurchasedb' } );
+    }
 });
 
-Router.route('/packagerenewal', {
+FlowRouter.route('/packagerenewal', {
     name: 'packagerenewal',
-    template: 'packagerenewal'
+    action() {
+      BlazeLayout.render( 'layoutlogin', { yield: 'packagerenewal' } );
+    }
 });
 
-Router.route('/simonpurchasedb', {
+FlowRouter.route('/simonpurchasedb', {
     name: 'simonpurchasedb',
-    template: 'simonpurchasedb'
+    action() {
+      BlazeLayout.render( 'layoutlogin', { yield: 'simonpurchasedb' } );
+    }
 });
 
-Router.route('/dashboard', {
+FlowRouter.route('/dashboard', {
     name: 'dashboard',
-    template: 'dashboard',
-    layoutTemplate: 'layout'
+    action() {
+      BlazeLayout.render( 'layout', { yield: 'dashboard' } );
+    }
 });
 
-Router.route('/appointments', {
+FlowRouter.route('/appointments', {
     name: 'appointments',
-    template: 'appointments',
-    layoutTemplate: 'layout'
+    action() {
+      BlazeLayout.render( 'layout', { yield: 'appointments' } );
+    }
 });
 
-Router.route('/appointmenttimelist', {
+FlowRouter.route('/appointmenttimelist', {
     name: 'appointmenttimelist',
-    template: 'appointmenttimelist',
-    layoutTemplate: 'layout'
+    action() {
+      BlazeLayout.render( 'layout', { yield: 'appointmenttimelist' } );
+    }
 });
 
-Router.route('/newappointments', {
+FlowRouter.route('/newappointments', {
     name: 'newappointments',
-    template: 'newappointments',
-    layoutTemplate: 'layout'
+    action() {
+      BlazeLayout.render( 'layout', { yield: 'newappointments' } );
+    }
 });
 
-// Router.route('/newso',{
-//   name: 'newso',
-//   template: 'newso',
-//   layoutTemplate: 'layout'
-// });
 /* Sales */
-Router.route('/salesordercard', {
+FlowRouter.route('/salesordercard', {
     name: 'new_salesorder',
-    template: 'new_salesorder',
-    layoutTemplate: 'layout'
+    action() {
+      BlazeLayout.render( 'layout', { yield: 'new_salesorder' } );
+    }
 });
 
-Router.route('/invoicecard', {
+FlowRouter.route('/invoicecard', {
     name: 'new_invoice',
-    template: 'new_invoice',
-    layoutTemplate: 'layout'
+    action() {
+      BlazeLayout.render( 'layout', { yield: 'new_invoice' } );
+    }
 });
 
-Router.route('/refundcard', {
+FlowRouter.route('/refundcard', {
     name: 'refundcard',
-    template: 'refundcard',
-    layoutTemplate: 'layout'
+    action() {
+      BlazeLayout.render( 'layout', { yield: 'refundcard' } );
+    }
 });
 
 
 
-Router.route('/quotecard', {
+FlowRouter.route('/quotecard', {
     name: 'new_quote',
-    template: 'new_quote',
-    layoutTemplate: 'layout'
+    action() {
+      BlazeLayout.render( 'layout', { yield: 'new_quote' } );
+    }
 });
 
-Router.route('/salesorderslist', {
+FlowRouter.route('/salesorderslist', {
     name: 'salesorderslist',
-    template: 'salesorderslist',
-    layoutTemplate: 'layout'
+    action() {
+      BlazeLayout.render( 'layout', { yield: 'salesorderslist' } );
+    }
 });
 
-Router.route('/invoicelist', {
+FlowRouter.route('/invoicelist', {
     name: 'invoicelist',
-    template: 'invoicelist',
-    layoutTemplate: 'layout'
+    action() {
+      BlazeLayout.render( 'layout', { yield: 'invoicelist' } );
+    }
 });
 
-Router.route('/invoicelistBO', {
+FlowRouter.route('/invoicelistBO', {
     name: 'invoicelistBO',
-    template: 'invoicelistBO',
-    layoutTemplate: 'layout'
+    action() {
+      BlazeLayout.render( 'layout', { yield: 'invoicelistBO' } );
+    }
 });
-Router.route('/quoteslist', {
+FlowRouter.route('/quoteslist', {
     name: 'quoteslist',
-    template: 'quoteslist',
-    layoutTemplate: 'layout'
+    action() {
+      BlazeLayout.render( 'layout', { yield: 'quoteslist' } );
+    }
 });
 
 /*Overviews*/
-Router.route('/accountsoverview', {
+FlowRouter.route('/accountsoverview', {
     name: 'accountsoverview',
-    template: 'accountsoverview',
-    layoutTemplate: 'layout'
+    action() {
+      BlazeLayout.render( 'layout', { yield: 'accountsoverview' } );
+    }
 });
 
-Router.route('/payrolloverview', {
+FlowRouter.route('/payrolloverview', {
     name: 'payrolloverview',
-    template: 'payrolloverview',
-    layoutTemplate: 'layout'
+    action() {
+      BlazeLayout.render( 'layout', { yield: 'payrolloverview' } );
+    }
 });
 
-Router.route('/purchasesoverview', {
+FlowRouter.route('/purchasesoverview', {
     name: 'purchasesoverview',
-    template: 'purchasesoverview',
-    layoutTemplate: 'layout'
+    action() {
+      BlazeLayout.render( 'layout', { yield: 'purchasesoverview' } );
+    }
 });
 
-Router.route('/salesoverview', {
+FlowRouter.route('/salesoverview', {
     name: 'salesoverview',
-    template: 'salesoverview',
-    layoutTemplate: 'layout'
+    action() {
+      BlazeLayout.render( 'layout', { yield: 'salesoverview' } );
+    }
 });
 
-Router.route('/contactoverview', {
+FlowRouter.route('/contactoverview', {
     name: 'contactoverview',
-    template: 'contactoverview',
-    layoutTemplate: 'layout'
+    action() {
+      BlazeLayout.render( 'layout', { yield: 'contactoverview' } );
+    }
 });
 
-Router.route('/billcard', {
+FlowRouter.route('/billcard', {
     name: 'billcard',
-    template: 'billcard',
-    layoutTemplate: 'layout'
+    action() {
+      BlazeLayout.render( 'layout', { yield: 'billcard' } );
+    }
 });
 
-Router.route('/chequecard', {
+FlowRouter.route('/chequecard', {
     name: 'chequecard',
-    template: 'chequecard',
-    layoutTemplate: 'layout'
+    action() {
+      BlazeLayout.render( 'layout', { yield: 'chequecard' } );
+    }
 });
 
 /* Contacts */
-Router.route('/customerscard', {
+FlowRouter.route('/customerscard', {
     name: 'customerscard',
-    template: 'customerscard',
-    layoutTemplate: 'layout'
+    action() {
+      BlazeLayout.render( 'layout', { yield: 'customerscard' } );
+    }
 });
 
-Router.route('/employeescard', {
+FlowRouter.route('/employeescard', {
     name: 'employeescard',
-    template: 'employeescard',
-    layoutTemplate: 'layout'
+    action() {
+      BlazeLayout.render( 'layout', { yield: 'employeescard' } );
+    }
 });
 
-Router.route('/supplierscard', {
+FlowRouter.route('/supplierscard', {
     name: 'supplierscard',
-    template: 'supplierscard',
-    layoutTemplate: 'layout'
+    action() {
+      BlazeLayout.render( 'layout', { yield: 'supplierscard' } );
+    }
 });
 
-Router.route('/customerlist', {
+FlowRouter.route('/customerlist', {
     name: 'customerlist',
-    template: 'customerlist',
-    layoutTemplate: 'layout'
+    action() {
+      BlazeLayout.render( 'layout', { yield: 'customerlist' } );
+    }
 });
 
-Router.route('/invoiceemail', {
+FlowRouter.route('/invoiceemail', {
     name: 'invoiceemail',
-    template: 'invoiceemail',
-    layoutTemplate: 'layout'
+    action() {
+      BlazeLayout.render( 'layout', { yield: 'invoiceemail' } );
+    }
 });
 
-Router.route('/joblist', {
+FlowRouter.route('/joblist', {
     name: 'joblist',
-    template: 'joblist',
-    layoutTemplate: 'layout'
+    action() {
+      BlazeLayout.render( 'layout', { yield: 'joblist' } );
+    }
 });
 
-Router.route('/statementlist', {
+FlowRouter.route('/statementlist', {
     name: 'statementlist',
-    template: 'statementlist',
-    layoutTemplate: 'layout'
+    action() {
+      BlazeLayout.render( 'layout', { yield: 'statementlist' } );
+    }
 });
 
 
 
-Router.route('/employeelist', {
+FlowRouter.route('/employeelist', {
     name: 'employeelist',
-    template: 'employeelist',
-    layoutTemplate: 'layout'
+    action() {
+      BlazeLayout.render( 'layout', { yield: 'employeelist' } );
+    }
 });
 
-Router.route('/supplierlist', {
+FlowRouter.route('/supplierlist', {
     name: 'supplierlist',
-    template: 'supplierlist',
-    layoutTemplate: 'layout'
+    action() {
+      BlazeLayout.render( 'layout', { yield: 'supplierlist' } );
+    }
 });
 /* Chart of Accounts */
-Router.route('/chartofaccounts', {
+FlowRouter.route('/chartofaccounts', {
     name: 'chartofaccounts',
-    template: 'chartofaccounts',
-    layoutTemplate: 'layout'
+    action() {
+      BlazeLayout.render( 'layout', { yield: 'chartofaccounts' } );
+    }
 });
 
 /* Expense Claim */
-Router.route('/expenseclaims', {
+FlowRouter.route('/expenseclaims', {
     name: 'expenseclaims',
-    template: 'expenseclaims',
-    layoutTemplate: 'layout'
+    action() {
+      BlazeLayout.render( 'layout', { yield: 'expenseclaims' } );
+    }
 });
 
 /* Purchases */
-Router.route('purchaseorderlist', {
+FlowRouter.route('/purchaseorderlist', {
     name: 'purchaseorderlist',
-    template: 'purchaseorderlist',
-    render: 'purchaseorderlist',
-    layoutTemplate: 'layout'
+    action() {
+      BlazeLayout.render( 'layout', { yield: 'purchaseorderlist' });
+    }
 });
 
-Router.route('purchaseorderlistBO', {
+FlowRouter.route('/purchaseorderlistBO', {
     name: 'purchaseorderlistBO',
-    template: 'purchaseorderlistBO',
-    render: 'purchaseorderlistBO',
-    layoutTemplate: 'layout'
+    action() {
+      BlazeLayout.render( 'layout', { yield: 'purchaseorderlistBO' } );
+    }
 });
 
-Router.route('/purchaseordercard', {
+FlowRouter.route('/purchaseordercard', {
     name: 'purchaseordercard',
-    template: 'purchaseordercard',
-    layoutTemplate: 'layout'
+    action() {
+      BlazeLayout.render( 'layout', { yield: 'purchaseordercard'} );
+    }
 });
 
-Router.route('/billlist', {
+FlowRouter.route('/billlist', {
     name: 'billlist',
-    template: 'billlist',
-    layoutTemplate: 'layout'
+    action() {
+      BlazeLayout.render( 'layout', { yield: 'billlist' } );
+    }
 });
 
-Router.route('/chequelist', {
+FlowRouter.route('/chequelist', {
     name: 'chequelist',
-    template: 'chequelist',
-    layoutTemplate: 'layout'
+    action() {
+      BlazeLayout.render( 'layout', { yield: 'chequelist' } );
+    }
 });
 
-Router.route('/creditlist', {
+FlowRouter.route('/creditlist', {
     name: 'creditlist',
-    template: 'creditlist',
-    layoutTemplate: 'layout'
+    action() {
+      BlazeLayout.render( 'layout', { yield: 'creditlist' } );
+    }
 });
 
 /* Inventory */
-Router.route('/inventorylist', {
+FlowRouter.route('/inventorylist', {
     name: 'inventorylist',
-    template: 'inventorylist',
-    layoutTemplate: 'layout'
+    action() {
+      BlazeLayout.render( 'layout', { yield: 'inventorylist' } );
+    }
 });
 
-Router.route('/productlist', {
+FlowRouter.route('/productlist', {
     name: 'productlist',
-    template: 'productlist',
-    layoutTemplate: 'layout'
+    action() {
+      BlazeLayout.render( 'layout', { yield: 'productlist' } );
+    }
 });
 
-Router.route('/forgotpassword');
-// Router.route('/Password/Reset', function(){
+// FlowRouter.route('/forgotpassword');
+FlowRouter.route('/forgotpassword', {
+    name: 'forgotpassword',
+    action() {
+      BlazeLayout.render( 'layoutlogin', { yield: 'forgotpassword' } );
+    }
+});
+// FlowRouter.route('/Password/Reset', function(){
 //     this.render('resetpassword');
 // });
 
-Router.route('/resetpassword', {
+FlowRouter.route('/resetpassword', {
     name: 'resetpassword',
-    template: 'resetpassword'
+    action() {
+      BlazeLayout.render( 'layoutlogin', { yield: 'resetpassword' } );
+    }
 });
 
-// Router.route('/viewpayment', {
+// FlowRouter.route('/viewpayment', {
 //     name: 'viewpayment',
 //     template: 'viewpayment',
 //     layoutTemplate: 'layout'
 // });
 
 /* Payments */
-Router.route('/paymentcard', {
+FlowRouter.route('/paymentcard', {
     name: 'paymentcard',
-    template: 'paymentcard',
-    layoutTemplate: 'layout'
+    action() {
+      BlazeLayout.render( 'layout', { yield: 'paymentcard' } );
+    }
 });
 
-Router.route('/supplierpaymentcard', {
+FlowRouter.route('/supplierpaymentcard', {
     name: 'supplierpaymentcard',
-    template: 'supplierpaymentcard',
-    layoutTemplate: 'layout'
+    action() {
+      BlazeLayout.render( 'layout', { yield: 'supplierpaymentcard' } );
+    }
 });
 
 
 
 /* Settings */
-Router.route('/settings', {
+FlowRouter.route('/settings', {
     name: 'settings',
-    template: 'settings',
-    layoutTemplate: 'layout'
+    action() {
+      BlazeLayout.render( 'layout', { yield: 'settings' } );
+    }
 });
 
-Router.route('organisationsettings', {
+FlowRouter.route('/organisationsettings', {
     name: 'organisationsettings',
-    template: 'organisationsettings',
-    layoutTemplate: 'layout'
+    action() {
+      BlazeLayout.render( 'layout', { yield: 'organisationsettings' } );
+    }
 });
 
-Router.route('accesslevel', {
+FlowRouter.route('/accesslevel', {
     name: 'accesslevel',
-    template: 'accesslevel',
-    render: 'accesslevel',
-    layoutTemplate: 'layout'
+    action() {
+      BlazeLayout.render( 'layout', { yield: 'accesslevel' } );
+    }
 });
 
-Router.route('companyappsettings', {
+FlowRouter.route('/companyappsettings', {
     name: 'companyappsettings',
-    template: 'companyappsettings',
-    render: 'companyappsettings',
-    layoutTemplate: 'layout'
+    action() {
+      BlazeLayout.render( 'layout', { yield: 'companyappsettings' } );
+    }
 });
 
 /* Reports */
-Router.route('balancesheetreport', {
+FlowRouter.route('/balancesheetreport', {
     name: 'balancesheetreport',
-    template: 'balancesheetreport',
-    render: 'balancesheetreport',
-    layoutTemplate: 'layout'
+    action() {
+      BlazeLayout.render( 'layout', { yield: 'balancesheetreport' } );
+    }
 });
 
-Router.route('balancetransactionlist', {
+FlowRouter.route('/balancetransactionlist', {
     name: 'balancetransactionlist',
-    template: 'balancetransactionlist',
-    render: 'balancetransactionlist',
-    layoutTemplate: 'layout'
+    action() {
+      BlazeLayout.render( 'layout', { yield: 'balancetransactionlist' } );
+    }
 });
 
-Router.route('allreports', {
+FlowRouter.route('/allreports', {
     name: 'allreports',
-    template: 'allreports',
-    render: 'allreports',
-    layoutTemplate: 'layout'
+    action() {
+      BlazeLayout.render( 'layout', { yield: 'allreports' } );
+    }
 });
 
-Router.route('/productsalesreport', {
+FlowRouter.route('/productsalesreport', {
     name: 'productsalesreport',
-    template: 'productsalesreport',
-    layoutTemplate: 'layout'
+    action() {
+      BlazeLayout.render( 'layout', { yield: 'productsalesreport' } );
+    }
 });
 
-Router.route('/salesreport', {
+FlowRouter.route('/salesreport', {
     name: 'salesreport',
-    template: 'salesreport',
-    layoutTemplate: 'layout'
+    action() {
+      BlazeLayout.render( 'layout', { yield: 'salesreport' } );
+    }
 });
 
 
-Router.route('/salessummaryreport', {
+FlowRouter.route('/salessummaryreport', {
     name: 'salessummaryreport',
-    template: 'salessummaryreport',
-    layoutTemplate: 'layout'
+    action() {
+      BlazeLayout.render( 'layout', { yield: 'salessummaryreport' } );
+    }
 });
 
 
-Router.route('/profitlossreport', {
+FlowRouter.route('/profitlossreport', {
     name: 'profitlossreport',
-    template: 'profitlossreport',
-    layoutTemplate: 'layout'
+    action() {
+      BlazeLayout.render( 'layout', { yield: 'profitlossreport' } );
+    }
 });
 
-Router.route('/taxsummaryreport', {
+FlowRouter.route('/taxsummaryreport', {
     name: 'taxsummaryreport',
-    template: 'taxsummaryreport',
-    layoutTemplate: 'layout'
+    action() {
+      BlazeLayout.render( 'layout', { yield: 'taxsummaryreport' } );
+    }
 });
 
-Router.route('/productview', {
+FlowRouter.route('/productview', {
     name: 'productview',
-    template: 'productview',
-    layoutTemplate: 'layout'
+    action() {
+      BlazeLayout.render( 'layout', { yield: 'productview' } );
+    }
 });
 
-Router.route('/paymentoverview', {
+FlowRouter.route('/paymentoverview', {
     name: 'paymentoverview',
-    template: 'paymentoverview',
-    layoutTemplate: 'layout'
+    action() {
+      BlazeLayout.render( 'layout', { yield: 'paymentoverview' } );
+    }
 });
 
-Router.route('/bankingoverview', {
+FlowRouter.route('/bankingoverview', {
     name: 'bankingoverview',
-    template: 'bankingoverview',
-    layoutTemplate: 'layout'
+    action() {
+      BlazeLayout.render( 'layout', { yield: 'bankingoverview' } );
+    }
 });
 
-Router.route('/reconciliation', {
+FlowRouter.route('/reconciliation', {
     name: 'reconciliation',
-    template: 'reconciliation',
-    layoutTemplate: 'layout'
+    action() {
+      BlazeLayout.render( 'layout', { yield: 'reconciliation' } );
+    }
 });
 
-Router.route('/reconciliationlist', {
+FlowRouter.route('/reconciliationlist', {
     name: 'reconciliationlist',
-    template: 'reconciliationlist',
-    layoutTemplate: 'layout'
+    action() {
+      BlazeLayout.render( 'layout', { yield: 'reconciliationlist' } );
+    }
 });
 
-Router.route('/appointmentlist', {
+FlowRouter.route('/appointmentlist', {
     name: 'appointmentlist',
-    template: 'appointmentlist',
-    layoutTemplate: 'layout'
+    action() {
+      BlazeLayout.render( 'layout', { yield: 'appointmentlist' } );
+    }
 });
 
-Router.route('/customerawaitingpayments', {
+FlowRouter.route('/customerawaitingpayments', {
     name: 'customerawaitingpayments',
-    template: 'customerawaitingpayments',
-    layoutTemplate: 'layout'
+    action() {
+      BlazeLayout.render( 'layout', { yield: 'customerawaitingpayments' } );
+    }
 });
 
-Router.route('/customerpayment', {
+FlowRouter.route('/customerpayment', {
     name: 'customerpayment',
-    template: 'customerpayment',
-    layoutTemplate: 'layout'
+    action() {
+      BlazeLayout.render( 'layout', { yield: 'customerpayment' } );
+    }
 });
 
-Router.route('/supplierawaitingpurchaseorder', {
+FlowRouter.route('/supplierawaitingpurchaseorder', {
     name: 'supplierawaitingpurchaseorder',
-    template: 'supplierawaitingpurchaseorder',
-    layoutTemplate: 'layout'
+    action() {
+      BlazeLayout.render( 'layout', { yield: 'supplierawaitingpurchaseorder' } );
+    }
 });
 
-Router.route('/supplierawaitingbills', {
+FlowRouter.route('/supplierawaitingbills', {
     name: 'supplierawaitingbills',
-    template: 'supplierawaitingbills',
-    layoutTemplate: 'layout'
+    action() {
+      BlazeLayout.render( 'layout', { yield: 'supplierawaitingbills' });
+    }
 });
 
-Router.route('/supplierbills', {
+FlowRouter.route('/supplierbills', {
     name: 'supplierbills',
-    template: 'supplierbills',
-    layoutTemplate: 'layout'
+    action() {
+      BlazeLayout.render( 'layout', { yield: 'supplierbills' });
+    }
 });
 
-Router.route('/supplierpayment', {
+FlowRouter.route('/supplierpayment', {
     name: 'supplierpayment',
-    template: 'supplierpayment',
-    layoutTemplate: 'layout'
+    action() {
+      BlazeLayout.render( 'layout', { yield: 'supplierpayment' });
+    }
 });
 
-Router.route('/formnewbill', {
+FlowRouter.route('/formnewbill', {
     name: 'formnewbill',
-    template: 'formnewbill',
-    layoutTemplate: 'layout'
+    action() {
+      BlazeLayout.render( 'layout', { yield: 'formnewbill' });
+    }
 });
 
-Router.route('/creditcard', {
+FlowRouter.route('/creditcard', {
     name: 'creditcard',
-    template: 'creditcard',
-    layoutTemplate: 'layout'
+    action() {
+      BlazeLayout.render( 'layout', { yield: 'creditcard' });
+    }
 });
 
-Router.route('/agedpayables', {
+FlowRouter.route('/agedpayables', {
     name: 'agedpayables',
-    template: 'agedpayables',
-    layoutTemplate: 'layout'
+    action() {
+      BlazeLayout.render( 'layout', { yield: 'agedpayables' });
+    }
 });
 
-Router.route('/agedpayablessummary', {
+FlowRouter.route('/agedpayablessummary', {
     name: 'agedpayablessummary',
-    template: 'agedpayablessummary',
-    layoutTemplate: 'layout'
+    action() {
+      BlazeLayout.render( 'layout', { yield: 'agedpayablessummary' });
+    }
 });
 
-Router.route('/agedreceivables', {
+FlowRouter.route('/agedreceivables', {
     name: 'agedreceivables',
-    template: 'agedreceivables',
-    layoutTemplate: 'layout'
+    action() {
+      BlazeLayout.render( 'layout', { yield: 'agedreceivables' });
+    }
 });
 
-Router.route('/agedreceivablessummary', {
+FlowRouter.route('/agedreceivablessummary', {
     name: 'agedreceivablessummary',
-    template: 'agedreceivablessummary',
-    layoutTemplate: 'layout'
+    action() {
+      BlazeLayout.render( 'layout', { yield: 'agedreceivablessummary' });
+    }
 });
-
-Router.route('/trialbalance', {
+// Here
+FlowRouter.route('/trialbalance', {
     name: 'trialbalance',
-    template: 'trialbalance',
-    layoutTemplate: 'layout'
+    action() {
+      BlazeLayout.render( 'layout', { yield: 'trialbalance' });
+    }
 });
 
-Router.route('/currenciesSettings', {
+FlowRouter.route('/currenciesSettings', {
     name: 'currenciesSettings',
-    template: 'currenciesSettings',
-    layoutTemplate: 'layout'
+    action() {
+      BlazeLayout.render( 'layout', { yield: 'currenciesSettings' });
+    }
 });
 
-Router.route('/taxratesettings', {
+FlowRouter.route('/taxratesettings', {
     name: 'taxRatesSettings',
-    template: 'taxRatesSettings',
-    layoutTemplate: 'layout'
+    action() {
+      BlazeLayout.render( 'layout', { yield: 'taxRatesSettings' });
+    }
 });
 
-Router.route('/generalledger', {
+FlowRouter.route('/generalledger', {
     name: 'generalledger',
-    template: 'generalledger',
-    layoutTemplate: 'layout'
+    action() {
+      BlazeLayout.render( 'layout', { yield: 'generalledger' });
+    }
 });
 
-Router.route('/1099report', {
+FlowRouter.route('/1099report', {
     name: 'report1099',
-    template: 'report1099',
-    layoutTemplate: 'layout'
+    action() {
+      BlazeLayout.render( 'layout', { yield: 'report1099' });
+    }
 });
 
-Router.route('/printstatement', {
+FlowRouter.route('/printstatement', {
     name: 'printstatement',
-    template: 'printstatement',
-    layoutTemplate: 'layout'
+    action() {
+      BlazeLayout.render( 'layout', { yield: 'printstatement' });
+    }
 });
 
-Router.route('/purchasesreport', {
+FlowRouter.route('/purchasesreport', {
     name: 'purchasesreport',
-    template: 'purchasesreport',
-    layoutTemplate: 'layout'
+    action() {
+      BlazeLayout.render( 'layout', { yield: 'purchasesreport' });
+    }
 });
 
-Router.route('/purchasesummaryreport', {
+FlowRouter.route('/purchasesummaryreport', {
     name: 'purchasesummaryreport',
-    template: 'purchasesummaryreport',
-    layoutTemplate: 'layout'
+    action() {
+      BlazeLayout.render( 'layout', { yield: 'purchasesummaryreport' });
+    }
 });
 
-Router.route('/departmentSettings', {
+FlowRouter.route('/departmentSettings', {
     name: 'departmentSettings',
-    template: 'departmentSettings',
-    layoutTemplate: 'layout'
+    action() {
+      BlazeLayout.render( 'layout', { yield: 'departmentSettings' });
+    }
 });
 
-Router.route('/clienttypesettings', {
+FlowRouter.route('/clienttypesettings', {
     name: 'clienttypesettings',
-    template: 'clienttypesettings',
-    layoutTemplate: 'layout'
+    action() {
+      BlazeLayout.render( 'layout', { yield: 'clienttypesettings' });
+    }
 });
 
-Router.route('/paymentmethodSettings', {
+FlowRouter.route('/paymentmethodSettings', {
     name: 'paymentmethodSettings',
-    template: 'paymentmethodSettings',
-    layoutTemplate: 'layout'
+    action() {
+      BlazeLayout.render( 'layout', { yield: 'paymentmethodSettings' });
+    }
 });
 
-Router.route('/termsettings', {
+FlowRouter.route('/termsettings', {
     name: 'termsettings',
-    template: 'termsettings',
-    layoutTemplate: 'layout'
+    action() {
+      BlazeLayout.render( 'layout', { yield: 'termsettings' });
+    }
 });
 
-Router.route('/stockAdjustmentOverview', {
+FlowRouter.route('/stockAdjustmentOverview', {
     name: 'stockadjustmentoverview',
-    template: 'stockadjustmentoverview',
-    layoutTemplate: 'layout'
+    action() {
+      BlazeLayout.render( 'layout', { yield: 'stockadjustmentoverview' });
+    }
 });
-Router.route('/stockadjustmentcard', {
+FlowRouter.route('/stockadjustmentcard', {
     name: 'stockadjustmentcard',
-    template: 'stockadjustmentcard',
-    layoutTemplate: 'layout'
+    action() {
+      BlazeLayout.render( 'layout', { yield: 'stockadjustmentcard' });
+    }
 });
-Router.route('/journalentrycard', {
+FlowRouter.route('/journalentrycard', {
     name: 'journalentrycard',
-    template: 'journalentrycard',
-    layoutTemplate: 'layout'
+    action() {
+      BlazeLayout.render( 'layout', { yield: 'journalentrycard' });
+    }
 });
-Router.route('/journalentrylist', {
+FlowRouter.route('/journalentrylist', {
     name: 'journalentrylist',
-    template: 'journalentrylist',
-    layoutTemplate: 'layout'
+    action() {
+      BlazeLayout.render( 'layout', { yield: 'journalentrylist' });
+    }
 });
-Router.route('/timesheet', {
+FlowRouter.route('/timesheet', {
     name: 'timesheet',
-    template: 'timesheet',
-    layoutTemplate: 'layout'
+    action() {
+      BlazeLayout.render( 'layout', { yield: 'timesheet' });
+    }
 });
 
-Router.route('/squareapi', {
+FlowRouter.route('/squareapi', {
     name: 'squareapi',
-    template: 'squareapi',
-    layoutTemplate: 'layout'
+    action() {
+      BlazeLayout.render( 'layout', { yield: 'squareapi' });
+    }
 });
 
-Router.route('/paychexapi', {
+FlowRouter.route('/paychexapi', {
     name: 'paychexapi',
-    template: 'paychexapi',
-    layoutTemplate: 'layout'
+    action() {
+      BlazeLayout.render( 'layout', { yield: 'paychexapi' });
+    }
 });
 
-Router.route('/adpapi', {
+FlowRouter.route('/adpapi', {
     name: 'adpapi',
-    template: 'adpapi',
-    layoutTemplate: 'layout'
+    action() {
+      BlazeLayout.render( 'layout', { yield: 'adpapi' });
+    }
 });
 
-Router.route('/stsdashboard', {
+FlowRouter.route('/stsdashboard', {
     name: 'stsdashboard',
-    template: 'stsdashboard',
-    layoutTemplate: 'layout'
+    action() {
+      BlazeLayout.render( 'layout', { yield: 'stsdashboard' });
+    }
 });
 
-Router.route('/stsplants', {
+FlowRouter.route('/stsplants', {
     name: 'stsplants',
-    template: 'stsplants',
-    layoutTemplate: 'layout'
+    action() {
+      BlazeLayout.render( 'layout', { yield: 'stsplants' });
+    }
 });
 
-Router.route('/stsharvests', {
+FlowRouter.route('/stsharvests', {
     name: 'stsharvests',
-    template: 'stsharvests',
-    layoutTemplate: 'layout'
+    action() {
+      BlazeLayout.render( 'layout', { yield: 'stsharvests' });
+    }
 });
 
-Router.route('/stspackages', {
+FlowRouter.route('/stspackages', {
     name: 'stspackages',
-    template: 'stspackages',
-    layoutTemplate: 'layout'
+    action() {
+      BlazeLayout.render( 'layout', { yield: 'stspackages' });
+    }
 });
 
-Router.route('/stsoverviews', {
+FlowRouter.route('/stsoverviews', {
     name: 'stsoverviews',
-    template: 'stsoverviews',
-    layoutTemplate: 'layout'
+    action() {
+      BlazeLayout.render( 'layout', { yield: 'stsoverviews' });
+    }
 });
 
-Router.route('/stscreateplantings', {
+FlowRouter.route('/stscreateplantings', {
     name: 'stscreateplantings',
-    template: 'stscreateplantings',
-    layoutTemplate: 'layout'
+    action() {
+      BlazeLayout.render( 'layout', { yield: 'stscreateplantings' });
+    }
 });
 
-Router.route('/stschangegrowthphase', {
+FlowRouter.route('/stschangegrowthphase', {
     name: 'stschangegrowthphase',
-    template: 'stschangegrowthphase',
-    layoutTemplate: 'layout'
+    action() {
+      BlazeLayout.render( 'layout', { yield: 'stschangegrowthphase' });
+    }
 });
 
-Router.route('/stsrecordadditives', {
+FlowRouter.route('/stsrecordadditives', {
     name: 'stsrecordadditives',
-    template: 'stsrecordadditives',
-    layoutTemplate: 'layout'
+    action() {
+      BlazeLayout.render( 'layout', { yield: 'stsrecordadditives' });
+    }
 });
 
-Router.route('/stschangeroom', {
+FlowRouter.route('/stschangeroom', {
     name: 'stschangeroom',
-    template: 'stschangeroom',
-    layoutTemplate: 'layout'
+    action() {
+      BlazeLayout.render( 'layout', { yield: 'stschangeroom' });
+    }
 });
 
-Router.route('/stsmanicureplants', {
+FlowRouter.route('/stsmanicureplants', {
     name: 'stsmanicureplants',
-    template: 'stsmanicureplants',
-    layoutTemplate: 'layout'
+    action() {
+      BlazeLayout.render( 'layout', { yield: 'stsmanicureplants' });
+    }
 });
 
-Router.route('/stsdestroyplants', {
+FlowRouter.route('/stsdestroyplants', {
     name: 'stsdestroyplants',
-    template: 'stsdestroyplants',
-    layoutTemplate: 'layout'
+    action() {
+      BlazeLayout.render( 'layout', { yield: 'stsdestroyplants' });
+    }
 });
 
-Router.route('/ststaghistory', {
+FlowRouter.route('/ststaghistory', {
     name: 'ststaghistory',
-    template: 'ststaghistory',
-    layoutTemplate: 'layout'
+    action() {
+      BlazeLayout.render( 'layout', { yield: 'ststaghistory' });
+    }
 });
 
-Router.route('/stscreateharvests', {
+FlowRouter.route('/stscreateharvests', {
     name: 'stscreateharvests',
-    template: 'stscreateharvests',
-    layoutTemplate: 'layout'
+    action() {
+      BlazeLayout.render( 'layout', { yield: 'stscreateharvests' });
+    }
 });
 
-Router.route('/stsharvestlist', {
+FlowRouter.route('/stsharvestlist', {
     name: 'stsharvestlist',
-    template: 'stsharvestlist',
-    layoutTemplate: 'layout'
+    action() {
+      BlazeLayout.render( 'layout', { yield: 'stsharvestlist' });
+    }
 });
 
-Router.route('/stscreatepackagefromharvest', {
+FlowRouter.route('/stscreatepackagefromharvest', {
     name: 'stscreatepackagefromharvest',
-    template: 'stscreatepackagefromharvest',
-    layoutTemplate: 'layout'
+    action() {
+      BlazeLayout.render( 'layout', { yield: 'stscreatepackagefromharvest' });
+    }
 });
 
-Router.route('/stscreatepackagefrompackages', {
+FlowRouter.route('/stscreatepackagefrompackages', {
     name: 'stscreatepackagefrompackages',
-    template: 'stscreatepackagefrompackages',
-    layoutTemplate: 'layout'
+    action() {
+      BlazeLayout.render( 'layout', { yield: 'stscreatepackagefrompackages' });
+    }
 });
 
-Router.route('/stscreatepackagesfromharvest', {
+FlowRouter.route('/stscreatepackagesfromharvest', {
     name: 'stscreatepackagesfromharvest',
-    template: 'stscreatepackagesfromharvest',
-    layoutTemplate: 'layout'
+    action() {
+      BlazeLayout.render( 'layout', { yield: 'stscreatepackagesfromharvest' });
+    }
 });
 
-Router.route('/stspackagelist', {
+FlowRouter.route('/stspackagelist', {
     name: 'stspackagelist',
-    template: 'stspackagelist',
-    layoutTemplate: 'layout'
+    action() {
+      BlazeLayout.render( 'layout', { yield: 'stspackagelist' });
+    }
 });
 
-Router.route('/stsactivitylog', {
+FlowRouter.route('/stsactivitylog', {
     name: 'stsactivitylog',
-    template: 'stsactivitylog',
-    layoutTemplate: 'layout'
+    action() {
+      BlazeLayout.render( 'layout', { yield: 'stsactivitylog' });
+    }
 });
 
-Router.route('/ststagorderlist', {
+FlowRouter.route('/ststagorderlist', {
     name: 'ststagorderlist',
-    template: 'ststagorderlist',
-    layoutTemplate: 'layout'
+    action() {
+      BlazeLayout.render( 'layout', { yield: 'ststagorderlist' });
+    }
 });
 
-Router.route('/stsactiveinventory', {
+FlowRouter.route('/stsactiveinventory', {
     name: 'stsactiveinventory',
-    template: 'stsactiveinventory',
-    layoutTemplate: 'layout'
+    action() {
+      BlazeLayout.render( 'layout', { yield: 'stsactiveinventory' });
+    }
 });
 
-Router.route('/stssettings', {
+FlowRouter.route('/stssettings', {
     name: 'stssettings',
-    template: 'stssettings',
-    layoutTemplate: 'layout'
+    action() {
+      BlazeLayout.render( 'layout', { yield: 'stssettings' });
+    }
 });
 
-Router.route('/ststransfers', {
+FlowRouter.route('/ststransfers', {
     name: 'ststransfers',
-    template: 'ststransfers',
-    layoutTemplate: 'layout'
+    action() {
+      BlazeLayout.render( 'layout', { yield: 'ststransfers' });
+    }
 });
 
-Router.route('/stscreatetransfer', {
+FlowRouter.route('/stscreatetransfer', {
     name: 'stscreatetransfer',
-    template: 'stscreatetransfer',
-    layoutTemplate: 'layout'
+    action() {
+      BlazeLayout.render( 'layout', { yield: 'stscreatetransfer' });
+    }
 });
 
-Router.route('/stsaddtransfercontent', {
+FlowRouter.route('/stsaddtransfercontent', {
     name: 'stsaddtransfercontent',
-    template: 'stsaddtransfercontent',
-    layoutTemplate: 'layout'
+    action() {
+      BlazeLayout.render( 'layout', { yield: 'stsaddtransfercontent' });
+    }
 });
 
-Router.route('/ststransferhistory', {
+FlowRouter.route('/ststransferhistory', {
     name: 'ststransferhistory',
-    template: 'ststransferhistory',
-    layoutTemplate: 'layout'
+    action() {
+      BlazeLayout.render( 'layout', { yield: 'ststransferhistory' });
+    }
 });
 
-Router.route('/stsprintlabels', {
+FlowRouter.route('/stsprintlabels', {
     name: 'stsprintlabels',
-    template: 'stsprintlabels',
-    layoutTemplate: 'layout'
+    action() {
+      BlazeLayout.render( 'layout', { yield: 'stsprintlabels' });
+    }
 });
 
-Router.route('/stslocationoverview', {
+FlowRouter.route('/stslocationoverview', {
     name: 'stslocationoverview',
-    template: 'stslocationoverview',
-    layoutTemplate: 'layout'
+    action() {
+      BlazeLayout.render( 'layout', { yield: 'stslocationoverview' });
+    }
 });
 
-Router.route('/stsoutgoingorders', {
+FlowRouter.route('/stsoutgoingorders', {
     name: 'stsoutgoingorders',
-    template: 'stsoutgoingorders',
-    layoutTemplate: 'layout'
+    action() {
+      BlazeLayout.render( 'layout', { yield: 'stsoutgoingorders' });
+    }
 });
 
-Router.route('/featureallocation', {
+FlowRouter.route('/featureallocation', {
     name: 'featureallocation',
-    template: 'featureallocation',
-    layoutTemplate: 'layout'
+    action() {
+      BlazeLayout.render( 'layout', { yield: 'featureallocation' });
+    }
 });
 
-Router.route('/registersts', {
+FlowRouter.route('/registersts', {
     name: 'registersts',
-    template: 'registersts'
+    action() {
+      BlazeLayout.render( 'layout', { yield: 'registersts' });
+    }
 });
 
-Router.route('/bankrecon', {
+FlowRouter.route('/bankrecon', {
     name: 'bankrecon',
-    template: 'bankrecon',
-    layoutTemplate: 'layout'
+    action() {
+      BlazeLayout.render( 'layout', { yield: 'bankrecon' });
+    }
 });
 
-Router.route('/depositcard', {
+FlowRouter.route('/depositcard', {
     name: 'depositcard',
-    template: 'depositcard',
-    layoutTemplate: 'layout'
+    action() {
+      BlazeLayout.render( 'layout', { yield: 'depositcard' });
+    }
 });
 
-Router.route('/depositlist', {
+FlowRouter.route('/depositlist', {
     name: 'depositlist',
-    template: 'depositlist',
-    layoutTemplate: 'layout'
+    action() {
+      BlazeLayout.render( 'layout', { yield: 'depositlist' });
+    }
 });
 
-Router.route('/linktrueerp', {
+FlowRouter.route('/linktrueerp', {
     name: 'linktrueerp',
-    template: 'linktrueerp',
-    layoutTemplate: 'layout'
+    action() {
+      BlazeLayout.render( 'layout', { yield: 'linktrueerp' });
+    }
 });
 
-Router.route('/subscriptionSettings', {
+FlowRouter.route('/subscriptionSettings', {
     name: 'subscriptionSettings',
-    template: 'subscriptionSettings',
-    layoutTemplate: 'layout'
+    action() {
+      BlazeLayout.render( 'layout', { yield: 'subscriptionSettings' });
+    }
 });
 
-Router.route('/employeetimeclock', {
+FlowRouter.route('/employeetimeclock', {
     name: 'employeetimeclock',
-    template: 'employeetimeclock',
-    layoutTemplate: 'layout'
+    action() {
+      BlazeLayout.render( 'layout', { yield: 'employeetimeclock' });
+    }
 });
 
-Router.route('/vs1shipping', {
+FlowRouter.route('/vs1shipping', {
     name: 'vs1shipping',
-    template: 'vs1shipping',
-    layoutTemplate: 'layout'
+    action() {
+      BlazeLayout.render( 'layout', { yield: 'vs1shipping' });
+    }
 });
 
-Router.route('/shippingdocket', {
+FlowRouter.route('/shippingdocket', {
     name: 'shippingdocket',
-    template: 'shippingdocket',
-    layoutTemplate: 'layout'
+    action() {
+      BlazeLayout.render( 'layout', { yield: 'shippingdocket' });
+    }
 });
-
-// Router.route('/settings/accesslevel', function(){
-//     this.render('accesslevel');
-// });
-// Router.route('/customerpaymentcard/:id', function(){
-//     this.render('customerpaymentcard');
-// });
-/*
-Router.route('/marketing');
-Router.route('/crm');
-Router.route('/inventory');
-Router.route('/sales');
-Router.route('/reminders');
-Router.route('/reports');
-Router.route('/home');
-Router.route('/notify');
-Router.route('/messages');
-Router.route('/connection');
-Router.route('/todolist');
-Router.route('/reminderslist');
-Router.route('/createproduct');
-Router.route('/productexpresslist');
-Router.route('/newcustomer');
-Router.route('/newsupplier');
-Router.route('/newemployee');
-Router.route('/newquote');
-
-
-Router.route('/newsalesorder');
-Router.route('/newinvoice');
-Router.route('/quoteslist');
-
-Router.route('/solist');
-Router.route('/refunds');
-Router.route('/backorders');
-Router.route('/profile');
-Router.route('/prospects');
-Router.route('/prospectlist');
-Router.route('/mailmerge');
-Router.route('/mailmergelist');
-Router.route('/loyaltyprograms');
-Router.route('/loyaltyprogramlist');
-Router.route('/crmreports');
-Router.route('/rewardpoints');
-Router.route('/customercard');
-Router.route('/newpo');
-Router.route('/polist');
-Router.route('/deliveryscan');
-Router.route('/deliverylist');
-Router.route('/stockscan');
-Router.route('/stockscancard');
-Router.route('/stockadjlist');
-Router.route('/productcard');
-Router.route('/quotecard');
-Router.route('/salesordercard');
-Router.route('/salesordersentcard');
-Router.route('/invoicecard');
-Router.route('/invoicecardawaitingapproval');
-Router.route('/invoicecardawaitingpayment');
-Router.route('/invoicepaidcard');
-Router.route('/pocard');
-Router.route('/socard');
-Router.route('/purchases');
-Router.route('/billslist/:tab', function(){
-    this.render('billslist');
-});
-Router.route('/invoicelist/:tab', function(){
-    this.render('invoicelist');
-});
-Router.route('/reports/generalLedgerReport/:tab', function(){
-    this.render('generalLedgerReport');
-});
-Router.route('/generalLedgerDetail');
-Router.route('/billadd');
-Router.route('/billcard');
-Router.route('/billview');
-Router.route('/billedit');
-Router.route('/allcontacts');
-Router.route('/customerlist');
-Router.route('/supplierslist');
-Router.route('/employeelist');
-Router.route('/archivedlist');
-Router.route('/traininglist');
-Router.route('/conpurchasedlist');
-Router.route('/conoutstanding');
-Router.route('/conoverdue');
-Router.route('/conpaid');
-Router.route('/refundlist');
-Router.route('/creditnotelist');
-Router.route('/bankaccounts');
-Router.route('/expenseclaims/:tab',function(){
-    this.render('expenseclaims');
-});
-Router.route('/fixedassets/:tab',function(){
-    this.render('fixedassets');
-});
-Router.route('/fixedassets/registered', function(){
-    this.render('fixedRegistered');
-});
-Router.route('/payrolloverview');
-Router.route('/payrollemployees');
-Router.route('/payrolltimeoff');
-Router.route('/payrolltimesheets');
-Router.route('/payrollpayruns');
-Router.route('/pensionfiling');
-Router.route('/rtifiling');
-Router.route('/taxesfiling');
-Router.route('/allreports');
-Router.route('/agedpayables');
-Router.route('/profitloss');
-Router.route('/profitLossReport');
-Router.route('/vatreturn');
-Router.route('/advisermanualjournals');
-Router.route('/adviserexport');
-Router.route('/adviserhistorynotes');
-Router.route('/adviserassurancedash');
-Router.route('/adviserfindrecode');
-Router.route('/settings', function(){
-    this.render('generalsettings');
-});
-Router.route('/settings/organisation', function(){
-    this.render('organisationSettings');
-});
-Router.route('/settings/accesslevel', function(){
-    this.render('accesslevel');
-});
-Router.route('/settings/accounts/:tab', function(){
-    this.render('chartOfAccountSettings');
-});
-Router.route('/settings/payroll', function(){
-    this.render('payrollSettings');
-});
-Router.route('/settings/financial', function(){
-    this.render('financialSettings');
-});
-Router.route('/settings/conversionBalances', function(){
-    this.render('conversionBalancesSettings');
-});
-Router.route('/settings/users', function(){
-    this.render('usersSettings');
-});
-Router.route('/settings/taxRates', function(){
-    this.render('taxRatesSettings');
-});
-Router.route('/settings/customContactLinks', function(){
-    this.render('customContactLinksSettings');
-});
-Router.route('/settings/invoice', function(){
-    this.render('invoiceSettings');
-});
-Router.route('/settings/currencies', function(){
-    this.render('currenciesSettings');
-});
-Router.route('/settings/payItems', function(){
-    this.render('payItemsSettings');
-});
-Router.route('/settings/fixedAssets/:tab', function(){
-    this.render('fixedAssetsSettings');
-});
-Router.route('/settings/email', function(){
-    this.render('emailSettings');
-});
-Router.route('/settings/tracking', function(){
-    this.render('trackingSettings');
-});
-Router.route('/settings/trueERP-to-trueERP', function(){
-    this.render('trueERPSettings');
-});
-Router.route('/settings/connectedApps', function(){
-    this.render('connectedAppsSettings');
-});
-Router.route('/settings/payment', function(){
-    this.render('paymentServicesSettings');
-});
-
-Router.route('/productexpresslist/Import', function(){
-    this.render('importitems');
-});
-
-Router.route('/productexpresslist/ImportOpeningBalances', function(){
-    this.render('import_OpeningBalance');
-});
-
-Router.route('/purchases/ImportBills', function(){
-    this.render('importBills');
-});
-
-Router.route('/Banking/Account/select/spend', function(){
-    this.render('spendmoney');
-});
-Router.route('/Banking/Account/select/receive', function(){
-    this.render('receivemoney');
-});
-Router.route('/Banking/Account/select/transfer', function(){
-    this.render('transfermoney');
-});
-
-Router.route('/settings/user', function(){
-    this.render('userProfile');
-});
-Router.route('/settings/myAccount', function(){
-    this.render('myAccount');
-});
-
-Router.route('/bank/bankRules', function(){
-    this.render('bankRules');
-});
-Router.route('/bank/spendMoneyrules', function(){
-    this.render('spendMoneyrules');
-});
-Router.route('/bank/receiveMoneyrules', function(){
-    this.render('receiveMoneyrules');
-});
-Router.route('/bank/transferMoneyrules', function(){
-    this.render('transferMoneyrules');
-});
-Router.route('/bank/StatementLines', function(){
-    this.render('StatementLines');
-});
-Router.route('/bank/transactions', function(){
-    this.render('transactions');
-});
-Router.route('/bank/bank-transactions', function(){
-    this.render('business-bank-transactions');
-});
-
-Router.route('/expenses/receipts/:id', function(){
-    this.render('addReceipt');
-});
-Router.route('/reports/bank-summary', function(){
-    this.render('bankSummary');
-});
-Router.route('/reports/balance-sheet', function(){
-    this.render('balanceSheet');
-});
-Router.route('/reports/budget-manager', function(){
-    this.render('budgetManager');
-});
-Router.route('/reports/cash-summary', function(){
-    this.render('cashSummary');
-});
-Router.route('/reports/movements-equity', function(){
-    this.render('movementsEquity');
-});
-Router.route('/reports/profit-and-loss', function(){
-    this.render('profitLoss');
-});
-Router.route('/reports/profit-and-loss-report', function(){
-    this.render('profitLossReport');
-});
-Router.route('/reports/overall-budget', function(){
-    this.render('overallBudget');
-});
-Router.route('/reports/budget-variance', function(){
-    this.render('budgetVariance');
-});
-Router.route('/reports/business-performance', function(){
-    this.render('businessPerformance');
-});
-Router.route('/reports/executive-summary', function(){
-    this.render('executiveSummary');
-});
-Router.route('/reports/statement-cash-flows', function(){
-    this.render('statementCashFlows');
-});
-Router.route('/reports/tracking-summary', function(){
-    this.render('trackingSummary');
-});
-Router.route('/reports/aged-receivables', function(){
-    this.render('agedReceivables');
-});
-Router.route('/reports/aged-receivables-detail', function(){
-    this.render('agedReceivablesDetail');
-});
-Router.route('/reports/customer-invoice-report', function(){
-    this.render('customerInvoiceReport');
-});
-Router.route('/reports/aged-receivables-summary', function(){
-    this.render('agedReceivablesSummary');
-});
-Router.route('/reports/income-by-contact', function(){
-    this.render('incomeByContact');
-});
-Router.route('/reports/income-transaction', function(){
-    this.render('incomeTransaction');
-});
-
-Router.route('/reports/expense-by-contact', function(){
-    this.render('expensesByContact');
-});
-
-Router.route('/reports/expense-transaction', function(){
-    this.render('expenseTransaction');
-});
-
-Router.route('/reports/receivable-invoice-detail', function(){
-    this.render('receivableInvoiceDetail');
-});
-
-Router.route('/reports/receivable-invoice-summary', function(){
-    this.render('receivableInvoiceSummary');
-});
-Router.route('/reports/activity-statement', function(){
-    this.render('activityStatement');
-});
-Router.route('/reports/gst-reconciliation', function(){
-    this.render('gstReconciliation');
-});
-
-Router.route('/reports/taxable-payments-annual-report', function(){
-    this.render('taxablePaymentsAnnualReport');
-});
-Router.route('/reports/account-transactions', function(){
-    this.render('accountTransactions');
-});
-
-Router.route('/reports/bank-reconciliation', function(){
-    this.render('bankReconciliation');
-});
-Router.route('/reports/contact-transactions-summary', function(){
-    this.render('contactTransactionsSummary');
-});
-Router.route('/reports/foreign-currency-gains-and-losses', function(){
-    this.render('foreignCurrencyGainsAndLosses');
-});
-
-Router.route('/reports/journal-report', function(){
-    this.render('journalReport');
-});
-Router.route('/reports/trial-balance', function(){
-    this.render('trialBalance');
-});
-Router.route('/reports/account-summary', function(){
-    this.render('accountSummary');
-});
-Router.route('/reports/detailed-account-transaction-report', function(){
-    this.render('detailedAccountTransactionReport');
-});
-Router.route('/reports/annual-report', function(){
-    this.render('annualReport');
-});
-Router.route('/reports/management-report', function(){
-    this.render('managementReport');
-});
-Router.route('/reports/reconciliation-reports', function(){
-    this.render('reconciliationReports');
-});
-Router.route('/reports/aged-payables', function(){
-    this.render('agedPayables');
-});
-Router.route('/reports/aged-payables-detail', function(){
-    this.render('agedPayablesDetail');
-});
-Router.route('/reports/billable-expenses-outstanding', function(){
-    this.render('billableExpensesOutstanding');
-});
-Router.route('/reports/supplier-invoice-report', function(){
-    this.render('supplierInvoiceReport');
-});
-Router.route('/reports/aged-payables-summary', function(){
-    this.render('agedPayablesSummary');
-});
-Router.route('/reports/expense-claim-detail', function(){
-    this.render('expenseClaimDetail');
-});
-Router.route('/reports/expenses-by-contact', function(){
-    this.render('expensesByContact');
-});
-Router.route('/reports/payable-invoice-detail', function(){
-    this.render('payableInvoiceDetail');
-});
-Router.route('/reports/payable-invoice-summary', function(){
-    this.render('payableInvoiceSummary');
-});
-Router.route('/reports/depreciation-schedule', function(){
-    this.render('depreciationSchedule');
-});
-Router.route('/reports/fixed-asset-reconciliation', function(){
-    this.render('fixedAssetReconciliation');
-});
-Router.route('/reports/disposal-schedule', function(){
-    this.render('disposalSchedule');
-});
-Router.route('/reports/payroll-activity-details', function(){
-    this.render('payrollActivityDetails');
-});
-Router.route('/reports/inventory-item-summary', function(){
-    this.render('inventoryItemSummary');
-});
-Router.route('/reports/sales-by-item', function(){
-    this.render('salesByItem');
-});
-Router.route('/reports/inventory-item-details', function(){
-    this.render('inventoryItemDetails');
-});
-Router.route('/reports/inventory-item-list', function(){
-    this.render('inventoryItemList');
-});
-Router.route('/reports/adelaide-hendricks', function(){
-    this.render('adelaideHendricks');
-});
-Router.route('/fixedAssets/assets/:id', function(){
-    this.render('addNewAsset');
-});
-Router.route('/Accounts/Payable/PurchaseOrders/View', function(){
-    this.render('poview');
-});
-
-Router.route('/AccountsReceivable/EditCreditNote', function(){
-    this.render('newcreditnote');
-});
-
-Router.route('/Accounts/Payable/PurchaseOrders/BilledView', function(){
-    this.render('pobilledview');
-});
-Router.route('/expenses/expense-claim-summary', function(){
-    this.render('expenseClaimSummary');
-});
-Router.route('/expenses/expense-claim-view', function(){
-    this.render('expenseClaimView');
-});
-Router.route('/expenses/approve-expense-claim', function(){
-    this.render('approveExpenseClaim');
-});
-Router.route('/fixedAssets/assets/summary/:id', function(){
-    this.render('fixedRegistered');
-});
-Router.route('/fixedAssets/assets/sold-disposed/:id', function(){
-    this.render('fixedSoldDisposed');
-});
-Router.route('/fixed-assets-settings/asset-type/:id', function(){
-    this.render('fixedAssetEditAssetType');
-});
-Router.route('/fixed-assets-settings/pool/:id', function(){
-    this.render('fixedAssetEditAddPool');
-});
-Router.route('/fixed-assets/run-depreciation', function(){
-    this.render('runDepreciation');
-});
-
-Router.route('/fixedAssets/accounts/pools', function(){
-    this.render('fixedAssetsPools');
-});
-Router.route('/fixed-assets/pool', function(){
-    this.render('fixedAssetAddPool');
-});
-
-Router.route('/AccountsPayable/EditCreditNote/:id', function(){
-    this.render('new_credit_note');
-});
-
-Router.route('/importfixedassets', function(){
-    this.render('fixedassetsimport');
-});
-Router.route('/Import-budget', function(){
-    this.render('ImportBudget');
-});
-Router.route('/settings/accounts/import-chart-account', function(){
-    this.render('importChartAccount');
-});
-Router.route('/quote', function(){
-    this.render('mailQuotePage');
-});
-Router.route('/invoice-share-page', function(){
-    this.render('salesEmailFormat');
-});
-Router.route('/new-batch-payment', function(){
-    this.render('newBatchPayment');
-});
-Router.route('/new-batch-deposit', function(){
-    this.render('newBatchDeposit');
-});
-Router.route('/edit-repeating', function(){
-    this.render('editRepeating');
-});
-Router.route('/new_repeating_bill', function(){
-    this.render('newRepeatingBill');
-});
-Router.route('/Invoice_reminders', function(){
-    this.render('InvoiceReminders');
-});
-Router.route('/publish-report', function(){
-    this.render('PublishReport');
-});
-
-Router.route('/Import-your-chart-of-accounts', function(){
-    this.render('ImportYourChartAccounts');
-});
-Router.route('addbankaccounts/account-details', function(){
-    this.render('accountDetails');
-});
-Router.route('bank-accounts-summary', function(){
-    this.render('bankAccountsSummary');
-});
-
-Router.route('bank-accounts', function(){
-    this.render('bankAccounts');
-});
-Router.route('item-transaction', function(){
-    this.render('itemTransaction');
-});
-Router.route('balance-sheet-info', function(){
-    this.render('balanceSheetInfo');
-});
-Router.route('balance-sheet-detail', function(){
-    this.render('balanceSheetDetail');
-});
-
-Router.route('trial-balance-detail', function(){
-    this.render('trialBalanceDetail');
-});
-
-Router.route('/reports/cash-summary-detail', function(){
-    this.render('cashSummaryDetail');
-});
-Router.route('account-summary-detail', function(){
-    this.render('accountSummaryDetail');
-});
-Router.route('/sales/view-statement', function(){
-    this.render('viewStatement');
-});
-
-
-
-
-Router.route('/files');
-Router.route('/quotesentcard');
-Router.route('/quoterevisecard');
-Router.route('/salesorderrevisecard');
-Router.route('/importitems');
-Router.route('/suppliercard');
-Router.route('/employeecard');
-Router.route('/customeredit');
-Router.route('/supplieredit');
-Router.route('/employeeedit');
-Router.route('/shipping');
-Router.route('/shipquickInv');
-Router.route('/shipquickSO');
-Router.route('/manufacturing');
-Router.route('/manufacturingquickSO');
-Router.route('/arinfo');
-Router.route('/apinfo');
-Router.route('/allsales');
-Router.route('/importinvoicefile');
-Router.route('/addbankaccounts');
-Router.route('/quotedeclinedcard');
-Router.route('/quoteaccptedcard');
-Router.route('/quoteinvoicedcard');
-Router.route('/sosentcard');
-Router.route('/billAwaitingApproval');
-Router.route('/accesslevel');
-Router.route('/manufacturinglist');
-Router.route('/shippinglist');
-Router.route('/stocktransfer');
-Router.route('/stocktransferlist');
-Router.route('/stocktake');
-Router.route('/customerpaymentlist');
-Router.route('/supplierpaymentlist');
-Router.route('/customerpaymentcard/:id', function(){
-    this.render('customerpaymentcard');
-});
-Router.route('/supplierpaymentcard/:id', function(){
-    this.render('supplierpaymentcard');
-});
-Router.route('/awaitingcustomerpaylist');
-Router.route('/awaitingsupplierpaylist');
-Router.route('/customerslist');
-Router.route('/supplierlist');
-Router.route('/employeeslist');
-Router.route('/stocktransfercard');
-Router.route('/payments');
-Router.route('/forgotpassword');
-Router.route('/Password/Reset', function(){
-    this.render('resetpassword');
-});
-
-*/
-// Router.route('/vs1login');

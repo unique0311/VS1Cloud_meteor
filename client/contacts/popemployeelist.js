@@ -207,7 +207,7 @@ Template.popemployeelist.onRendered(function() {
              $('#tblEmployeelistpop tbody').on( 'click', 'tr', function () {
              var listData = $(this).closest('tr').attr('id');
              if(listData){
-               Router.go('/employeescard?id=' + listData+'&addvs1user=true');
+               FlowRouter.go('/employeescard?id=' + listData+'&addvs1user=true');
              }
            });
 
@@ -374,7 +374,7 @@ Template.popemployeelist.onRendered(function() {
   $('#tblEmployeelistpop tbody').on( 'click', 'tr', function () {
   var listData = $(this).closest('tr').attr('id');
   if(listData){
-   Router.go('/employeescard?id=' + listData+'&addvs1user=true');
+   FlowRouter.go('/employeescard?id=' + listData+'&addvs1user=true');
   }
   });
         }
@@ -535,7 +535,7 @@ Template.popemployeelist.onRendered(function() {
            $('#tblEmployeelistpop tbody').on( 'click', 'tr', function () {
            var listData = $(this).closest('tr').attr('id');
            if(listData){
-             Router.go('/employeescard?id=' + listData+'&addvs1user=true');
+             FlowRouter.go('/employeescard?id=' + listData+'&addvs1user=true');
            }
          });
 
@@ -552,7 +552,7 @@ Template.popemployeelist.onRendered(function() {
     $('#tblEmployeelistpop tbody').on( 'click', 'tr', function () {
     var listData = $(this).closest('tr').attr('id');
     if(listData){
-      Router.go('/employeescard?addvs1user=true&id=' + listData);
+      FlowRouter.go('/employeescard?addvs1user=true&id=' + listData);
     }
 
   });
@@ -563,11 +563,11 @@ Template.popemployeelist.onRendered(function() {
 
 Template.popemployeelist.events({
     'click #btnNewEmployee':function(event){
-        // Router.go('/employeescard');
-        Router.go('/employeescard?addvs1user=true');
+        // FlowRouter.go('/employeescard');
+        FlowRouter.go('/employeescard?addvs1user=true');
     },
     'click .btnAddVS1User':function(event){
-     Router.go('/employeescard');
+     FlowRouter.go('/employeescard');
     },
     'click .chkDatatable' : function(event){
       var columns = $('#tblEmployeelistpop th');

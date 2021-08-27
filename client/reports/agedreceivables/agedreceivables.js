@@ -49,7 +49,7 @@ Template.agedreceivables.onRendered(() => {
     });
     $("#dateFrom").val(fromDate);
     $("#dateTo").val(begunDate);
-    let currenctURL = Router.current().params.query;
+    let currenctURL = FlowRouter.current().queryParams;
 
     templateObject.getAgedReceivableReports = function (dateFrom, dateTo, ignoreDate) {
         templateObject.records.set('');
@@ -485,7 +485,7 @@ Template.agedreceivables.onRendered(() => {
     //templateObject.getAgedReceivableReports(getDateFrom,getLoadDate,false);
     if (url.indexOf('?dateFrom') > 0) {
       localStorage.setItem('VS1AgedReceivables_Report','');
-        url = new URL(url);
+        url = new URL(window.location.href);
         $("#dateFrom").val(moment(url.searchParams.get("dateFrom")).format("DD/MM/YYYY"));
         $("#dateTo").val(moment(url.searchParams.get("dateTo")).format("DD/MM/YYYY"));
         getDateFrom = url.searchParams.get("dateFrom");

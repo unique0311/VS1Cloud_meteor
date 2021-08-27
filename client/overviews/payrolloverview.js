@@ -43,11 +43,11 @@ Template.payrolloverview.onRendered(function() {
   var begunDate = moment(currentDate).format("DD/MM/YYYY");
   $('.formClassDate').val(begunDate);
   $("#employee_name").val(Session.get('mySessionEmployee'));
-    if(Router.current().params.query.success){
+    if(FlowRouter.current().queryParams.success){
         $('.btnRefresh').addClass('btnRefreshAlert');
     }
 
-    let currentId = Router.current().params.hash;
+    let currentId = FlowRouter.current().context.hash;
     if (currentId === "clockOnOff") {
         setTimeout(function () {
             $('#settingsModal').modal('show');
@@ -253,7 +253,7 @@ templateObject.dateFormat = function (date) {
                     $('#tblEmployeelist tbody').on( 'click', 'tr', function () {
                         var listData = $(this).closest('tr').attr('id');
                         if(listData){
-                            Router.go('/employeescard?id=' + listData);
+                            FlowRouter.go('/employeescard?id=' + listData);
                         }
                     });
 
@@ -422,7 +422,7 @@ templateObject.dateFormat = function (date) {
                 $('#tblEmployeelist tbody').on( 'click', 'tr', function () {
                     var listData = $(this).closest('tr').attr('id');
                     if(listData){
-                        Router.go('/employeescard?id=' + listData);
+                        FlowRouter.go('/employeescard?id=' + listData);
                     }
                 });
             }
@@ -585,7 +585,7 @@ templateObject.dateFormat = function (date) {
                 $('#tblEmployeelist tbody').on( 'click', 'tr', function () {
                     var listData = $(this).closest('tr').attr('id');
                     if(listData){
-                        Router.go('/employeescard?id=' + listData);
+                        FlowRouter.go('/employeescard?id=' + listData);
                     }
                 });
 
@@ -628,11 +628,11 @@ templateObject.dateFormat = function (date) {
   }
     templateObject.getJobs();
 
-  
+
     $('#tblEmployeelist tbody').on( 'click', 'tr', function () {
         var listData = $(this).closest('tr').attr('id');
         if(listData){
-            Router.go('/employeescard?id=' + listData);
+            FlowRouter.go('/employeescard?id=' + listData);
         }
 
     });
@@ -643,10 +643,10 @@ templateObject.dateFormat = function (date) {
 
 Template.payrolloverview.events({
     'click #btnNewEmployee':function(event){
-        Router.go('/employeescard');
+        FlowRouter.go('/employeescard');
     },
     'click #btnTimesheet':function(event){
-        Router.go('/timesheet');
+        FlowRouter.go('/timesheet');
     },
       'click #btnClockOn': function () {
     const templateObject = Template.instance();
@@ -761,7 +761,7 @@ Template.payrolloverview.events({
     if (endTime > startTime) {
       document.getElementById('txtBookedHoursSpent').value = parseFloat(templateObject.diff_hours(endTime, startTime)).toFixed(2);
     } else {
-      
+
     }
   },
     'click .btnAddVS1User':function(event){
@@ -778,7 +778,7 @@ Template.payrolloverview.events({
                 $('#employeeListModal').modal('toggle');
                 // result.dismiss can be 'overlay', 'cancel', 'close', 'esc', 'timer'
             } else if (result.dismiss === 'cancel') {
-                Router.go('/employeescard?addvs1user=true');
+                FlowRouter.go('/employeescard?addvs1user=true');
             }
         })
     },

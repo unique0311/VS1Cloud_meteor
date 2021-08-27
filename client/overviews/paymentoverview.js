@@ -93,7 +93,7 @@ Template.paymentoverview.onRendered(function() {
     var splashArray = new Array();
     const dataTableList = [];
     const tableHeaderList = [];
-    if(Router.current().params.query.success){
+    if(FlowRouter.current().queryParams.success){
         $('.btnRefresh').addClass('btnRefreshAlert');
     }
 
@@ -554,11 +554,11 @@ Template.paymentoverview.onRendered(function() {
                         var transactiontype = $(event.target).closest("tr").find(".colType").text();
                         if((listData) && (transactiontype)){
                             if(transactiontype === 'Customer Payment' ){
-                                Router.go('/paymentcard?id=' + listData);
+                                FlowRouter.go('/paymentcard?id=' + listData);
                             }else if(transactiontype === 'Supplier Payment'){
-                                Router.go('/supplierpaymentcard?id=' + listData);
+                                FlowRouter.go('/supplierpaymentcard?id=' + listData);
                             }else{
-                                Router.go('/paymentcard?id=' + listData);
+                                FlowRouter.go('/paymentcard?id=' + listData);
                             }
 
                         }
@@ -762,11 +762,11 @@ Template.paymentoverview.onRendered(function() {
                     var transactiontype = $(event.target).closest("tr").find(".colType").text();
                     if((listData) && (transactiontype)){
                         if(transactiontype === 'Customer Payment' ){
-                            Router.go('/paymentcard?id=' + listData);
+                            FlowRouter.go('/paymentcard?id=' + listData);
                         }else if(transactiontype === 'Supplier Payment'){
-                            Router.go('/supplierpaymentcard?id=' + listData);
+                            FlowRouter.go('/supplierpaymentcard?id=' + listData);
                         }else{
-                            Router.go('/paymentcard?id=' + listData);
+                            FlowRouter.go('/paymentcard?id=' + listData);
                         }
 
                     }
@@ -962,11 +962,11 @@ Template.paymentoverview.onRendered(function() {
                     var transactiontype = $(event.target).closest("tr").find(".colType").text();
                     if((listData) && (transactiontype)){
                         if(transactiontype === 'Customer Payment' ){
-                            Router.go('/paymentcard?id=' + listData);
+                            FlowRouter.go('/paymentcard?id=' + listData);
                         }else if(transactiontype === 'Supplier Payment'){
-                            Router.go('/supplierpaymentcard?id=' + listData);
+                            FlowRouter.go('/supplierpaymentcard?id=' + listData);
                         }else{
-                            Router.go('/paymentcard?id=' + listData);
+                            FlowRouter.go('/paymentcard?id=' + listData);
                         }
 
                     }
@@ -1020,9 +1020,9 @@ Template.paymentoverview.onRendered(function() {
       });
     }
 
-    let urlParametersDateFrom = Router.current().params.query.fromDate;
-    let urlParametersDateTo = Router.current().params.query.toDate;
-    let urlParametersIgnoreDate = Router.current().params.query.ignoredate;
+    let urlParametersDateFrom = FlowRouter.current().queryParams.fromDate;
+    let urlParametersDateTo = FlowRouter.current().queryParams.toDate;
+    let urlParametersIgnoreDate = FlowRouter.current().queryParams.ignoredate;
     if(urlParametersDateFrom){
       if(urlParametersIgnoreDate == true){
         $('#dateFrom').attr('readonly', true);
@@ -1037,7 +1037,7 @@ Template.paymentoverview.onRendered(function() {
 
 Template.paymentoverview.events({
     'click #newSalesOrder' : function(event){
-        Router.go('/salesordercard');
+        FlowRouter.go('/salesordercard');
     },
     'click .feeOnTopInput':function(event){
         if($(event.target).is(':checked')){
@@ -1050,52 +1050,52 @@ Template.paymentoverview.events({
         }
     },
     'click .btnCustomerlist' : function(event){
-        Router.go('/customerpayment');
+        FlowRouter.go('/customerpayment');
     },
     'click #newInvoice' : function(event){
-        Router.go('/invoicecard');
+        FlowRouter.go('/invoicecard');
     },
     'click .btnSupplierPaymentList' : function(event){
-        Router.go('/supplierpayment');
+        FlowRouter.go('/supplierpayment');
     },
     'click #newQuote' : function(event){
-        Router.go('/quotecard');
+        FlowRouter.go('/quotecard');
     },
     'click .QuoteList' : function(event){
-        Router.go('/quoteslist');
+        FlowRouter.go('/quoteslist');
     },
     'click .btnPaymentSettings' : function(event){
         $('.modal-backdrop').css('display','none');
-        Router.go('/paymentmethodSettings');
+        FlowRouter.go('/paymentmethodSettings');
     },
     'click .btnTaxRateSettings' : function(event){
         $('.modal-backdrop').css('display','none');
-        Router.go('/taxratesettings');
+        FlowRouter.go('/taxratesettings');
     },
     'click .btnTermsSettings' : function(event){
         $('.modal-backdrop').css('display','none');
-        Router.go('/termsettings');
+        FlowRouter.go('/termsettings');
     },
     'click .btnCurrencySettings' : function(event){
         $('.modal-backdrop').css('display','none');
-        Router.go('/currenciesSettings');
+        FlowRouter.go('/currenciesSettings');
     },
 
     'click .customerAwaitingPayment' : function(event){
         $('.modal-backdrop').css('display','none');
-        Router.go('/customerawaitingpayments');
+        FlowRouter.go('/customerawaitingpayments');
     },
     'click .customerOverdue' : function(event){
         $('.modal-backdrop').css('display','none');
-        Router.go('/customerawaitingpayments');
+        FlowRouter.go('/customerawaitingpayments');
     },
     'click .supplierAwaitingPayment' : function(event){
         $('.modal-backdrop').css('display','none');
-        Router.go('/supplierawaitingpurchaseorder');
+        FlowRouter.go('/supplierawaitingpurchaseorder');
     },
     'click .supplierOverdue' : function(event){
         $('.modal-backdrop').css('display','none');
-        Router.go('/supplierawaitingpurchaseorder');
+        FlowRouter.go('/supplierawaitingpurchaseorder');
     },
 
     'click .chkDatatable' : function(event){
@@ -1491,13 +1491,13 @@ Template.paymentoverview.events({
     }
     ,
     'click .openaccountpayable': function () {
-        Router.go('/supplierawaitingpurchaseorder');
+        FlowRouter.go('/supplierawaitingpurchaseorder');
     },
     'click .openaccountreceivable': function () {
-        Router.go('/customerawaitingpayments');
+        FlowRouter.go('/customerawaitingpayments');
     },
     'click .btnPrinStatment': function () {
-        Router.go('/statementlist');
+        FlowRouter.go('/statementlist');
     }
 
 

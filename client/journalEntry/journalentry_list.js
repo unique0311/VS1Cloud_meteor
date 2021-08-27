@@ -22,7 +22,7 @@ Template.journalentrylist.onRendered(function() {
   var splashArray = new Array();
   const dataTableList = [];
   const tableHeaderList = [];
-  if(Router.current().params.query.success){
+  if(FlowRouter.current().queryParams.success){
     $('.btnRefresh').addClass('btnRefreshAlert');
   }
 
@@ -236,7 +236,7 @@ Template.journalentrylist.onRendered(function() {
              $('#tblJournalList tbody').on( 'click', 'tr', function () {
              var listData = $(this).closest('tr').attr('id');
              if(listData){
-               Router.go('/journalentrycard?id=' + listData);
+               FlowRouter.go('/journalentrycard?id=' + listData);
              }
            });
 
@@ -427,7 +427,7 @@ Template.journalentrylist.onRendered(function() {
            $('#tblJournalList tbody').on( 'click', 'tr', function () {
            var listData = $(this).closest('tr').attr('id');
            if(listData){
-             Router.go('/journalentrycard?id=' + listData);
+             FlowRouter.go('/journalentrycard?id=' + listData);
            }
          });
 
@@ -613,7 +613,7 @@ Template.journalentrylist.onRendered(function() {
            $('#tblJournalList tbody').on( 'click', 'tr', function () {
            var listData = $(this).closest('tr').attr('id');
            if(listData){
-             Router.go('/journalentrycard?id=' + listData);
+             FlowRouter.go('/journalentrycard?id=' + listData);
            }
          });
 
@@ -670,7 +670,7 @@ Template.journalentrylist.events({
      });
   },
   'click #btnNewJournalEntry' : function(event){
-  Router.go('/journalentrycard');
+  FlowRouter.go('/journalentrycard');
   },
   'click .chkDatatable' : function(event){
     var columns = $('#tblJournalList th');

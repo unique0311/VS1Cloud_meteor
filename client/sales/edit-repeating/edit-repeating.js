@@ -38,7 +38,7 @@ yearRange: "-90:+10",
     $("#invoiceDate").val(moment().format('DD MMM YYYY'));
     let salesService = new SalesBoardService();
     let accountService = new AccountService()
-    let invoice_id = Router.current().params.query.id;
+    let invoice_id = FlowRouter.current().queryParams.id;
     let templateObject = Template.instance();
     let initCurrency = Currency;
     let currencySymbol;
@@ -1647,7 +1647,7 @@ Template.editRepeating.events({
     },
     'click .add-new-note':function(){
         let tempObj = Template.instance();
-        let invoiceId = parseInt(Router.current().params.query.id);
+        let invoiceId = parseInt(FlowRouter.current().queryParams.id);
         let invoiceService = new InvoiceService();
         let objDetails = {
             type: "TInvoiceEx",

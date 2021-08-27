@@ -407,7 +407,7 @@ Template.companyappsettingsdup.events({
         history.back(1);
     },
     'click .btnAddVS1User': function (event) {
-        //Router.go('/employeescard');
+        //FlowRouter.go('/employeescard');
         swal({
             title: 'Is this an existing Employee?',
             text: '',
@@ -421,7 +421,7 @@ Template.companyappsettingsdup.events({
                 $('#employeeListModal').modal('toggle');
                 // result.dismiss can be 'overlay', 'cancel', 'close', 'esc', 'timer'
             } else if (result.dismiss === 'cancel') {
-                Router.go('/employeescard?addvs1user=true');
+                FlowRouter.go('/employeescard?addvs1user=true');
             }
         })
     },
@@ -548,7 +548,7 @@ Template.companyappsettingsdup.events({
             accessLevel = 3;
 
 
-    
+
 
         $('.additionalModule:checkbox:checked').each(function () {
             userQuantity = $(this).attr('additionalqty');
@@ -646,9 +646,9 @@ Template.companyappsettingsdup.events({
 
                 };
                 lineItemsForm1.push(lineItemObjForm)
-        } 
-    } 
-        
+        }
+    }
+
         for (let l = 0; l < lineItemsForm1.length; l++) {
             stringQuery = stringQuery + "product" + l + "=" + lineItemsForm1[l].ModuleName + "&price" + l + "=" + Currency + lineItemsForm1[l].Price + "&qty" + l + "=" + lineItemsForm1[l].RenewDiscountDesc + "&";
         }
@@ -709,12 +709,12 @@ Template.companyappsettingsdup.events({
                                             //}
                                         });
                                     } else {
-                                       window.open('https://www.depot.vs1cloud.com/stripe/' + stringQuery, '_self');
+                                       window.open(stripeGlobalURL + stringQuery, '_self');
                                     }
                                 }
                             });
                         }).catch(function (err) {
-                           window.open('https://www.depot.vs1cloud.com/stripe/' + stringQuery, '_self');
+                           window.open(stripeGlobalURL + stringQuery, '_self');
                         });
                     } else {
                         $.ajax({
@@ -742,7 +742,7 @@ Template.companyappsettingsdup.events({
                                         //}
                                     });
                                 } else {
-                                    window.open('https://www.depot.vs1cloud.com/stripe/' + stringQuery, '_self');
+                                    window.open(stripeGlobalURL + stringQuery, '_self');
                                 }
                             }
                         });

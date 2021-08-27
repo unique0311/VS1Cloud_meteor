@@ -13,7 +13,7 @@ Template.subscriptionSettings.onRendered(function () {
    $('.fullScreenSpin').css('display', 'inline-block');
     $.ajax({
         url: 'https://depot.vs1cloud.com/stripe-sandbox/vs1_get-payment_method.php',
-        // url: 'https://depot.vs1cloud.com/stripe/vs1_get-payment_method.php',
+        //url: 'https://depot.vs1cloud.com/stripe/vs1_get-payment_method.php',
         data: {
             'email': Session.get('VS1AdminUserName'),
         },
@@ -67,13 +67,13 @@ Template.subscriptionSettings.events({
                 $('#employeeListModal').modal('toggle');
                 // result.dismiss can be 'overlay', 'cancel', 'close', 'esc', 'timer'
             } else if (result.dismiss === 'cancel') {
-                Router.go('/employeescard?addvs1user=true');
+                FlowRouter.go('/employeescard?addvs1user=true');
             }
         })
     },
     'click .btnCancelSub': function (event) {
         let loggeduserEmail = localStorage.getItem('mySession');
-        let currentURL = Router.current().params.query;
+        let currentURL = FlowRouter.current().queryParams;
         swal({
             title: 'Are you sure you want to cancel this subscription?',
             text: '',

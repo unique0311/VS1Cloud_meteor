@@ -2752,7 +2752,7 @@ Template.sidenav.events({
     },
     'click .sidenavaccounts': function(event) {
         event.preventDefault();
-        Router.go('/accountsoverview');
+        FlowRouter.go('/accountsoverview');
         let templateObject = Template.instance();
         templateObject.getSetSideNavFocus();
 
@@ -2770,46 +2770,46 @@ Template.sidenav.events({
         if (window.location.pathname == "/appointments") {
             $('#allocationModal').modal('show');
         } else {
-            Router.go('/appointments#allocationModal');
+            FlowRouter.go('/appointments#allocationModal');
 
         }
     },
     'click #sidenavpayroll' : function(event){
         event.preventDefault();
-        Router.go('/payrolloverview');
+        FlowRouter.go('/payrolloverview');
     },
     'click #sidenavjournalentry': function(event) {
 
         event.preventDefault();
-        Router.go('/journalentrylist');
+        FlowRouter.go('/journalentrylist');
         let templateObject = Template.instance();
         templateObject.getSetSideNavFocus();
     },
     'click #sidenavnewjournalentry': function(event) {
 
         event.preventDefault();
-        Router.go('/journalentrycard');
+        FlowRouter.go('/journalentrycard');
         let templateObject = Template.instance();
         templateObject.getSetSideNavFocus();
     },
     'click .sidenavbanking': function(event) {
 
         event.preventDefault();
-        Router.go('/bankingoverview');
+        FlowRouter.go('/bankingoverview');
         let templateObject = Template.instance();
         templateObject.getSetSideNavFocus();
     },
     'click #sidenavcheque': function(event) {
 
         event.preventDefault();
-        Router.go('/chequelist');
+        FlowRouter.go('/chequelist');
         let templateObject = Template.instance();
         templateObject.getSetSideNavFocus();
     },
     'click #sidenavreconciliation': function(event) {
 
         event.preventDefault();
-        Router.go('/reconciliationlist');
+        FlowRouter.go('/reconciliationlist');
         let templateObject = Template.instance();
         templateObject.getSetSideNavFocus();
     },
@@ -2823,21 +2823,21 @@ Template.sidenav.events({
     'click #sidenavnewreconcile': function(event) {
 
         event.preventDefault();
-        Router.go('/reconciliation');
+        FlowRouter.go('/reconciliation');
         let templateObject = Template.instance();
         templateObject.getSetSideNavFocus();
     },
     'click #sidenavnewcheque': function(event) {
 
         event.preventDefault();
-        Router.go('/chequecard');
+        FlowRouter.go('/chequecard');
         let templateObject = Template.instance();
         templateObject.getSetSideNavFocus();
     },
     'click #sidenavbalancesheet': function(event) {
 
         event.preventDefault();
-        Router.go('/balancesheetreport');
+        FlowRouter.go('/balancesheetreport');
         let templateObject = Template.instance();
         templateObject.getSetSideNavFocus();
     },
@@ -2863,49 +2863,49 @@ Template.sidenav.events({
     'click .sidenavcontacts': function(event) {
 
         event.preventDefault();
-        Router.go('/contactoverview');
+        FlowRouter.go('/contactoverview');
         let templateObject = Template.instance();
         templateObject.getSetSideNavFocus();
     },
     'click #sidenavdashbaord': function(event) {
 
         event.preventDefault();
-        Router.go('/dashboard');
+        FlowRouter.go('/dashboard');
         let templateObject = Template.instance();
         templateObject.getSetSideNavFocus();
     },
     'click .sidenavappointment': function(event) {
 
         event.preventDefault();
-        Router.go('/appointments');
+        FlowRouter.go('/appointments');
         let templateObject = Template.instance();
         templateObject.getSetSideNavFocus();
     },
     'click #sidenavappointmentList': function(event) {
 
         event.preventDefault();
-        Router.go('/appointmentlist');
+        FlowRouter.go('/appointmentlist');
         let templateObject = Template.instance();
         templateObject.getSetSideNavFocus();
     },
     'click #sidenavappointmenttimeList': function(event) {
 
         event.preventDefault();
-        Router.go('/appointmenttimelist');
+        FlowRouter.go('/appointmenttimelist');
         let templateObject = Template.instance();
         templateObject.getSetSideNavFocus();
     },
     'click #sidenavemployeesGreenTrack': function(event) {
 
         event.preventDefault();
-        Router.go('/employeelist');
+        FlowRouter.go('/employeelist');
         let templateObject = Template.instance();
         templateObject.getSetSideNavFocus();
     },
     'click #sidenavexpenseclaims': function(event) {
 
         event.preventDefault();
-        Router.go('/expenseclaims');
+        FlowRouter.go('/expenseclaims');
         let templateObject = Template.instance();
         templateObject.getSetSideNavFocus();
     },
@@ -2915,14 +2915,14 @@ Template.sidenav.events({
     'click .sidenavinventory': function(event) {
 
         event.preventDefault();
-        Router.go('/inventorylist');
+        FlowRouter.go('/inventorylist');
         let templateObject = Template.instance();
         templateObject.getSetSideNavFocus();
     },
     'click .sidenavnewinventory': function(event) {
 
         event.preventDefault();
-        Router.go('/productview');
+        FlowRouter.go('/productview');
         let templateObject = Template.instance();
         templateObject.getSetSideNavFocus();
     },
@@ -2935,97 +2935,97 @@ Template.sidenav.events({
     'click .sidenavpayments': function(event) {
 
         event.preventDefault();
-        Router.go('/paymentoverview');
+        FlowRouter.go('/paymentoverview');
         let templateObject = Template.instance();
         templateObject.getSetSideNavFocus();
     },
     'click .sidenavpurchases': function(event) {
 
         event.preventDefault();
-        Router.go('/purchasesoverview');
+        FlowRouter.go('/purchasesoverview');
         let templateObject = Template.instance();
         templateObject.getSetSideNavFocus();
     },
     'click #sidenavreports': function(event) {
 
         event.preventDefault();
-        Router.go('/allreports');
+        FlowRouter.go('/allreports');
         let templateObject = Template.instance();
         templateObject.getSetSideNavFocus();
     },
     'click #sidenav1099report': function(event) {
 
         event.preventDefault();
-        Router.go('/1099report');
+        FlowRouter.go('/1099report');
         let templateObject = Template.instance();
         templateObject.getSetSideNavFocus();
     },
     'click #sidenavagedpayables': function(event) {
 
         event.preventDefault();
-        Router.go('/agedpayables');
+        FlowRouter.go('/agedpayables');
         let templateObject = Template.instance();
         templateObject.getSetSideNavFocus();
     },
     'click #sidenavagedpayablessummary': function(event) {
 
         event.preventDefault();
-        Router.go('/agedpayablessummary');
+        FlowRouter.go('/agedpayablessummary');
         let templateObject = Template.instance();
         templateObject.getSetSideNavFocus();
     },
     'click #sidenavagedreceivables': function(event) {
 
         event.preventDefault();
-        Router.go('/agedreceivables');
+        FlowRouter.go('/agedreceivables');
         let templateObject = Template.instance();
         templateObject.getSetSideNavFocus();
     },
     'click #sidenavagedreceivablessummary': function(event) {
 
         event.preventDefault();
-        Router.go('/agedreceivablessummary');
+        FlowRouter.go('/agedreceivablessummary');
         let templateObject = Template.instance();
         templateObject.getSetSideNavFocus();
     },
     'click #sidenavbalancesheetreport': function(event) {
 
         event.preventDefault();
-        Router.go('/balancesheetreport');
+        FlowRouter.go('/balancesheetreport');
         let templateObject = Template.instance();
         templateObject.getSetSideNavFocus();
     },
     'click #sidenavgeneralledger': function(event) {
 
         event.preventDefault();
-        Router.go('/generalledger');
+        FlowRouter.go('/generalledger');
         let templateObject = Template.instance();
         templateObject.getSetSideNavFocus();
     },
     'click #sidenavstatementlist': function(event) {
 
         event.preventDefault();
-        Router.go('/statementlist');
+        FlowRouter.go('/statementlist');
         let templateObject = Template.instance();
         templateObject.getSetSideNavFocus();
     },
     'click #sidenavstatementlist2': function(event) {
 
         event.preventDefault();
-        Router.go('/statementlist');
+        FlowRouter.go('/statementlist');
         let templateObject = Template.instance();
         templateObject.getSetSideNavFocus();
     },
     'click #sidenavprofitlossreport': function(event) {
 
         event.preventDefault();
-        Router.go('/profitlossreport');
+        FlowRouter.go('/profitlossreport');
         let templateObject = Template.instance();
         templateObject.getSetSideNavFocus();
     },
     'click #sidenavpurchasesreport': function(event) {
         event.preventDefault();
-        Router.go('/purchasesreport');
+        FlowRouter.go('/purchasesreport');
         let templateObject = Template.instance();
         templateObject.getSetSideNavFocus();
 
@@ -3033,63 +3033,63 @@ Template.sidenav.events({
     'click #sidenavpurchasesummaryreport': function(event) {
 
         event.preventDefault();
-        Router.go('/purchasesummaryreport');
+        FlowRouter.go('/purchasesummaryreport');
         let templateObject = Template.instance();
         templateObject.getSetSideNavFocus();
     },
     'click #sidenavproductsalesreport': function(event) {
 
         event.preventDefault();
-        Router.go('/productsalesreport');
+        FlowRouter.go('/productsalesreport');
         let templateObject = Template.instance();
         templateObject.getSetSideNavFocus();
     },
     'click #sidenavsalesreport': function(event) {
 
         event.preventDefault();
-        Router.go('/salesreport');
+        FlowRouter.go('/salesreport');
         let templateObject = Template.instance();
         templateObject.getSetSideNavFocus();
     },
     'click #sidenavsalessummaryreport': function(event) {
 
         event.preventDefault();
-        Router.go('/salessummaryreport');
+        FlowRouter.go('/salessummaryreport');
         let templateObject = Template.instance();
         templateObject.getSetSideNavFocus();
     },
     'click #sidenavtaxsummaryreport': function(event) {
 
         event.preventDefault();
-        Router.go('/taxsummaryreport');
+        FlowRouter.go('/taxsummaryreport');
         let templateObject = Template.instance();
         templateObject.getSetSideNavFocus();
     },
     'click #sidenavtrialbalance': function(event) {
 
         event.preventDefault();
-        Router.go('/trialbalance');
+        FlowRouter.go('/trialbalance');
         let templateObject = Template.instance();
         templateObject.getSetSideNavFocus();
     },
     'click .sidenavreports': function(event) {
 
         event.preventDefault();
-        Router.go('/allreports');
+        FlowRouter.go('/allreports');
         let templateObject = Template.instance();
         templateObject.getSetSideNavFocus();
     },
     'click .sidenavsales': function(event) {
 
         event.preventDefault();
-        Router.go('/salesoverview');
+        FlowRouter.go('/salesoverview');
         let templateObject = Template.instance();
         templateObject.getSetSideNavFocus();
     },
     'click .sidenavsettings': function(event) {
 
         event.preventDefault();
-        Router.go('/settings');
+        FlowRouter.go('/settings');
         let templateObject = Template.instance();
         templateObject.getSetSideNavFocus();
     },
@@ -3098,14 +3098,14 @@ Template.sidenav.events({
     },
     'click #sidenavstockadjust': function(event) {
         event.preventDefault();
-        Router.go('/stockadjustmentoverview');
+        FlowRouter.go('/stockadjustmentoverview');
         let templateObject = Template.instance();
         templateObject.getSetSideNavFocus();
     },
     'click #sidenaveproductlist': function(event) {
 
         event.preventDefault();
-        Router.go('/productlist');
+        FlowRouter.go('/productlist');
         let templateObject = Template.instance();
         templateObject.getSetSideNavFocus();
     },
@@ -3118,28 +3118,28 @@ Template.sidenav.events({
     'click #sidenavcustomers': function(event) {
 
         event.preventDefault();
-        Router.go('/customerlist');
+        FlowRouter.go('/customerlist');
         let templateObject = Template.instance();
         templateObject.getSetSideNavFocus();
     },
     'click #sidenavemployees': function(event) {
 
         event.preventDefault();
-        Router.go('/employeelist');
+        FlowRouter.go('/employeelist');
         let templateObject = Template.instance();
         templateObject.getSetSideNavFocus();
     },
     'click #sidenavjobs': function(event) {
 
         event.preventDefault();
-        Router.go('/joblist');
+        FlowRouter.go('/joblist');
         let templateObject = Template.instance();
         templateObject.getSetSideNavFocus();
     },
     'click #sidenavsuppliers': function(event) {
 
         event.preventDefault();
-        Router.go('/supplierlist');
+        FlowRouter.go('/supplierlist');
         let templateObject = Template.instance();
         templateObject.getSetSideNavFocus();
     },
@@ -3149,7 +3149,7 @@ Template.sidenav.events({
             window.open('/customerscard', '_self');
         } else {
             event.preventDefault();
-            Router.go('/customerscard');
+            FlowRouter.go('/customerscard');
             let templateObject = Template.instance();
             templateObject.getSetSideNavFocus();
         }
@@ -3160,7 +3160,7 @@ Template.sidenav.events({
             window.open('/employeescard', '_self');
         } else {
             event.preventDefault();
-            Router.go('/employeescard');
+            FlowRouter.go('/employeescard');
             let templateObject = Template.instance();
             templateObject.getSetSideNavFocus();
         }
@@ -3173,7 +3173,7 @@ Template.sidenav.events({
             window.open('/supplierscard', '_self');
         } else {
             event.preventDefault();
-            Router.go('/supplierscard');
+            FlowRouter.go('/supplierscard');
             let templateObject = Template.instance();
             templateObject.getSetSideNavFocus();
         }
@@ -3181,161 +3181,161 @@ Template.sidenav.events({
     'click #sidenavawaitingCP': function(event) {
 
         event.preventDefault();
-        Router.go('/customerawaitingpayments');
+        FlowRouter.go('/customerawaitingpayments');
         let templateObject = Template.instance();
         templateObject.getSetSideNavFocus();
     },
     'click #sidenavawaitingSPPO': function(event) {
 
         event.preventDefault();
-        Router.go('/supplierawaitingpurchaseorder');
+        FlowRouter.go('/supplierawaitingpurchaseorder');
         let templateObject = Template.instance();
         templateObject.getSetSideNavFocus();
     },
     'click #sidenavawaitingSPBill': function(event) {
 
         event.preventDefault();
-        Router.go('/supplierawaitingbills');
+        FlowRouter.go('/supplierawaitingbills');
         let templateObject = Template.instance();
         templateObject.getSetSideNavFocus();
     },
     'click #sidenavcustomerP': function(event) {
 
         event.preventDefault();
-        Router.go('/customerpayment');
+        FlowRouter.go('/customerpayment');
         let templateObject = Template.instance();
         templateObject.getSetSideNavFocus();
     },
     'click #sidenavnewcustomerP': function(event) {
 
         event.preventDefault();
-        Router.go('/customerawaitingpayments');
+        FlowRouter.go('/customerawaitingpayments');
         let templateObject = Template.instance();
         templateObject.getSetSideNavFocus();
     },
     'click #sidenavsupplierP': function(event) {
 
         event.preventDefault();
-        Router.go('/supplierpayment');
+        FlowRouter.go('/supplierpayment');
         let templateObject = Template.instance();
         templateObject.getSetSideNavFocus();
     },
     'click #sidenavnewsupplierP': function(event) {
 
         event.preventDefault();
-        Router.go('/supplierawaitingpurchaseorder');
+        FlowRouter.go('/supplierawaitingpurchaseorder');
         let templateObject = Template.instance();
         templateObject.getSetSideNavFocus();
     },
     'click #sidenavBill': function(event) {
 
         event.preventDefault();
-        Router.go('/billlist');
+        FlowRouter.go('/billlist');
         let templateObject = Template.instance();
         templateObject.getSetSideNavFocus();
     },
     'click #sidenavCredit': function(event) {
 
         event.preventDefault();
-        Router.go('/creditlist');
+        FlowRouter.go('/creditlist');
         let templateObject = Template.instance();
         templateObject.getSetSideNavFocus();
     },
     'click #sidenavPurchaseOrder': function(event) {
 
         event.preventDefault();
-        Router.go('/purchaseorderlist');
+        FlowRouter.go('/purchaseorderlist');
         let templateObject = Template.instance();
         templateObject.getSetSideNavFocus();
     },
     'click #sidenavPurchaseOrderBO': function(event) {
 
         event.preventDefault();
-        Router.go('/purchaseorderlistBO');
+        FlowRouter.go('/purchaseorderlistBO');
         let templateObject = Template.instance();
         templateObject.getSetSideNavFocus();
     },
     'click #sidenavnewBill': function(event) {
 
         event.preventDefault();
-        Router.go('/billcard');
+        FlowRouter.go('/billcard');
         let templateObject = Template.instance();
         templateObject.getSetSideNavFocus();
     },
     'click #sidenavnewCredit': function(event) {
 
         event.preventDefault();
-        Router.go('/creditcard');
+        FlowRouter.go('/creditcard');
         let templateObject = Template.instance();
         templateObject.getSetSideNavFocus();
     },
     'click #sidenavnewPO': function(event) {
 
         event.preventDefault();
-        Router.go('/purchaseordercard');
+        FlowRouter.go('/purchaseordercard');
         let templateObject = Template.instance();
         templateObject.getSetSideNavFocus();
     },
     'click #sidenavInvoice': function(event) {
 
         event.preventDefault();
-        Router.go('/invoicelist');
+        FlowRouter.go('/invoicelist');
         let templateObject = Template.instance();
         templateObject.getSetSideNavFocus();
     },
     'click #sidenavInvoiceEmail': function(event) {
 
         event.preventDefault();
-        Router.go('/invoiceemail');
+        FlowRouter.go('/invoiceemail');
         let templateObject = Template.instance();
         templateObject.getSetSideNavFocus();
     },
     'click #sidenavInvoiceBO': function(event) {
 
         event.preventDefault();
-        Router.go('/invoicelistBO');
+        FlowRouter.go('/invoicelistBO');
         let templateObject = Template.instance();
         templateObject.getSetSideNavFocus();
     },
     'click #sidenavQuote': function(event) {
 
         event.preventDefault();
-        Router.go('/quoteslist');
+        FlowRouter.go('/quoteslist');
         let templateObject = Template.instance();
         templateObject.getSetSideNavFocus();
     },
     'click #sidenavSalesOrder': function(event) {
 
         event.preventDefault();
-        Router.go('/salesorderslist');
+        FlowRouter.go('/salesorderslist');
         let templateObject = Template.instance();
         templateObject.getSetSideNavFocus();
     },
     'click #sidenavnewInvoice': function(event) {
 
         event.preventDefault();
-        Router.go('/invoicecard');
+        FlowRouter.go('/invoicecard');
         let templateObject = Template.instance();
         templateObject.getSetSideNavFocus();
     },
     'click #sidenavnewQuote': function(event) {
 
         event.preventDefault();
-        Router.go('/quotecard');
+        FlowRouter.go('/quotecard');
         let templateObject = Template.instance();
         templateObject.getSetSideNavFocus();
     },
     'click #sidenavnewRefund': function(event) {
 
         event.preventDefault();
-        Router.go('/refundcard');
+        FlowRouter.go('/refundcard');
         let templateObject = Template.instance();
         templateObject.getSetSideNavFocus();
     },
     'click #sidenavnewSO': function(event) {
 
         event.preventDefault();
-        Router.go('/salesordercard');
+        FlowRouter.go('/salesordercard');
         let templateObject = Template.instance();
         templateObject.getSetSideNavFocus();
     },
@@ -3356,49 +3356,49 @@ Template.sidenav.events({
     'click #sidenavcurrenciesSettings': function(event) {
 
         event.preventDefault();
-        Router.go('/currenciesSettings');
+        FlowRouter.go('/currenciesSettings');
         let templateObject = Template.instance();
         templateObject.getSetSideNavFocus();
     },
     'click #sidenavdepartmentSettings': function(event) {
 
         event.preventDefault();
-        Router.go('/departmentSettings');
+        FlowRouter.go('/departmentSettings');
         let templateObject = Template.instance();
         templateObject.getSetSideNavFocus();
     },
     'click #sidenavorganisationsettings': function(event) {
 
         event.preventDefault();
-        Router.go('/organisationsettings');
+        FlowRouter.go('/organisationsettings');
         let templateObject = Template.instance();
         templateObject.getSetSideNavFocus();
     },
     'click #sidenavpaymentmethodSettings': function(event) {
 
         event.preventDefault();
-        Router.go('/paymentmethodSettings');
+        FlowRouter.go('/paymentmethodSettings');
         let templateObject = Template.instance();
         templateObject.getSetSideNavFocus();
     },
     'click #sidenavtaxratesettings': function(event) {
 
         event.preventDefault();
-        Router.go('/taxratesettings');
+        FlowRouter.go('/taxratesettings');
         let templateObject = Template.instance();
         templateObject.getSetSideNavFocus();
     },
     'click #sidenavtermsettings': function(event) {
 
         event.preventDefault();
-        Router.go('/termsettings');
+        FlowRouter.go('/termsettings');
         let templateObject = Template.instance();
         templateObject.getSetSideNavFocus();
     },
     'click #sidenavtimesheet': function(event) {
 
         event.preventDefault();
-        Router.go('/timesheet');
+        FlowRouter.go('/timesheet');
         let templateObject = Template.instance();
         templateObject.getSetSideNavFocus();
     },
@@ -3435,19 +3435,19 @@ Template.sidenav.events({
     },
     'click #sidenavdepositlist': function(event) {
         event.preventDefault();
-        Router.go('/depositlist');
+        FlowRouter.go('/depositlist');
         let templateObject = Template.instance();
         templateObject.getSetSideNavFocus();
     },
     'click #sidenavnewdeposit': function(event) {
         event.preventDefault();
-        Router.go('/depositcard');
+        FlowRouter.go('/depositcard');
         let templateObject = Template.instance();
         templateObject.getSetSideNavFocus();
     },
     'click #sidenavshipping': function(event) {
         event.preventDefault();
-        Router.go('/vs1shipping');
+        FlowRouter.go('/vs1shipping');
         let templateObject = Template.instance();
         templateObject.getSetSideNavFocus();
     },

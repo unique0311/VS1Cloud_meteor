@@ -57,7 +57,7 @@ Template.addnewdepartment.events({
        //templateObject.deptrecords.set(deptName);
        //location.reload();
        //window.open('/billcard?id='+billID,'_self');
-      // Router.go('/billslist');
+      // FlowRouter.go('/billslist');
      }
 
 

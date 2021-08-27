@@ -74,7 +74,7 @@ Template.appointments.onRendered(function () {
     let prefObject = {};
     let globalSet = {};
     let launchAllocations = Session.get('CloudAppointmentAppointmentLaunch');
-    let currentId = Router.current().params.hash;
+    let currentId = FlowRouter.current().context.hash;
     if ((currentId === "allocationModal")) {
         setTimeout(function () {
             $('#allocationModal').modal('show');
@@ -476,7 +476,7 @@ Template.appointments.onRendered(function () {
                     text: 'Appointment List',
                     click: function () {
                         //window.open('/appointmentlist', '_self');
-                        Router.go('/appointmentlist');
+                        FlowRouter.go('/appointmentlist');
                     }
                 },
                 allocation: {
@@ -859,7 +859,7 @@ Template.appointments.onRendered(function () {
                     text: 'Appointment List',
                     click: function () {
                         //window.open('/appointmentlist', '_self');
-                        Router.go('/appointmentlist');
+                        FlowRouter.go('/appointmentlist');
                     }
                 },
                 allocation: {
@@ -1671,7 +1671,7 @@ Template.appointments.onRendered(function () {
                     updateCalendarData = eventData
                         let url = window.location.href;
                     if (url.indexOf('?id') > 1) {
-                        url1 = new URL(url);
+                        url1 = new URL(window.location.href);
                         let appID = url1.searchParams.get("id");
                         $('#frmAppointment')[0].reset();
                         $("#btnHold").prop("disabled", false);
@@ -2229,7 +2229,7 @@ Template.appointments.onRendered(function () {
                                 text: 'Appointment List',
                                 click: function () {
                                     //window.open('/appointmentlist', '_self');
-                                    Router.go('/appointmentlist');
+                                    FlowRouter.go('/appointmentlist');
                                 }
                             },
                             allocation: {
@@ -2541,7 +2541,7 @@ Template.appointments.onRendered(function () {
                 updateCalendarData = eventData
                     let url = window.location.href;
                 if (url.indexOf('?id') > 1) {
-                    url1 = new URL(url);
+                    url1 = new URL(window.location.href);
                     let appID = url1.searchParams.get("id");
                     $('#frmAppointment')[0].reset();
                     $("#btnHold").prop("disabled", false);
@@ -3153,7 +3153,7 @@ Template.appointments.onRendered(function () {
                 updateCalendarData = eventData
                     let url = window.location.href;
                 if (url.indexOf('?id') > 1) {
-                    url1 = new URL(url);
+                    url1 = new URL(window.location.href);
                     let appID = url1.searchParams.get("id");
                     $('#frmAppointment')[0].reset();
                     $("#btnHold").prop("disabled", false);
@@ -3711,7 +3711,7 @@ Template.appointments.onRendered(function () {
                             text: 'Appointment List',
                             click: function () {
                                 //window.open('/appointmentlist', '_self');
-                                Router.go('/appointmentlist');
+                                FlowRouter.go('/appointmentlist');
                             }
                         },
                         allocation: {
@@ -4125,7 +4125,7 @@ Template.appointments.onRendered(function () {
     $(document).on("dblclick", "#tblEmployeeSideList tbody tr", function () {
         var listData = this.id;
         if (listData) {
-            Router.go('/employeescard?id=' + listData);
+            FlowRouter.go('/employeescard?id=' + listData);
         }
     });
 
@@ -4329,7 +4329,7 @@ Template.appointments.onRendered(function () {
                             text: 'Appointment List',
                             click: function () {
                                 //window.open('/appointmentlist', '_self');
-                                Router.go('/appointmentlist');
+                                FlowRouter.go('/appointmentlist');
                             }
                         },
                         allocation: {
@@ -5135,7 +5135,7 @@ Template.appointments.events({
         $('#files_view').modal('hide');
     },
     'click .calendar .days li': function (event) {
-        Router.go('/newappointments');
+        FlowRouter.go('/newappointments');
     },
     'change #frequency': function () {
         let templateObject = Template.instance();
@@ -5697,7 +5697,7 @@ Template.appointments.events({
                         };
                         appointmentService.saveAppointment(objectDataConverted).then(function (data) {
                             $('.modal-backdrop').css('display', 'none');
-                            Router.go('/invoicelist?success=true');
+                            FlowRouter.go('/invoicelist?success=true');
                         }).catch(function (err) {
                             $('.fullScreenSpin').css('display', 'none');
                         });
@@ -5784,7 +5784,7 @@ Template.appointments.events({
         $('.modal-backdrop').css('display', 'none');
         let id = $('#updateID').val();
         if (id) {
-            Router.go('/appointmenttimelist?id=' + id);
+            FlowRouter.go('/appointmenttimelist?id=' + id);
         } else {
             swal({
                 title: 'Appointment does not exist, create one first to view Appointment Timelist',

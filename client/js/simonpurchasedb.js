@@ -19,8 +19,8 @@ Template.simonpurchasedb.events({
    var country = event.target.country.value;
 
    let currentURLQuoteID = '';
-   if(Router.current().params.quoteid){
-     currentURLQuoteID = Router.current().params.quoteid;
+   if(FlowRouter.current().queryParams.quoteid){
+     currentURLQuoteID = FlowRouter.current().queryParams.quoteid;
    }
 
 
@@ -38,7 +38,7 @@ Template.simonpurchasedb.events({
    let getYear = getexpiredate[1]||0;
    let licencelevel = 1;
    let paymentamount = 24;
-   var url = window.location.href;
+   var url = FlowRouter.current().path;
    if((url.indexOf('?package=') > 0) && (url.indexOf('itemtotal=') > 0)){
 
      var getpackagename = url.split('?package=');
@@ -278,7 +278,7 @@ if (result.value) {
 Template.simonpurchasedb.onRendered( function() {
   const templateObject = Template.instance();
 
-  let currentURL = Router.current().params.query;
+  let currentURL = FlowRouter.current().queryParams;
 
   if(currentURL.company){
     $('#cname').val(currentURL.company);

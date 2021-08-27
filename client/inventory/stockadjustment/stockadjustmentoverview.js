@@ -23,7 +23,7 @@ Template.stockadjustmentoverview.onRendered(function() {
     const dataTableList = [];
     const tableHeaderList = [];
 
-    if(Router.current().params.query.success){
+    if(FlowRouter.current().queryParams.success){
         $('.btnRefresh').addClass('btnRefreshAlert');
     }
 
@@ -444,7 +444,7 @@ Template.stockadjustmentoverview.onRendered(function() {
                             }, 100);
                         },
                         "fnInitComplete": function () {
-                          let urlParametersPage = Router.current().params.query.page;
+                          let urlParametersPage = FlowRouter.current().queryParams.page;
                           if(urlParametersPage){
                             this.fnPageChange('last');
                           }
@@ -533,7 +533,7 @@ Template.stockadjustmentoverview.onRendered(function() {
                 $('#tblStockAdjustOverview tbody').on( 'click', 'tr', function () {
                     var listData = $(this).closest('tr').attr('id');
                     if(listData){
-                        Router.go('/stockadjustmentcard?id=' + listData);
+                        FlowRouter.go('/stockadjustmentcard?id=' + listData);
                     }
                 });
 
@@ -752,7 +752,7 @@ Template.stockadjustmentoverview.events({
         });
     },
     'click .btnnewstockadjustment' : function(event){
-        Router.go('/stockadjustmentcard');
+        FlowRouter.go('/stockadjustmentcard');
     },
     'click .chkDatatable' : function(event){
         var columns = $('#tblStockAdjustOverview th');

@@ -29,7 +29,7 @@ Template.packagerenewal.onRendered(function() {
         
       });
 
-  let currentURL = Router.current().params.query;
+  let currentURL = FlowRouter.current().queryParams;
   Meteor.call('magentoAWSProfileRenewal', function(error, result) {
     if (error) {
 

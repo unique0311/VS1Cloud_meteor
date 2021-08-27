@@ -29,7 +29,7 @@ Template.accountrevenuestreams.onRendered(()=>{
   function chartClickEvent(event, array){
       if(array[0] != undefined){
         var activePoints = array[0]['_model'].label;
-           Router.go('/profitlossreport?month=' + activePoints);
+           FlowRouter.go('/profitlossreport?month=' + activePoints);
        }
   }
 

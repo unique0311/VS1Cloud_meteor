@@ -74,7 +74,7 @@ Template.customerscard.onRendered(function () {
     let taxCodes = [];
 
 
-    let currentId = Router.current().params.query;
+    let currentId = FlowRouter.current().queryParams;
     let customerID = '';
     let totAmount = 0;
     let totAmountOverDue = 0;
@@ -451,29 +451,29 @@ Template.customerscard.onRendered(function () {
                         var transactiontype = $(event.target).closest("tr").find(".colType").text();
                         if ((listData) && (transactiontype)) {
                             if (transactiontype === 'Bill') {
-                                Router.go('/billcard?id=' + listData);
+                                FlowRouter.go('/billcard?id=' + listData);
                             } else if (transactiontype === 'Credit') {
-                                Router.go('/creditcard?id=' + listData);
+                                FlowRouter.go('/creditcard?id=' + listData);
                             } else if (transactiontype === 'PO') {
-                                Router.go('/purchaseordercard?id=' + listData);
+                                FlowRouter.go('/purchaseordercard?id=' + listData);
                             } else if (transactiontype === 'Supplier Payment') {
-                                Router.go('/supplierpaymentcard?id=' + listData);
+                                FlowRouter.go('/supplierpaymentcard?id=' + listData);
                             } else if (transactiontype === 'Customer Payment') {
-                                Router.go('/paymentcard?id=' + listData);
+                                FlowRouter.go('/paymentcard?id=' + listData);
                             } else if (transactiontype === 'Cheque') {
-                                Router.go('/chequecard?id=' + listData);
+                                FlowRouter.go('/chequecard?id=' + listData);
                             } else if (transactiontype === 'Journal Entry') {
-                                Router.go('/journalentrycard?id=' + listData);
+                                FlowRouter.go('/journalentrycard?id=' + listData);
                             } else if (transactiontype === 'Refund') {
-                                Router.go('/invoicecard?id=' + listData);
+                                FlowRouter.go('/invoicecard?id=' + listData);
                             } else if (transactiontype === 'Invoice') {
-                                Router.go('/invoicecard?id=' + listData);
+                                FlowRouter.go('/invoicecard?id=' + listData);
                             } else if (transactiontype === 'Sales Order' || transactiontype === 'SO') {
-                                Router.go('/salesordercard?id=' + listData);
+                                FlowRouter.go('/salesordercard?id=' + listData);
                             } else if (transactiontype === 'Quote') {
-                                Router.go('/quotecard?id=' + listData);
+                                FlowRouter.go('/quotecard?id=' + listData);
                             } else if (transactiontype === 'UnInvoiced SO') {
-                                Router.go('/salesordercard?id=' + listData);
+                                FlowRouter.go('/salesordercard?id=' + listData);
                             }
                         }
                     });
@@ -691,29 +691,29 @@ Template.customerscard.onRendered(function () {
                     var transactiontype = $(event.target).closest("tr").find(".colType").text();
                     if ((listData) && (transactiontype)) {
                         if (transactiontype === 'Bill') {
-                            Router.go('/billcard?id=' + listData);
+                            FlowRouter.go('/billcard?id=' + listData);
                         } else if (transactiontype === 'Credit') {
-                            Router.go('/creditcard?id=' + listData);
+                            FlowRouter.go('/creditcard?id=' + listData);
                         } else if (transactiontype === 'PO') {
-                            Router.go('/purchaseordercard?id=' + listData);
+                            FlowRouter.go('/purchaseordercard?id=' + listData);
                         } else if (transactiontype === 'Supplier Payment') {
-                            Router.go('/supplierpaymentcard?id=' + listData);
+                            FlowRouter.go('/supplierpaymentcard?id=' + listData);
                         } else if (transactiontype === 'Customer Payment') {
-                            Router.go('/paymentcard?id=' + listData);
+                            FlowRouter.go('/paymentcard?id=' + listData);
                         } else if (transactiontype === 'Cheque') {
-                            Router.go('/chequecard?id=' + listData);
+                            FlowRouter.go('/chequecard?id=' + listData);
                         } else if (transactiontype === 'Journal Entry') {
-                            Router.go('/journalentrycard?id=' + listData);
+                            FlowRouter.go('/journalentrycard?id=' + listData);
                         } else if (transactiontype === 'Refund') {
-                            Router.go('/invoicecard?id=' + listData);
+                            FlowRouter.go('/invoicecard?id=' + listData);
                         } else if (transactiontype === 'Invoice') {
-                            Router.go('/invoicecard?id=' + listData);
+                            FlowRouter.go('/invoicecard?id=' + listData);
                         } else if (transactiontype === 'Sales Order' || transactiontype === 'SO') {
-                            Router.go('/salesordercard?id=' + listData);
+                            FlowRouter.go('/salesordercard?id=' + listData);
                         } else if (transactiontype === 'Quote') {
-                            Router.go('/quotecard?id=' + listData);
+                            FlowRouter.go('/quotecard?id=' + listData);
                         } else if (transactiontype === 'UnInvoiced SO') {
-                            Router.go('/salesordercard?id=' + listData);
+                            FlowRouter.go('/salesordercard?id=' + listData);
                         }
                     }
                 });
@@ -927,29 +927,29 @@ Template.customerscard.onRendered(function () {
                     var transactiontype = $(event.target).closest("tr").find(".colType").text();
                     if ((listData) && (transactiontype)) {
                         if (transactiontype === 'Bill') {
-                            Router.go('/billcard?id=' + listData);
+                            FlowRouter.go('/billcard?id=' + listData);
                         } else if (transactiontype === 'Credit') {
-                            Router.go('/creditcard?id=' + listData);
+                            FlowRouter.go('/creditcard?id=' + listData);
                         } else if (transactiontype === 'PO') {
-                            Router.go('/purchaseordercard?id=' + listData);
+                            FlowRouter.go('/purchaseordercard?id=' + listData);
                         } else if (transactiontype === 'Supplier Payment') {
-                            Router.go('/supplierpaymentcard?id=' + listData);
+                            FlowRouter.go('/supplierpaymentcard?id=' + listData);
                         } else if (transactiontype === 'Customer Payment') {
-                            Router.go('/paymentcard?id=' + listData);
+                            FlowRouter.go('/paymentcard?id=' + listData);
                         } else if (transactiontype === 'Cheque') {
-                            Router.go('/chequecard?id=' + listData);
+                            FlowRouter.go('/chequecard?id=' + listData);
                         } else if (transactiontype === 'Journal Entry') {
-                            Router.go('/journalentrycard?id=' + listData);
+                            FlowRouter.go('/journalentrycard?id=' + listData);
                         } else if (transactiontype === 'Refund') {
-                            Router.go('/invoicecard?id=' + listData);
+                            FlowRouter.go('/invoicecard?id=' + listData);
                         } else if (transactiontype === 'Invoice') {
-                            Router.go('/invoicecard?id=' + listData);
+                            FlowRouter.go('/invoicecard?id=' + listData);
                         } else if (transactiontype === 'Sales Order' || transactiontype === 'SO') {
-                            Router.go('/salesordercard?id=' + listData);
+                            FlowRouter.go('/salesordercard?id=' + listData);
                         } else if (transactiontype === 'Quote') {
-                            Router.go('/quotecard?id=' + listData);
+                            FlowRouter.go('/quotecard?id=' + listData);
                         } else if (transactiontype === 'UnInvoiced SO') {
-                            Router.go('/salesordercard?id=' + listData);
+                            FlowRouter.go('/salesordercard?id=' + listData);
                         }
                     }
                 });
@@ -2922,7 +2922,7 @@ Template.customerscard.events({
     'click .btnBack': function (event) {
         // event.preventDefault();
         history.back(1);
-      //  Router.go('/customerlist');
+      //  FlowRouter.go('/customerlist');
     },
     'click .btnSaveDept': function () {
         $('.fullScreenSpin').css('display', 'inline-block');
@@ -3185,7 +3185,7 @@ Template.customerscard.events({
         let customerType = $('#sltCustomerType').children("option:selected").val();
         let uploadedItems = templateObject.uploadedFiles.get();
 
-        var url = window.location.href;
+        var url = FlowRouter.current().path;
         var getemp_id = url.split('?id=');
         var currentEmployee = getemp_id[getemp_id.length - 1];
         var objDetails = '';
@@ -3475,7 +3475,7 @@ Template.customerscard.events({
         let notesJob = $('#txaJobNotes').val();
         let customerTypeJob = $('#sltJobCustomerType').val();
         var objDetails = '';
-        var url = window.location.href;
+        var url = FlowRouter.current().path;
         var getemp_id = url.split('?jobid=');
         var currentEmployeeJob = getemp_id[getemp_id.length - 1];
         var objDetails = '';
@@ -3573,12 +3573,12 @@ Template.customerscard.events({
           $('.modal-backdrop').css('display','none');
             sideBarService.getAllJobssDataVS1(initialBaseDataLoad,0).then(function (dataReload) {
                 addVS1Data('TJobVS1', JSON.stringify(dataReload)).then(function (datareturn) {
-                    Router.go('/joblist?success=true');
+                    FlowRouter.go('/joblist?success=true');
                 }).catch(function (err) {
-                    Router.go('/joblist?success=true');
+                    FlowRouter.go('/joblist?success=true');
                 });
             }).catch(function (err) {
-                Router.go('/joblist?success=true');
+                FlowRouter.go('/joblist?success=true');
             });
 
             sideBarService.getAllCustomersDataVS1(initialBaseDataLoad,0).then(function (dataReload) {
@@ -3590,7 +3590,7 @@ Template.customerscard.events({
             }).catch(function (err) {
 
             });
-            // let customerSaveID = Router.current().params.query;
+            // let customerSaveID = FlowRouter.current().queryParams;
             //   if(!isNaN(customerSaveID.id)){
             //         window.open('/customerscard?id=' + customerSaveID,'_self');
             //    }else if(!isNaN(customerSaveID.jobid)){
@@ -3865,7 +3865,7 @@ Template.customerscard.events({
         Meteor._reload.reload();
     },
     'click .btnRefreshTransaction': function () {
-        let currentId = Router.current().params.query;
+        let currentId = FlowRouter.current().queryParams;
         $('.fullScreenSpin').css('display', 'inline-block');
         sideBarService.getTTransactionListReport().then(function (data) {
             addVS1Data('TTransactionListReport', JSON.stringify(data)).then(function (datareturn) {
@@ -3897,7 +3897,7 @@ Template.customerscard.events({
         });
     },
     'click .btnRefreshJobDetails': function () {
-        let currentId = Router.current().params.query;
+        let currentId = FlowRouter.current().queryParams;
         $('.fullScreenSpin').css('display', 'inline-block');
         sideBarService.getAllJobssDataVS1(initialBaseDataLoad,0).then(function (data) {
             addVS1Data('TJobVS1', JSON.stringify(data)).then(function (datareturn) {
@@ -4153,7 +4153,7 @@ Template.customerscard.events({
                         if (err) {
 
                         } else {
-                            let customerSaveID = Router.current().params.query;
+                            let customerSaveID = FlowRouter.current().queryParams;
                             if (!isNaN(customerSaveID.id)) {
                                 window.open('/customerscard?id=' + customerSaveID, '_self');
                             } else if (!isNaN(customerSaveID.jobid)) {
@@ -4540,7 +4540,7 @@ Template.customerscard.events({
         let templateObject = Template.instance();
         let contactService2 = new ContactService();
 
-        let currentId = Router.current().params.query;
+        let currentId = FlowRouter.current().queryParams;
         var objDetails = '';
 
         if (!isNaN(currentId.id)) {
@@ -4554,7 +4554,7 @@ Template.customerscard.events({
             };
 
             contactService2.saveCustomerEx(objDetails).then(function (objDetails) {
-                Router.go('/customerlist?success=true');
+                FlowRouter.go('/customerlist?success=true');
             }).catch(function (err) {
                 swal({
                     title: 'Oooops...',
@@ -4571,7 +4571,7 @@ Template.customerscard.events({
                 $('.fullScreenSpin').css('display', 'none');
             });
         } else {
-            Router.go('/customerlist?success=true');
+            FlowRouter.go('/customerlist?success=true');
         }
         $('#deleteCustomerModal').modal('toggle');
     }

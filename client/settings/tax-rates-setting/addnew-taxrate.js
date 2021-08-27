@@ -56,7 +56,7 @@ Template.addnewtaxrate.events({
            Bert.alert('<strong>SUCCESS:</strong>  Tax Code  successfully created!', 'success');
            location.reload();
            //window.open('/billcard?id='+billID,'_self');
-          // Router.go('/billslist');
+          // FlowRouter.go('/billslist');
          }
 
 

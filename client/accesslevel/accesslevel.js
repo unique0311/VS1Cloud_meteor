@@ -1397,7 +1397,7 @@ let isSettingsLicence = Session.get('CloudSettingsLicence');
           $('#employeeListModal').modal('toggle');
         
         } else if (result.dismiss === 'cancel') {
-          Router.go('/employeescard?addvs1user=true');
+          FlowRouter.go('/employeescard?addvs1user=true');
         }
       })
      },

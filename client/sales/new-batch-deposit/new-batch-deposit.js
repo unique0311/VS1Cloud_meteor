@@ -270,7 +270,7 @@ Template.newBatchDeposit.events({
                 });
             }
             Session.set('depositMsg', true);
-            Router.go('/invoicelist/AwaitingPayment');
+            FlowRouter.go('/invoicelist/AwaitingPayment');
 
            }).catch(function (err) {
              swal({

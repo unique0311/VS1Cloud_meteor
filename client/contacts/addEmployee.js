@@ -63,7 +63,7 @@ Template.employeescard.onRendered(function () {
     let deliveryMethods = [];
     let taxCodes = [];
     let employeePriority = [];
-    let currentId = Router.current().params.query;
+    let currentId = FlowRouter.current().queryParams;
     let employeeID = '';
 
     const dataTableList = [];
@@ -2006,7 +2006,7 @@ Template.employeescard.events({
         let uploadedItems = templateObject.uploadedFiles.get();
 
         let notes = $('#txaNotes').val();
-        var url = window.location.href;
+        var url = FlowRouter.current().path;
         var getemp_id = url.split('?id=');
         //var currentEmployee = getemp_id[getemp_id.length-1];
         var currentEmployee = 0;
@@ -2016,7 +2016,7 @@ Template.employeescard.events({
             overrideGlobalCalendarSet = "true";
         }
 
-        let currentId = Router.current().params.query;
+        let currentId = FlowRouter.current().queryParams;
 
         if ((priorityData.replace(/\s/g, '') != '') && (priorityData.replace(/\s/g, '') != 0)) {
             let checkEmpPriorityData = await contactService.getCheckCustomersPriority(priorityData);
@@ -2263,9 +2263,9 @@ Template.employeescard.events({
                                                     confirmButtonText: 'OK'
                                                 }).then((result) => {
                                                     if (result.value) {
-                                                        Router.go('/employeelist?success=true');
+                                                        FlowRouter.go('/employeelist?success=true');
                                                     } else {
-                                                        Router.go('/employeelist?success=true');
+                                                        FlowRouter.go('/employeelist?success=true');
                                                     }
                                                 });
                                             } else {
@@ -2284,9 +2284,9 @@ Template.employeescard.events({
                                                                 confirmButtonText: 'OK'
                                                             }).then((result) => {
                                                                 if (result.value) {
-                                                                    Router.go('/employeelist?success=true');
+                                                                    FlowRouter.go('/employeelist?success=true');
                                                                 } else {
-                                                                    Router.go('/employeelist?success=true');
+                                                                    FlowRouter.go('/employeelist?success=true');
                                                                 }
                                                             });
                                                         } else {
@@ -2334,9 +2334,9 @@ Template.employeescard.events({
                                                                     confirmButtonText: 'OK'
                                                                 }).then((result) => {
                                                                     if (result.value) {
-                                                                        Router.go('/employeelist?success=true');
+                                                                        FlowRouter.go('/employeelist?success=true');
                                                                     } else {
-                                                                        Router.go('/employeelist?success=true');
+                                                                        FlowRouter.go('/employeelist?success=true');
                                                                     }
                                                                 });
                                                             }
@@ -2350,9 +2350,9 @@ Template.employeescard.events({
                                                             confirmButtonText: 'OK'
                                                         }).then((result) => {
                                                             if (result.value) {
-                                                                Router.go('/employeelist?success=true');
+                                                                FlowRouter.go('/employeelist?success=true');
                                                             } else {
-                                                                Router.go('/employeelist?success=true');
+                                                                FlowRouter.go('/employeelist?success=true');
                                                             }
                                                         });
                                                     });
@@ -2437,21 +2437,21 @@ Template.employeescard.events({
                                         //window.open('/employeescard?id=' + employeeSaveID,'_self');
                                         sideBarService.getAllEmployees(25, 0).then(function (dataReload) {
                                             addVS1Data('TEmployee', JSON.stringify(dataReload)).then(function (datareturn) {
-                                                //Router.go('/employeelist?success=true');
+                                                //FlowRouter.go('/employeelist?success=true');
                                                 sideBarService.getAllAppointmentPredList().then(function (data) {
                                                     addVS1Data('TAppointmentPreferences', JSON.stringify(data)).then(function (datareturn) {
-                                                        Router.go('/employeelist?success=true');
+                                                        FlowRouter.go('/employeelist?success=true');
                                                     }).catch(function (err) {
-                                                        Router.go('/employeelist?success=true');
+                                                        FlowRouter.go('/employeelist?success=true');
                                                     });
                                                 }).catch(function (err) {
-                                                    Router.go('/employeelist?success=true');
+                                                    FlowRouter.go('/employeelist?success=true');
                                                 });
                                             }).catch(function (err) {
-                                                Router.go('/employeelist?success=true');
+                                                FlowRouter.go('/employeelist?success=true');
                                             });
                                         }).catch(function (err) {
-                                            Router.go('/employeelist?success=true');
+                                            FlowRouter.go('/employeelist?success=true');
                                         });
                                     }
                                 }
@@ -2464,7 +2464,7 @@ Template.employeescard.events({
                         }
 
                     } else {
-                        Router.go('/employeelist?success=true');
+                        FlowRouter.go('/employeelist?success=true');
                     }
 
                 } else {
@@ -2474,18 +2474,18 @@ Template.employeescard.events({
                             addVS1Data('TEmployee', JSON.stringify(dataReload)).then(function (datareturn) {
                                 sideBarService.getAllAppointmentPredList().then(function (data) {
                                     addVS1Data('TAppointmentPreferences', JSON.stringify(data)).then(function (datareturn) {
-                                        Router.go('/employeelist?success=true');
+                                        FlowRouter.go('/employeelist?success=true');
                                     }).catch(function (err) {
-                                        Router.go('/employeelist?success=true');
+                                        FlowRouter.go('/employeelist?success=true');
                                     });
                                 }).catch(function (err) {
-                                    Router.go('/employeelist?success=true');
+                                    FlowRouter.go('/employeelist?success=true');
                                 });
                             }).catch(function (err) {
-                                Router.go('/employeelist?success=true');
+                                FlowRouter.go('/employeelist?success=true');
                             });
                         }).catch(function (err) {
-                            Router.go('/employeelist?success=true');
+                            FlowRouter.go('/employeelist?success=true');
                         });
                     }
                 }
@@ -2508,8 +2508,8 @@ Template.employeescard.events({
 
     },
     'click .btnClosePayment': function (event) {
-        if (Router.current().params.query.id) {
-            window.open('/employeescard?id=' + Router.current().params.query.id, '_self');
+        if (FlowRouter.current().queryParams.id) {
+            window.open('/employeescard?id=' + FlowRouter.current().queryParams.id, '_self');
         } else {
             window.open('/employeescard', '_self');
         }
@@ -2620,14 +2620,14 @@ Template.employeescard.events({
                         confirmButtonText: 'OK'
                     }).then((result) => {
                         if (result.value) {
-                            if (Router.current().params.query.id) {
-                                window.open('/employeescard?id=' + Router.current().params.query.id, '_self');
+                            if (FlowRouter.current().queryParams.id) {
+                                window.open('/employeescard?id=' + FlowRouter.current().queryParams.id, '_self');
                             } else {
                                 window.open('/employeescard', '_self');
                             }
                         } else if (result.dismiss === 'cancel') {
-                            if (Router.current().params.query.id) {
-                                window.open('/employeescard?id=' + Router.current().params.query.id, '_self');
+                            if (FlowRouter.current().queryParams.id) {
+                                window.open('/employeescard?id=' + FlowRouter.current().queryParams.id, '_self');
                             } else {
                                 window.open('/employeescard', '_self');
                             }
@@ -2671,21 +2671,21 @@ Template.employeescard.events({
                                                 window.open('/accesslevel?empuser=' + employeeName, '_self');
 
                                             } else {
-                                                Router.go('/employeelist?success=true');
+                                                FlowRouter.go('/employeelist?success=true');
                                             }
                                         });
                                     } else {
-                                        window.open('https://www.depot.vs1cloud.com/stripe/' + stringQuery, '_self');
+                                        window.open(stripeGlobalURL + stringQuery, '_self');
                                     }
                                 }
                             });
-                            //Router.go('/employeelist?success=true');
+                            //FlowRouter.go('/employeelist?success=true');
                         }).catch(function (err) {
-                          Router.go('/employeelist?success=true');
+                          FlowRouter.go('/employeelist?success=true');
                             //window.open('https://www.depot.vs1cloud.com/stripe/' + stringQuery, '_self');
                         });
                     }).catch(function (err) {
-                      Router.go('/employeelist?success=true');
+                      FlowRouter.go('/employeelist?success=true');
                         //window.open('https://www.depot.vs1cloud.com/stripe/' + stringQuery, '_self');
                     });
 
@@ -2894,14 +2894,14 @@ Template.employeescard.events({
                         confirmButtonText: 'OK'
                     }).then((result) => {
                         if (result.value) {
-                            if (Router.current().params.query.id) {
-                                window.open('/employeescard?id=' + Router.current().params.query.id, '_self');
+                            if (FlowRouter.current().queryParams.id) {
+                                window.open('/employeescard?id=' + FlowRouter.current().queryParams.id, '_self');
                             } else {
                                 window.open('/employeescard', '_self');
                             }
                         } else if (result.dismiss === 'cancel') {
-                            if (Router.current().params.query.id) {
-                                window.open('/employeescard?id=' + Router.current().params.query.id, '_self');
+                            if (FlowRouter.current().queryParams.id) {
+                                window.open('/employeescard?id=' + FlowRouter.current().queryParams.id, '_self');
                             } else {
                                 window.open('/employeescard', '_self');
                             }
@@ -2922,12 +2922,12 @@ Template.employeescard.events({
                         } else {
                             sideBarService.getAllEmployees(25, 0).then(function (dataReload) {
                                 addVS1Data('TEmployee', JSON.stringify(dataReload)).then(function (datareturn) {
-                                    Router.go('/employeelist?success=true');
+                                    FlowRouter.go('/employeelist?success=true');
                                 }).catch(function (err) {
-                                    Router.go('/employeelist?success=true');
+                                    FlowRouter.go('/employeelist?success=true');
                                 });
                             }).catch(function (err) {
-                                Router.go('/employeelist?success=true');
+                                FlowRouter.go('/employeelist?success=true');
                             });
                         }
                     });
@@ -3761,7 +3761,7 @@ Template.employeescard.events({
         $('#uploadedImage').attr('width', '50%');
     },
     'click .btnNewEmployee': function (event) {
-        // Router.go('/employeescard');
+        // FlowRouter.go('/employeescard');
         window.open('/employeescard', '_self');
     },
     'click .btnView': function (e) {
@@ -3790,10 +3790,10 @@ Template.employeescard.events({
         let templateObject = Template.instance();
         let contactService2 = new ContactService();
 
-        var url = window.location.href;
+        var url = FlowRouter.current().path;
         var getso_id = url.split('?id=');
 
-        let currentId = Router.current().params.query;
+        let currentId = FlowRouter.current().queryParams;
         var objDetails = '';
 
         if (!isNaN(currentId.id)) {
@@ -3807,7 +3807,7 @@ Template.employeescard.events({
             };
 
             contactService2.saveEmployeeEx(objDetails).then(function (objDetails) {
-                Router.go('/employeelist?success=true');
+                FlowRouter.go('/employeelist?success=true');
             }).catch(function (err) {
                 swal({
                     title: 'Oooops...',
@@ -3822,7 +3822,7 @@ Template.employeescard.events({
                 $('.fullScreenSpin').css('display', 'none');
             });
         } else {
-            Router.go('/employeelist?success=true');
+            FlowRouter.go('/employeelist?success=true');
         }
         $('#deleteEmployeeModal').modal('toggle');
     }

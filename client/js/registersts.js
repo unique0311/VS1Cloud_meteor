@@ -19,8 +19,8 @@ Template.registersts.events({
    var country = event.target.country.value;
 
    let currentURLQuoteID = '';
-   if(Router.current().params.query.quoteid){
-     currentURLQuoteID = Router.current().params.query.quoteid;
+   if(FlowRouter.current().queryParams.quoteid){
+     currentURLQuoteID = FlowRouter.current().queryParams.quoteid;
    }
 
 
@@ -45,7 +45,7 @@ Template.registersts.events({
    let renewalDiscountPrice = 0;
    let discountDesc = "";
 
-   var url = window.location.href;
+   var url = FlowRouter.current().path;
    let lineItemsForm = [];
    let lineItemObjForm = {};
 
@@ -971,7 +971,7 @@ Template.registersts.onRendered( function() {
 
 
 
-  let currentURL = Router.current().params.query;
+  let currentURL = FlowRouter.current().queryParams;
 
   if(currentURL.company){
     $('#cname').val(currentURL.company);

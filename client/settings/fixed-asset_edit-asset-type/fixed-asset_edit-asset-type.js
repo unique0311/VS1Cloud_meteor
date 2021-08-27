@@ -13,7 +13,7 @@ Template.fixedAssetEditAssetType.onRendered(()=> {
 
     let settingsService = new TaxRateService();
     const templateObject = Template.instance();
-    let currentReceiptId = Router.current().params.id;
+    let currentReceiptId = FlowRouter.current().queryParams.id;
     if(currentReceiptId !== 'new') {
         templateObject.showTitle.set(true);
         currentReceiptId = Number(currentReceiptId);
@@ -138,14 +138,14 @@ Template.fixedAssetEditAssetType.events({
                 Life: parseFloat(tempObj.$("#effective-life").val())
             }
         };
-        let currentReceiptId = Router.current().params.id;
+        let currentReceiptId = FlowRouter.current().queryParams.id;
         if(currentReceiptId !== 'new'){
             objDetails.fields['id'] = currentReceiptId;
         }
         accountService.saveAssetType(objDetails).then(function (data){
             Session.set('success',true);
             Session.set('assetName',tempObj.$("#sub-asset-type").val());
-            Router.go('/settings/fixedAssets/asset-type');
+            FlowRouter.go('/settings/fixedAssets/asset-type');
 
         }).catch(function (err) {
             swal({ title: 'Oooops...', text: err, type: 'error', showCancelButton: false, confirmButtonText: 'Try Again' }).then((result) => { if (result.value) { Meteor._reload.reload(); } else if (result.dismiss === 'cancel') {}});

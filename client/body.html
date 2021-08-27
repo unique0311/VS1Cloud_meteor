@@ -106,7 +106,25 @@
       <div id="content">
         {{> header}}
           <!-- <div class="container-fluid" style="padding-left: 0px!important; padding-right: 0px !important;"> -->
-            {{> yield}}
+            <!-- {{> yield}} -->
+            {{> Template.dynamic template=yield}}
+          <!-- </div> -->
+      </div>
+    </div>
+      <!-- {{> footer}} -->
+      <!-- {{> appAlertPage}} -->
+  </div>
+</template>
+
+<template name="layoutlogin">
+  <div id="wrapper">
+      <!-- {{> sidenav}} -->
+    <div class="d-flex flex-column" id="content-wrapper">
+      <div id="content">
+        <!-- {{> header}} -->
+          <!-- <div class="container-fluid" style="padding-left: 0px!important; padding-right: 0px !important;"> -->
+            <!-- {{> yield}} -->
+            {{> Template.dynamic template=yield}}
           <!-- </div> -->
       </div>
     </div>

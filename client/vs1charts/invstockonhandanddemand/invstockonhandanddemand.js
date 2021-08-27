@@ -443,7 +443,7 @@ Template.invstockonhandanddemand.onRendered(()=>{
 function chartClickEvent(event, array){
     if(array[0] != undefined){
       // var activePoints = array[0]['_model'].label;
-         Router.go('/productsalesreport');
+         FlowRouter.go('/productsalesreport');
      }
 }
 

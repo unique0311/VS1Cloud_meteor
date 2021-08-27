@@ -24,7 +24,7 @@ Template.billlist.onRendered(function() {
     var splashArray = new Array();
     const dataTableList = [];
     const tableHeaderList = [];
-    if(Router.current().params.query.success){
+    if(FlowRouter.current().queryParams.success){
         $('.btnRefresh').addClass('btnRefreshAlert');
     }
     Meteor.call('readPrefMethod',Session.get('mycloudLogonID'),'tblbilllist', function(error, result){
@@ -238,7 +238,7 @@ Template.billlist.onRendered(function() {
                     $('#tblbilllist tbody').on( 'click', 'tr', function () {
                         var listData = $(this).closest('tr').attr('id');
                         if(listData){
-                            Router.go('/billcard?id=' + listData);
+                            FlowRouter.go('/billcard?id=' + listData);
                         }
                     });
 
@@ -425,7 +425,7 @@ Template.billlist.onRendered(function() {
                             }, 100);
                         },
                         "fnInitComplete": function () {
-                          let urlParametersPage = Router.current().params.query.page;
+                          let urlParametersPage = FlowRouter.current().queryParams.page;
                           if(urlParametersPage){
                             this.fnPageChange('last');
                           }
@@ -513,7 +513,7 @@ Template.billlist.onRendered(function() {
                 $('#tblbilllist tbody').on( 'click', 'tr', function () {
                     var listData = $(this).closest('tr').attr('id');
                     if(listData){
-                        Router.go('/billcard?id=' + listData);
+                        FlowRouter.go('/billcard?id=' + listData);
                     }
                 });
 
@@ -692,7 +692,7 @@ Template.billlist.onRendered(function() {
               $('#tblbilllist tbody').on( 'click', 'tr', function () {
                   var listData = $(this).closest('tr').attr('id');
                   if(listData){
-                      Router.go('/billcard?id=' + listData);
+                      FlowRouter.go('/billcard?id=' + listData);
                   }
               });
 
@@ -711,7 +711,7 @@ Template.billlist.onRendered(function() {
 
 Template.billlist.events({
     'click #btnNewBill':function(event){
-        Router.go('/billcard');
+        FlowRouter.go('/billcard');
     },
     'click .chkDatatable' : function(event){
         var columns = $('#tblbilllist th');

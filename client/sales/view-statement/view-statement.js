@@ -38,7 +38,7 @@ Template.viewStatement.onRendered(function () {
     const customerList = [];
     var table;
     let asAtDate, toDate,fromDate;
-    custName= Router.current().params.query.customerName;
+    custName= FlowRouter.current().queryParams.customerName;
     templateObject.customerName.set(custName);
     $("#period-input,#from-input,#to-input").datepicker({
         showOn: 'button',
@@ -90,8 +90,8 @@ yearRange: "-90:+10",
     templateObject.getAllCustomersList();
 
     //as At Date input
-    if(Router.current().params.query.dateAsAt)
-        templateObject.$('#period-input').val(moment(Router.current().params.query.dateAsAt).format('DD MMM YYYY'));
+    if(FlowRouter.current().queryParams.dateAsAt)
+        templateObject.$('#period-input').val(moment(FlowRouter.current().queryParams.dateAsAt).format('DD MMM YYYY'));
     else
         templateObject.$('#period-input').val(moment(date).format('DD MMM YYYY'));
 
@@ -99,8 +99,8 @@ yearRange: "-90:+10",
     templateObject.asAtDate.set(asAtDate);
 
     //between date input
-    if(Router.current().params.query.dateFrom)
-        templateObject.$('#from-input').val(moment(Router.current().params.query.dateFrom).format('DD MMM YYYY'));
+    if(FlowRouter.current().queryParams.dateFrom)
+        templateObject.$('#from-input').val(moment(FlowRouter.current().queryParams.dateFrom).format('DD MMM YYYY'));
 
     else
         templateObject.$('#from-input').val(moment(date).clone().startOf('month').format('DD MMM YYYY'));
@@ -109,15 +109,15 @@ yearRange: "-90:+10",
     templateObject.fromDate.set(fromDate);
 
 
-    if(Router.current().params.query.dateTo)
-        templateObject.$('#to-input').val(moment(Router.current().params.query.dateTo).format('DD MMM YYYY'));
+    if(FlowRouter.current().queryParams.dateTo)
+        templateObject.$('#to-input').val(moment(FlowRouter.current().queryParams.dateTo).format('DD MMM YYYY'));
     else
         templateObject.$('#to-input').val(moment(date).format('DD MMM YYYY'));
 
     toDate=templateObject.$('#to-input').val();
     templateObject.toDate.set(toDate);
 
-    if(Router.current().params.query.type=='Activity'){
+    if(FlowRouter.current().queryParams.type=='Activity'){
         templateObject.$('#select-input').val('Activity');
         templateObject.$('.outstanding-div').css('display','none');
         templateObject.$('.outstanding-date').css('display','none');
@@ -218,7 +218,7 @@ yearRange: "-90:+10",
             }, 0);
             let url='/sales/view-statement?customerName='+templateObject.customerName.get()+'&type='+type+
                 '&dateAsAt='+$('#period-input').val()+'&dateTo='+$('#to-input').val()+'&dateFrom='+$('#from-input').val();
-            Router.go(url);
+            FlowRouter.go(url);
 
         })
     };
@@ -603,7 +603,7 @@ Template.viewStatement.events({
                         // });
                     } else {
                         Bert.alert('<strong>WARNING:</strong> Hey ! ' + empName + ' Please update your email id', 'warning');
-                        Router.go('/settings/user');
+                        FlowRouter.go('/settings/user');
                     }
                 }
             }

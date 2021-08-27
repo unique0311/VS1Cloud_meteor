@@ -64,7 +64,7 @@ Template.productcard.onRendered(function(){
 
     const templateObject = Template.instance();
     const recentTransList = [];
-    let productId = parseInt(Router.current().params.query.id);
+    let productId = parseInt(FlowRouter.current().queryParams.id);
     templateObject.productIdFromUrl.set(productId);
     let productService = new ProductService();
     let accountService = new AccountService();
@@ -291,7 +291,7 @@ Template.productcard.onRendered(function(){
     //document.getElementById("success_log").style.display = 'none';
     var erpGet = erpDb();
     let templateObjtrack = Template.instance();
-    var url = window.location.href;
+    var url = FlowRouter.current().path;
     var getproduct_id = url.split('?id=');
     var product_id = getproduct_id[getproduct_id.length-1];
 
@@ -800,7 +800,7 @@ Template.productcard.events({
       let empName = localStorage.getItem('mySession');
       let saveToTAttachment = true;
       let lineIDForAttachment = false;
-      let productId = parseInt(Router.current().params.query.id);
+      let productId = parseInt(FlowRouter.current().queryParams.id);
       let attachmentCount = templateObj.attachmentCount.get();
       let uploadedFilesArray = [];
       let myFiles = $('#attachment-upload')[0].files;
@@ -974,7 +974,7 @@ Template.productcard.events({
         tempObj.$(".attchment-tooltip").show();
         let productService = new ProductService();
         let attachmentID = parseInt(event.target.id.split('delete-attachment-')[1]);
-        let productId = parseInt(Router.current().params.query.id);
+        let productId = parseInt(FlowRouter.current().queryParams.id);
         let attachmentCount = tempObj.attachmentCount.get();
         let  uploadedArray = tempObj.uploadedFiles.get();
         let attachmentObject = {

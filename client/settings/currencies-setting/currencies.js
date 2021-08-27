@@ -644,7 +644,7 @@ if(listData){
 
 Template.currenciesSettings.events({
     'click #btnNewInvoice':function(event){
-        // Router.go('/invoicecard');
+        // FlowRouter.go('/invoicecard');
     },
     'click .chkDatatable' : function(event){
       var columns = $('#currencyLists th');

@@ -305,14 +305,14 @@ Template.productview.onRendered(function() {
         templateObject.includeInventory.set(true);
     }
 
-    var url = window.location.href;
+    var url = FlowRouter.current().path;
     var getprod_id = url.split('?id=');
     var getprod_name = url.split('?prodname=');
-    var currentProductID = getprod_id[getprod_id.length-1];
-   var currentProductName = getprod_name[getprod_name.length-1];
+    var currentProductID = FlowRouter.current().queryParams.id;
+   var currentProductName = FlowRouter.current().queryParams.prodname;
     let lineExtaSellItems = [];
     let lineExtaSellObj = {};
-    if(getprod_id[1]){
+    if(FlowRouter.current().queryParams.id){
 
         currentProductID = parseInt(currentProductID);
 
@@ -811,7 +811,7 @@ Template.productview.onRendered(function() {
 
         };
 
-    }else if(getprod_name[1]){
+    }else if(FlowRouter.current().queryParams.prodname){
 
         currentProductName = currentProductName.replace(/%20/g, " ");
         templateObject.getProductData = function () {
@@ -1599,7 +1599,7 @@ Template.productview.events({
         let customField1 = $("#txtCustomField1").val();
         let customField2 = $("#txtCustomField2").val();
 
-        var url = window.location.href;
+        var url = FlowRouter.current().path;
         var getso_id = url.split('?id=');
         var currentID = getso_id[getso_id.length-1].split('#')[0];
 
@@ -2391,7 +2391,7 @@ Template.productview.events({
         }).then((result) => {
             if (result.value) {
                 $('.fullScreenSpin').css('display','inline-block');
-                var url = window.location.href;
+                var url = FlowRouter.current().path;
                 var getso_id = url.split('?id=');
                 var currentProduct = getso_id[getso_id.length-1];
                 var objDetails = '';

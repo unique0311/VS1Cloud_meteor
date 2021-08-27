@@ -24,7 +24,7 @@ Template.purchaseorderlist.onRendered(function() {
     var splashArray = new Array();
     const dataTableList = [];
     const tableHeaderList = [];
-    if(Router.current().params.query.success){
+    if(FlowRouter.current().queryParams.success){
         $('.btnRefresh').addClass('btnRefreshAlert');
     }
     Meteor.call('readPrefMethod',Session.get('mycloudLogonID'),'tblpurchaseorderlist', function(error, result){
@@ -239,7 +239,7 @@ Template.purchaseorderlist.onRendered(function() {
                     $('#tblpurchaseorderlist tbody').on( 'click', 'tr', function () {
                         var listData = $(this).closest('tr').attr('id');
                         if(listData){
-                            Router.go('/purchaseordercard?id=' + listData);
+                            FlowRouter.go('/purchaseordercard?id=' + listData);
                         }
                     });
 
@@ -429,7 +429,7 @@ Template.purchaseorderlist.onRendered(function() {
                             }, 100);
                         },
                         "fnInitComplete": function () {
-                          let urlParametersPage = Router.current().params.query.page;
+                          let urlParametersPage = FlowRouter.current().queryParams.page;
                           if(urlParametersPage){
                             this.fnPageChange('last');
                           }
@@ -518,7 +518,7 @@ Template.purchaseorderlist.onRendered(function() {
                 $('#tblpurchaseorderlist tbody').on( 'click', 'tr', function () {
                     var listData = $(this).closest('tr').attr('id');
                     if(listData){
-                        Router.go('/purchaseordercard?id=' + listData);
+                        FlowRouter.go('/purchaseordercard?id=' + listData);
                     }
                 });
 
@@ -700,7 +700,7 @@ Template.purchaseorderlist.onRendered(function() {
                 $('#tblpurchaseorderlist tbody').on( 'click', 'tr', function () {
                     var listData = $(this).closest('tr').attr('id');
                     if(listData){
-                        Router.go('/purchaseordercard?id=' + listData);
+                        FlowRouter.go('/purchaseordercard?id=' + listData);
                     }
                 });
 
@@ -720,10 +720,10 @@ Template.purchaseorderlist.onRendered(function() {
 
 Template.purchaseorderlist.events({
     'click #btnNewPurchaseOrder':function(event){
-        Router.go('/purchaseordercard');
+        FlowRouter.go('/purchaseordercard');
     },
     'click #btnPurchaseOrderBOList':function(event){
-        Router.go('/purchaseorderlistBO');
+        FlowRouter.go('/purchaseorderlistBO');
     },
     'click .chkDatatable' : function(event){
         var columns = $('#tblpurchaseorderlist th');

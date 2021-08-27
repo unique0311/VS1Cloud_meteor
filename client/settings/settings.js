@@ -34,34 +34,34 @@ Template.settings.onRendered(function() {
 Template.settings.events({
 'click .btnOrganisationSettings' : function(event){
  //window.open('/organisationSettings','_self');
- Router.go('/organisationsettings');
+ FlowRouter.go('/organisationsettings');
 },
 'click .btnAccessLevel' : function(event){
- Router.go('/accesslevel');
+ FlowRouter.go('/accesslevel');
 },
 'click .btnCompanyAppSettings' : function(event){
- Router.go('/companyappsettings');
+ FlowRouter.go('/companyappsettings');
 },
 'click .btnCustomerType': function(event) {
-        Router.go('/clienttypesettings');
+        FlowRouter.go('/clienttypesettings');
 },
 'click .btncurrenciesSettings' : function(event){
- Router.go('/currenciesSettings');
+ FlowRouter.go('/currenciesSettings');
 },
 'click .btntaxRatesSettings' : function(event){
- Router.go('/taxratesettings');
+ FlowRouter.go('/taxratesettings');
 },
 'click .btnDepartmentSettings' : function(event){
- Router.go('/departmentSettings');
+ FlowRouter.go('/departmentSettings');
 },
 'click .btnpaymentMethodSettings' : function(event){
- Router.go('/paymentmethodSettings');
+ FlowRouter.go('/paymentmethodSettings');
 },
 'click .btnTermsSettings' : function(event){
- Router.go('/termsettings');
+ FlowRouter.go('/termsettings');
 },
 'click .btnSubcription' : function(event){
- Router.go('/subscriptionSettings');
+ FlowRouter.go('/subscriptionSettings');
 }
 
 

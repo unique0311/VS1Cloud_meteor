@@ -191,7 +191,7 @@ Template.statementlist.onRendered(function () {
             templateObject.statmentprintrecords.set(statmentrecord);
 
             $(".linkText").text('Pay Now');
-            $(".linkText").attr("href", "https://www.depot.vs1cloud.com/stripe/" + stringQuery);
+            $(".linkText").attr("href", stripeGlobalURL + stringQuery);
             var source = document.getElementById('printstatmentdesign');
 
             let file = "Customer Statement.pdf";
@@ -296,7 +296,7 @@ Template.statementlist.onRendered(function () {
                             stringQuery = stringQuery + "product" + l + "=" + lineItems[l].type + "&price" + l + "=" + lineItems[l].balance + "&qty" + l + "=" + 1 + "&";
                         }
                         stringQuery = stringQuery + "tax=0" + "&total=" + closingbalance + "&customer=" + customerName + "&name=" + customerName + "&surname=" + customerName + "&quoteid=" + invoiceId + "&transid=" + stripe_id + "&feemethod=" + stripe_fee_method + "&company=" + company + "&vs1email=" + vs1User + "&customeremail=" + email + "&type=Statement&url=" + window.location.href + "&server=" + erpGet.ERPIPAddress + "&username=" + erpGet.ERPUsername + "&token=" + erpGet.ERPPassword + "&session=" + erpGet.ERPDatabase + "&port=" + erpGet.ERPPort + "&dept=" + dept;
-                        $(".linkText").attr("href", "https://www.depot.vs1cloud.com/stripe/" + stringQuery);
+                        $(".linkText").attr("href", stripeGlobalURL + stringQuery);
                     }
 
                     var currentDate = new Date();
@@ -556,7 +556,7 @@ Template.statementlist.onRendered(function () {
                     $('#tblCustomerlist tbody').on('click', 'tr .colCompany, tr .colJob, tr .colPhone, tr .colBalance, tr .colNotes', function () {
                         var listData = $(this).closest('tr').attr('id');
                         if (listData) {
-                            Router.go('/customerscard?id=' + listData);
+                            FlowRouter.go('/customerscard?id=' + listData);
                         }
                     });
 
@@ -758,7 +758,7 @@ Template.statementlist.onRendered(function () {
                 $('#tblCustomerlist tbody').on('click', 'tr .colCompany, tr .colJob, tr .colPhone, tr .colBalance, tr .colNotes', function () {
                     var listData = $(this).closest('tr').attr('id');
                     if (listData) {
-                        Router.go('/customerscard?id=' + listData);
+                        FlowRouter.go('/customerscard?id=' + listData);
                     }
                 });
 
@@ -954,7 +954,7 @@ Template.statementlist.onRendered(function () {
                 $('#tblCustomerlist tbody').on('click', 'tr .colCompany, tr .colJob, tr .colPhone, tr .colBalance, tr .colNotes', function () {
                     var listData = $(this).closest('tr').attr('id');
                     if (listData) {
-                        Router.go('/customerscard?id=' + listData);
+                        FlowRouter.go('/customerscard?id=' + listData);
                     }
                 });
 
@@ -978,7 +978,7 @@ Template.statementlist.onRendered(function () {
         } else {
 
             if (listData) {
-                //Router.go('/customerscard?id=' + listData);
+                //FlowRouter.go('/customerscard?id=' + listData);
             }
         }
 
@@ -1026,7 +1026,7 @@ Template.statementlist.onRendered(function () {
 
 Template.statementlist.events({
     'click #btnNewCustomer': function (event) {
-        Router.go('/customerscard');
+        FlowRouter.go('/customerscard');
     },
     'click .chkDatatable': function (event) {
         var columns = $('#tblCustomerlist th');
@@ -1303,7 +1303,7 @@ Template.statementlist.events({
                             '                </tr>' +
                             '                 <tr>' +
                             '                    <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0 10px 0;">' +
-                            '                        Simply click on <a style="border: none; color: white; padding: 6px 12px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin: 4px 2px; cursor: pointer; background-color: #5cb85c; border-color: #4cae4c; border-radius: 10px;" href="https://www.depot.vs1cloud.com/stripe/' + data[x].link + '">Make Payment</a> to pay now.' +
+                            '                        Simply click on <a style="border: none; color: white; padding: 6px 12px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin: 4px 2px; cursor: pointer; background-color: #5cb85c; border-color: #4cae4c; border-radius: 10px;" href="'+stripeGlobalURL+''+ data[x].link + '">Make Payment</a> to pay now.' +
                             '                    </td>' +
                             '                </tr>' +
                             '                <tr>' +

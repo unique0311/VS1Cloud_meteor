@@ -602,7 +602,7 @@ Template.organisationsettings.events({
       event.preventDefault();
       history.back(1);
 
-      //Router.go('/settings');
+      //FlowRouter.go('/settings');
       //window.open('/invoicelist','_self');
     },
     'click .btnUploadFile':function(event){
@@ -626,13 +626,13 @@ Template.organisationsettings.events({
           $('#employeeListModal').modal('toggle');
         // result.dismiss can be 'overlay', 'cancel', 'close', 'esc', 'timer'
         } else if (result.dismiss === 'cancel') {
-          Router.go('/employeescard?addvs1user=true');
+          FlowRouter.go('/employeescard?addvs1user=true');
         }
       })
     },
     'click .btnCancelSub': function (event) {
       let loggeduserEmail = localStorage.getItem('mySession');
-      let currentURL = Router.current().params.query;
+      let currentURL = FlowRouter.current().queryParams;
       swal({
         title: 'Are you sure you want to cancel this subscription?',
         text: '',

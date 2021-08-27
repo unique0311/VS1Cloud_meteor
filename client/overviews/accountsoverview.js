@@ -32,8 +32,7 @@ Template.accountsoverview.onRendered(function () {
     var splashArray = new Array();
     const dataTableList = [];
     const tableHeaderList = [];
-
-    let currentId = Router.current().params.hash;
+    let currentId = FlowRouter.current().context.hash;
 
     if ((currentId === "addNewAccount") || (currentId === 'newaccount')) {
         setTimeout(function () {
@@ -44,7 +43,7 @@ Template.accountsoverview.onRendered(function () {
 
     }
 
-    if (Router.current().params.query.success) {
+    if (FlowRouter.current().queryParams.success) {
         $('.btnRefresh').addClass('btnRefreshAlert');
     }
 
@@ -862,7 +861,7 @@ Template.accountsoverview.onRendered(function () {
         var accountName = $(event.target).closest("tr").find(".colAccountName").text();
         let columnBalClass = $(event.target).attr('class');
         let accountService = new AccountService();
-        Router.go('/balancetransactionlist?accountName=' + accountName + "&isTabItem=" + false);
+        FlowRouter.go('/balancetransactionlist?accountName=' + accountName + "&isTabItem=" + false);
         //window.open('/balancetransactionlist?accountName=' + accountName+ '&isTabItem='+false,'_self');
 
     });
@@ -871,7 +870,7 @@ Template.accountsoverview.onRendered(function () {
 
 Template.accountsoverview.events({
     'click #btnJournalEntries': function (event) {
-        Router.go('/journalentrylist');
+        FlowRouter.go('/journalentrylist');
     },
 
     'click .chkDatatable': function (event) {
@@ -1093,7 +1092,7 @@ Template.accountsoverview.events({
     'click .btnBatchUpdate': function () {
         $('.fullScreenSpin').css('display', 'inline-block');
         batchUpdateCall('/accountsoverview?success=true');
-        //Router.go('/salesorderslist?success=true');
+        //FlowRouter.go('/salesorderslist?success=true');
         sideBarService.getAccountListVS1().then(function (data) {
             addVS1Data('TAccountVS1', JSON.stringify(data)).then(function (datareturn) {
                 //location.reload();

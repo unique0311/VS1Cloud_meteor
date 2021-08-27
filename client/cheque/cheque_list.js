@@ -24,7 +24,7 @@ Template.chequelist.onRendered(function() {
     var splashArray = new Array();
     const dataTableList = [];
     const tableHeaderList = [];
-    if (Router.current().params.query.success) {
+    if (FlowRouter.current().queryParams.success) {
         $('.btnRefresh').addClass('btnRefreshAlert');
     }
     Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblchequelist', function(error, result) {
@@ -250,7 +250,7 @@ Template.chequelist.onRendered(function() {
                     $('#tblchequelist tbody').on('click', 'tr', function() {
                         var listData = $(this).closest('tr').attr('id');
                         if (listData) {
-                            Router.go('/chequecard?id=' + listData);
+                            FlowRouter.go('/chequecard?id=' + listData);
                         }
                     });
 
@@ -445,7 +445,7 @@ Template.chequelist.onRendered(function() {
                             }, 100);
                         },
                         "fnInitComplete": function () {
-                          let urlParametersPage = Router.current().params.query.page;
+                          let urlParametersPage = FlowRouter.current().queryParams.page;
                           if(urlParametersPage){
                             this.fnPageChange('last');
                           }
@@ -534,7 +534,7 @@ Template.chequelist.onRendered(function() {
                 $('#tblchequelist tbody').on('click', 'tr', function() {
                     var listData = $(this).closest('tr').attr('id');
                     if (listData) {
-                        Router.go('/chequecard?id=' + listData);
+                        FlowRouter.go('/chequecard?id=' + listData);
                     }
                 });
             }
@@ -720,7 +720,7 @@ Template.chequelist.onRendered(function() {
                 $('#tblchequelist tbody').on('click', 'tr', function() {
                     var listData = $(this).closest('tr').attr('id');
                     if (listData) {
-                        Router.go('/chequecard?id=' + listData);
+                        FlowRouter.go('/chequecard?id=' + listData);
                     }
                 });
 
@@ -739,7 +739,7 @@ Template.chequelist.onRendered(function() {
 
 Template.chequelist.events({
     'click #btnNewCheque': function(event) {
-        Router.go('/chequecard');
+        FlowRouter.go('/chequecard');
     },
     'click .chkDatatable': function(event) {
         var columns = $('#tblchequelist th');

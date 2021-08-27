@@ -24,7 +24,7 @@ Template.bankrecon.onRendered(function() {
 
     let templateObject = Template.instance();
     let recService = new ReconService();
-    var url = window.location.href;
+    var url = FlowRouter.current().path;
     let accountnamerecords = [];
     templateObject.getAccountNames = function(){
         recService.getAccountNameVS1().then(function(data){
@@ -2286,7 +2286,7 @@ Template.bankrecon.events({
 
 
         recService.saveReconciliation(objDetails).then(function (data) {
-            Router.go('/reconciliationlist?success=true');
+            FlowRouter.go('/reconciliationlist?success=true');
         }).catch(function (err) {
             swal({
                 title: 'Oooops...',
@@ -2312,7 +2312,7 @@ Template.bankrecon.events({
                 confirmButtonText: 'OK'
             }).then((result) => {
                 //if (result.value) {
-                Router.go('/reconciliationlist?success=true');
+                FlowRouter.go('/reconciliationlist?success=true');
                 //}
 
             });
@@ -2332,7 +2332,7 @@ Template.bankrecon.events({
         }).then((result) => {
             if (result.value) {
                 $('.fullScreenSpin').css('display','inline-block');
-                var url = window.location.href;
+                var url = FlowRouter.current().path;
                 var getrecon_id = url.split('?id=');
                 var currentRecon = getrecon_id[getrecon_id.length-1];
                 var objDetails = '';
@@ -2347,7 +2347,7 @@ Template.bankrecon.events({
                     };
 
                     recService.saveReconciliation(objDetails).then(function (objDetails) {
-                        Router.go('/reconciliationlist?success=true');
+                        FlowRouter.go('/reconciliationlist?success=true');
                     }).catch(function (err) {
                         swal({
                             title: 'Oooops...',
@@ -2365,7 +2365,7 @@ Template.bankrecon.events({
                         $('.fullScreenSpin').css('display','none');
                     });
                 }else{
-                    Router.go('/reconciliationlist?success=true');
+                    FlowRouter.go('/reconciliationlist?success=true');
                 }
             } else {
 

@@ -1028,25 +1028,25 @@ Template.stockadjlist.events({
       };
       switch (event.currentTarget.id) {
           case 'tab1' :
-              Router.go('/stockadjlist/#All');
+              FlowRouter.go('/stockadjlist/#All');
               break;
           case 'tab2' :
-              Router.go('/stockadjlist/#Pending');
+              FlowRouter.go('/stockadjlist/#Pending');
               records = records.pending;
               templateObj.unchecked();
               break;
           case 'tab3' :
-              Router.go('/stockadjlist/#Processed');
+              FlowRouter.go('/stockadjlist/#Processed');
               records = records.processed;
               templateObj.unchecked();
               break;
           case 'tab4' :
-              Router.go('/stockadjlist/#Approved');
+              FlowRouter.go('/stockadjlist/#Approved');
               records = records.approved;
               templateObj.unchecked();
               break;
           case 'tab5' :
-              Router.go('/stockadjlist/#Deleted');
+              FlowRouter.go('/stockadjlist/#Deleted');
               records = records.deleted;
               templateObj.unchecked();
               break;
