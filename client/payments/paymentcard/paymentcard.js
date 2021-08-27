@@ -24,29 +24,32 @@ Template.paymentcard.onCreated(() => {
     templateObject.paymentmethodrecords = new ReactiveVar();
     templateObject.accountnamerecords = new ReactiveVar();
     templateObject.custpaymentid = new ReactiveVar();
+    templateObject.datatablerecords =  new ReactiveVar([]);
+    templateObject.datatablerecords1 =  new ReactiveVar([]);
+    templateObject.tableheaderrecords = new ReactiveVar([]);
+    templateObject.selectedAwaitingPayment = new ReactiveVar([]);
 });
 
 Template.paymentcard.onRendered(() => {
-    //   $(document).ready(function () {
-    //     history.pushState(null, document.title, location.href);
-    //     window.addEventListener('popstate', function (event) {
-    //         swal({
-    //             title: 'Save Or Cancel To Continue',
-    //             text: "Do you want to Save or Cancel this transaction?",
-    //             type: 'question',
-    //             showCancelButton: true,
-    //             confirmButtonText: 'Save'
-    //         }).then((result) => {
-    //             if (result.value) {
-    //                 $(".btnSave").trigger("click");
-    //             } else if (result.dismiss === 'cancel') {
-    //                 window.open('/customerawaitingpayments', "_self");
-    //             } else {
-
-    //             }
-    //         });
-    //     });
-    // });
+    $(document).ready(function () {
+            $('#addRow').on('click', function() {
+            var rowData = $('#tblPaymentcard tbody>tr:last').clone(true);
+            let tokenid = Random.id();
+            $(".colTransDate", rowData).text("");
+            $(".colType", rowData).text("");
+            $(".colTransNo", rowData).text("");
+            $(".lineOrginalamount", rowData).text("");
+            $(".lineAmountdue", rowData).text("");
+            $(".linePaymentamount", rowData).val("");
+            $(".lineOutstandingAmount", rowData).text("");
+            $(".colComments", rowData).text("");
+            rowData.attr('id', tokenid);
+            rowData.attr('name', tokenid);
+            $("#tblPaymentcard tbody").append(rowData);
+        });
+});
+    const dataTableList = [];
+    const tableHeaderList = [];
     $('.fullScreenSpin').css('display','inline-block');
     let imageData= (localStorage.getItem("Image"));
     if(imageData)
@@ -325,6 +328,602 @@ Template.paymentcard.onRendered(() => {
 
     }
 
+     function MakeNegative() {
+        $('td').each(function(){
+            if($(this).text().indexOf('-'+Currency) >= 0) $(this).addClass('text-danger')
+        });
+    };
+    // $('#tblcustomerAwaitingPayment').DataTable();
+    templateObject.getAllSupplierPaymentData = function () {
+        getVS1Data('TInvoiceEx').then(function (dataObject) {
+            if(dataObject.length == 0){
+                paymentService.getAllAwaitingInvoiceDetails().then(function (data) {
+                    let lineItems = [];
+                    let lineItemObj = {};
+                    for(let i=0; i<data.tinvoiceex.length; i++){
+                        let amount = utilityService.modifynegativeCurrencyFormat(data.tinvoiceex[i].TotalAmountInc)|| 0.00;
+                        let applied = utilityService.modifynegativeCurrencyFormat(data.tinvoiceex[i].TotalPaid) || 0.00;
+                        // Currency+''+data.tinvoiceex[i].TotalTax.toLocaleString(undefined, {minimumFractionDigits: 2});
+                        let balance = utilityService.modifynegativeCurrencyFormat(data.tinvoiceex[i].TotalBalance)|| 0.00;
+                        let totalPaid = utilityService.modifynegativeCurrencyFormat(data.tinvoiceex[i].TotalBalance)|| 0.00;
+                        let totalOutstanding = utilityService.modifynegativeCurrencyFormat(data.tinvoiceex[i].TotalBalance)|| 0.00;
+                        let totalOrginialAmount = utilityService.modifynegativeCurrencyFormat(data.tinvoiceex[i].TotalAmountInc)|| 0.00;
+                        var dataList = {
+                            id: data.tinvoiceex[i].Id || '',
+                            sortdate: data.tinvoiceex[i].SaleDate !=''? moment(data.tinvoiceex[i].SaleDate).format("YYYY/MM/DD"): data.tinvoiceex[i].SaleDate,
+                            paymentdate: data.tinvoiceex[i].SaleDate !=''? moment(data.tinvoiceex[i].SaleDate).format("DD/MM/YYYY"): data.tinvoiceex[i].SaleDate,
+                            customername: data.tinvoiceex[i].CustomerName || '',
+                            paymentamount: amount || 0.00,
+                            applied: applied || 0.00,
+                            balance: balance || 0.00,
+                            originalamount: totalOrginialAmount || 0.00,
+                            outsandingamount: totalOutstanding || 0.00,
+                            // bankaccount: data.tinvoiceex[i].GLAccountName || '',
+                            department: data.tinvoiceex[i].SaleClassName || '',
+                            refno: data.tinvoiceex[i].ReferenceNo || '',
+                            paymentmethod: data.tinvoiceex[i].PaymentMethodName || '',
+                            notes: data.tinvoiceex[i].Comments || ''
+                        };
+                        if(data.tinvoiceex[i].TotalBalance != 0){
+                            dataTableList.push(dataList);
+                        }
+
+                    }
+                    templateObject.datatablerecords.set(dataTableList);
+                    templateObject.datatablerecords1.set(dataTableList);
+                    if(templateObject.datatablerecords.get()){
+
+                        Meteor.call('readPrefMethod',Session.get('mycloudLogonID'),'tblcustomerAwaitingPayment', function(error, result){
+                            if(error){
+
+                            }else{
+                                if(result){
+                                    for (let i = 0; i < result.customFields.length; i++) {
+                                        let customcolumn = result.customFields;
+                                        let columData = customcolumn[i].label;
+                                        let columHeaderUpdate = customcolumn[i].thclass.replace(/ /g, ".");
+                                        let hiddenColumn = customcolumn[i].hidden;
+                                        let columnClass = columHeaderUpdate.split('.')[1];
+                                        let columnWidth = customcolumn[i].width;
+                                        let columnindex = customcolumn[i].index + 1;
+
+                                        if(hiddenColumn == true){
+
+                                            $("."+columnClass+"").addClass('hiddenColumn');
+                                            $("."+columnClass+"").removeClass('showColumn');
+                                        }else if(hiddenColumn == false){
+                                            $("."+columnClass+"").removeClass('hiddenColumn');
+                                            $("."+columnClass+"").addClass('showColumn');
+                                        }
+
+                                    }
+                                }
+
+                            }
+                        });
+
+
+                        setTimeout(function () {
+                            MakeNegative();
+                        }, 100);
+                    }
+
+                    $('.fullScreenSpin').css('display','none');
+                    setTimeout(function () {
+                        //$.fn.dataTable.moment('DD/MM/YY');
+                        $('#tblcustomerAwaitingPayment').DataTable({
+                            columnDefs: [
+                                { "orderable": false, "targets": 0 },
+                                {type: 'date', targets: 1}
+                            ],
+                            "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
+                            buttons: [
+                                {
+                                    extend: 'excelHtml5',
+                                    text: '',
+                                    download: 'open',
+                                    className: "btntabletocsv hiddenColumn",
+                                    filename: "Awaiting Customer Payments List - "+ moment().format(),
+                                    orientation:'portrait',
+                                    exportOptions: {
+                                        columns: ':visible:not(.chkBox)',
+                                        format: {
+                                            body: function ( data, row, column ) {
+                                                if(data.includes("</span>")){
+                                                    var res = data.split("</span>");
+                                                    data = res[1];
+                                                }
+
+                                                return column === 1 ? data.replace(/<.*?>/ig, ""): data;
+
+                                            }
+                                        }
+                                    }
+                                },{
+                                    extend: 'print',
+                                    download: 'open',
+                                    className: "btntabletopdf hiddenColumn",
+                                    text: '',
+                                    title: 'Supplier Payment',
+                                    filename: "Awaiting Customer Payments List - "+ moment().format(),
+                                    exportOptions: {
+                                        columns: ':visible:not(.chkBox)',
+                                        stripHtml: false
+                                    }
+                                }],
+                            select: true,
+                            destroy: true,
+                            colReorder: true,
+                            colReorder: {
+                                fixedColumnsLeft: 1
+                            },
+                            // bStateSave: true,
+                            // rowId: 0,
+                            paging: false,
+                            "scrollY": "400px",
+                            "scrollCollapse": true,
+                            // pageLength: 25,
+                            // lengthMenu: [ [10, 25, 50, -1], [10, 25, 50, "All"] ],
+                            info: true,
+                            responsive: true,
+                            "order": [[ 1, "desc" ]],
+                            // "aaSorting": [[1,'desc']],
+                            action: function () {
+                                $('#tblcustomerAwaitingPayment').DataTable().ajax.reload();
+                            },
+                            "fnDrawCallback": function (oSettings) {
+                                setTimeout(function () {
+                                    MakeNegative();
+                                }, 100);
+                            },
+
+                        }).on('page', function () {
+                            setTimeout(function () {
+                                MakeNegative();
+                            }, 100);
+                            let draftRecord = templateObject.datatablerecords.get();
+                            templateObject.datatablerecords.set(draftRecord);
+                        }).on('column-reorder', function () {
+
+                        }).on( 'length.dt', function ( e, settings, len ) {
+                            setTimeout(function () {
+                                MakeNegative();
+                            }, 100);
+                        });
+                        $('.fullScreenSpin').css('display','none');
+                    }, 0);
+
+                    var columns = $('#tblcustomerAwaitingPayment th');
+                    let sTible = "";
+                    let sWidth = "";
+                    let sIndex = "";
+                    let sVisible = "";
+                    let columVisible = false;
+                    let sClass = "";
+                    $.each(columns, function(i,v) {
+                        if(v.hidden == false){
+                            columVisible =  true;
+                        }
+                        if((v.className.includes("hiddenColumn"))){
+                            columVisible = false;
+                        }
+                        sWidth = v.style.width.replace('px', "");
+
+                        let datatablerecordObj = {
+                            sTitle: v.innerText || '',
+                            sWidth: sWidth || '',
+                            sIndex: v.cellIndex || '',
+                            sVisible: columVisible || false,
+                            sClass: v.className || ''
+                        };
+                        tableHeaderList.push(datatablerecordObj);
+                    });
+                    templateObject.tableheaderrecords.set(tableHeaderList);
+                    $('div.dataTables_filter input').addClass('form-control form-control-sm');
+                    $('#tblcustomerAwaitingPayment tbody').on( 'click', 'tr .colPaymentDate, tr .colReceiptNo, tr .colPaymentAmount, tr .colApplied, tr .colBalance, tr .colCustomerName, tr .colDepartment, tr .colRefNo, tr .colPaymentMethod, tr .colNotes', function () {
+                        var listData = $(this).closest('tr').attr('id');
+                        if(listData){
+                            Router.go('/paymentcard?invid='+ listData);
+                        }
+                    });
+
+                }).catch(function (err) {
+                    // Bert.alert('<strong>' + err + '</strong>!', 'danger');
+                    $('.fullScreenSpin').css('display','none');
+                    // Meteor._reload.reload();
+                });
+            }else{
+                let data = JSON.parse(dataObject[0].data);
+                let useData = data.tinvoiceex;
+                let lineItems = [];
+                let lineItemObj = {};
+                for(let i=0; i<useData.length; i++){
+                    let amount = utilityService.modifynegativeCurrencyFormat(useData[i].fields.TotalAmountInc)|| 0.00;
+                    let applied = utilityService.modifynegativeCurrencyFormat(useData[i].fields.TotalPaid) || 0.00;
+                    // Currency+''+useData[i].TotalTax.toLocaleString(undefined, {minimumFractionDigits: 2});
+                    let balance = utilityService.modifynegativeCurrencyFormat(useData[i].fields.TotalBalance)|| 0.00;
+                    let totalPaid = utilityService.modifynegativeCurrencyFormat(useData[i].fields.TotalBalance)|| 0.00;
+                    let totalOutstanding = utilityService.modifynegativeCurrencyFormat(useData[i].fields.TotalBalance)|| 0.00;
+                    let totalOrginialAmount = utilityService.modifynegativeCurrencyFormat(useData[i].fields.TotalAmountInc)|| 0.00;
+                    var dataList = {
+                        id: useData[i].fields.ID || '',
+                        sortdate: useData[i].fields.SaleDate !=''? moment(useData[i].fields.SaleDate).format("YYYY/MM/DD"): useData[i].fields.SaleDate,
+                        paymentdate: useData[i].fields.SaleDate !=''? moment(useData[i].fields.SaleDate).format("DD/MM/YYYY"): useData[i].fields.SaleDate,
+                        customername: useData[i].fields.CustomerName || '',
+                        paymentamount: amount || 0.00,
+                        applied: applied || 0.00,
+                        balance: balance || 0.00,
+                        originalamount: totalOrginialAmount || 0.00,
+                        outsandingamount: totalOutstanding || 0.00,
+                        // bankaccount: useData[i].GLAccountName || '',
+                        department: useData[i].fields.SaleClassName || '',
+                        refno: useData[i].fields.ReferenceNo || '',
+                        paymentmethod: useData[i].fields.PaymentMethodName || '',
+                        notes: useData[i].fields.Comments || ''
+                    };
+                    if(useData[i].fields.TotalBalance != 0){
+                        dataTableList.push(dataList);
+                    }
+
+                }
+                templateObject.datatablerecords.set(dataTableList);
+                templateObject.datatablerecords1.set(dataTableList);
+                if(templateObject.datatablerecords.get()){
+
+                    Meteor.call('readPrefMethod',Session.get('mycloudLogonID'),'tblcustomerAwaitingPayment', function(error, result){
+                        if(error){
+
+                        }else{
+                            if(result){
+                                for (let i = 0; i < result.customFields.length; i++) {
+                                    let customcolumn = result.customFields;
+                                    let columData = customcolumn[i].label;
+                                    let columHeaderUpdate = customcolumn[i].thclass.replace(/ /g, ".");
+                                    let hiddenColumn = customcolumn[i].hidden;
+                                    let columnClass = columHeaderUpdate.split('.')[1];
+                                    let columnWidth = customcolumn[i].width;
+                                    let columnindex = customcolumn[i].index + 1;
+
+                                    if(hiddenColumn == true){
+
+                                        $("."+columnClass+"").addClass('hiddenColumn');
+                                        $("."+columnClass+"").removeClass('showColumn');
+                                    }else if(hiddenColumn == false){
+                                        $("."+columnClass+"").removeClass('hiddenColumn');
+                                        $("."+columnClass+"").addClass('showColumn');
+                                    }
+
+                                }
+                            }
+
+                        }
+                    });
+
+
+                    setTimeout(function () {
+                        MakeNegative();
+                    }, 100);
+                }
+
+                $('.fullScreenSpin').css('display','none');
+                setTimeout(function () {
+                    //$.fn.dataTable.moment('DD/MM/YY');
+                    $('#tblcustomerAwaitingPayment').DataTable({
+                        columnDefs: [
+                            { "orderable": false, "targets": 0 },
+                            {type: 'date', targets: 1}
+                        ],
+                        "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
+                        buttons: [
+                            {
+                                extend: 'excelHtml5',
+                                text: '',
+                                download: 'open',
+                                className: "btntabletocsv hiddenColumn",
+                                filename: "Awaiting Customer Payments List - "+ moment().format(),
+                                orientation:'portrait',
+                                exportOptions: {
+                                    columns: ':visible:not(.chkBox)',
+                                    format: {
+                                        body: function ( data, row, column ) {
+                                            if(data.includes("</span>")){
+                                                var res = data.split("</span>");
+                                                data = res[1];
+                                            }
+
+                                            return column === 1 ? data.replace(/<.*?>/ig, ""): data;
+
+                                        }
+                                    }
+                                }
+                            },{
+                                extend: 'print',
+                                download: 'open',
+                                className: "btntabletopdf hiddenColumn",
+                                text: '',
+                                title: 'Supplier Payment',
+                                filename: "Awaiting Customer Payments List - "+ moment().format(),
+                                exportOptions: {
+                                    columns: ':visible:not(.chkBox)',
+                                    stripHtml: false
+                                }
+                            }],
+                        select: true,
+                        destroy: true,
+                        colReorder: true,
+                        colReorder: {
+                            fixedColumnsLeft: 1
+                        },
+                        // bStateSave: true,
+                        // rowId: 0,
+                        paging: false,
+                        "scrollY": "400px",
+                        "scrollCollapse": true,
+                        // pageLength: 25,
+                        // lengthMenu: [ [10, 25, 50, -1], [10, 25, 50, "All"] ],
+                        info: true,
+                        responsive: true,
+                        "order": [[ 1, "desc" ]],
+                        // "aaSorting": [[1,'desc']],
+                        action: function () {
+                            $('#tblcustomerAwaitingPayment').DataTable().ajax.reload();
+                        },
+                        "fnDrawCallback": function (oSettings) {
+                            setTimeout(function () {
+                                MakeNegative();
+                            }, 100);
+                        },
+
+                    }).on('page', function () {
+                        setTimeout(function () {
+                            MakeNegative();
+                        }, 100);
+                        let draftRecord = templateObject.datatablerecords.get();
+                        templateObject.datatablerecords.set(draftRecord);
+                    }).on('column-reorder', function () {
+
+                    }).on( 'length.dt', function ( e, settings, len ) {
+                        setTimeout(function () {
+                            MakeNegative();
+                        }, 100);
+                    });
+                    $('.fullScreenSpin').css('display','none');
+                }, 0);
+
+                var columns = $('#tblcustomerAwaitingPayment th');
+                let sTible = "";
+                let sWidth = "";
+                let sIndex = "";
+                let sVisible = "";
+                let columVisible = false;
+                let sClass = "";
+                $.each(columns, function(i,v) {
+                    if(v.hidden == false){
+                        columVisible =  true;
+                    }
+                    if((v.className.includes("hiddenColumn"))){
+                        columVisible = false;
+                    }
+                    sWidth = v.style.width.replace('px', "");
+
+                    let datatablerecordObj = {
+                        sTitle: v.innerText || '',
+                        sWidth: sWidth || '',
+                        sIndex: v.cellIndex || '',
+                        sVisible: columVisible || false,
+                        sClass: v.className || ''
+                    };
+                    tableHeaderList.push(datatablerecordObj);
+                });
+                templateObject.tableheaderrecords.set(tableHeaderList);
+                $('div.dataTables_filter input').addClass('form-control form-control-sm');
+                $('#tblcustomerAwaitingPayment tbody').on( 'click', 'tr .colPaymentDate, tr .colReceiptNo, tr .colPaymentAmount, tr .colApplied, tr .colBalance, tr .colCustomerName, tr .colDepartment, tr .colRefNo, tr .colPaymentMethod, tr .colNotes', function () {
+                    var listData = $(this).closest('tr').attr('id');
+                    if(listData){
+                        Router.go('/paymentcard?invid='+ listData);
+                    }
+                });
+
+            }
+        }).catch(function (err) {
+            paymentService.getAllAwaitingInvoiceDetails().then(function (data) {
+                let lineItems = [];
+                let lineItemObj = {};
+                for(let i=0; i<data.tinvoiceex.length; i++){
+                    let amount = utilityService.modifynegativeCurrencyFormat(data.tinvoiceex[i].TotalAmountInc)|| 0.00;
+                    let applied = utilityService.modifynegativeCurrencyFormat(data.tinvoiceex[i].TotalPaid) || 0.00;
+                    // Currency+''+data.tinvoiceex[i].TotalTax.toLocaleString(undefined, {minimumFractionDigits: 2});
+                    let balance = utilityService.modifynegativeCurrencyFormat(data.tinvoiceex[i].TotalBalance)|| 0.00;
+                    let totalPaid = utilityService.modifynegativeCurrencyFormat(data.tinvoiceex[i].TotalBalance)|| 0.00;
+                    let totalOutstanding = utilityService.modifynegativeCurrencyFormat(data.tinvoiceex[i].TotalBalance)|| 0.00;
+                    let totalOrginialAmount = utilityService.modifynegativeCurrencyFormat(data.tinvoiceex[i].TotalAmountInc)|| 0.00;
+                    var dataList = {
+                        id: data.tinvoiceex[i].Id || '',
+                        sortdate: data.tinvoiceex[i].SaleDate !=''? moment(data.tinvoiceex[i].SaleDate).format("YYYY/MM/DD"): data.tinvoiceex[i].SaleDate,
+                        paymentdate: data.tinvoiceex[i].SaleDate !=''? moment(data.tinvoiceex[i].SaleDate).format("DD/MM/YYYY"): data.tinvoiceex[i].SaleDate,
+                        customername: data.tinvoiceex[i].CustomerName || '',
+                        paymentamount: amount || 0.00,
+                        applied: applied || 0.00,
+                        balance: balance || 0.00,
+                        originalamount: totalOrginialAmount || 0.00,
+                        outsandingamount: totalOutstanding || 0.00,
+                        // bankaccount: data.tinvoiceex[i].GLAccountName || '',
+                        department: data.tinvoiceex[i].SaleClassName || '',
+                        refno: data.tinvoiceex[i].ReferenceNo || '',
+                        paymentmethod: data.tinvoiceex[i].PaymentMethodName || '',
+                        notes: data.tinvoiceex[i].Comments || ''
+                    };
+                    if(data.tinvoiceex[i].TotalBalance != 0){
+                        dataTableList.push(dataList);
+                    }
+
+                }
+                templateObject.datatablerecords.set(dataTableList);
+                if(templateObject.datatablerecords.get()){
+
+                    Meteor.call('readPrefMethod',Session.get('mycloudLogonID'),'tblcustomerAwaitingPayment', function(error, result){
+                        if(error){
+
+                        }else{
+                            if(result){
+                                for (let i = 0; i < result.customFields.length; i++) {
+                                    let customcolumn = result.customFields;
+                                    let columData = customcolumn[i].label;
+                                    let columHeaderUpdate = customcolumn[i].thclass.replace(/ /g, ".");
+                                    let hiddenColumn = customcolumn[i].hidden;
+                                    let columnClass = columHeaderUpdate.split('.')[1];
+                                    let columnWidth = customcolumn[i].width;
+                                    let columnindex = customcolumn[i].index + 1;
+
+                                    if(hiddenColumn == true){
+
+                                        $("."+columnClass+"").addClass('hiddenColumn');
+                                        $("."+columnClass+"").removeClass('showColumn');
+                                    }else if(hiddenColumn == false){
+                                        $("."+columnClass+"").removeClass('hiddenColumn');
+                                        $("."+columnClass+"").addClass('showColumn');
+                                    }
+
+                                }
+                            }
+
+                        }
+                    });
+
+
+                    setTimeout(function () {
+                        MakeNegative();
+                    }, 100);
+                }
+
+                $('.fullScreenSpin').css('display','none');
+                setTimeout(function () {
+                    //$.fn.dataTable.moment('DD/MM/YY');
+                    $('#tblcustomerAwaitingPayment').DataTable({
+                        columnDefs: [
+                            { "orderable": false, "targets": 0 },
+                            {type: 'date', targets: 1}
+                        ],
+                        "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
+                        buttons: [
+                            {
+                                extend: 'excelHtml5',
+                                text: '',
+                                download: 'open',
+                                className: "btntabletocsv hiddenColumn",
+                                filename: "Awaiting Customer Payments List - "+ moment().format(),
+                                orientation:'portrait',
+                                exportOptions: {
+                                    columns: ':visible:not(.chkBox)',
+                                    format: {
+                                        body: function ( data, row, column ) {
+                                            if(data.includes("</span>")){
+                                                var res = data.split("</span>");
+                                                data = res[1];
+                                            }
+
+                                            return column === 1 ? data.replace(/<.*?>/ig, ""): data;
+
+                                        }
+                                    }
+                                }
+                            },{
+                                extend: 'print',
+                                download: 'open',
+                                className: "btntabletopdf hiddenColumn",
+                                text: '',
+                                title: 'Supplier Payment',
+                                filename: "Awaiting Customer Payments List - "+ moment().format(),
+                                exportOptions: {
+                                    columns: ':visible:not(.chkBox)',
+                                    stripHtml: false
+                                }
+                            }],
+                        select: true,
+                        destroy: true,
+                        colReorder: true,
+                        colReorder: {
+                            fixedColumnsLeft: 1
+                        },
+                        // bStateSave: true,
+                        // rowId: 0,
+                        paging: false,
+                        "scrollY": "400px",
+                        "scrollCollapse": true,
+                        // pageLength: 25,
+                        // lengthMenu: [ [10, 25, 50, -1], [10, 25, 50, "All"] ],
+                        info: true,
+                        responsive: true,
+                        "order": [[ 1, "desc" ]],
+                        // "aaSorting": [[1,'desc']],
+                        action: function () {
+                            $('#tblcustomerAwaitingPayment').DataTable().ajax.reload();
+                        },
+                        "fnDrawCallback": function (oSettings) {
+                            setTimeout(function () {
+                                MakeNegative();
+                            }, 100);
+                        },
+
+                    }).on('page', function () {
+                        setTimeout(function () {
+                            MakeNegative();
+                        }, 100);
+                        let draftRecord = templateObject.datatablerecords.get();
+                        templateObject.datatablerecords.set(draftRecord);
+                    }).on('column-reorder', function () {
+
+                    }).on( 'length.dt', function ( e, settings, len ) {
+                        setTimeout(function () {
+                            MakeNegative();
+                        }, 100);
+                    });
+                    $('.fullScreenSpin').css('display','none');
+                }, 0);
+
+                var columns = $('#tblcustomerAwaitingPayment th');
+                let sTible = "";
+                let sWidth = "";
+                let sIndex = "";
+                let sVisible = "";
+                let columVisible = false;
+                let sClass = "";
+                $.each(columns, function(i,v) {
+                    if(v.hidden == false){
+                        columVisible =  true;
+                    }
+                    if((v.className.includes("hiddenColumn"))){
+                        columVisible = false;
+                    }
+                    sWidth = v.style.width.replace('px', "");
+
+                    let datatablerecordObj = {
+                        sTitle: v.innerText || '',
+                        sWidth: sWidth || '',
+                        sIndex: v.cellIndex || '',
+                        sVisible: columVisible || false,
+                        sClass: v.className || ''
+                    };
+                    tableHeaderList.push(datatablerecordObj);
+                });
+                templateObject.tableheaderrecords.set(tableHeaderList);
+                $('div.dataTables_filter input').addClass('form-control form-control-sm');
+                $('#tblcustomerAwaitingPayment tbody').on( 'click', 'tr .colPaymentDate, tr .colReceiptNo, tr .colPaymentAmount, tr .colApplied, tr .colBalance, tr .colCustomerName, tr .colDepartment, tr .colRefNo, tr .colPaymentMethod, tr .colNotes', function () {
+                    var listData = $(this).closest('tr').attr('id');
+                    if(listData){
+                        Router.go('/paymentcard?invid='+ listData);
+                    }
+                });
+
+            }).catch(function (err) {
+                // Bert.alert('<strong>' + err + '</strong>!', 'danger');
+                $('.fullScreenSpin').css('display','none');
+                // Meteor._reload.reload();
+            });
+        });
+    }
+
+    templateObject.getAllSupplierPaymentData();
     templateObject.getAccountNames = function(){
         getVS1Data('TAccountVS1').then(function (dataObject) {
             if(dataObject.length == 0){
@@ -2055,6 +2654,20 @@ Template.paymentcard.helpers({
             }
             return (a.department.toUpperCase() > b.department.toUpperCase()) ? 1 : -1;
         });
+    },
+    datatablerecords : () => {
+        return Template.instance().datatablerecords.get().sort(function(a, b){
+            if (a.paymentdate == 'NA') {
+                return 1;
+            }
+            else if (b.paymentdate == 'NA') {
+                return -1;
+            }
+            return (a.paymentdate.toUpperCase() > b.paymentdate.toUpperCase()) ? 1 : -1;
+        });
+    },
+    tableheaderrecords: () => {
+        return Template.instance().tableheaderrecords.get();
     },
     paymentmethodrecords: () => {
         return Template.instance().paymentmethodrecords.get().sort(function(a, b){
@@ -4491,6 +5104,122 @@ Template.paymentcard.events({
         //     PayMethod = 'Cash';
         // }
     },
+         'click #tblPaymentcard tr .colTransNo': function(event) {
+        let $tblrows = $("#tblPaymentcard tbody tr"); 
+        let id = $(event.target).closest('tr').attr('id');
+        $('#rowID').val(id);
+        let templateObject = Template.instance();
+        $('.fullScreenSpin').css('display','inline-block');
+        let paymentData = templateObject.datatablerecords1.get();
+        let paymentDataList = [];
+        let custname = $('#edtCustomerName').val();
+         for(let x = 0; x < paymentData.length; x++) {
+          if(custname == paymentData[x].customername) {
+              paymentDataList.push(paymentData[x]);
+          }
+        }
+  
+        templateObject.datatablerecords.set(paymentDataList);
+        $('#customerPaymentListModal').modal();
+        $('.fullScreenSpin').css('display', 'none');
+  },
+     'click .chkPaymentCard': function () {
+        var listData = $(this).closest('tr').attr('id');
+        var selectedClient = $(event.target).closest("tr").find(".colCustomerName").text();
+        const templateObject = Template.instance();
+        const selectedAwaitingPayment = [];
+        const selectedAwaitingPayment2 = [];
+        $('.chkPaymentCard:checkbox:checked').each(function () {
+          //$('.parentClass:not(span)').method
+            var chkIdLine = $(this).closest('tr').attr('id');
+            var date = $(this).closest("tr").find('.colPaymentDate').text();
+            var receiptNo = $(this).closest("tr").find('.colReceiptNo').text();
+            var orderNo = $(this).closest("tr").find('.colPONumber').text();
+            var paymentAmount = $(this).closest("tr").find('.colPaymentAmount').text();
+            var originalAmount = $(this).closest("tr").find('.colApplied').text();
+            var outstandingAmount = $(this).closest("tr").find('.colBalance').text();
+            var supplierName = $(this).closest("tr").find('.colSupplierName').text();
+            var comments = $(this).closest("tr").find('.colNotes').text();
+            var type = $(this).closest("tr").find('.colTypePayment').text(); 
+            let paymentTransObj = {
+                awaitingId: chkIdLine,
+                date: date,
+                receiptNo: receiptNo,
+                orderNo: orderNo,
+                paymentAmount: outstandingAmount,
+                originalAmount: originalAmount,
+                outstandingAmount: outstandingAmount,
+                supplierName: supplierName,
+                comments: comments,
+                type: type
+            };
+
+            if (selectedAwaitingPayment.length > 0) {
+                var checkClient = selectedAwaitingPayment.filter(slctdAwtngPyment => {
+                    return slctdAwtngPyment.supplierName == $('#colSupplierName' + chkIdLine).text();
+                });
+
+                if (checkClient.length > 0) {
+                    selectedAwaitingPayment.push(paymentTransObj);
+                } else {
+                    swal('','You have selected multiple Suppliers,  a separate payment will be created for each', 'info');
+                    $(this).prop("checked", false);
+                }
+            } else {
+                selectedAwaitingPayment.push(paymentTransObj);
+            }
+        });
+        templateObject.selectedAwaitingPayment.set(selectedAwaitingPayment);
+    },
+
+   'click .btnSelectSuppliers': function(event) {
+     const templateObject = Template.instance();
+     let selectedSupplierPayments = templateObject.selectedAwaitingPayment.get()
+     if(selectedSupplierPayments.length == 1) {
+        let selectedId =  $('#rowID').val();
+        $('#rowID').val();
+        $('#' + selectedId + " .colTransDate").text(selectedSupplierPayments[0].date);
+        $('#' + selectedId + " .colType").text(selectedSupplierPayments[0].type);
+        $('#' + selectedId + " .colTransNo").text(selectedSupplierPayments[0].orderNo);
+        $('#' + selectedId + " .lineOrginalamount").text(selectedSupplierPayments[0].originalAmount);
+        $('#' + selectedId + " .lineAmountdue").text(selectedSupplierPayments[0].outstandingAmount);
+        $('#' + selectedId + " .linePaymentamount ").val(selectedSupplierPayments[0].paymentAmount);
+        $('#' + selectedId + " .lineOutstandingAmount").text(selectedSupplierPayments[0].outstandingAmount);
+        $('#' + selectedId + " .colComments").text(selectedSupplierPayments[0].comments);
+        $('#rowID').val(selectedSupplierPayments[0].awaitingId);
+        let currentApplied = $('.lead').text().replace('$','');
+        var currentApplied = parseFloat(currentApplied.match(/-?(?:\d+(?:\.\d*)?|\.\d+)/)[0]);
+        let total = currentApplied + parseFloat($('#' + selectedId + " .linePaymentamount ").val().replace('$','').replace(',',''));
+        total = Currency+total
+        $('.appliedAmount').text(total);
+        $('#' + selectedId + " .colTransDate").closest('tr').removeAttr('id').removeAttr('name').attr('id',selectedSupplierPayments[0].awaitingId).attr('name',selectedSupplierPayments[0].awaitingId);
+        $('#supplierPaymentListModal').modal('hide');
+     }else if(selectedSupplierPayments.length > 1) {
+      $('#tblSupplierPaymentcard tbody>tr:last').remove();
+      let currentApplied = $('.lead').text().replace('$','');
+      var currentApplied = parseFloat(currentApplied.match(/-?(?:\d+(?:\.\d*)?|\.\d+)/)[0])
+      let total = parseFloat(currentApplied);
+       for(let x=0; x < selectedSupplierPayments.length; x++) {
+            var rowData = $('#tblSupplierPaymentcard tbody>tr:last').clone(true);
+            $(".colTransDate", rowData).text(selectedSupplierPayments[x].date);
+            $(".colType", rowData).text(selectedSupplierPayments[x].type);
+            $(".colTransNo", rowData).text(selectedSupplierPayments[x].orderNo);
+            $(".lineOrginalamount", rowData).text(selectedSupplierPayments[x].originalAmount);
+            $(".lineAmountdue", rowData).text(selectedSupplierPayments[x].outstandingAmount);
+            $(".linePaymentamount", rowData).val(selectedSupplierPayments[x].paymentAmount);
+            $(".lineOutstandingAmount", rowData).text(selectedSupplierPayments[x].paymentAmount);
+            $(".colComments", rowData).text(selectedSupplierPayments[x].comments);
+            rowData.attr('id', selectedSupplierPayments[x].awaitingId);
+            rowData.attr('name', selectedSupplierPayments[x].awaitingId);
+            $("#tblSupplierPaymentcard tbody").append(rowData);
+            total = total + parseFloat(selectedSupplierPayments[x].paymentAmount.replace('$','').replace(',','')); 
+     }
+        $('.appliedAmount').text(Currency+total);
+        $('#supplierPaymentListModal').modal('hide');
+
+       }
+    
+  },
     'keydown #edtPaymentAmount,keydown #lineOrginalamount,keydown #lineAmountdue,keydown #linePaymentamount, keydown #lineOutstandingAmount': function(event){
         if ($.inArray(event.keyCode, [46, 8, 9, 27, 13, 110]) !== -1 ||
             // Allow: Ctrl+A, Command+A
