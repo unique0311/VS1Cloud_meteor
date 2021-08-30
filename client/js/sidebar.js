@@ -606,10 +606,10 @@ Template.sidenav.onRendered(function() {
 
     }
     let sidePanelToggle = Session.get('sidePanelToggle');
-    if ((sidePanelToggle === '') || (!sidePanelToggle)) {
-      Session.setPersistent('sidePanelToggle', "toggled");
-     sidePanelToggle = Session.get('sidePanelToggle');
-    }
+    // if ((sidePanelToggle === '') || (!sidePanelToggle)) {
+    //   Session.setPersistent('sidePanelToggle', "toggled");
+    //  sidePanelToggle = Session.get('sidePanelToggle');
+    // }
 
 
     let isGreenTrack = Session.get('isGreenTrack');
