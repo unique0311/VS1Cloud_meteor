@@ -1331,7 +1331,9 @@ $("#erplogin-button").click(async function(e){
 
 
     $('.loginSpinner').css('display','inline-block');
-    //$('.fullScreenSpin').css('display','inline-block');
+    if (navigator.userAgent.match(/(iPod|iPhone|iPad)/)) {
+      $('.fullScreenSpin').css('display','inline-block');
+     }
 
 
 
@@ -2481,13 +2483,22 @@ $("#erplogin-button").click(async function(e){
      if(userAccessOptions != ""){
 
        addLoginData(dataReturnRes).then(function (datareturn) {
-         myVS1VideoLogin.onended = function(e) {
+          if (navigator.userAgent.match(/(iPod|iPhone|iPad)/)) {
             getAccessLevelData(userAccessOptions,isSameUserLogin);
+          }else{
+            myVS1VideoLogin.onended = function(e) {
+               getAccessLevelData(userAccessOptions,isSameUserLogin);
+             }
           }
+
        }).catch(function (err) {
-         myVS1VideoLogin.onended = function(e) {
-            getAccessLevelData(userAccessOptions,isSameUserLogin);
-          }
+         if (navigator.userAgent.match(/(iPod|iPhone|iPad)/)) {
+           getAccessLevelData(userAccessOptions,isSameUserLogin);
+         }else{
+           myVS1VideoLogin.onended = function(e) {
+              getAccessLevelData(userAccessOptions,isSameUserLogin);
+            }
+         }
        });
      }
 
@@ -3904,7 +3915,7 @@ $("#erplogin-button").click(async function(e){
       }
       }
 
-          }).catch(function (err) {
+    }).catch(function (err) {
             $('.myVS1Video').css('display','inline-block');
             //$('.fullScreenSpin').css('display','inline-block');
             myVS1Video.currentTime = 0;
