@@ -37,6 +37,9 @@ Template.organisationsettings.onCreated(() => {
 
     templateObject.isSameAddress = new ReactiveVar();
     templateObject.isSameAddress.set(false);
+
+    templateObject.iscompanyemail = new ReactiveVar();
+    templateObject.iscompanyemail.set(false);
 });
 
 Template.organisationsettings.onRendered(function () {
@@ -153,8 +156,10 @@ Template.organisationsettings.onRendered(function () {
             $('#show_address_data').css("display","block");
           }
             if(mainData.TrackEmails){
+              templateObject.iscompanyemail.set(true);
               $('#chkIsDefailtEmail').attr("checked","checked");
             }else{
+              //templateObject.iscompanyemail.set(false);
               $('#chkIsDefailtEmail').removeAttr("checked");
             }
 
@@ -211,13 +216,11 @@ Template.organisationsettings.helpers({
     fieldLength: () => {
         return Template.instance().fieldLength.get();
     },
-    equals: (inputBoxToShow) => {
-        let templateObject = Template.instance();
-        let selectedOption = templateObject.fieldLength.get();
-        return (selectedOption === 1);
-    },
     isSameAddress: () => {
     return Template.instance().isSameAddress.get();
+    },
+    iscompanyemail: () => {
+    return Template.instance().iscompanyemail.get();
     }
 });
 Template.organisationsettings.events({
@@ -230,6 +233,16 @@ Template.organisationsettings.events({
         document.getElementById('open_mob').style.display = 'inline-block';
         document.getElementById('exitMob').style.display = 'inline-block';
         document.getElementById('mobField').style.display = 'none';
+    },
+    'click #chkIsDefailtEmail': function(event){
+      let templateObj = Template.instance();
+        if($(event.target).is(':checked')){
+          //alert("checked");
+            templateObj.iscompanyemail.set(true);
+        }else{
+          //alert("not checked");
+          templateObj.iscompanyemail.set(false);
+        }
     },
     'click #exitMob': function (event) {
         let templateObject = Template.instance();

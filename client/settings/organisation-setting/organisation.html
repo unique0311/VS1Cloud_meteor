@@ -147,9 +147,13 @@ class="d-xl-flex flex-column flex-grow-1 align-items-xl-start"><label>Organizati
                                                                     <label class="custom-control-label" for="chkIsDefailtEmail"></label>
                                                                 </div>
                                                             </div>
-
-                                                            <span class="customTooltipSpan" style="color: #808080; font-size: 12px;">(This is the default company email address)</span>
-                                                            <i class="far fa-question-circle customTooltipIcon" data-toggle="tooltip" data-placement="top" title="This is the default company email address" style="display:none;"></i>
+                                                            {{#if equals iscompanyemail true}}
+                                                            <span class="customTooltipSpan" style="color: #808080; font-size: 12px;">used for all emailing</span>
+                                                            <i class="far fa-question-circle customTooltipIcon" data-toggle="tooltip" data-placement="top" title="used for all emailing" style="display:none;"></i>
+                                                            {{else}}
+                                                            <span class="customTooltipSpan" style="color: #808080; font-size: 12px;">will be done using employee email address</span>
+                                                            <i class="far fa-question-circle customTooltipIcon" data-toggle="tooltip" data-placement="top" title="will be done using employee email address" style="display:none;"></i>
+                                                            {{/if}}
                                                         </label>
 
                                                         <input class="form-control" type="text" id="edtemailaddress" name="edtemailaddress">
