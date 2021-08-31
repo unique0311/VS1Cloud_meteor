@@ -6683,6 +6683,11 @@ Template.appointments.events({
                         if (result[0].timelog != "") {
                             appointmentService.saveTimeLog(objectData).then(function (data) {
                                 appointmentService.saveAppointment(objectData1).then(function (data1) {
+                                    let index = appointmentData.map(function (e) {
+                                        return e.id;
+                                    }).indexOf(parseInt(result[0].id));
+                                    appointmentData[index].isPaused = '';
+                                    templateObject.appointmentrecords.set(appointmentData);
                                     sideBarService.getAllAppointmentList().then(function (data) {
                                         addVS1Data('TAppointment', JSON.stringify(data)).then(function (datareturn) {
                                             $('.fullScreenSpin').css('display', 'none');
@@ -7105,15 +7110,15 @@ Template.appointments.events({
                         })
                     }).catch(function () {})
                 } else {
-                            sideBarService.getAllAppointmentList().then(function (data) {
-                            addVS1Data('TAppointment', JSON.stringify(data)).then(function (datareturn) {
-                                window.open('/appointments', '_self');
-                            }).catch(function (err) {
-                                window.open('/appointments', '_self');
-                            })
+                    sideBarService.getAllAppointmentList().then(function (data) {
+                        addVS1Data('TAppointment', JSON.stringify(data)).then(function (datareturn) {
+                            window.open('/appointments', '_self');
                         }).catch(function (err) {
                             window.open('/appointments', '_self');
                         })
+                    }).catch(function (err) {
+                        window.open('/appointments', '_self');
+                    })
                 }
             }).catch(function (err) {
                 $('.fullScreenSpin').css('display', 'none');
@@ -7617,15 +7622,15 @@ Template.appointments.events({
 
                         appointmentService.saveTimeLog(objectData).then(function (data) {
                             appointmentService.saveAppointment(objectData1).then(function (data1) {
-                               sideBarService.getAllAppointmentList().then(function (data) {
-                            addVS1Data('TAppointment', JSON.stringify(data)).then(function (datareturn) {
-                                window.open('/appointments', '_self');
-                            }).catch(function (err) {
-                                window.open('/appointments', '_self');
-                            })
-                        }).catch(function (err) {
-                            window.open('/appointments', '_self');
-                        })
+                                sideBarService.getAllAppointmentList().then(function (data) {
+                                    addVS1Data('TAppointment', JSON.stringify(data)).then(function (datareturn) {
+                                        window.open('/appointments', '_self');
+                                    }).catch(function (err) {
+                                        window.open('/appointments', '_self');
+                                    })
+                                }).catch(function (err) {
+                                    window.open('/appointments', '_self');
+                                })
                             }).catch(function (err) {
                                 $('.fullScreenSpin').css('display', 'none');
                             });
