@@ -389,6 +389,129 @@ style="font-size: 22px;"><label class="custom-control-label" for="formCheck-2" s
                             </div>
                         </div>
                     </div>
+
+
+    <div class="modal fade supplierPaymentListModal" role="dialog" tabindex="-1" id="supplierPaymentListModal">
+        <div class="modal-dialog modal-xl modal-dialog-scrollable customerListModalInner" role="document" style="max-width: 90vw;">
+            <div class="modal-content customerListContent">
+                <div class="modal-header">
+                    <h4>Awaiting Supplier Payments</h4><button type="button" class="close checkclose" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                </div>
+                <div class="modal-body mainCustomerModalBody" style="padding: 0px; overflow-x: hidden;">
+                    <input type="hidden" style="width: 100%; display:none;" id="customerSelectLineID" name="customerSelectLineID" readonly>
+                   <div class="container-fluid" style="padding-left: 0px; padding-right: 0px;">
+        <div class="card-body rounded" style="margin: 0px;">
+
+            <!-- Start {{> optionNavSalesOverview}} -->
+            <div class="row">
+                <div class="col flex-grow-1" style="align-content: flex-start;">
+                    <style>
+                        .refreshpagelist {
+                            margin: 0px !important;
+                        }
+                        .btnRefreshGlobal {
+                            padding: 0px !important;
+                        }
+                    </style>
+                    <!-- {{> refreshbutton}} -->
+                </div>
+            </div>
+           
+            <!-- End -->
+
+            <div class="table-responsive">
+                <style>
+                    th {
+                        background-color: #ededed;
+                    }
+                    .table-striped tbody tr:nth-of-type(odd) {
+                        background-color: white !important;
+                    }
+
+                    .table-striped tbody tr:nth-of-type(even) {
+                        background-color: #0000000d !important;
+                    }
+
+                    .JColResizer > tbody > tr > td, .JColResizer > tbody > tr > th {
+                        padding: .75rem!important;
+                    }
+                    .hiddenColumn{
+                        display:none;
+                    }
+                    .showColumn {
+                        display:table-cell;
+                        padding:.75rem;
+                        vertical-align:top;
+                    }
+
+                    input[type=number]::-webkit-inner-spin-button,
+                    input[type=number]::-webkit-outer-spin-button {
+                        opacity: 1;
+                    }
+
+                    .colNotes {
+                        width: 200px !important;
+                    }
+                </style>
+                <table id="tblSupplierAwaitingPO" name="tblSupplierAwaitingPO" style="width:100%" class="dataTable table table-hover table-striped table-bordered tblSupplierAwaitingPO">
+                            <thead style="width:100%">
+                                <tr class="dnd-moved">
+                                    <th class="th chkBox" style="width:15px;">
+                                    <div class="custom-control custom-checkbox chkBox" style="width:15px;"><input class="custom-control-input chkBoxAll" type="checkbox" id="formCheck-All"><label class="custom-control-label chkBoxAll" for="formCheck-All"></label></div></th>
+                                    <th class="th colSortDate hiddenColumn">id</th>
+                                    <th class="th colPaymentDate" style="width:50px;">Date</th>
+                                    <th class="th colReceiptNo" style="width:85px;">Ref No.</th>
+                                    <th class="th colPONumber" style="width:80px;">Order Number</th>
+                                    <th class="th colPaymentAmount" style="width:80px;">Payment Amount</th>
+                                    <th class="th colApplied" style="width:80px;">Original Amount</th>
+                                    <th class="th colBalance" style="width:80px;">Outstanding Amount</th>
+                                    <th class="th colSupplierName" style="width:200px;">Supplier Name</th>
+                                    <!-- <th class="th colPONumber" style="width:80px;">Bank Account</th> -->
+                                    <!-- <th class="th colDepartment" style="width:80px;">Department</th> -->
+                                    <th class="th colTypePayment hiddenColumn">Type</th>
+                                    <!-- <th class="th colPaymentMethod hiddenColumn">Custom Field 2</th> -->
+                                    <th class="th colNotes">Comments</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {{#if datatablerecords}}
+                                {{#each item in datatablerecords}}
+                                <tr class="dnd-moved" id="{{item.id}}" style="cursor: pointer;">
+                                    <td contenteditable="false" class="chkBox" style="width:15px;">
+                                    <div class="custom-control custom-checkbox chkBox pointer" style="width:15px;"><input class="custom-control-input chkBox chkPaymentCard pointer" type="checkbox" id="formCheck-{{item.id}}" value="{{item.outsandingamount}}"><label class="custom-control-label chkBox pointer" for="formCheck-{{item.id}}"></label></div></td>
+                                    <td contenteditable="false" class="colSortDate hiddenColumn">{{item.sortdate}}</td>
+                                    <td contenteditable="false" class="colPaymentDate">{{item.paymentdate}}</td>
+                                    <td contenteditable="false" class="colReceiptNo">{{item.refno}}</td>
+                                    <td contenteditable="false" class="colPONumber">{{item.ponumber}}</td>
+                                    <td contenteditable="false" class="colPaymentAmount" style="text-align: right!important;">{{item.applied}}</td>
+                                    <td contenteditable="false" class="colApplied" style="text-align: right!important;">{{item.originalamount}}</td>
+                                    <td contenteditable="false" class="colBalance" style="text-align: right!important;">{{item.outsandingamount}}</td>
+                                    <td contenteditable="false" class="colSupplierName" id="colSupplierName{{item.id}}">{{item.customername}}</td>
+                                    <!-- <td contenteditable="false" class="colBankAccount">{{item.bankaccount}}</td> -->
+                                    <!-- <td contenteditable="false" class="colDepartment">{{item.department}}</td> -->
+                                    <td contenteditable="false" class="colTypePayment hiddenColumn" id="coltype{{item.id}}">{{item.type}}</td>
+                                    <!-- <td contenteditable="false" class="colPaymentMethod hiddenColumn"></td> -->
+                                    <td contenteditable="false" class="colNotes">{{item.notes}}</td>
+                                </tr>
+                                {{/each}}
+                                {{/if}}
+
+                            </tbody>
+                        </table>
+
+            </div>
+        </div>
+    </div>
+
+
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary btnSelectSuppliers" id="btnSelectSuppliers" type="button">Select</button>
+                    <button class="btn btn-light checkclose" data-dismiss="modal" type="button">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
                     <!-- END -->
                     <div class="table-responsive" style="padding: .375rem .75rem;">
                         <style>
@@ -407,6 +530,12 @@ style="font-size: 22px;"><label class="custom-control-label" for="formCheck-2" s
 
                             #productListModal .dataTables_scrollHeadInner,
                             #productListModal .dataTables_scrollHeadInner .table {
+                                width: 100% !important;
+                            }
+
+
+                            #supplierPaymentListModal  .dataTables_scrollHeadInner,
+                            #supplierPaymentListModal  .dataTables_scrollHeadInner .table {
                                 width: 100% !important;
                             }
 
@@ -465,10 +594,10 @@ style="font-size: 22px;"><label class="custom-control-label" for="formCheck-2" s
                                         </button>
                                     </div>
                                     <div class="modal-body">
-                                        <p>Please select "Delete Payment" to delete the entire payment</p>
-                                        <!-- <button class="btn btn-danger float-left btnDeleteLine" type="button">
+                                        <p>Please select "Delete Line" to remove row or "Delete Payment" to delete the entire payment</p>
+                                        <button class="btn btn-danger float-left btnDeleteLine" type="button">
 <i class="fa fa-close" style="margin-right: 5px;"></i>Delete Line
-</button> -->
+</button>
                                         <button class="btn btn-danger float-right btnDeletePayment" type="button">
                                             <i class="fa fa-close" style="margin-right: 5px;"></i>Delete Payment
                                         </button>
@@ -508,7 +637,7 @@ style="font-size: 22px;"><label class="custom-control-label" for="formCheck-2" s
                                     <th class="th linePaymentamount" style="width: 80px; text-align: left!important;">Payment</th>
                                     <th class="th lineOutstandingAmount" style="width: 80px; text-align: left!important;">Outstanding</th>
                                     <th class="th colComments">Comments on Transaction form</th>
-                                    <!-- <th class="th" style="width: 25px;"></th> -->
+                                    <th class="th" style="width: 25px;"></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -526,18 +655,24 @@ style="font-size: 22px;"><label class="custom-control-label" for="formCheck-2" s
                                 <tr class="dnd-moved" id="{{item.poid}}" name="{{item.poid}}">
                                     <td contenteditable="false" class="colTransDate">{{item.invoicedate}}</td>
                                     <td contenteditable="false" class="colType" style="color:#00a3d3; cursor: pointer; white-space: nowrap;">{{item.transtype}}</td>
-                                    <td contenteditable="false" class="colTransNo">{{item.transid}}</td>
+                                    <td contenteditable="false" class="colTransNo" style="color:#00a3d3">{{item.transid}}</td>
                                     <td contenteditable="false" class="lineOrginalamount" style="text-align: right!important;">{{item.orginalamount}}</td>
                                     <td contenteditable="false" class="lineAmountdue" style="text-align: right!important;">{{item.amountdue}}</td>
                                     <!--                                    <td contenteditable="true" class="linePaymentamount" style="text-align: right!important;">{{item.paymentamount}}</td>-->
                                     <td><input class="linePaymentamount highlightInput" type="text" value="{{item.paymentamount}}"></td>
                                     <td contenteditable="false" class="lineOutstandingAmount" style="text-align: right!important;">{{item.ouststandingamount}}</td>
                                     <td contenteditable="true" class="colComments">{{item.comments}}</td>
-                                    <!-- <td><span class="table-remove btnRemove"><button type="button" class="btn btn-danger btn-rounded btn-sm my-0"><i class="fa fa-remove"></i></button></span></td> -->
+                                    <td><span class="table-remove btnRemove"><button type="button" class="btn btn-danger btn-rounded btn-sm my-0"><i class="fa fa-remove"></i></button></span></td>
                                 </tr>
                                 {{/each}}
                             </tbody>
                         </table>
+                        <div class="d-xl-flex justify-content-xl-center">
+                        <div align="left" style="width:100%;">
+                            <button class="btn btn-primary" type="button" id="addRow" style="margin: 16px;">+ Add New Entry</button>
+                            <input type="hidden" id="rowID" name="rowID">
+                        </div>
+                    </div>
                     </div>
                 </div>
             </div>
