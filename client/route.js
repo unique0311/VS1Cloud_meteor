@@ -101,6 +101,10 @@ publicRoutes.route('/resetpassword', {
 const authenticatedRedirect = () => {
 
   let sidePanelToggle = Session.get('sidePanelToggle');
+  if ((sidePanelToggle === 'undefined') || (sidePanelToggle === undefined)) {
+    Session.setPersistent('sidePanelToggle', "toggled");
+   sidePanelToggle = Session.get('sidePanelToggle');
+  }
   if (sidePanelToggle) {
       if (sidePanelToggle === "toggled") {
           $("#sidenavbar").addClass("toggled");
