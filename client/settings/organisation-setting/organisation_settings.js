@@ -152,6 +152,11 @@ Template.organisationsettings.onRendered(function () {
             $('#chksameaddress').removeAttr("checked");
             $('#show_address_data').css("display","block");
           }
+            if(mainData.TrackEmails){
+              $('#chkIsDefailtEmail').attr("checked","checked");
+            }else{
+              $('#chkIsDefailtEmail').removeAttr("checked");
+            }
 
                     $('#pocontact').val(mainData.Contact);
                     $('#contact').val(mainData.ContactName);
@@ -375,7 +380,7 @@ Template.organisationsettings.events({
         let pocontact = $('#pocontact').val();
         let contact = $('#contact').val();
         let phone = $('#edtphonenumber').val();
-        let emailAddress = $('#edtemailaddress').val();
+        let emailAddress = $('#edtemailaddress').val()||localStorage.getItem('VS1AdminUserName');
         let websiteURL = $('#edtWebsite').val();
         let fax = $('#edtfaxnumber').val();
 
@@ -390,6 +395,7 @@ Template.organisationsettings.events({
         let poState = '';
         let poPostCode = '';
         let poCountry = '';
+        let isDefaultEmail = false;
 
         if($('#chksameaddress').is(':checked')){
            poAddress = shipAddress;
@@ -405,7 +411,9 @@ Template.organisationsettings.events({
           poCountry = $('#edtPostalCountry').val();
         }
 
-
+        if($('#chkIsDefailtEmail').is(':checked')){
+          isDefaultEmail = true;
+        }
 
         var objDetails = {
             type: "TCompanyInfo",
@@ -430,13 +438,19 @@ Template.organisationsettings.events({
                 PoCity:poCity,
                 PoState:poState,
                 PoPostcode:poPostCode,
-                PoCountry:poCountry
+                PoCountry:poCountry,
+                TrackEmails:isDefaultEmail
             }
         };
         organisationService.saveOrganisationSetting(objDetails).then(function (data){
             // Bert.alert('<strong>'+ 'Organisation details successfully updated!'+'</strong>!', 'success');
             // swal('Organisation details successfully updated!', '', 'success');
-            localStorage.setItem('VS1OrgEmail', emailAddress);
+            if(isDefaultEmail){
+                localStorage.setItem('VS1OrgEmail', emailAddress);
+            }else{
+              localStorage.setItem('VS1OrgEmail', localStorage.getItem('mySession'));
+            }
+
             swal({
               title: 'Organisation details successfully updated!',
               text: '',

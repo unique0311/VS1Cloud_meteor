@@ -358,7 +358,12 @@ Template.header.onRendered(function(){
            localStorage.setItem('vs1companyBankBSB', bsb);
            localStorage.setItem('vs1companyBankSwiftCode', swiftCode);
            localStorage.setItem('vs1companyBankRoutingNo', routingNo);
-           localStorage.setItem('VS1OrgEmail', data.tcompanyinfo[0].Email||localStorage.getItem('VS1AdminUserName'));
+           if(data.tcompanyinfo[0].TrackEmails){
+             localStorage.setItem('VS1OrgEmail', data.tcompanyinfo[0].Email||localStorage.getItem('VS1AdminUserName'));
+           }else{
+             localStorage.setItem('VS1OrgEmail', localStorage.getItem('mySession'));
+           }
+
            // Session.setPersistent('vs1companyComment', comment);
 
 
