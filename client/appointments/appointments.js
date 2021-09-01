@@ -73,7 +73,7 @@ Template.appointments.onRendered(function () {
     let calendarSettings = [];
     let prefObject = {};
     let globalSet = {};
-    let launchAllocations = Session.get('CloudAppointmentAppointmentLaunch');
+    let launchAllocations = Session.get('CloudAppointmentAllocationLaunch');
     let currentId = FlowRouter.current().context.hash;
     if ((currentId === "allocationModal")) {
         setTimeout(function () {
@@ -594,7 +594,7 @@ Template.appointments.onRendered(function () {
                     document.getElementById("mobile").value = result[0].mobile || result[0].phone || '';
                     document.getElementById("state").value = result[0].state;
                     document.getElementById("address").value = result[0].street;
-                    if (Session.get('CloudAppointmentAddAttachment') == true) {
+                    if (Session.get('CloudAppointmentNotes') == true) {
                         document.getElementById("txtNotes").value = result[0].notes;
                     }
                     document.getElementById("suburb").value = result[0].suburb;
@@ -620,7 +620,6 @@ Template.appointments.onRendered(function () {
                     document.getElementById("tActualStartTime").value = result[0].aStartTime;
                     document.getElementById("tActualEndTime").value = result[0].aEndTime;
                     document.getElementById("txtActualHoursSpent").value = parseFloat(hours).toFixed(2) || '';
-
                     templateObject.attachmentCount.set(0);
                     if (result[0].attachments) {
                         if (result.length) {
@@ -978,7 +977,7 @@ Template.appointments.onRendered(function () {
                     document.getElementById("mobile").value = result[0].mobile || result[0].phone || '';
                     document.getElementById("state").value = result[0].state;
                     document.getElementById("address").value = result[0].street;
-                    if (Session.get('CloudAppointmentAddAttachment') == true) {
+                    if (Session.get('CloudAppointmentNotes') == true) {
                         document.getElementById("txtNotes").value = result[0].notes;
                     }
                     document.getElementById("suburb").value = result[0].suburb;
@@ -1724,7 +1723,7 @@ Template.appointments.onRendered(function () {
                             document.getElementById("mobile").value = result[0].mobile || result[0].phone || '';
                             document.getElementById("state").value = result[0].state;
                             document.getElementById("address").value = result[0].street;
-                            if (Session.get('CloudAppointmentAddAttachment') == true) {
+                            if (Session.get('CloudAppointmentNotes') == true) {
                                 document.getElementById("txtNotes").value = result[0].notes;
                             }
                             document.getElementById("suburb").value = result[0].suburb;
@@ -2594,7 +2593,7 @@ Template.appointments.onRendered(function () {
                         document.getElementById("mobile").value = result[0].mobile || result[0].phone || '';
                         document.getElementById("state").value = result[0].state;
                         document.getElementById("address").value = result[0].street;
-                        if (Session.get('CloudAppointmentAddAttachment') == true) {
+                        if (Session.get('CloudAppointmentNotes') == true) {
                             document.getElementById("txtNotes").value = result[0].notes;
                         }
                         document.getElementById("suburb").value = result[0].suburb;
@@ -3206,7 +3205,7 @@ Template.appointments.onRendered(function () {
                         document.getElementById("mobile").value = result[0].mobile || result[0].phone || '';
                         document.getElementById("state").value = result[0].state;
                         document.getElementById("address").value = result[0].street;
-                        if (Session.get('CloudAppointmentAddAttachment') == true) {
+                        if (Session.get('CloudAppointmentNotes') == true) {
                             document.getElementById("txtNotes").value = result[0].notes;
                         }
                         document.getElementById("suburb").value = result[0].suburb;
@@ -4155,7 +4154,7 @@ Template.appointments.onRendered(function () {
         document.getElementById("state").value = $(this).find(".colState").text();
         document.getElementById("country").value = $(this).find(".colCountry").text();
         document.getElementById("address").value = $(this).find(".colStreetAddress").text().replace(/(?:\r\n|\r|\n)/g, ', ');
-        if (Session.get('CloudAppointmentAddAttachment') == true) {
+        if (Session.get('CloudAppointmentNotes') == true) {
             document.getElementById("txtNotes").value = $(this).find(".colNotes").text();
         }
         document.getElementById("suburb").value = $(this).find(".colCity").text();
@@ -4433,7 +4432,7 @@ Template.appointments.onRendered(function () {
                             document.getElementById("mobile").value = result[0].mobile || result[0].phone || '';
                             document.getElementById("state").value = result[0].state;
                             document.getElementById("address").value = result[0].street;
-                            if (Session.get('CloudAppointmentAddAttachment') == true) {
+                            if (Session.get('CloudAppointmentNotes') == true) {
                                 document.getElementById("txtNotes").value = result[0].notes;
                             }
                             document.getElementById("suburb").value = result[0].suburb;
@@ -5026,7 +5025,7 @@ Template.appointments.events({
             document.getElementById("mobile").value = result[0].mobile || result[0].phone || '';
             document.getElementById("state").value = result[0].state;
             document.getElementById("address").value = result[0].street;
-            if (Session.get('CloudAppointmentAddAttachment') == true) {
+            if (Session.get('CloudAppointmentNotes') == true) {
                 document.getElementById("txtNotes").value = result[0].notes;
             }
             document.getElementById("suburb").value = result[0].suburb;
@@ -8148,6 +8147,9 @@ Template.appointments.helpers({
     },
     addAttachment: () => {
         return Session.get('CloudAppointmentAddAttachment') || false;
+    },
+    addNotes: () => {
+        return Session.get('CloudAppointmentNotes') || false;
     },
     uploadedFiles: () => {
         return Template.instance().uploadedFiles.get();

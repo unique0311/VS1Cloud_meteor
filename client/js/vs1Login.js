@@ -613,10 +613,13 @@ needsToSeePrompt();
     let isAppointmentScheduling = false;
     let isAppointmentStartStop = false;
     let isAppointmentLaunch = false;
+    let isAllocationLaunch = false;
+    let isAppointmentNotes = false;
     let isAddAttachment = false;
     let isCanOnlySeeOwnAppointment = false;
     let isCanOnlySeeOwnAllocations = false;
     let isEditTimesheetHours = false;
+
 
 
     /* Lincence Check for Menu Options */
@@ -679,12 +682,16 @@ needsToSeePrompt();
           isCanOnlySeeOwnAppointment = true;
         }
 
-        if(optionaccess.fields.Description === "Can Only See Own Allocation"){
-          isCanOnlySeeOwnAllocations = true;
+        if(optionaccess.fields.Description === "Appointment - Add Notes"){
+          isAppointmentNotes = true;
         }
 
-        if(optionaccess.fields.Description === "Launch Appointment Or Allocation"){
+        if(optionaccess.fields.Description === "Launch Appointment"){
           isAppointmentLaunch = true;
+        }
+
+         if(optionaccess.fields.Description === "Launch Allocation"){
+          isAllocationLaunch = true;
         }
 
         if(optionaccess.fields.Description === "Allow Editing timesheet Hours"){
@@ -918,9 +925,10 @@ needsToSeePrompt();
    Session.setPersistent('CloudAppointmentSchedulingModule', isAppointmentScheduling);
    Session.setPersistent('CloudAppointmentStartStopAccessLevel', isAppointmentStartStop);
    Session.setPersistent('CloudAppointmentAppointmentLaunch', isAppointmentLaunch);
+   Session.setPersistent('CloudAppointmentAllocationLaunch', isAllocationLaunch);
    Session.setPersistent('CloudAppointmentAddAttachment', isAddAttachment);
-   Session.setPersistent('CloudAppointmentSeeOwnAllocationsOnly', isCanOnlySeeOwnAllocations);
    Session.setPersistent('CloudAppointmentSeeOwnAppointmentsOnly', isCanOnlySeeOwnAppointment);
+   Session.setPersistent('CloudAppointmentNotes', isAppointmentNotes);
    Session.setPersistent('CloudEditTimesheetHours', isEditTimesheetHours);
     let userSerssion = {'loggedEmpID':userAccessOptions.items[0].fields.EmployeeId,
                         'loggedUserName':Session.get('EUserName'),
@@ -942,8 +950,10 @@ needsToSeePrompt();
 
 
 
-    if(isAppointmentLaunch == true) {
+    if(isAllocationLaunch == true) {
       window.open('/appointments#allocationModal','_self');
+    } else if (isAppointmentLaunch ==true){
+      window.open('/appointments','_self');
     } else {
       window.open('/dashboard','_self');
     }
