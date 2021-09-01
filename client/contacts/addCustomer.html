@@ -577,11 +577,11 @@ value="{{record.tfn}}"></div> -->
                                                             <div class="form-group d-xl-flex flex-column justify-content-xl-start" style="margin: 4px;"><label class="text-nowrap">Customer Type</label>
                                                                 <select class="form-control customerTypeSelect" style="width: 260px; cursor: pointer;" id="sltJobCustomerType" name="sltJobCustomerType">
 
-                                                                    {{#each itemclient in clienttypeList}}
-                                                                    {{#if equals item record.clienttype }}
+                                                                    {{#each itemclientJob in clienttypeList}}
+                                                                    {{#if equals itemclientJob record.clienttype }}
                                                                     <option value="{{record.jobclienttype}}" selected="">{{record.jobclienttype}}</option>
                                                                     {{else}}
-                                                                    <option value="{{itemclient}}">{{itemclient}}</option>
+                                                                    <option value="{{itemclientJob}}">{{itemclientJob}}</option>
                                                                     {{/if}}
                                                                     {{/each}}
 
@@ -1834,11 +1834,11 @@ value="{{record.tfn}}"></div> -->
                                                             <div class="form-group d-xl-flex flex-column justify-content-xl-start" style="margin: 4px;"><label class="text-nowrap">Customer Type</label>
                                                                 <select class="form-control customerTypeSelect" style="width: 260px; cursor: pointer;" id="sltJobCustomerType" name="sltJobCustomerType">
 
-                                                                    {{#each itemclient in clienttypeList}}
-                                                                    {{#if equals item record.clienttype }}
+                                                                    {{#each jobitemclient in clienttypeList}}
+                                                                    {{#if equals jobitemclient record.clienttype }}
                                                                     <option value="{{record.jobclienttype}}" selected="">{{record.jobclienttype}}</option>
                                                                     {{else}}
-                                                                    <option value="{{itemclient}}">{{itemclient}}</option>
+                                                                    <option value="{{jobitemclient}}">{{jobitemclient}}</option>
                                                                     {{/if}}
                                                                     {{/each}}
 

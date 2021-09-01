@@ -3182,7 +3182,7 @@ Template.customerscard.events({
         let custField2 = $('#edtCustomeField2').val();
         let custField3 = $('#edtCustomeField3').val();
         let custField4 = $('#edtCustomeField4').val();
-        let customerType = $('#sltCustomerType').children("option:selected").val();
+        let customerType = $('#sltCustomerType').val()||'';
         let uploadedItems = templateObject.uploadedFiles.get();
 
         var url = FlowRouter.current().path;

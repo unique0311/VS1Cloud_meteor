@@ -656,7 +656,7 @@ Template.journalentrylist.events({
  if(currentBeginDate.getDate() < 10){
      fromDateDay = "0" + currentBeginDate.getDate();
  }
- var toDate = currentBeginDate.getFullYear()+ "-" +(fromDateMonth) + "-"+(fromDateDay+1);
+ var toDate = currentBeginDate.getFullYear()+ "-" +(fromDateMonth) + "-"+(fromDateDay);
  let prevMonth11Date = (moment().subtract(reportsloadMonths, 'months')).format("YYYY-MM-DD");
 
      sideBarService.getAllPurchaseOrderListAll(prevMonth11Date,toDate, false).then(function(data) {
