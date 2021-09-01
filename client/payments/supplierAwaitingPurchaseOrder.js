@@ -973,15 +973,16 @@ Template.supplierawaitingpurchaseorder.events({
                 clientname: $('#colSupplierName' + chkIdLine).text()
             };
             if (selectedAwaitingPayment.length > 0) {
-                var checkClient = selectedAwaitingPayment.filter(slctdAwtngPyment => {
-                    return slctdAwtngPyment.clientname == $('#colSupplierName' + chkIdLine).text();
-                });
+                // var checkClient = selectedAwaitingPayment.filter(slctdAwtngPyment => {
+                //     return slctdAwtngPyment.clientname == $('#colSupplierName' + chkIdLine).text();
+                // });
 
-                if (checkClient.length > 0) {
+                if (selectedAwaitingPayment.length > 0) {
                     selectedAwaitingPayment.push(paymentTransObj);
                 } else {
-                    swal('','You have selected multiple Suppliers,  a separate payment will be created for each', 'info');
-                    $(this).prop("checked", false);
+                    selectedAwaitingPayment.push(paymentTransObj);
+                    // swal('','You have selected multiple Suppliers,  a separate payment will be created for each', 'info');
+                    // $(this).prop("checked", false);
                 }
             } else {
                 selectedAwaitingPayment.push(paymentTransObj);
@@ -992,15 +993,18 @@ Template.supplierawaitingpurchaseorder.events({
     },
     'click .btnSuppPayment': function () {
         const templateObject = Template.instance();
+        var datacomb = '';
         let selectClient = templateObject.selectedAwaitingPayment.get();
-        //Click Payment and check if not empty.
-        if (selectClient.length === 0) {
-            swal('Please select Supplier to pay for!', '', 'info');
+
+          if (selectClient.length === 0) {
+            swal('Please select Customer to pay for!', '', 'info');
         } else {
+            let custName = selectClient[0].clientname;
             var resultPO = [];
             var resultBill = [];
             var resultCredit = [];
-            $.each(selectClient, function (k, v) {
+            if (selectClient.every(v => v.clientname === custName) == true) {
+                $.each(selectClient, function (k, v) {
                 if (v.type === "Purchase Order") {
                     resultPO.push(v.awaitingId);
                 } else if (v.type === "Bill") {
@@ -1010,8 +1014,119 @@ Template.supplierawaitingpurchaseorder.events({
                 }
 
             });
-            FlowRouter.go('/supplierpaymentcard?selectsupppo=' + resultPO + '&selectsuppbill=' + resultBill + '&selectsuppcredit=' + resultCredit);
+            window.open('/supplierpaymentcard?selectsupppo=' + resultPO + '&selectsuppbill=' + resultBill + '&selectsuppcredit=' + resultCredit,'_self');
+
+            } else {
+                var groups = {};
+                var groupName = '';
+
+                for (let x = 0; x < selectClient.length; x++) {
+                    let lineItemObjlevel = {
+                        ids: selectClient[x].awaitingId || '',
+                        customername: selectClient[x].clientname || '',
+                        description: selectClient[x].clientname || '',
+                        type: selectClient[x].type || ''
+                    };
+
+
+                           groupName = selectClient[x].clientname;
+                            if (!groups[groupName]) {
+                                groups[groupName] = [];
+                            }
+
+                            groups[groupName].sort(function(a, b){
+                                if (a.description == 'NA') {
+                                    return 1;
+                                }
+                                else if (b.description == 'NA') {
+                                    return -1;
+                                }
+                                return (a.description.toUpperCase() > b.description.toUpperCase()) ? 1 : -1;
+                            });
+
+
+                            groups[groupName].push(lineItemObjlevel);
+                    /*
+                    datacomb = selectClient.filter(client => {
+                        return client.clientname == selectClient[x].clientname
+                    })
+                        if (datacomb.length > 0) {
+                            for (let y = 0; y < datacomb.length; y++) {
+                                result.push(datacomb[y].awaitingId)
+                            }
+
+                            //window.open('/paymentcard?selectcust=' + result.toString());
+                            //final_result.push(result.toString())
+                        }
+                        */
+
+                }
+
+                    _.map(groups, function (datacomb, key) {
+                    
+                    if (datacomb.length > 1) {
+
+                    var resultSelect = [];
+                    var result = [];
+                    var resultPO = [];
+                    var resultBill = [];
+                    var resultCredit = [];
+                    
+                     for (let y = 0; y < datacomb.length; y++) {
+                        
+                        if(datacomb[y].customername == key){
+                            if (datacomb[y].type === "Purchase Order") {
+                                resultPO.push(datacomb[y].ids);
+                            } else if (datacomb[y].type === "Bill") {
+                                resultBill.push(datacomb[y].ids);
+                            } else if (datacomb[y].type === "Credit") {
+                                resultCredit.push(datacomb[y].ids);
+                            }
+                        }
+                     }
+                     window.open('/supplierpaymentcard?selectsupppo=' + resultPO + '&selectsuppbill=' + resultBill + '&selectsuppcredit=' + resultCredit);
+        
+                    }else{
+                    var result = [];
+                    var resultPO = [];
+                    var resultBill = [];
+                    var resultCredit = [];
+                        if(datacomb[0].customername == key){
+                        if (datacomb[0].type === "Purchase Order") {
+                                resultPO.push(datacomb[0].ids);
+                            } else if (datacomb[0].type === "Bill") {
+                                resultBill.push(datacomb[0].ids);
+                            } else if (datacomb[0].type === "Credit") {
+                                resultCredit.push(datacomb[0].ids);
+                         }
+                          window.open('/supplierpaymentcard?selectsupppo=' + resultPO + '&selectsuppbill=' + resultBill + '&selectsuppcredit=' + resultCredit);
+                        }
+                    }
+                   
+                            
+                 });
+
+            }
         }
+        //Click Payment and check if not empty.
+        // if (selectClient.length === 0) {
+        //     swal('Please select Supplier to pay for!', '', 'info');
+        // } else {
+        //     var resultPO = [];
+        //     var resultBill = [];
+        //     var resultCredit = [];
+        //     $.each(selectClient, function (k, v) {
+        //         if (v.type === "Purchase Order") {
+        //             resultPO.push(v.awaitingId);
+        //         } else if (v.type === "Bill") {
+        //             resultBill.push(v.awaitingId);
+        //         } else if (v.type === "Credit") {
+        //             resultCredit.push(v.awaitingId);
+        //         }
+
+        //     });
+        //     FlowRouter.go('/supplierpaymentcard?selectsupppo=' + resultPO + '&selectsuppbill=' + resultBill + '&selectsuppcredit=' + resultCredit);
+        // }
 
     },
     'click .chkBox': function () {
