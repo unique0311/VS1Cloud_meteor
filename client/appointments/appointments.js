@@ -692,7 +692,7 @@ Template.appointments.onRendered(function () {
                                     $(this).attr('id', $('#allocationTable tbody tr').attr('id').replace('-', ' '));
                                 }
                             })
-                            sideBarService.getAllAppointmentList().then(function (dataUpdate) {
+                            sideBarService.getAllAppointmentList(initialDataLoad,0).then(function (dataUpdate) {
                                 addVS1Data('TAppointment', JSON.stringify(dataUpdate)).then(function (datareturn) {}).catch(function (err) {});
                             }).catch(function (err) {
                                 //window.open('/appointments', '_self');
@@ -1074,7 +1074,7 @@ Template.appointments.onRendered(function () {
                                     $(this).attr('id', $(this).attr('id').replace('-', ' '));
                                 }
                             })
-                            sideBarService.getAllAppointmentList().then(function (dataUpdate) {
+                            sideBarService.getAllAppointmentList(initialDataLoad,0).then(function (dataUpdate) {
                                 addVS1Data('TAppointment', JSON.stringify(dataUpdate)).then(function (datareturn) {}).catch(function (err) {});
                             }).catch(function (err) {
                                 //window.open('/appointments', '_self');
@@ -1585,8 +1585,8 @@ Template.appointments.onRendered(function () {
     templateObject.getAllAppointmentListData = function () {
         getVS1Data('TAppointment').then(function (dataObject) {
             if (dataObject.length == 0) {
-                sideBarService.getAllAppointmentList().then(function (data) {
-
+                sideBarService.getAllAppointmentList(initialDataLoad,0).then(function (data) {
+                  addVS1Data('TAppointment',JSON.stringify(data));
                     $('.fullScreenSpin').css('display', 'inline-block');
                     let appColor = '';
                     let dataColor = '';
@@ -2332,7 +2332,7 @@ Template.appointments.onRendered(function () {
                                         $('#' + nameid + ' .' + day + ' .droppable').append(job);
                                         $('#' + eventDropID).remove();
                                         $('#allocationTable tbody tr').attr('id', $('#allocationTable tbody tr').attr('id').replace('-', ' '));
-                                        sideBarService.getAllAppointmentList().then(function (dataUpdate) {
+                                        sideBarService.getAllAppointmentList(initialDataLoad,0).then(function (dataUpdate) {
                                             addVS1Data('TAppointment', JSON.stringify(dataUpdate)).then(function (datareturn) {}).catch(function (err) {});
                                         }).catch(function (err) {
                                             //window.open('/appointments', '_self');
@@ -3067,8 +3067,8 @@ Template.appointments.onRendered(function () {
 
             }
         }).catch(function (err) {
-            sideBarService.getAllAppointmentList().then(function (data) {
-
+            sideBarService.getAllAppointmentList(initialDataLoad,0).then(function (data) {
+              addVS1Data('TAppointment',JSON.stringify(data));
                 $('.fullScreenSpin').css('display', 'inline-block');
                 let appColor = '';
                 let dataColor = '';
@@ -3814,7 +3814,7 @@ Template.appointments.onRendered(function () {
                                     $('#' + nameid + ' .' + day + ' .droppable').append(job);
                                     $('#' + eventDropID).remove();
                                     $('#allocationTable tbody tr').attr('id', $('#allocationTable tbody tr').attr('id').replace('-', ' '));
-                                    sideBarService.getAllAppointmentList().then(function (dataUpdate) {
+                                    sideBarService.getAllAppointmentList(initialDataLoad,0).then(function (dataUpdate) {
                                         addVS1Data('TAppointment', JSON.stringify(dataUpdate)).then(function (datareturn) {}).catch(function (err) {});
                                     }).catch(function (err) {
                                         //window.open('/appointments', '_self');
@@ -4506,7 +4506,7 @@ Template.appointments.onRendered(function () {
                                     $('#' + nameid + ' .' + day + ' .droppable').append(job);
                                     $('#' + eventDropID).remove();
                                     $('#allocationTable tbody tr').attr('id', $('#allocationTable tbody tr').attr('id').replace('-', ' '));
-                                    sideBarService.getAllAppointmentList().then(function (dataUpdate) {
+                                    sideBarService.getAllAppointmentList(initialDataLoad,0).then(function (dataUpdate) {
                                         addVS1Data('TAppointment', JSON.stringify(dataUpdate)).then(function (datareturn) {}).catch(function (err) {});
                                     }).catch(function (err) {
                                         //window.open('/appointments', '_self');
@@ -4627,7 +4627,7 @@ Template.appointments.onRendered(function () {
                 });
                 calendar.render();
 
-                sideBarService.getAllAppointmentList().then(function (data) {
+                sideBarService.getAllAppointmentList(initialDataLoad,0).then(function (data) {
                     addVS1Data('TAppointment', JSON.stringify(data)).then(function (datareturn) {}).catch(function (err) {});
                 }).catch(function (err) {});
             }).catch(function (err) {
@@ -4873,7 +4873,7 @@ Template.appointments.events({
                         if (oPost.readyState == 4 && oPost.status == 200) {
                             var myArrResponse = JSON.parse(oPost.responseText);
                             if (myArrResponse.ProcessLog.ResponseStatus.includes("OK")) {
-                                sideBarService.getAllAppointmentList().then(function (data) {
+                                sideBarService.getAllAppointmentList(initialDataLoad,0).then(function (data) {
                                     addVS1Data('TAppointment', JSON.stringify(data)).then(function (datareturn) {
                                         window.open('/appointments', '_self');
                                     }).catch(function (err) {
@@ -5443,7 +5443,7 @@ Template.appointments.events({
                         var myArrResponse = JSON.parse(oPost.responseText);
                         if (myArrResponse.ProcessLog.ResponseStatus.includes("OK")) {
                             if (x == (days.length - 1)) {
-                                sideBarService.getAllAppointmentList().then(function (data) {
+                                sideBarService.getAllAppointmentList(initialDataLoad,0).then(function (data) {
                                     addVS1Data('TAppointment', JSON.stringify(data)).then(function (datareturn) {
                                         window.open('/appointments', '_self');
                                     }).catch(function (err) {
@@ -5568,7 +5568,7 @@ Template.appointments.events({
                 if (oPost.readyState == 4 && oPost.status == 200) {
                     var myArrResponse = JSON.parse(oPost.responseText);
                     if (myArrResponse.ProcessLog.ResponseStatus.includes("OK")) {
-                        sideBarService.getAllAppointmentList().then(function (data) {
+                        sideBarService.getAllAppointmentList(initialDataLoad,0).then(function (data) {
                             addVS1Data('TAppointment', JSON.stringify(data)).then(function (datareturn) {
                                 window.open('/appointments', '_self');
                             }).catch(function (err) {
@@ -6687,7 +6687,7 @@ Template.appointments.events({
                                     }).indexOf(parseInt(result[0].id));
                                     appointmentData[index].isPaused = '';
                                     templateObject.appointmentrecords.set(appointmentData);
-                                    sideBarService.getAllAppointmentList().then(function (data) {
+                                    sideBarService.getAllAppointmentList(initialDataLoad,0).then(function (data) {
                                         addVS1Data('TAppointment', JSON.stringify(data)).then(function (datareturn) {
                                             $('.fullScreenSpin').css('display', 'none');
                                             swal({
@@ -6747,7 +6747,7 @@ Template.appointments.events({
                             })
                         } else {
                             appointmentService.saveAppointment(objectData1).then(function (data1) {
-                                sideBarService.getAllAppointmentList().then(function (data) {
+                                sideBarService.getAllAppointmentList(initialDataLoad,0).then(function (data) {
                                     addVS1Data('TAppointment', JSON.stringify(data)).then(function (datareturn) {
                                         $('.fullScreenSpin').css('display', 'none');
                                         swal({
@@ -6864,7 +6864,7 @@ Template.appointments.events({
                     };
 
                     appointmentService.saveAppointment(objectData1).then(function (data1) {
-                        sideBarService.getAllAppointmentList().then(function (data) {
+                        sideBarService.getAllAppointmentList(initialDataLoad,0).then(function (data) {
                             addVS1Data('TAppointment', JSON.stringify(data)).then(function (datareturn) {
                                 $('.fullScreenSpin').css('display', 'none');
                                 swal({
@@ -7098,7 +7098,7 @@ Template.appointments.events({
                 if (Object.keys(obj).length > 0) {
                     obj.fields.appointID = id;
                     appointmentService.saveTimeLog(obj).then(function (data1) {
-                        sideBarService.getAllAppointmentList().then(function (data) {
+                        sideBarService.getAllAppointmentList(initialDataLoad,0).then(function (data) {
                             addVS1Data('TAppointment', JSON.stringify(data)).then(function (datareturn) {
                                 window.open('/appointments', '_self');
                             }).catch(function (err) {
@@ -7109,7 +7109,7 @@ Template.appointments.events({
                         })
                     }).catch(function () {})
                 } else {
-                    sideBarService.getAllAppointmentList().then(function (data) {
+                    sideBarService.getAllAppointmentList(initialDataLoad,0).then(function (data) {
                         addVS1Data('TAppointment', JSON.stringify(data)).then(function (datareturn) {
                             window.open('/appointments', '_self');
                         }).catch(function (err) {
@@ -7272,7 +7272,7 @@ Template.appointments.events({
 
                     appointmentService.saveAppointment(objectData).then(function (data) {
                         $('#event-modal').modal('hide');
-                        sideBarService.getAllAppointmentList().then(function (dataList) {
+                        sideBarService.getAllAppointmentList(initialDataLoad,0).then(function (dataList) {
                             addVS1Data('TAppointment', JSON.stringify(dataList)).then(function (datareturn) {
                                 window.open('/appointments', '_self');
                             }).catch(function (err) {
@@ -7621,7 +7621,7 @@ Template.appointments.events({
 
                         appointmentService.saveTimeLog(objectData).then(function (data) {
                             appointmentService.saveAppointment(objectData1).then(function (data1) {
-                                sideBarService.getAllAppointmentList().then(function (data) {
+                                sideBarService.getAllAppointmentList(initialDataLoad,0).then(function (data) {
                                     addVS1Data('TAppointment', JSON.stringify(data)).then(function (datareturn) {
                                         window.open('/appointments', '_self');
                                     }).catch(function (err) {
@@ -7748,7 +7748,7 @@ Template.appointments.events({
                 };
 
                 appointmentService.saveAppointment(objectData).then(function (data) {
-                    sideBarService.getAllAppointmentList().then(function (data) {
+                    sideBarService.getAllAppointmentList(initialDataLoad,0).then(function (data) {
                         addVS1Data('TAppointment', JSON.stringify(data)).then(function (datareturn) {
                             window.open('/appointments', '_self');
                         }).catch(function (err) {
@@ -7967,7 +7967,7 @@ Template.appointments.events({
                         }
 
                         appointmentService.saveTimeLog(updateData).then(function (data) {
-                            sideBarService.getAllAppointmentList().then(function (data) {
+                            sideBarService.getAllAppointmentList(initialDataLoad,0).then(function (data) {
                                 addVS1Data('TAppointment', JSON.stringify(data)).then(function (datareturn) {
                                     let data = '';
                                     data = {
@@ -8013,7 +8013,7 @@ Template.appointments.events({
                         });
 
                     } else {
-                        sideBarService.getAllAppointmentList().then(function (data) {
+                        sideBarService.getAllAppointmentList(initialDataLoad,0).then(function (data) {
                             addVS1Data('TAppointment', JSON.stringify(data)).then(function (datareturn) {
                                 window.open('/appointments', '_self');
                             }).catch(function (err) {
@@ -8027,7 +8027,7 @@ Template.appointments.events({
                     window.open('/appointments', '_self');
                 })
             } else {
-                sideBarService.getAllAppointmentList().then(function (data) {
+                sideBarService.getAllAppointmentList(initialDataLoad,0).then(function (data) {
                     addVS1Data('TAppointment', JSON.stringify(data)).then(function (datareturn) {
                         window.open('/appointments', '_self');
                     }).catch(function (err) {

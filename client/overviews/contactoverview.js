@@ -617,7 +617,7 @@ Template.contactoverview.onRendered(function() {
       if(currentBeginDate.getDate() < 10){
           fromDateDay = "0" + currentBeginDate.getDate();
       }
-      var toDate = currentBeginDate.getFullYear()+ "-" +(fromDateMonth) + "-"+(fromDateDay+1);
+      var toDate = currentBeginDate.getFullYear()+ "-" +(fromDateMonth) + "-"+(fromDateDay);
       let prevMonth11Date = (moment().subtract(reportsloadMonths, 'months')).format("YYYY-MM-DD");
 
         getVS1Data('TERPCombinedContactsVS1').then(function (dataObject) {
@@ -791,7 +791,7 @@ Template.contactoverview.onRendered(function() {
                             // rowId: 0,
                             pageLength: 25,
                             "bLengthChange": false,
-                            lengthMenu: [ [10, 25, 50, -1], [10, 25, 50, "All"] ],
+                            lengthMenu: [ [25, -1], [25, "All"] ],
                             info: false,
                             responsive: true,
                             // "order": [[ 0, "asc" ]],
@@ -1054,7 +1054,7 @@ Template.contactoverview.onRendered(function() {
                         // rowId: 0,
                         pageLength: 25,
                         "bLengthChange": false,
-                        lengthMenu: [ [10, 25, 50, -1], [10, 25, 50, "All"] ],
+                        lengthMenu: [ [25, -1], [25, "All"] ],
                         info: false,
                         responsive: true,
                         // "order": [[ 0, "asc" ]],
@@ -1313,7 +1313,7 @@ Template.contactoverview.onRendered(function() {
                         // rowId: 0,
                         pageLength: 25,
                         "bLengthChange": false,
-                        lengthMenu: [ [10, 25, 50, -1], [10, 25, 50, "All"] ],
+                        lengthMenu: [ [25, -1], [25, "All"] ],
                         info: false,
                         responsive: true,
                         // "order": [[ 0, "asc" ]],
@@ -1457,7 +1457,7 @@ Template.contactoverview.events({
         if(currentBeginDate.getDate() < 10){
             fromDateDay = "0" + currentBeginDate.getDate();
         }
-        var toDate = currentBeginDate.getFullYear()+ "-" +(fromDateMonth) + "-"+(fromDateDay+1);
+        var toDate = currentBeginDate.getFullYear()+ "-" +(fromDateMonth) + "-"+(fromDateDay);
         let prevMonth11Date = (moment().subtract(reportsloadMonths, 'months')).format("YYYY-MM-DD");
         sideBarService.getAllContactCombineVS1(prevMonth11Date,toDate, false).then(function(data) {
             addVS1Data('TERPCombinedContactsVS1',JSON.stringify(data)).then(function (datareturn) {

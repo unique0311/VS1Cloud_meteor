@@ -116,6 +116,8 @@ Template.header.onRendered(function(){
               dataSelectID = data.tglobalsearchreport[i].SaleID;
             }else if(data.tglobalsearchreport[i].Type === "INV-BO"){
               dataSelectID = data.tglobalsearchreport[i].SaleID;
+            }else if(data.tglobalsearchreport[i].Type === "Account"){
+              dataSelectID = data.tglobalsearchreport[i].AccountsID;
             }
             var dataList = {
             catg: data.tglobalsearchreport[i].Catg || '',
@@ -174,7 +176,7 @@ Template.header.onRendered(function(){
                     },
 
                     pageLength: 25,
-                    lengthMenu: [ [10, 25, 50, -1], [10, 25, 50, "All"] ],
+                    lengthMenu: [ [25, -1], [25, "All"] ],
                     info: true,
                     responsive: true
 
@@ -219,6 +221,8 @@ Template.header.onRendered(function(){
              window.open('/refundcard?id=' + listData,'_self');
           }else if(transactiontype === 'INV-BO'){
              window.open('/invoicecard?id=' + listData,'_self');
+          }else if(transactiontype === 'Account'){
+             window.open('/accountsoverview?id=' + listData,'_self');
           }else{
 
           }

@@ -185,7 +185,7 @@ Template.customerawaitingpayments.onRendered(function () {
                             "scrollY": "400px",
                             "scrollCollapse": true,
                             // pageLength: 25,
-                            // lengthMenu: [ [10, 25, 50, -1], [10, 25, 50, "All"] ],
+                            // lengthMenu: [ [25, -1], [25, "All"] ],
                             info: true,
                             responsive: true,
                             "order": [[1, "desc"]],
@@ -381,7 +381,7 @@ Template.customerawaitingpayments.onRendered(function () {
                         "scrollY": "400px",
                         "scrollCollapse": true,
                         // pageLength: 25,
-                        // lengthMenu: [ [10, 25, 50, -1], [10, 25, 50, "All"] ],
+                        // lengthMenu: [ [25, -1], [25, "All"] ],
                         info: true,
                         responsive: true,
                         "order": [[1, "desc"]],
@@ -572,7 +572,7 @@ Template.customerawaitingpayments.onRendered(function () {
                         "scrollY": "400px",
                         "scrollCollapse": true,
                         // pageLength: 25,
-                        // lengthMenu: [ [10, 25, 50, -1], [10, 25, 50, "All"] ],
+                        // lengthMenu: [ [25, -1], [25, "All"] ],
                         info: true,
                         responsive: true,
                         "order": [[1, "desc"]],
@@ -971,28 +971,28 @@ Template.customerawaitingpayments.events({
 
                 }
                  _.map(groups, function (datacomb, key) {
-                
+
                     var result = [];
-                    
+
                     if (datacomb.length > 1) {
 
                     var resultSelect = [];
 
                      for (let y = 0; y < datacomb.length; y++) {
-                        
+
                         if(datacomb[y].customername == key){
                             resultSelect.push(datacomb[y].ids)
                         }
                      }
                     window.open('/paymentcard?selectcust=' + resultSelect.toString());
-        
+
                     }else{
                         if(datacomb[0].customername == key){
                         window.open('/paymentcard?selectcust=' + datacomb[0].ids);
                         }
                     }
-                   
-                            
+
+
                  });
             }
         }

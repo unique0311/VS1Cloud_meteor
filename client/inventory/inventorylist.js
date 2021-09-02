@@ -811,7 +811,7 @@ setTimeout(function () {
               // bStateSave: true,
               rowId: 0,
               pageLength: 25,
-              lengthMenu: [ [10, 25, 50, -1], [10, 25, 50, "All"] ],
+              lengthMenu: [ [25, -1], [25, "All"] ],
               info: true,
               responsive: true,
               "order": [[ 0, "asc" ]] ,
@@ -1319,22 +1319,22 @@ Template.inventorylist.helpers({
           let fromDateMonth = currentBeginDate.getMonth();
           let fromDateDay = currentBeginDate.getDate();
           if(currentBeginDate.getMonth() < 10){
-              fromDateMonth = "0" + (currentBeginDate.getMonth()+2);
+              fromDateMonth = "0" + (currentBeginDate.getMonth()+1);
           }else{
-            fromDateMonth = (currentBeginDate.getMonth()+2);
+            fromDateMonth = (currentBeginDate.getMonth()+1);
           }
 
           if(currentBeginDate.getDate() < 10){
               fromDateDay = "0" + currentBeginDate.getDate();
           }
-          var fromDate = currentBeginDate.getFullYear()+ "-" +(fromDateMonth) + "-"+(fromDateDay+1);
+          var fromDate = currentBeginDate.getFullYear()+ "-" +(fromDateMonth) + "-"+(fromDateDay);
           let prevMonth11Date = (moment().subtract(6, 'months')).format("YYYY-MM-DD");
           sideBarService.getProductStocknSaleReportData(prevMonth11Date,fromDate).then(function(data) {
               addVS1Data('TProductStocknSalePeriodReport',JSON.stringify(data));
           }).catch(function(err) {
 
           });
-          
+
           sideBarService.getNewProductListVS1(initialBaseDataLoad,0).then(function(data) {
             addVS1Data('TProductVS1',JSON.stringify(data)).then(function (datareturn) {
               window.open('/inventorylist','_self');

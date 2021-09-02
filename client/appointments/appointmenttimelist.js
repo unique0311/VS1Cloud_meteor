@@ -278,7 +278,7 @@ Template.appointmenttimelist.onRendered(function () {
     getVS1Data('TAppointment').then(function (dataObject) {
       let Hours = '';
       if (dataObject.length == 0) {
-        sideBarService.getAllAppointmentList().then(function (data) {
+        sideBarService.getAllAppointmentList(initialDataLoad,0).then(function (data) {
           // localStorage.setItem('VS1TReconcilationList', JSON.stringify(data)||'');
           let lineItems = [];
           let lineItemObj = {};
@@ -487,7 +487,7 @@ Template.appointmenttimelist.onRendered(function () {
               // bStateSave: true,
               // rowId: 0,
               pageLength: 25,
-              lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "All"]],
+              lengthMenu: [ [25, -1], [25, "All"] ],
               info: true,
               responsive: true,
               "order": [[0, "desc"]],
@@ -909,7 +909,7 @@ Template.appointmenttimelist.onRendered(function () {
           // bStateSave: true,
           // rowId: 0,
           pageLength: 25,
-          lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "All"]],
+          lengthMenu: [ [25, -1], [25, "All"] ],
           info: true,
           responsive: true,
           "order": [[8, "desc"]],
@@ -968,7 +968,7 @@ Template.appointmenttimelist.onRendered(function () {
       $('div.dataTables_filter input').addClass('form-control form-control-sm');
     }).catch(function (err) {
 
-      sideBarService.getAllAppointmentList().then(function (data) {
+      sideBarService.getAllAppointmentList(initialDataLoad,0).then(function (data) {
         // localStorage.setItem('VS1TReconcilationList', JSON.stringify(data)||'');
         let lineItems = [];
         let lineItemObj = {};
@@ -1134,7 +1134,7 @@ Template.appointmenttimelist.onRendered(function () {
             // bStateSave: true,
             // rowId: 0,
             pageLength: 25,
-            lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "All"]],
+            lengthMenu: [ [25, -1], [25, "All"] ],
             info: true,
             responsive: true,
             "order": [[0, "desc"]],
@@ -1220,7 +1220,7 @@ Template.appointmenttimelist.events({
   },
   'click .btnRefresh': function () {
     $('.fullScreenSpin').css('display', 'inline-block');
-    sideBarService.getAllAppointmentList().then(function (data) {
+    sideBarService.getAllAppointmentList(initialDataLoad,0).then(function (data) {
       addVS1Data('TAppointment', JSON.stringify(data)).then(function (datareturn) {
         location.reload(true);
       }).catch(function (err) {
@@ -1411,7 +1411,7 @@ Template.appointmenttimelist.events({
           appointmentService.saveAppointment(objectData).then(function (data) {
             $('.fullScreenSpin').css('display', 'none');
             $('#event-modal').modal('hide');
-            sideBarService.getAllAppointmentList().then(function (data) {
+            sideBarService.getAllAppointmentList(initialDataLoad,0).then(function (data) {
               addVS1Data('TAppointment', JSON.stringify(data)).then(function (datareturn) {
                 window.open('/appointmentlist', '_self');
               }).catch(function (err) {

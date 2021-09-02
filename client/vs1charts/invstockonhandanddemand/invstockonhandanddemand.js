@@ -76,9 +76,9 @@ Template.invstockonhandanddemand.onRendered(()=>{
     let fromDateMonth = currentBeginDate.getMonth();
     let fromDateDay = currentBeginDate.getDate();
     if(currentBeginDate.getMonth() < 10){
-        fromDateMonth = "0" + (currentBeginDate.getMonth()+2);
+        fromDateMonth = "0" + (currentBeginDate.getMonth()+1);
     }else{
-      fromDateMonth = (currentBeginDate.getMonth()+2);
+      fromDateMonth = (currentBeginDate.getMonth()+1);
     }
 
     if(currentBeginDate.getDate() < 10){

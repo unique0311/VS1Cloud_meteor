@@ -533,19 +533,22 @@ getCustomersDataByName(dataSearchName) {
       return this.getList(this.ERPObjects.TTransactionListReport, options);
   }
 
-  getAllAppointmentList(msTimeStamp){
+  getAllAppointmentList(limitcount, limitfrom){
     let options = '';
-    // if(msTimeStamp){
-    //    options = {
-    //       ListType: "Detail",
-    //       select: '[Active]=true and [MsTimeStamp]>"'+msTimeStamp+'"'
-    //     };
-    // }else{
+    if(limitcount == 'All'){
+       options = {
+          ListType: "Detail",
+          select: '[Active]=true'
+        };
+    }else{
       options = {
-         ListType: "Detail",
-         select: "[Active]=true"
+        orderby:'"AppointID desc"',
+        ListType: "Detail",
+        select: '[Active]=true',
+        LimitCount:'"'+limitcount+'"',
+        LimitFrom:'"'+limitfrom+'"'
      };
-    //}
+    }
 
       return this.getList(this.ERPObjects.TAppointment, options);
   }

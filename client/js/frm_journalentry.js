@@ -1130,7 +1130,7 @@ Template.journalentrycard.onRendered(function () {
 
 
                             pageLength: 25,
-                            lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "All"]],
+                            lengthMenu: [ [25, -1], [25, "All"] ],
                             info: true,
                             responsive: true
 
@@ -1195,7 +1195,7 @@ Template.journalentrycard.onRendered(function () {
 
 
                         pageLength: 25,
-                        lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "All"]],
+                        lengthMenu: [ [25, -1], [25, "All"] ],
                         info: true,
                         responsive: true
 
@@ -1254,7 +1254,7 @@ Template.journalentrycard.onRendered(function () {
 
 
                         pageLength: 25,
-                        lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "All"]],
+                        lengthMenu: [ [25, -1], [25, "All"] ],
                         info: true,
                         responsive: true
 

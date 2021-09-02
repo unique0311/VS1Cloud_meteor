@@ -393,7 +393,7 @@ Template.customerscard.onRendered(function () {
                             destroy: true,
                             colReorder: true,
                             pageLength: 25,
-                            lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "All"]],
+                            lengthMenu: [ [25, -1], [25, "All"] ],
                             info: true,
                             responsive: true,
                             "order": [[ 0, "desc" ],[ 2, "desc" ]],
@@ -632,7 +632,7 @@ Template.customerscard.onRendered(function () {
                         destroy: true,
                         colReorder: true,
                         pageLength: 25,
-                        lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "All"]],
+                        lengthMenu: [ [25, -1], [25, "All"] ],
                         info: true,
                         responsive: true,
                         "order": [[ 0, "desc" ],[ 2, "desc" ]],
@@ -869,7 +869,7 @@ Template.customerscard.onRendered(function () {
                         destroy: true,
                         colReorder: true,
                         pageLength: 25,
-                        lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "All"]],
+                        lengthMenu: [ [25, -1], [25, "All"] ],
                         info: true,
                         responsive: true,
                         "order": [[ 0, "desc" ],[ 2, "desc" ]],
@@ -1085,7 +1085,7 @@ Template.customerscard.onRendered(function () {
                             destroy: true,
                             colReorder: true,
                             pageLength: 25,
-                            lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "All"]],
+                            lengthMenu: [ [25, -1], [25, "All"] ],
                             info: true,
                             responsive: true,
                             "order": [[0, "asc"]],
@@ -1269,7 +1269,7 @@ Template.customerscard.onRendered(function () {
                         destroy: true,
                         colReorder: true,
                         pageLength: 25,
-                        lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "All"]],
+                        lengthMenu: [ [25, -1], [25, "All"] ],
                         info: true,
                         responsive: true,
                         "order": [[0, "asc"]],
@@ -1449,7 +1449,7 @@ Template.customerscard.onRendered(function () {
                         destroy: true,
                         colReorder: true,
                         pageLength: 25,
-                        lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "All"]],
+                        lengthMenu: [ [25, -1], [25, "All"] ],
                         info: true,
                         responsive: true,
                         "order": [[0, "asc"]],
@@ -3182,7 +3182,7 @@ Template.customerscard.events({
         let custField2 = $('#edtCustomeField2').val();
         let custField3 = $('#edtCustomeField3').val();
         let custField4 = $('#edtCustomeField4').val();
-        let customerType = $('#sltCustomerType').children("option:selected").val();
+        let customerType = $('#sltCustomerType').val()||'';
         let uploadedItems = templateObject.uploadedFiles.get();
 
         var url = FlowRouter.current().path;

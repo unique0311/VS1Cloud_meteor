@@ -354,7 +354,7 @@ Template.bankingoverview.onRendered(function() {
       if(currentBeginDate.getDate() < 10){
           fromDateDay = "0" + currentBeginDate.getDate();
       }
-      var toDate = currentBeginDate.getFullYear()+ "-" +(fromDateMonth) + "-"+(fromDateDay+1);
+      var toDate = currentBeginDate.getFullYear()+ "-" +(fromDateMonth) + "-"+(fromDateDay);
       let prevMonth11Date = (moment().subtract(reportsloadMonths, 'months')).format("YYYY-MM-DD");
 
         getVS1Data('TBankAccountReport').then(function(dataObject) {
@@ -1245,7 +1245,7 @@ Template.bankingoverview.events({
       if(currentBeginDate.getDate() < 10){
           fromDateDay = "0" + currentBeginDate.getDate();
       }
-      var toDate = currentBeginDate.getFullYear()+ "-" +(fromDateMonth) + "-"+(fromDateDay+1);
+      var toDate = currentBeginDate.getFullYear()+ "-" +(fromDateMonth) + "-"+(fromDateDay);
       let prevMonth11Date = (moment().subtract(reportsloadMonths, 'months')).format("YYYY-MM-DD");
         $('.fullScreenSpin').css('display', 'inline-block');
         let templateObject = Template.instance();

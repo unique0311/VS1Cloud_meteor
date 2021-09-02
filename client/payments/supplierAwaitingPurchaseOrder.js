@@ -931,7 +931,7 @@ Template.supplierawaitingpurchaseorder.events({
         if(currentBeginDate.getDate() < 10){
             fromDateDay = "0" + currentBeginDate.getDate();
         }
-        var toDate = currentBeginDate.getFullYear()+ "-" +(fromDateMonth) + "-"+(fromDateDay+1);
+        var toDate = currentBeginDate.getFullYear()+ "-" +(fromDateMonth) + "-"+(fromDateDay);
         let prevMonth11Date = (moment().subtract(reportsloadMonths, 'months')).format("YYYY-MM-DD");
 
         sideBarService.getAllPurchaseOrderListAll(prevMonth11Date,toDate, false).then(function (data) {
@@ -1063,7 +1063,7 @@ Template.supplierawaitingpurchaseorder.events({
                 }
 
                     _.map(groups, function (datacomb, key) {
-                    
+
                     if (datacomb.length > 1) {
 
                     var resultSelect = [];
@@ -1071,9 +1071,9 @@ Template.supplierawaitingpurchaseorder.events({
                     var resultPO = [];
                     var resultBill = [];
                     var resultCredit = [];
-                    
+
                      for (let y = 0; y < datacomb.length; y++) {
-                        
+
                         if(datacomb[y].customername == key){
                             if (datacomb[y].type === "Purchase Order") {
                                 resultPO.push(datacomb[y].ids);
@@ -1085,7 +1085,7 @@ Template.supplierawaitingpurchaseorder.events({
                         }
                      }
                      window.open('/supplierpaymentcard?selectsupppo=' + resultPO + '&selectsuppbill=' + resultBill + '&selectsuppcredit=' + resultCredit);
-        
+
                     }else{
                     var result = [];
                     var resultPO = [];
@@ -1102,8 +1102,8 @@ Template.supplierawaitingpurchaseorder.events({
                           window.open('/supplierpaymentcard?selectsupppo=' + resultPO + '&selectsuppbill=' + resultBill + '&selectsuppcredit=' + resultCredit);
                         }
                     }
-                   
-                            
+
+
                  });
 
             }

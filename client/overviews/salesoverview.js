@@ -99,7 +99,7 @@ Template.salesoverview.onRendered(function() {
       if(currentBeginDate.getDate() < 10){
           fromDateDay = "0" + currentBeginDate.getDate();
       }
-      var toDate = currentBeginDate.getFullYear()+ "-" +(fromDateMonth) + "-"+(fromDateDay+1);
+      var toDate = currentBeginDate.getFullYear()+ "-" +(fromDateMonth) + "-"+(fromDateDay);
       let prevMonth11Date = (moment().subtract(reportsloadMonths, 'months')).format("YYYY-MM-DD");
 
 
@@ -242,7 +242,7 @@ Template.salesoverview.onRendered(function() {
                             pageLength: 25,
                           "bLengthChange": false,
                             searching: false,
-                            lengthMenu: [ [10, 25, 50, -1], [10, 25, 50, "All"] ],
+                            lengthMenu: [ [25, -1], [25, "All"] ],
                             info: true,
                             responsive: true,
                             "order": [[ 0, "desc" ],[ 2, "desc" ]],
@@ -450,7 +450,7 @@ Template.salesoverview.onRendered(function() {
                         pageLength: 25,
                       "bLengthChange": false,
                         searching: false,
-                        lengthMenu: [ [10, 25, 50, -1], [10, 25, 50, "All"] ],
+                        lengthMenu: [ [25, -1], [25, "All"] ],
                         info: true,
                         responsive: true,
                         "order": [[ 0, "desc" ],[ 2, "desc" ]],
@@ -644,7 +644,7 @@ Template.salesoverview.onRendered(function() {
                         pageLength: 25,
                       "bLengthChange": false,
                         searching: false,
-                        lengthMenu: [ [10, 25, 50, -1], [10, 25, 50, "All"] ],
+                        lengthMenu: [ [25, -1], [25, "All"] ],
                         info: true,
                         responsive: true,
                         "order": [[ 0, "desc" ],[ 2, "desc" ]],
@@ -777,7 +777,7 @@ Template.salesoverview.events({
         if(currentBeginDate.getDate() < 10){
             fromDateDay = "0" + currentBeginDate.getDate();
         }
-        var toDate = currentBeginDate.getFullYear()+ "-" +(fromDateMonth) + "-"+(fromDateDay+1);
+        var toDate = currentBeginDate.getFullYear()+ "-" +(fromDateMonth) + "-"+(fromDateDay);
         let prevMonth11Date = (moment().subtract(reportsloadMonths, 'months')).format("YYYY-MM-DD");
 
         sideBarService.getSalesListData(prevMonth11Date,toDate, false).then(function(data) {
