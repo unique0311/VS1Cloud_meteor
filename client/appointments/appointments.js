@@ -55,8 +55,7 @@ Template.appointments.onCreated(function () {
 });
 
 Template.appointments.onRendered(function () {
-    let seeOwnAllocations = Session.get('CloudAppointmentSeeOwnAllocationsOnly') || false;
-    let seeOwnAppointments = Session.get('CloudAppointmentSeeOwnAllocationsOnly') || false;
+    let seeOwnAppointments = Session.get('CloudAppointmentSeeOwnAppointmentsOnly') || false;
     let templateObject = Template.instance();
     let contactService = new ContactService();
     let productService = new ProductService();
@@ -1326,7 +1325,7 @@ Template.appointments.onRendered(function () {
                             randomColor = randomColor + '6';
                         }
                         let selectedColor = '#' + randomColor;
-                        if (seeOwnAllocations == true || seeOwnAppointments == true) {
+                        if (seeOwnAppointments == true) {
                             if (data.temployee[i].fields.EmployeeName == Session.get('mySessionEmployee')) {
                                 var dataList = {
                                     id: data.temployee[i].fields.ID || '',
@@ -1400,7 +1399,7 @@ Template.appointments.onRendered(function () {
                         contactService.saveEmployeeEx(objDetails).then(function (data) {});
                     }
 
-                    if (seeOwnAllocations == true || seeOwnAppointments == true) {
+                    if (seeOwnAppointments == true) {
                         if (useData[i].fields.EmployeeName == Session.get('mySessionEmployee')) {
                             var dataList = {
                                 id: useData[i].fields.ID || '',
@@ -1456,7 +1455,7 @@ Template.appointments.onRendered(function () {
                         randomColor = randomColor + '6';
                     }
                     let selectedColor = '#' + randomColor;
-                    if (seeOwnAllocations == true || seeOwnAppointments == true) {
+                    if (seeOwnAppointments == true) {
                         if (data.temployee[i].fields.EmployeeName == Session.get('mySessionEmployee')) {
                             var dataList = {
                                 id: data.temployee[i].fields.ID || '',
@@ -1653,7 +1652,7 @@ Template.appointments.onRendered(function () {
                             description: data.tappointmentex[i].fields.Notes || '',
                             color: appColor
                         };
-                        if (seeOwnAllocations == true || seeOwnAppointments == true) {
+                        if (seeOwnAppointments == true) {
                             if (data.tappointmentex[i].fields.TrainerName == Session.get('mySessionEmployee')) {
                                 eventData.push(dataList);
                                 appointmentList.push(appointment)
@@ -1902,7 +1901,7 @@ Template.appointments.onRendered(function () {
 
                         if (resourceChat.length > 0) {
                             if (date >= startWeek && date <= endWeek) {
-                                if (seeOwnAllocations == true || seeOwnAppointments == true) {
+                                if (seeOwnAppointments == true) {
                                     if (useData[t].fields.TrainerName == Session.get('mySessionEmployee')) {
                                         let found = resourceChat.some(emp => emp.employeeName == data.tappointmentex[t].fields.TrainerName);
                                         if (!found) {
@@ -1977,7 +1976,7 @@ Template.appointments.onRendered(function () {
                             }
                         } else {
                             if (date >= startWeek && date <= endWeek) {
-                                if (seeOwnAllocations == true || seeOwnAppointments == true) {
+                                if (seeOwnAppointments == true) {
                                     if (useData[t].fields.TrainerName == Session.get('mySessionEmployee')) {
                                         resourceColor = resourceColor = templateObject.employeerecords.get();
 
@@ -2525,7 +2524,7 @@ Template.appointments.onRendered(function () {
                         description: useData[i].fields.Notes || '',
                         color: appColor
                     };
-                    if (seeOwnAllocations == true || seeOwnAppointments == true) {
+                    if ( seeOwnAppointments == true) {
                         if (useData[i].fields.TrainerName == Session.get('mySessionEmployee')) {
                             eventData.push(dataList);
                             appointmentList.push(appointment)
@@ -2770,7 +2769,7 @@ Template.appointments.onRendered(function () {
                     weekDay = moment(useData[t].fields.StartTime.split(' ')[0]).format('dddd');
                     if (resourceChat.length > 0) {
                         if (date >= startWeek && date <= endWeek) {
-                            if (seeOwnAllocations == true || seeOwnAppointments == true) {
+                            if ( seeOwnAppointments == true) {
                                 if (useData[t].fields.TrainerName == Session.get('mySessionEmployee')) {
                                     let found = resourceChat.some(emp => emp.employeeName == useData[t].fields.TrainerName);
                                     if (!found) {
@@ -2847,7 +2846,7 @@ Template.appointments.onRendered(function () {
                     } else {
 
                         if (date >= startWeek && date <= endWeek) {
-                            if (seeOwnAllocations == true || seeOwnAppointments == true) {
+                            if ( seeOwnAppointments == true) {
                                 if (useData[t].fields.TrainerName == Session.get('mySessionEmployee')) {
                                     resourceColor = resourceColor = templateObject.employeerecords.get();
                                     let employeeColor = '#00a3d3';
@@ -3135,7 +3134,7 @@ Template.appointments.onRendered(function () {
                         description: data.tappointmentex[i].fields.Notes || '',
                         color: appColor
                     };
-                    if (seeOwnAllocations == true || seeOwnAppointments == true) {
+                    if ( seeOwnAppointments == true) {
                         if (data.tappointmentex[i].fields.TrainerName == Session.get('mySessionEmployee')) {
                             eventData.push(dataList);
                             appointmentList.push(appointment)
@@ -3384,7 +3383,7 @@ Template.appointments.onRendered(function () {
 
                     if (resourceChat.length > 0) {
                         if (date >= startWeek && date <= endWeek) {
-                            if (seeOwnAllocations == true || seeOwnAppointments == true) {
+                            if ( seeOwnAppointments == true) {
                                 if (useData[t].fields.TrainerName == Session.get('mySessionEmployee')) {
                                     let found = resourceChat.some(emp => emp.employeeName == data.tappointmentex[t].fields.TrainerName);
                                     if (!found) {
@@ -3459,7 +3458,7 @@ Template.appointments.onRendered(function () {
                         }
                     } else {
                         if (date >= startWeek && date <= endWeek) {
-                            if (seeOwnAllocations == true || seeOwnAppointments == true) {
+                            if ( seeOwnAppointments == true) {
                                 if (useData[t].fields.TrainerName == Session.get('mySessionEmployee')) {
                                     resourceColor = resourceColor = templateObject.employeerecords.get();
 
@@ -5865,7 +5864,7 @@ Template.appointments.events({
                 let date = new Date(changeAppointmentView[a].startDate.split(' ')[0]);
                 if (resourceChat.length > 0) {
                     if (date >= startWeek && date <= endWeek) {
-                        if (seeOwnAllocations == true || seeOwnAppointments == true) {
+                        if ( seeOwnAppointments == true) {
                             if (changeAppointmentView[a].employeename == Session.get('mySessionEmployee')) {
                                 let found = resourceChat.some(emp => emp.employeeName == changeAppointmentView[a].employeename);
                                 if (!found) {
@@ -5935,7 +5934,7 @@ Template.appointments.events({
                     }
                 } else {
                     if (date >= startWeek && date <= endWeek) {
-                        if (seeOwnAllocations == true || seeOwnAppointments == true) {
+                        if ( seeOwnAppointments == true) {
                             if (changeAppointmentView[a].employeename == Session.get('mySessionEmployee')) {
                                 resourceColor = templateObject.employeerecords.get();
 
@@ -6261,7 +6260,7 @@ Template.appointments.events({
 
                 if (resourceChat.length > 0) {
                     if (date >= startWeek && date <= endWeek) {
-                        if (seeOwnAllocations == true || seeOwnAppointments == true) {
+                        if ( seeOwnAppointments == true) {
                             if (changeAppointmentView[a].employeename == Session.get('mySessionEmployee')) {
                                 let found = resourceChat.some(emp => emp.employeeName == changeAppointmentView[a].employeename);
                                 if (!found) {
@@ -6334,7 +6333,7 @@ Template.appointments.events({
                 } else {
                     if (date >= startWeek && date <= endWeek) {
 
-                        if (seeOwnAllocations == true || seeOwnAppointments == true) {
+                        if ( seeOwnAppointments == true) {
                             if (changeAppointmentView[a].employeename == Session.get('mySessionEmployee')) {
                                 resourceColor = templateObject.employeerecords.get();
 
