@@ -62,6 +62,10 @@ Template.appointmentlist.onRendered(function () {
         });
     };
 
+    templateObject.resetData = function (dataVal) {
+      window.open('/appointmentlist?page=last','_self');
+    }
+
     templateObject.getAllProductData = function () {
         productList = [];
         getVS1Data('TProductVS1').then(function (dataObject) {
@@ -434,6 +438,83 @@ Template.appointmentlist.onRendered(function () {
                       }).on('column-reorder', function () {
 
                       }).on('length.dt', function (e, settings, len) {
+                        $('.fullScreenSpin').css('display','inline-block');
+                        let dataLenght = settings._iDisplayLength;
+                        if(dataLenght == -1){
+                          sideBarService.getAllAppointmentList('All',1).then(function(data) {
+                            let lineItems = [];
+                             let lineItemObj = {};
+
+                             for (let i = 0; i < data.tappointmentex.length; i++) {
+
+                                if (data.tappointmentex[i].fields.Status == "Converted" || data.tappointmentex[i].fields.Status == "Completed") {
+                                    color = "#1cc88a";
+                                } else {
+                                    color = "#f6c23e";
+                                }
+                                var dataList = {
+                                    id: data.tappointmentex[i].fields.ID || '',
+                                    sortdate: data.tappointmentex[i].fields.CreationDate != '' ? moment(data.tappointmentex[i].fields.CreationDate).format("YYYY/MM/DD") : data.tappointmentex[i].fields.CreationDate,
+                                    appointmentdate: data.tappointmentex[i].fields.CreationDate != '' ? moment(data.tappointmentex[i].fields.CreationDate).format("DD/MM/YYYY") : data.tappointmentex[i].fields.CreationDate,
+                                    accountname: data.tappointmentex[i].fields.ClientName || '',
+                                    statementno: data.tappointmentex[i].fields.TrainerName || '',
+                                    employeename: data.tappointmentex[i].fields.TrainerName || '',
+                                    department: data.tappointmentex[i].fields.DeptClassName || '',
+                                    phone: data.tappointmentex[i].fields.Phone || '',
+                                    mobile: data.tappointmentex[i].fields.ClientMobile || '',
+                                    suburb: data.tappointmentex[i].fields.Suburb || '',
+                                    street: data.tappointmentex[i].fields.Street || '',
+                                    state: data.tappointmentex[i].fields.State || '',
+                                    country: data.tappointmentex[i].fields.Country || '',
+                                    zip: data.tappointmentex[i].fields.Postcode || '',
+                                    startTime: data.tappointmentex[i].fields.StartTime.split(' ')[1] || '',
+                                    timeStart: moment(data.tappointmentex[i].fields.StartTime).format('h:mm a'),
+                                    timeEnd: moment(data.tappointmentex[i].fields.EndTime).format('h:mm a'),
+                                    totalHours: data.tappointmentex[i].fields.TotalHours || 0,
+                                    endTime: data.tappointmentex[i].fields.EndTime.split(' ')[1] || '',
+                                    startDate: data.tappointmentex[i].fields.StartTime || '',
+                                    endDate: data.tappointmentex[i].fields.EndTime || '',
+                                    frmDate: moment(data.tappointmentex[i].fields.StartTime).format('dddd') + ', ' + moment(data.tappointmentex[i].fields.StartTime).format('DD'),
+                                    toDate: moment(data.tappointmentex[i].fields.endTime).format('dddd') + ', ' + moment(data.tappointmentex[i].fields.endTime).format('DD'),
+                                    fromDate: data.tappointmentex[i].fields.Actual_EndTime != '' ? moment(data.tappointmentex[i].fields.Actual_EndTime).format("DD/MM/YYYY") : data.tappointmentex[i].fields.Actual_EndTime,
+                                    openbalance: data.tappointmentex[i].fields.Actual_EndTime || '',
+                                    aStartTime: data.tappointmentex[i].fields.Actual_StartTime.split(' ')[1] || '',
+                                    aEndTime: data.tappointmentex[i].fields.Actual_EndTime.split(' ')[1] || '',
+                                    actualHours: '',
+                                    closebalance: '',
+                                    product: data.tappointmentex[i].fields.ProductDesc || '',
+                                    finished: data.tappointmentex[i].fields.Status || '',
+                                    notes: data.tappointmentex[i].fields.Notes || '',
+                                    color: color
+                                };
+                                dataTableList.push(dataList);
+
+                            }
+
+                            templateObject.datatablerecords.set(dataTableList);
+
+                                $('.dataTables_info').html('Showing 1 to '+data.tappointmentex.length+ ' of ' +data.tinvoiceex.length+ ' entries');
+                                $('.fullScreenSpin').css('display','none');
+
+                          }).catch(function(err) {
+                            $('.fullScreenSpin').css('display','none');
+                          });
+                         //}
+                        }else{
+                          if (settings.fnRecordsDisplay() >= settings._iDisplayLength) {
+                            $('.fullScreenSpin').css('display','none');
+                          }else{
+                            sideBarService.getAllAppointmentList(dataLenght,0).then(function (dataNonBo) {
+                              addVS1Data('TAppointment',JSON.stringify(dataNonBo)).then(function (datareturn) {
+                              templateObject.resetData(dataNonBo);
+                              }).catch(function (err) {
+                              $('.fullScreenSpin').css('display','none');
+                              });
+                            }).catch(function(err) {
+                              $('.fullScreenSpin').css('display','none');
+                            });
+                          }
+                        }
                           setTimeout(function () {
                               MakeNegative();
                           }, 100);
@@ -630,6 +711,83 @@ Template.appointmentlist.onRendered(function () {
                     }).on('column-reorder', function () {
 
                     }).on('length.dt', function (e, settings, len) {
+                      $('.fullScreenSpin').css('display','inline-block');
+                      let dataLenght = settings._iDisplayLength;
+                      if(dataLenght == -1){
+                        sideBarService.getAllAppointmentList('All',1).then(function(data) {
+                          let lineItems = [];
+                           let lineItemObj = {};
+
+                           for (let i = 0; i < data.tappointmentex.length; i++) {
+
+                              if (data.tappointmentex[i].fields.Status == "Converted" || data.tappointmentex[i].fields.Status == "Completed") {
+                                  color = "#1cc88a";
+                              } else {
+                                  color = "#f6c23e";
+                              }
+                              var dataList = {
+                                  id: data.tappointmentex[i].fields.ID || '',
+                                  sortdate: data.tappointmentex[i].fields.CreationDate != '' ? moment(data.tappointmentex[i].fields.CreationDate).format("YYYY/MM/DD") : data.tappointmentex[i].fields.CreationDate,
+                                  appointmentdate: data.tappointmentex[i].fields.CreationDate != '' ? moment(data.tappointmentex[i].fields.CreationDate).format("DD/MM/YYYY") : data.tappointmentex[i].fields.CreationDate,
+                                  accountname: data.tappointmentex[i].fields.ClientName || '',
+                                  statementno: data.tappointmentex[i].fields.TrainerName || '',
+                                  employeename: data.tappointmentex[i].fields.TrainerName || '',
+                                  department: data.tappointmentex[i].fields.DeptClassName || '',
+                                  phone: data.tappointmentex[i].fields.Phone || '',
+                                  mobile: data.tappointmentex[i].fields.ClientMobile || '',
+                                  suburb: data.tappointmentex[i].fields.Suburb || '',
+                                  street: data.tappointmentex[i].fields.Street || '',
+                                  state: data.tappointmentex[i].fields.State || '',
+                                  country: data.tappointmentex[i].fields.Country || '',
+                                  zip: data.tappointmentex[i].fields.Postcode || '',
+                                  startTime: data.tappointmentex[i].fields.StartTime.split(' ')[1] || '',
+                                  timeStart: moment(data.tappointmentex[i].fields.StartTime).format('h:mm a'),
+                                  timeEnd: moment(data.tappointmentex[i].fields.EndTime).format('h:mm a'),
+                                  totalHours: data.tappointmentex[i].fields.TotalHours || 0,
+                                  endTime: data.tappointmentex[i].fields.EndTime.split(' ')[1] || '',
+                                  startDate: data.tappointmentex[i].fields.StartTime || '',
+                                  endDate: data.tappointmentex[i].fields.EndTime || '',
+                                  frmDate: moment(data.tappointmentex[i].fields.StartTime).format('dddd') + ', ' + moment(data.tappointmentex[i].fields.StartTime).format('DD'),
+                                  toDate: moment(data.tappointmentex[i].fields.endTime).format('dddd') + ', ' + moment(data.tappointmentex[i].fields.endTime).format('DD'),
+                                  fromDate: data.tappointmentex[i].fields.Actual_EndTime != '' ? moment(data.tappointmentex[i].fields.Actual_EndTime).format("DD/MM/YYYY") : data.tappointmentex[i].fields.Actual_EndTime,
+                                  openbalance: data.tappointmentex[i].fields.Actual_EndTime || '',
+                                  aStartTime: data.tappointmentex[i].fields.Actual_StartTime.split(' ')[1] || '',
+                                  aEndTime: data.tappointmentex[i].fields.Actual_EndTime.split(' ')[1] || '',
+                                  actualHours: '',
+                                  closebalance: '',
+                                  product: data.tappointmentex[i].fields.ProductDesc || '',
+                                  finished: data.tappointmentex[i].fields.Status || '',
+                                  notes: data.tappointmentex[i].fields.Notes || '',
+                                  color: color
+                              };
+                              dataTableList.push(dataList);
+
+                          }
+
+                          templateObject.datatablerecords.set(dataTableList);
+
+                              $('.dataTables_info').html('Showing 1 to '+data.tappointmentex.length+ ' of ' +data.tappointmentex.length+ ' entries');
+                              $('.fullScreenSpin').css('display','none');
+
+                        }).catch(function(err) {
+                          $('.fullScreenSpin').css('display','none');
+                        });
+                       //}
+                      }else{
+                        if (settings.fnRecordsDisplay() >= settings._iDisplayLength) {
+                          $('.fullScreenSpin').css('display','none');
+                        }else{
+                          sideBarService.getAllAppointmentList(dataLenght,0).then(function (dataNonBo) {
+                            addVS1Data('TAppointment',JSON.stringify(dataNonBo)).then(function (datareturn) {
+                            templateObject.resetData(dataNonBo);
+                            }).catch(function (err) {
+                            $('.fullScreenSpin').css('display','none');
+                            });
+                          }).catch(function(err) {
+                            $('.fullScreenSpin').css('display','none');
+                          });
+                        }
+                      }
                         setTimeout(function () {
                             MakeNegative();
                         }, 100);
@@ -821,6 +979,83 @@ Template.appointmentlist.onRendered(function () {
                     }).on('column-reorder', function () {
 
                     }).on('length.dt', function (e, settings, len) {
+                      $('.fullScreenSpin').css('display','inline-block');
+                      let dataLenght = settings._iDisplayLength;
+                      if(dataLenght == -1){
+                        sideBarService.getAllAppointmentList('All',1).then(function(data) {
+                          let lineItems = [];
+                           let lineItemObj = {};
+
+                           for (let i = 0; i < data.tappointmentex.length; i++) {
+
+                              if (data.tappointmentex[i].fields.Status == "Converted" || data.tappointmentex[i].fields.Status == "Completed") {
+                                  color = "#1cc88a";
+                              } else {
+                                  color = "#f6c23e";
+                              }
+                              var dataList = {
+                                  id: data.tappointmentex[i].fields.ID || '',
+                                  sortdate: data.tappointmentex[i].fields.CreationDate != '' ? moment(data.tappointmentex[i].fields.CreationDate).format("YYYY/MM/DD") : data.tappointmentex[i].fields.CreationDate,
+                                  appointmentdate: data.tappointmentex[i].fields.CreationDate != '' ? moment(data.tappointmentex[i].fields.CreationDate).format("DD/MM/YYYY") : data.tappointmentex[i].fields.CreationDate,
+                                  accountname: data.tappointmentex[i].fields.ClientName || '',
+                                  statementno: data.tappointmentex[i].fields.TrainerName || '',
+                                  employeename: data.tappointmentex[i].fields.TrainerName || '',
+                                  department: data.tappointmentex[i].fields.DeptClassName || '',
+                                  phone: data.tappointmentex[i].fields.Phone || '',
+                                  mobile: data.tappointmentex[i].fields.ClientMobile || '',
+                                  suburb: data.tappointmentex[i].fields.Suburb || '',
+                                  street: data.tappointmentex[i].fields.Street || '',
+                                  state: data.tappointmentex[i].fields.State || '',
+                                  country: data.tappointmentex[i].fields.Country || '',
+                                  zip: data.tappointmentex[i].fields.Postcode || '',
+                                  startTime: data.tappointmentex[i].fields.StartTime.split(' ')[1] || '',
+                                  timeStart: moment(data.tappointmentex[i].fields.StartTime).format('h:mm a'),
+                                  timeEnd: moment(data.tappointmentex[i].fields.EndTime).format('h:mm a'),
+                                  totalHours: data.tappointmentex[i].fields.TotalHours || 0,
+                                  endTime: data.tappointmentex[i].fields.EndTime.split(' ')[1] || '',
+                                  startDate: data.tappointmentex[i].fields.StartTime || '',
+                                  endDate: data.tappointmentex[i].fields.EndTime || '',
+                                  frmDate: moment(data.tappointmentex[i].fields.StartTime).format('dddd') + ', ' + moment(data.tappointmentex[i].fields.StartTime).format('DD'),
+                                  toDate: moment(data.tappointmentex[i].fields.endTime).format('dddd') + ', ' + moment(data.tappointmentex[i].fields.endTime).format('DD'),
+                                  fromDate: data.tappointmentex[i].fields.Actual_EndTime != '' ? moment(data.tappointmentex[i].fields.Actual_EndTime).format("DD/MM/YYYY") : data.tappointmentex[i].fields.Actual_EndTime,
+                                  openbalance: data.tappointmentex[i].fields.Actual_EndTime || '',
+                                  aStartTime: data.tappointmentex[i].fields.Actual_StartTime.split(' ')[1] || '',
+                                  aEndTime: data.tappointmentex[i].fields.Actual_EndTime.split(' ')[1] || '',
+                                  actualHours: '',
+                                  closebalance: '',
+                                  product: data.tappointmentex[i].fields.ProductDesc || '',
+                                  finished: data.tappointmentex[i].fields.Status || '',
+                                  notes: data.tappointmentex[i].fields.Notes || '',
+                                  color: color
+                              };
+                              dataTableList.push(dataList);
+
+                          }
+
+                          templateObject.datatablerecords.set(dataTableList);
+
+                              $('.dataTables_info').html('Showing 1 to '+data.tappointmentex.length+ ' of ' +data.tappointmentex.length+ ' entries');
+                              $('.fullScreenSpin').css('display','none');
+
+                        }).catch(function(err) {
+                          $('.fullScreenSpin').css('display','none');
+                        });
+                       //}
+                      }else{
+                        if (settings.fnRecordsDisplay() >= settings._iDisplayLength) {
+                          $('.fullScreenSpin').css('display','none');
+                        }else{
+                          sideBarService.getAllAppointmentList(dataLenght,0).then(function (dataNonBo) {
+                            addVS1Data('TAppointment',JSON.stringify(dataNonBo)).then(function (datareturn) {
+                            templateObject.resetData(dataNonBo);
+                            }).catch(function (err) {
+                            $('.fullScreenSpin').css('display','none');
+                            });
+                          }).catch(function(err) {
+                            $('.fullScreenSpin').css('display','none');
+                          });
+                        }
+                      }
                         setTimeout(function () {
                             MakeNegative();
                         }, 100);
