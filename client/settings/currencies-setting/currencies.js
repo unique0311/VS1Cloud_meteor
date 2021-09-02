@@ -323,7 +323,7 @@ Template.currenciesSettings.onRendered(function() {
               paging: false,
               "scrollY": "400px",
               "scrollCollapse": true,
-              lengthMenu: [ [10, 25, 50, -1], [10, 25, 50, "All"] ],
+              lengthMenu: [ [25, -1], [25, "All"] ],
               info: true,
               responsive: true,
               "order": [[ 0, "asc" ]],
@@ -763,7 +763,7 @@ Template.currenciesSettings.events({
       let columnDataValue = $(event.target).closest("div").prev().find(".divcolumn").text();
       var datable = $('#currencyLists th');
       $.each(datable, function(i,v) {
-        
+
       if(v.innerText == columnDataValue){
           let className = v.className;
           let replaceClass = className.replace(/ /g, ".");
@@ -776,7 +776,7 @@ Template.currenciesSettings.events({
     'click .btnOpenSettings' : function(event){
       let templateObject = Template.instance();
       var columns = $('#currencyLists th');
-      
+
       const tableHeaderList = [];
       let sTible = "";
       let sWidth = "";
@@ -792,7 +792,7 @@ Template.currenciesSettings.events({
           columVisible = false;
         }
         sWidth = v.style.width.replace('px', "");
-        
+
         let datatablerecordObj = {
           sTitle: v.innerText || '',
           sWidth: sWidth || '',
@@ -982,7 +982,7 @@ Template.currenciesSettings.events({
     };
    }
 
-   
+
     taxRateService.saveCurrency(objDetails).then(function (objDetails) {
       sideBarService.getCurrencies().then(function(dataReload) {
             addVS1Data('TCurrency',JSON.stringify(dataReload)).then(function (datareturn) {

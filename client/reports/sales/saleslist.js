@@ -36,7 +36,7 @@ yearRange: "-90:+10",
       let lineItems = [];
       let lineItemObj = {};
       localStorage.setItem('VS1Sales_List', JSON.stringify(data)||'');
-      
+
       for(let i=0; i<data.tsalesorder.length; i++){
         let totalAmount = Currency+''+data.tsalesorder[i].TotalAmount.toFixed(2);
            var dataList = [
@@ -74,7 +74,7 @@ yearRange: "-90:+10",
           // scrollX: 1000,
           rowId: 0,
           pageLength: 25,
-          lengthMenu: [ [10, 25, 50, -1], [10, 25, 50, "All"] ],
+          lengthMenu: [ [25, -1], [25, "All"] ],
           info: true,
           responsive: true
             });
@@ -103,7 +103,7 @@ $('.fullScreenSpin').css('display','none');
     let lineItems = [];
     let lineItemObj = {};
 
-    
+
     for(let i=0; i<data.tsalesorder.length; i++){
       let totalAmount = Currency+''+data.tsalesorder[i].TotalAmount.toFixed(2);
          var dataList = [
@@ -141,7 +141,7 @@ $('.fullScreenSpin').css('display','none');
         // scrollX: 1000,
         rowId: 0,
         pageLength: 25,
-        lengthMenu: [ [10, 25, 50, -1], [10, 25, 50, "All"] ],
+        lengthMenu: [ [25, -1], [25, "All"] ],
         info: true,
         responsive: true
           });

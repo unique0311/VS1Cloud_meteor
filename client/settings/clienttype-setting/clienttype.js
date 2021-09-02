@@ -177,7 +177,7 @@ Template.clienttypesettings.onRendered(function () {
                             // bStateSave: true,
                             // rowId: 0,
                             pageLength: 25,
-                            lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "All"]],
+                            lengthMenu: [ [25, -1], [25, "All"] ],
                             info: true,
                             responsive: true,
                             "order": [[0, "asc"]],
@@ -487,7 +487,7 @@ Template.clienttypesettings.onRendered(function () {
                         // bStateSave: true,
                         // rowId: 0,
                         pageLength: 25,
-                        lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "All"]],
+                        lengthMenu: [ [25, -1], [25, "All"] ],
                         info: true,
                         responsive: true,
                         "order": [[0, "asc"]],
@@ -851,7 +851,7 @@ Template.clienttypesettings.events({
                     TypeDescription: typeDesc,
                     Active: true
                 }
-            } 
+            }
         } else {
                 objDetails = {
                 type: "TClientType",

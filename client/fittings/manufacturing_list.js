@@ -76,7 +76,7 @@ Template.manufacturinglist.onRendered(function () {
     scrollX: 1000,
     rowId: 0,
     pageLength: 25,
-    lengthMenu: [ [10, 25, 50, -1], [10, 25, 50, "All"] ],
+    lengthMenu: [ [25, -1], [25, "All"] ],
     info: true,
     responsive: true
     // "dom": '<"top"i>rt<"bottom"flp><"clear">'
@@ -126,7 +126,7 @@ if (!localStorage.getItem('VS1ManufacturingList')) {
     scrollX: 1000,
     rowId: 0,
     pageLength: 25,
-    lengthMenu: [ [10, 25, 50, -1], [10, 25, 50, "All"] ],
+    lengthMenu: [ [25, -1], [25, "All"] ],
     info: true,
     responsive: true
     // "dom": '<"top"i>rt<"bottom"flp><"clear">'

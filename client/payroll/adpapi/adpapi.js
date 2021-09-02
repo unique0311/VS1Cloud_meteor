@@ -140,7 +140,7 @@ yearRange: "-90:+10",
                   // bStateSave: true,
                   // rowId: 0,
                   pageLength: 25,
-                  lengthMenu: [ [10, 25, 50, -1], [10, 25, 50, "All"] ],
+                  lengthMenu: [ [25, -1], [25, "All"] ],
                   info: true,
                   responsive: true,
                   "order": [[ 0, "asc" ]],
@@ -186,7 +186,7 @@ yearRange: "-90:+10",
               columVisible = false;
             }
             sWidth = v.style.width.replace('px', "");
-            
+
             let datatablerecordObj = {
               sTitle: v.innerText || '',
               sWidth: sWidth || '',
@@ -401,7 +401,7 @@ Template.adpapi.events({
 
             }
           });
-           
+
         }
       }
     }
@@ -412,7 +412,7 @@ Template.adpapi.events({
     let columData = $(event.target).text();
 
     let columnDatanIndex = $(event.target).closest("div.columnSettings").attr('id');
-    
+
     var datable = $('#tbladp').DataTable();
     var title = datable.column( columnDatanIndex ).header();
     $(title).html(columData);
@@ -426,7 +426,7 @@ Template.adpapi.events({
     let columnDataValue = $(event.target).closest("div").prev().find(".divcolumn").text();
     var datable = $('#tbladp th');
     $.each(datable, function(i,v) {
-      
+
     if(v.innerText == columnDataValue){
         let className = v.className;
         let replaceClass = className.replace(/ /g, ".");
@@ -439,7 +439,7 @@ Template.adpapi.events({
   'click .btnOpenSettings' : function(event){
     let templateObject = Template.instance();
     var columns = $('#tbladp th');
-    
+
     const tableHeaderList = [];
     let sTible = "";
     let sWidth = "";
