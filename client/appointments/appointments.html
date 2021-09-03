@@ -751,21 +751,21 @@
                                             </div>
                                             <div class="col inboxcol2" style="text-align: center;">
                                                 <div>Upload files or add files from the file library.</div>
-                                                {{#if isMobileDevices}}
+                                                
                                                     <div>Capture copies of receipt's or take photo's of completed jobs.</div>
-                                                {{/if}}
+                                                
                                                 <p style="color: #ababab;">Only users with access to your company can view these files</p>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="modal-footer">
 
-                                        {{#if isMobileDevices}}
+                                        
                                             <input type="file" id="img-attachment-upload" style="display:none" accept="image/*" capture="camera">
                                             <button class="btn btn-primary btnUploadFile img_new_attachment_btn" type="button"><i class="fas fa-camera" style="margin-right: 5px;"></i>Capture</button>
 
                                             <input type="file" id="attachment-upload" style="display:none" multiple accept=".jpg,.gif,.png">
-                                        {{else}}
+                                        
                                             <input type="file" id="attachment-upload" style="display:none" multiple accept=".jpg,.gif,.png,.bmp,.tiff,.pdf,.doc,.docx,.xls,.xlsx,.ppt,
                                            .pptx,.odf,.csv,.txt,.rtf,.eml,.msg,.ods,.odt,.keynote,.key,.pages-tef,
                                            .pages,.numbers-tef,.numbers,.zip,.rar,.zipx,.xzip,.7z,image/jpeg,
@@ -780,7 +780,7 @@
                                            application/vnd.apple.pages,application/x-iwork-numbers-sffnumbers,
                                            application/vnd.apple.numbers,application/zip,application/rar,
                                            application/x-zip-compressed,application/x-zip,application/x-7z-compressed">
-                                        {{/if}}
+                                        
                                         <button class="btn btn-primary btnUploadFile new_attachment_btn" type="button"><i class="fa fa-cloud-upload" style="margin-right: 5px;"></i>Upload</button>
                                         <!-- <button class="btn btn-warning btnResetSettings" data-dismiss="modal" type="reset"><i class="fa fa-repeat" style="margin-right: 5px;"></i>Reset</button> -->
                                         <button class="btn btn-secondary closeModal" type="button"><i class="fa fa-remove" style="margin-right: 5px;"></i>Close</button>

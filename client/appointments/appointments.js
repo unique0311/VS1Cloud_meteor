@@ -84,6 +84,7 @@ Template.appointments.onRendered(function () {
             $('#allocationModal').modal('show');
         }, 500);
     }
+
     getVS1Data('TERPPreference').then(function (dataObject) {
         if (dataObject.length == 0) {
             appointmentService.getGlobalSettings().then(function (data) {
@@ -5082,8 +5083,7 @@ Template.appointments.events({
         let templateObj = Template.instance();
         let saveToTAttachment = false;
         let lineIDForAttachment = false;
-        let uploadedFilesArray = templateObj.uploadedFiles.get();
-
+        let uploadedFilesArray = templateObj.uploadedFiles.get() || [];
         let myFiles = $('#img-attachment-upload')[0].files;
         let uploadData = utilityService.attachmentUpload(uploadedFilesArray, myFiles, saveToTAttachment, lineIDForAttachment);
         templateObj.uploadedFiles.set(uploadData.uploadedFilesArray);
