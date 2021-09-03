@@ -178,6 +178,38 @@
                                         </div>
                                             </div>
                                         </div>
+
+                                        <div class="d-xl-flex align-items-xl-center isCreditAccount isNotCreditAccount">
+                                            <div class="flex-grow-1">
+                                                <label><b>Credit Card Details</b></label>
+                                                <div class="d-xl-flex align-items-xl-start">
+                                                  <div class="flex-grow-1">
+                                                      <div class="form-group" style="margin: 4px;"><label>Card Number</label>
+                                                          <input type="tel" inputmode="numeric" pattern="[0-9\s]{13,19}" class="form-control" id="edtCardNumber" name="edtCardNumber" autocomplete="cc-number" maxlength="19" placeholder="xxxx xxxx xxxx xxxx"></div>
+                                                  </div>
+                                                    <div class="flex-grow-0">
+                                                        <div class="form-group" style="margin: 4px;"><label>Expiry Date</label>
+                                                            <!-- <input type="text" class="form-control" id="edtExpiryDate" name="edtExpiryDate"></div> -->
+
+                                                            <div class="input-group date" style="width: 150px; cursor: pointer;">
+                                                                <input type="text" class="form-control" id="edtExpiryDate" name="edtExpiryDate">
+                                                                <div class="input-group-addon">
+                                                                    <span class="glyphicon glyphicon-th"></span>
+                                                                </div>
+                                                            </div>
+                                                    </div>
+
+                                                    </div>
+
+                                                    <div class="flex-grow-0">
+                                                        <div class="form-group" style="margin: 4px; width: 150px;"><label>CVC</label>
+                                                            <input type="tel" inputmode="numeric" class="form-control" id="edtCvc" name="edtCvc" ></div>
+                                                    </div>
+                                                </div>
+
+
+                                            </div>
+                                        </div>
                                         <!-- {{/if}} -->
                                     </div>
                                 </div>
@@ -426,6 +458,9 @@
                         .isNotBankAccount {
                             display: none!important;
                         }
+                        .isNotCreditAccount {
+                            display: none!important;
+                        }
                     </style>
                     <table id="tblAccountOverview" style="width:100%" class="dataTable table table-striped table-bordered tblAccountOverview">
                         <thead>
@@ -439,6 +474,9 @@
                                 <th class="th colBankAccountName" style="width:120px;">Bank Acc Name</th>
                                 <th class="th colBSB" style="width:60px;">{{bsbRegionName}}</th>
                                 <th class="th colBankAccountNo" style="width:120px;">Bank Acc No</th>
+                                <th class="th colCardNumber hiddenColumn" style="width:120px;">Card Number</th>
+                                <th class="th colExpiryDate hiddenColumn" style="width:60px;">Expiry Date</th>
+                                <th class="th colCVC hiddenColumn" style="width:60px;">CVC</th>
                                 <th class="th colExtra hiddenColumn">Swift Code</th>
                                 <th class="th colAPCANumber hiddenColumn">Routing Number</th>
                             </tr>
@@ -456,6 +494,9 @@
                                 <td contenteditable="false" class="colBankAccountName" >{{item.bankaccountname}}</td>
                                 <td contenteditable="false" class="colBSB" >{{item.bsb}}</td>
                                 <td contenteditable="false" class="colBankAccountNo" >{{item.bankaccountnumber}}</td>
+                                <td contenteditable="false" class="colCardNumber hiddenColumn">{{item.cardnumber}}</td>
+                                <td contenteditable="false" class="colExpiryDate hiddenColumn">{{item.expirydate}}</td>
+                                <td contenteditable="false" class="colCVC hiddenColumn">{{item.cvc}}</td>
                                 <td contenteditable="false" class="colExtra hiddenColumn">{{item.swiftcode}}</td>
                                 <td contenteditable="false" class="colAPCANumber hiddenColumn" checkheader="{{item.isheader}}">{{item.apcanumber}}</td>
 

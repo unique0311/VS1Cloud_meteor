@@ -2114,6 +2114,7 @@ Template.new_invoice.onRendered(() => {
                                     let AmountGbp = currencySymbol + '' + data.fields.Lines[i].fields.TotalLineAmount.toLocaleString(undefined, {
                                         minimumFractionDigits: 2
                                     });
+                                    let lineAmountCalc = data.fields.Lines[i].fields.OriginalLinePrice * data.fields.Lines[i].fields.UOMOrderQty;
                                     let currencyAmountGbp = currencySymbol + '' + data.fields.Lines[i].fields.TotalLineAmount.toFixed(2);
                                     let TaxTotalGbp = utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.LineTaxTotal);
                                     let TaxRateGbp = (data.fields.Lines[i].fields.LineTaxRate * 100).toFixed(2);
@@ -2134,7 +2135,7 @@ Template.new_invoice.onRendered(() => {
                                         }) || 0,
                                         taxRate: (data.fields.Lines[i].fields.LineTaxRate * 100).toFixed(2) || 0,
                                         taxCode: data.fields.Lines[i].fields.LineTaxCode || '',
-                                        TotalAmt: AmountGbp || 0,
+                                        TotalAmt: utilityService.modifynegativeCurrencyFormat(lineAmountCalc) || 0,
                                         curTotalAmt: currencyAmountGbp || currencySymbol + '0',
                                         TaxTotal: TaxTotalGbp || 0,
                                         TaxRate: TaxRateGbp || 0,

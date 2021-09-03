@@ -182,8 +182,8 @@ Template.customerawaitingpayments.onRendered(function () {
                             // bStateSave: true,
                             // rowId: 0,
                             paging: false,
-                            "scrollY": "400px",
-                            "scrollCollapse": true,
+
+
                             // pageLength: 25,
                             // lengthMenu: [ [25, -1], [25, "All"] ],
                             info: true,
@@ -378,8 +378,8 @@ Template.customerawaitingpayments.onRendered(function () {
                         // bStateSave: true,
                         // rowId: 0,
                         paging: false,
-                        "scrollY": "400px",
-                        "scrollCollapse": true,
+
+
                         // pageLength: 25,
                         // lengthMenu: [ [25, -1], [25, "All"] ],
                         info: true,
@@ -569,8 +569,8 @@ Template.customerawaitingpayments.onRendered(function () {
                         // bStateSave: true,
                         // rowId: 0,
                         paging: false,
-                        "scrollY": "400px",
-                        "scrollCollapse": true,
+
+
                         // pageLength: 25,
                         // lengthMenu: [ [25, -1], [25, "All"] ],
                         info: true,

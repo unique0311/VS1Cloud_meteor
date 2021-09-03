@@ -92,7 +92,7 @@ Template.accessleveldup.onRendered(function(){
           }
           return (a.Description.toLowerCase() > b.Description.toLowerCase()) ? 1 : -1;
         });
-    
+
         for(let i=0; i<itemData.length; i++){
             lineItemObjForm = {
                 lineID: itemData[i].Id || '',
@@ -909,6 +909,24 @@ Template.accessleveldup.events({
                 $('.chkSettings.chkOnlyQtySales').prop( "checked", false );
             }
 
+        }else{
+
+        }
+    },
+    'click .chkSettings.chkLaunchAllocation': function (event) {
+
+        if($(event.target).is(':checked')){
+
+            $('.chkSettings.chkLaunchAppointment').prop( "checked", false );
+        }else{
+
+        }
+    },
+    'click .chkSettings.chkLaunchAppointment': function (event) {
+
+        if($(event.target).is(':checked')){
+
+            $('.chkSettings.chkLaunchAllocation').prop( "checked", false );
         }else{
 
         }

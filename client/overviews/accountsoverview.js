@@ -37,6 +37,7 @@ Template.accountsoverview.onRendered(function () {
     if ((currentId === "addNewAccount") || (currentId === 'newaccount')) {
         setTimeout(function () {
           $('.isBankAccount').addClass('isNotBankAccount');
+          $('.isCreditAccount').addClass('isNotCreditAccount');
             $('#addNewAccount').modal('show');
             //$('#btnAddNewAccounts').click();
         }, 500);
@@ -48,6 +49,19 @@ Template.accountsoverview.onRendered(function () {
     }
 
 
+    $("#edtExpiryDate").datepicker({
+        showOn: 'button',
+        buttonText: 'Show Date',
+        buttonImageOnly: true,
+        buttonImage: '/img/imgCal2.png',
+        constrainInput: false,
+        dateFormat: 'd/mm/yy',
+        showOtherMonths: true,
+        selectOtherMonths: true,
+        changeMonth: true,
+        changeYear: true,
+        yearRange: "-90:+10",
+    });
 
     Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblAccountOverview', function (error, result) {
         if (error) {}
@@ -221,13 +235,19 @@ Template.accountsoverview.onRendered(function () {
                var routingNo = data.fields.BankCode || '';
 
                var showTrans = data.fields.IsHeader || false;
+               var cardnumber = data.fields.CarNumber || '';
+               var cardcvc = data.fields.CVC || '';
+               var cardexpiry = data.fields.ExpiryDate || '';
 
-               if ((accounttype === "BANK")||(accounttype === "CCARD")) {
-                   //templateObject.isBankAccount.set(true);
-                   //$('.isBankAccount').css('display','block!important');
+               if ((accounttype === "BANK")) {
                    $('.isBankAccount').removeClass('isNotBankAccount');
+                   $('.isCreditAccount').addClass('isNotCreditAccount');
+               }else if ((accounttype === "CCARD")) {
+                   $('.isCreditAccount').removeClass('isNotCreditAccount');
+                   $('.isBankAccount').addClass('isNotBankAccount');
                } else {
                    $('.isBankAccount').addClass('isNotBankAccount');
+                   $('.isCreditAccount').addClass('isNotCreditAccount');
                }
 
                $('#edtAccountID').val(accountid);
@@ -243,6 +263,10 @@ Template.accountsoverview.onRendered(function () {
                $('#swiftCode').val(swiftCode);
                $('#routingNo').val(routingNo);
                $('#edtBankName').val(localStorage.getItem('vs1companyBankName') || '');
+
+               $('#edtCardNumber').val(cardnumber);
+               $('#edtExpiryDate').val(cardexpiry ? moment(cardexpiry).format('DD/MM/YYYY') : "");
+               $('#edtCvc').val(cardcvc);
 
                if(showTrans == 'true'){
                    $('.showOnTransactions').prop('checked', true);
@@ -302,12 +326,19 @@ Template.accountsoverview.onRendered(function () {
 
            var showTrans = data.taccountvs1[a].fields.IsHeader || false;
 
-           if ((accounttype === "BANK")||(accounttype === "CCARD")) {
-               //templateObject.isBankAccount.set(true);
-               //$('.isBankAccount').css('display','block!important');
+           var cardnumber = data.taccountvs1[a].fields.CarNumber || '';
+           var cardcvc = data.taccountvs1[a].fields.CVC || '';
+           var cardexpiry = data.taccountvs1[a].fields.ExpiryDate || '';
+
+           if ((accounttype === "BANK")) {
                $('.isBankAccount').removeClass('isNotBankAccount');
+               $('.isCreditAccount').addClass('isNotCreditAccount');
+           }else if ((accounttype === "CCARD")) {
+               $('.isCreditAccount').removeClass('isNotCreditAccount');
+               $('.isBankAccount').addClass('isNotBankAccount');
            } else {
                $('.isBankAccount').addClass('isNotBankAccount');
+               $('.isCreditAccount').addClass('isNotCreditAccount');
            }
 
            $('#edtAccountID').val(accountid);
@@ -323,6 +354,10 @@ Template.accountsoverview.onRendered(function () {
            $('#swiftCode').val(swiftCode);
            $('#routingNo').val(routingNo);
            $('#edtBankName').val(localStorage.getItem('vs1companyBankName') || '');
+
+           $('#edtCardNumber').val(cardnumber);
+           $('#edtExpiryDate').val(cardexpiry ? moment(cardexpiry).format('DD/MM/YYYY') : "");
+           $('#edtCvc').val(cardcvc);
 
            if(showTrans == 'true'){
                $('.showOnTransactions').prop('checked', true);
@@ -365,12 +400,19 @@ Template.accountsoverview.onRendered(function () {
 
                    var showTrans = data.fields.IsHeader || false;
 
-                   if ((accounttype === "BANK")||(accounttype === "CCARD")) {
-                       //templateObject.isBankAccount.set(true);
-                       //$('.isBankAccount').css('display','block!important');
+                   var cardnumber = data.fields.CarNumber || '';
+                  var cardcvc = data.fields.CVC || '';
+                  var cardexpiry = data.fields.ExpiryDate || '';
+
+                   if ((accounttype === "BANK")) {
                        $('.isBankAccount').removeClass('isNotBankAccount');
+                       $('.isCreditAccount').addClass('isNotCreditAccount');
+                   }else if ((accounttype === "CCARD")) {
+                       $('.isCreditAccount').removeClass('isNotCreditAccount');
+                       $('.isBankAccount').addClass('isNotBankAccount');
                    } else {
                        $('.isBankAccount').addClass('isNotBankAccount');
+                       $('.isCreditAccount').addClass('isNotCreditAccount');
                    }
 
                    $('#edtAccountID').val(accountid);
@@ -386,6 +428,10 @@ Template.accountsoverview.onRendered(function () {
                    $('#swiftCode').val(swiftCode);
                    $('#routingNo').val(routingNo);
                    $('#edtBankName').val(localStorage.getItem('vs1companyBankName') || '');
+
+                   $('#edtCardNumber').val(cardnumber);
+                   $('#edtExpiryDate').val(cardexpiry ? moment(cardexpiry).format('DD/MM/YYYY') : "");
+                   $('#edtCvc').val(cardcvc);
 
                    if(showTrans == 'true'){
                        $('.showOnTransactions').prop('checked', true);
@@ -432,12 +478,19 @@ Template.accountsoverview.onRendered(function () {
 
            var showTrans = data.fields.IsHeader || false;
 
-           if ((accounttype === "BANK")||(accounttype === "CCARD")) {
-               //templateObject.isBankAccount.set(true);
-               //$('.isBankAccount').css('display','block!important');
+           var cardnumber = data.fields.CarNumber || '';
+          var cardcvc = data.fields.CVC || '';
+          var cardexpiry = data.fields.ExpiryDate || '';
+
+           if ((accounttype === "BANK")) {
                $('.isBankAccount').removeClass('isNotBankAccount');
+               $('.isCreditAccount').addClass('isNotCreditAccount');
+           }else if ((accounttype === "CCARD")) {
+               $('.isCreditAccount').removeClass('isNotCreditAccount');
+               $('.isBankAccount').addClass('isNotBankAccount');
            } else {
                $('.isBankAccount').addClass('isNotBankAccount');
+               $('.isCreditAccount').addClass('isNotCreditAccount');
            }
 
            $('#edtAccountID').val(accountid);
@@ -453,6 +506,10 @@ Template.accountsoverview.onRendered(function () {
            $('#swiftCode').val(swiftCode);
            $('#routingNo').val(routingNo);
            $('#edtBankName').val(localStorage.getItem('vs1companyBankName') || '');
+
+           $('#edtCardNumber').val(cardnumber);
+           $('#edtExpiryDate').val(cardexpiry ? moment(cardexpiry).format('DD/MM/YYYY') : "");
+           $('#edtCvc').val(cardcvc);
 
            if(showTrans == 'true'){
                $('.showOnTransactions').prop('checked', true);
@@ -514,7 +571,10 @@ Template.accountsoverview.onRendered(function () {
                             routingNo: data.taccountvs1[i].BankCode || '',
                             apcanumber: data.taccountvs1[i].BankNumber || '',
                             balance: accBalance || 0.00,
-                            isheader: data.taccountvs1[i].IsHeader || false
+                            isheader: data.taccountvs1[i].IsHeader || false,
+                            cardnumber: data.taccountvs1[i].CarNumber || '',
+                            expirydate: data.taccountvs1[i].ExpiryDate || '',
+                            cvc: data.taccountvs1[i].CVC || ''
 
                         };
                         dataTableList.push(dataList);
@@ -711,7 +771,10 @@ Template.accountsoverview.onRendered(function () {
                         routingNo: useData[i].BankCode || '',
                         apcanumber: useData[i].fields.BankNumber || '',
                         balance: accBalance || 0.00,
-                        isheader: useData[i].fields.IsHeader || false
+                        isheader: useData[i].fields.IsHeader || false,
+                        cardnumber: useData[i].fields.CarNumber || '',
+                        expirydate: useData[i].fields.ExpiryDate || '',
+                        cvc: useData[i].fields.CVC || ''
 
                     };
                     dataTableList.push(dataList);
@@ -902,7 +965,10 @@ Template.accountsoverview.onRendered(function () {
                         routingNo: data.taccountvs1[i].BankCode || '',
                         apcanumber: data.taccountvs1[i].BankNumber || '',
                         balance: accBalance || 0.00,
-                        isheader: data.taccountvs1[i].IsHeader || false
+                        isheader: data.taccountvs1[i].IsHeader || false,
+                        cardnumber: data.taccountvs1[i].CarNumber || '',
+                        expirydate: data.taccountvs1[i].ExpiryDate || '',
+                        cvc: data.taccountvs1[i].CVC || ''
 
                     };
                     dataTableList.push(dataList);
@@ -1098,14 +1164,19 @@ Template.accountsoverview.onRendered(function () {
 
                 var showTrans = $(event.target).closest("tr").find(".colAPCANumber").attr('checkheader') || false;
 
-                if ((accounttype === "BANK")||(accounttype === "CCARD")) {
-                    //templateObject.isBankAccount.set(true);
-                    //$('.isBankAccount').css('display','block!important');
+                var cardnumber = $(event.target).closest("tr").find(".colCardNumber").text() || '';
+                var cardexpiry = $(event.target).closest("tr").find(".colExpiryDate").text() || '';
+                var cardcvc = $(event.target).closest("tr").find(".colCVC").text() || '';
+
+                if ((accounttype === "BANK")) {
                     $('.isBankAccount').removeClass('isNotBankAccount');
+                    $('.isCreditAccount').addClass('isNotCreditAccount');
+                }else if ((accounttype === "CCARD")) {
+                    $('.isCreditAccount').removeClass('isNotCreditAccount');
+                    $('.isBankAccount').addClass('isNotBankAccount');
                 } else {
                     $('.isBankAccount').addClass('isNotBankAccount');
-                    //$('.isBankAccount').css('display','none!important');
-                    //templateObject.isBankAccount.set(false);
+                    $('.isCreditAccount').addClass('isNotCreditAccount');
                 }
 
                 $('#edtAccountID').val(accountid);
@@ -1120,6 +1191,10 @@ Template.accountsoverview.onRendered(function () {
                 $('#swiftCode').val(swiftCode);
                 $('#routingNo').val(routingNo);
                 $('#edtBankName').val(localStorage.getItem('vs1companyBankName') || '');
+
+                $('#edtCardNumber').val(cardnumber);
+                $('#edtExpiryDate').val(cardexpiry ? moment(cardexpiry).format('DD/MM/YYYY') : "");
+                $('#edtCvc').val(cardcvc);
 
                 if(showTrans == 'true'){
                     $('.showOnTransactions').prop('checked', true);
@@ -1410,6 +1485,12 @@ Template.accountsoverview.events({
         var bankbsb = $('#edtBSB').val();
         var bankacountno = $('#edtBankAccountNo').val();
         let isBankAccount = templateObject.isBankAccount.get();
+
+        var expirydateTime = new Date($("#edtExpiryDate").datepicker("getDate"));
+        let cardnumber = $('#edtCardNumber').val();
+        let cardcvc = $('#edtCvc').val();
+        let expiryDate = expirydateTime.getFullYear() + "-" + (expirydateTime.getMonth() + 1) + "-" + expirydateTime.getDate();
+
         let companyID = 1;
         let data = '';
         if (accountID == "") {
@@ -1431,7 +1512,12 @@ Template.accountsoverview.events({
                         PublishOnVS1: true,
                         Extra: swiftCode,
                         BankNumber: routingNo,
-                        IsHeader: forTransaction
+                        IsHeader: forTransaction,
+                        CarNumber:cardnumber||'',
+                        CVC:cardcvc||'',
+                        ExpiryDate:expiryDate||''
+
+
                     }
                 };
 
@@ -1528,7 +1614,10 @@ Template.accountsoverview.events({
                         Extra: swiftCode,
                         BankNumber: routingNo,
                         PublishOnVS1: true,
-                        IsHeader: forTransaction
+                        IsHeader: forTransaction,
+                        CarNumber:cardnumber||'',
+                        CVC:cardcvc||'',
+                        ExpiryDate:expiryDate||''
                     }
                 };
 
@@ -1626,7 +1715,10 @@ Template.accountsoverview.events({
                     BankNumber: routingNo,
                     //Level4: bankname,
                     PublishOnVS1: true,
-                    IsHeader: forTransaction
+                    IsHeader: forTransaction,
+                    CarNumber:cardnumber||'',
+                    CVC:cardcvc||'',
+                    ExpiryDate:expiryDate||''
                 }
             };
 
@@ -1730,6 +1822,7 @@ Template.accountsoverview.events({
         $('#swiftCode').val('');
         $('.showOnTransactions').prop('checked', false);
         $('.isBankAccount').addClass('isNotBankAccount');
+        $('.isCreditAccount').addClass('isNotCreditAccount');
     },
     'click .printConfirm': function (event) {
 
@@ -1922,13 +2015,17 @@ Template.accountsoverview.events({
     'change #sltAccountType': function (e) {
         let templateObject = Template.instance();
         var accountTypeName = $('#sltAccountType').val();
-        if ((accountTypeName === "BANK")||(accountTypeName === "CCARD")) {
-            //templateObject.isBankAccount.set(true);
-            $('.isBankAccount').removeClass('isNotBankAccount');
-        } else {
-            //templateObject.isBankAccount.set(false);
-            $('.isBankAccount').addClass('isNotBankAccount');
-        }
+
+        if ((accountTypeName === "BANK")) {
+             $('.isBankAccount').removeClass('isNotBankAccount');
+             $('.isCreditAccount').addClass('isNotCreditAccount');
+         }else if ((accountTypeName === "CCARD")) {
+             $('.isCreditAccount').removeClass('isNotCreditAccount');
+             $('.isBankAccount').addClass('isNotBankAccount');
+         } else {
+             $('.isBankAccount').addClass('isNotBankAccount');
+             $('.isCreditAccount').addClass('isNotCreditAccount');
+         }
         // $('.file-name').text(filename);
         // let selectedFile = event.target.files[0];
         // templateObj.selectedFile.set(selectedFile);
