@@ -100,18 +100,30 @@ publicRoutes.route('/resetpassword', {
 
 const authenticatedRedirect = () => {
 
-  let sidePanelToggle = Session.get('sidePanelToggle');
-  if ((sidePanelToggle === 'undefined') || (sidePanelToggle === undefined)) {
-    Session.setPersistent('sidePanelToggle', "toggled");
-   sidePanelToggle = Session.get('sidePanelToggle');
-  }
-  if (sidePanelToggle) {
-      if (sidePanelToggle === "toggled") {
-          $("#sidenavbar").addClass("toggled");
-      } else {
-          $("#sidenavbar").removeClass("toggled");
+
+
+  $(window).on('resize', function(){
+    var win = $(this); //this = window
+    if(win.height() <= 450 && win.width() <= 950){
+      $("#sidenavbar").addClass("toggled");
+    }else if(win.width() <= 450){
+      $("#sidenavbar").addClass("toggled");
+    }else{
+      let sidePanelToggle = Session.get('sidePanelToggle');
+      if ((sidePanelToggle === 'undefined') || (sidePanelToggle === undefined)) {
+        Session.setPersistent('sidePanelToggle', "toggled");
+       sidePanelToggle = Session.get('sidePanelToggle');
       }
-  }
+      if (sidePanelToggle) {
+          if (sidePanelToggle === "toggled") {
+              $("#sidenavbar").addClass("toggled");
+          } else {
+              $("#sidenavbar").removeClass("toggled");
+          }
+      }
+    }
+
+});
 
   if (Session.get('CloudSidePanelMenu')) {
     $("html").addClass("hasSideBar");
