@@ -1047,3 +1047,10 @@ authenticatedRoutes.route('/shippingdocket', {
       BlazeLayout.render( 'layout', { yield: 'shippingdocket' });
     }
 });
+
+authenticatedRoutes.route('/backuprestore', {
+    name: 'backuprestore',
+    action() {
+      BlazeLayout.render( 'layout', { yield: 'backuprestore' });
+    }
+});
