@@ -465,7 +465,7 @@
                     <table id="tblAccountOverview" style="width:100%" class="dataTable table table-striped table-bordered tblAccountOverview">
                         <thead>
                             <tr class="dnd-moved">
-                                <th class="th colAccountId" style=" ">Account ID</th>
+                                <th class="th colAccountId hiddenColumn" style=" ">Account ID</th>
                                 <th class="th colAccountName" style=" ">Account Name</th>
                                 <th class="th colDescription" style=" ">Description</th>
                                 <th class="th colAccountNo" style="width:90px;">Account No</th>
@@ -486,7 +486,7 @@
                             {{#if datatablerecords}}
                             {{#each item in datatablerecords}}
                             <tr class="dnd-moved" id="{{item.id}}" style="cursor: pointer;">
-                                <td contenteditable="false" class="colAccountId" >{{item.id}}</td>
+                                <td contenteditable="false" class="colAccountId hiddenColumn" >{{item.id}}</td>
                                 <td contenteditable="false" class="colAccountName" >{{item.accountname}}</td>
                                 <td contenteditable="false" class="colDescription">{{item.description}}</td>
                                 <td contenteditable="false" class="colAccountNo">{{item.accountnumber}}</td>

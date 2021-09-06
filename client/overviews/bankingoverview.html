@@ -270,6 +270,7 @@
                             <tr class="dnd-moved">
                                 <th class="th colSortDate hiddenColumn">id</th>
                                 <th class="th colPaymentDate" style="width:80px;">Date</th>
+                                <th class="th colAccountId hiddenColumn" style="width:80px;">Transaction ID</th>
                                 <th class="th colBankAccount" style="width:100px;">Account</th>
                                 <th class="th colType" style="width:120px;">Type</th>
                                 <!-- <th class="th colRefNo" style="width:80px;">Ref No.</th> -->
@@ -295,6 +296,7 @@
                             <tr class="dnd-moved" id="{{item.id}}" style="cursor: pointer;">
                                 <td contenteditable="false" class="colSortDate hiddenColumn">{{item.sortdate}}</td>
                                 <td contenteditable="false" class="colPaymentDate"><span style="display:none;">{{item.sortdate}}</span>{{item.paymentdate}}</td>
+                                <td contenteditable="false" class="colAccountId hiddenColumn">{{item.id}}</td>
                                 <td contenteditable="false" class="colBankAccount">{{item.bankaccount}}</td>
                                 <td contenteditable="false" class="colType" >{{item.type}}</td>
 
