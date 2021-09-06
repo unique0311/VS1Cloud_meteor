@@ -28,7 +28,7 @@
         <div class="row mb-3">
             <div class="col">
                 <div class="row justify-content-center">
-                    <div class="col-12 col-lg-8">
+                    <div class="col-12 col-lg-12 col-xl-9">
                         <div class="card shadow mb-3">
                             <div class="card-header py-3">
                                 <p class="text-primary m-0 font-weight-bold">Create Application Backup</p>
@@ -40,9 +40,25 @@
                                             border-right: 1px solid #858796;
                                         }
 
-                                        @media screen and (max-width: 576px) {
+                                        @media screen and (max-width: 1024px) {
+                                            .colLeftChild {
+                                                height: 210px !important;
+                                            }
+                                            .colRightChild {
+                                                height: 210px !important;
+                                            }
+                                        }
+
+                                        @media screen and (max-width: 768px) {
                                             .colLeft {
                                                 border-right: 0px !important;
+                                                border-bottom: 1px solid #858796;
+                                            }
+                                            .colLeftChild {
+                                                height: 180px !important;
+                                            }
+                                            .colRightChild {
+                                                height: 250px !important;
                                             }
                                         }
                                     </style>
@@ -52,9 +68,9 @@
                                                 This sections allows you to backup and restore application data (files and database). You can create multiple on-demand backups.
                                             </p>
                                         </div>
-                                        <div class="col-12 col-lg-6 colLeft" style="padding: 16px;">
+                                        <div class="col-12 col-md-6 col-lg-6 colLeft" style="padding: 16px;">
                                             <div class="row">
-                                                <div class="col-12" style="height: 180px">
+                                                <div class="col-12 colLeftChild" style="height: 180px">
                                                     <header>
                                                         <h4>Restore</h4>
                                                     </header>
@@ -71,13 +87,13 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-12">
-                                                    <button class="btn btn-primary btnRestore" type="button"><i class="fas fa-check" style="margin-right: 5px;"></i>Restore Application Now</button>
+                                                    <button class="btn btn-primary btnRestore" type="button"><i class="fas fa-check" style="margin-right: 5px;"></i>Restore Application</button>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-12 col-lg-6" style="padding: 16px;">
+                                        <div class="col-12 col-md-6 col-lg-6 colRight" style="padding: 16px;">
                                             <div class="row">
-                                                <div class="col-12" style="height: 180px">
+                                                <div class="col-12 colRightChild" style="height: 180px">
                                                     <header>
                                                         <h4>Backup</h4>
                                                     </header>
@@ -85,7 +101,7 @@
                                                     <p>Last Backup Date: <span id="lastBackupDate">6th September, 2021, 12:30:05 UTC</span></p>
                                                 </div>
                                                 <div class="col-12">
-                                                    <button class="btn btn-success btnCreateBackup" type="button"><i class="fas fa-plus" style="margin-right: 5px;"></i>Create Backup Now</button>
+                                                    <button class="btn btn-success btnCreateBackup" type="button"><i class="fas fa-plus" style="margin-right: 5px;"></i>Create New Backup</button>
                                                 </div>
                                             </div>
                                         </div>
