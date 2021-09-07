@@ -62,78 +62,21 @@ Template.new_invoice.onCreated(() => {
     templateObject.productextrasellrecords = new ReactiveVar([]);
 
     templateObject.singleInvoiceData = new ReactiveVar([]);
-    $(window).on('resize', function () {
-        setTimeout(function () {
-
-            var x = window.matchMedia("(max-width: 1024px)")
-
-            function mediaQuery(x) {
-                if (x.matches) {
-
-                    $("#colInvnoReference").removeClass("col-auto");
-                    $("#colInvnoReference").addClass("col-6");
-
-                    $("#colTermsVia").removeClass("col-auto");
-                    $("#colTermsVia").addClass("col-6");
-
-                    $("#colStatusDepartment").removeClass("col-auto");
-                    $("#colStatusDepartment").addClass("col-6");
-
-                    $("#colBillingAddress").removeClass("col-auto");
-                    $("#colBillingAddress").addClass("col-6");
-
-                    $("#colOrderDue").removeClass("col-auto");
-                    $("#colOrderDue").addClass("col-6");
-
-                    $("#fieldwidth").removeClass("billaddressfield");
-                    $("#fieldwidth").addClass("billaddressfield2");
-
-                }
-            }
-            mediaQuery(x)
-            x.addListener(mediaQuery)
-        }, 10);
-
-        setTimeout(function () {
-
-            var x = window.matchMedia("(max-width: 420px)")
-
-            function mediaQuery(x) {
-                if (x.matches) {
-
-                    $("#colInvnoReference").removeClass("col-auto");
-                    $("#colInvnoReference").addClass("col-12");
-
-                    $("#colTermsVia").removeClass("col-auto");
-                    $("#colTermsVia").addClass("col-12");
-
-                    $("#colStatusDepartment").removeClass("col-auto");
-                    $("#colStatusDepartment").addClass("col-12");
-
-                    $("#colBillingAddress").removeClass("col-auto");
-                    $("#colBillingAddress").addClass("col-12");
-
-                    $("#colOrderDue").removeClass("col-auto");
-                    $("#colOrderDue").addClass("col-12");
-
-                    $("#colSupplierName").removeClass("col-auto");
-                    $("#colSupplierName").addClass("col-12");
-
-                    $("#colSupplierEmail").removeClass("col-auto");
-                    $("#colSupplierEmail").addClass("col-12");
-
-                    $("#fieldwidth").removeClass("billaddressfield");
-                    $("#fieldwidth").addClass("billaddressfield2");
-
-                }
-            }
-            mediaQuery(x)
-            x.addListener(mediaQuery)
-        }, 10);
-
-    });
 });
 Template.new_invoice.onRendered(() => {
+
+    $(window).on('load', function() {
+        var win = $(this); //this = window
+        if (win.width() <= 1024 && win.width() >= 450) {
+            $("#colBalanceDue").addClass("order-12");
+        }
+
+        if (win.width() <= 926) {
+            $("#totalSection").addClass("offset-md-6");
+        }
+
+    });
+
     let imageData = (localStorage.getItem("Image"));
     if (imageData) {
         $('.uploadedImage').attr('src', imageData);

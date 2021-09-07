@@ -60,6 +60,19 @@ Template.new_salesorder.onCreated(() => {
     templateObject.productextrasellrecords = new ReactiveVar([]);
 });
 Template.new_salesorder.onRendered(() => {
+
+    $(window).on('load', function() {
+        var win = $(this); //this = window
+        if (win.width() <= 1024 && win.width() >= 450) {
+            $("#colBalanceDue").addClass("order-12");
+        }
+
+        if (win.width() <= 926) {
+            $("#totalSection").addClass("offset-md-6");
+        }
+
+    });
+
     let imageData = (localStorage.getItem("Image"));
     if (imageData) {
         $('.uploadedImage').attr('src', imageData);
