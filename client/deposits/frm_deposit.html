@@ -717,7 +717,10 @@
                         <h4>Customer List</h4><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
                     </div>
                     <div class="modal-body mainCustomerModalBody" style="padding: 0px; overflow-x: hidden;">
-                        {{> refreshbutton}}
+                        <div style="margin: 16px 16px 0px 16px;">
+                            {{> refreshbutton}}
+                        </div>
+
                         <input type="hidden" style="width: 100%; display:none;" id="customerSelectLineID" name="customerSelectLineID" readonly>
                         {{> customerlistpop}}
 
