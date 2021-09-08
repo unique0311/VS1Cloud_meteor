@@ -34,24 +34,6 @@ Template.supplierpaymentcard.onCreated(() => {
 Template.supplierpaymentcard.onRendered(() => {
     const dataTableList = [];
     const tableHeaderList = [];
-    // $(document).ready(function () {
-    //     $('#addRow').on('click', function () {
-    //         var rowData = $('#tblSupplierPaymentcard tbody>tr:last').clone(true);
-    //         let tokenid = Random.id();
-    //         $(".colTransDate", rowData).text("");
-    //         $(".colType", rowData).text("");
-    //         $(".colTransNo", rowData).text("");
-    //         $(".lineOrginalamount", rowData).text("");
-    //         $(".lineAmountdue", rowData).text("");
-    //         $(".linePaymentamount", rowData).val("");
-    //         $(".lineOutstandingAmount", rowData).text("");
-    //         $(".colComments", rowData).text("");
-    //         rowData.attr('id', tokenid);
-    //         rowData.attr('name', tokenid);
-    //         $("#tblSupplierPaymentcard tbody").append(rowData);
-    //         $('#attachment-upload').trigger('click');
-    //     });
-    // });
     $('.fullScreenSpin').css('display', 'inline-block');
     let imageData = (localStorage.getItem("Image"));
     if (imageData) {
@@ -281,57 +263,57 @@ Template.supplierpaymentcard.onRendered(() => {
         });
     };
 
-      templateObject.getDepartments = function() {
-    getVS1Data('TDeptClass').then(function (dataObject) {
-      if(dataObject.length == 0){
-        paymentService.getDepartment().then(function(data){
-          for(let i in data.tdeptclass){
+    templateObject.getDepartments = function () {
+        getVS1Data('TDeptClass').then(function (dataObject) {
+            if (dataObject.length == 0) {
+                paymentService.getDepartment().then(function (data) {
+                    for (let i in data.tdeptclass) {
 
-            let deptrecordObj = {
-              department: data.tdeptclass[i].DeptClassName || ' ',
-            };
+                        let deptrecordObj = {
+                            department: data.tdeptclass[i].DeptClassName || ' ',
+                        };
 
-            deptrecords.push(deptrecordObj);
-            templateObject.deptrecords.set(deptrecords);
+                        deptrecords.push(deptrecordObj);
+                        templateObject.deptrecords.set(deptrecords);
 
-          }
-      });
-      }else{
-        let data = JSON.parse(dataObject[0].data);
-        let useData = data.tdeptclass;
+                    }
+                });
+            } else {
+                let data = JSON.parse(dataObject[0].data);
+                let useData = data.tdeptclass;
 
-        for(let i in useData){
+                for (let i in useData) {
 
-          let deptrecordObj = {
-            department: useData[i].DeptClassName || ' ',
-          };
+                    let deptrecordObj = {
+                        department: useData[i].DeptClassName || ' ',
+                    };
 
-          deptrecords.push(deptrecordObj);
-          templateObject.deptrecords.set(deptrecords);
+                    deptrecords.push(deptrecordObj);
+                    templateObject.deptrecords.set(deptrecords);
 
-        }
-      }
-      }).catch(function (err) {
-        paymentService.getDepartment().then(function(data){
-          for(let i in data.tdeptclass){
+                }
+            }
+        }).catch(function (err) {
+            paymentService.getDepartment().then(function (data) {
+                for (let i in data.tdeptclass) {
 
-            let deptrecordObj = {
-              department: data.tdeptclass[i].DeptClassName || ' ',
-            };
+                    let deptrecordObj = {
+                        department: data.tdeptclass[i].DeptClassName || ' ',
+                    };
 
-            deptrecords.push(deptrecordObj);
-            templateObject.deptrecords.set(deptrecords);
+                    deptrecords.push(deptrecordObj);
+                    templateObject.deptrecords.set(deptrecords);
 
-          }
-      });
-      });
+                }
+            });
+        });
 
+    }
 
-  }
-
-      function MakeNegative() {
+    function MakeNegative() {
         $('td').each(function () {
-            if ($(this).text().indexOf('-' + Currency) >= 0) $(this).addClass('text-danger')
+            if ($(this).text().indexOf('-' + Currency) >= 0)
+                $(this).addClass('text-danger')
         });
     };
 
@@ -390,9 +372,8 @@ Template.supplierpaymentcard.onRendered(() => {
                     if (templateObject.datatablerecords.get()) {
 
                         Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblSupplierAwaitingPO', function (error, result) {
-                            if (error) {
-
-                            } else {
+                            if (error) {}
+                            else {
                                 if (result) {
                                     for (let i = 0; i < result.customFields.length; i++) {
                                         let customcolumn = result.customFields;
@@ -418,55 +399,58 @@ Template.supplierpaymentcard.onRendered(() => {
                             }
                         });
 
-
-                setTimeout(function () {
+                        setTimeout(function () {
                             MakeNegative();
                         }, 100);
                     }
 
                     $('.fullScreenSpin').css('display', 'none');
-                setTimeout(function () {
-                    //$.fn.dataTable.moment('DD/MM/YY');
-                    $('#tblSupplierAwaitingPO').DataTable({
-                        columnDefs: [
-                            { "orderable": false, "targets": 0 },
-                            { type: 'date', targets: 1 }
-                        ],
-                        "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
-                        buttons: [
-                            {
-                                extend: 'excelHtml5',
-                                text: '',
-                                download: 'open',
-                                className: "btntabletocsv hiddenColumn",
-                                filename: "Awaiting Supplier Payments List - " + moment().format(),
-                                orientation: 'portrait',
-                                exportOptions: {
-                                    columns: ':visible:not(.chkBox)',
-                                    format: {
-                                        body: function ( data, row, column ) {
-                                            if(data.includes("</span>")){
-                                                var res = data.split("</span>");
-                                                data = res[1];
+                    setTimeout(function () {
+                        //$.fn.dataTable.moment('DD/MM/YY');
+                        $('#tblSupplierAwaitingPO').DataTable({
+                            columnDefs: [{
+                                    "orderable": false,
+                                    "targets": 0
+                                }, {
+                                    type: 'date',
+                                    targets: 1
+                                }
+                            ],
+                            "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
+                            buttons: [{
+                                    extend: 'excelHtml5',
+                                    text: '',
+                                    download: 'open',
+                                    className: "btntabletocsv hiddenColumn",
+                                    filename: "Awaiting Supplier Payments List - " + moment().format(),
+                                    orientation: 'portrait',
+                                    exportOptions: {
+                                        columns: ':visible:not(.chkBox)',
+                                        format: {
+                                            body: function (data, row, column) {
+                                                if (data.includes("</span>")) {
+                                                    var res = data.split("</span>");
+                                                    data = res[1];
+                                                }
+
+                                                return column === 1 ? data.replace(/<.*?>/ig, "") : data;
+
                                             }
-
-                                            return column === 1 ? data.replace(/<.*?>/ig, ""): data;
-
                                         }
                                     }
+                                }, {
+                                    extend: 'print',
+                                    download: 'open',
+                                    className: "btntabletopdf hiddenColumn",
+                                    text: '',
+                                    title: 'Supplier Payment',
+                                    filename: "Awaiting Supplier Payments List - " + moment().format(),
+                                    exportOptions: {
+                                        columns: ':visible:not(.chkBox)',
+                                        stripHtml: false
+                                    }
                                 }
-                            }, {
-                                extend: 'print',
-                                download: 'open',
-                                className: "btntabletopdf hiddenColumn",
-                                text: '',
-                                title: 'Supplier Payment',
-                                filename: "Awaiting Supplier Payments List - " + moment().format(),
-                                exportOptions: {
-                                    columns: ':visible:not(.chkBox)',
-                                    stripHtml: false
-                                }
-                            }],
+                            ],
                             select: true,
                             destroy: true,
                             colReorder: true,
@@ -475,37 +459,35 @@ Template.supplierpaymentcard.onRendered(() => {
                             info: true,
                             responsive: true,
                             paging: false,
-                        "order": [[1, "desc"]],
-                        // "aaSorting": [[1,'desc']],
-                        action: function () {
-                            $('#tblSupplierAwaitingPO').DataTable().ajax.reload();
-                        },
-                        "fnDrawCallback": function (oSettings) {
-                            setTimeout(function () {
-                                MakeNegative();
-                            }, 100);
-                        },
+                            "order": [[1, "desc"]],
+                            // "aaSorting": [[1,'desc']],
+                            action: function () {
+                                $('#tblSupplierAwaitingPO').DataTable().ajax.reload();
+                            },
+                            "fnDrawCallback": function (oSettings) {
+                                setTimeout(function () {
+                                    MakeNegative();
+                                }, 100);
+                            },
                             "fnInitComplete": function () {
                                 $("<button class='btn btn-primary' data-dismiss='modal' data-toggle='modal' data-target='#addSupplierModal' type='button' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-plus'></i></button>").insertAfter("#tblSupplierAwaitingPO_filter");
                                 $("<button class='btn btn-primary btnRefreshCustomer' type='button' id='btnRefreshSupplier' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblSupplierAwaitingPO_filter");
 
                             }
 
-                    }).on('page', function () {
-                        setTimeout(function () {
-                            MakeNegative();
-                        }, 100);
-                        let draftRecord = templateObject.datatablerecords.get();
-                        templateObject.datatablerecords.set(draftRecord);
-                    }).on('column-reorder', function () {
-
-                    }).on('length.dt', function (e, settings, len) {
-                        setTimeout(function () {
-                            MakeNegative();
-                        }, 100);
-                    });
-                    $('.fullScreenSpin').css('display', 'none');
-                }, 0);
+                        }).on('page', function () {
+                            setTimeout(function () {
+                                MakeNegative();
+                            }, 100);
+                            let draftRecord = templateObject.datatablerecords.get();
+                            templateObject.datatablerecords.set(draftRecord);
+                        }).on('column-reorder', function () {}).on('length.dt', function (e, settings, len) {
+                            setTimeout(function () {
+                                MakeNegative();
+                            }, 100);
+                        });
+                        $('.fullScreenSpin').css('display', 'none');
+                    }, 0);
 
                     var columns = $('#tblSupplierAwaitingPO th');
                     let sTible = "";
@@ -612,9 +594,8 @@ Template.supplierpaymentcard.onRendered(() => {
                 if (templateObject.datatablerecords.get()) {
 
                     Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblSupplierAwaitingPO', function (error, result) {
-                        if (error) {
-
-                        } else {
+                        if (error) {}
+                        else {
                             if (result) {
                                 for (let i = 0; i < result.customFields.length; i++) {
                                     let customcolumn = result.customFields;
@@ -640,7 +621,6 @@ Template.supplierpaymentcard.onRendered(() => {
                         }
                     });
 
-
                     setTimeout(function () {
                         MakeNegative();
                     }, 100);
@@ -650,13 +630,16 @@ Template.supplierpaymentcard.onRendered(() => {
                 setTimeout(function () {
                     //$.fn.dataTable.moment('DD/MM/YY');
                     $('#tblSupplierAwaitingPO').DataTable({
-                        columnDefs: [
-                            { "orderable": false, "targets": 0 },
-                            { type: 'date', targets: 1 }
+                        columnDefs: [{
+                                "orderable": false,
+                                "targets": 0
+                            }, {
+                                type: 'date',
+                                targets: 1
+                            }
                         ],
                         "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
-                        buttons: [
-                            {
+                        buttons: [{
                                 extend: 'excelHtml5',
                                 text: '',
                                 download: 'open',
@@ -666,13 +649,13 @@ Template.supplierpaymentcard.onRendered(() => {
                                 exportOptions: {
                                     columns: ':visible:not(.chkBox)',
                                     format: {
-                                        body: function ( data, row, column ) {
-                                            if(data.includes("</span>")){
+                                        body: function (data, row, column) {
+                                            if (data.includes("</span>")) {
                                                 var res = data.split("</span>");
                                                 data = res[1];
                                             }
 
-                                            return column === 1 ? data.replace(/<.*?>/ig, ""): data;
+                                            return column === 1 ? data.replace(/<.*?>/ig, "") : data;
 
                                         }
                                     }
@@ -688,15 +671,16 @@ Template.supplierpaymentcard.onRendered(() => {
                                     columns: ':visible:not(.chkBox)',
                                     stripHtml: false
                                 }
-                            }],
+                            }
+                        ],
                         select: true,
-                            destroy: true,
-                            colReorder: true,
-                            pageLength: 25,
-                            lengthMenu: [[25, -1], [25, "All"]],
-                            info: true,
-                            responsive: true,
-                            paging: false,
+                        destroy: true,
+                        colReorder: true,
+                        pageLength: 25,
+                        lengthMenu: [[25, -1], [25, "All"]],
+                        info: true,
+                        responsive: true,
+                        paging: false,
                         "order": [[1, "desc"]],
                         // "aaSorting": [[1,'desc']],
                         action: function () {
@@ -707,11 +691,11 @@ Template.supplierpaymentcard.onRendered(() => {
                                 MakeNegative();
                             }, 100);
                         },
-                            "fnInitComplete": function () {
-                                $("<button class='btn btn-primary' data-dismiss='modal' data-toggle='modal' data-target='#addSupplierModal' type='button' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-plus'></i></button>").insertAfter("#tblSupplierAwaitingPO_filter");
-                                $("<button class='btn btn-primary btnRefreshCustomer' type='button' id='btnRefreshSupplier' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblSupplierAwaitingPO_filter");
+                        "fnInitComplete": function () {
+                            $("<button class='btn btn-primary' data-dismiss='modal' data-toggle='modal' data-target='#addSupplierModal' type='button' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-plus'></i></button>").insertAfter("#tblSupplierAwaitingPO_filter");
+                            $("<button class='btn btn-primary btnRefreshCustomer' type='button' id='btnRefreshSupplier' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblSupplierAwaitingPO_filter");
 
-                            }
+                        }
 
                     }).on('page', function () {
                         setTimeout(function () {
@@ -719,9 +703,7 @@ Template.supplierpaymentcard.onRendered(() => {
                         }, 100);
                         let draftRecord = templateObject.datatablerecords.get();
                         templateObject.datatablerecords.set(draftRecord);
-                    }).on('column-reorder', function () {
-
-                    }).on('length.dt', function (e, settings, len) {
+                    }).on('column-reorder', function () {}).on('length.dt', function (e, settings, len) {
                         setTimeout(function () {
                             MakeNegative();
                         }, 100);
@@ -828,9 +810,8 @@ Template.supplierpaymentcard.onRendered(() => {
                 if (templateObject.datatablerecords.get()) {
 
                     Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblSupplierAwaitingPO', function (error, result) {
-                        if (error) {
-
-                        } else {
+                        if (error) {}
+                        else {
                             if (result) {
                                 for (let i = 0; i < result.customFields.length; i++) {
                                     let customcolumn = result.customFields;
@@ -856,7 +837,6 @@ Template.supplierpaymentcard.onRendered(() => {
                         }
                     });
 
-
                     setTimeout(function () {
                         MakeNegative();
                     }, 100);
@@ -866,13 +846,16 @@ Template.supplierpaymentcard.onRendered(() => {
                 setTimeout(function () {
                     //$.fn.dataTable.moment('DD/MM/YY');
                     $('#tblSupplierAwaitingPO').DataTable({
-                        columnDefs: [
-                            { "orderable": false, "targets": 0 },
-                            { type: 'date', targets: 1 }
+                        columnDefs: [{
+                                "orderable": false,
+                                "targets": 0
+                            }, {
+                                type: 'date',
+                                targets: 1
+                            }
                         ],
                         "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
-                        buttons: [
-                            {
+                        buttons: [{
                                 extend: 'excelHtml5',
                                 text: '',
                                 download: 'open',
@@ -882,13 +865,13 @@ Template.supplierpaymentcard.onRendered(() => {
                                 exportOptions: {
                                     columns: ':visible:not(.chkBox)',
                                     format: {
-                                        body: function ( data, row, column ) {
-                                            if(data.includes("</span>")){
+                                        body: function (data, row, column) {
+                                            if (data.includes("</span>")) {
                                                 var res = data.split("</span>");
                                                 data = res[1];
                                             }
 
-                                            return column === 1 ? data.replace(/<.*?>/ig, ""): data;
+                                            return column === 1 ? data.replace(/<.*?>/ig, "") : data;
 
                                         }
                                     }
@@ -904,7 +887,8 @@ Template.supplierpaymentcard.onRendered(() => {
                                     columns: ':visible:not(.chkBox)',
                                     stripHtml: false
                                 }
-                            }],
+                            }
+                        ],
                         select: true,
                         destroy: true,
                         colReorder: true,
@@ -933,9 +917,7 @@ Template.supplierpaymentcard.onRendered(() => {
                         }, 100);
                         let draftRecord = templateObject.datatablerecords.get();
                         templateObject.datatablerecords.set(draftRecord);
-                    }).on('column-reorder', function () {
-
-                    }).on('length.dt', function (e, settings, len) {
+                    }).on('column-reorder', function () {}).on('length.dt', function (e, settings, len) {
                         setTimeout(function () {
                             MakeNegative();
                         }, 100);
@@ -996,12 +978,7 @@ Template.supplierpaymentcard.onRendered(() => {
             });
         });
 
-
     }
-
-
-
-
 
     templateObject.getPaymentMethods = function () {
         getVS1Data('TPaymentMethod').then(function (dataObject) {
@@ -1146,9 +1123,9 @@ Template.supplierpaymentcard.onRendered(() => {
     templateObject.getDepartments();
     templateObject.getPaymentMethods();
     templateObject.getAccountNames();
-      setTimeout(function(){
-      templateObject.getAllSupplierPaymentData();
-  },500)
+    setTimeout(function () {
+        templateObject.getAllSupplierPaymentData();
+    }, 500)
     $('#edtSupplierName').editableSelect()
     .on('select.editable-select', function (e, li) {
         let selectedSupplier = li.text();
@@ -1167,6 +1144,7 @@ Template.supplierpaymentcard.onRendered(() => {
     var url = FlowRouter.current().path;
     if (url.indexOf('?id=') > 0) {
         var getsale_id = url.split('?id=');
+        $("#addRow").attr("disabled", true);
         var currentSalesID = getsale_id[getsale_id.length - 1];
         if (getsale_id[1]) {
             currentSalesID = parseInt(currentSalesID);
@@ -4180,39 +4158,72 @@ Template.supplierpaymentcard.onRendered(() => {
         }
     });
 
+    $(document).ready(function () {
+        $('#addRow').on('click', function () {
+            // let $tblrows = $("#tblSupplierPaymentcard tbody tr");
+            // $('.fullScreenSpin').css('display','inline-block');
+            // let paymentData = templateObject.datatablerecords1.get();
+            // let paymentDataList = [];
+            // let custname = $('#edtSupplierName').val();
+            //  for(let x = 0; x < paymentData.length; x++) {
+            //   if(custname == paymentData[x].customername) {
+            //       paymentDataList.push(paymentData[x]);
+            //   }
+            // }
 
-        $(document).ready(function () {
-        $('#addRow').on('click', function() {
-        let $tblrows = $("#tblSupplierPaymentcard tbody tr"); 
-        $('.fullScreenSpin').css('display','inline-block');
-        let paymentData = templateObject.datatablerecords1.get();
-        let paymentDataList = [];
-        let custname = $('#edtSupplierName').val();
-         for(let x = 0; x < paymentData.length; x++) {
-          if(custname == paymentData[x].customername) {
-              paymentDataList.push(paymentData[x]);
-          }
-        }
-  
-        templateObject.datatablerecords.set(paymentDataList);
-        $('#supplierPaymentListModal').modal();
-        $('.fullScreenSpin').css('display', 'none');
-  })
-            // var rowData = $('#tblPaymentcard tbody>tr:last').clone(true);
-            // let tokenid = Random.id();
-            // $(".colTransDate", rowData).text("");
-            // $(".colType", rowData).text("");
-            // $(".colTransNo", rowData).text("");
-            // $(".lineOrginalamount", rowData).text("");
-            // $(".lineAmountdue", rowData).text("");
-            // $(".linePaymentamount", rowData).val("");
-            // $(".lineOutstandingAmount", rowData).text("");
-            // $(".colComments", rowData).text("");
-            // rowData.attr('id', tokenid);
-            // rowData.attr('name', tokenid);
-            // $("#tblPaymentcard tbody").append(rowData);
-        });
+            $(".chkBox").prop("checked", false);
+            let paymentList = [];
+            $('.tblSupplierPaymentcard tbody tr').each(function () {
+                paymentList.push(this.id);
 
+            })
+            let geturl = location.href;
+            let id = "";
+            if (geturl.indexOf('?selectsupppo') > 0 && geturl.indexOf('&selectsuppbill') > 0 && geturl.indexOf('&selectsuppcredit') > 0) {
+                geturl = new URL(geturl);
+                let selectsupppo = geturl.searchParams.get("selectsupppo") || '';
+                let selectsuppbill = geturl.searchParams.get("selectsuppbill") || '';
+                let selectsuppcredit = geturl.searchParams.get("selectsuppcredit") || '';
+                id = selectsupppo + ',' + selectsuppbill + ',' + selectsuppcredit;
+            } else if (geturl.indexOf('?billid') > 0) {
+                geturl = new URL(geturl);
+            } else if (geturl.indexOf('?poid') > 0) {
+                geturl = new URL(geturl);
+                id = geturl.searchParams.get("poid");
+            } else if (geturl.indexOf('?creditid') > 0) {
+                geturl = new URL(geturl);
+                id = geturl.searchParams.get("creditid");
+            }
+            let $tblrows = $("#tblSupplierPaymentcard tbody tr");
+            $('.fullScreenSpin').css('display', 'inline-block');
+            let paymentData = templateObject.datatablerecords1.get();
+            let paymentDataList = [];
+            let custname = $('#edtSupplierName').val();
+            for (let x = 0; x < paymentData.length; x++) {
+                let found = paymentList.some(emp => emp == paymentData[x].id);
+                if (custname == paymentData[x].customername && id.includes(paymentData[x].id) == false && found == false) {
+                    paymentDataList.push(paymentData[x]);
+                }
+            }
+            $('.dataTables_info').hide();
+            templateObject.datatablerecords.set(paymentDataList);
+            $('#supplierPaymentListModal').modal();
+            $('.fullScreenSpin').css('display', 'none');
+        })
+        // var rowData = $('#tblPaymentcard tbody>tr:last').clone(true);
+        // let tokenid = Random.id();
+        // $(".colTransDate", rowData).text("");
+        // $(".colType", rowData).text("");
+        // $(".colTransNo", rowData).text("");
+        // $(".lineOrginalamount", rowData).text("");
+        // $(".lineAmountdue", rowData).text("");
+        // $(".linePaymentamount", rowData).val("");
+        // $(".lineOutstandingAmount", rowData).text("");
+        // $(".colComments", rowData).text("");
+        // rowData.attr('id', tokenid);
+        // rowData.attr('name', tokenid);
+        // $("#tblPaymentcard tbody").append(rowData);
+    });
 
 });
 
@@ -4293,2782 +4304,2635 @@ Template.supplierpaymentcard.helpers({
 });
 
 Template.supplierpaymentcard.events({
-  'click .btnSave': function() {
-    $('.fullScreenSpin').css('display', 'inline-block');
-    let templateObject = Template.instance();
-
-    let paymentService = new PaymentsService();
-    let customer = $("#edtSupplierName").val();
-    let paymentAmt = $("#edtPaymentAmount").val();
-    var paymentDateTime = new Date($("#dtPaymentDate").datepicker("getDate"));
-    let paymentDate = paymentDateTime.getFullYear() + "-" + (paymentDateTime.getMonth() + 1) + "-" + paymentDateTime.getDate();
-
-    let bankAccount = $("#edtBankAccountName").val() || "Bank";
-    let reference = $("#edtReference").val();
-    let payMethod = $("#sltPaymentMethod").val();
-    let notes = $("#txaNotes").val();
-    let customerEmail = $("#edtSupplierEmail").val();
-    if (payMethod == '') {
-      payMethod = "Cash";
-    }
-    let department = $("#sltDepartment").val();
-    let empName = localStorage.getItem('mySession');
-    let paymentData = [];
-    Session.setPersistent('paymentmethod', payMethod);
-    Session.setPersistent('bankaccount', bankAccount);
-    Session.setPersistent('department', department);
-    var currentBeginDate = new Date();
-    var begunDate = moment(currentBeginDate).format("DD/MM/YYYY");
-    let fromDateMonth = currentBeginDate.getMonth();
-    let fromDateDay = currentBeginDate.getDate();
-    if(currentBeginDate.getMonth() < 10){
-        fromDateMonth = "0" + (currentBeginDate.getMonth()+1);
-    }else{
-      fromDateMonth = (currentBeginDate.getMonth()+1);
-    }
-
-    if(currentBeginDate.getDate() < 10){
-        fromDateDay = "0" + currentBeginDate.getDate();
-    }
-    var toDate = currentBeginDate.getFullYear()+ "-" +(fromDateMonth) + "-"+(fromDateDay);
-    let prevMonth11Date = (moment().subtract(reportsloadMonths, 'months')).format("YYYY-MM-DD");
-
-
-    var url = window.location.href;
-    if ((url.indexOf('?id=') > 0)) {
-      var getsale_id = url.split('?id=');
-      var currentSalesID = getsale_id[getsale_id.length - 1];
-      let paymentID = parseInt(currentSalesID);;
-      // currentSalesID = parseInt(currentSalesID);
-      $('.tblSupplierPaymentcard > tbody > tr').each(function() {
-        var lineID = this.id;
-        let linetype = $('#' + lineID + " .colType").text() || $(this).closest('tr').find('.colType').text();
-        let lineAmountDue = $('#' + lineID + " .lineAmountdue").text() || $(this).closest('tr').find('.lineAmountdue').text();
-        let linePaymentAmt = $('#' + lineID + " .linePaymentamount").val() || $(this).closest('tr').find('.linePaymentamount').val();
-        let Line = {
-          type: 'TGuiSuppPaymentLines',
-          fields: {
-            TransType: linetype,
-            TransID: parseInt(lineID),
-            Paid: true,
-            Payment: parseFloat(linePaymentAmt.replace(/[^0-9.-]+/g, "")) || 0,
-            //ForeignPayment:parseFloat(linePaymentAmt.replace(/[^0-9.-]+/g,"")) || 0,
-          }
-        };
-        if(parseFloat(linePaymentAmt.replace(/[^0-9.-]+/g, "")) != 0){
-          paymentData.push(Line);
-        }
-
-      });
-      let objDetails = {
-        type: "TSuppPayments",
-        fields: {
-          ID: paymentID,
-          Deleted: false,
-          Notes: notes,
-          ReferenceNo: reference
-        }
-      }
-      paymentService.saveSuppDepositData(objDetails).then(function(data) {
-        var customerID = $('#edtSupplierEmail').attr('customerid');
-
-        // Start End Send Email
-        $('#html-2-pdfwrapper').css('display', 'block');
-        $('.pdfCustomerName').html($('#edtSupplierEmail').val());
-        $('.pdfCustomerAddress').html($('#txabillingAddress').val().replace(/[\r\n]/g, "<br />"));
-        async function addAttachment() {
-          let attachment = [];
-          let templateObject = Template.instance();
-
-          let invoiceId = objDetails.fields.ID;
-          let encodedPdf = await generatePdfForMail(invoiceId);
-          let pdfObject = "";
-          var reader = new FileReader();
-          reader.readAsDataURL(encodedPdf);
-          reader.onloadend = function() {
-            var base64data = reader.result;
-            base64data = base64data.split(',')[1];
-
-            pdfObject = {
-              filename: 'Supplier Payment ' + invoiceId + '.pdf',
-              content: base64data,
-              encoding: 'base64'
-            };
-            attachment.push(pdfObject);
-
-            let erpInvoiceId = objDetails.fields.ID;
-
-            let mailFromName = Session.get('vs1companyName');
-            let mailFrom = localStorage.getItem('VS1OrgEmail')||localStorage.getItem('VS1AdminUserName');
-            let customerEmailName = $('#edtSupplierName').val();
-            let checkEmailData = $('#edtSupplierEmail').val();
-            // let mailCC = templateObject.mailCopyToUsr.get();
-            let grandtotal = $('#grandTotal').html();
-            let amountDueEmail = $('#totalBalanceDue').html();
-            let emailDueDate = $("#dtDueDate").val();
-            let mailSubject = 'Payment ' + erpInvoiceId + ' from ' + mailFromName + ' for ' + customerEmailName;
-            let mailBody = "Hi " + customerEmailName + ",\n\n Here's puchase order " + erpInvoiceId + " for  " + grandtotal + "." +
-              "\n\nThe amount outstanding of " + amountDueEmail + " is due on " + emailDueDate + "." +
-              "\n\nIf you have any questions, please let us know : " + mailFrom + ".\n\nThanks,\n" + mailFromName;
-
-            var htmlmailBody = '<table align="center" border="0" cellpadding="0" cellspacing="0" width="600">' +
-              '    <tr>' +
-              '        <td align="center" bgcolor="#54c7e2" style="padding: 40px 0 30px 0;">' +
-              '            <img src="https://sandbox.vs1cloud.com/assets/VS1logo.png" class="uploadedImage" alt="VS1 Cloud" width="250px" style="display: block;" />' +
-              '        </td>' +
-              '    </tr>' +
-              '    <tr>' +
-              '        <td style="padding: 40px 30px 40px 30px;">' +
-              '            <table border="0" cellpadding="0" cellspacing="0" width="100%">' +
-              '                <tr>' +
-              '                    <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0 20px 0;">' +
-              '                        Hello there <span>' + customerEmailName + '</span>,' +
-              '                    </td>' +
-              '                </tr>' +
-              '                <tr>' +
-              '                    <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0 10px 0;">' +
-              '                        Please find puchase order <span>' + erpInvoiceId + '</span> attached below.' +
-              '                    </td>' +
-              '                </tr>' +
-              '                    <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0 30px 0;">' +
-              '                        Kind regards,' +
-              '                        <br>' +
-              '                        ' + mailFromName + '' +
-              '                    </td>' +
-              '                </tr>' +
-              '            </table>' +
-              '        </td>' +
-              '    </tr>' +
-              '    <tr>' +
-              '        <td bgcolor="#00a3d3" style="padding: 30px 30px 30px 30px;">' +
-              '            <table border="0" cellpadding="0" cellspacing="0" width="100%">' +
-              '                <tr>' +
-              '                    <td width="50%" style="color: #ffffff; font-family: Arial, sans-serif; font-size: 14px;">' +
-              '                        If you have any question, please do not hesitate to contact us.' +
-              '                    </td>' +
-              '                    <td align="right">' +
-              '                        <a style="border: none; color: white; padding: 15px 32px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin: 4px 2px; cursor: pointer; background-color: #4CAF50;" href="mailto:' + mailFrom + '">Contact Us</a>' +
-              '                    </td>' +
-              '                </tr>' +
-              '            </table>' +
-              '        </td>' +
-              '    </tr>' +
-              '</table>';
-
-            if (($('.chkEmailCopy').is(':checked')) && ($('.chkEmailRep').is(':checked'))) {
-              Meteor.call('sendEmail', {
-                from: "" + mailFromName + " <" + mailFrom + ">",
-                to: checkEmailData,
-                subject: mailSubject,
-                text: '',
-                html: htmlmailBody,
-                attachments: attachment
-              }, function(error, result) {
-                if (error && error.error === "error") {
-                  //Router.go('/paymentoverview?success=true');
-
-                } else {
-
-                }
-              });
-
-              Meteor.call('sendEmail', {
-                from: "" + mailFromName + " <" + mailFrom + ">",
-                to: mailFrom,
-                subject: mailSubject,
-                text: '',
-                html: htmlmailBody,
-                attachments: attachment
-              }, function(error, result) {
-                if (error && error.error === "error") {
-                  //Router.go('/paymentoverview?success=true');
-                } else {
-                  $('#html-2-pdfwrapper').css('display', 'none');
-                  swal({
-                    title: 'SUCCESS',
-                    text: "Email Sent To Supplier: " + checkEmailData + " and User: " + mailFrom + "",
-                    type: 'success',
-                    showCancelButton: false,
-                    confirmButtonText: 'OK'
-                  }).then((result) => {
-                    if (result.value) {
-                      //Router.go('/paymentoverview?success=true');
-                    } else if (result.dismiss === 'cancel') {
-
-                    }
-                  });
-
-                  $('.fullScreenSpin').css('display', 'none');
-                }
-              });
-
-            } else if (($('.chkEmailCopy').is(':checked'))) {
-              Meteor.call('sendEmail', {
-                from: "" + mailFromName + " <" + mailFrom + ">",
-                to: checkEmailData,
-                subject: mailSubject,
-                text: '',
-                html: htmlmailBody,
-                attachments: attachment
-              }, function(error, result) {
-                if (error && error.error === "error") {
-                  //Router.go('/paymentoverview?success=true');
-
-                } else {
-                  $('#html-2-pdfwrapper').css('display', 'none');
-                  swal({
-                    title: 'SUCCESS',
-                    text: "Email Sent To Supplier: " + checkEmailData + " ",
-                    type: 'success',
-                    showCancelButton: false,
-                    confirmButtonText: 'OK'
-                  }).then((result) => {
-                    if (result.value) {
-                      //Router.go('/paymentoverview?success=true');
-                    } else if (result.dismiss === 'cancel') {
-
-                    }
-                  });
-
-                  $('.fullScreenSpin').css('display', 'none');
-                }
-              });
-
-            } else if (($('.chkEmailRep').is(':checked'))) {
-              Meteor.call('sendEmail', {
-                from: "" + mailFromName + " <" + mailFrom + ">",
-                to: mailFrom,
-                subject: mailSubject,
-                text: '',
-                html: htmlmailBody,
-                attachments: attachment
-              }, function(error, result) {
-                if (error && error.error === "error") {
-                  //Router.go('/paymentoverview?success=true');
-                } else {
-                  $('#html-2-pdfwrapper').css('display', 'none');
-                  swal({
-                    title: 'SUCCESS',
-                    text: "Email Sent To User: " + mailFrom + " ",
-                    type: 'success',
-                    showCancelButton: false,
-                    confirmButtonText: 'OK'
-                  }).then((result) => {
-                    if (result.value) {
-                      //Router.go('/paymentoverview?success=true');
-                    } else if (result.dismiss === 'cancel') {
-
-                    }
-                  });
-
-                  $('.fullScreenSpin').css('display', 'none');
-                }
-              });
-
-            } else {
-              //Router.go('/paymentoverview?success=true');
-            };
-          };
-        }
-        addAttachment();
-
-        function generatePdfForMail(invoiceId) {
-          return new Promise((resolve, reject) => {
-            let templateObject = Template.instance();
-            // let data = templateObject.singleInvoiceData.get();
-            let completeTabRecord;
-            let doc = new jsPDF('p', 'pt', 'a4');
-            doc.setFontSize(18);
-            var source = document.getElementById('html-2-pdfwrapper');
-            doc.addHTML(source, function() {
-              //pdf.save('Invoice.pdf');
-              resolve(doc.output('blob'));
-              // $('#html-2-pdfwrapper').css('display','none');
-            });
-          });
-        }
-        // End Send Email
-        if (customerID !== " ") {
-          let customerEmailData = {
-            type: "TSupplier",
-            fields: {
-              ID: customerID,
-              Email: customerEmail
-            }
-          }
-          // paymentService.saveSupplierEmail(customerEmailData).then(function (customerEmailData) {
-          //
-          // });
-        };
-        // $('.fullScreenSpin').css('display','none');
-        // window.open('/supplierpayment','_self');
-        sideBarService.getTSupplierPaymentList().then(function (dataUpdate) {
-            addVS1Data('TSupplierPayment', JSON.stringify(dataUpdate)).then(function (datareturn) {
-             window.open('/supplierpayment','_self');
-            }).catch(function (err) {
-              window.open('/supplierpayment','_self');
-            });
-          }).catch(function (err) {
-            window.open('/supplierpayment','_self');
-          });
-        //window.history.go(-2);
-      }).catch(function(err) {
-        console.log(err);
-        swal({
-          title: 'Oooops...',
-          text: err,
-          type: 'error',
-          showCancelButton: false,
-          confirmButtonText: 'Try Again'
-        }).then((result) => {
-          if (result.value) {
-            // Meteor._reload.reload();
-          } else if (result.dismiss === 'cancel') {
-
-          }
-        });
-        //window.open('/supplierpayment','_self');
-        //window.history.go(-2);
-        //Bert.alert('<strong>' + err + '</strong>!', 'danger');
-        $('.fullScreenSpin').css('display', 'none');
-      });
-    } else if ((url.indexOf('?poid=') > 0)) {
-      var getsale_id = url.split('?poid=');
-      var currentSalesID = getsale_id[getsale_id.length - 1];
-      let paymentID = parseInt(currentSalesID);;
-
-
-      $('.tblSupplierPaymentcard > tbody > tr').each(function() {
-        var lineID = this.id;
-         let linetype = $('#' + lineID + " .colType").text() || $(this).closest('tr').find('.colType').text();
-        let lineAmountDue = $('#' + lineID + " .lineAmountdue").text() || $(this).closest('tr').find('.lineAmountdue').text();
-        let linePaymentAmt = $('#' + lineID + " .linePaymentamount").val() || $(this).closest('tr').find('.linePaymentamount').val();
-        let Line = {
-          type: 'TGuiSuppPaymentLines',
-          fields: {
-            TransType: linetype,
-            TransID: parseInt(lineID),
-            Paid: true,
-            Payment: parseFloat(linePaymentAmt.replace(/[^0-9.-]+/g, "")) || 0,
-            //ForeignPayment:parseFloat(linePaymentAmt.replace(/[^0-9.-]+/g,"")) || 0,
-          }
-        };
-        if(parseFloat(linePaymentAmt.replace(/[^0-9.-]+/g, "")) != 0){
-          paymentData.push(Line);
-        }
-      });
-      let objDetails = '';
-      if(paymentData.length === 0){
-        $('.fullScreenSpin').css('display', 'none');
-        swal({
-          title: 'Ooops...',
-          text: 'There is no amount due for payment. A payment amount cannot be applied',
-          type: 'warning',
-          showCancelButton: false,
-          confirmButtonText: 'OK'
-        }).then((result) => {
-          if (result.value) {
-            // Meteor._reload.reload();
-          } else if (result.dismiss === 'cancel') {
-
-          }
-        });
-
-        return false;
-      }else{
-        objDetails = {
-         type: "TSuppPayments",
-         fields: {
-           ID: 0,
-           // Amount:parseFloat(paymentAmt.replace(/[^0-9.-]+/g,"")) || 0,
-           // Applied:parseFloat(paymentAmt.replace(/[^0-9.-]+/g,"")) || 0,
-           Deleted: false,
-
-           ClientPrintName: customer,
-           CompanyName: customer,
-           DeptClassName: department,
-           //ForeignExchangeCode: CountryAbbr,
-           //ForeignExchangeRate: 1,
-           // EmployeeName: empName || ' ',
-           GUILines: paymentData,
-           Notes: notes,
-           Payment: true,
-           PaymentDate: paymentDate,
-           PayMethodName: payMethod,
-
-           ReferenceNo: reference,
-           AccountName: bankAccount
-         }
-       };
-      }
-
-
-
-      paymentService.saveSuppDepositData(objDetails).then(function(data) {
-        var customerID = $('#edtSupplierEmail').attr('customerid');
-        // Start End Send Email
-        $('#html-2-pdfwrapper').css('display', 'block');
-        $('.pdfCustomerName').html($('#edtSupplierEmail').val());
-        $('.pdfCustomerAddress').html($('#txabillingAddress').val().replace(/[\r\n]/g, "<br />"));
-        async function addAttachment() {
-          let attachment = [];
-          let templateObject = Template.instance();
-
-          let invoiceId = objDetails.fields.ID;
-          let encodedPdf = await generatePdfForMail(invoiceId);
-          let pdfObject = "";
-          var reader = new FileReader();
-          reader.readAsDataURL(encodedPdf);
-          reader.onloadend = function() {
-            var base64data = reader.result;
-            base64data = base64data.split(',')[1];
-
-            pdfObject = {
-              filename: 'supplierpayment-' + invoiceId + '.pdf',
-              content: base64data,
-              encoding: 'base64'
-            };
-            attachment.push(pdfObject);
-
-            let erpInvoiceId = objDetails.fields.ID;
-
-            let mailFromName = Session.get('vs1companyName');
-            let mailFrom = localStorage.getItem('VS1OrgEmail')||localStorage.getItem('VS1AdminUserName');
-            let customerEmailName = $('#edtSupplierName').val();
-            let checkEmailData = $('#edtSupplierEmail').val();
-            // let mailCC = templateObject.mailCopyToUsr.get();
-            let grandtotal = $('#grandTotal').html();
-            let amountDueEmail = $('#totalBalanceDue').html();
-            let emailDueDate = $("#dtDueDate").val();
-            let mailSubject = 'Payment ' + erpInvoiceId + ' from ' + mailFromName + ' for ' + customerEmailName;
-            let mailBody = "Hi " + customerEmailName + ",\n\n Here's puchase order " + erpInvoiceId + " for  " + grandtotal + "." +
-              "\n\nThe amount outstanding of " + amountDueEmail + " is due on " + emailDueDate + "." +
-              "\n\nIf you have any questions, please let us know : " + mailFrom + ".\n\nThanks,\n" + mailFromName;
-
-            var htmlmailBody = '<table align="center" border="0" cellpadding="0" cellspacing="0" width="600">' +
-              '    <tr>' +
-              '        <td align="center" bgcolor="#54c7e2" style="padding: 40px 0 30px 0;">' +
-              '            <img src="https://sandbox.vs1cloud.com/assets/VS1logo.png" class="uploadedImage" alt="VS1 Cloud" width="250px" style="display: block;" />' +
-              '        </td>' +
-              '    </tr>' +
-              '    <tr>' +
-              '        <td style="padding: 40px 30px 40px 30px;">' +
-              '            <table border="0" cellpadding="0" cellspacing="0" width="100%">' +
-              '                <tr>' +
-              '                    <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0 20px 0;">' +
-              '                        Hello there <span>' + customerEmailName + '</span>,' +
-              '                    </td>' +
-              '                </tr>' +
-              '                <tr>' +
-              '                    <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0 10px 0;">' +
-              '                        Please find puchase order <span>' + erpInvoiceId + '</span> attached below.' +
-              '                    </td>' +
-              '                </tr>' +
-              '                    <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0 30px 0;">' +
-              '                        Kind regards,' +
-              '                        <br>' +
-              '                        ' + mailFromName + '' +
-              '                    </td>' +
-              '                </tr>' +
-              '            </table>' +
-              '        </td>' +
-              '    </tr>' +
-              '    <tr>' +
-              '        <td bgcolor="#00a3d3" style="padding: 30px 30px 30px 30px;">' +
-              '            <table border="0" cellpadding="0" cellspacing="0" width="100%">' +
-              '                <tr>' +
-              '                    <td width="50%" style="color: #ffffff; font-family: Arial, sans-serif; font-size: 14px;">' +
-              '                        If you have any question, please do not hesitate to contact us.' +
-              '                    </td>' +
-              '                    <td align="right">' +
-              '                        <a style="border: none; color: white; padding: 15px 32px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin: 4px 2px; cursor: pointer; background-color: #4CAF50;" href="mailto:' + mailFrom + '">Contact Us</a>' +
-              '                    </td>' +
-              '                </tr>' +
-              '            </table>' +
-              '        </td>' +
-              '    </tr>' +
-              '</table>';
-
-            if (($('.chkEmailCopy').is(':checked')) && ($('.chkEmailRep').is(':checked'))) {
-              Meteor.call('sendEmail', {
-                from: "" + mailFromName + " <" + mailFrom + ">",
-                to: checkEmailData,
-                subject: mailSubject,
-                text: '',
-                html: htmlmailBody,
-                attachments: attachment
-              }, function(error, result) {
-                if (error && error.error === "error") {
-                  //window.open('/supplierawaitingpurchaseorder', '_self');
-
-                } else {
-
-                }
-              });
-
-              Meteor.call('sendEmail', {
-                from: "" + mailFromName + " <" + mailFrom + ">",
-                to: mailFrom,
-                subject: mailSubject,
-                text: '',
-                html: htmlmailBody,
-                attachments: attachment
-              }, function(error, result) {
-                if (error && error.error === "error") {
-                  //window.open('/supplierawaitingpurchaseorder', '_self');
-                } else {
-                  $('#html-2-pdfwrapper').css('display', 'none');
-                  swal({
-                    title: 'SUCCESS',
-                    text: "Email Sent To Supplier: " + checkEmailData + " and User: " + mailFrom + "",
-                    type: 'success',
-                    showCancelButton: false,
-                    confirmButtonText: 'OK'
-                  }).then((result) => {
-                    if (result.value) {
-                      //window.open('/supplierawaitingpurchaseorder', '_self');
-                    } else if (result.dismiss === 'cancel') {
-
-                    }
-                  });
-
-                  $('.fullScreenSpin').css('display', 'none');
-                }
-              });
-
-            } else if (($('.chkEmailCopy').is(':checked'))) {
-              Meteor.call('sendEmail', {
-                from: "" + mailFromName + " <" + mailFrom + ">",
-                to: checkEmailData,
-                subject: mailSubject,
-                text: '',
-                html: htmlmailBody,
-                attachments: attachment
-              }, function(error, result) {
-                if (error && error.error === "error") {
-                  //window.open('/supplierawaitingpurchaseorder', '_self');
-
-                } else {
-                  $('#html-2-pdfwrapper').css('display', 'none');
-                  swal({
-                    title: 'SUCCESS',
-                    text: "Email Sent To Supplier: " + checkEmailData + " ",
-                    type: 'success',
-                    showCancelButton: false,
-                    confirmButtonText: 'OK'
-                  }).then((result) => {
-                    if (result.value) {
-                    //  window.open('/supplierawaitingpurchaseorder', '_self');
-                    } else if (result.dismiss === 'cancel') {
-
-                    }
-                  });
-
-                  $('.fullScreenSpin').css('display', 'none');
-                }
-              });
-
-            } else if (($('.chkEmailRep').is(':checked'))) {
-              Meteor.call('sendEmail', {
-                from: "" + mailFromName + " <" + mailFrom + ">",
-                to: mailFrom,
-                subject: mailSubject,
-                text: '',
-                html: htmlmailBody,
-                attachments: attachment
-              }, function(error, result) {
-                if (error && error.error === "error") {
-                  //window.open('/supplierawaitingpurchaseorder', '_self');
-                } else {
-                  $('#html-2-pdfwrapper').css('display', 'none');
-                  swal({
-                    title: 'SUCCESS',
-                    text: "Email Sent To User: " + mailFrom + " ",
-                    type: 'success',
-                    showCancelButton: false,
-                    confirmButtonText: 'OK'
-                  }).then((result) => {
-                    if (result.value) {
-                      //window.open('/supplierawaitingpurchaseorder', '_self');
-                    } else if (result.dismiss === 'cancel') {
-
-                    }
-                  });
-
-                  $('.fullScreenSpin').css('display', 'none');
-                }
-              });
-
-            } else {
-              //window.open('/supplierawaitingpurchaseorder', '_self');
-            };
-          };
-        }
-        addAttachment();
-
-        function generatePdfForMail(invoiceId) {
-          return new Promise((resolve, reject) => {
-            let templateObject = Template.instance();
-            // let data = templateObject.singleInvoiceData.get();
-            let completeTabRecord;
-            let doc = new jsPDF('p', 'pt', 'a4');
-            doc.setFontSize(18);
-            var source = document.getElementById('html-2-pdfwrapper');
-            doc.addHTML(source, function() {
-              //pdf.save('Invoice.pdf');
-              resolve(doc.output('blob'));
-              // $('#html-2-pdfwrapper').css('display','none');
-            });
-          });
-        }
-        // End Send Email
-        if (customerID !== " ") {
-          let customerEmailData = {
-            type: "TSupplier",
-            fields: {
-              ID: customerID,
-              Email: customerEmail
-            }
-          }
-          // paymentService.saveSupplierEmail(customerEmailData).then(function (customerEmailData) {
-          //
-          // });
-        };
-        // $('.fullScreenSpin').css('display','none');
-        // window.open('/supplierawaitingpurchaseorder','_self');
-        sideBarService.getAllPurchaseOrderList().then(function (dataUpdate) {
-          addVS1Data('TPurchaseOrderEx', JSON.stringify(dataUpdate)).then(function (datareturn) {
-          }).catch(function (err) {
-
-          });
-        }).catch(function (err) {
-
-        });
-
-        sideBarService.getTSupplierPaymentList().then(function (dataUpdate) {
-            addVS1Data('TSupplierPayment', JSON.stringify(dataUpdate)).then(function (datareturn) {
-
-            }).catch(function (err) {
-
-            });
-          }).catch(function (err) {
-
-          });
-
-        sideBarService.getAllPurchaseOrderListAll(prevMonth11Date,toDate, false).then(function (dataUpdate) {
-       addVS1Data('TbillReport', JSON.stringify(dataUpdate)).then(function (datareturn) {
-         window.open('/supplierawaitingpurchaseorder','_self');
-       }).catch(function (err) {
-         window.open('/supplierawaitingpurchaseorder','_self');
-       });
-     }).catch(function (err) {
-       window.open('/supplierawaitingpurchaseorder','_self');
-     });
-
-
-      }).catch(function(err) {
-        //window.open('/paymentoverview','_self');
-        swal({
-          title: 'Oooops...',
-          text: err,
-          type: 'error',
-          showCancelButton: false,
-          confirmButtonText: 'Try Again'
-        }).then((result) => {
-          if (result.value) {
-            // Meteor._reload.reload();
-          } else if (result.dismiss === 'cancel') {
-
-          }
-        });
-        $('.fullScreenSpin').css('display', 'none');
-      });
-    } else if ((url.indexOf('?billid=') > 0)) {
-      var getsale_id = url.split('?billid=');
-      var currentSalesID = getsale_id[getsale_id.length - 1];
-      let paymentID = parseInt(currentSalesID);;
-
-
-      $('.tblSupplierPaymentcard > tbody > tr').each(function() {
-        var lineID = this.id;
-         let linetype = $('#' + lineID + " .colType").text() || $(this).closest('tr').find('.colType').text();
-        let lineAmountDue = $('#' + lineID + " .lineAmountdue").text() || $(this).closest('tr').find('.lineAmountdue').text();
-        let linePaymentAmt = $('#' + lineID + " .linePaymentamount").val() || $(this).closest('tr').find('.linePaymentamount').val();
-        let Line = {
-          type: 'TGuiSuppPaymentLines',
-          fields: {
-            TransType: linetype,
-            TransID: parseInt(lineID),
-            Paid: true,
-            Payment: parseFloat(linePaymentAmt.replace(/[^0-9.-]+/g, "")) || 0,
-            //ForeignPayment:parseFloat(linePaymentAmt.replace(/[^0-9.-]+/g,"")) || 0,
-          }
-        };
-        if(parseFloat(linePaymentAmt.replace(/[^0-9.-]+/g, "")) != 0){
-          paymentData.push(Line);
-        }
-      });
-
-      let objDetails = '';
-      if(paymentData.length === 0){
-        $('.fullScreenSpin').css('display', 'none');
-        swal({
-          title: 'Ooops...',
-          text: 'There is no amount due for payment. A payment amount cannot be applied',
-          type: 'warning',
-          showCancelButton: false,
-          confirmButtonText: 'OK'
-        }).then((result) => {
-          if (result.value) {
-            // Meteor._reload.reload();
-          } else if (result.dismiss === 'cancel') {
-
-          }
-        });
-
-        return false;
-      }else{
-         objDetails = {
-          type: "TSuppPayments",
-          fields: {
-            // Amount:parseFloat(paymentAmt.replace(/[^0-9.-]+/g,"")) || 0,
-            // Applied:parseFloat(paymentAmt.replace(/[^0-9.-]+/g,"")) || 0,
-            ID: 0,
-            Deleted: false,
-
-            ClientPrintName: customer,
-            CompanyName: customer,
-            DeptClassName: department,
-            // EmployeeName: empName || ' ',
-            GUILines: paymentData,
-            Notes: notes,
-            Payment: true,
-            PaymentDate: paymentDate,
-            PayMethodName: payMethod,
-
-            ReferenceNo: reference,
-            AccountName: bankAccount
-          }
-        };
-      }
-
-
-      paymentService.saveSuppDepositData(objDetails).then(function(data) {
-        var customerID = $('#edtSupplierEmail').attr('customerid');
-        // Start End Send Email
-        $('#html-2-pdfwrapper').css('display', 'block');
-        $('.pdfCustomerName').html($('#edtSupplierEmail').val());
-        $('.pdfCustomerAddress').html($('#txabillingAddress').val().replace(/[\r\n]/g, "<br />"));
-        async function addAttachment() {
-          let attachment = [];
-          let templateObject = Template.instance();
-
-          let invoiceId = objDetails.fields.ID;
-          let encodedPdf = await generatePdfForMail(invoiceId);
-          let pdfObject = "";
-          var reader = new FileReader();
-          reader.readAsDataURL(encodedPdf);
-          reader.onloadend = function() {
-            var base64data = reader.result;
-            base64data = base64data.split(',')[1];
-
-            pdfObject = {
-              filename: 'supplierpayment-' + invoiceId + '.pdf',
-              content: base64data,
-              encoding: 'base64'
-            };
-            attachment.push(pdfObject);
-
-            let erpInvoiceId = objDetails.fields.ID;
-
-            let mailFromName = Session.get('vs1companyName');
-            let mailFrom = localStorage.getItem('VS1OrgEmail')||localStorage.getItem('VS1AdminUserName');
-            let customerEmailName = $('#edtSupplierName').val();
-            let checkEmailData = $('#edtSupplierEmail').val();
-            // let mailCC = templateObject.mailCopyToUsr.get();
-            let grandtotal = $('#grandTotal').html();
-            let amountDueEmail = $('#totalBalanceDue').html();
-            let emailDueDate = $("#dtDueDate").val();
-            let mailSubject = 'Payment ' + erpInvoiceId + ' from ' + mailFromName + ' for ' + customerEmailName;
-            let mailBody = "Hi " + customerEmailName + ",\n\n Here's puchase order " + erpInvoiceId + " for  " + grandtotal + "." +
-              "\n\nThe amount outstanding of " + amountDueEmail + " is due on " + emailDueDate + "." +
-              "\n\nIf you have any questions, please let us know : " + mailFrom + ".\n\nThanks,\n" + mailFromName;
-
-            var htmlmailBody = '<table align="center" border="0" cellpadding="0" cellspacing="0" width="600">' +
-              '    <tr>' +
-              '        <td align="center" bgcolor="#54c7e2" style="padding: 40px 0 30px 0;">' +
-              '            <img src="https://sandbox.vs1cloud.com/assets/VS1logo.png" class="uploadedImage" alt="VS1 Cloud" width="250px" style="display: block;" />' +
-              '        </td>' +
-              '    </tr>' +
-              '    <tr>' +
-              '        <td style="padding: 40px 30px 40px 30px;">' +
-              '            <table border="0" cellpadding="0" cellspacing="0" width="100%">' +
-              '                <tr>' +
-              '                    <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0 20px 0;">' +
-              '                        Hello there <span>' + customerEmailName + '</span>,' +
-              '                    </td>' +
-              '                </tr>' +
-              '                <tr>' +
-              '                    <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0 10px 0;">' +
-              '                        Please find puchase order <span>' + erpInvoiceId + '</span> attached below.' +
-              '                    </td>' +
-              '                </tr>' +
-              '                    <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0 30px 0;">' +
-              '                        Kind regards,' +
-              '                        <br>' +
-              '                        ' + mailFromName + '' +
-              '                    </td>' +
-              '                </tr>' +
-              '            </table>' +
-              '        </td>' +
-              '    </tr>' +
-              '    <tr>' +
-              '        <td bgcolor="#00a3d3" style="padding: 30px 30px 30px 30px;">' +
-              '            <table border="0" cellpadding="0" cellspacing="0" width="100%">' +
-              '                <tr>' +
-              '                    <td width="50%" style="color: #ffffff; font-family: Arial, sans-serif; font-size: 14px;">' +
-              '                        If you have any question, please do not hesitate to contact us.' +
-              '                    </td>' +
-              '                    <td align="right">' +
-              '                        <a style="border: none; color: white; padding: 15px 32px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin: 4px 2px; cursor: pointer; background-color: #4CAF50;" href="mailto:' + mailFrom + '">Contact Us</a>' +
-              '                    </td>' +
-              '                </tr>' +
-              '            </table>' +
-              '        </td>' +
-              '    </tr>' +
-              '</table>';
-
-            if (($('.chkEmailCopy').is(':checked')) && ($('.chkEmailRep').is(':checked'))) {
-              Meteor.call('sendEmail', {
-                from: "" + mailFromName + " <" + mailFrom + ">",
-                to: checkEmailData,
-                subject: mailSubject,
-                text: '',
-                html: htmlmailBody,
-                attachments: attachment
-              }, function(error, result) {
-                if (error && error.error === "error") {
-                  //window.open('/supplierawaitingpurchaseorder', '_self');
-
-                } else {
-
-                }
-              });
-
-              Meteor.call('sendEmail', {
-                from: "" + mailFromName + " <" + mailFrom + ">",
-                to: mailFrom,
-                subject: mailSubject,
-                text: '',
-                html: htmlmailBody,
-                attachments: attachment
-              }, function(error, result) {
-                if (error && error.error === "error") {
-                  //window.open('/supplierawaitingpurchaseorder', '_self');
-                } else {
-                  $('#html-2-pdfwrapper').css('display', 'none');
-                  swal({
-                    title: 'SUCCESS',
-                    text: "Email Sent To Supplier: " + checkEmailData + " and User: " + mailFrom + "",
-                    type: 'success',
-                    showCancelButton: false,
-                    confirmButtonText: 'OK'
-                  }).then((result) => {
-                    if (result.value) {
-                      //window.open('/supplierawaitingpurchaseorder', '_self');
-                    } else if (result.dismiss === 'cancel') {
-
-                    }
-                  });
-
-                  $('.fullScreenSpin').css('display', 'none');
-                }
-              });
-
-            } else if (($('.chkEmailCopy').is(':checked'))) {
-              Meteor.call('sendEmail', {
-                from: "" + mailFromName + " <" + mailFrom + ">",
-                to: checkEmailData,
-                subject: mailSubject,
-                text: '',
-                html: htmlmailBody,
-                attachments: attachment
-              }, function(error, result) {
-                if (error && error.error === "error") {
-                  //window.open('/supplierawaitingpurchaseorder', '_self');
-
-                } else {
-                  $('#html-2-pdfwrapper').css('display', 'none');
-                  swal({
-                    title: 'SUCCESS',
-                    text: "Email Sent To Supplier: " + checkEmailData + " ",
-                    type: 'success',
-                    showCancelButton: false,
-                    confirmButtonText: 'OK'
-                  }).then((result) => {
-                    if (result.value) {
-                      //window.open('/supplierawaitingpurchaseorder', '_self');
-                    } else if (result.dismiss === 'cancel') {
-
-                    }
-                  });
-
-                  $('.fullScreenSpin').css('display', 'none');
-                }
-              });
-
-            } else if (($('.chkEmailRep').is(':checked'))) {
-              Meteor.call('sendEmail', {
-                from: "" + mailFromName + " <" + mailFrom + ">",
-                to: mailFrom,
-                subject: mailSubject,
-                text: '',
-                html: htmlmailBody,
-                attachments: attachment
-              }, function(error, result) {
-                if (error && error.error === "error") {
-                  //window.open('/supplierawaitingpurchaseorder', '_self');
-                } else {
-                  $('#html-2-pdfwrapper').css('display', 'none');
-                  swal({
-                    title: 'SUCCESS',
-                    text: "Email Sent To User: " + mailFrom + " ",
-                    type: 'success',
-                    showCancelButton: false,
-                    confirmButtonText: 'OK'
-                  }).then((result) => {
-                    if (result.value) {
-                      //window.open('/supplierawaitingpurchaseorder', '_self');
-                    } else if (result.dismiss === 'cancel') {
-
-                    }
-                  });
-
-                  $('.fullScreenSpin').css('display', 'none');
-                }
-              });
-
-            } else {
-              //window.open('/supplierawaitingpurchaseorder', '_self');
-            };
-          };
-        }
-        addAttachment();
-
-        function generatePdfForMail(invoiceId) {
-          return new Promise((resolve, reject) => {
-            let templateObject = Template.instance();
-            // let data = templateObject.singleInvoiceData.get();
-            let completeTabRecord;
-            let doc = new jsPDF('p', 'pt', 'a4');
-            doc.setFontSize(18);
-            var source = document.getElementById('html-2-pdfwrapper');
-            doc.addHTML(source, function() {
-              //pdf.save('Invoice.pdf');
-              resolve(doc.output('blob'));
-              // $('#html-2-pdfwrapper').css('display','none');
-            });
-          });
-        }
-        // End Send Email
-        if (customerID !== " ") {
-          let customerEmailData = {
-            type: "TSupplier",
-            fields: {
-              ID: customerID,
-              Email: customerEmail
-            }
-          }
-          // paymentService.saveSupplierEmail(customerEmailData).then(function (customerEmailData) {
-          //
-          // });
-        };
-        // $('.fullScreenSpin').css('display','none');
-        // window.open('/supplierawaitingpurchaseorder','_self');
-        sideBarService.getAllBillExList().then(function (dataUpdate) {
-          addVS1Data('TBillEx', JSON.stringify(dataUpdate)).then(function (datareturn) {
-          }).catch(function (err) {
-
-          });
-        }).catch(function (err) {
-
-        });
-
-        sideBarService.getTSupplierPaymentList().then(function (dataUpdate) {
-            addVS1Data('TSupplierPayment', JSON.stringify(dataUpdate)).then(function (datareturn) {
-
-            }).catch(function (err) {
-
-            });
-          }).catch(function (err) {
-
-          });
-
-        sideBarService.getAllPurchaseOrderListAll(prevMonth11Date,toDate, false).then(function (dataUpdate) {
-           addVS1Data('TbillReport', JSON.stringify(dataUpdate)).then(function (datareturn) {
-             window.open('/supplierawaitingpurchaseorder','_self');
-           }).catch(function (err) {
-             window.open('/supplierawaitingpurchaseorder','_self');
-           });
-         }).catch(function (err) {
-           window.open('/supplierawaitingpurchaseorder','_self');
-         });
-
-        //window.history.go(-2);
-      }).catch(function(err) {
-        //window.open('/supplierawaitingpurchaseorder','_self');
-        //window.history.go(-2);
-        swal({
-          title: 'Oooops...',
-          text: err,
-          type: 'error',
-          showCancelButton: false,
-          confirmButtonText: 'Try Again'
-        }).then((result) => {
-          if (result.value) {
-            // Meteor._reload.reload();
-          } else if (result.dismiss === 'cancel') {
-
-          }
-        });
-        $('.fullScreenSpin').css('display', 'none');
-      });
-    }else if ((url.indexOf('?creditid=') > 0)) {
-      var getsale_id = url.split('?creditid=');
-      var currentSalesID = getsale_id[getsale_id.length - 1];
-      let paymentID = parseInt(currentSalesID);;
-
-      $('.tblSupplierPaymentcard > tbody > tr').each(function() {
-        var lineID = this.id;
-        let linetype = $('#' + lineID + " .colType").text() || $(this).closest('tr').find('.colType').text();
-        let lineAmountDue = $('#' + lineID + " .lineAmountdue").text() || $(this).closest('tr').find('.lineAmountdue').text();
-        let linePaymentAmt = $('#' + lineID + " .linePaymentamount").val() || $(this).closest('tr').find('.linePaymentamount').val();
-        let Line = {
-          type: 'TGuiSuppPaymentLines',
-          fields: {
-            TransType: linetype,
-            TransID: parseInt(lineID),
-            Paid: true,
-            Payment: parseFloat(linePaymentAmt.replace(/[^0-9.-]+/g, "")) || 0,
-          }
-        };
-        if(parseFloat(linePaymentAmt.replace(/[^0-9.-]+/g, "")) != 0){
-          paymentData.push(Line);
-        }
-      });
-
-      let objDetails = '';
-      if(paymentData.length === 0){
-        $('.fullScreenSpin').css('display', 'none');
-        swal({
-          title: 'Ooops...',
-          text: 'There is no amount due for payment. A payment amount cannot be applied',
-          type: 'warning',
-          showCancelButton: false,
-          confirmButtonText: 'OK'
-        }).then((result) => {
-          if (result.value) {
-            // Meteor._reload.reload();
-          } else if (result.dismiss === 'cancel') {
-
-          }
-        });
-
-        return false;
-      }else{
-         objDetails = {
-          type: "TSuppPayments",
-          fields: {
-            ID: 0,
-            Deleted: false,
-            ClientPrintName: customer,
-            CompanyName: customer,
-            DeptClassName: department,
-            GUILines: paymentData,
-            Notes: notes,
-            Payment: true,
-            PayMethodName: payMethod,
-            ReferenceNo: reference,
-            AccountName: bankAccount
-          }
-        };
-      }
-
-
-      paymentService.saveSuppDepositData(objDetails).then(function(data) {
-        var customerID = $('#edtSupplierEmail').attr('customerid');
-        // Start End Send Email
-        $('#html-2-pdfwrapper').css('display', 'block');
-        $('.pdfCustomerName').html($('#edtSupplierEmail').val());
-        $('.pdfCustomerAddress').html($('#txabillingAddress').val().replace(/[\r\n]/g, "<br />"));
-        async function addAttachment() {
-          let attachment = [];
-          let templateObject = Template.instance();
-
-          let invoiceId = objDetails.fields.ID;
-          let encodedPdf = await generatePdfForMail(invoiceId);
-          let pdfObject = "";
-          var reader = new FileReader();
-          reader.readAsDataURL(encodedPdf);
-          reader.onloadend = function() {
-            var base64data = reader.result;
-            base64data = base64data.split(',')[1];
-
-            pdfObject = {
-              filename: 'supplierpayment-' + invoiceId + '.pdf',
-              content: base64data,
-              encoding: 'base64'
-            };
-            attachment.push(pdfObject);
-
-            let erpInvoiceId = objDetails.fields.ID;
-
-            let mailFromName = Session.get('vs1companyName');
-            let mailFrom = localStorage.getItem('VS1OrgEmail')||localStorage.getItem('VS1AdminUserName');
-            let customerEmailName = $('#edtSupplierName').val();
-            let checkEmailData = $('#edtSupplierEmail').val();
-            // let mailCC = templateObject.mailCopyToUsr.get();
-            let grandtotal = $('#grandTotal').html();
-            let amountDueEmail = $('#totalBalanceDue').html();
-            let emailDueDate = $("#dtDueDate").val();
-            let mailSubject = 'Payment ' + erpInvoiceId + ' from ' + mailFromName + ' for ' + customerEmailName;
-            let mailBody = "Hi " + customerEmailName + ",\n\n Here's bill " + erpInvoiceId + " for  " + grandtotal + "." +
-              "\n\nThe amount outstanding of " + amountDueEmail + " is due on " + emailDueDate + "." +
-              "\n\nIf you have any questions, please let us know : " + mailFrom + ".\n\nThanks,\n" + mailFromName;
-
-            var htmlmailBody = '<table align="center" border="0" cellpadding="0" cellspacing="0" width="600">' +
-              '    <tr>' +
-              '        <td align="center" bgcolor="#54c7e2" style="padding: 40px 0 30px 0;">' +
-              '            <img src="https://sandbox.vs1cloud.com/assets/VS1logo.png" class="uploadedImage" alt="VS1 Cloud" width="250px" style="display: block;" />' +
-              '        </td>' +
-              '    </tr>' +
-              '    <tr>' +
-              '        <td style="padding: 40px 30px 40px 30px;">' +
-              '            <table border="0" cellpadding="0" cellspacing="0" width="100%">' +
-              '                <tr>' +
-              '                    <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0 20px 0;">' +
-              '                        Hello there <span>' + customerEmailName + '</span>,' +
-              '                    </td>' +
-              '                </tr>' +
-              '                <tr>' +
-              '                    <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0 10px 0;">' +
-              '                        Please find puchase order <span>' + erpInvoiceId + '</span> attached below.' +
-              '                    </td>' +
-              '                </tr>' +
-              '                    <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0 30px 0;">' +
-              '                        Kind regards,' +
-              '                        <br>' +
-              '                        ' + mailFromName + '' +
-              '                    </td>' +
-              '                </tr>' +
-              '            </table>' +
-              '        </td>' +
-              '    </tr>' +
-              '    <tr>' +
-              '        <td bgcolor="#00a3d3" style="padding: 30px 30px 30px 30px;">' +
-              '            <table border="0" cellpadding="0" cellspacing="0" width="100%">' +
-              '                <tr>' +
-              '                    <td width="50%" style="color: #ffffff; font-family: Arial, sans-serif; font-size: 14px;">' +
-              '                        If you have any question, please do not hesitate to contact us.' +
-              '                    </td>' +
-              '                    <td align="right">' +
-              '                        <a style="border: none; color: white; padding: 15px 32px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin: 4px 2px; cursor: pointer; background-color: #4CAF50;" href="mailto:' + mailFrom + '">Contact Us</a>' +
-              '                    </td>' +
-              '                </tr>' +
-              '            </table>' +
-              '        </td>' +
-              '    </tr>' +
-              '</table>';
-
-            if (($('.chkEmailCopy').is(':checked')) && ($('.chkEmailRep').is(':checked'))) {
-              Meteor.call('sendEmail', {
-                from: "" + mailFromName + " <" + mailFrom + ">",
-                to: checkEmailData,
-                subject: mailSubject,
-                text: '',
-                html: htmlmailBody,
-                attachments: attachment
-              }, function(error, result) {
-                if (error && error.error === "error") {
-                  //window.open('/supplierawaitingpurchaseorder', '_self');
-
-                } else {
-
-                }
-              });
-
-              Meteor.call('sendEmail', {
-                from: "" + mailFromName + " <" + mailFrom + ">",
-                to: mailFrom,
-                subject: mailSubject,
-                text: '',
-                html: htmlmailBody,
-                attachments: attachment
-              }, function(error, result) {
-                if (error && error.error === "error") {
-                  //window.open('/supplierawaitingpurchaseorder', '_self');
-                } else {
-                  $('#html-2-pdfwrapper').css('display', 'none');
-                  swal({
-                    title: 'SUCCESS',
-                    text: "Email Sent To Supplier: " + checkEmailData + " and User: " + mailFrom + "",
-                    type: 'success',
-                    showCancelButton: false,
-                    confirmButtonText: 'OK'
-                  }).then((result) => {
-                    if (result.value) {
-                      //window.open('/supplierawaitingpurchaseorder', '_self');
-                    } else if (result.dismiss === 'cancel') {
-
-                    }
-                  });
-
-                  $('.fullScreenSpin').css('display', 'none');
-                }
-              });
-
-            } else if (($('.chkEmailCopy').is(':checked'))) {
-              Meteor.call('sendEmail', {
-                from: "" + mailFromName + " <" + mailFrom + ">",
-                to: checkEmailData,
-                subject: mailSubject,
-                text: '',
-                html: htmlmailBody,
-                attachments: attachment
-              }, function(error, result) {
-                if (error && error.error === "error") {
-                  //window.open('/supplierawaitingpurchaseorder', '_self');
-
-                } else {
-                  $('#html-2-pdfwrapper').css('display', 'none');
-                  swal({
-                    title: 'SUCCESS',
-                    text: "Email Sent To Supplier: " + checkEmailData + " ",
-                    type: 'success',
-                    showCancelButton: false,
-                    confirmButtonText: 'OK'
-                  }).then((result) => {
-                    if (result.value) {
-                      //window.open('/supplierawaitingpurchaseorder', '_self');
-                    } else if (result.dismiss === 'cancel') {
-
-                    }
-                  });
-
-                  $('.fullScreenSpin').css('display', 'none');
-                }
-              });
-
-            } else if (($('.chkEmailRep').is(':checked'))) {
-              Meteor.call('sendEmail', {
-                from: "" + mailFromName + " <" + mailFrom + ">",
-                to: mailFrom,
-                subject: mailSubject,
-                text: '',
-                html: htmlmailBody,
-                attachments: attachment
-              }, function(error, result) {
-                if (error && error.error === "error") {
-                  //window.open('/supplierawaitingpurchaseorder', '_self');
-                } else {
-                  $('#html-2-pdfwrapper').css('display', 'none');
-                  swal({
-                    title: 'SUCCESS',
-                    text: "Email Sent To User: " + mailFrom + " ",
-                    type: 'success',
-                    showCancelButton: false,
-                    confirmButtonText: 'OK'
-                  }).then((result) => {
-                    if (result.value) {
-                      //window.open('/supplierawaitingpurchaseorder', '_self');
-                    } else if (result.dismiss === 'cancel') {
-
-                    }
-                  });
-
-                  $('.fullScreenSpin').css('display', 'none');
-                }
-              });
-
-            } else {
-              //window.open('/supplierawaitingpurchaseorder', '_self');
-            };
-          };
-        }
-        addAttachment();
-
-        function generatePdfForMail(invoiceId) {
-          return new Promise((resolve, reject) => {
-            let templateObject = Template.instance();
-            // let data = templateObject.singleInvoiceData.get();
-            let completeTabRecord;
-            let doc = new jsPDF('p', 'pt', 'a4');
-            doc.setFontSize(18);
-            var source = document.getElementById('html-2-pdfwrapper');
-            doc.addHTML(source, function() {
-              //pdf.save('Invoice.pdf');
-              resolve(doc.output('blob'));
-              // $('#html-2-pdfwrapper').css('display','none');
-            });
-          });
-        }
-        // End Send Email
-        if (customerID !== " ") {
-          let customerEmailData = {
-            type: "TSupplier",
-            fields: {
-              ID: customerID,
-              Email: customerEmail
-            }
-          }
-          // paymentService.saveSupplierEmail(customerEmailData).then(function (customerEmailData) {
-          //
-          // });
-        };
-        // $('.fullScreenSpin').css('display','none');
-        // window.open('/supplierawaitingpurchaseorder','_self');
-        sideBarService.getAllCreditList().then(function (dataUpdate) {
-          addVS1Data('TCredit', JSON.stringify(dataUpdate)).then(function (datareturn) {
-          }).catch(function (err) {
-
-          });
-        }).catch(function (err) {
-
-        });
-
-        sideBarService.getTSupplierPaymentList().then(function (dataUpdate) {
-            addVS1Data('TSupplierPayment', JSON.stringify(dataUpdate)).then(function (datareturn) {
-
-            }).catch(function (err) {
-
-            });
-          }).catch(function (err) {
-
-          });
-
-        sideBarService.getAllPurchaseOrderListAll(prevMonth11Date,toDate, false).then(function (dataUpdate) {
-           addVS1Data('TbillReport', JSON.stringify(dataUpdate)).then(function (datareturn) {
-             window.open('/supplierawaitingpurchaseorder','_self');
-           }).catch(function (err) {
-             window.open('/supplierawaitingpurchaseorder','_self');
-           });
-         }).catch(function (err) {
-           window.open('/supplierawaitingpurchaseorder','_self');
-         });
-        //window.history.go(-2);
-      }).catch(function(err) {
-        //window.open('/supplierawaitingpurchaseorder','_self');
-        //window.history.go(-2);
-        swal({
-          title: 'Oooops...',
-          text: err,
-          type: 'error',
-          showCancelButton: false,
-          confirmButtonText: 'Try Again'
-        }).then((result) => {
-          if (result.value) {
-            // Meteor._reload.reload();
-          } else if (result.dismiss === 'cancel') {
-
-          }
-        });
-        $('.fullScreenSpin').css('display', 'none');
-      });
-    } else if ((url.indexOf('?suppname=') > 0) && (url.indexOf('from=') > 0)) {
-      let paymentID = templateObject.supppaymentid.get();
-      $('.tblSupplierPaymentcard > tbody > tr').each(function() {
-        var lineID = this.id;
-        let linetype = $('#' + lineID + " .colType").text() || $(this).closest('tr').find('.colType').text();
-        let lineAmountDue = $('#' + lineID + " .lineAmountdue").text() || $(this).closest('tr').find('.lineAmountdue').text();
-        let linePaymentAmt = $('#' + lineID + " .linePaymentamount").val() || $(this).closest('tr').find('.linePaymentamount').val();
-        let Line = {
-          type: 'TGuiSuppPaymentLines',
-          fields: {
-            TransType: linetype,
-            TransID: parseInt(lineID),
-            Paid: true,
-            Payment: parseFloat(linePaymentAmt.replace(/[^0-9.-]+/g, "")) || 0,
-            //ForeignPayment:parseFloat(linePaymentAmt.replace(/[^0-9.-]+/g,"")) || 0,
-          }
-        };
-        if(parseFloat(linePaymentAmt.replace(/[^0-9.-]+/g, "")) != 0){
-          paymentData.push(Line);
-        }
-      });
-
-      let objDetails = '';
-      if(paymentData.length === 0){
-        $('.fullScreenSpin').css('display', 'none');
-        swal({
-          title: 'Ooops...',
-          text: 'There is no amount due for payment. A payment amount cannot be applied',
-          type: 'warning',
-          showCancelButton: false,
-          confirmButtonText: 'OK'
-        }).then((result) => {
-          if (result.value) {
-            // Meteor._reload.reload();
-          } else if (result.dismiss === 'cancel') {
-
-          }
-        });
-
-        return false;
-      }else{
-         objDetails = {
-          type: "TSuppPayments",
-          fields: {
-            ID: paymentID,
-            Amount: parseFloat(paymentAmt.replace(/[^0-9.-]+/g, "")) || 0,
-            Applied: parseFloat(paymentAmt.replace(/[^0-9.-]+/g, "")) || 0,
-            Deleted: false,
-
-            ClientPrintName: customer,
-            CompanyName: customer,
-            DeptClassName: department,
-            // ForeignExchangeCode: CountryAbbr,
-            // ForeignExchangeRate: 1,
-            // EmployeeName: empName || ' ',
-            GUILines: paymentData,
-            Notes: notes,
-            Payment: true,
-            PaymentDate: paymentDate,
-            PayMethodName: payMethod,
-
-            ReferenceNo: reference,
-            AccountName: bankAccount
-          }
-        };
-      }
-
-
-      paymentService.saveSuppDepositData(objDetails).then(function(data) {
-        var customerID = $('#edtSupplierEmail').attr('customerid');
-
-        // Start End Send Email
-        $('#html-2-pdfwrapper').css('display', 'block');
-        $('.pdfCustomerName').html($('#edtSupplierEmail').val());
-        $('.pdfCustomerAddress').html($('#txabillingAddress').val().replace(/[\r\n]/g, "<br />"));
-        async function addAttachment() {
-          let attachment = [];
-          let templateObject = Template.instance();
-
-          let invoiceId = objDetails.fields.ID;
-          let encodedPdf = await generatePdfForMail(invoiceId);
-          let pdfObject = "";
-          var reader = new FileReader();
-          reader.readAsDataURL(encodedPdf);
-          reader.onloadend = function() {
-            var base64data = reader.result;
-            base64data = base64data.split(',')[1];
-
-            pdfObject = {
-              filename: 'supplierpayment-' + invoiceId + '.pdf',
-              content: base64data,
-              encoding: 'base64'
-            };
-            attachment.push(pdfObject);
-
-            let erpInvoiceId = objDetails.fields.ID;
-
-            let mailFromName = Session.get('vs1companyName');
-            let mailFrom = localStorage.getItem('VS1OrgEmail')||localStorage.getItem('VS1AdminUserName');
-            let customerEmailName = $('#edtSupplierName').val();
-            let checkEmailData = $('#edtSupplierEmail').val();
-            // let mailCC = templateObject.mailCopyToUsr.get();
-            let grandtotal = $('#grandTotal').html();
-            let amountDueEmail = $('#totalBalanceDue').html();
-            let emailDueDate = $("#dtDueDate").val();
-            let mailSubject = 'Payment ' + erpInvoiceId + ' from ' + mailFromName + ' for ' + customerEmailName;
-            let mailBody = "Hi " + customerEmailName + ",\n\n Here's puchase order " + erpInvoiceId + " for  " + grandtotal + "." +
-              "\n\nThe amount outstanding of " + amountDueEmail + " is due on " + emailDueDate + "." +
-              "\n\nIf you have any questions, please let us know : " + mailFrom + ".\n\nThanks,\n" + mailFromName;
-
-            var htmlmailBody = '<table align="center" border="0" cellpadding="0" cellspacing="0" width="600">' +
-              '    <tr>' +
-              '        <td align="center" bgcolor="#54c7e2" style="padding: 40px 0 30px 0;">' +
-              '            <img src="https://sandbox.vs1cloud.com/assets/VS1logo.png" class="uploadedImage" alt="VS1 Cloud" width="250px" style="display: block;" />' +
-              '        </td>' +
-              '    </tr>' +
-              '    <tr>' +
-              '        <td style="padding: 40px 30px 40px 30px;">' +
-              '            <table border="0" cellpadding="0" cellspacing="0" width="100%">' +
-              '                <tr>' +
-              '                    <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0 20px 0;">' +
-              '                        Hello there <span>' + customerEmailName + '</span>,' +
-              '                    </td>' +
-              '                </tr>' +
-              '                <tr>' +
-              '                    <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0 10px 0;">' +
-              '                        Please find puchase order <span>' + erpInvoiceId + '</span> attached below.' +
-              '                    </td>' +
-              '                </tr>' +
-              '                    <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0 30px 0;">' +
-              '                        Kind regards,' +
-              '                        <br>' +
-              '                        ' + mailFromName + '' +
-              '                    </td>' +
-              '                </tr>' +
-              '            </table>' +
-              '        </td>' +
-              '    </tr>' +
-              '    <tr>' +
-              '        <td bgcolor="#00a3d3" style="padding: 30px 30px 30px 30px;">' +
-              '            <table border="0" cellpadding="0" cellspacing="0" width="100%">' +
-              '                <tr>' +
-              '                    <td width="50%" style="color: #ffffff; font-family: Arial, sans-serif; font-size: 14px;">' +
-              '                        If you have any question, please do not hesitate to contact us.' +
-              '                    </td>' +
-              '                    <td align="right">' +
-              '                        <a style="border: none; color: white; padding: 15px 32px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin: 4px 2px; cursor: pointer; background-color: #4CAF50;" href="mailto:' + mailFrom + '">Contact Us</a>' +
-              '                    </td>' +
-              '                </tr>' +
-              '            </table>' +
-              '        </td>' +
-              '    </tr>' +
-              '</table>';
-
-            if (($('.chkEmailCopy').is(':checked')) && ($('.chkEmailRep').is(':checked'))) {
-              Meteor.call('sendEmail', {
-                from: "" + mailFromName + " <" + mailFrom + ">",
-                to: checkEmailData,
-                subject: mailSubject,
-                text: '',
-                html: htmlmailBody,
-                attachments: attachment
-              }, function(error, result) {
-                if (error && error.error === "error") {
-                  //window.open('/supplierawaitingpurchaseorder', '_self');
-
-                } else {
-
-                }
-              });
-
-              Meteor.call('sendEmail', {
-                from: "" + mailFromName + " <" + mailFrom + ">",
-                to: mailFrom,
-                subject: mailSubject,
-                text: '',
-                html: htmlmailBody,
-                attachments: attachment
-              }, function(error, result) {
-                if (error && error.error === "error") {
-                  window.open('/supplierawaitingpurchaseorder', '_self');
-                } else {
-                  $('#html-2-pdfwrapper').css('display', 'none');
-                  swal({
-                    title: 'SUCCESS',
-                    text: "Email Sent To Supplier: " + checkEmailData + " and User: " + mailFrom + "",
-                    type: 'success',
-                    showCancelButton: false,
-                    confirmButtonText: 'OK'
-                  }).then((result) => {
-                    if (result.value) {
-                      //window.open('/supplierawaitingpurchaseorder', '_self');
-                    } else if (result.dismiss === 'cancel') {
-
-                    }
-                  });
-
-                  $('.fullScreenSpin').css('display', 'none');
-                }
-              });
-
-            } else if (($('.chkEmailCopy').is(':checked'))) {
-              Meteor.call('sendEmail', {
-                from: "" + mailFromName + " <" + mailFrom + ">",
-                to: checkEmailData,
-                subject: mailSubject,
-                text: '',
-                html: htmlmailBody,
-                attachments: attachment
-              }, function(error, result) {
-                if (error && error.error === "error") {
-                  //window.open('/supplierawaitingpurchaseorder', '_self');
-
-                } else {
-                  $('#html-2-pdfwrapper').css('display', 'none');
-                  swal({
-                    title: 'SUCCESS',
-                    text: "Email Sent To Supplier: " + checkEmailData + " ",
-                    type: 'success',
-                    showCancelButton: false,
-                    confirmButtonText: 'OK'
-                  }).then((result) => {
-                    if (result.value) {
-                      //window.open('/supplierawaitingpurchaseorder', '_self');
-                    } else if (result.dismiss === 'cancel') {
-
-                    }
-                  });
-
-                  $('.fullScreenSpin').css('display', 'none');
-                }
-              });
-
-            } else if (($('.chkEmailRep').is(':checked'))) {
-              Meteor.call('sendEmail', {
-                from: "" + mailFromName + " <" + mailFrom + ">",
-                to: mailFrom,
-                subject: mailSubject,
-                text: '',
-                html: htmlmailBody,
-                attachments: attachment
-              }, function(error, result) {
-                if (error && error.error === "error") {
-                  //window.open('/supplierawaitingpurchaseorder', '_self');
-                } else {
-                  $('#html-2-pdfwrapper').css('display', 'none');
-                  swal({
-                    title: 'SUCCESS',
-                    text: "Email Sent To User: " + mailFrom + " ",
-                    type: 'success',
-                    showCancelButton: false,
-                    confirmButtonText: 'OK'
-                  }).then((result) => {
-                    if (result.value) {
-                      //window.open('/supplierawaitingpurchaseorder', '_self');
-                    } else if (result.dismiss === 'cancel') {
-
-                    }
-                  });
-
-                  $('.fullScreenSpin').css('display', 'none');
-                }
-              });
-
-            } else {
-              //window.open('/supplierawaitingpurchaseorder', '_self');
-            };
-          };
-        }
-        addAttachment();
-
-        function generatePdfForMail(invoiceId) {
-          return new Promise((resolve, reject) => {
-            let templateObject = Template.instance();
-            // let data = templateObject.singleInvoiceData.get();
-            let completeTabRecord;
-            let doc = new jsPDF('p', 'pt', 'a4');
-            doc.setFontSize(18);
-            var source = document.getElementById('html-2-pdfwrapper');
-            doc.addHTML(source, function() {
-              //pdf.save('Invoice.pdf');
-              resolve(doc.output('blob'));
-              // $('#html-2-pdfwrapper').css('display','none');
-            });
-          });
-        }
-        // End Send Email
-        if (customerID !== " ") {
-          let customerEmailData = {
-            type: "TSupplier",
-            fields: {
-              ID: customerID,
-              Email: customerEmail
-            }
-          }
-          // paymentService.saveSupplierEmail(customerEmailData).then(function (customerEmailData) {
-          //
-          // });
-        };
-        // $('.fullScreenSpin').css('display','none');
-        // window.open('/supplierawaitingpurchaseorder','_self');
-        sideBarService.getAllPurchaseOrderList().then(function (dataUpdate) {
-            addVS1Data('TPurchaseOrderEx', JSON.stringify(dataUpdate)).then(function (datareturn) {
-            }).catch(function (err) {
-
-            });
-          }).catch(function (err) {
-
-          });
-
-        sideBarService.getTSupplierPaymentList().then(function (dataUpdate) {
-            addVS1Data('TSupplierPayment', JSON.stringify(dataUpdate)).then(function (datareturn) {
-
-            }).catch(function (err) {
-
-            });
-          }).catch(function (err) {
-
-          });
-
-        sideBarService.getAllPurchaseOrderListAll(prevMonth11Date,toDate, false).then(function (dataUpdate) {
-           addVS1Data('TbillReport', JSON.stringify(dataUpdate)).then(function (datareturn) {
-             window.open('/supplierawaitingpurchaseorder','_self');
-           }).catch(function (err) {
-             window.open('/supplierawaitingpurchaseorder','_self');
-           });
-         }).catch(function (err) {
-           window.open('/supplierawaitingpurchaseorder','_self');
-         });
-        //window.history.go(-2);
-      }).catch(function(err) {
-        //window.history.go(-2);
-        //window.open('/supplierawaitingpurchaseorder','_self');
-        swal({
-          title: 'Oooops...',
-          text: err,
-          type: 'error',
-          showCancelButton: false,
-          confirmButtonText: 'Try Again'
-        }).then((result) => {
-          if (result.value) {
-            // Meteor._reload.reload();
-          } else if (result.dismiss === 'cancel') {
-
-          }
-        });
-        $('.fullScreenSpin').css('display', 'none');
-      });
-    } else if ((url.indexOf('?suppcreditname=') > 0) && (url.indexOf('pocreditid=') > 0)) {
-
-      $('.tblSupplierPaymentcard > tbody > tr').each(function() {
-        var lineID = this.id;
-        let linetype = $('#' + lineID + " .colType").text() || $(this).closest('tr').find('.colType').text();
-        let lineAmountDue = $('#' + lineID + " .lineAmountdue").text() || $(this).closest('tr').find('.lineAmountdue').text();
-        let linePaymentAmt = $('#' + lineID + " .linePaymentamount").val() || $(this).closest('tr').find('.linePaymentamount').val();
-        let Line = {
-          type: 'TGuiSuppPaymentLines',
-          fields: {
-            TransType: linetype,
-            TransID: parseInt(lineID),
-            Paid: true,
-            Payment: parseFloat(linePaymentAmt.replace(/[^0-9.-]+/g, "")) || 0,
-            //ForeignPayment:parseFloat(linePaymentAmt.replace(/[^0-9.-]+/g,"")) || 0,
-          }
-        };
-        if (parseFloat(linePaymentAmt.replace(/[^0-9.-]+/g, "")) != 0) {
-          paymentData.push(Line);
-        }
-
-      });
-
-      let objDetails = '';
-        if(paymentData.length === 0){
-          $('.fullScreenSpin').css('display', 'none');
-          swal({
-            title: 'Ooops...',
-            text: 'There is no amount due for payment. A payment amount cannot be applied',
-            type: 'warning',
-            showCancelButton: false,
-            confirmButtonText: 'OK'
-          }).then((result) => {
-            if (result.value) {
-              // Meteor._reload.reload();
-            } else if (result.dismiss === 'cancel') {
-
-            }
-          });
-
-          return false;
-        }else{
-       objDetails = {
-        type: "TSuppPayments",
-        fields: {
-          ID: 0,
-          // Amount:parseFloat(paymentAmt.replace(/[^0-9.-]+/g,"")) || 0,
-          // Applied:parseFloat(paymentAmt.replace(/[^0-9.-]+/g,"")) || 0,
-          Deleted: false,
-
-          ClientPrintName: customer,
-          CompanyName: customer,
-          DeptClassName: department,
-          // ForeignExchangeCode: CountryAbbr,
-          // ForeignExchangeRate: 1,
-          // EmployeeName: empName || ' ',
-          GUILines: paymentData,
-          Notes: notes,
-          Payment: true,
-          PaymentDate: paymentDate,
-          PayMethodName: payMethod,
-
-          ReferenceNo: reference,
-          AccountName: bankAccount
-        }
-      };
-    }
-
-
-      paymentService.saveSuppDepositData(objDetails).then(function(data) {
-        var customerID = $('#edtSupplierEmail').attr('customerid');
-        // Start End Send Email
-        $('#html-2-pdfwrapper').css('display', 'block');
-        $('.pdfCustomerName').html($('#edtSupplierEmail').val());
-        $('.pdfCustomerAddress').html($('#txabillingAddress').val().replace(/[\r\n]/g, "<br />"));
-        async function addAttachment() {
-          let attachment = [];
-          let templateObject = Template.instance();
-
-          let invoiceId = objDetails.fields.ID;
-          let encodedPdf = await generatePdfForMail(invoiceId);
-          let pdfObject = "";
-          var reader = new FileReader();
-          reader.readAsDataURL(encodedPdf);
-          reader.onloadend = function() {
-            var base64data = reader.result;
-            base64data = base64data.split(',')[1];
-
-            pdfObject = {
-              filename: 'supplierpayment-' + invoiceId + '.pdf',
-              content: base64data,
-              encoding: 'base64'
-            };
-            attachment.push(pdfObject);
-
-            let erpInvoiceId = objDetails.fields.ID;
-
-            let mailFromName = Session.get('vs1companyName');
-            let mailFrom = localStorage.getItem('VS1OrgEmail')||localStorage.getItem('VS1AdminUserName');
-            let customerEmailName = $('#edtSupplierName').val();
-            let checkEmailData = $('#edtSupplierEmail').val();
-            // let mailCC = templateObject.mailCopyToUsr.get();
-            let grandtotal = $('#grandTotal').html();
-            let amountDueEmail = $('#totalBalanceDue').html();
-            let emailDueDate = $("#dtDueDate").val();
-            let mailSubject = 'Payment ' + erpInvoiceId + ' from ' + mailFromName + ' for ' + customerEmailName;
-            let mailBody = "Hi " + customerEmailName + ",\n\n Here's puchase order " + erpInvoiceId + " for  " + grandtotal + "." +
-              "\n\nThe amount outstanding of " + amountDueEmail + " is due on " + emailDueDate + "." +
-              "\n\nIf you have any questions, please let us know : " + mailFrom + ".\n\nThanks,\n" + mailFromName;
-
-            var htmlmailBody = '<table align="center" border="0" cellpadding="0" cellspacing="0" width="600">' +
-              '    <tr>' +
-              '        <td align="center" bgcolor="#54c7e2" style="padding: 40px 0 30px 0;">' +
-              '            <img src="https://sandbox.vs1cloud.com/assets/VS1logo.png" class="uploadedImage" alt="VS1 Cloud" width="250px" style="display: block;" />' +
-              '        </td>' +
-              '    </tr>' +
-              '    <tr>' +
-              '        <td style="padding: 40px 30px 40px 30px;">' +
-              '            <table border="0" cellpadding="0" cellspacing="0" width="100%">' +
-              '                <tr>' +
-              '                    <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0 20px 0;">' +
-              '                        Hello there <span>' + customerEmailName + '</span>,' +
-              '                    </td>' +
-              '                </tr>' +
-              '                <tr>' +
-              '                    <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0 10px 0;">' +
-              '                        Please find puchase order <span>' + erpInvoiceId + '</span> attached below.' +
-              '                    </td>' +
-              '                </tr>' +
-              '                    <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0 30px 0;">' +
-              '                        Kind regards,' +
-              '                        <br>' +
-              '                        ' + mailFromName + '' +
-              '                    </td>' +
-              '                </tr>' +
-              '            </table>' +
-              '        </td>' +
-              '    </tr>' +
-              '    <tr>' +
-              '        <td bgcolor="#00a3d3" style="padding: 30px 30px 30px 30px;">' +
-              '            <table border="0" cellpadding="0" cellspacing="0" width="100%">' +
-              '                <tr>' +
-              '                    <td width="50%" style="color: #ffffff; font-family: Arial, sans-serif; font-size: 14px;">' +
-              '                        If you have any question, please do not hesitate to contact us.' +
-              '                    </td>' +
-              '                    <td align="right">' +
-              '                        <a style="border: none; color: white; padding: 15px 32px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin: 4px 2px; cursor: pointer; background-color: #4CAF50;" href="mailto:' + mailFrom + '">Contact Us</a>' +
-              '                    </td>' +
-              '                </tr>' +
-              '            </table>' +
-              '        </td>' +
-              '    </tr>' +
-              '</table>';
-
-            if (($('.chkEmailCopy').is(':checked')) && ($('.chkEmailRep').is(':checked'))) {
-              Meteor.call('sendEmail', {
-                from: "" + mailFromName + " <" + mailFrom + ">",
-                to: checkEmailData,
-                subject: mailSubject,
-                text: '',
-                html: htmlmailBody,
-                attachments: attachment
-              }, function(error, result) {
-                if (error && error.error === "error") {
-                  //window.open('/supplierpayment', '_self');
-
-                } else {
-
-                }
-              });
-
-              Meteor.call('sendEmail', {
-                from: "" + mailFromName + " <" + mailFrom + ">",
-                to: mailFrom,
-                subject: mailSubject,
-                text: '',
-                html: htmlmailBody,
-                attachments: attachment
-              }, function(error, result) {
-                if (error && error.error === "error") {
-                  //window.open('/supplierpayment', '_self');
-                } else {
-                  $('#html-2-pdfwrapper').css('display', 'none');
-                  swal({
-                    title: 'SUCCESS',
-                    text: "Email Sent To Supplier: " + checkEmailData + " and User: " + mailFrom + "",
-                    type: 'success',
-                    showCancelButton: false,
-                    confirmButtonText: 'OK'
-                  }).then((result) => {
-                    if (result.value) {
-                      //window.open('/supplierpayment', '_self');
-                    } else if (result.dismiss === 'cancel') {
-
-                    }
-                  });
-
-                  $('.fullScreenSpin').css('display', 'none');
-                }
-              });
-
-            } else if (($('.chkEmailCopy').is(':checked'))) {
-              Meteor.call('sendEmail', {
-                from: "" + mailFromName + " <" + mailFrom + ">",
-                to: checkEmailData,
-                subject: mailSubject,
-                text: '',
-                html: htmlmailBody,
-                attachments: attachment
-              }, function(error, result) {
-                if (error && error.error === "error") {
-                  //window.open('/supplierpayment', '_self');
-
-                } else {
-                  $('#html-2-pdfwrapper').css('display', 'none');
-                  swal({
-                    title: 'SUCCESS',
-                    text: "Email Sent To Supplier: " + checkEmailData + " ",
-                    type: 'success',
-                    showCancelButton: false,
-                    confirmButtonText: 'OK'
-                  }).then((result) => {
-                    if (result.value) {
-                      //window.open('/supplierpayment', '_self');
-                    } else if (result.dismiss === 'cancel') {
-
-                    }
-                  });
-
-                  $('.fullScreenSpin').css('display', 'none');
-                }
-              });
-
-            } else if (($('.chkEmailRep').is(':checked'))) {
-              Meteor.call('sendEmail', {
-                from: "" + mailFromName + " <" + mailFrom + ">",
-                to: mailFrom,
-                subject: mailSubject,
-                text: '',
-                html: htmlmailBody,
-                attachments: attachment
-              }, function(error, result) {
-                if (error && error.error === "error") {
-                //  window.open('/supplierpayment', '_self');
-                } else {
-                  $('#html-2-pdfwrapper').css('display', 'none');
-                  swal({
-                    title: 'SUCCESS',
-                    text: "Email Sent To User: " + mailFrom + " ",
-                    type: 'success',
-                    showCancelButton: false,
-                    confirmButtonText: 'OK'
-                  }).then((result) => {
-                    if (result.value) {
-                      //window.open('/supplierpayment', '_self');
-                    } else if (result.dismiss === 'cancel') {
-
-                    }
-                  });
-
-                  $('.fullScreenSpin').css('display', 'none');
-                }
-              });
-
-            } else {
-              //window.open('/supplierpayment', '_self');
-            };
-          };
-        }
-        addAttachment();
-
-        function generatePdfForMail(invoiceId) {
-          return new Promise((resolve, reject) => {
-            let templateObject = Template.instance();
-            // let data = templateObject.singleInvoiceData.get();
-            let completeTabRecord;
-            let doc = new jsPDF('p', 'pt', 'a4');
-            doc.setFontSize(18);
-            var source = document.getElementById('html-2-pdfwrapper');
-            doc.addHTML(source, function() {
-              //pdf.save('Invoice.pdf');
-              resolve(doc.output('blob'));
-              // $('#html-2-pdfwrapper').css('display','none');
-            });
-          });
-        }
-        // End Send Email
-        if (customerID !== " ") {
-          let customerEmailData = {
-            type: "TSupplier",
-            fields: {
-              ID: customerID,
-              Email: customerEmail
-            }
-          }
-
-        };
-        // $('.fullScreenSpin').css('display','none');
-        // window.open('/supplierpayment','_self');
-        sideBarService.getAllPurchaseOrderList().then(function (dataUpdate) {
-          sideBarService.getTSupplierPaymentList().then(function (dataUpdate) {
-              addVS1Data('TSupplierPayment', JSON.stringify(dataUpdate)).then(function (datareturn) {
-
-              }).catch(function (err) {
-
-              });
-            }).catch(function (err) {
-
-            });
-
-            addVS1Data('TPurchaseOrderEx', JSON.stringify(dataUpdate)).then(function (datareturn) {
-              sideBarService.getAllPurchaseOrderListAll(prevMonth11Date,toDate, false).then(function (dataUpdate) {
-                 addVS1Data('TbillReport', JSON.stringify(dataUpdate)).then(function (datareturn) {
-                   window.open('/supplierpayment','_self');
-                 }).catch(function (err) {
-                   window.open('/supplierpayment','_self');
-                 });
-               }).catch(function (err) {
-                 window.open('/supplierpayment','_self');
-               });
-            }).catch(function (err) {
-                window.open('/supplierpayment','_self');
-            });
-          }).catch(function (err) {
-            window.open('/supplierpayment','_self');
-          });
-
-
-
-
-      }).catch(function(err) {
-        //window.open('/paymentoverview','_self');
-        swal({
-          title: 'Oooops...',
-          text: err,
-          type: 'error',
-          showCancelButton: false,
-          confirmButtonText: 'Try Again'
-        }).then((result) => {
-          if (result.value) {
-            // Meteor._reload.reload();
-          } else if (result.dismiss === 'cancel') {
-
-          }
-        });
-        $('.fullScreenSpin').css('display', 'none');
-      });
-    } else if ((url.indexOf('?selectsupppo=') > 0)) {
-      var getsale_id = url.split('?selectsupp=');
-      var currentSalesID = getsale_id[getsale_id.length - 1];
-
-      $('.tblSupplierPaymentcard > tbody > tr').each(function() {
-        var lineID = this.id;
-        let linetype = $('#' + lineID + " .colType").text();
-        let lineAmountDue = $('#' + lineID + " .lineAmountdue").text();
-        let linePaymentAmt = $('#' + lineID + " .linePaymentamount").val();
-        let Line = {
-          type: 'TGuiSuppPaymentLines',
-          fields: {
-            TransType: linetype,
-            TransID: parseInt(lineID),
-            Paid: true,
-            Payment: parseFloat(linePaymentAmt.replace(/[^0-9.-]+/g, "")) || 0,
-          }
-        };
-        if(parseFloat(linePaymentAmt.replace(/[^0-9.-]+/g, "")) != 0){
-          paymentData.push(Line);
-        }
-      });
-
-      let objDetails = '';
-      if(paymentData.length === 0){
-        $('.fullScreenSpin').css('display', 'none');
-        swal({
-          title: 'Ooops...',
-          text: 'There is no amount due for payment. A payment amount cannot be applied',
-          type: 'warning',
-          showCancelButton: false,
-          confirmButtonText: 'OK'
-        }).then((result) => {
-          if (result.value) {
-            // Meteor._reload.reload();
-          } else if (result.dismiss === 'cancel') {
-
-          }
-        });
-
-        return false;
-      }else{
-       objDetails = {
-        type: "TSuppPayments",
-        fields: {
-          ID: 0,
-          Deleted: false,
-
-          ClientPrintName: customer,
-          CompanyName: customer,
-          DeptClassName: department,
-          GUILines: paymentData,
-          Notes: notes,
-          Payment: true,
-          PaymentDate: paymentDate,
-          PayMethodName: payMethod,
-
-          ReferenceNo: reference,
-          AccountName: bankAccount
-        }
-      };
-
-    }
-
-
-      paymentService.saveSuppDepositData(objDetails).then(function(data) {
-        var customerID = $('#edtSupplierEmail').attr('customerid');
-        // Start End Send Email
-        $('#html-2-pdfwrapper').css('display', 'block');
-        $('.pdfCustomerName').html($('#edtSupplierEmail').val());
-        $('.pdfCustomerAddress').html($('#txabillingAddress').val().replace(/[\r\n]/g, "<br />"));
-        async function addAttachment() {
-          let attachment = [];
-          let templateObject = Template.instance();
-
-          let invoiceId = objDetails.fields.ID;
-          let encodedPdf = await generatePdfForMail(invoiceId);
-          let pdfObject = "";
-          var reader = new FileReader();
-          reader.readAsDataURL(encodedPdf);
-          reader.onloadend = function() {
-            var base64data = reader.result;
-            base64data = base64data.split(',')[1];
-
-            pdfObject = {
-              filename: 'supplierpayment-' + invoiceId + '.pdf',
-              content: base64data,
-              encoding: 'base64'
-            };
-            attachment.push(pdfObject);
-
-            let erpInvoiceId = objDetails.fields.ID;
-
-            let mailFromName = Session.get('vs1companyName');
-            let mailFrom = localStorage.getItem('VS1OrgEmail')||localStorage.getItem('VS1AdminUserName');
-            let customerEmailName = $('#edtSupplierName').val();
-            let checkEmailData = $('#edtSupplierEmail').val();
-            // let mailCC = templateObject.mailCopyToUsr.get();
-            let grandtotal = $('#grandTotal').html();
-            let amountDueEmail = $('#totalBalanceDue').html();
-            let emailDueDate = $("#dtDueDate").val();
-            let mailSubject = 'Payment ' + erpInvoiceId + ' from ' + mailFromName + ' for ' + customerEmailName;
-            let mailBody = "Hi " + customerEmailName + ",\n\n Here's puchase order " + erpInvoiceId + " for  " + grandtotal + "." +
-              "\n\nThe amount outstanding of " + amountDueEmail + " is due on " + emailDueDate + "." +
-              "\n\nIf you have any questions, please let us know : " + mailFrom + ".\n\nThanks,\n" + mailFromName;
-
-            var htmlmailBody = '<table align="center" border="0" cellpadding="0" cellspacing="0" width="600">' +
-              '    <tr>' +
-              '        <td align="center" bgcolor="#54c7e2" style="padding: 40px 0 30px 0;">' +
-              '            <img src="https://sandbox.vs1cloud.com/assets/VS1logo.png" class="uploadedImage" alt="VS1 Cloud" width="250px" style="display: block;" />' +
-              '        </td>' +
-              '    </tr>' +
-              '    <tr>' +
-              '        <td style="padding: 40px 30px 40px 30px;">' +
-              '            <table border="0" cellpadding="0" cellspacing="0" width="100%">' +
-              '                <tr>' +
-              '                    <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0 20px 0;">' +
-              '                        Hello there <span>' + customerEmailName + '</span>,' +
-              '                    </td>' +
-              '                </tr>' +
-              '                <tr>' +
-              '                    <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0 10px 0;">' +
-              '                        Please find puchase order <span>' + erpInvoiceId + '</span> attached below.' +
-              '                    </td>' +
-              '                </tr>' +
-              '                    <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0 30px 0;">' +
-              '                        Kind regards,' +
-              '                        <br>' +
-              '                        ' + mailFromName + '' +
-              '                    </td>' +
-              '                </tr>' +
-              '            </table>' +
-              '        </td>' +
-              '    </tr>' +
-              '    <tr>' +
-              '        <td bgcolor="#00a3d3" style="padding: 30px 30px 30px 30px;">' +
-              '            <table border="0" cellpadding="0" cellspacing="0" width="100%">' +
-              '                <tr>' +
-              '                    <td width="50%" style="color: #ffffff; font-family: Arial, sans-serif; font-size: 14px;">' +
-              '                        If you have any question, please do not hesitate to contact us.' +
-              '                    </td>' +
-              '                    <td align="right">' +
-              '                        <a style="border: none; color: white; padding: 15px 32px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin: 4px 2px; cursor: pointer; background-color: #4CAF50;" href="mailto:' + mailFrom + '">Contact Us</a>' +
-              '                    </td>' +
-              '                </tr>' +
-              '            </table>' +
-              '        </td>' +
-              '    </tr>' +
-              '</table>';
-
-            if (($('.chkEmailCopy').is(':checked')) && ($('.chkEmailRep').is(':checked'))) {
-              Meteor.call('sendEmail', {
-                from: "" + mailFromName + " <" + mailFrom + ">",
-                to: checkEmailData,
-                subject: mailSubject,
-                text: '',
-                html: htmlmailBody,
-                attachments: attachment
-              }, function(error, result) {
-                if (error && error.error === "error") {
-                  //window.open('/supplierawaitingpurchaseorder', '_self');
-
-                } else {
-
-                }
-              });
-
-              Meteor.call('sendEmail', {
-                from: "" + mailFromName + " <" + mailFrom + ">",
-                to: mailFrom,
-                subject: mailSubject,
-                text: '',
-                html: htmlmailBody,
-                attachments: attachment
-              }, function(error, result) {
-                if (error && error.error === "error") {
-                  //window.open('/supplierawaitingpurchaseorder', '_self');
-                } else {
-                  $('#html-2-pdfwrapper').css('display', 'none');
-                  swal({
-                    title: 'SUCCESS',
-                    text: "Email Sent To Supplier: " + checkEmailData + " and User: " + mailFrom + "",
-                    type: 'success',
-                    showCancelButton: false,
-                    confirmButtonText: 'OK'
-                  }).then((result) => {
-                    if (result.value) {
-                      //window.open('/supplierawaitingpurchaseorder', '_self');
-                    } else if (result.dismiss === 'cancel') {
-
-                    }
-                  });
-
-                  $('.fullScreenSpin').css('display', 'none');
-                }
-              });
-
-            } else if (($('.chkEmailCopy').is(':checked'))) {
-              Meteor.call('sendEmail', {
-                from: "" + mailFromName + " <" + mailFrom + ">",
-                to: checkEmailData,
-                subject: mailSubject,
-                text: '',
-                html: htmlmailBody,
-                attachments: attachment
-              }, function(error, result) {
-                if (error && error.error === "error") {
-                  //window.open('/supplierawaitingpurchaseorder', '_self');
-
-                } else {
-                  $('#html-2-pdfwrapper').css('display', 'none');
-                  swal({
-                    title: 'SUCCESS',
-                    text: "Email Sent To Supplier: " + checkEmailData + " ",
-                    type: 'success',
-                    showCancelButton: false,
-                    confirmButtonText: 'OK'
-                  }).then((result) => {
-                    if (result.value) {
-                      //window.open('/supplierawaitingpurchaseorder', '_self');
-                    } else if (result.dismiss === 'cancel') {
-
-                    }
-                  });
-
-                  $('.fullScreenSpin').css('display', 'none');
-                }
-              });
-
-            } else if (($('.chkEmailRep').is(':checked'))) {
-              Meteor.call('sendEmail', {
-                from: "" + mailFromName + " <" + mailFrom + ">",
-                to: mailFrom,
-                subject: mailSubject,
-                text: '',
-                html: htmlmailBody,
-                attachments: attachment
-              }, function(error, result) {
-                if (error && error.error === "error") {
-                  //window.open('/supplierawaitingpurchaseorder', '_self');
-                } else {
-                  $('#html-2-pdfwrapper').css('display', 'none');
-                  swal({
-                    title: 'SUCCESS',
-                    text: "Email Sent To User: " + mailFrom + " ",
-                    type: 'success',
-                    showCancelButton: false,
-                    confirmButtonText: 'OK'
-                  }).then((result) => {
-                    if (result.value) {
-                      //window.open('/supplierawaitingpurchaseorder', '_self');
-                    } else if (result.dismiss === 'cancel') {
-
-                    }
-                  });
-
-                  $('.fullScreenSpin').css('display', 'none');
-                }
-              });
-
-            } else {
-            //  window.open('/supplierawaitingpurchaseorder', '_self');
-            };
-          };
-        }
-        addAttachment();
-
-        function generatePdfForMail(invoiceId) {
-          return new Promise((resolve, reject) => {
-            let templateObject = Template.instance();
-            // let data = templateObject.singleInvoiceData.get();
-            let completeTabRecord;
-            let doc = new jsPDF('p', 'pt', 'a4');
-            doc.setFontSize(18);
-            var source = document.getElementById('html-2-pdfwrapper');
-            doc.addHTML(source, function() {
-              //pdf.save('Invoice.pdf');
-              resolve(doc.output('blob'));
-              // $('#html-2-pdfwrapper').css('display','none');
-            });
-          });
-        }
-        // End Send Email
-        if (customerID !== " ") {
-          let customerEmailData = {
-            type: "TSupplier",
-            fields: {
-              ID: customerID,
-              Email: customerEmail
-            }
-          }
-
-        };
-        sideBarService.getTSupplierPaymentList().then(function (dataUpdate) {
-            addVS1Data('TSupplierPayment', JSON.stringify(dataUpdate)).then(function (datareturn) {
-
-            }).catch(function (err) {
-
-            });
-          }).catch(function (err) {
-
-          });
-          sideBarService.getAllPurchaseOrderList().then(function (dataUpdate) {
-          addVS1Data('TPurchaseOrderEx', JSON.stringify(dataUpdate)).then(function (datareturn) {
-            sideBarService.getAllPurchaseOrderListAll(prevMonth11Date,toDate, false).then(function (dataUpdate2) {
-               addVS1Data('TbillReport', JSON.stringify(dataUpdate2)).then(function (datareturn) {
-                 window.open('/supplierpayment','_self');
-               }).catch(function (err) {
-                 window.open('/supplierpayment','_self');
-               });
-             }).catch(function (err) {
-               window.open('/supplierpayment','_self');
-             });
-          }).catch(function (err) {
-              window.open('/supplierpayment','_self');
-          });
-        }).catch(function (err) {
-          window.open('/supplierpayment','_self');
-        });
-      }).catch(function(err) {
-        //window.open('/paymentoverview','_self');
-        swal({
-          title: 'Oooops...',
-          text: err,
-          type: 'error',
-          showCancelButton: false,
-          confirmButtonText: 'Try Again'
-        }).then((result) => {
-          if (result.value) {
-            // Meteor._reload.reload();
-          } else if (result.dismiss === 'cancel') {
-
-          }
-        });
-        $('.fullScreenSpin').css('display', 'none');
-      });
-    } else if ((url.indexOf('?selectsuppb=') > 0)) {
-      var getsale_id = url.split('?selectsuppb=');
-      var currentSalesID = getsale_id[getsale_id.length - 1];
-      // let paymentID = parseInt(currentSalesID);;
-
-
-      $('.tblSupplierPaymentcard > tbody > tr').each(function() {
-        var lineID = this.id;
-        let linetype = $('#' + lineID + " .colType").text();
-        let lineAmountDue = $('#' + lineID + " .lineAmountdue").text();
-        let linePaymentAmt = $('#' + lineID + " .linePaymentamount").val();
-        let Line = {
-          type: 'TGuiSuppPaymentLines',
-          fields: {
-            TransType: linetype,
-            TransID: parseInt(lineID),
-            Paid: true,
-            Payment: parseFloat(linePaymentAmt.replace(/[^0-9.-]+/g, "")) || 0,
-            //ForeignPayment:parseFloat(linePaymentAmt.replace(/[^0-9.-]+/g,"")) || 0,
-          }
-        };
-        if(parseFloat(linePaymentAmt.replace(/[^0-9.-]+/g, "")) != 0){
-          paymentData.push(Line);
-        }
-      });
-
-      let objDetails = '';
-        if(paymentData.length === 0){
-          $('.fullScreenSpin').css('display', 'none');
-          swal({
-            title: 'Ooops...',
-            text: 'There is no amount due for payment. A payment amount cannot be applied',
-            type: 'warning',
-            showCancelButton: false,
-            confirmButtonText: 'OK'
-          }).then((result) => {
-            if (result.value) {
-              // Meteor._reload.reload();
-            } else if (result.dismiss === 'cancel') {
-
-            }
-          });
-
-          return false;
-        }else{
-       objDetails = {
-        type: "TSuppPayments",
-        fields: {
-          // Amount:parseFloat(paymentAmt.replace(/[^0-9.-]+/g,"")) || 0,
-          // Applied:parseFloat(paymentAmt.replace(/[^0-9.-]+/g,"")) || 0,
-          ID: 0,
-          Deleted: false,
-
-          ClientPrintName: customer,
-          CompanyName: customer,
-          DeptClassName: department,
-          // EmployeeName: empName || ' ',
-          GUILines: paymentData,
-          Notes: notes,
-          Payment: true,
-          PaymentDate: paymentDate,
-          PayMethodName: payMethod,
-
-          ReferenceNo: reference,
-          AccountName: bankAccount
-        }
-      };
-    }
-      paymentService.saveSuppDepositData(objDetails).then(function(data) {
-        var customerID = $('#edtSupplierEmail').attr('customerid');
-        // Start End Send Email
-        $('#html-2-pdfwrapper').css('display', 'block');
-        $('.pdfCustomerName').html($('#edtSupplierEmail').val());
-        $('.pdfCustomerAddress').html($('#txabillingAddress').val().replace(/[\r\n]/g, "<br />"));
-        async function addAttachment() {
-          let attachment = [];
-          let templateObject = Template.instance();
-
-          let invoiceId = objDetails.fields.ID;
-          let encodedPdf = await generatePdfForMail(invoiceId);
-          let pdfObject = "";
-          var reader = new FileReader();
-          reader.readAsDataURL(encodedPdf);
-          reader.onloadend = function() {
-            var base64data = reader.result;
-            base64data = base64data.split(',')[1];
-
-            pdfObject = {
-              filename: 'supplierpayment-' + invoiceId + '.pdf',
-              content: base64data,
-              encoding: 'base64'
-            };
-            attachment.push(pdfObject);
-
-            let erpInvoiceId = objDetails.fields.ID;
-
-            let mailFromName = Session.get('vs1companyName');
-            let mailFrom = localStorage.getItem('VS1OrgEmail')||localStorage.getItem('VS1AdminUserName');
-            let customerEmailName = $('#edtSupplierName').val();
-            let checkEmailData = $('#edtSupplierEmail').val();
-            // let mailCC = templateObject.mailCopyToUsr.get();
-            let grandtotal = $('#grandTotal').html();
-            let amountDueEmail = $('#totalBalanceDue').html();
-            let emailDueDate = $("#dtDueDate").val();
-            let mailSubject = 'Payment ' + erpInvoiceId + ' from ' + mailFromName + ' for ' + customerEmailName;
-            let mailBody = "Hi " + customerEmailName + ",\n\n Here's puchase order " + erpInvoiceId + " for  " + grandtotal + "." +
-              "\n\nThe amount outstanding of " + amountDueEmail + " is due on " + emailDueDate + "." +
-              "\n\nIf you have any questions, please let us know : " + mailFrom + ".\n\nThanks,\n" + mailFromName;
-
-            var htmlmailBody = '<table align="center" border="0" cellpadding="0" cellspacing="0" width="600">' +
-              '    <tr>' +
-              '        <td align="center" bgcolor="#54c7e2" style="padding: 40px 0 30px 0;">' +
-              '            <img src="https://sandbox.vs1cloud.com/assets/VS1logo.png" class="uploadedImage" alt="VS1 Cloud" width="250px" style="display: block;" />' +
-              '        </td>' +
-              '    </tr>' +
-              '    <tr>' +
-              '        <td style="padding: 40px 30px 40px 30px;">' +
-              '            <table border="0" cellpadding="0" cellspacing="0" width="100%">' +
-              '                <tr>' +
-              '                    <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0 20px 0;">' +
-              '                        Hello there <span>' + customerEmailName + '</span>,' +
-              '                    </td>' +
-              '                </tr>' +
-              '                <tr>' +
-              '                    <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0 10px 0;">' +
-              '                        Please find puchase order <span>' + erpInvoiceId + '</span> attached below.' +
-              '                    </td>' +
-              '                </tr>' +
-              '                    <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0 30px 0;">' +
-              '                        Kind regards,' +
-              '                        <br>' +
-              '                        ' + mailFromName + '' +
-              '                    </td>' +
-              '                </tr>' +
-              '            </table>' +
-              '        </td>' +
-              '    </tr>' +
-              '    <tr>' +
-              '        <td bgcolor="#00a3d3" style="padding: 30px 30px 30px 30px;">' +
-              '            <table border="0" cellpadding="0" cellspacing="0" width="100%">' +
-              '                <tr>' +
-              '                    <td width="50%" style="color: #ffffff; font-family: Arial, sans-serif; font-size: 14px;">' +
-              '                        If you have any question, please do not hesitate to contact us.' +
-              '                    </td>' +
-              '                    <td align="right">' +
-              '                        <a style="border: none; color: white; padding: 15px 32px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin: 4px 2px; cursor: pointer; background-color: #4CAF50;" href="mailto:' + mailFrom + '">Contact Us</a>' +
-              '                    </td>' +
-              '                </tr>' +
-              '            </table>' +
-              '        </td>' +
-              '    </tr>' +
-              '</table>';
-
-            if (($('.chkEmailCopy').is(':checked')) && ($('.chkEmailRep').is(':checked'))) {
-              Meteor.call('sendEmail', {
-                from: "" + mailFromName + " <" + mailFrom + ">",
-                to: checkEmailData,
-                subject: mailSubject,
-                text: '',
-                html: htmlmailBody,
-                attachments: attachment
-              }, function(error, result) {
-                if (error && error.error === "error") {
-                  //window.open('/supplierawaitingpurchaseorder', '_self');
-
-                } else {
-
-                }
-              });
-
-              Meteor.call('sendEmail', {
-                from: "" + mailFromName + " <" + mailFrom + ">",
-                to: mailFrom,
-                subject: mailSubject,
-                text: '',
-                html: htmlmailBody,
-                attachments: attachment
-              }, function(error, result) {
-                if (error && error.error === "error") {
-                //  window.open('/supplierawaitingpurchaseorder', '_self');
-                } else {
-                  $('#html-2-pdfwrapper').css('display', 'none');
-                  swal({
-                    title: 'SUCCESS',
-                    text: "Email Sent To Supplier: " + checkEmailData + " and User: " + mailFrom + "",
-                    type: 'success',
-                    showCancelButton: false,
-                    confirmButtonText: 'OK'
-                  }).then((result) => {
-                    if (result.value) {
-                      //window.open('/supplierawaitingpurchaseorder', '_self');
-                    } else if (result.dismiss === 'cancel') {
-
-                    }
-                  });
-
-                  $('.fullScreenSpin').css('display', 'none');
-                }
-              });
-
-            } else if (($('.chkEmailCopy').is(':checked'))) {
-              Meteor.call('sendEmail', {
-                from: "" + mailFromName + " <" + mailFrom + ">",
-                to: checkEmailData,
-                subject: mailSubject,
-                text: '',
-                html: htmlmailBody,
-                attachments: attachment
-              }, function(error, result) {
-                if (error && error.error === "error") {
-                  //window.open('/supplierawaitingpurchaseorder', '_self');
-
-                } else {
-                  $('#html-2-pdfwrapper').css('display', 'none');
-                  swal({
-                    title: 'SUCCESS',
-                    text: "Email Sent To Supplier: " + checkEmailData + " ",
-                    type: 'success',
-                    showCancelButton: false,
-                    confirmButtonText: 'OK'
-                  }).then((result) => {
-                    if (result.value) {
-                      //window.open('/supplierawaitingpurchaseorder', '_self');
-                    } else if (result.dismiss === 'cancel') {
-
-                    }
-                  });
-
-                  $('.fullScreenSpin').css('display', 'none');
-                }
-              });
-
-            } else if (($('.chkEmailRep').is(':checked'))) {
-              Meteor.call('sendEmail', {
-                from: "" + mailFromName + " <" + mailFrom + ">",
-                to: mailFrom,
-                subject: mailSubject,
-                text: '',
-                html: htmlmailBody,
-                attachments: attachment
-              }, function(error, result) {
-                if (error && error.error === "error") {
-                  //window.open('/supplierawaitingpurchaseorder', '_self');
-                } else {
-                  $('#html-2-pdfwrapper').css('display', 'none');
-                  swal({
-                    title: 'SUCCESS',
-                    text: "Email Sent To User: " + mailFrom + " ",
-                    type: 'success',
-                    showCancelButton: false,
-                    confirmButtonText: 'OK'
-                  }).then((result) => {
-                    if (result.value) {
-                      //window.open('/supplierawaitingpurchaseorder', '_self');
-                    } else if (result.dismiss === 'cancel') {
-
-                    }
-                  });
-
-                  $('.fullScreenSpin').css('display', 'none');
-                }
-              });
-
-            } else {
-              //window.open('/supplierawaitingpurchaseorder', '_self');
-            };
-          };
-        }
-        addAttachment();
-
-        function generatePdfForMail(invoiceId) {
-          return new Promise((resolve, reject) => {
-            let templateObject = Template.instance();
-            // let data = templateObject.singleInvoiceData.get();
-            let completeTabRecord;
-            let doc = new jsPDF('p', 'pt', 'a4');
-            doc.setFontSize(18);
-            var source = document.getElementById('html-2-pdfwrapper');
-            doc.addHTML(source, function() {
-              //pdf.save('Invoice.pdf');
-              resolve(doc.output('blob'));
-              // $('#html-2-pdfwrapper').css('display','none');
-            });
-          });
-        }
-        // End Send Email
-        if (customerID !== " ") {
-          let customerEmailData = {
-            type: "TSupplier",
-            fields: {
-              ID: customerID,
-              Email: customerEmail
-            }
-          }
-          // paymentService.saveSupplierEmail(customerEmailData).then(function (customerEmailData) {
-          //
-          // });
-        };
-        // $('.fullScreenSpin').css('display','none');
-        // window.open('/supplierawaitingpurchaseorder','_self');
-
-        sideBarService.getTSupplierPaymentList().then(function (dataUpdate) {
-            addVS1Data('TSupplierPayment', JSON.stringify(dataUpdate)).then(function (datareturn) {
-
-            }).catch(function (err) {
-
-            });
-          }).catch(function (err) {
-
-          });
-        sideBarService.getAllBillExList().then(function (dataUpdate) {
-          addVS1Data('TBillEx', JSON.stringify(dataUpdate)).then(function (datareturn) {
-            sideBarService.getAllBillExList().then(function (dataUpdate2) {
-               addVS1Data('TbillReport', JSON.stringify(dataUpdate2)).then(function (datareturn) {
-                 window.open('/supplierawaitingpurchaseorder','_self');
-               }).catch(function (err) {
-                 window.open('/supplierawaitingpurchaseorder','_self');
-               });
-             }).catch(function (err) {
-               window.open('/supplierawaitingpurchaseorder','_self');
-             });
-          }).catch(function (err) {
-              window.open('/supplierawaitingpurchaseorder','_self');
-          });
-        }).catch(function (err) {
-          window.open('/supplierawaitingpurchaseorder','_self');
-        });
-        //window.history.go(-2);
-      }).catch(function(err) {
-        //window.open('/supplierawaitingpurchaseorder','_self');
-        //window.history.go(-2);
-        swal({
-          title: 'Oooops...',
-          text: err,
-          type: 'error',
-          showCancelButton: false,
-          confirmButtonText: 'Try Again'
-        }).then((result) => {
-          if (result.value) {
-            // Meteor._reload.reload();
-          } else if (result.dismiss === 'cancel') {
-
-          }
-        });
-        $('.fullScreenSpin').css('display', 'none');
-      });
-    }
-
-  },
-    'click #tblSupplierPaymentcard tr .colTransNo': function (event) {
-        let $tblrows = $("#tblInvoiceLine tbody tr");
-        let id = $(event.target).closest('tr').attr('id');
-        $('#rowID').val(id);
+    'click .btnSave': function () {
+        $('.fullScreenSpin').css('display', 'inline-block');
         let templateObject = Template.instance();
+
+        let paymentService = new PaymentsService();
+        let customer = $("#edtSupplierName").val();
+        let paymentAmt = $("#edtPaymentAmount").val();
+        var paymentDateTime = new Date($("#dtPaymentDate").datepicker("getDate"));
+        let paymentDate = paymentDateTime.getFullYear() + "-" + (paymentDateTime.getMonth() + 1) + "-" + paymentDateTime.getDate();
+
+        let bankAccount = $("#edtBankAccountName").val() || "Bank";
+        let reference = $("#edtReference").val();
+        let payMethod = $("#sltPaymentMethod").val();
+        let notes = $("#txaNotes").val();
+        let customerEmail = $("#edtSupplierEmail").val();
+        if (payMethod == '') {
+            payMethod = "Cash";
+        }
+        let department = $("#sltDepartment").val();
+        let empName = localStorage.getItem('mySession');
+        let paymentData = [];
+        Session.setPersistent('paymentmethod', payMethod);
+        Session.setPersistent('bankaccount', bankAccount);
+        Session.setPersistent('department', department);
+        var currentBeginDate = new Date();
+        var begunDate = moment(currentBeginDate).format("DD/MM/YYYY");
+        let fromDateMonth = currentBeginDate.getMonth();
+        let fromDateDay = currentBeginDate.getDate();
+        if (currentBeginDate.getMonth() < 10) {
+            fromDateMonth = "0" + (currentBeginDate.getMonth() + 1);
+        } else {
+            fromDateMonth = (currentBeginDate.getMonth() + 1);
+        }
+
+        if (currentBeginDate.getDate() < 10) {
+            fromDateDay = "0" + currentBeginDate.getDate();
+        }
+        var toDate = currentBeginDate.getFullYear() + "-" + (fromDateMonth) + "-" + (fromDateDay);
+        let prevMonth11Date = (moment().subtract(reportsloadMonths, 'months')).format("YYYY-MM-DD");
+
+        var url = window.location.href;
+        if ((url.indexOf('?id=') > 0)) {
+            var getsale_id = url.split('?id=');
+            var currentSalesID = getsale_id[getsale_id.length - 1];
+            let paymentID = parseInt(currentSalesID); ;
+            // currentSalesID = parseInt(currentSalesID);
+            $('.tblSupplierPaymentcard > tbody > tr').each(function () {
+                var lineID = this.id;
+                let linetype = $('#' + lineID + " .colType").text() || $(this).closest('tr').find('.colType').text();
+                let lineAmountDue = $('#' + lineID + " .lineAmountdue").text() || $(this).closest('tr').find('.lineAmountdue').text();
+                let linePaymentAmt = $('#' + lineID + " .linePaymentamount").val() || $(this).closest('tr').find('.linePaymentamount').val();
+                let Line = {
+                    type: 'TGuiSuppPaymentLines',
+                    fields: {
+                        TransType: linetype,
+                        TransID: parseInt(lineID),
+                        Paid: true,
+                        Payment: parseFloat(linePaymentAmt.replace(/[^0-9.-]+/g, "")) || 0,
+                        //ForeignPayment:parseFloat(linePaymentAmt.replace(/[^0-9.-]+/g,"")) || 0,
+                    }
+                };
+                if (parseFloat(linePaymentAmt.replace(/[^0-9.-]+/g, "")) != 0) {
+                    paymentData.push(Line);
+                }
+
+            });
+            let objDetails = {
+                type: "TSuppPayments",
+                fields: {
+                    ID: paymentID,
+                    Deleted: false,
+                    Notes: notes,
+                    ReferenceNo: reference
+                }
+            }
+            paymentService.saveSuppDepositData(objDetails).then(function (data) {
+                var customerID = $('#edtSupplierEmail').attr('customerid');
+
+                // Start End Send Email
+                $('#html-2-pdfwrapper').css('display', 'block');
+                $('.pdfCustomerName').html($('#edtSupplierEmail').val());
+                $('.pdfCustomerAddress').html($('#txabillingAddress').val().replace(/[\r\n]/g, "<br />"));
+                async function addAttachment() {
+                    let attachment = [];
+                    let templateObject = Template.instance();
+
+                    let invoiceId = objDetails.fields.ID;
+                    let encodedPdf = await generatePdfForMail(invoiceId);
+                    let pdfObject = "";
+                    var reader = new FileReader();
+                    reader.readAsDataURL(encodedPdf);
+                    reader.onloadend = function () {
+                        var base64data = reader.result;
+                        base64data = base64data.split(',')[1];
+
+                        pdfObject = {
+                            filename: 'Supplier Payment ' + invoiceId + '.pdf',
+                            content: base64data,
+                            encoding: 'base64'
+                        };
+                        attachment.push(pdfObject);
+
+                        let erpInvoiceId = objDetails.fields.ID;
+
+                        let mailFromName = Session.get('vs1companyName');
+                        let mailFrom = localStorage.getItem('VS1OrgEmail') || localStorage.getItem('VS1AdminUserName');
+                        let customerEmailName = $('#edtSupplierName').val();
+                        let checkEmailData = $('#edtSupplierEmail').val();
+                        // let mailCC = templateObject.mailCopyToUsr.get();
+                        let grandtotal = $('#grandTotal').html();
+                        let amountDueEmail = $('#totalBalanceDue').html();
+                        let emailDueDate = $("#dtDueDate").val();
+                        let mailSubject = 'Payment ' + erpInvoiceId + ' from ' + mailFromName + ' for ' + customerEmailName;
+                        let mailBody = "Hi " + customerEmailName + ",\n\n Here's puchase order " + erpInvoiceId + " for  " + grandtotal + "." +
+                            "\n\nThe amount outstanding of " + amountDueEmail + " is due on " + emailDueDate + "." +
+                            "\n\nIf you have any questions, please let us know : " + mailFrom + ".\n\nThanks,\n" + mailFromName;
+
+                        var htmlmailBody = '<table align="center" border="0" cellpadding="0" cellspacing="0" width="600">' +
+                            '    <tr>' +
+                            '        <td align="center" bgcolor="#54c7e2" style="padding: 40px 0 30px 0;">' +
+                            '            <img src="https://sandbox.vs1cloud.com/assets/VS1logo.png" class="uploadedImage" alt="VS1 Cloud" width="250px" style="display: block;" />' +
+                            '        </td>' +
+                            '    </tr>' +
+                            '    <tr>' +
+                            '        <td style="padding: 40px 30px 40px 30px;">' +
+                            '            <table border="0" cellpadding="0" cellspacing="0" width="100%">' +
+                            '                <tr>' +
+                            '                    <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0 20px 0;">' +
+                            '                        Hello there <span>' + customerEmailName + '</span>,' +
+                            '                    </td>' +
+                            '                </tr>' +
+                            '                <tr>' +
+                            '                    <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0 10px 0;">' +
+                            '                        Please find puchase order <span>' + erpInvoiceId + '</span> attached below.' +
+                            '                    </td>' +
+                            '                </tr>' +
+                            '                    <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0 30px 0;">' +
+                            '                        Kind regards,' +
+                            '                        <br>' +
+                            '                        ' + mailFromName + '' +
+                            '                    </td>' +
+                            '                </tr>' +
+                            '            </table>' +
+                            '        </td>' +
+                            '    </tr>' +
+                            '    <tr>' +
+                            '        <td bgcolor="#00a3d3" style="padding: 30px 30px 30px 30px;">' +
+                            '            <table border="0" cellpadding="0" cellspacing="0" width="100%">' +
+                            '                <tr>' +
+                            '                    <td width="50%" style="color: #ffffff; font-family: Arial, sans-serif; font-size: 14px;">' +
+                            '                        If you have any question, please do not hesitate to contact us.' +
+                            '                    </td>' +
+                            '                    <td align="right">' +
+                            '                        <a style="border: none; color: white; padding: 15px 32px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin: 4px 2px; cursor: pointer; background-color: #4CAF50;" href="mailto:' + mailFrom + '">Contact Us</a>' +
+                            '                    </td>' +
+                            '                </tr>' +
+                            '            </table>' +
+                            '        </td>' +
+                            '    </tr>' +
+                            '</table>';
+
+                        if (($('.chkEmailCopy').is(':checked')) && ($('.chkEmailRep').is(':checked'))) {
+                            Meteor.call('sendEmail', {
+                                from: "" + mailFromName + " <" + mailFrom + ">",
+                                to: checkEmailData,
+                                subject: mailSubject,
+                                text: '',
+                                html: htmlmailBody,
+                                attachments: attachment
+                            }, function (error, result) {
+                                if (error && error.error === "error") {
+                                    //Router.go('/paymentoverview?success=true');
+
+                                } else {}
+                            });
+
+                            Meteor.call('sendEmail', {
+                                from: "" + mailFromName + " <" + mailFrom + ">",
+                                to: mailFrom,
+                                subject: mailSubject,
+                                text: '',
+                                html: htmlmailBody,
+                                attachments: attachment
+                            }, function (error, result) {
+                                if (error && error.error === "error") {
+                                    //Router.go('/paymentoverview?success=true');
+                                } else {
+                                    $('#html-2-pdfwrapper').css('display', 'none');
+                                    swal({
+                                        title: 'SUCCESS',
+                                        text: "Email Sent To Supplier: " + checkEmailData + " and User: " + mailFrom + "",
+                                        type: 'success',
+                                        showCancelButton: false,
+                                        confirmButtonText: 'OK'
+                                    }).then((result) => {
+                                        if (result.value) {
+                                            //Router.go('/paymentoverview?success=true');
+                                        } else if (result.dismiss === 'cancel') {}
+                                    });
+
+                                    $('.fullScreenSpin').css('display', 'none');
+                                }
+                            });
+
+                        } else if (($('.chkEmailCopy').is(':checked'))) {
+                            Meteor.call('sendEmail', {
+                                from: "" + mailFromName + " <" + mailFrom + ">",
+                                to: checkEmailData,
+                                subject: mailSubject,
+                                text: '',
+                                html: htmlmailBody,
+                                attachments: attachment
+                            }, function (error, result) {
+                                if (error && error.error === "error") {
+                                    //Router.go('/paymentoverview?success=true');
+
+                                } else {
+                                    $('#html-2-pdfwrapper').css('display', 'none');
+                                    swal({
+                                        title: 'SUCCESS',
+                                        text: "Email Sent To Supplier: " + checkEmailData + " ",
+                                        type: 'success',
+                                        showCancelButton: false,
+                                        confirmButtonText: 'OK'
+                                    }).then((result) => {
+                                        if (result.value) {
+                                            //Router.go('/paymentoverview?success=true');
+                                        } else if (result.dismiss === 'cancel') {}
+                                    });
+
+                                    $('.fullScreenSpin').css('display', 'none');
+                                }
+                            });
+
+                        } else if (($('.chkEmailRep').is(':checked'))) {
+                            Meteor.call('sendEmail', {
+                                from: "" + mailFromName + " <" + mailFrom + ">",
+                                to: mailFrom,
+                                subject: mailSubject,
+                                text: '',
+                                html: htmlmailBody,
+                                attachments: attachment
+                            }, function (error, result) {
+                                if (error && error.error === "error") {
+                                    //Router.go('/paymentoverview?success=true');
+                                } else {
+                                    $('#html-2-pdfwrapper').css('display', 'none');
+                                    swal({
+                                        title: 'SUCCESS',
+                                        text: "Email Sent To User: " + mailFrom + " ",
+                                        type: 'success',
+                                        showCancelButton: false,
+                                        confirmButtonText: 'OK'
+                                    }).then((result) => {
+                                        if (result.value) {
+                                            //Router.go('/paymentoverview?success=true');
+                                        } else if (result.dismiss === 'cancel') {}
+                                    });
+
+                                    $('.fullScreenSpin').css('display', 'none');
+                                }
+                            });
+
+                        } else {
+                            //Router.go('/paymentoverview?success=true');
+                        };
+                    };
+                }
+                addAttachment();
+
+                function generatePdfForMail(invoiceId) {
+                    return new Promise((resolve, reject) => {
+                        let templateObject = Template.instance();
+                        // let data = templateObject.singleInvoiceData.get();
+                        let completeTabRecord;
+                        let doc = new jsPDF('p', 'pt', 'a4');
+                        doc.setFontSize(18);
+                        var source = document.getElementById('html-2-pdfwrapper');
+                        doc.addHTML(source, function () {
+                            //pdf.save('Invoice.pdf');
+                            resolve(doc.output('blob'));
+                            // $('#html-2-pdfwrapper').css('display','none');
+                        });
+                    });
+                }
+                // End Send Email
+                if (customerID !== " ") {
+                    let customerEmailData = {
+                        type: "TSupplier",
+                        fields: {
+                            ID: customerID,
+                            Email: customerEmail
+                        }
+                    }
+                    // paymentService.saveSupplierEmail(customerEmailData).then(function (customerEmailData) {
+                    //
+                    // });
+                };
+                // $('.fullScreenSpin').css('display','none');
+                // window.open('/supplierpayment','_self');
+                sideBarService.getTSupplierPaymentList().then(function (dataUpdate) {
+                    addVS1Data('TSupplierPayment', JSON.stringify(dataUpdate)).then(function (datareturn) {
+                        window.open('/supplierpayment', '_self');
+                    }).catch(function (err) {
+                        window.open('/supplierpayment', '_self');
+                    });
+                }).catch(function (err) {
+                    window.open('/supplierpayment', '_self');
+                });
+                //window.history.go(-2);
+            }).catch(function (err) {
+                console.log(err);
+                swal({
+                    title: 'Oooops...',
+                    text: err,
+                    type: 'error',
+                    showCancelButton: false,
+                    confirmButtonText: 'Try Again'
+                }).then((result) => {
+                    if (result.value) {
+                        // Meteor._reload.reload();
+                    } else if (result.dismiss === 'cancel') {}
+                });
+                //window.open('/supplierpayment','_self');
+                //window.history.go(-2);
+                //Bert.alert('<strong>' + err + '</strong>!', 'danger');
+                $('.fullScreenSpin').css('display', 'none');
+            });
+        } else if ((url.indexOf('?poid=') > 0)) {
+            var getsale_id = url.split('?poid=');
+            var currentSalesID = getsale_id[getsale_id.length - 1];
+            let paymentID = parseInt(currentSalesID); ;
+
+            $('.tblSupplierPaymentcard > tbody > tr').each(function () {
+                var lineID = this.id;
+                let linetype = $('#' + lineID + " .colType").text() || $(this).closest('tr').find('.colType').text();
+                let lineAmountDue = $('#' + lineID + " .lineAmountdue").text() || $(this).closest('tr').find('.lineAmountdue').text();
+                let linePaymentAmt = $('#' + lineID + " .linePaymentamount").val() || $(this).closest('tr').find('.linePaymentamount').val();
+                let Line = {
+                    type: 'TGuiSuppPaymentLines',
+                    fields: {
+                        TransType: linetype,
+                        TransID: parseInt(lineID),
+                        Paid: true,
+                        Payment: parseFloat(linePaymentAmt.replace(/[^0-9.-]+/g, "")) || 0,
+                        //ForeignPayment:parseFloat(linePaymentAmt.replace(/[^0-9.-]+/g,"")) || 0,
+                    }
+                };
+                if (parseFloat(linePaymentAmt.replace(/[^0-9.-]+/g, "")) != 0) {
+                    paymentData.push(Line);
+                }
+            });
+            let objDetails = '';
+            if (paymentData.length === 0) {
+                $('.fullScreenSpin').css('display', 'none');
+                swal({
+                    title: 'Ooops...',
+                    text: 'There is no amount due for payment. A payment amount cannot be applied',
+                    type: 'warning',
+                    showCancelButton: false,
+                    confirmButtonText: 'OK'
+                }).then((result) => {
+                    if (result.value) {
+                        // Meteor._reload.reload();
+                    } else if (result.dismiss === 'cancel') {}
+                });
+
+                return false;
+            } else {
+                objDetails = {
+                    type: "TSuppPayments",
+                    fields: {
+                        ID: 0,
+                        // Amount:parseFloat(paymentAmt.replace(/[^0-9.-]+/g,"")) || 0,
+                        // Applied:parseFloat(paymentAmt.replace(/[^0-9.-]+/g,"")) || 0,
+                        Deleted: false,
+
+                        ClientPrintName: customer,
+                        CompanyName: customer,
+                        DeptClassName: department,
+                        //ForeignExchangeCode: CountryAbbr,
+                        //ForeignExchangeRate: 1,
+                        // EmployeeName: empName || ' ',
+                        GUILines: paymentData,
+                        Notes: notes,
+                        Payment: true,
+                        PaymentDate: paymentDate,
+                        PayMethodName: payMethod,
+
+                        ReferenceNo: reference,
+                        AccountName: bankAccount
+                    }
+                };
+            }
+
+            paymentService.saveSuppDepositData(objDetails).then(function (data) {
+                var customerID = $('#edtSupplierEmail').attr('customerid');
+                // Start End Send Email
+                $('#html-2-pdfwrapper').css('display', 'block');
+                $('.pdfCustomerName').html($('#edtSupplierEmail').val());
+                $('.pdfCustomerAddress').html($('#txabillingAddress').val().replace(/[\r\n]/g, "<br />"));
+                async function addAttachment() {
+                    let attachment = [];
+                    let templateObject = Template.instance();
+
+                    let invoiceId = objDetails.fields.ID;
+                    let encodedPdf = await generatePdfForMail(invoiceId);
+                    let pdfObject = "";
+                    var reader = new FileReader();
+                    reader.readAsDataURL(encodedPdf);
+                    reader.onloadend = function () {
+                        var base64data = reader.result;
+                        base64data = base64data.split(',')[1];
+
+                        pdfObject = {
+                            filename: 'supplierpayment-' + invoiceId + '.pdf',
+                            content: base64data,
+                            encoding: 'base64'
+                        };
+                        attachment.push(pdfObject);
+
+                        let erpInvoiceId = objDetails.fields.ID;
+
+                        let mailFromName = Session.get('vs1companyName');
+                        let mailFrom = localStorage.getItem('VS1OrgEmail') || localStorage.getItem('VS1AdminUserName');
+                        let customerEmailName = $('#edtSupplierName').val();
+                        let checkEmailData = $('#edtSupplierEmail').val();
+                        // let mailCC = templateObject.mailCopyToUsr.get();
+                        let grandtotal = $('#grandTotal').html();
+                        let amountDueEmail = $('#totalBalanceDue').html();
+                        let emailDueDate = $("#dtDueDate").val();
+                        let mailSubject = 'Payment ' + erpInvoiceId + ' from ' + mailFromName + ' for ' + customerEmailName;
+                        let mailBody = "Hi " + customerEmailName + ",\n\n Here's puchase order " + erpInvoiceId + " for  " + grandtotal + "." +
+                            "\n\nThe amount outstanding of " + amountDueEmail + " is due on " + emailDueDate + "." +
+                            "\n\nIf you have any questions, please let us know : " + mailFrom + ".\n\nThanks,\n" + mailFromName;
+
+                        var htmlmailBody = '<table align="center" border="0" cellpadding="0" cellspacing="0" width="600">' +
+                            '    <tr>' +
+                            '        <td align="center" bgcolor="#54c7e2" style="padding: 40px 0 30px 0;">' +
+                            '            <img src="https://sandbox.vs1cloud.com/assets/VS1logo.png" class="uploadedImage" alt="VS1 Cloud" width="250px" style="display: block;" />' +
+                            '        </td>' +
+                            '    </tr>' +
+                            '    <tr>' +
+                            '        <td style="padding: 40px 30px 40px 30px;">' +
+                            '            <table border="0" cellpadding="0" cellspacing="0" width="100%">' +
+                            '                <tr>' +
+                            '                    <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0 20px 0;">' +
+                            '                        Hello there <span>' + customerEmailName + '</span>,' +
+                            '                    </td>' +
+                            '                </tr>' +
+                            '                <tr>' +
+                            '                    <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0 10px 0;">' +
+                            '                        Please find puchase order <span>' + erpInvoiceId + '</span> attached below.' +
+                            '                    </td>' +
+                            '                </tr>' +
+                            '                    <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0 30px 0;">' +
+                            '                        Kind regards,' +
+                            '                        <br>' +
+                            '                        ' + mailFromName + '' +
+                            '                    </td>' +
+                            '                </tr>' +
+                            '            </table>' +
+                            '        </td>' +
+                            '    </tr>' +
+                            '    <tr>' +
+                            '        <td bgcolor="#00a3d3" style="padding: 30px 30px 30px 30px;">' +
+                            '            <table border="0" cellpadding="0" cellspacing="0" width="100%">' +
+                            '                <tr>' +
+                            '                    <td width="50%" style="color: #ffffff; font-family: Arial, sans-serif; font-size: 14px;">' +
+                            '                        If you have any question, please do not hesitate to contact us.' +
+                            '                    </td>' +
+                            '                    <td align="right">' +
+                            '                        <a style="border: none; color: white; padding: 15px 32px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin: 4px 2px; cursor: pointer; background-color: #4CAF50;" href="mailto:' + mailFrom + '">Contact Us</a>' +
+                            '                    </td>' +
+                            '                </tr>' +
+                            '            </table>' +
+                            '        </td>' +
+                            '    </tr>' +
+                            '</table>';
+
+                        if (($('.chkEmailCopy').is(':checked')) && ($('.chkEmailRep').is(':checked'))) {
+                            Meteor.call('sendEmail', {
+                                from: "" + mailFromName + " <" + mailFrom + ">",
+                                to: checkEmailData,
+                                subject: mailSubject,
+                                text: '',
+                                html: htmlmailBody,
+                                attachments: attachment
+                            }, function (error, result) {
+                                if (error && error.error === "error") {
+                                    //window.open('/supplierawaitingpurchaseorder', '_self');
+
+                                } else {}
+                            });
+
+                            Meteor.call('sendEmail', {
+                                from: "" + mailFromName + " <" + mailFrom + ">",
+                                to: mailFrom,
+                                subject: mailSubject,
+                                text: '',
+                                html: htmlmailBody,
+                                attachments: attachment
+                            }, function (error, result) {
+                                if (error && error.error === "error") {
+                                    //window.open('/supplierawaitingpurchaseorder', '_self');
+                                } else {
+                                    $('#html-2-pdfwrapper').css('display', 'none');
+                                    swal({
+                                        title: 'SUCCESS',
+                                        text: "Email Sent To Supplier: " + checkEmailData + " and User: " + mailFrom + "",
+                                        type: 'success',
+                                        showCancelButton: false,
+                                        confirmButtonText: 'OK'
+                                    }).then((result) => {
+                                        if (result.value) {
+                                            //window.open('/supplierawaitingpurchaseorder', '_self');
+                                        } else if (result.dismiss === 'cancel') {}
+                                    });
+
+                                    $('.fullScreenSpin').css('display', 'none');
+                                }
+                            });
+
+                        } else if (($('.chkEmailCopy').is(':checked'))) {
+                            Meteor.call('sendEmail', {
+                                from: "" + mailFromName + " <" + mailFrom + ">",
+                                to: checkEmailData,
+                                subject: mailSubject,
+                                text: '',
+                                html: htmlmailBody,
+                                attachments: attachment
+                            }, function (error, result) {
+                                if (error && error.error === "error") {
+                                    //window.open('/supplierawaitingpurchaseorder', '_self');
+
+                                } else {
+                                    $('#html-2-pdfwrapper').css('display', 'none');
+                                    swal({
+                                        title: 'SUCCESS',
+                                        text: "Email Sent To Supplier: " + checkEmailData + " ",
+                                        type: 'success',
+                                        showCancelButton: false,
+                                        confirmButtonText: 'OK'
+                                    }).then((result) => {
+                                        if (result.value) {
+                                            //  window.open('/supplierawaitingpurchaseorder', '_self');
+                                        } else if (result.dismiss === 'cancel') {}
+                                    });
+
+                                    $('.fullScreenSpin').css('display', 'none');
+                                }
+                            });
+
+                        } else if (($('.chkEmailRep').is(':checked'))) {
+                            Meteor.call('sendEmail', {
+                                from: "" + mailFromName + " <" + mailFrom + ">",
+                                to: mailFrom,
+                                subject: mailSubject,
+                                text: '',
+                                html: htmlmailBody,
+                                attachments: attachment
+                            }, function (error, result) {
+                                if (error && error.error === "error") {
+                                    //window.open('/supplierawaitingpurchaseorder', '_self');
+                                } else {
+                                    $('#html-2-pdfwrapper').css('display', 'none');
+                                    swal({
+                                        title: 'SUCCESS',
+                                        text: "Email Sent To User: " + mailFrom + " ",
+                                        type: 'success',
+                                        showCancelButton: false,
+                                        confirmButtonText: 'OK'
+                                    }).then((result) => {
+                                        if (result.value) {
+                                            //window.open('/supplierawaitingpurchaseorder', '_self');
+                                        } else if (result.dismiss === 'cancel') {}
+                                    });
+
+                                    $('.fullScreenSpin').css('display', 'none');
+                                }
+                            });
+
+                        } else {
+                            //window.open('/supplierawaitingpurchaseorder', '_self');
+                        };
+                    };
+                }
+                addAttachment();
+
+                function generatePdfForMail(invoiceId) {
+                    return new Promise((resolve, reject) => {
+                        let templateObject = Template.instance();
+                        // let data = templateObject.singleInvoiceData.get();
+                        let completeTabRecord;
+                        let doc = new jsPDF('p', 'pt', 'a4');
+                        doc.setFontSize(18);
+                        var source = document.getElementById('html-2-pdfwrapper');
+                        doc.addHTML(source, function () {
+                            //pdf.save('Invoice.pdf');
+                            resolve(doc.output('blob'));
+                            // $('#html-2-pdfwrapper').css('display','none');
+                        });
+                    });
+                }
+                // End Send Email
+                if (customerID !== " ") {
+                    let customerEmailData = {
+                        type: "TSupplier",
+                        fields: {
+                            ID: customerID,
+                            Email: customerEmail
+                        }
+                    }
+                    // paymentService.saveSupplierEmail(customerEmailData).then(function (customerEmailData) {
+                    //
+                    // });
+                };
+                // $('.fullScreenSpin').css('display','none');
+                // window.open('/supplierawaitingpurchaseorder','_self');
+                sideBarService.getAllPurchaseOrderList().then(function (dataUpdate) {
+                    addVS1Data('TPurchaseOrderEx', JSON.stringify(dataUpdate)).then(function (datareturn) {}).catch(function (err) {});
+                }).catch(function (err) {});
+
+                sideBarService.getTSupplierPaymentList().then(function (dataUpdate) {
+                    addVS1Data('TSupplierPayment', JSON.stringify(dataUpdate)).then(function (datareturn) {}).catch(function (err) {});
+                }).catch(function (err) {});
+
+                sideBarService.getAllPurchaseOrderListAll(prevMonth11Date, toDate, false).then(function (dataUpdate) {
+                    addVS1Data('TbillReport', JSON.stringify(dataUpdate)).then(function (datareturn) {
+                        window.open('/supplierawaitingpurchaseorder', '_self');
+                    }).catch(function (err) {
+                        window.open('/supplierawaitingpurchaseorder', '_self');
+                    });
+                }).catch(function (err) {
+                    window.open('/supplierawaitingpurchaseorder', '_self');
+                });
+
+            }).catch(function (err) {
+                //window.open('/paymentoverview','_self');
+                swal({
+                    title: 'Oooops...',
+                    text: err,
+                    type: 'error',
+                    showCancelButton: false,
+                    confirmButtonText: 'Try Again'
+                }).then((result) => {
+                    if (result.value) {
+                        // Meteor._reload.reload();
+                    } else if (result.dismiss === 'cancel') {}
+                });
+                $('.fullScreenSpin').css('display', 'none');
+            });
+        } else if ((url.indexOf('?billid=') > 0)) {
+            var getsale_id = url.split('?billid=');
+            var currentSalesID = getsale_id[getsale_id.length - 1];
+            let paymentID = parseInt(currentSalesID); ;
+
+            $('.tblSupplierPaymentcard > tbody > tr').each(function () {
+                var lineID = this.id;
+                let linetype = $('#' + lineID + " .colType").text() || $(this).closest('tr').find('.colType').text();
+                let lineAmountDue = $('#' + lineID + " .lineAmountdue").text() || $(this).closest('tr').find('.lineAmountdue').text();
+                let linePaymentAmt = $('#' + lineID + " .linePaymentamount").val() || $(this).closest('tr').find('.linePaymentamount').val();
+                let Line = {
+                    type: 'TGuiSuppPaymentLines',
+                    fields: {
+                        TransType: linetype,
+                        TransID: parseInt(lineID),
+                        Paid: true,
+                        Payment: parseFloat(linePaymentAmt.replace(/[^0-9.-]+/g, "")) || 0,
+                        //ForeignPayment:parseFloat(linePaymentAmt.replace(/[^0-9.-]+/g,"")) || 0,
+                    }
+                };
+                if (parseFloat(linePaymentAmt.replace(/[^0-9.-]+/g, "")) != 0) {
+                    paymentData.push(Line);
+                }
+            });
+
+            let objDetails = '';
+            if (paymentData.length === 0) {
+                $('.fullScreenSpin').css('display', 'none');
+                swal({
+                    title: 'Ooops...',
+                    text: 'There is no amount due for payment. A payment amount cannot be applied',
+                    type: 'warning',
+                    showCancelButton: false,
+                    confirmButtonText: 'OK'
+                }).then((result) => {
+                    if (result.value) {
+                        // Meteor._reload.reload();
+                    } else if (result.dismiss === 'cancel') {}
+                });
+
+                return false;
+            } else {
+                objDetails = {
+                    type: "TSuppPayments",
+                    fields: {
+                        // Amount:parseFloat(paymentAmt.replace(/[^0-9.-]+/g,"")) || 0,
+                        // Applied:parseFloat(paymentAmt.replace(/[^0-9.-]+/g,"")) || 0,
+                        ID: 0,
+                        Deleted: false,
+
+                        ClientPrintName: customer,
+                        CompanyName: customer,
+                        DeptClassName: department,
+                        // EmployeeName: empName || ' ',
+                        GUILines: paymentData,
+                        Notes: notes,
+                        Payment: true,
+                        PaymentDate: paymentDate,
+                        PayMethodName: payMethod,
+
+                        ReferenceNo: reference,
+                        AccountName: bankAccount
+                    }
+                };
+            }
+
+            paymentService.saveSuppDepositData(objDetails).then(function (data) {
+                var customerID = $('#edtSupplierEmail').attr('customerid');
+                // Start End Send Email
+                $('#html-2-pdfwrapper').css('display', 'block');
+                $('.pdfCustomerName').html($('#edtSupplierEmail').val());
+                $('.pdfCustomerAddress').html($('#txabillingAddress').val().replace(/[\r\n]/g, "<br />"));
+                async function addAttachment() {
+                    let attachment = [];
+                    let templateObject = Template.instance();
+
+                    let invoiceId = objDetails.fields.ID;
+                    let encodedPdf = await generatePdfForMail(invoiceId);
+                    let pdfObject = "";
+                    var reader = new FileReader();
+                    reader.readAsDataURL(encodedPdf);
+                    reader.onloadend = function () {
+                        var base64data = reader.result;
+                        base64data = base64data.split(',')[1];
+
+                        pdfObject = {
+                            filename: 'supplierpayment-' + invoiceId + '.pdf',
+                            content: base64data,
+                            encoding: 'base64'
+                        };
+                        attachment.push(pdfObject);
+
+                        let erpInvoiceId = objDetails.fields.ID;
+
+                        let mailFromName = Session.get('vs1companyName');
+                        let mailFrom = localStorage.getItem('VS1OrgEmail') || localStorage.getItem('VS1AdminUserName');
+                        let customerEmailName = $('#edtSupplierName').val();
+                        let checkEmailData = $('#edtSupplierEmail').val();
+                        // let mailCC = templateObject.mailCopyToUsr.get();
+                        let grandtotal = $('#grandTotal').html();
+                        let amountDueEmail = $('#totalBalanceDue').html();
+                        let emailDueDate = $("#dtDueDate").val();
+                        let mailSubject = 'Payment ' + erpInvoiceId + ' from ' + mailFromName + ' for ' + customerEmailName;
+                        let mailBody = "Hi " + customerEmailName + ",\n\n Here's puchase order " + erpInvoiceId + " for  " + grandtotal + "." +
+                            "\n\nThe amount outstanding of " + amountDueEmail + " is due on " + emailDueDate + "." +
+                            "\n\nIf you have any questions, please let us know : " + mailFrom + ".\n\nThanks,\n" + mailFromName;
+
+                        var htmlmailBody = '<table align="center" border="0" cellpadding="0" cellspacing="0" width="600">' +
+                            '    <tr>' +
+                            '        <td align="center" bgcolor="#54c7e2" style="padding: 40px 0 30px 0;">' +
+                            '            <img src="https://sandbox.vs1cloud.com/assets/VS1logo.png" class="uploadedImage" alt="VS1 Cloud" width="250px" style="display: block;" />' +
+                            '        </td>' +
+                            '    </tr>' +
+                            '    <tr>' +
+                            '        <td style="padding: 40px 30px 40px 30px;">' +
+                            '            <table border="0" cellpadding="0" cellspacing="0" width="100%">' +
+                            '                <tr>' +
+                            '                    <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0 20px 0;">' +
+                            '                        Hello there <span>' + customerEmailName + '</span>,' +
+                            '                    </td>' +
+                            '                </tr>' +
+                            '                <tr>' +
+                            '                    <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0 10px 0;">' +
+                            '                        Please find puchase order <span>' + erpInvoiceId + '</span> attached below.' +
+                            '                    </td>' +
+                            '                </tr>' +
+                            '                    <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0 30px 0;">' +
+                            '                        Kind regards,' +
+                            '                        <br>' +
+                            '                        ' + mailFromName + '' +
+                            '                    </td>' +
+                            '                </tr>' +
+                            '            </table>' +
+                            '        </td>' +
+                            '    </tr>' +
+                            '    <tr>' +
+                            '        <td bgcolor="#00a3d3" style="padding: 30px 30px 30px 30px;">' +
+                            '            <table border="0" cellpadding="0" cellspacing="0" width="100%">' +
+                            '                <tr>' +
+                            '                    <td width="50%" style="color: #ffffff; font-family: Arial, sans-serif; font-size: 14px;">' +
+                            '                        If you have any question, please do not hesitate to contact us.' +
+                            '                    </td>' +
+                            '                    <td align="right">' +
+                            '                        <a style="border: none; color: white; padding: 15px 32px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin: 4px 2px; cursor: pointer; background-color: #4CAF50;" href="mailto:' + mailFrom + '">Contact Us</a>' +
+                            '                    </td>' +
+                            '                </tr>' +
+                            '            </table>' +
+                            '        </td>' +
+                            '    </tr>' +
+                            '</table>';
+
+                        if (($('.chkEmailCopy').is(':checked')) && ($('.chkEmailRep').is(':checked'))) {
+                            Meteor.call('sendEmail', {
+                                from: "" + mailFromName + " <" + mailFrom + ">",
+                                to: checkEmailData,
+                                subject: mailSubject,
+                                text: '',
+                                html: htmlmailBody,
+                                attachments: attachment
+                            }, function (error, result) {
+                                if (error && error.error === "error") {
+                                    //window.open('/supplierawaitingpurchaseorder', '_self');
+
+                                } else {}
+                            });
+
+                            Meteor.call('sendEmail', {
+                                from: "" + mailFromName + " <" + mailFrom + ">",
+                                to: mailFrom,
+                                subject: mailSubject,
+                                text: '',
+                                html: htmlmailBody,
+                                attachments: attachment
+                            }, function (error, result) {
+                                if (error && error.error === "error") {
+                                    //window.open('/supplierawaitingpurchaseorder', '_self');
+                                } else {
+                                    $('#html-2-pdfwrapper').css('display', 'none');
+                                    swal({
+                                        title: 'SUCCESS',
+                                        text: "Email Sent To Supplier: " + checkEmailData + " and User: " + mailFrom + "",
+                                        type: 'success',
+                                        showCancelButton: false,
+                                        confirmButtonText: 'OK'
+                                    }).then((result) => {
+                                        if (result.value) {
+                                            //window.open('/supplierawaitingpurchaseorder', '_self');
+                                        } else if (result.dismiss === 'cancel') {}
+                                    });
+
+                                    $('.fullScreenSpin').css('display', 'none');
+                                }
+                            });
+
+                        } else if (($('.chkEmailCopy').is(':checked'))) {
+                            Meteor.call('sendEmail', {
+                                from: "" + mailFromName + " <" + mailFrom + ">",
+                                to: checkEmailData,
+                                subject: mailSubject,
+                                text: '',
+                                html: htmlmailBody,
+                                attachments: attachment
+                            }, function (error, result) {
+                                if (error && error.error === "error") {
+                                    //window.open('/supplierawaitingpurchaseorder', '_self');
+
+                                } else {
+                                    $('#html-2-pdfwrapper').css('display', 'none');
+                                    swal({
+                                        title: 'SUCCESS',
+                                        text: "Email Sent To Supplier: " + checkEmailData + " ",
+                                        type: 'success',
+                                        showCancelButton: false,
+                                        confirmButtonText: 'OK'
+                                    }).then((result) => {
+                                        if (result.value) {
+                                            //window.open('/supplierawaitingpurchaseorder', '_self');
+                                        } else if (result.dismiss === 'cancel') {}
+                                    });
+
+                                    $('.fullScreenSpin').css('display', 'none');
+                                }
+                            });
+
+                        } else if (($('.chkEmailRep').is(':checked'))) {
+                            Meteor.call('sendEmail', {
+                                from: "" + mailFromName + " <" + mailFrom + ">",
+                                to: mailFrom,
+                                subject: mailSubject,
+                                text: '',
+                                html: htmlmailBody,
+                                attachments: attachment
+                            }, function (error, result) {
+                                if (error && error.error === "error") {
+                                    //window.open('/supplierawaitingpurchaseorder', '_self');
+                                } else {
+                                    $('#html-2-pdfwrapper').css('display', 'none');
+                                    swal({
+                                        title: 'SUCCESS',
+                                        text: "Email Sent To User: " + mailFrom + " ",
+                                        type: 'success',
+                                        showCancelButton: false,
+                                        confirmButtonText: 'OK'
+                                    }).then((result) => {
+                                        if (result.value) {
+                                            //window.open('/supplierawaitingpurchaseorder', '_self');
+                                        } else if (result.dismiss === 'cancel') {}
+                                    });
+
+                                    $('.fullScreenSpin').css('display', 'none');
+                                }
+                            });
+
+                        } else {
+                            //window.open('/supplierawaitingpurchaseorder', '_self');
+                        };
+                    };
+                }
+                addAttachment();
+
+                function generatePdfForMail(invoiceId) {
+                    return new Promise((resolve, reject) => {
+                        let templateObject = Template.instance();
+                        // let data = templateObject.singleInvoiceData.get();
+                        let completeTabRecord;
+                        let doc = new jsPDF('p', 'pt', 'a4');
+                        doc.setFontSize(18);
+                        var source = document.getElementById('html-2-pdfwrapper');
+                        doc.addHTML(source, function () {
+                            //pdf.save('Invoice.pdf');
+                            resolve(doc.output('blob'));
+                            // $('#html-2-pdfwrapper').css('display','none');
+                        });
+                    });
+                }
+                // End Send Email
+                if (customerID !== " ") {
+                    let customerEmailData = {
+                        type: "TSupplier",
+                        fields: {
+                            ID: customerID,
+                            Email: customerEmail
+                        }
+                    }
+                    // paymentService.saveSupplierEmail(customerEmailData).then(function (customerEmailData) {
+                    //
+                    // });
+                };
+                // $('.fullScreenSpin').css('display','none');
+                // window.open('/supplierawaitingpurchaseorder','_self');
+                sideBarService.getAllBillExList().then(function (dataUpdate) {
+                    addVS1Data('TBillEx', JSON.stringify(dataUpdate)).then(function (datareturn) {}).catch(function (err) {});
+                }).catch(function (err) {});
+
+                sideBarService.getTSupplierPaymentList().then(function (dataUpdate) {
+                    addVS1Data('TSupplierPayment', JSON.stringify(dataUpdate)).then(function (datareturn) {}).catch(function (err) {});
+                }).catch(function (err) {});
+
+                sideBarService.getAllPurchaseOrderListAll(prevMonth11Date, toDate, false).then(function (dataUpdate) {
+                    addVS1Data('TbillReport', JSON.stringify(dataUpdate)).then(function (datareturn) {
+                        window.open('/supplierawaitingpurchaseorder', '_self');
+                    }).catch(function (err) {
+                        window.open('/supplierawaitingpurchaseorder', '_self');
+                    });
+                }).catch(function (err) {
+                    window.open('/supplierawaitingpurchaseorder', '_self');
+                });
+
+                //window.history.go(-2);
+            }).catch(function (err) {
+                //window.open('/supplierawaitingpurchaseorder','_self');
+                //window.history.go(-2);
+                swal({
+                    title: 'Oooops...',
+                    text: err,
+                    type: 'error',
+                    showCancelButton: false,
+                    confirmButtonText: 'Try Again'
+                }).then((result) => {
+                    if (result.value) {
+                        // Meteor._reload.reload();
+                    } else if (result.dismiss === 'cancel') {}
+                });
+                $('.fullScreenSpin').css('display', 'none');
+            });
+        } else if ((url.indexOf('?creditid=') > 0)) {
+            var getsale_id = url.split('?creditid=');
+            var currentSalesID = getsale_id[getsale_id.length - 1];
+            let paymentID = parseInt(currentSalesID); ;
+
+            $('.tblSupplierPaymentcard > tbody > tr').each(function () {
+                var lineID = this.id;
+                let linetype = $('#' + lineID + " .colType").text() || $(this).closest('tr').find('.colType').text();
+                let lineAmountDue = $('#' + lineID + " .lineAmountdue").text() || $(this).closest('tr').find('.lineAmountdue').text();
+                let linePaymentAmt = $('#' + lineID + " .linePaymentamount").val() || $(this).closest('tr').find('.linePaymentamount').val();
+                let Line = {
+                    type: 'TGuiSuppPaymentLines',
+                    fields: {
+                        TransType: linetype,
+                        TransID: parseInt(lineID),
+                        Paid: true,
+                        Payment: parseFloat(linePaymentAmt.replace(/[^0-9.-]+/g, "")) || 0,
+                    }
+                };
+                if (parseFloat(linePaymentAmt.replace(/[^0-9.-]+/g, "")) != 0) {
+                    paymentData.push(Line);
+                }
+            });
+
+            let objDetails = '';
+            if (paymentData.length === 0) {
+                $('.fullScreenSpin').css('display', 'none');
+                swal({
+                    title: 'Ooops...',
+                    text: 'There is no amount due for payment. A payment amount cannot be applied',
+                    type: 'warning',
+                    showCancelButton: false,
+                    confirmButtonText: 'OK'
+                }).then((result) => {
+                    if (result.value) {
+                        // Meteor._reload.reload();
+                    } else if (result.dismiss === 'cancel') {}
+                });
+
+                return false;
+            } else {
+                objDetails = {
+                    type: "TSuppPayments",
+                    fields: {
+                        ID: 0,
+                        Deleted: false,
+                        ClientPrintName: customer,
+                        CompanyName: customer,
+                        DeptClassName: department,
+                        GUILines: paymentData,
+                        Notes: notes,
+                        Payment: true,
+                        PayMethodName: payMethod,
+                        ReferenceNo: reference,
+                        AccountName: bankAccount
+                    }
+                };
+            }
+
+            paymentService.saveSuppDepositData(objDetails).then(function (data) {
+                var customerID = $('#edtSupplierEmail').attr('customerid');
+                // Start End Send Email
+                $('#html-2-pdfwrapper').css('display', 'block');
+                $('.pdfCustomerName').html($('#edtSupplierEmail').val());
+                $('.pdfCustomerAddress').html($('#txabillingAddress').val().replace(/[\r\n]/g, "<br />"));
+                async function addAttachment() {
+                    let attachment = [];
+                    let templateObject = Template.instance();
+
+                    let invoiceId = objDetails.fields.ID;
+                    let encodedPdf = await generatePdfForMail(invoiceId);
+                    let pdfObject = "";
+                    var reader = new FileReader();
+                    reader.readAsDataURL(encodedPdf);
+                    reader.onloadend = function () {
+                        var base64data = reader.result;
+                        base64data = base64data.split(',')[1];
+
+                        pdfObject = {
+                            filename: 'supplierpayment-' + invoiceId + '.pdf',
+                            content: base64data,
+                            encoding: 'base64'
+                        };
+                        attachment.push(pdfObject);
+
+                        let erpInvoiceId = objDetails.fields.ID;
+
+                        let mailFromName = Session.get('vs1companyName');
+                        let mailFrom = localStorage.getItem('VS1OrgEmail') || localStorage.getItem('VS1AdminUserName');
+                        let customerEmailName = $('#edtSupplierName').val();
+                        let checkEmailData = $('#edtSupplierEmail').val();
+                        // let mailCC = templateObject.mailCopyToUsr.get();
+                        let grandtotal = $('#grandTotal').html();
+                        let amountDueEmail = $('#totalBalanceDue').html();
+                        let emailDueDate = $("#dtDueDate").val();
+                        let mailSubject = 'Payment ' + erpInvoiceId + ' from ' + mailFromName + ' for ' + customerEmailName;
+                        let mailBody = "Hi " + customerEmailName + ",\n\n Here's bill " + erpInvoiceId + " for  " + grandtotal + "." +
+                            "\n\nThe amount outstanding of " + amountDueEmail + " is due on " + emailDueDate + "." +
+                            "\n\nIf you have any questions, please let us know : " + mailFrom + ".\n\nThanks,\n" + mailFromName;
+
+                        var htmlmailBody = '<table align="center" border="0" cellpadding="0" cellspacing="0" width="600">' +
+                            '    <tr>' +
+                            '        <td align="center" bgcolor="#54c7e2" style="padding: 40px 0 30px 0;">' +
+                            '            <img src="https://sandbox.vs1cloud.com/assets/VS1logo.png" class="uploadedImage" alt="VS1 Cloud" width="250px" style="display: block;" />' +
+                            '        </td>' +
+                            '    </tr>' +
+                            '    <tr>' +
+                            '        <td style="padding: 40px 30px 40px 30px;">' +
+                            '            <table border="0" cellpadding="0" cellspacing="0" width="100%">' +
+                            '                <tr>' +
+                            '                    <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0 20px 0;">' +
+                            '                        Hello there <span>' + customerEmailName + '</span>,' +
+                            '                    </td>' +
+                            '                </tr>' +
+                            '                <tr>' +
+                            '                    <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0 10px 0;">' +
+                            '                        Please find puchase order <span>' + erpInvoiceId + '</span> attached below.' +
+                            '                    </td>' +
+                            '                </tr>' +
+                            '                    <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0 30px 0;">' +
+                            '                        Kind regards,' +
+                            '                        <br>' +
+                            '                        ' + mailFromName + '' +
+                            '                    </td>' +
+                            '                </tr>' +
+                            '            </table>' +
+                            '        </td>' +
+                            '    </tr>' +
+                            '    <tr>' +
+                            '        <td bgcolor="#00a3d3" style="padding: 30px 30px 30px 30px;">' +
+                            '            <table border="0" cellpadding="0" cellspacing="0" width="100%">' +
+                            '                <tr>' +
+                            '                    <td width="50%" style="color: #ffffff; font-family: Arial, sans-serif; font-size: 14px;">' +
+                            '                        If you have any question, please do not hesitate to contact us.' +
+                            '                    </td>' +
+                            '                    <td align="right">' +
+                            '                        <a style="border: none; color: white; padding: 15px 32px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin: 4px 2px; cursor: pointer; background-color: #4CAF50;" href="mailto:' + mailFrom + '">Contact Us</a>' +
+                            '                    </td>' +
+                            '                </tr>' +
+                            '            </table>' +
+                            '        </td>' +
+                            '    </tr>' +
+                            '</table>';
+
+                        if (($('.chkEmailCopy').is(':checked')) && ($('.chkEmailRep').is(':checked'))) {
+                            Meteor.call('sendEmail', {
+                                from: "" + mailFromName + " <" + mailFrom + ">",
+                                to: checkEmailData,
+                                subject: mailSubject,
+                                text: '',
+                                html: htmlmailBody,
+                                attachments: attachment
+                            }, function (error, result) {
+                                if (error && error.error === "error") {
+                                    //window.open('/supplierawaitingpurchaseorder', '_self');
+
+                                } else {}
+                            });
+
+                            Meteor.call('sendEmail', {
+                                from: "" + mailFromName + " <" + mailFrom + ">",
+                                to: mailFrom,
+                                subject: mailSubject,
+                                text: '',
+                                html: htmlmailBody,
+                                attachments: attachment
+                            }, function (error, result) {
+                                if (error && error.error === "error") {
+                                    //window.open('/supplierawaitingpurchaseorder', '_self');
+                                } else {
+                                    $('#html-2-pdfwrapper').css('display', 'none');
+                                    swal({
+                                        title: 'SUCCESS',
+                                        text: "Email Sent To Supplier: " + checkEmailData + " and User: " + mailFrom + "",
+                                        type: 'success',
+                                        showCancelButton: false,
+                                        confirmButtonText: 'OK'
+                                    }).then((result) => {
+                                        if (result.value) {
+                                            //window.open('/supplierawaitingpurchaseorder', '_self');
+                                        } else if (result.dismiss === 'cancel') {}
+                                    });
+
+                                    $('.fullScreenSpin').css('display', 'none');
+                                }
+                            });
+
+                        } else if (($('.chkEmailCopy').is(':checked'))) {
+                            Meteor.call('sendEmail', {
+                                from: "" + mailFromName + " <" + mailFrom + ">",
+                                to: checkEmailData,
+                                subject: mailSubject,
+                                text: '',
+                                html: htmlmailBody,
+                                attachments: attachment
+                            }, function (error, result) {
+                                if (error && error.error === "error") {
+                                    //window.open('/supplierawaitingpurchaseorder', '_self');
+
+                                } else {
+                                    $('#html-2-pdfwrapper').css('display', 'none');
+                                    swal({
+                                        title: 'SUCCESS',
+                                        text: "Email Sent To Supplier: " + checkEmailData + " ",
+                                        type: 'success',
+                                        showCancelButton: false,
+                                        confirmButtonText: 'OK'
+                                    }).then((result) => {
+                                        if (result.value) {
+                                            //window.open('/supplierawaitingpurchaseorder', '_self');
+                                        } else if (result.dismiss === 'cancel') {}
+                                    });
+
+                                    $('.fullScreenSpin').css('display', 'none');
+                                }
+                            });
+
+                        } else if (($('.chkEmailRep').is(':checked'))) {
+                            Meteor.call('sendEmail', {
+                                from: "" + mailFromName + " <" + mailFrom + ">",
+                                to: mailFrom,
+                                subject: mailSubject,
+                                text: '',
+                                html: htmlmailBody,
+                                attachments: attachment
+                            }, function (error, result) {
+                                if (error && error.error === "error") {
+                                    //window.open('/supplierawaitingpurchaseorder', '_self');
+                                } else {
+                                    $('#html-2-pdfwrapper').css('display', 'none');
+                                    swal({
+                                        title: 'SUCCESS',
+                                        text: "Email Sent To User: " + mailFrom + " ",
+                                        type: 'success',
+                                        showCancelButton: false,
+                                        confirmButtonText: 'OK'
+                                    }).then((result) => {
+                                        if (result.value) {
+                                            //window.open('/supplierawaitingpurchaseorder', '_self');
+                                        } else if (result.dismiss === 'cancel') {}
+                                    });
+
+                                    $('.fullScreenSpin').css('display', 'none');
+                                }
+                            });
+
+                        } else {
+                            //window.open('/supplierawaitingpurchaseorder', '_self');
+                        };
+                    };
+                }
+                addAttachment();
+
+                function generatePdfForMail(invoiceId) {
+                    return new Promise((resolve, reject) => {
+                        let templateObject = Template.instance();
+                        // let data = templateObject.singleInvoiceData.get();
+                        let completeTabRecord;
+                        let doc = new jsPDF('p', 'pt', 'a4');
+                        doc.setFontSize(18);
+                        var source = document.getElementById('html-2-pdfwrapper');
+                        doc.addHTML(source, function () {
+                            //pdf.save('Invoice.pdf');
+                            resolve(doc.output('blob'));
+                            // $('#html-2-pdfwrapper').css('display','none');
+                        });
+                    });
+                }
+                // End Send Email
+                if (customerID !== " ") {
+                    let customerEmailData = {
+                        type: "TSupplier",
+                        fields: {
+                            ID: customerID,
+                            Email: customerEmail
+                        }
+                    }
+                    // paymentService.saveSupplierEmail(customerEmailData).then(function (customerEmailData) {
+                    //
+                    // });
+                };
+                // $('.fullScreenSpin').css('display','none');
+                // window.open('/supplierawaitingpurchaseorder','_self');
+                sideBarService.getAllCreditList().then(function (dataUpdate) {
+                    addVS1Data('TCredit', JSON.stringify(dataUpdate)).then(function (datareturn) {}).catch(function (err) {});
+                }).catch(function (err) {});
+
+                sideBarService.getTSupplierPaymentList().then(function (dataUpdate) {
+                    addVS1Data('TSupplierPayment', JSON.stringify(dataUpdate)).then(function (datareturn) {}).catch(function (err) {});
+                }).catch(function (err) {});
+
+                sideBarService.getAllPurchaseOrderListAll(prevMonth11Date, toDate, false).then(function (dataUpdate) {
+                    addVS1Data('TbillReport', JSON.stringify(dataUpdate)).then(function (datareturn) {
+                        window.open('/supplierawaitingpurchaseorder', '_self');
+                    }).catch(function (err) {
+                        window.open('/supplierawaitingpurchaseorder', '_self');
+                    });
+                }).catch(function (err) {
+                    window.open('/supplierawaitingpurchaseorder', '_self');
+                });
+                //window.history.go(-2);
+            }).catch(function (err) {
+                //window.open('/supplierawaitingpurchaseorder','_self');
+                //window.history.go(-2);
+                swal({
+                    title: 'Oooops...',
+                    text: err,
+                    type: 'error',
+                    showCancelButton: false,
+                    confirmButtonText: 'Try Again'
+                }).then((result) => {
+                    if (result.value) {
+                        // Meteor._reload.reload();
+                    } else if (result.dismiss === 'cancel') {}
+                });
+                $('.fullScreenSpin').css('display', 'none');
+            });
+        } else if ((url.indexOf('?suppname=') > 0) && (url.indexOf('from=') > 0)) {
+            let paymentID = templateObject.supppaymentid.get();
+            $('.tblSupplierPaymentcard > tbody > tr').each(function () {
+                var lineID = this.id;
+                let linetype = $('#' + lineID + " .colType").text() || $(this).closest('tr').find('.colType').text();
+                let lineAmountDue = $('#' + lineID + " .lineAmountdue").text() || $(this).closest('tr').find('.lineAmountdue').text();
+                let linePaymentAmt = $('#' + lineID + " .linePaymentamount").val() || $(this).closest('tr').find('.linePaymentamount').val();
+                let Line = {
+                    type: 'TGuiSuppPaymentLines',
+                    fields: {
+                        TransType: linetype,
+                        TransID: parseInt(lineID),
+                        Paid: true,
+                        Payment: parseFloat(linePaymentAmt.replace(/[^0-9.-]+/g, "")) || 0,
+                        //ForeignPayment:parseFloat(linePaymentAmt.replace(/[^0-9.-]+/g,"")) || 0,
+                    }
+                };
+                if (parseFloat(linePaymentAmt.replace(/[^0-9.-]+/g, "")) != 0) {
+                    paymentData.push(Line);
+                }
+            });
+
+            let objDetails = '';
+            if (paymentData.length === 0) {
+                $('.fullScreenSpin').css('display', 'none');
+                swal({
+                    title: 'Ooops...',
+                    text: 'There is no amount due for payment. A payment amount cannot be applied',
+                    type: 'warning',
+                    showCancelButton: false,
+                    confirmButtonText: 'OK'
+                }).then((result) => {
+                    if (result.value) {
+                        // Meteor._reload.reload();
+                    } else if (result.dismiss === 'cancel') {}
+                });
+
+                return false;
+            } else {
+                objDetails = {
+                    type: "TSuppPayments",
+                    fields: {
+                        ID: paymentID,
+                        Amount: parseFloat(paymentAmt.replace(/[^0-9.-]+/g, "")) || 0,
+                        Applied: parseFloat(paymentAmt.replace(/[^0-9.-]+/g, "")) || 0,
+                        Deleted: false,
+
+                        ClientPrintName: customer,
+                        CompanyName: customer,
+                        DeptClassName: department,
+                        // ForeignExchangeCode: CountryAbbr,
+                        // ForeignExchangeRate: 1,
+                        // EmployeeName: empName || ' ',
+                        GUILines: paymentData,
+                        Notes: notes,
+                        Payment: true,
+                        PaymentDate: paymentDate,
+                        PayMethodName: payMethod,
+
+                        ReferenceNo: reference,
+                        AccountName: bankAccount
+                    }
+                };
+            }
+
+            paymentService.saveSuppDepositData(objDetails).then(function (data) {
+                var customerID = $('#edtSupplierEmail').attr('customerid');
+
+                // Start End Send Email
+                $('#html-2-pdfwrapper').css('display', 'block');
+                $('.pdfCustomerName').html($('#edtSupplierEmail').val());
+                $('.pdfCustomerAddress').html($('#txabillingAddress').val().replace(/[\r\n]/g, "<br />"));
+                async function addAttachment() {
+                    let attachment = [];
+                    let templateObject = Template.instance();
+
+                    let invoiceId = objDetails.fields.ID;
+                    let encodedPdf = await generatePdfForMail(invoiceId);
+                    let pdfObject = "";
+                    var reader = new FileReader();
+                    reader.readAsDataURL(encodedPdf);
+                    reader.onloadend = function () {
+                        var base64data = reader.result;
+                        base64data = base64data.split(',')[1];
+
+                        pdfObject = {
+                            filename: 'supplierpayment-' + invoiceId + '.pdf',
+                            content: base64data,
+                            encoding: 'base64'
+                        };
+                        attachment.push(pdfObject);
+
+                        let erpInvoiceId = objDetails.fields.ID;
+
+                        let mailFromName = Session.get('vs1companyName');
+                        let mailFrom = localStorage.getItem('VS1OrgEmail') || localStorage.getItem('VS1AdminUserName');
+                        let customerEmailName = $('#edtSupplierName').val();
+                        let checkEmailData = $('#edtSupplierEmail').val();
+                        // let mailCC = templateObject.mailCopyToUsr.get();
+                        let grandtotal = $('#grandTotal').html();
+                        let amountDueEmail = $('#totalBalanceDue').html();
+                        let emailDueDate = $("#dtDueDate").val();
+                        let mailSubject = 'Payment ' + erpInvoiceId + ' from ' + mailFromName + ' for ' + customerEmailName;
+                        let mailBody = "Hi " + customerEmailName + ",\n\n Here's puchase order " + erpInvoiceId + " for  " + grandtotal + "." +
+                            "\n\nThe amount outstanding of " + amountDueEmail + " is due on " + emailDueDate + "." +
+                            "\n\nIf you have any questions, please let us know : " + mailFrom + ".\n\nThanks,\n" + mailFromName;
+
+                        var htmlmailBody = '<table align="center" border="0" cellpadding="0" cellspacing="0" width="600">' +
+                            '    <tr>' +
+                            '        <td align="center" bgcolor="#54c7e2" style="padding: 40px 0 30px 0;">' +
+                            '            <img src="https://sandbox.vs1cloud.com/assets/VS1logo.png" class="uploadedImage" alt="VS1 Cloud" width="250px" style="display: block;" />' +
+                            '        </td>' +
+                            '    </tr>' +
+                            '    <tr>' +
+                            '        <td style="padding: 40px 30px 40px 30px;">' +
+                            '            <table border="0" cellpadding="0" cellspacing="0" width="100%">' +
+                            '                <tr>' +
+                            '                    <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0 20px 0;">' +
+                            '                        Hello there <span>' + customerEmailName + '</span>,' +
+                            '                    </td>' +
+                            '                </tr>' +
+                            '                <tr>' +
+                            '                    <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0 10px 0;">' +
+                            '                        Please find puchase order <span>' + erpInvoiceId + '</span> attached below.' +
+                            '                    </td>' +
+                            '                </tr>' +
+                            '                    <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0 30px 0;">' +
+                            '                        Kind regards,' +
+                            '                        <br>' +
+                            '                        ' + mailFromName + '' +
+                            '                    </td>' +
+                            '                </tr>' +
+                            '            </table>' +
+                            '        </td>' +
+                            '    </tr>' +
+                            '    <tr>' +
+                            '        <td bgcolor="#00a3d3" style="padding: 30px 30px 30px 30px;">' +
+                            '            <table border="0" cellpadding="0" cellspacing="0" width="100%">' +
+                            '                <tr>' +
+                            '                    <td width="50%" style="color: #ffffff; font-family: Arial, sans-serif; font-size: 14px;">' +
+                            '                        If you have any question, please do not hesitate to contact us.' +
+                            '                    </td>' +
+                            '                    <td align="right">' +
+                            '                        <a style="border: none; color: white; padding: 15px 32px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin: 4px 2px; cursor: pointer; background-color: #4CAF50;" href="mailto:' + mailFrom + '">Contact Us</a>' +
+                            '                    </td>' +
+                            '                </tr>' +
+                            '            </table>' +
+                            '        </td>' +
+                            '    </tr>' +
+                            '</table>';
+
+                        if (($('.chkEmailCopy').is(':checked')) && ($('.chkEmailRep').is(':checked'))) {
+                            Meteor.call('sendEmail', {
+                                from: "" + mailFromName + " <" + mailFrom + ">",
+                                to: checkEmailData,
+                                subject: mailSubject,
+                                text: '',
+                                html: htmlmailBody,
+                                attachments: attachment
+                            }, function (error, result) {
+                                if (error && error.error === "error") {
+                                    //window.open('/supplierawaitingpurchaseorder', '_self');
+
+                                } else {}
+                            });
+
+                            Meteor.call('sendEmail', {
+                                from: "" + mailFromName + " <" + mailFrom + ">",
+                                to: mailFrom,
+                                subject: mailSubject,
+                                text: '',
+                                html: htmlmailBody,
+                                attachments: attachment
+                            }, function (error, result) {
+                                if (error && error.error === "error") {
+                                    window.open('/supplierawaitingpurchaseorder', '_self');
+                                } else {
+                                    $('#html-2-pdfwrapper').css('display', 'none');
+                                    swal({
+                                        title: 'SUCCESS',
+                                        text: "Email Sent To Supplier: " + checkEmailData + " and User: " + mailFrom + "",
+                                        type: 'success',
+                                        showCancelButton: false,
+                                        confirmButtonText: 'OK'
+                                    }).then((result) => {
+                                        if (result.value) {
+                                            //window.open('/supplierawaitingpurchaseorder', '_self');
+                                        } else if (result.dismiss === 'cancel') {}
+                                    });
+
+                                    $('.fullScreenSpin').css('display', 'none');
+                                }
+                            });
+
+                        } else if (($('.chkEmailCopy').is(':checked'))) {
+                            Meteor.call('sendEmail', {
+                                from: "" + mailFromName + " <" + mailFrom + ">",
+                                to: checkEmailData,
+                                subject: mailSubject,
+                                text: '',
+                                html: htmlmailBody,
+                                attachments: attachment
+                            }, function (error, result) {
+                                if (error && error.error === "error") {
+                                    //window.open('/supplierawaitingpurchaseorder', '_self');
+
+                                } else {
+                                    $('#html-2-pdfwrapper').css('display', 'none');
+                                    swal({
+                                        title: 'SUCCESS',
+                                        text: "Email Sent To Supplier: " + checkEmailData + " ",
+                                        type: 'success',
+                                        showCancelButton: false,
+                                        confirmButtonText: 'OK'
+                                    }).then((result) => {
+                                        if (result.value) {
+                                            //window.open('/supplierawaitingpurchaseorder', '_self');
+                                        } else if (result.dismiss === 'cancel') {}
+                                    });
+
+                                    $('.fullScreenSpin').css('display', 'none');
+                                }
+                            });
+
+                        } else if (($('.chkEmailRep').is(':checked'))) {
+                            Meteor.call('sendEmail', {
+                                from: "" + mailFromName + " <" + mailFrom + ">",
+                                to: mailFrom,
+                                subject: mailSubject,
+                                text: '',
+                                html: htmlmailBody,
+                                attachments: attachment
+                            }, function (error, result) {
+                                if (error && error.error === "error") {
+                                    //window.open('/supplierawaitingpurchaseorder', '_self');
+                                } else {
+                                    $('#html-2-pdfwrapper').css('display', 'none');
+                                    swal({
+                                        title: 'SUCCESS',
+                                        text: "Email Sent To User: " + mailFrom + " ",
+                                        type: 'success',
+                                        showCancelButton: false,
+                                        confirmButtonText: 'OK'
+                                    }).then((result) => {
+                                        if (result.value) {
+                                            //window.open('/supplierawaitingpurchaseorder', '_self');
+                                        } else if (result.dismiss === 'cancel') {}
+                                    });
+
+                                    $('.fullScreenSpin').css('display', 'none');
+                                }
+                            });
+
+                        } else {
+                            //window.open('/supplierawaitingpurchaseorder', '_self');
+                        };
+                    };
+                }
+                addAttachment();
+
+                function generatePdfForMail(invoiceId) {
+                    return new Promise((resolve, reject) => {
+                        let templateObject = Template.instance();
+                        // let data = templateObject.singleInvoiceData.get();
+                        let completeTabRecord;
+                        let doc = new jsPDF('p', 'pt', 'a4');
+                        doc.setFontSize(18);
+                        var source = document.getElementById('html-2-pdfwrapper');
+                        doc.addHTML(source, function () {
+                            //pdf.save('Invoice.pdf');
+                            resolve(doc.output('blob'));
+                            // $('#html-2-pdfwrapper').css('display','none');
+                        });
+                    });
+                }
+                // End Send Email
+                if (customerID !== " ") {
+                    let customerEmailData = {
+                        type: "TSupplier",
+                        fields: {
+                            ID: customerID,
+                            Email: customerEmail
+                        }
+                    }
+                    // paymentService.saveSupplierEmail(customerEmailData).then(function (customerEmailData) {
+                    //
+                    // });
+                };
+                // $('.fullScreenSpin').css('display','none');
+                // window.open('/supplierawaitingpurchaseorder','_self');
+                sideBarService.getAllPurchaseOrderList().then(function (dataUpdate) {
+                    addVS1Data('TPurchaseOrderEx', JSON.stringify(dataUpdate)).then(function (datareturn) {}).catch(function (err) {});
+                }).catch(function (err) {});
+
+                sideBarService.getTSupplierPaymentList().then(function (dataUpdate) {
+                    addVS1Data('TSupplierPayment', JSON.stringify(dataUpdate)).then(function (datareturn) {}).catch(function (err) {});
+                }).catch(function (err) {});
+
+                sideBarService.getAllPurchaseOrderListAll(prevMonth11Date, toDate, false).then(function (dataUpdate) {
+                    addVS1Data('TbillReport', JSON.stringify(dataUpdate)).then(function (datareturn) {
+                        window.open('/supplierawaitingpurchaseorder', '_self');
+                    }).catch(function (err) {
+                        window.open('/supplierawaitingpurchaseorder', '_self');
+                    });
+                }).catch(function (err) {
+                    window.open('/supplierawaitingpurchaseorder', '_self');
+                });
+                //window.history.go(-2);
+            }).catch(function (err) {
+                //window.history.go(-2);
+                //window.open('/supplierawaitingpurchaseorder','_self');
+                swal({
+                    title: 'Oooops...',
+                    text: err,
+                    type: 'error',
+                    showCancelButton: false,
+                    confirmButtonText: 'Try Again'
+                }).then((result) => {
+                    if (result.value) {
+                        // Meteor._reload.reload();
+                    } else if (result.dismiss === 'cancel') {}
+                });
+                $('.fullScreenSpin').css('display', 'none');
+            });
+        } else if ((url.indexOf('?suppcreditname=') > 0) && (url.indexOf('pocreditid=') > 0)) {
+
+            $('.tblSupplierPaymentcard > tbody > tr').each(function () {
+                var lineID = this.id;
+                let linetype = $('#' + lineID + " .colType").text() || $(this).closest('tr').find('.colType').text();
+                let lineAmountDue = $('#' + lineID + " .lineAmountdue").text() || $(this).closest('tr').find('.lineAmountdue').text();
+                let linePaymentAmt = $('#' + lineID + " .linePaymentamount").val() || $(this).closest('tr').find('.linePaymentamount').val();
+                let Line = {
+                    type: 'TGuiSuppPaymentLines',
+                    fields: {
+                        TransType: linetype,
+                        TransID: parseInt(lineID),
+                        Paid: true,
+                        Payment: parseFloat(linePaymentAmt.replace(/[^0-9.-]+/g, "")) || 0,
+                        //ForeignPayment:parseFloat(linePaymentAmt.replace(/[^0-9.-]+/g,"")) || 0,
+                    }
+                };
+                if (parseFloat(linePaymentAmt.replace(/[^0-9.-]+/g, "")) != 0) {
+                    paymentData.push(Line);
+                }
+
+            });
+
+            let objDetails = '';
+            if (paymentData.length === 0) {
+                $('.fullScreenSpin').css('display', 'none');
+                swal({
+                    title: 'Ooops...',
+                    text: 'There is no amount due for payment. A payment amount cannot be applied',
+                    type: 'warning',
+                    showCancelButton: false,
+                    confirmButtonText: 'OK'
+                }).then((result) => {
+                    if (result.value) {
+                        // Meteor._reload.reload();
+                    } else if (result.dismiss === 'cancel') {}
+                });
+
+                return false;
+            } else {
+                objDetails = {
+                    type: "TSuppPayments",
+                    fields: {
+                        ID: 0,
+                        // Amount:parseFloat(paymentAmt.replace(/[^0-9.-]+/g,"")) || 0,
+                        // Applied:parseFloat(paymentAmt.replace(/[^0-9.-]+/g,"")) || 0,
+                        Deleted: false,
+
+                        ClientPrintName: customer,
+                        CompanyName: customer,
+                        DeptClassName: department,
+                        // ForeignExchangeCode: CountryAbbr,
+                        // ForeignExchangeRate: 1,
+                        // EmployeeName: empName || ' ',
+                        GUILines: paymentData,
+                        Notes: notes,
+                        Payment: true,
+                        PaymentDate: paymentDate,
+                        PayMethodName: payMethod,
+
+                        ReferenceNo: reference,
+                        AccountName: bankAccount
+                    }
+                };
+            }
+
+            paymentService.saveSuppDepositData(objDetails).then(function (data) {
+                var customerID = $('#edtSupplierEmail').attr('customerid');
+                // Start End Send Email
+                $('#html-2-pdfwrapper').css('display', 'block');
+                $('.pdfCustomerName').html($('#edtSupplierEmail').val());
+                $('.pdfCustomerAddress').html($('#txabillingAddress').val().replace(/[\r\n]/g, "<br />"));
+                async function addAttachment() {
+                    let attachment = [];
+                    let templateObject = Template.instance();
+
+                    let invoiceId = objDetails.fields.ID;
+                    let encodedPdf = await generatePdfForMail(invoiceId);
+                    let pdfObject = "";
+                    var reader = new FileReader();
+                    reader.readAsDataURL(encodedPdf);
+                    reader.onloadend = function () {
+                        var base64data = reader.result;
+                        base64data = base64data.split(',')[1];
+
+                        pdfObject = {
+                            filename: 'supplierpayment-' + invoiceId + '.pdf',
+                            content: base64data,
+                            encoding: 'base64'
+                        };
+                        attachment.push(pdfObject);
+
+                        let erpInvoiceId = objDetails.fields.ID;
+
+                        let mailFromName = Session.get('vs1companyName');
+                        let mailFrom = localStorage.getItem('VS1OrgEmail') || localStorage.getItem('VS1AdminUserName');
+                        let customerEmailName = $('#edtSupplierName').val();
+                        let checkEmailData = $('#edtSupplierEmail').val();
+                        // let mailCC = templateObject.mailCopyToUsr.get();
+                        let grandtotal = $('#grandTotal').html();
+                        let amountDueEmail = $('#totalBalanceDue').html();
+                        let emailDueDate = $("#dtDueDate").val();
+                        let mailSubject = 'Payment ' + erpInvoiceId + ' from ' + mailFromName + ' for ' + customerEmailName;
+                        let mailBody = "Hi " + customerEmailName + ",\n\n Here's puchase order " + erpInvoiceId + " for  " + grandtotal + "." +
+                            "\n\nThe amount outstanding of " + amountDueEmail + " is due on " + emailDueDate + "." +
+                            "\n\nIf you have any questions, please let us know : " + mailFrom + ".\n\nThanks,\n" + mailFromName;
+
+                        var htmlmailBody = '<table align="center" border="0" cellpadding="0" cellspacing="0" width="600">' +
+                            '    <tr>' +
+                            '        <td align="center" bgcolor="#54c7e2" style="padding: 40px 0 30px 0;">' +
+                            '            <img src="https://sandbox.vs1cloud.com/assets/VS1logo.png" class="uploadedImage" alt="VS1 Cloud" width="250px" style="display: block;" />' +
+                            '        </td>' +
+                            '    </tr>' +
+                            '    <tr>' +
+                            '        <td style="padding: 40px 30px 40px 30px;">' +
+                            '            <table border="0" cellpadding="0" cellspacing="0" width="100%">' +
+                            '                <tr>' +
+                            '                    <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0 20px 0;">' +
+                            '                        Hello there <span>' + customerEmailName + '</span>,' +
+                            '                    </td>' +
+                            '                </tr>' +
+                            '                <tr>' +
+                            '                    <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0 10px 0;">' +
+                            '                        Please find puchase order <span>' + erpInvoiceId + '</span> attached below.' +
+                            '                    </td>' +
+                            '                </tr>' +
+                            '                    <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0 30px 0;">' +
+                            '                        Kind regards,' +
+                            '                        <br>' +
+                            '                        ' + mailFromName + '' +
+                            '                    </td>' +
+                            '                </tr>' +
+                            '            </table>' +
+                            '        </td>' +
+                            '    </tr>' +
+                            '    <tr>' +
+                            '        <td bgcolor="#00a3d3" style="padding: 30px 30px 30px 30px;">' +
+                            '            <table border="0" cellpadding="0" cellspacing="0" width="100%">' +
+                            '                <tr>' +
+                            '                    <td width="50%" style="color: #ffffff; font-family: Arial, sans-serif; font-size: 14px;">' +
+                            '                        If you have any question, please do not hesitate to contact us.' +
+                            '                    </td>' +
+                            '                    <td align="right">' +
+                            '                        <a style="border: none; color: white; padding: 15px 32px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin: 4px 2px; cursor: pointer; background-color: #4CAF50;" href="mailto:' + mailFrom + '">Contact Us</a>' +
+                            '                    </td>' +
+                            '                </tr>' +
+                            '            </table>' +
+                            '        </td>' +
+                            '    </tr>' +
+                            '</table>';
+
+                        if (($('.chkEmailCopy').is(':checked')) && ($('.chkEmailRep').is(':checked'))) {
+                            Meteor.call('sendEmail', {
+                                from: "" + mailFromName + " <" + mailFrom + ">",
+                                to: checkEmailData,
+                                subject: mailSubject,
+                                text: '',
+                                html: htmlmailBody,
+                                attachments: attachment
+                            }, function (error, result) {
+                                if (error && error.error === "error") {
+                                    //window.open('/supplierpayment', '_self');
+
+                                } else {}
+                            });
+
+                            Meteor.call('sendEmail', {
+                                from: "" + mailFromName + " <" + mailFrom + ">",
+                                to: mailFrom,
+                                subject: mailSubject,
+                                text: '',
+                                html: htmlmailBody,
+                                attachments: attachment
+                            }, function (error, result) {
+                                if (error && error.error === "error") {
+                                    //window.open('/supplierpayment', '_self');
+                                } else {
+                                    $('#html-2-pdfwrapper').css('display', 'none');
+                                    swal({
+                                        title: 'SUCCESS',
+                                        text: "Email Sent To Supplier: " + checkEmailData + " and User: " + mailFrom + "",
+                                        type: 'success',
+                                        showCancelButton: false,
+                                        confirmButtonText: 'OK'
+                                    }).then((result) => {
+                                        if (result.value) {
+                                            //window.open('/supplierpayment', '_self');
+                                        } else if (result.dismiss === 'cancel') {}
+                                    });
+
+                                    $('.fullScreenSpin').css('display', 'none');
+                                }
+                            });
+
+                        } else if (($('.chkEmailCopy').is(':checked'))) {
+                            Meteor.call('sendEmail', {
+                                from: "" + mailFromName + " <" + mailFrom + ">",
+                                to: checkEmailData,
+                                subject: mailSubject,
+                                text: '',
+                                html: htmlmailBody,
+                                attachments: attachment
+                            }, function (error, result) {
+                                if (error && error.error === "error") {
+                                    //window.open('/supplierpayment', '_self');
+
+                                } else {
+                                    $('#html-2-pdfwrapper').css('display', 'none');
+                                    swal({
+                                        title: 'SUCCESS',
+                                        text: "Email Sent To Supplier: " + checkEmailData + " ",
+                                        type: 'success',
+                                        showCancelButton: false,
+                                        confirmButtonText: 'OK'
+                                    }).then((result) => {
+                                        if (result.value) {
+                                            //window.open('/supplierpayment', '_self');
+                                        } else if (result.dismiss === 'cancel') {}
+                                    });
+
+                                    $('.fullScreenSpin').css('display', 'none');
+                                }
+                            });
+
+                        } else if (($('.chkEmailRep').is(':checked'))) {
+                            Meteor.call('sendEmail', {
+                                from: "" + mailFromName + " <" + mailFrom + ">",
+                                to: mailFrom,
+                                subject: mailSubject,
+                                text: '',
+                                html: htmlmailBody,
+                                attachments: attachment
+                            }, function (error, result) {
+                                if (error && error.error === "error") {
+                                    //  window.open('/supplierpayment', '_self');
+                                } else {
+                                    $('#html-2-pdfwrapper').css('display', 'none');
+                                    swal({
+                                        title: 'SUCCESS',
+                                        text: "Email Sent To User: " + mailFrom + " ",
+                                        type: 'success',
+                                        showCancelButton: false,
+                                        confirmButtonText: 'OK'
+                                    }).then((result) => {
+                                        if (result.value) {
+                                            //window.open('/supplierpayment', '_self');
+                                        } else if (result.dismiss === 'cancel') {}
+                                    });
+
+                                    $('.fullScreenSpin').css('display', 'none');
+                                }
+                            });
+
+                        } else {
+                            //window.open('/supplierpayment', '_self');
+                        };
+                    };
+                }
+                addAttachment();
+
+                function generatePdfForMail(invoiceId) {
+                    return new Promise((resolve, reject) => {
+                        let templateObject = Template.instance();
+                        // let data = templateObject.singleInvoiceData.get();
+                        let completeTabRecord;
+                        let doc = new jsPDF('p', 'pt', 'a4');
+                        doc.setFontSize(18);
+                        var source = document.getElementById('html-2-pdfwrapper');
+                        doc.addHTML(source, function () {
+                            //pdf.save('Invoice.pdf');
+                            resolve(doc.output('blob'));
+                            // $('#html-2-pdfwrapper').css('display','none');
+                        });
+                    });
+                }
+                // End Send Email
+                if (customerID !== " ") {
+                    let customerEmailData = {
+                        type: "TSupplier",
+                        fields: {
+                            ID: customerID,
+                            Email: customerEmail
+                        }
+                    }
+
+                };
+                // $('.fullScreenSpin').css('display','none');
+                // window.open('/supplierpayment','_self');
+                sideBarService.getAllPurchaseOrderList().then(function (dataUpdate) {
+                    sideBarService.getTSupplierPaymentList().then(function (dataUpdate) {
+                        addVS1Data('TSupplierPayment', JSON.stringify(dataUpdate)).then(function (datareturn) {}).catch(function (err) {});
+                    }).catch(function (err) {});
+
+                    addVS1Data('TPurchaseOrderEx', JSON.stringify(dataUpdate)).then(function (datareturn) {
+                        sideBarService.getAllPurchaseOrderListAll(prevMonth11Date, toDate, false).then(function (dataUpdate) {
+                            addVS1Data('TbillReport', JSON.stringify(dataUpdate)).then(function (datareturn) {
+                                window.open('/supplierpayment', '_self');
+                            }).catch(function (err) {
+                                window.open('/supplierpayment', '_self');
+                            });
+                        }).catch(function (err) {
+                            window.open('/supplierpayment', '_self');
+                        });
+                    }).catch(function (err) {
+                        window.open('/supplierpayment', '_self');
+                    });
+                }).catch(function (err) {
+                    window.open('/supplierpayment', '_self');
+                });
+
+            }).catch(function (err) {
+                //window.open('/paymentoverview','_self');
+                swal({
+                    title: 'Oooops...',
+                    text: err,
+                    type: 'error',
+                    showCancelButton: false,
+                    confirmButtonText: 'Try Again'
+                }).then((result) => {
+                    if (result.value) {
+                        // Meteor._reload.reload();
+                    } else if (result.dismiss === 'cancel') {}
+                });
+                $('.fullScreenSpin').css('display', 'none');
+            });
+        } else if ((url.indexOf('?selectsupppo=') > 0)) {
+            var getsale_id = url.split('?selectsupp=');
+            var currentSalesID = getsale_id[getsale_id.length - 1];
+
+            $('.tblSupplierPaymentcard > tbody > tr').each(function () {
+                var lineID = this.id;
+                let linetype = $('#' + lineID + " .colType").text();
+                let lineAmountDue = $('#' + lineID + " .lineAmountdue").text();
+                let linePaymentAmt = $('#' + lineID + " .linePaymentamount").val();
+                let Line = {
+                    type: 'TGuiSuppPaymentLines',
+                    fields: {
+                        TransType: linetype,
+                        TransID: parseInt(lineID),
+                        Paid: true,
+                        Payment: parseFloat(linePaymentAmt.replace(/[^0-9.-]+/g, "")) || 0,
+                    }
+                };
+                if (parseFloat(linePaymentAmt.replace(/[^0-9.-]+/g, "")) != 0) {
+                    paymentData.push(Line);
+                }
+            });
+
+            let objDetails = '';
+            if (paymentData.length === 0) {
+                $('.fullScreenSpin').css('display', 'none');
+                swal({
+                    title: 'Ooops...',
+                    text: 'There is no amount due for payment. A payment amount cannot be applied',
+                    type: 'warning',
+                    showCancelButton: false,
+                    confirmButtonText: 'OK'
+                }).then((result) => {
+                    if (result.value) {
+                        // Meteor._reload.reload();
+                    } else if (result.dismiss === 'cancel') {}
+                });
+
+                return false;
+            } else {
+                objDetails = {
+                    type: "TSuppPayments",
+                    fields: {
+                        ID: 0,
+                        Deleted: false,
+
+                        ClientPrintName: customer,
+                        CompanyName: customer,
+                        DeptClassName: department,
+                        GUILines: paymentData,
+                        Notes: notes,
+                        Payment: true,
+                        PaymentDate: paymentDate,
+                        PayMethodName: payMethod,
+
+                        ReferenceNo: reference,
+                        AccountName: bankAccount
+                    }
+                };
+
+            }
+
+            paymentService.saveSuppDepositData(objDetails).then(function (data) {
+                var customerID = $('#edtSupplierEmail').attr('customerid');
+                // Start End Send Email
+                $('#html-2-pdfwrapper').css('display', 'block');
+                $('.pdfCustomerName').html($('#edtSupplierEmail').val());
+                $('.pdfCustomerAddress').html($('#txabillingAddress').val().replace(/[\r\n]/g, "<br />"));
+                async function addAttachment() {
+                    let attachment = [];
+                    let templateObject = Template.instance();
+
+                    let invoiceId = objDetails.fields.ID;
+                    let encodedPdf = await generatePdfForMail(invoiceId);
+                    let pdfObject = "";
+                    var reader = new FileReader();
+                    reader.readAsDataURL(encodedPdf);
+                    reader.onloadend = function () {
+                        var base64data = reader.result;
+                        base64data = base64data.split(',')[1];
+
+                        pdfObject = {
+                            filename: 'supplierpayment-' + invoiceId + '.pdf',
+                            content: base64data,
+                            encoding: 'base64'
+                        };
+                        attachment.push(pdfObject);
+
+                        let erpInvoiceId = objDetails.fields.ID;
+
+                        let mailFromName = Session.get('vs1companyName');
+                        let mailFrom = localStorage.getItem('VS1OrgEmail') || localStorage.getItem('VS1AdminUserName');
+                        let customerEmailName = $('#edtSupplierName').val();
+                        let checkEmailData = $('#edtSupplierEmail').val();
+                        // let mailCC = templateObject.mailCopyToUsr.get();
+                        let grandtotal = $('#grandTotal').html();
+                        let amountDueEmail = $('#totalBalanceDue').html();
+                        let emailDueDate = $("#dtDueDate").val();
+                        let mailSubject = 'Payment ' + erpInvoiceId + ' from ' + mailFromName + ' for ' + customerEmailName;
+                        let mailBody = "Hi " + customerEmailName + ",\n\n Here's puchase order " + erpInvoiceId + " for  " + grandtotal + "." +
+                            "\n\nThe amount outstanding of " + amountDueEmail + " is due on " + emailDueDate + "." +
+                            "\n\nIf you have any questions, please let us know : " + mailFrom + ".\n\nThanks,\n" + mailFromName;
+
+                        var htmlmailBody = '<table align="center" border="0" cellpadding="0" cellspacing="0" width="600">' +
+                            '    <tr>' +
+                            '        <td align="center" bgcolor="#54c7e2" style="padding: 40px 0 30px 0;">' +
+                            '            <img src="https://sandbox.vs1cloud.com/assets/VS1logo.png" class="uploadedImage" alt="VS1 Cloud" width="250px" style="display: block;" />' +
+                            '        </td>' +
+                            '    </tr>' +
+                            '    <tr>' +
+                            '        <td style="padding: 40px 30px 40px 30px;">' +
+                            '            <table border="0" cellpadding="0" cellspacing="0" width="100%">' +
+                            '                <tr>' +
+                            '                    <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0 20px 0;">' +
+                            '                        Hello there <span>' + customerEmailName + '</span>,' +
+                            '                    </td>' +
+                            '                </tr>' +
+                            '                <tr>' +
+                            '                    <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0 10px 0;">' +
+                            '                        Please find puchase order <span>' + erpInvoiceId + '</span> attached below.' +
+                            '                    </td>' +
+                            '                </tr>' +
+                            '                    <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0 30px 0;">' +
+                            '                        Kind regards,' +
+                            '                        <br>' +
+                            '                        ' + mailFromName + '' +
+                            '                    </td>' +
+                            '                </tr>' +
+                            '            </table>' +
+                            '        </td>' +
+                            '    </tr>' +
+                            '    <tr>' +
+                            '        <td bgcolor="#00a3d3" style="padding: 30px 30px 30px 30px;">' +
+                            '            <table border="0" cellpadding="0" cellspacing="0" width="100%">' +
+                            '                <tr>' +
+                            '                    <td width="50%" style="color: #ffffff; font-family: Arial, sans-serif; font-size: 14px;">' +
+                            '                        If you have any question, please do not hesitate to contact us.' +
+                            '                    </td>' +
+                            '                    <td align="right">' +
+                            '                        <a style="border: none; color: white; padding: 15px 32px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin: 4px 2px; cursor: pointer; background-color: #4CAF50;" href="mailto:' + mailFrom + '">Contact Us</a>' +
+                            '                    </td>' +
+                            '                </tr>' +
+                            '            </table>' +
+                            '        </td>' +
+                            '    </tr>' +
+                            '</table>';
+
+                        if (($('.chkEmailCopy').is(':checked')) && ($('.chkEmailRep').is(':checked'))) {
+                            Meteor.call('sendEmail', {
+                                from: "" + mailFromName + " <" + mailFrom + ">",
+                                to: checkEmailData,
+                                subject: mailSubject,
+                                text: '',
+                                html: htmlmailBody,
+                                attachments: attachment
+                            }, function (error, result) {
+                                if (error && error.error === "error") {
+                                    //window.open('/supplierawaitingpurchaseorder', '_self');
+
+                                } else {}
+                            });
+
+                            Meteor.call('sendEmail', {
+                                from: "" + mailFromName + " <" + mailFrom + ">",
+                                to: mailFrom,
+                                subject: mailSubject,
+                                text: '',
+                                html: htmlmailBody,
+                                attachments: attachment
+                            }, function (error, result) {
+                                if (error && error.error === "error") {
+                                    //window.open('/supplierawaitingpurchaseorder', '_self');
+                                } else {
+                                    $('#html-2-pdfwrapper').css('display', 'none');
+                                    swal({
+                                        title: 'SUCCESS',
+                                        text: "Email Sent To Supplier: " + checkEmailData + " and User: " + mailFrom + "",
+                                        type: 'success',
+                                        showCancelButton: false,
+                                        confirmButtonText: 'OK'
+                                    }).then((result) => {
+                                        if (result.value) {
+                                            //window.open('/supplierawaitingpurchaseorder', '_self');
+                                        } else if (result.dismiss === 'cancel') {}
+                                    });
+
+                                    $('.fullScreenSpin').css('display', 'none');
+                                }
+                            });
+
+                        } else if (($('.chkEmailCopy').is(':checked'))) {
+                            Meteor.call('sendEmail', {
+                                from: "" + mailFromName + " <" + mailFrom + ">",
+                                to: checkEmailData,
+                                subject: mailSubject,
+                                text: '',
+                                html: htmlmailBody,
+                                attachments: attachment
+                            }, function (error, result) {
+                                if (error && error.error === "error") {
+                                    //window.open('/supplierawaitingpurchaseorder', '_self');
+
+                                } else {
+                                    $('#html-2-pdfwrapper').css('display', 'none');
+                                    swal({
+                                        title: 'SUCCESS',
+                                        text: "Email Sent To Supplier: " + checkEmailData + " ",
+                                        type: 'success',
+                                        showCancelButton: false,
+                                        confirmButtonText: 'OK'
+                                    }).then((result) => {
+                                        if (result.value) {
+                                            //window.open('/supplierawaitingpurchaseorder', '_self');
+                                        } else if (result.dismiss === 'cancel') {}
+                                    });
+
+                                    $('.fullScreenSpin').css('display', 'none');
+                                }
+                            });
+
+                        } else if (($('.chkEmailRep').is(':checked'))) {
+                            Meteor.call('sendEmail', {
+                                from: "" + mailFromName + " <" + mailFrom + ">",
+                                to: mailFrom,
+                                subject: mailSubject,
+                                text: '',
+                                html: htmlmailBody,
+                                attachments: attachment
+                            }, function (error, result) {
+                                if (error && error.error === "error") {
+                                    //window.open('/supplierawaitingpurchaseorder', '_self');
+                                } else {
+                                    $('#html-2-pdfwrapper').css('display', 'none');
+                                    swal({
+                                        title: 'SUCCESS',
+                                        text: "Email Sent To User: " + mailFrom + " ",
+                                        type: 'success',
+                                        showCancelButton: false,
+                                        confirmButtonText: 'OK'
+                                    }).then((result) => {
+                                        if (result.value) {
+                                            //window.open('/supplierawaitingpurchaseorder', '_self');
+                                        } else if (result.dismiss === 'cancel') {}
+                                    });
+
+                                    $('.fullScreenSpin').css('display', 'none');
+                                }
+                            });
+
+                        } else {
+                            //  window.open('/supplierawaitingpurchaseorder', '_self');
+                        };
+                    };
+                }
+                addAttachment();
+
+                function generatePdfForMail(invoiceId) {
+                    return new Promise((resolve, reject) => {
+                        let templateObject = Template.instance();
+                        // let data = templateObject.singleInvoiceData.get();
+                        let completeTabRecord;
+                        let doc = new jsPDF('p', 'pt', 'a4');
+                        doc.setFontSize(18);
+                        var source = document.getElementById('html-2-pdfwrapper');
+                        doc.addHTML(source, function () {
+                            //pdf.save('Invoice.pdf');
+                            resolve(doc.output('blob'));
+                            // $('#html-2-pdfwrapper').css('display','none');
+                        });
+                    });
+                }
+                // End Send Email
+                if (customerID !== " ") {
+                    let customerEmailData = {
+                        type: "TSupplier",
+                        fields: {
+                            ID: customerID,
+                            Email: customerEmail
+                        }
+                    }
+
+                };
+                sideBarService.getTSupplierPaymentList().then(function (dataUpdate) {
+                    addVS1Data('TSupplierPayment', JSON.stringify(dataUpdate)).then(function (datareturn) {}).catch(function (err) {});
+                }).catch(function (err) {});
+                sideBarService.getAllPurchaseOrderList().then(function (dataUpdate) {
+                    addVS1Data('TPurchaseOrderEx', JSON.stringify(dataUpdate)).then(function (datareturn) {
+                        sideBarService.getAllPurchaseOrderListAll(prevMonth11Date, toDate, false).then(function (dataUpdate2) {
+                            addVS1Data('TbillReport', JSON.stringify(dataUpdate2)).then(function (datareturn) {
+                                window.open('/supplierpayment', '_self');
+                            }).catch(function (err) {
+                                window.open('/supplierpayment', '_self');
+                            });
+                        }).catch(function (err) {
+                            window.open('/supplierpayment', '_self');
+                        });
+                    }).catch(function (err) {
+                        window.open('/supplierpayment', '_self');
+                    });
+                }).catch(function (err) {
+                    window.open('/supplierpayment', '_self');
+                });
+            }).catch(function (err) {
+                //window.open('/paymentoverview','_self');
+                swal({
+                    title: 'Oooops...',
+                    text: err,
+                    type: 'error',
+                    showCancelButton: false,
+                    confirmButtonText: 'Try Again'
+                }).then((result) => {
+                    if (result.value) {
+                        // Meteor._reload.reload();
+                    } else if (result.dismiss === 'cancel') {}
+                });
+                $('.fullScreenSpin').css('display', 'none');
+            });
+        } else if ((url.indexOf('?selectsuppb=') > 0)) {
+            var getsale_id = url.split('?selectsuppb=');
+            var currentSalesID = getsale_id[getsale_id.length - 1];
+            // let paymentID = parseInt(currentSalesID);;
+
+
+            $('.tblSupplierPaymentcard > tbody > tr').each(function () {
+                var lineID = this.id;
+                let linetype = $('#' + lineID + " .colType").text();
+                let lineAmountDue = $('#' + lineID + " .lineAmountdue").text();
+                let linePaymentAmt = $('#' + lineID + " .linePaymentamount").val();
+                let Line = {
+                    type: 'TGuiSuppPaymentLines',
+                    fields: {
+                        TransType: linetype,
+                        TransID: parseInt(lineID),
+                        Paid: true,
+                        Payment: parseFloat(linePaymentAmt.replace(/[^0-9.-]+/g, "")) || 0,
+                        //ForeignPayment:parseFloat(linePaymentAmt.replace(/[^0-9.-]+/g,"")) || 0,
+                    }
+                };
+                if (parseFloat(linePaymentAmt.replace(/[^0-9.-]+/g, "")) != 0) {
+                    paymentData.push(Line);
+                }
+            });
+
+            let objDetails = '';
+            if (paymentData.length === 0) {
+                $('.fullScreenSpin').css('display', 'none');
+                swal({
+                    title: 'Ooops...',
+                    text: 'There is no amount due for payment. A payment amount cannot be applied',
+                    type: 'warning',
+                    showCancelButton: false,
+                    confirmButtonText: 'OK'
+                }).then((result) => {
+                    if (result.value) {
+                        // Meteor._reload.reload();
+                    } else if (result.dismiss === 'cancel') {}
+                });
+
+                return false;
+            } else {
+                objDetails = {
+                    type: "TSuppPayments",
+                    fields: {
+                        // Amount:parseFloat(paymentAmt.replace(/[^0-9.-]+/g,"")) || 0,
+                        // Applied:parseFloat(paymentAmt.replace(/[^0-9.-]+/g,"")) || 0,
+                        ID: 0,
+                        Deleted: false,
+
+                        ClientPrintName: customer,
+                        CompanyName: customer,
+                        DeptClassName: department,
+                        // EmployeeName: empName || ' ',
+                        GUILines: paymentData,
+                        Notes: notes,
+                        Payment: true,
+                        PaymentDate: paymentDate,
+                        PayMethodName: payMethod,
+
+                        ReferenceNo: reference,
+                        AccountName: bankAccount
+                    }
+                };
+            }
+            paymentService.saveSuppDepositData(objDetails).then(function (data) {
+                var customerID = $('#edtSupplierEmail').attr('customerid');
+                // Start End Send Email
+                $('#html-2-pdfwrapper').css('display', 'block');
+                $('.pdfCustomerName').html($('#edtSupplierEmail').val());
+                $('.pdfCustomerAddress').html($('#txabillingAddress').val().replace(/[\r\n]/g, "<br />"));
+                async function addAttachment() {
+                    let attachment = [];
+                    let templateObject = Template.instance();
+
+                    let invoiceId = objDetails.fields.ID;
+                    let encodedPdf = await generatePdfForMail(invoiceId);
+                    let pdfObject = "";
+                    var reader = new FileReader();
+                    reader.readAsDataURL(encodedPdf);
+                    reader.onloadend = function () {
+                        var base64data = reader.result;
+                        base64data = base64data.split(',')[1];
+
+                        pdfObject = {
+                            filename: 'supplierpayment-' + invoiceId + '.pdf',
+                            content: base64data,
+                            encoding: 'base64'
+                        };
+                        attachment.push(pdfObject);
+
+                        let erpInvoiceId = objDetails.fields.ID;
+
+                        let mailFromName = Session.get('vs1companyName');
+                        let mailFrom = localStorage.getItem('VS1OrgEmail') || localStorage.getItem('VS1AdminUserName');
+                        let customerEmailName = $('#edtSupplierName').val();
+                        let checkEmailData = $('#edtSupplierEmail').val();
+                        // let mailCC = templateObject.mailCopyToUsr.get();
+                        let grandtotal = $('#grandTotal').html();
+                        let amountDueEmail = $('#totalBalanceDue').html();
+                        let emailDueDate = $("#dtDueDate").val();
+                        let mailSubject = 'Payment ' + erpInvoiceId + ' from ' + mailFromName + ' for ' + customerEmailName;
+                        let mailBody = "Hi " + customerEmailName + ",\n\n Here's puchase order " + erpInvoiceId + " for  " + grandtotal + "." +
+                            "\n\nThe amount outstanding of " + amountDueEmail + " is due on " + emailDueDate + "." +
+                            "\n\nIf you have any questions, please let us know : " + mailFrom + ".\n\nThanks,\n" + mailFromName;
+
+                        var htmlmailBody = '<table align="center" border="0" cellpadding="0" cellspacing="0" width="600">' +
+                            '    <tr>' +
+                            '        <td align="center" bgcolor="#54c7e2" style="padding: 40px 0 30px 0;">' +
+                            '            <img src="https://sandbox.vs1cloud.com/assets/VS1logo.png" class="uploadedImage" alt="VS1 Cloud" width="250px" style="display: block;" />' +
+                            '        </td>' +
+                            '    </tr>' +
+                            '    <tr>' +
+                            '        <td style="padding: 40px 30px 40px 30px;">' +
+                            '            <table border="0" cellpadding="0" cellspacing="0" width="100%">' +
+                            '                <tr>' +
+                            '                    <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0 20px 0;">' +
+                            '                        Hello there <span>' + customerEmailName + '</span>,' +
+                            '                    </td>' +
+                            '                </tr>' +
+                            '                <tr>' +
+                            '                    <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0 10px 0;">' +
+                            '                        Please find puchase order <span>' + erpInvoiceId + '</span> attached below.' +
+                            '                    </td>' +
+                            '                </tr>' +
+                            '                    <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0 30px 0;">' +
+                            '                        Kind regards,' +
+                            '                        <br>' +
+                            '                        ' + mailFromName + '' +
+                            '                    </td>' +
+                            '                </tr>' +
+                            '            </table>' +
+                            '        </td>' +
+                            '    </tr>' +
+                            '    <tr>' +
+                            '        <td bgcolor="#00a3d3" style="padding: 30px 30px 30px 30px;">' +
+                            '            <table border="0" cellpadding="0" cellspacing="0" width="100%">' +
+                            '                <tr>' +
+                            '                    <td width="50%" style="color: #ffffff; font-family: Arial, sans-serif; font-size: 14px;">' +
+                            '                        If you have any question, please do not hesitate to contact us.' +
+                            '                    </td>' +
+                            '                    <td align="right">' +
+                            '                        <a style="border: none; color: white; padding: 15px 32px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin: 4px 2px; cursor: pointer; background-color: #4CAF50;" href="mailto:' + mailFrom + '">Contact Us</a>' +
+                            '                    </td>' +
+                            '                </tr>' +
+                            '            </table>' +
+                            '        </td>' +
+                            '    </tr>' +
+                            '</table>';
+
+                        if (($('.chkEmailCopy').is(':checked')) && ($('.chkEmailRep').is(':checked'))) {
+                            Meteor.call('sendEmail', {
+                                from: "" + mailFromName + " <" + mailFrom + ">",
+                                to: checkEmailData,
+                                subject: mailSubject,
+                                text: '',
+                                html: htmlmailBody,
+                                attachments: attachment
+                            }, function (error, result) {
+                                if (error && error.error === "error") {
+                                    //window.open('/supplierawaitingpurchaseorder', '_self');
+
+                                } else {}
+                            });
+
+                            Meteor.call('sendEmail', {
+                                from: "" + mailFromName + " <" + mailFrom + ">",
+                                to: mailFrom,
+                                subject: mailSubject,
+                                text: '',
+                                html: htmlmailBody,
+                                attachments: attachment
+                            }, function (error, result) {
+                                if (error && error.error === "error") {
+                                    //  window.open('/supplierawaitingpurchaseorder', '_self');
+                                } else {
+                                    $('#html-2-pdfwrapper').css('display', 'none');
+                                    swal({
+                                        title: 'SUCCESS',
+                                        text: "Email Sent To Supplier: " + checkEmailData + " and User: " + mailFrom + "",
+                                        type: 'success',
+                                        showCancelButton: false,
+                                        confirmButtonText: 'OK'
+                                    }).then((result) => {
+                                        if (result.value) {
+                                            //window.open('/supplierawaitingpurchaseorder', '_self');
+                                        } else if (result.dismiss === 'cancel') {}
+                                    });
+
+                                    $('.fullScreenSpin').css('display', 'none');
+                                }
+                            });
+
+                        } else if (($('.chkEmailCopy').is(':checked'))) {
+                            Meteor.call('sendEmail', {
+                                from: "" + mailFromName + " <" + mailFrom + ">",
+                                to: checkEmailData,
+                                subject: mailSubject,
+                                text: '',
+                                html: htmlmailBody,
+                                attachments: attachment
+                            }, function (error, result) {
+                                if (error && error.error === "error") {
+                                    //window.open('/supplierawaitingpurchaseorder', '_self');
+
+                                } else {
+                                    $('#html-2-pdfwrapper').css('display', 'none');
+                                    swal({
+                                        title: 'SUCCESS',
+                                        text: "Email Sent To Supplier: " + checkEmailData + " ",
+                                        type: 'success',
+                                        showCancelButton: false,
+                                        confirmButtonText: 'OK'
+                                    }).then((result) => {
+                                        if (result.value) {
+                                            //window.open('/supplierawaitingpurchaseorder', '_self');
+                                        } else if (result.dismiss === 'cancel') {}
+                                    });
+
+                                    $('.fullScreenSpin').css('display', 'none');
+                                }
+                            });
+
+                        } else if (($('.chkEmailRep').is(':checked'))) {
+                            Meteor.call('sendEmail', {
+                                from: "" + mailFromName + " <" + mailFrom + ">",
+                                to: mailFrom,
+                                subject: mailSubject,
+                                text: '',
+                                html: htmlmailBody,
+                                attachments: attachment
+                            }, function (error, result) {
+                                if (error && error.error === "error") {
+                                    //window.open('/supplierawaitingpurchaseorder', '_self');
+                                } else {
+                                    $('#html-2-pdfwrapper').css('display', 'none');
+                                    swal({
+                                        title: 'SUCCESS',
+                                        text: "Email Sent To User: " + mailFrom + " ",
+                                        type: 'success',
+                                        showCancelButton: false,
+                                        confirmButtonText: 'OK'
+                                    }).then((result) => {
+                                        if (result.value) {
+                                            //window.open('/supplierawaitingpurchaseorder', '_self');
+                                        } else if (result.dismiss === 'cancel') {}
+                                    });
+
+                                    $('.fullScreenSpin').css('display', 'none');
+                                }
+                            });
+
+                        } else {
+                            //window.open('/supplierawaitingpurchaseorder', '_self');
+                        };
+                    };
+                }
+                addAttachment();
+
+                function generatePdfForMail(invoiceId) {
+                    return new Promise((resolve, reject) => {
+                        let templateObject = Template.instance();
+                        // let data = templateObject.singleInvoiceData.get();
+                        let completeTabRecord;
+                        let doc = new jsPDF('p', 'pt', 'a4');
+                        doc.setFontSize(18);
+                        var source = document.getElementById('html-2-pdfwrapper');
+                        doc.addHTML(source, function () {
+                            //pdf.save('Invoice.pdf');
+                            resolve(doc.output('blob'));
+                            // $('#html-2-pdfwrapper').css('display','none');
+                        });
+                    });
+                }
+                // End Send Email
+                if (customerID !== " ") {
+                    let customerEmailData = {
+                        type: "TSupplier",
+                        fields: {
+                            ID: customerID,
+                            Email: customerEmail
+                        }
+                    }
+                    // paymentService.saveSupplierEmail(customerEmailData).then(function (customerEmailData) {
+                    //
+                    // });
+                };
+                // $('.fullScreenSpin').css('display','none');
+                // window.open('/supplierawaitingpurchaseorder','_self');
+
+                sideBarService.getTSupplierPaymentList().then(function (dataUpdate) {
+                    addVS1Data('TSupplierPayment', JSON.stringify(dataUpdate)).then(function (datareturn) {}).catch(function (err) {});
+                }).catch(function (err) {});
+                sideBarService.getAllBillExList().then(function (dataUpdate) {
+                    addVS1Data('TBillEx', JSON.stringify(dataUpdate)).then(function (datareturn) {
+                        sideBarService.getAllBillExList().then(function (dataUpdate2) {
+                            addVS1Data('TbillReport', JSON.stringify(dataUpdate2)).then(function (datareturn) {
+                                window.open('/supplierawaitingpurchaseorder', '_self');
+                            }).catch(function (err) {
+                                window.open('/supplierawaitingpurchaseorder', '_self');
+                            });
+                        }).catch(function (err) {
+                            window.open('/supplierawaitingpurchaseorder', '_self');
+                        });
+                    }).catch(function (err) {
+                        window.open('/supplierawaitingpurchaseorder', '_self');
+                    });
+                }).catch(function (err) {
+                    window.open('/supplierawaitingpurchaseorder', '_self');
+                });
+                //window.history.go(-2);
+            }).catch(function (err) {
+                //window.open('/supplierawaitingpurchaseorder','_self');
+                //window.history.go(-2);
+                swal({
+                    title: 'Oooops...',
+                    text: err,
+                    type: 'error',
+                    showCancelButton: false,
+                    confirmButtonText: 'Try Again'
+                }).then((result) => {
+                    if (result.value) {
+                        // Meteor._reload.reload();
+                    } else if (result.dismiss === 'cancel') {}
+                });
+                $('.fullScreenSpin').css('display', 'none');
+            });
+        }
+
+    },
+    'click #tblSupplierPaymentcard tr .colTransNo': function (event) {
+        let templateObject = Template.instance();
+        $('.fullScreenSpin').css('display', 'inline-block');
+        $(".chkBox").prop("checked", false);
+        let paymentList = [];
+        $('.tblSupplierPaymentcard tbody tr').each(function () {
+            paymentList.push(this.id);
+
+        })
+        let geturl = location.href;
+        let id = "";
+        if (geturl.indexOf('?selectsupppo') > 0 && geturl.indexOf('&selectsuppbill') > 0 && geturl.indexOf('&selectsuppcredit') > 0) {
+            geturl = new URL(geturl);
+            let selectsupppo = geturl.searchParams.get("selectsupppo") || '';
+            let selectsuppbill = geturl.searchParams.get("selectsuppbill") || '';
+            let selectsuppcredit = geturl.searchParams.get("selectsuppcredit") || '';
+            id = selectsupppo + ',' + selectsuppbill + ',' + selectsuppcredit;
+        } else if (geturl.indexOf('?billid') > 0) {
+            geturl = new URL(geturl);
+        } else if (geturl.indexOf('?poid') > 0) {
+            geturl = new URL(geturl);
+            id = geturl.searchParams.get("poid");
+        } else if (geturl.indexOf('?creditid') > 0) {
+            geturl = new URL(geturl);
+            id = geturl.searchParams.get("creditid");
+        }
+
         $('.fullScreenSpin').css('display', 'inline-block');
         let paymentData = templateObject.datatablerecords1.get();
         let paymentDataList = [];
         let custname = $('#edtSupplierName').val();
         for (let x = 0; x < paymentData.length; x++) {
-            if (custname == paymentData[x].customername) {
+            let found = paymentList.some(emp => emp == paymentData[x].id);
+            if (custname == paymentData[x].customername && id.includes(paymentData[x].id) == false && found == false) {
                 paymentDataList.push(paymentData[x]);
             }
         }
-
+        $('.dataTables_info').hide();
         templateObject.datatablerecords.set(paymentDataList);
         $('#supplierPaymentListModal').modal();
         $('.fullScreenSpin').css('display', 'none');
@@ -7125,27 +6989,26 @@ Template.supplierpaymentcard.events({
     'click .btnSelectSuppliers': function (event) {
         const templateObject = Template.instance();
         let selectedSupplierPayments = templateObject.selectedAwaitingPayment.get()
-                let currentApplied = $('.lead').text().replace('$', '');
-                currentApplied = parseFloat(currentApplied.match(/-?(?:\d+(?:\.\d*)?|\.\d+)/)[0])
-                let total = parseFloat(currentApplied);
-                for (let x = 0; x < selectedSupplierPayments.length; x++) {
-                    var rowData = $('#tblSupplierPaymentcard tbody>tr:last').clone(true);
-                    $(".colTransDate", rowData).text(selectedSupplierPayments[x].date);
-                    $(".colType", rowData).text(selectedSupplierPayments[x].type);
-                    $(".colTransNo", rowData).text(selectedSupplierPayments[x].orderNo);
-                    $(".lineOrginalamount", rowData).text(selectedSupplierPayments[x].originalAmount);
-                    $(".lineAmountdue", rowData).text(selectedSupplierPayments[x].outstandingAmount);
-                    $(".linePaymentamount", rowData).val(selectedSupplierPayments[x].paymentAmount);
-                    $(".lineOutstandingAmount", rowData).text(selectedSupplierPayments[x].paymentAmount);
-                    $(".colComments", rowData).text(selectedSupplierPayments[x].comments);
-                    rowData.attr('id', selectedSupplierPayments[x].awaitingId);
-                    rowData.attr('name', selectedSupplierPayments[x].awaitingId);
-                    $("#tblSupplierPaymentcard tbody").append(rowData);
-                    total = total + parseFloat(selectedSupplierPayments[x].paymentAmount.replace('$', '').replace(',', ''));
-                }
-                $('.appliedAmount').text(Currency + total.toFixed(2));
-                $('#supplierPaymentListModal').modal('hide');
-
+            let currentApplied = $('.lead').text().replace('$', '').replace(',', '');
+        currentApplied = parseFloat(currentApplied.match(/-?(?:\d+(?:\.\d*)?|\.\d+)/)[0])
+            let total = parseFloat(currentApplied);
+        for (let x = 0; x < selectedSupplierPayments.length; x++) {
+            var rowData = $('#tblSupplierPaymentcard tbody>tr:last').clone(true);
+            $(".colTransDate", rowData).text(selectedSupplierPayments[x].date);
+            $(".colType", rowData).text(selectedSupplierPayments[x].type);
+            $(".colTransNo", rowData).text(selectedSupplierPayments[x].orderNo);
+            $(".lineOrginalamount", rowData).text(selectedSupplierPayments[x].originalAmount);
+            $(".lineAmountdue", rowData).text(selectedSupplierPayments[x].outstandingAmount);
+            $(".linePaymentamount", rowData).val(selectedSupplierPayments[x].paymentAmount);
+            $(".lineOutstandingAmount", rowData).text(selectedSupplierPayments[x].paymentAmount);
+            $(".colComments", rowData).text(selectedSupplierPayments[x].comments);
+            rowData.attr('id', selectedSupplierPayments[x].awaitingId);
+            rowData.attr('name', selectedSupplierPayments[x].awaitingId);
+            $("#tblSupplierPaymentcard tbody").append(rowData);
+            total = total + parseFloat(selectedSupplierPayments[x].paymentAmount.replace('$', '').replace(',', ''));
+        }
+        $('.appliedAmount').text(Currency + total.toFixed(2));
+        $('#supplierPaymentListModal').modal('hide');
 
     },
     'keydown #edtPaymentAmount': function (event) {
@@ -7212,14 +7075,15 @@ Template.supplierpaymentcard.events({
         } else {
             if ($('#tblSupplierPaymentcard tbody>tr').length > 1) {
                 this.click;
+                let total = 0;
                 $(event.target).closest('tr').remove();
                 event.preventDefault();
                 let $tblrows = $("#tblSupplierPaymentcard tbody tr");
-                //if(selectLineID){
-                let lineAmount = 0;
-                let subGrandTotal = 0;
-                let taxGrandTotal = 0;
-
+                $tblrows.each(function (index) {
+                    var $tblrow = $(this);
+                    total += parseFloat($tblrow.find(".linePaymentamount ").val().replace('$', '').replace(',', '')) || 0;
+                });
+                $('.appliedAmount').text(Currency + total.toFixed(2));
                 return false;
 
             } else {
@@ -7345,23 +7209,19 @@ Template.supplierpaymentcard.events({
         let selectLineID = $('#selectDeleteLineID').val();
         if ($('#tblSupplierPaymentcard tbody>tr').length > 1) {
             this.click;
-
-            $('#' + selectLineID).closest('tr').remove();
-            //event.preventDefault();
+            let total = 0;
+            $('#tblSupplierPaymentcard #' + selectLineID).closest('tr').remove();
             let $tblrows = $("#tblSupplierPaymentcard tbody tr");
-            //if(selectLineID){
-            let lineAmount = 0;
-            let subGrandTotal = 0;
-            let taxGrandTotal = 0;
-            //return false;
+            $tblrows.each(function (index) {
+                var $tblrow = $(this);
+                total += parseFloat($tblrow.find(".linePaymentamount ").val().replace(/[^0-9.-]+/g, "")) || 0;
+            });
+            $('.appliedAmount').text(Currency + total.toFixed(2));
 
         } else {
-            this.click;
-            $('#' + selectLineID).closest('tr').remove();
-
+            this.click;     
         }
-
-        $('#deleteLineModal').modal('toggle');
+         $('#deleteLineModal').modal('toggle');   
     },
     'click .printConfirm': function (event) {
         $('#html-2-pdfwrapper').css('display', 'block');
