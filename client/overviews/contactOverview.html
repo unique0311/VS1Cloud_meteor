@@ -115,8 +115,8 @@ data-bs-chart="{&quot;type&quot;:&quot;horizontalBar&quot;,&quot;data&quot;:{&qu
                         <div class="row no-gutters align-items-center" style="margin-bottom: 20px;margin-top: 20px;">
                             {{#if loggeduserdata}}
                             {{#each itemloggeduser in loggeduserdata}}
-                            <div class="col-auto">
-                                <div class="text-dark d-xl-flex flex-column justify-content-xl-center font-weight-bold h5 mb-0 mr-3"><a href="/employeescard?id={{itemloggeduser.id}}"><span style=" "><img src="img/avatar.png" style="width: 45px;margin-right: 10px; margin-bottom: 10px; ">{{itemloggeduser.employeename}}</span></a>
+                            <div class="col-6">
+                                <div class="text-dark d-xl-flex flex-column justify-content-xl-center font-weight-bold h5 mb-0 mr-3"><a href="/employeescard?id={{itemloggeduser.id}}"><p style="text-overflow: ellipsis; overflow: hidden; width: 100%; white-space: nowrap;"><img src="img/avatar.png" style="width: 45px;margin-right: 10px; margin-bottom: 10px; ">{{itemloggeduser.employeename}}</p></a>
                                 </div>
                             </div>
                             {{/each}}
