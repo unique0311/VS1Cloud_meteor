@@ -1748,7 +1748,7 @@ Template.appointmentlist.events({
                     var myArrResponse = JSON.parse(oPost.responseText);
                     if (myArrResponse.ProcessLog.ResponseStatus.includes("OK")) {
                         let objectDataConverted = {
-                            type: "TAppointment",
+                            type: "TAppointmentEx",
                             fields: {
                                 Id: parseInt(selectAppointmentID),
                                 Status: "Converted"
