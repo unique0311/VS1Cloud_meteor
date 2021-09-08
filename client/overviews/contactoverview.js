@@ -64,6 +64,28 @@ Template.contactoverview.onRendered(function() {
     $("#dateTo").val(begunDate);
 
     templateObject.getLoggedUserData = function () {
+      contactService.getCurrentLoggedUser().then(function (data) {
+
+          let dataListloggedUser = {};
+          let vs1EmployeeImage = Session.get('vs1EmployeeImages');
+
+          let encoded = '';
+          for(let i=0; i<data.tappuser.length; i++){
+            let employeeUser = data.tappuser[i].FirstName +' '+data.tappuser[i].LastName;
+            if(parseInt(data.tappuser[i].EmployeeID) == parseInt(Session.get('mySessionEmployeeLoggedID'))){
+              employeeUser = Session.get('mySessionEmployee');
+            }
+              dataListloggedUser = {
+                  id: data.tappuser[i].EmployeeID || '',
+                  employeename: employeeUser || '- -',
+                  ladtloging: data.tappuser[i].LastTime|| '',
+                  // employeepicture: encoded|| ''
+              };
+              loggedUserList.push(dataListloggedUser);
+          }
+          templateObject.loggeduserdata.set(loggedUserList);
+      });
+      /*
         getVS1Data('TAppUser').then(function (dataObject) {
             if(dataObject.length == 0){
                 contactService.getCurrentLoggedUser().then(function (data) {
@@ -121,6 +143,7 @@ Template.contactoverview.onRendered(function() {
                 templateObject.loggeduserdata.set(loggedUserList);
             });
         });
+        */
 
     };
     templateObject.getLoggedUserData();

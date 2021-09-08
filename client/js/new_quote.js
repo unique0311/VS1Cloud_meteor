@@ -811,7 +811,7 @@ Template.new_quote.onRendered(() => {
                                 setTimeout(function () {
                                     if (clientList) {
                                         for (var i = 0; i < clientList.length; i++) {
-                                            if (clientList[i].customername == data.fields.CustomerName) {
+                                            if (clientList[i].customername == useData[d].fields.CustomerName) {
                                                 checkISCustLoad = true;
                                                 quoterecord.firstname = clientList[i].firstname || '';
                                                 quoterecord.lastname = clientList[i].lastname || '';
@@ -2006,7 +2006,7 @@ Template.new_quote.onRendered(() => {
                             setTimeout(function () {
                                 if (clientList) {
                                     for (var i = 0; i < clientList.length; i++) {
-                                        if (clientList[i].customername == data.fields.CustomerName) {
+                                        if (clientList[i].customername == useData[d].fields.CustomerName) {
                                             checkISCustLoad = true;
                                             quoterecord.firstname = clientList[i].firstname || '';
                                             quoterecord.lastname = clientList[i].lastname || '';

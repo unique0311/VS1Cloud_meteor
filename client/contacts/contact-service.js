@@ -406,9 +406,10 @@ export class ContactService extends BaseService {
    }
 
    getCurrentLoggedUser() {
+     var erpGetData = erpDb();
        let options = {
            PropertyList: "ID,DatabaseName,UserName,MultiLogon,EmployeeID,FirstName,LastName,LastTime",
-           // select: "[MultiLogon]=true"
+           select: "[DatabaseName]='"+erpGetData.ERPDatabase+"'"
        };
        return this.getList(this.ERPObjects.TAppUser, options);
    }

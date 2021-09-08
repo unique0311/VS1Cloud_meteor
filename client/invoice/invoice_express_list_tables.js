@@ -365,9 +365,9 @@ setTimeout(function () {
           destroy: true,
           colReorder: true,
           paging: true,
-          "lengthChange": true,
-          "scrollY": "800px",
-          "scrollCollapse": true,
+          // "lengthChange": true,
+          // "scrollY": "800px",
+          // "scrollCollapse": true,
           info: true,
           searching: false,
           responsive: true,
@@ -445,7 +445,7 @@ setTimeout(function () {
           let draftRecord = templateObject.datatablerecords.get();
           templateObject.datatablerecords.set(draftRecord);
       }).on('search.dt', function (eventSearch, searchdata) {
-      
+
 
         if(searchdata.fnRecordsDisplay() > 0){
 
