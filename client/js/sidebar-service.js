@@ -62,7 +62,8 @@ export class SideBarService extends BaseService {
          ListType: "Detail",
          IgnoreDates: false,
          DateFrom:'"'+dateFrom+'"',
-         DateTo:'"'+dateTo+'"'
+         DateTo:'"'+dateTo+'"',
+         LimitCount:'"'+initialReportLoad+'"'
      };
     }
       return this.getList(this.ERPObjects.TPaymentList, options);
@@ -179,19 +180,21 @@ getCustomersDataByName(dataSearchName) {
     return this.getList(this.ERPObjects.TAccountVS1, options);
   }
 
-  getAllContactCombineVS1(dateFrom, dateTo, ignoreDate) {
+  getAllContactCombineVS1(limitcount, limitfrom) {
     let options = '';
-    if(ignoreDate == true){
+    if(limitcount == 'All'){
       options = {
-        IgnoreDates:true,
+        //IgnoreDates:true,
         select: "[Active]=true",
       };
     }else{
       options = {
-         IgnoreDates: false,
-         DateFrom:'"'+dateFrom+'"',
-         DateTo:'"'+dateTo+'"'
-      };
+         // orderby:'"ClientID desc"',
+         // ListType: "Detail",
+         select: "[Active]=true",
+         LimitCount:'"'+limitcount+'"',
+         LimitFrom:'"'+limitfrom+'"'
+     };
     }
     return this.getList(this.ERPObjects.TERPCombinedContactsVS1, options);
   }
@@ -326,7 +329,8 @@ getCustomersDataByName(dataSearchName) {
        IncludePOs:true,
        IncludeBills:true,
        DateFrom:'"'+dateFrom+'"',
-       DateTo:'"'+dateTo+'"'
+       DateTo:'"'+dateTo+'"',
+       LimitCount:'"'+initialReportLoad+'"'
    };
   }
     return this.getList(this.ERPObjects.TbillReport, options);
@@ -397,13 +401,14 @@ getCustomersDataByName(dataSearchName) {
     let options = '';
     if(ignoreDate == true){
       options = {
-         IgnoreDates:true
+         IgnoreDates:true,
      };
    }else{
      options = {
         IgnoreDates:false,
         DateFrom:'"'+dateFrom+'"',
-        DateTo:'"'+dateTo+'"'
+        DateTo:'"'+dateTo+'"',
+        LimitCount:'"'+initialReportLoad+'"'
     };
    }
 
@@ -490,7 +495,8 @@ getCustomersDataByName(dataSearchName) {
        IgnoreDates: false,
        select: "[deleted]=false",
        DateFrom:'"'+dateFrom+'"',
-       DateTo:'"'+dateTo+'"'
+       DateTo:'"'+dateTo+'"',
+       LimitCount:'"'+initialReportLoad+'"'
     };
     }
       return this.getList(this.ERPObjects.TARReport, options);
@@ -508,7 +514,8 @@ getCustomersDataByName(dataSearchName) {
        IgnoreDates: false,
        select: "[deleted]=false",
        DateFrom:'"'+dateFrom+'"',
-       DateTo:'"'+dateTo+'"'
+       DateTo:'"'+dateTo+'"',
+       LimitCount:'"'+initialReportLoad+'"'
     };
     }
       return this.getList(this.ERPObjects.TAPReport, options);
@@ -705,7 +712,8 @@ getCustomersDataByName(dataSearchName) {
        IgnoreDates: false,
        select: "[deleted]=false",
        DateFrom:'"'+dateFrom+'"',
-       DateTo:'"'+dateTo+'"'
+       DateTo:'"'+dateTo+'"',
+       LimitCount:'"'+initialReportLoad+'"'
     };
     }
     return this.getList(this.ERPObjects.TBankAccountReport, options);

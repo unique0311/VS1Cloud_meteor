@@ -603,6 +603,10 @@ Template.contactoverview.onRendered(function() {
         });
     };
 
+    templateObject.resetData = function (dataVal) {
+      window.open('/contactoverview?page=last','_self');
+    }
+
     templateObject.getAllContactData = function () {
       var currentBeginDate = new Date();
       var begunDate = moment(currentBeginDate).format("DD/MM/YYYY");
@@ -622,7 +626,7 @@ Template.contactoverview.onRendered(function() {
 
         getVS1Data('TERPCombinedContactsVS1').then(function (dataObject) {
             if(dataObject.length == 0){
-                sideBarService.getAllContactCombineVS1(prevMonth11Date,toDate, false).then(function (data) {
+                sideBarService.getAllContactCombineVS1(initialReportLoad,0).then(function (data) {
                     $('.fullScreenSpin').css('display','none');
                     let lineItems = [];
                     let lineItemObj = {};
@@ -790,7 +794,7 @@ Template.contactoverview.onRendered(function() {
                             // bStateSave: true,
                             // rowId: 0,
                             pageLength: 25,
-                            "bLengthChange": false,
+                            // "bLengthChange": false,
                             lengthMenu: [ [25, -1], [25, "All"] ],
                             info: false,
                             responsive: true,
@@ -813,6 +817,129 @@ Template.contactoverview.onRendered(function() {
                         }).on('column-reorder', function () {
 
                         }).on( 'length.dt', function ( e, settings, len ) {
+                          $('.fullScreenSpin').css('display','inline-block');
+                          let dataLenght = settings._iDisplayLength;
+                          if(dataLenght == -1){
+                            sideBarService.getAllContactCombineVS1('All',1).then(function(data) {
+                              let lineItems = [];
+                              let lineItemObj = {};
+                              let clienttype = '';
+
+                              let isprospect = false;
+                              let iscustomer = false;
+                              let isEmployee = false;
+                              let issupplier = false;
+                              for(let i=0; i<data.terpcombinedcontactsvs1.length; i++){
+                                  isprospect = data.terpcombinedcontactsvs1[i].isprospect;
+                                  iscustomer = data.terpcombinedcontactsvs1[i].iscustomer;
+                                  isEmployee = data.terpcombinedcontactsvs1[i].isEmployee;
+                                  issupplier = data.terpcombinedcontactsvs1[i].issupplier;
+
+                                  if((isprospect == true) && (iscustomer == true) && (isEmployee == true) && (issupplier == true)){
+                                      clienttype = "Customer / Employee / Prospect / Supplier";
+                                  }else if((isprospect == true) && (iscustomer ==true) && (issupplier ==true)){
+                                      clienttype = "Customer / Prospect / Supplier";
+                                  }else if((iscustomer ==true) && (issupplier ==true)){
+                                      clienttype = "Customer / Supplier";
+                                  }else if((iscustomer ==true)){
+
+                                      if (data.terpcombinedcontactsvs1[i].name.toLowerCase().indexOf("^") >= 0){
+                                          clienttype = "Job";
+                                      }else{
+                                          clienttype = "Customer";
+                                      }
+                                      // clienttype = "Customer";
+                                  }else if((isEmployee ==true)){
+                                      clienttype = "Employee";
+                                  }else if((issupplier ==true)){
+                                      clienttype = "Supplier";
+                                  }else if((isprospect ==true)){
+                                      clienttype = "Prospect";
+                                  }else{
+                                      clienttype = " ";
+                                  }
+                                  // if(data.terpcombinedcontactsvs1[i].IsCustomer == true){
+                                  //   clienttype = "Customer";
+                                  // }else if(data.terpcombinedcontactsvs1[i].IsSupplier == true){
+                                  //   clienttype = "Supplier";
+                                  // };
+
+                                  let arBalance = utilityService.modifynegativeCurrencyFormat(data.terpcombinedcontactsvs1[i].ARBalance)|| 0.00;
+                                  let creditBalance = utilityService.modifynegativeCurrencyFormat(data.terpcombinedcontactsvs1[i].CreditBalance) || 0.00;
+                                  let balance = utilityService.modifynegativeCurrencyFormat(data.terpcombinedcontactsvs1[i].Balance)|| 0.00;
+                                  let creditLimit = utilityService.modifynegativeCurrencyFormat(data.terpcombinedcontactsvs1[i].CreditLimit)|| 0.00;
+                                  let salesOrderBalance = utilityService.modifynegativeCurrencyFormat(data.terpcombinedcontactsvs1[i].SalesOrderBalance)|| 0.00;
+                                  if (isNaN(data.terpcombinedcontactsvs1[i].ARBalance)) {
+                                      arBalance = Currency + "0.00";
+                                  }
+
+                                  if (isNaN(data.terpcombinedcontactsvs1[i].CreditBalance)) {
+                                      creditBalance = Currency + "0.00";
+                                  }
+                                  if (isNaN(data.terpcombinedcontactsvs1[i].Balance)) {
+                                      balance = Currency + "0.00";
+                                  }
+                                  if (isNaN(data.terpcombinedcontactsvs1[i].CreditLimit)) {
+                                      creditLimit = Currency + "0.00";
+                                  }
+
+                                  if (isNaN(data.terpcombinedcontactsvs1[i].SalesOrderBalance)) {
+                                      salesOrderBalance = Currency + "0.00";
+                                  }
+
+
+                                  var dataList = {
+                                      id: data.terpcombinedcontactsvs1[i].ID || '',
+                                      employeeno: data.terpcombinedcontactsvs1[i].printname || '',
+                                      clientname:data.terpcombinedcontactsvs1[i].name || '',
+                                      phone: data.terpcombinedcontactsvs1[i].phone || '',
+                                      mobile: data.terpcombinedcontactsvs1[i].mobile || '',
+                                      arbalance: arBalance || 0.00,
+                                      creditbalance: creditBalance || 0.00,
+                                      balance: balance || 0.00,
+                                      creditlimit: creditLimit || 0.00,
+                                      salesorderbalance: salesOrderBalance || 0.00,
+                                      email: data.terpcombinedcontactsvs1[i].email || '',
+                                      address: data.terpcombinedcontactsvs1[i].street || '',
+                                      // country: data.terpcombinedcontactsvs1[i].Country || '',
+                                      // department: data.terpcombinedcontactsvs1[i].DefaultClassName || '',
+                                      type: clienttype || '',
+                                      custFld1: data.terpcombinedcontactsvs1[i].CUSTFLD1 || '',
+                                      custFld2: data.terpcombinedcontactsvs1[i].CUSTFLD2 || ''
+                                  };
+
+                                  if(data.terpcombinedcontactsvs1[i].name.replace(/\s/g, '') !== ""){
+                                      dataTableList.push(dataList);
+                                  }
+
+                                  //}
+                              }
+                              templateObject.datatablerecords.set(dataTableList);
+
+                                  templateObject.datatablerecords.set(dataTableList);
+                                  $('.dataTables_info').html('Showing 1 to '+data.terpcombinedcontactsvs1.length+ ' of ' +data.terpcombinedcontactsvs1.length+ ' entries');
+                                  $('.fullScreenSpin').css('display','none');
+
+                            }).catch(function(err) {
+                              $('.fullScreenSpin').css('display','none');
+                            });
+                           //}
+                          }else{
+                            if (settings.fnRecordsDisplay() >= settings._iDisplayLength) {
+                              $('.fullScreenSpin').css('display','none');
+                            }else{
+                              sideBarService.getAllContactCombineVS1(dataLenght,0).then(function(dataNonBo) {
+
+                                addVS1Data('TERPCombinedContactsVS1',JSON.stringify(dataNonBo)).then(function (datareturn) {
+                                templateObject.resetData(dataNonBo);
+                                }).catch(function (err) {
+                                $('.fullScreenSpin').css('display','none');
+                                });
+                              }).catch(function(err) {
+                                $('.fullScreenSpin').css('display','none');
+                              });
+                            }
+                          }
                             setTimeout(function () {
                                 MakeNegative();
                             }, 100);
@@ -1053,7 +1180,7 @@ Template.contactoverview.onRendered(function() {
                         // bStateSave: true,
                         // rowId: 0,
                         pageLength: 25,
-                        "bLengthChange": false,
+                        // "bLengthChange": false,
                         lengthMenu: [ [25, -1], [25, "All"] ],
                         info: false,
                         responsive: true,
@@ -1076,6 +1203,129 @@ Template.contactoverview.onRendered(function() {
                     }).on('column-reorder', function () {
 
                     }).on( 'length.dt', function ( e, settings, len ) {
+                      $('.fullScreenSpin').css('display','inline-block');
+                      let dataLenght = settings._iDisplayLength;
+                      if(dataLenght == -1){
+                        sideBarService.getAllContactCombineVS1('All',1).then(function(data) {
+                          let lineItems = [];
+                          let lineItemObj = {};
+                          let clienttype = '';
+
+                          let isprospect = false;
+                          let iscustomer = false;
+                          let isEmployee = false;
+                          let issupplier = false;
+                          for(let i=0; i<data.terpcombinedcontactsvs1.length; i++){
+                              isprospect = data.terpcombinedcontactsvs1[i].isprospect;
+                              iscustomer = data.terpcombinedcontactsvs1[i].iscustomer;
+                              isEmployee = data.terpcombinedcontactsvs1[i].isEmployee;
+                              issupplier = data.terpcombinedcontactsvs1[i].issupplier;
+
+                              if((isprospect == true) && (iscustomer == true) && (isEmployee == true) && (issupplier == true)){
+                                  clienttype = "Customer / Employee / Prospect / Supplier";
+                              }else if((isprospect == true) && (iscustomer ==true) && (issupplier ==true)){
+                                  clienttype = "Customer / Prospect / Supplier";
+                              }else if((iscustomer ==true) && (issupplier ==true)){
+                                  clienttype = "Customer / Supplier";
+                              }else if((iscustomer ==true)){
+
+                                  if (data.terpcombinedcontactsvs1[i].name.toLowerCase().indexOf("^") >= 0){
+                                      clienttype = "Job";
+                                  }else{
+                                      clienttype = "Customer";
+                                  }
+                                  // clienttype = "Customer";
+                              }else if((isEmployee ==true)){
+                                  clienttype = "Employee";
+                              }else if((issupplier ==true)){
+                                  clienttype = "Supplier";
+                              }else if((isprospect ==true)){
+                                  clienttype = "Prospect";
+                              }else{
+                                  clienttype = " ";
+                              }
+                              // if(data.terpcombinedcontactsvs1[i].IsCustomer == true){
+                              //   clienttype = "Customer";
+                              // }else if(data.terpcombinedcontactsvs1[i].IsSupplier == true){
+                              //   clienttype = "Supplier";
+                              // };
+
+                              let arBalance = utilityService.modifynegativeCurrencyFormat(data.terpcombinedcontactsvs1[i].ARBalance)|| 0.00;
+                              let creditBalance = utilityService.modifynegativeCurrencyFormat(data.terpcombinedcontactsvs1[i].CreditBalance) || 0.00;
+                              let balance = utilityService.modifynegativeCurrencyFormat(data.terpcombinedcontactsvs1[i].Balance)|| 0.00;
+                              let creditLimit = utilityService.modifynegativeCurrencyFormat(data.terpcombinedcontactsvs1[i].CreditLimit)|| 0.00;
+                              let salesOrderBalance = utilityService.modifynegativeCurrencyFormat(data.terpcombinedcontactsvs1[i].SalesOrderBalance)|| 0.00;
+                              if (isNaN(data.terpcombinedcontactsvs1[i].ARBalance)) {
+                                  arBalance = Currency + "0.00";
+                              }
+
+                              if (isNaN(data.terpcombinedcontactsvs1[i].CreditBalance)) {
+                                  creditBalance = Currency + "0.00";
+                              }
+                              if (isNaN(data.terpcombinedcontactsvs1[i].Balance)) {
+                                  balance = Currency + "0.00";
+                              }
+                              if (isNaN(data.terpcombinedcontactsvs1[i].CreditLimit)) {
+                                  creditLimit = Currency + "0.00";
+                              }
+
+                              if (isNaN(data.terpcombinedcontactsvs1[i].SalesOrderBalance)) {
+                                  salesOrderBalance = Currency + "0.00";
+                              }
+
+
+                              var dataList = {
+                                  id: data.terpcombinedcontactsvs1[i].ID || '',
+                                  employeeno: data.terpcombinedcontactsvs1[i].printname || '',
+                                  clientname:data.terpcombinedcontactsvs1[i].name || '',
+                                  phone: data.terpcombinedcontactsvs1[i].phone || '',
+                                  mobile: data.terpcombinedcontactsvs1[i].mobile || '',
+                                  arbalance: arBalance || 0.00,
+                                  creditbalance: creditBalance || 0.00,
+                                  balance: balance || 0.00,
+                                  creditlimit: creditLimit || 0.00,
+                                  salesorderbalance: salesOrderBalance || 0.00,
+                                  email: data.terpcombinedcontactsvs1[i].email || '',
+                                  address: data.terpcombinedcontactsvs1[i].street || '',
+                                  // country: data.terpcombinedcontactsvs1[i].Country || '',
+                                  // department: data.terpcombinedcontactsvs1[i].DefaultClassName || '',
+                                  type: clienttype || '',
+                                  custFld1: data.terpcombinedcontactsvs1[i].CUSTFLD1 || '',
+                                  custFld2: data.terpcombinedcontactsvs1[i].CUSTFLD2 || ''
+                              };
+
+                              if(data.terpcombinedcontactsvs1[i].name.replace(/\s/g, '') !== ""){
+                                  dataTableList.push(dataList);
+                              }
+
+                              //}
+                          }
+                          templateObject.datatablerecords.set(dataTableList);
+
+                              templateObject.datatablerecords.set(dataTableList);
+                              $('.dataTables_info').html('Showing 1 to '+data.terpcombinedcontactsvs1.length+ ' of ' +data.terpcombinedcontactsvs1.length+ ' entries');
+                              $('.fullScreenSpin').css('display','none');
+
+                        }).catch(function(err) {
+                          $('.fullScreenSpin').css('display','none');
+                        });
+                       //}
+                      }else{
+                        if (settings.fnRecordsDisplay() >= settings._iDisplayLength) {
+                          $('.fullScreenSpin').css('display','none');
+                        }else{
+                          sideBarService.getAllContactCombineVS1(dataLenght,0).then(function(dataNonBo) {
+
+                            addVS1Data('TERPCombinedContactsVS1',JSON.stringify(dataNonBo)).then(function (datareturn) {
+                            templateObject.resetData(dataNonBo);
+                            }).catch(function (err) {
+                            $('.fullScreenSpin').css('display','none');
+                            });
+                          }).catch(function(err) {
+                            $('.fullScreenSpin').css('display','none');
+                          });
+                        }
+                      }
                         setTimeout(function () {
                             MakeNegative();
                         }, 100);
@@ -1143,7 +1393,7 @@ Template.contactoverview.onRendered(function() {
 
             }
         }).catch(function (err) {
-            sideBarService.getAllContactCombineVS1(prevMonth11Date,toDate, false).then(function (data) {
+            sideBarService.getAllContactCombineVS1(initialReportLoad,0).then(function (data) {
 
                 $('.fullScreenSpin').css('display','none');
                 let lineItems = [];
@@ -1312,7 +1562,7 @@ Template.contactoverview.onRendered(function() {
                         // bStateSave: true,
                         // rowId: 0,
                         pageLength: 25,
-                        "bLengthChange": false,
+                        // "bLengthChange": false,
                         lengthMenu: [ [25, -1], [25, "All"] ],
                         info: false,
                         responsive: true,
@@ -1335,6 +1585,129 @@ Template.contactoverview.onRendered(function() {
                     }).on('column-reorder', function () {
 
                     }).on( 'length.dt', function ( e, settings, len ) {
+                      $('.fullScreenSpin').css('display','inline-block');
+                      let dataLenght = settings._iDisplayLength;
+                      if(dataLenght == -1){
+                        sideBarService.getAllContactCombineVS1('All',1).then(function(data) {
+                          let lineItems = [];
+                          let lineItemObj = {};
+                          let clienttype = '';
+
+                          let isprospect = false;
+                          let iscustomer = false;
+                          let isEmployee = false;
+                          let issupplier = false;
+                          for(let i=0; i<data.terpcombinedcontactsvs1.length; i++){
+                              isprospect = data.terpcombinedcontactsvs1[i].isprospect;
+                              iscustomer = data.terpcombinedcontactsvs1[i].iscustomer;
+                              isEmployee = data.terpcombinedcontactsvs1[i].isEmployee;
+                              issupplier = data.terpcombinedcontactsvs1[i].issupplier;
+
+                              if((isprospect == true) && (iscustomer == true) && (isEmployee == true) && (issupplier == true)){
+                                  clienttype = "Customer / Employee / Prospect / Supplier";
+                              }else if((isprospect == true) && (iscustomer ==true) && (issupplier ==true)){
+                                  clienttype = "Customer / Prospect / Supplier";
+                              }else if((iscustomer ==true) && (issupplier ==true)){
+                                  clienttype = "Customer / Supplier";
+                              }else if((iscustomer ==true)){
+
+                                  if (data.terpcombinedcontactsvs1[i].name.toLowerCase().indexOf("^") >= 0){
+                                      clienttype = "Job";
+                                  }else{
+                                      clienttype = "Customer";
+                                  }
+                                  // clienttype = "Customer";
+                              }else if((isEmployee ==true)){
+                                  clienttype = "Employee";
+                              }else if((issupplier ==true)){
+                                  clienttype = "Supplier";
+                              }else if((isprospect ==true)){
+                                  clienttype = "Prospect";
+                              }else{
+                                  clienttype = " ";
+                              }
+                              // if(data.terpcombinedcontactsvs1[i].IsCustomer == true){
+                              //   clienttype = "Customer";
+                              // }else if(data.terpcombinedcontactsvs1[i].IsSupplier == true){
+                              //   clienttype = "Supplier";
+                              // };
+
+                              let arBalance = utilityService.modifynegativeCurrencyFormat(data.terpcombinedcontactsvs1[i].ARBalance)|| 0.00;
+                              let creditBalance = utilityService.modifynegativeCurrencyFormat(data.terpcombinedcontactsvs1[i].CreditBalance) || 0.00;
+                              let balance = utilityService.modifynegativeCurrencyFormat(data.terpcombinedcontactsvs1[i].Balance)|| 0.00;
+                              let creditLimit = utilityService.modifynegativeCurrencyFormat(data.terpcombinedcontactsvs1[i].CreditLimit)|| 0.00;
+                              let salesOrderBalance = utilityService.modifynegativeCurrencyFormat(data.terpcombinedcontactsvs1[i].SalesOrderBalance)|| 0.00;
+                              if (isNaN(data.terpcombinedcontactsvs1[i].ARBalance)) {
+                                  arBalance = Currency + "0.00";
+                              }
+
+                              if (isNaN(data.terpcombinedcontactsvs1[i].CreditBalance)) {
+                                  creditBalance = Currency + "0.00";
+                              }
+                              if (isNaN(data.terpcombinedcontactsvs1[i].Balance)) {
+                                  balance = Currency + "0.00";
+                              }
+                              if (isNaN(data.terpcombinedcontactsvs1[i].CreditLimit)) {
+                                  creditLimit = Currency + "0.00";
+                              }
+
+                              if (isNaN(data.terpcombinedcontactsvs1[i].SalesOrderBalance)) {
+                                  salesOrderBalance = Currency + "0.00";
+                              }
+
+
+                              var dataList = {
+                                  id: data.terpcombinedcontactsvs1[i].ID || '',
+                                  employeeno: data.terpcombinedcontactsvs1[i].printname || '',
+                                  clientname:data.terpcombinedcontactsvs1[i].name || '',
+                                  phone: data.terpcombinedcontactsvs1[i].phone || '',
+                                  mobile: data.terpcombinedcontactsvs1[i].mobile || '',
+                                  arbalance: arBalance || 0.00,
+                                  creditbalance: creditBalance || 0.00,
+                                  balance: balance || 0.00,
+                                  creditlimit: creditLimit || 0.00,
+                                  salesorderbalance: salesOrderBalance || 0.00,
+                                  email: data.terpcombinedcontactsvs1[i].email || '',
+                                  address: data.terpcombinedcontactsvs1[i].street || '',
+                                  // country: data.terpcombinedcontactsvs1[i].Country || '',
+                                  // department: data.terpcombinedcontactsvs1[i].DefaultClassName || '',
+                                  type: clienttype || '',
+                                  custFld1: data.terpcombinedcontactsvs1[i].CUSTFLD1 || '',
+                                  custFld2: data.terpcombinedcontactsvs1[i].CUSTFLD2 || ''
+                              };
+
+                              if(data.terpcombinedcontactsvs1[i].name.replace(/\s/g, '') !== ""){
+                                  dataTableList.push(dataList);
+                              }
+
+                              //}
+                          }
+                          templateObject.datatablerecords.set(dataTableList);
+
+                              templateObject.datatablerecords.set(dataTableList);
+                              $('.dataTables_info').html('Showing 1 to '+data.terpcombinedcontactsvs1.length+ ' of ' +data.terpcombinedcontactsvs1.length+ ' entries');
+                              $('.fullScreenSpin').css('display','none');
+
+                        }).catch(function(err) {
+                          $('.fullScreenSpin').css('display','none');
+                        });
+                       //}
+                      }else{
+                        if (settings.fnRecordsDisplay() >= settings._iDisplayLength) {
+                          $('.fullScreenSpin').css('display','none');
+                        }else{
+                          sideBarService.getAllContactCombineVS1(dataLenght,0).then(function(dataNonBo) {
+
+                            addVS1Data('TERPCombinedContactsVS1',JSON.stringify(dataNonBo)).then(function (datareturn) {
+                            templateObject.resetData(dataNonBo);
+                            }).catch(function (err) {
+                            $('.fullScreenSpin').css('display','none');
+                            });
+                          }).catch(function(err) {
+                            $('.fullScreenSpin').css('display','none');
+                          });
+                        }
+                      }
                         setTimeout(function () {
                             MakeNegative();
                         }, 100);
@@ -1412,7 +1785,7 @@ Template.contactoverview.onRendered(function() {
     templateObject.getAllContactData();
 
     templateObject.getAllFilterCombinedContactsData = function (fromDate,toDate, ignoreDate) {
-      sideBarService.getAllContactCombineVS1(fromDate,toDate, ignoreDate).then(function (data) {
+      sideBarService.getAllContactCombineVS1(initialReportLoad,0).then(function (data) {
         addVS1Data('TERPCombinedContactsVS1',JSON.stringify(data)).then(function (datareturn) {
             window.open('/contactoverview?toDate=' + toDate + '&fromDate=' + fromDate + '&ignoredate='+ignoreDate,'_self');
         }).catch(function (err) {
@@ -1459,7 +1832,7 @@ Template.contactoverview.events({
         }
         var toDate = currentBeginDate.getFullYear()+ "-" +(fromDateMonth) + "-"+(fromDateDay);
         let prevMonth11Date = (moment().subtract(reportsloadMonths, 'months')).format("YYYY-MM-DD");
-        sideBarService.getAllContactCombineVS1(prevMonth11Date,toDate, false).then(function(data) {
+        sideBarService.getAllContactCombineVS1(initialReportLoad,0).then(function(data) {
             addVS1Data('TERPCombinedContactsVS1',JSON.stringify(data)).then(function (datareturn) {
                 window.open('/contactoverview','_self');
             }).catch(function (err) {

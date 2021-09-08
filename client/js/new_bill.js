@@ -1510,7 +1510,7 @@ Template.billcard.onRendered(() => {
                     if (!isNaN(subGrandTotal) && (!isNaN(taxGrandTotal))) {
                         let GrandTotal = (parseFloat(subGrandTotal)) + (parseFloat(taxGrandTotal));
                         document.getElementById("grandTotalPrint").innerHTML = $('#grandTotal').text();
-                        document.getElementById("balanceDue").innerHTML = utilityService.modifynegativeCurrencyFormat(GrandTotal);
+                        //document.getElementById("balanceDue").innerHTML = utilityService.modifynegativeCurrencyFormat(GrandTotal);
                         document.getElementById("totalBalanceDuePrint").innerHTML = $('#totalBalanceDue').text();
 
                     }
@@ -1619,7 +1619,7 @@ Template.billcard.onRendered(() => {
                     if (!isNaN(subGrandTotal) && (!isNaN(taxGrandTotal))) {
                         let GrandTotal = (parseFloat(subGrandTotal)) + (parseFloat(taxGrandTotal));
                         document.getElementById("grandTotalPrint").innerHTML = $('#grandTotal').text();
-                        document.getElementById("balanceDue").innerHTML = utilityService.modifynegativeCurrencyFormat(GrandTotal);
+                        //document.getElementById("balanceDue").innerHTML = utilityService.modifynegativeCurrencyFormat(GrandTotal);
                         document.getElementById("totalBalanceDuePrint").innerHTML = $('#totalBalanceDue').text();
 
                     }
@@ -2448,7 +2448,7 @@ Template.billcard.events({
                 if (!isNaN(subGrandTotal) && (!isNaN(taxGrandTotal))) {
                     let GrandTotal = (parseFloat(subGrandTotal)) + (parseFloat(taxGrandTotal));
                     document.getElementById("grandTotalPrint").innerHTML = $('#grandTotal').text();
-                    document.getElementById("balanceDue").innerHTML = utilityService.modifynegativeCurrencyFormat(GrandTotal);
+                    //document.getElementById("balanceDue").innerHTML = utilityService.modifynegativeCurrencyFormat(GrandTotal);
                     document.getElementById("totalBalanceDuePrint").innerHTML = $('#totalBalanceDue').text();
 
                 }
@@ -2631,7 +2631,7 @@ Template.billcard.events({
                         if (!isNaN(subGrandTotal) && (!isNaN(taxGrandTotal))) {
                             let GrandTotal = (parseFloat(subGrandTotal)) + (parseFloat(taxGrandTotal));
                             document.getElementById("grandTotalPrint").innerHTML = $('#grandTotal').text();
-                            document.getElementById("balanceDue").innerHTML = utilityService.modifynegativeCurrencyFormat(GrandTotal);
+                            //document.getElementById("balanceDue").innerHTML = utilityService.modifynegativeCurrencyFormat(GrandTotal);
                             document.getElementById("totalBalanceDuePrint").innerHTML = $('#totalBalanceDue').text();
 
                         }
@@ -2777,7 +2777,7 @@ Template.billcard.events({
                     if (!isNaN(subGrandTotal) && (!isNaN(taxGrandTotal))) {
                         let GrandTotal = (parseFloat(subGrandTotal)) + (parseFloat(taxGrandTotal));
                         document.getElementById("grandTotalPrint").innerHTML = $('#grandTotal').text();
-                        document.getElementById("balanceDue").innerHTML = utilityService.modifynegativeCurrencyFormat(GrandTotal);
+                        //document.getElementById("balanceDue").innerHTML = utilityService.modifynegativeCurrencyFormat(GrandTotal);
                         document.getElementById("totalBalanceDuePrint").innerHTML = $('#totalBalanceDue').text();
 
                     }
@@ -3179,7 +3179,7 @@ Template.billcard.events({
                             }
                         }
                         resolve(html2pdf().set(opt).from(source).toPdf().output('datauristring'));
-                        
+
                     });
                 }
 

@@ -273,4 +273,24 @@ export class TaxRateService extends BaseService {
         return this.POST(this.ERPObjects.TProductBin,data);
     }
 
+    pullBackupData(data){
+        return this.POSTJsonIn('VS1_Cloud_Task/Method?Name="VS1_BackupList"', data);
+    }
+
+    saveBackupData(data){
+        return this.POSTJsonIn('VS1_Cloud_Task/Method?Name="VS1_DatabaseBackup"', data);
+    }
+
+    restoreBackupData(data){
+        return this.POSTJsonIn('VS1_Cloud_Task/Method?Name="VS1_DatabaseRestore"', data);
+    }
+
+    getAllBackUpList() {
+      let options = {
+              // PropertyList: "PropertyList==ID,EmployeeName",
+              // Select: "[Active]=true"
+          };
+        return this.getList('VS1_Cloud_Task/Method?Name="VS1_BackupList"');
+    }
+
 }

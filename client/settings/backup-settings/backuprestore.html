@@ -77,11 +77,19 @@
                                                     <p>Restore your app (files and database) using one of the available backups.</p>
                                                     <div class="row">
                                                         <div class="col-12 col-lg-10">
-                                                            <select class="form-select form-control" aria-label="Select your restore point">
+                                                            <select class="form-select form-control sltRestorePoint" aria-label="Select your restore point">
                                                                 <option selected>Select your restore point</option>
-                                                                <option value="1">6th September, 2021, 12:30:05 UTC (Latest)</option>
+                                                                <!-- <option value="1">6th September, 2021, 12:30:05 UTC (Latest)</option>
                                                                 <option value="2">5th September, 2021, 08:45:65 UTC</option>
-                                                                <option value="3">4th September, 2021, 21:15:15 UTC</option>
+                                                                <option value="3">4th September, 2021, 21:15:15 UTC</option> -->
+                                                                {{#each item in restorerecords}}
+                                                                    <!-- {{#if equals item.department invoicerecord.department }}
+                                                                        <option value="{{invoicerecord.department}}" selected="">{{invoicerecord.department}}</option>
+                                                                    {{else}} -->
+                                                                        <option value="{{item.filename}}">{{item.filename}}</option>
+                                                                    <!-- {{/if}} -->
+                                                                {{/each}}
+
                                                             </select>
                                                         </div>
                                                     </div>
@@ -98,7 +106,7 @@
                                                         <h4>Backup</h4>
                                                     </header>
                                                     <p>You can perform an on-demand backup of your application (files and database). This option is useful if you want to backup the application before any changes.</p>
-                                                    <p>Last Backup Date: <span id="lastBackupDate">6th September, 2021, 12:30:05 UTC</span></p>
+                                                    <!-- <p>Last Backup Date: <span id="lastBackupDate">6th September, 2021, 12:30:05 UTC</span></p> -->
                                                 </div>
                                                 <div class="col-12">
                                                     <button class="btn btn-success btnCreateBackup" type="button"><i class="fas fa-plus" style="margin-right: 5px;"></i>Create New Backup</button>

@@ -108,4 +108,37 @@ export class BaseService{
         });
         return promise;
     }
+
+    POSTJsonIn(url, data) {
+        let that = this;
+        var erpGetData = erpDb();
+        let promise = new Promise(function (resolve, reject) {
+          var oPost = new XMLHttpRequest();
+          oPost.open("POST", that.getBaseUrl() + url, true);
+          oPost.setRequestHeader("database", erpGetData.ERPDatabase);
+          oPost.setRequestHeader("username", erpGetData.ERPUsername);
+          oPost.setRequestHeader("password", erpGetData.ERPPassword);
+          oPost.setRequestHeader("Accept", "application/json");
+          oPost.setRequestHeader("Accept", "application/html");
+          oPost.setRequestHeader("Content-type", "application/json");
+          oPost.send(data);
+          oPost.onreadystatechange = function() {
+          if(oPost.readyState == 4 && oPost.status == 200) {
+            var data = JSON.parse(oPost.responseText);
+            resolve(data);
+          }else if (oPost.readyState == 4 && oPost.status == 403) {
+            let data = oPost.getResponseHeader('errormessage');
+            reject(data);
+          } else if (oPost.readyState == 4 && oPost.status == 406) {
+
+            let data = oPost.getResponseHeader('errormessage');
+            reject(data);
+          } else if (oPost.readyState == '') {
+            let data = oPost.getResponseHeader('errormessage')
+            reject(data);
+          }
+          }
+        });
+        return promise;
+    }
 }
