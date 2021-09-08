@@ -1985,7 +1985,6 @@ Template.depositcard.events({
                         fields: {
                             ID: currentInvoice,
                             Deleted: true
-                            // Lines: null
 
                         }
                     };
@@ -2036,7 +2035,6 @@ Template.depositcard.events({
                 fields: {
                     ID: currentInvoice,
                     Deleted: true
-                    //Lines: null
                 }
             };
 
@@ -2174,10 +2172,10 @@ Template.depositcard.events({
                                         FromDeposited:true,
                                         ReferenceNo: tddmemo || txaNotes,
                                         CompanyName:tdcompany || '',
-
-
+                                        Contact:false,
+                                        Customer:true,
                                         Deleted:false,
-
+                                        Deposited:false,
                                         PaymentMethod: tdpaymentmethod || "Cash",
                                         TransClassName:"Default",
                                         TrnsType:"Deposit Entry"
@@ -2312,10 +2310,10 @@ Template.depositcard.events({
                                 FromDeposited:true,
                                 ReferenceNo: tddmemo || txaNotes,
                                 CompanyName:tdcompany || '',
-
-
+                                Contact:false,
+                                Customer:true,
                                 Deleted:false,
-
+                                Deposited:false,
                                 PaymentMethod: tdpaymentmethod || "Cash",
                                 TransClassName:"Default",
                                 TrnsType:"Deposit Entry"
