@@ -188,6 +188,8 @@ Template.accessleveldup.onRendered(function(){
         let isPaymentsLicence = Session.get('CloudPaymentsLicence');
         let isReportsLicence = Session.get('CloudReportsLicence');
         let isSettingsLicence = Session.get('CloudSettingsLicence');
+
+        let isAppointmentSchedulingLicence = Session.get('CloudAppointmentSchedulingLicence');
         /*End Licence Check Menu to add */
         /* End Licence Check for menu option */
 
@@ -197,6 +199,7 @@ Template.accessleveldup.onRendered(function(){
             var groups = {};
 
             let formClass = '';
+            let formAccessLevel = 1;
             var groupName = '';
             if(splashArray.length > 0){
 
@@ -208,6 +211,10 @@ Template.accessleveldup.onRendered(function(){
 
                     }else if((n.description === "Accounts") && (isAccountsLicence)){
 
+                        formClass = '';
+                    }else if((n.description === "Appointments") && (!isAppointmentSchedulingLicence)){
+                        formClass = 'inactiveLicence';
+                    }else if((n.description === "Appointments") && (isAppointmentSchedulingLicence)){
                         formClass = '';
                     }
                     else if((n.description === "Contacts") && (!isContactsLicence)){
@@ -293,13 +300,17 @@ Template.accessleveldup.onRendered(function(){
                         formClass = '';
                     }
 
-
+                    if(n.description === "Launch Appointment"){
+                      formAccessLevel = 0;
+                    }else{
+                      formAccessLevel = 1;
+                    }
                     lineItemObjlevel = {
                         accessID: '' || '',
                         formID: n.lineID || '',
                         lineID: n.lineID || '',
                         skingroup : n.skingroup || '',
-                        accessLevel: 1 || '',
+                        accessLevel: formAccessLevel || '',
                         accessLevelname: '' || '',
                         description: n.description || '',
                         formName: '' || '',
@@ -377,6 +388,10 @@ Template.accessleveldup.onRendered(function(){
                                         if((data.temployeeformaccessdetail[i].fields.Description === "Accounts") && (!isAccountsLicence)){
                                             formClass = 'inactiveLicence';
                                         }else if((data.temployeeformaccessdetail[i].fields.Description === "Accounts") && (isAccountsLicence)){
+                                            formClass = '';
+                                        }else if((data.temployeeformaccessdetail[i].fields.Description === "Appointments") && (!isAppointmentSchedulingLicence)){
+                                            formClass = 'inactiveLicence';
+                                        }else if((data.temployeeformaccessdetail[i].fields.Description === "Appointments") && (isAppointmentSchedulingLicence)){
                                             formClass = '';
                                         }
                                         else if((data.temployeeformaccessdetail[i].fields.Description === "Contacts") && (!isContactsLicence)){
@@ -512,6 +527,10 @@ Template.accessleveldup.onRendered(function(){
                                 if((data.temployeeformaccessdetail[i].fields.Description === "Accounts") && (!isAccountsLicence)){
                                     formClass = 'inactiveLicence';
                                 }else if((data.temployeeformaccessdetail[i].fields.Description === "Accounts") && (isAccountsLicence)){
+                                    formClass = '';
+                                }else if((data.temployeeformaccessdetail[i].fields.Description === "Appointments") && (!isAppointmentSchedulingLicence)){
+                                    formClass = 'inactiveLicence';
+                                }else if((data.temployeeformaccessdetail[i].fields.Description === "Appointments") && (isAppointmentSchedulingLicence)){
                                     formClass = '';
                                 }
                                 else if((data.temployeeformaccessdetail[i].fields.Description === "Contacts") && (!isContactsLicence)){
@@ -870,9 +889,31 @@ Template.accessleveldup.events({
         if($(event.target).is(':checked')){
             $('.tbl_access .chkSettings').prop("checked", true);
             $('.tbl_access .chkSettings').val(1);
+            $('.tbl_access .chkLaunchAppointment').prop("checked", false);
+            $('.tbl_access .chkLaunchAppointment').val(6);
         }else{
             $('.tbl_access .chkSettings').prop("checked", false);
             $('.tbl_access .chkSettings').val(6);
+        }
+    },
+    'click .chkGlobalSettings': function (event) {
+         let getCheckedValue = $(event.target).val();
+         let getSelectID = '.tbl_access .chkSettings'+getCheckedValue;
+        if($(event.target).is(':checked')){
+          if(getCheckedValue == 'Appointments'){
+            $('.tbl_access .chkSetting' + getCheckedValue + '').prop("checked", true);
+            $('.tbl_access .chkSetting' + getCheckedValue + '').val(1);
+
+            $('.tbl_access .chkLaunchAppointment').prop("checked", false);
+            $('.tbl_access .chkLaunchAppointment').val(6);
+          }else{
+            $('.tbl_access .chkSetting' + getCheckedValue + '').prop("checked", true);
+            $('.tbl_access .chkSetting' + getCheckedValue + '').val(1);
+          }
+
+        }else{
+            $('.tbl_access .chkSetting' + getCheckedValue + '').prop("checked", false);
+            $('.tbl_access .chkSetting' + getCheckedValue + '').val(6);
         }
     },
     'click .chkSettings.chkInventory': function (event) {
