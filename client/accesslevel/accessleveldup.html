@@ -6,14 +6,15 @@
         <header style="background-color: #ededed;padding: 16px;margin: -24px;">
             <h1 style="margin: 16px;">Employee Modules
 
-                <a role="button" data-toggle="modal" href="#helpViewModal"  style="font-size: 20px;">Help <i class="fa fa-question-circle-o" style="font-size: 20px;"></i></a>
+                <a role="button" data-toggle="modal" href="#helpViewModal" style="font-size: 20px;">Help <i class="fa fa-question-circle-o" style="font-size: 20px;"></i></a>
 
                 <!-- Start Help View Modal -->
                 <div class="modal fade" role="dialog" tabindex="-1" id="helpViewModal">
                     <div class="modal-dialog modal-sm" role="document">
                         <div class="modal-content">
                             <div class="modal-header" style="padding-bottom: 8px;">
-                                <h4>Help</h4><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button></div>
+                                <h4>Help</h4><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                            </div>
                             <div class="modal-body">
                                 <p class="text-center text-muted"><a role="button" data-toggle="modal" href="#helpModal" class="btn btn-primary helpModal">View Help Video</a></p>
                                 <p class="text-center text-muted"><a href="https://vs1forum.com/" target="_blank" class="btn btn-primary">Download Help File</a></p>
@@ -40,11 +41,11 @@
                     <select class="form-control" id="sltEmployeeName" name="sltEmployeeName" style="cursor: pointer;">
                         <option value="All" selected="" class="selectAll">All</option>
                         {{#each item in employeerecords}}
-                        <!-- {{#if equals item.employeename employeename }} -->
-                        <!-- <option value="{{item.employeename}}" mytag="{{item.empID}}" selected="">{{item.employeename}}</option> -->
-                        <!-- {{else}} -->
-                        <option value="{{item.employeename}}" mytag="{{item.empID}}">{{item.employeename}}</option>
-                        <!-- {{/if}} -->
+                            <!-- {{#if equals item.employeename employeename }} -->
+                            <!-- <option value="{{item.employeename}}" mytag="{{item.empID}}" selected="">{{item.employeename}}</option> -->
+                            <!-- {{else}} -->
+                            <option value="{{item.employeename}}" mytag="{{item.empID}}">{{item.employeename}}</option>
+                            <!-- {{/if}} -->
                         {{/each}}
                     </select>
                 </div>
@@ -55,7 +56,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col d-xl-flex justify-content-xl-end align-items-xl-start"  style="padding: 0px !important;">
+            <div class="col d-xl-flex justify-content-xl-end align-items-xl-start" style="padding: 0px !important;">
                 <button class="btn btn-success btnGlobalSave float-right" type="button" style="margin: 8px;margin-left: 8px;"><i class="fa fa-save" style="margin-right: 8px;"></i>Save</button>
                 <button class="btn btn-secondary btnBack float-right" type="button" style="margin: 8px;"><i class="fa fa-close" style="margin-right: 8px;"></i>Cancel</button>
             </div>
@@ -70,58 +71,62 @@
 
             <div class="col d-xl-flex flex-row flex-wrap justify-content-xl-center">
                 {{#if accessgrouprecord}}
-                {{#each arrayify accessgrouprecord}}
-                <div class="card shadow mb-3" style="margin: 16px;">
-                    <div class="card-header py-3">
-                        <!-- <p class="text-primary m-0 font-weight-bold">{{name}} Settings</p> -->
+                    {{#each arrayify accessgrouprecord}}
+                        <div class="card shadow mb-3" style="margin: 16px;">
+                            <div class="card-header py-3">
+                                <!-- <p class="text-primary m-0 font-weight-bold">{{name}} Settings</p> -->
 
-                      <div class="custom-control custom-switch" style="cursor: pointer;">
-                          <input class="custom-control-input chkGlobalSettings " type="checkbox" value="{{name}}" id="formCheck-{{name}}" name="{{name}}" checked="" style="cursor: pointer;" readonly>
-                          <label class="custom-control-label" for="formCheck-{{name}}" style="cursor: pointer;">{{name}} Settings</label>
-                      </div>
-                    </div>
-                    <div class="card-body">
-                        <style>
-                            .inactiveLicence .lblPricing{
-                                display:none!important;
-                            }
-                        </style>
-                        <div>
-                            <div class="table-responsive">
-                                <table class="table tblAccessLevel">
-                                    <thead>
-                                        <tr>
-                                            <th style="min-width: 332px;">
-                                                Settings Options
-                                            </th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {{#each itemrecord in value}}
-                                        <!-- {{itemrecord.accessLevel}} -->
-                                        <tr id="{{itemrecord.lineID}}" name="{{itemrecord.accessID}}" class="tbl_access">
-                                            <td style="min-width: 332px;">
-                                                <input type="hidden" name="{{itemrecord.lineID}}" id="{{itemrecord.lineID}}_accessDesc" value="{{itemrecord.description}}" style="display:none;">
-                                                <div class="custom-control custom-switch" style="cursor: pointer;">
-                                                    <input class="custom-control-input chkSettings chkSetting{{name}} {{#if equals itemrecord.description 'Inventory'}}chkInventory{{/if}} {{#if equals itemrecord.description 'Inventory Tracking'}}chkInventory{{/if}} {{#if equals itemrecord.description 'Qty Only on Purchase Order'}}chkOnlyQtyPO{{/if}} {{#if equals itemrecord.description 'Qty Only on Sales'}} chkOnlyQtySales{{/if}} {{#if equals itemrecord.description 'Launch Allocation'}} chkLaunchAllocation{{/if}} {{#if equals itemrecord.description 'Launch Appointment'}} chkLaunchAppointment{{/if}}" type="checkbox" value="{{itemrecord.accessLevel}}" id="formCheck-{{itemrecord.lineID}}" name="{{itemrecord.lineID}}" checked="{{#if equals itemrecord.formClass 'inactiveLicence'}}{{else}}{{#if equals itemrecord.accessLevel 1}}checked{{/if}}{{/if}}" style="cursor: pointer;" readonly>
-                                                    <label class="custom-control-label" for="formCheck-{{itemrecord.lineID}}" style="cursor: pointer;">{{itemrecord.description}}</label>
-                                                    <div class="lblPricing" style="float: right; color:#1cc88a; display:none;"><b>$15</b></div>
-                                                </div>
-                                            </td>
-                                            <td style="display:none;">
-                                                <input type="hidden" name="{{itemrecord.lineID}}" id="{{itemrecord.lineID}}_accessInit" value="{{itemrecord.accessLevel}}" style="display:none;">
-                                            </td>
-                                        </tr>
-                                        {{/each}}
-                                    </tbody>
-                                </table>
+                                <div class="custom-control custom-switch" style="cursor: pointer; margin-left: -32px;">
+                                    <label style="margin-right: 50px;" for="formCheck-{{name}}">{{name}} Settings</label>
+                                    <input class="custom-control-input chkGlobalSettings " type="checkbox" value="{{name}}" id="formCheck-{{name}}" name="{{name}}" checked="" style="cursor: pointer;" readonly>
+                                    <label class="custom-control-label" for="formCheck-{{name}}" style="cursor: pointer; color: transparent;"></label>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <style>
+                                    .inactiveLicence .lblPricing {
+                                        display: none !important;
+                                    }
+                                </style>
+                                <div>
+                                    <div class="table-responsive">
+                                        <table class="table tblAccessLevel">
+                                            <thead>
+                                                <tr>
+                                                    <th style="min-width: 332px;">
+                                                        Settings Options
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {{#each itemrecord in value}}
+                                                    <!-- {{itemrecord.accessLevel}} -->
+                                                    <tr id="{{itemrecord.lineID}}" name="{{itemrecord.accessID}}" class="tbl_access">
+                                                        <td style="min-width: 332px;">
+                                                            <input type="hidden" name="{{itemrecord.lineID}}" id="{{itemrecord.lineID}}_accessDesc" value="{{itemrecord.description}}" style="display:none;">
+                                                            <div class="custom-control custom-switch" style="cursor: pointer;">
+                                                                <input
+                                                                    class="custom-control-input chkSettings chkSetting{{name}} {{#if equals itemrecord.description 'Inventory'}}chkInventory{{/if}} {{#if equals itemrecord.description 'Inventory Tracking'}}chkInventory{{/if}} {{#if equals itemrecord.description 'Qty Only on Purchase Order'}}chkOnlyQtyPO{{/if}} {{#if equals itemrecord.description 'Qty Only on Sales'}} chkOnlyQtySales{{/if}} {{#if equals itemrecord.description 'Launch Allocation'}} chkLaunchAllocation{{/if}} {{#if equals itemrecord.description 'Launch Appointment'}} chkLaunchAppointment{{/if}}"
+                                                                    type="checkbox" value="{{itemrecord.accessLevel}}" id="formCheck-{{itemrecord.lineID}}" name="{{itemrecord.lineID}}"
+                                                                    checked="{{#if equals itemrecord.formClass 'inactiveLicence'}}{{else}}{{#if equals itemrecord.accessLevel 1}}checked{{/if}}{{/if}}" style="cursor: pointer;" readonly>
+                                                                <label class="custom-control-label" for="formCheck-{{itemrecord.lineID}}" style="cursor: pointer;">{{itemrecord.description}}</label>
+                                                                <div class="lblPricing" style="float: right; color:#1cc88a; display:none;"><b>$15</b></div>
+                                                            </div>
+                                                        </td>
+                                                        <td style="display:none;">
+                                                            <input type="hidden" name="{{itemrecord.lineID}}" id="{{itemrecord.lineID}}_accessInit" value="{{itemrecord.accessLevel}}" style="display:none;">
+                                                        </td>
+                                                    </tr>
+                                                {{/each}}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <!-- <button class="btn btn-primary btnSaveAccess" id="btnSaveAccess_{{name}}" name="btnSaveAccess_{{itemrecord.name}}" type="button" style="margin: 8px;margin-left: 8px;"><i class="fa fa-save" style="margin-right: 8px;"></i>Save {{name}} Settings</button> -->
                             </div>
                         </div>
-                        <!-- <button class="btn btn-primary btnSaveAccess" id="btnSaveAccess_{{name}}" name="btnSaveAccess_{{itemrecord.name}}" type="button" style="margin: 8px;margin-left: 8px;"><i class="fa fa-save" style="margin-right: 8px;"></i>Save {{name}} Settings</button> -->
-                    </div>
-                </div>
 
-                {{/each}}
+                    {{/each}}
                 {{/if}}
             </div>
             <!-- END HERE -->
@@ -145,8 +150,9 @@
 
                     </div>
                     <div class="modal-footer">
-                        <button class="btn btn-success btnImport" type="button"><i class="fa fa-save" style="margin-right: 5px;" ></i>Upgrade</button>
-                        <button class="btn btn-secondary" data-dismiss="modal" type="button"><i class="fa fa-close" style="margin-right: 5px;"></i>Close</button></div>
+                        <button class="btn btn-success btnImport" type="button"><i class="fa fa-save" style="margin-right: 5px;"></i>Upgrade</button>
+                        <button class="btn btn-secondary" data-dismiss="modal" type="button"><i class="fa fa-close" style="margin-right: 5px;"></i>Close</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -155,15 +161,15 @@
     <!-- Start Help Video Modal -->
     <div class="modal fade" role="dialog" tabindex="-1" id="helpModal">
         <div class="modal-dialog" role="document" style="max-width: 670px!important;">
-            <div class="modal-content" >
-                <div class="modal-header" >
-                    <h4 class="title-header" >Access Level Settings</h4>
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="title-header">Access Level Settings</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
                 </div>
                 <div class="modal-body">
 
                     <video id="myVideo" width="640" height="360" controls="" name="media" style="border: solid 5px #999999f0; height: auto; outline: none;">
-                         <source src="https://erphelpes.com/vs1videos/employeemodules.mp4" type="video/mp4">
+                        <source src="https://erphelpes.com/vs1videos/employeemodules.mp4" type="video/mp4">
                     </video>
                 </div>
             </div>
@@ -185,7 +191,8 @@
 
                 </div>
                 <div class="modal-footer"><button class="btn btn-light" data-dismiss="modal" type="button">Close</button>
-                    <button class="btn btn-primary btnProdSelect" type="button" style="background-color: #00A3D3; border-color: #00A3D3;">Select</button></div>
+                    <button class="btn btn-primary btnProdSelect" type="button" style="background-color: #00A3D3; border-color: #00A3D3;">Select</button>
+                </div>
             </div>
         </div>
     </div>
@@ -209,8 +216,9 @@
 
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-success btnImport" type="button"><i class="fa fa-save" style="margin-right: 5px;" ></i>Upgrade</button>
-                    <button class="btn btn-secondary" data-dismiss="modal" type="button"><i class="fa fa-close" style="margin-right: 5px;"></i>Close</button></div>
+                    <button class="btn btn-success btnImport" type="button"><i class="fa fa-save" style="margin-right: 5px;"></i>Upgrade</button>
+                    <button class="btn btn-secondary" data-dismiss="modal" type="button"><i class="fa fa-close" style="margin-right: 5px;"></i>Close</button>
+                </div>
             </div>
         </div>
     </div>
