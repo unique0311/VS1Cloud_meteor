@@ -887,11 +887,13 @@ Template.accessleveldup.events({
     'click .formCheckEnableAll': function (event) {
 
         if($(event.target).is(':checked')){
+           $('.chkGlobalSettings').prop("checked", true);
             $('.tbl_access .chkSettings').prop("checked", true);
             $('.tbl_access .chkSettings').val(1);
             $('.tbl_access .chkLaunchAppointment').prop("checked", false);
             $('.tbl_access .chkLaunchAppointment').val(6);
         }else{
+            $('.chkGlobalSettings').prop("checked", false);
             $('.tbl_access .chkSettings').prop("checked", false);
             $('.tbl_access .chkSettings').val(6);
         }
