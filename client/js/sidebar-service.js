@@ -542,6 +542,24 @@ getCustomersDataByName(dataSearchName) {
 
   getAllAppointmentList(limitcount, limitfrom){
     let options = '';
+    let checkOwnAppointment = Session.get('CloudAppointmentSeeOwnAppointmentsOnly');
+    let selectedEmployeeName = Session.get('mySessionEmployee');
+    // if(checkOwnAppointment && selectedEmployeeName){
+    //   if(limitcount == 'All'){
+    //      options = {
+    //         ListType: "Detail",
+    //         select: '[Active]=true&[EnteredByEmployeeName]="'+selectedEmployeeName+'"'
+    //       };
+    //   }else{
+    //     options = {
+    //       orderby:'"AppointID desc"',
+    //       ListType: "Detail",
+    //       select: '[Active]=true&[EnteredByEmployeeName]="'+selectedEmployeeName+'"',
+    //       LimitCount:'"'+limitcount+'"',
+    //       LimitFrom:'"'+limitfrom+'"'
+    //    };
+    //   }
+    // }else{
     if(limitcount == 'All'){
        options = {
           ListType: "Detail",
@@ -556,6 +574,8 @@ getCustomersDataByName(dataSearchName) {
         LimitFrom:'"'+limitfrom+'"'
      };
     }
+
+  //}
 
       return this.getList(this.ERPObjects.TAppointment, options);
   }

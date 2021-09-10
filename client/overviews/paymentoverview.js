@@ -111,6 +111,23 @@ Template.paymentoverview.onRendered(function() {
     }
     var fromDate = fromDateDay + "/" + (fromDateMonth) + "/" + currentDate.getFullYear();
 
+
+  var currentBeginDate = new Date();
+ var begunDate = moment(currentBeginDate).format("DD/MM/YYYY");
+ let fromDateMonth2 = currentBeginDate.getMonth();
+ let fromDateDay2 = currentBeginDate.getDate();
+ if(currentBeginDate.getMonth() < 10){
+     fromDateMonth2 = "0" + (currentBeginDate.getMonth()+1);
+ }else{
+   fromDateMonth2 = (currentBeginDate.getMonth()+1);
+ }
+
+ if(currentBeginDate.getDate() < 10){
+     fromDateDay2 = "0" + currentBeginDate.getDate();
+ }
+ var toDate = currentBeginDate.getFullYear()+ "-" +(fromDateMonth2) + "-"+(fromDateDay2);
+ let prevMonth11Date = (moment().subtract(reportsloadMonths, 'months')).format("YYYY-MM-DD");
+
     $("#date-input,#dateTo,#dateFrom").datepicker({
         showOn: 'button',
         buttonText: 'Show Date',
@@ -154,100 +171,97 @@ Template.paymentoverview.onRendered(function() {
             if($(this).text().indexOf('-'+Currency) >= 0) $(this).addClass('text-danger')
         });
     };
-    getVS1Data('TARReport').then(function (dataObject) {
+    getVS1Data('TSalesList').then(function (dataObject) {
         if(dataObject.length == 0){
-            paymentService.getOverviewARDetails().then(function (data) {
+            sideBarService.getSalesListData(prevMonth11Date,toDate, false).then(function(data) {
                 let itemsAwaitingPaymentcount = [];
                 let itemsOverduePaymentcount = [];
                 let dataListAwaitingCust = {};
                 let totAmount = 0;
                 let totAmountOverDue = 0;
                 let customerawaitingpaymentCount = '';
-                for(let i=0; i<data.tarreport.length; i++){
+                for(let i=0; i<data.tsaleslist.length; i++){
+                  if(data.tsaleslist[i].Type == "Invoice"){
                     dataListAwaitingCust = {
-                        id: data.tarreport[i].ClientID || '',
+                        id: data.tsaleslist[i].SaleId || '',
                     };
-                    if(data.tarreport[i].AmountDue != 0){
+                    if(data.tsaleslist[i].Balance != 0){
                         itemsAwaitingPaymentcount.push(dataListAwaitingCust);
-                        totAmount += Number(data.tarreport[i].AmountDue);
-                        let date = new Date(data.tarreport[i].DueDate);
+                        totAmount += Number(data.tsaleslist[i].Balance);
+                        let date = new Date(data.tsaleslist[i].dueDate);
                         if (date < new Date()) {
                             itemsOverduePaymentcount.push(dataListAwaitingCust);
-                            totAmountOverDue += Number(data.tarreport[i].AmountDue);
+                            totAmountOverDue += Number(data.tsaleslist[i].Balance);
                         }
                     }
-
+                  }
                 }
                 $('#custAwaiting').text(itemsAwaitingPaymentcount.length);
                 $('#custOverdue').text(itemsOverduePaymentcount.length);
                 $('.custAwaitingAmt').text(utilityService.modifynegativeCurrencyFormat(totAmount));
                 $('.custOverdueAmt').text(utilityService.modifynegativeCurrencyFormat(totAmountOverDue));
-
-
-                //templateObject.awaitingpaymentCount.set(itemsAwaitingPaymentcount.length);
             });
         }else{
             let data = JSON.parse(dataObject[0].data);
-            let useData = data.tarreport;
+            let useData = data.tsaleslist;
             let itemsAwaitingPaymentcount = [];
             let itemsOverduePaymentcount = [];
             let dataListAwaitingCust = {};
             let totAmount = 0;
             let totAmountOverDue = 0;
             let customerawaitingpaymentCount = '';
-            for(let i=0; i<useData.length; i++){
+            for(let i=0; i<data.tsaleslist.length; i++){
+              if(data.tsaleslist[i].Type == "Invoice"){
                 dataListAwaitingCust = {
-                    id: useData[i].ClientID || '',
+                    id: data.tsaleslist[i].SaleId || '',
                 };
-                if(useData[i].AmountDue != 0){
+                if(data.tsaleslist[i].Balance != 0){
                     itemsAwaitingPaymentcount.push(dataListAwaitingCust);
-                    totAmount += Number(useData[i].AmountDue);
-                    let date = new Date(useData[i].DueDate);
+
+                    totAmount += Number(data.tsaleslist[i].Balance);
+                    let date = new Date(data.tsaleslist[i].dueDate);
                     if (date < new Date()) {
                         itemsOverduePaymentcount.push(dataListAwaitingCust);
-                        totAmountOverDue += Number(useData[i].AmountDue);
+                        totAmountOverDue += Number(data.tsaleslist[i].Balance);
+
                     }
                 }
-
+              }
             }
             $('#custAwaiting').text(itemsAwaitingPaymentcount.length);
             $('#custOverdue').text(itemsOverduePaymentcount.length);
             $('.custAwaitingAmt').text(utilityService.modifynegativeCurrencyFormat(totAmount));
             $('.custOverdueAmt').text(utilityService.modifynegativeCurrencyFormat(totAmountOverDue));
-
-            //templateObject.awaitingpaymentCount.set(itemsAwaitingPaymentcount.length);
         }
     }).catch(function (err) {
-        paymentService.getOverviewARDetails().then(function (data) {
-            let itemsAwaitingPaymentcount = [];
-            let itemsOverduePaymentcount = [];
-            let dataListAwaitingCust = {};
-            let totAmount = 0;
-            let totAmountOverDue = 0;
-            let customerawaitingpaymentCount = '';
-            for(let i=0; i<data.tarreport.length; i++){
-                dataListAwaitingCust = {
-                    id: data.tarreport[i].ClientID || '',
-                };
-                if(data.tarreport[i].AmountDue != 0){
-                    itemsAwaitingPaymentcount.push(dataListAwaitingCust);
-                    totAmount += Number(data.tarreport[i].AmountDue);
-                    let date = new Date(data.tarreport[i].DueDate);
-                    if (date < new Date()) {
-                        itemsOverduePaymentcount.push(dataListAwaitingCust);
-                        totAmountOverDue += Number(data.tarreport[i].AmountDue);
-                    }
-                }
-
+      sideBarService.getSalesListData(prevMonth11Date,toDate, false).then(function(data) {
+          let itemsAwaitingPaymentcount = [];
+          let itemsOverduePaymentcount = [];
+          let dataListAwaitingCust = {};
+          let totAmount = 0;
+          let totAmountOverDue = 0;
+          let customerawaitingpaymentCount = '';
+          for(let i=0; i<data.tsaleslist.length; i++){
+            if(data.tsaleslist[i].Type == "Invoice"){
+              dataListAwaitingCust = {
+                  id: data.tsaleslist[i].SaleId || '',
+              };
+              if(data.tsaleslist[i].Balance != 0){
+                  itemsAwaitingPaymentcount.push(dataListAwaitingCust);
+                  totAmount += Number(data.tsaleslist[i].Balance);
+                  let date = new Date(data.tsaleslist[i].dueDate);
+                  if (date < new Date()) {
+                      itemsOverduePaymentcount.push(dataListAwaitingCust);
+                      totAmountOverDue += Number(data.tsaleslist[i].Balance);
+                  }
+              }
             }
-            $('#custAwaiting').text(itemsAwaitingPaymentcount.length);
-            $('#custOverdue').text(itemsOverduePaymentcount.length);
-            $('.custAwaitingAmt').text(utilityService.modifynegativeCurrencyFormat(totAmount));
-            $('.custOverdueAmt').text(utilityService.modifynegativeCurrencyFormat(totAmountOverDue));
-
-
-            //templateObject.awaitingpaymentCount.set(itemsAwaitingPaymentcount.length);
-        });
+          }
+          $('#custAwaiting').text(itemsAwaitingPaymentcount.length);
+          $('#custOverdue').text(itemsOverduePaymentcount.length);
+          $('.custAwaitingAmt').text(utilityService.modifynegativeCurrencyFormat(totAmount));
+          $('.custOverdueAmt').text(utilityService.modifynegativeCurrencyFormat(totAmountOverDue));
+      });
     });
     getVS1Data('TAPReport').then(function (dataObject) {
         if(dataObject.length == 0){
@@ -350,22 +364,6 @@ Template.paymentoverview.onRendered(function() {
 
     // $('#tblPaymentOverview').DataTable();
     templateObject.getAllPaymentsData = function () {
-      var currentBeginDate = new Date();
-   var begunDate = moment(currentBeginDate).format("DD/MM/YYYY");
-   let fromDateMonth = currentBeginDate.getMonth();
-   let fromDateDay = currentBeginDate.getDate();
-   if(currentBeginDate.getMonth() < 10){
-       fromDateMonth = "0" + (currentBeginDate.getMonth()+1);
-   }else{
-     fromDateMonth = (currentBeginDate.getMonth()+1);
-   }
-
-   if(currentBeginDate.getDate() < 10){
-       fromDateDay = "0" + currentBeginDate.getDate();
-   }
-   var toDate = currentBeginDate.getFullYear()+ "-" +(fromDateMonth) + "-"+(fromDateDay);
-   let prevMonth11Date = (moment().subtract(reportsloadMonths, 'months')).format("YYYY-MM-DD");
-
         getVS1Data('TPaymentList').then(function (dataObject) {
             if(dataObject.length == 0){
                 sideBarService.getTPaymentList(prevMonth11Date,toDate, false).then(function (data) {
@@ -1087,7 +1085,7 @@ Template.paymentoverview.events({
     },
     'click .customerOverdue' : function(event){
         $('.modal-backdrop').css('display','none');
-        FlowRouter.go('/customerawaitingpayments');
+        FlowRouter.go('/customerawaitingpayments?status="overdue"');
     },
     'click .supplierAwaitingPayment' : function(event){
         $('.modal-backdrop').css('display','none');
@@ -1095,7 +1093,7 @@ Template.paymentoverview.events({
     },
     'click .supplierOverdue' : function(event){
         $('.modal-backdrop').css('display','none');
-        FlowRouter.go('/supplierawaitingpurchaseorder');
+        FlowRouter.go('/supplierawaitingpurchaseorder?status="overdue"');
     },
 
     'click .chkDatatable' : function(event){
