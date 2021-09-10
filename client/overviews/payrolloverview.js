@@ -7,16 +7,17 @@ import { SideBarService } from '../js/sidebar-service';
 import '../lib/global/indexdbstorage.js';
 let sideBarService = new SideBarService();
 let utilityService = new UtilityService();
-Template.payrolloverview.onCreated(function(){
+Template.payrolloverview.onCreated(function () {
     const templateObject = Template.instance();
     templateObject.datatablerecords = new ReactiveVar([]);
     templateObject.tableheaderrecords = new ReactiveVar([]);
+    templateObject.clockonclockoff = new ReactiveVar([]);
     templateObject.jobsrecords = new ReactiveVar([]);
     templateObject.selectedFile = new ReactiveVar();
 });
 
-Template.payrolloverview.onRendered(function() {
-    $('.fullScreenSpin').css('display','inline-block');
+Template.payrolloverview.onRendered(function () {
+    $('.fullScreenSpin').css('display', 'inline-block');
     let templateObject = Template.instance();
     let contactService = new ContactService();
     const customerList = [];
@@ -25,25 +26,26 @@ Template.payrolloverview.onRendered(function() {
     const dataTableList = [];
     const tableHeaderList = [];
     const jobsList = [];
+    let clockEntry = [];
 
     $(".formClassDate").datepicker({
-    showOn: 'button',
-    buttonText: 'Show Date',
-    buttonImageOnly: true,
-    buttonImage: '/img/imgCal2.png',
-    dateFormat: 'dd/mm/yy',
-    showOtherMonths: true,
-    selectOtherMonths: true,
-    changeMonth: true,
-    changeYear: true,
-    yearRange: "-90:+10",
-  });
+        showOn: 'button',
+        buttonText: 'Show Date',
+        buttonImageOnly: true,
+        buttonImage: '/img/imgCal2.png',
+        dateFormat: 'dd/mm/yy',
+        showOtherMonths: true,
+        selectOtherMonths: true,
+        changeMonth: true,
+        changeYear: true,
+        yearRange: "-90:+10",
+    });
 
-  var currentDate = new Date();
-  var begunDate = moment(currentDate).format("DD/MM/YYYY");
-  $('.formClassDate').val(begunDate);
-  $("#employee_name").val(Session.get('mySessionEmployee'));
-    if(FlowRouter.current().queryParams.success){
+    var currentDate = new Date();
+    var begunDate = moment(currentDate).format("DD/MM/YYYY");
+    $('.formClassDate').val(begunDate);
+    $("#employee_name").val(Session.get('mySessionEmployee'));
+    if (FlowRouter.current().queryParams.success) {
         $('.btnRefresh').addClass('btnRefreshAlert');
     }
 
@@ -55,11 +57,10 @@ Template.payrolloverview.onRendered(function() {
         }, 500);
 
     }
-    Meteor.call('readPrefMethod',Session.get('mycloudLogonID'),'tblEmployeelist', function(error, result){
-        if(error){
-
-        }else{
-            if(result){
+    Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblEmployeelist', function (error, result) {
+        if (error) {}
+        else {
+            if (result) {
                 for (let i = 0; i < result.customFields.length; i++) {
                     let customcolumn = result.customFields;
                     let columData = customcolumn[i].label;
@@ -68,8 +69,8 @@ Template.payrolloverview.onRendered(function() {
                     let columnClass = columHeaderUpdate.split('.')[1];
                     let columnWidth = customcolumn[i].width;
                     // let columnindex = customcolumn[i].index + 1;
-                    $("th."+columnClass+"").html(columData);
-                    $("th."+columnClass+"").css('width',""+columnWidth+"px");
+                    $("th." + columnClass + "").html(columData);
+                    $("th." + columnClass + "").css('width', "" + columnWidth + "px");
 
                 }
             }
@@ -77,33 +78,50 @@ Template.payrolloverview.onRendered(function() {
         }
     });
 
-templateObject.diff_hours = function (dt2, dt1) {
-  var diff = (dt2.getTime() - dt1.getTime()) / 1000;
-  diff /= (60 * 60);
-  return Math.abs(diff);
-}
+    templateObject.diff_hours = function (dt2, dt1) {
+        var diff = (dt2.getTime() - dt1.getTime()) / 1000;
+        diff /= (60 * 60);
+        return Math.abs(diff);
+    }
 
+    templateObject.dateFormat = function (date) {
+        var dateParts = date.split("/");
+        var dateObject = dateParts[2] + '/' + ('0' + (dateParts[1] - 1)).toString().slice(-2) + '/' + dateParts[0];
+        return dateObject;
+    }
 
-templateObject.dateFormat = function (date) {
-  var dateParts = date.split("/");
-  var dateObject = dateParts[2] + '/' + ('0' + (dateParts[1] - 1)).toString().slice(-2) + '/' + dateParts[0];
-  return dateObject;
-}
+    templateObject.getEmployeeClockOnClockOff = function () {
+        contactService.getAllClockOnClockOffList().then(function (data) {
+            for (let i = 0; i < data.troster.length; i++) {
+                var dataList = {
+                    id: data.troster[i].fields.ID || '',
+                    date: data.troster[i].fields.Date || '',
+                    employeename: data.troster[i].fields.EmployeeName || '',
+                    endTime: data.troster[i].fields.EndTime || '',
+                    startTime: data.troster[i].fields.StartTime || '',
+                    notes: data.troster[i].fields.Notes || '',
+                    status: data.troster[i].fields.Status || '',
+                };
+                clockEntry.push(dataList);
+            }
+            templateObject.clockonclockoff.set(clockEntry);
 
+        })
 
+    }
     templateObject.getEmployees = function () {
         getVS1Data('TEmployee').then(function (dataObject) {
 
-            if(dataObject.length == 0){
-                sideBarService.getAllEmployees(initialBaseDataLoad,0).then(function (data) {
-                  addVS1Data('TEmployee',JSON.stringify(data));
+            if (dataObject.length == 0) {
+                sideBarService.getAllEmployees(initialBaseDataLoad, 0).then(function (data) {
+                    addVS1Data('TEmployee', JSON.stringify(data));
                     let lineItems = [];
                     let lineItemObj = {};
-                    for(let i=0; i<data.temployee.length; i++){
+                    for (let i = 0; i < data.temployee.length; i++) {
                         var dataList = {
                             id: data.temployee[i].fields.ID || '',
                             employeeno: data.temployee[i].fields.EmployeeNo || '',
-                            employeename:data.temployee[i].fields.EmployeeName || '',
+                            employeename: data.temployee[i].fields.EmployeeName || '',
                             firstname: data.temployee[i].fields.FirstName || '',
                             lastname: data.temployee[i].fields.LastName || '',
                             phone: data.temployee[i].fields.Phone || '',
@@ -118,7 +136,7 @@ templateObject.dateFormat = function (date) {
                             custFld4: data.temployee[i].fields.CustFld4 || ''
                         };
 
-                        if(data.temployee[i].fields.EmployeeName.replace(/\s/g, '') != ''){
+                        if (data.temployee[i].fields.EmployeeName.replace(/\s/g, '') != '') {
                             dataTableList.push(dataList);
                         }
                         //}
@@ -126,13 +144,12 @@ templateObject.dateFormat = function (date) {
 
                     templateObject.datatablerecords.set(dataTableList);
 
-                    if(templateObject.datatablerecords.get()){
+                    if (templateObject.datatablerecords.get()) {
 
-                        Meteor.call('readPrefMethod',Session.get('mycloudLogonID'),'tblEmployeelist', function(error, result){
-                            if(error){
-
-                            }else{
-                                if(result){
+                        Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblEmployeelist', function (error, result) {
+                            if (error) {}
+                            else {
+                                if (result) {
                                     for (let i = 0; i < result.customFields.length; i++) {
                                         let customcolumn = result.customFields;
                                         let columData = customcolumn[i].label;
@@ -142,13 +159,13 @@ templateObject.dateFormat = function (date) {
                                         let columnWidth = customcolumn[i].width;
                                         let columnindex = customcolumn[i].index + 1;
 
-                                        if(hiddenColumn == true){
+                                        if (hiddenColumn == true) {
 
-                                            $("."+columnClass+"").addClass('hiddenColumn');
-                                            $("."+columnClass+"").removeClass('showColumn');
-                                        }else if(hiddenColumn == false){
-                                            $("."+columnClass+"").removeClass('hiddenColumn');
-                                            $("."+columnClass+"").addClass('showColumn');
+                                            $("." + columnClass + "").addClass('hiddenColumn');
+                                            $("." + columnClass + "").removeClass('showColumn');
+                                        } else if (hiddenColumn == false) {
+                                            $("." + columnClass + "").removeClass('hiddenColumn');
+                                            $("." + columnClass + "").addClass('showColumn');
                                         }
 
                                     }
@@ -158,56 +175,54 @@ templateObject.dateFormat = function (date) {
                         });
                     }
 
-
                     setTimeout(function () {
                         $('#tblEmployeelist').DataTable({
 
                             "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
-                            buttons: [
-                                {
+                            buttons: [{
                                     extend: 'csvHtml5',
                                     text: '',
                                     download: 'open',
                                     className: "btntabletocsv hiddenColumn",
-                                    filename: "Employee List - "+ moment().format(),
-                                    orientation:'portrait',
+                                    filename: "Employee List - " + moment().format(),
+                                    orientation: 'portrait',
                                     exportOptions: {
                                         columns: ':visible'
                                     }
-                                },{
+                                }, {
                                     extend: 'print',
                                     download: 'open',
                                     className: "btntabletopdf hiddenColumn",
                                     text: '',
                                     title: 'Employee List',
-                                    filename: "Employee List - "+ moment().format(),
+                                    filename: "Employee List - " + moment().format(),
                                     exportOptions: {
                                         columns: ':visible',
                                         stripHtml: false
                                     }
-                                },
-                                {
+                                }, {
                                     extend: 'excelHtml5',
                                     title: '',
                                     download: 'open',
                                     className: "btntabletoexcel hiddenColumn",
-                                    filename: "Employee List - "+ moment().format(),
-                                    orientation:'portrait',
+                                    filename: "Employee List - " + moment().format(),
+                                    orientation: 'portrait',
                                     exportOptions: {
                                         columns: ':visible'
                                     }
 
-                                }],
+                                }
+                            ],
                             select: true,
                             destroy: true,
                             colReorder: true,
                             // bStateSave: true,
                             // rowId: 0,
                             pageLength: 25,
-                            lengthMenu: [ [25, -1], [25, "All"] ],
+                            lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "All"]],
                             info: true,
                             responsive: true,
-                            "order": [[ 0, "asc" ]],
+                            "order": [[0, "asc"]],
                             action: function () {
                                 $('#tblEmployeelist').DataTable().ajax.reload();
                             },
@@ -216,12 +231,10 @@ templateObject.dateFormat = function (date) {
 
                             let draftRecord = templateObject.datatablerecords.get();
                             templateObject.datatablerecords.set(draftRecord);
-                        }).on('column-reorder', function () {
-
-                        });
+                        }).on('column-reorder', function () {});
 
                         // $('#tblEmployeelist').DataTable().column( 0 ).visible( true );
-                        $('.fullScreenSpin').css('display','none');
+                        $('.fullScreenSpin').css('display', 'none');
                     }, 0);
 
                     var columns = $('#tblEmployeelist th');
@@ -231,11 +244,11 @@ templateObject.dateFormat = function (date) {
                     let sVisible = "";
                     let columVisible = false;
                     let sClass = "";
-                    $.each(columns, function(i,v) {
-                        if(v.hidden == false){
-                            columVisible =  true;
+                    $.each(columns, function (i, v) {
+                        if (v.hidden == false) {
+                            columVisible = true;
                         }
-                        if((v.className.includes("hiddenColumn"))){
+                        if ((v.className.includes("hiddenColumn"))) {
                             columVisible = false;
                         }
                         sWidth = v.style.width.replace('px', "");
@@ -250,29 +263,29 @@ templateObject.dateFormat = function (date) {
                     });
                     templateObject.tableheaderrecords.set(tableHeaderList);
                     $('div.dataTables_filter input').addClass('form-control form-control-sm');
-                    $('#tblEmployeelist tbody').on( 'click', 'tr', function () {
+                    $('#tblEmployeelist tbody').on('click', 'tr', function () {
                         var listData = $(this).closest('tr').attr('id');
-                        if(listData){
+                        if (listData) {
                             FlowRouter.go('/employeescard?id=' + listData);
                         }
                     });
 
                 }).catch(function (err) {
                     // Bert.alert('<strong>' + err + '</strong>!', 'danger');
-                    $('.fullScreenSpin').css('display','none');
+                    $('.fullScreenSpin').css('display', 'none');
                     // Meteor._reload.reload();
                 });
-            }else{
+            } else {
                 let data = JSON.parse(dataObject[0].data);
                 let useData = data.temployee;
 
                 let lineItems = [];
                 let lineItemObj = {};
-                for(let i=0; i<useData.length; i++){
+                for (let i = 0; i < useData.length; i++) {
                     var dataList = {
                         id: useData[i].fields.ID || '',
                         employeeno: useData[i].fields.EmployeeNo || '',
-                        employeename:useData[i].fields.EmployeeName || '',
+                        employeename: useData[i].fields.EmployeeName || '',
                         firstname: useData[i].fields.FirstName || '',
                         lastname: useData[i].fields.LastName || '',
                         phone: useData[i].fields.Phone || '',
@@ -287,7 +300,7 @@ templateObject.dateFormat = function (date) {
                         custFld4: useData[i].fields.CustFld4 || ''
                     };
 
-                    if(useData[i].fields.EmployeeName.replace(/\s/g, '') != ''){
+                    if (useData[i].fields.EmployeeName.replace(/\s/g, '') != '') {
                         dataTableList.push(dataList);
                     }
                     //}
@@ -295,13 +308,12 @@ templateObject.dateFormat = function (date) {
 
                 templateObject.datatablerecords.set(dataTableList);
 
-                if(templateObject.datatablerecords.get()){
+                if (templateObject.datatablerecords.get()) {
 
-                    Meteor.call('readPrefMethod',Session.get('mycloudLogonID'),'tblEmployeelist', function(error, result){
-                        if(error){
-
-                        }else{
-                            if(result){
+                    Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblEmployeelist', function (error, result) {
+                        if (error) {}
+                        else {
+                            if (result) {
                                 for (let i = 0; i < result.customFields.length; i++) {
                                     let customcolumn = result.customFields;
                                     let columData = customcolumn[i].label;
@@ -311,13 +323,13 @@ templateObject.dateFormat = function (date) {
                                     let columnWidth = customcolumn[i].width;
                                     let columnindex = customcolumn[i].index + 1;
 
-                                    if(hiddenColumn == true){
+                                    if (hiddenColumn == true) {
 
-                                        $("."+columnClass+"").addClass('hiddenColumn');
-                                        $("."+columnClass+"").removeClass('showColumn');
-                                    }else if(hiddenColumn == false){
-                                        $("."+columnClass+"").removeClass('hiddenColumn');
-                                        $("."+columnClass+"").addClass('showColumn');
+                                        $("." + columnClass + "").addClass('hiddenColumn');
+                                        $("." + columnClass + "").removeClass('showColumn');
+                                    } else if (hiddenColumn == false) {
+                                        $("." + columnClass + "").removeClass('hiddenColumn');
+                                        $("." + columnClass + "").addClass('showColumn');
                                     }
 
                                 }
@@ -327,56 +339,54 @@ templateObject.dateFormat = function (date) {
                     });
                 }
 
-
                 setTimeout(function () {
                     $('#tblEmployeelist').DataTable({
 
                         "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
-                        buttons: [
-                            {
+                        buttons: [{
                                 extend: 'csvHtml5',
                                 text: '',
                                 download: 'open',
                                 className: "btntabletocsv hiddenColumn",
-                                filename: "Employee List - "+ moment().format(),
-                                orientation:'portrait',
+                                filename: "Employee List - " + moment().format(),
+                                orientation: 'portrait',
                                 exportOptions: {
                                     columns: ':visible'
                                 }
-                            },{
+                            }, {
                                 extend: 'print',
                                 download: 'open',
                                 className: "btntabletopdf hiddenColumn",
                                 text: '',
                                 title: 'Employee List',
-                                filename: "Employee List - "+ moment().format(),
+                                filename: "Employee List - " + moment().format(),
                                 exportOptions: {
                                     columns: ':visible',
                                     stripHtml: false
                                 }
-                            },
-                            {
+                            }, {
                                 extend: 'excelHtml5',
                                 title: '',
                                 download: 'open',
                                 className: "btntabletoexcel hiddenColumn",
-                                filename: "Employee List - "+ moment().format(),
-                                orientation:'portrait',
+                                filename: "Employee List - " + moment().format(),
+                                orientation: 'portrait',
                                 exportOptions: {
                                     columns: ':visible'
                                 }
 
-                            }],
+                            }
+                        ],
                         select: true,
                         destroy: true,
                         colReorder: true,
                         // bStateSave: true,
                         // rowId: 0,
                         pageLength: 25,
-                        lengthMenu: [ [25, -1], [25, "All"] ],
+                        lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "All"]],
                         info: true,
                         responsive: true,
-                        "order": [[ 0, "asc" ]],
+                        "order": [[0, "asc"]],
                         action: function () {
                             $('#tblEmployeelist').DataTable().ajax.reload();
                         },
@@ -385,12 +395,10 @@ templateObject.dateFormat = function (date) {
 
                         let draftRecord = templateObject.datatablerecords.get();
                         templateObject.datatablerecords.set(draftRecord);
-                    }).on('column-reorder', function () {
-
-                    });
+                    }).on('column-reorder', function () {});
 
                     // $('#tblEmployeelist').DataTable().column( 0 ).visible( true );
-                    $('.fullScreenSpin').css('display','none');
+                    $('.fullScreenSpin').css('display', 'none');
                 }, 0);
 
                 var columns = $('#tblEmployeelist th');
@@ -400,11 +408,11 @@ templateObject.dateFormat = function (date) {
                 let sVisible = "";
                 let columVisible = false;
                 let sClass = "";
-                $.each(columns, function(i,v) {
-                    if(v.hidden == false){
-                        columVisible =  true;
+                $.each(columns, function (i, v) {
+                    if (v.hidden == false) {
+                        columVisible = true;
                     }
-                    if((v.className.includes("hiddenColumn"))){
+                    if ((v.className.includes("hiddenColumn"))) {
                         columVisible = false;
                     }
                     sWidth = v.style.width.replace('px', "");
@@ -419,23 +427,23 @@ templateObject.dateFormat = function (date) {
                 });
                 templateObject.tableheaderrecords.set(tableHeaderList);
                 $('div.dataTables_filter input').addClass('form-control form-control-sm');
-                $('#tblEmployeelist tbody').on( 'click', 'tr', function () {
+                $('#tblEmployeelist tbody').on('click', 'tr', function () {
                     var listData = $(this).closest('tr').attr('id');
-                    if(listData){
+                    if (listData) {
                         FlowRouter.go('/employeescard?id=' + listData);
                     }
                 });
             }
         }).catch(function (err) {
-            sideBarService.getAllEmployees(initialBaseDataLoad,0).then(function (data) {
-              addVS1Data('TEmployee',JSON.stringify(data));
+            sideBarService.getAllEmployees(initialBaseDataLoad, 0).then(function (data) {
+                addVS1Data('TEmployee', JSON.stringify(data));
                 let lineItems = [];
                 let lineItemObj = {};
-                for(let i=0; i<data.temployee.length; i++){
+                for (let i = 0; i < data.temployee.length; i++) {
                     var dataList = {
                         id: data.temployee[i].fields.ID || '',
                         employeeno: data.temployee[i].fields.EmployeeNo || '',
-                        employeename:data.temployee[i].fields.EmployeeName || '',
+                        employeename: data.temployee[i].fields.EmployeeName || '',
                         firstname: data.temployee[i].fields.FirstName || '',
                         lastname: data.temployee[i].fields.LastName || '',
                         phone: data.temployee[i].fields.Phone || '',
@@ -450,7 +458,7 @@ templateObject.dateFormat = function (date) {
                         custFld4: data.temployee[i].fields.CustFld4 || ''
                     };
 
-                    if(data.temployee[i].fields.EmployeeName.replace(/\s/g, '') != ''){
+                    if (data.temployee[i].fields.EmployeeName.replace(/\s/g, '') != '') {
                         dataTableList.push(dataList);
                     }
                     //}
@@ -458,13 +466,12 @@ templateObject.dateFormat = function (date) {
 
                 templateObject.datatablerecords.set(dataTableList);
 
-                if(templateObject.datatablerecords.get()){
+                if (templateObject.datatablerecords.get()) {
 
-                    Meteor.call('readPrefMethod',Session.get('mycloudLogonID'),'tblEmployeelist', function(error, result){
-                        if(error){
-
-                        }else{
-                            if(result){
+                    Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblEmployeelist', function (error, result) {
+                        if (error) {}
+                        else {
+                            if (result) {
                                 for (let i = 0; i < result.customFields.length; i++) {
                                     let customcolumn = result.customFields;
                                     let columData = customcolumn[i].label;
@@ -474,13 +481,13 @@ templateObject.dateFormat = function (date) {
                                     let columnWidth = customcolumn[i].width;
                                     let columnindex = customcolumn[i].index + 1;
 
-                                    if(hiddenColumn == true){
+                                    if (hiddenColumn == true) {
 
-                                        $("."+columnClass+"").addClass('hiddenColumn');
-                                        $("."+columnClass+"").removeClass('showColumn');
-                                    }else if(hiddenColumn == false){
-                                        $("."+columnClass+"").removeClass('hiddenColumn');
-                                        $("."+columnClass+"").addClass('showColumn');
+                                        $("." + columnClass + "").addClass('hiddenColumn');
+                                        $("." + columnClass + "").removeClass('showColumn');
+                                    } else if (hiddenColumn == false) {
+                                        $("." + columnClass + "").removeClass('hiddenColumn');
+                                        $("." + columnClass + "").addClass('showColumn');
                                     }
 
                                 }
@@ -490,56 +497,54 @@ templateObject.dateFormat = function (date) {
                     });
                 }
 
-
                 setTimeout(function () {
                     $('#tblEmployeelist').DataTable({
 
                         "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
-                        buttons: [
-                            {
+                        buttons: [{
                                 extend: 'csvHtml5',
                                 text: '',
                                 download: 'open',
                                 className: "btntabletocsv hiddenColumn",
-                                filename: "Employee List - "+ moment().format(),
-                                orientation:'portrait',
+                                filename: "Employee List - " + moment().format(),
+                                orientation: 'portrait',
                                 exportOptions: {
                                     columns: ':visible'
                                 }
-                            },{
+                            }, {
                                 extend: 'print',
                                 download: 'open',
                                 className: "btntabletopdf hiddenColumn",
                                 text: '',
                                 title: 'Employee List',
-                                filename: "Employee List - "+ moment().format(),
+                                filename: "Employee List - " + moment().format(),
                                 exportOptions: {
                                     columns: ':visible',
                                     stripHtml: false
                                 }
-                            },
-                            {
+                            }, {
                                 extend: 'excelHtml5',
                                 title: '',
                                 download: 'open',
                                 className: "btntabletoexcel hiddenColumn",
-                                filename: "Employee List - "+ moment().format(),
-                                orientation:'portrait',
+                                filename: "Employee List - " + moment().format(),
+                                orientation: 'portrait',
                                 exportOptions: {
                                     columns: ':visible'
                                 }
 
-                            }],
+                            }
+                        ],
                         select: true,
                         destroy: true,
                         colReorder: true,
                         // bStateSave: true,
                         // rowId: 0,
                         pageLength: 25,
-                        lengthMenu: [ [25, -1], [25, "All"] ],
+                        lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "All"]],
                         info: true,
                         responsive: true,
-                        "order": [[ 0, "asc" ]],
+                        "order": [[0, "asc"]],
                         action: function () {
                             $('#tblEmployeelist').DataTable().ajax.reload();
                         },
@@ -548,12 +553,10 @@ templateObject.dateFormat = function (date) {
 
                         let draftRecord = templateObject.datatablerecords.get();
                         templateObject.datatablerecords.set(draftRecord);
-                    }).on('column-reorder', function () {
-
-                    });
+                    }).on('column-reorder', function () {});
 
                     // $('#tblEmployeelist').DataTable().column( 0 ).visible( true );
-                    $('.fullScreenSpin').css('display','none');
+                    $('.fullScreenSpin').css('display', 'none');
                 }, 0);
 
                 var columns = $('#tblEmployeelist th');
@@ -563,11 +566,11 @@ templateObject.dateFormat = function (date) {
                 let sVisible = "";
                 let columVisible = false;
                 let sClass = "";
-                $.each(columns, function(i,v) {
-                    if(v.hidden == false){
-                        columVisible =  true;
+                $.each(columns, function (i, v) {
+                    if (v.hidden == false) {
+                        columVisible = true;
                     }
-                    if((v.className.includes("hiddenColumn"))){
+                    if ((v.className.includes("hiddenColumn"))) {
                         columVisible = false;
                     }
                     sWidth = v.style.width.replace('px', "");
@@ -582,189 +585,396 @@ templateObject.dateFormat = function (date) {
                 });
                 templateObject.tableheaderrecords.set(tableHeaderList);
                 $('div.dataTables_filter input').addClass('form-control form-control-sm');
-                $('#tblEmployeelist tbody').on( 'click', 'tr', function () {
+                $('#tblEmployeelist tbody').on('click', 'tr', function () {
                     var listData = $(this).closest('tr').attr('id');
-                    if(listData){
+                    if (listData) {
                         FlowRouter.go('/employeescard?id=' + listData);
                     }
                 });
 
             }).catch(function (err) {
                 // Bert.alert('<strong>' + err + '</strong>!', 'danger');
-                $('.fullScreenSpin').css('display','none');
+                $('.fullScreenSpin').css('display', 'none');
                 // Meteor._reload.reload();
             });
         });
     }
 
     templateObject.getEmployees();
+    templateObject.getEmployeeClockOnClockOff();
 
+    templateObject.getJobs = function () {
+        contactService.getAllJobsNameData().then(function (data) {
+            let lineItems = [];
+            let lineItemObj = {};
 
+            for (let i = 0; i < data.tjobvs1.length; i++) {
+                var dataListJobs = {
+                    id: data.tjobvs1[i].Id || '',
+                    jobname: data.tjobvs1[i].ClientName || '',
+                    // employeename:data.tjobvs1[i].EmployeeName || '',
 
-  templateObject.getJobs = function () {
-    contactService.getAllJobsNameData().then(function (data) {
-      let lineItems = [];
-      let lineItemObj = {};
+                };
 
-      for (let i = 0; i < data.tjobvs1.length; i++) {
-        var dataListJobs = {
-          id: data.tjobvs1[i].Id || '',
-          jobname: data.tjobvs1[i].ClientName || '',
-          // employeename:data.tjobvs1[i].EmployeeName || '',
+                if (data.tjobvs1[i].ClientName.replace(/\s/g, '') != '') {
+                    jobsList.push(dataListJobs);
+                }
+                //}
+            }
 
-        };
+            templateObject.jobsrecords.set(jobsList);
 
-        if (data.tjobvs1[i].ClientName.replace(/\s/g, '') != '') {
-          jobsList.push(dataListJobs);
-        }
-        //}
-      }
-
-      templateObject.jobsrecords.set(jobsList);
-
-    }).catch(function (err) {
-      $('.fullScreenSpin').css('display', 'none');
-    });
-  }
+        }).catch(function (err) {
+            $('.fullScreenSpin').css('display', 'none');
+        });
+    }
     templateObject.getJobs();
 
-
-    $('#tblEmployeelist tbody').on( 'click', 'tr', function () {
+    $('#tblEmployeelist tbody').on('click', 'tr', function () {
         var listData = $(this).closest('tr').attr('id');
-        if(listData){
+        if (listData) {
             FlowRouter.go('/employeescard?id=' + listData);
         }
 
     });
 
-
 });
 
-
 Template.payrolloverview.events({
-    'click #btnNewEmployee':function(event){
+    'click #btnNewEmployee': function (event) {
         FlowRouter.go('/employeescard');
     },
-    'click #btnTimesheet':function(event){
+    'click #btnTimesheet': function (event) {
         FlowRouter.go('/timesheet');
     },
-      'click #btnClockOn': function () {
-    const templateObject = Template.instance();
-    $("#startTime").val(moment().startOf('hour').format('HH') + ":" + moment().startOf('minute').format('mm'));
-    let date = new Date();
-    let date1 = date.getFullYear() + "-" + ("0" + (date.getMonth() + 1)).slice(-2) + "-" + ("0" + (date.getDate())).slice(-2);
-    var endTime = new Date(date1 + ' ' + document.getElementById("endTime").value + ':00');
-    var startTime = new Date(date1 + ' ' + document.getElementById("startTime").value + ':00');
-    if (endTime > startTime) {
-      document.getElementById('txtBookedHoursSpent').value = parseFloat(templateObject.diff_hours(endTime, startTime)).toFixed(2);
-    }
-  },
-  'click .btnSaveTimeSheet': function () {
-    $('.fullScreenSpin').css('display', 'inline-block');
-    let templateObject = Template.instance();
-    let contactService = new ContactService();
-    //let timesheetID = $('#edtTimesheetID').val();
-    var employeeName = $('.employee_name').val();
-    var jobName = $('#sltJob').val();
-    var edthourlyRate = $('.hourly_rate').val() || 0;
-    var edthour = $('#txtBookedHoursSpent').val() || 0;
-    var techNotes = $('#txtNotes').val() || '';
-    // var taxcode = $('#sltTaxCode').val();
-    // var accountdesc = $('#txaAccountDescription').val();
-    // var bankaccountname = $('#edtBankAccountName').val();
-    // var bankbsb = $('#edtBSB').val();
-    // var bankacountno = $('#edtBankAccountNo').val();
-    // let isBankAccount = templateObject.isBankAccount.get();
-    let data = '';
-      data = {
-        type: "TTimeSheetEntry",
-        fields: {
-          // "EntryDate":"2020-10-12 12:39:14",
-          TimeSheet: [{
-            type: "TTimeSheet",
-            fields: {
-              EmployeeName: employeeName || '',
-              // HourlyRate:50,
-              LabourCost: parseFloat(edthourlyRate) || 0,
-              Allowedit: true,
-              // ChargeRate: 100,
-              Hours: parseInt(edthour) || 0,
-              // OverheadRate: 90,
-              Job: jobName || '',
-              // ServiceName: "Test"|| '',
-              TimeSheetClassName: "Default" || '',
-              Notes: techNotes || ''
-              // EntryDate: accountdesc|| ''
+    'click #btnClockOnOff': function (event) {
+        const templateObject = Template.instance();
+        $('#startTime').prop('disabled', false);
+        $('#dtSODate').prop('disabled', false);
+        let clockList = templateObject.clockonclockoff.get();
+        if (clockList.length > 0) {
+            let startTime = clockList[clockList.length - 1].startTime;
+            let endTime = clockList[clockList.length - 1].endTime;
+            let date = clockList[clockList.length - 1].date;
+            if (startTime != "" && endTime == "") {
+                $('#startTime').val(startTime.split(' ')[1]);
+                $('#dtSODate').val(moment(date).format('DD/MM/YYYY'));
+                $('#updateID').val(clockList[clockList.length - 1].id);
+                $('#txtNotes').val(clockList[clockList.length - 1].notes);
+                $('#startTime').prop('disabled', true);
+                $('#dtSODate').prop('disabled', true);
             }
-          }],
-          "TypeName": "Payroll",
-          "WhoEntered": Session.get('mySessionEmployee') || ""
+
         }
-      };
-      contactService.saveTimeSheet(data).then(function (data) {
-       window.open('/timesheet', '_self');
-      }).catch(function (err) {
-        swal({
-          title: 'Oooops...',
-          text: err,
-          type: 'error',
-          showCancelButton: false,
-          confirmButtonText: 'Try Again'
-        }).then((result) => {
-          if (result.value) {
-            // Meteor._reload.reload();
-          } else if (result.dismiss === 'cancel') {
+        $('#settingsModal').modal('show');
+    },
+    'click #btnClockOn': function () {
+        const templateObject = Template.instance();
+        $("#startTime").val(moment().startOf('hour').format('HH') + ":" + moment().startOf('minute').format('mm'));
+        let date = new Date();
+        let date1 = date.getFullYear() + "-" + ("0" + (date.getMonth() + 1)).slice(-2) + "-" + ("0" + (date.getDate())).slice(-2);
+        var endTime = new Date(date1 + ' ' + document.getElementById("endTime").value + ':00');
+        var startTime = new Date(date1 + ' ' + document.getElementById("startTime").value + ':00');
+        if (endTime > startTime) {
+            document.getElementById('txtBookedHoursSpent').value = parseFloat(templateObject.diff_hours(endTime, startTime)).toFixed(2);
+        }
+    },
+    'click .btnSaveTimeSheet': function () {
+        $('.fullScreenSpin').css('display', 'inline-block');
+        let templateObject = Template.instance();
+        let checkStatus = "";
+        let checkStartTime = "";
+        let checkEndTime = "";
+        let updateID = $("#updateID").val() || "";
+        let contactService = new ContactService();
 
-          }
-        });
-        $('.fullScreenSpin').css('display', 'none');
-      });
+        let clockList = templateObject.clockonclockoff.get();
+        if (clockList.length > 0) {
+            checkStatus = clockList[clockList.length - 1].status || "";
+            checkStartTime = clockList[clockList.length - 1].startTime || "";
+            checkEndTime = clockList[clockList.length - 1].endTime || "";
+        }
 
-  },
-  'click #btnClockOff': function () {
-    const templateObject = Template.instance();
-    let date = new Date();
-    document.getElementById("endTime").value = moment().startOf('hour').format('HH') + ":" + moment().startOf('minute').format('mm');
-    let date1 = date.getFullYear() + "-" + ("0" + (date.getMonth() + 1)).slice(-2) + "-" + ("0" + (date.getDate())).slice(-2);
-    var endTime = new Date(date1 + ' ' + document.getElementById("endTime").value + ':00');
-    var startTime = new Date(date1 + ' ' + document.getElementById("startTime").value + ':00');
-    document.getElementById('txtBookedHoursSpent').value = parseFloat(templateObject.diff_hours(endTime, startTime)).toFixed(2);
-  },
-  'change #startTime': function () {
-    const templateObject = Template.instance();
-    let date1 = document.getElementById("dtSODate").value;
-    let date = new Date();
-    if (date1 == "") {
-      date1 = ("0" + date.getDate()).toString().slice(-2) + "/" + ("0" + (date.getMonth() + 1)).toString().slice(-2) + "/" + date.getFullYear();
-    } else {
-      date1 = templateObject.dateFormat(date1);
-    }
-    var endTime = new Date(date1 + ' ' + document.getElementById("endTime").value + ':00');
-    var startTime = new Date(date1 + ' ' + document.getElementById("startTime").value + ':00');
-    if (endTime > startTime) {
-      document.getElementById('txtBookedHoursSpent').value = parseFloat(templateObject.diff_hours(endTime, startTime)).toFixed(2);
-    } else {
 
-    }
-  },
-  'change #endTime': function () {
-    const templateObject = Template.instance();
-    let date1 = document.getElementById("dtSODate").value;
-    let date = new Date();
-    if (date1 == "") {
-      date1 = ("0" + date.getDate()).toString().slice(-2) + "/" + ("0" + (date.getMonth() + 1)).toString().slice(-2) + "/" + date.getFullYear();
-    } else {
-      date1 = templateObject.dateFormat(date1);
-    }
-    var endTime = new Date(date1 + ' ' + document.getElementById("endTime").value + ':00');
-    var startTime = new Date(date1 + ' ' + document.getElementById("startTime").value + ':00');
-    if (endTime > startTime) {
-      document.getElementById('txtBookedHoursSpent').value = parseFloat(templateObject.diff_hours(endTime, startTime)).toFixed(2);
-    } else {
+        var employeeName = $('.employee_name').val();
+        var startdateGet = new Date($("#dtSODate").datepicker("getDate"));
+        let date = startdateGet.getFullYear() + "-" + ("0" + (startdateGet.getMonth() + 1)).slice(-2) + "-" + ("0" + startdateGet.getDate()).slice(-2);
+        var startTime = $('#startTime').val() || '';
+        var endTime = $('#endTime').val() || '';
+        var edthour = $('#txtBookedHoursSpent').val() || 1;
+        var techNotes = $('#txtNotes').val() || '';
+        var hourRate = $('#hourly_rate').val() || '';
+        var jobName = $('#sltJob').val() || '';
+        let toUpdate = {};
+        let data = '';
+        if (startTime != "") {
+            startTime = date + ' ' + startTime;
+        }
 
-    }
-  },
-    'click .btnAddVS1User':function(event){
+        if (endTime != "") {
+            if (hourRate == "" || jobName == "") {
+                $('.fullScreenSpin').css('display', 'none');
+                swal({
+                    title: 'Oooops...',
+                    text: 'Job and Rate field must be completed when Clocking Off',
+                    type: 'warning',
+                    showCancelButton: false,
+                    confirmButtonText: 'Try Again'
+                }).then((result) => {
+                    if (result.value) {
+                        // Meteor._reload.reload();
+                    } else if (result.dismiss === 'cancel') {}
+                });
+                return false;
+            } else {
+                endTime = date + ' ' + endTime;
+            }
+
+        }
+
+         if(edthour < 1) {
+            edthour = 1;
+        }
+
+        if (checkStartTime == "" && endTime != "") {
+            $('.fullScreenSpin').css('display', 'none');
+            swal({
+                title: 'Oooops...',
+                text: "You can't clock off, because you haven't clocked in",
+                type: 'warning',
+                showCancelButton: false,
+                confirmButtonText: 'Try Again'
+            }).then((result) => {
+                if (result.value) {
+                    // Meteor._reload.reload();
+                } else if (result.dismiss === 'cancel') {}
+            });
+            return false;
+        }
+
+        if (checkStartTime == "" && startTime == "") {
+            $('.fullScreenSpin').css('display', 'none');
+            swal({
+                title: 'Oooops...',
+                text: "You can't save this entry with no start time",
+                type: 'warning',
+                showCancelButton: false,
+                confirmButtonText: 'Try Again'
+            }).then((result) => {
+                if (result.value) {
+                    // Meteor._reload.reload();
+                } else if (result.dismiss === 'cancel') {}
+            });
+            return false;
+        }
+
+        if (updateID == "" && endTime == "") {
+            data = {
+                type: "TRoster",
+                fields: {
+                    EmployeeName: employeeName || '',
+                    Date: startTime,
+                    StartTime: startTime,
+                    EndTime: endTime,
+                    // isClocked: true,
+                    RosterType: "Clocked",
+                    Hours: parseInt(edthour),
+                    Status: "ClockIn" || '',
+                    Notes: techNotes || '',
+                    DeptClassName: "Default",
+                    TypeCatagory: "Allocation"
+                    // EntryDate: accountdesc|| ''
+                }
+            }
+
+            contactService.saveClockonClockOff(data).then(function (savedData) {
+                FlowRouter.go('/employeetimeclock');
+            }).catch(function (err) {
+                console.log(err);
+                swal({
+                    title: 'Oooops...',
+                    text: err,
+                    type: 'error',
+                    showCancelButton: false,
+                    confirmButtonText: 'Try Again'
+                }).then((result) => {
+                    if (result.value) {
+                        // Meteor._reload.reload();
+                    } else if (result.dismiss === 'cancel') {}
+                });
+                $('.fullScreenSpin').css('display', 'none');
+            });
+        } else if(updateID != "" && endTime != ""){
+            data = {
+                type: "TRoster",
+                fields: {
+                    ID: updateID,
+                    EmployeeName: employeeName || '',
+                    Date: startTime,
+                    StartTime: startTime,
+                    EndTime: endTime,
+                    isClocked: true,
+                    RosterType: "Clocked",
+                    Hours: parseInt(edthour),
+                    Status: "ClockIn" || '',
+                    Notes: techNotes || '',
+                    DeptClassName: "Default",
+                    TypeCatagory: "Allocation"
+                    // EntryDate: accountdesc|| ''
+                }
+            }
+
+            contactService.saveClockonClockOff(data).then(function (savedData) {
+                let timesheetData = {
+                    type: "TTimeSheetEntry",
+                    fields: {
+                        // "EntryDate":"2020-10-12 12:39:14",
+                        TimeSheet: [{
+                                type: "TTimeSheet",
+                                fields: {
+                                    EmployeeName: employeeName || '',
+                                    // HourlyRate:50,
+                                    LabourCost: parseFloat(hourRate) || 0,
+                                    Allowedit: true,
+                                    // ChargeRate: 100,
+                                    Hours: parseInt(edthour) || 0,
+                                    // OverheadRate: 90,
+                                    Job: jobName || '',
+                                    // ServiceName: "Test"|| '',
+                                    TimeSheetClassName: "Default" || '',
+                                    Notes: techNotes || ''
+                                    // EntryDate: accountdesc|| ''
+                                }
+                            }
+                        ],
+                        "TypeName": "Payroll",
+                        "WhoEntered": Session.get('mySessionEmployee') || ""
+                    }
+                };
+
+                contactService.saveTimeSheet(timesheetData).then(function (data) {
+                    window.open('/timesheet', '_self');
+                }).catch(function (err) {
+                    swal({
+                        title: 'Oooops...',
+                        text: err,
+                        type: 'error',
+                        showCancelButton: false,
+                        confirmButtonText: 'Try Again'
+                    }).then((result) => {
+                        if (result.value) {
+                            // Meteor._reload.reload();
+                        } else if (result.dismiss === 'cancel') {}
+                    });
+                    $('.fullScreenSpin').css('display', 'none');
+                });
+
+                // contactService.saveClockonClockOff(toUpdate).then(function (data) {
+                //     FlowRouter.go('/employeetimeclock');
+                // })
+            }).catch(function (err) {
+                console.log(err);
+                swal({
+                    title: 'Oooops...',
+                    text: err,
+                    type: 'error',
+                    showCancelButton: false,
+                    confirmButtonText: 'Try Again'
+                }).then((result) => {
+                    if (result.value) {
+                        // Meteor._reload.reload();
+                    } else if (result.dismiss === 'cancel') {}
+                });
+                $('.fullScreenSpin').css('display', 'none');
+            });
+
+        } else if(updateID != "" && endTime == "") {
+            data = {
+                type: "TRoster",
+                fields: {
+                    ID: updateID,
+                    EmployeeName: employeeName || '',
+                    Date: startTime,
+                    StartTime: startTime,
+                    RosterType: "Clocked",
+                    Hours: parseInt(edthour),
+                    Status: "ClockIn" || '',
+                    Notes: techNotes || '',
+                    DeptClassName: "Default",
+                    TypeCatagory: "Allocation"
+                    // EntryDate: accountdesc|| ''
+                }
+            }
+
+
+            contactService.saveClockonClockOff(data).then(function (savedData) {
+                FlowRouter.go('/employeetimeclock');
+            }).catch(function (err) {
+                console.log(err);
+                swal({
+                    title: 'Oooops...',
+                    text: err,
+                    type: 'error',
+                    showCancelButton: false,
+                    confirmButtonText: 'Try Again'
+                }).then((result) => {
+                    if (result.value) {
+                        // Meteor._reload.reload();
+                    } else if (result.dismiss === 'cancel') {}
+                });
+                $('.fullScreenSpin').css('display', 'none');
+            });
+
+        }
+
+    },
+    'click #btnClockOff': function () {
+        const templateObject = Template.instance();
+        let date = new Date();
+        document.getElementById("endTime").value = moment().startOf('hour').format('HH') + ":" + moment().startOf('minute').format('mm');
+        let date1 = date.getFullYear() + "-" + ("0" + (date.getMonth() + 1)).slice(-2) + "-" + ("0" + (date.getDate())).slice(-2);
+        var endTime = new Date(date1 + ' ' + document.getElementById("endTime").value + ':00');
+        var startTime = new Date(date1 + ' ' + document.getElementById("startTime").value + ':00');
+        document.getElementById('txtBookedHoursSpent').value = parseFloat(templateObject.diff_hours(endTime, startTime)).toFixed(2);
+    },
+    'change #startTime': function () {
+        const templateObject = Template.instance();
+        let date1 = document.getElementById("dtSODate").value;
+        let date = new Date();
+        if (date1 == "") {
+            date1 = ("0" + date.getDate()).toString().slice(-2) + "/" + ("0" + (date.getMonth() + 1)).toString().slice(-2) + "/" + date.getFullYear();
+        } else {
+            date1 = templateObject.dateFormat(date1);
+        }
+        var endTime = new Date(date1 + ' ' + document.getElementById("endTime").value + ':00');
+        var startTime = new Date(date1 + ' ' + document.getElementById("startTime").value + ':00');
+        if (endTime > startTime) {
+            document.getElementById('txtBookedHoursSpent').value = parseFloat(templateObject.diff_hours(endTime, startTime)).toFixed(2);
+        } else {}
+    },
+    'change #endTime': function () {
+        const templateObject = Template.instance();
+        let date1 = document.getElementById("dtSODate").value;
+        let date = new Date();
+        if (date1 == "") {
+            date1 = ("0" + date.getDate()).toString().slice(-2) + "/" + ("0" + (date.getMonth() + 1)).toString().slice(-2) + "/" + date.getFullYear();
+        } else {
+            date1 = templateObject.dateFormat(date1);
+        }
+        var endTime = new Date(date1 + ' ' + document.getElementById("endTime").value + ':00');
+        var startTime = new Date(date1 + ' ' + document.getElementById("startTime").value + ':00');
+        if (endTime > startTime) {
+            document.getElementById('txtBookedHoursSpent').value = parseFloat(templateObject.diff_hours(endTime, startTime)).toFixed(2);
+        } else {}
+    },
+    'click .btnTimesheetList': function (event) {
+        $('.modal-backdrop').css('display', 'none');
+        let id = $('#employee_name').val();
+        if (id) {
+            FlowRouter.go('/employeetimeclock?employee=' + id);
+        }
+    },
+    'click .btnAddVS1User': function (event) {
         swal({
             title: 'Is this an existing Employee?',
             text: '',
@@ -782,38 +992,45 @@ Template.payrolloverview.events({
             }
         })
     },
-    'click .chkDatatable' : function(event){
+    'click .chkDatatable': function (event) {
         var columns = $('#tblEmployeelist th');
         let columnDataValue = $(event.target).closest("div").find(".divcolumn").text();
 
-        $.each(columns, function(i,v) {
+        $.each(columns, function (i, v) {
             let className = v.classList;
             let replaceClass = className[1];
 
-            if(v.innerText == columnDataValue){
-                if($(event.target).is(':checked')){
-                    $("."+replaceClass+"").css('display','table-cell');
-                    $("."+replaceClass+"").css('padding','.75rem');
-                    $("."+replaceClass+"").css('vertical-align','top');
-                }else{
-                    $("."+replaceClass+"").css('display','none');
+            if (v.innerText == columnDataValue) {
+                if ($(event.target).is(':checked')) {
+                    $("." + replaceClass + "").css('display', 'table-cell');
+                    $("." + replaceClass + "").css('padding', '.75rem');
+                    $("." + replaceClass + "").css('vertical-align', 'top');
+                } else {
+                    $("." + replaceClass + "").css('display', 'none');
                 }
             }
         });
     },
-    'click .resetTable' : function(event){
-        var getcurrentCloudDetails = CloudUser.findOne({_id:Session.get('mycloudLogonID'),clouddatabaseID:Session.get('mycloudLogonDBID')});
-        if(getcurrentCloudDetails){
+    'click .resetTable': function (event) {
+        var getcurrentCloudDetails = CloudUser.findOne({
+            _id: Session.get('mycloudLogonID'),
+            clouddatabaseID: Session.get('mycloudLogonDBID')
+        });
+        if (getcurrentCloudDetails) {
             if (getcurrentCloudDetails._id.length > 0) {
                 var clientID = getcurrentCloudDetails._id;
                 var clientUsername = getcurrentCloudDetails.cloudUsername;
                 var clientEmail = getcurrentCloudDetails.cloudEmail;
-                var checkPrefDetails = CloudPreference.findOne({userid:clientID,PrefName:'tblEmployeelist'});
+                var checkPrefDetails = CloudPreference.findOne({
+                    userid: clientID,
+                    PrefName: 'tblEmployeelist'
+                });
                 if (checkPrefDetails) {
-                    CloudPreference.remove({_id:checkPrefDetails._id}, function(err, idTag) {
-                        if (err) {
-
-                        }else{
+                    CloudPreference.remove({
+                        _id: checkPrefDetails._id
+                    }, function (err, idTag) {
+                        if (err) {}
+                        else {
                             Meteor._reload.reload();
                         }
                     });
@@ -822,17 +1039,17 @@ Template.payrolloverview.events({
             }
         }
     },
-    'click .saveTable' : function(event){
+    'click .saveTable': function (event) {
         let lineItems = [];
         $('.columnSettings').each(function (index) {
             var $tblrow = $(this);
-            var colTitle = $tblrow.find(".divcolumn").text()||'';
-            var colWidth = $tblrow.find(".custom-range").val()||0;
-            var colthClass = $tblrow.find(".divcolumn").attr("valueupdate")||'';
+            var colTitle = $tblrow.find(".divcolumn").text() || '';
+            var colWidth = $tblrow.find(".custom-range").val() || 0;
+            var colthClass = $tblrow.find(".divcolumn").attr("valueupdate") || '';
             var colHidden = false;
-            if($tblrow.find(".custom-control-input").is(':checked')){
+            if ($tblrow.find(".custom-control-input").is(':checked')) {
                 colHidden = false;
-            }else{
+            } else {
                 colHidden = true;
             }
             let lineItemObj = {
@@ -846,18 +1063,34 @@ Template.payrolloverview.events({
             lineItems.push(lineItemObj);
         });
 
-        var getcurrentCloudDetails = CloudUser.findOne({_id:Session.get('mycloudLogonID'),clouddatabaseID:Session.get('mycloudLogonDBID')});
-        if(getcurrentCloudDetails){
+        var getcurrentCloudDetails = CloudUser.findOne({
+            _id: Session.get('mycloudLogonID'),
+            clouddatabaseID: Session.get('mycloudLogonDBID')
+        });
+        if (getcurrentCloudDetails) {
             if (getcurrentCloudDetails._id.length > 0) {
                 var clientID = getcurrentCloudDetails._id;
                 var clientUsername = getcurrentCloudDetails.cloudUsername;
                 var clientEmail = getcurrentCloudDetails.cloudEmail;
-                var checkPrefDetails = CloudPreference.findOne({userid:clientID,PrefName:'tblEmployeelist'});
+                var checkPrefDetails = CloudPreference.findOne({
+                    userid: clientID,
+                    PrefName: 'tblEmployeelist'
+                });
                 if (checkPrefDetails) {
-                    CloudPreference.update({_id: checkPrefDetails._id},{$set: { userid: clientID,username:clientUsername,useremail:clientEmail,
-                                                                               PrefGroup:'salesform',PrefName:'tblEmployeelist',published:true,
-                                                                               customFields:lineItems,
-                                                                               updatedAt: new Date() }}, function(err, idTag) {
+                    CloudPreference.update({
+                        _id: checkPrefDetails._id
+                    }, {
+                        $set: {
+                            userid: clientID,
+                            username: clientUsername,
+                            useremail: clientEmail,
+                            PrefGroup: 'salesform',
+                            PrefName: 'tblEmployeelist',
+                            published: true,
+                            customFields: lineItems,
+                            updatedAt: new Date()
+                        }
+                    }, function (err, idTag) {
                         if (err) {
                             $('#myModal2').modal('toggle');
                         } else {
@@ -865,11 +1098,17 @@ Template.payrolloverview.events({
                         }
                     });
 
-                }else{
-                    CloudPreference.insert({ userid: clientID,username:clientUsername,useremail:clientEmail,
-                                            PrefGroup:'salesform',PrefName:'tblEmployeelist',published:true,
-                                            customFields:lineItems,
-                                            createdAt: new Date() }, function(err, idTag) {
+                } else {
+                    CloudPreference.insert({
+                        userid: clientID,
+                        username: clientUsername,
+                        useremail: clientEmail,
+                        PrefGroup: 'salesform',
+                        PrefName: 'tblEmployeelist',
+                        published: true,
+                        customFields: lineItems,
+                        createdAt: new Date()
+                    }, function (err, idTag) {
                         if (err) {
                             $('#myModal2').modal('toggle');
                         } else {
@@ -882,33 +1121,33 @@ Template.payrolloverview.events({
         }
 
     },
-    'blur .divcolumn' : function(event){
+    'blur .divcolumn': function (event) {
         let columData = $(event.target).text();
 
         let columnDatanIndex = $(event.target).closest("div.columnSettings").attr('id');
         var datable = $('#tblEmployeelist').DataTable();
-        var title = datable.column( columnDatanIndex ).header();
+        var title = datable.column(columnDatanIndex).header();
         $(title).html(columData);
 
     },
-    'change .rngRange' : function(event){
+    'change .rngRange': function (event) {
         let range = $(event.target).val();
-        $(event.target).closest("div.divColWidth").find(".spWidth").html(range+'px');
+        $(event.target).closest("div.divColWidth").find(".spWidth").html(range + 'px');
 
         let columData = $(event.target).closest("div.divColWidth").find(".spWidth").attr("value");
         let columnDataValue = $(event.target).closest("div").prev().find(".divcolumn").text();
         var datable = $('#tblEmployeelist th');
-        $.each(datable, function(i,v) {
-            if(v.innerText == columnDataValue){
+        $.each(datable, function (i, v) {
+            if (v.innerText == columnDataValue) {
                 let className = v.className;
                 let replaceClass = className.replace(/ /g, ".");
-                $("."+replaceClass+"").css('width',range+'px');
+                $("." + replaceClass + "").css('width', range + 'px');
 
             }
         });
 
     },
-    'click .btnOpenSettings' : function(event){
+    'click .btnOpenSettings': function (event) {
         let templateObject = Template.instance();
         var columns = $('#tblEmployeelist th');
 
@@ -919,11 +1158,11 @@ Template.payrolloverview.events({
         let sVisible = "";
         let columVisible = false;
         let sClass = "";
-        $.each(columns, function(i,v) {
-            if(v.hidden == false){
-                columVisible =  true;
+        $.each(columns, function (i, v) {
+            if (v.hidden == false) {
+                columVisible = true;
             }
-            if((v.className.includes("hiddenColumn"))){
+            if ((v.className.includes("hiddenColumn"))) {
                 columVisible = false;
             }
             sWidth = v.style.width.replace('px', "");
@@ -939,9 +1178,223 @@ Template.payrolloverview.events({
         templateObject.tableheaderrecords.set(tableHeaderList);
     },
     'click #btnHold': function (event) {
-        $('#frmOnHoldModal').modal();
+        $('#frmOnHoldModal').modal('show');
     },
-   'change #lunch': function (event) {
+    'click .btnPauseJob': function (event) {
+
+        $('.fullScreenSpin').css('display', 'inline-block');
+        templateObject = Template.instance();
+        let contactService = new ContactService();
+        let checkStatus = "";
+        let checkStartTime = "";
+        let checkEndTime = "";
+        let updateID = $("#updateID").val() || "";
+        let type = "Break";
+        if ($('#break').is(":checked")) {
+            type = $('#break').val();
+        } else if ($('#lunch').is(":checked")) {
+            type = $('#lunch').val();
+        } else if ($('#purchase').is(":checked")) {
+            type = $('#purchase').val();
+        } else {
+            swal({
+                title: 'Please Select Option',
+                text: 'Please select Break, Lunch or Purchase Option',
+                type: 'info',
+                showCancelButton: false,
+                confirmButtonText: 'Try Again'
+            }).then((results) => {
+                if (results.value) {}
+                else if (results.dismiss === 'cancel') {}
+            });
+            $('.fullScreenSpin').css('display', 'none');
+            return false;
+        }
+
+        if(updateID == "") {
+            swal({
+                title: 'Oooops...',
+                text: 'Please save this entry before Pausing it',
+                type: 'info',
+                showCancelButton: false,
+                confirmButtonText: 'Try Again'
+            }).then((results) => {
+                if (results.value) {}
+                else if (results.dismiss === 'cancel') {}
+            });
+            $('.fullScreenSpin').css('display', 'none');
+            return false;
+        }
+
+
+
+        let clockList = templateObject.clockonclockoff.get();
+        if (clockList.length > 0) {
+            checkStatus = clockList[clockList.length - 1].status || "";
+            checkStartTime = clockList[clockList.length - 1].startTime || "";
+            checkEndTime = clockList[clockList.length - 1].endTime || "";
+        }
+
+
+        var employeeName = $('.employee_name').val();
+        var startdateGet = new Date($("#dtSODate").datepicker("getDate"));
+        let date = startdateGet.getFullYear() + "-" + ("0" + (startdateGet.getMonth() + 1)).slice(-2) + "-" + ("0" + startdateGet.getDate()).slice(-2);
+        var startTime = $('#startTime').val() || '';
+        var endTime = $('#endTime').val() ||  ("0" + startdateGet.getHours()).slice(-2) +':'+ ("0" + startdateGet.getMinutes()).slice(-2);
+        var edthour = $('#txtBookedHoursSpent').val() || 1;
+        var techNotes = type + " : "+ $('#txtpause-notes').val() || '';
+        var hourRate = $('#hourly_rate').val() || '';
+        var jobName = $('#sltJob').val() || '';
+        let toUpdate = {};
+        let data = '';
+        if (startTime != "") {
+            startTime = date + ' ' + startTime;
+        }
+
+
+         if(edthour < 1) {
+            edthour = 1;
+        }
+
+        if (endTime != "") {
+            if (hourRate == "" || jobName == "") {
+                $('.fullScreenSpin').css('display', 'none');
+                swal({
+                    title: 'Oooops...',
+                    text: 'Job and Rate field must be completed when Pausing entry',
+                    type: 'warning',
+                    showCancelButton: false,
+                    confirmButtonText: 'Try Again'
+                }).then((result) => {
+                    if (result.value) {
+                        // Meteor._reload.reload();
+                    } else if (result.dismiss === 'cancel') {}
+                });
+                return false;
+            } else {
+                endTime = date + ' ' + endTime;
+            }
+
+        }
+
+         if(checkEndTime != "") {
+            swal({
+                title: 'Oooops...',
+                text: 'You cant Pause entry that has been completed',
+                type: 'info',
+                showCancelButton: false,
+                confirmButtonText: 'Try Again'
+            }).then((results) => {
+                if (results.value) {}
+                else if (results.dismiss === 'cancel') {}
+            });
+            $('.fullScreenSpin').css('display', 'none');
+            return false;
+        }
+
+
+
+        if (checkStartTime == "" && startTime == "") {
+            $('.fullScreenSpin').css('display', 'none');
+            swal({
+                title: 'Oooops...',
+                text: "You can't Pause this entry with no start time",
+                type: 'warning',
+                showCancelButton: false,
+                confirmButtonText: 'Try Again'
+            }).then((result) => {
+                if (result.value) {
+                    // Meteor._reload.reload();
+                } else if (result.dismiss === 'cancel') {}
+            });
+            return false;
+        }
+
+            data = {
+                type: "TRoster",
+                fields: {
+                    ID: updateID,
+                    EmployeeName: employeeName || '',
+                    Date: startTime,
+                    StartTime: startTime,
+                    EndTime: endTime,
+                    isClocked: true,
+                    RosterType: "Clocked",
+                    Hours: parseInt(edthour),
+                    Status: "ClockIn" || '',
+                    Notes: techNotes || '',
+                    DeptClassName: "Default",
+                    TypeCatagory: "Allocation"
+                    // EntryDate: accountdesc|| ''
+                }
+            }
+
+            contactService.saveClockonClockOff(data).then(function (savedData) {
+                let timesheetData = {
+                    type: "TTimeSheetEntry",
+                    fields: {
+                        // "EntryDate":"2020-10-12 12:39:14",
+                        TimeSheet: [{
+                                type: "TTimeSheet",
+                                fields: {
+                                    EmployeeName: employeeName || '',
+                                    // HourlyRate:50,
+                                    LabourCost: parseFloat(hourRate) || 0,
+                                    Allowedit: true,
+                                    // ChargeRate: 100,
+                                    Hours: parseInt(edthour) || 0,
+                                    // OverheadRate: 90,
+                                    Job: jobName || '',
+                                    // ServiceName: "Test"|| '',
+                                    TimeSheetClassName: "Default" || '',
+                                    Notes: techNotes || ''
+                                    // EntryDate: accountdesc|| ''
+                                }
+                            }
+                        ],
+                        "TypeName": "Payroll",
+                        "WhoEntered": Session.get('mySessionEmployee') || ""
+                    }
+                };
+
+                contactService.saveTimeSheet(timesheetData).then(function (data) {
+                    window.open('/timesheet', '_self');
+                }).catch(function (err) {
+                    swal({
+                        title: 'Oooops...',
+                        text: err,
+                        type: 'error',
+                        showCancelButton: false,
+                        confirmButtonText: 'Try Again'
+                    }).then((result) => {
+                        if (result.value) {
+                            // Meteor._reload.reload();
+                        } else if (result.dismiss === 'cancel') {}
+                    });
+                    $('.fullScreenSpin').css('display', 'none');
+                });
+
+                // contactService.saveClockonClockOff(toUpdate).then(function (data) {
+                //     FlowRouter.go('/employeetimeclock');
+                // })
+            }).catch(function (err) {
+                console.log(err);
+                swal({
+                    title: 'Oooops...',
+                    text: err,
+                    type: 'error',
+                    showCancelButton: false,
+                    confirmButtonText: 'Try Again'
+                }).then((result) => {
+                    if (result.value) {
+                        // Meteor._reload.reload();
+                    } else if (result.dismiss === 'cancel') {}
+                });
+                $('.fullScreenSpin').css('display', 'none');
+            });
+        
+    },
+    'change #lunch': function (event) {
         $('#break').prop('checked', false);
         $('#purchase').prop('checked', false);
     },
@@ -954,60 +1407,54 @@ Template.payrolloverview.events({
         $('#lunch').prop('checked', false);
     },
     'click .exportbtn': function () {
-        $('.fullScreenSpin').css('display','inline-block');
+        $('.fullScreenSpin').css('display', 'inline-block');
         jQuery('#tblEmployeelist_wrapper .dt-buttons .btntabletocsv').click();
-        $('.fullScreenSpin').css('display','none');
+        $('.fullScreenSpin').css('display', 'none');
 
     },
     'click .exportbtnExcel': function () {
-        $('.fullScreenSpin').css('display','inline-block');
+        $('.fullScreenSpin').css('display', 'inline-block');
         jQuery('#tblEmployeelist_wrapper .dt-buttons .btntabletoexcel').click();
-        $('.fullScreenSpin').css('display','none');
+        $('.fullScreenSpin').css('display', 'none');
     },
     'click .btnRefresh': function () {
 
-        $('.fullScreenSpin').css('display','inline-block');
+        $('.fullScreenSpin').css('display', 'inline-block');
         let templateObject = Template.instance();
         sideBarService.getAllAppointmentPredList().then(function (data) {
-            addVS1Data('TAppointmentPreferences', JSON.stringify(data)).then(function (datareturn) {
-
+            addVS1Data('TAppointmentPreferences', JSON.stringify(data)).then(function (datareturn) {}).catch(function (err) {});
+        }).catch(function (err) {});
+        sideBarService.getAllEmployees(initialBaseDataLoad, 0).then(function (data) {
+            addVS1Data('TEmployee', JSON.stringify(data)).then(function (datareturn) {
+                window.open('/employeelist', '_self');
             }).catch(function (err) {
-
+                window.open('/employeelist', '_self');
             });
         }).catch(function (err) {
-
-        });
-        sideBarService.getAllEmployees(initialBaseDataLoad,0).then(function(data) {
-            addVS1Data('TEmployee',JSON.stringify(data)).then(function (datareturn) {
-                window.open('/employeelist','_self');
-            }).catch(function (err) {
-                window.open('/employeelist','_self');
-            });
-        }).catch(function(err) {
-            window.open('/employeelist','_self');
+            window.open('/employeelist', '_self');
         });
     },
-    'click .printConfirm' : function(event){
+    'click .printConfirm': function (event) {
 
-        $('.fullScreenSpin').css('display','inline-block');
+        $('.fullScreenSpin').css('display', 'inline-block');
         jQuery('#tblEmployeelist_wrapper .dt-buttons .btntabletopdf').click();
-        $('.fullScreenSpin').css('display','none');
+        $('.fullScreenSpin').css('display', 'none');
     },
     'click .templateDownload': function () {
         let utilityService = new UtilityService();
-        let rows =[];
-        const filename = 'SampleEmployee'+'.csv';
-        rows[0]= ['First Name', 'Last Name', 'Phone','Mobile', 'Email','Skype', 'Street', 'City/Suburb', 'State', 'Post Code', 'Country', 'Gender'];
-        rows[1]= ['John', 'Smith', '9995551213','9995551213', 'johnsmith@email.com','johnsmith', '123 Main Street', 'Brooklyn', 'New York', '1234', 'United States', 'M'];
-        rows[1]= ['Jane', 'Smith', '9995551213','9995551213', 'janesmith@email.com','janesmith', '123 Main Street', 'Brooklyn', 'New York', '1234', 'United States', 'F'];
+        let rows = [];
+        const filename = 'SampleEmployee' + '.csv';
+        rows[0] = ['First Name', 'Last Name', 'Phone', 'Mobile', 'Email', 'Skype', 'Street', 'City/Suburb', 'State', 'Post Code', 'Country', 'Gender'];
+        rows[1] = ['John', 'Smith', '9995551213', '9995551213', 'johnsmith@email.com', 'johnsmith', '123 Main Street', 'Brooklyn', 'New York', '1234', 'United States', 'M'];
+        rows[1] = ['Jane', 'Smith', '9995551213', '9995551213', 'janesmith@email.com', 'janesmith', '123 Main Street', 'Brooklyn', 'New York', '1234', 'United States', 'F'];
         utilityService.exportToCsv(rows, filename, 'csv');
     },
     'click .templateDownloadXLSX': function (e) {
 
-        e.preventDefault();  //stop the browser from following
+        e.preventDefault(); //stop the browser from following
         window.location.href = 'sample_imports/SampleEmployee.xlsx';
     },
-    'click .btnUploadFile':function(event){
+    'click .btnUploadFile': function (event) {
         $('#attachment-upload').val('');
         $('.file-name').text('');
         //$(".btnImport").removeAttr("disabled");
@@ -1018,25 +1465,25 @@ Template.payrolloverview.events({
         let templateObj = Template.instance();
         var filename = $('#attachment-upload')[0].files[0]['name'];
         var fileExtension = filename.split('.').pop().toLowerCase();
-        var validExtensions = ["csv","txt","xlsx"];
-        var validCSVExtensions = ["csv","txt"];
-        var validExcelExtensions = ["xlsx","xls"];
+        var validExtensions = ["csv", "txt", "xlsx"];
+        var validCSVExtensions = ["csv", "txt"];
+        var validExcelExtensions = ["xlsx", "xls"];
 
         if (validExtensions.indexOf(fileExtension) == -1) {
             swal('Invalid Format', 'formats allowed are :' + validExtensions.join(', '), 'error');
             $('.file-name').text('');
             $(".btnImport").Attr("disabled");
-        }else if(validCSVExtensions.indexOf(fileExtension) != -1){
+        } else if (validCSVExtensions.indexOf(fileExtension) != -1) {
 
             $('.file-name').text(filename);
             let selectedFile = event.target.files[0];
             templateObj.selectedFile.set(selectedFile);
-            if($('.file-name').text() != ""){
+            if ($('.file-name').text() != "") {
                 $(".btnImport").removeAttr("disabled");
-            }else{
+            } else {
                 $(".btnImport").Attr("disabled");
             }
-        }else if(fileExtension == 'xlsx'){
+        } else if (fileExtension == 'xlsx') {
             $('.file-name').text(filename);
             let selectedFile = event.target.files[0];
             var oFileIn;
@@ -1049,34 +1496,37 @@ Template.payrolloverview.events({
             reader.onload = function (e) {
                 var data = e.target.result;
                 data = new Uint8Array(data);
-                var workbook = XLSX.read(data, {type: 'array'});
+                var workbook = XLSX.read(data, {
+                    type: 'array'
+                });
 
                 var result = {};
                 workbook.SheetNames.forEach(function (sheetName) {
-                    var roa = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName], {header: 1});
+                    var roa = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName], {
+                        header: 1
+                    });
                     var sCSV = XLSX.utils.make_csv(workbook.Sheets[sheetName]);
                     templateObj.selectedFile.set(sCSV);
 
-                    if (roa.length) result[sheetName] = roa;
+                    if (roa.length)
+                        result[sheetName] = roa;
                 });
                 // see the result, caution: it works after reader event is done.
 
             };
             reader.readAsArrayBuffer(oFile);
 
-            if($('.file-name').text() != ""){
+            if ($('.file-name').text() != "") {
                 $(".btnImport").removeAttr("disabled");
-            }else{
+            } else {
                 $(".btnImport").Attr("disabled");
             }
 
         }
 
-
-
     },
-    'click .btnImport' : function () {
-        $('.fullScreenSpin').css('display','inline-block');
+    'click .btnImport': function () {
+        $('.fullScreenSpin').css('display', 'inline-block');
         let templateObject = Template.instance();
         let contactService = new ContactService();
         let objDetails;
@@ -1084,44 +1534,43 @@ Template.payrolloverview.events({
         //let empStartDate = new Date().format("YYYY-MM-DD");
         var empStartDate = moment(saledateTime).format("YYYY-MM-DD");
         Papa.parse(templateObject.selectedFile.get(), {
-            complete: function(results) {
+            complete: function (results) {
 
-                if(results.data.length > 0){
-                    if( (results.data[0][0] == "First Name")
-                       && (results.data[0][1] == "Last Name") && (results.data[0][2] == "Phone")
-                       && (results.data[0][3] == "Mobile") && (results.data[0][4] == "Email")
-                       && (results.data[0][5] == "Skype") && (results.data[0][6] == "Street")
-                       && ((results.data[0][7] == "Street2")|| (results.data[0][7] == "City/Suburb")) && (results.data[0][8] == "State")
-                       && (results.data[0][9] == "Post Code") && (results.data[0][10] == "Country")
-                       && (results.data[0][11] == "Gender")) {
+                if (results.data.length > 0) {
+                    if ((results.data[0][0] == "First Name")
+                         && (results.data[0][1] == "Last Name") && (results.data[0][2] == "Phone")
+                         && (results.data[0][3] == "Mobile") && (results.data[0][4] == "Email")
+                         && (results.data[0][5] == "Skype") && (results.data[0][6] == "Street")
+                         && ((results.data[0][7] == "Street2") || (results.data[0][7] == "City/Suburb")) && (results.data[0][8] == "State")
+                         && (results.data[0][9] == "Post Code") && (results.data[0][10] == "Country")
+                         && (results.data[0][11] == "Gender")) {
 
                         let dataLength = results.data.length * 500;
-                        setTimeout(function(){
+                        setTimeout(function () {
                             // $('#importModal').modal('toggle');
                             //Meteor._reload.reload();
-                            window.open('/employeelist?success=true','_self');
-                        },parseInt(dataLength));
+                            window.open('/employeelist?success=true', '_self');
+                        }, parseInt(dataLength));
 
-                        for (let i = 0; i < results.data.length -1; i++) {
+                        for (let i = 0; i < results.data.length - 1; i++) {
                             objDetails = {
                                 type: "TEmployee",
-                                fields:
-                                {
-                                    FirstName: results.data[i+1][0],
-                                    LastName: results.data[i+1][1],
-                                    Phone: results.data[i+1][2],
-                                    Mobile: results.data[i+1][3],
+                                fields: {
+                                    FirstName: results.data[i + 1][0],
+                                    LastName: results.data[i + 1][1],
+                                    Phone: results.data[i + 1][2],
+                                    Mobile: results.data[i + 1][3],
                                     DateStarted: empStartDate,
                                     DOB: empStartDate,
-                                    Sex: results.data[i+1][11]||"F",
-                                    Email: results.data[i+1][4],
-                                    SkypeName: results.data[i+1][5],
-                                    Street: results.data[i+1][6],
-                                    Street2: results.data[i+1][7],
-                                    Suburb: results.data[i+1][7],
-                                    State: results.data[i+1][8],
-                                    PostCode:results.data[i+1][9],
-                                    Country:results.data[i+1][10]
+                                    Sex: results.data[i + 1][11] || "F",
+                                    Email: results.data[i + 1][4],
+                                    SkypeName: results.data[i + 1][5],
+                                    Street: results.data[i + 1][6],
+                                    Street2: results.data[i + 1][7],
+                                    Suburb: results.data[i + 1][7],
+                                    State: results.data[i + 1][8],
+                                    PostCode: results.data[i + 1][9],
+                                    Country: results.data[i + 1][10]
 
                                     // BillStreet: results.data[i+1][6],
                                     // BillStreet2: results.data[i+1][7],
@@ -1130,24 +1579,34 @@ Template.payrolloverview.events({
                                     // Billcountry:results.data[i+1][10]
                                 }
                             };
-                            if(results.data[i+1][1]){
-                                if(results.data[i+1][1] !== "") {
+                            if (results.data[i + 1][1]) {
+                                if (results.data[i + 1][1] !== "") {
                                     contactService.saveEmployee(objDetails).then(function (data) {
                                         ///$('.fullScreenSpin').css('display','none');
                                         //Meteor._reload.reload();
                                     }).catch(function (err) {
                                         //$('.fullScreenSpin').css('display','none');
-                                        swal({ title: 'Oooops...', text: err, type: 'error', showCancelButton: false, confirmButtonText: 'Try Again' }).then((result) => { if (result.value) { Meteor._reload.reload(); } else if (result.dismiss === 'cancel') {}});
+                                        swal({
+                                            title: 'Oooops...',
+                                            text: err,
+                                            type: 'error',
+                                            showCancelButton: false,
+                                            confirmButtonText: 'Try Again'
+                                        }).then((result) => {
+                                            if (result.value) {
+                                                Meteor._reload.reload();
+                                            } else if (result.dismiss === 'cancel') {}
+                                        });
                                     });
                                 }
                             }
                         }
-                    }else{
-                        $('.fullScreenSpin').css('display','none');
+                    } else {
+                        $('.fullScreenSpin').css('display', 'none');
                         swal('Invalid Data Mapping fields ', 'Please check that you are importing the correct file with the correct column headers.', 'error');
                     }
-                }else{
-                    $('.fullScreenSpin').css('display','none');
+                } else {
+                    $('.fullScreenSpin').css('display', 'none');
                     swal('Invalid Data Mapping fields ', 'Please check that you are importing the correct file with the correct column headers.', 'error');
                 }
 
@@ -1155,40 +1614,40 @@ Template.payrolloverview.events({
         });
     }
 
-
 });
 
 Template.payrolloverview.helpers({
-      jobsrecords: () => {
-    return Template.instance().jobsrecords.get().sort(function (a, b) {
-      if (a.jobname == 'NA') {
-        return 1;
-      }
-      else if (b.jobname == 'NA') {
-        return -1;
-      }
-      return (a.jobname.toUpperCase() > b.jobname.toUpperCase()) ? 1 : -1;
-    });
-  },
-    datatablerecords : () => {
-        return Template.instance().datatablerecords.get().sort(function(a, b){
+    jobsrecords: () => {
+        return Template.instance().jobsrecords.get().sort(function (a, b) {
+            if (a.jobname == 'NA') {
+                return 1;
+            } else if (b.jobname == 'NA') {
+                return -1;
+            }
+            return (a.jobname.toUpperCase() > b.jobname.toUpperCase()) ? 1 : -1;
+        });
+    },
+    datatablerecords: () => {
+        return Template.instance().datatablerecords.get().sort(function (a, b) {
             if (a.employeename == 'NA') {
                 return 1;
-            }
-            else if (b.employeename == 'NA') {
+            } else if (b.employeename == 'NA') {
                 return -1;
             }
             return (a.employeename.toUpperCase() > b.employeename.toUpperCase()) ? 1 : -1;
         });
     },
-     edithours: () => {
+    edithours: () => {
         return Session.get('CloudEditTimesheetHours') || false;
     },
     tableheaderrecords: () => {
         return Template.instance().tableheaderrecords.get();
     },
     salesCloudPreferenceRec: () => {
-        return CloudPreference.findOne({userid:Session.get('mycloudLogonID'),PrefName:'tblEmployeelist'});
+        return CloudPreference.findOne({
+            userid: Session.get('mycloudLogonID'),
+            PrefName: 'tblEmployeelist'
+        });
     },
     loggedCompany: () => {
         return localStorage.getItem('mySession') || '';
