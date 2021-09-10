@@ -158,7 +158,7 @@
                                     <!-- <a class="dropdown-item" role="presentation" href="#">&nbsp;Current Month</a> -->
                                     <!-- <div class="dropdown-divider"></div> -->
                                     <!-- <a class="dropdown-item" role="presentation" href="#">&nbsp;Something else here</a> -->
-                                  </div>
+                                </div>
                             </div>
                         </div>
                         <div class="card-body">
@@ -169,7 +169,8 @@
                                     }
                                 </style>
                                 <canvas
-                                    data-bs-chart="{&quot;type&quot;:&quot;line&quot;,&quot;data&quot;:{&quot;labels&quot;:[&quot;2015&quot;,&quot;2016&quot;,&quot;2017&quot;,&quot;2018&quot;,&quot;2019&quot;,&quot;2020&quot;],&quot;datasets&quot;:[{&quot;label&quot;:&quot;Absenteeism Rate (Percentage)&quot;,&quot;backgroundColor&quot;:&quot;rgba(223,78,78,0.43)&quot;,&quot;borderColor&quot;:&quot;#df4e4e&quot;,&quot;data&quot;:[&quot;4.1&quot;,&quot;3.8&quot;,&quot;3.4&quot;,&quot;3.6&quot;,&quot;3&quot;,&quot;2.7&quot;],&quot;fill&quot;:true},{&quot;label&quot;:&quot;Absenteeism in Days&quot;,&quot;backgroundColor&quot;:&quot;rgba(223,78,78,0)&quot;,&quot;borderColor&quot;:&quot;#df4e4e&quot;,&quot;data&quot;:[&quot;8.6&quot;,&quot;8.0&quot;,&quot;7.8&quot;,&quot;6.6&quot;,&quot;5.4&quot;,&quot;4.2&quot;],&quot;fill&quot;:true}]},&quot;options&quot;:{&quot;maintainAspectRatio&quot;:true,&quot;legend&quot;:{&quot;display&quot;:true,&quot;position&quot;:&quot;bottom&quot;,&quot;reverse&quot;:false},&quot;title&quot;:{&quot;display&quot;:false},&quot;scales&quot;:{&quot;xAxes&quot;:[{&quot;gridLines&quot;:{&quot;drawBorder&quot;:true,&quot;drawTicks&quot;:true,&quot;drawOnChartArea&quot;:true},&quot;ticks&quot;:{&quot;beginAtZero&quot;:true}}],&quot;yAxes&quot;:[{&quot;gridLines&quot;:{&quot;drawBorder&quot;:true,&quot;drawTicks&quot;:true,&quot;drawOnChartArea&quot;:true},&quot;ticks&quot;:{&quot;beginAtZero&quot;:true}}]}}}" style="height: 100% !important;"></canvas>
+                                    data-bs-chart="{&quot;type&quot;:&quot;line&quot;,&quot;data&quot;:{&quot;labels&quot;:[&quot;2015&quot;,&quot;2016&quot;,&quot;2017&quot;,&quot;2018&quot;,&quot;2019&quot;,&quot;2020&quot;],&quot;datasets&quot;:[{&quot;label&quot;:&quot;Absenteeism Rate (Percentage)&quot;,&quot;backgroundColor&quot;:&quot;rgba(223,78,78,0.43)&quot;,&quot;borderColor&quot;:&quot;#df4e4e&quot;,&quot;data&quot;:[&quot;4.1&quot;,&quot;3.8&quot;,&quot;3.4&quot;,&quot;3.6&quot;,&quot;3&quot;,&quot;2.7&quot;],&quot;fill&quot;:true},{&quot;label&quot;:&quot;Absenteeism in Days&quot;,&quot;backgroundColor&quot;:&quot;rgba(223,78,78,0)&quot;,&quot;borderColor&quot;:&quot;#df4e4e&quot;,&quot;data&quot;:[&quot;8.6&quot;,&quot;8.0&quot;,&quot;7.8&quot;,&quot;6.6&quot;,&quot;5.4&quot;,&quot;4.2&quot;],&quot;fill&quot;:true}]},&quot;options&quot;:{&quot;maintainAspectRatio&quot;:true,&quot;legend&quot;:{&quot;display&quot;:true,&quot;position&quot;:&quot;bottom&quot;,&quot;reverse&quot;:false},&quot;title&quot;:{&quot;display&quot;:false},&quot;scales&quot;:{&quot;xAxes&quot;:[{&quot;gridLines&quot;:{&quot;drawBorder&quot;:true,&quot;drawTicks&quot;:true,&quot;drawOnChartArea&quot;:true},&quot;ticks&quot;:{&quot;beginAtZero&quot;:true}}],&quot;yAxes&quot;:[{&quot;gridLines&quot;:{&quot;drawBorder&quot;:true,&quot;drawTicks&quot;:true,&quot;drawOnChartArea&quot;:true},&quot;ticks&quot;:{&quot;beginAtZero&quot;:true}}]}}}"
+                                    style="height: 100% !important;"></canvas>
                             </div>
                         </div>
                     </div>
@@ -397,19 +398,109 @@
 
     <!-- End Help Video Modal -->
     <div class="modal fade" role="dialog" tabindex="-1" id="settingsModal">
-        <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h4 style="margin-bottom: 0px;">Clock On/Off</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
                 </div>
-                <div class="modal-body" style="padding: 0px;">
+                <div class="modal-body">
 
-                    <div class="row d-xl-flex flex-column justify-content-xl-center" style="margin: 12px;">
+                    <div class="row">
+                        <div class="col-5">
+                            <div class="form-group" style="margin: 8px 0px;"><label>Employee Name</label><input id="employee_name" name="employee_name" type="text" required class="form-control employee_name" readonly></div>
+                        </div>
+                        <div class="col-5">
+                            <div class="row">
+                                <div class="col-6">
+                                    <div class="form-group" style="margin: 8px 0px;">
+                                        <label>Job Name</label>
+                                        <select class="form-control sltJob" id="sltJob" name="sltJob">
+                                            {{#if jobsrecords}}
+                                                <option value=""></option>
+                                                {{#each itemjob in jobsrecords}}
+                                                    <option value="{{itemjob.jobname}}">{{itemjob.jobname}}</option>
+                                                {{/each}}
+                                            {{/if}}
+                                        </select>
+                                    </div>
+                                </div>
+                                    <div class="col-6">
+                                        <div class="form-group" style="margin: 8px 0px;"><label>Rate</label><input id="hourly_rate" name="hourly_rate" type="text" class="form-control hourly_rate" required></div>
+                                    </div>
+                            </div>
+                        </div>
+                        <div class="col-2">
+                            <div class="form-group" style="margin: 8px 0px;">
+                                <label>Date</label>
+                                <div class="input-group date" style="cursor: pointer;">
+                                    <input type="text" class="form-control formClassDate statementDate" id="dtSODate" name="dtSODate" value="{{invoicerecord.saledate}}">
+                                    <div class="input-group-addon" style="">
+                                        <span class="glyphicon glyphicon-th" style="cursor: pointer;"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-5">
+                            <div class="form-group" style="margin: 8px 0px;">
+                                <label>Notes</label>
+                                <textarea class="border rounded form-control" rows="3" id="txtNotes" name="txtNotes" style="width: 100%; border: 1px solid #d1d3e2 !important;"></textarea>
+                            </div>
+                        </div>
+                        <div class="col-5">
+                            <div class="row">
+                                <div class="col-4">
+                                    <div class="form-group flex-grow-1" style="margin: 8px 0px;">
+                                        <label>Start Time</label><input class="form-control" id="startTime" required name="startTime" type="time">
+                                    </div>
+                                    <button class="btn btn-success btnClockOn" type="submit" style="width: 100%;" id="btnClockOn" name="btnClockOn"><i class="far fa-clock" style="margin-right: 5px;"></i>Clock On</button>
+                                </div>
+                                <div class="col-4">
+                                    <div class="form-group flex-grow-1" style="margin: 8px 0px;"><label>End Time</label><input required class="form-control" id="endTime" name="endTime" type="time"></div>
+                                    <button class="btn btn-warning" type="button" style="width: 100%;" id="btnHold">On Hold</button>
+                                </div>
+                                <div class="col-4">
+                                    {{#if equals edithours true}}
+                                        <div class="form-group flex-grow-1" style="margin: 8px 0px;">
+                                            <label>Hours</label><input type="text" id="txtBookedHoursSpent" name="txtBookedHoursSpent" required class="form-control">
+                                        </div>
+                                    {{else}}
+                                        <div class="form-group flex-grow-1" style="margin: 8px 0px;">
+                                            <label>Hours</label><input type="text" id="txtBookedHoursSpent" name="txtBookedHoursSpent" required class="form-control" readonly>
+                                        </div>
+                                    {{/if}}
+                                    <button class="btn btn-danger btnClockOff" type="submit" style="width: 100%;" id="btnClockOff" name="btnClockOff"><i class="fas fa-clock" style="margin-right: 5px;"></i>Clock Off</button>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="col-2">
+                            <button class="btn btn-success btnTimesheetList" type="button" style="margin: 39px 0px; width:100%;" id="btnTimesheetList"><i class="far fa-clock" style="margin-right: 5px;"></i> View Log</button>
+                        </div>
+                    </div>
+
+                    <!-- <div class="row d-xl-flex flex-column justify-content-xl-center" style="margin: 12px;">
                         <div class="col" style="padding: 0px;">
                             <div class="row" style="padding: 0px 8px;">
-                                <div class="col-6 colEmpName" id="colEmpName">
+
+                                <div class="col-3 colEmpName" id="colEmpName">
                                     <div class="form-group flex-grow-1" style="margin: 8px 0px;"><label>Employee Name</label><input id="employee_name" name="employee_name" type="text" required class="form-control employee_name" readonly></div>
+                                </div>
+                                <div class="col-3 colJobName" id="colJobName">
+                                    <div class="form-group flex-grow-1" style="margin: 8px 0px;">
+                                        <label>Job Name</label>
+                                        <select class="form-control sltJob" id="sltJob" name="sltJob">
+                                            {{#if jobsrecords}}
+                                                <option value=""></option>
+                                                {{#each itemjob in jobsrecords}}
+                                                    <option value="{{itemjob.jobname}}">{{itemjob.jobname}}</option>
+                                                {{/each}}
+                                            {{/if}}
+                                        </select>
+                                    </div>
                                 </div>
                                 <div class="col-3 colRate" id="colRate">
                                     <div class="form-group flex-grow-1" style="margin: 8px 0px;"><label>Rate</label><input id="hourly_rate" name="hourly_rate" type="text" class="form-control hourly_rate" required></div>
@@ -426,36 +517,27 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="row" style="padding: 0px 8px;">
-                                <div class="col-6 colEmpName" id="colEmpName">
-                                    <select class="form-control sltJob" id="sltJob" name="sltJob">
-                                        {{#if jobsrecords}}
-                                            <option value=""></option>
-                                            {{#each itemjob in jobsrecords}}
-                                                <option value="{{itemjob.jobname}}">{{itemjob.jobname}}</option>
-                                            {{/each}}
-                                        {{/if}}
-                                    </select>
-                                </div>
-                            </div>
+
                             <div class="row" style="padding: 0px 8px;">
                                 <div class="col-12" id="colBookedTimeParent">
                                     <div class="row">
-                                        <div class="col-2 colBookedTime" id="colBookedTime">
-                                            <h6 class="float-right bookedTimeHeader" id="bookedTimeHeader" style="margin: 8px 0px; margin-top: 2.5em;">
-                                                Time</h6>
+                                        <div class="col-3 colNotesParent" id="colNotesParent">
+                                            <div class="form-group flex-grow-1" style="margin: 8px 0px;">
+                                                <label>Notes</label>
+                                                <textarea class="border rounded form-control" rows="2" id="txtNotes" name="txtNotes" style="width: 100%; border: 1px solid #d1d3e2 !important;"></textarea>
+                                            </div>
                                         </div>
-                                        <div class="col-3 colBookedStartTime" id="colBookedStartTime" style="padding-left: .5rem;">
+                                        <div class="col-2 colBookedStartTime" id="colBookedStartTime">
                                             <div class="form-group flex-grow-1" style="margin: 8px 0px;">
                                                 <label>Start Time</label><input class="form-control" id="startTime" required name="startTime" type="time">
                                             </div>
                                             <button class="btn btn-success btnClockOn" type="submit" style="width: 100%;" id="btnClockOn" name="btnClockOn"><i class="far fa-clock" style="margin-right: 5px;"></i>Clock On</button>
                                         </div>
-                                        <div class="col-3 colBookedEndTime" id="colBookedEndTime">
+                                        <div class="col-2 colBookedEndTime" id="colBookedEndTime">
                                             <div class="form-group flex-grow-1" style="margin: 8px 0px;"><label>End Time</label><input required class="form-control" id="endTime" name="endTime" type="time"></div>
                                             <button class="btn btn-warning" type="button" style="width: 100%;" id="btnHold">On Hold</button>
                                         </div>
-                                        <div class="col-3 colBookedHours" id="colBookedHours" style="padding-right: .3rem;">
+                                        <div class="col-2 colBookedHours" id="colBookedHours" style="padding-right: .3rem;">
                                             {{#if equals edithours true}}
                                                 <div class="form-group flex-grow-1" style="margin: 8px 0px;">
                                                     <label>Hours</label><input type="text" id="txtBookedHoursSpent" name="txtBookedHoursSpent" required class="form-control">
@@ -483,7 +565,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
                 <div class="modal-footer">
                     <button class="btn btn-success btnSaveTimeSheet" type="submit" style="margin: 8px;" id="btnSaveTimeSheet" name="btnSaveTimeSheet"><i class="fa fa-save" style="margin-right: 5px;"></i>Save</button>
