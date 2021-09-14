@@ -78,7 +78,7 @@
 
                                 <div class="custom-control custom-switch" style="cursor: pointer; margin-left: -32px;">
                                     <label style="margin-right: 50px;" for="formCheck-{{name}}">{{name}} Settings</label>
-                                    <input class="custom-control-input chkGlobalSettings " type="checkbox" value="{{name}}" id="formCheck-{{name}}" name="{{name}}" checked="" style="cursor: pointer;" readonly>
+                                    <input class="custom-control-input chkGlobalSettings " type="checkbox" value="{{name}}" id="formCheck-{{name}}" name="formCheck-{{name}}" checked="" style="cursor: pointer;" readonly>
                                     <label class="custom-control-label" for="formCheck-{{name}}" style="cursor: pointer; color: transparent;"></label>
                                 </div>
                             </div>
@@ -86,6 +86,10 @@
                                 <style>
                                     .inactiveLicence .lblPricing {
                                         display: none !important;
+                                    }
+
+                                    .hiddenRow{
+                                      display: none !important;
                                     }
                                 </style>
                                 <div>
@@ -101,7 +105,7 @@
                                             <tbody>
                                                 {{#each itemrecord in value}}
                                                     <!-- {{itemrecord.accessLevel}} -->
-                                                    <tr id="{{itemrecord.lineID}}" name="{{itemrecord.accessID}}" class="tbl_access">
+                                                    <tr id="{{itemrecord.lineID}}" name="{{itemrecord.accessID}}" class="tbl_access {{itemrecord.formClassHidden}}">
                                                         <td style="min-width: 332px;">
                                                             <input type="hidden" name="{{itemrecord.lineID}}" id="{{itemrecord.lineID}}_accessDesc" value="{{itemrecord.description}}" style="display:none;">
                                                             <div class="custom-control custom-switch" style="cursor: pointer;">

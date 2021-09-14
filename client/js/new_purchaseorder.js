@@ -158,13 +158,13 @@ Template.purchaseordercard.onRendered(() => {
                     }));
 
                     for (var i = 0; i < clientList.length; i++) {
-                        $('#edtSupplierName').editableSelect('add', clientList[i].suppliername);
+                        //$('#edtSupplierName').editableSelect('add', clientList[i].suppliername);
                     }
                     if (FlowRouter.current().queryParams.id) {
 
                     } else {
                         setTimeout(function() {
-                            $('#edtSupplierName').focus();
+                            $('#edtSupplierName').trigger("click");
                         }, 200);
                     }
                 });
@@ -198,13 +198,13 @@ Template.purchaseordercard.onRendered(() => {
                 }));
 
                 for (var i = 0; i < clientList.length; i++) {
-                    $('#edtSupplierName').editableSelect('add', clientList[i].suppliername);
+                    //$('#edtSupplierName').editableSelect('add', clientList[i].suppliername);
                 }
                 if (FlowRouter.current().queryParams.id) {
 
                 } else {
                     setTimeout(function() {
-                        $('#edtSupplierName').focus();
+                        $('#edtSupplierName').trigger("click");
                     }, 100);
                 }
 
@@ -238,13 +238,13 @@ Template.purchaseordercard.onRendered(() => {
                 }));
 
                 for (var i = 0; i < clientList.length; i++) {
-                    $('#edtSupplierName').editableSelect('add', clientList[i].suppliername);
+                    //$('#edtSupplierName').editableSelect('add', clientList[i].suppliername);
                 }
                 if (FlowRouter.current().queryParams.id) {
 
                 } else {
                     setTimeout(function() {
-                        $('#edtSupplierName').focus();
+                        $('#edtSupplierName').trigger("click");
                     }, 200);
                 }
 
@@ -1528,6 +1528,10 @@ Template.purchaseordercard.onRendered(() => {
                 $(".purchase_print tbody").append(rowData1);
             }
 
+            setTimeout(function () {
+              $('#' + tokenid + " .lineProductName").trigger('click');
+            }, 200);
+
         });
 
 
@@ -1801,25 +1805,118 @@ Template.purchaseordercard.onRendered(() => {
         }
     });
 
-    $('#edtSupplierName').editableSelect()
-        .on('select.editable-select', function(e, li) {
-        let selectedSupplier = li.text();
-        if (clientList) {
-            $('#txabillingAddress').val('');
-            $('#txaShipingInfo').val('');
-            for (var i = 0; i < clientList.length; i++) {
-                if (clientList[i].suppliername == selectedSupplier) {
-                    $('#edtSupplierEmail').val(clientList[i].supplieremail);
-                    $('#edtSupplierEmail').attr('supplierid', clientList[i].supplierid);
-                    let postalAddress = clientList[i].suppliername + '\n' + clientList[i].street + '\n' + clientList[i].street2 + ' ' + clientList[i].statecode + '\n' + clientList[i].country;
-                    $('#txabillingAddress').val(postalAddress);
-                    $('.pdfCustomerAddress').html(clientList[i].suppliername);
-                    $('#txaShipingInfo').val(postalAddress);
-                    $('#sltTerms').val(clientList[i].termsName || '');
+    $('#edtSupplierName').editableSelect().on('click.editable-select', function (e, li) {
+      var $earch = $(this);
+      var offset = $earch.offset();
+
+      var supplierDataName = e.target.value.replace(/\s/g, '') ||'';
+      var supplierDataID = $('#edtSupplierName').attr('suppid').replace(/\s/g, '') ||'';
+      if (e.pageX > offset.left + $earch.width() - 16) { // X button 16px wide?
+        $('#supplierListModal').modal();
+        setTimeout(function () {
+            $('#tblSupplierlist_filter .form-control-sm').focus();
+            $('#tblSupplierlist_filter .form-control-sm').val('');
+            $('#tblSupplierlist_filter .form-control-sm').trigger("input");
+            var datatable = $('#tblSupplierlist').DataTable();
+            datatable.draw();
+            $('#tblSupplierlist_filter .form-control-sm').trigger("input");
+        }, 500);
+       }else{
+         if(supplierDataName != '' && supplierDataID != ''){
+          FlowRouter.go('/supplierscard?id=' + supplierDataID);
+         }else{
+           $('#supplierListModal').modal();
+           setTimeout(function () {
+               $('#tblSupplierlist_filter .form-control-sm').focus();
+               $('#tblSupplierlist_filter .form-control-sm').val('');
+               $('#tblSupplierlist_filter .form-control-sm').trigger("input");
+               var datatable = $('#tblSupplierlist').DataTable();
+               datatable.draw();
+               $('#tblSupplierlist_filter .form-control-sm').trigger("input");
+           }, 500);
+         }
+       }
+
+
+});
+
+$(document).on("click", "#tblSupplierlist tbody tr", function(e) {
+    let selectLineID = $('#supplierSelectLineID').val();
+    var table = $(this);
+    let utilityService = new UtilityService();
+    let taxcodeList = templateObject.taxraterecords.get();
+    let $tblrows = $("#tblPurchaseOrderLine tbody tr");
+    var tableSupplier = $(this);
+    $('#edtSupplierName').val(tableSupplier.find(".colCompany").text());
+    $('#edtSupplierName').attr("suppid", tableSupplier.find(".colID").text());
+
+
+    $('#edtSupplierEmail').val(tableSupplier.find(".colEmail").text());
+    $('#edtSupplierEmail').attr('customerid', tableSupplier.find(".colID").text());
+    $('#edtSupplierName').attr('suppid', tableSupplier.find(".colID").text());
+
+    let postalAddress = tableSupplier.find(".colCompany").text() + '\n' + tableSupplier.find(".colStreetAddress").text() + '\n' + tableSupplier.find(".colCity").text()  + ' ' + tableSupplier.find(".colState").text()+ ' ' + tableSupplier.find(".colZipCode").text() + '\n' + tableSupplier.find(".colCountry").text();
+    $('#txabillingAddress').val(postalAddress);
+    $('#pdfSupplierAddress').html(postalAddress);
+    $('.pdfSupplierAddress').text(postalAddress);
+    $('#txaShipingInfo').val(postalAddress);
+    $('#sltTerms').val(tableSupplier.find(".colSupplierTermName").text() || '');
+    $('#supplierListModal').modal('toggle');
+
+    let lineAmount = 0;
+    let subGrandTotal = 0;
+    let taxGrandTotal = 0;
+    let taxGrandTotalPrint = 0;
+
+    $tblrows.each(function(index) {
+        var $tblrow = $(this);
+        var qty = $tblrow.find(".lineQty").val() || 0;
+        var price = $tblrow.find(".lineUnitPrice").val() || 0;
+        var taxcode = $tblrow.find(".lineTaxCode").text() || '';
+
+        var taxrateamount = 0;
+        if (taxcodeList) {
+            for (var i = 0; i < taxcodeList.length; i++) {
+                if (taxcodeList[i].codename == taxcode) {
+
+                    taxrateamount = taxcodeList[i].coderate.replace('%', "") / 100;
+
                 }
             }
         }
+        var subTotal = parseFloat(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) || 0;
+        if ((taxrateamount == '') || (taxrateamount == ' ')) {
+            var taxTotal = 0;
+        } else {
+            var taxTotal = parseFloat(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) * parseFloat(taxrateamount);
+        }
+        $tblrow.find('.lineTaxAmount').text(utilityService.modifynegativeCurrencyFormat(taxTotal));
+        if (!isNaN(subTotal)) {
+            $tblrow.find('.lineAmt').text(utilityService.modifynegativeCurrencyFormat(subTotal));
+            subGrandTotal += isNaN(subTotal) ? 0 : subTotal;
+            document.getElementById("subtotal_total").innerHTML = utilityService.modifynegativeCurrencyFormat(subGrandTotal);
+        }
+
+        if (!isNaN(taxTotal)) {
+            taxGrandTotal += isNaN(taxTotal) ? 0 : taxTotal;
+            document.getElementById("subtotal_tax").innerHTML = utilityService.modifynegativeCurrencyFormat(taxGrandTotal);
+        }
+
+        if (!isNaN(subGrandTotal) && (!isNaN(taxGrandTotal))) {
+            let GrandTotal = (parseFloat(subGrandTotal)) + (parseFloat(taxGrandTotal));
+            document.getElementById("grandTotal").innerHTML = utilityService.modifynegativeCurrencyFormat(GrandTotal);
+            document.getElementById("balanceDue").innerHTML = utilityService.modifynegativeCurrencyFormat(GrandTotal);
+            document.getElementById("totalBalanceDue").innerHTML = utilityService.modifynegativeCurrencyFormat(GrandTotal);
+
+        }
     });
+
+    $('#tblSupplierlist_filter .form-control-sm').val('');
+    setTimeout(function () {
+        $('.btnRefreshSupplier').trigger('click');
+        $('.fullScreenSpin').css('display', 'none');
+    }, 1000);
+});
 
     exportSalesToPdf = function() {
         let id = $('.printID').attr("id");
@@ -3077,7 +3174,29 @@ Template.purchaseordercard.events({
             }
 
             $('#deleteLineModal').modal('toggle');
+        }else{
+          this.click;
+          $('#' + selectLineID + " .lineProductName").text('');
+          $('#' + selectLineID + " .lineProductDesc").text('');
+          $('#' + selectLineID + " .lineOrdered").val('');
+          $('#' + selectLineID + " .lineQty").val('');
+
+          $('#' + selectLineID + " .lineUnitPrice").val('');
+          $('#' + selectLineID + " .colCustomerJob").val('');
+          // $('#' + selectLineID + " .lineSalesLinesCustField1").text('');
+          $('#' + selectLineID + " .lineTaxRate").text('');
+          $('#' + selectLineID + " .lineTaxCode").text('');
+          $('#' + selectLineID + " .lineAmt").text('');
+          $('#' + selectLineID + " .lineTaxAmount").text('');
+
+
+          document.getElementById("subtotal_tax").innerHTML = Currency + '0.00';
+          document.getElementById("subtotal_total").innerHTML = Currency + '0.00';
+          document.getElementById("grandTotal").innerHTML = Currency + '0.00';
+          document.getElementById("balanceDue").innerHTML = Currency + '0.00';
+          document.getElementById("totalBalanceDue").innerHTML = Currency + '0.00';
         }
+        $('#deleteLineModal').modal('toggle');
     },
     'click .btnSaveSettings': function(event) {
 

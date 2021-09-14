@@ -866,60 +866,7 @@ Template.addcustomerpop.events({
         var getemp_id = url.split('?id=');
         var currentEmployee = getemp_id[getemp_id.length - 1];
         var objDetails = '';
-        if (getemp_id[1]) {
-            currentEmployee = parseInt(currentEmployee);
-            objDetails = {
-                type: "TCustomerEx",
-                fields: {
-                    ID: currentEmployee,
-                    Title: title,
-                    ClientName: company,
-                    FirstName: firstname,
-                    // MiddleName:middlename,
-                    CUSTFLD10: middlename,
-                    LastName: lastname,
-                    PublishOnVS1: true,
-                    Email: email,
-                    Phone: phone,
-                    Mobile: mobile,
-                    SkypeName: skype,
-                    Faxnumber: fax,
-                    // Sex: gender,
-                    ClientTypeName: customerType,
-                    // Position: position,
-                    Street: streetAddress,
-                    Street2: city,
-                    Suburb: city,
-                    State: state,
-                    PostCode: postalcode,
-                    Country: country,
 
-                    BillStreet: bstreetAddress,
-                    BillStreet2: bcity,
-                    BillState: bstate,
-                    BillPostCode: bzipcode,
-                    Billcountry: bcountry,
-                    IsSupplier:isSupplier,
-                    Notes: notes,
-                    // CustFld1: custfield1,
-                    // CustFld2: custfield2,
-                    URL: website,
-                    PaymentMethodName: sltPaymentMethodName,
-                    TermsName: sltTermsName,
-                    ShippingMethodName: sltShippingMethodName,
-                    // RewardPointsOpeningBalance:parseInt(rewardPointsOpeningBalance),
-                    // RewardPointsOpeningDate:openingDate,
-                    TaxCodeName: sltTaxCodeName,
-                    Attachments: uploadedItems,
-                    CUSTFLD1: custField1,
-                    CUSTFLD2: custField2,
-                    CUSTFLD3: custField3,
-                    CUSTFLD4: custField4,
-                    Discount:parseFloat(permanentDiscount)||0
-                }
-            };
-
-        } else {
             let custdupID = 0;
             let checkCustData = await contactService.getCheckCustomersData(company);
             if (checkCustData.tcustomer.length) {
@@ -1011,10 +958,11 @@ Template.addcustomerpop.events({
             };
 
 
-        }
+
 
         contactService.saveCustomerEx(objDetails).then(function (objDetails) {
             let customerSaveID = objDetails.fields.ID;
+            $('.fullScreenSpin').css('display', 'none');
             if (customerSaveID) {
                 var currentLoc = window.location.pathname;
 

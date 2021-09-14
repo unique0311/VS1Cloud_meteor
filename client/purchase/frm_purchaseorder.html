@@ -1,5 +1,5 @@
 <template name="purchaseordercard">
-    <div class="container-fluid" style="padding-right: 0px;padding-left: 0px;">
+    <div class="container-fluid purchasesmodule" style="padding-right: 0px;padding-left: 0px;">
         <div class="fullScreenSpin" style="display:none;">
             <div class="spinner"></div>
         </div>
@@ -190,7 +190,7 @@
                 <div class="col-auto colSupplierName" id="colSupplierName">
                     <div style="margin: 16px 0px;width: 350px;" class="formgoup">
                         <div class="form-group"><label>Supplier</label>
-                            <select type="search" class="form-control" id="edtSupplierName" name="edtSupplierName" style="background-color:rgb(255, 255, 255); cursor: pointer;">
+                            <select type="search" class="form-control" id="edtSupplierName" name="edtSupplierName" suppid=" " style="background-color:rgb(255, 255, 255); cursor: pointer;">
                             </select>
                         </div>
                     </div>
@@ -1181,15 +1181,15 @@
             {{> taxratelistpop}}
         </div>
         <!-- End Modal Tax Rate -->
-        
+
         <div class="modal fade" role="dialog" tabindex="-1" id="addCustomerModal">
             {{> addcustomerpop}}
         </div>
-        
+
         <div class="modal fade" role="dialog" tabindex="-1" id="newProductModal">
             {{> newproductpop}}
         </div>
-        
+
         <!-- ModalCustomer -->
         <div class="modal fade" role="dialog" tabindex="-1" id="customerListModal">
             <div class="modal-dialog modal-xl modal-dialog-scrollable" role="document" style="max-width: 90vw;">
@@ -1206,6 +1206,28 @@
             </div>
         </div>
         <!-- End Modal Customer -->
+        <!-- ModalSupplier -->
+        <div class="modal fade supplierListModal" role="dialog" tabindex="-1" id="supplierListModal">
+            <div class="modal-dialog modal-xl modal-dialog-scrollable supplierListModalInner" role="document" style="max-width: 90vw;">
+                <div class="modal-content supplierListContent">
+                    <div class="modal-header">
+                        <h4>Supplier List</h4><button type="button" class="close checkclose" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                    </div>
+                    <div class="modal-body mainSupplierModalBody" style="padding: 0px; overflow-x: hidden;">
+                        <input type="hidden" style="width: 100%; display:none;" id="supplierSelectLineID" name="supplierSelectLineID" readonly>
+                        {{> supplierlistpop}}
+
+                    </div>
+                    <div class="modal-footer"><button class="btn btn-light checkclose" data-dismiss="modal" type="button">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- End Modal Supplier -->
+        <div class="modal fade" role="dialog" tabindex="-1" id="addSupplierModal">
+            {{> addsupplierpop}}
+        </div>
     </div>
     <!-- Start Help Video Modal -->
     <div class="modal fade" role="dialog" tabindex="-1" id="helpModal">

@@ -1273,7 +1273,7 @@ Template.depositcard.onRendered(()=>{
             $(".lineCompany", rowData).text("");
             $(".colAmount", rowData).val("");
 
-
+            $(".lineAccountName", rowData).attr('lineid', '');
             rowData.attr('id', tokenid);
             $("#tblDepositEntryLine tbody").append(rowData);
 
