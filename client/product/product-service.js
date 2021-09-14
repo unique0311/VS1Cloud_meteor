@@ -135,7 +135,7 @@ export class ProductService extends BaseService {
           ListType: "Detail",
           select: '[ProductName]="'+dataSearchName+'"'
          };
-      return this.getList(this.ERPObjects.TProductVS1, options);
+      return this.getList(this.ERPObjects.TProduct, options);
     }
 
     getAccountName() {

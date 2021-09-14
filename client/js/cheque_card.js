@@ -1770,8 +1770,8 @@ Template.chequecard.onRendered(() => {
             $('#tblSupplierlist_filter .form-control-sm').trigger("input");
         }, 500);
        }else{
-         if(supplierDataName != '' && supplierDataID != ''){
-          FlowRouter.go('/supplierscard?id=' + supplierDataID);
+         if(supplierDataName != ''){
+          FlowRouter.go('/supplierscard?name=' + e.target.value);
          }else{
            $('#supplierListModal').modal();
            setTimeout(function () {
@@ -1885,7 +1885,7 @@ Template.chequecard.onRendered(() => {
         }, 500);
        }else{
          if(accountDataName != ''){
-          FlowRouter.go('/supplierscard?id=' + accountDataName);
+          FlowRouter.go('/accountsoverview?name=' + accountDataName);
          }else{
            $('#selectLineID').val('');
            $('#productListModal').modal();
@@ -2713,14 +2713,30 @@ Template.chequecard.events({
         }
     },
     'click .lineAccountName': function(event) {
-        $('#tblChequeLine tbody tr .lineAccountName').attr("data-toggle", "modal");
-        $('#tblChequeLine tbody tr .lineAccountName').attr("data-target", "#productListModal");
-        var targetID = $(event.target).closest('tr').attr('id');
-        $('#selectLineID').val(targetID);
+      let suppliername = $('#edtSupplierName').val();
+      if (suppliername === '') {
+          swal('Supplier has not been selected!', '', 'warning');
+          event.preventDefault();
+      } else {
+        var accountDataName = $(event.target).text().replace(/\s/g, '') || '';
+        if (accountDataName != '') {
+          FlowRouter.go('/accountsoverview?name=' +  $(event.target).text());
+        }else{
+          $('#productListModal').modal('toggle');
+          var targetID = $(event.target).closest('tr').attr('id');
+          $('#selectLineID').val(targetID);
+          setTimeout(function () {
+              $('#tblAccount_filter .form-control-sm').focus();
+              $('#tblAccount_filter .form-control-sm').val('');
+              $('#tblAccount_filter .form-control-sm').trigger("input");
 
-        setTimeout(function() {
-            $('#tblAccount_filter .form-control-sm').focus();
-        }, 500);
+              var datatable = $('#tblInventory').DataTable();
+              datatable.draw();
+              $('#tblAccount_filter .form-control-sm').trigger("input");
+
+          }, 500);
+        }
+      }
     },
     'click #productListModal #refreshpagelist': function() {
         $('.fullScreenSpin').css('display', 'inline-block');

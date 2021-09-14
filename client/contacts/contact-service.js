@@ -156,6 +156,15 @@ export class ContactService extends BaseService {
     return this.getOneById(this.ERPObjects.TSupplierEx, id);
   }
 
+  getOneSupplierDataExByName(dataSearchName) {
+    let options = '';
+       options = {
+        ListType: "Detail",
+        select: '[ClientName]="'+dataSearchName+'"'
+       };
+    return this.getList(this.ERPObjects.TSupplier, options);
+  }
+
   getOneCustomerData(id) {
     return this.getOneById(this.ERPObjects.TCustomer, id);
   }

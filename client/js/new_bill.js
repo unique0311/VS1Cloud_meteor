@@ -1676,8 +1676,8 @@ Template.billcard.onRendered(() => {
             $('#tblSupplierlist_filter .form-control-sm').trigger("input");
         }, 500);
        }else{
-         if(supplierDataName != '' && supplierDataID != ''){
-          FlowRouter.go('/supplierscard?id=' + supplierDataID);
+         if(supplierDataName != ''){
+          FlowRouter.go('/supplierscard?name=' + e.target.value);
          }else{
            $('#supplierListModal').modal();
            setTimeout(function () {
@@ -2572,14 +2572,31 @@ Template.billcard.events({
         }
     },
     'click .lineAccountName': function(event) {
-        $('#tblBillLine tbody tr .lineAccountName').attr("data-toggle", "modal");
-        $('#tblBillLine tbody tr .lineAccountName').attr("data-target", "#productListModal");
-        var targetID = $(event.target).closest('tr').attr('id');
-        $('#selectLineID').val(targetID);
 
-        setTimeout(function() {
-            $('#tblAccount_filter .form-control-sm').focus();
-        }, 500);
+        let suppliername = $('#edtSupplierName').val();
+        if (suppliername === '') {
+            swal('Supplier has not been selected!', '', 'warning');
+            event.preventDefault();
+        } else {
+          var accountDataName = $(event.target).text().replace(/\s/g, '') || '';
+          if (accountDataName != '') {
+            FlowRouter.go('/accountsoverview?name=' +  $(event.target).text());
+          }else{
+            $('#productListModal').modal('toggle');
+            var targetID = $(event.target).closest('tr').attr('id');
+            $('#selectLineID').val(targetID);
+            setTimeout(function () {
+                $('#tblAccount_filter .form-control-sm').focus();
+                $('#tblAccount_filter .form-control-sm').val('');
+                $('#tblAccount_filter .form-control-sm').trigger("input");
+
+                var datatable = $('#tblInventory').DataTable();
+                datatable.draw();
+                $('#tblAccount_filter .form-control-sm').trigger("input");
+
+            }, 500);
+          }
+        }
     },
     'click #productListModal #refreshpagelist': function() {
 

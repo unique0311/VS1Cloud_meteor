@@ -1260,6 +1260,12 @@ Template.depositcard.onRendered(()=>{
                 }
             });
         }
+
+
+            setTimeout(function() {
+                $('#sltAccountName').trigger("click");
+            }, 200);
+
     }
 
     let table;
@@ -1277,6 +1283,10 @@ Template.depositcard.onRendered(()=>{
             $(".lineAccountName", rowData).attr('lineid', '');
             rowData.attr('id', tokenid);
             $("#tblDepositEntryLine tbody").append(rowData);
+
+            setTimeout(function () {
+             $('#' + tokenid + " .lineAccountName").trigger('click');
+            }, 200);
 
         });
 
@@ -1429,7 +1439,7 @@ Template.depositcard.onRendered(()=>{
         }, 500);
        }else{
          if(accountDataName != ''){
-          FlowRouter.go('/supplierscard?id=' + accountDataName);
+          FlowRouter.go('/accountsoverview?name=' + accountDataName);
          }else{
            $('#selectLineID').val('');
            $('#productListModal').modal();
@@ -1882,18 +1892,30 @@ Template.depositcard.events({
         }
     },
     'click .lineAccountName' : function(event){
-        var url = FlowRouter.current().path;
-        var getso_id = url.split('?id=');
-        if (!getso_id[1]) {
-        $('#tblDepositEntryLine tbody tr .lineAccountName').attr("data-toggle","modal");
-        $('#tblDepositEntryLine tbody tr .lineAccountName').attr("data-target","#productListModal");
-        var targetID = $(event.target).closest('tr').attr('id');
-        $('#selectLineID').val(targetID);
+      let suppliername = $('#edtSupplierName').val();
+      if (suppliername === '') {
+          swal('Supplier has not been selected!', '', 'warning');
+          event.preventDefault();
+      } else {
+        var accountDataName = $(event.target).text().replace(/\s/g, '') || '';
+        if (accountDataName != '') {
+          FlowRouter.go('/accountsoverview?name=' +  $(event.target).text());
+        }else{
+          $('#productListModal').modal('toggle');
+          var targetID = $(event.target).closest('tr').attr('id');
+          $('#selectLineID').val(targetID);
+          setTimeout(function () {
+              $('#tblAccount_filter .form-control-sm').focus();
+              $('#tblAccount_filter .form-control-sm').val('');
+              $('#tblAccount_filter .form-control-sm').trigger("input");
 
-        setTimeout(function () {
-            $('#tblAccount_filter .form-control-sm').focus();
-        }, 500);
-    }
+              var datatable = $('#tblInventory').DataTable();
+              datatable.draw();
+              $('#tblAccount_filter .form-control-sm').trigger("input");
+
+          }, 500);
+        }
+      }
     },
     'click #productListModal #refreshpagelist':function(){
 

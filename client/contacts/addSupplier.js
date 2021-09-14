@@ -967,7 +967,7 @@ Template.supplierscard.onRendered(function () {
     templateObject.getDeliveryMethodList();
     templateObject.getTaxCodesList();
 
-    if(currentId.id == "undefined"){
+    if(currentId.id == "undefined" || currentId.name == "undefined"){
         let lineItemObj = {
             id : '',
             lid : 'Add Supplier',
@@ -1321,6 +1321,338 @@ Template.supplierscard.onRendered(function () {
 
                         //templateObject.getAllProductRecentTransactions(data.fields.ClientName);
                         // $('.fullScreenSpin').css('display','none');
+                    });
+                });
+
+
+            }
+
+            templateObject.getEmployeeData();
+        }else if((currentId.name)){
+            supplierID = currentId.name.replace(/%20/g, " ");
+            templateObject.getEmployeeData = function () {
+                getVS1Data('TSupplierVS14').then(function (dataObject) {
+                    if(dataObject.length == 0){
+                      contactService.getOneSupplierDataExByName(supplierID).then(function (data) {
+                        $('.fullScreenSpin').css('display','none');
+                          let lineItems = [];
+
+                          let lineItemObj = {
+                              id : data.tsupplier[0].fields.ID,
+                              lid : 'Edit Supplier',
+                              company : data.tsupplier[0].fields.ClientName || '',
+                              email : data.tsupplier[0].fields.Email || '',
+                              title : data.tsupplier[0].fields.Title || '',
+                              firstname : data.tsupplier[0].fields.FirstName || '',
+                              middlename : data.tsupplier[0].fields.CUSTFLD10|| '',
+                              lastname : data.tsupplier[0].fields.LastName || '',
+                              tfn: '' || '',
+                              phone : data.tsupplier[0].fields.Phone || '',
+                              mobile:  data.tsupplier[0].fields.Mobile || '',
+                              fax: data.tsupplier[0].fields.Faxnumber || '',
+                              skype: data.tsupplier[0].fields.SkypeName || '',
+                              website: data.tsupplier[0].fields.URL || '',
+                              shippingaddress : data.tsupplier[0].fields.Street || '',
+                              scity : data.tsupplier[0].fields.Street2 || '',
+                              sstate : data.tsupplier[0].fields.State || '',
+                              spostalcode : data.tsupplier[0].fields.Postcode || '',
+                              scountry : data.tsupplier[0].fields.Country || LoggedCountry,
+                              billingaddress : data.tsupplier[0].fields.BillStreet || '',
+                              bcity : data.tsupplier[0].fields.BillStreet2 || '',
+                              bstate : data.tsupplier[0].fields.BillState || '',
+                              bpostalcode : data.tsupplier[0].fields.BillPostcode || '',
+                              bcountry : data.tsupplier[0].fields.Billcountry || '',
+                              custfield1 : data.tsupplier[0].fields.CUSTFLD1 || '',
+                              custfield2 : data.tsupplier[0].fields.CUSTFLD2 || '',
+                              custfield3 : data.tsupplier[0].fields.CUSTFLD3 || '',
+                              custfield4 : data.tsupplier[0].fields.CUSTFLD4 || '',
+                              notes: data.tsupplier[0].fields.Notes || '',
+                              preferedpayment:data.tsupplier[0].fields.PaymentMethodName || '',
+                              terms:data.tsupplier[0].fields.TermsName || '',
+                              deliverymethod:data.tsupplier[0].fields.ShippingMethodName || '',
+                              accountnumber:data.tsupplier[0].fields.ClientNo || 0.00,
+                              isContractor:data.tsupplier[0].fields.Contractor || false,
+                              issupplier: data.tsupplier[0].fields.IsSupplier || false,
+                              iscustomer: data.tsupplier[0].fields.IsCustomer || false,
+                              // openingbalancedate: data.fields.RewardPointsOpeningDate ? moment(data.fields.RewardPointsOpeningDate).format('DD/MM/YYYY') : "",
+                              // taxcode:data.fields.TaxCodeName || templateObject.defaultsaletaxcode.get()
+
+                          }
+
+                          if((data.tsupplier[0].fields.Street == data.tsupplier[0].fields.BillStreet) && (data.tsupplier[0].fields.Street2 == data.tsupplier[0].fields.BillStreet2)
+                             && (data.tsupplier[0].fields.State == data.tsupplier[0].fields.BillState)&& (data.tsupplier[0].fields.Postcode == data.tsupplier[0].fields.Postcode)
+                             && (data.tsupplier[0].fields.Country == data.tsupplier[0].fields.Billcountry)){
+                              templateObject.isSameAddress.set(true);
+                          }
+
+                          if(data.tsupplier[0].fields.Contractor == true){
+                              // $('#isformcontractor')
+                              $('#isformcontractor').attr("checked","checked");
+                          }else{
+                              $('#isformcontractor').removeAttr("checked");
+                          }
+                          templateObject.getOverviewAPData(data.tsupplier[0].fields.ClientName);
+                          templateObject.records.set(lineItemObj);
+
+                          /* START attachment */
+                          templateObject.attachmentCount.set(0);
+                          if(data.tsupplier[0].fields.Attachments){
+                              if(data.tsupplier[0].fields.Attachments.length){
+                                  templateObject.attachmentCount.set(data.tsupplier[0].fields.Attachments.length);
+                                  templateObject.uploadedFiles.set(data.tsupplier[0].fields.Attachments);
+
+                              }
+                          }
+                          /* END  attachment */
+
+                          //templateObject.getAllProductRecentTransactions(data.fields.ClientName);
+                          // $('.fullScreenSpin').css('display','none');
+                      }).catch(function (err) {
+
+                          $('.fullScreenSpin').css('display','none');
+                      });
+                    }else{
+                        let data = JSON.parse(dataObject[0].data);
+                        let useData = data.tsuppliervs1;
+
+                        var added=false;
+                        for(let i=0; i<useData.length; i++){
+                            if((useData[i].fields.ClientName) === supplierID){
+                                added = true;
+                                $('.fullScreenSpin').css('display','none');
+                                let lineItems = [];
+
+                                let lineItemObj = {
+                                    id : useData[i].fields.ID,
+                                    lid : 'Edit Supplier',
+                                    company : useData[i].fields.ClientName || '',
+                                    email : useData[i].fields.Email || '',
+                                    title : useData[i].fields.Title || '',
+                                    firstname : useData[i].fields.FirstName || '',
+                                    middlename : useData[i].fields.CUSTFLD10|| '',
+                                    lastname : useData[i].fields.LastName || '',
+                                    tfn: '' || '',
+                                    phone : useData[i].fields.Phone || '',
+                                    mobile:  useData[i].fields.Mobile || '',
+                                    fax: useData[i].fields.Faxnumber || '',
+                                    skype: useData[i].fields.SkypeName || '',
+                                    website: useData[i].fields.URL || '',
+                                    shippingaddress : useData[i].fields.Street || '',
+                                    scity : useData[i].fields.Street2 || '',
+                                    sstate : useData[i].fields.State || '',
+                                    spostalcode : useData[i].fields.Postcode || '',
+                                    scountry : useData[i].fields.Country || LoggedCountry,
+                                    billingaddress : useData[i].fields.BillStreet || '',
+                                    bcity : useData[i].fields.BillStreet2 || '',
+                                    bstate : useData[i].fields.BillState || '',
+                                    bpostalcode : useData[i].fields.BillPostcode || '',
+                                    bcountry : useData[i].fields.Billcountry || '',
+                                    custfield1 : useData[i].fields.CUSTFLD1 || '',
+                                    custfield2 : useData[i].fields.CUSTFLD2 || '',
+                                    custfield3 : useData[i].fields.CUSTFLD3 || '',
+                                    custfield4 : useData[i].fields.CUSTFLD4 || '',
+                                    notes: useData[i].fields.Notes || '',
+                                    preferedpayment:useData[i].fields.PaymentMethodName || '',
+                                    terms:useData[i].fields.TermsName || '',
+                                    deliverymethod:useData[i].fields.ShippingMethodName || '',
+                                    accountnumber:useData[i].fields.ClientNo || 0.00,
+                                    isContractor:useData[i].fields.Contractor || false,
+                                    issupplier: useData[i].fields.IsSupplier || false,
+                                    iscustomer: useData[i].fields.IsCustomer || false,
+                                    // openingbalancedate: useData[i].fields.RewardPointsOpeningDate ? moment(useData[i].fields.RewardPointsOpeningDate).format('DD/MM/YYYY') : "",
+                                    // taxcode:useData[i].fields.TaxCodeName || templateObject.defaultsaletaxcode.get()
+
+                                }
+
+                                if((useData[i].fields.Street == useData[i].fields.BillStreet) && (useData[i].fields.Street2 == useData[i].fields.BillStreet2)
+                                   && (useData[i].fields.State == useData[i].fields.BillState)&& (useData[i].fields.Postcode == useData[i].fields.Postcode)
+                                   && (useData[i].fields.Country == useData[i].fields.Billcountry)){
+                                    templateObject.isSameAddress.set(true);
+                                }
+
+                                if(useData[i].fields.Contractor == true){
+                                    // $('#isformcontractor')
+                                    $('#isformcontractor').attr("checked","checked");
+                                }else{
+                                    $('#isformcontractor').removeAttr("checked");
+                                }
+                                templateObject.getOverviewAPData(useData[i].fields.ClientName);
+                                templateObject.records.set(lineItemObj);
+
+                                /* START attachment */
+                                templateObject.attachmentCount.set(0);
+                                if(useData[i].fields.Attachments){
+                                    if(useData[i].fields.Attachments.length){
+                                        templateObject.attachmentCount.set(useData[i].fields.Attachments.length);
+                                        templateObject.uploadedFiles.set(useData[i].fields.Attachments);
+
+                                    }
+                                }
+                                /* END  attachment */
+
+                                //templateObject.getAllProductRecentTransactions(useData[i].fields.ClientName);
+                            }
+                        }
+
+                        if(!added) {
+                          contactService.getOneSupplierDataExByName(supplierID).then(function (data) {
+                            $('.fullScreenSpin').css('display','none');
+                              let lineItems = [];
+
+                              let lineItemObj = {
+                                  id : data.tsupplier[0].fields.ID,
+                                  lid : 'Edit Supplier',
+                                  company : data.tsupplier[0].fields.ClientName || '',
+                                  email : data.tsupplier[0].fields.Email || '',
+                                  title : data.tsupplier[0].fields.Title || '',
+                                  firstname : data.tsupplier[0].fields.FirstName || '',
+                                  middlename : data.tsupplier[0].fields.CUSTFLD10|| '',
+                                  lastname : data.tsupplier[0].fields.LastName || '',
+                                  tfn: '' || '',
+                                  phone : data.tsupplier[0].fields.Phone || '',
+                                  mobile:  data.tsupplier[0].fields.Mobile || '',
+                                  fax: data.tsupplier[0].fields.Faxnumber || '',
+                                  skype: data.tsupplier[0].fields.SkypeName || '',
+                                  website: data.tsupplier[0].fields.URL || '',
+                                  shippingaddress : data.tsupplier[0].fields.Street || '',
+                                  scity : data.tsupplier[0].fields.Street2 || '',
+                                  sstate : data.tsupplier[0].fields.State || '',
+                                  spostalcode : data.tsupplier[0].fields.Postcode || '',
+                                  scountry : data.tsupplier[0].fields.Country || LoggedCountry,
+                                  billingaddress : data.tsupplier[0].fields.BillStreet || '',
+                                  bcity : data.tsupplier[0].fields.BillStreet2 || '',
+                                  bstate : data.tsupplier[0].fields.BillState || '',
+                                  bpostalcode : data.tsupplier[0].fields.BillPostcode || '',
+                                  bcountry : data.tsupplier[0].fields.Billcountry || '',
+                                  custfield1 : data.tsupplier[0].fields.CUSTFLD1 || '',
+                                  custfield2 : data.tsupplier[0].fields.CUSTFLD2 || '',
+                                  custfield3 : data.tsupplier[0].fields.CUSTFLD3 || '',
+                                  custfield4 : data.tsupplier[0].fields.CUSTFLD4 || '',
+                                  notes: data.tsupplier[0].fields.Notes || '',
+                                  preferedpayment:data.tsupplier[0].fields.PaymentMethodName || '',
+                                  terms:data.tsupplier[0].fields.TermsName || '',
+                                  deliverymethod:data.tsupplier[0].fields.ShippingMethodName || '',
+                                  accountnumber:data.tsupplier[0].fields.ClientNo || 0.00,
+                                  isContractor:data.tsupplier[0].fields.Contractor || false,
+                                  issupplier: data.tsupplier[0].fields.IsSupplier || false,
+                                  iscustomer: data.tsupplier[0].fields.IsCustomer || false,
+                                  // openingbalancedate: data.fields.RewardPointsOpeningDate ? moment(data.fields.RewardPointsOpeningDate).format('DD/MM/YYYY') : "",
+                                  // taxcode:data.fields.TaxCodeName || templateObject.defaultsaletaxcode.get()
+
+                              }
+
+                              if((data.tsupplier[0].fields.Street == data.tsupplier[0].fields.BillStreet) && (data.tsupplier[0].fields.Street2 == data.tsupplier[0].fields.BillStreet2)
+                                 && (data.tsupplier[0].fields.State == data.tsupplier[0].fields.BillState)&& (data.tsupplier[0].fields.Postcode == data.tsupplier[0].fields.Postcode)
+                                 && (data.tsupplier[0].fields.Country == data.tsupplier[0].fields.Billcountry)){
+                                  templateObject.isSameAddress.set(true);
+                              }
+
+                              if(data.tsupplier[0].fields.Contractor == true){
+                                  // $('#isformcontractor')
+                                  $('#isformcontractor').attr("checked","checked");
+                              }else{
+                                  $('#isformcontractor').removeAttr("checked");
+                              }
+                              templateObject.getOverviewAPData(data.tsupplier[0].fields.ClientName);
+                              templateObject.records.set(lineItemObj);
+
+                              /* START attachment */
+                              templateObject.attachmentCount.set(0);
+                              if(data.tsupplier[0].fields.Attachments){
+                                  if(data.tsupplier[0].fields.Attachments.length){
+                                      templateObject.attachmentCount.set(data.tsupplier[0].fields.Attachments.length);
+                                      templateObject.uploadedFiles.set(data.tsupplier[0].fields.Attachments);
+
+                                  }
+                              }
+                              /* END  attachment */
+
+                              //templateObject.getAllProductRecentTransactions(data.fields.ClientName);
+                              // $('.fullScreenSpin').css('display','none');
+                          }).catch(function (err) {
+
+                              $('.fullScreenSpin').css('display','none');
+                          });
+                        }
+                    }
+                }).catch(function (err) {
+                    contactService.getOneSupplierDataExByName(supplierID).then(function (data) {
+                      $('.fullScreenSpin').css('display','none');
+                        let lineItems = [];
+
+                        let lineItemObj = {
+                            id : data.tsupplier[0].fields.ID,
+                            lid : 'Edit Supplier',
+                            company : data.tsupplier[0].fields.ClientName || '',
+                            email : data.tsupplier[0].fields.Email || '',
+                            title : data.tsupplier[0].fields.Title || '',
+                            firstname : data.tsupplier[0].fields.FirstName || '',
+                            middlename : data.tsupplier[0].fields.CUSTFLD10|| '',
+                            lastname : data.tsupplier[0].fields.LastName || '',
+                            tfn: '' || '',
+                            phone : data.tsupplier[0].fields.Phone || '',
+                            mobile:  data.tsupplier[0].fields.Mobile || '',
+                            fax: data.tsupplier[0].fields.Faxnumber || '',
+                            skype: data.tsupplier[0].fields.SkypeName || '',
+                            website: data.tsupplier[0].fields.URL || '',
+                            shippingaddress : data.tsupplier[0].fields.Street || '',
+                            scity : data.tsupplier[0].fields.Street2 || '',
+                            sstate : data.tsupplier[0].fields.State || '',
+                            spostalcode : data.tsupplier[0].fields.Postcode || '',
+                            scountry : data.tsupplier[0].fields.Country || LoggedCountry,
+                            billingaddress : data.tsupplier[0].fields.BillStreet || '',
+                            bcity : data.tsupplier[0].fields.BillStreet2 || '',
+                            bstate : data.tsupplier[0].fields.BillState || '',
+                            bpostalcode : data.tsupplier[0].fields.BillPostcode || '',
+                            bcountry : data.tsupplier[0].fields.Billcountry || '',
+                            custfield1 : data.tsupplier[0].fields.CUSTFLD1 || '',
+                            custfield2 : data.tsupplier[0].fields.CUSTFLD2 || '',
+                            custfield3 : data.tsupplier[0].fields.CUSTFLD3 || '',
+                            custfield4 : data.tsupplier[0].fields.CUSTFLD4 || '',
+                            notes: data.tsupplier[0].fields.Notes || '',
+                            preferedpayment:data.tsupplier[0].fields.PaymentMethodName || '',
+                            terms:data.tsupplier[0].fields.TermsName || '',
+                            deliverymethod:data.tsupplier[0].fields.ShippingMethodName || '',
+                            accountnumber:data.tsupplier[0].fields.ClientNo || 0.00,
+                            isContractor:data.tsupplier[0].fields.Contractor || false,
+                            issupplier: data.tsupplier[0].fields.IsSupplier || false,
+                            iscustomer: data.tsupplier[0].fields.IsCustomer || false,
+                            // openingbalancedate: data.fields.RewardPointsOpeningDate ? moment(data.fields.RewardPointsOpeningDate).format('DD/MM/YYYY') : "",
+                            // taxcode:data.fields.TaxCodeName || templateObject.defaultsaletaxcode.get()
+
+                        }
+
+                        if((data.tsupplier[0].fields.Street == data.tsupplier[0].fields.BillStreet) && (data.tsupplier[0].fields.Street2 == data.tsupplier[0].fields.BillStreet2)
+                           && (data.tsupplier[0].fields.State == data.tsupplier[0].fields.BillState)&& (data.tsupplier[0].fields.Postcode == data.tsupplier[0].fields.Postcode)
+                           && (data.tsupplier[0].fields.Country == data.tsupplier[0].fields.Billcountry)){
+                            templateObject.isSameAddress.set(true);
+                        }
+
+                        if(data.tsupplier[0].fields.Contractor == true){
+                            // $('#isformcontractor')
+                            $('#isformcontractor').attr("checked","checked");
+                        }else{
+                            $('#isformcontractor').removeAttr("checked");
+                        }
+                        templateObject.getOverviewAPData(data.tsupplier[0].fields.ClientName);
+                        templateObject.records.set(lineItemObj);
+
+                        /* START attachment */
+                        templateObject.attachmentCount.set(0);
+                        if(data.tsupplier[0].fields.Attachments){
+                            if(data.tsupplier[0].fields.Attachments.length){
+                                templateObject.attachmentCount.set(data.tsupplier[0].fields.Attachments.length);
+                                templateObject.uploadedFiles.set(data.tsupplier[0].fields.Attachments);
+
+                            }
+                        }
+                        /* END  attachment */
+
+                        //templateObject.getAllProductRecentTransactions(data.fields.ClientName);
+                        // $('.fullScreenSpin').css('display','none');
+                    }).catch(function (err) {
+
+                        $('.fullScreenSpin').css('display','none');
                     });
                 });
 
