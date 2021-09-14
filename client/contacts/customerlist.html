@@ -4,8 +4,8 @@
             <div class="spinner"></div>
         </div>
         <style>
-            .dataTables_filter { 
-                display: none; 
+            .dataTables_filter {
+                display: none;
             }
         </style>
         <div style="margin-top: -24px;">
@@ -31,7 +31,7 @@
                         </div>
                     </div>
                     <!-- End Help View Modal -->
-                    
+
                     <style>
                         @media screen and (max-width: 376px) {
                             .btnOpenSettings {
@@ -58,6 +58,7 @@
                                                         width: 200px;
                                                         padding: 2px;
                                                         border-radius: .35rem;
+                                                        font-size: 1rem;
                                                     }
                                                     .custom-control-label{
                                                         position: absolute;
@@ -98,7 +99,7 @@
                                                         <label class="custom-control-label" for="chkSalesNo-{{item.sIndex}}"></label>
                                                         <div contenteditable="true" class="groove divcolumn" type="text" value="{{item.sTitle}}" valueupdate="{{item.sClass}}">{{item.sTitle}}</div>
                                                     </div>
-                                                    <div class="d-xl-flex align-items-xl-center divColWidth" style="margin: 8px;">
+                                                    <div class="d-xl-flex align-items-xl-center divColWidth" style="margin: 8px;font-size: 1rem;">
                                                         <label class="text-nowrap" style="padding-left: 0px;margin-top: 8px;">Width: <!--<span class="spWidth" value="{{item.sTitle}}">{{item.sWidth}}px</span>--></label>
                                                         <input class="custom-range rngRange" type="number" style="margin: 8px;" value="{{item.sWidth}}" min="0" max="1000">
                                                         <!-- <input class="custom-range rngRange" type="range" style="margin: 8px;" value="{{item.sWidth}}" min="0" max="1000"> -->
@@ -141,7 +142,7 @@
                         }
                         .groupExport {
                             width: 90%;
-                        } 
+                        }
                     }
                 </style>
 
