@@ -1331,7 +1331,7 @@ Template.supplierscard.onRendered(function () {
         }else if((currentId.name)){
             supplierID = currentId.name.replace(/%20/g, " ");
             templateObject.getEmployeeData = function () {
-                getVS1Data('TSupplierVS14').then(function (dataObject) {
+                getVS1Data('TSupplierVS1').then(function (dataObject) {
                     if(dataObject.length == 0){
                       contactService.getOneSupplierDataExByName(supplierID).then(function (data) {
                         $('.fullScreenSpin').css('display','none');

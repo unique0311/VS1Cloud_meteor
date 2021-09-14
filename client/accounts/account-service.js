@@ -164,6 +164,13 @@ export class AccountService extends BaseService {
     getOneAccount(id){
      return this.getOneById(this.ERPObjects.ERPAccount, id);
    }
+   getOneAccountByName(dataSearchName){
+     let options = {
+       ListType:"Detail",
+       select: '[AccountName]="'+dataSearchName+'"'
+     };
+     return this.getList(this.ERPObjects.TAccountVS1, options);
+  }
 
    getAllJournalEnrtryLinesList() {
      let options = {
