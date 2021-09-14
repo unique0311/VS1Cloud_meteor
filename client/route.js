@@ -3,97 +3,123 @@ const publicRedirect = () => {
 };
 
 const publicRoutes = FlowRouter.group({
-  name: 'public',
-  triggersEnter: [ publicRedirect ]
+    name: 'public',
+    triggersEnter: [publicRedirect]
 });
 
 FlowRouter.notFound = {
-  action() {
-    BlazeLayout.render( 'layoutlogin', { yield: 'notFound' } );
-  }
+    action() {
+        BlazeLayout.render('layoutlogin', {
+            yield: 'notFound'
+        });
+    }
 };
 
 publicRoutes.route('/', {
     name: 'vs1login',
     action() {
-      BlazeLayout.render( 'layoutlogin', { yield: 'vs1login' } );
+        BlazeLayout.render('layoutlogin', {
+            yield: 'vs1login'
+        });
     }
 });
 
 publicRoutes.route('/vs1greentracklogin', {
-  name: 'vs1greentracklogin',
-  action() {
-    BlazeLayout.render( 'layoutlogin', { yield: 'vs1greentracklogin' } );
-  }
+    name: 'vs1greentracklogin',
+    action() {
+        BlazeLayout.render('layoutlogin', {
+            yield: 'vs1greentracklogin'
+        });
+    }
 });
 
 publicRoutes.route('/vs1check', {
-  name: 'vs1check',
-  action() {
-    BlazeLayout.render( 'layoutlogin', { yield: 'vs1check' } );
-  }
+    name: 'vs1check',
+    action() {
+        BlazeLayout.render('layoutlogin', {
+            yield: 'vs1check'
+        });
+    }
 });
 
 publicRoutes.route('/testlogin', {
     name: 'testlogin',
     action() {
-      BlazeLayout.render( 'layoutlogin', { yield: 'testlogin' } );
+        BlazeLayout.render('layoutlogin', {
+            yield: 'testlogin'
+        });
     }
 });
 
 publicRoutes.route('/forgot', {
     name: 'forgotforgot',
     action() {
-      BlazeLayout.render( 'layoutlogin', { yield: 'forgotforgot' } );
+        BlazeLayout.render('layoutlogin', {
+            yield: 'forgotforgot'
+        });
     }
 });
 
 publicRoutes.route('/register', {
     name: 'register',
     action() {
-      BlazeLayout.render( 'layoutlogin', { yield: 'register' } );
+        BlazeLayout.render('layoutlogin', {
+            yield: 'register'
+        });
     }
 });
 
 publicRoutes.route('/registerdb', {
     name: 'registerdb',
     action() {
-      BlazeLayout.render( 'layoutlogin', { yield: 'registerdb' } );
+        BlazeLayout.render('layoutlogin', {
+            yield: 'registerdb'
+        });
     }
 });
 
 publicRoutes.route('/binnypurchasedb', {
     name: 'binnypurchasedb',
     action() {
-      BlazeLayout.render( 'layoutlogin', { yield: 'binnypurchasedb' } );
+        BlazeLayout.render('layoutlogin', {
+            yield: 'binnypurchasedb'
+        });
     }
 });
 
 publicRoutes.route('/packagerenewal', {
     name: 'packagerenewal',
     action() {
-      BlazeLayout.render( 'layoutlogin', { yield: 'packagerenewal' } );
+        BlazeLayout.render('layoutlogin', {
+            yield: 'packagerenewal'
+        });
     }
 });
 
 publicRoutes.route('/simonpurchasedb', {
     name: 'simonpurchasedb',
     action() {
-      BlazeLayout.render( 'layoutlogin', { yield: 'simonpurchasedb' } );
+        BlazeLayout.render('layoutlogin', {
+            yield: 'simonpurchasedb'
+        });
     }
 });
 
 publicRoutes.route('/forgotpassword', {
     name: 'forgotpassword',
     action() {
-      BlazeLayout.render( 'layoutlogin', { yield: 'forgotpassword' } );
+        BlazeLayout.render('layoutlogin', {
+            yield: 'forgotpassword'
+        });
     }
 });
 
 publicRoutes.route('/resetpassword', {
     name: 'resetpassword',
     action() {
-      BlazeLayout.render( 'layoutlogin', { yield: 'resetpassword' } );
+        BlazeLayout.render('layoutlogin', {
+            yield: 'resetpassword'
+        });
     }
 });
 
@@ -102,56 +128,59 @@ const authenticatedRedirect = () => {
 
 
 
-  $(window).on('resize', function(){
-    var win = $(this); //this = window
-    if(win.height() <= 450 && win.width() <= 950){
-      $("#sidenavbar").addClass("toggled");
-    }else if(win.width() <= 450){
-      $("#sidenavbar").addClass("toggled");
-    }else{
-      let sidePanelToggle = Session.get('sidePanelToggle');
-      if ((sidePanelToggle === 'undefined') || (sidePanelToggle === undefined)) {
-        Session.setPersistent('sidePanelToggle', "toggled");
-       sidePanelToggle = Session.get('sidePanelToggle');
-      }
-      if (sidePanelToggle) {
-          if (sidePanelToggle === "toggled") {
-              $("#sidenavbar").addClass("toggled");
-          } else {
-              $("#sidenavbar").removeClass("toggled");
-          }
-      }
+    $(window).on('resize', function() {
+        var win = $(this); //this = window
+        if (win.height() <= 450 && win.width() <= 950) {
+            document.getElementById("sidebar").style.display = "block";
+        } else if (win.width() <= 450) {
+            document.getElementById("sidebar").style.display = "none";
+        } else {
+            let sidePanelToggle = Session.get('sidePanelToggle');
+            if ((sidePanelToggle === 'undefined') || (sidePanelToggle === undefined)) {
+                document.getElementById("sidebar").style.display = "block";
+                Session.setPersistent('sidePanelToggle', "toggled");
+                sidePanelToggle = Session.get('sidePanelToggle');
+            }
+            if (sidePanelToggle) {
+                if (sidePanelToggle === "toggled") {
+                    document.getElementById("sidebar").style.display = "block";
+                } else {
+                    document.getElementById("sidebar").style.display = "none";
+                }
+            }
+        }
+
+    });
+
+    if (Session.get('CloudSidePanelMenu')) {
+        $("html").addClass("hasSideBar");
+        $("body").addClass("hasSideBar");
     }
 
-});
-
-  if (Session.get('CloudSidePanelMenu')) {
-    $("html").addClass("hasSideBar");
-    $("body").addClass("hasSideBar");
-}
-
-if (Session.get('sidePanelSettings') === "openNav") {
-    $(".active_page_content").css("text-align", "right");
-} else {
-    $(".active_page_content").css("text-align", "inherit");
-}
-if (Session.get('lastUrl') == undefined) {
+    if (Session.get('sidePanelSettings') === "openNav") {
+        $(".active_page_content").css("text-align", "right");
+    } else {
+        $(".active_page_content").css("text-align", "inherit");
+    }
+    if (Session.get('lastUrl') == undefined) {
+        Session.setPersistent('lastUrl', window.location.pathname);
+    } else {
+        let lastUrl = Session.get('lastUrl');
+    }
     Session.setPersistent('lastUrl', window.location.pathname);
-} else {
-    let lastUrl = Session.get('lastUrl');
-}
-Session.setPersistent('lastUrl', window.location.pathname);
 };
 
 const authenticatedRoutes = FlowRouter.group({
-  name: 'authenticated',
-  triggersEnter: [ authenticatedRedirect ]
+    name: 'authenticated',
+    triggersEnter: [authenticatedRedirect]
 });
 
 authenticatedRoutes.route('/accounttransactions', {
     name: 'accounttransactions',
     action() {
-      BlazeLayout.render( 'layout', { yield: 'accounttransactions' } );
+        BlazeLayout.render('layout', {
+            yield: 'accounttransactions'
+        });
     }
 });
 
@@ -159,28 +188,36 @@ authenticatedRoutes.route('/accounttransactions', {
 authenticatedRoutes.route('/dashboard', {
     name: 'dashboard',
     action() {
-      BlazeLayout.render( 'layout', { yield: 'dashboard' } );
+        BlazeLayout.render('layout', {
+            yield: 'dashboard'
+        });
     }
 });
 
 authenticatedRoutes.route('/appointments', {
     name: 'appointments',
     action() {
-      BlazeLayout.render( 'layout', { yield: 'appointments' } );
+        BlazeLayout.render('layout', {
+            yield: 'appointments'
+        });
     }
 });
 
 authenticatedRoutes.route('/appointmenttimelist', {
     name: 'appointmenttimelist',
     action() {
-      BlazeLayout.render( 'layout', { yield: 'appointmenttimelist' } );
+        BlazeLayout.render('layout', {
+            yield: 'appointmenttimelist'
+        });
     }
 });
 
 authenticatedRoutes.route('/newappointments', {
     name: 'newappointments',
     action() {
-      BlazeLayout.render( 'layout', { yield: 'newappointments' } );
+        BlazeLayout.render('layout', {
+            yield: 'newappointments'
+        });
     }
 });
 
@@ -188,153 +225,197 @@ authenticatedRoutes.route('/newappointments', {
 authenticatedRoutes.route('/salesordercard', {
     name: 'new_salesorder',
     action() {
-      BlazeLayout.render( 'layout', { yield: 'new_salesorder' } );
+        BlazeLayout.render('layout', {
+            yield: 'new_salesorder'
+        });
     }
 });
 
 authenticatedRoutes.route('/invoicecard', {
     name: 'new_invoice',
     action() {
-      BlazeLayout.render( 'layout', { yield: 'new_invoice' } );
+        BlazeLayout.render('layout', {
+            yield: 'new_invoice'
+        });
     }
 });
 
 authenticatedRoutes.route('/refundcard', {
     name: 'refundcard',
     action() {
-      BlazeLayout.render( 'layout', { yield: 'refundcard' } );
+        BlazeLayout.render('layout', {
+            yield: 'refundcard'
+        });
     }
 });
 
 authenticatedRoutes.route('/quotecard', {
     name: 'new_quote',
     action() {
-      BlazeLayout.render( 'layout', { yield: 'new_quote' } );
+        BlazeLayout.render('layout', {
+            yield: 'new_quote'
+        });
     }
 });
 
 authenticatedRoutes.route('/salesorderslist', {
     name: 'salesorderslist',
     action() {
-      BlazeLayout.render( 'layout', { yield: 'salesorderslist' } );
+        BlazeLayout.render('layout', {
+            yield: 'salesorderslist'
+        });
     }
 });
 
 authenticatedRoutes.route('/invoicelist', {
     name: 'invoicelist',
     action() {
-      BlazeLayout.render( 'layout', { yield: 'invoicelist' } );
+        BlazeLayout.render('layout', {
+            yield: 'invoicelist'
+        });
     }
 });
 
 authenticatedRoutes.route('/invoicelistBO', {
     name: 'invoicelistBO',
     action() {
-      BlazeLayout.render( 'layout', { yield: 'invoicelistBO' } );
+        BlazeLayout.render('layout', {
+            yield: 'invoicelistBO'
+        });
     }
 });
 authenticatedRoutes.route('/quoteslist', {
     name: 'quoteslist',
     action() {
-      BlazeLayout.render( 'layout', { yield: 'quoteslist' } );
+        BlazeLayout.render('layout', {
+            yield: 'quoteslist'
+        });
     }
 });
 
 authenticatedRoutes.route('/accountsoverview', {
     name: 'accountsoverview',
     action() {
-      BlazeLayout.render( 'layout', { yield: 'accountsoverview' } );
+        BlazeLayout.render('layout', {
+            yield: 'accountsoverview'
+        });
     }
 });
 
 authenticatedRoutes.route('/payrolloverview', {
     name: 'payrolloverview',
     action() {
-      BlazeLayout.render( 'layout', { yield: 'payrolloverview' } );
+        BlazeLayout.render('layout', {
+            yield: 'payrolloverview'
+        });
     }
 });
 
 authenticatedRoutes.route('/purchasesoverview', {
     name: 'purchasesoverview',
     action() {
-      BlazeLayout.render( 'layout', { yield: 'purchasesoverview' } );
+        BlazeLayout.render('layout', {
+            yield: 'purchasesoverview'
+        });
     }
 });
 
 authenticatedRoutes.route('/salesoverview', {
     name: 'salesoverview',
     action() {
-      BlazeLayout.render( 'layout', { yield: 'salesoverview' } );
+        BlazeLayout.render('layout', {
+            yield: 'salesoverview'
+        });
     }
 });
 
 authenticatedRoutes.route('/contactoverview', {
     name: 'contactoverview',
     action() {
-      BlazeLayout.render( 'layout', { yield: 'contactoverview' } );
+        BlazeLayout.render('layout', {
+            yield: 'contactoverview'
+        });
     }
 });
 
 authenticatedRoutes.route('/billcard', {
     name: 'billcard',
     action() {
-      BlazeLayout.render( 'layout', { yield: 'billcard' } );
+        BlazeLayout.render('layout', {
+            yield: 'billcard'
+        });
     }
 });
 
 authenticatedRoutes.route('/chequecard', {
     name: 'chequecard',
     action() {
-      BlazeLayout.render( 'layout', { yield: 'chequecard' } );
+        BlazeLayout.render('layout', {
+            yield: 'chequecard'
+        });
     }
 });
 
 authenticatedRoutes.route('/customerscard', {
     name: 'customerscard',
     action() {
-      BlazeLayout.render( 'layout', { yield: 'customerscard' } );
+        BlazeLayout.render('layout', {
+            yield: 'customerscard'
+        });
     }
 });
 
 authenticatedRoutes.route('/employeescard', {
     name: 'employeescard',
     action() {
-      BlazeLayout.render( 'layout', { yield: 'employeescard' } );
+        BlazeLayout.render('layout', {
+            yield: 'employeescard'
+        });
     }
 });
 
 authenticatedRoutes.route('/supplierscard', {
     name: 'supplierscard',
     action() {
-      BlazeLayout.render( 'layout', { yield: 'supplierscard' } );
+        BlazeLayout.render('layout', {
+            yield: 'supplierscard'
+        });
     }
 });
 
 authenticatedRoutes.route('/customerlist', {
     name: 'customerlist',
     action() {
-      BlazeLayout.render( 'layout', { yield: 'customerlist' } );
+        BlazeLayout.render('layout', {
+            yield: 'customerlist'
+        });
     }
 });
 
 authenticatedRoutes.route('/invoiceemail', {
     name: 'invoiceemail',
     action() {
-      BlazeLayout.render( 'layout', { yield: 'invoiceemail' } );
+        BlazeLayout.render('layout', {
+            yield: 'invoiceemail'
+        });
     }
 });
 
 authenticatedRoutes.route('/joblist', {
     name: 'joblist',
     action() {
-      BlazeLayout.render( 'layout', { yield: 'joblist' } );
+        BlazeLayout.render('layout', {
+            yield: 'joblist'
+        });
     }
 });
 
 authenticatedRoutes.route('/statementlist', {
     name: 'statementlist',
     action() {
-      BlazeLayout.render( 'layout', { yield: 'statementlist' } );
+        BlazeLayout.render('layout', {
+            yield: 'statementlist'
+        });
     }
 });
 
@@ -343,98 +424,126 @@ authenticatedRoutes.route('/statementlist', {
 authenticatedRoutes.route('/employeelist', {
     name: 'employeelist',
     action() {
-      BlazeLayout.render( 'layout', { yield: 'employeelist' } );
+        BlazeLayout.render('layout', {
+            yield: 'employeelist'
+        });
     }
 });
 
 authenticatedRoutes.route('/supplierlist', {
     name: 'supplierlist',
     action() {
-      BlazeLayout.render( 'layout', { yield: 'supplierlist' } );
+        BlazeLayout.render('layout', {
+            yield: 'supplierlist'
+        });
     }
 });
 
 authenticatedRoutes.route('/chartofaccounts', {
     name: 'chartofaccounts',
     action() {
-      BlazeLayout.render( 'layout', { yield: 'chartofaccounts' } );
+        BlazeLayout.render('layout', {
+            yield: 'chartofaccounts'
+        });
     }
 });
 
 authenticatedRoutes.route('/expenseclaims', {
     name: 'expenseclaims',
     action() {
-      BlazeLayout.render( 'layout', { yield: 'expenseclaims' } );
+        BlazeLayout.render('layout', {
+            yield: 'expenseclaims'
+        });
     }
 });
 
 authenticatedRoutes.route('/purchaseorderlist', {
     name: 'purchaseorderlist',
     action() {
-      BlazeLayout.render( 'layout', { yield: 'purchaseorderlist' });
+        BlazeLayout.render('layout', {
+            yield: 'purchaseorderlist'
+        });
     }
 });
 
 authenticatedRoutes.route('/purchaseorderlistBO', {
     name: 'purchaseorderlistBO',
     action() {
-      BlazeLayout.render( 'layout', { yield: 'purchaseorderlistBO' } );
+        BlazeLayout.render('layout', {
+            yield: 'purchaseorderlistBO'
+        });
     }
 });
 
 authenticatedRoutes.route('/purchaseordercard', {
     name: 'purchaseordercard',
     action() {
-      BlazeLayout.render( 'layout', { yield: 'purchaseordercard'} );
+        BlazeLayout.render('layout', {
+            yield: 'purchaseordercard'
+        });
     }
 });
 
 authenticatedRoutes.route('/billlist', {
     name: 'billlist',
     action() {
-      BlazeLayout.render( 'layout', { yield: 'billlist' } );
+        BlazeLayout.render('layout', {
+            yield: 'billlist'
+        });
     }
 });
 
 authenticatedRoutes.route('/chequelist', {
     name: 'chequelist',
     action() {
-      BlazeLayout.render( 'layout', { yield: 'chequelist' } );
+        BlazeLayout.render('layout', {
+            yield: 'chequelist'
+        });
     }
 });
 
 authenticatedRoutes.route('/creditlist', {
     name: 'creditlist',
     action() {
-      BlazeLayout.render( 'layout', { yield: 'creditlist' } );
+        BlazeLayout.render('layout', {
+            yield: 'creditlist'
+        });
     }
 });
 
 authenticatedRoutes.route('/inventorylist', {
     name: 'inventorylist',
     action() {
-      BlazeLayout.render( 'layout', { yield: 'inventorylist' } );
+        BlazeLayout.render('layout', {
+            yield: 'inventorylist'
+        });
     }
 });
 
 authenticatedRoutes.route('/productlist', {
     name: 'productlist',
     action() {
-      BlazeLayout.render( 'layout', { yield: 'productlist' } );
+        BlazeLayout.render('layout', {
+            yield: 'productlist'
+        });
     }
 });
 
 authenticatedRoutes.route('/paymentcard', {
     name: 'paymentcard',
     action() {
-      BlazeLayout.render( 'layout', { yield: 'paymentcard' } );
+        BlazeLayout.render('layout', {
+            yield: 'paymentcard'
+        });
     }
 });
 
 authenticatedRoutes.route('/supplierpaymentcard', {
     name: 'supplierpaymentcard',
     action() {
-      BlazeLayout.render( 'layout', { yield: 'supplierpaymentcard' } );
+        BlazeLayout.render('layout', {
+            yield: 'supplierpaymentcard'
+        });
     }
 });
 
@@ -442,63 +551,81 @@ authenticatedRoutes.route('/supplierpaymentcard', {
 authenticatedRoutes.route('/settings', {
     name: 'settings',
     action() {
-      BlazeLayout.render( 'layout', { yield: 'settings' } );
+        BlazeLayout.render('layout', {
+            yield: 'settings'
+        });
     }
 });
 
 authenticatedRoutes.route('/organisationsettings', {
     name: 'organisationsettings',
     action() {
-      BlazeLayout.render( 'layout', { yield: 'organisationsettings' } );
+        BlazeLayout.render('layout', {
+            yield: 'organisationsettings'
+        });
     }
 });
 
 authenticatedRoutes.route('/accesslevel', {
     name: 'accesslevel',
     action() {
-      BlazeLayout.render( 'layout', { yield: 'accesslevel' } );
+        BlazeLayout.render('layout', {
+            yield: 'accesslevel'
+        });
     }
 });
 
 authenticatedRoutes.route('/companyappsettings', {
     name: 'companyappsettings',
     action() {
-      BlazeLayout.render( 'layout', { yield: 'companyappsettings' } );
+        BlazeLayout.render('layout', {
+            yield: 'companyappsettings'
+        });
     }
 });
 
 authenticatedRoutes.route('/balancesheetreport', {
     name: 'balancesheetreport',
     action() {
-      BlazeLayout.render( 'layout', { yield: 'balancesheetreport' } );
+        BlazeLayout.render('layout', {
+            yield: 'balancesheetreport'
+        });
     }
 });
 
 authenticatedRoutes.route('/balancetransactionlist', {
     name: 'balancetransactionlist',
     action() {
-      BlazeLayout.render( 'layout', { yield: 'balancetransactionlist' } );
+        BlazeLayout.render('layout', {
+            yield: 'balancetransactionlist'
+        });
     }
 });
 
 authenticatedRoutes.route('/allreports', {
     name: 'allreports',
     action() {
-      BlazeLayout.render( 'layout', { yield: 'allreports' } );
+        BlazeLayout.render('layout', {
+            yield: 'allreports'
+        });
     }
 });
 
 authenticatedRoutes.route('/productsalesreport', {
     name: 'productsalesreport',
     action() {
-      BlazeLayout.render( 'layout', { yield: 'productsalesreport' } );
+        BlazeLayout.render('layout', {
+            yield: 'productsalesreport'
+        });
     }
 });
 
 authenticatedRoutes.route('/salesreport', {
     name: 'salesreport',
     action() {
-      BlazeLayout.render( 'layout', { yield: 'salesreport' } );
+        BlazeLayout.render('layout', {
+            yield: 'salesreport'
+        });
     }
 });
 
@@ -506,7 +633,9 @@ authenticatedRoutes.route('/salesreport', {
 authenticatedRoutes.route('/salessummaryreport', {
     name: 'salessummaryreport',
     action() {
-      BlazeLayout.render( 'layout', { yield: 'salessummaryreport' } );
+        BlazeLayout.render('layout', {
+            yield: 'salessummaryreport'
+        });
     }
 });
 
@@ -514,555 +643,715 @@ authenticatedRoutes.route('/salessummaryreport', {
 authenticatedRoutes.route('/profitlossreport', {
     name: 'profitlossreport',
     action() {
-      BlazeLayout.render( 'layout', { yield: 'profitlossreport' } );
+        BlazeLayout.render('layout', {
+            yield: 'profitlossreport'
+        });
     }
 });
 
 authenticatedRoutes.route('/taxsummaryreport', {
     name: 'taxsummaryreport',
     action() {
-      BlazeLayout.render( 'layout', { yield: 'taxsummaryreport' } );
+        BlazeLayout.render('layout', {
+            yield: 'taxsummaryreport'
+        });
     }
 });
 
 authenticatedRoutes.route('/productview', {
     name: 'productview',
     action() {
-      BlazeLayout.render( 'layout', { yield: 'productview' } );
+        BlazeLayout.render('layout', {
+            yield: 'productview'
+        });
     }
 });
 
 authenticatedRoutes.route('/paymentoverview', {
     name: 'paymentoverview',
     action() {
-      BlazeLayout.render( 'layout', { yield: 'paymentoverview' } );
+        BlazeLayout.render('layout', {
+            yield: 'paymentoverview'
+        });
     }
 });
 
 authenticatedRoutes.route('/bankingoverview', {
     name: 'bankingoverview',
     action() {
-      BlazeLayout.render( 'layout', { yield: 'bankingoverview' } );
+        BlazeLayout.render('layout', {
+            yield: 'bankingoverview'
+        });
     }
 });
 
 authenticatedRoutes.route('/reconciliation', {
     name: 'reconciliation',
     action() {
-      BlazeLayout.render( 'layout', { yield: 'reconciliation' } );
+        BlazeLayout.render('layout', {
+            yield: 'reconciliation'
+        });
     }
 });
 
 authenticatedRoutes.route('/reconciliationlist', {
     name: 'reconciliationlist',
     action() {
-      BlazeLayout.render( 'layout', { yield: 'reconciliationlist' } );
+        BlazeLayout.render('layout', {
+            yield: 'reconciliationlist'
+        });
     }
 });
 
 authenticatedRoutes.route('/appointmentlist', {
     name: 'appointmentlist',
     action() {
-      BlazeLayout.render( 'layout', { yield: 'appointmentlist' } );
+        BlazeLayout.render('layout', {
+            yield: 'appointmentlist'
+        });
     }
 });
 
 authenticatedRoutes.route('/customerawaitingpayments', {
     name: 'customerawaitingpayments',
     action() {
-      BlazeLayout.render( 'layout', { yield: 'customerawaitingpayments' } );
+        BlazeLayout.render('layout', {
+            yield: 'customerawaitingpayments'
+        });
     }
 });
 
 authenticatedRoutes.route('/customerpayment', {
     name: 'customerpayment',
     action() {
-      BlazeLayout.render( 'layout', { yield: 'customerpayment' } );
+        BlazeLayout.render('layout', {
+            yield: 'customerpayment'
+        });
     }
 });
 
 authenticatedRoutes.route('/supplierawaitingpurchaseorder', {
     name: 'supplierawaitingpurchaseorder',
     action() {
-      BlazeLayout.render( 'layout', { yield: 'supplierawaitingpurchaseorder' } );
+        BlazeLayout.render('layout', {
+            yield: 'supplierawaitingpurchaseorder'
+        });
     }
 });
 
 authenticatedRoutes.route('/supplierawaitingbills', {
     name: 'supplierawaitingbills',
     action() {
-      BlazeLayout.render( 'layout', { yield: 'supplierawaitingbills' });
+        BlazeLayout.render('layout', {
+            yield: 'supplierawaitingbills'
+        });
     }
 });
 
 authenticatedRoutes.route('/supplierbills', {
     name: 'supplierbills',
     action() {
-      BlazeLayout.render( 'layout', { yield: 'supplierbills' });
+        BlazeLayout.render('layout', {
+            yield: 'supplierbills'
+        });
     }
 });
 
 authenticatedRoutes.route('/supplierpayment', {
     name: 'supplierpayment',
     action() {
-      BlazeLayout.render( 'layout', { yield: 'supplierpayment' });
+        BlazeLayout.render('layout', {
+            yield: 'supplierpayment'
+        });
     }
 });
 
 authenticatedRoutes.route('/formnewbill', {
     name: 'formnewbill',
     action() {
-      BlazeLayout.render( 'layout', { yield: 'formnewbill' });
+        BlazeLayout.render('layout', {
+            yield: 'formnewbill'
+        });
     }
 });
 
 authenticatedRoutes.route('/creditcard', {
     name: 'creditcard',
     action() {
-      BlazeLayout.render( 'layout', { yield: 'creditcard' });
+        BlazeLayout.render('layout', {
+            yield: 'creditcard'
+        });
     }
 });
 
 authenticatedRoutes.route('/agedpayables', {
     name: 'agedpayables',
     action() {
-      BlazeLayout.render( 'layout', { yield: 'agedpayables' });
+        BlazeLayout.render('layout', {
+            yield: 'agedpayables'
+        });
     }
 });
 
 authenticatedRoutes.route('/agedpayablessummary', {
     name: 'agedpayablessummary',
     action() {
-      BlazeLayout.render( 'layout', { yield: 'agedpayablessummary' });
+        BlazeLayout.render('layout', {
+            yield: 'agedpayablessummary'
+        });
     }
 });
 
 authenticatedRoutes.route('/agedreceivables', {
     name: 'agedreceivables',
     action() {
-      BlazeLayout.render( 'layout', { yield: 'agedreceivables' });
+        BlazeLayout.render('layout', {
+            yield: 'agedreceivables'
+        });
     }
 });
 
 authenticatedRoutes.route('/agedreceivablessummary', {
     name: 'agedreceivablessummary',
     action() {
-      BlazeLayout.render( 'layout', { yield: 'agedreceivablessummary' });
+        BlazeLayout.render('layout', {
+            yield: 'agedreceivablessummary'
+        });
     }
 });
 // Here
 authenticatedRoutes.route('/trialbalance', {
     name: 'trialbalance',
     action() {
-      BlazeLayout.render( 'layout', { yield: 'trialbalance' });
+        BlazeLayout.render('layout', {
+            yield: 'trialbalance'
+        });
     }
 });
 
 authenticatedRoutes.route('/currenciesSettings', {
     name: 'currenciesSettings',
     action() {
-      BlazeLayout.render( 'layout', { yield: 'currenciesSettings' });
+        BlazeLayout.render('layout', {
+            yield: 'currenciesSettings'
+        });
     }
 });
 
 authenticatedRoutes.route('/taxratesettings', {
     name: 'taxRatesSettings',
     action() {
-      BlazeLayout.render( 'layout', { yield: 'taxRatesSettings' });
+        BlazeLayout.render('layout', {
+            yield: 'taxRatesSettings'
+        });
     }
 });
 
 authenticatedRoutes.route('/generalledger', {
     name: 'generalledger',
     action() {
-      BlazeLayout.render( 'layout', { yield: 'generalledger' });
+        BlazeLayout.render('layout', {
+            yield: 'generalledger'
+        });
     }
 });
 
 authenticatedRoutes.route('/1099report', {
     name: 'report1099',
     action() {
-      BlazeLayout.render( 'layout', { yield: 'report1099' });
+        BlazeLayout.render('layout', {
+            yield: 'report1099'
+        });
     }
 });
 
 authenticatedRoutes.route('/printstatement', {
     name: 'printstatement',
     action() {
-      BlazeLayout.render( 'layout', { yield: 'printstatement' });
+        BlazeLayout.render('layout', {
+            yield: 'printstatement'
+        });
     }
 });
 
 authenticatedRoutes.route('/purchasesreport', {
     name: 'purchasesreport',
     action() {
-      BlazeLayout.render( 'layout', { yield: 'purchasesreport' });
+        BlazeLayout.render('layout', {
+            yield: 'purchasesreport'
+        });
     }
 });
 
 authenticatedRoutes.route('/purchasesummaryreport', {
     name: 'purchasesummaryreport',
     action() {
-      BlazeLayout.render( 'layout', { yield: 'purchasesummaryreport' });
+        BlazeLayout.render('layout', {
+            yield: 'purchasesummaryreport'
+        });
     }
 });
 
 authenticatedRoutes.route('/departmentSettings', {
     name: 'departmentSettings',
     action() {
-      BlazeLayout.render( 'layout', { yield: 'departmentSettings' });
+        BlazeLayout.render('layout', {
+            yield: 'departmentSettings'
+        });
     }
 });
 
 authenticatedRoutes.route('/clienttypesettings', {
     name: 'clienttypesettings',
     action() {
-      BlazeLayout.render( 'layout', { yield: 'clienttypesettings' });
+        BlazeLayout.render('layout', {
+            yield: 'clienttypesettings'
+        });
     }
 });
 
 authenticatedRoutes.route('/paymentmethodSettings', {
     name: 'paymentmethodSettings',
     action() {
-      BlazeLayout.render( 'layout', { yield: 'paymentmethodSettings' });
+        BlazeLayout.render('layout', {
+            yield: 'paymentmethodSettings'
+        });
     }
 });
 
 authenticatedRoutes.route('/termsettings', {
     name: 'termsettings',
     action() {
-      BlazeLayout.render( 'layout', { yield: 'termsettings' });
+        BlazeLayout.render('layout', {
+            yield: 'termsettings'
+        });
     }
 });
 
 authenticatedRoutes.route('/stockAdjustmentOverview', {
     name: 'stockadjustmentoverview',
     action() {
-      BlazeLayout.render( 'layout', { yield: 'stockadjustmentoverview' });
+        BlazeLayout.render('layout', {
+            yield: 'stockadjustmentoverview'
+        });
     }
 });
 authenticatedRoutes.route('/stockadjustmentcard', {
     name: 'stockadjustmentcard',
     action() {
-      BlazeLayout.render( 'layout', { yield: 'stockadjustmentcard' });
+        BlazeLayout.render('layout', {
+            yield: 'stockadjustmentcard'
+        });
     }
 });
 authenticatedRoutes.route('/journalentrycard', {
     name: 'journalentrycard',
     action() {
-      BlazeLayout.render( 'layout', { yield: 'journalentrycard' });
+        BlazeLayout.render('layout', {
+            yield: 'journalentrycard'
+        });
     }
 });
 authenticatedRoutes.route('/journalentrylist', {
     name: 'journalentrylist',
     action() {
-      BlazeLayout.render( 'layout', { yield: 'journalentrylist' });
+        BlazeLayout.render('layout', {
+            yield: 'journalentrylist'
+        });
     }
 });
 authenticatedRoutes.route('/timesheet', {
     name: 'timesheet',
     action() {
-      BlazeLayout.render( 'layout', { yield: 'timesheet' });
+        BlazeLayout.render('layout', {
+            yield: 'timesheet'
+        });
     }
 });
 
 authenticatedRoutes.route('/squareapi', {
     name: 'squareapi',
     action() {
-      BlazeLayout.render( 'layout', { yield: 'squareapi' });
+        BlazeLayout.render('layout', {
+            yield: 'squareapi'
+        });
     }
 });
 
 authenticatedRoutes.route('/paychexapi', {
     name: 'paychexapi',
     action() {
-      BlazeLayout.render( 'layout', { yield: 'paychexapi' });
+        BlazeLayout.render('layout', {
+            yield: 'paychexapi'
+        });
     }
 });
 
 authenticatedRoutes.route('/adpapi', {
     name: 'adpapi',
     action() {
-      BlazeLayout.render( 'layout', { yield: 'adpapi' });
+        BlazeLayout.render('layout', {
+            yield: 'adpapi'
+        });
     }
 });
 
 authenticatedRoutes.route('/stsdashboard', {
     name: 'stsdashboard',
     action() {
-      BlazeLayout.render( 'layout', { yield: 'stsdashboard' });
+        BlazeLayout.render('layout', {
+            yield: 'stsdashboard'
+        });
     }
 });
 
 authenticatedRoutes.route('/stsplants', {
     name: 'stsplants',
     action() {
-      BlazeLayout.render( 'layout', { yield: 'stsplants' });
+        BlazeLayout.render('layout', {
+            yield: 'stsplants'
+        });
     }
 });
 
 authenticatedRoutes.route('/stsharvests', {
     name: 'stsharvests',
     action() {
-      BlazeLayout.render( 'layout', { yield: 'stsharvests' });
+        BlazeLayout.render('layout', {
+            yield: 'stsharvests'
+        });
     }
 });
 
 authenticatedRoutes.route('/stspackages', {
     name: 'stspackages',
     action() {
-      BlazeLayout.render( 'layout', { yield: 'stspackages' });
+        BlazeLayout.render('layout', {
+            yield: 'stspackages'
+        });
     }
 });
 
 authenticatedRoutes.route('/stsoverviews', {
     name: 'stsoverviews',
     action() {
-      BlazeLayout.render( 'layout', { yield: 'stsoverviews' });
+        BlazeLayout.render('layout', {
+            yield: 'stsoverviews'
+        });
     }
 });
 
 authenticatedRoutes.route('/stscreateplantings', {
     name: 'stscreateplantings',
     action() {
-      BlazeLayout.render( 'layout', { yield: 'stscreateplantings' });
+        BlazeLayout.render('layout', {
+            yield: 'stscreateplantings'
+        });
     }
 });
 
 authenticatedRoutes.route('/stschangegrowthphase', {
     name: 'stschangegrowthphase',
     action() {
-      BlazeLayout.render( 'layout', { yield: 'stschangegrowthphase' });
+        BlazeLayout.render('layout', {
+            yield: 'stschangegrowthphase'
+        });
     }
 });
 
 authenticatedRoutes.route('/stsrecordadditives', {
     name: 'stsrecordadditives',
     action() {
-      BlazeLayout.render( 'layout', { yield: 'stsrecordadditives' });
+        BlazeLayout.render('layout', {
+            yield: 'stsrecordadditives'
+        });
     }
 });
 
 authenticatedRoutes.route('/stschangeroom', {
     name: 'stschangeroom',
     action() {
-      BlazeLayout.render( 'layout', { yield: 'stschangeroom' });
+        BlazeLayout.render('layout', {
+            yield: 'stschangeroom'
+        });
     }
 });
 
 authenticatedRoutes.route('/stsmanicureplants', {
     name: 'stsmanicureplants',
     action() {
-      BlazeLayout.render( 'layout', { yield: 'stsmanicureplants' });
+        BlazeLayout.render('layout', {
+            yield: 'stsmanicureplants'
+        });
     }
 });
 
 authenticatedRoutes.route('/stsdestroyplants', {
     name: 'stsdestroyplants',
     action() {
-      BlazeLayout.render( 'layout', { yield: 'stsdestroyplants' });
+        BlazeLayout.render('layout', {
+            yield: 'stsdestroyplants'
+        });
     }
 });
 
 authenticatedRoutes.route('/ststaghistory', {
     name: 'ststaghistory',
     action() {
-      BlazeLayout.render( 'layout', { yield: 'ststaghistory' });
+        BlazeLayout.render('layout', {
+            yield: 'ststaghistory'
+        });
     }
 });
 
 authenticatedRoutes.route('/stscreateharvests', {
     name: 'stscreateharvests',
     action() {
-      BlazeLayout.render( 'layout', { yield: 'stscreateharvests' });
+        BlazeLayout.render('layout', {
+            yield: 'stscreateharvests'
+        });
     }
 });
 
 authenticatedRoutes.route('/stsharvestlist', {
     name: 'stsharvestlist',
     action() {
-      BlazeLayout.render( 'layout', { yield: 'stsharvestlist' });
+        BlazeLayout.render('layout', {
+            yield: 'stsharvestlist'
+        });
     }
 });
 
 authenticatedRoutes.route('/stscreatepackagefromharvest', {
     name: 'stscreatepackagefromharvest',
     action() {
-      BlazeLayout.render( 'layout', { yield: 'stscreatepackagefromharvest' });
+        BlazeLayout.render('layout', {
+            yield: 'stscreatepackagefromharvest'
+        });
     }
 });
 
 authenticatedRoutes.route('/stscreatepackagefrompackages', {
     name: 'stscreatepackagefrompackages',
     action() {
-      BlazeLayout.render( 'layout', { yield: 'stscreatepackagefrompackages' });
+        BlazeLayout.render('layout', {
+            yield: 'stscreatepackagefrompackages'
+        });
     }
 });
 
 authenticatedRoutes.route('/stscreatepackagesfromharvest', {
     name: 'stscreatepackagesfromharvest',
     action() {
-      BlazeLayout.render( 'layout', { yield: 'stscreatepackagesfromharvest' });
+        BlazeLayout.render('layout', {
+            yield: 'stscreatepackagesfromharvest'
+        });
     }
 });
 
 authenticatedRoutes.route('/stspackagelist', {
     name: 'stspackagelist',
     action() {
-      BlazeLayout.render( 'layout', { yield: 'stspackagelist' });
+        BlazeLayout.render('layout', {
+            yield: 'stspackagelist'
+        });
     }
 });
 
 authenticatedRoutes.route('/stsactivitylog', {
     name: 'stsactivitylog',
     action() {
-      BlazeLayout.render( 'layout', { yield: 'stsactivitylog' });
+        BlazeLayout.render('layout', {
+            yield: 'stsactivitylog'
+        });
     }
 });
 
 authenticatedRoutes.route('/ststagorderlist', {
     name: 'ststagorderlist',
     action() {
-      BlazeLayout.render( 'layout', { yield: 'ststagorderlist' });
+        BlazeLayout.render('layout', {
+            yield: 'ststagorderlist'
+        });
     }
 });
 
 authenticatedRoutes.route('/stsactiveinventory', {
     name: 'stsactiveinventory',
     action() {
-      BlazeLayout.render( 'layout', { yield: 'stsactiveinventory' });
+        BlazeLayout.render('layout', {
+            yield: 'stsactiveinventory'
+        });
     }
 });
 
 authenticatedRoutes.route('/stssettings', {
     name: 'stssettings',
     action() {
-      BlazeLayout.render( 'layout', { yield: 'stssettings' });
+        BlazeLayout.render('layout', {
+            yield: 'stssettings'
+        });
     }
 });
 
 authenticatedRoutes.route('/ststransfers', {
     name: 'ststransfers',
     action() {
-      BlazeLayout.render( 'layout', { yield: 'ststransfers' });
+        BlazeLayout.render('layout', {
+            yield: 'ststransfers'
+        });
     }
 });
 
 authenticatedRoutes.route('/stscreatetransfer', {
     name: 'stscreatetransfer',
     action() {
-      BlazeLayout.render( 'layout', { yield: 'stscreatetransfer' });
+        BlazeLayout.render('layout', {
+            yield: 'stscreatetransfer'
+        });
     }
 });
 
 authenticatedRoutes.route('/stsaddtransfercontent', {
     name: 'stsaddtransfercontent',
     action() {
-      BlazeLayout.render( 'layout', { yield: 'stsaddtransfercontent' });
+        BlazeLayout.render('layout', {
+            yield: 'stsaddtransfercontent'
+        });
     }
 });
 
 authenticatedRoutes.route('/ststransferhistory', {
     name: 'ststransferhistory',
     action() {
-      BlazeLayout.render( 'layout', { yield: 'ststransferhistory' });
+        BlazeLayout.render('layout', {
+            yield: 'ststransferhistory'
+        });
     }
 });
 
 authenticatedRoutes.route('/stsprintlabels', {
     name: 'stsprintlabels',
     action() {
-      BlazeLayout.render( 'layout', { yield: 'stsprintlabels' });
+        BlazeLayout.render('layout', {
+            yield: 'stsprintlabels'
+        });
     }
 });
 
 authenticatedRoutes.route('/stslocationoverview', {
     name: 'stslocationoverview',
     action() {
-      BlazeLayout.render( 'layout', { yield: 'stslocationoverview' });
+        BlazeLayout.render('layout', {
+            yield: 'stslocationoverview'
+        });
     }
 });
 
 authenticatedRoutes.route('/stsoutgoingorders', {
     name: 'stsoutgoingorders',
     action() {
-      BlazeLayout.render( 'layout', { yield: 'stsoutgoingorders' });
+        BlazeLayout.render('layout', {
+            yield: 'stsoutgoingorders'
+        });
     }
 });
 
 authenticatedRoutes.route('/featureallocation', {
     name: 'featureallocation',
     action() {
-      BlazeLayout.render( 'layout', { yield: 'featureallocation' });
+        BlazeLayout.render('layout', {
+            yield: 'featureallocation'
+        });
     }
 });
 
 authenticatedRoutes.route('/registersts', {
     name: 'registersts',
     action() {
-      BlazeLayout.render( 'layout', { yield: 'registersts' });
+        BlazeLayout.render('layout', {
+            yield: 'registersts'
+        });
     }
 });
 
 authenticatedRoutes.route('/bankrecon', {
     name: 'bankrecon',
     action() {
-      BlazeLayout.render( 'layout', { yield: 'bankrecon' });
+        BlazeLayout.render('layout', {
+            yield: 'bankrecon'
+        });
     }
 });
 
 authenticatedRoutes.route('/depositcard', {
     name: 'depositcard',
     action() {
-      BlazeLayout.render( 'layout', { yield: 'depositcard' });
+        BlazeLayout.render('layout', {
+            yield: 'depositcard'
+        });
     }
 });
 
 authenticatedRoutes.route('/depositlist', {
     name: 'depositlist',
     action() {
-      BlazeLayout.render( 'layout', { yield: 'depositlist' });
+        BlazeLayout.render('layout', {
+            yield: 'depositlist'
+        });
     }
 });
 
 authenticatedRoutes.route('/linktrueerp', {
     name: 'linktrueerp',
     action() {
-      BlazeLayout.render( 'layout', { yield: 'linktrueerp' });
+        BlazeLayout.render('layout', {
+            yield: 'linktrueerp'
+        });
     }
 });
 
 authenticatedRoutes.route('/subscriptionSettings', {
     name: 'subscriptionSettings',
     action() {
-      BlazeLayout.render( 'layout', { yield: 'subscriptionSettings' });
+        BlazeLayout.render('layout', {
+            yield: 'subscriptionSettings'
+        });
     }
 });
 
 authenticatedRoutes.route('/employeetimeclock', {
     name: 'employeetimeclock',
     action() {
-      BlazeLayout.render( 'layout', { yield: 'employeetimeclock' });
+        BlazeLayout.render('layout', {
+            yield: 'employeetimeclock'
+        });
     }
 });
 
 authenticatedRoutes.route('/vs1shipping', {
     name: 'vs1shipping',
     action() {
-      BlazeLayout.render( 'layout', { yield: 'vs1shipping' });
+        BlazeLayout.render('layout', {
+            yield: 'vs1shipping'
+        });
     }
 });
 
 authenticatedRoutes.route('/shippingdocket', {
     name: 'shippingdocket',
     action() {
-      BlazeLayout.render( 'layout', { yield: 'shippingdocket' });
+        BlazeLayout.render('layout', {
+            yield: 'shippingdocket'
+        });
     }
 });
 
 authenticatedRoutes.route('/backuprestore', {
     name: 'backuprestore',
     action() {
-      BlazeLayout.render( 'layout', { yield: 'backuprestore' });
+        BlazeLayout.render('layout', {
+            yield: 'backuprestore'
+        });
     }
 });
