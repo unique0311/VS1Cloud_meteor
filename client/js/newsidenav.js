@@ -2396,73 +2396,73 @@ Template.newsidenav.events({
         $('#accountsSubmenu').collapse('show');
     },
     'mouseleave .accountsLi': function(event) {
-        $('#accountsSubmenu').collapse('hide');
+        $('.collapse').collapse('hide');
     },
     'mouseenter .appointmentsLi': function(event) {
         $('#appointmentsSubmenu').collapse('show');
     },
     'mouseleave .appointmentsLi': function(event) {
-        $('#appointmentsSubmenu').collapse('hide');
+        $('.collapse').collapse('hide');
     },
     'mouseenter .bankingLi': function(event) {
         $('#bankingSubmenu').collapse('show');
     },
     'mouseleave .bankingLi': function(event) {
-        $('#bankingSubmenu').collapse('hide');
+        $('.collapse').collapse('hide');
     },
     'mouseenter .contactsLi': function(event) {
         $('#contactsSubmenu').collapse('show');
     },
     'mouseleave .contactsLi': function(event) {
-        $('#contactsSubmenu').collapse('hide');
+        $('.collapse').collapse('hide');
     },
     'mouseenter .inventoryLi': function(event) {
         $('#inventorySubmenu').collapse('show');
     },
     'mouseleave .inventoryLi': function(event) {
-        $('#inventorySubmenu').collapse('hide');
+        $('.collapse').collapse('hide');
     },
     'mouseenter .paymentsLi': function(event) {
         $('#paymentsSubmenu').collapse('show');
     },
     'mouseleave .paymentsLi': function(event) {
-        $('#paymentsSubmenu').collapse('hide');
+        $('.collapse').collapse('hide');
     },
     'mouseenter .payrollLi': function(event) {
         $('#payrollSubmenu').collapse('show');
     },
     'mouseleave .payrollLi': function(event) {
-        $('#payrollSubmenu').collapse('hide');
+        $('.collapse').collapse('hide');
     },
     'mouseenter .purchasesLi': function(event) {
         $('#purchasesSubmenu').collapse('show');
     },
     'mouseleave .purchasesLi': function(event) {
-        $('#purchasesSubmenu').collapse('hide');
+        $('.collapse').collapse('hide');
     },
     'mouseenter .reportsLi': function(event) {
         $('#reportsSubmenu').collapse('show');
     },
     'mouseleave .reportsLi': function(event) {
-        $('#reportsSubmenu').collapse('hide');
+        $('.collapse').collapse('hide');
     },
     'mouseenter .salesLi': function(event) {
         $('#salesSubmenu').collapse('show');
     },
     'mouseleave .salesLi': function(event) {
-        $('#salesSubmenu').collapse('hide');
+        $('.collapse').collapse('hide');
     },
     'mouseenter .seedtosaleLi': function(event) {
         $('#seedToSaleSubmenu').collapse('show');
     },
     'mouseleave .seedtosaleLi': function(event) {
-        $('#seedToSaleSubmenu').collapse('hide');
+        $('.collapse').collapse('hide');
     },
     'mouseenter .settingsLi': function(event) {
         $('#settingsSubmenu').collapse('show');
     },
     'mouseleave .settingsLi': function(event) {
-        $('#settingsSubmenu').collapse('hide');
+        $('.collapse').collapse('hide');
     },
     'click .sidenavaccounts': function(event) {
         event.preventDefault();
