@@ -310,6 +310,7 @@ Template.productview.onRendered(function() {
     var getprod_name = url.split('?prodname=');
     var currentProductID = FlowRouter.current().queryParams.id;
    var currentProductName = FlowRouter.current().queryParams.prodname;
+   //console.log(currentProductName);
     let lineExtaSellItems = [];
     let lineExtaSellObj = {};
     if(FlowRouter.current().queryParams.id){
@@ -814,6 +815,7 @@ Template.productview.onRendered(function() {
     }else if(FlowRouter.current().queryParams.prodname){
 
         currentProductName = currentProductName.replace(/%20/g, " ");
+        console.log(currentProductName);
         templateObject.getProductData = function () {
 
           getVS1Data('TProductVS1').then(function (dataObject) {
@@ -824,35 +826,35 @@ Template.productview.onRendered(function() {
                   let lineItemObj = {};
                   let currencySymbol = Currency;
                   let totalquantity = 0;
-                  currentProductID = data.tproductvs1[0].fields.ID;
+                  currentProductID = data.tproduct[0].fields.ID;
                   templateObject.getProductClassQtyData();
                   let productrecord = {
-                      id : data.tproductvs1[0].fields.ID,
-                      productname : data.tproductvs1[0].fields.ProductName,
-                      lib: data.tproductvs1[0].fields.ProductName,
-                      productcode : data.tproductvs1[0].fields.PRODUCTCODE,
-                      productprintName : data.tproductvs1[0].fields.ProductPrintName,
-                      assetaccount : data.tproductvs1[0].fields.AssetAccount,
-                      buyqty1cost : utilityService.modifynegativeCurrencyFormat(data.tproductvs1[0].fields.BuyQty1Cost),
-                      cogsaccount: data.tproductvs1[0].fields.CogsAccount,
-                      taxcodepurchase : data.tproductvs1[0].fields.TaxCodePurchase,
-                      purchasedescription : data.tproductvs1[0].fields.PurchaseDescription,
-                      sellqty1price : utilityService.modifynegativeCurrencyFormat(data.tproductvs1[0].fields.SellQty1Price),
-                      incomeaccount : data.tproductvs1[0].fields.IncomeAccount,
-                      taxcodesales : data.tproductvs1[0].fields.TaxCodeSales,
-                      salesdescription : data.tproductvs1[0].fields.SalesDescription,
-                      active : data.tproductvs1[0].fields.Active,
-                      lockextrasell : data.tproductvs1[0].fields.LockExtraSell,
-                      customfield1 : data.tproductvs1[0].fields.CUSTFLD1,
-                      customfield2 : data.tproductvs1[0].fields.CUSTFLD2,
+                      id : data.tproduct[0].fields.ID,
+                      productname : data.tproduct[0].fields.ProductName,
+                      lib: data.tproduct[0].fields.ProductName,
+                      productcode : data.tproduct[0].fields.PRODUCTCODE,
+                      productprintName : data.tproduct[0].fields.ProductPrintName,
+                      assetaccount : data.tproduct[0].fields.AssetAccount,
+                      buyqty1cost : utilityService.modifynegativeCurrencyFormat(data.tproduct[0].fields.BuyQty1Cost),
+                      cogsaccount: data.tproduct[0].fields.CogsAccount,
+                      taxcodepurchase : data.tproduct[0].fields.TaxCodePurchase,
+                      purchasedescription : data.tproduct[0].fields.PurchaseDescription,
+                      sellqty1price : utilityService.modifynegativeCurrencyFormat(data.tproduct[0].fields.SellQty1Price),
+                      incomeaccount : data.tproduct[0].fields.IncomeAccount,
+                      taxcodesales : data.tproduct[0].fields.TaxCodeSales,
+                      salesdescription : data.tproduct[0].fields.SalesDescription,
+                      active : data.tproduct[0].fields.Active,
+                      lockextrasell : data.tproduct[0].fields.LockExtraSell,
+                      customfield1 : data.tproduct[0].fields.CUSTFLD1,
+                      customfield2 : data.tproduct[0].fields.CUSTFLD2,
                       //totalqtyinstock : totalquantity,
-                      barcode:data.tproductvs1[0].fields.BARCODE,
+                      barcode:data.tproduct[0].fields.BARCODE,
                       // data.fields.TotalQtyInStock,
-                      totalqtyonorder : data.tproductvs1[0].fields.TotalQtyOnOrder,
+                      totalqtyonorder : data.tproduct[0].fields.TotalQtyOnOrder,
                       //productclass :lineItems
                   };
 
-                  if(data.tproductvs1[0].fields.ExtraSellPrice == null){
+                  if(data.tproduct[0].fields.ExtraSellPrice == null){
                      lineExtaSellObj = {
                         lineID: Random.id(),
                         clienttype: '',
@@ -865,33 +867,33 @@ Template.productview.onRendered(function() {
                     templateObject.productExtraSell.set(lineExtaSellItems);
                   }else{
                     templateObject.isExtraSellChecked.set(true);
-                    for(let e=0; e<data.tproductvs1[0].fields.ExtraSellPrice.length; e++){
+                    for(let e=0; e<data.tproduct[0].fields.ExtraSellPrice.length; e++){
                       lineExtaSellObj = {
                          lineID: Random.id(),
-                         clienttype: data.tproductvs1[0].fields.ExtraSellPrice[e].fields.ClientTypeName || '',
-                         discount: data.tproductvs1[0].fields.ExtraSellPrice[e].fields.QtyPercent1 || 0,
-                         datefrom: data.tproductvs1[0].fields.ExtraSellPrice[e].fields.DateFrom || '',
-                         dateto: data.tproductvs1[0].fields.ExtraSellPrice[e].fields.DateTo || '',
-                         price: utilityService.modifynegativeCurrencyFormat(data.tproductvs1[0].fields.ExtraSellPrice[e].fields.Price1) || 0
+                         clienttype: data.tproduct[0].fields.ExtraSellPrice[e].fields.ClientTypeName || '',
+                         discount: data.tproduct[0].fields.ExtraSellPrice[e].fields.QtyPercent1 || 0,
+                         datefrom: data.tproduct[0].fields.ExtraSellPrice[e].fields.DateFrom || '',
+                         dateto: data.tproduct[0].fields.ExtraSellPrice[e].fields.DateTo || '',
+                         price: utilityService.modifynegativeCurrencyFormat(data.tproduct[0].fields.ExtraSellPrice[e].fields.Price1) || 0
                      };
                      lineExtaSellItems.push(lineExtaSellObj);
 
                     }
                     templateObject.productExtraSell.set(lineExtaSellItems);
                   }
-                  let itrackItem = data.tproductvs1[0].fields.LockExtraSell;
+                  let itrackItem = data.tproduct[0].fields.LockExtraSell;
                   if(itrackItem ==  true){
                       templateObject.isTrackChecked.set(true);
                   }else{
                       templateObject.isTrackChecked.set(false);
                   }
-                  if(data.tproductvs1[0].fields.ProductType=="INV"){
+                  if(data.tproduct[0].fields.ProductType=="INV"){
                     templateObject.isTrackChecked.set(true);
                   }else{
                     templateObject.isTrackChecked.set(false);
                   }
-                  $('#sltsalesacount').val(data.tproductvs1[0].fields.IncomeAccount);
-                  $('#sltcogsaccount').val(data.tproductvs1[0].fields.CogsAccount);
+                  $('#sltsalesacount').val(data.tproduct[0].fields.IncomeAccount);
+                  $('#sltcogsaccount').val(data.tproduct[0].fields.CogsAccount);
 
                   templateObject.records.set(productrecord);
               }).catch(function (err) {
@@ -904,6 +906,7 @@ Template.productview.onRendered(function() {
               var added=false;
 
               for(let i=0; i<useData.length; i++){
+                console.log(useData[i].fields.ProductName);
                 if(useData[i].fields.ProductName === currentProductName){
                   added = true;
                   $('.fullScreenSpin').css('display','none');
@@ -990,35 +993,35 @@ Template.productview.onRendered(function() {
                     let lineItemObj = {};
                     let currencySymbol = Currency;
                     let totalquantity = 0;
-                    currentProductID = data.tproductvs1[0].fields.ID;
+                    currentProductID = data.tproduct[0].fields.ID;
                     templateObject.getProductClassQtyData();
                     let productrecord = {
-                        id : data.tproductvs1[0].fields.ID,
-                        productname : data.tproductvs1[0].fields.ProductName,
-                        lib: data.tproductvs1[0].fields.ProductName,
-                        productcode : data.tproductvs1[0].fields.PRODUCTCODE,
-                        productprintName : data.tproductvs1[0].fields.ProductPrintName,
-                        assetaccount : data.tproductvs1[0].fields.AssetAccount,
-                        buyqty1cost : utilityService.modifynegativeCurrencyFormat(data.tproductvs1[0].fields.BuyQty1Cost),
-                        cogsaccount: data.tproductvs1[0].fields.CogsAccount,
-                        taxcodepurchase : data.tproductvs1[0].fields.TaxCodePurchase,
-                        purchasedescription : data.tproductvs1[0].fields.PurchaseDescription,
-                        sellqty1price : utilityService.modifynegativeCurrencyFormat(data.tproductvs1[0].fields.SellQty1Price),
-                        incomeaccount : data.tproductvs1[0].fields.IncomeAccount,
-                        taxcodesales : data.tproductvs1[0].fields.TaxCodeSales,
-                        salesdescription : data.tproductvs1[0].fields.SalesDescription,
-                        active : data.tproductvs1[0].fields.Active,
-                        lockextrasell : data.tproductvs1[0].fields.LockExtraSell,
-                        customfield1 : data.tproductvs1[0].fields.CUSTFLD1,
-                        customfield2 : data.tproductvs1[0].fields.CUSTFLD2,
+                        id : data.tproduct[0].fields.ID,
+                        productname : data.tproduct[0].fields.ProductName,
+                        lib: data.tproduct[0].fields.ProductName,
+                        productcode : data.tproduct[0].fields.PRODUCTCODE,
+                        productprintName : data.tproduct[0].fields.ProductPrintName,
+                        assetaccount : data.tproduct[0].fields.AssetAccount,
+                        buyqty1cost : utilityService.modifynegativeCurrencyFormat(data.tproduct[0].fields.BuyQty1Cost),
+                        cogsaccount: data.tproduct[0].fields.CogsAccount,
+                        taxcodepurchase : data.tproduct[0].fields.TaxCodePurchase,
+                        purchasedescription : data.tproduct[0].fields.PurchaseDescription,
+                        sellqty1price : utilityService.modifynegativeCurrencyFormat(data.tproduct[0].fields.SellQty1Price),
+                        incomeaccount : data.tproduct[0].fields.IncomeAccount,
+                        taxcodesales : data.tproduct[0].fields.TaxCodeSales,
+                        salesdescription : data.tproduct[0].fields.SalesDescription,
+                        active : data.tproduct[0].fields.Active,
+                        lockextrasell : data.tproduct[0].fields.LockExtraSell,
+                        customfield1 : data.tproduct[0].fields.CUSTFLD1,
+                        customfield2 : data.tproduct[0].fields.CUSTFLD2,
                         //totalqtyinstock : totalquantity,
-                        barcode:data.tproductvs1[0].fields.BARCODE,
+                        barcode:data.tproduct[0].fields.BARCODE,
                         // data.fields.TotalQtyInStock,
-                        totalqtyonorder : data.tproductvs1[0].fields.TotalQtyOnOrder,
+                        totalqtyonorder : data.tproduct[0].fields.TotalQtyOnOrder,
                         //productclass :lineItems
                     };
 
-                    if(data.tproductvs1[0].fields.ExtraSellPrice == null){
+                    if(data.tproduct[0].fields.ExtraSellPrice == null){
                        lineExtaSellObj = {
                           lineID: Random.id(),
                           clienttype: '',
@@ -1031,33 +1034,33 @@ Template.productview.onRendered(function() {
                       templateObject.productExtraSell.set(lineExtaSellItems);
                     }else{
                       templateObject.isExtraSellChecked.set(true);
-                      for(let e=0; e<data.tproductvs1[0].fields.ExtraSellPrice.length; e++){
+                      for(let e=0; e<data.tproduct[0].fields.ExtraSellPrice.length; e++){
                         lineExtaSellObj = {
                            lineID: Random.id(),
-                           clienttype: data.tproductvs1[0].fields.ExtraSellPrice[e].fields.ClientTypeName || '',
-                           discount: data.tproductvs1[0].fields.ExtraSellPrice[e].fields.QtyPercent1 || 0,
-                           datefrom: data.tproductvs1[0].fields.ExtraSellPrice[e].fields.DateFrom || '',
-                           dateto: data.tproductvs1[0].fields.ExtraSellPrice[e].fields.DateTo || '',
-                           price: utilityService.modifynegativeCurrencyFormat(data.tproductvs1[0].fields.ExtraSellPrice[e].fields.Price1) || 0
+                           clienttype: data.tproduct[0].fields.ExtraSellPrice[e].fields.ClientTypeName || '',
+                           discount: data.tproduct[0].fields.ExtraSellPrice[e].fields.QtyPercent1 || 0,
+                           datefrom: data.tproduct[0].fields.ExtraSellPrice[e].fields.DateFrom || '',
+                           dateto: data.tproduct[0].fields.ExtraSellPrice[e].fields.DateTo || '',
+                           price: utilityService.modifynegativeCurrencyFormat(data.tproduct[0].fields.ExtraSellPrice[e].fields.Price1) || 0
                        };
                        lineExtaSellItems.push(lineExtaSellObj);
 
                       }
                       templateObject.productExtraSell.set(lineExtaSellItems);
                     }
-                    let itrackItem = data.tproductvs1[0].fields.LockExtraSell;
+                    let itrackItem = data.tproduct[0].fields.LockExtraSell;
                     if(itrackItem ==  true){
                         templateObject.isTrackChecked.set(true);
                     }else{
                         templateObject.isTrackChecked.set(false);
                     }
-                    if(data.tproductvs1[0].fields.ProductType=="INV"){
+                    if(data.tproduct[0].fields.ProductType=="INV"){
                       templateObject.isTrackChecked.set(true);
                     }else{
                       templateObject.isTrackChecked.set(false);
                     }
-                    $('#sltsalesacount').val(data.tproductvs1[0].fields.IncomeAccount);
-                    $('#sltcogsaccount').val(data.tproductvs1[0].fields.CogsAccount);
+                    $('#sltsalesacount').val(data.tproduct[0].fields.IncomeAccount);
+                    $('#sltcogsaccount').val(data.tproduct[0].fields.CogsAccount);
 
                     templateObject.records.set(productrecord);
                 }).catch(function (err) {
@@ -1074,35 +1077,35 @@ Template.productview.onRendered(function() {
                 let lineItemObj = {};
                 let currencySymbol = Currency;
                 let totalquantity = 0;
-                currentProductID = data.tproductvs1[0].fields.ID;
+                currentProductID = data.tproduct[0].fields.ID;
                 templateObject.getProductClassQtyData();
                 let productrecord = {
-                    id : data.tproductvs1[0].fields.ID,
-                    productname : data.tproductvs1[0].fields.ProductName,
-                    lib: data.tproductvs1[0].fields.ProductName,
-                    productcode : data.tproductvs1[0].fields.PRODUCTCODE,
-                    productprintName : data.tproductvs1[0].fields.ProductPrintName,
-                    assetaccount : data.tproductvs1[0].fields.AssetAccount,
-                    buyqty1cost : utilityService.modifynegativeCurrencyFormat(data.tproductvs1[0].fields.BuyQty1Cost),
-                    cogsaccount: data.tproductvs1[0].fields.CogsAccount,
-                    taxcodepurchase : data.tproductvs1[0].fields.TaxCodePurchase,
-                    purchasedescription : data.tproductvs1[0].fields.PurchaseDescription,
-                    sellqty1price : utilityService.modifynegativeCurrencyFormat(data.tproductvs1[0].fields.SellQty1Price),
-                    incomeaccount : data.tproductvs1[0].fields.IncomeAccount,
-                    taxcodesales : data.tproductvs1[0].fields.TaxCodeSales,
-                    salesdescription : data.tproductvs1[0].fields.SalesDescription,
-                    active : data.tproductvs1[0].fields.Active,
-                    lockextrasell : data.tproductvs1[0].fields.LockExtraSell,
-                    customfield1 : data.tproductvs1[0].fields.CUSTFLD1,
-                    customfield2 : data.tproductvs1[0].fields.CUSTFLD2,
+                    id : data.tproduct[0].fields.ID,
+                    productname : data.tproduct[0].fields.ProductName,
+                    lib: data.tproduct[0].fields.ProductName,
+                    productcode : data.tproduct[0].fields.PRODUCTCODE,
+                    productprintName : data.tproduct[0].fields.ProductPrintName,
+                    assetaccount : data.tproduct[0].fields.AssetAccount,
+                    buyqty1cost : utilityService.modifynegativeCurrencyFormat(data.tproduct[0].fields.BuyQty1Cost),
+                    cogsaccount: data.tproduct[0].fields.CogsAccount,
+                    taxcodepurchase : data.tproduct[0].fields.TaxCodePurchase,
+                    purchasedescription : data.tproduct[0].fields.PurchaseDescription,
+                    sellqty1price : utilityService.modifynegativeCurrencyFormat(data.tproduct[0].fields.SellQty1Price),
+                    incomeaccount : data.tproduct[0].fields.IncomeAccount,
+                    taxcodesales : data.tproduct[0].fields.TaxCodeSales,
+                    salesdescription : data.tproduct[0].fields.SalesDescription,
+                    active : data.tproduct[0].fields.Active,
+                    lockextrasell : data.tproduct[0].fields.LockExtraSell,
+                    customfield1 : data.tproduct[0].fields.CUSTFLD1,
+                    customfield2 : data.tproduct[0].fields.CUSTFLD2,
                     //totalqtyinstock : totalquantity,
-                    barcode:data.tproductvs1[0].fields.BARCODE,
+                    barcode:data.tproduct[0].fields.BARCODE,
                     // data.fields.TotalQtyInStock,
-                    totalqtyonorder : data.tproductvs1[0].fields.TotalQtyOnOrder,
+                    totalqtyonorder : data.tproduct[0].fields.TotalQtyOnOrder,
                     //productclass :lineItems
                 };
 
-                if(data.tproductvs1[0].fields.ExtraSellPrice == null){
+                if(data.tproduct[0].fields.ExtraSellPrice == null){
                    lineExtaSellObj = {
                       lineID: Random.id(),
                       clienttype: '',
@@ -1115,33 +1118,33 @@ Template.productview.onRendered(function() {
                   templateObject.productExtraSell.set(lineExtaSellItems);
                 }else{
                   templateObject.isExtraSellChecked.set(true);
-                  for(let e=0; e<data.tproductvs1[0].fields.ExtraSellPrice.length; e++){
+                  for(let e=0; e<data.tproduct[0].fields.ExtraSellPrice.length; e++){
                     lineExtaSellObj = {
                        lineID: Random.id(),
-                       clienttype: data.tproductvs1[0].fields.ExtraSellPrice[e].fields.ClientTypeName || '',
-                       discount: data.tproductvs1[0].fields.ExtraSellPrice[e].fields.QtyPercent1 || 0,
-                       datefrom: data.tproductvs1[0].fields.ExtraSellPrice[e].fields.DateFrom || '',
-                       dateto: data.tproductvs1[0].fields.ExtraSellPrice[e].fields.DateTo || '',
-                       price: utilityService.modifynegativeCurrencyFormat(data.tproductvs1[0].fields.ExtraSellPrice[e].fields.Price1) || 0
+                       clienttype: data.tproduct[0].fields.ExtraSellPrice[e].fields.ClientTypeName || '',
+                       discount: data.tproduct[0].fields.ExtraSellPrice[e].fields.QtyPercent1 || 0,
+                       datefrom: data.tproduct[0].fields.ExtraSellPrice[e].fields.DateFrom || '',
+                       dateto: data.tproduct[0].fields.ExtraSellPrice[e].fields.DateTo || '',
+                       price: utilityService.modifynegativeCurrencyFormat(data.tproduct[0].fields.ExtraSellPrice[e].fields.Price1) || 0
                    };
                    lineExtaSellItems.push(lineExtaSellObj);
 
                   }
                   templateObject.productExtraSell.set(lineExtaSellItems);
                 }
-                let itrackItem = data.tproductvs1[0].fields.LockExtraSell;
+                let itrackItem = data.tproduct[0].fields.LockExtraSell;
                 if(itrackItem ==  true){
                     templateObject.isTrackChecked.set(true);
                 }else{
                     templateObject.isTrackChecked.set(false);
                 }
-                if(data.tproductvs1[0].fields.ProductType=="INV"){
+                if(data.tproduct[0].fields.ProductType=="INV"){
                   templateObject.isTrackChecked.set(true);
                 }else{
                   templateObject.isTrackChecked.set(false);
                 }
-                $('#sltsalesacount').val(data.tproductvs1[0].fields.IncomeAccount);
-                $('#sltcogsaccount').val(data.tproductvs1[0].fields.CogsAccount);
+                $('#sltsalesacount').val(data.tproduct[0].fields.IncomeAccount);
+                $('#sltcogsaccount').val(data.tproduct[0].fields.CogsAccount);
 
                 templateObject.records.set(productrecord);
             }).catch(function (err) {

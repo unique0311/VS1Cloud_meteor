@@ -855,41 +855,12 @@ Template.journalentrycard.onRendered(() => {
             $(".lineCreditEx", rowData).val("");
             $(".lineDebitEx", rowData).val("");
 
-
-
             rowData.attr('id', tokenid);
             $("#tblJournalEntryLine tbody").append(rowData);
-
-
-
-
-
-
+            setTimeout(function () {
+             $('#' + tokenid + " .lineAccountName").trigger('click');
+            }, 200);
         });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     });
 
@@ -1494,17 +1465,30 @@ Template.journalentrycard.events({
         }
     },
     'click .lineAccountName': function (event) {
-        var url = FlowRouter.current().path;
-        var getso_id = url.split('?id=');
+      let suppliername = $('#edtSupplierName').val();
+      if (suppliername === '') {
+          swal('Supplier has not been selected!', '', 'warning');
+          event.preventDefault();
+      } else {
+        var accountDataName = $(event.target).text().replace(/\s/g, '') || '';
+        if (accountDataName != '') {
+          FlowRouter.go('/accountsoverview?name=' +  $(event.target).text());
+        }else{
+          $('#productListModal').modal('toggle');
+          var targetID = $(event.target).closest('tr').attr('id');
+          $('#selectLineID').val(targetID);
+          setTimeout(function () {
+              $('#tblAccount_filter .form-control-sm').focus();
+              $('#tblAccount_filter .form-control-sm').val('');
+              $('#tblAccount_filter .form-control-sm').trigger("input");
 
-            $('#tblJournalEntryLine tbody tr .lineAccountName').attr("data-toggle", "modal");
-            $('#tblJournalEntryLine tbody tr .lineAccountName').attr("data-target", "#productListModal");
-            var targetID = $(event.target).closest('tr').attr('id');
-            $('#selectLineID').val(targetID);
+              var datatable = $('#tblInventory').DataTable();
+              datatable.draw();
+              $('#tblAccount_filter .form-control-sm').trigger("input");
 
-            setTimeout(function () {
-                $('#tblAccount_filter .form-control-sm').focus();
-            }, 500);
+          }, 500);
+        }
+      }
 
     },
     'click #productListModal #refreshpagelist': function () {

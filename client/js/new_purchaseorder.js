@@ -1822,8 +1822,8 @@ Template.purchaseordercard.onRendered(() => {
             $('#tblSupplierlist_filter .form-control-sm').trigger("input");
         }, 500);
        }else{
-         if(supplierDataName != '' && supplierDataID != ''){
-          FlowRouter.go('/supplierscard?id=' + supplierDataID);
+         if(supplierDataName != ''){
+          FlowRouter.go('/supplierscard?name=' + e.target.value);
          }else{
            $('#supplierListModal').modal();
            setTimeout(function () {
@@ -2830,14 +2830,32 @@ Template.purchaseordercard.events({
         }
     },
     'click .lineProductName': function(event) {
-        $('#tblPurchaseOrderLine tbody tr .lineProductName').attr("data-toggle", "modal");
-        $('#tblPurchaseOrderLine tbody tr .lineProductName').attr("data-target", "#productListModal");
-        var targetID = $(event.target).closest('tr').attr('id');
-        $('#selectLineID').val(targetID);
 
-        setTimeout(function() {
-            $('#tblInventory_filter .form-control-sm').focus();
-        }, 500);
+        let suppliername = $('#edtSupplierName').val();
+        if (suppliername === '') {
+            swal('Supplier has not been selected!', '', 'warning');
+            event.preventDefault();
+        } else {
+          var productDataName = $(event.target).text().replace(/\s/g, '') || '';
+          // var productDataID = $(event.target).attr('prodid').replace(/\s/g, '') || '';
+          if (productDataName != '') {
+            FlowRouter.go('/productview?prodname=' +  $(event.target).text());
+          }else{
+            $('#productListModal').modal('toggle');
+            var targetID = $(event.target).closest('tr').attr('id');
+            $('#selectLineID').val(targetID);
+            setTimeout(function () {
+                $('#tblInventory_filter .form-control-sm').focus();
+                $('#tblInventory_filter .form-control-sm').val('');
+                $('#tblInventory_filter .form-control-sm').trigger("input");
+
+                var datatable = $('#tblInventory').DataTable();
+                datatable.draw();
+                $('#tblInventory_filter .form-control-sm').trigger("input");
+
+            }, 500);
+          }
+        }
     },
     'click #productListModal #refreshpagelist': function() {
         $('.fullScreenSpin').css('display', 'inline-block');
