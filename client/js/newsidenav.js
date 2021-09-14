@@ -179,7 +179,6 @@ Template.newsidenav.onRendered(function() {
             // })
 
             var currentLoc = window.location.pathname;
-            console.log(currentLoc);
 
             if (currentLoc == "/dashboard") {
                 $('#sidenavaccounts').removeClass('active');
@@ -2392,396 +2391,77 @@ Template.newsidenav.events({
     'click #sidenavaccessLevel': function(event) {
         window.open('#', '_self');
     },
-    'mouseleave .hoverSidenavinventory': function(event) {
 
+    'mouseenter .accountsLi': function(event) {
+        $('#accountsSubmenu').collapse('show');
     },
-    'mouseenter .hoverSidenavinventory .sidenavinventory': function(event) {
-        $('.hoverSideNavAccounts .collapse').removeClass('show');
-        $('.hoverSideNavBanking .collapse').removeClass('show');
-        $('.hoverSideNavContacts .collapse').removeClass('show');
-        $('.hoverSidenavinventory .collapse').addClass('show');
-        $('.hoverSideNavPayments .collapse').removeClass('show');
-        $('.hoverSideNavPurchases .collapse').removeClass('show');
-        $('.hoverSideNavReports .collapse').removeClass('show');
-        $('.hoverSideNavSales .collapse').removeClass('show');
-        $('.hoverSideNavSeedToSale .collapse').removeClass('show');
-        $('.hoverSideNavSettings .collapse').removeClass('show');
-        $('.hoverSideNavPayroll .collapse').removeClass('show');
-        $('.hoverSideNavAppointment .collapse').removeClass('show');
-
+    'mouseleave .accountsLi': function(event) {
+        $('#accountsSubmenu').collapse('hide');
     },
-    'mouseleave .hoverSidenavinventory .collapse': function(event) {
-        $('.hoverSideNavAccounts .collapse').removeClass('show');
-        $('.hoverSideNavBanking .collapse').removeClass('show');
-        $('.hoverSideNavContacts .collapse').removeClass('show');
-        $('.hoverSidenavinventory .collapse').removeClass('show');
-        $('.hoverSideNavPayments .collapse').removeClass('show');
-        $('.hoverSideNavPurchases .collapse').removeClass('show');
-        $('.hoverSideNavReports .collapse').removeClass('show');
-        $('.hoverSideNavSales .collapse').removeClass('show');
-        $('.hoverSideNavSeedToSale .collapse').removeClass('show');
-        $('.hoverSideNavSettings .collapse').removeClass('show');
-        $('.hoverSideNavPayroll .collapse').removeClass('show');
-        $('.hoverSideNavAppointment .collapse').removeClass('show');
+    'mouseenter .appointmentsLi': function(event) {
+        $('#appointmentsSubmenu').collapse('show');
     },
-    'mouseleave .hoverSideNavAccounts': function(event) {
-
-    },
-    'mouseenter .hoverSideNavAccounts .sidenavaccounts': function(event) {
-        $('.hoverSideNavAccounts .collapse').addClass('show');
-        $('.hoverSideNavBanking .collapse').removeClass('show');
-        $('.hoverSideNavContacts .collapse').removeClass('show');
-        $('.hoverSidenavinventory .collapse').removeClass('show');
-        $('.hoverSideNavPayments .collapse').removeClass('show');
-        $('.hoverSideNavPurchases .collapse').removeClass('show');
-        $('.hoverSideNavReports .collapse').removeClass('show');
-        $('.hoverSideNavSales .collapse').removeClass('show');
-        $('.hoverSideNavSeedToSale .collapse').removeClass('show');
-        $('.hoverSideNavSettings .collapse').removeClass('show');
-        $('.hoverSideNavPayroll .collapse').removeClass('show');
-        $('.hoverSideNavAppointment .collapse').removeClass('show');
-    },
-    'mouseleave .hoverSideNavAccounts .collapse': function(event) {
-        $('.hoverSideNavAccounts .collapse').removeClass('show');
-        $('.hoverSideNavBanking .collapse').removeClass('show');
-        $('.hoverSideNavContacts .collapse').removeClass('show');
-        $('.hoverSidenavinventory .collapse').removeClass('show');
-        $('.hoverSideNavPayments .collapse').removeClass('show');
-        $('.hoverSideNavPurchases .collapse').removeClass('show');
-        $('.hoverSideNavReports .collapse').removeClass('show');
-        $('.hoverSideNavSales .collapse').removeClass('show');
-        $('.hoverSideNavSeedToSale .collapse').removeClass('show');
-        $('.hoverSideNavSettings .collapse').removeClass('show');
-        $('.hoverSideNavPayroll .collapse').removeClass('show');
-        $('.hoverSideNavAppointment .collapse').removeClass('show');
-    },
-    'mouseenter .hoverSideNavBanking .sidenavbanking': function(event) {
-        $('.hoverSideNavAccounts .collapse').removeClass('show');
-        $('.hoverSideNavBanking .collapse').addClass('show');
-        $('.hoverSideNavContacts .collapse').removeClass('show');
-        $('.hoverSidenavinventory .collapse').removeClass('show');
-        $('.hoverSideNavPayments .collapse').removeClass('show');
-        $('.hoverSideNavPurchases .collapse').removeClass('show');
-        $('.hoverSideNavReports .collapse').removeClass('show');
-        $('.hoverSideNavSales .collapse').removeClass('show');
-        $('.hoverSideNavSeedToSale .collapse').removeClass('show');
-        $('.hoverSideNavSettings .collapse').removeClass('show');
-        $('.hoverSideNavPayroll .collapse').removeClass('show');
-        $('.hoverSideNavAppointment .collapse').removeClass('show');
-    },
-    'mouseleave .hoverSideNavBanking .collapse': function(event) {
-        $('.hoverSideNavAccounts .collapse').removeClass('show');
-        $('.hoverSideNavBanking .collapse').removeClass('show');
-        $('.hoverSideNavContacts .collapse').removeClass('show');
-        $('.hoverSidenavinventory .collapse').removeClass('show');
-        $('.hoverSideNavPayments .collapse').removeClass('show');
-        $('.hoverSideNavPurchases .collapse').removeClass('show');
-        $('.hoverSideNavReports .collapse').removeClass('show');
-        $('.hoverSideNavSales .collapse').removeClass('show');
-        $('.hoverSideNavSeedToSale .collapse').removeClass('show');
-        $('.hoverSideNavSettings .collapse').removeClass('show');
-        $('.hoverSideNavPayroll .collapse').removeClass('show');
-        $('.hoverSideNavAppointment .collapse').removeClass('show');
-    },
-    'mouseleave .hoverSideNavContacts': function(event) {
-
-    },
-    'mouseenter .hoverSideNavContacts .sidenavcontacts': function(event) {
-        $('.hoverSideNavAccounts .collapse').removeClass('show');
-        $('.hoverSideNavBanking .collapse').removeClass('show');
-        $('.hoverSideNavContacts .collapse').addClass('show');
-        $('.hoverSidenavinventory .collapse').removeClass('show');
-        $('.hoverSideNavPayments .collapse').removeClass('show');
-        $('.hoverSideNavPurchases .collapse').removeClass('show');
-        $('.hoverSideNavReports .collapse').removeClass('show');
-        $('.hoverSideNavSales .collapse').removeClass('show');
-        $('.hoverSideNavSeedToSale .collapse').removeClass('show');
-        $('.hoverSideNavSettings .collapse').removeClass('show');
-        $('.hoverSideNavPayroll .collapse').removeClass('show');
-        $('.hoverSideNavAppointment .collapse').removeClass('show');
-    },
-    'mouseleave .hoverSideNavContacts .collapse': function(event) {
-        $('.hoverSideNavAccounts .collapse').removeClass('show');
-        $('.hoverSideNavBanking .collapse').removeClass('show');
-        $('.hoverSideNavContacts .collapse').removeClass('show');
-        $('.hoverSidenavinventory .collapse').removeClass('show');
-        $('.hoverSideNavPayments .collapse').removeClass('show');
-        $('.hoverSideNavPurchases .collapse').removeClass('show');
-        $('.hoverSideNavReports .collapse').removeClass('show');
-        $('.hoverSideNavSales .collapse').removeClass('show');
-        $('.hoverSideNavSeedToSale .collapse').removeClass('show');
-        $('.hoverSideNavSettings .collapse').removeClass('show');
-        $('.hoverSideNavPayroll .collapse').removeClass('show');
-        $('.hoverSideNavAppointment .collapse').removeClass('show');
-    },
-    'mouseenter #sidenavdashbaord, mouseenter #sidenavpayments,mouseenter #sidenavpurchases,mouseenter #sidenavreports,mouseenter #sidenavsales,mouseenter #sidenavsettings,mouseenter #sidenavlogout,mouseenter #sidenavemployeesGreenTrack': function(event) {
-        $('.hoverSideNavAccounts .collapse').removeClass('show');
-        $('.hoverSideNavBanking .collapse').removeClass('show');
-        $('.hoverSideNavContacts .collapse').removeClass('show');
-        $('.hoverSidenavinventory .collapse').removeClass('show');
-        $('.hoverSideNavPayments .collapse').removeClass('show');
-        $('.hoverSideNavPurchases .collapse').removeClass('show');
-        $('.hoverSideNavReports .collapse').removeClass('show');
-        $('.hoverSideNavSales .collapse').removeClass('show');
-        $('.hoverSideNavSeedToSale .collapse').removeClass('show');
-        $('.hoverSideNavSettings .collapse').removeClass('show');
-        $('.hoverSideNavPayroll .collapse').removeClass('show');
-        $('.hoverSideNavAppointment .collapse').removeClass('show');
-    },
-    'mouseenter #sidenavlogout,mouseenter .logOut': function(event) {
-        $('.collapse').removeClass('show');
-    },
-    'mouseenter .hoverSideNavPayments .sidenavpayments': function(event) {
-        $('.hoverSideNavAccounts .collapse').removeClass('show');
-        $('.hoverSideNavBanking .collapse').removeClass('show');
-        $('.hoverSideNavContacts .collapse').removeClass('show');
-        $('.hoverSidenavinventory .collapse').removeClass('show');
-        $('.hoverSideNavPayments .collapse').addClass('show');
-        $('.hoverSideNavPurchases .collapse').removeClass('show');
-        $('.hoverSideNavReports .collapse').removeClass('show');
-        $('.hoverSideNavSales .collapse').removeClass('show');
-        $('.hoverSideNavSeedToSale .collapse').removeClass('show');
-        $('.hoverSideNavSettings .collapse').removeClass('show');
-        $('.hoverSideNavPayroll .collapse').removeClass('show');
-        $('.hoverSideNavAppointment .collapse').removeClass('show');
-    },
-    'mouseleave .hoverSideNavPayments .collapse': function(event) {
-        $('.hoverSideNavAccounts .collapse').removeClass('show');
-        $('.hoverSideNavBanking .collapse').removeClass('show');
-        $('.hoverSideNavContacts .collapse').removeClass('show');
-        $('.hoverSidenavinventory .collapse').removeClass('show');
-        $('.hoverSideNavPayments .collapse').removeClass('show');
-        $('.hoverSideNavPurchases .collapse').removeClass('show');
-        $('.hoverSideNavReports .collapse').removeClass('show');
-        $('.hoverSideNavSales .collapse').removeClass('show');
-        $('.hoverSideNavSeedToSale .collapse').removeClass('show');
-        $('.hoverSideNavSettings .collapse').removeClass('show');
-        $('.hoverSideNavPayroll .collapse').removeClass('show');
-        $('.hoverSideNavAppointment .collapse').removeClass('show');
-    },
-    'mouseenter .hoverSideNavPurchases .sidenavpurchases': function(event) {
-        $('.hoverSideNavAccounts .collapse').removeClass('show');
-        $('.hoverSideNavBanking .collapse').removeClass('show');
-        $('.hoverSideNavContacts .collapse').removeClass('show');
-        $('.hoverSidenavinventory .collapse').removeClass('show');
-        $('.hoverSideNavPayments .collapse').removeClass('show');
-        $('.hoverSideNavPurchases .collapse').addClass('show');
-        $('.hoverSideNavReports .collapse').removeClass('show');
-        $('.hoverSideNavSales .collapse').removeClass('show');
-        $('.hoverSideNavSeedToSale .collapse').removeClass('show');
-        $('.hoverSideNavSettings .collapse').removeClass('show');
-        $('.hoverSideNavPayroll .collapse').removeClass('show');
-        $('.hoverSideNavAppointment .collapse').removeClass('show');
-    },
-    'mouseleave .hoverSideNavPurchases .collapse': function(event) {
-        $('.hoverSideNavAccounts .collapse').removeClass('show');
-        $('.hoverSideNavBanking .collapse').removeClass('show');
-        $('.hoverSideNavContacts .collapse').removeClass('show');
-        $('.hoverSidenavinventory .collapse').removeClass('show');
-        $('.hoverSideNavPayments .collapse').removeClass('show');
-        $('.hoverSideNavPurchases .collapse').removeClass('show');
-        $('.hoverSideNavReports .collapse').removeClass('show');
-        $('.hoverSideNavSales .collapse').removeClass('show');
-        $('.hoverSideNavSeedToSale .collapse').removeClass('show');
-        $('.hoverSideNavSettings .collapse').removeClass('show');
-        $('.hoverSideNavPayroll .collapse').removeClass('show');
-        $('.hoverSideNavAppointment .collapse').removeClass('show');
-    },
-    'mouseenter .hoverSideNavReports .sidenavreports': function(event) {
-        $('.hoverSideNavAccounts .collapse').removeClass('show');
-        $('.hoverSideNavBanking .collapse').removeClass('show');
-        $('.hoverSideNavContacts .collapse').removeClass('show');
-        $('.hoverSidenavinventory .collapse').removeClass('show');
-        $('.hoverSideNavPayments .collapse').removeClass('show');
-        $('.hoverSideNavPurchases .collapse').removeClass('show');
-        $('.hoverSideNavReports .collapse').addClass('show');
-        $('.hoverSideNavSales .collapse').removeClass('show');
-        $('.hoverSideNavSeedToSale .collapse').removeClass('show');
-        $('.hoverSideNavSettings .collapse').removeClass('show');
-        $('.hoverSideNavPayroll .collapse').removeClass('show');
-        $('.hoverSideNavAppointment .collapse').removeClass('show');
-    },
-    'mouseleave .hoverSideNavReports .collapse': function(event) {
-        $('.hoverSideNavAccounts .collapse').removeClass('show');
-        $('.hoverSideNavBanking .collapse').removeClass('show');
-        $('.hoverSideNavContacts .collapse').removeClass('show');
-        $('.hoverSidenavinventory .collapse').removeClass('show');
-        $('.hoverSideNavPayments .collapse').removeClass('show');
-        $('.hoverSideNavPurchases .collapse').removeClass('show');
-        $('.hoverSideNavReports .collapse').removeClass('show');
-        $('.hoverSideNavSales .collapse').removeClass('show');
-        $('.hoverSideNavSeedToSale .collapse').removeClass('show');
-        $('.hoverSideNavSettings .collapse').removeClass('show');
-        $('.hoverSideNavPayroll .collapse').removeClass('show');
-        $('.hoverSideNavAppointment .collapse').removeClass('show');
-    },
-    'mouseenter .hoverSideNavSales .sidenavsales': function(event) {
-        $('.hoverSideNavAccounts .collapse').removeClass('show');
-        $('.hoverSideNavBanking .collapse').removeClass('show');
-        $('.hoverSideNavContacts .collapse').removeClass('show');
-        $('.hoverSidenavinventory .collapse').removeClass('show');
-        $('.hoverSideNavPayments .collapse').removeClass('show');
-        $('.hoverSideNavPurchases .collapse').removeClass('show');
-        $('.hoverSideNavReports .collapse').removeClass('show');
-        $('.hoverSideNavSales .collapse').addClass('show');
-        $('.hoverSideNavSeedToSale .collapse').removeClass('show');
-        $('.hoverSideNavSettings .collapse').removeClass('show');
-        $('.hoverSideNavPayroll .collapse').removeClass('show');
-        $('.hoverSideNavAppointment .collapse').removeClass('show');
-    },
-    'mouseleave .hoverSideNavSales .collapse': function(event) {
-        $('.hoverSideNavAccounts .collapse').removeClass('show');
-        $('.hoverSideNavBanking .collapse').removeClass('show');
-        $('.hoverSideNavContacts .collapse').removeClass('show');
-        $('.hoverSidenavinventory .collapse').removeClass('show');
-        $('.hoverSideNavPayments .collapse').removeClass('show');
-        $('.hoverSideNavPurchases .collapse').removeClass('show');
-        $('.hoverSideNavReports .collapse').removeClass('show');
-        $('.hoverSideNavSales .collapse').removeClass('show');
-        $('.hoverSideNavSettings .collapse').removeClass('show');
-        $('.hoverSideNavPayroll .collapse').removeClass('show');
-        $('.hoverSideNavAppointment .collapse').removeClass('show');
-    },
-    'mouseenter .hoverSideNavSeedToSale .sidenavseedtosale': function(event) {
-        $('.hoverSideNavAccounts .collapse').removeClass('show');
-        $('.hoverSideNavBanking .collapse').removeClass('show');
-        $('.hoverSideNavContacts .collapse').removeClass('show');
-        $('.hoverSidenavinventory .collapse').removeClass('show');
-        $('.hoverSideNavPayments .collapse').removeClass('show');
-        $('.hoverSideNavPurchases .collapse').removeClass('show');
-        $('.hoverSideNavReports .collapse').removeClass('show');
-        $('.hoverSideNavSales .collapse').removeClass('show');
-        $('.hoverSideNavSeedToSale .collapse').addClass('show');
-        $('.hoverSideNavSettings .collapse').removeClass('show');
-        $('.hoverSideNavPayroll .collapse').removeClass('show');
-        $('.hoverSideNavAppointment .collapse').removeClass('show');
-    },
-    'mouseleave .hoverSideNavSeedToSale .collapse': function(event) {
-        $('.hoverSideNavAccounts .collapse').removeClass('show');
-        $('.hoverSideNavBanking .collapse').removeClass('show');
-        $('.hoverSideNavContacts .collapse').removeClass('show');
-        $('.hoverSidenavinventory .collapse').removeClass('show');
-        $('.hoverSideNavPayments .collapse').removeClass('show');
-        $('.hoverSideNavPurchases .collapse').removeClass('show');
-        $('.hoverSideNavReports .collapse').removeClass('show');
-        $('.hoverSideNavSales .collapse').removeClass('show');
-        $('.hoverSideNavSeedToSale .collapse').removeClass('show');
-        $('.hoverSideNavSettings .collapse').removeClass('show');
-        $('.hoverSideNavPayroll .collapse').removeClass('show');
-        $('.hoverSideNavAppointment .collapse').removeClass('show');
-    },
-    'mouseenter .hoverSideNavSettings .sidenavsettings': function(event) {
-        $('.hoverSideNavAccounts .collapse').removeClass('show');
-        $('.hoverSideNavBanking .collapse').removeClass('show');
-        $('.hoverSideNavContacts .collapse').removeClass('show');
-        $('.hoverSidenavinventory .collapse').removeClass('show');
-        $('.hoverSideNavPayments .collapse').removeClass('show');
-        $('.hoverSideNavPurchases .collapse').removeClass('show');
-        $('.hoverSideNavReports .collapse').removeClass('show');
-        $('.hoverSideNavSales .collapse').removeClass('show');
-        $('.hoverSideNavSeedToSale .collapse').removeClass('show');
-        $('.hoverSideNavSettings .collapse').addClass('show');
-        $('.hoverSideNavPayroll .collapse').removeClass('show');
-        $('.hoverSideNavAppointment .collapse').removeClass('show');
-    },
-    'mouseleave .hoverSideNavSettings .collapse': function(event) {
-        $('.hoverSideNavAccounts .collapse').removeClass('show');
-        $('.hoverSideNavBanking .collapse').removeClass('show');
-        $('.hoverSideNavContacts .collapse').removeClass('show');
-        $('.hoverSidenavinventory .collapse').removeClass('show');
-        $('.hoverSideNavPayments .collapse').removeClass('show');
-        $('.hoverSideNavPurchases .collapse').removeClass('show');
-        $('.hoverSideNavReports .collapse').removeClass('show');
-        $('.hoverSideNavSales .collapse').removeClass('show');
-        $('.hoverSideNavSeedToSale .collapse').removeClass('show');
-        $('.hoverSideNavSettings .collapse').removeClass('show');
-        $('.hoverSideNavPayroll .collapse').removeClass('show');
-        $('.hoverSideNavAppointment .collapse').removeClass('show');
-    },
-    'mouseenter .hoverSideNavPayroll .sidenavpayroll': function(event) {
-        $('.hoverSideNavAccounts .collapse').removeClass('show');
-        $('.hoverSideNavBanking .collapse').removeClass('show');
-        $('.hoverSideNavContacts .collapse').removeClass('show');
-        $('.hoverSidenavinventory .collapse').removeClass('show');
-        $('.hoverSideNavPayments .collapse').removeClass('show');
-        $('.hoverSideNavPurchases .collapse').removeClass('show');
-        $('.hoverSideNavReports .collapse').removeClass('show');
-        $('.hoverSideNavSales .collapse').removeClass('show');
-        $('.hoverSideNavSeedToSale .collapse').removeClass('show');
-        $('.hoverSideNavSettings .collapse').removeClass('show');
-        $('.hoverSideNavPayroll .collapse').addClass('show');
-        $('.hoverSideNavAppointment .collapse').removeClass('show');
-    },
-    'mouseleave .hoverSideNavPayroll .collapse': function(event) {
-        $('.hoverSideNavAccounts .collapse').removeClass('show');
-        $('.hoverSideNavBanking .collapse').removeClass('show');
-        $('.hoverSideNavContacts .collapse').removeClass('show');
-        $('.hoverSidenavinventory .collapse').removeClass('show');
-        $('.hoverSideNavPayments .collapse').removeClass('show');
-        $('.hoverSideNavPurchases .collapse').removeClass('show');
-        $('.hoverSideNavReports .collapse').removeClass('show');
-        $('.hoverSideNavSales .collapse').removeClass('show');
-        $('.hoverSideNavSeedToSale .collapse').removeClass('show');
-        $('.hoverSideNavSettings .collapse').removeClass('show');
-        $('.hoverSideNavPayroll .collapse').removeClass('show');
-        $('.hoverSideNavAppointment .collapse').removeClass('show');
-    },
-    'mouseenter .hoverSideNavAppointment .sidenavappointment': function(event) {
-        $('.hoverSideNavAccounts .collapse').removeClass('show');
-        $('.hoverSideNavBanking .collapse').removeClass('show');
-        $('.hoverSideNavContacts .collapse').removeClass('show');
-        $('.hoverSidenavinventory .collapse').removeClass('show');
-        $('.hoverSideNavPayments .collapse').removeClass('show');
-        $('.hoverSideNavPurchases .collapse').removeClass('show');
-        $('.hoverSideNavReports .collapse').removeClass('show');
-        $('.hoverSideNavSales .collapse').removeClass('show');
-        $('.hoverSideNavSeedToSale .collapse').removeClass('show');
-        $('.hoverSideNavSettings .collapse').removeClass('show');
-        $('.hoverSideNavPayroll .collapse').removeClass('show');
-        $('.hoverSideNavAppointment .collapse').addClass('show');
-    },
-    'mouseleave .hoverSideNavAppointment .collapse': function(event) {
-        $('.hoverSideNavAccounts .collapse').removeClass('show');
-        $('.hoverSideNavBanking .collapse').removeClass('show');
-        $('.hoverSideNavContacts .collapse').removeClass('show');
-        $('.hoverSidenavinventory .collapse').removeClass('show');
-        $('.hoverSideNavPayments .collapse').removeClass('show');
-        $('.hoverSideNavPurchases .collapse').removeClass('show');
-        $('.hoverSideNavReports .collapse').removeClass('show');
-        $('.hoverSideNavSales .collapse').removeClass('show');
-        $('.hoverSideNavSeedToSale .collapse').removeClass('show');
-        $('.hoverSideNavSettings .collapse').removeClass('show');
-        $('.hoverSideNavPayroll .collapse').removeClass('show');
-        $('.hoverSideNavAppointment .collapse').removeClass('show');
-    },
-    'click #sidenavaccounts': function(event) {
-        $('.accountsLi').removeClass('opacityNotActive');
-        $('.appointmentsLi').addClass('opacityNotActive');
-        $('.bankingLi').addClass('opacityNotActive');
-        $('.contactsLi').addClass('opacityNotActive');
-        $('.dashboardLi').addClass('opacityNotActive');
-        $('.gsemployeesLi').addClass('opacityNotActive');
-        $('.inventoryLi').addClass('opacityNotActive');
-        $('.paymentsLi').addClass('opacityNotActive');
-        $('.payrollLi').addClass('opacityNotActive');
-        $('.purchasesLi').addClass('opacityNotActive');
-        $('.reportsLi').addClass('opacityNotActive');
-        $('.reportsLi2').addClass('opacityNotActive');
-        $('.salesLi').addClass('opacityNotActive');
-        $('.seedtosaleLi').addClass('opacityNotActive');
-        $('.settingsLi').addClass('opacityNotActive');
-        $('.logoutLi').addClass('opacityNotActive');
-        // $('#accountsSubmenu').collapse('hide');
+    'mouseleave .appointmentsLi': function(event) {
         $('#appointmentsSubmenu').collapse('hide');
+    },
+    'mouseenter .bankingLi': function(event) {
+        $('#bankingSubmenu').collapse('show');
+    },
+    'mouseleave .bankingLi': function(event) {
         $('#bankingSubmenu').collapse('hide');
+    },
+    'mouseenter .contactsLi': function(event) {
+        $('#contactsSubmenu').collapse('show');
+    },
+    'mouseleave .contactsLi': function(event) {
         $('#contactsSubmenu').collapse('hide');
+    },
+    'mouseenter .inventoryLi': function(event) {
+        $('#inventorySubmenu').collapse('show');
+    },
+    'mouseleave .inventoryLi': function(event) {
         $('#inventorySubmenu').collapse('hide');
+    },
+    'mouseenter .paymentsLi': function(event) {
+        $('#paymentsSubmenu').collapse('show');
+    },
+    'mouseleave .paymentsLi': function(event) {
         $('#paymentsSubmenu').collapse('hide');
+    },
+    'mouseenter .payrollLi': function(event) {
+        $('#payrollSubmenu').collapse('show');
+    },
+    'mouseleave .payrollLi': function(event) {
         $('#payrollSubmenu').collapse('hide');
+    },
+    'mouseenter .purchasesLi': function(event) {
+        $('#purchasesSubmenu').collapse('show');
+    },
+    'mouseleave .purchasesLi': function(event) {
         $('#purchasesSubmenu').collapse('hide');
+    },
+    'mouseenter .reportsLi': function(event) {
+        $('#reportsSubmenu').collapse('show');
+    },
+    'mouseleave .reportsLi': function(event) {
         $('#reportsSubmenu').collapse('hide');
+    },
+    'mouseenter .salesLi': function(event) {
+        $('#salesSubmenu').collapse('show');
+    },
+    'mouseleave .salesLi': function(event) {
         $('#salesSubmenu').collapse('hide');
+    },
+    'mouseenter .seedtosaleLi': function(event) {
+        $('#seedToSaleSubmenu').collapse('show');
+    },
+    'mouseleave .seedtosaleLi': function(event) {
         $('#seedToSaleSubmenu').collapse('hide');
+    },
+    'mouseenter .settingsLi': function(event) {
+        $('#settingsSubmenu').collapse('show');
+    },
+    'mouseleave .settingsLi': function(event) {
         $('#settingsSubmenu').collapse('hide');
     },
     'click .sidenavaccounts': function(event) {
