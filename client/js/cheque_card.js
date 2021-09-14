@@ -1471,6 +1471,8 @@ Template.chequecard.onRendered(() => {
     let table;
     $(document).ready(function() {
         $('#edtSupplierName').editableSelect();
+        $('#edtBankAccountName').editableSelect();
+
         $('#addRow').on('click', function() {
             var rowData = $('#tblChequeLine tbody>tr:last').clone(true);
             let tokenid = Random.id();
@@ -1627,7 +1629,17 @@ Template.chequecard.onRendered(() => {
                     }
                 });
             }
+        }else{
+          let accountname = table.find(".productName").text();
+          $('#productListModal').modal('toggle');
+          $('#edtBankAccountName').val(accountname);
         }
+
+        $('#tblAccount_filter .form-control-sm').val('');
+        setTimeout(function () {
+            $('.btnRefreshAccount').trigger('click');
+            $('.fullScreenSpin').css('display', 'none');
+        }, 1000);
     });
 
 
@@ -1852,6 +1864,43 @@ Template.chequecard.onRendered(() => {
             $('.btnRefreshSupplier').trigger('click');
             $('.fullScreenSpin').css('display', 'none');
         }, 1000);
+    });
+
+    $('#edtBankAccountName').editableSelect().on('click.editable-select', function (e, li) {
+      var $earch = $(this);
+      var offset = $earch.offset();
+
+      var accountDataName = e.target.value.replace(/\s/g, '') ||'';
+
+      if (e.pageX > offset.left + $earch.width() - 16) { // X button 16px wide?
+         $('#selectLineID').val('');
+        $('#productListModal').modal();
+        setTimeout(function () {
+            $('#tblAccount_filter .form-control-sm').focus();
+            $('#tblAccount_filter .form-control-sm').val('');
+            $('#tblAccount_filter .form-control-sm').trigger("input");
+            var datatable = $('#tblAccountlist').DataTable();
+            datatable.draw();
+            $('#tblAccountlist_filter .form-control-sm').trigger("input");
+        }, 500);
+       }else{
+         if(accountDataName != ''){
+          FlowRouter.go('/supplierscard?id=' + accountDataName);
+         }else{
+           $('#selectLineID').val('');
+           $('#productListModal').modal();
+           setTimeout(function () {
+             $('#tblAccount_filter .form-control-sm').focus();
+             $('#tblAccount_filter .form-control-sm').val('');
+             $('#tblAccount_filter .form-control-sm').trigger("input");
+               var datatable = $('#tblSupplierlist').DataTable();
+               datatable.draw();
+               $('#tblAccount_filter .form-control-sm').trigger("input");
+           }, 500);
+         }
+       }
+
+
     });
 
     exportSalesToPdf = function() {

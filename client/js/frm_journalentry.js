@@ -966,6 +966,11 @@ Template.journalentrycard.onRendered(() => {
                 }
             });
         }
+        $('#tblAccount_filter .form-control-sm').val('');
+        setTimeout(function () {
+            $('.btnRefreshAccount').trigger('click');
+            $('.fullScreenSpin').css('display', 'none');
+        }, 1000);
     });
 
 
@@ -1274,7 +1279,7 @@ Template.journalentrycard.onRendered(function () {
     };
 
     setTimeout(function () {
-        tempObj.getAllProducts();
+        //tempObj.getAllProducts();
     }, 500);
 
 

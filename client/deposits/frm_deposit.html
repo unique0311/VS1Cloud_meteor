@@ -112,14 +112,14 @@
             <div class="col-2 colAccount" id="colAccount">
                 <div class="form-group d-xl-flex flex-column justify-content-xl-start">
                     <label>Account</label>
-                    <select class="form-control" style="cursor: pointer;" id="sltAccountName" name="sltAccountName">
-                        {{#each item in accountnamerecords}}
+                    <select type="search" class="form-control" id="sltAccountName" name="sltAccountName" style="background-color:rgb(255, 255, 255); cursor: pointer;">
+                        <!-- {{#each item in accountnamerecords}}
                         {{#if equals item.accountname record.accountname }}
                         <option value="{{record.accountname}}" selected="">{{record.accountname}}</option>
                         {{else}}
                         <option value="{{item.accountname}}">{{item.accountname}}</option>
                         {{/if}}
-                        {{/each}}
+                        {{/each}} -->
                     </select>
                 </div>
             </div>
@@ -654,6 +654,10 @@
         <!-- Modal print-button -modal -->
         <div class="modal fade" role="dialog" tabindex="-1" id="productListModal">
             {{> accountlistpop}}
+        </div>
+
+        <div class="modal fade" role="dialog" tabindex="-1" id="addAccountModal">
+            {{> addaccountpop}}
         </div>
         <!-- End AccountList -->
 

@@ -185,21 +185,10 @@
                 <div style="background-color: #ededed;padding: 16px;">
                     <div class="d-xl-flex align-items-xl-start">
                         <div class="d-xl-flex flex-row align-items-xl-start">
-                            <div style="margin: 16px;width: 350px;" class="formgoup">
-                                <div class="form-group"><label>Account</label>
-                                    <select class="form-control" id="edtBankAccountName" name="edtBankAccountName" style="cursor: pointer;">
-                                        <option value="{{item.paymentmethod}}" selected="">{{chequerecord.bankaccount}}</option>
-                                        {{#if accounts}}
-                                            {{#each account in accounts}}
-                                                <option value="{{item.accountname}}">{{account.accountname}}</option>
-                                            {{/each}}
-                                        {{/if}}
-                                    </select>
-                                </div>
-                            </div>
+
                             <div style="margin: 16px;width: 350px;" class="formgoup">
                                 <div class="form-group"><label>Supplier</label>
-                                    <select class="form-control" id="edtSupplierName" name="edtSupplierName" suppid=" " style="background-color:rgb(255, 255, 255); cursor: pointer;">
+                                    <select type="search" class="form-control" id="edtSupplierName" name="edtSupplierName" suppid=" " style="background-color:rgb(255, 255, 255); cursor: pointer;">
                                         <!-- <option selected>{{chequerecord.socustomer}}</option> -->
                                     </select>
                                 </div>
@@ -211,6 +200,18 @@
                                 <div class="custom-control custom-control-inline custom-switch d-xl-flex align-items-xl-center" style="margin: 0px 16px;padding: -2px;padding-left: 24px;">
                                     <input class="custom-control-input chkEmailCopy" type="checkbox" id="formCheck-1" style="font-size: 22px; cursor: pointer;"><label class="custom-control-label" for="formCheck-1"
                                         style="color: rgb(73,80,87); cursor: pointer;">Send a copy</label>
+                                </div>
+                            </div>
+                            <div style="margin: 16px;width: 350px;" class="formgoup">
+                                <div class="form-group"><label>Account</label>
+                                    <select type="search" class="form-control" id="edtBankAccountName" name="edtBankAccountName" style="background-color:rgb(255, 255, 255); cursor: pointer;">
+                                        <!-- <option value="{{item.paymentmethod}}" selected="">{{chequerecord.bankaccount}}</option>
+                                        {{#if accounts}}
+                                            {{#each account in accounts}}
+                                                <option value="{{item.accountname}}">{{account.accountname}}</option>
+                                            {{/each}}
+                                        {{/if}} -->
+                                    </select>
                                 </div>
                             </div>
                         </div>
@@ -1156,6 +1157,9 @@
             {{> accountlistpop}}
         </div>
 
+        <div class="modal fade" role="dialog" tabindex="-1" id="addAccountModal">
+            {{> addaccountpop}}
+        </div>
         <!-- End Modal Product -->
         <!-- Modal Tax Rate -modal -->
         <div class="modal fade" role="dialog" tabindex="-1" id="taxRateListModal">

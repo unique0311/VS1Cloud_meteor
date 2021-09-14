@@ -173,7 +173,7 @@
                 <div class="col-auto colSupplierName" id="colSupplierName">
                     <div style="margin: 16px 0px;width: 350px;" class="formgoup">
                         <div class="form-group"><label>Supplier</label>
-                            <select class="form-control" id="edtSupplierName" name="edtSupplierName" suppid=" " style="background-color:rgb(255, 255, 255); cursor: pointer;" autofocus>
+                            <select type="search" class="form-control" id="edtSupplierName" name="edtSupplierName" suppid=" " style="background-color:rgb(255, 255, 255); cursor: pointer;" autofocus>
                             </select>
                         </div>
                     </div>
@@ -1138,6 +1138,9 @@
             {{> accountlistpop}}
         </div>
 
+        <div class="modal fade" role="dialog" tabindex="-1" id="addAccountModal">
+            {{> addaccountpop}}
+        </div>
         <!-- End Modal Product -->
         <!-- Modal Tax Rate -modal -->
         <div class="modal fade" role="dialog" tabindex="-1" id="taxRateListModal">

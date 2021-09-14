@@ -1552,6 +1552,11 @@ Template.creditcard.onRendered(() => {
                 });
             }
         }
+        $('#tblAccount_filter .form-control-sm').val('');
+        setTimeout(function () {
+            $('.btnRefreshAccount').trigger('click');
+            $('.fullScreenSpin').css('display', 'none');
+        }, 1000);
     });
 
 
