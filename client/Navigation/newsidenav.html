@@ -43,7 +43,7 @@
                 min-width: 6vw;
                 max-width: 6vw;
                 background: #00a3d3;
-                color: rgba(255, 255, 255, 0.45);
+                color: rgba(255, 255, 255, 1);
                 transition: all 0.3s;
                 overflow-y: overlay;
                 overflow-x: hidden;
@@ -86,7 +86,7 @@
             #sidebar ul li.active>a,
             a[aria-expanded="true"] {
                 color: #fff;
-                /* background: #00C2EF; */
+                background: #00C2EF;
             }
 
             #sidebar ul li.active>a:hover,
@@ -125,7 +125,7 @@
             }
 
             .opacityNotActive {
-                color: rgba(255, 255, 255, 0.25);
+                /* color: rgba(255, 255, 255, 0.25); */
             }
 
             .collapse.show {
@@ -294,7 +294,7 @@
                     <a href="#bankingSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle liHeader"><i class="fa fa-bank faHeader"></i> Banking</a>
                     <ul class="collapse list-unstyled" id="bankingSubmenu">
                         <li>
-                            <a class="sidenavbanking" id="sidenavbanking" name="sidenavbanking">
+                            <a class="sidenavbanking">
                                 <div class="row">
                                     <div class="col">
                                         <i class="fas fa-university"></i> Banking
@@ -427,7 +427,7 @@
 
             {{#if includeDashboard}}
                 <li class="dashboardLi" id="sidenavdashbaord">
-                    <a class="liHeader sidenavdashbaord" id="sidenavdashbaord" name="sidenavdashbaord"><i class="fas fa-tachometer-alt faHeader"></i> Dashboard</a>
+                    <a class="liHeader sidenavdashbaord"><i class="fas fa-tachometer-alt faHeader"></i> Dashboard</a>
                 </li>
             {{/if}}
 
@@ -1021,7 +1021,7 @@
                     </li>
                 {{else}}
                     <li class="reportsLi2" id="sidenavreports">
-                        <a id="sidenavreports" name="sidenavreports" class="sidenavreports liHeader"><i class="fa fa-area-chart faHeader"></i> Reports</a>
+                        <a class="sidenavreports liHeader"><i class="fa fa-area-chart faHeader"></i> Reports</a>
                     </li>
                 {{/if}}
             {{/if}}
