@@ -786,7 +786,7 @@ Template.depositcard.onRendered(()=>{
                     $(".btnBack").prop("disabled", false);
                     templateObject.record.set(record);
 
-
+                    $('#sltAccountName').val(data.fields.AccountName);
 
                     if(templateObject.record.get()){
                         Meteor.call('readPrefMethod',Session.get('mycloudLogonID'),'tblDepositEntryLine', function(error, result){
@@ -906,7 +906,7 @@ Template.depositcard.onRendered(()=>{
               $(".printConfirm").prop("disabled", false);
               $(".btnBack").prop("disabled", false);
               templateObject.record.set(record);
-
+              $('#sltAccountName').val(useData[d].fields.AccountName);
               if(templateObject.record.get()){
                   Meteor.call('readPrefMethod',Session.get('mycloudLogonID'),'tblDepositEntryLine', function(error, result){
                       if(error){
@@ -1004,7 +1004,7 @@ Template.depositcard.onRendered(()=>{
                       $(".btnBack").prop("disabled", false);
                       templateObject.record.set(record);
 
-
+                      $('#sltAccountName').val(data.fields.AccountName);
 
                       if(templateObject.record.get()){
                           Meteor.call('readPrefMethod',Session.get('mycloudLogonID'),'tblDepositEntryLine', function(error, result){
@@ -1120,7 +1120,7 @@ Template.depositcard.onRendered(()=>{
                   $(".btnBack").prop("disabled", false);
                   templateObject.record.set(record);
 
-
+                  $('#sltAccountName').val(data.fields.AccountName);
 
                   if(templateObject.record.get()){
                       Meteor.call('readPrefMethod',Session.get('mycloudLogonID'),'tblDepositEntryLine', function(error, result){

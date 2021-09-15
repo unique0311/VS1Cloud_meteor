@@ -979,6 +979,10 @@ Template.addcustomerpop.events({
                     $('.salesmodule .pdfCustomerAddress').text(postalAddress);
                     $('.salesmodule #txaShipingInfo').val(postalAddress);
                     $('.salesmodule #sltTerms').val(sltTermsName);
+                }else if (currentLoc == "/billcard" || currentLoc == "/purchaseordercard") {
+                    var selectLineID = $('#selectLineID').val();
+                    $('#' + selectLineID + " .colCustomerJob").text(company);
+
                 } else {
                     sideBarService.getAllCustomersDataVS1(initialBaseDataLoad, 0).then(function (dataReload) {
                         addVS1Data('TCustomerVS1', JSON.stringify(dataReload)).then(function (datareturn) {

@@ -178,7 +178,12 @@ Template.vs1login.onRendered(function(){
 
   }
   if(FlowRouter.current().queryParams.passkey){
-    $('#erppassword').val(FlowRouter.current().queryParams.passkey);
+    if(FlowRouter.current().context.hash.length > 1){
+      $('#erppassword').val(FlowRouter.current().queryParams.passkey + '#'+FlowRouter.current().context.hash);
+    }else{
+      $('#erppassword').val(escape(FlowRouter.current().queryParams.passkey));
+    }
+    //$('#erppassword').val(escape(FlowRouter.current().queryParams.passkey));
   }
 
 
@@ -949,12 +954,15 @@ needsToSeePrompt();
 
 
 
-
-    if(isAllocationLaunch == true) {
-      window.open('/appointments#allocationModal','_self');
-    } else if (isAppointmentLaunch ==true){
-      window.open('/appointments','_self');
-    } else {
+    if(isAppointmentScheduling == true){
+        if(isAllocationLaunch == true) {
+          window.open('/appointments#allocationModal','_self');
+        } else if (isAppointmentLaunch ==true){
+          window.open('/appointments','_self');
+        }else{
+          window.open('/dashboard','_self');
+        }
+    }else {
       window.open('/dashboard','_self');
     }
 
@@ -977,7 +985,7 @@ $("#login-button").click(function(e){
 var myVS1Video = document.getElementById("myVS1Video");
 
   let userLoginEmail = $("#email").val();
-  let userLoginPassword = $('#erppassword').val();
+  let userLoginPassword = escape($('#erppassword').val());
   let hashUserLoginPassword = CryptoJS.MD5(userLoginPassword).toString().toUpperCase();
   var counterUserRec = null;
   let employeeUserID = '';
@@ -1308,12 +1316,11 @@ $("#erplogin-button").click(async function(e){
     let isTrueERPConnection = false;
 
   let userLoginEmail = $("#email").val();
-  let userLoginPassword = $("#erppassword").val();
+  let userLoginPassword = escape($('#erppassword').val());
   let hashUserLoginPassword = CryptoJS.MD5(userLoginPassword).toString().toUpperCase();
   var counterUserRec = null;
   let employeeUserID = '';
   let loggedUserEventFired = false;
-
 
 
   if ($('#remember_me').is(':checked')) {
@@ -1856,9 +1863,9 @@ $("#erplogin-button").click(async function(e){
           $('.myVS1Video').css('display','none');
           $('.myVS1VideoLogin').css('display','none');
                        $('#emEmail').html(userLoginEmail);
-                       $('#emPassword').html(userLoginPassword);
-                       $(".addloginkey").attr("href", 'https://www.depot.vs1cloud.com/vs1activation/prodcheck.php?checktoken='+userLoginEmail+'');
-                       $(".addloginActive").attr("href", 'https://www.depot.vs1cloud.com/vs1activation/prodcheck.php?checktoken='+userLoginEmail+'');
+                       $('#emPassword').html(userLoginPassword.replace('%23', "#"));
+                       $(".addloginkey").attr("href", 'https://www.depot.vs1cloud.com/vs1activation/sandboxcheck.php?checktoken='+userLoginEmail+'');
+                       $(".addloginActive").attr("href", 'https://www.depot.vs1cloud.com/vs1activation/sandboxcheck.php?checktoken='+userLoginEmail+'');
                        swal({
                          title: 'Awaiting Email Validation',
                          html: true,
@@ -3015,9 +3022,9 @@ $("#erplogin-button").click(async function(e){
           $('.myVS1Video').css('display','none');
           $('.myVS1VideoLogin').css('display','none');
           $('#emEmail').html(userLoginEmail);
-          $('#emPassword').html(userLoginPassword);
-                       $(".addloginkey").attr("href", 'https://www.depot.vs1cloud.com/vs1activation/prodcheck.php?checktoken='+userLoginEmail+'');
-                       $(".addloginActive").attr("href", 'https://www.depot.vs1cloud.com/vs1activation/prodcheck.php?checktoken='+userLoginEmail+'');
+          $('#emPassword').html(userLoginPassword.replace('%23', "#"));
+                       $(".addloginkey").attr("href", 'https://www.depot.vs1cloud.com/vs1activation/sandboxcheck.php?checktoken='+userLoginEmail+'');
+                       $(".addloginActive").attr("href", 'https://www.depot.vs1cloud.com/vs1activation/sandboxcheck.php?checktoken='+userLoginEmail+'');
                        swal({
                          title: 'Awaiting Email Validation',
                          html: true,
@@ -3743,9 +3750,9 @@ $("#erplogin-button").click(async function(e){
                 $('.myVS1Video').css('display','none');
                 $('.myVS1VideoLogin').css('display','none');
                 $('#emEmail').html(userLoginEmail);
-                $('#emPassword').html(userLoginPassword);
-                             $(".addloginkey").attr("href", 'https://www.depot.vs1cloud.com/vs1activation/prodcheck.php?checktoken='+userLoginEmail+'');
-                             $(".addloginActive").attr("href", 'https://www.depot.vs1cloud.com/vs1activation/prodcheck.php?checktoken='+userLoginEmail+'');
+                $('#emPassword').html(userLoginPassword.replace('%23', "#"));
+                             $(".addloginkey").attr("href", 'https://www.depot.vs1cloud.com/vs1activation/sandboxcheck.php?checktoken='+userLoginEmail+'');
+                             $(".addloginActive").attr("href", 'https://www.depot.vs1cloud.com/vs1activation/sandboxcheck.php?checktoken='+userLoginEmail+'');
                              swal({
                                title: 'Awaiting Email Validation',
                                html: true,
@@ -4429,9 +4436,9 @@ $("#erplogin-button").click(async function(e){
               $('.myVS1Video').css('display','none');
               $('.myVS1VideoLogin').css('display','none');
               $('#emEmail').html(userLoginEmail);
-              $('#emPassword').html(userLoginPassword);
-                           $(".addloginkey").attr("href", 'https://www.depot.vs1cloud.com/vs1activation/prodcheck.php?checktoken='+userLoginEmail+'');
-                           $(".addloginActive").attr("href", 'https://www.depot.vs1cloud.com/vs1activation/prodcheck.php?checktoken='+userLoginEmail+'');
+              $('#emPassword').html(userLoginPassword.replace('%23', "#"));
+                           $(".addloginkey").attr("href", 'https://www.depot.vs1cloud.com/vs1activation/sandboxcheck.php?checktoken='+userLoginEmail+'');
+                           $(".addloginActive").attr("href", 'https://www.depot.vs1cloud.com/vs1activation/sandboxcheck.php?checktoken='+userLoginEmail+'');
                            swal({
                              title: 'Awaiting Email Validation',
                              html: true,

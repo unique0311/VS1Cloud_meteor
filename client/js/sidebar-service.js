@@ -134,6 +134,15 @@ export class SideBarService extends BaseService {
     return this.getList(this.ERPObjects.TCustomerVS1, options);
   }
 
+  getAllAccountDataVS1ByName(dataSearchName) {
+    let options = '';
+       options = {
+        ListType: "Detail",
+        select: '[AccountName] f7like "'+dataSearchName+'"'
+       };
+    return this.getList(this.ERPObjects.TAccountVS1, options);
+  }
+
   getAllSuppliersDataVS1ByName(dataSearchName) {
     let options = '';
        options = {

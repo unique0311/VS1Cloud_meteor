@@ -378,6 +378,102 @@ Template.accountlistpop.events({
     'click #edtSupplierName': function(event) {
 
     },
+    'click .btnRefreshAccount': function (event) {
+        let templateObject = Template.instance();
+        $('.fullScreenSpin').css('display', 'inline-block');
+        const customerList = [];
+        const clientList = [];
+        let salesOrderTable;
+        var splashArray = new Array();
+        var splashArrayCustomerList = new Array();
+        const dataTableList = [];
+        const tableHeaderList = [];
+        let sideBarService = new SideBarService();
+        let accountService = new AccountService();
+        let dataSearchName = $('#tblAccount_filter input').val();
+
+        if (dataSearchName.replace(/\s/g, '') != '') {
+            sideBarService.getAllAccountDataVS1ByName(dataSearchName).then(function (data) {
+                let lineItems = [];
+                let lineItemObj = {};
+                if (data.taccountvs1.length > 0) {
+                  for (let i = 0; i < data.taccountvs1.length; i++) {
+                         var dataList = [
+                             data.taccountvs1[i].AccountName || '-',
+                             data.taccountvs1[i].Description || '',
+                             data.taccountvs1[i].AccountNumber || '',
+                             data.taccountvs1[i].AccountTypeName || '',
+                             utilityService.modifynegativeCurrencyFormat(Math.floor(data.taccountvs1[i].Balance * 100) / 100),
+                             data.taccountvs1[i].TaxCode || ''
+                         ];
+
+                         splashArrayProductList.push(dataList);
+                     }
+                    var datatable = $('#tblAccountlist').DataTable();
+                    datatable.clear();
+                    datatable.rows.add(splashArrayCustomerList);
+                    datatable.draw(false);
+
+                    $('.fullScreenSpin').css('display', 'none');
+                } else {
+
+                    $('.fullScreenSpin').css('display', 'none');
+                    $('#productListModal').modal('toggle');
+                    swal({
+                        title: 'Question',
+                        text: "Account does not exist, would you like to create it?",
+                        type: 'question',
+                        showCancelButton: true,
+                        confirmButtonText: 'Yes',
+                        cancelButtonText: 'No'
+                    }).then((result) => {
+                        if (result.value) {
+                            $('#addAccountModal').modal('toggle');
+                            $('#edtAccountName').val(dataSearchName);
+                        } else if (result.dismiss === 'cancel') {
+                            $('#productListModal').modal('toggle');
+                        }
+                    });
+
+                }
+
+            }).catch(function (err) {
+                $('.fullScreenSpin').css('display', 'none');
+            });
+        } else {
+          accountService.getAccountListVS1().then(function(data) {
+
+                  let records = [];
+                  let inventoryData = [];
+                  for (let i = 0; i < data.taccountvs1.length; i++) {
+                      var dataList = [
+                          data.taccountvs1[i].AccountName || '-',
+                          data.taccountvs1[i].Description || '',
+                          data.taccountvs1[i].AccountNumber || '',
+                          data.taccountvs1[i].AccountTypeName || '',
+                          utilityService.modifynegativeCurrencyFormat(Math.floor(data.taccountvs1[i].Balance * 100) / 100),
+                          data.taccountvs1[i].TaxCode || ''
+                      ];
+
+                      splashArrayProductList.push(dataList);
+                  }
+
+        var datatable = $('#tblAccountlist').DataTable();
+              datatable.clear();
+              datatable.rows.add(splashArrayCustomerList);
+              datatable.draw(false);
+
+              $('.fullScreenSpin').css('display', 'none');
+              }).catch(function (err) {
+                $('.fullScreenSpin').css('display', 'none');
+            });
+        }
+    },
+    'keyup #tblAccount_filter input': function (event) {
+      if (event.keyCode == 13) {
+         $(".btnRefreshAccount").trigger("click");
+      }
+    },
     'change #sltStatus': function () {
         let status = $('#sltStatus').find(":selected").val();
         if (status == "newstatus") {

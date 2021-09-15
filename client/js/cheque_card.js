@@ -499,6 +499,7 @@ Template.chequecard.onRendered(() => {
                             };
 
                             $('#edtSupplierName').val(data.fields.SupplierName);
+                            $('#edtBankAccountName').val(data.fields.GLAccountName);
                             templateObject.CleintName.set(data.fields.SupplierName);
                             $('#sltCurrency').val(data.fields.ForeignExchangeCode);
 
@@ -600,6 +601,7 @@ Template.chequecard.onRendered(() => {
                     } else {
                         let data = JSON.parse(dataObject[0].data);
                         let useData = data.tcheque;
+
                         var added = false;
                         for (let d = 0; d < useData.length; d++) {
                             if (parseInt(useData[d].fields.ID) === currentCheque) {
@@ -731,6 +733,7 @@ Template.chequecard.onRendered(() => {
                                 };
 
                                 $('#edtSupplierName').val(useData[d].fields.SupplierName);
+                                $('#edtBankAccountName').val(useData[d].fields.GLAccountName);
                                 templateObject.CleintName.set(useData[d].fields.SupplierName);
                                 $('#sltCurrency').val(useData[d].fields.ForeignExchangeCode);
 
@@ -944,6 +947,7 @@ Template.chequecard.onRendered(() => {
                                 };
 
                                 $('#edtSupplierName').val(data.fields.SupplierName);
+                                $('#edtBankAccountName').val(data.fields.GLAccountName);
                                 templateObject.CleintName.set(data.fields.SupplierName);
                                 $('#sltCurrency').val(data.fields.ForeignExchangeCode);
 
@@ -1173,6 +1177,7 @@ Template.chequecard.onRendered(() => {
                         };
 
                         $('#edtSupplierName').val(data.fields.SupplierName);
+                        $('#edtBankAccountName').val(data.fields.GLAccountName);
                         templateObject.CleintName.set(data.fields.SupplierName);
                         $('#sltCurrency').val(data.fields.ForeignExchangeCode);
 

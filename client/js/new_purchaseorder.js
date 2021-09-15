@@ -1669,7 +1669,7 @@ Template.purchaseordercard.onRendered(() => {
                     if (!isNaN(subGrandTotal) && (!isNaN(taxGrandTotal))) {
                         let GrandTotal = (parseFloat(subGrandTotal)) + (parseFloat(taxGrandTotal));
                         document.getElementById("grandTotalPrint").innerHTML = $('#grandTotal').text();
-                        document.getElementById("balanceDue").innerHTML = utilityService.modifynegativeCurrencyFormat(GrandTotal);
+                        //document.getElementById("balanceDue").innerHTML = utilityService.modifynegativeCurrencyFormat(GrandTotal);
 
 
                     }
@@ -1778,7 +1778,7 @@ Template.purchaseordercard.onRendered(() => {
                     if (!isNaN(subGrandTotal) && (!isNaN(taxGrandTotal))) {
                         let GrandTotal = (parseFloat(subGrandTotal)) + (parseFloat(taxGrandTotal));
                         document.getElementById("grandTotalPrint").innerHTML = $('#grandTotal').text();
-                        document.getElementById("balanceDue").innerHTML = utilityService.modifynegativeCurrencyFormat(GrandTotal);
+                        //document.getElementById("balanceDue").innerHTML = utilityService.modifynegativeCurrencyFormat(GrandTotal);
                     }
                 });
                 $("#print_subtotal_tax").text($("#subtotal_tax").text());
@@ -2707,7 +2707,7 @@ Template.purchaseordercard.events({
                 if (!isNaN(subGrandTotal) && (!isNaN(taxGrandTotal))) {
                     let GrandTotal = (parseFloat(subGrandTotal)) + (parseFloat(taxGrandTotal));
                     document.getElementById("grandTotalPrint").innerHTML = $('#grandTotal').text();
-                    document.getElementById("balanceDue").innerHTML = utilityService.modifynegativeCurrencyFormat(GrandTotal);
+                    //document.getElementById("balanceDue").innerHTML = utilityService.modifynegativeCurrencyFormat(GrandTotal);
 
 
                 }
