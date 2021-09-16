@@ -623,6 +623,7 @@ needsToSeePrompt();
     let isAddAttachment = false;
     let isCanOnlySeeOwnAppointment = false;
     let isCanOnlySeeOwnAllocations = false;
+    let isCreateAppointment = false;
     let isEditTimesheetHours = false;
 
 
@@ -663,6 +664,7 @@ needsToSeePrompt();
           formName: optionaccess.fields.FormName || '',
           accessID: optionaccess.fields.Id || '',
       };
+
       if(optionaccess.fields.AccessLevel === 1){
         if(optionaccess.fields.Description === "Print Delivery Docket"){
           isDocket = true;
@@ -681,6 +683,10 @@ needsToSeePrompt();
 
         if(optionaccess.fields.Description === "Appointment - Add Attachments"){
           isAddAttachment = true;
+        }
+
+         if(optionaccess.fields.Description === "Create a New Appointment"){
+          isCreateAppointment = true;
         }
 
          if(optionaccess.fields.Description === "Can Only See Own Appointments"){
@@ -811,6 +817,7 @@ needsToSeePrompt();
 
     });
 
+
     if(!isDashboardLicence){
       isDashboard = false;
     }
@@ -933,6 +940,7 @@ needsToSeePrompt();
    Session.setPersistent('CloudAppointmentAllocationLaunch', isAllocationLaunch);
    Session.setPersistent('CloudAppointmentAddAttachment', isAddAttachment);
    Session.setPersistent('CloudAppointmentSeeOwnAppointmentsOnly', isCanOnlySeeOwnAppointment);
+   Session.setPersistent('CloudAppointmentCreateAppointment', isCreateAppointment);
    Session.setPersistent('CloudAppointmentNotes', isAppointmentNotes);
    Session.setPersistent('CloudEditTimesheetHours', isEditTimesheetHours);
     let userSerssion = {'loggedEmpID':userAccessOptions.items[0].fields.EmployeeId,

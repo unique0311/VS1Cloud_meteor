@@ -17,6 +17,7 @@ import { SideBarService } from '../js/sidebar-service';
 import '../lib/global/indexdbstorage.js';
 let sideBarService = new SideBarService();
 let utilityService = new UtilityService();
+let createAppointment = Session.get('CloudAppointmentCreateAppointment') || false;
 Template.appointments.onCreated(function () {
     const templateObject = Template.instance();
     templateObject.employeerecords = new ReactiveVar([]);
@@ -83,6 +84,10 @@ Template.appointments.onRendered(function () {
         setTimeout(function () {
             $('#allocationModal').modal('show');
         }, 500);
+    }
+
+    if(Session.get('CloudAppointmentStartStopAccessLevel') == true) {
+        $("#btnHold").prop("disabled", true);
     }
 
     getVS1Data('TERPPreference').then(function (dataObject) {
@@ -559,6 +564,10 @@ Template.appointments.onRendered(function () {
                         $("#btnHold").prop("disabled", false);
                     }
 
+                    if (Session.get('CloudAppointmentStartStopAccessLevel') == true) {
+                        $("#btnHold").prop("disabled", true);
+                    } 
+
                     if (result[0].aEndTime != "") {
                         $("#btnHold").prop("disabled", true);
                         $("#btnStartActualTime").prop("disabled", true);
@@ -727,6 +736,10 @@ Template.appointments.onRendered(function () {
                 $("#tActualStartTime").prop("disabled", false);
                 $("#tActualEndTime").prop("disabled", false);
                 $("#txtActualHoursSpent").prop("disabled", false);
+
+                  if (Session.get('CloudAppointmentStartStopAccessLevel') == true) {
+                        $("#btnHold").prop("disabled", true);
+                } 
                 document.getElementById("employee_name").value = event.draggedEl.innerText.replace(/[0-9]/g, '');
                 var start = event.dateStr != '' ? moment(event.dateStr).format("DD/MM/YYYY") : event.dateStr;
                 document.getElementById("dtSODate").value = start;
@@ -941,6 +954,10 @@ Template.appointments.onRendered(function () {
                         $("#btnHold").prop("disabled", false);
                     }
 
+                    if (Session.get('CloudAppointmentStartStopAccessLevel') == true) {
+                        $("#btnHold").prop("disabled", true);
+                    } 
+
                     if (result[0].aEndTime != "") {
                         $("#btnHold").prop("disabled", true);
                         $("#btnStartActualTime").prop("disabled", true);
@@ -1110,6 +1127,10 @@ Template.appointments.onRendered(function () {
                 $("#tActualStartTime").prop("disabled", false);
                 $("#tActualEndTime").prop("disabled", false);
                 $("#txtActualHoursSpent").prop("disabled", false);
+
+                  if (Session.get('CloudAppointmentStartStopAccessLevel') == true) {
+                        $("#btnHold").prop("disabled", true);
+                } 
                 document.getElementById("employee_name").value = event.draggedEl.innerText.replace(/[0-9]/g, '');
                 var start = event.dateStr != '' ? moment(event.dateStr).format("DD/MM/YYYY") : event.dateStr;
                 document.getElementById("dtSODate").value = start;
@@ -1978,7 +1999,7 @@ Template.appointments.onRendered(function () {
                         } else {
                             if (date >= startWeek && date <= endWeek) {
                                 if (seeOwnAppointments == true) {
-                                    if (useData[t].fields.TrainerName == Session.get('mySessionEmployee')) {
+                                    if (data.tappointmentex[t].fields.TrainerName == Session.get('mySessionEmployee')) {
                                         resourceColor = resourceColor = templateObject.employeerecords.get();
 
                                         var result = resourceColor.filter(apmtColor => {
@@ -2367,6 +2388,10 @@ Template.appointments.onRendered(function () {
                             $("#tActualStartTime").prop("disabled", false);
                             $("#tActualEndTime").prop("disabled", false);
                             $("#txtActualHoursSpent").prop("disabled", false);
+
+                              if (Session.get('CloudAppointmentStartStopAccessLevel') == true) {
+                        $("#btnHold").prop("disabled", true);
+                    } 
                             document.getElementById("employee_name").value = event.draggedEl.innerText.replace(/[0-9]/g, '');
                             var start = event.dateStr != '' ? moment(event.dateStr).format("DD/MM/YYYY") : event.dateStr;
                             document.getElementById("dtSODate").value = start;
@@ -3849,6 +3874,9 @@ Template.appointments.onRendered(function () {
                         $("#tActualStartTime").prop("disabled", false);
                         $("#tActualEndTime").prop("disabled", false);
                         $("#txtActualHoursSpent").prop("disabled", false);
+                          if (Session.get('CloudAppointmentStartStopAccessLevel') == true) {
+                        $("#btnHold").prop("disabled", true);
+                    } 
                         document.getElementById("employee_name").value = event.draggedEl.innerText.replace(/[0-9]/g, '');
                         var start = event.dateStr != '' ? moment(event.dateStr).format("DD/MM/YYYY") : event.dateStr;
                         document.getElementById("dtSODate").value = start;
@@ -4102,6 +4130,11 @@ Template.appointments.onRendered(function () {
             hour += 1;
         }
         return hour
+    }
+
+
+    if(Session.get('CloudAppointmentStartStopAccessLevel') == true) {
+        $("#btnHold").prop("disabled", true);
     }
 
     // BEGIN DATE CODE
@@ -4414,6 +4447,10 @@ Template.appointments.onRendered(function () {
                                 $(".paused").hide();
                                 $("#btnHold").prop("disabled", false);
                             }
+
+                    if (Session.get('CloudAppointmentStartStopAccessLevel') == true) {
+                        $("#btnHold").prop("disabled", true);
+                    } 
                             if (result[0].aEndTime != "") {
                                 $("#btnHold").prop("disabled", true);
                                 $("#btnStartActualTime").prop("disabled", true);
@@ -4541,6 +4578,9 @@ Template.appointments.onRendered(function () {
                         $("#tActualStartTime").prop("disabled", false);
                         $("#tActualEndTime").prop("disabled", false);
                         $("#txtActualHoursSpent").prop("disabled", false);
+                          if (Session.get('CloudAppointmentStartStopAccessLevel') == true) {
+                        $("#btnHold").prop("disabled", true);
+                    } 
                         document.getElementById("employee_name").value = event.draggedEl.innerText.replace(/[0-9]/g, '');
                         var start = event.dateStr != '' ? moment(event.dateStr).format("DD/MM/YYYY") : event.dateStr;
                         document.getElementById("dtSODate").value = start;
@@ -7342,6 +7382,8 @@ Template.appointments.events({
         $('.fullScreenSpin').css('display', 'inline-block');
         event.preventDefault();
 
+       
+
         let showSat = "F";
         let showSun = "F";
         if ($('#showSaturday').is(':checked')) {
@@ -7529,6 +7571,20 @@ Template.appointments.events({
         // });
 
 
+    },
+    'click #btnHold span': function (event) {
+    if (Session.get('CloudAppointmentStartStopAccessLevel') == true) {           
+         swal({
+            title: 'Oooops',
+            text: 'You dont have access to put appointments "On Hold"',
+            type: 'error',
+            showCancelButton: false,
+            confirmButtonText: 'OK'
+        }).then((results) => {
+            if (results.value) {}
+            else if (results.dismiss === 'cancel') {}
+        });
+    }
     },
     'click .btnPauseJob': function (event) {
 
@@ -7781,6 +7837,22 @@ Template.appointments.events({
     },
     'submit #frmAppointment': function (event) {
         $('.fullScreenSpin').css('display', 'inline-block');
+        event.preventDefault();
+         if(createAppointment == false) {
+           $('.modal-backdrop').css('display', 'none');
+            $('.fullScreenSpin').css('display', 'none');
+            swal({
+                title: 'Oooops...',
+                text: "You dont have access to create new Appointment",
+                type: 'error',
+                showCancelButton: false,
+                confirmButtonText: 'OK'
+            }).then((result) => {
+                if (result.value) {}
+                else if (result.dismiss === 'cancel') {}
+            });
+            return false;
+        }
         var frmAppointment = $('#frmAppointment')[0];
         templateObject = Template.instance();
         let appointmentService = new AppointmentService();

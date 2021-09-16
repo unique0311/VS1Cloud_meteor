@@ -691,7 +691,11 @@
                                     </div>
                                     {{#if equals accessOnHold false}}
                                         <div class="col-xl-2 col-4 colOnHold" id="colOnHold" style="padding-top: 2em;">
-                                            <button class="btn btn-warning" type="button" style="margin: 8px 0px; width: 100%;" id="btnHold">On Hold</button>
+                                            <button class="btn btn-warning" type="button" style="margin: 8px 0px; width: 100%;" id="btnHold">On Hold </button>
+                                        </div>
+                                    {{else}}
+                                     <div class="col-xl-2 col-4 colOnHold" id="colOnHold" style="padding-top: 2em;">
+                                            <button class="btn btn-warning" type="button" style="margin: 8px 0px; width: 100%;" id="btnHold"><span>On Hold</span></button>
                                         </div>
                                     {{/if}}
                                     <div class="col-xl-2 col-4 colStop" id="colStop" style="padding-top: 2em;">
