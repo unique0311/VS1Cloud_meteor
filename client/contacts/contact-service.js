@@ -450,15 +450,22 @@ export class ContactService extends BaseService {
     }
 
     getAllTimeSheetList(){
-      let options = {
-          PropertyList: "ID,EmployeeName,HourlyRate,Hours,InvoiceNotes,Job,LabourCost,Notes,OverheadRate,TimesheetEntryID,Total,TotalAdjusted,TotalInc,TimeSheetDate,ChargeRate,TotalServicecharge,Quantity",
-          select: "[Active]=true",
-      };
+     let options = {
+            ListType: "Detail"
+      }
          return this.getList(this.ERPObjects.TTimeSheet, options);
      }
 
      saveTimeSheet(data) {
          return this.POST(this.ERPObjects.TTimeSheetEntry, data);
+     }
+
+      saveClockTimeSheet(data) {
+         return this.POST(this.ERPObjects.TTimeSheet, data);
+     }
+
+     saveTimeSheetLog(data) {
+         return this.POST(this.ERPObjects.TTimeLog, data);
      }
 
      saveTimeSheetUpdate(data) {

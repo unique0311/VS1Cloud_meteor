@@ -969,6 +969,15 @@ authenticatedRoutes.route('/timesheet', {
     }
 });
 
+authenticatedRoutes.route('/timesheettimelog', {
+    name: 'timesheettimelog',
+    action() {
+        BlazeLayout.render('layout', {
+            yield: 'timesheettimelog'
+        });
+    }
+});
+
 authenticatedRoutes.route('/squareapi', {
     name: 'squareapi',
     action() {

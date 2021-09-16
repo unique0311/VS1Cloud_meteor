@@ -175,7 +175,9 @@ ERPObjects = function () {
         TAreaCode:"TAreaCode",
         TERPPreference:"TERPPreference",
         TERPPreferenceExtra:"TERPPreferenceExtra",
-        VS1_RepeatAppointment: "VS1_RepeatAppointment"
+        VS1_RepeatAppointment: "VS1_RepeatAppointment",
+        TRoster: "TRoster",
+        TTimeLog: "TTimeLog"
     }
     return objects;
 }
