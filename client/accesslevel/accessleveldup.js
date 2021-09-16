@@ -1166,6 +1166,7 @@ Template.accessleveldup.events({
         if($(event.target).is(':checked')){
 
             $('.chkSettings.chkLaunchAppointment').prop( "checked", false );
+            $('.tbl_access .chkLaunchAppointment').val(6);
         }else{
 
         }
@@ -1175,6 +1176,7 @@ Template.accessleveldup.events({
         if($(event.target).is(':checked')){
 
             $('.chkSettings.chkLaunchAllocation').prop( "checked", false );
+            $('.tbl_access .chkLaunchAllocation').val(6);
         }else{
 
         }

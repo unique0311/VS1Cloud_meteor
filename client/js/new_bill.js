@@ -345,6 +345,7 @@ Template.billcard.onRendered(() => {
                                             description: data.fields.Lines[i].fields.ProductDescription || '',
                                             quantity: data.fields.Lines[i].fields.UOMOrderQty || 0,
                                             unitPrice: currencySymbol + '' + data.fields.Lines[i].fields.LineCost.toFixed(2) || 0,
+                                            unitPriceInc: currencySymbol + '' + data.fields.Lines[i].fields.LineCostInc.toFixed(2) || 0,
                                             lineCost: currencySymbol + '' + data.fields.Lines[i].fields.LineCost.toFixed(2) || 0,
                                             taxRate: (data.fields.Lines[i].fields.LineTaxRate * 100).toFixed(2) || 0,
                                             taxCode: data.fields.Lines[i].fields.LineTaxCode || '',
@@ -371,6 +372,7 @@ Template.billcard.onRendered(() => {
                                         description: data.fields.Lines.fields.ProductDescription || '',
                                         quantity: data.fields.Lines.fields.UOMOrderQty || 0,
                                         unitPrice: data.fields.Lines[i].fields.LineCost.toFixed(2) || 0,
+                                        unitPriceInc: data.fields.Lines[i].fields.LineCostInc.toFixed(2) || 0,
                                         lineCost: data.fields.Lines[i].fields.LineCost.toFixed(2) || 0,
                                         taxRate: (data.fields.Lines[i].fields.LineTaxRate * 100).toFixed(2) || 0,
                                         taxCode: data.fields.Lines[i].fields.LineTaxCode || '',
@@ -545,6 +547,7 @@ Template.billcard.onRendered(() => {
                                             description: useData[d].fields.Lines[i].fields.ProductDescription || '',
                                             quantity: useData[d].fields.Lines[i].fields.UOMOrderQty || 0,
                                             unitPrice: currencySymbol + '' + useData[d].fields.Lines[i].fields.LineCost.toFixed(2) || 0,
+                                            unitPriceInc: currencySymbol + '' + useData[d].fields.Lines[i].fields.LineCostInc.toFixed(2) || 0,
                                             lineCost: currencySymbol + '' + useData[d].fields.Lines[i].fields.LineCost.toFixed(2) || 0,
                                             taxRate: (useData[d].fields.Lines[i].fields.LineTaxRate * 100).toFixed(2) || 0,
                                             taxCode: useData[d].fields.Lines[i].fields.LineTaxCode || '',
@@ -572,6 +575,7 @@ Template.billcard.onRendered(() => {
                                         description: useData[d].fields.Lines.fields.ProductDescription || '',
                                         quantity: useData[d].fields.Lines.fields.UOMOrderQty || 0,
                                         unitPrice: useData[d].fields.Lines[i].fields.LineCost.toFixed(2) || 0,
+                                        unitPriceInc: useData[d].fields.Lines[i].fields.LineCostInc.toFixed(2) || 0,
                                         lineCost: useData[d].fields.Lines[i].fields.LineCost.toFixed(2) || 0,
                                         taxRate: (useData[d].fields.Lines[i].fields.LineTaxRate * 100).toFixed(2) || 0,
                                         taxCode: useData[d].fields.Lines[i].fields.LineTaxCode || '',
@@ -721,6 +725,7 @@ Template.billcard.onRendered(() => {
                                                 description: data.fields.Lines[i].fields.ProductDescription || '',
                                                 quantity: data.fields.Lines[i].fields.UOMOrderQty || 0,
                                                 unitPrice: currencySymbol + '' + data.fields.Lines[i].fields.LineCost.toFixed(2) || 0,
+                                                unitPriceInc: currencySymbol + '' + data.fields.Lines[i].fields.LineCostInc.toFixed(2) || 0,
                                                 lineCost: currencySymbol + '' + data.fields.Lines[i].fields.LineCost.toFixed(2) || 0,
                                                 taxRate: (data.fields.Lines[i].fields.LineTaxRate * 100).toFixed(2) || 0,
                                                 taxCode: data.fields.Lines[i].fields.LineTaxCode || '',
@@ -747,6 +752,7 @@ Template.billcard.onRendered(() => {
                                             description: data.fields.Lines.fields.ProductDescription || '',
                                             quantity: data.fields.Lines.fields.UOMOrderQty || 0,
                                             unitPrice: data.fields.Lines[i].fields.LineCost.toFixed(2) || 0,
+                                            unitPriceInc: data.fields.Lines[i].fields.LineCostInc.toFixed(2) || 0,
                                             lineCost: data.fields.Lines[i].fields.LineCost.toFixed(2) || 0,
                                             taxRate: (data.fields.Lines[i].fields.LineTaxRate * 100).toFixed(2) || 0,
                                             taxCode: data.fields.Lines[i].fields.LineTaxCode || '',
@@ -928,6 +934,7 @@ Template.billcard.onRendered(() => {
                                         description: data.fields.Lines[i].fields.ProductDescription || '',
                                         quantity: data.fields.Lines[i].fields.UOMOrderQty || 0,
                                         unitPrice: currencySymbol + '' + data.fields.Lines[i].fields.LineCost.toFixed(2) || 0,
+                                        unitPriceInc: currencySymbol + '' + data.fields.Lines[i].fields.LineCostInc.toFixed(2) || 0,
                                         lineCost: currencySymbol + '' + data.fields.Lines[i].fields.LineCost.toFixed(2) || 0,
                                         taxRate: (data.fields.Lines[i].fields.LineTaxRate * 100).toFixed(2) || 0,
                                         taxCode: data.fields.Lines[i].fields.LineTaxCode || '',
@@ -955,6 +962,7 @@ Template.billcard.onRendered(() => {
                                     quantity: data.fields.Lines.fields.UOMOrderQty || 0,
                                     unitPrice: data.fields.Lines[i].fields.LineCost.toFixed(2) || 0,
                                     lineCost: data.fields.Lines[i].fields.LineCost.toFixed(2) || 0,
+                                    unitPriceInc: data.fields.Lines[i].fields.LineCostInc.toFixed(2) || 0,
                                     taxRate: (data.fields.Lines[i].fields.LineTaxRate * 100).toFixed(2) || 0,
                                     taxCode: data.fields.Lines[i].fields.LineTaxCode || '',
                                     TotalAmt: AmountGbp || 0,
@@ -1118,6 +1126,7 @@ Template.billcard.onRendered(() => {
             description: '',
             quantity: '',
             unitPrice: 0,
+            unitPriceInc: 0,
             taxRate: 0,
             taxCode: '',
             TotalAmt: 0,
@@ -2384,6 +2393,20 @@ Template.billcard.events({
     'click #edtSupplierName': function(event) {
         $('#edtSupplierName').select();
         $('#edtSupplierName').editableSelect();
+    },
+    'click .th.colAmountEx': function(event) {
+        $('.colAmountEx').addClass('hiddenColumn');
+        $('.colAmountEx').removeClass('showColumn');
+
+        $('.colAmountInc').addClass('showColumn');
+        $('.colAmountInc').removeClass('hiddenColumn');
+    },
+    'click .th.colAmountInc': function(event) {
+        $('.colAmountInc').addClass('hiddenColumn');
+        $('.colAmountInc').removeClass('showColumn');
+
+        $('.colAmountEx').addClass('showColumn');
+        $('.colAmountEx').removeClass('hiddenColumn');
     },
     'change #sltStatus': function () {
         let status = $('#sltStatus').find(":selected").val();

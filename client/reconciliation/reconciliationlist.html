@@ -198,6 +198,7 @@
                                     <th class="th colEmployee" style="width:150px;">Employee</th>
                                     <!-- <th class="th colFinished" style="width:80px;">Finished</th> -->
                                     <th class="th colNotes">Notes</th>
+                                    <th class="th colStatus" style="width:70px;">Status</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -215,6 +216,11 @@
                                     <td contenteditable="false" class="colEmployee">{{item.employee}}</td>
                                     <!-- <td contenteditable="false" class="colFinished hiddenColumn">{{item.finished}}</td> -->
                                     <td contenteditable="false" class="colNotes" >{{item.notes}}</td>
+                                    {{#if equals item.onhold true}}
+                                    <td class="colStatus" style="background-color: #f6c23e !important; color:#fff">On Hold</td>
+                                    {{else}}
+                                    <td class="colStatus" style="background-color: #1cc88a !important; color:#fff">Processed</td>
+                                    {{/if}}
                                 </tr>
                                 {{/each}}
                                 {{/if}}

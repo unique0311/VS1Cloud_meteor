@@ -753,7 +753,8 @@
                                 <tr class="dnd-moved">
                                     <th class="th colAccountName" style="width: 300px;">Account Name</th>
                                     <th class="th colMemo">Memo</th>
-                                    <th class="th colAmount" style="width: 110px; text-align: left!important;">Amount</th>
+                                    <th class="th colAmount colAmountEx" style="width: 130px; text-align: left!important; cursor: pointer;">Amount (Ex)</th>
+                                    <th class="th colAmount colAmountInc hiddenColumn" style="width: 130px; text-align: left!important; cursor: pointer;">Amount (Inc)</th>
                                     <th class="th colCustomerJob " style="width: 200px;">Customer/Job</th>
                                     <!-- <th class="th colCostPrice thLinceCostPrice hiddenColumn" style="width: 110px; text-align: left!important;">Cost Price</th> -->
                                     <th class="th colTaxRate hiddenColumn" style="width: 91px; text-align: left!important;">Tax Rate</th>
@@ -770,7 +771,8 @@
                                     <td contenteditable="false" class="lineAccountName colAccountName" style="cursor: pointer;">{{item.accountname}}</td>
                                     <td contenteditable="true" class="lineMemo colMemo">{{item.memo}}</td>
 
-                                    <td><input class="lineAmount colAmount highlightInput" type="text" value="{{item.unitPrice}}"></td>
+                                    <td class="colAmountEx"><input class="lineAmount colAmount highlightInput" type="text" value="{{item.unitPrice}}"></td>
+                                    <td class="colAmountInc hiddenColumn"><input class="lineAmount colAmount highlightInput" type="text" value="{{item.unitPriceInc}}"></td>
                                     <td contenteditable="false" class="colCustomerJob" style="cursor: pointer;">{{item.customerJob}}</td>
                                     <!--                                    <td contenteditable="true" class="lineAmount colAmount" style="text-align: right!important;">{{item.unitPrice}}</td>-->
                                     <!-- <td contenteditable="true" class="lineCostPrice colCostPrice hiddenColumn" style="text-align: right!important;">{{item.lineCost}}</td> -->

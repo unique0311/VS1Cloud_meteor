@@ -81,6 +81,7 @@ Template.reconciliationlist.onRendered(function() {
                           closebalance: closeBalance || 0.00,
                           employee: data.treconciliation[i].fields.EmployeeName || '',
                           notes: data.treconciliation[i].fields.Notes || '',
+                          onhold: data.treconciliation[i].fields.OnHold || false,
                       };
                       if(data.treconciliation[i].fields.ReconciliationDate != ''){
                           dataTableList.push(dataList);
@@ -261,6 +262,7 @@ Template.reconciliationlist.onRendered(function() {
                         closebalance: closeBalance || 0.00,
                         employee: data.treconciliation[i].fields.EmployeeName || '',
                         notes: data.treconciliation[i].fields.Notes || '',
+                        onhold: data.treconciliation[i].fields.OnHold || false,
                     };
                     if(data.treconciliation[i].fields.ReconciliationDate != ''){
                         dataTableList.push(dataList);
@@ -531,6 +533,7 @@ Template.reconciliationlist.onRendered(function() {
                         closebalance: closeBalance || 0.00,
                         employee: data.treconciliation[i].fields.EmployeeName || '',
                         notes: data.treconciliation[i].fields.Notes || '',
+                        onhold: data.treconciliation[i].fields.OnHold || false,
                     };
                     if(data.treconciliation[i].fields.ReconciliationDate != ''){
                         dataTableList.push(dataList);
