@@ -88,6 +88,7 @@ yearRange: "-90:+10",
     $("#dateTo").val(begunDate);
     templateObject.getAllTimeSheetData = function () {
       contactService.getAllTimeSheetList().then(function (data) {
+
         $('.fullScreenSpin').css('display','none');
         let lineItems = [];
         let lineItemObj = {};
@@ -96,28 +97,27 @@ yearRange: "-90:+10",
         let sumSumHour = 0;
         let sumSumHourlyRate = 0;
         for(let t=0; t<data.ttimesheet.length; t++){
-          let hourlyRate = utilityService.modifynegativeCurrencyFormat(data.ttimesheet[t].HourlyRate)|| 0.00;
-          let labourCost = utilityService.modifynegativeCurrencyFormat(data.ttimesheet[t].LabourCost) || 0.00;
-          let totalAmount = utilityService.modifynegativeCurrencyFormat(data.ttimesheet[t].Total)|| 0.00;
-          let totalAdjusted = utilityService.modifynegativeCurrencyFormat(data.ttimesheet[t].TotalAdjusted)|| 0.00;
-          let totalAmountInc = utilityService.modifynegativeCurrencyFormat(data.ttimesheet[t].TotalInc)|| 0.00;
+          let hourlyRate = utilityService.modifynegativeCurrencyFormat(data.ttimesheet[t].fields.HourlyRate)|| 0.00;
+          let labourCost = utilityService.modifynegativeCurrencyFormat(data.ttimesheet[t].fields.LabourCost) || 0.00;
+          let totalAmount = utilityService.modifynegativeCurrencyFormat(data.ttimesheet[t].fields.Total)|| 0.00;
+          let totalAdjusted = utilityService.modifynegativeCurrencyFormat(data.ttimesheet[t].fields.TotalAdjusted)|| 0.00;
+          let totalAmountInc = utilityService.modifynegativeCurrencyFormat(data.ttimesheet[t].fields.TotalInc)|| 0.00;
 
-           sumTotalCharge = sumTotalCharge + data.ttimesheet[t].Total;
-           sumSumHour = sumSumHour + data.ttimesheet[t].Hours;
-           sumSumHourlyRate = sumSumHourlyRate + data.ttimesheet[t].LabourCost;
-
+           sumTotalCharge = sumTotalCharge + data.ttimesheet[t].fields.Total;
+           sumSumHour = sumSumHour + data.ttimesheet[t].fields.Hours;
+           sumSumHourlyRate = sumSumHourlyRate + data.ttimesheet[t].fields.LabourCost;
           var dataList = {
           id: data.ttimesheet[t].Id || '',
-          employee:data.ttimesheet[t].EmployeeName || '',
+          employee:data.ttimesheet[t].fields.EmployeeName || '',
           hourlyrate:hourlyRate,
-          hours:data.ttimesheet[t].Hours || '',
-          job:data.ttimesheet[t].Job || '',
+          hours:data.ttimesheet[t].fields.Hours || '',
+          job:data.ttimesheet[t].fields.Job || '',
           labourcost:labourCost,
-          overheadrate:data.ttimesheet[t].OverheadRate || '',
-          sortdate: data.ttimesheet[t].TimeSheetDate !=''? moment(data.ttimesheet[t].TimeSheetDate).format("YYYY/MM/DD"): data.ttimesheet[t].TimeSheetDate,
-          timesheetdate: data.ttimesheet[t].TimeSheetDate !=''? moment(data.ttimesheet[t].TimeSheetDate).format("DD/MM/YYYY"): data.ttimesheet[t].TimeSheetDate,
+          overheadrate:data.ttimesheet[t].fields.OverheadRate || '',
+          sortdate: data.ttimesheet[t].fields.TimeSheetDate !=''? moment(data.ttimesheet[t].fields.TimeSheetDate).format("YYYY/MM/DD"): data.ttimesheet[t].fields.TimeSheetDate,
+          timesheetdate: data.ttimesheet[t].fields.TimeSheetDate !=''? moment(data.ttimesheet[t].fields.TimeSheetDate).format("DD/MM/YYYY"): data.ttimesheet[t].fields.TimeSheetDate,
           // suppliername: data.ttimesheet[t].SupplierName || '',
-          timesheetdate1: data.ttimesheet[t].TimeSheetDate || '',
+          timesheetdate1: data.ttimesheet[t].fields.TimeSheetDate || '',
           totalamountex: totalAmount || 0.00,
           totaladjusted: totalAdjusted || 0.00,
           totalamountinc: totalAmountInc || 0.00,
@@ -131,7 +131,7 @@ yearRange: "-90:+10",
           // custfield1: '' || '',
           // custfield2: '' || '',
           // invoicenotes: data.ttimesheet[t].InvoiceNotes || '',
-          notes: data.ttimesheet[t].Notes || '',
+          notes: data.ttimesheet[t].fields.Notes || '',
           finished: 'Not Processed',
           color: '#f6c23e'
         };
@@ -301,7 +301,7 @@ yearRange: "-90:+10",
        });
 
       }).catch(function (err) {
-
+          console.log(err);
           // Bert.alert('<strong>' + err + '</strong>!', 'danger');
           $('.fullScreenSpin').css('display','none');
           // Meteor._reload.reload();
@@ -677,12 +677,6 @@ Template.timesheet.events({
       var edthourlyRate = $('.lineEditHourlyRate').val() || 0;
       var edthour = $('.lineEditHour').val() || 0;
       var techNotes = $('.lineEditTechNotes').val() || '';
-      // var taxcode = $('#sltTaxCode').val();
-      // var accountdesc = $('#txaAccountDescription').val();
-      // var bankaccountname = $('#edtBankAccountName').val();
-      // var bankbsb = $('#edtBSB').val();
-      // var bankacountno = $('#edtBankAccountNo').val();
-      // let isBankAccount = templateObject.isBankAccount.get();
       let data = '';
       if(timesheetID == ""){
             data = {
