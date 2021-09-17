@@ -4,8 +4,8 @@
             <div class="spinner"></div>
         </div>
         <style>
-            .dataTables_filter { 
-                display: none; 
+            .dataTables_filter {
+                display: none;
             }
         </style>
         <div style="margin-top: -24px;">
@@ -31,6 +31,30 @@
                         </div>
                     </div>
                     <!-- End Help View Modal -->
+
+                    <!-- Start Help Video Modal -->
+                    <div class="modal fade" role="dialog" tabindex="-1" id="helpModal">
+                        <div class="modal-dialog" role="document" style="max-width: 670px!important;">
+                            <div class="modal-content">
+                                <div class="modal-header">
+
+                                    <h4 class="title-header">Appointment List</h4>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                                                                                                      aria-hidden="true">×</span></button>
+                                </div>
+                                <div class="modal-body">
+                                    <!-- <iframe width="640" height="360" src="https://player.vimeo.com/video/99892791" frameborder="0" allowfullscreen=""></iframe> -->
+                                    <!-- <iframe width="640" height="360" src="https://www.youtube.com/embed/BzxoYOp42fg" frameborder="0" allowfullscreen=""></iframe> -->
+                                    <video id="myVideo" width="640" height="360" controls="" name="media"
+                                           style="border: solid 5px #999999f0; height: auto; outline: none;">
+                                        <source src="https://erphelpes.com/vs1videos/appointmenttimelist.mp4" type="video/mp4">
+                                    </video>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- End Help Video Modal -->
 
                 </h1>
             </header>
@@ -417,7 +441,7 @@
                                                     }
                                                     .delete-dropdown {
                                                         transform: translate3d(-170px, -110px, 0px) !important;
-                                                    } 
+                                                    }
                                                     .dropdown-toggle:after {
                                                         display: inline-block !important;
                                                         vertical-align: 0em !important;
