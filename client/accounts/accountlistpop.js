@@ -375,8 +375,26 @@ Template.accountlistpop.helpers({
 });
 
 Template.accountlistpop.events({
-    'click #edtSupplierName': function(event) {
-
+    'click .btnAddNewAccount': function(event) {
+      $('#add-account-title').text('Add New Account');
+      $('#edtAccountID').val('');
+      $('#sltAccountType').val('');
+      $('#sltAccountType').removeAttr('readonly', true);
+      $('#sltAccountType').removeAttr('disabled', 'disabled');
+      $('#edtAccountName').val('');
+      $('#edtAccountName').attr('readonly', false);
+      $('#edtAccountNo').val('');
+      $('#sltTaxCode').val('NT' || '');
+      $('#txaAccountDescription').val('');
+      $('#edtBankAccountName').val('');
+      $('#edtBSB').val('');
+      $('#edtBankAccountNo').val('');
+      $('#routingNo').val('');
+      $('#edtBankName').val('');
+      $('#swiftCode').val('');
+      $('.showOnTransactions').prop('checked', false);
+      $('.isBankAccount').addClass('isNotBankAccount');
+      $('.isCreditAccount').addClass('isNotCreditAccount');
     },
     'click .btnRefreshAccount': function (event) {
         let templateObject = Template.instance();

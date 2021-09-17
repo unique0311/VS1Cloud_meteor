@@ -76,7 +76,6 @@ Template.addaccountpop.onRendered(function () {
     });
 
 
-
     getVS1Data('TAccountType').then(function (dataObject) {
         if (dataObject.length == 0) {
             accountService.getAccountTypeCheck().then(function (data) {

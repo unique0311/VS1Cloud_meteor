@@ -21,9 +21,6 @@ let sideBarService = new SideBarService();
 let utilityService = new UtilityService();
 var times = 0;
 Template.billcard.onCreated(() => {
-
-
-
     const templateObject = Template.instance();
     templateObject.records = new ReactiveVar();
     templateObject.CleintName = new ReactiveVar();
@@ -1442,7 +1439,7 @@ Template.billcard.onRendered(() => {
             }
             $('#' + selectLineID + " .lineAccountName").text(lineProductName);
             $('#' + selectLineID + " .lineMemo").text(lineProductDesc);
-            $('#' + selectLineID + " .colAmount").val(lineUnitPrice);
+            $('#' + selectLineID + " .colAmountExChange").val(lineUnitPrice);
             $('#' + selectLineID + " .lineTaxCode").text(lineTaxRate);
 
             if ($('.printID').val() == "") {
@@ -1455,7 +1452,7 @@ Template.billcard.onRendered(() => {
             $('#productListModal').modal('toggle');
             $tblrows.each(function(index) {
                 var $tblrow = $(this);
-                var amount = $tblrow.find(".colAmount").val() || "0";
+                var amount = $tblrow.find(".colAmountExChange").val() || "0";
                 var taxcode = $tblrow.find(".lineTaxCode").text() || 0;
 
                 var taxrateamount = 0;
@@ -1472,7 +1469,9 @@ Template.billcard.onRendered(() => {
                 var taxTotal = parseFloat(amount.replace(/[^0-9.-]+/g, "")) * parseFloat(taxrateamount);
                 $tblrow.find('.lineTaxAmount').text(utilityService.modifynegativeCurrencyFormat(taxTotal));
                 if (!isNaN(subTotal)) {
-                    $tblrow.find('.colAmount').val(utilityService.modifynegativeCurrencyFormat(subTotal.toFixed(2)));
+                    $tblrow.find('.colAmountExChange').val(utilityService.modifynegativeCurrencyFormat(subTotal.toFixed(2)));
+                    let totalAmountInc = (parseFloat(subTotal)) + (parseFloat(taxTotal)) || 0;
+                    $tblrow.find('.colAmountIncChange').val(utilityService.modifynegativeCurrencyFormat(totalAmountInc.toFixed(2)));
                     subGrandTotal += isNaN(subTotal) ? 0 : subTotal;
                     document.getElementById("subtotal_total").innerHTML = utilityService.modifynegativeCurrencyFormat(subGrandTotal.toFixed(2));
                 }
@@ -1558,7 +1557,7 @@ Template.billcard.onRendered(() => {
             $('#' + selectLineID + " .lineTaxCode").text(lineTaxCode);
             let $printrows = $(".bill_print tbody tr");
             if ($('.printID').val() == "") {
-                $('#' + selectLineID + " #lineAmount").text($('#' + selectLineID + " .colAmount").val());
+                $('#' + selectLineID + " #lineAmount").text($('#' + selectLineID + " .colAmountExChange").val());
                 $('#' + selectLineID + " #lineTaxCode").text(lineTaxCode);
 
             }
@@ -1566,7 +1565,7 @@ Template.billcard.onRendered(() => {
             $('#taxRateListModal').modal('toggle');
             $tblrows.each(function(index) {
                 var $tblrow = $(this);
-                var amount = $tblrow.find(".colAmount").val() || 0;
+                var amount = $tblrow.find(".colAmountExChange").val() || 0;
                 var taxcode = $tblrow.find(".lineTaxCode").text() || '';
 
                 var taxrateamount = 0;
@@ -1589,7 +1588,9 @@ Template.billcard.onRendered(() => {
                 }
                 $tblrow.find('.lineTaxAmount').text(utilityService.modifynegativeCurrencyFormat(taxTotal));
                 if (!isNaN(subTotal)) {
-                    $tblrow.find('.colAmount').val(utilityService.modifynegativeCurrencyFormat(subTotal.toFixed(2)));
+                    $tblrow.find('.colAmountExChange').val(utilityService.modifynegativeCurrencyFormat(subTotal.toFixed(2)));
+                    let totalAmountInc = (parseFloat(subTotal)) + (parseFloat(taxTotal)) || 0;
+                    $tblrow.find('.colAmountIncChange').val(utilityService.modifynegativeCurrencyFormat(totalAmountInc.toFixed(2)));
                     subGrandTotal += isNaN(subTotal) ? 0 : subTotal;
                     document.getElementById("subtotal_total").innerHTML = utilityService.modifynegativeCurrencyFormat(subGrandTotal.toFixed(2));
                 }
@@ -1733,7 +1734,7 @@ Template.billcard.onRendered(() => {
 
         $tblrows.each(function(index) {
             var $tblrow = $(this);
-            var amount = $tblrow.find(".colAmount").val() || 0;
+            var amount = $tblrow.find(".colAmountExChange").val() || 0;
             var taxcode = $tblrow.find(".lineTaxCode").text() || '';
 
             var taxrateamount = 0;
@@ -1756,7 +1757,9 @@ Template.billcard.onRendered(() => {
             }
             $tblrow.find('.lineTaxAmount').text(utilityService.modifynegativeCurrencyFormat(taxTotal));
             if (!isNaN(subTotal)) {
-                $tblrow.find('.colAmount').val(utilityService.modifynegativeCurrencyFormat(subTotal.toFixed(2)));
+                $tblrow.find('.colAmountExChange').val(utilityService.modifynegativeCurrencyFormat(subTotal.toFixed(2)));
+                let totalAmountInc = (parseFloat(subTotal)) + (parseFloat(taxTotal)) || 0;
+                $tblrow.find('.colAmountIncChange').val(utilityService.modifynegativeCurrencyFormat(totalAmountInc.toFixed(2)));
                 subGrandTotal += isNaN(subTotal) ? 0 : subTotal;
                 document.getElementById("subtotal_total").innerHTML = utilityService.modifynegativeCurrencyFormat(subGrandTotal.toFixed(2));
             }
@@ -2481,7 +2484,7 @@ Template.billcard.events({
         var targetID = $(event.target).closest('tr').attr('id');
         $('#' + targetID + " #lineMemo").text($('#' + targetID + " .lineMemo").text());
     },
-    'blur .colAmount': function(event) {
+    'blur .colAmountExChange': function(event) {
         let templateObject = Template.instance();
         let taxcodeList = templateObject.taxraterecords.get();
         let utilityService = new UtilityService();
@@ -2500,7 +2503,7 @@ Template.billcard.events({
         let $printrows = $(".bill_print tbody tr");
 
         if ($('.printID').val() == "") {
-            $('#' + targetID + " #lineAmount").text($('#' + targetID + " .colAmount").val());
+            $('#' + targetID + " #lineAmount").text($('#' + targetID + " .colAmountExChange").val());
             $('#' + targetID + " #lineTaxCode").text($('#' + targetID + " .lineTaxCode").text());
 
         }
@@ -2512,7 +2515,7 @@ Template.billcard.events({
 
         $tblrows.each(function(index) {
             var $tblrow = $(this);
-            var amount = $tblrow.find(".colAmount").val() || "0";
+            var amount = $tblrow.find(".colAmountExChange").val() || "0";
             var taxcode = $tblrow.find(".lineTaxCode").text() || 0;
             var taxrateamount = 0;
             if (taxcodeList) {
@@ -2525,10 +2528,12 @@ Template.billcard.events({
 
 
             var subTotal = parseFloat(amount.replace(/[^0-9.-]+/g, "")) || 0;
-            var taxTotal = parseFloat(amount.replace(/[^0-9.-]+/g, "")) * parseFloat(taxrateamount);
+            var taxTotal = parseFloat(amount.replace(/[^0-9.-]+/g, "")) * parseFloat(taxrateamount) ||0;
             $tblrow.find('.lineTaxAmount').text(utilityService.modifynegativeCurrencyFormat(taxTotal));
             if (!isNaN(subTotal)) {
-                $tblrow.find('.colAmount').val(utilityService.modifynegativeCurrencyFormat(subTotal.toFixed(2)));
+                $tblrow.find('.colAmountExChange').val(utilityService.modifynegativeCurrencyFormat(subTotal.toFixed(2)));
+                let totalAmountInc = (parseFloat(subTotal)) + (parseFloat(taxTotal)) || 0;
+                $tblrow.find('.colAmountIncChange').val(utilityService.modifynegativeCurrencyFormat(totalAmountInc.toFixed(2)));
                 subGrandTotal += isNaN(subTotal) ? 0 : subTotal;
                 document.getElementById("subtotal_total").innerHTML = utilityService.modifynegativeCurrencyFormat(subGrandTotal.toFixed(2));
             }
@@ -2537,6 +2542,109 @@ Template.billcard.events({
                 taxGrandTotal += isNaN(taxTotal) ? 0 : taxTotal;
                 document.getElementById("subtotal_tax").innerHTML = utilityService.modifynegativeCurrencyFormat(taxGrandTotal.toFixed(2));
             }
+
+
+            if (!isNaN(subGrandTotal) && (!isNaN(taxGrandTotal))) {
+                let GrandTotal = (parseFloat(subGrandTotal)) + (parseFloat(taxGrandTotal));
+                document.getElementById("grandTotal").innerHTML = utilityService.modifynegativeCurrencyFormat(GrandTotal.toFixed(2));
+                document.getElementById("balanceDue").innerHTML = utilityService.modifynegativeCurrencyFormat(GrandTotal.toFixed(2));
+                document.getElementById("totalBalanceDue").innerHTML = utilityService.modifynegativeCurrencyFormat(GrandTotal.toFixed(2));
+
+            }
+        });
+
+        if ($(".printID").val() == "") {
+            $printrows.each(function(index) {
+                var $printrow = $(this);
+                var amount = $printrow.find("#lineAmount").text() || "0";
+                var taxcode = $printrow.find("#lineTaxCode").text() || "E";
+
+                var taxrateamount = 0;
+                if (taxcodeList) {
+                    for (var i = 0; i < taxcodeList.length; i++) {
+                        if (taxcodeList[i].codename == taxcode) {
+                            taxrateamount = taxcodeList[i].coderate.replace('%', "") / 100 || 0;
+                        }
+                    }
+                }
+                var subTotal = parseFloat(amount.replace(/[^0-9.-]+/g, "")) || 0;
+                var taxTotal = parseFloat(amount.replace(/[^0-9.-]+/g, "")) * parseFloat(taxrateamount);
+                $printrow.find('#lineTaxAmount').text(utilityService.modifynegativeCurrencyFormat(taxTotal));
+                if (!isNaN(subTotal)) {
+                    $printrow.find('#lineAmt').text(utilityService.modifynegativeCurrencyFormat(subTotal));
+                    subGrandTotal += isNaN(subTotal) ? 0 : subTotal;
+                    document.getElementById("subtotal_totalPrint").innerHTML = $('#subtotal_total').text();
+                }
+
+                if (!isNaN(taxTotal)) {
+                    taxGrandTotalPrint += isNaN(taxTotal) ? 0 : taxTotal;
+                }
+                if (!isNaN(subGrandTotal) && (!isNaN(taxGrandTotal))) {
+                    let GrandTotal = (parseFloat(subGrandTotal)) + (parseFloat(taxGrandTotal));
+                    document.getElementById("grandTotalPrint").innerHTML = $('#grandTotal').text();
+                    //document.getElementById("balanceDue").innerHTML = utilityService.modifynegativeCurrencyFormat(GrandTotal);
+                    document.getElementById("totalBalanceDuePrint").innerHTML = $('#totalBalanceDue').text();
+
+                }
+            });
+        }
+
+
+
+    },
+    'blur .colAmountIncChange': function(event) {
+        let templateObject = Template.instance();
+        let taxcodeList = templateObject.taxraterecords.get();
+        let utilityService = new UtilityService();
+        var targetID = $(event.target).closest('tr').attr('id');
+        if (!isNaN($(event.target).val())) {
+            let inputUnitPrice = parseFloat($(event.target).val()) ||0;
+            $(event.target).val(utilityService.modifynegativeCurrencyFormat(inputUnitPrice));
+        } else {
+            let inputUnitPrice = Number($(event.target).val().replace(/[^0-9.-]+/g, ""))||0;
+
+            $(event.target).val(utilityService.modifynegativeCurrencyFormat(inputUnitPrice));
+
+
+        }
+        let $tblrows = $("#tblBillLine tbody tr");
+        let $printrows = $(".bill_print tbody tr");
+
+        let lineAmount = 0;
+        let subGrandTotal = 0;
+        let taxGrandTotal = 0;
+        let taxGrandTotalPrint = 0;
+
+        $tblrows.each(function(index) {
+            var $tblrow = $(this);
+            var amount = $tblrow.find(".colAmountIncChange").val() || "0";
+            var taxcode = $tblrow.find(".lineTaxCode").text() || 0;
+            var taxrateamount = 0;
+            if (taxcodeList) {
+                for (var i = 0; i < taxcodeList.length; i++) {
+                    if (taxcodeList[i].codename == taxcode) {
+                        taxrateamount = taxcodeList[i].coderate.replace('%', "");
+                    }
+                }
+            }
+
+            let taxRateAmountCalc = (parseFloat(taxrateamount) + 100)/100;
+            var subTotal = (parseFloat(amount.replace(/[^0-9.-]+/g, "")) / (taxRateAmountCalc)) || 0;
+            var taxTotal = parseFloat(amount.replace(/[^0-9.-]+/g, "")) - parseFloat(subTotal) ||0;
+            $tblrow.find('.lineTaxAmount').text(utilityService.modifynegativeCurrencyFormat(taxTotal));
+            if (!isNaN(subTotal)) {
+                $tblrow.find('.colAmountExChange').val(utilityService.modifynegativeCurrencyFormat(subTotal.toFixed(2)));
+                let totalAmountInc = (parseFloat(subTotal)) + (parseFloat(taxTotal)) || 0;
+                $tblrow.find('.colAmountIncChange').val(utilityService.modifynegativeCurrencyFormat(totalAmountInc.toFixed(2)));
+                subGrandTotal += isNaN(subTotal) ? 0 : subTotal;
+                document.getElementById("subtotal_total").innerHTML = utilityService.modifynegativeCurrencyFormat(subGrandTotal.toFixed(2));
+            }
+
+            if (!isNaN(taxTotal)) {
+                taxGrandTotal += isNaN(taxTotal) ? 0 : taxTotal;
+                document.getElementById("subtotal_tax").innerHTML = utilityService.modifynegativeCurrencyFormat(taxGrandTotal.toFixed(2));
+            }
+
 
             if (!isNaN(subGrandTotal) && (!isNaN(taxGrandTotal))) {
                 let GrandTotal = (parseFloat(subGrandTotal)) + (parseFloat(taxGrandTotal));
@@ -2595,15 +2703,341 @@ Template.billcard.events({
         }
     },
     'click .lineAccountName': function(event) {
-
+      $('#edtAccountID').val('');
         let suppliername = $('#edtSupplierName').val();
+        let accountService = new AccountService();
+        const accountTypeList = [];
         if (suppliername === '') {
             swal('Supplier has not been selected!', '', 'warning');
             event.preventDefault();
         } else {
-          var accountDataName = $(event.target).text().replace(/\s/g, '') || '';
-          if (accountDataName != '') {
-            FlowRouter.go('/accountsoverview?name=' +  $(event.target).text());
+          var accountDataName = $(event.target).text() || '';
+          if (accountDataName.replace(/\s/g, '') != '') {
+            //$('#edtAccountID').val($(event.target).text());
+
+              getVS1Data('TAccountVS1').then(function (dataObject) {
+                  if (dataObject.length == 0) {
+                    accountService.getOneAccountByName(accountDataName).then(function (data) {
+                      if (accountTypeList) {
+                          for (var h = 0; h < accountTypeList.length; h++) {
+
+                              if (data.taccountvs1[0].fields.AccountTypeName === accountTypeList[h].accounttypename) {
+
+                                  fullAccountTypeName = accountTypeList[h].description || '';
+
+                              }
+                          }
+
+                      }
+
+                       var accountid = data.taccountvs1[0].fields.ID || '';
+                       var accounttype = fullAccountTypeName || data.taccountvs1[0].fields.AccountTypeName;
+                       var accountname = data.taccountvs1[0].fields.AccountName || '';
+                       var accountno = data.taccountvs1[0].fields.AccountNumber || '';
+                       var taxcode = data.taccountvs1[0].fields.TaxCode || '';
+                       var accountdesc = data.taccountvs1[0].fields.Description || '';
+                       var bankaccountname = data.taccountvs1[0].fields.BankAccountName || '';
+                       var bankbsb = data.taccountvs1[0].fields.BSB || '';
+                       var bankacountno = data.taccountvs1[0].fields.BankAccountNumber || '';
+
+                       var swiftCode = data.taccountvs1[0].fields.Extra || '';
+                       var routingNo = data.taccountvs1[0].fields.BankCode || '';
+
+                       var showTrans = data.taccountvs1[0].fields.IsHeader || false;
+
+                       var cardnumber = data.taccountvs1[0].fields.CarNumber || '';
+                      var cardcvc = data.taccountvs1[0].fields.CVC || '';
+                      var cardexpiry = data.taccountvs1[0].fields.ExpiryDate || '';
+
+                       if ((accounttype === "BANK")) {
+                           $('.isBankAccount').removeClass('isNotBankAccount');
+                           $('.isCreditAccount').addClass('isNotCreditAccount');
+                       }else if ((accounttype === "CCARD")) {
+                           $('.isCreditAccount').removeClass('isNotCreditAccount');
+                           $('.isBankAccount').addClass('isNotBankAccount');
+                       } else {
+                           $('.isBankAccount').addClass('isNotBankAccount');
+                           $('.isCreditAccount').addClass('isNotCreditAccount');
+                       }
+
+                       $('#edtAccountID').val(accountid);
+                       $('#sltAccountType').val(accounttype);
+                       $('#sltAccountType').append('<option value="'+accounttype+'" selected="selected">'+accounttype+'</option>');
+                       $('#edtAccountName').val(accountname);
+                       $('#edtAccountNo').val(accountno);
+                       $('#sltTaxCode').val(taxcode);
+                       $('#txaAccountDescription').val(accountdesc);
+                       $('#edtBankAccountName').val(bankaccountname);
+                       $('#edtBSB').val(bankbsb);
+                       $('#edtBankAccountNo').val(bankacountno);
+                       $('#swiftCode').val(swiftCode);
+                       $('#routingNo').val(routingNo);
+                       $('#edtBankName').val(localStorage.getItem('vs1companyBankName') || '');
+
+                       $('#edtCardNumber').val(cardnumber);
+                       $('#edtExpiryDate').val(cardexpiry ? moment(cardexpiry).format('DD/MM/YYYY') : "");
+                       $('#edtCvc').val(cardcvc);
+
+                       if(showTrans == 'true'){
+                           $('.showOnTransactions').prop('checked', true);
+                       }else{
+                         $('.showOnTransactions').prop('checked', false);
+                       }
+
+                       setTimeout(function () {
+                           $('#addNewAccount').modal('show');
+                       }, 500);
+
+                    }).catch(function (err) {
+                        $('.fullScreenSpin').css('display','none');
+                    });
+                  } else {
+                      let data = JSON.parse(dataObject[0].data);
+                      let useData = data.taccountvs1;
+                        var added=false;
+                      let lineItems = [];
+                      let lineItemObj = {};
+                      let fullAccountTypeName = '';
+                      let accBalance = '';
+                      $('#add-account-title').text('Edit Account Details');
+                      $('#edtAccountName').attr('readonly', true);
+                      $('#sltAccountType').attr('readonly', true);
+                      $('#sltAccountType').attr('disabled', 'disabled');
+                      for (let a = 0; a < data.taccountvs1.length; a++) {
+
+                        if((data.taccountvs1[a].fields.AccountName) === accountDataName){
+                          added = true;
+                          if (accountTypeList) {
+                              for (var h = 0; h < accountTypeList.length; h++) {
+
+                                  if (data.taccountvs1[a].fields.AccountTypeName === accountTypeList[h].accounttypename) {
+
+                                      fullAccountTypeName = accountTypeList[h].description || '';
+
+                                  }
+                              }
+
+                          }
+
+
+
+                   var accountid = data.taccountvs1[a].fields.ID || '';
+                   var accounttype = fullAccountTypeName || data.taccountvs1[a].fields.AccountTypeName;
+                   var accountname = data.taccountvs1[a].fields.AccountName || '';
+                   var accountno = data.taccountvs1[a].fields.AccountNumber || '';
+                   var taxcode = data.taccountvs1[a].fields.TaxCode || '';
+                   var accountdesc = data.taccountvs1[a].fields.Description || '';
+                   var bankaccountname = data.taccountvs1[a].fields.BankAccountName || '';
+                   var bankbsb = data.taccountvs1[a].fields.BSB || '';
+                   var bankacountno = data.taccountvs1[a].fields.BankAccountNumber || '';
+
+                   var swiftCode = data.taccountvs1[a].fields.Extra || '';
+                   var routingNo = data.taccountvs1[a].BankCode || '';
+
+                   var showTrans = data.taccountvs1[a].fields.IsHeader || false;
+
+                   var cardnumber = data.taccountvs1[a].fields.CarNumber || '';
+                   var cardcvc = data.taccountvs1[a].fields.CVC || '';
+                   var cardexpiry = data.taccountvs1[a].fields.ExpiryDate || '';
+
+                   if ((accounttype === "BANK")) {
+                       $('.isBankAccount').removeClass('isNotBankAccount');
+                       $('.isCreditAccount').addClass('isNotCreditAccount');
+                   }else if ((accounttype === "CCARD")) {
+                       $('.isCreditAccount').removeClass('isNotCreditAccount');
+                       $('.isBankAccount').addClass('isNotBankAccount');
+                   } else {
+                       $('.isBankAccount').addClass('isNotBankAccount');
+                       $('.isCreditAccount').addClass('isNotCreditAccount');
+                   }
+
+                   $('#edtAccountID').val(accountid);
+                   $('#sltAccountType').val(accounttype);
+                   $('#sltAccountType').append('<option value="'+accounttype+'" selected="selected">'+accounttype+'</option>');
+                   $('#edtAccountName').val(accountname);
+                   $('#edtAccountNo').val(accountno);
+                   $('#sltTaxCode').val(taxcode);
+                   $('#txaAccountDescription').val(accountdesc);
+                   $('#edtBankAccountName').val(bankaccountname);
+                   $('#edtBSB').val(bankbsb);
+                   $('#edtBankAccountNo').val(bankacountno);
+                   $('#swiftCode').val(swiftCode);
+                   $('#routingNo').val(routingNo);
+                   $('#edtBankName').val(localStorage.getItem('vs1companyBankName') || '');
+
+                   $('#edtCardNumber').val(cardnumber);
+                   $('#edtExpiryDate').val(cardexpiry ? moment(cardexpiry).format('DD/MM/YYYY') : "");
+                   $('#edtCvc').val(cardcvc);
+
+                   if(showTrans == 'true'){
+                       $('.showOnTransactions').prop('checked', true);
+                   }else{
+                     $('.showOnTransactions').prop('checked', false);
+                   }
+
+                   setTimeout(function () {
+                       $('#addNewAccount').modal('show');
+                   }, 500);
+
+                        }
+                      }
+                      if(!added) {
+                        accountService.getOneAccountByName(accountDataName).then(function (data) {
+                          if (accountTypeList) {
+                              for (var h = 0; h < accountTypeList.length; h++) {
+
+                                  if (data.taccountvs1[0].fields.AccountTypeName === accountTypeList[h].accounttypename) {
+
+                                      fullAccountTypeName = accountTypeList[h].description || '';
+
+                                  }
+                              }
+
+                          }
+
+                           var accountid = data.taccountvs1[0].fields.ID || '';
+                           var accounttype = fullAccountTypeName || data.taccountvs1[0].fields.AccountTypeName;
+                           var accountname = data.taccountvs1[0].fields.AccountName || '';
+                           var accountno = data.taccountvs1[0].fields.AccountNumber || '';
+                           var taxcode = data.taccountvs1[0].fields.TaxCode || '';
+                           var accountdesc = data.taccountvs1[0].fields.Description || '';
+                           var bankaccountname = data.taccountvs1[0].fields.BankAccountName || '';
+                           var bankbsb = data.taccountvs1[0].fields.BSB || '';
+                           var bankacountno = data.taccountvs1[0].fields.BankAccountNumber || '';
+
+                           var swiftCode = data.taccountvs1[0].fields.Extra || '';
+                           var routingNo = data.taccountvs1[0].fields.BankCode || '';
+
+                           var showTrans = data.taccountvs1[0].fields.IsHeader || false;
+
+                           var cardnumber = data.taccountvs1[0].fields.CarNumber || '';
+                          var cardcvc = data.taccountvs1[0].fields.CVC || '';
+                          var cardexpiry = data.taccountvs1[0].fields.ExpiryDate || '';
+
+                           if ((accounttype === "BANK")) {
+                               $('.isBankAccount').removeClass('isNotBankAccount');
+                               $('.isCreditAccount').addClass('isNotCreditAccount');
+                           }else if ((accounttype === "CCARD")) {
+                               $('.isCreditAccount').removeClass('isNotCreditAccount');
+                               $('.isBankAccount').addClass('isNotBankAccount');
+                           } else {
+                               $('.isBankAccount').addClass('isNotBankAccount');
+                               $('.isCreditAccount').addClass('isNotCreditAccount');
+                           }
+
+                           $('#edtAccountID').val(accountid);
+                           $('#sltAccountType').val(accounttype);
+                           $('#sltAccountType').append('<option value="'+accounttype+'" selected="selected">'+accounttype+'</option>');
+                           $('#edtAccountName').val(accountname);
+                           $('#edtAccountNo').val(accountno);
+                           $('#sltTaxCode').val(taxcode);
+                           $('#txaAccountDescription').val(accountdesc);
+                           $('#edtBankAccountName').val(bankaccountname);
+                           $('#edtBSB').val(bankbsb);
+                           $('#edtBankAccountNo').val(bankacountno);
+                           $('#swiftCode').val(swiftCode);
+                           $('#routingNo').val(routingNo);
+                           $('#edtBankName').val(localStorage.getItem('vs1companyBankName') || '');
+
+                           $('#edtCardNumber').val(cardnumber);
+                           $('#edtExpiryDate').val(cardexpiry ? moment(cardexpiry).format('DD/MM/YYYY') : "");
+                           $('#edtCvc').val(cardcvc);
+
+                           if(showTrans == 'true'){
+                               $('.showOnTransactions').prop('checked', true);
+                           }else{
+                             $('.showOnTransactions').prop('checked', false);
+                           }
+
+                           setTimeout(function () {
+                               $('#addNewAccount').modal('show');
+                           }, 500);
+
+                        }).catch(function (err) {
+                            $('.fullScreenSpin').css('display','none');
+                        });
+                      }
+
+                  }
+              }).catch(function (err) {
+                accountService.getOneAccountByName(accountDataName).then(function (data) {
+                  if (accountTypeList) {
+                      for (var h = 0; h < accountTypeList.length; h++) {
+
+                          if (data.taccountvs1[0].fields.AccountTypeName === accountTypeList[h].accounttypename) {
+
+                              fullAccountTypeName = accountTypeList[h].description || '';
+
+                          }
+                      }
+
+                  }
+
+                   var accountid = data.taccountvs1[0].fields.ID || '';
+                   var accounttype = fullAccountTypeName || data.taccountvs1[0].fields.AccountTypeName;
+                   var accountname = data.taccountvs1[0].fields.AccountName || '';
+                   var accountno = data.taccountvs1[0].fields.AccountNumber || '';
+                   var taxcode = data.taccountvs1[0].fields.TaxCode || '';
+                   var accountdesc = data.taccountvs1[0].fields.Description || '';
+                   var bankaccountname = data.taccountvs1[0].fields.BankAccountName || '';
+                   var bankbsb = data.taccountvs1[0].fields.BSB || '';
+                   var bankacountno = data.taccountvs1[0].fields.BankAccountNumber || '';
+
+                   var swiftCode = data.taccountvs1[0].fields.Extra || '';
+                   var routingNo = data.taccountvs1[0].fields.BankCode || '';
+
+                   var showTrans = data.taccountvs1[0].fields.IsHeader || false;
+
+                   var cardnumber = data.taccountvs1[0].fields.CarNumber || '';
+                  var cardcvc = data.taccountvs1[0].fields.CVC || '';
+                  var cardexpiry = data.taccountvs1[0].fields.ExpiryDate || '';
+
+                   if ((accounttype === "BANK")) {
+                       $('.isBankAccount').removeClass('isNotBankAccount');
+                       $('.isCreditAccount').addClass('isNotCreditAccount');
+                   }else if ((accounttype === "CCARD")) {
+                       $('.isCreditAccount').removeClass('isNotCreditAccount');
+                       $('.isBankAccount').addClass('isNotBankAccount');
+                   } else {
+                       $('.isBankAccount').addClass('isNotBankAccount');
+                       $('.isCreditAccount').addClass('isNotCreditAccount');
+                   }
+
+                   $('#edtAccountID').val(accountid);
+                   $('#sltAccountType').val(accounttype);
+                   $('#sltAccountType').append('<option value="'+accounttype+'" selected="selected">'+accounttype+'</option>');
+                   $('#edtAccountName').val(accountname);
+                   $('#edtAccountNo').val(accountno);
+                   $('#sltTaxCode').val(taxcode);
+                   $('#txaAccountDescription').val(accountdesc);
+                   $('#edtBankAccountName').val(bankaccountname);
+                   $('#edtBSB').val(bankbsb);
+                   $('#edtBankAccountNo').val(bankacountno);
+                   $('#swiftCode').val(swiftCode);
+                   $('#routingNo').val(routingNo);
+                   $('#edtBankName').val(localStorage.getItem('vs1companyBankName') || '');
+
+                   $('#edtCardNumber').val(cardnumber);
+                   $('#edtExpiryDate').val(cardexpiry ? moment(cardexpiry).format('DD/MM/YYYY') : "");
+                   $('#edtCvc').val(cardcvc);
+
+                   if(showTrans == 'true'){
+                       $('.showOnTransactions').prop('checked', true);
+                   }else{
+                     $('.showOnTransactions').prop('checked', false);
+                   }
+
+                   setTimeout(function () {
+                       $('#addNewAccount').modal('show');
+                   }, 500);
+
+                }).catch(function (err) {
+                    $('.fullScreenSpin').css('display','none');
+                });
+
+              });
+              $('#addAccountModal').modal('toggle');
+
           }else{
             $('#productListModal').modal('toggle');
             var targetID = $(event.target).closest('tr').attr('id');
@@ -2709,7 +3143,7 @@ Template.billcard.events({
 
                 $tblrows.each(function(index) {
                     var $tblrow = $(this);
-                    var amount = $tblrow.find(".colAmount").val() || 0;
+                    var amount = $tblrow.find(".colAmountExChange").val() || 0;
                     var taxcode = $tblrow.find(".lineTaxCode").text() || 0;
 
                     var taxrateamount = 0;
@@ -2851,12 +3285,11 @@ Template.billcard.events({
             let taxGrandTotal = 0;
             let taxGrandTotalPrint = 0;
 
+
             $tblrows.each(function(index) {
                 var $tblrow = $(this);
-                var qty = $tblrow.find(".lineQty").val() || 0;
-                var price = $tblrow.find(".lineUnitPrice").val() || 0;
+                var amount = $tblrow.find(".colAmountExChange").val() || "0";
                 var taxcode = $tblrow.find(".lineTaxCode").text() || 0;
-
                 var taxrateamount = 0;
                 if (taxcodeList) {
                     for (var i = 0; i < taxcodeList.length; i++) {
@@ -2867,11 +3300,11 @@ Template.billcard.events({
                 }
 
 
-                var subTotal = parseFloat(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) || 0;
-                var taxTotal = parseFloat(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) * parseFloat(taxrateamount);
+                var subTotal = parseFloat(amount.replace(/[^0-9.-]+/g, "")) || 0;
+                var taxTotal = parseFloat(amount.replace(/[^0-9.-]+/g, "")) * parseFloat(taxrateamount);
                 $tblrow.find('.lineTaxAmount').text(utilityService.modifynegativeCurrencyFormat(taxTotal));
                 if (!isNaN(subTotal)) {
-                    $tblrow.find('.lineAmt').text(utilityService.modifynegativeCurrencyFormat(subTotal.toFixed(2)));
+                    $tblrow.find('.colAmountEx').val(utilityService.modifynegativeCurrencyFormat(subTotal.toFixed(2)));
                     subGrandTotal += isNaN(subTotal) ? 0 : subTotal;
                     document.getElementById("subtotal_total").innerHTML = utilityService.modifynegativeCurrencyFormat(subGrandTotal.toFixed(2));
                 }
