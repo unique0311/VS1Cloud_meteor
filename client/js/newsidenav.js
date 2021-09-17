@@ -121,7 +121,7 @@ Template.newsidenav.onCreated(function() {
     $(document).ready(function() {
         var erpGet = erpDb();
         var LoggedDB = erpGet.ERPDatabase;
-        var loc = window.location.pathname;
+        var loc = FlowRouter.current().path;
 
     });
 
@@ -171,14 +171,14 @@ Template.newsidenav.onRendered(function() {
 
 
     templateObject.getSetSideNavFocus = function() {
-        var currentLoc = window.location.pathname;
+        var currentLoc = FlowRouter.current().path;
         setTimeout(function() {
 
             // $('.collapse').collapse({
             //     toggle: false
             // })
 
-            var currentLoc = window.location.pathname;
+            var currentLoc = FlowRouter.current().path;
 
             if (currentLoc == "/dashboard") {
                 $('#sidenavaccounts').removeClass('active');
@@ -2584,7 +2584,7 @@ Template.newsidenav.events({
     },
     'click #sidenavnewaccounts': function(event) {
 
-        if (window.location.pathname == "/accountsoverview") {
+        if (FlowRouter.current().path == "/accountsoverview") {
             $('#addNewAccount').modal('show');
         } else {
             window.open('/accountsoverview#newaccount', '_self');
@@ -2592,7 +2592,7 @@ Template.newsidenav.events({
     },
     'click #sidenavallocation': function(event) {
 
-        if (window.location.pathname == "/appointments") {
+        if (FlowRouter.current().path == "/appointments") {
             $('#allocationModal').modal('show');
         } else {
             FlowRouter.go('/appointments#allocationModal');
@@ -3265,7 +3265,7 @@ Template.newsidenav.events({
     },
     'click #sidenavnewcustomers': function(event) {
 
-        if (window.location.pathname == "/customerscard") {
+        if (FlowRouter.current().path == "/customerscard") {
             window.open('/customerscard', '_self');
         } else {
             event.preventDefault();
@@ -3276,7 +3276,7 @@ Template.newsidenav.events({
     },
     'click #sidenavnewemployees': function(event) {
 
-        if (window.location.pathname == "/employeescard") {
+        if (FlowRouter.current().path == "/employeescard") {
             window.open('/employeescard', '_self');
         } else {
             event.preventDefault();
@@ -3289,7 +3289,7 @@ Template.newsidenav.events({
     'click #sidenavnewsuppliers': function(event) {
 
 
-        if (window.location.pathname == "/supplierscard") {
+        if (FlowRouter.current().path == "/supplierscard") {
             window.open('/supplierscard', '_self');
         } else {
             event.preventDefault();
@@ -3524,7 +3524,7 @@ Template.newsidenav.events({
     },
     'click #sidenavtimeclock': function(event) {
 
-        if (window.location.pathname == "/payrolloverview") {
+        if (FlowRouter.current().path == "/payrolloverview") {
             $('#settingsModal').modal('show');
         } else {
             window.open('/payrolloverview#clockOnOff', '_self');

@@ -62,6 +62,8 @@ Template.accountlistpop.onRendered(function() {
     var splashArrayProductList = new Array();
     var splashArrayTaxRateList = new Array();
     const taxCodesList = [];
+    var currentLoc = FlowRouter.current().path;
+
     tempObj.getAllProducts = function() {
         getVS1Data('TAccountVS1').then(function(dataObject) {
             if (dataObject.length == 0) {
@@ -79,9 +81,15 @@ Template.accountlistpop.onRendered(function() {
                             data.taccountvs1[i].TaxCode || ''
                         ];
 
-                        splashArrayProductList.push(dataList);
+                        if (currentLoc == "/billcard"){
+                          if((data.taccountvs1[i].AccountTypeName != "AP")&&(data.taccountvs1[i].AccountTypeName != "AR")&&(data.taccountvs1[i].AccountTypeName != "CCARD") &&(data.taccountvs1[i].AccountTypeName != "BANK")){
+                            splashArrayProductList.push(dataList);
+                          }
+                        }else{
+                          splashArrayProductList.push(dataList);
+                        }
                     }
-                    localStorage.setItem('VS1PurchaseAccountList', JSON.stringify(splashArrayProductList));
+                    //localStorage.setItem('VS1PurchaseAccountList', JSON.stringify(splashArrayProductList));
 
                     if (splashArrayProductList) {
 
@@ -153,10 +161,16 @@ Template.accountlistpop.onRendered(function() {
                         accBalance,
                         useData[i].fields.TaxCode || ''
                     ];
+                    if (currentLoc == "/billcard"){
+                      if((useData[i].fields.AccountTypeName != "AP") && (useData[i].fields.AccountTypeName != "AR")&&(useData[i].fields.AccountTypeName != "CCARD") &&(useData[i].fields.AccountTypeName != "BANK")){
+                        splashArrayProductList.push(dataList);
+                      }
+                    }else{
+                      splashArrayProductList.push(dataList);
+                    }
 
-                    splashArrayProductList.push(dataList);
                 }
-                localStorage.setItem('VS1PurchaseAccountList', JSON.stringify(splashArrayProductList));
+                //localStorage.setItem('VS1PurchaseAccountList', JSON.stringify(splashArrayProductList));
 
                 if (splashArrayProductList) {
 
@@ -223,9 +237,15 @@ Template.accountlistpop.onRendered(function() {
                         data.taccountvs1[i].TaxCode || ''
                     ];
 
-                    splashArrayProductList.push(dataList);
+                    if (currentLoc == "/billcard"){
+                      if((data.taccountvs1[i].AccountTypeName != "AP")&&(data.taccountvs1[i].AccountTypeName != "AR")&&(data.taccountvs1[i].AccountTypeName != "CCARD") &&(data.taccountvs1[i].AccountTypeName != "BANK")){
+                        splashArrayProductList.push(dataList);
+                      }
+                    }else{
+                      splashArrayProductList.push(dataList);
+                    }
                 }
-                localStorage.setItem('VS1PurchaseAccountList', JSON.stringify(splashArrayProductList));
+                //localStorage.setItem('VS1PurchaseAccountList', JSON.stringify(splashArrayProductList));
 
                 if (splashArrayProductList) {
 

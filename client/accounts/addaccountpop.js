@@ -75,7 +75,7 @@ Template.addaccountpop.onRendered(function () {
         yearRange: "-90:+10",
     });
 
-
+ var currentLoc = FlowRouter.current().path;
     getVS1Data('TAccountType').then(function (dataObject) {
         if (dataObject.length == 0) {
             accountService.getAccountTypeCheck().then(function (data) {
@@ -84,7 +84,13 @@ Template.addaccountpop.onRendered(function () {
                         accounttypename: data.taccounttype[i].AccountTypeName || ' ',
                         description: data.taccounttype[i].OriginalDescription || ' '
                     };
-                    accountTypeList.push(accounttyperecordObj);
+                    if (currentLoc == "/billcard"){
+                      if((data.taccounttype[i].AccountTypeName != "AP") && (data.taccounttype[i].AccountTypeName != "AR")&&(data.taccounttype[i].AccountTypeName != "CCARD")&&(data.taccounttype[i].AccountTypeName != "BANK") ){
+                        accountTypeList.push(accounttyperecordObj);
+                      }
+                    }else{
+                      accountTypeList.push(accounttyperecordObj);
+                    }
 
                 }
                 templateObject.accounttyperecords.set(accountTypeList);
@@ -99,7 +105,13 @@ Template.addaccountpop.onRendered(function () {
                     accounttypename: useData[i].AccountTypeName || ' ',
                     description: useData[i].OriginalDescription || ' '
                 };
-                accountTypeList.push(accounttyperecordObj);
+                if (currentLoc == "/billcard"){
+                  if((useData[i].AccountTypeName != "AP") && (useData[i].AccountTypeName != "AR")&&(useData[i].AccountTypeName != "CCARD") &&(useData[i].AccountTypeName != "BANK")){
+                    accountTypeList.push(accounttyperecordObj);
+                  }
+                }else{
+                  accountTypeList.push(accounttyperecordObj);
+                }
 
             }
             templateObject.accounttyperecords.set(accountTypeList);
@@ -112,7 +124,13 @@ Template.addaccountpop.onRendered(function () {
                     accounttypename: data.taccounttype[i].AccountTypeName || ' ',
                     description: data.taccounttype[i].OriginalDescription || ' '
                 };
-                accountTypeList.push(accounttyperecordObj);
+                if (currentLoc == "/billcard"){
+                  if((data.taccounttype[i].AccountTypeName != "AP") && (data.taccounttype[i].AccountTypeName != "AR")&&(data.taccounttype[i].AccountTypeName != "CCARD")&&(data.taccounttype[i].AccountTypeName != "BANK") ){
+                    accountTypeList.push(accounttyperecordObj);
+                  }
+                }else{
+                  accountTypeList.push(accounttyperecordObj);
+                }
 
             }
             templateObject.accounttyperecords.set(accountTypeList);
@@ -420,7 +438,7 @@ Template.addaccountpop.events({
                     let accountSaveID = objDetailsReturn.fields.ID;
                     $('.fullScreenSpin').css('display', 'none');
                     if (accountSaveID) {
-                        var currentLoc = window.location.pathname;
+                        var currentLoc = FlowRouter.current().path;
                         if (currentLoc == "/billcard" || currentLoc == "/chequecard" || currentLoc == "/creditcard"|| currentLoc == "/journalentrycard") {
                           var selectLineID = $('#selectLineID').val();
                           if (selectLineID) {

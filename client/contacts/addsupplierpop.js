@@ -701,7 +701,7 @@ Template.addsupplierpop.events({
             let supplierSaveID = objDetails.fields.ID;
             $('.fullScreenSpin').css('display', 'none');
             if(supplierSaveID){
-               var currentLoc = window.location.pathname;
+               var currentLoc = FlowRouter.current().path;
                if (currentLoc == "/purchaseordercard" || currentLoc == "/billcard" || currentLoc == "/creditcard") {
                    $('.purchasesmodule #edtSupplierName').val(company);
                    $('.purchasesmodule #edtSupplierEmail').val(email);

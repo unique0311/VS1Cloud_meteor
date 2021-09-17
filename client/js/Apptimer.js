@@ -10,12 +10,12 @@ function resetActive(){
 }
 function closeSideBar(){
 if ($(".collapse.show")[0]){
-$('.nav-item .collapse').removeClass('show');
+// $('.nav-item .collapse').removeClass('show');
 }
 }
 function inActive(){
     $(document.body).attr('class', 'inactive');
-    var loc = window.location.pathname;
+    var loc = FlowRouter.current().path;
 
       if ((loc != '/') && (loc != '/register') && (loc != '/registerdb')
       && (loc != '/vs1greentracklogin')&& (loc != '/registersts')

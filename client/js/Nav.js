@@ -61,7 +61,7 @@ Template.nav.onCreated(function(){
 
 
 $(document).ready(function(){
-var loc = window.location.pathname;
+var loc = FlowRouter.current().path;
 if ( loc == "/home" ){
 $('#navhome').addClass('nav_activestate');
 $('#navaccounts').removeClass('nav_activestate');

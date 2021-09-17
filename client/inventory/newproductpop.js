@@ -1185,7 +1185,7 @@ Template.newproductpop.events({
             productService.saveProductVS1(objDetails).then(function (objDetails) {
               var productSaveID = objDetails.fields.ID;
               $('.fullScreenSpin').css('display', 'none');
-              var currentLoc = window.location.pathname;
+              var currentLoc = FlowRouter.current().path;
 
               if (currentLoc == "/invoicecard" || currentLoc == "/quotecard" || currentLoc == "/salesordercard"|| currentLoc == "/refundcard") {
                   var selectLineID = $('#selectLineID').val();
@@ -1363,7 +1363,7 @@ Template.newproductpop.events({
                     productService.saveProductVS1(objDetails).then(function (objDetails) {
                       var productSaveID = objDetails.fields.ID;
                       $('.fullScreenSpin').css('display', 'none');
-                      var currentLoc = window.location.pathname;
+                      var currentLoc = FlowRouter.current().path;
 
                       if (currentLoc == "/invoicecard" || currentLoc == "/quotecard" || currentLoc == "/salesordercard"|| currentLoc == "/refundcard") {
                           var selectLineID = $('#selectLineID').val();
@@ -1538,7 +1538,7 @@ Template.newproductpop.events({
                     productService.saveProductVS1(objDetails).then(function (objDetails) {
                       var productSaveID = objDetails.fields.ID;
                       $('.fullScreenSpin').css('display', 'none');
-                      var currentLoc = window.location.pathname;
+                      var currentLoc = FlowRouter.current().path;
 
                       if (currentLoc == "/invoicecard" || currentLoc == "/quotecard" || currentLoc == "/salesordercard"|| currentLoc == "/refundcard") {
                           var selectLineID = $('#selectLineID').val();
@@ -1716,7 +1716,7 @@ Template.newproductpop.events({
                 productService.saveProductVS1(objDetails).then(function (objDetails) {
                   var productSaveID = objDetails.fields.ID;
                   $('.fullScreenSpin').css('display', 'none');
-                  var currentLoc = window.location.pathname;
+                  var currentLoc = FlowRouter.current().path;
 
                   if (currentLoc == "/invoicecard" || currentLoc == "/quotecard" || currentLoc == "/salesordercard"|| currentLoc == "/refundcard") {
                       var selectLineID = $('#selectLineID').val();

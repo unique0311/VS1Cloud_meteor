@@ -81,7 +81,7 @@ Template.header.onCreated(function() {
 
     $(document).ready(function() {
 
-        var loc = window.location.pathname;
+        var loc = FlowRouter.current().path;
 
     });
 
@@ -461,7 +461,7 @@ Template.header.onRendered(function() {
 
     /*document.getElementById("loggeddatabaseuser").innerHTML = LoggedUser;*/
     var CloudUserPass = Session.get('CloudUserPass');
-    var currentLoc = window.location.pathname;
+    var currentLoc = FlowRouter.current().path;
     if (CloudUserPass) {
         templateObject.isCloudUserPass.set(true);
 

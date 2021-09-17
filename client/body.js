@@ -28,7 +28,7 @@ Template.body.onRendered(function() {
     // });
 
     $(document).ready(function() {
-        var loc = window.location.pathname;
+        var loc = FlowRouter.current().path;
         if (loc == "/vs1greentracklogin") {
             document.title = 'GreenTrack';
             $('head').append('<link rel="icon" type="image/png" sizes="16x16" href="icons/greentrackIcon.png">');

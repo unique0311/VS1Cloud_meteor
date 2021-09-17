@@ -162,6 +162,7 @@ const authenticatedRedirect = () => {
     } else {
         $(".active_page_content").css("text-align", "inherit");
     }
+
     if (Session.get('lastUrl') == undefined) {
         Session.setPersistent('lastUrl', window.location.pathname);
     } else {

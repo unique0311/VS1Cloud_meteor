@@ -964,7 +964,7 @@ Template.addcustomerpop.events({
             let customerSaveID = objDetails.fields.ID;
             $('.fullScreenSpin').css('display', 'none');
             if (customerSaveID) {
-                var currentLoc = window.location.pathname;
+                var currentLoc = FlowRouter.current().path;
 
                 if (currentLoc == "/invoicecard" || currentLoc == "/quotecard" || currentLoc == "/salesordercard"|| currentLoc == "/refundcard") {
                     $('.salesmodule #edtCustomerName').val(company);
