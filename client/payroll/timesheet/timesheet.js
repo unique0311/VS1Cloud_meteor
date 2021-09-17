@@ -107,7 +107,7 @@ yearRange: "-90:+10",
            sumSumHour = sumSumHour + data.ttimesheet[t].fields.Hours;
            sumSumHourlyRate = sumSumHourlyRate + data.ttimesheet[t].fields.LabourCost;
           var dataList = {
-          id: data.ttimesheet[t].Id || '',
+          id: data.ttimesheet[t].fields.ID || '',
           employee:data.ttimesheet[t].fields.EmployeeName || '',
           hourlyrate:hourlyRate,
           hours:data.ttimesheet[t].fields.Hours || '',
@@ -188,7 +188,7 @@ yearRange: "-90:+10",
               columnDefs: [
                   // {type: 'date', targets: 0},
                  { "orderable": false, "targets": -1 },
-                  { targets: 'sorting_disabled', orderable: false }
+                 { targets: 'sorting_disabled', orderable: false }
               ],
                   "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
                   buttons: [

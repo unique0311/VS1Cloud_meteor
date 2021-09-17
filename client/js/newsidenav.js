@@ -429,22 +429,22 @@ Template.newsidenav.onRendered(function() {
                 $('.collapse').collapse('hide');
             } else if ((currentLoc == "/timesheet") || (currentLoc == "/adpapi") ||
                 (currentLoc == "/squareapi") || (currentLoc == "/employeetimeclock") || (currentLoc == "/payrolloverview")) {
-                $('#sidenavaccounts').removeClass('active');
-                $('#sidenavbanking').removeClass('active');
-                $('#sidenavdashbaord .').removeClass('active');
-                $('#sidenavappointment').removeClass('active');
-                $('#sidenavcontacts').removeClass('active');
-                $('#sidenavexpenseclaims').removeClass('active');
-                $('#sidenavinventory').removeClass('active');
-                $('#sidenavpayments').removeClass('active');
-                $('#sidenavpurchases').removeClass('active');
-                $('#sidenavreports').removeClass('active');
-                $('#sidenavreports').removeClass('active');
-                $('#sidenavsales').removeClass('active');
-                $('#sidenavsettings').removeClass('active');
-                $('#sidenavstocktake ').removeClass('active');
-                $('#sidenavpayroll').addClass('active');
-                $('#sidenavseedtosale').removeClass('active');
+                  $('#sidenavaccounts').removeClass('active');
+                  $('#sidenavbanking').removeClass('active');
+                  $('#sidenavdashbaord').removeClass('active');
+                  $('#sidenavappointment').removeClass('active');
+                  $('#sidenavcontacts').removeClass('active');
+                  $('#sidenavexpenseclaims').removeClass('active');
+                  $('#sidenavinventory').removeClass('active');
+                  $('#sidenavpayments').removeClass('active');
+                  $('#sidenavpurchases').removeClass('active');
+                  $('#sidenavreports').removeClass('active');
+                  $('#sidenavreports').removeClass('active');
+                  $('#sidenavsales').removeClass('active');
+                  $('#sidenavsettings').removeClass('active');
+                  $('#sidenavstocktake').removeClass('active');
+                  $('#sidenavpayroll').addClass('active');
+                  $('#sidenavseedtosale').removeClass('active');
                 $('.collapse').collapse('hide');
             } else if ((currentLoc == "/stsdashboard") || (currentLoc == "/stsplants") ||
                 (currentLoc == "/stsharvests") || (currentLoc == "/stspackages") ||
@@ -468,25 +468,6 @@ Template.newsidenav.onRendered(function() {
                 $('#sidenavpayroll').removeClass('active');
                 $('#sidenavpayroll').removeClass('active');
                 $('#sidenavseedtosale').addClass('active');
-                $('.collapse').collapse('hide');
-            } else if ((currentLoc == "/payrolloverview")) {
-                $('#sidenavaccounts').removeClass('active');
-                $('#sidenavbanking').removeClass('active');
-                $('#sidenavdashbaord').removeClass('active');
-                $('#sidenavappointment').removeClass('active');
-                $('#sidenavcontacts').removeClass('active');
-                $('#sidenavexpenseclaims ').removeClass('active');
-                $('#sidenavinventory').removeClass('active');
-                $('#sidenavpayments').removeClass('active');
-                $('#sidenavpurchases').removeClass('active');
-                $('#sidenavreports').removeClass('active');
-                $('#sidenavreports').removeClass('active');
-                $('#sidenavsales').removeClass('active');
-                $('#sidenavsettings').removeClass('active');
-                $('#sidenavstocktake').removeClass('active');
-                $('#sidenavpayroll').addClass('active');
-                $('#sidenavpayroll').removeClass('active');
-                $('#sidenavseedtosale').removeClass('active');
                 $('.collapse').collapse('hide');
             }
         }, 50);
@@ -2652,6 +2633,8 @@ Template.newsidenav.events({
 
         event.preventDefault();
         FlowRouter.go('/payrolloverview');
+        let templateObject = Template.instance();
+        templateObject.getSetSideNavFocus();
     },
     'click #sidenavjournalentry': function(event) {
 
