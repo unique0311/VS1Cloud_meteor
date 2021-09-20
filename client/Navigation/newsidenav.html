@@ -192,7 +192,7 @@
         <ul class="list-unstyled components">
             {{#if includeAccounts}}
                 <li class="accountsLi" id="sidenavaccounts">
-                    <a href="#accountsSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle liHeader"><i class="fa fa-users faHeader"></i> Accounts</a>
+                    <a href="#accountsSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle liHeader accountsLiHeader"><i class="fa fa-users faHeader"></i> Accounts</a>
                     <ul class="collapse list-unstyled" id="accountsSubmenu">
                         <li>
                             <a class="sidenavaccounts">
@@ -234,7 +234,7 @@
             {{else}}
                 {{#if includeAppointmentScheduling}}
                     <li class="appointmentsLi" id="sidenavappointment">
-                        <a href="#appointmentsSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle liHeader"><i class="fa fa-calendar faHeader"></i> Appointments</a>
+                        <a href="#appointmentsSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle liHeader appointmentsLiHeader"><i class="fa fa-calendar faHeader"></i> Appointments</a>
                         <ul class="collapse list-unstyled" id="appointmentsSubmenu">
                             <li>
                                 <a class="sidenavappointment">
@@ -294,7 +294,7 @@
 
             {{#if includeBanking}}
                 <li class="bankingLi" id="sidenavbanking">
-                    <a href="#bankingSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle liHeader"><i class="fa fa-bank faHeader"></i> Banking</a>
+                    <a href="#bankingSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle liHeader bankingLiHeader"><i class="fa fa-bank faHeader"></i> Banking</a>
                     <ul class="collapse list-unstyled" id="bankingSubmenu">
                         <li>
                             <a class="sidenavbanking">
@@ -356,7 +356,7 @@
 
             {{#if includeContacts}}
                 <li class="contactsLi" id="sidenavcontacts">
-                    <a href="#contactsSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle liHeader"><i class="fa fa-phone faHeader"></i> Contacts</a>
+                    <a href="#contactsSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle liHeader contactsLiHeader"><i class="fa fa-phone faHeader"></i> Contacts</a>
                     <ul class="collapse list-unstyled" id="contactsSubmenu">
                         <li>
                             <a class="sidenavcontacts">
@@ -436,13 +436,13 @@
 
             {{#if isGreenTrack}}
                 <li class="gsemployeesLi" id="sidenavemployeesGreenTrack">
-                    <a class="liHeader" id="sidenavemployeesGreenTrack" name="sidenavemployeesGreenTrack"><i class="fa fa-user faHeader"></i><span> Employees</span></a>
+                    <a class="liHeader sidenavemployeesGreenTrack"><i class="fa fa-user faHeader"></i><span> Employees</span></a>
                 </li>
             {{/if}}
 
             {{#if includeInventory}}
                 <li class="inventoryLi" id="sidenavinventory">
-                    <a href="#inventorySubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle liHeader"><i class="fas fa-box-open faHeader"></i> Inventory</a>
+                    <a href="#inventorySubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle liHeader inventoryLiHeader"><i class="fas fa-box-open faHeader"></i> Inventory</a>
                     <ul class="collapse list-unstyled" id="inventorySubmenu">
                         <li>
                             <a class="sidenavinventory">
@@ -498,7 +498,7 @@
 
             {{#if includePayments}}
                 <li class="paymentsLi" id="sidenavpayments">
-                    <a href="#paymentsSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle liHeader"><i class="fa fa-dollar faHeader"></i> Payments</a>
+                    <a href="#paymentsSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle liHeader paymentsLiHeader"><i class="fa fa-dollar faHeader"></i> Payments</a>
                     <ul class="collapse list-unstyled" id="paymentsSubmenu">
                         <li>
                             <a class="sidenavpayments">
@@ -617,7 +617,7 @@
 
             {{#if includePayroll}}
                 <li class="payrollLi" id="sidenavpayroll">
-                    <a href="#payrollSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle liHeader"><i class="fas fa-hand-holding-usd faHeader"></i> Payroll</a>
+                    <a href="#payrollSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle liHeader payrollLiHeader"><i class="fas fa-hand-holding-usd faHeader"></i> Payroll</a>
                     <ul class="collapse list-unstyled" id="payrollSubmenu">
                         <li>
                             <a class="sidenavpayroll">
@@ -649,7 +649,7 @@
 
             {{#if includePurchases}}
                 <li class="purchasesLi" id="sidenavpurchases">
-                    <a href="#purchasesSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle liHeader"><i class="fa fa-arrow-circle-down faHeader"></i> Purchases</a>
+                    <a href="#purchasesSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle liHeader purchasesLiHeader"><i class="fa fa-arrow-circle-down faHeader"></i> Purchases</a>
                     <ul class="collapse list-unstyled" id="purchasesSubmenu">
                         <li>
                             <a class="sidenavpurchases">
@@ -731,7 +731,7 @@
             {{#if includeReports}}
                 {{#if isFavorite}}
                     <li class="reportsLi" id="sidenavreports">
-                        <a href="#reportsSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle liHeader"><i class="fa fa-area-chart faHeader"></i> Reports</a>
+                        <a href="#reportsSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle liHeader reportsLiHeader"><i class="fa fa-area-chart faHeader"></i> Reports</a>
                         <ul class="collapse list-unstyled" id="reportsSubmenu">
                             <li>
                                 <a class="sidenavreports">
@@ -1024,14 +1024,14 @@
                     </li>
                 {{else}}
                     <li class="reportsLi2" id="sidenavreports">
-                        <a class="sidenavreports liHeader"><i class="fa fa-area-chart faHeader"></i> Reports</a>
+                        <a class="sidenavreports liHeader"><i class="fa fa-area-chart faHeader reportsLi2Header"></i> Reports</a>
                     </li>
                 {{/if}}
             {{/if}}
 
             {{#if includeSales}}
                 <li class="salesLi" id="sidenavsales">
-                    <a href="#salesSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle liHeader"><i class="fa fa-credit-card faHeader"></i> Sales</a>
+                    <a href="#salesSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle liHeader salesLiHeader"><i class="fa fa-credit-card faHeader"></i> Sales</a>
                     <ul class="collapse list-unstyled" id="salesSubmenu">
                         <li>
                             <a class="sidenavsales">
@@ -1113,7 +1113,7 @@
 
             {{#if includeSeedToSale}}
                 <li class="seedtosaleLi" id="sidenavseedtosale">
-                    <a href="#seedToSaleSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle liHeader"><i class="fas fa-cannabis faHeader"></i> Seed to Sale</a>
+                    <a href="#seedToSaleSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle liHeader seedtosaleLiHeader"><i class="fas fa-cannabis faHeader"></i> Seed to Sale</a>
                     <ul class="collapse list-unstyled" id="seedToSaleSubmenu">
                         <li>
                             <a href="/stsdashboard" class="sidenavseedtosale"><i class="fas fa-cannabis"></i> Seed to Sale</a>
@@ -1142,7 +1142,7 @@
 
             {{#if includeSettings}}
                 <li class="settingsLi" id="sidenavsettings">
-                    <a href="#settingsSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle liHeader"><i class="fas fa-cog faHeader"></i> Settings</a>
+                    <a href="#settingsSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle liHeader settingsLiHeader"><i class="fas fa-cog faHeader"></i> Settings</a>
                     <ul class="collapse list-unstyled" id="settingsSubmenu">
                         <li>
                             <a class="sidenavsettings">

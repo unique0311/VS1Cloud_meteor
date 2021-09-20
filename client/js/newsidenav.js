@@ -3563,7 +3563,7 @@ Template.newsidenav.events({
         $('#settingsSubmenu').collapse('hide');
     },
     'click .sidenavseedtosale': function(event) {
-        window.open('/stsdashboard', '_self');
+        FlowRouter.go('/stsdashboard');
     },
     'click #sidenavPlants': function(event) {
         window.open('/stsplants', '_self');
@@ -3668,6 +3668,84 @@ Template.newsidenav.events({
 
         });
 
+    },
+    'click .accountsLiHeader': function(event) {
+        event.preventDefault();
+        FlowRouter.go('/accountsoverview');
+        let templateObject = Template.instance();
+        templateObject.getSetSideNavFocus();
+    },
+    'click .appointmentsLiHeader': function(event) {
+        event.preventDefault();
+        FlowRouter.go('/appointments');
+        let templateObject = Template.instance();
+        templateObject.getSetSideNavFocus();
+    },
+    'click .bankingLiHeader': function(event) {
+        event.preventDefault();
+        FlowRouter.go('/bankingoverview');
+        let templateObject = Template.instance();
+        templateObject.getSetSideNavFocus();
+    },
+    'click .contactsLiHeader': function(event) {
+        event.preventDefault();
+        FlowRouter.go('/contactoverview');
+        let templateObject = Template.instance();
+        templateObject.getSetSideNavFocus();
+    },
+    'click .inventoryLiHeader': function(event) {
+        event.preventDefault();
+        FlowRouter.go('/inventorylist');
+        let templateObject = Template.instance();
+        templateObject.getSetSideNavFocus();
+    },
+    'click .paymentsLiHeader': function(event) {
+        event.preventDefault();
+        FlowRouter.go('/paymentoverview');
+        let templateObject = Template.instance();
+        templateObject.getSetSideNavFocus();
+    },
+    'click .payrollLiHeader': function(event) {
+        event.preventDefault();
+        FlowRouter.go('/payrolloverview');
+        let templateObject = Template.instance();
+        templateObject.getSetSideNavFocus();
+    },
+    'click .purchasesLiHeader': function(event) {
+        event.preventDefault();
+        FlowRouter.go('/purchasesoverview');
+        let templateObject = Template.instance();
+        templateObject.getSetSideNavFocus();
+    },
+    'click .reportsLiHeader': function(event) {
+        event.preventDefault();
+        FlowRouter.go('/allreports');
+        let templateObject = Template.instance();
+        templateObject.getSetSideNavFocus();
+    },
+    'click .reportsLi2Header': function(event) {
+        event.preventDefault();
+        FlowRouter.go('/allreports');
+        let templateObject = Template.instance();
+        templateObject.getSetSideNavFocus();
+    },
+    'click .salesLiHeader': function(event) {
+        event.preventDefault();
+        FlowRouter.go('/salesoverview');
+        let templateObject = Template.instance();
+        templateObject.getSetSideNavFocus();
+    },
+    'click .seedtosaleLiHeader': function(event) {
+        event.preventDefault();
+        FlowRouter.go('/stsdashboard');
+        let templateObject = Template.instance();
+        templateObject.getSetSideNavFocus();
+    },
+    'click .settingsLiHeader': function(event) {
+        event.preventDefault();
+        FlowRouter.go('/settings');
+        let templateObject = Template.instance();
+        templateObject.getSetSideNavFocus();
     }
 
 });

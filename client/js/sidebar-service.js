@@ -545,14 +545,15 @@ getCustomersDataByName(dataSearchName) {
       options = {
          IgnoreDates: true,
          Listtype: 1,
-         FilterIndex: 2
-
+         FilterIndex: 2,
+         LimitCount:'"'+initialReportLoad+'"'
        };
     }else{
       options = {
          IgnoreDates: true,
          Listtype: 1,
-         FilterIndex: 2
+         FilterIndex: 2,
+         LimitCount:'"'+initialReportLoad+'"'
      };
     }
       return this.getList(this.ERPObjects.TTransactionListReport, options);
