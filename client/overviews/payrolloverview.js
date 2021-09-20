@@ -840,7 +840,7 @@ Template.payrolloverview.events({
                     });
 
                     // contactService.saveClockonClockOff(toUpdate).then(function (data) {
-                    //     FlowRouter.go('/employeetimeclock');
+                       window.open("/payrolloverview")
                     // })
                 }).catch(function (err) {
                     console.log(err);
@@ -1066,7 +1066,7 @@ Template.payrolloverview.events({
             };
 
             contactService.saveTimeSheet(data).then(function (data) {
-                //window.open('/timesheet', '_self');
+                window.open('/timesheet', '_self');
             }).catch(function (err) {
                 console.log(err);
                 swal({
@@ -1580,7 +1580,7 @@ Template.payrolloverview.events({
             contactService.saveClockTimeSheet(updateTimeSheet).then(function (savedTimesheetData) {
 
                 contactService.saveTimeSheetLog(toUpdate).then(function (data) {
-                    // window.open('/timesheet', '_self');
+                    window.open('/timesheet', '_self');
                 }).catch(function (err) {
                     swal({
                         title: 'Oooops...',
