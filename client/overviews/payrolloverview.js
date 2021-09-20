@@ -1253,6 +1253,8 @@ Template.payrolloverview.events({
         let id = $('#updateID').val();
         if (id) {
             FlowRouter.go('/timesheettimelog?id=' + id);
+        } else {
+            FlowRouter.go('/timesheettimelog');
         }
     },
     'click .btnAddVS1User': function (event) {
