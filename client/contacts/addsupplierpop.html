@@ -81,17 +81,17 @@
                         color: #00a3d3;
                     }
 
-                                    @media (max-width: 420px) {
-                                        .chkSameAsCustomer {
-                                            margin-top: 20px !important;
-                                        }
-                                    }
-                                    .chkSameAsCustomer {
-                                        width: 130px !important;
-                                        display: inline-grid !important;
-                                        margin-left: 37px !important;
-                                    }
+                    @media (max-width: 420px) {
+                        .chkSameAsCustomer {
+                            margin-top: 20px !important;
+                        }
+                    }
 
+                    .chkSameAsCustomer {
+                        width: 130px !important;
+                        display: inline-grid !important;
+                        margin-left: 37px !important;
+                    }
                 </style>
 
                 <div class="row d-xl-flex flex-column justify-content-xl-center" style="margin: 12px;">
@@ -102,10 +102,14 @@
                         </div>
                         <div class="row">
                             <div class="col d-xl-flex align-items-xl-start" style="padding: 0px;">
-                                <div class="form-group" style="margin: 4px;"><label class="text-nowrap">Title</label><input type="text" class="form-control" style="width: 50px;min-width: 50px;max-width: 50px;" id="edtSupplierTitle" name="edtSupplierTitle" value="{{record.title}}"></div>
-                                <div class="form-group flex-grow-1" style="margin: 4px;"><label class="text-nowrap">First Name</label><input type="text" class="form-control" id="edtSupplierFirstName" name="edtSupplierFirstName" value="{{record.firstname}}"></div>
-                                <div class="form-group flex-grow-1" style="margin: 4px;"><label class="text-nowrap">Middle Name</label><input type="text" class="form-control" id="edtSupplierMiddleName" name="edtSupplierMiddleName" value="{{record.middlename}}"></div>
-                                <div class="form-group flex-grow-1" style="margin: 4px;"><label class="text-nowrap">Last Name</label><input type="text" class="form-control" id="edtSupplierLastName" name="edtSupplierLastName" value="{{record.lastname}}"></div>
+                                <div class="form-group" style="margin: 4px;"><label class="text-nowrap">Title</label><input type="text" class="form-control" style="width: 50px;min-width: 50px;max-width: 50px;" id="edtSupplierTitle"
+                                        name="edtSupplierTitle" value="{{record.title}}"></div>
+                                <div class="form-group flex-grow-1" style="margin: 4px;"><label class="text-nowrap">First Name</label><input type="text" class="form-control" id="edtSupplierFirstName" name="edtSupplierFirstName"
+                                        value="{{record.firstname}}"></div>
+                                <div class="form-group flex-grow-1" style="margin: 4px;"><label class="text-nowrap">Middle Name</label><input type="text" class="form-control" id="edtSupplierMiddleName" name="edtSupplierMiddleName"
+                                        value="{{record.middlename}}"></div>
+                                <div class="form-group flex-grow-1" style="margin: 4px;"><label class="text-nowrap">Last Name</label><input type="text" class="form-control" id="edtSupplierLastName" name="edtSupplierLastName"
+                                        value="{{record.lastname}}"></div>
                                 <!-- <div class="form-group" style="margin: 4px;"><label class="text-nowrap">Suffix</label><input type="text" class="form-control" style="width: 60px;min-width: 60px;max-width: 60px;" id="edtSupplierSuffix" name="edtSupplierSuffix" value="{{record.tfn}}"></div> -->
                             </div>
                         </div>
@@ -118,8 +122,10 @@
                         </div>
                         <div class="row">
                             <div class="col d-xl-flex flex-row align-items-xl-start" style="padding: 0px;">
-                                <div class="form-group flex-grow-1" style="margin: 4px;"><label class="text-nowrap">Skype ID</label><input type="text" class="form-control" id="edtSupplierSkypeID" name="edtSupplierSkypeID" value="{{record.skype}}"></div>
-                                <div class="form-group flex-grow-1" style="margin: 4px;"><label class="text-nowrap">Website</label><input type="text" class="form-control" id="edtSupplierWebsite" name="edtSupplierWebsite" value="{{record.website}}"></div>
+                                <div class="form-group flex-grow-1" style="margin: 4px;"><label class="text-nowrap">Skype ID</label><input type="text" class="form-control" id="edtSupplierSkypeID" name="edtSupplierSkypeID" value="{{record.skype}}">
+                                </div>
+                                <div class="form-group flex-grow-1" style="margin: 4px;"><label class="text-nowrap">Website</label><input type="text" class="form-control" id="edtSupplierWebsite" name="edtSupplierWebsite" value="{{record.website}}">
+                                </div>
                                 <style>
                                     @media (max-width: 420px) {
                                         .chkSameAsCustomer {
@@ -153,24 +159,30 @@
                                             </div>
                                             <div class="row no-gutters">
                                                 <div class="col" style="padding: 0px;">
-                                                    <div class="form-group d-flex d-sm-flex d-xl-flex flex-column flex-grow-1 align-items-start align-items-sm-start align-items-xl-start" style="margin: 4px;"><label>Street Address</label><textarea class="border rounded flex-grow-1" style="width: 100%;height: 116px;" rows="4" id="edtSupplierShippingAddress" name="edtSupplierShippingAddress" value="{{record.shippingaddress}}"></textarea></div>
+                                                    <div class="form-group d-flex d-sm-flex d-xl-flex flex-column flex-grow-1 align-items-start align-items-sm-start align-items-xl-start" style="margin: 4px;"><label>Street Address</label><textarea
+                                                            class="border rounded flex-grow-1" style="width: 100%;height: 116px;" rows="4" id="edtSupplierShippingAddress" name="edtSupplierShippingAddress"
+                                                            value="{{record.shippingaddress}}"></textarea></div>
                                                 </div>
                                                 <div class="col d-xl-flex align-items-xl-start" style="padding: 0px;">
                                                     <div class="row no-gutters d-xl-flex flex-column flex-grow-1 justify-content-xl-start">
                                                         <div class="col d-xl-flex flex-grow-1 align-items-xl-start">
-                                                            <div class="form-group flex-grow-1" style="margin: 4px;"><label>City / Town</label><input type="text" class="form-control" id="edtSupplierShippingCity" name="edtSupplierShippingCity" value="{{record.scity}}"></div>
-                                                            <div class="form-group flex-grow-1" style="margin: 4px;"><label>State / Region</label><input type="text" class="form-control" id="edtSupplierShippingState" name="edtSupplierShippingState" value="{{record.sstate}}"></div>
+                                                            <div class="form-group flex-grow-1" style="margin: 4px;"><label>City / Town</label><input type="text" class="form-control" id="edtSupplierShippingCity" name="edtSupplierShippingCity"
+                                                                    value="{{record.scity}}"></div>
+                                                            <div class="form-group flex-grow-1" style="margin: 4px;"><label>State / Region</label><input type="text" class="form-control" id="edtSupplierShippingState" name="edtSupplierShippingState"
+                                                                    value="{{record.sstate}}"></div>
                                                         </div>
                                                         <div class="col d-xl-flex align-items-xl-start">
-                                                            <div class="form-group flex-grow-1" style="margin: 4px;"><label>ZIP Code</label><input type="text" class="form-control" id="edtSupplierShippingZIP" name="edtSupplierShippingZIP" value="{{record.spostalcode}}"></div>
-                                                            <div class="form-group d-xl-flex flex-column flex-grow-1 justify-content-xl-start" style="margin: 4px;"><label>Country</label><select class="form-control" id="sedtCountry" name="sedtCountry" style=" cursor: pointer;">
-                                                                {{#each item in countryList}}
-                                                                {{#if equals item record.scountry }}
-                                                                <option value="{{record.scountry}}" selected="">{{record.scountry}}</option>
-                                                                {{else}}
-                                                                <option value="{{item}}">{{item}}</option>
-                                                                {{/if}}
-                                                                {{/each}}
+                                                            <div class="form-group flex-grow-1" style="margin: 4px;"><label>ZIP Code</label><input type="text" class="form-control" id="edtSupplierShippingZIP" name="edtSupplierShippingZIP"
+                                                                    value="{{record.spostalcode}}"></div>
+                                                            <div class="form-group d-xl-flex flex-column flex-grow-1 justify-content-xl-start" style="margin: 4px;"><label>Country</label><select class="form-control" id="sedtCountry" name="sedtCountry"
+                                                                    style=" cursor: pointer;">
+                                                                    {{#each item in countryList}}
+                                                                        {{#if equals item record.scountry }}
+                                                                            <option value="{{record.scountry}}" selected="">{{record.scountry}}</option>
+                                                                        {{else}}
+                                                                            <option value="{{item}}">{{item}}</option>
+                                                                        {{/if}}
+                                                                    {{/each}}
                                                                 </select></div>
                                                         </div>
                                                     </div>
@@ -181,12 +193,17 @@
                                             .billingaddress {
                                                 display: none;
                                             }
+
+                                            .chkaddress {
+                                                width: 130px !important;
+                                                display: inline-grid !important;
+                                            }
                                         </style>
                                         <script>
                                             function myFunction() {
                                                 var checkBox = document.getElementById("chkSameAsShipping");
                                                 var billingAddress = document.getElementById("billingaddress");
-                                                if (checkBox.checked == true){
+                                                if (checkBox.checked == true) {
                                                     billingAddress.style.display = "none";
                                                 } else {
                                                     billingAddress.style.display = "flex";
@@ -197,41 +214,47 @@
                                             <div class="row no-gutters" style="margin-top: 12spx;">
                                                 <div class="col d-xl-flex align-items-xl-center" style="padding: 0px;">
                                                     <h4 class="flex-grow-1" style="margin: 4px;">Billing Address</h4>
-                                                    <div class="custom-control custom-switch chkaddress" style="margin: 4px;"><input class="custom-control-input" type="checkbox" id="chkSameAsShipping" onclick="myFunction()" style=" cursor: pointer;" checked><label class="custom-control-label" for="chkSameAsShipping" style=" cursor: pointer;">Same as Shipping</label></div>
+                                                    <div class="custom-control custom-switch chkaddress" style="margin: 4px;"><input class="custom-control-input" type="checkbox" id="chkSameAsShipping" onclick="myFunction()" style=" cursor: pointer;"
+                                                            checked><label class="custom-control-label" for="chkSameAsShipping" style=" cursor: pointer;">Same as Shipping</label></div>
                                                 </div>
                                                 {{#if equals isSameAddress true}}
-                                                <script>
-                                                    $('#chkSameAsShipping').attr("checked","checked");
-                                                    $('#billingaddress').css("display","none");
-                                                </script>
+                                                    <script>
+                                                        $('#chkSameAsShipping').attr("checked", "checked");
+                                                        $('#billingaddress').css("display", "none");
+                                                    </script>
                                                 {{else}}
-                                                <script>
-                                                    $('#chkSameAsShipping').removeAttr("checked");
-                                                    $('#billingaddress').css("display","flex");
-                                                </script>
+                                                    <script>
+                                                        $('#chkSameAsShipping').removeAttr("checked");
+                                                        $('#billingaddress').css("display", "flex");
+                                                    </script>
                                                 {{/if}}
 
                                             </div>
                                             <div class="row no-gutters billingaddress" id="billingaddress">
                                                 <div class="col" style="padding: 0px;">
-                                                    <div class="form-group d-flex d-sm-flex d-xl-flex flex-column flex-grow-1 align-items-start align-items-sm-start align-items-xl-start" style="margin: 4px;"><label>Street Address</label><textarea class="border rounded flex-grow-1" style="width: 100%;height: 116px;" rows="4" id="edtSupplierBillingAddress" name="edtSupplierBillingAddress" value="{{record.billingaddress}}"></textarea></div>
+                                                    <div class="form-group d-flex d-sm-flex d-xl-flex flex-column flex-grow-1 align-items-start align-items-sm-start align-items-xl-start" style="margin: 4px;"><label>Street Address</label><textarea
+                                                            class="border rounded flex-grow-1" style="width: 100%;height: 116px;" rows="4" id="edtSupplierBillingAddress" name="edtSupplierBillingAddress" value="{{record.billingaddress}}"></textarea>
+                                                    </div>
                                                 </div>
                                                 <div class="col d-xl-flex align-items-xl-start" style="padding: 0px;">
                                                     <div class="row no-gutters d-xl-flex flex-column flex-grow-1 justify-content-xl-start">
                                                         <div class="col d-xl-flex align-items-xl-start">
-                                                            <div class="form-group flex-grow-1" style="margin: 4px;"><label>City / Town</label><input type="text" class="form-control" id="edtSupplierBillingCity" name="edtSupplierBillingCity" value="{{record.bcity}}"></div>
-                                                            <div class="form-group flex-grow-1" style="margin: 4px;"><label>State / Region</label><input type="text" class="form-control" id="edtSupplierBillingState" name="edtSupplierBillingState" value="{{record.bstate}}"></div>
+                                                            <div class="form-group flex-grow-1" style="margin: 4px;"><label>City / Town</label><input type="text" class="form-control" id="edtSupplierBillingCity" name="edtSupplierBillingCity"
+                                                                    value="{{record.bcity}}"></div>
+                                                            <div class="form-group flex-grow-1" style="margin: 4px;"><label>State / Region</label><input type="text" class="form-control" id="edtSupplierBillingState" name="edtSupplierBillingState"
+                                                                    value="{{record.bstate}}"></div>
                                                         </div>
                                                         <div class="col d-xl-flex align-items-xl-start">
-                                                            <div class="form-group flex-grow-1" style="margin: 4px;"><label>ZIP Code</label><input type="text" class="form-control" id="edtSupplierBillingZIP" name="edtSupplierBillingZIP" value="{{record.bpostalcode}}"></div>
+                                                            <div class="form-group flex-grow-1" style="margin: 4px;"><label>ZIP Code</label><input type="text" class="form-control" id="edtSupplierBillingZIP" name="edtSupplierBillingZIP"
+                                                                    value="{{record.bpostalcode}}"></div>
                                                             <div class="form-group flex-grow-1" style="margin: 4px;"><label>Country</label><select class="form-control" id="bcountry" name="bcountry" style=" cursor: pointer;">
-                                                                {{#each item in countryList}}
-                                                                {{#if equals item record.bcountry }}
-                                                                <option value="{{record.bcountry}}" selected="">{{record.bcountry}}</option>
-                                                                {{else}}
-                                                                <option value="{{item}}">{{item}}</option>
-                                                                {{/if}}
-                                                                {{/each}}
+                                                                    {{#each item in countryList}}
+                                                                        {{#if equals item record.bcountry }}
+                                                                            <option value="{{record.bcountry}}" selected="">{{record.bcountry}}</option>
+                                                                        {{else}}
+                                                                            <option value="{{item}}">{{item}}</option>
+                                                                        {{/if}}
+                                                                    {{/each}}
                                                                 </select></div>
                                                         </div>
                                                     </div>
@@ -244,7 +267,8 @@
                                     <div class="row no-gutters" style="margin: 12px;">
                                         <div class="col">
                                             <div class="form-group d-flex d-sm-flex d-xl-flex flex-column flex-grow-1 align-items-start align-items-sm-start align-items-xl-start" style="margin: 4px;"><label>Notes</label>
-                                                <textarea class="border rounded flex-grow-1" style="width: 100%;height: 116px;" rows="4" id="txaNotes" name="txaNotes"></textarea></div>
+                                                <textarea class="border rounded flex-grow-1" style="width: 100%;height: 116px;" rows="4" id="txaNotes" name="txaNotes"></textarea>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -255,7 +279,7 @@
                                                 <select class="form-control" style="width: 260px; cursor: pointer;" id="sltPreferedPayment" name="sltPreferedPayment">
                                                     {{#each item in preferedPaymentList}}
 
-                                                    <option value="{{item}}">{{item}}</option>
+                                                        <option value="{{item}}">{{item}}</option>
 
                                                     {{/each}}
                                                 </select>
@@ -264,10 +288,11 @@
                                                 <select class="form-control" style="width: 260px; cursor: pointer;" id="sltTerms" name="sltTerms">
                                                     {{#each item in termsList}}
 
-                                                    <option value="{{item}}">{{item}}</option>
+                                                        <option value="{{item}}">{{item}}</option>
 
                                                     {{/each}}
-                                                </select></div>
+                                                </select>
+                                            </div>
 
                                         </div>
                                         <div class="col d-xl-flex align-items-xl-end">
@@ -275,21 +300,22 @@
                                                 <select class="form-control" style="width: 260px; cursor: pointer;" id="sltDeliveryMethod" name="sltDeliveryMethod">
                                                     {{#each item in deliveryMethodList}}
 
-                                                    <option value="{{item}}">{{item}}</option>
+                                                        <option value="{{item}}">{{item}}</option>
 
                                                     {{/each}}
                                                 </select>
                                             </div>
 
                                             <div class="form-group" style="margin: 4px;"><label class="text-nowrap d-xl-flex flex-column justify-content-xl-start align-items-xl-start">Account No</label>
-                                                <input type="text" class="form-control" id="suppAccountNo" name="suppAccountNo"  style="width: 260px;" value="{{record.accountnumber}}">
+                                                <input type="text" class="form-control" id="suppAccountNo" name="suppAccountNo" style="width: 260px;" value="{{record.accountnumber}}">
                                             </div>
 
                                             <div class="form-group d-xl-flex flex-column justify-content-xl-start" style="margin: 4px;"><label class="text-nowrap">Contractor 1099</label>
                                                 <!-- <input type="checkbox" class="form-control " id="vehicle1" name="vehicle1" value="Bike"> -->
                                                 <div class="custom-control custom-checkbox chkBox" style="text-align: center;">
 
-                                                    <input class="custom-control-input chkBox" type="checkbox" id="isformcontractor" name="isformcontractor" autocomplete="off"><label class="custom-control-label chkBox" for="isformcontractor" style="height: calc(1.5em + 0.75rem );"></label>
+                                                    <input class="custom-control-input chkBox" type="checkbox" id="isformcontractor" name="isformcontractor" autocomplete="off"><label class="custom-control-label chkBox" for="isformcontractor"
+                                                        style="height: calc(1.5em + 0.75rem );"></label>
 
                                                 </div>
                                             </div>
@@ -308,7 +334,8 @@
                                 </div>
                                 <div class="tab-pane border rounded-0" role="tabpanel" id="tab-7" style="border-color: #ededed #00a3d3 #00a3d3 #00a3d3 !important;">
                                     <p>Tab content.</p>
-                                    <div class="form-group d-xl-flex flex-column flex-grow-1 align-items-xl-start" style="margin: 4px;"><label>Street Address</label><textarea class="border rounded flex-grow-1" style="width: 100%;height: 116px;" rows="4"></textarea></div>
+                                    <div class="form-group d-xl-flex flex-column flex-grow-1 align-items-xl-start" style="margin: 4px;"><label>Street Address</label><textarea class="border rounded flex-grow-1" style="width: 100%;height: 116px;"
+                                            rows="4"></textarea></div>
                                 </div>
                                 <div class="tab-pane border rounded-0" role="tabpanel" id="tab-8" style="border-color: #ededed #00a3d3 #00a3d3 #00a3d3 !important;">
                                     <div class="row no-gutters" style="margin: 12px;">
@@ -318,20 +345,25 @@
                                                     width: 100%;
                                                     float: left;
                                                 }
+
                                                 .uploaded-on {
-                                                    display:none!important;
+                                                    display: none !important;
                                                 }
+
                                                 #file-display .fileIocns i.fa.fa-file {
                                                     color: rgb(252, 181, 38);
                                                     font-size: 24px;
                                                 }
+
                                                 #file-display {
                                                     padding: 0;
                                                     margin: 0;
                                                 }
+
                                                 .uploaded-element {
                                                     display: inherit;
                                                 }
+
                                                 .uploaded-element {
 
                                                     border: 1px solid rgb(237, 237, 237);
@@ -343,19 +375,23 @@
                                                     align-items: center;
                                                     padding: 1rem;
                                                 }
+
                                                 #file-display .fileIocns {
                                                     background-image: url(img/file_icons-samall.png);
                                                     background-repeat: no-repeat;
                                                     background-position: 0 -105px;
                                                 }
+
                                                 #file-display .fileIocns {
                                                     float: left;
                                                     margin-right: 10px;
                                                 }
+
                                                 .file-name {
                                                     float: left;
                                                     width: 87%;
                                                 }
+
                                                 .uploaded-element-header {
                                                     border: 1px solid rgb(237, 237, 237);
                                                     border-top: none;
@@ -367,11 +403,12 @@
                                                     background: #e3e6f0;
                                                 }
 
-                                                .uploaded-header{
-                                                    width:100%;
-                                                    text-align:center;
+                                                .uploaded-header {
+                                                    width: 100%;
+                                                    text-align: center;
                                                 }
-                                                .uploaded-element .confirm-action a.confirm-delete-attachment{
+
+                                                .uploaded-element .confirm-action a.confirm-delete-attachment {
                                                     padding: 6px 13px 5px;
                                                     background-color: rgb(216, 68, 68) !important;
                                                     border-color: rgb(197, 112, 119) rgb(169, 29, 29) rgb(169, 29, 29) rgb(197, 112, 119);
@@ -381,6 +418,7 @@
                                                     font-size: 12px;
                                                     float: left;
                                                 }
+
                                                 button.save-to-library {
                                                     padding: 6px 13px 5px;
                                                     border-radius: 4px;
@@ -392,9 +430,11 @@
                                                     margin-left: 10px !important;
                                                     font-size: 12px;
                                                 }
+
                                                 .uploaded-element {
                                                     display: inherit;
                                                 }
+
                                                 /* HERE */
                                                 #files_view .modal-title {
                                                     white-space: nowrap;
@@ -402,6 +442,7 @@
                                                     text-overflow: ellipsis;
                                                     width: 70%;
                                                 }
+
                                                 #files_view .modal-title {
                                                     color: #333;
                                                     font-size: 18px;
@@ -416,6 +457,7 @@
                                                     width: 750px;
                                                     margin: 30px auto;
                                                 }
+
                                                 #files_view .modal-header .close {
                                                     margin-top: 0;
                                                     width: 46px;
@@ -425,16 +467,19 @@
                                                     opacity: 1;
                                                     margin: 0;
                                                 }
-                                                #files_view .modal-header{
+
+                                                #files_view .modal-header {
                                                     padding: 0;
                                                     display: block;
                                                 }
+
                                                 #files_view .modal-body {
                                                     background-color: rgb(250, 251, 251);
                                                 }
+
                                                 #files_view .image-previewer img {
                                                     border: 3px solid #fff;
-                                                    box-shadow: 2px 2px 8px rgba(0,0,0,.2);
+                                                    box-shadow: 2px 2px 8px rgba(0, 0, 0, .2);
                                                     width: 100%;
                                                 }
 
@@ -450,7 +495,7 @@
                                                     <img src="/icons/nofiles_icon.png" class="">
                                                 </div>
                                                 <div class="col inboxcol2">
-                                                    <div>Upload  files or add files from the file library</div>
+                                                    <div>Upload files or add files from the file library</div>
                                                     <p style="color: #ababab;">Only users with access to your company can view these files</p>
                                                 </div>
                                             </div>
@@ -482,20 +527,20 @@
                                         <div class="modal-content">
                                             <div class="modal-header">
                                                 <button type="button" class="close" data-dismiss="modal">x</button>
-                                                <h4 class="modal-title" >{{uploadedFile.name}}</h4>
+                                                <h4 class="modal-title">{{uploadedFile.name}}</h4>
                                             </div>
                                             <div class="modal-body">
                                                 {{#if uploadedFile.image}}
-                                                <div class="image-previewer">
-                                                    <img  src="{{uploadedFile.link}}">
-                                                </div>
+                                                    <div class="image-previewer">
+                                                        <img src="{{uploadedFile.link}}">
+                                                    </div>
                                                 {{else}}
-                                                <div class=" default-file {{uploadedFile.class}}">
+                                                    <div class=" default-file {{uploadedFile.class}}">
 
-                                                </div>
+                                                    </div>
                                                 {{/if}}
                                                 <div class="download_button">
-                                                    <a class="new_create_btn btn btn-primary" id="downloadButton"  download="{{uploadedFile.name}}" href="{{uploadedFile.link}}">Download</a>
+                                                    <a class="new_create_btn btn btn-primary" id="downloadButton" download="{{uploadedFile.name}}" href="{{uploadedFile.link}}">Download</a>
                                                 </div>
                                             </div>
                                         </div>
@@ -508,34 +553,39 @@
                                         <div class="col d-xl-flex align-items-xl-center">
                                             <div class="form-group flex-grow-1 checkbox1div" style="margin: 4px;">
                                                 <label class="lblCustomField1">{{#if contactCloudPreferenceRec}}{{contactCloudPreferenceRec.customFields.[0].label}}{{else}}Custom Field 1{{/if}}</label>
-                                                <input type="text" class="form-control" id="edtCustomeField1" name="edtCustomeField1" value="{{record.custfield1}}"></div>
+                                                <input type="text" class="form-control" id="edtCustomeField1" name="edtCustomeField1" value="{{record.custfield1}}">
+                                            </div>
                                             <div class="form-group flex-grow-1 checkbox2div" style="margin: 4px;">
                                                 <label class="lblCustomField2">{{#if contactCloudPreferenceRec}}{{contactCloudPreferenceRec.customFields.[1].label}}{{else}}Custom Field 2{{/if}}</label>
-                                                <input type="text" class="form-control" id="edtCustomeField2" name="edtCustomeField2" value="{{record.custfield2}}"></div>
+                                                <input type="text" class="form-control" id="edtCustomeField2" name="edtCustomeField2" value="{{record.custfield2}}">
+                                            </div>
                                             <div class="form-group flex-grow-1 checkbox3div" style="margin: 4px;">
                                                 <label class="lblCustomField3">{{#if contactCloudPreferenceRec}}{{contactCloudPreferenceRec.customFields.[2].label}}{{else}}Custom Field 3{{/if}}</label>
-                                                <input type="text" class="form-control" id="edtCustomeField3" name="edtCustomeField3" value="{{record.custfield3}}"></div>
+                                                <input type="text" class="form-control" id="edtCustomeField3" name="edtCustomeField3" value="{{record.custfield3}}">
+                                            </div>
                                             <div class="form-group flex-grow-1 checkbox4div" style="margin: 4px;">
                                                 <label class="lblCustomField4">{{#if contactCloudPreferenceRec}}{{contactCloudPreferenceRec.customFields.[3].label}}{{else}}Custom Field 4{{/if}}</label>
-                                                <input type="text" class="form-control" id="edtCustomeField4" name="edtCustomeField4" value="{{record.custfield4}}"></div>
+                                                <input type="text" class="form-control" id="edtCustomeField4" name="edtCustomeField4" value="{{record.custfield4}}">
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="tab-pane border rounded-0" role="tabpanel" id="tab-10" style="border-color: #ededed #00a3d3 #00a3d3 #00a3d3 !important;">
                                     <div class="row no-gutters d-xl-flex flex-column justify-content-xl-start" style="margin: 12px;">
                                         <div class="col">
-                                            <div class="custom-control custom-switch" style="margin: 4px;"><input class="custom-control-input" type="checkbox" id="formCheck-2" checked><label class="custom-control-label" for="formCheck-2">This customer is tax exempt</label></div>
+                                            <div class="custom-control custom-switch" style="margin: 4px;"><input class="custom-control-input" type="checkbox" id="formCheck-2" checked><label class="custom-control-label" for="formCheck-2">This
+                                                    customer is tax exempt</label></div>
                                         </div>
                                         <div class="col d-xl-flex align-items-xl-end">
                                             <div id="autoUpdate" style="display: none;">
                                                 <div class="form-group d-flex d-sm-flex d-xl-flex flex-column flex-grow-1 align-items-start align-items-sm-start align-items-xl-start" style="margin: 4px;"><label class="text-nowrap">Tax Code</label>
                                                     <select class="form-control" style="width: 260px;" id="sltTaxCode" name="sltTaxCode">
                                                         {{#each item in taxCodeList}}
-                                                        {{#if equals item record.taxcode }}
-                                                        <option value="{{record.taxcode}}" selected="">{{record.taxcode}}</option>
-                                                        {{else}}
-                                                        <option value="{{item}}">{{item}}</option>
-                                                        {{/if}}
+                                                            {{#if equals item record.taxcode }}
+                                                                <option value="{{record.taxcode}}" selected="">{{record.taxcode}}</option>
+                                                            {{else}}
+                                                                <option value="{{item}}">{{item}}</option>
+                                                            {{/if}}
                                                         {{/each}}
                                                     </select>
                                                 </div>
