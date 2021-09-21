@@ -838,7 +838,7 @@ Template.new_invoice.onRendered(() => {
                                     $('.tblInvoiceLine tbody tr').each(function () {
                                         var $tblrow = $(this);
                                         $tblrow.find("td").attr('contenteditable', false);
-                                        $tblrow.find("td").removeClass("lineProductName");
+                                        //$tblrow.find("td").removeClass("lineProductName");
                                         $tblrow.find("td").removeClass("lineTaxRate");
                                         $tblrow.find("td").removeClass("lineTaxCode");
 
@@ -1177,7 +1177,7 @@ Template.new_invoice.onRendered(() => {
                                         $('.tblInvoiceLine tbody tr').each(function () {
                                             var $tblrow = $(this);
                                             $tblrow.find("td").attr('contenteditable', false);
-                                            $tblrow.find("td").removeClass("lineProductName");
+                                            //$tblrow.find("td").removeClass("lineProductName");
                                             $tblrow.find("td").removeClass("lineTaxRate");
                                             $tblrow.find("td").removeClass("lineTaxCode");
 
@@ -1465,7 +1465,7 @@ Template.new_invoice.onRendered(() => {
                                         $('.tblInvoiceLine tbody tr').each(function () {
                                             var $tblrow = $(this);
                                             $tblrow.find("td").attr('contenteditable', false);
-                                            $tblrow.find("td").removeClass("lineProductName");
+                                            //$tblrow.find("td").removeClass("lineProductName");
                                             $tblrow.find("td").removeClass("lineTaxRate");
                                             $tblrow.find("td").removeClass("lineTaxCode");
 
@@ -1804,7 +1804,7 @@ Template.new_invoice.onRendered(() => {
                                 $('.tblInvoiceLine tbody tr').each(function () {
                                     var $tblrow = $(this);
                                     $tblrow.find("td").attr('contenteditable', false);
-                                    $tblrow.find("td").removeClass("lineProductName");
+                                    //$tblrow.find("td").removeClass("lineProductName");
                                     $tblrow.find("td").removeClass("lineTaxRate");
                                     $tblrow.find("td").removeClass("lineTaxCode");
 
@@ -2213,7 +2213,7 @@ Template.new_invoice.onRendered(() => {
                                     $('.tblInvoiceLine tbody tr').each(function () {
                                         var $tblrow = $(this);
                                         $tblrow.find("td").attr('contenteditable', false);
-                                        $tblrow.find("td").removeClass("lineProductName");
+                                        //$tblrow.find("td").removeClass("lineProductName");
                                         $tblrow.find("td").removeClass("lineTaxRate");
                                         $tblrow.find("td").removeClass("lineTaxCode");
 
@@ -2528,7 +2528,7 @@ Template.new_invoice.onRendered(() => {
                                         $('.tblInvoiceLine tbody tr').each(function () {
                                             var $tblrow = $(this);
                                             $tblrow.find("td").attr('contenteditable', false);
-                                            $tblrow.find("td").removeClass("lineProductName");
+                                            //$tblrow.find("td").removeClass("lineProductName");
                                             $tblrow.find("td").removeClass("lineTaxRate");
                                             $tblrow.find("td").removeClass("lineTaxCode");
 
@@ -2815,7 +2815,7 @@ Template.new_invoice.onRendered(() => {
                                         $('.tblInvoiceLine tbody tr').each(function () {
                                             var $tblrow = $(this);
                                             $tblrow.find("td").attr('contenteditable', false);
-                                            $tblrow.find("td").removeClass("lineProductName");
+                                            //$tblrow.find("td").removeClass("lineProductName");
                                             $tblrow.find("td").removeClass("lineTaxRate");
                                             $tblrow.find("td").removeClass("lineTaxCode");
 
@@ -3079,7 +3079,7 @@ Template.new_invoice.onRendered(() => {
                                 $('.tblInvoiceLine tbody tr').each(function () {
                                     var $tblrow = $(this);
                                     $tblrow.find("td").attr('contenteditable', false);
-                                    $tblrow.find("td").removeClass("lineProductName");
+                                    //$tblrow.find("td").removeClass("lineProductName");
                                     $tblrow.find("td").removeClass("lineTaxRate");
                                     $tblrow.find("td").removeClass("lineTaxCode");
 
