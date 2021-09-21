@@ -2312,7 +2312,537 @@ Template.customerscard.onRendered(function () {
             }
 
             templateObject.getEmployeeData();
-        } else if (!isNaN(currentId.jobid)) {
+        } else if((currentId.name)){
+          customerID = currentId.name.replace(/%20/g, " ");
+          templateObject.getEmployeeData = function () {
+              getVS1Data('TCustomerVS1').then(function (dataObject) {
+                  if (dataObject.length == 0) {
+                      contactService.getOneCustomerDataExByName(customerID).then(function (data) {
+
+                          let lineItems = [];
+
+                          let lineItemObj = {
+                              id: data.fields.ID || '',
+                              lid: 'Edit Customer',
+                              isjob: data.fields.IsJob || '',
+                              issupplier: data.fields.IsSupplier || false,
+                              iscustomer: data.fields.IsCustomer || false,
+                              company: data.fields.ClientName || '',
+                              email: data.fields.Email || '',
+                              title: data.fields.Title || '',
+                              firstname: data.fields.FirstName || '',
+                              middlename: data.fields.CUSTFLD10 || '',
+                              lastname: data.fields.LastName || '',
+                              tfn: '' || '',
+                              phone: data.fields.Phone || '',
+                              mobile: data.fields.Mobile || '',
+                              fax: data.fields.Faxnumber || '',
+                              skype: data.fields.SkypeName || '',
+                              website: data.fields.URL || '',
+                              shippingaddress: data.fields.Street || '',
+                              scity: data.fields.Street2 || '',
+                              sstate: data.fields.State || '',
+                              spostalcode: data.fields.Postcode || '',
+                              scountry: data.fields.Country || LoggedCountry,
+                              billingaddress: data.fields.BillStreet || '',
+                              bcity: data.fields.BillStreet2 || '',
+                              bstate: data.fields.BillState || '',
+                              bpostalcode: data.fields.BillPostcode || '',
+                              bcountry: data.fields.Billcountry || '',
+                              notes: data.fields.Notes || '',
+                              preferedpayment: data.fields.PaymentMethodName || '',
+                              terms: data.fields.TermsName || templateObject.defaultsaleterm.get(),
+                              deliverymethod: data.fields.ShippingMethodName || '',
+                              clienttype: data.fields.ClientTypeName || '',
+                              openingbalance: data.fields.RewardPointsOpeningBalance || 0.00,
+                              openingbalancedate: data.fields.RewardPointsOpeningDate ? moment(data.fields.RewardPointsOpeningDate).format('DD/MM/YYYY') : "",
+                              taxcode: data.fields.TaxCodeName || templateObject.defaultsaletaxcode.get(),
+                              custfield1: data.fields.CUSTFLD1 || '',
+                              custfield2: data.fields.CUSTFLD2 || '',
+                              custfield3: data.fields.CUSTFLD3 || '',
+                              custfield4: data.fields.CUSTFLD4 || '',
+                              jobcompany: data.fields.ClientName || '',
+                              jobCompanyParent: data.fields.ClientName || '',
+                              jobemail: data.fields.Email || '',
+                              jobtitle: data.fields.Title || '',
+                              jobfirstname: data.fields.FirstName || '',
+                              jobmiddlename: data.fields.CUSTFLD10 || '',
+                              joblastname: data.fields.LastName || '',
+                              jobtfn: '' || '',
+                              jobphone: data.fields.Phone || '',
+                              jobmobile: data.fields.Mobile || '',
+                              jobfax: data.fields.Faxnumber || '',
+                              jobskype: data.fields.SkypeName || '',
+                              jobwebsite: data.fields.CUSTFLD9 || '',
+                              jobshippingaddress: data.fields.Street || '',
+                              jobscity: data.fields.Street2 || '',
+                              jobsstate: data.fields.State || '',
+                              jobspostalcode: data.fields.Postcode || '',
+                              jobscountry: data.fields.Country || LoggedCountry,
+                              jobbillingaddress: data.fields.BillStreet || '',
+                              jobbcity: data.fields.BillStreet2 || '',
+                              jobbstate: data.fields.BillState || '',
+                              jobbpostalcode: data.fields.BillPostcode || '',
+                              jobbcountry: data.fields.Billcountry || '',
+                              jobnotes: data.fields.Notes || '',
+                              jobpreferedpayment: data.fields.PaymentMethodName || '',
+                              jobterms: data.fields.TermsName || '',
+                              jobdeliverymethod: data.fields.ShippingMethodName || '',
+                              jobopeningbalance: data.fields.RewardPointsOpeningBalance || 0.00,
+                              jobopeningbalancedate: data.fields.RewardPointsOpeningDate ? moment(data.fields.RewardPointsOpeningDate).format('DD/MM/YYYY') : "",
+                              jobtaxcode: data.fields.TaxCodeName || templateObject.defaultsaletaxcode.get(),
+                              jobcustFld1: '' || '',
+                              jobcustFld2: '' || '',
+                              job_Title: '',
+                              jobName: '',
+                              jobNumber: '',
+                              jobRegistration: '',
+                              discount:data.fields.Discount || 0,
+                              jobclienttype:data.fields.ClientTypeName || ''
+
+                          }
+
+                          if ((data.fields.Street == data.fields.BillStreet) && (data.fields.Street2 == data.fields.BillStreet2)
+                              && (data.fields.State == data.fields.BillState) && (data.fields.Postcode == data.fields.Postcode)
+                              && (data.fields.Country == data.fields.Billcountry)) {
+                              templateObject.isSameAddress.set(true);
+                              templateObject.isJobSameAddress.set(true);
+                          }
+                          //let attachmentData =  contactService.getCustomerAttachmentList(data.fields.ID);
+                          templateObject.getOverviewARData(data.fields.ClientName);
+                          templateObject.records.set(lineItemObj);
+
+                          /* START attachment */
+                          templateObject.attachmentCount.set(0);
+                          if (data.fields.Attachments) {
+                              if (data.fields.Attachments.length) {
+                                  templateObject.attachmentCount.set(data.fields.Attachments.length);
+                                  templateObject.uploadedFiles.set(data.fields.Attachments);
+
+                              }
+                          }
+                          /* END  attachment */
+
+                          templateObject.isJob.set(data.fields.IsJob);
+                          templateObject.getAllProductRecentTransactions(data.fields.ClientName);
+                          templateObject.getAllCustomerJobs(data.fields.ClientName);
+                          //templateObject.uploadedFiles.set(attachmentData);
+                          // $('.fullScreenSpin').css('display','none');
+                          setTimeout(function () {
+                              var rowCount = $('.results tbody tr').length;
+                              $('.counter').text(rowCount + ' items');
+                              if (currentId.transTab == 'active') {
+                                  $('.customerTab').removeClass('active');
+                                  $('.transactionTab').trigger('click');
+                              }else if (currentId.transTab == 'job') {
+                                  $('.customerTab').removeClass('active');
+                                  $('.jobTab').trigger('click');
+                              }else{
+                                  $('.customerTab').addClass('active');
+                                  $('.customerTab').trigger('click');
+                              }
+                          }, 500);
+                      });
+                  } else {
+                      let data = JSON.parse(dataObject[0].data);
+                      let useData = data.tcustomervs1;
+
+                      var added = false;
+                      for (let i = 0; i < useData.length; i++) {
+                          if (useData[i].fields.ClientName === customerID) {
+                              let lineItems = [];
+                              added = true;
+                              $('.fullScreenSpin').css('display', 'none');
+                              let lineItemObj = {
+                                  id: useData[i].fields.ID || '',
+                                  lid: 'Edit Customer',
+                                  isjob: useData[i].fields.IsJob || '',
+                                  issupplier: useData[i].fields.IsSupplier || false,
+                                  iscustomer: useData[i].fields.IsCustomer || false,
+                                  company: useData[i].fields.ClientName || '',
+                                  email: useData[i].fields.Email || '',
+                                  title: useData[i].fields.Title || '',
+                                  firstname: useData[i].fields.FirstName || '',
+                                  middlename: useData[i].fields.CUSTFLD10 || '',
+                                  lastname: useData[i].fields.LastName || '',
+                                  tfn: '' || '',
+                                  phone: useData[i].fields.Phone || '',
+                                  mobile: useData[i].fields.Mobile || '',
+                                  fax: useData[i].fields.Faxnumber || '',
+                                  custometype: useData[i].fields.ClientTypeName || '',
+                                  skype: useData[i].fields.SkypeName || '',
+                                  website: useData[i].fields.URL || '',
+                                  shippingaddress: useData[i].fields.Street || '',
+                                  scity: useData[i].fields.Street2 || '',
+                                  sstate: useData[i].fields.State || '',
+                                  spostalcode: useData[i].fields.Postcode || '',
+                                  scountry: useData[i].fields.Country || LoggedCountry,
+                                  billingaddress: useData[i].fields.BillStreet || '',
+                                  bcity: useData[i].fields.BillStreet2 || '',
+                                  bstate: useData[i].fields.BillState || '',
+                                  bpostalcode: useData[i].fields.BillPostcode || '',
+                                  bcountry: useData[i].fields.Billcountry || '',
+                                  notes: useData[i].fields.Notes || '',
+                                  preferedpayment: useData[i].fields.PaymentMethodName || '',
+                                  terms: useData[i].fields.TermsName || '',
+                                  deliverymethod: useData[i].fields.ShippingMethodName || '',
+                                  clienttype: useData[i].fields.ClientTypeName || '',
+                                  openingbalance: useData[i].fields.RewardPointsOpeningBalance || 0.00,
+                                  openingbalancedate: useData[i].fields.RewardPointsOpeningDate ? moment(useData[i].fields.RewardPointsOpeningDate).format('DD/MM/YYYY') : "",
+                                  taxcode: useData[i].fields.TaxCodeName || templateObject.defaultsaletaxcode.get(),
+                                  custfield1: useData[i].fields.CUSTFLD1 || '',
+                                  custfield2: useData[i].fields.CUSTFLD2 || '',
+                                  custfield3: useData[i].fields.CUSTFLD3 || '',
+                                  custfield4: useData[i].fields.CUSTFLD4 || '',
+                                  jobcompany: useData[i].fields.ClientName || '',
+                                  jobCompanyParent: useData[i].fields.ClientName || '',
+                                  jobemail: useData[i].fields.Email || '',
+                                  jobtitle: useData[i].fields.Title || '',
+                                  jobfirstname: useData[i].fields.FirstName || '',
+                                  jobmiddlename: useData[i].fields.CUSTFLD10 || '',
+                                  joblastname: useData[i].fields.LastName || '',
+                                  jobtfn: '' || '',
+                                  jobphone: useData[i].fields.Phone || '',
+                                  jobmobile: useData[i].fields.Mobile || '',
+                                  jobfax: useData[i].fields.Faxnumber || '',
+                                  jobskype: useData[i].fields.SkypeName || '',
+                                  jobwebsite: useData[i].fields.CUSTFLD9 || '',
+                                  jobshippingaddress: useData[i].fields.Street || '',
+                                  jobscity: useData[i].fields.Street2 || '',
+                                  jobsstate: useData[i].fields.State || '',
+                                  jobspostalcode: useData[i].fields.Postcode || '',
+                                  jobscountry: useData[i].fields.Country || LoggedCountry,
+                                  jobbillingaddress: useData[i].fields.BillStreet || '',
+                                  jobbcity: useData[i].fields.BillStreet2 || '',
+                                  jobbstate: useData[i].fields.BillState || '',
+                                  jobbpostalcode: useData[i].fields.BillPostcode || '',
+                                  jobbcountry: useData[i].fields.Billcountry || '',
+                                  jobnotes: useData[i].fields.Notes || '',
+                                  jobpreferedpayment: useData[i].fields.PaymentMethodName || '',
+                                  jobterms: useData[i].fields.TermsName || '',
+                                  jobdeliverymethod: useData[i].fields.ShippingMethodName || '',
+                                  jobopeningbalance: useData[i].fields.RewardPointsOpeningBalance || 0.00,
+                                  jobopeningbalancedate: useData[i].fields.RewardPointsOpeningDate ? moment(useData[i].fields.RewardPointsOpeningDate).format('DD/MM/YYYY') : "",
+                                  jobtaxcode: useData[i].fields.TaxCodeName || templateObject.defaultsaletaxcode.get(),
+                                  jobcustFld1: '' || '',
+                                  jobcustFld2: '' || '',
+                                  job_Title: '',
+                                  jobName: '',
+                                  jobNumber: '',
+                                  jobRegistration: '',
+                                  discount:useData[i].fields.Discount || 0,
+                                  jobclienttype:useData[i].fields.ClientTypeName || ''
+
+                              }
+
+                              if ((useData[i].fields.Street == useData[i].fields.BillStreet) && (useData[i].fields.Street2 == useData[i].fields.BillStreet2)
+                                  && (useData[i].fields.State == useData[i].fields.BillState) && (useData[i].fields.Postcode == useData[i].fields.BillPostcode)
+                                  && (useData[i].fields.Country == useData[i].fields.Billcountry)) {
+                                  templateObject.isSameAddress.set(true);
+                                  templateObject.isJobSameAddress.set(true);
+                              }
+                              setTimeout(function () {
+                                  $('.customerTypeSelect').append('<option value="newCust">Add Customer Type</option>');
+                                  $('#sltCustomerType').prepend('<option value="' + lineItemObj.custometype + '" selected>' + lineItemObj.custometype + '</option>');
+                                  if (currentId.transTab == 'active') {
+                                      $('.customerTab').removeClass('active');
+                                      $('.transactionTab').trigger('click');
+                                  }else if (currentId.transTab == 'job') {
+                                      $('.customerTab').removeClass('active');
+                                      $('.jobTab').trigger('click');
+                                  }else{
+                                      $('.customerTab').addClass('active');
+                                      $('.customerTab').trigger('click');
+                                  }
+                              },500)
+                              //let attachmentData =  contactService.getCustomerAttachmentList(useData[i].fields.ID);
+                              templateObject.getOverviewARData(useData[i].fields.ClientName);
+                              templateObject.records.set(lineItemObj);
+
+                              /* START attachment */
+                              templateObject.attachmentCount.set(0);
+                              if (useData[i].fields.Attachments) {
+                                  if (useData[i].fields.Attachments.length) {
+                                      templateObject.attachmentCount.set(useData[i].fields.Attachments.length);
+                                      templateObject.uploadedFiles.set(useData[i].fields.Attachments);
+
+                                  }
+                              }
+                              /* END  attachment */
+
+                              templateObject.isJob.set(useData[i].fields.IsJob);
+                              templateObject.getAllProductRecentTransactions(useData[i].fields.ClientName);
+                              templateObject.getAllCustomerJobs(useData[i].fields.ClientName);
+                              //templateObject.uploadedFiles.set(attachmentData);
+                              // $('.fullScreenSpin').css('display','none');
+                              setTimeout(function () {
+                                  var rowCount = $('.results tbody tr').length;
+                                  $('.counter').text(rowCount + ' items');
+                              }, 500);
+                          }
+                      }
+                      if (!added) {
+                          contactService.getOneCustomerDataExByName(customerID).then(function (data) {
+                              $('.fullScreenSpin').css('display', 'none');
+                              let lineItems = [];
+
+                              let lineItemObj = {
+                                  id: data.fields.ID || '',
+                                  lid: 'Edit Customer',
+                                  isjob: data.fields.IsJob || '',
+                                  issupplier: data.fields.IsSupplier || false,
+                                  iscustomer: data.fields.IsCustomer || false,
+                                  company: data.fields.ClientName || '',
+                                  email: data.fields.Email || '',
+                                  title: data.fields.Title || '',
+                                  firstname: data.fields.FirstName || '',
+                                  middlename: data.fields.CUSTFLD10 || '',
+                                  lastname: data.fields.LastName || '',
+                                  tfn: '' || '',
+                                  phone: data.fields.Phone || '',
+                                  mobile: data.fields.Mobile || '',
+                                  fax: data.fields.Faxnumber || '',
+                                  skype: data.fields.SkypeName || '',
+                                  website: data.fields.URL || '',
+                                  shippingaddress: data.fields.Street || '',
+                                  scity: data.fields.Street2 || '',
+                                  sstate: data.fields.State || '',
+                                  spostalcode: data.fields.Postcode || '',
+                                  scountry: data.fields.Country || LoggedCountry,
+                                  billingaddress: data.fields.BillStreet || '',
+                                  bcity: data.fields.BillStreet2 || '',
+                                  bstate: data.fields.BillState || '',
+                                  bpostalcode: data.fields.BillPostcode || '',
+                                  bcountry: data.fields.Billcountry || '',
+                                  notes: data.fields.Notes || '',
+                                  preferedpayment: data.fields.PaymentMethodName || '',
+                                  terms: data.fields.TermsName || '',
+                                  deliverymethod: data.fields.ShippingMethodName || '',
+                                  clienttype: data.fields.ClientTypeName || '',
+                                  openingbalance: data.fields.RewardPointsOpeningBalance || 0.00,
+                                  openingbalancedate: data.fields.RewardPointsOpeningDate ? moment(data.fields.RewardPointsOpeningDate).format('DD/MM/YYYY') : "",
+                                  taxcode: data.fields.TaxCodeName || templateObject.defaultsaletaxcode.get(),
+                                  custfield1: data.fields.CUSTFLD1 || '',
+                                  custfield2: data.fields.CUSTFLD2 || '',
+                                  custfield3: data.fields.CUSTFLD3 || '',
+                                  custfield4: data.fields.CUSTFLD4 || '',
+                                  jobcompany: data.fields.ClientName || '',
+                                  jobCompanyParent: data.fields.ClientName || '',
+                                  jobemail: data.fields.Email || '',
+                                  jobtitle: data.fields.Title || '',
+                                  jobfirstname: data.fields.FirstName || '',
+                                  jobmiddlename: data.fields.CUSTFLD10 || '',
+                                  joblastname: data.fields.LastName || '',
+                                  jobtfn: '' || '',
+                                  jobphone: data.fields.Phone || '',
+                                  jobmobile: data.fields.Mobile || '',
+                                  jobfax: data.fields.Faxnumber || '',
+                                  jobskype: data.fields.SkypeName || '',
+                                  jobwebsite: data.fields.CUSTFLD9 || '',
+                                  jobshippingaddress: data.fields.Street || '',
+                                  jobscity: data.fields.Street2 || '',
+                                  jobsstate: data.fields.State || '',
+                                  jobspostalcode: data.fields.Postcode || '',
+                                  jobscountry: data.fields.Country || LoggedCountry,
+                                  jobbillingaddress: data.fields.BillStreet || '',
+                                  jobbcity: data.fields.BillStreet2 || '',
+                                  jobbstate: data.fields.BillState || '',
+                                  jobbpostalcode: data.fields.BillPostcode || '',
+                                  jobbcountry: data.fields.Billcountry || '',
+                                  jobnotes: data.fields.Notes || '',
+                                  jobpreferedpayment: data.fields.PaymentMethodName || '',
+                                  jobterms: data.fields.TermsName || '',
+                                  jobdeliverymethod: data.fields.ShippingMethodName || '',
+                                  jobopeningbalance: data.fields.RewardPointsOpeningBalance || 0.00,
+                                  jobopeningbalancedate: data.fields.RewardPointsOpeningDate ? moment(data.fields.RewardPointsOpeningDate).format('DD/MM/YYYY') : "",
+                                  jobtaxcode: data.fields.TaxCodeName || templateObject.defaultsaletaxcode.get(),
+                                  jobcustFld1: '' || '',
+                                  jobcustFld2: '' || '',
+                                  job_Title: '',
+                                  jobName: '',
+                                  jobNumber: '',
+                                  jobRegistration: '',
+                                  discount:data.fields.Discount || 0,
+                                  jobclienttype:data.fields.ClientTypeName || ''
+
+                              }
+
+                              if ((data.fields.Street == data.fields.BillStreet) && (data.fields.Street2 == data.fields.BillStreet2)
+                                  && (data.fields.State == data.fields.BillState) && (data.fields.Postcode == data.fields.Postcode)
+                                  && (data.fields.Country == data.fields.Billcountry)) {
+                                  templateObject.isSameAddress.set(true);
+                              }
+                              $('#sltCustomerType').prepend('<option value="' + lineItemObj.custometype + '">' + lineItemObj.custometype + '</option>');
+                              $('#sltCustomerType').append(' <option value="newCust"><span class="addType">Add Customer Type</span></option>');
+                              //let attachmentData =  contactService.getCustomerAttachmentList(data.fields.ID);
+                              templateObject.getOverviewARData(data.fields.ClientName);
+                              templateObject.records.set(lineItemObj);
+
+                              /* START attachment */
+                              templateObject.attachmentCount.set(0);
+                              if (data.fields.Attachments) {
+                                  if (data.fields.Attachments.length) {
+                                      templateObject.attachmentCount.set(data.fields.Attachments.length);
+                                      templateObject.uploadedFiles.set(data.fields.Attachments);
+
+                                  }
+                              }
+                              /* END  attachment */
+
+                              templateObject.isJob.set(data.fields.IsJob);
+                              templateObject.getAllProductRecentTransactions(data.fields.ClientName);
+                              templateObject.getAllCustomerJobs(data.fields.ClientName);
+                              //templateObject.uploadedFiles.set(attachmentData);
+                              // $('.fullScreenSpin').css('display','none');
+                              setTimeout(function () {
+                                  var rowCount = $('.results tbody tr').length;
+                                  $('.counter').text(rowCount + ' items');
+                                  if (currentId.transTab == 'active') {
+                                      $('.customerTab').removeClass('active');
+                                      $('.transactionTab').trigger('click');
+                                  }else if (currentId.transTab == 'job') {
+                                      $('.customerTab').removeClass('active');
+                                      $('.jobTab').trigger('click');
+                                  }else{
+                                      $('.customerTab').addClass('active');
+                                      $('.customerTab').trigger('click');
+                                  }
+                              }, 500);
+                          });
+                      }
+                  }
+              }).catch(function (err) {
+                  contactService.getOneCustomerDataExByName(customerID).then(function (data) {
+                      $('.fullScreenSpin').css('display', 'none');
+                      let lineItems = [];
+
+                      let lineItemObj = {
+                          id: data.fields.ID || '',
+                          lid: 'Edit Customer',
+                          isjob: data.fields.IsJob || '',
+                          issupplier: data.fields.IsSupplier || false,
+                          iscustomer: data.fields.IsCustomer || false,
+                          company: data.fields.ClientName || '',
+                          email: data.fields.Email || '',
+                          title: data.fields.Title || '',
+                          firstname: data.fields.FirstName || '',
+                          middlename: data.fields.CUSTFLD10 || '',
+                          lastname: data.fields.LastName || '',
+                          tfn: '' || '',
+                          phone: data.fields.Phone || '',
+                          mobile: data.fields.Mobile || '',
+                          fax: data.fields.Faxnumber || '',
+                          skype: data.fields.SkypeName || '',
+                          website: data.fields.URL || '',
+                          shippingaddress: data.fields.Street || '',
+                          scity: data.fields.Street2 || '',
+                          sstate: data.fields.State || '',
+                          spostalcode: data.fields.Postcode || '',
+                          scountry: data.fields.Country || LoggedCountry,
+                          billingaddress: data.fields.BillStreet || '',
+                          bcity: data.fields.BillStreet2 || '',
+                          bstate: data.fields.BillState || '',
+                          bpostalcode: data.fields.BillPostcode || '',
+                          bcountry: data.fields.Billcountry || '',
+                          notes: data.fields.Notes || '',
+                          preferedpayment: data.fields.PaymentMethodName || '',
+                          terms: data.fields.TermsName || '',
+                          deliverymethod: data.fields.ShippingMethodName || '',
+                          clienttype: data.fields.ClientTypeName || '',
+                          openingbalance: data.fields.RewardPointsOpeningBalance || 0.00,
+                          openingbalancedate: data.fields.RewardPointsOpeningDate ? moment(data.fields.RewardPointsOpeningDate).format('DD/MM/YYYY') : "",
+                          taxcode: data.fields.TaxCodeName || templateObject.defaultsaletaxcode.get(),
+                          custfield1: data.fields.CUSTFLD1 || '',
+                          custfield2: data.fields.CUSTFLD2 || '',
+                          custfield3: data.fields.CUSTFLD3 || '',
+                          custfield4: data.fields.CUSTFLD4 || '',
+                          jobcompany: data.fields.ClientName || '',
+                          jobCompanyParent: data.fields.ClientName || '',
+                          jobemail: data.fields.Email || '',
+                          jobtitle: data.fields.Title || '',
+                          jobfirstname: data.fields.FirstName || '',
+                          jobmiddlename: data.fields.CUSTFLD10 || '',
+                          joblastname: data.fields.LastName || '',
+                          jobtfn: '' || '',
+                          jobphone: data.fields.Phone || '',
+                          jobmobile: data.fields.Mobile || '',
+                          jobfax: data.fields.Faxnumber || '',
+                          jobskype: data.fields.SkypeName || '',
+                          jobwebsite: data.fields.CUSTFLD9 || '',
+                          jobshippingaddress: data.fields.Street || '',
+                          jobscity: data.fields.Street2 || '',
+                          jobsstate: data.fields.State || '',
+                          jobspostalcode: data.fields.Postcode || '',
+                          jobscountry: data.fields.Country || LoggedCountry,
+                          jobbillingaddress: data.fields.BillStreet || '',
+                          jobbcity: data.fields.BillStreet2 || '',
+                          jobbstate: data.fields.BillState || '',
+                          jobbpostalcode: data.fields.BillPostcode || '',
+                          jobbcountry: data.fields.Billcountry || '',
+                          jobnotes: data.fields.Notes || '',
+                          jobpreferedpayment: data.fields.PaymentMethodName || '',
+                          jobterms: data.fields.TermsName || '',
+                          jobdeliverymethod: data.fields.ShippingMethodName || '',
+                          jobopeningbalance: data.fields.RewardPointsOpeningBalance || 0.00,
+                          jobopeningbalancedate: data.fields.RewardPointsOpeningDate ? moment(data.fields.RewardPointsOpeningDate).format('DD/MM/YYYY') : "",
+                          jobtaxcode: data.fields.TaxCodeName || templateObject.defaultsaletaxcode.get(),
+                          jobcustFld1: '' || '',
+                          jobcustFld2: '' || '',
+                          job_Title: '',
+                          jobName: '',
+                          jobNumber: '',
+                          jobRegistration: '',
+                          discount:data.fields.Discount || 0,
+                          jobclienttype:data.fields.ClientTypeName || ''
+
+                      }
+
+                      if ((data.fields.Street == data.fields.BillStreet) && (data.fields.Street2 == data.fields.BillStreet2)
+                          && (data.fields.State == data.fields.BillState) && (data.fields.Postcode == data.fields.Postcode)
+                          && (data.fields.Country == data.fields.Billcountry)) {
+                          templateObject.isSameAddress.set(true);
+                      }
+                      //let attachmentData =  contactService.getCustomerAttachmentList(data.fields.ID);
+                      templateObject.getOverviewARData(data.fields.ClientName);
+                      templateObject.records.set(lineItemObj);
+
+                      /* START attachment */
+                      templateObject.attachmentCount.set(0);
+                      if (data.fields.Attachments) {
+                          if (data.fields.Attachments.length) {
+                              templateObject.attachmentCount.set(data.fields.Attachments.length);
+                              templateObject.uploadedFiles.set(data.fields.Attachments);
+
+                          }
+                      }
+                      /* END  attachment */
+
+                      templateObject.isJob.set(data.fields.IsJob);
+                      templateObject.getAllProductRecentTransactions(data.fields.ClientName);
+                      templateObject.getAllCustomerJobs(data.fields.ClientName);
+                      //templateObject.uploadedFiles.set(attachmentData);
+                      // $('.fullScreenSpin').css('display','none');
+                      setTimeout(function () {
+                          var rowCount = $('.results tbody tr').length;
+                          $('.counter').text(rowCount + ' items');
+                          if (currentId.transTab == 'active') {
+                              $('.customerTab').removeClass('active');
+                              $('.transactionTab').trigger('click');
+                          }else if (currentId.transTab == 'job') {
+                              $('.customerTab').removeClass('active');
+                              $('.jobTab').trigger('click');
+                          }else{
+                              $('.customerTab').addClass('active');
+                              $('.customerTab').trigger('click');
+                          }
+                      }, 500);
+                  });
+              });
+
+          }
+
+          templateObject.getEmployeeData();
+        }else if (!isNaN(currentId.jobid)) {
             customerID = currentId.jobid;
             templateObject.getEmployeeData = function () {
                 getVS1Data('TJobVS1').then(function (dataObject) {
