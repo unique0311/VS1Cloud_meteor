@@ -10,7 +10,7 @@
         </style>
         <div style="margin-top: -24px;">
             <header style="padding: 16px; padding-bottom: 5px; background-color: #ededed;">
-                <h2 style="margin: 16px; margin-bottom: 5px;">Awaiting Customer Payments <a role="button" data-toggle="modal" href="#helpViewModal" style="font-size: 20px;">Help <i class="fa fa-question-circle-o"  style="font-size: 20px;"></i></a>
+                <h2 style="margin: 16px; margin-bottom: 5px;">Awaiting Customer Payments <a role="button" data-toggle="modal" href="#helpViewModal" style="font-size: 20px;">Help <i class="fa fa-question-circle-o" style="font-size: 20px;"></i></a>
 
                     <style>
                         @media screen and (max-width: 376px) {
@@ -27,82 +27,97 @@
                 <div class="modal-dialog modal-dialog-centered" role="document" style="float: right;">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h4>Display Settings</h4><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button></div>
+                            <h4>Display Settings</h4><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                        </div>
                         <div class="modal-body">
                             <div>
                                 {{#if tableheaderrecords}}
-                                <form class="d-xl-flex align-items-xl-center">
-                                    <div class="flex-grow-1">
-                                        <style>
-                                            .groove {
-                                                border-style: solid;
-                                                border-width: 1px;
-                                                width: 200px;
-                                                padding: 2px;
-                                                border-radius: .35rem;
-                                            }
-                                            .custom-control-label{
-                                                position: absolute;
-                                            }
-                                            .rngRange {
-                                                position: relative;
-                                                display: flex;
-                                                flex-direction: column;
-                                                width: 100%;
-                                                pointer-events: auto;
-                                                background-color: rgb(255, 255, 255);
-                                                background-clip: padding-box;
-                                                border: 1px solid rgb(133, 135, 150);
-                                                border-radius: .3rem;
-                                                border-style: solid;
-                                                border-width: 1px;
-                                                padding: 2px;
-                                                border-radius: .35rem;
-                                                color: rgb(128, 128, 128);
-                                                height:inherit!important;
-                                            }
-                                            @media only screen and (max-width: 480px) {
-                                                .modal.show .modal-dialog{
-                                                    float: inherit!important;
-                                                    left: inherit!important;
-                                                    top: auto!important;
-
+                                    <form class="d-xl-flex align-items-xl-center">
+                                        <div class="flex-grow-1">
+                                            <style>
+                                                .groove {
+                                                    border-style: solid;
+                                                    border-width: 1px;
+                                                    width: 200px;
+                                                    padding: 2px;
+                                                    border-radius: .35rem;
                                                 }
-                                            }
-                                        </style>
-                                        {{#each item in tableheaderrecords}}
-                                        {{#if equals item.sTitle ""}}
-                                        <!-- {{#elseif equals item.sTitle "id"}} -->
-                                        {{else}}
-                                        {{#if equals item.sTitle "id"}}
-                                        {{else}}
-                                        <div id="{{item.sIndex}}" class="columnSettings">
-                                            <div class="custom-control custom-switch" style="margin: 8px; float:left;">
-                                                <input class="custom-control-input chkDatatable" type="checkbox" id="chkSalesNo-{{item.sIndex}}" name="chkSalesNo-{{item.sIndex}}" checked="{{#if item.sVisible}}checked{{else}}{{/if}}" value="{{item.sTitle}}">
-                                                <label class="custom-control-label" for="chkSalesNo-{{item.sIndex}}"></label>
-                                                <div contenteditable="true" class="groove divcolumn" type="text" value="{{item.sTitle}}" valueupdate="{{item.sClass}}">{{item.sTitle}}</div>
-                                            </div>
-                                            <div class="d-xl-flex align-items-xl-center divColWidth" style="margin: 8px;">
-                                                <label class="text-nowrap" style="padding-left: 0px;margin-top: 8px;">Width: <!--<span class="spWidth" value="{{item.sTitle}}">{{item.sWidth}}px</span>--></label>
-                                                <input class="custom-range rngRange" type="number" style="margin: 8px;" value="{{item.sWidth}}" min="0" max="1000">
-                                                <!-- <input class="custom-range rngRange" type="range" style="margin: 8px;" value="{{item.sWidth}}" min="0" max="1000"> -->
-                                            </div>
-                                        </div>
 
-                                        {{#if equals item.sVisible true}}
-                                        <script>
-                                            $("#"+{{item.sIndex}}+".chkDatatable").attr("checked","checked");
-                                        </script>
-                                        {{else}}
-                                        <script>
-                                            $("#"+{{item.sIndex}}+".chkDatatable").removeAttr("checked");
-                                        </script>
-                                        {{/if}}
-                                        {{/if}}
-                                        {{/if}}
-                                        {{/each}}
-                                    </div>
-                                </form>
+                                                .custom-control-label {
+                                                    position: absolute;
+                                                }
+
+                                                .rngRange {
+                                                    position: relative;
+                                                    display: flex;
+                                                    flex-direction: column;
+                                                    width: 100%;
+                                                    pointer-events: auto;
+                                                    background-color: rgb(255, 255, 255);
+                                                    background-clip: padding-box;
+                                                    border: 1px solid rgb(133, 135, 150);
+                                                    border-radius: .3rem;
+                                                    border-style: solid;
+                                                    border-width: 1px;
+                                                    padding: 2px;
+                                                    border-radius: .35rem;
+                                                    color: rgb(128, 128, 128);
+                                                    height: inherit !important;
+                                                }
+
+                                                @media only screen and (max-width: 480px) {
+                                                    .modal.show .modal-dialog {
+                                                        float: inherit !important;
+                                                        left: inherit !important;
+                                                        top: auto !important;
+
+                                                    }
+                                                }
+                                            </style>
+                                            {{#each item in tableheaderrecords}}
+                                                {{#if equals item.sTitle ""}}
+                                                    <!-- {{#elseif equals item.sTitle "id"}} -->
+                                                {{else}}
+                                                    {{#if equals item.sTitle "id"}}
+                                                    {{else}}
+                                                        <div id="{{item.sIndex}}" class="columnSettings">
+                                                            <div class="custom-control custom-switch" style="margin: 8px; float:left;">
+                                                                <input class="custom-control-input chkDatatable" type="checkbox" id="chkSalesNo-{{item.sIndex}}" name="chkSalesNo-{{item.sIndex}}" checked="{{#if item.sVisible}}checked{{else}}{{/if}}"
+                                                                    value="{{item.sTitle}}">
+                                                                <label class="custom-control-label" for="chkSalesNo-{{item.sIndex}}"></label>
+                                                                <div contenteditable="true" class="groove divcolumn" type="text" value="{{item.sTitle}}" valueupdate="{{item.sClass}}">{{item.sTitle}}</div>
+                                                            </div>
+                                                            <div class="d-xl-flex align-items-xl-center divColWidth" style="margin: 8px;">
+                                                                <label class="text-nowrap" style="padding-left: 0px;margin-top: 8px;">Width:
+                                                                    <!--<span class="spWidth" value="{{item.sTitle}}">{{item.sWidth}}px</span>-->
+                                                                </label>
+                                                                <input class="custom-range rngRange" type="number" style="margin: 8px;" value="{{item.sWidth}}" min="0" max="1000">
+                                                                <!-- <input class="custom-range rngRange" type="range" style="margin: 8px;" value="{{item.sWidth}}" min="0" max="1000"> -->
+                                                            </div>
+                                                        </div>
+
+                                                        {{#if equals item.sVisible true}}
+                                                            <script>
+                                                                $("#" + {
+                                                                    {
+                                                                        item.sIndex
+                                                                    }
+                                                                } + ".chkDatatable").attr("checked", "checked");
+                                                            </script>
+                                                        {{else}}
+                                                            <script>
+                                                                $("#" + {
+                                                                    {
+                                                                        item.sIndex
+                                                                    }
+                                                                } + ".chkDatatable").removeAttr("checked");
+                                                            </script>
+                                                        {{/if}}
+                                                    {{/if}}
+                                                {{/if}}
+                                            {{/each}}
+                                        </div>
+                                    </form>
                                 {{/if}}
                             </div>
                         </div>
@@ -119,7 +134,8 @@
                 <div class="modal-dialog modal-sm" role="document">
                     <div class="modal-content">
                         <div class="modal-header" style="padding-bottom: 8px;">
-                            <h4>Help</h4><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button></div>
+                            <h4>Help</h4><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                        </div>
                         <div class="modal-body">
                             <p class="text-center text-muted"><a role="button" data-toggle="modal" href="#helpModal" class="btn btn-primary helpModal">View Help Video</a></p>
                             <p class="text-center text-muted"><a href="https://vs1forum.com/viewtopic.php?f=6&t=77" target="_blank" class="btn btn-primary">Download Help File</a></p>
@@ -130,24 +146,41 @@
                     </div>
                 </div>
             </div>
+            <style>
+                @media screen and (max-width: 450px) {
+                    .btnNav {
+                        width: 90% !important;
+                    }
+                    .btnOpenSettingsMobile {
+                        display: block !important;
+                    }
+                    .btnOpenSettings {
+                        display: none;
+                    }
+                    .btnCustPayment {
+                        font-size: 15px;
+                    }
+                    .btnPaymentList {
+                        font-size: 15px;
+                    }
+                }
+            </style>
 
-            <div class="row d-xl-flex flex-row justify-content-xl-center" style="padding: 0px 20px; background-color: #ededed;">
-
-                <div class="col float-left flex-grow-1 mb-4">
-                    <button class="btn btn-primary btnRefresh" type="button" style="margin: 16px;"><i class="la la-lightbulb-o" style="padding-right: 5px;"></i>Refresh</button>
-                    <button class="btn btn-primary btnCustPayment" type="button" style="margin: 16px;"><i class="fa fa-credit-card" style="padding-right: 5px;"></i>Customer Payment</button>
-                    <button class="btn btn-primary btnPaymentList" type="button" style="margin: 16px;"><i class="fas fa-list" style="padding-right: 5px;"></i>Customer Payment List</button>
-                    <div class="form-group point" style="margin: 16px; width: 175px; display: inline-block;">
+            <div class="row" style="padding: 0px 20px; background-color: #ededed;">
+                <div class="col-6 col-md-7 col-lg-8">
+                    <button class="btn btn-primary btnRefresh btnNav" type="button" style="margin: 16px;"><i class="la la-lightbulb-o" style="padding-right: 5px;"></i>Refresh</button>
+                    <button class="btn btn-primary btnCustPayment btnNav" type="button" style="margin: 16px;"><i class="fa fa-credit-card" style="padding-right: 5px;"></i>Customer Payment</button>
+                    <button class="btn btn-primary btnPaymentList btnNav" type="button" style="margin: 16px;"><i class="fas fa-list" style="padding-right: 5px;"></i>Customer Payment List</button>
+                    <div class="form-group point btnNav" style="margin: 16px; width: 175px; display: inline-block;">
                         <input type="text" id="selectedTot" name="selectedTot" class="form-control" style="cursor: default;background-color:#EDEDED; border-color:#EDEDED; font-size:20px; font-weight:600; padding: 0px;" readonly>
                     </div>
                 </div>
-
-                <div class="col">
+                <div class="col-6 col-md-5 col-lg-4">
                     <a class="btn btnOpenSettings float-right" role="button" data-toggle="modal" href="#myModal2" style="margin: 16px;"><i class="icon ion-android-more-horizontal"></i></a>
-                    <button class="btn btn-primary printConfirm float-right" type="button" style="margin: 16px;"><i class="fa fa-print" style="padding-right: 5px;"></i>Print</button>
-                    <button class="btn btn-primary export float-right" type="button" style="margin: 16px;" id="exportbtn" name="exportbtn"><i class="fas fa-file-export" style="padding-right: 5px;"></i>Export</button>
+                    <button class="btn btn-primary printConfirm float-right btnNav" type="button" style="margin: 16px;"><i class="fa fa-print" style="padding-right: 5px;"></i>Print</button>
+                    <button class="btn btn-primary export float-right btnNav" type="button" style="margin: 16px;" id="exportbtn" name="exportbtn"><i class="fas fa-file-export" style="padding-right: 5px;"></i>Export</button>
+                    <a class="btn btnOpenSettings btnOpenSettingsMobile float-right" role="button" data-toggle="modal" href="#myModal2" style="margin: 16px; display: none;"><i class="icon ion-android-more-horizontal"></i></a>
                 </div>
-
             </div>
 
             <div>
@@ -158,6 +191,7 @@
                             th {
                                 background-color: #ededed;
                             }
+
                             .table-striped tbody tr:nth-of-type(odd) {
                                 background-color: white !important;
                             }
@@ -166,16 +200,19 @@
                                 background-color: #0000000d !important;
                             }
 
-                            .JColResizer > tbody > tr > td, .JColResizer > tbody > tr > th {
-                                padding: .75rem!important;
+                            .JColResizer>tbody>tr>td,
+                            .JColResizer>tbody>tr>th {
+                                padding: .75rem !important;
                             }
-                            .hiddenColumn{
-                                display:none;
+
+                            .hiddenColumn {
+                                display: none;
                             }
+
                             .showColumn {
-                                display:table-cell;
-                                padding:.75rem;
-                                vertical-align:top;
+                                display: table-cell;
+                                padding: .75rem;
+                                vertical-align: top;
                             }
 
                             input[type=number]::-webkit-inner-spin-button,
@@ -186,7 +223,10 @@
                         <table id="tblcustomerAwaitingPayment" name="tblcustomerAwaitingPayment" style="width:100%" class="dataTable table table-hover table-striped table-bordered tblcustomerAwaitingPayment">
                             <thead>
                                 <tr class="dnd-moved">
-                                    <th class="th chkBox" style="width:15px;"><div class="custom-control custom-checkbox chkBox" style="width:15px;"><input class="custom-control-input chkBoxAll" type="checkbox" id="formCheck-All"><label class="custom-control-label chkBoxAll" for="formCheck-All"></label></div></th>
+                                    <th class="th chkBox" style="width:15px;">
+                                        <div class="custom-control custom-checkbox chkBox" style="width:15px;"><input class="custom-control-input chkBoxAll" type="checkbox" id="formCheck-All"><label class="custom-control-label chkBoxAll"
+                                                for="formCheck-All"></label></div>
+                                    </th>
                                     <th class="th colSortDate hiddenColumn">id</th>
                                     <th class="th colPaymentDate" style="width:80px;">Date</th>
                                     <th class="th colPaymentId" style="width:80px;">Payment #</th>
@@ -204,24 +244,27 @@
                             </thead>
                             <tbody>
                                 {{#if datatablerecords}}
-                                {{#each item in datatablerecords}}
-                                <tr class="dnd-moved" id="{{item.id}}" style="cursor: pointer;">
-                                    <td contenteditable="false" class="chkBox pointer" style="width:15px;"><div class="custom-control custom-checkbox chkBox pointer" style="width:15px;"><input class="custom-control-input chkBox chkPaymentCard pointer" type="checkbox" id="formCheck-{{item.id}}" value="{{item.outsandingamount}}"><label class="custom-control-label chkBox pointer" for="formCheck-{{item.id}}"></label></div></td>
-                                    <td contenteditable="false" class="colSortDate hiddenColumn">{{item.sortdate}}</td>
-                                    <td contenteditable="false" class="colPaymentDate" ><span style="display:none;">{{item.sortdate}}</span>{{item.paymentdate}}</td>
-                                    <td contenteditable="false" class="colPaymentId">{{item.id}}</td>
-                                    <td contenteditable="false" class="colReceiptNo">{{item.refno}}</td>
-                                    <td contenteditable="false" class="colPaymentAmount" style="text-align: right!important;">{{item.applied}}</td>
-                                    <td contenteditable="false" class="colApplied" style="text-align: right!important;">{{item.originalamount}}</td>
-                                    <td contenteditable="false" class="colBalance" style="text-align: right!important;">{{item.outsandingamount}}</td>
-                                    <td contenteditable="false" class="colCustomerName" id="colCustomerName{{item.id}}">{{item.customername}}</td>
-                                    <!-- <td contenteditable="false" class="colBankAccount">{{item.bankaccount}}</td> -->
-                                    <td contenteditable="false" class="colDepartment">{{item.department}}</td>
-                                    <td contenteditable="false" class="colRefNo hiddenColumn">{{item.refno}}</td>
-                                    <td contenteditable="false" class="colPaymentMethod hiddenColumn">{{item.paymentmethod}}</td>
-                                    <td contenteditable="false" class="colNotes" >{{item.notes}}</td>
-                                </tr>
-                                {{/each}}
+                                    {{#each item in datatablerecords}}
+                                        <tr class="dnd-moved" id="{{item.id}}" style="cursor: pointer;">
+                                            <td contenteditable="false" class="chkBox pointer" style="width:15px;">
+                                                <div class="custom-control custom-checkbox chkBox pointer" style="width:15px;"><input class="custom-control-input chkBox chkPaymentCard pointer" type="checkbox" id="formCheck-{{item.id}}"
+                                                        value="{{item.outsandingamount}}"><label class="custom-control-label chkBox pointer" for="formCheck-{{item.id}}"></label></div>
+                                            </td>
+                                            <td contenteditable="false" class="colSortDate hiddenColumn">{{item.sortdate}}</td>
+                                            <td contenteditable="false" class="colPaymentDate"><span style="display:none;">{{item.sortdate}}</span>{{item.paymentdate}}</td>
+                                            <td contenteditable="false" class="colPaymentId">{{item.id}}</td>
+                                            <td contenteditable="false" class="colReceiptNo">{{item.refno}}</td>
+                                            <td contenteditable="false" class="colPaymentAmount" style="text-align: right!important;">{{item.applied}}</td>
+                                            <td contenteditable="false" class="colApplied" style="text-align: right!important;">{{item.originalamount}}</td>
+                                            <td contenteditable="false" class="colBalance" style="text-align: right!important;">{{item.outsandingamount}}</td>
+                                            <td contenteditable="false" class="colCustomerName" id="colCustomerName{{item.id}}">{{item.customername}}</td>
+                                            <!-- <td contenteditable="false" class="colBankAccount">{{item.bankaccount}}</td> -->
+                                            <td contenteditable="false" class="colDepartment">{{item.department}}</td>
+                                            <td contenteditable="false" class="colRefNo hiddenColumn">{{item.refno}}</td>
+                                            <td contenteditable="false" class="colPaymentMethod hiddenColumn">{{item.paymentmethod}}</td>
+                                            <td contenteditable="false" class="colNotes">{{item.notes}}</td>
+                                        </tr>
+                                    {{/each}}
                                 {{/if}}
 
                             </tbody>
@@ -235,10 +278,10 @@
     <!-- Start Help Video Modal -->
     <div class="modal fade" role="dialog" tabindex="-1" id="helpModal">
         <div class="modal-dialog" role="document" style="max-width: 670px!important;">
-            <div class="modal-content" >
-                <div class="modal-header" >
+            <div class="modal-content">
+                <div class="modal-header">
 
-                    <h4 class="title-header" >Awaiting Customer Payments</h4>
+                    <h4 class="title-header">Awaiting Customer Payments</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
                 </div>
                 <div class="modal-body">
