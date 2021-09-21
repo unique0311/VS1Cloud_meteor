@@ -2,14 +2,15 @@ import { ContactService } from "../contacts/contact-service";
 import { ReactiveVar } from 'meteor/reactive-var';
 import { CoreService } from '../js/core-service';
 import { UtilityService } from "../utility-service";
+import { ProductService } from "../product/product-service";
 import XLSX from 'xlsx';
 import { SideBarService }from '../js/sidebar-service';
-import '../lib/global/indexdbstorage.js';
 let sideBarService = new SideBarService();
 let utilityService = new UtilityService();
 Template.payrolloverview.onCreated(function () {
     const templateObject = Template.instance();
     templateObject.datatablerecords = new ReactiveVar([]);
+    templateObject.datatablerecords1 = new ReactiveVar([]);
     templateObject.tableheaderrecords = new ReactiveVar([]);
     templateObject.timesheetrecords = new ReactiveVar([]);
     templateObject.jobsrecords = new ReactiveVar([]);
@@ -20,6 +21,7 @@ Template.payrolloverview.onRendered(function () {
     $('.fullScreenSpin').css('display', 'inline-block');
     let templateObject = Template.instance();
     let contactService = new ContactService();
+    let productService = new ProductService();
     const customerList = [];
     let salesOrderTable;
     var splashArray = new Array();
@@ -93,15 +95,13 @@ Template.payrolloverview.onRendered(function () {
 
     templateObject.getAllTimeSheetData = function () {
         contactService.getAllTimeSheetList().then(function (data) {
-            $('.fullScreenSpin').css('display', 'none');
             let lineItems = [];
             let lineItemObj = {};
             let sumTotalCharge = 0;
             let sumSumHour = 0;
             let sumSumHourlyRate = 0;
             for (let t = 0; t < data.ttimesheet.length; t++) {
-                console.log()
-                if (data.ttimesheet[t].fields.EmployeeName == Session.get('mySessionEmployee') && data.ttimesheet[t].fields.InvoiceNotes != "completed" && data.ttimesheet[t].fields.Logs != null) {
+                if (data.ttimesheet[t].fields.EmployeeName == Session.get('mySessionEmployee') && data.ttimesheet[t].fields.Logs != null) {
                     let hourlyRate = utilityService.modifynegativeCurrencyFormat(data.ttimesheet[t].fields.HourlyRate) || 0.00;
                     let labourCost = utilityService.modifynegativeCurrencyFormat(data.ttimesheet[t].fields.LabourCost) || 0.00;
                     let totalAmount = utilityService.modifynegativeCurrencyFormat(data.ttimesheet[t].fields.Total) || 0.00;
@@ -121,7 +121,7 @@ Template.payrolloverview.onRendered(function () {
                         overheadrate: data.ttimesheet[t].fields.OverheadRate || '',
                         sortdate: data.ttimesheet[t].fields.TimeSheetDate != '' ? moment(data.ttimesheet[t].fields.TimeSheetDate).format("YYYY/MM/DD") : data.ttimesheet[t].fields.TimeSheetDate,
                         timesheetdate: data.ttimesheet[t].fields.TimeSheetDate != '' ? moment(data.ttimesheet[t].fields.TimeSheetDate).format("DD/MM/YYYY") : data.ttimesheet[t].fields.TimeSheetDate,
-                        // suppliername: data.ttimesheet[t].SupplierName || '',
+                        product: data.ttimesheet[t].fields.ServiceName || '',
                         timesheetdate1: data.ttimesheet[t].fields.TimeSheetDate || '',
                         timelog: data.ttimesheet[t].fields.Logs || '',
                         isPaused: data.ttimesheet[t].fields.InvoiceNotes || '',
@@ -133,11 +133,6 @@ Template.payrolloverview.onRendered(function () {
                         additional: Currency + '0.00',
                         paychecktips: Currency + '0.00',
                         cashtips: Currency + '0.00',
-                        // totaloustanding: totalOutstanding || 0.00,
-                        // orderstatus: data.ttimesheet[t].OrderStatus || '',
-                        // custfield1: '' || '',
-                        // custfield2: '' || '',
-                        // invoicenotes: data.ttimesheet[t].InvoiceNotes || '',
                         notes: data.ttimesheet[t].fields.Notes || '',
                         finished: 'Not Processed',
                         color: '#f6c23e'
@@ -151,6 +146,7 @@ Template.payrolloverview.onRendered(function () {
             $('.lblSumHourlyRate').text(utilityService.modifynegativeCurrencyFormat(sumSumHourlyRate));
             $('.lblSumHour').text(sumSumHour);
             templateObject.timesheetrecords.set(timeSheetList);
+            $('.fullScreenSpin').css('display', 'none');
 
         }).catch(function (err) {
             console.log(err);
@@ -596,7 +592,7 @@ Template.payrolloverview.onRendered(function () {
                         lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "All"]],
                         info: true,
                         responsive: true,
-                        "order": [[0, "asc"]],
+                        "order": [[2, "asc"]],
                         action: function () {
                             $('#tblEmployeelist').DataTable().ajax.reload();
                         },
@@ -706,6 +702,64 @@ Template.payrolloverview.onRendered(function () {
 
     }
     templateObject.getJobs();
+
+    templateObject.getAllProductData = function () {
+        productList = [];
+        getVS1Data('TProductVS1').then(function (dataObject) {
+            if (dataObject.length == 0) {
+                productService.getNewProductListVS1().then(function (data) {
+                    var dataList = {};
+                    for (let i = 0; i < data.tproductvs1.length; i++) {
+                        dataList = {
+                            id: data.tproductvs1[i].Id || '',
+                            productname: data.tproductvs1[i].ProductName || ''
+                        }
+                        if (data.tproductvs1[i].ProductType != 'INV') {
+                            productList.push(dataList);
+                        }
+
+                    }
+
+                    templateObject.datatablerecords1.set(productList);
+
+                });
+            } else {
+                let data = JSON.parse(dataObject[0].data);
+                let useData = data.tproductvs1;
+                var dataList = {};
+                for (let i = 0; i < useData.length; i++) {
+                    dataList = {
+                        id: useData[i].fields.ID || '',
+                        productname: useData[i].fields.ProductName || ''
+                    }
+                    if (useData[i].fields.ProductType != 'INV') {
+                        productList.push(dataList);
+                    }
+                }
+                templateObject.datatablerecords1.set(productList);
+
+            }
+        }).catch(function (err) {
+            productService.getNewProductListVS1().then(function (data) {
+
+                var dataList = {};
+                for (let i = 0; i < data.tproductvs1.length; i++) {
+                    dataList = {
+                        id: data.tproductvs1[i].Id || '',
+                        productname: data.tproductvs1[i].ProductName || ''
+                    }
+                    if (data.tproductvs1[i].ProductType != 'INV') {
+                        productList.push(dataList);
+                    }
+
+                }
+                templateObject.datatablerecords1.set(productList);
+
+            });
+        });
+
+    }
+
     $('#tblEmployeelist tbody').on('click', 'tr', function () {
         var listData = $(this).closest('tr').attr('id');
         if (listData) {
@@ -725,10 +779,10 @@ Template.payrolloverview.events({
     },
     'click #btnClockOnOff': function (event) {
         const templateObject = Template.instance();
+        templateObject.getAllProductData();
         $('#startTime').prop('disabled', false);
         $('#dtSODate').prop('disabled', false);
         let clockList = templateObject.timesheetrecords.get();
-        console.log(clockList);
         if (clockList.length > 0) {
             if (clockList[clockList.length - 1].isPaused == "paused") {
                 $('.btnOnHold').prop('disabled', true);
@@ -736,7 +790,7 @@ Template.payrolloverview.events({
                 $('.btnOnHold').prop('disabled', false);
             }
             if (Array.isArray(clockList[clockList.length - 1].timelog) && clockList[clockList.length - 1].isPaused != "completed") {
-                let startTime = clockList[clockList.length - 1].timelog[clockList[clockList.length - 1].timelog.length - 1].fields.StartDatetime || '';
+                let startTime = clockList[clockList.length - 1].timelog[0].fields.StartDatetime || '';
                 let date = clockList[clockList.length - 1].timesheetdate;
                 if (startTime != "") {
                     $('#startTime').val(startTime.split(' ')[1]);
@@ -744,7 +798,8 @@ Template.payrolloverview.events({
                     $('#updateID').val(clockList[clockList.length - 1].id);
                     $('#txtNotes').val(clockList[clockList.length - 1].notes);
                     $('#sltJob').val(clockList[clockList.length - 1].job);
-                    $('#hourly_rate').val(clockList[clockList.length - 1].hourlyrate.replace('$', ''));
+                    $('#product-list').prepend('<option>' + clockList[clockList.length - 1].product + '</option>');
+                    $("#product-list")[0].options[0].selected = true;
                     $('#startTime').prop('disabled', true);
                     $('#dtSODate').prop('disabled', true);
                 }
@@ -760,7 +815,8 @@ Template.payrolloverview.events({
                         $('#updateID').val(clockList[clockList.length - 1].id);
                         $('#txtNotes').val(clockList[clockList.length - 1].notes);
                         $('#sltJob').val(clockList[clockList.length - 1].job);
-                        $('#hourly_rate').val(clockList[clockList.length - 1].hourlyrate.replace('$', ''));
+                        $('#product-list').prepend('<option>' + clockList[clockList.length - 1].product + '</option>');
+                        $("#product-list")[0].options[0].selected = true;
                         $('#startTime').prop('disabled', true);
                         $('#dtSODate').prop('disabled', true);
                     }
@@ -780,12 +836,13 @@ Template.payrolloverview.events({
         let checkEndTime = "";
         let latestTimeLogId = "";
         let toUpdate = {};
+        let newEntry = {};
         let date = new Date();
         if (clockList.length > 0) {
-            if (Array.isArray(clockList[0].timelog)) {
+            if (Array.isArray(clockList[clockList.length - 1].timelog)) {
                 checkStatus = clockList[clockList.length - 1].isPaused || "";
                 latestTimeLogId = clockList[clockList.length - 1].timelog[clockList[clockList.length - 1].timelog.length - 1].fields.ID || "";
-                checkStartTime = clockList[clockList.length - 1].timelog[clockList[clockList.length - 1].timelog.length - 1].fields.StartDatetime || "";
+                checkStartTime = clockList[clockList.length - 1].timelog[0].fields.StartDatetime || "";
                 checkEndTime = clockList[clockList.length - 1].timelog[clockList[clockList.length - 1].timelog.length - 1].fields.EndDatetime || "";
             } else {
                 checkStatus = clockList[clockList.length - 1].isPaused || "";
@@ -794,7 +851,9 @@ Template.payrolloverview.events({
                 checkEndTime = clockList[clockList.length - 1].timelog.fields.EndDatetime || "";
             }
         }
-        if (checkStatus == "completed" || checkStatus == "") {
+
+        
+        if (checkStatus == "completed") {
             $("#startTime").val(moment().startOf('hour').format('HH') + ":" + moment().startOf('minute').format('mm'));
             let date1 = date.getFullYear() + "-" + ("0" + (date.getMonth() + 1)).slice(-2) + "-" + ("0" + (date.getDate())).slice(-2);
             var endTime = new Date(date1 + ' ' + document.getElementById("endTime").value + ':00');
@@ -802,16 +861,27 @@ Template.payrolloverview.events({
             if (endTime > startTime) {
                 document.getElementById('txtBookedHoursSpent').value = parseFloat(templateObject.diff_hours(endTime, startTime)).toFixed(2);
             }
+            $("#btnSaveTimeSheet").trigger("click");
         } else {
             $('.fullScreenSpin').css('display', 'inline-block');
             if (checkStartTime != "" && checkEndTime == "") {
                 let date1 = date.getFullYear() + "-" + ("0" + (date.getMonth() + 1)).slice(-2) + "-" + ("0" + (date.getDate())).slice(-2);
                 let endTime = $('#endTime').val() || ("0" + date.getHours()).slice(-2) + ':' + ("0" + date.getMinutes()).slice(-2);
+                let startTime = ("0" + date.getHours()).slice(-2) + ':' + ("0" + date.getMinutes()).slice(-2);
                 toUpdate = {
                     type: "TTimeLog",
                     fields: {
                         ID: latestTimeLogId,
                         EndDatetime: date1 + ' ' + endTime
+                    }
+                }
+
+                newEntry = {
+                    type: "TTimeLog",
+                    fields: {
+                        TimeSheetID: updateID,
+                        StartDatetime: date1 + ' ' + startTime,
+                        Description: "Job Continued"
                     }
                 }
 
@@ -822,9 +892,28 @@ Template.payrolloverview.events({
                         InvoiceNotes: ""
                     }
                 }
+                contactService.saveTimeSheetLog(newEntry).then(function (savedData) {
+                    contactService.saveTimeSheetLog(toUpdate).then(function (savedData1) {
+                        contactService.saveClockTimeSheet(updateTimeSheet).then(function (savedTimesheetData) {}).catch(function (err) {
+                            swal({
+                                title: 'Oooops...',
+                                text: err,
+                                type: 'error',
+                                showCancelButton: false,
+                                confirmButtonText: 'Try Again'
+                            }).then((result) => {
+                                if (result.value) {
+                                    // Meteor._reload.reload();
+                                } else if (result.dismiss === 'cancel') {}
+                            });
+                            $('.fullScreenSpin').css('display', 'none');
+                        }).catch(function (err) {});
+                        // contactService.saveClockonClockOff(toUpdate).then(function (data) {
+                        window.open("/payrolloverview", '_self');
+                        // })
+                    }).catch(function (err) {
+                        console.log(err);
 
-                contactService.saveTimeSheetLog(toUpdate).then(function (savedData) {
-                    contactService.saveClockTimeSheet(updateTimeSheet).then(function (savedTimesheetData) {}).catch(function (err) {
                         swal({
                             title: 'Oooops...',
                             text: err,
@@ -838,10 +927,6 @@ Template.payrolloverview.events({
                         });
                         $('.fullScreenSpin').css('display', 'none');
                     });
-
-                    // contactService.saveClockonClockOff(toUpdate).then(function (data) {
-                       window.open("/payrolloverview")
-                    // })
                 }).catch(function (err) {
                     console.log(err);
 
@@ -886,10 +971,10 @@ Template.payrolloverview.events({
 
         let clockList = templateObject.timesheetrecords.get();
         if (clockList.length > 0) {
-            if (Array.isArray(clockList[0].timelog)) {
+            if (Array.isArray(clockList[clockList.length - 1].timelog)) {
                 checkStatus = clockList[clockList.length - 1].isPaused || "";
                 latestTimeLogId = clockList[clockList.length - 1].timelog[clockList[clockList.length - 1].timelog.length - 1].fields.ID || "";
-                checkStartTime = clockList[clockList.length - 1].timelog[clockList[clockList.length - 1].timelog.length - 1].fields.StartDatetime || "";
+                checkStartTime = clockList[clockList.length - 1].timelog[0].fields.StartDatetime || "";
                 checkEndTime = clockList[clockList.length - 1].timelog[clockList[clockList.length - 1].timelog.length - 1].fields.EndDatetime || "";
             } else {
                 checkStatus = clockList[clockList.length - 1].isPaused || "";
@@ -906,7 +991,7 @@ Template.payrolloverview.events({
         var endTime = $('#endTime').val() || '';
         var edthour = $('#txtBookedHoursSpent').val() || 1;
         var techNotes = $('#txtNotes').val() || '';
-        var hourRate = $('#hourly_rate').val() || '';
+        var product = $('#product-list').children("option:selected").text() || '';
         var jobName = $('#sltJob').val() || '';
         let isPaused = "";
         let toUpdate = {};
@@ -917,7 +1002,7 @@ Template.payrolloverview.events({
         }
 
         if (endTime != "") {
-            if (hourRate == "" || jobName == "") {
+            if (jobName == "") {
                 $('.fullScreenSpin').css('display', 'none');
                 swal({
                     title: 'Oooops...',
@@ -1034,6 +1119,7 @@ Template.payrolloverview.events({
                         EnteredBy: Session.get('mySessionEmployeeLoggedID')
                     }
                 };
+
                 isPaused = "completed";
             }
 
@@ -1045,8 +1131,8 @@ Template.payrolloverview.events({
                             type: "TTimeSheet",
                             fields: {
                                 EmployeeName: employeeName || '',
-                                HourlyRate: parseFloat(hourRate) || 0,
-                                LabourCost: parseFloat(hourRate) || 0,
+                                ServiceName: product || '',
+                                LabourCost: 1,
                                 Allowedit: true,
                                 Logs: obj,
                                 Hours: parseInt(edthour) || 0,
@@ -1064,7 +1150,6 @@ Template.payrolloverview.events({
                     "WhoEntered": Session.get('mySessionEmployee') || ""
                 }
             };
-
             contactService.saveTimeSheet(data).then(function (data) {
                 window.open('/timesheet', '_self');
             }).catch(function (err) {
@@ -1089,8 +1174,8 @@ Template.payrolloverview.events({
                 fields: {
                     ID: updateID,
                     EmployeeName: employeeName || '',
-                    HourlyRate: parseFloat(hourRate) || 0,
-                    LabourCost: parseFloat(hourRate) || 0,
+                    ServiceName: product || '',
+                    LabourCost: 1,
                     Allowedit: true,
                     Logs: obj,
                     // ChargeRate: 100,
@@ -1105,10 +1190,9 @@ Template.payrolloverview.events({
                 }
 
             };
-
             contactService.saveClockTimeSheet(data).then(function (data) {
                 if (obj.fields.Description == "Timesheet Completed") {
-                    let endTime1 = startdateGet.getFullYear() + "-" + ("0" + (startdateGet.getMonth() + 1)).slice(-2) + "-" + ("0" + (startdateGet.getDate())).slice(-2) + ' ' + ("0" + startdateGet.getHours()).slice(-2) + ":" + ("0" + startdateGet.getMinutes()).slice(-2);
+                    let endTime1 = endTime;
                     if (Array.isArray(clockList[clockList.length - 1].timelog)) {
                         toUpdateID = clockList[clockList.length - 1].timelog[clockList[clockList.length - 1].timelog.length - 1].fields.ID;
                     } else {
@@ -1125,7 +1209,7 @@ Template.payrolloverview.events({
                         }
                     }
                     contactService.saveTimeSheetLog(updateData).then(function (data) {
-                        window.open('/timesheet', '_self');
+                       window.open('/timesheet', '_self');
                     }).catch(function (err) {})
                 }
 
@@ -1172,8 +1256,6 @@ Template.payrolloverview.events({
                 checkEndTime = clockList[clockList.length - 1].timelog.fields.EndDatetime || "";
             }
         }
-
-        console.log(checkStatus);
         if (startTime == "") {
             swal({
                 title: 'Oooops...',
@@ -1513,7 +1595,7 @@ Template.payrolloverview.events({
 
         let clockList = templateObject.timesheetrecords.get();
         if (clockList.length > 0) {
-            if (Array.isArray(clockList[0].timelog)) {
+            if (Array.isArray(clockList[clockList.length - 1].timelog)) {
                 checkStatus = clockList[clockList.length - 1].isPaused || "";
                 latestTimeLogId = clockList[clockList.length - 1].timelog[clockList[clockList.length - 1].timelog.length - 1].fields.ID || "";
                 checkStartTime = clockList[clockList.length - 1].timelog[clockList[clockList.length - 1].timelog.length - 1].fields.StartDatetime || "";
@@ -1874,6 +1956,16 @@ Template.payrolloverview.helpers({
                 return -1;
             }
             return (a.employeename.toUpperCase() > b.employeename.toUpperCase()) ? 1 : -1;
+        });
+    },
+    datatablerecords1: () => {
+        return Template.instance().datatablerecords1.get().sort(function (a, b) {
+            if (a.productname == 'NA') {
+                return 1;
+            } else if (b.productname == 'NA') {
+                return -1;
+            }
+            return (a.productname.toUpperCase() > b.productname.toUpperCase()) ? 1 : -1;
         });
     },
     edithours: () => {

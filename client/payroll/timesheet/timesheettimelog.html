@@ -453,7 +453,8 @@
                                             <label class="custom-control-label" for="check-all"></label>
                                         </div>
                                     </th>
-                                    <th class="th colName" style="width:100px;">Timesheet ID</th>
+                                    <th class="th colSortID hiddenColumn" style="width:100px;">Sort ID</th>
+                                    <th class="th colTimesheetID" style="width:100px;">Timesheet ID</th>
                                     <th class="th colName" style="width:100px;">Employee</th>
                                     <th class="th colDate" style="width:50px;">Date</th>
                                     <th class="th colJob" style="width:200px;">Job</th>
@@ -473,7 +474,10 @@
                                                     <label class="custom-control-label" for="f-{{item.id}}"></label>
                                                 </div>
                                             </td>
-                                            <td class="colName" contenteditable="false" empname="{{item.id}}"><a href="#">{{item.id}}</a></td>
+                                            <td class="colSortID hiddenColumn" style="width: 1% !important;">
+                                               {{item.sortid}}
+                                            </td>
+                                            <td class="colTimesheetID" contenteditable="false" empname="{{item.id}}"><a href="#">{{item.id}}</a></td>
                                             <td class="colName" contenteditable="false" empname="{{item.employee}}"><a href="#">{{item.employee}}</a></td>
                                             <td class="colDate" contenteditable="false">{{item.timesheetdate}}</td>
                                             <td class="colJob" contenteditable="false">{{item.job}}</td>

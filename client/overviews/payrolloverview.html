@@ -456,7 +456,7 @@
                                         <label>Job Name</label>
                                         <select class="form-control sltJob" id="sltJob" name="sltJob">
                                             {{#if jobsrecords}}
-                                                <option value=""></option>
+                                                <!-- <option value=""></option> -->
                                                 {{#each itemjob in jobsrecords}}
                                                     <option value="{{itemjob.jobname}}">{{itemjob.jobname}}</option>
                                                 {{/each}}
@@ -465,7 +465,15 @@
                                     </div>
                                 </div>
                                 <div class="col-6">
-                                    <div class="form-group" style="margin: 8px 0px;"><label>Rate</label><input id="hourly_rate" name="hourly_rate" type="text" class="form-control hourly_rate" required>
+                                     <div class="form-group flex-grow-1" style="margin: 8px 0px;">
+                                        <label>Product /
+                                                Service</label><select id="product-list" name="product-list" class="form-control">
+                                                {{#if datatablerecords1}}
+                                                    {{#each item in datatablerecords1}}
+                                                        <option value="{{item.id}}">{{item.productname}}</option>
+                                                    {{/each}}
+                                                {{/if}}
+                                            </select>
                                     <input id="updateID" name="updateID" type="hidden">
                                     </div>
                                 </div>

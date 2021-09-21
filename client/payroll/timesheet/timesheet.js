@@ -7,6 +7,7 @@ Template.timesheet.onCreated(function(){
   const templateObject = Template.instance();
   templateObject.datatablerecords = new ReactiveVar([]);
   templateObject.datatablerecords1 = new ReactiveVar([]);
+  templateObject.productsdatatablerecords = new ReactiveVar([]);
   templateObject.employeerecords = new ReactiveVar([]);
   templateObject.jobsrecords = new ReactiveVar([]);
   templateObject.tableheaderrecords = new ReactiveVar([]);
@@ -112,6 +113,7 @@ yearRange: "-90:+10",
           hourlyrate:hourlyRate,
           hours:data.ttimesheet[t].fields.Hours || '',
           job:data.ttimesheet[t].fields.Job || '',
+          product:data.ttimesheet[t].fields.ServiceName || '',
           labourcost:labourCost,
           overheadrate:data.ttimesheet[t].fields.OverheadRate || '',
           sortdate: data.ttimesheet[t].fields.TimeSheetDate !=''? moment(data.ttimesheet[t].fields.TimeSheetDate).format("YYYY/MM/DD"): data.ttimesheet[t].fields.TimeSheetDate,
@@ -377,6 +379,64 @@ yearRange: "-90:+10",
 
   templateObject.getJobs();
 
+      templateObject.getAllProductData = function () {
+        productList = [];
+        getVS1Data('TProductVS1').then(function (dataObject) {
+            if (dataObject.length == 0) {
+                productService.getNewProductListVS1().then(function (data) {
+                    var dataList = {};
+                    for (let i = 0; i < data.tproductvs1.length; i++) {
+                        dataList = {
+                            id: data.tproductvs1[i].Id || '',
+                            productname: data.tproductvs1[i].ProductName || ''
+                        }
+                        if (data.tproductvs1[i].ProductType != 'INV') {
+                            productList.push(dataList);
+                        }
+
+                    }
+
+                    templateObject.productsdatatablerecords.set(productList);
+
+                });
+            } else {
+                let data = JSON.parse(dataObject[0].data);
+                let useData = data.tproductvs1;
+                console.log(useData);
+                var dataList = {};
+                for (let i = 0; i < useData.length; i++) {
+                    dataList = {
+                        id: useData[i].fields.ID || '',
+                        productname: useData[i].fields.ProductName || ''
+                    }
+                    if (useData[i].fields.ProductType != 'INV') {
+                        productList.push(dataList);
+                    }
+                }
+                templateObject.productsdatatablerecords.set(productList);
+
+            }
+        }).catch(function (err) {
+            productService.getNewProductListVS1().then(function (data) {
+
+                var dataList = {};
+                for (let i = 0; i < data.tproductvs1.length; i++) {
+                    dataList = {
+                        id: data.tproductvs1[i].Id || '',
+                        productname: data.tproductvs1[i].ProductName || ''
+                    }
+                    if (data.tproductvs1[i].ProductType != 'INV') {
+                        productList.push(dataList);
+                    }
+
+                }
+                templateObject.productsdatatablerecords.set(productList);
+
+            });
+        });
+
+    }
+      templateObject.getAllProductData();
 
 $(document).ready(function (){
    var table = $('#example').DataTable({
@@ -667,116 +727,338 @@ Template.timesheet.events({
       //Meteor._reload.reload();
         window.open('/timesheet','_self');
     },
-    'click .btnSaveTimeSheet': function () {
-      $('.fullScreenSpin').css('display','inline-block');
-      let templateObject = Template.instance();
-      let contactService = new ContactService();
-      let timesheetID = $('#edtTimesheetID').val();
-      var employeeName = $('#sltEmployee').val();
-      var jobName = $('#sltJob').val();
-      var edthourlyRate = $('.lineEditHourlyRate').val() || 0;
-      var edthour = $('.lineEditHour').val() || 0;
-      var techNotes = $('.lineEditTechNotes').val() || '';
-      let data = '';
-      if(timesheetID == ""){
-            data = {
-              type:"TTimeSheetEntry",
-              fields:{
-              // "EntryDate":"2020-10-12 12:39:14",
-                TimeSheet:[{
-                type: "TTimeSheet",
-                fields: {
-                EmployeeName: employeeName|| '',
-                // HourlyRate:50,
-                LabourCost:parseFloat(edthourlyRate) || 0,
-                Allowedit: true,
-                // ChargeRate: 100,
-                Hours: parseInt(edthour) || 0,
-                // OverheadRate: 90,
-                Job: jobName || '',
-                // ServiceName: "Test"|| '',
-                TimeSheetClassName: "Default"|| '',
-                Notes: techNotes|| ''
-                // EntryDate: accountdesc|| ''
-               }
-             }],
-            "TypeName":"Payroll",
-            "WhoEntered":Session.get('mySessionEmployee')||""
-          }
-          };
+         'click #btnClockOnOff': function (event) {
+        const templateObject = Template.instance();
+        $('#startTime').prop('disabled', false);
+        $('#dtSODate').prop('disabled', false);
+        let clockList = templateObject.timesheetrecords.get();
+        console.log(clockList);
+        if (clockList.length > 0) {
+            if (clockList[clockList.length - 1].isPaused == "paused") {
+                $('.btnOnHold').prop('disabled', true);
+            } else {
+                $('.btnOnHold').prop('disabled', false);
+            }
+            if (Array.isArray(clockList[clockList.length - 1].timelog) && clockList[clockList.length - 1].isPaused != "completed") {
+                let startTime = clockList[clockList.length - 1].timelog[clockList[clockList.length - 1].timelog.length - 1].fields.StartDatetime || '';
+                let date = clockList[clockList.length - 1].timesheetdate;
+                if (startTime != "") {
+                    $('#startTime').val(startTime.split(' ')[1]);
+                    $('#dtSODate').val(date);
+                    $('#updateID').val(clockList[clockList.length - 1].id);
+                    $('#txtNotes').val(clockList[clockList.length - 1].notes);
+                    $('#sltJob').val(clockList[clockList.length - 1].job);
+                    $('#hourly_rate').val(clockList[clockList.length - 1].hourlyrate.replace('$', ''));
+                    $('#startTime').prop('disabled', true);
+                    $('#dtSODate').prop('disabled', true);
+                }
 
-          contactService.saveTimeSheet(data).then(function (data) {
-            window.open('/timesheet','_self');
-          }).catch(function (err) {
-            swal({
-            title: 'Oooops...',
-            text: err,
-            type: 'error',
-            showCancelButton: false,
-            confirmButtonText: 'Try Again'
-            }).then((result) => {
-            if (result.value) {
-             // Meteor._reload.reload();
-            } else if (result.dismiss === 'cancel') {
+            } else if (clockList[clockList.length - 1].isPaused != "completed") {
+                if (clockList[clockList.length - 1].timelog.fields.EndDatetime == "" && clockList[clockList.length - 1].isPaused != "completed") {
+                    let startTime = clockList[clockList.length - 1].timelog.fields.StartDatetime.split(' ')[1];
+                    let endTime = clockList[clockList.length - 1].timelog.fields.EndDatetime;
+                    let date = clockList[clockList.length - 1].timesheetdate;
+                    if (startTime != "" && endTime == "") {
+                        $('#startTime').val(startTime);
+                        $('#dtSODate').val(date);
+                        $('#updateID').val(clockList[clockList.length - 1].id);
+                        $('#txtNotes').val(clockList[clockList.length - 1].notes);
+                        $('#sltJob').val(clockList[clockList.length - 1].job);
+                        $('#hourly_rate').val(clockList[clockList.length - 1].hourlyrate.replace('$', ''));
+                        $('#startTime').prop('disabled', true);
+                        $('#dtSODate').prop('disabled', true);
+                    }
+                }
+            }
+        }
+        $('#settingsModal').modal('show');
+    },
+    'click #btnClockOn': function () {
+
+        const templateObject = Template.instance();
+        let clockList = templateObject.timesheetrecords.get();
+        let contactService = new ContactService();
+        let updateID = $("#updateID").val() || "";
+        let checkStatus = "";
+        let checkStartTime = "";
+        let checkEndTime = "";
+        let latestTimeLogId = "";
+        let toUpdate = {};
+        let date = new Date();
+        if (clockList.length > 0) {
+            if (Array.isArray(clockList[0].timelog)) {
+                checkStatus = clockList[clockList.length - 1].isPaused || "";
+                latestTimeLogId = clockList[clockList.length - 1].timelog[clockList[clockList.length - 1].timelog.length - 1].fields.ID || "";
+                checkStartTime = clockList[clockList.length - 1].timelog[clockList[clockList.length - 1].timelog.length - 1].fields.StartDatetime || "";
+                checkEndTime = clockList[clockList.length - 1].timelog[clockList[clockList.length - 1].timelog.length - 1].fields.EndDatetime || "";
+            } else {
+                checkStatus = clockList[clockList.length - 1].isPaused || "";
+                latestTimeLogId = clockList[clockList.length - 1].timelog.fields.ID || "";
+                checkStartTime = clockList[clockList.length - 1].timelog.fields.StartDatetime || "";
+                checkEndTime = clockList[clockList.length - 1].timelog.fields.EndDatetime || "";
+            }
+        }
+        if (checkStatus == "completed" || checkStatus == "") {
+            $("#startTime").val(moment().startOf('hour').format('HH') + ":" + moment().startOf('minute').format('mm'));
+            let date1 = date.getFullYear() + "-" + ("0" + (date.getMonth() + 1)).slice(-2) + "-" + ("0" + (date.getDate())).slice(-2);
+            var endTime = new Date(date1 + ' ' + document.getElementById("endTime").value + ':00');
+            var startTime = new Date(date1 + ' ' + document.getElementById("startTime").value + ':00');
+            if (endTime > startTime) {
+                document.getElementById('txtBookedHoursSpent').value = parseFloat(templateObject.diff_hours(endTime, startTime)).toFixed(2);
+            }
+        } else {
+            $('.fullScreenSpin').css('display', 'inline-block');
+            if (checkStartTime != "" && checkEndTime == "") {
+                let date1 = date.getFullYear() + "-" + ("0" + (date.getMonth() + 1)).slice(-2) + "-" + ("0" + (date.getDate())).slice(-2);
+                let endTime = $('#endTime').val() || ("0" + date.getHours()).slice(-2) + ':' + ("0" + date.getMinutes()).slice(-2);
+                toUpdate = {
+                    type: "TTimeLog",
+                    fields: {
+                        ID: latestTimeLogId,
+                        EndDatetime: date1 + ' ' + endTime
+                    }
+                }
+
+                let updateTimeSheet = {
+                    type: "TTimeSheet",
+                    fields: {
+                        ID: updateID,
+                        InvoiceNotes: ""
+                    }
+                }
+
+                contactService.saveTimeSheetLog(toUpdate).then(function (savedData) {
+                    contactService.saveClockTimeSheet(updateTimeSheet).then(function (savedTimesheetData) {}).catch(function (err) {
+                        swal({
+                            title: 'Oooops...',
+                            text: err,
+                            type: 'error',
+                            showCancelButton: false,
+                            confirmButtonText: 'Try Again'
+                        }).then((result) => {
+                            if (result.value) {
+                                // Meteor._reload.reload();
+                            } else if (result.dismiss === 'cancel') {}
+                        });
+                        $('.fullScreenSpin').css('display', 'none');
+                    });
+
+                    // contactService.saveClockonClockOff(toUpdate).then(function (data) {
+                       window.open("/payrolloverview")
+                    // })
+                }).catch(function (err) {
+                    console.log(err);
+
+                    swal({
+                        title: 'Oooops...',
+                        text: err,
+                        type: 'error',
+                        showCancelButton: false,
+                        confirmButtonText: 'Try Again'
+                    }).then((result) => {
+                        if (result.value) {
+                            // Meteor._reload.reload();
+                        } else if (result.dismiss === 'cancel') {}
+                    });
+                    $('.fullScreenSpin').css('display', 'none');
+                });
+            } else {
+                swal({
+                    title: 'Oooops...',
+                    text: "Timesheet has already been started and is not in Paused state",
+                    type: 'error',
+                    showCancelButton: false,
+                    confirmButtonText: 'Try Again'
+                }).then((result) => {
+                    if (result.value) {
+                        // Meteor._reload.reload();
+                    } else if (result.dismiss === 'cancel') {}
+                });
+                $('.fullScreenSpin').css('display', 'none');
 
             }
+        }
+    },
+    'click .btnSaveTimeSheet': function () {
+        $('.fullScreenSpin').css('display', 'inline-block');
+        let templateObject = Template.instance();
+        let contactService = new ContactService();
+        let timesheetID = $('#edtTimesheetID').val();
+        var employeeName = $('#sltEmployee').val();
+        var jobName = $('#sltJob').val();
+       // var edthourlyRate = $('.lineEditHourlyRate').val() || 0;
+        var edthour = $('.lineEditHour').val() || 0;
+        var techNotes = $('.lineEditTechNotes').val() || '';
+        var product = $('#product-list').children("option:selected").text() || '';
+        // var taxcode = $('#sltTaxCode').val();
+        // var accountdesc = $('#txaAccountDescription').val();
+        // var bankaccountname = $('#edtBankAccountName').val();
+        // var bankbsb = $('#edtBSB').val();
+        // var bankacountno = $('#edtBankAccountNo').val();
+        // let isBankAccount = templateObject.isBankAccount.get();
+        let data = '';
+        if (timesheetID == "") {
+            data = {
+                type: "TTimeSheetEntry",
+                fields: {
+                    // "EntryDate":"2020-10-12 12:39:14",
+                    TimeSheet: [{
+                            type: "TTimeSheet",
+                            fields: {
+                                EmployeeName: employeeName || '',
+                                // HourlyRate:50,
+                                ServiceName: product,
+                                Allowedit: true,
+                                // ChargeRate: 100,
+                                Hours: parseInt(edthour) || 0,
+                                // OverheadRate: 90,
+                                Job: jobName || '',
+                                // ServiceName: "Test"|| '',
+                                TimeSheetClassName: "Default" || '',
+                                Notes: techNotes || ''
+                                // EntryDate: accountdesc|| ''
+                            }
+                        }
+                    ],
+                    "TypeName": "Payroll",
+                    "WhoEntered": Session.get('mySessionEmployee') || ""
+                }
+            };
+
+            contactService.saveTimeSheet(data).then(function (data) {
+                window.open('/timesheet', '_self');
+            }).catch(function (err) {
+                swal({
+                    title: 'Oooops...',
+                    text: err,
+                    type: 'error',
+                    showCancelButton: false,
+                    confirmButtonText: 'Try Again'
+                }).then((result) => {
+                    if (result.value) {
+                        // Meteor._reload.reload();
+                    } else if (result.dismiss === 'cancel') {}
+                });
+                $('.fullScreenSpin').css('display', 'none');
             });
-              $('.fullScreenSpin').css('display','none');
-          });
 
-        }else{
-          data = {
-            type:"TTimeSheet",
-            //fields:{
-            // "EntryDate":"2020-10-12 12:39:14",
-              // TimeSheet:[{
-              // type: "TTimeSheet",
-              fields: {
-              ID : timesheetID,
-              EmployeeName: employeeName|| '',
-              // HourlyRate:50,
-              LabourCost:parseFloat(edthourlyRate) || 0,
-              Allowedit: true,
-              // ChargeRate: 100,
-              Hours: parseInt(edthour) || 0,
-              // OverheadRate: 90,
-              Job: jobName || '',
-              // ServiceName: "Test"|| '',
-              TimeSheetClassName: "Default"|| '',
-              Notes: techNotes|| ''
-              // EntryDate: accountdesc|| ''
-             }
-          //  }],
-          // "TypeName":"Payroll",
-          // "WhoEntered":Session.get('mySessionEmployee')||""
-        //}
-        };
+        } else {
+            data = {
+                type: "TTimeSheet",
+                //fields:{
+                // "EntryDate":"2020-10-12 12:39:14",
+                // TimeSheet:[{
+                // type: "TTimeSheet",
+                fields: {
+                    ID: timesheetID,
+                    EmployeeName: employeeName || '',
+                    // HourlyRate:50,
+                    ServiceName: product,
+                    Allowedit: true,
+                    // ChargeRate: 100,
+                    Hours: parseInt(edthour) || 0,
+                    // OverheadRate: 90,
+                    Job: jobName || '',
+                    // ServiceName: "Test"|| '',
+                    TimeSheetClassName: "Default" || '',
+                    Notes: techNotes || ''
+                    // EntryDate: accountdesc|| ''
+                }
+                //  }],
+                // "TypeName":"Payroll",
+                // "WhoEntered":Session.get('mySessionEmployee')||""
+                //}
+            };
 
-        contactService.saveTimeSheetUpdate(data).then(function (data) {
-          window.open('/timesheet','_self');
-        }).catch(function (err) {
-          swal({
-          title: 'Oooops...',
-          text: err,
-          type: 'error',
-          showCancelButton: false,
-          confirmButtonText: 'Try Again'
-          }).then((result) => {
-          if (result.value) {
-           // Meteor._reload.reload();
-          } else if (result.dismiss === 'cancel') {
-
-          }
-          });
-            $('.fullScreenSpin').css('display','none');
-        });
+            contactService.saveTimeSheetUpdate(data).then(function (data) {
+                window.open('/timesheet', '_self');
+            }).catch(function (err) {
+                swal({
+                    title: 'Oooops...',
+                    text: err,
+                    type: 'error',
+                    showCancelButton: false,
+                    confirmButtonText: 'Try Again'
+                }).then((result) => {
+                    if (result.value) {
+                        // Meteor._reload.reload();
+                    } else if (result.dismiss === 'cancel') {}
+                });
+                $('.fullScreenSpin').css('display', 'none');
+            });
 
         }
 
+    },
+    'click #btnClockOff': function () {
+        let templateObject = Template.instance();
+        let clockList = templateObject.timesheetrecords.get();
+        let contactService = new ContactService();
+        let updateID = $("#updateID").val() || "";
+        let startTime = $("#startTime").val() || "";
+        let checkStatus = "";
+        let checkStartTime = "";
+        let checkEndTime = "";
+        let latestTimeLogId = "";
+        let toUpdate = {};
+        let date = new Date();
+        if (clockList.length > 0) {
+            if (Array.isArray(clockList[0].timelog)) {
+                checkStatus = clockList[clockList.length - 1].isPaused || "";
+                latestTimeLogId = clockList[clockList.length - 1].timelog[clockList[clockList.length - 1].timelog.length - 1].fields.ID || "";
+                checkStartTime = clockList[clockList.length - 1].timelog[clockList[clockList.length - 1].timelog.length - 1].fields.StartDatetime || "";
+                checkEndTime = clockList[clockList.length - 1].timelog[clockList[clockList.length - 1].timelog.length - 1].fields.EndDatetime || "";
+            } else {
+                checkStatus = clockList[clockList.length - 1].isPaused || "";
+                latestTimeLogId = clockList[clockList.length - 1].timelog.fields.ID || "";
+                checkStartTime = clockList[clockList.length - 1].timelog.fields.StartDatetime || "";
+                checkEndTime = clockList[clockList.length - 1].timelog.fields.EndDatetime || "";
+            }
+        }
 
+        if (startTime == "") {
+            swal({
+                title: 'Oooops...',
+                text: "Please Clock In before you can Clock Off",
+                type: 'warning',
+                showCancelButton: false,
+                confirmButtonText: 'Try Again'
+            }).then((result) => {
+                if (result.value) {
+                    // Meteor._reload.reload();
+                } else if (result.dismiss === 'cancel') {}
+            });
+            $('.fullScreenSpin').css('display', 'none');
 
+        } else if (checkStatus == "paused") {
+            swal({
+                title: 'Cant Clock Off',
+                text: 'You cant Clock Off because you are currently Paused',
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Ok'
+            })
+        } else {
 
+            swal({
+                title: 'End Timesheet',
+                text: "Are you sure you want to Clock Off",
+                type: 'question',
+                showCancelButton: true,
+                confirmButtonText: 'Yes'
+            }).then((result) => {
+                if (result.value) {
+                    document.getElementById("endTime").value = moment().startOf('hour').format('HH') + ":" + moment().startOf('minute').format('mm');
+                    let date1 = date.getFullYear() + "-" + ("0" + (date.getMonth() + 1)).slice(-2) + "-" + ("0" + (date.getDate())).slice(-2);
+                    var endTime = new Date(date1 + ' ' + document.getElementById("endTime").value + ':00');
+                    var startTime = new Date(date1 + ' ' + document.getElementById("startTime").value + ':00');
+                    document.getElementById('txtBookedHoursSpent').value = parseFloat(templateObject.diff_hours(endTime, startTime)).toFixed(2);
+                    $("#btnSaveTimeSheet").trigger("click");
+                }
 
+            });
+
+        }
     },
      'click #processTimesheet': function () {
         $('.fullScreenSpin').css('display', 'inline-block');
@@ -1210,6 +1492,16 @@ Template.timesheet.helpers({
   return (a.timesheetdate.toUpperCase() > b.timesheetdate.toUpperCase()) ? 1 : -1;
   });
  },
+  productsdatatablerecords: () => {
+        return Template.instance().productsdatatablerecords.get().sort(function (a, b) {
+            if (a.productname == 'NA') {
+                return 1;
+            } else if (b.productname == 'NA') {
+                return -1;
+            }
+            return (a.productname.toUpperCase() > b.productname.toUpperCase()) ? 1 : -1;
+        });
+    },
  tableheaderrecords: () => {
     return Template.instance().tableheaderrecords.get();
  },

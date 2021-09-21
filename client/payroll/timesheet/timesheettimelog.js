@@ -145,6 +145,7 @@ Template.timesheettimelog.onRendered(function () {
 
                                     var dataList = {
                                         id: data.ttimesheet[t].fields.ID || '',
+                                        sortid: data.ttimesheet[t].fields.Logs[l].fields.ID || '',
                                         employee: data.ttimesheet[t].fields.EmployeeName || '',
                                         hours: Hours,
                                         job: data.ttimesheet[t].fields.Job || '',
@@ -180,6 +181,7 @@ Template.timesheettimelog.onRendered(function () {
 
                                     var dataList = {
                                         id: data.ttimesheet[t].fields.ID || '',
+                                        sortid: data.ttimesheet[t].fields.Logs.fields.ID || '',
                                         employee: data.ttimesheet[t].fields.EmployeeName || '',
                                         hours: Hours,
                                         job: data.ttimesheet[t].fields.Job || '',
@@ -225,6 +227,7 @@ Template.timesheettimelog.onRendered(function () {
 
                                 var dataList = {
                                     id: data.ttimesheet[t].fields.ID || '',
+                                    sortid: data.ttimesheet[t].fields.Logs[l].fields.ID || '',
                                     employee: data.ttimesheet[t].fields.EmployeeName || '',
                                     hours: Hours,
                                     job: data.ttimesheet[t].fields.Job || '',
@@ -261,6 +264,7 @@ Template.timesheettimelog.onRendered(function () {
 
                                 var dataList = {
                                     id: data.ttimesheet[t].fields.ID || '',
+                                    sortid: data.ttimesheet[t].fields.Logs.fields.ID || '',
                                     employee: data.ttimesheet[t].fields.EmployeeName || '',
                                     hours: Hours,
                                     job: data.ttimesheet[t].fields.Job || '',
@@ -371,7 +375,7 @@ Template.timesheettimelog.onRendered(function () {
                         "scrollCollapse": true,
                         info: true,
                         responsive: true,
-                        "order": [[1, "asc"]],
+                        "order": [[1, "desc"]],
                         action: function () {
                             $('#tblTimeSheet').DataTable().ajax.reload();
                         },
