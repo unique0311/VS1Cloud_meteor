@@ -262,11 +262,15 @@ Template.journalentrycard.onRendered(() => {
                             let department = data.fields.Lines[0].fields.DeptName;
                             let totalCredit = 0;
                             let totalDebit = 0;
+                            let totalCreditInc = 0;
+                            let totalDebitInc = 0;
 
                             if (data.fields.Lines.length) {
                                 for (let i = 0; i < data.fields.Lines.length; i++) {
                                     let creditAmountEx = utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.CreditAmount) || 0.00;
                                     let debitAmountEx = utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.DebitAmount) || 0.00;
+                                    let creditAmountInc = utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.CreditAmountInc) || 0.00;
+                                    let debitAmountInc = utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.DebitAmountInc) || 0.00;
                                     let totalTax = data.fields.Lines[i].fields.TaxAmount;
                                     let TaxRateGbp = data.fields.Lines[i].fields.LineTaxRate;
 
@@ -277,6 +281,14 @@ Template.journalentrycard.onRendered(() => {
                                     if (!isNaN(data.fields.Lines[i].fields.DebitAmount)) {
                                         totalDebit += isNaN(data.fields.Lines[i].fields.DebitAmount) ? 0 : data.fields.Lines[i].fields.DebitAmount;
                                     };
+
+                                    if (!isNaN(data.fields.Lines[i].fields.CreditAmountInc)) {
+                                        totalCreditInc += isNaN(data.fields.Lines[i].fields.CreditAmountInc) ? 0 : data.fields.Lines[i].fields.CreditAmountInc;
+                                    };
+
+                                    if (!isNaN(data.fields.Lines[i].fields.DebitAmountInc)) {
+                                        totalDebitInc += isNaN(data.fields.Lines[i].fields.DebitAmountInc) ? 0 : data.fields.Lines[i].fields.DebitAmountInc;
+                                    };
                                     lineItemObj = {
                                         lineID: Random.id(),
                                         id: data.fields.Lines[i].fields.ID || '',
@@ -285,6 +297,8 @@ Template.journalentrycard.onRendered(() => {
                                         memo: data.fields.Lines[i].fields.Memo || '',
                                         creditex: creditAmountEx || 0,
                                         debitex: debitAmountEx || 0,
+                                        creditinc: creditAmountInc || 0,
+                                        debitinc: debitAmountInc || 0,
                                         TaxTotal: totalTax || 0,
                                         taxCode: data.fields.Lines[i].fields.TaxCode || '',
 
@@ -321,6 +335,8 @@ Template.journalentrycard.onRendered(() => {
                             templateObject.record.set(record);
                             templateObject.totalCredit.set(utilityService.modifynegativeCurrencyFormat(totalCredit));
                             templateObject.totalDebit.set(utilityService.modifynegativeCurrencyFormat(totalDebit));
+                            templateObject.totalCreditInc.set(utilityService.modifynegativeCurrencyFormat(totalCreditInc));
+                            templateObject.totalDebitInc.set(utilityService.modifynegativeCurrencyFormat(totalDebitInc));
 
                             if (templateObject.record.get()) {
                                 Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblJournalEntryLine', function (error, result) {
@@ -383,6 +399,7 @@ Template.journalentrycard.onRendered(() => {
                     } else {
                         let data = JSON.parse(dataObject[0].data);
                         let useData = data.tjournalentry;
+                        console.log(useData);
                         var added = false;
                         for (let d = 0; d < useData.length; d++) {
                             if (parseInt(useData[d].fields.ID) === currentBill) {
@@ -398,7 +415,8 @@ Template.journalentrycard.onRendered(() => {
                                 let totalDebit = 0;
 
 
-
+                                let totalCreditInc = 0;
+                                let totalDebitInc = 0;
 
 
 
@@ -406,6 +424,10 @@ Template.journalentrycard.onRendered(() => {
                                     for (let i = 0; i < useData[d].fields.Lines.length; i++) {
                                         let creditAmountEx = utilityService.modifynegativeCurrencyFormat(useData[d].fields.Lines[i].fields.CreditAmount) || 0.00;
                                         let debitAmountEx = utilityService.modifynegativeCurrencyFormat(useData[d].fields.Lines[i].fields.DebitAmount) || 0.00;
+
+                                        let creditAmountInc = utilityService.modifynegativeCurrencyFormat(useData[d].fields.Lines[i].fields.CreditAmountInc) || 0.00;
+                                        let debitAmountInc = utilityService.modifynegativeCurrencyFormat(useData[d].fields.Lines[i].fields.DebitAmountInc) || 0.00;
+
                                         let totalTax = useData[d].fields.Lines[i].fields.TaxAmount;
                                         let TaxRateGbp = useData[d].fields.Lines[i].fields.LineTaxRate;
 
@@ -416,6 +438,14 @@ Template.journalentrycard.onRendered(() => {
                                         if (!isNaN(useData[d].fields.Lines[i].fields.DebitAmount)) {
                                             totalDebit += isNaN(useData[d].fields.Lines[i].fields.DebitAmount) ? 0 : useData[d].fields.Lines[i].fields.DebitAmount;
                                         };
+
+                                        if (!isNaN(useData[d].fields.Lines[i].fields.CreditAmountInc)) {
+                                            totalCreditInc += isNaN(useData[d].fields.Lines[i].fields.CreditAmountInc) ? 0 : useData[d].fields.Lines[i].fields.CreditAmountInc;
+                                        };
+
+                                        if (!isNaN(useData[d].fields.Lines[i].fields.DebitAmountInc)) {
+                                            totalDebitInc += isNaN(useData[d].fields.Lines[i].fields.DebitAmountInc) ? 0 : useData[d].fields.Lines[i].fields.DebitAmountInc;
+                                        };
                                         lineItemObj = {
                                             lineID: Random.id(),
                                             id: useData[d].fields.Lines[i].fields.ID || '',
@@ -424,7 +454,10 @@ Template.journalentrycard.onRendered(() => {
                                             memo: useData[d].fields.Lines[i].fields.Memo || '',
                                             creditex: creditAmountEx || 0,
                                             debitex: debitAmountEx || 0,
+                                            creditinc: creditAmountInc || 0,
+                                            debitinc: debitAmountInc || 0,
                                             TaxTotal: totalTax || 0,
+                                            taxRate: useData[d].fields.Lines[i].fields.TaxRate || 0,
                                             taxCode: useData[d].fields.Lines[i].fields.TaxCode || '',
 
                                         };
@@ -461,6 +494,8 @@ Template.journalentrycard.onRendered(() => {
                                 templateObject.record.set(record);
                                 templateObject.totalCredit.set(utilityService.modifynegativeCurrencyFormat(totalCredit));
                                 templateObject.totalDebit.set(utilityService.modifynegativeCurrencyFormat(totalDebit));
+                                templateObject.totalCreditInc.set(utilityService.modifynegativeCurrencyFormat(totalCreditInc));
+                                templateObject.totalDebitInc.set(utilityService.modifynegativeCurrencyFormat(totalDebitInc));
                                 if (templateObject.record.get()) {
                                     Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblJournalEntryLine', function (error, result) {
                                         if (error) {
@@ -899,25 +934,58 @@ Template.journalentrycard.onRendered(() => {
             $('#' + selectLineID + " .lineDebitInc").val(utilityService.modifynegativeCurrencyFormat(0));
             $('#' + selectLineID + " .lineTaxCode").text(lineTaxRate);
             let lineAmount = 0;
-            let subGrandCreditTotal = 0;
-            let subGrandDebitTotal = 0;
+  let subGrandCreditTotal = 0;
+  let subGrandDebitTotal = 0;
 
-            $tblrows.each(function (index) {
-                var $tblrow = $(this);
-                var credit = $tblrow.find(".lineCreditEx").val() || Currency + '0';
-                var debit = $tblrow.find(".lineDebitEx").val() || Currency + '0';
-                var subTotalCredit = Number(credit.replace(/[^0-9.-]+/g, "")) || Currency + '0';
-                var subTotalDebit = Number(debit.replace(/[^0-9.-]+/g, "")) || Currency + '0';
-                if (!isNaN(subTotalCredit)) {
-                    subGrandCreditTotal += isNaN(subTotalCredit) ? 0 : subTotalCredit;
-                };
-                if (!isNaN(subTotalDebit)) {
-                    subGrandDebitTotal += isNaN(subTotalDebit) ? 0 : subTotalDebit;
-                };
+  let subGrandCreditTotalInc = 0;
+  let subGrandDebitTotalInc = 0;
+  $tblrows.each(function (index) {
+      var $tblrow = $(this);
+      var taxcode = $tblrow.find(".lineTaxCode").text() || 0;
+      var taxrateamount = 0;
+      if (taxcodeList) {
+          for (var i = 0; i < taxcodeList.length; i++) {
+              if (taxcodeList[i].codename == taxcode) {
+                  taxrateamount = taxcodeList[i].coderate.replace('%', "") / 100;
+              }
+          }
+      }
 
-            });
-            templateObject.totalCredit.set(utilityService.modifynegativeCurrencyFormat(subGrandCreditTotal));
-            templateObject.totalDebit.set(utilityService.modifynegativeCurrencyFormat(subGrandDebitTotal));
+
+
+      var credit = $tblrow.find(".lineCreditInc").val() || Currency + '0';
+      var debit = $tblrow.find(".lineDebitInc").val() || Currency + '0';
+
+      let taxRateAmountCalc = (parseFloat(taxrateamount) + 100)/100;
+
+      var subTotalCredit = (parseFloat(credit.replace(/[^0-9.-]+/g, "")) / (taxRateAmountCalc)) || Currency + '0';
+      var subTotalDebit = (parseFloat(debit.replace(/[^0-9.-]+/g, ""))/ (taxRateAmountCalc)) || Currency + '0';
+
+      var taxTotalCredit = parseFloat(credit.replace(/[^0-9.-]+/g, "")) - parseFloat(subTotalCredit) ||0;
+      var taxTotalDebit = parseFloat(debit.replace(/[^0-9.-]+/g, "")) - parseFloat(subTotalDebit) ||0;
+      $tblrow.find('.lineTaxAmount').text(utilityService.modifynegativeCurrencyFormat(taxTotalCredit));
+
+      if (!isNaN(subTotalCredit)) {
+        $tblrow.find('.lineCreditExChange').val(utilityService.modifynegativeCurrencyFormat(subTotalCredit.toFixed(2)));
+        let totalCreditInc = (parseFloat(subTotalCredit)) + (parseFloat(taxTotalCredit)) || 0;
+        $tblrow.find('.lineCreditIncChange').val(utilityService.modifynegativeCurrencyFormat(totalCreditInc.toFixed(2)));
+          subGrandCreditTotal += isNaN(subTotalCredit) ? 0 : subTotalCredit;
+          subGrandCreditTotalInc += isNaN(totalCreditInc) ? 0 : totalCreditInc;
+      };
+      if (!isNaN(subTotalDebit)) {
+        $tblrow.find('.lineDebitExChange').val(utilityService.modifynegativeCurrencyFormat(subTotalDebit.toFixed(2)));
+        let totalDebitInc = (parseFloat(subTotalDebit)) + (parseFloat(taxTotalDebit)) || 0;
+        $tblrow.find('.lineDebitIncChange').val(utilityService.modifynegativeCurrencyFormat(totalDebitInc.toFixed(2)));
+          subGrandDebitTotal += isNaN(subTotalDebit) ? 0 : subTotalDebit;
+          subGrandDebitTotalInc += isNaN(totalDebitInc) ? 0 : totalDebitInc;
+      };
+
+  });
+  templateObject.totalCredit.set(utilityService.modifynegativeCurrencyFormat(subGrandCreditTotal));
+  templateObject.totalDebit.set(utilityService.modifynegativeCurrencyFormat(subGrandDebitTotal));
+
+  templateObject.totalCreditInc.set(utilityService.modifynegativeCurrencyFormat(subGrandCreditTotalInc));
+  templateObject.totalDebitInc.set(utilityService.modifynegativeCurrencyFormat(subGrandDebitTotalInc));
 
             $('#productListModal').modal('toggle');
 
@@ -940,15 +1008,67 @@ Template.journalentrycard.onRendered(() => {
         if (selectLineID) {
             let lineTaxCode = table.find(".taxName").text();
             let lineTaxRate = table.find(".taxRate").text();
-            let lineAmount = 0;
+
             let subGrandTotal = 0;
             let taxGrandTotal = 0;
 
             $('#' + selectLineID + " .lineTaxRate").text(lineTaxRate || 0);
             $('#' + selectLineID + " .lineTaxCode").text(lineTaxCode);
 
+            let lineAmount = 0;
+  let subGrandCreditTotal = 0;
+  let subGrandDebitTotal = 0;
 
-            $('#taxRateListModal').modal('toggle');
+  let subGrandCreditTotalInc = 0;
+  let subGrandDebitTotalInc = 0;
+  $tblrows.each(function (index) {
+      var $tblrow = $(this);
+      var taxcode = $tblrow.find(".lineTaxCode").text() || 0;
+      var taxrateamount = 0;
+      if (taxcodeList) {
+          for (var i = 0; i < taxcodeList.length; i++) {
+              if (taxcodeList[i].codename == taxcode) {
+                  taxrateamount = taxcodeList[i].coderate.replace('%', "") / 100;
+              }
+          }
+      }
+
+
+
+      var credit = $tblrow.find(".lineCreditInc").val() || Currency + '0';
+      var debit = $tblrow.find(".lineDebitInc").val() || Currency + '0';
+
+      let taxRateAmountCalc = (parseFloat(taxrateamount) + 100)/100;
+
+      var subTotalCredit = (parseFloat(credit.replace(/[^0-9.-]+/g, "")) / (taxRateAmountCalc)) || Currency + '0';
+      var subTotalDebit = (parseFloat(debit.replace(/[^0-9.-]+/g, ""))/ (taxRateAmountCalc)) || Currency + '0';
+
+      var taxTotalCredit = parseFloat(credit.replace(/[^0-9.-]+/g, "")) - parseFloat(subTotalCredit) ||0;
+      var taxTotalDebit = parseFloat(debit.replace(/[^0-9.-]+/g, "")) - parseFloat(subTotalDebit) ||0;
+      $tblrow.find('.lineTaxAmount').text(utilityService.modifynegativeCurrencyFormat(taxTotalCredit));
+
+      if (!isNaN(subTotalCredit)) {
+        $tblrow.find('.lineCreditExChange').val(utilityService.modifynegativeCurrencyFormat(subTotalCredit.toFixed(2)));
+        let totalCreditInc = (parseFloat(subTotalCredit)) + (parseFloat(taxTotalCredit)) || 0;
+        $tblrow.find('.lineCreditIncChange').val(utilityService.modifynegativeCurrencyFormat(totalCreditInc.toFixed(2)));
+          subGrandCreditTotal += isNaN(subTotalCredit) ? 0 : subTotalCredit;
+          subGrandCreditTotalInc += isNaN(totalCreditInc) ? 0 : totalCreditInc;
+      };
+      if (!isNaN(subTotalDebit)) {
+        $tblrow.find('.lineDebitExChange').val(utilityService.modifynegativeCurrencyFormat(subTotalDebit.toFixed(2)));
+        let totalDebitInc = (parseFloat(subTotalDebit)) + (parseFloat(taxTotalDebit)) || 0;
+        $tblrow.find('.lineDebitIncChange').val(utilityService.modifynegativeCurrencyFormat(totalDebitInc.toFixed(2)));
+          subGrandDebitTotal += isNaN(subTotalDebit) ? 0 : subTotalDebit;
+          subGrandDebitTotalInc += isNaN(totalDebitInc) ? 0 : totalDebitInc;
+      };
+
+  });
+  templateObject.totalCredit.set(utilityService.modifynegativeCurrencyFormat(subGrandCreditTotal));
+  templateObject.totalDebit.set(utilityService.modifynegativeCurrencyFormat(subGrandDebitTotal));
+
+  templateObject.totalCreditInc.set(utilityService.modifynegativeCurrencyFormat(subGrandCreditTotalInc));
+  templateObject.totalDebitInc.set(utilityService.modifynegativeCurrencyFormat(subGrandDebitTotalInc));
+      $('#taxRateListModal').modal('toggle');
 
         }
     });
@@ -1455,6 +1575,12 @@ Template.journalentrycard.helpers({
     totalDebit: () => {
         return Template.instance().totalDebit.get();
     },
+    totalCreditInc: () => {
+        return Template.instance().totalCreditInc.get();
+    },
+    totalDebitInc: () => {
+        return Template.instance().totalDebitInc.get();
+    },
     companyaddress1: () => {
         return Session.get('vs1companyaddress1');
     },
@@ -1545,27 +1671,57 @@ Template.journalentrycard.events({
         var targetID = $(event.target).closest('tr').attr('id');
         if ($(event.target).val().replace(/[^0-9.-]+/g, "") != 0) {
             $('#' + targetID + " .lineDebitEx").val(Currency + '0.00');
+            $('#' + targetID + " .lineDebitInc").val(Currency + '0.00');
         }
 
         let lineAmount = 0;
         let subGrandCreditTotal = 0;
         let subGrandDebitTotal = 0;
+
+        let subGrandCreditTotalInc = 0;
+        let subGrandDebitTotalInc = 0;
         $tblrows.each(function (index) {
             var $tblrow = $(this);
+            var taxcode = $tblrow.find(".lineTaxCode").text() || 0;
+            var taxrateamount = 0;
+            if (taxcodeList) {
+                for (var i = 0; i < taxcodeList.length; i++) {
+                    if (taxcodeList[i].codename == taxcode) {
+                        taxrateamount = taxcodeList[i].coderate.replace('%', "") / 100;
+                    }
+                }
+            }
+
+
+
             var credit = $tblrow.find(".lineCreditEx").val() || Currency + '0';
             var debit = $tblrow.find(".lineDebitEx").val() || Currency + '0';
             var subTotalCredit = Number(credit.replace(/[^0-9.-]+/g, "")) || Currency + '0';
             var subTotalDebit = Number(debit.replace(/[^0-9.-]+/g, "")) || Currency + '0';
+
+            var taxTotalCredit = parseFloat(credit.replace(/[^0-9.-]+/g, "")) * parseFloat(taxrateamount) ||0;
+            var taxTotalDebit = parseFloat(debit.replace(/[^0-9.-]+/g, "")) * parseFloat(taxrateamount) ||0;
+            $tblrow.find('.lineTaxAmount').text(utilityService.modifynegativeCurrencyFormat(taxTotalCredit));
+
             if (!isNaN(subTotalCredit)) {
+              let totalCreditInc = (parseFloat(subTotalCredit)) + (parseFloat(taxTotalCredit)) || 0;
+              $tblrow.find('.lineCreditIncChange').val(utilityService.modifynegativeCurrencyFormat(totalCreditInc.toFixed(2)));
                 subGrandCreditTotal += isNaN(subTotalCredit) ? 0 : subTotalCredit;
+                subGrandCreditTotalInc += isNaN(totalCreditInc) ? 0 : totalCreditInc;
             };
             if (!isNaN(subTotalDebit)) {
+              let totalDebitInc = (parseFloat(subTotalDebit)) + (parseFloat(taxTotalDebit)) || 0;
+              $tblrow.find('.lineDebitIncChange').val(utilityService.modifynegativeCurrencyFormat(totalDebitInc.toFixed(2)));
                 subGrandDebitTotal += isNaN(subTotalDebit) ? 0 : subTotalDebit;
+                subGrandDebitTotalInc += isNaN(totalDebitInc) ? 0 : totalDebitInc;
             };
 
         });
         templateObject.totalCredit.set(utilityService.modifynegativeCurrencyFormat(subGrandCreditTotal));
         templateObject.totalDebit.set(utilityService.modifynegativeCurrencyFormat(subGrandDebitTotal));
+
+        templateObject.totalCreditInc.set(utilityService.modifynegativeCurrencyFormat(subGrandCreditTotalInc));
+        templateObject.totalDebitInc.set(utilityService.modifynegativeCurrencyFormat(subGrandDebitTotalInc));
 
     },
     'blur .lineDebitExChange': function (event) {
@@ -1601,22 +1757,214 @@ Template.journalentrycard.events({
         let lineAmount = 0;
         let subGrandCreditTotal = 0;
         let subGrandDebitTotal = 0;
+        let subGrandCreditTotalInc = 0;
+        let subGrandDebitTotalInc = 0;
         $tblrows.each(function (index) {
             var $tblrow = $(this);
+            var taxcode = $tblrow.find(".lineTaxCode").text() || 0;
+            var taxrateamount = 0;
+            if (taxcodeList) {
+                for (var i = 0; i < taxcodeList.length; i++) {
+                    if (taxcodeList[i].codename == taxcode) {
+                        taxrateamount = taxcodeList[i].coderate.replace('%', "") / 100;
+                    }
+                }
+            }
             var credit = $tblrow.find(".lineCreditEx").val() || Currency + '0';
             var debit = $tblrow.find(".lineDebitEx").val() || Currency + '0';
             var subTotalCredit = Number(credit.replace(/[^0-9.-]+/g, "")) || Currency + '0';
             var subTotalDebit = Number(debit.replace(/[^0-9.-]+/g, "")) || Currency + '0';
+
+            var taxTotalCredit = parseFloat(credit.replace(/[^0-9.-]+/g, "")) * parseFloat(taxrateamount) ||0;
+           var taxTotalDebit = parseFloat(debit.replace(/[^0-9.-]+/g, "")) * parseFloat(taxrateamount) ||0;
+           $tblrow.find('.lineTaxAmount').text(utilityService.modifynegativeCurrencyFormat(taxTotalDebit));
+
             if (!isNaN(subTotalCredit)) {
+                let totalCreditInc = (parseFloat(subTotalCredit)) + (parseFloat(taxTotalCredit)) || 0;
+               $tblrow.find('.lineCreditIncChange').val(utilityService.modifynegativeCurrencyFormat(totalCreditInc.toFixed(2)));
                 subGrandCreditTotal += isNaN(subTotalCredit) ? 0 : subTotalCredit;
+                subGrandCreditTotalInc += isNaN(totalCreditInc) ? 0 : totalCreditInc;
             }
             if (!isNaN(subTotalDebit)) {
-                subGrandDebitTotal += isNaN(subTotalDebit) ? 0 : subTotalDebit;
+              let totalDebitInc = (parseFloat(subTotalDebit)) + (parseFloat(taxTotalDebit)) || 0;
+            $tblrow.find('.lineDebitIncChange').val(utilityService.modifynegativeCurrencyFormat(totalDebitInc.toFixed(2)));
+              subGrandDebitTotal += isNaN(subTotalDebit) ? 0 : subTotalDebit;
+              subGrandDebitTotalInc += isNaN(totalDebitInc) ? 0 : totalDebitInc;
             }
 
         });
         templateObject.totalCredit.set(utilityService.modifynegativeCurrencyFormat(subGrandCreditTotal));
         templateObject.totalDebit.set(utilityService.modifynegativeCurrencyFormat(subGrandDebitTotal));
+
+        templateObject.totalCreditInc.set(utilityService.modifynegativeCurrencyFormat(subGrandCreditTotalInc));
+        templateObject.totalDebitInc.set(utilityService.modifynegativeCurrencyFormat(subGrandDebitTotalInc));
+
+    },
+    'blur .lineCreditIncChange': function (event) {
+
+        if (!isNaN($(event.target).val())) {
+            let inputCreditEx = parseFloat($(event.target).val());
+            $(event.target).val(Currency + '' + inputCreditEx.toLocaleString(undefined, { minimumFractionDigits: 2 }));
+        } else {
+            let inputCreditEx = Number($(event.target).val().replace(/[^0-9.-]+/g, ""));
+
+            $(event.target).val(Currency + '' + inputCreditEx.toLocaleString(undefined, { minimumFractionDigits: 2 }) || Currency + '0');
+        }
+        let templateObject = Template.instance();
+        let taxcodeList = templateObject.taxraterecords.get();
+        let utilityService = new UtilityService();
+
+        let inputCredit = parseFloat($(event.target).val()) || 0;
+        if (!isNaN($(event.target).val())) {
+            $(event.target).val(Currency + '' + inputCredit.toLocaleString(undefined, { minimumFractionDigits: 2 }) || Currency + '0');
+        } else {
+            let inputCredit = Number($(event.target).val().replace(/[^0-9.-]+/g, ""));
+
+            $(event.target).val(Currency + '' + inputCredit.toLocaleString(undefined, { minimumFractionDigits: 2 }) || Currency + '0');
+        }
+
+        let $tblrows = $("#tblJournalEntryLine tbody tr");
+        var targetID = $(event.target).closest('tr').attr('id');
+        if ($(event.target).val().replace(/[^0-9.-]+/g, "") != 0) {
+            $('#' + targetID + " .lineDebitEx").val(Currency + '0.00');
+            $('#' + targetID + " .lineDebitInc").val(Currency + '0.00');
+        }
+
+        let lineAmount = 0;
+        let subGrandCreditTotal = 0;
+        let subGrandDebitTotal = 0;
+
+        let subGrandCreditTotalInc = 0;
+        let subGrandDebitTotalInc = 0;
+        $tblrows.each(function (index) {
+            var $tblrow = $(this);
+            var taxcode = $tblrow.find(".lineTaxCode").text() || 0;
+            var taxrateamount = 0;
+            if (taxcodeList) {
+                for (var i = 0; i < taxcodeList.length; i++) {
+                    if (taxcodeList[i].codename == taxcode) {
+                        taxrateamount = taxcodeList[i].coderate.replace('%', "") / 100;
+                    }
+                }
+            }
+
+
+
+            var credit = $tblrow.find(".lineCreditInc").val() || Currency + '0';
+            var debit = $tblrow.find(".lineDebitInc").val() || Currency + '0';
+
+            let taxRateAmountCalc = (parseFloat(taxrateamount) + 100)/100;
+
+            var subTotalCredit = (Number(credit.replace(/[^0-9.-]+/g, "")) / (taxRateAmountCalc)) || Currency + '0';
+            var subTotalDebit = (Number(debit.replace(/[^0-9.-]+/g, ""))/ (taxRateAmountCalc)) || Currency + '0';
+
+            var taxTotalCredit = parseFloat(credit.replace(/[^0-9.-]+/g, "")) - parseFloat(subTotalCredit) ||0;
+            var taxTotalDebit = parseFloat(debit.replace(/[^0-9.-]+/g, "")) - parseFloat(subTotalDebit) ||0;
+            $tblrow.find('.lineTaxAmount').text(utilityService.modifynegativeCurrencyFormat(taxTotalCredit));
+
+            if (!isNaN(subTotalCredit)) {
+              $tblrow.find('.lineCreditExChange').val(utilityService.modifynegativeCurrencyFormat(subTotalCredit.toFixed(2)));
+              let totalCreditInc = (parseFloat(subTotalCredit)) + (parseFloat(taxTotalCredit)) || 0;
+              $tblrow.find('.lineCreditIncChange').val(utilityService.modifynegativeCurrencyFormat(totalCreditInc.toFixed(2)));
+                subGrandCreditTotal += isNaN(subTotalCredit) ? 0 : subTotalCredit;
+                subGrandCreditTotalInc += isNaN(totalCreditInc) ? 0 : totalCreditInc;
+            };
+            if (!isNaN(subTotalDebit)) {
+              $tblrow.find('.lineDebitExChange').val(utilityService.modifynegativeCurrencyFormat(subTotalDebit.toFixed(2)));
+              let totalDebitInc = (parseFloat(subTotalDebit)) + (parseFloat(taxTotalDebit)) || 0;
+              $tblrow.find('.lineDebitIncChange').val(utilityService.modifynegativeCurrencyFormat(totalDebitInc.toFixed(2)));
+                subGrandDebitTotal += isNaN(subTotalDebit) ? 0 : subTotalDebit;
+                subGrandDebitTotalInc += isNaN(totalDebitInc) ? 0 : totalDebitInc;
+            };
+
+        });
+        templateObject.totalCredit.set(utilityService.modifynegativeCurrencyFormat(subGrandCreditTotal));
+        templateObject.totalDebit.set(utilityService.modifynegativeCurrencyFormat(subGrandDebitTotal));
+
+        templateObject.totalCreditInc.set(utilityService.modifynegativeCurrencyFormat(subGrandCreditTotalInc));
+        templateObject.totalDebitInc.set(utilityService.modifynegativeCurrencyFormat(subGrandDebitTotalInc));
+
+    },
+    'blur .lineDebitIncChange': function (event) {
+
+        if (!isNaN($(event.target).val())) {
+            let inputDebitEx = parseFloat($(event.target).val());
+            $(event.target).val(Currency + '' + inputDebitEx.toLocaleString(undefined, { minimumFractionDigits: 2 }));
+        } else {
+            let inputDebitEx = Number($(event.target).val().replace(/[^0-9.-]+/g, ""));
+
+            $(event.target).val(Currency + '' + inputDebitEx.toLocaleString(undefined, { minimumFractionDigits: 2 }) || Currency + '0');
+        }
+        let templateObject = Template.instance();
+        let taxcodeList = templateObject.taxraterecords.get();
+        let utilityService = new UtilityService();
+
+        let inputCredit = parseFloat($(event.target).val()) || 0;
+        if (!isNaN($(event.target).val())) {
+            $(event.target).val(Currency + '' + inputCredit.toLocaleString(undefined, { minimumFractionDigits: 2 }) || Currency + '0');
+        } else {
+            let inputCredit = Number($(event.target).val().replace(/[^0-9.-]+/g, ""));
+
+            $(event.target).val(Currency + '' + inputCredit.toLocaleString(undefined, { minimumFractionDigits: 2 }) || Currency + '0');
+        }
+
+        let $tblrows = $("#tblJournalEntryLine tbody tr");
+        var targetID = $(event.target).closest('tr').attr('id');
+        if ($(event.target).val().replace(/[^0-9.-]+/g, "") != 0) {
+            $('#' + targetID + " .lineCreditEx").val(Currency + '0.00');
+            $('#' + targetID + " .lineCreditInc").val(Currency + '0.00');
+        }
+
+
+        let lineAmount = 0;
+        let subGrandCreditTotal = 0;
+        let subGrandDebitTotal = 0;
+        let subGrandCreditTotalInc = 0;
+        let subGrandDebitTotalInc = 0;
+        $tblrows.each(function (index) {
+            var $tblrow = $(this);
+            var taxcode = $tblrow.find(".lineTaxCode").text() || 0;
+            var taxrateamount = 0;
+            if (taxcodeList) {
+                for (var i = 0; i < taxcodeList.length; i++) {
+                    if (taxcodeList[i].codename == taxcode) {
+                        taxrateamount = taxcodeList[i].coderate.replace('%', "") / 100;
+                    }
+                }
+            }
+            var credit = $tblrow.find(".lineCreditInc").val() || Currency + '0';
+            var debit = $tblrow.find(".lineDebitInc").val() || Currency + '0';
+
+            let taxRateAmountCalc = (parseFloat(taxrateamount) + 100)/100;
+
+            var subTotalCredit = (Number(credit.replace(/[^0-9.-]+/g, "")) / (taxRateAmountCalc)) || Currency + '0';
+            var subTotalDebit = (Number(debit.replace(/[^0-9.-]+/g, ""))/ (taxRateAmountCalc)) || Currency + '0';
+
+            var taxTotalCredit = parseFloat(credit.replace(/[^0-9.-]+/g, "")) - parseFloat(subTotalCredit) ||0;
+            var taxTotalDebit = parseFloat(debit.replace(/[^0-9.-]+/g, "")) - parseFloat(subTotalDebit) ||0;
+           $tblrow.find('.lineTaxAmount').text(utilityService.modifynegativeCurrencyFormat(taxTotalDebit));
+
+            if (!isNaN(subTotalCredit)) {
+              $tblrow.find('.lineCreditExChange').val(utilityService.modifynegativeCurrencyFormat(subTotalCredit.toFixed(2)));
+                let totalCreditInc = (parseFloat(subTotalCredit)) + (parseFloat(taxTotalCredit)) || 0;
+               $tblrow.find('.lineCreditIncChange').val(utilityService.modifynegativeCurrencyFormat(totalCreditInc.toFixed(2)));
+                subGrandCreditTotal += isNaN(subTotalCredit) ? 0 : subTotalCredit;
+                subGrandCreditTotalInc += isNaN(totalCreditInc) ? 0 : totalCreditInc;
+            }
+            if (!isNaN(subTotalDebit)) {
+              $tblrow.find('.lineDebitExChange').val(utilityService.modifynegativeCurrencyFormat(subTotalDebit.toFixed(2)));
+              let totalDebitInc = (parseFloat(subTotalDebit)) + (parseFloat(taxTotalDebit)) || 0;
+            $tblrow.find('.lineDebitIncChange').val(utilityService.modifynegativeCurrencyFormat(totalDebitInc.toFixed(2)));
+              subGrandDebitTotal += isNaN(subTotalDebit) ? 0 : subTotalDebit;
+              subGrandDebitTotalInc += isNaN(totalDebitInc) ? 0 : totalDebitInc;
+            }
+
+        });
+        templateObject.totalCredit.set(utilityService.modifynegativeCurrencyFormat(subGrandCreditTotal));
+        templateObject.totalDebit.set(utilityService.modifynegativeCurrencyFormat(subGrandDebitTotal));
+
+        templateObject.totalCreditInc.set(utilityService.modifynegativeCurrencyFormat(subGrandCreditTotalInc));
+        templateObject.totalDebitInc.set(utilityService.modifynegativeCurrencyFormat(subGrandDebitTotalInc));
 
     },
     'click #btnCustomFileds': function (event) {
@@ -2283,14 +2631,12 @@ Template.journalentrycard.events({
                     let tdaccount = $('#' + lineID + " .lineAccountName").text();
                     let tdaccountNo = $('#' + lineID + " .lineAccountNo").text();
                     let tddmemo = $('#' + lineID + " .lineMemo").text();
-                    let tdcreditex = $('#' + lineID + " .lineCreditEx").val();
-                    let tddebitex = $('#' + lineID + " .lineDebitEx").val();
+                    let tdcreditex = $('#' + lineID + " .lineCreditInc").val();
+                    let tddebitex = $('#' + lineID + " .lineDebitInc").val();
                     let erpLineID = $('#' + lineID + " .lineAccountName").attr('lineid');
-                    if ($('#' + lineID + " .lineAccountName").attr('taxCode').replace(/\s/g, '') == "") {
-                        tdtaxCode = "NT";
-                    } else {
-                        tdtaxCode = $('#' + lineID + " .lineAccountName").attr('taxCode');
-                    }
+
+                        tdtaxCode = tdtaxCode = $('#' + lineID + " .lineTaxCode").text();
+
 
                     if (tdaccount != "") {
 
@@ -2307,7 +2653,7 @@ Template.journalentrycard.events({
                                 DebitAmountInc: parseFloat(tddebitex.replace(/[^0-9.-]+/g, "")) || 0,
 
                                 DeptName: department || defaultDept,
-                                TaxCode: '',
+                                TaxCode: tdtaxCode || '',
                                 EmployeeName: Session.get('mySessionEmployee')
                             }
                         };
@@ -2332,14 +2678,12 @@ Template.journalentrycard.events({
                     let tdaccount = $('#' + lineID + " .lineAccountName").text();
                     let tdaccountNo = $('#' + lineID + " .lineAccountNo").text();
                     let tddmemo = $('#' + lineID + " .lineMemo").text();
-                    let tdcreditex = $('#' + lineID + " .lineCreditEx").val();
-                    let tddebitex = $('#' + lineID + " .lineDebitEx").val();
+                    let tdcreditex = $('#' + lineID + " .lineCreditInc").val();
+                    let tddebitex = $('#' + lineID + " .lineDebitInc").val();
                     let erpLineID = $('#' + lineID + " .lineAccountName").attr('lineid');
-                    if ($('#' + lineID + " .lineAccountName").attr('taxCode').replace(/\s/g, '') == "") {
-                        tdtaxCode = "NT";
-                    } else {
-                        tdtaxCode = $('#' + lineID + " .lineAccountName").attr('taxCode');
-                    }
+
+                    tdtaxCode = $('#' + lineID + " .lineTaxCode").text();
+
 
                     if (tdaccount != "") {
 
@@ -2356,7 +2700,7 @@ Template.journalentrycard.events({
                                 DebitAmountInc: parseFloat(tddebitex.replace(/[^0-9.-]+/g, "")) || 0,
 
                                 DeptName: department || defaultDept,
-                                TaxCode: '',
+                                TaxCode: tdtaxCode || '',
                                 ClientName: '',
                                 EmployeeName: Session.get('mySessionEmployee')
                             }

@@ -5,7 +5,8 @@ export class ProductService extends BaseService {
   getGlobalSearchReport(searchName){
       let options = {
         SearchName: "'"+searchName+"'",
-        QuerySearchMode: "'smSearchEngineLike'"
+        QuerySearchMode: "'smSearchEngineLike'",
+        LimitCount:'"'+initialReportLoad+'"'
       };
       return this.getList(this.ERPObjects.TGlobalSearchReport, options);
   }

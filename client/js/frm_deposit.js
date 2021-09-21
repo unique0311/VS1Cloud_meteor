@@ -1425,7 +1425,7 @@ Template.depositcard.onRendered(()=>{
       const accountTypeList = [];
       var accountDataName = e.target.value ||'';
 
-      if (e.pageX > offset.left + $earch.width() - 16) { // X button 16px wide?
+      if (e.pageX > offset.left + $earch.width() - 8) { // X button 16px wide?
          $('#selectLineID').val('');
         $('#productListModal').modal();
         setTimeout(function () {

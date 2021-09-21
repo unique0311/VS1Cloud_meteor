@@ -190,11 +190,20 @@ getCustomersDataByName(dataSearchName) {
   }
   getAccountListVS1() {
     let options = '';
-
-      options = {
+    //if(limitcount == 'All'){
+       options = {
         ListType: "Detail",
-        select: "[Active]=true",
-      };
+        select: '[Active]=true'
+       };
+    // }else{
+    //   options = {
+    //    orderby:'"AccountID desc"',
+    //    ListType: "Detail",
+    //    select: '[Active]=true',
+    //    LimitCount:'"'+limitcount+'"',
+    //    LimitFrom:'"'+limitfrom+'"'
+    //   };
+    // }
     return this.getList(this.ERPObjects.TAccountVS1, options);
   }
 
@@ -843,7 +852,8 @@ getCustomersDataByName(dataSearchName) {
   getProductStocknSaleReportData(dateFrom, dateTo) {
    let options = {
       DateFrom: '"'+dateFrom+'"',
-      DateTo: '"'+dateTo+'"'
+      DateTo: '"'+dateTo+'"',
+      LimitCount:'"'+initialReportLoad+'"'
   };
 
   return this.getList(this.ERPObjects.TProductStocknSalePeriodReport, options);

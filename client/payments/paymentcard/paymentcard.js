@@ -39,8 +39,9 @@ Template.paymentcard.onRendered(() => {
         $('.uploadedImage').attr('src', imageData);
     };
 
-    $('#edtCustomerName').attr('disabled', 'disabled');
+
     $('#edtCustomerName').attr('readonly', true);
+    $('#edtCustomerName').css('background-color', '#eaecf4');
     setTimeout(function () {
         Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblPaymentcard', function (error, result) {
             if (error) {
@@ -131,7 +132,7 @@ Template.paymentcard.onRendered(() => {
                         }));
 
                     for (var i = 0; i < clientList.length; i++) {
-                        $('#edtCustomerName').editableSelect('add', clientList[i].customername);
+                        //$('#edtCustomerName').editableSelect('add', clientList[i].customername);
                     }
 
                 });
@@ -168,7 +169,7 @@ Template.paymentcard.onRendered(() => {
                     }));
 
                 for (var i = 0; i < clientList.length; i++) {
-                    $('#edtCustomerName').editableSelect('add', clientList[i].customername);
+                    //$('#edtCustomerName').editableSelect('add', clientList[i].customername);
                 }
             }
         }).catch(function (err) {
@@ -202,7 +203,7 @@ Template.paymentcard.onRendered(() => {
                     }));
 
                 for (var i = 0; i < clientList.length; i++) {
-                    $('#edtCustomerName').editableSelect('add', clientList[i].customername);
+                  //  $('#edtCustomerName').editableSelect('add', clientList[i].customername);
                 }
 
             });
@@ -907,7 +908,7 @@ Template.paymentcard.onRendered(() => {
                             accountname: data.taccountvs1[i].AccountName || ' '
                         };
                         // $('#edtBankAccountName').editableSelect('add',data.taccount[i].AccountName);
-                        if (data.taccountvs1[i].AccountTypeName == "BANK" || data.taccountvs1[i].AccountTypeName.toUpperCase() == "CCARD") {
+                        if (data.taccountvs1[i].AccountTypeName == "BANK" || data.taccountvs1[i].AccountTypeName.toUpperCase() == "CCARD"|| data.taccountvs1[i].AccountTypeName.toUpperCase() == "OCLIAB") {
                             accountnamerecords.push(accountnamerecordObj);
                         }
 
@@ -936,7 +937,7 @@ Template.paymentcard.onRendered(() => {
                         accountname: useData[i].fields.AccountName || ' '
                     };
                     // $('#edtBankAccountName').editableSelect('add',data.taccount[i].AccountName);
-                    if (useData[i].fields.AccountTypeName.replace(/\s/g, '') == "BANK" || useData[i].fields.AccountTypeName.toUpperCase() == "CCARD") {
+                    if (useData[i].fields.AccountTypeName.replace(/\s/g, '') == "BANK" || useData[i].fields.AccountTypeName.toUpperCase() == "CCARD"|| useData[i].fields.AccountTypeName.toUpperCase() == "OCLIAB") {
                         accountnamerecords.push(accountnamerecordObj);
                     }
                     //accountnamerecords.push(accountnamerecordObj);
@@ -965,7 +966,7 @@ Template.paymentcard.onRendered(() => {
                         accountname: data.taccountvs1[i].AccountName || ' '
                     };
                     // $('#edtBankAccountName').editableSelect('add',data.taccount[i].AccountName);
-                    if (data.taccountvs1[i].AccountTypeName == "BANK" || data.taccountvs1[i].AccountTypeName.toUpperCase() == "CCARD") {
+                    if (data.taccountvs1[i].AccountTypeName == "BANK" || data.taccountvs1[i].AccountTypeName.toUpperCase() == "CCARD" || data.taccountvs1[i].AccountTypeName.toUpperCase() == "OCLIAB") {
                         accountnamerecords.push(accountnamerecordObj);
                     }
                     templateObject.accountnamerecords.set(accountnamerecords);
@@ -996,8 +997,38 @@ Template.paymentcard.onRendered(() => {
         templateObject.getAllSupplierPaymentData();
     }, 500)
 
+    $(document).on("click", "#tblCustomerlist tbody tr", function (e) {
+        let customers = templateObject.clientrecords.get();
+        var tableCustomer = $(this);
+        $('#edtCustomerName').val(tableCustomer.find(".colCompany").text());
+        // $('#edtCustomerName').attr("custid", tableCustomer.find(".colID").text());
+        $('#customerListModal').modal('toggle');
+
+        $('#edtCustomerEmail').val(tableCustomer.find(".colEmail").text());
+        $('#edtCustomerEmail').attr('customerid', tableCustomer.find(".colID").text());
+
+
+        let postalAddress = tableCustomer.find(".colCompany").text() + '\n' + tableCustomer.find(".colStreetAddress").text() + '\n' + tableCustomer.find(".colCity").text()  + ' ' + tableCustomer.find(".colState").text()+ ' ' + tableCustomer.find(".colZipCode").text() + '\n' + tableCustomer.find(".colCountry").text();
+        $('#txabillingAddress').val(postalAddress);
+
+        let selectedCustomer = $('#edtCustomerName').val();
+        if (clientList) {
+          $('#edtCustomerEmail').val(clientList[i].customeremail);
+          $('#edtCustomerEmail').attr('customerid', clientList[i].customerid);
+          let postalAddress = clientList[i].customername + '\n' + clientList[i].street + '\n' + clientList[i].street2 + '\n' + clientList[i].street3 + '\n' + clientList[i].suburb + '\n' + clientList[i].statecode + '\n' + clientList[i].country;
+          $('#txabillingAddress').val(postalAddress);
+        }
+
+
+        $('#tblCustomerlist_filter .form-control-sm').val('');
+        setTimeout(function () {
+            $('.btnRefreshCustomer').trigger('click');
+            $('.fullScreenSpin').css('display', 'none');
+        }, 1000);
+    });
+
     $('#edtCustomerName').editableSelect()
-    .on('select.editable-select', function (e, li) {
+        .on('click.editable-select', function (e, li) {
         let selectedCustomer = li.text();
         if (clientList) {
             for (var i = 0; i < clientList.length; i++) {
@@ -1009,6 +1040,41 @@ Template.paymentcard.onRendered(() => {
                 }
             }
         }
+    });
+
+    $('#edtCustomerName').editableSelect()
+        .on('click.editable-select', function (e, li) {
+          var $earch = $(this);
+          var offset = $earch.offset();
+          var customerDataName = e.target.value.replace(/\s/g, '') ||'';
+          // var customerDataID = $('#edtCustom3erName').attr('custid').replace(/\s/g, '') ||'';
+          if (e.pageX > offset.left + $earch.width() - 8) { // X button 16px wide?
+            $('#customerListModal').modal();
+            setTimeout(function () {
+                $('#tblCustomerlist_filter .form-control-sm').focus();
+                $('#tblCustomerlist_filter .form-control-sm').val('');
+                $('#tblCustomerlist_filter .form-control-sm').trigger("input");
+                var datatable = $('#tblCustomerlist').DataTable();
+                datatable.draw();
+                $('#tblCustomerlist_filter .form-control-sm').trigger("input");
+            }, 500);
+           }else{
+             if(customerDataName != ''){
+              FlowRouter.go('/customerscard?name=' + e.target.value);
+             }else{
+               $('#customerListModal').modal();
+               setTimeout(function () {
+                   $('#tblCustomerlist_filter .form-control-sm').focus();
+                   $('#tblCustomerlist_filter .form-control-sm').val('');
+                   $('#tblCustomerlist_filter .form-control-sm').trigger("input");
+                   var datatable = $('#tblCustomerlist').DataTable();
+                   datatable.draw();
+                   $('#tblCustomerlist_filter .form-control-sm').trigger("input");
+               }, 500);
+             }
+           }
+
+
     });
 
     var url = FlowRouter.current().path;
@@ -1109,8 +1175,9 @@ Template.paymentcard.onRendered(() => {
                         $('#edtCustomerName').val(data.fields.CompanyName);
                         $('#edtBankAccountName').val(data.fields.AccountName);
 
-                        $('#edtCustomerName').attr('disabled', 'disabled');
+
                         $('#edtCustomerName').attr('readonly', true);
+                        $('#edtCustomerName').css('background-color', '#eaecf4');
 
                         // $('#edtCustomerEmail').attr('readonly', true);
 
@@ -1291,8 +1358,9 @@ Template.paymentcard.onRendered(() => {
                             $('#edtCustomerName').val(useData[d].fields.CompanyName);
                             $('#edtBankAccountName').val(useData[d].fields.AccountName);
 
-                            $('#edtCustomerName').attr('disabled', 'disabled');
+
                             $('#edtCustomerName').attr('readonly', true);
+                            $('#edtCustomerName').css('background-color', '#eaecf4');
 
                             // $('#edtCustomerEmail').attr('readonly', true);
 
@@ -1465,8 +1533,9 @@ Template.paymentcard.onRendered(() => {
                             $('#edtCustomerName').val(data.fields.CompanyName);
                             $('#edtBankAccountName').val(data.fields.AccountName);
 
-                            $('#edtCustomerName').attr('disabled', 'disabled');
+
                             $('#edtCustomerName').attr('readonly', true);
+                            $('#edtCustomerName').css('background-color', '#eaecf4');
 
                             // $('#edtCustomerEmail').attr('readonly', true);
 
@@ -1639,9 +1708,9 @@ Template.paymentcard.onRendered(() => {
                     $('#edtCustomerName').val(data.fields.CompanyName);
                     $('#edtBankAccountName').val(data.fields.AccountName);
 
-                    $('#edtCustomerName').attr('disabled', 'disabled');
-                    $('#edtCustomerName').attr('readonly', true);
 
+                    $('#edtCustomerName').attr('readonly', true);
+                    $('#edtCustomerName').css('background-color', '#eaecf4');
                     // $('#edtCustomerEmail').attr('readonly', true);
 
                     $('#edtPaymentAmount').attr('readonly', true);

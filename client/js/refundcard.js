@@ -563,7 +563,6 @@ Template.refundcard.onRendered(()=>{
 
                         if (data.fields.IsPaid === true) {
                             $('#edtCustomerName').attr('readonly', true);
-                            $('#edtCustomerName').attr('disabled', 'disabled');
                             $('.btn-primary').attr('disabled', 'disabled');
 
                             $('#btnCopyInvoice').attr('disabled', 'disabled');
@@ -1489,7 +1488,7 @@ Template.refundcard.onRendered(()=>{
 
           var customerDataName = e.target.value.replace(/\s/g, '') ||'';
           var customerDataID = $('#edtCustomerName').attr('custid').replace(/\s/g, '') ||'';
-          if (e.pageX > offset.left + $earch.width() - 16) { // X button 16px wide?
+          if (e.pageX > offset.left + $earch.width() - 8) { // X button 16px wide?
             $('#customerListModal').modal();
             setTimeout(function () {
                 $('#tblCustomerlist_filter .form-control-sm').focus();

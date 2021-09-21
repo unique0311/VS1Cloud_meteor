@@ -1675,7 +1675,7 @@ Template.billcard.onRendered(() => {
 
       var supplierDataName = e.target.value.replace(/\s/g, '') ||'';
       var supplierDataID = $('#edtSupplierName').attr('suppid').replace(/\s/g, '') ||'';
-      if (e.pageX > offset.left + $earch.width() - 16) { // X button 16px wide?
+      if (e.pageX > offset.left + $earch.width() - 8) { // X button 16px wide?
         $('#supplierListModal').modal();
         setTimeout(function () {
             $('#tblSupplierlist_filter .form-control-sm').focus();

@@ -75,8 +75,9 @@ Template.supplierpaymentcard.onRendered(() => {
             }
         });
     }, 500);
-    $('#edtSupplierName').attr('disabled', 'disabled');
+
     $('#edtSupplierName').attr('readonly', true);
+    $('#edtSupplierName').css('background-color', '#eaecf4');
     $("#date-input,#dtPaymentDate").datepicker({
         showOn: 'button',
         buttonText: 'Show Date',
@@ -131,7 +132,7 @@ Template.supplierpaymentcard.onRendered(() => {
                         }));
 
                     for (var i = 0; i < clientList.length; i++) {
-                        $('#edtSupplierName').editableSelect('add', clientList[i].customername);
+                        //$('#edtSupplierName').editableSelect('add', clientList[i].customername);
                     }
 
                 });
@@ -167,7 +168,7 @@ Template.supplierpaymentcard.onRendered(() => {
                     }));
 
                 for (var i = 0; i < clientList.length; i++) {
-                    $('#edtSupplierName').editableSelect('add', clientList[i].customername);
+                    //$('#edtSupplierName').editableSelect('add', clientList[i].customername);
                 }
 
             }
@@ -202,7 +203,7 @@ Template.supplierpaymentcard.onRendered(() => {
                     }));
 
                 for (var i = 0; i < clientList.length; i++) {
-                    $('#edtSupplierName').editableSelect('add', clientList[i].customername);
+                    //$('#edtSupplierName').editableSelect('add', clientList[i].customername);
                 }
 
             });
@@ -1037,7 +1038,7 @@ Template.supplierpaymentcard.onRendered(() => {
                             accountname: data.taccountvs1[i].AccountName || ' '
                         };
                         // $('#edtBankAccountName').editableSelect('add',data.taccount[i].AccountName);
-                        if (data.taccountvs1[i].AccountTypeName == "BANK" || data.taccountvs1[i].AccountTypeName.toUpperCase() == "CCARD") {
+                        if (data.taccountvs1[i].AccountTypeName == "BANK" || data.taccountvs1[i].AccountTypeName.toUpperCase() == "CCARD"|| data.taccountvs1[i].AccountTypeName.toUpperCase() == "OCLIAB") {
                             accountnamerecords.push(accountnamerecordObj);
                         }
                         templateObject.accountnamerecords.set(accountnamerecords);
@@ -1066,7 +1067,7 @@ Template.supplierpaymentcard.onRendered(() => {
                         accountname: useData[i].fields.AccountName || ' '
                     };
                     // $('#edtBankAccountName').editableSelect('add',data.taccount[i].AccountName);
-                    if (useData[i].fields.AccountTypeName.replace(/\s/g, '') == "BANK" || useData[i].fields.AccountTypeName.toUpperCase() == "CCARD") {
+                    if (useData[i].fields.AccountTypeName.replace(/\s/g, '') == "BANK" || useData[i].fields.AccountTypeName.toUpperCase() == "CCARD"|| useData[i].fields.AccountTypeName.toUpperCase() == "OCLIAB") {
                         accountnamerecords.push(accountnamerecordObj);
                     }
                     //accountnamerecords.push(accountnamerecordObj);
@@ -1096,7 +1097,7 @@ Template.supplierpaymentcard.onRendered(() => {
                         accountname: data.taccountvs1[i].AccountName || ' '
                     };
                     // $('#edtBankAccountName').editableSelect('add',data.taccount[i].AccountName);
-                    if (data.taccountvs1[i].AccountTypeName == "BANK" || data.taccountvs1[i].AccountTypeName.toUpperCase() == "CCARD") {
+                    if (data.taccountvs1[i].AccountTypeName == "BANK" || data.taccountvs1[i].AccountTypeName.toUpperCase() == "CCARD" || data.taccountvs1[i].AccountTypeName.toUpperCase() == "OCLIAB") {
                         accountnamerecords.push(accountnamerecordObj);
                     }
                     templateObject.accountnamerecords.set(accountnamerecords);
@@ -1126,6 +1127,37 @@ Template.supplierpaymentcard.onRendered(() => {
     setTimeout(function () {
         templateObject.getAllSupplierPaymentData();
     }, 500)
+
+    $(document).on("click", "#tblSupplierlist tbody tr", function (e) {
+        let suppliers = templateObject.clientrecords.get();
+        var tableSupplier = $(this);
+        $('#edtSupplierName').val(tableSupplier.find(".colCompany").text());
+        // $('#edtSupplierName').attr("custid", tableSupplier.find(".colID").text());
+        $('#supplierListModal').modal('toggle');
+
+        $('#edtSupplierEmail').val(tableSupplier.find(".colEmail").text());
+        $('#edtSupplierEmail').attr('customerid', tableSupplier.find(".colID").text());
+
+
+        let postalAddress = tableSupplier.find(".colCompany").text() + '\n' + tableSupplier.find(".colStreetAddress").text() + '\n' + tableSupplier.find(".colCity").text()  + ' ' + tableSupplier.find(".colState").text()+ ' ' + tableSupplier.find(".colZipCode").text() + '\n' + tableSupplier.find(".colCountry").text();
+        $('#txabillingAddress').val(postalAddress);
+
+        let selectedCustomer = $('#edtSupplierName').val();
+        if (clientList) {
+          $('#edtCustomerEmail').val(clientList[i].customeremail);
+          $('#edtCustomerEmail').attr('customerid', clientList[i].customerid);
+          let postalAddress = clientList[i].customername + '\n' + clientList[i].street + '\n' + clientList[i].street2 + '\n' + clientList[i].street3 + '\n' + clientList[i].suburb + '\n' + clientList[i].statecode + '\n' + clientList[i].country;
+          $('#txabillingAddress').val(postalAddress);
+        }
+
+
+        $('#tblSupplierlist_filter .form-control-sm').val('');
+        setTimeout(function () {
+            $('.btnRefreshCustomer').trigger('click');
+            $('.fullScreenSpin').css('display', 'none');
+        }, 1000);
+    });
+
     $('#edtSupplierName').editableSelect()
     .on('select.editable-select', function (e, li) {
         let selectedSupplier = li.text();
@@ -1139,6 +1171,41 @@ Template.supplierpaymentcard.onRendered(() => {
                 }
             }
         }
+    });
+
+    $('#edtSupplierName').editableSelect().on('click.editable-select', function (e, li) {
+      var $earch = $(this);
+      var offset = $earch.offset();
+
+      var supplierDataName = e.target.value.replace(/\s/g, '') ||'';
+
+      if (e.pageX > offset.left + $earch.width() - 8) { // X button 16px wide?
+        $('#supplierListModal').modal();
+        setTimeout(function () {
+            $('#tblSupplierlist_filter .form-control-sm').focus();
+            $('#tblSupplierlist_filter .form-control-sm').val('');
+            $('#tblSupplierlist_filter .form-control-sm').trigger("input");
+            var datatable = $('#tblSupplierlist').DataTable();
+            datatable.draw();
+            $('#tblSupplierlist_filter .form-control-sm').trigger("input");
+        }, 500);
+       }else{
+         if(supplierDataName != ''){
+          FlowRouter.go('/supplierscard?name=' + e.target.value);
+         }else{
+           $('#supplierListModal').modal();
+           setTimeout(function () {
+               $('#tblSupplierlist_filter .form-control-sm').focus();
+               $('#tblSupplierlist_filter .form-control-sm').val('');
+               $('#tblSupplierlist_filter .form-control-sm').trigger("input");
+               var datatable = $('#tblSupplierlist').DataTable();
+               datatable.draw();
+               $('#tblSupplierlist_filter .form-control-sm').trigger("input");
+           }, 500);
+         }
+       }
+
+
     });
 
     var url = FlowRouter.current().path;
@@ -1237,12 +1304,12 @@ Template.supplierpaymentcard.onRendered(() => {
 
                         };
                         templateObject.record.set(record);
-                        $('#edtSupplierName').editableSelect('add', data.fields.CompanyName);
+                        //$('#edtSupplierName').editableSelect('add', data.fields.CompanyName);
                         $('#edtSupplierName').val(data.fields.CompanyName);
 
-                        $('#edtSupplierName').attr('disabled', 'disabled');
-                        $('#edtSupplierName').attr('readonly', true);
 
+                        $('#edtSupplierName').attr('readonly', true);
+                        $('#edtSupplierName').css('background-color', '#eaecf4');
                         $('#edtSupplierEmail').attr('readonly', true);
 
                         $('#edtPaymentAmount').attr('readonly', true);
@@ -1411,12 +1478,12 @@ Template.supplierpaymentcard.onRendered(() => {
 
                             };
                             templateObject.record.set(record);
-                            $('#edtSupplierName').editableSelect('add', useData[d].fields.CompanyName);
+                            //$('#edtSupplierName').editableSelect('add', useData[d].fields.CompanyName);
                             $('#edtSupplierName').val(useData[d].fields.CompanyName);
 
-                            $('#edtSupplierName').attr('disabled', 'disabled');
-                            $('#edtSupplierName').attr('readonly', true);
 
+                            $('#edtSupplierName').attr('readonly', true);
+                            $('#edtSupplierName').css('background-color', '#eaecf4');
                             $('#edtSupplierEmail').attr('readonly', true);
 
                             $('#edtPaymentAmount').attr('readonly', true);
@@ -1579,12 +1646,12 @@ Template.supplierpaymentcard.onRendered(() => {
 
                             };
                             templateObject.record.set(record);
-                            $('#edtSupplierName').editableSelect('add', data.fields.CompanyName);
+                            //$('#edtSupplierName').editableSelect('add', data.fields.CompanyName);
                             $('#edtSupplierName').val(data.fields.CompanyName);
 
-                            $('#edtSupplierName').attr('disabled', 'disabled');
-                            $('#edtSupplierName').attr('readonly', true);
 
+                            $('#edtSupplierName').attr('readonly', true);
+                            $('#edtSupplierName').css('background-color', '#eaecf4');
                             $('#edtSupplierEmail').attr('readonly', true);
 
                             $('#edtPaymentAmount').attr('readonly', true);
@@ -1747,12 +1814,12 @@ Template.supplierpaymentcard.onRendered(() => {
 
                     };
                     templateObject.record.set(record);
-                    $('#edtSupplierName').editableSelect('add', data.fields.CompanyName);
+                    //$('#edtSupplierName').editableSelect('add', data.fields.CompanyName);
                     $('#edtSupplierName').val(data.fields.CompanyName);
 
-                    $('#edtSupplierName').attr('disabled', 'disabled');
-                    $('#edtSupplierName').attr('readonly', true);
 
+                    $('#edtSupplierName').attr('readonly', true);
+                    $('#edtSupplierName').css('background-color', '#eaecf4');
                     $('#edtSupplierEmail').attr('readonly', true);
 
                     $('#edtPaymentAmount').attr('readonly', true);
@@ -1909,7 +1976,7 @@ Template.supplierpaymentcard.onRendered(() => {
 
                         };
                         templateObject.record.set(record);
-                        $('#edtSupplierName').editableSelect('add', data.fields.ClientName);
+                        //$('#edtSupplierName').editableSelect('add', data.fields.ClientName);
                         $('#edtSupplierName').val(data.fields.ClientName);
                         //$('#edtBankAccountName').editableSelect('add',record.bankAccount);
                         $('#edtBankAccountName').val(record.bankAccount);
@@ -2027,7 +2094,7 @@ Template.supplierpaymentcard.onRendered(() => {
 
                             };
                             templateObject.record.set(record);
-                            $('#edtSupplierName').editableSelect('add', useData[d].fields.ClientName);
+                            //$('#edtSupplierName').editableSelect('add', useData[d].fields.ClientName);
                             $('#edtSupplierName').val(useData[d].fields.ClientName);
                             //$('#edtBankAccountName').editableSelect('add',record.bankAccount);
                             $('#edtBankAccountName').val(record.bankAccount);
@@ -2142,7 +2209,7 @@ Template.supplierpaymentcard.onRendered(() => {
 
                             };
                             templateObject.record.set(record);
-                            $('#edtSupplierName').editableSelect('add', data.fields.ClientName);
+                            //$('#edtSupplierName').editableSelect('add', data.fields.ClientName);
                             $('#edtSupplierName').val(data.fields.ClientName);
                             //$('#edtBankAccountName').editableSelect('add',record.bankAccount);
                             $('#edtBankAccountName').val(record.bankAccount);
@@ -2257,7 +2324,7 @@ Template.supplierpaymentcard.onRendered(() => {
 
                     };
                     templateObject.record.set(record);
-                    $('#edtSupplierName').editableSelect('add', data.fields.ClientName);
+                    //$('#edtSupplierName').editableSelect('add', data.fields.ClientName);
                     $('#edtSupplierName').val(data.fields.ClientName);
                     //$('#edtBankAccountName').editableSelect('add',record.bankAccount);
                     $('#edtBankAccountName').val(record.bankAccount);
@@ -2378,7 +2445,7 @@ Template.supplierpaymentcard.onRendered(() => {
 
                         };
                         templateObject.record.set(record);
-                        $('#edtSupplierName').editableSelect('add', data.fields.ClientName);
+                        //$('#edtSupplierName').editableSelect('add', data.fields.ClientName);
                         $('#edtSupplierName').val(data.fields.ClientName);
                         //$('#edtBankAccountName').editableSelect('add',record.bankAccount);
                         $('#edtBankAccountName').val(record.bankAccount);
@@ -2496,7 +2563,7 @@ Template.supplierpaymentcard.onRendered(() => {
 
                             };
                             templateObject.record.set(record);
-                            $('#edtSupplierName').editableSelect('add', useData[d].fields.ClientName);
+                            //$('#edtSupplierName').editableSelect('add', useData[d].fields.ClientName);
                             $('#edtSupplierName').val(useData[d].fields.ClientName);
                             //$('#edtBankAccountName').editableSelect('add',record.bankAccount);
                             $('#edtBankAccountName').val(record.bankAccount);
@@ -2612,7 +2679,7 @@ Template.supplierpaymentcard.onRendered(() => {
 
                     };
                     templateObject.record.set(record);
-                    $('#edtSupplierName').editableSelect('add', data.fields.ClientName);
+                    //$('#edtSupplierName').editableSelect('add', data.fields.ClientName);
                     $('#edtSupplierName').val(data.fields.ClientName);
                     //$('#edtBankAccountName').editableSelect('add',record.bankAccount);
                     $('#edtBankAccountName').val(record.bankAccount);
@@ -2733,7 +2800,7 @@ Template.supplierpaymentcard.onRendered(() => {
 
                         };
                         templateObject.record.set(record);
-                        $('#edtSupplierName').editableSelect('add', data.fields.ClientName);
+                        //$('#edtSupplierName').editableSelect('add', data.fields.ClientName);
                         $('#edtSupplierName').val(data.fields.ClientName);
                         //$('#edtBankAccountName').editableSelect('add',record.bankAccount);
                         $('#edtBankAccountName').val(record.bankAccount);
@@ -2849,7 +2916,7 @@ Template.supplierpaymentcard.onRendered(() => {
 
                             };
                             templateObject.record.set(record);
-                            $('#edtSupplierName').editableSelect('add', useData[d].fields.ClientName);
+                            //$('#edtSupplierName').editableSelect('add', useData[d].fields.ClientName);
                             $('#edtSupplierName').val(useData[d].fields.ClientName);
                             //$('#edtBankAccountName').editableSelect('add',record.bankAccount);
                             $('#edtBankAccountName').val(record.bankAccount);
@@ -2962,7 +3029,7 @@ Template.supplierpaymentcard.onRendered(() => {
 
                     };
                     templateObject.record.set(record);
-                    $('#edtSupplierName').editableSelect('add', data.fields.ClientName);
+                    //$('#edtSupplierName').editableSelect('add', data.fields.ClientName);
                     $('#edtSupplierName').val(data.fields.ClientName);
                     //$('#edtBankAccountName').editableSelect('add',record.bankAccount);
                     $('#edtBankAccountName').val(record.bankAccount);
@@ -3414,7 +3481,7 @@ Template.supplierpaymentcard.onRendered(() => {
 
                 };
                 templateObject.record.set(record);
-                $('#edtSupplierName').editableSelect('add', data.fields.ClientName);
+                //$('#edtSupplierName').editableSelect('add', data.fields.ClientName);
                 $('#edtSupplierName').val(data.fields.ClientName);
                 //$('#edtBankAccountName').editableSelect('add',record.bankAccount);
                 $('#edtBankAccountName').val(record.bankAccount);
@@ -3720,7 +3787,7 @@ Template.supplierpaymentcard.onRendered(() => {
 
                         };
                         templateObject.record.set(record);
-                        $('#edtSupplierName').editableSelect('add', data.fields.ClientName);
+                        //$('#edtSupplierName').editableSelect('add', data.fields.ClientName);
                         $('#edtSupplierName').val(data.fields.ClientName);
                         //$('#edtBankAccountName').editableSelect('add',record.bankAccount);
                         $('#edtBankAccountName').val(record.bankAccount);
@@ -3837,7 +3904,7 @@ Template.supplierpaymentcard.onRendered(() => {
 
                         };
                         templateObject.record.set(record);
-                        $('#edtSupplierName').editableSelect('add', data.fields.ClientName);
+                        //$('#edtSupplierName').editableSelect('add', data.fields.ClientName);
                         $('#edtSupplierName').val(data.fields.ClientName);
                         //$('#edtBankAccountName').editableSelect('add',record.bankAccount);
                         $('#edtBankAccountName').val(record.bankAccount);
@@ -3954,7 +4021,7 @@ Template.supplierpaymentcard.onRendered(() => {
 
                         };
                         templateObject.record.set(record);
-                        $('#edtSupplierName').editableSelect('add', data.fields.ClientName);
+                        //$('#edtSupplierName').editableSelect('add', data.fields.ClientName);
                         $('#edtSupplierName').val(data.fields.ClientName);
                         //$('#edtBankAccountName').editableSelect('add',record.bankAccount);
                         $('#edtBankAccountName').val(record.bankAccount);
@@ -4072,7 +4139,7 @@ Template.supplierpaymentcard.onRendered(() => {
 
                     };
                     templateObject.record.set(record);
-                    $('#edtSupplierName').editableSelect('add', data.fields.ClientName);
+                    //$('#edtSupplierName').editableSelect('add', data.fields.ClientName);
                     $('#edtSupplierName').val(data.fields.ClientName);
                     //$('#edtBankAccountName').editableSelect('add',record.bankAccount);
                     $('#edtBankAccountName').val(record.bankAccount);
@@ -7219,9 +7286,9 @@ Template.supplierpaymentcard.events({
             $('.appliedAmount').text(Currency + total.toFixed(2));
 
         } else {
-            this.click;     
+            this.click;
         }
-         $('#deleteLineModal').modal('toggle');   
+         $('#deleteLineModal').modal('toggle');
     },
     'click .printConfirm': function (event) {
         $('#html-2-pdfwrapper').css('display', 'block');

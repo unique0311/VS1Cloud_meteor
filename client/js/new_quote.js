@@ -1662,10 +1662,10 @@ Template.new_quote.onRendered(() => {
                                 lineItems.push(lineItemObj);
                             }
                         } else {
-                            let AmountGbp = data.fields.Lines.fields.TotalLineAmountInc.toLocaleString(undefined, { minimumFractionDigits: 2 });
-                            let currencyAmountGbp = currencySymbol + '' + data.fields.Lines.fields.TotalLineAmount.toFixed(2);
-                            let TaxTotalGbp = utilityService.modifynegativeCurrencyFormat(data.fields.Lines.fields.LineTaxTotal);
-                            let TaxRateGbp = currencySymbol + '' + data.fields.Lines.fields.LineTaxRate;
+                            let AmountGbp = data.fields.Lines.fields.TotalLineAmountInc.toLocaleString(undefined, { minimumFractionDigits: 2 })||0;
+                            let currencyAmountGbp = currencySymbol + '' + data.fields.Lines.fields.TotalLineAmount.toFixed(2)||0;
+                            let TaxTotalGbp = utilityService.modifynegativeCurrencyFormat(data.fields.Lines.fields.LineTaxTotal)||0;
+                            let TaxRateGbp = currencySymbol + '' + data.fields.Lines.fields.LineTaxRate||0;
                             lineItemObj = {
                                 lineID: Random.id(),
                                 id: data.fields.Lines.fields.ID || '',
@@ -2141,6 +2141,7 @@ Template.new_quote.onRendered(() => {
                             let totalTax = currencySymbol + '' + data.fields.TotalTax.toLocaleString(undefined, { minimumFractionDigits: 2 });
                             let totalBalance = currencySymbol + '' + data.fields.TotalBalance.toLocaleString(undefined, { minimumFractionDigits: 2 });
                             let totalPaidAmount = currencySymbol + '' + data.fields.TotalPaid.toLocaleString(undefined, { minimumFractionDigits: 2 });
+                            if(data.fields.Lines != null){
                             if (data.fields.Lines.length) {
                                 for (let i = 0; i < data.fields.Lines.length; i++) {
                                     let AmountGbp = currencySymbol + '' + data.fields.Lines[i].fields.TotalLineAmount.toLocaleString(undefined, { minimumFractionDigits: 2 });
@@ -2197,6 +2198,7 @@ Template.new_quote.onRendered(() => {
                                 };
                                 lineItems.push(lineItemObj);
                             }
+                          }
 
                             let quoterecord = {
                                 id: data.fields.ID,
@@ -3456,7 +3458,7 @@ Template.new_quote.onRendered(() => {
 
           var customerDataName = e.target.value.replace(/\s/g, '') ||'';
           var customerDataID = $('#edtCustomerName').attr('custid').replace(/\s/g, '') ||'';
-          if (e.pageX > offset.left + $earch.width() - 16) { // X button 16px wide?
+          if (e.pageX > offset.left + $earch.width() - 8) { // X button 16px wide?
             $('#customerListModal').modal();
             setTimeout(function () {
                 $('#tblCustomerlist_filter .form-control-sm').focus();

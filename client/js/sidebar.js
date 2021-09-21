@@ -680,7 +680,7 @@ Template.sidenav.onRendered(function() {
     var splashArrayProd = new Array();
 
     templateObject.getAllAccountsData = function() {
-        sideBarService.getAccountListVS1().then(function(data) {
+        sideBarService.getAccountListVS1(initialBaseDataLoad,0).then(function(data) {
             //localStorage.setItem('VS1AccountList', JSON.stringify(data) || '');
             addVS1Data('TAccountVS1',JSON.stringify(data));
         }).catch(function(err) {
