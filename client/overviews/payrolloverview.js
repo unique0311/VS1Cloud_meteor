@@ -141,7 +141,6 @@ Template.payrolloverview.onRendered(function () {
                 }
 
             }
-
             $('.lblSumTotalCharge').text(utilityService.modifynegativeCurrencyFormat(sumTotalCharge));
             $('.lblSumHourlyRate').text(utilityService.modifynegativeCurrencyFormat(sumSumHourlyRate));
             $('.lblSumHour').text(sumSumHour);
@@ -149,7 +148,6 @@ Template.payrolloverview.onRendered(function () {
             $('.fullScreenSpin').css('display', 'none');
 
         }).catch(function (err) {
-            console.log(err);
             // Bert.alert('<strong>' + err + '</strong>!', 'danger');
             $('.fullScreenSpin').css('display', 'none');
             // Meteor._reload.reload();
@@ -676,7 +674,6 @@ Template.payrolloverview.onRendered(function () {
 
                 }).catch(function (err) {
                    // $('.fullScreenSpin').css('display', 'none');
-                    console.log(err);
                 });
             } else {
                 let data = JSON.parse(dataObject[0].data);
@@ -697,7 +694,6 @@ Template.payrolloverview.onRendered(function () {
                 templateObject.jobsrecords.set(jobsList);
             }
         }).catch(function (err) {
-            console.log(err);
         }); ;
 
     }
@@ -913,8 +909,6 @@ Template.payrolloverview.events({
                         window.open("/payrolloverview", '_self');
                         // })
                     }).catch(function (err) {
-                        console.log(err);
-
                         swal({
                             title: 'Oooops...',
                             text: err,
@@ -929,8 +923,6 @@ Template.payrolloverview.events({
                         $('.fullScreenSpin').css('display', 'none');
                     });
                 }).catch(function (err) {
-                    console.log(err);
-
                     swal({
                         title: 'Oooops...',
                         text: err,
@@ -945,18 +937,16 @@ Template.payrolloverview.events({
                     $('.fullScreenSpin').css('display', 'none');
                 });
             } else {
-                swal({
-                    title: 'Oooops...',
-                    text: "Timesheet has already been started and is not in Paused state",
-                    type: 'error',
-                    showCancelButton: false,
-                    confirmButtonText: 'Try Again'
-                }).then((result) => {
-                    if (result.value) {
-                        // Meteor._reload.reload();
-                    } else if (result.dismiss === 'cancel') {}
-                });
-                $('.fullScreenSpin').css('display', 'none');
+            $("#startTime").val(moment().startOf('hour').format('HH') + ":" + moment().startOf('minute').format('mm'));
+            let date1 = date.getFullYear() + "-" + ("0" + (date.getMonth() + 1)).slice(-2) + "-" + ("0" + (date.getDate())).slice(-2);
+            var endTime = new Date(date1 + ' ' + document.getElementById("endTime").value + ':00');
+            var startTime = new Date(date1 + ' ' + document.getElementById("startTime").value + ':00');
+            if (endTime > startTime) {
+                document.getElementById('txtBookedHoursSpent').value = parseFloat(templateObject.diff_hours(endTime, startTime)).toFixed(2);
+            } else if (document.getElementById("endTime").value == "") {
+                endTime = "";
+            }
+         $("#btnSaveTimeSheet").trigger("click");
 
             }
         }
@@ -1133,7 +1123,6 @@ Template.payrolloverview.events({
             contactService.saveTimeSheet(data).then(function (data) {
                 window.open('/timesheet', '_self');
             }).catch(function (err) {
-                console.log(err);
                 swal({
                     title: 'Oooops...',
                     text: err,
@@ -1198,7 +1187,6 @@ Template.payrolloverview.events({
                 }
 
             }).catch(function (err) {
-                console.log(err);
                 swal({
                     title: 'Oooops...',
                     text: err,
@@ -1228,10 +1216,10 @@ Template.payrolloverview.events({
         let toUpdate = {};
         let date = new Date();
         if (clockList.length > 0) {
-            if (Array.isArray(clockList[0].timelog)) {
+            if (Array.isArray(clockList[clockList.length - 1].timelog)) {
                 checkStatus = clockList[clockList.length - 1].isPaused || "";
                 latestTimeLogId = clockList[clockList.length - 1].timelog[clockList[clockList.length - 1].timelog.length - 1].fields.ID || "";
-                checkStartTime = clockList[clockList.length - 1].timelog[clockList[clockList.length - 1].timelog.length - 1].fields.StartDatetime || "";
+                checkStartTime = clockList[clockList.length - 1].timelog[0].fields.StartDatetime || "";
                 checkEndTime = clockList[clockList.length - 1].timelog[clockList[clockList.length - 1].timelog.length - 1].fields.EndDatetime || "";
             } else {
                 checkStatus = clockList[clockList.length - 1].isPaused || "";
@@ -1263,7 +1251,6 @@ Template.payrolloverview.events({
                 confirmButtonText: 'Ok'
             })
         } else {
-
             swal({
                 title: 'End Timesheet',
                 text: "Are you sure you want to Clock Off",
@@ -1682,8 +1669,6 @@ Template.payrolloverview.events({
             //     FlowRouter.go('/employeetimeclock');
             // })
         }).catch(function (err) {
-            console.log(err);
-
             swal({
                 title: 'Oooops...',
                 text: err,
