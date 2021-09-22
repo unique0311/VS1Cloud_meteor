@@ -5354,6 +5354,7 @@ Template.paymentcard.events({
     'click .btnSelectSuppliers': function (event) {
         const templateObject = Template.instance();
         let selectedSupplierPayments = templateObject.selectedAwaitingPayment.get();
+        if(selectedSupplierPayments.length > 0) {
         let currentApplied = $('.lead').text().replace('$', '').replace(',', '');
         currentApplied = parseFloat(currentApplied.match(/-?(?:\d+(?:\.\d*)?|\.\d+)/)[0])
             let total = currentApplied;
@@ -5373,6 +5374,8 @@ Template.paymentcard.events({
             total = total + parseFloat(selectedSupplierPayments[x].paymentAmount.replace('$', '').replace(',', ''))
                 $('.appliedAmount').text(Currency + total.toFixed(2));
         }
+    }
+        templateObject.selectedAwaitingPayment.set([]);
         $('#customerPaymentListModal').modal('hide');
 
     },
