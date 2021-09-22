@@ -94,14 +94,14 @@ Template.payrolloverview.onRendered(function () {
     }
 
     templateObject.getAllTimeSheetData = function () {
-        contactService.getAllTimeSheetList().then(function (data) {
+        contactService.getAllTimeSheetListEmp().then(function (data) {
             let lineItems = [];
             let lineItemObj = {};
             let sumTotalCharge = 0;
             let sumSumHour = 0;
             let sumSumHourlyRate = 0;
             for (let t = 0; t < data.ttimesheet.length; t++) {
-                if (data.ttimesheet[t].fields.EmployeeName == Session.get('mySessionEmployee') && data.ttimesheet[t].fields.Logs != null) {
+                if (data.ttimesheet[t].fields.Logs != null) {
                     let hourlyRate = utilityService.modifynegativeCurrencyFormat(data.ttimesheet[t].fields.HourlyRate) || 0.00;
                     let labourCost = utilityService.modifynegativeCurrencyFormat(data.ttimesheet[t].fields.LabourCost) || 0.00;
                     let totalAmount = utilityService.modifynegativeCurrencyFormat(data.ttimesheet[t].fields.Total) || 0.00;
@@ -282,7 +282,7 @@ Template.payrolloverview.onRendered(function () {
                         }).on('column-reorder', function () {});
 
                         // $('#tblEmployeelist').DataTable().column( 0 ).visible( true );
-                        $('.fullScreenSpin').css('display', 'none');
+                        //$('.fullScreenSpin').css('display', 'none');
                     }, 0);
 
                     var columns = $('#tblEmployeelist th');
@@ -320,7 +320,7 @@ Template.payrolloverview.onRendered(function () {
 
                 }).catch(function (err) {
                     // Bert.alert('<strong>' + err + '</strong>!', 'danger');
-                    $('.fullScreenSpin').css('display', 'none');
+                    //$('.fullScreenSpin').css('display', 'none');
                     // Meteor._reload.reload();
                 });
             } else {
@@ -446,7 +446,7 @@ Template.payrolloverview.onRendered(function () {
                     }).on('column-reorder', function () {});
 
                     // $('#tblEmployeelist').DataTable().column( 0 ).visible( true );
-                    $('.fullScreenSpin').css('display', 'none');
+                    //$('.fullScreenSpin').css('display', 'none');
                 }, 0);
 
                 var columns = $('#tblEmployeelist th');
@@ -604,7 +604,7 @@ Template.payrolloverview.onRendered(function () {
                     }).on('column-reorder', function () {});
 
                     // $('#tblEmployeelist').DataTable().column( 0 ).visible( true );
-                    $('.fullScreenSpin').css('display', 'none');
+                   // $('.fullScreenSpin').css('display', 'none');
                 }, 0);
 
                 var columns = $('#tblEmployeelist th');
@@ -642,7 +642,7 @@ Template.payrolloverview.onRendered(function () {
 
             }).catch(function (err) {
                 // Bert.alert('<strong>' + err + '</strong>!', 'danger');
-                $('.fullScreenSpin').css('display', 'none');
+                //$('.fullScreenSpin').css('display', 'none');
                 // Meteor._reload.reload();
             });
         });
@@ -675,7 +675,7 @@ Template.payrolloverview.onRendered(function () {
                     templateObject.jobsrecords.set(jobsList);
 
                 }).catch(function (err) {
-                    $('.fullScreenSpin').css('display', 'none');
+                   // $('.fullScreenSpin').css('display', 'none');
                     console.log(err);
                 });
             } else {
@@ -826,7 +826,6 @@ Template.payrolloverview.events({
         $('#settingsModal').modal('show');
     },
     'click #btnClockOn': function () {
-
         const templateObject = Template.instance();
         let clockList = templateObject.timesheetrecords.get();
         let contactService = new ContactService();
@@ -852,7 +851,6 @@ Template.payrolloverview.events({
             }
         }
 
-        
         if (checkStatus == "completed") {
             $("#startTime").val(moment().startOf('hour').format('HH') + ":" + moment().startOf('minute').format('mm'));
             let date1 = date.getFullYear() + "-" + ("0" + (date.getMonth() + 1)).slice(-2) + "-" + ("0" + (date.getDate())).slice(-2);
@@ -860,6 +858,8 @@ Template.payrolloverview.events({
             var startTime = new Date(date1 + ' ' + document.getElementById("startTime").value + ':00');
             if (endTime > startTime) {
                 document.getElementById('txtBookedHoursSpent').value = parseFloat(templateObject.diff_hours(endTime, startTime)).toFixed(2);
+            } else if (document.getElementById("endTime").value == "") {
+                endTime = "";
             }
             $("#btnSaveTimeSheet").trigger("click");
         } else {
@@ -892,6 +892,7 @@ Template.payrolloverview.events({
                         InvoiceNotes: ""
                     }
                 }
+
                 contactService.saveTimeSheetLog(newEntry).then(function (savedData) {
                     contactService.saveTimeSheetLog(toUpdate).then(function (savedData1) {
                         contactService.saveClockTimeSheet(updateTimeSheet).then(function (savedTimesheetData) {}).catch(function (err) {
@@ -1002,24 +1003,7 @@ Template.payrolloverview.events({
         }
 
         if (endTime != "") {
-            if (jobName == "") {
-                $('.fullScreenSpin').css('display', 'none');
-                swal({
-                    title: 'Oooops...',
-                    text: 'Job and Rate field must be completed when Clocking Off',
-                    type: 'warning',
-                    showCancelButton: false,
-                    confirmButtonText: 'Try Again'
-                }).then((result) => {
-                    if (result.value) {
-                        // Meteor._reload.reload();
-                    } else if (result.dismiss === 'cancel') {}
-                });
-                return false;
-            } else {
-                endTime = date + ' ' + endTime;
-            }
-
+            endTime = date + ' ' + endTime;
         }
 
         if (edthour < 1) {
@@ -1063,8 +1047,6 @@ Template.payrolloverview.events({
                 return Timesheet.id == updateID
             });
 
-            hourlyRate = result[0].hourlyrate;
-
             if (result[0].timelog == null) {
                 obj = {
                     type: "TTimeLog",
@@ -1084,7 +1066,7 @@ Template.payrolloverview.events({
                     fields: {
                         TimeSheetID: updateID,
                         EmployeeID: Session.get('mySessionEmployeeLoggedID'),
-                        StartDatetime: startTime,
+                        StartDatetime: checkStartTime,
                         EndDatetime: endTime,
                         Description: 'Timesheet Completed',
                         EnteredBy: Session.get('mySessionEmployeeLoggedID')
@@ -1095,7 +1077,6 @@ Template.payrolloverview.events({
                 aEndDate = moment().format("YYYY-MM-DD") + ' ' + endTime;
             }
         }
-
         if (updateID == "") {
             if ($('#tActualStartTime').val() != "") {
                 obj = {
@@ -1122,7 +1103,6 @@ Template.payrolloverview.events({
 
                 isPaused = "completed";
             }
-
             data = {
                 type: "TTimeSheetEntry",
                 fields: {
@@ -1177,8 +1157,6 @@ Template.payrolloverview.events({
                     ServiceName: product || '',
                     LabourCost: 1,
                     Allowedit: true,
-                    Logs: obj,
-                    // ChargeRate: 100,
                     Hours: parseInt(edthour) || 0,
                     // OverheadRate: 90,
                     Job: jobName || '',
@@ -1208,8 +1186,14 @@ Template.payrolloverview.events({
                             }
                         }
                     }
-                    contactService.saveTimeSheetLog(updateData).then(function (data) {
-                       window.open('/timesheet', '_self');
+                    contactService.saveTimeSheetLog(obj).then(function (data) {
+                        contactService.saveTimeSheetLog(updateData).then(function (data) {
+                            window.open('/timesheet', '_self');
+                        }).catch(function (err) {})
+                    }).catch(function (err) {})
+                } else if (obj.fields.Description == "Timesheet Started") {
+                    contactService.saveTimeSheetLog(obj).then(function (data) {
+                        window.open('/timesheet', '_self');
                     }).catch(function (err) {})
                 }
 
@@ -1664,7 +1648,7 @@ Template.payrolloverview.events({
             contactService.saveClockTimeSheet(updateTimeSheet).then(function (savedTimesheetData) {
 
                 contactService.saveTimeSheetLog(toUpdate).then(function (data) {
-                    window.open('/timesheet', '_self');
+                    window.open('/payrolloverview', '_self');
                 }).catch(function (err) {
                     swal({
                         title: 'Oooops...',
