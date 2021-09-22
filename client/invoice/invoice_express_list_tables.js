@@ -184,7 +184,7 @@ Template.invoicelist.onRendered(function() {
                       lengthMenu: [ [25, -1], [25, "All"] ],
                       info: false,
                       responsive: true,
-                      searching: false,
+                      searching: true,
                       "order": [[ 0, "desc" ],[ 2, "desc" ]],
                       action: function () {
                           $('#tblInvoicelist').DataTable().ajax.reload();
@@ -369,7 +369,7 @@ setTimeout(function () {
           // "scrollY": "800px",
           // "scrollCollapse": true,
           info: true,
-          searching: false,
+          searching: true,
           responsive: true,
           lengthMenu: [ [25,-1], [25,"All"] ],
           "order": [[ 0, "desc" ],[ 2, "desc" ]],
@@ -704,7 +704,7 @@ templateObject.tableheaderrecords.set(tableHeaderList);
                       lengthMenu: [ [25,-1], [25, "All"] ],
                       info: false,
                       responsive: true,
-                      searching: false,
+                      searching: true,
                       "order": [[ 0, "desc" ],[ 2, "desc" ]],
                       action: function () {
                           $('#tblInvoicelist').DataTable().ajax.reload();
