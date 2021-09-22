@@ -2706,7 +2706,6 @@ Template.paymentcard.onRendered(() => {
             let lineItemObj = {};
             let amountData = 0;
             var arr = currentSalesID.split(',');
-            console.log(arr);
             for (let i = 0; i < arr.length; i++) {
 
                 currentSalesID = parseInt(arr[i]);

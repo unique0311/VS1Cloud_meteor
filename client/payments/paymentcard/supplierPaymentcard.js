@@ -4682,7 +4682,6 @@ Template.supplierpaymentcard.events({
                 });
                 //window.history.go(-2);
             }).catch(function (err) {
-                console.log(err);
                 swal({
                     title: 'Oooops...',
                     text: err,

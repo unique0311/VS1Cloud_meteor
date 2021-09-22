@@ -33,7 +33,7 @@ export class ReconService extends BaseService {
 
     getReconciliationBalance(bankAccount){
         let options = {
-            PropertyList: "AccountName,Deleted,CloseBalance",
+            PropertyList: "AccountName,Deleted,CloseBalance,OnHold,AccountID",
             select: "[Deleted]=false"
         };
         return this.getList(this.ERPObjects.TReconciliation, options);

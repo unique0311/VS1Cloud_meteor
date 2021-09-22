@@ -39,6 +39,7 @@ Template.bankrecon.onRendered(function() {
                 }
             }
             // Session - set account dropdown BEGIN
+
             setTimeout(function () {
                 let bankaccountid = Session.get('bankaccountid') || '';
                 if(bankaccountid != ''){
@@ -49,6 +50,7 @@ Template.bankrecon.onRendered(function() {
                     templateObject.getOpenBalance(bankName);
                 }
             },10);
+      
             // Session - set account dropdown END
             $('.fullScreenSpin').css('display','none');
         }).catch(function (err) {
@@ -385,7 +387,13 @@ Template.bankrecon.onRendered(function() {
                         }
 
                         dataArray.push(objData);
-
+                        if(FlowRouter.current().queryParams.id){
+                        }else{
+                        if(data.treconciliation[k].OnHold == true){
+                          Session.setPersistent('bankaccountid', data.treconciliation[k].AccountID);
+                          window.open('/bankrecon?id=' + data.treconciliation[k].Id,'_self');
+                        }
+                      }
                         // openBal = data.treconciliation[data.treconciliation.length - 1].CloseBalance;
 
                     }
@@ -1817,6 +1825,7 @@ if(useData[d].fields.WithdrawalLines.length > 0){
             });
 
         }
+        templateObject.getAccountNames();
     }else{
         templateObject.getAccountNames();
         //templateObject.getOpenBalance();
@@ -1926,7 +1935,7 @@ Template.bankrecon.events({
             templateObject.getReconcileDeposit(accountTypeId);
             templateObject.getReconcileWithdrawal(accountTypeId);
             setTimeout(function () {
-                location.reload();
+                window.open('/bankrecon','_self');
             },1000);
         }else{
         }
@@ -1963,6 +1972,7 @@ Template.bankrecon.events({
         templateObject.selectedTransdep.set(selectedtransactionsdep);
         setTimeout(function () {
             $("#divtblSelectedDeposits").height(300);
+              $('.btnHold').prop("disabled", false);
         },0);
         $('.depositAmount').text(utilityService.modifynegativeCurrencyFormat(selectedTransAmountdep) || Currency+"0.00");
 
@@ -2004,6 +2014,7 @@ Template.bankrecon.events({
         templateObject.selectedTranswith.set(selectedtransactionswith);
         setTimeout(function () {
             $("#divtblSelectedWithdrawals").height(300);
+            $('.btnHold').prop("disabled", false);
         },0);
         $('.withdrawalAmount').text(utilityService.modifynegativeCurrencyFormat(selectedTransAmountwidth) || Currency+"0.00");
         // var totaldepamount = (($('.depositAmount').html()).substring(1)).replace(',','');
@@ -2056,6 +2067,7 @@ Template.bankrecon.events({
             var openbalamount = Number($('#openingbalance').val().replace(/[^0-9.-]+/g,""));
             var clearedBal = parseFloat(openbalamount)+parseFloat(totaldepamount)-parseFloat(totalwithamount);
             $('.clearedBalance').text(utilityService.modifynegativeCurrencyFormat(clearedBal) || Currency+"0.00");
+            $('.btnHold').prop("disabled", false);
         }else{
             $(".reconchkboxdep"). prop("checked", false);
             var selectedTransAmountdep = 0;
@@ -2143,6 +2155,7 @@ Template.bankrecon.events({
             var openbalamount = Number($('#openingbalance').val().replace(/[^0-9.-]+/g,""));
             var clearedBal = parseFloat(openbalamount)+parseFloat(totaldepamount)-parseFloat(totalwithamount);
             $('.clearedBalance').text(utilityService.modifynegativeCurrencyFormat(clearedBal) || Currency+"0.00");
+            $('.btnHold').prop("disabled", false);
         } else {
             $(".reconchkboxwith"). prop("checked", false);
             var selectedTransAmountwidth = 0;
@@ -2659,7 +2672,18 @@ Template.bankrecon.events({
         } else {
             $('.reconbtn').prop("disabled", true);
             $('.btnHold').prop("disabled", true);
-            swal('The Cleared Balance must match the Ending Balance you entered!', '', 'warning');
+            if (rowCountDep >= 1 || rowCountWith >= 1) {
+                if ($('#statementno').val().replace(/\s/g, '') != ''){
+                    $('.reconbtn').prop("disabled", true);//enables button
+                    $('.btnHold').prop("disabled", false);
+
+                } else {
+                    $('.reconbtn').prop("disabled", true);
+                    $('.btnHold').prop("disabled", true);
+                    //swal('A Statement Number is required in order to reconcile!', '', 'warning');
+                }
+            }
+            //swal('The Cleared Balance must match the Ending Balance you entered!', '', 'warning');
         }
 
     },
@@ -2691,7 +2715,17 @@ Template.bankrecon.events({
         } else {
             $('.reconbtn').prop("disabled", true);
             $('.btnHold').prop("disabled", true);
-            //swal('The Cleared Balance must match the Ending Balance you entered!', '', 'warning');
+            if (rowCountDep >= 1 || rowCountWith >= 1) {
+                if ($('#statementno').val().replace(/\s/g, '') != ''){
+                    $('.reconbtn').prop("disabled", true);//enables button
+                    $('.btnHold').prop("disabled", false);
+
+                } else {
+                    $('.reconbtn').prop("disabled", true);
+                    $('.btnHold').prop("disabled", true);
+                    swal('A Statement Number is required in order to reconcile!', '', 'warning');
+                }
+            }
         }
 
     },
@@ -2753,7 +2787,7 @@ Template.bankrecon.events({
                 swal("No transactions flagged to be reconciled.","","warning");
             } else {
                 if (endingbal == ''){
-                    swal("No Ending Balance Entered.","","warning");
+                    //swal("No Ending Balance Entered.","","warning");
                 }
             }
         } else {

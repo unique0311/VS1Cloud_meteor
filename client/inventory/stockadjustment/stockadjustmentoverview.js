@@ -256,7 +256,6 @@ Template.stockadjustmentoverview.onRendered(function() {
             }else{
                 let data = JSON.parse(dataObject[0].data);
                 let useData = data.tstockadjustentry;
-                console.log(useData);
                 let lineItems = [];
                 let lineItemObj = {};
                 for(let i=0; i<useData.length; i++){

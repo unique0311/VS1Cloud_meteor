@@ -310,7 +310,6 @@ Template.productview.onRendered(function() {
     var getprod_name = url.split('?prodname=');
     var currentProductID = FlowRouter.current().queryParams.id;
    var currentProductName = FlowRouter.current().queryParams.prodname;
-   //console.log(currentProductName);
     let lineExtaSellItems = [];
     let lineExtaSellObj = {};
     if(FlowRouter.current().queryParams.id){
@@ -815,7 +814,6 @@ Template.productview.onRendered(function() {
     }else if(FlowRouter.current().queryParams.prodname){
 
         currentProductName = currentProductName.replace(/%20/g, " ");
-        console.log(currentProductName);
         templateObject.getProductData = function () {
 
           getVS1Data('TProductVS1').then(function (dataObject) {
@@ -906,7 +904,6 @@ Template.productview.onRendered(function() {
               var added=false;
 
               for(let i=0; i<useData.length; i++){
-                console.log(useData[i].fields.ProductName);
                 if(useData[i].fields.ProductName === currentProductName){
                   added = true;
                   $('.fullScreenSpin').css('display','none');
@@ -2565,7 +2562,6 @@ Template.productview.events({
         let clientDiscount = $('.edtDiscountModal').val() || '';
         let clientDiscPrice = $('.edtPriceExModal').val() || '';
         let id = $('#typeID').val() || '';
-        console.log(custType);
         if (custType === '') {
             swal('Client Type name cannot be blank!', '', 'warning');
             $('.fullScreenSpin').css('display', 'none');

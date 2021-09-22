@@ -399,7 +399,6 @@ Template.journalentrycard.onRendered(() => {
                     } else {
                         let data = JSON.parse(dataObject[0].data);
                         let useData = data.tjournalentry;
-                        console.log(useData);
                         var added = false;
                         for (let d = 0; d < useData.length; d++) {
                             if (parseInt(useData[d].fields.ID) === currentBill) {

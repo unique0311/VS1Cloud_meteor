@@ -905,7 +905,6 @@ Template.customerawaitingpayments.events({
             }
         });
         Session.setPersistent('paymentsArray',JSON.stringify(selectedAwaitingPayment));
-        console.log(Se)
         templateObject.selectedAwaitingPayment.set(selectedAwaitingPayment);
 
     },
