@@ -1731,12 +1731,12 @@ Template.payrolloverview.events({
         }).catch(function (err) {});
         sideBarService.getAllEmployees(initialBaseDataLoad, 0).then(function (data) {
             addVS1Data('TEmployee', JSON.stringify(data)).then(function (datareturn) {
-                window.open('/employeelist', '_self');
+                window.open('/payrolloverview', '_self');
             }).catch(function (err) {
-                window.open('/employeelist', '_self');
+                window.open('/payrolloverview', '_self');
             });
         }).catch(function (err) {
-            window.open('/employeelist', '_self');
+            window.open('/payrolloverview', '_self');
         });
     },
     'click .printConfirm': function (event) {

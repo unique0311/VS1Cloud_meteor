@@ -464,6 +464,13 @@ export class ContactService extends BaseService {
       }
          return this.getList(this.ERPObjects.TTimeSheet, options);
      }
+    getAllTimeSheetListEmp(){
+     let options = {
+            ListType: "Detail",
+            select: "[EmployeeName]='"+Session.get('mySessionEmployee')+"'",
+      }
+         return this.getList(this.ERPObjects.TTimeSheet, options);
+     }
 
      saveTimeSheet(data) {
          return this.POST(this.ERPObjects.TTimeSheetEntry, data);
