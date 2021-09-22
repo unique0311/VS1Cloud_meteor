@@ -452,10 +452,10 @@
                         }
                     </style>
                     <div class="table-responsive">
-                        <table id="tblTimeSheet" style="width:100%" class="dataTable table table-hover table-striped table-bordered tblTimeSheet">
+                                              <table id="tblTimeSheet" style="width:100%" class="dataTable table table-hover table-striped table-bordered tblTimeSheet">
                             <thead>
                                 <tr class="dnd-moved">
-                                    <th class="colFlag sorting_disabled" style="width: 1% !important;">
+                                    <th class="th colFlag">
                                         <div class="custom-control custom-checkbox" style="width:15px;">
                                             <input class="custom-control-input n" type="checkbox" id="check-all">
                                             <label class="custom-control-label" for="check-all"></label>
@@ -464,77 +464,65 @@
                                     <th class="th colName" style="width:100px;">Employee</th>
                                     <th class="th colDate" style="width:50px;">Date</th>
                                     <th class="th colJob" style="width:200px;">Job</th>
-                                    <th class="th colProduct" style="width:200px;">Product</th>
-                                   <!--  <th class="th tdRate hiddenColumn" style="width:50px;">Pay Rate</th> -->
-                                    <th class="th tdHours" style="width:50px;">Hours</th>
-                                    <!-- <th class="th tdOvertime hiddenColumn" style="width:50px;">Overtime</th>
-                                    <th class="th tdDouble hiddenColumn" style="width:50px;">Double</th>
-                                    <th class="th tdAdditional hiddenColumn" style="width:50px;">Additional</th>
-                                    <th class="th tdPaycheckTip hiddenColumn" style="width:50px;">Tips</th>
-                                    <th class="th tdGrossPay hiddenColumn" style="">Gross Pay</th> -->
+                                    <!-- <th  class="th colRate" style="width:50px;">Pay Rate</th> -->
+                                    <th  class="th colRegHours" style="width:50px;">Hours</th>
+                                    <th  class="th colOvertime " style="width:50px;">Overtime</th>
+                                    <th class="th colDouble " style="width:50px;">Double</th>
+                                    <th class="th colAdditional " style="width:50px;">Additional</th>
+                                    <th class="th colPaycheckTips " style="width:50px;">Tips</th>
+                                    <!-- <th class="th colCashTips" style="width:50px;">Cash Tips</th> -->
+                                    <!-- <th class="th colGrossPay" style="width:50px;">Gross Pay</th> -->
                                     <th class="th colNotes">Technical Notes</th>
                                     <th class="th colStatus">Status</th>
-                                    <th class="" style="max-width: 35px;">Edit</th>
+                                    <th class="" style="max-width: 50px;">Edit</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {{#if datatablerecords}}
-                                    {{#each item in datatablerecords}}
-                                        <tr class="dnd-moved" id="{{item.id}}" name="{{item.id}}">
-                                            <td class="colFlag" style="width: 1% !important;">
-                                                <div class="custom-control custom-checkbox pointer">
-                                                    <input class="custom-control-input chkBox notevent pointer" type="checkbox" id="f-{{item.id}}" name="f-{{item.id}}">
-                                                    <label class="custom-control-label" for="f-{{item.id}}"></label>
-                                                </div>
-                                            </td>
-                                            <td class="colName" contenteditable="false" empname="{{item.employee}}"><a href="#">{{item.employee}}</a></td>
-                                            <td class="colDate" contenteditable="false">{{item.timesheetdate}}</td>
-                                            <td class="colJob" contenteditable="false">{{item.job}}</td>
-                                            <td class="colProduct" contenteditable="false">{{item.product}}</td>
-                                          <!--   <td class="tdRate hiddenColumn" style="text-align: right!important;"><input class="colRate highlightInput cashamount" type="text" value="{{item.labourcost}}"><span class="colRateSpan" style="display: none;">{{item.labourcost}}</span>
-                                            </td> -->
-                                            <td class="tdHours" style="text-align: right!important;"><input class="colRegHours highlightInput" type="number" value="{{item.hours}}"><span class="colRegHoursSpan" style="display: none;">{{item.hours}}</span>
-                                            </td>
-                                            <!-- <td class="tdOvertime hiddenColumn" style="text-align: right!important;"><input class="colOvertime highlightInput" type="number" value="{{item.overtime}}"><span class="colOvertimeSpan"  style="display: none;">{{item.overtime}}</span></td>
-                                            <td class="tdDouble hiddenColumn" style="text-align: right!important;"><input class="colDouble highlightInput" type="number" value="{{item.double}}"><span class="colDoubleSpan" style="display: none;">{{item.double}}</span>
-                                            </td>
-                                            <td class="tdAdditional hiddenColumn" style="text-align: right!important;"><input class="colAdditional highlightInput cashamount" type="text" value="{{item.additional}}"><span class="colAdditionalSpan"
-                                                    style="display: none;">{{item.additional}}</span></td>
-                                            <td class="tdPaycheckTip hiddenColumn" style="text-align: right!important;"><input class="colPaycheckTips highlightInput cashamount" type="text" value="{{item.paychecktips}}"><span class="colPaycheckTipsSpan"
-                                                    style="display: none;">{{item.paychecktips}}</span></td>
-                                            <td class="tdGrossPay hiddenColumn" style="text-align: right!important;"><input class="colGrossPay highlightInput cashamount" type="text" value="{{item.totalamountex}}"><span class="colGrossPaySpan"
-                                                    style="display: none;">{{item.totalamountex}}</span></td> -->
-                                            <td class="colNotes">{{item.notes}}</td>
-                                            <td class="colStatus" style="background-color: {{item.color}} !important; color:#fff">Not Processed</td>
-                                            <td><button class="btn float-left btnEditTimeSheet" type="button" style="margin: 0px;margin-left: 0px;padding: 0px;" role="button" data-toggle="modal" href="#addNewTimeSheet"><i class="la la-ellipsis-h"
-                                                        style="color: #00a3d3;font-size: 20px;"></i></button></td>
-                                        </tr>
-                                    {{/each}}
+                                {{#each item in datatablerecords}}
+                                <tr class="dnd-moved" id="{{item.id}}" name="{{item.id}}">
+                                    <td class="colFlag">
+                                        <div class="custom-control custom-checkbox pointer" style="width:15px;">
+                                            <input class="custom-control-input chkBox notevent pointer" type="checkbox" id="f-{{item.id}}" name="{{item.id}}">
+                                            <label class="custom-control-label" for="f-{{item.id}}"></label>
+                                        </div>
+                                    </td>
+                                    <td class="colName" contenteditable="false" empname="{{item.employee}}"><a href="#">{{item.employee}}</a></td>
+                                    <td class="colDate" contenteditable="false">{{item.timesheetdate}}</td>
+                                    <td class="colJob" contenteditable="false">{{item.job}}</td>
+                                    <!-- <td style="text-align: right!important;"><input class="colRate highlightInput cashamount" type="text" value="{{item.labourcost}}"><span class="colRateSpan" style="display: none;">{{item.labourcost}}</span></td> -->
+                                    <td style="text-align: right!important;"><input class="colRegHours highlightInput" type="number" value="{{item.hours}}"><span class="colRegHours" style="display: none;">{{item.hours}}</span></td>
+                                    <td style="text-align: right!important;"><input class="colOvertime highlightInput" type="number" value="{{item.overtime}}"><span class="colOvertime" style="display: none;">{{item.overtime}}</span></td>
+                                    <td style="text-align: right!important;"><input class="colDouble highlightInput" type="number" value="{{item.double}}"><span class="colDouble" style="display: none;">{{item.double}}</span></td>
+                                    <td style="text-align: right!important;"><input class="colAdditional highlightInput cashamount" type="text" value="{{item.additional}}"><span class="colAdditional" style="display: none;">{{item.additional}}</span></td>
+                                    <td style="text-align: right!important;"><input class="colPaycheckTips highlightInput cashamount" type="text" value="{{item.paychecktips}}"><span class="colPaycheckTips" style="display: none;">{{item.paychecktips}}</span></td>
+                                   <!--  <td style="text-align: right!important;"><input class="colCashTips highlightInput cashamount" type="text" value="{{item.cashtips}}"><span class="colCashTips" style="display: none;">{{item.cashtips}}</span></td> -->
+                                    <!-- <td style="text-align: right!important;"><input class="colGrossPay highlightInput cashamount" type="text" value="{{item.totalamountex}}"><span class="colGrossPay" style="display: none;">{{item.totalamountex}}</span></td> -->
+                                    <td class="colNotes" >{{item.notes}}</td>
+                                     <td class="colStatus" style="background-color: {{item.color}} !important; color:#fff">Not Processed</td>
+                                    <!-- <td style="max-width: 50px;"><button class="btn float-left btnAddShift" type="button" style="margin: 0px;margin-left: 0px;padding: 0px;" role="button" data-toggle="modal" href="#addNewShift"><i class="la la-ellipsis-h" style="color: #00a3d3;font-size: 20px;"></i></button></td> -->
+                                    <td ><button class="btn float-left btnEditTimeSheet" type="button" style="margin: 0px;margin-left: 0px;padding: 0px;" role="button" data-toggle="modal" href="#addNewTimeSheet"><i class="la la-ellipsis-h" style="color: #00a3d3;font-size: 20px;"></i></button></td>
+                                </tr>
+                                {{/each}}
                                 {{/if}}
 
                             </tbody>
 
                             <tfoot>
                                 <tr class="dnd-moved" style="font-weight: 700;">
-                                    <td class="tdEmpty" contenteditable="false" style="width: 1% !important;">
-                                        <div class="custom-control custom-checkbox pointer" style="display: none;">
-                                            <input class="custom-control-input chkBox notevent pointer" type="checkbox" id="f-{{item.id}}" name="{{item.id}}">
-                                            <label class="custom-control-label" for="f-{{item.id}}"></label>
-                                        </div>
-                                    </td>
-                                    <td class="colName" contenteditable="false"></td>
-                                    <td class="colDate" contenteditable="false"></td>
-                                    <td class="colJob" contenteditable="false"></td>
-                                    <td class="colJob" contenteditable="false"></td>
-                                   <!--  <td contenteditable="false" class="cashamount hiddenColumn lblSumHourlyRate tdRate"></td> -->
-                                    <td contenteditable="false" class="cashamount lblSumHour tdHours">0.00</td>
-                                    <!-- <td contenteditable="false" class="cashamount lblSumOvertime hiddenColumn tdOvertime">0</td>
-                                    <td contenteditable="false" class="cashamount hiddenColumn lblSumDouble tdDouble">0</td> -->
-                                    <!-- <td class="cashamount lblSumAdditions tdAdditional hiddenColumn">$<span contenteditable="false">0.00</span></td>
-                                    <td class="cashamount lblSumCashtips tdPaycheckTip hiddenColumn">$<span contenteditable="false">0.00</span></td> -->
-                                    <!-- <td contenteditable="false" class="cashamount hiddenColumn lblSumTotalCharge tdGrossPay"></td> -->
-                                    <td class="colNotes" contenteditable="false"></td>
-                                    <td class="colStatus" contenteditable="false"></td>
+                                    <td contenteditable="false"></td>
+                                    <td contenteditable="false"></td>
+                                    <td contenteditable="false"></td>
+                                    <td contenteditable="false"></td>
+                                    <!-- <td contenteditable="false" class="cashamount lblSumHourlyRate">0.00</td> -->
+                                    <td contenteditable="false" class="cashamount lblSumHour">0.00</td>
+                                    <td contenteditable="false" class="cashamount lblSumOvertime">0</td>
+                                    <td contenteditable="false" class="cashamount lblSumDouble">0</td>
+                                    <td class="cashamount lblSumAdditions">$<span contenteditable="false">0.00</span></td>
+                                    <td class="cashamount lblSumCashtips">$<span contenteditable="false">0.00</span></td>
+                                   <!--  <td contenteditable="false" class="cashamount lblSumTotalCharge">0.00</td> -->
+                                    <td contenteditable="false"></td>
+                                    <td contenteditable="false"></td>
                                     <td style="max-width: 50px;"></td>
                                 </tr>
                             </tfoot>
