@@ -904,6 +904,8 @@ Template.customerawaitingpayments.events({
                 selectedAwaitingPayment.push(paymentTransObj);
             }
         });
+        Session.setPersistent('paymentsArray',JSON.stringify(selectedAwaitingPayment));
+        console.log(Se)
         templateObject.selectedAwaitingPayment.set(selectedAwaitingPayment);
 
     },

@@ -278,6 +278,7 @@ Template.supplierawaitingpurchaseorder.onRendered(function () {
             } else {
                 let data = JSON.parse(dataObject[0].data);
                 let useData = data.tbillreport;
+                console.log(useData);
                 let lineItems = [];
                 let lineItemObj = {};
                 let totalPaidCal = 0;
@@ -931,17 +932,19 @@ Template.supplierawaitingpurchaseorder.events({
         if(currentBeginDate.getDate() < 10){
             fromDateDay = "0" + currentBeginDate.getDate();
         }
+        currentBeginDate.setMonth(currentBeginDate.getMonth() - 6);
+        console.log(moment(currentBeginDate).format('YYYY-MM-DD'));
         var toDate = currentBeginDate.getFullYear()+ "-" +(fromDateMonth) + "-"+(fromDateDay);
-        let prevMonth11Date = (moment().subtract(reportsloadMonths, 'months')).format("YYYY-MM-DD");
 
+        let prevMonth11Date = moment(currentBeginDate).format('YYYY-MM-DD');
         sideBarService.getAllPurchaseOrderListAll(prevMonth11Date,toDate, false).then(function (data) {
             addVS1Data('TbillReport', JSON.stringify(data)).then(function (datareturn) {
-                Meteor._reload.reload();
+               Meteor._reload.reload();
             }).catch(function (err) {
                 Meteor._reload.reload();
             });
         }).catch(function (err) {
-            Meteor._reload.reload();
+           Meteor._reload.reload();
         });
     }
     ,
