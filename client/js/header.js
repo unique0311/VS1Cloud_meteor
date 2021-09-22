@@ -573,6 +573,30 @@ Template.header.events({
         templateObject.searchdatatablerecords.set('');
         $('.txtGlobalSearch').val('');
 
+    },'click .btnGlobalSearchMobile': function(event) {
+        let templateObject = Template.instance();
+        var searchData = $('.txtGlobalSearchMobile').val().toLowerCase();
+        if (searchData != '') {
+            templateObject.getAllGlobalSearch(searchData);
+
+        }
+    },
+    'keypress .txtGlobalSearchMobile': function(event) {
+        var key = event.which;
+        if (key == 13) {
+            let templateObject = Template.instance();
+            var searchData = $('.txtGlobalSearchMobile').val().toLowerCase();
+            if (searchData != '') {
+                templateObject.getAllGlobalSearch(searchData);
+                event.preventDefault();
+            }
+        }
+    },
+    'click .btnCloseModalMobile': function(event) {
+        let templateObject = Template.instance();
+        templateObject.searchdatatablerecords.set('');
+        $('.txtGlobalSearchMobile').val('');
+
     },
     'click #sidebarToggleTop': function(event) {
         var newnav = document.getElementById("sidebar");
