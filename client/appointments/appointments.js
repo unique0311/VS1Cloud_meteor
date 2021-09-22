@@ -650,6 +650,7 @@ Template.appointments.onRendered(function () {
             //Triggers modal once event is moved to another date within the calendar.
             eventDrop: function (info) {
                 if (info.event._def.publicId != "") {
+                    $('.fullScreenSpin').css('display', 'inline-block');
                     let appointmentData = templateObject.appointmentrecords.get();
                     let resourceData = templateObject.resourceAllocation.get();
                     let eventDropID = info.event._def.publicId || '0';
@@ -702,12 +703,14 @@ Template.appointments.onRendered(function () {
                                 }
                             })
                             sideBarService.getAllAppointmentList(initialDataLoad,0).then(function (dataUpdate) {
-                                addVS1Data('TAppointment', JSON.stringify(dataUpdate)).then(function (datareturn) {}).catch(function (err) {});
+                                addVS1Data('TAppointment', JSON.stringify(dataUpdate)).then(function (datareturn) {
+                                    window.open('/appointments', '_self');
+                                }).catch(function (err) {});
                             }).catch(function (err) {
-                                //window.open('/appointments', '_self');
+                                window.open('/appointments', '_self');
                             });
                         }).catch(function (err) {
-                            //window.open('/appointments', '_self');
+                            window.open('/appointments', '_self');
                         });
                     }
                 }
@@ -1041,6 +1044,7 @@ Template.appointments.onRendered(function () {
             //Triggers modal once event is moved to another date within the calendar.
             eventDrop: function (info) {
                 if (info.event._def.publicId != "") {
+                    $('.fullScreenSpin').css('display', 'inline-block');
                     let appointmentData = templateObject.appointmentrecords.get();
                     let resourceData = templateObject.resourceAllocation.get();
                     let eventDropID = info.event._def.publicId || '0';
@@ -1092,12 +1096,16 @@ Template.appointments.onRendered(function () {
                                 }
                             })
                             sideBarService.getAllAppointmentList(initialDataLoad,0).then(function (dataUpdate) {
-                                addVS1Data('TAppointment', JSON.stringify(dataUpdate)).then(function (datareturn) {}).catch(function (err) {});
+                                addVS1Data('TAppointment', JSON.stringify(dataUpdate)).then(function (datareturn) {
+                                    window.open('/appointments', '_self');
+                                }).catch(function (err) {
+                                    window.open('/appointments', '_self');
+                                });
                             }).catch(function (err) {
-                                //window.open('/appointments', '_self');
+                                window.open('/appointments', '_self');
                             });
                         }).catch(function (err) {
-                            //window.open('/appointments', '_self');
+                            window.open('/appointments', '_self');
                         });
                     }
                 }
@@ -2313,6 +2321,7 @@ Template.appointments.onRendered(function () {
                         },
                         eventDrop: function (info) {
                             if (info.event._def.publicId != "") {
+                                $('.fullScreenSpin').css('display', 'inline-block');
                                 let appointmentData = templateObject.appointmentrecords.get();
                                 let resourceData = templateObject.resourceAllocation.get();
                                 let eventDropID = info.event._def.publicId || '0';
@@ -2354,12 +2363,14 @@ Template.appointments.onRendered(function () {
                                         $('#' + eventDropID).remove();
                                         $('#allocationTable tbody tr').attr('id', $('#allocationTable tbody tr').attr('id').replace('-', ' '));
                                         sideBarService.getAllAppointmentList(initialDataLoad,0).then(function (dataUpdate) {
-                                            addVS1Data('TAppointment', JSON.stringify(dataUpdate)).then(function (datareturn) {}).catch(function (err) {});
+                                            addVS1Data('TAppointment', JSON.stringify(dataUpdate)).then(function (datareturn) {
+                                                window.open('/appointments', '_self');
+                                            }).catch(function (err) {});
                                         }).catch(function (err) {
-                                            //window.open('/appointments', '_self');
+                                            window.open('/appointments', '_self');
                                         });
                                     }).catch(function (err) {
-                                        //window.open('/appointments', '_self');
+                                        window.open('/appointments', '_self');
                                     });
                                 }
                             }
@@ -3799,6 +3810,7 @@ Template.appointments.onRendered(function () {
                     },
                     eventDrop: function (info) {
                         if (info.event._def.publicId != "") {
+                            $('.fullScreenSpin').css('display', 'inline-block');
                             let appointmentData = templateObject.appointmentrecords.get();
                             let resourceData = templateObject.resourceAllocation.get();
                             let eventDropID = info.event._def.publicId || '0';
@@ -3840,12 +3852,14 @@ Template.appointments.onRendered(function () {
                                     $('#' + eventDropID).remove();
                                     $('#allocationTable tbody tr').attr('id', $('#allocationTable tbody tr').attr('id').replace('-', ' '));
                                     sideBarService.getAllAppointmentList(initialDataLoad,0).then(function (dataUpdate) {
-                                        addVS1Data('TAppointment', JSON.stringify(dataUpdate)).then(function (datareturn) {}).catch(function (err) {});
+                                        addVS1Data('TAppointment', JSON.stringify(dataUpdate)).then(function (datareturn) {
+                                            window.open('/appointments', '_self');
+                                        }).catch(function (err) {});
                                     }).catch(function (err) {
-                                        //window.open('/appointments', '_self');
+                                        window.open('/appointments', '_self');
                                     });
                                 }).catch(function (err) {
-                                    //window.open('/appointments', '_self');
+                                    window.open('/appointments', '_self');
                                 });
                             }
                         }
@@ -4503,6 +4517,7 @@ Template.appointments.onRendered(function () {
                     //Triggers modal once event is moved to another date within the calendar.
                     eventDrop: function (info) {
                         if (info.event._def.publicId != "") {
+                            $('.fullScreenSpin').css('display', 'inline-block');
                             let appointmentData = templateObject.appointmentrecords.get();
                             let resourceData = templateObject.resourceAllocation.get();
                             let eventDropID = info.event._def.publicId || '0';
@@ -4544,12 +4559,14 @@ Template.appointments.onRendered(function () {
                                     $('#' + eventDropID).remove();
                                     $('#allocationTable tbody tr').attr('id', $('#allocationTable tbody tr').attr('id').replace('-', ' '));
                                     sideBarService.getAllAppointmentList(initialDataLoad,0).then(function (dataUpdate) {
-                                        addVS1Data('TAppointment', JSON.stringify(dataUpdate)).then(function (datareturn) {}).catch(function (err) {});
+                                        addVS1Data('TAppointment', JSON.stringify(dataUpdate)).then(function (datareturn) {
+                                            window.open('/appointments', '_self');
+                                        }).catch(function (err) {});
                                     }).catch(function (err) {
-                                        //window.open('/appointments', '_self');
+                                        window.open('/appointments', '_self');
                                     });
                                 }).catch(function (err) {
-                                    //window.open('/appointments', '_self');
+                                    window.open('/appointments', '_self');
                                 });
                             }
                         }
@@ -4874,9 +4891,43 @@ Template.appointments.onRendered(function () {
 
     });
 
+
+$( document ).ready(function() {
+    
+})
+
 });
 
 Template.appointments.events({
+    // 'click #triggerCamera': function (event) {
+    //      if (!navigator.mediaDevices || !navigator.mediaDevices.enumerateDevices) {
+    //     swal({
+    //         title: 'Oooops...',
+    //         text: "Your device does not support this feature",
+    //         type: 'warning',
+    //         showCancelButton: false,
+    //         confirmButtonText: 'Try Again'
+    //     }).then((result) => {
+    //         if (result.value) {}
+    //         else if (result.dismiss === 'cancel') {}
+    //     });
+    //  } else {
+    //     const constraints = {
+    //       video: true,
+    //     };
+
+    //     const video = document.querySelector("video");
+
+    //     const hdConstraints = {
+    //       video: { width: { min: 1280 }, height: { min: 720 } },
+    //     };
+
+    //     navigator.mediaDevices.getUserMedia(constraints).then((stream) => {
+    //       video.srcObject = stream;
+    //     });
+    //  }
+
+    // },
     'click #deleteAll': function () {
         var erpGet = erpDb();
         swal({
