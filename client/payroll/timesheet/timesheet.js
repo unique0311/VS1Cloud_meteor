@@ -141,8 +141,8 @@ yearRange: "-90:+10",
 
         }
         $('.lblSumTotalCharge').text(utilityService.modifynegativeCurrencyFormat(sumTotalCharge));
-        $('.lblSumHourlyRate').text(utilityService.modifynegativeCurrencyFormat(sumSumHourlyRate));
-        $('.lblSumHour').text(sumSumHour);
+        $('.lblSumHourlyRate').text(utilityService.modifynegativeCurrencyFormat(sumSumHourlyRate.toFixed(2)));
+        $('.lblSumHour').text(sumSumHour.toFixed(2));
         templateObject.datatablerecords.set(dataTableList);
         templateObject.datatablerecords1.set(dataTableList);
 
