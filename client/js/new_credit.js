@@ -3299,6 +3299,12 @@ Template.creditcard.events({
         let templateObject = Template.instance();
         let suppliername = $('#edtSupplierName');
         let purchaseService = new PurchaseBoardService();
+        let termname = $('#sltTerms').val() || '';
+        if (termname === '') {
+            swal('Terms has not been selected!', '', 'warning');
+            event.preventDefault();
+            return false;
+        }
         if (suppliername.val() === '') {
             swal('Supplier has not been selected!', '', 'warning');
             e.preventDefault();
@@ -3357,7 +3363,7 @@ Template.creditcard.events({
 
             let poNumber = $('#ponumber').val();
             let reference = $('#edtRef').val();
-            let termname = $('#sltTerms').val();
+
             let departement = $('#sltVia').val();
             let shippingAddress = $('#txaShipingInfo').val();
             let comments = $('#txaComment').val();
@@ -4117,6 +4123,12 @@ Template.creditcard.events({
         let templateObject = Template.instance();
         let suppliername = $('#edtSupplierName');
         let purchaseService = new PurchaseBoardService();
+        let termname = $('#sltTerms').val() || '';
+        if (termname === '') {
+            swal('Terms has not been selected!', '', 'warning');
+            event.preventDefault();
+            return false;
+        }
         if (suppliername.val() === '') {
             swal('Supplier has not been selected!', '', 'warning');
             e.preventDefault();
@@ -4176,7 +4188,7 @@ Template.creditcard.events({
 
             let poNumber = $('#ponumber').val();
             let reference = $('#edtRef').val();
-            let termname = $('#sltTerms').val();
+  
             let departement = $('#sltVia').val();
             let shippingAddress = $('#txaShipingInfo').val();
             let comments = $('#txaComment').val();

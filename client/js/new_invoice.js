@@ -2662,6 +2662,7 @@ Template.new_invoice.onRendered(() => {
                                 let totalPaidAmount = currencySymbol + '' + data.fields.TotalPaid.toLocaleString(undefined, {
                                     minimumFractionDigits: 2
                                 });
+                                if(data.fields.Lines != null){
                                 if (data.fields.Lines.length) {
                                     for (let i = 0; i < data.fields.Lines.length; i++) {
                                         let AmountGbp = currencySymbol + '' + data.fields.Lines[i].fields.TotalLineAmount.toLocaleString(undefined, {
@@ -2733,6 +2734,7 @@ Template.new_invoice.onRendered(() => {
                                     };
                                     lineItems.push(lineItemObj);
                                 }
+                                 }
 
                                 let invoicerecord = {
                                     id: data.fields.ID,
@@ -2768,7 +2770,8 @@ Template.new_invoice.onRendered(() => {
                                     saleCustField1: data.fields.SaleCustField1,
                                     saleCustField2: data.fields.SaleCustField2,
                                     totalPaid: totalPaidAmount,
-                                    ispaid: data.fields.IsPaid
+                                    ispaid: data.fields.IsPaid,
+                                    deleted: data.fields.Deleted
                                 };
 
                                 $('#edtCustomerName').val(data.fields.CustomerName);
@@ -2804,6 +2807,30 @@ Template.new_invoice.onRendered(() => {
                                     if (data.fields.IsPaid === true) {
                                         $('#edtCustomerName').attr('readonly', true);
 
+                                        $('.btn-primary').attr('disabled', 'disabled');
+                                        $('#btnCopyInvoice').attr('disabled', 'disabled');
+                                        $('#edtCustomerName').css('background-color', '#eaecf4');
+
+                                        $('#btnViewPayment').removeAttr('disabled', 'disabled');
+                                        $('.btnSave').attr('disabled', 'disabled');
+                                        $('#btnBack').removeAttr('disabled', 'disabled');
+                                        $('.printConfirm').removeAttr('disabled', 'disabled');
+                                        $('.tblInvoiceLine tbody tr').each(function () {
+                                            var $tblrow = $(this);
+                                            $tblrow.find("td").attr('contenteditable', false);
+                                            //$tblrow.find("td").removeClass("lineProductName");
+                                            $tblrow.find("td").removeClass("lineTaxRate");
+                                            $tblrow.find("td").removeClass("lineTaxCode");
+
+                                            $tblrow.find("td").attr('readonly', true);
+                                            $tblrow.find("td").attr('disabled', 'disabled');
+                                            $tblrow.find("td").css('background-color', '#eaecf4');
+                                            $tblrow.find("td .table-remove").removeClass("btnRemove");
+                                        });
+                                    }
+                                    if (data.fields.Deleted === true) {
+                                        $('#edtCustomerName').attr('readonly', true);
+                                        $('.btnTransaction').attr('disabled', 'disabled');
                                         $('.btn-primary').attr('disabled', 'disabled');
                                         $('#btnCopyInvoice').attr('disabled', 'disabled');
                                         $('#edtCustomerName').css('background-color', '#eaecf4');
@@ -3955,7 +3982,7 @@ Template.new_invoice.onRendered(() => {
 
             }
         }).catch(function (err) {
-          console.log(err);
+
             salesService.getTermVS1().then(function (data) {
                 for (let i in data.ttermsvs1) {
 
@@ -4579,7 +4606,7 @@ Template.new_invoice.onRendered(() => {
           var $earch = $(this);
           var offset = $earch.offset();
 
-          var customerDataName = e.target.value.replace(/\s/g, '') ||'';
+          var customerDataName = e.target.value ||'';
           var customerDataID = $('#edtCustomerName').attr('custid').replace(/\s/g, '') ||'';
           if (e.pageX > offset.left + $earch.width() - 8) { // X button 16px wide?
             $('#customerListModal').modal();
@@ -4595,8 +4622,8 @@ Template.new_invoice.onRendered(() => {
                 //$('#tblCustomerlist').dataTable().fnFilter(' ').draw(false);
             }, 500);
            }else{
-             if(customerDataName != '' && customerDataID != ''){
-              FlowRouter.go('/customerscard?id=' + customerDataID);
+             if(customerDataName.replace(/\s/g, '') != ''){
+              FlowRouter.go('/customerscard?name=' + e.target.value);
              }else{
                $('#customerListModal').modal();
                setTimeout(function () {
@@ -5529,6 +5556,12 @@ Template.new_invoice.events({
                 let name = $('#edtCustomerEmail').attr('customerfirstname');
                 let surname = $('#edtCustomerEmail').attr('customerlastname');
                 let salesService = new SalesBoardService();
+                let termname = $('#sltTerms').val() || '';
+                if (termname === '') {
+                    swal('Terms has not been selected!', '', 'warning');
+                    event.preventDefault();
+                    return false;
+                }
                 if (customername.val() === '') {
                     swal('Customer has not been selected!', '', 'warning');
                     e.preventDefault();
@@ -5622,7 +5655,7 @@ Template.new_invoice.events({
 
                     let poNumber = $('#ponumber').val();
                     let reference = $('#edtRef').val();
-                    let termname = $('#sltTerms').val();
+
                     let departement = $('#sltDept').val();
                     let shippingAddress = $('#txaShipingInfo').val();
                     let comments = $('#txaComment').val();
@@ -7502,9 +7535,7 @@ Template.new_invoice.events({
         let saveToTAttachment = false;
         let lineIDForAttachment = false;
         let uploadedFilesArray = templateObj.uploadedFiles.get();
-        console.log(uploadedFilesArray);
         let myFiles = $('#attachment-upload')[0].files;
-        console.log(myFiles);
         let uploadData = utilityService.attachmentUpload(uploadedFilesArray, myFiles, saveToTAttachment, lineIDForAttachment);
         templateObj.uploadedFiles.set(uploadData.uploadedFilesArray);
         templateObj.attachmentCount.set(uploadData.totalAttachments);
@@ -7614,6 +7645,12 @@ Template.new_invoice.events({
         let templateObject = Template.instance();
         let customername = $('#edtCustomerName');
         let salesService = new SalesBoardService();
+        let termname = $('#sltTerms').val() || '';
+        if (termname === '') {
+            swal('Terms has not been selected!', '', 'warning');
+            event.preventDefault();
+            return false;
+        }
         if (customername.val() === '') {
             swal('Customer has not been selected!', '', 'warning');
             e.preventDefault();
@@ -7709,7 +7746,7 @@ Template.new_invoice.events({
 
             let poNumber = $('#ponumber').val();
             let reference = $('#edtRef').val();
-            let termname = $('#sltTerms').val();
+
             let departement = $('#sltDept').val();
             let shippingAddress = $('#txaShipingInfo').val();
             let comments = $('#txaComment').val();
@@ -8080,6 +8117,13 @@ Template.new_invoice.events({
             let templateObject = Template.instance();
             let customername = $('#edtCustomerName');
             let salesService = new SalesBoardService();
+            let termname = $('#sltTerms').val() || '';
+            if (termname === '') {
+                swal('Terms has not been selected!', '', 'warning');
+                event.preventDefault();
+                return false;
+            }
+
             if (customername.val() === '') {
                 swal('Customer has not been selected!', '', 'warning');
                 e.preventDefault();
@@ -8173,7 +8217,7 @@ Template.new_invoice.events({
 
                 let poNumber = $('#ponumber').val();
                 let reference = $('#edtRef').val();
-                let termname = $('#sltTerms').val();
+
                 let departement = $('#sltDept').val();
                 let shippingAddress = $('#txaShipingInfo').val();
                 let comments = $('#txaComment').val();

@@ -50,7 +50,6 @@ Template.timesheettimelog.onRendered(function () {
             if (hours < 1 && min < 1) {
                 time = 0;
             }
-            console.log(time);
         return time;
     }
 
@@ -240,7 +239,7 @@ Template.timesheettimelog.onRendered(function () {
                                 };
                                 dataTableList.push(dataList);
                             }
-                            
+
                         } else {
                                 if (data.ttimesheet[t].fields.Logs.fields.StartDatetime != "") {
                                     startTime = moment(data.ttimesheet[t].fields.Logs.fields.StartDatetime).format('h:mm a');
@@ -447,7 +446,6 @@ Template.timesheettimelog.onRendered(function () {
                 });
 
             }).catch(function (err) {
-                console.log(err);
                 // Bert.alert('<strong>' + err + '</strong>!', 'danger');
                 $('.fullScreenSpin').css('display', 'none');
                 // Meteor._reload.reload();

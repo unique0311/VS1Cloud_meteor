@@ -64,7 +64,7 @@ Template.agedreceivables.onRendered(() => {
                     let records = [];
                     let allRecords = [];
                     let current = [];
-
+                    console.log(data);
                     let totalNetAssets = 0;
                     let GrandTotalLiability = 0;
                     let GrandTotalAsset = 0;
@@ -590,6 +590,8 @@ Template.agedreceivables.events({
             } else if (transactiontype === 'Sales Order') {
                 window.open('/salesordercard?id=' + redirectid, '_self');
             } else if (transactiontype === 'Invoice') {
+                window.open('/invoicecard?id=' + redirectid, '_self');
+            }else if (transactiontype === 'Refund') {
                 window.open('/invoicecard?id=' + redirectid, '_self');
             } else if (transactiontype === 'Customer Payment') {
                 // window.open('/paymentcard?id=' + redirectid,'_self');

@@ -193,8 +193,8 @@ Template.supplierawaitingpurchaseorder.onRendered(function () {
                                 fixedColumnsLeft: 1
                             },
                             paging: false,
-                            "scrollY": "400px",
-                            "scrollCollapse": true,
+                            // "scrollY": "400px",
+                            // "scrollCollapse": true,
                             info: true,
                             responsive: true,
                             "order": [[1, "desc"]],
@@ -278,7 +278,6 @@ Template.supplierawaitingpurchaseorder.onRendered(function () {
             } else {
                 let data = JSON.parse(dataObject[0].data);
                 let useData = data.tbillreport;
-                console.log(useData);
                 let lineItems = [];
                 let lineItemObj = {};
                 let totalPaidCal = 0;
@@ -413,8 +412,8 @@ Template.supplierawaitingpurchaseorder.onRendered(function () {
                             fixedColumnsLeft: 1
                         },
                         paging: false,
-                        "scrollY": "400px",
-                        "scrollCollapse": true,
+                        // "scrollY": "400px",
+                        // "scrollCollapse": true,
                         info: true,
                         responsive: true,
                         "order": [[1, "desc"]],
@@ -626,8 +625,8 @@ Template.supplierawaitingpurchaseorder.onRendered(function () {
                             fixedColumnsLeft: 1
                         },
                         paging: false,
-                        "scrollY": "400px",
-                        "scrollCollapse": true,
+                        // "scrollY": "400px",
+                        // "scrollCollapse": true,
                         info: true,
                         responsive: true,
                         "order": [[1, "desc"]],
@@ -933,7 +932,6 @@ Template.supplierawaitingpurchaseorder.events({
             fromDateDay = "0" + currentBeginDate.getDate();
         }
         currentBeginDate.setMonth(currentBeginDate.getMonth() - 6);
-        console.log(moment(currentBeginDate).format('YYYY-MM-DD'));
         var toDate = currentBeginDate.getFullYear()+ "-" +(fromDateMonth) + "-"+(fromDateDay);
 
         let prevMonth11Date = moment(currentBeginDate).format('YYYY-MM-DD');

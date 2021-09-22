@@ -303,7 +303,6 @@ yearRange: "-90:+10",
        });
 
       }).catch(function (err) {
-          console.log(err);
           // Bert.alert('<strong>' + err + '</strong>!', 'danger');
           $('.fullScreenSpin').css('display','none');
           // Meteor._reload.reload();
@@ -402,7 +401,6 @@ yearRange: "-90:+10",
             } else {
                 let data = JSON.parse(dataObject[0].data);
                 let useData = data.tproductvs1;
-                console.log(useData);
                 var dataList = {};
                 for (let i = 0; i < useData.length; i++) {
                     dataList = {
@@ -732,7 +730,6 @@ Template.timesheet.events({
         $('#startTime').prop('disabled', false);
         $('#dtSODate').prop('disabled', false);
         let clockList = templateObject.timesheetrecords.get();
-        console.log(clockList);
         if (clockList.length > 0) {
             if (clockList[clockList.length - 1].isPaused == "paused") {
                 $('.btnOnHold').prop('disabled', true);
@@ -844,10 +841,9 @@ Template.timesheet.events({
                     });
 
                     // contactService.saveClockonClockOff(toUpdate).then(function (data) {
-                       window.open("/payrolloverview")
+                       //window.open("/payrolloverview");
                     // })
                 }).catch(function (err) {
-                    console.log(err);
 
                     swal({
                         title: 'Oooops...',
@@ -879,7 +875,7 @@ Template.timesheet.events({
             }
         }
     },
-    'click .btnSaveTimeSheet': function () {
+    'click .btnSaveTimeSheetForm': function () {
         $('.fullScreenSpin').css('display', 'inline-block');
         let templateObject = Template.instance();
         let contactService = new ContactService();
@@ -989,76 +985,6 @@ Template.timesheet.events({
 
         }
 
-    },
-    'click #btnClockOff': function () {
-        let templateObject = Template.instance();
-        let clockList = templateObject.timesheetrecords.get();
-        let contactService = new ContactService();
-        let updateID = $("#updateID").val() || "";
-        let startTime = $("#startTime").val() || "";
-        let checkStatus = "";
-        let checkStartTime = "";
-        let checkEndTime = "";
-        let latestTimeLogId = "";
-        let toUpdate = {};
-        let date = new Date();
-        if (clockList.length > 0) {
-            if (Array.isArray(clockList[0].timelog)) {
-                checkStatus = clockList[clockList.length - 1].isPaused || "";
-                latestTimeLogId = clockList[clockList.length - 1].timelog[clockList[clockList.length - 1].timelog.length - 1].fields.ID || "";
-                checkStartTime = clockList[clockList.length - 1].timelog[clockList[clockList.length - 1].timelog.length - 1].fields.StartDatetime || "";
-                checkEndTime = clockList[clockList.length - 1].timelog[clockList[clockList.length - 1].timelog.length - 1].fields.EndDatetime || "";
-            } else {
-                checkStatus = clockList[clockList.length - 1].isPaused || "";
-                latestTimeLogId = clockList[clockList.length - 1].timelog.fields.ID || "";
-                checkStartTime = clockList[clockList.length - 1].timelog.fields.StartDatetime || "";
-                checkEndTime = clockList[clockList.length - 1].timelog.fields.EndDatetime || "";
-            }
-        }
-
-        if (startTime == "") {
-            swal({
-                title: 'Oooops...',
-                text: "Please Clock In before you can Clock Off",
-                type: 'warning',
-                showCancelButton: false,
-                confirmButtonText: 'Try Again'
-            }).then((result) => {
-                if (result.value) {
-                    // Meteor._reload.reload();
-                } else if (result.dismiss === 'cancel') {}
-            });
-            $('.fullScreenSpin').css('display', 'none');
-
-        } else if (checkStatus == "paused") {
-            swal({
-                title: 'Cant Clock Off',
-                text: 'You cant Clock Off because you are currently Paused',
-                type: 'warning',
-                showCancelButton: true,
-                confirmButtonText: 'Ok'
-            })
-        } else {
-
-            swal({
-                title: 'End Timesheet',
-                text: "Are you sure you want to Clock Off",
-                type: 'question',
-                showCancelButton: true,
-                confirmButtonText: 'Yes'
-            }).then((result) => {
-                if (result.value) {
-                    document.getElementById("endTime").value = moment().startOf('hour').format('HH') + ":" + moment().startOf('minute').format('mm');
-                    let date1 = date.getFullYear() + "-" + ("0" + (date.getMonth() + 1)).slice(-2) + "-" + ("0" + (date.getDate())).slice(-2);
-                    var endTime = new Date(date1 + ' ' + document.getElementById("endTime").value + ':00');
-                    var startTime = new Date(date1 + ' ' + document.getElementById("startTime").value + ':00');
-                    document.getElementById('txtBookedHoursSpent').value = parseFloat(templateObject.diff_hours(endTime, startTime)).toFixed(2);
-                    $("#btnSaveTimeSheet").trigger("click");
-                }
-
-            });
-
-        }
     },
      'click #processTimesheet': function () {
         $('.fullScreenSpin').css('display', 'inline-block');

@@ -1502,8 +1502,8 @@ Template.refundcard.onRendered(()=>{
                 //$('#tblCustomerlist').dataTable().fnFilter(' ').draw(false);
             }, 500);
            }else{
-             if(customerDataName != '' && customerDataID != ''){
-              FlowRouter.go('/customerscard?id=' + customerDataID);
+             if(customerDataName != ''){
+              FlowRouter.go('/customerscard?name=' + e.target.value);
              }else{
                $('#customerListModal').modal();
                setTimeout(function () {
@@ -2615,6 +2615,13 @@ Template.refundcard.events({
         let templateObject = Template.instance();
         let customername = $('#edtCustomerName');
         let salesService = new SalesBoardService();
+        let termname = $('#sltTerms').val() || '';
+        if (termname === '') {
+            swal('Terms has not been selected!', '', 'warning');
+            event.preventDefault();
+            return false;
+        }
+
         if (customername.val() === ''){
             swal('Customer has not been selected!', '', 'warning');
             e.preventDefault();
@@ -2678,7 +2685,7 @@ Template.refundcard.events({
 
             let poNumber = $('#ponumber').val();
             let reference = $('#edtRef').val();
-            let termname = $('#sltTerms').val();
+
             let departement = $('#sltDept').val();
             let shippingAddress = $('#txaShipingInfo').val();
             let comments = $('#txaComment').val();
@@ -3421,6 +3428,12 @@ Template.refundcard.events({
         let templateObject = Template.instance();
         let customername = $('#edtCustomerName');
         let salesService = new SalesBoardService();
+        let termname = $('#sltTerms').val() || '';
+        if (termname === '') {
+            swal('Terms has not been selected!', '', 'warning');
+            event.preventDefault();
+            return false;
+        }
         if (customername.val() === ''){
             swal('Customer has not been selected!', '', 'warning');
             e.preventDefault();
@@ -3484,7 +3497,7 @@ Template.refundcard.events({
 
             let poNumber = $('#ponumber').val();
             let reference = $('#edtRef').val();
-            let termname = $('#sltTerms').val();
+
             let departement = $('#sltDept').val();
             let shippingAddress = $('#txaShipingInfo').val();
             let comments = $('#txaComment').val();
@@ -3658,6 +3671,12 @@ Template.refundcard.events({
             let templateObject = Template.instance();
             let customername = $('#edtCustomerName');
             let salesService = new SalesBoardService();
+            let termname = $('#sltTerms').val() || '';
+            if (termname === '') {
+                swal('Terms has not been selected!', '', 'warning');
+                event.preventDefault();
+                return false;
+            }
             if (customername.val() === ''){
                 swal('Customer has not been selected!', '', 'warning');
                 e.preventDefault();
@@ -3721,7 +3740,7 @@ Template.refundcard.events({
 
                 let poNumber = $('#ponumber').val();
                 let reference = $('#edtRef').val();
-                let termname = $('#sltTerms').val();
+
                 let departement = $('#sltDept').val();
                 let shippingAddress = $('#txaShipingInfo').val();
                 let comments = $('#txaComment').val();
