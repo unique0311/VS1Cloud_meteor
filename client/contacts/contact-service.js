@@ -460,14 +460,15 @@ export class ContactService extends BaseService {
 
     getAllTimeSheetList(){
      let options = {
-            ListType: "Detail"
+            ListType: "Detail",
+            select: "[Active]=true"
       }
          return this.getList(this.ERPObjects.TTimeSheet, options);
      }
     getAllTimeSheetListEmp(){
      let options = {
             ListType: "Detail",
-            select: "[EmployeeName]='"+Session.get('mySessionEmployee')+"'",
+            select: "[EmployeeName]='"+Session.get('mySessionEmployee')+"' and [Active]=true",
       }
          return this.getList(this.ERPObjects.TTimeSheet, options);
      }
