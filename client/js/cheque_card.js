@@ -601,7 +601,6 @@ Template.chequecard.onRendered(() => {
                     } else {
                         let data = JSON.parse(dataObject[0].data);
                         let useData = data.tcheque;
-
                         var added = false;
                         for (let d = 0; d < useData.length; d++) {
                             if (parseInt(useData[d].fields.ID) === currentCheque) {
@@ -3568,7 +3567,7 @@ Template.chequecard.events({
 
             purchaseService.saveCheque(objDetails).then(function(objDetails) {
 
-                FlowRouter.go('/chequelist?success=true');
+               // FlowRouter.go('/chequelist?success=true');
 
             }).catch(function(err) {
                 swal({
@@ -3587,7 +3586,7 @@ Template.chequecard.events({
                 $('.fullScreenSpin').css('display', 'none');
             });
         } else {
-            FlowRouter.go('/chequelist?success=true');
+            //FlowRouter.go('/chequelist?success=true');
         }
         $('#deleteLineModal').modal('toggle');
     },
@@ -3725,12 +3724,12 @@ Template.chequecard.events({
         let templateObject = Template.instance();
         let suppliername = $('#edtSupplierName');
         let purchaseService = new PurchaseBoardService();
-        let termname = $('#sltTerms').val() || '';
-        if (termname === '') {
-            swal('Terms has not been selected!', '', 'warning');
-            event.preventDefault();
-            return false;
-        }
+        // let termname = $('#sltTerms').val() || '';
+        // if (termname === '') {
+        //     swal('Terms has not been selected!', '', 'warning');
+        //     event.preventDefault();
+        //     return false;
+        // }
         if (suppliername.val() === '') {
             swal('Supplier has not been selected!', '', 'warning');
             e.preventDefault();
