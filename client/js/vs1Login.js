@@ -505,6 +505,17 @@ Template.vs1login.onRendered(function () {
 
     }
 
+
+    function clearCaches() {
+        caches.keys().then(function (names) {
+            for(let name of names) {
+            caches.delete(name);
+        }
+        });
+         localStorage.clear();
+         sessionStorage.clear();
+    }
+
     /* ERP Licence Info */
     function getERPLicenceInfo(erpdbname) {
         let licenceitemsoption = [];
@@ -4394,6 +4405,7 @@ Template.vs1login.onRendered(function () {
                 for (var i = 0; i < r.length; i++) {
                     window.indexedDB.deleteDatabase(r[i].name);
                 }
+                clearCaches();
 
             }).then(() => {
                 swal({
@@ -4414,7 +4426,7 @@ Template.vs1login.onRendered(function () {
               for (var i = 0; i < r.length; i++) {
                   window.indexedDB.deleteDatabase(r[i].name);
               }
-
+              clearCaches()
           }).then(() => {
               swal({
                   title: 'You are now Signed Out of all devices',
