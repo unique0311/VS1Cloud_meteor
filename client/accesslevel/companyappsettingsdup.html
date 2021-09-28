@@ -184,6 +184,28 @@ font-weight: 500 !important;
                                                         <label class="custom-control-label" for="formCheck-{{item.moduleId}}" style="cursor: pointer;">{{item.moduleName}}</label>
                                                         <!-- <i class="fas fa-plus iconblue" style="float:right;"></i> -->
                                                         <button class="accordion2"></button>
+                                                        <!-- <button type="button" class="btn btn-light float-right" style="padding: 0px;" data-toggle="modal" href="#{{item.moduleId}}Modal">
+                                                            <i class="fas fa-question-circle"></i>
+                                                        </button> -->
+                                                        <!-- <a role="button" data-toggle="modal" href="#Modal-{{item.moduleId}}" class="float-right"><i class="fas fa-question-circle"></i></a>
+                                                        <div class="modal fade" role="dialog" tabindex="-1" id="Modal-{{item.moduleId}}">
+                                                            <div class="modal-dialog modal-dialog-centered" role="document" style="max-width: 670px!important;">
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header" style="padding-bottom: 8px;">
+                                                                        <h4>{{item.moduleName}}</h4><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                                                                    </div>
+                                                                    <div class="modal-body">
+                                                                        <video id="myVideo" width="640" height="360" controls="" name="media" style="border: solid 5px #999999f0; height: auto; outline: none;">
+                                                                            <source src="https://erphelpes.com/vs1videos/vs1modules-{{item.moduleId}}.mp4" type="video/mp4">
+                                                                        </video>
+                                                                        <br />
+                                                                        <p class="detailp">{{item.moduledescription}}</p>
+                                                                    </div>
+                                                                    <div class="modal-footer" style="padding: 6px;"><button class="btn btn-light" data-dismiss="modal" type="button">Close</button></div>
+                                                                </div>
+                                                            </div>
+                                                        </div> -->
+
                                                         <div class="panel2 panelfeatured" id="panel2-{{item.moduleId}}" style="display:none; max-height:100%;">
                                                             <p class="detailp">{{item.moduledescription}}</p>
                                                         </div>
@@ -228,10 +250,28 @@ font-weight: 500 !important;
                                                         <input class="custom-control-input addEssentialModule" type="checkbox" value="{{itemEss.moduleId}}Essentials" id="formCheck-{{itemEss.moduleId}}Essentials" name="{{itemEss.moduleId}}Essentials"
                                                             style="cursor: pointer;" readonly>
                                                         <label class="custom-control-label" for="formCheck-{{itemEss.moduleId}}Essentials" style="cursor: pointer;">{{itemEss.moduleName}}</label>
-                                                        <button class="accordion2"></button>
+                                                        <a role="button" data-toggle="modal" href="#Modal-{{itemEss.moduleId}}" class="float-right"><i class="fas fa-question-circle"></i></a>
+                                                        <div class="modal fade" role="dialog" tabindex="-1" id="Modal-{{itemEss.moduleId}}">
+                                                            <div class="modal-dialog modal-dialog-centered" role="document" style="max-width: 670px!important;">
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header" style="padding-bottom: 8px;">
+                                                                        <h4>{{itemEss.moduleName}}</h4><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                                                                    </div>
+                                                                    <div class="modal-body">
+                                                                        <video id="myVideo" width="640" height="360" controls="" name="media" style="border: solid 5px #999999f0; height: auto; outline: none;">
+                                                                            <source src="https://erphelpes.com/vs1videos/vs1modules-{{itemEss.moduleId}}.mp4" type="video/mp4">
+                                                                        </video>
+                                                                        <br />
+                                                                        <p class="detailp">{{itemEss.moduledescription}}</p>
+                                                                    </div>
+                                                                    <div class="modal-footer" style="padding: 6px;"><button class="btn btn-light" data-dismiss="modal" type="button">Close</button></div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <!-- <button class="accordion2"></button>
                                                         <div class="panel2 panelfeatured" id="panel2-{{itemEss.moduleId}}Essentials" style="display:none; max-height:100%;">
                                                             <p class="detailp">{{itemEss.moduledescription}}</p>
-                                                        </div>
+                                                        </div> -->
                                                     </div>
                                                 </td>
                                             </tr>
@@ -274,10 +314,28 @@ font-weight: 500 !important;
                                                         <input class="custom-control-input addPlusModule" type="checkbox" value="Plus{{itemPlus.moduleId}}" id="formCheck-Plus{{itemPlus.moduleId}}" name="Plus{{itemPlus.moduleId}}"
                                                             style="cursor: pointer;" readonly>
                                                         <label class="custom-control-label" for="formCheck-Plus{{itemPlus.moduleId}}" style="cursor: pointer;">{{itemPlus.moduleName}}</label>
-                                                        <button class="accordion2"></button>
+                                                        <a role="button" data-toggle="modal" href="#Modal-{{itemPlus.moduleId}}" class="float-right"><i class="fas fa-question-circle"></i></a>
+                                                        <div class="modal fade" role="dialog" tabindex="-1" id="Modal-{{itemPlus.moduleId}}">
+                                                            <div class="modal-dialog modal-dialog-centered" role="document" style="max-width: 670px!important;">
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header" style="padding-bottom: 8px;">
+                                                                        <h4>{{itemPlus.moduleName}}</h4><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                                                                    </div>
+                                                                    <div class="modal-body">
+                                                                        <video id="myVideo" width="640" height="360" controls="" name="media" style="border: solid 5px #999999f0; height: auto; outline: none;">
+                                                                            <source src="https://erphelpes.com/vs1videos/vs1modules-{{itemPlus.moduleId}}.mp4" type="video/mp4">
+                                                                        </video>
+                                                                        <br />
+                                                                        <p class="detailp">{{itemPlus.moduledescription}}</p>
+                                                                    </div>
+                                                                    <div class="modal-footer" style="padding: 6px;"><button class="btn btn-light" data-dismiss="modal" type="button">Close</button></div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <!-- <button class="accordion2"></button>
                                                         <div class="panel2 panelfeatured" id="panel2-Plus{{itemPlus.moduleId}}" style="display:none; max-height:100%;">
                                                             <p class="detailp">{{itemPlus.moduledescription}}</p>
-                                                        </div>
+                                                        </div> -->
                                                     </div>
                                                 </td>
                                             </tr>
