@@ -376,7 +376,29 @@ font-weight: 500 !important;
                                                         <input class="custom-control-input additionalModule" type="checkbox" value="{{itemExtra.pricenocurrency}}" id="formCheck-Additional{{itemExtra.moduleId}}" name="Additional"
                                                             style="cursor: pointer;" additionalqty="1" readonly>
                                                         <label class="custom-control-label" for="formCheck-Additional{{itemExtra.moduleId}}" style="cursor: pointer; max-width: 200px;">{{itemExtra.moduleName}}</label>
-                                                        <div class="lblPricing" style="float: right; color:#1cc88a;"><b>+ {{itemExtra.price}}</b></div>
+                                                        <div class="lblPricing" style="float: right; color:#1cc88a;">
+                                                            <b>+ {{itemExtra.price}}</b>
+                                                            <a role="button" data-toggle="modal" href="#Modal-{{itemExtra.moduleId}}" class="float-right" style="margin-left: 6px;"><i class="fas fa-question-circle" style=" color:#1cc88a;"></i></a>
+                                                            <div class="modal fade" role="dialog" tabindex="-1" id="Modal-{{itemExtra.moduleId}}">
+                                                                <div class="modal-dialog modal-dialog-centered" role="document" style="max-width: 670px!important;">
+                                                                    <div class="modal-content">
+                                                                        <div class="modal-header" style="padding-bottom: 8px;">
+                                                                            <h4 style="color: #858796;">{{itemExtra.moduleName}}</h4><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                                                                        </div>
+                                                                        <div class="modal-body">
+                                                                            <video id="myVideo" width="640" height="360" controls="" name="media" style="border: solid 5px #999999f0; height: auto; outline: none;">
+                                                                                <source src="https://erphelpes.com/vs1videos/vs1modules-{{itemExtra.moduleId}}.mp4" type="video/mp4">
+                                                                            </video>
+                                                                            <br />
+                                                                            <p class="detailp">{{itemExtra.moduledescription}}</p>
+                                                                        </div>
+                                                                        <div class="modal-footer" style="padding: 6px;"><button class="btn btn-light" data-dismiss="modal" type="button">Close</button></div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+
                                                     </div>
                                                 </td>
                                             </tr>
@@ -403,7 +425,27 @@ font-weight: 500 !important;
                                                         <input class="custom-control-input additionalModule" type="checkbox" value="{{itemMonth.pricenocurrency}}" id="formCheck-Additional{{itemMonth.moduleId}}" name="Additional"
                                                             style="cursor: pointer;" additionalqty="1" readonly>
                                                         <label class="custom-control-label" for="formCheck-Additional{{itemMonth.moduleId}}" style="cursor: pointer; max-width: 200px;">{{itemMonth.moduleName}}</label>
-                                                        <div class="lblPricing" style="float: right; color:#1cc88a;"><b>+ {{itemMonth.price}}</b></div>
+                                                        <div class="lblPricing" style="float: right; color:#1cc88a;">
+                                                            <b>+ {{itemMonth.price}}</b>
+                                                            <a role="button" data-toggle="modal" href="#Modal-{{itemMonth.moduleId}}" class="float-right" style="margin-left: 6px;"><i class="fas fa-question-circle" style=" color:#1cc88a;"></i></a>
+                                                            <div class="modal fade" role="dialog" tabindex="-1" id="Modal-{{itemMonth.moduleId}}">
+                                                                <div class="modal-dialog modal-dialog-centered" role="document" style="max-width: 670px!important;">
+                                                                    <div class="modal-content">
+                                                                        <div class="modal-header" style="padding-bottom: 8px;">
+                                                                            <h4 style="color: #858796;">{{itemMonth.moduleName}}</h4><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                                                                        </div>
+                                                                        <div class="modal-body">
+                                                                            <video id="myVideo" width="640" height="360" controls="" name="media" style="border: solid 5px #999999f0; height: auto; outline: none;">
+                                                                                <source src="https://erphelpes.com/vs1videos/vs1modules-{{itemMonth.moduleId}}.mp4" type="video/mp4">
+                                                                            </video>
+                                                                            <br />
+                                                                            <p class="detailp">{{itemMonth.moduledescription}}</p>
+                                                                        </div>
+                                                                        <div class="modal-footer" style="padding: 6px;"><button class="btn btn-light" data-dismiss="modal" type="button">Close</button></div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </td>
                                             </tr>
