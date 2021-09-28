@@ -89,7 +89,6 @@ yearRange: "-90:+10",
     $("#dateTo").val(begunDate);
     templateObject.getAllTimeSheetData = function () {
       contactService.getAllTimeSheetList().then(function (data) {
-
         $('.fullScreenSpin').css('display','none');
         let lineItems = [];
         let lineItemObj = {};
@@ -103,7 +102,6 @@ yearRange: "-90:+10",
           let totalAmount = utilityService.modifynegativeCurrencyFormat(data.ttimesheet[t].fields.Total)|| 0.00;
           let totalAdjusted = utilityService.modifynegativeCurrencyFormat(data.ttimesheet[t].fields.TotalAdjusted)|| 0.00;
           let totalAmountInc = utilityService.modifynegativeCurrencyFormat(data.ttimesheet[t].fields.TotalInc)|| 0.00;
-
            sumTotalCharge = sumTotalCharge + data.ttimesheet[t].fields.Total;
            sumSumHour = sumSumHour + data.ttimesheet[t].fields.Hours;
            sumSumHourlyRate = sumSumHourlyRate + data.ttimesheet[t].fields.LabourCost;
