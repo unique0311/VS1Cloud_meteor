@@ -14,12 +14,8 @@
                                 <a role="button" data-toggle="modal" href="#helpViewModal" style="font-size: 20px;">Help <i class="fa fa-question-circle-o" style="font-size: 20px;"></i></a>
                                 <a class="btn" role="button" data-toggle="modal" href="#myModal4" style="float: right;"><i class="icon ion-android-more-horizontal"></i></a>
                                 {{#if equals chequerecord.isReconciled true}}
-                                    <!-- <div class="col-2 colProcessed" id="colProcessed">
-                                        <h3 style="margin-left: -24px; margin-top: 36px; color: #e02d1b; font-weight: 600;">Reconciled</h3>
-                                    </div> -->
                                     <h3 style="float: right; color: #e02d1b; font-weight: 600;">Reconciled</h3>
                                 {{/if}}
-                                <!--<button class="btn float-right" type="button" id="btnCustomFileds" name="btnCustomFileds"><i class="icon ion-android-more-horizontal"></i></button>-->
                             </h2>
                             <div class="modal fade" role="dialog" tabindex="-1" id="helpViewModal">
                                 <div class="modal-dialog modal-sm" role="document">
@@ -38,8 +34,6 @@
                                 </div>
                             </div>
                             <div class="printID" id="{{chequerecord.id}}" style="display: none;">{{chequerecord.id}}</div>
-
-
                         </header>
                     </div>
 
@@ -182,156 +176,123 @@
                     </div>
                 </div>
                 <!-- End View File attachment -->
-                <div style="background-color: #ededed;padding: 16px;">
-                    <div class="d-xl-flex align-items-xl-start">
-                        <div class="d-xl-flex flex-row align-items-xl-start">
 
-                            <div style="margin: 16px;width: 350px;" class="formgoup">
+                <div class="row" style="background-color: #ededed; padding: 16px 32px;">
+                    <div class="col-12 col-mg-12 col-lg-10 col-xl-8">
+                        <div class="row">
+                            <div class="col-12 col-md-4">
                                 <div class="form-group"><label>Supplier</label>
                                     <select type="search" class="form-control" id="edtSupplierName" name="edtSupplierName" suppid=" " style="background-color:rgb(255, 255, 255); cursor: pointer;">
-                                        <!-- <option selected>{{chequerecord.socustomer}}</option> -->
                                     </select>
                                 </div>
                             </div>
-                            <div style="margin: 16px;width: 350px;" class="formgoup">
+                            <div class="col-12 col-md-4">
                                 <div class="form-group"><label>Supplier Email</label>
                                     <input class="form-control form-control" type="text" id="edtSupplierEmail" name="edtSupplierEmail" customerid=" ">
                                 </div>
                                 <div class="custom-control custom-control-inline custom-switch d-xl-flex align-items-xl-center" style="margin: 0px 16px;padding: -2px;padding-left: 24px;">
                                     <input class="custom-control-input chkEmailCopy" type="checkbox" id="formCheck-1" style="font-size: 22px; cursor: pointer;"><label class="custom-control-label" for="formCheck-1"
-                                        style="color: rgb(73,80,87); cursor: pointer;">Send a copy</label>
+                                        style="color: #858796; cursor: pointer; width: 100vw;">Send a copy</label>
                                 </div>
                             </div>
-                            <div style="margin: 16px;width: 350px;" class="formgoup">
+                            <div class="col-12 col-md-4">
                                 <div class="form-group"><label>Account</label>
                                     <select type="search" class="form-control" id="sltBankAccountName" name="sltBankAccountName" style="background-color:rgb(255, 255, 255); cursor: pointer;">
-                                        <!-- <option value="{{item.paymentmethod}}" selected="">{{chequerecord.bankaccount}}</option>
-                                        {{#if accounts}}
-                                            {{#each account in accounts}}
-                                                <option value="{{item.accountname}}">{{account.accountname}}</option>
-                                            {{/each}}
-                                        {{/if}} -->
                                     </select>
                                 </div>
                             </div>
                         </div>
-                        <div class="flex-grow-1">
-                            <div class="text-right" style="font-size: 14px;min-width: 175px;margin: 16px ;">
-                                <p style="font-size: 20px; font-weight: 700;color: rgb(84,94,103); display:none;">BALANCE DUE</p>
-                                <p style="font-size: 25px;font-weight: 705;color: rgb(56,63,69); display:none;" id="balanceDue" name="balanceDue">{{chequerecord.balanceDue}}</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="d-xl-flex align-items-xl-start">
-                        <div class="d-xl-flex flex-grow-1 align-items-xl-start">
-                            <div style="margin: 16px;">
-                                <div class="form-group" style="width: 350px;"><label>Billing Address</label>
+                        <div class="row">
+                            <div class="col-12 col-md-4">
+                                <div class="form-group"><label>Billing Address</label>
                                     <textarea class="form-control" rows="5" id="txabillingAddress" name="txabillingAddress">{{chequerecord.invoiceToDesc}}</textarea>
                                 </div>
                             </div>
-                            <div style="margin: 16px;">
-                                <div class="form-group"><label>Order Date</label>
-                                    <!-- <input class="form-control" type="date" style="width: 240px;" id="dtSODate" name="dtSODate" value="{{chequerecord.saledate}}"> -->
-                                    <div class="input-group date" style="width: 160px;">
-                                        <input type="text" class="form-control" id="dtSODate" name="dtSODate" value="{{chequerecord.saledate}}" style="cursor: pointer;">
-                                        <div class="input-group-addon">
-                                            <span class="glyphicon glyphicon-th" style="cursor: pointer;"></span>
+                            <div class="col-12 col-md-8">
+                                <div class="row">
+                                    <div class="col-6 col-md-4">
+                                        <div class="form-group"><label>Order Date</label>
+                                            <!-- <input class="form-control" type="date" style="width: 240px;" id="dtSODate" name="dtSODate" value="{{chequerecord.saledate}}"> -->
+                                            <div class="input-group date">
+                                                <input type="text" class="form-control" id="dtSODate" name="dtSODate" value="{{chequerecord.saledate}}" style="cursor: pointer;">
+                                                <div class="input-group-addon">
+                                                    <span class="glyphicon glyphicon-th" style="cursor: pointer;"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group"><label>Reference</label>
+                                            <input class="form-control form-control" type="text" id="edtRef" name="edtRef" value="{{chequerecord.reference}}">
                                         </div>
                                     </div>
-                                </div>
-                                <div class="form-group" style="max-width: 160px;"><label>Reference</label>
-                                    <input class="form-control form-control" type="text" style="max-width: 210px;" id="edtRef" name="edtRef" value="{{chequerecord.reference}}">
-                                </div>
-                                <!-- <div class="form-group" style="width: 90%;"><label>Due Date</label>
-<div class="input-group date" style="width: 160px;">
-<input type="text" class="form-control" id="dtDueDate" name="dtDueDate" value="{{chequerecord.duedate}}" style="cursor: pointer;">
-<div class="input-group-addon">
-<span class="glyphicon glyphicon-th" style="cursor: pointer;"></span>
-</div>
-</div>
-
-</div> -->
-                            </div>
-                            <div style="margin: 16px;">
-                                <div class="form-group"><label>{{formname}} No.</label>
-                                    <input class="form-control form-control" type="text" style="max-width: 160px;" id="ponumber" name="ponumber" value="{{chequerecord.invoicenumber}}">
-                                </div>
-                                <div class="form-group"><label>Via</label>
-                                    <select class="form-control" id="sltDept" name="sltDept" style="cursor: pointer;">
-                                        <!-- <optgroup label="This is a group"> -->
-                                        {{#each item in deptrecords}}
-                                            {{#if equals item.shippingmethod chequerecord.shipping }}
-                                                <option value="{{chequerecord.shipping}}" selected="">{{chequerecord.shipping}}</option>
-                                            {{else}}
-                                                <option value="{{item.shippingmethod}}">{{item.shippingmethod}}</option>
-                                            {{/if}}
-                                        {{/each}}
-                                        <!-- </optgroup> -->
-                                    </select>
-                                </div>
-                            </div>
-                            <div style="margin: 16px;" class="">
-                                <div class="form-group" style="max-width: 210px;"><label>Status</label>
-                                    <select class="form-control" id="sltStatus" name="sltStatus" style="background-color:rgb(255, 255, 255); cursor: pointer;">
-                                        <option value="{{chequerecord.status}}" selected="">{{chequerecord.status}}</option>
-                                        {{#each item in statusrecords}}
-                                            {{#if equals item.orderstatus chequerecord.status }}
+                                    <div class="col-6 col-md-4">
+                                        <div class="form-group"><label>{{formname}} No.</label>
+                                            <input class="form-control form-control" type="text" id="ponumber" name="ponumber" value="{{chequerecord.invoicenumber}}">
+                                        </div>
+                                        <div class="form-group"><label>Via</label>
+                                            <select class="form-control" id="sltDept" name="sltDept" style="cursor: pointer;">
+                                                {{#each item in deptrecords}}
+                                                    {{#if equals item.shippingmethod chequerecord.shipping }}
+                                                        <option value="{{chequerecord.shipping}}" selected="">{{chequerecord.shipping}}</option>
+                                                    {{else}}
+                                                        <option value="{{item.shippingmethod}}">{{item.shippingmethod}}</option>
+                                                    {{/if}}
+                                                {{/each}}
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-6 col-md-4">
+                                        <div class="form-group"><label>Status</label>
+                                            <select class="form-control" id="sltStatus" name="sltStatus" style="cursor: pointer;">
                                                 <option value="{{chequerecord.status}}" selected="">{{chequerecord.status}}</option>
-                                            {{else}}
-                                                <option value="{{item.orderstatus}}">{{item.orderstatus}}</option>
-                                            {{/if}}
-                                        {{/each}}
-                                    </select>
-                                    <!-- <input class="form-control form-control" type="text" style="max-width: 210px;" id="edtStatus" name="edtStatus" value="{{chequerecord.status}}"> -->
-                                </div>
-                                {{> currencydropdown}}
-                            </div>
-
-                            <div style="margin: 16px;" class="">
-                                <div class="one box checkbox1div" style="{{#if purchaseCloudPreferenceRec}}{{#if equals purchaseCloudPreferenceRec.customFields.[0].hidden false}}display:block{{else}}display:none{{/if}}{{else}}display:none{{/if}}">
-                                    <div class="form-group">
-                                        <label class="lblCustomField1">{{#if purchaseCloudPreferenceRec}}{{purchaseCloudPreferenceRec.customFields.[0].label}}{{else}}CustField1{{/if}}</label>
-                                        <input class="form-control form-control" type="text" style="max-width: 210px;" id="edtSaleCustField1" name="edtSaleCustField1" value="{{chequerecord.saleCustField1}}">
-                                    </div>
-                                </div>
-                                <div class="two box checkbox2div" style="{{#if purchaseCloudPreferenceRec}}{{#if equals purchaseCloudPreferenceRec.customFields.[1].hidden false}}display:block{{else}}display:none{{/if}}{{else}}display:none{{/if}}">
-                                    <div class="form-group">
-                                        <label class="lblCustomField2">{{#if purchaseCloudPreferenceRec}}{{purchaseCloudPreferenceRec.customFields.[1].label}}{{else}}CustField2{{/if}}<br></label>
-                                        <input class="form-control form-control" type="text" style="max-width: 210px;" id="edtSaleCustField2" name="edtSaleCustField2" value="{{chequerecord.saleCustField2}}">
-                                    </div>
-                                </div>
-
-
-                                <!-- {{/if}} -->
-                            </div>
-
-                        </div>
-                        <!-- <div class="flex-grow-1">
-<div class="d-xl-flex flex-column justify-content-xl-end align-items-xl-end" style="margin-bottom: 16px;">
-{{#if equals chequerecord.ispaid false }}
-<label style="visibility:hidden;">Payment</label>
-<button class="btn btn-primary" type="button" style="min-width: 158.656px;max-width: 158.656px;width: 158.656px;margin: 16px;" id="btnPayment" name="btnPayment">Payment</button>
-{{else}}
-<label style="visibility:hidden;">View Payment</label>
-<button class="btn btn-primary" type="button" style="min-width: 158.656px;max-width: 158.656px;width: 158.656px;margin: 16px;" id="btnViewPayment" name="btnViewPayment">View Payment</button>
-{{/if}}
-</div>
-</div> -->
-                    </div>
-                    <div>
-                        <div><a class="btn btn-link" data-toggle="collapse" aria-expanded="false" aria-controls="collapse-notes" href="#collapse-notes" role="button">+ Shipping Information</a>
-                            <div class="collapse" id="collapse-notes">
-                                <div class="d-xl-flex align-items-xl-start">
-                                    <div class="flex-grow-0" style="margin: 16px;">
-                                        <div class="form-group" style="width: 350px;"><label>Shipping Address</label>
-                                            <textarea class="form-control" rows="3" id="txaShipingInfo" name="txaShipingInfo">{{chequerecord.shipToDesc}}</textarea>
+                                                {{#each item in statusrecords}}
+                                                    {{#if equals item.orderstatus chequerecord.status }}
+                                                        <option value="{{chequerecord.status}}" selected="">{{chequerecord.status}}</option>
+                                                    {{else}}
+                                                        <option value="{{item.orderstatus}}">{{item.orderstatus}}</option>
+                                                    {{/if}}
+                                                {{/each}}
+                                            </select>
                                         </div>
+                                        {{> currencydropdown}}
+                                    </div>
+                                    <div class="col-6 col-md-8">
+                                        <div class="row">
+                                            <div class="col-12 col-md-6">
+                                                <div class="one box checkbox1div"
+                                                    style="{{#if purchaseCloudPreferenceRec}}{{#if equals purchaseCloudPreferenceRec.customFields.[0].hidden false}}display:block{{else}}display:none{{/if}}{{else}}display:none{{/if}}">
+                                                    <div class="form-group">
+                                                        <label class="lblCustomField1">{{#if purchaseCloudPreferenceRec}}{{purchaseCloudPreferenceRec.customFields.[0].label}}{{else}}CustField1{{/if}}</label>
+                                                        <input class="form-control form-control" type="text" id="edtSaleCustField1" name="edtSaleCustField1" value="{{chequerecord.saleCustField1}}">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-12 col-md-6">
+                                                <div class="two box checkbox2div"
+                                                    style="{{#if purchaseCloudPreferenceRec}}{{#if equals purchaseCloudPreferenceRec.customFields.[1].hidden false}}display:block{{else}}display:none{{/if}}{{else}}display:none{{/if}}">
+                                                    <div class="form-group">
+                                                        <label class="lblCustomField2">{{#if purchaseCloudPreferenceRec}}{{purchaseCloudPreferenceRec.customFields.[1].label}}{{else}}CustField2{{/if}}<br></label>
+                                                        <input class="form-control form-control" type="text" id="edtSaleCustField2" name="edtSaleCustField2" value="{{chequerecord.saleCustField2}}">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12 col-lg-4">
+                                <a class="btn btn-link" data-toggle="collapse" aria-expanded="false" aria-controls="collapse-notes" href="#collapse-notes" role="button">+ Shipping Information</a>
+                                <div class="collapse" id="collapse-notes">
+                                    <div class="form-group"><label style="color:#858796;">Shipping Address</label>
+                                        <textarea class="form-control" rows="3" id="txaShipingInfo" name="txaShipingInfo">{{chequerecord.shipToDesc}}</textarea>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
+
                 <div>
                     <div class="card-body rounded" style="padding-bottom: 0px !important;padding-top: 0px !important;">
                         <!-- Remove p-5 to resize the form -->
@@ -815,8 +776,8 @@
 
                         </div>
                     </div>
-
                 </div>
+
                 <div class="d-xl-flex align-items-xl-start" style="padding-left: 16px; padding-right: 16px">
                     <div class="flex-grow-1">
                         <div class="d-xl-flex justify-content-xl-center">
@@ -825,7 +786,7 @@
                                 <!--<button class="btn btn-primary" type="button" id="" style="margin: 16px;">Clear All Lines</button>-->
                             </div>
                         </div>
-                        <div class="d-xl-flex align-items-xl-start">
+                        <!-- <div class="d-xl-flex align-items-xl-start">
                             <div class="flex-grow-1" style="margin: 16px;">
                                 <div class="form-group"><label>Comments</label>
                                     <textarea class="form-control" rows="4" id="txaComment" name="txaComment">{{chequerecord.comments}}</textarea>
@@ -836,49 +797,144 @@
                                     <textarea class="form-control" rows="4" id="txapickmemo" name="txapickmemo">{{chequerecord.pickmemo}}</textarea>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                    <div style="margin: 16px;">
-                        <div style="float: right;">
-                            <div class="d-flex d-xl-flex flex-row justify-content-xl-end align-items-xl-center">
-                                <div class="d-xl-flex flex-column justify-content-xl-end align-items-xl-end">
-                                    <p class="lead" style="font-size: 25px; font-weight: 500; margin: 0px; color: #696969;">Subtotal</p>
-                                    <p class="lead" style="font-size: 25px; margin: 0px; font-weight: 500; color: #696969;">Tax</p>
-                                </div>
-                                <div class="d-xl-flex flex-column justify-content-xl-end align-items-xl-end" style="padding-left: 20px;">
-                                    <p class="lead" style="font-size: 25px; font-weight: 500; margin: 0px; color: #696969;" id="subtotal_total" name="subtotal_total">{{chequerecord.SubTotal}}</p>
-                                    <p class="lead" style="font-size: 25px; margin: 0px; font-weight: 500; color: #696969;" id="subtotal_tax" name="subtotal_tax">{{chequerecord.TotalTax}}</p>
-                                </div>
-                            </div>
-                            <hr style=" border-top: 3px solid #696969;" />
-                            <div class="d-flex d-xl-flex flex-row justify-content-xl-end align-items-xl-center">
-                                <p class="lead" style="font-size: 25px; color: #696969; font-weight: 800; margin: 0px;">TOTAL</p>
-                                <p class="lead" style="font-size: 25px; color: #696969; font-weight: 800; padding-left: 20px; margin: 0px;" id="grandTotal" name="grandTotal">{{chequerecord.Total}}</p>
-                            </div>
-                            <hr style=" border-top: 3px solid #696969;" />
-                            <div class="d-flex d-xl-flex flex-row justify-content-xl-end align-items-xl-center">
-                                <div class="d-xl-flex flex-column justify-content-xl-end align-items-xl-end">
-                                    <div>
-                                        <p class="lead" style="font-size: 25px; margin: 0px; font-weight: 500; color: #696969;">Paid Amount</p>
-                                    </div>
-                                    <div>
-                                        <p class="lead" style="font-size: 25px; margin: 0px; font-weight: 500; color: #696969; display:none;">Balance Due</p>
-                                    </div>
-                                </div>
-                                <div class="d-xl-flex flex-column justify-content-xl-end align-items-xl-end" style="  padding-left: 20px;">
-                                    <div>
-                                        <p class="lead" style="font-size: 25px; font-weight: 500; margin: 0px; color: #696969;" id="totalPaidAmt" name="totalPaidAmt">{{chequerecord.totalPaid}}</p>
-                                    </div>
-                                    <div>
-                                        <p class="lead" style="font-size: 25px; font-weight: 500; margin: 0px; color: #696969; display:none;" id="totalBalanceDue" name="totalBalanceDue">{{chequerecord.balanceDue}}</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        </div> -->
                     </div>
 
+
                 </div>
-                <div class="d-xl-flex justify-content-xl-center">
+
+                <style>
+                    .lead {
+                        font-size: 24px;
+                        font-weight: 500;
+                        margin: 0px;
+                        color: #696969;
+                        float: right;
+                    }
+
+                    .leadTotal {
+                        font-weight: 800 !important;
+                    }
+
+                    .leadHidden {
+                        visibility: hidden;
+                        height: 0px !important;
+                    }
+                    @media screen and (min-width: 1366px) {
+                        .colComments {
+                            padding-right: 2.5rem;
+                        }
+                    }
+                </style>
+
+                <div class="row align-items-end" style="margin: 16px;">
+                    <div class="col-12 col-md-6 col-lg-4 col-xl-5">
+                        <div class="form-group"><label>Comments</label>
+                            <textarea class="form-control" rows="4" id="txaComment" name="txaComment">{{chequerecord.comments}}</textarea>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6 col-lg-4 col-xl-5 colComments">
+                        <div class="form-group"><label>Picking Instructions</label>
+                            <textarea class="form-control" rows="4" id="txapickmemo" name="txapickmemo">{{chequerecord.pickmemo}}</textarea>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6 col-lg-4 col-xl-2" id="totalSection" style="padding-right: 1.5rem; padding-left: 1.5rem;">
+                        <div class="row">
+                            <div class="col-4" style="padding: 0px;">
+                                <p class="lead">Subtotal</p>
+                            </div>
+                            <div class="col-8" style="padding: 0px;">
+                                <p class="lead" id="subtotal_total" name="subtotal_total">{{chequerecord.SubTotal}}</p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-4" style="padding: 0px;">
+                                <p class="lead">Tax</p>
+                            </div>
+                            <div class="col-8" style="padding: 0px;">
+                                <p class="lead" id="subtotal_tax" name="subtotal_tax">{{chequerecord.TotalTax}}</p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12" style="padding: 0px;">
+                                <hr style="border-top: 1px solid #696969;" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-4" style="padding: 0px;">
+                                <p class="lead leadTotal">TOTAL</p>
+                            </div>
+                            <div class="col-8" style="padding: 0px;">
+                                <p class="lead leadTotal" id="grandTotal" name="grandTotal">{{chequerecord.Total}}</p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12" style="padding: 0px;">
+                                <hr style="border-top: 3px solid #696969;" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-4" style="padding: 0px;">
+                                <p class="lead">Paid Amount</p>
+                            </div>
+                            <div class="col-8" style="padding: 0px;">
+                                <p class="lead" id="grandTotal" name="grandTotal">{{chequerecord.Total}}</p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12" style="padding: 0px;">
+                                <hr style="border-top: 3px solid #696969;" />
+                                <p style="display:none;" id="totalBalanceDue" name="totalBalanceDue">{{chequerecord.balanceDue}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <style>
+                    @media screen and (max-width: 450px) {
+                        .btnFooter {
+                            width: 39% !important;
+                        }
+                        .btnSave {
+                            margin-right: 8px !important;
+                        }
+                        .btn_Attachment {
+                            margin-right: 8px !important;
+                        }
+
+                        .printConfirm {
+                            margin-left: 8px !important;
+                        }
+                        .btnBack {
+                            margin-left: 8px !important;
+                        }
+                    }
+
+                    @media screen and (max-width: 450px) {
+                        .btn_Attachment {
+                            font-size: 14px !important;
+                        }
+                    }
+                </style>
+                <div class="row justify-content-center">
+                    <button class="btn btn-success btnSave btnFooter" type="button" style="margin: 16px;margin-top: 0px;width: 100px;">
+                        <i class="fa fa-save" style="padding-right: 8px;"></i>Save
+                    </button>
+
+                    <button class="btn btn-primary printConfirm btnFooter" type="button" style="margin: 16px;margin-top: 0px;width: 100px;">
+                        <i class="fa fa-print" style="padding-right: 8px;"></i>Print
+                    </button>
+
+                    <a class="btn btn-primary btn_Attachment btnFooter" role="button" style="margin: 16px;margin-top: 0px;" data-toggle="modal" href="#myModalAttachment" id="btn_Attachment" name="btn_Attachment">
+                        {{#if attachmentCount}}<span id="attachment-count">{{attachmentCount}}</span>{{/if}} <i class="fa fa-paperclip" style="padding-right: 8px;"></i>Add Attachments
+                    </a>
+
+                    <button class="btn btn-secondary btnBack btnFooter" type="button" style="margin: 16px;margin-top: 0px;width: 100px;">
+                        <i class="fa fa-remove" style="padding-right: 8px;"></i>Cancel
+                    </button>
+                </div>
+
+                <!-- <div class="d-xl-flex justify-content-xl-center">
                     <div class="printID" style="display: none;"></div>
                     <button class="btn btn-success btnSave" type="button" style="margin: 16px;margin-top: 0px;width: 95px;">
                         <i class="fa fa-save" style="padding-right: 8px;"></i>Save
@@ -895,7 +951,7 @@
                     <button class="btn btn-secondary btnBack" type="button" style="margin: 16px;margin-top: 0px;width: 100px;">
                         <i class="fa fa-remove" style="padding-right: 8px;"></i>Cancel
                     </button>
-                </div>
+                </div> -->
             </form>
 
             <!-- Start PDF -->
