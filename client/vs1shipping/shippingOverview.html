@@ -31,8 +31,78 @@
                 <div class="card shadow border-left-primary py-2 mb-4" style="height: 102px;">
                     <div class="card-body">
                         <div class="row align-items-center no-gutters" style="margin-top:4px;">
-                            <div class="input-group"><input class="form-control" type="text">
-                                <div class="input-group-append"><a class="btn btn-primary btnScan" style="color: #ffffff;" role="button"><i class="fas fa-camera" style="margin-right: 5px;"></i>Scan</a></div>
+                            <div class="input-group"><input class="form-control" id="barcodeScanInput" type="text">
+                                <div class="input-group-append"><a class="btn btn-primary" role="button" href="#scanBarcode" data-toggle="modal">Scan</a></div>
+                                <!-- IDEA: Scan will open the scanning modal UNLESS you type in a valid barcode, then it will open the corresponding Shipping Docket -->
+                            </div>
+                            <style>
+                                @media screen and (max-width: 450px) {
+                                    .btnNav {
+                                        width: 90% !important;
+                                    }
+                                    .btnOpenSettingsMobile {
+                                        display: block !important;
+                                    }
+                                    .btnOpenSettings {
+                                        display: none;
+                                    }
+                                }
+                            </style>
+                            <div class="modal fade" role="dialog" tabindex="-1" id="scanBarcode">
+                                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h4 class="modal-title">Barcode Scanner</h4>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <style>
+                                                #reader>div:first-of-type {
+                                                    display: none !important;
+                                                }
+
+                                                #reader__dashboard_section_swaplink {
+                                                    display: none !important;
+                                                }
+
+                                                #reader__dashboard_section_csr>div>button:first-of-type {
+                                                    color: #fff !important;
+                                                    background-color: #00a3d3 !important;
+                                                    border-color: #00a3d3 !important;
+                                                    border: 1px solid transparent;
+                                                    display: inline-block !important;
+                                                    font-weight: 400 !important;
+                                                    text-align: center !important;
+                                                    vertical-align: middle !important;
+                                                    padding: .375rem .75rem !important;
+                                                    font-size: 1rem !important;
+                                                    line-height: 1.5 !important;
+                                                    border-radius: .35rem !important;
+                                                    transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+                                                }
+                                            </style>
+                                            <div id="reader" style="width: 100%"></div>
+
+                                            <script>
+                                                function onScanSuccess(decodedText, decodedResult) {
+                                                    document.getElementById("barcodeScanInput").value = decodedText;
+                                                }
+
+                                                function onScanFailure(error) {
+                                                    document.getElementById("barcodeScanInput").value = error;
+                                                }
+
+                                                let html5QrcodeScanner = new Html5QrcodeScanner(
+                                                    "reader", {
+                                                        fps: 10,
+                                                        qrbox: 350
+                                                    }, /* verbose= */ false);
+                                                html5QrcodeScanner.render(onScanSuccess, onScanFailure);
+                                            </script>
+                                        </div>
+                                        <div class="modal-footer"><button class="btn btn-secondary" type="button" data-dismiss="modal">Close</button></div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -68,12 +138,14 @@
 
         <div class="row d-xl-flex flex-row justify-content-xl-center" style="padding: 0px 16px;">
             <div class="col-6 align-items-start">
-                <button id="btnRefresh" class="btn btn-primary btnRefresh" type="button" style="margin: 16px;min-width: 117.016px;"><i class="la la-lightbulb-o" style="margin-right: 5px;"></i>Refresh</button>
+                <button id="btnRefresh" class="btn btn-primary btnRefresh btnNav" type="button" style="margin: 16px;min-width: 117.016px;"><i class="la la-lightbulb-o" style="margin-right: 5px;"></i>Refresh</button>
             </div>
             <div class="col-6 align-items-end">
                 <a class="btn btnOpenSettings float-right" role="button" data-toggle="modal" href="#myModal2" style="margin: 16px;"><i class="icon ion-android-more-horizontal"></i></a>
-                <button class="btn btn-primary export float-right" type="button" style="margin: 16px;" id="exportbtn" name="exportbtn"><i class="fas fa-file-export" style="padding-right: 5px;"></i>Export</button>
-                <button class="btn btn-primary printConfirm float-right" type="button" style="margin: 16px;"><i class="fa fa-print" style="padding-right: 5px;"></i>Print</button>
+                <button class="btn btn-primary export float-right btnNav" type="button" style="margin: 16px;" id="exportbtn" name="exportbtn"><i class="fas fa-file-export" style="padding-right: 5px;"></i>Export</button>
+                <button class="btn btn-primary printConfirm float-right btnNav" type="button" style="margin: 16px;"><i class="fa fa-print" style="padding-right: 5px;"></i>Print</button>
+                <a class="btn btnOpenSettings btnOpenSettingsMobile float-right" role="button" data-toggle="modal" href="#myModal2" style="margin: 16px; display: none;"><i class="icon ion-android-more-horizontal"></i></a>
+
             </div>
         </div>
 
@@ -84,6 +156,7 @@
                         th {
                             background-color: #ededed;
                         }
+
                         .table-striped tbody tr:nth-of-type(odd) {
                             background-color: white !important;
                         }
@@ -92,16 +165,19 @@
                             background-color: #0000000d !important;
                         }
 
-                        .JColResizer > tbody > tr > td, .JColResizer > tbody > tr > th {
-                            padding: .75rem!important;
+                        .JColResizer>tbody>tr>td,
+                        .JColResizer>tbody>tr>th {
+                            padding: .75rem !important;
                         }
-                        .hiddenColumn{
-                            display:none;
+
+                        .hiddenColumn {
+                            display: none;
                         }
+
                         .showColumn {
-                            display:table-cell;
-                            padding:.75rem;
-                            vertical-align:top;
+                            display: table-cell;
+                            padding: .75rem;
+                            vertical-align: top;
                         }
 
                         input[type=number]::-webkit-inner-spin-button,
@@ -132,25 +208,25 @@
                         </thead>
                         <tbody>
                             {{#if datatablerecords}}
-                            {{#each item in datatablerecords}}
-                            <tr class="dnd-moved" id="{{item.id}}" style="cursor: pointer;">
-                                <td contenteditable="false" class="colSortDate hiddenColumn">{{item.sortdate}}</td>
-                                <td contenteditable="false" class="colSaleDate" ><span style="display:none;">{{item.sortdate}}</span>{{item.saledate}}</td>
-                                <td contenteditable="false" class="colSalesNo">{{item.id}}</td>
-                                <td contenteditable="false" class="colDueDate" >{{item.duedate}}</td>
-                                <td contenteditable="false" class="colCustomer">{{item.customername}}</td>
-                                <td contenteditable="false" class="colAmountEx" style="text-align: right!important;">{{item.totalamountex}}</td>
-                                <td contenteditable="false" class="colTax" style="text-align: right!important;">{{item.totaltax}}</td>
-                                <td contenteditable="false" class="colAmount" style="text-align: right!important;">{{item.totalamount}}</td>
-                                <td contenteditable="false" class="colPaid" style="text-align: right!important;">{{item.totalpaid}}</td>
-                                <td contenteditable="false" class="colBalanceOutstanding" style="text-align: right!important;">{{item.totaloustanding}}</td>
-                                <td contenteditable="false" class="colStatus hiddenColumn">{{item.salestatus}}</td>
-                                <td contenteditable="false" class="colSaleCustField1 hiddenColumn">{{item.custfield1}}</td>
-                                <td contenteditable="false" class="colSaleCustField2 hiddenColumn">{{item.custfield2}}</td>
-                                <td contenteditable="false" class="colEmployee hiddenColumn">{{item.employee}}</td>
-                                <td contenteditable="false" class="colComments" >{{item.comments}}</td>
-                            </tr>
-                            {{/each}}
+                                {{#each item in datatablerecords}}
+                                    <tr class="dnd-moved" id="{{item.id}}" style="cursor: pointer;">
+                                        <td contenteditable="false" class="colSortDate hiddenColumn">{{item.sortdate}}</td>
+                                        <td contenteditable="false" class="colSaleDate"><span style="display:none;">{{item.sortdate}}</span>{{item.saledate}}</td>
+                                        <td contenteditable="false" class="colSalesNo">{{item.id}}</td>
+                                        <td contenteditable="false" class="colDueDate">{{item.duedate}}</td>
+                                        <td contenteditable="false" class="colCustomer">{{item.customername}}</td>
+                                        <td contenteditable="false" class="colAmountEx" style="text-align: right!important;">{{item.totalamountex}}</td>
+                                        <td contenteditable="false" class="colTax" style="text-align: right!important;">{{item.totaltax}}</td>
+                                        <td contenteditable="false" class="colAmount" style="text-align: right!important;">{{item.totalamount}}</td>
+                                        <td contenteditable="false" class="colPaid" style="text-align: right!important;">{{item.totalpaid}}</td>
+                                        <td contenteditable="false" class="colBalanceOutstanding" style="text-align: right!important;">{{item.totaloustanding}}</td>
+                                        <td contenteditable="false" class="colStatus hiddenColumn">{{item.salestatus}}</td>
+                                        <td contenteditable="false" class="colSaleCustField1 hiddenColumn">{{item.custfield1}}</td>
+                                        <td contenteditable="false" class="colSaleCustField2 hiddenColumn">{{item.custfield2}}</td>
+                                        <td contenteditable="false" class="colEmployee hiddenColumn">{{item.employee}}</td>
+                                        <td contenteditable="false" class="colComments">{{item.comments}}</td>
+                                    </tr>
+                                {{/each}}
                             {{/if}}
 
                         </tbody>

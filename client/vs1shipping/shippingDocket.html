@@ -64,13 +64,13 @@
         </div>
 
         <div class="row" style="background-color: #ededed; padding: 32px; padding-bottom: 0px;">
-            <div class="col-3">
+            <div class="col-12 col-lg-3">
                 <div class="form-group"><label>Customer</label>
                     <select type="search" class="form-control" id="edtCustomerName" name="edtCustomerName" custid=" " style="background-color:rgb(255, 255, 255); cursor: pointer;">
                     </select>
                 </div>
             </div>
-            <div class="col-3">
+            <div class="col-12 col-lg-3">
                 <div class="form-group"><label>Customer Email</label>
                     <input class="form-control form-control" type="text" id="edtCustomerEmail" name="edtCustomerEmail" customerid=" " customerfirstname=" " customerlastname=" ">
                 </div>
@@ -85,14 +85,14 @@
             </div>
         </div>
         <div class="row" style="background-color: #ededed; padding: 24px 32px 0px 32px;">
-            <div class="col-3">
+            <div class="col-12 col-lg-3">
                 <div class="form-group billaddressfield fieldwidth" id="fieldwidth"><label>Shipping Address</label>
                     <textarea class="form-control" rows="5" id="txaShipingInfo" name="txaShipingInfo"></textarea>
                 </div>
             </div>
-            <div class="col-3">
+            <div class="col-12 col-lg-3">
                 <div class="row">
-                    <div class="col-6">
+                    <div class="col-6 col-lg-6">
                         <div class="form-group" data-toggle="tooltip" data-placement="bottom" title="Date format: DD/MM/YYYY">
                             <label>Shipping Date</label>
                             <div class="input-group date" style="cursor: pointer;">
@@ -110,7 +110,7 @@
                             </select>
                         </div>
                     </div>
-                    <div class="col-6">
+                    <div class="col-6 col-lg-6">
                         <div class="form-group">
                             <label>Invoice Number</label>
                             <input class="form-control form-control" type="text" id="invnumber" name="invnumber" value="">
@@ -124,14 +124,19 @@
                 </div>
             </div>
         </div>
-        <div class="row" style="background-color: #ededed; padding: 0px 32px 8px 32px;">
-            <div class="col-3">
+        <div class="row" style="background-color: #ededed; padding: 16px;">
+            <div class="col-12 mb-3">
                 <a class="btn btn-link" data-toggle="collapse" aria-expanded="false" aria-controls="collapse-notes" href="#collapse-notes" role="button">+ Comments</a>
-                <div class="collapse" id="collapse-notes">
-                    <div class="form-group fieldwidth" id="fieldwidth" style="margin-top: 8px;"><label>Comments</label>
-                        <textarea class="form-control" rows="5" id="txaComment" name="txaComment"></textarea>
+                <div class="row">
+                    <div class="col-12 col-md-4">
+                        <div class="collapse" id="collapse-notes" style="margin-top: 8px;">
+                            <div class="form-group"><label style="color:#858796;">Comments</label>
+                                <textarea class="form-control" rows="3" id="txacomments" name="txacomments"></textarea>
+                            </div>
+                        </div>
                     </div>
                 </div>
+
             </div>
         </div>
 
