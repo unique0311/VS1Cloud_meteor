@@ -4410,17 +4410,25 @@ Template.vs1login.onRendered(function () {
                 $('.fullScreenSpin').css('display', 'none');
             });
         } else {
-            swal({
-                title: 'You are now Signed Out of all devices',
-                text: "",
-                type: 'success',
-                showCancelButton: false,
-                confirmButtonText: 'OK'
-            }).then((result) => {
-                if (result.value) {
-                    location.reload(true);
-                }
-            });
+          window.indexedDB.databases().then((r) => {
+              for (var i = 0; i < r.length; i++) {
+                  window.indexedDB.deleteDatabase(r[i].name);
+              }
+
+          }).then(() => {
+              swal({
+                  title: 'You are now Signed Out of all devices',
+                  text: "",
+                  type: 'success',
+                  showCancelButton: false,
+                  confirmButtonText: 'OK'
+              }).then((result) => {
+                  if (result.value) {
+                      location.reload(true);
+                  }
+              });
+              $('.fullScreenSpin').css('display', 'none');
+          });
             $('.fullScreenSpin').css('display', 'none');
         }
         // let userLoginEmail = $("#email").val();

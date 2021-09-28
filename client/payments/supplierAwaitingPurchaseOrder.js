@@ -998,7 +998,7 @@ Template.supplierawaitingpurchaseorder.events({
         let selectClient = templateObject.selectedAwaitingPayment.get();
 
           if (selectClient.length === 0) {
-            swal('Please select Customer to pay for!', '', 'info');
+            swal('Please select Supplier to pay for!', '', 'info');
         } else {
             let custName = selectClient[0].clientname;
             var resultPO = [];

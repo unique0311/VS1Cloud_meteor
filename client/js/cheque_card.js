@@ -600,7 +600,7 @@ Template.chequecard.onRendered(() => {
                         });
                     } else {
                         let data = JSON.parse(dataObject[0].data);
-                        let useData = data.tcheque;
+                        let useData = data.tchequeex;
                         var added = false;
                         for (let d = 0; d < useData.length; d++) {
                             if (parseInt(useData[d].fields.ID) === currentCheque) {
@@ -3557,17 +3557,16 @@ Template.chequecard.events({
         if (getso_id[1]) {
             currentInvoice = parseInt(currentInvoice);
             var objDetails = {
-                type: "TCheque",
+                type: "TChequeEx",
                 fields: {
                     ID: currentInvoice,
-                    Deleted: true,
-
+                    Deleted: true
                 }
             };
 
-            purchaseService.saveCheque(objDetails).then(function(objDetails) {
+            purchaseService.saveChequeEx(objDetails).then(function(objDetails) {
 
-               // FlowRouter.go('/chequelist?success=true');
+               FlowRouter.go('/chequelist?success=true');
 
             }).catch(function(err) {
                 swal({
@@ -3586,7 +3585,7 @@ Template.chequecard.events({
                 $('.fullScreenSpin').css('display', 'none');
             });
         } else {
-            //FlowRouter.go('/chequelist?success=true');
+            FlowRouter.go('/chequelist?success=true');
         }
         $('#deleteLineModal').modal('toggle');
     },

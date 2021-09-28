@@ -4970,11 +4970,11 @@ Template.new_quote.events({
         let surname = $('#edtCustomerEmail').attr('customerlastname');
         let salesService = new SalesBoardService();
         let termname = $('#sltTerms').val() || '';
-        if (termname === '') {
-            swal('Terms has not been selected!', '', 'warning');
-            event.preventDefault();
-            return false;
-        }
+        // if (termname === '') {
+        //     swal('Terms has not been selected!', '', 'warning');
+        //     event.preventDefault();
+        //     return false;
+        // }
         if (customername.val() === '') {
             swal('Customer has not been selected!', '', 'warning');
             e.preventDefault();
@@ -5910,11 +5910,11 @@ Template.new_quote.events({
                 let surname = $('#edtCustomerEmail').attr('customerlastname');
                 let salesService = new SalesBoardService();
                 let termname = $('#sltTerms').val() || '';
-                if (termname === '') {
-                    swal('Terms has not been selected!', '', 'warning');
-                    event.preventDefault();
-                    return false;
-                }
+                // if (termname === '') {
+                //     swal('Terms has not been selected!', '', 'warning');
+                //     event.preventDefault();
+                //     return false;
+                // }
 
                 if (customername.val() === '') {
                     swal('Customer has not been selected!', '', 'warning');
@@ -6364,11 +6364,11 @@ Template.new_quote.events({
         let customername = $('#edtCustomerName');
         let salesService = new SalesBoardService();
         let termname = $('#sltTerms').val() || '';
-        if (termname === '') {
-            swal('Terms has not been selected!', '', 'warning');
-            event.preventDefault();
-            return false;
-        }
+        // if (termname === '') {
+        //     swal('Terms has not been selected!', '', 'warning');
+        //     event.preventDefault();
+        //     return false;
+        // }
 
         if (customername.val() === '') {
             swal('Customer has not been selected!', '', 'warning');
@@ -6616,11 +6616,11 @@ Template.new_quote.events({
             let customername = $('#edtCustomerName');
             let salesService = new SalesBoardService();
             let termname = $('#sltTerms').val() || '';
-            if (termname === '') {
-                swal('Terms has not been selected!', '', 'warning');
-                event.preventDefault();
-                return false;
-            }
+            // if (termname === '') {
+            //     swal('Terms has not been selected!', '', 'warning');
+            //     event.preventDefault();
+            //     return false;
+            // }
             if (customername.val() === '') {
                 swal('Customer has not been selected!', '', 'warning');
                 e.preventDefault();
@@ -6866,12 +6866,12 @@ Template.new_quote.events({
             let customername = $('#edtCustomerName');
             let salesService = new SalesBoardService();
             let termname = $('#sltTerms').val() || '';
-            if (termname === '') {
-                swal('Terms has not been selected!', '', 'warning');
-                event.preventDefault();
-                return false;
-            }
-            
+            // if (termname === '') {
+            //     swal('Terms has not been selected!', '', 'warning');
+            //     event.preventDefault();
+            //     return false;
+            // }
+
             if (customername.val() === '') {
                 swal('Customer has not been selected!', '', 'warning');
                 e.preventDefault();

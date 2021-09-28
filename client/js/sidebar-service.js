@@ -340,7 +340,7 @@ getCustomersDataByName(dataSearchName) {
      };
     }
 
-    return this.getList(this.ERPObjects.TCheque, options);
+    return this.getList(this.ERPObjects.TChequeEx, options);
   }
   getAllPurchaseOrderListAll(dateFrom, dateTo, ignoreDate) {
     let options = '';
