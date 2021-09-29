@@ -62,6 +62,8 @@ Template.new_invoice.onCreated(() => {
     templateObject.productextrasellrecords = new ReactiveVar([]);
 
     templateObject.singleInvoiceData = new ReactiveVar([]);
+
+    templateObject.defaultsaleterm = new ReactiveVar();
 });
 Template.new_invoice.onRendered(() => {
 
@@ -3853,7 +3855,7 @@ Template.new_invoice.onRendered(() => {
             branding: '',
             invoiceToDesc: '',
             shipToDesc: '',
-            termsName: '',
+            termsName: templateObject.defaultsaleterm.get() || '',
             Total: Currency + '' + 0.00,
             TotalDiscount: Currency + '' + 0.00,
             LineItems: lineItems,
@@ -3961,6 +3963,10 @@ Template.new_invoice.onRendered(() => {
                             termsname: data.ttermsvs1[i].TermsName || ' ',
                         };
 
+                        if(data.ttermsvs1[i].isSalesdefault == true){
+                            templateObject.defaultsaleterm.set(data.ttermsvs1[i].TermsName);
+                        }
+
                         termrecords.push(termrecordObj);
                         templateObject.termrecords.set(termrecords);
 
@@ -3974,6 +3980,9 @@ Template.new_invoice.onRendered(() => {
                     let termrecordObj = {
                         termsname: useData[i].TermsName || ' ',
                     };
+                    if(useData[i].isSalesdefault == true){
+                        templateObject.defaultsaleterm.set(useData[i].TermsName);
+                    }
 
                     termrecords.push(termrecordObj);
                     templateObject.termrecords.set(termrecords);
@@ -3989,7 +3998,9 @@ Template.new_invoice.onRendered(() => {
                     let termrecordObj = {
                         termsname: data.ttermsvs1[i].TermsName || ' ',
                     };
-
+                    if(data.ttermsvs1[i].isSalesdefault == true){
+                        templateObject.defaultsaleterm.set(data.ttermsvs1[i].TermsName);
+                    }
                     termrecords.push(termrecordObj);
                     templateObject.termrecords.set(termrecords);
 
@@ -5556,7 +5567,7 @@ Template.new_invoice.events({
                 let name = $('#edtCustomerEmail').attr('customerfirstname');
                 let surname = $('#edtCustomerEmail').attr('customerlastname');
                 let salesService = new SalesBoardService();
-                let termname = $('#sltTerms').val() || '';
+                let termname = $('#sltTerms').val() || templateObject.defaultsaleterm.get();
                 if (termname === '') {
                     swal('Terms has not been selected!', '', 'warning');
                     event.preventDefault();
@@ -6759,7 +6770,7 @@ Template.new_invoice.events({
         let name = $('#edtCustomerEmail').attr('customerfirstname');
         let surname = $('#edtCustomerEmail').attr('customerlastname');
         let salesService = new SalesBoardService();
-        let termname = $('#sltTerms').val() || '';
+        let termname = $('#sltTerms').val() || templateObject.defaultsaleterm.get();
         if (termname === '') {
             swal('Terms has not been selected!', '', 'warning');
             event.preventDefault();
@@ -7645,7 +7656,7 @@ Template.new_invoice.events({
         let templateObject = Template.instance();
         let customername = $('#edtCustomerName');
         let salesService = new SalesBoardService();
-        let termname = $('#sltTerms').val() || '';
+        let termname = $('#sltTerms').val() || templateObject.defaultsaleterm.get();
         if (termname === '') {
             swal('Terms has not been selected!', '', 'warning');
             event.preventDefault();
@@ -8117,7 +8128,7 @@ Template.new_invoice.events({
             let templateObject = Template.instance();
             let customername = $('#edtCustomerName');
             let salesService = new SalesBoardService();
-            let termname = $('#sltTerms').val() || '';
+            let termname = $('#sltTerms').val() || templateObject.defaultsaleterm.get();
             if (termname === '') {
                 swal('Terms has not been selected!', '', 'warning');
                 event.preventDefault();

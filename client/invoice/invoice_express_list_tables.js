@@ -450,20 +450,20 @@ setTimeout(function () {
         if(searchdata.fnRecordsDisplay() > 0){
 
         }else{
-          swal({
-          title: 'Oooops...',
-          text: "No data found! [Coming Soon] - Search API for data.",
-          type: 'info',
-          showCancelButton: false,
-          confirmButtonText: 'Try Again'
-          }).then((result) => {
-          if (result.value) {
-            //$('input[type=search]').val('').trigger('change');
-           //Meteor._reload.reload();
-          } else if (result.dismiss === 'cancel') {
-            //$('input[type=search]').val('').trigger('change');
-          }
-          });
+          // swal({
+          // title: 'Oooops...',
+          // text: "No data found! [Coming Soon] - Search API for data.",
+          // type: 'info',
+          // showCancelButton: false,
+          // confirmButtonText: 'Try Again'
+          // }).then((result) => {
+          // if (result.value) {
+          //   //$('input[type=search]').val('').trigger('change');
+          //  //Meteor._reload.reload();
+          // } else if (result.dismiss === 'cancel') {
+          //   //$('input[type=search]').val('').trigger('change');
+          // }
+          // });
         }
         //alert("search");
       }).on( 'length.dt', function ( e, settings, len ) {

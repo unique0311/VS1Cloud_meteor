@@ -505,13 +505,15 @@ Template.vs1login.onRendered(function () {
 
     }
 
-
+    var caches;
     function clearCaches() {
-        caches.keys().then(function (names) {
-            for(let name of names) {
-            caches.delete(name);
-        }
-        });
+        // caches.keys().then(function (names) {
+        //     for(let name of names) {
+        //     caches.delete(name);
+        //   }
+        // }).catch(function(err) {
+        //
+        // });
          localStorage.clear();
          sessionStorage.clear();
     }
@@ -4426,7 +4428,7 @@ Template.vs1login.onRendered(function () {
               for (var i = 0; i < r.length; i++) {
                   window.indexedDB.deleteDatabase(r[i].name);
               }
-              clearCaches()
+              clearCaches();
           }).then(() => {
               swal({
                   title: 'You are now Signed Out of all devices',

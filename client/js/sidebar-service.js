@@ -922,4 +922,14 @@ getCustomersDataByName(dataSearchName) {
     return this.getList(this.ERPObjects.TERPPreferenceExtra,options);
    }
 
+   getGlobalSearchReport(searchName, limitcount, limitfrom){
+       let options = {
+         SearchName: "'"+searchName+"'",
+         QuerySearchMode: "'smSearchEngineLike'",
+         LimitCount:'"'+limitcount+'"',
+         LimitFrom:'"'+limitfrom+'"'
+       };
+       return this.getList(this.ERPObjects.TGlobalSearchReport, options);
+   }
+
 }

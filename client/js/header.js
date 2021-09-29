@@ -20,11 +20,12 @@ import {
 import {
     OrganisationService
 } from './organisation-service';
+import { SideBarService } from '../js/sidebar-service';
 
 let utilityService = new UtilityService();
 let productService = new ProductService();
 let organizationService = new OrganisationService();
-
+let sideBarService = new SideBarService();
 Template.header.onCreated(function() {
     const templateObject = Template.instance();
 
@@ -96,9 +97,13 @@ Template.header.onRendered(function() {
         productService.getGlobalSearchReport(searchName).then(function(data) {
             let dataSelectID = '';
             var splashArrayList = new Array();
+            var splashArrayListDupp = new Array();
             $('.fullScreenSpin').css('display', 'none');
-
+            setTimeout(function() {
+                $('#tblSearchOverview_filter .form-control-sm').val(searchName);
+            }, 200);
             let dataTableList = [];
+            let dataTableListDupp = [];
             for (let i = 0; i < data.tglobalsearchreport.length; i++) {
                 if (data.tglobalsearchreport[i].Type === "Purchase Order") {
                     dataSelectID = data.tglobalsearchreport[i].PurchaseOrderID;
@@ -200,17 +205,125 @@ Template.header.onRendered(function() {
                         fixedColumnsLeft: 1
                     },
 
-                    pageLength: 25,
+                    pageLength: 100,
                     lengthMenu: [
-                        [25, -1],
-                        [25, "All"]
+                        [100, -1],
+                        [100, "All"]
                     ],
                     info: true,
-                    responsive: true
+                    responsive: true,
+                    "fnDrawCallback": function (oSettings) {
+                      var searchDataValue =   $('.txtGlobalSearch').val().toLowerCase();
+                      $('#tblSearchOverview_wrapper .paginate_button.page-item').removeClass('disabled');
+                      $('#tblSearchOverview_ellipsis').addClass('disabled');
+                      if(oSettings._iDisplayLength == -1){
+                    if(oSettings.fnRecordsDisplay() > 150){
+                      $('#tblSearchOverview_wrapper .paginate_button.page-item.previous').addClass('disabled');
+                      $('#tblSearchOverview_wrapper .paginate_button.page-item.next').addClass('disabled');
+                    }
+                  }else{
 
+                  }
+                  if(oSettings.fnRecordsDisplay() < 100){
+                      $('#tblSearchOverview_wrapper .paginate_button.page-item.next').addClass('disabled');
+                  }
+                  $('.paginate_button.next:not(.disabled)', this.api().table().container())
+                   .on('click', function(){
+                     $('.fullScreenSpin').css('display','inline-block');
+                     let dataLenght = oSettings._iDisplayLength;
+                     // console.log(splashArrayList);
 
+                     sideBarService.getGlobalSearchReport(searchDataValue,100,oSettings.fnRecordsDisplay()).then(function(dataObjectnew) {
+                       // templateObject.resetData(objCombineData);
+                       let dataOld = splashArrayList;
+                       for (let i = 0; i < dataObjectnew.tglobalsearchreport.length; i++) {
+                           if (dataObjectnew.tglobalsearchreport[i].Type === "Purchase Order") {
+                               dataSelectID = dataObjectnew.tglobalsearchreport[i].PurchaseOrderID;
+                           } else if (dataObjectnew.tglobalsearchreport[i].Type === "Bill") {
+                               dataSelectID = dataObjectnew.tglobalsearchreport[i].PurchaseOrderID;
+                           } else if (dataObjectnew.tglobalsearchreport[i].Type === "Credit") {
+                               dataSelectID = dataObjectnew.tglobalsearchreport[i].PurchaseOrderID;
+                           } else if (dataObjectnew.tglobalsearchreport[i].Type === "Customer Payment") {
+                               dataSelectID = dataObjectnew.tglobalsearchreport[i].PaymentID;
+                           } else if (dataObjectnew.tglobalsearchreport[i].Type === "Supplier Payment") {
+                               dataSelectID = dataObjectnew.tglobalsearchreport[i].PaymentID;
+                           } else if (dataObjectnew.tglobalsearchreport[i].Type === "Invoice") {
+                               dataSelectID = dataObjectnew.tglobalsearchreport[i].SaleID;
+                           } else if (dataObjectnew.tglobalsearchreport[i].Type === "PO") {
+                               dataSelectID = dataObjectnew.tglobalsearchreport[i].PurchaseOrderID;
+                           } else if (dataObjectnew.tglobalsearchreport[i].Type === "Cheque") {
+                               dataSelectID = dataObjectnew.tglobalsearchreport[i].PurchaseOrderID;
+                           } else if (dataObjectnew.tglobalsearchreport[i].Type === "Customer") {
+                               dataSelectID = dataObjectnew.tglobalsearchreport[i].clientId;
+                           } else if (dataObjectnew.tglobalsearchreport[i].Type === "Sales Order") {
+                               dataSelectID = dataObjectnew.tglobalsearchreport[i].SaleID;
+                           } else if (dataObjectnew.tglobalsearchreport[i].Type === "Quote") {
+                               dataSelectID = dataObjectnew.tglobalsearchreport[i].SaleID;
+                           } else if (dataObjectnew.tglobalsearchreport[i].Type === "Employee") {
+                               dataSelectID = dataObjectnew.tglobalsearchreport[i].ID;
+                           } else if (dataObjectnew.tglobalsearchreport[i].Type === "Product") {
+                               dataSelectID = dataObjectnew.tglobalsearchreport[i].PartsID;
+                           } else if (dataObjectnew.tglobalsearchreport[i].Type === "Refund") {
+                               dataSelectID = dataObjectnew.tglobalsearchreport[i].SaleID;
+                           } else if (dataObjectnew.tglobalsearchreport[i].Type === "INV-BO") {
+                               dataSelectID = dataObjectnew.tglobalsearchreport[i].SaleID;
+                           } else if (dataObjectnew.tglobalsearchreport[i].Type === "Account") {
+                               dataSelectID = dataObjectnew.tglobalsearchreport[i].AccountsID;
+                           }
+                           var dataListDupp = {
+                               catg: dataObjectnew.tglobalsearchreport[i].Catg || '',
+                               catgdesc: dataObjectnew.tglobalsearchreport[i].Catgdesc || '',
+                               clientId: dataObjectnew.tglobalsearchreport[i].clientId || '',
+                               id: dataSelectID || '',
+                               type: dataObjectnew.tglobalsearchreport[i].Type || '',
+                               company: dataObjectnew.tglobalsearchreport[i].company || '',
+                               globalref: dataObjectnew.tglobalsearchreport[i].Globalref || '',
+                               transDate: dataObjectnew.tglobalsearchreport[i].TransDate != '' ? moment(dataObjectnew.tglobalsearchreport[i].TransDate).format("YYYY/MM/DD") : dataObjectnew.tglobalsearchreport[i].TransDate,
+                               transId: dataObjectnew.tglobalsearchreport[i].TransId || '',
+                               saleID: dataObjectnew.tglobalsearchreport[i].SaleID || '',
+                               purchaseOrderID: dataObjectnew.tglobalsearchreport[i].PurchaseOrderID || '',
+                               paymentID: dataObjectnew.tglobalsearchreport[i].PaymentID || '',
+                               prepaymentID: dataObjectnew.tglobalsearchreport[i].PrepaymentID || '',
+                               fixedAssetID: dataObjectnew.tglobalsearchreport[i].FixedAssetID || '',
+                               partsID: dataObjectnew.tglobalsearchreport[i].PartsID || ''
 
+                           };
 
+                           var dataListNewDupp = [
+                               dataSelectID || '',
+                               dataObjectnew.tglobalsearchreport[i].company || '',
+                               dataObjectnew.tglobalsearchreport[i].Type || '',
+                               dataObjectnew.tglobalsearchreport[i].Globalref || ''
+
+                           ];
+                           dataTableListDupp.push(dataListDupp);
+                           splashArrayListDupp.push(dataListNewDupp);
+                       }
+                     var thirdaryData = $.merge($.merge([], splashArrayListDupp), splashArrayList);
+                     let uniqueChars = [...new Set(thirdaryData)];
+                     var datatable = $('#tblSearchOverview').DataTable();
+                     datatable.clear();
+                     datatable.rows.add(uniqueChars);
+                     datatable.draw(false);
+                       // let objCombineData = {
+                       //   tglobalsearchreport:thirdaryData
+                       // }
+                     $('.fullScreenSpin').css('display','none');
+
+                     }).catch(function(err) {
+                       $('.fullScreenSpin').css('display','none');
+                     });
+
+                   });
+                    }
+
+                }).on('page', function () {
+                  //alert('here');
+                  // setTimeout(function () {
+                  //   MakeNegative();
+                  // }, 100);
+                  //   let draftRecord = templateObject.datatablerecords.get();
+                  //   templateObject.datatablerecords.set(draftRecord);
                 });
                 $('div.dataTables_filter input').addClass('form-control form-control-sm');
             }, 0);
@@ -552,6 +665,9 @@ Template.header.events({
     'click .btnGlobalSearch': function(event) {
         let templateObject = Template.instance();
         var searchData = $('.txtGlobalSearch').val().toLowerCase();
+        setTimeout(function() {
+            $('#tblSearchOverview_filter .form-control-sm').val(searchData);
+        }, 200);
         if (searchData != '') {
             templateObject.getAllGlobalSearch(searchData);
 
@@ -562,6 +678,10 @@ Template.header.events({
         if (key == 13) {
             let templateObject = Template.instance();
             var searchData = $('.txtGlobalSearch').val().toLowerCase();
+
+            setTimeout(function() {
+                $('#tblSearchOverview_filter .form-control-sm').val(searchData);
+            }, 200);
             if (searchData != '') {
                 templateObject.getAllGlobalSearch(searchData);
                 event.preventDefault();
@@ -572,10 +692,15 @@ Template.header.events({
         let templateObject = Template.instance();
         templateObject.searchdatatablerecords.set('');
         $('.txtGlobalSearch').val('');
+        $('.txtGlobalSearchMobile').val('');
+        $('#tblSearchOverview_filter .form-control-sm').val('');
 
     },'click .btnGlobalSearchMobile': function(event) {
         let templateObject = Template.instance();
         var searchData = $('.txtGlobalSearchMobile').val().toLowerCase();
+        setTimeout(function() {
+            $('#tblSearchOverview_filter .form-control-sm').val(searchData);
+        }, 200);
         if (searchData != '') {
             templateObject.getAllGlobalSearch(searchData);
 
@@ -586,6 +711,9 @@ Template.header.events({
         if (key == 13) {
             let templateObject = Template.instance();
             var searchData = $('.txtGlobalSearchMobile').val().toLowerCase();
+            setTimeout(function() {
+                $('#tblSearchOverview_filter .form-control-sm').val(searchData);
+            }, 200);
             if (searchData != '') {
                 templateObject.getAllGlobalSearch(searchData);
                 event.preventDefault();
@@ -595,8 +723,17 @@ Template.header.events({
     'click .btnCloseModalMobile': function(event) {
         let templateObject = Template.instance();
         templateObject.searchdatatablerecords.set('');
+        $('#tblSearchOverview_filter .form-control-sm').val('');
         $('.txtGlobalSearchMobile').val('');
+        $('.txtGlobalSearch').val('');
 
+    },
+    'keyup #tblSearchOverview_filter input': function (event) {
+      if (event.keyCode == 13) {
+        $('.txtGlobalSearchMobile').val($(event.target).val());
+        $('.txtGlobalSearch').val($(event.target).val());
+        $(".btnGlobalSearch").trigger("click");
+      }
     },
     'click #sidebarToggleTop': function(event) {
         var newnav = document.getElementById("sidebar");
@@ -751,6 +888,9 @@ Template.header.events({
         let templateObject = Template.instance();
         templateObject.searchdatatablerecords.set('');
         var searchData = $('.txtGlobalSearch').val().toLowerCase();
+        setTimeout(function() {
+            $('#tblSearchOverview_filter .form-control-sm').val(searchData);
+        }, 200);
         if (searchData != '') {
             templateObject.getAllGlobalSearch(searchData);
         }
