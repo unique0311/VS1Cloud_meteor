@@ -72,8 +72,8 @@ yearRange: "-90:+10",
           bStateSave: true,
           // scrollX: 1000,
           rowId: 0,
-          pageLength: 25,
-          lengthMenu: [ [25, -1], [25, "All"] ],
+          pageLength: 100,
+          lengthMenu: [ [100, -1], [100, "All"] ],
           info: true,
           responsive: true
             });
@@ -137,8 +137,8 @@ $('.fullScreenSpin').css('display','none');
         bStateSave: true,
         // scrollX: 1000,
         rowId: 0,
-        pageLength: 25,
-        lengthMenu: [ [25, -1], [25, "All"] ],
+        pageLength: 100,
+        lengthMenu: [ [100, -1], [100, "All"] ],
         info: true,
         responsive: true
           });

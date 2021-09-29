@@ -1167,8 +1167,8 @@ Template.journalentrycard.onRendered(function () {
                             "order": [[0, "asc"]],
 
 
-                            pageLength: 25,
-                            lengthMenu: [ [25, -1], [25, "All"] ],
+                            pageLength: 100,
+                            lengthMenu: [ [100, -1], [100, "All"] ],
                             info: true,
                             responsive: true
 
@@ -1232,8 +1232,8 @@ Template.journalentrycard.onRendered(function () {
                         "order": [[0, "asc"]],
 
 
-                        pageLength: 25,
-                        lengthMenu: [ [25, -1], [25, "All"] ],
+                        pageLength: 100,
+                        lengthMenu: [ [100, -1], [100, "All"] ],
                         info: true,
                         responsive: true
 
@@ -1291,8 +1291,8 @@ Template.journalentrycard.onRendered(function () {
                         "order": [[0, "asc"]],
 
 
-                        pageLength: 25,
-                        lengthMenu: [ [25, -1], [25, "All"] ],
+                        pageLength: 100,
+                        lengthMenu: [ [100, -1], [100, "All"] ],
                         info: true,
                         responsive: true
 
@@ -1360,10 +1360,10 @@ Template.journalentrycard.onRendered(function () {
 
                             bStateSave: true,
 
-                            pageLength: 25,
+                            pageLength: 100,
                             lengthMenu: [
-                                [25, -1],
-                                [25, "All"]
+                                [100, -1],
+                                [100, "All"]
                             ],
                             info: true,
                             responsive: true,
@@ -1422,10 +1422,10 @@ Template.journalentrycard.onRendered(function () {
                         bStateSave: true,
 
 
-                        pageLength: 25,
+                        pageLength: 100,
                         lengthMenu: [
-                            [25, -1],
-                            [25, "All"]
+                            [100, -1],
+                            [100, "All"]
                         ],
                         info: true,
                         responsive: true,
@@ -1490,10 +1490,10 @@ Template.journalentrycard.onRendered(function () {
                         bStateSave: true,
 
 
-                        pageLength: 25,
+                        pageLength: 100,
                         lengthMenu: [
-                            [25, -1],
-                            [25, "All"]
+                            [100, -1],
+                            [100, "All"]
                         ],
                         info: true,
                         responsive: true,

@@ -118,10 +118,10 @@ Template.accountlistpop.onRendered(function() {
                             ],
 
 
-                            pageLength: 25,
+                            pageLength: 100,
                             lengthMenu: [
-                                [25, -1],
-                                [25, "All"]
+                                [100, -1],
+                                [100, "All"]
                             ],
                             info: true,
                             responsive: true,
@@ -133,11 +133,6 @@ Template.accountlistpop.onRendered(function() {
                         });
 
                         $('div.dataTables_filter input').addClass('form-control form-control-sm');
-
-
-
-
-
 
                     }
                 });
@@ -199,10 +194,10 @@ Template.accountlistpop.onRendered(function() {
                         ],
 
 
-                        pageLength: 25,
+                        pageLength: 100,
                         lengthMenu: [
-                            [25, -1],
-                            [25, "All"]
+                            [100, -1],
+                            [100, "All"]
                         ],
                         info: true,
                         responsive: true,
@@ -274,10 +269,10 @@ Template.accountlistpop.onRendered(function() {
                         ],
 
 
-                        pageLength: 25,
+                        pageLength: 100,
                         lengthMenu: [
-                            [25, -1],
-                            [25, "All"]
+                            [100, -1],
+                            [100, "All"]
                         ],
                         info: true,
                         responsive: true,

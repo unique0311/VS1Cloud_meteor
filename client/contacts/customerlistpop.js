@@ -265,8 +265,8 @@ Template.customerlistpop.onRendered(function () {
                             select: true,
                             destroy: true,
                             colReorder: true,
-                            pageLength: 25,
-                            lengthMenu: [[25, -1], [25, "All"]],
+                            pageLength: 100,
+                            lengthMenu: [[100, -1], [100, "All"]],
                             info: true,
                             responsive: true,
                             "order": [[0, "asc"]],
@@ -649,8 +649,8 @@ Template.customerlistpop.onRendered(function () {
                         select: true,
                         destroy: true,
                         colReorder: true,
-                        pageLength: 25,
-                        lengthMenu: [[25, -1], [25, "All"]],
+                        pageLength: 100,
+                        lengthMenu: [[100, -1], [100, "All"]],
                         info: true,
                         responsive: true,
                         "order": [[0, "asc"]],
@@ -660,7 +660,7 @@ Template.customerlistpop.onRendered(function () {
                         "fnDrawCallback": function (oSettings) {
                             $('.paginate_button.page-item').removeClass('disabled');
                             $('#tblCustomerlist_ellipsis').addClass('disabled');
-                            $('.dataTables_paginate').css('display', 'none');
+                            // $('.dataTables_paginate').css('display', 'none');
                             if (oSettings._iDisplayLength == -1) {
                                 if (oSettings.fnRecordsDisplay() > 150) {
                                     $('.paginate_button.page-item.previous').addClass('disabled');
@@ -1091,8 +1091,8 @@ Template.customerlistpop.onRendered(function () {
                         select: true,
                         destroy: true,
                         colReorder: true,
-                        pageLength: 25,
-                        lengthMenu: [[25, -1], [25, "All"]],
+                        pageLength: 100,
+                        lengthMenu: [[100, -1], [100, "All"]],
                         info: true,
                         responsive: true,
                         "order": [[0, "asc"]],

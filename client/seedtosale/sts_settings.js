@@ -148,8 +148,8 @@ Template.stssettings.onRendered(function() {
                             }
                         }],
 
-                    pageLength: 25,
-                    lengthMenu: [ [25, -1], [25, "All"] ],
+                    pageLength: 100,
+                    lengthMenu: [ [100, -1], [100, "All"] ],
                     info: true,
                     responsive: true,
                     "order": [[ 0, "asc" ]],

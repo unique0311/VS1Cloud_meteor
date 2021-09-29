@@ -529,12 +529,9 @@ Template.bankingoverview.onRendered(function() {
                             colReorder: true,
                             // bStateSave: true,
                             // rowId: 0,
-                            pageLength: 25,
+                            pageLength: 100,
                             "bLengthChange": false,
-                            lengthMenu: [
-                                [10, 25, 50, -1],
-                                [10, 25, 50, "All"]
-                            ],
+                            lengthMenu: [ [100, -1], [100, "All"] ],
                             info: true,
                             responsive: true,
                             "order": [
@@ -829,12 +826,9 @@ Template.bankingoverview.onRendered(function() {
                         colReorder: true,
                         // bStateSave: true,
                         // rowId: 0,
-                        pageLength: 25,
+                        pageLength: 100,
                         "bLengthChange": false,
-                        lengthMenu: [
-                            [10, 25, 50, -1],
-                            [10, 25, 50, "All"]
-                        ],
+                        lengthMenu: [ [100, -1], [100, "All"] ],
                         info: true,
                         responsive: true,
                         "order": [
@@ -1094,12 +1088,9 @@ Template.bankingoverview.onRendered(function() {
                         colReorder: true,
                         // bStateSave: true,
                         // rowId: 0,
-                        pageLength: 25,
+                        pageLength: 100,
                         "bLengthChange": false,
-                        lengthMenu: [
-                            [10, 25, 50, -1],
-                            [10, 25, 50, "All"]
-                        ],
+                        lengthMenu: [ [100, -1], [100, "All"] ],
                         info: true,
                         responsive: true,
                         "order": [

@@ -323,7 +323,7 @@ Template.currenciesSettings.onRendered(function() {
               paging: false,
               "scrollY": "400px",
               "scrollCollapse": true,
-              lengthMenu: [ [25, -1], [25, "All"] ],
+              lengthMenu: [ [100, -1], [100, "All"] ],
               info: true,
               responsive: true,
               "order": [[ 0, "asc" ]],

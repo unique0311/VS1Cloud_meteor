@@ -2067,10 +2067,10 @@ Template.purchaseordercard.onRendered(function() {
                             ],
                             colReorder: true,
                             bStateSave: true,
-                            pageLength: 25,
+                            pageLength: 100,
                             lengthMenu: [
-                                [10, 25, 50, -1],
-                                [10, 25, 50, "All"]
+                                [100, -1],
+                                [100, "All"]
                             ],
                             info: true,
                             responsive: true,
@@ -2126,10 +2126,10 @@ Template.purchaseordercard.onRendered(function() {
 
                         bStateSave: true,
 
-                        pageLength: 25,
+                        pageLength: 100,
                         lengthMenu: [
-                            [10, 25, 50, -1],
-                            [10, 25, 50, "All"]
+                            [100, -1],
+                            [100, "All"]
                         ],
                         info: true,
                         responsive: true,
@@ -2190,10 +2190,10 @@ Template.purchaseordercard.onRendered(function() {
                         bStateSave: true,
 
 
-                        pageLength: 25,
+                        pageLength: 100,
                         lengthMenu: [
-                            [10, 25, 50, -1],
-                            [10, 25, 50, "All"]
+                            [100, -1],
+                            [100, "All"]
                         ],
                         info: true,
                         responsive: true,
@@ -2269,10 +2269,10 @@ Template.purchaseordercard.onRendered(function() {
                             bStateSave: true,
 
 
-                            pageLength: 25,
+                            pageLength: 100,
                             lengthMenu: [
-                                [10, 25, 50, -1],
-                                [10, 25, 50, "All"]
+                                [100, -1],
+                                [100, "All"]
                             ],
                             info: true,
                             responsive: true,
@@ -2336,10 +2336,10 @@ Template.purchaseordercard.onRendered(function() {
                         bStateSave: true,
 
 
-                        pageLength: 25,
+                        pageLength: 100,
                         lengthMenu: [
-                            [10, 25, 50, -1],
-                            [10, 25, 50, "All"]
+                            [100, -1],
+                            [100, "All"]
                         ],
                         info: true,
                         responsive: true,
@@ -2404,10 +2404,10 @@ Template.purchaseordercard.onRendered(function() {
                         bStateSave: true,
 
 
-                        pageLength: 25,
+                        pageLength: 100,
                         lengthMenu: [
-                            [10, 25, 50, -1],
-                            [10, 25, 50, "All"]
+                            [100, -1],
+                            [100, "All"]
                         ],
                         info: true,
                         responsive: true,
@@ -6037,7 +6037,7 @@ Template.purchaseordercard.events({
                     event.preventDefault();
                     return false;
                 }
-                
+
                 if (suppliername.val() === '') {
                     swal('Supplier has not been selected!', '', 'warning');
                     e.preventDefault();

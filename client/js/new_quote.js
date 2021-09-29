@@ -3721,10 +3721,10 @@ Template.new_quote.onRendered(function () {
                             bStateSave: true,
 
 
-                            pageLength: 25,
+                            pageLength: 100,
                             lengthMenu: [
-                                [25, -1],
-                                [25, "All"]
+                                [100, -1],
+                                [100, "All"]
                             ],
                             info: true,
                             responsive: true,
@@ -3799,10 +3799,10 @@ Template.new_quote.onRendered(function () {
                         ],
                         colReorder: true,
                         bStateSave: true,
-                        pageLength: 25,
+                        pageLength: 100,
                         lengthMenu: [
-                            [25, -1],
-                            [25, "All"]
+                            [100, -1],
+                            [100, "All"]
                         ],
                         info: true,
                         responsive: true,
@@ -3870,10 +3870,10 @@ Template.new_quote.onRendered(function () {
                         bStateSave: true,
 
 
-                        pageLength: 25,
+                        pageLength: 100,
                         lengthMenu: [
-                            [25, -1],
-                            [25, "All"]
+                            [100, -1],
+                            [100, "All"]
                         ],
                         info: true,
                         responsive: true,
@@ -3947,10 +3947,10 @@ Template.new_quote.onRendered(function () {
                             bStateSave: true,
 
 
-                            pageLength: 25,
+                            pageLength: 100,
                             lengthMenu: [
-                                [25, -1],
-                                [25, "All"]
+                                [100, -1],
+                                [100, "All"]
                             ],
                             info: true,
                             responsive: true,
@@ -4015,10 +4015,10 @@ Template.new_quote.onRendered(function () {
                         bStateSave: true,
 
 
-                        pageLength: 25,
+                        pageLength: 100,
                         lengthMenu: [
-                            [25, -1],
-                            [25, "All"]
+                            [100, -1],
+                            [100, "All"]
                         ],
                         info: true,
                         responsive: true,
@@ -4083,10 +4083,10 @@ Template.new_quote.onRendered(function () {
                         bStateSave: true,
 
 
-                        pageLength: 25,
+                        pageLength: 100,
                         lengthMenu: [
-                            [25, -1],
-                            [25, "All"]
+                            [100, -1],
+                            [100, "All"]
                         ],
                         info: true,
                         responsive: true,
@@ -4405,7 +4405,7 @@ Template.new_quote.events({
                     let GrandTotal = (parseFloat(subGrandTotal)) + (parseFloat(taxGrandTotal));
                     document.getElementById("grandTotalPrint").innerHTML = $('#grandTotal').text();
                     document.getElementById("totalTax").innerHTML = $('#subtotal_tax').text();
-                    document.getElementById("balanceDue").innerHTML = utilityService.modifynegativeCurrencyFormat(GrandTotal);
+                    //document.getElementById("balanceDue").innerHTML = utilityService.modifynegativeCurrencyFormat(GrandTotal);
                     document.getElementById("totalBalanceDuePrint").innerHTML = $('#totalBalanceDue').text();
 
                 }
@@ -4538,7 +4538,7 @@ Template.new_quote.events({
                     let GrandTotal = (parseFloat(subGrandTotal)) + (parseFloat(taxGrandTotal));
                     document.getElementById("grandTotalPrint").innerHTML = $('#grandTotal').text();
                     document.getElementById("totalTax").innerHTML = $('#subtotal_tax').text();
-                    document.getElementById("balanceDue").innerHTML = utilityService.modifynegativeCurrencyFormat(GrandTotal);
+                    //document.getElementById("balanceDue").innerHTML = utilityService.modifynegativeCurrencyFormat(GrandTotal);
                     document.getElementById("totalBalanceDuePrint").innerHTML = $('#totalBalanceDue').text();
 
                 }
@@ -4754,7 +4754,7 @@ Template.new_quote.events({
                             let GrandTotal = (parseFloat(subGrandTotal)) + (parseFloat(taxGrandTotal));
                             document.getElementById("grandTotalPrint").innerHTML = $('#grandTotal').text();
                             document.getElementById("totalTax").innerHTML = $('#subtotal_tax').text();
-                            document.getElementById("balanceDue").innerHTML = utilityService.modifynegativeCurrencyFormat(GrandTotal);
+                            //document.getElementById("balanceDue").innerHTML = utilityService.modifynegativeCurrencyFormat(GrandTotal);
                             document.getElementById("totalBalanceDuePrint").innerHTML = $('#totalBalanceDue').text();
 
                         }
@@ -4921,7 +4921,7 @@ Template.new_quote.events({
                     let GrandTotal = (parseFloat(subGrandTotal)) + (parseFloat(taxGrandTotal));
                     document.getElementById("grandTotalPrint").innerHTML = $('#grandTotal').text();
                     document.getElementById("totalTax").innerHTML = $('#subtotal_tax').text();
-                    document.getElementById("balanceDue").innerHTML = utilityService.modifynegativeCurrencyFormat(GrandTotal);
+                    //document.getElementById("balanceDue").innerHTML = utilityService.modifynegativeCurrencyFormat(GrandTotal);
                     document.getElementById("totalBalanceDuePrint").innerHTML = $('#totalBalanceDue').text();
 
                 }

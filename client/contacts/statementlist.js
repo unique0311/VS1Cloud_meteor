@@ -490,11 +490,11 @@ Template.statementlist.onRendered(function () {
                             // ],
                             // bStateSave: true,
                             // rowId: 0,
-                            pageLength: 25,
+                            pageLength: 100,
                             "bLengthChange": false,
                             lengthMenu: [
-                                [10, 25, 50, -1],
-                                [10, 25, 50, "All"]
+                                [100, -1],
+                                [100, "All"]
                             ],
                             info: true,
                             responsive: true,
@@ -692,11 +692,11 @@ Template.statementlist.onRendered(function () {
                         // ],
                         // bStateSave: true,
                         // rowId: 0,
-                        pageLength: 25,
+                        pageLength: 100,
                         "bLengthChange": false,
                         lengthMenu: [
-                            [10, 25, 50, -1],
-                            [10, 25, 50, "All"]
+                            [100, -1],
+                            [100, "All"]
                         ],
                         info: true,
                         responsive: true,
@@ -888,11 +888,11 @@ Template.statementlist.onRendered(function () {
                         // ],
                         // bStateSave: true,
                         // rowId: 0,
-                        pageLength: 25,
+                        pageLength: 100,
                         "bLengthChange": false,
                         lengthMenu: [
-                            [10, 25, 50, -1],
-                            [10, 25, 50, "All"]
+                            [100, -1],
+                            [100, "All"]
                         ],
                         info: true,
                         responsive: true,

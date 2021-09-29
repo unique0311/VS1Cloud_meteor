@@ -1876,10 +1876,10 @@ Template.creditcard.onRendered(function() {
                             ],
 
 
-                            pageLength: 25,
+                            pageLength: 100,
                             lengthMenu: [
-                                [25, -1],
-                                [25, "All"]
+                                [100, -1],
+                                [100, "All"]
                             ],
                             info: true,
                             responsive: true,
@@ -1950,10 +1950,10 @@ Template.creditcard.onRendered(function() {
                         ],
 
 
-                        pageLength: 25,
+                        pageLength: 100,
                         lengthMenu: [
-                            [25, -1],
-                            [25, "All"]
+                            [100, -1],
+                            [100, "All"]
                         ],
                         info: true,
                         responsive: true,
@@ -2018,10 +2018,10 @@ Template.creditcard.onRendered(function() {
                         ],
 
 
-                        pageLength: 25,
+                        pageLength: 100,
                         lengthMenu: [
-                            [25, -1],
-                            [25, "All"]
+                            [100, -1],
+                            [100, "All"]
                         ],
                         info: true,
                         responsive: true,
@@ -2095,10 +2095,10 @@ Template.creditcard.onRendered(function() {
                             bStateSave: true,
 
 
-                            pageLength: 25,
+                            pageLength: 100,
                             lengthMenu: [
-                                [25, -1],
-                                [25, "All"]
+                                [100, -1],
+                                [100, "All"]
                             ],
                             info: true,
                             responsive: true,
@@ -2162,10 +2162,10 @@ Template.creditcard.onRendered(function() {
                         bStateSave: true,
 
 
-                        pageLength: 25,
+                        pageLength: 100,
                         lengthMenu: [
-                            [25, -1],
-                            [25, "All"]
+                            [100, -1],
+                            [100, "All"]
                         ],
                         info: true,
                         responsive: true,
@@ -2230,10 +2230,10 @@ Template.creditcard.onRendered(function() {
                         bStateSave: true,
 
 
-                        pageLength: 25,
+                        pageLength: 100,
                         lengthMenu: [
-                            [25, -1],
-                            [25, "All"]
+                            [100, -1],
+                            [100, "All"]
                         ],
                         info: true,
                         responsive: true,
@@ -4188,7 +4188,7 @@ Template.creditcard.events({
 
             let poNumber = $('#ponumber').val();
             let reference = $('#edtRef').val();
-  
+
             let departement = $('#sltVia').val();
             let shippingAddress = $('#txaShipingInfo').val();
             let comments = $('#txaComment').val();

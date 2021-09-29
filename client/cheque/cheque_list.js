@@ -185,10 +185,10 @@ Template.chequelist.onRendered(function() {
                             colReorder: true,
                             // bStateSave: true,
                             // rowId: 0,
-                            pageLength: 25,
+                            pageLength: 100,
                             lengthMenu: [
-                                [10, 25, 50, -1],
-                                [10, 25, 50, "All"]
+                                [100, -1],
+                                [100, "All"]
                             ],
                             info: true,
                             responsive: true,
@@ -376,10 +376,10 @@ Template.chequelist.onRendered(function() {
                         colReorder: true,
                         // bStateSave: true,
                         // rowId: 0,
-                        pageLength: 25,
+                        pageLength: 100,
                         lengthMenu: [
-                            [10, 25, 50, -1],
-                            [10, 25, 50, "All"]
+                            [100, -1],
+                            [100, "All"]
                         ],
                         info: true,
                         responsive: true,
@@ -655,10 +655,10 @@ Template.chequelist.onRendered(function() {
                         colReorder: true,
                         // bStateSave: true,
                         // rowId: 0,
-                        pageLength: 25,
+                        pageLength: 100,
                         lengthMenu: [
-                            [10, 25, 50, -1],
-                            [10, 25, 50, "All"]
+                            [100, -1],
+                            [100, "All"]
                         ],
                         info: true,
                         responsive: true,

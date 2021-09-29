@@ -4399,10 +4399,12 @@ Template.vs1login.onRendered(function () {
     $("#signmeout").click(function (e) {
         e.preventDefault();
         $('.fullScreenSpin').css('display', 'inline-block');
+        var passwordSecret = $("#erppassword").val()||'';
+        let userLoginEmail = $("#email").val()||'';
         // $('.myVS1Video').css('display','inline-block');
         let getLasTDatabase = localStorage.getItem('vs1Db');
         if (getLasTDatabase) {
-            let userLoginEmail = $("#email").val();
+
             window.indexedDB.databases().then((r) => {
                 for (var i = 0; i < r.length; i++) {
                     window.indexedDB.deleteDatabase(r[i].name);
@@ -4445,6 +4447,10 @@ Template.vs1login.onRendered(function () {
           });
             $('.fullScreenSpin').css('display', 'none');
         }
+
+        FlowRouter.go('/?emailakey='+userLoginEmail+'&passkey='+passwordSecret+'');
+
+
         // let userLoginEmail = $("#email").val();
         // if(userLoginEmail === '') {
         //   let getLasTDatabase = localStorage.getItem('vs1Db');

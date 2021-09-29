@@ -2362,10 +2362,10 @@ Template.chequecard.onRendered(function() {
                             ],
 
 
-                            pageLength: 25,
+                            pageLength: 100,
                             lengthMenu: [
-                                [10, 25, 50, -1],
-                                [10, 25, 50, "All"]
+                                [100, -1],
+                                [100, "All"]
                             ],
                             info: true,
                             responsive: true
@@ -2451,10 +2451,10 @@ Template.chequecard.onRendered(function() {
 
 
 
-                        pageLength: 25,
+                        pageLength: 100,
                         lengthMenu: [
-                            [10, 25, 50, -1],
-                            [10, 25, 50, "All"]
+                            [100, -1],
+                            [100, "All"]
                         ],
                         info: true,
                         responsive: true
@@ -2531,10 +2531,10 @@ Template.chequecard.onRendered(function() {
                         ],
 
 
-                        pageLength: 25,
+                        pageLength: 100,
                         lengthMenu: [
-                            [10, 25, 50, -1],
-                            [10, 25, 50, "All"]
+                            [100, -1],
+                            [100, "All"]
                         ],
                         info: true,
                         responsive: true
@@ -2607,10 +2607,10 @@ Template.chequecard.onRendered(function() {
                             bStateSave: true,
 
 
-                            pageLength: 25,
+                            pageLength: 100,
                             lengthMenu: [
-                                [10, 25, 50, -1],
-                                [10, 25, 50, "All"]
+                                [100, -1],
+                                [100, "All"]
                             ],
                             info: true,
                             responsive: true
@@ -2671,10 +2671,10 @@ Template.chequecard.onRendered(function() {
                         bStateSave: true,
 
 
-                        pageLength: 25,
+                        pageLength: 100,
                         lengthMenu: [
-                            [10, 25, 50, -1],
-                            [10, 25, 50, "All"]
+                            [100, -1],
+                            [100, "All"]
                         ],
                         info: true,
                         responsive: true
@@ -2736,10 +2736,10 @@ Template.chequecard.onRendered(function() {
                         bStateSave: true,
 
 
-                        pageLength: 25,
+                        pageLength: 100,
                         lengthMenu: [
-                            [10, 25, 50, -1],
-                            [10, 25, 50, "All"]
+                            [100, -1],
+                            [100, "All"]
                         ],
                         info: true,
                         responsive: true

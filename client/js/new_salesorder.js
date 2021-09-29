@@ -3778,10 +3778,10 @@ Template.new_salesorder.onRendered(function() {
 
                             bStateSave: true,
 
-                            pageLength: 25,
+                            pageLength: 100,
                             lengthMenu: [
-                                [25, -1],
-                                [25, "All"]
+                                [100, -1],
+                                [100, "All"]
                             ],
                             info: true,
                             responsive: true,
@@ -3863,11 +3863,8 @@ Template.new_salesorder.onRendered(function() {
 
                         bStateSave: true,
 
-                        pageLength: 25,
-                        lengthMenu: [
-                            [25, -1],
-                            [25, "All"]
-                        ],
+                        pageLength: 100,
+                        lengthMenu: [ [100, -1], [100, "All"] ],
                         info: true,
                         responsive: true,
                         "fnInitComplete": function () {
@@ -3931,11 +3928,8 @@ Template.new_salesorder.onRendered(function() {
 
                         bStateSave: true,
 
-                        pageLength: 25,
-                        lengthMenu: [
-                            [25, -1],
-                            [25, "All"]
-                        ],
+                        pageLength: 100,
+                        lengthMenu: [ [100, -1], [100, "All"] ],
                         info: true,
                         responsive: true,
                         "fnInitComplete": function () {
@@ -4010,11 +4004,8 @@ Template.new_salesorder.onRendered(function() {
                             bStateSave: true,
                             //scrollX: 1000,
                             //rowId: 0,
-                            pageLength: 25,
-                            lengthMenu: [
-                                [25, -1],
-                                [25, "All"]
-                            ],
+                            pageLength: 100,
+                            lengthMenu: [ [100, -1], [100, "All"] ],
                             info: true,
                             responsive: true,
                             "fnInitComplete": function () {
@@ -4085,11 +4076,8 @@ Template.new_salesorder.onRendered(function() {
                         bStateSave: true,
                         //scrollX: 1000,
                         //rowId: 0,
-                        pageLength: 25,
-                        lengthMenu: [
-                            [25, -1],
-                            [25, "All"]
-                        ],
+                        pageLength: 100,
+                        lengthMenu: [ [100, -1], [100, "All"] ],
                         info: true,
                         responsive: true,
                         "fnInitComplete": function () {
@@ -4159,11 +4147,8 @@ Template.new_salesorder.onRendered(function() {
                         bStateSave: true,
                         //scrollX: 1000,
                         //rowId: 0,
-                        pageLength: 25,
-                        lengthMenu: [
-                            [25, -1],
-                            [25, "All"]
-                        ],
+                        pageLength: 100,
+                        lengthMenu: [ [100, -1], [100, "All"] ],
                         info: true,
                         responsive: true,
                         "fnInitComplete": function () {
@@ -6750,7 +6735,7 @@ Template.new_salesorder.events({
             event.preventDefault();
             return false;
         }
-        
+
         if (customername.val() === '') {
             swal('Customer has not been selected!', '', 'warning');
             e.preventDefault();
