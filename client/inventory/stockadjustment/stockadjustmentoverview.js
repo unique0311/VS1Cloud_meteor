@@ -399,7 +399,7 @@ Template.stockadjustmentoverview.onRendered(function() {
                           }else{
 
                           }
-                          if(oSettings.fnRecordsDisplay() < 25){
+                          if(oSettings.fnRecordsDisplay() < 100){
                               $('.paginate_button.page-item.next').addClass('disabled');
                           }
 
@@ -408,7 +408,7 @@ Template.stockadjustmentoverview.onRendered(function() {
                              $('.fullScreenSpin').css('display','inline-block');
                              let dataLenght = oSettings._iDisplayLength;
 
-                             sideBarService.getAllStockAdjustEntry(25,oSettings.fnRecordsDisplay()).then(function(dataObjectnew) {
+                             sideBarService.getAllStockAdjustEntry(100,oSettings.fnRecordsDisplay()).then(function(dataObjectnew) {
                                getVS1Data('TStockAdjustEntry').then(function (dataObjectold) {
                                  if(dataObjectold.length == 0){
 

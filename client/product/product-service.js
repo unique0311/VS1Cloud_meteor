@@ -4,7 +4,6 @@ export class ProductService extends BaseService {
 
   getGlobalSearchReport(searchName){
       let options = {
-        SearchName: "'"+searchName+"'",
         QuerySearchMode: "'smSearchEngineLike'",
         LimitCount:'"'+initialReportLoad+'"'
       };

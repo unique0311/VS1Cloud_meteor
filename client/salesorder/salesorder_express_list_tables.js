@@ -401,7 +401,7 @@ Template.salesorderslist.onRendered(function() {
                           }else{
 
                           }
-                          if(oSettings.fnRecordsDisplay() < 25){
+                          if(oSettings.fnRecordsDisplay() < 100){
                               $('.paginate_button.page-item.next').addClass('disabled');
                           }
 
@@ -410,7 +410,7 @@ Template.salesorderslist.onRendered(function() {
                              $('.fullScreenSpin').css('display','inline-block');
                              let dataLenght = oSettings._iDisplayLength;
 
-                             sideBarService.getAllSalesOrderList(25,oSettings.fnRecordsDisplay()).then(function(dataObjectnew) {
+                             sideBarService.getAllSalesOrderList(100,oSettings.fnRecordsDisplay()).then(function(dataObjectnew) {
                                getVS1Data('TSalesOrderEx').then(function (dataObjectold) {
                                  if(dataObjectold.length == 0){
 

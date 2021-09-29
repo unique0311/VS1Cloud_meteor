@@ -164,8 +164,10 @@ Template.header.onRendered(function() {
                     data.tglobalsearchreport[i].Globalref || ''
 
                 ];
+                //if(dataSelectID != ""){
                 dataTableList.push(dataList);
                 splashArrayList.push(dataListNew);
+                //}
             }
 
 

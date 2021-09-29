@@ -390,7 +390,7 @@ Template.customerpayment.onRendered(function() {
 
                           }
 
-                          if(oSettings.fnRecordsDisplay() < 25){
+                          if(oSettings.fnRecordsDisplay() < 100){
                               $('.paginate_button.page-item.next').addClass('disabled');
                           }
                           $('.paginate_button.next:not(.disabled)', this.api().table().container())
@@ -398,7 +398,7 @@ Template.customerpayment.onRendered(function() {
                              $('.fullScreenSpin').css('display','inline-block');
                              let dataLenght = oSettings._iDisplayLength;
 
-                             sideBarService.getTCustomerPaymentList(25,oSettings.fnRecordsDisplay()).then(function(dataObjectnew) {
+                             sideBarService.getTCustomerPaymentList(100,oSettings.fnRecordsDisplay()).then(function(dataObjectnew) {
                                getVS1Data('TCustomerPayment').then(function (dataObjectold) {
                                  if(dataObjectold.length == 0){
 

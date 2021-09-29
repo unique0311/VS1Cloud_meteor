@@ -426,7 +426,7 @@ Template.customerlist.onRendered(function() {
                           }else{
 
                           }
-                          if(oSettings.fnRecordsDisplay() < 25){
+                          if(oSettings.fnRecordsDisplay() < 100){
                               $('.paginate_button.page-item.next').addClass('disabled');
                           }
 
@@ -435,7 +435,7 @@ Template.customerlist.onRendered(function() {
                              $('.fullScreenSpin').css('display','inline-block');
                              let dataLenght = oSettings._iDisplayLength;
 
-                             sideBarService.getAllCustomersDataVS1(25,oSettings.fnRecordsDisplay()).then(function(dataObjectnew) {
+                             sideBarService.getAllCustomersDataVS1(100,oSettings.fnRecordsDisplay()).then(function(dataObjectnew) {
                                getVS1Data('TCustomerVS1').then(function (dataObjectold) {
                                  if(dataObjectold.length == 0){
 

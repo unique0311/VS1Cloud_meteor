@@ -660,7 +660,7 @@ Template.supplierlistpop.onRendered(function () {
                         "fnDrawCallback": function (oSettings) {
                             $('.paginate_button.page-item').removeClass('disabled');
                             $('#tblSupplierlist_ellipsis').addClass('disabled');
-                            $('.dataTables_paginate').css('display', 'none');
+                            // $('.dataTables_paginate').css('display', 'none');
                             if (oSettings._iDisplayLength == -1) {
                                 if (oSettings.fnRecordsDisplay() > 150) {
                                     $('.paginate_button.page-item.previous').addClass('disabled');
@@ -669,7 +669,7 @@ Template.supplierlistpop.onRendered(function () {
                             } else {
 
                             }
-                            if (oSettings.fnRecordsDisplay() < 25) {
+                            if (oSettings.fnRecordsDisplay() < 100) {
                                 $('.paginate_button.page-item.next').addClass('disabled');
                             }
 
@@ -678,7 +678,7 @@ Template.supplierlistpop.onRendered(function () {
                                     $('.fullScreenSpin').css('display', 'inline-block');
                                     let dataLenght = oSettings._iDisplayLength;
 
-                                    sideBarService.getAllSuppliersDataVS1(25, oSettings.fnRecordsDisplay()).then(function (dataObjectnew) {
+                                    sideBarService.getAllSuppliersDataVS1(100, oSettings.fnRecordsDisplay()).then(function (dataObjectnew) {
                                         getVS1Data('TSupplierVS1').then(function (dataObjectold) {
                                             if (dataObjectold.length == 0) {
 

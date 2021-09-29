@@ -389,7 +389,7 @@ setTimeout(function () {
             }else{
 
             }
-            if(oSettings.fnRecordsDisplay() < 25){
+            if(oSettings.fnRecordsDisplay() < 100){
                 $('.paginate_button.page-item.next').addClass('disabled');
             }
             $('.paginate_button.next:not(.disabled)', this.api().table().container())
@@ -397,7 +397,7 @@ setTimeout(function () {
                $('.fullScreenSpin').css('display','inline-block');
                let dataLenght = oSettings._iDisplayLength;
 
-               sideBarService.getAllInvoiceList(25,oSettings.fnRecordsDisplay()).then(function(dataObjectnew) {
+               sideBarService.getAllInvoiceList(100,oSettings.fnRecordsDisplay()).then(function(dataObjectnew) {
                  getVS1Data('TInvoiceEx').then(function (dataObjectold) {
                    if(dataObjectold.length == 0){
 
