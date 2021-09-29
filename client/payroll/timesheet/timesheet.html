@@ -51,9 +51,10 @@
                             <div class="modal-content">
                                 <div class="modal-header">
                                     <h4 style="">
-                                        <div id="add-timesheet-title" name="add-account-title" style="float: left;">New Timesheet</div> <a role="button" data-toggle="modal" href="#helpModalAdd" class="helpModalAdd" style="float: right;"><label
-                                                class="lblplay">PLAY</label><i class="far fa-play-circle" style="font-size: 20px;"></i></a>
-                                    </h4><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                                        <div id="add-timesheet-title" name="add-account-title" style="float: left;">New Timesheet</div>
+                                    </h4>
+                                    <a role="button" data-toggle="modal" href="#helpModal" class="helpModal" style="    margin-left: 8px; margin-top: 3px; font-size: 18px;">Help <i class="fa fa-question-circle-o"></i></a>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
                                 </div>
                                 <div class="modal-body" style="background-color: #ededed85;">
                                     <input type="hidden" class="form-control" id="edtTimesheetID" name="edtTimesheetID" style="display:none">
@@ -90,15 +91,15 @@
                                         <div class="d-xl-flex align-items-xl-start">
                                             <div class="flex-grow-1 checkMobile" style="width:50%">
                                                 <div class="form-group" style="margin: 4px;">
-                                                     <label>Product /
-                                                Service</label><select id="product-list" name="product-list" class="form-control">
-                                                <option value=""></option>
-                                                {{#if productsdatatablerecords}}
-                                                    {{#each item in productsdatatablerecords}}
-                                                        <option value="{{item.id}}">{{item.productname}}</option>
-                                                    {{/each}}
-                                                {{/if}}
-                                            </select>
+                                                    <label>Product /
+                                                        Service</label><select id="product-list" name="product-list" class="form-control">
+                                                        <option value=""></option>
+                                                        {{#if productsdatatablerecords}}
+                                                            {{#each item in productsdatatablerecords}}
+                                                                <option value="{{item.id}}">{{item.productname}}</option>
+                                                            {{/each}}
+                                                        {{/if}}
+                                                    </select>
                                                 </div>
                                             </div>
                                             <div class="flex-grow-1 checkMobile" style="width:50%">
@@ -452,7 +453,7 @@
                         }
                     </style>
                     <div class="table-responsive">
-                                              <table id="tblTimeSheet" style="width:100%" class="dataTable table table-hover table-striped table-bordered tblTimeSheet">
+                        <table id="tblTimeSheet" style="width:100%" class="dataTable table table-hover table-striped table-bordered tblTimeSheet">
                             <thead>
                                 <tr class="dnd-moved">
                                     <th class="th colFlag">
@@ -464,9 +465,9 @@
                                     <th class="th colName" style="width:100px;">Employee</th>
                                     <th class="th colDate" style="width:50px;">Date</th>
                                     <th class="th colJob" style="width:200px;">Job</th>
-                                    <th  class="th colRate" style="width:50px;">Product</th>
-                                    <th  class="th colRegHours" style="width:50px;">Hours</th>
-                                    <th  class="th colOvertime " style="width:50px;">Overtime</th>
+                                    <th class="th colRate" style="width:50px;">Product</th>
+                                    <th class="th colRegHours" style="width:50px;">Hours</th>
+                                    <th class="th colOvertime " style="width:50px;">Overtime</th>
                                     <th class="th colDouble " style="width:50px;">Double</th>
                                     <th class="th colAdditional " style="width:50px;">Additional</th>
                                     <th class="th colPaycheckTips " style="width:50px;">Tips</th>
@@ -479,31 +480,34 @@
                             </thead>
                             <tbody>
                                 {{#if datatablerecords}}
-                                {{#each item in datatablerecords}}
-                                <tr class="dnd-moved" id="{{item.id}}" name="{{item.id}}">
-                                    <td class="colFlag">
-                                        <div class="custom-control custom-checkbox pointer" style="width:15px;">
-                                            <input class="custom-control-input chkBox notevent pointer" type="checkbox" id="f-{{item.id}}" name="{{item.id}}">
-                                            <label class="custom-control-label" for="f-{{item.id}}"></label>
-                                        </div>
-                                    </td>
-                                    <td class="colName" contenteditable="false" empname="{{item.employee}}"><a href="#">{{item.employee}}</a></td>
-                                    <td class="colDate" contenteditable="false"><span style="display:none;">{{item.sortdate}}</span> {{item.timesheetdate}}</td>
-                                    <td class="colJob" contenteditable="false">{{item.job}}</td>
-                                    <td style="text-align: right!important;"><input class="colRate highlightInput cashamount" type="text" value="{{item.product}}"><span class="colRateSpan" style="display: none;">{{item.product}}</span></td>
-                                    <td style="text-align: right!important;"><input class="colRegHours highlightInput" type="number" value="{{item.hours}}"><span class="colRegHours" style="display: none;">{{item.hours}}</span></td>
-                                    <td style="text-align: right!important;"><input class="colOvertime highlightInput" type="number" value="{{item.overtime}}"><span class="colOvertime" style="display: none;">{{item.overtime}}</span></td>
-                                    <td style="text-align: right!important;"><input class="colDouble highlightInput" type="number" value="{{item.double}}"><span class="colDouble" style="display: none;">{{item.double}}</span></td>
-                                    <td style="text-align: right!important;"><input class="colAdditional highlightInput cashamount" type="text" value="{{item.additional}}"><span class="colAdditional" style="display: none;">{{item.additional}}</span></td>
-                                    <td style="text-align: right!important;"><input class="colPaycheckTips highlightInput cashamount" type="text" value="{{item.paychecktips}}"><span class="colPaycheckTips" style="display: none;">{{item.paychecktips}}</span></td>
-                                   <!--  <td style="text-align: right!important;"><input class="colCashTips highlightInput cashamount" type="text" value="{{item.cashtips}}"><span class="colCashTips" style="display: none;">{{item.cashtips}}</span></td> -->
-                                    <!-- <td style="text-align: right!important;"><input class="colGrossPay highlightInput cashamount" type="text" value="{{item.totalamountex}}"><span class="colGrossPay" style="display: none;">{{item.totalamountex}}</span></td> -->
-                                    <td class="colNotes" >{{item.notes}}</td>
-                                     <td class="colStatus" style="background-color: {{item.color}} !important; color:#fff">Not Processed</td>
-                                    <!-- <td style="max-width: 50px;"><button class="btn float-left btnAddShift" type="button" style="margin: 0px;margin-left: 0px;padding: 0px;" role="button" data-toggle="modal" href="#addNewShift"><i class="la la-ellipsis-h" style="color: #00a3d3;font-size: 20px;"></i></button></td> -->
-                                    <td ><button class="btn float-left btnEditTimeSheet" type="button" style="margin: 0px;margin-left: 0px;padding: 0px;" role="button" data-toggle="modal" href="#addNewTimeSheet"><i class="la la-ellipsis-h" style="color: #00a3d3;font-size: 20px;"></i></button></td>
-                                </tr>
-                                {{/each}}
+                                    {{#each item in datatablerecords}}
+                                        <tr class="dnd-moved" id="{{item.id}}" name="{{item.id}}">
+                                            <td class="colFlag">
+                                                <div class="custom-control custom-checkbox pointer" style="width:15px;">
+                                                    <input class="custom-control-input chkBox notevent pointer" type="checkbox" id="f-{{item.id}}" name="{{item.id}}">
+                                                    <label class="custom-control-label" for="f-{{item.id}}"></label>
+                                                </div>
+                                            </td>
+                                            <td class="colName" contenteditable="false" empname="{{item.employee}}"><a href="#">{{item.employee}}</a></td>
+                                            <td class="colDate" contenteditable="false"><span style="display:none;">{{item.sortdate}}</span> {{item.timesheetdate}}</td>
+                                            <td class="colJob" contenteditable="false">{{item.job}}</td>
+                                            <td style="text-align: right!important;"><input class="colRate highlightInput cashamount" type="text" value="{{item.product}}"><span class="colRateSpan" style="display: none;">{{item.product}}</span></td>
+                                            <td style="text-align: right!important;"><input class="colRegHours highlightInput" type="number" value="{{item.hours}}"><span class="colRegHours" style="display: none;">{{item.hours}}</span></td>
+                                            <td style="text-align: right!important;"><input class="colOvertime highlightInput" type="number" value="{{item.overtime}}"><span class="colOvertime" style="display: none;">{{item.overtime}}</span></td>
+                                            <td style="text-align: right!important;"><input class="colDouble highlightInput" type="number" value="{{item.double}}"><span class="colDouble" style="display: none;">{{item.double}}</span></td>
+                                            <td style="text-align: right!important;"><input class="colAdditional highlightInput cashamount" type="text" value="{{item.additional}}"><span class="colAdditional"
+                                                    style="display: none;">{{item.additional}}</span></td>
+                                            <td style="text-align: right!important;"><input class="colPaycheckTips highlightInput cashamount" type="text" value="{{item.paychecktips}}"><span class="colPaycheckTips"
+                                                    style="display: none;">{{item.paychecktips}}</span></td>
+                                            <!--  <td style="text-align: right!important;"><input class="colCashTips highlightInput cashamount" type="text" value="{{item.cashtips}}"><span class="colCashTips" style="display: none;">{{item.cashtips}}</span></td> -->
+                                            <!-- <td style="text-align: right!important;"><input class="colGrossPay highlightInput cashamount" type="text" value="{{item.totalamountex}}"><span class="colGrossPay" style="display: none;">{{item.totalamountex}}</span></td> -->
+                                            <td class="colNotes">{{item.notes}}</td>
+                                            <td class="colStatus" style="background-color: {{item.color}} !important; color:#fff">Not Processed</td>
+                                            <!-- <td style="max-width: 50px;"><button class="btn float-left btnAddShift" type="button" style="margin: 0px;margin-left: 0px;padding: 0px;" role="button" data-toggle="modal" href="#addNewShift"><i class="la la-ellipsis-h" style="color: #00a3d3;font-size: 20px;"></i></button></td> -->
+                                            <td><button class="btn float-left btnEditTimeSheet" type="button" style="margin: 0px;margin-left: 0px;padding: 0px;" role="button" data-toggle="modal" href="#addNewTimeSheet"><i class="la la-ellipsis-h"
+                                                        style="color: #00a3d3;font-size: 20px;"></i></button></td>
+                                        </tr>
+                                    {{/each}}
                                 {{/if}}
 
                             </tbody>
@@ -520,7 +524,7 @@
                                     <td contenteditable="false" class="cashamount lblSumDouble">0</td>
                                     <td class="cashamount lblSumAdditions">$<span contenteditable="false">0.00</span></td>
                                     <td class="cashamount lblSumCashtips">$<span contenteditable="false">0.00</span></td>
-                                   <!--  <td contenteditable="false" class="cashamount lblSumTotalCharge">0.00</td> -->
+                                    <!--  <td contenteditable="false" class="cashamount lblSumTotalCharge">0.00</td> -->
                                     <td contenteditable="false"></td>
                                     <td contenteditable="false"></td>
                                     <td style="max-width: 50px;"></td>
