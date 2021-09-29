@@ -4875,7 +4875,7 @@ Template.new_invoice.onRendered(function () {
                             info: true,
                             responsive: true,
                             "fnDrawCallback": function (oSettings) {
-                                $('.dataTables_paginate').css('display', 'none');
+                                // $('.dataTables_paginate').css('display', 'none');
                             },
                             "fnInitComplete": function () {
                                 $("<button class='btn btn-primary' data-dismiss='modal' data-toggle='modal' data-target='#newProductModal' type='button' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-plus'></i></button>").insertAfter("#tblInventory_filter");
@@ -4953,12 +4953,12 @@ Template.new_invoice.onRendered(function () {
                         select: true,
                         destroy: true,
                         colReorder: true,
-                        pageLength: 25,
-                        lengthMenu: [[25, -1], [25, "All"]],
+                        pageLength: 100,
+                        lengthMenu: [[100, -1], [100, "All"]],
                         info: true,
                         responsive: true,
                         "fnDrawCallback": function (oSettings) {
-                            $('.dataTables_paginate').css('display', 'none');
+                            // $('.dataTables_paginate').css('display', 'none');
                         },
                         "fnInitComplete": function () {
                             $("<button class='btn btn-primary' data-dismiss='modal' data-toggle='modal' data-target='#newProductModal' type='button' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-plus'></i></button>").insertAfter("#tblInventory_filter");
@@ -5091,7 +5091,7 @@ Template.new_invoice.onRendered(function () {
                         responsive: true,
                         "order": [[0, "asc"]],
                         "fnDrawCallback": function (oSettings) {
-                            $('.dataTables_paginate').css('display', 'none');
+                            // $('.dataTables_paginate').css('display', 'none');
                         },
                         "fnInitComplete": function () {
                             $("<button class='btn btn-primary' data-dismiss='modal' data-toggle='modal' data-target='#newProductModal' type='button' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-plus'></i></button>").insertAfter("#tblInventory_filter");
@@ -5166,7 +5166,7 @@ Template.new_invoice.onRendered(function () {
                             info: true,
                             responsive: true,
                             "fnDrawCallback": function (oSettings) {
-                                $('.dataTables_paginate').css('display', 'none');
+                                // $('.dataTables_paginate').css('display', 'none');
                             },
                             "fnInitComplete": function () {
                                 $("<button class='btn btn-primary btnRefreshTax' type='button' id='btnRefreshTax' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblTaxRate_filter");
@@ -5229,7 +5229,7 @@ Template.new_invoice.onRendered(function () {
                         info: true,
                         responsive: true,
                         "fnDrawCallback": function (oSettings) {
-                            $('.dataTables_paginate').css('display', 'none');
+                            // $('.dataTables_paginate').css('display', 'none');
                         },
                         "fnInitComplete": function () {
                             $("<button class='btn btn-primary btnRefreshTax' type='button' id='btnRefreshTax' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblTaxRate_filter");
@@ -5293,7 +5293,7 @@ Template.new_invoice.onRendered(function () {
                         info: true,
                         responsive: true,
                         "fnDrawCallback": function (oSettings) {
-                            $('.dataTables_paginate').css('display', 'none');
+                            // $('.dataTables_paginate').css('display', 'none');
                         },
                         "fnInitComplete": function () {
                             $("<button class='btn btn-primary btnRefreshTax' type='button' id='btnRefreshTax' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblTaxRate_filter");
@@ -5430,6 +5430,9 @@ Template.new_invoice.helpers({
 });
 
 Template.new_invoice.events({
+    'click #sltTerms': function (event) {
+        $('#termsListModal').modal('toggle');
+    },
     'click #edtCustomerName': function (event) {
         $('#edtCustomerName').select();
         $('#edtCustomerName').editableSelect();
