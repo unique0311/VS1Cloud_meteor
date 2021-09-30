@@ -1298,6 +1298,12 @@
                     </ul>
                 </li>
             {{/if}}
+
+            {{#if includeShipping}}
+            <li class="shippingLi2" id="sidenavshipping">
+                <a class="sidenavshipping liHeader"><i class="fas fa-shipping-fast faHeader shippingLi2Header"></i> Shipping</a>
+            </li>
+            {{/if}}
             <li class="logoutLi">
                 <a class="nav-link logOut liHeader" onclick="logOutFunc()"><i class="fas fa-sign-out-alt faHeader"></i><span> Log Out</span></a>
             </li>
