@@ -185,7 +185,7 @@ Template.customerawaitingpayments.onRendered(function () {
 
 
                             // pageLength: 25,
-                            // lengthMenu: [ [100, -1], [100, "All"] ],
+                            // lengthMenu: [ [initialDatatableLoad, -1], [initialDatatableLoad, "All"] ],
                             info: true,
                             responsive: true,
                             "order": [[1, "desc"]],
@@ -381,7 +381,7 @@ Template.customerawaitingpayments.onRendered(function () {
 
 
                         // pageLength: 25,
-                        // lengthMenu: [ [100, -1], [100, "All"] ],
+                        // lengthMenu: [ [initialDatatableLoad, -1], [initialDatatableLoad, "All"] ],
                         info: true,
                         responsive: true,
                         "order": [[1, "desc"]],
@@ -572,7 +572,7 @@ Template.customerawaitingpayments.onRendered(function () {
 
 
                         // pageLength: 25,
-                        // lengthMenu: [ [100, -1], [100, "All"] ],
+                        // lengthMenu: [ [initialDatatableLoad, -1], [initialDatatableLoad, "All"] ],
                         info: true,
                         responsive: true,
                         "order": [[1, "desc"]],

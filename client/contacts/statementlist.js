@@ -490,12 +490,9 @@ Template.statementlist.onRendered(function () {
                             // ],
                             // bStateSave: true,
                             // rowId: 0,
-                            pageLength: 100,
+                            pageLength: initialDatatableLoad,
                             "bLengthChange": false,
-                            lengthMenu: [
-                                [100, -1],
-                                [100, "All"]
-                            ],
+                            lengthMenu: [ [initialDatatableLoad, -1], [initialDatatableLoad, "All"] ],
                             info: true,
                             responsive: true,
                             "order": [
@@ -692,12 +689,9 @@ Template.statementlist.onRendered(function () {
                         // ],
                         // bStateSave: true,
                         // rowId: 0,
-                        pageLength: 100,
+                        pageLength: initialDatatableLoad,
                         "bLengthChange": false,
-                        lengthMenu: [
-                            [100, -1],
-                            [100, "All"]
-                        ],
+                        lengthMenu: [ [initialDatatableLoad, -1], [initialDatatableLoad, "All"] ],
                         info: true,
                         responsive: true,
                         "order": [
@@ -888,12 +882,9 @@ Template.statementlist.onRendered(function () {
                         // ],
                         // bStateSave: true,
                         // rowId: 0,
-                        pageLength: 100,
+                        pageLength: initialDatatableLoad,
                         "bLengthChange": false,
-                        lengthMenu: [
-                            [100, -1],
-                            [100, "All"]
-                        ],
+                        lengthMenu: [ [initialDatatableLoad, -1], [initialDatatableLoad, "All"] ],
                         info: true,
                         responsive: true,
                         "order": [

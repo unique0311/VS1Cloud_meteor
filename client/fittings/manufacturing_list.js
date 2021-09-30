@@ -75,8 +75,8 @@ Template.manufacturinglist.onRendered(function () {
     bStateSave: true,
     scrollX: 1000,
     rowId: 0,
-    pageLength: 100,
-    lengthMenu: [ [100, -1], [100, "All"] ],
+    pageLength: initialDatatableLoad,
+    lengthMenu: [ [initialDatatableLoad, -1], [initialDatatableLoad, "All"] ],
     info: true,
     responsive: true
     // "dom": '<"top"i>rt<"bottom"flp><"clear">'
@@ -125,8 +125,8 @@ if (!localStorage.getItem('VS1ManufacturingList')) {
     bStateSave: true,
     scrollX: 1000,
     rowId: 0,
-    pageLength: 100,
-    lengthMenu: [ [100, -1], [100, "All"] ],
+    pageLength: initialDatatableLoad,
+    lengthMenu: [ [initialDatatableLoad, -1], [initialDatatableLoad, "All"] ],
     info: true,
     responsive: true
     // "dom": '<"top"i>rt<"bottom"flp><"clear">'

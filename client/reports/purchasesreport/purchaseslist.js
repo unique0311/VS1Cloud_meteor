@@ -72,8 +72,8 @@ yearRange: "-90:+10",
           bStateSave: true,
           // scrollX: 1000,
           rowId: 0,
-          pageLength: 100,
-          lengthMenu: [ [100, -1], [100, "All"] ],
+          pageLength: initialDatatableLoad,
+          lengthMenu: [ [initialDatatableLoad, -1], [initialDatatableLoad, "All"] ],
           info: true,
           responsive: true
             });
@@ -137,8 +137,8 @@ $('.fullScreenSpin').css('display','none');
         bStateSave: true,
         // scrollX: 1000,
         rowId: 0,
-        pageLength: 100,
-        lengthMenu: [ [100, -1], [100, "All"] ],
+        pageLength: initialDatatableLoad,
+        lengthMenu: [ [initialDatatableLoad, -1], [initialDatatableLoad, "All"] ],
         info: true,
         responsive: true
           });

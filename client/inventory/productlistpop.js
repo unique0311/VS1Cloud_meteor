@@ -239,7 +239,7 @@ Template.productlistpop.onRendered(function () {
                         select: true,
                         destroy: true,
                         colReorder: true,
-                        pageLength: 100,
+                        pageLength: initialDatatableLoad,
                         lengthMenu: [[100, -1], [100, "All"]],
                         info: true,
                         responsive: true,

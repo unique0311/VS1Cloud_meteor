@@ -169,8 +169,8 @@ Template.accounttransactions.onRendered(function() {
                             colReorder: true,
                             // bStateSave: true,
                             // rowId: 0,
-                            pageLength: 100,
-                            lengthMenu: [ [100, -1], [100, "All"] ],
+                            pageLength: initialDatatableLoad,
+                            lengthMenu: [ [initialDatatableLoad, -1], [initialDatatableLoad, "All"] ],
                             info: true,
                             responsive: true,
                             "order": [
@@ -379,8 +379,8 @@ Template.accounttransactions.onRendered(function() {
                     colReorder: true,
                     // bStateSave: true,
                     // rowId: 0,
-                    pageLength: 100,
-                    lengthMenu: [ [100, -1], [100, "All"] ],
+                    pageLength: initialDatatableLoad,
+                    lengthMenu: [ [initialDatatableLoad, -1], [initialDatatableLoad, "All"] ],
                     info: true,
                     responsive: true,
                     "order": [
@@ -549,8 +549,8 @@ Template.accounttransactions.onRendered(function() {
                         colReorder: true,
                         // bStateSave: true,
                         // rowId: 0,
-                        pageLength: 100,
-                        lengthMenu: [ [100, -1], [100, "All"] ],
+                        pageLength: initialDatatableLoad,
+                        lengthMenu: [ [initialDatatableLoad, -1], [initialDatatableLoad, "All"] ],
                         info: true,
                         responsive: true,
                         "order": [

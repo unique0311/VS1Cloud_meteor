@@ -3778,11 +3778,8 @@ Template.new_salesorder.onRendered(function() {
 
                             bStateSave: true,
 
-                            pageLength: 100,
-                            lengthMenu: [
-                                [100, -1],
-                                [100, "All"]
-                            ],
+                            pageLength: initialDatatableLoad,
+                            lengthMenu: [ [initialDatatableLoad, -1], [initialDatatableLoad, "All"] ],
                             info: true,
                             responsive: true,
                             "fnInitComplete": function () {
@@ -3863,8 +3860,8 @@ Template.new_salesorder.onRendered(function() {
 
                         bStateSave: true,
 
-                        pageLength: 100,
-                        lengthMenu: [ [100, -1], [100, "All"] ],
+                        pageLength: initialDatatableLoad,
+                        lengthMenu: [ [initialDatatableLoad, -1], [initialDatatableLoad, "All"] ],
                         info: true,
                         responsive: true,
                         "fnInitComplete": function () {
@@ -3928,8 +3925,8 @@ Template.new_salesorder.onRendered(function() {
 
                         bStateSave: true,
 
-                        pageLength: 100,
-                        lengthMenu: [ [100, -1], [100, "All"] ],
+                        pageLength: initialDatatableLoad,
+                        lengthMenu: [ [initialDatatableLoad, -1], [initialDatatableLoad, "All"] ],
                         info: true,
                         responsive: true,
                         "fnInitComplete": function () {
@@ -4004,8 +4001,8 @@ Template.new_salesorder.onRendered(function() {
                             bStateSave: true,
                             //scrollX: 1000,
                             //rowId: 0,
-                            pageLength: 100,
-                            lengthMenu: [ [100, -1], [100, "All"] ],
+                            pageLength: initialDatatableLoad,
+                            lengthMenu: [ [initialDatatableLoad, -1], [initialDatatableLoad, "All"] ],
                             info: true,
                             responsive: true,
                             "fnInitComplete": function () {
@@ -4076,8 +4073,8 @@ Template.new_salesorder.onRendered(function() {
                         bStateSave: true,
                         //scrollX: 1000,
                         //rowId: 0,
-                        pageLength: 100,
-                        lengthMenu: [ [100, -1], [100, "All"] ],
+                        pageLength: initialDatatableLoad,
+                        lengthMenu: [ [initialDatatableLoad, -1], [initialDatatableLoad, "All"] ],
                         info: true,
                         responsive: true,
                         "fnInitComplete": function () {
@@ -4147,8 +4144,8 @@ Template.new_salesorder.onRendered(function() {
                         bStateSave: true,
                         //scrollX: 1000,
                         //rowId: 0,
-                        pageLength: 100,
-                        lengthMenu: [ [100, -1], [100, "All"] ],
+                        pageLength: initialDatatableLoad,
+                        lengthMenu: [ [initialDatatableLoad, -1], [initialDatatableLoad, "All"] ],
                         info: true,
                         responsive: true,
                         "fnInitComplete": function () {

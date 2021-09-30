@@ -2362,11 +2362,8 @@ Template.chequecard.onRendered(function() {
                             ],
 
 
-                            pageLength: 100,
-                            lengthMenu: [
-                                [100, -1],
-                                [100, "All"]
-                            ],
+                            pageLength: initialDatatableLoad,
+                            lengthMenu: [ [initialDatatableLoad, -1], [initialDatatableLoad, "All"] ],
                             info: true,
                             responsive: true
 
@@ -2451,11 +2448,8 @@ Template.chequecard.onRendered(function() {
 
 
 
-                        pageLength: 100,
-                        lengthMenu: [
-                            [100, -1],
-                            [100, "All"]
-                        ],
+                        pageLength: initialDatatableLoad,
+                        lengthMenu: [ [initialDatatableLoad, -1], [initialDatatableLoad, "All"] ],
                         info: true,
                         responsive: true
 
@@ -2531,11 +2525,8 @@ Template.chequecard.onRendered(function() {
                         ],
 
 
-                        pageLength: 100,
-                        lengthMenu: [
-                            [100, -1],
-                            [100, "All"]
-                        ],
+                        pageLength: initialDatatableLoad,
+                        lengthMenu: [ [initialDatatableLoad, -1], [initialDatatableLoad, "All"] ],
                         info: true,
                         responsive: true
 
@@ -2607,11 +2598,8 @@ Template.chequecard.onRendered(function() {
                             bStateSave: true,
 
 
-                            pageLength: 100,
-                            lengthMenu: [
-                                [100, -1],
-                                [100, "All"]
-                            ],
+                            pageLength: initialDatatableLoad,
+                            lengthMenu: [ [initialDatatableLoad, -1], [initialDatatableLoad, "All"] ],
                             info: true,
                             responsive: true
 
@@ -2671,11 +2659,8 @@ Template.chequecard.onRendered(function() {
                         bStateSave: true,
 
 
-                        pageLength: 100,
-                        lengthMenu: [
-                            [100, -1],
-                            [100, "All"]
-                        ],
+                        pageLength: initialDatatableLoad,
+                        lengthMenu: [ [initialDatatableLoad, -1], [initialDatatableLoad, "All"] ],
                         info: true,
                         responsive: true
 
@@ -2736,11 +2721,8 @@ Template.chequecard.onRendered(function() {
                         bStateSave: true,
 
 
-                        pageLength: 100,
-                        lengthMenu: [
-                            [100, -1],
-                            [100, "All"]
-                        ],
+                        pageLength: initialDatatableLoad,
+                        lengthMenu: [ [initialDatatableLoad, -1], [initialDatatableLoad, "All"] ],
                         info: true,
                         responsive: true
 
