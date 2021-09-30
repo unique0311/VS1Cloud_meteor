@@ -371,7 +371,8 @@ setTimeout(function () {
           info: true,
           searching: true,
           responsive: true,
-          lengthMenu: [ [25,-1], [25,"All"] ],
+          pageLength: 100,
+          lengthMenu: [ [100,-1], [100, "All"] ],
           "order": [[ 0, "desc" ],[ 2, "desc" ]],
           action: function () {
             tableDraft.ajax.reload();
@@ -380,7 +381,7 @@ setTimeout(function () {
           "fnDrawCallback": function (oSettings) {
             $('.paginate_button.page-item').removeClass('disabled');
             $('#tblInvoicelist_ellipsis').addClass('disabled');
-            $('.dataTables_paginate').css('display','none');
+
             if(oSettings._iDisplayLength == -1){
               if(oSettings.fnRecordsDisplay() > 150){
                 $('.paginate_button.page-item.previous').addClass('disabled');
