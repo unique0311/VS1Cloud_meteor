@@ -2,10 +2,10 @@
     <div class="modal-dialog modal-xl modal-dialog-scrollable" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h4>New Supplier</h4><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                <h4><div id="add-supplier-title" name="add-supplier-title" style="float: left;">Add New Supplier</div></h4><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
             </div>
             <div class="modal-body" style="padding: 0.5rem !important;">
-
+              <input type="hidden" class="form-control" id="edtSupplierPOPID" name="edtSupplierPOPID" style="display:none;">
                 <style>
                     .results tr[visible='false'],
                     .no-result {
@@ -134,8 +134,8 @@
                                     }
                                 </style>
                                 <div class="custom-control custom-switch chkSameAsCustomer" style="margin: 4px; margin-top: 41px;">
-                                    <input class="custom-control-input" type="checkbox" id="chkSameAsCustomer" style=" cursor: pointer;" checked="{{#if record.iscustomer}}checked{{/if}}">
-                                    <label class="custom-control-label" for="chkSameAsCustomer" style=" cursor: pointer;">Is Also Customer</label>
+                                    <input class="custom-control-input" type="checkbox" id="isformcontractor" style=" cursor: pointer;" checked="{{#if record.iscustomer}}checked{{/if}}">
+                                    <label class="custom-control-label" for="isformcontractor" style=" cursor: pointer;">Is Also Customer</label>
                                 </div>
                             </div>
                         </div>
@@ -217,17 +217,7 @@
                                                     <div class="custom-control custom-switch chkaddress" style="margin: 4px;"><input class="custom-control-input" type="checkbox" id="chkSameAsShipping" onclick="myFunction()" style=" cursor: pointer;"
                                                             checked><label class="custom-control-label" for="chkSameAsShipping" style=" cursor: pointer;">Same as Shipping</label></div>
                                                 </div>
-                                                {{#if equals isSameAddress true}}
-                                                    <script>
-                                                        $('#chkSameAsShipping').attr("checked", "checked");
-                                                        $('#billingaddress').css("display", "none");
-                                                    </script>
-                                                {{else}}
-                                                    <script>
-                                                        $('#chkSameAsShipping').removeAttr("checked");
-                                                        $('#billingaddress').css("display", "flex");
-                                                    </script>
-                                                {{/if}}
+
 
                                             </div>
                                             <div class="row no-gutters billingaddress" id="billingaddress">

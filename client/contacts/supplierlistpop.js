@@ -266,7 +266,7 @@ Template.supplierlistpop.onRendered(function () {
                             destroy: true,
                             colReorder: true,
                             pageLength: initialDatatableLoad,
-                            lengthMenu: [[100, -1], [100, "All"]],
+                            lengthMenu: [ [initialDatatableLoad, -1], [initialDatatableLoad, "All"] ],
                             info: true,
                             responsive: true,
                             "order": [[0, "asc"]],
@@ -297,10 +297,7 @@ Template.supplierlistpop.onRendered(function () {
                           let dataLenght = settings._iDisplayLength;
                           splashArraySupplierList = [];
                           if (dataLenght == -1) {
-                              //if(settings.fnRecordsDisplay() > 150){
-                              //  $('.paginate_button.page-item.next').addClass('disabled');
-                              //  $('.fullScreenSpin').css('display','none');
-                              //}else{
+                            /*
                               sideBarService.getAllSuppliersDataVS1('All', 1).then(function (data) {
                                   for (let i = 0; i < data.tsuppliervs1.length; i++) {
                                       let arBalance = utilityService.modifynegativeCurrencyFormat(data.tsuppliervs1[i].fields.APBalance) || 0.00;
@@ -391,7 +388,7 @@ Template.supplierlistpop.onRendered(function () {
                               }).catch(function (err) {
                                   $('.fullScreenSpin').css('display', 'none');
                               });
-                              //}
+                            */
                           } else {
                               if (settings.fnRecordsDisplay() >= settings._iDisplayLength) {
                                   $('.fullScreenSpin').css('display', 'none');
@@ -650,7 +647,7 @@ Template.supplierlistpop.onRendered(function () {
                         destroy: true,
                         colReorder: true,
                         pageLength: initialDatatableLoad,
-                        lengthMenu: [[100, -1], [100, "All"]],
+                        lengthMenu: [ [initialDatatableLoad, -1], [initialDatatableLoad, "All"] ],
                         info: true,
                         responsive: true,
                         "order": [[0, "asc"]],
@@ -662,14 +659,11 @@ Template.supplierlistpop.onRendered(function () {
                             $('#tblSupplierlist_ellipsis').addClass('disabled');
                             // $('.dataTables_paginate').css('display', 'none');
                             if (oSettings._iDisplayLength == -1) {
-                                if (oSettings.fnRecordsDisplay() > 150) {
-                                    $('.paginate_button.page-item.previous').addClass('disabled');
-                                    $('.paginate_button.page-item.next').addClass('disabled');
-                                }
+
                             } else {
 
                             }
-                            if (oSettings.fnRecordsDisplay() < 100) {
+                            if (oSettings.fnRecordsDisplay() < initialDatatableLoad) {
                                 $('.paginate_button.page-item.next').addClass('disabled');
                             }
 
@@ -678,31 +672,83 @@ Template.supplierlistpop.onRendered(function () {
                                     $('.fullScreenSpin').css('display', 'inline-block');
                                     let dataLenght = oSettings._iDisplayLength;
 
-                                    sideBarService.getAllSuppliersDataVS1(100, oSettings.fnRecordsDisplay()).then(function (dataObjectnew) {
-                                        getVS1Data('TSupplierVS1').then(function (dataObjectold) {
-                                            if (dataObjectold.length == 0) {
+                                    sideBarService.getAllSuppliersDataVS1(initialDatatableLoad, oSettings.fnRecordsDisplay()).then(function (dataObjectnew) {
+                                      for (let j = 0; j < dataObjectnew.tsuppliervs1.length; j++) {
+                                        let arBalance = utilityService.modifynegativeCurrencyFormat(dataObjectnew.tsuppliervs1[j].fields.APBalance) || 0.00;
+                                        let creditBalance = utilityService.modifynegativeCurrencyFormat(dataObjectnew.tsuppliervs1[j].fields.ExcessAmount) || 0.00;
+                                        let balance = utilityService.modifynegativeCurrencyFormat(dataObjectnew.tsuppliervs1[j].fields.Balance) || 0.00;
+                                        let creditLimit = utilityService.modifynegativeCurrencyFormat(dataObjectnew.tsuppliervs1[j].fields.SupplierCreditLimit) || 0.00;
+                                        let salesOrderBalance = utilityService.modifynegativeCurrencyFormat(dataObjectnew.tsuppliervs1[j].fields.Balance) || 0.00;
+                                        var dataList = {
+                                            id: dataObjectnew.tsuppliervs1[j].fields.ID || '',
+                                            clientName: dataObjectnew.tsuppliervs1[j].fields.ClientName || '',
+                                            company: dataObjectnew.tsuppliervs1[j].fields.Companyname || '',
+                                            contactname: dataObjectnew.tsuppliervs1[j].fields.ContactName || '',
+                                            phone: dataObjectnew.tsuppliervs1[j].fields.Phone || '',
+                                            arbalance: arBalance || 0.00,
+                                            creditbalance: creditBalance || 0.00,
+                                            balance: balance || 0.00,
+                                            creditlimit: creditLimit || 0.00,
+                                            salesorderbalance: salesOrderBalance || 0.00,
+                                            email: dataObjectnew.tsuppliervs1[j].fields.Email || '',
+                                            job: dataObjectnew.tsuppliervs1[j].fields.JobName || '',
+                                            accountno: dataObjectnew.tsuppliervs1[j].fields.AccountNo || '',
+                                            clientno: dataObjectnew.tsuppliervs1[j].fields.ClientNo || '',
+                                            jobtitle: dataObjectnew.tsuppliervs1[j].fields.JobTitle || '',
+                                            notes: dataObjectnew.tsuppliervs1[j].fields.Notes || '',
+                                            state: dataObjectnew.tsuppliervs1[j].fields.State || '',
+                                            country: dataObjectnew.tsuppliervs1[j].fields.Country || '',
+                                            street: dataObjectnew.tsuppliervs1[j].fields.Street || ' ',
+                                            street2: dataObjectnew.tsuppliervs1[j].fields.Street2 || ' ',
+                                            street3: dataObjectnew.tsuppliervs1[j].fields.Street3 || ' ',
+                                            suburb: dataObjectnew.tsuppliervs1[j].fields.Suburb || ' ',
+                                            postcode: dataObjectnew.tsuppliervs1[j].fields.Postcode || ' ',
+                                            clienttype: dataObjectnew.tsuppliervs1[j].fields.ClientTypeName || 'Default',
+                                            discount: dataObjectnew.tsuppliervs1[j].fields.Discount || 0
+                                        };
 
-                                            } else {
-                                                let dataOld = JSON.parse(dataObjectold[0].data);
+                                        dataTableList.push(dataList);
+                                        var dataListSupplierDupp = [
+                                            dataObjectnew.tsuppliervs1[j].fields.ClientName || '-',
+                                            dataObjectnew.tsuppliervs1[j].fields.JobName || '',
+                                            dataObjectnew.tsuppliervs1[j].fields.Phone || '',
+                                            arBalance || 0.00,
+                                            creditBalance || 0.00,
+                                            balance || 0.00,
+                                            creditLimit || 0.00,
+                                            salesOrderBalance || 0.00,
+                                            dataObjectnew.tsuppliervs1[j].fields.Country || '',
+                                            dataObjectnew.tsuppliervs1[j].fields.State || '',
+                                            dataObjectnew.tsuppliervs1[j].fields.Street2 || '',
+                                            dataObjectnew.tsuppliervs1[j].fields.Street || '',
+                                            dataObjectnew.tsuppliervs1[j].fields.Postcode || '',
+                                            dataObjectnew.tsuppliervs1[j].fields.Email || '',
+                                            dataObjectnew.tsuppliervs1[j].fields.AccountNo || '',
+                                            dataObjectnew.tsuppliervs1[j].fields.ClientNo || '',
+                                            dataObjectnew.tsuppliervs1[j].fields.JobTitle || '',
+                                            dataObjectnew.tsuppliervs1[j].fields.Notes || '',
+                                            dataObjectnew.tsuppliervs1[j].fields.ID || '',
+                                            dataObjectnew.tsuppliervs1[j].fields.ClientTypeName || 'Default',
+                                            dataObjectnew.tsuppliervs1[j].fields.Discount || 0,
+                                            dataObjectnew.tsuppliervs1[j].fields.TermsName || '',
+                                            dataObjectnew.tsuppliervs1[j].fields.FirstName || '',
+                                            dataObjectnew.tsuppliervs1[j].fields.LastName || ''
+                                        ];
 
-                                                var thirdaryData = $.merge($.merge([], dataObjectnew.tsuppliervs1), dataOld.tsuppliervs1);
-                                                let objCombineData = {
-                                                    tsuppliervs1: thirdaryData
-                                                }
+                                        splashArraySupplierList.push(dataListSupplierDupp);
+                                        //}
+                                    }
 
+                                      let uniqueChars = [...new Set(splashArraySupplierList)];
+                                      var datatable = $('#tblSupplierlist').DataTable();
+                                      datatable.clear();
+                                      datatable.rows.add(uniqueChars);
+                                      datatable.draw(false);
+                                      setTimeout(function () {
+                                        $("#tblSupplierlist").dataTable().fnPageChange('last');
+                                      }, 400);
 
-                                                addVS1Data('TSupplierVS1', JSON.stringify(objCombineData)).then(function (datareturn) {
-                                                    templateObject.resetData(objCombineData);
-                                                    $('.fullScreenSpin').css('display', 'none');
-                                                }).catch(function (err) {
-                                                    $('.fullScreenSpin').css('display', 'none');
-                                                });
-
-                                            }
-                                        }).catch(function (err) {
-
-                                        });
-
+                                      $('.fullScreenSpin').css('display', 'none');
                                     }).catch(function (err) {
                                         $('.fullScreenSpin').css('display', 'none');
                                     });
@@ -734,103 +780,111 @@ Template.supplierlistpop.onRendered(function () {
                     }).on('length.dt', function (e, settings, len) {
                         $('.fullScreenSpin').css('display', 'inline-block');
                         let dataLenght = settings._iDisplayLength;
+                        let dataSearchName = $('#tblSupplierlist_filter input').val();
                         splashArraySupplierList = [];
                         if (dataLenght == -1) {
-                            //if(settings.fnRecordsDisplay() > 150){
-                            //  $('.paginate_button.page-item.next').addClass('disabled');
-                            //  $('.fullScreenSpin').css('display','none');
-                            //}else{
-                            sideBarService.getAllSuppliersDataVS1('All', 1).then(function (data) {
-                                for (let i = 0; i < data.tsuppliervs1.length; i++) {
-                                    let arBalance = utilityService.modifynegativeCurrencyFormat(data.tsuppliervs1[i].fields.APBalance) || 0.00;
-                                    let creditBalance = utilityService.modifynegativeCurrencyFormat(data.tsuppliervs1[i].fields.ExcessAmount) || 0.00;
-                                    let balance = utilityService.modifynegativeCurrencyFormat(data.tsuppliervs1[i].fields.Balance) || 0.00;
-                                    let creditLimit = utilityService.modifynegativeCurrencyFormat(data.tsuppliervs1[i].fields.SupplierCreditLimit) || 0.00;
-                                    let salesOrderBalance = utilityService.modifynegativeCurrencyFormat(data.tsuppliervs1[i].fields.Balance) || 0.00;
-                                    var dataList = {
-                                        id: data.tsuppliervs1[i].fields.ID || '',
-                                        clientName: data.tsuppliervs1[i].fields.ClientName || '',
-                                        company: data.tsuppliervs1[i].fields.Companyname || '',
-                                        contactname: data.tsuppliervs1[i].fields.ContactName || '',
-                                        phone: data.tsuppliervs1[i].fields.Phone || '',
-                                        arbalance: arBalance || 0.00,
-                                        creditbalance: creditBalance || 0.00,
-                                        balance: balance || 0.00,
-                                        creditlimit: creditLimit || 0.00,
-                                        salesorderbalance: salesOrderBalance || 0.00,
-                                        email: data.tsuppliervs1[i].fields.Email || '',
-                                        job: data.tsuppliervs1[i].fields.JobName || '',
-                                        accountno: data.tsuppliervs1[i].fields.AccountNo || '',
-                                        clientno: data.tsuppliervs1[i].fields.ClientNo || '',
-                                        jobtitle: data.tsuppliervs1[i].fields.JobTitle || '',
-                                        notes: data.tsuppliervs1[i].fields.Notes || '',
-                                        state: data.tsuppliervs1[i].fields.State || '',
-                                        country: data.tsuppliervs1[i].fields.Country || '',
-                                        street: data.tsuppliervs1[i].fields.Street || ' ',
-                                        street2: data.tsuppliervs1[i].fields.Street2 || ' ',
-                                        street3: data.tsuppliervs1[i].fields.Street3 || ' ',
-                                        suburb: data.tsuppliervs1[i].fields.Suburb || ' ',
-                                        postcode: data.tsuppliervs1[i].fields.Postcode || ' '
-                                    };
+                          if (dataSearchName.replace(/\s/g, '') != '') {
+                              sideBarService.getAllSuppliersDataVS1ByName(dataSearchName).then(function (data) {
+                                  let lineItems = [];
+                                  let lineItemObj = {};
+                                  if (data.tsuppliervs1.length > 0) {
+                                      for (let i = 0; i < data.tsuppliervs1.length; i++) {
+                                          let arBalance = utilityService.modifynegativeCurrencyFormat(data.tsuppliervs1[i].fields.APBalance) || 0.00;
+                                          let creditBalance = utilityService.modifynegativeCurrencyFormat(data.tsuppliervs1[i].fields.ExcessAmount) || 0.00;
+                                          let balance = utilityService.modifynegativeCurrencyFormat(data.tsuppliervs1[i].fields.Balance) || 0.00;
+                                          let creditLimit = utilityService.modifynegativeCurrencyFormat(data.tsuppliervs1[i].fields.SupplierCreditLimit) || 0.00;
+                                          let salesOrderBalance = utilityService.modifynegativeCurrencyFormat(data.tsuppliervs1[i].fields.Balance) || 0.00;
+                                          var dataList = {
+                                              id: data.tsuppliervs1[i].fields.ID || '',
+                                              clientName: data.tsuppliervs1[i].fields.ClientName || '',
+                                              company: data.tsuppliervs1[i].fields.Companyname || '',
+                                              contactname: data.tsuppliervs1[i].fields.ContactName || '',
+                                              phone: data.tsuppliervs1[i].fields.Phone || '',
+                                              arbalance: arBalance || 0.00,
+                                              creditbalance: creditBalance || 0.00,
+                                              balance: balance || 0.00,
+                                              creditlimit: creditLimit || 0.00,
+                                              salesorderbalance: salesOrderBalance || 0.00,
+                                              email: data.tsuppliervs1[i].fields.Email || '',
+                                              job: data.tsuppliervs1[i].fields.JobName || '',
+                                              accountno: data.tsuppliervs1[i].fields.AccountNo || '',
+                                              clientno: data.tsuppliervs1[i].fields.ClientNo || '',
+                                              jobtitle: data.tsuppliervs1[i].fields.JobTitle || '',
+                                              notes: data.tsuppliervs1[i].fields.Notes || '',
+                                              state: data.tsuppliervs1[i].fields.State || '',
+                                              country: data.tsuppliervs1[i].fields.Country || '',
+                                              street: data.tsuppliervs1[i].fields.Street || ' ',
+                                              street2: data.tsuppliervs1[i].fields.Street2 || ' ',
+                                              street3: data.tsuppliervs1[i].fields.Street3 || ' ',
+                                              suburb: data.tsuppliervs1[i].fields.Suburb || ' ',
+                                              postcode: data.tsuppliervs1[i].fields.Postcode || ' '
+                                          };
 
-                                    dataTableList.push(dataList);
-                                    var dataListSupplier = [
-                                        data.tsuppliervs1[i].fields.ClientName || '-',
-                                        data.tsuppliervs1[i].fields.JobName || '',
-                                        data.tsuppliervs1[i].fields.Phone || '',
-                                        arBalance || 0.00,
-                                        creditBalance || 0.00,
-                                        balance || 0.00,
-                                        creditLimit || 0.00,
-                                        salesOrderBalance || 0.00,
-                                        data.tsuppliervs1[i].fields.Country || '',
-                                        data.tsuppliervs1[i].fields.State || '',
-                                        data.tsuppliervs1[i].fields.Street2 || '',
-                                        data.tsuppliervs1[i].fields.Street || '',
-                                        data.tsuppliervs1[i].fields.Postcode || '',
-                                        data.tsuppliervs1[i].fields.Email || '',
-                                        data.tsuppliervs1[i].fields.AccountNo || '',
-                                        data.tsuppliervs1[i].fields.ClientNo || '',
-                                        data.tsuppliervs1[i].fields.JobTitle || '',
-                                        data.tsuppliervs1[i].fields.Notes || '',
-                                        data.tsuppliervs1[i].fields.ID || '',
-                                        data.tsuppliervs1[i].fields.ClientTypeName || 'Default',
-                                        data.tsuppliervs1[i].fields.Discount || 0,
-                                        data.tsuppliervs1[i].fields.TermsName || '',
-                                        data.tsuppliervs1[i].fields.FirstName || '',
-                                        data.tsuppliervs1[i].fields.LastName || ''
-                                    ];
+                                          dataTableList.push(dataList);
+                                          var dataListSupplier = [
+                                              data.tsuppliervs1[i].fields.ClientName || '-',
+                                              data.tsuppliervs1[i].fields.JobName || '',
+                                              data.tsuppliervs1[i].fields.Phone || '',
+                                              arBalance || 0.00,
+                                              creditBalance || 0.00,
+                                              balance || 0.00,
+                                              creditLimit || 0.00,
+                                              salesOrderBalance || 0.00,
+                                              data.tsuppliervs1[i].fields.Country || '',
+                                              data.tsuppliervs1[i].fields.State || '',
+                                              data.tsuppliervs1[i].fields.Street2 || '',
+                                              data.tsuppliervs1[i].fields.Street || '',
+                                              data.tsuppliervs1[i].fields.Postcode || '',
+                                              data.tsuppliervs1[i].fields.Email || '',
+                                              data.tsuppliervs1[i].fields.AccountNo || '',
+                                              data.tsuppliervs1[i].fields.ClientNo || '',
+                                              data.tsuppliervs1[i].fields.JobTitle || '',
+                                              data.tsuppliervs1[i].fields.Notes || '',
+                                              data.tsuppliervs1[i].fields.ID || '',
+                                              data.tsuppliervs1[i].fields.ClientTypeName || 'Default',
+                                              data.tsuppliervs1[i].fields.Discount || 0,
+                                              data.tsuppliervs1[i].fields.TermsName || '',
+                                              data.tsuppliervs1[i].fields.FirstName || '',
+                                              data.tsuppliervs1[i].fields.LastName || ''
+                                          ];
 
-                                    splashArraySupplierList.push(dataListSupplier);
+                                          splashArraySupplierList.push(dataListSupplier);
+                                          //}
+                                      }
+                                      var datatable = $('#tblSupplierlist').DataTable();
+                                      datatable.clear();
+                                      datatable.rows.add(splashArraySupplierList);
+                                      datatable.draw(false);
 
-                                    //}
-                                }
+                                      $('.fullScreenSpin').css('display', 'none');
+                                  } else {
 
-                                function MakeNegative() {
-                                    $('td').each(function () {
-                                        if ($(this).text().indexOf('-' + Currency) >= 0) $(this).addClass('text-danger')
-                                    });
-                                };
+                                      $('.fullScreenSpin').css('display', 'none');
+                                      $('#supplierListModal').modal('toggle');
+                                      swal({
+                                          title: 'Question',
+                                          text: "Supplier does not exist, would you like to create it?",
+                                          type: 'question',
+                                          showCancelButton: true,
+                                          confirmButtonText: 'Yes',
+                                          cancelButtonText: 'No'
+                                      }).then((result) => {
+                                          if (result.value) {
+                                              $('#addSupplierModal').modal('toggle');
+                                              $('#edtSupplierCompany').val(dataSearchName);
+                                          } else if (result.dismiss === 'cancel') {
+                                              $('#supplierListModal').modal('toggle');
+                                          }
+                                      });
 
-                                templateObject.custdatatablerecords.set(dataTableList);
-                                var datatable = $('#tblSupplierlist').DataTable();
-                                datatable.clear();
-                                datatable.rows.add(splashArraySupplierList);
-                                datatable.draw(false);
+                                  }
 
-                                $('.fullScreenSpin').css('display', 'none');
-                                $('.dataTables_info').html('Showing 1 to ' + data.tsuppliervs1.length + ' of ' + data.tsuppliervs1.length + ' entries');
-                                $('.fullScreenSpin').css('display', 'none');
-                                // addVS1Data('TSupplierVS1',JSON.stringify(dataNonBo)).then(function (datareturn) {
-                                //   templateObject.resetData(dataNonBo);
-                                // $('.fullScreenSpin').css('display','none');
-                                // }).catch(function (err) {
-                                // $('.fullScreenSpin').css('display','none');
-                                // });
-                            }).catch(function (err) {
-                                $('.fullScreenSpin').css('display', 'none');
-                            });
-                            //}
+                              }).catch(function (err) {
+                                  $('.fullScreenSpin').css('display', 'none');
+                              });
+                          } else {
+                            $('.fullScreenSpin').css('display', 'none');
+                          }
                         } else {
                             if (settings.fnRecordsDisplay() >= settings._iDisplayLength) {
                                 $('.fullScreenSpin').css('display', 'none');
@@ -1092,7 +1146,7 @@ Template.supplierlistpop.onRendered(function () {
                         destroy: true,
                         colReorder: true,
                         pageLength: initialDatatableLoad,
-                        lengthMenu: [[100, -1], [100, "All"]],
+                        lengthMenu: [ [initialDatatableLoad, -1], [initialDatatableLoad, "All"] ],
                         info: true,
                         responsive: true,
                         "order": [[0, "asc"]],
@@ -1124,10 +1178,7 @@ Template.supplierlistpop.onRendered(function () {
                       let dataLenght = settings._iDisplayLength;
                       splashArraySupplierList = [];
                       if (dataLenght == -1) {
-                          //if(settings.fnRecordsDisplay() > 150){
-                          //  $('.paginate_button.page-item.next').addClass('disabled');
-                          //  $('.fullScreenSpin').css('display','none');
-                          //}else{
+                        /*
                           sideBarService.getAllSuppliersDataVS1('All', 1).then(function (data) {
                               for (let i = 0; i < data.tsuppliervs1.length; i++) {
                                   let arBalance = utilityService.modifynegativeCurrencyFormat(data.tsuppliervs1[i].fields.APBalance) || 0.00;
@@ -1218,7 +1269,7 @@ Template.supplierlistpop.onRendered(function () {
                           }).catch(function (err) {
                               $('.fullScreenSpin').css('display', 'none');
                           });
-                          //}
+                        */
                       } else {
                           if (settings.fnRecordsDisplay() >= settings._iDisplayLength) {
                               $('.fullScreenSpin').css('display', 'none');

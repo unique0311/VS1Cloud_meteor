@@ -240,7 +240,7 @@ Template.productlistpop.onRendered(function () {
                         destroy: true,
                         colReorder: true,
                         pageLength: initialDatatableLoad,
-                        lengthMenu: [[100, -1], [100, "All"]],
+                        lengthMenu: [ [initialDatatableLoad, -1], [initialDatatableLoad, "All"] ],
                         info: true,
                         responsive: true,
                         "fnDrawCallback": function (oSettings) {

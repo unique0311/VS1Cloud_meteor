@@ -527,7 +527,7 @@ Template.addsupplierpop.events({
             return false;
         }
         $('.fullScreenSpin').css('display','inline-block');
-
+        let supplierPOPID = $('#edtSupplierPOPID').val();
         let company = $('#edtSupplierCompany').val()||'';
         let email = $('#edtSupplierCompanyEmail').val()||'';
         let title = $('#edtSupplierTitle').val()||'';
@@ -598,6 +598,54 @@ Template.addsupplierpop.events({
 
 
             let suppdupID = 0;
+            if(supplierPOPID != ''){
+              objDetails = {
+                  type: "TSupplierEx",
+                  fields: {
+                      ID: parseInt(supplierPOPID)||0,
+                      Title:title,
+                      ClientName:company,
+                      FirstName: firstname,
+                      CUSTFLD10:middlename,
+                      LastName: lastname,
+                      IsCustomer:isCustomer,
+                      // TFN:suffix,
+                      Email: email,
+                      Phone: phone,
+                      Mobile: mobile,
+                      SkypeName: skype,
+                      Faxnumber: fax,
+                      // Sex: gender,
+                      // Position: position,
+                      Street: streetAddress,
+                      Street2: city,
+                      State: state,
+                      PostCode:postalcode,
+                      Country:country,
+                      Contractor:isContractor,
+                      BillStreet: bstreetAddress,
+                      BillStreet2: bcity,
+                      BillState: bstate,
+                      BillPostCode:bpostalcode,
+                      Billcountry:bcountry,
+                      // CustFld1: custfield1,
+                      // CustFld2: custfield2,
+                      Notes:notes,
+                      PaymentMethodName:sltPaymentMethodName,
+                      TermsName:sltTermsName,
+                      ShippingMethodName:sltShippingMethodName,
+                      ClientNo:suppaccountno,
+                      URL: website,
+                      Attachments: uploadedItems,
+                      CUSTFLD1: custField1,
+                      CUSTFLD2: custField2,
+                      CUSTFLD3: custField3,
+                      CUSTFLD4: custField4,
+                      PublishOnVS1: true
+
+                  }
+              };
+            }else{
             let checkSuppData = await contactService.getCheckSuppliersData(company);
             if(checkSuppData.tsupplier.length){
                 suppdupID = checkSuppData.tsupplier[0].Id;
@@ -695,6 +743,8 @@ Template.addsupplierpop.events({
                 };
 
             }
+
+          }
       //  }
 
         contactService.saveSupplierEx(objDetails).then(function (objDetails) {

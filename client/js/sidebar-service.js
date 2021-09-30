@@ -932,4 +932,13 @@ getCustomersDataByName(dataSearchName) {
        return this.getList(this.ERPObjects.TGlobalSearchReport, options);
    }
 
+   getOneSupplierDataExByName(dataSearchName) {
+     let options = '';
+        options = {
+         ListType: "Detail",
+         select: '[ClientName]="'+dataSearchName+'"'
+        };
+     return this.getList(this.ERPObjects.TSupplier, options);
+   }
+
 }
