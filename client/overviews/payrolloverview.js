@@ -774,39 +774,24 @@ Template.payrolloverview.events({
         FlowRouter.go('/timesheet');
     },
     'click #btnClockOnOff': function (event) {
+        $('.fullScreenSpin').css('display', 'inline-block');
         const templateObject = Template.instance();
         templateObject.getAllProductData();
         $('#startTime').prop('disabled', false);
         $('#dtSODate').prop('disabled', false);
-        let clockList = templateObject.timesheetrecords.get();
-        if (clockList.length > 0) {
-            if (clockList[clockList.length - 1].isPaused == "paused") {
-                $('.btnOnHold').prop('disabled', true);
-            } else {
-                $('.btnOnHold').prop('disabled', false);
-            }
-            if (Array.isArray(clockList[clockList.length - 1].timelog) && clockList[clockList.length - 1].isPaused != "completed") {
-                let startTime = clockList[clockList.length - 1].timelog[0].fields.StartDatetime || '';
-                let date = clockList[clockList.length - 1].timesheetdate;
-                if (startTime != "") {
-                    $('#startTime').val(startTime.split(' ')[1]);
-                    $('#dtSODate').val(date);
-                    $('#updateID').val(clockList[clockList.length - 1].id);
-                    $('#txtNotes').val(clockList[clockList.length - 1].notes);
-                    $('#sltJob').val(clockList[clockList.length - 1].job);
-                    $('#product-list').prepend('<option>' + clockList[clockList.length - 1].product + '</option>');
-                    $("#product-list")[0].options[0].selected = true;
-                    $('#startTime').prop('disabled', true);
-                    $('#dtSODate').prop('disabled', true);
+        if(templateObject.timesheetrecords.get()){
+            let clockList = templateObject.timesheetrecords.get();
+            if (clockList.length > 0) {
+                if (clockList[clockList.length - 1].isPaused == "paused") {
+                    $('.btnOnHold').prop('disabled', true);
+                } else {
+                    $('.btnOnHold').prop('disabled', false);
                 }
-
-            } else if (clockList[clockList.length - 1].isPaused != "completed") {
-                if (clockList[clockList.length - 1].timelog.fields.EndDatetime == "" && clockList[clockList.length - 1].isPaused != "completed") {
-                    let startTime = clockList[clockList.length - 1].timelog.fields.StartDatetime.split(' ')[1];
-                    let endTime = clockList[clockList.length - 1].timelog.fields.EndDatetime;
+                if (Array.isArray(clockList[clockList.length - 1].timelog) && clockList[clockList.length - 1].isPaused != "completed") {
+                    let startTime = clockList[clockList.length - 1].timelog[0].fields.StartDatetime || '';
                     let date = clockList[clockList.length - 1].timesheetdate;
-                    if (startTime != "" && endTime == "") {
-                        $('#startTime').val(startTime);
+                    if (startTime != "") {
+                        $('#startTime').val(startTime.split(' ')[1]);
                         $('#dtSODate').val(date);
                         $('#updateID').val(clockList[clockList.length - 1].id);
                         $('#txtNotes').val(clockList[clockList.length - 1].notes);
@@ -816,10 +801,31 @@ Template.payrolloverview.events({
                         $('#startTime').prop('disabled', true);
                         $('#dtSODate').prop('disabled', true);
                     }
+
+                } else if (clockList[clockList.length - 1].isPaused != "completed") {
+                    if (clockList[clockList.length - 1].timelog.fields.EndDatetime == "" && clockList[clockList.length - 1].isPaused != "completed") {
+                        let startTime = clockList[clockList.length - 1].timelog.fields.StartDatetime.split(' ')[1];
+                        let endTime = clockList[clockList.length - 1].timelog.fields.EndDatetime;
+                        let date = clockList[clockList.length - 1].timesheetdate;
+                        if (startTime != "" && endTime == "") {
+                            $('#startTime').val(startTime);
+                            $('#dtSODate').val(date);
+                            $('#updateID').val(clockList[clockList.length - 1].id);
+                            $('#txtNotes').val(clockList[clockList.length - 1].notes);
+                            $('#sltJob').val(clockList[clockList.length - 1].job);
+                            $('#product-list').prepend('<option>' + clockList[clockList.length - 1].product + '</option>');
+                            $("#product-list")[0].options[0].selected = true;
+                            $('#startTime').prop('disabled', true);
+                            $('#dtSODate').prop('disabled', true);
+                        }
+                    }
                 }
             }
+            $('.fullScreenSpin').css('display', 'none');
+            $('#settingsModal').modal('show');
+        } else {
+            $('#settingsModal').modal('show');
         }
-        $('#settingsModal').modal('show');
     },
     'click #btnClockOn': function () {
         const templateObject = Template.instance();
@@ -847,6 +853,22 @@ Template.payrolloverview.events({
             }
         }
 
+        if(checkStartTime != "" && updateID != "" && checkStatus != "paused"){
+            //  swal({
+            //     title: 'Oooops...',
+            //     text: err,
+            //     type: 'error',
+            //     showCancelButton: false,
+            //     confirmButtonText: 'Try Again'
+            // }).then((result) => {
+            //     if (result.value) {
+            //         // Meteor._reload.reload();
+            //     } else if (result.dismiss === 'cancel') {}
+            // });
+            // $('.fullScreenSpin').css('display', 'none');
+            return false;
+
+        }
         if (checkStatus == "completed") {
             $("#startTime").val(moment().startOf('hour').format('HH') + ":" + moment().startOf('minute').format('mm'));
             let date1 = date.getFullYear() + "-" + ("0" + (date.getMonth() + 1)).slice(-2) + "-" + ("0" + (date.getDate())).slice(-2);
@@ -999,7 +1021,6 @@ Template.payrolloverview.events({
         if (edthour < 1) {
             edthour = 1;
         }
-
         if (checkStartTime == "" && endTime != "") {
             $('.fullScreenSpin').css('display', 'none');
             swal({
@@ -1158,6 +1179,7 @@ Template.payrolloverview.events({
 
             };
             contactService.saveClockTimeSheet(data).then(function (data) {
+                if (Object.keys(obj).length > 0) {
                 if (obj.fields.Description == "Timesheet Completed") {
                     let endTime1 = endTime;
                     if (Array.isArray(clockList[clockList.length - 1].timelog)) {
@@ -1185,8 +1207,12 @@ Template.payrolloverview.events({
                         window.open('/timesheet', '_self');
                     }).catch(function (err) {})
                 }
+            } else {
+                window.open('/payrolloverview', '_self');
+            }
 
             }).catch(function (err) {
+                console.log(err);
                 swal({
                     title: 'Oooops...',
                     text: err,
