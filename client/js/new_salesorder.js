@@ -3511,7 +3511,7 @@ Template.new_salesorder.onRendered(() => {
         .on('click.editable-select', function (e, li) {
           var $earch = $(this);
           var offset = $earch.offset();
-
+          $('#edtCustomerPOPID').val('');
           var customerDataName = e.target.value ||'';
           var customerDataID = $('#edtCustomerName').attr('custid').replace(/\s/g, '') ||'';
           if (e.pageX > offset.left + $earch.width() - 8) { // X button 16px wide?
