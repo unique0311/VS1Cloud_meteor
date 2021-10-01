@@ -75,7 +75,7 @@ Template.addaccountpop.onRendered(function () {
         yearRange: "-90:+10",
     });
 
- var currentLoc = FlowRouter.current().path;
+ var currentLoc = FlowRouter.current().route.path;
     getVS1Data('TAccountType').then(function (dataObject) {
         if (dataObject.length == 0) {
             accountService.getAccountTypeCheck().then(function (data) {
@@ -438,7 +438,7 @@ Template.addaccountpop.events({
                     let accountSaveID = objDetailsReturn.fields.ID;
                     $('.fullScreenSpin').css('display', 'none');
                     if (accountSaveID) {
-                        var currentLoc = FlowRouter.current().path;
+                        var currentLoc = FlowRouter.current().route.path;
                         if (currentLoc == "/billcard" || currentLoc == "/chequecard" || currentLoc == "/creditcard"|| currentLoc == "/journalentrycard") {
                           var selectLineID = $('#selectLineID').val();
                           if (selectLineID) {

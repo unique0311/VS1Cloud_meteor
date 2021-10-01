@@ -62,7 +62,7 @@ Template.accountlistpop.onRendered(function() {
     var splashArrayProductList = new Array();
     var splashArrayTaxRateList = new Array();
     const taxCodesList = [];
-    var currentLoc = FlowRouter.current().path;
+    var currentLoc = FlowRouter.current().route.path;
 
     tempObj.getAllProducts = function() {
         getVS1Data('TAccountVS1').then(function(dataObject) {

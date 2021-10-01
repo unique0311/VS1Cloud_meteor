@@ -171,14 +171,14 @@ Template.newsidenav.onRendered(function() {
 
 
     templateObject.getSetSideNavFocus = function() {
-        var currentLoc = FlowRouter.current().path;
+        var currentLoc = FlowRouter.current().route.path;
         setTimeout(function() {
 
             // $('.collapse').collapse({
             //     toggle: false
             // })
 
-            var currentLoc = FlowRouter.current().path;
+            var currentLoc = FlowRouter.current().route.path;
 
             if (currentLoc == "/dashboard") {
                 $('#sidenavaccounts').removeClass('active');

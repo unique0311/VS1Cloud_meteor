@@ -61,7 +61,7 @@ export class VS1ChartService extends BaseService {
     getBalanceSheetRedirectData() {
       let options = {
           ReportType: "Detail",
-          IgnoreSummarised:false,
+          IgnoreSummarised:true,
       };
       // return this.getList(this.ERPObjects.TAccount,options);
         return this.getList(this.ERPObjects.TAccountRunningBalanceReport,options);

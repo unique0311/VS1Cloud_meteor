@@ -44,7 +44,7 @@ export class ReportService extends BaseService {
     getBalanceSheetRedirectData() {
       let options = {
           ReportType: "Detail",
-          IgnoreSummarised:false,
+          IgnoreSummarised:true,
       };
       // return this.getList(this.ERPObjects.TAccount,options);
         return this.getList(this.ERPObjects.TAccountRunningBalanceReport,options);
@@ -53,7 +53,7 @@ export class ReportService extends BaseService {
     getBalanceSheetRedirectRangeData(datefrom, dateto) {
       let options = {
           ReportType: "Detail",
-          IgnoreSummarised:false,
+          IgnoreSummarised:true,
           IgnoreDates:false,
           DateTo: '"'+dateto+'"',
           DateFrom: '"'+datefrom+'"'

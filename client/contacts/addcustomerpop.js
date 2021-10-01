@@ -787,7 +787,7 @@ Template.addcustomerpop.events({
         let templateObject = Template.instance();
         let contactService = new ContactService();
         $('.fullScreenSpin').css('display', 'inline-block');
-
+        let customerPOPID = $('#edtCustomerPOPID').val();
         let company = $('#edtCustomerCompany').val();
         let email = $('#edtCustomerPOPEmail').val();
         let title = $('#edtTitle').val();
@@ -868,6 +868,50 @@ Template.addcustomerpop.events({
         var objDetails = '';
 
             let custdupID = 0;
+            if(customerPOPID != ''){
+              objDetails = {
+                  type: "TCustomerEx",
+                  fields: {
+                      ID: parseInt(customerPOPID) || 0,
+                      Title: title,
+                      ClientName: company,
+                      FirstName: firstname,
+                      CUSTFLD10: middlename,
+                      LastName: lastname,
+                      PublishOnVS1: true,
+                      Email: email,
+                      Phone: phone,
+                      Mobile: mobile,
+                      SkypeName: skype,
+                      Faxnumber: fax,
+                      ClientTypeName: customerType,
+                      Street: streetAddress,
+                      Street2: city,
+                      Suburb: city,
+                      State: state,
+                      PostCode: postalcode,
+                      Country: country,
+                      BillStreet: bstreetAddress,
+                      BillStreet2: bcity,
+                      BillState: bstate,
+                      BillPostCode: bzipcode,
+                      Billcountry: bcountry,
+                      IsSupplier:isSupplier,
+                      Notes: notes,
+                      URL: website,
+                      PaymentMethodName: sltPaymentMethodName,
+                      TermsName: sltTermsName,
+                      ShippingMethodName: sltShippingMethodName,
+                      TaxCodeName: sltTaxCodeName,
+                      Attachments: uploadedItems,
+                      CUSTFLD1: custField1,
+                      CUSTFLD2: custField2,
+                      CUSTFLD3: custField3,
+                      CUSTFLD4: custField4,
+                      Discount:parseFloat(permanentDiscount)||0
+                  }
+              };
+            }else{
             let checkCustData = await contactService.getCheckCustomersData(company);
             if (checkCustData.tcustomer.length) {
                 custdupID = checkCustData.tcustomer[0].Id;
@@ -957,15 +1001,14 @@ Template.addcustomerpop.events({
                 };
             };
 
-
+          }
 
 
         contactService.saveCustomerEx(objDetails).then(function (objDetails) {
             let customerSaveID = objDetails.fields.ID;
             $('.fullScreenSpin').css('display', 'none');
             if (customerSaveID) {
-                var currentLoc = FlowRouter.current().path;
-
+                var currentLoc = FlowRouter.current().route.path;
                 if (currentLoc == "/invoicecard" || currentLoc == "/quotecard" || currentLoc == "/salesordercard"|| currentLoc == "/refundcard") {
                     $('.salesmodule #edtCustomerName').val(company);
                     $('.salesmodule #edtCustomerEmail').val(email);

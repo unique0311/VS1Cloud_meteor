@@ -2100,7 +2100,7 @@ Template.purchaseordercard.onRendered(() => {
                   }
               }
           }).catch(function (err) {
-
+            
               sideBarService.getOneSupplierDataExByName(supplierDataName).then(function (data) {
                 $('.fullScreenSpin').css('display','none');
                   let lineItems = [];

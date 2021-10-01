@@ -169,9 +169,9 @@ Template.sidenav.onRendered(function() {
 
 
     templateObject.getSetSideNavFocus = function() {
-        var currentLoc = FlowRouter.current().path;
+        var currentLoc = FlowRouter.current().route.path;
         setTimeout(function() {
-            var currentLoc = FlowRouter.current().path;
+            var currentLoc = FlowRouter.current().route.path;
 
             if (currentLoc == "/dashboard") {
                 $('#sidenavaccounts').removeClass('active');
