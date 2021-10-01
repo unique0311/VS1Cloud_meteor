@@ -573,7 +573,7 @@ Template.header.onRendered(function() {
 
     /*document.getElementById("loggeddatabaseuser").innerHTML = LoggedUser;*/
     var CloudUserPass = Session.get('CloudUserPass');
-    var currentLoc = FlowRouter.current().path;
+    var currentLoc = FlowRouter.current().route.path;
     if (CloudUserPass) {
         templateObject.isCloudUserPass.set(true);
 

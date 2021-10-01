@@ -2,10 +2,10 @@
     <div class="modal-dialog modal-xl modal-dialog-scrollable" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h4>New Customer</h4><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                <h4><div id="add-customer-title" name="add-customer-title" style="float: left;">Add New Customer</div></h4><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
             </div>
             <div class="modal-body" style="padding: 0.5rem !important;">
-
+              <input type="hidden" class="form-control" id="edtCustomerPOPID" name="edtCustomerPOPID" style="display:none;">
                 <style>
                     .results tr[visible='false'],
                     .no-result {
@@ -269,19 +269,7 @@
                                                         <label class="custom-control-label" for="chkSameAsShipping2" style=" cursor: pointer;">Same as Shipping</label>
                                                     </div>
                                                 </div>
-                                                {{#if equals isSameAddress true}}
-                                                <script>
-                                                    $('#chkSameAsShipping2').attr("checked", "checked");
-                                                    $('#billingaddress').css("display", "none");
 
-                                                </script>
-                                                {{else}}
-                                                <script>
-                                                    $('#chkSameAsShipping2').removeAttr("checked");
-                                                    $('#billingaddress').css("display", "flex");
-
-                                                </script>
-                                                {{/if}}
                                             </div>
                                             <div class="row no-gutters billingaddress" id="billingaddress">
                                                 <div class="col colBillStreetAddress" id="colBillStreetAddress" style="padding: 0px;">
@@ -366,7 +354,7 @@
                                                 <select class="form-control customerTypeSelect" style="width: 260px; cursor: pointer;" id="sltCustomerType" name="sltCustomerType">
 
                                                     {{#each itemclient in clienttypeList}}
-                                                    {{#if equals item record.clienttype }}
+                                                    {{#if equals itemclient record.clienttype }}
                                                     <option value="{{record.clienttype}}" selected="">{{record.clienttype}}</option>
                                                     {{else}}
                                                     <option value="{{itemclient}}">{{itemclient}}</option>
