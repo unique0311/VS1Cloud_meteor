@@ -1808,7 +1808,7 @@ Template.purchaseordercard.onRendered(() => {
     $('#edtSupplierName').editableSelect().on('click.editable-select', function (e, li) {
       var $earch = $(this);
       var offset = $earch.offset();
-
+      $('#edtSupplierPOPID').val('');
       var supplierDataName = e.target.value ||'';
       var supplierDataID = $('#edtSupplierName').attr('suppid').replace(/\s/g, '') ||'';
       if (e.pageX > offset.left + $earch.width() - 8) { // X button 16px wide?
@@ -2100,7 +2100,7 @@ Template.purchaseordercard.onRendered(() => {
                   }
               }
           }).catch(function (err) {
-            
+
               sideBarService.getOneSupplierDataExByName(supplierDataName).then(function (data) {
                 $('.fullScreenSpin').css('display','none');
                   let lineItems = [];
