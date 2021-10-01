@@ -1377,6 +1377,10 @@ Template.chequecard.onRendered(() => {
         };
 
         $('#edtSupplierName').val('');
+        setTimeout(function(){
+            $('#sltBankAccountName').val(localStorage.getItem('check_acc'));
+        },500);
+
         $("#form :input").prop("disabled", false);
         templateObject.chequerecord.set(chequerecord);
 
@@ -4226,7 +4230,7 @@ Template.chequecard.events({
 
             purchaseService.saveChequeEx(objDetails).then(function(objDetails) {
                 var supplierID = $('#edtSupplierEmail').attr('supplierid');
-
+                localStorage.setItem("check_acc",bankAccount);
                 $('#html-2-pdfwrapper').css('display', 'block');
                 $('.pdfCustomerName').html($('#edtSupplierEmail').val());
                 $('.pdfCustomerAddress').html($('#txabillingAddress').val().replace(/[\r\n]/g, "<br />"));
