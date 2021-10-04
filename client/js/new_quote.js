@@ -64,6 +64,16 @@ Template.new_quote.onCreated(() => {
 });
 Template.new_quote.onRendered(() => {
 
+    $(document).on("click", "#tblStatusPopList tbody tr", function(e) {
+        $('#sltStatus').val($(this).find(".colStatusName").text());
+        $('#statusPopModal').modal('toggle');
+    });
+
+    $(document).on("click", "#tblCurrencyPopList tbody tr", function(e) {
+        $('#sltCurrency').val($(this).find(".colCode").text());
+        $('#currencyModal').modal('toggle');
+    });
+
     $(window).on('load', function() {
         var win = $(this); //this = window
         if (win.width() <= 1024 && win.width() >= 450) {
@@ -491,7 +501,7 @@ Template.new_quote.onRendered(() => {
                             $('#edtCustomerName').val(data.fields.CustomerName);
                             templateObject.CleintName.set(data.fields.CustomerName);
                             $('#sltCurrency').val(data.fields.ForeignExchangeCode);
-
+                            $('#sltStatus').val(data.fields.SalesStatus);
                             templateObject.attachmentCount.set(0);
                             if (data.fields.Attachments) {
                                 if (data.fields.Attachments.length) {
@@ -798,7 +808,7 @@ Template.new_quote.onRendered(() => {
                                 $('#edtCustomerName').val(useData[d].fields.CustomerName);
                                 templateObject.CleintName.set(useData[d].fields.CustomerName);
                                 $('#sltCurrency').val(useData[d].fields.ForeignExchangeCode);
-
+                                $('#sltStatus').val(useData[d].fields.SalesStatus);
                                 templateObject.attachmentCount.set(0);
                                 if (useData[d].fields.Attachments) {
                                     if (useData[d].fields.Attachments.length) {
@@ -1040,7 +1050,7 @@ Template.new_quote.onRendered(() => {
                                 $('#edtCustomerName').val(data.fields.CustomerName);
                                 templateObject.CleintName.set(data.fields.CustomerName);
                                 $('#sltCurrency').val(data.fields.ForeignExchangeCode);
-
+                                $('#sltStatus').val(data.fields.SalesStatus);
                                 templateObject.attachmentCount.set(0);
                                 if (data.fields.Attachments) {
                                     if (data.fields.Attachments.length) {
@@ -1285,7 +1295,7 @@ Template.new_quote.onRendered(() => {
                         $('#edtCustomerName').val(data.fields.CustomerName);
                         templateObject.CleintName.set(data.fields.CustomerName);
                         $('#sltCurrency').val(data.fields.ForeignExchangeCode);
-
+                        $('#sltStatus').val(data.fields.SalesStatus);
                         templateObject.attachmentCount.set(0);
                         if (data.fields.Attachments) {
                             if (data.fields.Attachments.length) {
@@ -1722,7 +1732,7 @@ Template.new_quote.onRendered(() => {
                         $('#edtCustomerName').val(data.fields.CustomerName);
                         templateObject.CleintName.set(data.fields.CustomerName);
                         $('#sltCurrency').val(data.fields.ForeignExchangeCode);
-
+                        $('#sltStatus').val(data.fields.SalesStatus);
                         templateObject.attachmentCount.set(0);
                         if (data.fields.Attachments) {
                             if (data.fields.Attachments.length) {
@@ -1993,7 +2003,7 @@ Template.new_quote.onRendered(() => {
                             $('#edtCustomerName').val(useData[d].fields.CustomerName);
                             templateObject.CleintName.set(useData[d].fields.CustomerName);
                             $('#sltCurrency').val(useData[d].fields.ForeignExchangeCode);
-
+                            $('#sltStatus').val(useData[d].fields.SalesStatus);
                             templateObject.attachmentCount.set(0);
                             if (useData[d].fields.Attachments) {
                                 if (useData[d].fields.Attachments.length) {
@@ -2239,7 +2249,7 @@ Template.new_quote.onRendered(() => {
                             $('#edtCustomerName').val(data.fields.CustomerName);
                             templateObject.CleintName.set(data.fields.CustomerName);
                             $('#sltCurrency').val(data.fields.ForeignExchangeCode);
-
+                            $('#sltStatus').val(data.fields.SalesStatus);
                             templateObject.attachmentCount.set(0);
                             if (data.fields.Attachments) {
                                 if (data.fields.Attachments.length) {
@@ -2506,7 +2516,7 @@ Template.new_quote.onRendered(() => {
                     $('#edtCustomerName').val(data.fields.CustomerName);
                     templateObject.CleintName.set(data.fields.CustomerName);
                     $('#sltCurrency').val(data.fields.ForeignExchangeCode);
-
+                    $('#sltStatus').val(data.fields.SalesStatus);
                     templateObject.attachmentCount.set(0);
                     if (data.fields.Attachments) {
                         if (data.fields.Attachments.length) {
@@ -2874,7 +2884,9 @@ Template.new_quote.onRendered(() => {
     }
 
     $(document).ready(function () {
+        $('#sltStatus').editableSelect();
         $('#edtCustomerName').editableSelect();
+        $('#sltCurrency').editableSelect();
         $('#addRow').on('click', function () {
             var rowData = $('#tblQuoteLine tbody>tr:last').clone(true);
             let tokenid = Random.id();
@@ -4580,6 +4592,13 @@ Template.new_quote.helpers({
 });
 
 Template.new_quote.events({
+
+    'click #sltCurrency': function(event) {
+        $('#currencyModal').modal('toggle');
+    },
+    'click #sltStatus': function(event) {
+        $('#statusPopModal').modal('toggle');
+    },
     'click #edtCustomerName': function (event) {
         $('#edtCustomerName').select();
         $('#edtCustomerName').editableSelect();
@@ -4588,69 +4607,6 @@ Template.new_quote.events({
         let status = $('#sltStatus').find(":selected").val();
         if (status == "newstatus") {
             $('#statusModal').modal();
-        }
-    },
-    'click .btnSaveStatus': function () {
-        $('.fullScreenSpin').css('display', 'inline-block');
-        let clientService = new SalesBoardService()
-        let status = $('#status').val();
-        let leadData = {
-            type: 'TLeadStatusType',
-            fields: {
-                TypeName: status,
-                KeyValue: status
-            }
-        }
-
-        if (status != "") {
-            clientService.saveLeadStatus(leadData).then(function (objDetails) {
-                sideBarService.getAllLeadStatus().then(function (dataUpdate) {
-                    addVS1Data('TLeadStatusType', JSON.stringify(dataUpdate)).then(function (datareturn) {
-                        $('.fullScreenSpin').css('display', 'none');
-                        let id = $('.printID').attr("id");
-                        if (id != "") {
-                            window.open("/quotecard?id=" + id);
-                        } else {
-                            window.open("/quotecard");
-                        }
-                    }).catch(function (err) {
-
-                    });
-                }).catch(function (err) {
-                    window.open('/quotecard', '_self');
-                });
-            }).catch(function (err) {
-                $('.fullScreenSpin').css('display', 'none');
-                swal({
-                    title: 'Oooops...',
-                    text: err,
-                    type: 'error',
-                    showCancelButton: false,
-                    confirmButtonText: 'Try Again'
-                }).then((result) => {
-                    if (result.value) {
-
-                    } else if (result.dismiss === 'cancel') {
-
-                    }
-                });
-
-                $('.fullScreenSpin').css('display', 'none');
-            });
-        } else {
-            $('.fullScreenSpin').css('display', 'none');
-            swal({
-                title: 'Please Enter Status',
-                text: "Status field cannot be empty",
-                type: 'warning',
-                showCancelButton: false,
-                confirmButtonText: 'Try Again'
-            }).then((result) => {
-                if (result.value) {
-                } else if (result.dismiss === 'cancel') {
-
-                }
-            });
         }
     },
     'blur .lineQty': function (event) {

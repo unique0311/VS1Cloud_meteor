@@ -270,7 +270,9 @@
                                     <div class="row">
                                         <div class="col-6 col-md-12 col-lg-12">
                                             <div class="form-group"><label>Status</label>
-                                                <select class="form-control" id="sltStatus" name="sltStatus" style="background-color:rgb(255, 255, 255); cursor: pointer;">
+                                                <select type="search" class="form-control" id="sltStatus" name="sltStatus" style="background-color:rgb(255, 255, 255); cursor: pointer;">
+                                                </select>
+                                                <!-- <select class="form-control" id="sltStatus" name="sltStatus" style="background-color:rgb(255, 255, 255); cursor: pointer;">
                                                     <option value="{{quoterecord.status}}" selected="">{{quoterecord.status}}</option>
                                                     {{#each item in statusrecords}}
                                                     {{#if equals item.orderstatus quoterecord.status }}
@@ -279,7 +281,7 @@
                                                     <option value="{{item.orderstatus}}">{{item.orderstatus}}</option>
                                                     {{/if}}
                                                     {{/each}}
-                                                </select>
+                                                </select> -->
                                             </div>
                                         </div>
                                         <div class="col-6 col-md-12 col-lg-12">
@@ -1256,6 +1258,22 @@
         <!-- Modal print-button -modal -->
         <div class="modal fade" role="dialog" tabindex="-1" id="productListModal">
             {{> productlistpop}}
+        </div>
+
+        <div class="modal fade" role="dialog" tabindex="-1" id="statusPopModal">
+            {{> statuspop}}
+        </div>
+
+        <div class="modal fade" role="dialog" tabindex="-1" id="newStatusPopModal">
+            {{> newstatuspop}}
+        </div>
+
+        <div class="modal fade" role="dialog" tabindex="-1" id="currencyModal">
+            {{> currencypop}}
+        </div>
+
+        <div class="modal fade" role="dialog" tabindex="-1" id="newCurrencyModal">
+            {{> newcurrencypop}}
         </div>
 
         <!-- End Modal Product -->

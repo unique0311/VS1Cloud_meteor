@@ -273,7 +273,9 @@
                                             </div>
                                             <div class="col-6 col-md-12 col-lg-12">
                                                 <div class="form-group"><label>Department</label>
-                                                    <select class="form-control" id="sltDept" name="sltDept" style="cursor: pointer;">
+                                                    <select type="search" class="form-control" id="sltDept" name="sltDept" style="background-color:rgb(255, 255, 255); cursor: pointer;">
+                                                    </select>
+                                                    <!-- <select class="form-control" id="sltDept" name="sltDept" style="cursor: pointer;">
                                                         {{#each item in deptrecords}}
                                                             {{#if equals item.department salesorderrecord.department }}
                                                                 <option value="{{salesorderrecord.department}}" selected="">{{salesorderrecord.department}}</option>
@@ -281,7 +283,7 @@
                                                                 <option value="{{item.department}}">{{item.department}}</option>
                                                             {{/if}}
                                                         {{/each}}
-                                                    </select>
+                                                    </select> -->
                                                 </div>
                                             </div>
                                         </div>
@@ -294,7 +296,9 @@
                                         <div class="row">
                                             <div class="col-6 col-md-12 col-lg-12">
                                                 <div class="form-group"><label>Terms</label>
-                                                    <select class="form-control" id="sltTerms" name="sltTerms" style="cursor: pointer;">
+                                                    <select type="search" class="form-control" id="sltTerms" name="sltTerms" style="background-color:rgb(255, 255, 255); cursor: pointer;">
+                                                    </select>
+                                                    <!-- <select class="form-control" id="sltTerms" name="sltTerms" style="cursor: pointer;">
                                                         {{#if equals salesorderrecord.termsName ''}}
                                                             <option value="" selected="selected"></option>
                                                         {{/if}}
@@ -305,7 +309,7 @@
                                                                 <option value="{{item.termsname}}">{{item.termsname}}</option>
                                                             {{/if}}
                                                         {{/each}}
-                                                    </select>
+                                                    </select> -->
                                                 </div>
                                             </div>
                                             <div class="col-6 col-md-12 col-lg-12">
@@ -318,7 +322,9 @@
                                             <div class="col-6 col-md-12 col-lg-12">
                                                 <div class="form-group">
                                                     <label>Status</label>
-                                                    <select class="form-control" id="sltStatus" name="sltStatus" style="cursor: pointer;">
+                                                    <select type="search" class="form-control" id="sltStatus" name="sltStatus" style="background-color:rgb(255, 255, 255); cursor: pointer;">
+                                                    </select>
+                                                    <!-- <select class="form-control" id="sltStatus" name="sltStatus" style="cursor: pointer;">
                                                         <option value="{{salesorderrecord.status}}" selected="">{{salesorderrecord.status}}</option>
                                                         {{#each item in statusrecords}}
                                                             {{#if equals item.orderstatus salesorderrecord.status }}
@@ -327,7 +333,7 @@
                                                                 <option value="{{item.orderstatus}}">{{item.orderstatus}}</option>
                                                             {{/if}}
                                                         {{/each}}
-                                                    </select>
+                                                    </select> -->
                                                 </div>
                                             </div>
                                             <div class="col-6 col-md-12 col-lg-12">
@@ -1506,6 +1512,38 @@
         <!-- Modal print-button -modal -->
         <div class="modal fade" role="dialog" tabindex="-1" id="productListModal">
             {{> productlistpop}}
+        </div>
+
+        <div class="modal fade" role="dialog" tabindex="-1" id="statusPopModal">
+            {{> statuspop}}
+        </div>
+
+        <div class="modal fade" role="dialog" tabindex="-1" id="newStatusPopModal">
+            {{> newstatuspop}}
+        </div>
+
+        <div class="modal fade" role="dialog" tabindex="-1" id="currencyModal">
+            {{> currencypop}}
+        </div>
+
+        <div class="modal fade" role="dialog" tabindex="-1" id="newCurrencyModal">
+            {{> newcurrencypop}}
+        </div>
+
+        <div class="modal fade" role="dialog" tabindex="-1" id="departmentModal">
+            {{> departmentpop}}
+        </div>
+
+        <div class="modal fade" role="dialog" tabindex="-1" id="newDepartmentModal">
+            {{> newdepartmentpop}}
+        </div>
+
+        <div class="modal fade" role="dialog" tabindex="-1" id="termsListModal">
+            {{> termlistpop}}
+        </div>
+
+        <div class="modal fade" role="dialog" tabindex="-1" id="newTermsModal">
+            {{> newtermspop}}
         </div>
 
         <!-- End Modal Product -->
