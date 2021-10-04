@@ -357,7 +357,7 @@ Template.newdepartmentpop.onRendered(function() {
 
                 }).catch(function(err) {
                     swal({
-                        title: 'Oooops...',
+                        title: 'Oooops 1...',
                         text: err,
                         type: 'error',
                         showCancelButton: false,
@@ -693,7 +693,7 @@ Template.newdepartmentpop.onRendered(function() {
 
             }).catch(function(err) {
                 swal({
-                    title: 'Oooops...',
+                    title: 'Oooops 2...',
                     text: err,
                     type: 'error',
                     showCancelButton: false,
@@ -1074,7 +1074,7 @@ Template.newdepartmentpop.events({
             });
         }).catch(function(err) {
             swal({
-                title: 'Oooops...',
+                title: 'Oooops 3...',
                 text: err,
                 type: 'error',
                 showCancelButton: false,
@@ -1094,7 +1094,7 @@ Template.newdepartmentpop.events({
         $('.fullScreenSpin').css('display', 'inline-block');
         let taxRateService = new TaxRateService();
         let deptID = $('#edtDepartmentID').val();
-        let deptName = $('#edtDeptName').val();
+        let deptName = $('#edtNewDeptName').val();
         // if (deptName === '') {
         //     swal('Department name cannot be blank!', '', 'warning');
         //     $('.fullScreenSpin').css('display', 'none');
@@ -1164,7 +1164,7 @@ Template.newdepartmentpop.events({
                     });
                 }).catch(function(err) {
                     swal({
-                        title: 'Oooops...',
+                        title: 'Oooops 4...',
                         text: err,
                         type: 'error',
                         showCancelButton: false,
@@ -1207,7 +1207,7 @@ Template.newdepartmentpop.events({
                     });
                 }).catch(function(err) {
                     swal({
-                        title: 'Oooops...',
+                        title: 'Oooops 5...',
                         text: err,
                         type: 'error',
                         showCancelButton: false,
@@ -1253,7 +1253,7 @@ Template.newdepartmentpop.events({
                 });
             }).catch(function(err) {
                 swal({
-                    title: 'Oooops...',
+                    title: 'Oooops 6...',
                     text: err,
                     type: 'error',
                     showCancelButton: false,
