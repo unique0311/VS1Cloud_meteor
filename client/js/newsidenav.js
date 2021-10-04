@@ -692,7 +692,7 @@ Template.newsidenav.onRendered(function() {
     let month = (currentDate.getMonth() + 1);
     let days = currentDate.getDate();
 
-    if (currentDate.getMonth() < 10) {
+    if ((currentDate.getMonth()+1) < 10) {
         month = "0" + (currentDate.getMonth() + 1);
     }
 
@@ -715,12 +715,14 @@ Template.newsidenav.onRendered(function() {
     var currentBeginDate = new Date();
     var begunDate = moment(currentBeginDate).format("DD/MM/YYYY");
     let fromDateMonth = (currentBeginDate.getMonth() + 1);
+
     let fromDateDay = currentBeginDate.getDate();
-    if (currentBeginDate.getMonth() < 10) {
-        fromDateMonth = "0" + (currentBeginDate.getMonth());
+    if ((currentBeginDate.getMonth()+1) < 10) {
+        fromDateMonth = "0" + (currentBeginDate.getMonth() + 1);
     } else {
-        fromDateMonth = (currentBeginDate.getMonth());
+        fromDateMonth = (currentBeginDate.getMonth() + 1);
     }
+
 
     if (currentBeginDate.getDate() < 10) {
         fromDateDay = "0" + currentBeginDate.getDate();
@@ -973,9 +975,10 @@ Template.newsidenav.onRendered(function() {
     templateObject.getAllTProductStocknSalePeriodReportData = function() {
         var currentBeginDate = new Date();
         var begunDate = moment(currentBeginDate).format("DD/MM/YYYY");
-        let fromDateMonth = currentBeginDate.getMonth();
+        let fromDateMonth = (currentBeginDate.getMonth() + 1);
         let fromDateDay = currentBeginDate.getDate();
-        if (currentBeginDate.getMonth() < 10) {
+        fromDateMonth
+        if ((currentBeginDate.getMonth()+1) < 10) {
             fromDateMonth = "0" + (currentBeginDate.getMonth() + 1);
         } else {
             fromDateMonth = (currentBeginDate.getMonth() + 1);
@@ -1995,9 +1998,9 @@ Template.newsidenav.onRendered(function() {
             if (isContacts) {
                 var currentBeginDate = new Date();
                 var begunDate = moment(currentBeginDate).format("DD/MM/YYYY");
-                let fromDateMonth = currentBeginDate.getMonth();
+                let fromDateMonth = (currentBeginDate.getMonth() + 1)
                 let fromDateDay = currentBeginDate.getDate();
-                if (currentBeginDate.getMonth() < 10) {
+                if ((currentBeginDate.getMonth()+1) < 10) {
                     fromDateMonth = "0" + (currentBeginDate.getMonth() + 1);
                 } else {
                     fromDateMonth = (currentBeginDate.getMonth() + 1);

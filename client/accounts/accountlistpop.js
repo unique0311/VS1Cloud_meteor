@@ -81,8 +81,15 @@ Template.accountlistpop.onRendered(function() {
                             data.taccountvs1[i].TaxCode || ''
                         ];
 
-                        if (currentLoc == "/billcard" || currentLoc == "/chequecard"){
+                        if (currentLoc == "/billcard"){
                           if((data.taccountvs1[i].AccountTypeName != "AP")&&(data.taccountvs1[i].AccountTypeName != "AR")&&(data.taccountvs1[i].AccountTypeName != "CCARD") &&(data.taccountvs1[i].AccountTypeName != "BANK")){
+                            splashArrayProductList.push(dataList);
+                          }
+                        }else if(currentLoc == "/chequecard"){
+                          if((data.taccountvs1[i].AccountTypeName == "EQUITY")||(data.taccountvs1[i].AccountTypeName == "BANK")||(data.taccountvs1[i].AccountTypeName == "CCARD") ||(data.taccountvs1[i].AccountTypeName == "COGS")
+                          ||(data.taccountvs1[i].AccountTypeName == "EXP")||(data.taccountvs1[i].AccountTypeName == "FIXASSET")||(data.taccountvs1[i].AccountTypeName == "INC")||(data.taccountvs1[i].AccountTypeName == "LTLIAB")
+                          ||(data.taccountvs1[i].AccountTypeName == "OASSET")||(data.taccountvs1[i].AccountTypeName == "OCASSET")||(data.taccountvs1[i].AccountTypeName == "OCLIAB")||(data.taccountvs1[i].AccountTypeName == "EXEXP")
+                          ||(data.taccountvs1[i].AccountTypeName == "EXINC")){
                             splashArrayProductList.push(dataList);
                           }
                         }else{
@@ -153,8 +160,15 @@ Template.accountlistpop.onRendered(function() {
                         accBalance,
                         useData[i].fields.TaxCode || ''
                     ];
-                    if (currentLoc == "/billcard" || currentLoc == "/chequecard"){
+                    if (currentLoc == "/billcard"){
                       if((useData[i].fields.AccountTypeName != "AP") && (useData[i].fields.AccountTypeName != "AR")&&(useData[i].fields.AccountTypeName != "CCARD") &&(useData[i].fields.AccountTypeName != "BANK")){
+                        splashArrayProductList.push(dataList);
+                      }
+                    }else if(currentLoc == "/chequecard"){
+                      if((useData[i].fields.AccountTypeName == "EQUITY")||(useData[i].fields.AccountTypeName == "BANK")||(useData[i].fields.AccountTypeName == "CCARD") ||(useData[i].fields.AccountTypeName == "COGS")
+                      ||(useData[i].fields.AccountTypeName == "EXP")||(useData[i].fields.AccountTypeName == "FIXASSET")||(useData[i].fields.AccountTypeName == "INC")||(useData[i].fields.AccountTypeName == "LTLIAB")
+                      ||(useData[i].fields.AccountTypeName == "OASSET")||(useData[i].fields.AccountTypeName == "OCASSET")||(useData[i].fields.AccountTypeName == "OCLIAB")||(useData[i].fields.AccountTypeName == "EXEXP")
+                      ||(useData[i].fields.AccountTypeName == "EXINC")){
                         splashArrayProductList.push(dataList);
                       }
                     }else{
@@ -212,6 +226,7 @@ Template.accountlistpop.onRendered(function() {
                 }
             }
         }).catch(function(err) {
+          console.log(err);
             accountService.getAccountListVS1().then(function(data) {
 
                 let records = [];
@@ -226,8 +241,16 @@ Template.accountlistpop.onRendered(function() {
                         data.taccountvs1[i].TaxCode || ''
                     ];
 
-                    if (currentLoc == "/billcard" || currentLoc == "/chequecard"){
+                    if (currentLoc == "/billcard"){
                       if((data.taccountvs1[i].AccountTypeName != "AP")&&(data.taccountvs1[i].AccountTypeName != "AR")&&(data.taccountvs1[i].AccountTypeName != "CCARD") &&(data.taccountvs1[i].AccountTypeName != "BANK")){
+                        splashArrayProductList.push(dataList);
+                      }
+                    }else if(currentLoc == "/chequecard"){
+                      console.log(data.taccountvs1[i].AccountTypeName);
+                      if((data.taccountvs1[i].AccountTypeName == "EQUITY")||(data.taccountvs1[i].AccountTypeName == "BANK")||(data.taccountvs1[i].AccountTypeName == "CCARD") ||(data.taccountvs1[i].AccountTypeName == "COGS")
+                      ||(data.taccountvs1[i].AccountTypeName == "EXP")||(data.taccountvs1[i].AccountTypeName == "FIXASSET")||(data.taccountvs1[i].AccountTypeName == "INC")||(data.taccountvs1[i].AccountTypeName == "LTLIAB")
+                      ||(data.taccountvs1[i].AccountTypeName == "OASSET")||(data.taccountvs1[i].AccountTypeName == "OCASSET")||(data.taccountvs1[i].AccountTypeName == "OCLIAB")||(data.taccountvs1[i].AccountTypeName == "EXEXP")
+                      ||(data.taccountvs1[i].AccountTypeName == "EXINC")){
                         splashArrayProductList.push(dataList);
                       }
                     }else{

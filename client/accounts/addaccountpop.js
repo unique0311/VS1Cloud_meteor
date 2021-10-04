@@ -84,8 +84,15 @@ Template.addaccountpop.onRendered(function () {
                         accounttypename: data.taccounttype[i].AccountTypeName || ' ',
                         description: data.taccounttype[i].OriginalDescription || ' '
                     };
-                    if (currentLoc == "/billcard" || currentLoc == "/chequecard"){
+                    if (currentLoc == "/billcard"){
                       if((data.taccounttype[i].AccountTypeName != "AP") && (data.taccounttype[i].AccountTypeName != "AR")&&(data.taccounttype[i].AccountTypeName != "CCARD")&&(data.taccounttype[i].AccountTypeName != "BANK") ){
+                        accountTypeList.push(accounttyperecordObj);
+                      }
+                    }else if(currentLoc == "/chequecard"){
+                      if((data.taccountvs1[i].AccountTypeName == "EQUITY")||(data.taccountvs1[i].AccountTypeName == "BANK")||(data.taccountvs1[i].AccountTypeName == "CCARD") ||(data.taccountvs1[i].AccountTypeName == "COGS")
+                      ||(data.taccountvs1[i].AccountTypeName == "EXP")||(data.taccountvs1[i].AccountTypeName == "FIXASSET")||(data.taccountvs1[i].AccountTypeName == "INC")||(data.taccountvs1[i].AccountTypeName == "LTLIAB")
+                      ||(data.taccountvs1[i].AccountTypeName == "OASSET")||(data.taccountvs1[i].AccountTypeName == "OCASSET")||(data.taccountvs1[i].AccountTypeName == "OCLIAB")||(data.taccountvs1[i].AccountTypeName == "EXEXP")
+                      ||(data.taccountvs1[i].AccountTypeName == "EXINC")){
                         accountTypeList.push(accounttyperecordObj);
                       }
                     }else{
@@ -105,8 +112,15 @@ Template.addaccountpop.onRendered(function () {
                     accounttypename: useData[i].AccountTypeName || ' ',
                     description: useData[i].OriginalDescription || ' '
                 };
-                if (currentLoc == "/billcard" || currentLoc == "/chequecard"){
+                if (currentLoc == "/billcard"){
                   if((useData[i].AccountTypeName != "AP") && (useData[i].AccountTypeName != "AR")&&(useData[i].AccountTypeName != "CCARD") &&(useData[i].AccountTypeName != "BANK")){
+                    accountTypeList.push(accounttyperecordObj);
+                  }
+                }else if(currentLoc == "/chequecard"){
+                  if((useData[i].AccountTypeName == "EQUITY")||(useData[i].AccountTypeName == "BANK")||(useData[i].AccountTypeName == "CCARD") ||(useData[i].AccountTypeName == "COGS")
+                  ||(useData[i].AccountTypeName == "EXP")||(useData[i].AccountTypeName == "FIXASSET")||(useData[i].AccountTypeName == "INC")||(useData[i].AccountTypeName == "LTLIAB")
+                  ||(useData[i].AccountTypeName == "OASSET")||(useData[i].AccountTypeName == "OCASSET")||(useData[i].AccountTypeName == "OCLIAB")||(useData[i].AccountTypeName == "EXEXP")
+                  ||(useData[i].AccountTypeName == "EXINC")){
                     accountTypeList.push(accounttyperecordObj);
                   }
                 }else{
@@ -118,14 +132,22 @@ Template.addaccountpop.onRendered(function () {
 
         }
     }).catch(function (err) {
+      console.log(err);
         accountService.getAccountTypeCheck().then(function (data) {
             for (let i = 0; i < data.taccounttype.length; i++) {
                 let accounttyperecordObj = {
                     accounttypename: data.taccounttype[i].AccountTypeName || ' ',
                     description: data.taccounttype[i].OriginalDescription || ' '
                 };
-                if (currentLoc == "/billcard" || currentLoc == "/chequecard"){
+                if (currentLoc == "/billcard"){
                   if((data.taccounttype[i].AccountTypeName != "AP") && (data.taccounttype[i].AccountTypeName != "AR")&&(data.taccounttype[i].AccountTypeName != "CCARD")&&(data.taccounttype[i].AccountTypeName != "BANK") ){
+                    accountTypeList.push(accounttyperecordObj);
+                  }
+                }else if(currentLoc == "/chequecard"){
+                  if((data.taccountvs1[i].AccountTypeName == "EQUITY")||(data.taccountvs1[i].AccountTypeName == "BANK")||(data.taccountvs1[i].AccountTypeName == "CCARD") ||(data.taccountvs1[i].AccountTypeName == "COGS")
+                  ||(data.taccountvs1[i].AccountTypeName == "EXP")||(data.taccountvs1[i].AccountTypeName == "FIXASSET")||(data.taccountvs1[i].AccountTypeName == "INC")||(data.taccountvs1[i].AccountTypeName == "LTLIAB")
+                  ||(data.taccountvs1[i].AccountTypeName == "OASSET")||(data.taccountvs1[i].AccountTypeName == "OCASSET")||(data.taccountvs1[i].AccountTypeName == "OCLIAB")||(data.taccountvs1[i].AccountTypeName == "EXEXP")
+                  ||(data.taccountvs1[i].AccountTypeName == "EXINC")){
                     accountTypeList.push(accounttyperecordObj);
                   }
                 }else{

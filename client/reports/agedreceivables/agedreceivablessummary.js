@@ -23,10 +23,10 @@ Template.agedreceivablessummary.onRendered(()=>{
   var currentDate = new Date();
   var begunDate = moment(currentDate).format("DD/MM/YYYY");
 
-  let fromDateMonth = currentDate.getMonth();
+  let fromDateMonth = (currentDate.getMonth() + 1);
   let fromDateDay = currentDate.getDate();
-  if(currentDate.getMonth() < 10){
-    fromDateMonth = "0" + currentDate.getMonth();
+  if((currentDate.getMonth()+1) < 10){
+    fromDateMonth = "0" + (currentDate.getMonth()+1);
   }
 
   if(currentDate.getDate() < 10){
@@ -625,10 +625,10 @@ let grandOlder = 0;
         var currentDate = new Date();
         var begunDate = moment(currentDate).format("DD/MM/YYYY");
 
-        let fromDateMonth = currentDate.getMonth();
+        let fromDateMonth = (currentDate.getMonth() + 1);
         let fromDateDay = currentDate.getDate();
-        if(currentDate.getMonth() < 10){
-          fromDateMonth = "0" + currentDate.getMonth();
+        if((currentDate.getMonth()+1) < 10){
+          fromDateMonth = "0" + (currentDate.getMonth()+1);
         }
         if(currentDate.getDate() < 10){
         fromDateDay = "0" + currentDate.getDate();
@@ -693,8 +693,8 @@ let grandOlder = 0;
 
       let fromDateMonth = Math.floor(currentDate.getMonth()+1);
       let fromDateDay = currentDate.getDate();
-      if(currentDate.getMonth() < 10){
-        fromDateMonth = "0" + currentDate.getMonth();
+      if((currentDate.getMonth()+1) < 10){
+        fromDateMonth = "0" + (currentDate.getMonth()+1);
       }
       if(currentDate.getDate() < 10){
       fromDateDay = "0" + currentDate.getDate();

@@ -255,7 +255,7 @@ addVS1Data = async function (objectName, vs1Data) {
   let month = (currentDate.getMonth()+1);
   let days = currentDate.getDate();
 
-  if(currentDate.getMonth() < 10){
+  if((currentDate.getMonth()+1) < 10){
     month = "0" + (currentDate.getMonth()+1);
   }
 

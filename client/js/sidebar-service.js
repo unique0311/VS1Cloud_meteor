@@ -740,7 +740,8 @@ getCustomersDataByName(dataSearchName) {
     options = {
        orderby:'"DepositID desc"',
        ListType: "Detail",
-       select: "[Deleted]=false"
+       select: "[Deleted]=false",
+       LimitCount:'"'+initialReportLoad+'"'
        //LimitCount:'"'+limitcount+'"',
       //LimitFrom:'"'+limitfrom+'"'
    };

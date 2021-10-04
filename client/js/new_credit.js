@@ -2962,6 +2962,7 @@ Template.creditcard.events({
         }
     },
     'click .lineAccountName': function(event) {
+      $('#edtAccountID').val('');
       let suppliername = $('#edtSupplierName').val();
       let accountService = new AccountService();
       const accountTypeList = [];

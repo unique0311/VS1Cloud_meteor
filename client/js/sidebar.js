@@ -659,7 +659,7 @@ Template.sidenav.onRendered(function() {
     let month = (currentDate.getMonth()+1);
     let days = currentDate.getDate();
 
-    if(currentDate.getMonth() < 10){
+    if((currentDate.getMonth()+1) < 10){
         month = "0" + (currentDate.getMonth()+1);
     }
 
@@ -807,9 +807,9 @@ Template.sidenav.onRendered(function() {
     templateObject.getAllERPCombinedContactsData = function() {
       var currentBeginDate = new Date();
       var begunDate = moment(currentBeginDate).format("DD/MM/YYYY");
-      let fromDateMonth = currentBeginDate.getMonth();
+      let fromDateMonth = (currentBeginDate.getMonth() + 1);
       let fromDateDay = currentBeginDate.getDate();
-      if(currentBeginDate.getMonth() < 10){
+      if((currentBeginDate.getMonth()+1) < 10){
           fromDateMonth = "0" + (currentBeginDate.getMonth()+1);
       }else{
         fromDateMonth = (currentBeginDate.getMonth()+1);
@@ -849,9 +849,9 @@ Template.sidenav.onRendered(function() {
     templateObject.getAllBankAccountReportData = function() {
       var currentBeginDate = new Date();
       var begunDate = moment(currentBeginDate).format("DD/MM/YYYY");
-      let fromDateMonth = currentBeginDate.getMonth();
+      let fromDateMonth = (currentBeginDate.getMonth() + 1);
       let fromDateDay = currentBeginDate.getDate();
-      if(currentBeginDate.getMonth() < 10){
+      if((currentBeginDate.getMonth()+1) < 10){
           fromDateMonth = "0" + (currentBeginDate.getMonth()+1);
       }else{
         fromDateMonth = (currentBeginDate.getMonth()+1);
@@ -934,9 +934,9 @@ Template.sidenav.onRendered(function() {
     templateObject.getAllTbillReportData = function() {
       var currentBeginDate = new Date();
       var begunDate = moment(currentBeginDate).format("DD/MM/YYYY");
-      let fromDateMonth = currentBeginDate.getMonth();
+      let fromDateMonth = (currentBeginDate.getMonth() + 1);
       let fromDateDay = currentBeginDate.getDate();
-      if(currentBeginDate.getMonth() < 10){
+      if((currentBeginDate.getMonth()+1) < 10){
           fromDateMonth = "0" + (currentBeginDate.getMonth()+1);
       }else{
         fromDateMonth = (currentBeginDate.getMonth()+1);
@@ -967,9 +967,9 @@ Template.sidenav.onRendered(function() {
     templateObject.getAllTProductStocknSalePeriodReportData = function() {
         var currentBeginDate = new Date();
         var begunDate = moment(currentBeginDate).format("DD/MM/YYYY");
-        let fromDateMonth = currentBeginDate.getMonth();
+        let fromDateMonth = (currentBeginDate.getMonth() + 1);
         let fromDateDay = currentBeginDate.getDate();
-        if(currentBeginDate.getMonth() < 10){
+        if((currentBeginDate.getMonth()+1) < 10){
             fromDateMonth = "0" + (currentBeginDate.getMonth()+1);
         }else{
           fromDateMonth = (currentBeginDate.getMonth()+1);
@@ -1077,9 +1077,9 @@ Template.sidenav.onRendered(function() {
     templateObject.getAllTSalesListData = function() {
       var currentBeginDate = new Date();
       var begunDate = moment(currentBeginDate).format("DD/MM/YYYY");
-      let fromDateMonth = currentBeginDate.getMonth();
+      let fromDateMonth = (currentBeginDate.getMonth() + 1);
       let fromDateDay = currentBeginDate.getDate();
-      if(currentBeginDate.getMonth() < 10){
+      if((currentBeginDate.getMonth()+1) < 10){
           fromDateMonth = "0" + (currentBeginDate.getMonth()+1);
       }else{
         fromDateMonth = (currentBeginDate.getMonth()+1);
@@ -1135,9 +1135,9 @@ Template.sidenav.onRendered(function() {
     templateObject.getTPaymentListData = function() {
       var currentBeginDate = new Date();
       var begunDate = moment(currentBeginDate).format("DD/MM/YYYY");
-      let fromDateMonth = currentBeginDate.getMonth();
+      let fromDateMonth = (currentBeginDate.getMonth() + 1);
       let fromDateDay = currentBeginDate.getDate();
-      if(currentBeginDate.getMonth() < 10){
+      if((currentBeginDate.getMonth()+1) < 10){
           fromDateMonth = "0" + (currentBeginDate.getMonth()+1);
       }else{
         fromDateMonth = (currentBeginDate.getMonth()+1);
@@ -1159,9 +1159,9 @@ Template.sidenav.onRendered(function() {
     templateObject.getTARReportData = function() {
       var currentBeginDate = new Date();
       var begunDate = moment(currentBeginDate).format("DD/MM/YYYY");
-      let fromDateMonth = currentBeginDate.getMonth();
+      let fromDateMonth = (currentBeginDate.getMonth() + 1);
       let fromDateDay = currentBeginDate.getDate();
-      if(currentBeginDate.getMonth() < 10){
+      if((currentBeginDate.getMonth()+1) < 10){
           fromDateMonth = "0" + (currentBeginDate.getMonth()+1);
       }else{
         fromDateMonth = (currentBeginDate.getMonth()+1);
@@ -1183,9 +1183,9 @@ Template.sidenav.onRendered(function() {
     templateObject.getTAPReportData = function() {
       var currentBeginDate = new Date();
       var begunDate = moment(currentBeginDate).format("DD/MM/YYYY");
-      let fromDateMonth = currentBeginDate.getMonth();
+      let fromDateMonth = (currentBeginDate.getMonth() + 1);
       let fromDateDay = currentBeginDate.getDate();
-      if(currentBeginDate.getMonth() < 10){
+      if((currentBeginDate.getMonth()+1) < 10){
           fromDateMonth = "0" + (currentBeginDate.getMonth()+1);
       }else{
         fromDateMonth = (currentBeginDate.getMonth()+1);
@@ -2064,9 +2064,9 @@ setTimeout(function() {
   if(isContacts){
     var currentBeginDate = new Date();
     var begunDate = moment(currentBeginDate).format("DD/MM/YYYY");
-    let fromDateMonth = currentBeginDate.getMonth();
+    let fromDateMonth = (currentBeginDate.getMonth() + 1);
     let fromDateDay = currentBeginDate.getDate();
-    if(currentBeginDate.getMonth() < 10){
+    if((currentBeginDate.getMonth()+1) < 10){
         fromDateMonth = "0" + (currentBeginDate.getMonth()+1);
     }else{
       fromDateMonth = (currentBeginDate.getMonth()+1);

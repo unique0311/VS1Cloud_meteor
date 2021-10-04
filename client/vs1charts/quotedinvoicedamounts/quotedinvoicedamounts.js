@@ -3,9 +3,11 @@ import 'jQuery.print/jQuery.print.js';
 import {UtilityService} from "../../utility-service";
 import { ReactiveVar } from 'meteor/reactive-var';
 import { CoreService } from '../../js/core-service';
+import { SideBarService } from '../../js/sidebar-service';
 let _ = require('lodash');
 let vs1chartService = new VS1ChartService();
 let utilityService = new UtilityService();
+let sideBarService = new SideBarService();
 Template.quotedinvoicedamounts.onCreated(() => {
     const templateObject = Template.instance();
     templateObject.records = new ReactiveVar([]);
@@ -72,9 +74,9 @@ Template.quotedinvoicedamounts.onRendered(() => {
         let totalInvPayment8 = 0
         var currentBeginDate = new Date();
    var begunDate = moment(currentBeginDate).format("DD/MM/YYYY");
-   let fromDateMonth = currentBeginDate.getMonth();
+   let fromDateMonth = (currentBeginDate.getMonth() + 1);
    let fromDateDay = currentBeginDate.getDate();
-   if(currentBeginDate.getMonth() < 10){
+   if((currentBeginDate.getMonth()+1) < 10){
        fromDateMonth = "0" + (currentBeginDate.getMonth()+1);
    }else{
      fromDateMonth = (currentBeginDate.getMonth()+1);

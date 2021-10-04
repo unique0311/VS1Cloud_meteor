@@ -35,10 +35,10 @@ Template.bankingoverview.onRendered(function() {
     var today = moment().format('DD/MM/YYYY');
     var currentDate = new Date();
     var begunDate = moment(currentDate).format("DD/MM/YYYY");
-    let fromDateMonth = currentDate.getMonth();
+    let fromDateMonth = (currentDate.getMonth() + 1);
     let fromDateDay = currentDate.getDate();
-    if (currentDate.getMonth() < 10) {
-        fromDateMonth = "0" + currentDate.getMonth();
+    if ((currentDate.getMonth()+1) < 10) {
+        fromDateMonth = "0" + (currentDate.getMonth()+1);
     }
 
     if (currentDate.getDate() < 10) {
@@ -343,9 +343,9 @@ Template.bankingoverview.onRendered(function() {
     templateObject.getAllBankAccountData = function() {
       var currentBeginDate = new Date();
       var begunDate = moment(currentBeginDate).format("DD/MM/YYYY");
-      let fromDateMonth = currentBeginDate.getMonth();
+      let fromDateMonth = (currentBeginDate.getMonth() + 1);
       let fromDateDay = currentBeginDate.getDate();
-      if(currentBeginDate.getMonth() < 10){
+      if((currentBeginDate.getMonth()+1) < 10){
           fromDateMonth = "0" + (currentBeginDate.getMonth()+1);
       }else{
         fromDateMonth = (currentBeginDate.getMonth()+1);
@@ -1225,9 +1225,9 @@ Template.bankingoverview.events({
     'click .btnRefresh': function() {
       var currentBeginDate = new Date();
       var begunDate = moment(currentBeginDate).format("DD/MM/YYYY");
-      let fromDateMonth = currentBeginDate.getMonth();
+      let fromDateMonth = (currentBeginDate.getMonth() + 1);
       let fromDateDay = currentBeginDate.getDate();
-      if(currentBeginDate.getMonth() < 10){
+      if((currentBeginDate.getMonth()+1) < 10){
           fromDateMonth = "0" + (currentBeginDate.getMonth()+1);
       }else{
         fromDateMonth = (currentBeginDate.getMonth()+1);
@@ -1302,10 +1302,10 @@ Template.bankingoverview.events({
         var currentDate = new Date();
         var begunDate = moment(currentDate).format("DD/MM/YYYY");
 
-        let fromDateMonth = currentDate.getMonth();
+        let fromDateMonth = (currentDate.getMonth() + 1);
         let fromDateDay = currentDate.getDate();
-        if (currentDate.getMonth() < 10) {
-            fromDateMonth = "0" + currentDate.getMonth();
+        if ((currentDate.getMonth()+1) < 10) {
+            fromDateMonth = "0" + (currentDate.getMonth()+1);
         }
         if (currentDate.getDate() < 10) {
             fromDateDay = "0" + currentDate.getDate();
@@ -1369,8 +1369,8 @@ Template.bankingoverview.events({
 
         let fromDateMonth = Math.floor(currentDate.getMonth() + 1);
         let fromDateDay = currentDate.getDate();
-        if (currentDate.getMonth() < 10) {
-            fromDateMonth = "0" + currentDate.getMonth();
+        if ((currentDate.getMonth()+1) < 10) {
+            fromDateMonth = "0" + (currentDate.getMonth()+1);
         }
         if (currentDate.getDate() < 10) {
             fromDateDay = "0" + currentDate.getDate();
@@ -1381,7 +1381,7 @@ Template.bankingoverview.events({
         $("#dateTo").val(begunDate);
 
         var currentDate2 = new Date();
-        if (currentDate2.getMonth() < 10) {
+        if ((currentDate2.getMonth()+1) < 10) {
             fromDateMonth2 = "0" + Math.floor(currentDate2.getMonth() + 1);
         }
         if (currentDate2.getDate() < 10) {

@@ -766,7 +766,7 @@ Template.balancesheetreport.events({
         let fromDateMonth = dateTo.getMonth();
         let fromDateDay = dateTo.getDate();
 
-        if(dateTo.getMonth() < 10){
+        if((dateTo.getMonth()+1) < 10){
           fromDateMonth = "0" + dateTo.getMonth();
         }
 
@@ -823,8 +823,8 @@ Template.balancesheetreport.events({
 
       let fromDateMonth = Math.floor(currentDate.getMonth()+1);
       let fromDateDay = currentDate.getDate();
-      if(currentDate.getMonth() < 10){
-        fromDateMonth = "0" + currentDate.getMonth();
+      if((currentDate.getMonth()+1) < 10){
+        fromDateMonth = "0" + (currentDate.getMonth()+1);
       }
       if(currentDate.getDate() < 10){
       fromDateDay = "0" + currentDate.getDate();

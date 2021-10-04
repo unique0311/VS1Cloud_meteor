@@ -77,9 +77,9 @@ Template.accountrevenuestreams.onRendered(()=>{
 
     var currentBeginDate = new Date();
     var begunDate = moment(currentBeginDate).format("DD/MM/YYYY");
-    let fromDateMonth = currentBeginDate.getMonth();
+    let fromDateMonth = (currentBeginDate.getMonth() + 1);
     let fromDateDay = currentBeginDate.getDate();
-    if(currentBeginDate.getMonth() < 10){
+    if((currentBeginDate.getMonth()+1) < 10){
       fromDateMonth = "0" + currentBeginDate.getMonth();
     }
 

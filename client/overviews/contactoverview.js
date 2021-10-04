@@ -36,10 +36,10 @@ Template.contactoverview.onRendered(function() {
     var today = moment().format('DD/MM/YYYY');
     var currentDate = new Date();
     var begunDate = moment(currentDate).format("DD/MM/YYYY");
-    let fromDateMonth = currentDate.getMonth();
+    let fromDateMonth = (currentDate.getMonth() + 1);
     let fromDateDay = currentDate.getDate();
-    if (currentDate.getMonth() < 10) {
-        fromDateMonth = "0" + currentDate.getMonth();
+    if ((currentDate.getMonth()+1) < 10) {
+        fromDateMonth = "0" + (currentDate.getMonth()+1);
     }
 
     if (currentDate.getDate() < 10) {
@@ -633,9 +633,9 @@ Template.contactoverview.onRendered(function() {
     templateObject.getAllContactData = function () {
       var currentBeginDate = new Date();
       var begunDate = moment(currentBeginDate).format("DD/MM/YYYY");
-      let fromDateMonth = currentBeginDate.getMonth();
+      let fromDateMonth = (currentBeginDate.getMonth() + 1);
       let fromDateDay = currentBeginDate.getDate();
-      if(currentBeginDate.getMonth() < 10){
+      if((currentBeginDate.getMonth()+1) < 10){
           fromDateMonth = "0" + (currentBeginDate.getMonth()+1);
       }else{
         fromDateMonth = (currentBeginDate.getMonth()+1);
@@ -819,7 +819,7 @@ Template.contactoverview.onRendered(function() {
                             pageLength: initialDatatableLoad,
                             // "bLengthChange": false,
                             lengthMenu: [ [initialDatatableLoad, -1], [initialDatatableLoad, "All"] ],
-                            info: false,
+                            info: true,
                             responsive: true,
                             // "order": [[ 0, "asc" ]],
                             action: function () {
@@ -1205,7 +1205,7 @@ Template.contactoverview.onRendered(function() {
                         pageLength: initialDatatableLoad,
                         // "bLengthChange": false,
                         lengthMenu: [ [initialDatatableLoad, -1], [initialDatatableLoad, "All"] ],
-                        info: false,
+                        info: true,
                         responsive: true,
                         // "order": [[ 0, "asc" ]],
                         action: function () {
@@ -1587,7 +1587,7 @@ Template.contactoverview.onRendered(function() {
                         pageLength: initialDatatableLoad,
                         // "bLengthChange": false,
                         lengthMenu: [ [initialDatatableLoad, -1], [initialDatatableLoad, "All"] ],
-                        info: false,
+                        info: true,
                         responsive: true,
                         // "order": [[ 0, "asc" ]],
                         action: function () {
@@ -1842,9 +1842,9 @@ Template.contactoverview.events({
         let templateObject = Template.instance();
         var currentBeginDate = new Date();
         var begunDate = moment(currentBeginDate).format("DD/MM/YYYY");
-        let fromDateMonth = currentBeginDate.getMonth();
+        let fromDateMonth = (currentBeginDate.getMonth() + 1);
         let fromDateDay = currentBeginDate.getDate();
-        if(currentBeginDate.getMonth() < 10){
+        if((currentBeginDate.getMonth()+1) < 10){
             fromDateMonth = "0" + (currentBeginDate.getMonth()+1);
         }else{
           fromDateMonth = (currentBeginDate.getMonth()+1);
@@ -1915,10 +1915,10 @@ Template.contactoverview.events({
         var currentDate = new Date();
         var begunDate = moment(currentDate).format("DD/MM/YYYY");
 
-        let fromDateMonth = currentDate.getMonth();
+        let fromDateMonth = (currentDate.getMonth() + 1);
         let fromDateDay = currentDate.getDate();
-        if (currentDate.getMonth() < 10) {
-            fromDateMonth = "0" + currentDate.getMonth();
+        if ((currentDate.getMonth()+1) < 10) {
+            fromDateMonth = "0" + (currentDate.getMonth()+1);
         }
         if (currentDate.getDate() < 10) {
             fromDateDay = "0" + currentDate.getDate();
@@ -1982,8 +1982,8 @@ Template.contactoverview.events({
 
         let fromDateMonth = Math.floor(currentDate.getMonth() + 1);
         let fromDateDay = currentDate.getDate();
-        if (currentDate.getMonth() < 10) {
-            fromDateMonth = "0" + currentDate.getMonth();
+        if ((currentDate.getMonth()+1) < 10) {
+            fromDateMonth = "0" + (currentDate.getMonth()+1);
         }
         if (currentDate.getDate() < 10) {
             fromDateDay = "0" + currentDate.getDate();
@@ -1994,7 +1994,7 @@ Template.contactoverview.events({
         $("#dateTo").val(begunDate);
 
         var currentDate2 = new Date();
-        if (currentDate2.getMonth() < 10) {
+        if ((currentDate2.getMonth()+1) < 10) {
             fromDateMonth2 = "0" + Math.floor(currentDate2.getMonth() + 1);
         }
         if (currentDate2.getDate() < 10) {

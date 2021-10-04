@@ -28,10 +28,10 @@ Template.profitandlosschart.onRendered(()=>{
   var today = moment().format('DD/MM/YYYY');
   var currentDate = new Date();
   var begunDate = moment(currentDate).format("DD/MM/YYYY");
-  let fromDateMonth = currentDate.getMonth();
+  let fromDateMonth = (currentDate.getMonth() + 1);
   let fromDateDay = currentDate.getDate();
-  if(currentDate.getMonth() < 10){
-    fromDateMonth = "0" + currentDate.getMonth();
+  if((currentDate.getMonth()+1) < 10){
+    fromDateMonth = "0" + (currentDate.getMonth()+1);
   }
 
   if(currentDate.getDate() < 10){
@@ -151,7 +151,7 @@ Template.profitandlosschart.onRendered(()=>{
     dateFrom.setMonth(dateFrom.getMonth()-6);
     dateFrom = dateFrom.getFullYear() +'-'+ ("0"+ (dateFrom.getMonth()+1)).slice(-2) + '-' + ("0"+ (dateFrom.getDate())).slice(-2);
     $("#profitloss1").attr("href", "/profitlossreport?dateFrom="+dateFrom+"&dateTo="+getLoadDate);
-   
+
 
        templateObject.getProfitandLossReports(getDateFrom,getLoadDate,false);
      }else{
