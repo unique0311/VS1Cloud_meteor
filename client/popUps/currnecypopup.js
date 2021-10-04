@@ -300,10 +300,8 @@ Template.currencypop.onRendered(function() {
                         paging: false,
                         // "scrollY": "400px",
                         // "scrollCollapse": true,
-                        lengthMenu: [
-                            [100, -1],
-                            [100, "All"]
-                        ],
+                        pageLength: initialDatatableLoad,
+                        lengthMenu: [ [initialDatatableLoad, -1], [initialDatatableLoad, "All"] ],
                         info: true,
                         responsive: true,
                         "order": [

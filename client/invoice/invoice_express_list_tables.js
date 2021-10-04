@@ -372,7 +372,7 @@ setTimeout(function () {
           searching: true,
           responsive: true,
           pageLength: initialDatatableLoad,
-          lengthMenu: [ [100,-1], [100, "All"] ],
+          lengthMenu: [ [initialDatatableLoad, -1], [initialDatatableLoad, "All"] ],
           "order": [[ 0, "desc" ],[ 2, "desc" ]],
           action: function () {
             tableDraft.ajax.reload();
@@ -702,7 +702,7 @@ templateObject.tableheaderrecords.set(tableHeaderList);
                       // bStateSave: true,
                       // rowId: 0,
                       pageLength: initialDatatableLoad,
-                      lengthMenu: [ [100,-1], [100, "All"] ],
+                      lengthMenu: [ [initialDatatableLoad, -1], [initialDatatableLoad, "All"] ],
                       info: false,
                       responsive: true,
                       searching: true,

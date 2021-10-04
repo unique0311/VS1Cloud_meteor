@@ -41,7 +41,7 @@ Template.currencydropdown.onRendered(function() {
             currencySellRate: useData[i].SellRate || '',
             currencyCode: useData[i].Code || '',
           };
-  
+
           currencyData.push(currencyObj);
           templateObject.currencyData.set(currencyData);
 
@@ -65,7 +65,13 @@ Template.currencydropdown.onRendered(function() {
           }
       });
       });
+      if(FlowRouter.current().queryParams.id){
 
+      }else{
+        setTimeout(function() {
+              $('#sltCurrency').val(CountryAbbr);
+        }, 200);
+      }
 
   }
   templateObject.getCurrencies();
