@@ -48,6 +48,7 @@ reportsloadMonths = 1; //This load for 1 months
 initialDataLoad = 25; //This load 25 for transaction list data
 initialBaseDataLoad = 25; //This load for 25 data base lists
 initialReportLoad = 100; //This load for 100 reports data
+initialReportDatatableLoad = 100; //This load for 100 Datatables
 initialDatatableLoad = 25; //This load for 100 Datatables
 if(Session.get('ERPLoggedCountry') == "Australia"){
   // Session.setPersistent('ERPTaxCodePurchaseInc', "NCG");

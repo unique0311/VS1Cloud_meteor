@@ -856,7 +856,7 @@ Template.newsidenav.onRendered(function() {
     }
 
     templateObject.getAllERPCombinedContactsData = function() {
-        sideBarService.getAllContactCombineVS1(initialReportLoad, 0).then(function(data) {
+        sideBarService.getAllContactCombineVS1(initialDataLoad, 0).then(function(data) {
             //localStorage.setItem('VS1ERPCombinedContactsList', JSON.stringify(data) || '');
             addVS1Data('TERPCombinedContactsVS1', JSON.stringify(data));
         }).catch(function(err) {
@@ -2013,7 +2013,7 @@ Template.newsidenav.onRendered(function() {
                 let prevMonth11Date = (moment().subtract(reportsloadMonths, 'months')).format("YYYY-MM-DD");
                 getVS1Data('TERPCombinedContactsVS1').then(function(dataObject) {
                     if (dataObject.length == 0) {
-                        sideBarService.getAllContactCombineVS1(initialReportLoad, 0).then(function(data) {
+                        sideBarService.getAllContactCombineVS1(initialDataLoad, 0).then(function(data) {
                             addVS1Data('TERPCombinedContactsVS1', JSON.stringify(data));
                             templateObject.getFollowedSalesDetailsPull();
                         }).catch(function(err) {
@@ -2023,7 +2023,7 @@ Template.newsidenav.onRendered(function() {
                         templateObject.getFollowedSalesDetailsPull();
                     }
                 }).catch(function(err) {
-                    sideBarService.getAllContactCombineVS1(initialReportLoad, 0).then(function(data) {
+                    sideBarService.getAllContactCombineVS1(initialDataLoad, 0).then(function(data) {
                         addVS1Data('TERPCombinedContactsVS1', JSON.stringify(data));
                         templateObject.getFollowedSalesDetailsPull();
                     }).catch(function(err) {

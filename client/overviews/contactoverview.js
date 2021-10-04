@@ -649,7 +649,7 @@ Template.contactoverview.onRendered(function() {
 
         getVS1Data('TERPCombinedContactsVS1').then(function (dataObject) {
             if(dataObject.length == 0){
-                sideBarService.getAllContactCombineVS1(initialReportLoad,0).then(function (data) {
+                sideBarService.getAllContactCombineVS1(initialDataLoad,0).then(function (data) {
                     $('.fullScreenSpin').css('display','none');
                     let lineItems = [];
                     let lineItemObj = {};
@@ -1416,7 +1416,7 @@ Template.contactoverview.onRendered(function() {
 
             }
         }).catch(function (err) {
-            sideBarService.getAllContactCombineVS1(initialReportLoad,0).then(function (data) {
+            sideBarService.getAllContactCombineVS1(initialDataLoad,0).then(function (data) {
 
                 $('.fullScreenSpin').css('display','none');
                 let lineItems = [];
@@ -1808,7 +1808,7 @@ Template.contactoverview.onRendered(function() {
     templateObject.getAllContactData();
 
     templateObject.getAllFilterCombinedContactsData = function (fromDate,toDate, ignoreDate) {
-      sideBarService.getAllContactCombineVS1(initialReportLoad,0).then(function (data) {
+      sideBarService.getAllContactCombineVS1(initialDataLoad,0).then(function (data) {
         addVS1Data('TERPCombinedContactsVS1',JSON.stringify(data)).then(function (datareturn) {
             window.open('/contactoverview?toDate=' + toDate + '&fromDate=' + fromDate + '&ignoredate='+ignoreDate,'_self');
         }).catch(function (err) {
@@ -1855,7 +1855,7 @@ Template.contactoverview.events({
         }
         var toDate = currentBeginDate.getFullYear()+ "-" +(fromDateMonth) + "-"+(fromDateDay);
         let prevMonth11Date = (moment().subtract(reportsloadMonths, 'months')).format("YYYY-MM-DD");
-        sideBarService.getAllContactCombineVS1(initialReportLoad,0).then(function(data) {
+        sideBarService.getAllContactCombineVS1(initialDataLoad,0).then(function(data) {
             addVS1Data('TERPCombinedContactsVS1',JSON.stringify(data)).then(function (datareturn) {
                 window.open('/contactoverview','_self');
             }).catch(function (err) {
