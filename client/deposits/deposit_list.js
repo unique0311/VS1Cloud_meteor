@@ -269,7 +269,7 @@ Template.depositlist.onRendered(function() {
             }else{
                 let data = JSON.parse(dataObject[0].data);
                 let useData = data.tvs1bankdeposit;
-                console.log(useData);
+                
                 $('.fullScreenSpin').css('display','none');
                 let lineItems = [];
                 let lineItemObj = {};

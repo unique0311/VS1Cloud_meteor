@@ -64,7 +64,7 @@ Template.agedreceivables.onRendered(() => {
                     let records = [];
                     let allRecords = [];
                     let current = [];
-                    console.log(data);
+                    
                     let totalNetAssets = 0;
                     let GrandTotalLiability = 0;
                     let GrandTotalAsset = 0;

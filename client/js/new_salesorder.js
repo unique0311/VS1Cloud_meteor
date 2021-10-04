@@ -92,7 +92,7 @@ Template.new_salesorder.onRendered(() => {
         $('#sltCurrency').val($(this).find(".colCode").text());
         $('#currencyModal').modal('toggle');
     });
-    
+
     $(document).on("click", "#departmentList tbody tr", function(e) {
         $('#sltDept').val($(this).find(".colDeptName").text());
         $('#departmentModal').modal('toggle');
@@ -3970,7 +3970,7 @@ Template.new_salesorder.onRendered(() => {
                                 $('#addCustomerModal').modal('show');
                             }, 200);
                         }).catch(function(err) {
-                            console.log(err);
+                            
                             $('.fullScreenSpin').css('display', 'none');
                         });
                     });

@@ -226,7 +226,7 @@ Template.accountlistpop.onRendered(function() {
                 }
             }
         }).catch(function(err) {
-          console.log(err);
+
             accountService.getAccountListVS1().then(function(data) {
 
                 let records = [];
@@ -246,7 +246,7 @@ Template.accountlistpop.onRendered(function() {
                         splashArrayProductList.push(dataList);
                       }
                     }else if(currentLoc == "/chequecard"){
-                      console.log(data.taccountvs1[i].AccountTypeName);
+                      
                       if((data.taccountvs1[i].AccountTypeName == "EQUITY")||(data.taccountvs1[i].AccountTypeName == "BANK")||(data.taccountvs1[i].AccountTypeName == "CCARD") ||(data.taccountvs1[i].AccountTypeName == "COGS")
                       ||(data.taccountvs1[i].AccountTypeName == "EXP")||(data.taccountvs1[i].AccountTypeName == "FIXASSET")||(data.taccountvs1[i].AccountTypeName == "INC")||(data.taccountvs1[i].AccountTypeName == "LTLIAB")
                       ||(data.taccountvs1[i].AccountTypeName == "OASSET")||(data.taccountvs1[i].AccountTypeName == "OCASSET")||(data.taccountvs1[i].AccountTypeName == "OCLIAB")||(data.taccountvs1[i].AccountTypeName == "EXEXP")

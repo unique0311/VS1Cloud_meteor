@@ -132,7 +132,7 @@ Template.addaccountpop.onRendered(function () {
 
         }
     }).catch(function (err) {
-      console.log(err);
+      
         accountService.getAccountTypeCheck().then(function (data) {
             for (let i = 0; i < data.taccounttype.length; i++) {
                 let accounttyperecordObj = {

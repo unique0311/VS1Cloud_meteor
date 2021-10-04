@@ -1212,7 +1212,7 @@ Template.payrolloverview.events({
             }
 
             }).catch(function (err) {
-                console.log(err);
+                
                 swal({
                     title: 'Oooops...',
                     text: err,

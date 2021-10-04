@@ -230,7 +230,7 @@ Template.header.onRendered(function() {
                    .on('click', function(){
                      $('.fullScreenSpin').css('display','inline-block');
                      let dataLenght = oSettings._iDisplayLength;
-                     // console.log(splashArrayList);
+                    
 
                      sideBarService.getGlobalSearchReport(searchDataValue,initialReportLoad,oSettings.fnRecordsDisplay()).then(function(dataObjectnew) {
                        // templateObject.resetData(objCombineData);
