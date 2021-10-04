@@ -256,7 +256,9 @@
                         <div class="form-group"><label>Invoice Number</label>
                             <input class="form-control form-control" type="text"  id="ponumber" name="ponumber" value="{{purchaseorderrecord.invoicenumber}}"></div>
                         <div class="form-group"><label>Department</label>
-                            <select class="form-control" id="sltDept" name="sltDept" style="cursor: pointer;">
+                            <select type="search" class="form-control" id="sltDept" name="sltDept" style="background-color:rgb(255, 255, 255); cursor: pointer;">
+                            </select>
+                            <!-- <select class="form-control" id="sltDept" name="sltDept" style="cursor: pointer;">
                                 {{#each itemDept2 in deptrecords}}
                                 {{#if equals itemDept2.department purchaseorderrecord.department }}
                                 <option value="{{purchaseorderrecord.department}}" selected="">{{purchaseorderrecord.department}}</option>
@@ -264,18 +266,19 @@
                                 <option value="{{itemDept2.department}}">{{itemDept2.department}}</option>
                                 {{/if}}
                                 {{/each}}
-                            </select>
+                            </select> -->
                         </div>
                     </div>
                 </div>
                 <div class="col-auto colTermsVia" id="colTermsVia">
                     <div style="margin: 16px 0px; max-width: 150px;" class='setMaxWith'>
                         <div class="form-group" ><label>Terms</label>
-                            <select class="form-control" id="sltTerms" name="sltTerms" style="cursor: pointer;">
+                            <select type="search" class="form-control" id="sltTerms" name="sltTerms" style="background-color:rgb(255, 255, 255); cursor: pointer;">
+                            </select>
+                            <!-- <select class="form-control" id="sltTerms" name="sltTerms" style="cursor: pointer;">
                               {{#if equals purchaseorderrecord.termsName ''}}
                               <option value="" selected="selected"></option>
                               {{/if}}
-                                <!-- <optgroup label="This is a group"> -->
                                 {{#each item in termrecords}}
                                 {{#if equals item.termsname purchaseorderrecord.termsName }}
                                 <option value="{{purchaseorderrecord.termsName}}" selected="">{{purchaseorderrecord.termsName}}</option>
@@ -283,8 +286,7 @@
                                 <option value="{{item.termsname}}">{{item.termsname}}</option>
                                 {{/if}}
                                 {{/each}}
-                                <!-- </optgroup> -->
-                            </select>
+                            </select> -->
                         </div>
                         <div class="form-group"><label>Via</label>
                             <select class="form-control" id="sltVia" name="sltVia"  style="cursor: pointer;">
@@ -305,7 +307,9 @@
                 <div class="col-auto colStatusDepartment" id="colStatusDepartment">
                     <div style="margin: 16px 0px; max-width: 150px;" class='setMaxWith'>
                         <div class="form-group" ><label>Status</label>
-                            <select class="form-control" id="sltStatus" name="sltStatus" style="background-color:rgb(255, 255, 255); cursor: pointer;">
+                            <select type="search" class="form-control" id="sltStatus" name="sltStatus" style="background-color:rgb(255, 255, 255); cursor: pointer;">
+                            </select>
+                            <!-- <select class="form-control" id="sltStatus" name="sltStatus" style="background-color:rgb(255, 255, 255); cursor: pointer;">
                                 <option value="{{purchaseorderrecord.status}}" selected="">{{purchaseorderrecord.status}}</option>
                                 {{#each item in statusrecords}}
                                 {{#if equals item.orderstatus purchaseorderrecord.status }}
@@ -314,7 +318,7 @@
                                 <option value="{{item.orderstatus}}">{{item.orderstatus}}</option>
                                 {{/if}}
                                 {{/each}}
-                            </select>
+                            </select> -->
                         </div>
                         {{#if isCurrencyEnable}}
                         {{> currencydropdown}}
@@ -1191,6 +1195,38 @@
 
         <div class="modal fade" role="dialog" tabindex="-1" id="newProductModal">
             {{> newproductpop}}
+        </div>
+
+        <div class="modal fade" role="dialog" tabindex="-1" id="termsListModal">
+            {{> termlistpop}}
+        </div>
+
+        <div class="modal fade" role="dialog" tabindex="-1" id="newTermsModal">
+            {{> newtermspop}}
+        </div>
+
+        <div class="modal fade" role="dialog" tabindex="-1" id="currencyModal">
+            {{> currencypop}}
+        </div>
+
+        <div class="modal fade" role="dialog" tabindex="-1" id="newCurrencyModal">
+            {{> newcurrencypop}}
+        </div>
+
+        <div class="modal fade" role="dialog" tabindex="-1" id="departmentModal">
+            {{> departmentpop}}
+        </div>
+
+        <div class="modal fade" role="dialog" tabindex="-1" id="newDepartmentModal">
+            {{> newdepartmentpop}}
+        </div>
+
+        <div class="modal fade" role="dialog" tabindex="-1" id="statusPopModal">
+            {{> statuspop}}
+        </div>
+
+        <div class="modal fade" role="dialog" tabindex="-1" id="newStatusPopModal">
+            {{> newstatuspop}}
         </div>
 
         <!-- ModalCustomer -->
