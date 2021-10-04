@@ -30,7 +30,7 @@ Template.newstatuspop.events({
     'click .btnSaveStatus': function() {
         $('.fullScreenSpin').css('display', 'inline-block');
         let clientService = new SalesBoardService()
-        let status = $('#status').val();
+        let status = $('#newStatus').val();
         let leadData = {
             type: 'TLeadStatusType',
             fields: {
