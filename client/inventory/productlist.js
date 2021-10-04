@@ -122,6 +122,9 @@ Template.productlist.onRendered(function() {
 
   }
 
+  templateObject.resetData = function (dataVal) {
+    window.open('/productlist?page=last','_self');
+  }
 
   templateObject.getAllProductData = function (deptname) {
     getVS1Data('TProductVS1').then(function (dataObject) {
@@ -233,8 +236,8 @@ Template.productlist.onRendered(function() {
                     }],
                     // bStateSave: true,
                     // rowId: 0,
-                    pageLength: initialDatatableLoad,
-                    lengthMenu: [ [initialDatatableLoad, -1], [initialDatatableLoad, "All"] ],
+                    pageLength: initialBaseDataLoad,
+                    lengthMenu: [ [initialBaseDataLoad, -1], [initialBaseDataLoad, "All"] ],
                     info: true,
                     responsive: true,
                     "order": [[ 0, "asc" ]],
@@ -380,8 +383,8 @@ Template.productlist.onRendered(function() {
                   }],
                   // bStateSave: true,
                   // rowId: 0,
-                  pageLength: initialDatatableLoad,
-                  lengthMenu: [ [initialDatatableLoad, -1], [initialDatatableLoad, "All"] ],
+                  pageLength: initialBaseDataLoad,
+                  lengthMenu: [ [initialBaseDataLoad, -1], [initialBaseDataLoad, "All"] ],
                   info: true,
                   responsive: true,
                   "order": [[ 0, "asc" ]],
@@ -391,10 +394,66 @@ Template.productlist.onRendered(function() {
                       templateObject.datatablerecords.set(draftRecord);
                   },
                   "fnDrawCallback": function (oSettings) {
+                    $('.paginate_button.page-item').removeClass('disabled');
+                    $('#tblInventory_ellipsis').addClass('disabled');
+
+                    if(oSettings._iDisplayLength == -1){
+                      if(oSettings.fnRecordsDisplay() > 150){
+                        $('.paginate_button.page-item.previous').addClass('disabled');
+                        $('.paginate_button.page-item.next').addClass('disabled');
+                      }
+                    }else{
+
+                    }
+                    if(oSettings.fnRecordsDisplay() < initialBaseDataLoad){
+                        $('.paginate_button.page-item.next').addClass('disabled');
+                    }
+                    $('.paginate_button.next:not(.disabled)', this.api().table().container())
+                     .on('click', function(){
+                       $('.fullScreenSpin').css('display','inline-block');
+                       let dataLenght = oSettings._iDisplayLength;
+
+                       sideBarService.getNewProductListVS1(initialBaseDataLoad,oSettings.fnRecordsDisplay()).then(function(dataObjectnew) {
+                         getVS1Data('TProductVS1').then(function (dataObjectold) {
+                           if(dataObjectold.length == 0){
+
+                           }else{
+                             let dataOld = JSON.parse(dataObjectold[0].data);
+
+                             var thirdaryData = $.merge($.merge([], dataObjectnew.tproductvs1), dataOld.tproductvs1);
+                             let objCombineData = {
+                               tproductvs1:thirdaryData
+                             }
+
+
+                               addVS1Data('TProductVS1',JSON.stringify(objCombineData)).then(function (datareturn) {
+                                 templateObject.resetData(objCombineData);
+                               $('.fullScreenSpin').css('display','none');
+                               }).catch(function (err) {
+                               $('.fullScreenSpin').css('display','none');
+                               });
+
+                           }
+                          }).catch(function (err) {
+
+                          });
+
+                       }).catch(function(err) {
+                         $('.fullScreenSpin').css('display','none');
+                       });
+
+                     });
                     setTimeout(function () {
                       MakeNegative();
                     }, 100);
                   },
+                  "fnInitComplete": function () {
+                    let urlParametersPage = FlowRouter.current().queryParams.page;
+                    if(urlParametersPage){
+                      this.fnPageChange('last');
+                    }
+
+                   }
 
               }).on('page', function () {
                 setTimeout(function () {
@@ -404,8 +463,68 @@ Template.productlist.onRendered(function() {
               }).on('column-reorder', function () {
 
               }).on( 'length.dt', function ( e, settings, len ) {
-                setTimeout(function () {
+                $('.fullScreenSpin').css('display','inline-block');
+                let dataLenght = settings._iDisplayLength;
+                if(dataLenght == -1){
+                  if(settings.fnRecordsDisplay() > initialBaseDataLoad){
+                    $('.fullScreenSpin').css('display','none');
+                  }else{
+                  sideBarService.getNewProductListVS1('All',1).then(function(data) {
+                    let lineItems = [];
+                     let lineItemObj = {};
 
+                       for(let i=0; i<data.tproductvs1.length; i++){
+                         dataList = {
+                          id: data.tproductvs1[i].fields.ID || '',
+                          productname: data.tproductvs1[i].fields.ProductName || '',
+                          salesdescription: data.tproductvs1[i].fields.SalesDescription || '',
+                          department: departmentData || '',
+                          costprice: utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductvs1[i].fields.BuyQty1Cost * 100) / 100) || 0,
+                          saleprice: utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductvs1[i].fields.SellQty1Price * 100) / 100) || 0,
+                          quantity: data.tproductvs1[i].fields.TotalQtyInStock || 0,
+                          purchasedescription: data.tproductvs1[i].fields.PurchaseDescription || '',
+                          productgroup1: data.tproductvs1[i].fields.ProductGroup1 || '',
+                          productgroup2: data.tproductvs1[i].fields.ProductGroup2 || '',
+                          customfield1: data.tproductvs1[i].fields.CUSTFLD1 || '',
+                          customfield2: data.tproductvs1[i].fields.CUSTFLD2 || '',
+                          prodbarcode: data.tproductvs1[i].fields.BARCODE || '',
+                        };
+                        dataTableList.push(dataList);
+                       }
+
+
+
+                     templateObject.datatablerecords.set(dataTableList);
+                     templateObject.datatablebackuprecords.set(dataTableList);
+                        $('.dataTables_info').html('Showing 1 to '+data.tproductvs1.length+ ' of ' +data.tproductvs1.length+ ' entries');
+                        $('.fullScreenSpin').css('display','none');
+                    // addVS1Data('TProductVS1',JSON.stringify(dataNonBo)).then(function (datareturn) {
+                    //   templateObject.resetData(dataNonBo);
+                    // $('.fullScreenSpin').css('display','none');
+                    // }).catch(function (err) {
+                    // $('.fullScreenSpin').css('display','none');
+                    // });
+                  }).catch(function(err) {
+                    $('.fullScreenSpin').css('display','none');
+                  });
+                 }
+                }else{
+                  if (settings.fnRecordsDisplay() >= settings._iDisplayLength) {
+                    $('.fullScreenSpin').css('display','none');
+                  }else{
+                    sideBarService.getNewProductListVS1(dataLenght,0).then(function(dataNonBo) {
+
+                      addVS1Data('TProductVS1',JSON.stringify(dataNonBo)).then(function (datareturn) {
+                      templateObject.resetData(dataNonBo);
+                      }).catch(function (err) {
+                      $('.fullScreenSpin').css('display','none');
+                      });
+                    }).catch(function(err) {
+                      $('.fullScreenSpin').css('display','none');
+                    });
+                  }
+                }
+                setTimeout(function () {
                   MakeNegative();
                 }, 100);
               });
@@ -523,8 +642,8 @@ Template.productlist.onRendered(function() {
                     }],
                     // bStateSave: true,
                     // rowId: 0,
-                    pageLength: initialDatatableLoad,
-                    lengthMenu: [ [initialDatatableLoad, -1], [initialDatatableLoad, "All"] ],
+                    pageLength: initialBaseDataLoad,
+                    lengthMenu: [ [initialBaseDataLoad, -1], [initialBaseDataLoad, "All"] ],
                     info: true,
                     responsive: true,
                     "order": [[ 0, "asc" ]],
@@ -680,8 +799,8 @@ Template.productlist.onRendered(function() {
               colReorder: true,
               // bStateSave: true,
               rowId: 0,
-              pageLength: initialDatatableLoad,
-              lengthMenu: [ [initialDatatableLoad, -1], [initialDatatableLoad, "All"] ],
+              pageLength: initialBaseDataLoad,
+              lengthMenu: [ [initialBaseDataLoad, -1], [initialBaseDataLoad, "All"] ],
               info: true,
               responsive: true,
               "order": [[ 0, "asc" ]],
@@ -1385,8 +1504,8 @@ Template.productlist.helpers({
                //       }],
                //       // bStateSave: true,
                //       rowId: 0,
-               //       pageLength: initialDatatableLoad,
-               //       lengthMenu: [ [initialDatatableLoad, -1], [initialDatatableLoad, "All"] ],
+               //       pageLength: initialBaseDataLoad,
+               //       lengthMenu: [ [initialBaseDataLoad, -1], [initialBaseDataLoad, "All"] ],
                //       info: true,
                //       responsive: true,
                //       "order": [[ 0, "asc" ]],
