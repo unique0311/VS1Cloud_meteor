@@ -1,18 +1,40 @@
-import { SalesBoardService } from './sales-service';
-import { PurchaseBoardService } from './purchase-service';
-import { ReactiveVar } from 'meteor/reactive-var';
-import { CoreService } from '../js/core-service';
-import { DashBoardService } from "../Dashboard/dashboard-service";
-import { UtilityService } from "../utility-service";
-import { ProductService } from "../product/product-service";
+import {
+    SalesBoardService
+} from './sales-service';
+import {
+    PurchaseBoardService
+} from './purchase-service';
+import {
+    ReactiveVar
+} from 'meteor/reactive-var';
+import {
+    CoreService
+} from '../js/core-service';
+import {
+    DashBoardService
+} from "../Dashboard/dashboard-service";
+import {
+    UtilityService
+} from "../utility-service";
+import {
+    ProductService
+} from "../product/product-service";
 import '../lib/global/erp-objects';
 import 'jquery-ui-dist/external/jquery/jquery';
 import 'jquery-ui-dist/jquery-ui';
-import { Random } from 'meteor/random';
-import { jsPDF } from 'jspdf';
+import {
+    Random
+} from 'meteor/random';
+import {
+    jsPDF
+} from 'jspdf';
 import 'jQuery.print/jQuery.print.js';
-import { autoTable } from 'jspdf-autotable';
-import { SideBarService } from '../js/sidebar-service';
+import {
+    autoTable
+} from 'jspdf-autotable';
+import {
+    SideBarService
+} from '../js/sidebar-service';
 
 import 'jquery-editable-select';
 let utilityService = new UtilityService();
@@ -283,7 +305,7 @@ Template.purchaseordercard.onRendered(() => {
                 templateObject.statusrecords.set(statusList);
 
             }
-            setTimeout(function () {
+            setTimeout(function() {
                 $('#sltStatus').append('<option value="newstatus">New Lead Status</option>');
             }, 1500)
         }).catch(function(err) {
@@ -346,8 +368,12 @@ Template.purchaseordercard.onRendered(() => {
                                         qtyordered: data.fields.Lines[i].fields.UOMOrderQty || 0,
                                         qtyshipped: data.fields.Lines[i].fields.UOMQtyShipped || 0,
                                         qtybo: data.fields.Lines[i].fields.UOMQtyBackOrder || 0,
-                                        unitPrice: currencySymbol + '' + data.fields.Lines[i].fields.LineCost.toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
-                                        lineCost: currencySymbol + '' + data.fields.Lines[i].fields.LineCost.toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
+                                        unitPrice: currencySymbol + '' + data.fields.Lines[i].fields.LineCost.toLocaleString(undefined, {
+                                            minimumFractionDigits: 2
+                                        }) || 0,
+                                        lineCost: currencySymbol + '' + data.fields.Lines[i].fields.LineCost.toLocaleString(undefined, {
+                                            minimumFractionDigits: 2
+                                        }) || 0,
                                         taxRate: (data.fields.Lines[i].fields.LineTaxRate * 100).toFixed(2) || 0,
                                         taxCode: data.fields.Lines[i].fields.LineTaxCode || '',
                                         TotalAmt: AmountGbp || 0,
@@ -421,9 +447,14 @@ Template.purchaseordercard.onRendered(() => {
                                 department: data.fields.Lines[0].fields.LineClassName || defaultDept
                             };
 
+                            let getDepartmentVal = data.fields.Lines[0].fields.LineClassName || defaultDept;
+
                             $('#edtSupplierName').val(data.fields.SupplierName);
                             templateObject.CleintName.set(data.fields.SupplierName);
                             $('#sltCurrency').val(data.fields.ForeignExchangeCode);
+                            $('#sltTerms').val(data.fields.TermsName);
+                            $('#sltDept').val(getDepartmentVal);
+                            $('#sltStatus').val(data.fields.OrderStatus);
 
                             templateObject.attachmentCount.set(0);
                             if (data.fields.Attachments) {
@@ -531,8 +562,12 @@ Template.purchaseordercard.onRendered(() => {
                                             qtyordered: useData[d].fields.Lines[i].fields.UOMOrderQty || 0,
                                             qtyshipped: useData[d].fields.Lines[i].fields.UOMQtyShipped || 0,
                                             qtybo: useData[d].fields.Lines[i].fields.UOMQtyBackOrder || 0,
-                                            unitPrice: currencySymbol + '' + useData[d].fields.Lines[i].fields.LineCost.toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
-                                            lineCost: currencySymbol + '' + useData[d].fields.Lines[i].fields.LineCost.toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
+                                            unitPrice: currencySymbol + '' + useData[d].fields.Lines[i].fields.LineCost.toLocaleString(undefined, {
+                                                minimumFractionDigits: 2
+                                            }) || 0,
+                                            lineCost: currencySymbol + '' + useData[d].fields.Lines[i].fields.LineCost.toLocaleString(undefined, {
+                                                minimumFractionDigits: 2
+                                            }) || 0,
                                             taxRate: (useData[d].fields.Lines[i].fields.LineTaxRate * 100).toFixed(2) || 0,
                                             taxCode: useData[d].fields.Lines[i].fields.LineTaxCode || '',
                                             TotalAmt: AmountGbp || 0,
@@ -606,9 +641,14 @@ Template.purchaseordercard.onRendered(() => {
                                     department: useData[d].fields.Lines[0].fields.LineClassName || defaultDept
                                 };
 
+                                let getDepartmentVal = data.fields.Lines[0].fields.LineClassName || defaultDept;
+
                                 $('#edtSupplierName').val(useData[d].fields.SupplierName);
                                 templateObject.CleintName.set(useData[d].fields.SupplierName);
                                 $('#sltCurrency').val(useData[d].fields.ForeignExchangeCode);
+                                $('#sltTerms').val(useData[d].fields.TermsName);
+                                $('#sltDept').val(getDepartmentVal);
+                                $('#sltStatus').val(useData[d].fields.OrderStatus);
 
                                 templateObject.attachmentCount.set(0);
                                 if (useData[d].fields.Attachments) {
@@ -699,8 +739,12 @@ Template.purchaseordercard.onRendered(() => {
                                             qtyordered: data.fields.Lines[i].fields.UOMOrderQty || 0,
                                             qtyshipped: data.fields.Lines[i].fields.UOMQtyShipped || 0,
                                             qtybo: data.fields.Lines[i].fields.UOMQtyBackOrder || 0,
-                                            unitPrice: currencySymbol + '' + data.fields.Lines[i].fields.LineCost.toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
-                                            lineCost: currencySymbol + '' + data.fields.Lines[i].fields.LineCost.toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
+                                            unitPrice: currencySymbol + '' + data.fields.Lines[i].fields.LineCost.toLocaleString(undefined, {
+                                                minimumFractionDigits: 2
+                                            }) || 0,
+                                            lineCost: currencySymbol + '' + data.fields.Lines[i].fields.LineCost.toLocaleString(undefined, {
+                                                minimumFractionDigits: 2
+                                            }) || 0,
                                             taxRate: (data.fields.Lines[i].fields.LineTaxRate * 100).toFixed(2) || 0,
                                             taxCode: data.fields.Lines[i].fields.LineTaxCode || '',
                                             TotalAmt: AmountGbp || 0,
@@ -774,9 +818,14 @@ Template.purchaseordercard.onRendered(() => {
                                     department: data.fields.Lines[0].fields.LineClassName || defaultDept
                                 };
 
+                                let getDepartmentVal = data.fields.Lines[0].fields.LineClassName || defaultDept;
+
                                 $('#edtSupplierName').val(data.fields.SupplierName);
                                 templateObject.CleintName.set(data.fields.SupplierName);
                                 $('#sltCurrency').val(data.fields.ForeignExchangeCode);
+                                $('#sltTerms').val(data.fields.TermsName);
+                                $('#sltDept').val(getDepartmentVal);
+                                $('#sltStatus').val(data.fields.OrderStatus);
 
                                 templateObject.attachmentCount.set(0);
                                 if (data.fields.Attachments) {
@@ -886,8 +935,12 @@ Template.purchaseordercard.onRendered(() => {
                                     qtyordered: data.fields.Lines[i].fields.UOMOrderQty || 0,
                                     qtyshipped: data.fields.Lines[i].fields.UOMQtyShipped || 0,
                                     qtybo: data.fields.Lines[i].fields.UOMQtyBackOrder || 0,
-                                    unitPrice: currencySymbol + '' + data.fields.Lines[i].fields.LineCost.toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
-                                    lineCost: currencySymbol + '' + data.fields.Lines[i].fields.LineCost.toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
+                                    unitPrice: currencySymbol + '' + data.fields.Lines[i].fields.LineCost.toLocaleString(undefined, {
+                                        minimumFractionDigits: 2
+                                    }) || 0,
+                                    lineCost: currencySymbol + '' + data.fields.Lines[i].fields.LineCost.toLocaleString(undefined, {
+                                        minimumFractionDigits: 2
+                                    }) || 0,
                                     taxRate: (data.fields.Lines[i].fields.LineTaxRate * 100).toFixed(2) || 0,
                                     taxCode: data.fields.Lines[i].fields.LineTaxCode || '',
                                     TotalAmt: AmountGbp || 0,
@@ -961,9 +1014,14 @@ Template.purchaseordercard.onRendered(() => {
                             department: data.fields.Lines[0].fields.LineClassName || defaultDept
                         };
 
+                        let getDepartmentVal = data.fields.Lines[0].fields.LineClassName || defaultDept;
+
                         $('#edtSupplierName').val(data.fields.SupplierName);
                         templateObject.CleintName.set(data.fields.SupplierName);
                         $('#sltCurrency').val(data.fields.ForeignExchangeCode);
+                        $('#sltTerms').val(data.fields.TermsName);
+                        $('#sltDept').val(getDepartmentVal);
+                        $('#sltStatus').val(data.fields.OrderStatus);
 
                         templateObject.attachmentCount.set(0);
                         if (data.fields.Attachments) {
@@ -1081,8 +1139,12 @@ Template.purchaseordercard.onRendered(() => {
                             qtyordered: data.fields.Lines[i].fields.UOMOrderQty || 0,
                             qtyshipped: data.fields.Lines[i].fields.UOMQtyShipped || 0,
                             qtybo: data.fields.Lines[i].fields.UOMQtyBackOrder || 0,
-                            unitPrice: currencySymbol + '' + data.fields.Lines[i].fields.LineCost.toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
-                            lineCost: currencySymbol + '' + data.fields.Lines[i].fields.LineCost.toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
+                            unitPrice: currencySymbol + '' + data.fields.Lines[i].fields.LineCost.toLocaleString(undefined, {
+                                minimumFractionDigits: 2
+                            }) || 0,
+                            lineCost: currencySymbol + '' + data.fields.Lines[i].fields.LineCost.toLocaleString(undefined, {
+                                minimumFractionDigits: 2
+                            }) || 0,
                             taxRate: (data.fields.Lines[i].fields.LineTaxRate * 100).toFixed(2) || 0,
                             taxCode: data.fields.Lines[i].fields.LineTaxCode || '',
                             TotalAmt: AmountGbp || 0,
@@ -1156,9 +1218,14 @@ Template.purchaseordercard.onRendered(() => {
                     department: data.fields.Lines[0].fields.LineClassName || defaultDept
                 };
 
+                let getDepartmentVal = data.fields.Lines[0].fields.LineClassName || defaultDept;
+
                 $('#edtSupplierName').val(data.fields.SupplierName);
                 templateObject.CleintName.set(data.fields.SupplierName);
                 $('#sltCurrency').val(data.fields.ForeignExchangeCode);
+                $('#sltTerms').val(data.fields.TermsName);
+                $('#sltDept').val(getDepartmentVal);
+                $('#sltStatus').val(data.fields.OrderStatus);
 
                 templateObject.attachmentCount.set(0);
                 if (data.fields.Attachments) {
@@ -1239,7 +1306,7 @@ Template.purchaseordercard.onRendered(() => {
 
             });
         }
-    }else {
+    } else {
         $('.fullScreenSpin').css('display', 'none');
 
         let lineItems = [];
@@ -1319,8 +1386,7 @@ Template.purchaseordercard.onRendered(() => {
         templateObject.purchaseorderrecord.set(purchaseorderrecord);
         if (templateObject.purchaseorderrecord.get()) {
             Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblPurchaseOrderLine', function(error, result) {
-                if (error) {
-                } else {
+                if (error) {} else {
                     if (result) {
                         for (let i = 0; i < result.customFields.length; i++) {
                             let customcolumn = result.customFields;
@@ -1501,6 +1567,10 @@ Template.purchaseordercard.onRendered(() => {
     let table;
     $(document).ready(function() {
         $('#edtSupplierName').editableSelect();
+        $('#sltCurrency').editableSelect();
+        $('#sltTerms').editableSelect();
+        $('#sltDept').editableSelect();
+        $('#sltStatus').editableSelect();
         $('#addRow').on('click', function() {
             var rowData = $('#tblPurchaseOrderLine tbody>tr:last').clone(true);
             let tokenid = Random.id();
@@ -1528,8 +1598,8 @@ Template.purchaseordercard.onRendered(() => {
                 $(".purchase_print tbody").append(rowData1);
             }
 
-            setTimeout(function () {
-              $('#' + tokenid + " .lineProductName").trigger('click');
+            setTimeout(function() {
+                $('#' + tokenid + " .lineProductName").trigger('click');
             }, 200);
 
         });
@@ -1538,6 +1608,25 @@ Template.purchaseordercard.onRendered(() => {
 
     });
 
+    $(document).on("click", "#tblCurrencyPopList tbody tr", function(e) {
+        $('#sltCurrency').val($(this).find(".colCode").text());
+        $('#currencyModal').modal('toggle');
+    });
+
+    $(document).on("click", "#departmentList tbody tr", function(e) {
+        $('#sltDept').val($(this).find(".colDeptName").text());
+        $('#departmentModal').modal('toggle');
+    });
+
+    $(document).on("click", "#termsList tbody tr", function(e) {
+        $('#sltTerms').val($(this).find(".colTermName").text());
+        $('#termsListModal').modal('toggle');
+    });
+
+    $(document).on("click", "#tblStatusPopList tbody tr", function(e) {
+        $('#sltStatus').val($(this).find(".colStatusName").text());
+        $('#statusPopModal').modal('toggle');
+    });
 
     $(document).on("click", "#tblInventory tbody tr", function(e) {
         let selectLineID = $('#selectLineID').val();
@@ -1640,7 +1729,7 @@ Template.purchaseordercard.onRendered(() => {
             });
 
             if ($('.printID').attr('id') != undefined || $('.printID').attr('id') != "") {
-                $printrows.each(function (index) {
+                $printrows.each(function(index) {
                     var $printrows = $(this);
                     var qty = $printrows.find("#lineQty").text() || 0;
                     var price = $printrows.find("#lineUnitPrice").text() || 0;
@@ -1748,8 +1837,8 @@ Template.purchaseordercard.onRendered(() => {
                 }
             });
 
-            if($('.printID').attr('id') != undefined || $('.printID').attr('id') != "") {
-                $printrows.each(function (index) {
+            if ($('.printID').attr('id') != undefined || $('.printID').attr('id') != "") {
+                $printrows.each(function(index) {
                     var $printrows = $(this);
                     var qty = $printrows.find("#lineQty").text() || 0;
                     var price = $printrows.find("#lineUnitPrice").text() || 0;
@@ -1805,216 +1894,216 @@ Template.purchaseordercard.onRendered(() => {
         }
     });
 
-    $('#edtSupplierName').editableSelect().on('click.editable-select', function (e, li) {
-      var $earch = $(this);
-      var offset = $earch.offset();
-      $('#edtSupplierPOPID').val('');
-      var supplierDataName = e.target.value ||'';
-      var supplierDataID = $('#edtSupplierName').attr('suppid').replace(/\s/g, '') ||'';
-      if (e.pageX > offset.left + $earch.width() - 8) { // X button 16px wide?
-        $('#supplierListModal').modal();
-        setTimeout(function () {
-            $('#tblSupplierlist_filter .form-control-sm').focus();
-            $('#tblSupplierlist_filter .form-control-sm').val('');
-            $('#tblSupplierlist_filter .form-control-sm').trigger("input");
-            var datatable = $('#tblSupplierlist').DataTable();
-            datatable.draw();
-            $('#tblSupplierlist_filter .form-control-sm').trigger("input");
-        }, 500);
-       }else{
-         if(supplierDataName.replace(/\s/g, '') != ''){
-          //FlowRouter.go('/supplierscard?name=' + e.target.value);
-          getVS1Data('TSupplierVS1').then(function (dataObject) {
-              if(dataObject.length == 0){
-                $('.fullScreenSpin').css('display', 'inline-block');
-                sideBarService.getOneSupplierDataExByName(supplierDataName).then(function (data) {
-                  $('.fullScreenSpin').css('display','none');
-                    let lineItems = [];
+    $('#edtSupplierName').editableSelect().on('click.editable-select', function(e, li) {
+        var $earch = $(this);
+        var offset = $earch.offset();
+        $('#edtSupplierPOPID').val('');
+        var supplierDataName = e.target.value || '';
+        var supplierDataID = $('#edtSupplierName').attr('suppid').replace(/\s/g, '') || '';
+        if (e.pageX > offset.left + $earch.width() - 8) { // X button 16px wide?
+            $('#supplierListModal').modal();
+            setTimeout(function() {
+                $('#tblSupplierlist_filter .form-control-sm').focus();
+                $('#tblSupplierlist_filter .form-control-sm').val('');
+                $('#tblSupplierlist_filter .form-control-sm').trigger("input");
+                var datatable = $('#tblSupplierlist').DataTable();
+                datatable.draw();
+                $('#tblSupplierlist_filter .form-control-sm').trigger("input");
+            }, 500);
+        } else {
+            if (supplierDataName.replace(/\s/g, '') != '') {
+                //FlowRouter.go('/supplierscard?name=' + e.target.value);
+                getVS1Data('TSupplierVS1').then(function(dataObject) {
+                    if (dataObject.length == 0) {
+                        $('.fullScreenSpin').css('display', 'inline-block');
+                        sideBarService.getOneSupplierDataExByName(supplierDataName).then(function(data) {
+                            $('.fullScreenSpin').css('display', 'none');
+                            let lineItems = [];
 
-                    $('#add-supplier-title').text('Edit Supplier');
-                                  let popSupplierID = data.tsupplier[0].fields.ID || '';
-                                  let popSupplierName = data.tsupplier[0].fields.ClientName || '';
-                                  let popSupplierEmail = data.tsupplier[0].fields.Email || '';
-                                  let popSupplierTitle = data.tsupplier[0].fields.Title || '';
-                                  let popSupplierFirstName = data.tsupplier[0].fields.FirstName || '';
-                                  let popSupplierMiddleName = data.tsupplier[0].fields.CUSTFLD10 || '';
-                                  let popSupplierLastName = data.tsupplier[0].fields.LastName || '';
-                                  let popSuppliertfn = '' || '';
-                                  let popSupplierPhone = data.tsupplier[0].fields.Phone || '';
-                                  let popSupplierMobile = data.tsupplier[0].fields.Mobile || '';
-                                  let popSupplierFaxnumber = data.tsupplier[0].fields.Faxnumber || '';
-                                  let popSupplierSkypeName = data.tsupplier[0].fields.SkypeName || '';
-                                  let popSupplierURL = data.tsupplier[0].fields.URL || '';
-                                  let popSupplierStreet = data.tsupplier[0].fields.Street || '';
-                                  let popSupplierStreet2 = data.tsupplier[0].fields.Street2 || '';
-                                  let popSupplierState = data.tsupplier[0].fields.State || '';
-                                  let popSupplierPostcode = data.tsupplier[0].fields.Postcode || '';
-                                  let popSupplierCountry = data.tsupplier[0].fields.Country || LoggedCountry;
-                                  let popSupplierbillingaddress = data.tsupplier[0].fields.BillStreet || '';
-                                  let popSupplierbcity = data.tsupplier[0].fields.BillStreet2 || '';
-                                  let popSupplierbstate = data.tsupplier[0].fields.BillState || '';
-                                  let popSupplierbpostalcode = data.tsupplier[0].fields.BillPostcode || '';
-                                  let popSupplierbcountry = data.tsupplier[0].fields.Billcountry || LoggedCountry;
-                                  let popSuppliercustfield1 = data.tsupplier[0].fields.CUSTFLD1 || '';
-                                  let popSuppliercustfield2 = data.tsupplier[0].fields.CUSTFLD2 || '';
-                                  let popSuppliercustfield3 = data.tsupplier[0].fields.CUSTFLD3 || '';
-                                  let popSuppliercustfield4 = data.tsupplier[0].fields.CUSTFLD4 || '';
-                                  let popSuppliernotes = data.tsupplier[0].fields.Notes || '';
-                                  let popSupplierpreferedpayment = data.tsupplier[0].fields.PaymentMethodName || '';
-                                  let popSupplierterms = data.tsupplier[0].fields.TermsName || '';
-                                  let popSupplierdeliverymethod = data.tsupplier[0].fields.ShippingMethodName || '';
-                                  let popSupplieraccountnumber = data.tsupplier[0].fields.ClientNo || '';
-                                  let popSupplierisContractor = data.tsupplier[0].fields.Contractor || false;
-                                  let popSupplierissupplier = data.tsupplier[0].fields.IsSupplier || false;
-                                  let popSupplieriscustomer = data.tsupplier[0].fields.IsCustomer || false;
+                            $('#add-supplier-title').text('Edit Supplier');
+                            let popSupplierID = data.tsupplier[0].fields.ID || '';
+                            let popSupplierName = data.tsupplier[0].fields.ClientName || '';
+                            let popSupplierEmail = data.tsupplier[0].fields.Email || '';
+                            let popSupplierTitle = data.tsupplier[0].fields.Title || '';
+                            let popSupplierFirstName = data.tsupplier[0].fields.FirstName || '';
+                            let popSupplierMiddleName = data.tsupplier[0].fields.CUSTFLD10 || '';
+                            let popSupplierLastName = data.tsupplier[0].fields.LastName || '';
+                            let popSuppliertfn = '' || '';
+                            let popSupplierPhone = data.tsupplier[0].fields.Phone || '';
+                            let popSupplierMobile = data.tsupplier[0].fields.Mobile || '';
+                            let popSupplierFaxnumber = data.tsupplier[0].fields.Faxnumber || '';
+                            let popSupplierSkypeName = data.tsupplier[0].fields.SkypeName || '';
+                            let popSupplierURL = data.tsupplier[0].fields.URL || '';
+                            let popSupplierStreet = data.tsupplier[0].fields.Street || '';
+                            let popSupplierStreet2 = data.tsupplier[0].fields.Street2 || '';
+                            let popSupplierState = data.tsupplier[0].fields.State || '';
+                            let popSupplierPostcode = data.tsupplier[0].fields.Postcode || '';
+                            let popSupplierCountry = data.tsupplier[0].fields.Country || LoggedCountry;
+                            let popSupplierbillingaddress = data.tsupplier[0].fields.BillStreet || '';
+                            let popSupplierbcity = data.tsupplier[0].fields.BillStreet2 || '';
+                            let popSupplierbstate = data.tsupplier[0].fields.BillState || '';
+                            let popSupplierbpostalcode = data.tsupplier[0].fields.BillPostcode || '';
+                            let popSupplierbcountry = data.tsupplier[0].fields.Billcountry || LoggedCountry;
+                            let popSuppliercustfield1 = data.tsupplier[0].fields.CUSTFLD1 || '';
+                            let popSuppliercustfield2 = data.tsupplier[0].fields.CUSTFLD2 || '';
+                            let popSuppliercustfield3 = data.tsupplier[0].fields.CUSTFLD3 || '';
+                            let popSuppliercustfield4 = data.tsupplier[0].fields.CUSTFLD4 || '';
+                            let popSuppliernotes = data.tsupplier[0].fields.Notes || '';
+                            let popSupplierpreferedpayment = data.tsupplier[0].fields.PaymentMethodName || '';
+                            let popSupplierterms = data.tsupplier[0].fields.TermsName || '';
+                            let popSupplierdeliverymethod = data.tsupplier[0].fields.ShippingMethodName || '';
+                            let popSupplieraccountnumber = data.tsupplier[0].fields.ClientNo || '';
+                            let popSupplierisContractor = data.tsupplier[0].fields.Contractor || false;
+                            let popSupplierissupplier = data.tsupplier[0].fields.IsSupplier || false;
+                            let popSupplieriscustomer = data.tsupplier[0].fields.IsCustomer || false;
 
-                                  $('#edtSupplierCompany').val(popSupplierName);
-                                  $('#edtSupplierPOPID').val(popSupplierID);
-                                  $('#edtSupplierCompanyEmail').val(popSupplierEmail);
-                                  $('#edtSupplierTitle').val(popSupplierTitle);
-                                  $('#edtSupplierFirstName').val(popSupplierFirstName);
-                                  $('#edtSupplierMiddleName').val(popSupplierMiddleName);
-                                  $('#edtSupplierLastName').val(popSupplierLastName);
-                                  $('#edtSupplierPhone').val(popSupplierPhone);
-                                  $('#edtSupplierMobile').val(popSupplierMobile);
-                                  $('#edtSupplierFax').val(popSupplierFaxnumber);
-                                  $('#edtSupplierSkypeID').val(popSupplierSkypeName);
-                                  $('#edtSupplierWebsite').val(popSupplierURL);
-                                  $('#edtSupplierShippingAddress').val(popSupplierStreet);
-                                  $('#edtSupplierShippingCity').val(popSupplierStreet2);
-                                  $('#edtSupplierShippingState').val(popSupplierState);
-                                  $('#edtSupplierShippingZIP').val(popSupplierPostcode);
-                                  $('#sedtCountry').val(popSupplierCountry);
-                                  $('#txaNotes').val(popSuppliernotes);
-                                  $('#sltPreferedPayment').val(popSupplierpreferedpayment);
-                                  $('#sltTerms').val(popSupplierterms);
-                                  $('#suppAccountNo').val(popSupplieraccountnumber);
-                                  $('#edtCustomeField1').val(popSuppliercustfield1);
-                                  $('#edtCustomeField2').val(popSuppliercustfield2);
-                                  $('#edtCustomeField3').val(popSuppliercustfield3);
-                                  $('#edtCustomeField4').val(popSuppliercustfield4);
+                            $('#edtSupplierCompany').val(popSupplierName);
+                            $('#edtSupplierPOPID').val(popSupplierID);
+                            $('#edtSupplierCompanyEmail').val(popSupplierEmail);
+                            $('#edtSupplierTitle').val(popSupplierTitle);
+                            $('#edtSupplierFirstName').val(popSupplierFirstName);
+                            $('#edtSupplierMiddleName').val(popSupplierMiddleName);
+                            $('#edtSupplierLastName').val(popSupplierLastName);
+                            $('#edtSupplierPhone').val(popSupplierPhone);
+                            $('#edtSupplierMobile').val(popSupplierMobile);
+                            $('#edtSupplierFax').val(popSupplierFaxnumber);
+                            $('#edtSupplierSkypeID').val(popSupplierSkypeName);
+                            $('#edtSupplierWebsite').val(popSupplierURL);
+                            $('#edtSupplierShippingAddress').val(popSupplierStreet);
+                            $('#edtSupplierShippingCity').val(popSupplierStreet2);
+                            $('#edtSupplierShippingState').val(popSupplierState);
+                            $('#edtSupplierShippingZIP').val(popSupplierPostcode);
+                            $('#sedtCountry').val(popSupplierCountry);
+                            $('#txaNotes').val(popSuppliernotes);
+                            $('#sltPreferedPayment').val(popSupplierpreferedpayment);
+                            $('#sltTerms').val(popSupplierterms);
+                            $('#suppAccountNo').val(popSupplieraccountnumber);
+                            $('#edtCustomeField1').val(popSuppliercustfield1);
+                            $('#edtCustomeField2').val(popSuppliercustfield2);
+                            $('#edtCustomeField3').val(popSuppliercustfield3);
+                            $('#edtCustomeField4').val(popSuppliercustfield4);
 
-                                  if((data.tsupplier[0].fields.Street == data.tsupplier[0].fields.BillStreet) && (data.tsupplier[0].fields.Street2 == data.tsupplier[0].fields.BillStreet2)
-                                     && (data.tsupplier[0].fields.State == data.tsupplier[0].fields.BillState)&& (data.tsupplier[0].fields.Postcode == data.tsupplier[0].fields.Postcode)
-                                     && (data.tsupplier[0].fields.Country == data.tsupplier[0].fields.Billcountry)){
-                                      //templateObject.isSameAddress.set(true);
-                                      $('#chkSameAsShipping').attr("checked","checked");
-                                  }
-                                  if(data.tsupplier[0].fields.Contractor == true){
-                                      // $('#isformcontractor')
-                                      $('#isformcontractor').attr("checked","checked");
-                                  }else{
-                                      $('#isformcontractor').removeAttr("checked");
-                                  }
+                            if ((data.tsupplier[0].fields.Street == data.tsupplier[0].fields.BillStreet) && (data.tsupplier[0].fields.Street2 == data.tsupplier[0].fields.BillStreet2) &&
+                                (data.tsupplier[0].fields.State == data.tsupplier[0].fields.BillState) && (data.tsupplier[0].fields.Postcode == data.tsupplier[0].fields.Postcode) &&
+                                (data.tsupplier[0].fields.Country == data.tsupplier[0].fields.Billcountry)) {
+                                //templateObject.isSameAddress.set(true);
+                                $('#chkSameAsShipping').attr("checked", "checked");
+                            }
+                            if (data.tsupplier[0].fields.Contractor == true) {
+                                // $('#isformcontractor')
+                                $('#isformcontractor').attr("checked", "checked");
+                            } else {
+                                $('#isformcontractor').removeAttr("checked");
+                            }
 
-                                  setTimeout(function () {
+                            setTimeout(function() {
+                                $('#addSupplierModal').modal('show');
+                            }, 200);
+
+
+
+                        }).catch(function(err) {
+
+                            $('.fullScreenSpin').css('display', 'none');
+                        });
+                    } else {
+                        let data = JSON.parse(dataObject[0].data);
+                        let useData = data.tsuppliervs1;
+                        var added = false;
+                        for (let i = 0; i < data.tsuppliervs1.length; i++) {
+                            if ((data.tsuppliervs1[i].fields.ClientName) === supplierDataName) {
+                                added = true;
+                                $('.fullScreenSpin').css('display', 'none');
+                                let lineItems = [];
+                                $('#add-supplier-title').text('Edit Supplier');
+                                let popSupplierID = data.tsuppliervs1[i].fields.ID || '';
+                                let popSupplierName = data.tsuppliervs1[i].fields.ClientName || '';
+                                let popSupplierEmail = data.tsuppliervs1[i].fields.Email || '';
+                                let popSupplierTitle = data.tsuppliervs1[i].fields.Title || '';
+                                let popSupplierFirstName = data.tsuppliervs1[i].fields.FirstName || '';
+                                let popSupplierMiddleName = data.tsuppliervs1[i].fields.CUSTFLD10 || '';
+                                let popSupplierLastName = data.tsuppliervs1[i].fields.LastName || '';
+                                let popSuppliertfn = '' || '';
+                                let popSupplierPhone = data.tsuppliervs1[i].fields.Phone || '';
+                                let popSupplierMobile = data.tsuppliervs1[i].fields.Mobile || '';
+                                let popSupplierFaxnumber = data.tsuppliervs1[i].fields.Faxnumber || '';
+                                let popSupplierSkypeName = data.tsuppliervs1[i].fields.SkypeName || '';
+                                let popSupplierURL = data.tsuppliervs1[i].fields.URL || '';
+                                let popSupplierStreet = data.tsuppliervs1[i].fields.Street || '';
+                                let popSupplierStreet2 = data.tsuppliervs1[i].fields.Street2 || '';
+                                let popSupplierState = data.tsuppliervs1[i].fields.State || '';
+                                let popSupplierPostcode = data.tsuppliervs1[i].fields.Postcode || '';
+                                let popSupplierCountry = data.tsuppliervs1[i].fields.Country || LoggedCountry;
+                                let popSupplierbillingaddress = data.tsuppliervs1[i].fields.BillStreet || '';
+                                let popSupplierbcity = data.tsuppliervs1[i].fields.BillStreet2 || '';
+                                let popSupplierbstate = data.tsuppliervs1[i].fields.BillState || '';
+                                let popSupplierbpostalcode = data.tsuppliervs1[i].fields.BillPostcode || '';
+                                let popSupplierbcountry = data.tsuppliervs1[i].fields.Billcountry || LoggedCountry;
+                                let popSuppliercustfield1 = data.tsuppliervs1[i].fields.CUSTFLD1 || '';
+                                let popSuppliercustfield2 = data.tsuppliervs1[i].fields.CUSTFLD2 || '';
+                                let popSuppliercustfield3 = data.tsuppliervs1[i].fields.CUSTFLD3 || '';
+                                let popSuppliercustfield4 = data.tsuppliervs1[i].fields.CUSTFLD4 || '';
+                                let popSuppliernotes = data.tsuppliervs1[i].fields.Notes || '';
+                                let popSupplierpreferedpayment = data.tsuppliervs1[i].fields.PaymentMethodName || '';
+                                let popSupplierterms = data.tsuppliervs1[i].fields.TermsName || '';
+                                let popSupplierdeliverymethod = data.tsuppliervs1[i].fields.ShippingMethodName || '';
+                                let popSupplieraccountnumber = data.tsuppliervs1[i].fields.ClientNo || '';
+                                let popSupplierisContractor = data.tsuppliervs1[i].fields.Contractor || false;
+                                let popSupplierissupplier = data.tsuppliervs1[i].fields.IsSupplier || false;
+                                let popSupplieriscustomer = data.tsuppliervs1[i].fields.IsCustomer || false;
+
+                                $('#edtSupplierCompany').val(popSupplierName);
+                                $('#edtSupplierPOPID').val(popSupplierID);
+                                $('#edtSupplierCompanyEmail').val(popSupplierEmail);
+                                $('#edtSupplierTitle').val(popSupplierTitle);
+                                $('#edtSupplierFirstName').val(popSupplierFirstName);
+                                $('#edtSupplierMiddleName').val(popSupplierMiddleName);
+                                $('#edtSupplierLastName').val(popSupplierLastName);
+                                $('#edtSupplierPhone').val(popSupplierPhone);
+                                $('#edtSupplierMobile').val(popSupplierMobile);
+                                $('#edtSupplierFax').val(popSupplierFaxnumber);
+                                $('#edtSupplierSkypeID').val(popSupplierSkypeName);
+                                $('#edtSupplierWebsite').val(popSupplierURL);
+                                $('#edtSupplierShippingAddress').val(popSupplierStreet);
+                                $('#edtSupplierShippingCity').val(popSupplierStreet2);
+                                $('#edtSupplierShippingState').val(popSupplierState);
+                                $('#edtSupplierShippingZIP').val(popSupplierPostcode);
+                                $('#sedtCountry').val(popSupplierCountry);
+                                $('#txaNotes').val(popSuppliernotes);
+                                $('#sltPreferedPayment').val(popSupplierpreferedpayment);
+                                $('#sltTerms').val(popSupplierterms);
+                                $('#suppAccountNo').val(popSupplieraccountnumber);
+                                $('#edtCustomeField1').val(popSuppliercustfield1);
+                                $('#edtCustomeField2').val(popSuppliercustfield2);
+                                $('#edtCustomeField3').val(popSuppliercustfield3);
+                                $('#edtCustomeField4').val(popSuppliercustfield4);
+
+                                if ((data.tsuppliervs1[i].fields.Street == data.tsuppliervs1[i].fields.BillStreet) && (data.tsuppliervs1[i].fields.Street2 == data.tsuppliervs1[i].fields.BillStreet2) &&
+                                    (data.tsuppliervs1[i].fields.State == data.tsuppliervs1[i].fields.BillState) && (data.tsuppliervs1[i].fields.Postcode == data.tsuppliervs1[i].fields.Postcode) &&
+                                    (data.tsuppliervs1[i].fields.Country == data.tsuppliervs1[i].fields.Billcountry)) {
+                                    //templateObject.isSameAddress.set(true);
+                                    $('#chkSameAsShipping').attr("checked", "checked");
+                                }
+                                if (data.tsuppliervs1[i].fields.Contractor == true) {
+                                    // $('#isformcontractor')
+                                    $('#isformcontractor').attr("checked", "checked");
+                                } else {
+                                    $('#isformcontractor').removeAttr("checked");
+                                }
+
+                                setTimeout(function() {
                                     $('#addSupplierModal').modal('show');
-                                  }, 200);
+                                }, 200);
+                            }
+                        }
 
+                        if (!added) {
+                            $('.fullScreenSpin').css('display', 'inline-block');
+                            sideBarService.getOneSupplierDataExByName(supplierDataName).then(function(data) {
+                                $('.fullScreenSpin').css('display', 'none');
+                                let lineItems = [];
 
-
-                }).catch(function (err) {
-
-                    $('.fullScreenSpin').css('display','none');
-                });
-              }else{
-                  let data = JSON.parse(dataObject[0].data);
-                  let useData = data.tsuppliervs1;
-                  var added=false;
-                  for(let i=0; i<data.tsuppliervs1.length; i++){
-                      if((data.tsuppliervs1[i].fields.ClientName) === supplierDataName){
-                          added = true;
-                          $('.fullScreenSpin').css('display','none');
-                          let lineItems = [];
-                          $('#add-supplier-title').text('Edit Supplier');
-                          let popSupplierID = data.tsuppliervs1[i].fields.ID || '';
-                          let popSupplierName = data.tsuppliervs1[i].fields.ClientName || '';
-                          let popSupplierEmail = data.tsuppliervs1[i].fields.Email || '';
-                          let popSupplierTitle = data.tsuppliervs1[i].fields.Title || '';
-                          let popSupplierFirstName = data.tsuppliervs1[i].fields.FirstName || '';
-                          let popSupplierMiddleName = data.tsuppliervs1[i].fields.CUSTFLD10 || '';
-                          let popSupplierLastName = data.tsuppliervs1[i].fields.LastName || '';
-                          let popSuppliertfn = '' || '';
-                          let popSupplierPhone = data.tsuppliervs1[i].fields.Phone || '';
-                          let popSupplierMobile = data.tsuppliervs1[i].fields.Mobile || '';
-                          let popSupplierFaxnumber = data.tsuppliervs1[i].fields.Faxnumber || '';
-                          let popSupplierSkypeName = data.tsuppliervs1[i].fields.SkypeName || '';
-                          let popSupplierURL = data.tsuppliervs1[i].fields.URL || '';
-                          let popSupplierStreet = data.tsuppliervs1[i].fields.Street || '';
-                          let popSupplierStreet2 = data.tsuppliervs1[i].fields.Street2 || '';
-                          let popSupplierState = data.tsuppliervs1[i].fields.State || '';
-                          let popSupplierPostcode = data.tsuppliervs1[i].fields.Postcode || '';
-                          let popSupplierCountry = data.tsuppliervs1[i].fields.Country || LoggedCountry;
-                          let popSupplierbillingaddress = data.tsuppliervs1[i].fields.BillStreet || '';
-                          let popSupplierbcity = data.tsuppliervs1[i].fields.BillStreet2 || '';
-                          let popSupplierbstate = data.tsuppliervs1[i].fields.BillState || '';
-                          let popSupplierbpostalcode = data.tsuppliervs1[i].fields.BillPostcode || '';
-                          let popSupplierbcountry = data.tsuppliervs1[i].fields.Billcountry || LoggedCountry;
-                          let popSuppliercustfield1 = data.tsuppliervs1[i].fields.CUSTFLD1 || '';
-                          let popSuppliercustfield2 = data.tsuppliervs1[i].fields.CUSTFLD2 || '';
-                          let popSuppliercustfield3 = data.tsuppliervs1[i].fields.CUSTFLD3 || '';
-                          let popSuppliercustfield4 = data.tsuppliervs1[i].fields.CUSTFLD4 || '';
-                          let popSuppliernotes = data.tsuppliervs1[i].fields.Notes || '';
-                          let popSupplierpreferedpayment = data.tsuppliervs1[i].fields.PaymentMethodName || '';
-                          let popSupplierterms = data.tsuppliervs1[i].fields.TermsName || '';
-                          let popSupplierdeliverymethod = data.tsuppliervs1[i].fields.ShippingMethodName || '';
-                          let popSupplieraccountnumber = data.tsuppliervs1[i].fields.ClientNo || '';
-                          let popSupplierisContractor = data.tsuppliervs1[i].fields.Contractor || false;
-                          let popSupplierissupplier = data.tsuppliervs1[i].fields.IsSupplier || false;
-                          let popSupplieriscustomer = data.tsuppliervs1[i].fields.IsCustomer || false;
-
-                          $('#edtSupplierCompany').val(popSupplierName);
-                          $('#edtSupplierPOPID').val(popSupplierID);
-                          $('#edtSupplierCompanyEmail').val(popSupplierEmail);
-                          $('#edtSupplierTitle').val(popSupplierTitle);
-                          $('#edtSupplierFirstName').val(popSupplierFirstName);
-                          $('#edtSupplierMiddleName').val(popSupplierMiddleName);
-                          $('#edtSupplierLastName').val(popSupplierLastName);
-                          $('#edtSupplierPhone').val(popSupplierPhone);
-                          $('#edtSupplierMobile').val(popSupplierMobile);
-                          $('#edtSupplierFax').val(popSupplierFaxnumber);
-                          $('#edtSupplierSkypeID').val(popSupplierSkypeName);
-                          $('#edtSupplierWebsite').val(popSupplierURL);
-                          $('#edtSupplierShippingAddress').val(popSupplierStreet);
-                          $('#edtSupplierShippingCity').val(popSupplierStreet2);
-                          $('#edtSupplierShippingState').val(popSupplierState);
-                          $('#edtSupplierShippingZIP').val(popSupplierPostcode);
-                          $('#sedtCountry').val(popSupplierCountry);
-                          $('#txaNotes').val(popSuppliernotes);
-                          $('#sltPreferedPayment').val(popSupplierpreferedpayment);
-                          $('#sltTerms').val(popSupplierterms);
-                          $('#suppAccountNo').val(popSupplieraccountnumber);
-                          $('#edtCustomeField1').val(popSuppliercustfield1);
-                          $('#edtCustomeField2').val(popSuppliercustfield2);
-                          $('#edtCustomeField3').val(popSuppliercustfield3);
-                          $('#edtCustomeField4').val(popSuppliercustfield4);
-
-                          if((data.tsuppliervs1[i].fields.Street == data.tsuppliervs1[i].fields.BillStreet) && (data.tsuppliervs1[i].fields.Street2 == data.tsuppliervs1[i].fields.BillStreet2)
-                             && (data.tsuppliervs1[i].fields.State == data.tsuppliervs1[i].fields.BillState)&& (data.tsuppliervs1[i].fields.Postcode == data.tsuppliervs1[i].fields.Postcode)
-                             && (data.tsuppliervs1[i].fields.Country == data.tsuppliervs1[i].fields.Billcountry)){
-                              //templateObject.isSameAddress.set(true);
-                              $('#chkSameAsShipping').attr("checked","checked");
-                          }
-                          if(data.tsuppliervs1[i].fields.Contractor == true){
-                              // $('#isformcontractor')
-                              $('#isformcontractor').attr("checked","checked");
-                          }else{
-                              $('#isformcontractor').removeAttr("checked");
-                          }
-
-                          setTimeout(function () {
-                            $('#addSupplierModal').modal('show');
-                          }, 200);
-                      }
-                  }
-
-                  if(!added) {
-                    $('.fullScreenSpin').css('display', 'inline-block');
-                    sideBarService.getOneSupplierDataExByName(supplierDataName).then(function (data) {
-                      $('.fullScreenSpin').css('display','none');
-                        let lineItems = [];
-
-                        $('#add-supplier-title').text('Edit Supplier');
+                                $('#add-supplier-title').text('Edit Supplier');
                                 let popSupplierID = data.tsupplier[0].fields.ID || '';
                                 let popSupplierName = data.tsupplier[0].fields.ClientName || '';
                                 let popSupplierEmail = data.tsupplier[0].fields.Email || '';
@@ -2077,213 +2166,213 @@ Template.purchaseordercard.onRendered(() => {
                                 $('#edtCustomeField3').val(popSuppliercustfield3);
                                 $('#edtCustomeField4').val(popSuppliercustfield4);
 
-                                if((data.tsupplier[0].fields.Street == data.tsupplier[0].fields.BillStreet) && (data.tsupplier[0].fields.Street2 == data.tsupplier[0].fields.BillStreet2)
-                                   && (data.tsupplier[0].fields.State == data.tsupplier[0].fields.BillState)&& (data.tsupplier[0].fields.Postcode == data.tsupplier[0].fields.Postcode)
-                                   && (data.tsupplier[0].fields.Country == data.tsupplier[0].fields.Billcountry)){
+                                if ((data.tsupplier[0].fields.Street == data.tsupplier[0].fields.BillStreet) && (data.tsupplier[0].fields.Street2 == data.tsupplier[0].fields.BillStreet2) &&
+                                    (data.tsupplier[0].fields.State == data.tsupplier[0].fields.BillState) && (data.tsupplier[0].fields.Postcode == data.tsupplier[0].fields.Postcode) &&
+                                    (data.tsupplier[0].fields.Country == data.tsupplier[0].fields.Billcountry)) {
                                     //templateObject.isSameAddress.set(true);
-                                    $('#chkSameAsShipping').attr("checked","checked");
+                                    $('#chkSameAsShipping').attr("checked", "checked");
                                 }
-                                if(data.tsupplier[0].fields.Contractor == true){
+                                if (data.tsupplier[0].fields.Contractor == true) {
                                     // $('#isformcontractor')
-                                    $('#isformcontractor').attr("checked","checked");
-                                }else{
+                                    $('#isformcontractor').attr("checked", "checked");
+                                } else {
                                     $('#isformcontractor').removeAttr("checked");
                                 }
 
-                                setTimeout(function () {
-                                  $('#addSupplierModal').modal('show');
+                                setTimeout(function() {
+                                    $('#addSupplierModal').modal('show');
                                 }, 200);
-                    }).catch(function (err) {
+                            }).catch(function(err) {
 
-                        $('.fullScreenSpin').css('display','none');
+                                $('.fullScreenSpin').css('display', 'none');
+                            });
+                        }
+                    }
+                }).catch(function(err) {
+
+                    sideBarService.getOneSupplierDataExByName(supplierDataName).then(function(data) {
+                        $('.fullScreenSpin').css('display', 'none');
+                        let lineItems = [];
+
+                        $('#add-supplier-title').text('Edit Supplier');
+                        let popSupplierID = data.tsupplier[0].fields.ID || '';
+                        let popSupplierName = data.tsupplier[0].fields.ClientName || '';
+                        let popSupplierEmail = data.tsupplier[0].fields.Email || '';
+                        let popSupplierTitle = data.tsupplier[0].fields.Title || '';
+                        let popSupplierFirstName = data.tsupplier[0].fields.FirstName || '';
+                        let popSupplierMiddleName = data.tsupplier[0].fields.CUSTFLD10 || '';
+                        let popSupplierLastName = data.tsupplier[0].fields.LastName || '';
+                        let popSuppliertfn = '' || '';
+                        let popSupplierPhone = data.tsupplier[0].fields.Phone || '';
+                        let popSupplierMobile = data.tsupplier[0].fields.Mobile || '';
+                        let popSupplierFaxnumber = data.tsupplier[0].fields.Faxnumber || '';
+                        let popSupplierSkypeName = data.tsupplier[0].fields.SkypeName || '';
+                        let popSupplierURL = data.tsupplier[0].fields.URL || '';
+                        let popSupplierStreet = data.tsupplier[0].fields.Street || '';
+                        let popSupplierStreet2 = data.tsupplier[0].fields.Street2 || '';
+                        let popSupplierState = data.tsupplier[0].fields.State || '';
+                        let popSupplierPostcode = data.tsupplier[0].fields.Postcode || '';
+                        let popSupplierCountry = data.tsupplier[0].fields.Country || LoggedCountry;
+                        let popSupplierbillingaddress = data.tsupplier[0].fields.BillStreet || '';
+                        let popSupplierbcity = data.tsupplier[0].fields.BillStreet2 || '';
+                        let popSupplierbstate = data.tsupplier[0].fields.BillState || '';
+                        let popSupplierbpostalcode = data.tsupplier[0].fields.BillPostcode || '';
+                        let popSupplierbcountry = data.tsupplier[0].fields.Billcountry || LoggedCountry;
+                        let popSuppliercustfield1 = data.tsupplier[0].fields.CUSTFLD1 || '';
+                        let popSuppliercustfield2 = data.tsupplier[0].fields.CUSTFLD2 || '';
+                        let popSuppliercustfield3 = data.tsupplier[0].fields.CUSTFLD3 || '';
+                        let popSuppliercustfield4 = data.tsupplier[0].fields.CUSTFLD4 || '';
+                        let popSuppliernotes = data.tsupplier[0].fields.Notes || '';
+                        let popSupplierpreferedpayment = data.tsupplier[0].fields.PaymentMethodName || '';
+                        let popSupplierterms = data.tsupplier[0].fields.TermsName || '';
+                        let popSupplierdeliverymethod = data.tsupplier[0].fields.ShippingMethodName || '';
+                        let popSupplieraccountnumber = data.tsupplier[0].fields.ClientNo || '';
+                        let popSupplierisContractor = data.tsupplier[0].fields.Contractor || false;
+                        let popSupplierissupplier = data.tsupplier[0].fields.IsSupplier || false;
+                        let popSupplieriscustomer = data.tsupplier[0].fields.IsCustomer || false;
+
+                        $('#edtSupplierCompany').val(popSupplierName);
+                        $('#edtSupplierPOPID').val(popSupplierID);
+                        $('#edtSupplierCompanyEmail').val(popSupplierEmail);
+                        $('#edtSupplierTitle').val(popSupplierTitle);
+                        $('#edtSupplierFirstName').val(popSupplierFirstName);
+                        $('#edtSupplierMiddleName').val(popSupplierMiddleName);
+                        $('#edtSupplierLastName').val(popSupplierLastName);
+                        $('#edtSupplierPhone').val(popSupplierPhone);
+                        $('#edtSupplierMobile').val(popSupplierMobile);
+                        $('#edtSupplierFax').val(popSupplierFaxnumber);
+                        $('#edtSupplierSkypeID').val(popSupplierSkypeName);
+                        $('#edtSupplierWebsite').val(popSupplierURL);
+                        $('#edtSupplierShippingAddress').val(popSupplierStreet);
+                        $('#edtSupplierShippingCity').val(popSupplierStreet2);
+                        $('#edtSupplierShippingState').val(popSupplierState);
+                        $('#edtSupplierShippingZIP').val(popSupplierPostcode);
+                        $('#sedtCountry').val(popSupplierCountry);
+                        $('#txaNotes').val(popSuppliernotes);
+                        $('#sltPreferedPayment').val(popSupplierpreferedpayment);
+                        $('#sltTerms').val(popSupplierterms);
+                        $('#suppAccountNo').val(popSupplieraccountnumber);
+                        $('#edtCustomeField1').val(popSuppliercustfield1);
+                        $('#edtCustomeField2').val(popSuppliercustfield2);
+                        $('#edtCustomeField3').val(popSuppliercustfield3);
+                        $('#edtCustomeField4').val(popSuppliercustfield4);
+
+                        if ((data.tsupplier[0].fields.Street == data.tsupplier[0].fields.BillStreet) && (data.tsupplier[0].fields.Street2 == data.tsupplier[0].fields.BillStreet2) &&
+                            (data.tsupplier[0].fields.State == data.tsupplier[0].fields.BillState) && (data.tsupplier[0].fields.Postcode == data.tsupplier[0].fields.Postcode) &&
+                            (data.tsupplier[0].fields.Country == data.tsupplier[0].fields.Billcountry)) {
+                            //templateObject.isSameAddress.set(true);
+                            $('#chkSameAsShipping').attr("checked", "checked");
+                        }
+                        if (data.tsupplier[0].fields.Contractor == true) {
+                            // $('#isformcontractor')
+                            $('#isformcontractor').attr("checked", "checked");
+                        } else {
+                            $('#isformcontractor').removeAttr("checked");
+                        }
+
+                        setTimeout(function() {
+                            $('#addSupplierModal').modal('show');
+                        }, 200);
+
+
+                    }).catch(function(err) {
+
+                        $('.fullScreenSpin').css('display', 'none');
                     });
-                  }
-              }
-          }).catch(function (err) {
-
-              sideBarService.getOneSupplierDataExByName(supplierDataName).then(function (data) {
-                $('.fullScreenSpin').css('display','none');
-                  let lineItems = [];
-
-                  $('#add-supplier-title').text('Edit Supplier');
-                              let popSupplierID = data.tsupplier[0].fields.ID || '';
-                              let popSupplierName = data.tsupplier[0].fields.ClientName || '';
-                              let popSupplierEmail = data.tsupplier[0].fields.Email || '';
-                              let popSupplierTitle = data.tsupplier[0].fields.Title || '';
-                              let popSupplierFirstName = data.tsupplier[0].fields.FirstName || '';
-                              let popSupplierMiddleName = data.tsupplier[0].fields.CUSTFLD10 || '';
-                              let popSupplierLastName = data.tsupplier[0].fields.LastName || '';
-                              let popSuppliertfn = '' || '';
-                              let popSupplierPhone = data.tsupplier[0].fields.Phone || '';
-                              let popSupplierMobile = data.tsupplier[0].fields.Mobile || '';
-                              let popSupplierFaxnumber = data.tsupplier[0].fields.Faxnumber || '';
-                              let popSupplierSkypeName = data.tsupplier[0].fields.SkypeName || '';
-                              let popSupplierURL = data.tsupplier[0].fields.URL || '';
-                              let popSupplierStreet = data.tsupplier[0].fields.Street || '';
-                              let popSupplierStreet2 = data.tsupplier[0].fields.Street2 || '';
-                              let popSupplierState = data.tsupplier[0].fields.State || '';
-                              let popSupplierPostcode = data.tsupplier[0].fields.Postcode || '';
-                              let popSupplierCountry = data.tsupplier[0].fields.Country || LoggedCountry;
-                              let popSupplierbillingaddress = data.tsupplier[0].fields.BillStreet || '';
-                              let popSupplierbcity = data.tsupplier[0].fields.BillStreet2 || '';
-                              let popSupplierbstate = data.tsupplier[0].fields.BillState || '';
-                              let popSupplierbpostalcode = data.tsupplier[0].fields.BillPostcode || '';
-                              let popSupplierbcountry = data.tsupplier[0].fields.Billcountry || LoggedCountry;
-                              let popSuppliercustfield1 = data.tsupplier[0].fields.CUSTFLD1 || '';
-                              let popSuppliercustfield2 = data.tsupplier[0].fields.CUSTFLD2 || '';
-                              let popSuppliercustfield3 = data.tsupplier[0].fields.CUSTFLD3 || '';
-                              let popSuppliercustfield4 = data.tsupplier[0].fields.CUSTFLD4 || '';
-                              let popSuppliernotes = data.tsupplier[0].fields.Notes || '';
-                              let popSupplierpreferedpayment = data.tsupplier[0].fields.PaymentMethodName || '';
-                              let popSupplierterms = data.tsupplier[0].fields.TermsName || '';
-                              let popSupplierdeliverymethod = data.tsupplier[0].fields.ShippingMethodName || '';
-                              let popSupplieraccountnumber = data.tsupplier[0].fields.ClientNo || '';
-                              let popSupplierisContractor = data.tsupplier[0].fields.Contractor || false;
-                              let popSupplierissupplier = data.tsupplier[0].fields.IsSupplier || false;
-                              let popSupplieriscustomer = data.tsupplier[0].fields.IsCustomer || false;
-
-                              $('#edtSupplierCompany').val(popSupplierName);
-                              $('#edtSupplierPOPID').val(popSupplierID);
-                              $('#edtSupplierCompanyEmail').val(popSupplierEmail);
-                              $('#edtSupplierTitle').val(popSupplierTitle);
-                              $('#edtSupplierFirstName').val(popSupplierFirstName);
-                              $('#edtSupplierMiddleName').val(popSupplierMiddleName);
-                              $('#edtSupplierLastName').val(popSupplierLastName);
-                              $('#edtSupplierPhone').val(popSupplierPhone);
-                              $('#edtSupplierMobile').val(popSupplierMobile);
-                              $('#edtSupplierFax').val(popSupplierFaxnumber);
-                              $('#edtSupplierSkypeID').val(popSupplierSkypeName);
-                              $('#edtSupplierWebsite').val(popSupplierURL);
-                              $('#edtSupplierShippingAddress').val(popSupplierStreet);
-                              $('#edtSupplierShippingCity').val(popSupplierStreet2);
-                              $('#edtSupplierShippingState').val(popSupplierState);
-                              $('#edtSupplierShippingZIP').val(popSupplierPostcode);
-                              $('#sedtCountry').val(popSupplierCountry);
-                              $('#txaNotes').val(popSuppliernotes);
-                              $('#sltPreferedPayment').val(popSupplierpreferedpayment);
-                              $('#sltTerms').val(popSupplierterms);
-                              $('#suppAccountNo').val(popSupplieraccountnumber);
-                              $('#edtCustomeField1').val(popSuppliercustfield1);
-                              $('#edtCustomeField2').val(popSuppliercustfield2);
-                              $('#edtCustomeField3').val(popSuppliercustfield3);
-                              $('#edtCustomeField4').val(popSuppliercustfield4);
-
-                              if((data.tsupplier[0].fields.Street == data.tsupplier[0].fields.BillStreet) && (data.tsupplier[0].fields.Street2 == data.tsupplier[0].fields.BillStreet2)
-                                 && (data.tsupplier[0].fields.State == data.tsupplier[0].fields.BillState)&& (data.tsupplier[0].fields.Postcode == data.tsupplier[0].fields.Postcode)
-                                 && (data.tsupplier[0].fields.Country == data.tsupplier[0].fields.Billcountry)){
-                                  //templateObject.isSameAddress.set(true);
-                                  $('#chkSameAsShipping').attr("checked","checked");
-                              }
-                              if(data.tsupplier[0].fields.Contractor == true){
-                                  // $('#isformcontractor')
-                                  $('#isformcontractor').attr("checked","checked");
-                              }else{
-                                  $('#isformcontractor').removeAttr("checked");
-                              }
-
-                              setTimeout(function () {
-                                $('#addSupplierModal').modal('show');
-                              }, 200);
-
-
-              }).catch(function (err) {
-
-                  $('.fullScreenSpin').css('display','none');
-              });
-          });
-         }else{
-           $('#supplierListModal').modal();
-           setTimeout(function () {
-               $('#tblSupplierlist_filter .form-control-sm').focus();
-               $('#tblSupplierlist_filter .form-control-sm').val('');
-               $('#tblSupplierlist_filter .form-control-sm').trigger("input");
-               var datatable = $('#tblSupplierlist').DataTable();
-               datatable.draw();
-               $('#tblSupplierlist_filter .form-control-sm').trigger("input");
-           }, 500);
-         }
-       }
-
-
-});
-
-$(document).on("click", "#tblSupplierlist tbody tr", function(e) {
-    let selectLineID = $('#supplierSelectLineID').val();
-    var table = $(this);
-    let utilityService = new UtilityService();
-    let taxcodeList = templateObject.taxraterecords.get();
-    let $tblrows = $("#tblPurchaseOrderLine tbody tr");
-    var tableSupplier = $(this);
-    $('#edtSupplierName').val(tableSupplier.find(".colCompany").text());
-    $('#edtSupplierName').attr("suppid", tableSupplier.find(".colID").text());
-
-
-    $('#edtSupplierEmail').val(tableSupplier.find(".colEmail").text());
-    $('#edtSupplierEmail').attr('customerid', tableSupplier.find(".colID").text());
-    $('#edtSupplierName').attr('suppid', tableSupplier.find(".colID").text());
-
-    let postalAddress = tableSupplier.find(".colCompany").text() + '\n' + tableSupplier.find(".colStreetAddress").text() + '\n' + tableSupplier.find(".colCity").text()  + ' ' + tableSupplier.find(".colState").text()+ ' ' + tableSupplier.find(".colZipCode").text() + '\n' + tableSupplier.find(".colCountry").text();
-    $('#txabillingAddress').val(postalAddress);
-    $('#pdfSupplierAddress').html(postalAddress);
-    $('.pdfSupplierAddress').text(postalAddress);
-    $('#txaShipingInfo').val(postalAddress);
-    $('#sltTerms').val(tableSupplier.find(".colSupplierTermName").text() || '');
-    $('#supplierListModal').modal('toggle');
-
-    let lineAmount = 0;
-    let subGrandTotal = 0;
-    let taxGrandTotal = 0;
-    let taxGrandTotalPrint = 0;
-
-    $tblrows.each(function(index) {
-        var $tblrow = $(this);
-        var qty = $tblrow.find(".lineQty").val() || 0;
-        var price = $tblrow.find(".lineUnitPrice").val() || 0;
-        var taxcode = $tblrow.find(".lineTaxCode").text() || '';
-
-        var taxrateamount = 0;
-        if (taxcodeList) {
-            for (var i = 0; i < taxcodeList.length; i++) {
-                if (taxcodeList[i].codename == taxcode) {
-
-                    taxrateamount = taxcodeList[i].coderate.replace('%', "") / 100;
-
-                }
+                });
+            } else {
+                $('#supplierListModal').modal();
+                setTimeout(function() {
+                    $('#tblSupplierlist_filter .form-control-sm').focus();
+                    $('#tblSupplierlist_filter .form-control-sm').val('');
+                    $('#tblSupplierlist_filter .form-control-sm').trigger("input");
+                    var datatable = $('#tblSupplierlist').DataTable();
+                    datatable.draw();
+                    $('#tblSupplierlist_filter .form-control-sm').trigger("input");
+                }, 500);
             }
         }
-        var subTotal = parseFloat(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) || 0;
-        if ((taxrateamount == '') || (taxrateamount == ' ')) {
-            var taxTotal = 0;
-        } else {
-            var taxTotal = parseFloat(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) * parseFloat(taxrateamount);
-        }
-        $tblrow.find('.lineTaxAmount').text(utilityService.modifynegativeCurrencyFormat(taxTotal));
-        if (!isNaN(subTotal)) {
-            $tblrow.find('.lineAmt').text(utilityService.modifynegativeCurrencyFormat(subTotal));
-            subGrandTotal += isNaN(subTotal) ? 0 : subTotal;
-            document.getElementById("subtotal_total").innerHTML = utilityService.modifynegativeCurrencyFormat(subGrandTotal);
-        }
 
-        if (!isNaN(taxTotal)) {
-            taxGrandTotal += isNaN(taxTotal) ? 0 : taxTotal;
-            document.getElementById("subtotal_tax").innerHTML = utilityService.modifynegativeCurrencyFormat(taxGrandTotal);
-        }
 
-        if (!isNaN(subGrandTotal) && (!isNaN(taxGrandTotal))) {
-            let GrandTotal = (parseFloat(subGrandTotal)) + (parseFloat(taxGrandTotal));
-            document.getElementById("grandTotal").innerHTML = utilityService.modifynegativeCurrencyFormat(GrandTotal);
-            document.getElementById("balanceDue").innerHTML = utilityService.modifynegativeCurrencyFormat(GrandTotal);
-            document.getElementById("totalBalanceDue").innerHTML = utilityService.modifynegativeCurrencyFormat(GrandTotal);
-
-        }
     });
 
-    $('#tblSupplierlist_filter .form-control-sm').val('');
-    setTimeout(function () {
-        $('.btnRefreshSupplier').trigger('click');
-        $('.fullScreenSpin').css('display', 'none');
-    }, 1000);
-});
+    $(document).on("click", "#tblSupplierlist tbody tr", function(e) {
+        let selectLineID = $('#supplierSelectLineID').val();
+        var table = $(this);
+        let utilityService = new UtilityService();
+        let taxcodeList = templateObject.taxraterecords.get();
+        let $tblrows = $("#tblPurchaseOrderLine tbody tr");
+        var tableSupplier = $(this);
+        $('#edtSupplierName').val(tableSupplier.find(".colCompany").text());
+        $('#edtSupplierName').attr("suppid", tableSupplier.find(".colID").text());
+
+
+        $('#edtSupplierEmail').val(tableSupplier.find(".colEmail").text());
+        $('#edtSupplierEmail').attr('customerid', tableSupplier.find(".colID").text());
+        $('#edtSupplierName').attr('suppid', tableSupplier.find(".colID").text());
+
+        let postalAddress = tableSupplier.find(".colCompany").text() + '\n' + tableSupplier.find(".colStreetAddress").text() + '\n' + tableSupplier.find(".colCity").text() + ' ' + tableSupplier.find(".colState").text() + ' ' + tableSupplier.find(".colZipCode").text() + '\n' + tableSupplier.find(".colCountry").text();
+        $('#txabillingAddress').val(postalAddress);
+        $('#pdfSupplierAddress').html(postalAddress);
+        $('.pdfSupplierAddress').text(postalAddress);
+        $('#txaShipingInfo').val(postalAddress);
+        $('#sltTerms').val(tableSupplier.find(".colSupplierTermName").text() || '');
+        $('#supplierListModal').modal('toggle');
+
+        let lineAmount = 0;
+        let subGrandTotal = 0;
+        let taxGrandTotal = 0;
+        let taxGrandTotalPrint = 0;
+
+        $tblrows.each(function(index) {
+            var $tblrow = $(this);
+            var qty = $tblrow.find(".lineQty").val() || 0;
+            var price = $tblrow.find(".lineUnitPrice").val() || 0;
+            var taxcode = $tblrow.find(".lineTaxCode").text() || '';
+
+            var taxrateamount = 0;
+            if (taxcodeList) {
+                for (var i = 0; i < taxcodeList.length; i++) {
+                    if (taxcodeList[i].codename == taxcode) {
+
+                        taxrateamount = taxcodeList[i].coderate.replace('%', "") / 100;
+
+                    }
+                }
+            }
+            var subTotal = parseFloat(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) || 0;
+            if ((taxrateamount == '') || (taxrateamount == ' ')) {
+                var taxTotal = 0;
+            } else {
+                var taxTotal = parseFloat(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) * parseFloat(taxrateamount);
+            }
+            $tblrow.find('.lineTaxAmount').text(utilityService.modifynegativeCurrencyFormat(taxTotal));
+            if (!isNaN(subTotal)) {
+                $tblrow.find('.lineAmt').text(utilityService.modifynegativeCurrencyFormat(subTotal));
+                subGrandTotal += isNaN(subTotal) ? 0 : subTotal;
+                document.getElementById("subtotal_total").innerHTML = utilityService.modifynegativeCurrencyFormat(subGrandTotal);
+            }
+
+            if (!isNaN(taxTotal)) {
+                taxGrandTotal += isNaN(taxTotal) ? 0 : taxTotal;
+                document.getElementById("subtotal_tax").innerHTML = utilityService.modifynegativeCurrencyFormat(taxGrandTotal);
+            }
+
+            if (!isNaN(subGrandTotal) && (!isNaN(taxGrandTotal))) {
+                let GrandTotal = (parseFloat(subGrandTotal)) + (parseFloat(taxGrandTotal));
+                document.getElementById("grandTotal").innerHTML = utilityService.modifynegativeCurrencyFormat(GrandTotal);
+                document.getElementById("balanceDue").innerHTML = utilityService.modifynegativeCurrencyFormat(GrandTotal);
+                document.getElementById("totalBalanceDue").innerHTML = utilityService.modifynegativeCurrencyFormat(GrandTotal);
+
+            }
+        });
+
+        $('#tblSupplierlist_filter .form-control-sm').val('');
+        setTimeout(function() {
+            $('.btnRefreshSupplier').trigger('click');
+            $('.fullScreenSpin').css('display', 'none');
+        }, 1000);
+    });
 
     exportSalesToPdf = function() {
         let id = $('.printID').attr("id");
@@ -2310,7 +2399,7 @@ $(document).on("click", "#tblSupplierlist tbody tr", function(e) {
             }
         };
 
-        html2pdf().set(opt).from(source).save().then(function (dataObject){
+        html2pdf().set(opt).from(source).save().then(function(dataObject) {
             $('#html-2-pdfwrapper').css('display', 'none');
             $('.fullScreenSpin').css('display', 'none');
         });
@@ -2424,21 +2513,41 @@ Template.purchaseordercard.onRendered(function() {
                             paging: true,
                             "aaSorting": [],
                             "orderMulti": true,
-                            columnDefs: [
-                                { className: "productName", "targets": [0] },
-                                { className: "productDesc", "targets": [1] },
-                                { className: "costPrice text-right", "targets": [2] },
-                                { className: "salePrice text-right", "targets": [3] },
-                                { className: "prdqty text-right", "targets": [4] },
-                                { className: "taxrate", "targets": [5] }
+                            columnDefs: [{
+                                    className: "productName",
+                                    "targets": [0]
+                                },
+                                {
+                                    className: "productDesc",
+                                    "targets": [1]
+                                },
+                                {
+                                    className: "costPrice text-right",
+                                    "targets": [2]
+                                },
+                                {
+                                    className: "salePrice text-right",
+                                    "targets": [3]
+                                },
+                                {
+                                    className: "prdqty text-right",
+                                    "targets": [4]
+                                },
+                                {
+                                    className: "taxrate",
+                                    "targets": [5]
+                                }
                             ],
                             colReorder: true,
                             bStateSave: true,
                             pageLength: initialDatatableLoad,
-                            lengthMenu: [ [initialDatatableLoad, -1], [initialDatatableLoad, "All"] ],
+                            lengthMenu: [
+                                [initialDatatableLoad, -1],
+                                [initialDatatableLoad, "All"]
+                            ],
                             info: true,
                             responsive: true,
-                            "fnInitComplete": function () {
+                            "fnInitComplete": function() {
                                 $("<button class='btn btn-primary' data-dismiss='modal' data-toggle='modal' data-target='#newProductModal' type='button' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-plus'></i></button>").insertAfter("#tblInventory_filter");
                                 $("<button class='btn btn-primary btnRefreshProduct' type='button' id='btnRefreshProduct' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblInventory_filter");
                             }
@@ -2479,22 +2588,43 @@ Template.purchaseordercard.onRendered(function() {
                         "orderMulti": true,
                         columnDefs: [
 
-                            { className: "productName", "targets": [0] },
-                            { className: "productDesc", "targets": [1] },
-                            { className: "costPrice text-right", "targets": [2] },
-                            { className: "salePrice text-right", "targets": [3] },
-                            { className: "prdqty text-right", "targets": [4] },
-                            { className: "taxrate", "targets": [5] }
+                            {
+                                className: "productName",
+                                "targets": [0]
+                            },
+                            {
+                                className: "productDesc",
+                                "targets": [1]
+                            },
+                            {
+                                className: "costPrice text-right",
+                                "targets": [2]
+                            },
+                            {
+                                className: "salePrice text-right",
+                                "targets": [3]
+                            },
+                            {
+                                className: "prdqty text-right",
+                                "targets": [4]
+                            },
+                            {
+                                className: "taxrate",
+                                "targets": [5]
+                            }
                         ],
                         colReorder: true,
 
                         bStateSave: true,
 
                         pageLength: initialDatatableLoad,
-                        lengthMenu: [ [initialDatatableLoad, -1], [initialDatatableLoad, "All"] ],
+                        lengthMenu: [
+                            [initialDatatableLoad, -1],
+                            [initialDatatableLoad, "All"]
+                        ],
                         info: true,
                         responsive: true,
-                        "fnInitComplete": function () {
+                        "fnInitComplete": function() {
                             $("<button class='btn btn-primary' data-dismiss='modal' data-toggle='modal' data-target='#newProductModal' type='button' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-plus'></i></button>").insertAfter("#tblInventory_filter");
                             $("<button class='btn btn-primary btnRefreshProduct' type='button' id='btnRefreshProduct' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblInventory_filter");
                         }
@@ -2537,12 +2667,30 @@ Template.purchaseordercard.onRendered(function() {
                         "orderMulti": true,
                         columnDefs: [
 
-                            { className: "productName", "targets": [0] },
-                            { className: "productDesc", "targets": [1] },
-                            { className: "costPrice text-right", "targets": [2] },
-                            { className: "salePrice text-right", "targets": [3] },
-                            { className: "prdqty text-right", "targets": [4] },
-                            { className: "taxrate", "targets": [5] }
+                            {
+                                className: "productName",
+                                "targets": [0]
+                            },
+                            {
+                                className: "productDesc",
+                                "targets": [1]
+                            },
+                            {
+                                className: "costPrice text-right",
+                                "targets": [2]
+                            },
+                            {
+                                className: "salePrice text-right",
+                                "targets": [3]
+                            },
+                            {
+                                className: "prdqty text-right",
+                                "targets": [4]
+                            },
+                            {
+                                className: "taxrate",
+                                "targets": [5]
+                            }
                         ],
                         colReorder: true,
 
@@ -2552,10 +2700,13 @@ Template.purchaseordercard.onRendered(function() {
 
 
                         pageLength: initialDatatableLoad,
-                        lengthMenu: [ [initialDatatableLoad, -1], [initialDatatableLoad, "All"] ],
+                        lengthMenu: [
+                            [initialDatatableLoad, -1],
+                            [initialDatatableLoad, "All"]
+                        ],
                         info: true,
                         responsive: true,
-                        "fnInitComplete": function () {
+                        "fnInitComplete": function() {
                             $("<button class='btn btn-primary' data-dismiss='modal' data-toggle='modal' data-target='#newProductModal' type='button' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-plus'></i></button>").insertAfter("#tblInventory_filter");
                             $("<button class='btn btn-primary btnRefreshProduct' type='button' id='btnRefreshProduct' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblInventory_filter");
                         }
@@ -2614,11 +2765,22 @@ Template.purchaseordercard.onRendered(function() {
                             paging: true,
                             "aaSorting": [],
                             "orderMulti": true,
-                            columnDefs: [
-                                { orderable: false, targets: 0 },
-                                { className: "taxName", "targets": [1] },
-                                { className: "taxDesc", "targets": [2] },
-                                { className: "taxRate text-right", "targets": [3] }
+                            columnDefs: [{
+                                    orderable: false,
+                                    targets: 0
+                                },
+                                {
+                                    className: "taxName",
+                                    "targets": [1]
+                                },
+                                {
+                                    className: "taxDesc",
+                                    "targets": [2]
+                                },
+                                {
+                                    className: "taxRate text-right",
+                                    "targets": [3]
+                                }
                             ],
                             colReorder: true,
 
@@ -2628,10 +2790,13 @@ Template.purchaseordercard.onRendered(function() {
 
 
                             pageLength: initialDatatableLoad,
-                            lengthMenu: [ [initialDatatableLoad, -1], [initialDatatableLoad, "All"] ],
+                            lengthMenu: [
+                                [initialDatatableLoad, -1],
+                                [initialDatatableLoad, "All"]
+                            ],
                             info: true,
                             responsive: true,
-                            "fnInitComplete": function () {
+                            "fnInitComplete": function() {
                                 $("<button class='btn btn-primary btnRefreshTax' type='button' id='btnRefreshTax' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblTaxRate_filter");
                             }
 
@@ -2678,11 +2843,22 @@ Template.purchaseordercard.onRendered(function() {
                         paging: true,
                         "aaSorting": [],
                         "orderMulti": true,
-                        columnDefs: [
-                            { orderable: false, targets: 0 },
-                            { className: "taxName", "targets": [1] },
-                            { className: "taxDesc", "targets": [2] },
-                            { className: "taxRate text-right", "targets": [3] }
+                        columnDefs: [{
+                                orderable: false,
+                                targets: 0
+                            },
+                            {
+                                className: "taxName",
+                                "targets": [1]
+                            },
+                            {
+                                className: "taxDesc",
+                                "targets": [2]
+                            },
+                            {
+                                className: "taxRate text-right",
+                                "targets": [3]
+                            }
                         ],
                         colReorder: true,
 
@@ -2692,10 +2868,13 @@ Template.purchaseordercard.onRendered(function() {
 
 
                         pageLength: initialDatatableLoad,
-                        lengthMenu: [ [initialDatatableLoad, -1], [initialDatatableLoad, "All"] ],
+                        lengthMenu: [
+                            [initialDatatableLoad, -1],
+                            [initialDatatableLoad, "All"]
+                        ],
                         info: true,
                         responsive: true,
-                        "fnInitComplete": function () {
+                        "fnInitComplete": function() {
                             $("<button class='btn btn-primary btnRefreshTax' type='button' id='btnRefreshTax' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblTaxRate_filter");
                         }
 
@@ -2743,11 +2922,22 @@ Template.purchaseordercard.onRendered(function() {
                         paging: true,
                         "aaSorting": [],
                         "orderMulti": true,
-                        columnDefs: [
-                            { orderable: false, targets: 0 },
-                            { className: "taxName", "targets": [1] },
-                            { className: "taxDesc", "targets": [2] },
-                            { className: "taxRate text-right", "targets": [3] }
+                        columnDefs: [{
+                                orderable: false,
+                                targets: 0
+                            },
+                            {
+                                className: "taxName",
+                                "targets": [1]
+                            },
+                            {
+                                className: "taxDesc",
+                                "targets": [2]
+                            },
+                            {
+                                className: "taxRate text-right",
+                                "targets": [3]
+                            }
                         ],
                         colReorder: true,
 
@@ -2757,10 +2947,13 @@ Template.purchaseordercard.onRendered(function() {
 
 
                         pageLength: initialDatatableLoad,
-                        lengthMenu: [ [initialDatatableLoad, -1], [initialDatatableLoad, "All"] ],
+                        lengthMenu: [
+                            [initialDatatableLoad, -1],
+                            [initialDatatableLoad, "All"]
+                        ],
                         info: true,
                         responsive: true,
-                        "fnInitComplete": function () {
+                        "fnInitComplete": function() {
                             $("<button class='btn btn-primary btnRefreshTax' type='button' id='btnRefreshTax' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblTaxRate_filter");
                         }
 
@@ -2814,10 +3007,16 @@ Template.purchaseordercard.helpers({
         });
     },
     purchaseCloudPreferenceRec: () => {
-        return CloudPreference.findOne({ userid: Session.get('mycloudLogonID'), PrefName: 'purchaseordercard' });
+        return CloudPreference.findOne({
+            userid: Session.get('mycloudLogonID'),
+            PrefName: 'purchaseordercard'
+        });
     },
     purchaseCloudGridPreferenceRec: () => {
-        return CloudPreference.findOne({ userid: Session.get('mycloudLogonID'), PrefName: 'tblPurchaseOrderLine' });
+        return CloudPreference.findOne({
+            userid: Session.get('mycloudLogonID'),
+            PrefName: 'tblPurchaseOrderLine'
+        });
     },
     uploadedFiles: () => {
         return Template.instance().uploadedFiles.get();
@@ -2875,17 +3074,29 @@ Template.purchaseordercard.helpers({
 });
 
 Template.purchaseordercard.events({
+    'click #sltTerms': function(event) {
+        $('#termsListModal').modal('toggle');
+    },
+    'click #sltCurrency': function(event) {
+        $('#currencyModal').modal('toggle');
+    },
+    'click #sltDept': function(event) {
+        $('#departmentModal').modal('toggle');
+    },
+    'click #sltStatus': function(event) {
+        $('#statusPopModal').modal('toggle');
+    },
     'click #edtSupplierName': function(event) {
         $('#edtSupplierName').select();
         $('#edtSupplierName').editableSelect();
     },
-    'change #sltStatus': function () {
+    'change #sltStatus': function() {
         let status = $('#sltStatus').find(":selected").val();
         if (status == "newstatus") {
             $('#statusModal').modal();
         }
     },
-    'click .btnSaveStatus': function () {
+    'click .btnSaveStatus': function() {
         $('.fullScreenSpin').css('display', 'inline-block');
         let clientService = new SalesBoardService()
         let status = $('#status').val();
@@ -2898,9 +3109,9 @@ Template.purchaseordercard.events({
         }
 
         if (status != "") {
-            clientService.saveLeadStatus(leadData).then(function (objDetails) {
-                sideBarService.getAllLeadStatus().then(function (dataUpdate) {
-                    addVS1Data('TLeadStatusType', JSON.stringify(dataUpdate)).then(function (datareturn) {
+            clientService.saveLeadStatus(leadData).then(function(objDetails) {
+                sideBarService.getAllLeadStatus().then(function(dataUpdate) {
+                    addVS1Data('TLeadStatusType', JSON.stringify(dataUpdate)).then(function(datareturn) {
                         $('.fullScreenSpin').css('display', 'none');
                         let id = $('.printID').attr("id");
                         if (id != "") {
@@ -2908,13 +3119,13 @@ Template.purchaseordercard.events({
                         } else {
                             window.open("/purchaseordercard");
                         }
-                    }).catch(function (err) {
+                    }).catch(function(err) {
 
                     });
-                }).catch(function (err) {
+                }).catch(function(err) {
                     window.open('/purchaseordercard', '_self');
                 });
-            }).catch(function (err) {
+            }).catch(function(err) {
                 $('.fullScreenSpin').css('display', 'none');
                 swal({
                     title: 'Oooops...',
@@ -2941,14 +3152,13 @@ Template.purchaseordercard.events({
                 showCancelButton: false,
                 confirmButtonText: 'Try Again'
             }).then((result) => {
-                if (result.value) {
-                } else if (result.dismiss === 'cancel') {
+                if (result.value) {} else if (result.dismiss === 'cancel') {
 
                 }
             });
         }
     },
-    'blur .lineProductDesc': function (event) {
+    'blur .lineProductDesc': function(event) {
         var targetID = $(event.target).closest('tr').attr('id');
         $('#' + targetID + " #lineProductDesc").text($('#' + targetID + " .lineProductDesc").text());
     },
@@ -3027,7 +3237,7 @@ Template.purchaseordercard.events({
         });
 
         if ($('.printID').attr('id') != undefined || $('.printID').attr('id') != "") {
-            $printrows.each(function (index) {
+            $printrows.each(function(index) {
                 var $printrows = $(this);
                 var qty = $printrows.find("#lineQty").text() || 0;
                 var price = $printrows.find("#lineUnitPrice").text() || 0;
@@ -3068,10 +3278,10 @@ Template.purchaseordercard.events({
 
         let utilityService = new UtilityService();
         if (!isNaN($(event.target).val())) {
-            let inputUnitPrice = parseFloat($(event.target).val()) ||0;
+            let inputUnitPrice = parseFloat($(event.target).val()) || 0;
             $(event.target).val(utilityService.modifynegativeCurrencyFormat(inputUnitPrice));
         } else {
-            let inputUnitPrice = Number($(event.target).val().replace(/[^0-9.-]+/g, ""))||0;
+            let inputUnitPrice = Number($(event.target).val().replace(/[^0-9.-]+/g, "")) || 0;
 
             $(event.target).val(utilityService.modifynegativeCurrencyFormat(inputUnitPrice));
 
@@ -3185,25 +3395,25 @@ Template.purchaseordercard.events({
             swal('Supplier has not been selected!', '', 'warning');
             event.preventDefault();
         } else {
-          var productDataName = $(event.target).text().replace(/\s/g, '') || '';
-          // var productDataID = $(event.target).attr('prodid').replace(/\s/g, '') || '';
-          if (productDataName != '') {
-            FlowRouter.go('/productview?prodname=' +  $(event.target).text());
-          }else{
-            $('#productListModal').modal('toggle');
-            var targetID = $(event.target).closest('tr').attr('id');
-            $('#selectLineID').val(targetID);
-            setTimeout(function () {
-                $('#tblInventory_filter .form-control-sm').focus();
-                $('#tblInventory_filter .form-control-sm').val('');
-                $('#tblInventory_filter .form-control-sm').trigger("input");
+            var productDataName = $(event.target).text().replace(/\s/g, '') || '';
+            // var productDataID = $(event.target).attr('prodid').replace(/\s/g, '') || '';
+            if (productDataName != '') {
+                FlowRouter.go('/productview?prodname=' + $(event.target).text());
+            } else {
+                $('#productListModal').modal('toggle');
+                var targetID = $(event.target).closest('tr').attr('id');
+                $('#selectLineID').val(targetID);
+                setTimeout(function() {
+                    $('#tblInventory_filter .form-control-sm').focus();
+                    $('#tblInventory_filter .form-control-sm').val('');
+                    $('#tblInventory_filter .form-control-sm').trigger("input");
 
-                var datatable = $('#tblInventory').DataTable();
-                datatable.draw();
-                $('#tblInventory_filter .form-control-sm').trigger("input");
+                    var datatable = $('#tblInventory').DataTable();
+                    datatable.draw();
+                    $('#tblInventory_filter .form-control-sm').trigger("input");
 
-            }, 500);
-          }
+                }, 500);
+            }
         }
     },
     'click #productListModal #refreshpagelist': function() {
@@ -3285,7 +3495,7 @@ Template.purchaseordercard.events({
             if ($('#tblPurchaseOrderLine tbody>tr').length > 1) {
                 this.click;
                 $(event.target).closest('tr').remove();
-                $('.purchase_print #'+targetID).remove();
+                $('.purchase_print #' + targetID).remove();
                 event.preventDefault();
                 let $tblrows = $("#tblPurchaseOrderLine tbody tr");
                 let $printrows = $(".purchase_print tbody tr");
@@ -3431,7 +3641,7 @@ Template.purchaseordercard.events({
 
             let $tblrows = $("#tblPurchaseOrderLine tbody tr");
             let $printrows = $(".invoice_print tbody tr");
-            $(".purchase_print #"+selectLineID).remove();
+            $(".purchase_print #" + selectLineID).remove();
 
             let lineAmount = 0;
             let subGrandTotal = 0;
@@ -3541,27 +3751,27 @@ Template.purchaseordercard.events({
             }
 
             $('#deleteLineModal').modal('toggle');
-        }else{
-          this.click;
-          $('#' + selectLineID + " .lineProductName").text('');
-          $('#' + selectLineID + " .lineProductDesc").text('');
-          $('#' + selectLineID + " .lineOrdered").val('');
-          $('#' + selectLineID + " .lineQty").val('');
+        } else {
+            this.click;
+            $('#' + selectLineID + " .lineProductName").text('');
+            $('#' + selectLineID + " .lineProductDesc").text('');
+            $('#' + selectLineID + " .lineOrdered").val('');
+            $('#' + selectLineID + " .lineQty").val('');
 
-          $('#' + selectLineID + " .lineUnitPrice").val('');
-          $('#' + selectLineID + " .colCustomerJob").val('');
-          // $('#' + selectLineID + " .lineSalesLinesCustField1").text('');
-          $('#' + selectLineID + " .lineTaxRate").text('');
-          $('#' + selectLineID + " .lineTaxCode").text('');
-          $('#' + selectLineID + " .lineAmt").text('');
-          $('#' + selectLineID + " .lineTaxAmount").text('');
+            $('#' + selectLineID + " .lineUnitPrice").val('');
+            $('#' + selectLineID + " .colCustomerJob").val('');
+            // $('#' + selectLineID + " .lineSalesLinesCustField1").text('');
+            $('#' + selectLineID + " .lineTaxRate").text('');
+            $('#' + selectLineID + " .lineTaxCode").text('');
+            $('#' + selectLineID + " .lineAmt").text('');
+            $('#' + selectLineID + " .lineTaxAmount").text('');
 
 
-          document.getElementById("subtotal_tax").innerHTML = Currency + '0.00';
-          document.getElementById("subtotal_total").innerHTML = Currency + '0.00';
-          document.getElementById("grandTotal").innerHTML = Currency + '0.00';
-          document.getElementById("balanceDue").innerHTML = Currency + '0.00';
-          document.getElementById("totalBalanceDue").innerHTML = Currency + '0.00';
+            document.getElementById("subtotal_tax").innerHTML = Currency + '0.00';
+            document.getElementById("subtotal_total").innerHTML = Currency + '0.00';
+            document.getElementById("grandTotal").innerHTML = Currency + '0.00';
+            document.getElementById("balanceDue").innerHTML = Currency + '0.00';
+            document.getElementById("totalBalanceDue").innerHTML = Currency + '0.00';
         }
         $('#deleteLineModal').modal('toggle');
     },
@@ -3803,7 +4013,7 @@ Template.purchaseordercard.events({
                         let erpInvoiceId = objDetails.fields.ID;
 
                         let mailFromName = Session.get('vs1companyName');
-                        let mailFrom = localStorage.getItem('VS1OrgEmail')||localStorage.getItem('VS1AdminUserName');
+                        let mailFrom = localStorage.getItem('VS1OrgEmail') || localStorage.getItem('VS1AdminUserName');
                         let customerEmailName = $('#edtSupplierName').val();
                         let checkEmailData = $('#edtSupplierEmail').val();
 
@@ -4010,16 +4220,24 @@ Template.purchaseordercard.events({
 
 
 
-                    };
-                var getcurrentCloudDetails = CloudUser.findOne({ _id: Session.get('mycloudLogonID'), clouddatabaseID: Session.get('mycloudLogonDBID') });
+                };
+                var getcurrentCloudDetails = CloudUser.findOne({
+                    _id: Session.get('mycloudLogonID'),
+                    clouddatabaseID: Session.get('mycloudLogonDBID')
+                });
                 if (getcurrentCloudDetails) {
                     if (getcurrentCloudDetails._id.length > 0) {
                         var clientID = getcurrentCloudDetails._id;
                         var clientUsername = getcurrentCloudDetails.cloudUsername;
                         var clientEmail = getcurrentCloudDetails.cloudEmail;
-                        var checkPrefDetails = CloudPreference.findOne({ userid: clientID, PrefName: 'purchaseordercard' });
+                        var checkPrefDetails = CloudPreference.findOne({
+                            userid: clientID,
+                            PrefName: 'purchaseordercard'
+                        });
                         if (checkPrefDetails) {
-                            CloudPreference.update({ _id: checkPrefDetails._id }, {
+                            CloudPreference.update({
+                                _id: checkPrefDetails._id
+                            }, {
                                 $set: {
                                     username: clientUsername,
                                     useremail: clientEmail,
@@ -4275,15 +4493,23 @@ Template.purchaseordercard.events({
         });
 
 
-        var getcurrentCloudDetails = CloudUser.findOne({ _id: Session.get('mycloudLogonID'), clouddatabaseID: Session.get('mycloudLogonDBID') });
+        var getcurrentCloudDetails = CloudUser.findOne({
+            _id: Session.get('mycloudLogonID'),
+            clouddatabaseID: Session.get('mycloudLogonDBID')
+        });
         if (getcurrentCloudDetails) {
             if (getcurrentCloudDetails._id.length > 0) {
                 var clientID = getcurrentCloudDetails._id;
                 var clientUsername = getcurrentCloudDetails.cloudUsername;
                 var clientEmail = getcurrentCloudDetails.cloudEmail;
-                var checkPrefDetails = CloudPreference.findOne({ userid: clientID, PrefName: 'tblPurchaseOrderLine' });
+                var checkPrefDetails = CloudPreference.findOne({
+                    userid: clientID,
+                    PrefName: 'tblPurchaseOrderLine'
+                });
                 if (checkPrefDetails) {
-                    CloudPreference.update({ _id: checkPrefDetails._id }, {
+                    CloudPreference.update({
+                        _id: checkPrefDetails._id
+                    }, {
                         $set: {
                             userid: clientID,
                             username: clientUsername,
@@ -4331,15 +4557,23 @@ Template.purchaseordercard.events({
 
     },
     'click .btnResetGridSettings': function(event) {
-        var getcurrentCloudDetails = CloudUser.findOne({ _id: Session.get('mycloudLogonID'), clouddatabaseID: Session.get('mycloudLogonDBID') });
+        var getcurrentCloudDetails = CloudUser.findOne({
+            _id: Session.get('mycloudLogonID'),
+            clouddatabaseID: Session.get('mycloudLogonDBID')
+        });
         if (getcurrentCloudDetails) {
             if (getcurrentCloudDetails._id.length > 0) {
                 var clientID = getcurrentCloudDetails._id;
                 var clientUsername = getcurrentCloudDetails.cloudUsername;
                 var clientEmail = getcurrentCloudDetails.cloudEmail;
-                var checkPrefDetails = CloudPreference.findOne({ userid: clientID, PrefName: 'tblPurchaseOrderLine' });
+                var checkPrefDetails = CloudPreference.findOne({
+                    userid: clientID,
+                    PrefName: 'tblPurchaseOrderLine'
+                });
                 if (checkPrefDetails) {
-                    CloudPreference.remove({ _id: checkPrefDetails._id }, function(err, idTag) {
+                    CloudPreference.remove({
+                        _id: checkPrefDetails._id
+                    }, function(err, idTag) {
                         if (err) {
 
                         } else {
@@ -4352,15 +4586,23 @@ Template.purchaseordercard.events({
         }
     },
     'click .btnResetSettings': function(event) {
-        var getcurrentCloudDetails = CloudUser.findOne({ _id: Session.get('mycloudLogonID'), clouddatabaseID: Session.get('mycloudLogonDBID') });
+        var getcurrentCloudDetails = CloudUser.findOne({
+            _id: Session.get('mycloudLogonID'),
+            clouddatabaseID: Session.get('mycloudLogonDBID')
+        });
         if (getcurrentCloudDetails) {
             if (getcurrentCloudDetails._id.length > 0) {
                 var clientID = getcurrentCloudDetails._id;
                 var clientUsername = getcurrentCloudDetails.cloudUsername;
                 var clientEmail = getcurrentCloudDetails.cloudEmail;
-                var checkPrefDetails = CloudPreference.findOne({ userid: clientID, PrefName: 'purchaseordercard' });
+                var checkPrefDetails = CloudPreference.findOne({
+                    userid: clientID,
+                    PrefName: 'purchaseordercard'
+                });
                 if (checkPrefDetails) {
-                    CloudPreference.remove({ _id: checkPrefDetails._id }, function(err, idTag) {
+                    CloudPreference.remove({
+                        _id: checkPrefDetails._id
+                    }, function(err, idTag) {
                         if (err) {
 
                         } else {
@@ -4654,18 +4896,26 @@ Template.purchaseordercard.events({
                         }
                     }
 
-                    };
+                };
                 let linesave = objDetails.fields.ID;
 
-                var getcurrentCloudDetails = CloudUser.findOne({ _id: Session.get('mycloudLogonID'), clouddatabaseID: Session.get('mycloudLogonDBID') });
+                var getcurrentCloudDetails = CloudUser.findOne({
+                    _id: Session.get('mycloudLogonID'),
+                    clouddatabaseID: Session.get('mycloudLogonDBID')
+                });
                 if (getcurrentCloudDetails) {
                     if (getcurrentCloudDetails._id.length > 0) {
                         var clientID = getcurrentCloudDetails._id;
                         var clientUsername = getcurrentCloudDetails.cloudUsername;
                         var clientEmail = getcurrentCloudDetails.cloudEmail;
-                        var checkPrefDetails = CloudPreference.findOne({ userid: clientID, PrefName: 'purchaseordercard' });
+                        var checkPrefDetails = CloudPreference.findOne({
+                            userid: clientID,
+                            PrefName: 'purchaseordercard'
+                        });
                         if (checkPrefDetails) {
-                            CloudPreference.update({ _id: checkPrefDetails._id }, {
+                            CloudPreference.update({
+                                _id: checkPrefDetails._id
+                            }, {
                                 $set: {
                                     username: clientUsername,
                                     useremail: clientEmail,
@@ -4924,18 +5174,26 @@ Template.purchaseordercard.events({
 
 
 
-                        };
+                    };
                     let linesave = objDetails.fields.ID;
 
-                    var getcurrentCloudDetails = CloudUser.findOne({ _id: Session.get('mycloudLogonID'), clouddatabaseID: Session.get('mycloudLogonDBID') });
+                    var getcurrentCloudDetails = CloudUser.findOne({
+                        _id: Session.get('mycloudLogonID'),
+                        clouddatabaseID: Session.get('mycloudLogonDBID')
+                    });
                     if (getcurrentCloudDetails) {
                         if (getcurrentCloudDetails._id.length > 0) {
                             var clientID = getcurrentCloudDetails._id;
                             var clientUsername = getcurrentCloudDetails.cloudUsername;
                             var clientEmail = getcurrentCloudDetails.cloudEmail;
-                            var checkPrefDetails = CloudPreference.findOne({ userid: clientID, PrefName: 'purchaseordercard' });
+                            var checkPrefDetails = CloudPreference.findOne({
+                                userid: clientID,
+                                PrefName: 'purchaseordercard'
+                            });
                             if (checkPrefDetails) {
-                                CloudPreference.update({ _id: checkPrefDetails._id }, {
+                                CloudPreference.update({
+                                    _id: checkPrefDetails._id
+                                }, {
                                     $set: {
                                         username: clientUsername,
                                         useremail: clientEmail,
@@ -5229,18 +5487,26 @@ Template.purchaseordercard.events({
                             Email: supplierEmail
                         }
                     }
-                    };
+                };
                 let linesave = objDetails.fields.ID;
 
-                var getcurrentCloudDetails = CloudUser.findOne({ _id: Session.get('mycloudLogonID'), clouddatabaseID: Session.get('mycloudLogonDBID') });
+                var getcurrentCloudDetails = CloudUser.findOne({
+                    _id: Session.get('mycloudLogonID'),
+                    clouddatabaseID: Session.get('mycloudLogonDBID')
+                });
                 if (getcurrentCloudDetails) {
                     if (getcurrentCloudDetails._id.length > 0) {
                         var clientID = getcurrentCloudDetails._id;
                         var clientUsername = getcurrentCloudDetails.cloudUsername;
                         var clientEmail = getcurrentCloudDetails.cloudEmail;
-                        var checkPrefDetails = CloudPreference.findOne({ userid: clientID, PrefName: 'purchaseordercard' });
+                        var checkPrefDetails = CloudPreference.findOne({
+                            userid: clientID,
+                            PrefName: 'purchaseordercard'
+                        });
                         if (checkPrefDetails) {
-                            CloudPreference.update({ _id: checkPrefDetails._id }, {
+                            CloudPreference.update({
+                                _id: checkPrefDetails._id
+                            }, {
                                 $set: {
                                     username: clientUsername,
                                     useremail: clientEmail,
@@ -5294,7 +5560,7 @@ Template.purchaseordercard.events({
                             });
                         }
                     }
-                }else{
+                } else {
                     window.open('/purchaseordercard?copypoid=' + linesave, '_self');
                 }
 
@@ -5667,17 +5933,25 @@ Template.purchaseordercard.events({
 
 
 
-                                };
+                            };
                             let linesave = objDetails.fields.ID;
-                            var getcurrentCloudDetails = CloudUser.findOne({ _id: Session.get('mycloudLogonID'), clouddatabaseID: Session.get('mycloudLogonDBID') });
+                            var getcurrentCloudDetails = CloudUser.findOne({
+                                _id: Session.get('mycloudLogonID'),
+                                clouddatabaseID: Session.get('mycloudLogonDBID')
+                            });
                             if (getcurrentCloudDetails) {
                                 if (getcurrentCloudDetails._id.length > 0) {
                                     var clientID = getcurrentCloudDetails._id;
                                     var clientUsername = getcurrentCloudDetails.cloudUsername;
                                     var clientEmail = getcurrentCloudDetails.cloudEmail;
-                                    var checkPrefDetails = CloudPreference.findOne({ userid: clientID, PrefName: 'purchaseordercard' });
+                                    var checkPrefDetails = CloudPreference.findOne({
+                                        userid: clientID,
+                                        PrefName: 'purchaseordercard'
+                                    });
                                     if (checkPrefDetails) {
-                                        CloudPreference.update({ _id: checkPrefDetails._id }, {
+                                        CloudPreference.update({
+                                            _id: checkPrefDetails._id
+                                        }, {
                                             $set: {
                                                 username: clientUsername,
                                                 useremail: clientEmail,
@@ -5972,17 +6246,25 @@ Template.purchaseordercard.events({
 
 
 
-                                        };
+                                    };
                                     let linesave = objDetails.fields.ID;
-                                    var getcurrentCloudDetails = CloudUser.findOne({ _id: Session.get('mycloudLogonID'), clouddatabaseID: Session.get('mycloudLogonDBID') });
+                                    var getcurrentCloudDetails = CloudUser.findOne({
+                                        _id: Session.get('mycloudLogonID'),
+                                        clouddatabaseID: Session.get('mycloudLogonDBID')
+                                    });
                                     if (getcurrentCloudDetails) {
                                         if (getcurrentCloudDetails._id.length > 0) {
                                             var clientID = getcurrentCloudDetails._id;
                                             var clientUsername = getcurrentCloudDetails.cloudUsername;
                                             var clientEmail = getcurrentCloudDetails.cloudEmail;
-                                            var checkPrefDetails = CloudPreference.findOne({ userid: clientID, PrefName: 'purchaseordercard' });
+                                            var checkPrefDetails = CloudPreference.findOne({
+                                                userid: clientID,
+                                                PrefName: 'purchaseordercard'
+                                            });
                                             if (checkPrefDetails) {
-                                                CloudPreference.update({ _id: checkPrefDetails._id }, {
+                                                CloudPreference.update({
+                                                    _id: checkPrefDetails._id
+                                                }, {
                                                     $set: {
                                                         username: clientUsername,
                                                         useremail: clientEmail,
@@ -6284,17 +6566,25 @@ Template.purchaseordercard.events({
 
 
 
-                                };
+                            };
                             let linesave = objDetails.fields.ID;
-                            var getcurrentCloudDetails = CloudUser.findOne({ _id: Session.get('mycloudLogonID'), clouddatabaseID: Session.get('mycloudLogonDBID') });
+                            var getcurrentCloudDetails = CloudUser.findOne({
+                                _id: Session.get('mycloudLogonID'),
+                                clouddatabaseID: Session.get('mycloudLogonDBID')
+                            });
                             if (getcurrentCloudDetails) {
                                 if (getcurrentCloudDetails._id.length > 0) {
                                     var clientID = getcurrentCloudDetails._id;
                                     var clientUsername = getcurrentCloudDetails.cloudUsername;
                                     var clientEmail = getcurrentCloudDetails.cloudEmail;
-                                    var checkPrefDetails = CloudPreference.findOne({ userid: clientID, PrefName: 'purchaseordercard' });
+                                    var checkPrefDetails = CloudPreference.findOne({
+                                        userid: clientID,
+                                        PrefName: 'purchaseordercard'
+                                    });
                                     if (checkPrefDetails) {
-                                        CloudPreference.update({ _id: checkPrefDetails._id }, {
+                                        CloudPreference.update({
+                                            _id: checkPrefDetails._id
+                                        }, {
                                             $set: {
                                                 username: clientUsername,
                                                 useremail: clientEmail,
@@ -6360,8 +6650,7 @@ Template.purchaseordercard.events({
                                 showCancelButton: false,
                                 confirmButtonText: 'Try Again'
                             }).then((result) => {
-                                if (result.value) {
-                                } else if (result.dismiss === 'cancel') {
+                                if (result.value) {} else if (result.dismiss === 'cancel') {
 
                                 }
                             });
@@ -6593,17 +6882,25 @@ Template.purchaseordercard.events({
 
 
 
-                            };
+                        };
                         let linesave = objDetails.fields.ID;
-                        var getcurrentCloudDetails = CloudUser.findOne({ _id: Session.get('mycloudLogonID'), clouddatabaseID: Session.get('mycloudLogonDBID') });
+                        var getcurrentCloudDetails = CloudUser.findOne({
+                            _id: Session.get('mycloudLogonID'),
+                            clouddatabaseID: Session.get('mycloudLogonDBID')
+                        });
                         if (getcurrentCloudDetails) {
                             if (getcurrentCloudDetails._id.length > 0) {
                                 var clientID = getcurrentCloudDetails._id;
                                 var clientUsername = getcurrentCloudDetails.cloudUsername;
                                 var clientEmail = getcurrentCloudDetails.cloudEmail;
-                                var checkPrefDetails = CloudPreference.findOne({ userid: clientID, PrefName: 'purchaseordercard' });
+                                var checkPrefDetails = CloudPreference.findOne({
+                                    userid: clientID,
+                                    PrefName: 'purchaseordercard'
+                                });
                                 if (checkPrefDetails) {
-                                    CloudPreference.update({ _id: checkPrefDetails._id }, {
+                                    CloudPreference.update({
+                                        _id: checkPrefDetails._id
+                                    }, {
                                         $set: {
                                             username: clientUsername,
                                             useremail: clientEmail,
