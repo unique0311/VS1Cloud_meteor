@@ -81,7 +81,7 @@ Template.accountlistpop.onRendered(function() {
                             data.taccountvs1[i].TaxCode || ''
                         ];
 
-                        if (currentLoc == "/billcard"){
+                        if (currentLoc == "/billcard" || currentLoc == "/chequecard"){
                           if((data.taccountvs1[i].AccountTypeName != "AP")&&(data.taccountvs1[i].AccountTypeName != "AR")&&(data.taccountvs1[i].AccountTypeName != "CCARD") &&(data.taccountvs1[i].AccountTypeName != "BANK")){
                             splashArrayProductList.push(dataList);
                           }
@@ -153,7 +153,7 @@ Template.accountlistpop.onRendered(function() {
                         accBalance,
                         useData[i].fields.TaxCode || ''
                     ];
-                    if (currentLoc == "/billcard"){
+                    if (currentLoc == "/billcard" || currentLoc == "/chequecard"){
                       if((useData[i].fields.AccountTypeName != "AP") && (useData[i].fields.AccountTypeName != "AR")&&(useData[i].fields.AccountTypeName != "CCARD") &&(useData[i].fields.AccountTypeName != "BANK")){
                         splashArrayProductList.push(dataList);
                       }
@@ -226,7 +226,7 @@ Template.accountlistpop.onRendered(function() {
                         data.taccountvs1[i].TaxCode || ''
                     ];
 
-                    if (currentLoc == "/billcard"){
+                    if (currentLoc == "/billcard" || currentLoc == "/chequecard"){
                       if((data.taccountvs1[i].AccountTypeName != "AP")&&(data.taccountvs1[i].AccountTypeName != "AR")&&(data.taccountvs1[i].AccountTypeName != "CCARD") &&(data.taccountvs1[i].AccountTypeName != "BANK")){
                         splashArrayProductList.push(dataList);
                       }

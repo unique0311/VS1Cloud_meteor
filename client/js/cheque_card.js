@@ -1504,6 +1504,7 @@ Template.chequecard.onRendered(() => {
             $(".lineTaxRate", rowData).text("");
             $(".lineTaxCode", rowData).text("");
             $(".lineAmt", rowData).text("");
+            $(".lineTaxAmount", rowData).text("");
             rowData.attr('id', tokenid);
             $("#tblChequeLine tbody").append(rowData);
 
@@ -1777,7 +1778,7 @@ Template.chequecard.onRendered(() => {
     $('#edtSupplierName').editableSelect().on('click.editable-select', function (e, li) {
       var $earch = $(this);
       var offset = $earch.offset();
-
+      $('#edtSupplierPOPID').val('');
       var supplierDataName = e.target.value ||'';
       var supplierDataID = $('#edtSupplierName').attr('suppid').replace(/\s/g, '') ||'';
       if (e.pageX > offset.left + $earch.width() - 8) { // X button 16px wide?
@@ -4069,11 +4070,11 @@ Template.chequecard.events({
             $('#' + selectLineID + " .lineTaxRate").text('');
             $('#' + selectLineID + " .lineTaxCode").text('');
             $('#' + selectLineID + " .lineAmount").val('');
+            $('#' + selectLineID + " .lineTaxAmount").text('');
 
             document.getElementById("subtotal_tax").innerHTML = Currency + '0.00';
             document.getElementById("subtotal_total").innerHTML = Currency + '0.00';
             document.getElementById("grandTotal").innerHTML = Currency + '0.00';
-            document.getElementById("balanceDue").innerHTML = Currency + '0.00';
             document.getElementById("totalBalanceDue").innerHTML = Currency + '0.00';
 
 

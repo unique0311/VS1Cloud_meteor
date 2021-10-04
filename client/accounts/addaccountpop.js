@@ -84,7 +84,7 @@ Template.addaccountpop.onRendered(function () {
                         accounttypename: data.taccounttype[i].AccountTypeName || ' ',
                         description: data.taccounttype[i].OriginalDescription || ' '
                     };
-                    if (currentLoc == "/billcard"){
+                    if (currentLoc == "/billcard" || currentLoc == "/chequecard"){
                       if((data.taccounttype[i].AccountTypeName != "AP") && (data.taccounttype[i].AccountTypeName != "AR")&&(data.taccounttype[i].AccountTypeName != "CCARD")&&(data.taccounttype[i].AccountTypeName != "BANK") ){
                         accountTypeList.push(accounttyperecordObj);
                       }
@@ -105,7 +105,7 @@ Template.addaccountpop.onRendered(function () {
                     accounttypename: useData[i].AccountTypeName || ' ',
                     description: useData[i].OriginalDescription || ' '
                 };
-                if (currentLoc == "/billcard"){
+                if (currentLoc == "/billcard" || currentLoc == "/chequecard"){
                   if((useData[i].AccountTypeName != "AP") && (useData[i].AccountTypeName != "AR")&&(useData[i].AccountTypeName != "CCARD") &&(useData[i].AccountTypeName != "BANK")){
                     accountTypeList.push(accounttyperecordObj);
                   }
@@ -124,7 +124,7 @@ Template.addaccountpop.onRendered(function () {
                     accounttypename: data.taccounttype[i].AccountTypeName || ' ',
                     description: data.taccounttype[i].OriginalDescription || ' '
                 };
-                if (currentLoc == "/billcard"){
+                if (currentLoc == "/billcard" || currentLoc == "/chequecard"){
                   if((data.taccounttype[i].AccountTypeName != "AP") && (data.taccounttype[i].AccountTypeName != "AR")&&(data.taccounttype[i].AccountTypeName != "CCARD")&&(data.taccounttype[i].AccountTypeName != "BANK") ){
                     accountTypeList.push(accounttyperecordObj);
                   }

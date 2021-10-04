@@ -712,6 +712,22 @@ Template.newsidenav.onRendered(function() {
     }
     var splashArrayProd = new Array();
 
+    var currentBeginDate = new Date();
+    var begunDate = moment(currentBeginDate).format("DD/MM/YYYY");
+    let fromDateMonth = (currentBeginDate.getMonth() + 1);
+    let fromDateDay = currentBeginDate.getDate();
+    if (currentBeginDate.getMonth() < 10) {
+        fromDateMonth = "0" + (currentBeginDate.getMonth());
+    } else {
+        fromDateMonth = (currentBeginDate.getMonth());
+    }
+
+    if (currentBeginDate.getDate() < 10) {
+        fromDateDay = "0" + currentBeginDate.getDate();
+    }
+    var toDate = currentBeginDate.getFullYear() + "-" + (fromDateMonth) + "-" + (fromDateDay);
+    let prevMonth11Date = (moment().subtract(reportsloadMonths, 'months')).format("YYYY-MM-DD");
+
     templateObject.getAllAccountsData = function() {
         sideBarService.getAccountListVS1().then(function(data) {
             //localStorage.setItem('VS1AccountList', JSON.stringify(data) || '');
@@ -838,21 +854,6 @@ Template.newsidenav.onRendered(function() {
     }
 
     templateObject.getAllERPCombinedContactsData = function() {
-        var currentBeginDate = new Date();
-        var begunDate = moment(currentBeginDate).format("DD/MM/YYYY");
-        let fromDateMonth = currentBeginDate.getMonth();
-        let fromDateDay = currentBeginDate.getDate();
-        if (currentBeginDate.getMonth() < 10) {
-            fromDateMonth = "0" + (currentBeginDate.getMonth() + 1);
-        } else {
-            fromDateMonth = (currentBeginDate.getMonth() + 1);
-        }
-
-        if (currentBeginDate.getDate() < 10) {
-            fromDateDay = "0" + currentBeginDate.getDate();
-        }
-        var toDate = currentBeginDate.getFullYear() + "-" + (fromDateMonth) + "-" + (fromDateDay);
-        let prevMonth11Date = (moment().subtract(reportsloadMonths, 'months')).format("YYYY-MM-DD");
         sideBarService.getAllContactCombineVS1(initialReportLoad, 0).then(function(data) {
             //localStorage.setItem('VS1ERPCombinedContactsList', JSON.stringify(data) || '');
             addVS1Data('TERPCombinedContactsVS1', JSON.stringify(data));
@@ -880,21 +881,7 @@ Template.newsidenav.onRendered(function() {
     }
 
     templateObject.getAllBankAccountReportData = function() {
-        var currentBeginDate = new Date();
-        var begunDate = moment(currentBeginDate).format("DD/MM/YYYY");
-        let fromDateMonth = currentBeginDate.getMonth();
-        let fromDateDay = currentBeginDate.getDate();
-        if (currentBeginDate.getMonth() < 10) {
-            fromDateMonth = "0" + (currentBeginDate.getMonth() + 1);
-        } else {
-            fromDateMonth = (currentBeginDate.getMonth() + 1);
-        }
 
-        if (currentBeginDate.getDate() < 10) {
-            fromDateDay = "0" + currentBeginDate.getDate();
-        }
-        var toDate = currentBeginDate.getFullYear() + "-" + (fromDateMonth) + "-" + (fromDateDay);
-        let prevMonth11Date = (moment().subtract(reportsloadMonths, 'months')).format("YYYY-MM-DD");
         sideBarService.getAllBankAccountDetails(prevMonth11Date, toDate, false).then(function(data) {
             //localStorage.setItem('VS1BankAccountReportList', JSON.stringify(data) || '');
             addVS1Data('TBankAccountReport', JSON.stringify(data));
@@ -965,21 +952,7 @@ Template.newsidenav.onRendered(function() {
     }
 
     templateObject.getAllTbillReportData = function() {
-        var currentBeginDate = new Date();
-        var begunDate = moment(currentBeginDate).format("DD/MM/YYYY");
-        let fromDateMonth = currentBeginDate.getMonth();
-        let fromDateDay = currentBeginDate.getDate();
-        if (currentBeginDate.getMonth() < 10) {
-            fromDateMonth = "0" + (currentBeginDate.getMonth() + 1);
-        } else {
-            fromDateMonth = (currentBeginDate.getMonth() + 1);
-        }
 
-        if (currentBeginDate.getDate() < 10) {
-            fromDateDay = "0" + currentBeginDate.getDate();
-        }
-        var toDate = currentBeginDate.getFullYear() + "-" + (fromDateMonth) + "-" + (fromDateDay);
-        let prevMonth11Date = (moment().subtract(reportsloadMonths, 'months')).format("YYYY-MM-DD");
         sideBarService.getAllPurchaseOrderListAll(prevMonth11Date, toDate, false).then(function(data) {
             //localStorage.setItem('VS1TbillReport', JSON.stringify(data) || '');
             addVS1Data('TbillReport', JSON.stringify(data));
@@ -1108,21 +1081,7 @@ Template.newsidenav.onRendered(function() {
     }
 
     templateObject.getAllTSalesListData = function() {
-        var currentBeginDate = new Date();
-        var begunDate = moment(currentBeginDate).format("DD/MM/YYYY");
-        let fromDateMonth = currentBeginDate.getMonth();
-        let fromDateDay = currentBeginDate.getDate();
-        if (currentBeginDate.getMonth() < 10) {
-            fromDateMonth = "0" + (currentBeginDate.getMonth() + 1);
-        } else {
-            fromDateMonth = (currentBeginDate.getMonth() + 1);
-        }
 
-        if (currentBeginDate.getDate() < 10) {
-            fromDateDay = "0" + currentBeginDate.getDate();
-        }
-        var toDate = currentBeginDate.getFullYear() + "-" + (fromDateMonth) + "-" + (fromDateDay);
-        let prevMonth11Date = (moment().subtract(reportsloadMonths, 'months')).format("YYYY-MM-DD");
 
         sideBarService.getSalesListData(prevMonth11Date, toDate, false).then(function(data) {
             //localStorage.setItem('VS1TSalesList', JSON.stringify(data) || '');
@@ -1166,21 +1125,6 @@ Template.newsidenav.onRendered(function() {
     }
 
     templateObject.getTPaymentListData = function() {
-        var currentBeginDate = new Date();
-        var begunDate = moment(currentBeginDate).format("DD/MM/YYYY");
-        let fromDateMonth = currentBeginDate.getMonth();
-        let fromDateDay = currentBeginDate.getDate();
-        if (currentBeginDate.getMonth() < 10) {
-            fromDateMonth = "0" + (currentBeginDate.getMonth() + 1);
-        } else {
-            fromDateMonth = (currentBeginDate.getMonth() + 1);
-        }
-
-        if (currentBeginDate.getDate() < 10) {
-            fromDateDay = "0" + currentBeginDate.getDate();
-        }
-        var toDate = currentBeginDate.getFullYear() + "-" + (fromDateMonth) + "-" + (fromDateDay);
-        let prevMonth11Date = (moment().subtract(reportsloadMonths, 'months')).format("YYYY-MM-DD");
 
         sideBarService.getTPaymentList(prevMonth11Date, toDate, false).then(function(data) {
             addVS1Data('TPaymentList', JSON.stringify(data));
@@ -1190,21 +1134,6 @@ Template.newsidenav.onRendered(function() {
     }
 
     templateObject.getTARReportData = function() {
-        var currentBeginDate = new Date();
-        var begunDate = moment(currentBeginDate).format("DD/MM/YYYY");
-        let fromDateMonth = currentBeginDate.getMonth();
-        let fromDateDay = currentBeginDate.getDate();
-        if (currentBeginDate.getMonth() < 10) {
-            fromDateMonth = "0" + (currentBeginDate.getMonth() + 1);
-        } else {
-            fromDateMonth = (currentBeginDate.getMonth() + 1);
-        }
-
-        if (currentBeginDate.getDate() < 10) {
-            fromDateDay = "0" + currentBeginDate.getDate();
-        }
-        var toDate = currentBeginDate.getFullYear() + "-" + (fromDateMonth) + "-" + (fromDateDay);
-        let prevMonth11Date = (moment().subtract(reportsloadMonths, 'months')).format("YYYY-MM-DD");
 
         sideBarService.getTARReport(prevMonth11Date, toDate, false).then(function(data) {
             addVS1Data('TARReport', JSON.stringify(data));
@@ -1214,21 +1143,7 @@ Template.newsidenav.onRendered(function() {
     }
 
     templateObject.getTAPReportData = function() {
-        var currentBeginDate = new Date();
-        var begunDate = moment(currentBeginDate).format("DD/MM/YYYY");
-        let fromDateMonth = currentBeginDate.getMonth();
-        let fromDateDay = currentBeginDate.getDate();
-        if (currentBeginDate.getMonth() < 10) {
-            fromDateMonth = "0" + (currentBeginDate.getMonth() + 1);
-        } else {
-            fromDateMonth = (currentBeginDate.getMonth() + 1);
-        }
 
-        if (currentBeginDate.getDate() < 10) {
-            fromDateDay = "0" + currentBeginDate.getDate();
-        }
-        var toDate = currentBeginDate.getFullYear() + "-" + (fromDateMonth) + "-" + (fromDateDay);
-        let prevMonth11Date = (moment().subtract(reportsloadMonths, 'months')).format("YYYY-MM-DD");
         sideBarService.getTAPReport(prevMonth11Date, toDate, false).then(function(data) {
             addVS1Data('TAPReport', JSON.stringify(data));
         }).catch(function(err) {

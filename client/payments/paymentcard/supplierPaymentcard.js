@@ -4764,12 +4764,12 @@ Template.supplierpaymentcard.events({
         Session.setPersistent('department', department);
         var currentBeginDate = new Date();
         var begunDate = moment(currentBeginDate).format("DD/MM/YYYY");
-        let fromDateMonth = currentBeginDate.getMonth();
+        let fromDateMonth = (currentBeginDate.getMonth()+ 1);
         let fromDateDay = currentBeginDate.getDate();
         if (currentBeginDate.getMonth() < 10) {
-            fromDateMonth = "0" + (currentBeginDate.getMonth() + 1);
+            fromDateMonth = "0" + (currentBeginDate.getMonth());
         } else {
-            fromDateMonth = (currentBeginDate.getMonth() + 1);
+            fromDateMonth = (currentBeginDate.getMonth());
         }
 
         if (currentBeginDate.getDate() < 10) {
@@ -7535,12 +7535,12 @@ Template.supplierpaymentcard.events({
         var url = FlowRouter.current().path;
         var currentBeginDate = new Date();
         var begunDate = moment(currentBeginDate).format("DD/MM/YYYY");
-        let fromDateMonth = currentBeginDate.getMonth();
+        let fromDateMonth = (currentBeginDate.getMonth() + 1);
         let fromDateDay = currentBeginDate.getDate();
         if (currentBeginDate.getMonth() < 10) {
-            fromDateMonth = "0" + (currentBeginDate.getMonth() + 1);
+            fromDateMonth = "0" + (currentBeginDate.getMonth());
         } else {
-            fromDateMonth = (currentBeginDate.getMonth() + 1);
+            fromDateMonth = (currentBeginDate.getMonth());
         }
 
         if (currentBeginDate.getDate() < 10) {
