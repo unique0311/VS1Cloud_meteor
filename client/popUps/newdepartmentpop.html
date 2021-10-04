@@ -30,45 +30,6 @@
                         </div>
                     </div>
                 </div>
-                {{#if isModuleGreenTrack}}
-                    <div class="row no-gutters" style="margin-top: 16px;">
-                        <div class="col d-xl-flex align-items-xl-end">
-                            <h4>Seed to Sale</h4>
-                        </div>
-                    </div>
-                    <div class="row no-gutters">
-                        <div class="col-6 d-xl-flex align-items-xl-end">
-                            <div class="form-group flex-grow-1" style="margin: 8px;"><label>Main Contact</label>
-                                <select class="form-control" name="sltMainContact" id="sltMainContact" style="background-color:rgb(255, 255, 255); cursor: pointer;">
-                                    {{#each item in listEmployees}}
-                                        <option value="{{item.employeename}}" mytagemp="{{item.empID}}">{{item.employeename}}</option>
-                                    {{/each}}
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-6 d-xl-flex align-items-xl-end">
-                            <div class="form-group flex-grow-1" style="margin: 8px;"><label>Phone No.</label>
-                                <input type="text" class="form-control" id="stsMainContactNo" name="stsMainContactNo">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row no-gutters">
-                        <div class="col-6 d-xl-flex align-items-xl-end">
-                            <div class="form-group flex-grow-1" style="margin: 8px;"><label>License No.</label>
-                                <input type="text" class="form-control" id="stsLicenseNo" name="stsLicenseNo">
-                            </div>
-                        </div>
-                        <div class="col-6 d-xl-flex align-items-xl-end">
-                            <div class="form-group flex-grow-1" style="margin: 8px;"><label>Default Room</label>
-                                <select class="form-control" name="sltDefaultRoom" id="sltDefaultRoom" style="background-color:rgb(255, 255, 255); cursor: pointer;">
-                                    {{#each itemBin in listBins}}
-                                        <option value="{{itemBin.roomname}}" mytagroom="{{itemBin.roomid}}">{{itemBin.roomname}}</option>
-                                    {{/each}}
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                {{/if}}
             </div>
             <div class="modal-footer">
                 <button class="btn btn-success btnSaveDept" type="button"><i class="fa fa-save" style="padding-right: 8px;"></i>Save</button>

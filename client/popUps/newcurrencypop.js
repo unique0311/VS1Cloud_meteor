@@ -1,17 +1,25 @@
-import { TaxRateService } from "../settings/settings-service";
-import { ReactiveVar } from 'meteor/reactive-var';
-import { CountryService } from '../js/country-service';
-import { SideBarService } from '../js/sidebar-service';
+import {
+    TaxRateService
+} from "../settings/settings-service";
+import {
+    ReactiveVar
+} from 'meteor/reactive-var';
+import {
+    CountryService
+} from '../js/country-service';
+import {
+    SideBarService
+} from '../js/sidebar-service';
 import '../lib/global/indexdbstorage.js';
 let sideBarService = new SideBarService();
-Template.currencypop.onCreated(function() {
+Template.newcurrencypop.onCreated(function() {
     const templateObject = Template.instance();
     templateObject.datatablerecordscurrencypop = new ReactiveVar([]);
     templateObject.tableheaderrecords = new ReactiveVar([]);
     templateObject.countryData = new ReactiveVar();
 });
 
-Template.currencypop.onRendered(function() {
+Template.newcurrencypop.onRendered(function() {
     $('.fullScreenSpin').css('display', 'inline-block');
     let templateObject = Template.instance();
     let taxRateService = new TaxRateService();
@@ -172,7 +180,7 @@ Template.currencypop.onRendered(function() {
                                     MakeNegative();
                                 }, 100);
                             },
-                            "fnInitComplete": function () {
+                            "fnInitComplete": function() {
                                 $("<button class='btn btn-primary btnAddNewCurrency' data-dismiss='modal' data-toggle='modal' data-target='#newCurrencyModal' type='button' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-plus'></i></button>").insertAfter("#tblCurrencyPopList_filter");
                             },
 
@@ -317,7 +325,7 @@ Template.currencypop.onRendered(function() {
                                 MakeNegative();
                             }, 100);
                         },
-                        "fnInitComplete": function () {
+                        "fnInitComplete": function() {
                             $("<button class='btn btn-primary btnAddNewCurrency' data-dismiss='modal' data-toggle='modal' data-target='#newCurrencyModal' type='button' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-plus'></i></button>").insertAfter("#tblCurrencyPopList_filter");
                         },
 
@@ -490,7 +498,7 @@ Template.currencypop.onRendered(function() {
                                 MakeNegative();
                             }, 100);
                         },
-                        "fnInitComplete": function () {
+                        "fnInitComplete": function() {
                             $("<button class='btn btn-primary btnAddNewCurrency' data-dismiss='modal' data-toggle='modal' data-target='#newCurrencyModal' type='button' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-plus'></i></button>").insertAfter("#tblCurrencyPopList_filter");
                         },
 
@@ -636,7 +644,7 @@ Template.currencypop.onRendered(function() {
 });
 
 
-Template.currencypop.events({
+Template.newcurrencypop.events({
     'click #btnNewInvoice': function(event) {
         // FlowRouter.go('/invoicecard');
     },
@@ -1009,13 +1017,17 @@ Template.currencypop.events({
 
         taxRateService.saveCurrency(objDetails).then(function(objDetails) {
             sideBarService.getCurrencies().then(function(dataReload) {
+                $('#sltCurrency').val(currencyCode);
                 addVS1Data('TCurrency', JSON.stringify(dataReload)).then(function(datareturn) {
-                    Meteor._reload.reload();
+                    $('#newCurrencyModal').modal('toggle');
+                    $('.fullScreenSpin').css('display', 'none');
                 }).catch(function(err) {
-                    Meteor._reload.reload();
+                    $('#newCurrencyModal').modal('toggle');
+                    $('.fullScreenSpin').css('display', 'none');
                 });
             }).catch(function(err) {
-                Meteor._reload.reload();
+                $('#newCurrencyModal').modal('toggle');
+                $('.fullScreenSpin').css('display', 'none');
             });
         }).catch(function(err) {
             swal({
@@ -1026,7 +1038,8 @@ Template.currencypop.events({
                 confirmButtonText: 'Try Again'
             }).then((result) => {
                 if (result.value) {
-                    Meteor._reload.reload();
+                    $('#newCurrencyModal').modal('toggle');
+                    $('.fullScreenSpin').css('display', 'none');
                 } else if (result.dismiss === 'cancel') {
 
                 }
@@ -1039,7 +1052,7 @@ Template.currencypop.events({
 
 });
 
-Template.currencypop.helpers({
+Template.newcurrencypop.helpers({
     datatablerecordscurrencypop: () => {
         return Template.instance().datatablerecordscurrencypop.get().sort(function(a, b) {
             if (a.code == 'NA') {
