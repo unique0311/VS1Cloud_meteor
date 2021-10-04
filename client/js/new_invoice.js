@@ -4693,6 +4693,7 @@ Template.new_invoice.onRendered(() => {
             var $earch = $(this);
             var offset = $earch.offset();
             $('#edtCustomerPOPID').val('');
+            //$('#edtCustomerCompany').attr('readonly', false);
             var customerDataName = e.target.value || '';
             var customerDataID = $('#edtCustomerName').attr('custid').replace(/\s/g, '') || '';
             if (e.pageX > offset.left + $earch.width() - 8) { // X button 16px wide?
@@ -4757,6 +4758,7 @@ Template.new_invoice.onRendered(() => {
                                 let popCustomerTaxCode = data.tcustomer[0].fields.TaxCodeName || '';
                                 let popCustomerDiscount = data.tcustomer[0].fields.Discount || 0;
                                 let popCustomerType = data.tcustomer[0].fields.ClientTypeName || '';
+                                //$('#edtCustomerCompany').attr('readonly', true);
                                 $('#edtCustomerCompany').val(popCustomerName);
                                 $('#edtCustomerPOPID').val(popCustomerID);
                                 $('#edtCustomerPOPEmail').val(popCustomerEmail);
@@ -4854,6 +4856,7 @@ Template.new_invoice.onRendered(() => {
                                     let popCustomerTaxCode = data.tcustomervs1[i].fields.TaxCodeName || '';
                                     let popCustomerDiscount = data.tcustomervs1[i].fields.Discount || 0;
                                     let popCustomerType = data.tcustomervs1[i].fields.ClientTypeName || '';
+                                    //$('#edtCustomerCompany').attr('readonly', true);
                                     $('#edtCustomerCompany').val(popCustomerName);
                                     $('#edtCustomerPOPID').val(popCustomerID);
                                     $('#edtCustomerPOPEmail').val(popCustomerEmail);
@@ -4946,6 +4949,7 @@ Template.new_invoice.onRendered(() => {
                                     let popCustomerTaxCode = data.tcustomer[0].fields.TaxCodeName || '';
                                     let popCustomerDiscount = data.tcustomer[0].fields.Discount || 0;
                                     let popCustomerType = data.tcustomer[0].fields.ClientTypeName || '';
+                                    //$('#edtCustomerCompany').attr('readonly', true);
                                     $('#edtCustomerCompany').val(popCustomerName);
                                     $('#edtCustomerPOPID').val(popCustomerID);
                                     $('#edtCustomerPOPEmail').val(popCustomerEmail);
@@ -5039,6 +5043,7 @@ Template.new_invoice.onRendered(() => {
                             let popCustomerTaxCode = data.tcustomer[0].fields.TaxCodeName || '';
                             let popCustomerDiscount = data.tcustomer[0].fields.Discount || 0;
                             let popCustomerType = data.tcustomer[0].fields.ClientTypeName || '';
+                            //$('#edtCustomerCompany').attr('readonly', true);
                             $('#edtCustomerCompany').val(popCustomerName);
                             $('#edtCustomerPOPID').val(popCustomerID);
                             $('#edtCustomerPOPEmail').val(popCustomerEmail);
