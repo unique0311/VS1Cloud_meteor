@@ -245,7 +245,9 @@
                                     </div>
                                     <div class="col-6 col-md-4">
                                         <div class="form-group"><label>Status</label>
-                                            <select class="form-control" id="sltStatus" name="sltStatus" style="cursor: pointer;">
+                                            <select type="search" class="form-control" id="sltStatus" name="sltStatus" style="background-color:rgb(255, 255, 255); cursor: pointer;">
+                                            </select>
+                                            <!-- <select class="form-control" id="sltStatus" name="sltStatus" style="cursor: pointer;">
                                                 <option value="{{chequerecord.status}}" selected="">{{chequerecord.status}}</option>
                                                 {{#each item in statusrecords}}
                                                     {{#if equals item.orderstatus chequerecord.status }}
@@ -254,7 +256,7 @@
                                                         <option value="{{item.orderstatus}}">{{item.orderstatus}}</option>
                                                     {{/if}}
                                                 {{/each}}
-                                            </select>
+                                            </select> -->
                                         </div>
                                         {{> currencydropdown}}
                                     </div>
@@ -773,7 +775,7 @@
                                             <td contenteditable="false" class="lineAccountName colAccountName" style="cursor: pointer;">{{item.accountname}}</td>
                                             <td contenteditable="true" class="lineMemo colMemo">{{item.memo}}</td>
                                             <!--                                    <td contenteditable="true" class="lineAmount colAmount" style="text-align: right!important;">{{item.unitPrice}}</td>-->
-                    
+
                                             <td class="colAmountEx"><input class="lineAmount colAmount highlightInput colAmountExChange" type="text" value="{{item.unitPrice}}"></td>
                                             <td class="colAmountInc hiddenColumn"><input class="lineAmount colAmount highlightInput colAmountIncChange" type="text" value="{{item.unitPriceInc}}"></td>
                                             <!-- <td contenteditable="true" class="lineCostPrice colCostPrice hiddenColumn" style="text-align: right!important;">{{item.lineCost}}</td> -->
@@ -1251,6 +1253,22 @@
 
         <div class="modal fade" role="dialog" tabindex="-1" id="addAccountModal">
             {{> addaccountpop}}
+        </div>
+
+        <div class="modal fade" role="dialog" tabindex="-1" id="currencyModal">
+            {{> currencypop}}
+        </div>
+
+        <div class="modal fade" role="dialog" tabindex="-1" id="newCurrencyModal">
+            {{> newcurrencypop}}
+        </div>
+
+        <div class="modal fade" role="dialog" tabindex="-1" id="statusPopModal">
+            {{> statuspop}}
+        </div>
+
+        <div class="modal fade" role="dialog" tabindex="-1" id="newStatusPopModal">
+            {{> newstatuspop}}
         </div>
         <!-- End Modal Product -->
         <!-- Modal Tax Rate -modal -->

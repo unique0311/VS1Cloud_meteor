@@ -518,6 +518,7 @@ Template.chequecard.onRendered(() => {
                             $('#sltBankAccountName').val(data.fields.GLAccountName);
                             templateObject.CleintName.set(data.fields.SupplierName);
                             $('#sltCurrency').val(data.fields.ForeignExchangeCode);
+                            $('#sltStatus').val(data.fields.OrderStatus);
 
                             if(data.fields.Isreconciled){
                               $(".btnDeleteCheque").prop("disabled", true);
@@ -754,6 +755,7 @@ Template.chequecard.onRendered(() => {
                                 $('#sltBankAccountName').val(useData[d].fields.GLAccountName);
                                 templateObject.CleintName.set(useData[d].fields.SupplierName);
                                 $('#sltCurrency').val(useData[d].fields.ForeignExchangeCode);
+                                $('#sltStatus').val(useData[d].fields.OrderStatus);
 
                                 if(useData[d].fields.Isreconciled){
                                   $(".btnDeleteCheque").prop("disabled", true);
@@ -971,6 +973,7 @@ Template.chequecard.onRendered(() => {
                                 $('#sltBankAccountName').val(data.fields.GLAccountName);
                                 templateObject.CleintName.set(data.fields.SupplierName);
                                 $('#sltCurrency').val(data.fields.ForeignExchangeCode);
+                                $('#sltStatus').val(data.fields.OrderStatus);
 
                                 if(data.fields.Isreconciled){
                                   $(".btnDeleteCheque").prop("disabled", true);
@@ -1204,6 +1207,7 @@ Template.chequecard.onRendered(() => {
                         $('#sltBankAccountName').val(data.fields.GLAccountName);
                         templateObject.CleintName.set(data.fields.SupplierName);
                         $('#sltCurrency').val(data.fields.ForeignExchangeCode);
+                        $('#sltStatus').val(data.fields.OrderStatus);
 
                         if(data.fields.Isreconciled){
                           $(".btnDeleteCheque").prop("disabled", true);
@@ -1506,6 +1510,8 @@ Template.chequecard.onRendered(() => {
     $(document).ready(function() {
         $('#edtSupplierName').editableSelect();
         $('#sltBankAccountName').editableSelect();
+        $('#sltCurrency').editableSelect();
+        $('#sltStatus').editableSelect();
 
         $('#addRow').on('click', function() {
             var rowData = $('#tblChequeLine tbody>tr:last').clone(true);
@@ -1545,6 +1551,15 @@ Template.chequecard.onRendered(() => {
 
     });
 
+    $(document).on("click", "#tblCurrencyPopList tbody tr", function(e) {
+        $('#sltCurrency').val($(this).find(".colCode").text());
+        $('#currencyModal').modal('toggle');
+    });
+
+    $(document).on("click", "#tblStatusPopList tbody tr", function(e) {
+        $('#sltStatus').val($(this).find(".colStatusName").text());
+        $('#statusPopModal').modal('toggle');
+    });
 
     $(document).on("click", "#tblAccount tbody tr", function(e) {
         let selectLineID = $('#selectLineID').val();
@@ -3237,6 +3252,12 @@ Template.chequecard.helpers({
 });
 
 Template.chequecard.events({
+    'click #sltCurrency': function(event) {
+        $('#currencyModal').modal('toggle');
+    },
+    'click #sltStatus': function(event) {
+        $('#statusPopModal').modal('toggle');
+    },
     'click #edtSupplierName': function(event) {
         $('#edtSupplierName').select();
         $('#edtSupplierName').editableSelect();
