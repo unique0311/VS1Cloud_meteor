@@ -223,18 +223,18 @@ Template.currencypop.onRendered(function() {
           let useData = data.tcurrency;
           let lineItems = [];
     let lineItemObj = {};
-    for(let i=0; i<useData.length; i++){
+    for(let i=0; i<data.tcurrency.length; i++){
       // let taxRate = (useData[i].fields.Rate * 100).toFixed(2) + '%';
          var dataList = {
-           id: useData[i].Id || '',
-           code: useData[i].Code || '-',
-           currency:useData[i].Currency || '-',
-           symbol:useData[i].CurrencySymbol || '-',
-           buyrate:useData[i].BuyRate || '-',
-           sellrate:useData[i].SellRate || '-',
-           country: useData[i].Country || '-',
-           description: useData[i].CurrencyDesc || '-',
-           ratelastmodified:useData[i].RateLastModified || '-',
+           id: data.tcurrency[i].Id || '',
+           code: data.tcurrency[i].Code || '-',
+           currency:data.tcurrency[i].Currency || '-',
+           symbol:data.tcurrency[i].CurrencySymbol || '-',
+           buyrate:data.tcurrency[i].BuyRate || '-',
+           sellrate:data.tcurrency[i].SellRate || '-',
+           country: data.tcurrency[i].Country || '-',
+           description: data.tcurrency[i].CurrencyDesc || '-',
+           ratelastmodified:data.tcurrency[i].RateLastModified || '-',
 
 
        };
@@ -246,37 +246,6 @@ Template.currencypop.onRendered(function() {
     templateObject.datatablerecordscurrencypop.set(dataTableList);
 
     if(templateObject.datatablerecordscurrencypop.get()){
-
-      Meteor.call('readPrefMethod',Session.get('mycloudLogonID'),'tblCurrencyPopList', function(error, result){
-      if(error){
-
-      }else{
-        if(result){
-          for (let i = 0; i < result.customFields.length; i++) {
-            let customcolumn = result.customFields;
-            let columData = customcolumn[i].label;
-            let columHeaderUpdate = customcolumn[i].thclass.replace(/ /g, ".");
-            let hiddenColumn = customcolumn[i].hidden;
-            let columnClass = columHeaderUpdate.split('.')[1];
-            let columnWidth = customcolumn[i].width;
-            let columnindex = customcolumn[i].index + 1;
-
-            if(hiddenColumn == true){
-
-              $("."+columnClass+"").addClass('hiddenColumn');
-              $("."+columnClass+"").removeClass('showColumn');
-            }else if(hiddenColumn == false){
-              $("."+columnClass+"").removeClass('hiddenColumn');
-              $("."+columnClass+"").addClass('showColumn');
-            }
-
-          }
-        }
-
-      }
-      });
-
-
       setTimeout(function () {
         MakeNegative();
       }, 100);

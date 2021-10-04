@@ -558,7 +558,7 @@ Template.addcustomerpop.onRendered(function () {
     setTimeout(function () {
 
         var x = window.matchMedia("(max-width: 420px)");
-        var btnView = document.getElementById("btnsViewHide");
+        // var btnView = document.getElementById("btnsViewHide");
 
 
         function mediaQuery(x) {
@@ -568,7 +568,7 @@ Template.addcustomerpop.onRendered(function () {
                 $("#displayList").addClass("col-12");
                 $("#customerListCard").removeClass("cardB");
                 $("#customerListCard").addClass("cardB420");
-                btnsViewHide.style.display = "none";
+                // btnsViewHide.style.display = "none";
 
                 $("#displayInfo").removeClass("col-9");
                 $("#displayInfo").addClass("col-12");
