@@ -390,7 +390,7 @@ setTimeout(function () {
             }else{
 
             }
-            if(oSettings.fnRecordsDisplay() < 100){
+            if(oSettings.fnRecordsDisplay() < initialDatatableLoad){
                 $('.paginate_button.page-item.next').addClass('disabled');
             }
             $('.paginate_button.next:not(.disabled)', this.api().table().container())
@@ -398,7 +398,7 @@ setTimeout(function () {
                $('.fullScreenSpin').css('display','inline-block');
                let dataLenght = oSettings._iDisplayLength;
 
-               sideBarService.getAllInvoiceList(100,oSettings.fnRecordsDisplay()).then(function(dataObjectnew) {
+               sideBarService.getAllInvoiceList(initialDatatableLoad,oSettings.fnRecordsDisplay()).then(function(dataObjectnew) {
                  getVS1Data('TInvoiceEx').then(function (dataObjectold) {
                    if(dataObjectold.length == 0){
 
@@ -470,7 +470,11 @@ setTimeout(function () {
       }).on( 'length.dt', function ( e, settings, len ) {
         $('.fullScreenSpin').css('display','inline-block');
         let dataLenght = settings._iDisplayLength;
+        let dataSearchName = $('#tblSupplierlist_filter input').val();
         if(dataLenght == -1){
+          if(settings.fnRecordsDisplay() > initialDatatableLoad){
+            $('.fullScreenSpin').css('display','none');
+          }else{
           sideBarService.getAllInvoiceList('All',1).then(function(data) {
             let lineItems = [];
              let lineItemObj = {};
@@ -521,7 +525,7 @@ setTimeout(function () {
           }).catch(function(err) {
             $('.fullScreenSpin').css('display','none');
           });
-         //}
+         }
         }else{
           if (settings.fnRecordsDisplay() >= settings._iDisplayLength) {
             $('.fullScreenSpin').css('display','none');

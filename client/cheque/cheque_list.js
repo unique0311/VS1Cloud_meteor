@@ -395,7 +395,7 @@ Template.chequelist.onRendered(function() {
                           }else{
 
                           }
-                          if(oSettings.fnRecordsDisplay() < 100){
+                          if(oSettings.fnRecordsDisplay() < initialDatatableLoad){
                               $('.paginate_button.page-item.next').addClass('disabled');
                           }
 
@@ -404,7 +404,7 @@ Template.chequelist.onRendered(function() {
                              $('.fullScreenSpin').css('display','inline-block');
                              let dataLenght = oSettings._iDisplayLength;
 
-                             sideBarService.getAllChequeList(100,oSettings.fnRecordsDisplay()).then(function(dataObjectnew) {
+                             sideBarService.getAllChequeList(initialDatatableLoad,oSettings.fnRecordsDisplay()).then(function(dataObjectnew) {
                                getVS1Data('TCheque').then(function (dataObjectold) {
                                  if(dataObjectold.length == 0){
 

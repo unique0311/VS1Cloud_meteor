@@ -70,6 +70,7 @@ Template.depositlist.onRendered(function() {
                     let lineItemObj = {};
                     for(let i=0; i<data.tvs1bankdeposit.length; i++){
                         let totalAmount = 0;
+                        if(data.tvs1bankdeposit[i].fields.Lines){
                         if(data.tvs1bankdeposit[i].fields.Lines.length){
                             for(let d=0; d<data.tvs1bankdeposit[i].fields.Lines.length; d++){
                                 totalAmount += data.tvs1bankdeposit[i].fields.Lines[d].fields.Amount;
@@ -78,6 +79,7 @@ Template.depositlist.onRendered(function() {
                         }else{
                             totalAmount += data.tvs1bankdeposit[i].fields.Lines.fields.Amount;
                         }
+                      }
                         let totalAmountUndeposited = utilityService.modifynegativeCurrencyFormat(data.tvs1bankdeposit[i].fields.UnDeposittot)|| 0.00;
                         var dataList = {
                             id: data.tvs1bankdeposit[i].fields.ID || '',
@@ -90,11 +92,13 @@ Template.depositlist.onRendered(function() {
                             employeename: data.tvs1bankdeposit[i].fields.EmployeeName || '',
                             memo: data.tvs1bankdeposit[i].fields.Notes || '',
                         };
+                        if(data.tvs1bankdeposit[i].fields.Lines){
                         if(data.tvs1bankdeposit[i].fields.Lines.length){
                             if(data.tvs1bankdeposit[i].fields.Lines[0].fields.FromDeposited == true){
                                 dataTableList.push(dataList);
                             }
                         }
+                      }
                     }
                     templateObject.datatablerecords.set(dataTableList);
                     if(templateObject.datatablerecords.get()){
@@ -265,6 +269,7 @@ Template.depositlist.onRendered(function() {
             }else{
                 let data = JSON.parse(dataObject[0].data);
                 let useData = data.tvs1bankdeposit;
+                console.log(useData);
                 $('.fullScreenSpin').css('display','none');
                 let lineItems = [];
                 let lineItemObj = {};
@@ -292,11 +297,13 @@ Template.depositlist.onRendered(function() {
                         employeename: useData[i].fields.EmployeeName || '',
                         memo: useData[i].fields.Notes || '',
                     };
+                    if(useData[i].fields.Lines){
                     if(useData[i].fields.Lines.length){
                         if(useData[i].fields.Lines[0].fields.FromDeposited == true){
                             dataTableList.push(dataList);
                         }
                     }
+                  }
                 }
                 templateObject.datatablerecords.set(dataTableList);
                 if(templateObject.datatablerecords.get()){
@@ -419,7 +426,7 @@ Template.depositlist.onRendered(function() {
                           }else{
 
                           }
-                          if(oSettings.fnRecordsDisplay() < 100){
+                          if(oSettings.fnRecordsDisplay() < initialDatatableLoad){
                               $('.paginate_button.page-item.next').addClass('disabled');
                           }
                           $('.paginate_button.next:not(.disabled)', this.api().table().container())
@@ -427,7 +434,7 @@ Template.depositlist.onRendered(function() {
                              $('.fullScreenSpin').css('display','inline-block');
                              let dataLenght = oSettings._iDisplayLength;
 
-                             sideBarService.getAllTVS1BankDepositData(100,oSettings.fnRecordsDisplay()).then(function(dataObjectnew) {
+                             sideBarService.getAllTVS1BankDepositData(initialDatatableLoad,oSettings.fnRecordsDisplay()).then(function(dataObjectnew) {
                                getVS1Data('TVS1BankDeposit').then(function (dataObjectold) {
                                  if(dataObjectold.length == 0){
 
@@ -481,8 +488,7 @@ Template.depositlist.onRendered(function() {
                       $('.fullScreenSpin').css('display','inline-block');
                       let dataLenght = settings._iDisplayLength;
                       if(dataLenght == -1){
-                        if(settings.fnRecordsDisplay() > 150){
-                          $('.paginate_button.page-item.next').addClass('disabled');
+                        if(settings.fnRecordsDisplay() > initialDatatableLoad){
                           $('.fullScreenSpin').css('display','none');
                         }else{
                         sideBarService.getAllTVS1BankDepositData('All',1).then(function(dataNonBo) {
@@ -567,6 +573,7 @@ Template.depositlist.onRendered(function() {
                 let lineItemObj = {};
                 for(let i=0; i<data.tvs1bankdeposit.length; i++){
                     let totalAmount = 0;
+                    if(data.tvs1bankdeposit[i].fields.Lines){
                     if(data.tvs1bankdeposit[i].fields.Lines.length){
                         for(let d=0; d<data.tvs1bankdeposit[i].fields.Lines.length; d++){
                             totalAmount += data.tvs1bankdeposit[i].fields.Lines[d].fields.Amount;
@@ -575,6 +582,7 @@ Template.depositlist.onRendered(function() {
                     }else{
                         totalAmount += data.tvs1bankdeposit[i].fields.Lines.fields.Amount;
                     }
+                  }
                     let totalAmountUndeposited = utilityService.modifynegativeCurrencyFormat(data.tvs1bankdeposit[i].fields.UnDeposittot)|| 0.00;
                     var dataList = {
                         id: data.tvs1bankdeposit[i].fields.ID || '',
@@ -587,11 +595,13 @@ Template.depositlist.onRendered(function() {
                         employeename: data.tvs1bankdeposit[i].fields.EmployeeName || '',
                         memo: data.tvs1bankdeposit[i].fields.Notes || '',
                     };
+                    if(data.tvs1bankdeposit[i].fields.Lines){
                     if(data.tvs1bankdeposit[i].fields.Lines.length){
                         if(data.tvs1bankdeposit[i].fields.Lines[0].fields.FromDeposited == true){
                             dataTableList.push(dataList);
                         }
                     }
+                  }
                 }
                 templateObject.datatablerecords.set(dataTableList);
                 if(templateObject.datatablerecords.get()){

@@ -375,7 +375,7 @@ Template.reconciliationlist.onRendered(function() {
                           }else{
 
                           }
-                          if(oSettings.fnRecordsDisplay() < 100){
+                          if(oSettings.fnRecordsDisplay() < initialDatatableLoad){
                               $('.paginate_button.page-item.next').addClass('disabled');
                           }
 
@@ -384,7 +384,7 @@ Template.reconciliationlist.onRendered(function() {
                              $('.fullScreenSpin').css('display','inline-block');
                              let dataLenght = oSettings._iDisplayLength;
 
-                             sideBarService.getAllReconcilationList(100,oSettings.fnRecordsDisplay()).then(function(dataObjectnew) {
+                             sideBarService.getAllReconcilationList(initialDatatableLoad,oSettings.fnRecordsDisplay()).then(function(dataObjectnew) {
                                getVS1Data('TReconciliation').then(function (dataObjectold) {
                                  if(dataObjectold.length == 0){
 
@@ -438,8 +438,7 @@ Template.reconciliationlist.onRendered(function() {
                       $('.fullScreenSpin').css('display','inline-block');
                       let dataLenght = settings._iDisplayLength;
                       if(dataLenght == -1){
-                        if(settings.fnRecordsDisplay() > 150){
-                          $('.paginate_button.page-item.next').addClass('disabled');
+                        if(settings.fnRecordsDisplay() > initialDatatableLoad){
                           $('.fullScreenSpin').css('display','none');
                         }else{
                         sideBarService.getAllReconcilationList('All',1).then(function(dataNonBo) {

@@ -410,7 +410,7 @@ Template.joblist.onRendered(function () {
                           }else{
 
                           }
-                          if(oSettings.fnRecordsDisplay() < 100){
+                          if(oSettings.fnRecordsDisplay() < initialDatatableLoad){
                               $('.paginate_button.page-item.next').addClass('disabled');
                           }
 
@@ -419,7 +419,7 @@ Template.joblist.onRendered(function () {
                              $('.fullScreenSpin').css('display','inline-block');
                              let dataLenght = oSettings._iDisplayLength;
 
-                             sideBarService.getAllJobssDataVS1(100,oSettings.fnRecordsDisplay()).then(function(dataObjectnew) {
+                             sideBarService.getAllJobssDataVS1(initialDatatableLoad,oSettings.fnRecordsDisplay()).then(function(dataObjectnew) {
                                getVS1Data('TJobVS1').then(function (dataObjectold) {
                                  if(dataObjectold.length == 0){
 

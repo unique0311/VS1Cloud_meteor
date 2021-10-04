@@ -388,7 +388,7 @@ Template.creditlist.onRendered(function() {
                         }else{
 
                         }
-                        if(oSettings.fnRecordsDisplay() < 100){
+                        if(oSettings.fnRecordsDisplay() < initialDatatableLoad){
                             $('.paginate_button.page-item.next').addClass('disabled');
                         }
                         $('.paginate_button.next:not(.disabled)', this.api().table().container())
@@ -396,7 +396,7 @@ Template.creditlist.onRendered(function() {
                              $('.fullScreenSpin').css('display','inline-block');
                              let dataLenght = oSettings._iDisplayLength;
 
-                             sideBarService.getAllCreditList(100,oSettings.fnRecordsDisplay()).then(function(dataObjectnew) {
+                             sideBarService.getAllCreditList(initialDatatableLoad,oSettings.fnRecordsDisplay()).then(function(dataObjectnew) {
                                getVS1Data('TCredit').then(function (dataObjectold) {
                                  if(dataObjectold.length == 0){
 
@@ -451,8 +451,7 @@ Template.creditlist.onRendered(function() {
                       $('.fullScreenSpin').css('display','inline-block');
                       let dataLenght = settings._iDisplayLength;
                       if(dataLenght == -1){
-                        if(settings.fnRecordsDisplay() > 150){
-                          $('.paginate_button.page-item.next').addClass('disabled');
+                        if(settings.fnRecordsDisplay() > initialDatatableLoad){
                           $('.fullScreenSpin').css('display','none');
                         }else{
                         sideBarService.getAllCreditList('All',1).then(function(dataNonBo) {

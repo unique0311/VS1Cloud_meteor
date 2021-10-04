@@ -843,6 +843,9 @@ Template.contactoverview.onRendered(function() {
                           $('.fullScreenSpin').css('display','inline-block');
                           let dataLenght = settings._iDisplayLength;
                           if(dataLenght == -1){
+                            if(settings.fnRecordsDisplay() > initialDatatableLoad){
+                              $('.fullScreenSpin').css('display','none');
+                            }else{
                             sideBarService.getAllContactCombineVS1('All',1).then(function(data) {
                               let lineItems = [];
                               let lineItemObj = {};
@@ -946,6 +949,7 @@ Template.contactoverview.onRendered(function() {
                             }).catch(function(err) {
                               $('.fullScreenSpin').css('display','none');
                             });
+                          }
                            //}
                           }else{
                             if (settings.fnRecordsDisplay() >= settings._iDisplayLength) {
@@ -1229,6 +1233,9 @@ Template.contactoverview.onRendered(function() {
                       $('.fullScreenSpin').css('display','inline-block');
                       let dataLenght = settings._iDisplayLength;
                       if(dataLenght == -1){
+                        if(settings.fnRecordsDisplay() > initialDatatableLoad){
+                          $('.fullScreenSpin').css('display','none');
+                        }else{
                         sideBarService.getAllContactCombineVS1('All',1).then(function(data) {
                           let lineItems = [];
                           let lineItemObj = {};
@@ -1332,7 +1339,7 @@ Template.contactoverview.onRendered(function() {
                         }).catch(function(err) {
                           $('.fullScreenSpin').css('display','none');
                         });
-                       //}
+                       }
                       }else{
                         if (settings.fnRecordsDisplay() >= settings._iDisplayLength) {
                           $('.fullScreenSpin').css('display','none');
@@ -1611,6 +1618,9 @@ Template.contactoverview.onRendered(function() {
                       $('.fullScreenSpin').css('display','inline-block');
                       let dataLenght = settings._iDisplayLength;
                       if(dataLenght == -1){
+                        if(settings.fnRecordsDisplay() > initialDatatableLoad){
+                          $('.fullScreenSpin').css('display','none');
+                        }else{
                         sideBarService.getAllContactCombineVS1('All',1).then(function(data) {
                           let lineItems = [];
                           let lineItemObj = {};
@@ -1714,7 +1724,7 @@ Template.contactoverview.onRendered(function() {
                         }).catch(function(err) {
                           $('.fullScreenSpin').css('display','none');
                         });
-                       //}
+                       }
                       }else{
                         if (settings.fnRecordsDisplay() >= settings._iDisplayLength) {
                           $('.fullScreenSpin').css('display','none');

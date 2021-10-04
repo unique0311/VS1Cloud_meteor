@@ -207,8 +207,8 @@ Template.header.onRendered(function() {
                         fixedColumnsLeft: 1
                     },
 
-                    pageLength: initialDatatableLoad,
-                    lengthMenu: [ [initialDatatableLoad, -1], [initialDatatableLoad, "All"] ],
+                    pageLength: initialReportDatatableLoad,
+                    lengthMenu: [ [initialReportDatatableLoad, -1], [initialReportDatatableLoad, "All"] ],
                     info: true,
                     responsive: true,
                     "fnDrawCallback": function (oSettings) {
@@ -223,7 +223,7 @@ Template.header.onRendered(function() {
                   }else{
 
                   }
-                  if(oSettings.fnRecordsDisplay() < 100){
+                  if(oSettings.fnRecordsDisplay() < initialReportLoad){
                       $('#tblSearchOverview_wrapper .paginate_button.page-item.next').addClass('disabled');
                   }
                   $('.paginate_button.next:not(.disabled)', this.api().table().container())
@@ -232,7 +232,7 @@ Template.header.onRendered(function() {
                      let dataLenght = oSettings._iDisplayLength;
                      // console.log(splashArrayList);
 
-                     sideBarService.getGlobalSearchReport(searchDataValue,100,oSettings.fnRecordsDisplay()).then(function(dataObjectnew) {
+                     sideBarService.getGlobalSearchReport(searchDataValue,initialReportLoad,oSettings.fnRecordsDisplay()).then(function(dataObjectnew) {
                        // templateObject.resetData(objCombineData);
                        let dataOld = splashArrayList;
                        for (let i = 0; i < dataObjectnew.tglobalsearchreport.length; i++) {

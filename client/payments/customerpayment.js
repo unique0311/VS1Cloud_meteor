@@ -390,7 +390,7 @@ Template.customerpayment.onRendered(function() {
 
                           }
 
-                          if(oSettings.fnRecordsDisplay() < 100){
+                          if(oSettings.fnRecordsDisplay() < initialDatatableLoad){
                               $('.paginate_button.page-item.next').addClass('disabled');
                           }
                           $('.paginate_button.next:not(.disabled)', this.api().table().container())
@@ -398,7 +398,7 @@ Template.customerpayment.onRendered(function() {
                              $('.fullScreenSpin').css('display','inline-block');
                              let dataLenght = oSettings._iDisplayLength;
 
-                             sideBarService.getTCustomerPaymentList(100,oSettings.fnRecordsDisplay()).then(function(dataObjectnew) {
+                             sideBarService.getTCustomerPaymentList(initialDatatableLoad,oSettings.fnRecordsDisplay()).then(function(dataObjectnew) {
                                getVS1Data('TCustomerPayment').then(function (dataObjectold) {
                                  if(dataObjectold.length == 0){
 
@@ -452,8 +452,7 @@ Template.customerpayment.onRendered(function() {
                       $('.fullScreenSpin').css('display','inline-block');
                       let dataLenght = settings._iDisplayLength;
                       if(dataLenght == -1){
-                        if(settings.fnRecordsDisplay() > 150){
-                          $('.paginate_button.page-item.next').addClass('disabled');
+                        if(settings.fnRecordsDisplay() > initialDatatableLoad){
                           $('.fullScreenSpin').css('display','none');
                         }else{
                         sideBarService.getTCustomerPaymentList('All',1).then(function(dataNonBo) {
