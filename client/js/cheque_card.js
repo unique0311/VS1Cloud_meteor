@@ -1606,7 +1606,11 @@ Template.chequecard.onRendered(() => {
                 var taxTotal = parseFloat(amount.replace(/[^0-9.-]+/g, "")) * parseFloat(taxrateamount);
                 $tblrow.find('.lineTaxAmount').text(utilityService.modifynegativeCurrencyFormat(taxTotal));
                 if (!isNaN(subTotal)) {
-                    $tblrow.find('.colAmount').val(utilityService.modifynegativeCurrencyFormat(subTotal));
+                    $tblrow.find('.colAmountExChange').val(utilityService.modifynegativeCurrencyFormat(subTotal));
+
+                    let totalAmountInc = (parseFloat(subTotal)) + (parseFloat(taxTotal)) || 0;
+                    $tblrow.find('.colAmountIncChange').val(utilityService.modifynegativeCurrencyFormat(totalAmountInc.toFixed(2)));
+
                     subGrandTotal += isNaN(subTotal) ? 0 : subTotal;
                     document.getElementById("subtotal_total").innerHTML = utilityService.modifynegativeCurrencyFormat(subGrandTotal);
                 }
@@ -1729,7 +1733,10 @@ Template.chequecard.onRendered(() => {
                 }
                 $tblrow.find('.lineTaxAmount').text(utilityService.modifynegativeCurrencyFormat(taxTotal));
                 if (!isNaN(subTotal)) {
-                    $tblrow.find('.colAmount').val(utilityService.modifynegativeCurrencyFormat(subTotal));
+                    $tblrow.find('.colAmountExChange').val(utilityService.modifynegativeCurrencyFormat(subTotal));
+                    let totalAmountInc = (parseFloat(subTotal)) + (parseFloat(taxTotal)) || 0;
+                    $tblrow.find('.colAmountIncChange').val(utilityService.modifynegativeCurrencyFormat(totalAmountInc.toFixed(2)));
+
                     subGrandTotal += isNaN(subTotal) ? 0 : subTotal;
                     document.getElementById("subtotal_total").innerHTML = utilityService.modifynegativeCurrencyFormat(subGrandTotal);
                 }
@@ -2245,6 +2252,8 @@ Template.chequecard.onRendered(() => {
             $tblrow.find('.lineTaxAmount').text(utilityService.modifynegativeCurrencyFormat(taxTotal));
             if (!isNaN(subTotal)) {
                 $tblrow.find('.colAmountExChange').val(utilityService.modifynegativeCurrencyFormat(subTotal));
+                let totalAmountInc = (parseFloat(subTotal)) + (parseFloat(taxTotal)) || 0;
+                $tblrow.find('.colAmountIncChange').val(utilityService.modifynegativeCurrencyFormat(totalAmountInc.toFixed(2)));
                 subGrandTotal += isNaN(subTotal) ? 0 : subTotal;
                 document.getElementById("subtotal_total").innerHTML = utilityService.modifynegativeCurrencyFormat(subGrandTotal);
             }
