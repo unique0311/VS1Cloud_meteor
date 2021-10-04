@@ -259,7 +259,9 @@
                     <div class="col-auto colTermsVia" id="colTermsVia">
                         <div style="margin: 16px  0px; max-width: 150px;" class='setMaxWith'>
                             <div class="form-group"><label>Terms</label>
-                                <select class="form-control" id="sltTerms" name="sltTerms" style="cursor: pointer;">
+                                <select type="search" class="form-control" id="sltTerms" name="sltTerms" style="background-color:rgb(255, 255, 255); cursor: pointer;">
+                                </select>
+                                <!-- <select class="form-control" id="sltTerms" name="sltTerms" style="cursor: pointer;">
                                     {{#if equals billrecord.termsName ''}}
                                         <option value="" selected="selected"></option>
                                     {{/if}}
@@ -270,13 +272,15 @@
                                             <option value="{{item.termsname}}">{{item.termsname}}</option>
                                         {{/if}}
                                     {{/each}}
-                                </select>
+                                </select> -->
                             </div>
                             {{#if isCurrencyEnable}}
                                 {{> currencydropdown}}
                             {{else}}
                                 <div class="form-group"><label>Department</label>
-                                    <select class="form-control" id="sltDept" name="sltDept" style="cursor: pointer;">
+                                    <select type="search" class="form-control" id="sltDept" name="sltDept" style="background-color:rgb(255, 255, 255); cursor: pointer;">
+                                    </select>
+                                    <!-- <select class="form-control" id="sltDept" name="sltDept" style="cursor: pointer;">
                                         {{#each itemDept2 in deptrecords}}
                                             {{#if equals itemDept2.department billrecord.department }}
                                                 <option value="{{billrecord.department}}" selected="">{{billrecord.department}}</option>
@@ -284,7 +288,7 @@
                                                 <option value="{{itemDept2.department}}">{{itemDept2.department}}</option>
                                             {{/if}}
                                         {{/each}}
-                                    </select>
+                                    </select> -->
                                 </div>
                             {{/if}}
                         </div>
@@ -292,7 +296,9 @@
                     <div class="col-auto colStatusDepartment" id="colStatusDepartment">
                         <div style="margin: 16px 0px; max-width: 150px;" class='setMaxWith'>
                             <div class="form-group"><label>Status</label>
-                                <select class="form-control" id="sltStatus" name="sltStatus" style="background-color:rgb(255, 255, 255); cursor: pointer;">
+                                <select type="search" class="form-control" id="sltStatus" name="sltStatus" style="background-color:rgb(255, 255, 255); cursor: pointer;">
+                                </select>
+                                <!-- <select class="form-control" id="sltStatus" name="sltStatus" style="background-color:rgb(255, 255, 255); cursor: pointer;">
                                     <option value="{{billrecord.status}}" selected="">{{billrecord.status}}</option>
                                     {{#each item in statusrecords}}
                                         {{#if equals item.orderstatus billrecord.status }}
@@ -301,7 +307,7 @@
                                             <option value="{{item.orderstatus}}">{{item.orderstatus}}</option>
                                         {{/if}}
                                     {{/each}}
-                                </select>
+                                </select> -->
                             </div>
                             <div class="form-group" style="width: 90%; display: none;"><label>Due Date</label>
                                 <div class="input-group date" style="width: 150px;">
@@ -1263,6 +1269,34 @@
 
         <div class="modal fade" role="dialog" tabindex="-1" id="addCustomerModal">
             {{> addcustomerpop}}
+        </div>
+
+        <div class="modal fade" role="dialog" tabindex="-1" id="termsListModal">
+            {{> termlistpop}}
+        </div>
+
+        <div class="modal fade" role="dialog" tabindex="-1" id="newTermsModal">
+            {{> newtermspop}}
+        </div>
+
+        <div class="modal fade" role="dialog" tabindex="-1" id="currencyModal">
+            {{> currencypop}}
+        </div>
+
+        <div class="modal fade" role="dialog" tabindex="-1" id="statusPopModal">
+            {{> statuspop}}
+        </div>
+
+        <div class="modal fade" role="dialog" tabindex="-1" id="newStatusPopModal">
+            {{> newstatuspop}}
+        </div>
+
+        <div class="modal fade" role="dialog" tabindex="-1" id="departmentModal">
+            {{> departmentpop}}
+        </div>
+
+        <div class="modal fade" role="dialog" tabindex="-1" id="newDepartmentModal">
+            {{> newdepartmentpop}}
         </div>
 
         <!-- ModalCustomer -->
