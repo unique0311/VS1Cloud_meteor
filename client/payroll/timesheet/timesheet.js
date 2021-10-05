@@ -907,6 +907,8 @@ Template.timesheet.events({
     'click #btnClockOnOff': function (event) {
         const templateObject = Template.instance();
         $("#employee_name").val(Session.get('mySessionEmployee'));
+         $('#sltJobOne').val("");
+         $('#product-listone').val("");
         $('#startTime').prop('disabled', false);
         $('#dtSODate').prop('disabled', false);
         let clockList = templateObject.timesheetrecords.get();
