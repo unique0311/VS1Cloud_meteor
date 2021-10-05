@@ -32,7 +32,15 @@
                     <div class="card-body">
                         <div class="row align-items-center no-gutters" style="margin-top:4px;">
                             <div class="input-group"><input class="form-control" id="barcodeScanInput" type="text">
-                                <div class="input-group-append"><a class="btn btn-primary" role="button" href="#scanBarcode" data-toggle="modal">Scan</a></div>
+                                <style>
+                                    .btnDesktopSearch {
+                                        color: #fff;
+                                    }
+                                </style>
+                                <div class="input-group-append">
+                                    <a class="btn btn-primary btnMobileScan" id="btnMobileScan" style="display:none;" role="button" href="#scanBarcode" data-toggle="modal">Scan</a>
+                                    <a class="btn btn-primary btnDesktopSearch" href="" id="btnDesktopSearch" role="button">Search</a>
+                                </div>
                                 <!-- IDEA: Scan will open the scanning modal UNLESS you type in a valid barcode, then it will open the corresponding Shipping Docket -->
                             </div>
                             <style>
@@ -185,7 +193,7 @@
                             opacity: 1;
                         }
                     </style>
-                    <table id="tblInvoicelist" name="tblInvoicelist" style="width:100%" class="dataTable table table-hover table-striped table-bordered tblInvoicelist">
+                    <table id="tblShipping" name="tblShipping" style="width:100%" class="dataTable table table-hover table-striped table-bordered tblShipping">
                         <thead>
                             <tr class="dnd-moved">
                                 <th class="th colInvoiceNo">Invoice No.</th>
@@ -200,12 +208,12 @@
                             {{#if datatablerecords}}
                                 {{#each item in datatablerecords}}
                                     <tr class="dnd-moved" id="{{item.id}}" style="cursor: pointer;">
-                                        <td contenteditable="false" class="colInvoiceNo"></td>
-                                        <td contenteditable="false" class="colSaleNo"></td>
-                                        <td contenteditable="false" class="colEmployee"></td>
-                                        <td contenteditable="false" class="colDept"></td>
-                                        <td contenteditable="false" class="colPrintName"></td>
-                                        <td contenteditable="false" class="colDate"></td>
+                                        <td contenteditable="false" class="colInvoiceNo">{{item.id}}</td>
+                                        <td contenteditable="false" class="colSaleNo">{{item.id}}</td>
+                                        <td contenteditable="false" class="colEmployee">{{item.employee}}</td>
+                                        <td contenteditable="false" class="colDept">{{item.department}}</td>
+                                        <td contenteditable="false" class="colPrintName">{{item.product}}</td>
+                                        <td contenteditable="false" class="colDate">{{item.sortdate}}</td>
                                     </tr>
                                 {{/each}}
                             {{/if}}
