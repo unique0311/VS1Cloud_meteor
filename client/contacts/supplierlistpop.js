@@ -783,6 +783,9 @@ Template.supplierlistpop.onRendered(function () {
                         let dataSearchName = $('#tblSupplierlist_filter input').val();
                         splashArraySupplierList = [];
                         if (dataLenght == -1) {
+                          if(settings.fnRecordsDisplay() > initialDatatableLoad){
+                            $('.fullScreenSpin').css('display','none');
+                          }else{
                           if (dataSearchName.replace(/\s/g, '') != '') {
                               sideBarService.getAllSuppliersDataVS1ByName(dataSearchName).then(function (data) {
                                   let lineItems = [];
@@ -885,6 +888,8 @@ Template.supplierlistpop.onRendered(function () {
                           } else {
                             $('.fullScreenSpin').css('display', 'none');
                           }
+
+                        }
                         } else {
                             if (settings.fnRecordsDisplay() >= settings._iDisplayLength) {
                                 $('.fullScreenSpin').css('display', 'none');

@@ -902,6 +902,9 @@ Template.customerlistpop.onRendered(function () {
                         let customerSearch = $('#tblCustomerlist_filter input').val();
                         splashArrayCustomerList = [];
                         if (dataLenght == -1) {
+                          if(settings.fnRecordsDisplay() > initialDatatableLoad){
+                            $('.fullScreenSpin').css('display','none');
+                          }else{
                             if (customerSearch.replace(/\s/g, '') != '') {
                               $('.fullScreenSpin').css('display', 'inline-block');
                               sideBarService.getAllCustomersDataVS1ByName(customerSearch).then(function (data) {
@@ -1095,6 +1098,9 @@ Template.customerlistpop.onRendered(function () {
                             //     $('.fullScreenSpin').css('display', 'none');
                             // });
                             }
+
+                          }
+
                         } else {
                             if (settings.fnRecordsDisplay() >= settings._iDisplayLength) {
                                 $('.fullScreenSpin').css('display', 'none');
@@ -1493,6 +1499,7 @@ Template.customerlistpop.onRendered(function () {
                       $('.fullScreenSpin').css('display', 'inline-block');
                       let dataLenght = settings._iDisplayLength;
                       splashArrayCustomerList = [];
+
                       if (dataLenght == -1) {
                         $('.fullScreenSpin').css('display', 'none');
                           //if(settings.fnRecordsDisplay() > 150){
