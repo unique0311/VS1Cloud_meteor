@@ -3922,6 +3922,9 @@ Template.new_invoice.onRendered(() => {
         };
 
         $('#edtCustomerName').val('');
+        setTimeout(function() {
+            $('#sltDept').val(defaultDept);
+        }, 200);
 
         templateObject.invoicerecord.set(invoicerecord);
         if (templateObject.invoicerecord.get()) {
