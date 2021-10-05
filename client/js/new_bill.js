@@ -3270,6 +3270,11 @@ Template.billcard.events({
 
                             }
 
+                            $('#add-account-title').text('Edit Account Details');
+                            $('#edtAccountName').attr('readonly', true);
+                            $('#sltAccountType').attr('readonly', true);
+                            $('#sltAccountType').attr('disabled', 'disabled');
+
                             var accountid = data.taccountvs1[0].fields.ID || '';
                             var accounttype = fullAccountTypeName || data.taccountvs1[0].fields.AccountTypeName;
                             var accountname = data.taccountvs1[0].fields.AccountName || '';
@@ -3513,6 +3518,11 @@ Template.billcard.events({
 
                         }
 
+                        $('#add-account-title').text('Edit Account Details');
+                        $('#edtAccountName').attr('readonly', true);
+                        $('#sltAccountType').attr('readonly', true);
+                        $('#sltAccountType').attr('disabled', 'disabled');
+                        
                         var accountid = data.taccountvs1[0].fields.ID || '';
                         var accounttype = fullAccountTypeName || data.taccountvs1[0].fields.AccountTypeName;
                         var accountname = data.taccountvs1[0].fields.AccountName || '';
