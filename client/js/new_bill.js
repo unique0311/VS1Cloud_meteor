@@ -1228,6 +1228,9 @@ Template.billcard.onRendered(() => {
         };
 
         $('#edtSupplierName').val('');
+        setTimeout(function() {
+            $('#sltDept').val(defaultDept);
+        }, 200);
 
         templateObject.billrecord.set(billrecord);
         if (templateObject.billrecord.get()) {

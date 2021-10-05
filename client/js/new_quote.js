@@ -2737,6 +2737,9 @@ Template.new_quote.onRendered(() => {
         };
 
         $('#edtCustomerName').val('');
+        setTimeout(function() {
+            $('#sltDept').val(defaultDept);
+        }, 200);
 
         templateObject.quoterecord.set(quoterecord);
         if (templateObject.quoterecord.get()) {
