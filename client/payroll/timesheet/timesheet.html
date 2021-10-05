@@ -97,7 +97,7 @@
                                                         <option value=""></option>
                                                         {{#if productsdatatablerecords}}
                                                             {{#each item in productsdatatablerecords}}
-                                                                <option value="{{item.id}}">{{item.productname}}</option>
+                                                                <option value="{{item.productname}}">{{item.productname}}</option>
                                                             {{/each}}
                                                         {{/if}}
                                                     </select>
@@ -488,11 +488,11 @@
                                      <div class="form-group flex-grow-1" style="margin: 8px 0px;">
                                         <label>Product /
                                                 Service</label>
-                                                <select id="product-list-one" name="product-list-one" class="form-control">
+                                                <select id="product-listone" name="product-listone" class="form-control product-listone">
                                                 <option value=""></option>
                                                 {{#if productsdatatablerecords}}
                                                     {{#each item in productsdatatablerecords}}
-                                                        <option value="{{item.id}}">{{item.productname}}</option>
+                                                        <option value="{{item.productname}}">{{item.productname}}</option>
                                                     {{/each}}
                                                 {{/if}}
                                             </select>
@@ -756,7 +756,7 @@
                                             <td class="colName" contenteditable="false" empname="{{item.employee}}"><a href="#">{{item.employee}}</a></td>
                                             <td class="colDate" contenteditable="false"><span style="display:none;">{{item.sortdate}}</span> {{item.timesheetdate}}</td>
                                             <td class="colJob" contenteditable="false">{{item.job}}</td>
-            <td style="text-align: right!important;">{{item.product}}</td>
+                                           <td class="colProduct" style="text-align: right!important;">{{item.product}}</td>
                                             <td style="text-align: right!important;"><input class="colRegHours highlightInput" type="number" value="{{item.hours}}"><span class="colRegHours" style="display: none;">{{item.hours}}</span></td>
                                             <td style="text-align: right!important;"><input class="colOvertime highlightInput" type="number" value="{{item.overtime}}"><span class="colOvertime" style="display: none;">{{item.overtime}}</span></td>
                                             <td style="text-align: right!important;"><input class="colDouble highlightInput" type="number" value="{{item.double}}"><span class="colDouble" style="display: none;">{{item.double}}</span></td>

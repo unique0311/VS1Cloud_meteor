@@ -75,7 +75,7 @@ Template.timesheet.onRendered(function () {
     };
     // templateObject.dateAsAt.set(begunDate);
 
-    $("#date-input,#dateTo,#dateFrom").datepicker({
+    $("#date-input,#dateTo,#dtSODate, #dateFrom").datepicker({
         showOn: 'button',
         buttonText: 'Show Date',
         buttonImageOnly: true,
@@ -248,7 +248,7 @@ Template.timesheet.onRendered(function () {
                     "scrollCollapse": true,
                     info: true,
                     responsive: true,
-                    "order": [[1, "asc"]],
+                    "order": [[2, "desc"]],
                     action: function () {
                         $('#tblTimeSheet').DataTable().ajax.reload();
                     },
@@ -304,15 +304,14 @@ Template.timesheet.onRendered(function () {
                 if (listData) {
                     var employeeName = $(event.target).closest("tr").find(".colName").attr('empname') || '';
                     var jobName = $(event.target).closest("tr").find(".colJob").text() || '';
-                    var hourlyRate = $(event.target).closest("tr").find(".colRate").val().replace(/[^0-9.-]+/g, "") || 0;
+                    var productName = $(event.target).closest("tr").find(".colProduct").text() || '';
                     var regHour = $(event.target).closest("tr").find(".colRegHours").val() || 0;
                     var techNotes = $(event.target).closest("tr").find(".colNotes").text() || '';
-
                     $('#edtTimesheetID').val(listData);
                     $('#add-timesheet-title').text('Edit TimeSheet');
                     $('.sltEmployee').val(employeeName);
                     $('.sltJob').val(jobName);
-                    $('.lineEditHourlyRate').val(hourlyRate);
+                    $('#product-list').val(productName);
                     $('.lineEditHour').val(regHour);
                     $('.lineEditTechNotes').val(techNotes);
                     // window.open('/billcard?id=' + listData,'_self');
@@ -383,7 +382,6 @@ Template.timesheet.onRendered(function () {
             $('.fullScreenSpin').css('display', 'none');
 
         }).catch(function (err) {
-            console.log(err);
             // Bert.alert('<strong>' + err + '</strong>!', 'danger');
             $('.fullScreenSpin').css('display', 'none');
             // Meteor._reload.reload();
@@ -522,17 +520,17 @@ Template.timesheet.onRendered(function () {
     }, 500);
 
     $(document).ready(function () {
-        $('#tblTimeSheet tbody').on('click', 'tr .colName, tr .colDate, tr .colJob, tr, tr .colNotes, tr.colStatus', function (event) {
-            event.preventDefault()
-            $('#employee_name').val($(event.target).closest('.colName').text());
+        $('#tblTimeSheet tbody').on('click', 'tr .colName, tr .colDate, tr .colJob, tr .colNotes, tr .colProduct, tr.colStatus', function (event) {
+            event.preventDefault();
+            $('#employee_name').val($(event.target).closest("tr").find('.colName').text());
+            $('#sltJobOne').val($(event.target).closest("tr").find('.colJob').text());
+            $('#product-listone').val($(event.target).closest("tr").find('.colProduct').text());
             $('#startTime').prop('disabled', false);
             $('#dtSODate').prop('disabled', false);
             $('#startTime').val("");
             $('#dtSODate').val("");
             $('#updateID').val("");
             $('#txtNotesOne').val("");
-             $('#product-list-one').val("");
-            $('#sltJobOne').val("");
             $('#hourly_rate').val("");
             let clockList = templateObject.timesheetrecords.get();
             clockList = clockList.filter(clkList => {
@@ -554,7 +552,7 @@ Template.timesheet.onRendered(function () {
                         $('#updateID').val(clockList[clockList.length - 1].id);
                         $('#txtNotesOne').val(clockList[clockList.length - 1].notes);
                         $('#sltJobOne').val(clockList[clockList.length - 1].job);
-                        $('#product-list-one').val(clockList[clockList.length - 1].product);
+                        $('#product-listone').val(clockList[clockList.length - 1].product);
                         $('#hourly_rate').val(clockList[clockList.length - 1].hourlyrate.replace('$', ''));
                         $('#startTime').prop('disabled', true);
                         $('#dtSODate').prop('disabled', true);
@@ -571,7 +569,7 @@ Template.timesheet.onRendered(function () {
                             $('#updateID').val(clockList[clockList.length - 1].id);
                             $('#txtNotesOne').val(clockList[clockList.length - 1].notes);
                             $('#sltJobOne').val(clockList[clockList.length - 1].job);
-                            $('#product-list-one').val(clockList[clockList.length - 1].product);
+                            $('#product-listone').val(clockList[clockList.length - 1].product);
                             $('#hourly_rate').val(clockList[clockList.length - 1].hourlyrate.replace('$', ''));
                             $('#startTime').prop('disabled', true);
                             $('#dtSODate').prop('disabled', true);
@@ -929,8 +927,8 @@ Template.timesheet.events({
                     $('#dtSODate').val(date);
                     $('#updateID').val(clockList[clockList.length - 1].id);
                     $('#txtNotes').val(clockList[clockList.length - 1].notes);
-                    $('#sltJob').val(clockList[clockList.length - 1].job);
-                    $('#product-list-one').prepend('<option>' + clockList[clockList.length - 1].product + '</option>');
+                    $('#sltJobOne').val(clockList[clockList.length - 1].job);
+                    $('#product-listone').val(clockList[clockList.length - 1].product);
                     $('#hourly_rate').val(clockList[clockList.length - 1].hourlyrate.replace('$', ''));
                     $('#startTime').prop('disabled', true);
                     $('#dtSODate').prop('disabled', true);
@@ -946,8 +944,8 @@ Template.timesheet.events({
                         $('#dtSODate').val(date);
                         $('#updateID').val(clockList[clockList.length - 1].id);
                         $('#txtNotes').val(clockList[clockList.length - 1].notes);
-                        $('#sltJob').val(clockList[clockList.length - 1].job);
-                        $('#product-list-one').prepend('<option>' + clockList[clockList.length - 1].product + '</option>');
+                        $('#sltJobOne').val(clockList[clockList.length - 1].job);
+                        $('#product-listone').val(clockList[clockList.length - 1].product);
                         $('#hourly_rate').val(clockList[clockList.length - 1].hourlyrate.replace('$', ''));
                         $('#startTime').prop('disabled', true);
                         $('#dtSODate').prop('disabled', true);
@@ -1316,7 +1314,7 @@ Template.timesheet.events({
         var endTime = $('#endTime').val() || '';
         var edthour = $('#txtBookedHoursSpent').val() || 1;
         var techNotes = $('#txtNotesOne').val() || '';
-        var product = $('#product-list-one').children("option:selected").text() || '';
+        var product = $('#product-listone').children("option:selected").text() || '';
         var jobName = $('#sltJobOne').val() || '';
         let isPaused = "";
         let toUpdate = {};
@@ -1330,9 +1328,11 @@ Template.timesheet.events({
             endTime = date + ' ' + endTime;
         }
 
-        if (edthour < 1) {
-            edthour = 1;
-        }
+        // if (edthour < 1) {
+        //     edthour = 1;
+        // }
+
+
         if (checkStartTime == "" && endTime != "") {
             $('.fullScreenSpin').css('display', 'none');
             swal({
@@ -1438,7 +1438,7 @@ Template.timesheet.events({
                                 LabourCost: 1,
                                 Allowedit: true,
                                 Logs: obj,
-                                Hours: parseInt(edthour) || 0,
+                                Hours: parseFloat(edthour) || 0,
                                 // OverheadRate: 90,
                                 Job: jobName || '',
                                 // ServiceName: "Test"|| '',
@@ -1479,7 +1479,7 @@ Template.timesheet.events({
                     ServiceName: product || '',
                     LabourCost: 1,
                     Allowedit: true,
-                    Hours: parseInt(edthour) || 0,
+                    Hours: parseFloat(edthour) || 0,
                     // OverheadRate: 90,
                     Job: jobName || '',
                     // ServiceName: "Test"|| '',
@@ -1490,7 +1490,8 @@ Template.timesheet.events({
                 }
 
             };
-          
+
+
             contactService.saveClockTimeSheet(data).then(function (data) {
                 if (Object.keys(obj).length > 0) {
                 if (obj.fields.Description == "Timesheet Completed") {
@@ -1525,7 +1526,6 @@ Template.timesheet.events({
             }
 
             }).catch(function (err) {
-                console.log(err);
                 swal({
                     title: 'Oooops...',
                     text: err,
@@ -2162,12 +2162,12 @@ Template.timesheet.helpers({
     },
     datatablerecords: () => {
         return Template.instance().datatablerecords.get().sort(function (a, b) {
-            if (a.timesheetdate == 'NA') {
+            if (a.sortdate == 'NA') {
                 return 1;
-            } else if (b.timesheetdate == 'NA') {
+            } else if (b.sortdate == 'NA') {
                 return -1;
             }
-            return (a.timesheetdate.toUpperCase() > b.timesheetdate.toUpperCase()) ? 1 : -1;
+            return (a.sortdate.toUpperCase() > b.sortdate.toUpperCase()) ? 1 : -1;
         });
     },
     productsdatatablerecords: () => {
