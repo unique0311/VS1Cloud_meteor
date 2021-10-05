@@ -1382,6 +1382,9 @@ Template.purchaseordercard.onRendered(() => {
         };
 
         $('#edtSupplierName').val('');
+        setTimeout(function() {
+            $('#sltDept').val(defaultDept);
+        }, 200);
 
         templateObject.purchaseorderrecord.set(purchaseorderrecord);
         if (templateObject.purchaseorderrecord.get()) {

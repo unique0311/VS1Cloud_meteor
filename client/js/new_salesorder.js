@@ -2845,6 +2845,10 @@ Template.new_salesorder.onRendered(() => {
         };
 
         $('#edtCustomerName').val('');
+        setTimeout(function() {
+            $('#sltDept').val(defaultDept);
+        }, 200);
+        
         templateObject.salesorderrecord.set(salesorderrecord);
         if (templateObject.salesorderrecord.get()) {
             Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblSalesOrderLine', function(error, result) {
@@ -3970,7 +3974,7 @@ Template.new_salesorder.onRendered(() => {
                                 $('#addCustomerModal').modal('show');
                             }, 200);
                         }).catch(function(err) {
-                            
+
                             $('.fullScreenSpin').css('display', 'none');
                         });
                     });

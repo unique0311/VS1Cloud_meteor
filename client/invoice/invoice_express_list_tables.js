@@ -470,7 +470,6 @@ setTimeout(function () {
       }).on( 'length.dt', function ( e, settings, len ) {
         $('.fullScreenSpin').css('display','inline-block');
         let dataLenght = settings._iDisplayLength;
-        let dataSearchName = $('#tblSupplierlist_filter input').val();
         if(dataLenght == -1){
           if(settings.fnRecordsDisplay() > initialDatatableLoad){
             $('.fullScreenSpin').css('display','none');
