@@ -1,12 +1,22 @@
-import { PaymentsService } from "../../payments/payments-service";
-import { ReactiveVar } from "meteor/reactive-var";
-import { UtilityService } from "../../utility-service";
+import {
+    PaymentsService
+} from "../../payments/payments-service";
+import {
+    ReactiveVar
+} from "meteor/reactive-var";
+import {
+    UtilityService
+} from "../../utility-service";
 import '../../lib/global/erp-objects';
 import 'jquery-ui-dist/external/jquery/jquery';
 import 'jquery-ui-dist/jquery-ui';
-import { Random } from 'meteor/random';
+import {
+    Random
+} from 'meteor/random';
 import 'jquery-editable-select';
-import { SideBarService } from '../../js/sidebar-service';
+import {
+    SideBarService
+} from '../../js/sidebar-service';
 import '../../lib/global/indexdbstorage.js';
 let sideBarService = new SideBarService();
 let utilityService = new UtilityService();
@@ -39,8 +49,8 @@ Template.supplierpaymentcard.onRendered(() => {
     if (imageData) {
         $('.uploadedImage').attr('src', imageData);
     };
-    setTimeout(function () {
-        Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblSupplierPaymentcard', function (error, result) {
+    setTimeout(function() {
+        Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblSupplierPaymentcard', function(error, result) {
             if (error) {
 
                 //Bert.alert('<strong>Error:</strong> user-not-found, no user found please try again!', 'danger');
@@ -99,10 +109,10 @@ Template.supplierpaymentcard.onRendered(() => {
     const paymentmethodrecords = [];
     const accountnamerecords = [];
 
-    templateObject.getAllClients = function () {
-        getVS1Data('TSupplierVS1').then(function (dataObject) {
+    templateObject.getAllClients = function() {
+        getVS1Data('TSupplierVS1').then(function(dataObject) {
             if (dataObject.length == 0) {
-                clientsService.getSupplierVS1().then(function (data) {
+                clientsService.getSupplierVS1().then(function(data) {
                     for (let i in data.tsuppliervs1) {
 
                         let customerrecordObj = {
@@ -122,14 +132,14 @@ Template.supplierpaymentcard.onRendered(() => {
                         //$('#edtSupplierName').editableSelect('add',data.tsupplier[i].ClientName);
                     }
                     //templateObject.clientrecords.set(clientList);
-                    templateObject.clientrecords.set(clientList.sort(function (a, b) {
-                            if (a.customername == 'NA') {
-                                return 1;
-                            } else if (b.customername == 'NA') {
-                                return -1;
-                            }
-                            return (a.customername.toUpperCase() > b.customername.toUpperCase()) ? 1 : -1;
-                        }));
+                    templateObject.clientrecords.set(clientList.sort(function(a, b) {
+                        if (a.customername == 'NA') {
+                            return 1;
+                        } else if (b.customername == 'NA') {
+                            return -1;
+                        }
+                        return (a.customername.toUpperCase() > b.customername.toUpperCase()) ? 1 : -1;
+                    }));
 
                     for (var i = 0; i < clientList.length; i++) {
                         //$('#edtSupplierName').editableSelect('add', clientList[i].customername);
@@ -158,22 +168,22 @@ Template.supplierpaymentcard.onRendered(() => {
                     //$('#edtSupplierName').editableSelect('add',data.tsupplier[i].ClientName);
                 }
                 //templateObject.clientrecords.set(clientList);
-                templateObject.clientrecords.set(clientList.sort(function (a, b) {
-                        if (a.customername == 'NA') {
-                            return 1;
-                        } else if (b.customername == 'NA') {
-                            return -1;
-                        }
-                        return (a.customername.toUpperCase() > b.customername.toUpperCase()) ? 1 : -1;
-                    }));
+                templateObject.clientrecords.set(clientList.sort(function(a, b) {
+                    if (a.customername == 'NA') {
+                        return 1;
+                    } else if (b.customername == 'NA') {
+                        return -1;
+                    }
+                    return (a.customername.toUpperCase() > b.customername.toUpperCase()) ? 1 : -1;
+                }));
 
                 for (var i = 0; i < clientList.length; i++) {
                     //$('#edtSupplierName').editableSelect('add', clientList[i].customername);
                 }
 
             }
-        }).catch(function (err) {
-            clientsService.getSupplierVS1().then(function (data) {
+        }).catch(function(err) {
+            clientsService.getSupplierVS1().then(function(data) {
                 for (let i in data.tsuppliervs1) {
 
                     let customerrecordObj = {
@@ -193,14 +203,14 @@ Template.supplierpaymentcard.onRendered(() => {
                     //$('#edtSupplierName').editableSelect('add',data.tsupplier[i].ClientName);
                 }
                 //templateObject.clientrecords.set(clientList);
-                templateObject.clientrecords.set(clientList.sort(function (a, b) {
-                        if (a.customername == 'NA') {
-                            return 1;
-                        } else if (b.customername == 'NA') {
-                            return -1;
-                        }
-                        return (a.customername.toUpperCase() > b.customername.toUpperCase()) ? 1 : -1;
-                    }));
+                templateObject.clientrecords.set(clientList.sort(function(a, b) {
+                    if (a.customername == 'NA') {
+                        return 1;
+                    } else if (b.customername == 'NA') {
+                        return -1;
+                    }
+                    return (a.customername.toUpperCase() > b.customername.toUpperCase()) ? 1 : -1;
+                }));
 
                 for (var i = 0; i < clientList.length; i++) {
                     //$('#edtSupplierName').editableSelect('add', clientList[i].customername);
@@ -210,10 +220,10 @@ Template.supplierpaymentcard.onRendered(() => {
         });
 
     };
-    templateObject.getDepartments = function () {
-        getVS1Data('TDeptClass').then(function (dataObject) {
+    templateObject.getDepartments = function() {
+        getVS1Data('TDeptClass').then(function(dataObject) {
             if (dataObject.length == 0) {
-                paymentService.getDepartment().then(function (data) {
+                paymentService.getDepartment().then(function(data) {
                     for (let i in data.tdeptclass) {
 
                         let deptrecordObj = {
@@ -240,8 +250,8 @@ Template.supplierpaymentcard.onRendered(() => {
 
                 }
             }
-        }).catch(function (err) {
-            paymentService.getDepartment().then(function (data) {
+        }).catch(function(err) {
+            paymentService.getDepartment().then(function(data) {
                 for (let i in data.tdeptclass) {
 
                     let deptrecordObj = {
@@ -258,16 +268,16 @@ Template.supplierpaymentcard.onRendered(() => {
     }
 
     function MakeNegative() {
-        $('td').each(function () {
+        $('td').each(function() {
             if ($(this).text().indexOf('-' + Currency) >= 0)
                 $(this).addClass('text-danger')
         });
     };
 
-    templateObject.getDepartments = function () {
-        getVS1Data('TDeptClass').then(function (dataObject) {
+    templateObject.getDepartments = function() {
+        getVS1Data('TDeptClass').then(function(dataObject) {
             if (dataObject.length == 0) {
-                paymentService.getDepartment().then(function (data) {
+                paymentService.getDepartment().then(function(data) {
                     for (let i in data.tdeptclass) {
 
                         let deptrecordObj = {
@@ -294,8 +304,8 @@ Template.supplierpaymentcard.onRendered(() => {
 
                 }
             }
-        }).catch(function (err) {
-            paymentService.getDepartment().then(function (data) {
+        }).catch(function(err) {
+            paymentService.getDepartment().then(function(data) {
                 for (let i in data.tdeptclass) {
 
                     let deptrecordObj = {
@@ -312,16 +322,16 @@ Template.supplierpaymentcard.onRendered(() => {
     }
 
     function MakeNegative() {
-        $('td').each(function () {
+        $('td').each(function() {
             if ($(this).text().indexOf('-' + Currency) >= 0)
                 $(this).addClass('text-danger')
         });
     };
 
-    templateObject.getAllSupplierPaymentData = function () {
-        getVS1Data('TbillReport').then(function (dataObject) {
+    templateObject.getAllSupplierPaymentData = function() {
+        getVS1Data('TbillReport').then(function(dataObject) {
             if (dataObject.length == 0) {
-                paymentService.getAllAwaitingSupplierDetails().then(function (data) {
+                paymentService.getAllAwaitingSupplierDetails().then(function(data) {
                     let lineItems = [];
                     let lineItemObj = {};
                     let totalPaidCal = 0;
@@ -372,9 +382,8 @@ Template.supplierpaymentcard.onRendered(() => {
                     templateObject.datatablerecords1.set(dataTableList);
                     if (templateObject.datatablerecords.get()) {
 
-                        Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblSupplierAwaitingPO', function (error, result) {
-                            if (error) {}
-                            else {
+                        Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblSupplierAwaitingPO', function(error, result) {
+                            if (error) {} else {
                                 if (result) {
                                     for (let i = 0; i < result.customFields.length; i++) {
                                         let customcolumn = result.customFields;
@@ -400,90 +409,93 @@ Template.supplierpaymentcard.onRendered(() => {
                             }
                         });
 
-                        setTimeout(function () {
+                        setTimeout(function() {
                             MakeNegative();
                         }, 100);
                     }
 
                     $('.fullScreenSpin').css('display', 'none');
-                    setTimeout(function () {
+                    setTimeout(function() {
                         //$.fn.dataTable.moment('DD/MM/YY');
                         $('#tblSupplierAwaitingPO').DataTable({
                             columnDefs: [{
-                                    "orderable": false,
-                                    "targets": 0
-                                }, {
-                                    type: 'date',
-                                    targets: 1
-                                }
-                            ],
+                                "orderable": false,
+                                "targets": 0
+                            }, {
+                                type: 'date',
+                                targets: 1
+                            }],
                             "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
                             buttons: [{
-                                    extend: 'excelHtml5',
-                                    text: '',
-                                    download: 'open',
-                                    className: "btntabletocsv hiddenColumn",
-                                    filename: "Awaiting Supplier Payments List - " + moment().format(),
-                                    orientation: 'portrait',
-                                    exportOptions: {
-                                        columns: ':visible:not(.chkBox)',
-                                        format: {
-                                            body: function (data, row, column) {
-                                                if (data.includes("</span>")) {
-                                                    var res = data.split("</span>");
-                                                    data = res[1];
-                                                }
-
-                                                return column === 1 ? data.replace(/<.*?>/ig, "") : data;
-
+                                extend: 'excelHtml5',
+                                text: '',
+                                download: 'open',
+                                className: "btntabletocsv hiddenColumn",
+                                filename: "Awaiting Supplier Payments List - " + moment().format(),
+                                orientation: 'portrait',
+                                exportOptions: {
+                                    columns: ':visible:not(.chkBox)',
+                                    format: {
+                                        body: function(data, row, column) {
+                                            if (data.includes("</span>")) {
+                                                var res = data.split("</span>");
+                                                data = res[1];
                                             }
+
+                                            return column === 1 ? data.replace(/<.*?>/ig, "") : data;
+
                                         }
                                     }
-                                }, {
-                                    extend: 'print',
-                                    download: 'open',
-                                    className: "btntabletopdf hiddenColumn",
-                                    text: '',
-                                    title: 'Supplier Payment',
-                                    filename: "Awaiting Supplier Payments List - " + moment().format(),
-                                    exportOptions: {
-                                        columns: ':visible:not(.chkBox)',
-                                        stripHtml: false
-                                    }
                                 }
-                            ],
+                            }, {
+                                extend: 'print',
+                                download: 'open',
+                                className: "btntabletopdf hiddenColumn",
+                                text: '',
+                                title: 'Supplier Payment',
+                                filename: "Awaiting Supplier Payments List - " + moment().format(),
+                                exportOptions: {
+                                    columns: ':visible:not(.chkBox)',
+                                    stripHtml: false
+                                }
+                            }],
                             select: true,
                             destroy: true,
                             colReorder: true,
                             pageLength: initialDatatableLoad,
-                            lengthMenu: [ [initialDatatableLoad, -1], [initialDatatableLoad, "All"] ],
+                            lengthMenu: [
+                                [initialDatatableLoad, -1],
+                                [initialDatatableLoad, "All"]
+                            ],
                             info: true,
                             responsive: true,
                             paging: false,
-                            "order": [[1, "desc"]],
+                            "order": [
+                                [1, "desc"]
+                            ],
                             // "aaSorting": [[1,'desc']],
-                            action: function () {
+                            action: function() {
                                 $('#tblSupplierAwaitingPO').DataTable().ajax.reload();
                             },
-                            "fnDrawCallback": function (oSettings) {
-                                setTimeout(function () {
+                            "fnDrawCallback": function(oSettings) {
+                                setTimeout(function() {
                                     MakeNegative();
                                 }, 100);
                             },
-                            "fnInitComplete": function () {
+                            "fnInitComplete": function() {
                                 $("<button class='btn btn-primary' data-dismiss='modal' data-toggle='modal' data-target='#addSupplierModal' type='button' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-plus'></i></button>").insertAfter("#tblSupplierAwaitingPO_filter");
                                 $("<button class='btn btn-primary btnRefreshCustomer' type='button' id='btnRefreshSupplier' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblSupplierAwaitingPO_filter");
 
                             }
 
-                        }).on('page', function () {
-                            setTimeout(function () {
+                        }).on('page', function() {
+                            setTimeout(function() {
                                 MakeNegative();
                             }, 100);
                             let draftRecord = templateObject.datatablerecords.get();
                             templateObject.datatablerecords.set(draftRecord);
-                        }).on('column-reorder', function () {}).on('length.dt', function (e, settings, len) {
-                            setTimeout(function () {
+                        }).on('column-reorder', function() {}).on('length.dt', function(e, settings, len) {
+                            setTimeout(function() {
                                 MakeNegative();
                             }, 100);
                         });
@@ -497,7 +509,7 @@ Template.supplierpaymentcard.onRendered(() => {
                     let sVisible = "";
                     let columVisible = false;
                     let sClass = "";
-                    $.each(columns, function (i, v) {
+                    $.each(columns, function(i, v) {
                         if (v.hidden == false) {
                             columVisible = true;
                         }
@@ -517,7 +529,7 @@ Template.supplierpaymentcard.onRendered(() => {
                     });
                     templateObject.tableheaderrecords.set(tableHeaderList);
                     $('div.dataTables_filter input').addClass('form-control form-control-sm');
-                    $('#tblSupplierAwaitingPO tbody').on('click', 'tr .colPaymentDate, tr .colReceiptNo, tr .colPaymentAmount, tr .colApplied, tr .colBalance, tr .colSupplierName, tr .colDepartment, tr .colRefNo, tr .colPaymentMethod, tr .colNotes', function () {
+                    $('#tblSupplierAwaitingPO tbody').on('click', 'tr .colPaymentDate, tr .colReceiptNo, tr .colPaymentAmount, tr .colApplied, tr .colBalance, tr .colSupplierName, tr .colDepartment, tr .colRefNo, tr .colPaymentMethod, tr .colNotes', function() {
                         var listData = $(this).closest('tr').attr('id');
                         var transactiontype = $(event.target).closest("tr").find(".colType").text();
                         if ((listData) && (transactiontype)) {
@@ -536,7 +548,7 @@ Template.supplierpaymentcard.onRendered(() => {
                         // }
                     });
 
-                }).catch(function (err) {
+                }).catch(function(err) {
                     // Bert.alert('<strong>' + err + '</strong>!', 'danger');
                     $('.fullScreenSpin').css('display', 'none');
                     // Meteor._reload.reload();
@@ -594,9 +606,8 @@ Template.supplierpaymentcard.onRendered(() => {
                 templateObject.datatablerecords1.set(dataTableList);
                 if (templateObject.datatablerecords.get()) {
 
-                    Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblSupplierAwaitingPO', function (error, result) {
-                        if (error) {}
-                        else {
+                    Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblSupplierAwaitingPO', function(error, result) {
+                        if (error) {} else {
                             if (result) {
                                 for (let i = 0; i < result.customFields.length; i++) {
                                     let customcolumn = result.customFields;
@@ -622,90 +633,93 @@ Template.supplierpaymentcard.onRendered(() => {
                         }
                     });
 
-                    setTimeout(function () {
+                    setTimeout(function() {
                         MakeNegative();
                     }, 100);
                 }
 
                 $('.fullScreenSpin').css('display', 'none');
-                setTimeout(function () {
+                setTimeout(function() {
                     //$.fn.dataTable.moment('DD/MM/YY');
                     $('#tblSupplierAwaitingPO').DataTable({
                         columnDefs: [{
-                                "orderable": false,
-                                "targets": 0
-                            }, {
-                                type: 'date',
-                                targets: 1
-                            }
-                        ],
+                            "orderable": false,
+                            "targets": 0
+                        }, {
+                            type: 'date',
+                            targets: 1
+                        }],
                         "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
                         buttons: [{
-                                extend: 'excelHtml5',
-                                text: '',
-                                download: 'open',
-                                className: "btntabletocsv hiddenColumn",
-                                filename: "Awaiting Supplier Payments List - " + moment().format(),
-                                orientation: 'portrait',
-                                exportOptions: {
-                                    columns: ':visible:not(.chkBox)',
-                                    format: {
-                                        body: function (data, row, column) {
-                                            if (data.includes("</span>")) {
-                                                var res = data.split("</span>");
-                                                data = res[1];
-                                            }
-
-                                            return column === 1 ? data.replace(/<.*?>/ig, "") : data;
-
+                            extend: 'excelHtml5',
+                            text: '',
+                            download: 'open',
+                            className: "btntabletocsv hiddenColumn",
+                            filename: "Awaiting Supplier Payments List - " + moment().format(),
+                            orientation: 'portrait',
+                            exportOptions: {
+                                columns: ':visible:not(.chkBox)',
+                                format: {
+                                    body: function(data, row, column) {
+                                        if (data.includes("</span>")) {
+                                            var res = data.split("</span>");
+                                            data = res[1];
                                         }
+
+                                        return column === 1 ? data.replace(/<.*?>/ig, "") : data;
+
                                     }
                                 }
-                            }, {
-                                extend: 'print',
-                                download: 'open',
-                                className: "btntabletopdf hiddenColumn",
-                                text: '',
-                                title: 'Supplier Payment',
-                                filename: "Awaiting Supplier Payments List - " + moment().format(),
-                                exportOptions: {
-                                    columns: ':visible:not(.chkBox)',
-                                    stripHtml: false
-                                }
                             }
-                        ],
+                        }, {
+                            extend: 'print',
+                            download: 'open',
+                            className: "btntabletopdf hiddenColumn",
+                            text: '',
+                            title: 'Supplier Payment',
+                            filename: "Awaiting Supplier Payments List - " + moment().format(),
+                            exportOptions: {
+                                columns: ':visible:not(.chkBox)',
+                                stripHtml: false
+                            }
+                        }],
                         select: true,
                         destroy: true,
                         colReorder: true,
                         pageLength: initialDatatableLoad,
-                        lengthMenu: [ [initialDatatableLoad, -1], [initialDatatableLoad, "All"] ],
+                        lengthMenu: [
+                            [initialDatatableLoad, -1],
+                            [initialDatatableLoad, "All"]
+                        ],
                         info: true,
                         responsive: true,
                         paging: false,
-                        "order": [[1, "desc"]],
+                        "order": [
+                            [1, "desc"]
+                        ],
                         // "aaSorting": [[1,'desc']],
-                        action: function () {
+                        action: function() {
                             $('#tblSupplierAwaitingPO').DataTable().ajax.reload();
                         },
-                        "fnDrawCallback": function (oSettings) {
-                            setTimeout(function () {
+                        "fnDrawCallback": function(oSettings) {
+                            setTimeout(function() {
                                 MakeNegative();
                             }, 100);
                         },
-                        "fnInitComplete": function () {
+                        "fnInitComplete": function() {
                             $("<button class='btn btn-primary' data-dismiss='modal' data-toggle='modal' data-target='#addSupplierModal' type='button' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-plus'></i></button>").insertAfter("#tblSupplierAwaitingPO_filter");
                             $("<button class='btn btn-primary btnRefreshCustomer' type='button' id='btnRefreshSupplier' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblSupplierAwaitingPO_filter");
 
                         }
 
-                    }).on('page', function () {
-                        setTimeout(function () {
+                    }).on('page', function() {
+                        setTimeout(function() {
                             MakeNegative();
                         }, 100);
                         let draftRecord = templateObject.datatablerecords.get();
                         templateObject.datatablerecords.set(draftRecord);
-                    }).on('column-reorder', function () {}).on('length.dt', function (e, settings, len) {
-                        setTimeout(function () {
+                    }).on('column-reorder', function() {}).on('length.dt', function(e, settings, len) {
+                        setTimeout(function() {
                             MakeNegative();
                         }, 100);
                     });
@@ -739,7 +753,7 @@ Template.supplierpaymentcard.onRendered(() => {
                 // });
                 // templateObject.tableheaderrecords.set(tableHeaderList);
                 $('div.dataTables_filter input').addClass('form-control form-control-sm');
-                $('#tblSupplierAwaitingPO tbody').on('click', 'tr .colPaymentDate, tr .colReceiptNo, tr .colPaymentAmount, tr .colApplied, tr .colBalance, tr .colSupplierName, tr .colDepartment, tr .colRefNo, tr .colPaymentMethod, tr .colNotes', function () {
+                $('#tblSupplierAwaitingPO tbody').on('click', 'tr .colPaymentDate, tr .colReceiptNo, tr .colPaymentAmount, tr .colApplied, tr .colBalance, tr .colSupplierName, tr .colDepartment, tr .colRefNo, tr .colPaymentMethod, tr .colNotes', function() {
                     var listData = $(this).closest('tr').attr('id');
                     var transactiontype = $(event.target).closest("tr").find(".colType").text();
                     if ((listData) && (transactiontype)) {
@@ -758,8 +772,8 @@ Template.supplierpaymentcard.onRendered(() => {
                     // }
                 });
             }
-        }).catch(function (err) {
-            paymentService.getAllAwaitingSupplierDetails().then(function (data) {
+        }).catch(function(err) {
+            paymentService.getAllAwaitingSupplierDetails().then(function(data) {
                 let lineItems = [];
                 let lineItemObj = {};
                 let totalPaidCal = 0;
@@ -810,9 +824,8 @@ Template.supplierpaymentcard.onRendered(() => {
                 templateObject.datatablerecords1.set(dataTableList);
                 if (templateObject.datatablerecords.get()) {
 
-                    Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblSupplierAwaitingPO', function (error, result) {
-                        if (error) {}
-                        else {
+                    Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblSupplierAwaitingPO', function(error, result) {
+                        if (error) {} else {
                             if (result) {
                                 for (let i = 0; i < result.customFields.length; i++) {
                                     let customcolumn = result.customFields;
@@ -838,58 +851,56 @@ Template.supplierpaymentcard.onRendered(() => {
                         }
                     });
 
-                    setTimeout(function () {
+                    setTimeout(function() {
                         MakeNegative();
                     }, 100);
                 }
 
                 $('.fullScreenSpin').css('display', 'none');
-                setTimeout(function () {
+                setTimeout(function() {
                     //$.fn.dataTable.moment('DD/MM/YY');
                     $('#tblSupplierAwaitingPO').DataTable({
                         columnDefs: [{
-                                "orderable": false,
-                                "targets": 0
-                            }, {
-                                type: 'date',
-                                targets: 1
-                            }
-                        ],
+                            "orderable": false,
+                            "targets": 0
+                        }, {
+                            type: 'date',
+                            targets: 1
+                        }],
                         "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
                         buttons: [{
-                                extend: 'excelHtml5',
-                                text: '',
-                                download: 'open',
-                                className: "btntabletocsv hiddenColumn",
-                                filename: "Awaiting Supplier Payments List - " + moment().format(),
-                                orientation: 'portrait',
-                                exportOptions: {
-                                    columns: ':visible:not(.chkBox)',
-                                    format: {
-                                        body: function (data, row, column) {
-                                            if (data.includes("</span>")) {
-                                                var res = data.split("</span>");
-                                                data = res[1];
-                                            }
-
-                                            return column === 1 ? data.replace(/<.*?>/ig, "") : data;
-
+                            extend: 'excelHtml5',
+                            text: '',
+                            download: 'open',
+                            className: "btntabletocsv hiddenColumn",
+                            filename: "Awaiting Supplier Payments List - " + moment().format(),
+                            orientation: 'portrait',
+                            exportOptions: {
+                                columns: ':visible:not(.chkBox)',
+                                format: {
+                                    body: function(data, row, column) {
+                                        if (data.includes("</span>")) {
+                                            var res = data.split("</span>");
+                                            data = res[1];
                                         }
+
+                                        return column === 1 ? data.replace(/<.*?>/ig, "") : data;
+
                                     }
                                 }
-                            }, {
-                                extend: 'print',
-                                download: 'open',
-                                className: "btntabletopdf hiddenColumn",
-                                text: '',
-                                title: 'Supplier Payment',
-                                filename: "Awaiting Supplier Payments List - " + moment().format(),
-                                exportOptions: {
-                                    columns: ':visible:not(.chkBox)',
-                                    stripHtml: false
-                                }
                             }
-                        ],
+                        }, {
+                            extend: 'print',
+                            download: 'open',
+                            className: "btntabletopdf hiddenColumn",
+                            text: '',
+                            title: 'Supplier Payment',
+                            filename: "Awaiting Supplier Payments List - " + moment().format(),
+                            exportOptions: {
+                                columns: ':visible:not(.chkBox)',
+                                stripHtml: false
+                            }
+                        }],
                         select: true,
                         destroy: true,
                         colReorder: true,
@@ -901,25 +912,27 @@ Template.supplierpaymentcard.onRendered(() => {
                         "scrollCollapse": true,
                         info: true,
                         responsive: true,
-                        "order": [[1, "desc"]],
+                        "order": [
+                            [1, "desc"]
+                        ],
                         // "aaSorting": [[1,'desc']],
-                        action: function () {
+                        action: function() {
                             $('#tblSupplierAwaitingPO').DataTable().ajax.reload();
                         },
-                        "fnDrawCallback": function (oSettings) {
-                            setTimeout(function () {
+                        "fnDrawCallback": function(oSettings) {
+                            setTimeout(function() {
                                 MakeNegative();
                             }, 100);
                         },
 
-                    }).on('page', function () {
-                        setTimeout(function () {
+                    }).on('page', function() {
+                        setTimeout(function() {
                             MakeNegative();
                         }, 100);
                         let draftRecord = templateObject.datatablerecords.get();
                         templateObject.datatablerecords.set(draftRecord);
-                    }).on('column-reorder', function () {}).on('length.dt', function (e, settings, len) {
-                        setTimeout(function () {
+                    }).on('column-reorder', function() {}).on('length.dt', function(e, settings, len) {
+                        setTimeout(function() {
                             MakeNegative();
                         }, 100);
                     });
@@ -953,7 +966,7 @@ Template.supplierpaymentcard.onRendered(() => {
                 // });
                 // templateObject.tableheaderrecords.set(tableHeaderList);
                 $('div.dataTables_filter input').addClass('form-control form-control-sm');
-                $('#tblSupplierAwaitingPO tbody').on('click', 'tr .colPaymentDate, tr .colReceiptNo, tr .colPaymentAmount, tr .colApplied, tr .colBalance, tr .colSupplierName, tr .colDepartment, tr .colRefNo, tr .colPaymentMethod, tr .colNotes', function () {
+                $('#tblSupplierAwaitingPO tbody').on('click', 'tr .colPaymentDate, tr .colReceiptNo, tr .colPaymentAmount, tr .colApplied, tr .colBalance, tr .colSupplierName, tr .colDepartment, tr .colRefNo, tr .colPaymentMethod, tr .colNotes', function() {
                     var listData = $(this).closest('tr').attr('id');
                     var transactiontype = $(event.target).closest("tr").find(".colType").text();
                     if ((listData) && (transactiontype)) {
@@ -972,7 +985,7 @@ Template.supplierpaymentcard.onRendered(() => {
                     // }
                 });
 
-            }).catch(function (err) {
+            }).catch(function(err) {
                 // Bert.alert('<strong>' + err + '</strong>!', 'danger');
                 $('.fullScreenSpin').css('display', 'none');
                 // Meteor._reload.reload();
@@ -981,10 +994,10 @@ Template.supplierpaymentcard.onRendered(() => {
 
     }
 
-    templateObject.getPaymentMethods = function () {
-        getVS1Data('TPaymentMethod').then(function (dataObject) {
+    templateObject.getPaymentMethods = function() {
+        getVS1Data('TPaymentMethod').then(function(dataObject) {
             if (dataObject.length == 0) {
-                paymentService.getPaymentMethodVS1().then(function (data) {
+                paymentService.getPaymentMethodVS1().then(function(data) {
                     for (let i in data.tpaymentmethodvs1) {
 
                         let paymentmethodrecordObj = {
@@ -1011,8 +1024,8 @@ Template.supplierpaymentcard.onRendered(() => {
                 }
             }
 
-        }).catch(function (err) {
-            paymentService.getPaymentMethodVS1().then(function (data) {
+        }).catch(function(err) {
+            paymentService.getPaymentMethodVS1().then(function(data) {
                 for (let i in data.tpaymentmethodvs1) {
 
                     let paymentmethodrecordObj = {
@@ -1028,24 +1041,24 @@ Template.supplierpaymentcard.onRendered(() => {
 
     }
 
-    templateObject.getAccountNames = function () {
-        getVS1Data('TAccountVS1').then(function (dataObject) {
+    templateObject.getAccountNames = function() {
+        getVS1Data('TAccountVS1').then(function(dataObject) {
             if (dataObject.length == 0) {
-                paymentService.getAccountNameVS1().then(function (data) {
+                paymentService.getAccountNameVS1().then(function(data) {
                     for (let i in data.taccountvs1) {
 
                         let accountnamerecordObj = {
                             accountname: data.taccountvs1[i].AccountName || ' '
                         };
                         // $('#edtBankAccountName').editableSelect('add',data.taccount[i].AccountName);
-                        if (data.taccountvs1[i].AccountTypeName == "BANK" || data.taccountvs1[i].AccountTypeName.toUpperCase() == "CCARD"|| data.taccountvs1[i].AccountTypeName.toUpperCase() == "OCLIAB") {
+                        if (data.taccountvs1[i].AccountTypeName == "BANK" || data.taccountvs1[i].AccountTypeName.toUpperCase() == "CCARD" || data.taccountvs1[i].AccountTypeName.toUpperCase() == "OCLIAB") {
                             accountnamerecords.push(accountnamerecordObj);
                         }
                         templateObject.accountnamerecords.set(accountnamerecords);
                         if (templateObject.accountnamerecords.get()) {
-                            setTimeout(function () {
+                            setTimeout(function() {
                                 var usedNames = {};
-                                $("select[name='edtBankAccountName'] > option").each(function () {
+                                $("select[name='edtBankAccountName'] > option").each(function() {
                                     if (usedNames[this.text]) {
                                         $(this).remove();
                                     } else {
@@ -1067,15 +1080,15 @@ Template.supplierpaymentcard.onRendered(() => {
                         accountname: useData[i].fields.AccountName || ' '
                     };
                     // $('#edtBankAccountName').editableSelect('add',data.taccount[i].AccountName);
-                    if (useData[i].fields.AccountTypeName.replace(/\s/g, '') == "BANK" || useData[i].fields.AccountTypeName.toUpperCase() == "CCARD"|| useData[i].fields.AccountTypeName.toUpperCase() == "OCLIAB") {
+                    if (useData[i].fields.AccountTypeName.replace(/\s/g, '') == "BANK" || useData[i].fields.AccountTypeName.toUpperCase() == "CCARD" || useData[i].fields.AccountTypeName.toUpperCase() == "OCLIAB") {
                         accountnamerecords.push(accountnamerecordObj);
                     }
                     //accountnamerecords.push(accountnamerecordObj);
                     templateObject.accountnamerecords.set(accountnamerecords);
                     if (templateObject.accountnamerecords.get()) {
-                        setTimeout(function () {
+                        setTimeout(function() {
                             var usedNames = {};
-                            $("select[name='edtBankAccountName'] > option").each(function () {
+                            $("select[name='edtBankAccountName'] > option").each(function() {
                                 if (usedNames[this.text]) {
                                     $(this).remove();
                                 } else {
@@ -1089,8 +1102,8 @@ Template.supplierpaymentcard.onRendered(() => {
                 }
 
             }
-        }).catch(function (err) {
-            paymentService.getAccountNameVS1().then(function (data) {
+        }).catch(function(err) {
+            paymentService.getAccountNameVS1().then(function(data) {
                 for (let i in data.taccountvs1) {
 
                     let accountnamerecordObj = {
@@ -1102,9 +1115,9 @@ Template.supplierpaymentcard.onRendered(() => {
                     }
                     templateObject.accountnamerecords.set(accountnamerecords);
                     if (templateObject.accountnamerecords.get()) {
-                        setTimeout(function () {
+                        setTimeout(function() {
                             var usedNames = {};
-                            $("select[name='edtBankAccountName'] > option").each(function () {
+                            $("select[name='edtBankAccountName'] > option").each(function() {
                                 if (usedNames[this.text]) {
                                     $(this).remove();
                                 } else {
@@ -1124,11 +1137,16 @@ Template.supplierpaymentcard.onRendered(() => {
     templateObject.getDepartments();
     templateObject.getPaymentMethods();
     templateObject.getAccountNames();
-    setTimeout(function () {
+    setTimeout(function() {
         templateObject.getAllSupplierPaymentData();
     }, 500)
 
-    $(document).on("click", "#tblSupplierlist tbody tr", function (e) {
+    $(document).on("click", "#departmentList tbody tr", function(e) {
+        $('#sltDept').val($(this).find(".colDeptName").text());
+        $('#departmentModal').modal('toggle');
+    });
+
+    $(document).on("click", "#tblSupplierlist tbody tr", function(e) {
         let suppliers = templateObject.clientrecords.get();
         var tableSupplier = $(this);
         $('#edtSupplierName').val(tableSupplier.find(".colCompany").text());
@@ -1139,250 +1157,252 @@ Template.supplierpaymentcard.onRendered(() => {
         $('#edtSupplierEmail').attr('customerid', tableSupplier.find(".colID").text());
 
 
-        let postalAddress = tableSupplier.find(".colCompany").text() + '\n' + tableSupplier.find(".colStreetAddress").text() + '\n' + tableSupplier.find(".colCity").text()  + ' ' + tableSupplier.find(".colState").text()+ ' ' + tableSupplier.find(".colZipCode").text() + '\n' + tableSupplier.find(".colCountry").text();
+        let postalAddress = tableSupplier.find(".colCompany").text() + '\n' + tableSupplier.find(".colStreetAddress").text() + '\n' + tableSupplier.find(".colCity").text() + ' ' + tableSupplier.find(".colState").text() + ' ' + tableSupplier.find(".colZipCode").text() + '\n' + tableSupplier.find(".colCountry").text();
         $('#txabillingAddress').val(postalAddress);
 
         let selectedCustomer = $('#edtSupplierName').val();
         if (clientList) {
-          $('#edtCustomerEmail').val(clientList[i].customeremail);
-          $('#edtCustomerEmail').attr('customerid', clientList[i].customerid);
-          let postalAddress = clientList[i].customername + '\n' + clientList[i].street + '\n' + clientList[i].street2 + '\n' + clientList[i].street3 + '\n' + clientList[i].suburb + '\n' + clientList[i].statecode + '\n' + clientList[i].country;
-          $('#txabillingAddress').val(postalAddress);
+            $('#edtCustomerEmail').val(clientList[i].customeremail);
+            $('#edtCustomerEmail').attr('customerid', clientList[i].customerid);
+            let postalAddress = clientList[i].customername + '\n' + clientList[i].street + '\n' + clientList[i].street2 + '\n' + clientList[i].street3 + '\n' + clientList[i].suburb + '\n' + clientList[i].statecode + '\n' + clientList[i].country;
+            $('#txabillingAddress').val(postalAddress);
         }
 
 
         $('#tblSupplierlist_filter .form-control-sm').val('');
-        setTimeout(function () {
+        setTimeout(function() {
             $('.btnRefreshCustomer').trigger('click');
             $('.fullScreenSpin').css('display', 'none');
         }, 1000);
     });
 
+    $('#sltDept').editableSelect();
+
     $('#edtSupplierName').editableSelect()
-    .on('select.editable-select', function (e, li) {
-        let selectedSupplier = li.text();
-        if (clientList) {
-            for (var i = 0; i < clientList.length; i++) {
-                if (clientList[i].customername == selectedSupplier) {
-                    $('#edtSupplierEmail').val(clientList[i].customeremail);
-                    $('#edtSupplierEmail').attr('customerid', clientList[i].customerid);
-                    let postalAddress = clientList[i].customername + '\n' + clientList[i].street + '\n' + clientList[i].street2 + '\n' + clientList[i].street3 + '\n' + clientList[i].suburb + '\n' + clientList[i].statecode + '\n' + clientList[i].country;
-                    $('#txabillingAddress').val(postalAddress);
+        .on('select.editable-select', function(e, li) {
+            let selectedSupplier = li.text();
+            if (clientList) {
+                for (var i = 0; i < clientList.length; i++) {
+                    if (clientList[i].customername == selectedSupplier) {
+                        $('#edtSupplierEmail').val(clientList[i].customeremail);
+                        $('#edtSupplierEmail').attr('customerid', clientList[i].customerid);
+                        let postalAddress = clientList[i].customername + '\n' + clientList[i].street + '\n' + clientList[i].street2 + '\n' + clientList[i].street3 + '\n' + clientList[i].suburb + '\n' + clientList[i].statecode + '\n' + clientList[i].country;
+                        $('#txabillingAddress').val(postalAddress);
+                    }
                 }
             }
-        }
-    });
+        });
 
-    $('#edtSupplierName').editableSelect().on('click.editable-select', function (e, li) {
-      var $earch = $(this);
-      var offset = $earch.offset();
-      $('#edtSupplierPOPID').val('');
-      var supplierDataName = e.target.value ||'';
+    $('#edtSupplierName').editableSelect().on('click.editable-select', function(e, li) {
+        var $earch = $(this);
+        var offset = $earch.offset();
+        $('#edtSupplierPOPID').val('');
+        var supplierDataName = e.target.value || '';
 
-      if (e.pageX > offset.left + $earch.width() - 8) { // X button 16px wide?
-        $('#supplierListModal').modal();
-        setTimeout(function () {
-            $('#tblSupplierlist_filter .form-control-sm').focus();
-            $('#tblSupplierlist_filter .form-control-sm').val('');
-            $('#tblSupplierlist_filter .form-control-sm').trigger("input");
-            var datatable = $('#tblSupplierlist').DataTable();
-            datatable.draw();
-            $('#tblSupplierlist_filter .form-control-sm').trigger("input");
-        }, 500);
-       }else{
-         if(supplierDataName.replace(/\s/g, '') != ''){
-          //FlowRouter.go('/supplierscard?name=' + e.target.value);
-          getVS1Data('TSupplierVS1').then(function (dataObject) {
-              if(dataObject.length == 0){
-                $('.fullScreenSpin').css('display', 'inline-block');
-                sideBarService.getOneSupplierDataExByName(supplierDataName).then(function (data) {
-                  $('.fullScreenSpin').css('display','none');
-                    let lineItems = [];
+        if (e.pageX > offset.left + $earch.width() - 8) { // X button 16px wide?
+            $('#supplierListModal').modal();
+            setTimeout(function() {
+                $('#tblSupplierlist_filter .form-control-sm').focus();
+                $('#tblSupplierlist_filter .form-control-sm').val('');
+                $('#tblSupplierlist_filter .form-control-sm').trigger("input");
+                var datatable = $('#tblSupplierlist').DataTable();
+                datatable.draw();
+                $('#tblSupplierlist_filter .form-control-sm').trigger("input");
+            }, 500);
+        } else {
+            if (supplierDataName.replace(/\s/g, '') != '') {
+                //FlowRouter.go('/supplierscard?name=' + e.target.value);
+                getVS1Data('TSupplierVS1').then(function(dataObject) {
+                    if (dataObject.length == 0) {
+                        $('.fullScreenSpin').css('display', 'inline-block');
+                        sideBarService.getOneSupplierDataExByName(supplierDataName).then(function(data) {
+                            $('.fullScreenSpin').css('display', 'none');
+                            let lineItems = [];
 
-                    $('#add-supplier-title').text('Edit Supplier');
-                                  let popSupplierID = data.tsupplier[0].fields.ID || '';
-                                  let popSupplierName = data.tsupplier[0].fields.ClientName || '';
-                                  let popSupplierEmail = data.tsupplier[0].fields.Email || '';
-                                  let popSupplierTitle = data.tsupplier[0].fields.Title || '';
-                                  let popSupplierFirstName = data.tsupplier[0].fields.FirstName || '';
-                                  let popSupplierMiddleName = data.tsupplier[0].fields.CUSTFLD10 || '';
-                                  let popSupplierLastName = data.tsupplier[0].fields.LastName || '';
-                                  let popSuppliertfn = '' || '';
-                                  let popSupplierPhone = data.tsupplier[0].fields.Phone || '';
-                                  let popSupplierMobile = data.tsupplier[0].fields.Mobile || '';
-                                  let popSupplierFaxnumber = data.tsupplier[0].fields.Faxnumber || '';
-                                  let popSupplierSkypeName = data.tsupplier[0].fields.SkypeName || '';
-                                  let popSupplierURL = data.tsupplier[0].fields.URL || '';
-                                  let popSupplierStreet = data.tsupplier[0].fields.Street || '';
-                                  let popSupplierStreet2 = data.tsupplier[0].fields.Street2 || '';
-                                  let popSupplierState = data.tsupplier[0].fields.State || '';
-                                  let popSupplierPostcode = data.tsupplier[0].fields.Postcode || '';
-                                  let popSupplierCountry = data.tsupplier[0].fields.Country || LoggedCountry;
-                                  let popSupplierbillingaddress = data.tsupplier[0].fields.BillStreet || '';
-                                  let popSupplierbcity = data.tsupplier[0].fields.BillStreet2 || '';
-                                  let popSupplierbstate = data.tsupplier[0].fields.BillState || '';
-                                  let popSupplierbpostalcode = data.tsupplier[0].fields.BillPostcode || '';
-                                  let popSupplierbcountry = data.tsupplier[0].fields.Billcountry || LoggedCountry;
-                                  let popSuppliercustfield1 = data.tsupplier[0].fields.CUSTFLD1 || '';
-                                  let popSuppliercustfield2 = data.tsupplier[0].fields.CUSTFLD2 || '';
-                                  let popSuppliercustfield3 = data.tsupplier[0].fields.CUSTFLD3 || '';
-                                  let popSuppliercustfield4 = data.tsupplier[0].fields.CUSTFLD4 || '';
-                                  let popSuppliernotes = data.tsupplier[0].fields.Notes || '';
-                                  let popSupplierpreferedpayment = data.tsupplier[0].fields.PaymentMethodName || '';
-                                  let popSupplierterms = data.tsupplier[0].fields.TermsName || '';
-                                  let popSupplierdeliverymethod = data.tsupplier[0].fields.ShippingMethodName || '';
-                                  let popSupplieraccountnumber = data.tsupplier[0].fields.ClientNo || '';
-                                  let popSupplierisContractor = data.tsupplier[0].fields.Contractor || false;
-                                  let popSupplierissupplier = data.tsupplier[0].fields.IsSupplier || false;
-                                  let popSupplieriscustomer = data.tsupplier[0].fields.IsCustomer || false;
+                            $('#add-supplier-title').text('Edit Supplier');
+                            let popSupplierID = data.tsupplier[0].fields.ID || '';
+                            let popSupplierName = data.tsupplier[0].fields.ClientName || '';
+                            let popSupplierEmail = data.tsupplier[0].fields.Email || '';
+                            let popSupplierTitle = data.tsupplier[0].fields.Title || '';
+                            let popSupplierFirstName = data.tsupplier[0].fields.FirstName || '';
+                            let popSupplierMiddleName = data.tsupplier[0].fields.CUSTFLD10 || '';
+                            let popSupplierLastName = data.tsupplier[0].fields.LastName || '';
+                            let popSuppliertfn = '' || '';
+                            let popSupplierPhone = data.tsupplier[0].fields.Phone || '';
+                            let popSupplierMobile = data.tsupplier[0].fields.Mobile || '';
+                            let popSupplierFaxnumber = data.tsupplier[0].fields.Faxnumber || '';
+                            let popSupplierSkypeName = data.tsupplier[0].fields.SkypeName || '';
+                            let popSupplierURL = data.tsupplier[0].fields.URL || '';
+                            let popSupplierStreet = data.tsupplier[0].fields.Street || '';
+                            let popSupplierStreet2 = data.tsupplier[0].fields.Street2 || '';
+                            let popSupplierState = data.tsupplier[0].fields.State || '';
+                            let popSupplierPostcode = data.tsupplier[0].fields.Postcode || '';
+                            let popSupplierCountry = data.tsupplier[0].fields.Country || LoggedCountry;
+                            let popSupplierbillingaddress = data.tsupplier[0].fields.BillStreet || '';
+                            let popSupplierbcity = data.tsupplier[0].fields.BillStreet2 || '';
+                            let popSupplierbstate = data.tsupplier[0].fields.BillState || '';
+                            let popSupplierbpostalcode = data.tsupplier[0].fields.BillPostcode || '';
+                            let popSupplierbcountry = data.tsupplier[0].fields.Billcountry || LoggedCountry;
+                            let popSuppliercustfield1 = data.tsupplier[0].fields.CUSTFLD1 || '';
+                            let popSuppliercustfield2 = data.tsupplier[0].fields.CUSTFLD2 || '';
+                            let popSuppliercustfield3 = data.tsupplier[0].fields.CUSTFLD3 || '';
+                            let popSuppliercustfield4 = data.tsupplier[0].fields.CUSTFLD4 || '';
+                            let popSuppliernotes = data.tsupplier[0].fields.Notes || '';
+                            let popSupplierpreferedpayment = data.tsupplier[0].fields.PaymentMethodName || '';
+                            let popSupplierterms = data.tsupplier[0].fields.TermsName || '';
+                            let popSupplierdeliverymethod = data.tsupplier[0].fields.ShippingMethodName || '';
+                            let popSupplieraccountnumber = data.tsupplier[0].fields.ClientNo || '';
+                            let popSupplierisContractor = data.tsupplier[0].fields.Contractor || false;
+                            let popSupplierissupplier = data.tsupplier[0].fields.IsSupplier || false;
+                            let popSupplieriscustomer = data.tsupplier[0].fields.IsCustomer || false;
 
-                                  $('#edtSupplierCompany').val(popSupplierName);
-                                  $('#edtSupplierPOPID').val(popSupplierID);
-                                  $('#edtSupplierCompanyEmail').val(popSupplierEmail);
-                                  $('#edtSupplierTitle').val(popSupplierTitle);
-                                  $('#edtSupplierFirstName').val(popSupplierFirstName);
-                                  $('#edtSupplierMiddleName').val(popSupplierMiddleName);
-                                  $('#edtSupplierLastName').val(popSupplierLastName);
-                                  $('#edtSupplierPhone').val(popSupplierPhone);
-                                  $('#edtSupplierMobile').val(popSupplierMobile);
-                                  $('#edtSupplierFax').val(popSupplierFaxnumber);
-                                  $('#edtSupplierSkypeID').val(popSupplierSkypeName);
-                                  $('#edtSupplierWebsite').val(popSupplierURL);
-                                  $('#edtSupplierShippingAddress').val(popSupplierStreet);
-                                  $('#edtSupplierShippingCity').val(popSupplierStreet2);
-                                  $('#edtSupplierShippingState').val(popSupplierState);
-                                  $('#edtSupplierShippingZIP').val(popSupplierPostcode);
-                                  $('#sedtCountry').val(popSupplierCountry);
-                                  $('#txaNotes').val(popSuppliernotes);
-                                  $('#sltPreferedPayment').val(popSupplierpreferedpayment);
-                                  $('#sltTerms').val(popSupplierterms);
-                                  $('#suppAccountNo').val(popSupplieraccountnumber);
-                                  $('#edtCustomeField1').val(popSuppliercustfield1);
-                                  $('#edtCustomeField2').val(popSuppliercustfield2);
-                                  $('#edtCustomeField3').val(popSuppliercustfield3);
-                                  $('#edtCustomeField4').val(popSuppliercustfield4);
+                            $('#edtSupplierCompany').val(popSupplierName);
+                            $('#edtSupplierPOPID').val(popSupplierID);
+                            $('#edtSupplierCompanyEmail').val(popSupplierEmail);
+                            $('#edtSupplierTitle').val(popSupplierTitle);
+                            $('#edtSupplierFirstName').val(popSupplierFirstName);
+                            $('#edtSupplierMiddleName').val(popSupplierMiddleName);
+                            $('#edtSupplierLastName').val(popSupplierLastName);
+                            $('#edtSupplierPhone').val(popSupplierPhone);
+                            $('#edtSupplierMobile').val(popSupplierMobile);
+                            $('#edtSupplierFax').val(popSupplierFaxnumber);
+                            $('#edtSupplierSkypeID').val(popSupplierSkypeName);
+                            $('#edtSupplierWebsite').val(popSupplierURL);
+                            $('#edtSupplierShippingAddress').val(popSupplierStreet);
+                            $('#edtSupplierShippingCity').val(popSupplierStreet2);
+                            $('#edtSupplierShippingState').val(popSupplierState);
+                            $('#edtSupplierShippingZIP').val(popSupplierPostcode);
+                            $('#sedtCountry').val(popSupplierCountry);
+                            $('#txaNotes').val(popSuppliernotes);
+                            $('#sltPreferedPayment').val(popSupplierpreferedpayment);
+                            $('#sltTerms').val(popSupplierterms);
+                            $('#suppAccountNo').val(popSupplieraccountnumber);
+                            $('#edtCustomeField1').val(popSuppliercustfield1);
+                            $('#edtCustomeField2').val(popSuppliercustfield2);
+                            $('#edtCustomeField3').val(popSuppliercustfield3);
+                            $('#edtCustomeField4').val(popSuppliercustfield4);
 
-                                  if((data.tsupplier[0].fields.Street == data.tsupplier[0].fields.BillStreet) && (data.tsupplier[0].fields.Street2 == data.tsupplier[0].fields.BillStreet2)
-                                     && (data.tsupplier[0].fields.State == data.tsupplier[0].fields.BillState)&& (data.tsupplier[0].fields.Postcode == data.tsupplier[0].fields.Postcode)
-                                     && (data.tsupplier[0].fields.Country == data.tsupplier[0].fields.Billcountry)){
-                                      //templateObject.isSameAddress.set(true);
-                                      $('#chkSameAsShipping').attr("checked","checked");
-                                  }
-                                  if(data.tsupplier[0].fields.Contractor == true){
-                                      // $('#isformcontractor')
-                                      $('#isformcontractor').attr("checked","checked");
-                                  }else{
-                                      $('#isformcontractor').removeAttr("checked");
-                                  }
+                            if ((data.tsupplier[0].fields.Street == data.tsupplier[0].fields.BillStreet) && (data.tsupplier[0].fields.Street2 == data.tsupplier[0].fields.BillStreet2) &&
+                                (data.tsupplier[0].fields.State == data.tsupplier[0].fields.BillState) && (data.tsupplier[0].fields.Postcode == data.tsupplier[0].fields.Postcode) &&
+                                (data.tsupplier[0].fields.Country == data.tsupplier[0].fields.Billcountry)) {
+                                //templateObject.isSameAddress.set(true);
+                                $('#chkSameAsShipping').attr("checked", "checked");
+                            }
+                            if (data.tsupplier[0].fields.Contractor == true) {
+                                // $('#isformcontractor')
+                                $('#isformcontractor').attr("checked", "checked");
+                            } else {
+                                $('#isformcontractor').removeAttr("checked");
+                            }
 
-                                  setTimeout(function () {
+                            setTimeout(function() {
+                                $('#addSupplierModal').modal('show');
+                            }, 200);
+
+
+
+                        }).catch(function(err) {
+
+                            $('.fullScreenSpin').css('display', 'none');
+                        });
+                    } else {
+                        let data = JSON.parse(dataObject[0].data);
+                        let useData = data.tsuppliervs1;
+                        var added = false;
+                        for (let i = 0; i < data.tsuppliervs1.length; i++) {
+                            if ((data.tsuppliervs1[i].fields.ClientName) === supplierDataName) {
+                                added = true;
+                                $('.fullScreenSpin').css('display', 'none');
+                                let lineItems = [];
+                                $('#add-supplier-title').text('Edit Supplier');
+                                let popSupplierID = data.tsuppliervs1[i].fields.ID || '';
+                                let popSupplierName = data.tsuppliervs1[i].fields.ClientName || '';
+                                let popSupplierEmail = data.tsuppliervs1[i].fields.Email || '';
+                                let popSupplierTitle = data.tsuppliervs1[i].fields.Title || '';
+                                let popSupplierFirstName = data.tsuppliervs1[i].fields.FirstName || '';
+                                let popSupplierMiddleName = data.tsuppliervs1[i].fields.CUSTFLD10 || '';
+                                let popSupplierLastName = data.tsuppliervs1[i].fields.LastName || '';
+                                let popSuppliertfn = '' || '';
+                                let popSupplierPhone = data.tsuppliervs1[i].fields.Phone || '';
+                                let popSupplierMobile = data.tsuppliervs1[i].fields.Mobile || '';
+                                let popSupplierFaxnumber = data.tsuppliervs1[i].fields.Faxnumber || '';
+                                let popSupplierSkypeName = data.tsuppliervs1[i].fields.SkypeName || '';
+                                let popSupplierURL = data.tsuppliervs1[i].fields.URL || '';
+                                let popSupplierStreet = data.tsuppliervs1[i].fields.Street || '';
+                                let popSupplierStreet2 = data.tsuppliervs1[i].fields.Street2 || '';
+                                let popSupplierState = data.tsuppliervs1[i].fields.State || '';
+                                let popSupplierPostcode = data.tsuppliervs1[i].fields.Postcode || '';
+                                let popSupplierCountry = data.tsuppliervs1[i].fields.Country || LoggedCountry;
+                                let popSupplierbillingaddress = data.tsuppliervs1[i].fields.BillStreet || '';
+                                let popSupplierbcity = data.tsuppliervs1[i].fields.BillStreet2 || '';
+                                let popSupplierbstate = data.tsuppliervs1[i].fields.BillState || '';
+                                let popSupplierbpostalcode = data.tsuppliervs1[i].fields.BillPostcode || '';
+                                let popSupplierbcountry = data.tsuppliervs1[i].fields.Billcountry || LoggedCountry;
+                                let popSuppliercustfield1 = data.tsuppliervs1[i].fields.CUSTFLD1 || '';
+                                let popSuppliercustfield2 = data.tsuppliervs1[i].fields.CUSTFLD2 || '';
+                                let popSuppliercustfield3 = data.tsuppliervs1[i].fields.CUSTFLD3 || '';
+                                let popSuppliercustfield4 = data.tsuppliervs1[i].fields.CUSTFLD4 || '';
+                                let popSuppliernotes = data.tsuppliervs1[i].fields.Notes || '';
+                                let popSupplierpreferedpayment = data.tsuppliervs1[i].fields.PaymentMethodName || '';
+                                let popSupplierterms = data.tsuppliervs1[i].fields.TermsName || '';
+                                let popSupplierdeliverymethod = data.tsuppliervs1[i].fields.ShippingMethodName || '';
+                                let popSupplieraccountnumber = data.tsuppliervs1[i].fields.ClientNo || '';
+                                let popSupplierisContractor = data.tsuppliervs1[i].fields.Contractor || false;
+                                let popSupplierissupplier = data.tsuppliervs1[i].fields.IsSupplier || false;
+                                let popSupplieriscustomer = data.tsuppliervs1[i].fields.IsCustomer || false;
+
+                                $('#edtSupplierCompany').val(popSupplierName);
+                                $('#edtSupplierPOPID').val(popSupplierID);
+                                $('#edtSupplierCompanyEmail').val(popSupplierEmail);
+                                $('#edtSupplierTitle').val(popSupplierTitle);
+                                $('#edtSupplierFirstName').val(popSupplierFirstName);
+                                $('#edtSupplierMiddleName').val(popSupplierMiddleName);
+                                $('#edtSupplierLastName').val(popSupplierLastName);
+                                $('#edtSupplierPhone').val(popSupplierPhone);
+                                $('#edtSupplierMobile').val(popSupplierMobile);
+                                $('#edtSupplierFax').val(popSupplierFaxnumber);
+                                $('#edtSupplierSkypeID').val(popSupplierSkypeName);
+                                $('#edtSupplierWebsite').val(popSupplierURL);
+                                $('#edtSupplierShippingAddress').val(popSupplierStreet);
+                                $('#edtSupplierShippingCity').val(popSupplierStreet2);
+                                $('#edtSupplierShippingState').val(popSupplierState);
+                                $('#edtSupplierShippingZIP').val(popSupplierPostcode);
+                                $('#sedtCountry').val(popSupplierCountry);
+                                $('#txaNotes').val(popSuppliernotes);
+                                $('#sltPreferedPayment').val(popSupplierpreferedpayment);
+                                $('#sltTerms').val(popSupplierterms);
+                                $('#suppAccountNo').val(popSupplieraccountnumber);
+                                $('#edtCustomeField1').val(popSuppliercustfield1);
+                                $('#edtCustomeField2').val(popSuppliercustfield2);
+                                $('#edtCustomeField3').val(popSuppliercustfield3);
+                                $('#edtCustomeField4').val(popSuppliercustfield4);
+
+                                if ((data.tsuppliervs1[i].fields.Street == data.tsuppliervs1[i].fields.BillStreet) && (data.tsuppliervs1[i].fields.Street2 == data.tsuppliervs1[i].fields.BillStreet2) &&
+                                    (data.tsuppliervs1[i].fields.State == data.tsuppliervs1[i].fields.BillState) && (data.tsuppliervs1[i].fields.Postcode == data.tsuppliervs1[i].fields.Postcode) &&
+                                    (data.tsuppliervs1[i].fields.Country == data.tsuppliervs1[i].fields.Billcountry)) {
+                                    //templateObject.isSameAddress.set(true);
+                                    $('#chkSameAsShipping').attr("checked", "checked");
+                                }
+                                if (data.tsuppliervs1[i].fields.Contractor == true) {
+                                    // $('#isformcontractor')
+                                    $('#isformcontractor').attr("checked", "checked");
+                                } else {
+                                    $('#isformcontractor').removeAttr("checked");
+                                }
+
+                                setTimeout(function() {
                                     $('#addSupplierModal').modal('show');
-                                  }, 200);
+                                }, 200);
+                            }
+                        }
 
+                        if (!added) {
+                            $('.fullScreenSpin').css('display', 'inline-block');
+                            sideBarService.getOneSupplierDataExByName(supplierDataName).then(function(data) {
+                                $('.fullScreenSpin').css('display', 'none');
+                                let lineItems = [];
 
-
-                }).catch(function (err) {
-
-                    $('.fullScreenSpin').css('display','none');
-                });
-              }else{
-                  let data = JSON.parse(dataObject[0].data);
-                  let useData = data.tsuppliervs1;
-                  var added=false;
-                  for(let i=0; i<data.tsuppliervs1.length; i++){
-                      if((data.tsuppliervs1[i].fields.ClientName) === supplierDataName){
-                          added = true;
-                          $('.fullScreenSpin').css('display','none');
-                          let lineItems = [];
-                          $('#add-supplier-title').text('Edit Supplier');
-                          let popSupplierID = data.tsuppliervs1[i].fields.ID || '';
-                          let popSupplierName = data.tsuppliervs1[i].fields.ClientName || '';
-                          let popSupplierEmail = data.tsuppliervs1[i].fields.Email || '';
-                          let popSupplierTitle = data.tsuppliervs1[i].fields.Title || '';
-                          let popSupplierFirstName = data.tsuppliervs1[i].fields.FirstName || '';
-                          let popSupplierMiddleName = data.tsuppliervs1[i].fields.CUSTFLD10 || '';
-                          let popSupplierLastName = data.tsuppliervs1[i].fields.LastName || '';
-                          let popSuppliertfn = '' || '';
-                          let popSupplierPhone = data.tsuppliervs1[i].fields.Phone || '';
-                          let popSupplierMobile = data.tsuppliervs1[i].fields.Mobile || '';
-                          let popSupplierFaxnumber = data.tsuppliervs1[i].fields.Faxnumber || '';
-                          let popSupplierSkypeName = data.tsuppliervs1[i].fields.SkypeName || '';
-                          let popSupplierURL = data.tsuppliervs1[i].fields.URL || '';
-                          let popSupplierStreet = data.tsuppliervs1[i].fields.Street || '';
-                          let popSupplierStreet2 = data.tsuppliervs1[i].fields.Street2 || '';
-                          let popSupplierState = data.tsuppliervs1[i].fields.State || '';
-                          let popSupplierPostcode = data.tsuppliervs1[i].fields.Postcode || '';
-                          let popSupplierCountry = data.tsuppliervs1[i].fields.Country || LoggedCountry;
-                          let popSupplierbillingaddress = data.tsuppliervs1[i].fields.BillStreet || '';
-                          let popSupplierbcity = data.tsuppliervs1[i].fields.BillStreet2 || '';
-                          let popSupplierbstate = data.tsuppliervs1[i].fields.BillState || '';
-                          let popSupplierbpostalcode = data.tsuppliervs1[i].fields.BillPostcode || '';
-                          let popSupplierbcountry = data.tsuppliervs1[i].fields.Billcountry || LoggedCountry;
-                          let popSuppliercustfield1 = data.tsuppliervs1[i].fields.CUSTFLD1 || '';
-                          let popSuppliercustfield2 = data.tsuppliervs1[i].fields.CUSTFLD2 || '';
-                          let popSuppliercustfield3 = data.tsuppliervs1[i].fields.CUSTFLD3 || '';
-                          let popSuppliercustfield4 = data.tsuppliervs1[i].fields.CUSTFLD4 || '';
-                          let popSuppliernotes = data.tsuppliervs1[i].fields.Notes || '';
-                          let popSupplierpreferedpayment = data.tsuppliervs1[i].fields.PaymentMethodName || '';
-                          let popSupplierterms = data.tsuppliervs1[i].fields.TermsName || '';
-                          let popSupplierdeliverymethod = data.tsuppliervs1[i].fields.ShippingMethodName || '';
-                          let popSupplieraccountnumber = data.tsuppliervs1[i].fields.ClientNo || '';
-                          let popSupplierisContractor = data.tsuppliervs1[i].fields.Contractor || false;
-                          let popSupplierissupplier = data.tsuppliervs1[i].fields.IsSupplier || false;
-                          let popSupplieriscustomer = data.tsuppliervs1[i].fields.IsCustomer || false;
-
-                          $('#edtSupplierCompany').val(popSupplierName);
-                          $('#edtSupplierPOPID').val(popSupplierID);
-                          $('#edtSupplierCompanyEmail').val(popSupplierEmail);
-                          $('#edtSupplierTitle').val(popSupplierTitle);
-                          $('#edtSupplierFirstName').val(popSupplierFirstName);
-                          $('#edtSupplierMiddleName').val(popSupplierMiddleName);
-                          $('#edtSupplierLastName').val(popSupplierLastName);
-                          $('#edtSupplierPhone').val(popSupplierPhone);
-                          $('#edtSupplierMobile').val(popSupplierMobile);
-                          $('#edtSupplierFax').val(popSupplierFaxnumber);
-                          $('#edtSupplierSkypeID').val(popSupplierSkypeName);
-                          $('#edtSupplierWebsite').val(popSupplierURL);
-                          $('#edtSupplierShippingAddress').val(popSupplierStreet);
-                          $('#edtSupplierShippingCity').val(popSupplierStreet2);
-                          $('#edtSupplierShippingState').val(popSupplierState);
-                          $('#edtSupplierShippingZIP').val(popSupplierPostcode);
-                          $('#sedtCountry').val(popSupplierCountry);
-                          $('#txaNotes').val(popSuppliernotes);
-                          $('#sltPreferedPayment').val(popSupplierpreferedpayment);
-                          $('#sltTerms').val(popSupplierterms);
-                          $('#suppAccountNo').val(popSupplieraccountnumber);
-                          $('#edtCustomeField1').val(popSuppliercustfield1);
-                          $('#edtCustomeField2').val(popSuppliercustfield2);
-                          $('#edtCustomeField3').val(popSuppliercustfield3);
-                          $('#edtCustomeField4').val(popSuppliercustfield4);
-
-                          if((data.tsuppliervs1[i].fields.Street == data.tsuppliervs1[i].fields.BillStreet) && (data.tsuppliervs1[i].fields.Street2 == data.tsuppliervs1[i].fields.BillStreet2)
-                             && (data.tsuppliervs1[i].fields.State == data.tsuppliervs1[i].fields.BillState)&& (data.tsuppliervs1[i].fields.Postcode == data.tsuppliervs1[i].fields.Postcode)
-                             && (data.tsuppliervs1[i].fields.Country == data.tsuppliervs1[i].fields.Billcountry)){
-                              //templateObject.isSameAddress.set(true);
-                              $('#chkSameAsShipping').attr("checked","checked");
-                          }
-                          if(data.tsuppliervs1[i].fields.Contractor == true){
-                              // $('#isformcontractor')
-                              $('#isformcontractor').attr("checked","checked");
-                          }else{
-                              $('#isformcontractor').removeAttr("checked");
-                          }
-
-                          setTimeout(function () {
-                            $('#addSupplierModal').modal('show');
-                          }, 200);
-                      }
-                  }
-
-                  if(!added) {
-                    $('.fullScreenSpin').css('display', 'inline-block');
-                    sideBarService.getOneSupplierDataExByName(supplierDataName).then(function (data) {
-                      $('.fullScreenSpin').css('display','none');
-                        let lineItems = [];
-
-                        $('#add-supplier-title').text('Edit Supplier');
+                                $('#add-supplier-title').text('Edit Supplier');
                                 let popSupplierID = data.tsupplier[0].fields.ID || '';
                                 let popSupplierName = data.tsupplier[0].fields.ClientName || '';
                                 let popSupplierEmail = data.tsupplier[0].fields.Email || '';
@@ -1445,132 +1465,132 @@ Template.supplierpaymentcard.onRendered(() => {
                                 $('#edtCustomeField3').val(popSuppliercustfield3);
                                 $('#edtCustomeField4').val(popSuppliercustfield4);
 
-                                if((data.tsupplier[0].fields.Street == data.tsupplier[0].fields.BillStreet) && (data.tsupplier[0].fields.Street2 == data.tsupplier[0].fields.BillStreet2)
-                                   && (data.tsupplier[0].fields.State == data.tsupplier[0].fields.BillState)&& (data.tsupplier[0].fields.Postcode == data.tsupplier[0].fields.Postcode)
-                                   && (data.tsupplier[0].fields.Country == data.tsupplier[0].fields.Billcountry)){
+                                if ((data.tsupplier[0].fields.Street == data.tsupplier[0].fields.BillStreet) && (data.tsupplier[0].fields.Street2 == data.tsupplier[0].fields.BillStreet2) &&
+                                    (data.tsupplier[0].fields.State == data.tsupplier[0].fields.BillState) && (data.tsupplier[0].fields.Postcode == data.tsupplier[0].fields.Postcode) &&
+                                    (data.tsupplier[0].fields.Country == data.tsupplier[0].fields.Billcountry)) {
                                     //templateObject.isSameAddress.set(true);
-                                    $('#chkSameAsShipping').attr("checked","checked");
+                                    $('#chkSameAsShipping').attr("checked", "checked");
                                 }
-                                if(data.tsupplier[0].fields.Contractor == true){
+                                if (data.tsupplier[0].fields.Contractor == true) {
                                     // $('#isformcontractor')
-                                    $('#isformcontractor').attr("checked","checked");
-                                }else{
+                                    $('#isformcontractor').attr("checked", "checked");
+                                } else {
                                     $('#isformcontractor').removeAttr("checked");
                                 }
 
-                                setTimeout(function () {
-                                  $('#addSupplierModal').modal('show');
+                                setTimeout(function() {
+                                    $('#addSupplierModal').modal('show');
                                 }, 200);
-                    }).catch(function (err) {
+                            }).catch(function(err) {
 
-                        $('.fullScreenSpin').css('display','none');
+                                $('.fullScreenSpin').css('display', 'none');
+                            });
+                        }
+                    }
+                }).catch(function(err) {
+
+                    sideBarService.getOneSupplierDataExByName(supplierDataName).then(function(data) {
+                        $('.fullScreenSpin').css('display', 'none');
+                        let lineItems = [];
+
+                        $('#add-supplier-title').text('Edit Supplier');
+                        let popSupplierID = data.tsupplier[0].fields.ID || '';
+                        let popSupplierName = data.tsupplier[0].fields.ClientName || '';
+                        let popSupplierEmail = data.tsupplier[0].fields.Email || '';
+                        let popSupplierTitle = data.tsupplier[0].fields.Title || '';
+                        let popSupplierFirstName = data.tsupplier[0].fields.FirstName || '';
+                        let popSupplierMiddleName = data.tsupplier[0].fields.CUSTFLD10 || '';
+                        let popSupplierLastName = data.tsupplier[0].fields.LastName || '';
+                        let popSuppliertfn = '' || '';
+                        let popSupplierPhone = data.tsupplier[0].fields.Phone || '';
+                        let popSupplierMobile = data.tsupplier[0].fields.Mobile || '';
+                        let popSupplierFaxnumber = data.tsupplier[0].fields.Faxnumber || '';
+                        let popSupplierSkypeName = data.tsupplier[0].fields.SkypeName || '';
+                        let popSupplierURL = data.tsupplier[0].fields.URL || '';
+                        let popSupplierStreet = data.tsupplier[0].fields.Street || '';
+                        let popSupplierStreet2 = data.tsupplier[0].fields.Street2 || '';
+                        let popSupplierState = data.tsupplier[0].fields.State || '';
+                        let popSupplierPostcode = data.tsupplier[0].fields.Postcode || '';
+                        let popSupplierCountry = data.tsupplier[0].fields.Country || LoggedCountry;
+                        let popSupplierbillingaddress = data.tsupplier[0].fields.BillStreet || '';
+                        let popSupplierbcity = data.tsupplier[0].fields.BillStreet2 || '';
+                        let popSupplierbstate = data.tsupplier[0].fields.BillState || '';
+                        let popSupplierbpostalcode = data.tsupplier[0].fields.BillPostcode || '';
+                        let popSupplierbcountry = data.tsupplier[0].fields.Billcountry || LoggedCountry;
+                        let popSuppliercustfield1 = data.tsupplier[0].fields.CUSTFLD1 || '';
+                        let popSuppliercustfield2 = data.tsupplier[0].fields.CUSTFLD2 || '';
+                        let popSuppliercustfield3 = data.tsupplier[0].fields.CUSTFLD3 || '';
+                        let popSuppliercustfield4 = data.tsupplier[0].fields.CUSTFLD4 || '';
+                        let popSuppliernotes = data.tsupplier[0].fields.Notes || '';
+                        let popSupplierpreferedpayment = data.tsupplier[0].fields.PaymentMethodName || '';
+                        let popSupplierterms = data.tsupplier[0].fields.TermsName || '';
+                        let popSupplierdeliverymethod = data.tsupplier[0].fields.ShippingMethodName || '';
+                        let popSupplieraccountnumber = data.tsupplier[0].fields.ClientNo || '';
+                        let popSupplierisContractor = data.tsupplier[0].fields.Contractor || false;
+                        let popSupplierissupplier = data.tsupplier[0].fields.IsSupplier || false;
+                        let popSupplieriscustomer = data.tsupplier[0].fields.IsCustomer || false;
+
+                        $('#edtSupplierCompany').val(popSupplierName);
+                        $('#edtSupplierPOPID').val(popSupplierID);
+                        $('#edtSupplierCompanyEmail').val(popSupplierEmail);
+                        $('#edtSupplierTitle').val(popSupplierTitle);
+                        $('#edtSupplierFirstName').val(popSupplierFirstName);
+                        $('#edtSupplierMiddleName').val(popSupplierMiddleName);
+                        $('#edtSupplierLastName').val(popSupplierLastName);
+                        $('#edtSupplierPhone').val(popSupplierPhone);
+                        $('#edtSupplierMobile').val(popSupplierMobile);
+                        $('#edtSupplierFax').val(popSupplierFaxnumber);
+                        $('#edtSupplierSkypeID').val(popSupplierSkypeName);
+                        $('#edtSupplierWebsite').val(popSupplierURL);
+                        $('#edtSupplierShippingAddress').val(popSupplierStreet);
+                        $('#edtSupplierShippingCity').val(popSupplierStreet2);
+                        $('#edtSupplierShippingState').val(popSupplierState);
+                        $('#edtSupplierShippingZIP').val(popSupplierPostcode);
+                        $('#sedtCountry').val(popSupplierCountry);
+                        $('#txaNotes').val(popSuppliernotes);
+                        $('#sltPreferedPayment').val(popSupplierpreferedpayment);
+                        $('#sltTerms').val(popSupplierterms);
+                        $('#suppAccountNo').val(popSupplieraccountnumber);
+                        $('#edtCustomeField1').val(popSuppliercustfield1);
+                        $('#edtCustomeField2').val(popSuppliercustfield2);
+                        $('#edtCustomeField3').val(popSuppliercustfield3);
+                        $('#edtCustomeField4').val(popSuppliercustfield4);
+
+                        if ((data.tsupplier[0].fields.Street == data.tsupplier[0].fields.BillStreet) && (data.tsupplier[0].fields.Street2 == data.tsupplier[0].fields.BillStreet2) &&
+                            (data.tsupplier[0].fields.State == data.tsupplier[0].fields.BillState) && (data.tsupplier[0].fields.Postcode == data.tsupplier[0].fields.Postcode) &&
+                            (data.tsupplier[0].fields.Country == data.tsupplier[0].fields.Billcountry)) {
+                            //templateObject.isSameAddress.set(true);
+                            $('#chkSameAsShipping').attr("checked", "checked");
+                        }
+                        if (data.tsupplier[0].fields.Contractor == true) {
+                            // $('#isformcontractor')
+                            $('#isformcontractor').attr("checked", "checked");
+                        } else {
+                            $('#isformcontractor').removeAttr("checked");
+                        }
+
+                        setTimeout(function() {
+                            $('#addSupplierModal').modal('show');
+                        }, 200);
+
+
+                    }).catch(function(err) {
+
+                        $('.fullScreenSpin').css('display', 'none');
                     });
-                  }
-              }
-          }).catch(function (err) {
-
-              sideBarService.getOneSupplierDataExByName(supplierDataName).then(function (data) {
-                $('.fullScreenSpin').css('display','none');
-                  let lineItems = [];
-
-                  $('#add-supplier-title').text('Edit Supplier');
-                              let popSupplierID = data.tsupplier[0].fields.ID || '';
-                              let popSupplierName = data.tsupplier[0].fields.ClientName || '';
-                              let popSupplierEmail = data.tsupplier[0].fields.Email || '';
-                              let popSupplierTitle = data.tsupplier[0].fields.Title || '';
-                              let popSupplierFirstName = data.tsupplier[0].fields.FirstName || '';
-                              let popSupplierMiddleName = data.tsupplier[0].fields.CUSTFLD10 || '';
-                              let popSupplierLastName = data.tsupplier[0].fields.LastName || '';
-                              let popSuppliertfn = '' || '';
-                              let popSupplierPhone = data.tsupplier[0].fields.Phone || '';
-                              let popSupplierMobile = data.tsupplier[0].fields.Mobile || '';
-                              let popSupplierFaxnumber = data.tsupplier[0].fields.Faxnumber || '';
-                              let popSupplierSkypeName = data.tsupplier[0].fields.SkypeName || '';
-                              let popSupplierURL = data.tsupplier[0].fields.URL || '';
-                              let popSupplierStreet = data.tsupplier[0].fields.Street || '';
-                              let popSupplierStreet2 = data.tsupplier[0].fields.Street2 || '';
-                              let popSupplierState = data.tsupplier[0].fields.State || '';
-                              let popSupplierPostcode = data.tsupplier[0].fields.Postcode || '';
-                              let popSupplierCountry = data.tsupplier[0].fields.Country || LoggedCountry;
-                              let popSupplierbillingaddress = data.tsupplier[0].fields.BillStreet || '';
-                              let popSupplierbcity = data.tsupplier[0].fields.BillStreet2 || '';
-                              let popSupplierbstate = data.tsupplier[0].fields.BillState || '';
-                              let popSupplierbpostalcode = data.tsupplier[0].fields.BillPostcode || '';
-                              let popSupplierbcountry = data.tsupplier[0].fields.Billcountry || LoggedCountry;
-                              let popSuppliercustfield1 = data.tsupplier[0].fields.CUSTFLD1 || '';
-                              let popSuppliercustfield2 = data.tsupplier[0].fields.CUSTFLD2 || '';
-                              let popSuppliercustfield3 = data.tsupplier[0].fields.CUSTFLD3 || '';
-                              let popSuppliercustfield4 = data.tsupplier[0].fields.CUSTFLD4 || '';
-                              let popSuppliernotes = data.tsupplier[0].fields.Notes || '';
-                              let popSupplierpreferedpayment = data.tsupplier[0].fields.PaymentMethodName || '';
-                              let popSupplierterms = data.tsupplier[0].fields.TermsName || '';
-                              let popSupplierdeliverymethod = data.tsupplier[0].fields.ShippingMethodName || '';
-                              let popSupplieraccountnumber = data.tsupplier[0].fields.ClientNo || '';
-                              let popSupplierisContractor = data.tsupplier[0].fields.Contractor || false;
-                              let popSupplierissupplier = data.tsupplier[0].fields.IsSupplier || false;
-                              let popSupplieriscustomer = data.tsupplier[0].fields.IsCustomer || false;
-
-                              $('#edtSupplierCompany').val(popSupplierName);
-                              $('#edtSupplierPOPID').val(popSupplierID);
-                              $('#edtSupplierCompanyEmail').val(popSupplierEmail);
-                              $('#edtSupplierTitle').val(popSupplierTitle);
-                              $('#edtSupplierFirstName').val(popSupplierFirstName);
-                              $('#edtSupplierMiddleName').val(popSupplierMiddleName);
-                              $('#edtSupplierLastName').val(popSupplierLastName);
-                              $('#edtSupplierPhone').val(popSupplierPhone);
-                              $('#edtSupplierMobile').val(popSupplierMobile);
-                              $('#edtSupplierFax').val(popSupplierFaxnumber);
-                              $('#edtSupplierSkypeID').val(popSupplierSkypeName);
-                              $('#edtSupplierWebsite').val(popSupplierURL);
-                              $('#edtSupplierShippingAddress').val(popSupplierStreet);
-                              $('#edtSupplierShippingCity').val(popSupplierStreet2);
-                              $('#edtSupplierShippingState').val(popSupplierState);
-                              $('#edtSupplierShippingZIP').val(popSupplierPostcode);
-                              $('#sedtCountry').val(popSupplierCountry);
-                              $('#txaNotes').val(popSuppliernotes);
-                              $('#sltPreferedPayment').val(popSupplierpreferedpayment);
-                              $('#sltTerms').val(popSupplierterms);
-                              $('#suppAccountNo').val(popSupplieraccountnumber);
-                              $('#edtCustomeField1').val(popSuppliercustfield1);
-                              $('#edtCustomeField2').val(popSuppliercustfield2);
-                              $('#edtCustomeField3').val(popSuppliercustfield3);
-                              $('#edtCustomeField4').val(popSuppliercustfield4);
-
-                              if((data.tsupplier[0].fields.Street == data.tsupplier[0].fields.BillStreet) && (data.tsupplier[0].fields.Street2 == data.tsupplier[0].fields.BillStreet2)
-                                 && (data.tsupplier[0].fields.State == data.tsupplier[0].fields.BillState)&& (data.tsupplier[0].fields.Postcode == data.tsupplier[0].fields.Postcode)
-                                 && (data.tsupplier[0].fields.Country == data.tsupplier[0].fields.Billcountry)){
-                                  //templateObject.isSameAddress.set(true);
-                                  $('#chkSameAsShipping').attr("checked","checked");
-                              }
-                              if(data.tsupplier[0].fields.Contractor == true){
-                                  // $('#isformcontractor')
-                                  $('#isformcontractor').attr("checked","checked");
-                              }else{
-                                  $('#isformcontractor').removeAttr("checked");
-                              }
-
-                              setTimeout(function () {
-                                $('#addSupplierModal').modal('show');
-                              }, 200);
-
-
-              }).catch(function (err) {
-
-                  $('.fullScreenSpin').css('display','none');
-              });
-          });
-         }else{
-           $('#supplierListModal').modal();
-           setTimeout(function () {
-               $('#tblSupplierlist_filter .form-control-sm').focus();
-               $('#tblSupplierlist_filter .form-control-sm').val('');
-               $('#tblSupplierlist_filter .form-control-sm').trigger("input");
-               var datatable = $('#tblSupplierlist').DataTable();
-               datatable.draw();
-               $('#tblSupplierlist_filter .form-control-sm').trigger("input");
-           }, 500);
-         }
-       }
+                });
+            } else {
+                $('#supplierListModal').modal();
+                setTimeout(function() {
+                    $('#tblSupplierlist_filter .form-control-sm').focus();
+                    $('#tblSupplierlist_filter .form-control-sm').val('');
+                    $('#tblSupplierlist_filter .form-control-sm').trigger("input");
+                    var datatable = $('#tblSupplierlist').DataTable();
+                    datatable.draw();
+                    $('#tblSupplierlist_filter .form-control-sm').trigger("input");
+                }, 500);
+            }
+        }
 
 
     });
@@ -1582,9 +1602,9 @@ Template.supplierpaymentcard.onRendered(() => {
         var currentSalesID = getsale_id[getsale_id.length - 1];
         if (getsale_id[1]) {
             currentSalesID = parseInt(currentSalesID);
-            getVS1Data('TSupplierPayment').then(function (dataObject) {
+            getVS1Data('TSupplierPayment').then(function(dataObject) {
                 if (dataObject.length == 0) {
-                    paymentService.getOneSupplierPayment(currentSalesID).then(function (data) {
+                    paymentService.getOneSupplierPayment(currentSalesID).then(function(data) {
                         let lineItems = [];
                         let lineItemObj = {};
 
@@ -1672,6 +1692,8 @@ Template.supplierpaymentcard.onRendered(() => {
                         };
                         templateObject.record.set(record);
                         //$('#edtSupplierName').editableSelect('add', data.fields.CompanyName);
+                        let getDepartmentVal = Session.get('department') || data.fields.DeptClassName;
+                        $('#sltDept').val(data.fields.DeptClassName);
                         $('#edtSupplierName').val(data.fields.CompanyName);
 
 
@@ -1693,7 +1715,7 @@ Template.supplierpaymentcard.onRendered(() => {
                         $('#sltDepartment').attr('disabled', 'disabled');
                         $('#sltDepartment').attr('readonly', true);
 
-                        Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblSupplierPaymentcard', function (error, result) {
+                        Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblSupplierPaymentcard', function(error, result) {
                             if (error) {
 
                                 //Bert.alert('<strong>Error:</strong> user-not-found, no user found please try again!', 'danger');
@@ -1728,7 +1750,7 @@ Template.supplierpaymentcard.onRendered(() => {
                             }
                         });
 
-                        setTimeout(function () {
+                        setTimeout(function() {
                             $('.tblSupplierPaymentcard > tbody > tr > td').attr('contenteditable', 'false');
                         }, 1000);
 
@@ -1847,7 +1869,7 @@ Template.supplierpaymentcard.onRendered(() => {
                             templateObject.record.set(record);
                             //$('#edtSupplierName').editableSelect('add', useData[d].fields.CompanyName);
                             $('#edtSupplierName').val(useData[d].fields.CompanyName);
-
+                            $('#sltDept').val(useData[d].fields.DeptClassName);
 
                             $('#edtSupplierName').attr('readonly', true);
                             $('#edtSupplierName').css('background-color', '#eaecf4');
@@ -1867,7 +1889,7 @@ Template.supplierpaymentcard.onRendered(() => {
                             $('#sltDepartment').attr('disabled', 'disabled');
                             $('#sltDepartment').attr('readonly', true);
 
-                            Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblSupplierPaymentcard', function (error, result) {
+                            Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblSupplierPaymentcard', function(error, result) {
                                 if (error) {
 
                                     //Bert.alert('<strong>Error:</strong> user-not-found, no user found please try again!', 'danger');
@@ -1902,7 +1924,7 @@ Template.supplierpaymentcard.onRendered(() => {
                                 }
                             });
 
-                            setTimeout(function () {
+                            setTimeout(function() {
                                 $('.tblSupplierPaymentcard > tbody > tr > td').attr('contenteditable', 'false');
                             }, 1000);
 
@@ -1926,7 +1948,7 @@ Template.supplierpaymentcard.onRendered(() => {
 
                     }
                     if (!added) {
-                        paymentService.getOneSupplierPayment(currentSalesID).then(function (data) {
+                        paymentService.getOneSupplierPayment(currentSalesID).then(function(data) {
                             let lineItems = [];
                             let lineItemObj = {};
 
@@ -2015,7 +2037,7 @@ Template.supplierpaymentcard.onRendered(() => {
                             templateObject.record.set(record);
                             //$('#edtSupplierName').editableSelect('add', data.fields.CompanyName);
                             $('#edtSupplierName').val(data.fields.CompanyName);
-
+                            $('#sltDept').val(data.fields.DeptClassName);
 
                             $('#edtSupplierName').attr('readonly', true);
                             $('#edtSupplierName').css('background-color', '#eaecf4');
@@ -2035,7 +2057,7 @@ Template.supplierpaymentcard.onRendered(() => {
                             $('#sltDepartment').attr('disabled', 'disabled');
                             $('#sltDepartment').attr('readonly', true);
 
-                            Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblSupplierPaymentcard', function (error, result) {
+                            Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblSupplierPaymentcard', function(error, result) {
                                 if (error) {
 
                                     //Bert.alert('<strong>Error:</strong> user-not-found, no user found please try again!', 'danger');
@@ -2070,7 +2092,7 @@ Template.supplierpaymentcard.onRendered(() => {
                                 }
                             });
 
-                            setTimeout(function () {
+                            setTimeout(function() {
                                 $('.tblSupplierPaymentcard > tbody > tr > td').attr('contenteditable', 'false');
                             }, 1000);
 
@@ -2093,8 +2115,8 @@ Template.supplierpaymentcard.onRendered(() => {
                         });
                     }
                 }
-            }).catch(function (err) {
-                paymentService.getOneSupplierPayment(currentSalesID).then(function (data) {
+            }).catch(function(err) {
+                paymentService.getOneSupplierPayment(currentSalesID).then(function(data) {
                     let lineItems = [];
                     let lineItemObj = {};
 
@@ -2183,6 +2205,7 @@ Template.supplierpaymentcard.onRendered(() => {
                     templateObject.record.set(record);
                     //$('#edtSupplierName').editableSelect('add', data.fields.CompanyName);
                     $('#edtSupplierName').val(data.fields.CompanyName);
+                    $('#sltDept').val(data.fields.DeptClassName);
 
 
                     $('#edtSupplierName').attr('readonly', true);
@@ -2203,7 +2226,7 @@ Template.supplierpaymentcard.onRendered(() => {
                     $('#sltDepartment').attr('disabled', 'disabled');
                     $('#sltDepartment').attr('readonly', true);
 
-                    Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblSupplierPaymentcard', function (error, result) {
+                    Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblSupplierPaymentcard', function(error, result) {
                         if (error) {
 
                             //Bert.alert('<strong>Error:</strong> user-not-found, no user found please try again!', 'danger');
@@ -2238,7 +2261,7 @@ Template.supplierpaymentcard.onRendered(() => {
                         }
                     });
 
-                    setTimeout(function () {
+                    setTimeout(function() {
                         $('.tblSupplierPaymentcard > tbody > tr > td').attr('contenteditable', 'false');
                     }, 1000);
 
@@ -2263,7 +2286,7 @@ Template.supplierpaymentcard.onRendered(() => {
 
         }
 
-        $('#tblSupplierPaymentcard tbody').on('click', 'tr .colType', function () {
+        $('#tblSupplierPaymentcard tbody').on('click', 'tr .colType', function() {
             var listData = $(this).closest('tr').attr('id');
             var columnType = $(event.target).text();
             if (listData) {
@@ -2282,9 +2305,9 @@ Template.supplierpaymentcard.onRendered(() => {
         var currentPOID = getpo_id[getpo_id.length - 1];
         if (getpo_id[1]) {
             currentPOID = parseInt(currentPOID);
-            getVS1Data('TPurchaseOrderEx').then(function (dataObject) {
+            getVS1Data('TPurchaseOrderEx').then(function(dataObject) {
                 if (dataObject.length == 0) {
-                    paymentService.getOnePurchaseOrderPayment(currentPOID).then(function (data) {
+                    paymentService.getOnePurchaseOrderPayment(currentPOID).then(function(data) {
                         let lineItems = [];
                         let lineItemObj = {};
 
@@ -2343,8 +2366,11 @@ Template.supplierpaymentcard.onRendered(() => {
 
                         };
                         templateObject.record.set(record);
+
+                        let getDepartmentVal = Session.get('department') || data.fields.DeptClassName;
                         //$('#edtSupplierName').editableSelect('add', data.fields.ClientName);
                         $('#edtSupplierName').val(data.fields.ClientName);
+                        $('#sltDept').val(data.fields.DeptClassName);
                         //$('#edtBankAccountName').editableSelect('add',record.bankAccount);
                         $('#edtBankAccountName').val(record.bankAccount);
                         if (clientList) {
@@ -2358,7 +2384,7 @@ Template.supplierpaymentcard.onRendered(() => {
                             }
                         }
 
-                        Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblSupplierPaymentcard', function (error, result) {
+                        Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblSupplierPaymentcard', function(error, result) {
                             if (error) {
 
                                 //Bert.alert('<strong>Error:</strong> user-not-found, no user found please try again!', 'danger');
@@ -2461,8 +2487,11 @@ Template.supplierpaymentcard.onRendered(() => {
 
                             };
                             templateObject.record.set(record);
+
+                            let getDepartmentVal = Session.get('department') || useData[d].fields.DeptClassName;
                             //$('#edtSupplierName').editableSelect('add', useData[d].fields.ClientName);
                             $('#edtSupplierName').val(useData[d].fields.ClientName);
+                            $('#sltDept').val(getDepartmentVal);
                             //$('#edtBankAccountName').editableSelect('add',record.bankAccount);
                             $('#edtBankAccountName').val(record.bankAccount);
                             if (clientList) {
@@ -2476,7 +2505,7 @@ Template.supplierpaymentcard.onRendered(() => {
                                 }
                             }
 
-                            Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblSupplierPaymentcard', function (error, result) {
+                            Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblSupplierPaymentcard', function(error, result) {
                                 if (error) {
 
                                     //Bert.alert('<strong>Error:</strong> user-not-found, no user found please try again!', 'danger');
@@ -2516,7 +2545,7 @@ Template.supplierpaymentcard.onRendered(() => {
                     }
 
                     if (!added) {
-                        paymentService.getOnePurchaseOrderPayment(currentPOID).then(function (data) {
+                        paymentService.getOnePurchaseOrderPayment(currentPOID).then(function(data) {
                             let lineItems = [];
                             let lineItemObj = {};
 
@@ -2576,8 +2605,11 @@ Template.supplierpaymentcard.onRendered(() => {
 
                             };
                             templateObject.record.set(record);
+
+                            let getDepartmentVal = Session.get('department') || data.fields.DeptClassName;
                             //$('#edtSupplierName').editableSelect('add', data.fields.ClientName);
                             $('#edtSupplierName').val(data.fields.ClientName);
+                            $('#sltDept').val(getDepartmentVal);
                             //$('#edtBankAccountName').editableSelect('add',record.bankAccount);
                             $('#edtBankAccountName').val(record.bankAccount);
                             if (clientList) {
@@ -2591,7 +2623,7 @@ Template.supplierpaymentcard.onRendered(() => {
                                 }
                             }
 
-                            Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblSupplierPaymentcard', function (error, result) {
+                            Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblSupplierPaymentcard', function(error, result) {
                                 if (error) {
 
                                     //Bert.alert('<strong>Error:</strong> user-not-found, no user found please try again!', 'danger');
@@ -2630,8 +2662,8 @@ Template.supplierpaymentcard.onRendered(() => {
                     }
                 }
 
-            }).catch(function (err) {
-                paymentService.getOnePurchaseOrderPayment(currentPOID).then(function (data) {
+            }).catch(function(err) {
+                paymentService.getOnePurchaseOrderPayment(currentPOID).then(function(data) {
                     let lineItems = [];
                     let lineItemObj = {};
 
@@ -2691,8 +2723,11 @@ Template.supplierpaymentcard.onRendered(() => {
 
                     };
                     templateObject.record.set(record);
+
+                    let getDepartmentVal = Session.get('department') || data.fields.DeptClassName;
                     //$('#edtSupplierName').editableSelect('add', data.fields.ClientName);
                     $('#edtSupplierName').val(data.fields.ClientName);
+                    $('#sltDept').val(getDepartmentVal);
                     //$('#edtBankAccountName').editableSelect('add',record.bankAccount);
                     $('#edtBankAccountName').val(record.bankAccount);
                     if (clientList) {
@@ -2706,7 +2741,7 @@ Template.supplierpaymentcard.onRendered(() => {
                         }
                     }
 
-                    Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblSupplierPaymentcard', function (error, result) {
+                    Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblSupplierPaymentcard', function(error, result) {
                         if (error) {
 
                             //Bert.alert('<strong>Error:</strong> user-not-found, no user found please try again!', 'danger');
@@ -2750,9 +2785,9 @@ Template.supplierpaymentcard.onRendered(() => {
         var currentPOID = getpo_id[getpo_id.length - 1];
         if (getpo_id[1]) {
             currentPOID = parseInt(currentPOID);
-            getVS1Data('TBillEx').then(function (dataObject) {
+            getVS1Data('TBillEx').then(function(dataObject) {
                 if (dataObject.length == 0) {
-                    paymentService.getOneBillPayment(currentPOID).then(function (data) {
+                    paymentService.getOneBillPayment(currentPOID).then(function(data) {
                         let lineItems = [];
                         let lineItemObj = {};
 
@@ -2812,8 +2847,11 @@ Template.supplierpaymentcard.onRendered(() => {
 
                         };
                         templateObject.record.set(record);
+
+                        let getDepartmentVal = Session.get('department') || data.fields.DeptClassName;
                         //$('#edtSupplierName').editableSelect('add', data.fields.ClientName);
                         $('#edtSupplierName').val(data.fields.ClientName);
+                        $('#sltDept').val(getDepartmentVal);
                         //$('#edtBankAccountName').editableSelect('add',record.bankAccount);
                         $('#edtBankAccountName').val(record.bankAccount);
                         if (clientList) {
@@ -2827,7 +2865,7 @@ Template.supplierpaymentcard.onRendered(() => {
                             }
                         }
 
-                        Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblSupplierPaymentcard', function (error, result) {
+                        Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblSupplierPaymentcard', function(error, result) {
                             if (error) {
 
                                 //Bert.alert('<strong>Error:</strong> user-not-found, no user found please try again!', 'danger');
@@ -2930,8 +2968,11 @@ Template.supplierpaymentcard.onRendered(() => {
 
                             };
                             templateObject.record.set(record);
+
+                            let getDepartmentVal = Session.get('department') || useData[d].fields.DeptClassName;
                             //$('#edtSupplierName').editableSelect('add', useData[d].fields.ClientName);
                             $('#edtSupplierName').val(useData[d].fields.ClientName);
+                            $('#sltDept').val(getDepartmentVal);
                             //$('#edtBankAccountName').editableSelect('add',record.bankAccount);
                             $('#edtBankAccountName').val(record.bankAccount);
                             if (clientList) {
@@ -2945,7 +2986,7 @@ Template.supplierpaymentcard.onRendered(() => {
                                 }
                             }
 
-                            Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblSupplierPaymentcard', function (error, result) {
+                            Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblSupplierPaymentcard', function(error, result) {
                                 if (error) {
 
                                     //Bert.alert('<strong>Error:</strong> user-not-found, no user found please try again!', 'danger');
@@ -2985,8 +3026,8 @@ Template.supplierpaymentcard.onRendered(() => {
                     if (!added) {}
                 }
 
-            }).catch(function (err) {
-                paymentService.getOneBillPayment(currentPOID).then(function (data) {
+            }).catch(function(err) {
+                paymentService.getOneBillPayment(currentPOID).then(function(data) {
                     let lineItems = [];
                     let lineItemObj = {};
 
@@ -3046,8 +3087,11 @@ Template.supplierpaymentcard.onRendered(() => {
 
                     };
                     templateObject.record.set(record);
+
+                    let getDepartmentVal = Session.get('department') || data.fields.DeptClassName;
                     //$('#edtSupplierName').editableSelect('add', data.fields.ClientName);
                     $('#edtSupplierName').val(data.fields.ClientName);
+                    $('#sltDept').val(getDepartmentVal);
                     //$('#edtBankAccountName').editableSelect('add',record.bankAccount);
                     $('#edtBankAccountName').val(record.bankAccount);
                     if (clientList) {
@@ -3061,7 +3105,7 @@ Template.supplierpaymentcard.onRendered(() => {
                         }
                     }
 
-                    Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblSupplierPaymentcard', function (error, result) {
+                    Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblSupplierPaymentcard', function(error, result) {
                         if (error) {
 
                             //Bert.alert('<strong>Error:</strong> user-not-found, no user found please try again!', 'danger');
@@ -3105,9 +3149,9 @@ Template.supplierpaymentcard.onRendered(() => {
         var currentPOID = getpo_id[getpo_id.length - 1];
         if (getpo_id[1]) {
             currentPOID = parseInt(currentPOID);
-            getVS1Data('TCredit').then(function (dataObject) {
+            getVS1Data('TCredit').then(function(dataObject) {
                 if (dataObject.length == 0) {
-                    paymentService.getOneCreditPayment(currentPOID).then(function (data) {
+                    paymentService.getOneCreditPayment(currentPOID).then(function(data) {
                         let lineItems = [];
                         let lineItemObj = {};
 
@@ -3167,8 +3211,10 @@ Template.supplierpaymentcard.onRendered(() => {
 
                         };
                         templateObject.record.set(record);
+                        let getDepartmentVal = Session.get('department') || data.fields.DeptClassName;
                         //$('#edtSupplierName').editableSelect('add', data.fields.ClientName);
                         $('#edtSupplierName').val(data.fields.ClientName);
+                        $('#sltDept').val(getDepartmentVal);
                         //$('#edtBankAccountName').editableSelect('add',record.bankAccount);
                         $('#edtBankAccountName').val(record.bankAccount);
                         if (clientList) {
@@ -3182,9 +3228,8 @@ Template.supplierpaymentcard.onRendered(() => {
                             }
                         }
 
-                        Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblSupplierPaymentcard', function (error, result) {
-                            if (error) {}
-                            else {
+                        Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblSupplierPaymentcard', function(error, result) {
+                            if (error) {} else {
                                 if (result) {
                                     for (let i = 0; i < result.customFields.length; i++) {
                                         let customcolumn = result.customFields;
@@ -3283,8 +3328,11 @@ Template.supplierpaymentcard.onRendered(() => {
 
                             };
                             templateObject.record.set(record);
+
+                            let getDepartmentVal = Session.get('department') || data.fields.DeptClassName;
                             //$('#edtSupplierName').editableSelect('add', useData[d].fields.ClientName);
                             $('#edtSupplierName').val(useData[d].fields.ClientName);
+                            $('#sltDept').val(getDepartmentVal);
                             //$('#edtBankAccountName').editableSelect('add',record.bankAccount);
                             $('#edtBankAccountName').val(record.bankAccount);
                             if (clientList) {
@@ -3298,9 +3346,8 @@ Template.supplierpaymentcard.onRendered(() => {
                                 }
                             }
 
-                            Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblSupplierPaymentcard', function (error, result) {
-                                if (error) {}
-                                else {
+                            Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblSupplierPaymentcard', function(error, result) {
+                                if (error) {} else {
                                     if (result) {
                                         for (let i = 0; i < result.customFields.length; i++) {
                                             let customcolumn = result.customFields;
@@ -3335,8 +3382,8 @@ Template.supplierpaymentcard.onRendered(() => {
                     }
                     if (!added) {}
                 }
-            }).catch(function (err) {
-                paymentService.getOneCreditPayment(currentPOID).then(function (data) {
+            }).catch(function(err) {
+                paymentService.getOneCreditPayment(currentPOID).then(function(data) {
                     let lineItems = [];
                     let lineItemObj = {};
 
@@ -3398,6 +3445,8 @@ Template.supplierpaymentcard.onRendered(() => {
                     templateObject.record.set(record);
                     //$('#edtSupplierName').editableSelect('add', data.fields.ClientName);
                     $('#edtSupplierName').val(data.fields.ClientName);
+                    let getDepartmentVal = Session.get('department') || data.fields.DeptClassName;
+                    $('#sltDept').val(getDepartmentVal);
                     //$('#edtBankAccountName').editableSelect('add',record.bankAccount);
                     $('#edtBankAccountName').val(record.bankAccount);
                     if (clientList) {
@@ -3411,9 +3460,8 @@ Template.supplierpaymentcard.onRendered(() => {
                         }
                     }
 
-                    Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblSupplierPaymentcard', function (error, result) {
-                        if (error) {}
-                        else {
+                    Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblSupplierPaymentcard', function(error, result) {
+                        if (error) {} else {
                             if (result) {
                                 for (let i = 0; i < result.customFields.length; i++) {
                                     let customcolumn = result.customFields;
@@ -3458,7 +3506,7 @@ Template.supplierpaymentcard.onRendered(() => {
         if (getsale_custname[1]) {
             let currentSalesName = currentSalesURL[0].replace(/%20/g, " ");
             // let currentSalesID = currentSalesURL[1].split('from=');
-            paymentService.getSupplierPaymentByName(currentSalesName).then(function (data) {
+            paymentService.getSupplierPaymentByName(currentSalesName).then(function(data) {
                 let lineItems = [];
                 let lineItemObj = {};
                 let companyName = '';
@@ -3554,7 +3602,7 @@ Template.supplierpaymentcard.onRendered(() => {
                     }
                 }
 
-                Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblSupplierPaymentcard', function (error, result) {
+                Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblSupplierPaymentcard', function(error, result) {
                     if (error) {
 
                         //Bert.alert('<strong>Error:</strong> user-not-found, no user found please try again!', 'danger');
@@ -3601,7 +3649,7 @@ Template.supplierpaymentcard.onRendered(() => {
         if (getsale_custname[1]) {
             let currentSalesName = currentSalesURL[0].replace(/%20/g, " ");
             // let currentSalesID = currentSalesURL[1].split('from=');
-            paymentService.getSupplierPaymentByName(currentSalesName).then(function (data) {
+            paymentService.getSupplierPaymentByName(currentSalesName).then(function(data) {
                 let lineItems = [];
                 let lineItemObj = {};
                 let companyName = '';
@@ -3743,7 +3791,7 @@ Template.supplierpaymentcard.onRendered(() => {
                     }
                 }
 
-                Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblSupplierPaymentcard', function (error, result) {
+                Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblSupplierPaymentcard', function(error, result) {
                     if (error) {
 
                         //Bert.alert('<strong>Error:</strong> user-not-found, no user found please try again!', 'danger');
@@ -3792,7 +3840,7 @@ Template.supplierpaymentcard.onRendered(() => {
         var currentSalesID = getsale_salesid[getsale_salesid.length - 1].split('#')[0];
         if (currentSalesID) {
             currentPOID = parseInt(currentSalesID);
-            paymentService.getOnePurchaseOrderPayment(currentPOID).then(function (data) {
+            paymentService.getOnePurchaseOrderPayment(currentPOID).then(function(data) {
 
                 let total = utilityService.modifynegativeCurrencyFormat(data.fields.TotalBalance).toLocaleString(undefined, {
                     minimumFractionDigits: 2
@@ -3848,8 +3896,10 @@ Template.supplierpaymentcard.onRendered(() => {
 
                 };
                 templateObject.record.set(record);
+                let getDepartmentVal = Session.get('department') || data.fields.DeptClassName;
                 //$('#edtSupplierName').editableSelect('add', data.fields.ClientName);
                 $('#edtSupplierName').val(data.fields.ClientName);
+                $('#sltDept').val(getDepartmentVal)
                 //$('#edtBankAccountName').editableSelect('add',record.bankAccount);
                 $('#edtBankAccountName').val(record.bankAccount);
                 if (clientList) {
@@ -3863,9 +3913,8 @@ Template.supplierpaymentcard.onRendered(() => {
                     }
                 }
 
-                Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblSupplierPaymentcard', function (error, result) {
-                    if (error) {}
-                    else {
+                Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblSupplierPaymentcard', function(error, result) {
+                    if (error) {} else {
                         if (result) {
                             for (let i = 0; i < result.customFields.length; i++) {
                                 let customcolumn = result.customFields;
@@ -3898,7 +3947,7 @@ Template.supplierpaymentcard.onRendered(() => {
                 $('.fullScreenSpin').css('display', 'none');
                 if (currentSalesURL) {
                     let currentSalesName = currentSalesURL[0].replace(/%20/g, " ");
-                    paymentService.getCreditPaymentByName(currentSalesName).then(function (creditdata) {
+                    paymentService.getCreditPaymentByName(currentSalesName).then(function(creditdata) {
                         for (let i = 0; i < creditdata.tcredit.length; i++) {
                             totalCreditAmt += creditdata.tcredit[i].fields.TotalBalance;
                             if (creditdata.tcredit[i].fields.Lines && creditdata.tcredit[i].fields.Lines.length) {
@@ -4097,7 +4146,7 @@ Template.supplierpaymentcard.onRendered(() => {
             for (let i = 0; i < arr.length; i++) {
                 currentPOID = parseInt(arr[i]);
                 if (!isNaN(currentPOID)) {
-                    paymentService.getOnePurchaseOrderPayment(currentPOID).then(function (data) {
+                    paymentService.getOnePurchaseOrderPayment(currentPOID).then(function(data) {
 
                         let total = utilityService.modifynegativeCurrencyFormat(data.fields.TotalBalance).toLocaleString(undefined, {
                             minimumFractionDigits: 2
@@ -4154,8 +4203,11 @@ Template.supplierpaymentcard.onRendered(() => {
 
                         };
                         templateObject.record.set(record);
+
+                        let getDepartmentVal = Session.get('department') || data.fields.DeptClassName;
                         //$('#edtSupplierName').editableSelect('add', data.fields.ClientName);
                         $('#edtSupplierName').val(data.fields.ClientName);
+                        $('#sltDept').val(getDepartmentVal);
                         //$('#edtBankAccountName').editableSelect('add',record.bankAccount);
                         $('#edtBankAccountName').val(record.bankAccount);
                         if (clientList) {
@@ -4169,7 +4221,7 @@ Template.supplierpaymentcard.onRendered(() => {
                             }
                         }
 
-                        Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblSupplierPaymentcard', function (error, result) {
+                        Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblSupplierPaymentcard', function(error, result) {
                             if (error) {
 
                                 //Bert.alert('<strong>Error:</strong> user-not-found, no user found please try again!', 'danger');
@@ -4214,7 +4266,7 @@ Template.supplierpaymentcard.onRendered(() => {
             for (let i = 0; i < arrBill.length; i++) {
                 currentBillID = parseInt(arrBill[i]);
                 if (!isNaN(currentBillID)) {
-                    paymentService.getOneBillPayment(currentBillID).then(function (data) {
+                    paymentService.getOneBillPayment(currentBillID).then(function(data) {
 
                         let total = utilityService.modifynegativeCurrencyFormat(data.fields.TotalBalance).toLocaleString(undefined, {
                             minimumFractionDigits: 2
@@ -4272,6 +4324,8 @@ Template.supplierpaymentcard.onRendered(() => {
                         };
                         templateObject.record.set(record);
                         //$('#edtSupplierName').editableSelect('add', data.fields.ClientName);
+                        let getDepartmentVal = Session.get('department') || data.fields.DeptClassName;
+                        $('#sltDept').val(getDepartmentVal);
                         $('#edtSupplierName').val(data.fields.ClientName);
                         //$('#edtBankAccountName').editableSelect('add',record.bankAccount);
                         $('#edtBankAccountName').val(record.bankAccount);
@@ -4286,7 +4340,7 @@ Template.supplierpaymentcard.onRendered(() => {
                             }
                         }
 
-                        Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblSupplierPaymentcard', function (error, result) {
+                        Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblSupplierPaymentcard', function(error, result) {
                             if (error) {
 
                                 //Bert.alert('<strong>Error:</strong> user-not-found, no user found please try again!', 'danger');
@@ -4331,7 +4385,7 @@ Template.supplierpaymentcard.onRendered(() => {
             for (let i = 0; i < arrcredit.length; i++) {
                 currentCreditID = parseInt(arrcredit[i]);
                 if (!isNaN(currentCreditID)) {
-                    paymentService.getOneCreditPayment(currentCreditID).then(function (data) {
+                    paymentService.getOneCreditPayment(currentCreditID).then(function(data) {
 
                         let total = utilityService.modifynegativeCurrencyFormat(data.fields.TotalDiscount).toLocaleString(undefined, {
                             minimumFractionDigits: 2
@@ -4389,6 +4443,8 @@ Template.supplierpaymentcard.onRendered(() => {
                         };
                         templateObject.record.set(record);
                         //$('#edtSupplierName').editableSelect('add', data.fields.ClientName);
+                        let getDepartmentVal = Session.get('department') || data.fields.DeptClassName;
+                        $('#sltDept').val(getDepartmentVal);
                         $('#edtSupplierName').val(data.fields.ClientName);
                         //$('#edtBankAccountName').editableSelect('add',record.bankAccount);
                         $('#edtBankAccountName').val(record.bankAccount);
@@ -4403,9 +4459,8 @@ Template.supplierpaymentcard.onRendered(() => {
                             }
                         }
 
-                        Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblSupplierPaymentcard', function (error, result) {
-                            if (error) {}
-                            else {
+                        Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblSupplierPaymentcard', function(error, result) {
+                            if (error) {} else {
                                 if (result) {
                                     for (let i = 0; i < result.customFields.length; i++) {
                                         let customcolumn = result.customFields;
@@ -4450,7 +4505,7 @@ Template.supplierpaymentcard.onRendered(() => {
             var arr = currentPOID.split(',');
             for (let i = 0; i < arr.length; i++) {
                 currentPOID = parseInt(arr[i]);
-                paymentService.getOneBillPayment(currentPOID).then(function (data) {
+                paymentService.getOneBillPayment(currentPOID).then(function(data) {
 
                     let total = utilityService.modifynegativeCurrencyFormat(data.fields.TotalBalance).toLocaleString(undefined, {
                         minimumFractionDigits: 2
@@ -4507,6 +4562,8 @@ Template.supplierpaymentcard.onRendered(() => {
                     };
                     templateObject.record.set(record);
                     //$('#edtSupplierName').editableSelect('add', data.fields.ClientName);
+                    let getDepartmentVal = Session.get('department') || data.fields.DeptClassName;
+                    $('#sltDept').val(getDepartmentVal);
                     $('#edtSupplierName').val(data.fields.ClientName);
                     //$('#edtBankAccountName').editableSelect('add',record.bankAccount);
                     $('#edtBankAccountName').val(record.bankAccount);
@@ -4521,9 +4578,8 @@ Template.supplierpaymentcard.onRendered(() => {
                         }
                     }
 
-                    Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblSupplierPaymentcard', function (error, result) {
-                        if (error) {}
-                        else {
+                    Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblSupplierPaymentcard', function(error, result) {
+                        if (error) {} else {
                             if (result) {
                                 for (let i = 0; i < result.customFields.length; i++) {
                                     let customcolumn = result.customFields;
@@ -4559,7 +4615,7 @@ Template.supplierpaymentcard.onRendered(() => {
         }
     }
 
-    exportSalesToPdf = function () {
+    exportSalesToPdf = function() {
         let margins = {
             top: 0,
             bottom: 0,
@@ -4571,13 +4627,13 @@ Template.supplierpaymentcard.onRendered(() => {
 
         pdf.setFontSize(18);
         var source = document.getElementById('html-2-pdfwrapper');
-        pdf.addHTML(source, function () {
+        pdf.addHTML(source, function() {
             pdf.save('Supplier Payment-' + id + '.pdf');
             $('#html-2-pdfwrapper').css('display', 'none');
         });
     };
 
-    $('#tblSupplierPaymentcard tbody').on('click', 'tr .colType', function () {
+    $('#tblSupplierPaymentcard tbody').on('click', 'tr .colType', function() {
         var listData = $(this).closest('tr').attr('id');
         var columnType = $(event.target).text();
         if (listData) {
@@ -4592,8 +4648,8 @@ Template.supplierpaymentcard.onRendered(() => {
         }
     });
 
-    $(document).ready(function () {
-        $('#addRow').on('click', function () {
+    $(document).ready(function() {
+        $('#addRow').on('click', function() {
             // let $tblrows = $("#tblSupplierPaymentcard tbody tr");
             // $('.fullScreenSpin').css('display','inline-block');
             // let paymentData = templateObject.datatablerecords1.get();
@@ -4607,7 +4663,7 @@ Template.supplierpaymentcard.onRendered(() => {
 
             $(".chkBox").prop("checked", false);
             let paymentList = [];
-            $('.tblSupplierPaymentcard tbody tr').each(function () {
+            $('.tblSupplierPaymentcard tbody tr').each(function() {
                 paymentList.push(this.id);
 
             })
@@ -4666,7 +4722,7 @@ Template.supplierpaymentcard.helpers({
         return Template.instance().record.get();
     },
     datatablerecords: () => {
-        return Template.instance().datatablerecords.get().sort(function (a, b) {
+        return Template.instance().datatablerecords.get().sort(function(a, b) {
             if (a.paymentdate == 'NA') {
                 return 1;
             } else if (b.paymentdate == 'NA') {
@@ -4676,7 +4732,7 @@ Template.supplierpaymentcard.helpers({
         });
     },
     deptrecords: () => {
-        return Template.instance().deptrecords.get().sort(function (a, b) {
+        return Template.instance().deptrecords.get().sort(function(a, b) {
             if (a.department == 'NA') {
                 return 1;
             } else if (b.department == 'NA') {
@@ -4686,7 +4742,7 @@ Template.supplierpaymentcard.helpers({
         });
     },
     paymentmethodrecords: () => {
-        return Template.instance().paymentmethodrecords.get().sort(function (a, b) {
+        return Template.instance().paymentmethodrecords.get().sort(function(a, b) {
             if (a.paymentmethod == 'NA') {
                 return 1;
             } else if (b.paymentmethod == 'NA') {
@@ -4696,7 +4752,7 @@ Template.supplierpaymentcard.helpers({
         });
     },
     accountnamerecords: () => {
-        return Template.instance().accountnamerecords.get().sort(function (a, b) {
+        return Template.instance().accountnamerecords.get().sort(function(a, b) {
             if (a.accountname == 'NA') {
                 return 1;
             } else if (b.accountname == 'NA') {
@@ -4738,7 +4794,10 @@ Template.supplierpaymentcard.helpers({
 });
 
 Template.supplierpaymentcard.events({
-    'click .btnSave': function () {
+    'click #sltDept': function(event) {
+        $('#departmentModal').modal('toggle');
+    },
+    'click .btnSave': function() {
         $('.fullScreenSpin').css('display', 'inline-block');
         let templateObject = Template.instance();
 
@@ -4764,9 +4823,9 @@ Template.supplierpaymentcard.events({
         Session.setPersistent('department', department);
         var currentBeginDate = new Date();
         var begunDate = moment(currentBeginDate).format("DD/MM/YYYY");
-        let fromDateMonth = (currentBeginDate.getMonth()+ 1);
+        let fromDateMonth = (currentBeginDate.getMonth() + 1);
         let fromDateDay = currentBeginDate.getDate();
-        if((currentBeginDate.getMonth()+1) < 10) {
+        if ((currentBeginDate.getMonth() + 1) < 10) {
             fromDateMonth = "0" + (currentBeginDate.getMonth());
         } else {
             fromDateMonth = (currentBeginDate.getMonth());
@@ -4782,9 +4841,9 @@ Template.supplierpaymentcard.events({
         if ((url.indexOf('?id=') > 0)) {
             var getsale_id = url.split('?id=');
             var currentSalesID = getsale_id[getsale_id.length - 1];
-            let paymentID = parseInt(currentSalesID); ;
+            let paymentID = parseInt(currentSalesID);;
             // currentSalesID = parseInt(currentSalesID);
-            $('.tblSupplierPaymentcard > tbody > tr').each(function () {
+            $('.tblSupplierPaymentcard > tbody > tr').each(function() {
                 var lineID = this.id;
                 let linetype = $('#' + lineID + " .colType").text() || $(this).closest('tr').find('.colType').text();
                 let lineAmountDue = $('#' + lineID + " .lineAmountdue").text() || $(this).closest('tr').find('.lineAmountdue').text();
@@ -4813,7 +4872,7 @@ Template.supplierpaymentcard.events({
                     ReferenceNo: reference
                 }
             }
-            paymentService.saveSuppDepositData(objDetails).then(function (data) {
+            paymentService.saveSuppDepositData(objDetails).then(function(data) {
                 var customerID = $('#edtSupplierEmail').attr('customerid');
 
                 // Start End Send Email
@@ -4829,7 +4888,7 @@ Template.supplierpaymentcard.events({
                     let pdfObject = "";
                     var reader = new FileReader();
                     reader.readAsDataURL(encodedPdf);
-                    reader.onloadend = function () {
+                    reader.onloadend = function() {
                         var base64data = reader.result;
                         base64data = base64data.split(',')[1];
 
@@ -4907,7 +4966,7 @@ Template.supplierpaymentcard.events({
                                 text: '',
                                 html: htmlmailBody,
                                 attachments: attachment
-                            }, function (error, result) {
+                            }, function(error, result) {
                                 if (error && error.error === "error") {
                                     //Router.go('/paymentoverview?success=true');
 
@@ -4921,7 +4980,7 @@ Template.supplierpaymentcard.events({
                                 text: '',
                                 html: htmlmailBody,
                                 attachments: attachment
-                            }, function (error, result) {
+                            }, function(error, result) {
                                 if (error && error.error === "error") {
                                     //Router.go('/paymentoverview?success=true');
                                 } else {
@@ -4950,7 +5009,7 @@ Template.supplierpaymentcard.events({
                                 text: '',
                                 html: htmlmailBody,
                                 attachments: attachment
-                            }, function (error, result) {
+                            }, function(error, result) {
                                 if (error && error.error === "error") {
                                     //Router.go('/paymentoverview?success=true');
 
@@ -4980,7 +5039,7 @@ Template.supplierpaymentcard.events({
                                 text: '',
                                 html: htmlmailBody,
                                 attachments: attachment
-                            }, function (error, result) {
+                            }, function(error, result) {
                                 if (error && error.error === "error") {
                                     //Router.go('/paymentoverview?success=true');
                                 } else {
@@ -5016,7 +5075,7 @@ Template.supplierpaymentcard.events({
                         let doc = new jsPDF('p', 'pt', 'a4');
                         doc.setFontSize(18);
                         var source = document.getElementById('html-2-pdfwrapper');
-                        doc.addHTML(source, function () {
+                        doc.addHTML(source, function() {
                             //pdf.save('Invoice.pdf');
                             resolve(doc.output('blob'));
                             // $('#html-2-pdfwrapper').css('display','none');
@@ -5038,17 +5097,17 @@ Template.supplierpaymentcard.events({
                 };
                 // $('.fullScreenSpin').css('display','none');
                 // window.open('/supplierpayment','_self');
-                sideBarService.getTSupplierPaymentList().then(function (dataUpdate) {
-                    addVS1Data('TSupplierPayment', JSON.stringify(dataUpdate)).then(function (datareturn) {
+                sideBarService.getTSupplierPaymentList().then(function(dataUpdate) {
+                    addVS1Data('TSupplierPayment', JSON.stringify(dataUpdate)).then(function(datareturn) {
                         window.open('/supplierpayment', '_self');
-                    }).catch(function (err) {
+                    }).catch(function(err) {
                         window.open('/supplierpayment', '_self');
                     });
-                }).catch(function (err) {
+                }).catch(function(err) {
                     window.open('/supplierpayment', '_self');
                 });
                 //window.history.go(-2);
-            }).catch(function (err) {
+            }).catch(function(err) {
                 swal({
                     title: 'Oooops...',
                     text: err,
@@ -5068,9 +5127,9 @@ Template.supplierpaymentcard.events({
         } else if ((url.indexOf('?poid=') > 0)) {
             var getsale_id = url.split('?poid=');
             var currentSalesID = getsale_id[getsale_id.length - 1];
-            let paymentID = parseInt(currentSalesID); ;
+            let paymentID = parseInt(currentSalesID);;
 
-            $('.tblSupplierPaymentcard > tbody > tr').each(function () {
+            $('.tblSupplierPaymentcard > tbody > tr').each(function() {
                 var lineID = this.id;
                 let linetype = $('#' + lineID + " .colType").text() || $(this).closest('tr').find('.colType').text();
                 let lineAmountDue = $('#' + lineID + " .lineAmountdue").text() || $(this).closest('tr').find('.lineAmountdue').text();
@@ -5132,7 +5191,7 @@ Template.supplierpaymentcard.events({
                 };
             }
 
-            paymentService.saveSuppDepositData(objDetails).then(function (data) {
+            paymentService.saveSuppDepositData(objDetails).then(function(data) {
                 var customerID = $('#edtSupplierEmail').attr('customerid');
                 // Start End Send Email
                 $('#html-2-pdfwrapper').css('display', 'block');
@@ -5147,7 +5206,7 @@ Template.supplierpaymentcard.events({
                     let pdfObject = "";
                     var reader = new FileReader();
                     reader.readAsDataURL(encodedPdf);
-                    reader.onloadend = function () {
+                    reader.onloadend = function() {
                         var base64data = reader.result;
                         base64data = base64data.split(',')[1];
 
@@ -5225,7 +5284,7 @@ Template.supplierpaymentcard.events({
                                 text: '',
                                 html: htmlmailBody,
                                 attachments: attachment
-                            }, function (error, result) {
+                            }, function(error, result) {
                                 if (error && error.error === "error") {
                                     //window.open('/supplierawaitingpurchaseorder', '_self');
 
@@ -5239,7 +5298,7 @@ Template.supplierpaymentcard.events({
                                 text: '',
                                 html: htmlmailBody,
                                 attachments: attachment
-                            }, function (error, result) {
+                            }, function(error, result) {
                                 if (error && error.error === "error") {
                                     //window.open('/supplierawaitingpurchaseorder', '_self');
                                 } else {
@@ -5268,7 +5327,7 @@ Template.supplierpaymentcard.events({
                                 text: '',
                                 html: htmlmailBody,
                                 attachments: attachment
-                            }, function (error, result) {
+                            }, function(error, result) {
                                 if (error && error.error === "error") {
                                     //window.open('/supplierawaitingpurchaseorder', '_self');
 
@@ -5298,7 +5357,7 @@ Template.supplierpaymentcard.events({
                                 text: '',
                                 html: htmlmailBody,
                                 attachments: attachment
-                            }, function (error, result) {
+                            }, function(error, result) {
                                 if (error && error.error === "error") {
                                     //window.open('/supplierawaitingpurchaseorder', '_self');
                                 } else {
@@ -5334,7 +5393,7 @@ Template.supplierpaymentcard.events({
                         let doc = new jsPDF('p', 'pt', 'a4');
                         doc.setFontSize(18);
                         var source = document.getElementById('html-2-pdfwrapper');
-                        doc.addHTML(source, function () {
+                        doc.addHTML(source, function() {
                             //pdf.save('Invoice.pdf');
                             resolve(doc.output('blob'));
                             // $('#html-2-pdfwrapper').css('display','none');
@@ -5356,25 +5415,25 @@ Template.supplierpaymentcard.events({
                 };
                 // $('.fullScreenSpin').css('display','none');
                 // window.open('/supplierawaitingpurchaseorder','_self');
-                sideBarService.getAllPurchaseOrderList().then(function (dataUpdate) {
-                    addVS1Data('TPurchaseOrderEx', JSON.stringify(dataUpdate)).then(function (datareturn) {}).catch(function (err) {});
-                }).catch(function (err) {});
+                sideBarService.getAllPurchaseOrderList().then(function(dataUpdate) {
+                    addVS1Data('TPurchaseOrderEx', JSON.stringify(dataUpdate)).then(function(datareturn) {}).catch(function(err) {});
+                }).catch(function(err) {});
 
-                sideBarService.getTSupplierPaymentList().then(function (dataUpdate) {
-                    addVS1Data('TSupplierPayment', JSON.stringify(dataUpdate)).then(function (datareturn) {}).catch(function (err) {});
-                }).catch(function (err) {});
+                sideBarService.getTSupplierPaymentList().then(function(dataUpdate) {
+                    addVS1Data('TSupplierPayment', JSON.stringify(dataUpdate)).then(function(datareturn) {}).catch(function(err) {});
+                }).catch(function(err) {});
 
-                sideBarService.getAllPurchaseOrderListAll(prevMonth11Date, toDate, false).then(function (dataUpdate) {
-                    addVS1Data('TbillReport', JSON.stringify(dataUpdate)).then(function (datareturn) {
+                sideBarService.getAllPurchaseOrderListAll(prevMonth11Date, toDate, false).then(function(dataUpdate) {
+                    addVS1Data('TbillReport', JSON.stringify(dataUpdate)).then(function(datareturn) {
                         window.open('/supplierawaitingpurchaseorder', '_self');
-                    }).catch(function (err) {
+                    }).catch(function(err) {
                         window.open('/supplierawaitingpurchaseorder', '_self');
                     });
-                }).catch(function (err) {
+                }).catch(function(err) {
                     window.open('/supplierawaitingpurchaseorder', '_self');
                 });
 
-            }).catch(function (err) {
+            }).catch(function(err) {
                 //window.open('/paymentoverview','_self');
                 swal({
                     title: 'Oooops...',
@@ -5392,9 +5451,9 @@ Template.supplierpaymentcard.events({
         } else if ((url.indexOf('?billid=') > 0)) {
             var getsale_id = url.split('?billid=');
             var currentSalesID = getsale_id[getsale_id.length - 1];
-            let paymentID = parseInt(currentSalesID); ;
+            let paymentID = parseInt(currentSalesID);;
 
-            $('.tblSupplierPaymentcard > tbody > tr').each(function () {
+            $('.tblSupplierPaymentcard > tbody > tr').each(function() {
                 var lineID = this.id;
                 let linetype = $('#' + lineID + " .colType").text() || $(this).closest('tr').find('.colType').text();
                 let lineAmountDue = $('#' + lineID + " .lineAmountdue").text() || $(this).closest('tr').find('.lineAmountdue').text();
@@ -5455,7 +5514,7 @@ Template.supplierpaymentcard.events({
                 };
             }
 
-            paymentService.saveSuppDepositData(objDetails).then(function (data) {
+            paymentService.saveSuppDepositData(objDetails).then(function(data) {
                 var customerID = $('#edtSupplierEmail').attr('customerid');
                 // Start End Send Email
                 $('#html-2-pdfwrapper').css('display', 'block');
@@ -5470,7 +5529,7 @@ Template.supplierpaymentcard.events({
                     let pdfObject = "";
                     var reader = new FileReader();
                     reader.readAsDataURL(encodedPdf);
-                    reader.onloadend = function () {
+                    reader.onloadend = function() {
                         var base64data = reader.result;
                         base64data = base64data.split(',')[1];
 
@@ -5548,7 +5607,7 @@ Template.supplierpaymentcard.events({
                                 text: '',
                                 html: htmlmailBody,
                                 attachments: attachment
-                            }, function (error, result) {
+                            }, function(error, result) {
                                 if (error && error.error === "error") {
                                     //window.open('/supplierawaitingpurchaseorder', '_self');
 
@@ -5562,7 +5621,7 @@ Template.supplierpaymentcard.events({
                                 text: '',
                                 html: htmlmailBody,
                                 attachments: attachment
-                            }, function (error, result) {
+                            }, function(error, result) {
                                 if (error && error.error === "error") {
                                     //window.open('/supplierawaitingpurchaseorder', '_self');
                                 } else {
@@ -5591,7 +5650,7 @@ Template.supplierpaymentcard.events({
                                 text: '',
                                 html: htmlmailBody,
                                 attachments: attachment
-                            }, function (error, result) {
+                            }, function(error, result) {
                                 if (error && error.error === "error") {
                                     //window.open('/supplierawaitingpurchaseorder', '_self');
 
@@ -5621,7 +5680,7 @@ Template.supplierpaymentcard.events({
                                 text: '',
                                 html: htmlmailBody,
                                 attachments: attachment
-                            }, function (error, result) {
+                            }, function(error, result) {
                                 if (error && error.error === "error") {
                                     //window.open('/supplierawaitingpurchaseorder', '_self');
                                 } else {
@@ -5657,7 +5716,7 @@ Template.supplierpaymentcard.events({
                         let doc = new jsPDF('p', 'pt', 'a4');
                         doc.setFontSize(18);
                         var source = document.getElementById('html-2-pdfwrapper');
-                        doc.addHTML(source, function () {
+                        doc.addHTML(source, function() {
                             //pdf.save('Invoice.pdf');
                             resolve(doc.output('blob'));
                             // $('#html-2-pdfwrapper').css('display','none');
@@ -5679,26 +5738,26 @@ Template.supplierpaymentcard.events({
                 };
                 // $('.fullScreenSpin').css('display','none');
                 // window.open('/supplierawaitingpurchaseorder','_self');
-                sideBarService.getAllBillExList().then(function (dataUpdate) {
-                    addVS1Data('TBillEx', JSON.stringify(dataUpdate)).then(function (datareturn) {}).catch(function (err) {});
-                }).catch(function (err) {});
+                sideBarService.getAllBillExList().then(function(dataUpdate) {
+                    addVS1Data('TBillEx', JSON.stringify(dataUpdate)).then(function(datareturn) {}).catch(function(err) {});
+                }).catch(function(err) {});
 
-                sideBarService.getTSupplierPaymentList().then(function (dataUpdate) {
-                    addVS1Data('TSupplierPayment', JSON.stringify(dataUpdate)).then(function (datareturn) {}).catch(function (err) {});
-                }).catch(function (err) {});
+                sideBarService.getTSupplierPaymentList().then(function(dataUpdate) {
+                    addVS1Data('TSupplierPayment', JSON.stringify(dataUpdate)).then(function(datareturn) {}).catch(function(err) {});
+                }).catch(function(err) {});
 
-                sideBarService.getAllPurchaseOrderListAll(prevMonth11Date, toDate, false).then(function (dataUpdate) {
-                    addVS1Data('TbillReport', JSON.stringify(dataUpdate)).then(function (datareturn) {
+                sideBarService.getAllPurchaseOrderListAll(prevMonth11Date, toDate, false).then(function(dataUpdate) {
+                    addVS1Data('TbillReport', JSON.stringify(dataUpdate)).then(function(datareturn) {
                         window.open('/supplierawaitingpurchaseorder', '_self');
-                    }).catch(function (err) {
+                    }).catch(function(err) {
                         window.open('/supplierawaitingpurchaseorder', '_self');
                     });
-                }).catch(function (err) {
+                }).catch(function(err) {
                     window.open('/supplierawaitingpurchaseorder', '_self');
                 });
 
                 //window.history.go(-2);
-            }).catch(function (err) {
+            }).catch(function(err) {
                 //window.open('/supplierawaitingpurchaseorder','_self');
                 //window.history.go(-2);
                 swal({
@@ -5717,9 +5776,9 @@ Template.supplierpaymentcard.events({
         } else if ((url.indexOf('?creditid=') > 0)) {
             var getsale_id = url.split('?creditid=');
             var currentSalesID = getsale_id[getsale_id.length - 1];
-            let paymentID = parseInt(currentSalesID); ;
+            let paymentID = parseInt(currentSalesID);;
 
-            $('.tblSupplierPaymentcard > tbody > tr').each(function () {
+            $('.tblSupplierPaymentcard > tbody > tr').each(function() {
                 var lineID = this.id;
                 let linetype = $('#' + lineID + " .colType").text() || $(this).closest('tr').find('.colType').text();
                 let lineAmountDue = $('#' + lineID + " .lineAmountdue").text() || $(this).closest('tr').find('.lineAmountdue').text();
@@ -5773,7 +5832,7 @@ Template.supplierpaymentcard.events({
                 };
             }
 
-            paymentService.saveSuppDepositData(objDetails).then(function (data) {
+            paymentService.saveSuppDepositData(objDetails).then(function(data) {
                 var customerID = $('#edtSupplierEmail').attr('customerid');
                 // Start End Send Email
                 $('#html-2-pdfwrapper').css('display', 'block');
@@ -5788,7 +5847,7 @@ Template.supplierpaymentcard.events({
                     let pdfObject = "";
                     var reader = new FileReader();
                     reader.readAsDataURL(encodedPdf);
-                    reader.onloadend = function () {
+                    reader.onloadend = function() {
                         var base64data = reader.result;
                         base64data = base64data.split(',')[1];
 
@@ -5866,7 +5925,7 @@ Template.supplierpaymentcard.events({
                                 text: '',
                                 html: htmlmailBody,
                                 attachments: attachment
-                            }, function (error, result) {
+                            }, function(error, result) {
                                 if (error && error.error === "error") {
                                     //window.open('/supplierawaitingpurchaseorder', '_self');
 
@@ -5880,7 +5939,7 @@ Template.supplierpaymentcard.events({
                                 text: '',
                                 html: htmlmailBody,
                                 attachments: attachment
-                            }, function (error, result) {
+                            }, function(error, result) {
                                 if (error && error.error === "error") {
                                     //window.open('/supplierawaitingpurchaseorder', '_self');
                                 } else {
@@ -5909,7 +5968,7 @@ Template.supplierpaymentcard.events({
                                 text: '',
                                 html: htmlmailBody,
                                 attachments: attachment
-                            }, function (error, result) {
+                            }, function(error, result) {
                                 if (error && error.error === "error") {
                                     //window.open('/supplierawaitingpurchaseorder', '_self');
 
@@ -5939,7 +5998,7 @@ Template.supplierpaymentcard.events({
                                 text: '',
                                 html: htmlmailBody,
                                 attachments: attachment
-                            }, function (error, result) {
+                            }, function(error, result) {
                                 if (error && error.error === "error") {
                                     //window.open('/supplierawaitingpurchaseorder', '_self');
                                 } else {
@@ -5975,7 +6034,7 @@ Template.supplierpaymentcard.events({
                         let doc = new jsPDF('p', 'pt', 'a4');
                         doc.setFontSize(18);
                         var source = document.getElementById('html-2-pdfwrapper');
-                        doc.addHTML(source, function () {
+                        doc.addHTML(source, function() {
                             //pdf.save('Invoice.pdf');
                             resolve(doc.output('blob'));
                             // $('#html-2-pdfwrapper').css('display','none');
@@ -5997,25 +6056,25 @@ Template.supplierpaymentcard.events({
                 };
                 // $('.fullScreenSpin').css('display','none');
                 // window.open('/supplierawaitingpurchaseorder','_self');
-                sideBarService.getAllCreditList().then(function (dataUpdate) {
-                    addVS1Data('TCredit', JSON.stringify(dataUpdate)).then(function (datareturn) {}).catch(function (err) {});
-                }).catch(function (err) {});
+                sideBarService.getAllCreditList().then(function(dataUpdate) {
+                    addVS1Data('TCredit', JSON.stringify(dataUpdate)).then(function(datareturn) {}).catch(function(err) {});
+                }).catch(function(err) {});
 
-                sideBarService.getTSupplierPaymentList().then(function (dataUpdate) {
-                    addVS1Data('TSupplierPayment', JSON.stringify(dataUpdate)).then(function (datareturn) {}).catch(function (err) {});
-                }).catch(function (err) {});
+                sideBarService.getTSupplierPaymentList().then(function(dataUpdate) {
+                    addVS1Data('TSupplierPayment', JSON.stringify(dataUpdate)).then(function(datareturn) {}).catch(function(err) {});
+                }).catch(function(err) {});
 
-                sideBarService.getAllPurchaseOrderListAll(prevMonth11Date, toDate, false).then(function (dataUpdate) {
-                    addVS1Data('TbillReport', JSON.stringify(dataUpdate)).then(function (datareturn) {
+                sideBarService.getAllPurchaseOrderListAll(prevMonth11Date, toDate, false).then(function(dataUpdate) {
+                    addVS1Data('TbillReport', JSON.stringify(dataUpdate)).then(function(datareturn) {
                         window.open('/supplierawaitingpurchaseorder', '_self');
-                    }).catch(function (err) {
+                    }).catch(function(err) {
                         window.open('/supplierawaitingpurchaseorder', '_self');
                     });
-                }).catch(function (err) {
+                }).catch(function(err) {
                     window.open('/supplierawaitingpurchaseorder', '_self');
                 });
                 //window.history.go(-2);
-            }).catch(function (err) {
+            }).catch(function(err) {
                 //window.open('/supplierawaitingpurchaseorder','_self');
                 //window.history.go(-2);
                 swal({
@@ -6033,7 +6092,7 @@ Template.supplierpaymentcard.events({
             });
         } else if ((url.indexOf('?suppname=') > 0) && (url.indexOf('from=') > 0)) {
             let paymentID = templateObject.supppaymentid.get();
-            $('.tblSupplierPaymentcard > tbody > tr').each(function () {
+            $('.tblSupplierPaymentcard > tbody > tr').each(function() {
                 var lineID = this.id;
                 let linetype = $('#' + lineID + " .colType").text() || $(this).closest('tr').find('.colType').text();
                 let lineAmountDue = $('#' + lineID + " .lineAmountdue").text() || $(this).closest('tr').find('.lineAmountdue').text();
@@ -6096,7 +6155,7 @@ Template.supplierpaymentcard.events({
                 };
             }
 
-            paymentService.saveSuppDepositData(objDetails).then(function (data) {
+            paymentService.saveSuppDepositData(objDetails).then(function(data) {
                 var customerID = $('#edtSupplierEmail').attr('customerid');
 
                 // Start End Send Email
@@ -6112,7 +6171,7 @@ Template.supplierpaymentcard.events({
                     let pdfObject = "";
                     var reader = new FileReader();
                     reader.readAsDataURL(encodedPdf);
-                    reader.onloadend = function () {
+                    reader.onloadend = function() {
                         var base64data = reader.result;
                         base64data = base64data.split(',')[1];
 
@@ -6190,7 +6249,7 @@ Template.supplierpaymentcard.events({
                                 text: '',
                                 html: htmlmailBody,
                                 attachments: attachment
-                            }, function (error, result) {
+                            }, function(error, result) {
                                 if (error && error.error === "error") {
                                     //window.open('/supplierawaitingpurchaseorder', '_self');
 
@@ -6204,7 +6263,7 @@ Template.supplierpaymentcard.events({
                                 text: '',
                                 html: htmlmailBody,
                                 attachments: attachment
-                            }, function (error, result) {
+                            }, function(error, result) {
                                 if (error && error.error === "error") {
                                     window.open('/supplierawaitingpurchaseorder', '_self');
                                 } else {
@@ -6233,7 +6292,7 @@ Template.supplierpaymentcard.events({
                                 text: '',
                                 html: htmlmailBody,
                                 attachments: attachment
-                            }, function (error, result) {
+                            }, function(error, result) {
                                 if (error && error.error === "error") {
                                     //window.open('/supplierawaitingpurchaseorder', '_self');
 
@@ -6263,7 +6322,7 @@ Template.supplierpaymentcard.events({
                                 text: '',
                                 html: htmlmailBody,
                                 attachments: attachment
-                            }, function (error, result) {
+                            }, function(error, result) {
                                 if (error && error.error === "error") {
                                     //window.open('/supplierawaitingpurchaseorder', '_self');
                                 } else {
@@ -6299,7 +6358,7 @@ Template.supplierpaymentcard.events({
                         let doc = new jsPDF('p', 'pt', 'a4');
                         doc.setFontSize(18);
                         var source = document.getElementById('html-2-pdfwrapper');
-                        doc.addHTML(source, function () {
+                        doc.addHTML(source, function() {
                             //pdf.save('Invoice.pdf');
                             resolve(doc.output('blob'));
                             // $('#html-2-pdfwrapper').css('display','none');
@@ -6321,25 +6380,25 @@ Template.supplierpaymentcard.events({
                 };
                 // $('.fullScreenSpin').css('display','none');
                 // window.open('/supplierawaitingpurchaseorder','_self');
-                sideBarService.getAllPurchaseOrderList().then(function (dataUpdate) {
-                    addVS1Data('TPurchaseOrderEx', JSON.stringify(dataUpdate)).then(function (datareturn) {}).catch(function (err) {});
-                }).catch(function (err) {});
+                sideBarService.getAllPurchaseOrderList().then(function(dataUpdate) {
+                    addVS1Data('TPurchaseOrderEx', JSON.stringify(dataUpdate)).then(function(datareturn) {}).catch(function(err) {});
+                }).catch(function(err) {});
 
-                sideBarService.getTSupplierPaymentList().then(function (dataUpdate) {
-                    addVS1Data('TSupplierPayment', JSON.stringify(dataUpdate)).then(function (datareturn) {}).catch(function (err) {});
-                }).catch(function (err) {});
+                sideBarService.getTSupplierPaymentList().then(function(dataUpdate) {
+                    addVS1Data('TSupplierPayment', JSON.stringify(dataUpdate)).then(function(datareturn) {}).catch(function(err) {});
+                }).catch(function(err) {});
 
-                sideBarService.getAllPurchaseOrderListAll(prevMonth11Date, toDate, false).then(function (dataUpdate) {
-                    addVS1Data('TbillReport', JSON.stringify(dataUpdate)).then(function (datareturn) {
+                sideBarService.getAllPurchaseOrderListAll(prevMonth11Date, toDate, false).then(function(dataUpdate) {
+                    addVS1Data('TbillReport', JSON.stringify(dataUpdate)).then(function(datareturn) {
                         window.open('/supplierawaitingpurchaseorder', '_self');
-                    }).catch(function (err) {
+                    }).catch(function(err) {
                         window.open('/supplierawaitingpurchaseorder', '_self');
                     });
-                }).catch(function (err) {
+                }).catch(function(err) {
                     window.open('/supplierawaitingpurchaseorder', '_self');
                 });
                 //window.history.go(-2);
-            }).catch(function (err) {
+            }).catch(function(err) {
                 //window.history.go(-2);
                 //window.open('/supplierawaitingpurchaseorder','_self');
                 swal({
@@ -6357,7 +6416,7 @@ Template.supplierpaymentcard.events({
             });
         } else if ((url.indexOf('?suppcreditname=') > 0) && (url.indexOf('pocreditid=') > 0)) {
 
-            $('.tblSupplierPaymentcard > tbody > tr').each(function () {
+            $('.tblSupplierPaymentcard > tbody > tr').each(function() {
                 var lineID = this.id;
                 let linetype = $('#' + lineID + " .colType").text() || $(this).closest('tr').find('.colType').text();
                 let lineAmountDue = $('#' + lineID + " .lineAmountdue").text() || $(this).closest('tr').find('.lineAmountdue').text();
@@ -6421,7 +6480,7 @@ Template.supplierpaymentcard.events({
                 };
             }
 
-            paymentService.saveSuppDepositData(objDetails).then(function (data) {
+            paymentService.saveSuppDepositData(objDetails).then(function(data) {
                 var customerID = $('#edtSupplierEmail').attr('customerid');
                 // Start End Send Email
                 $('#html-2-pdfwrapper').css('display', 'block');
@@ -6436,7 +6495,7 @@ Template.supplierpaymentcard.events({
                     let pdfObject = "";
                     var reader = new FileReader();
                     reader.readAsDataURL(encodedPdf);
-                    reader.onloadend = function () {
+                    reader.onloadend = function() {
                         var base64data = reader.result;
                         base64data = base64data.split(',')[1];
 
@@ -6514,7 +6573,7 @@ Template.supplierpaymentcard.events({
                                 text: '',
                                 html: htmlmailBody,
                                 attachments: attachment
-                            }, function (error, result) {
+                            }, function(error, result) {
                                 if (error && error.error === "error") {
                                     //window.open('/supplierpayment', '_self');
 
@@ -6528,7 +6587,7 @@ Template.supplierpaymentcard.events({
                                 text: '',
                                 html: htmlmailBody,
                                 attachments: attachment
-                            }, function (error, result) {
+                            }, function(error, result) {
                                 if (error && error.error === "error") {
                                     //window.open('/supplierpayment', '_self');
                                 } else {
@@ -6557,7 +6616,7 @@ Template.supplierpaymentcard.events({
                                 text: '',
                                 html: htmlmailBody,
                                 attachments: attachment
-                            }, function (error, result) {
+                            }, function(error, result) {
                                 if (error && error.error === "error") {
                                     //window.open('/supplierpayment', '_self');
 
@@ -6587,7 +6646,7 @@ Template.supplierpaymentcard.events({
                                 text: '',
                                 html: htmlmailBody,
                                 attachments: attachment
-                            }, function (error, result) {
+                            }, function(error, result) {
                                 if (error && error.error === "error") {
                                     //  window.open('/supplierpayment', '_self');
                                 } else {
@@ -6623,7 +6682,7 @@ Template.supplierpaymentcard.events({
                         let doc = new jsPDF('p', 'pt', 'a4');
                         doc.setFontSize(18);
                         var source = document.getElementById('html-2-pdfwrapper');
-                        doc.addHTML(source, function () {
+                        doc.addHTML(source, function() {
                             //pdf.save('Invoice.pdf');
                             resolve(doc.output('blob'));
                             // $('#html-2-pdfwrapper').css('display','none');
@@ -6643,29 +6702,29 @@ Template.supplierpaymentcard.events({
                 };
                 // $('.fullScreenSpin').css('display','none');
                 // window.open('/supplierpayment','_self');
-                sideBarService.getAllPurchaseOrderList().then(function (dataUpdate) {
-                    sideBarService.getTSupplierPaymentList().then(function (dataUpdate) {
-                        addVS1Data('TSupplierPayment', JSON.stringify(dataUpdate)).then(function (datareturn) {}).catch(function (err) {});
-                    }).catch(function (err) {});
+                sideBarService.getAllPurchaseOrderList().then(function(dataUpdate) {
+                    sideBarService.getTSupplierPaymentList().then(function(dataUpdate) {
+                        addVS1Data('TSupplierPayment', JSON.stringify(dataUpdate)).then(function(datareturn) {}).catch(function(err) {});
+                    }).catch(function(err) {});
 
-                    addVS1Data('TPurchaseOrderEx', JSON.stringify(dataUpdate)).then(function (datareturn) {
-                        sideBarService.getAllPurchaseOrderListAll(prevMonth11Date, toDate, false).then(function (dataUpdate) {
-                            addVS1Data('TbillReport', JSON.stringify(dataUpdate)).then(function (datareturn) {
+                    addVS1Data('TPurchaseOrderEx', JSON.stringify(dataUpdate)).then(function(datareturn) {
+                        sideBarService.getAllPurchaseOrderListAll(prevMonth11Date, toDate, false).then(function(dataUpdate) {
+                            addVS1Data('TbillReport', JSON.stringify(dataUpdate)).then(function(datareturn) {
                                 window.open('/supplierpayment', '_self');
-                            }).catch(function (err) {
+                            }).catch(function(err) {
                                 window.open('/supplierpayment', '_self');
                             });
-                        }).catch(function (err) {
+                        }).catch(function(err) {
                             window.open('/supplierpayment', '_self');
                         });
-                    }).catch(function (err) {
+                    }).catch(function(err) {
                         window.open('/supplierpayment', '_self');
                     });
-                }).catch(function (err) {
+                }).catch(function(err) {
                     window.open('/supplierpayment', '_self');
                 });
 
-            }).catch(function (err) {
+            }).catch(function(err) {
                 //window.open('/paymentoverview','_self');
                 swal({
                     title: 'Oooops...',
@@ -6684,7 +6743,7 @@ Template.supplierpaymentcard.events({
             var getsale_id = url.split('?selectsupp=');
             var currentSalesID = getsale_id[getsale_id.length - 1];
 
-            $('.tblSupplierPaymentcard > tbody > tr').each(function () {
+            $('.tblSupplierPaymentcard > tbody > tr').each(function() {
                 var lineID = this.id;
                 let linetype = $('#' + lineID + " .colType").text();
                 let lineAmountDue = $('#' + lineID + " .lineAmountdue").text();
@@ -6742,7 +6801,7 @@ Template.supplierpaymentcard.events({
 
             }
 
-            paymentService.saveSuppDepositData(objDetails).then(function (data) {
+            paymentService.saveSuppDepositData(objDetails).then(function(data) {
                 var customerID = $('#edtSupplierEmail').attr('customerid');
                 // Start End Send Email
                 $('#html-2-pdfwrapper').css('display', 'block');
@@ -6757,7 +6816,7 @@ Template.supplierpaymentcard.events({
                     let pdfObject = "";
                     var reader = new FileReader();
                     reader.readAsDataURL(encodedPdf);
-                    reader.onloadend = function () {
+                    reader.onloadend = function() {
                         var base64data = reader.result;
                         base64data = base64data.split(',')[1];
 
@@ -6835,7 +6894,7 @@ Template.supplierpaymentcard.events({
                                 text: '',
                                 html: htmlmailBody,
                                 attachments: attachment
-                            }, function (error, result) {
+                            }, function(error, result) {
                                 if (error && error.error === "error") {
                                     //window.open('/supplierawaitingpurchaseorder', '_self');
 
@@ -6849,7 +6908,7 @@ Template.supplierpaymentcard.events({
                                 text: '',
                                 html: htmlmailBody,
                                 attachments: attachment
-                            }, function (error, result) {
+                            }, function(error, result) {
                                 if (error && error.error === "error") {
                                     //window.open('/supplierawaitingpurchaseorder', '_self');
                                 } else {
@@ -6878,7 +6937,7 @@ Template.supplierpaymentcard.events({
                                 text: '',
                                 html: htmlmailBody,
                                 attachments: attachment
-                            }, function (error, result) {
+                            }, function(error, result) {
                                 if (error && error.error === "error") {
                                     //window.open('/supplierawaitingpurchaseorder', '_self');
 
@@ -6908,7 +6967,7 @@ Template.supplierpaymentcard.events({
                                 text: '',
                                 html: htmlmailBody,
                                 attachments: attachment
-                            }, function (error, result) {
+                            }, function(error, result) {
                                 if (error && error.error === "error") {
                                     //window.open('/supplierawaitingpurchaseorder', '_self');
                                 } else {
@@ -6944,7 +7003,7 @@ Template.supplierpaymentcard.events({
                         let doc = new jsPDF('p', 'pt', 'a4');
                         doc.setFontSize(18);
                         var source = document.getElementById('html-2-pdfwrapper');
-                        doc.addHTML(source, function () {
+                        doc.addHTML(source, function() {
                             //pdf.save('Invoice.pdf');
                             resolve(doc.output('blob'));
                             // $('#html-2-pdfwrapper').css('display','none');
@@ -6962,27 +7021,27 @@ Template.supplierpaymentcard.events({
                     }
 
                 };
-                sideBarService.getTSupplierPaymentList().then(function (dataUpdate) {
-                    addVS1Data('TSupplierPayment', JSON.stringify(dataUpdate)).then(function (datareturn) {}).catch(function (err) {});
-                }).catch(function (err) {});
-                sideBarService.getAllPurchaseOrderList().then(function (dataUpdate) {
-                    addVS1Data('TPurchaseOrderEx', JSON.stringify(dataUpdate)).then(function (datareturn) {
-                        sideBarService.getAllPurchaseOrderListAll(prevMonth11Date, toDate, false).then(function (dataUpdate2) {
-                            addVS1Data('TbillReport', JSON.stringify(dataUpdate2)).then(function (datareturn) {
+                sideBarService.getTSupplierPaymentList().then(function(dataUpdate) {
+                    addVS1Data('TSupplierPayment', JSON.stringify(dataUpdate)).then(function(datareturn) {}).catch(function(err) {});
+                }).catch(function(err) {});
+                sideBarService.getAllPurchaseOrderList().then(function(dataUpdate) {
+                    addVS1Data('TPurchaseOrderEx', JSON.stringify(dataUpdate)).then(function(datareturn) {
+                        sideBarService.getAllPurchaseOrderListAll(prevMonth11Date, toDate, false).then(function(dataUpdate2) {
+                            addVS1Data('TbillReport', JSON.stringify(dataUpdate2)).then(function(datareturn) {
                                 window.open('/supplierpayment', '_self');
-                            }).catch(function (err) {
+                            }).catch(function(err) {
                                 window.open('/supplierpayment', '_self');
                             });
-                        }).catch(function (err) {
+                        }).catch(function(err) {
                             window.open('/supplierpayment', '_self');
                         });
-                    }).catch(function (err) {
+                    }).catch(function(err) {
                         window.open('/supplierpayment', '_self');
                     });
-                }).catch(function (err) {
+                }).catch(function(err) {
                     window.open('/supplierpayment', '_self');
                 });
-            }).catch(function (err) {
+            }).catch(function(err) {
                 //window.open('/paymentoverview','_self');
                 swal({
                     title: 'Oooops...',
@@ -7003,7 +7062,7 @@ Template.supplierpaymentcard.events({
             // let paymentID = parseInt(currentSalesID);;
 
 
-            $('.tblSupplierPaymentcard > tbody > tr').each(function () {
+            $('.tblSupplierPaymentcard > tbody > tr').each(function() {
                 var lineID = this.id;
                 let linetype = $('#' + lineID + " .colType").text();
                 let lineAmountDue = $('#' + lineID + " .lineAmountdue").text();
@@ -7063,7 +7122,7 @@ Template.supplierpaymentcard.events({
                     }
                 };
             }
-            paymentService.saveSuppDepositData(objDetails).then(function (data) {
+            paymentService.saveSuppDepositData(objDetails).then(function(data) {
                 var customerID = $('#edtSupplierEmail').attr('customerid');
                 // Start End Send Email
                 $('#html-2-pdfwrapper').css('display', 'block');
@@ -7078,7 +7137,7 @@ Template.supplierpaymentcard.events({
                     let pdfObject = "";
                     var reader = new FileReader();
                     reader.readAsDataURL(encodedPdf);
-                    reader.onloadend = function () {
+                    reader.onloadend = function() {
                         var base64data = reader.result;
                         base64data = base64data.split(',')[1];
 
@@ -7156,7 +7215,7 @@ Template.supplierpaymentcard.events({
                                 text: '',
                                 html: htmlmailBody,
                                 attachments: attachment
-                            }, function (error, result) {
+                            }, function(error, result) {
                                 if (error && error.error === "error") {
                                     //window.open('/supplierawaitingpurchaseorder', '_self');
 
@@ -7170,7 +7229,7 @@ Template.supplierpaymentcard.events({
                                 text: '',
                                 html: htmlmailBody,
                                 attachments: attachment
-                            }, function (error, result) {
+                            }, function(error, result) {
                                 if (error && error.error === "error") {
                                     //  window.open('/supplierawaitingpurchaseorder', '_self');
                                 } else {
@@ -7199,7 +7258,7 @@ Template.supplierpaymentcard.events({
                                 text: '',
                                 html: htmlmailBody,
                                 attachments: attachment
-                            }, function (error, result) {
+                            }, function(error, result) {
                                 if (error && error.error === "error") {
                                     //window.open('/supplierawaitingpurchaseorder', '_self');
 
@@ -7229,7 +7288,7 @@ Template.supplierpaymentcard.events({
                                 text: '',
                                 html: htmlmailBody,
                                 attachments: attachment
-                            }, function (error, result) {
+                            }, function(error, result) {
                                 if (error && error.error === "error") {
                                     //window.open('/supplierawaitingpurchaseorder', '_self');
                                 } else {
@@ -7265,7 +7324,7 @@ Template.supplierpaymentcard.events({
                         let doc = new jsPDF('p', 'pt', 'a4');
                         doc.setFontSize(18);
                         var source = document.getElementById('html-2-pdfwrapper');
-                        doc.addHTML(source, function () {
+                        doc.addHTML(source, function() {
                             //pdf.save('Invoice.pdf');
                             resolve(doc.output('blob'));
                             // $('#html-2-pdfwrapper').css('display','none');
@@ -7288,28 +7347,28 @@ Template.supplierpaymentcard.events({
                 // $('.fullScreenSpin').css('display','none');
                 // window.open('/supplierawaitingpurchaseorder','_self');
 
-                sideBarService.getTSupplierPaymentList().then(function (dataUpdate) {
-                    addVS1Data('TSupplierPayment', JSON.stringify(dataUpdate)).then(function (datareturn) {}).catch(function (err) {});
-                }).catch(function (err) {});
-                sideBarService.getAllBillExList().then(function (dataUpdate) {
-                    addVS1Data('TBillEx', JSON.stringify(dataUpdate)).then(function (datareturn) {
-                        sideBarService.getAllBillExList().then(function (dataUpdate2) {
-                            addVS1Data('TbillReport', JSON.stringify(dataUpdate2)).then(function (datareturn) {
+                sideBarService.getTSupplierPaymentList().then(function(dataUpdate) {
+                    addVS1Data('TSupplierPayment', JSON.stringify(dataUpdate)).then(function(datareturn) {}).catch(function(err) {});
+                }).catch(function(err) {});
+                sideBarService.getAllBillExList().then(function(dataUpdate) {
+                    addVS1Data('TBillEx', JSON.stringify(dataUpdate)).then(function(datareturn) {
+                        sideBarService.getAllBillExList().then(function(dataUpdate2) {
+                            addVS1Data('TbillReport', JSON.stringify(dataUpdate2)).then(function(datareturn) {
                                 window.open('/supplierawaitingpurchaseorder', '_self');
-                            }).catch(function (err) {
+                            }).catch(function(err) {
                                 window.open('/supplierawaitingpurchaseorder', '_self');
                             });
-                        }).catch(function (err) {
+                        }).catch(function(err) {
                             window.open('/supplierawaitingpurchaseorder', '_self');
                         });
-                    }).catch(function (err) {
+                    }).catch(function(err) {
                         window.open('/supplierawaitingpurchaseorder', '_self');
                     });
-                }).catch(function (err) {
+                }).catch(function(err) {
                     window.open('/supplierawaitingpurchaseorder', '_self');
                 });
                 //window.history.go(-2);
-            }).catch(function (err) {
+            }).catch(function(err) {
                 //window.open('/supplierawaitingpurchaseorder','_self');
                 //window.history.go(-2);
                 swal({
@@ -7328,12 +7387,12 @@ Template.supplierpaymentcard.events({
         }
 
     },
-    'click #tblSupplierPaymentcard tr .colTransNo': function (event) {
+    'click #tblSupplierPaymentcard tr .colTransNo': function(event) {
         let templateObject = Template.instance();
         $('.fullScreenSpin').css('display', 'inline-block');
         $(".chkBox").prop("checked", false);
         let paymentList = [];
-        $('.tblSupplierPaymentcard tbody tr').each(function () {
+        $('.tblSupplierPaymentcard tbody tr').each(function() {
             paymentList.push(this.id);
 
         })
@@ -7370,13 +7429,13 @@ Template.supplierpaymentcard.events({
         $('#supplierPaymentListModal').modal();
         $('.fullScreenSpin').css('display', 'none');
     },
-    'click .chkPaymentCard': function () {
+    'click .chkPaymentCard': function() {
         var listData = $(this).closest('tr').attr('id');
         var selectedClient = $(event.target).closest("tr").find(".colCustomerName").text();
         const templateObject = Template.instance();
         const selectedAwaitingPayment = [];
         const selectedAwaitingPayment2 = [];
-        $('.chkPaymentCard:checkbox:checked').each(function () {
+        $('.chkPaymentCard:checkbox:checked').each(function() {
             //$('.parentClass:not(span)').method
             var chkIdLine = $(this).closest('tr').attr('id');
             var date = $(this).closest("tr").find('.colPaymentDate').text();
@@ -7419,35 +7478,35 @@ Template.supplierpaymentcard.events({
         templateObject.selectedAwaitingPayment.set(selectedAwaitingPayment);
     },
 
-    'click .btnSelectSuppliers': function (event) {
+    'click .btnSelectSuppliers': function(event) {
         const templateObject = Template.instance();
         let selectedSupplierPayments = templateObject.selectedAwaitingPayment.get()
-         if(selectedSupplierPayments.length > 0) {
-        let currentApplied = $('.lead').text().replace('$', '').replace(',', '');
-        currentApplied = parseFloat(currentApplied.match(/-?(?:\d+(?:\.\d*)?|\.\d+)/)[0])
+        if (selectedSupplierPayments.length > 0) {
+            let currentApplied = $('.lead').text().replace('$', '').replace(',', '');
+            currentApplied = parseFloat(currentApplied.match(/-?(?:\d+(?:\.\d*)?|\.\d+)/)[0])
             let total = parseFloat(currentApplied);
-        for (let x = 0; x < selectedSupplierPayments.length; x++) {
-            var rowData = $('#tblSupplierPaymentcard tbody>tr:last').clone(true);
-            $(".colTransDate", rowData).text(selectedSupplierPayments[x].date);
-            $(".colType", rowData).text(selectedSupplierPayments[x].type);
-            $(".colTransNo", rowData).text(selectedSupplierPayments[x].orderNo);
-            $(".lineOrginalamount", rowData).text(selectedSupplierPayments[x].originalAmount);
-            $(".lineAmountdue", rowData).text(selectedSupplierPayments[x].outstandingAmount);
-            $(".linePaymentamount", rowData).val(selectedSupplierPayments[x].paymentAmount);
-            $(".lineOutstandingAmount", rowData).text(selectedSupplierPayments[x].paymentAmount);
-            $(".colComments", rowData).text(selectedSupplierPayments[x].comments);
-            rowData.attr('id', selectedSupplierPayments[x].awaitingId);
-            rowData.attr('name', selectedSupplierPayments[x].awaitingId);
-            $("#tblSupplierPaymentcard tbody").append(rowData);
-            total = total + parseFloat(selectedSupplierPayments[x].paymentAmount.replace('$', '').replace(',', ''));
+            for (let x = 0; x < selectedSupplierPayments.length; x++) {
+                var rowData = $('#tblSupplierPaymentcard tbody>tr:last').clone(true);
+                $(".colTransDate", rowData).text(selectedSupplierPayments[x].date);
+                $(".colType", rowData).text(selectedSupplierPayments[x].type);
+                $(".colTransNo", rowData).text(selectedSupplierPayments[x].orderNo);
+                $(".lineOrginalamount", rowData).text(selectedSupplierPayments[x].originalAmount);
+                $(".lineAmountdue", rowData).text(selectedSupplierPayments[x].outstandingAmount);
+                $(".linePaymentamount", rowData).val(selectedSupplierPayments[x].paymentAmount);
+                $(".lineOutstandingAmount", rowData).text(selectedSupplierPayments[x].paymentAmount);
+                $(".colComments", rowData).text(selectedSupplierPayments[x].comments);
+                rowData.attr('id', selectedSupplierPayments[x].awaitingId);
+                rowData.attr('name', selectedSupplierPayments[x].awaitingId);
+                $("#tblSupplierPaymentcard tbody").append(rowData);
+                total = total + parseFloat(selectedSupplierPayments[x].paymentAmount.replace('$', '').replace(',', ''));
+            }
+            $('.appliedAmount').text(Currency + total.toFixed(2));
         }
-        $('.appliedAmount').text(Currency + total.toFixed(2));
-    }
         templateObject.selectedAwaitingPayment.set([]);
         $('#supplierPaymentListModal').modal('hide');
 
     },
-    'keydown #edtPaymentAmount': function (event) {
+    'keydown #edtPaymentAmount': function(event) {
         if ($.inArray(event.keyCode, [46, 8, 9, 27, 13, 110]) !== -1 ||
             // Allow: Ctrl+A, Command+A
             (event.keyCode === 65 && (event.ctrlKey === true || event.metaKey === true)) ||
@@ -7465,23 +7524,22 @@ Template.supplierpaymentcard.events({
             (event.keyCode >= 96 && event.keyCode <= 105) ||
             event.keyCode == 8 || event.keyCode == 9 ||
             event.keyCode == 37 || event.keyCode == 39 ||
-            event.keyCode == 46 || event.keyCode == 190) {}
-        else {
+            event.keyCode == 46 || event.keyCode == 190) {} else {
             event.preventDefault();
         }
     },
-    'blur #edtPaymentAmount': function (event) {
+    'blur #edtPaymentAmount': function(event) {
         let paymentAmt = $(event.target).val();
         let formatedpaymentAmt = Number(paymentAmt.replace(/[^0-9.-]+/g, "")) || 0;
         $('#edtPaymentAmount').val(utilityService.modifynegativeCurrencyFormat(formatedpaymentAmt));
     },
-    'blur .linePaymentamount': function (event) {
+    'blur .linePaymentamount': function(event) {
         let paymentAmt = $(event.target).val();
         let formatedpaymentAmt = Number(paymentAmt.replace(/[^0-9.-]+/g, "")) || 0;
         $(event.target).val(utilityService.modifynegativeCurrencyFormat(formatedpaymentAmt));
         let $tblrows = $("#tblSupplierPaymentcard tbody tr");
         let appliedGrandTotal = 0;
-        $tblrows.each(function (index) {
+        $tblrows.each(function(index) {
             var $tblrow = $(this);
             var pricePayAmount = Number($tblrow.find(".linePaymentamount").val().replace(/[^0-9.-]+/g, "")) || 0;
             if (!isNaN(pricePayAmount)) {
@@ -7493,11 +7551,11 @@ Template.supplierpaymentcard.events({
         $('#edtPaymentAmount').val(utilityService.modifynegativeCurrencyFormat(appliedGrandTotal));
         $('.appliedAmount').text(utilityService.modifynegativeCurrencyFormat(appliedGrandTotal));
     },
-    'click .btnBack': function (event) {
+    'click .btnBack': function(event) {
         event.preventDefault();
         history.back(1);
     },
-    'click .btnRemove': function (event) {
+    'click .btnRemove': function(event) {
         $('.btnDeleteLine').show();
         let templateObject = Template.instance();
         let utilityService = new UtilityService();
@@ -7515,7 +7573,7 @@ Template.supplierpaymentcard.events({
                 $(event.target).closest('tr').remove();
                 event.preventDefault();
                 let $tblrows = $("#tblSupplierPaymentcard tbody tr");
-                $tblrows.each(function (index) {
+                $tblrows.each(function(index) {
                     var $tblrow = $(this);
                     total += parseFloat($tblrow.find(".linePaymentamount ").val().replace('$', '').replace(',', '')) || 0;
                 });
@@ -7528,7 +7586,7 @@ Template.supplierpaymentcard.events({
 
         }
     },
-    'click .btnDeletePayment': function (event) {
+    'click .btnDeletePayment': function(event) {
         $('.fullScreenSpin').css('display', 'inline-block');
         let templateObject = Template.instance();
         let paymentService = new PaymentsService();
@@ -7537,7 +7595,7 @@ Template.supplierpaymentcard.events({
         var begunDate = moment(currentBeginDate).format("DD/MM/YYYY");
         let fromDateMonth = (currentBeginDate.getMonth() + 1);
         let fromDateDay = currentBeginDate.getDate();
-        if((currentBeginDate.getMonth()+1) < 10){
+        if ((currentBeginDate.getMonth() + 1) < 10) {
             fromDateMonth = "0" + (currentBeginDate.getMonth());
         } else {
             fromDateMonth = (currentBeginDate.getMonth());
@@ -7562,18 +7620,18 @@ Template.supplierpaymentcard.events({
                 }
             };
 
-            paymentService.deleteSuppDepositData(objDetails).then(function (objDetails) {
+            paymentService.deleteSuppDepositData(objDetails).then(function(objDetails) {
                 $('.modal-backdrop').css('display', 'none');
                 FlowRouter.go('/paymentoverview?success=true');
-                sideBarService.getAllBillExList().then(function (dataBill) {
-                    addVS1Data('TBillEx', JSON.stringify(dataBill)).then(function (datareturn) {}).catch(function (err) {});
-                }).catch(function (err) {});
+                sideBarService.getAllBillExList().then(function(dataBill) {
+                    addVS1Data('TBillEx', JSON.stringify(dataBill)).then(function(datareturn) {}).catch(function(err) {});
+                }).catch(function(err) {});
 
-                sideBarService.getAllPurchaseOrderListAll(prevMonth11Date, toDate, false).then(function (data) {
-                    addVS1Data('TbillReport', JSON.stringify(data)).then(function (datareturn) {}).catch(function (err) {});
-                }).catch(function (err) {});
+                sideBarService.getAllPurchaseOrderListAll(prevMonth11Date, toDate, false).then(function(data) {
+                    addVS1Data('TbillReport', JSON.stringify(data)).then(function(datareturn) {}).catch(function(err) {});
+                }).catch(function(err) {});
 
-            }).catch(function (err) {
+            }).catch(function(err) {
                 swal({
                     title: 'Oooops...',
                     text: err,
@@ -7601,18 +7659,18 @@ Template.supplierpaymentcard.events({
                     }
                 };
 
-                paymentService.deleteSuppDepositData(objDetails).then(function (objDetails) {
+                paymentService.deleteSuppDepositData(objDetails).then(function(objDetails) {
                     $('.modal-backdrop').css('display', 'none');
                     FlowRouter.go('/paymentoverview?success=true');
-                    sideBarService.getAllBillExList().then(function (dataBill) {
-                        addVS1Data('TBillEx', JSON.stringify(dataBill)).then(function (datareturn) {}).catch(function (err) {});
-                    }).catch(function (err) {});
+                    sideBarService.getAllBillExList().then(function(dataBill) {
+                        addVS1Data('TBillEx', JSON.stringify(dataBill)).then(function(datareturn) {}).catch(function(err) {});
+                    }).catch(function(err) {});
 
-                    sideBarService.getAllPurchaseOrderListAll(prevMonth11Date, toDate, false).then(function (data) {
-                        addVS1Data('TbillReport', JSON.stringify(data)).then(function (datareturn) {}).catch(function (err) {});
-                    }).catch(function (err) {});
+                    sideBarService.getAllPurchaseOrderListAll(prevMonth11Date, toDate, false).then(function(data) {
+                        addVS1Data('TbillReport', JSON.stringify(data)).then(function(datareturn) {}).catch(function(err) {});
+                    }).catch(function(err) {});
 
-                }).catch(function (err) {
+                }).catch(function(err) {
                     swal({
                         title: 'Oooops...',
                         text: err,
@@ -7635,11 +7693,11 @@ Template.supplierpaymentcard.events({
         }
         // $('#deleteLineModal').modal('toggle');
     },
-    'click .btnConfirmPayment': function (event) {
+    'click .btnConfirmPayment': function(event) {
         $('.btnDeleteLine').hide();
         $('#deleteLineModal').modal('toggle');
     },
-    'click .btnDeleteLine': function (event) {
+    'click .btnDeleteLine': function(event) {
         let templateObject = Template.instance();
         let utilityService = new UtilityService();
         let selectLineID = $('#selectDeleteLineID').val();
@@ -7648,7 +7706,7 @@ Template.supplierpaymentcard.events({
             let total = 0;
             $('#tblSupplierPaymentcard #' + selectLineID).closest('tr').remove();
             let $tblrows = $("#tblSupplierPaymentcard tbody tr");
-            $tblrows.each(function (index) {
+            $tblrows.each(function(index) {
                 var $tblrow = $(this);
                 total += parseFloat($tblrow.find(".linePaymentamount ").val().replace(/[^0-9.-]+/g, "")) || 0;
             });
@@ -7657,15 +7715,15 @@ Template.supplierpaymentcard.events({
         } else {
             this.click;
         }
-         $('#deleteLineModal').modal('toggle');
+        $('#deleteLineModal').modal('toggle');
     },
-    'click .printConfirm': function (event) {
+    'click .printConfirm': function(event) {
         $('#html-2-pdfwrapper').css('display', 'block');
         $('.pdfCustomerName').html($('#edtSupplierName').val());
         $('.pdfCustomerAddress').html($('#txabillingAddress').val().replace(/[\r\n]/g, "<br />"));
         exportSalesToPdf();
     },
-    'click .chkcolTransDate': function (event) {
+    'click .chkcolTransDate': function(event) {
         if ($(event.target).is(':checked')) {
             $('.colTransDate').css('display', 'table-cell');
             $('.colTransDate').css('padding', '.75rem');
@@ -7674,7 +7732,7 @@ Template.supplierpaymentcard.events({
             $('.colTransDate').css('display', 'none');
         }
     },
-    'click .chkcolType': function (event) {
+    'click .chkcolType': function(event) {
         if ($(event.target).is(':checked')) {
             $('.colType').css('display', 'table-cell');
             $('.colType').css('padding', '.75rem');
@@ -7683,7 +7741,7 @@ Template.supplierpaymentcard.events({
             $('.colType').css('display', 'none');
         }
     },
-    'click .chkcolTransNo': function (event) {
+    'click .chkcolTransNo': function(event) {
         if ($(event.target).is(':checked')) {
             $('.colTransNo').css('display', 'table-cell');
             $('.colTransNo').css('padding', '.75rem');
@@ -7692,7 +7750,7 @@ Template.supplierpaymentcard.events({
             $('.colTransNo').css('display', 'none');
         }
     },
-    'click .chklineOrginalamount': function (event) {
+    'click .chklineOrginalamount': function(event) {
         if ($(event.target).is(':checked')) {
             $('.lineOrginalamount').css('display', 'table-cell');
             $('.lineOrginalamount').css('padding', '.75rem');
@@ -7701,7 +7759,7 @@ Template.supplierpaymentcard.events({
             $('.lineOrginalamount').css('display', 'none');
         }
     },
-    'click .chklineAmountdue': function (event) {
+    'click .chklineAmountdue': function(event) {
         if ($(event.target).is(':checked')) {
             $('.lineAmountdue').css('display', 'table-cell');
             $('.lineAmountdue').css('padding', '.75rem');
@@ -7710,7 +7768,7 @@ Template.supplierpaymentcard.events({
             $('.lineAmountdue').css('display', 'none');
         }
     },
-    'click .chklinePaymentamount': function (event) {
+    'click .chklinePaymentamount': function(event) {
         if ($(event.target).is(':checked')) {
             $('.linePaymentamount').css('display', 'table-cell');
             $('.linePaymentamount').css('padding', '.75rem');
@@ -7719,7 +7777,7 @@ Template.supplierpaymentcard.events({
             $('.linePaymentamount').css('display', 'none');
         }
     },
-    'click .chklineOutstandingAmount': function (event) {
+    'click .chklineOutstandingAmount': function(event) {
         if ($(event.target).is(':checked')) {
             $('.lineOutstandingAmount').css('display', 'table-cell');
             $('.lineOutstandingAmount').css('padding', '.75rem');
@@ -7728,7 +7786,7 @@ Template.supplierpaymentcard.events({
             $('.lineOutstandingAmount').css('display', 'none');
         }
     },
-    'click .chkcolComments': function (event) {
+    'click .chkcolComments': function(event) {
         if ($(event.target).is(':checked')) {
             $('.colComments').css('display', 'table-cell');
             $('.colComments').css('padding', '.75rem');
@@ -7737,47 +7795,47 @@ Template.supplierpaymentcard.events({
             $('.colComments').css('display', 'none');
         }
     },
-    'change .rngRangeTransDate': function (event) {
+    'change .rngRangeTransDate': function(event) {
         let range = $(event.target).val();
         $(".spWidthTransDate").html(range + '%');
         $('.colTransDate').css('width', range + '%');
     },
-    'change .rngRangeType': function (event) {
+    'change .rngRangeType': function(event) {
         let range = $(event.target).val();
         $(".spWidthType").html(range + '%');
         $('.colType').css('width', range + '%');
     },
-    'change .rngRangeTransNo': function (event) {
+    'change .rngRangeTransNo': function(event) {
         let range = $(event.target).val();
         $(".spWidthTransNo").html(range + '%');
         $('.colTransNo').css('width', range + '%');
     },
-    'change .rngRangelineOrginalamount': function (event) {
+    'change .rngRangelineOrginalamount': function(event) {
         let range = $(event.target).val();
         $(".spWidthlineOrginalamount").html(range + '%');
         $('.lineOrginalamount').css('width', range + '%');
     },
-    'change .rngRangeAmountdue': function (event) {
+    'change .rngRangeAmountdue': function(event) {
         let range = $(event.target).val();
         $(".spWidthAmountdue").html(range + '%');
         $('.lineAmountdue').css('width', range + '%');
     },
-    'change .rngRangePaymentAmount': function (event) {
+    'change .rngRangePaymentAmount': function(event) {
         let range = $(event.target).val();
         $(".spWidthPaymentAmount").html(range + '%');
         $('.linePaymentamount').css('width', range + '%');
     },
-    'change .rngRangeOutstandingAmount': function (event) {
+    'change .rngRangeOutstandingAmount': function(event) {
         let range = $(event.target).val();
         $(".spWidthOutstandingAmount").html(range + '%');
         $('.lineOutstandingAmount').css('width', range + '%');
     },
-    'change .rngRangeComments': function (event) {
+    'change .rngRangeComments': function(event) {
         let range = $(event.target).val();
         $(".spWidthComments").html(range + '%');
         $('.colComments').css('width', range + '%');
     },
-    'click .btnResetGridSettings': function (event) {
+    'click .btnResetGridSettings': function(event) {
         var getcurrentCloudDetails = CloudUser.findOne({
             _id: Session.get('mycloudLogonID'),
             clouddatabaseID: Session.get('mycloudLogonDBID')
@@ -7794,9 +7852,8 @@ Template.supplierpaymentcard.events({
                 if (checkPrefDetails) {
                     CloudPreference.remove({
                         _id: checkPrefDetails._id
-                    }, function (err, idTag) {
-                        if (err) {}
-                        else {
+                    }, function(err, idTag) {
+                        if (err) {} else {
                             Meteor._reload.reload();
                         }
                     });
@@ -7805,11 +7862,11 @@ Template.supplierpaymentcard.events({
             }
         }
     },
-    'click .btnSaveGridSettings': function (event) {
+    'click .btnSaveGridSettings': function(event) {
 
         let lineItems = [];
         //let lineItemObj = {};
-        $('.columnSettings').each(function (index) {
+        $('.columnSettings').each(function(index) {
             var $tblrow = $(this);
             var colTitle = $tblrow.find(".divcolumn").text() || '';
             var colWidth = $tblrow.find(".custom-range").val() || 0;
@@ -7861,7 +7918,7 @@ Template.supplierpaymentcard.events({
                             customFields: lineItems,
                             updatedAt: new Date()
                         }
-                    }, function (err, idTag) {
+                    }, function(err, idTag) {
                         if (err) {
                             $('#myModal2').modal('toggle');
                             //window.open('/invoiceslist','_self');
@@ -7882,7 +7939,7 @@ Template.supplierpaymentcard.events({
                         published: true,
                         customFields: lineItems,
                         createdAt: new Date()
-                    }, function (err, idTag) {
+                    }, function(err, idTag) {
                         if (err) {
                             $('#myModal2').modal('toggle');
                             //window.open('/invoiceslist','_self');
@@ -7897,13 +7954,13 @@ Template.supplierpaymentcard.events({
             }
         }
     },
-    'blur .divcolumn': function (event) {
+    'blur .divcolumn': function(event) {
         let columData = $(event.target).html();
         let columHeaderUpdate = $(event.target).attr("valueupdate");
         $("" + columHeaderUpdate + "").html(columData);
 
     },
-    'click .chkEmailCopy': function (event) {
+    'click .chkEmailCopy': function(event) {
         $('#edtSupplierEmail').val($('#edtSupplierEmail').val().replace(/\s/g, ''));
         if ($(event.target).is(':checked')) {
             let checkEmailData = $('#edtSupplierEmail').val();

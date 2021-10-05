@@ -112,7 +112,9 @@
                             </div>
                             <div class="col-12 col-lg-4">
                                 <div class="form-group"><label>Department</label>
-                                    <select class="form-control" style="cursor: pointer;" id="sltDepartment" name="sltDepartment">
+                                    <select type="search" class="form-control" id="sltDept" name="sltDept" style="background-color:rgb(255, 255, 255); cursor: pointer;">
+                                    </select>
+                                    <!-- <select class="form-control" style="cursor: pointer;" id="sltDepartment" name="sltDepartment">
                                         {{#each item in deptrecords}}
                                             {{#if equals item.department record.department }}
                                                 <option value="{{record.department}}" selected="">{{record.department}}</option>
@@ -120,7 +122,7 @@
                                                 <option value="{{item.department}}">{{item.department}}</option>
                                             {{/if}}
                                         {{/each}}
-                                    </select>
+                                    </select> -->
                                 </div>
                             </div>
                         </div>
@@ -1026,6 +1028,14 @@
 
     <div class="modal fade" role="dialog" tabindex="-1" id="addSupplierModal">
         {{> addsupplierpop}}
+    </div>
+
+    <div class="modal fade" role="dialog" tabindex="-1" id="departmentModal">
+        {{> departmentpop}}
+    </div>
+
+    <div class="modal fade" role="dialog" tabindex="-1" id="newDepartmentModal">
+        {{> newdepartmentpop}}
     </div>
     <!-- End Help Video Modal -->
     <script>

@@ -1,12 +1,22 @@
-import {PaymentsService} from "../../payments/payments-service";
-import {ReactiveVar} from "meteor/reactive-var";
-import {UtilityService} from "../../utility-service";
+import {
+    PaymentsService
+} from "../../payments/payments-service";
+import {
+    ReactiveVar
+} from "meteor/reactive-var";
+import {
+    UtilityService
+} from "../../utility-service";
 import '../../lib/global/erp-objects';
 import 'jquery-ui-dist/external/jquery/jquery';
 import 'jquery-ui-dist/jquery-ui';
-import { Random } from 'meteor/random';
+import {
+    Random
+} from 'meteor/random';
 import 'jquery-editable-select';
-import { SideBarService } from '../../js/sidebar-service';
+import {
+    SideBarService
+} from '../../js/sidebar-service';
 import '../../lib/global/indexdbstorage.js';
 let sideBarService = new SideBarService();
 let utilityService = new UtilityService();
@@ -42,8 +52,8 @@ Template.paymentcard.onRendered(() => {
 
     $('#edtCustomerName').attr('readonly', true);
     $('#edtCustomerName').css('background-color', '#eaecf4');
-    setTimeout(function () {
-        Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblPaymentcard', function (error, result) {
+    setTimeout(function() {
+        Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblPaymentcard', function(error, result) {
             if (error) {
 
                 //Bert.alert('<strong>Error:</strong> user-not-found, no user found please try again!', 'danger');
@@ -99,10 +109,10 @@ Template.paymentcard.onRendered(() => {
     const paymentmethodrecords = [];
     const accountnamerecords = [];
 
-    templateObject.getAllClients = function () {
-        getVS1Data('TCustomerVS1').then(function (dataObject) {
+    templateObject.getAllClients = function() {
+        getVS1Data('TCustomerVS1').then(function(dataObject) {
             if (dataObject.length == 0) {
-                clientsService.getClientVS1().then(function (data) {
+                clientsService.getClientVS1().then(function(data) {
                     for (let i in data.tcustomervs1) {
 
                         let customerrecordObj = {
@@ -122,14 +132,14 @@ Template.paymentcard.onRendered(() => {
                         //$('#edtCustomerName').editableSelect('add',data.tcustomer[i].ClientName);
                     }
                     //templateObject.clientrecords.set(clientList);
-                    templateObject.clientrecords.set(clientList.sort(function (a, b) {
-                            if (a.customername == 'NA') {
-                                return 1;
-                            } else if (b.customername == 'NA') {
-                                return -1;
-                            }
-                            return (a.customername.toUpperCase() > b.customername.toUpperCase()) ? 1 : -1;
-                        }));
+                    templateObject.clientrecords.set(clientList.sort(function(a, b) {
+                        if (a.customername == 'NA') {
+                            return 1;
+                        } else if (b.customername == 'NA') {
+                            return -1;
+                        }
+                        return (a.customername.toUpperCase() > b.customername.toUpperCase()) ? 1 : -1;
+                    }));
 
                     for (var i = 0; i < clientList.length; i++) {
                         //$('#edtCustomerName').editableSelect('add', clientList[i].customername);
@@ -159,21 +169,21 @@ Template.paymentcard.onRendered(() => {
                     //$('#edtCustomerName').editableSelect('add',data.tcustomer[i].ClientName);
                 }
                 //templateObject.clientrecords.set(clientList);
-                templateObject.clientrecords.set(clientList.sort(function (a, b) {
-                        if (a.customername == 'NA') {
-                            return 1;
-                        } else if (b.customername == 'NA') {
-                            return -1;
-                        }
-                        return (a.customername.toUpperCase() > b.customername.toUpperCase()) ? 1 : -1;
-                    }));
+                templateObject.clientrecords.set(clientList.sort(function(a, b) {
+                    if (a.customername == 'NA') {
+                        return 1;
+                    } else if (b.customername == 'NA') {
+                        return -1;
+                    }
+                    return (a.customername.toUpperCase() > b.customername.toUpperCase()) ? 1 : -1;
+                }));
 
                 for (var i = 0; i < clientList.length; i++) {
                     //$('#edtCustomerName').editableSelect('add', clientList[i].customername);
                 }
             }
-        }).catch(function (err) {
-            clientsService.getClientVS1().then(function (data) {
+        }).catch(function(err) {
+            clientsService.getClientVS1().then(function(data) {
                 for (let i in data.tcustomervs1) {
 
                     let customerrecordObj = {
@@ -193,27 +203,27 @@ Template.paymentcard.onRendered(() => {
                     //$('#edtCustomerName').editableSelect('add',data.tcustomer[i].ClientName);
                 }
                 //templateObject.clientrecords.set(clientList);
-                templateObject.clientrecords.set(clientList.sort(function (a, b) {
-                        if (a.customername == 'NA') {
-                            return 1;
-                        } else if (b.customername == 'NA') {
-                            return -1;
-                        }
-                        return (a.customername.toUpperCase() > b.customername.toUpperCase()) ? 1 : -1;
-                    }));
+                templateObject.clientrecords.set(clientList.sort(function(a, b) {
+                    if (a.customername == 'NA') {
+                        return 1;
+                    } else if (b.customername == 'NA') {
+                        return -1;
+                    }
+                    return (a.customername.toUpperCase() > b.customername.toUpperCase()) ? 1 : -1;
+                }));
 
                 for (var i = 0; i < clientList.length; i++) {
-                  //  $('#edtCustomerName').editableSelect('add', clientList[i].customername);
+                    //  $('#edtCustomerName').editableSelect('add', clientList[i].customername);
                 }
 
             });
         });
 
     };
-    templateObject.getDepartments = function () {
-        getVS1Data('TDeptClass').then(function (dataObject) {
+    templateObject.getDepartments = function() {
+        getVS1Data('TDeptClass').then(function(dataObject) {
             if (dataObject.length == 0) {
-                paymentService.getDepartment().then(function (data) {
+                paymentService.getDepartment().then(function(data) {
                     for (let i in data.tdeptclass) {
 
                         let deptrecordObj = {
@@ -240,8 +250,8 @@ Template.paymentcard.onRendered(() => {
 
                 }
             }
-        }).catch(function (err) {
-            paymentService.getDepartment().then(function (data) {
+        }).catch(function(err) {
+            paymentService.getDepartment().then(function(data) {
                 for (let i in data.tdeptclass) {
 
                     let deptrecordObj = {
@@ -257,10 +267,10 @@ Template.paymentcard.onRendered(() => {
 
     }
 
-    templateObject.getPaymentMethods = function () {
-        getVS1Data('TPaymentMethod').then(function (dataObject) {
+    templateObject.getPaymentMethods = function() {
+        getVS1Data('TPaymentMethod').then(function(dataObject) {
             if (dataObject.length == 0) {
-                paymentService.getPaymentMethodVS1().then(function (data) {
+                paymentService.getPaymentMethodVS1().then(function(data) {
                     for (let i in data.tpaymentmethodvs1) {
 
                         let paymentmethodrecordObj = {
@@ -287,8 +297,8 @@ Template.paymentcard.onRendered(() => {
                 }
             }
 
-        }).catch(function (err) {
-            paymentService.getPaymentMethodVS1().then(function (data) {
+        }).catch(function(err) {
+            paymentService.getPaymentMethodVS1().then(function(data) {
                 for (let i in data.tpaymentmethodvs1) {
 
                     let paymentmethodrecordObj = {
@@ -305,16 +315,16 @@ Template.paymentcard.onRendered(() => {
     }
 
     function MakeNegative() {
-        $('td').each(function () {
+        $('td').each(function() {
             if ($(this).text().indexOf('-' + Currency) >= 0)
                 $(this).addClass('text-danger')
         });
     };
     // $('#tblcustomerAwaitingPayment').DataTable();
-    templateObject.getAllSupplierPaymentData = function () {
-        getVS1Data('TInvoiceEx').then(function (dataObject) {
+    templateObject.getAllSupplierPaymentData = function() {
+        getVS1Data('TInvoiceEx').then(function(dataObject) {
             if (dataObject.length == 0) {
-                paymentService.getAllAwaitingInvoiceDetails().then(function (data) {
+                paymentService.getAllAwaitingInvoiceDetails().then(function(data) {
                     let lineItems = [];
                     let lineItemObj = {};
                     for (let i = 0; i < data.tinvoiceex.length; i++) {
@@ -350,9 +360,8 @@ Template.paymentcard.onRendered(() => {
                     templateObject.datatablerecords1.set(dataTableList);
                     if (templateObject.datatablerecords.get()) {
 
-                        Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblcustomerAwaitingPayment', function (error, result) {
-                            if (error) {}
-                            else {
+                        Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblcustomerAwaitingPayment', function(error, result) {
+                            if (error) {} else {
                                 if (result) {
                                     for (let i = 0; i < result.customFields.length; i++) {
                                         let customcolumn = result.customFields;
@@ -378,58 +387,56 @@ Template.paymentcard.onRendered(() => {
                             }
                         });
 
-                        setTimeout(function () {
+                        setTimeout(function() {
                             MakeNegative();
                         }, 100);
                     }
 
                     $('.fullScreenSpin').css('display', 'none');
-                    setTimeout(function () {
+                    setTimeout(function() {
                         //$.fn.dataTable.moment('DD/MM/YY');
                         $('#tblcustomerAwaitingPayment').DataTable({
                             columnDefs: [{
-                                    "orderable": false,
-                                    "targets": 0
-                                }, {
-                                    type: 'date',
-                                    targets: 1
-                                }
-                            ],
+                                "orderable": false,
+                                "targets": 0
+                            }, {
+                                type: 'date',
+                                targets: 1
+                            }],
                             "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
                             buttons: [{
-                                    extend: 'excelHtml5',
-                                    text: '',
-                                    download: 'open',
-                                    className: "btntabletocsv hiddenColumn",
-                                    filename: "Awaiting Customer Payments List - " + moment().format(),
-                                    orientation: 'portrait',
-                                    exportOptions: {
-                                        columns: ':visible:not(.chkBox)',
-                                        format: {
-                                            body: function (data, row, column) {
-                                                if (data.includes("</span>")) {
-                                                    var res = data.split("</span>");
-                                                    data = res[1];
-                                                }
-
-                                                return column === 1 ? data.replace(/<.*?>/ig, "") : data;
-
+                                extend: 'excelHtml5',
+                                text: '',
+                                download: 'open',
+                                className: "btntabletocsv hiddenColumn",
+                                filename: "Awaiting Customer Payments List - " + moment().format(),
+                                orientation: 'portrait',
+                                exportOptions: {
+                                    columns: ':visible:not(.chkBox)',
+                                    format: {
+                                        body: function(data, row, column) {
+                                            if (data.includes("</span>")) {
+                                                var res = data.split("</span>");
+                                                data = res[1];
                                             }
+
+                                            return column === 1 ? data.replace(/<.*?>/ig, "") : data;
+
                                         }
                                     }
-                                }, {
-                                    extend: 'print',
-                                    download: 'open',
-                                    className: "btntabletopdf hiddenColumn",
-                                    text: '',
-                                    title: 'Supplier Payment',
-                                    filename: "Awaiting Customer Payments List - " + moment().format(),
-                                    exportOptions: {
-                                        columns: ':visible:not(.chkBox)',
-                                        stripHtml: false
-                                    }
                                 }
-                            ],
+                            }, {
+                                extend: 'print',
+                                download: 'open',
+                                className: "btntabletopdf hiddenColumn",
+                                text: '',
+                                title: 'Supplier Payment',
+                                filename: "Awaiting Customer Payments List - " + moment().format(),
+                                exportOptions: {
+                                    columns: ':visible:not(.chkBox)',
+                                    stripHtml: false
+                                }
+                            }],
                             select: true,
                             destroy: true,
                             colReorder: true,
@@ -445,25 +452,27 @@ Template.paymentcard.onRendered(() => {
                             // lengthMenu: [ [10, 25, 50, -1], [10, 25, 50, "All"] ],
                             info: true,
                             responsive: true,
-                            "order": [[1, "desc"]],
+                            "order": [
+                                [1, "desc"]
+                            ],
                             // "aaSorting": [[1,'desc']],
-                            action: function () {
+                            action: function() {
                                 $('#tblcustomerAwaitingPayment').DataTable().ajax.reload();
                             },
-                            "fnDrawCallback": function (oSettings) {
-                                setTimeout(function () {
+                            "fnDrawCallback": function(oSettings) {
+                                setTimeout(function() {
                                     MakeNegative();
                                 }, 100);
                             },
 
-                        }).on('page', function () {
-                            setTimeout(function () {
+                        }).on('page', function() {
+                            setTimeout(function() {
                                 MakeNegative();
                             }, 100);
                             let draftRecord = templateObject.datatablerecords.get();
                             templateObject.datatablerecords.set(draftRecord);
-                        }).on('column-reorder', function () {}).on('length.dt', function (e, settings, len) {
-                            setTimeout(function () {
+                        }).on('column-reorder', function() {}).on('length.dt', function(e, settings, len) {
+                            setTimeout(function() {
                                 MakeNegative();
                             }, 100);
                         });
@@ -477,7 +486,7 @@ Template.paymentcard.onRendered(() => {
                     let sVisible = "";
                     let columVisible = false;
                     let sClass = "";
-                    $.each(columns, function (i, v) {
+                    $.each(columns, function(i, v) {
                         if (v.hidden == false) {
                             columVisible = true;
                         }
@@ -497,14 +506,14 @@ Template.paymentcard.onRendered(() => {
                     });
                     templateObject.tableheaderrecords.set(tableHeaderList);
                     $('div.dataTables_filter input').addClass('form-control form-control-sm');
-                    $('#tblcustomerAwaitingPayment tbody').on('click', 'tr .colPaymentDate, tr .colReceiptNo, tr .colPaymentAmount, tr .colApplied, tr .colBalance, tr .colCustomerName, tr .colDepartment, tr .colRefNo, tr .colPaymentMethod, tr .colNotes', function () {
+                    $('#tblcustomerAwaitingPayment tbody').on('click', 'tr .colPaymentDate, tr .colReceiptNo, tr .colPaymentAmount, tr .colApplied, tr .colBalance, tr .colCustomerName, tr .colDepartment, tr .colRefNo, tr .colPaymentMethod, tr .colNotes', function() {
                         var listData = $(this).closest('tr').attr('id');
                         if (listData) {
                             Router.go('/paymentcard?invid=' + listData);
                         }
                     });
 
-                }).catch(function (err) {
+                }).catch(function(err) {
                     // Bert.alert('<strong>' + err + '</strong>!', 'danger');
                     $('.fullScreenSpin').css('display', 'none');
                     // Meteor._reload.reload();
@@ -547,9 +556,8 @@ Template.paymentcard.onRendered(() => {
                 templateObject.datatablerecords1.set(dataTableList);
                 if (templateObject.datatablerecords.get()) {
 
-                    Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblcustomerAwaitingPayment', function (error, result) {
-                        if (error) {}
-                        else {
+                    Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblcustomerAwaitingPayment', function(error, result) {
+                        if (error) {} else {
                             if (result) {
                                 for (let i = 0; i < result.customFields.length; i++) {
                                     let customcolumn = result.customFields;
@@ -575,90 +583,93 @@ Template.paymentcard.onRendered(() => {
                         }
                     });
 
-                    setTimeout(function () {
+                    setTimeout(function() {
                         MakeNegative();
                     }, 100);
                 }
 
                 $('.fullScreenSpin').css('display', 'none');
-                setTimeout(function () {
+                setTimeout(function() {
                     //$.fn.dataTable.moment('DD/MM/YY');
                     $('#tblcustomerAwaitingPayment').DataTable({
                         columnDefs: [{
-                                "orderable": false,
-                                "targets": 0
-                            }, {
-                                type: 'date',
-                                targets: 1
-                            }
-                        ],
+                            "orderable": false,
+                            "targets": 0
+                        }, {
+                            type: 'date',
+                            targets: 1
+                        }],
                         "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
                         buttons: [{
-                                extend: 'excelHtml5',
-                                text: '',
-                                download: 'open',
-                                className: "btntabletocsv hiddenColumn",
-                                filename: "Awaiting Supplier Payments List - " + moment().format(),
-                                orientation: 'portrait',
-                                exportOptions: {
-                                    columns: ':visible:not(.chkBox)',
-                                    format: {
-                                        body: function (data, row, column) {
-                                            if (data.includes("</span>")) {
-                                                var res = data.split("</span>");
-                                                data = res[1];
-                                            }
-
-                                            return column === 1 ? data.replace(/<.*?>/ig, "") : data;
-
+                            extend: 'excelHtml5',
+                            text: '',
+                            download: 'open',
+                            className: "btntabletocsv hiddenColumn",
+                            filename: "Awaiting Supplier Payments List - " + moment().format(),
+                            orientation: 'portrait',
+                            exportOptions: {
+                                columns: ':visible:not(.chkBox)',
+                                format: {
+                                    body: function(data, row, column) {
+                                        if (data.includes("</span>")) {
+                                            var res = data.split("</span>");
+                                            data = res[1];
                                         }
+
+                                        return column === 1 ? data.replace(/<.*?>/ig, "") : data;
+
                                     }
                                 }
-                            }, {
-                                extend: 'print',
-                                download: 'open',
-                                className: "btntabletopdf hiddenColumn",
-                                text: '',
-                                title: 'Supplier Payment',
-                                filename: "Awaiting Supplier Payments List - " + moment().format(),
-                                exportOptions: {
-                                    columns: ':visible:not(.chkBox)',
-                                    stripHtml: false
-                                }
                             }
-                        ],
+                        }, {
+                            extend: 'print',
+                            download: 'open',
+                            className: "btntabletopdf hiddenColumn",
+                            text: '',
+                            title: 'Supplier Payment',
+                            filename: "Awaiting Supplier Payments List - " + moment().format(),
+                            exportOptions: {
+                                columns: ':visible:not(.chkBox)',
+                                stripHtml: false
+                            }
+                        }],
                         select: true,
                         destroy: true,
                         colReorder: true,
                         pageLength: initialDatatableLoad,
-                        lengthMenu: [ [initialDatatableLoad, -1], [initialDatatableLoad, "All"] ],
+                        lengthMenu: [
+                            [initialDatatableLoad, -1],
+                            [initialDatatableLoad, "All"]
+                        ],
                         info: true,
                         responsive: true,
                         paging: false,
-                        "order": [[1, "desc"]],
+                        "order": [
+                            [1, "desc"]
+                        ],
                         // "aaSorting": [[1,'desc']],
-                        action: function () {
+                        action: function() {
                             $('#tblcustomerAwaitingPayment').DataTable().ajax.reload();
                         },
-                        "fnDrawCallback": function (oSettings) {
-                            setTimeout(function () {
+                        "fnDrawCallback": function(oSettings) {
+                            setTimeout(function() {
                                 MakeNegative();
                             }, 100);
                         },
-                        "fnInitComplete": function () {
+                        "fnInitComplete": function() {
                             $("<button class='btn btn-primary' data-dismiss='modal' data-toggle='modal' data-target='#addSupplierModal' type='button' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-plus'></i></button>").insertAfter("#tblcustomerAwaitingPayment_filter");
                             $("<button class='btn btn-primary btnRefreshCustomer' type='button' id='btnRefreshSupplier' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblcustomerAwaitingPayment_filter");
 
                         }
 
-                    }).on('page', function () {
-                        setTimeout(function () {
+                    }).on('page', function() {
+                        setTimeout(function() {
                             MakeNegative();
                         }, 100);
                         let draftRecord = templateObject.datatablerecords.get();
                         templateObject.datatablerecords.set(draftRecord);
-                    }).on('column-reorder', function () {}).on('length.dt', function (e, settings, len) {
-                        setTimeout(function () {
+                    }).on('column-reorder', function() {}).on('length.dt', function(e, settings, len) {
+                        setTimeout(function() {
                             MakeNegative();
                         }, 100);
                     });
@@ -672,7 +683,7 @@ Template.paymentcard.onRendered(() => {
                 let sVisible = "";
                 let columVisible = false;
                 let sClass = "";
-                $.each(columns, function (i, v) {
+                $.each(columns, function(i, v) {
                     if (v.hidden == false) {
                         columVisible = true;
                     }
@@ -692,7 +703,7 @@ Template.paymentcard.onRendered(() => {
                 });
                 templateObject.tableheaderrecords.set(tableHeaderList);
                 $('div.dataTables_filter input').addClass('form-control form-control-sm');
-                $('#tblcustomerAwaitingPayment tbody').on('click', 'tr .colPaymentDate, tr .colReceiptNo, tr .colPaymentAmount, tr .colApplied, tr .colBalance, tr .colCustomerName, tr .colDepartment, tr .colRefNo, tr .colPaymentMethod, tr .colNotes', function () {
+                $('#tblcustomerAwaitingPayment tbody').on('click', 'tr .colPaymentDate, tr .colReceiptNo, tr .colPaymentAmount, tr .colApplied, tr .colBalance, tr .colCustomerName, tr .colDepartment, tr .colRefNo, tr .colPaymentMethod, tr .colNotes', function() {
                     var listData = $(this).closest('tr').attr('id');
                     if (listData) {
                         Router.go('/paymentcard?invid=' + listData);
@@ -700,8 +711,8 @@ Template.paymentcard.onRendered(() => {
                 });
 
             }
-        }).catch(function (err) {
-            paymentService.getAllAwaitingInvoiceDetails().then(function (data) {
+        }).catch(function(err) {
+            paymentService.getAllAwaitingInvoiceDetails().then(function(data) {
                 let lineItems = [];
                 let lineItemObj = {};
                 for (let i = 0; i < data.tinvoiceex.length; i++) {
@@ -736,9 +747,8 @@ Template.paymentcard.onRendered(() => {
                 templateObject.datatablerecords.set(dataTableList);
                 if (templateObject.datatablerecords.get()) {
 
-                    Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblcustomerAwaitingPayment', function (error, result) {
-                        if (error) {}
-                        else {
+                    Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblcustomerAwaitingPayment', function(error, result) {
+                        if (error) {} else {
                             if (result) {
                                 for (let i = 0; i < result.customFields.length; i++) {
                                     let customcolumn = result.customFields;
@@ -764,58 +774,56 @@ Template.paymentcard.onRendered(() => {
                         }
                     });
 
-                    setTimeout(function () {
+                    setTimeout(function() {
                         MakeNegative();
                     }, 100);
                 }
 
                 $('.fullScreenSpin').css('display', 'none');
-                setTimeout(function () {
+                setTimeout(function() {
                     //$.fn.dataTable.moment('DD/MM/YY');
                     $('#tblcustomerAwaitingPayment').DataTable({
                         columnDefs: [{
-                                "orderable": false,
-                                "targets": 0
-                            }, {
-                                type: 'date',
-                                targets: 1
-                            }
-                        ],
+                            "orderable": false,
+                            "targets": 0
+                        }, {
+                            type: 'date',
+                            targets: 1
+                        }],
                         "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
                         buttons: [{
-                                extend: 'excelHtml5',
-                                text: '',
-                                download: 'open',
-                                className: "btntabletocsv hiddenColumn",
-                                filename: "Awaiting Customer Payments List - " + moment().format(),
-                                orientation: 'portrait',
-                                exportOptions: {
-                                    columns: ':visible:not(.chkBox)',
-                                    format: {
-                                        body: function (data, row, column) {
-                                            if (data.includes("</span>")) {
-                                                var res = data.split("</span>");
-                                                data = res[1];
-                                            }
-
-                                            return column === 1 ? data.replace(/<.*?>/ig, "") : data;
-
+                            extend: 'excelHtml5',
+                            text: '',
+                            download: 'open',
+                            className: "btntabletocsv hiddenColumn",
+                            filename: "Awaiting Customer Payments List - " + moment().format(),
+                            orientation: 'portrait',
+                            exportOptions: {
+                                columns: ':visible:not(.chkBox)',
+                                format: {
+                                    body: function(data, row, column) {
+                                        if (data.includes("</span>")) {
+                                            var res = data.split("</span>");
+                                            data = res[1];
                                         }
+
+                                        return column === 1 ? data.replace(/<.*?>/ig, "") : data;
+
                                     }
                                 }
-                            }, {
-                                extend: 'print',
-                                download: 'open',
-                                className: "btntabletopdf hiddenColumn",
-                                text: '',
-                                title: 'Supplier Payment',
-                                filename: "Awaiting Customer Payments List - " + moment().format(),
-                                exportOptions: {
-                                    columns: ':visible:not(.chkBox)',
-                                    stripHtml: false
-                                }
                             }
-                        ],
+                        }, {
+                            extend: 'print',
+                            download: 'open',
+                            className: "btntabletopdf hiddenColumn",
+                            text: '',
+                            title: 'Supplier Payment',
+                            filename: "Awaiting Customer Payments List - " + moment().format(),
+                            exportOptions: {
+                                columns: ':visible:not(.chkBox)',
+                                stripHtml: false
+                            }
+                        }],
                         select: true,
                         destroy: true,
                         colReorder: true,
@@ -831,25 +839,27 @@ Template.paymentcard.onRendered(() => {
                         // lengthMenu: [ [10, 25, 50, -1], [10, 25, 50, "All"] ],
                         info: true,
                         responsive: true,
-                        "order": [[1, "desc"]],
+                        "order": [
+                            [1, "desc"]
+                        ],
                         // "aaSorting": [[1,'desc']],
-                        action: function () {
+                        action: function() {
                             $('#tblcustomerAwaitingPayment').DataTable().ajax.reload();
                         },
-                        "fnDrawCallback": function (oSettings) {
-                            setTimeout(function () {
+                        "fnDrawCallback": function(oSettings) {
+                            setTimeout(function() {
                                 MakeNegative();
                             }, 100);
                         },
 
-                    }).on('page', function () {
-                        setTimeout(function () {
+                    }).on('page', function() {
+                        setTimeout(function() {
                             MakeNegative();
                         }, 100);
                         let draftRecord = templateObject.datatablerecords.get();
                         templateObject.datatablerecords.set(draftRecord);
-                    }).on('column-reorder', function () {}).on('length.dt', function (e, settings, len) {
-                        setTimeout(function () {
+                    }).on('column-reorder', function() {}).on('length.dt', function(e, settings, len) {
+                        setTimeout(function() {
                             MakeNegative();
                         }, 100);
                     });
@@ -863,7 +873,7 @@ Template.paymentcard.onRendered(() => {
                 let sVisible = "";
                 let columVisible = false;
                 let sClass = "";
-                $.each(columns, function (i, v) {
+                $.each(columns, function(i, v) {
                     if (v.hidden == false) {
                         columVisible = true;
                     }
@@ -883,14 +893,14 @@ Template.paymentcard.onRendered(() => {
                 });
                 templateObject.tableheaderrecords.set(tableHeaderList);
                 $('div.dataTables_filter input').addClass('form-control form-control-sm');
-                $('#tblcustomerAwaitingPayment tbody').on('click', 'tr .colPaymentDate, tr .colReceiptNo, tr .colPaymentAmount, tr .colApplied, tr .colBalance, tr .colCustomerName, tr .colDepartment, tr .colRefNo, tr .colPaymentMethod, tr .colNotes', function () {
+                $('#tblcustomerAwaitingPayment tbody').on('click', 'tr .colPaymentDate, tr .colReceiptNo, tr .colPaymentAmount, tr .colApplied, tr .colBalance, tr .colCustomerName, tr .colDepartment, tr .colRefNo, tr .colPaymentMethod, tr .colNotes', function() {
                     var listData = $(this).closest('tr').attr('id');
                     if (listData) {
                         Router.go('/paymentcard?invid=' + listData);
                     }
                 });
 
-            }).catch(function (err) {
+            }).catch(function(err) {
                 // Bert.alert('<strong>' + err + '</strong>!', 'danger');
                 $('.fullScreenSpin').css('display', 'none');
                 // Meteor._reload.reload();
@@ -898,25 +908,25 @@ Template.paymentcard.onRendered(() => {
         });
     }
 
-    templateObject.getAccountNames = function () {
-        getVS1Data('TAccountVS1').then(function (dataObject) {
+    templateObject.getAccountNames = function() {
+        getVS1Data('TAccountVS1').then(function(dataObject) {
             if (dataObject.length == 0) {
-                paymentService.getAccountNameVS1().then(function (data) {
+                paymentService.getAccountNameVS1().then(function(data) {
                     for (let i in data.taccountvs1) {
 
                         let accountnamerecordObj = {
                             accountname: data.taccountvs1[i].AccountName || ' '
                         };
                         // $('#edtBankAccountName').editableSelect('add',data.taccount[i].AccountName);
-                        if (data.taccountvs1[i].AccountTypeName == "BANK" || data.taccountvs1[i].AccountTypeName.toUpperCase() == "CCARD"|| data.taccountvs1[i].AccountTypeName.toUpperCase() == "OCLIAB") {
+                        if (data.taccountvs1[i].AccountTypeName == "BANK" || data.taccountvs1[i].AccountTypeName.toUpperCase() == "CCARD" || data.taccountvs1[i].AccountTypeName.toUpperCase() == "OCLIAB") {
                             accountnamerecords.push(accountnamerecordObj);
                         }
 
                         templateObject.accountnamerecords.set(accountnamerecords);
                         if (templateObject.accountnamerecords.get()) {
-                            setTimeout(function () {
+                            setTimeout(function() {
                                 var usedNames = {};
-                                $("select[name='edtBankAccountName'] > option").each(function () {
+                                $("select[name='edtBankAccountName'] > option").each(function() {
                                     if (usedNames[this.text]) {
                                         $(this).remove();
                                     } else {
@@ -937,15 +947,15 @@ Template.paymentcard.onRendered(() => {
                         accountname: useData[i].fields.AccountName || ' '
                     };
                     // $('#edtBankAccountName').editableSelect('add',data.taccount[i].AccountName);
-                    if (useData[i].fields.AccountTypeName.replace(/\s/g, '') == "BANK" || useData[i].fields.AccountTypeName.toUpperCase() == "CCARD"|| useData[i].fields.AccountTypeName.toUpperCase() == "OCLIAB") {
+                    if (useData[i].fields.AccountTypeName.replace(/\s/g, '') == "BANK" || useData[i].fields.AccountTypeName.toUpperCase() == "CCARD" || useData[i].fields.AccountTypeName.toUpperCase() == "OCLIAB") {
                         accountnamerecords.push(accountnamerecordObj);
                     }
                     //accountnamerecords.push(accountnamerecordObj);
                     templateObject.accountnamerecords.set(accountnamerecords);
                     if (templateObject.accountnamerecords.get()) {
-                        setTimeout(function () {
+                        setTimeout(function() {
                             var usedNames = {};
-                            $("select[name='edtBankAccountName'] > option").each(function () {
+                            $("select[name='edtBankAccountName'] > option").each(function() {
                                 if (usedNames[this.text]) {
                                     $(this).remove();
                                 } else {
@@ -958,8 +968,8 @@ Template.paymentcard.onRendered(() => {
                 }
 
             }
-        }).catch(function (err) {
-            paymentService.getAccountNameVS1().then(function (data) {
+        }).catch(function(err) {
+            paymentService.getAccountNameVS1().then(function(data) {
                 for (let i in data.taccountvs1) {
 
                     let accountnamerecordObj = {
@@ -971,9 +981,9 @@ Template.paymentcard.onRendered(() => {
                     }
                     templateObject.accountnamerecords.set(accountnamerecords);
                     if (templateObject.accountnamerecords.get()) {
-                        setTimeout(function () {
+                        setTimeout(function() {
                             var usedNames = {};
-                            $("select[name='edtBankAccountName'] > option").each(function () {
+                            $("select[name='edtBankAccountName'] > option").each(function() {
                                 if (usedNames[this.text]) {
                                     $(this).remove();
                                 } else {
@@ -993,11 +1003,16 @@ Template.paymentcard.onRendered(() => {
     templateObject.getDepartments();
     templateObject.getPaymentMethods();
     templateObject.getAccountNames();
-    setTimeout(function () {
+    setTimeout(function() {
         templateObject.getAllSupplierPaymentData();
     }, 500)
 
-    $(document).on("click", "#tblCustomerlist tbody tr", function (e) {
+    $(document).on("click", "#departmentList tbody tr", function(e) {
+        $('#sltDept').val($(this).find(".colDeptName").text());
+        $('#departmentModal').modal('toggle');
+    });
+
+    $(document).on("click", "#tblCustomerlist tbody tr", function(e) {
         let customers = templateObject.clientrecords.get();
         var tableCustomer = $(this);
         $('#edtCustomerName').val(tableCustomer.find(".colCompany").text());
@@ -1008,254 +1023,349 @@ Template.paymentcard.onRendered(() => {
         $('#edtCustomerEmail').attr('customerid', tableCustomer.find(".colID").text());
 
 
-        let postalAddress = tableCustomer.find(".colCompany").text() + '\n' + tableCustomer.find(".colStreetAddress").text() + '\n' + tableCustomer.find(".colCity").text()  + ' ' + tableCustomer.find(".colState").text()+ ' ' + tableCustomer.find(".colZipCode").text() + '\n' + tableCustomer.find(".colCountry").text();
+        let postalAddress = tableCustomer.find(".colCompany").text() + '\n' + tableCustomer.find(".colStreetAddress").text() + '\n' + tableCustomer.find(".colCity").text() + ' ' + tableCustomer.find(".colState").text() + ' ' + tableCustomer.find(".colZipCode").text() + '\n' + tableCustomer.find(".colCountry").text();
         $('#txabillingAddress').val(postalAddress);
 
         let selectedCustomer = $('#edtCustomerName').val();
         if (clientList) {
-          $('#edtCustomerEmail').val(clientList[i].customeremail);
-          $('#edtCustomerEmail').attr('customerid', clientList[i].customerid);
-          let postalAddress = clientList[i].customername + '\n' + clientList[i].street + '\n' + clientList[i].street2 + '\n' + clientList[i].street3 + '\n' + clientList[i].suburb + '\n' + clientList[i].statecode + '\n' + clientList[i].country;
-          $('#txabillingAddress').val(postalAddress);
+            $('#edtCustomerEmail').val(clientList[i].customeremail);
+            $('#edtCustomerEmail').attr('customerid', clientList[i].customerid);
+            let postalAddress = clientList[i].customername + '\n' + clientList[i].street + '\n' + clientList[i].street2 + '\n' + clientList[i].street3 + '\n' + clientList[i].suburb + '\n' + clientList[i].statecode + '\n' + clientList[i].country;
+            $('#txabillingAddress').val(postalAddress);
         }
 
 
         $('#tblCustomerlist_filter .form-control-sm').val('');
-        setTimeout(function () {
+        setTimeout(function() {
             $('.btnRefreshCustomer').trigger('click');
             $('.fullScreenSpin').css('display', 'none');
         }, 1000);
     });
 
+    $('#sltDept').editableSelect();
+
     $('#edtCustomerName').editableSelect()
-        .on('click.editable-select', function (e, li) {
-        let selectedCustomer = li.text();
-        if (clientList) {
-            for (var i = 0; i < clientList.length; i++) {
-                if (clientList[i].customername == selectedCustomer) {
-                    $('#edtCustomerEmail').val(clientList[i].customeremail);
-                    $('#edtCustomerEmail').attr('customerid', clientList[i].customerid);
-                    let postalAddress = clientList[i].customername + '\n' + clientList[i].street + '\n' + clientList[i].street2 + '\n' + clientList[i].street3 + '\n' + clientList[i].suburb + '\n' + clientList[i].statecode + '\n' + clientList[i].country;
-                    $('#txabillingAddress').val(postalAddress);
+        .on('click.editable-select', function(e, li) {
+            let selectedCustomer = li.text();
+            if (clientList) {
+                for (var i = 0; i < clientList.length; i++) {
+                    if (clientList[i].customername == selectedCustomer) {
+                        $('#edtCustomerEmail').val(clientList[i].customeremail);
+                        $('#edtCustomerEmail').attr('customerid', clientList[i].customerid);
+                        let postalAddress = clientList[i].customername + '\n' + clientList[i].street + '\n' + clientList[i].street2 + '\n' + clientList[i].street3 + '\n' + clientList[i].suburb + '\n' + clientList[i].statecode + '\n' + clientList[i].country;
+                        $('#txabillingAddress').val(postalAddress);
+                    }
                 }
             }
-        }
-    });
+        });
 
     $('#edtCustomerName').editableSelect()
-        .on('click.editable-select', function (e, li) {
-          var $earch = $(this);
-          var offset = $earch.offset();
-          var customerDataName = e.target.value ||'';
-          $('#edtCustomerPOPID').val('');
-          // var customerDataID = $('#edtCustom3erName').attr('custid').replace(/\s/g, '') ||'';
-          if (e.pageX > offset.left + $earch.width() - 8) { // X button 16px wide?
-            $('#customerListModal').modal();
-            setTimeout(function () {
-                $('#tblCustomerlist_filter .form-control-sm').focus();
-                $('#tblCustomerlist_filter .form-control-sm').val('');
-                $('#tblCustomerlist_filter .form-control-sm').trigger("input");
-                var datatable = $('#tblCustomerlist').DataTable();
-                datatable.draw();
-                $('#tblCustomerlist_filter .form-control-sm').trigger("input");
-            }, 500);
-           }else{
-             if(customerDataName.replace(/\s/g, '') != ''){
-              //FlowRouter.go('/customerscard?name=' + e.target.value);
-              $('#edtCustomerPOPID').val('');
-              getVS1Data('TCustomerVS1').then(function (dataObject) {
-                  if (dataObject.length == 0) {
-                    $('.fullScreenSpin').css('display', 'inline-block');
-                    sideBarService.getOneCustomerDataExByName(customerDataName).then(function (data) {
-                        $('.fullScreenSpin').css('display', 'none');
-                        let lineItems = [];
-                        $('#add-customer-title').text('Edit Customer');
-                        let popCustomerID = data.tcustomer[0].fields.ID || '';
-                        let popCustomerName = data.tcustomer[0].fields.ClientName || '';
-                        let popCustomerEmail = data.tcustomer[0].fields.Email || '';
-                        let popCustomerTitle = data.tcustomer[0].fields.Title || '';
-                        let popCustomerFirstName = data.tcustomer[0].fields.FirstName || '';
-                        let popCustomerMiddleName = data.tcustomer[0].fields.CUSTFLD10 || '';
-                        let popCustomerLastName = data.tcustomer[0].fields.LastName || '';
-                        let popCustomertfn = '' || '';
-                        let popCustomerPhone = data.tcustomer[0].fields.Phone || '';
-                        let popCustomerMobile = data.tcustomer[0].fields.Mobile || '';
-                        let popCustomerFaxnumber = data.tcustomer[0].fields.Faxnumber || '';
-                        let popCustomerSkypeName = data.tcustomer[0].fields.SkypeName || '';
-                        let popCustomerURL = data.tcustomer[0].fields.URL || '';
-                        let popCustomerStreet = data.tcustomer[0].fields.Street || '';
-                        let popCustomerStreet2 = data.tcustomer[0].fields.Street2 || '';
-                        let popCustomerState = data.tcustomer[0].fields.State || '';
-                        let popCustomerPostcode = data.tcustomer[0].fields.Postcode || '';
-                        let popCustomerCountry = data.tcustomer[0].fields.Country || LoggedCountry;
-                        let popCustomerbillingaddress = data.tcustomer[0].fields.BillStreet || '';
-                        let popCustomerbcity = data.tcustomer[0].fields.BillStreet2 || '';
-                        let popCustomerbstate = data.tcustomer[0].fields.BillState || '';
-                        let popCustomerbpostalcode = data.tcustomer[0].fields.BillPostcode || '';
-                        let popCustomerbcountry = data.tcustomer[0].fields.Billcountry || LoggedCountry;
-                        let popCustomercustfield1 = data.tcustomer[0].fields.CUSTFLD1 || '';
-                        let popCustomercustfield2 = data.tcustomer[0].fields.CUSTFLD2 || '';
-                        let popCustomercustfield3 = data.tcustomer[0].fields.CUSTFLD3 || '';
-                        let popCustomercustfield4 = data.tcustomer[0].fields.CUSTFLD4 || '';
-                        let popCustomernotes = data.tcustomer[0].fields.Notes || '';
-                        let popCustomerpreferedpayment = data.tcustomer[0].fields.PaymentMethodName || '';
-                        let popCustomerterms = data.tcustomer[0].fields.TermsName || '';
-                        let popCustomerdeliverymethod = data.tcustomer[0].fields.ShippingMethodName || '';
-                        let popCustomeraccountnumber = data.tcustomer[0].fields.ClientNo || '';
-                        let popCustomerisContractor = data.tcustomer[0].fields.Contractor || false;
-                        let popCustomerissupplier = data.tcustomer[0].fields.IsSupplier || false;
-                        let popCustomeriscustomer = data.tcustomer[0].fields.IsCustomer || false;
-                        let popCustomerTaxCode = data.tcustomer[0].fields.TaxCodeName || '';
-                        let popCustomerDiscount  = data.tcustomer[0].fields.Discount || 0;
-                        let popCustomerType = data.tcustomer[0].fields.ClientTypeName || '';
-                        $('#edtCustomerCompany').val(popCustomerName);
-                          $('#edtCustomerPOPID').val(popCustomerID);
-                          $('#edtCustomerPOPEmail').val(popCustomerEmail);
-                          $('#edtTitle').val(popCustomerTitle);
-                          $('#edtFirstName').val(popCustomerFirstName);
-                          $('#edtMiddleName').val(popCustomerMiddleName);
-                          $('#edtLastName').val(popCustomerLastName);
-                          $('#edtCustomerPhone').val(popCustomerPhone);
-                          $('#edtCustomerMobile').val(popCustomerMobile);
-                          $('#edtCustomerFax').val(popCustomerFaxnumber);
-                          $('#edtCustomerSkypeID').val(popCustomerSkypeName);
-                          $('#edtCustomerWebsite').val(popCustomerURL);
-                          $('#edtCustomerShippingAddress').val(popCustomerStreet);
-                          $('#edtCustomerShippingCity').val(popCustomerStreet2);
-                          $('#edtCustomerShippingState').val(popCustomerState);
-                          $('#edtCustomerShippingZIP').val(popCustomerPostcode);
-                          $('#sedtCountry').val(popCustomerCountry);
-                          $('#txaNotes').val(popCustomernotes);
-                          $('#sltPreferedPayment').val(popCustomerpreferedpayment);
-                          $('#sltTermsPOP').val(popCustomerterms);
-                          $('#sltCustomerType').val(popCustomerType);
-                          $('#edtCustomerCardDiscount').val(popCustomerDiscount);
-                          $('#edtCustomeField1').val(popCustomercustfield1);
-                          $('#edtCustomeField2').val(popCustomercustfield2);
-                          $('#edtCustomeField3').val(popCustomercustfield3);
-                          $('#edtCustomeField4').val(popCustomercustfield4);
+        .on('click.editable-select', function(e, li) {
+            var $earch = $(this);
+            var offset = $earch.offset();
+            var customerDataName = e.target.value || '';
+            $('#edtCustomerPOPID').val('');
+            // var customerDataID = $('#edtCustom3erName').attr('custid').replace(/\s/g, '') ||'';
+            if (e.pageX > offset.left + $earch.width() - 8) { // X button 16px wide?
+                $('#customerListModal').modal();
+                setTimeout(function() {
+                    $('#tblCustomerlist_filter .form-control-sm').focus();
+                    $('#tblCustomerlist_filter .form-control-sm').val('');
+                    $('#tblCustomerlist_filter .form-control-sm').trigger("input");
+                    var datatable = $('#tblCustomerlist').DataTable();
+                    datatable.draw();
+                    $('#tblCustomerlist_filter .form-control-sm').trigger("input");
+                }, 500);
+            } else {
+                if (customerDataName.replace(/\s/g, '') != '') {
+                    //FlowRouter.go('/customerscard?name=' + e.target.value);
+                    $('#edtCustomerPOPID').val('');
+                    getVS1Data('TCustomerVS1').then(function(dataObject) {
+                        if (dataObject.length == 0) {
+                            $('.fullScreenSpin').css('display', 'inline-block');
+                            sideBarService.getOneCustomerDataExByName(customerDataName).then(function(data) {
+                                $('.fullScreenSpin').css('display', 'none');
+                                let lineItems = [];
+                                $('#add-customer-title').text('Edit Customer');
+                                let popCustomerID = data.tcustomer[0].fields.ID || '';
+                                let popCustomerName = data.tcustomer[0].fields.ClientName || '';
+                                let popCustomerEmail = data.tcustomer[0].fields.Email || '';
+                                let popCustomerTitle = data.tcustomer[0].fields.Title || '';
+                                let popCustomerFirstName = data.tcustomer[0].fields.FirstName || '';
+                                let popCustomerMiddleName = data.tcustomer[0].fields.CUSTFLD10 || '';
+                                let popCustomerLastName = data.tcustomer[0].fields.LastName || '';
+                                let popCustomertfn = '' || '';
+                                let popCustomerPhone = data.tcustomer[0].fields.Phone || '';
+                                let popCustomerMobile = data.tcustomer[0].fields.Mobile || '';
+                                let popCustomerFaxnumber = data.tcustomer[0].fields.Faxnumber || '';
+                                let popCustomerSkypeName = data.tcustomer[0].fields.SkypeName || '';
+                                let popCustomerURL = data.tcustomer[0].fields.URL || '';
+                                let popCustomerStreet = data.tcustomer[0].fields.Street || '';
+                                let popCustomerStreet2 = data.tcustomer[0].fields.Street2 || '';
+                                let popCustomerState = data.tcustomer[0].fields.State || '';
+                                let popCustomerPostcode = data.tcustomer[0].fields.Postcode || '';
+                                let popCustomerCountry = data.tcustomer[0].fields.Country || LoggedCountry;
+                                let popCustomerbillingaddress = data.tcustomer[0].fields.BillStreet || '';
+                                let popCustomerbcity = data.tcustomer[0].fields.BillStreet2 || '';
+                                let popCustomerbstate = data.tcustomer[0].fields.BillState || '';
+                                let popCustomerbpostalcode = data.tcustomer[0].fields.BillPostcode || '';
+                                let popCustomerbcountry = data.tcustomer[0].fields.Billcountry || LoggedCountry;
+                                let popCustomercustfield1 = data.tcustomer[0].fields.CUSTFLD1 || '';
+                                let popCustomercustfield2 = data.tcustomer[0].fields.CUSTFLD2 || '';
+                                let popCustomercustfield3 = data.tcustomer[0].fields.CUSTFLD3 || '';
+                                let popCustomercustfield4 = data.tcustomer[0].fields.CUSTFLD4 || '';
+                                let popCustomernotes = data.tcustomer[0].fields.Notes || '';
+                                let popCustomerpreferedpayment = data.tcustomer[0].fields.PaymentMethodName || '';
+                                let popCustomerterms = data.tcustomer[0].fields.TermsName || '';
+                                let popCustomerdeliverymethod = data.tcustomer[0].fields.ShippingMethodName || '';
+                                let popCustomeraccountnumber = data.tcustomer[0].fields.ClientNo || '';
+                                let popCustomerisContractor = data.tcustomer[0].fields.Contractor || false;
+                                let popCustomerissupplier = data.tcustomer[0].fields.IsSupplier || false;
+                                let popCustomeriscustomer = data.tcustomer[0].fields.IsCustomer || false;
+                                let popCustomerTaxCode = data.tcustomer[0].fields.TaxCodeName || '';
+                                let popCustomerDiscount = data.tcustomer[0].fields.Discount || 0;
+                                let popCustomerType = data.tcustomer[0].fields.ClientTypeName || '';
+                                $('#edtCustomerCompany').val(popCustomerName);
+                                $('#edtCustomerPOPID').val(popCustomerID);
+                                $('#edtCustomerPOPEmail').val(popCustomerEmail);
+                                $('#edtTitle').val(popCustomerTitle);
+                                $('#edtFirstName').val(popCustomerFirstName);
+                                $('#edtMiddleName').val(popCustomerMiddleName);
+                                $('#edtLastName').val(popCustomerLastName);
+                                $('#edtCustomerPhone').val(popCustomerPhone);
+                                $('#edtCustomerMobile').val(popCustomerMobile);
+                                $('#edtCustomerFax').val(popCustomerFaxnumber);
+                                $('#edtCustomerSkypeID').val(popCustomerSkypeName);
+                                $('#edtCustomerWebsite').val(popCustomerURL);
+                                $('#edtCustomerShippingAddress').val(popCustomerStreet);
+                                $('#edtCustomerShippingCity').val(popCustomerStreet2);
+                                $('#edtCustomerShippingState').val(popCustomerState);
+                                $('#edtCustomerShippingZIP').val(popCustomerPostcode);
+                                $('#sedtCountry').val(popCustomerCountry);
+                                $('#txaNotes').val(popCustomernotes);
+                                $('#sltPreferedPayment').val(popCustomerpreferedpayment);
+                                $('#sltTermsPOP').val(popCustomerterms);
+                                $('#sltCustomerType').val(popCustomerType);
+                                $('#edtCustomerCardDiscount').val(popCustomerDiscount);
+                                $('#edtCustomeField1').val(popCustomercustfield1);
+                                $('#edtCustomeField2').val(popCustomercustfield2);
+                                $('#edtCustomeField3').val(popCustomercustfield3);
+                                $('#edtCustomeField4').val(popCustomercustfield4);
 
-                          $('#sltTaxCode').val(popCustomerTaxCode);
+                                $('#sltTaxCode').val(popCustomerTaxCode);
 
-                              if ((data.tcustomer[0].fields.Street == data.tcustomer[0].fields.BillStreet) && (data.tcustomer[0].fields.Street2 == data.tcustomer[0].fields.BillStreet2)
-                                  && (data.tcustomer[0].fields.State == data.tcustomer[0].fields.BillState) && (data.tcustomer[0].fields.Postcode == data.tcustomer[0].fields.BillPostcode)
-                                  && (data.tcustomer[0].fields.Country == data.tcustomer[0].fields.Billcountry)) {
-                                  $('#chkSameAsShipping2').attr("checked","checked");
-                              }
+                                if ((data.tcustomer[0].fields.Street == data.tcustomer[0].fields.BillStreet) && (data.tcustomer[0].fields.Street2 == data.tcustomer[0].fields.BillStreet2) &&
+                                    (data.tcustomer[0].fields.State == data.tcustomer[0].fields.BillState) && (data.tcustomer[0].fields.Postcode == data.tcustomer[0].fields.BillPostcode) &&
+                                    (data.tcustomer[0].fields.Country == data.tcustomer[0].fields.Billcountry)) {
+                                    $('#chkSameAsShipping2').attr("checked", "checked");
+                                }
 
-                              if(data.tcustomer[0].fields.IsSupplier == true){
-                                  // $('#isformcontractor')
-                                  $('#chkSameAsSupplier').attr("checked","checked");
-                              }else{
-                                  $('#chkSameAsSupplier').removeAttr("checked");
-                              }
+                                if (data.tcustomer[0].fields.IsSupplier == true) {
+                                    // $('#isformcontractor')
+                                    $('#chkSameAsSupplier').attr("checked", "checked");
+                                } else {
+                                    $('#chkSameAsSupplier').removeAttr("checked");
+                                }
 
-                              setTimeout(function () {
-                                $('#addCustomerModal').modal('show');
-                              }, 200);
-                    }).catch(function (err) {
-                      $('.fullScreenSpin').css('display', 'none');
-                    });
-                  } else {
-                      let data = JSON.parse(dataObject[0].data);
-                      let useData = data.tcustomervs1;
+                                setTimeout(function() {
+                                    $('#addCustomerModal').modal('show');
+                                }, 200);
+                            }).catch(function(err) {
+                                $('.fullScreenSpin').css('display', 'none');
+                            });
+                        } else {
+                            let data = JSON.parse(dataObject[0].data);
+                            let useData = data.tcustomervs1;
 
-                      var added = false;
-                      for (let i = 0; i < data.tcustomervs1.length; i++) {
-                          if (data.tcustomervs1[i].fields.ClientName === customerDataName) {
-                              let lineItems = [];
-                              added = true;
-                          $('.fullScreenSpin').css('display', 'none');
-                          $('#add-customer-title').text('Edit Customer');
-                        let popCustomerID = data.tcustomervs1[i].fields.ID || '';
-                        let popCustomerName = data.tcustomervs1[i].fields.ClientName || '';
-                        let popCustomerEmail = data.tcustomervs1[i].fields.Email || '';
-                        let popCustomerTitle = data.tcustomervs1[i].fields.Title || '';
-                        let popCustomerFirstName = data.tcustomervs1[i].fields.FirstName || '';
-                        let popCustomerMiddleName = data.tcustomervs1[i].fields.CUSTFLD10 || '';
-                        let popCustomerLastName = data.tcustomervs1[i].fields.LastName || '';
-                        let popCustomertfn = '' || '';
-                        let popCustomerPhone = data.tcustomervs1[i].fields.Phone || '';
-                        let popCustomerMobile = data.tcustomervs1[i].fields.Mobile || '';
-                        let popCustomerFaxnumber = data.tcustomervs1[i].fields.Faxnumber || '';
-                        let popCustomerSkypeName = data.tcustomervs1[i].fields.SkypeName || '';
-                        let popCustomerURL = data.tcustomervs1[i].fields.URL || '';
-                        let popCustomerStreet = data.tcustomervs1[i].fields.Street || '';
-                        let popCustomerStreet2 = data.tcustomervs1[i].fields.Street2 || '';
-                        let popCustomerState = data.tcustomervs1[i].fields.State || '';
-                        let popCustomerPostcode = data.tcustomervs1[i].fields.Postcode || '';
-                        let popCustomerCountry = data.tcustomervs1[i].fields.Country || LoggedCountry;
-                        let popCustomerbillingaddress = data.tcustomervs1[i].fields.BillStreet || '';
-                        let popCustomerbcity = data.tcustomervs1[i].fields.BillStreet2 || '';
-                        let popCustomerbstate = data.tcustomervs1[i].fields.BillState || '';
-                        let popCustomerbpostalcode = data.tcustomervs1[i].fields.BillPostcode || '';
-                        let popCustomerbcountry = data.tcustomervs1[i].fields.Billcountry || LoggedCountry;
-                        let popCustomercustfield1 = data.tcustomervs1[i].fields.CUSTFLD1 || '';
-                        let popCustomercustfield2 = data.tcustomervs1[i].fields.CUSTFLD2 || '';
-                        let popCustomercustfield3 = data.tcustomervs1[i].fields.CUSTFLD3 || '';
-                        let popCustomercustfield4 = data.tcustomervs1[i].fields.CUSTFLD4 || '';
-                        let popCustomernotes = data.tcustomervs1[i].fields.Notes || '';
-                        let popCustomerpreferedpayment = data.tcustomervs1[i].fields.PaymentMethodName || '';
-                        let popCustomerterms = data.tcustomervs1[i].fields.TermsName || '';
-                        let popCustomerdeliverymethod = data.tcustomervs1[i].fields.ShippingMethodName || '';
-                        let popCustomeraccountnumber = data.tcustomervs1[i].fields.ClientNo || '';
-                        let popCustomerisContractor = data.tcustomervs1[i].fields.Contractor || false;
-                        let popCustomerissupplier = data.tcustomervs1[i].fields.IsSupplier || false;
-                        let popCustomeriscustomer = data.tcustomervs1[i].fields.IsCustomer || false;
-                        let popCustomerTaxCode = data.tcustomervs1[i].fields.TaxCodeName || '';
-                        let popCustomerDiscount  = data.tcustomervs1[i].fields.Discount || 0;
-                        let popCustomerType = data.tcustomervs1[i].fields.ClientTypeName || '';
-                        $('#edtCustomerCompany').val(popCustomerName);
-                          $('#edtCustomerPOPID').val(popCustomerID);
-                          $('#edtCustomerPOPEmail').val(popCustomerEmail);
-                          $('#edtTitle').val(popCustomerTitle);
-                          $('#edtFirstName').val(popCustomerFirstName);
-                          $('#edtMiddleName').val(popCustomerMiddleName);
-                          $('#edtLastName').val(popCustomerLastName);
-                          $('#edtCustomerPhone').val(popCustomerPhone);
-                          $('#edtCustomerMobile').val(popCustomerMobile);
-                          $('#edtCustomerFax').val(popCustomerFaxnumber);
-                          $('#edtCustomerSkypeID').val(popCustomerSkypeName);
-                          $('#edtCustomerWebsite').val(popCustomerURL);
-                          $('#edtCustomerShippingAddress').val(popCustomerStreet);
-                          $('#edtCustomerShippingCity').val(popCustomerStreet2);
-                          $('#edtCustomerShippingState').val(popCustomerState);
-                          $('#edtCustomerShippingZIP').val(popCustomerPostcode);
-                          $('#sedtCountry').val(popCustomerCountry);
-                          $('#txaNotes').val(popCustomernotes);
-                          $('#sltPreferedPayment').val(popCustomerpreferedpayment);
-                          $('#sltTermsPOP').val(popCustomerterms);
-                          $('#sltCustomerType').val(popCustomerType);
-                          $('#edtCustomerCardDiscount').val(popCustomerDiscount);
-                          $('#edtCustomeField1').val(popCustomercustfield1);
-                          $('#edtCustomeField2').val(popCustomercustfield2);
-                          $('#edtCustomeField3').val(popCustomercustfield3);
-                          $('#edtCustomeField4').val(popCustomercustfield4);
+                            var added = false;
+                            for (let i = 0; i < data.tcustomervs1.length; i++) {
+                                if (data.tcustomervs1[i].fields.ClientName === customerDataName) {
+                                    let lineItems = [];
+                                    added = true;
+                                    $('.fullScreenSpin').css('display', 'none');
+                                    $('#add-customer-title').text('Edit Customer');
+                                    let popCustomerID = data.tcustomervs1[i].fields.ID || '';
+                                    let popCustomerName = data.tcustomervs1[i].fields.ClientName || '';
+                                    let popCustomerEmail = data.tcustomervs1[i].fields.Email || '';
+                                    let popCustomerTitle = data.tcustomervs1[i].fields.Title || '';
+                                    let popCustomerFirstName = data.tcustomervs1[i].fields.FirstName || '';
+                                    let popCustomerMiddleName = data.tcustomervs1[i].fields.CUSTFLD10 || '';
+                                    let popCustomerLastName = data.tcustomervs1[i].fields.LastName || '';
+                                    let popCustomertfn = '' || '';
+                                    let popCustomerPhone = data.tcustomervs1[i].fields.Phone || '';
+                                    let popCustomerMobile = data.tcustomervs1[i].fields.Mobile || '';
+                                    let popCustomerFaxnumber = data.tcustomervs1[i].fields.Faxnumber || '';
+                                    let popCustomerSkypeName = data.tcustomervs1[i].fields.SkypeName || '';
+                                    let popCustomerURL = data.tcustomervs1[i].fields.URL || '';
+                                    let popCustomerStreet = data.tcustomervs1[i].fields.Street || '';
+                                    let popCustomerStreet2 = data.tcustomervs1[i].fields.Street2 || '';
+                                    let popCustomerState = data.tcustomervs1[i].fields.State || '';
+                                    let popCustomerPostcode = data.tcustomervs1[i].fields.Postcode || '';
+                                    let popCustomerCountry = data.tcustomervs1[i].fields.Country || LoggedCountry;
+                                    let popCustomerbillingaddress = data.tcustomervs1[i].fields.BillStreet || '';
+                                    let popCustomerbcity = data.tcustomervs1[i].fields.BillStreet2 || '';
+                                    let popCustomerbstate = data.tcustomervs1[i].fields.BillState || '';
+                                    let popCustomerbpostalcode = data.tcustomervs1[i].fields.BillPostcode || '';
+                                    let popCustomerbcountry = data.tcustomervs1[i].fields.Billcountry || LoggedCountry;
+                                    let popCustomercustfield1 = data.tcustomervs1[i].fields.CUSTFLD1 || '';
+                                    let popCustomercustfield2 = data.tcustomervs1[i].fields.CUSTFLD2 || '';
+                                    let popCustomercustfield3 = data.tcustomervs1[i].fields.CUSTFLD3 || '';
+                                    let popCustomercustfield4 = data.tcustomervs1[i].fields.CUSTFLD4 || '';
+                                    let popCustomernotes = data.tcustomervs1[i].fields.Notes || '';
+                                    let popCustomerpreferedpayment = data.tcustomervs1[i].fields.PaymentMethodName || '';
+                                    let popCustomerterms = data.tcustomervs1[i].fields.TermsName || '';
+                                    let popCustomerdeliverymethod = data.tcustomervs1[i].fields.ShippingMethodName || '';
+                                    let popCustomeraccountnumber = data.tcustomervs1[i].fields.ClientNo || '';
+                                    let popCustomerisContractor = data.tcustomervs1[i].fields.Contractor || false;
+                                    let popCustomerissupplier = data.tcustomervs1[i].fields.IsSupplier || false;
+                                    let popCustomeriscustomer = data.tcustomervs1[i].fields.IsCustomer || false;
+                                    let popCustomerTaxCode = data.tcustomervs1[i].fields.TaxCodeName || '';
+                                    let popCustomerDiscount = data.tcustomervs1[i].fields.Discount || 0;
+                                    let popCustomerType = data.tcustomervs1[i].fields.ClientTypeName || '';
+                                    $('#edtCustomerCompany').val(popCustomerName);
+                                    $('#edtCustomerPOPID').val(popCustomerID);
+                                    $('#edtCustomerPOPEmail').val(popCustomerEmail);
+                                    $('#edtTitle').val(popCustomerTitle);
+                                    $('#edtFirstName').val(popCustomerFirstName);
+                                    $('#edtMiddleName').val(popCustomerMiddleName);
+                                    $('#edtLastName').val(popCustomerLastName);
+                                    $('#edtCustomerPhone').val(popCustomerPhone);
+                                    $('#edtCustomerMobile').val(popCustomerMobile);
+                                    $('#edtCustomerFax').val(popCustomerFaxnumber);
+                                    $('#edtCustomerSkypeID').val(popCustomerSkypeName);
+                                    $('#edtCustomerWebsite').val(popCustomerURL);
+                                    $('#edtCustomerShippingAddress').val(popCustomerStreet);
+                                    $('#edtCustomerShippingCity').val(popCustomerStreet2);
+                                    $('#edtCustomerShippingState').val(popCustomerState);
+                                    $('#edtCustomerShippingZIP').val(popCustomerPostcode);
+                                    $('#sedtCountry').val(popCustomerCountry);
+                                    $('#txaNotes').val(popCustomernotes);
+                                    $('#sltPreferedPayment').val(popCustomerpreferedpayment);
+                                    $('#sltTermsPOP').val(popCustomerterms);
+                                    $('#sltCustomerType').val(popCustomerType);
+                                    $('#edtCustomerCardDiscount').val(popCustomerDiscount);
+                                    $('#edtCustomeField1').val(popCustomercustfield1);
+                                    $('#edtCustomeField2').val(popCustomercustfield2);
+                                    $('#edtCustomeField3').val(popCustomercustfield3);
+                                    $('#edtCustomeField4').val(popCustomercustfield4);
 
-                          $('#sltTaxCode').val(popCustomerTaxCode);
+                                    $('#sltTaxCode').val(popCustomerTaxCode);
 
-                              if ((data.tcustomervs1[i].fields.Street == data.tcustomervs1[i].fields.BillStreet) && (data.tcustomervs1[i].fields.Street2 == data.tcustomervs1[i].fields.BillStreet2)
-                                  && (data.tcustomervs1[i].fields.State == data.tcustomervs1[i].fields.BillState) && (data.tcustomervs1[i].fields.Postcode == data.tcustomervs1[i].fields.BillPostcode)
-                                  && (data.tcustomervs1[i].fields.Country == data.tcustomervs1[i].fields.Billcountry)) {
-                                  $('#chkSameAsShipping2').attr("checked","checked");
-                              }
+                                    if ((data.tcustomervs1[i].fields.Street == data.tcustomervs1[i].fields.BillStreet) && (data.tcustomervs1[i].fields.Street2 == data.tcustomervs1[i].fields.BillStreet2) &&
+                                        (data.tcustomervs1[i].fields.State == data.tcustomervs1[i].fields.BillState) && (data.tcustomervs1[i].fields.Postcode == data.tcustomervs1[i].fields.BillPostcode) &&
+                                        (data.tcustomervs1[i].fields.Country == data.tcustomervs1[i].fields.Billcountry)) {
+                                        $('#chkSameAsShipping2').attr("checked", "checked");
+                                    }
 
-                              if(data.tcustomervs1[i].fields.IsSupplier == true){
-                                  // $('#isformcontractor')
-                                  $('#chkSameAsSupplier').attr("checked","checked");
-                              }else{
-                                  $('#chkSameAsSupplier').removeAttr("checked");
-                              }
+                                    if (data.tcustomervs1[i].fields.IsSupplier == true) {
+                                        // $('#isformcontractor')
+                                        $('#chkSameAsSupplier').attr("checked", "checked");
+                                    } else {
+                                        $('#chkSameAsSupplier').removeAttr("checked");
+                                    }
 
-                              setTimeout(function () {
-                                $('#addCustomerModal').modal('show');
-                              }, 200);
+                                    setTimeout(function() {
+                                        $('#addCustomerModal').modal('show');
+                                    }, 200);
 
-                          }
-                      }
-                      if (!added) {
-                        $('.fullScreenSpin').css('display', 'inline-block');
-                        sideBarService.getOneCustomerDataExByName(customerDataName).then(function (data) {
+                                }
+                            }
+                            if (!added) {
+                                $('.fullScreenSpin').css('display', 'inline-block');
+                                sideBarService.getOneCustomerDataExByName(customerDataName).then(function(data) {
+                                    $('.fullScreenSpin').css('display', 'none');
+                                    let lineItems = [];
+                                    $('#add-customer-title').text('Edit Customer');
+                                    let popCustomerID = data.tcustomer[0].fields.ID || '';
+                                    let popCustomerName = data.tcustomer[0].fields.ClientName || '';
+                                    let popCustomerEmail = data.tcustomer[0].fields.Email || '';
+                                    let popCustomerTitle = data.tcustomer[0].fields.Title || '';
+                                    let popCustomerFirstName = data.tcustomer[0].fields.FirstName || '';
+                                    let popCustomerMiddleName = data.tcustomer[0].fields.CUSTFLD10 || '';
+                                    let popCustomerLastName = data.tcustomer[0].fields.LastName || '';
+                                    let popCustomertfn = '' || '';
+                                    let popCustomerPhone = data.tcustomer[0].fields.Phone || '';
+                                    let popCustomerMobile = data.tcustomer[0].fields.Mobile || '';
+                                    let popCustomerFaxnumber = data.tcustomer[0].fields.Faxnumber || '';
+                                    let popCustomerSkypeName = data.tcustomer[0].fields.SkypeName || '';
+                                    let popCustomerURL = data.tcustomer[0].fields.URL || '';
+                                    let popCustomerStreet = data.tcustomer[0].fields.Street || '';
+                                    let popCustomerStreet2 = data.tcustomer[0].fields.Street2 || '';
+                                    let popCustomerState = data.tcustomer[0].fields.State || '';
+                                    let popCustomerPostcode = data.tcustomer[0].fields.Postcode || '';
+                                    let popCustomerCountry = data.tcustomer[0].fields.Country || LoggedCountry;
+                                    let popCustomerbillingaddress = data.tcustomer[0].fields.BillStreet || '';
+                                    let popCustomerbcity = data.tcustomer[0].fields.BillStreet2 || '';
+                                    let popCustomerbstate = data.tcustomer[0].fields.BillState || '';
+                                    let popCustomerbpostalcode = data.tcustomer[0].fields.BillPostcode || '';
+                                    let popCustomerbcountry = data.tcustomer[0].fields.Billcountry || LoggedCountry;
+                                    let popCustomercustfield1 = data.tcustomer[0].fields.CUSTFLD1 || '';
+                                    let popCustomercustfield2 = data.tcustomer[0].fields.CUSTFLD2 || '';
+                                    let popCustomercustfield3 = data.tcustomer[0].fields.CUSTFLD3 || '';
+                                    let popCustomercustfield4 = data.tcustomer[0].fields.CUSTFLD4 || '';
+                                    let popCustomernotes = data.tcustomer[0].fields.Notes || '';
+                                    let popCustomerpreferedpayment = data.tcustomer[0].fields.PaymentMethodName || '';
+                                    let popCustomerterms = data.tcustomer[0].fields.TermsName || '';
+                                    let popCustomerdeliverymethod = data.tcustomer[0].fields.ShippingMethodName || '';
+                                    let popCustomeraccountnumber = data.tcustomer[0].fields.ClientNo || '';
+                                    let popCustomerisContractor = data.tcustomer[0].fields.Contractor || false;
+                                    let popCustomerissupplier = data.tcustomer[0].fields.IsSupplier || false;
+                                    let popCustomeriscustomer = data.tcustomer[0].fields.IsCustomer || false;
+                                    let popCustomerTaxCode = data.tcustomer[0].fields.TaxCodeName || '';
+                                    let popCustomerDiscount = data.tcustomer[0].fields.Discount || 0;
+                                    let popCustomerType = data.tcustomer[0].fields.ClientTypeName || '';
+                                    $('#edtCustomerCompany').val(popCustomerName);
+                                    $('#edtCustomerPOPID').val(popCustomerID);
+                                    $('#edtCustomerPOPEmail').val(popCustomerEmail);
+                                    $('#edtTitle').val(popCustomerTitle);
+                                    $('#edtFirstName').val(popCustomerFirstName);
+                                    $('#edtMiddleName').val(popCustomerMiddleName);
+                                    $('#edtLastName').val(popCustomerLastName);
+                                    $('#edtCustomerPhone').val(popCustomerPhone);
+                                    $('#edtCustomerMobile').val(popCustomerMobile);
+                                    $('#edtCustomerFax').val(popCustomerFaxnumber);
+                                    $('#edtCustomerSkypeID').val(popCustomerSkypeName);
+                                    $('#edtCustomerWebsite').val(popCustomerURL);
+                                    $('#edtCustomerShippingAddress').val(popCustomerStreet);
+                                    $('#edtCustomerShippingCity').val(popCustomerStreet2);
+                                    $('#edtCustomerShippingState').val(popCustomerState);
+                                    $('#edtCustomerShippingZIP').val(popCustomerPostcode);
+                                    $('#sedtCountry').val(popCustomerCountry);
+                                    $('#txaNotes').val(popCustomernotes);
+                                    $('#sltPreferedPayment').val(popCustomerpreferedpayment);
+                                    $('#sltTermsPOP').val(popCustomerterms);
+                                    $('#sltCustomerType').val(popCustomerType);
+                                    $('#edtCustomerCardDiscount').val(popCustomerDiscount);
+                                    $('#edtCustomeField1').val(popCustomercustfield1);
+                                    $('#edtCustomeField2').val(popCustomercustfield2);
+                                    $('#edtCustomeField3').val(popCustomercustfield3);
+                                    $('#edtCustomeField4').val(popCustomercustfield4);
+
+                                    $('#sltTaxCode').val(popCustomerTaxCode);
+
+                                    if ((data.tcustomer[0].fields.Street == data.tcustomer[0].fields.BillStreet) && (data.tcustomer[0].fields.Street2 == data.tcustomer[0].fields.BillStreet2) &&
+                                        (data.tcustomer[0].fields.State == data.tcustomer[0].fields.BillState) && (data.tcustomer[0].fields.Postcode == data.tcustomer[0].fields.BillPostcode) &&
+                                        (data.tcustomer[0].fields.Country == data.tcustomer[0].fields.Billcountry)) {
+                                        $('#chkSameAsShipping2').attr("checked", "checked");
+                                    }
+
+                                    if (data.tcustomer[0].fields.IsSupplier == true) {
+                                        // $('#isformcontractor')
+                                        $('#chkSameAsSupplier').attr("checked", "checked");
+                                    } else {
+                                        $('#chkSameAsSupplier').removeAttr("checked");
+                                    }
+
+                                    setTimeout(function() {
+                                        $('#addCustomerModal').modal('show');
+                                    }, 200);
+                                }).catch(function(err) {
+                                    $('.fullScreenSpin').css('display', 'none');
+                                });
+                            }
+                        }
+                    }).catch(function(err) {
+                        sideBarService.getOneCustomerDataExByName(customerDataName).then(function(data) {
                             $('.fullScreenSpin').css('display', 'none');
                             let lineItems = [];
                             $('#add-customer-title').text('Edit Customer');
@@ -1295,165 +1405,72 @@ Template.paymentcard.onRendered(() => {
                             let popCustomerissupplier = data.tcustomer[0].fields.IsSupplier || false;
                             let popCustomeriscustomer = data.tcustomer[0].fields.IsCustomer || false;
                             let popCustomerTaxCode = data.tcustomer[0].fields.TaxCodeName || '';
-                            let popCustomerDiscount  = data.tcustomer[0].fields.Discount || 0;
+                            let popCustomerDiscount = data.tcustomer[0].fields.Discount || 0;
                             let popCustomerType = data.tcustomer[0].fields.ClientTypeName || '';
                             $('#edtCustomerCompany').val(popCustomerName);
-                              $('#edtCustomerPOPID').val(popCustomerID);
-                              $('#edtCustomerPOPEmail').val(popCustomerEmail);
-                              $('#edtTitle').val(popCustomerTitle);
-                              $('#edtFirstName').val(popCustomerFirstName);
-                              $('#edtMiddleName').val(popCustomerMiddleName);
-                              $('#edtLastName').val(popCustomerLastName);
-                              $('#edtCustomerPhone').val(popCustomerPhone);
-                              $('#edtCustomerMobile').val(popCustomerMobile);
-                              $('#edtCustomerFax').val(popCustomerFaxnumber);
-                              $('#edtCustomerSkypeID').val(popCustomerSkypeName);
-                              $('#edtCustomerWebsite').val(popCustomerURL);
-                              $('#edtCustomerShippingAddress').val(popCustomerStreet);
-                              $('#edtCustomerShippingCity').val(popCustomerStreet2);
-                              $('#edtCustomerShippingState').val(popCustomerState);
-                              $('#edtCustomerShippingZIP').val(popCustomerPostcode);
-                              $('#sedtCountry').val(popCustomerCountry);
-                              $('#txaNotes').val(popCustomernotes);
-                              $('#sltPreferedPayment').val(popCustomerpreferedpayment);
-                              $('#sltTermsPOP').val(popCustomerterms);
-                              $('#sltCustomerType').val(popCustomerType);
-                              $('#edtCustomerCardDiscount').val(popCustomerDiscount);
-                              $('#edtCustomeField1').val(popCustomercustfield1);
-                              $('#edtCustomeField2').val(popCustomercustfield2);
-                              $('#edtCustomeField3').val(popCustomercustfield3);
-                              $('#edtCustomeField4').val(popCustomercustfield4);
+                            $('#edtCustomerPOPID').val(popCustomerID);
+                            $('#edtCustomerPOPEmail').val(popCustomerEmail);
+                            $('#edtTitle').val(popCustomerTitle);
+                            $('#edtFirstName').val(popCustomerFirstName);
+                            $('#edtMiddleName').val(popCustomerMiddleName);
+                            $('#edtLastName').val(popCustomerLastName);
+                            $('#edtCustomerPhone').val(popCustomerPhone);
+                            $('#edtCustomerMobile').val(popCustomerMobile);
+                            $('#edtCustomerFax').val(popCustomerFaxnumber);
+                            $('#edtCustomerSkypeID').val(popCustomerSkypeName);
+                            $('#edtCustomerWebsite').val(popCustomerURL);
+                            $('#edtCustomerShippingAddress').val(popCustomerStreet);
+                            $('#edtCustomerShippingCity').val(popCustomerStreet2);
+                            $('#edtCustomerShippingState').val(popCustomerState);
+                            $('#edtCustomerShippingZIP').val(popCustomerPostcode);
+                            $('#sedtCountry').val(popCustomerCountry);
+                            $('#txaNotes').val(popCustomernotes);
+                            $('#sltPreferedPayment').val(popCustomerpreferedpayment);
+                            $('#sltTermsPOP').val(popCustomerterms);
+                            $('#sltCustomerType').val(popCustomerType);
+                            $('#edtCustomerCardDiscount').val(popCustomerDiscount);
+                            $('#edtCustomeField1').val(popCustomercustfield1);
+                            $('#edtCustomeField2').val(popCustomercustfield2);
+                            $('#edtCustomeField3').val(popCustomercustfield3);
+                            $('#edtCustomeField4').val(popCustomercustfield4);
 
-                              $('#sltTaxCode').val(popCustomerTaxCode);
+                            $('#sltTaxCode').val(popCustomerTaxCode);
 
-                                  if ((data.tcustomer[0].fields.Street == data.tcustomer[0].fields.BillStreet) && (data.tcustomer[0].fields.Street2 == data.tcustomer[0].fields.BillStreet2)
-                                      && (data.tcustomer[0].fields.State == data.tcustomer[0].fields.BillState) && (data.tcustomer[0].fields.Postcode == data.tcustomer[0].fields.BillPostcode)
-                                      && (data.tcustomer[0].fields.Country == data.tcustomer[0].fields.Billcountry)) {
-                                      $('#chkSameAsShipping2').attr("checked","checked");
-                                  }
+                            if ((data.tcustomer[0].fields.Street == data.tcustomer[0].fields.BillStreet) && (data.tcustomer[0].fields.Street2 == data.tcustomer[0].fields.BillStreet2) &&
+                                (data.tcustomer[0].fields.State == data.tcustomer[0].fields.BillState) && (data.tcustomer[0].fields.Postcode == data.tcustomer[0].fields.BillPostcode) &&
+                                (data.tcustomer[0].fields.Country == data.tcustomer[0].fields.Billcountry)) {
+                                $('#chkSameAsShipping2').attr("checked", "checked");
+                            }
 
-                                  if(data.tcustomer[0].fields.IsSupplier == true){
-                                      // $('#isformcontractor')
-                                      $('#chkSameAsSupplier').attr("checked","checked");
-                                  }else{
-                                      $('#chkSameAsSupplier').removeAttr("checked");
-                                  }
+                            if (data.tcustomer[0].fields.IsSupplier == true) {
+                                // $('#isformcontractor')
+                                $('#chkSameAsSupplier').attr("checked", "checked");
+                            } else {
+                                $('#chkSameAsSupplier').removeAttr("checked");
+                            }
 
-                                  setTimeout(function () {
-                                    $('#addCustomerModal').modal('show');
-                                  }, 200);
-                        }).catch(function (err) {
-                          $('.fullScreenSpin').css('display', 'none');
+                            setTimeout(function() {
+                                $('#addCustomerModal').modal('show');
+                            }, 200);
+                        }).catch(function(err) {
+                            $('.fullScreenSpin').css('display', 'none');
                         });
-                      }
-                  }
-              }).catch(function (err) {
-                sideBarService.getOneCustomerDataExByName(customerDataName).then(function (data) {
-                    $('.fullScreenSpin').css('display', 'none');
-                    let lineItems = [];
-                    $('#add-customer-title').text('Edit Customer');
-                    let popCustomerID = data.tcustomer[0].fields.ID || '';
-                    let popCustomerName = data.tcustomer[0].fields.ClientName || '';
-                    let popCustomerEmail = data.tcustomer[0].fields.Email || '';
-                    let popCustomerTitle = data.tcustomer[0].fields.Title || '';
-                    let popCustomerFirstName = data.tcustomer[0].fields.FirstName || '';
-                    let popCustomerMiddleName = data.tcustomer[0].fields.CUSTFLD10 || '';
-                    let popCustomerLastName = data.tcustomer[0].fields.LastName || '';
-                    let popCustomertfn = '' || '';
-                    let popCustomerPhone = data.tcustomer[0].fields.Phone || '';
-                    let popCustomerMobile = data.tcustomer[0].fields.Mobile || '';
-                    let popCustomerFaxnumber = data.tcustomer[0].fields.Faxnumber || '';
-                    let popCustomerSkypeName = data.tcustomer[0].fields.SkypeName || '';
-                    let popCustomerURL = data.tcustomer[0].fields.URL || '';
-                    let popCustomerStreet = data.tcustomer[0].fields.Street || '';
-                    let popCustomerStreet2 = data.tcustomer[0].fields.Street2 || '';
-                    let popCustomerState = data.tcustomer[0].fields.State || '';
-                    let popCustomerPostcode = data.tcustomer[0].fields.Postcode || '';
-                    let popCustomerCountry = data.tcustomer[0].fields.Country || LoggedCountry;
-                    let popCustomerbillingaddress = data.tcustomer[0].fields.BillStreet || '';
-                    let popCustomerbcity = data.tcustomer[0].fields.BillStreet2 || '';
-                    let popCustomerbstate = data.tcustomer[0].fields.BillState || '';
-                    let popCustomerbpostalcode = data.tcustomer[0].fields.BillPostcode || '';
-                    let popCustomerbcountry = data.tcustomer[0].fields.Billcountry || LoggedCountry;
-                    let popCustomercustfield1 = data.tcustomer[0].fields.CUSTFLD1 || '';
-                    let popCustomercustfield2 = data.tcustomer[0].fields.CUSTFLD2 || '';
-                    let popCustomercustfield3 = data.tcustomer[0].fields.CUSTFLD3 || '';
-                    let popCustomercustfield4 = data.tcustomer[0].fields.CUSTFLD4 || '';
-                    let popCustomernotes = data.tcustomer[0].fields.Notes || '';
-                    let popCustomerpreferedpayment = data.tcustomer[0].fields.PaymentMethodName || '';
-                    let popCustomerterms = data.tcustomer[0].fields.TermsName || '';
-                    let popCustomerdeliverymethod = data.tcustomer[0].fields.ShippingMethodName || '';
-                    let popCustomeraccountnumber = data.tcustomer[0].fields.ClientNo || '';
-                    let popCustomerisContractor = data.tcustomer[0].fields.Contractor || false;
-                    let popCustomerissupplier = data.tcustomer[0].fields.IsSupplier || false;
-                    let popCustomeriscustomer = data.tcustomer[0].fields.IsCustomer || false;
-                    let popCustomerTaxCode = data.tcustomer[0].fields.TaxCodeName || '';
-                    let popCustomerDiscount  = data.tcustomer[0].fields.Discount || 0;
-                    let popCustomerType = data.tcustomer[0].fields.ClientTypeName || '';
-                    $('#edtCustomerCompany').val(popCustomerName);
-                      $('#edtCustomerPOPID').val(popCustomerID);
-                      $('#edtCustomerPOPEmail').val(popCustomerEmail);
-                      $('#edtTitle').val(popCustomerTitle);
-                      $('#edtFirstName').val(popCustomerFirstName);
-                      $('#edtMiddleName').val(popCustomerMiddleName);
-                      $('#edtLastName').val(popCustomerLastName);
-                      $('#edtCustomerPhone').val(popCustomerPhone);
-                      $('#edtCustomerMobile').val(popCustomerMobile);
-                      $('#edtCustomerFax').val(popCustomerFaxnumber);
-                      $('#edtCustomerSkypeID').val(popCustomerSkypeName);
-                      $('#edtCustomerWebsite').val(popCustomerURL);
-                      $('#edtCustomerShippingAddress').val(popCustomerStreet);
-                      $('#edtCustomerShippingCity').val(popCustomerStreet2);
-                      $('#edtCustomerShippingState').val(popCustomerState);
-                      $('#edtCustomerShippingZIP').val(popCustomerPostcode);
-                      $('#sedtCountry').val(popCustomerCountry);
-                      $('#txaNotes').val(popCustomernotes);
-                      $('#sltPreferedPayment').val(popCustomerpreferedpayment);
-                      $('#sltTermsPOP').val(popCustomerterms);
-                      $('#sltCustomerType').val(popCustomerType);
-                      $('#edtCustomerCardDiscount').val(popCustomerDiscount);
-                      $('#edtCustomeField1').val(popCustomercustfield1);
-                      $('#edtCustomeField2').val(popCustomercustfield2);
-                      $('#edtCustomeField3').val(popCustomercustfield3);
-                      $('#edtCustomeField4').val(popCustomercustfield4);
-
-                      $('#sltTaxCode').val(popCustomerTaxCode);
-
-                          if ((data.tcustomer[0].fields.Street == data.tcustomer[0].fields.BillStreet) && (data.tcustomer[0].fields.Street2 == data.tcustomer[0].fields.BillStreet2)
-                              && (data.tcustomer[0].fields.State == data.tcustomer[0].fields.BillState) && (data.tcustomer[0].fields.Postcode == data.tcustomer[0].fields.BillPostcode)
-                              && (data.tcustomer[0].fields.Country == data.tcustomer[0].fields.Billcountry)) {
-                              $('#chkSameAsShipping2').attr("checked","checked");
-                          }
-
-                          if(data.tcustomer[0].fields.IsSupplier == true){
-                              // $('#isformcontractor')
-                              $('#chkSameAsSupplier').attr("checked","checked");
-                          }else{
-                              $('#chkSameAsSupplier').removeAttr("checked");
-                          }
-
-                          setTimeout(function () {
-                            $('#addCustomerModal').modal('show');
-                          }, 200);
-                }).catch(function (err) {
-                  $('.fullScreenSpin').css('display', 'none');
-                });
-              });
-             }else{
-               $('#customerListModal').modal();
-               setTimeout(function () {
-                   $('#tblCustomerlist_filter .form-control-sm').focus();
-                   $('#tblCustomerlist_filter .form-control-sm').val('');
-                   $('#tblCustomerlist_filter .form-control-sm').trigger("input");
-                   var datatable = $('#tblCustomerlist').DataTable();
-                   datatable.draw();
-                   $('#tblCustomerlist_filter .form-control-sm').trigger("input");
-               }, 500);
-             }
-           }
+                    });
+                } else {
+                    $('#customerListModal').modal();
+                    setTimeout(function() {
+                        $('#tblCustomerlist_filter .form-control-sm').focus();
+                        $('#tblCustomerlist_filter .form-control-sm').val('');
+                        $('#tblCustomerlist_filter .form-control-sm').trigger("input");
+                        var datatable = $('#tblCustomerlist').DataTable();
+                        datatable.draw();
+                        $('#tblCustomerlist_filter .form-control-sm').trigger("input");
+                    }, 500);
+                }
+            }
 
 
-    });
+        });
 
     var url = FlowRouter.current().path;
     if (url.indexOf('?id=') > 0) {
@@ -1462,9 +1479,9 @@ Template.paymentcard.onRendered(() => {
         var currentSalesID = getsale_id[getsale_id.length - 1];
         if (getsale_id[1]) {
             currentSalesID = parseInt(currentSalesID);
-            getVS1Data('TCustomerPayment').then(function (dataObject) {
+            getVS1Data('TCustomerPayment').then(function(dataObject) {
                 if (dataObject.length == 0) {
-                    paymentService.getOneCustomerPayment(currentSalesID).then(function (data) {
+                    paymentService.getOneCustomerPayment(currentSalesID).then(function(data) {
                         let lineItems = [];
                         let lineItemObj = {};
 
@@ -1573,7 +1590,7 @@ Template.paymentcard.onRendered(() => {
                         $('#sltDepartment').attr('disabled', 'disabled');
                         $('#sltDepartment').attr('readonly', true);
                         //setTimeout(function () {
-                        Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblPaymentcard', function (error, result) {
+                        Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblPaymentcard', function(error, result) {
                             if (error) {
 
                                 //Bert.alert('<strong>Error:</strong> user-not-found, no user found please try again!', 'danger');
@@ -1608,15 +1625,15 @@ Template.paymentcard.onRendered(() => {
                             }
                         });
                         //}, 500);
-                        setTimeout(function () {
+                        setTimeout(function() {
                             $('.tblPaymentcard > tbody > tr > td').attr('contenteditable', 'false');
                         }, 1000);
 
                         // $('#edtBankAccountName').val(data.fields.AccountName);
                         $('#edtBankAccountName').append('<option value="' + data.fields.AccountName + '" selected="selected">' + data.fields.AccountName + '</option>');
-                        setTimeout(function () {
+                        setTimeout(function() {
                             var usedNames = {};
-                            $("select[name='edtBankAccountName'] > option").each(function () {
+                            $("select[name='edtBankAccountName'] > option").each(function() {
                                 if (usedNames[this.text]) {
                                     $(this).remove();
                                 } else {
@@ -1734,6 +1751,7 @@ Template.paymentcard.onRendered(() => {
                             };
                             templateObject.record.set(record);
                             $('#edtCustomerName').val(useData[d].fields.CompanyName);
+                            $('#sltDept').val(useData[d].fields.DeptClassName);
                             $('#edtBankAccountName').val(useData[d].fields.AccountName);
 
 
@@ -1756,7 +1774,7 @@ Template.paymentcard.onRendered(() => {
                             $('#sltDepartment').attr('disabled', 'disabled');
                             $('#sltDepartment').attr('readonly', true);
                             //setTimeout(function () {
-                            Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblPaymentcard', function (error, result) {
+                            Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblPaymentcard', function(error, result) {
                                 if (error) {
 
                                     //Bert.alert('<strong>Error:</strong> user-not-found, no user found please try again!', 'danger');
@@ -1791,15 +1809,15 @@ Template.paymentcard.onRendered(() => {
                                 }
                             });
                             //}, 500);
-                            setTimeout(function () {
+                            setTimeout(function() {
                                 $('.tblPaymentcard > tbody > tr > td').attr('contenteditable', 'false');
                             }, 1000);
 
                             // $('#edtBankAccountName').val(useData[d].fields.AccountName);
                             $('#edtBankAccountName').append('<option value="' + useData[d].fields.AccountName + '" selected="selected">' + useData[d].fields.AccountName + '</option>');
-                            setTimeout(function () {
+                            setTimeout(function() {
                                 var usedNames = {};
-                                $("select[name='edtBankAccountName'] > option").each(function () {
+                                $("select[name='edtBankAccountName'] > option").each(function() {
                                     if (usedNames[this.text]) {
                                         $(this).remove();
                                     } else {
@@ -1823,7 +1841,7 @@ Template.paymentcard.onRendered(() => {
                     }
 
                     if (!added) {
-                        paymentService.getOneCustomerPayment(currentSalesID).then(function (data) {
+                        paymentService.getOneCustomerPayment(currentSalesID).then(function(data) {
                             let lineItems = [];
                             let lineItemObj = {};
 
@@ -1931,7 +1949,7 @@ Template.paymentcard.onRendered(() => {
                             $('#sltDepartment').attr('disabled', 'disabled');
                             $('#sltDepartment').attr('readonly', true);
                             //setTimeout(function () {
-                            Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblPaymentcard', function (error, result) {
+                            Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblPaymentcard', function(error, result) {
                                 if (error) {
 
                                     //Bert.alert('<strong>Error:</strong> user-not-found, no user found please try again!', 'danger');
@@ -1966,15 +1984,15 @@ Template.paymentcard.onRendered(() => {
                                 }
                             });
                             //}, 500);
-                            setTimeout(function () {
+                            setTimeout(function() {
                                 $('.tblPaymentcard > tbody > tr > td').attr('contenteditable', 'false');
                             }, 1000);
 
                             // $('#edtBankAccountName').val(data.fields.AccountName);
                             $('#edtBankAccountName').append('<option value="' + data.fields.AccountName + '" selected="selected">' + data.fields.AccountName + '</option>');
-                            setTimeout(function () {
+                            setTimeout(function() {
                                 var usedNames = {};
-                                $("select[name='edtBankAccountName'] > option").each(function () {
+                                $("select[name='edtBankAccountName'] > option").each(function() {
                                     if (usedNames[this.text]) {
                                         $(this).remove();
                                     } else {
@@ -1997,8 +2015,8 @@ Template.paymentcard.onRendered(() => {
                         });
                     }
                 }
-            }).catch(function (err) {
-                paymentService.getOneCustomerPayment(currentSalesID).then(function (data) {
+            }).catch(function(err) {
+                paymentService.getOneCustomerPayment(currentSalesID).then(function(data) {
                     let lineItems = [];
                     let lineItemObj = {};
 
@@ -2105,7 +2123,7 @@ Template.paymentcard.onRendered(() => {
                     $('#sltDepartment').attr('disabled', 'disabled');
                     $('#sltDepartment').attr('readonly', true);
                     //setTimeout(function () {
-                    Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblPaymentcard', function (error, result) {
+                    Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblPaymentcard', function(error, result) {
                         if (error) {
 
                             //Bert.alert('<strong>Error:</strong> user-not-found, no user found please try again!', 'danger');
@@ -2140,15 +2158,15 @@ Template.paymentcard.onRendered(() => {
                         }
                     });
                     //}, 500);
-                    setTimeout(function () {
+                    setTimeout(function() {
                         $('.tblPaymentcard > tbody > tr > td').attr('contenteditable', 'false');
                     }, 1000);
 
                     // $('#edtBankAccountName').val(data.fields.AccountName);
                     $('#edtBankAccountName').append('<option value="' + data.fields.AccountName + '" selected="selected">' + data.fields.AccountName + '</option>');
-                    setTimeout(function () {
+                    setTimeout(function() {
                         var usedNames = {};
-                        $("select[name='edtBankAccountName'] > option").each(function () {
+                        $("select[name='edtBankAccountName'] > option").each(function() {
                             if (usedNames[this.text]) {
                                 $(this).remove();
                             } else {
@@ -2173,7 +2191,7 @@ Template.paymentcard.onRendered(() => {
 
         }
 
-        $('#tblPaymentcard tbody').on('click', 'tr .colType', function () {
+        $('#tblPaymentcard tbody').on('click', 'tr .colType', function() {
             var listData = $(this).closest('tr').attr('id');
             if (listData) {
                 window.open('/invoicecard?id=' + listData, '_self');
@@ -2185,7 +2203,7 @@ Template.paymentcard.onRendered(() => {
         var currentSalesID = getsale_id[getsale_id.length - 1];
         if (getsale_id[1]) {
             currentSalesID = parseInt(currentSalesID);
-            paymentService.getOneSalesOrderPayment(currentSalesID).then(function (data) {
+            paymentService.getOneSalesOrderPayment(currentSalesID).then(function(data) {
                 let lineItems = [];
                 let lineItemObj = {};
 
@@ -2239,7 +2257,9 @@ Template.paymentcard.onRendered(() => {
 
                 };
                 templateObject.record.set(record);
+
                 $('#edtCustomerName').val(data.fields.CustomerName);
+                $('#sltDept').val(data.fields.DeptClassName);
                 $('#edtBankAccountName').val(data.fields.GLAccountName);
                 if (clientList) {
                     for (var i = 0; i < clientList.length; i++) {
@@ -2251,7 +2271,7 @@ Template.paymentcard.onRendered(() => {
                         }
                     }
                 }
-                Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblPaymentcard', function (error, result) {
+                Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblPaymentcard', function(error, result) {
                     if (error) {
 
                         //Bert.alert('<strong>Error:</strong> user-not-found, no user found please try again!', 'danger');
@@ -2290,7 +2310,7 @@ Template.paymentcard.onRendered(() => {
             });
         }
 
-        $('#tblPaymentcard tbody').on('click', 'tr .colType', function () {
+        $('#tblPaymentcard tbody').on('click', 'tr .colType', function() {
             var listData = $(this).closest('tr').attr('id');
             if (listData) {
                 window.open('/salesordercard?id=' + listData, '_self');
@@ -2302,7 +2322,7 @@ Template.paymentcard.onRendered(() => {
         var currentSalesID = getsale_id[getsale_id.length - 1];
         if (getsale_id[1]) {
             currentSalesID = parseInt(currentSalesID);
-            paymentService.getOneQuotePayment(currentSalesID).then(function (data) {
+            paymentService.getOneQuotePayment(currentSalesID).then(function(data) {
                 let lineItems = [];
                 let lineItemObj = {};
 
@@ -2357,6 +2377,7 @@ Template.paymentcard.onRendered(() => {
                 };
                 templateObject.record.set(record);
                 $('#edtCustomerName').val(data.fields.CustomerName);
+                $('#sltDept').val(data.fields.DeptClassName);
                 $('#edtBankAccountName').val(data.fields.GLAccountName);
                 if (clientList) {
                     for (var i = 0; i < clientList.length; i++) {
@@ -2368,7 +2389,7 @@ Template.paymentcard.onRendered(() => {
                         }
                     }
                 }
-                Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblPaymentcard', function (error, result) {
+                Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblPaymentcard', function(error, result) {
                     if (error) {
 
                         //Bert.alert('<strong>Error:</strong> user-not-found, no user found please try again!', 'danger');
@@ -2406,7 +2427,7 @@ Template.paymentcard.onRendered(() => {
             });
         }
 
-        $('#tblPaymentcard tbody').on('click', 'tr .colType', function () {
+        $('#tblPaymentcard tbody').on('click', 'tr .colType', function() {
             var listData = $(this).closest('tr').attr('id');
             if (listData) {
                 window.open('/quotecard?id=' + listData, '_self');
@@ -2418,9 +2439,9 @@ Template.paymentcard.onRendered(() => {
         var currentSalesID = getsale_id[getsale_id.length - 1];
         if (getsale_id[1]) {
             currentSalesID = parseInt(currentSalesID);
-            getVS1Data('TInvoiceEx').then(function (dataObject) {
+            getVS1Data('TInvoiceEx').then(function(dataObject) {
                 if (dataObject.length == 0) {
-                    paymentService.getOneInvoicePayment(currentSalesID).then(function (data) {
+                    paymentService.getOneInvoicePayment(currentSalesID).then(function(data) {
                         let lineItems = [];
                         let lineItemObj = {};
 
@@ -2476,8 +2497,12 @@ Template.paymentcard.onRendered(() => {
                             })
 
                         };
+
+                        let getDepartmentVal = Session.get('department') || data.fields.DeptClassName;
+
                         templateObject.record.set(record);
                         $('#edtCustomerName').val(data.fields.CustomerName);
+                        $('#sltDept').val(getDepartmentVal);
                         $('#edtBankAccountName').val(record.bankAccount);
                         if (clientList) {
                             for (var i = 0; i < clientList.length; i++) {
@@ -2489,7 +2514,7 @@ Template.paymentcard.onRendered(() => {
                                 }
                             }
                         }
-                        Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblPaymentcard', function (error, result) {
+                        Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblPaymentcard', function(error, result) {
                             if (error) {
 
                                 //Bert.alert('<strong>Error:</strong> user-not-found, no user found please try again!', 'danger');
@@ -2589,8 +2614,13 @@ Template.paymentcard.onRendered(() => {
                                 })
 
                             };
+
+
                             templateObject.record.set(record);
+
+                            let getDepartmentVal = Session.get('department') || useData[d].fields.DeptClassName;
                             $('#edtCustomerName').val(useData[d].fields.CustomerName);
+                            $('#sltDept').val(getDepartmentVal);
                             $('#edtBankAccountName').val(record.bankAccount);
                             if (clientList) {
                                 for (var i = 0; i < clientList.length; i++) {
@@ -2602,7 +2632,7 @@ Template.paymentcard.onRendered(() => {
                                     }
                                 }
                             }
-                            Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblPaymentcard', function (error, result) {
+                            Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblPaymentcard', function(error, result) {
                                 if (error) {
 
                                     //Bert.alert('<strong>Error:</strong> user-not-found, no user found please try again!', 'danger');
@@ -2642,8 +2672,8 @@ Template.paymentcard.onRendered(() => {
 
                     if (!added) {}
                 }
-            }).catch(function (err) {
-                paymentService.getOneInvoicePayment(currentSalesID).then(function (data) {
+            }).catch(function(err) {
+                paymentService.getOneInvoicePayment(currentSalesID).then(function(data) {
                     let lineItems = [];
                     let lineItemObj = {};
 
@@ -2700,7 +2730,11 @@ Template.paymentcard.onRendered(() => {
 
                     };
                     templateObject.record.set(record);
+
+                    let getDepartmentVal = Session.get('department') || data.fields.DeptClassName;
+
                     $('#edtCustomerName').val(data.fields.CustomerName);
+                    $('#sltDept').val(getDepartmentVal);
                     $('#edtBankAccountName').val(record.bankAccount);
                     if (clientList) {
                         for (var i = 0; i < clientList.length; i++) {
@@ -2712,7 +2746,7 @@ Template.paymentcard.onRendered(() => {
                             }
                         }
                     }
-                    Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblPaymentcard', function (error, result) {
+                    Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblPaymentcard', function(error, result) {
                         if (error) {
 
                             //Bert.alert('<strong>Error:</strong> user-not-found, no user found please try again!', 'danger');
@@ -2752,7 +2786,7 @@ Template.paymentcard.onRendered(() => {
 
         }
 
-        $('#tblPaymentcard tbody').on('click', 'tr .colType', function () {
+        $('#tblPaymentcard tbody').on('click', 'tr .colType', function() {
             var listData = $(this).closest('tr').attr('id');
             if (listData) {
                 window.open('/invoicecard?id=' + listData, '_self');
@@ -2768,7 +2802,7 @@ Template.paymentcard.onRendered(() => {
         if (getsale_custname[1]) {
             let currentSalesName = currentSalesURL[0].replace(/%20/g, " ");
             // let currentSalesID = currentSalesURL[1].split('from=');
-            paymentService.getCustomerPaymentByName(currentSalesName).then(function (data) {
+            paymentService.getCustomerPaymentByName(currentSalesName).then(function(data) {
                 let lineItems = [];
                 let lineItemObj = {};
                 let companyName = '';
@@ -2919,7 +2953,7 @@ Template.paymentcard.onRendered(() => {
                 }
                  */
 
-                Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblPaymentcard', function (error, result) {
+                Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblPaymentcard', function(error, result) {
                     if (error) {
 
                         //Bert.alert('<strong>Error:</strong> user-not-found, no user found please try again!', 'danger');
@@ -2962,7 +2996,7 @@ Template.paymentcard.onRendered(() => {
         var currentSalesName = getsale_id[getsale_id.length - 1];
         if (getsale_id[1]) {
             currentSalesName = currentSalesName;
-            paymentService.getCustomerSalesPayment(currentSalesName).then(function (data) {
+            paymentService.getCustomerSalesPayment(currentSalesName).then(function(data) {
                 let lineItems = [];
                 let lineItemObj = {};
 
@@ -3019,7 +3053,11 @@ Template.paymentcard.onRendered(() => {
 
                 };
                 templateObject.record.set(record);
+
+                let getDepartmentVal = Session.get('department') || data.fields.DeptClassName;
+
                 $('#edtCustomerName').val(data.fields.CustomerName);
+                $('#sltDept').val(getDepartmentVal);
                 $('#edtBankAccountName').val(record.bankAccount);
                 if (clientList) {
                     for (var i = 0; i < clientList.length; i++) {
@@ -3031,7 +3069,7 @@ Template.paymentcard.onRendered(() => {
                         }
                     }
                 }
-                Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblPaymentcard', function (error, result) {
+                Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblPaymentcard', function(error, result) {
                     if (error) {
 
                         //Bert.alert('<strong>Error:</strong> user-not-found, no user found please try again!', 'danger');
@@ -3069,7 +3107,7 @@ Template.paymentcard.onRendered(() => {
             });
         }
 
-        $('#tblPaymentcard tbody').on('click', 'tr .colType', function () {
+        $('#tblPaymentcard tbody').on('click', 'tr .colType', function() {
             var listData = $(this).closest('tr').attr('id');
             if (listData) {
                 window.open('/invoicecard?id=' + listData, '_self');
@@ -3088,7 +3126,7 @@ Template.paymentcard.onRendered(() => {
 
                 currentSalesID = parseInt(arr[i]);
 
-                paymentService.getOneInvoicePayment(currentSalesID).then(function (data) {
+                paymentService.getOneInvoicePayment(currentSalesID).then(function(data) {
 
                     let total = utilityService.modifynegativeCurrencyFormat(data.fields.TotalBalance).toLocaleString(undefined, {
                         minimumFractionDigits: 2
@@ -3142,7 +3180,10 @@ Template.paymentcard.onRendered(() => {
 
                     };
                     templateObject.record.set(record);
+                    let getDepartmentVal = Session.get('department') || data.fields.DeptClassName;
+
                     $('#edtCustomerName').val(data.fields.CustomerName);
+                    $('#sltDept').val(getDepartmentVal);
                     $('#edtBankAccountName').val(record.bankAccount);
                     if (clientList) {
                         for (var i = 0; i < clientList.length; i++) {
@@ -3154,7 +3195,7 @@ Template.paymentcard.onRendered(() => {
                             }
                         }
                     }
-                    Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblPaymentcard', function (error, result) {
+                    Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblPaymentcard', function(error, result) {
                         if (error) {
 
                             //Bert.alert('<strong>Error:</strong> user-not-found, no user found please try again!', 'danger');
@@ -3195,7 +3236,7 @@ Template.paymentcard.onRendered(() => {
 
         }
 
-        $('#tblPaymentcard tbody').on('click', 'tr .colType', function () {
+        $('#tblPaymentcard tbody').on('click', 'tr .colType', function() {
             var listData = $(this).closest('tr').attr('id');
             if (listData) {
                 window.open('/invoicecard?id=' + listData, '_self');
@@ -3205,7 +3246,7 @@ Template.paymentcard.onRendered(() => {
         $('.fullScreenSpin').css('display', 'none');
     }
 
-    exportSalesToPdf = function () {
+    exportSalesToPdf = function() {
         let margins = {
             top: 0,
             bottom: 0,
@@ -3235,7 +3276,7 @@ Template.paymentcard.onRendered(() => {
                 orientation: 'portrait'
             }
         };
-        html2pdf().set(opt).from(source).save().then(function (dataObject) {
+        html2pdf().set(opt).from(source).save().then(function(dataObject) {
             $('#html-2-pdfwrapper').css('display', 'none');
             $('.fullScreenSpin').css('display', 'none');
 
@@ -3246,11 +3287,11 @@ Template.paymentcard.onRendered(() => {
         // });
     };
 
-    $(document).ready(function () {
-        $('#addRow').on('click', function () {
+    $(document).ready(function() {
+        $('#addRow').on('click', function() {
             $(".chkBox").prop("checked", false);
             let paymentList = [];
-            $('.tblPaymentcard tbody tr').each(function () {
+            $('.tblPaymentcard tbody tr').each(function() {
                 paymentList.push(this.id);
 
             })
@@ -3287,7 +3328,7 @@ Template.paymentcard.helpers({
         return Template.instance().record.get();
     },
     deptrecords: () => {
-        return Template.instance().deptrecords.get().sort(function (a, b) {
+        return Template.instance().deptrecords.get().sort(function(a, b) {
             if (a.department == 'NA') {
                 return 1;
             } else if (b.department == 'NA') {
@@ -3297,7 +3338,7 @@ Template.paymentcard.helpers({
         });
     },
     datatablerecords: () => {
-        return Template.instance().datatablerecords.get().sort(function (a, b) {
+        return Template.instance().datatablerecords.get().sort(function(a, b) {
             if (a.paymentdate == 'NA') {
                 return 1;
             } else if (b.paymentdate == 'NA') {
@@ -3310,7 +3351,7 @@ Template.paymentcard.helpers({
         return Template.instance().tableheaderrecords.get();
     },
     paymentmethodrecords: () => {
-        return Template.instance().paymentmethodrecords.get().sort(function (a, b) {
+        return Template.instance().paymentmethodrecords.get().sort(function(a, b) {
             if (a.paymentmethod == 'NA') {
                 return 1;
             } else if (b.paymentmethod == 'NA') {
@@ -3320,7 +3361,7 @@ Template.paymentcard.helpers({
         });
     },
     accountnamerecords: () => {
-        return Template.instance().accountnamerecords.get().sort(function (a, b) {
+        return Template.instance().accountnamerecords.get().sort(function(a, b) {
             if (a.accountname == 'NA') {
                 return 1;
             } else if (b.accountname == 'NA') {
@@ -3362,7 +3403,10 @@ Template.paymentcard.helpers({
 });
 
 Template.paymentcard.events({
-    'click .btnSave': function () {
+    'click #sltDept': function(event) {
+        $('#departmentModal').modal('toggle');
+    },
+    'click .btnSave': function() {
         $('.fullScreenSpin').css('display', 'inline-block');
         let templateObject = Template.instance();
 
@@ -3393,7 +3437,7 @@ Template.paymentcard.events({
             var currentSalesID = getsale_id[getsale_id.length - 1];
             if (getsale_id[1]) {
                 currentSalesID = parseInt(currentSalesID);
-                $('.tblPaymentcard > tbody > tr').each(function () {
+                $('.tblPaymentcard > tbody > tr').each(function() {
                     var lineID = this.id;
                     let linetype = $('#' + lineID + " .colType").text() || $(this).closest('tr').find('.colType').text();
                     let lineAmountDue = $('#' + lineID + " .lineAmountdue").text() || $(this).closest('tr').find('.lineAmountdue').text();
@@ -3433,7 +3477,7 @@ Template.paymentcard.events({
                     }
                 };
 
-                paymentService.saveDepositData(objDetails).then(function (data) {
+                paymentService.saveDepositData(objDetails).then(function(data) {
                     var customerID = $('#edtCustomerEmail').attr('customerid');
                     // Send Email
                     $('#html-2-pdfwrapper').css('display', 'block');
@@ -3448,7 +3492,7 @@ Template.paymentcard.events({
                         let pdfObject = "";
                         var reader = new FileReader();
                         reader.readAsDataURL(encodedPdf);
-                        reader.onloadend = function () {
+                        reader.onloadend = function() {
                             var base64data = reader.result;
                             base64data = base64data.split(',')[1];
 
@@ -3527,7 +3571,7 @@ Template.paymentcard.events({
                                     text: '',
                                     html: htmlmailBody,
                                     attachments: attachment
-                                }, function (error, result) {
+                                }, function(error, result) {
                                     if (error && error.error === "error") {
                                         //window.open('/salesorderslist','_self');
 
@@ -3541,7 +3585,7 @@ Template.paymentcard.events({
                                     text: '',
                                     html: htmlmailBody,
                                     attachments: attachment
-                                }, function (error, result) {
+                                }, function(error, result) {
                                     if (error && error.error === "error") {
                                         window.open('/salesorderslist', '_self');
                                     } else {
@@ -3570,7 +3614,7 @@ Template.paymentcard.events({
                                     text: '',
                                     html: htmlmailBody,
                                     attachments: attachment
-                                }, function (error, result) {
+                                }, function(error, result) {
                                     if (error && error.error === "error") {
                                         //window.open('/salesorderslist','_self');
 
@@ -3600,7 +3644,7 @@ Template.paymentcard.events({
                                     text: '',
                                     html: htmlmailBody,
                                     attachments: attachment
-                                }, function (error, result) {
+                                }, function(error, result) {
                                     if (error && error.error === "error") {
                                         //window.open('/salesorderslist','_self');
                                     } else {
@@ -3628,6 +3672,7 @@ Template.paymentcard.events({
 
                     }
                     addAttachment();
+
                     function generatePdfForMail(invoiceId) {
                         return new Promise((resolve, reject) => {
                             let templateObject = Template.instance();
@@ -3636,7 +3681,7 @@ Template.paymentcard.events({
                             let doc = new jsPDF('p', 'pt', 'a4');
                             doc.setFontSize(18);
                             var source = document.getElementById('html-2-pdfwrapper');
-                            doc.addHTML(source, function () {
+                            doc.addHTML(source, function() {
                                 //pdf.save('Invoice.pdf');
                                 resolve(doc.output('blob'));
                                 // $('#html-2-pdfwrapper').css('display','none');
@@ -3658,7 +3703,7 @@ Template.paymentcard.events({
                     };
                     $('.fullScreenSpin').css('display', 'none');
                     // window.open('/salesorderslist','_self');
-                }).catch(function (err) {
+                }).catch(function(err) {
                     swal({
                         title: 'Oooops...',
                         text: err,
@@ -3679,7 +3724,7 @@ Template.paymentcard.events({
             var currentSalesID = getsale_id[getsale_id.length - 1];
             if (getsale_id[1]) {
                 currentSalesID = parseInt(currentSalesID);
-                $('.tblPaymentcard > tbody > tr').each(function () {
+                $('.tblPaymentcard > tbody > tr').each(function() {
                     var lineID = this.id;
                     let linetype = $('#' + lineID + " .colType").text() || $(this).closest('tr').find('.colType').text();
                     let lineAmountDue = $('#' + lineID + " .lineAmountdue").text() || $(this).closest('tr').find('.lineAmountdue').text();
@@ -3722,7 +3767,7 @@ Template.paymentcard.events({
                         }
                     };
 
-                    paymentService.saveDepositData(objDetails).then(function (data) {
+                    paymentService.saveDepositData(objDetails).then(function(data) {
                         var customerID = $('#edtCustomerEmail').attr('customerid');
                         // Send Email
                         $('#html-2-pdfwrapper').css('display', 'block');
@@ -3737,7 +3782,7 @@ Template.paymentcard.events({
                             let pdfObject = "";
                             var reader = new FileReader();
                             reader.readAsDataURL(encodedPdf);
-                            reader.onloadend = function () {
+                            reader.onloadend = function() {
                                 var base64data = reader.result;
                                 base64data = base64data.split(',')[1];
 
@@ -3816,7 +3861,7 @@ Template.paymentcard.events({
                                         text: '',
                                         html: htmlmailBody,
                                         attachments: attachment
-                                    }, function (error, result) {
+                                    }, function(error, result) {
                                         if (error && error.error === "error") {
                                             FlowRouter.go('/paymentoverview?success=true');
 
@@ -3830,7 +3875,7 @@ Template.paymentcard.events({
                                         text: '',
                                         html: htmlmailBody,
                                         attachments: attachment
-                                    }, function (error, result) {
+                                    }, function(error, result) {
                                         if (error && error.error === "error") {
                                             FlowRouter.go('/paymentoverview?success=true');
                                         } else {
@@ -3859,7 +3904,7 @@ Template.paymentcard.events({
                                         text: '',
                                         html: htmlmailBody,
                                         attachments: attachment
-                                    }, function (error, result) {
+                                    }, function(error, result) {
                                         if (error && error.error === "error") {
                                             FlowRouter.go('/paymentoverview?success=true');
 
@@ -3889,7 +3934,7 @@ Template.paymentcard.events({
                                         text: '',
                                         html: htmlmailBody,
                                         attachments: attachment
-                                    }, function (error, result) {
+                                    }, function(error, result) {
                                         if (error && error.error === "error") {
                                             FlowRouter.go('/paymentoverview?success=true');
                                         } else {
@@ -3917,6 +3962,7 @@ Template.paymentcard.events({
 
                         }
                         addAttachment();
+
                         function generatePdfForMail(invoiceId) {
                             return new Promise((resolve, reject) => {
                                 let templateObject = Template.instance();
@@ -3925,7 +3971,7 @@ Template.paymentcard.events({
                                 let doc = new jsPDF('p', 'pt', 'a4');
                                 doc.setFontSize(18);
                                 var source = document.getElementById('html-2-pdfwrapper');
-                                doc.addHTML(source, function () {
+                                doc.addHTML(source, function() {
                                     //pdf.save('Invoice.pdf');
                                     resolve(doc.output('blob'));
                                     // $('#html-2-pdfwrapper').css('display','none');
@@ -3949,7 +3995,7 @@ Template.paymentcard.events({
                         //FlowRouter.go('/paymentoverview?success=true');
 
 
-                    }).catch(function (err) {
+                    }).catch(function(err) {
                         // FlowRouter.go('/paymentoverview?success=true');
                         swal({
                             title: 'Oooops...',
@@ -3986,7 +4032,7 @@ Template.paymentcard.events({
                         }
                     };
 
-                    paymentService.saveDepositData(objDetails).then(function (data) {
+                    paymentService.saveDepositData(objDetails).then(function(data) {
                         var customerID = $('#edtCustomerEmail').attr('customerid');
                         // Send Email
                         $('#html-2-pdfwrapper').css('display', 'block');
@@ -4001,7 +4047,7 @@ Template.paymentcard.events({
                             let pdfObject = "";
                             var reader = new FileReader();
                             reader.readAsDataURL(encodedPdf);
-                            reader.onloadend = function () {
+                            reader.onloadend = function() {
                                 var base64data = reader.result;
                                 base64data = base64data.split(',')[1];
 
@@ -4080,7 +4126,7 @@ Template.paymentcard.events({
                                         text: '',
                                         html: htmlmailBody,
                                         attachments: attachment
-                                    }, function (error, result) {
+                                    }, function(error, result) {
                                         if (error && error.error === "error") {
                                             FlowRouter.go('/paymentoverview?success=true');
 
@@ -4094,7 +4140,7 @@ Template.paymentcard.events({
                                         text: '',
                                         html: htmlmailBody,
                                         attachments: attachment
-                                    }, function (error, result) {
+                                    }, function(error, result) {
                                         if (error && error.error === "error") {
                                             FlowRouter.go('/paymentoverview?success=true');
                                         } else {
@@ -4123,7 +4169,7 @@ Template.paymentcard.events({
                                         text: '',
                                         html: htmlmailBody,
                                         attachments: attachment
-                                    }, function (error, result) {
+                                    }, function(error, result) {
                                         if (error && error.error === "error") {
                                             FlowRouter.go('/paymentoverview?success=true');
 
@@ -4153,7 +4199,7 @@ Template.paymentcard.events({
                                         text: '',
                                         html: htmlmailBody,
                                         attachments: attachment
-                                    }, function (error, result) {
+                                    }, function(error, result) {
                                         if (error && error.error === "error") {
                                             FlowRouter.go('/paymentoverview?success=true');
                                         } else {
@@ -4181,6 +4227,7 @@ Template.paymentcard.events({
 
                         }
                         addAttachment();
+
                         function generatePdfForMail(invoiceId) {
                             return new Promise((resolve, reject) => {
                                 let templateObject = Template.instance();
@@ -4189,7 +4236,7 @@ Template.paymentcard.events({
                                 let doc = new jsPDF('p', 'pt', 'a4');
                                 doc.setFontSize(18);
                                 var source = document.getElementById('html-2-pdfwrapper');
-                                doc.addHTML(source, function () {
+                                doc.addHTML(source, function() {
                                     //pdf.save('Invoice.pdf');
                                     resolve(doc.output('blob'));
                                     // $('#html-2-pdfwrapper').css('display','none');
@@ -4211,7 +4258,7 @@ Template.paymentcard.events({
                         };
                         $('.fullScreenSpin').css('display', 'none');
                         // FlowRouter.go('/paymentoverview?success=true');
-                    }).catch(function (err) {
+                    }).catch(function(err) {
                         // FlowRouter.go('/paymentoverview?success=true');
                         swal({
                             title: 'Oooops...',
@@ -4234,7 +4281,7 @@ Template.paymentcard.events({
             var currentSalesID = getsale_id[getsale_id.length - 1];
             if (getsale_id[1]) {
                 currentSalesID = parseInt(currentSalesID);
-                $('.tblPaymentcard > tbody > tr').each(function () {
+                $('.tblPaymentcard > tbody > tr').each(function() {
                     var lineID = this.id;
                     let linetype = $('#' + lineID + " .colType").text() || $(this).closest('tr').find('.colType').text();
                     let lineAmountDue = $('#' + lineID + " .lineAmountdue").text() || $(this).closest('tr').find('.lineAmountdue').text();
@@ -4274,7 +4321,7 @@ Template.paymentcard.events({
                     }
                 };
 
-                paymentService.saveDepositData(objDetails).then(function (data) {
+                paymentService.saveDepositData(objDetails).then(function(data) {
                     var customerID = $('#edtCustomerEmail').attr('customerid');
                     // Send Email
                     $('#html-2-pdfwrapper').css('display', 'block');
@@ -4289,7 +4336,7 @@ Template.paymentcard.events({
                         let pdfObject = "";
                         var reader = new FileReader();
                         reader.readAsDataURL(encodedPdf);
-                        reader.onloadend = function () {
+                        reader.onloadend = function() {
                             var base64data = reader.result;
                             base64data = base64data.split(',')[1];
 
@@ -4368,7 +4415,7 @@ Template.paymentcard.events({
                                     text: '',
                                     html: htmlmailBody,
                                     attachments: attachment
-                                }, function (error, result) {
+                                }, function(error, result) {
                                     if (error && error.error === "error") {
                                         window.open('/invoicelist', '_self');
 
@@ -4382,7 +4429,7 @@ Template.paymentcard.events({
                                     text: '',
                                     html: htmlmailBody,
                                     attachments: attachment
-                                }, function (error, result) {
+                                }, function(error, result) {
                                     if (error && error.error === "error") {
                                         window.open('/invoicelist', '_self');
                                     } else {
@@ -4411,7 +4458,7 @@ Template.paymentcard.events({
                                     text: '',
                                     html: htmlmailBody,
                                     attachments: attachment
-                                }, function (error, result) {
+                                }, function(error, result) {
                                     if (error && error.error === "error") {
                                         window.open('/invoicelist', '_self');
 
@@ -4441,7 +4488,7 @@ Template.paymentcard.events({
                                     text: '',
                                     html: htmlmailBody,
                                     attachments: attachment
-                                }, function (error, result) {
+                                }, function(error, result) {
                                     if (error && error.error === "error") {
                                         window.open('/invoicelist', '_self');
                                     } else {
@@ -4469,6 +4516,7 @@ Template.paymentcard.events({
 
                     }
                     addAttachment();
+
                     function generatePdfForMail(invoiceId) {
                         return new Promise((resolve, reject) => {
                             let templateObject = Template.instance();
@@ -4477,7 +4525,7 @@ Template.paymentcard.events({
                             let doc = new jsPDF('p', 'pt', 'a4');
                             doc.setFontSize(18);
                             var source = document.getElementById('html-2-pdfwrapper');
-                            doc.addHTML(source, function () {
+                            doc.addHTML(source, function() {
                                 //pdf.save('Invoice.pdf');
                                 resolve(doc.output('blob'));
                                 // $('#html-2-pdfwrapper').css('display','none');
@@ -4499,7 +4547,7 @@ Template.paymentcard.events({
                     };
                     $('.fullScreenSpin').css('display', 'none');
                     // window.open('/invoicelist','_self');
-                }).catch(function (err) {
+                }).catch(function(err) {
                     swal({
                         title: 'Oooops...',
                         text: err,
@@ -4518,7 +4566,7 @@ Template.paymentcard.events({
 
         } else if ((url.indexOf('?custname=') > 0) && (url.indexOf('from=') > 0)) {
             let paymentID = templateObject.custpaymentid.get();
-            $('.tblPaymentcard > tbody > tr').each(function () {
+            $('.tblPaymentcard > tbody > tr').each(function() {
                 var lineID = this.id;
                 let linetype = $('#' + lineID + " .colType").text() || $(this).closest('tr').find('.colType').text();
                 let lineAmountDue = $('#' + lineID + " .lineAmountdue").text() || $(this).closest('tr').find('.lineAmountdue').text();
@@ -4559,7 +4607,7 @@ Template.paymentcard.events({
                 }
             };
 
-            paymentService.saveDepositData(objDetails).then(function (data) {
+            paymentService.saveDepositData(objDetails).then(function(data) {
                 var customerID = $('#edtCustomerEmail').attr('customerid');
                 // Send Email
                 $('#html-2-pdfwrapper').css('display', 'block');
@@ -4574,7 +4622,7 @@ Template.paymentcard.events({
                     let pdfObject = "";
                     var reader = new FileReader();
                     reader.readAsDataURL(encodedPdf);
-                    reader.onloadend = function () {
+                    reader.onloadend = function() {
                         var base64data = reader.result;
                         base64data = base64data.split(',')[1];
 
@@ -4653,7 +4701,7 @@ Template.paymentcard.events({
                                 text: '',
                                 html: htmlmailBody,
                                 attachments: attachment
-                            }, function (error, result) {
+                            }, function(error, result) {
                                 if (error && error.error === "error") {
                                     FlowRouter.go('/paymentoverview?success=true');
 
@@ -4667,7 +4715,7 @@ Template.paymentcard.events({
                                 text: '',
                                 html: htmlmailBody,
                                 attachments: attachment
-                            }, function (error, result) {
+                            }, function(error, result) {
                                 if (error && error.error === "error") {
                                     FlowRouter.go('/paymentoverview?success=true');
                                 } else {
@@ -4696,7 +4744,7 @@ Template.paymentcard.events({
                                 text: '',
                                 html: htmlmailBody,
                                 attachments: attachment
-                            }, function (error, result) {
+                            }, function(error, result) {
                                 if (error && error.error === "error") {
                                     FlowRouter.go('/paymentoverview?success=true');
 
@@ -4726,7 +4774,7 @@ Template.paymentcard.events({
                                 text: '',
                                 html: htmlmailBody,
                                 attachments: attachment
-                            }, function (error, result) {
+                            }, function(error, result) {
                                 if (error && error.error === "error") {
                                     FlowRouter.go('/paymentoverview?success=true');
                                 } else {
@@ -4754,6 +4802,7 @@ Template.paymentcard.events({
 
                 }
                 addAttachment();
+
                 function generatePdfForMail(invoiceId) {
                     return new Promise((resolve, reject) => {
                         let templateObject = Template.instance();
@@ -4762,7 +4811,7 @@ Template.paymentcard.events({
                         let doc = new jsPDF('p', 'pt', 'a4');
                         doc.setFontSize(18);
                         var source = document.getElementById('html-2-pdfwrapper');
-                        doc.addHTML(source, function () {
+                        doc.addHTML(source, function() {
                             //pdf.save('Invoice.pdf');
                             resolve(doc.output('blob'));
                             // $('#html-2-pdfwrapper').css('display','none');
@@ -4784,7 +4833,7 @@ Template.paymentcard.events({
                 };
                 $('.fullScreenSpin').css('display', 'none');
                 // FlowRouter.go('/paymentoverview?success=true');
-            }).catch(function (err) {
+            }).catch(function(err) {
                 //FlowRouter.go('/paymentoverview?success=true');
                 swal({
                     title: 'Oooops...',
@@ -4818,7 +4867,7 @@ Template.paymentcard.events({
                 let pdfObject = "";
                 var reader = new FileReader();
                 reader.readAsDataURL(encodedPdf);
-                reader.onloadend = function () {
+                reader.onloadend = function() {
                     var base64data = reader.result;
                     base64data = base64data.split(',')[1];
 
@@ -4897,7 +4946,7 @@ Template.paymentcard.events({
                             text: '',
                             html: htmlmailBody,
                             attachments: attachment
-                        }, function (error, result) {
+                        }, function(error, result) {
                             if (error && error.error === "error") {
                                 FlowRouter.go('/paymentoverview?success=true');
 
@@ -4911,7 +4960,7 @@ Template.paymentcard.events({
                             text: '',
                             html: htmlmailBody,
                             attachments: attachment
-                        }, function (error, result) {
+                        }, function(error, result) {
                             if (error && error.error === "error") {
                                 FlowRouter.go('/paymentoverview?success=true');
                             } else {
@@ -4940,7 +4989,7 @@ Template.paymentcard.events({
                             text: '',
                             html: htmlmailBody,
                             attachments: attachment
-                        }, function (error, result) {
+                        }, function(error, result) {
                             if (error && error.error === "error") {
                                 FlowRouter.go('/paymentoverview?success=true');
 
@@ -4970,7 +5019,7 @@ Template.paymentcard.events({
                             text: '',
                             html: htmlmailBody,
                             attachments: attachment
-                        }, function (error, result) {
+                        }, function(error, result) {
                             if (error && error.error === "error") {
                                 FlowRouter.go('/paymentoverview?success=true');
                             } else {
@@ -4998,6 +5047,7 @@ Template.paymentcard.events({
 
             }
             addAttachment();
+
             function generatePdfForMail(invoiceId) {
                 return new Promise((resolve, reject) => {
                     let templateObject = Template.instance();
@@ -5006,7 +5056,7 @@ Template.paymentcard.events({
                     let doc = new jsPDF('p', 'pt', 'a4');
                     doc.setFontSize(18);
                     var source = document.getElementById('html-2-pdfwrapper');
-                    doc.addHTML(source, function () {
+                    doc.addHTML(source, function() {
                         //pdf.save('Invoice.pdf');
                         resolve(doc.output('blob'));
                         // $('#html-2-pdfwrapper').css('display','none');
@@ -5015,7 +5065,7 @@ Template.paymentcard.events({
             }
             // End Send Email
             // currentSalesID = parseInt(currentSalesID);
-            $('.tblPaymentcard > tbody > tr').each(function () {
+            $('.tblPaymentcard > tbody > tr').each(function() {
                 var lineID = this.id;
                 let linetype = $('#' + lineID + " .colType").text();
                 let lineAmountDue = $('#' + lineID + " .lineAmountdue").text();
@@ -5051,7 +5101,7 @@ Template.paymentcard.events({
                 }
             };
 
-            paymentService.saveDepositData(objDetails).then(function (data) {
+            paymentService.saveDepositData(objDetails).then(function(data) {
                 var customerID = $('#edtCustomerEmail').attr('customerid');
 
                 if (customerID !== " ") {
@@ -5068,7 +5118,7 @@ Template.paymentcard.events({
                 };
                 $('.fullScreenSpin').css('display', 'none');
 
-            }).catch(function (err) {
+            }).catch(function(err) {
                 // FlowRouter.go('/paymentoverview?success=true');
                 // swal({
                 // title: 'Oooops...',
@@ -5090,7 +5140,7 @@ Template.paymentcard.events({
             var currentSalesID = getsale_id[getsale_id.length - 1];
             if (getsale_id[1]) {
                 // currentSalesID = parseInt(currentSalesID);
-                $('.tblPaymentcard > tbody > tr').each(function () {
+                $('.tblPaymentcard > tbody > tr').each(function() {
                     var lineID = this.id;
                     let linetype = $('#' + lineID + " .colType").text() || $(this).closest('tr').find('.colType').text();
                     let lineAmountDue = $('#' + lineID + " .lineAmountdue").text() || $(this).closest('tr').find('.lineAmountdue').text();
@@ -5133,7 +5183,7 @@ Template.paymentcard.events({
                         }
                     };
 
-                    paymentService.saveDepositData(objDetails).then(function (data) {
+                    paymentService.saveDepositData(objDetails).then(function(data) {
                         var customerID = $('#edtCustomerEmail').attr('customerid');
                         // Send Email
                         $('#html-2-pdfwrapper').css('display', 'block');
@@ -5148,7 +5198,7 @@ Template.paymentcard.events({
                             let pdfObject = "";
                             var reader = new FileReader();
                             reader.readAsDataURL(encodedPdf);
-                            reader.onloadend = function () {
+                            reader.onloadend = function() {
                                 var base64data = reader.result;
                                 base64data = base64data.split(',')[1];
 
@@ -5227,7 +5277,7 @@ Template.paymentcard.events({
                                         text: '',
                                         html: htmlmailBody,
                                         attachments: attachment
-                                    }, function (error, result) {
+                                    }, function(error, result) {
                                         if (error && error.error === "error") {
                                             FlowRouter.go('/paymentoverview?success=true');
 
@@ -5241,7 +5291,7 @@ Template.paymentcard.events({
                                         text: '',
                                         html: htmlmailBody,
                                         attachments: attachment
-                                    }, function (error, result) {
+                                    }, function(error, result) {
                                         if (error && error.error === "error") {
                                             FlowRouter.go('/paymentoverview?success=true');
                                         } else {
@@ -5270,7 +5320,7 @@ Template.paymentcard.events({
                                         text: '',
                                         html: htmlmailBody,
                                         attachments: attachment
-                                    }, function (error, result) {
+                                    }, function(error, result) {
                                         if (error && error.error === "error") {
                                             FlowRouter.go('/paymentoverview?success=true');
 
@@ -5300,7 +5350,7 @@ Template.paymentcard.events({
                                         text: '',
                                         html: htmlmailBody,
                                         attachments: attachment
-                                    }, function (error, result) {
+                                    }, function(error, result) {
                                         if (error && error.error === "error") {
                                             FlowRouter.go('/paymentoverview?success=true');
                                         } else {
@@ -5328,6 +5378,7 @@ Template.paymentcard.events({
 
                         }
                         addAttachment();
+
                         function generatePdfForMail(invoiceId) {
                             return new Promise((resolve, reject) => {
                                 let templateObject = Template.instance();
@@ -5336,7 +5387,7 @@ Template.paymentcard.events({
                                 let doc = new jsPDF('p', 'pt', 'a4');
                                 doc.setFontSize(18);
                                 var source = document.getElementById('html-2-pdfwrapper');
-                                doc.addHTML(source, function () {
+                                doc.addHTML(source, function() {
                                     //pdf.save('Invoice.pdf');
                                     resolve(doc.output('blob'));
                                     // $('#html-2-pdfwrapper').css('display','none');
@@ -5358,7 +5409,7 @@ Template.paymentcard.events({
                         };
                         $('.fullScreenSpin').css('display', 'none');
                         // FlowRouter.go('/paymentoverview?success=true');
-                    }).catch(function (err) {
+                    }).catch(function(err) {
                         // FlowRouter.go('/paymentoverview?success=true');
                         swal({
                             title: 'Oooops...',
@@ -5395,7 +5446,7 @@ Template.paymentcard.events({
                         }
                     };
 
-                    paymentService.saveDepositData(objDetails).then(function (data) {
+                    paymentService.saveDepositData(objDetails).then(function(data) {
                         var customerID = $('#edtCustomerEmail').attr('customerid');
                         // Send Email
                         $('#html-2-pdfwrapper').css('display', 'block');
@@ -5410,7 +5461,7 @@ Template.paymentcard.events({
                             let pdfObject = "";
                             var reader = new FileReader();
                             reader.readAsDataURL(encodedPdf);
-                            reader.onloadend = function () {
+                            reader.onloadend = function() {
                                 var base64data = reader.result;
                                 base64data = base64data.split(',')[1];
 
@@ -5489,7 +5540,7 @@ Template.paymentcard.events({
                                         text: '',
                                         html: htmlmailBody,
                                         attachments: attachment
-                                    }, function (error, result) {
+                                    }, function(error, result) {
                                         if (error && error.error === "error") {
                                             FlowRouter.go('/paymentoverview?success=true');
 
@@ -5503,7 +5554,7 @@ Template.paymentcard.events({
                                         text: '',
                                         html: htmlmailBody,
                                         attachments: attachment
-                                    }, function (error, result) {
+                                    }, function(error, result) {
                                         if (error && error.error === "error") {
                                             FlowRouter.go('/paymentoverview?success=true');
                                         } else {
@@ -5532,7 +5583,7 @@ Template.paymentcard.events({
                                         text: '',
                                         html: htmlmailBody,
                                         attachments: attachment
-                                    }, function (error, result) {
+                                    }, function(error, result) {
                                         if (error && error.error === "error") {
                                             FlowRouter.go('/paymentoverview?success=true');
 
@@ -5562,7 +5613,7 @@ Template.paymentcard.events({
                                         text: '',
                                         html: htmlmailBody,
                                         attachments: attachment
-                                    }, function (error, result) {
+                                    }, function(error, result) {
                                         if (error && error.error === "error") {
                                             FlowRouter.go('/paymentoverview?success=true');
                                         } else {
@@ -5590,6 +5641,7 @@ Template.paymentcard.events({
 
                         }
                         addAttachment();
+
                         function generatePdfForMail(invoiceId) {
                             return new Promise((resolve, reject) => {
                                 let templateObject = Template.instance();
@@ -5598,7 +5650,7 @@ Template.paymentcard.events({
                                 let doc = new jsPDF('p', 'pt', 'a4');
                                 doc.setFontSize(18);
                                 var source = document.getElementById('html-2-pdfwrapper');
-                                doc.addHTML(source, function () {
+                                doc.addHTML(source, function() {
                                     //pdf.save('Invoice.pdf');
                                     resolve(doc.output('blob'));
                                     // $('#html-2-pdfwrapper').css('display','none');
@@ -5620,7 +5672,7 @@ Template.paymentcard.events({
                         };
                         $('.fullScreenSpin').css('display', 'none');
                         // FlowRouter.go('/paymentoverview?success=true');
-                    }).catch(function (err) {
+                    }).catch(function(err) {
                         // FlowRouter.go('/paymentoverview?success=true');
                         swal({
                             title: 'Oooops...',
@@ -5647,11 +5699,11 @@ Template.paymentcard.events({
         //     PayMethod = 'Cash';
         // }
     },
-    'click #tblPaymentcard tr .colTransNo': function (event) {
-		let templateObject = Template.instance();
+    'click #tblPaymentcard tr .colTransNo': function(event) {
+        let templateObject = Template.instance();
         $(".chkBox").prop("checked", false);
         let paymentList = [];
-        $('.tblPaymentcard tbody tr').each(function () {
+        $('.tblPaymentcard tbody tr').each(function() {
             paymentList.push(this.id);
 
         })
@@ -5678,14 +5730,14 @@ Template.paymentcard.events({
         $('#customerPaymentListModal').modal();
         $('.fullScreenSpin').css('display', 'none');
     },
-    'click .chkPaymentCard': function () {
+    'click .chkPaymentCard': function() {
         var listData = $(this).closest('tr').attr('id');
         var selectedClient = $(event.target).closest("tr").find(".colCustomerName").text();
         const templateObject = Template.instance();
         const selectedAwaitingPayment = [];
         const selectedAwaitingPayment2 = [];
         const selectedAwaitingPayment3 = [];
-        $('.chkPaymentCard:checkbox:checked').each(function () {
+        $('.chkPaymentCard:checkbox:checked').each(function() {
             //$('.parentClass:not(span)').method
             var chkIdLine = $(this).closest('tr').attr('id');
             var date = $(this).closest("tr").find('.colPaymentDate').text();
@@ -5728,35 +5780,35 @@ Template.paymentcard.events({
         templateObject.selectedAwaitingPayment.set(selectedAwaitingPayment);
     },
 
-    'click .btnSelectSuppliers': function (event) {
+    'click .btnSelectSuppliers': function(event) {
         const templateObject = Template.instance();
         let selectedSupplierPayments = templateObject.selectedAwaitingPayment.get();
-        if(selectedSupplierPayments.length > 0) {
-        let currentApplied = $('.lead').text().replace('$', '').replace(',', '');
-        currentApplied = parseFloat(currentApplied.match(/-?(?:\d+(?:\.\d*)?|\.\d+)/)[0])
+        if (selectedSupplierPayments.length > 0) {
+            let currentApplied = $('.lead').text().replace('$', '').replace(',', '');
+            currentApplied = parseFloat(currentApplied.match(/-?(?:\d+(?:\.\d*)?|\.\d+)/)[0])
             let total = currentApplied;
-        for (let x = 0; x < selectedSupplierPayments.length; x++) {
-            var rowData = $('#tblPaymentcard tbody>tr:last').clone(true);
-            $(".colTransDate", rowData).text(selectedSupplierPayments[x].date);
-            $(".colType", rowData).text("Invoice");
-            $(".colTransNo", rowData).text(selectedSupplierPayments[x].awaitingId);
-            $(".lineOrginalamount", rowData).text(selectedSupplierPayments[x].originalAmount);
-            $(".lineAmountdue", rowData).text(selectedSupplierPayments[x].outstandingAmount);
-            $(".linePaymentamount", rowData).val(selectedSupplierPayments[x].paymentAmount);
-            $(".lineOutstandingAmount", rowData).text(selectedSupplierPayments[x].paymentAmount);
-            $(".colComments", rowData).text(selectedSupplierPayments[x].comments);
-            rowData.attr('id', selectedSupplierPayments[x].awaitingId);
-            rowData.attr('name', selectedSupplierPayments[x].awaitingId);
-            $("#tblPaymentcard tbody").append(rowData);
-            total = total + parseFloat(selectedSupplierPayments[x].paymentAmount.replace('$', '').replace(',', ''))
+            for (let x = 0; x < selectedSupplierPayments.length; x++) {
+                var rowData = $('#tblPaymentcard tbody>tr:last').clone(true);
+                $(".colTransDate", rowData).text(selectedSupplierPayments[x].date);
+                $(".colType", rowData).text("Invoice");
+                $(".colTransNo", rowData).text(selectedSupplierPayments[x].awaitingId);
+                $(".lineOrginalamount", rowData).text(selectedSupplierPayments[x].originalAmount);
+                $(".lineAmountdue", rowData).text(selectedSupplierPayments[x].outstandingAmount);
+                $(".linePaymentamount", rowData).val(selectedSupplierPayments[x].paymentAmount);
+                $(".lineOutstandingAmount", rowData).text(selectedSupplierPayments[x].paymentAmount);
+                $(".colComments", rowData).text(selectedSupplierPayments[x].comments);
+                rowData.attr('id', selectedSupplierPayments[x].awaitingId);
+                rowData.attr('name', selectedSupplierPayments[x].awaitingId);
+                $("#tblPaymentcard tbody").append(rowData);
+                total = total + parseFloat(selectedSupplierPayments[x].paymentAmount.replace('$', '').replace(',', ''))
                 $('.appliedAmount').text(Currency + total.toFixed(2));
+            }
         }
-    }
         templateObject.selectedAwaitingPayment.set([]);
         $('#customerPaymentListModal').modal('hide');
 
     },
-    'keydown #edtPaymentAmount,keydown #lineOrginalamount,keydown #lineAmountdue,keydown #linePaymentamount, keydown #lineOutstandingAmount': function (event) {
+    'keydown #edtPaymentAmount,keydown #lineOrginalamount,keydown #lineAmountdue,keydown #linePaymentamount, keydown #lineOutstandingAmount': function(event) {
         if ($.inArray(event.keyCode, [46, 8, 9, 27, 13, 110]) !== -1 ||
             // Allow: Ctrl+A, Command+A
             (event.keyCode === 65 && (event.ctrlKey === true || event.metaKey === true)) ||
@@ -5774,23 +5826,22 @@ Template.paymentcard.events({
             (event.keyCode >= 96 && event.keyCode <= 105) ||
             event.keyCode == 8 || event.keyCode == 9 ||
             event.keyCode == 37 || event.keyCode == 39 ||
-            event.keyCode == 46 || event.keyCode == 190) {}
-        else {
+            event.keyCode == 46 || event.keyCode == 190) {} else {
             event.preventDefault();
         }
     },
-    'blur #edtPaymentAmount': function (event) {
+    'blur #edtPaymentAmount': function(event) {
         let paymentAmt = $(event.target).val();
         let formatedpaymentAmt = Number(paymentAmt.replace(/[^0-9.-]+/g, "")) || 0;
         $('#edtPaymentAmount').val(utilityService.modifynegativeCurrencyFormat(formatedpaymentAmt));
     },
-    'blur .linePaymentamount': function (event) {
+    'blur .linePaymentamount': function(event) {
         let paymentAmt = $(event.target).val();
         let formatedpaymentAmt = Number(paymentAmt.replace(/[^0-9.-]+/g, "")) || 0;
         $(event.target).val(utilityService.modifynegativeCurrencyFormat(formatedpaymentAmt));
         let $tblrows = $("#tblPaymentcard tbody tr");
         let appliedGrandTotal = 0;
-        $tblrows.each(function (index) {
+        $tblrows.each(function(index) {
             var $tblrow = $(this);
             var pricePayAmount = Number($tblrow.find(".linePaymentamount").val().replace(/[^0-9.-]+/g, "")) || 0;
             if (!isNaN(pricePayAmount)) {
@@ -5802,17 +5853,17 @@ Template.paymentcard.events({
         $('#edtPaymentAmount').val(utilityService.modifynegativeCurrencyFormat(appliedGrandTotal));
         $('.appliedAmount').text(utilityService.modifynegativeCurrencyFormat(appliedGrandTotal));
     },
-    'click .btnBack': function (event) {
+    'click .btnBack': function(event) {
         event.preventDefault();
         history.back(1);
     },
-    'click .printConfirm': function (event) {
+    'click .printConfirm': function(event) {
         $('#html-2-pdfwrapper').css('display', 'block');
         $('.pdfCustomerName').html($('#edtCustomerName').val());
         $('.pdfCustomerAddress').html($('#txabillingAddress').val().replace(/[\r\n]/g, "<br />"));
         exportSalesToPdf();
     },
-    'click .btnRemove': function (event) {
+    'click .btnRemove': function(event) {
         $('.btnDeleteLine').show();
         let templateObject = Template.instance();
         let utilityService = new UtilityService();
@@ -5830,7 +5881,7 @@ Template.paymentcard.events({
                 $(event.target).closest('tr').remove();
                 event.preventDefault();
                 let $tblrows = $("#tblPaymentcard tbody tr");
-                $tblrows.each(function (index) {
+                $tblrows.each(function(index) {
                     var $tblrow = $(this);
                     total += parseFloat($tblrow.find(".linePaymentamount ").val().replace(/[^0-9.-]+/g, "")) || 0;
                 });
@@ -5843,7 +5894,7 @@ Template.paymentcard.events({
 
         }
     },
-    'click .btnDeletePayment': function (event) {
+    'click .btnDeletePayment': function(event) {
         $('.fullScreenSpin').css('display', 'inline-block');
         let templateObject = Template.instance();
         let paymentService = new PaymentsService();
@@ -5861,10 +5912,10 @@ Template.paymentcard.events({
                 }
             };
 
-            paymentService.deleteDepositData(objDetails).then(function (objDetails) {
+            paymentService.deleteDepositData(objDetails).then(function(objDetails) {
                 $('.modal-backdrop').css('display', 'none');
                 FlowRouter.go('/paymentoverview?success=true');
-            }).catch(function (err) {
+            }).catch(function(err) {
                 swal({
                     title: 'Oooops...',
                     text: err,
@@ -5884,11 +5935,11 @@ Template.paymentcard.events({
 
         // $('#deleteLineModal').modal('toggle');
     },
-    'click .btnConfirmPayment': function (event) {
+    'click .btnConfirmPayment': function(event) {
         $('.btnDeleteLine').hide();
         $('#deleteLineModal').modal('toggle');
     },
-    'click .btnDeleteLine': function (event) {
+    'click .btnDeleteLine': function(event) {
         let templateObject = Template.instance();
         let utilityService = new UtilityService();
         let selectLineID = $('#selectDeleteLineID').val();
@@ -5897,7 +5948,7 @@ Template.paymentcard.events({
             let total = 0;
             $('#tblPaymentcard #' + selectLineID).closest('tr').remove();
             let $tblrows = $("#tblPaymentcard tbody tr");
-            $tblrows.each(function (index) {
+            $tblrows.each(function(index) {
                 var $tblrow = $(this);
                 total += parseFloat($tblrow.find(".linePaymentamount ").val().replace(/[^0-9.-]+/g, "")) || 0;
             });
@@ -5910,7 +5961,7 @@ Template.paymentcard.events({
 
         $('#deleteLineModal').modal('toggle');
     },
-    'click .chkcolTransDate': function (event) {
+    'click .chkcolTransDate': function(event) {
         if ($(event.target).is(':checked')) {
             $('.colTransDate').css('display', 'table-cell');
             $('.colTransDate').css('padding', '.75rem');
@@ -5919,7 +5970,7 @@ Template.paymentcard.events({
             $('.colTransDate').css('display', 'none');
         }
     },
-    'click .chkcolType': function (event) {
+    'click .chkcolType': function(event) {
         if ($(event.target).is(':checked')) {
             $('.colType').css('display', 'table-cell');
             $('.colType').css('padding', '.75rem');
@@ -5928,7 +5979,7 @@ Template.paymentcard.events({
             $('.colType').css('display', 'none');
         }
     },
-    'click .chkcolTransNo': function (event) {
+    'click .chkcolTransNo': function(event) {
         if ($(event.target).is(':checked')) {
             $('.colTransNo').css('display', 'table-cell');
             $('.colTransNo').css('padding', '.75rem');
@@ -5937,7 +5988,7 @@ Template.paymentcard.events({
             $('.colTransNo').css('display', 'none');
         }
     },
-    'click .chklineOrginalamount': function (event) {
+    'click .chklineOrginalamount': function(event) {
         if ($(event.target).is(':checked')) {
             $('.lineOrginalamount').css('display', 'table-cell');
             $('.lineOrginalamount').css('padding', '.75rem');
@@ -5946,7 +5997,7 @@ Template.paymentcard.events({
             $('.lineOrginalamount').css('display', 'none');
         }
     },
-    'click .chklineAmountdue': function (event) {
+    'click .chklineAmountdue': function(event) {
         if ($(event.target).is(':checked')) {
             $('.lineAmountdue').css('display', 'table-cell');
             $('.lineAmountdue').css('padding', '.75rem');
@@ -5955,7 +6006,7 @@ Template.paymentcard.events({
             $('.lineAmountdue').css('display', 'none');
         }
     },
-    'click .chklinePaymentamount': function (event) {
+    'click .chklinePaymentamount': function(event) {
         if ($(event.target).is(':checked')) {
             $('.linePaymentamount').css('display', 'table-cell');
             $('.linePaymentamount').css('padding', '.75rem');
@@ -5964,7 +6015,7 @@ Template.paymentcard.events({
             $('.linePaymentamount').css('display', 'none');
         }
     },
-    'click .chklineOutstandingAmount': function (event) {
+    'click .chklineOutstandingAmount': function(event) {
         if ($(event.target).is(':checked')) {
             $('.lineOutstandingAmount').css('display', 'table-cell');
             $('.lineOutstandingAmount').css('padding', '.75rem');
@@ -5973,7 +6024,7 @@ Template.paymentcard.events({
             $('.lineOutstandingAmount').css('display', 'none');
         }
     },
-    'click .chkcolComments': function (event) {
+    'click .chkcolComments': function(event) {
         if ($(event.target).is(':checked')) {
             $('.colComments').css('display', 'table-cell');
             $('.colComments').css('padding', '.75rem');
@@ -5982,47 +6033,47 @@ Template.paymentcard.events({
             $('.colComments').css('display', 'none');
         }
     },
-    'change .rngRangeTransDate': function (event) {
+    'change .rngRangeTransDate': function(event) {
         let range = $(event.target).val();
         $(".spWidthTransDate").html(range + '%');
         $('.colTransDate').css('width', range + '%');
     },
-    'change .rngRangeType': function (event) {
+    'change .rngRangeType': function(event) {
         let range = $(event.target).val();
         $(".spWidthType").html(range + '%');
         $('.colType').css('width', range + '%');
     },
-    'change .rngRangeTransNo': function (event) {
+    'change .rngRangeTransNo': function(event) {
         let range = $(event.target).val();
         $(".spWidthTransNo").html(range + '%');
         $('.colTransNo').css('width', range + '%');
     },
-    'change .rngRangelineOrginalamount': function (event) {
+    'change .rngRangelineOrginalamount': function(event) {
         let range = $(event.target).val();
         $(".spWidthlineOrginalamount").html(range + '%');
         $('.lineOrginalamount').css('width', range + '%');
     },
-    'change .rngRangeAmountdue': function (event) {
+    'change .rngRangeAmountdue': function(event) {
         let range = $(event.target).val();
         $(".spWidthAmountdue").html(range + '%');
         $('.lineAmountdue').css('width', range + '%');
     },
-    'change .rngRangePaymentAmount': function (event) {
+    'change .rngRangePaymentAmount': function(event) {
         let range = $(event.target).val();
         $(".spWidthPaymentAmount").html(range + '%');
         $('.linePaymentamount').css('width', range + '%');
     },
-    'change .rngRangeOutstandingAmount': function (event) {
+    'change .rngRangeOutstandingAmount': function(event) {
         let range = $(event.target).val();
         $(".spWidthOutstandingAmount").html(range + '%');
         $('.lineOutstandingAmount').css('width', range + '%');
     },
-    'change .rngRangeComments': function (event) {
+    'change .rngRangeComments': function(event) {
         let range = $(event.target).val();
         $(".spWidthComments").html(range + '%');
         $('.colComments').css('width', range + '%');
     },
-    'click .btnResetGridSettings': function (event) {
+    'click .btnResetGridSettings': function(event) {
         var getcurrentCloudDetails = CloudUser.findOne({
             _id: Session.get('mycloudLogonID'),
             clouddatabaseID: Session.get('mycloudLogonDBID')
@@ -6039,9 +6090,8 @@ Template.paymentcard.events({
                 if (checkPrefDetails) {
                     CloudPreference.remove({
                         _id: checkPrefDetails._id
-                    }, function (err, idTag) {
-                        if (err) {}
-                        else {
+                    }, function(err, idTag) {
+                        if (err) {} else {
                             Meteor._reload.reload();
                         }
                     });
@@ -6050,11 +6100,11 @@ Template.paymentcard.events({
             }
         }
     },
-    'click .btnSaveGridSettings': function (event) {
+    'click .btnSaveGridSettings': function(event) {
 
         let lineItems = [];
         //let lineItemObj = {};
-        $('.columnSettings').each(function (index) {
+        $('.columnSettings').each(function(index) {
             var $tblrow = $(this);
             var colTitle = $tblrow.find(".divcolumn").text() || '';
             var colWidth = $tblrow.find(".custom-range").val() || 0;
@@ -6106,7 +6156,7 @@ Template.paymentcard.events({
                             customFields: lineItems,
                             updatedAt: new Date()
                         }
-                    }, function (err, idTag) {
+                    }, function(err, idTag) {
                         if (err) {
                             $('#myModal2').modal('toggle');
                             //window.open('/invoiceslist','_self');
@@ -6127,7 +6177,7 @@ Template.paymentcard.events({
                         published: true,
                         customFields: lineItems,
                         createdAt: new Date()
-                    }, function (err, idTag) {
+                    }, function(err, idTag) {
                         if (err) {
                             $('#myModal2').modal('toggle');
                             //window.open('/invoiceslist','_self');
@@ -6142,13 +6192,13 @@ Template.paymentcard.events({
             }
         }
     },
-    'blur .divcolumn': function (event) {
+    'blur .divcolumn': function(event) {
         let columData = $(event.target).html();
         let columHeaderUpdate = $(event.target).attr("valueupdate");
         $("" + columHeaderUpdate + "").html(columData);
 
     },
-    'click .chkEmailCopy': function (event) {
+    'click .chkEmailCopy': function(event) {
         $('#edtCustomerEmail').val($('#edtCustomerEmail').val().replace(/\s/g, ''));
         if ($(event.target).is(':checked')) {
             let checkEmailData = $('#edtCustomerEmail').val();
