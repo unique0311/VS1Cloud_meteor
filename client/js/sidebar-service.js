@@ -951,4 +951,13 @@ getCustomersDataByName(dataSearchName) {
      return this.getList(this.ERPObjects.TCustomer, options);
    }
 
+   getOneProductdatavs1byname(dataSearchName) {
+     let options = '';
+        options = {
+         ListType: "Detail",
+         select: '[ProductName]="'+dataSearchName+'"'
+        };
+     return this.getList(this.ERPObjects.TProduct, options);
+   }
+
 }

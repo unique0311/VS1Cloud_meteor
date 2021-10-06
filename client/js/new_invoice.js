@@ -6828,14 +6828,12 @@ Template.new_invoice.events({
             var productDataID = $(event.target).attr('prodid').replace(/\s/g, '') || '';
             if (productDataName.replace(/\s/g, '') != '') {
                 //FlowRouter.go('/productview?prodname=' + $(event.target).text());
-                //templateObject.getProductData = function () {
                 let lineExtaSellItems = [];
                 let lineExtaSellObj = {};
 
-
                   getVS1Data('TProductVS1').then(function (dataObject) {
                     if(dataObject.length == 0){
-                      productService.getOneProductdatavs1byname(productDataName).then(function (data) {
+                      sideBarService.getOneProductdatavs1byname(productDataName).then(function (data) {
                           $('.fullScreenSpin').css('display','none');
                           let lineItems = [];
                           let lineItemObj = {};
@@ -6928,7 +6926,7 @@ Template.new_invoice.events({
                         }
                       }
                       if(!added) {
-                        productService.getOneProductdatavs1byname(productDataName).then(function (data) {
+                        sideBarService.getOneProductdatavs1byname(productDataName).then(function (data) {
                             $('.fullScreenSpin').css('display','none');
                             let lineItems = [];
                             let lineItemObj = {};
@@ -6972,9 +6970,9 @@ Template.new_invoice.events({
                         });
                       }
                     }
-                    //templateObject.getProductClassQtyData();
                   }).catch(function (err) {
-                    productService.getOneProductdatavs1byname(productDataName).then(function (data) {
+
+                    sideBarService.getOneProductdatavs1byname(productDataName).then(function (data) {
                         $('.fullScreenSpin').css('display','none');
                         let lineItems = [];
                         let lineItemObj = {};
@@ -7344,6 +7342,7 @@ Template.new_invoice.events({
             this.click;
 
             $('#' + selectLineID).closest('tr').remove();
+            $('#deleteLineModal').modal('toggle');
             let $tblrows = $("#tblInvoiceLine tbody tr");
             let $printrows = $(".invoice_print tbody tr");
             $(".invoice_print #" + selectLineID).remove();
@@ -7444,7 +7443,7 @@ Template.new_invoice.events({
                 if (!isNaN(subGrandTotal) && (!isNaN(taxGrandTotal))) {
                     let GrandTotal = (parseFloat(subGrandTotal)) + (parseFloat(taxGrandTotal));
                     document.getElementById("grandTotalPrint").innerHTML = $('#grandTotal').text();
-                    document.getElementById("totalTax").innerHTML = $('#subtotal_tax').text();
+                    // document.getElementById("totalTax").innerHTML = $('#subtotal_tax').text();
                     //document.getElementById("balanceDue").innerHTML = utilityService.modifynegativeCurrencyFormat(GrandTotal);
                     document.getElementById("totalBalanceDuePrint").innerHTML = $('#totalBalanceDue').text();
 
@@ -7472,9 +7471,10 @@ Template.new_invoice.events({
             document.getElementById("grandTotal").innerHTML = Currency + '0.00';
             document.getElementById("balanceDue").innerHTML = Currency + '0.00';
             document.getElementById("totalBalanceDue").innerHTML = Currency + '0.00';
+            $('#deleteLineModal').modal('toggle');
         }
 
-        $('#deleteLineModal').modal('toggle');
+        // $('#deleteLineModal').modal('toggle');
     },
     'click .btnSaveSettings': function(event) {
 

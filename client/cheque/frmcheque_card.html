@@ -772,7 +772,7 @@
                                 <tbody>
                                     {{#each item in chequerecord.LineItems}}
                                         <tr class="dnd-moved" id={{item.lineID}}>
-                                            <td contenteditable="false" class="lineAccountName colAccountName" style="cursor: pointer;">{{item.accountname}}</td>
+                                            <td contenteditable="false" class="lineAccountName colAccountName" style="cursor: pointer;" lineid="{{item.id}}">{{item.accountname}}</td>
                                             <td contenteditable="true" class="lineMemo colMemo">{{item.memo}}</td>
                                             <!--                                    <td contenteditable="true" class="lineAmount colAmount" style="text-align: right!important;">{{item.unitPrice}}</td>-->
 

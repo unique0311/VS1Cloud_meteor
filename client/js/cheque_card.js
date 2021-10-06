@@ -4272,19 +4272,18 @@ Template.chequecard.events({
                 var lineID = this.id;
                 let tdaccount = $('#' + lineID + " .lineAccountName").text();
                 let tddmemo = $('#' + lineID + " .lineMemo").text();
-                let tdamount = $('#' + lineID + " .lineAmount").val();
+                let tdamount = $('#' + lineID + " .colAmountExChange").val();
                 let tdtaxrate = $('#' + lineID + " .lineTaxRate").text();
                 let tdtaxCode = $('#' + lineID + " .lineTaxCode").text();
-
+                let erpLineID = $('#' + lineID + " .lineAccountName").attr('lineid');
                 if (tdaccount != "") {
 
                     lineItemObjForm = {
                         type: "TChequeLine",
                         fields: {
+                            ID: parseInt(erpLineID) || 0,
                             AccountName: tdaccount || '',
                             ProductDescription: tddmemo || '',
-
-
                             LineCost: Number(tdamount.replace(/[^0-9.-]+/g, "")) || 0,
                             LineTaxCode: tdtaxCode || '',
                         }
