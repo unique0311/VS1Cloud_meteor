@@ -522,6 +522,16 @@ Template.timesheet.onRendered(function () {
     $(document).ready(function () {
         $('#tblTimeSheet tbody').on('click', 'tr .colName, tr .colDate, tr .colJob, tr .colNotes, tr .colProduct, tr.colStatus', function (event) {
             event.preventDefault();
+            
+            let productCheck = templateObject.productsdatatablerecords.get();
+            productCheck = productCheck.filter(pdctList => {
+                return pdctList.productname == $(event.target).closest("tr").find('.colProduct').text();
+            });
+            if(productCheck.length  > 0){
+                $('#product-listone').val($(event.target).closest("tr").find('.colProduct').text());
+            } else {
+                $('#product-listone').prepend('<option>' + $(event.target).closest("tr").find('.colProduct').text() + '</option>');
+            }
             $('#employee_name').val($(event.target).closest("tr").find('.colName').text());
             $('#sltJobOne').val($(event.target).closest("tr").find('.colJob').text());
             $('#product-listone').val($(event.target).closest("tr").find('.colProduct').text());
