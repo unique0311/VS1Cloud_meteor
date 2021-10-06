@@ -75,7 +75,7 @@ Template.timesheet.onRendered(function () {
     };
     // templateObject.dateAsAt.set(begunDate);
 
-    $("#date-input,#dateTo,#dtSODate, #dateFrom").datepicker({
+    $("#date-input,#dateTo,  #dtSODate, #dateFrom").datepicker({
         showOn: 'button',
         buttonText: 'Show Date',
         buttonImageOnly: true,
@@ -553,6 +553,14 @@ Template.timesheet.onRendered(function () {
                 } else {
                     $('.btnHoldOne').prop('disabled', false);
                 }
+
+                if (clockList[clockList.length - 1].isPaused == "paused") {
+                        $(".paused").show();
+                        $("#btnHoldOne").prop("disabled", true);
+                    } else {
+                        $(".paused").hide();
+                        $("#btnHoldOne").prop("disabled", false);
+               }
                 if (Array.isArray(clockList[clockList.length - 1].timelog) && clockList[clockList.length - 1].isPaused != "completed") {
                     let startTime = clockList[clockList.length - 1].timelog[0].fields.StartDatetime || '';
                     let date = clockList[clockList.length - 1].timesheetdate;
@@ -586,7 +594,10 @@ Template.timesheet.onRendered(function () {
                         }
                     }
                 }
-            }
+            } else {
+            $(".paused").hide();
+            $("#btnHoldOne").prop("disabled", false);
+        }
             $('#settingsModal').modal('show');
         });
 
@@ -931,6 +942,16 @@ Template.timesheet.events({
             } else {
                 $('.btnHoldOne').prop('disabled', false);
             }
+
+
+            if (clockList[clockList.length - 1].isPaused == "paused") {
+                        $(".paused").show();
+                        $("#btnHoldOne").prop("disabled", true);
+                    } else {
+                        $(".paused").hide();
+                        $("#btnHoldOne").prop("disabled", false);
+            }
+
             if (Array.isArray(clockList[clockList.length - 1].timelog) && clockList[clockList.length - 1].isPaused != "completed") {
                 let startTime = clockList[clockList.length - 1].timelog[clockList[clockList.length - 1].timelog.length - 1].fields.StartDatetime || '';
                 let date = clockList[clockList.length - 1].timesheetdate;
@@ -964,6 +985,9 @@ Template.timesheet.events({
                     }
                 }
             }
+        }  else {
+            $(".paused").hide();
+            $("#btnHoldOne").prop("disabled", false);
         }
         $('#settingsModal').modal('show');
     },
@@ -1053,7 +1077,9 @@ Template.timesheet.events({
 
                 contactService.saveTimeSheetLog(newEntry).then(function (savedData) {
                     contactService.saveTimeSheetLog(toUpdate).then(function (savedData1) {
-                        contactService.saveClockTimeSheet(updateTimeSheet).then(function (savedTimesheetData) {}).catch(function (err) {
+                        contactService.saveClockTimeSheet(updateTimeSheet).then(function (savedTimesheetData) {
+                            window.open("/timesheet", '_self');
+                        }).catch(function (err) {
                             swal({
                                 title: 'Oooops...',
                                 text: err,
@@ -1068,7 +1094,7 @@ Template.timesheet.events({
                             $('.fullScreenSpin').css('display', 'none');
                         }).catch(function (err) {});
                         // contactService.saveClockonClockOff(toUpdate).then(function (data) {
-                        window.open("/timesheet", '_self');
+                        
                         // })
                     }).catch(function (err) {
                         swal({
@@ -1151,14 +1177,14 @@ Template.timesheet.events({
                 } else if (result.dismiss === 'cancel') {}
             });
             $('.fullScreenSpin').css('display', 'none');
-
         } else if (checkStatus == "paused") {
+            $('.fullScreenSpin').css('display', 'none');
             swal({
-                title: 'Cant Clock Off',
-                text: 'You cant Clock Off because you are currently Paused',
-                type: 'warning',
-                showCancelButton: true,
-                confirmButtonText: 'Ok'
+                    title: 'Cant End Timesheet',
+                    text: 'This Timesheet is Currently Paused, click "OK" to go back and click "Clock On" to Continue the Job',
+                    type: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Ok'
             })
         } else {
             swal({

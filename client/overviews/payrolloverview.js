@@ -787,6 +787,15 @@ Template.payrolloverview.events({
                 } else {
                     $('.btnOnHold').prop('disabled', false);
                 }
+
+
+                 if (clockList[clockList.length - 1].isPaused == "paused") {
+                        $(".paused").show();
+                        $("#btnHold").prop("disabled", true);
+                    } else {
+                        $(".paused").hide();
+                        $("#btnHold").prop("disabled", false);
+            }
                 if (Array.isArray(clockList[clockList.length - 1].timelog) && clockList[clockList.length - 1].isPaused != "completed") {
                     let startTime = clockList[clockList.length - 1].timelog[0].fields.StartDatetime || '';
                     let date = clockList[clockList.length - 1].timesheetdate;
@@ -820,7 +829,10 @@ Template.payrolloverview.events({
                         }
                     }
                 }
-            }
+            } else {
+            $(".paused").hide();
+            $("#btnHoldOne").prop("disabled", false);
+        }
             $('.fullScreenSpin').css('display', 'none');
             $('#settingsModal').modal('show');
         } else {
@@ -913,7 +925,9 @@ Template.payrolloverview.events({
 
                 contactService.saveTimeSheetLog(newEntry).then(function (savedData) {
                     contactService.saveTimeSheetLog(toUpdate).then(function (savedData1) {
-                        contactService.saveClockTimeSheet(updateTimeSheet).then(function (savedTimesheetData) {}).catch(function (err) {
+                        contactService.saveClockTimeSheet(updateTimeSheet).then(function (savedTimesheetData) {
+                            window.open("/payrolloverview", '_self');
+                        }).catch(function (err) {
                             swal({
                                 title: 'Oooops...',
                                 text: err,
@@ -928,7 +942,6 @@ Template.payrolloverview.events({
                             $('.fullScreenSpin').css('display', 'none');
                         }).catch(function (err) {});
                         // contactService.saveClockonClockOff(toUpdate).then(function (data) {
-                        window.open("/payrolloverview", '_self');
                         // })
                     }).catch(function (err) {
                         swal({
@@ -1018,9 +1031,6 @@ Template.payrolloverview.events({
             endTime = date + ' ' + endTime;
         }
 
-        if (edthour < 1) {
-            edthour = 1;
-        }
         if (checkStartTime == "" && endTime != "") {
             $('.fullScreenSpin').css('display', 'none');
             swal({
@@ -1269,12 +1279,13 @@ Template.payrolloverview.events({
             $('.fullScreenSpin').css('display', 'none');
 
         } else if (checkStatus == "paused") {
+           $('.fullScreenSpin').css('display', 'none');
             swal({
-                title: 'Cant Clock Off',
-                text: 'You cant Clock Off because you are currently Paused',
-                type: 'warning',
-                showCancelButton: true,
-                confirmButtonText: 'Ok'
+                    title: 'Cant End Timesheet',
+                    text: 'This Timesheet is Currently Paused, click "OK" to go back and click "Clock On" to Continue the Job',
+                    type: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Ok'
             })
         } else {
             swal({
