@@ -126,7 +126,7 @@ Template.vs1shipping.onRendered(function() {
                     setTimeout(function () {
                         $('#tblShipping').DataTable({
                             columnDefs: [
-                                {type: 'date', targets: 0}
+                                {type: 'date', targets: -1}
                             ],
                             "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
                             buttons: [
@@ -172,7 +172,7 @@ Template.vs1shipping.onRendered(function() {
                             lengthMenu: [ [initialDatatableLoad, -1], [initialDatatableLoad, "All"] ],
                             info: true,
                             responsive: true,
-                            "order": [[ 0, "desc" ],[ 2, "desc" ]],
+                            "order": [[ 5, "desc" ],[ 2, "desc" ]],
                             action: function () {
                                 $('#tblShipping').DataTable().ajax.reload();
                             },
@@ -369,7 +369,7 @@ Template.vs1shipping.onRendered(function() {
                         lengthMenu: [ [initialDatatableLoad, -1], [initialDatatableLoad, "All"] ],
                         info: true,
                         responsive: true,
-                        "order": [[ 0, "desc" ],[ 2, "desc" ]],
+                        "order": [[ 5, "desc" ],[ 2, "desc" ]],
                         action: function () {
                             $('#tblShipping').DataTable().ajax.reload();
                         },
@@ -654,7 +654,7 @@ Template.vs1shipping.onRendered(function() {
                         lengthMenu: [ [initialDatatableLoad, -1], [initialDatatableLoad, "All"] ],
                         info: true,
                         responsive: true,
-                        "order": [[ 0, "desc" ],[ 2, "desc" ]],
+                        "order": [[ 5, "desc" ],[ 2, "desc" ]],
                         action: function () {
                             $('#tblShipping').DataTable().ajax.reload();
                         },
