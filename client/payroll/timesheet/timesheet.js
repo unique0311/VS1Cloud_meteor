@@ -248,7 +248,7 @@ Template.timesheet.onRendered(function () {
                     "scrollCollapse": true,
                     info: true,
                     responsive: true,
-                    "order": [[2, "desc"]],
+                    "order": [[1, "desc"]],
                     action: function () {
                         $('#tblTimeSheet').DataTable().ajax.reload();
                     },
