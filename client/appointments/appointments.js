@@ -566,7 +566,7 @@ Template.appointments.onRendered(function () {
 
                     if (Session.get('CloudAppointmentStartStopAccessLevel') == true) {
                         $("#btnHold").prop("disabled", true);
-                    } 
+                    }
 
                     if (result[0].aEndTime != "") {
                         $("#btnHold").prop("disabled", true);
@@ -742,7 +742,7 @@ Template.appointments.onRendered(function () {
 
                   if (Session.get('CloudAppointmentStartStopAccessLevel') == true) {
                         $("#btnHold").prop("disabled", true);
-                } 
+                }
                 document.getElementById("employee_name").value = event.draggedEl.innerText.replace(/[0-9]/g, '');
                 var start = event.dateStr != '' ? moment(event.dateStr).format("DD/MM/YYYY") : event.dateStr;
                 document.getElementById("dtSODate").value = start;
@@ -959,7 +959,7 @@ Template.appointments.onRendered(function () {
 
                     if (Session.get('CloudAppointmentStartStopAccessLevel') == true) {
                         $("#btnHold").prop("disabled", true);
-                    } 
+                    }
 
                     if (result[0].aEndTime != "") {
                         $("#btnHold").prop("disabled", true);
@@ -1138,7 +1138,7 @@ Template.appointments.onRendered(function () {
 
                   if (Session.get('CloudAppointmentStartStopAccessLevel') == true) {
                         $("#btnHold").prop("disabled", true);
-                } 
+                }
                 document.getElementById("employee_name").value = event.draggedEl.innerText.replace(/[0-9]/g, '');
                 var start = event.dateStr != '' ? moment(event.dateStr).format("DD/MM/YYYY") : event.dateStr;
                 document.getElementById("dtSODate").value = start;
@@ -2402,7 +2402,7 @@ Template.appointments.onRendered(function () {
 
                               if (Session.get('CloudAppointmentStartStopAccessLevel') == true) {
                         $("#btnHold").prop("disabled", true);
-                    } 
+                    }
                             document.getElementById("employee_name").value = event.draggedEl.innerText.replace(/[0-9]/g, '');
                             var start = event.dateStr != '' ? moment(event.dateStr).format("DD/MM/YYYY") : event.dateStr;
                             document.getElementById("dtSODate").value = start;
@@ -3890,7 +3890,7 @@ Template.appointments.onRendered(function () {
                         $("#txtActualHoursSpent").prop("disabled", false);
                           if (Session.get('CloudAppointmentStartStopAccessLevel') == true) {
                         $("#btnHold").prop("disabled", true);
-                    } 
+                    }
                         document.getElementById("employee_name").value = event.draggedEl.innerText.replace(/[0-9]/g, '');
                         var start = event.dateStr != '' ? moment(event.dateStr).format("DD/MM/YYYY") : event.dateStr;
                         document.getElementById("dtSODate").value = start;
@@ -4464,7 +4464,7 @@ Template.appointments.onRendered(function () {
 
                     if (Session.get('CloudAppointmentStartStopAccessLevel') == true) {
                         $("#btnHold").prop("disabled", true);
-                    } 
+                    }
                             if (result[0].aEndTime != "") {
                                 $("#btnHold").prop("disabled", true);
                                 $("#btnStartActualTime").prop("disabled", true);
@@ -4597,7 +4597,7 @@ Template.appointments.onRendered(function () {
                         $("#txtActualHoursSpent").prop("disabled", false);
                           if (Session.get('CloudAppointmentStartStopAccessLevel') == true) {
                         $("#btnHold").prop("disabled", true);
-                    } 
+                    }
                         document.getElementById("employee_name").value = event.draggedEl.innerText.replace(/[0-9]/g, '');
                         var start = event.dateStr != '' ? moment(event.dateStr).format("DD/MM/YYYY") : event.dateStr;
                         document.getElementById("dtSODate").value = start;
@@ -4893,7 +4893,7 @@ Template.appointments.onRendered(function () {
 
 
 $( document ).ready(function() {
-    
+
 })
 
 });
@@ -7433,7 +7433,7 @@ Template.appointments.events({
         $('.fullScreenSpin').css('display', 'inline-block');
         event.preventDefault();
 
-       
+
 
         let showSat = "F";
         let showSun = "F";
@@ -7624,7 +7624,7 @@ Template.appointments.events({
 
     },
     'click #btnHold span': function (event) {
-    if (Session.get('CloudAppointmentStartStopAccessLevel') == true) {           
+    if (Session.get('CloudAppointmentStartStopAccessLevel') == true) {
          swal({
             title: 'Oooops',
             text: 'You dont have access to put appointments "On Hold"',

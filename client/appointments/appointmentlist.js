@@ -1264,6 +1264,7 @@ Template.appointmentlist.events({
         let isDoneInvoice = false;
 
         sideBarService.getAllAppointmentList(initialDataLoad,0).then(function (data) {
+          if(data.tappointmentex.length > 0){
             addVS1Data('TAppointment', JSON.stringify(data)).then(function (datareturn) {
                 isDoneAppointment = true;
                 if((isDoneAppointment == true) && (isDoneInvoice == true)){
@@ -1275,6 +1276,7 @@ Template.appointmentlist.events({
                     window.open('/appointmentlist','_self');
                 }
             });
+          }
         }).catch(function (err) {
             isDoneAppointment = true;
             if((isDoneAppointment == true) && (isDoneInvoice == true)){
@@ -1286,18 +1288,18 @@ Template.appointmentlist.events({
             addVS1Data('TInvoiceEx', JSON.stringify(data)).then(function (datareturn) {
                 isDoneInvoice = true;
                 if((isDoneAppointment == true) && (isDoneInvoice == true)){
-                    window.open('/appointmentlist','_self');
+
                 }
             }).catch(function (err) {
                 isDoneInvoice = true;
                 if((isDoneAppointment == true) && (isDoneInvoice == true)){
-                    window.open('/appointmentlist','_self');
+
                 }
             });
         }).catch(function (err) {
             isDoneInvoice = true;
             if((isDoneAppointment == true) && (isDoneInvoice == true)){
-                window.open('/appointmentlist','_self');
+
             }
         });
 
