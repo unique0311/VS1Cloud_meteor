@@ -23,6 +23,7 @@ Template.vs1shipping.onRendered(function() {
     var splashArray = new Array();
     const dataTableList = [];
     const tableHeaderList = [];
+    $("#barcodeScanInput" ).focus();
 
     var isMobile = false;
     if (/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|ipad|iris|kindle|Android|Silk|lge |maemo|midp|mmp|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows (ce|phone)|xda|xiino/i.test(navigator.userAgent) ||
@@ -235,7 +236,6 @@ Template.vs1shipping.onRendered(function() {
                     });
 
                 }).catch(function (err) {
-                    // Bert.alert('<strong>' + err + '</strong>!', 'danger');
                     $('.fullScreenSpin').css('display','none');
                     // Meteor._reload.reload();
                 });
@@ -717,7 +717,7 @@ Template.vs1shipping.onRendered(function() {
                 });
 
             }).catch(function (err) {
-                // Bert.alert('<strong>' + err + '</strong>!', 'danger');
+
                 $('.fullScreenSpin').css('display','none');
                 // Meteor._reload.reload();
             });
@@ -726,12 +726,217 @@ Template.vs1shipping.onRendered(function() {
     }
 
     templateObject.getAllSalesOrderData();
+
+    $("#barcodeScanInput").keyup(function (e) {
+
+    if (e.keyCode == 13) {
+      $('.fullScreenSpin').css('display', 'inline-block');
+      var barcode = $(this).val().toUpperCase();
+      if(barcode != ''){
+        if(barcode.length <= 2){
+          $('.fullScreenSpin').css('display', 'none');
+          // Bert.alert('<strong>WARNING:</strong> Invalid Barcode "'+barcode+'"', 'now-dangerorange');
+          swal('<strong>WARNING:</strong> Invalid Barcode "'+barcode+'"', '', 'warning');
+          DangerSound();
+          e.preventDefault();
+        }else{
+          var segs = barcode.split('-');
+        if(segs[0] == Barcode_Prefix_Sale){
+          var sales_ID = segs[1];
+          var erpGet = erpDb();
+          var oReqSID = new XMLHttpRequest();
+          oReqSID.open("GET",'https://' + erpGet.ERPIPAddress + ':' + erpGet.ERPPort + '/' + erpGet.ERPApi + '/SaleGroup?SaleID='+ sales_ID, true);
+          oReqSID.setRequestHeader("database",erpGet.ERPDatabase);
+          oReqSID.setRequestHeader("username",erpGet.ERPUsername);
+          oReqSID.setRequestHeader("password",erpGet.ERPPassword);
+          oReqSID.send();
+
+      oReqSID.timeout = 30000;
+      oReqSID.onreadystatechange = function() {
+      if (oReqSID.readyState == 4 && oReqSID.status == 200) {
+        var dataListRet = JSON.parse(oReqSID.responseText)
+        for (var event in dataListRet) {
+        var dataCopy = dataListRet[event];
+        for (var data in dataCopy) {
+        var mainData = dataCopy[data];
+        var salesType = mainData.TransactionType;
+        var salesID = mainData.SaleID;
+            }
+          }
+      if(salesType == "Invoice"){
+              window.open('/shippingdocket?id='+salesID,'_self');
+      }else{
+        $('.fullScreenSpin').css('display', 'none');
+        // Bert.alert('<strong>WARNING:</strong> No Invoice with that number "'+barcode+'"', 'now-dangerorange');
+          swal('<strong>WARNING:</strong> No Invoice with that number "'+barcode+'"', '', 'warning');
+        DangerSound();
+              e.preventDefault();
+            }
+
+
+        }
+
+          AddUERP(oReqSID.responseText);
+      }
+
+
+  }else if(segs[0] == Barcode_Prefix_SalesLine){
+          var salesLine_ID = segs[1];
+          var erpGet = erpDb();
+          var oReqSLineID = new XMLHttpRequest();
+          oReqSLineID.open("GET",'https://' + erpGet.ERPIPAddress + ':' + erpGet.ERPPort + '/' + erpGet.ERPApi + '/SaleGroup?SaleLineID='+ salesLine_ID, true);
+          oReqSLineID.setRequestHeader("database",erpGet.ERPDatabase);
+          oReqSLineID.setRequestHeader("username",erpGet.ERPUsername);
+          oReqSLineID.setRequestHeader("password",erpGet.ERPPassword);
+          oReqSLineID.send();
+
+      oReqSLineID.timeout = 30000;
+      oReqSLineID.onreadystatechange = function() {
+      if (oReqSLineID.readyState == 4 && oReqSLineID.status == 200) {
+        var dataListRet = JSON.parse(oReqSLineID.responseText)
+        for (var event in dataListRet) {
+        var dataCopy = dataListRet[event];
+        for (var data in dataCopy) {
+        var mainData = dataCopy[data];
+        var salesType = mainData.TransactionType;
+        var salesID = mainData.SaleID;
+            }
+          }
+     if(salesType == "Invoice"){
+          window.open('/shippingdocket?id='+salesID,'_self');
+
+        }else{
+          $('.fullScreenSpin').css('display', 'none');
+          Bert.alert( '<strong>WARNING:</strong> Could not find any Sales associated with this barcode "'+barcode+'"', 'warning','fixed-top', 'fa-frown-o' );
+          e.preventDefault();
+        }
+
+
+    }
+
+    AddUERP(oReqSID.responseText);
+      }
+
+
+
+  }else{
+    $('.fullScreenSpin').css('display', 'none');
+    Bert.alert( '<strong>WARNING:</strong> Could not find any Sales associated with this barcode "'+barcode+'"', 'warning','fixed-top', 'fa-frown-o' );
+    e.preventDefault();
+  }
+    }
+      }
+    }
+});
+
 });
 
 Template.vs1shipping.events({
-    // 'click .btnScan': function(e) {
-    //     FlowRouter.go('/shippingdocket');
-    // }
+    'click .btnDesktopSearch': function(e) {
+      let barcodeData = $('#barcodeScanInput').val();
+      $('.fullScreenSpin').css('display', 'inline-block');
+      if (barcodeData === '') {
+          swal('Please enter the barcode', '', 'warning');
+          $('.fullScreenSpin').css('display', 'none');
+          e.preventDefault();
+          return false;
+      }
+
+        var barcode = $('#barcodeScanInput').val().toUpperCase();
+        if(barcode != ''){
+          if(barcode.length <= 2){
+            $('.fullScreenSpin').css('display', 'none');
+            Bert.alert('<strong>WARNING:</strong> Invalid Barcode "'+barcode+'"', 'now-dangerorange');
+            DangerSound();
+            e.preventDefault();
+          }else{
+            var segs = barcode.split('-');
+          if(segs[0] == Barcode_Prefix_Sale){
+            var sales_ID = segs[1];
+            var erpGet = erpDb();
+            var oReqSID = new XMLHttpRequest();
+            oReqSID.open("GET",'https://' + erpGet.ERPIPAddress + ':' + erpGet.ERPPort + '/' + erpGet.ERPApi + '/SaleGroup?SaleID='+ sales_ID, true);
+            oReqSID.setRequestHeader("database",erpGet.ERPDatabase);
+            oReqSID.setRequestHeader("username",erpGet.ERPUsername);
+            oReqSID.setRequestHeader("password",erpGet.ERPPassword);
+            oReqSID.send();
+
+        oReqSID.timeout = 30000;
+        oReqSID.onreadystatechange = function() {
+        if (oReqSID.readyState == 4 && oReqSID.status == 200) {
+          var dataListRet = JSON.parse(oReqSID.responseText)
+          for (var event in dataListRet) {
+          var dataCopy = dataListRet[event];
+          for (var data in dataCopy) {
+          var mainData = dataCopy[data];
+          var salesType = mainData.TransactionType;
+          var salesID = mainData.SaleID;
+              }
+            }
+        if(salesType == "Invoice"){
+                window.open('/shippingdocket?id='+salesID,'_self');
+        }else{
+          $('.fullScreenSpin').css('display', 'none');
+          swal('<strong>WARNING:</strong> No Invoice with that number "'+barcode+'"', '', 'warning');
+          DangerSound();
+                e.preventDefault();
+              }
+
+
+          }
+
+            AddUERP(oReqSID.responseText);
+        }
+
+
+    }else if(segs[0] == Barcode_Prefix_SalesLine){
+            var salesLine_ID = segs[1];
+            var erpGet = erpDb();
+            var oReqSLineID = new XMLHttpRequest();
+            oReqSLineID.open("GET",'https://' + erpGet.ERPIPAddress + ':' + erpGet.ERPPort + '/' + erpGet.ERPApi + '/SaleGroup?SaleLineID='+ salesLine_ID, true);
+            oReqSLineID.setRequestHeader("database",erpGet.ERPDatabase);
+            oReqSLineID.setRequestHeader("username",erpGet.ERPUsername);
+            oReqSLineID.setRequestHeader("password",erpGet.ERPPassword);
+            oReqSLineID.send();
+
+        oReqSLineID.timeout = 30000;
+        oReqSLineID.onreadystatechange = function() {
+        if (oReqSLineID.readyState == 4 && oReqSLineID.status == 200) {
+          var dataListRet = JSON.parse(oReqSLineID.responseText)
+          for (var event in dataListRet) {
+          var dataCopy = dataListRet[event];
+          for (var data in dataCopy) {
+          var mainData = dataCopy[data];
+          var salesType = mainData.TransactionType;
+          var salesID = mainData.SaleID;
+              }
+            }
+       if(salesType == "Invoice"){
+            window.open('/shippingdocket?id='+salesID,'_self');
+
+          }else{
+            $('.fullScreenSpin').css('display', 'none');
+            Bert.alert( '<strong>WARNING:</strong> Could not find any Sales associated with this barcode "'+barcode+'"', 'warning','fixed-top', 'fa-frown-o' );
+            e.preventDefault();
+          }
+
+
+      }
+
+      AddUERP(oReqSID.responseText);
+        }
+
+
+
+    }else{
+      $('.fullScreenSpin').css('display', 'none');
+      Bert.alert( '<strong>WARNING:</strong> Could not find any Sales associated with this barcode "'+barcode+'"', 'warning','fixed-top', 'fa-frown-o' );
+      e.preventDefault();
+    }
+      }
+        }
+
+    }
 });
 
 Template.vs1shipping.helpers({
