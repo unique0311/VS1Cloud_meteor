@@ -3522,7 +3522,7 @@ Template.billcard.events({
                         $('#edtAccountName').attr('readonly', true);
                         $('#sltAccountType').attr('readonly', true);
                         $('#sltAccountType').attr('disabled', 'disabled');
-                        
+
                         var accountid = data.taccountvs1[0].fields.ID || '';
                         var accounttype = fullAccountTypeName || data.taccountvs1[0].fields.AccountTypeName;
                         var accountname = data.taccountvs1[0].fields.AccountName || '';
@@ -3981,8 +3981,6 @@ Template.billcard.events({
                             AccountName: tdaccount || '',
                             ProductDescription: tddmemo || '',
                             CustomerJob: tdCustomerJob || '',
-
-
                             LineCost: Number(tdamount.replace(/[^0-9.-]+/g, "")) || 0,
                             LineTaxCode: tdtaxCode || '',
                             LineClassName: $('#sltDept').val() || defaultDept

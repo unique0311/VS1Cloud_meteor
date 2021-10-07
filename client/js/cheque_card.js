@@ -1524,10 +1524,9 @@ Template.chequecard.onRendered(() => {
             $(".lineTaxCode", rowData).text("");
             $(".lineAmt", rowData).text("");
             $(".lineTaxAmount", rowData).text("");
+            $(".lineAccountName", rowData).attr('lineid', '');
             rowData.attr('id', tokenid);
             $("#tblChequeLine tbody").append(rowData);
-
-
             if ($('#printID').val() != "") {
                 var rowData1 = $('.cheque_print tbody>tr:last').clone(true);
                 $("#lineAccountName", rowData1).text("");
@@ -4317,7 +4316,7 @@ Template.chequecard.events({
             let poNumber = $('#ponumber').val();
             let reference = $('#edtRef').val();
 
-            let departement = $('#sltDept').val();
+            let departement = $('#sltDept').val()||'';
             let shippingAddress = $('#txaShipingInfo').val();
             let comments = $('#txaComment').val();
             let pickingInfrmation = $('#txapickmemo').val();
@@ -4325,7 +4324,7 @@ Template.chequecard.events({
             let saleCustField1 = $('#edtSaleCustField1').val();
             let saleCustField2 = $('#edtSaleCustField2').val();
             let orderStatus = $('#edtStatus').val();
-            let billTotal = $('#grandTotal').text();
+            let chequeTotal = $('#grandTotal').text();
 
             var url = FlowRouter.current().path;
             var getso_id = url.split('?id=');
@@ -4344,22 +4343,17 @@ Template.chequecard.events({
                         Lines: splashLineArray,
                         OrderTo: billingAddress,
                         GLAccountName: bankAccount,
-
                         OrderDate: saleDate,
-
                         SupplierInvoiceNumber: poNumber,
                         ConNote: reference,
-
                         Shipping: departement,
                         ShipTo: shippingAddress,
                         Comments: comments,
                         RefNo: reference,
-
-
                         SalesComments: pickingInfrmation,
                         Attachments: uploadedItems,
                         OrderStatus: $('#sltStatus').val(),
-
+                        Chequetotal: Number(chequeTotal.replace(/[^0-9.-]+/g, "")) || 0
                     }
                 };
             } else {
@@ -4372,20 +4366,16 @@ Template.chequecard.events({
                         OrderTo: billingAddress,
                         GLAccountName: bankAccount,
                         OrderDate: saleDate,
-
                         SupplierInvoiceNumber: poNumber,
                         ConNote: reference,
-
                         Shipping: departement,
                         ShipTo: shippingAddress,
                         Comments: comments,
                         RefNo: reference,
-
-
                         SalesComments: pickingInfrmation,
                         Attachments: uploadedItems,
                         OrderStatus: $('#sltStatus').val(),
-
+                        Chequetotal: Number(chequeTotal.replace(/[^0-9.-]+/g, "")) || 0
                     }
                 };
             }
