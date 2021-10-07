@@ -1,6 +1,4 @@
-import {
-  BaseService
-} from '../js/base-service.js';
+import {BaseService} from '../js/base-service.js';
 export class SideBarService extends BaseService {
   getNewProductListVS1(limitcount, limitfrom) {
     let options = '';
@@ -663,7 +661,8 @@ getCustomersDataByName(dataSearchName) {
 
   getShippingMethodData() {
     let options = {
-      PropertyList: "ID,ShippingMethod,",
+      PropertyList: "ID,ShippingMethod",
+      select: "[Active]=true"
     };
     return this.getList(this.ERPObjects.TShippingMethod, options);
   }
@@ -782,6 +781,25 @@ getCustomersDataByName(dataSearchName) {
    };
   }
     return this.getList(this.ERPObjects.BackOrderSalesList, options);
+  }
+
+  getAllBackOrderInvoiceList(limitcount, limitfrom) {
+    let options = '';
+    if(limitcount == 'All'){
+     options = {
+       orderby:'"SaleID desc"',
+       PropertyList: "Id,ClientName,EmployeeName,SaleClassName,SaleDate",
+    };
+  }else{
+    options = {
+      orderby:'"SaleID desc"',
+      PropertyList: "Id,ClientName,EmployeeName,SaleClassName,SaleDate",
+     //  select: "[Deleted]=false",
+     // //  LimitCount:'"'+limitcount+'"',
+     // // LimitFrom:'"'+limitfrom+'"'
+   };
+  }
+    return this.getList(this.ERPObjects.TInvoiceBackOrder, options);
   }
 
 
@@ -953,5 +971,7 @@ getCustomersDataByName(dataSearchName) {
      }
         return this.getList(this.ERPObjects.TTimeSheet, options);
     }
+
+
 
 }

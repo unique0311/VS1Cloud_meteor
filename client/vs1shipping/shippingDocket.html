@@ -62,12 +62,11 @@
                 </div>
             </div>
         </div>
-
+        {{#if shippingrecord}}
         <div class="row" style="background-color: #ededed; padding: 32px; padding-bottom: 0px;">
             <div class="col-12 col-lg-3">
                 <div class="form-group"><label>Customer</label>
-                    <select type="search" class="form-control" id="edtCustomerName" name="edtCustomerName" custid=" " style="background-color:rgb(255, 255, 255); cursor: pointer;">
-                    </select>
+                    <input class="form-control form-control" type="text" id="edtCustomerName" name="edtCustomerName" value="{{shippingrecord.shipcustomer}}">
                 </div>
             </div>
             <div class="col-12 col-lg-3">
@@ -87,7 +86,7 @@
         <div class="row" style="background-color: #ededed; padding: 24px 32px 0px 32px;">
             <div class="col-12 col-lg-3">
                 <div class="form-group billaddressfield fieldwidth" id="fieldwidth"><label>Shipping Address</label>
-                    <textarea class="form-control" rows="5" id="txaShipingInfo" name="txaShipingInfo"></textarea>
+                    <textarea class="form-control" rows="5" id="txaShipingInfo" name="txaShipingInfo">{{shippingrecord.shipto}}</textarea>
                 </div>
             </div>
             <div class="col-12 col-lg-3">
@@ -96,7 +95,7 @@
                         <div class="form-group" data-toggle="tooltip" data-placement="bottom" title="Date format: DD/MM/YYYY">
                             <label>Shipping Date</label>
                             <div class="input-group date" style="cursor: pointer;">
-                                <input type="text" class="form-control" id="dtSODate" name="dtSODate" value="">
+                                <input type="text" class="form-control" id="dtShipDate" name="dtShipDate" value="{{shippingrecord.shipdate}}">
                                 <div class="input-group-addon" style="">
                                     <span class="glyphicon glyphicon-th" style="cursor: pointer;"></span>
                                 </div>
@@ -105,20 +104,27 @@
 
                         <div class="form-group">
                             <label>Ship Via</label>
-                            <select class="form-control" id="sltShipVia" name="sltShipVia" style="cursor: pointer;">
-                                <option value="" selected="selected"></option>
+                            <select class="form-control" id="shipvia" name="shipvia" style="cursor: pointer;">
+                              <option value="">Please Select</option>
+                              {{#each item in shipviarecords}}
+                                  {{#if equals item.shippingmethod shippingrecord.shipping }}
+                                      <option value="{{shippingrecord.shipping}}" selected="">{{shippingrecord.shipping}}</option>
+                                  {{else}}
+                                      <option value="{{item.shippingmethod}}">{{item.shippingmethod}}</option>
+                                  {{/if}}
+                              {{/each}}
                             </select>
                         </div>
                     </div>
                     <div class="col-6 col-lg-6">
                         <div class="form-group">
                             <label>Invoice Number</label>
-                            <input class="form-control form-control" type="text" id="invnumber" name="invnumber" value="">
+                            <input class="form-control form-control" type="text" id="invnumber" name="invnumber" value="{{shippingrecord.id}}">
                         </div>
 
                         <div class="form-group">
                             <label>Con. Note</label>
-                            <input class="form-control form-control" type="text" id="connote" name="connote" value="">
+                            <input class="form-control form-control" type="text" id="shipconnote" name="shipconnote" value="{{shippingrecord.connote}}">
                         </div>
                     </div>
                 </div>
@@ -131,7 +137,7 @@
                     <div class="col-12 col-md-4">
                         <div class="collapse" id="collapse-notes" style="margin-top: 8px;">
                             <div class="form-group"><label style="color:#858796;">Comments</label>
-                                <textarea class="form-control" rows="3" id="txacomments" name="txacomments"></textarea>
+                                <textarea class="form-control" rows="3" id="shipcomments" name="shipcomments">{{shippingrecord.comments}}</textarea>
                             </div>
                         </div>
                     </div>
@@ -599,28 +605,28 @@
                             <th class="th colProduct" style="width: 25%;">Product</th>
                             <th class="th colDescription">Description</th>
                             <th class="th colOrdered" style="width: 1%;">Ordered</th>
+                            <th class="th colID hiddenColumn" style="display:none">ID</th>
+                            <th class="th colPQA hiddenColumn" style="display:none">PQA</th>
+                            <th class="th colUOMQtyShipped hiddenColumn" style="display:none">UOMQtyShipped</th>
+                            <th class="th colUOMQtyBackOrder hiddenColumn" style="display:none">UOMQtyBackOrder</th>
+                            <th class="th colProductID hiddenColumn" >ProductID</th>
                             <th class="th" style="width: 1%;"></th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr class="dnd-moved selectable" id="">
-                            <td contenteditable="true" class=""></td>
-                            <td contenteditable="true" class=""></td>
-                            <td contenteditable="true" class=""></td>
+                      {{#each item in shippingrecord.LineItems}}
+                        <tr class="dnd-moved selectable" id="{{item.lineID}}">
+                            <td contenteditable="true" class="colProduct">{{item.item}}</td>
+                            <td contenteditable="true" class="colDescription">{{item.description}}</td>
+                            <td contenteditable="true" class="colOrdered">{{item.qtyordered}}</td>
+                            <td class="hiddenColumn ID">{{item.id}}</td>
+                            <td class="hiddenColumn pqa">{{item.pqa}}</td>
+                            <td class="hiddenColumn UOMQtyShipped">{{item.qtyshipped}}</td>
+                            <td class="hiddenColumn UOMQtyBackOrder">{{item.qtybo}}</td>
+                            <td class="hiddenColumn ProductID">{{item.productid}}</td>
                             <td style="width: 1%;"><span class="table-remove btnRemove"><button type="button" class="btn btn-danger btn-rounded btn-sm my-0 "><i class="fa fa-remove"></i></button></span></td>
                         </tr>
-                        <tr class="dnd-moved selectable" id="">
-                            <td contenteditable="true" class=""></td>
-                            <td contenteditable="true" class=""></td>
-                            <td contenteditable="true" class=""></td>
-                            <td style="width: 1%;"><span class="table-remove btnRemove"><button type="button" class="btn btn-danger btn-rounded btn-sm my-0 "><i class="fa fa-remove"></i></button></span></td>
-                        </tr>
-                        <tr class="dnd-moved selectable" id="">
-                            <td contenteditable="true" class=""></td>
-                            <td contenteditable="true" class=""></td>
-                            <td contenteditable="true" class=""></td>
-                            <td style="width: 1%;"><span class="table-remove btnRemove"><button type="button" class="btn btn-danger btn-rounded btn-sm my-0 "><i class="fa fa-remove"></i></button></span></td>
-                        </tr>
+                      {{/each}}
                     </tbody>
                 </table>
 
@@ -652,13 +658,13 @@
             </div>
         </div>
 
-        <div class="row" style="margin: 0px 32px 16px 32px;">
+        <div class="row" id="serailscanlistdis" style="margin: 0px 32px 16px 32px;">
             <div class="card" style="width: 100%;">
                 <div class="card-header">
                     Selected Entry
                 </div>
                 <div class="card-body">
-                    <table id="tblSltShipping" style="width:100%" class="table table-striped table-bordered tblSltShipping">
+                    <table id="serailscanlist" style="width:100%" class="table table-striped table-bordered serailscanlist">
                         <thead>
                             <tr class="dnd-moved">
                                 <th class="th colSltNo" style="width: 1%;">No.</th>
@@ -720,7 +726,7 @@
             </button>
         </div>
 
-
+        {{/if}}
 
     </div>
     <script>

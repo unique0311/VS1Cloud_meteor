@@ -5,7 +5,7 @@ export class ShippingService extends BaseService {
           PropertyList: "Id,ClientName,EmployeeName,SaleClassName,SaleDate",
           // select: "[deleted]=false"
       };
-      return this.getList(this.ERPObjects.TInvoiceBackorder, options);
+      return this.getList(this.ERPObjects.TInvoiceBackOrder, options);
   }
 
   }

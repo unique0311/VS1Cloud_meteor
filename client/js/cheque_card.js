@@ -1442,7 +1442,8 @@ Template.chequecard.onRendered(() => {
     templateObject.getShpVias = function() {
         getVS1Data('TShippingMethod').then(function(dataObject) {
             if (dataObject.length == 0) {
-                purchaseService.getShpVia().then(function(data) {
+                sideBarService.getShippingMethodData().then(function(data) {
+                  addVS1Data('TShippingMethod',JSON.stringify(data));
                     for (let i in data.tshippingmethod) {
 
                         let viarecordObj = {
@@ -1471,7 +1472,7 @@ Template.chequecard.onRendered(() => {
             }
         }).catch(function(err) {
 
-            purchaseService.getShpVia().then(function(data) {
+            sideBarService.getShippingMethodData().then(function(data) {
                 for (let i in data.tshippingmethod) {
 
                     let viarecordObj = {

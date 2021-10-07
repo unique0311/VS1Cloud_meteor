@@ -112,7 +112,7 @@ ERPObjects = function () {
         TEmployeeFormAccess:"TEmployeeFormAccess",
         TEmployeeFormAccessDetail:"TEmployeeFormAccessDetail",
         TSaleClientSignature:"TSaleClientSignature",
-        TInvoiceBackorder: "TInvoiceBackorder",
+        TInvoiceBackOrder: "TInvoiceBackOrder",
         TChequeStatus: "TChequeStatus",
         TCreditStatus: "TCreditStatus",
         TBillStatus: "TBillStatus",
