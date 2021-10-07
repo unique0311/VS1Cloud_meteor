@@ -34,9 +34,7 @@ import {
 } from 'jspdf-autotable';
 
 import 'jquery-editable-select';
-import {
-    SideBarService
-} from '../js/sidebar-service';
+import { SideBarService } from '../js/sidebar-service';
 import '../lib/global/indexdbstorage.js';
 let sideBarService = new SideBarService();
 let utilityService = new UtilityService();

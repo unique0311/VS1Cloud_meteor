@@ -21,6 +21,8 @@ export class SideBarService extends BaseService {
     return this.getList(this.ERPObjects.TProductVS1, options);
   }
 
+
+
   getNewProductListVS1ByName(dataSearchName) {
     let options = '';
        options = {
@@ -942,5 +944,14 @@ getCustomersDataByName(dataSearchName) {
         };
      return this.getList(this.ERPObjects.TProduct, options);
    }
+
+   getAllTimeSheetList(){
+    let options = {
+           ListType: "Detail",
+           select: "[Active]=true",
+           LimitCount:'"'+initialDataLoad+'"',
+     }
+        return this.getList(this.ERPObjects.TTimeSheet, options);
+    }
 
 }

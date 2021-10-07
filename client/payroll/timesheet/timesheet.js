@@ -3,7 +3,9 @@ import { CoreService } from '../../js/core-service';
 import {UtilityService} from "../../utility-service";
 import {ContactService} from "../../contacts/contact-service";
 import { ProductService } from "../../product/product-service";
+import { SideBarService } from '../../js/sidebar-service';
 let utilityService = new UtilityService();
+let sideBarService = new SideBarService();
 Template.timesheet.onCreated(function () {
     const templateObject = Template.instance();
     templateObject.datatablerecords = new ReactiveVar([]);
@@ -522,7 +524,7 @@ Template.timesheet.onRendered(function () {
     $(document).ready(function () {
         $('#tblTimeSheet tbody').on('click', 'tr .colName, tr .colDate, tr .colJob, tr .colNotes, tr .colProduct, tr.colStatus', function (event) {
             event.preventDefault();
-            
+
             let productCheck = templateObject.productsdatatablerecords.get();
             productCheck = productCheck.filter(pdctList => {
                 return pdctList.productname == $(event.target).closest("tr").find('.colProduct').text();
@@ -1094,7 +1096,7 @@ Template.timesheet.events({
                             $('.fullScreenSpin').css('display', 'none');
                         }).catch(function (err) {});
                         // contactService.saveClockonClockOff(toUpdate).then(function (data) {
-                        
+
                         // })
                     }).catch(function (err) {
                         swal({
