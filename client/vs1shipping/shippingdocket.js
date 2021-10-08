@@ -725,8 +725,11 @@ if (oReq.readyState == 4 && oReq.status == 200) {
   $('#edtCustomerName').val(data.fields.CustomerName);
   $('#shipvia').append('<option selected="selected" value="'+data.fields.Shipping+'">'+data.fields.Shipping+'</option>');
   templateObject.shippingrecord.set(shippingrecord);
+  setTimeout(function () {
+      //clickFirstRow();
+      $("#tblShippingDocket>tbody>tr:first").trigger('click');
+  }, 300);
 
-// clickFirstRow();
 
 
 // AddUERP(oReq.responseText);
@@ -817,7 +820,7 @@ $(document).on("click", "#tblShippingDocket tbody tr", function(e) {
       var dataListRet = "";
     //$('table tr').css('background','#ffffff');
     $('table tr').css('background','transparent');
-    $(this).css('background','#7bd6f8');
+    $(this).css('background','rgba(0,163,211,0.1)');
     //alert(rowIndex);
     $('input[name="salesLineRow"]').val(rowIndex);
     var $cell= $(e.target).closest('td');
@@ -830,9 +833,9 @@ $(document).on("click", "#tblShippingDocket tbody tr", function(e) {
 
       var secondTable = $("#serailscanlistdis");
 
-    prodPQALine = $tblrow.find("#lineID").text();
-    $('input[name="prodID"]').val($tblrow.find("#ProductID").val());
-    $('input[name="orderQty"]').val($tblrow.find("#Ordered").val());
+    prodPQALine = $tblrow.find(".pqa").text();
+    $('input[name="prodID"]').val($tblrow.find(".ProductID").text());
+    $('input[name="orderQty"]').val($tblrow.find(".colOrdered").val());
 
     secondTable.css('visibility','visible');
     $("#allocBarcode").focus();
@@ -1208,6 +1211,11 @@ templateObject.SendShippingDetails(printType);
 },
 'click #printDockets':function(e){
 const templateObject = Template.instance();
+},
+'click .btnBack': function(event) {
+    event.preventDefault();
+    history.back(1);
+
 
 }
 });
