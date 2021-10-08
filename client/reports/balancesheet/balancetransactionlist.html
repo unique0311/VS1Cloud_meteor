@@ -152,11 +152,11 @@ style="margin: 16px;margin-top: 0px; background-color: #00A3D3; border-color: #0
     <th class="th colDate" style="width:80px;">Date</th>
     <th class="th colAccountName" style="width:206px;">Account Name</th>
     <th class="th colType" style="width: 130px;">Type</th>
-    <!-- <th class="th colClientName">Client Name</th> -->
+    <th class="th colClientName">Client Name</th>
     <th class="th colDebit" style="text-align: left!important; width:80px;">Debit</th>
     <th class="th colCredit" style="text-align: left!important; width:80px;">Credit</th>
     <th class="th colBalance" style="text-align: left!important; width:80px;">Balance</th>
-    <th class="th colAccountType">Account Type</th>
+    <th class="th colAccountType" style="width: 130px;">Account Type</th>
     <!-- <th class="th colProduct hiddenColumn">Product</th> -->
     <th class="th colOpeningBalance hiddenColumn" style="width:80px;">Opening Balance</th>
     <th class="th colClosingBalance hiddenColumn" style="width:80px;">Closing Balance</th>
@@ -169,6 +169,7 @@ style="margin: 16px;margin-top: 0px; background-color: #00A3D3; border-color: #0
     <td contenteditable="false" class="colDate">{{item.date}}</td>
     <td contenteditable="false" class="colAccountName">{{item.accountname}}</td>
     <td contenteditable="false" class="colType transactiontype" id="transactiontype">{{item.type}}</td>
+    <td contenteditable="false" class="colClientName">{{item.clientname}}</td>
     <td contenteditable="false" class="colDebit">{{item.debit}}</td>
     <td contenteditable="false" class="colCredit">{{item.credit}}</td>
     <td contenteditable="false" class="colBalance">{{item.balance}}</td>
@@ -185,7 +186,7 @@ style="margin: 16px;margin-top: 0px; background-color: #00A3D3; border-color: #0
 </div>
 </div>
 </div>
-    
+
     <!-- Start Help Video Modal -->
         <div class="modal fade" role="dialog" tabindex="-1" id="helpModal">
             <div class="modal-dialog" role="document" style="max-width: 670px!important;">
@@ -206,7 +207,7 @@ style="margin: 16px;margin-top: 0px; background-color: #00A3D3; border-color: #0
         </div>
 
         <!-- End Help Video Modal -->
-    
+
 <script>
 modalDraggable();
 </script>

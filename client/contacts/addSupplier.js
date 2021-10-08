@@ -1084,7 +1084,7 @@ Template.supplierscard.onRendered(function () {
                             /* END  attachment */
 
                             //templateObject.getAllProductRecentTransactions(data.fields.ClientName);
-                            // $('.fullScreenSpin').css('display','none');
+                            $('.fullScreenSpin').css('display','none');
                         });
                     }else{
                         let data = JSON.parse(dataObject[0].data);
@@ -1242,7 +1242,7 @@ Template.supplierscard.onRendered(function () {
                                 /* END  attachment */
 
                                 //templateObject.getAllProductRecentTransactions(data.fields.ClientName);
-                                // $('.fullScreenSpin').css('display','none');
+                                $('.fullScreenSpin').css('display','none');
                             });
                         }
                     }
@@ -1320,7 +1320,7 @@ Template.supplierscard.onRendered(function () {
                         /* END  attachment */
 
                         //templateObject.getAllProductRecentTransactions(data.fields.ClientName);
-                        // $('.fullScreenSpin').css('display','none');
+                        $('.fullScreenSpin').css('display','none');
                     });
                 });
 
